@@ -50,7 +50,7 @@ export function DocLayout(props: DocLayoutProps) {
   }, [pathname]);
 
   return (
-    <div p="t-0" m="md:t-14" className={styles.docLayout}>
+    <div className={`${styles.docLayout} pt-0 md:mt-14`}>
       {beforeDoc}
       {hasSidebar ? (
         <SideMenu
@@ -59,8 +59,8 @@ export function DocLayout(props: DocLayoutProps) {
           sidebarData={sidebarData}
         />
       ) : null}
-      <div flex="~ shrink-0" className={`${styles.content}`}>
-        <div w="full">
+      <div className={`${styles.content} flex flex-shrink-0`}>
+        <div className="w-full">
           {isOverviewPage ? (
             <Overview />
           ) : (

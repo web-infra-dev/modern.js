@@ -7,6 +7,10 @@
  * Copyright (c) 2019-present, Yuxi (Evan) You
  * https://github.com/vuejs/vitepress/blob/9bd940f22cae0ec88dc1670a31fb9ebc015e1f92/LICENSE
  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 *,
 ::before,
 ::after {
@@ -232,6 +236,14 @@ button:focus-visible {
 
 .visually-hidden {
   visibility: hidden;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.menu {
+  @apply flex justify-around items-center text-sm font-bold;
 }
 
 #nprogress .bar {

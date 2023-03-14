@@ -54,7 +54,7 @@
     "@mdx-js/loader": "2.2.1",
     "@mdx-js/mdx": "2.2.1",
     "@modern-js/builder": "workspace:*",
-    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/remark-container": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/compression": "^1.7.2",
@@ -103,9 +103,6 @@
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.1",
     "unist-util-visit-children": "^2.0.1",
-    "webpack-virtual-modules": "0.4.6",
-    "windicss": "^3.5.6",
-    "windicss-webpack-plugin": "^1.7.7",
     "yaml-front-matter": "^4.1.1",
     "medium-zoom": "1.0.8"
   },
@@ -155,8 +152,7 @@
     "index.html",
     "runtime.ts",
     "theme.ts",
-    "shiki-theme.json",
-    "tsconfig.json"
+    "shiki-theme.json"
   ],
   "publishConfig": {
     "access": "public",

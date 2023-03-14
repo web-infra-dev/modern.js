@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluginConfig } from '@modern-js/core';
 import type { PluggableList } from 'unified';
 import {

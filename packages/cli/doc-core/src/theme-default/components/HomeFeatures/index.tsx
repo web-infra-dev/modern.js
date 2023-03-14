@@ -22,7 +22,7 @@ export function HomeFeature() {
   const gridClass = getGridClass(features?.length);
 
   return (
-    <div className="max-w-1152px overflow-hidden m-auto flex flex-wrap justify-between">
+    <div className="overflow-hidden m-auto flex flex-wrap justify-between max-w-6xl">
       {features?.map(feature => {
         const { icon, title, details, link } = feature;
         return (

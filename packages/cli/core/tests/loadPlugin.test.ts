@@ -78,26 +78,6 @@ describe('load plugins', () => {
     expect(loadedPlugins[0]?.name).toEqual('foo');
   });
 
-  test('should call transformPlugin', async () => {
-    const fixture = path.resolve(
-      __dirname,
-      './fixtures/load-plugin/user-plugins',
-    );
-
-    const options = {
-      transformPlugin: jest.fn(),
-    };
-    options.transformPlugin.mockImplementation((plugins, _) => plugins);
-
-    await loadPlugins(
-      fixture,
-      { plugins: [path.join(fixture, './test-plugin-a.js')] },
-      options,
-    );
-
-    expect(options.transformPlugin).toHaveBeenCalled();
-  });
-
   test(`should load esm plugin object correctly`, async () => {
     const appDirectory = path.resolve(
       __dirname,

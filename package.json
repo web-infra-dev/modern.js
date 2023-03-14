@@ -40,7 +40,8 @@
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start"
   },
   "engines": {
-    "node": ">=14.17.6"
+    "node": ">=14.17.6",
+    "pnpm": ">=7.12.2 <=7.29.1"
   },
   "packageManager": "pnpm@7.12.2",
   "commitlint": {
@@ -102,16 +103,7 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18",
-      "@modern-js-reduck/plugin-auto-actions": "0.0.0-canary-20230118100540",
-      "@modern-js-reduck/plugin-devtools": "0.0.0-canary-20230118100540",
-      "@modern-js-reduck/plugin-effects": "0.0.0-canary-20230118100540",
-      "@modern-js-reduck/plugin-immutable": "0.0.0-canary-20230118100540",
-      "@modern-js-reduck/react": "0.0.0-canary-20230118100540",
-      "@modern-js-reduck/store": "0.0.0-canary-20230118100540"
+      "@types/react-dom": "^18"
     }
-  },
-  "dependencies": {
-    "fast-glob": "^3.2.12"
   }
 }

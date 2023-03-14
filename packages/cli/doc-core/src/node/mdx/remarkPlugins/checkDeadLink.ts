@@ -6,7 +6,7 @@ import { isProduction, withBase } from '@/shared/utils';
 import {
   normalizeRoutePath,
   routeService,
-} from '@/node/virtualModule/routeData';
+} from '@/node/runtimeModule/routeData';
 
 export interface DeadLinkCheckOptions {
   root: string;

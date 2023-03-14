@@ -1,4 +1,4 @@
-import { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluggableList } from 'unified';
 import { DocConfig } from '.';
 

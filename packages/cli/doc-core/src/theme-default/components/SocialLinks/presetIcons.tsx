@@ -49,7 +49,6 @@ export default {
   ),
   juejin: (
     <svg
-      t="1666949308602"
       className="icon"
       viewBox="0 0 1024 1024"
       version="1.1"

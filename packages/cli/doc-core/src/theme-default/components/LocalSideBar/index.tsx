@@ -23,11 +23,11 @@ export function SideMenu(props: Props) {
   return (
     <Fragment>
       <div className={styles.localNav}>
-        <button flex="~ center" onClick={openSidebar} className={styles.menu}>
-          <div text="md" m="r-2">
+        <button onClick={openSidebar} className={`${styles.menu} flex-center`}>
+          <div className="text-md mr-2">
             <MenuIcon />
           </div>
-          <span text="sm">Menu</span>
+          <span className="text-sm">Menu</span>
         </button>
       </div>
       <SideBar

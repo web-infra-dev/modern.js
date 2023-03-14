@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Pnpm
-        run: npm install -g pnpm@7
+        run: npm install -g pnpm@7.29.1
 
       - name: Turbo Cache
         id: turbo-cache
