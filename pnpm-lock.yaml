@@ -3,12 +3,6 @@ lockfileVersion: 5.4
 overrides:
   '@types/react': ^18
   '@types/react-dom': ^18
-  '@modern-js-reduck/plugin-auto-actions': 0.0.0-canary-20230118100540
-  '@modern-js-reduck/plugin-devtools': 0.0.0-canary-20230118100540
-  '@modern-js-reduck/plugin-effects': 0.0.0-canary-20230118100540
-  '@modern-js-reduck/plugin-immutable': 0.0.0-canary-20230118100540
-  '@modern-js-reduck/react': 0.0.0-canary-20230118100540
-  '@modern-js-reduck/store': 0.0.0-canary-20230118100540
 
 importers:
 
@@ -35,15 +29,12 @@ importers:
       enhanced-resolve: ^5.9.2
       esbuild: 0.15.7
       execa: ^5.1.1
-      fast-glob: ^3.2.12
       globby: ^11.0.4
       husky: ^8.0.0
       jest: ^27.5.1
       jest-environment-jsdom: ^27.2.2
       turbo: ^1.6.3
       vitest: 0.21.1
-    dependencies:
-      fast-glob: 3.2.12
     devDependencies:
       '@babel/core': 7.20.5
       '@babel/plugin-transform-modules-commonjs': 7.19.6_@babel+core@7.20.5
@@ -2288,12 +2279,12 @@ importers:
       '@loadable/component': ^5.15.0
       '@loadable/server': ^5.15.1
       '@loadable/webpack-plugin': 5.15.2
-      '@modern-js-reduck/plugin-auto-actions': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/plugin-devtools': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/plugin-effects': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/plugin-immutable': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/react': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/plugin-auto-actions': ^1.1.4
+      '@modern-js-reduck/plugin-devtools': ^1.1.4
+      '@modern-js-reduck/plugin-effects': ^1.1.4
+      '@modern-js-reduck/plugin-immutable': ^1.1.4
+      '@modern-js-reduck/react': ^1.1.4
+      '@modern-js-reduck/store': ^1.1.4
       '@modern-js/app-tools': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
@@ -2339,12 +2330,12 @@ importers:
       '@loadable/component': 5.15.2_react@18.2.0
       '@loadable/server': 5.15.2_ik7avrk5bhag2nqkdfypunpmvu
       '@loadable/webpack-plugin': 5.15.2
-      '@modern-js-reduck/plugin-auto-actions': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-devtools': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-effects': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-immutable': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/react': 0.0.0-canary-20230118100540_biqbaboplfbrettd7655fr4n2y
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/plugin-auto-actions': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-devtools': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-effects': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-immutable': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/react': 1.1.6_biqbaboplfbrettd7655fr4n2y
+      '@modern-js-reduck/store': 1.1.6
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
@@ -2390,10 +2381,10 @@ importers:
       '@babel/preset-env': ^7.18.0
       '@babel/runtime': ^7.18.0
       '@jest/types': ^27.0.6
-      '@modern-js-reduck/plugin-auto-actions': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/plugin-effects': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/plugin-immutable': 0.0.0-canary-20230118100540
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/plugin-auto-actions': ^1.0.2
+      '@modern-js-reduck/plugin-effects': ^1.0.2
+      '@modern-js-reduck/plugin-immutable': ^1.0.1
+      '@modern-js-reduck/store': ^1.0.3
       '@modern-js/babel-compiler': workspace:*
       '@modern-js/babel-preset-app': workspace:*
       '@modern-js/bff-core': workspace:*
@@ -2428,10 +2419,10 @@ importers:
       '@babel/core': 7.20.5
       '@babel/preset-env': 7.20.2_@babel+core@7.20.5
       '@babel/runtime': 7.18.6
-      '@modern-js-reduck/plugin-auto-actions': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-effects': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-immutable': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/plugin-auto-actions': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-effects': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-immutable': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/store': 1.1.6
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
       '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/plugin': link:../../toolkit/plugin
@@ -10666,7 +10657,7 @@ packages:
   /@manypkg/find-root/1.1.0:
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       '@types/node': 12.20.24
       find-up: 4.1.0
       fs-extra: 8.1.0
@@ -10756,49 +10747,49 @@ packages:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
     dev: false
 
-  /@modern-js-reduck/plugin-auto-actions/0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla:
-    resolution: {integrity: sha512-RK7AkK87c+CnXLDZKXWAqKnhebFg7quS8d3gLezAvkrZhtyQYspUD7ydjr12wo+IwE0uwvieZJsugQApffb9/w==}
+  /@modern-js-reduck/plugin-auto-actions/1.1.6_ey2tb66lspd63dpe7kr4h74444:
+    resolution: {integrity: sha512-fPC24zpbwU5LWaDbZp35Vq1Zq1LfofyLa74+rmiX4kyAEUXOUrPZUE2S/KqlsuitGc2Kv8QxOr6ageslrlpRhA==}
     peerDependencies:
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.20.7
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@babel/runtime': 7.18.0
+      '@modern-js-reduck/store': 1.1.6
     dev: false
 
-  /@modern-js-reduck/plugin-devtools/0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla:
-    resolution: {integrity: sha512-FjLGj1l+5FzEO/1EsKBwSdTs/SZb5cbgRkWdCuL6lZt8iRpjnx7C2nVpCDznGj1qYAjSwJUwPvzqo9TKj7x54w==}
+  /@modern-js-reduck/plugin-devtools/1.1.6_ey2tb66lspd63dpe7kr4h74444:
+    resolution: {integrity: sha512-hGVOiUFs3Xjj5QWQ2AQ0HHY6mYZXyU9R72bgStQRXBG8gNETpP6wKXG3OfZk7OW+VU/IkNT7Vgze+LLDwhsqHQ==}
     peerDependencies:
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.20.7
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@babel/runtime': 7.18.0
+      '@modern-js-reduck/store': 1.1.6
       '@redux-devtools/extension': 3.2.2_redux@4.2.0
       redux: 4.2.0
     dev: false
 
-  /@modern-js-reduck/plugin-effects/0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla:
-    resolution: {integrity: sha512-ghjUmGv9Z8wJ3j9Pxq65dXqMY7s9L3i1VOWoxU5oI8E9T8ZieUsQxSIftEbd/2NPyzv5K1rn2Z4rGqf6Qgqn0w==}
+  /@modern-js-reduck/plugin-effects/1.1.6_ey2tb66lspd63dpe7kr4h74444:
+    resolution: {integrity: sha512-UcMlT2QVHdfQlMuKBcCRAJCHLta077qeJhaGJqVCha1cLOfKmad3Wy7B+nC6x6DUx8AQZHc5XDfKz3RaOb2afA==}
     peerDependencies:
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.20.7
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@babel/runtime': 7.18.0
+      '@modern-js-reduck/store': 1.1.6
       redux: 4.2.0
       redux-promise-middleware: 6.1.2_redux@4.2.0
     dev: false
 
-  /@modern-js-reduck/plugin-immutable/0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla:
-    resolution: {integrity: sha512-yznHEEfkL2f6mWfP0cGQ5RlHUQjhqnFJ4pbTQW/zczyZT4AEuL0D72NYQuWlmFrEFND6GT8PRAGLqSKp8lnSJw==}
+  /@modern-js-reduck/plugin-immutable/1.1.6_ey2tb66lspd63dpe7kr4h74444:
+    resolution: {integrity: sha512-LazwNDmKljTUzTrw4cPBlHfUQ2ZAaaIxqJHcfMNEcTx7UZYrUIY3b/xH6/tw4bD//vNCUlgBS7jgXPNPwb2dkw==}
     peerDependencies:
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.20.7
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@babel/runtime': 7.18.0
+      '@modern-js-reduck/store': 1.1.6
       immer: 9.0.15
     dev: false
 
-  /@modern-js-reduck/react/0.0.0-canary-20230118100540_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-wW96K8slAOYgBPKzaxqSZQQiq5po9rO8LksaAhrRTJXq34+l0VzHiKJM4CYeTKwzaQbjADtUXdSEUzAjtVQrpA==}
+  /@modern-js-reduck/react/1.1.6_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-8fUpPIZZYGCVg8QeuYqoEKdVzWrOzY6s1XS3d4nt1fenzcwGMqcGbemSd/5emB4QTBdpnDSTP56PjsS07gxXFw==}
     peerDependencies:
       '@types/react': ^16.8 || ^17.0 || ^18.0
       '@types/react-dom': ^16.8 || ^17.0 || ^18.0
@@ -10810,22 +10801,22 @@ packages:
       '@types/react-dom':
         optional: true
     dependencies:
-      '@babel/runtime': 7.20.7
-      '@modern-js-reduck/plugin-auto-actions': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-devtools': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-effects': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/plugin-immutable': 0.0.0-canary-20230118100540_eukqhmpdvekg36zkz7ozvf6kla
-      '@modern-js-reduck/store': 0.0.0-canary-20230118100540
+      '@babel/runtime': 7.18.0
+      '@modern-js-reduck/plugin-auto-actions': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-devtools': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-effects': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/plugin-immutable': 1.1.6_ey2tb66lspd63dpe7kr4h74444
+      '@modern-js-reduck/store': 1.1.6
       hoist-non-react-statics: 3.3.2
       invariant: 2.2.4
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@modern-js-reduck/store/0.0.0-canary-20230118100540:
-    resolution: {integrity: sha512-01elW3Q87iil1XSZGkfaSHwTpvFajLoHfqu3M/jnCiwKz5LIpl554Sd9W1jMW7xVX7B9vvQAPoGWjKncsvTO0Q==}
+  /@modern-js-reduck/store/1.1.6:
+    resolution: {integrity: sha512-cBrdEVouqWRwhrlm7HN9sIIkEVqCPvDQvoLjhhCVAG7rRqOLvg5NfNbnPT1KXY/ZB9xWiOKDdul2uPbgmVsgXQ==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       redux: 4.2.0
     dev: false
 
@@ -10880,7 +10871,7 @@ packages:
     peerDependencies:
       '@modern-js/codesmith': ^2.0.5
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       '@modern-js/codesmith': 2.0.5
       ejs: 3.1.8
     dev: true
@@ -10890,7 +10881,7 @@ packages:
     peerDependencies:
       '@modern-js/codesmith': ^2.0.5
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       '@modern-js/codesmith': 2.0.5
     dev: true
 
@@ -11017,7 +11008,7 @@ packages:
   /@modern-js/plugin-i18n/1.21.5:
     resolution: {integrity: sha512-Kawcmd4+/Flfa5TdCaHMja0KXwRKflvfrXFwloigg/dE5yRa0W0L2f7QbhY2BOePU0QAvmeXTjWf3iYyIzqm3A==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       '@modern-js/utils': 1.21.5
     dev: true
 
@@ -11701,7 +11692,7 @@ packages:
     peerDependencies:
       redux: ^3.1.0 || ^4.0.0
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       redux: 4.2.0
     dev: false
 
@@ -13799,7 +13790,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@babel/code-frame': 7.18.6
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       '@types/aria-query': 4.2.2
       aria-query: 5.0.0
       chalk: 4.1.2
@@ -16098,7 +16089,7 @@ packages:
   /babel-plugin-macros/2.8.0:
     resolution: {integrity: sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       cosmiconfig: 6.0.0
       resolve: 1.22.1
     dev: false
@@ -27865,7 +27856,7 @@ packages:
     resolution: {integrity: sha512-Sz2Lkdxz6F2Pgnpi9U5Ng/WdWAUZxmHrNPoVlm3aAemxoy2Qy7LGjQg4uf8qKelDAUW94F4np3iH2YPf2qefcQ==}
     engines: {node: '>=10'}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
     dev: false
 
   /polka/0.5.2:
@@ -30033,7 +30024,7 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       react: 18.2.0
     dev: true
 
@@ -30050,7 +30041,7 @@ packages:
       '@types/react':
         optional: true
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       '@types/react': 18.0.21
       focus-lock: 0.11.2
       prop-types: 15.8.1
@@ -30092,7 +30083,7 @@ packages:
     peerDependencies:
       react: ^16.8.4 || ^17.0.0
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       is-dom: 1.1.0
       prop-types: 15.8.1
       react: 18.2.0
@@ -30187,7 +30178,7 @@ packages:
     peerDependencies:
       react: '>=15'
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       history: 4.10.1
       hoist-non-react-statics: 3.3.2
       loose-envify: 1.4.0
@@ -30230,7 +30221,7 @@ packages:
     peerDependencies:
       react: '>= 0.14.0'
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       highlight.js: 10.7.3
       lowlight: 1.20.0
       prismjs: 1.28.0
@@ -30244,7 +30235,7 @@ packages:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
@@ -30420,7 +30411,7 @@ packages:
   /redux/4.2.0:
     resolution: {integrity: sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==}
     dependencies:
-      '@babel/runtime': 7.20.7
+      '@babel/runtime': 7.18.0
     dev: false
 
   /reflect-metadata/0.1.13:
