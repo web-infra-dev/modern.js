@@ -309,8 +309,8 @@ export function Search() {
                 </div>
               ) : null}
               {searching && (
-                <div flex="~ center">
-                  <div p="2" text="sm">
+                <div className="flex-center">
+                  <div className="p-2 text-sm">
                     <LoadingSvg />
                   </div>
                 </div>

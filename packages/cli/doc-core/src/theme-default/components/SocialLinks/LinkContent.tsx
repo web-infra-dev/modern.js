@@ -51,7 +51,7 @@ export const LinkContent = (props: ILinkContentComp) => {
             }}
             className="z-1 p-3 w-50 absolute right-0 bg-white"
           >
-            <div text="ml">{content}</div>
+            <div className="text-md">{content}</div>
           </div>
         ) : null}
       </div>

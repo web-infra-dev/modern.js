@@ -27,7 +27,6 @@ export function NotFoundLayout() {
 
         <div className="pt-5">
           <a
-            hover="border-color-brand-dark color-brand-dark"
             className="py-2 px-4 rounded-2xl inline-block border-solid border-brand text-brand font-medium hover:border-brand-dark hover:text-brand-dark transition-colors duration-300"
             href={siteData.base}
             aria-label="go to home"

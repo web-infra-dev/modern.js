@@ -42,14 +42,14 @@ export function SuggestItem({
       );
       const headerSuffix = header.slice(highlightIndex + query.length);
       return (
-        <div font="medium">
+        <div className="font-medium">
           <span>{headerPrefix}</span>
           <span className={styles.mark}>{queryStr}</span>
           <span>{headerSuffix}</span>
         </div>
       );
     } else {
-      return <div font="medium">{suggestion.header}</div>;
+      return <div className="font-medium">{suggestion.header}</div>;
     }
   };
   const renderStatementMatch = () => {
