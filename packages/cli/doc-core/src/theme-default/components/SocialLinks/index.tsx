@@ -22,8 +22,7 @@ export const SocialLinks = ({ socialLinks }: { socialLinks: SocialLink[] }) => {
 
   return (
     <div
-      className={`social-links ${styles.menuItem} flex-center`}
-      pos="relative"
+      className={`social-links ${styles.menuItem} flex-center relative`}
       onMouseLeave={() => setMoreLinksVisible(false)}
     >
       <ShownLinks

@@ -37,28 +37,21 @@ export const LinkContent = (props: ILinkContentComp) => {
   if (mode === 'text') {
     return (
       <div
-        className={`${styles.socialLinksIcon}`}
-        cursor="pointer"
-        pos="relative"
+        className={`${styles.socialLinksIcon} cursor-pointer relative`}
         onMouseEnter={mouseEnterIcon}
         onMouseLeave={mouseLeavePopper}
       >
         {IconComp}
         {contentVisible ? (
           <div
-            z="1"
-            p="3"
-            w="50"
-            pos="absolute right-0"
-            border="rounded-xl"
-            bg="white"
             style={{
               boxShadow: 'var(--modern-shadow-3)',
               border: '1px solid var(--modern-c-divider-light)',
               ...popperStyle,
             }}
+            className="z-1 p-3 w-50 absolute right-0 bg-white"
           >
-            <div text="ml">{content}</div>
+            <div className="text-md">{content}</div>
           </div>
         ) : null}
       </div>
@@ -67,25 +60,16 @@ export const LinkContent = (props: ILinkContentComp) => {
   if (mode === 'img') {
     return (
       <div
-        className={`${styles.socialLinksIcon}`}
-        cursor="pointer"
-        pos="relative"
+        className={`${styles.socialLinksIcon} cursor-pointer relative`}
         onMouseEnter={mouseEnterIcon}
         onMouseLeave={mouseLeavePopper}
       >
         {IconComp}
         {contentVisible ? (
           <div
-            z="1"
-            p="3"
-            w="50"
-            pos="absolute right-0"
-            border="rounded-xl"
-            bg="white"
-            className="break-all"
+            className="break-all z-1 p-3 w-50 absolute right-0 bg-white rounded-xl"
             style={{
               boxShadow: 'var(--modern-shadow-3)',
-
               ...popperStyle,
             }}
           >
