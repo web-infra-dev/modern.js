@@ -38,7 +38,7 @@ You can use the following template strings in `cssModuleLocalIdentName`:
 - `[hash:<hashDigest>:<hashDigestLength>]`: hash with hash settings.
 
 :::tip
-When using Rspack as the bundler, not support custom `<hashDigest>`.
+When using Rspack as the bundler, currently does not support custom `<hashDigest>`.
 :::
 
 ### Example

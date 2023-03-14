@@ -245,7 +245,7 @@ export const builderPluginCss = (): BuilderPlugin => {
 
           if (localIdentName.includes(':base64')) {
             logger.warn(
-              `Not support custom hashDigest in output.cssModuleLocalIdentName when using Rspack. the 'base64' will be ignored.`,
+              `Custom hashDigest in output.cssModuleLocalIdentName is currently not supported when using Rspack, the 'base64' will be ignored.`,
             );
             localIdentName = localIdentName.replace(':base64', '');
           }
