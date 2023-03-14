@@ -286,9 +286,9 @@ Modern.js 支持了 React 18 的流式渲染，可以通过如下配置启用：
 {
   "server": {
     "ssr": {
-      "mode": "stream"
-    }
-  }
+      "mode": "stream",
+    },
+  },
 }
 ```
 
@@ -372,7 +372,7 @@ export default ({ params }: LoaderFunctionArgs) => {
 
 通过 `Await` 组件，可以获取到 Data Loader 中异步返回的数据，然后进行渲染。例如：
 
-```ts title='page.tsx'
+```tsx title='page.tsx'
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 import type { Data } from './page.loader';
@@ -413,8 +413,8 @@ export default Page;
 
 也可以通过 `useAsyncValue` 获取 Data Loader 返回的异步数据。例如：
 
-```
-```ts title='page.tsx'
+
+```tsx title='page.tsx'
 import { useAsyncValue } from '@modern-js/runtime/router';
 
 // 省略部分代码
@@ -468,7 +468,7 @@ export default () => {
 
 然后通过 `useAsyncError` 获取错误，并将用于渲染错误信息的组件赋值给 `Await` 组件的 `errorElement` 属性：
 
-```ts title='page.ts'
+```tsx title='page.ts'
 import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 
