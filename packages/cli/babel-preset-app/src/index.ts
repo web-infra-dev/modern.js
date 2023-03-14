@@ -14,6 +14,7 @@ export type {
   BabelConfig,
   BabelConfigUtils,
 } from '@modern-js/babel-preset-base';
+export { applyUserBabelConfig } from '@modern-js/babel-preset-base';
 
 export * from '@modern-js/babel-preset-base';
 

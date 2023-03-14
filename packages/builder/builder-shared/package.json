@@ -35,6 +35,7 @@
     },
     "./open": "./compiled/open/index.js",
     "./webpack-bundle-analyzer": "./compiled/webpack-bundle-analyzer/index.js",
+    "./babel-loader": "./compiled/babel-loader/index.js",
     "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
     "./test-stub": {
       "jsnext:source": "./src/test-stub/index.ts",
@@ -67,6 +68,7 @@
     }
   },
   "dependencies": {
+    "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",

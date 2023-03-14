@@ -6,6 +6,13 @@ import type * as SassLoader from '../../compiled/sass-loader';
 import type Less from '../../compiled/less';
 import type { LoaderContext } from 'webpack';
 
+export type { BabelTransformOptions } from '@modern-js/types';
+export type {
+  BabelConfigUtils,
+  BabelOptions,
+} from '@modern-js/babel-preset-app';
+export { applyUserBabelConfig } from '@modern-js/babel-preset-app';
+
 export type AutoprefixerOptions = {
   /** environment for `Browserslist` */
   env?: string;

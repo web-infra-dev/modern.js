@@ -4,6 +4,8 @@ import type {
   AutoprefixerOptions,
   SassLoaderOptions,
   LessLoaderOptions,
+  BabelTransformOptions,
+  BabelConfigUtils,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
@@ -29,6 +31,11 @@ export type ToolsBundlerChainConfig = ArrayOrNot<
   (chain: BundlerChain, utils: ModifyChainUtils) => void
 >;
 
+export type ToolsBabelConfig = ChainedConfig<
+  BabelTransformOptions,
+  BabelConfigUtils
+>;
+
 export interface SharedToolsConfig {
   /**
    * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
@@ -43,4 +50,15 @@ export interface SharedToolsConfig {
    * Modify the options of DevServer.
    */
   devServer?: ToolsDevServerConfig;
+
+  /**
+   * Modify the options of [babel-loader](https://github.com/babel/babel-loader)
+   *
+   * When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result.
+   *
+   * When `tools.babel`'s type is `Object`, the config will be shallow merged with default config by `Object.assign`.
+   *
+   * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
+   */
+  babel?: ToolsBabelConfig;
 }
