@@ -2,13 +2,12 @@ import ReactHelmet, { HelmetData } from 'react-helmet';
 import { matchRoutes } from 'react-router-dom';
 import helmetReplace from '../helmet';
 import { RuntimeContext } from '../types';
+import { CSS_CHUNKS_PLACEHOLDER } from '../utils';
 import {
   HEAD_REG_EXP,
   BuildTemplateCb,
   buildTemplate,
 } from './buildTemplate.share';
-
-const CSS_CHUNKS_PLACEHOLDER = '<!--<?- chunksMap.css ?>-->';
 
 // build head template
 function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
