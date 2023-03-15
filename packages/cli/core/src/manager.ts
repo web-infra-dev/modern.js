@@ -36,4 +36,4 @@ const pluginAPI: BasePluginAPI<{}> = {
 
 export const manager = createAsyncManager(baseHooks, pluginAPI);
 
-export const { createPlugin, registerHook, useRunner: mountHook } = manager;
+export const { createPlugin, registerHook } = manager;
