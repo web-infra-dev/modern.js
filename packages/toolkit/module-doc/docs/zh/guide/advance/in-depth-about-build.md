@@ -28,7 +28,7 @@ sidebar_position: 1
 它们有各自的好处：
 
 - Bundle 可以减少构建产物的体积，也可以对依赖预打包，减小安装依赖的体积。提前对库进行打包，可以加快应用项目构建的速度。
-- Bundleless 则是可以保持原有的文件结构，更有利于调试和 tree-shaking。
+- Bundleless 则是可以保持原有的文件结构，更有利于调试和 tree shaking。
 
 在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 Bundle 还是 Bundleless。
 
