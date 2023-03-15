@@ -67,7 +67,7 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
           .type('javascript/auto')
           .use(CHAIN_ID.USE.SVGR)
           .loader(require.resolve('@svgr/webpack'))
-          .options({ svgo: false })
+          .options({ svgo: true })
           .end()
           .when(defaultExport === 'url', c =>
             c
