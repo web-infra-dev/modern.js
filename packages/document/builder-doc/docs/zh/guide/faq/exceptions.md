@@ -231,7 +231,7 @@ export default {
   },
 };
 
-// 正确用法，在内置配置的基础上新增，而不是覆盖
+// 正确用法，在默认配置中新增一个插件，而非覆盖插件
 export default {
   tools: {
     babel(config) {

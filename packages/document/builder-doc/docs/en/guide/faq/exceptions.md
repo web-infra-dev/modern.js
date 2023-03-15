@@ -231,7 +231,7 @@ export default {
   },
 };
 
-// Correct usage, add based on built-in configuration, do not overwrite
+// Correct usage, add a new plugin in the default configuration instead of overriding the plugin
 export default {
   tools: {
     babel(config) {
