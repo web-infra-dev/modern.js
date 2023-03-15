@@ -42,7 +42,7 @@ describe('plugin-ssr', () => {
       referer: '',
       cookie: 'header-cookie-client',
       url: 'http://localhost/',
-      userAgent: `Mozilla/5.0 (${process.platform}) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/16.7.0`,
+      userAgent: `Mozilla/5.0 (${process.platform}) AppleWebKit/537.36 (KHTML, like Gecko) jsdom/20.0.3`,
     });
 
     expect(formatServer(request)).toEqual({
