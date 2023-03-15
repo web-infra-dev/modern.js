@@ -29,6 +29,19 @@ export default {
 </body>
 ```
 
-:::tip
-如果自定义了 HTML 模板，请确保模板中包含 `<div id="<%= mountId %>"></div>`，否则该配置项无法生效。
-:::
+### 注意事项
+
+#### 更新相关代码
+
+在修改 `mountId` 后，如果你的代码中有获取 `root` 根节点的逻辑，请更新对应的值：
+
+```diff
+- const domNode = document.getElementById('root');
++ const domNode = document.getElementById('app');
+
+ReactDOM.createRoot(domNode).render(<App />);
+```
+
+#### 自定义模板
+
+如果你自定义了 HTML 模板，请确保模板中包含 `<div id="<%= mountId %>"></div>`，否则 `mountId` 配置项无法生效。
