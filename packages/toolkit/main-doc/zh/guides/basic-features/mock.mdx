@@ -25,7 +25,7 @@ Modern.js 提供了快速生成 Mock 数据的功能，能够让前端独立自�
 `config/mock/index.ts` 文件只需要导出一个包含所有 Mock API 的对象，对象的属性由请求配置 `method` 和 `url` 组成，对应的属性值可以为 `Object`、`Array`、`Function`：
 
 ```js
-module.exports = {
+export default {
   /* 属性为具体的 method 和 请求 url，值为 object 或 array 作为请求的结果 */
   'GET /api/getInfo': { data: [1, 2, 3, 4] },
 

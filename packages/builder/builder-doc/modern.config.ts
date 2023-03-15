@@ -146,9 +146,6 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('指南', 'Guide'),
         items: [
           getLink('/plugins/introduction'),
-          // TODO to be written
-          // getLink('/plugins/integration'),
-          // getLink('/plugins/testing'),
         ],
       },
       {

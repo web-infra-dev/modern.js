@@ -91,6 +91,25 @@ describe('plugins/css', () => {
       '"localIdentName":"[hash]"',
     );
   });
+
+  it('should ignore hashDigest when custom cssModuleLocalIdentName', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginCss()],
+      builderConfig: {
+        output: {
+          cssModuleLocalIdentName: '[hash:base64:5]',
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(JSON.stringify(bundlerConfigs[0])).toContain(
+      '"localIdentName":"[hash:5]"',
+    );
+  });
 });
 
 describe('plugins/less', () => {

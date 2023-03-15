@@ -37,6 +37,10 @@ You can use the following template strings in `cssModuleLocalIdentName`:
 - `[ext]` - extension with leading dot.
 - `[hash:<hashDigest>:<hashDigestLength>]`: hash with hash settings.
 
+:::tip
+When using Rspack as the bundler, currently does not support custom `<hashDigest>`.
+:::
+
 ### Example
 
 Set `cssModuleLocalIdentName` to other value:

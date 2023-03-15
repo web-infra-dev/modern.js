@@ -28,7 +28,7 @@ Bundleless, on the other hand, means that each source file is compiled and built
 They have their own benefits.
 
 - Bundle can reduce the size of build products and also pre-package dependencies to reduce the size of installed dependencies. Packaging libraries in advance can speed up application project builds.
-- Bundleless maintains the original file structure and is more conducive to debugging and tree-shaking.
+- Bundleless maintains the original file structure and is more conducive to debugging and tree shaking.
 
 In `buildConfig` you can specify whether the current build task is Bundle or Bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
 

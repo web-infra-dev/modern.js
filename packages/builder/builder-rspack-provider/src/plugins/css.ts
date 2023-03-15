@@ -11,6 +11,7 @@ import {
   CSS_MODULES_REGEX,
   GLOBAL_CSS_REGEX,
   NODE_MODULES_REGEX,
+  logger,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -237,11 +238,17 @@ export const builderPluginCss = (): BuilderPlugin => {
         async (rspackConfig, { isProd, isServer, isWebWorker }) => {
           const config = api.getNormalizedConfig();
 
-          // Rspack not support hash:base64:5
-          const localIdentName =
+          let localIdentName =
             config.output.cssModuleLocalIdentName ||
             // Using shorter classname in production to reduce bundle size
             (isProd ? '[hash:5]' : '[path][name]__[local]--[hash:5]');
+
+          if (localIdentName.includes(':base64')) {
+            logger.warn(
+              `Custom hashDigest in output.cssModuleLocalIdentName is currently not supported when using Rspack, the 'base64' will be ignored.`,
+            );
+            localIdentName = localIdentName.replace(':base64', '');
+          }
 
           // need use type: "css/module" rule instead of modules.auto config
           setConfig(rspackConfig, 'builtins.css.modules', {

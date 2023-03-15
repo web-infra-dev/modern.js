@@ -19,7 +19,6 @@ const debug = createDebugger('load-plugins');
 
 const resolveCliPlugin = async (
   p: PluginItem,
-  userConfig: UserConfig,
   appDirectory: string,
 ): Promise<CliPlugin> => {
   const pkg = typeof p === 'string' ? p : p[0];
@@ -78,9 +77,8 @@ export const loadPlugins = async (
 
   const loadedPlugins = await Promise.all(
     plugins.map(plugin => {
-      const loadedPlugin = resolveCliPlugin(plugin, userConfig, appDirectory);
+      const loadedPlugin = resolveCliPlugin(plugin, appDirectory);
 
-      // server plugins don't support to accept params
       debug(`resolve plugin %s: %s`, plugin, loadedPlugin);
 
       return loadedPlugin;
