@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'toolkit/doc-tools-doc/**'
+      - 'packages/document/doc-tools-doc/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -50,6 +50,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
-          folder: packages/toolkit/doc-tools-doc/doc_build
+          folder: packages/document/doc-tools-doc/doc_build
           target-folder: doc-tools
           clean: true
