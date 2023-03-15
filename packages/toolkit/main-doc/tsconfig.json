@@ -1,7 +1,0 @@
-{
-  "extends": "@modern-js/tsconfig/base",
-  "compilerOptions": {
-    "jsx": "preserve"
-  },
-  "include": ["./src", "./navbar.js", "./sidebar.js", "./scripts"]
-}
