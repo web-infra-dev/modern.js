@@ -58,7 +58,7 @@ function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
   return cacheGroups;
 }
 
-const DEPENDENCY_MATCH_TEMPL = /[\\/]node_modules[\\/]<SOURCES>[\\/]/.source;
+const DEPENDENCY_MATCH_TEMPL = /[\\/]node_modules[\\/](<SOURCES>)[\\/]/.source;
 
 /** Expect to match path just like "./node_modules/react-router/" */
 export const createDependenciesRegExp = (
