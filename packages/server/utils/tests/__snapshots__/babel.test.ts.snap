@@ -12,7 +12,7 @@ exports[`babel resolveBabelConfig 1`] = `
 {
   "plugins": [
     [
-      "-fork/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
       {},
     ],
     [
@@ -32,25 +32,25 @@ exports[`babel resolveBabelConfig 1`] = `
       },
     ],
     [
-      "-fork/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
       {
         "removeImport": true,
       },
     ],
     [
-      "-fork/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
     ],
     [
-      "-fork/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
       {
         "proposal": "minimal",
       },
     ],
     [
-      "-fork/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
     ],
     [
-      "-fork/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+      "/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
       {},
       "styled-components",
     ],
@@ -82,7 +82,7 @@ exports[`babel resolveBabelConfig 1`] = `
           ".mjs",
         ],
         "resolvePath": [Function],
-        "root": "-fork/packages/server/utils/tests/fixtures/",
+        "root": "/packages/server/utils/tests/fixtures/",
       },
     ],
     [
