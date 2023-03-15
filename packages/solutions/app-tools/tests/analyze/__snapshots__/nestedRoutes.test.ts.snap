@@ -1,18 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`nested routes walk 1`] = `
-Object {
+{
   "_component": "@_modern_js_src/layout.tsx",
-  "children": Array [
-    Object {
+  "children": [
+    {
       "_component": "@_modern_js_src/__auth/layout.tsx",
-      "children": Array [
-        Object {
+      "children": [
+        {
           "_component": "@_modern_js_src/__auth/__shop/layout.tsx",
-          "children": Array [
-            Object {
-              "children": Array [
-                Object {
+          "children": [
+            {
+              "children": [
+                {
                   "_component": "@_modern_js_src/__auth/__shop/item/page.tsx",
                   "children": undefined,
                   "id": "__auth/__shop/item/page",
@@ -30,9 +30,9 @@ Object {
           "isRoot": false,
           "type": "nested",
         },
-        Object {
-          "children": Array [
-            Object {
+        {
+          "children": [
+            {
               "_component": "@_modern_js_src/__auth/login/page.tsx",
               "children": undefined,
               "id": "__auth/login/page",
@@ -50,19 +50,19 @@ Object {
       "isRoot": false,
       "type": "nested",
     },
-    Object {
+    {
       "_component": "@_modern_js_src/user/layout.tsx",
-      "children": Array [
-        Object {
+      "children": [
+        {
           "_component": "@_modern_js_src/user/$.tsx",
           "id": "user/$",
-          "loader": "/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
+          "loader": "-fork/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
           "path": "*",
           "type": "nested",
         },
-        Object {
-          "children": Array [
-            Object {
+        {
+          "children": [
+            {
               "_component": "@_modern_js_src/user/[id]/page.tsx",
               "children": undefined,
               "id": "user/[id]/page",
@@ -75,23 +75,23 @@ Object {
           "path": ":id",
           "type": "nested",
         },
-        Object {
+        {
           "_component": "@_modern_js_src/user/page.tsx",
           "children": undefined,
           "id": "user/page",
           "index": true,
-          "loader": "/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/page.loader.ts",
+          "loader": "-fork/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/page.loader.ts",
           "type": "nested",
         },
-        Object {
+        {
           "_component": "@_modern_js_src/user/profile/layout.tsx",
-          "children": Array [
-            Object {
+          "children": [
+            {
               "_component": "@_modern_js_src/user/profile/page.tsx",
               "children": undefined,
               "id": "user/profile/page",
               "index": true,
-              "loader": "/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/profile/page.loader.ts",
+              "loader": "-fork/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/profile/page.loader.ts",
               "type": "nested",
             },
           ],
@@ -103,14 +103,14 @@ Object {
       ],
       "id": "user/layout",
       "isRoot": false,
-      "loader": "/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/layout.loader.ts",
+      "loader": "-fork/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/user/layout.loader.ts",
       "path": "user",
       "type": "nested",
     },
-    Object {
+    {
       "_component": "@_modern_js_src/user.profile.name/layout.tsx",
-      "children": Array [
-        Object {
+      "children": [
+        {
           "_component": "@_modern_js_src/user.profile.name/page.tsx",
           "children": undefined,
           "id": "user.profile.name/page",
@@ -126,7 +126,7 @@ Object {
   ],
   "id": "layout",
   "isRoot": true,
-  "loader": "/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/layout.loader.ts",
+  "loader": "-fork/packages/solutions/app-tools/tests/analyze/fixtures/nested-routes/layout.loader.ts",
   "path": "/",
   "type": "nested",
 }
