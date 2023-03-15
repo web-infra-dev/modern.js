@@ -3,7 +3,7 @@
   "name": "esbuild-integration",
   "version": "2.8.0",
   "dependencies": {
-    "@types/jest": "^27",
+    "@types/jest": "^29",
     "@types/node": "^14"
   }
 }
