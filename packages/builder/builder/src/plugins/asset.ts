@@ -1,4 +1,4 @@
-import { join } from 'path';
+import path from 'path';
 import {
   getRegExpForExts,
   getDistPath,
@@ -27,7 +27,7 @@ export const builderAssetPlugin = (
       chainStaticAssetRule({
         rule,
         maxSize,
-        filename: join(distDir, filename),
+        filename: path.posix.join(distDir, filename),
         assetType,
       });
     });
