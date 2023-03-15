@@ -64,7 +64,6 @@ describe('@modern-js/core test', () => {
     cwdSpy.mockReturnValue(path.join(cwd, 'nested-folder'));
     await cli.init();
     expect(loadEnv).toHaveBeenCalledWith(cwd, undefined);
-    // TODO: add more test cases
   });
 });
 
