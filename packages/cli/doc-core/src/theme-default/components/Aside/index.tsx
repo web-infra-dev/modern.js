@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { Header } from 'shared/types/index';
 import { bindingAsideScroll, scrollToTarget } from '../../logic';
-import './index.module.scss';
 
 export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   const { headers } = props;
@@ -41,11 +40,7 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
       <li key={header.id}>
         <a
           href={`#${header.id}`}
-          block="~"
-          text="text-2"
-          hover="text-text-1"
-          transition="color duration-300"
-          className="leading-7"
+          className="leading-7 transition-colors duration-300 hover:text-text-1 text-text-2 block"
           style={{
             fontSize: '13px',
             paddingLeft: (header.depth - baseHeaderLevel) * 12,
@@ -69,26 +64,21 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   };
 
   return (
-    <div flex="~ col">
+    <div className="flex flex-col">
       <div className={hasOutline ? `<lg:hidden` : 'hidden'}>
         <div
-          p="l-4"
-          text="sm"
-          font-medium="~"
           id="aside-container"
           style={{
             borderLeft: '1px solid var(--modern-c-divider-light)',
           }}
-          className="relative"
+          className="relative pl-4 text-sm font-medium"
         >
           <div
-            className="absolute"
-            opacity="0"
-            w="1px"
-            h="18px"
-            bg="brand"
+            className="absolute opacity-0 bg-brand"
             ref={markerRef}
             style={{
+              width: '1px',
+              height: '18px',
               top: '33px',
               left: '-1px',
               transition:
@@ -96,7 +86,7 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
             }}
             id="aside-marker"
           ></div>
-          <div block="~" className="leading-7" text="sm" font="semibold">
+          <div className="leading-7 block text-sm font-semibold">
             {props.outlineTitle}
           </div>
           <nav>

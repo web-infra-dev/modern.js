@@ -37,6 +37,10 @@ console.log(styles.header);
 - `[ext]` - 文件后缀名，包含点号。
 - `[hash:<hashDigest>:<hashDigestLength>]` - 带有哈希设置的哈希。
 
+:::tip
+在使用 Rspack 作为打包工具时, 暂不支持配置 `<hashDigest>`。
+:::
+
 ### 示例
 
 将 `cssModuleLocalIdentName` 设置为其他值：

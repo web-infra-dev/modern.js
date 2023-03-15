@@ -83,13 +83,13 @@ export function Overview() {
   }, [overviewSidebarGroups]);
 
   return (
-    <div className="overview-index" m="x-auto" p="x-8">
-      <div flex="~" align-items-center="~" justify="between">
+    <div className="overview-index mx-auto px-8">
+      <div className="flex items-center justify-between">
         <h1>Overview</h1>
       </div>
 
       {groups.map(group => (
-        <div m="b-16" key={group.name}>
+        <div className="mb-16" key={group.name}>
           {/* If there is no sidebar group, we show the sidebar items directly and hide the group name */}
           {group.name === DEFAULT_GROUP && groups.length === 1 ? (
             <h2 style={{ paddingTop: 0 }}></h2>
@@ -100,19 +100,18 @@ export function Overview() {
           <div className={styles.overviewGroups}>
             {group.items.map(item => (
               <div className={styles.overviewGroup} key={item.link}>
-                <div flex="~">
+                <div className="flex">
                   <h3 style={{ marginBottom: 8 }}>
                     <Link href={normalizeHref(item.link)}>{item.text}</Link>
                   </h3>
                 </div>
-                <ul list="none">
+                <ul className="list-none">
                   {item.headers?.map(header => (
                     <li
                       key={header.id}
-                      m="first:t-2"
                       className={`${styles.overviewGroupLi} ${
                         styles[`level${header.depth}`]
-                      }`}
+                      } first:mt-2`}
                     >
                       <Link href={`${normalizeHref(item.link)}#${header.id}`}>
                         {header.text}

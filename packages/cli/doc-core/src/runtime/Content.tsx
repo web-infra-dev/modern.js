@@ -1,7 +1,10 @@
-import { routes } from 'virtual-routes';
 import { matchRoutes, useLocation } from 'react-router-dom';
 import { Suspense } from 'react';
 import { normalizeRoutePath } from './utils';
+
+const { routes } = process.env.__SSR__
+  ? (require('virtual-routes-ssr') as typeof import('virtual-routes-ssr'))
+  : (require('virtual-routes') as typeof import('virtual-routes'));
 
 export const Content = () => {
   const { pathname } = useLocation();

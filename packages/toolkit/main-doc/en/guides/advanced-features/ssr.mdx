@@ -8,12 +8,14 @@ In Modern.js, SSR also works out of the box. Developers do not need to write com
 
 Enabling SSR is very easy, just set ['server.ssr'](/configure/app/server/ssr) to `true`:
 
-```json
-{
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
   "server": {
-    "ssr": true
-  }
-}
+    "ssr": true,
+  },
+})
 ```
 
 ## SSR Data Fetch
@@ -293,14 +295,16 @@ Be sure to filter the `host` field if you really need to pass through all reques
 
 Modern.js supports streaming rendering in React 18. Opt in it with the following configuration:
 
-```json
-{
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
   "server": {
     "ssr": {
-      "mode": "stream"
-    }
-  }
-}
+      "mode": "stream",
+    },
+  },
+})
 ```
 
 The streaming SSR of Modern.js is implemented based on React Router, and the main APIs involved are:
@@ -383,7 +387,7 @@ export default ({ params }: LoaderFunctionArgs) => {
 
 Use the `Await` component to render the data returned asynchronously from the Data Loader. For example:
 
-```ts title='page.tsx'
+```tsx title='page.tsx'
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 import type { Data } from './page.loader';
@@ -425,8 +429,7 @@ So, here we import like this: `import type { Data } from './page.loader'`;
 
 You can also get the asynchronous data returned by Data Loader through `useAsyncValue`. For example:
 
-```
-```ts title='page.tsx'
+```tsx title='page.tsx'
 import { useAsyncValue } from '@modern-js/runtime/router';
 
 // skip some codes
@@ -480,7 +483,7 @@ export default () => {
 
 Then use `useAsyncError` to get the error, and assign the component used to render the error to the `errorElement` property of the `Await` component:
 
-```ts title='page.ts'
+```tsx title='page.ts'
 import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 
@@ -508,6 +511,8 @@ function ErrorElement() {
 ```
 
 :::info More
+
 1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
 2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
+
 :::

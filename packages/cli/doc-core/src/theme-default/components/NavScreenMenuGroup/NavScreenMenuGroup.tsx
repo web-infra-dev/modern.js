@@ -14,21 +14,25 @@ export interface NavScreenMenuGroupItem {
 function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
   return (
     <div className="p-1">
-      <span m="r-1" text="brand">
-        {item.text}
-      </span>
+      <span className="mr-1 text-brand">{item.text}</span>
     </div>
   );
 }
 
 function NormalGroupItem({ item }: { item: NavItemWithLink }) {
   return (
-    <div className="py-1" font="medium">
+    <div className="py-1 font-medium">
       <Link href={item.link}>
         <div>
-          <div flex="~">
-            <span m="r-1">{item.text}</span>
-            <Right w="11px" h="11px" text="text-3" m="t-1 r-1" />
+          <div className="flex">
+            <span className="mr-1">{item.text}</span>
+            <Right
+              className="text-text-3 mt-1 mr-1"
+              style={{
+                width: '11px',
+                height: '11px',
+              }}
+            />
           </div>
         </div>
       </Link>
@@ -57,8 +61,9 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
   };
   return (
     <div
-      pos="relative"
-      className={`${isOpen ? styles.open : ''} ${styles.navScreenMenuGroup}`}
+      className={`${isOpen ? styles.open : ''} ${
+        styles.navScreenMenuGroup
+      } relative`}
     >
       <button
         className={styles.button}

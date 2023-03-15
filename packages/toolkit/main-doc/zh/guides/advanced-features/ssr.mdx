@@ -8,12 +8,14 @@ sidebar_position: 3
 
 启用 SSR 非常简单，只需要设置 [`server.ssr`](/configure/app/server/ssr) 为 `true` 即可：
 
-```json
-{
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
   "server": {
-    "ssr": true
-  }
-}
+    "ssr": true,
+  },
+})
 ```
 
 ## SSR 时的数据获取
@@ -282,14 +284,16 @@ export const loader = () => {
 
 Modern.js 支持了 React 18 的流式渲染，可以通过如下配置启用：
 
-```json
-{
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
   "server": {
     "ssr": {
-      "mode": "stream"
-    }
-  }
-}
+      "mode": "stream",
+    },
+  },
+})
 ```
 
 Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
@@ -372,7 +376,7 @@ export default ({ params }: LoaderFunctionArgs) => {
 
 通过 `Await` 组件，可以获取到 Data Loader 中异步返回的数据，然后进行渲染。例如：
 
-```ts title='page.tsx'
+```tsx title='page.tsx'
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 import type { Data } from './page.loader';
@@ -413,8 +417,8 @@ export default Page;
 
 也可以通过 `useAsyncValue` 获取 Data Loader 返回的异步数据。例如：
 
-```
-```ts title='page.tsx'
+
+```tsx title='page.tsx'
 import { useAsyncValue } from '@modern-js/runtime/router';
 
 // 省略部分代码
@@ -468,7 +472,7 @@ export default () => {
 
 然后通过 `useAsyncError` 获取错误，并将用于渲染错误信息的组件赋值给 `Await` 组件的 `errorElement` 属性：
 
-```ts title='page.ts'
+```tsx title='page.ts'
 import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 
@@ -496,6 +500,8 @@ function ErrorElement() {
 ```
 
 :::info 补充信息
+
 1. [Deferred Data](https://reactrouter.com/en/main/guides/deferred)
 2. [New Suspense SSR Architecture in React 18](https://github.com/reactwg/react-18/discussions/37)
+
 :::

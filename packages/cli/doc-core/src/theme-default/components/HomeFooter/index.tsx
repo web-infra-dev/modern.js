@@ -4,18 +4,10 @@ export function HomeFooter() {
   const { siteData } = usePageData();
   const { message } = siteData.themeConfig.footer || {};
   return (
-    <footer
-      m="t-12"
-      p="y-8 x-6 sm:8"
-      w="full"
-      border="t-1 b-0 solid divider-light"
-      className="absolute bottom-0"
-    >
-      <div m="auto" w="full" text="center">
+    <footer className="absolute bottom-0 mt-12 py-8 px-6 sm:p-8 w-full border-t border-solid border-divider-light">
+      <div className="m-auto w-full text-center">
         {message && (
-          <div font="medium" text="sm text-2">
-            {message}
-          </div>
+          <div className="font-meduim text-sm text-text-2">{message}</div>
         )}
       </div>
     </footer>

@@ -10,19 +10,12 @@ export const HiddenLinks = (props: IHiddenLinksProps) => {
 
   return (
     <div
-      pos="absolute top-13 right-0"
-      z="1"
-      p="3"
-      w="32"
-      border="rounded-xl"
-      bg="white"
       style={{
         boxShadow: 'var(--modern-shadow-3)',
         marginRight: '-2px',
         border: '1px solid var(--modern-c-divider-light)',
       }}
-      flex="~ wrap"
-      gap="4"
+      className="absolute top-13 right-0 z-1 p-3 w-32 rounded-xl bg-white flex flex-wrap gap-4"
     >
       {links.map(item => (
         <LinkContent

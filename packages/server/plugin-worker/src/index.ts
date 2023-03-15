@@ -79,23 +79,26 @@ const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
       entryPath: string;
       worker: string;
       isSSR: boolean;
+      isApi: boolean;
     }) => {
       if (route.isSSR) {
         importStr += `import { serverRender as ${route.entryName}ServerRender } from "../${route.worker}";\n`;
       }
-      importStr += `import ${route.entryName}template from "../${route.entryPath}";\n`;
-      pageStr += `"${route.urlPath}": {
-      entryName: "${route.entryName}",
-      template: ${route.entryName}template,
-      serverRender: ${
-        route.isSSR ? `${route.entryName}ServerRender` : undefined
-      },
-    },`;
-      routeArr.push({
-        entryName: route.entryName,
-        isSSR: route.isSSR,
-        urlPath: route.urlPath,
-      });
+      if (!route.isApi) {
+        importStr += `import ${route.entryName}template from "../${route.entryPath}";\n`;
+        pageStr += `"${route.urlPath}": {
+        entryName: "${route.entryName}",
+        template: ${route.entryName}template,
+        serverRender: ${
+          route.isSSR ? `${route.entryName}ServerRender` : undefined
+        },
+      },`;
+        routeArr.push({
+          entryName: route.entryName,
+          isSSR: route.isSSR,
+          urlPath: route.urlPath,
+        });
+      }
     },
   );
 

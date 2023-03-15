@@ -15,28 +15,37 @@ export interface NavMenuGroupItem {
 
 function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
   return (
-    <div key={item.link} className="rounded-md" p="y-1.6 l-3">
-      <span m="r-1" text="brand">
-        {item.text}
-      </span>
+    <div
+      key={item.link}
+      className="rounded-md"
+      style={{
+        padding: '0.4rem 1.5rem 0.4rem 0.75rem',
+      }}
+    >
+      <span className="mr-1 text-brand">{item.text}</span>
     </div>
   );
 }
 
 function NormalGroupItem({ item }: { item: NavItemWithLink }) {
   return (
-    <div key={item.link} font="medium">
+    <div key={item.link} className="font-medium">
       <Link href={item.link}>
-        <div className="rounded-md" hover="bg-mute" p="y-1.6 l-3 r-6">
-          <div flex="~">
-            <span m="r-1">
+        <div
+          className="rounded-md hover:bg-mute"
+          style={{
+            padding: '0.4rem 1.5rem 0.4rem 0.75rem',
+          }}
+        >
+          <div className="flex">
+            <span className="mr-1">
               {item.text}
               <Right
-                w="11px"
-                h="11px"
-                text="text-3"
-                m="t-1 r-1 l-1"
-                className="inline-block align-text-top"
+                className="inline-block align-text-top mt-1 mr-1 ml-1 text-text-3"
+                style={{
+                  width: '11px',
+                  height: '11px',
+                }}
               />
             </span>
           </div>
@@ -67,33 +76,34 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
   };
   return (
     <div
-      h="14"
-      className="relative"
-      flex="~ center"
+      className="relative flex-center h-14"
       onMouseLeave={() => setIsOpen(false)}
     >
       <button
         onMouseEnter={() => setIsOpen(true)}
-        flex="~ center"
-        align="items-center"
-        font="medium"
-        text="sm text-1 hover:text-2"
-        transition="color duration-200"
-        className="nav-menu-group-button"
+        className="nav-menu-group-button flex-center items-center font-medium text-sm text-text-1 hover:text-text-2 transition-colors duration-200"
       >
-        <span m="r-1" text="sm" font="medium">
-          {isTranslation ? <Translator w="18px" h="18px" /> : item.text}
+        <span className="mr-1 text-sm font-medium">
+          {isTranslation ? (
+            <Translator
+              style={{
+                with: '18px',
+                height: '18px',
+              }}
+            />
+          ) : (
+            item.text
+          )}
         </span>
         <Down />
       </button>
       <div
-        pos="top-13 right-0"
-        m="x-0.8"
-        transition="opacity duration-300"
-        className="nav-menu-group-content absolute"
+        className="nav-menu-group-content absolute mx-0.8 transition-opacity duration-300 c"
         style={{
           opacity: isOpen ? 1 : 0,
           visibility: isOpen ? 'visible' : 'hidden',
+          right: 0,
+          top: '52px',
         }}
       >
         <div
