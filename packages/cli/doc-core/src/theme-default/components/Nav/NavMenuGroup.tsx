@@ -3,7 +3,6 @@ import { NavItemWithChildren, NavItemWithLink } from 'shared/types';
 import { Link } from '../Link';
 import Translator from '../../assets/translator.svg';
 import Down from '../../assets/down.svg';
-import Right from '../../assets/right.svg';
 
 export interface NavMenuGroupItem {
   text?: string | React.ReactElement;
@@ -17,37 +16,28 @@ function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
   return (
     <div
       key={item.link}
-      className="rounded-md"
+      className="rounded-2xl my-1"
       style={{
         padding: '0.4rem 1.5rem 0.4rem 0.75rem',
       }}
     >
-      <span className="mr-1 text-brand">{item.text}</span>
+      <span className="text-brand">{item.text}</span>
     </div>
   );
 }
 
 function NormalGroupItem({ item }: { item: NavItemWithLink }) {
   return (
-    <div key={item.link} className="font-medium">
+    <div key={item.link} className="font-medium my-1">
       <Link href={item.link}>
         <div
-          className="rounded-md hover:bg-mute"
+          className="rounded-2xl hover:bg-mute"
           style={{
             padding: '0.4rem 1.5rem 0.4rem 0.75rem',
           }}
         >
           <div className="flex">
-            <span className="mr-1">
-              {item.text}
-              <Right
-                className="inline-block align-text-top mt-1 mr-1 ml-1 text-text-3"
-                style={{
-                  width: '11px',
-                  height: '11px',
-                }}
-              />
-            </span>
+            <span>{item.text}</span>
           </div>
         </div>
       </Link>
@@ -83,7 +73,12 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         onMouseEnter={() => setIsOpen(true)}
         className="nav-menu-group-button flex-center items-center font-medium text-sm text-text-1 hover:text-text-2 transition-colors duration-200"
       >
-        <span className="mr-1 text-sm font-medium">
+        <span
+          className="text-sm font-medium"
+          style={{
+            marginRight: '2px',
+          }}
+        >
           {isTranslation ? (
             <Translator
               style={{
@@ -98,7 +93,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         <Down />
       </button>
       <div
-        className="nav-menu-group-content absolute mx-0.8 transition-opacity duration-300 c"
+        className="nav-menu-group-content absolute mx-0.8 transition-opacity duration-300 "
         style={{
           opacity: isOpen ? 1 : 0,
           visibility: isOpen ? 'visible' : 'hidden',
@@ -107,12 +102,12 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         }}
       >
         <div
-          className="p-3 w-full h-full min-w-128px max-h-100vh rounded-xl whitespace-nowrap bg-white"
+          className="p-2 pl-3 w-full h-full max-h-100vh whitespace-nowrap bg-white"
           style={{
             boxShadow: 'var(--modern-shadow-3)',
-            marginRight: '-1.5rem',
             zIndex: 100,
             border: '1px solid var(--modern-c-divider-light)',
+            borderRadius: '2rem',
           }}
         >
           {/* The item could be a link or a sub group */}

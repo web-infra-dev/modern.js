@@ -109,15 +109,17 @@
   transition: color 0.5s;
 }
 
-.modern-doc a {
+.modern-doc a:not(.header-anchor) {
   font-weight: 500;
-  color: var(--modern-c-brand);
-  text-decoration-style: dotted;
+  color: var(--modern-c-text-dark);
+  border-bottom: 1px dashed var(--modern-c-brand);
+  text-decoration-style: dashed;
   transition: color 0.25s;
 }
 
 .modern-doc a:hover {
   color: var(--modern-c-brand-dark);
+  border-style: solid;
 }
 
 .modern-doc strong {
@@ -252,9 +254,9 @@
   font-size: var(--modern-code-font-size);
 }
 
-.modern-doc :not(pre, div) > code {
-  border-radius: 4px;
-  padding: 3px 6px;
+.modern-doc :not(pre, div, a) > code {
+  border-radius: 20px;
+  padding: 4px 8px;
   color: var(--modern-c-text-code);
   background-color: var(--modern-c-bg-mute);
 }
@@ -268,6 +270,7 @@
 .modern-doc a > code {
   color: var(--modern-c-brand);
   transition: color 0.25s;
+  border: none;
 }
 
 .modern-doc a:hover > code {
@@ -502,21 +505,18 @@
 }
 
 .modern-doc .modern-directive.tip,
-.modern-doc .modern-directive.note {
-  border-color: var(--modern-custom-block-tip-border);
-  color: var(--modern-custom-block-tip-text);
-  background-color: var(--modern-custom-block-tip-bg);
+.modern-doc .modern-directive.note,
+.modern-doc .modern-directive.info,
+.modern-doc .modern-directive.warning {
+  border-color: var(--modern-c-brand);
+  background-color: var(--modern-c-bg-soft);
+  color: var(--modern-block-text-color);
+  font-weight: 500;
 }
 
 .modern-doc .modern-directive.tip code,
 .modern-doc .modern-directive.note code {
   background-color: var(--modern-custom-block-tip-code-bg);
-}
-
-.modern-doc .modern-directive.info {
-  border-color: var(--modern-custom-block-info-border);
-  color: var(--modern-custom-block-info-text);
-  background-color: var(--modern-custom-block-info-bg);
 }
 
 .modern-doc .modern-directive.info code {
@@ -547,8 +547,9 @@
 
 .aside-active,
 .aside-active:hover {
-  color: var(--modern-c-brand-dark);
-  font-weight: bold;
+  color: var(--modern-c-brand-dark) !important;
+  font-weight: bold !important;
+  font-size: 14px !important;
 }
 
 @media (max-width: 768px) {

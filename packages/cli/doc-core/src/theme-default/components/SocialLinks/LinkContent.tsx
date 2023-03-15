@@ -29,7 +29,13 @@ export const LinkContent = (props: ILinkContentComp) => {
 
   if (mode === 'link') {
     return (
-      <a key={content} href={content} target="_blank" rel="noopener noreferrer">
+      <a
+        key={content}
+        href={content}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mx-3"
+      >
         <div className={`${styles.socialLinksIcon}`}>{IconComp}</div>
       </a>
     );
@@ -37,7 +43,7 @@ export const LinkContent = (props: ILinkContentComp) => {
   if (mode === 'text') {
     return (
       <div
-        className={`${styles.socialLinksIcon} cursor-pointer relative`}
+        className={`${styles.socialLinksIcon} cursor-pointer relative mx-3`}
         onMouseEnter={mouseEnterIcon}
         onMouseLeave={mouseLeavePopper}
       >

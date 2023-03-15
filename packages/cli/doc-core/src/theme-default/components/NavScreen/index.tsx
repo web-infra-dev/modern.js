@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { disableBodyScroll, clearAllBodyScrollLocks } from 'body-scroll-lock';
 import { LocaleConfig, NavItem, DefaultThemeConfig } from 'shared/types';
 import type { SiteData } from 'shared/types';
@@ -10,9 +10,9 @@ import { NavMenuSingleItem } from '../Nav/NavMenuSingleItem';
 import { SwitchAppearance } from '../SwitchAppearance';
 import Translator from '../../assets/translator.svg';
 import { SocialLinks } from '../SocialLinks';
-import { getToggle } from '../../logic/useAppearance';
 import { getLogoUrl } from '../../logic/utils';
 import styles from './index.module.scss';
+import { NoSSR, ThemeContext } from '@/runtime';
 
 interface Props {
   isScreenOpen: boolean;
@@ -41,6 +41,7 @@ const NavScreenTranslations = ({
 export function NavScreen(props: Props) {
   const { isScreenOpen, localeData, siteData, pathname, setLogo } = props;
   const screen = useRef<HTMLDivElement | null>(null);
+  const { theme } = useContext(ThemeContext);
   const localesData = siteData.themeConfig.locales || [];
   const hasMultiLanguage = localesData.length > 1;
   const menuItems = localeData.nav || [];
@@ -49,8 +50,6 @@ export function NavScreen(props: Props) {
   const hasSocialLinks = socialLinks.length > 0;
   const langs = localesData.map(item => item.lang || 'zh') || [];
   const { base, logo } = siteData;
-  const toggleAppearance = getToggle();
-
   const translationMenuData = hasMultiLanguage
     ? {
         text: (
@@ -72,12 +71,13 @@ export function NavScreen(props: Props) {
   const NavScreenAppearance = () => {
     return (
       <div className={`mt-2 ${styles.navAppearance} flex justify-center`}>
-        <SwitchAppearance
-          onClick={() => {
-            toggleAppearance();
-            setLogo(getLogoUrl(logo));
-          }}
-        />
+        <NoSSR>
+          <SwitchAppearance
+            onClick={() => {
+              setLogo(getLogoUrl(logo, theme === 'dark' ? 'light' : 'dark'));
+            }}
+          />
+        </NoSSR>
       </div>
     );
   };
@@ -125,7 +125,7 @@ export function NavScreen(props: Props) {
     >
       <div className={styles.container}>
         <NavScreenMenu menuItems={menuItems} />
-        <div className="flex-center flex-col">
+        <div className="flex-center flex-col gap-2">
           {hasAppearanceSwitch && <NavScreenAppearance />}
           {hasMultiLanguage && (
             <NavScreenTranslations translationMenuData={translationMenuData!} />

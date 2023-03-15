@@ -6,10 +6,7 @@ export default (themeDir: string): Config => ({
     `${PACKAGE_ROOT}/src/**/*.{tsx,html,jsx}`,
     `${themeDir}/**/*.{tsx,jsx,html}`,
   ],
-  shortcuts: {
-    'flex-center': 'flex justify-center items-center',
-    menu: 'flex justify-around items-center text-sm font-bold',
-  },
+  darkMode: 'class',
   attributify: true,
   theme: {
     backgroundColor: ({ theme }) => ({
@@ -45,7 +42,7 @@ export default (themeDir: string): Config => ({
           4: 'var(--modern-c-text-4)',
         },
         divider: {
-          default: 'var(--modern-c-divider)',
+          DEFAULT: 'var(--modern-c-divider)',
           light: 'var(--modern-c-divider-light)',
           dark: 'var(--modern-c-divider-dark)',
         },

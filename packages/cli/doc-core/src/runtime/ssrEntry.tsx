@@ -2,7 +2,9 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { PageData } from 'shared/types';
 import { App, initPageData } from './App';
-import { DataContext } from './hooks';
+import { DataContext, ThemeContext } from './hooks';
+
+const DEFAULT_THEME = 'light';
 
 export async function render(
   pagePath: string,
@@ -11,11 +13,14 @@ export async function render(
   const initialPageData = await initPageData(pagePath);
 
   const appHtml = renderToString(
-    <DataContext.Provider value={{ data: initialPageData }}>
-      <StaticRouter location={pagePath}>
-        <App helmetContext={helmetContext} />
-      </StaticRouter>
-    </DataContext.Provider>,
+    <ThemeContext.Provider value={{ theme: DEFAULT_THEME }}>
+      <DataContext.Provider value={{ data: initialPageData }}>
+        <StaticRouter location={pagePath}>
+          <App helmetContext={helmetContext} />
+        </StaticRouter>
+      </DataContext.Provider>
+      ,
+    </ThemeContext.Provider>,
   );
 
   return {

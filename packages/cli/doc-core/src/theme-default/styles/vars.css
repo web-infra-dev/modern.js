@@ -303,6 +303,8 @@
   --modern-custom-block-danger-text: var(--modern-c-red-darker);
   --modern-custom-block-danger-bg: var(--modern-c-red-dimm-3);
   --modern-custom-block-danger-code-bg: var(--modern-custom-block-danger-bg);
+
+  --modern-block-text-color: rgba(0, 0, 0, 0.55);
 }
 
 .dark {
@@ -318,6 +320,7 @@
 
   --modern-custom-block-danger-border: var(--modern-c-red-dimm-2);
   --modern-custom-block-danger-text: var(--modern-c-red-light);
+  --modern-block-text-color: rgba(255, 255, 255, 0.55);
 }
 
 /**
@@ -325,7 +328,7 @@
  * -------------------------------------------------------------------------- */
 
 :root {
-  --modern-nav-height: 56px;
+  --modern-nav-height: 72px;
 }
 
 /**

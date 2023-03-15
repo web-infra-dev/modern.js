@@ -1,6 +1,6 @@
 import 'nprogress/nprogress.css';
-import '../../index.css';
 import 'virtual-global-styles';
+import '../../index.css';
 import globalComponents from 'virtual-global-components';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';

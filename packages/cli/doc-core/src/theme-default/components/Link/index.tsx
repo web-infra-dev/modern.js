@@ -8,6 +8,7 @@ export interface LinkProps {
   href?: string;
   children?: React.ReactNode;
   className?: string;
+  onNavigate?: () => void;
 }
 
 nprogress.configure({ showSpinner: false });
@@ -15,7 +16,7 @@ nprogress.configure({ showSpinner: false });
 const EXTERNAL_URL_RE = /^(https?:)?\/\//;
 
 export function Link(props: LinkProps) {
-  const { href = '/', children, className = '' } = props;
+  const { href = '/', children, className = '', onNavigate } = props;
   const isExternal = EXTERNAL_URL_RE.test(href);
   const target = isExternal ? '_blank' : '';
   const rel = isExternal ? 'noopener noreferrer' : undefined;
@@ -41,6 +42,7 @@ export function Link(props: LinkProps) {
         clearTimeout(timer);
         nprogress.done();
       }
+      onNavigate?.();
       navigate(withBaseUrl, { replace: false });
     }
   };

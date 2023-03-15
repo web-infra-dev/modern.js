@@ -69,11 +69,11 @@
 
 .navSearchButton {
   display: flex;
-  border-radius: 8px;
+  border-radius: 24px;
   padding: 0 10px;
   height: 40px;
   width: 100%;
-  background-color: var(--modern-c-bg-alt);
+  background-color: var(--modern-c-bg-mute);
   transition: border-color 0.3s;
   border: 1px solid transparent;
 
@@ -94,6 +94,7 @@
       border-radius: 4px;
       color: var(--modern-c-gray);
       font-weight: 500;
+      background-color: var(--modern-c-bg);
       > span {
         margin-left: 5px;
         + span {
