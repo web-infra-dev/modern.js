@@ -1,17 +1,41 @@
 ### Node.js
 
-Requires [Node.js LTS] (https://github.com/nodejs/Release) and makes sure the Node version is greater than or equal to v16.18.1.
+Before using Modern.js, you will need to install [Node.js](https://nodejs.org/), and ensure that your Node.js version is higher than 14.17.6. We recommend using the LTS version of Node.js 16.
 
-Modern.js recommend installing [nvm](https://github.com/nvm-sh/nvm#install--update-script) in the development environment and integrating [script to automatically switch node versions](https://github.com/nvm-sh/nvm#deeper-shell-integration) in the shell.
+You can check the currently used Node.js version with the following command:
 
-Then whenever there is a `.nvmrc` file with `lts/gallium` in the root directory of the repository, entering the repository will automatically install or switch to the correct Node.js version.
+```bash
+node -v
+#v14.20.0
+```
+
+If you do not have Node.js installed in your current environment, or the installed version is lower than 14.17.6, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) to install the required version.
+
+Here is an example of how to install the Node.js 16 LTS version via nvm:
+
+```bash
+# Install the long-term support version of Node.js 16
+nvm install 16 --lts
+
+# Make the newly installed Node.js 16 as the default version
+nvm alias default 16
+
+# Switch to the newly installed Node.js 16
+nvm use 16
+```
+
+:::tip nvm and fnm
+Both nvm and fnm are Node.js version management tools. Relatively speaking, nvm is more mature and stable, while fnm is implemented using Rust, which provides better performance than nvm.
+:::
+
+After installing nvm or fnm, then whenever there is a `.nvmrc` file with `lts/gallium` in the root directory of the repository, entering the repository will automatically install or switch to the correct Node.js version.
 
 ### pnpm
 
 It is recommended to use [pnpm](https://pnpm.io/installation) to manage dependencies:
 
 ```bash
-npm install -g pnpm
+npm install -g pnpm@7
 ```
 
 :::note
