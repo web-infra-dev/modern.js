@@ -15,11 +15,12 @@ export default (options: {
       config.plugins?.push(
         transformPlugin({
           jsc: {
-            parser: {
-              syntax: 'ecmascript',
-              jsx: true,
+            // swc transform jsx to `React.createElement` in default mode.
+            transform: {
+              react: {
+                runtime: config.jsx === 'transform' ? 'classic' : 'automatic',
+              },
             },
-            target: 'es2022',
           },
           extensions: {
             pluginImport: options.pluginImport ?? [],
