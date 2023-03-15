@@ -1,4 +1,3 @@
-
 在开始使用前，你需要安装 [Node.js](https://nodejs.org/)，并保证 Node.js 版本不低于 14.17.6，**我们推荐使用 Node.js 16 的 LTS 版本**。
 
 你可以通过以下命令检查当前使用的 Node.js 版本：
