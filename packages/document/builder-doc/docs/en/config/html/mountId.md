@@ -29,6 +29,19 @@ After compilation:
 </body>
 ```
 
-:::tip
-If you customized the HTML template, please make sure that the template contains `<div id="<%= mountId %>"></div>`, otherwise this config will not take effect.
-:::
+### Notes
+
+#### Update Relevant Code
+
+After modifying `mountId`, if there is logic in your code to obtain the `root` root node, please update the corresponding value:
+
+```diff
+- const domNode = document. getElementById('root');
++ const domNode = document. getElementById('app');
+
+ReactDOM.createRoot(domNode).render(<App />);
+```
+
+#### Custom Templates
+
+If you customized the HTML template, please make sure that the template contains `<div id="<%= mountId %>"></div>`, otherwise the `mountId` config will not take effect.
