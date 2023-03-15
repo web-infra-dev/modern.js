@@ -8,13 +8,19 @@
 
 我们可以通过社区中的一些工具来检测或消除重复依赖。
 
-如果你在使用 `pnpm`，可以使用 [pnpm-deduplicate](https://github.com/ocavue/pnpm-deduplicate) 来分析出所有的重复依赖，并通过升级依赖或声明 [pnpm overrides](https://pnpm.io/package_json#pnpmoverrides) 进行版本合并。
+- 如果你在使用 `pnpm >= 7.26.0`，可以使用 pnpm 自带的 [pnpm dedupe](https://pnpm.io/cli/dedupe) 命令来升级和消除其中的重复依赖。
+
+```bash
+pnpm dedupe
+```
+
+- 如果你在使用 `pnpm < 7.26.0` 版本，可以使用 [pnpm-deduplicate](https://github.com/ocavue/pnpm-deduplicate) 来分析出所有的重复依赖，并通过升级依赖或声明 [pnpm overrides](https://pnpm.io/package_json#pnpmoverrides) 进行版本合并。
 
 ```bash
 npx pnpm-deduplicate --list
 ```
 
-如果你在使用 `yarn`，可以使用 [yarn-deduplicate](https://github.com/scinos/yarn-deduplicate) 来自动合并重复依赖：
+- 如果你在使用 `yarn`，可以使用 [yarn-deduplicate](https://github.com/scinos/yarn-deduplicate) 来自动合并重复依赖：
 
 ```bash
 npx yarn-deduplicate && yarn
