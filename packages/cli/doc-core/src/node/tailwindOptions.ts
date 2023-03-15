@@ -26,10 +26,10 @@ export default (themeDir: string): Config => ({
         lg: '1280px',
       },
       maxWidth: {
-        '60': '60rem',
+        '60': '15rem',
       },
       maxHeight: {
-        '60': '60rem',
+        '60': '15rem',
       },
       colors: {
         brand: 'var(--modern-c-brand)',

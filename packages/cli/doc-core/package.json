@@ -104,7 +104,8 @@
     "unist-util-visit": "^4.1.1",
     "unist-util-visit-children": "^2.0.1",
     "yaml-front-matter": "^4.1.1",
-    "medium-zoom": "1.0.8"
+    "medium-zoom": "1.0.8",
+    "tailwindcss": "3.2.7"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^2.8.0",
