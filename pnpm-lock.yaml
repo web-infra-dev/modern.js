@@ -87,20 +87,6 @@ importers:
       '@types/node': 14.18.35
       typescript: 4.9.3
 
-  packages/builder/builder-doc:
-    specifiers:
-      '@modern-js/doc-tools': workspace:*
-      '@modern-js/tsconfig': workspace:*
-      '@types/node': ^14
-      react: ^18.2.0
-      react-dom: ^18.2.0
-    devDependencies:
-      '@modern-js/doc-tools': link:../../solutions/doc-tools
-      '@modern-js/tsconfig': link:../../review/tsconfig
-      '@types/node': 14.18.35
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
   packages/builder/builder-rspack-provider:
     specifiers:
       '@modern-js/builder-shared': workspace:*
@@ -1280,6 +1266,82 @@ importers:
       react: 18.2.0
       tailwindcss: 3.2.4_postcss@8.4.21
       typescript: 4.9.3
+
+  packages/document/builder-doc:
+    specifiers:
+      '@modern-js/doc-tools': workspace:*
+      '@modern-js/tsconfig': workspace:*
+      '@types/node': ^14
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    devDependencies:
+      '@modern-js/doc-tools': link:../../solutions/doc-tools
+      '@modern-js/tsconfig': link:../../review/tsconfig
+      '@types/node': 14.18.35
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+
+  packages/document/doc-tools-doc:
+    specifiers:
+      '@modern-js/doc-tools': workspace:*
+      '@types/fs-extra': ^9
+      '@types/node': ^16
+      cross-env: ^7.0.3
+      fs-extra: ^10
+      ts-node: ^10
+      typescript: ^4
+    devDependencies:
+      '@modern-js/doc-tools': link:../../solutions/doc-tools
+      '@types/fs-extra': 9.0.13
+      '@types/node': 16.18.10
+      cross-env: 7.0.3
+      fs-extra: 10.1.0
+      ts-node: 10.9.1_dlsrttbneesnknba5tvqdzugca
+      typescript: 4.9.5
+
+  packages/document/main-doc:
+    specifiers:
+      '@modern-js/builder-doc': workspace:*
+      '@modern-js/doc-plugin-auto-sidebar': workspace:*
+      '@modern-js/doc-tools': workspace:*
+      '@types/fs-extra': ^9
+      '@types/node': ^16
+      classnames: ^2
+      clsx: ^1.2.1
+      fs-extra: ^10
+      react: ^18
+      react-dom: ^18
+      ts-node: ^10
+      typescript: ^4
+    devDependencies:
+      '@modern-js/builder-doc': link:../builder-doc
+      '@modern-js/doc-plugin-auto-sidebar': link:../../cli/doc-plugin-auto-sidebar
+      '@modern-js/doc-tools': link:../../solutions/doc-tools
+      '@types/fs-extra': 9.0.13
+      '@types/node': 16.18.10
+      classnames: 2.3.2
+      clsx: 1.2.1
+      fs-extra: 10.1.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      ts-node: 10.9.1_dlsrttbneesnknba5tvqdzugca
+      typescript: 4.9.5
+
+  packages/document/module-doc:
+    specifiers:
+      '@code-hike/mdx': ^0.7.4
+      '@modern-js/doc-plugin-auto-sidebar': workspace:*
+      '@modern-js/doc-tools': workspace:*
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      shiki: ^0.11.1
+    dependencies:
+      '@code-hike/mdx': 0.7.4_react@18.2.0
+      '@modern-js/doc-plugin-auto-sidebar': link:../../cli/doc-plugin-auto-sidebar
+      '@modern-js/doc-tools': link:../../solutions/doc-tools
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      shiki: 0.11.1
 
   packages/generator/generator-cases:
     specifiers:
@@ -3353,24 +3415,6 @@ importers:
       ts-node: 10.8.1_5axvewzfuqiugp6622ftukgx6y
       typescript: 4.9.3
 
-  packages/toolkit/doc-tools-doc:
-    specifiers:
-      '@modern-js/doc-tools': workspace:*
-      '@types/fs-extra': ^9
-      '@types/node': ^16
-      cross-env: ^7.0.3
-      fs-extra: ^10
-      ts-node: ^10
-      typescript: ^4
-    devDependencies:
-      '@modern-js/doc-tools': link:../../solutions/doc-tools
-      '@types/fs-extra': 9.0.13
-      '@types/node': 16.18.10
-      cross-env: 7.0.3
-      fs-extra: 10.1.0
-      ts-node: 10.8.1_dlsrttbneesnknba5tvqdzugca
-      typescript: 4.9.5
-
   packages/toolkit/e2e:
     specifiers:
       '@modern-js/utils': workspace:*
@@ -3399,38 +3443,6 @@ importers:
       '@types/serve-static': 1.13.10
       got: 11.8.5
       typescript: 4.9.3
-
-  packages/toolkit/main-doc:
-    specifiers:
-      '@modern-js/builder-doc': workspace:*
-      '@types/fs-extra': ^9
-      '@types/node': ^16
-      fs-extra: ^10
-      ts-node: ^10
-      typescript: ^4
-    devDependencies:
-      '@modern-js/builder-doc': link:../../builder/builder-doc
-      '@types/fs-extra': 9.0.13
-      '@types/node': 16.18.10
-      fs-extra: 10.1.0
-      ts-node: 10.8.1_oy4yt2gcvp64b4l532pr2mkrdy
-      typescript: 4.9.3
-
-  packages/toolkit/module-doc:
-    specifiers:
-      '@code-hike/mdx': ^0.7.4
-      '@modern-js/doc-plugin-auto-sidebar': workspace:*
-      '@modern-js/doc-tools': workspace:*
-      react: ^18.2.0
-      react-dom: ^18.2.0
-      shiki: ^0.11.1
-    dependencies:
-      '@code-hike/mdx': 0.7.4_react@18.2.0
-      '@modern-js/doc-plugin-auto-sidebar': link:../../cli/doc-plugin-auto-sidebar
-      '@modern-js/doc-tools': link:../../solutions/doc-tools
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      shiki: 0.11.1
 
   packages/toolkit/node-bundle-require:
     specifiers:
@@ -6031,31 +6043,6 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       typescript: 4.9.5
-
-  website/main:
-    specifiers:
-      '@modern-js/builder-doc': workspace:*
-      '@modern-js/doc-plugin-auto-sidebar': workspace:*
-      '@modern-js/doc-tools': workspace:*
-      '@modern-js/main-doc': workspace:*
-      '@types/node': ^14
-      classnames: ^2
-      clsx: ^1.2.1
-      react: ^18
-      react-dom: ^18
-      typescript: ^4
-    dependencies:
-      '@modern-js/builder-doc': link:../../packages/builder/builder-doc
-      '@modern-js/doc-plugin-auto-sidebar': link:../../packages/cli/doc-plugin-auto-sidebar
-      '@modern-js/doc-tools': link:../../packages/solutions/doc-tools
-      '@modern-js/main-doc': link:../../packages/toolkit/main-doc
-      '@types/node': 14.18.35
-      classnames: 2.3.1
-      clsx: 1.2.1
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      typescript: 4.9.3
 
 packages:
 
@@ -12507,7 +12494,7 @@ packages:
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/webpack': 4.41.32
       autoprefixer: 9.8.8
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
@@ -12802,7 +12789,7 @@ packages:
       '@babel/register': 7.18.6_@babel+core@7.20.5
       '@storybook/node-logger': 6.5.12
       '@storybook/semver': 7.3.2
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/pretty-hrtime': 1.0.1
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       babel-plugin-macros: 3.1.0
@@ -12874,7 +12861,7 @@ packages:
       '@storybook/semver': 7.3.2
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/telemetry': 6.5.12_lb6du3saekb5anf2gjv3wxj3oq
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/node-fetch': 2.6.2
       '@types/pretty-hrtime': 1.0.1
       '@types/webpack': 4.41.32
@@ -13027,7 +13014,7 @@ packages:
       '@storybook/node-logger': 6.5.12
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/webpack': 4.41.32
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       case-sensitive-paths-webpack-plugin: 2.4.0
@@ -14386,7 +14373,6 @@ packages:
 
   /@types/node/16.18.10:
     resolution: {integrity: sha512-XU1+v7h81p7145ddPfjv7jtWvkSilpcnON3mQ+bDi9Yuf7OI56efOglXRyXWgQ57xH3fEQgh7WOJMncRHVew5w==}
-    dev: true
 
   /@types/node/18.11.17:
     resolution: {integrity: sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==}
@@ -17122,13 +17108,8 @@ packages:
       isobject: 3.0.1
       static-extend: 0.1.2
 
-  /classnames/2.3.1:
-    resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
-    dev: false
-
   /classnames/2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
-    dev: false
 
   /clean-css/4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
@@ -17257,7 +17238,7 @@ packages:
   /clsx/1.2.1:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
     engines: {node: '>=6'}
-    dev: false
+    dev: true
 
   /cluster-client/3.1.1:
     resolution: {integrity: sha512-h4CbADGLh8j9+asM0KAyDn93vygn2tJujF5Ays+ta6WuL+i3cLIHE9QWxGwZIxf7EERJg7xLbZD422RwJzsdjA==}
@@ -33126,68 +33107,6 @@ packages:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  /ts-node/10.8.1_dlsrttbneesnknba5tvqdzugca:
-    resolution: {integrity: sha512-Wwsnao4DQoJsN034wePSg5nZiw4YKXf56mPIAeD6wVmiv+RytNSWqc2f3fKvcUoV+Yn2+yocD71VOfQHbmVX4g==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 16.18.10
-      acorn: 8.8.1
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.9.5
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: true
-
-  /ts-node/10.8.1_oy4yt2gcvp64b4l532pr2mkrdy:
-    resolution: {integrity: sha512-Wwsnao4DQoJsN034wePSg5nZiw4YKXf56mPIAeD6wVmiv+RytNSWqc2f3fKvcUoV+Yn2+yocD71VOfQHbmVX4g==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.3
-      '@types/node': 16.18.10
-      acorn: 8.8.1
-      acorn-walk: 8.2.0
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 4.9.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: true
-
   /ts-node/10.9.1_5axvewzfuqiugp6622ftukgx6y:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -33215,6 +33134,37 @@ packages:
       diff: 4.0.2
       make-error: 1.3.6
       typescript: 4.9.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: true
+
+  /ts-node/10.9.1_dlsrttbneesnknba5tvqdzugca:
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.3
+      '@types/node': 16.18.10
+      acorn: 8.8.1
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.9.5
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
