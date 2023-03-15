@@ -58,9 +58,16 @@ function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
   return cacheGroups;
 }
 
+const DEPENDENCY_MATCH_TEMPL = /[\\/]node_modules[\\/](<SOURCES>)[\\/]/.source;
+
 /** Expect to match path just like "./node_modules/react-router/" */
-export const createDependenciesRegExp = (...dependencies: string[]) =>
-  new RegExp(`[\\\\/]node_modules[\\\\/](${dependencies.join('|')})[\\\\/]`);
+export const createDependenciesRegExp = (
+  ...dependencies: (string | RegExp)[]
+) => {
+  const sources = dependencies.map(d => (typeof d === 'string' ? d : d.source));
+  const expr = DEPENDENCY_MATCH_TEMPL.replace('<SOURCES>', sources.join('|'));
+  return new RegExp(expr);
+};
 
 async function splitByExperience(
   ctx: SplitChunksContext,
@@ -81,6 +88,7 @@ async function splitByExperience(
     router: createDependenciesRegExp(
       'react-router',
       'react-router-dom',
+      '@remix-run/router',
       'history',
     ),
     lodash: createDependenciesRegExp('lodash', 'lodash-es'),
@@ -92,15 +100,18 @@ async function splitByExperience(
     packageRegExps.antd = createDependenciesRegExp('antd');
   }
   if (isPackageInstalled('@arco-design/web-react', rootPath)) {
-    packageRegExps.arco = createDependenciesRegExp('arco-design');
+    packageRegExps.arco = createDependenciesRegExp(/@?arco-design/);
   }
   if (isPackageInstalled('@douyinfe/semi-ui', rootPath)) {
-    packageRegExps.semi = createDependenciesRegExp('semi-ui');
+    packageRegExps.semi = createDependenciesRegExp(
+      /@(ies|douyinfe)[\\/]semi-.*/,
+    );
   }
   if (polyfill === 'entry' || polyfill === 'usage') {
     packageRegExps.polyfill = createDependenciesRegExp(
       'core-js',
       '@babel/runtime',
+      '@swc/helpers',
     );
   }
 

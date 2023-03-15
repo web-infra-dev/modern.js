@@ -14,10 +14,7 @@ const DOCS_FOLDERS = [
   '.changeset',
   '.github',
   '.vscode',
-  'website',
-  'packages/toolkit/main-doc',
-  'packages/toolkit/module-doc',
-  'packages/builder/builder-doc',
+  'packages/document',
   'scripts/skipDocsChange.js',
 ];
 

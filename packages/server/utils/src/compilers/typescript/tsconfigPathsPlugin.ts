@@ -183,6 +183,7 @@ export function tsconfigPathsBeforeHookFactory(
 }
 
 // fork from https://github.com/nestjs/nest-cli/blob/HEAD/lib/compiler/hooks/tsconfig-paths.hook.ts
+// license at https://github.com/nestjs/nest/blob/master/LICENSE
 function getNotAliasedPath(
   sf: ts.SourceFile,
   matcher: MatchPath,
