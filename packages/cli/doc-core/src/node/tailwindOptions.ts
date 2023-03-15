@@ -32,9 +32,13 @@ export default (themeDir: string): Config => ({
         '60': '15rem',
       },
       colors: {
-        brand: 'var(--modern-c-brand)',
-        'brand-light': 'var(--modern-c-brand-light)',
-        'brand-dark': 'var(--modern-c-brand-dark)',
+        brand: {
+          DEFAULT: 'var(--modern-c-brand)',
+          light: 'var(--modern-c-brand-light)',
+          dark: 'var(--modern-c-brand-dark)',
+          lighter: 'var(--modern-c-brand-lighter)',
+          darker: 'var(--modern-c-brand-darker)',
+        },
         text: {
           1: 'var(--modern-c-text-1)',
           2: 'var(--modern-c-text-2)',
@@ -52,6 +56,7 @@ export default (themeDir: string): Config => ({
             2: 'var(--modern-c-gray-light-2)',
             3: 'var(--modern-c-gray-light-3)',
             4: 'var(--modern-c-gray-light-4)',
+            5: 'var(--modern-c-gray-light-5)',
           },
         },
       },

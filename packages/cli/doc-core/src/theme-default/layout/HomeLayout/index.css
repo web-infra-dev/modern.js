@@ -1,0 +1,18 @@
+:root {
+  --modern-home-hero-name-color: transparent;
+  --modern-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    var(--modern-c-brand) 30%,
+    #42d392
+  );
+  --modern-home-hero-image-background-image: none;
+  --modern-home-hero-image-filter: none;
+  --modern-home-feature-bg: #f9f9f9;
+  --modern-home-feature-hover-bg: linear-gradient(to bottom, #ededed, #f9f9f9);
+}
+
+.dark {
+  --modern-home-bg: #000;
+  --modern-home-feature-bg: #242424;
+  --modern-home-feature-hover-bg: #2f2f2f;
+}

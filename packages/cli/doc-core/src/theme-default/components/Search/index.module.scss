@@ -10,7 +10,7 @@
 
 .modal {
   position: relative;
-  background-color: var(--modern-c-bg-alt);
+  background-color: var(--modern-c-bg-soft);
   border-radius: 6px;
   margin: 80px auto auto;
   max-width: 560px;
@@ -34,6 +34,7 @@
     height: 100%;
     width: 80%;
     outline: none;
+    background-color: var(--modern-c-bg);
     font-weight: 500;
     font-size: 20px;
     :global(.dark) & {
@@ -56,7 +57,7 @@
     position: sticky;
     top: 0;
     left: 0;
-    background-color: var(--modern-c-bg-alt);
+    background-color: var(--modern-c-bg-soft);
     font-size: 13px;
     font-weight: 600;
     color: var(--modern-c-brand-dark);
@@ -121,13 +122,18 @@
   margin: 5px 2px;
   box-shadow: 0 1px 3px 0 #d4d9e1;
 
+  :global(.dark) & {
+    box-shadow: 0 1px 3px 0 #1f1f1f;
+  }
+
   & > a {
-    background-color: var(--modern-c-white);
+    background-color: var(--modern-c-bg);
     border-radius: 4px;
     padding-left: 12px;
     color: var(--modern-c-black-soft);
     display: flex;
     width: 100%;
+
     .suggestItemContainer {
       width: 100%;
       min-height: 56px;
@@ -163,23 +169,23 @@
     > a {
       background-color: var(--modern-c-brand);
       cursor: pointer;
-      color: var(--modern-c-white);
+      color: #ffffff;
     }
 
     .suggestItemContainer {
       svg {
-        color: var(--modern-c-white);
+        color: #ffffff;
       }
       .actionIcon {
         opacity: 1;
       }
       .contentWrapper {
         .mark {
-          color: var(--modern-c-white);
+          color: #ffffff;
           text-decoration: underline;
         }
         .titleForContent {
-          color: var(--modern-c-white);
+          color: #ffffff;
         }
       }
     }
@@ -189,7 +195,7 @@
 .tabClassName {
   position: sticky;
   top: 36px;
-  background-color: var(--modern-c-bg-alt);
+  background-color: var(--modern-c-bg-soft);
   padding-bottom: 6px;
 }
 

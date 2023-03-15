@@ -1,0 +1,72 @@
+/**
+  * Define title style
+*/
+.modern-doc h1,
+.modern-doc h2,
+.modern-doc h3,
+.modern-doc h4,
+.modern-doc h5,
+.modern-doc h6 {
+  position: relative;
+  font-weight: 600;
+  outline: none;
+}
+
+.modern-doc h1 {
+  letter-spacing: -0.02em;
+  line-height: 40px;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.modern-doc h2 {
+  margin: 56px 0 16px;
+  letter-spacing: -0.02em;
+  line-height: 32px;
+  font-size: 25px;
+}
+
+.modern-doc h3 {
+  margin: 32px 0 0;
+  letter-spacing: -0.01em;
+  line-height: 28px;
+  font-size: 20px;
+}
+
+.modern-doc h4 {
+  margin: 24px 0 0;
+  line-height: 24px;
+  font-size: 16px;
+}
+
+.modern-doc .header-anchor {
+  float: left;
+  margin-left: -0.87em;
+  padding-right: 0.23em;
+  font-weight: 500;
+  opacity: 0;
+  transition: color 0.25s, opacity 0.25s;
+}
+
+.modern-doc h1:hover .header-anchor,
+.modern-doc h1 .header-anchor:focus,
+.modern-doc h2:hover .header-anchor,
+.modern-doc h2 .header-anchor:focus,
+.modern-doc h3:hover .header-anchor,
+.modern-doc h3 .header-anchor:focus,
+.modern-doc h4:hover .header-anchor,
+.modern-doc h4 .header-anchor:focus,
+.modern-doc h5:hover .header-anchor,
+.modern-doc h5 .header-anchor:focus,
+.modern-doc h6:hover .header-anchor,
+.modern-doc h6 .header-anchor:focus {
+  opacity: 1;
+}
+
+@media (min-width: 768px) {
+  .modern-doc h1 {
+    letter-spacing: -0.02em;
+    line-height: 1.4;
+    font-size: 36px;
+  }
+}

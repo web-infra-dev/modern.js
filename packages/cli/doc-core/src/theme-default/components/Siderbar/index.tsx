@@ -62,6 +62,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
             ...textEllipsisStyle,
             // The first level menu item will have the same font size as the sidebar group
             fontSize: depth === 0 ? '14px' : '13px',
+            marginLeft: depth === 0 ? 0 : '8px',
           }}
         >
           {item.text}
