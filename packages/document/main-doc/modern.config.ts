@@ -12,7 +12,7 @@ const rootCategories = [
 
 const { version } = require('./package.json');
 
-const docPath = path.join(__dirname, '../../packages/toolkit/main-doc');
+const docPath = path.join(__dirname, 'docs');
 
 const getNavbar = (lang: string): NavItem[] => {
   const cn = lang === 'zh';
@@ -138,14 +138,8 @@ export default defineConfig({
       },
       source: {
         alias: {
-          '@site-docs': path.join(
-            __dirname,
-            '../../packages/toolkit/main-doc/zh',
-          ),
-          '@site-docs-en': path.join(
-            __dirname,
-            '../../packages/toolkit/main-doc/en',
-          ),
+          '@site-docs': path.join(__dirname, './docs/zh'),
+          '@site-docs-en': path.join(__dirname, './docs/en'),
           '@site': require('path').resolve(__dirname),
         },
       },

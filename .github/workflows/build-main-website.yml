@@ -4,9 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'website/main/**'
-      - 'packages/builder/builder-doc/**'
-      - 'packages/toolkit/main-doc/**'
+      - 'packages/document/main-doc/**'
+      - 'packages/document/builder-doc/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,19 +40,19 @@ jobs:
             turbo-
 
       - name: Build Main Doc
-        run: cd packages/toolkit/main-doc && npm run build && cd ../../../
+        run: cd packages/document/main-doc && npm run build && cd ../../../
 
       - name: Build Dependencies
-        run: pnpm turbo run build --filter="@modern-js/main-doc-website"
+        run: pnpm turbo run build --filter="@modern-js/main-doc"
 
       - name: Build Website
-        run: cd website/main && npm run build:doc
+        run: pnpm --filter @modern-js/main-doc run build:doc
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           branch: gh-pages
-          folder: website/main/doc_build
+          folder: packages/document/main-doc/doc_build
           clean: true
           clean-exclude: |
             v1/*
