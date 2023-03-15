@@ -36,7 +36,7 @@ After compilation:
 After modifying `mountId`, if there is logic in your code to obtain the `root` root node, please update the corresponding value:
 
 ```diff
-- const domNode = document. getElementById('root');
+- const domNode = document.getElementById('root');
 + const domNode = document.getElementById('app');
 const domNode = document. getElementById('app');
 const domNode = document.getElementById('app');
