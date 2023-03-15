@@ -19,7 +19,7 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@types/jest": "^27",
+    "@types/jest": "^29",
     "@modern-js/app-tools": "workspace:*",
     "@types/node": "^14",
     "@types/react": "^18",

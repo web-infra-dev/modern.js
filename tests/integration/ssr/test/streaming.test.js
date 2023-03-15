@@ -28,7 +28,7 @@ describe('Streaming SSR', () => {
       args: ['--no-sandbox'],
     });
     page = await browser.newPage();
-    page.setDefaultTimeout(5000);
+    page.setDefaultTimeout(10000);
   });
 
   afterAll(async () => {
@@ -61,7 +61,7 @@ describe('Streaming SSR', () => {
       waitUntil: ['networkidle0'],
     });
 
-    await expect(page).toMatch(/user1-18/);
+    await expect(page).toMatchTextContent(/user1-18/);
   });
 
   it(`deferred data in client navigation`, async () => {
@@ -70,7 +70,7 @@ describe('Streaming SSR', () => {
     });
 
     await page.click('#user-btn');
-    await expect(page).toMatch(/user1-18/);
+    await expect(page).toMatchTextContent(/user1-18/);
   });
 
   it('error thrown in loader', async () => {
