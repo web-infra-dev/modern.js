@@ -4,10 +4,10 @@
     "jsx": "preserve"
   },
   "include": [
+    "./src",
     "./navbar.js",
     "./sidebar.js",
     "./scripts",
-    "./modern.config.ts",
-    "./src"
+    "./modern.config.ts"
   ]
 }
