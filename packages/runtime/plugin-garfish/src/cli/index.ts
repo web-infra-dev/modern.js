@@ -130,7 +130,16 @@ export default ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            webpackChain: (chain, { webpack, env, CHAIN_ID }) => {
+            // todo: not support in rspack
+            webpackChain: (chain, { webpack, CHAIN_ID }) => {
+              // add comments avoid sourcemap abnormal
+              if (webpack.BannerPlugin) {
+                chain
+                  .plugin(CHAIN_ID.PLUGIN.BANNER)
+                  .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
+              }
+            },
+            bundlerChain: (chain, { env, CHAIN_ID }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
@@ -143,13 +152,6 @@ export default ({
                   chain.output.publicPath(
                     `//localhost:${resolveOptions.server.port}/`,
                   );
-                }
-
-                // add comments avoid sourcemap abnormal
-                if (webpack.BannerPlugin) {
-                  chain
-                    .plugin(CHAIN_ID.PLUGIN.BANNER)
-                    .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
                 }
 
                 const { enableHtmlEntry, externalBasicLibrary } =
@@ -170,13 +172,13 @@ export default ({
                   });
                 }
               }
-              const resolveWebpackConfig = chain.toConfig();
-              logger('webpackConfig', {
-                output: resolveWebpackConfig.output,
-                externals: resolveWebpackConfig.externals,
+              const resolveConfig = chain.toConfig();
+              logger('bundlerConfig', {
+                output: resolveConfig.output,
+                externals: resolveConfig.externals,
                 env,
-                alias: resolveWebpackConfig.resolve?.alias,
-                plugins: resolveWebpackConfig.plugins,
+                alias: resolveConfig.resolve?.alias,
+                plugins: resolveConfig.plugins,
               });
             },
           },

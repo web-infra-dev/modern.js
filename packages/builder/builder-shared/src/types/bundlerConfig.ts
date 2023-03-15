@@ -42,6 +42,7 @@ type RspackResolve = {
 
 // fork from the @rspack/core
 type RspackOutput = {
+  libraryTarget?: string;
   path?: string;
   publicPath?: string;
   assetModuleFilename?: string;
@@ -90,7 +91,7 @@ export type BundlerConfig = {
   module?: Configuration['module'];
   target?: Configuration['target'];
   mode?: Configuration['mode'];
-  //   externals?: External;
+  externals?: string | Record<string, string>;
   output?: Output;
   resolve?: Resolve;
   devtool?: Configuration['devtool'];
@@ -114,11 +115,13 @@ export interface BundlerChain
     | 'merge'
     | 'cache'
     | 'plugin'
+    | 'plugins'
     | 'entryPoints'
     | 'mode'
     | 'context'
   > {
   toConfig: () => BundlerConfig;
+  externals: (value: string | Record<string, string>) => BundlerChain;
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
   resolve: Pick<
     Config['resolve'],
