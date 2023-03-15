@@ -90,6 +90,7 @@ export type ExtractOuputType<T> = {
 };
 
 // fork from https://github.com/midwayjs/hooks/blob/main/packages/hooks-core/src/api/type.ts
+// license at https://github.com/midwayjs/hooks/blob/main/LICENSE
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type ArrayToObject<T, R = {}> = T extends [infer First, ...infer Rest]
   ? First extends PromiseLike<infer PromiseValue>
