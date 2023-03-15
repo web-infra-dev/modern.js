@@ -1,5 +1,7 @@
 import type { ChunkExtractor } from '@loadable/server';
 
+export const CSS_CHUNKS_PLACEHOLDER = '<!--<?- chunksMap.css ?>-->';
+
 export function getLoadableScripts(extractor: ChunkExtractor) {
   const check = (scripts: string) =>
     (scripts || '').includes('__LOADABLE_REQUIRED_CHUNKS___ext');
