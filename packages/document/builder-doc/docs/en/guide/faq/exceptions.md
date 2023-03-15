@@ -215,9 +215,9 @@ If you get an error similar to the following when compiling, it means that [core
 Module not found: Can't resolve 'core-js/modules/es.error.cause.js'
 ```
 
-Builder will install `core-js` v3 by default. Usually you don't need to install `core-js` in the project, because Builder has provide the `core-js` package, and the built-in `core-js` path is resolved by default.
+Usually, you don't need to install `core-js` in the project, because the Builder already has a built-in `core-js` v3.
 
-The reasons for this error are usually as follows:
+If there is an error that `core-js` cannot be found, there may be several reasons:
 
 1. The `plugins` configured by Babel is overwritten in the project, causing the built-in `babelPluginLockCorejsVersion` does not work. In this case, just change `tools.babel` to a function:
 

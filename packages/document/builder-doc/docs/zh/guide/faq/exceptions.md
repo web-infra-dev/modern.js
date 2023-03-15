@@ -215,9 +215,9 @@ Node.js 官方文档中有对以下参数更详细的解释：
 Module not found: Can't resolve 'core-js/modules/es.error.cause.js'
 ```
 
-Builder 默认依赖了 `core-js` v3 版本。通常来说，你无须在项目中安装 `core-js`，因为 Builder 已经内置了一份 `core-js`，并且默认会引用内置的 `core-js` 路径。
+通常来说，你无须在项目中安装 `core-js`，因为 Builder 已经内置了一份 `core-js` v3。
 
-报错原因通常有以下几个：
+如果出现 `core-js` 找不到的报错，可能有以下几个原因：
 
 1. 项目里覆盖了 Babel 配置的 `plugins`，导致内置的 `babelPluginLockCorejsVersion` 无法正确生效。这种情况将 `tools.babel` 更改为函数用法即可：
 
