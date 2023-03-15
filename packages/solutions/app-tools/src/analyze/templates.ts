@@ -158,7 +158,7 @@ export const routesForServer = ({
     if ('type' in route) {
       const newRoute = traverseRouteTree(route);
       routesCode += `${JSON.stringify(newRoute, null, 2).replace(
-        /"(loader_[^"])"/g,
+        /"(loader_[^"]+)"/g,
         '$1',
       )},`;
     } else {
@@ -307,10 +307,10 @@ export const fileSystemRoutes = async ({
         .replace(/"(loadableLazy.*\))"/g, '$1')
         .replace(/"(\(\)[^,]+)",/g, '$1,')
         .replace(/"(lazy\(.*\))"/g, '$1')
-        .replace(/"(loading_[^"])"/g, '$1')
-        .replace(/"(loader_[^"])"/g, '$1')
+        .replace(/"(loading_[^"]+)"/g, '$1')
+        .replace(/"(loader_[^"]+)"/g, '$1')
         .replace(/"(RootLayout)"/g, '$1')
-        .replace(/"(error_[^"])"/g, '$1')
+        .replace(/"(error_[^"]+)"/g, '$1')
         .replace(/\\"/g, '"')},`;
     } else {
       const component = `loadable(() => import('${route._component}'))`;
