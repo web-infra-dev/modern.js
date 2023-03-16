@@ -72,7 +72,9 @@ export default () => ({
 
 ### modifyBundlerChain `experimental`
 
-Modify config of webpack or Rspack via the bundler chain api. Similar to webpack chain, this hook is supported to be called when using webpack-provider / rspack-provider.
+The bundler chain is a subset of the webpack chain which the api inside is already Rspack compatible.
+
+Modify config of webpack or Rspack via the bundler chain api, this hook is supported to be called when using webpack-provider / rspack-provider.
 
 This hook only supports modifying the configuration of the non-differentiated parts of webpack and Rspack. For example, modifying the devtool configuration item (webpack and Rspack have the same devtool property value type), or adding an [Rspack-compatible](https://www.rspack.dev/guide/plugin-compat.html) webpack plugin.
 
