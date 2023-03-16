@@ -30,7 +30,7 @@
 .button.brand:active {
   opacity: 1;
   border-color: var(--modern-c-brand-light);
-  color: var(--modern-c-gray-light-4);
+  color: rgba(255, 255, 255, 0.87);
   background-color: var(--modern-c-brand);
 }
 
@@ -57,6 +57,7 @@
 }
 
 :global(.dark) .button.alt:hover {
+  background-color: #484848;
 }
 
 @media (max-width: 768px) {
