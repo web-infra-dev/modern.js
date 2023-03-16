@@ -53,6 +53,7 @@
     "@loadable/component": "5.15.2",
     "@mdx-js/loader": "2.2.1",
     "@mdx-js/mdx": "2.2.1",
+    "@mdx-js/react": "2.2.1",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/remark-container": "workspace:*",

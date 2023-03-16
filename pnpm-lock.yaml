@@ -541,6 +541,7 @@ importers:
       '@loadable/component': 5.15.2
       '@mdx-js/loader': 2.2.1
       '@mdx-js/mdx': 2.2.1
+      '@mdx-js/react': 2.2.1
       '@modern-js/builder': workspace:*
       '@modern-js/builder-rspack-provider': workspace:*
       '@modern-js/core': workspace:*
@@ -624,6 +625,7 @@ importers:
       '@loadable/component': 5.15.2_react@18.2.0
       '@mdx-js/loader': 2.2.1
       '@mdx-js/mdx': 2.2.1
+      '@mdx-js/react': 2.2.1_react@18.2.0
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-rspack-provider': link:../../builder/builder-rspack-provider
       '@modern-js/remark-container': link:../../toolkit/remark-container
@@ -10723,6 +10725,16 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@mdx-js/react/2.2.1_react@18.2.0:
+    resolution: {integrity: sha512-YdXcMcEnqZhzql98RNrqYo9cEhTTesBiCclEtoiQUbJwx87q9453GTapYU6kJ8ZZ2ek1Vp25SiAXEFy5O/eAPw==}
+    peerDependencies:
+      react: '>=16'
+    dependencies:
+      '@types/mdx': 2.0.3
+      '@types/react': 18.0.21
+      react: 18.2.0
+    dev: false
+
   /@mdx-js/util/1.6.22:
     resolution: {integrity: sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==}
     dev: false
@@ -12494,7 +12506,7 @@ packages:
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/webpack': 4.41.32
       autoprefixer: 9.8.8
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
@@ -12789,7 +12801,7 @@ packages:
       '@babel/register': 7.18.6_@babel+core@7.20.5
       '@storybook/node-logger': 6.5.12
       '@storybook/semver': 7.3.2
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/pretty-hrtime': 1.0.1
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       babel-plugin-macros: 3.1.0
@@ -12861,7 +12873,7 @@ packages:
       '@storybook/semver': 7.3.2
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/telemetry': 6.5.12_lb6du3saekb5anf2gjv3wxj3oq
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/node-fetch': 2.6.2
       '@types/pretty-hrtime': 1.0.1
       '@types/webpack': 4.41.32
@@ -13014,7 +13026,7 @@ packages:
       '@storybook/node-logger': 6.5.12
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/webpack': 4.41.32
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       case-sensitive-paths-webpack-plugin: 2.4.0
@@ -14373,7 +14385,6 @@ packages:
 
   /@types/node/16.18.10:
     resolution: {integrity: sha512-XU1+v7h81p7145ddPfjv7jtWvkSilpcnON3mQ+bDi9Yuf7OI56efOglXRyXWgQ57xH3fEQgh7WOJMncRHVew5w==}
-    dev: true
 
   /@types/node/18.11.17:
     resolution: {integrity: sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==}

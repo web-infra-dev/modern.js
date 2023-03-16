@@ -1,14 +1,5 @@
-@import './title.css';
-@import './paragraph.css';
 @import './container.css';
-@import './list-table.css';
 @import './code.css';
-
-.modern-doc hr {
-  margin: 16px 0;
-  border: none;
-  border-top: 1px solid var(--modern-c-divider-light);
-}
 
 .aside-active,
 .aside-active:hover {
