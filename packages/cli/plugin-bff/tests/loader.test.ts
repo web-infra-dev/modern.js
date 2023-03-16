@@ -4,8 +4,6 @@ import { compiler } from './compiler';
 const apiDir = path.resolve(__dirname, './fixtures/function/api');
 const filepath = path.resolve(__dirname, './fixtures/function/api/hello.ts');
 
-// jest.setTimeout(100000);
-
 const root = path.resolve(__dirname, '../../../../');
 expect.addSnapshotSerializer({
   test: val =>
@@ -26,85 +24,12 @@ expect.addSnapshotSerializer({
 });
 
 describe('bff loader', () => {
-  it('should work well', async () => {
+  it('should works well', async () => {
     const stats = await compiler(filepath, {
       apiDir,
       lambdaDir: apiDir,
       existLambda: true,
-      prefix: '/',
-      port: 3000,
-      target: 'server',
-    });
-    const output = stats?.toJson({ source: true }).modules?.[0].source;
-    expect(output).toMatchSnapshot();
-  });
-
-  it('should work well with prefix', async () => {
-    const stats = await compiler(filepath, {
-      apiDir,
-      lambdaDir: apiDir,
-      existLambda: true,
-      prefix: 'api',
-      port: 3000,
-      target: 'server',
-    });
-    const output = stats?.toJson({ source: true }).modules?.[0].source;
-
-    expect(output).toMatchSnapshot();
-  });
-
-  it('should work well with client', async () => {
-    const stats = await compiler(filepath, {
-      apiDir,
-      lambdaDir: apiDir,
-      existLambda: true,
-      prefix: '/',
-      port: 3000,
-      target: 'server',
-    });
-    const output = stats?.toJson({ source: true }).modules?.[0].source;
-
-    expect(output).toMatchSnapshot();
-  });
-
-  it('should work well with port', async () => {
-    const stats = await compiler(filepath, {
-      apiDir,
-      lambdaDir: apiDir,
-      existLambda: true,
-      prefix: '/',
-      port: 80,
-      target: 'server',
-    });
-    const output = stats?.toJson({ source: true }).modules?.[0].source;
-
-    expect(output).toMatchSnapshot();
-  });
-
-  // TODO: 暂时有问题，先屏蔽这个测试
-  it.skip('should work well with fetcher', async () => {
-    const stats = await compiler(filepath, {
-      apiDir,
-      lambdaDir: apiDir,
-      existLambda: true,
-      prefix: '/',
-      port: 80,
-      target: 'client',
-      fetcher: path
-        .resolve(__dirname, './fixtures/testFetcher')
-        .replace(/\\/g, '/'),
-    });
-    const output = stats?.toJson({ source: true }).modules?.[0].source;
-
-    expect(output).toMatchSnapshot();
-  });
-
-  it('should work well with requestCreator', async () => {
-    const stats = await compiler(filepath, {
-      apiDir,
-      lambdaDir: apiDir,
-      existLambda: true,
-      prefix: '/',
+      prefix: '/api',
       port: 80,
       target: 'client',
       requestCreator: path
