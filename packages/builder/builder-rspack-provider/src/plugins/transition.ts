@@ -10,6 +10,9 @@ export const builderPluginTransition = (): BuilderPlugin => ({
     api.modifyBuilderConfig(async (config, { mergeBuilderConfig }) => {
       const { fs } = await import('@modern-js/utils');
 
+      // Align with webpack. Some configurations are not currently supported in Rspack, but will be in the future.
+      process.env.RSPACK_CONFIG_VALIDATE = 'loose-silent';
+
       return mergeBuilderConfig(config, {
         tools: {
           devServer: {

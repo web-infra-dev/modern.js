@@ -40,12 +40,11 @@ const getNavbar = (lang: string): NavItem[] => {
       link: getLink('/apis/app/commands'),
       activeMatch: '/apis/',
     },
-    // TODO enabled after we write the v2 release blog
-    // {
-    //   text: getText('博客', 'Blog'),
-    //   link: getLink('/blog/index'),
-    //   activeMatch: '/blog/',
-    // },
+    {
+      text: getText('博客', 'Blog'),
+      link: getLink('/blog/index'),
+      activeMatch: '/blog/',
+    },
     {
       text: `v${version}`,
       items: [
