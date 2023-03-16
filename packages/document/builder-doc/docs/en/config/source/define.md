@@ -13,7 +13,7 @@ Each key passed into options is an identifier or multiple identifiers joined wit
 For more information please visit [https://webpack.js.org/plugins/define-plugin/](https://webpack.js.org/plugins/define-plugin/).
 
 :::tip
-When using Rspack as the bundler, only the `Record<string, string>` type is supported.
+When using Rspack as the bundler, the supported types can be found in [Rspack.builtins.define](https://www.rspack.dev/config/builtins.html#builtinsdefine).
 :::
 
 ### Example
