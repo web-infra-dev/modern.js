@@ -25,41 +25,38 @@
   font-size: 16px;
 }
 
-.button.brand {
-  border-color: var(--modern-button-brand-border);
-  color: var(--modern-button-brand-text);
-  background-color: var(--modern-button-brand-bg);
+.button.brand,
+.button.brand:hover,
+.button.brand:active {
+  opacity: 1;
+  border-color: var(--modern-c-brand-light);
+  color: var(--modern-c-gray-light-4);
+  background-color: var(--modern-c-brand);
 }
 
 .button.brand:hover {
-  opacity: 1;
-  border-color: var(--modern-button-brand-hover-border);
-  color: var(--modern-button-brand-hover-text);
-  background-color: var(--modern-button-brand-hover-bg);
+  background-color: var(--modern-c-brand-light);
 }
 
-.button.brand:active {
-  border-color: var(--modern-button-brand-active-border);
-  color: var(--modern-button-brand-active-text);
-  background-color: var(--modern-button-brand-active-bg);
+.button.alt,
+.button.alt:hover,
+.button.alt:active {
+  border-color: var(--modern-c-gray-light-3);
+  color: var(--modern-c-text-1);
+  background-color: var(--modern-c-gray-light-5);
 }
 
-.button.alt {
-  border-color: var(--modern-button-alt-border);
-  color: var(--modern-button-alt-text);
-  background-color: var(--modern-button-alt-bg);
+:global(.dark) .button.alt {
+  background-color: var(--modern-c-bg-mute);
+  border-color: #484848;
+  color: var(--modern-c-text-1);
 }
 
 .button.alt:hover {
-  border-color: var(--modern-button-alt-hover-border);
-  color: var(--modern-button-alt-hover-text);
-  background-color: var(--modern-button-alt-hover-bg);
+  background-color: #484848;
 }
 
-.button.alt:active {
-  border-color: var(--modern-button-alt-active-border);
-  color: var(--modern-button-alt-active-text);
-  background-color: var(--modern-button-alt-active-bg);
+:global(.dark) .button.alt:hover {
 }
 
 @media (max-width: 768px) {

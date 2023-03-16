@@ -13,7 +13,7 @@ export const ShownLinks = (props: IShownLinksProps) => {
 
   return (
     <>
-      <div className="flex-center h-full gap-x-4 transition-colors duration-300">
+      <div className="flex-center h-full gap-x-4 transition-colors duration-300 ">
         {links.map((item, index) => (
           <LinkContent
             key={index}

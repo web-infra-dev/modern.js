@@ -3,7 +3,7 @@ import { setupCopyCodeButton } from './copyCode';
 import { inBrowser } from '@/shared/utils';
 
 // The nav height and the height of nav mask
-const DEFAULT_NAV_HEIGHT = 56 + 30;
+const DEFAULT_NAV_HEIGHT = 72;
 
 export function scrollToTarget(target: HTMLElement, isSmooth: boolean) {
   const targetPadding = parseInt(
@@ -106,18 +106,13 @@ export function bindingAsideScroll() {
     if (links[index]) {
       links[index].classList.add('aside-active');
       const id = links[index].getAttribute('href');
-      const tocIndex = headers.findIndex(item => item === id);
       const currentLink = aside?.querySelector(`a[href="#${id?.slice(1)}"]`);
       if (currentLink) {
         if (prevActiveLink) {
           prevActiveLink.classList.remove('aside-active');
         }
         prevActiveLink = currentLink as HTMLAnchorElement;
-        // Activate the a link element in aside
         prevActiveLink.classList.add('aside-active');
-        // Activate the marker element
-        marker!.style.top = `${33 + tocIndex * 28}px`;
-        marker!.style.opacity = '1';
       }
     }
   };

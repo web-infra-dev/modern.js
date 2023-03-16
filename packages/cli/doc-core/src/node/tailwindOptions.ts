@@ -6,10 +6,7 @@ export default (themeDir: string): Config => ({
     `${PACKAGE_ROOT}/src/**/*.{tsx,html,jsx}`,
     `${themeDir}/**/*.{tsx,jsx,html}`,
   ],
-  shortcuts: {
-    'flex-center': 'flex justify-center items-center',
-    menu: 'flex justify-around items-center text-sm font-bold',
-  },
+  darkMode: 'class',
   attributify: true,
   theme: {
     backgroundColor: ({ theme }) => ({
@@ -29,15 +26,19 @@ export default (themeDir: string): Config => ({
         lg: '1280px',
       },
       maxWidth: {
-        '60': '60rem',
+        '60': '15rem',
       },
       maxHeight: {
-        '60': '60rem',
+        '60': '15rem',
       },
       colors: {
-        brand: 'var(--modern-c-brand)',
-        'brand-light': 'var(--modern-c-brand-light)',
-        'brand-dark': 'var(--modern-c-brand-dark)',
+        brand: {
+          DEFAULT: 'var(--modern-c-brand)',
+          light: 'var(--modern-c-brand-light)',
+          dark: 'var(--modern-c-brand-dark)',
+          lighter: 'var(--modern-c-brand-lighter)',
+          darker: 'var(--modern-c-brand-darker)',
+        },
         text: {
           1: 'var(--modern-c-text-1)',
           2: 'var(--modern-c-text-2)',
@@ -45,7 +46,7 @@ export default (themeDir: string): Config => ({
           4: 'var(--modern-c-text-4)',
         },
         divider: {
-          default: 'var(--modern-c-divider)',
+          DEFAULT: 'var(--modern-c-divider)',
           light: 'var(--modern-c-divider-light)',
           dark: 'var(--modern-c-divider-dark)',
         },
@@ -55,6 +56,7 @@ export default (themeDir: string): Config => ({
             2: 'var(--modern-c-gray-light-2)',
             3: 'var(--modern-c-gray-light-3)',
             4: 'var(--modern-c-gray-light-4)',
+            5: 'var(--modern-c-gray-light-5)',
           },
         },
       },

@@ -12,7 +12,14 @@ interface IDataContext {
   setData?: (data: PageData) => void;
 }
 
+interface IThemeContext {
+  theme: 'light' | 'dark';
+  setTheme?: (theme: 'light' | 'dark') => void;
+}
+
 export const DataContext = createContext({} as IDataContext);
+
+export const ThemeContext = createContext({} as IThemeContext);
 
 export function usePageData() {
   const ctx = useContext(DataContext);

@@ -244,7 +244,7 @@ export function Search() {
       <div className={styles.navSearchButton} onClick={() => setFocused(true)}>
         <button>
           <SearchSvg width="18" hight="18" />
-          <p className={styles.searchWord}>Search</p>
+          <p className={styles.searchWord}>Search Docs</p>
           <div>
             <span>⌘</span>
             <span>K</span>

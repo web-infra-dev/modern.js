@@ -9,10 +9,12 @@
   max-width: 320px;
   background-color: var(--modern-c-bg);
   opacity: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
   transform: translateX(-100%);
   transition: opacity 0.5s, transform 0.25s ease;
+}
+
+.sidebarContent {
+  overflow-x: hidden;
 }
 
 :global(.dark) .sidebar {

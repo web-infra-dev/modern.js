@@ -9,7 +9,6 @@
   border-bottom: 1px solid var(--modern-c-divider-light);
   width: 100%;
   color: var(--modern-c-text-1);
-  transition: border-color 0.5s, background-color 0.5s, color 0.5s;
   background-color: var(--modern-c-bg);
   padding-left: 10px;
   .menu {
@@ -28,6 +27,7 @@
     display: none;
   }
 }
+
 .backDrop {
   position: fixed;
   top: 0;

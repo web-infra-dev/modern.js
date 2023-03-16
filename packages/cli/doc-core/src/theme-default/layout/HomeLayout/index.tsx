@@ -1,6 +1,7 @@
 import { HomeFooter } from '@theme';
 import { HomeHero } from '../../components/HomeHero';
 import { HomeFeature } from '../../components/HomeFeatures';
+import './index.css';
 
 export interface HomeLayoutProps {
   beforeHero?: React.ReactNode;
@@ -15,7 +16,6 @@ export function HomeLayout(props: HomeLayoutProps) {
     <div
       className="relative"
       style={{
-        background: 'var(--modern-home-bg)',
         minHeight: 'calc(100vh - var(--modern-nav-height))',
         paddingBottom: '80px',
       }}
