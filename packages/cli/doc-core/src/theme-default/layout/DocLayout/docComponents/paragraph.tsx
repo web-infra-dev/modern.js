@@ -5,10 +5,6 @@ export const P = (props: ComponentProps<'p'>) => {
   return <p {...props} className="my-4 leading-7" />;
 };
 
-export const Summary = (props: ComponentProps<'summary'>) => {
-  return <summary {...props} className="my-4 text-base font-semibold" />;
-};
-
 export const Blockquote = (props: ComponentProps<'blockquote'>) => {
   return (
     <blockquote

@@ -3,7 +3,7 @@ import { Ul, Ol, Li } from './list';
 import { Table, Td, Th, Tr } from './table';
 import { Hr } from './hr';
 import { A } from './link';
-import { P, Summary, Blockquote, Strong } from './paragraph';
+import { P, Strong, Blockquote } from './paragraph';
 
 export function getCustomMDXComponent() {
   return {
@@ -22,7 +22,6 @@ export function getCustomMDXComponent() {
     tr: Tr,
     hr: Hr,
     p: P,
-    summary: Summary,
     blockquote: Blockquote,
     strong: Strong,
     a: A,
