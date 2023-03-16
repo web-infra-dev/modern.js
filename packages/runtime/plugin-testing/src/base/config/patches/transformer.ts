@@ -30,21 +30,11 @@ export const patchTransformer = (testOperator: TestConfigOperator) => {
   }
 
   if (transformer === 'ts-jest') {
+    const compilerOptions = resolveTsCompilerOptions();
     testOperator.mergeJestConfig({
       transform: {
-        '\\.[jt]sx?$': require.resolve('ts-jest'),
+        '\\.[jt]sx?$': [require.resolve('ts-jest'), compilerOptions || {}],
       },
     });
-
-    const compilerOptions = resolveTsCompilerOptions();
-
-    compilerOptions &&
-      testOperator.mergeJestConfig({
-        globals: {
-          'ts-jest': {
-            tsconfig: compilerOptions,
-          },
-        },
-      });
   }
 };

@@ -65,7 +65,7 @@ Builder aims to eliminate the main differences between different bundlers and he
 
 This article will introduce the differences between webpack and Rspack from the perspective of Builder. If you need to know more in-depth differences, please refer to the [Rspack documentation](http://rspack.dev/guide/migrate-from-webpack.html).
 
-### Configuration differences
+### Builder configuration differences
 
 Currently, most of configuration options in Builder have been adapted for Rspack.
 Throughout this process, Builder's work includes but is not limited to:
@@ -156,6 +156,8 @@ In addition to the above configurations, some of the supported configurations ma
 :::
 
 ### Modify the Rspack Configuration Object
+
+Before modify the Rspack configuration object, you may should know [the config diff between Rspack and Webapck](https://www.rspack.dev/guide/config-diff.html).
 
 You can use [tools.rspack](/api/config-tools.html#toolsrspack) to modify the Rspack configuration object.
 
