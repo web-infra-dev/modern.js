@@ -158,7 +158,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   };
 
   return (
-    <section key={id} className="mt-1 block">
+    <section key={id} className="mt-1 block ml-2">
       <div
         style={{
           cursor: collapsible ? 'pointer' : 'normal',
