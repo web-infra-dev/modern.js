@@ -88,6 +88,7 @@ export async function createMDXOptions(
         rehypePluginExternalLinks,
         {
           target: '_blank',
+          rel: 'noopener noreferrer',
         },
       ],
       ...rehypePluginsFromConfig,
