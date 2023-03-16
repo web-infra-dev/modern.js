@@ -4,8 +4,6 @@ import { compiler } from './compiler';
 const apiDir = path.resolve(__dirname, './fixtures/function/api');
 const filepath = path.resolve(__dirname, './fixtures/function/api/hello.ts');
 
-// jest.setTimeout(100000);
-
 const root = path.resolve(__dirname, '../../../../');
 expect.addSnapshotSerializer({
   test: val =>

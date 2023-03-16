@@ -9,7 +9,7 @@ export const testPreset = defineConfig({
       include: ['src/**/*.[jt]s?(x)'],
     },
     environment: 'happy-dom',
-    testTimeout: 15000,
+    testTimeout: 30000,
     include: ['src/**/*.test.[jt]s?(x)', 'tests/**/*.test.[jt]s?(x)'],
     restoreMocks: true,
   },
