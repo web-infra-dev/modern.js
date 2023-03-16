@@ -33,7 +33,7 @@ Then execute the `dev` or `build` command, and you can see Modern.js automatical
 node_modules
   └─ .modern-js
      └─ main
-        ├─ bootstrap.js  #  real entry code
+        ├─ bootstrap.jsx  #  real entry code
         ├─ index.js      # asynchronous entry file
         └─ index.html
 ```
@@ -41,7 +41,7 @@ node_modules
 The `index.js` reads as follows:
 
 ```js
-import('./bootstrap.js');
+import('./bootstrap.jsx');
 ```
 
 At this point, you can consume any remote modules in the current page.
