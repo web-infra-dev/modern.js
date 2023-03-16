@@ -1,0 +1,47 @@
+.title {
+  position: relative;
+  font-weight: 600;
+  outline: none;
+  :global(.header-anchor) {
+    float: left;
+    margin-left: -0.87em;
+    padding-right: 0.23em;
+    font-weight: 500;
+    opacity: 0;
+    font-size: inherit;
+    transition: color 0.25s, opacity 0.25s;
+  }
+  &:hover {
+    :global(.header-anchor) {
+      opacity: 1;
+    }
+  }
+  & :global(.header-anchor:focus) {
+    opacity: 1;
+  }
+}
+
+.blockquote {
+  :global(p) {
+    margin: 0;
+    font-size: 16px;
+    color: var(--modern-c-text-2);
+  }
+}
+
+.link {
+  &:not(:global(.header-anchor)) {
+    font-weight: 500;
+    border-bottom: 1px dashed var(--modern-c-brand);
+    transition: color 0.25s;
+  }
+
+  &:global(.header-anchor) {
+    color: var(--modern-c-brand);
+  }
+
+  &:hover {
+    color: var(--modern-c-brand-dark);
+    border-style: solid;
+  }
+}
