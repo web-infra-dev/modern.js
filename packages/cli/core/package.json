@@ -62,6 +62,7 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
+    "@jest/types": "^27.0.6",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -69,13 +70,13 @@
     "@scripts/jest-config": "workspace:*",
     "@types/babel__code-frame": "^7.0.3",
     "@types/babel__core": "^7.1.16",
-    "@types/jest": "^29",
+    "@types/jest": "^27",
     "@types/less": "^3.0.3",
     "@types/node": "^14",
     "autoprefixer": "10.4.13",
     "btsm": "2.2.2",
     "html-webpack-plugin": "5.5.0",
-    "jest": "^29",
+    "jest": "^27",
     "postcss": "8.4.21",
     "sass": "^1.45.0",
     "terser-webpack-plugin": "^5.1.4",

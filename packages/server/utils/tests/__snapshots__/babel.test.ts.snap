@@ -9,21 +9,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 `;
 
 exports[`babel resolveBabelConfig 1`] = `
-{
-  "plugins": [
-    [
+Object {
+  "plugins": Array [
+    Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-      {},
+      Object {},
     ],
-    [
+    Array [
       "/@babel/plugin-proposal-decorators/lib/index.js",
-      {
+      Object {
         "legacy": true,
       },
     ],
-    [
+    Array [
       "/@babel/plugin-transform-runtime/lib/index.js",
-      {
+      Object {
         "corejs": false,
         "helpers": false,
         "regenerator": true,
@@ -31,48 +31,48 @@ exports[`babel resolveBabelConfig 1`] = `
         "version": "7.18.6",
       },
     ],
-    [
+    Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-      {
+      Object {
         "removeImport": true,
       },
     ],
-    [
+    Array [
       "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
     ],
-    [
+    Array [
       "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
-      {
+      Object {
         "proposal": "minimal",
       },
     ],
-    [
+    Array [
       "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
     ],
-    [
+    Array [
       "/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
-      {},
+      Object {},
       "styled-components",
     ],
-    [
+    Array [
       "/babel-plugin-transform-define/lib/index.js",
-      {},
+      Object {},
     ],
-    [
+    Array [
       "/babel-plugin-transform-inline-environment-variables/lib/index.js",
-      {
-        "include": [],
+      Object {
+        "include": Array [],
       },
     ],
-    [
+    Array [
       "/babel-plugin-module-resolver/lib/index.js",
-      {
-        "alias": {
-          "@/*": [
+      Object {
+        "alias": Object {
+          "@/*": Array [
             "./src/*",
           ],
         },
-        "extensions": [
+        "extensions": Array [
           ".ts",
           ".tsx",
           ".js",
@@ -85,25 +85,25 @@ exports[`babel resolveBabelConfig 1`] = `
         "root": "/packages/server/utils/tests/fixtures/",
       },
     ],
-    [
+    Array [
       "/babel-plugin-transform-typescript-metadata/lib/plugin.js",
     ],
-    [
+    Array [
       "/@babel/plugin-proposal-class-properties/lib/index.js",
-      {
+      Object {
         "loose": true,
       },
     ],
   ],
-  "presets": [
-    [
+  "presets": Array [
+    Array [
       "/@babel/preset-env/lib/index.js",
-      {
+      Object {
         "bugfixes": true,
         "loose": true,
         "modules": "commonjs",
         "shippedProposals": false,
-        "targets": [
+        "targets": Array [
           "chrome >= 61",
           "edge >= 16",
           "firefox >= 60",
@@ -112,15 +112,15 @@ exports[`babel resolveBabelConfig 1`] = `
         ],
       },
     ],
-    [
+    Array [
       "/@babel/preset-react/lib/index.js",
-      {
+      Object {
         "runtime": "automatic",
       },
     ],
-    [
+    Array [
       "/@babel/preset-typescript/lib/index.js",
-      {
+      Object {
         "allExtensions": true,
         "allowDeclareFields": true,
         "allowNamespaces": true,

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`utils getModuleNameMapper 1`] = `
-{
+Object {
   ".+@modern-js/runtime$": "/modern.js/tests/integration/api-service-koa/node_modules/.modern-js/.runtime-exports/index.js",
   "@modern-js/runtime/plugins": "/modern.js/tests/integration/api-service-koa/node_modules/.modern-js/.runtime-exports/plugins.js",
   "@modern-js/runtime/server": "./node_modules/.modern-js/.runtime-exports/server.js",

@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`bff cli plugin config 1`] = `
-[
-  {
-    "source": {
-      "moduleScopes": [
+Array [
+  Object {
+    "source": Object {
+      "moduleScopes": Array [
         "./api",
         /create-request/,
       ],
     },
-    "tools": {
+    "tools": Object {
       "webpackChain": [Function],
     },
   },
@@ -17,14 +17,14 @@ exports[`bff cli plugin config 1`] = `
 `;
 
 exports[`bff cli plugin routes 1`] = `
-{
-  "routes": [
-    {
+Object {
+  "routes": Array [
+    Object {
       "entryPath": "",
       "isApi": true,
       "urlPath": "/",
     },
-    {
+    Object {
       "entryPath": "",
       "isApi": true,
       "isSPA": false,
@@ -36,27 +36,27 @@ exports[`bff cli plugin routes 1`] = `
 `;
 
 exports[`bff cli plugin schema 1`] = `
-[
-  [
-    {
-      "schema": {
-        "properties": {
-          "fetcher": {
+Array [
+  Array [
+    Object {
+      "schema": Object {
+        "properties": Object {
+          "fetcher": Object {
             "type": "string",
           },
-          "prefix": {
-            "items": {
+          "prefix": Object {
+            "items": Object {
               "type": "string",
             },
-            "type": [
+            "type": Array [
               "string",
               "array",
             ],
           },
-          "proxy": {
+          "proxy": Object {
             "type": "object",
           },
-          "requestCreator": {
+          "requestCreator": Object {
             "type": "string",
           },
         },
