@@ -1,9 +1,9 @@
 {
   "private": true,
   "name": "integration-copy-assets",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "dependencies": {
-    "@types/jest": "^29",
+    "@types/jest": "^27",
     "@types/node": "^14"
   }
 }

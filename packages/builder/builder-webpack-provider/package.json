@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.8.0",
+  "version": "2.9.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -101,7 +101,7 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.6",
     "ts-loader": "9.4.1",
-    "webpack": "^5.75.0"
+    "webpack": "^5.76.2"
   },
   "devDependencies": {
     "@babel/preset-env": "7.18.0",
@@ -114,7 +114,7 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.8.0"
+    "@modern-js/e2e": "workspace:^2.9.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

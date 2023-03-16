@@ -1,16 +1,16 @@
 {
   "name": "@scripts/jest-config",
   "private": true,
-  "version": "2.8.0",
+  "version": "2.9.0",
   "main": "jest.config.js",
   "devDependencies": {
     "@swc/core": "1.3.18",
     "@swc/jest": "^0.2.22",
-    "@types/jest": "^29",
+    "@types/jest": "^27",
     "@types/node": "^14",
     "enhanced-resolve": "^5.8.3",
     "esbuild": "0.15.7",
-    "jest": "^29"
+    "jest": "^27"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

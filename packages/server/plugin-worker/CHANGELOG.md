@@ -1,5 +1,18 @@
 # @modern-js/plugin-worker
 
+## 2.9.0
+
+### Patch Changes
+
+- 7035d5c22f: fix: worker router config error when enable bff
+
+  fix: 修复当开启 BFF 时 worker 路由配置
+
+- Updated dependencies [49bb8cd0ef]
+  - @modern-js/prod-server@2.9.0
+  - @modern-js/server-utils@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

@@ -53,7 +53,7 @@
 }
 
 .button.alt:hover {
-  background-color: #484848;
+  background-color: var(--modern-c-gray-light-4);
 }
 
 :global(.dark) .button.alt:hover {

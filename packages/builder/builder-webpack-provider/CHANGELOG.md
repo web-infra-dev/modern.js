@@ -1,5 +1,21 @@
 # @modern-js/builder-webpack-provider
 
+## 2.9.0
+
+### Patch Changes
+
+- 7035d5c22f: fix: server worker dynamicImportMode config
+
+  fix: 修复 server worker 时 dynamicImportMode 配置
+
+- Updated dependencies [49bb8cd0ef]
+  - @modern-js/server@2.9.0
+  - @modern-js/builder-shared@2.9.0
+  - @modern-js/babel-preset-app@2.9.0
+  - @modern-js/e2e@2.9.0
+  - @modern-js/types@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

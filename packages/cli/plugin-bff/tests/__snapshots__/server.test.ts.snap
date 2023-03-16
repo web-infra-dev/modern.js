@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`bff server plugin prepareApiServer should work well 1`] = `
-[
-  {
+Array [
+  Object {
     "filename": "/packages/cli/plugin-bff/tests/fixtures/function/api/hello.ts",
     "handler": [Function],
     "httpMethod": "GET",
@@ -10,7 +10,7 @@ exports[`bff server plugin prepareApiServer should work well 1`] = `
     "routeName": "/hello",
     "routePath": "/hello",
   },
-  {
+  Object {
     "filename": "/packages/cli/plugin-bff/tests/fixtures/function/api/upload.ts",
     "handler": [Function],
     "httpMethod": "GET",
@@ -18,7 +18,7 @@ exports[`bff server plugin prepareApiServer should work well 1`] = `
     "routeName": "/upload",
     "routePath": "/upload",
   },
-  {
+  Object {
     "filename": "/packages/cli/plugin-bff/tests/fixtures/function/api/user/[id].ts",
     "handler": [Function],
     "httpMethod": "GET",
@@ -30,8 +30,8 @@ exports[`bff server plugin prepareApiServer should work well 1`] = `
 `;
 
 exports[`bff server plugin prepareApiServer should work well with prefix 1`] = `
-[
-  {
+Array [
+  Object {
     "filename": "/packages/cli/plugin-bff/tests/fixtures/function/api/hello.ts",
     "handler": [Function],
     "httpMethod": "GET",
@@ -39,7 +39,7 @@ exports[`bff server plugin prepareApiServer should work well with prefix 1`] = `
     "routeName": "/hello",
     "routePath": "/api/hello",
   },
-  {
+  Object {
     "filename": "/packages/cli/plugin-bff/tests/fixtures/function/api/upload.ts",
     "handler": [Function],
     "httpMethod": "GET",
@@ -47,7 +47,7 @@ exports[`bff server plugin prepareApiServer should work well with prefix 1`] = `
     "routeName": "/upload",
     "routePath": "/api/upload",
   },
-  {
+  Object {
     "filename": "/packages/cli/plugin-bff/tests/fixtures/function/api/user/[id].ts",
     "handler": [Function],
     "httpMethod": "GET",

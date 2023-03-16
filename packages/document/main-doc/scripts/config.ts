@@ -46,7 +46,7 @@ const hyphenate = function (str: string) {
 const configPath = 'configure/app';
 const getBaseDir = (lng: Language) => {
   const cwd = process.cwd();
-  const baseDir = path.join(cwd, lng, configPath);
+  const baseDir = path.join(cwd, 'docs', lng, configPath);
 
   return baseDir;
 };

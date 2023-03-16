@@ -68,6 +68,10 @@
   margin-right: 3px;
 }
 
+.modern-doc .modern-directive p {
+  margin: 8px 0;
+}
+
 .modern-doc .modern-directive code {
   color: inherit;
   font-weight: bold;
@@ -80,8 +84,8 @@
 .modern-doc .modern-directive.warning {
   border-color: var(--modern-c-brand);
   background-color: var(--modern-c-bg-soft);
-  color: var(--modern-c-text-color);
-  font-weight: 500;
+  color: var(--modern-c-text-2);
+  font-weight: 600;
 }
 
 .modern-doc .modern-directive.tip code,

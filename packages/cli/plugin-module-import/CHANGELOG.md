@@ -1,5 +1,13 @@
 # @modern-js/plugin-module-import
 
+## 2.9.0
+
+### Patch Changes
+
+- 55bb5be94a: fix: remove jsc config
+  fix: 移除 jsc 配置
+  - @modern-js/module-tools@2.9.0
+
 ## 2.8.0
 
 ### Minor Changes

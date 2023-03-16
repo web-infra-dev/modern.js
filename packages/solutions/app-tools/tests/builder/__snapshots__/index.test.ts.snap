@@ -1,24 +1,24 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`create builder provider config should add default config 1`] = `
-{
-  "dev": {
+Object {
+  "dev": Object {
     "port": undefined,
   },
-  "html": {
-    "templateByEntries": {},
+  "html": Object {
+    "templateByEntries": Object {},
   },
-  "output": {
+  "output": Object {
     "assetPrefix": "/x",
     "cleanDistPath": false,
-    "copy": [
-      {
+    "copy": Array [
+      Object {
         "from": "xxx",
         "to": "yyy",
       },
     ],
   },
-  "performance": {},
-  "source": {},
+  "performance": Object {},
+  "source": Object {},
 }
 `;

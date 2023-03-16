@@ -1,5 +1,21 @@
 # tips-to-install-less-plugin
 
+## 2.9.0
+
+### Patch Changes
+
+- Updated dependencies [e8c580125d]
+- Updated dependencies [7035d5c22f]
+- Updated dependencies [49bb8cd0ef]
+- Updated dependencies [83423193bb]
+- Updated dependencies [e1b6881b39]
+- Updated dependencies [5cb90eddaf]
+- Updated dependencies [e9ae517226]
+- Updated dependencies [755a053579]
+- Updated dependencies [4d89ad2a86]
+  - @modern-js/runtime@2.9.0
+  - @modern-js/app-tools@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

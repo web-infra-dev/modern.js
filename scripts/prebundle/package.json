@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.8.0",
+  "version": "2.9.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -17,7 +17,7 @@
     "dts-packer": "0.0.3",
     "postcss": "8.4.21",
     "typescript": "^4",
-    "webpack": "^5.75.0"
+    "webpack": "^5.76.2"
   },
   "devDependencies": {
     "@babel/code-frame": "7.16.7",

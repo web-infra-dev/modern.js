@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import mediumZoom from 'medium-zoom';
+import { MDXProvider } from '@mdx-js/react';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
 import { useLocaleSiteData, useSidebarData } from '../../logic';
@@ -8,6 +9,7 @@ import { SideMenu } from '../../components/LocalSideBar';
 import { Overview } from '../../components/Overview';
 import { TabDataContext } from '../../logic/TabDataContext';
 import styles from './index.module.scss';
+import { getCustomMDXComponent } from './docComponents';
 import { Content, usePageData, normalizeSlash } from '@/runtime';
 
 export interface DocLayoutProps {
@@ -66,7 +68,9 @@ export function DocLayout(props: DocLayoutProps) {
           ) : (
             <div className="modern-doc">
               <TabDataContext.Provider value={{ tabData, setTabData }}>
-                <Content />
+                <MDXProvider components={getCustomMDXComponent()}>
+                  <Content />
+                </MDXProvider>
               </TabDataContext.Provider>
               <div>
                 {beforeDocFooter}

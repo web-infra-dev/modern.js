@@ -19,7 +19,7 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
       __defProp(target, name, { get: all[name], enumerable: true });
   };
   var __copyProps = (to, from, except, desc) => {
-    if (from && typeof from === "object" || typeof from === "function") {
+    if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
       for (let key of __getOwnPropNames(from))
         if (!__hasOwnProp.call(to, key) && key !== except)
           __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
@@ -29,9 +29,9 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
   var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
     // If the importer is in node compatibility mode or this is not an ESM
     // file that has been converted to a CommonJS file using a Babel-
-    // compatible transform (i.e. "__esModule" has not been set), then set
-    // "default" to the CommonJS "module.exports" for node compatibility.
-    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    // compatible transform (i.e. \\"__esModule\\" has not been set), then set
+    // \\"default\\" to the CommonJS \\"module.exports\\" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, \\"default\\", { value: mod, enumerable: true }) : target,
     mod
   ));
   var __async = (__this, __arguments, generator) => {
@@ -57,8 +57,8 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
 
   // libuild:globals:react
   var require_react = __commonJS({
-    "libuild:globals:react"(exports, module) {
-      module.exports = Function("return this")()["React"];
+    \\"libuild:globals:react\\"(exports, module) {
+      module.exports = Function(\\"return this\\")()[\\"React\\"];
     }
   });
 
@@ -69,7 +69,7 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
   });
   var addPrefix;
   var init_common = __esm({
-    "src/common.js"() {
+    \\"src/common.js\\"() {
       addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
     }
   });
@@ -78,7 +78,7 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
   var import_react = __toESM(require_react());
   var debug = (str) => __async(void 0, null, function* () {
     const { addPrefix: addPrefix2 } = yield Promise.resolve().then(() => (init_common(), common_exports));
-    addPrefix2("DEBUG:", \`\${import_react.default.version}/\${str}\`);
+    addPrefix2(\\"DEBUG:\\", \`\${import_react.default.version}/\${str}\`);
   });
 })();
 "
@@ -86,17 +86,17 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
 
 exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
 "(function(global, factory) {
-    if (typeof module === "object" && typeof module.exports === "object") factory(exports);
-    else if (typeof define === "function" && define.amd) define([
-        "exports"
+    if (typeof module === \\"object\\" && typeof module.exports === \\"object\\") factory(exports);
+    else if (typeof define === \\"function\\" && define.amd) define([
+        \\"exports\\"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.index = {});
+    else if (global = typeof globalThis !== \\"undefined\\" ? globalThis : global || self) factory(global.index = {});
 })(this, function(exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", {
+    \\"use strict\\";
+    Object.defineProperty(exports, \\"__esModule\\", {
         value: true
     });
-    Object.defineProperty(exports, "debug", {
+    Object.defineProperty(exports, \\"debug\\", {
         enumerable: true,
         get: ()=>debug
     });
@@ -121,7 +121,7 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
         });
     };
     var __copyProps = (to, from, except, desc)=>{
-        if (from && typeof from === "object" || typeof from === "function") {
+        if (from && typeof from === \\"object\\" || typeof from === \\"function\\") {
             for (let key of __getOwnPropNames(from))if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
                 get: ()=>from[key],
                 enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
@@ -131,9 +131,9 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     };
     var __toESM = (mod, isNodeMode, target)=>(target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(// If the importer is in node compatibility mode or this is not an ESM
         // file that has been converted to a CommonJS file using a Babel-
-        // compatible transform (i.e. "__esModule" has not been set), then set
-        // "default" to the CommonJS "module.exports" for node compatibility.
-        isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", {
+        // compatible transform (i.e. \\"__esModule\\" has not been set), then set
+        // \\"default\\" to the CommonJS \\"module.exports\\" for node compatibility.
+        isNodeMode || !mod || !mod.__esModule ? __defProp(target, \\"default\\", {
             value: mod,
             enumerable: true
         }) : target, mod));
@@ -159,8 +159,8 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     };
     // libuild:globals:react
     var require_react = __commonJS({
-        "libuild:globals:react" (exports, module1) {
-            module1.exports = Function("return this")()["React"];
+        \\"libuild:globals:react\\" (exports, module1) {
+            module1.exports = Function(\\"return this\\")()[\\"React\\"];
         }
     });
     // src/common.js
@@ -170,7 +170,7 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     });
     var addPrefix;
     var init_common = __esm({
-        "src/common.js" () {
+        \\"src/common.js\\" () {
             addPrefix = (prefix, str)=>\`\${prefix}:\${str}\`;
         }
     });
@@ -178,7 +178,7 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     var import_react = __toESM(require_react());
     var debug = (str)=>__async(void 0, null, function*() {
             const { addPrefix: addPrefix2  } = yield Promise.resolve().then(()=>(init_common(), common_exports));
-            addPrefix2("DEBUG:", \`\${import_react.default.version}/\${str}\`);
+            addPrefix2(\\"DEBUG:\\", \`\${import_react.default.version}/\${str}\`);
         });
 });
 "
