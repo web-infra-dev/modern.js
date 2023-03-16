@@ -57,12 +57,12 @@ export function SidebarItemComp(props: SidebarItemProps) {
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
-          } mt-1 py-1.5 px-3 block rounded-xl ml-2`}
+          } mt-1 py-1.5 px-3 block rounded-xl`}
           style={{
             ...textEllipsisStyle,
             // The first level menu item will have the same font size as the sidebar group
             fontSize: depth === 0 ? '14px' : '13px',
-            marginLeft: depth === 0 ? 0 : '8px',
+            marginLeft: depth === 0 ? 0 : '12px',
           }}
         >
           {item.text}
@@ -158,7 +158,13 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   };
 
   return (
-    <section key={id} className="mt-1 block ml-2">
+    <section
+      key={id}
+      className="mt-1 block"
+      style={{
+        marginLeft: depth === 0 ? 0 : '12px',
+      }}
+    >
       <div
         style={{
           cursor: collapsible ? 'pointer' : 'normal',
