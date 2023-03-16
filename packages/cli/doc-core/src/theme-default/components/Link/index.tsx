@@ -2,7 +2,7 @@ import React from 'react';
 import { matchRoutes, useNavigate } from 'react-router-dom';
 import nprogress from 'nprogress';
 import styles from './index.module.scss';
-import { normalizeRoutePath, withBase } from '@/runtime';
+import { normalizeHref, normalizeRoutePath, withBase } from '@/runtime';
 
 export interface LinkProps {
   href?: string;
@@ -20,7 +20,7 @@ export function Link(props: LinkProps) {
   const isExternal = EXTERNAL_URL_RE.test(href);
   const target = isExternal ? '_blank' : '';
   const rel = isExternal ? 'noopener noreferrer' : undefined;
-  const withBaseUrl = isExternal ? href : withBase(href);
+  const withBaseUrl = isExternal ? href : withBase(normalizeHref(href));
   const navigate = useNavigate();
   const handleNavigate = async (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
