@@ -3,7 +3,7 @@
   "name": "swc-integration",
   "version": "2.8.0",
   "dependencies": {
-    "@types/jest": "^29",
+    "@types/jest": "^27",
     "@types/node": "^14"
   }
 }
