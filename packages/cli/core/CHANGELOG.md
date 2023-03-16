@@ -1,5 +1,21 @@
 # @modern-js/core
 
+## 2.9.0
+
+### Patch Changes
+
+- 88328d914b: chore(core): remove legacy transformPlugin option
+
+  chore(core): 移除不再使用的 transformPlugin 选项
+
+- dd56401486: chore: fix some TODO comments
+
+  chore: 处理一些标记 TODO 的问题
+
+  - @modern-js/node-bundle-require@2.9.0
+  - @modern-js/plugin@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

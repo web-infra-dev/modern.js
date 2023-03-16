@@ -1,5 +1,23 @@
 # @modern-js/runtime
 
+## 2.9.0
+
+### Patch Changes
+
+- e8c580125d: fix: remove `serialze-javascript` from client bundle
+  fix: 移除客户端构建产物中的 `serialze-javascript`
+- 7035d5c22f: feat: support streaming ssr in worker
+
+  feat: worker 支持 streaming ssr
+
+- 49bb8cd0ef: fix: move chunkmap.css comment to bottom of head
+  fix: 将 chunkmap.css 标记移动到 head 底部
+- 755a053579: fix: export missing react-router types
+  fix: 导出缺少的 react-router 类型
+  - @modern-js/plugin@2.9.0
+  - @modern-js/types@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

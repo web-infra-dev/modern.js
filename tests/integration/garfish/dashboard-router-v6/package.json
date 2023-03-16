@@ -1,7 +1,7 @@
 {
   "name": "@cypress-test/garfish-dashboard-router-v6",
   "private": true,
-  "version": "2.8.0",
+  "version": "2.9.0",
   "scripts": {
     "dev": "modern dev",
     "build": "modern build",

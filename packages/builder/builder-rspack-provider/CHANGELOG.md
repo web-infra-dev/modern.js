@@ -1,5 +1,22 @@
 # @modern-js/builder-rspack-provider
 
+## 2.9.0
+
+### Patch Changes
+
+- 76b26883bb: fix: rspack-provider swc plugin should not inject core-js in ssr.
+  fix: rspack-provider swc 插件不应该在 SSR 下注入 core-js
+- 07569e577e: fix(builder): add additional note about hashDigest in cssModuleLocalIdentName
+
+  fix(builder): 添加 cssModuleLocalIdentName 中关于 hashDigest 的补充说明
+
+- Updated dependencies [49bb8cd0ef]
+  - @modern-js/server@2.9.0
+  - @modern-js/builder-shared@2.9.0
+  - @modern-js/e2e@2.9.0
+  - @modern-js/types@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Minor Changes

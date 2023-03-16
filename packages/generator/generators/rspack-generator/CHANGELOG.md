@@ -1,5 +1,7 @@
 # @modern-js/rspack-generator
 
+## 3.0.11
+
 ## 3.0.10
 
 ### Patch Changes

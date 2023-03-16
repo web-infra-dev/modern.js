@@ -1,5 +1,20 @@
 # @modern-js/builder
 
+## 2.9.0
+
+### Patch Changes
+
+- f31a254d78: feat: improve vendor split chunk rule
+  feat: 优化针对第三方库的拆包策略
+- 1f047183c3: feat: enable svgo to avoid ID conflicts
+  feat: 启用 svgo 以避免 ID 冲突
+- da66232feb: fix: asset url using incorrect path seperator in windows
+
+  fix: 修复 windows 中 asset url 使用错误的路径分隔符
+
+  - @modern-js/builder-shared@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

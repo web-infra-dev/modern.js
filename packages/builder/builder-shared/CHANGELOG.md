@@ -1,5 +1,14 @@
 # @modern-js/builder-shared
 
+## 2.9.0
+
+### Patch Changes
+
+- Updated dependencies [49bb8cd0ef]
+  - @modern-js/server@2.9.0
+  - @modern-js/types@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Minor Changes
