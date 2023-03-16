@@ -43,19 +43,19 @@ module.exports = defineConfig({
     port,
   },
   tools: {
-    webpack: (config, { appendPlugins, webpack }) => {
-      const { ModuleFederationPlugin } = webpack.container;
-      appendPlugins([
-        new ModuleFederationPlugin({
-          name: 'main',
-          remotes: {
-            dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
-          },
-        }),
-      ]);
-      // delete config.optimization?.runtimeChunk;
-      // delete config.optimization?.splitChunks;
-    },
+    // webpack: (config, { appendPlugins, webpack }) => {
+    //   const { ModuleFederationPlugin } = webpack.container;
+    //   appendPlugins([
+    //     new ModuleFederationPlugin({
+    //       name: 'main',
+    //       remotes: {
+    //         dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
+    //       },
+    //     }),
+    //   ]);
+    //   // delete config.optimization?.runtimeChunk;
+    //   // delete config.optimization?.splitChunks;
+    // },
   },
   plugins: [appTools(), routerPlugin(), garfishPlugin()],
 });

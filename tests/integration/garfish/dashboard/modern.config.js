@@ -22,22 +22,22 @@ module.exports = defineConfig({
   server: {
     port: getPort('@cypress-test/garfish-dashboard'),
   },
-  tools: {
-    webpack: (config, { appendPlugins, webpack }) => {
-      const { ModuleFederationPlugin } = webpack.container;
-      appendPlugins([
-        new ModuleFederationPlugin({
-          filename: 'remoteEntry.js',
-          name: 'dashboard',
-          exposes: {
-            './share-button': './src/ShareButton.tsx',
-          },
-        }),
-      ]);
-      delete config.optimization?.runtimeChunk;
-      delete config.optimization?.splitChunks;
-    },
-  },
+  // tools: {
+  //   webpack: (config, { appendPlugins, webpack }) => {
+  //     const { ModuleFederationPlugin } = webpack.container;
+  //     appendPlugins([
+  //       new ModuleFederationPlugin({
+  //         filename: 'remoteEntry.js',
+  //         name: 'dashboard',
+  //         exposes: {
+  //           './share-button': './src/ShareButton.tsx',
+  //         },
+  //       }),
+  //     ]);
+  //     delete config.optimization?.runtimeChunk;
+  //     delete config.optimization?.splitChunks;
+  //   },
+  // },
   plugins: [appTools(), routerPlugin(), garfishPlugin()],
   // dev: {
   //   withMasterApp: {
