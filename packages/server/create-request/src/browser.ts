@@ -15,9 +15,9 @@ const originFetch = (...params: Parameters<typeof fetch>) =>
 
 export const configure = (options: IOptions) => {
   const { request, interceptor, allowedHeaders } = options;
-  realRequest = (request as typeof fetch) || originFetch;
+  realRequest = request || originFetch;
   if (interceptor && !request) {
-    realRequest = interceptor(fetch) as typeof fetch;
+    realRequest = interceptor(fetch);
   }
   if (Array.isArray(allowedHeaders)) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -115,6 +115,8 @@ export const createRequest: RequestCreator = (
     if (method.toLowerCase() === 'get') {
       body = undefined;
     }
+
+    headers.accept = `application/json,*/*;q=0.8`;
 
     return fetcher(finalURL, {
       method,

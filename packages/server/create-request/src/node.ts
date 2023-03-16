@@ -8,8 +8,9 @@ import type {
   Sender,
   RequestCreator,
   IOptions,
-  Fetch,
 } from './types';
+
+type Fetch = typeof nodeFetch;
 
 let realRequest: Fetch;
 let realAllowedHeaders: string[] = [];
@@ -27,7 +28,7 @@ export const configure = (options: IOptions<typeof nodeFetch>) => {
   }
 };
 
-export const createRequest: RequestCreator = (
+export const createRequest: RequestCreator<typeof nodeFetch> = (
   path: string,
   method: string,
   port: number,
@@ -117,6 +118,8 @@ export const createRequest: RequestCreator = (
     if (method.toLowerCase() === 'get') {
       body = undefined;
     }
+
+    headers.accept = `application/json,*/*;q=0.8`;
 
     return fetcher(url, { method, body, headers });
   };
