@@ -17,7 +17,7 @@ describe('plugins/babel', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(JSON.stringify(bundlerConfigs[0])).toMatchSnapshot();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 
   it('should not set babel-loader', async () => {
@@ -31,6 +31,6 @@ describe('plugins/babel', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(JSON.stringify(bundlerConfigs[0])).toMatchSnapshot();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 });
