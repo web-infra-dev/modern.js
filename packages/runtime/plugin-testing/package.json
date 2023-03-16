@@ -109,7 +109,6 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.4.0",
     "@types/testing-library__jest-dom": "^5.14.3",
-    "jest-environment-node": "^27.2.2",
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6",
     "babel-jest": "^27.0.6",
