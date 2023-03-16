@@ -1,49 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`plugin-garfish cli cli get runtime config 1`] = `
-Object {
-  "masterApp": Object {
+{
+  "masterApp": {
     "basename": "/test",
   },
 }
 `;
 
 exports[`plugin-garfish cli cli get runtime features config 1`] = `
-Object {
-  "masterApp": Object {
+{
+  "masterApp": {
     "basename": "/test2",
   },
 }
 `;
 
-
 exports[`plugin-garfish cli cli set runtime config 1`] = `
-Object {
+{
   "masterApp": true,
 }
 `;
 
 exports[`plugin-garfish cli cli set runtime features config 1`] = `
-Object {
-  "features": Object {
+{
+  "features": {
     "masterApp": true,
   },
 }
 `;
 
 exports[`plugin-garfish cli webpack config close external and use js entry 1`] = `
-Object {
-  "externals": Object {
+{
+  "externals": {
     "react": "react",
     "react-dom": "react-dom",
   },
-  "optimization": Object {
+  "optimization": {
     "runtimeChunk": false,
-    "splitChunks": Object {
+    "splitChunks": {
       "chunks": "async",
     },
   },
-  "output": Object {
+  "output": {
     "filename": "index.js",
     "libraryTarget": "umd",
     "publicPath": "//localhost:8080/",
@@ -52,12 +51,12 @@ Object {
 `;
 
 exports[`plugin-garfish cli webpack config default micro config 1`] = `
-Object {
-  "output": Object {
+{
+  "output": {
     "libraryTarget": "umd",
     "publicPath": "//localhost:8080/",
   },
-  "plugins": Array [
+  "plugins": [
     HTMLWebpackPlugin {},
   ],
 }

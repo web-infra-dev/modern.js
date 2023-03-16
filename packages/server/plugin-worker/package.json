@@ -54,9 +54,9 @@
     "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
     "typescript": "^4",
-    "@types/jest": "^27",
+    "@types/jest": "^29",
     "@types/node": "^14",
-    "jest": "^27",
+    "jest": "^29",
     "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": [

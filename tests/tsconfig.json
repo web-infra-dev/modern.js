@@ -1,6 +1,7 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
+    "strictNullChecks": false,
     "noEmit": true
   },
   "types": ["jasmine", "jest"]
