@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 博客
 
-在这里，你可以了解到 Modern.js 的最新进展。
+在这里，你可以了解到 Modern.js 的最新进展和技术分享。
 
 ---
 
@@ -19,6 +19,31 @@ Modern.js 是字节跳动 Web Infra 团队开源的一套 Web 工程体系。在
 在这篇文章里，我们会和大家一起聊一聊 Modern.js 在过去一年多时间里的变化。
 
 [了解更多 →](/blog/updates/v2-release-note)
+
+---
+
+## React Streaming SSR 原理解析
+
+> 发表于 2022.12.16
+
+React 18 提供了一种新的 SSR 渲染模式： Streaming SSR。通过 Streaming SSR，我们可以实现以下两个功能：
+
+- Streaming HTML：服务端可以分段传输 HTML 到浏览器，而不是像 React 18 以前一样，需要等待服务端渲染完成整个页面后才返回给浏览器。这样，浏览器可以更快的启动 HTML 的渲染，提高 FP、FCP 等性能指标。
+- Selective Hydration：在浏览器端 hydration 阶段，可以只对已经完成渲染的区域做 hydration，而不需要等待整个页面渲染完成、所有组件的 JS bundle 加载完成，才能开始 hydration。这样可以更早的对已经完成渲染的区域做事件绑定，从而让页面获得更好的可交互性。
+
+[了解更多 →](https://mp.weixin.qq.com/s/w4FS5sBcHqRl-Saqi19Y6g)
+
+---
+
+## React Server Component: 混合式渲染
+
+> 发表于 2022.12.01
+
+React 官方对 Server Component 是这样介绍的: **zero-bundle-size React Server Components**。
+
+这是一种实验性探索，但相信该探索是个未来 React 发展的方向，与 React Server Component 相关的周边生态正在积极的建设当中。
+
+[了解更多 →](https://mp.weixin.qq.com/s/B-XLvW00vl5RE1Ur3EW4ow)
 
 ---
 
