@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -109,7 +109,7 @@
     "tailwindcss": "3.2.7"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.8.0",
+    "@modern-js/core": "workspace:^2.9.0",
     "react": ">=17"
   },
   "devDependencies": {

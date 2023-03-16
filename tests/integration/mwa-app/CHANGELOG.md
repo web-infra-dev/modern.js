@@ -1,5 +1,15 @@
 # tmp
 
+## 2.9.0
+
+### Patch Changes
+
+- Updated dependencies [e8c580125d]
+- Updated dependencies [7035d5c22f]
+- Updated dependencies [49bb8cd0ef]
+- Updated dependencies [755a053579]
+  - @modern-js/runtime@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

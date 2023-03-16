@@ -1,5 +1,49 @@
 # @modern-js/app-tools
 
+## 2.9.0
+
+### Patch Changes
+
+- 49bb8cd0ef: fix: move chunkmap.css comment to bottom of head
+  fix: 将 chunkmap.css 标记移动到 head 底部
+- 83423193bb: fix: fix chunk css location in template
+  fix: 修复异步加载的 css 在模版文件中的位置
+- e1b6881b39: fix: should not replace to alias when filePath is not in src
+  fix: 不应该替换为别名，当 filePath 不在 src 目录中时
+- 5cb90eddaf: fix: fix data-loader compat in windows
+  fix: 修复 data loader 在 windows 下的兼容性问题
+- e9ae517226: fix: optimize the regexp for route matching rules
+  fix: 优化路由匹配正则
+- 4d89ad2a86: fix: the asset may be removed by InlineChunkHtmlPlugin
+  fix: asset 可能会被 InlineChunkHtmlPlugin 移除
+- Updated dependencies [7035d5c22f]
+- Updated dependencies [49bb8cd0ef]
+- Updated dependencies [76b26883bb]
+- Updated dependencies [f31a254d78]
+- Updated dependencies [1f047183c3]
+- Updated dependencies [88328d914b]
+- Updated dependencies [dd56401486]
+- Updated dependencies [07569e577e]
+- Updated dependencies [da66232feb]
+  - @modern-js/builder-webpack-provider@2.9.0
+  - @modern-js/prod-server@2.9.0
+  - @modern-js/server@2.9.0
+  - @modern-js/builder-rspack-provider@2.9.0
+  - @modern-js/builder@2.9.0
+  - @modern-js/core@2.9.0
+  - @modern-js/builder-plugin-esbuild@2.9.0
+  - @modern-js/builder-plugin-node-polyfill@2.9.0
+  - @modern-js/builder-shared@2.9.0
+  - @modern-js/plugin-data-loader@2.9.0
+  - @modern-js/plugin-lint@2.9.0
+  - @modern-js/new-action@2.9.0
+  - @modern-js/plugin-i18n@2.9.0
+  - @modern-js/node-bundle-require@2.9.0
+  - @modern-js/plugin@2.9.0
+  - @modern-js/types@2.9.0
+  - @modern-js/upgrade@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Minor Changes
