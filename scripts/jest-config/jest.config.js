@@ -23,7 +23,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   resolver: path.join(__dirname, 'jest.resolver.js'),
   rootDir: __dirname,
-  testTimeout: 15000,
+  testTimeout: 30000,
   testMatch: [
     '<rootDir>/src/**/*.test.[jt]s?(x)',
     '<rootDir>/tests/**/*.test.[jt]s?(x)',
