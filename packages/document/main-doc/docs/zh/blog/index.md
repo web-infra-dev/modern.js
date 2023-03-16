@@ -35,7 +35,7 @@ React 18 提供了一种新的 SSR 渲染模式： Streaming SSR。通过 Stream
 
 ---
 
-## React Server Component: 混合式渲染
+## React Server Component 介绍
 
 > 发表于 2022.12.01
 
