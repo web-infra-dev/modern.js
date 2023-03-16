@@ -11,11 +11,6 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
           "plugins": [],
           "routes": [],
         },
-        "ts-jest": {
-          "diagnostics": {
-            "warnOnly": true,
-          },
-        },
       },
       "moduleNameMapper": {},
       "resolver": "/packages/runtime/plugin-testing/src/base/config/resolver.ts",
@@ -28,7 +23,14 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
         "**/api/**/*.test.[jt]s",
       ],
       "transform": {
-        "\\.[jt]sx?$": "/node_modules/.pnpm/ts-jest@29.0.5_xrnaqwspzwbutsq6icoimzhcuu/node_modules/ts-jest/dist/index.js",
+        "\\.[jt]sx?$": [
+          "/node_modules/.pnpm/ts-jest@29.0.5_xrnaqwspzwbutsq6icoimzhcuu/node_modules/ts-jest/dist/index.js",
+          {
+            "diagnostics": {
+              "warnOnly": true,
+            },
+          },
+        ],
       },
     },
   ],
@@ -46,11 +48,6 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
           "plugins": [],
           "routes": [],
         },
-        "ts-jest": {
-          "diagnostics": {
-            "warnOnly": true,
-          },
-        },
       },
       "moduleNameMapper": {},
       "resolver": "/packages/runtime/plugin-testing/src/base/config/resolver.ts",
@@ -63,7 +60,14 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
         "**/api/**/*.test.[jt]s",
       ],
       "transform": {
-        "\\.[jt]sx?$": "/node_modules/.pnpm/ts-jest@29.0.5_xrnaqwspzwbutsq6icoimzhcuu/node_modules/ts-jest/dist/index.js",
+        "\\.[jt]sx?$": [
+          "/node_modules/.pnpm/ts-jest@29.0.5_xrnaqwspzwbutsq6icoimzhcuu/node_modules/ts-jest/dist/index.js",
+          {
+            "diagnostics": {
+              "warnOnly": true,
+            },
+          },
+        ],
       },
     },
   ],
