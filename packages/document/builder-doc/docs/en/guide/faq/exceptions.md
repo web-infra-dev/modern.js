@@ -207,6 +207,43 @@ The following parameters are explained in more detail in the official Node.js do
 
 In addition to increasing the memory limit, it is also a solution to improve efficiency by enabling some compilation strategies.
 
+## Can't resolve 'core-js/modules/xxx.js' when compiling?
+
+If you get an error similar to the following when compiling, it means that [core-js](https://github.com/zloirock/core-js) cannot be resolved properly in the project.
+
+```bash
+Module not found: Can't resolve 'core-js/modules/es.error.cause.js'
+```
+
+Usually, you don't need to install `core-js` in the project, because the Builder already has a built-in `core-js` v3.
+
+If there is an error that `core-js` cannot be found, there may be several reasons:
+
+1. The `plugins` configured by Babel is overwritten in the project, causing the built-in `babelPluginLockCorejsVersion` does not work. In this case, just change `tools.babel` to a function:
+
+```ts
+// Wrong usage, will override Builder's default Babel plugins
+export default {
+  tools: {
+    babel: {
+      plugins: ['babel-plugin-xxx'],
+    },
+  },
+};
+
+// Correct usage, add a new plugin in the default configuration instead of overriding the plugin
+export default {
+  tools: {
+    babel(config) {
+      config.plugins.push('babel-plugin-xxx');
+    },
+  },
+};
+```
+
+2. Some code in the project depends on `core-js` v2. In this case, you usually need to find out the corresponding code and upgrade `core-js` to the v3.
+3. An npm package in `node_modules` imported `core-js`, but does not declare the `core-js` dependency in `dependencies`. In this case, you need to declare the `core-js` dependency in the corresponding npm package, or install a copy of `core-js` in the project root directory.
+
 ## Division in Less file doesn't work?
 
 Compared with the v3 version, the Less v4 version has some differences in the way of writing division:

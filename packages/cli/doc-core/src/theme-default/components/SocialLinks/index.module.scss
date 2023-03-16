@@ -10,15 +10,6 @@
   }
 }
 
-.menu-item:before {
-  margin-right: 12px;
-  margin-left: 12px;
-  width: 1px;
-  height: 24px;
-  background-color: var(--modern-c-divider-light);
-  content: ' ';
-}
-
 @media (max-width: 768px) {
   .menu-item:before {
     display: none;

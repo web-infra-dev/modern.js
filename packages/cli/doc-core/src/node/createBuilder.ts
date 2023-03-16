@@ -90,6 +90,7 @@ async function createInternalBuildConfig(
     },
     source: {
       alias: {
+        '@mdx-js/react': require.resolve('@mdx-js/react'),
         'react/jsx-runtime': require.resolve('react/jsx-runtime'),
         'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
         react: require.resolve('react'),
@@ -141,6 +142,9 @@ async function createInternalBuildConfig(
           .end();
 
         chain.resolve.extensions.prepend('.md').prepend('.mdx');
+        // TODO: Rspack split chunks bug
+        // The default splitChunks config will cause the main module not found
+        chain.optimization.splitChunks(false);
       },
     },
   };

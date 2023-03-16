@@ -26,7 +26,10 @@ function formatMessage(stats: webpack.StatsError | string) {
   // webpack 5 stats error object
   if (typeof stats === 'object') {
     const fileName = stats.moduleName ? `File: ${stats.moduleName}\n` : '';
-    const mainMessage = stats.message;
+    // compat rspack
+    const mainMessage =
+      typeof stats.formatted === 'string' ? stats.formatted : stats.message;
+
     const details = stats.details ? `\nDetails: ${stats.details}\n` : '';
     const stack = stats.stack ? `\n${stats.stack}` : '';
 

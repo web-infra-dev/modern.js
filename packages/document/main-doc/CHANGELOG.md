@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.9.0
+
+### Patch Changes
+
+- 7035d5c22f: fix: doc info block not work
+
+  fix: 修复文档站 info 不生效问题
+
+  - @modern-js/builder-doc@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

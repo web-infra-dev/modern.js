@@ -1,16 +1,14 @@
 import { NavItem } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { Search } from '@theme';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getLogoUrl, useLocaleSiteData } from '../../logic';
-import { SwitchAppearance } from '../SwitchAppearance';
 import { NavHamburger } from '../NavHambmger';
 import { SocialLinks } from '../SocialLinks';
-import { getToggle } from '../../logic/useAppearance';
 import { NavMenuGroup, NavMenuGroupItem } from './NavMenuGroup';
 import { NavMenuSingleItem } from './NavMenuSingleItem';
 import styles from './index.module.scss';
-import { usePageData, withBase } from '@/runtime';
+import { ThemeContext, usePageData, withBase } from '@/runtime';
 import { replaceLang } from '@/shared/utils';
 
 export interface NavProps {
@@ -54,7 +52,7 @@ const NavTranslations = ({
 }) => {
   return (
     <div
-      className={`translation ${styles.menuItem} flex text-sm font-bold items-center`}
+      className={`translation ${styles.menuItem} flex text-sm font-bold items-center px-3 py-2`}
     >
       <div>
         <NavMenuGroup {...translationMenuData} isTranslation />
@@ -65,11 +63,10 @@ const NavTranslations = ({
 
 export function Nav(props: NavProps) {
   const { beforeNavTitle, afterNavTitle, beforeNav } = props;
-  const { siteData, lang, pageType } = usePageData();
+  const { siteData, lang } = usePageData();
   const { logo: rawLogo, base } = siteData;
-  const [logo, setLogo] = useState(getLogoUrl(rawLogo));
   const { pathname } = useLocation();
-  const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
+  const { theme } = useContext(ThemeContext);
   const localeData = useLocaleSiteData();
   const localeLanguages = Object.values(siteData.themeConfig.locales || {});
   const hasMultiLanguage = localeLanguages.length > 1;
@@ -77,7 +74,7 @@ export function Nav(props: NavProps) {
   const hasSocialLinks = socialLinks.length > 0;
   const defaultLang = siteData.lang || 'zh';
   const langs = localeLanguages.map(item => item.lang || 'zh') || [];
-  const toggleAppearance = getToggle();
+  const [logo, setLogo] = useState(getLogoUrl(rawLogo, theme));
 
   const translationMenuData = hasMultiLanguage
     ? {
@@ -88,18 +85,10 @@ export function Nav(props: NavProps) {
         activeValue: localeLanguages.find(item => lang === item.lang)!.label,
       }
     : null;
-  const NavAppearance = () => {
-    return (
-      <div className={`${styles.menuItem} modern-doc-appearance items-center`}>
-        <SwitchAppearance
-          onClick={() => {
-            toggleAppearance();
-            setLogo(getLogoUrl(rawLogo));
-          }}
-        />
-      </div>
-    );
-  };
+
+  useEffect(() => {
+    setLogo(getLogoUrl(rawLogo, theme));
+  }, [theme]);
 
   const NavMenu = ({ menuItems }: { menuItems: NavItem[] }) => {
     return (
@@ -144,7 +133,6 @@ export function Nav(props: NavProps) {
           {hasMultiLanguage && (
             <NavTranslations translationMenuData={translationMenuData!} />
           )}
-          {hasAppearanceSwitch && <NavAppearance />}
           {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
         </div>
       </div>
@@ -159,10 +147,6 @@ export function Nav(props: NavProps) {
       }}
     >
       {beforeNav}
-      <div
-        className={`${styles.mask}
-          ${pageType === 'doc' ? styles.docPage : ''}`}
-      ></div>
       <div className={`${styles.navContainer} modern-doc-nav px-6`}>
         <div
           className={`${styles.container} flex justify-between items-center h-full`}
@@ -180,13 +164,13 @@ export function Nav(props: NavProps) {
             {rightNav()}
 
             <div className={styles.mobileNavMenu}>
+              <Search />
               <NavHamburger
                 localeData={localeData}
                 siteData={siteData}
                 pathname={pathname}
                 setLogo={setLogo}
               />
-              <Search />
             </div>
           </div>
         </div>

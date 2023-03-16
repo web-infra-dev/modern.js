@@ -1,4 +1,4 @@
-import { join } from 'path';
+import path from 'path';
 import {
   JS_REGEX,
   TS_REGEX,
@@ -10,7 +10,7 @@ import {
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
 export const getCompiledPath = (packageName: string) =>
-  join(__dirname, '../../compiled', packageName);
+  path.join(__dirname, '../../compiled', packageName);
 
 export const builderPluginSvg = (): DefaultBuilderPlugin => {
   return {
@@ -23,7 +23,7 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
 
         const distDir = getDistPath(config.output, 'svg');
         const filename = getFilename(config.output, 'svg', isProd);
-        const outputName = join(distDir, filename);
+        const outputName = path.posix.join(distDir, filename);
         const maxSize = config.output.dataUriLimit[assetType];
 
         const rule = chain.module.rule(CHAIN_ID.RULE.SVG).test(SVG_REGEX);
@@ -32,7 +32,7 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
         chainStaticAssetRule({
           rule,
           maxSize,
-          filename: join(distDir, filename),
+          filename: path.posix.join(distDir, filename),
           assetType,
           issuer: {
             // The issuer option ensures that SVGR will only apply if the SVG is imported from a JS file.

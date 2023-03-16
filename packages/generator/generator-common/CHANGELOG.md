@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.0.11
+
+### Patch Changes
+
+- ce636b8f62: chore(generator): update solution names
+
+  chore(generator): 更新创建项目时的工程类型名称
+
+  - @modern-js/plugin-i18n@2.9.0
+
 ## 3.0.10
 
 ### Patch Changes

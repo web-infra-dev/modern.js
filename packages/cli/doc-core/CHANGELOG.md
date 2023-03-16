@@ -1,5 +1,40 @@
 # @modern-js/doc-core
 
+## 2.9.0
+
+### Minor Changes
+
+- 8f7d293462: feat: support rspack
+
+  feat: 支持 Rspack 构建
+
+### Patch Changes
+
+- c61aabfbfe: feat: optimize doc ui theme
+
+  feat: 优化文档 UI 主题
+
+- 226ba4b061: fix: mailto url
+
+  fix: 修复 mailto url
+
+- abb0658221: feat: add custom mdx components
+
+  feat: 增加自定义 mdx 组件
+
+- Updated dependencies [76b26883bb]
+- Updated dependencies [f31a254d78]
+- Updated dependencies [1f047183c3]
+- Updated dependencies [88328d914b]
+- Updated dependencies [dd56401486]
+- Updated dependencies [07569e577e]
+- Updated dependencies [da66232feb]
+  - @modern-js/builder-rspack-provider@2.9.0
+  - @modern-js/builder@2.9.0
+  - @modern-js/core@2.9.0
+  - @modern-js/remark-container@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

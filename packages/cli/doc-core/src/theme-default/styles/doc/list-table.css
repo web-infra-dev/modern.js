@@ -1,0 +1,57 @@
+.modern-doc ul,
+.modern-doc ol {
+  padding-left: 1.25rem;
+  margin: 16px 0;
+  line-height: 28px;
+}
+
+.modern-doc ul {
+  list-style: disc;
+}
+
+.modern-doc ol {
+  list-style: decimal;
+}
+
+.modern-doc li + li {
+  margin-top: 8px;
+}
+
+.modern-doc li > ol,
+.modern-doc li > ul {
+  margin: 8px 0 0;
+}
+
+.modern-doc table {
+  display: block;
+  border-collapse: collapse;
+  font-size: 15px;
+  margin: 20px 0;
+  overflow-x: auto;
+  line-height: 28px;
+}
+
+.modern-doc tr {
+  border-top: 1px solid var(--modern-c-divider-light);
+  transition: background-color 0.5s;
+}
+
+.modern-doc tr:nth-child(2n) {
+  background-color: var(--modern-c-bg-soft);
+}
+
+.modern-doc th,
+.modern-doc td {
+  border: 1px solid var(--modern-c-divider-light);
+  padding: 12px 16px;
+}
+
+.modern-doc th {
+  font-size: 16px;
+  font-weight: 600;
+  background-color: var(--modern-c-white-soft);
+}
+
+.dark .modern-doc th {
+  background-color: var(--modern-c-black);
+}

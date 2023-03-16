@@ -7,6 +7,14 @@
   display: none;
 }
 
+.activeItem,
+.singleItem:hover {
+  background-color: var(--modern-c-bg-soft);
+  cursor: pointer;
+  color: var(--modern-c-brand-dark);
+  border-radius: 12px;
+}
+
 .navContainer :deep(*) {
   pointer-events: all;
 }
@@ -25,15 +33,7 @@
 
 .menu-item {
   display: none;
-}
-
-.menu-item:before {
-  margin-right: 12px;
-  margin-left: 12px;
-  width: 1px;
-  height: 24px;
-  background-color: var(--modern-c-divider-light);
-  content: ' ';
+  margin: 0 8px;
 }
 
 @media (max-width: 768px) {

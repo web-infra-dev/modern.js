@@ -1,7 +1,6 @@
 import { NavItemWithChildren, NavItemWithLink } from 'shared/types';
 import { useState } from 'react';
 import Down from '../../assets/down.svg';
-import Right from '../../assets/right.svg';
 import { Link } from '../Link';
 import styles from './index.module.scss';
 
@@ -11,38 +10,32 @@ export interface NavScreenMenuGroupItem {
   activeValue?: string;
 }
 
-function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
-  return (
-    <div className="p-1">
-      <span className="mr-1 text-brand">{item.text}</span>
-    </div>
-  );
-}
-
-function NormalGroupItem({ item }: { item: NavItemWithLink }) {
-  return (
-    <div className="py-1 font-medium">
-      <Link href={item.link}>
-        <div>
-          <div className="flex">
-            <span className="mr-1">{item.text}</span>
-            <Right
-              className="text-text-3 mt-1 mr-1"
-              style={{
-                width: '11px',
-                height: '11px',
-              }}
-            />
-          </div>
-        </div>
-      </Link>
-    </div>
-  );
-}
-
 export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
   const { activeValue } = item;
   const [isOpen, setIsOpen] = useState(false);
+
+  function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
+    return (
+      <div className="p-1">
+        <span className="mr-1 text-brand">{item.text}</span>
+      </div>
+    );
+  }
+
+  function NormalGroupItem({ item }: { item: NavItemWithLink }) {
+    return (
+      <div className="py-1 font-medium">
+        <Link href={item.link}>
+          <div>
+            <div className="flex">
+              <span className="mr-1">{item.text}</span>
+            </div>
+          </div>
+        </Link>
+      </div>
+    );
+  }
+
   const renderLinkItem = (item: NavItemWithLink) => {
     if (activeValue === item.text) {
       return <ActiveGroupItem key={item.link} item={item} />;

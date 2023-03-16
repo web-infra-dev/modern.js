@@ -21,8 +21,8 @@
 
 .pager-link {
   display: block;
-  border: 1px solid var(--modern-c-divider-light);
-  border-radius: 8px;
+  border: 1px solid var(--modern-c-divider-light) !important;
+  border-radius: 25px;
   padding: 16px;
   width: 100%;
   height: 100%;
@@ -30,7 +30,7 @@
 }
 
 .pager-link:hover {
-  border-color: var(--modern-c-brand);
+  border-color: var(--modern-c-brand) !important;
 }
 
 .pager-link:hover .title {

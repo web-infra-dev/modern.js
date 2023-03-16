@@ -40,13 +40,15 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
       <li key={header.id}>
         <a
           href={`#${header.id}`}
-          className="leading-7 transition-colors duration-300 hover:text-text-1 text-text-2 block"
+          className="leading-7 transition-all duration-300 hover:text-text-1 text-text-2 block"
           style={{
             fontSize: '13px',
             paddingLeft: (header.depth - baseHeaderLevel) * 12,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            fontWeight:
+              header.depth === baseHeaderLevel ? 'semibold' : 'normal',
           }}
           onClick={e => {
             e.preventDefault();
@@ -66,30 +68,11 @@ export function Aside(props: { headers: Header[]; outlineTitle: string }) {
   return (
     <div className="flex flex-col">
       <div className={hasOutline ? `<lg:hidden` : 'hidden'}>
-        <div
-          id="aside-container"
-          style={{
-            borderLeft: '1px solid var(--modern-c-divider-light)',
-          }}
-          className="relative pl-4 text-sm font-medium"
-        >
-          <div
-            className="absolute opacity-0 bg-brand"
-            ref={markerRef}
-            style={{
-              width: '1px',
-              height: '18px',
-              top: '33px',
-              left: '-1px',
-              transition:
-                'top 0.25s cubic-bezier(0, 1, 0.5, 1), background-color 0.5s, opacity 0.25s',
-            }}
-            id="aside-marker"
-          ></div>
+        <div id="aside-container" className="relative pl-4 text-sm font-medium">
           <div className="leading-7 block text-sm font-semibold">
             {props.outlineTitle}
           </div>
-          <nav>
+          <nav className="mt-1">
             <ul className="relative">{headers.map(renderHeader)}</ul>
           </nav>
         </div>

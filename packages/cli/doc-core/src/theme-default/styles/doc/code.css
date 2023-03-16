@@ -1,0 +1,162 @@
+/** Define code style */
+:root {
+  --modern-code-font-size: 14px;
+  --modern-code-block-color: rgb(46, 52, 64);
+  --modern-code-title-bg: rgba(0, 99, 199, 0.05);
+  --modern-code-block-bg: #f6f8fa;
+
+  --modern-code-line-highlight-color: rgba(0, 0, 0, 0.5);
+  --modern-code-line-number-color: rgba(235, 235, 235, 0.38);
+
+  --modern-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
+  --modern-code-copy-code-active-text: rgba(235, 235, 235, 0.6);
+}
+
+.dark {
+  --modern-code-block-color: rgb(229, 231, 235);
+  --modern-code-block-bg: #242424;
+  --modern-code-title-bg: #000;
+  --modern-code-line-highlight-color: rgba(255, 255, 255, 0.5);
+  --modern-code-line-number-color: rgba(60, 60, 60, 0.33);
+}
+
+:root {
+  --modern-icon-copy: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 10v18H10V10h18m0-2H10a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Z' fill='%23cccccc'/%3E%3Cpath d='M4 18H2V4a2 2 0 0 1 2-2h14v2H4Z' fill='%23cccccc'/%3E%3C/svg%3E");
+  --modern-icon-copied: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m13 24l-9-9l1.41-1.41L13 21.17L26.59 7.59L28 9L13 24z' fill='%2360c054'/%3E%3C/svg%3E");
+}
+
+.modern-doc :not(pre, h1, h2, h3, h4, h5, h6) > code {
+  font-size: var(--modern-code-font-size);
+}
+
+.modern-doc :not(pre, div, a) > code {
+  border-radius: 20px;
+  padding: 4px 8px;
+  color: var(--modern-c-text-code);
+  background-color: var(--modern-c-bg-mute);
+}
+
+.modern-doc h1 > code,
+.modern-doc h2 > code,
+.modern-doc h3 > code {
+  font-size: 0.9em;
+}
+
+.modern-doc a > code {
+  color: var(--modern-c-brand);
+  transition: color 0.25s;
+  border: none;
+}
+
+.modern-doc a:hover > code {
+  color: var(--modern-c-brand-dark);
+}
+
+.modern-doc div[class*='language-'] {
+  position: relative;
+  margin: 16px 0;
+  background-color: var(--modern-code-block-bg);
+  overflow-x: auto;
+  transition: background-color 0.5s;
+}
+
+.modern-doc .modern-code-title {
+  padding: 12px 16px;
+  font-size: var(--modern-code-font-size);
+  background-color: var(--modern-code-title-bg);
+  transition: background-color 0.5s;
+}
+
+@media (min-width: 640px) {
+  .modern-doc div[class*='language-'] {
+    border-radius: 8px;
+    margin: 24px 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .modern-doc li div[class*='language-'] {
+    border-radius: 8px 0 0 8px;
+  }
+}
+
+.modern-doc [class*='language-'] pre,
+.modern-doc [class*='language-'] code {
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.modern-doc [class*='language-'] pre {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  background: transparent;
+  overflow-x: auto;
+}
+
+.modern-doc [class*='language-'] code {
+  display: block;
+  padding: 12px 16px;
+  width: fit-content;
+  min-width: 100%;
+  line-height: 1.7;
+  font-size: var(--modern-code-font-size);
+  color: var(--modern-code-block-color);
+  background-color: var(--modern-code-block-bg);
+  transition: color 0.5s;
+}
+
+.modern-doc [class*='language-'] .modern-code-content {
+  position: relative;
+}
+
+.modern-doc [class*='language-'] .modern-code-content > button.copy {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  background-color: var(--modern-code-block-bg);
+  opacity: 0;
+  cursor: pointer;
+  background-image: var(--modern-icon-copy);
+  background-position: 50%;
+  background-size: 20px;
+  background-repeat: no-repeat;
+  transition: all 0.16s;
+}
+
+.modern-doc [class*='language-']:hover .modern-code-content > button.copy,
+.modern-doc [class*='language-'] .modern-code-content > button.copy:focus {
+  opacity: 1;
+}
+
+.modern-doc [class*='language-'] .modern-code-content > button.copy:hover {
+  background-color: var(--modern-code-copy-code-hover-bg);
+}
+
+.modern-doc [class*='language-'] .modern-code-content > button.copy.copied,
+.modern-doc
+  [class*='language-']
+  .modern-code-content
+  > button.copy:hover.copied {
+  border-radius: 0 4px 4px 0;
+  background-image: var(--modern-icon-copied);
+  transform: scale(1);
+  opacity: 1;
+}

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App, initPageData } from './App';
-import { DataContext } from './hooks';
+import { DataContext, ThemeContext } from './hooks';
 import { normalizeRoutePath } from './utils';
 import { isProduction } from '@/shared/utils/index';
 
@@ -15,12 +15,15 @@ export async function renderInBrowser() {
     );
     return function RootApp() {
       const [data, setData] = useState(initialPageData);
+      const [theme, setTheme] = useState<'light' | 'dark'>('light');
       return (
-        <DataContext.Provider value={{ data, setData }}>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </DataContext.Provider>
+        <ThemeContext.Provider value={{ theme, setTheme }}>
+          <DataContext.Provider value={{ data, setData }}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </DataContext.Provider>
+        </ThemeContext.Provider>
       );
     };
   };

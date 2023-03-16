@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import type { LocaleConfig, SiteData, DefaultThemeConfig } from 'shared/types';
 import { NavScreen } from '../NavScreen';
 import { useNav } from '../../logic/useNav';
+import SmallMenu from '../../assets/small-menu.svg';
 import styles from './index.module.scss';
 
 interface Props {
@@ -16,18 +17,6 @@ export function NavHamburger(props: Props) {
   const { isScreenOpen, toggleScreen } = useNav();
   return (
     <Fragment>
-      <button
-        onClick={toggleScreen}
-        className={`${isScreenOpen ? styles.active : ''} ${
-          styles.navHamburger
-        }`}
-      >
-        <span className={styles.container}>
-          <span className={styles.top} />
-          <span className={styles.middle} />
-          <span className={styles.bottom} />
-        </span>
-      </button>
       <NavScreen
         isScreenOpen={isScreenOpen}
         localeData={localeData}
@@ -35,6 +24,14 @@ export function NavHamburger(props: Props) {
         pathname={pathname}
         setLogo={setLogo}
       />
+      <button
+        onClick={toggleScreen}
+        className={`${isScreenOpen ? styles.active : ''} ${
+          styles.navHamburger
+        } text-gray-500`}
+      >
+        <SmallMenu fill="currentColor" />
+      </button>
     </Fragment>
   );
 }

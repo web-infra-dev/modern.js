@@ -5,8 +5,9 @@ import { routes } from 'virtual-routes';
 import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
+import { SwitchAppearance } from '../SwitchAppearance';
 import styles from './index.module.scss';
-import { removeBase, normalizeHref } from '@/runtime';
+import { removeBase, normalizeHref, NoSSR } from '@/runtime';
 
 interface Props {
   isSidebarOpen?: boolean;
@@ -56,11 +57,12 @@ export function SidebarItemComp(props: SidebarItemProps) {
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
-          } mt-1 py-1.5 px-2 block rounded-md`}
+          } mt-1 py-1.5 px-3 block rounded-xl`}
           style={{
             ...textEllipsisStyle,
             // The first level menu item will have the same font size as the sidebar group
             fontSize: depth === 0 ? '14px' : '13px',
+            marginLeft: depth === 0 ? 0 : '12px',
           }}
         >
           {item.text}
@@ -156,12 +158,18 @@ export function SidebarGroupComp(props: SidebarItemProps) {
   };
 
   return (
-    <section key={id} className="mt-1 block">
+    <section
+      key={id}
+      className="mt-1 block"
+      style={{
+        marginLeft: depth === 0 ? 0 : '12px',
+      }}
+    >
       <div
         style={{
-          cursor: collapsible ? 'pointer' : 'none',
+          cursor: collapsible ? 'pointer' : 'normal',
         }}
-        className={`flex justify-between items-center rounded-md ${
+        className={`flex justify-between items-center rounded-xl ${
           // eslint-disable-next-line no-nested-ternary
           active
             ? styles.menuItemActive
@@ -180,14 +188,16 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         }}
       >
         <h2
-          className="py-1 px-2 text-sm font-semibold"
-          style={textEllipsisStyle}
+          className="py-1 px-2 text-sm font-bold ml-1"
+          style={{
+            ...textEllipsisStyle,
+          }}
         >
           {item.text}
         </h2>
         {collapsible && (
           <div
-            className={`${styles.collapseContainer} p-2 rounded-md`}
+            className={`${styles.collapseContainer} p-2 rounded-xl`}
             onClick={toggleCollapse}
           >
             {collapsibleIcon}
@@ -211,7 +221,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         >
           {(item as NormalizedSidebarGroup)?.items?.map((item, index) => (
             // eslint-disable-next-line react/no-array-index-key
-            <div key={index} className="ml-4">
+            <div key={index}>
               <SidebarItemComp
                 {...props}
                 item={item}
@@ -292,30 +302,48 @@ export function SideBar(props: Props) {
     }
   };
   return (
-    <aside
-      className={`modern-scrollbar ${styles.sidebar} ${
-        isSidebarOpen ? styles.open : ''
-      }`}
-    >
-      <div className="mt-1">
-        <nav>
-          {sidebarData.map(
-            (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
-              <SidebarItemComp
-                id={String(index)}
-                item={item}
-                depth={0}
-                activeMatcher={activeMatcher}
-                // The siderbarData is stable, so it's safe to use index as key
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                collapsed={(item as NormalizedSidebarGroup).collapsed ?? true}
-                setSidebarData={setSidebarData}
-                preloadLink={preloadLink}
-              />
-            ),
-          )}
-        </nav>
+    <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
+      <div className={`mt-1 ${styles.sidebarContent}`}>
+        <div
+          className="modern-scrollbar"
+          style={{
+            height: 'calc(100vh - var(--modern-nav-height) - 96px)',
+            overflow: 'scroll',
+          }}
+        >
+          <nav>
+            {sidebarData.map(
+              (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
+                <SidebarItemComp
+                  id={String(index)}
+                  item={item}
+                  depth={0}
+                  activeMatcher={activeMatcher}
+                  // The siderbarData is stable, so it's safe to use index as key
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                  collapsed={(item as NormalizedSidebarGroup).collapsed ?? true}
+                  setSidebarData={setSidebarData}
+                  preloadLink={preloadLink}
+                />
+              ),
+            )}
+          </nav>
+        </div>
+      </div>
+
+      <div
+        className="border-t border-solid border-gray-200 dark:border-gray-500 absolute"
+        style={{
+          left: '1.8rem',
+          width: 'calc(100% - 3.6rem)',
+        }}
+      >
+        <div className="mt-2 flex-center">
+          <NoSSR>
+            <SwitchAppearance />
+          </NoSSR>
+        </div>
       </div>
     </aside>
   );

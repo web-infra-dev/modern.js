@@ -35,6 +35,7 @@ export async function createMDXOptions(
   ) as PluggableList;
   const defaultLang = config.doc?.lang || '';
   return {
+    providerImportSource: '@mdx-js/react',
     remarkPlugins: [
       remarkPluginContainer,
       remarkGFM,
@@ -87,6 +88,7 @@ export async function createMDXOptions(
         rehypePluginExternalLinks,
         {
           target: '_blank',
+          rel: 'noopener noreferrer',
         },
       ],
       ...rehypePluginsFromConfig,

@@ -1,5 +1,14 @@
 # @modern-js/prod-server
 
+## 2.9.0
+
+### Patch Changes
+
+- 49bb8cd0ef: fix: move chunkmap.css comment to bottom of head
+  fix: 将 chunkmap.css 标记移动到 head 底部
+  - @modern-js/server-core@2.9.0
+  - @modern-js/utils@2.9.0
+
 ## 2.8.0
 
 ### Patch Changes

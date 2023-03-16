@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.8.0",
+  "version": "2.9.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -232,7 +232,7 @@
     "@types/node": "^14",
     "jest": "^27",
     "typescript": "^4",
-    "webpack": "^5.75.0",
+    "webpack": "^5.76.2",
     "@types/serialize-javascript": "^5.0.1"
   },
   "sideEffects": false
