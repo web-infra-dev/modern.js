@@ -65,7 +65,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 本文将从 Builder 的角度介绍 webpack 和 Rspack 之间的区别。如果需要了解更深层次的差异，请参考 [Rspack 文档](http://rspack.dev/zh/guide/migrate-from-webpack.html)。
 
-### 配置差异
+### Builder 配置差异
 
 目前，Builder 内大部分的配置项已经适配了 Rspack。Builder 所做的工作包括不限于：
 
@@ -155,6 +155,8 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 :::
 
 ### 修改 Rspack 配置
+
+在修改 Rspack 配置之前，你可能需要了解 [Rspack 和 Webpack 的配置兼容性](https://www.rspack.dev/zh/guide/config-diff.html)。
 
 你可以使用 [tools.rspack](/api/config-tools.html#toolsrspack) 来修改 Rspack 配置对象，对 Rspack 配置进行更灵活的操作。
 
