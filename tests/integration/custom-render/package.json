@@ -26,7 +26,7 @@
     "typescript": "^4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/jest": "^27",
+    "@types/jest": "^29",
     "@types/node": "^14"
   }
 }
