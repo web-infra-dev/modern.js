@@ -90,6 +90,7 @@
       "./serialize": "./dist/serialize.js",
       "./nestedRoutes": "./dist/nestedRoutes.js",
       "./remix-router": "./dist/remix-router.js",
+      "./babel": "./dist/babel.js",
       "./ajv": "./compiled/ajv/index.js",
       "./glob": "./compiled/glob/index.js",
       "./chalk": "./compiled/chalk/index.js",
