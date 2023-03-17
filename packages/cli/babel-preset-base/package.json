@@ -46,6 +46,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

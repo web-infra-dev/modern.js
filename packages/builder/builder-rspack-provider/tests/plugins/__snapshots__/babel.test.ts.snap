@@ -1,0 +1,39 @@
+// Vitest Snapshot v1
+
+exports[`plugins/babel > should not set babel-loader 1`] = `
+{
+  "module": {},
+}
+`;
+
+exports[`plugins/babel > should set babel-loader 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

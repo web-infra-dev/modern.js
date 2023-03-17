@@ -12,8 +12,6 @@ import type {
   ModifyWebpackConfigUtils,
 } from '../hooks';
 import type {
-  BabelConfigUtils,
-  BabelTransformOptions,
   CSSExtractOptions,
   CSSLoaderOptions,
   CssMinimizerPluginOptions,
@@ -34,11 +32,6 @@ import type { NormalizedCSSExtractOptions } from '../thirdParty/css';
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
 
 export type ToolsMinifyCssConfig = ChainedConfig<CssMinimizerPluginOptions>;
-
-export type ToolsBabelConfig = ChainedConfig<
-  BabelTransformOptions,
-  BabelConfigUtils
->;
 
 export type ToolsTSLoaderConfig = ChainedConfig<
   TSLoaderOptions,
@@ -96,16 +89,6 @@ export interface ToolsConfig extends SharedToolsConfig {
    * Modify the config of [less-loader](https://github.com/webpack-contrib/less-loader).
    */
   less?: ToolsLessConfig;
-  /**
-   * Modify the options of [babel-loader](https://github.com/babel/babel-loader)
-   *
-   * When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result.
-   *
-   * When `tools.babel`'s type is `Object`, the config will be shallow merged with default config by `Object.assign`.
-   *
-   * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
-   */
-  babel?: ToolsBabelConfig;
   /**
    * Modify the options of [terser-webpack-plugin](https://github.com/webpack-contrib/terser-webpack-plugin).
    */

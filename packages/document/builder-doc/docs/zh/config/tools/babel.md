@@ -1,8 +1,11 @@
 - **类型：** `Object | Function`
 - **默认值：** `undefined`
-- **打包工具：** `仅支持 webpack`
 
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
+
+:::warning
+在使用 Rspack 作为打包工具时，使用该配置项将在一定程度上拖慢 Rspack 构建速度。
+:::
 
 ### Function 类型
 

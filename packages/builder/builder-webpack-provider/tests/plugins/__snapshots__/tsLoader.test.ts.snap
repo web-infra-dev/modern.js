@@ -22,7 +22,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "presets": [
                 [
@@ -74,7 +74,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "presets": [
                 [

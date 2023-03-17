@@ -387,6 +387,7 @@ importers:
       '@babel/preset-react': ^7.17.12
       '@babel/preset-typescript': ^7.17.12
       '@babel/runtime': ^7.18.0
+      '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -408,6 +409,7 @@ importers:
       '@types/babel__core': 7.1.20
       lodash: 4.17.21
     devDependencies:
+      '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/jest': 29.4.4
@@ -4063,6 +4065,24 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/builder-shared': link:../../../../../packages/builder/builder-shared
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/cases/babel:
+    specifiers:
+      '@modern-js/babel-preset-app': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      typescript: ^4
+    devDependencies:
+      '@modern-js/babel-preset-app': link:../../../../../packages/cli/babel-preset-app
       '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
@@ -12534,7 +12554,7 @@ packages:
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/webpack': 4.41.32
       autoprefixer: 9.8.8
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
@@ -12829,7 +12849,7 @@ packages:
       '@babel/register': 7.18.6_@babel+core@7.20.5
       '@storybook/node-logger': 6.5.12
       '@storybook/semver': 7.3.2
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/pretty-hrtime': 1.0.1
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       babel-plugin-macros: 3.1.0
@@ -12901,7 +12921,7 @@ packages:
       '@storybook/semver': 7.3.2
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/telemetry': 6.5.12_lb6du3saekb5anf2gjv3wxj3oq
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/node-fetch': 2.6.2
       '@types/pretty-hrtime': 1.0.1
       '@types/webpack': 4.41.32
@@ -13054,7 +13074,7 @@ packages:
       '@storybook/node-logger': 6.5.12
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/webpack': 4.41.32
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       case-sensitive-paths-webpack-plugin: 2.4.0
@@ -14426,6 +14446,7 @@ packages:
 
   /@types/node/16.18.10:
     resolution: {integrity: sha512-XU1+v7h81p7145ddPfjv7jtWvkSilpcnON3mQ+bDi9Yuf7OI56efOglXRyXWgQ57xH3fEQgh7WOJMncRHVew5w==}
+    dev: true
 
   /@types/node/18.11.17:
     resolution: {integrity: sha512-HJSUJmni4BeDHhfzn6nF0sVmd1SMezP7/4F0Lq+aXzmp2xm9O7WXrUtHW/CHlYVtZUbByEvWidHqRtcJXGF2Ng==}

@@ -42,3 +42,4 @@ export * from './testUtils';
 export * from './getCoreJsVersion';
 export * from './react';
 export * from './getTargetDir';
+export * from './babel';

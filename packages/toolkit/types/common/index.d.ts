@@ -1,7 +1,4 @@
-export type {
-  TransformOptions as BabelTransformOptions,
-  PluginItem as BabelPlugin,
-} from '@babel/core';
+export * from './babel';
 
 export type InternalPlugins = Record<
   string,
