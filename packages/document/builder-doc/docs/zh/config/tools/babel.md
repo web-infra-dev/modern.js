@@ -3,16 +3,8 @@
 
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
 
-:::tip
-默认情况下，Rspack 将使用 SWC 来对 JS 文件做语法降级。通常这能满足大部分用户需求，但当用户需要添加 Babel Plugin 来处理特定语法时，还是需要使用 babel-loader 来做处理。
-
-因此在使用 Rspack 作为打包工具时，你需要执行以下命令安装 `@modern-js/babel-preset-app` 依赖包以此获得 babel-loader 的支持。
-
-```shell
-pnpm add @modern-js/babel-preset-app --save-dev
-```
-
-需要注意的是：**使用该配置项时，将在一定程度上拖慢 Rspack 构建速度。**
+:::warning
+在使用 Rspack 作为打包工具时，使用该配置项将在一定程度上拖慢 Rspack 构建速度。
 :::
 
 ### Function 类型

@@ -3,16 +3,8 @@
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
-:::tip
-By default, Rspack will use SWC to do syntax downgrading of JS files. This usually works for most users, but when you need to add the Babel Plugin to handle specific syntax, you will need to use the babel-loader to do so.
-
-So to use Rspack as a packaging tool, you need to install the `@modern-js/babel-preset-app` dependency package to get support for babel-loader.
-
-```shell
-pnpm add @modern-js/babel-preset-app --save-dev
-```
-
-Note: **When using this configuration item, it will slow down the Rspack build to a degree. **
+:::warningd
+When using Rspack as a packaging tool, using this configuration item will slow down Rspack builds a bit.
 :::
 
 ### Function Type
