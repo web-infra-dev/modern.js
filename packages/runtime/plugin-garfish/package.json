@@ -75,11 +75,6 @@
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^2.9.0"
   },
-  "peerDependenciesMeta": {
-    "@modern-js/runtime": {
-      "optional": true
-    }
-  },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
