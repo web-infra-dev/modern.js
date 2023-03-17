@@ -116,10 +116,9 @@ const createCli = () => {
       mergedOptions?.packageJsonConfig,
     );
 
-    const autoLoadPlugins = mergedOptions?.internalPlugins?.autoLoad || {};
     const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
-      autoLoad: autoLoadPlugins,
+      autoLoad: mergedOptions?.internalPlugins?.autoLoad,
       forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
 
