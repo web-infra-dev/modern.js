@@ -9,7 +9,7 @@ export const Blockquote = (props: ComponentProps<'blockquote'>) => {
   return (
     <blockquote
       {...props}
-      className={`border-l-2 border-solid border-divider pl-4 my-4 transition-colors duration-500 ${styles.blockquote}`}
+      className={`border-l-2 border-solid border-divider pl-4 my-6 transition-colors duration-500 ${styles.blockquote}`}
     />
   );
 };
