@@ -76,7 +76,6 @@
     "zod-validation-error": "^0.3.0"
   },
   "devDependencies": {
-    "@modern-js/babel-preset-app": "workspace:*",
     "@babel/core": "7.18.0",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.1.19",

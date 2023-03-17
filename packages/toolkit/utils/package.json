@@ -50,6 +50,10 @@
       "jsnext:source": "./src/remix-router.ts",
       "default": "./dist/remix-router.js"
     },
+    "./babel": {
+      "jsnext:source": "./src/babel.ts",
+      "default": "./dist/babel.js"
+    },
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
@@ -126,6 +130,9 @@
       ],
       "nestedRoutes": [
         "./dist/nestedRoutes.d.ts"
+      ],
+      "babel": [
+        "./dist/babel.d.ts"
       ],
       "ajv": [
         "./compiled/ajv/types/ajv.d.ts"

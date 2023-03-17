@@ -1,8 +1,5 @@
-import {
-  BabelOptions,
-  createBabelChain,
-  applyUserBabelConfig,
-} from '@modern-js/babel-preset-base';
+import { BabelOptions, createBabelChain } from '@modern-js/babel-preset-base';
+import { applyUserBabelConfig } from '@modern-js/utils';
 import { generate } from './generate';
 import type { Options } from './type';
 
@@ -14,7 +11,6 @@ export type {
   BabelConfig,
   BabelConfigUtils,
 } from '@modern-js/babel-preset-base';
-export { applyUserBabelConfig } from '@modern-js/babel-preset-base';
 
 export * from '@modern-js/babel-preset-base';
 

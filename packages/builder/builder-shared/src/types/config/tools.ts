@@ -1,5 +1,9 @@
 import type { ArrayOrNot, ChainedConfig, FileFilterUtil } from '../utils';
-import type { DevServerOptions, BabelTransformOptions } from '@modern-js/types';
+import type {
+  DevServerOptions,
+  BabelTransformOptions,
+  BabelConfigUtils,
+} from '@modern-js/types';
 import type {
   AutoprefixerOptions,
   SassLoaderOptions,
@@ -7,7 +11,6 @@ import type {
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
-import type { BabelConfigUtils } from '@modern-js/babel-preset-app';
 
 /** html-rspack-plugin is compatible with html-webpack-plugin */
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';

@@ -8,16 +8,6 @@ import {
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/babel-preset-app';
 
-async function loadBabelPresetApp() {
-  try {
-    return await import('@modern-js/babel-preset-app');
-  } catch (_) {
-    throw new Error(
-      'Failed to use babel in Rspack bundler, please check if you have `@modern-js/babel-preset-app` installed',
-    );
-  }
-}
-
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
   setup(api) {
@@ -28,7 +18,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
         return;
       }
 
-      const { applyUserBabelConfig } = await loadBabelPresetApp();
+      const { applyUserBabelConfig } = await import('@modern-js/utils');
 
       const getBabelOptions = (config: NormalizedConfig) => {
         // 1. Create babel utils function about include/exclude,

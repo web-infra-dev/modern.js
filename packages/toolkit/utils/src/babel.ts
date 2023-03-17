@@ -1,7 +1,16 @@
-import { sep, isAbsolute } from 'path';
-import { ensureArray, normalizeToPosixPath } from '@modern-js/utils';
-import type { TransformOptions, PluginItem, PluginOptions } from '@babel/core';
-import { BabelConfigUtils, PresetEnvOptions, PresetReactOptions } from './type';
+import { isAbsolute, sep } from 'path';
+import {
+  BabelConfig,
+  BabelConfigUtils,
+  BabelTransformOptions,
+  BabelPlugin,
+  PresetEnvOptions,
+  PresetReactOptions,
+  BabelPluginOptions,
+} from '@modern-js/types';
+import { applyOptionsChain } from './applyOptionsChain';
+import { ensureArray } from './ensureArray';
+import { normalizeToPosixPath } from './path';
 
 // compatible with windows path
 const formatPath = (originPath: string) => {
@@ -11,7 +20,7 @@ const formatPath = (originPath: string) => {
   return originPath;
 };
 
-const getPluginItemName = (item: PluginItem) => {
+const getPluginItemName = (item: BabelPlugin) => {
   if (typeof item === 'string') {
     return formatPath(item);
   }
@@ -21,7 +30,7 @@ const getPluginItemName = (item: PluginItem) => {
   return null;
 };
 
-const addPlugins = (plugins: PluginItem[], config: TransformOptions) => {
+const addPlugins = (plugins: BabelPlugin[], config: BabelTransformOptions) => {
   if (config.plugins) {
     config.plugins.push(...plugins);
   } else {
@@ -29,7 +38,7 @@ const addPlugins = (plugins: PluginItem[], config: TransformOptions) => {
   }
 };
 
-const addPresets = (presets: PluginItem[], config: TransformOptions) => {
+const addPresets = (presets: BabelPlugin[], config: BabelTransformOptions) => {
   if (config.presets) {
     config.presets.push(...presets);
   } else {
@@ -39,7 +48,7 @@ const addPresets = (presets: PluginItem[], config: TransformOptions) => {
 
 const removePlugins = (
   plugins: string | string[],
-  config: TransformOptions,
+  config: BabelTransformOptions,
 ) => {
   if (!config.plugins) {
     return;
@@ -47,7 +56,7 @@ const removePlugins = (
 
   const removeList = ensureArray(plugins);
 
-  config.plugins = config.plugins.filter((item: PluginItem) => {
+  config.plugins = config.plugins.filter((item: BabelPlugin) => {
     const name = getPluginItemName(item);
     if (name) {
       return !removeList.find(removeItem => name.includes(removeItem));
@@ -58,7 +67,7 @@ const removePlugins = (
 
 const removePresets = (
   presets: string | string[],
-  config: TransformOptions,
+  config: BabelTransformOptions,
 ) => {
   if (!config.presets) {
     return;
@@ -66,7 +75,7 @@ const removePresets = (
 
   const removeList = ensureArray(presets);
 
-  config.presets = config.presets.filter((item: PluginItem) => {
+  config.presets = config.presets.filter((item: BabelPlugin) => {
     const name = getPluginItemName(item);
     if (name) {
       return !removeList.find(removeItem => name.includes(removeItem));
@@ -78,9 +87,9 @@ const removePresets = (
 const modifyPresetOptions = <T>(
   presetName: string,
   options: T,
-  presets: PluginItem[] = [],
+  presets: BabelPlugin[] = [],
 ) => {
-  presets.forEach((preset: PluginItem, index) => {
+  presets.forEach((preset: BabelPlugin, index) => {
     // 1. ['@babel/preset-env', ...]
     if (Array.isArray(preset)) {
       if (
@@ -91,7 +100,7 @@ const modifyPresetOptions = <T>(
           ...(preset[1] || {}),
           ...options,
           // `options` is specific to different presets
-        } as unknown as PluginOptions;
+        } as unknown as BabelPluginOptions;
       }
     } else if (
       typeof preset === 'string' &&
@@ -103,12 +112,14 @@ const modifyPresetOptions = <T>(
   });
 };
 
-export const getBabelUtils = (config: TransformOptions): BabelConfigUtils => {
+export const getBabelUtils = (
+  config: BabelTransformOptions,
+): BabelConfigUtils => {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   const noop = () => {};
   return {
-    addPlugins: (plugins: PluginItem[]) => addPlugins(plugins, config),
-    addPresets: (presets: PluginItem[]) => addPresets(presets, config),
+    addPlugins: (plugins: BabelPlugin[]) => addPlugins(plugins, config),
+    addPresets: (presets: BabelPlugin[]) => addPresets(presets, config),
     removePlugins: (plugins: string | string[]) =>
       removePlugins(plugins, config),
     removePresets: (presets: string | string[]) =>
@@ -123,4 +134,21 @@ export const getBabelUtils = (config: TransformOptions): BabelConfigUtils => {
     modifyPresetReactOptions: (options: PresetReactOptions) =>
       modifyPresetOptions('@babel/preset-react', options, config.presets || []),
   };
+};
+
+export const applyUserBabelConfig = (
+  defaultOptions: BabelTransformOptions,
+  userBabelConfig?: BabelConfig | BabelConfig[],
+  extraBabelUtils?: Partial<BabelConfigUtils>,
+): BabelTransformOptions => {
+  if (userBabelConfig) {
+    const babelUtils = {
+      ...getBabelUtils(defaultOptions),
+      ...extraBabelUtils,
+    } as BabelConfigUtils;
+
+    return applyOptionsChain(defaultOptions, userBabelConfig || {}, babelUtils);
+  }
+
+  return defaultOptions;
 };
