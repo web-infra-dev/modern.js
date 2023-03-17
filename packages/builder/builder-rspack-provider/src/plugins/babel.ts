@@ -6,7 +6,7 @@ import {
   TS_REGEX,
 } from '@modern-js/builder-shared';
 import { BuilderPlugin, NormalizedConfig } from '../types';
-import type { BabelOptions } from '@modern-js/babel-preset-app';
+import type { BabelOptions } from '@modern-js/types';
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
