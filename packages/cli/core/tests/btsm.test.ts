@@ -13,7 +13,14 @@ describe('jsnext:source', () => {
         encoding: 'utf-8',
       },
     );
-    expect(stdout).toBe('');
+    expect(
+      stdout.includes('Can not find any config file in the current project'),
+    ).toBeTruthy();
+    expect(
+      stdout.includes(
+        'No command found, please make sure you have registered plugins correctly.',
+      ),
+    ).toBeTruthy();
     expect(stderr).toBe('');
     expect(status).toBe(0);
   });

@@ -194,6 +194,12 @@ const createCli = () => {
     await createFileWatcher(appContext, hooksRunner);
 
     program.parse(process.argv);
+
+    if (!program.commands || !program.commands.length) {
+      logger.warn(
+        'No command found, please make sure you have registered plugins correctly.',
+      );
+    }
   }
 
   async function test(

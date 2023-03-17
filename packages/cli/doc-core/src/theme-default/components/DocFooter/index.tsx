@@ -10,7 +10,7 @@ export function DocFooter() {
 
   return (
     <footer className="mt-8">
-      <div className="flex flex-col sm:flex-row sm:justify-around gap-2 pt-6">
+      <div className="flex flex-col sm:flex-row sm:justify-around gap-4 pt-6">
         <div className={`${styles.prev} flex flex-col`}>
           {prevPage ? (
             <Link

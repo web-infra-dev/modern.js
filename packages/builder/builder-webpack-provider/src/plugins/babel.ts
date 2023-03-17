@@ -9,7 +9,8 @@ import {
   mergeRegex,
   createVirtualModule,
   getBrowserslistWithDefault,
-  type BuilderContext,
+  getSharedPkgCompiledPath,
+  applyScriptCondition,
 } from '@modern-js/builder-shared';
 
 import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
@@ -28,47 +29,13 @@ export const getUseBuiltIns = (config: NormalizedConfig) => {
   return polyfill;
 };
 
-export function applyScriptCondition({
-  rule,
-  config,
-  context,
-  includes,
-  excludes,
-}: {
-  rule: WebpackChain.Rule;
-  config: NormalizedConfig;
-  context: BuilderContext;
-  includes: (string | RegExp)[];
-  excludes: (string | RegExp)[];
-}) {
-  // compile all folders in app directory, exclude node_modules
-  rule.include.add({
-    and: [context.rootPath, { not: /node_modules/ }],
-  });
-
-  [...includes, ...(config.source.include || [])].forEach(condition => {
-    rule.include.add(condition);
-  });
-
-  [...excludes, ...(config.source.exclude || [])].forEach(condition => {
-    rule.exclude.add(condition);
-  });
-}
-
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
   setup(api) {
     api.modifyWebpackChain(
       async (
         chain,
-        {
-          CHAIN_ID,
-          getCompiledPath,
-          target,
-          isProd,
-          isServer,
-          isServiceWorker,
-        },
+        { CHAIN_ID, target, isProd, isServer, isServiceWorker },
       ) => {
         const { applyOptionsChain, isUseSSRBundle } = await import(
           '@modern-js/utils'
@@ -170,7 +137,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
         rule
           .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
           .use(CHAIN_ID.USE.BABEL)
-          .loader(getCompiledPath('babel-loader'))
+          .loader(getSharedPkgCompiledPath('babel-loader'))
           .options(babelOptions);
 
         /**
@@ -186,7 +153,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
               or: ['text/javascript', 'application/javascript'],
             })
             .use(CHAIN_ID.USE.BABEL)
-            .loader(getCompiledPath('babel-loader'))
+            .loader(getSharedPkgCompiledPath('babel-loader'))
             .options(babelOptions);
         }
 
