@@ -443,7 +443,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -563,7 +563,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -1296,7 +1296,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
@@ -1422,7 +1422,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
@@ -2095,7 +2095,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
@@ -2219,7 +2219,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
@@ -2817,7 +2817,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
@@ -2943,7 +2943,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
