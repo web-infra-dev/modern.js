@@ -1,0 +1,245 @@
+# Install denpendencies
+
+The full name of umd is **Universal Module Definition**, and JS files in this format can run in multiple runtime environments: the
+
+- Browser environment: module loading based on AMD specification
+- Node.js environment: module loading based on CommonJS
+- Other cases: mount the module on a global object.
+
+We can therefore specify the build product of the project as an umd product in the following way:
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    format: "umd",
+  },
+});
+```
+
+## Third-party dependency handling for umd products
+
+In the [[How to handle third-party dependencies]](/en/guide/advance/external-dependency) chapter, we know that we can control whether or not the project packages third-party dependencies via the [`autoExternals`](/en/api/config/build-config#autoexternal) and [`externals`](/en/api/config/build-config#externals) APIs.
+So when building umd products, we can also use it like this:
+
+<CH.Spotlight>
+
+```json package.json
+{
+  "dependencies": {
+    "react": "^17"
+    //...other dependencies
+  }
+}
+```
+
+---
+
+If the project depends on `react`.
+
+```json package.json
+{
+  "dependencies": {
+    "react": "^17"
+    //...other dependencies
+  }
+}
+```
+
+---
+
+`modern.config.ts`.
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    format: "umd",
+    autoExternal: false,
+    externals: ["react"],
+  },
+});
+```
+
+---
+
+When a `react` dependency is used in the source code.
+
+```tsx src/index.ts
+import React from "react";
+console.info(React);
+```
+
+---
+
+The `react` code is not packaged into the product at this point.
+
+```js dist/index.js focus=1:7
+(function (global, factory) {
+  if (typeof module === "object" && typeof module.exports === "object")
+    factory(exports, require("react"));
+  else if (typeof define === "function" && define.amd)
+    define(["exports", "react"], factory);
+  else if (
+    (global = typeof globalThis !== "undefined" ? globalThis : global || self)
+  )
+    factory((global.index = {}), global.react);
+})(this, function (exports, _react) {
+  "use strict";
+  Object.defineProperty(exports, "__esModule", {
+    value: true,
+  });
+  _react = /*#__PURE__*/ _interopRequireDefault(_react);
+  function _interopRequireDefault(obj) {
+    return obj && obj.__esModule
+      ? obj
+      : {
+          default: obj,
+        };
+  }
+  console.info(_react.default);
+});
+```
+
+</CH.Spotlight>
+
+We know from the above example that when using the `autoExternal` and `externals` APIs.
+
+- In a Node.js environment, you can get the react dependency with `require('react')`.
+- In a browser environment, you can get the react dependency via `global.react`.
+
+However, in the browser environment, when getting third-party dependencies, **global variable names are not necessarily identical to the dependency names**, so you have to use the [`buildConfig.umdGlobals`](/en/api/config/build-config#umdglobals) API.
+
+Again using the previous example, when the `react` dependency exists in the browser environment as a `windows.React` or `global.React` global variable, then:
+
+<CH.Spotlight>
+
+```json package.json
+{
+  "devDependencies": {
+    "react": "^17"
+  }
+}
+```
+
+---
+
+If the project depends on `react`.
+
+```json package.json
+{
+  "devDependencies": {
+    "react": "^17"
+  }
+}
+```
+
+---
+
+`modern.config.ts` config file。
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    format: "umd",
+    umdGlobals: {
+      react: "React",
+    },
+  },
+});
+```
+
+---
+
+When a `react` dependency is used in the source code.
+
+```tsx src/index.ts
+import React from "react";
+console.info(React);
+```
+
+---
+
+At this point we will see the product code like this.
+
+```js dist/index.js focus=7:12
+(function (global, factory) {
+  if (typeof module === "object" && typeof module.exports === "object")
+    factory();
+  else if (typeof define === "function" && define.amd) define([], factory);
+  else if (
+    (global = typeof globalThis !== "undefined" ? globalThis : global || self)
+  )
+    factory();
+})(this, function () {
+  // ...
+  // libuild:globals:react
+  var require_react = __commonJS({
+    "libuild:globals:react"(exports, module1) {
+      module1.exports = Function("return this")()["React"];
+    },
+  });
+  // src/index.ts
+  var import_react = __toESM(require_react());
+  console.info(import_react.default);
+});
+```
+
+</CH.Spotlight>
+
+The project can then run in the browser and use the `React` variables that exist on the global object.
+
+## Changing the name of a global variable in a project
+
+When we package the following code into an umd product and run it in the browser, we can use the module via `window.index`.
+
+```ts ./src/index.ts
+export default () => {
+  console.info("hello world");
+};
+```
+
+** By default, the name of the source file is used as the name of the module's global variable in the browser. **For the above example, the product would read as follows:
+
+```js ./dist/index.js focus=6:6
+(function (global, factory) {
+  if (typeof module === "object" && typeof module.exports === "object")
+    factory(exports);
+  else if (typeof define === "function" && define.amd)
+    define(["exports"], factory);
+  else if (
+    (global = typeof globalThis !== "undefined" ? globalThis : global || self)
+  )
+    factory((global.index = {}));
+})(this, function (exports) {
+  //...
+});
+```
+
+If you need to modify it, you need to use the [`buildConfig.umdModuleName`](/en/api/config/build-config#umdmodulename) API.
+
+When this API is used:
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    format: "umd",
+    umdModuleName: "myLib",
+  },
+});
+```
+
+The construction products at this point are:
+
+```js ./dist/index.js focus=6:6
+(function (global, factory) {
+  if (typeof module === "object" && typeof module.exports === "object")
+    factory(exports);
+  else if (typeof define === "function" && define.amd)
+    define(["exports"], factory);
+  else if (
+    (global = typeof globalThis !== "undefined" ? globalThis : global || self)
+  )
+    factory((global.myLib = {}));
+})(this, function (exports) {
+  //...
+});
+```

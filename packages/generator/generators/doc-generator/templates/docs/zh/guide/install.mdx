@@ -1,0 +1,113 @@
+# 安装依赖
+
+在[【插件对象】](/plugins/guide/plugin-object) 部分我们知道插件对象包含了一个 `setup` 函数，该函数不仅包含了一个 `api` 对象参数，同时还可以返回一个 Hooks 对象。
+
+## 插件 API 对象
+
+插件的 `setup` 函数会提供一个 `api` 对象参数，你可以调用该对象上提供的一些方法来获取到配置、项目上下文等信息。
+
+```ts
+export default (): CliPlugin<ModuleTools> => ({
+  name: "my-plugin",
+
+  setup(api) {
+    // 获取应用原始配置
+    const config = api.useConfigContext();
+    // 获取应用运行上下文
+    const appContext = api.useAppContext();
+    // 获取解析之后的最终配置
+    const resolvedConfig = api.useResolvedConfigContext();
+  },
+});
+```
+
+### `api.useAppContext`
+
+用于获取项目上下文信息。
+
+```ts
+const useAppContext: () => IAppContext;
+
+interface IAppContext {
+  appDirectory: string;
+  configFile: string | false;
+  packageName: string;
+  nodeModulesDirectory: string;
+  internalDirectory: string;
+  plugins: {
+    cli?: any;
+    server?: any;
+  }[];
+}
+```
+
+:::info
+通过实际的类型文件我们可以看到还存在着其他的字段，不过目前对于模块工程有意义的字段只有以上内容。api 对象其他的方法也是如此。
+:::
+
+### `api.useResolvedConfigContext`
+
+用于获取解析之后的最终配置。
+
+:::info
+如果需要获取构建相关的最终配置，需要使用 [`beforeBuild`]() Hook。
+:::
+
+```ts
+const useResolvedConfigContext: () => NormalizedConfig;
+
+interface NormalizedConfig {
+  buildConfig: PartialBuildConfig;
+  buildPreset: BuildPreset;
+  designSystem?: Record<string, any>;
+  dev: Dev;
+  plugins: PluginConfig;
+  runtime: RuntimeConfig;
+  runtimeByEntries?: RuntimeByEntriesConfig;
+  _raw: UserConfig;
+}
+```
+
+### `api.useHookRunners`
+
+用于获取 Hooks 的执行器，并触发特定的 Hook 执行。
+
+```ts
+import type { CliPlugin } from "@modern-js/core";
+
+export default (): CliPlugin => ({
+  name: "my-plugin",
+
+  async setup(api) {
+    const hookRunners = api.useHookRunners();
+    // 触发 afterBuild Hook
+    await hookRunners.afterBuild();
+  },
+});
+```
+
+## 异步 setup
+
+CLI 插件的 setup 可以是一个异步函数，在初始化过程中执行异步逻辑。
+
+```ts
+export default (): CliPlugin<ModuleTools> => ({
+  name: "my-plugin",
+
+  async setup(api) {
+    await doSomething();
+  },
+});
+```
+
+## 生命周期钩子
+
+我们知道 `setup` 函数会返回一个 Hooks 对象，所谓 Hooks 对象也可以理解是具有 module-tools 生命周期钩子的对象。
+
+目前主要包含两类钩子：
+
+- 构建钩子：仅在执行 `build` 命令构建源码产物时触发。
+- `buildPlatform` 钩子：仅在执行 `build --platform` 命令生成其他构建产物时触发。
+- 调试钩子：运行 `dev` 命令时会触发的钩子。
+
+关于生命周期钩子的完整列表参考 [API 文档](/api/plugin-api/plugin-hooks)。
