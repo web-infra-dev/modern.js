@@ -15,7 +15,9 @@ export const compiler = (fixture: string, options: APILoaderOptions) => {
   const compiler = webpack({
     context: __dirname,
     entry: fixture,
+    mode: 'development',
     target: 'node',
+    devtool: false,
     output: {
       path: path.resolve(__dirname),
       filename: 'bundle.js',
@@ -31,7 +33,7 @@ export const compiler = (fixture: string, options: APILoaderOptions) => {
         },
       ],
     },
-    resolve: { extensions: ['.ts', '...'] },
+    resolve: { extensions: ['.ts'] },
   });
 
   compiler.outputFileSystem = createFsFromVolume(new Volume());

@@ -31,11 +31,6 @@ export const setJestConfigForBFF = async ({
     testEnvironment: 'node',
     testMatch: [`**/api/**/*.test.[jt]s`],
     globals: {
-      'ts-jest': {
-        diagnostics: {
-          warnOnly: true,
-        },
-      },
       [bff_info_key]: {
         appDir: pwd,
         modernUserConfig: userConfig,
@@ -54,7 +49,14 @@ export const setJestConfigForBFF = async ({
 
   // 服务端统一使用 ts-jest
   const transform = {
-    '\\.[jt]sx?$': require.resolve('ts-jest'),
+    '\\.[jt]sx?$': [
+      require.resolve('ts-jest'),
+      {
+        diagnostics: {
+          warnOnly: true,
+        },
+      },
+    ],
   };
 
   const apiOnly = await isApiOnly(pwd);

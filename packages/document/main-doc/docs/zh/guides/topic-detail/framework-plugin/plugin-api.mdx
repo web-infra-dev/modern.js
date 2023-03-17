@@ -2,6 +2,7 @@
 title: 插件 API
 sidebar_position: 6
 ---
+
 # 插件 API
 
 插件的 `setup` 函数会接收一个 `api` 入参，你可以调用 api 上提供的一些方法来获取到配置、应用上下文等信息。
@@ -36,16 +37,39 @@ interface UserConfig {
   source?: SourceConfig;
   output?: OutputConfig;
   server?: ServerConfig;
-  dev?: DevConfig;
   deploy?: DeployConfig;
-  tools?: ToolsConfig;
-  plugins?: PluginConfig;
-  runtime?: RuntimeConfig;
-  runtimeByEntries?: RuntimeByEntriesConfig;
+  // ...other fields
 }
 ```
 
-具体配置字段的意义请参考【[配置](/configure/app/usage)】。
+具体配置字段的意义请参考 [配置](/configure/app/usage)。
+
+:::tip
+该方法获取到的是只读配置，不可修改。如果需要修改配置，请使用 [config hook](/guides/topic-detail/framework-plugin/hook-list.html#config)。
+:::
+
+### useResolvedConfigContext
+
+用于获取被解析、合并之后的最终配置。
+
+```ts
+const useResolvedConfigContext: () => NormalizedConfig;
+
+interface NormalizedConfig {
+  source: NormalizedSourceConfig;
+  output: NormalizedOutputConfig;
+  server: NormalizedServerConfig;
+  deploy: NormalizedDeployConfig;
+  _raw: UserConfig; // 原始配置对象
+  // ...other fields
+}
+```
+
+配置字段的完整内容请参考 [配置](/configure/app/usage)。
+
+:::tip
+该方法获取到的是只读配置，不可修改。如果需要修改配置，请使用 [config hook](/guides/topic-detail/framework-plugin/hook-list.html#config)。
+:::
 
 ### useAppContext
 
@@ -74,29 +98,6 @@ interface IAppContext {
   htmlTemplates: HtmlTemplates;
 }
 ```
-
-### useResolvedConfigContext
-
-用于获取解析之后的最终配置。
-
-```ts
-const useResolvedConfigContext: () => NormalizedConfig;
-
-interface NormalizedConfig {
-  source: NormalizedSourceConfig;
-  output: OutputConfig;
-  server: ServerConfig;
-  dev: DevConfig;
-  deploy: DeployConfig;
-  tools: NormalizedToolsConfig;
-  plugins: PluginConfig;
-  runtime: RuntimeConfig;
-  runtimeByEntries?: RuntimeByEntriesConfig;
-  _raw: UserConfig;
-}
-```
-
-具体配置字段的意义请参考【[配置](/configure/app/usage)】。
 
 ### useHookRunners
 

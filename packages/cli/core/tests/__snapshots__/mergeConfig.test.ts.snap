@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`assign pkg config should merge properties deeply 1`] = `
-Object {
-  "runtime": Object {
+{
+  "runtime": {
     "router": true,
     "state": true,
   },
@@ -10,13 +10,13 @@ Object {
 `;
 
 exports[`assign pkg config should preserve symbol of plugins 1`] = `
-Object {
-  "plugins": Array [
-    Object {
+{
+  "plugins": [
+    {
       Symbol(test): "test",
     },
   ],
-  "runtime": Object {
+  "runtime": {
     "router": true,
   },
 }
