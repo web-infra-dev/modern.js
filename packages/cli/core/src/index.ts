@@ -116,9 +116,10 @@ const createCli = () => {
       mergedOptions?.packageJsonConfig,
     );
 
+    const autoLoadPlugins = mergedOptions?.internalPlugins?.autoLoad || {};
     const plugins = await loadPlugins(appDirectory, loaded.config, {
       internalPlugins: mergedOptions?.internalPlugins?.cli,
-      autoLoad: mergedOptions?.internalPlugins?.autoLoad,
+      autoLoad: autoLoadPlugins,
       forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
 
@@ -194,6 +195,12 @@ const createCli = () => {
     await createFileWatcher(appContext, hooksRunner);
 
     program.parse(process.argv);
+
+    if (!program.commands || !program.commands.length) {
+      logger.warn(
+        'No command found, please make sure you have registered plugins correctly.',
+      );
+    }
   }
 
   async function test(
