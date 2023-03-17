@@ -48,11 +48,11 @@ const resolveFnStr = `function r(e,r,o,A){A?_ROUTER_DATA.r[e][r].reject(A):_ROUT
     if(typeof error !== 'undefined'){
       return Promise.reject(new Error(error.message));
     }else{
-      return Promise.resovle(data);
+      return Promise.resolve(data);
     }
   }
    */
-const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new Error(r.message)):Promise.resovle(e)};`;
+const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new Error(r.message)):Promise.resolve(e)};`;
 
 /**
  * DeferredDataScripts only renders in server side,
