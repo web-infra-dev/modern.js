@@ -19,7 +19,8 @@ export function buildShellAfterTemplate(
 
     function buildSSRDataScript() {
       const {
-        context: { ssrContext, renderLevel, initialData, __i18nData__ },
+        context: { ssrContext, initialData, __i18nData__ },
+        renderLevel,
       } = options;
       const { request, enableUnsafeCtx } = ssrContext!;
       const unsafeContext = {
