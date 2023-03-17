@@ -2,6 +2,8 @@ import path from 'path';
 import { mergeWith } from '@modern-js/utils/lodash';
 import {
   fs,
+  chalk,
+  logger,
   getCommand,
   getNodeEnv,
   findExists,
@@ -92,6 +94,13 @@ export async function createLoadedConfig(
     configFile,
     packageJsonConfig,
   );
+
+  if (!loaded.config && !loaded.pkgConfig) {
+    logger.warn(
+      `Can not find any config file in the current project, please check if you have a correct config file.`,
+    );
+    logger.warn(`Current project path: ${chalk.yellow(appDirectory)}`);
+  }
 
   const config = await getConfigObject(loaded.config);
   let mergedConfig = config;
