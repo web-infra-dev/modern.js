@@ -16,7 +16,7 @@ import { Tabs, Tab } from '@theme';
   <Tab>
 
 ```sh
-npm install @modern-js/doc-tools -D
+npm install @modern-js/doc-tools typescript -D
 ```
 
   </Tab>
@@ -24,7 +24,7 @@ npm install @modern-js/doc-tools -D
 <Tab>
 
 ```sh
-yarn add @modern-js/doc-tools -D
+yarn add @modern-js/doc-tools typescript -D
 ```
 
 </Tab>
@@ -32,7 +32,7 @@ yarn add @modern-js/doc-tools -D
 <Tab>
 
 ```sh
-pnpm install @modern-js/doc-tools -D
+pnpm install @modern-js/doc-tools typescript -D
 ```
 
 </Tab>
@@ -69,6 +69,17 @@ export default defineConfig({
   },
   plugins: [docTools()],
 });
+```
+
+同时新建 `tsconfig.json`，内容如下:
+
+```ts
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react-jsx"
+  }
+}
 ```
 
 ## 2. 启动 Dev Server
