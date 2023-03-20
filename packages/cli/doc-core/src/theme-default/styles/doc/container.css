@@ -3,7 +3,7 @@
   * TDOO: move to @modern-js/doc-plugin-conatiner.
  */
 :root {
-  --modern-container-info-border: rgba(7, 156, 112, 0.5);
+  --modern-container-info-border: rgba(7, 156, 112, 0.3);
   --modern-container-info-text: #399c70;
   --modern-container-info-bg: rgba(7, 156, 112, 0.02);
   --modern-container-info-code-bg: var(--modern-container-info-bg);
@@ -35,6 +35,7 @@
   padding: 20px 24px 14px;
   line-height: 1.7;
   font-size: 14px;
+  font-weight: 500;
   margin: 24px 0;
 }
 
