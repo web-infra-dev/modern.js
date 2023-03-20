@@ -9,7 +9,7 @@ export const getTemplates: (
   context: RuntimeContext,
   renderLevel: RenderLevel,
 ) => InjectTemplate = (context, renderLevel) => {
-  const { ssrContext, routerContext } = context;
+  const { ssrContext } = context;
   const [beforeAppTemplate = '', afterAppHtmlTemplate = ''] =
     ssrContext!.template.split(HTML_SEPARATOR) || [];
 
@@ -18,8 +18,7 @@ export const getTemplates: (
     context,
   );
   const builtAfterTemplate = buildShellAfterTemplate(afterAppHtmlTemplate, {
-    ssrContext: ssrContext!,
-    routerContext: routerContext!,
+    context,
     renderLevel,
   });
 

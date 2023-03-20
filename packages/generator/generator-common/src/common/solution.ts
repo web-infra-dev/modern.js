@@ -4,6 +4,7 @@ import { i18n, localeKeys } from '../locale';
 export enum Solution {
   MWA = 'mwa',
   Module = 'module',
+  Doc = 'doc',
   Monorepo = 'monorepo',
 }
 
@@ -17,6 +18,7 @@ export enum SubSolution {
 export const SolutionText: Record<Solution, () => string> = {
   [Solution.MWA]: () => i18n.t(localeKeys.solution.mwa),
   [Solution.Module]: () => i18n.t(localeKeys.solution.module),
+  [Solution.Doc]: () => i18n.t(localeKeys.solution.doc),
   [Solution.Monorepo]: () => i18n.t(localeKeys.solution.monorepo),
 };
 
@@ -30,6 +32,7 @@ export const SubSolutionText: Record<SubSolution, () => string> = {
 export const SolutionToolsMap: Record<Solution, string> = {
   [Solution.MWA]: '@modern-js/app-tools',
   [Solution.Module]: '@modern-js/module-tools',
+  [Solution.Doc]: '@modern-js/doc-tools',
   [Solution.Monorepo]: '@modern-js/monorepo-tools',
 };
 
@@ -138,6 +141,7 @@ export const RspackGenerator = '@modern-js/rspack-generator';
 export const SolutionGenerator: Record<Solution, string> = {
   [Solution.MWA]: '@modern-js/mwa-generator',
   [Solution.Module]: '@modern-js/module-generator',
+  [Solution.Doc]: '@modern-js/doc-generator',
   [Solution.Monorepo]: '@modern-js/monorepo-generator',
 };
 

@@ -34,7 +34,7 @@ export const LinkContent = (props: ILinkContentComp) => {
         href={content}
         target="_blank"
         rel="noopener noreferrer"
-        className="mx-3"
+        className="ml-3"
       >
         <div className={`${styles.socialLinksIcon}`}>{IconComp}</div>
       </a>
