@@ -20,8 +20,6 @@
 }
 
 .dark {
-  --modern-container-info-border: rgba(7, 156, 112, 0.25);
-
   --modern-container-warning-border: rgba(255, 197, 23, 0.25);
   --modern-container-warning-text: #fcd253;
 
