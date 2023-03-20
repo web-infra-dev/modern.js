@@ -6,7 +6,7 @@ import koaBody from 'koa-body';
 import { APIHandlerInfo } from '@modern-js/bff-core';
 import { fs, compatRequire } from '@modern-js/utils';
 import type { ServerPlugin } from '@modern-js/server-core';
-import { run } from './context';
+import { run, useContext } from './context';
 import registerRoutes from './registerRoutes';
 
 interface FrameConfig {
@@ -94,11 +94,7 @@ export default (): ServerPlugin => ({
       app.use(router.routes());
       if (userConfig.bff?.enableHandleWeb && render) {
         app.use(async (ctx, next) => {
-          const html = await render(ctx.req, ctx.res, {
-            loadContext() {
-              return ctx;
-            },
-          });
+          const html = await render(ctx.req, ctx.res);
 
           if (html) {
             ctx.body = html;

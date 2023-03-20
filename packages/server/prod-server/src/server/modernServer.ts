@@ -15,11 +15,7 @@ import {
   ServerOptions,
   LoaderHandler,
 } from '@modern-js/server-core';
-import type {
-  ModernServerContext,
-  CustomRenderOptions,
-  ServerRoute,
-} from '@modern-js/types';
+import type { ModernServerContext, ServerRoute } from '@modern-js/types';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -220,18 +216,10 @@ export class ModernServer implements ModernServerInterface {
     return this.requestHandler.bind(this);
   }
 
-  public async render(
-    req: IncomingMessage,
-    res: ServerResponse,
-    options?: CustomRenderOptions,
-  ) {
-    const isLegacy = typeof options === 'string';
-    const contextOptions = isLegacy ? {} : options;
-    const url = isLegacy ? options : options?.url;
-
+  public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
     req.logger = req.logger || this.logger;
     req.metrics = req.metrics || this.metrics;
-    const context = createContext(req, res, contextOptions);
+    const context = createContext(req, res);
     const matched = this.router.match(url || context.path);
     if (!matched) {
       return null;
@@ -241,7 +229,7 @@ export class ModernServer implements ModernServerInterface {
     const result = await this.handleWeb(context, route);
 
     if (!result) {
-      return '';
+      return null;
     }
 
     if (result.contentStream) {

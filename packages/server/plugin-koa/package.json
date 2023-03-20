@@ -35,6 +35,10 @@
       "types": "./dist/types/cli.d.ts",
       "default": "./dist/cjs/cli/index.js"
     },
+    "./runtime": {
+      "jsnext:source": "./src/runtime.ts",
+      "default": "./dist/cjs/runtime.js"
+    },
     "./server": {
       "node": {
         "jsnext:source": "./src/index.ts",

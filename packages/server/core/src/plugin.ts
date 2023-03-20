@@ -22,7 +22,6 @@ import type {
   ISAppContext,
   ServerRoute,
   HttpMethodDecider,
-  CustomRenderOptions,
 } from '@modern-js/types';
 
 import type { BffUserConfig, ServerOptions, UserConfig } from './types/config';
@@ -72,7 +71,7 @@ export type APIServerStartInput = {
   render?: (
     req: IncomingMessage,
     res: ServerResponse,
-    options?: CustomRenderOptions,
+    url?: string,
   ) => Promise<string | Readable | null>;
 };
 

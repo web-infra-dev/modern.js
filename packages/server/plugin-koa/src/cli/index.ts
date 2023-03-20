@@ -30,8 +30,8 @@ export default (): CliPlugin<AppTools> => ({
           return {
             source: {
               alias: {
-                '@modern-js/runtime/server': relativeRuntimePath,
-                '@modern-js/runtime/koa': relativeRuntimePath,
+                '@modern-js/runtime/server': '@modern-js/plugin-koa/runtime',
+                '@modern-js/runtime/koa': '@modern-js/plugin-koa/runtime',
               },
             },
           };
@@ -39,8 +39,8 @@ export default (): CliPlugin<AppTools> => ({
           return {
             source: {
               alias: {
-                '@modern-js/runtime/server': serverRuntimePath,
-                '@modern-js/runtime/koa': serverRuntimePath,
+                '@modern-js/runtime/server': '@modern-js/plugin-koa/runtime',
+                '@modern-js/runtime/koa': '@modern-js/plugin-koa/runtime',
               },
             },
           };

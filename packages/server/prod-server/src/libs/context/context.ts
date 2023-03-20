@@ -2,10 +2,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
 import qs from 'querystring';
 import { Buffer } from 'buffer';
-import type {
-  LoadContextFn,
-  ModernServerContext as ModernServerContextInterface,
-} from '@modern-js/types';
+import type { ModernServerContext as ModernServerContextInterface } from '@modern-js/types';
 import createEtag from 'etag';
 import fresh from 'fresh';
 import { headersWithoutCookie } from '../../utils';
@@ -14,7 +11,6 @@ const MOCK_URL_BASE = 'https://modernjs.dev/';
 
 export type ContextOptions = {
   etag?: boolean;
-  loadContext?: LoadContextFn;
 };
 
 type ResponseBody = string | Buffer;
@@ -45,8 +41,6 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public serverData: Record<string, any>;
 
-  public loadContext?: LoadContextFn;
-
   private options: ContextOptions = {};
 
   constructor(
@@ -57,7 +51,6 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.req = req;
     this.res = res;
     this.options = options || {};
-    this.loadContext = this.options.loadContext;
     this.serverData = {};
 
     this.bind();

@@ -34,7 +34,6 @@ export type ServerContext = Pick<
   | 'href'
   | 'path'
   | 'query'
-  | 'loadContext'
 >;
 
 // Polyfill Web Fetch API
@@ -182,9 +181,6 @@ export const handleRequest = async ({
   try {
     response = await queryRoute(request, {
       routeId,
-      requestContext: {
-        ctx: context.loadContext?.() || {},
-      },
     });
 
     if (isResponse(response) && isRedirectResponse(response.status)) {
