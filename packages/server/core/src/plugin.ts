@@ -48,16 +48,14 @@ export type WebServerStartInput = {
   config: Record<string, any>;
 };
 
-export type BeforeRouteHandler = (
-  context: ModernServerContext,
-) => Promise<void>;
+export type LoaderHandler = (context: ModernServerContext) => Promise<void>;
 
-const preparebeforeRouteHandler = createAsyncPipeline<
+const prepareLoaderHandler = createAsyncPipeline<
   {
     serverRoutes: ServerRoute[];
     distDir: string;
   },
-  BeforeRouteHandler
+  LoaderHandler
 >();
 
 const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
@@ -187,7 +185,7 @@ const serverHooks = {
   gather,
   config,
   prepare,
-  preparebeforeRouteHandler,
+  prepareLoaderHandler,
   prepareWebServer,
   prepareApiServer,
   repack,

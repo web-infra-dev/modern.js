@@ -1,4 +1,5 @@
 import path from 'path';
+import { Readable } from 'stream';
 import {
   fs,
   LOADABLE_STATS_FILE,
@@ -6,12 +7,39 @@ import {
   ROUTE_MINIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
-import cookie from 'cookie';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
+import { TemplateAPI, templateInjectableStream } from '../hook-api/template';
 import cache from './cache';
 import { SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
+
+// It will inject _SERVER_DATA twice, when SSG mode.
+// The first time was in ssg html created, the seoncd time was in prod-server start.
+// but the second wound causes route error.
+// To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
+const injectSeverData = (content: string, context: ModernServerContext) => {
+  const template = new TemplateAPI(content);
+  template.prependHead(
+    `<script>window._SERVER_DATA=${JSON.stringify(
+      context.serverData,
+    )}</script>`,
+  );
+  return template.get();
+};
+
+const injectServerDataStream = (
+  content: Readable,
+  context: ModernServerContext,
+) => {
+  return content.pipe(
+    templateInjectableStream({
+      prependHead: `<script>window._SERVER_DATA=${JSON.stringify(
+        context.serverData,
+      )}</script>`,
+    }),
+  );
+};
 
 export const render = async (
   ctx: ModernServerContext,
@@ -94,13 +122,13 @@ export const render = async (
 
   if (typeof content === 'string') {
     return {
-      content,
+      content: injectSeverData(content, ctx),
       contentType: mime.contentType('html') as string,
     };
   } else {
     return {
       content: '',
-      contentStream: content,
+      contentStream: injectServerDataStream(content, ctx),
       contentType: mime.contentType('html') as string,
     };
   }

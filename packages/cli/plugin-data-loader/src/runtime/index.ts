@@ -148,7 +148,7 @@ export const matchEntry = (pathname: string, entries: ServerRoute[]) => {
 export const handleRequest = async ({
   context,
   serverRoutes,
-  routes,
+  routes: routesConfig,
 }: {
   context: ServerContext;
   serverRoutes: ServerRoute[];
@@ -168,8 +168,8 @@ export const handleRequest = async ({
   }
 
   const basename = entry.urlPath;
-  const dataRoutes = transformNestedRoutes(routes);
-  const staticHandler = createStaticHandler(dataRoutes, {
+  const routes = transformNestedRoutes(routesConfig);
+  const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
 
@@ -179,7 +179,7 @@ export const handleRequest = async ({
   let response;
 
   try {
-    response = await staticHandler.queryRoute(request, {
+    response = await queryRoute(request, {
       routeId,
       requestContext: context,
     });

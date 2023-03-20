@@ -10,7 +10,7 @@ import { matchEntry, ServerContext } from '../runtime';
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-data-loader',
   setup: () => ({
-    preparebeforeRouteHandler({
+    prepareLoaderHandler({
       serverRoutes,
       distDir,
     }: {
