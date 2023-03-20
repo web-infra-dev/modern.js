@@ -91,7 +91,11 @@ export const routerPlugin = ({
             basename: _basename,
           });
           const remixRequest = createFetchRequest(request);
-          const routerContext = await query(remixRequest);
+          const routerContext = await query(remixRequest, {
+            requestContext: {
+              ctx: context.ssrContext?.loadContext?.() || {},
+            },
+          });
 
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.

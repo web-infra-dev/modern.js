@@ -15,7 +15,11 @@ import {
   ServerOptions,
   LoaderHandler,
 } from '@modern-js/server-core';
-import type { ModernServerContext, ServerRoute } from '@modern-js/types';
+import type {
+  ModernServerContext,
+  CustomRenderOptions,
+  ServerRoute,
+} from '@modern-js/types';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -50,7 +54,6 @@ import {
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
 import { createContext } from '../libs/context';
-import { templateInjectableStream } from '../libs/hook-api/template';
 import {
   AGGRED_DIR,
   ERROR_DIGEST,
@@ -217,10 +220,18 @@ export class ModernServer implements ModernServerInterface {
     return this.requestHandler.bind(this);
   }
 
-  public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
+  public async render(
+    req: IncomingMessage,
+    res: ServerResponse,
+    options?: CustomRenderOptions,
+  ) {
+    const isLegacy = typeof options === 'string';
+    const contextOptions = isLegacy ? {} : options;
+    const url = isLegacy ? options : options?.url;
+
     req.logger = req.logger || this.logger;
     req.metrics = req.metrics || this.metrics;
-    const context = createContext(req, res);
+    const context = createContext(req, res, contextOptions);
     const matched = this.router.match(url || context.path);
     if (!matched) {
       return null;
@@ -231,6 +242,10 @@ export class ModernServer implements ModernServerInterface {
 
     if (!result) {
       return '';
+    }
+
+    if (result.contentStream) {
+      return result.contentStream;
     }
 
     return result.content.toString();
@@ -408,7 +423,7 @@ export class ModernServer implements ModernServerInterface {
       await this.loaderHandler(context);
 
       if (this.isSend(res)) {
-        return;
+        return null;
       }
     }
 

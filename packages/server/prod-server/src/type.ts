@@ -9,6 +9,7 @@ import type {
   NextFunction,
   ModernServerContext,
   InternalPlugins,
+  CustomRenderOptions,
 } from '@modern-js/types';
 import type { ModernRouteInterface } from './libs/route';
 
@@ -93,8 +94,8 @@ export interface ModernServerInterface {
   render: (
     req: IncomingMessage,
     res: ServerResponse,
-    url?: string,
-  ) => Promise<string | null>;
+    options?: CustomRenderOptions,
+  ) => Promise<string | Readable | null>;
 }
 
 export type ServerConstructor = (

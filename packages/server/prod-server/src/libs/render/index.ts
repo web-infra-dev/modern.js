@@ -62,6 +62,7 @@ export const createRenderHandler = ({
             bundle: route.bundle,
             template: content.toString(),
             staticGenerate,
+            loadContext: ctx.loadContext,
           },
           runner,
         );

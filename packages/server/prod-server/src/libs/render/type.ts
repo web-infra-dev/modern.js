@@ -1,5 +1,5 @@
 import { Writable, Readable } from 'stream';
-import { BaseSSRServerContext } from '@modern-js/types';
+import { BaseSSRServerContext, LoadContextFn } from '@modern-js/types';
 
 type MetaKeyMap = {
   header?: string[];
@@ -29,6 +29,7 @@ export enum RenderLevel {
 export type SSRServerContext = BaseSSRServerContext & {
   cacheConfig?: CacheConfig;
   staticGenerate?: boolean;
+  loadContext?: LoadContextFn;
 };
 
 export type ModernSSRReactComponent = React.ComponentType<any> & {

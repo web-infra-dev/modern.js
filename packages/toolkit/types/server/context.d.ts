@@ -1,5 +1,4 @@
 import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
-import { URL } from 'url';
 import qs from 'querystring';
 import type { SSRMode } from 'common';
 import { Metrics, Logger } from './utils';
@@ -48,6 +47,8 @@ export interface ModernServerContext {
   error: (dig: string, e: Error | string = '') => void;
 
   setServerData: (key: string, value: any) => void;
+
+  loadContext?: LoadContextFn;
 }
 
 export type BaseSSRServerContext = {
@@ -95,7 +96,10 @@ export type BaseSSRServerContext = {
   res: ModernServerContext['res'];
 
   mode?: SSRMode; // ssr type
+
+  loadContext?: LoadContextFn;
 };
+
 export interface ISAppContext {
   appDirectory: string;
   distDirectory: string;
@@ -106,3 +110,12 @@ export interface ISAppContext {
   }[];
   [key: string]: unknown;
 }
+
+export type CustomRenderOptions =
+  | string
+  | {
+      url?: string;
+      loadContext: LoadContextFn;
+    };
+
+export type LoadContextFn = () => any;

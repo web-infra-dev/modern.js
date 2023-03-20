@@ -8,6 +8,8 @@ declare module '@modern-js/runtime/koa' {
   export function useContext(): Context;
 
   export * from '@modern-js/bff-core';
+
+  export type { Context };
 }
 
 // Todo: remove on next version

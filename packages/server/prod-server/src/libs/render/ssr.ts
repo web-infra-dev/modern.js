@@ -7,7 +7,7 @@ import {
   ROUTE_MINIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
-import type { ModernServerContext } from '@modern-js/types';
+import type { LoadContextFn, ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { TemplateAPI, templateInjectableStream } from '../hook-api/template';
 import cache from './cache';
@@ -51,6 +51,7 @@ export const render = async (
     entryName: string;
     staticGenerate: boolean;
     enableUnsafeCtx?: boolean;
+    loadContext?: LoadContextFn;
   },
   runner: ServerHookRunner,
 ): Promise<RenderResult> => {
@@ -62,6 +63,7 @@ export const render = async (
     entryName,
     staticGenerate,
     enableUnsafeCtx = false,
+    loadContext,
   } = renderOptions;
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
@@ -101,6 +103,7 @@ export const render = async (
     req: ctx.req,
     res: ctx.res,
     enableUnsafeCtx,
+    loadContext,
   };
   context.logger = createLogger(context, ctx.logger);
   context.metrics = createMetrics(context, ctx.metrics);

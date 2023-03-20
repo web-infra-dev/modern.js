@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { Readable } from 'stream';
 import type { Component } from 'react';
 import {
   CommonAPI,
@@ -21,6 +22,7 @@ import type {
   ISAppContext,
   ServerRoute,
   HttpMethodDecider,
+  CustomRenderOptions,
 } from '@modern-js/types';
 
 import type { BffUserConfig, ServerOptions, UserConfig } from './types/config';
@@ -70,8 +72,8 @@ export type APIServerStartInput = {
   render?: (
     req: IncomingMessage,
     res: ServerResponse,
-    url?: string,
-  ) => Promise<string | null>;
+    options?: CustomRenderOptions,
+  ) => Promise<string | Readable | null>;
 };
 
 type Change = {

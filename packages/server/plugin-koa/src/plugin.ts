@@ -94,7 +94,12 @@ export default (): ServerPlugin => ({
       app.use(router.routes());
       if (userConfig.bff?.enableHandleWeb && render) {
         app.use(async (ctx, next) => {
-          const html = await render(ctx.req, ctx.res);
+          const html = await render(ctx.req, ctx.res, {
+            loadContext() {
+              return ctx;
+            },
+          });
+
           if (html) {
             ctx.body = html;
           }
