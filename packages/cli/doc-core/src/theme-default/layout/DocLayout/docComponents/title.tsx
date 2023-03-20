@@ -21,13 +21,13 @@ export const H2 = (props: ComponentProps<'h2'>) => {
 
 export const H3 = (props: ComponentProps<'h3'>) => {
   return (
-    <h3 {...props} className={`mt-8 mb-2 leading-7 text-xl ${styles.title}`} />
+    <h3 {...props} className={`mt-10 mb-2 leading-7 text-xl ${styles.title}`} />
   );
 };
 
 export const H4 = (props: ComponentProps<'h4'>) => {
   return (
-    <h4 {...props} className={`mt-6 leading-6 text-base ${styles.title}`} />
+    <h4 {...props} className={`mt-8 leading-6 text-base ${styles.title}`} />
   );
 };
 

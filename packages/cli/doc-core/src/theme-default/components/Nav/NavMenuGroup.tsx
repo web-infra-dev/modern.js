@@ -102,7 +102,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         }}
       >
         <div
-          className="p-2 pl-3 w-full h-full max-h-100vh whitespace-nowrap bg-white"
+          className="p-3 pr-2 w-full h-full max-h-100vh whitespace-nowrap bg-white"
           style={{
             boxShadow: 'var(--modern-shadow-3)',
             zIndex: 100,

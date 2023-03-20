@@ -11,7 +11,7 @@ extractApiHeaders: [2]
 **通用钩子**
 
 - `modifyBuilderConfig`：修改传递给 Builder 的配置项。
-- `modifyBundlerChain` (experimental)：通过 chain api 修改 webpack / Rspack 配置。
+- `modifyBundlerChain` (实验性)：通过 chain api 修改 webpack / Rspack 配置。
 - `modifyWebpackChain`：修改 webpack chain 配置。
 - `modifyWebpackConfig`：修改最终的 webpack 配置对象。
 - `modifyRspackConfig`：修改最终的 Rspack 配置对象。
@@ -70,9 +70,11 @@ export default () => ({
 });
 ```
 
-### modifyBundlerChain `experimental`
+### modifyBundlerChain `实验性`
 
-通过 Builder 提供的 bundler chain 来修改 webpack / Rspack 的配置。类 webpack chain，该 hook 支持在使用 webpack-provider / rspack-provider 时调用。
+Bundler chain 是 webpack chain 的子集，其中包含一部分 webpack chain API，你可以用它来同时修改 webpack 和 Rspack 的配置。
+
+`modifyBundlerChain` 用于调用 bundler chain 来修改 webpack / Rspack 的配置。你在使用 webpack-provider 或 rspack-provider 时都可以使用该 hook。
 
 该 hook 只支持修改 webpack 和 Rspack 间无差异部分的配置。如，修改 devtool 配置项(webpack 和 Rspack 的 devtool 属性值类型相同)，或添加一个 [Rspack 兼容](https://www.rspack.dev/guide/plugin-compat.html) 的 webpack 插件。
 

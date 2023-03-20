@@ -54,4 +54,5 @@ export const getBabelChain = (
 };
 
 export * from './types';
-export { applyUserBabelConfig } from '@modern-js/babel-preset-base';
+
+export { applyUserBabelConfig } from '@modern-js/utils';

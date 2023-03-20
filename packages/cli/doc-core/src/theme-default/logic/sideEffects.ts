@@ -104,7 +104,6 @@ export function bindingAsideScroll() {
   // Util function to set dom ref after determining the active link
   const activate = (links: HTMLAnchorElement[], index: number) => {
     if (links[index]) {
-      links[index].classList.add('aside-active');
       const id = links[index].getAttribute('href');
       const currentLink = aside?.querySelector(`a[href="#${id?.slice(1)}"]`);
       if (currentLink) {

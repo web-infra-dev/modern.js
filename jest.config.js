@@ -34,7 +34,7 @@ module.exports = {
   testEnvironment: './jestEnv.js',
   resolver: '<rootDir>/jest.resolver.js',
   rootDir: __dirname,
-  testTimeout: 15 * 1000,
+  testTimeout: 30000,
   transformIgnorePatterns: [
     '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
   ],

@@ -9,6 +9,6 @@ export const sourceConfigSchema: z.ZodType<SourceConfig> =
           message: 'Only support Record<string, string> or Function',
         }),
       }),
-      define: z.record(z.string()),
+      define: z.record(z.any()),
     })
     .partial();

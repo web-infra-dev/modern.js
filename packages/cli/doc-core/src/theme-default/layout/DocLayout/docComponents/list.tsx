@@ -9,5 +9,5 @@ export const Ul = (props: ComponentProps<'ul'>) => {
 };
 
 export const Li = (props: ComponentProps<'li'>) => {
-  return <li {...props} className="not-last:mt-2" />;
+  return <li {...props} className="[&:not(:first-child)]:mt-2" />;
 };

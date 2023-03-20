@@ -19,6 +19,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.media(),
     plugins.svg(),
     plugins.html(),
+    import('../plugins/babel').then(m => m.builderPluginBabel()),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/less').then(m => m.builderPluginLess()),
