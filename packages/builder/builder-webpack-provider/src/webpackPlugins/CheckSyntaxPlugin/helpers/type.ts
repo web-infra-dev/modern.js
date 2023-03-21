@@ -1,11 +1,6 @@
 import { CheckSyntaxOptions } from '../../../types';
 
-export type CheckSyntaxExclude = CheckSyntaxOptions extends {
-  targets: string[];
-  exclude?: infer E;
-}
-  ? E
-  : never;
+export type CheckSyntaxExclude = NonNullable<CheckSyntaxOptions['exclude']>;
 
 export interface Location {
   line: number;
