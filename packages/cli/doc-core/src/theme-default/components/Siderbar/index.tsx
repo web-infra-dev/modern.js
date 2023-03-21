@@ -306,11 +306,11 @@ export function SideBar(props: Props) {
         <div
           className="modern-scrollbar"
           style={{
-            height: 'calc(100vh - var(--modern-nav-height) - 96px)',
+            height: 'calc(100vh - var(--modern-nav-height) - 8px)',
             overflow: 'scroll',
           }}
         >
-          <nav>
+          <nav className="pb-6">
             {sidebarData.map(
               (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
                 <SidebarItemComp
