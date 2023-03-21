@@ -3,6 +3,7 @@ export const ZH_LOCALE = {
     self: '请选择你想创建的工程类型',
     mwa: 'Web 应用',
     module: 'Npm 模块',
+    doc: '文档站',
     monorepo: 'Monorepo',
     custom: '自定义',
     default: '默认',

@@ -2,8 +2,8 @@ import { IncomingMessage, ServerResponse, Server as httpServer } from 'http';
 
 import type { ListenOptions } from 'net';
 import path from 'path';
-import fs from 'fs';
 import {
+  fs,
   Logger,
   SHARED_DIR,
   OUTPUT_CONFIG_FILE,
@@ -77,7 +77,7 @@ export class Server {
   public async init() {
     const { options } = this;
 
-    this.loadServerEnv(options);
+    await this.loadServerEnv(options);
 
     this.initServerConfig(options);
 
@@ -251,17 +251,19 @@ export class Server {
     };
   }
 
-  private loadServerEnv(options: ModernServerOptions) {
+  private async loadServerEnv(options: ModernServerOptions) {
     const { pwd: appDirectory } = options;
     const serverEnv = process.env.MODERN_ENV;
+    const defaultEnvPath = path.resolve(appDirectory, `.env`);
     const serverEnvPath = path.resolve(appDirectory, `.env.${serverEnv}`);
-    if (
-      serverEnv &&
-      fs.existsSync(serverEnvPath) &&
-      !fs.statSync(serverEnvPath).isDirectory()
-    ) {
-      const envConfig = dotenv.config({ path: serverEnvPath });
-      dotenvExpand(envConfig);
+    for (const envPath of [serverEnvPath, defaultEnvPath]) {
+      if (
+        (await fs.pathExists(envPath)) &&
+        !(await fs.stat(envPath)).isDirectory()
+      ) {
+        const envConfig = dotenv.config({ path: envPath });
+        dotenvExpand(envConfig);
+      }
     }
   }
 }

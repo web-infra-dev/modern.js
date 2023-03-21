@@ -5,9 +5,8 @@ import { routes } from 'virtual-routes';
 import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
-import { SwitchAppearance } from '../SwitchAppearance';
 import styles from './index.module.scss';
-import { removeBase, normalizeHref, NoSSR } from '@/runtime';
+import { removeBase, normalizeHref } from '@/runtime';
 
 interface Props {
   isSidebarOpen?: boolean;
@@ -307,11 +306,11 @@ export function SideBar(props: Props) {
         <div
           className="modern-scrollbar"
           style={{
-            height: 'calc(100vh - var(--modern-nav-height) - 96px)',
+            height: 'calc(100vh - var(--modern-nav-height) - 8px)',
             overflow: 'scroll',
           }}
         >
-          <nav>
+          <nav className="pb-6">
             {sidebarData.map(
               (item: NormalizedSidebarGroup | SidebarItem, index: number) => (
                 <SidebarItemComp
@@ -331,8 +330,8 @@ export function SideBar(props: Props) {
           </nav>
         </div>
       </div>
-
-      <div
+      {/* SwitchAppearance at the bottom of sidebar */}
+      {/* <div
         className="border-t border-solid border-gray-200 dark:border-gray-500 absolute"
         style={{
           left: '1.8rem',
@@ -344,7 +343,7 @@ export function SideBar(props: Props) {
             <SwitchAppearance />
           </NoSSR>
         </div>
-      </div>
+      </div> */}
     </aside>
   );
 }

@@ -5,7 +5,7 @@ export const H1 = (props: ComponentProps<'h1'>) => {
   return (
     <h1
       {...props}
-      className={`text-4xl mb-10 leading-10 tracking-tight ${styles.title}`}
+      className={`text-3xl mb-10 leading-10 tracking-tight ${styles.title}`}
     />
   );
 };
@@ -14,7 +14,7 @@ export const H2 = (props: ComponentProps<'h2'>) => {
   return (
     <h2
       {...props}
-      className={`mt-14 mb-4 text-2xl tracking-tight ${styles.title}`}
+      className={`mt-14 mb-6 text-2xl tracking-tight ${styles.title}`}
     />
   );
 };

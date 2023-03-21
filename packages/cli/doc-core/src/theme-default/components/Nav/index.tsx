@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { getLogoUrl, useLocaleSiteData } from '../../logic';
 import { NavHamburger } from '../NavHambmger';
 import { SocialLinks } from '../SocialLinks';
+import { SwitchAppearance } from '../SwitchAppearance';
 import { NavMenuGroup, NavMenuGroupItem } from './NavMenuGroup';
 import { NavMenuSingleItem } from './NavMenuSingleItem';
 import styles from './index.module.scss';
@@ -133,6 +134,9 @@ export function Nav(props: NavProps) {
           {hasMultiLanguage && (
             <NavTranslations translationMenuData={translationMenuData!} />
           )}
+          <div className="mx-2">
+            <SwitchAppearance />
+          </div>
           {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
         </div>
       </div>
