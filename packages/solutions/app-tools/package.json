@@ -22,18 +22,22 @@
         "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
     "./types": {
       "jsnext:source": "./lib/types.d.ts",
+      "types": "./lib/types.d.ts",
       "default": "./lib/types.d.ts"
     },
     "./server": {
       "jsnext:source": "./src/exports/server.ts",
+      "types": "./dist/types/exports/server.d.ts",
       "default": "./dist/cjs/exports/server.js"
     }
   },

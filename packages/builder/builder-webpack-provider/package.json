@@ -22,10 +22,12 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./html-webpack-plugin": {
       "jsnext:source": "./src/exports/HtmlWebpackPlugin.ts",
+      "types": "./dist/exports/HtmlWebpackPlugin.d.ts",
       "default": "./dist/exports/HtmlWebpackPlugin.js"
     },
     "./webpack": {
@@ -34,10 +36,12 @@
     },
     "./stub": {
       "jsnext:source": "./src/stub/index.ts",
+      "types": "./dist/stub/index.d.ts",
       "default": "./dist/stub/index.js"
     },
     "./plugins/*": {
       "jsnext:source": "./src/plugins/*.ts",
+      "types": "./dist/plugins/*.d.ts",
       "default": "./dist/plugins/*.js"
     },
     "./webpack/lib/ModuleFilenameHelpers.js": {
@@ -47,6 +51,7 @@
       "default": "./package.json"
     },
     "./types": {
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/types/index.js"
     }
   },
