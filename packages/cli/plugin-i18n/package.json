@@ -30,6 +30,7 @@
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     },
     "./language-detector": {
@@ -38,6 +39,7 @@
         "import": "./dist/esm-node/languageDetector.js",
         "require": "./dist/cjs/languageDetector.js"
       },
+      "types": "./dist/types/languageDetector.d.ts",
       "default": "./dist/esm/languageDetector.js"
     }
   },

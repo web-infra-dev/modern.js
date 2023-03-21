@@ -78,6 +78,9 @@ const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
         const tsNode: typeof import('ts-node') = require('ts-node');
         tsNode.register({
           projectSearchDir,
+          compilerOptions: {
+            allowJs: false,
+          },
           scope: true,
           transpileOnly: true,
           ignore: ['(?:^|/)node_modules/'],

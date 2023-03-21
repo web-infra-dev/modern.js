@@ -18,10 +18,12 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     }
   },

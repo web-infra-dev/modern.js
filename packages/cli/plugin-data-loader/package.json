@@ -22,14 +22,17 @@
   "exports": {
     "./loader": {
       "jsnext:source": "./src/cli/loader.ts",
+      "types": "./dist/types/cli/loader.d.ts",
       "default": "./dist/cjs/cli/loader.js"
     },
     "./server": {
       "jsnext:source": "./src/server/index.ts",
+      "types": "./dist/types/server/index.d.ts",
       "default": "./dist/cjs/server/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/runtime/index.ts",
+      "types": "./dist/types/runtime/index.d.ts",
       "default": "./dist/esm/runtime/index.js"
     }
   },

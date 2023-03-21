@@ -22,9 +22,13 @@
         "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
-    "./bundle": "./dist/cjs/bundle.js"
+    "./bundle": {
+      "types": "./dist/types/bundle.d.ts",
+      "default": "./dist/cjs/bundle.js"
+    }
   },
   "typesVersions": {
     "*": {
