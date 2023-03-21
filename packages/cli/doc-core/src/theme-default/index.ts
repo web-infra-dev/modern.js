@@ -17,3 +17,5 @@ export default {
   HomeLayout,
   setup,
 };
+
+export { getCustomMDXComponent } from './layout/DocLayout/docComponents';
