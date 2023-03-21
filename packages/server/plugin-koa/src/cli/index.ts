@@ -1,7 +1,6 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import { getRelativeRuntimePath } from '@modern-js/bff-core';
 import type { AppTools } from '@modern-js/app-tools';
 
 export default (): CliPlugin<AppTools> => ({

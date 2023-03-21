@@ -99,6 +99,8 @@ export default class Watcher {
   }
 
   public cleanDepCache(filepath: string) {
+    console.log(filepath, '!!!');
+
     const node = this.dependencyTree?.getNode(filepath);
     if (node && require.cache[filepath]) {
       delete require.cache[filepath];
