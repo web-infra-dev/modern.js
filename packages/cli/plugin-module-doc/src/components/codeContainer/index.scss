@@ -1,0 +1,18 @@
+.code-operations {
+  display: flex;
+  justify-content: center;
+  .ac-btn-expanded {
+    background-color: #1d2129 !important;
+    color: #f7f8fa !important;
+    border-color: #f7f8fa !important;
+  }
+}
+
+.code-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.code-content.show-all {
+  margin-top: 16px;
+}
