@@ -1,3 +1,7 @@
+import { CheckSyntaxOptions } from '../../../types';
+
+export type CheckSyntaxExclude = NonNullable<CheckSyntaxOptions['exclude']>;
+
 export interface Location {
   line: number;
   column: number;
