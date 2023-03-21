@@ -33,6 +33,7 @@
     },
     "./loader": {
       "jsnext:source": "./src/loader.ts",
+      "types":  "./dist/loader.d.ts",
       "default": "./dist/loader.js"
     }
   },

@@ -33,16 +33,27 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
-    "./open": "./compiled/open/index.js",
-    "./webpack-bundle-analyzer": "./compiled/webpack-bundle-analyzer/index.js",
+    "./open": {
+      "types": "./compiled/open/index.d.ts",
+      "default": "./compiled/open/index.js"
+    },
+    "./webpack-bundle-analyzer": {
+      "types": "./compiled/webpack-bundle-analyzer/index.d.ts",
+      "default":"./compiled/webpack-bundle-analyzer/index.js"
+    },
     "./babel-loader": "./compiled/babel-loader/index.js",
-    "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
+    "./webpack-5-chain": {
+      "types": "./compiled/webpack-5-chain/types/index.d.ts",
+      "default": "./compiled/webpack-5-chain/index.js"
+    },
     "./test-stub": {
       "jsnext:source": "./src/test-stub/index.ts",
+      "types": "./dist/test-stub/index.d.ts",
       "default": "./dist/test-stub/index.js"
     },
     "./zod": {
       "jsnext:source": "./src/exports/zod.ts",
+      "types":  "./dist/exports/zod.d.ts",
       "default": "./dist/exports/zod.js"
     }
   },

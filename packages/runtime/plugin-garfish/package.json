@@ -39,18 +39,22 @@
     "./types": "./type.d.ts",
     ".": {
       "jsnext:source": "./src/cli/index.ts",
+      "types": "./dist/types/runtime/index.d.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
+      "types": "./dist/types/cli/index.d.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./deps": {
       "jsnext:source": "./src/deps/index.ts",
+      "types": "./dist/types/deps/index.d.ts",
       "default": "./dist/esm/deps/index.js"
     },
     "./runtime": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/types/runtime/index.d.ts",
       "default": "./dist/esm/runtime/index.js"
     }
   },
