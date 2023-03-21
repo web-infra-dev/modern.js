@@ -18,14 +18,17 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/cli.ts",
+      "types": "./dist/types/cli.d.ts",
       "default": "./dist/cjs/cli.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
+      "types": "./dist/types/cli.d.ts",
       "default": "./dist/cjs/cli.js"
     },
     "./server": {
       "jsnext:source": "./src/server.ts",
+      "types": "./dist/types/server.d.ts",
       "default": "./dist/cjs/server.js"
     }
   },
