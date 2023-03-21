@@ -66,7 +66,7 @@ export async function launchEdenXDoc({
         },
       },
       // 全局样式，定制主题颜色
-      globalStyles: path.join(__dirname, '../src/index.css'),
+      globalStyles: path.join(__dirname, '../static/index.css'),
       themeConfig: {
         // 关闭暗黑模式切换按钮
         darkMode: false,
