@@ -9,6 +9,7 @@ import {
   getEcmaVersion,
   generateHtmlScripts,
   checkIsExcludeSource,
+  CheckSyntaxExclude,
 } from './helpers';
 import { CheckSyntaxOptions, webpack } from '../../types';
 
@@ -22,7 +23,7 @@ export class CheckSyntaxPlugin {
 
   targets: string[];
 
-  exclude: string | RegExp | Array<string | RegExp> | undefined;
+  exclude: CheckSyntaxExclude | undefined;
 
   constructor(options: CheckSyntaxOptions) {
     this.targets = options.targets;

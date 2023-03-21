@@ -2,7 +2,7 @@ import type { SharedSecurityConfig } from '@modern-js/builder-shared';
 
 export interface CheckSyntaxOptions {
   targets: string[];
-  exclude?: string | RegExp | Array<string | RegExp>;
+  exclude?: RegExp | Array<RegExp>;
 }
 
 export type SecurityConfig = SharedSecurityConfig & {

@@ -10,5 +10,5 @@ export function checkIsExcludeSource(
 
   const excludes = Array.isArray(exclude) ? exclude : [exclude];
 
-  return excludes.some(reg => new RegExp(reg).test(path));
+  return excludes.some(reg => reg.test(path));
 }

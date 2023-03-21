@@ -9,7 +9,7 @@ export const securityConfigSchema: z.ZodType<SecurityConfig> =
         z.object({
           targets: z.array(z.string()),
           exclude: z.optional(
-            z.union([z.string(), z.instanceof(RegExp), z.array(z.any())]),
+            z.union([z.instanceof(RegExp), z.array(z.instanceof(RegExp))]),
           ),
         }),
       ]),
