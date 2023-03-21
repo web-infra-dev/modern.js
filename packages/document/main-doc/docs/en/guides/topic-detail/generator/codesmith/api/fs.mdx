@@ -12,8 +12,8 @@ API wrapper for file operations in microgenerators, providing methods to render 
 import { FsAPI } from '@modern-js/codesmith-api-fs';
 
 export default async (context: GeneratorContext, generator: GeneratorCore) => {
-  const handlebarApi = new HandlebarsAPI(generator);
-  await handlebarsAPI.renderFile(
+  const fsApi = new FsAPI(generator);
+  await fsApi.renderFile(
      material.get('templates/a.js'),
      target: 'b.js'
    );
