@@ -58,6 +58,8 @@ export class RouterPlugin {
         },
         async () => {
           const stats = compilation.getStats().toJson({
+            all: false,
+            assets: true,
             chunkGroups: true,
             chunks: true,
           });
