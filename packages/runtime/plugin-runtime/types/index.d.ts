@@ -17,11 +17,3 @@ declare module 'http' {
     locals: Record<string, any>;
   }
 }
-
-declare module 'react-router-dom' {
-  interface LoaderFunctionArgs {
-    context: {
-      ctx: unknown;
-    };
-  }
-}

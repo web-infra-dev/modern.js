@@ -57,6 +57,9 @@
       "cli": [
         "./dist/types/cli"
       ],
+      "runtime": [
+        "./dist/types/runtime.d.ts"
+      ],
       "server": [
         "./dist/types/index.d.ts"
       ]
