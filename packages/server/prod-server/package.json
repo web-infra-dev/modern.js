@@ -23,6 +23,7 @@
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     },
     "./worker": {
@@ -31,6 +32,7 @@
         "import": "./dist/esm-node/workerServer.js",
         "require": "./dist/cjs/workerServer.js"
       },
+      "types": "./dist/types/workerServer.d.ts",
       "default": "./dist/esm/workerServer.js"
     }
   },

@@ -14,9 +14,13 @@
   "version": "2.9.0",
   "types": "./index.d.ts",
   "exports": {
-    ".": "./index.d.ts",
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.d.ts"
+    },
     "./server": {
       "jsnext:source": "./server/index.d.ts",
+      "types": "./server/index.d.ts",
       "default": "./server/index.d.ts"
     }
   },

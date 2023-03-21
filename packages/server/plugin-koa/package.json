@@ -27,10 +27,12 @@
     "./types": "./types.d.ts",
     ".": {
       "jsnext:source": "./src/cli/index.ts",
+      "types": "./dist/types/cli/index.d.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
+      "types": "./dist/types/cli.d.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./server": {
@@ -39,6 +41,7 @@
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     }
   },
