@@ -116,9 +116,10 @@ type Sidebar = Record<string, SidebarGroup[]>;
 
 interface SidebarGroup {
   text: string;
+  link?: string;
   items: SidebarItem[];
   // 是否可折叠
-  collapsable?: boolean;
+  collapsible?: boolean;
   // 是否默认折叠
   collapsed?: boolean;
 }
