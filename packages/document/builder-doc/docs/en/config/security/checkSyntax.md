@@ -5,6 +5,7 @@ type CheckSyntax =
   | boolean
   | {
       targets: string[];
+      exclude?: string | RegExp | Array<string | RegExp>;
     };
 ```
 
@@ -19,11 +20,12 @@ Analyzes the build output files for the presence of high-level syntax that is in
 export default {
   security: {
     checkSyntax: true,
+    exclude: /node_modules\/foo/,
   },
 };
 ```
 
-If `security.checkSyntax` is specified as `true`, targets will be recognized as the browserslist set by the project. For details, please refer to [Browserslist](https://modernjs.dev/builder/zh/guide/advanced/browser-compatibility.html)
+If `security.checkSyntax` is specified as `true`, targets will be recognized as the browserslist set by the project. For details, please refer to [Browserslist](https://modernjs.dev/builder/zh/guide/advanced/browser-compatibility.html).
 
 When enabled, it will be detected in the production environment, and when an incompatible advanced syntax is detected, it will not only print the error logs on the terminal but also exit the build process.
 
@@ -47,3 +49,4 @@ If a syntax error is detected, you can handle it in the following ways:
 
 - If you want to downgrade this syntax to ensure good code compatibility, you can compile the corresponding module through the `source.include` config.
 - If you don't want to downgrade the syntax, you can adjust the project's browserslist to match the syntax.
+- If you do not want to check the syntax of certain products, you can use the `checkSyntax.exclude` configuration to exclude the files to be checked.

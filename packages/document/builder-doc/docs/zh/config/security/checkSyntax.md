@@ -5,6 +5,7 @@ type CheckSyntax =
   | boolean
   | {
       targets: string[];
+      exclude?: string | RegExp | Array<string | RegExp>;
     };
 ```
 
@@ -19,6 +20,7 @@ type CheckSyntax =
 export default {
   security: {
     checkSyntax: true,
+    exclude: /node_modules\/foo/,
   },
 };
 ```
@@ -47,3 +49,4 @@ error   [Syntax Checker] Find some syntax errors after production build:
 
 - 如果你希望降级该语法，以保证代码具备良好的兼容性，可以通过 `source.include` 配置来编译相应的模块。
 - 如果你不希望降级该语法，可以调整项目的 browserslist 范围，调整至与该语法相匹配的范围。
+- 如果你不希望对某些产物进行语法检查，可用 `checkSyntax.exclude` 配置排除要检查的文件。
