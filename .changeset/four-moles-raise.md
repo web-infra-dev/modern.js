@@ -1,6 +1,5 @@
 ---
-'@modern-js/plugin-module-doc': patch
-'@modern-js/doc-core': patch
+'@modern-js/plugin-module-doc': minor
 ---
 
 feat: support plugin in module-tools
