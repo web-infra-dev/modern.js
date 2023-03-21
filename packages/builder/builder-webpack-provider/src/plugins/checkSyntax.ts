@@ -32,7 +32,13 @@ export function builderPluginCheckSyntax(): BuilderPlugin {
         const { CheckSyntaxPlugin } = await import(
           '../webpackPlugins/CheckSyntaxPlugin'
         );
-        chain.plugin(CheckSyntaxPlugin.name).use(CheckSyntaxPlugin, [targets]);
+        chain.plugin(CheckSyntaxPlugin.name).use(CheckSyntaxPlugin, [
+          {
+            targets,
+            exclude:
+              typeof checkSyntax === 'object' ? checkSyntax.exclude : undefined,
+          },
+        ]);
       });
     },
   };
