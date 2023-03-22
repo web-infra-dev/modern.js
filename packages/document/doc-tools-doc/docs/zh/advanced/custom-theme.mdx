@@ -1,3 +1,227 @@
 # 自定义主题
 
-🚧 建设中
+本文所要介绍的是如何开发一套自定义主题。
+
+## 基于默认主题的扩展
+
+大部分情况下，你并不想从零开始开发一个主题，而是想基于默认主题进行扩展，这时候可以参考下面的方式进行主题开发。
+
+:::tip
+如果你想从头开发一套自定义主题，可以前往[【重新开发自定义主题】](/advanced/custom-theme#重新开发自定义主题)。
+:::
+
+### 1. 基本结构
+
+默认情况下，你需要在项目根目录下创建一个 `theme` 目录，然后在 `theme` 目录下创建一个 `index.ts` 或者 `index.tsx` 文件，该文件用于导出主题配置。
+
+```bash
+├── theme
+│   └── index.tsx
+```
+
+你可以使用如下的方式来书写 `theme/index.tsx` 文件:
+
+```tsx title="theme/index.tsx"
+import Theme from '@modern-js/doc-tools/theme';
+
+const Layout = () => <Theme.Layout beforeNavTitle={<div>some content</div>} />;
+
+export default {
+  ...Theme,
+  Layout,
+};
+
+export * from '@modern-js/doc-tools/theme';
+```
+
+一方面你需要通过 `export default` 导出一个主题配置对象，另一方面你需要通过 `export * from '@modern-js/doc-tools/theme'` 导出所有具名导出的内容，这样才能保证你的主题配置能够正常工作。
+
+### 2. 使用插槽
+
+值得注意的是，Layout 组件设计了一系列的 props 支持插槽元素，你可以通过这些 props 来扩展默认主题的布局，比如将上面的 Layout 组件改成如下的形式:
+
+```tsx
+import { Layout as DefaultLayout } from '@modern-js/doc-tools/theme';
+
+// 以下展示所有的 Props
+const Layout = () => (
+  <DefaultLayout
+    /* Home 页 Hero 部分之前 */
+    beforeHero={<div>beforeHero</div>}
+    /* Home 页 Hero 部分之后 */
+    afterHero={<div>afterHero</div>}
+    /* Home 页 Features 部分之前 */
+    beforeFeatures={<div>beforeFeatures</div>}
+    /* Home 页 Features 部分之后 */
+    afterFeatures={<div>afterFeatures</div>}
+    /* 正文页 Footer 部分之前 */
+    beforeDocFooter={<div>beforeDocFooter</div>}
+    /* 正文页最前面 */
+    beforeDoc={<div>beforeDoc</div>}
+    /* 正文页最后面 */
+    afterDoc={<div>afterDoc</div>}
+    /* 导航栏之前 */
+    beforeNav={<div>beforeNav</div>}
+    /* 左上角导航栏标题之前 */
+    beforeNavTitle={<span>😄</span>}
+    /* 左上角导航栏标题之后 */
+    afterNavTitle={<div>afterNavTitle</div>}
+    /* 右侧大纲栏上面 */
+    beforeOutline={<div>beforeOutline</div>}
+    /* 右侧大纲栏下面 */
+    afterOutline={<div>afterOutline</div>}
+    /* 整个页面最顶部 */
+    top={<div>top</div>}
+    /* 整个页面最底部 */
+    bottom={<div>bottom</div>}
+  />
+);
+
+export default {
+  ...Theme,
+  Layout,
+};
+
+export * from '@modern-js/doc-tools/theme';
+```
+
+### 3. 自定义组件
+
+要扩展默认主题的组件，除了插槽，你还可以自定义 Home 页面及 404 页面组件，比如:
+
+```tsx title="theme/index.tsx"
+import Theme from '@modern-js/doc-tools/theme';
+
+const Layout = () => <Theme.Layout beforeNavTitle={<div>some content</div>} />;
+
+// 定制 Home 页面
+const HomeLayout = () => <div>Home</div>;
+// 定制 404 页面
+const NotFoundLayout = () => <div>404</div>;
+
+export default {
+  ...Theme,
+  Layout,
+  HomeLayout,
+  NotFoundLayout,
+};
+
+export * from '@modern-js/doc-tools/theme';
+```
+
+当然，在开发过程可能需要使用页面的数据，你可以通过 [`usePageData`](/api/api-runtime#usepagedata) 这个 Hook 来获取。
+
+## 重新开发自定义主题
+
+如果你要从头开始开发一个自定义主题，你需要了解一下主题的组成。
+
+### 1. 基本结构
+
+默认情况下，你需要在项目根目录下创建一个 `theme` 目录，然后在 `theme` 目录下创建一个 `index.ts` 或者 `index.tsx` 文件，该文件用于导出主题配置。
+
+```bash
+├── theme
+│   └── index.tsx
+```
+
+在`theme/index.tsx`文件中，你需要导出一个 Layout 组件，这个组件就是你的主题的入口组件:
+
+```ts
+// theme/index.tsx
+function Layout() {
+  return <div>Custom Theme Layout</div>;
+}
+
+// setup 函数，会在页面初始化时调用，一般用来做全局事件的监听，可为空函数
+const setup = () => {};
+
+// 导出 Layout 组件和 setup 函数
+// 两者必须导出
+export { Layout, setup };
+```
+
+这个 Layout 组件会被用来渲染整个文档站点的布局，你可以在这个组件中引入你的自定义组件，比如:
+
+```ts
+// theme/index.tsx
+import { Navbar } from './Navbar';
+
+function Layout() {
+  return (
+    <div>
+      <Navbar />
+      <div>Custom Theme Layout</div>
+    </div>
+  );
+}
+
+const setup = () => {};
+
+export { Layoutm, setup };
+
+// theme/Navbar.tsx
+export function Navbar() {
+  return <div>Custom Navbar</div>;
+}
+```
+
+那么问题来了，主题组件是如何获取页面数据和正文 MDX 组件内容的呢？接下来我们来看看相关的 API。
+
+### 2. 运行时 API
+
+#### usePageData
+
+获取站点所有数据的信息，比如:
+
+```tsx
+import { usePageData } from '@modern-js/doc-tools/runtime';
+
+import { usePageData } from '@modern-js/doc-tools/runtime';
+
+function MyComponent() {
+  const pageData = usePageData();
+  return <div>{pageData.title}</div>;
+}
+```
+
+#### useLang
+
+获取当前语言信息，比如:
+
+```tsx
+import { useLang } from '@modern-js/doc-tools/runtime';
+
+function MyComponent() {
+  const lang = useLang();
+  return <div>{lang}</div>;
+}
+```
+
+#### Content
+
+正文 MDX 组件内容，如:
+
+```tsx
+import { Content } from '@modern-js/doc-tools/runtime';
+
+function Layout() {
+  return (
+    <div>
+      <Content />
+    </div>
+  );
+}
+```
+
+#### 路由 Hook
+
+框架内部用 [react-router-dom](https://reactrouter.com/) 来实现路由，所以你可以直接使用 `react-router-dom` 的 Hook，比如:
+
+```ts
+import { useLocation } from '@modern-js/doc-tools/runtime';
+
+function Layout() {
+  const location = useLocation();
+  return <div>Current location: {location.pathname}</div>;
+}
+```
