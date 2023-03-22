@@ -179,11 +179,11 @@ export default {
 
 After adding the above configuration, webpack will output logs for debugging. Please refer to the logs related to `PackFileCacheStrategy` to understand the cause of cache invalidation.
 
-## Tree Shaking does not take effect?
+## Tree shaking does not take effect?
 
-Builder will enable the Tree Shaking function of webpack by default during production construction. Whether Tree Shaking can take effect depends on whether the business code can meet the Tree Shaking conditions of webpack.
+Builder will enable the tree shaking function of webpack by default during production construction. Whether tree shaking can take effect depends on whether the business code can meet the tree shaking conditions of webpack.
 
-If you encounter the problem that Tree Shaking does not take effect, you can check whether the `sideEffects` configuration of the relevant npm package is correct. If you don't know what `sideEffects` is, you can read the following two documents:
+If you encounter the problem that tree shaking does not take effect, you can check whether the `sideEffects` configuration of the relevant npm package is correct. If you don't know what `sideEffects` is, or are interested in the principles behind tree shaking, you can read the following two documents:
 
 - [webpack official documentation - Tree Shaking](https://webpack.docschina.org/guides/tree-shaking/)
 - [Tree Shaking Troubleshooting Guide](https://bytedance.feishu.cn/docs/doccn8E1ldDct5uv1EEDQs8Ycwe)
@@ -243,6 +243,38 @@ export default {
 
 2. Some code in the project depends on `core-js` v2. In this case, you usually need to find out the corresponding code and upgrade `core-js` to the v3.
 3. An npm package in `node_modules` imported `core-js`, but does not declare the `core-js` dependency in `dependencies`. In this case, you need to declare the `core-js` dependency in the corresponding npm package, or install a copy of `core-js` in the project root directory.
+
+## HMR not work when updating React components?
+
+Builder uses React's official [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) capability to perform component hot updates.
+
+If there is a problem that the hot update of the React component cannot take effect, or the state of the React component is lost after the hot update, it is usually because your React component uses an anonymous function. In the official practice of React Fast Refresh, it is required that the component cannot be an anonymous function, otherwise the state of the React component cannot be preserved after hot update.
+
+Here are some examples of wrong usage:
+
+```tsx
+// bad
+export default function () {
+   return <div>Hello World</div>;
+}
+
+// bad
+export default () => <div>Hello World</div>;
+```
+
+The correct usage is to declare a name for each component function:
+
+```tsx
+// good
+export default function MyComponent() {
+   return <div>Hello World</div>;
+}
+
+// good
+const MyComponent = () => <div>Hello World</div>
+
+export default MyComponent;
+```
 
 ## Division in Less file doesn't work?
 
