@@ -1,3 +1,191 @@
 # 插件机制
 
-🚧 建设中
+为了保证插件的可扩展性，我们提供了插件机制，你可以通过插件机制来实现很多自定义的功能。
+
+## 一个简单的插件示例
+
+我们以注入一个全局组件为例，来看看如何定义和使用插件。
+
+### 1. 定义插件
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginMonitor(slug: string): DocPlugin {
+  // 组件路径
+  const componentPath = path.join(__dirname, 'some-component.tsx');
+  return {
+    // 插件名称
+    name: 'plugin-monitor',
+    // 全局组件的路径
+    globalUIComponents: [componentPath],
+    // 构建阶段的全局变量定义
+    builderConfig: {
+      source: {
+        define: {
+          SLUG: JSON.stringify(slug),
+        },
+      },
+    },
+  };
+}
+```
+
+### 2. 使用插件
+
+```tsx title="modern.config.ts"
+import { pluginMonitor } from './plugin';
+
+export default {
+  doc: {
+    plugins: [pluginMonitor('test')],
+  },
+};
+```
+
+## 插件能力
+
+在如上的例子中，我们使用 `globalComponents` 来注入一个全局组件，并且通过 `builderConfig` 来扩展 [Modern.js Builder](https://modernjs.dev/builder/) 的构建能力。
+
+不过这些只是插件能力的一部分，我们可以来梳理一下 Modern.js Doc 插件能力有哪些:
+
+- [globalStyles](#1-globalstyles)：注入全局样式。
+- [globalUIComponents](#2-globaluicomponents)：注入全局组件。
+- [builderConfig](#3-builderconfig)：扩展 [Modern.js Builder](https://modernjs.dev/builder/) 的构建能力。
+- [config](#4-config)：扩展 Modern.js Doc 本身的配置。
+- [beforeBuild](#5-beforebuild)：在构建之前执行的钩子。
+- [afterBuild](#6-afterbuild)：在构建之后执行的钩子。
+- [markdown](#7-markdown): 扩展 Markdown/MDX 编译能力。
+
+接下来我们一一介绍这些能力的使用。
+
+### 1. globalStyles
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  // 样式路径
+  const stylePath = path.join(__dirname, 'some-style.css');
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 全局样式的路径
+    globalStyles: [stylePath],
+  };
+}
+```
+
+### 2. globalUIComponents
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  // 组件路径
+  const componentPath = path.join(__dirname, 'some-component.tsx');
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 全局组件的路径
+    globalUIComponents: [componentPath],
+  };
+}
+```
+
+### 3. builderConfig
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(slug: string): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 构建阶段的全局变量定义
+    builderConfig: {
+      source: {
+        define: {
+          SLUG: JSON.stringify(slug),
+        },
+      },
+    },
+  };
+}
+```
+
+### 4. config
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 扩展 Modern.js Doc 本身的配置
+    config(config) {
+      return {
+        ...config,
+        // 这里可以扩展 Modern.js Doc 的配置
+      };
+    },
+  };
+}
+```
+
+### 5. beforeBuild
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 在构建之前执行的钩子
+    beforeBuild() {
+      // 这里可以执行一些操作
+    },
+  };
+}
+```
+
+### 6. afterBuild
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 在构建之后执行的钩子
+    afterBuild() {
+      // 这里可以执行一些操作
+    },
+  };
+}
+```
+
+### 7. markdown
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 扩展 Markdown/MDX 编译能力
+    markdown: {
+      remarkPlugins: [
+        // 添加自定义的 remark 插件
+      ],
+      rehypePlugins: [
+        // 添加自定义的 rehype 插件
+      ],
+    },
+  };
+}
+```

@@ -41,7 +41,7 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public serverData: Record<string, any>;
 
-  private options: Record<string, any> = {};
+  private options: ContextOptions = {};
 
   constructor(
     req: IncomingMessage,

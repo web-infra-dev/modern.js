@@ -6,7 +6,6 @@
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",
   "scripts": {
-    "prepare": "modern build",
     "dev": "modern dev",
     "build": "modern build",
     "build:watch": "modern build -w",

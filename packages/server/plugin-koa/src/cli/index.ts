@@ -1,7 +1,6 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import { getRelativeRuntimePath } from '@modern-js/bff-core';
 import type { AppTools } from '@modern-js/app-tools';
 
 export default (): CliPlugin<AppTools> => ({
@@ -13,38 +12,30 @@ export default (): CliPlugin<AppTools> => ({
     return {
       config() {
         const appContext = useAppContext();
-        const { appDirectory } = appContext;
         bffExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'server',
         );
 
-        const serverRuntimePath = bffExportsUtils.getPath();
+        const runtimePath = '@modern-js/plugin-koa/runtime';
+        const alias =
+          process.env.NODE_ENV === 'production'
+            ? runtimePath
+            : require.resolve(runtimePath);
 
-        const relativeRuntimePath = getRelativeRuntimePath(
-          appDirectory,
-          serverRuntimePath,
-        );
-
-        if (process.env.NODE_ENV === 'production') {
-          return {
-            source: {
-              alias: {
-                '@modern-js/runtime/server': relativeRuntimePath,
-                '@modern-js/runtime/koa': relativeRuntimePath,
-              },
+        return {
+          output: {
+            externals: {
+              '@modern-js/runtime/koa': runtimePath,
             },
-          };
-        } else {
-          return {
-            source: {
-              alias: {
-                '@modern-js/runtime/server': serverRuntimePath,
-                '@modern-js/runtime/koa': serverRuntimePath,
-              },
+          },
+          source: {
+            alias: {
+              '@modern-js/runtime/server': alias,
+              '@modern-js/runtime/koa': alias,
             },
-          };
-        }
+          },
+        };
       },
 
       collectServerPlugins({ plugins }) {
