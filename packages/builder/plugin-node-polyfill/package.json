@@ -34,6 +34,7 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
+    "@rspack/plugin-node-polyfill": "^0.1.1",
     "node-libs-browser": "2.2.1"
   },
   "devDependencies": {

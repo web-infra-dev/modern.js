@@ -2,7 +2,6 @@ import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
 import { BuilderInstance } from '@modern-js/builder-shared';
 import { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
-import { builderPluginNodePolyfill } from './plugin-node-polyfill';
 
 export function createRspackBuilderForModern(
   options: BuilderOptions<'rspack'>,
@@ -22,6 +21,9 @@ async function applyBuilderPlugins(
 ) {
   const { normalizedConfig } = options;
   if (!normalizedConfig.output.disableNodePolyfill) {
+    const { builderPluginNodePolyfill } = await import(
+      '@modern-js/builder-plugin-node-polyfill'
+    );
     builder.addPlugins([builderPluginNodePolyfill()]);
   }
 }
