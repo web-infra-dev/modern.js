@@ -11,14 +11,18 @@ Modern.js 的构建能力是基于 Modern.js Builder 实现的。
 
 Builder 专注于解决 Web 应用构建场景，我们不推荐你使用 Builder 来构建工具库或组件库。
 
-如果需要构建工具库或组件库，推荐使用 [Modern.js 模块工程方案](https://modernjs.dev/module-tools)。
+如果需要构建工具库或组件库，推荐使用 [Modern.js Module 解决方案](https://modernjs.dev/module-tools)。
 
 ## Builder 是否会接入 Turbopack？
 
 Builder 已经在对接 Rspack，并且目前 Turbopack 仅支持在 Next.js 中使用，因此 Builder 暂时没有接入 [Turbopack](https://turbo.build/pack) 的计划。
 
+> 你可以在 Rspack 的 [介绍](https://www.rspack.dev/zh/guide/introduction.html) 中查看 Rspack 与 Turbopack 的对比。
+
 ## Builder 是否会接入 Vite？
 
-[Vite](https://vitejs.dev/) 是一个非常优秀的工具，但 Builder 的目标是使用 Rust Bundler 替换 webpack，Rust Builder 能提供极致的编译速度，同时能保持开发环境和生产环境的打包行为一致。
+[Vite](https://vitejs.dev/) 是一个非常优秀的工具，但 Builder 的目标是使用 Rspack 替换 webpack，Rspack 能提供极致的编译速度，同时能保持开发环境和生产环境的打包行为一致。
 
-Builder 会聚焦于从 webpack 演进至 Rust Builder 的过程，因此不会接入 Vite。
+Builder 会聚焦于从 webpack 演进至 Rspack 的过程，因此不会接入 Vite。
+
+> 你可以在 Rspack 的 [介绍](https://www.rspack.dev/zh/guide/introduction.html) 中查看 Rspack 与 Vite 的对比。
