@@ -8,8 +8,10 @@ import {
   printErrors,
   getEcmaVersion,
   generateHtmlScripts,
+  checkIsExcludeSource,
+  CheckSyntaxExclude,
 } from './helpers';
-import { webpack } from '../../types';
+import { CheckSyntaxOptions, webpack } from '../../types';
 
 const HTML_REGEX = /\.html$/;
 const JS_REGEX = /\.js$/;
@@ -21,8 +23,11 @@ export class CheckSyntaxPlugin {
 
   targets: string[];
 
-  constructor(targets: string[]) {
-    this.targets = targets;
+  exclude: CheckSyntaxExclude | undefined;
+
+  constructor(options: CheckSyntaxOptions) {
+    this.targets = options.targets;
+    this.exclude = options.exclude;
     this.ecmaVersion = getEcmaVersion(this.targets);
   }
 
@@ -53,7 +58,9 @@ export class CheckSyntaxPlugin {
       const htmlScripts = await generateHtmlScripts(filepath);
       await Promise.all(
         htmlScripts.map(async script => {
-          await this.tryParse(filepath, script);
+          if (!checkIsExcludeSource(filepath, this.exclude)) {
+            await this.tryParse(filepath, script);
+          }
         }),
       );
     }
@@ -74,9 +81,12 @@ export class CheckSyntaxPlugin {
         err,
         code,
         filepath,
+        exclude: this.exclude,
       });
 
-      this.errors.push(error);
+      if (error) {
+        this.errors.push(error);
+      }
     }
   }
 }

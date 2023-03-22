@@ -8,7 +8,7 @@ In order to reduce the complexity and make it easier to build a project, we abst
 
 ## Rust Tools
 
-In recent years, the trend in front-end toolchain has been to re-implement them with native programming languages like Rust for better performance. Some high-performance tools have created, such as [SWC](https://swc.rs/), [esbuild](https://github.com/evanw/esbuild), [Rspack](/guide/glossary.html#rspack), etc., and their use is gradually expanding. However, there are many differences between these Rust tools and JavaScript tools, including functional differences, configuration inconsistencies, which make it difficult for users to migrate.
+In recent years, the trend in front-end toolchain has been to re-implement them with native programming languages like Rust for better performance. Some high-performance tools have created, such as [SWC](https://swc.rs/), [Rspack](/guide/glossary.html#rspack), etc., and their use is gradually expanding. However, there are many differences between these Rust tools and JavaScript tools, including functional differences, configuration inconsistencies, which make it difficult for users to migrate.
 
 The Rust process of the front-end toolchain will continue for a long time, **Modern.js Builder is expected to help developers better transition to Rust tools**. Whether it's JavaScript tools, Rust tools, or even low-level bundlers like webpack, they're all replaceable components in Modern.js Builder. You can incrementally replace these components by turning on configuration or enabling plugins, and Modern.js Builder will smooth out the major differences and help users migrate.
 
@@ -36,7 +36,7 @@ Currently, the following front-end frameworks are already using Builder:
 
 **Builder supports both webpack and Rspack**, so you can switch between the stable Webpack and the faster Rspack.
 
-import Rspack from '@en/shared/rspack.md';
+import Rspack from '@en/shared/rspack-tip.mdx';
 
 <Rspack />
 

@@ -21,6 +21,10 @@
 
 根据当前请求的 UA 信息，动态下发 Polyfill 代码。
 
+:::tip
+动态下发能力需要和 `@modern-js/plugin-polyfill` 插件配合使用，详情可参考 [运行时按需 Polyfill](https://modernjs.dev/guides/advanced-features/compatibility.html#%E8%BF%90%E8%A1%8C%E6%97%B6%E6%8C%89%E9%9C%80-polyfill)。
+:::
+
 #### off
 
 不注入 Polyfill。使用此选项时，需要自行保证代码的兼容性。

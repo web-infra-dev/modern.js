@@ -1,0 +1,68 @@
+{
+  "name": "integration-module-doc",
+  "version": "0.1.0",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/types/index.d.ts",
+  "main": "./dist/lib/index.js",
+  "module": "./dist/es/index.js",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "build:watch": "modern build -w",
+    "reset": "rimraf ./**/node_modules",
+    "lint": "modern lint",
+    "change": "modern change",
+    "bump": "modern bump",
+    "pre": "modern pre",
+    "change-status": "modern change-status",
+    "gen-release-note": "modern gen-release-note",
+    "release": "modern release",
+    "new": "modern new",
+    "upgrade": "modern upgrade"
+  },
+  "exports": {
+    ".": {
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "import": "./dist/esm/index.js",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/esm/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@arco-design/web-react": "^2.35.0"
+  },
+  "devDependencies": {
+    "@modern-js-app/eslint-config": "workspace:*",
+    "@modern-js/eslint-config": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/plugin-module-doc": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/jest": "~29.2.4",
+    "@types/node": "~16.11.7",
+    "@types/react": "~18.0.26",
+    "antd": "5.3.0",
+    "husky": "~8.0.1",
+    "lint-staged": "~13.1.0",
+    "prettier": "~2.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "~3.0.2",
+    "typescript": "~4.9.4"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "sideEffects": [],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

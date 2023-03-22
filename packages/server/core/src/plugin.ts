@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { Readable } from 'stream';
 import type { Component } from 'react';
 import {
   CommonAPI,
@@ -48,16 +49,14 @@ export type WebServerStartInput = {
   config: Record<string, any>;
 };
 
-export type BeforeRouteHandler = (
-  context: ModernServerContext,
-) => Promise<void>;
+export type LoaderHandler = (context: ModernServerContext) => Promise<void>;
 
-const preparebeforeRouteHandler = createAsyncPipeline<
+const prepareLoaderHandler = createAsyncPipeline<
   {
     serverRoutes: ServerRoute[];
     distDir: string;
   },
-  BeforeRouteHandler
+  LoaderHandler
 >();
 
 const prepareWebServer = createAsyncPipeline<WebServerStartInput, WebAdapter>();
@@ -73,7 +72,7 @@ export type APIServerStartInput = {
     req: IncomingMessage,
     res: ServerResponse,
     url?: string,
-  ) => Promise<string | null>;
+  ) => Promise<string | Readable | null>;
 };
 
 type Change = {
@@ -187,7 +186,7 @@ const serverHooks = {
   gather,
   config,
   prepare,
-  preparebeforeRouteHandler,
+  prepareLoaderHandler,
   prepareWebServer,
   prepareApiServer,
   repack,

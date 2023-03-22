@@ -28,11 +28,18 @@
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
     },
+    "./config": {
+      "jsnext:source": "./src/config.ts",
+      "types": "./dist/config/types/index.d.ts",
+      "default": "./dist/config/index.js"
+    },
     "./runBin": {
       "jsnext:source": "./src/runBin.ts",
+      "types": "./dist/runBin.d.ts",
       "default": "./dist/runBin.js"
     },
     "./types": {
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/types/index.js"
     }
   },

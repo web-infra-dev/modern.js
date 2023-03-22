@@ -1,5 +1,4 @@
 import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
-import { URL } from 'url';
 import qs from 'querystring';
 import type { SSRMode } from 'common';
 import { Metrics, Logger } from './utils';
@@ -96,6 +95,7 @@ export type BaseSSRServerContext = {
 
   mode?: SSRMode; // ssr type
 };
+
 export interface ISAppContext {
   appDirectory: string;
   distDirectory: string;

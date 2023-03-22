@@ -33,6 +33,7 @@
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     },
     "./cli": {
@@ -49,6 +50,7 @@
         "require": "./dist/cjs/types.js",
         "types": "./dist/types/types.d.ts"
       },
+      "types": "./dist/types/types.d.ts",
       "default": "./dist/esm/types.js"
     }
   },
