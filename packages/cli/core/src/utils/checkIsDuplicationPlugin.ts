@@ -18,9 +18,7 @@ export function checkIsDuplicationPlugin(
 
   if (duplicationPlugins.length > 0) {
     logger.warn(
-      `Check your duplicate registration for these plugins: ${duplicationPlugins.join(
-        ',',
-      )}.`,
+      `Duplicate registration plugins: ${duplicationPlugins.join(',')}.`,
     );
     if (autoLoadPlugin) {
       logger.warn(
