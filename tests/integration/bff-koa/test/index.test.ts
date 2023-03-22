@@ -11,7 +11,7 @@ import 'isomorphic-fetch';
 
 declare const page: Page;
 
-describe('bff express in dev', () => {
+describe('bff koa in dev', () => {
   let port = 8080;
   const host = `http://localhost`;
   const appPath = path.resolve(__dirname, '../');
@@ -25,7 +25,7 @@ describe('bff express in dev', () => {
     });
   });
 
-  test('stream ssr with bff handle web in development', async () => {
+  test('stream ssr with bff handle web', async () => {
     await page.goto(`${host}:${port}?name=bytedance`, {
       waitUntil: ['networkidle0'],
     });
@@ -33,7 +33,7 @@ describe('bff express in dev', () => {
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
-  test('stream ssr with bff handle web, client nav in development', async () => {
+  test('stream ssr with bff handle web, client nav', async () => {
     await page.goto(`${host}:${port}/user`, {
       waitUntil: ['networkidle0'],
     });
@@ -66,7 +66,7 @@ describe('bff express in prod', () => {
     });
   });
 
-  test('stream ssr with bff handle web in prod', async () => {
+  test('stream ssr with bff handle web', async () => {
     await page.goto(`${host}:${port}?name=bytedance`, {
       waitUntil: ['networkidle0'],
     });
@@ -74,7 +74,7 @@ describe('bff express in prod', () => {
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
-  test('stream ssr with bff handle web, client nav in prod', async () => {
+  test('stream ssr with bff handle web, client nav', async () => {
     await page.goto(`${host}:${port}/user`, {
       waitUntil: ['networkidle0'],
     });
