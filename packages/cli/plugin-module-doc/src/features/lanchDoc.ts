@@ -1,11 +1,12 @@
 import path from 'path';
 import type { UserConfig } from '@modern-js/doc-core';
 import { fs, fastGlob } from '@modern-js/utils';
+import { merge } from '@modern-js/utils/lodash';
 import { demoRuntimeModules } from '../runtimeModule';
 import { Options, ModuleDocgenLanguage } from '../types';
 import { remarkTsxToReact } from '../mdx/code-to-jsx';
 
-export async function launchEdenXDoc({
+export async function launchDoc({
   languages,
   appDir,
   demosDir,
@@ -48,42 +49,45 @@ export async function launchEdenXDoc({
       ],
     };
   };
-  const edenxDocConfig: UserConfig = {
-    doc: {
-      title: json.name,
-      lang: DEFAULT_LANG,
-      builderConfig: {
-        dev: {
-          port: 3333,
-        },
-        tools: {
-          rspack: {
-            plugins: [demoRuntimeModules],
+  const edenxDocConfig: UserConfig = merge<UserConfig, UserConfig>(
+    {
+      doc: {
+        title: json.name,
+        lang: DEFAULT_LANG,
+        builderConfig: {
+          tools: {
+            rspack: {
+              plugins: [demoRuntimeModules],
+            },
           },
         },
-        source: {
-          include: [new RegExp(/virtual-demo/)],
+        globalStyles: path.join(__dirname, '../static/index.css'),
+        themeConfig: {
+          // TODO: support dark mode in code block
+          // FIXME: fix close dark mode in doc core
+          darkMode: false,
+          locales: languages.map(lang => ({
+            lang,
+            label: lang === 'zh' ? '简体中文' : 'English',
+            outlineTitle: lang === 'zh' ? '目录' : 'ON THIS PAGE',
+            sidebar: getSidebar(lang),
+          })),
+        },
+        markdown: {
+          remarkPlugins: [
+            [remarkTsxToReact, { appDir, defaultLang: DEFAULT_LANG }],
+          ],
         },
       },
-      // 全局样式，定制主题颜色
-      globalStyles: path.join(__dirname, '../static/index.css'),
-      themeConfig: {
-        // 关闭暗黑模式切换按钮
-        darkMode: false,
-        // 国际化配置
-        locales: languages.map(lang => ({
-          lang,
-          label: lang,
-          outlineTitle: lang === 'zh' ? '目录' : 'ON THIS PAGE',
-          sidebar: getSidebar(lang),
-        })),
-      },
-      markdown: {
-        remarkPlugins: [[remarkTsxToReact, { appDir }]],
-      },
-      ...doc,
     },
-  };
+    {
+      doc: {
+        ...doc,
+        // TODO: doc base should only be set in production mode
+        base: isProduction ? '' : doc.base,
+      },
+    },
+  );
 
   if (isProduction) {
     await build(root, edenxDocConfig);
