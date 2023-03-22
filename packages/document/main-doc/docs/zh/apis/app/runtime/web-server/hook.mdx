@@ -36,9 +36,7 @@ type HookContext = {
     set: (key: string, value: string) => void;
     status: (code: number) => void;
     cookies: {
-      get: (key: string) => string;
-      set: (key: string, value: string) => void;
-      delete: () => void;
+      set: (key: string, value: string, options?: any) => void;
       clear: () => void;
     };
     raw: (

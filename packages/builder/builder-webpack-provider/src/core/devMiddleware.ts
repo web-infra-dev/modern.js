@@ -56,5 +56,5 @@ export const getDevMiddleware: (
   // register hooks for each compilation, update socket stats if recompiled
   setupHooks(compiler, callbacks);
 
-  return webpackDevMiddleware(compiler, restOptions);
+  return webpackDevMiddleware(compiler, restOptions as any);
 };
