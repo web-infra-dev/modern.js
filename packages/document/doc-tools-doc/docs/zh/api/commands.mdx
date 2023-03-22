@@ -1,0 +1,41 @@
+# 命令
+
+通过本章节，你可以了解到 Modern.js Doc 内置的命令有哪些，以及如何使用这些命令。
+
+## modern dev
+
+`modern dev` 命令用于启动一个本地开发服务器，提供一个文档进行预览和调试的开发环境。
+
+```bash
+Usage: modern dev [options]
+
+Options:
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help            显示命令帮助
+```
+
+## modern build
+
+`modern build` 命令用于构建出针对生产环境的文档产物。
+
+```bash
+Usage: modern build [options]
+
+Options:
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  -h, --help  显示命令帮助
+```
+
+## modern serve
+
+`modern serve` 命令用于在本地预览 `modern build` 命令构建出的产物。
+
+```bash
+Usage: modern serve [options]
+
+Options:
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
+  --port <port>         指定端口号
+  --host <host>         指定 host
+  -h, --help  显示命令帮助
+```
