@@ -1,0 +1,42 @@
+{
+  "private": true,
+  "name": "bff-koa",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "modern dev",
+    "dev:bff": "modern dev --api-only",
+    "build": "modern build",
+    "serve": "modern serve",
+    "start:bff": "modern serve --api-only",
+    "new": "modern new",
+    "lint": "modern lint"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/plugin-bff": "workspace:*",
+    "@modern-js/plugin-koa": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "express": "^4.17.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "ts-node": "^10.1.0",
+    "tsconfig-paths": "3.14.1",
+    "zod": "^3.17.3"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^4"
+  }
+}
