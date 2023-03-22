@@ -26,8 +26,6 @@ export async function createCompiler({
 
   compiler.hooks.done.tap('done', async stats => {
     isFirstCompile &&
-      // eslint-disable-next-line no-console
-
       logger.success('Compiled successfully in ', Date.now() - begin, 'ms');
 
     const { message, level } = await formatStats(stats);
