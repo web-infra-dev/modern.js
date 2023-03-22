@@ -31,10 +31,9 @@ export const docgen = async ({
     ) => {
       const demoDir = path.resolve(demosDir, key);
       const moduleName = path.parse(demoDir).name;
-      // 国际化目录规范和 EdenX Doc 一致
       const outputPath = path.resolve(docgenDir, language, `${key}.mdx`);
       const moduleSourceFilePath = path.resolve(appDir, value);
-
+      const defaultLang = languages[0];
       // TODO: 增加用户可自定义模版，如没有定义模版则使用默认模版
       // const fmResult = frontMatter<Record<string, any>>(fs.readFileSync(templatePath, 'utf8'));
       // const attributes = fmResult.attributes;
@@ -52,7 +51,8 @@ export const docgen = async ({
         },
       );
       if (!useTemplate) {
-        PropsMarkdownMap.set(key, PropsMarkdown);
+        const suffix = language === defaultLang ? '' : `-${language}`;
+        PropsMarkdownMap.set(`${key}${suffix}`, PropsMarkdown);
         return;
       }
 

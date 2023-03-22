@@ -22,6 +22,7 @@ import { loadEnv } from './loadEnv';
 import { manager } from './manager';
 import type { ToolsType, CliHooksRunner } from './types';
 import { createResolveConfig, createLoadedConfig } from './config';
+import { checkIsDuplicationPlugin } from './utils/checkIsDuplicationPlugin';
 
 export * from './types';
 
@@ -121,6 +122,11 @@ const createCli = () => {
       autoLoad: mergedOptions?.internalPlugins?.autoLoad,
       forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
+
+    checkIsDuplicationPlugin(
+      plugins.map(plugin => plugin.name),
+      loaded.config.autoLoadPlugins,
+    );
 
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 

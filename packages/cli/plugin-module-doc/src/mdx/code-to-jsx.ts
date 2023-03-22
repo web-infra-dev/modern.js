@@ -5,6 +5,7 @@ import { visit } from 'unist-util-visit';
 import type { MdxjsEsm } from 'mdast-util-mdxjs-esm';
 import { demoRuntimeModules } from '../runtimeModule';
 import { PACKAGE_ROOT, PropsMarkdownMap } from '../constants';
+import { ModuleDocgenLanguage } from '../types';
 
 // FIXME: import type from third party package
 type MDXJsxFlowElement = {
@@ -22,9 +23,10 @@ type MDXJsxAttribute = {
 /**
  * remark plugin to transform code to jsx
  */
-export const remarkTsxToReact: Plugin<[{ appDir: string }], Root> = ({
-  appDir,
-}) => {
+export const remarkTsxToReact: Plugin<
+  [{ appDir: string; defaultLang: ModuleDocgenLanguage }],
+  Root
+> = ({ appDir, defaultLang }) => {
   return tree => {
     const demos: MdxjsEsm[] = [];
     let index = 0;
@@ -70,13 +72,18 @@ export const remarkTsxToReact: Plugin<[{ appDir: string }], Root> = ({
     });
     visit(tree, 'mdxJsxFlowElement', (node: MDXJsxFlowElement) => {
       if (node.name === 'API') {
+        let lang = defaultLang;
+        node.attributes.forEach(attr => {
+          if (attr.name === 'zh' || attr.name === 'en') {
+            lang = attr.name;
+          }
+        });
+        const suffix = lang === defaultLang ? '' : `-${lang}`;
         node.attributes.forEach(attr => {
           if (attr.name === 'moduleName') {
             const { value } = attr;
-            const str = PropsMarkdownMap.get(value);
-            if (str) {
-              attr.value = str;
-            }
+            const str = PropsMarkdownMap.get(`${value}${suffix}`);
+            attr.value = str ?? '';
           }
         });
       }
