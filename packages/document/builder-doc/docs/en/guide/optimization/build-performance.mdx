@@ -36,6 +36,14 @@ nvm default 16
 node -v
 ```
 
+### Using Rspack build
+
+[Rspack](https://www.rspack.dev/) is a high performance Rust-based JavaScript bundler that offers strong interoperability with the webpack ecosystem, enabling faster development cycles and efficient collaboration between the two tools.
+
+Rspack's build performance is significantly better than Webpack, not only due to the language benefits of Rust, but also due to its parallel architecture and incremental compilation features. Benchmarking has shown that Rspack can deliver a 5-10x improvement in compilation performance.
+
+If you have higher build performance requirements, you can easily switch to Rspack build mode, see [Using Rspack](/guide/advanced/rspack-start.html) for more information.
+
 ### Using SWC or esbuild
 
 [SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minimizer for JavaScript and TypeScript based on `Rust`. SWC can provide the same abilities with Babel, and it's more than 10x faster than Babel.
