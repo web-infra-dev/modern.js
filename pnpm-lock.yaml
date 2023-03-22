@@ -1011,7 +1011,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/doctrine': 0.0.5
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/mdast': 3.0.10
       '@types/node': 14.18.35
       doctrine: 3.0.0
