@@ -20,7 +20,15 @@ export async function createCompiler({
 
   let isFirstCompile = true;
 
+  // temporary workaround
+  // https://github.com/web-infra-dev/rspack/issues/2420
+  const begin = Date.now();
+
   compiler.hooks.done.tap('done', async stats => {
+    isFirstCompile &&
+      // eslint-disable-next-line no-console
+      console.log('build success, time cost', Date.now() - begin, 'ms');
+
     const { message, level } = await formatStats(stats);
 
     if (level === 'error' || level === 'warning') {
