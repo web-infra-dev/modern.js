@@ -1,0 +1,16 @@
+# output.splitRouteChunks
+
+- **类型：** `boolean`
+- **默认值：** `true`
+
+当使用约定式路由时，框架会根据路由对 js 和 css 进行拆分，以实现按需加载。如果你的项目不希望根据路由对 js 和 css 进行拆分，可以将该选项设置为 `false`。
+
+示例
+
+```ts
+export default {
+  output: {
+    splitRouteChunks: false,
+  },
+}
+```
