@@ -1,6 +1,19 @@
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
+const getResolveFallback = (nodeLibsBrowser: any) =>
+  Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
+    (previous, name) => {
+      if (nodeLibsBrowser[name]) {
+        previous[name] = nodeLibsBrowser[name];
+      } else {
+        previous[name] = false;
+      }
+      return previous;
+    },
+    {},
+  );
+
 /**
  * Usage:
  *
@@ -20,12 +33,12 @@ export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
             return;
           }
 
-          const { default: NodePolyfill } = await import(
+          const { default: nodeLibsBrowser } = await import(
             // @ts-expect-error
-            '@rspack/plugin-node-polyfill'
+            'node-libs-browser'
           );
 
-          chain.plugin('node-polyfill').use(NodePolyfill);
+          chain.resolve.alias.merge(getResolveFallback(nodeLibsBrowser));
         });
         return;
       }
@@ -50,18 +63,7 @@ export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
             },
           ]);
 
-        const fallback = Object.keys(nodeLibsBrowser).reduce<
-          Record<string, string | false>
-        >((previous, name) => {
-          if (nodeLibsBrowser[name]) {
-            previous[name] = nodeLibsBrowser[name];
-          } else {
-            previous[name] = false;
-          }
-          return previous;
-        }, {});
-
-        chain.resolve.fallback.merge(fallback);
+        chain.resolve.fallback.merge(getResolveFallback(nodeLibsBrowser));
       });
     },
   };
