@@ -7,7 +7,7 @@
 注意，如果开启了这个选项，那么 script 文件将不会被写入产物目录中，而只会以 inline 脚本的形式存在于 HTML 文件中。
 
 :::note
-当使用约定式路由时，如果开启了这个选项，需要将 [`output.splitRouteChunks`](/configure/app/output/splitRouteChunks) 设置为 false。
+当使用约定式路由时，如果开启了这个选项，需要将 [`output.splitRouteChunks`](https://modernjs.dev/configure/app/output/split-route-chunks.html) 设置为 false。
 :::
 
 ### 示例
