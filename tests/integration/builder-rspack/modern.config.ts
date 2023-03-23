@@ -11,9 +11,4 @@ export default defineConfig({
       router: false,
     },
   },
-  performance: {
-    chunkSplit: {
-      strategy: 'all-in-one',
-    },
-  },
 });
