@@ -47,7 +47,7 @@ export const bar = model<State>('bar').define({
     data: '',
   },
   computed: {
-    // 为 fooState 指定类型
+    // specify the type for fooState
     withFoo: [foo, (state, fooState: FooState) => state.data + fooState.data],
   },
 });
@@ -62,11 +62,11 @@ Reduck provides a set of utility types for getting Model type information:
 
 ```ts
 export const foo = model<State2>('foo').define({
-  // 省略
+  // skip some codes
 });
 
-// 获取 foo 的 State 类型
+// get the State type of foo
 let fooActions: GetModelActions<typeof foo>;
-// 获取 foo 的 Actions 类型
+// get the Actions type of foo
 let fooState: GetModelState<typeof foo>;
 ```
