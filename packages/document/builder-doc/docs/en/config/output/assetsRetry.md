@@ -49,10 +49,6 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 
 At the same time, you can also customize your retry logic according to the following config instructions.
 
-:::warning Caution
-This ability only supports webpack for now.
-:::
-
 ### assetsRetry.max
 
 - **Type:** `number`

@@ -49,10 +49,6 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 
 同时你也可以根据接下来的一些配置说明，来定制你的重试逻辑。
 
-:::warning 注意
-该能力目前仅支持 webpack。
-:::
-
 ### assetsRetry.max
 
 - **类型：** `number`
