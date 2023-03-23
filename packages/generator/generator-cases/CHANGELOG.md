@@ -1,5 +1,15 @@
 # @modern-js/generator-cases
 
+## 3.1.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- Updated dependencies [0da32d0]
+- Updated dependencies [03d0eb5]
+  - @modern-js/generator-common@3.1.0
+
 ## 3.0.11
 
 ### Patch Changes

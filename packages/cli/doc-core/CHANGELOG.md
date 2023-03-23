@@ -1,5 +1,67 @@
 # @modern-js/doc-core
 
+## 2.10.0
+
+### Minor Changes
+
+- cf7439c: feat: export getCustomMDXComponent
+  feat: 导出 getCustomMDXComponent
+
+### Patch Changes
+
+- c413d79: feat(doc-tools): support --config CLI option
+
+  feat(doc-tools): 支持 --config CLI 选项
+
+- 135b8e9: feat(doc-core): improve paragraph padding
+
+  feat(doc-core): 优化段落间距
+
+- 785011b: feat(doc-core): improve directive block style
+
+  feat(doc-core): 优化 directive block 的样式
+
+- 2f9d8de: fix(doc-core): fix left sidebar height
+
+  fix(doc-core): 修复左侧 sidebar 高度不足的问题
+
+- 07780f4: fix: nav link normalize
+
+  fix: nav link 规范化
+
+- e8ed464: feat(doc-tools): add a tip when no search result
+
+  feat(doc-tools): 增加无搜索结果时的提示文案
+
+- 90f2262: chore: appearance button position
+
+  chore: 调整主题切换按钮位置
+
+- 61aa5cb: fix(doc-core): fix code background color in containers
+
+  fix(doc-core): 修复 container 中的代码块背景色
+
+- 19e552a: fix: main doc theme
+
+  fix: 首页深色模式问题
+
+- Updated dependencies [a8db932]
+- Updated dependencies [0da32d0]
+- Updated dependencies [d3f0642]
+- Updated dependencies [785011b]
+- Updated dependencies [a16b9b0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+- Updated dependencies [cfdbf80]
+- Updated dependencies [ed55acb]
+  - @modern-js/builder-rspack-provider@2.10.0
+  - @modern-js/utils@2.10.0
+  - @modern-js/core@2.10.0
+  - @modern-js/remark-container@2.10.0
+  - @modern-js/builder@2.10.0
+
 ## 2.9.0
 
 ### Minor Changes

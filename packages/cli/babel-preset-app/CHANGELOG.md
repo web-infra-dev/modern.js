@@ -1,5 +1,23 @@
 # @modern-js/babel-preset-app
 
+## 2.10.0
+
+### Minor Changes
+
+- a8db932: feat: rspack-provider support tools.babel
+  feat: rspack-provider 支持 tools.babel
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- Updated dependencies [0da32d0]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/babel-preset-base@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes
