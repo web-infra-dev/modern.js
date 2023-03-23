@@ -1,0 +1,20 @@
+---
+sidebar_label: splitRouteChunks
+---
+
+# output.splitRouteChunks
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+When using convention-based routing, the framework will split js and css based on the route to load on demand. If your project does not want to split js and css based on routes, you can set this option to `false`.
+
+Example:
+
+```ts
+export default {
+  output: {
+    splitRouteChunks: false,
+  },
+}
+```

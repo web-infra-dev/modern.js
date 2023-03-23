@@ -1,3 +1,184 @@
 # Plugin System
 
-🚧 Under Construction
+In order to ensure the scalability of the framework, we provide a plugin system, through which you can implement many custom functions.
+
+## A simple plugin example
+
+We inject a global component as an example to see how to define and use plugins.
+
+### 1. Define a plugin
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginMonitor(slug: string): DocPlugin {
+  // component path
+  const componentPath = path.join(__dirname, 'some-component.tsx');
+  return {
+    // plugin name
+    name: 'plugin-monitor',
+    // global component path
+    globalUIComponents: [componentPath],
+    // extend Modern.js Builder's build ability
+    builderConfig: {
+      source: {
+        define: {
+          SLUG: JSON.stringify(slug),
+        },
+      },
+    },
+  };
+}
+```
+
+### 2. Use the plugin
+
+```tsx title="modern.config.ts"
+import { pluginMonitor } from './plugin';
+
+export default {
+  doc: {
+    plugins: [pluginMonitor('test')],
+  },
+};
+```
+
+## Plugin API
+
+In the above example, we use `globalComponents` to inject a global component, and use `builderConfig` to extend the build config of [Modern.js Builder](https://modernjs.dev/builder/).
+
+However, these are only part of the plug-in capabilities. We can sort out the plugin abilities of Modern.js Doc:
+
+- [globalStyles](#1-globalstyles): inject global styles.
+- [globalUIComponents](#2-globaluicomponents): inject global components.
+- [builderConfig](#3-builderconfig): extend the build config of Modern.js Builder.
+- [config](#4-config): extend the config of Modern.js Doc itself.
+- [beforeBuild](#5-beforebuild): hook before build.
+- [afterBuild](#6-afterbuild): hook after build.
+- [markdown](#7-markdown): extend the Markdown/MDX compile ability.
+
+Then we will introduce each of these abilities.
+
+### 1. globalStyles
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  // style path
+  const stylePath = path.join(__dirname, 'some-style.css');
+  return {
+    // plugin name
+    name: 'plugin-name',
+    // global style path
+    globalStyles: [stylePath],
+  };
+}
+```
+
+### 2. globalUIComponents
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  // component path
+  const componentPath = path.join(__dirname, 'some-component.tsx');
+  return {
+    name: 'plugin-name',
+    // global component path
+    globalUIComponents: [componentPath],
+  };
+}
+```
+
+### 3. builderConfig
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(slug: string): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // extend Modern.js Builder's build ability
+    builderConfig: {
+      source: {
+        define: {
+          SLUG: JSON.stringify(slug),
+        },
+      },
+    },
+  };
+}
+```
+
+### 4. config
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    config(config) {
+      return {
+        ...config,
+        // Here you can extend the config of Modern.js Doc
+      };
+    },
+  };
+}
+```
+
+### 5. beforeBuild
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Hook to execute before build
+    beforeBuild() {
+      // do something
+    },
+  };
+}
+```
+
+### 6. afterBuild
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Hooks to execute after build
+    afterBuild() {
+      // do something
+    },
+  };
+}
+```
+
+### 7. markdown
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Extend the Markdown/MDX compile ability
+    markdown: {
+      remarkPlugins: [
+        // Add custom remark plugins
+      ],
+      rehypePlugins: [
+        // Add custom rehype plugins
+      ],
+    },
+  };
+}
+```

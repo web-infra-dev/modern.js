@@ -29,7 +29,7 @@ export const renderNestedRoute = (
     props?: Record<string, any>;
   } = {},
 ) => {
-  const { children, index, id, component, isRoot } = nestedRoute;
+  const { children, index, id, component, isRoot, lazyImport } = nestedRoute;
   const Component = component as unknown as React.ComponentType<any>;
   const { parent, DeferredDataComponent, props = {} } = options;
 
@@ -55,7 +55,7 @@ export const renderNestedRoute = (
   let element;
 
   if (Component) {
-    if (parent?.loading) {
+    if (parent?.loading && lazyImport) {
       const Loading = parent.loading;
       if (isLoadableComponent(Component)) {
         element = <Component fallback={<Loading />} />;
@@ -66,7 +66,7 @@ export const renderNestedRoute = (
           </Suspense>
         );
       }
-    } else if (isLoadableComponent(Component)) {
+    } else if (isLoadableComponent(Component) && lazyImport) {
       element = <Component />;
     } else if (isRoot) {
       element = (
@@ -77,12 +77,14 @@ export const renderNestedRoute = (
           )}
         </>
       );
-    } else {
+    } else if (lazyImport) {
       element = (
         <Suspense fallback={null}>
           <Component />
         </Suspense>
       );
+    } else {
+      element = <Component />;
     }
   } else {
     // If the component is undefined, it means that the current component is a fake layout component,

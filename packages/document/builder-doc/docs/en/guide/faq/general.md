@@ -16,8 +16,12 @@ If you need to build a library or UI components, it is recommended to use the [M
 
 Builder is already supporting Rspack, and currently Turbopack supports use in Next.js, so there is no plan for Builder to support [Turbopack](https://turbo.build/pack).
 
+> You can find the comparison of Rspack and Turbopack in the [Introduction](https://www.rspack.dev/guide/introduction.html) of Rspack.
+
 ## Will Builder support Vite?
 
-[Vite](https://vitejs.dev/) is a great tool, but the goal of Builder is to replace webpack with Rust Bundler, Rust Builder can provide fast compilation speed, while maintaining the consistent behavior between development and production.
+[Vite](https://vitejs.dev/) is a great tool, but the goal of Builder is to replace webpack with Rust Bundler, Rspack can provide fast compilation speed, while maintaining the consistent behavior between development and production.
 
-Builder will focus on the evolution from webpack to Rust Builder, so it will not be support Vite.
+Builder will focus on the evolution from webpack to Rspack, so it will not be support Vite.
+
+> You can find the comparison of Vite and Turbopack in the [Introduction](https://www.rspack.dev/guide/introduction.html) of Rspack.
