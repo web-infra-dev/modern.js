@@ -1,5 +1,18 @@
 # @modern-js/main-doc
 
+## 2.10.0
+
+### Patch Changes
+
+- 92d247f: fix: support tools.devServer.header include string[] type, remove get & delete & apply api in hook or middleware api
+  fix: 支持 tools.devServer.header 包含字符串数组类型，移除 Hook 和 Middleware 中对 响应 Cookie 的获取、删除操作
+- 19e552a: fix: main doc theme
+
+  fix: 首页深色模式问题
+
+- Updated dependencies [cfdbf80]
+  - @modern-js/builder-doc@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

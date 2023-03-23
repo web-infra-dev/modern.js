@@ -1,5 +1,30 @@
 # @modern-js/prod-server
 
+## 2.10.0
+
+### Minor Changes
+
+- d8bbf28: feat: .env file should be load when prod server is started
+  feat: 在 server 启动时，.env 文件应该被加载
+
+### Patch Changes
+
+- 3e0bd50: feat: when enable bff handle render, support use `useContext` to get framework plugin context in data loader.
+  feat: 当开启 BFF 托管渲染时，支持在 data loader 中使用 `useContext` 获取框架插件提供的上下文。
+- 92d247f: fix: support tools.devServer.header include string[] type, remove get & delete & apply api in hook or middleware api
+  fix: 支持 tools.devServer.header 包含字符串数组类型，移除 Hook 和 Middleware 中对 响应 Cookie 的获取、删除操作
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- 0d9962b: fix: add types field in package.json
+  fix: 添加 package.json 中的 types 字段
+- Updated dependencies [3e0bd50]
+- Updated dependencies [0da32d0]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/server-core@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

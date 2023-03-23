@@ -1,5 +1,16 @@
 # @modern-js/storybook-generator
 
+## 3.1.0
+
+### Patch Changes
+
+- c5a8754: fix: storybook generator dependencies judge error
+
+  fix: 修复 storybook 生成器判断依赖时异常
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+
 ## 3.0.11
 
 ## 3.0.10

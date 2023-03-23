@@ -1,5 +1,23 @@
 # @modern-js/generator-plugin
 
+## 3.1.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [03d0eb5]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/generator-common@3.1.0
+  - @modern-js/generator-utils@3.1.0
+  - @modern-js/new-action@2.10.0
+  - @modern-js/plugin-i18n@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 3.0.11
 
 ### Patch Changes
