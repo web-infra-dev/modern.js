@@ -87,6 +87,7 @@
     "zod-validation-error": "^0.3.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "7.18.0",
     "@babel/core": "7.18.0",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.1.19",
