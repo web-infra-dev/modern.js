@@ -88,6 +88,8 @@
       "./serialize": "./dist/serialize.js",
       "./remix-router": "./dist/remix-router.js",
       "./babel": "./dist/babel.js",
+      "./findExists": "./dist/findExists.js",
+      "./minimist": "./compiled/minimist/index.js",
       "./ajv": "./compiled/ajv/index.js",
       "./glob": "./compiled/glob/index.js",
       "./chalk": "./compiled/chalk/index.js",
