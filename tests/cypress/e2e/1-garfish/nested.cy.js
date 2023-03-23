@@ -17,11 +17,14 @@ describe('render sub app', () => {
     // this intermediate state no longer appear
     // cy.contains('dashboard loading').should('exist');
     cy.wait(100);
+    cy.contains('Main loader').should('exist');
     cy.contains('Dashboard App').should('exist');
     cy.contains('Props from main app: hello world from main app').should(
       'exist',
     );
     cy.get('#renderRoute').click();
+    cy.contains('Dashboard loader').should('exist');
     cy.contains('Dashboard detail page').should('exist');
+    cy.contains('params: profile').should('exist');
   });
 });
