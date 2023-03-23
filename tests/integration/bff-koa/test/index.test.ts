@@ -38,7 +38,7 @@ describe('bff koa in dev', () => {
       waitUntil: ['networkidle0'],
     });
     await page.click('#home-btn');
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const text = await page.$eval('#item', el => el.textContent);
     expect(text).toMatch('name: modernjs, age: 18');
   });
@@ -79,7 +79,7 @@ describe('bff express in prod', () => {
       waitUntil: ['networkidle0'],
     });
     await page.click('#home-btn');
-    await new Promise(resolve => setTimeout(resolve, 300));
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const text = await page.$eval('#item', el => el.textContent);
     expect(text).toMatch('name: modernjs, age: 18');
   });
