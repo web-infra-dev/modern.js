@@ -4,6 +4,7 @@ exports[`plugins/assetsRetry > should add assets retry plugin 1`] = `
 {
   "plugins": [
     AssetsRetryPlugin {
+      "HtmlPlugin": [Function],
       "name": "AssetsRetryPlugin",
     },
   ],

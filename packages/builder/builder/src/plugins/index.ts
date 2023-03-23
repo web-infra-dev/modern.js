@@ -33,4 +33,6 @@ export const plugins = {
     import('./asset').then(m =>
       m.builderAssetPlugin('media', MEDIA_EXTENSIONS),
     ),
+  assetsRetry: () =>
+    import('./assetsRetry').then(m => m.builderPluginAssetsRetry()),
 };

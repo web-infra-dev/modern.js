@@ -77,7 +77,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "tsc && node scripts/postCompile.js",
+    "build": "tsc",
     "dev": "tsc --watch --sourceMap",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",

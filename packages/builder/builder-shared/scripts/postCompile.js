@@ -4,7 +4,7 @@ const { transformAsync } = require('@babel/core');
 const { performance } = require('perf_hooks');
 
 async function compileRetryRuntime() {
-  const { default: TerserPlugin } = await import('terser-webpack-plugin');
+  const { minify } = await import('terser');
   const runtimeCode = await readFile(
     path.join(__dirname, '../dist/runtime/assetsRetry.js'),
     'utf8',
@@ -21,15 +21,13 @@ async function compileRetryRuntime() {
       ],
     ],
   });
-  const { code: minifiedRuntimeCode } = await TerserPlugin.terserMinify(
+  const { code: minifiedRuntimeCode } = await minify(
     {
       [distPath]: code,
     },
-    undefined,
     {
       ecma: 5,
     },
-    undefined,
   );
   await writeFile(distPath, minifiedRuntimeCode);
 }

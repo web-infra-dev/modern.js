@@ -127,6 +127,7 @@ importers:
   packages/builder/builder-shared:
     specifiers:
       '@babel/core': 7.18.0
+      '@babel/preset-env': 7.18.0
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -150,6 +151,7 @@ importers:
       zod-validation-error: 0.3.0_zod@3.20.2
     devDependencies:
       '@babel/core': 7.18.0
+      '@babel/preset-env': 7.18.0_@babel+core@7.18.0
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.20
       '@types/babel__preset-env': 7.9.2
