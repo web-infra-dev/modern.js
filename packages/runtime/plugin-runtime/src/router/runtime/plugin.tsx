@@ -64,7 +64,12 @@ export const routerPlugin = ({
               beforeCreateRouter = true;
               const routes = createRoutes
                 ? createRoutes()
-                : createRoutesFromElements(renderRoutes(finalRouteConfig));
+                : createRoutesFromElements(
+                    renderRoutes({
+                      routesConfig: finalRouteConfig,
+                      props,
+                    }),
+                  );
 
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||

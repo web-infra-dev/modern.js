@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from '@modern-js/runtime/router';
+import { Outlet } from '@modern-js/runtime/router';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -10,13 +10,7 @@ export const loader = async () => {
 };
 
 export default function Layout() {
-  const data = useLoaderData() as { message: string };
+  // const data = useLoaderData() as { message: string };
   // console.log('xxxxx', useMatches())
-  return (
-    <div>
-      {data.message}
-
-      {<Outlet />}
-    </div>
-  );
+  return <div>{<Outlet />}</div>;
 }

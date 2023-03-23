@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData } from '@modern-js/runtime/router';
+// import { useLoaderData } from '@modern-js/runtime/router';
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -12,11 +12,11 @@ export const loader = async () => {
 
 export default function Layout() {
   const { Dashboard } = useModuleApps();
-  const data = useLoaderData() as { message: string };
-  // console.log('xxxxx', useMatches())
+  // const data = useLoaderData() as { message: string };
+
   return (
     <div>
-      {data.message}
+      <div>---------</div>
       <Dashboard
         msg={'hello world from main app'}
         loadable={{
@@ -29,7 +29,6 @@ export default function Layout() {
           },
         }}
       />
-      {<Outlet />}
     </div>
   );
 }

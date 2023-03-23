@@ -48,8 +48,13 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     const WrapperComponent: React.ComponentType<any> = props => {
       const element = React.createElement(
         App || React.Fragment,
-        { ...props },
-        props.children,
+        App ? { ...props } : null,
+        App
+          ? props.children
+          : React.cloneElement(props.children, {
+              ...props.children?.props,
+              ...props,
+            }),
       );
       const context = useContext(RuntimeReactContext);
 
