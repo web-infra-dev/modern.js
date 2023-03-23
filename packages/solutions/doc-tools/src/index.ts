@@ -26,14 +26,17 @@ export default (
 ): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
-    const { dev, build, serve, mergeDocConfig } = await import(
-      '@modern-js/doc-core'
-    );
+    const { dev, build, serve } = await import('@modern-js/doc-core');
     let server: ServerInstance | undefined;
     let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
     return {
       validateSchema: () => {
         return schema;
+      },
+      config() {
+        return {
+          doc: extraDocConfig,
+        };
       },
       watchFiles() {
         const { configFile } = api.useAppContext();
@@ -83,12 +86,7 @@ export default (
               }
               const config = api.useConfigContext() as UserConfig;
 
-              server = await dev(
-                root || '',
-                mergeDocConfig(config, {
-                  doc: extraDocConfig,
-                }),
-              );
+              server = await dev(root || '', config);
             };
             await startServer(true);
           });
@@ -99,12 +97,7 @@ export default (
           .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await build(
-              root || '',
-              mergeDocConfig(config, {
-                doc: extraDocConfig,
-              }),
-            );
+            await build(root || '', config);
           });
 
         program
@@ -115,12 +108,7 @@ export default (
           .option('--host [host]', 'hostname')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await serve(
-              root || '',
-              mergeDocConfig(config, {
-                doc: extraDocConfig,
-              }),
-            );
+            await serve(root || '', config);
           });
       },
     };
