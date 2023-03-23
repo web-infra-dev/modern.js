@@ -1,5 +1,7 @@
 # @modern-js/bff-generator
 
+## 2.4.19
+
 ## 2.4.18
 
 ### Patch Changes
