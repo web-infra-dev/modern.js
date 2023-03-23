@@ -974,7 +974,7 @@ importers:
 
   packages/cli/plugin-module-doc:
     specifiers:
-      '@arco-design/web-react': 2.45.1
+      '@arco-design/web-react': ^2.46.0
       '@modern-js/doc-core': workspace:*
       '@modern-js/module-tools': workspace:*
       '@modern-js/utils': workspace:*
@@ -1005,7 +1005,7 @@ importers:
       remark-gfm: 3.0.1
       ts-document: 0.7.0_typescript@4.9.5
     devDependencies:
-      '@arco-design/web-react': 2.45.1_biqbaboplfbrettd7655fr4n2y
+      '@arco-design/web-react': 2.46.0_biqbaboplfbrettd7655fr4n2y
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/build': link:../../../scripts/build
@@ -5528,7 +5528,7 @@ importers:
 
   tests/integration/garfish/table:
     specifiers:
-      '@arco-design/web-react': ^2.35.0
+      '@arco-design/web-react': ^2.46.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-garfish': workspace:*
       '@modern-js/plugin-router-v5': workspace:*
@@ -5540,7 +5540,7 @@ importers:
       react-dom: ^18
       typescript: ^4
     dependencies:
-      '@arco-design/web-react': 2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce
+      '@arco-design/web-react': 2.46.0_rj7ozvcq3uehdlnj3cbwzbi5ce
       '@modern-js/plugin-garfish': link:../../../../packages/runtime/plugin-garfish
       '@modern-js/runtime': link:../../../../packages/runtime/plugin-runtime
       react: 18.2.0
@@ -5669,7 +5669,7 @@ importers:
 
   tests/integration/module-doc:
     specifiers:
-      '@arco-design/web-react': ^2.35.0
+      '@arco-design/web-react': ^2.46.0
       '@modern-js-app/eslint-config': workspace:*
       '@modern-js/eslint-config': workspace:*
       '@modern-js/module-tools': workspace:*
@@ -5687,7 +5687,7 @@ importers:
       rimraf: ~3.0.2
       typescript: ~4.9.4
     dependencies:
-      '@arco-design/web-react': 2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce
+      '@arco-design/web-react': 2.46.0_rj7ozvcq3uehdlnj3cbwzbi5ce
     devDependencies:
       '@modern-js-app/eslint-config': link:../../../packages/review/eslint-config-app
       '@modern-js/eslint-config': link:../../../packages/review/eslint-config
@@ -6347,33 +6347,8 @@ packages:
     dependencies:
       color: 3.2.1
 
-  /@arco-design/web-react/2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce:
-    resolution: {integrity: sha512-UYoKC6bgD6LrDSO99FtYWNCdipI15Yjb81NC/YTiv0hKlrKRccqpS4j0ncacDmGERf3wSJKUuy1A2qUlKeoZlA==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-    dependencies:
-      '@arco-design/color': 0.4.0
-      '@babel/runtime': 7.20.7
-      b-tween: 0.3.3
-      b-validate: 1.4.1
-      compute-scroll-into-view: 1.0.17
-      dayjs: 1.11.3
-      lodash: 4.17.21
-      number-precision: 1.5.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-focus-lock: 2.9.1_iapumuv4e6jcjznwuxpf4tt22e
-      react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
-      resize-observer-polyfill: 1.5.1
-      scroll-into-view-if-needed: 2.2.20
-      shallowequal: 1.1.0
-    transitivePeerDependencies:
-      - '@types/react'
-    dev: false
-
-  /@arco-design/web-react/2.45.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-p1pY2Z//to6jp/K2s9jlJGTdCHTU84FPmxtdARV5t5/6sfQPfDxuLGyqOKGox6F+ZfUrMrZpS0pO0gZAPwJpeg==}
+  /@arco-design/web-react/2.46.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-M33kL4K41x7u2Ln88sxQiqNTLm0s2b8GCYLk7GMbin0HP6jFLazFn9n7zY+HLK8p2jiFqt/bVD9qiJXJ5G0d6A==}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
@@ -6396,6 +6371,31 @@ packages:
     transitivePeerDependencies:
       - '@types/react'
     dev: true
+
+  /@arco-design/web-react/2.46.0_rj7ozvcq3uehdlnj3cbwzbi5ce:
+    resolution: {integrity: sha512-M33kL4K41x7u2Ln88sxQiqNTLm0s2b8GCYLk7GMbin0HP6jFLazFn9n7zY+HLK8p2jiFqt/bVD9qiJXJ5G0d6A==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@arco-design/color': 0.4.0
+      '@babel/runtime': 7.20.7
+      b-tween: 0.3.3
+      b-validate: 1.4.4
+      compute-scroll-into-view: 1.0.17
+      dayjs: 1.11.3
+      lodash: 4.17.21
+      number-precision: 1.5.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-focus-lock: 2.9.1_iapumuv4e6jcjznwuxpf4tt22e
+      react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
+      resize-observer-polyfill: 1.5.1
+      scroll-into-view-if-needed: 2.2.20
+      shallowequal: 1.1.0
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
 
   /@arr/every/1.0.1:
     resolution: {integrity: sha512-UQFQ6SgyJ6LX42W8rHCs8KVc0JS0tzVL9ct4XYedJukskYVWTo49tNiMEK9C2HTyarbNiT/RVIRSY82vH+6sTg==}
@@ -16297,13 +16297,8 @@ packages:
   /b-tween/0.3.3:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
 
-  /b-validate/1.4.1:
-    resolution: {integrity: sha512-X6ImDku5YY8NfWTh/hX8CAaronWnNXpb159cqs6lDWLtI4OWiehZ4B0NshfatTuKt1HIeNq9PObE/Xl5YoJYUg==}
-    dev: false
-
   /b-validate/1.4.4:
     resolution: {integrity: sha512-E2tnSnxxKDyxP1G+TMTbVHA8XajfHHOJKeWm9YVRISSPtzTL7ZP/7tIYp01b+O83L5R/6i31+Su+vCOJBnQWFQ==}
-    dev: true
 
   /babel-jest/27.5.1_@babel+core@7.20.5:
     resolution: {integrity: sha512-cdQ5dXjGRd0IBRATiQ4mZGlGlRE8kJpjPOixdNRdT+m3UcNqmYWN6rK6nvtXYfY3D76cb8s/O1Ss8ea24PIwcg==}
