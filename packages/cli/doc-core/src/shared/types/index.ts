@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import type { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluginConfig } from '@modern-js/core';
+import _ from '@modern-js/utils/lodash';
 import type { PluggableList } from 'unified';
 import {
   Config as DefaultThemeConfig,
@@ -257,3 +258,17 @@ export type Config =
   | UserConfig
   | Promise<UserConfig>
   | ((env: any) => UserConfig | Promise<UserConfig>);
+
+export const mergeDocConfig = (...configs: UserConfig[]): UserConfig =>
+  _.mergeWith({}, ...configs, (target: UserConfig, source: UserConfig) => {
+    const pair = [target, source];
+    if (pair.some(_.isUndefined)) {
+      // fallback to lodash default merge behavior
+      return undefined;
+    }
+    if (pair.some(_.isArray)) {
+      return [..._.castArray(target), ..._.castArray(source)];
+    }
+    // fallback to lodash default merge behavior
+    return undefined;
+  });

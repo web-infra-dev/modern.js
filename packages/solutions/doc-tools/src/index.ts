@@ -20,10 +20,15 @@ interface ServerInstance {
 
 const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
 
-export default (): CliPlugin => ({
+export default (
+  configFiles = MODERN_CONFIG_FILES,
+  extraDocConfig: UserConfig['doc'] = {},
+): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
-    const { dev, build, serve } = await import('@modern-js/doc-core');
+    const { dev, build, serve, mergeDocConfig } = await import(
+      '@modern-js/doc-core'
+    );
     let server: ServerInstance | undefined;
     let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
     return {
@@ -39,7 +44,7 @@ export default (): CliPlugin => ({
         return [configFile, config.doc?.root].filter(Boolean);
       },
       async fileChange({ filename, eventType }) {
-        const isConfigFile = MODERN_CONFIG_FILES.some(configFileName =>
+        const isConfigFile = configFiles.some(configFileName =>
           filename.endsWith(configFileName),
         );
         const isWatchFileType = WATCH_FILE_TYPES.some(type =>
@@ -78,7 +83,12 @@ export default (): CliPlugin => ({
               }
               const config = api.useConfigContext() as UserConfig;
 
-              server = await dev(root || '', config);
+              server = await dev(
+                root || '',
+                mergeDocConfig(config, {
+                  doc: extraDocConfig,
+                }),
+              );
             };
             await startServer(true);
           });
@@ -89,7 +99,12 @@ export default (): CliPlugin => ({
           .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await build(root || '', config);
+            await build(
+              root || '',
+              mergeDocConfig(config, {
+                doc: extraDocConfig,
+              }),
+            );
           });
 
         program
@@ -100,7 +115,12 @@ export default (): CliPlugin => ({
           .option('--host [host]', 'hostname')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await serve(root || '', config);
+            await serve(
+              root || '',
+              mergeDocConfig(config, {
+                doc: extraDocConfig,
+              }),
+            );
           });
       },
     };
