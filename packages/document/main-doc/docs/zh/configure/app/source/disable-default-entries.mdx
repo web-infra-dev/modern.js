@@ -1,22 +1,16 @@
 ---
-title: source.disableDefaultEntries
 sidebar_label: disableDefaultEntries
 ---
-# disableDefaultEntries
+
+# source.disableDefaultEntries
 
 - **类型：** `boolean`
 - **默认值：** `false`
 
-关闭根据项目目录结构自动识别应用构建入口的功能，默认情况下，Modern.js 会根据项目目录结构得到对应构建入口。
+用于关闭基于目录结构来自动识别页面入口的功能。
 
 :::info
-默认情况下，Modern.js 会根据项目目录结构得到对应入口信息。具体可参考[入口](/guides/concept/entries)。
-配置关闭改机制后，需要使用 [`source.entries`](/configure/app/source/entries) 配置自定义入口。
-
-:::
-
-:::warning 警告
-推荐按照 Modern.js 提供的目录规范组织代码可以更好使用框架的功能，避免一些冗余的配置。
+默认情况下，Modern.js 会基于目录约定来自动确定页面的入口，具体可参考[入口](/guides/concept/entries)。
 
 :::
 
@@ -29,3 +23,10 @@ export default defineConfig({
   },
 });
 ```
+
+关闭默认行为后，你需要使用 [`source.entries`](/configure/app/source/entries) 配置自定义的入口。
+
+:::warning
+我们推荐使用 Modern.js 提供的目录规范来组织代码，从而更好地使用框架功能，避免一些冗余的配置。
+
+:::

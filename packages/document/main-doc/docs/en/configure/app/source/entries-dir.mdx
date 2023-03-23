@@ -1,13 +1,13 @@
 ---
-title: source.entriesDir
 sidebar_label: entriesDir
 ---
-# entriesDir
+
+# source.entriesDir
 
 - **Type:** `string`
 - **Default:** `./src`
 
-By default, the application entry will be identified according to the `src` directory. You can customize the identification directory of the application entry through this option.
+Modern.js will scan the `src` directory by default to identify the page entries, you can customize the identification directory of the page entries through this option.
 
 For example, when the configuration and directory structure are as follows:
 
@@ -24,16 +24,16 @@ export default defineConfig({
 └── src
     └── pages
         ├── a
-        │   └── App.jsx
+        │   └── App.tsx
         └── b
-            └── App.jsx
+            └── App.tsx
 ```
 
-Modern.js will generate the build entry `a` and entry `b` according to the `./src/pages` directory structure, the result is as follows:
+Modern.js will generate the build entry `a` and `b` according to the `./src/pages` directory structure, the result is as follows:
 
 ```js
- {
-   a: './src/pages/a/App.jsx',
-   b: './src/pages/b/App.jsx'
- }
+const entry = {
+  a: './src/pages/a/App.tsx',
+  b: './src/pages/b/App.tsx',
+};
 ```
