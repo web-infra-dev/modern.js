@@ -85,7 +85,12 @@ export const routerPlugin = ({
 
           const routes = createRoutes
             ? createRoutes()
-            : createRoutesFromElements(renderRoutes(routesConfig, ssrMode));
+            : createRoutesFromElements(
+                renderRoutes({
+                  routesConfig,
+                  ssrMode,
+                }),
+              );
 
           const { query } = createStaticHandler(routes, {
             basename: _basename,

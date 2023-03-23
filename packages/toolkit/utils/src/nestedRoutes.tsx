@@ -1,8 +1,8 @@
 /**
  * runtime utils for nested routes generating
  */
+import React, { Suspense } from 'react';
 import type { NestedRoute } from '@modern-js/types';
-import { Suspense } from 'react';
 import {
   createRoutesFromElements,
   LoaderFunction,
@@ -26,11 +26,12 @@ export const renderNestedRoute = (
   options: {
     parent?: NestedRoute;
     DeferredDataComponent?: () => JSX.Element | null;
+    props?: Record<string, any>;
   } = {},
 ) => {
   const { children, index, id, component, isRoot, lazyImport } = nestedRoute;
   const Component = component as unknown as React.ComponentType<any>;
-  const { parent, DeferredDataComponent } = options;
+  const { parent, DeferredDataComponent, props = {} } = options;
 
   const routeProps: Omit<RouteProps, 'children'> = {
     caseSensitive: nestedRoute.caseSensitive,
@@ -70,7 +71,7 @@ export const renderNestedRoute = (
     } else if (isRoot) {
       element = (
         <>
-          <Component />
+          <Component {...props} />
           {typeof document === 'undefined' && DeferredDataComponent && (
             <DeferredDataComponent />
           )}
