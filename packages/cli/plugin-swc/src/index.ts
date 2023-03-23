@@ -18,9 +18,9 @@ export default (): CliPlugin<AppTools> => ({
       }
 
       const config = api.useResolvedConfigContext();
-      context.builder.addPlugins([builderPluginSwc(config.tools.swc)]);
-
       const { esbuild, swc = {} } = config.tools;
+
+      context.builder.addPlugins([builderPluginSwc(swc)]);
 
       if (esbuild) {
         if (swc.jsMinify !== false && esbuild.minimize !== false) {
