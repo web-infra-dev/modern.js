@@ -190,6 +190,7 @@ export const generateCode = async (
             nestedRoutesEntry: entrypoint.nestedRoutesEntry,
             entryName: entrypoint.entryName,
             internalDirectory,
+            splitRouteChunks: config?.output?.splitRouteChunks,
           }),
         });
 

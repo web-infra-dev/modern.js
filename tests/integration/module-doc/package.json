@@ -36,7 +36,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@arco-design/web-react": "^2.35.0"
+    "@arco-design/web-react": "^2.46.0"
   },
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",

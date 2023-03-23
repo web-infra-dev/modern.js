@@ -19,7 +19,9 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.media(),
     plugins.svg(),
     plugins.html(),
-    import('../plugins/babel').then(m => m.builderPluginBabel()),
+    // TODO: the babel can't parser ts/react syntax without @babel/presets-env, @babel/presets-react ...
+    // Temporary removal
+    // import('../plugins/babel').then(m => m.builderPluginBabel()),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/less').then(m => m.builderPluginLess()),

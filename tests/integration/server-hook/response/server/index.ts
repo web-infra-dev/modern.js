@@ -18,20 +18,8 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
     });
   } else if (pathname === '/status') {
     response.status(201);
-  } else if (pathname === '/cookies-apply') {
-    response.cookies.apply();
   } else if (pathname === '/cookies-clear') {
     response.cookies.clear();
-    response.cookies.apply();
-  } else if (pathname === '/cookies-delete') {
-    response.cookies.delete('x-test-city');
-    response.cookies.apply();
-  } else if (pathname === '/cookies-get') {
-    const city = response.cookies.get('x-test-city');
-    response.raw(`live in ${city}`, {
-      headers: {},
-      status: 200,
-    });
   } else if (pathname === '/raw') {
     response.raw('hello world', {
       headers: {
