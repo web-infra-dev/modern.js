@@ -22,7 +22,17 @@ export type AssetsRetryOptions = {
 };
 ```
 
-The default value is as follows:
+Since the ability will inject some extra runtime code into HTML, we have disabled this ability by default. If you need to enable it, you can configure it in the form of an object, for example:
+
+```js
+export default {
+  output: {
+    assetsRetry: {},
+  },
+};
+```
+
+When you enable this ability, the default config of `assetsRetry` is as follows:
 
 ```ts
 export const defaultAssetsRetryOptions: AssetsRetryOptions = {
@@ -37,7 +47,11 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 };
 ```
 
-- **Bundler:** `only support webpack`
+At the same time, you can also customize your retry logic according to the following config instructions.
+
+:::warning Caution
+This ability only supports webpack for now.
+:::
 
 ### assetsRetry.max
 

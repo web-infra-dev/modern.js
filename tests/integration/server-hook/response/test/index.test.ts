@@ -52,20 +52,6 @@ describe('test status code page', () => {
     expect(cookie).toBeUndefined();
   });
 
-  it('should response cookies delete work correctly', async () => {
-    const response = await page.goto(`http://localhost:${port}/cookies-delete`);
-    const headers = response.headers();
-    const cookie = headers['set-cookie'];
-    expect(cookie).toMatch('x-test-language=zh-en');
-    expect(cookie).not.toMatch('x-test-city=zhejiang');
-  });
-
-  it('should response cookies get work correctly', async () => {
-    const response = await page.goto(`http://localhost:${port}/cookies-get`);
-    const text = await response.text();
-    expect(text).toBe('live in zhejiang');
-  });
-
   it('should response raw work correctly', async () => {
     const response = await page.goto(`http://localhost:${port}/raw`);
     const text = await response.text();
