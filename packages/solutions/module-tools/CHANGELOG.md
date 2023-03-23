@@ -1,5 +1,22 @@
 # @modern-js/module-tools
 
+## 1.22.8
+
+### Patch Changes
+
+- @modern-js/babel-preset-module@1.22.8
+- @modern-js/core@1.22.8
+- @modern-js/css-config@1.22.8
+- @modern-js/plugin-changeset@1.22.8
+- @modern-js/plugin-i18n@1.22.8
+- @modern-js/plugin-jarvis@1.22.8
+- @modern-js/new-action@1.22.8
+- @modern-js/babel-compiler@1.22.8
+- @modern-js/style-compiler@1.22.8
+- @modern-js/plugin@1.22.8
+- @modern-js/upgrade@1.22.8
+- @modern-js/utils@1.22.8
+
 ## 1.22.7
 
 ### Patch Changes

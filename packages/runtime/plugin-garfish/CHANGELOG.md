@@ -1,5 +1,14 @@
 # @modern-js/plugin-garfish
 
+## 1.22.8
+
+### Patch Changes
+
+- 3295ef6: fix: fix optional peerDep cause ghost dep
+  修复 peerDep optional 带来的幻影依赖问题
+  - @modern-js/runtime@1.22.8
+  - @modern-js/utils@1.22.8
+
 ## 1.22.7
 
 ### Patch Changes

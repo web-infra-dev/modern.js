@@ -1,5 +1,18 @@
 # @modern-js/monorepo-tools
 
+## 1.22.8
+
+### Patch Changes
+
+- @modern-js/core@1.22.8
+- @modern-js/plugin-changeset@1.22.8
+- @modern-js/plugin-i18n@1.22.8
+- @modern-js/plugin-jarvis@1.22.8
+- @modern-js/new-action@1.22.8
+- @modern-js/plugin@1.22.8
+- @modern-js/upgrade@1.22.8
+- @modern-js/utils@1.22.8
+
 ## 1.22.7
 
 ### Patch Changes
