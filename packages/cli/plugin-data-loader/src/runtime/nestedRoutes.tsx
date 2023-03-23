@@ -1,8 +1,5 @@
-/**
- * runtime utils for nested routes generating
- */
 import type { NestedRoute } from '@modern-js/types';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import {
   createRoutesFromElements,
   LoaderFunction,
