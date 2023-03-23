@@ -1,7 +1,4 @@
-import type {
-  AssetsRetryOptions,
-  AssetsRetryHookContext,
-} from '@modern-js/builder-shared';
+import type { AssetsRetryOptions, AssetsRetryHookContext } from '../types';
 
 interface ScriptElementAttributes {
   url: string;

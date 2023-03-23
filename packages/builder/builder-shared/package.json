@@ -22,7 +22,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "tsc",
+    "build": "tsc && node scripts/postCompile.js",
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
@@ -39,7 +39,7 @@
     },
     "./webpack-bundle-analyzer": {
       "types": "./compiled/webpack-bundle-analyzer/index.d.ts",
-      "default":"./compiled/webpack-bundle-analyzer/index.js"
+      "default": "./compiled/webpack-bundle-analyzer/index.js"
     },
     "./babel-loader": "./compiled/babel-loader/index.js",
     "./webpack-5-chain": {
@@ -53,7 +53,7 @@
     },
     "./zod": {
       "jsnext:source": "./src/exports/zod.ts",
-      "types":  "./dist/exports/zod.d.ts",
+      "types": "./dist/exports/zod.d.ts",
       "default": "./dist/exports/zod.js"
     }
   },
