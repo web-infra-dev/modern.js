@@ -5,13 +5,13 @@ import {
   type PageRoute,
   type SSRMode,
 } from '@modern-js/types';
-import { renderNestedRoute } from '@modern-js/utils/nestedRoutes';
 import {
   ErrorResponse,
   isRouteErrorResponse,
   type Router,
   type StaticHandlerContext,
 } from '@modern-js/utils/remix-router';
+import { renderNestedRoute } from './nestedRoutes';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';

@@ -42,10 +42,6 @@
       "jsnext:source": "./src/serialize.ts",
       "default": "./dist/serialize.js"
     },
-    "./nestedRoutes": {
-      "jsnext:source": "./src/nestedRoutes.tsx",
-      "default": "./dist/nestedRoutes.js"
-    },
     "./remix-router": {
       "jsnext:source": "./src/remix-router.ts",
       "default": "./dist/remix-router.js"
@@ -54,6 +50,8 @@
       "jsnext:source": "./src/babel.ts",
       "default": "./dist/babel.js"
     },
+    "./findExists": "./dist/findExists.js",
+    "./minimist": "./compiled/minimist/index.js",
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
@@ -88,7 +86,6 @@
       "./logger": "./dist/logger.js",
       "./constants": "./dist/constants.js",
       "./serialize": "./dist/serialize.js",
-      "./nestedRoutes": "./dist/nestedRoutes.js",
       "./remix-router": "./dist/remix-router.js",
       "./babel": "./dist/babel.js",
       "./ajv": "./compiled/ajv/index.js",
@@ -129,11 +126,14 @@
       "serialize": [
         "./dist/serialize.d.ts"
       ],
-      "nestedRoutes": [
-        "./dist/nestedRoutes.d.ts"
-      ],
       "babel": [
         "./dist/babel.d.ts"
+      ],
+      "findExists": [
+        "./dist/findExists.d.ts"
+      ],
+      "minimist": [
+        "./compiled/minimist/index.d.ts"
       ],
       "ajv": [
         "./compiled/ajv/types/ajv.d.ts"
