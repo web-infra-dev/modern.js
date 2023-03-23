@@ -281,6 +281,15 @@ export default ({
         };
       },
 
+      validateSchema() {
+        return {
+          target: 'output.splitRouteChunks',
+          schema: {
+            type: 'boolean',
+          },
+        };
+      },
+
       async fileChange(e) {
         const appContext = api.useAppContext();
         const { appDirectory } = appContext;

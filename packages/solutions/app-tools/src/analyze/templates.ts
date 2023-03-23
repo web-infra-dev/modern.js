@@ -181,19 +181,25 @@ export const routesForServer = ({
   `;
 };
 
+const createMatchReg = (keyword: string) =>
+  new RegExp(`("${keyword}":\\s)"([^,]+)"`, 'g');
+
 export const fileSystemRoutes = async ({
   routes,
   ssrMode,
   nestedRoutesEntry,
   entryName,
   internalDirectory,
+  splitRouteChunks = true,
 }: {
   routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
   ssrMode?: SSRMode;
   nestedRoutesEntry?: string;
   entryName: string;
   internalDirectory: string;
+  splitRouteChunks?: boolean;
 }) => {
+  const components: string[] = [];
   const loadings: string[] = [];
   const errors: string[] = [];
   const loaders: string[] = [];
@@ -217,6 +223,7 @@ export const fileSystemRoutes = async ({
     import { lazy } from "react";
     import loadable, { lazy as loadableLazy } from "@modern-js/runtime/loadable"
   `;
+
   let rootLayoutCode = ``;
   const getDataLoaderPath = (loaderId: string) => {
     if (!ssrMode) {
@@ -265,21 +272,31 @@ export const fileSystemRoutes = async ({
       }
 
       if (route._component) {
-        if (route.isRoot) {
-          rootLayoutCode = `import RootLayout from '${route._component}'`;
-          component = `RootLayout`;
-        } else if (ssrMode === 'string') {
-          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
-          component = `loadable(${lazyImport})`;
+        if (splitRouteChunks) {
+          if (route.isRoot) {
+            rootLayoutCode = `import RootLayout from '${route._component}'`;
+            component = `RootLayout`;
+          } else if (ssrMode === 'string') {
+            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
+            component = `loadable(${lazyImport})`;
+          } else {
+            // csr and streaming
+            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
+            component = `lazy(${lazyImport})`;
+          }
         } else {
-          // csr and streaming
-          lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
-          component = `lazy(${lazyImport})`;
+          components.push(route._component);
+          component = `component_${components.length - 1}`;
         }
       }
     } else if (route._component) {
-      lazyImport = `() => import('${route._component}')`;
-      component = `loadable(${lazyImport})`;
+      if (splitRouteChunks) {
+        lazyImport = `() => import('${route._component}')`;
+        component = `loadable(${lazyImport})`;
+      } else {
+        components.push(route._component);
+        component = `component_${components.length - 1}`;
+      }
     }
 
     const finalRoute = {
@@ -302,26 +319,33 @@ export const fileSystemRoutes = async ({
   for (const route of routes) {
     if ('type' in route) {
       const newRoute = traverseRouteTree(route);
-      routeComponentsCode += `${JSON.stringify(newRoute, null, 2)
-        .replace(/"(loadable.*\))"/g, '$1')
-        .replace(/"(loadableLazy.*\))"/g, '$1')
-        .replace(/"(\(\)[^,]+)",/g, '$1,')
-        .replace(/"(lazy\(.*\))"/g, '$1')
-        .replace(/"(loading_[^"]+)"/g, '$1')
-        .replace(/"(loader_[^"]+)"/g, '$1')
+      const routeStr = JSON.stringify(newRoute, null, 2);
+      const keywords = [
+        'component',
+        'lazyImport',
+        'loader',
+        'loading',
+        'error',
+      ];
+      const regs = keywords.map(createMatchReg);
+      const newRouteStr = regs
+        .reduce((acc, reg) => acc.replace(reg, '$1$2'), routeStr)
         .replace(/"(RootLayout)"/g, '$1')
-        .replace(/"(error_[^"]+)"/g, '$1')
-        .replace(/\\"/g, '"')},`;
+        .replace(/\\"/g, '"');
+      routeComponentsCode += `${newRouteStr},`;
     } else {
       const component = `loadable(() => import('${route._component}'))`;
       const finalRoute = {
         ...route,
         component,
       };
-
-      routeComponentsCode += `${JSON.stringify(finalRoute, null, 2)
-        .replace(/"(loadable[^"]*)"/g, '$1')
-        .replace(/"(lazy[^"]*)"/g, '$1')},`;
+      const keywords = ['component', 'lazyImport'];
+      const routeStr = JSON.stringify(finalRoute, null, 2);
+      const regs = keywords.map(createMatchReg);
+      const newRouteStr = regs
+        .reduce((acc, reg) => acc.replace(reg, '$1$2'), routeStr)
+        .replace(/\\"/g, '"');
+      routeComponentsCode += `${newRouteStr},`;
     }
   }
   routeComponentsCode += `\n];`;
@@ -329,6 +353,12 @@ export const fileSystemRoutes = async ({
   const importLoadingCode = loadings
     .map((loading, index) => {
       return `import loading_${index} from '${loading}';\n`;
+    })
+    .join('');
+
+  const importComponentsCode = components
+    .map((component, index) => {
+      return `import component_${index} from '${component}';\n`;
     })
     .join('');
 
@@ -357,6 +387,7 @@ export const fileSystemRoutes = async ({
 
   return `
     ${importLazyCode}
+    ${importComponentsCode}
     ${rootLayoutCode}
     ${importLoadingCode}
     ${importErrorComponentsCode}
