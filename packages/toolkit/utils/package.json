@@ -50,8 +50,6 @@
       "jsnext:source": "./src/babel.ts",
       "default": "./dist/babel.js"
     },
-    "./findExists": "./dist/findExists.js",
-    "./minimist": "./compiled/minimist/index.js",
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
@@ -88,8 +86,6 @@
       "./serialize": "./dist/serialize.js",
       "./remix-router": "./dist/remix-router.js",
       "./babel": "./dist/babel.js",
-      "./findExists": "./dist/findExists.js",
-      "./minimist": "./compiled/minimist/index.js",
       "./ajv": "./compiled/ajv/index.js",
       "./glob": "./compiled/glob/index.js",
       "./chalk": "./compiled/chalk/index.js",
@@ -130,12 +126,6 @@
       ],
       "babel": [
         "./dist/babel.d.ts"
-      ],
-      "findExists": [
-        "./dist/findExists.d.ts"
-      ],
-      "minimist": [
-        "./compiled/minimist/index.d.ts"
       ],
       "ajv": [
         "./compiled/ajv/types/ajv.d.ts"
