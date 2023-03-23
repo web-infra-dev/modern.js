@@ -39,7 +39,7 @@
     "remark-gfm": "3.0.1"
   },
   "devDependencies": {
-    "@arco-design/web-react": "2.45.1",
+    "@arco-design/web-react": "^2.46.0",
     "webpack-virtual-modules": "0.4.6",
     "@types/mdast": "^3.0.10",
     "doctrine": "^3.0.0",
