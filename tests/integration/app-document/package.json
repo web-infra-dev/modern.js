@@ -1,6 +1,6 @@
 {
   "name": "app-docmuent",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "private": true,
   "scripts": {
     "bb": "cd ../../.. && pnpm --filter @modern-js/runtime build && pnpm --filter @modern-js/app-tools build && cd ./tests/integration/app-document && pnpm run dev",

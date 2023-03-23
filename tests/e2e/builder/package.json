@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@e2e/builder",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "scripts": {
     "test": "pnpm run test:webpack && pnpm run test:rspack",
     "test:webpack": "playwright test",

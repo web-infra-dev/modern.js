@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "webpack-builder-test",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "scripts": {
     "dev": "pnpm build:libs && node ./scripts/dist/dev.js",
     "dev:rspack": "pnpm build:libs && node ./scripts/dist/dev.js rspack",

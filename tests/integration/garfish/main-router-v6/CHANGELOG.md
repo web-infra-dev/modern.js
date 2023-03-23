@@ -1,5 +1,18 @@
 # @cypress-test/garfish-main-router-v6
 
+## 2.10.0
+
+### Patch Changes
+
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [5766414]
+- Updated dependencies [ae7cee2]
+- Updated dependencies [950e138]
+  - @modern-js/plugin-router-v5@2.10.0
+  - @modern-js/plugin-garfish@2.10.0
+  - @modern-js/runtime@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

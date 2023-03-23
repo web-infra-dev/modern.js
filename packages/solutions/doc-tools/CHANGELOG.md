@@ -1,5 +1,33 @@
 # @modern-js/doc-tools
 
+## 2.10.0
+
+### Patch Changes
+
+- c413d79: feat(doc-tools): support --config CLI option
+
+  feat(doc-tools): 支持 --config CLI 选项
+
+- Updated dependencies [c413d79]
+- Updated dependencies [0da32d0]
+- Updated dependencies [d3f0642]
+- Updated dependencies [135b8e9]
+- Updated dependencies [785011b]
+- Updated dependencies [2f9d8de]
+- Updated dependencies [a16b9b0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [07780f4]
+- Updated dependencies [4d54233]
+- Updated dependencies [e8ed464]
+- Updated dependencies [6db4864]
+- Updated dependencies [cf7439c]
+- Updated dependencies [90f2262]
+- Updated dependencies [19e552a]
+  - @modern-js/doc-core@2.10.0
+  - @modern-js/utils@2.10.0
+  - @modern-js/core@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

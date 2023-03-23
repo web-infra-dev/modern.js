@@ -1,5 +1,21 @@
 # multi-less
 
+## 2.10.0
+
+### Patch Changes
+
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [5766414]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [7b5dd99]
+- Updated dependencies [6db4864]
+- Updated dependencies [950e138]
+- Updated dependencies [dcc5610]
+- Updated dependencies [84c4372]
+  - @modern-js/runtime@2.10.0
+  - @modern-js/app-tools@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

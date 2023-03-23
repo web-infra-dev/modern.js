@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 2.10.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- 4d54233: chore(builder): update rspack & show rspack format error
+
+  chore(builder): 更新 rspack 版本 & 优化 rspack 错误日志输出
+
+- 6db4864: feat: add output.splitRouteChunks
+  feat: 添加 output.splitRouteChunks 配置
+
 ## 2.9.0
 
 ## 2.8.0

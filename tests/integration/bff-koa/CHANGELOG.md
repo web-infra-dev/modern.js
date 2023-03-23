@@ -1,5 +1,19 @@
 # bff-express
 
+## 2.10.0
+
+### Patch Changes
+
+- Updated dependencies [3e0bd50]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [5766414]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [950e138]
+  - @modern-js/plugin-koa@2.10.0
+  - @modern-js/runtime@2.10.0
+  - @modern-js/plugin-bff@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

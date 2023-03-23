@@ -1,5 +1,36 @@
 # @modern-js/builder-rspack-provider
 
+## 2.10.0
+
+### Minor Changes
+
+- a8db932: feat: rspack-provider support tools.babel
+  feat: rspack-provider 支持 tools.babel
+
+### Patch Changes
+
+- 4d54233: chore(builder): update rspack & show rspack format error
+
+  chore(builder): 更新 rspack 版本 & 优化 rspack 错误日志输出
+
+- cfdbf80: fix(builder): update source.define type and schema check in rspack-provider
+
+  fix(builder): 更新 rspack-provider 中 source.define 的类型定义与校验
+
+- Updated dependencies [a8db932]
+- Updated dependencies [3e0bd50]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/builder-shared@2.10.0
+  - @modern-js/server@2.10.0
+  - @modern-js/types@2.10.0
+  - @modern-js/utils@2.10.0
+  - @modern-js/e2e@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

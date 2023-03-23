@@ -1,6 +1,6 @@
 {
   "name": "integration-module-doc",
-  "version": "0.1.0",
+  "version": "2.10.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/lib/index.js",
