@@ -28,7 +28,6 @@ describe('Streaming SSR', () => {
       args: ['--no-sandbox'],
     });
     page = await browser.newPage();
-    page.setDefaultTimeout(10000);
   });
 
   afterAll(async () => {
