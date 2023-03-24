@@ -1,5 +1,8 @@
+const path = require('path');
+
 module.exports = {
-  setupFiles: ['<rootDir>/.jest/setEnvVars.js'],
+  rootDir: path.join(__dirname, '..'),
+  setupFiles: ['<rootDir>/tests/setEnvVars.js'],
   collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/packages/**/src/**/*.ts',
@@ -13,7 +16,7 @@ module.exports = {
   coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
   transform: {
     '\\.[jt]sx?$': [
-      '@swc/jest',
+      require.resolve('@swc/jest'),
       {
         jsc: {
           parser: {
@@ -31,9 +34,8 @@ module.exports = {
   },
   moduleNameMapper: {},
   globals: {},
-  testEnvironment: './jestEnv.js',
-  resolver: '<rootDir>/jest.resolver.js',
-  rootDir: __dirname,
+  testEnvironment: '<rootDir>/tests/jest.env.js',
+  resolver: '<rootDir>/tests/jest.resolver.js',
   testTimeout: 30000,
   transformIgnorePatterns: [
     '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
