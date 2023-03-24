@@ -18,12 +18,17 @@ interface ServerInstance {
   close: () => Promise<void>;
 }
 
+interface DocToolsOptions {
+  configFiles?: string[];
+  extraDocConfig?: UserConfig['doc'];
+}
+
 const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
 
-export default (
+export default ({
   configFiles = MODERN_CONFIG_FILES,
-  extraDocConfig: UserConfig['doc'] = {},
-): CliPlugin => ({
+  extraDocConfig = {},
+}: DocToolsOptions): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
     const { dev, build, serve } = await import('@modern-js/doc-core');
