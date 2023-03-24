@@ -209,6 +209,10 @@ export default (): CliPlugin => ({
 });
 ```
 
+:::tip
+由于 Node.js 中退出进程时的回调函数是同步的，所以 `beforeExit` Hook 的类型是 `Workflow`，不能执行异步操作。
+:::
+
 ### `beforeDev`
 
 - 功能：运行 dev 主流程的之前的任务

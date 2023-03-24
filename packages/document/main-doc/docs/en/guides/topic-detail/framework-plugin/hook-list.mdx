@@ -209,6 +209,10 @@ export default (): CliPlugin => ({
 });
 ```
 
+:::tip
+Since the callback function when exiting the process in Node.js is synchronous, the type of `beforeExit` Hook is `Workflow` and cannot perform asynchronous operations.
+:::
+
 ### `beforeDev`
 
 - Functionality: Tasks before running the main dev process.
