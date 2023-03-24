@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
 import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { ROUTE_MANIFEST } from '@modern-js/utils/constants';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import {
   RuntimeReactContext,
   RuntimeContext,

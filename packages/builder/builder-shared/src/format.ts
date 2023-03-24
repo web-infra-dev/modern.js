@@ -9,7 +9,9 @@ export async function formatStats(
     preset: 'errors-warnings',
   });
 
-  const { formatWebpackMessages } = await import('@modern-js/utils');
+  const { formatWebpackMessages } = await import(
+    '@modern-js/utils/universal/format-webpack'
+  );
   const { errors, warnings } = formatWebpackMessages(statsData);
 
   if (errors.length) {

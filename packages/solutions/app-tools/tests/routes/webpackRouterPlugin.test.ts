@@ -1,5 +1,6 @@
 import path from 'path';
-import { fs, ROUTE_MINIFEST_FILE } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
 import { RouterPlugin } from '../../src/builder/shared/bundlerPlugins';
 import { compiler } from './compiler';
 
@@ -26,7 +27,7 @@ describe('webpack-router-plugin', () => {
     const mainBundle = path.join(outputPath!, 'main.js');
     const bundleContent = await fs.readFile(mainBundle);
     expect(bundleContent.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(true);
-    const manifestFile = path.join(distDir, ROUTE_MINIFEST_FILE);
+    const manifestFile = path.join(distDir, ROUTE_MANIFEST_FILE);
     const manifest = await import(manifestFile);
     expect(manifest.routeAssets).toHaveProperty('main');
     expect(manifest.routeAssets).toHaveProperty('bar');
@@ -55,7 +56,7 @@ describe('webpack-router-plugin', () => {
     const mainBundle = path.join(outputPath!, 'main.js');
     const bundleContent = await fs.readFile(mainBundle);
     expect(bundleContent.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(false);
-    const manifestFile = path.join(distDir, ROUTE_MINIFEST_FILE);
+    const manifestFile = path.join(distDir, ROUTE_MANIFEST_FILE);
     expect(await fs.pathExists(manifestFile)).toBeFalsy();
 
     await fs.remove(distDir);
