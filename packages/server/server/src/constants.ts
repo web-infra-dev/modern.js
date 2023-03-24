@@ -1,4 +1,5 @@
-import { getIpv4Interfaces, HMR_SOCK_PATH } from '@modern-js/utils';
+import { getIpv4Interfaces } from '@modern-js/utils';
+import { HMR_SOCK_PATH } from '@modern-js/utils/universal/constants';
 import { DevServerOptions } from './types';
 
 export const getDefaultDevOptions = (): DevServerOptions => {
