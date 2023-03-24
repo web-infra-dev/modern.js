@@ -1,5 +1,61 @@
 # @modern-js/app-tools
 
+## 2.10.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- 0d9962b: fix: add types field in package.json
+  fix: 添加 package.json 中的 types 字段
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- 7b5dd99: feat(app-tools): support builder-plugin-node-polyfill & output.disableNodePolyfill false when use Rspack
+
+  feat(app-tools): 在启动 Rspack 时，支持 builder-plugin-node-polyfill 插件以及将 output.disableNodePolyfill 设置为 false
+
+- 6db4864: feat: add output.splitRouteChunks
+  feat: 添加 output.splitRouteChunks 配置
+- dcc5610: perf: improve routerPlugin performance
+  perf: 优化 routerPlugin 的性能
+- 84c4372: fix: should get publicPath from webpack stats in router-plugin
+  fix: 应该从 webpack stats 获得 publicPath
+- Updated dependencies [d8bbf28]
+- Updated dependencies [a8db932]
+- Updated dependencies [3e0bd50]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [d3f0642]
+- Updated dependencies [a16b9b0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+- Updated dependencies [82326ee]
+- Updated dependencies [d6b6e29]
+- Updated dependencies [cfdbf80]
+- Updated dependencies [ed55acb]
+  - @modern-js/prod-server@2.10.0
+  - @modern-js/builder-webpack-provider@2.10.0
+  - @modern-js/builder-rspack-provider@2.10.0
+  - @modern-js/builder-shared@2.10.0
+  - @modern-js/plugin-data-loader@2.10.0
+  - @modern-js/server@2.10.0
+  - @modern-js/types@2.10.0
+  - @modern-js/node-bundle-require@2.10.0
+  - @modern-js/new-action@2.10.0
+  - @modern-js/plugin-i18n@2.10.0
+  - @modern-js/plugin-lint@2.10.0
+  - @modern-js/upgrade@2.10.0
+  - @modern-js/plugin@2.10.0
+  - @modern-js/utils@2.10.0
+  - @modern-js/core@2.10.0
+  - @modern-js/builder-plugin-esbuild@2.10.0
+  - @modern-js/builder-plugin-node-polyfill@2.10.0
+  - @modern-js/builder@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

@@ -18,21 +18,15 @@ importers:
       '@modern-js/plugin-lint': workspace:*
       '@modern-js/tsconfig': workspace:*
       '@scripts/build': workspace:*
-      '@swc/core': 1.3.18
-      '@swc/jest': ^0.2.22
       '@types/react': ^18
       '@types/react-dom': ^18
       '@vitest/ui': ^0.21.1
       babel-plugin-module-resolver: ^4.1.0
-      btsm: 2.2.2
       cypress: ^10.1.0
-      enhanced-resolve: ^5.9.2
       esbuild: 0.15.7
       execa: ^5.1.1
       globby: ^11.0.4
       husky: ^8.0.0
-      jest: ^29.5.0
-      jest-environment-jsdom: ^29.5.0
       turbo: ^1.6.3
       vitest: 0.21.1
     devDependencies:
@@ -46,21 +40,15 @@ importers:
       '@modern-js/plugin-lint': link:packages/cli/plugin-lint
       '@modern-js/tsconfig': link:packages/review/tsconfig
       '@scripts/build': link:scripts/build
-      '@swc/core': 1.3.18
-      '@swc/jest': 0.2.22_@swc+core@1.3.18
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       '@vitest/ui': 0.21.1
       babel-plugin-module-resolver: 4.1.0
-      btsm: 2.2.2
       cypress: 10.2.0
-      enhanced-resolve: 5.10.0
       esbuild: 0.15.7
       execa: 5.1.1
       globby: 11.1.0
       husky: 8.0.1
-      jest: 29.5.0
-      jest-environment-jsdom: 29.5.0
       turbo: 1.6.3
       vitest: 0.21.1_@vitest+ui@0.21.1
 
@@ -127,6 +115,7 @@ importers:
   packages/builder/builder-shared:
     specifiers:
       '@babel/core': 7.18.0
+      '@babel/preset-env': 7.18.0
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -150,6 +139,7 @@ importers:
       zod-validation-error: 0.3.0_zod@3.20.2
     devDependencies:
       '@babel/core': 7.18.0
+      '@babel/preset-env': 7.18.0_@babel+core@7.18.0
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.20
       '@types/babel__preset-env': 7.9.2
@@ -323,6 +313,7 @@ importers:
       '@modern-js/swc-plugins': 0.2.0
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
+      '@swc/core': 1.3.42
       '@swc/helpers': 0.4.12
       '@types/babel__core': ^7.1.20
       core-js: ^3.26.0
@@ -343,11 +334,12 @@ importers:
     devDependencies:
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@scripts/vitest-config': link:../../../scripts/vitest-config
+      '@swc/core': 1.3.42
       '@types/babel__core': 7.1.20
       magic-string: 0.26.7
       source-map: 0.7.4
       typescript: 4.9.3
-      webpack: 5.76.2
+      webpack: 5.76.2_@swc+core@1.3.42
 
   packages/cli/babel-preset-app:
     specifiers:
@@ -373,7 +365,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -412,7 +404,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -445,7 +437,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -480,7 +472,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -521,7 +513,7 @@ importers:
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__code-frame': 7.0.3
       '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/less': 3.0.3
       '@types/node': 14.18.35
       autoprefixer: 10.4.13_postcss@8.4.21
@@ -780,7 +772,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       memfs: 3.4.12
@@ -817,7 +809,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -841,6 +833,7 @@ importers:
       jest: ^29
       memfs: ^3.3.0
       path-to-regexp: ^6.2.0
+      react: '>=17.0.0'
       react-router-dom: ^6.8.1
       supertest: ^6.1.6
       ts-jest: ^29.0.5
@@ -853,7 +846,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@remix-run/node': 1.13.0
       path-to-regexp: 6.2.1
-      react-router-dom: 6.8.1
+      react-router-dom: 6.8.1_react@18.2.0
     devDependencies:
       '@modern-js/core': link:../core
       '@modern-js/server-core': link:../../server/core
@@ -861,12 +854,13 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/supertest': 2.0.12
       isomorphic-fetch: 3.0.0
       jest: 29.5.0_@types+node@14.18.35
       memfs: 3.4.12
+      react: 18.2.0
       supertest: 6.2.3
       ts-jest: 29.0.5_hpvvyyw2r5cx4bys4kz4pp4rum
       typescript: 4.9.3
@@ -889,7 +883,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -926,7 +920,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/cross-spawn': 6.0.2
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -947,7 +941,7 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -967,14 +961,14 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.5
 
   packages/cli/plugin-module-doc:
     specifiers:
-      '@arco-design/web-react': 2.45.1
+      '@arco-design/web-react': ^2.46.0
       '@modern-js/doc-core': workspace:*
       '@modern-js/module-tools': workspace:*
       '@modern-js/utils': workspace:*
@@ -1001,17 +995,17 @@ importers:
     dependencies:
       '@modern-js/doc-core': link:../doc-core
       react-docgen-typescript: 2.2.2_typescript@4.9.5
-      react-markdown: 8.0.5_react@18.2.0
+      react-markdown: 8.0.6_react@18.2.0
       remark-gfm: 3.0.1
       ts-document: 0.7.0_typescript@4.9.5
     devDependencies:
-      '@arco-design/web-react': 2.45.1_biqbaboplfbrettd7655fr4n2y
+      '@arco-design/web-react': 2.46.0_biqbaboplfbrettd7655fr4n2y
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/doctrine': 0.0.5
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/mdast': 3.0.10
       '@types/node': 14.18.35
       doctrine: 3.0.0
@@ -1043,7 +1037,7 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.5
@@ -1061,7 +1055,7 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1088,7 +1082,7 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1106,7 +1100,7 @@ importers:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1131,7 +1125,7 @@ importers:
       '@modern-js/core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1166,7 +1160,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       react: 18.2.0
@@ -1243,7 +1237,7 @@ importers:
       '@types/findup-sync': 4.0.2
       '@types/fs-extra': 9.0.13
       '@types/glob': 7.2.0
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       react: 18.2.0
@@ -1275,7 +1269,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       typescript: 4.9.3
 
@@ -1312,7 +1306,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       postcss: 8.4.21
@@ -1414,7 +1408,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1443,7 +1437,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1486,7 +1480,7 @@ importers:
       '@modern-js/plugin-lint': link:../../cli/plugin-lint
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1513,7 +1507,7 @@ importers:
       '@modern-js/codesmith': 2.0.5
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1539,7 +1533,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1569,7 +1563,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1593,7 +1587,7 @@ importers:
       '@modern-js/generator-common': link:../../generator-common
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1623,7 +1617,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1644,7 +1638,7 @@ importers:
       jest: ^29
       typescript: ^4
     devDependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js/base-generator': link:../base-generator
       '@modern-js/codesmith': 2.0.5
       '@modern-js/codesmith-api-app': 2.0.5_4zroxxquta2ktlcjpuoxbtda4m
@@ -1653,7 +1647,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.5
@@ -1685,7 +1679,7 @@ importers:
       '@modern-js/utils': link:../../../toolkit/utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1717,7 +1711,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1755,7 +1749,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1787,7 +1781,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1823,7 +1817,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1863,7 +1857,7 @@ importers:
       '@modern-js/rspack-generator': link:../rspack-generator
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1891,7 +1885,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1931,7 +1925,7 @@ importers:
       '@modern-js/utils': link:../../../toolkit/utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1961,7 +1955,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -1991,7 +1985,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.5
@@ -2021,7 +2015,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2051,7 +2045,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2083,7 +2077,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2111,7 +2105,7 @@ importers:
       '@modern-js/generator-utils': link:../../generator-utils
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2143,7 +2137,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2173,7 +2167,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2202,7 +2196,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2226,7 +2220,7 @@ importers:
       '@modern-js/plugin-i18n': link:../../../cli/plugin-i18n
       '@scripts/build': link:../../../../scripts/build
       '@scripts/jest-config': link:../../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -2349,7 +2343,7 @@ importers:
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@testing-library/react-hooks': 8.0.1_biqbaboplfbrettd7655fr4n2y
       '@testing-library/user-event': 14.4.3
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/testing-library__jest-dom': 5.14.5
       jest: 29.5.0_@types+node@14.18.35
@@ -2405,7 +2399,7 @@ importers:
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@testing-library/react-hooks': 8.0.1_biqbaboplfbrettd7655fr4n2y
       '@types/invariant': 2.2.35
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       react: 18.2.0
@@ -2508,7 +2502,7 @@ importers:
       '@testing-library/react-hooks': 8.0.1_biqbaboplfbrettd7655fr4n2y
       '@types/cookie': 0.5.1
       '@types/invariant': 2.2.35
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/loadable__webpack-plugin': 5.7.3
       '@types/node': 14.18.35
       '@types/react-side-effect': 1.1.1
@@ -2547,7 +2541,7 @@ importers:
       '@types/testing-library__jest-dom': ^5.14.3
       '@types/yargs': ^17.0.2
       babel-jest: ^27.0.6
-      enhanced-resolve: ^5.8.3
+      enhanced-resolve: 5.12.0
       identity-obj-proxy: ^3.0.0
       jest: ^29.5.0
       jest-environment-jsdom: ^29.5.0
@@ -2576,7 +2570,7 @@ importers:
       '@testing-library/react': 13.4.0_biqbaboplfbrettd7655fr4n2y
       '@types/testing-library__jest-dom': 5.14.5
       babel-jest: 27.5.1_@babel+core@7.20.5
-      enhanced-resolve: 5.10.0
+      enhanced-resolve: 5.12.0
       identity-obj-proxy: 3.0.0
       jest: 29.5.0_@types+node@14.18.35
       jest-environment-jsdom: 29.5.0
@@ -2591,7 +2585,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/supertest': 2.0.12
       '@types/yargs': 17.0.10
@@ -2628,7 +2622,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/koa-compose': 3.2.5
       '@types/node': 14.18.35
       jest: 29.5.0_yz5zswfgfou7xyd3jcublwkjji
@@ -2659,7 +2653,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       ts-jest: 29.0.5_igyh6v6dfktrl57oxyjeyvbpt4
@@ -2687,7 +2681,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       http-proxy-middleware: 2.0.6
       jest: 29.5.0_@types+node@14.18.35
@@ -2721,7 +2715,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/node-fetch': 2.6.2
       isomorphic-fetch: 3.0.0
@@ -2768,7 +2762,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/formidable': 1.2.5
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/koa': 2.13.4
       '@types/node': 14.18.35
       '@types/supertest': 2.0.12
@@ -2831,7 +2825,7 @@ importers:
       '@types/express': 4.17.13
       '@types/finalhandler': 1.1.1
       '@types/formidable': 1.2.5
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/supertest': 2.0.12
       '@types/type-is': 1.6.3
@@ -2882,7 +2876,7 @@ importers:
       '@modern-js/server-core': link:../core
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/koa': 2.13.4
       '@types/koa-router': 7.4.4
       '@types/node': 14.18.35
@@ -2954,7 +2948,7 @@ importers:
       '@types/express': 4.17.13
       '@types/finalhandler': 1.1.1
       '@types/formidable': 1.2.5
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/supertest': 2.0.12
       express: 4.18.1
@@ -2995,7 +2989,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/lru-cache': 5.1.1
       '@types/node': 14.18.35
       '@types/ua-parser-js': 0.7.36
@@ -3028,7 +3022,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -3059,7 +3053,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -3112,7 +3106,7 @@ importers:
       '@types/cookie': 0.4.1
       '@types/etag': 1.8.1
       '@types/fresh': 0.5.0
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/lru-cache': 5.1.1
       '@types/merge-deep': 3.0.0
       '@types/node': 14.18.35
@@ -3166,7 +3160,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/connect-history-api-fallback': 1.3.5
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/minimatch': 3.0.5
       '@types/node': 14.18.35
       '@types/ws': 7.4.7
@@ -3217,7 +3211,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       ts-jest: 29.0.5_hpvvyyw2r5cx4bys4kz4pp4rum
@@ -3290,7 +3284,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__traverse': 7.18.2
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -3381,7 +3375,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/fs-extra': 9.0.13
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       detect-indent: 6.1.0
       fs-extra: 10.1.0
@@ -3433,7 +3427,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/md5': 2.3.2
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
@@ -3465,7 +3459,7 @@ importers:
       '@scripts/jest-config': link:../../../../scripts/jest-config
       '@types/babel__core': 7.1.20
       '@types/glob': 7.2.0
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -3494,7 +3488,7 @@ importers:
       '@modern-js/utils': link:../utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_dpgiwbr57mwjpgbjs46itctnqi
       ts-node: 10.8.1_5axvewzfuqiugp6622ftukgx6y
@@ -3547,7 +3541,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -3566,7 +3560,7 @@ importers:
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
@@ -3603,7 +3597,7 @@ importers:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
       '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       http-proxy-middleware: 2.0.6
       jest: 29.5.0_@types+node@14.18.35
@@ -3632,7 +3626,7 @@ importers:
       '@modern-js/upgrade-generator': link:../../generator/generators/upgrade-generator
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       jest: 29.5.0_dpgiwbr57mwjpgbjs46itctnqi
       ts-node: 10.8.1_5axvewzfuqiugp6622ftukgx6y
@@ -3665,7 +3659,7 @@ importers:
       '@modern-js/types': link:../types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/serialize-javascript': 5.0.2
       jest: 29.5.0_@types+node@14.18.35
@@ -3681,7 +3675,7 @@ importers:
       '@types/node': ^14
       btsm: 2.2.2
     devDependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       btsm: 2.2.2
 
@@ -3718,19 +3712,19 @@ importers:
 
   scripts/jest-config:
     specifiers:
-      '@swc/core': 1.3.18
+      '@swc/core': 1.3.42
       '@swc/jest': ^0.2.22
       '@types/jest': ^29
       '@types/node': ^14
-      enhanced-resolve: ^5.8.3
+      enhanced-resolve: 5.12.0
       esbuild: 0.15.7
       jest: ^29
     devDependencies:
-      '@swc/core': 1.3.18
-      '@swc/jest': 0.2.22_@swc+core@1.3.18
-      '@types/jest': 29.4.4
+      '@swc/core': 1.3.42
+      '@swc/jest': 0.2.22_@swc+core@1.3.42
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
-      enhanced-resolve: 5.10.0
+      enhanced-resolve: 5.12.0
       esbuild: 0.15.7
       jest: 29.5.0_@types+node@14.18.35
 
@@ -4072,8 +4066,12 @@ importers:
       '@modern-js/plugin-polyfill': workspace:*
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/utils': workspace:*
+      '@swc/core': 1.3.42
+      '@swc/jest': ^0.2.22
       '@types/node': ^14
+      btsm: 2.2.2
       cross-spawn: ^7.0.3
+      enhanced-resolve: 5.12.0
       fs-extra: ^10.0.0
       jest: ^29.5.0
       jest-environment-jsdom: ^29.5.0
@@ -4093,8 +4091,12 @@ importers:
       '@modern-js/plugin-polyfill': link:../packages/server/plugin-polyfill
       '@modern-js/plugin-testing': link:../packages/runtime/plugin-testing
       '@modern-js/utils': link:../packages/toolkit/utils
+      '@swc/core': 1.3.42
+      '@swc/jest': 0.2.22_@swc+core@1.3.42
       '@types/node': 14.18.35
+      btsm: 2.2.2
       cross-spawn: 7.0.3
+      enhanced-resolve: 5.12.0
       fs-extra: 10.1.0
       jest: 29.5.0_ucrrwouekfhalapu5k2jjofb4m
       jest-environment-jsdom: 29.5.0
@@ -4658,7 +4660,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@modern-js/plugin-testing': link:../../../packages/runtime/plugin-testing
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/koa': 2.13.4
       '@types/node': 14.18.35
       '@types/react': 18.0.21
@@ -4698,7 +4700,7 @@ importers:
       '@types/jest': ^29
       '@types/node': ^14
     dependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
 
   tests/integration/asset-prefix/fixtures/dev-asset-prefix:
@@ -4731,7 +4733,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -4770,7 +4772,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@types/express': 4.17.13
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -4809,7 +4811,7 @@ importers:
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
       '@types/express': 4.17.13
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -4820,7 +4822,7 @@ importers:
       '@types/jest': ^29
       '@types/node': ^14
     dependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
 
   tests/integration/builder-plugins/fixtures/register-builder-plugins:
@@ -4853,7 +4855,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -4864,7 +4866,7 @@ importers:
       '@types/jest': ^29
       '@types/node': ^14
     dependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
 
   tests/integration/copy-assets/fixtures/copy-public-html:
@@ -5359,7 +5361,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -5382,7 +5384,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -5393,7 +5395,7 @@ importers:
       '@types/jest': ^29
       '@types/node': ^14
     dependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
 
   tests/integration/esbuild/fixtures/legacy-minify-js:
@@ -5528,7 +5530,7 @@ importers:
 
   tests/integration/garfish/table:
     specifiers:
-      '@arco-design/web-react': ^2.35.0
+      '@arco-design/web-react': ^2.46.0
       '@modern-js/app-tools': workspace:*
       '@modern-js/plugin-garfish': workspace:*
       '@modern-js/plugin-router-v5': workspace:*
@@ -5540,7 +5542,7 @@ importers:
       react-dom: ^18
       typescript: ^4
     dependencies:
-      '@arco-design/web-react': 2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce
+      '@arco-design/web-react': 2.46.0_rj7ozvcq3uehdlnj3cbwzbi5ce
       '@modern-js/plugin-garfish': link:../../../../packages/runtime/plugin-garfish
       '@modern-js/runtime': link:../../../../packages/runtime/plugin-runtime
       react: 18.2.0
@@ -5612,7 +5614,7 @@ importers:
       '@types/jest': ^29
       '@types/node': ^14
     dependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
 
   tests/integration/load-config/fixtures/async-config-function:
@@ -5669,7 +5671,7 @@ importers:
 
   tests/integration/module-doc:
     specifiers:
-      '@arco-design/web-react': ^2.35.0
+      '@arco-design/web-react': ^2.46.0
       '@modern-js-app/eslint-config': workspace:*
       '@modern-js/eslint-config': workspace:*
       '@modern-js/module-tools': workspace:*
@@ -5687,7 +5689,7 @@ importers:
       rimraf: ~3.0.2
       typescript: ~4.9.4
     dependencies:
-      '@arco-design/web-react': 2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce
+      '@arco-design/web-react': 2.46.0_rj7ozvcq3uehdlnj3cbwzbi5ce
     devDependencies:
       '@modern-js-app/eslint-config': link:../../../packages/review/eslint-config-app
       '@modern-js/eslint-config': link:../../../packages/review/eslint-config
@@ -5700,7 +5702,7 @@ importers:
       antd: 5.3.0_biqbaboplfbrettd7655fr4n2y
       husky: 8.0.1
       lint-staged: 13.1.4
-      prettier: 2.8.4
+      prettier: 2.8.6
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       rimraf: 3.0.2
@@ -5804,7 +5806,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@modern-js/app-tools': link:../../../packages/solutions/app-tools
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -5835,7 +5837,7 @@ importers:
       '@modern-js/server-core': link:../../../packages/server/core
       '@modern-js/utils': link:../../../packages/toolkit/utils
       '@types/express': 4.17.13
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -6080,7 +6082,7 @@ importers:
       '@types/jest': ^29
       '@types/node': ^14
     dependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
       '@types/node': 14.18.35
 
   tests/integration/swc/fixtures/minify-css:
@@ -6170,7 +6172,7 @@ importers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/e2e': workspace:*
       '@swc/cli': ^0.1.57
-      '@swc/core': 1.3.18
+      '@swc/core': 1.3.42
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
@@ -6184,8 +6186,8 @@ importers:
       '@modern-js/builder-rspack-provider': link:../../../packages/builder/builder-rspack-provider
       '@modern-js/builder-webpack-provider': link:../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../packages/toolkit/e2e
-      '@swc/cli': 0.1.57_@swc+core@1.3.18
-      '@swc/core': 1.3.18
+      '@swc/cli': 0.1.57_@swc+core@1.3.42
+      '@swc/core': 1.3.42
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -6347,33 +6349,8 @@ packages:
     dependencies:
       color: 3.2.1
 
-  /@arco-design/web-react/2.36.0_rj7ozvcq3uehdlnj3cbwzbi5ce:
-    resolution: {integrity: sha512-UYoKC6bgD6LrDSO99FtYWNCdipI15Yjb81NC/YTiv0hKlrKRccqpS4j0ncacDmGERf3wSJKUuy1A2qUlKeoZlA==}
-    peerDependencies:
-      react: '>=16'
-      react-dom: '>=16'
-    dependencies:
-      '@arco-design/color': 0.4.0
-      '@babel/runtime': 7.20.7
-      b-tween: 0.3.3
-      b-validate: 1.4.1
-      compute-scroll-into-view: 1.0.17
-      dayjs: 1.11.3
-      lodash: 4.17.21
-      number-precision: 1.5.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      react-focus-lock: 2.9.1_iapumuv4e6jcjznwuxpf4tt22e
-      react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
-      resize-observer-polyfill: 1.5.1
-      scroll-into-view-if-needed: 2.2.20
-      shallowequal: 1.1.0
-    transitivePeerDependencies:
-      - '@types/react'
-    dev: false
-
-  /@arco-design/web-react/2.45.1_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-p1pY2Z//to6jp/K2s9jlJGTdCHTU84FPmxtdARV5t5/6sfQPfDxuLGyqOKGox6F+ZfUrMrZpS0pO0gZAPwJpeg==}
+  /@arco-design/web-react/2.46.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-M33kL4K41x7u2Ln88sxQiqNTLm0s2b8GCYLk7GMbin0HP6jFLazFn9n7zY+HLK8p2jiFqt/bVD9qiJXJ5G0d6A==}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
@@ -6396,6 +6373,31 @@ packages:
     transitivePeerDependencies:
       - '@types/react'
     dev: true
+
+  /@arco-design/web-react/2.46.0_rj7ozvcq3uehdlnj3cbwzbi5ce:
+    resolution: {integrity: sha512-M33kL4K41x7u2Ln88sxQiqNTLm0s2b8GCYLk7GMbin0HP6jFLazFn9n7zY+HLK8p2jiFqt/bVD9qiJXJ5G0d6A==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@arco-design/color': 0.4.0
+      '@babel/runtime': 7.20.7
+      b-tween: 0.3.3
+      b-validate: 1.4.4
+      compute-scroll-into-view: 1.0.17
+      dayjs: 1.11.3
+      lodash: 4.17.21
+      number-precision: 1.5.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-focus-lock: 2.9.1_iapumuv4e6jcjznwuxpf4tt22e
+      react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
+      resize-observer-polyfill: 1.5.1
+      scroll-into-view-if-needed: 2.2.20
+      shallowequal: 1.1.0
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
 
   /@arr/every/1.0.1:
     resolution: {integrity: sha512-UQFQ6SgyJ6LX42W8rHCs8KVc0JS0tzVL9ct4XYedJukskYVWTo49tNiMEK9C2HTyarbNiT/RVIRSY82vH+6sTg==}
@@ -9065,7 +9067,8 @@ packages:
     resolution: {integrity: sha512-YMQvx/6nKEaucl0MY56mwIG483xk8SDNdlUwb2Ts6FUpr7fm85DxEmsY18LXBNhcTz6tO6JwZV8w1W06v8UKeg==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      regenerator-runtime: 0.13.11
+      regenerator-runtime: 0.13.9
+    dev: false
 
   /@babel/runtime/7.18.6:
     resolution: {integrity: sha512-t9wi7/AW6XtKahAe20Yw0/mMljKq0B1r2fPdvaAdV/KPDZewFXdaaa6K7lxmZBZ8FBNpCiAT6iHPmd6QO9bKfQ==}
@@ -9185,7 +9188,7 @@ packages:
       fs-extra: 7.0.1
       lodash.startcase: 4.4.0
       outdent: 0.5.0
-      prettier: 2.8.4
+      prettier: 2.7.1
       resolve-from: 5.0.0
       semver: 5.7.1
     dev: false
@@ -9388,7 +9391,7 @@ packages:
       '@changesets/types': 5.2.1
       fs-extra: 7.0.1
       human-id: 1.0.2
-      prettier: 2.8.4
+      prettier: 2.7.1
     dev: false
 
   /@cnakazawa/watch/1.0.4:
@@ -10766,7 +10769,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 18.11.17
+      '@types/node': 14.18.35
       '@types/yargs': 16.0.4
       chalk: 4.1.2
 
@@ -10859,7 +10862,7 @@ packages:
     peerDependencies:
       react: '>=16.3.0'
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
       react-is: 16.13.1
@@ -10898,7 +10901,7 @@ packages:
   /@manypkg/get-packages/1.1.3:
     resolution: {integrity: sha512-fo+QhuU3qE/2TQMQmbVMqaQ6EWbMhi4ABWP+O4AM1NqPBuy0OrApV5LO6BrrgnhtAHS2NH6RrVk9OL181tTi8A==}
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@changesets/types': 4.1.0
       '@manypkg/find-root': 1.1.0
       fs-extra: 8.1.0
@@ -10994,7 +10997,7 @@ packages:
     peerDependencies:
       '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js-reduck/store': 1.1.6
     dev: false
 
@@ -11003,7 +11006,7 @@ packages:
     peerDependencies:
       '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js-reduck/store': 1.1.6
       '@redux-devtools/extension': 3.2.2_redux@4.2.0
       redux: 4.2.0
@@ -11014,7 +11017,7 @@ packages:
     peerDependencies:
       '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js-reduck/store': 1.1.6
       redux: 4.2.0
       redux-promise-middleware: 6.1.2_redux@4.2.0
@@ -11025,7 +11028,7 @@ packages:
     peerDependencies:
       '@modern-js-reduck/store': ^1.1.6
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js-reduck/store': 1.1.6
       immer: 9.0.15
     dev: false
@@ -11043,7 +11046,7 @@ packages:
       '@types/react-dom':
         optional: true
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js-reduck/plugin-auto-actions': 1.1.6_ey2tb66lspd63dpe7kr4h74444
       '@modern-js-reduck/plugin-devtools': 1.1.6_ey2tb66lspd63dpe7kr4h74444
       '@modern-js-reduck/plugin-effects': 1.1.6_ey2tb66lspd63dpe7kr4h74444
@@ -11058,7 +11061,7 @@ packages:
   /@modern-js-reduck/store/1.1.6:
     resolution: {integrity: sha512-cBrdEVouqWRwhrlm7HN9sIIkEVqCPvDQvoLjhhCVAG7rRqOLvg5NfNbnPT1KXY/ZB9xWiOKDdul2uPbgmVsgXQ==}
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       redux: 4.2.0
     dev: false
 
@@ -11067,7 +11070,7 @@ packages:
     peerDependencies:
       '@modern-js/codesmith': ^2.0.5
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js/codesmith': 2.0.5
       '@modern-js/codesmith-api-ejs': 2.0.5_@modern-js+codesmith@2.0.5
       '@modern-js/codesmith-api-fs': 2.0.5_@modern-js+codesmith@2.0.5
@@ -11090,7 +11093,7 @@ packages:
     peerDependencies:
       '@modern-js/codesmith': ^2.0.5
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js/codesmith': 2.0.5
       '@modern-js/codesmith-api-ejs': 2.0.5_@modern-js+codesmith@2.0.5
       '@modern-js/codesmith-api-fs': 2.0.5_@modern-js+codesmith@2.0.5
@@ -11141,7 +11144,7 @@ packages:
     peerDependencies:
       '@modern-js/codesmith': ^2.0.5
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js/codesmith': 2.0.5
       handlebars: 4.7.7
     dev: true
@@ -11149,7 +11152,7 @@ packages:
   /@modern-js/codesmith-api-json/2.0.5:
     resolution: {integrity: sha512-QIpQFiUfuThxL8VRlUT7bLuPVaXy7OobfnL3pUL4hwtIAiJ1ICbTtUaSI4iVhsu/hYe18sDecHG+Q55z+3vRKg==}
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js/codesmith': 2.0.5
       comment-json: 4.2.2
       declaration-update: 0.0.2
@@ -11198,7 +11201,7 @@ packages:
   /@modern-js/codesmith/2.0.5:
     resolution: {integrity: sha512-m39w1axj8QSR00Dm9f/Izb/rpsa+yu884Tbw4AGkL1P67LElswtyZQgCgdWNr2A5cCHxqIOQ6uPt86wS1nAwHA==}
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@modern-js/utils': 1.21.5
       axios: 0.21.4
       tar: 6.1.11
@@ -11873,7 +11876,7 @@ packages:
       react-dom: '>=16.9.0'
     dependencies:
       '@babel/runtime': 7.20.7
-      rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
@@ -11905,7 +11908,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       classnames: 2.3.2
-      rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
@@ -13909,7 +13912,7 @@ packages:
       - supports-color
     dev: false
 
-  /@swc/cli/0.1.57_@swc+core@1.3.18:
+  /@swc/cli/0.1.57_@swc+core@1.3.42:
     resolution: {integrity: sha512-HxM8TqYHhAg+zp7+RdTU69bnkl4MWdt1ygyp6BDIPjTiaJVH6Dizn2ezbgDS8mnFZI1FyhKvxU/bbaUs8XhzQg==}
     engines: {node: '>= 12.13'}
     hasBin: true
@@ -13920,113 +13923,108 @@ packages:
       chokidar:
         optional: true
     dependencies:
-      '@swc/core': 1.3.18
+      '@swc/core': 1.3.42
       commander: 7.2.0
       fast-glob: 3.2.12
       slash: 3.0.0
       source-map: 0.7.4
     dev: false
 
-  /@swc/core-darwin-arm64/1.3.18:
-    resolution: {integrity: sha512-4UEQ+LyzDFTszEy4LCU50h4cjVNJcNwD87aVBT/8i6YXj5dyMki/TrkIQ6Bhv7g5beg2GRncB2ndjN66r8I8+w==}
+  /@swc/core-darwin-arm64/1.3.42:
+    resolution: {integrity: sha512-hM6RrZFyoCM9mX3cj/zM5oXwhAqjUdOCLXJx7KTQps7NIkv/Qjvobgvyf2gAb89j3ARNo9NdIoLjTjJ6oALtiA==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  /@swc/core-darwin-x64/1.3.18:
-    resolution: {integrity: sha512-DSCd7eVr+4ukffNnvhrFmUoCF0VLOXPgGmdwm6u0irLWOLtr2VZNZcf7UF+t/Y9jPKmXz3OY6lVgwtjxZhiklQ==}
+  /@swc/core-darwin-x64/1.3.42:
+    resolution: {integrity: sha512-bjsWtHMb6wJK1+RGlBs2USvgZ0txlMk11y0qBLKo32gLKTqzUwRw0Fmfzuf6Ue2a/w//7eqMlPFEre4LvJajGw==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-arm-gnueabihf/1.3.18:
-    resolution: {integrity: sha512-9dy6qJiWAls9OrBvrWbFDbjEkuOPrEP6OsKyrQWTMqLjCLwgLa3g4yC0YtPdUa/A8uyNVKtRcq+NXoKW+mP/QQ==}
+  /@swc/core-linux-arm-gnueabihf/1.3.42:
+    resolution: {integrity: sha512-Oe0ggMz3MyqXNfeVmY+bBTL0hFSNY3bx8dhcqsh4vXk/ZVGse94QoC4dd92LuPHmKT0x6nsUzB86x2jU9QHW5g==}
     engines: {node: '>=10'}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-arm64-gnu/1.3.18:
-    resolution: {integrity: sha512-8FZjiUSM4JBQTD4sV7Y6BNMdo0oDlqa8xYVaAimuIBL8ixD/Fb+0GIxKdB59yKRVQyuXJRa6Pwzd7zk3wY5T0Q==}
+  /@swc/core-linux-arm64-gnu/1.3.42:
+    resolution: {integrity: sha512-ZJsa8NIW1RLmmHGTJCbM7OPSbBZ9rOMrLqDtUOGrT0uoJXZnnQqolflamB5wviW0X6h3Z3/PSTNGNDCJ3u3Lqg==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-arm64-musl/1.3.18:
-    resolution: {integrity: sha512-0zNqfFeAHZp37lu+lTVvZKfDM10EIoYJtv9sWz+0EA5mkzwj4NtC3ialTIjcPAyJ9Oq4zBtToW2hv7qEtyBHZw==}
+  /@swc/core-linux-arm64-musl/1.3.42:
+    resolution: {integrity: sha512-YpZwlFAfOp5vkm/uVUJX1O7N3yJDO1fDQRWqsOPPNyIJkI2ydlRQtgN6ZylC159Qv+TimfXnGTlNr7o3iBAqjg==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-x64-gnu/1.3.18:
-    resolution: {integrity: sha512-PA3Cc97Kc6W6RtpBLeJaoXLCRL5dJLYd2dszf+f5hGHHJybh6eXGIU0ZkZr898NUHoL8fT6Mg6I4JCNImq/yBg==}
+  /@swc/core-linux-x64-gnu/1.3.42:
+    resolution: {integrity: sha512-0ccpKnsZbyHBzaQFdP8U9i29nvOfKitm6oJfdJzlqsY/jCqwvD8kv2CAKSK8WhJz//ExI2LqNrDI0yazx5j7+A==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
     requiresBuild: true
     optional: true
 
-  /@swc/core-linux-x64-musl/1.3.18:
-    resolution: {integrity: sha512-RiZXHwED8cfD/zoBG01iY8YZtOF/8t9XHZ1JqCx9PWOMjXD3Vc8F2I7bp1Qg6ahzWEaP+2+/rqGO1kSwaJjJLw==}
+  /@swc/core-linux-x64-musl/1.3.42:
+    resolution: {integrity: sha512-7eckRRuTZ6+3K21uyfXXgc2ZCg0mSWRRNwNT3wap2bYkKPeqTgb8pm8xYSZNEiMuDonHEat6XCCV36lFY6kOdQ==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
     requiresBuild: true
     optional: true
 
-  /@swc/core-win32-arm64-msvc/1.3.18:
-    resolution: {integrity: sha512-G1Lu/sP+v34lwsGFreklnCdxygMLmobyLY31cNPd0i47ZwgrGowuTV34Mcqfc4AWRkayqVAIlb/WWIZ1+qemcA==}
+  /@swc/core-win32-arm64-msvc/1.3.42:
+    resolution: {integrity: sha512-t27dJkdw0GWANdN4TV0lY/V5vTYSx5SRjyzzZolep358ueCGuN1XFf1R0JcCbd1ojosnkQg2L7A7991UjXingg==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  /@swc/core-win32-ia32-msvc/1.3.18:
-    resolution: {integrity: sha512-Uu+m5BPemw5ZiG6LaF+pP0qFQuIXF55wMZNa0Dbl/16hF7ci6q941MT6CqeK5LQQ52FVVqeYO5lDk5CggaA3Mw==}
+  /@swc/core-win32-ia32-msvc/1.3.42:
+    resolution: {integrity: sha512-xfpc/Zt/aMILX4IX0e3loZaFyrae37u3MJCv1gJxgqrpeLi7efIQr3AmERkTK3mxTO6R5urSliWw2W3FyZ7D3Q==}
     engines: {node: '>=10'}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  /@swc/core-win32-x64-msvc/1.3.18:
-    resolution: {integrity: sha512-9o8uFNsPmWB5FFQSDCsI/KVBSHuAILEwB/hMvbUxKtZeSWAQTm5BqbNPi6X11KJ3MdyoJn7zPejj3grL3dcd/w==}
+  /@swc/core-win32-x64-msvc/1.3.42:
+    resolution: {integrity: sha512-ra2K4Tu++EJLPhzZ6L8hWUsk94TdK/2UKhL9dzCBhtzKUixsGCEqhtqH1zISXNvW8qaVLFIMUP37ULe80/IJaA==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     optional: true
 
-  /@swc/core/1.3.18:
-    resolution: {integrity: sha512-VChk3ldLhmVoX3Hd2M3Y4j960T0lo2Zus60iZoWST6P65RVPt8BatFVVPAB9dABy1dB5zn1BCpHlH85yXVysQw==}
+  /@swc/core/1.3.42:
+    resolution: {integrity: sha512-nVFUd5+7tGniM2cT3LXaqnu3735Cu4az8A9gAKK+8sdpASI52SWuqfDBmjFCK9xG90MiVDVp2PTZr0BWqCIzpw==}
     engines: {node: '>=10'}
-    hasBin: true
     requiresBuild: true
     optionalDependencies:
-      '@swc/core-darwin-arm64': 1.3.18
-      '@swc/core-darwin-x64': 1.3.18
-      '@swc/core-linux-arm-gnueabihf': 1.3.18
-      '@swc/core-linux-arm64-gnu': 1.3.18
-      '@swc/core-linux-arm64-musl': 1.3.18
-      '@swc/core-linux-x64-gnu': 1.3.18
-      '@swc/core-linux-x64-musl': 1.3.18
-      '@swc/core-win32-arm64-msvc': 1.3.18
-      '@swc/core-win32-ia32-msvc': 1.3.18
-      '@swc/core-win32-x64-msvc': 1.3.18
+      '@swc/core-darwin-arm64': 1.3.42
+      '@swc/core-darwin-x64': 1.3.42
+      '@swc/core-linux-arm-gnueabihf': 1.3.42
+      '@swc/core-linux-arm64-gnu': 1.3.42
+      '@swc/core-linux-arm64-musl': 1.3.42
+      '@swc/core-linux-x64-gnu': 1.3.42
+      '@swc/core-linux-x64-musl': 1.3.42
+      '@swc/core-win32-arm64-msvc': 1.3.42
+      '@swc/core-win32-ia32-msvc': 1.3.42
+      '@swc/core-win32-x64-msvc': 1.3.42
 
   /@swc/helpers/0.4.12:
     resolution: {integrity: sha512-R6RmwS9Dld5lNvwKlPn62+piU+WDG1sMfsnfJioXCciyko/gZ0DQ4Mqglhq1iGU1nQ/RcGkAwfMH+elMSkJH3Q==}
@@ -14040,14 +14038,14 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /@swc/jest/0.2.22_@swc+core@1.3.18:
+  /@swc/jest/0.2.22_@swc+core@1.3.42:
     resolution: {integrity: sha512-PIUIk9IdB1oAVfF9zNIfYoMBoEhahrrSvyryFANas7swC1cF0L5HR0f9X4qfet46oyCHCBtNcSpN0XJEOFIKlw==}
     engines: {npm: '>= 7.0.0'}
     peerDependencies:
       '@swc/core': '*'
     dependencies:
       '@jest/create-cache-key-function': 27.5.1
-      '@swc/core': 1.3.18
+      '@swc/core': 1.3.42
     dev: true
 
   /@szmarczak/http-timer/4.0.6:
@@ -14073,7 +14071,7 @@ packages:
     resolution: {integrity: sha512-Gy+IoFutbMQcky0k+bqqumXZ1cTGswLsFqmNLzNdSKkU9KGV2u9oXhukCbbJ9/LRPKiqwxEE8VpV/+YZlfkPUA==}
     engines: {node: '>=8', npm: '>=6', yarn: '>=1'}
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@types/testing-library__jest-dom': 5.14.5
       aria-query: 5.0.0
       chalk: 3.0.0
@@ -14099,7 +14097,7 @@ packages:
       react-test-renderer:
         optional: true
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-error-boundary: 3.1.4_react@18.2.0
@@ -14112,7 +14110,7 @@ packages:
       react: ^18.0.0
       react-dom: ^18.0.0
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       '@testing-library/dom': 8.14.0
       '@types/react-dom': 18.0.6
       react: 18.2.0
@@ -14534,8 +14532,8 @@ packages:
       pretty-format: 29.5.0
     dev: true
 
-  /@types/jest/29.4.4:
-    resolution: {integrity: sha512-qezb65VIH7X1wobSnd6Lvdve7PXSyQRa3dljTkhTtDhi603RvHQCshSlJcuyMLHJpeHgY3NKwvDJWxMOOHxGDQ==}
+  /@types/jest/29.5.0:
+    resolution: {integrity: sha512-3Emr5VOl/aoBwnWcH/EFQvlSAmjV+XtV9GGu5mwdYew5vhQh0IUZx/60x0TzHDu09Bi7HMx10t/namdJw5QIcg==}
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
@@ -14943,7 +14941,7 @@ packages:
   /@types/testing-library__jest-dom/5.14.5:
     resolution: {integrity: sha512-SBwbxYoyPIvxHbeHxTZX2Pe/74F/tX2/D3mMvzabdeJ25bBojfW0TyB8BHrbq/9zaaKICJZjLP+8r6AeZMFCuQ==}
     dependencies:
-      '@types/jest': 29.4.4
+      '@types/jest': 29.5.0
 
   /@types/through/0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
@@ -15607,10 +15605,8 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -16298,13 +16294,8 @@ packages:
   /b-tween/0.3.3:
     resolution: {integrity: sha512-oEHegcRpA7fAuc9KC4nktucuZn2aS8htymCPcP3qkEGPqiBH+GfqtqoG2l7LxHngg6O0HFM7hOeOYExl1Oz4ZA==}
 
-  /b-validate/1.4.1:
-    resolution: {integrity: sha512-X6ImDku5YY8NfWTh/hX8CAaronWnNXpb159cqs6lDWLtI4OWiehZ4B0NshfatTuKt1HIeNq9PObE/Xl5YoJYUg==}
-    dev: false
-
   /b-validate/1.4.4:
     resolution: {integrity: sha512-E2tnSnxxKDyxP1G+TMTbVHA8XajfHHOJKeWm9YVRISSPtzTL7ZP/7tIYp01b+O83L5R/6i31+Su+vCOJBnQWFQ==}
-    dev: true
 
   /babel-jest/27.5.1_@babel+core@7.20.5:
     resolution: {integrity: sha512-cdQ5dXjGRd0IBRATiQ4mZGlGlRE8kJpjPOixdNRdT+m3UcNqmYWN6rK6nvtXYfY3D76cb8s/O1Ss8ea24PIwcg==}
@@ -19100,7 +19091,7 @@ packages:
     dependencies:
       acorn-node: 1.8.2
       defined: 1.0.0
-      minimist: 1.2.8
+      minimist: 1.2.6
 
   /devcert/1.2.2:
     resolution: {integrity: sha512-UsLqvtJGPiGwsIZnJINUnFYaWgK7CroreGRndWHZkRD58tPFr3pVbbSyHR8lbh41+azR4jKvuNZ+eCoBZGA5kA==}
@@ -19812,6 +19803,7 @@ packages:
     dependencies:
       graceful-fs: 4.2.10
       tapable: 2.2.1
+    dev: false
 
   /enhanced-resolve/5.12.0:
     resolution: {integrity: sha512-QHTXI/sZQmko1cbDoNAa3mJ5qhWUUNAq3vR0/YiD379fWQrcfuoX1+HW2S0MTt7XmoPLapdaDKUtelUSPic7hQ==}
@@ -19883,7 +19875,7 @@ packages:
       is-shared-array-buffer: 1.0.2
       is-string: 1.0.7
       is-weakref: 1.0.2
-      object-inspect: 1.12.2
+      object-inspect: 1.12.3
       object-keys: 1.1.1
       object.assign: 4.1.2
       regexp.prototype.flags: 1.4.3
@@ -21368,7 +21360,7 @@ packages:
     dependencies:
       cross-spawn: 7.0.3
       get-stream: 6.0.1
-      human-signals: 4.3.0
+      human-signals: 4.3.1
       is-stream: 3.0.0
       merge-stream: 2.0.0
       npm-run-path: 5.1.0
@@ -23115,7 +23107,7 @@ packages:
   /history/4.10.1:
     resolution: {integrity: sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==}
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       loose-envify: 1.4.0
       resolve-pathname: 3.0.0
       tiny-invariant: 1.2.0
@@ -23463,8 +23455,8 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
 
-  /human-signals/4.3.0:
-    resolution: {integrity: sha512-zyzVyMjpGBX2+6cDVZeFPCdtOtdsxOeseRhB9tkQ6xXmGUNrcnBzdEKPy3VPNYz+4gy1oukVOXcrJCunSyc6QQ==}
+  /human-signals/4.3.1:
+    resolution: {integrity: sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==}
     engines: {node: '>=14.18.0'}
     dev: true
 
@@ -23653,7 +23645,7 @@ packages:
       mute-stream: 0.0.8
       ora: 5.4.1
       run-async: 2.4.1
-      rxjs: 7.8.0
+      rxjs: 7.5.5
       string-width: 4.2.3
       strip-ansi: 6.0.1
       through: 2.3.8
@@ -24386,34 +24378,6 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /jest-cli/29.5.0:
-    resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.5.0
-      '@jest/test-result': 29.5.0
-      '@jest/types': 29.5.0
-      chalk: 4.1.2
-      exit: 0.1.2
-      graceful-fs: 4.2.10
-      import-local: 3.1.0
-      jest-config: 29.5.0
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      prompts: 2.4.2
-      yargs: 17.5.1
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
-    dev: true
-
   /jest-cli/29.5.0_@types+node@14.18.35:
     resolution: {integrity: sha512-L1KcP1l4HtfwdxXNFCL5bmUbLQiKrakMUriBEcc1Vfz6gx31ORKdreuWvmQVBit+1ss9NNR3yxjwfwzZNdQXJw==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -24523,44 +24487,6 @@ packages:
       - '@types/node'
       - supports-color
       - ts-node
-    dev: true
-
-  /jest-config/29.5.0:
-    resolution: {integrity: sha512-kvDUKBnNJPNBmFFOhDbm59iu1Fii1Q6SxyhXfvylq3UTHbg6o7j/g8k2dZyXWLvfdKB1vAPxNZnMgtKJcmu3kA==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    peerDependencies:
-      '@types/node': '*'
-      ts-node: '>=9.0.0'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      ts-node:
-        optional: true
-    dependencies:
-      '@babel/core': 7.20.5
-      '@jest/test-sequencer': 29.5.0
-      '@jest/types': 29.5.0
-      babel-jest: 29.5.0_@babel+core@7.20.5
-      chalk: 4.1.2
-      ci-info: 3.3.2
-      deepmerge: 4.3.0
-      glob: 7.2.3
-      graceful-fs: 4.2.10
-      jest-circus: 29.5.0
-      jest-environment-node: 29.5.0
-      jest-get-type: 29.4.3
-      jest-regex-util: 29.4.3
-      jest-resolve: 29.5.0
-      jest-runner: 29.5.0
-      jest-util: 29.5.0
-      jest-validate: 29.5.0
-      micromatch: 4.0.5
-      parse-json: 5.2.0
-      pretty-format: 29.5.0
-      slash: 3.0.0
-      strip-json-comments: 3.1.1
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /jest-config/29.5.0_@types+node@14.18.35:
@@ -25365,26 +25291,6 @@ packages:
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
-  /jest/29.5.0:
-    resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}
-    engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
-    hasBin: true
-    peerDependencies:
-      node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-    peerDependenciesMeta:
-      node-notifier:
-        optional: true
-    dependencies:
-      '@jest/core': 29.5.0
-      '@jest/types': 29.5.0
-      import-local: 3.1.0
-      jest-cli: 29.5.0
-    transitivePeerDependencies:
-      - '@types/node'
-      - supports-color
-      - ts-node
-    dev: true
-
   /jest/29.5.0_@types+node@14.18.35:
     resolution: {integrity: sha512-juMg3he2uru1QoXX078zTa7pO85QyB9xajZc6bU+d9yEGwrKX6+vGmJQ3UdVZsvTEUARIdObzH68QItim6OSSQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -25616,7 +25522,7 @@ packages:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
     hasBin: true
     dependencies:
-      minimist: 1.2.8
+      minimist: 1.2.6
 
   /json5/2.2.1:
     resolution: {integrity: sha512-1hqLFMSrGHRHxav9q9gNjJ5EXznIxGVO09xQRrwplcS8qs28pZ8s8hupZAmqDwZUmVZ2Qb2jnyPOWcDH8m8dlA==}
@@ -27416,7 +27322,7 @@ packages:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
     dependencies:
-      minimist: 1.2.8
+      minimist: 1.2.6
 
   /mkdirp/1.0.4:
     resolution: {integrity: sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==}
@@ -27890,7 +27796,6 @@ packages:
 
   /object-inspect/1.12.3:
     resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
-    dev: true
 
   /object-keys/1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
@@ -29396,10 +29301,11 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  /prettier/2.8.4:
-    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
+  /prettier/2.8.6:
+    resolution: {integrity: sha512-mtuzdiBbHwPEgl7NxWlqOkithPyp4VN93V7VeHVWBF+ad3I5avc0RVDT4oImXQy9H/AqxA2NSQH8pSxHW6FYbQ==}
     engines: {node: '>=10.13.0'}
     hasBin: true
+    dev: true
 
   /pretty-bytes/5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -29951,7 +29857,7 @@ packages:
       classnames: 2.3.2
       dom-align: 1.12.3
       lodash: 4.17.21
-      rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       resize-observer-polyfill: 1.5.1
@@ -30412,8 +30318,8 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       classnames: 2.3.2
-      rc-resize-observer: 1.3.1_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
+      rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
@@ -30575,6 +30481,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       resize-observer-polyfill: 1.5.1
+    dev: true
 
   /rc-segmented/2.1.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-hUlonro+pYoZcwrH6Vm56B2ftLfQh046hrwif/VwLIw1j3zGt52p5mREBwmeVzXnSwgnagpOpfafspzs1asjGw==}
@@ -31029,6 +30936,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-is: 16.13.1
+    dev: true
 
   /rc-virtual-list/3.4.13_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-cPOVDmcNM7rH6ANotanMDilW/55XnFPw0Jh/GQYtrzZSy3AmWvCnqVNyNC/pgg3lfVmX2994dlzAhuUrd4jG7w==}
@@ -31039,8 +30947,8 @@ packages:
     dependencies:
       '@babel/runtime': 7.20.7
       classnames: 2.3.2
-      rc-resize-observer: 1.3.1_biqbaboplfbrettd7655fr4n2y
-      rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
+      rc-resize-observer: 1.2.0_biqbaboplfbrettd7655fr4n2y
+      rc-util: 5.27.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
@@ -31231,8 +31139,8 @@ packages:
       react: 18.2.0
     dev: false
 
-  /react-markdown/8.0.5_react@18.2.0:
-    resolution: {integrity: sha512-jGJolWWmOWAvzf+xMdB9zwStViODyyFQhNB/bwCerbBKmrTmgmA599CGiOlP58OId1IMoIRsA8UdI1Lod4zb5A==}
+  /react-markdown/8.0.6_react@18.2.0:
+    resolution: {integrity: sha512-KgPWsYgHuftdx510wwIzpwf+5js/iHqBR+fzxefv8Khk3mFbnioF1bmL2idHN3ler0LMQmICKeDrWnZrX9mtbQ==}
     peerDependencies:
       '@types/react': '>=16'
       react: '>=16'
@@ -31272,7 +31180,7 @@ packages:
     peerDependencies:
       react: '>=15'
     dependencies:
-      '@babel/runtime': 7.18.0
+      '@babel/runtime': 7.20.7
       history: 4.10.1
       loose-envify: 1.4.0
       prop-types: 15.8.1
@@ -31280,17 +31188,6 @@ packages:
       react-router: 5.3.4_react@18.2.0
       tiny-invariant: 1.2.0
       tiny-warning: 1.0.3
-    dev: false
-
-  /react-router-dom/6.8.1:
-    resolution: {integrity: sha512-67EXNfkQgf34P7+PSb6VlBuaacGhkKn3kpE51+P6zYSG2kiRoumXEL6e27zTa9+PGF2MNXbgIUHTVlleLbIcHQ==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      react: '>=16.8'
-      react-dom: '>=16.8'
-    dependencies:
-      '@remix-run/router': 1.3.2
-      react-router: 6.8.1
     dev: false
 
   /react-router-dom/6.8.1_biqbaboplfbrettd7655fr4n2y:
@@ -31315,7 +31212,6 @@ packages:
       '@remix-run/router': 1.3.2
       react: 18.2.0
       react-router: 6.8.1_react@18.2.0
-    dev: true
 
   /react-router/5.3.4_react@18.2.0:
     resolution: {integrity: sha512-Ys9K+ppnJah3QuaRiLxk+jDWOR1MekYQrlytiXxC1RyfbdsZkS5pvKAzCCr031xHixZwpnsYNT5xysdFHQaYsA==}
@@ -31332,15 +31228,6 @@ packages:
       react-is: 16.13.1
       tiny-invariant: 1.2.0
       tiny-warning: 1.0.3
-    dev: false
-
-  /react-router/6.8.1:
-    resolution: {integrity: sha512-Jgi8BzAJQ8MkPt8ipXnR73rnD7EmZ0HFFb7jdQU24TynGW1Ooqin2KVDN9voSC+7xhqbbCd2cjGUepb6RObnyg==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      react: '>=16.8'
-    dependencies:
-      '@remix-run/router': 1.3.2
     dev: false
 
   /react-router/6.8.1_react@18.2.0:
@@ -32048,7 +31935,7 @@ packages:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
     hasBin: true
     dependencies:
-      glob: 7.2.3
+      glob: 7.2.0
 
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -32310,7 +32197,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scmp/2.1.0:
@@ -33826,6 +33713,31 @@ packages:
       terser: 5.15.0
       webpack: 5.76.2_esbuild@0.15.7
 
+  /terser-webpack-plugin/5.3.6_bvx4y5vadpmzu7fpuoiwpubwia:
+    resolution: {integrity: sha512-kfLFk+PoLUQIbLmB1+PZDMRSZS99Mp+/MHqDNmMA6tOItzRt+Npe3E+fsMs5mfcM0wCtrrdU387UnV+vnSffXQ==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.14
+      '@swc/core': 1.3.42
+      jest-worker: 27.5.1
+      schema-utils: 3.1.1
+      serialize-javascript: 6.0.0
+      terser: 5.15.0
+      webpack: 5.76.2_@swc+core@1.3.42
+    dev: true
+
   /terser-webpack-plugin/5.3.6_webpack@5.74.0:
     resolution: {integrity: sha512-kfLFk+PoLUQIbLmB1+PZDMRSZS99Mp+/MHqDNmMA6tOItzRt+Npe3E+fsMs5mfcM0wCtrrdU387UnV+vnSffXQ==}
     engines: {node: '>= 10.13.0'}
@@ -34303,7 +34215,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       chalk: 4.1.2
-      enhanced-resolve: 5.10.0
+      enhanced-resolve: 5.12.0
       micromatch: 4.0.5
       semver: 7.3.8
       typescript: 4.9.3
@@ -34464,7 +34376,7 @@ packages:
       buffer-from: 1.1.2
       diff: 3.5.0
       make-error: 1.3.6
-      minimist: 1.2.8
+      minimist: 1.2.6
       mkdirp: 0.5.6
       source-map-support: 0.5.21
       yn: 2.0.0
@@ -34528,7 +34440,7 @@ packages:
     dependencies:
       '@types/json5': 0.0.29
       json5: 1.0.1
-      minimist: 1.2.8
+      minimist: 1.2.6
       strip-bom: 3.0.0
 
   /tsconfig-paths/4.1.1:
@@ -36081,6 +35993,46 @@ packages:
       - '@swc/core'
       - esbuild
       - uglify-js
+
+  /webpack/5.76.2_@swc+core@1.3.42:
+    resolution: {integrity: sha512-Th05ggRm23rVzEOlX8y67NkYCHa9nTNcwHPBhdg+lKG+mtiW7XgggjAeeLnADAe7mLjJ6LUNfgHAuRRh+Z6J7w==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.3
+      '@types/estree': 0.0.51
+      '@webassemblyjs/ast': 1.11.1
+      '@webassemblyjs/wasm-edit': 1.11.1
+      '@webassemblyjs/wasm-parser': 1.11.1
+      acorn: 8.8.1
+      acorn-import-assertions: 1.8.0_acorn@8.8.1
+      browserslist: 4.20.2
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.12.0
+      es-module-lexer: 0.9.3
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.10
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.1.1
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.6_bvx4y5vadpmzu7fpuoiwpubwia
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+    dev: true
 
   /webpack/5.76.2_esbuild@0.15.7:
     resolution: {integrity: sha512-Th05ggRm23rVzEOlX8y67NkYCHa9nTNcwHPBhdg+lKG+mtiW7XgggjAeeLnADAe7mLjJ6LUNfgHAuRRh+Z6J7w==}

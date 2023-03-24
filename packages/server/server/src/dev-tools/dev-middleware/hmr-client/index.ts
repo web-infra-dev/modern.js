@@ -6,7 +6,7 @@
  */
 /* eslint-disable no-console */
 import stripAnsi from '@modern-js/utils/strip-ansi';
-import { formatWebpackMessages } from '@modern-js/utils/format';
+import { formatWebpackMessages } from '@modern-js/utils/universal/format-webpack';
 import type webpack from 'webpack';
 import { createSocketUrl } from './createSocketUrl';
 

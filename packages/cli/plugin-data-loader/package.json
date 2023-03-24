@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.9.0",
+  "version": "2.10.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -81,7 +81,13 @@
     "ts-jest": "^29.0.5",
     "typescript": "^4",
     "webpack": "^5.76.2",
-    "webpack-chain": "^6.5.1"
+    "webpack-chain": "^6.5.1",
+    "react": ">=17.0.0",
+    "react-router-dom": "^6.8.1"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-router-dom": "^6.8.1"
   },
   "sideEffects": false,
   "publishConfig": {

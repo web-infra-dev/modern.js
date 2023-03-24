@@ -69,7 +69,13 @@ export const isUseCssSourceMap = (config: SharedNormalizedConfig) => {
 };
 
 export const getSharedPkgCompiledPath = (
-  packageName: 'sass' | 'less' | 'sass-loader' | 'less-loader' | 'babel-loader',
+  packageName:
+    | 'sass'
+    | 'less'
+    | 'sass-loader'
+    | 'less-loader'
+    | 'babel-loader'
+    | 'assetsRetry.js',
 ) => {
   return join(__dirname, '../compiled', packageName);
 };

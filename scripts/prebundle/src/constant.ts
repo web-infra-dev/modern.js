@@ -249,6 +249,7 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       'open',
       'webpack-5-chain',
+      'serialize-javascript',
       {
         name: 'webpack-bundle-analyzer',
         externals: {
@@ -299,7 +300,6 @@ export const TASKS: TaskConfig[] = [
     packageDir: 'builder/builder-webpack-provider',
     packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
-      'serialize-javascript',
       'tapable',
       'webpack-merge',
       'ansi-escapes',

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDomServer from 'react-dom/server';
-import { serializeJson } from '@modern-js/utils/serialize';
+import { serializeJson } from '@modern-js/utils/universal/serialize';
 import ReactHelmet, { HelmetData } from 'react-helmet';
 import { serializeErrors } from '../../../router/runtime/utils';
 import helmetReplace from '../helmet';

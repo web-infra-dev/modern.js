@@ -113,6 +113,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('Client API', 'Client API'),
         items: [getLink('/api/api-runtime'), getLink('/api/api-components')],
       },
+      getLink('/api/commands'),
     ],
   };
 }

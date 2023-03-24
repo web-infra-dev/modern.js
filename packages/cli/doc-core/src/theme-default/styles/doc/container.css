@@ -6,17 +6,17 @@
   --modern-container-info-border: rgba(7, 156, 112, 0.3);
   --modern-container-info-text: #399c70;
   --modern-container-info-bg: rgba(7, 156, 112, 0.02);
-  --modern-container-info-code-bg: var(--modern-container-info-bg);
+  --modern-container-info-code-bg: rgba(7, 156, 112, 0.1);
 
   --modern-container-warning-border: rgba(255, 197, 23, 0.5);
   --modern-container-warning-text: #ad850e;
   --modern-container-warning-bg: rgba(255, 197, 23, 0.02);
-  --modern-container-warning-code-bg: var(--modern-container-warning-bg);
+  --modern-container-warning-code-bg: rgba(255, 197, 23, 0.1);
 
   --modern-container-danger-border: rgba(237, 60, 80, 0.5);
   --modern-container-danger-text: #ab2131;
   --modern-container-danger-bg: rgba(237, 60, 80, 0.02);
-  --modern-container-danger-code-bg: var(--modern-container-danger-bg);
+  --modern-container-danger-code-bg: rgba(237, 60, 80, 0.1);
 }
 
 .dark {
@@ -30,7 +30,7 @@
 .modern-doc .modern-directive {
   border: 1px solid transparent;
   border-radius: 16px;
-  padding: 20px 24px 14px;
+  padding: 20px 24px 12px;
   line-height: 1.7;
   font-size: 14px;
   font-weight: 500;
@@ -73,7 +73,7 @@
 
 .modern-doc .modern-directive.tip code,
 .modern-doc .modern-directive.note code {
-  background-color: var(--modern-container-tip-code-bg);
+  background-color: var(--modern-container-info-code-bg);
 }
 
 .modern-doc .modern-directive.info code {

@@ -1,4 +1,4 @@
-import { HMR_SOCK_PATH } from '@modern-js/utils/constants';
+import { HMR_SOCK_PATH } from '@modern-js/utils/universal/constants';
 
 type ParsedSearch = {
   host: string;

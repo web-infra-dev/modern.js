@@ -1,5 +1,27 @@
 # @modern-js/plugin-koa
 
+## 2.10.0
+
+### Patch Changes
+
+- 3e0bd50: feat: when enable bff handle render, support use `useContext` to get framework plugin context in data loader.
+  feat: 当开启 BFF 托管渲染时，支持在 data loader 中使用 `useContext` 获取框架插件提供的上下文。
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- 0d9962b: fix: add types field in package.json
+  fix: 添加 package.json 中的 types 字段
+- Updated dependencies [3e0bd50]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/types@2.10.0
+  - @modern-js/bff-runtime@2.10.0
+  - @modern-js/bff-core@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

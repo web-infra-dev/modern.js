@@ -11,14 +11,4 @@ export default defineConfig({
       router: false,
     },
   },
-  server: {
-    ssr: {
-      mode: 'stream',
-    },
-    ssrByEntries: {
-      one: false,
-      two: false,
-      four: false,
-    },
-  },
 });

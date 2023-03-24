@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
 import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { ROUTE_MANIFEST } from '@modern-js/utils/constants';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import {
   RuntimeReactContext,
   RuntimeContext,
@@ -48,8 +48,13 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     const WrapperComponent: React.ComponentType<any> = props => {
       const element = React.createElement(
         App || React.Fragment,
-        { ...props },
-        props.children,
+        App ? { ...props } : null,
+        App
+          ? props.children
+          : React.cloneElement(props.children, {
+              ...props.children?.props,
+              ...props,
+            }),
       );
       const context = useContext(RuntimeReactContext);
 

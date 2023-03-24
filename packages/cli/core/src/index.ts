@@ -149,7 +149,7 @@ const createCli = () => {
     ['SIGINT', 'SIGTERM', 'unhandledRejection', 'uncaughtException'].forEach(
       event => {
         process.on(event, async err => {
-          await hooksRunner.beforeExit();
+          hooksRunner.beforeExit();
           if (err instanceof Error) {
             logger.error(err.stack);
           }

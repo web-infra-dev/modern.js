@@ -1,4 +1,5 @@
 import {
+  Workflow,
   ParallelWorkflow,
   AsyncWaterfall,
   AsyncWorkflow,
@@ -34,7 +35,7 @@ export type BaseHooks<
     void
   >;
   commands: AsyncWorkflow<{ program: Command }, void>;
-  beforeExit: AsyncWorkflow<void, void>;
+  beforeExit: Workflow<void, void>;
   addRuntimeExports: AsyncWaterfall<void>;
 };
 

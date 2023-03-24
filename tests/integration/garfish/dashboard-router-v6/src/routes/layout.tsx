@@ -1,11 +1,13 @@
 import { Link, Outlet } from '@modern-js/runtime/router';
 
-export default function Layout() {
+export default function Layout(props: Record<string, any>) {
   return (
     <div>
-      root layout
-      <Link to="/user">/user</Link>
-      <Link to="/user/profile">/user/profile</Link>
+      <div>Dashboard App</div>
+      <div>Props from main app: {props.msg}</div>
+      <Link id={'renderRoute'} to="/detail/profile">
+        Render dashboard sub route
+      </Link>
       <Outlet />
     </div>
   );

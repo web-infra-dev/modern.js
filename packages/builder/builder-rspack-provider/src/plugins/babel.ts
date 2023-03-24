@@ -12,7 +12,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
   setup(api) {
     api.modifyBundlerChain(async (chain, { CHAIN_ID, isProd }) => {
-      const config = api.getNormalizedConfig();
+      const config = api.getNormalizedConfig() as any;
       if (!config.tools.babel) {
         // we would not use babel loader in rspack, unless user need to use.
         return;
@@ -46,7 +46,14 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           babelrc: false,
           configFile: false,
           compact: isProd,
-          ...applyUserBabelConfig({}, config.tools.babel, babelUtils),
+          ...applyUserBabelConfig(
+            {
+              plugins: [],
+              presets: [],
+            },
+            (config.tools as any).babel,
+            babelUtils,
+          ),
         };
 
         return {

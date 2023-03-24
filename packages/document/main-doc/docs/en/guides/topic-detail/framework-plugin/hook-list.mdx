@@ -191,8 +191,8 @@ foo
 
 - Functionality: Reset some file states before exiting the process.
 - Execution phase: Before the process exits.
-- Hook model: AsyncWorkflow
-- Type: `AsyncWorkflow<void, void>`
+- Hook model: Workflow
+- Type: `Workflow<void, void>`
 - Example usage:
 
 ```ts
@@ -208,6 +208,10 @@ export default (): CliPlugin => ({
   },
 });
 ```
+
+:::tip
+Since the callback function when exiting the process in Node.js is synchronous, the type of `beforeExit` Hook is `Workflow` and cannot perform asynchronous operations.
+:::
 
 ### `beforeDev`
 
@@ -442,7 +446,7 @@ export default (): CliPlugin => ({
       modifyEntryRuntimePlugins({ entrypoint, plugins }) {
         const name = 'customPlugin';
         const options = {
-          /** 可序列化的内容 */
+          /** serializable content */
         };
 
         return {

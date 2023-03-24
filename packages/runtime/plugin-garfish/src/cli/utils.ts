@@ -82,27 +82,50 @@ function generateAppWrapperAndRootDom ({ App, props: garfishProps, dom }) {
 }
 `;
 
-export const makeRenderFunction = (code: string) => {
+export const makeRenderFunction = (code: string, isNested: boolean) => {
   const inGarfishToRender = `
   const { basename, props, dom, appName } = typeof arguments[0] === 'object' && arguments[0] || {};
   if (!canContinueRender({ dom, appName })) return null;
-  let { AppWrapper, mountNode } = generateAppWrapperAndRootDom({App, props: {...props, basename}, dom});
   `;
-  return (
-    inGarfishToRender +
-    code
-      .replace(`router(`, `generateRouterPlugin(basename,`)
-      .replace('(App)', `(AppWrapper)`)
-      .replace(/MOUNT_ID/g, 'mountNode')
-      .replace(
-        `bootstrap(AppWrapper, mountNode, root`,
-        'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
-      )
-      .replace(
-        `customBootstrap(AppWrapper`,
-        'customBootstrap(AppWrapper, mountNode',
-      )
-  );
+  const appWrapperCode = `let { AppWrapper, mountNode } = generateAppWrapperAndRootDom({App: ${
+    isNested ? 'AppWrapper' : 'App'
+  }, props: {...props, basename}, dom});`;
+
+  if (isNested) {
+    const codeString =
+      inGarfishToRender +
+      code
+        .replace(`router(`, `generateRouterPlugin(basename,`)
+        .replace('(App)', `(AppWrapper)`)
+        .replace(/MOUNT_ID/g, 'mountNode')
+        .replace(`if(!AppWrapper.init`, `${appWrapperCode}if(!AppWrapper.init`)
+        .replace(
+          `bootstrap(AppWrapper, mountNode, root`,
+          'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
+        )
+        .replace(
+          `customBootstrap(AppWrapper`,
+          'customBootstrap(AppWrapper, mountNode',
+        );
+    return codeString;
+  } else {
+    return (
+      inGarfishToRender +
+      appWrapperCode +
+      code
+        .replace(`router(`, `generateRouterPlugin(basename,`)
+        .replace('(App)', `(AppWrapper)`)
+        .replace(/MOUNT_ID/g, 'mountNode')
+        .replace(
+          `bootstrap(AppWrapper, mountNode, root`,
+          'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
+        )
+        .replace(
+          `customBootstrap(AppWrapper`,
+          'customBootstrap(AppWrapper, mountNode',
+        )
+    );
+  }
 };
 
 // support legacy config

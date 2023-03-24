@@ -22,7 +22,17 @@ export type AssetsRetryOptions = {
 };
 ```
 
-默认值如下:
+由于该能力会往 HTML 中注入额外的一些运行时代码，因此我们默认关闭了该能力，如果需要开启该能力，你可以配置成对象的形式，比如：
+
+```js
+export default {
+  output: {
+    assetsRetry: {},
+  },
+};
+```
+
+当你开启该能力后，`assetsRetry` 的默认配置如下：
 
 ```ts
 export const defaultAssetsRetryOptions: AssetsRetryOptions = {
@@ -37,7 +47,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 };
 ```
 
-- **打包工具：** `仅支持 webpack`
+同时你也可以根据接下来的一些配置说明，来定制你的重试逻辑。
 
 ### assetsRetry.max
 

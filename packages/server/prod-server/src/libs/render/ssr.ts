@@ -1,11 +1,10 @@
 import path from 'path';
+import { fs, mime } from '@modern-js/utils';
 import {
-  fs,
   LOADABLE_STATS_FILE,
-  mime,
-  ROUTE_MINIFEST_FILE,
+  ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
-} from '@modern-js/utils';
+} from '@modern-js/utils/constants';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import cache from './cache';
@@ -38,7 +37,7 @@ export const render = async (
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
   const loadableStats = fs.existsSync(loadableUri) ? require(loadableUri) : '';
-  const routesManifestUri = path.join(distDir, ROUTE_MINIFEST_FILE);
+  const routesManifestUri = path.join(distDir, ROUTE_MANIFEST_FILE);
   const routeManifest = fs.existsSync(routesManifestUri)
     ? require(routesManifestUri)
     : undefined;
