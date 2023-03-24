@@ -18,9 +18,17 @@ interface ServerInstance {
   close: () => Promise<void>;
 }
 
+interface DocToolsOptions {
+  configFiles?: string[];
+  extraDocConfig?: UserConfig['doc'];
+}
+
 const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
 
-export default (): CliPlugin => ({
+export default ({
+  configFiles = MODERN_CONFIG_FILES,
+  extraDocConfig = {},
+}: DocToolsOptions): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
     const { dev, build, serve } = await import('@modern-js/doc-core');
@@ -29,6 +37,11 @@ export default (): CliPlugin => ({
     return {
       validateSchema: () => {
         return schema;
+      },
+      config() {
+        return {
+          doc: extraDocConfig,
+        };
       },
       watchFiles() {
         const { configFile } = api.useAppContext();
@@ -39,7 +52,7 @@ export default (): CliPlugin => ({
         return [configFile, config.doc?.root].filter(Boolean);
       },
       async fileChange({ filename, eventType }) {
-        const isConfigFile = MODERN_CONFIG_FILES.some(configFileName =>
+        const isConfigFile = configFiles.some(configFileName =>
           filename.endsWith(configFileName),
         );
         const isWatchFileType = WATCH_FILE_TYPES.some(type =>
