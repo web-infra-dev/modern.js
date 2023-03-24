@@ -304,16 +304,43 @@ importers:
 
   packages/builder/plugin-swc:
     specifiers:
-      '@babel/core': ^7.20.5
-      '@babel/preset-env': ^7.20.2
-      '@babel/preset-react': ^7.17.12
-      '@babel/preset-typescript': ^7.17.12
+      '@modern-js/builder-plugin-swc-base': workspace:*
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/swc-plugins': 0.2.0
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@swc/core': 1.3.42
+      '@types/babel__core': ^7.1.20
+      magic-string: ^0.26.2
+      source-map: ^0.7.4
+      typescript: ^4
+      webpack: ^5.76.2
+    dependencies:
+      '@modern-js/builder-plugin-swc-base': link:../plugin-swc-base
+      '@modern-js/builder-shared': link:../builder-shared
+      '@modern-js/swc-plugins': 0.2.0
+      '@modern-js/utils': link:../../toolkit/utils
+    devDependencies:
+      '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
+      '@scripts/vitest-config': link:../../../scripts/vitest-config
+      '@swc/core': 1.3.42
+      '@types/babel__core': 7.1.20
+      magic-string: 0.26.7
+      source-map: 0.7.4
+      typescript: 4.9.3
+      webpack: 5.76.2_@swc+core@1.3.42
+
+  packages/builder/plugin-swc-base:
+    specifiers:
+      '@babel/core': ^7.20.5
+      '@babel/preset-env': ^7.20.2
+      '@babel/preset-react': ^7.17.12
+      '@babel/preset-typescript': ^7.17.12
+      '@modern-js/builder-shared': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/utils': workspace:*
+      '@scripts/vitest-config': workspace:*
       '@swc/helpers': 0.4.12
       '@types/babel__core': ^7.1.20
       core-js: ^3.26.0
@@ -327,19 +354,17 @@ importers:
       '@babel/preset-react': 7.18.6_@babel+core@7.20.5
       '@babel/preset-typescript': 7.18.6_@babel+core@7.20.5
       '@modern-js/builder-shared': link:../builder-shared
-      '@modern-js/swc-plugins': 0.2.0
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.4.12
       core-js: 3.26.0
     devDependencies:
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
       '@scripts/vitest-config': link:../../../scripts/vitest-config
-      '@swc/core': 1.3.42
       '@types/babel__core': 7.1.20
       magic-string: 0.26.7
       source-map: 0.7.4
-      typescript: 4.9.3
-      webpack: 5.76.2_@swc+core@1.3.42
+      typescript: 4.9.5
+      webpack: 5.76.2
 
   packages/cli/babel-preset-app:
     specifiers:
@@ -4561,6 +4586,31 @@ importers:
     devDependencies:
       '@modern-js/builder': link:../../../../../packages/builder/builder
       '@modern-js/builder-plugin-stylus': link:../../../../../packages/builder/plugin-stylus
+      '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/cases/swc:
+    specifiers:
+      '@modern-js/builder': workspace:*
+      '@modern-js/builder-plugin-swc': workspace:*
+      '@modern-js/builder-webpack-provider': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18.0.2
+      react-dom: ^18.0.2
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder': link:../../../../../packages/builder/builder
+      '@modern-js/builder-plugin-swc': link:../../../../../packages/builder/plugin-swc
       '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
       '@types/node': 14.18.35
@@ -10769,7 +10819,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 14.18.35
+      '@types/node': 18.11.17
       '@types/yargs': 16.0.4
       chalk: 4.1.2
 
@@ -12788,7 +12838,7 @@ packages:
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/webpack': 4.41.32
       autoprefixer: 9.8.8
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
@@ -13083,7 +13133,7 @@ packages:
       '@babel/register': 7.18.6_@babel+core@7.20.5
       '@storybook/node-logger': 6.5.12
       '@storybook/semver': 7.3.2
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/pretty-hrtime': 1.0.1
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       babel-plugin-macros: 3.1.0
@@ -13155,7 +13205,7 @@ packages:
       '@storybook/semver': 7.3.2
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/telemetry': 6.5.12_lb6du3saekb5anf2gjv3wxj3oq
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/node-fetch': 2.6.2
       '@types/pretty-hrtime': 1.0.1
       '@types/webpack': 4.41.32
@@ -13308,7 +13358,7 @@ packages:
       '@storybook/node-logger': 6.5.12
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.18.10
+      '@types/node': 16.11.68
       '@types/webpack': 4.41.32
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       case-sensitive-paths-webpack-plugin: 2.4.0
@@ -14691,7 +14741,6 @@ packages:
 
   /@types/node/16.11.68:
     resolution: {integrity: sha512-JkRpuVz3xCNCWaeQ5EHLR/6woMbHZz/jZ7Kmc63AkU+1HxnoUugzSWMck7dsR4DvNYX8jp9wTi9K7WvnxOIQZQ==}
-    dev: true
 
   /@types/node/16.18.10:
     resolution: {integrity: sha512-XU1+v7h81p7145ddPfjv7jtWvkSilpcnON3mQ+bDi9Yuf7OI56efOglXRyXWgQ57xH3fEQgh7WOJMncRHVew5w==}
