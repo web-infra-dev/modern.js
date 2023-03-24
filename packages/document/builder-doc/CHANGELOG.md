@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.10.0
+
+### Patch Changes
+
+- cfdbf80: fix(builder): update source.define type and schema check in rspack-provider
+
+  fix(builder): 更新 rspack-provider 中 source.define 的类型定义与校验
+
 ## 2.9.0
 
 ## 2.8.0

@@ -1,11 +1,13 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
 export type CookieAPI = {
-  get: (key: string) => string;
-  set: (key: string, value: string) => void;
-  delete: (key: string) => void;
+  /**
+   * @deprecated Using set empty cookie instead.
+   */
+  delete?: (key: string) => void;
+  get?: (key: string) => string;
+  set: (key: string, value: string, options?: any) => void;
   clear: () => void;
-  apply: () => void;
 };
 
 export interface ModernResponse {

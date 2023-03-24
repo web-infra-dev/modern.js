@@ -1,4 +1,5 @@
 import {
+  createWorkflow,
   createAsyncManager,
   createAsyncWorkflow,
   createAsyncWaterfall,
@@ -23,7 +24,7 @@ const baseHooks: BaseHooks<{}> = {
   commands: createAsyncWorkflow(),
   watchFiles: createParallelWorkflow(),
   fileChange: createAsyncWorkflow(),
-  beforeExit: createAsyncWorkflow(),
+  beforeExit: createWorkflow(),
   addRuntimeExports: createAsyncWaterfall(),
 };
 // eslint-disable-next-line @typescript-eslint/ban-types

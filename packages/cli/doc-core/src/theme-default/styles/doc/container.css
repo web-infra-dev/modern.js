@@ -3,58 +3,43 @@
   * TDOO: move to @modern-js/doc-plugin-conatiner.
  */
 :root {
-  --modern-container-info-border: rgba(0, 149, 255, 0.5);
-  --modern-container-info-text: var(--modern-c-brand);
-  --modern-container-info-bg: rgba(0, 149, 255, 0.05);
-  --modern-container-info-code-bg: var(--modern-container-info-bg);
-
-  --modern-container-tip-border: var(--modern-container-info-border);
-  --modern-container-tip-text: var(--modern-container-info-text);
-  --modern-container-tip-bg: var(--modern-container-info-bg);
-  --modern-container-tip-code-bg: var(--modern-container-info-code-bg);
+  --modern-container-info-border: rgba(7, 156, 112, 0.3);
+  --modern-container-info-text: #399c70;
+  --modern-container-info-bg: rgba(7, 156, 112, 0.02);
+  --modern-container-info-code-bg: rgba(7, 156, 112, 0.1);
 
   --modern-container-warning-border: rgba(255, 197, 23, 0.5);
   --modern-container-warning-text: #ad850e;
-  --modern-container-warning-bg: rgba(255, 197, 23, 0.05);
-  --modern-container-warning-code-bg: var(--modern-container-warning-bg);
+  --modern-container-warning-bg: rgba(255, 197, 23, 0.02);
+  --modern-container-warning-code-bg: rgba(255, 197, 23, 0.1);
 
   --modern-container-danger-border: rgba(237, 60, 80, 0.5);
   --modern-container-danger-text: #ab2131;
-  --modern-container-danger-bg: rgba(237, 60, 80, 0.05);
-  --modern-container-danger-code-bg: var(--modern-container-danger-bg);
-
-  --modern-container-text-border: rgba(0, 0, 0, 0.55);
+  --modern-container-danger-bg: rgba(237, 60, 80, 0.02);
+  --modern-container-danger-code-bg: rgba(237, 60, 80, 0.1);
 }
 
 .dark {
-  --modern-container-info-border: var(--modern-c-divider-light);
-  --modern-container-info-bg: var(--modern-c-black-mute);
-  --modern-container-info-code-bg: #282828;
-
-  --modern-container-tip-border: var(--modern-container-info-border);
-  --modern-container-tip-bg: var(--modern-container-info-bg);
-
   --modern-container-warning-border: rgba(255, 197, 23, 0.25);
   --modern-container-warning-text: #fcd253;
 
   --modern-container-danger-border: rgba(237, 60, 80, 0.25);
   --modern-container-danger-text: #f54e82;
-
-  --modern-container-text-border: rgba(255, 255, 255, 0.55);
 }
 
 .modern-doc .modern-directive {
   border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 12px 20px 8px;
-  line-height: 24px;
+  border-radius: 16px;
+  padding: 20px 24px 12px;
+  line-height: 1.7;
   font-size: 14px;
+  font-weight: 500;
   margin: 24px 0;
 }
 
 .modern-doc .modern-directive .modern-directive-title {
-  font-weight: 700;
-  margin: 0;
+  font-weight: 600;
+  font-size: 16px;
 }
 
 .modern-doc .modern-directive .modern-directive-content p {
@@ -80,17 +65,15 @@
 
 .modern-doc .modern-directive.tip,
 .modern-doc .modern-directive.note,
-.modern-doc .modern-directive.info,
-.modern-doc .modern-directive.warning {
-  border-color: var(--modern-c-brand);
-  background-color: var(--modern-c-bg-soft);
-  color: var(--modern-c-text-2);
-  font-weight: 600;
+.modern-doc .modern-directive.info {
+  border-color: var(--modern-container-info-border);
+  color: var(--modern-container-info-text);
+  background-color: var(--modern-container-info-bg);
 }
 
 .modern-doc .modern-directive.tip code,
 .modern-doc .modern-directive.note code {
-  background-color: var(--modern-container-tip-code-bg);
+  background-color: var(--modern-container-info-code-bg);
 }
 
 .modern-doc .modern-directive.info code {

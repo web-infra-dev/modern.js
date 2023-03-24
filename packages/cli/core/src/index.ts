@@ -22,6 +22,7 @@ import { loadEnv } from './loadEnv';
 import { manager } from './manager';
 import type { ToolsType, CliHooksRunner } from './types';
 import { createResolveConfig, createLoadedConfig } from './config';
+import { checkIsDuplicationPlugin } from './utils/checkIsDuplicationPlugin';
 
 export * from './types';
 
@@ -122,6 +123,11 @@ const createCli = () => {
       forceAutoLoadPlugins: mergedOptions?.forceAutoLoadPlugins,
     });
 
+    checkIsDuplicationPlugin(
+      plugins.map(plugin => plugin.name),
+      loaded.config.autoLoadPlugins,
+    );
+
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 
     const appContext = initAppContext({
@@ -143,7 +149,7 @@ const createCli = () => {
     ['SIGINT', 'SIGTERM', 'unhandledRejection', 'uncaughtException'].forEach(
       event => {
         process.on(event, async err => {
-          await hooksRunner.beforeExit();
+          hooksRunner.beforeExit();
           if (err instanceof Error) {
             logger.error(err.stack);
           }

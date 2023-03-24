@@ -74,30 +74,32 @@ export function Tabs(props: TabsProps): ReactElement {
       {...(needSync ? { selectedIndex: defaultIndex } : { defaultIndex })}
     >
       <div className={tabContainerClassName || ''}>
-        <HeadlessTab.List className="mt-4 flex w-max min-w-full border-b border-gray-200 dark:border-dark-200">
-          {tabValues.map((item, index) => {
-            const disabled = Boolean(
-              item &&
-                typeof item === 'object' &&
-                'disabled' in item &&
-                item.disabled,
-            );
+        {tabValues.length ? (
+          <HeadlessTab.List className="mt-4 flex w-max min-w-full border-b border-gray-200 dark:border-dark-200">
+            {tabValues.map((item, index) => {
+              const disabled = Boolean(
+                item &&
+                  typeof item === 'object' &&
+                  'disabled' in item &&
+                  item.disabled,
+              );
 
-            return (
-              <HeadlessTab
-                key={index}
-                disabled={disabled}
-                className={({ selected }) =>
-                  `${styles.tab} ${
-                    selected ? styles.selected : styles.notSelected
-                  }`
-                }
-              >
-                {renderTab(item)}
-              </HeadlessTab>
-            );
-          })}
-        </HeadlessTab.List>
+              return (
+                <HeadlessTab
+                  key={index}
+                  disabled={disabled}
+                  className={({ selected }) =>
+                    `${styles.tab} ${
+                      selected ? styles.selected : styles.notSelected
+                    }`
+                  }
+                >
+                  {renderTab(item)}
+                </HeadlessTab>
+              );
+            })}
+          </HeadlessTab.List>
+        ) : null}
       </div>
       <HeadlessTab.Panels>{children}</HeadlessTab.Panels>
     </HeadlessTab.Group>

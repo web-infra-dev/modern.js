@@ -1,5 +1,39 @@
 # @modern-js/builder-webpack-provider
 
+## 2.10.0
+
+### Minor Changes
+
+- a8db932: feat: rspack-provider support tools.babel
+  feat: rspack-provider 支持 tools.babel
+- 82326ee: feat: `security.checkSyntax` support exclude configuration.
+  feat: `security.checkSyntax` 支持 exclude 配置项。
+
+### Patch Changes
+
+- 92d247f: fix: support tools.devServer.header include string[] type, remove get & delete & apply api in hook or middleware api
+  fix: 支持 tools.devServer.header 包含字符串数组类型，移除 Hook 和 Middleware 中对 响应 Cookie 的获取、删除操作
+- 0d9962b: fix: add types field in package.json
+  fix: 添加 package.json 中的 types 字段
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- Updated dependencies [a8db932]
+- Updated dependencies [3e0bd50]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/builder-shared@2.10.0
+  - @modern-js/babel-preset-app@2.10.0
+  - @modern-js/server@2.10.0
+  - @modern-js/types@2.10.0
+  - @modern-js/utils@2.10.0
+  - @modern-js/e2e@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

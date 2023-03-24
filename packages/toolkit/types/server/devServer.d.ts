@@ -29,7 +29,7 @@ export type DevServerOptions = {
     outputFileSystem?: Record<string, any>;
   };
   proxy?: BffProxyOptions;
-  headers?: Record<string, string>;
+  headers?: Record<string, string | string[]>;
   before?: RequestHandler[];
   after?: RequestHandler[];
   /** Provides the ability to execute a custom function and apply custom middlewares */

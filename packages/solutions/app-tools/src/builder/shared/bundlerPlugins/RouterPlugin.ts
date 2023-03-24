@@ -1,10 +1,7 @@
 import path from 'path';
-import {
-  fs,
-  ROUTE_MANIFEST,
-  logger,
-  ROUTE_MINIFEST_FILE,
-} from '@modern-js/utils';
+import { fs, logger } from '@modern-js/utils';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
 
@@ -58,6 +55,9 @@ export class RouterPlugin {
         },
         async () => {
           const stats = compilation.getStats().toJson({
+            all: false,
+            publicPath: true,
+            assets: true,
             chunkGroups: true,
             chunks: true,
           });
@@ -124,7 +124,7 @@ export class RouterPlugin {
             );
           }
 
-          const filename = path.join(outputPath, ROUTE_MINIFEST_FILE);
+          const filename = path.join(outputPath, ROUTE_MANIFEST_FILE);
           await fs.ensureFile(filename);
           await fs.writeFile(filename, JSON.stringify(manifest, null, 2));
         },

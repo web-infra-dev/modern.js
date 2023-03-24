@@ -1,11 +1,12 @@
 - **Type:** `Object | Function`
 - **Default:** `undefined`
+- **Bundler:** `only support Webpack`
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
-:::warningd
+<!-- :::warningd
 When using Rspack as a packaging tool, using this configuration item will slow down Rspack builds a bit.
-:::
+::: -->
 
 ### Function Type
 

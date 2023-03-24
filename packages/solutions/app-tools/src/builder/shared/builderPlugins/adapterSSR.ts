@@ -3,7 +3,7 @@ import {
   BundlerChain,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier, fs } from '@modern-js/utils';
+import { ChainIdentifier, isSSR, fs } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -39,15 +39,18 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         { target, CHAIN_ID, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
       ) => {
         const builderConfig = api.getNormalizedConfig();
+        const { normalizedConfig } = options;
 
-        applyRouterPlugin(chain, options);
-        await applySSRLoaderEntry(chain, options, isServer);
+        if (isSSR(normalizedConfig)) {
+          applyRouterPlugin(chain, options);
+          await applySSRLoaderEntry(chain, options, isServer);
+        }
 
         if (['node', 'service-worker'].includes(target)) {
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,
-            appNormalizedConfig: options.normalizedConfig,
+            appNormalizedConfig: normalizedConfig,
           });
         }
 

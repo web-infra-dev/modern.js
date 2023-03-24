@@ -63,7 +63,7 @@ describe('test app-tools utils', () => {
   it('should create and close server correctly', async () => {
     const app = await createServer({
       dev: false,
-      pwd: '.',
+      pwd: __dirname,
       config: {
         output: {
           path: 'dist',

@@ -18,19 +18,12 @@ class Response implements ModernResponse {
 
   private res: ServerResponse;
 
-  private _cookie: Record<string, string>;
-
   constructor(res: ServerResponse) {
     this.res = res;
 
-    this._cookie = cookie.parse((res.getHeader('set-cookie') as string) || '');
-
     this.cookies = {
-      get: this.getCookie.bind(this),
       set: this.setCookie.bind(this),
-      delete: this.deleteCookie.bind(this),
       clear: this.clearCookie.bind(this),
-      apply: this.applyCookie.bind(this),
     };
   }
 
@@ -46,35 +39,17 @@ class Response implements ModernResponse {
     this.res.statusCode = code;
   }
 
-  private getCookie(key: string) {
-    return this._cookie[key];
-  }
-
-  private setCookie(key: string, value: string) {
-    this._cookie[key] = value;
-  }
-
-  private deleteCookie(key: string) {
-    if (this._cookie[key]) {
-      delete this._cookie[key];
-    }
+  private setCookie(key: string, value: string, options?: any) {
+    const cookieValue = this.res.getHeader('set-cookie');
+    const fmt = Array.isArray(cookieValue)
+      ? cookieValue
+      : ([cookieValue].filter(Boolean) as string[]);
+    fmt.push(cookie.serialize(key, value, options));
+    this.res.setHeader('set-cookie', fmt.length === 1 ? fmt[0] : fmt);
   }
 
   private clearCookie() {
-    this._cookie = {};
-  }
-
-  private applyCookie() {
-    const str = Object.entries(this._cookie)
-      .map(([key, value]) => {
-        return cookie.serialize(key, value);
-      })
-      .join('; ');
-    if (str) {
-      this.res.setHeader('set-cookie', str);
-    } else {
-      this.res.removeHeader('set-cookie');
-    }
+    this.res.removeHeader('set-cookie');
   }
 
   public raw(

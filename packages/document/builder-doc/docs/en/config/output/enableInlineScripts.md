@@ -6,6 +6,10 @@ Whether to inline output scripts files (.js files) into HTML with `<script>` tag
 
 Note that, with this option on, the scripts files will no longer be written in dist directory, they will only exist inside the HTML file instead.
 
+:::note
+When using convention-based routing, you need to set [`output.splitRouteChunks`](https://modernjs.dev/en/configure/app/output/split-route-chunks.html) to false if this option is turned on.
+:::
+
 ### Example
 
 By default, we have following output files:

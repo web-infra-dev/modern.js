@@ -1,14 +1,17 @@
-import { AcornParseError, SyntaxError } from './type';
+import { AcornParseError, CheckSyntaxExclude, SyntaxError } from './type';
 import { SourceMapConsumer } from 'source-map';
 import { fs } from '@modern-js/utils';
+import { checkIsExcludeSource } from './utils';
 
 export async function generateError({
   err,
   filepath,
   code,
+  exclude,
 }: {
   err: AcornParseError;
   filepath: string;
+  exclude?: CheckSyntaxExclude;
   code: string;
 }) {
   let error = await tryGenerateErrorFromSourceMap(err, filepath);
@@ -24,6 +27,10 @@ export async function generateError({
         code: code.substring(err.pos - SUB_LEN, err.pos + SUB_LEN).trim(),
       },
     });
+  }
+
+  if (checkIsExcludeSource(error.source.path, exclude)) {
+    return null;
   }
 
   return error;

@@ -179,14 +179,18 @@ export default {
 
 添加以上配置后，webpack 会输出日志用于 debug，请参考 `PackFileCacheStrategy` 相关的日志来了解缓存失效的原因。
 
-## 打包后发现 Tree Shaking 没有生效？
+## 打包后发现 tree shaking 没有生效？
 
-Builder 在生产构建时会默认开启 webpack 的 Tree Shaking 功能，Tree Shaking 是否能够生效，取决于业务代码能否满足 webpack 的 Tree Shaking 条件。
+Builder 在生产构建时会默认开启 webpack 的 tree shaking 功能，tree shaking 是否能够生效，取决于业务代码能否满足 webpack 的 tree shaking 条件。
 
-如果你遇到了 Tree Shaking 不生效的问题，可以检查下相关 npm 包的 `sideEffects` 配置是否正确，如果不了解 `sideEffects` 是什么，可以阅读以下两篇文档：
+如果你遇到了 tree shaking 不生效的问题，可以检查下相关 npm 包的 `sideEffects` 配置是否正确，如果你不了解 `sideEffects` 的作用，或是对 tree shaking 背后的原理感兴趣，可以阅读以下两篇文档：
 
 - [webpack 官方文档 - Tree Shaking](https://webpack.docschina.org/guides/tree-shaking/)
 - [Tree Shaking 问题排查指南](https://bytedance.feishu.cn/docs/doccn8E1ldDct5uv1EEDQs8Ycwe)
+
+如果你是 npm 包的开发者，可以阅读这篇文章：
+
+- [如何编写一个友好支持 Tree-shaking 的库](https://zhuanlan.zhihu.com/p/594124786)
 
 ## 打包时出现 JavaScript heap out of memory?
 
@@ -243,6 +247,38 @@ export default {
 
 2. 项目里某一处代码依赖了 `core-js` v2 版本。这种情况通常需要你找出对应的代码，并升级其中的 `core-js` 到 v3 版本。
 3. `node_modules` 中的某一个 npm 包引用了 `core-js`，但是没有在 `dependencies` 中声明 `core-js` 依赖。这种情况需要你在对应的 npm 包中声明 `core-js` 依赖，或者在项目根目录下安装一份 `core-js`。
+
+## React 组件的热更新无法生效？
+
+Builder 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
+
+如果出现 React 组件的热更新无法生效的问题，或者是热更新后 React 组件的 state 丢失，这通常是因为你的 React 组件使用了匿名函数。在 React Fast Refresh 的官方实践中，要求组件不能为匿名函数，否则热更新后无法保留 React 组件的 state。
+
+以下是一些错误用法的例子：
+
+```tsx
+// 错误写法 1
+export default function () {
+  return <div>Hello World</div>;
+}
+
+// 错误写法 2
+export default () => <div>Hello World</div>;
+```
+
+正确用法是给每个组件函数声明一个名称：
+
+```tsx
+// 正确写法 1
+export default function MyComponent() {
+  return <div>Hello World</div>;
+}
+
+// 正确写法 2
+const MyComponent = () => <div>Hello World</div>
+
+export default MyComponent;
+```
 
 ## Less 文件中的除法不生效？
 

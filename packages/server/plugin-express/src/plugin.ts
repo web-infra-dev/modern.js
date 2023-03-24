@@ -66,13 +66,14 @@ export default (): ServerPlugin => ({
   pre: ['@modern-js/plugin-bff'],
   post: ['@modern-js/plugin-server'],
   setup: api => ({
-    async prepareApiServer({ pwd, config }) {
+    async prepareApiServer({ pwd, config, render }) {
       let app: Express;
       const appContext = api.useAppContext();
       const apiHandlerInfos = appContext.apiHandlerInfos as APIHandlerInfo[];
       const apiDirectory = appContext.apiDirectory as string;
       const apiDir = apiDirectory || path.join(pwd, './api');
       const mode = appContext.apiMode;
+      const userConfig = api.useConfigContext();
 
       if (mode === 'framework') {
         const appModule = await findAppModule(apiDir);
@@ -112,6 +113,16 @@ export default (): ServerPlugin => ({
         registerRoutes(app, apiHandlerInfos);
       } else {
         throw new Error(`mode must be function or framework`);
+      }
+
+      if (userConfig.bff?.enableHandleWeb && render) {
+        app.use(async (req, res, next) => {
+          const html = await render(req, res);
+          if (html) {
+            res.end(html);
+          }
+          next();
+        });
       }
 
       return (req, res) =>

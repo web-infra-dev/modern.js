@@ -1,5 +1,21 @@
 # @modern-js/generator-common
 
+## 3.1.0
+
+### Minor Changes
+
+- 03d0eb5: feat: create tools add doc solution
+
+  feat: create 工具增加文档站工程方案
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+  - @modern-js/plugin-i18n@2.10.0
+
 ## 3.0.11
 
 ### Patch Changes

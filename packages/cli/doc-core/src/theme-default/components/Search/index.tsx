@@ -11,6 +11,7 @@ import CloseSvg from './assets/close.svg';
 import { MatchResult, MatchResultItem, PageSearcher } from './logic/search';
 import { SuggestItem } from './SuggestItem';
 import { normalizeSearchIndexes, removeDomain } from './logic/util';
+import { NoSearchResult } from './NoSearchResult';
 import { isProduction, usePageData } from '@/runtime';
 import { SearchOptions } from '@/shared/types';
 
@@ -152,6 +153,10 @@ export function Search() {
     result: MatchResult,
     searchOptions: SearchOptions,
   ) => {
+    if (!suggestions.length) {
+      return <NoSearchResult query={query} />;
+    }
+
     const hasOtherResult =
       searchResult.others.map(item => item.items).flat().length > 0;
 
@@ -164,6 +169,7 @@ export function Search() {
       ).find(indexInfo => indexInfo.value === item.index);
       return indexItem!.label;
     }) as string[];
+
     return (
       <div>
         {/* current index */}
@@ -212,7 +218,7 @@ export function Search() {
           return (
             <li key={group}>
               {isCurrent && <h2 className={styles.groupTitle}>{group}</h2>}
-              <ul>
+              <ul className="pb-2">
                 {groupSuggestions.map(suggestion => {
                   accumulateIndex++;
                   const suggestionIndex = accumulateIndex;
@@ -303,7 +309,7 @@ export function Search() {
                 </h2>
               </div>
 
-              {query && suggestions.length ? (
+              {query ? (
                 <div className={`${styles.searchHits}  modern-scrollbar`}>
                   {renderSearchResult(searchResult, search)}
                 </div>

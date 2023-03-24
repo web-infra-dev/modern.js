@@ -1,4 +1,3 @@
-import type nodeFetch from 'node-fetch';
 import type { HttpMethodDecider } from '@modern-js/types';
 
 export type BFFRequestPayload = {
@@ -12,20 +11,19 @@ export type BFFRequestPayload = {
   cookies?: Record<string, any>;
 };
 
-export type Fetch = typeof fetch | typeof nodeFetch;
-export type Sender = ((...args: any[]) => Promise<any>) & {
-  fetch?: Fetch;
+export type Sender<F = typeof fetch> = ((...args: any[]) => Promise<any>) & {
+  fetch?: F;
 };
 
-export type RequestCreator = (
+export type RequestCreator<F = typeof fetch> = (
   path: string,
   method: string,
   port: number,
   httpMethodDecider: HttpMethodDecider,
-  fetch?: Fetch,
+  fetch?: F,
 ) => Sender;
 
-export type IOptions<F = Fetch> = {
+export type IOptions<F = typeof fetch> = {
   request?: F;
   interceptor?: (request: F) => F;
   allowedHeaders?: string[];

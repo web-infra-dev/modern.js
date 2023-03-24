@@ -1,11 +1,6 @@
 import { InternalPlugins } from '@modern-js/types';
 
 /**
- * hmr socket connect path
- */
-export const HMR_SOCK_PATH = '/webpack-hmr';
-
-/**
  * route specification file
  */
 export const ROUTE_SPEC_FILE = 'route.json';
@@ -74,12 +69,7 @@ export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';
 /**
  * Routes manifest filename
  */
-export const ROUTE_MINIFEST_FILE = 'routes-manifest.json';
-
-/**
- * Property mounted on window that describes route manifest
- */
-export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
+export const ROUTE_MANIFEST_FILE = 'routes-manifest.json';
 
 /**
  * directory name for loader routes

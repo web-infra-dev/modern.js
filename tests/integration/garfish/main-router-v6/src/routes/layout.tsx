@@ -3,9 +3,10 @@ import { Link, Outlet } from '@modern-js/runtime/router';
 export default function Layout() {
   return (
     <div>
-      root layout
-      <Link to="/user">/user</Link>
-      <Link to="/user/profile">/user/profile</Link>
+      <div>Main App</div>
+      <Link id={'renderMicroApp'} to="/dashboard">
+        render dashboard
+      </Link>
       <Outlet />
     </div>
   );

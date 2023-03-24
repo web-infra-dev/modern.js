@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { createStaticHandler } from '@modern-js/utils/remix-router';
+import { createStaticHandler } from '@modern-js/utils/universal/remix-router';
 import {
   createStaticRouter,
   StaticRouterProvider,
@@ -85,7 +85,12 @@ export const routerPlugin = ({
 
           const routes = createRoutes
             ? createRoutes()
-            : createRoutesFromElements(renderRoutes(routesConfig, ssrMode));
+            : createRoutesFromElements(
+                renderRoutes({
+                  routesConfig,
+                  ssrMode,
+                }),
+              );
 
           const { query } = createStaticHandler(routes, {
             basename: _basename,

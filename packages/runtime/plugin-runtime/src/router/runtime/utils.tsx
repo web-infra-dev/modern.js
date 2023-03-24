@@ -5,13 +5,13 @@ import {
   type PageRoute,
   type SSRMode,
 } from '@modern-js/types';
-import { renderNestedRoute } from '@modern-js/utils/nestedRoutes';
 import {
   ErrorResponse,
   isRouteErrorResponse,
   type Router,
   type StaticHandlerContext,
-} from '@modern-js/utils/remix-router';
+} from '@modern-js/utils/universal/remix-router';
+import { renderNestedRoute } from './nestedRoutes';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
@@ -21,9 +21,11 @@ export function getRouteComponents(
   {
     globalApp,
     ssrMode,
+    props,
   }: {
     globalApp?: React.ComponentType<any>;
     ssrMode?: SSRMode;
+    props?: Record<string, any>;
   },
 ) {
   const Layout = ({ Component, ...props }: any) => {
@@ -40,6 +42,7 @@ export function getRouteComponents(
       const routeElement = renderNestedRoute(route, {
         DeferredDataComponent:
           ssrMode === 'stream' ? DeferredDataScripts : undefined,
+        props,
       });
       routeElements.push(routeElement);
     } else {
@@ -57,10 +60,15 @@ export function getRouteComponents(
   return routeElements;
 }
 
-export function renderRoutes(
-  routesConfig: RouterConfig['routesConfig'],
-  ssrMode?: SSRMode,
-) {
+export function renderRoutes({
+  routesConfig,
+  props,
+  ssrMode,
+}: {
+  routesConfig: RouterConfig['routesConfig'];
+  props?: Record<string, any>;
+  ssrMode?: SSRMode;
+}) {
   if (!routesConfig) {
     return null;
   }
@@ -68,7 +76,11 @@ export function renderRoutes(
   if (!routes) {
     return null;
   }
-  const routeElements = getRouteComponents(routes, { globalApp, ssrMode });
+  const routeElements = getRouteComponents(routes, {
+    globalApp,
+    ssrMode,
+    props,
+  });
   return routeElements;
 }
 
