@@ -40,7 +40,7 @@ async function printHeader(
     return `${prev + curLabel}    `;
   }, '  ');
 
-  logger.log(chalk.bold(chalk.blue(headerRow)));
+  logger.log(chalk.bold.blue(headerRow));
 }
 
 async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
@@ -100,11 +100,17 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
 
   printHeader(longestFileLength, longestLabelLength);
 
+  let totalSize = 0;
+  let totalGzipSize = 0;
+
   assets.forEach(asset => {
     let { sizeLabel } = asset;
     const { name, folder, gzipSizeLabel } = asset;
     const fileNameLength = stripAnsi(folder + path.sep + name).length;
     const sizeLength = stripAnsi(sizeLabel).length;
+
+    totalSize += asset.size;
+    totalGzipSize += asset.gzippedSize;
 
     if (sizeLength < longestLabelLength) {
       const rightPadding = ' '.repeat(longestLabelLength - sizeLength);
@@ -122,7 +128,13 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
     logger.log(`  ${fileNameLabel}    ${sizeLabel}    ${gzipSizeLabel}`);
   });
 
-  logger.log('');
+  const totalSizeLabel = `${chalk.bold.blue('Total size:')}  ${filesize(
+    totalSize,
+  )}`;
+  const gzippedSizeLabel = `${chalk.bold.blue('Gzipped size:')}  ${filesize(
+    totalGzipSize,
+  )}`;
+  logger.log(`\n  ${totalSizeLabel}\n  ${gzippedSizeLabel}\n`);
 }
 
 export const builderPluginFileSize = (): DefaultBuilderPlugin => ({
