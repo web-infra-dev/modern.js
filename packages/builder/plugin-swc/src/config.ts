@@ -6,6 +6,10 @@ import {
   ReactConfig,
   TransformConfig,
 } from '@modern-js/swc-plugins';
+import {
+  CORE_JS_DIR_PATH,
+  SWC_HELPERS_DIR_PATH,
+} from '@modern-js/builder-plugin-swc-base';
 
 export type { TransformConfig } from '@modern-js/swc-plugins';
 
@@ -66,6 +70,12 @@ function getDefaultSwcConfig(): TransformConfig {
 export function normalizeConfig(
   opt: TransformConfig,
 ): Required<TransformConfig> {
+  // set lockCoreVersion config
+  opt.extensions!.lockCorejsVersion ??= {
+    corejs: CORE_JS_DIR_PATH,
+    swcHelpers: SWC_HELPERS_DIR_PATH,
+  };
+
   // complete default config
   const config: Required<TransformConfig> = _.merge(
     getDefaultSwcConfig(),

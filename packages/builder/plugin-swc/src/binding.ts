@@ -1,7 +1,3 @@
-import {
-  CORE_JS_DIR_PATH,
-  SWC_HELPERS_DIR_PATH,
-} from '@modern-js/builder-plugin-swc-base';
 import { Compiler as RawCompiler, Output } from '@modern-js/swc-plugins';
 import { normalizeConfig, TransformConfig } from './config';
 
@@ -16,10 +12,6 @@ export class Compiler extends RawCompiler {
   config: TransformConfig;
 
   constructor(config: TransformConfig) {
-    config.extensions!.lockCorejsVersion ??= {
-      corejs: CORE_JS_DIR_PATH,
-      swcHelpers: SWC_HELPERS_DIR_PATH,
-    };
     const normalized = normalizeConfig(config);
     super(normalized);
     this.config = normalized;
