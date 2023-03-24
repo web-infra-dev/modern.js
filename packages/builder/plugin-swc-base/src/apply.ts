@@ -21,11 +21,6 @@ import {
   TransformConfig,
   Output,
 } from './types';
-import {
-  CORE_JS_PATH,
-  CORE_JS_DIR_PATH,
-  SWC_HELPERS_DIR_PATH,
-} from './constants';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
 const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
@@ -44,6 +39,7 @@ export function applyBuilderPluginSwc(
 ) {
   const { transformLoader, pluginConfig } = options;
 
+  const CORE_JS_PATH = require.resolve('core-js/package.json');
   // Find if babel & ts loader exists
   api.modifyWebpackChain(async (chain, utils) => {
     const { target, CHAIN_ID, isProd } = utils;
@@ -105,13 +101,6 @@ export function applyBuilderPluginSwc(
     if (builderConfig.output.enableLatestDecorators) {
       logger.warn('Cannot use latestDecorator in SWC compiler.');
     }
-
-    const { extensions } = swc;
-
-    extensions!.lockCorejsVersion ??= {
-      corejs: CORE_JS_DIR_PATH,
-      swcHelpers: SWC_HELPERS_DIR_PATH,
-    };
 
     const rule = chain.module.rule(CHAIN_ID.RULE.JS);
     // Insert swc loader and plugin

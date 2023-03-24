@@ -71,10 +71,15 @@ export function normalizeConfig(
   opt: TransformConfig,
 ): Required<TransformConfig> {
   // set lockCoreVersion config
-  opt.extensions!.lockCorejsVersion ??= {
-    corejs: CORE_JS_DIR_PATH,
-    swcHelpers: SWC_HELPERS_DIR_PATH,
+  opt.extensions = {
+    ...(opt.extensions || {}),
+    lockCorejsVersion: {
+      ...(opt.extensions?.lockCorejsVersion || {}),
+      corejs: CORE_JS_DIR_PATH,
+      swcHelpers: SWC_HELPERS_DIR_PATH,
+    },
   };
+  // console.info('opt', opt.extensions);
 
   // complete default config
   const config: Required<TransformConfig> = _.merge(

@@ -1,7 +1,7 @@
 "use strict";
-var _asyncToGenerator = require("@swc/helpers/lib/_async_to_generator.js").default;
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default;
-var _tsGenerator = require("@swc/helpers/lib/_ts_generator.js").default;
+var _asyncToGenerator = require("<SWC_HELPER>/lib/_async_to_generator.js").default;
+var _objectSpread = require("<SWC_HELPER>/lib/_object_spread.js").default;
+var _tsGenerator = require("<SWC_HELPER>/lib/_ts_generator.js").default;
 function asyncFn() {
     return _asyncFn.apply(this, arguments);
 }

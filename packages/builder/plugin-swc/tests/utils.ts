@@ -4,9 +4,39 @@ import { Script } from 'node:vm';
 import * as swc from '@swc/core';
 import { expect } from 'vitest';
 import { Output, TransformConfig } from '@modern-js/swc-plugins';
+import {
+  CORE_JS_DIR_PATH,
+  SWC_HELPERS_DIR_PATH,
+} from '@modern-js/builder-plugin-swc-base';
 
 export function isInUpdate(): boolean {
   return process.env.SNAPSHOT_UPDATE === '1';
+}
+
+export function replace(
+  origin: string,
+  replaces: Array<{ match: string; mark: string }>,
+) {
+  return replaces.reduce((pre, cur) => {
+    const _match = new RegExp(
+      cur.match.replace(new RegExp('\\+', 'g'), `\\+`),
+      'g',
+    );
+    return pre.replace(_match, cur.mark);
+  }, origin);
+}
+
+export function replaceCorejsAndSwcHelps(source: string) {
+  return replace(source, [
+    {
+      mark: '<SWC_HELPER>',
+      match: SWC_HELPERS_DIR_PATH,
+    },
+    {
+      mark: '<CORE_JS>',
+      match: CORE_JS_DIR_PATH,
+    },
+  ]);
 }
 
 /**
@@ -121,12 +151,14 @@ export async function fsSnapshot(
   );
 
   const expectedPath = path.resolve(base, 'expected.js');
+  const finalCode = replaceCorejsAndSwcHelps(code);
 
   if (!fs.existsSync(expectedPath) || isInUpdate()) {
-    fs.writeFileSync(expectedPath, code);
+    fs.writeFileSync(expectedPath, finalCode);
   } else {
     const expected = fs.readFileSync(expectedPath).toString();
-    expect(code, `Test base: ${base}`).toEqual(
+
+    expect(finalCode, `Test base: ${base}`).toEqual(
       expected.replace(new RegExp('\r\n', 'g'), '\n'),
     );
   }
