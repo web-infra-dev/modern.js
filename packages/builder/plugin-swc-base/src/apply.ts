@@ -1,6 +1,5 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-import path from 'path';
 import type { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
@@ -22,6 +21,11 @@ import {
   TransformConfig,
   Output,
 } from './types';
+import {
+  CORE_JS_PATH,
+  CORE_JS_DIR_PATH,
+  SWC_HELPERS_DIR_PATH,
+} from './constants';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
 const BUILDER_SWC_DEBUG_MODE = 'BUILDER_SWC_DEBUG_MODE';
@@ -39,8 +43,6 @@ export function applyBuilderPluginSwc(
   options: ApplyBuilderPluginSwcOptions,
 ) {
   const { transformLoader, pluginConfig } = options;
-  const CORE_JS_PATH = require.resolve('core-js/package.json');
-  const SWC_HELPERS_PATH = require.resolve('@swc/helpers/package.json');
 
   // Find if babel & ts loader exists
   api.modifyWebpackChain(async (chain, utils) => {
@@ -107,8 +109,8 @@ export function applyBuilderPluginSwc(
     const { extensions } = swc;
 
     extensions!.lockCorejsVersion ??= {
-      corejs: path.dirname(CORE_JS_PATH),
-      swcHelpers: path.dirname(SWC_HELPERS_PATH),
+      corejs: CORE_JS_DIR_PATH,
+      swcHelpers: SWC_HELPERS_DIR_PATH,
     };
 
     const rule = chain.module.rule(CHAIN_ID.RULE.JS);
