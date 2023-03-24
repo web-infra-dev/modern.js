@@ -51,6 +51,7 @@ async function createInternalBuildConfig(
         config.doc?.builderConfig?.output?.assetPrefix ?? base,
       )
     : '';
+  const enableMdxRs = config.doc?.markdown?.experimentalMdxRs ?? false;
 
   // Using latest browserslist in development to improve build performance
   const browserslist = {
@@ -137,8 +138,14 @@ async function createInternalBuildConfig(
           })
           .end()
           .use('mdx-loader')
-          .loader(require.resolve('@mdx-js/loader'))
-          .options(mdxOptions)
+          .when(
+            enableMdxRs,
+            config => config.loader(require.resolve('../mdx-rs-loader.cjs')),
+            config =>
+              config
+                .loader(require.resolve('@mdx-js/loader'))
+                .options(mdxOptions),
+          )
           .end();
 
         chain.resolve.extensions.prepend('.md').prepend('.mdx');

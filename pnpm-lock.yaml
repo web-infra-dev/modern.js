@@ -577,6 +577,7 @@ importers:
       globby: 11.1.0
       hast: ^1.0.0
       hast-util-from-html: ^1.0.0
+      highlight.js: ^11.7.0
       html-to-text: ^9.0.3
       husky: ^8
       lint-staged: ^11.2.6
@@ -644,6 +645,7 @@ importers:
       globby: 11.1.0
       hast: 1.0.0
       hast-util-from-html: 1.0.0
+      highlight.js: 11.7.0
       html-to-text: 9.0.3
       lodash-es: 4.17.21
       mdast-util-mdxjs-esm: 1.3.0
@@ -22771,6 +22773,11 @@ packages:
 
   /highlight.js/10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
+    dev: false
+
+  /highlight.js/11.7.0:
+    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
+    engines: {node: '>=12.0.0'}
     dev: false
 
   /history/4.10.1:

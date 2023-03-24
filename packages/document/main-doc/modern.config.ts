@@ -79,6 +79,7 @@ export default defineConfig({
     themeDir: path.join(__dirname, 'src'),
     markdown: {
       checkDeadLinks: process.env.NODE_ENV === 'production',
+      experimentalMdxRs: false,
     },
     head: [
       `
