@@ -1,5 +1,7 @@
 import path from 'path';
-import { fs, ROUTE_MANIFEST, ROUTE_MINIFEST_FILE } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type {
   // Browser,
   Page,
@@ -279,7 +281,7 @@ const supportHandleLoaderError = async (errors: string[], appPort: number) => {
 
 const supportLoadChunksParallelly = async () => {
   const distDir = path.join(appDir, './dist');
-  const manifestFile = path.join(distDir, ROUTE_MINIFEST_FILE);
+  const manifestFile = path.join(distDir, ROUTE_MANIFEST_FILE);
   expect(await fs.pathExists(manifestFile)).toBeTruthy();
   const threeBundleFile = path.join(distDir, 'static/js/three.js');
   const thressBundleContent = await fs.readFile(threeBundleFile);

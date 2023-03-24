@@ -10,7 +10,7 @@ import {
   isRouteErrorResponse,
   type Router,
   type StaticHandlerContext,
-} from '@modern-js/utils/remix-router';
+} from '@modern-js/utils/universal/remix-router';
 import { renderNestedRoute } from './nestedRoutes';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
