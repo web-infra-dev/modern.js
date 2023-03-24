@@ -5,7 +5,6 @@ import {
   writeReadableStreamToWritable,
   Response as NodeResponse,
 } from '@remix-run/node';
-import { transformNestedRoutes } from '@modern-js/utils/nestedRoutes';
 import {
   createStaticHandler,
   ErrorResponse,
@@ -15,6 +14,7 @@ import {
 import { isPlainObject } from '@modern-js/utils/lodash';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { matchEntry, ServerContext } from '../common/utils';
+import { transformNestedRoutes } from './nestedRoutes';
 import { createDeferredReadableStream } from './response';
 
 // Polyfill Web Fetch API
