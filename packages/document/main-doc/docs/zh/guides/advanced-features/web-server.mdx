@@ -48,15 +48,18 @@ Modern.js 提供的 Hook 用于控制 Web Server 中的内置逻辑，所有的�
 目前提供了两种 Hook，分别是 `AfterMatch` 和 `AfterRender`，可以用于修改渲染结果。可以在 `server/index.ts` 中这样写：
 
 ```ts
-import type { AfterMatchHook, AfterRenderHook } from '@modern-js/runtime/server';
+import type {
+  AfterMatchHook,
+  AfterRenderHook,
+} from '@modern-js/runtime/server';
 
 export const afterMatch: AfterMatchHook = (ctx, next) => {
   next();
-}
+};
 
 export const afterRender: AfterRenderHook = (ctx, next) => {
   next();
-}
+};
 ```
 
 项目在使用 Hook 时，应该有以下最佳实践：
@@ -78,8 +81,10 @@ Modern.js 默认提供了一套 API 供项目使用：
 ```ts
 import { Middlewre } from '@modern-js/runtime/server';
 
-export const middleware = (context, next) => {
-  const { source: { req, res } } = context;
+export const middleware: Middlewre = (context, next) => {
+  const {
+    source: { req, res },
+  } = context;
   console.log(req.url);
   next();
 };

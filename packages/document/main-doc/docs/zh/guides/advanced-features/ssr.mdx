@@ -48,6 +48,7 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 1. 当以客户端路由的方式请求页面时，Modern.js 会发送一个 HTTP 请求，服务端接收到请求后执行页面对应的 Data Loader 函数，然后将执行结果作为请求的响应返回浏览器。
 
 2. 使用 Data Loader 时，数据获取发生在渲染前，Modern.js 也仍然支持在组件渲染时获取数据。更多相关内容可以查看[数据获取](/guides/basic-features/data-fetch)。
+
 :::
 
 
@@ -413,10 +414,10 @@ export default Page;
 从 Data Loader 文件导入类型时，需要使用 import type 语法，保证只导入类型信息，这样可以避免 Data Loader 的代码打包到前端产物的 bundle 文件中。
 
 所以，这里的导入方式为：`import type { Data } from './page.loader'`;
+
 :::
 
 也可以通过 `useAsyncValue` 获取 Data Loader 返回的异步数据。例如：
-
 
 ```tsx title='page.tsx'
 import { useAsyncValue } from '@modern-js/runtime/router';
