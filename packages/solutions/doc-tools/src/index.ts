@@ -25,12 +25,10 @@ interface DocToolsOptions {
 
 const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
 
-export default ({
-  configFiles = MODERN_CONFIG_FILES,
-  extraDocConfig = {},
-}: DocToolsOptions): CliPlugin => ({
+export default (options: DocToolsOptions = {}): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
+    const { configFiles = MODERN_CONFIG_FILES, extraDocConfig = {} } = options;
     const { dev, build, serve } = await import('@modern-js/doc-core');
     let server: ServerInstance | undefined;
     let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
