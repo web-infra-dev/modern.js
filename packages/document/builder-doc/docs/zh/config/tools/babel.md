@@ -4,11 +4,6 @@
 
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
 
-<!--
-:::warning
-在使用 Rspack 作为打包工具时，使用该配置项将在一定程度上拖慢 Rspack 构建速度。
-::: -->
-
 ### Function 类型
 
 当 `tools.babel` 为 Function 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数提供了一些可以直接调用的工具函数：

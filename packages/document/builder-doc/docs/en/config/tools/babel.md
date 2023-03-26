@@ -4,10 +4,6 @@
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
-<!-- :::warningd
-When using Rspack as a packaging tool, using this configuration item will slow down Rspack builds a bit.
-::: -->
-
 ### Function Type
 
 When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result. The second parameter provides some util functions that can be called directly:

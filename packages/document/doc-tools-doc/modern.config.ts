@@ -14,6 +14,9 @@ const isProd = () => process.env.NODE_ENV === 'production';
 export default defineConfig({
   plugins: [docTools()],
   doc: {
+    markdown: {
+      experimentalMdxRs: true,
+    },
     root: path.join(__dirname, 'docs'),
     title: 'Modern.js Doc',
     description: 'A modern web framework for building document site',

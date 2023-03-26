@@ -78,8 +78,8 @@ export default defineConfig({
     lang: 'zh',
     themeDir: path.join(__dirname, 'src'),
     markdown: {
-      checkDeadLinks: process.env.NODE_ENV === 'production',
-      experimentalMdxRs: false,
+      checkDeadLinks: true,
+      experimentalMdxRs: true,
     },
     head: [
       `
@@ -134,7 +134,7 @@ export default defineConfig({
         dataUriLimit: 0,
       },
       dev: {
-        startUrl: true,
+        startUrl: false,
       },
       source: {
         alias: {

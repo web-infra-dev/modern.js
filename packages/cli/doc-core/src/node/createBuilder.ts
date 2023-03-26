@@ -21,8 +21,16 @@ import { createMDXOptions } from './mdx';
 import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
 import createTailwindConfig from './tailwindOptions';
 import { serveSearchIndexMiddleware } from './searchIndex';
+import { checkLinks } from './mdx/remarkPlugins/checkDeadLink';
 
 const require = createRequire(import.meta.url);
+
+export interface MdxRsLoaderCallbackContext {
+  resourcePath: string;
+  links: string[];
+  root: string;
+  base: string;
+}
 
 async function createInternalBuildConfig(
   userRoot: string,
@@ -140,11 +148,18 @@ async function createInternalBuildConfig(
           .use('mdx-loader')
           .when(
             enableMdxRs,
-            config => config.loader(require.resolve('../mdx-rs-loader.cjs')),
-            config =>
-              config
-                .loader(require.resolve('@mdx-js/loader'))
-                .options(mdxOptions),
+            c =>
+              c.loader(require.resolve('../mdx-rs-loader.cjs')).options({
+                callback: (context: MdxRsLoaderCallbackContext) => {
+                  const { links, base, root, resourcePath } = context;
+                  checkLinks(links, resourcePath, root, base);
+                },
+                root: userRoot,
+                base,
+                defaultLang: config.doc?.lang || '',
+              }),
+            c =>
+              c.loader(require.resolve('@mdx-js/loader')).options(mdxOptions),
           )
           .end();
 

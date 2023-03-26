@@ -8,5 +8,6 @@ export default {
     format: 'esm',
     target: 'es2020',
     sourceMap: true,
+    externals: ['@modern-js/mdx-rs-binding', '@rspack/core'],
   },
 };

@@ -144,9 +144,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
       {
         collapsible: false,
         text: getText('指南', 'Guide'),
-        items: [
-          getLink('/plugins/introduction'),
-        ],
+        items: [getLink('/plugins/introduction')],
       },
       {
         collapsible: false,
@@ -174,6 +172,7 @@ export default defineConfig({
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     markdown: {
       checkDeadLinks: isProd,
+      experimentalMdxRs: true,
     },
     themeConfig: {
       footer: {
