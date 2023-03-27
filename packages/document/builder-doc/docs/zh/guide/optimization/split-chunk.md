@@ -23,10 +23,10 @@ Builder 支持设置以下几种拆包策略：
 
 Builder 默认采用 `split-by-experience` 策略，这是我们根据经验制定的策略。具体来说，当你的项目中引用了以下 npm 包时，它们会自动被拆分为单独的 chunk：
 
-- `lib-polyfill.js`：包含 `core-js`, `@babel/runtime`, `@swc/helpers`。
-- `lib-react.js`：包含 `react`, `react-dom`。
-- `lib-router.js`：包含 `react-router`, `react-router-dom`, `history`, `@remix-run/router`。
-- `lib-lodash.js`：包含 `lodash`, `lodash-es`。
+- `lib-polyfill.js`：包含 `core-js`，`@babel/runtime`，`@swc/helpers`。
+- `lib-react.js`：包含 `react`，`react-dom`。
+- `lib-router.js`：包含 `react-router`，`react-router-dom`，`history`，`@remix-run/router`。
+- `lib-lodash.js`：包含 `lodash`，`lodash-es`。
 - `lib-antd.js`：包含 `antd`。
 - `lib-arco.js`：包含 `@arco-design/web-react`。
 - `lib-semi.js`：包含 `@douyinfe/semi-ui`。
@@ -148,7 +148,7 @@ export default {
       strategy: 'split-by-experience',
       forceSplitting: {
         // 将 lodash 拆分为一个 chunk
-        lodash: [/node_modules\/lodash/, /node_modules\/lodash-es/],
+        lodash: [/node_modules\/lodash/，/node_modules\/lodash-es/],
       },
     },
   },
