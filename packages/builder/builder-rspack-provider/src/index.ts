@@ -1,3 +1,4 @@
+export { getRspackVersion } from './shared/getRspackVersion';
 export { builderRspackProvider } from './provider';
 export type { BuilderRspackProvider } from './provider';
 
