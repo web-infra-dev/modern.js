@@ -138,19 +138,20 @@ It is worth noting that these two custom capabilities can be used together with 
 
 ### Custom Group
 
-Builder supports custom group, which is more flexible than the built-in strategies, and simpler than writing webpack config. For example:
+Builder supports custom group, which is more flexible than the built-in strategies, and simpler than writing webpack config.
 
-```ts
+For example, split the `axios` library under node_modules into `axios.js`:
+
+```js
 export default {
-  performance: {
-    chunkSplit: {
-      strategy: 'split-by-experience',
-      forceSplitting: {
-        // Split lodash into a Chunk
-        lodash: [/node_modules\/lodash/, /node_modules\/lodash-es/],
-      },
-    },
-  },
+   performance: {
+     chunkSplit: {
+       strategy: 'split-by-experience',
+       forceSplitting: {
+         axios: /node_modules\/axios/,
+       },
+     },
+   },
 };
 ```
 
