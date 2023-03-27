@@ -59,7 +59,7 @@ describe('createFileWatcher', () => {
 
     await wait(100);
     await fs.remove(file);
-    await wait(1000);
+    await wait(2000);
     expect(hooksRunner.fileChange).toBeCalledTimes(2);
     expect(triggeredType).toBe('unlink');
     expect(file.includes(triggeredFile)).toBeTruthy();

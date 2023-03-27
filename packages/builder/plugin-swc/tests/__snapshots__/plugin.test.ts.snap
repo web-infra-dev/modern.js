@@ -34,12 +34,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                   "not op_mini all",
                 ],
               },
-              "extensions": {
-                "lockCorejsVersion": {
-                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-                },
-              },
+              "extensions": {},
               "jsc": {
                 "transform": {
                   "react": {
@@ -73,12 +68,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                   "not op_mini all",
                 ],
               },
-              "extensions": {
-                "lockCorejsVersion": {
-                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-                },
-              },
+              "extensions": {},
               "jsc": {
                 "transform": {
                   "react": {
@@ -115,12 +105,7 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
                 "not op_mini all",
               ],
             },
-            "extensions": {
-              "lockCorejsVersion": {
-                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-              },
-            },
+            "extensions": {},
             "jsc": {
               "transform": {
                 "react": {
@@ -158,12 +143,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
                 "ios_saf >= 11",
               ],
             },
-            "extensions": {
-              "lockCorejsVersion": {
-                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-              },
-            },
+            "extensions": {},
             "jsc": {
               "transform": {
                 "react": {
@@ -197,12 +177,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
                 "node >= 14",
               ],
             },
-            "extensions": {
-              "lockCorejsVersion": {
-                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-              },
-            },
+            "extensions": {},
             "jsc": {
               "transform": {
                 "react": {
@@ -238,12 +213,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
                 "not op_mini all",
               ],
             },
-            "extensions": {
-              "lockCorejsVersion": {
-                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-              },
-            },
+            "extensions": {},
             "jsc": {
               "transform": {
                 "react": {
@@ -279,12 +249,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
                 "not op_mini all",
               ],
             },
-            "extensions": {
-              "lockCorejsVersion": {
-                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-              },
-            },
+            "extensions": {},
             "jsc": {
               "transform": {
                 "react": {
@@ -320,12 +285,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
                 "not op_mini all",
               ],
             },
-            "extensions": {
-              "lockCorejsVersion": {
-                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-              },
-            },
+            "extensions": {},
             "jsc": {
               "transform": {
                 "react": {
@@ -346,6 +306,8 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
 {
   "minimizer": [
     SwcMinimizerPlugin {
+      "minifyCss": [Function],
+      "minifyJs": [Function],
       "minifyOptions": {
         "cssMinify": {},
         "jsMinify": {
@@ -388,12 +350,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                   "not op_mini all",
                 ],
               },
-              "extensions": {
-                "lockCorejsVersion": {
-                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-                },
-              },
+              "extensions": {},
               "jsc": {
                 "transform": {
                   "react": {
@@ -427,12 +384,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                   "not op_mini all",
                 ],
               },
-              "extensions": {
-                "lockCorejsVersion": {
-                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-                },
-              },
+              "extensions": {},
               "jsc": {
                 "transform": {
                   "react": {
