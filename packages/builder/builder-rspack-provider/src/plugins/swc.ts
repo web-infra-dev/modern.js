@@ -5,6 +5,7 @@ import {
   getBrowserslistWithDefault,
   logger,
   setConfig,
+  isWebTarget,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -42,7 +43,7 @@ export const builderPluginSwc = (): BuilderPlugin => ({
       const { entry } = api.context;
       if (['modern-web', 'web'].includes(target) && mode === 'entry') {
         Object.keys(entry).forEach(entryName => {
-          chain.entry(entryName).add(getPolyfillEntry());
+          chain.entry(entryName).prepend(getPolyfillEntry());
         });
       }
     });
@@ -119,12 +120,6 @@ async function setBrowserslist(
   if (browserslist) {
     rspackConfig.builtins!.presetEnv!.targets = browserslist;
   }
-}
-
-function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
-  return ['modern-web', 'web'].some(t =>
-    (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
-  );
 }
 
 async function applyCoreJs(rspackConfig: RspackConfig) {

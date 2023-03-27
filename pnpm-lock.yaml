@@ -263,6 +263,7 @@ importers:
   packages/builder/plugin-node-polyfill:
     specifiers:
       '@modern-js/builder': workspace:*
+      '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
@@ -270,6 +271,7 @@ importers:
       typescript: 4.7.4
       wireit: ^0.7.1
     dependencies:
+      '@modern-js/builder-shared': link:../builder-shared
       node-libs-browser: 2.2.1
     devDependencies:
       '@modern-js/builder': link:../builder
@@ -4488,6 +4490,29 @@ importers:
       '@modern-js/builder': link:../../../../../packages/builder/builder
       '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/cases/node-polyfill:
+    specifiers:
+      '@modern-js/builder-plugin-node-polyfill': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@modern-js/utils': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder-plugin-node-polyfill': link:../../../../../packages/builder/plugin-node-polyfill
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@modern-js/utils': link:../../../../../packages/toolkit/utils
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -10769,7 +10794,7 @@ packages:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.4
       '@types/istanbul-reports': 3.0.1
-      '@types/node': 14.18.35
+      '@types/node': 18.11.17
       '@types/yargs': 16.0.4
       chalk: 4.1.2
 
