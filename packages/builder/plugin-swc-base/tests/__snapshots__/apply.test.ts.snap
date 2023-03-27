@@ -1,0 +1,39 @@
+// Vitest Snapshot v1
+
+exports[`should apply swc config correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "",
+            "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "coreJs": "3.26",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "extensions": {},
+              "jsc": {
+                "transform": {
+                  "react": {
+                    "refresh": true,
+                    "runtime": "classic",
+                  },
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
