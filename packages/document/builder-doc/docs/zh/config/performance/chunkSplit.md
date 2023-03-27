@@ -33,30 +33,35 @@ export type ChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
 
 ### chunkSplit.strategy
 
-Builder 支持六种类型的拆包策略:
+Builder 支持设置以下几种拆包策略：
 
-- `split-by-experience`: 根据经验内置拆分策略
-- `split-by-module`: 根据 NPM 包拆分，每个 NPM 包一个 chunk
-- `split-by-size`: 根据 chunk 大小拆分
-- `all-in-one`: 所有代码打包到一个 chunk
-- `single-vendor`: node_modules 中的代码打包到一个单独的 chunk
-- `custom`: 自定义拆包配置
+- `split-by-experience`: 根据经验制定的拆分策略，自动将一些常用的 npm 包拆分为体积适中的 chunk。
+- `split-by-module`: 按 NPM 包的粒度拆分，每个 NPM 包对应一个 chunk。
+- `split-by-size`：根据模块大小自动进行拆分。
+- `all-in-one`: 将所有代码全部打包到一个 chunk 中。
+- `single-vendor`: 将所有 NPM 包的代码打包到一个单独的 chunk 中。
+- `custom`: 自定义拆包配置。
 
-Builder 默认采用 `split-by-experience` 策略，具体来说，以下的 NPM 包分组会被拆分为单独的 chunk:
+### 默认拆包策略
 
-- `react` 和 `react-dom`
-- `react-router`、`history` 和 `react-router-dom`
-- `antd` 组件库
-- `semi` 组件库
-- `arco` 组件库
-- `@babel/runtime` 的代码(也包括 `@babel/runtime-corejs2`、 `@babel/runtime-corejs3`)
-- `lodash` 和 `lodash-es`
-- `core-js`
+Builder 默认采用 `split-by-experience` 策略，这是我们根据经验制定的策略。具体来说，当你的项目中引用了以下 npm 包时，它们会自动被拆分为单独的 chunk：
+
+- `lib-polyfill.js`：包含 `core-js`，`@babel/runtime`，`@swc/helpers`。
+- `lib-react.js`：包含 `react`，`react-dom`。
+- `lib-router.js`：包含 `react-router`，`react-router-dom`，`history`，`@remix-run/router`。
+- `lib-lodash.js`：包含 `lodash`，`lodash-es`。
+- `lib-antd.js`：包含 `antd`。
+- `lib-arco.js`：包含 `@arco-design/web-react`。
+- `lib-semi.js`：包含 `@douyinfe/semi-ui`。
+
+:::tip
+如果项目中没有安装或引用以上 npm 包，则不会生成相应的 chunk。
+:::
 
 如果你想使用其他拆包策略，可以通过 `performance.chunkSplit.strategy` 配置项来指定。
 
 :::tip
-在使用 Rspack 作为打包工具时，不支持采用 `split-by-module` 策略。
+在使用 Rspack 作为打包工具时，暂时不支持采用 `split-by-module` 策略。
 :::
 
 ### chunkSplit.minSize
