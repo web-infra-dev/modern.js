@@ -4,10 +4,6 @@ import { Script } from 'node:vm';
 import * as swc from '@swc/core';
 import { expect } from 'vitest';
 import { Output, TransformConfig } from '@modern-js/swc-plugins';
-import {
-  CORE_JS_DIR_PATH,
-  SWC_HELPERS_DIR_PATH,
-} from '@modern-js/builder-plugin-swc-base';
 
 export function isInUpdate(): boolean {
   return process.env.SNAPSHOT_UPDATE === '1';
@@ -15,26 +11,23 @@ export function isInUpdate(): boolean {
 
 export function replace(
   origin: string,
-  replaces: Array<{ match: string; mark: string }>,
+  replaces: Array<{ match: string | RegExp; mark: string }>,
 ) {
   return replaces.reduce((pre, cur) => {
-    const _match = new RegExp(
-      cur.match.replace(new RegExp('\\+', 'g'), `\\+`),
-      'g',
-    );
-    return pre.replace(_match, cur.mark);
+    const match = new RegExp(cur.match, 'g');
+    return pre.replace(match, cur.mark);
   }, origin);
 }
 
 export function replaceCorejsAndSwcHelps(source: string) {
   return replace(source, [
     {
-      mark: '<SWC_HELPER>',
-      match: SWC_HELPERS_DIR_PATH,
+      mark: '"<SWC_HELPER>',
+      match: /\".*@swc.helpers/,
     },
     {
-      mark: '<CORE_JS>',
-      match: CORE_JS_DIR_PATH,
+      mark: '"<CORE_JS>',
+      match: /\".*node_modules.core-js/,
     },
   ]);
 }

@@ -20,12 +20,7 @@ exports[`should apply swc config correctly 1`] = `
                   "not op_mini all",
                 ],
               },
-              "extensions": {
-                "lockCorejsVersion": {
-                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
-                },
-              },
+              "extensions": {},
               "jsc": {
                 "transform": {
                   "react": {
