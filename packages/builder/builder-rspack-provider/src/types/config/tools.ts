@@ -29,7 +29,7 @@ export type ToolsRspackConfig = ChainedConfig<
   ModifyRspackConfigUtils
 >;
 
-export interface ToolsConfig extends Omit<SharedToolsConfig, 'babel'> {
+export interface ToolsConfig extends SharedToolsConfig {
   htmlPlugin?: false | ToolsHtmlPluginConfig;
   postcss?: ToolsPostCSSLoaderConfig;
   rspack?: ToolsRspackConfig;

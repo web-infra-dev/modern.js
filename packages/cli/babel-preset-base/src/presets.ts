@@ -1,4 +1,5 @@
 import { getBrowserslist } from '@modern-js/utils';
+import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils/constants';
 import { createBabelChain } from './babel-chain';
 import { IBaseBabelConfigOption } from '.';
 
@@ -68,13 +69,7 @@ export const getPresetChain = (option: IBaseBabelConfigOption) => {
 
   if (!(useTsLoader || disableTypescriptPreset)) {
     const typescriptPresetOptions = {
-      allowNamespaces: true,
-      allExtensions: true,
-      allowDeclareFields: true,
-      // aligns Babel's behavior with TypeScript's default behavior.
-      // https://babeljs.io/docs/en/babel-preset-typescript#optimizeconstenums
-      optimizeConstEnums: true,
-      isTSX: true,
+      ...DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
       ...getPresetOptions(typescriptOptions),
     };
     chain
