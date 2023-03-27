@@ -45,18 +45,15 @@ interface SplitChunksContext {
 
 function getUserDefinedCacheGroups(forceSplitting: ForceSplitting): CacheGroup {
   const cacheGroups: CacheGroup = {};
+  const pairs = Array.isArray(forceSplitting)
+    ? forceSplitting.map(
+        (regexp, index) => [`force-split-${index}`, regexp] as const,
+      )
+    : Object.entries(forceSplitting);
 
-  const keys = Array.isArray(forceSplitting)
-    ? forceSplitting.map((_, index) => `force-split-${index}`)
-    : Object.keys(forceSplitting);
-
-  const regexps = Array.isArray(forceSplitting)
-    ? forceSplitting
-    : Object.values(forceSplitting);
-
-  keys.forEach((key, index) => {
+  pairs.forEach(([key, regexp]) => {
     cacheGroups[key] = {
-      test: regexps[index],
+      test: regexp,
       name: key,
       chunks: 'all',
       // Ignore minimum size, minimum chunks and maximum requests and always create chunks for user defined cache group.
