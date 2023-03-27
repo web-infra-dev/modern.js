@@ -58,15 +58,10 @@
     "webpack": "^5.76.2"
   },
   "dependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-react": "^7.17.12",
-    "@babel/preset-typescript": "^7.17.12",
+    "@modern-js/builder-plugin-swc-base": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/swc-plugins": "0.2.0",
-    "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.4.12",
-    "core-js": "^3.26.0"
+    "@modern-js/utils": "workspace:*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

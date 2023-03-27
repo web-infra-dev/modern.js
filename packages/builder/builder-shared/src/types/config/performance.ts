@@ -60,9 +60,11 @@ export type CacheGroup = webpack.Configuration extends {
   ? P
   : never;
 
+export type ForceSplitting = RegExp[] | Record<string, RegExp>;
+
 export interface BaseSplitRules {
   strategy: string;
-  forceSplitting?: Array<RegExp>;
+  forceSplitting?: ForceSplitting;
   override?: SplitChunks;
 }
 

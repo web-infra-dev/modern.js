@@ -8,30 +8,36 @@ A variety of chunk splitting strategies are built into Builder, which can meet t
 
 > The chunk splitting config of Builder is in [performance.chunkSplit](/en/api/config-performance.html#performancechunksplit).
 
-The Builder includes the following chunk splitting strategies:
+Builder supports the following chunk splitting strategies:
 
-- `split-by-experience`: Built-in splitting strategies (experienced splitting strategies by Builder).
-- `split-by-module`: Split according to modules, each NPM package is a chunk.
-- `all-in-one`: Both business code and third-party code are in one chunk.
-- `single-vendor:` Third-party code is in a vendor chunk.
-- `split-by-size`: Split according to chunk size.
+- `split-by-experience`: an empirical splitting strategy, automatically splits some commonly used npm packages into chunks of moderate size.
+- `split-by-module`: split by NPM package granularity, each NPM package corresponds to a chunk.
+- `split-by-size`: automatically split according to module size.
+- `all-in-one`: bundle all codes into one chunk.
+- `single-vendor`: bundle all NPM packages into a single chunk.
+- `custom`: custom chunk splitting strategy.
 
 ### split-by-experience
 
-#### behaviour
+#### Behavior
 
-Based on past experience, built-in split groups include:
+Builder adopts the `split-by-experience` strategy by default, which is a strategy we have developed from experience. Specifically, when the following npm packages are referenced in your project, they will automatically be split into separate chunks:
 
-- React (react, react-dom)
-- Router (react-router, react-router-dom, history)
-- Polyfill (core-js, @babel/runtime)
-- Semi (@ies/semi, @douyinfe/semi-ui)
-- Arco (@arco-design/web-react)
-- Lodash (lodash, lodash-es)
+- `lib-polyfill.js`: includes `core-js`, `@babel/runtime`, `@swc/helpers`.
+- `lib-react.js`: includes `react`, `react-dom`.
+- `lib-router.js`: includes `react-router`, `react-router-dom`, `history`, `@remix-run/router`.
+- `lib-lodash.js`: includes `lodash`, `lodash-es`.
+- `lib-antd.js`: includes `antd`.
+- `lib-arco.js`: includes `@arco-design/web-react`.
+- `lib-semi.js`: includes `@douyinfe/semi-ui`.
 
 This strategy groups commonly used packages and then splits them into separate chunks. Generally, the number of chunks is not large, which is suitable for most applications and is also our recommended strategy.
 
-#### config
+:::tip
+If the above npm packages are not installed or used in the project, the corresponding chunk will not be generated.
+:::
+
+#### Config
 
 ```ts
 export default {
@@ -45,15 +51,15 @@ export default {
 
 ### split-by-module
 
-#### behaviour
+#### Behavior
 
 Split each NPM package into a Chunk.
 
-::: warning warning
+::: warning
 This strategy will split the node_modules in the most granular way, and at the same time, under HTTP/2, multiplexing will speed up the loading time of resources.However, in non-HTTP/2 environments, it needs to be used with caution because of HTTP head-of-line blocking problem.
 :::
 
-#### config
+#### Config
 
 ```ts
 export default {
@@ -67,11 +73,11 @@ export default {
 
 ### all-in-one
 
-#### behaviour
+#### Behavior
 
 This strategy puts business code and third-party dependencies in the same Chunk.
 
-#### config
+#### Config
 
 ```ts
 export default {
@@ -85,11 +91,11 @@ export default {
 
 ### single-vendor
 
-#### behaviour
+#### Behavior
 
 This strategy puts third-party dependencies in one Chunk, and business code in another Chunk.
 
-#### config
+#### Config
 
 ```ts
 export default {
@@ -103,11 +109,11 @@ export default {
 
 ### split-by-size
 
-#### behaviour
+#### Behavior
 
-Under this strategy, after setting `minSize`, `maxSize` to a fixed value, webpack will automatically split them without extra config.
+Under this strategy, after setting `minSize`, `maxSize` to a fixed value, Builder will automatically split them without extra config.
 
-#### config
+#### Config
 
 ```ts
 export default {
@@ -132,19 +138,20 @@ It is worth noting that these two custom capabilities can be used together with 
 
 ### Custom Group
 
-Builder supports custom group, which is more flexible than the built-in strategies, and simpler than writing webpack config. For example:
+Builder supports custom group, which is more flexible than the built-in strategies, and simpler than writing webpack config.
 
-```ts
+For example, split the `axios` library under node_modules into `axios.js`:
+
+```js
 export default {
-  performance: {
-    chunkSplit: {
-      strategy: 'split-by-experience',
-      forceSplitting: {
-        // Split lodash into a Chunk
-        lodash: [/node_modules\/lodash/, /node_modules\/lodash-es/],
-      },
-    },
-  },
+   performance: {
+     chunkSplit: {
+       strategy: 'split-by-experience',
+       forceSplitting: {
+         axios: /node_modules\/axios/,
+       },
+     },
+   },
 };
 ```
 
