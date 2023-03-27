@@ -130,15 +130,15 @@ async function createInternalBuildConfig(
         chain.module
           .rule('MDX')
           .test(/\.mdx?$/)
+          .use('mdx-loader')
+          .loader(require.resolve('@mdx-js/loader'))
+          .options(mdxOptions)
+          .end()
           .use('string-replace-loader')
           .loader(require.resolve('string-replace-loader'))
           .options({
             multiple: config.doc?.replaceRules || [],
           })
-          .end()
-          .use('mdx-loader')
-          .loader(require.resolve('@mdx-js/loader'))
-          .options(mdxOptions)
           .end();
 
         chain.resolve.extensions.prepend('.md').prepend('.mdx');
