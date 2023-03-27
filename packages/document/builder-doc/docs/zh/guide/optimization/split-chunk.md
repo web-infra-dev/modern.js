@@ -139,23 +139,24 @@ export default {
 
 ### 自定义分组
 
-Builder 支持自定义拆包分组，这样比内置拆包策略更灵活，同时比手写 webpack 配置更简单。比如:
+Builder 支持自定义拆包分组，这样比内置拆包策略更灵活，同时比手写 webpack 配置更简单。
 
-```ts
+比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
+
+```js
 export default {
   performance: {
     chunkSplit: {
       strategy: 'split-by-experience',
       forceSplitting: {
-        // 将 lodash 拆分为一个 chunk
-        lodash: [/node_modules\/lodash/，/node_modules\/lodash-es/],
+        axios: /node_modules\/axios/,
       },
     },
   },
 };
 ```
 
-通过 `forceSplitting` 配置，你可以很方便把某些包拆分为一个 chunk。
+通过 `forceSplitting` 配置，你可以很方便把某些模块拆分为一个 chunk。
 
 ### 自定义 webpack 拆包配置
 

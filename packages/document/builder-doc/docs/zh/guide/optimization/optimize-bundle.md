@@ -95,16 +95,17 @@ builder.addPlugins([builderPluginImageCompress()]);
 
 良好的拆包策略对于提升应用的加载性能是十分重要的，可以充分利用浏览器的缓存机制，减少请求数量，加快页面加载速度。
 
-在 Builder 中内置了[多种拆包策略](/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置，比如下面的配置:
+在 Builder 中内置了[多种拆包策略](/guide/optimization/split-chunk)，可以满足大部分应用的需求，你也可以根据自己的业务场景，自定义拆包配置。
 
-```ts
+比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
+
+```js
 export default {
   performance: {
     chunkSplit: {
       strategy: 'split-by-experience',
       forceSplitting: {
-        // 比如将 react-query 包拆分为一个 Chunk
-        react_query: [/node_modules\/react-query/],
+        axios: /node_modules\/axios/,
       },
     },
   },

@@ -21,9 +21,16 @@ export const BuildCacheOptionsSchema: ZodType<BuildCacheOptions> = z.partialObj(
   { cacheDirectory: z.string() },
 );
 
+export const ForceSplittingSchema = z
+  .union([
+    z.array(z.instanceof(RegExp)),
+    z.record(z.string(), z.instanceof(RegExp)),
+  ])
+  .optional();
+
 export const BaseSplitRulesSchema = z.object({
   strategy: z.string(),
-  forceSplitting: z.array(z.instanceof(RegExp)).optional(),
+  forceSplitting: ForceSplittingSchema,
   override: z.any().optional(),
 });
 
