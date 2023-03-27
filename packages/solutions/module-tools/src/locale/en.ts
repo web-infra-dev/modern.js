@@ -1,11 +1,10 @@
 import { chalk } from '@modern-js/utils';
 
-const noDevTools = `
-There are no DevTools available, you can learn about them and choose to use them by following the link options.
-- ${chalk.underline(
-  chalk.blue('[Storybook]'),
-  'https://modernjs.dev/module-tools/guide/basic/using-storybook.html',
-)}
+const noDevTools = `There are no DevTools available, you can learn about them and choose to use them by following the link options.
+  - ${chalk.underline(
+    chalk.blue('[Storybook]'),
+    'https://modernjs.dev/module-tools/guide/basic/using-storybook.html',
+  )}
 `;
 
 export const EN_LOCALE = {

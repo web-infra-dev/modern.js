@@ -1,4 +1,5 @@
 import { join } from 'path';
+import { logger } from '@modern-js/utils/logger';
 import type { CLIConfig } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
@@ -256,7 +257,7 @@ export const buildLib = async (
         buildType === 'bundle' ? 'Bundle' : 'Bundleless'
       }: ${format}_${target}]`;
 
-      console.info(
+      logger.info(
         await watchSectionTitle(titleText, SectionTitleStatus.Success),
       );
     }

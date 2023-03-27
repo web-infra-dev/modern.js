@@ -1,9 +1,4 @@
-import { chalk } from '@modern-js/utils';
 import type { BaseBuildConfig } from '../types';
-
-export const buildingText = chalk.blue('Building...');
-export const buildSuccessText = chalk.green('Build succeed');
-export const buildFailText = chalk.red('Build Failed:');
 
 export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   buildType: 'bundle',

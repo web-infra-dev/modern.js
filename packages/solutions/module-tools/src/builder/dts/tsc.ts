@@ -1,4 +1,5 @@
 import type { ChildProcess } from 'child_process';
+import { logger } from '@modern-js/utils';
 import type {
   BundlelessGeneratorDtsConfig,
   ITsconfig,
@@ -38,10 +39,10 @@ const resolveLog = async (
    */
   childProgress.stdout?.on('data', async data => {
     if (watch) {
-      console.info(
+      logger.info(
         await watchSectionTitle(BundlelessDtsLogPrefix, SectionTitleStatus.Log),
       );
-      console.info(data.toString());
+      logger.info(data.toString());
       if (data.toString().includes(watchDoneText)) {
         await watchFn();
       }
@@ -49,10 +50,10 @@ const resolveLog = async (
   });
   // 正常以下内容都不会触发，因为tsc 不会产生以下类型的log信息，不过防止意外情况
   childProgress.stdout?.on('error', error => {
-    console.error(error.message);
+    logger.error(error.message);
   });
   childProgress.stderr?.on('data', chunk => {
-    console.error(chunk.toString());
+    logger.error(chunk.toString());
   });
 };
 
