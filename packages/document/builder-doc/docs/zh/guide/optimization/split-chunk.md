@@ -8,28 +8,35 @@
 
 > Builder 的拆包配置集中在 [performance.chunkSplit](/api/config-performance.html#performancechunksplit) 中。
 
-Builder 中包括如下的拆包策略：
+Builder 支持设置以下几种拆包策略：
 
-- `split-by-experience`: 根据经验内置拆分策略（由 Builder 根据经验制定的拆分策略）。
-- `split-by-module`: 根据模块进行拆分，每一个 NPM 包就是一个 chunk。
-- `all-in-one`: 业务代码和第三方代码都在一个 chunk 中。
-- `single-vendor:` 第三方代码在一个 vendor chunk 中。
-- `split-by-size`: 根据模块大小进行拆分。
+- `split-by-experience`: 根据经验制定的拆分策略，自动将一些常用的 npm 包拆分为体积适中的 chunk。
+- `split-by-module`: 按 NPM 包的粒度拆分，每个 NPM 包对应一个 chunk。
+- `split-by-size`：根据模块大小自动进行拆分。
+- `all-in-one`: 将所有代码全部打包到一个 chunk 中。
+- `single-vendor`: 将所有 NPM 包的代码打包到一个单独的 chunk 中。
+- `custom`: 自定义拆包配置。
 
 ### split-by-experience
 
 #### 分包策略
 
-根据以往的经验，内置的拆分组包括：
+Builder 默认采用 `split-by-experience` 策略，这是我们根据经验制定的策略。具体来说，当你的项目中引用了以下 npm 包时，它们会自动被拆分为单独的 chunk：
 
-- React (react, react-dom)
-- Router (react-router, react-router-dom, history)
-- Polyfill (core-js, @babel/runtime)
-- Semi (@ies/semi, @douyinfe/semi-ui)
-- Arco (@arco-design/web-react)
-- Lodash (lodash, lodash-es)
+- `lib-polyfill.js`：包含 `core-js`, `@babel/runtime`, `@swc/helpers`。
+- `lib-react.js`：包含 `react`, `react-dom`。
+- `lib-router.js`：包含 `react-router`, `react-router-dom`, `history`, `@remix-run/router`。
+- `lib-lodash.js`：包含 `lodash`, `lodash-es`。
+- `lib-antd.js`：包含 `antd`。
+- `lib-arco.js`：包含 `@arco-design/web-react`。
+- `lib-semi.js`：包含 `@douyinfe/semi-ui`。
 
-这种拆包策略将常用的包进行分组，然后拆分为单独的 Chunk，一般 Chunk 的数量不会很多，适合绝大部分应用，同时也是我们推荐的拆包策略。
+这种拆包策略将常用的包进行分组，然后拆分为单独的 chunk，一般 chunk 的数量不会很多，适合绝大部分应用，同时也是我们推荐的拆包策略。
+
+
+:::tip
+如果项目中没有安装或引用以上 npm 包，则不会生成相应的 chunk。
+:::
 
 #### 配置
 
@@ -47,7 +54,7 @@ export default {
 
 #### 分包策略
 
-将每一个 NPM 包拆分为一个 Chunk。
+将每一个 NPM 包拆分为一个 chunk。
 
 ::: warning 注意
 这样会最细化地拆分 node_modules，同时在 HTTP/2 下因为多路复用会加快资源的加载时间，不过在非 HTTP/2 的环境下因为 HTTP 队头阻塞问题需要慎用。
@@ -69,7 +76,7 @@ export default {
 
 #### 分包策略
 
-此分包策略将业务代码、第三方依赖打包在同一个 Chunk 中。
+此分包策略将业务代码、第三方依赖打包在同一个 chunk 中。
 
 #### 配置
 
@@ -87,7 +94,7 @@ export default {
 
 #### 分包策略
 
-此分包策略将第三方依赖打包在一个 Chunk 中，业务代码打包在另外的 Chunk 中。
+此分包策略将第三方依赖打包在一个 chunk 中，业务代码打包在另外的 chunk 中。
 
 #### 配置
 
@@ -140,7 +147,7 @@ export default {
     chunkSplit: {
       strategy: 'split-by-experience',
       forceSplitting: {
-        // 将 lodash 拆分为一个 Chunk
+        // 将 lodash 拆分为一个 chunk
         lodash: [/node_modules\/lodash/, /node_modules\/lodash-es/],
       },
     },
@@ -148,7 +155,7 @@ export default {
 };
 ```
 
-通过 `forceSplitting` 配置，你可以很方便把某些包拆分为一个 Chunk。
+通过 `forceSplitting` 配置，你可以很方便把某些包拆分为一个 chunk。
 
 ### 自定义 webpack 拆包配置
 
