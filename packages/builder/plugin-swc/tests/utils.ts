@@ -23,11 +23,11 @@ export function replaceCorejsAndSwcHelps(source: string) {
   return replace(source, [
     {
       mark: '"<SWC_HELPER>',
-      match: /\".*@swc*.helpers/,
+      match: /\".*helpers(?!@)/,
     },
     {
       mark: '"<CORE_JS>',
-      match: /\".*node_modules*.core-js/,
+      match: /\".*core-js(?!@)/,
     },
   ]);
 }
