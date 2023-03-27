@@ -1,5 +1,27 @@
 // Vitest Snapshot v1
 
+exports[`plugins/splitChunks > should allow forceSplitting to be an object 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "axios": {
+          "chunks": "all",
+          "enforce": true,
+          "name": "axios",
+          "test": /axios/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
 exports[`plugins/splitChunks > should not split chunks when target is not 1`] = `
 {
   "optimization": {

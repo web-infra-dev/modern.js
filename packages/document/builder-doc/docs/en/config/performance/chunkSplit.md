@@ -4,6 +4,8 @@
 `performance.chunkSplit` is used to configure the chunk splitting strategy. The type of `ChunkSplit` is as follows:
 
 ```ts
+type ForceSplitting = RegExp[] | Record<string, RegExp>;
+
 interface BaseChunkSplit {
   strategy?:
     | 'split-by-module'
@@ -11,7 +13,7 @@ interface BaseChunkSplit {
     | 'all-in-one'
     | 'single-vendor';
   override?: SplitChunks;
-  forceSplitting?: Array<RegExp>;
+  forceSplitting?: ForceSplitting;
 }
 
 interface SplitBySize {
@@ -19,13 +21,13 @@ interface SplitBySize {
   minSize?: number;
   maxSize?: number;
   override?: SplitChunks;
-  forceSplitting?: Array<RegExp>;
+  forceSplitting?: ForceSplitting;
 }
 
 interface SplitCustom {
   strategy?: 'custom';
   splitChunks?: SplitChunks;
-  forceSplitting?: Array<RegExp>;
+  forceSplitting?: ForceSplitting;
 }
 
 export type ChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
@@ -103,18 +105,23 @@ export default {
 
 ### chunkSplit.forceSplitting
 
-- **Type:** `Array<RegExp>`
+- **Type:** `RegExp[] | Record<string, RegExp>`
 - **Default:** `[]`
 
-Via `performance.chunkSplit.forceSplitting`, you can specify the NPM packages that need to be forced to split. For example:
+Via `performance.chunkSplit.forceSplitting`, you can specify the NPM packages that need to be forced to split.
+
+For example, split the `axios` library under node_modules into `axios.js`:
 
 ```js
 export default {
-  performance: {
-    chunkSplit: {
-      forceSplitting: [/^@arco-design\/web-react/],
-    },
-  },
+   performance: {
+     chunkSplit: {
+       strategy: 'split-by-experience',
+       forceSplitting: {
+         axios: /node_modules\/axios/,
+       },
+     },
+   },
 };
 ```
 

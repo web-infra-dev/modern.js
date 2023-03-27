@@ -4,6 +4,8 @@
 `performance.chunkSplit` 用于配置 Builder 的拆包策略。配置项的类型 `ChunkSplit` 如下:
 
 ```ts
+type ForceSplitting = RegExp[] | Record<string, RegExp>;
+
 interface BaseChunkSplit {
   strategy?:
     | 'split-by-module'
@@ -11,7 +13,7 @@ interface BaseChunkSplit {
     | 'all-in-one'
     | 'single-vendor';
   override?: SplitChunks;
-  forceSplitting?: Array<RegExp>;
+  forceSplitting?: ForceSplitting;
 }
 
 interface SplitBySize {
@@ -19,13 +21,13 @@ interface SplitBySize {
   minSize?: number;
   maxSize?: number;
   override?: SplitChunks;
-  forceSplitting?: Array<RegExp>;
+  forceSplitting?: ForceSplitting;
 }
 
 interface SplitCustom {
   strategy?: 'custom';
   splitChunks?: SplitChunks;
-  forceSplitting?: Array<RegExp>;
+  forceSplitting?: ForceSplitting;
 }
 
 export type ChunkSplit = BaseChunkSplit | SplitBySize | SplitCustom;
@@ -102,16 +104,21 @@ export default {
 
 ### chunkSplit.forceSplitting
 
-- **类型：** `Array<RegExp>`
+- **类型：** `RegExp[] | Record<string, RegExp>`
 - **默认值：** `[]`
 
-通过 `performance.chunkSplit.forceSplitting` 配置项可以指定强制拆包的 NPM 包。比如:
+通过 `performance.chunkSplit.forceSplitting` 配置项可以将指定的模块强制拆分为一个独立的 chunk。
+
+比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
 
 ```js
 export default {
   performance: {
     chunkSplit: {
-      forceSplitting: [/^@arco-design\/web-react/],
+      strategy: 'split-by-experience',
+      forceSplitting: {
+        axios: /node_modules\/axios/,
+      },
     },
   },
 };
