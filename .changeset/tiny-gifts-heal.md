@@ -6,6 +6,6 @@
 '@modern-js/builder': patch
 ---
 
-feat(builder): support forceSplitting to be an object
+feat(builder): support setting forceSplitting to be an object
 
-feat(builder): 支持 forceSplitting 设置为一个对象
+feat(builder): 支持将 forceSplitting 设置为一个对象
