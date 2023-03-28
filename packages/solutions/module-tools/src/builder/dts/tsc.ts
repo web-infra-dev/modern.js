@@ -62,10 +62,11 @@ const generatorDts = async (
   config: BundlelessGeneratorDtsConfig,
 ) => {
   const { execa } = await import('@modern-js/utils');
-  const { InternalDTSError } = await import('../../error');
-  const { generatorTsConfig } = await import('../../utils/dts');
+  const { generatorTsConfig, printOrThrowDtsErrors } = await import(
+    '../../utils/dts'
+  );
   const { getTscBinPath } = await import('../../utils/dts');
-  const { tsconfigPath, appDirectory, watch = false } = config;
+  const { tsconfigPath, appDirectory, watch = false, catchError } = config;
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
   const result = await generatorTsConfig(config);
 
@@ -102,11 +103,7 @@ const generatorDts = async (
   try {
     await childProgress;
   } catch (e) {
-    if (e instanceof Error) {
-      throw new InternalDTSError(e, {
-        buildType: 'bundleless',
-      });
-    }
+    await printOrThrowDtsErrors(e, { catchError, buildType: 'bundleless' });
   }
 
   return { ...result, userTsconfig };

@@ -39,4 +39,8 @@ export const ZH_LOCALE = {
       noDevtools: noDevTools,
     },
   },
+  dts: {
+    catchError:
+      '当前开启了 `dts.catchError` 配置，类型错误不会导致构建失败，无法保证类型文件正常输出',
+  },
 };

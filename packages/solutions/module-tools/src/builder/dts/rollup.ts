@@ -21,11 +21,12 @@ type Config = {
   externals: BaseBuildConfig['externals'];
   input: Input;
   watch: boolean;
+  catchError?: boolean;
 };
 
 export const runRollup = async (
   api: PluginAPI<ModuleTools>,
-  { distDir, tsconfigPath, externals, input, watch }: Config,
+  { distDir, tsconfigPath, externals, input, watch, catchError }: Config,
 ) => {
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
@@ -143,13 +144,9 @@ export const runRollup = async (
       addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {
-      if (e instanceof Error) {
-        const { InternalDTSError } = await import('../../error');
-        throw new InternalDTSError(e, {
-          buildType: 'bundle',
-        });
-      }
-      throw e;
+      const { printOrThrowDtsErrors } = await import('../../utils/dts');
+      await printOrThrowDtsErrors(e, { catchError, buildType: 'bundle' });
+      return null;
     }
   }
 };

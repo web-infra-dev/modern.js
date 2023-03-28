@@ -11,6 +11,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     only: false,
     distPath: './',
     tsconfigPath: './tsconfig.json',
+    catchError: false,
   }),
   jsx: 'automatic',
   input: ['src/index.ts'],

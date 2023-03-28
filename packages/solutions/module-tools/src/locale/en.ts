@@ -39,4 +39,8 @@ export const EN_LOCALE = {
       noDevtools: noDevTools,
     },
   },
+  dts: {
+    catchError:
+      '`dts.catchError` currently enabled, type errors don`t cause build failures. Unable to ensure proper type file generation',
+  },
 };

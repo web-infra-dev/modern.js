@@ -87,7 +87,7 @@ export const generatorDts = async (
   const { watch, dts } = options;
   const { buildType, input, sourceDir, alias } = config;
   const { appDirectory } = api.useAppContext();
-  const { tsconfigPath, distPath } = dts;
+  const { tsconfigPath, distPath, catchError } = dts;
   if (buildType === 'bundle') {
     const { getFinalExternals } = await import('../utils/builder');
     const finalExternals = await getFinalExternals(config, { appDirectory });
@@ -98,6 +98,7 @@ export const generatorDts = async (
       externals: finalExternals,
       input,
       tsconfigPath,
+      catchError,
     });
   } else {
     await runTsc(api, {
@@ -107,6 +108,7 @@ export const generatorDts = async (
       watch,
       tsconfigPath,
       sourceDir,
+      catchError,
     });
   }
 };
