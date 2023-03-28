@@ -6,7 +6,13 @@ function loader(value, compile, callback, resourcePath) {
   const options = this.getOptions();
   const config = { ...defaults, ...options };
 
-  compile(value, resourcePath, true, config.root, config.defaultLang).then(
+  compile({
+    value,
+    filepath: resourcePath,
+    root: config.root,
+    defaultLang: config.defaultLang,
+    development: process.env.NODE_ENV !== 'production',
+  }).then(
     result => {
       callback(null, result.code, null);
       const links = result.links;

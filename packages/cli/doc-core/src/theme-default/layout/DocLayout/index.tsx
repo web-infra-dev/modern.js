@@ -1,8 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import mediumZoom from 'medium-zoom';
+import { useState } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import highlight from 'highlight.js';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
 import { useLocaleSiteData, useSidebarData } from '../../logic';
@@ -12,7 +10,6 @@ import { TabDataContext } from '../../logic/TabDataContext';
 import styles from './index.module.scss';
 import { getCustomMDXComponent } from './docComponents';
 import { Content, usePageData, normalizeSlash } from '@/runtime';
-import '../../styles/highlight-theme.css';
 
 export interface DocLayoutProps {
   beforeDocFooter?: React.ReactNode;
@@ -47,14 +44,6 @@ export function DocLayout(props: DocLayoutProps) {
     headers.length > 0 &&
     (frontmatter?.outline ?? themeConfig?.outline ?? true);
   const isOverviewPage = frontmatter?.overview ?? false;
-
-  useEffect(() => {
-    const images = document.querySelectorAll('.modern-doc img');
-    mediumZoom(images);
-    document.querySelectorAll('pre code').forEach(el => {
-      highlight.highlightElement(el as HTMLDivElement);
-    });
-  }, [pathname]);
 
   return (
     <div className={`${styles.docLayout} pt-0 md:mt-14`}>

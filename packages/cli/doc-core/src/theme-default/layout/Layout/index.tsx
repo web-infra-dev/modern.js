@@ -2,14 +2,17 @@ import 'nprogress/nprogress.css';
 import '../../index.css';
 import 'virtual-global-styles';
 import globalComponents from 'virtual-global-components';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Theme, { Nav } from '@theme';
+import highlight from 'highlight.js';
+import mediumZoom from 'medium-zoom';
 import { DocLayout, DocLayoutProps } from '../DocLayout';
 import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
-import { usePageData, Content } from '@/runtime';
+import { usePageData, Content, useLocation } from '@/runtime';
 import { useLocaleSiteData } from '@/theme-default/logic';
+import '../../styles/highlight-theme.css';
 
 export type LayoutProps = {
   top?: React.ReactNode;
@@ -46,6 +49,7 @@ export const Layout: React.FC<LayoutProps> = props => {
     pageType,
   } = usePageData();
   const localesData = useLocaleSiteData();
+  const { pathname } = useLocation();
 
   // Priority: front matter title > h1 title
   let title = frontmatter?.title ?? articleTitle;
@@ -75,6 +79,16 @@ export const Layout: React.FC<LayoutProps> = props => {
         return <DocLayout {...docProps} />;
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      const images = document.querySelectorAll('.modern-doc img');
+      mediumZoom(images);
+      document.querySelectorAll('pre code').forEach(el => {
+        highlight.highlightElement(el as HTMLDivElement);
+      });
+    }, 20);
+  }, [pathname]);
   return (
     <div>
       <Helmet>

@@ -165,13 +165,13 @@ async function extractPageData(
           '',
         );
 
-        const { html, title, toc } = await compile(
-          content,
-          route.absolutePath,
-          true,
+        const { html, title, toc } = await compile({
+          value: content,
+          filepath: route.absolutePath,
+          development: true,
           root,
-          '',
-        );
+          defaultLang: '',
+        });
 
         if (!title?.length && !frontmatter.title?.length) {
           return null;
