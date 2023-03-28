@@ -57,10 +57,10 @@ export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
               {
                 [polyfillFileName]: `
 import { Buffer } from 'buffer';
-import { process } from 'process';
+import Process from 'process';
 
 window.Buffer = Buffer;
-window.process = process;`,
+window.process = Process;`,
               },
             ]);
 
