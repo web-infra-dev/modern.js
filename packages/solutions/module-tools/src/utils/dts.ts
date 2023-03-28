@@ -27,7 +27,10 @@ export const generatorTsConfig = async (
     path.relative(appDirectory, absSourceDir),
   );
 
-  const tempTsconfigPath = path.join(tempDistAbsRootPath, `tsconfig.json`);
+  const tempTsconfigPath = path.join(
+    tempDistAbsRootPath,
+    path.basename(tsconfigPath),
+  );
   fs.ensureFileSync(tempTsconfigPath);
 
   const extendsPath = path.join(
