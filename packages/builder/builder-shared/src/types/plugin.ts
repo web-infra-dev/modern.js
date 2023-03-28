@@ -49,6 +49,7 @@ export type Plugins = {
   image: PluginsFn;
   svg: PluginsFn;
   html: PluginsFn;
+  antd: PluginsFn;
 };
 
 /**

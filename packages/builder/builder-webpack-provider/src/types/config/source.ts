@@ -6,6 +6,17 @@ import type {
 } from '@modern-js/builder-shared';
 import type { Alias } from '@modern-js/utils';
 
+export type TransformImport = {
+  libraryName: string;
+  libraryDirectory?: string;
+  style?: string | boolean;
+  styleLibraryDirectory?: string;
+  camelToDashComponentName?: boolean;
+  transformToDefaultImport?: boolean;
+  customName?: ((member: string) => string | undefined) | string;
+  customStyleName?: ((member: string) => string | undefined) | string;
+};
+
 export interface SourceConfig extends SharedSourceConfig {
   /**
    * Create aliases to import or require certain modules,
@@ -21,6 +32,10 @@ export interface SourceConfig extends SharedSourceConfig {
    * the specific paths, and import code from other paths is not allowed.
    */
   moduleScopes?: ChainedConfig<ModuleScopes>;
+  /**
+   * Configurare babel-plugin-import or swc-plugin-import or Rspack builtins plugin import
+   */
+  transformImport?: TransformImport[];
 }
 
 export interface NormalizedSourceConfig extends NormalizedSharedSourceConfig {
@@ -37,4 +52,6 @@ export interface NormalizedSourceConfig extends NormalizedSharedSourceConfig {
    * the specific paths, and import code from other paths is not allowed.
    */
   moduleScopes?: ChainedConfig<ModuleScopes>;
+
+  transformImport?: TransformImport[];
 }

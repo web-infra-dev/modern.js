@@ -5,6 +5,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/transition').then(m => m.builderPluginTransition()),
     import('../plugins/basic').then(m => m.builderPluginBasic()),
+    plugins.antd(),
     plugins.entry(),
     // plugins.cache(),
     plugins.target(),
