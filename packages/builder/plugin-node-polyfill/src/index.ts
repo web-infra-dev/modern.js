@@ -1,7 +1,5 @@
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
-import { isWebTarget } from '@modern-js/builder-shared';
-import * as path from 'path';
 
 const getResolveFallback = (nodeLibsBrowser: any) =>
   Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
@@ -29,28 +27,7 @@ export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
 
     async setup(api) {
       if (api.context.bundlerType === 'rspack') {
-        const getPolyfillEntry = () => {
-          return path.resolve(
-            api.context.cachePath,
-            'rspack-node-global-polyfill.js',
-          );
-        };
-
-        api.onBeforeCreateCompiler(async () => {
-          if (isWebTarget(api.context.target)) {
-            const fs = await import('@modern-js/utils/fs-extra');
-            fs.ensureFileSync(getPolyfillEntry());
-            // todo: need toggle?
-            fs.writeFileSync(
-              getPolyfillEntry(),
-              `import { Buffer } from 'buffer';
-import { process } from 'process';
-
-globalThis.Buffer = Buffer;
-globalThis.process = process;`,
-            );
-          }
-        });
+        const polyfillFileName = 'rspack-node-global-polyfill';
 
         api.modifyBundlerChain(async (chain, { isServer }) => {
           // it had not need `node polyfill`, if the target is 'node'(server runtime).
@@ -58,18 +35,36 @@ globalThis.process = process;`,
             return;
           }
 
-          const { entry } = api.context;
-
-          // global polyfill workaround
-          Object.keys(entry).forEach(entryName => {
-            chain.entry(entryName).prepend(getPolyfillEntry());
-          });
-
           const { default: nodeLibsBrowser } = await import(
             // @ts-expect-error
             'node-libs-browser'
           );
 
+          // TODO: global polyfill workaround, should use ProviderPlugin instead
+          const { default: RspackVirtualModulePlugin } = await import(
+            'rspack-plugin-virtual-module'
+          );
+
+          const { entry } = api.context;
+
+          Object.keys(entry).forEach(entryName => {
+            chain.entry(entryName).prepend(polyfillFileName);
+          });
+
+          chain
+            .plugin('rspack-global-polyfill')
+            .use(RspackVirtualModulePlugin, [
+              {
+                [polyfillFileName]: `
+import { Buffer } from 'buffer';
+import { process } from 'process';
+
+window.Buffer = Buffer;
+window.process = process;`,
+              },
+            ]);
+
+          // module polyfill
           chain.resolve.alias.merge(getResolveFallback(nodeLibsBrowser));
         });
         return;

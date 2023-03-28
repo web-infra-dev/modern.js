@@ -21,30 +21,26 @@ export const builderPluginSwc = (): BuilderPlugin => ({
   name: 'builder-plugin-swc',
 
   setup(api) {
-    const getPolyfillEntry = () => {
-      return path.resolve(api.context.cachePath, 'polyfill.js');
-    };
+    const polyfillEntryFileName = 'rspack-polyfill.js';
 
-    api.onBeforeCreateCompiler(async () => {
-      const config = api.getNormalizedConfig();
-      if (
-        isWebTarget(api.context.target) &&
-        config.output.polyfill === 'entry'
-      ) {
-        const fs = await import('@modern-js/utils/fs-extra');
-        fs.ensureFileSync(getPolyfillEntry());
-        fs.writeFileSync(getPolyfillEntry(), "import 'core-js'");
-      }
-    });
-
-    api.modifyBundlerChain((chain, { target }) => {
+    api.modifyBundlerChain(async (chain, { target }) => {
       const config = api.getNormalizedConfig();
       const mode = config?.output?.polyfill ?? 'entry';
       const { entry } = api.context;
       if (['modern-web', 'web'].includes(target) && mode === 'entry') {
         Object.keys(entry).forEach(entryName => {
-          chain.entry(entryName).prepend(getPolyfillEntry());
+          chain.entry(entryName).prepend(polyfillEntryFileName);
         });
+
+        const { default: RspackVirtualModulePlugin } = await import(
+          'rspack-plugin-virtual-module'
+        );
+
+        chain.plugin('rspack-core-js-entry').use(RspackVirtualModulePlugin, [
+          {
+            [polyfillEntryFileName]: `import 'core-js'`,
+          },
+        ]);
       }
     });
 

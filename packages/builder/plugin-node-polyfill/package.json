@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "node-libs-browser": "2.2.1",
+    "rspack-plugin-virtual-module": "0.0.0",
     "@modern-js/builder-shared": "workspace:*"
   },
   "devDependencies": {

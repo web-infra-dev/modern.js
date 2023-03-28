@@ -92,6 +92,7 @@ importers:
       caniuse-lite: ^1.0.30001451
       core-js: ^3.26.0
       postcss: 8.4.21
+      rspack-plugin-virtual-module: 0.0.0
       typescript: ^4
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
@@ -105,6 +106,7 @@ importers:
       '@rspack/postcss-loader': 0.1.1
       caniuse-lite: 1.0.30001451
       core-js: 3.26.0
+      rspack-plugin-virtual-module: 0.0.0
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -268,11 +270,13 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       node-libs-browser: 2.2.1
+      rspack-plugin-virtual-module: 0.0.0
       typescript: 4.7.4
       wireit: ^0.7.1
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       node-libs-browser: 2.2.1
+      rspack-plugin-virtual-module: 0.0.0
     devDependencies:
       '@modern-js/builder': link:../builder
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
@@ -22294,6 +22298,15 @@ packages:
       jsonfile: 6.1.0
       universalify: 2.0.0
 
+  /fs-extra/11.1.1:
+    resolution: {integrity: sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==}
+    engines: {node: '>=14.14'}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
+
   /fs-extra/7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
     engines: {node: '>=6 <7 || >=8'}
@@ -32030,6 +32043,12 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /rspack-plugin-virtual-module/0.0.0:
+    resolution: {integrity: sha512-R2G260bQOns0BD5WyIpKBuOk8qJ58fI0I+nFOVkHmRw2/5mrAQykBWqxJo7P0fBRxoo5tauGtANiZivgOG2p3g==}
+    dependencies:
+      fs-extra: 11.1.1
+    dev: false
 
   /rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==}
