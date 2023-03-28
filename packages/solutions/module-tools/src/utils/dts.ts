@@ -174,7 +174,7 @@ export const assignTsConfigPath = async (
     config.dts = {
       only: false,
       distPath: './',
-      catchError: false,
+      abortOnError: false,
       ...(config.dts ?? {}),
       tsconfigPath: options.tsconfig,
     };
@@ -185,16 +185,16 @@ export const assignTsConfigPath = async (
 
 export const printOrThrowDtsErrors = async (
   error: unknown,
-  options: { catchError?: boolean; buildType: BuildType },
+  options: { abortOnError?: boolean; buildType: BuildType },
 ) => {
   const { logger, chalk } = await import('@modern-js/utils');
   const { InternalDTSError } = await import('../error');
   const local = await import('../locale');
-  const { catchError, buildType } = options ?? {};
+  const { abortOnError, buildType } = options ?? {};
   if (error instanceof Error) {
-    if (catchError) {
+    if (abortOnError) {
       logger.warn(
-        chalk.bgYellowBright(local.i18n.t(local.localeKeys.dts.catchError)),
+        chalk.bgYellowBright(local.i18n.t(local.localeKeys.dts.abortOnError)),
       );
       logger.error(
         new InternalDTSError(error, {

@@ -190,14 +190,14 @@ The dts file generates the relevant configuration, by default it generates.
 
 ``` js
 {
-  catchError: false,
+  abortOnError: false,
   distPath: './',
   only: false,
   tsconfigPath: './tsconfig.json',
 }
 ```
 
-### catchError
+### abortOnError
 
 Whether to allow the build to succeed in case of a type error. By default, this will cause the build to fail in case of a type error.
 

@@ -21,12 +21,12 @@ type Config = {
   externals: BaseBuildConfig['externals'];
   input: Input;
   watch: boolean;
-  catchError?: boolean;
+  abortOnError?: boolean;
 };
 
 export const runRollup = async (
   api: PluginAPI<ModuleTools>,
-  { distDir, tsconfigPath, externals, input, watch, catchError }: Config,
+  { distDir, tsconfigPath, externals, input, watch, abortOnError }: Config,
 ) => {
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
@@ -145,7 +145,7 @@ export const runRollup = async (
       return bundle;
     } catch (e) {
       const { printOrThrowDtsErrors } = await import('../../utils/dts');
-      await printOrThrowDtsErrors(e, { catchError, buildType: 'bundle' });
+      await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundle' });
       return null;
     }
   }

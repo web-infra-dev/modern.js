@@ -170,10 +170,10 @@ describe('dts.only is true', () => {
   });
 });
 
-describe('dts.catchError is true', () => {
+describe('dts.abortOnError is true', () => {
   const fixtureDir = path.join(__dirname, './fixtures/dts');
   it('buildType is bundle', async () => {
-    const configFile = path.join(fixtureDir, './catchError-bundle.ts');
+    const configFile = path.join(fixtureDir, './abortOnError-bundle.ts');
     const { success } = await runCli({
       argv: ['build'],
       configFile,
@@ -183,7 +183,7 @@ describe('dts.catchError is true', () => {
   });
 
   it('buildType is bundleless', async () => {
-    const configFile = path.join(fixtureDir, './catchError-bundleless.ts');
+    const configFile = path.join(fixtureDir, './abortOnError-bundleless.ts');
     const { success } = await runCli({
       argv: ['build'],
       configFile,

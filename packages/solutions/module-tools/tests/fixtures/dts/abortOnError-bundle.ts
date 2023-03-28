@@ -3,12 +3,12 @@ import { defineConfig } from '@modern-js/self/defineConfig';
 
 export default defineConfig({
   buildConfig: {
-    buildType: 'bundleless',
-    sourceDir: 'src-error',
+    buildType: 'bundle',
+    input: ['src-error/index.ts'],
     dts: {
-      catchError: true,
+      abortOnError: true,
       tsconfigPath: './tsconfig-error.json',
     },
-    outDir: './dist/bundleless-catch-error',
+    outDir: './dist/bundle-abort-on-error',
   },
 });

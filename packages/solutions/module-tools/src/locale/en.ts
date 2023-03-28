@@ -40,7 +40,7 @@ export const EN_LOCALE = {
     },
   },
   dts: {
-    catchError:
-      '`dts.catchError` currently enabled, type errors don`t cause build failures. Unable to ensure proper type file generation',
+    abortOnError:
+      '`dts.abortOnError` currently enabled, type errors don`t cause build failures. Unable to ensure proper type file generation',
   },
 };

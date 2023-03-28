@@ -66,7 +66,7 @@ const generatorDts = async (
     '../../utils/dts'
   );
   const { getTscBinPath } = await import('../../utils/dts');
-  const { tsconfigPath, appDirectory, watch = false, catchError } = config;
+  const { tsconfigPath, appDirectory, watch = false, abortOnError } = config;
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
   const result = await generatorTsConfig(config);
 
@@ -103,7 +103,7 @@ const generatorDts = async (
   try {
     await childProgress;
   } catch (e) {
-    await printOrThrowDtsErrors(e, { catchError, buildType: 'bundleless' });
+    await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundleless' });
   }
 
   return { ...result, userTsconfig };

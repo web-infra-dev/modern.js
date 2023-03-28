@@ -243,14 +243,14 @@ export default defineConfig({
 
 ``` js
 {
-  catchError: false,
+  abortOnError: false,
   distPath: './',
   only: false,
   tsconfigPath: './tsconfig.json',
 }
 ```
 
-### catchError
+### abortOnError
 
 在出现类型错误的时候，是否允许构建成功。**默认情况下，在出现类型错误的时候会导致构建失败**。
 
