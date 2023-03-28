@@ -139,7 +139,13 @@ function renameDistFolder(task: ParsedTask) {
   fs.writeJSONSync(pkgPath, pkgJson);
 }
 
+const pkgName = process.argv[2];
+
 export async function prebundle(task: ParsedTask) {
+  if (pkgName && task.depName !== pkgName) {
+    return;
+  }
+
   console.log(`==== Start prebundle "${task.depName}" ====`);
 
   fs.removeSync(task.distPath);
