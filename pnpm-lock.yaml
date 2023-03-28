@@ -93,6 +93,7 @@ importers:
       caniuse-lite: ^1.0.30001451
       core-js: ^3.26.0
       postcss: 8.4.21
+      rspack-plugin-virtual-module: 0.1.0
       typescript: ^4
     dependencies:
       '@babel/preset-typescript': 7.18.6
@@ -107,6 +108,7 @@ importers:
       '@rspack/postcss-loader': 0.1.1
       caniuse-lite: 1.0.30001451
       core-js: 3.26.0
+      rspack-plugin-virtual-module: 0.1.0
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
@@ -265,14 +267,18 @@ importers:
   packages/builder/plugin-node-polyfill:
     specifiers:
       '@modern-js/builder': workspace:*
+      '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       node-libs-browser: 2.2.1
+      rspack-plugin-virtual-module: 0.1.0
       typescript: 4.7.4
       wireit: ^0.7.1
     dependencies:
+      '@modern-js/builder-shared': link:../builder-shared
       node-libs-browser: 2.2.1
+      rspack-plugin-virtual-module: 0.1.0
     devDependencies:
       '@modern-js/builder': link:../builder
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
@@ -4515,6 +4521,29 @@ importers:
       '@modern-js/builder': link:../../../../../packages/builder/builder
       '@modern-js/builder-webpack-provider': link:../../../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@types/node': 14.18.35
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 4.9.5
+
+  tests/e2e/builder/cases/node-polyfill:
+    specifiers:
+      '@modern-js/builder-plugin-node-polyfill': workspace:*
+      '@modern-js/e2e': workspace:*
+      '@modern-js/utils': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^4
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/builder-plugin-node-polyfill': link:../../../../../packages/builder/plugin-node-polyfill
+      '@modern-js/e2e': link:../../../../../packages/toolkit/e2e
+      '@modern-js/utils': link:../../../../../packages/toolkit/utils
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -12883,7 +12912,7 @@ packages:
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/webpack': 4.41.32
       autoprefixer: 9.8.8
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
@@ -13178,7 +13207,7 @@ packages:
       '@babel/register': 7.18.6_@babel+core@7.20.5
       '@storybook/node-logger': 6.5.12
       '@storybook/semver': 7.3.2
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/pretty-hrtime': 1.0.1
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       babel-plugin-macros: 3.1.0
@@ -13250,7 +13279,7 @@ packages:
       '@storybook/semver': 7.3.2
       '@storybook/store': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/telemetry': 6.5.12_lb6du3saekb5anf2gjv3wxj3oq
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/node-fetch': 2.6.2
       '@types/pretty-hrtime': 1.0.1
       '@types/webpack': 4.41.32
@@ -13403,7 +13432,7 @@ packages:
       '@storybook/node-logger': 6.5.12
       '@storybook/theming': 6.5.12_biqbaboplfbrettd7655fr4n2y
       '@storybook/ui': 6.5.12_biqbaboplfbrettd7655fr4n2y
-      '@types/node': 16.11.68
+      '@types/node': 16.18.10
       '@types/webpack': 4.41.32
       babel-loader: 8.2.5_em3sh5kto35xuanci4cvhzqfay
       case-sensitive-paths-webpack-plugin: 2.4.0
@@ -14786,6 +14815,7 @@ packages:
 
   /@types/node/16.11.68:
     resolution: {integrity: sha512-JkRpuVz3xCNCWaeQ5EHLR/6woMbHZz/jZ7Kmc63AkU+1HxnoUugzSWMck7dsR4DvNYX8jp9wTi9K7WvnxOIQZQ==}
+    dev: true
 
   /@types/node/16.18.10:
     resolution: {integrity: sha512-XU1+v7h81p7145ddPfjv7jtWvkSilpcnON3mQ+bDi9Yuf7OI56efOglXRyXWgQ57xH3fEQgh7WOJMncRHVew5w==}
@@ -22362,6 +22392,15 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
+
+  /fs-extra/11.1.1:
+    resolution: {integrity: sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==}
+    engines: {node: '>=14.14'}
+    dependencies:
+      graceful-fs: 4.2.10
+      jsonfile: 6.1.0
+      universalify: 2.0.0
+    dev: false
 
   /fs-extra/7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
@@ -32099,6 +32138,12 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /rspack-plugin-virtual-module/0.1.0:
+    resolution: {integrity: sha512-v+TD289c/zHBTXgqlLIwxa7V/RdFKOEPaIFIrZ4eUQzkiI6uxHRp+bqOukO8u7RYoYhOgrLLspwNPcpJYrHBRg==}
+    dependencies:
+      fs-extra: 11.1.1
+    dev: false
 
   /rsvp/4.8.5:
     resolution: {integrity: sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==}
