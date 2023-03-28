@@ -1,3 +1,4 @@
+import { logger } from '@modern-js/utils/logger';
 import type { LibuildPlugin } from '@modern-js/libuild';
 import type { BaseBuildConfig, PluginAPI, ModuleTools } from '../types';
 
@@ -14,9 +15,9 @@ export const watchPlugin = (
         const titleText = `[${
           config.buildType === 'bundle' ? 'Bundle' : 'Bundleless'
         }:${config.format}_${config.target}]`;
-        console.info(
-          await watchSectionTitle(titleText, SectionTitleStatus.Log),
-        );
+
+        logger.info(await watchSectionTitle(titleText, SectionTitleStatus.Log));
+
         const runner = api.useHookRunners();
         runner.buildWatchJs({ buildConfig: config });
       });

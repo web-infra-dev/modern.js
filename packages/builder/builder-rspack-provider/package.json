@@ -39,6 +39,7 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@babel/preset-typescript": "^7.17.12",
     "@rspack/core": "0.1.1",
     "@rspack/dev-client": "0.1.1",
     "@rspack/dev-middleware": "0.1.1",

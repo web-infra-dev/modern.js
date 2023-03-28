@@ -1,4 +1,5 @@
 import path from 'path';
+import { logger } from '@modern-js/utils/logger';
 import type { BaseBuildConfig } from '../types/config';
 
 export const getFinalExternals = async (
@@ -61,7 +62,7 @@ export const getAllDeps = async <T>(
 
     return deps;
   } catch (e) {
-    console.warn('[WARN] package.json is broken');
+    logger.warn('package.json is broken');
     return [];
   }
 };

@@ -7,12 +7,14 @@ import {
 } from '@modern-js/builder-shared';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils/constants';
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
   setup(api) {
     api.modifyBundlerChain(async (chain, { CHAIN_ID, isProd }) => {
-      const config = api.getNormalizedConfig() as any;
+      const config = api.getNormalizedConfig();
       if (!config.tools.babel) {
         // we would not use babel loader in rspack, unless user need to use.
         return;
@@ -49,9 +51,14 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           ...applyUserBabelConfig(
             {
               plugins: [],
-              presets: [],
+              presets: [
+                [
+                  require.resolve('@babel/preset-typescript'),
+                  DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
+                ],
+              ],
             },
-            (config.tools as any).babel,
+            config.tools.babel,
             babelUtils,
           ),
         };

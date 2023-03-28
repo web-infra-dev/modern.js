@@ -1,4 +1,5 @@
 import path from 'path';
+import { logger } from '@modern-js/utils/logger';
 import type { CopyOptions, CopyPattern } from '../types/copy';
 import type { BaseBuildConfig } from '../types/config';
 
@@ -228,7 +229,7 @@ export const copyTask = async (
     );
   } catch (e) {
     if (e instanceof Error) {
-      console.error(`copy error: ${e.message}`);
+      logger.error(`copy error: ${e.message}`);
     }
   }
   if (options.watch) {
