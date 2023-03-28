@@ -29,6 +29,23 @@ describe('plugins/output', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should allow to set distPath.js and distPath.css to empty string', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginOutput()],
+      builderConfig: {
+        output: {
+          distPath: {
+            js: '',
+            css: '',
+          },
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
+
   it('should allow to use filename.js to modify filename', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginOutput()],
