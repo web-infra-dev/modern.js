@@ -5,12 +5,19 @@ import { runCli, initBeforeTest } from './utils';
 initBeforeTest();
 
 beforeAll(() => {
+  // MaxListenersExceededWarning, becasue of `createCli->init` in @modern-js/core
+  require('events').EventEmitter.defaultMaxListeners = 15;
+
   jest.mock('../src/utils/onExit.ts', () => {
     return {
       __esModule: true,
       addExitListener: jest.fn(() => 'mocked'),
     };
   });
+});
+
+afterAll(() => {
+  require('events').EventEmitter.defaultMaxListeners = 10;
 });
 
 describe('dts is false', () => {
@@ -160,5 +167,28 @@ describe('dts.only is true', () => {
 
     distDtsFilePath = path.join(fixtureDir, './dist/only-bundleless/index.js');
     expect(await fs.pathExists(distDtsFilePath)).toBeFalsy();
+  });
+});
+
+describe('dts.catchError is true', () => {
+  const fixtureDir = path.join(__dirname, './fixtures/dts');
+  it('buildType is bundle', async () => {
+    const configFile = path.join(fixtureDir, './catchError-bundle.ts');
+    const { success } = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    expect(success).toBeTruthy();
+  });
+
+  it('buildType is bundleless', async () => {
+    const configFile = path.join(fixtureDir, './catchError-bundleless.ts');
+    const { success } = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    expect(success).toBeTruthy();
   });
 });
