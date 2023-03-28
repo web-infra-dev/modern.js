@@ -1,10 +1,10 @@
+import { join } from 'path';
 import {
   getDistPath,
   getFilename,
   applyBuilderOutputPlugin,
   setConfig,
 } from '@modern-js/builder-shared';
-
 import type { BuilderPlugin } from '../types';
 import { isUseCssExtract } from '../shared';
 
@@ -23,8 +23,11 @@ export const builderPluginOutput = (): BuilderPlugin => ({
         const cssPath = getDistPath(config.output, 'css');
         const cssFilename = getFilename(config.output, 'css', isProd);
 
-        rspackConfig.output.cssFilename = `${cssPath}/${cssFilename}`;
-        rspackConfig.output.cssChunkFilename = `${cssPath}/async/${cssFilename}`;
+        rspackConfig.output.cssFilename = join(cssPath, cssFilename);
+        rspackConfig.output.cssChunkFilename = join(
+          cssPath,
+          `async/${cssFilename}`,
+        );
       }
 
       if (config.output.copy) {

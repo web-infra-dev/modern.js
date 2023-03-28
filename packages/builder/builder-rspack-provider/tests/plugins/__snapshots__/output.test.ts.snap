@@ -17,6 +17,22 @@ exports[`plugins/output > should allow to custom server directory with distPath.
 }
 `;
 
+exports[`plugins/output > should allow to set distPath.js and distPath.css to empty string 1`] = `
+{
+  "module": {},
+  "output": {
+    "chunkFilename": "async/[name].js",
+    "cssChunkFilename": "async/[name].css",
+    "cssFilename": "[name].css",
+    "filename": "[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+}
+`;
+
 exports[`plugins/output > should allow to use copy plugin 1`] = `
 {
   "builtins": {

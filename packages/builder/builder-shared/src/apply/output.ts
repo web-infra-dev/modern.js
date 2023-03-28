@@ -1,4 +1,5 @@
-import {
+import { join } from 'path';
+import type {
   BuilderContext,
   SharedBuilderPluginAPI,
   SharedNormalizedConfig,
@@ -25,8 +26,8 @@ export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
 
       chain.output
         .path(api.context.distPath)
-        .filename(`${jsPath}/${jsFilename}`)
-        .chunkFilename(`${jsPath}/async/${jsFilename}`)
+        .filename(join(jsPath, jsFilename))
+        .chunkFilename(join(jsPath, `async/${jsFilename}`))
         .publicPath(publicPath)
         // disable pathinfo to improve compile performance
         // the path info is useless in most cases
@@ -38,7 +39,7 @@ export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
 
       if (isServer) {
         const serverPath = getDistPath(config.output, 'server');
-        const filename = `${serverPath}/[name].js`;
+        const filename = join(serverPath, `[name].js`);
 
         chain.output
           .filename(filename)
@@ -48,7 +49,7 @@ export function applyBuilderOutputPlugin(api: SharedBuilderPluginAPI) {
 
       if (isServiceWorker) {
         const workerPath = getDistPath(config.output, 'worker');
-        const filename = `${workerPath}/[name].js`;
+        const filename = join(workerPath, `[name].js`);
 
         chain.output
           .filename(filename)
