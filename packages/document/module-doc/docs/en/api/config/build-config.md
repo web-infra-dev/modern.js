@@ -183,17 +183,30 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 ## dts
 
-The dts file generates the relevant configuration, by default it generates
+The dts file generates the relevant configuration, by default it generates.
 
 - type: `false | Object`
-- default: `{}`
+- default:
 
-### tsconfigPath
+``` js
+{
+  catchError: false,
+  distPath: './',
+  only: false,
+  tsconfigPath: './tsconfig.json',
+}
+```
 
-Path to the tsconfig file
+### catchError
 
-- type: `string`
-- default: `. /tsconfig.json`
+Whether to allow the build to succeed in case of a type error. By default, this will cause the build to fail in case of a type error.
+
+:::warning
+When this configuration is turned on, there is no guarantee that the type files will be generated properly and accurately. In `buildType: 'bundle'` or Bundle build mode, the type file must not be generated.
+:::
+
+- 类型：`boolean`
+- 默认值：`false`
 
 ### distPath
 
@@ -208,6 +221,13 @@ Generate only dts files, not js files
 
 - type: `boolean`
 - default: `false`
+
+### tsconfigPath
+
+Path to the tsconfig file
+
+- type: `string`
+- default: `. /tsconfig.json`
 
 ## externals
 

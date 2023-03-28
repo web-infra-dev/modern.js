@@ -236,17 +236,30 @@ export default defineConfig({
 
 ## dts
 
-类型文件生成的相关配置，默认会生成。
+类型文件生成的相关配置，默认情况会生成。
 
 - 类型： `false | Object`
-- 默认值： `{}`
+- 默认值：
 
-### tsconfigPath
+``` js
+{
+  catchError: false,
+  distPath: './',
+  only: false,
+  tsconfigPath: './tsconfig.json',
+}
+```
 
-TypeScript 配置文件的路径。
+### catchError
 
-- 类型： `string`
-- 默认值： `./tsconfig.json`
+在出现类型错误的时候，是否允许构建成功。**默认情况下，在出现类型错误的时候会导致构建失败**。
+
+:::warning
+当开启该配置后，无法保证类型文件正常生成以及准确。在 `buildType: 'bundle'` 或者 Bundle 构建模式下，类型文件一定不会生成。
+:::
+
+- 类型：`boolean`
+- 默认值：`false`
 
 ### distPath
 
@@ -261,6 +274,14 @@ TypeScript 配置文件的路径。
 
 - 类型： `boolean`
 - 默认值： `false`
+
+### tsconfigPath
+
+TypeScript 配置文件的路径。
+
+- 类型： `string`
+- 默认值： `./tsconfig.json`
+
 
 ## externals
 
