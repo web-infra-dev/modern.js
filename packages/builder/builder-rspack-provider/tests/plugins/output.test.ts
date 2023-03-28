@@ -33,6 +33,25 @@ describe('plugins/output', () => {
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 
+  it('should allow to set distPath.js and distPath.css to empty string', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginOutput()],
+      builderConfig: {
+        output: {
+          distPath: {
+            js: '',
+            css: '',
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
   it('should allow to use filename.js to modify filename', async () => {
     const builder = await createBuilder({
       plugins: [builderPluginOutput()],
