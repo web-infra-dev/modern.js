@@ -22,7 +22,14 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
 
   const app = await server({
     pwd: appDirectory,
-    config: userConfig as any,
+    config: {
+      ...userConfig,
+      dev: userConfig.dev as any,
+      output: {
+        path: userConfig.output.distPath?.root,
+        ...(userConfig.output || {}),
+      },
+    },
     appContext: {
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
