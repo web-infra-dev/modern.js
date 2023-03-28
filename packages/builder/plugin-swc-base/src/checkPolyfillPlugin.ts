@@ -1,7 +1,6 @@
 import type Buffer from 'buffer';
 import * as path from 'path';
 import { logger } from '@modern-js/builder-shared';
-import { Options } from '@modern-js/swc-plugins';
 import { chalk } from '@modern-js/utils';
 import type { Logger } from '@modern-js/utils';
 import type { Compiler, NormalModule } from 'webpack';
@@ -9,6 +8,7 @@ import type { Compiler, NormalModule } from 'webpack';
 const JS_DATA_URI_PREFIX = `data:text/javascript`;
 const JS_DATA_URI_PREFIX_RE = /data:text\/javascript.*,/;
 
+type Options = any;
 export class CheckPolyfillPlugin {
   options: Options;
 

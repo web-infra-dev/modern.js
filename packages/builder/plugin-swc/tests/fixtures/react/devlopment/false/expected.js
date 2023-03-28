@@ -1,4 +1,4 @@
-import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
+import _sliced_to_array from "<SWC_HELPER>/src/_sliced_to_array.mjs";
 import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import React, { useState } from "react";
 export var App = function() {
