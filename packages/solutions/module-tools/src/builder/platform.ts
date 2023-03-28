@@ -1,4 +1,5 @@
 import { PluginAPI } from '@modern-js/core';
+import { logger } from '@modern-js/utils/logger';
 import { ModuleContext } from '../types/context';
 import { BuildCommandOptions, ModuleTools } from '../types';
 
@@ -13,20 +14,20 @@ export const buildPlatform = async (
   const platformBuilders = await runner.registerBuildPlatform();
   if (platformBuilders.length === 0) {
     if (options.platform === true) {
-      console.info('No executable platform build tasks');
+      logger.info('No executable platform build tasks');
     } else if (
       Array.isArray(options.platform) &&
       options.platform.length === 1
     ) {
-      console.info(
+      logger.info(
         `No build tasks with platform "${options.platform[0]}" found`,
       );
     } else if (Array.isArray(options.platform) && options.platform.length > 1) {
-      console.info(
+      logger.info(
         `No build tasks with platform ${options.platform.join(',')} found`,
       );
     } else {
-      console.info('Unknown platform', JSON.stringify(options.platform));
+      logger.info('Unknown platform', JSON.stringify(options.platform));
     }
 
     return;
@@ -41,7 +42,7 @@ export const buildPlatform = async (
           ? platformBuilder.platform[0]
           : platformBuilder.platform;
 
-        console.info(
+        logger.info(
           chalk.underline.rgb(...blue)(
             `Running [${currentPlatform}] build task:`,
           ),
@@ -52,7 +53,7 @@ export const buildPlatform = async (
           isTsProject: context.isTsProject,
         });
 
-        console.info(chalk.rgb(...gray)(`Done for [${currentPlatform}] task`));
+        logger.info(chalk.rgb(...gray)(`Done for [${currentPlatform}] task`));
       }
     } else if (
       Array.isArray(options.platform) &&
@@ -68,11 +69,11 @@ export const buildPlatform = async (
       });
 
       if (!selectPlatformBuilder) {
-        console.info(`The specified "${targetPlatform}" build does not exist`);
+        logger.info(`The specified "${targetPlatform}" build does not exist`);
         return;
       }
 
-      console.info(
+      logger.info(
         chalk.underline.rgb(...blue)(`Running [${targetPlatform}] build task:`),
       );
 
@@ -81,7 +82,7 @@ export const buildPlatform = async (
         isTsProject: context.isTsProject,
       });
 
-      console.info(chalk.rgb(...gray)(`Done for [${targetPlatform}] task`));
+      logger.info(chalk.rgb(...gray)(`Done for [${targetPlatform}] task`));
     } else if (Array.isArray(options.platform) && options.platform.length > 1) {
       for (const platform of options.platform) {
         const foundBuilder = platformBuilders.find(builder => {
@@ -93,11 +94,11 @@ export const buildPlatform = async (
         });
 
         if (!foundBuilder) {
-          console.info(`skip ${platform} build, because it does not exist`);
+          logger.info(`skip ${platform} build, because it does not exist`);
           continue;
         }
 
-        console.info(
+        logger.info(
           chalk.underline.rgb(...blue)(`Running [${platform}] build task:`),
         );
 
@@ -106,7 +107,7 @@ export const buildPlatform = async (
           isTsProject: context.isTsProject,
         });
 
-        console.info(chalk.rgb(...gray)(`Done for [${platform}] task`));
+        logger.info(chalk.rgb(...gray)(`Done for [${platform}] task`));
       }
     }
   } catch (e) {

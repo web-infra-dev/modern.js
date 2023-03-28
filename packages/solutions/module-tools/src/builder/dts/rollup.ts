@@ -1,4 +1,5 @@
 import path from 'path';
+import { logger } from '@modern-js/utils/logger';
 import type {
   InputOptions,
   OutputOptions,
@@ -116,11 +117,11 @@ export const runRollup = async (
       output: outputConfig,
     }).on('event', async event => {
       if (event.code === 'START') {
-        console.info(
+        logger.info(
           await watchSectionTitle(BundleDtsLogPrefix, SectionTitleStatus.Log),
         );
       } else if (event.code === 'BUNDLE_END') {
-        console.info(
+        logger.info(
           await watchSectionTitle(
             BundleDtsLogPrefix,
             SectionTitleStatus.Success,

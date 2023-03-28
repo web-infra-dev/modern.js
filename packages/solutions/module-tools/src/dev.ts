@@ -1,4 +1,5 @@
 import type { PluginAPI } from '@modern-js/core';
+import { logger } from '@modern-js/utils/logger';
 import type { DevCommandOptions } from './types/command';
 import type { ModuleContext } from './types/context';
 import type { DevToolData, ModuleTools } from './types';
@@ -104,13 +105,13 @@ export const dev = async (
       local.i18n.t(local.localeKeys.log.dev.noDevtools),
     );
 
-    console.info(noDevToolsLog);
+    logger.info(noDevToolsLog);
     // eslint-disable-next-line no-process-exit
     process.exit(0);
   }
 
   if (metas.length === 1) {
-    console.info(
+    logger.info(
       chalk.rgb(...green)(
         `Only one dev tooling is currently detected as available, run it directly [${
           metas[0].menuItem?.name ?? metas[0].name
