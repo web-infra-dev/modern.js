@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { posix } from 'path';
 import {
   getDistPath,
   getFilename,
@@ -23,8 +23,8 @@ export const builderPluginOutput = (): BuilderPlugin => ({
         const cssPath = getDistPath(config.output, 'css');
         const cssFilename = getFilename(config.output, 'css', isProd);
 
-        rspackConfig.output.cssFilename = join(cssPath, cssFilename);
-        rspackConfig.output.cssChunkFilename = join(
+        rspackConfig.output.cssFilename = posix.join(cssPath, cssFilename);
+        rspackConfig.output.cssChunkFilename = posix.join(
           cssPath,
           `async/${cssFilename}`,
         );
