@@ -60,6 +60,7 @@ export class RouterPlugin {
             assets: true,
             chunkGroups: true,
             chunks: true,
+            ids: true,
           });
           const { publicPath, chunks = [] } = stats;
           const routeAssets: RouteAssets = {};

@@ -9,6 +9,9 @@ export { modifyRoutes } from './plugin';
 
 export * from './withRouter';
 
+export { PrefetchLink, PrefetchNavLink } from './PrefetchLink';
+export type { PrefetchLinkProps, PrefetchNavLinkProps } from './PrefetchLink';
+
 // Note: Keep in sync with react-router-dom exports!
 export type {
   // below are react-router-dom exports
