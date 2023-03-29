@@ -98,34 +98,51 @@ export default defineConfig({
 
 ### svgr
 
-打包时将 svg 作为一个 React 组件处理，options 参考 [svgr](https://react-svgr.com/docs/options/)，另外还支持了 `include` 和 `exclude` 两个配置项，用于匹配需要处理的 svg 文件。
+打包时将 SVG 作为一个 React 组件处理，options 参考 [svgr](https://react-svgr.com/docs/options/)，另外还支持了 `include` 和 `exclude` 两个配置项，用于匹配需要处理的 SVG 文件。
 
 - 类型： `boolean | Object`
 - 默认值： `false`
 
-:::tip
-开启 svgr 后，仍然使用 default export 导出 svg，所以你只能导入默认值。
+开启 svgr 功能后，可以使用默认导出的方式将 SVG 当做组件使用。
 
 ```js index.ts
 // true
-import logo from './logo.svg';
+import Logo from './logo.svg';
 
-// false
+export default () => <Logo />;
+```
+
+:::warning
+
+目前不支持下面的用法：
+
+```js index.ts
 import { ReactComponent } from './logo.svg';
 ```
 
 :::
 
+当开启功能后，可以通过在 `modern-app-env.d.ts` 文件中增加类型定义，修改使用 SVG 的类型：
+
+``` ts modern-app-env.d.ts focus=1:3
+declare module '*.svg' {
+  const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default src;
+}
+
+/// <reference types='@modern-js/module-tools/types' />
+```
+
 #### include
 
-设定匹配的 svg 文件
+设定匹配的 SVG 文件
 
 - 类型： `string | RegExp | (string | RegExp)[]`
 - 默认值： `/\.svg$/`
 
 #### exclude
 
-设定不匹配的 svg 文件
+设定不匹配的 SVG 文件
 
 - 类型： `string | RegExp | (string | RegExp)[]`
 - 默认值： `undefined`
