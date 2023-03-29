@@ -5,7 +5,7 @@
   --modern-code-title-bg: rgba(0, 99, 199, 0.05);
   --modern-code-block-bg: #f6f8fa;
 
-  --modern-code-line-highlight-color: rgba(0, 0, 0, 0.5);
+  --modern-code-line-highlight-color: rgba(0, 99, 199, 0.1);
   --modern-code-line-number-color: rgba(235, 235, 235, 0.38);
 
   --modern-code-copy-code-hover-bg: rgba(255, 255, 255, 0.05);
@@ -16,7 +16,7 @@
   --modern-code-block-color: rgb(229, 231, 235);
   --modern-code-block-bg: #242424;
   --modern-code-title-bg: #000;
-  --modern-code-line-highlight-color: rgba(255, 255, 255, 0.5);
+  --modern-code-line-highlight-color: rgba(255, 255, 255, 0.1);
   --modern-code-line-number-color: rgba(60, 60, 60, 0.33);
 }
 
@@ -106,7 +106,7 @@
 
 .modern-doc [class*='language-'] code {
   display: block;
-  padding: 16px 20px;
+  padding: 16px 0;
   width: fit-content;
   min-width: 100%;
   line-height: 1.7;
@@ -120,6 +120,10 @@
   position: relative;
 }
 
+.modern-doc [class*='language-'] .modern-code-content .line:not(:empty) {
+  padding: 0 16px;
+}
+
 .modern-doc [class*='language-'] .modern-code-content > button.copy {
   position: absolute;
   top: 12px;
@@ -131,7 +135,6 @@
   border-radius: 4px;
   width: 20px;
   height: 20px;
-  background-color: var(--modern-code-block-bg);
   opacity: 0;
   cursor: pointer;
   background-image: var(--modern-icon-copy);
@@ -139,6 +142,7 @@
   background-size: 20px;
   background-repeat: no-repeat;
   transition: all 0.16s;
+  background-color: var(--modern-code-copy-code-hover-bg);
 }
 
 .modern-doc [class*='language-']:hover .modern-code-content > button.copy,
@@ -147,7 +151,7 @@
 }
 
 .modern-doc [class*='language-'] .modern-code-content > button.copy:hover {
-  background-color: var(--modern-code-copy-code-hover-bg);
+  transform: scale(1.15);
 }
 
 .modern-doc [class*='language-'] .modern-code-content > button.copy.copied,
@@ -159,4 +163,11 @@
   background-image: var(--modern-icon-copied);
   transform: scale(1);
   opacity: 1;
+}
+
+.modern-doc [class*='language-'] .modern-code-content span.highlighted {
+  background-color: var(--modern-code-line-highlight-color);
+  width: 100%;
+  display: inline-block;
+  padding: ;
 }
