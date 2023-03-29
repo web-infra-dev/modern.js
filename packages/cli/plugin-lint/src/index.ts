@@ -16,6 +16,8 @@ export default (): CliPlugin => ({
             lint();
           });
 
+        // @deprecated
+        // Can be removed in the next major version
         program
           .command('pre-commit')
           .description('Deprecated')
