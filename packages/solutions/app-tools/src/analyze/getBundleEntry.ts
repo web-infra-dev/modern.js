@@ -58,47 +58,49 @@ export const getBundleEntry = (
 
   // merge entrypoints from user config with directory convention.
   if (entries) {
-    Object.keys(entries).forEach(name => {
-      const value = entries[name];
-      const entrypoint: Entrypoint =
-        typeof value === 'string'
-          ? {
-              entryName: name,
-              entry: ensureAbsolutePath(appDirectory, value),
-              absoluteEntryDir: path.dirname(
-                ensureAbsolutePath(appDirectory, value),
-              ),
-              isAutoMount: true,
-              fileSystemRoutes: fs
-                .statSync(ensureAbsolutePath(appDirectory, value))
-                .isDirectory()
-                ? {}
-                : undefined,
-            }
-          : {
-              entryName: name,
-              entry: ensureAbsolutePath(appDirectory, value.entry),
-              absoluteEntryDir: path.dirname(
-                ensureAbsolutePath(appDirectory, value.entry),
-              ),
-              isAutoMount: !value.disableMount,
-              customBootstrap:
-                value.customBootstrap &&
-                ensureAbsolutePath(appDirectory, value.customBootstrap),
-              fileSystemRoutes: fs
-                .statSync(ensureAbsolutePath(appDirectory, value.entry))
-                .isDirectory()
-                ? {}
-                : undefined,
-            };
+    defaults.push(
+      ...Object.keys(entries)
+        .map((name): Entrypoint => {
+          const value = entries[name];
+          const entrypoint: Entrypoint =
+            typeof value === 'string'
+              ? {
+                  entryName: name,
+                  entry: ensureAbsolutePath(appDirectory, value),
+                  absoluteEntryDir: path.dirname(
+                    ensureAbsolutePath(appDirectory, value),
+                  ),
+                  isAutoMount: true,
+                  fileSystemRoutes: fs
+                    .statSync(ensureAbsolutePath(appDirectory, value))
+                    .isDirectory()
+                    ? {}
+                    : undefined,
+                }
+              : {
+                  entryName: name,
+                  entry: ensureAbsolutePath(appDirectory, value.entry),
+                  absoluteEntryDir: path.dirname(
+                    ensureAbsolutePath(appDirectory, value.entry),
+                  ),
+                  isAutoMount: !value.disableMount,
+                  customBootstrap:
+                    value.customBootstrap &&
+                    ensureAbsolutePath(appDirectory, value.customBootstrap),
+                  fileSystemRoutes: fs
+                    .statSync(ensureAbsolutePath(appDirectory, value.entry))
+                    .isDirectory()
+                    ? {}
+                    : undefined,
+                };
 
-      if (entrypoint.fileSystemRoutes && isRouterV5(config)) {
-        entrypoint.nestedRoutesEntry = entrypoint.entry;
-      }
-      if (!ifAlreadyExists(defaults, entrypoint)) {
-        defaults.push(entrypoint);
-      }
-    });
+          if (entrypoint.fileSystemRoutes && isRouterV5(config)) {
+            entrypoint.nestedRoutesEntry = entrypoint.entry;
+          }
+          return entrypoint;
+        })
+        .filter(entrypoint => !ifAlreadyExists(defaults, entrypoint)),
+    );
   }
 
   if (!disableDefaultEntries) {
