@@ -11,6 +11,7 @@ interface RouteAssets {
   [routeId: string]: {
     chunkIds?: (string | number)[];
     assets?: string[];
+    referenceCssAssets?: string[];
   };
 }
 
@@ -61,11 +62,11 @@ export class RouterPlugin {
             chunkGroups: true,
             chunks: true,
           });
-          const { publicPath, chunks = [] } = stats;
+          const { publicPath, chunks = [], assetsByChunkName } = stats;
           const routeAssets: RouteAssets = {};
           const { namedChunkGroups } = stats;
 
-          if (!namedChunkGroups) {
+          if (!namedChunkGroups || !assetsByChunkName) {
             logger.warn(
               'Route manifest does not exist, performance will be affected',
             );
@@ -78,7 +79,7 @@ export class RouterPlugin {
               [prop: string]: any;
             };
 
-            const assets = (chunkGroup as ChunkGroupLike).assets
+            const referenceCssAssets = (chunkGroup as ChunkGroupLike).assets
               .filter(asset => /\.css$/.test(asset.name))
               .map(asset => {
                 const item = asset.name;
@@ -87,7 +88,10 @@ export class RouterPlugin {
 
             routeAssets[name] = {
               chunkIds: chunkGroup.chunks,
-              assets,
+              assets: assetsByChunkName[name].map(item =>
+                publicPath ? normalizePath(publicPath) + item : item,
+              ),
+              referenceCssAssets,
             };
           }
 
