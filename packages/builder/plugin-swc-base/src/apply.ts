@@ -103,12 +103,19 @@ export function applyBuilderPluginSwc(
     }
 
     const rule = chain.module.rule(CHAIN_ID.RULE.JS);
+
+    // apply swc default config
+    const swcConfig: Required<TransformConfig> = merge(
+      getDefaultSwcConfig(),
+      swc,
+    ) as unknown as Required<TransformConfig>;
+
     // Insert swc loader and plugin
     rule
       .test(mergeRegex(JS_REGEX, TS_REGEX))
       .use(CHAIN_ID.USE.SWC)
       .loader(transformLoader)
-      .options(swc);
+      .options(swcConfig);
 
     if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
       chain.module
@@ -117,7 +124,7 @@ export function applyBuilderPluginSwc(
         .end()
         .use(CHAIN_ID.USE.SWC)
         .loader(transformLoader)
-        .options(swc);
+        .options(swcConfig);
     }
 
     if (isDebugMode()) {
@@ -125,7 +132,7 @@ export function applyBuilderPluginSwc(
 
       chain
         .plugin(CHAIN_ID.PLUGIN.SWC_POLYFILL_CHECKER)
-        .use(new CheckPolyfillPlugin(swc));
+        .use(new CheckPolyfillPlugin(swcConfig));
     }
 
     if (
@@ -159,6 +166,39 @@ export function applyBuilderPluginSwc(
         ]);
     }
   });
+}
+
+/// default swc configuration
+export function getDefaultSwcConfig(): TransformConfig {
+  return {
+    cwd: process.cwd(),
+    jsc: {
+      target: 'es5',
+      externalHelpers: true,
+      parser: {
+        tsx: true,
+        syntax: 'typescript',
+        decorators: true,
+      },
+      transform: {
+        react: {
+          runtime: 'automatic',
+        },
+      },
+      // Avoid the webpack magic comment to be removed
+      // https://github.com/swc-project/swc/issues/6403
+      preserveAllComments: true,
+    },
+    minify: false, // for loader, we don't need to minify, we do minification using plugin
+    sourceMaps: true,
+    env: {
+      targets: '> 0.01%, not dead, not op_mini all',
+      mode: 'usage',
+    },
+    exclude: [],
+    inlineSourcesContent: true,
+    extensions: {},
+  };
 }
 
 const defaultMinifyOptions: JsMinifyOptions = {
