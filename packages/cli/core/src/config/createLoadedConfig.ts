@@ -85,6 +85,7 @@ export async function createLoadedConfig(
   appDirectory: string,
   filePath?: string,
   packageJsonConfig?: string,
+  loadedConfig?: UserConfig,
   // eslint-disable-next-line @typescript-eslint/ban-types
 ): Promise<LoadedConfig<{}>> {
   const configFile = getConfigFilePath(appDirectory, filePath);
@@ -93,6 +94,7 @@ export async function createLoadedConfig(
     appDirectory,
     configFile,
     packageJsonConfig,
+    loadedConfig,
   );
 
   if (!loaded.config && !loaded.pkgConfig) {
