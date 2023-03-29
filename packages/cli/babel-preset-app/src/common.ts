@@ -47,6 +47,7 @@ export const genCommon = (options: Options): BabelChain => {
     styledComponents,
     useTsLoader,
     overrideBrowserslist,
+    importAntd,
   } = options;
 
   const useSSR = target === 'server';
@@ -84,7 +85,13 @@ export const genCommon = (options: Options): BabelChain => {
     },
     plugins: {
       lodashOptions,
-      import: { antd: { libraryDirectory: useSSR ? 'lib' : 'es' } },
+      import: {
+        antd: importAntd
+          ? {
+              libraryDirectory: useSSR ? 'lib' : 'es',
+            }
+          : false,
+      },
       transformRuntime: {
         // version, regenerator 在 base config 里已配置
         // https://babeljs.io/docs/en/babel-plugin-transform-runtime#useesmodules

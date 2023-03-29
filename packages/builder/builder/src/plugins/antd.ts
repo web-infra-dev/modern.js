@@ -1,3 +1,4 @@
+import { getAntdMajorVersion } from '@modern-js/utils';
 import type {
   BuilderTarget,
   DefaultBuilderPlugin,
@@ -9,6 +10,7 @@ export const builderAntdPlugin = (): DefaultBuilderPlugin => ({
   setup(api) {
     api.modifyBuilderConfig(builderConfig => {
       builderConfig.source ??= {};
+
       if (
         builderConfig.source.transformImport?.some(
           item => item.libraryName === 'antd',
@@ -39,16 +41,4 @@ function useSSR(target: BuilderTarget | BuilderTarget[]) {
   return (Array.isArray(target) ? target : [target]).some(item =>
     ['node', 'service-worker'].includes(item),
   );
-}
-
-function getAntdMajorVersion(appDirectory: string) {
-  try {
-    const pkgJsonPath = require.resolve('antd/package.json', {
-      paths: [appDirectory],
-    });
-    const { version } = require(pkgJsonPath);
-    return Number(version.split('.')[0]);
-  } catch (err) {
-    return null;
-  }
 }

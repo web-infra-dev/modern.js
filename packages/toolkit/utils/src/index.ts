@@ -31,7 +31,7 @@ export * from './nodeEnv';
 export * from './wait';
 export * from './emptyDir';
 export * from './getServerConfig';
-export * from './tryResolve';
+export * from './resolve';
 export * from './analyzeProject';
 export * from './chainId';
 export * from './version';

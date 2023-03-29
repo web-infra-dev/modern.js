@@ -24,4 +24,5 @@ export type Options = {
   userBabelConfig?: BabelConfig | BabelConfig[];
   userBabelConfigUtils?: Partial<BabelConfigUtils>;
   overrideBrowserslist?: string[];
+  importAntd?: boolean;
 };
