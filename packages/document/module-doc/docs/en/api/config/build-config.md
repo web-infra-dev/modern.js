@@ -95,6 +95,34 @@ Packaged to handle svg as a React component, options reference [svgr](https://re
 - type: `boolean | Object`
 - default: `false`
 
+When svgr feature is enabled, you can use svg as a component using the default export.
+
+```js index.ts
+// true
+import Logo from './logo.svg';
+
+export default () => <Logo />;
+```
+
+:::warning
+The following usage is not currently supported:
+
+```js index.ts
+import { ReactComponent } from './logo.svg';
+```
+:::
+
+When enabled, the type of svg used can be modified by adding a type definition to the `modern-app-env.d.ts` file:
+
+``` ts modern-app-env.d.ts focus=1:3
+declare module '*.svg' {
+  const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default src;
+}
+
+/// <reference types='@modern-js/module-tools/types' />
+```
+
 #### include
 
 Set the matching svg file

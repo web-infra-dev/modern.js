@@ -103,18 +103,33 @@ export default defineConfig({
 - 类型： `boolean | Object`
 - 默认值： `false`
 
-:::tip
-开启 svgr 后，仍然使用 default export 导出 svg，所以你只能导入默认值。
+开启 svgr 功能后，可以使用默认导出的方式将 svg 当做组件使用。
 
 ```js index.ts
 // true
-import logo from './logo.svg';
+import Logo from './logo.svg';
 
-// false
-import { ReactComponent } from './logo.svg';
+export default () => <Logo />;
 ```
 
+:::warning
+目前不支持下面的用法：
+
+```js index.ts
+import { ReactComponent } from './logo.svg';
+```
 :::
+
+当开启功能后，可以通过在 `modern-app-env.d.ts` 文件中增加类型定义，修改使用 svg 的类型：
+
+``` ts modern-app-env.d.ts focus=1:3
+declare module '*.svg' {
+  const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default src;
+}
+
+/// <reference types='@modern-js/module-tools/types' />
+```
 
 #### include
 
