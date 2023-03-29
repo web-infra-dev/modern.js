@@ -7,9 +7,3 @@
   font-weight: bold !important;
   font-size: 14px !important;
 }
-
-@media (max-width: 768px) {
-  .header-anchor {
-    display: none;
-  }
-}
