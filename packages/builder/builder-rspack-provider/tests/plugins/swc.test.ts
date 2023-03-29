@@ -79,20 +79,17 @@ describe('plugins/swc', () => {
     });
   });
 
-  // TODO wait for tools.modularImports
-  // it('should add pluginImport', async () => {
-  //   await matchConfigSnapshot('web', {
-  //     tools: {
-  //       swc: {
-  //         pluginImport: [
-  //           {
-  //             libraryName: 'foo',
-  //           },
-  //         ],
-  //       },
-  //     },
-  //   });
-  // });
+  it('should add pluginImport', async () => {
+    await matchConfigSnapshot('web', {
+      source: {
+        transformImport: [
+          {
+            libraryName: 'foo',
+          },
+        ],
+      },
+    });
+  });
 });
 
 async function matchConfigSnapshot(

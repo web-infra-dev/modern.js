@@ -13,6 +13,7 @@ import type {
   NormalizedConfig,
   RspackConfig,
 } from '../types';
+import { Builtins } from '@rspack/core';
 
 /**
  * Provide some swc configs of rspack
@@ -99,6 +100,8 @@ async function applyDefaultConfig(
       await applyCoreJs(rspackConfig);
     }
   }
+
+  applyTransformImport(rspackConfig, builderConfig.source.transformImport);
 }
 
 async function setBrowserslist(
@@ -128,4 +131,28 @@ async function applyCoreJs(rspackConfig: RspackConfig) {
   rspackConfig.resolve ??= {};
   rspackConfig.resolve.alias ??= {};
   rspackConfig.resolve.alias['core-js'] = path.dirname(coreJsPath);
+}
+
+async function applyTransformImport(
+  rspackConfig: RspackConfig,
+  pluginImport?: Builtins['pluginImport'],
+) {
+  if (pluginImport) {
+    ensureNoJsFunction(pluginImport);
+    rspackConfig.builtins ??= {};
+    rspackConfig.builtins.pluginImport ??= [];
+    rspackConfig.builtins.pluginImport.push(...pluginImport);
+  }
+}
+
+function ensureNoJsFunction(pluginImport: Array<Record<string, any>>) {
+  for (const item of pluginImport) {
+    for (const key in item) {
+      if (typeof item[key] === 'function') {
+        throw new TypeError(
+          '`builtins.pluginImport` can not contain Function configuration',
+        );
+      }
+    }
+  }
 }

@@ -85,6 +85,7 @@
   },
   "dependencies": {
     "@modern-js/babel-preset-app": "workspace:*",
+    "@modern-js/babel-preset-base": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/inspector-webpack-plugin": "1.0.5",
     "@modern-js/server": "workspace:*",
@@ -116,6 +117,7 @@
     "@types/babel__preset-env": "^7.9.2",
     "@types/caniuse-lite": "^1.0.1",
     "@types/node": "^14",
+    "antd": "4",
     "typescript": "^4"
   },
   "peerDependencies": {

@@ -24,7 +24,8 @@
         "require": "./dist/index.js"
       },
       "default": "./dist/index.js"
-    }
+    },
+    "./compiled/babel-plugin-import": "./compiled/babel-plugin-import/index.js"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",

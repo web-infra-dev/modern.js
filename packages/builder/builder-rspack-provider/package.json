@@ -53,6 +53,7 @@
     "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
+    "antd": "4",
     "postcss": "8.4.21",
     "typescript": "^4"
   },

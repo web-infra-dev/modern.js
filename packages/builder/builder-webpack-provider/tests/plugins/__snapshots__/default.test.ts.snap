@@ -450,6 +450,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -569,6 +578,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "compact": false,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
@@ -1303,6 +1321,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "configFile": false,
               "plugins": [
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -1428,6 +1455,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "compact": true,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
@@ -2102,6 +2138,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "lib",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -2225,6 +2270,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "compact": true,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "lib",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
@@ -2824,6 +2878,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -2949,6 +3012,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "compact": true,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  "antd",
+                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
