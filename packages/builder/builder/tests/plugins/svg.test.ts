@@ -59,7 +59,7 @@ describe('plugins/svg', () => {
       getNormalizedConfig: () => ({
         ...item.builderConfig,
         output: {
-          ...shared.defaultOutputConfig,
+          ...shared.getDefaultOutputConfig(),
           ...(item.builderConfig?.output || {}),
         },
       }),

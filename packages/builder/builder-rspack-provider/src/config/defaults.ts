@@ -1,10 +1,10 @@
 import {
   extendsType,
   mergeBuilderConfig,
-  defaultDevConfig,
-  defaultOutputConfig,
-  defaultHtmlConfig,
-  defaultSourceConfig,
+  getDefaultDevConfig,
+  getDefaultOutputConfig,
+  getDefaultHtmlConfig,
+  getDefaultSourceConfig,
 } from '@modern-js/builder-shared';
 import type { BuilderConfig } from '../types';
 
@@ -12,14 +12,14 @@ const defineDefaultConfig = extendsType<BuilderConfig>();
 
 export const createDefaultConfig = () =>
   defineDefaultConfig({
-    dev: defaultDevConfig,
-    html: defaultHtmlConfig,
+    dev: getDefaultDevConfig(),
+    html: getDefaultHtmlConfig(),
     source: {
-      ...defaultSourceConfig,
+      ...getDefaultSourceConfig(),
       alias: {},
       define: {},
     },
-    output: defaultOutputConfig,
+    output: getDefaultOutputConfig(),
     tools: {},
     security: {
       // sri: false
