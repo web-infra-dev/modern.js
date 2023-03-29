@@ -84,7 +84,7 @@ export async function launchDoc({
       doc: {
         ...doc,
         // TODO: doc base should only be set in production mode
-        base: isProduction ? '' : doc.base,
+        base: isProduction ? doc.base : '',
       },
     },
   );

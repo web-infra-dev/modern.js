@@ -2,6 +2,7 @@ import {
   getBabelConfig,
   createBabelChain,
   type BabelOptions,
+  BabelChain,
 } from '@modern-js/babel-preset-app';
 import {
   JS_REGEX,
@@ -11,9 +12,15 @@ import {
   getBrowserslistWithDefault,
   getSharedPkgCompiledPath,
   applyScriptCondition,
+  logger,
 } from '@modern-js/builder-shared';
 
-import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
+import type {
+  WebpackChain,
+  BuilderPlugin,
+  NormalizedConfig,
+  TransformImport,
+} from '../types';
 
 const enableCoreJsEntry = (
   config: NormalizedConfig,
@@ -86,6 +93,9 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             },
           };
 
+          const chain = createBabelChain();
+          applyPluginImport(chain, config.source.transformImport);
+
           // 3. Compute final babel config by @modern-js/babel-preset-app
           const babelOptions: BabelOptions = {
             babelrc: false,
@@ -97,7 +107,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
               useLegacyDecorators: !config.output.enableLatestDecorators,
               useBuiltIns:
                 isServer || isServiceWorker ? false : getUseBuiltIns(config),
-              chain: createBabelChain(),
+              chain,
               styledComponents: styledComponentsOptions,
               userBabelConfig: config.tools.babel,
               userBabelConfigUtils: babelUtils,
@@ -181,6 +191,44 @@ export function addCoreJsEntry({
 
     for (const name of entryPoints) {
       chain.entry(name).prepend(coreJsEntry);
+    }
+  }
+}
+
+function applyPluginImport(
+  chain: BabelChain,
+  pluginImport?: TransformImport[],
+) {
+  if (pluginImport) {
+    for (let i = 0; i < pluginImport.length; i++) {
+      const item = pluginImport[i];
+      const name = item.libraryName;
+
+      if (
+        ['customName', 'customStyleName'].some(key => {
+          // @ts-expect-error
+          if (item[key] && typeof item[key] === 'string') {
+            logger.error(
+              `Can't use template string config in \`source.transformImport[${i}].${key}\`, if you are not using Rspack or SWC plugin`,
+            );
+            return true;
+          }
+          return false;
+        })
+      ) {
+        throw new Error(
+          "Can't use template string config in `source.transformImport` in webpack without SWC plugin",
+        );
+      }
+
+      chain
+        .plugin(`plugin-import-${name}`)
+        .use(
+          require.resolve(
+            '@modern-js/babel-preset-base/compiled/babel-plugin-import',
+          ),
+          [item, name],
+        );
     }
   }
 }

@@ -37,6 +37,7 @@ export type Target =
 export type Input = Required<LibuildUserConfig>['input'];
 
 export type DTSOptions = {
+  abortOnError: boolean;
   distPath: string;
   tsconfigPath: string;
   only: boolean;

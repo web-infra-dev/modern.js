@@ -17,6 +17,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
       "coreJs": "3.26",
       "mode": "entry",
@@ -614,6 +621,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "pathinfo": false,
     "publicPath": "/",
   },
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -653,6 +663,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "process.env.NODE_ENV": "\\"production\\"",
     },
     "minifyOptions": {},
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
       "coreJs": "3.26",
       "mode": "entry",
@@ -1251,6 +1268,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "publicPath": "/",
   },
   "plugins": [
+    RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -1302,6 +1320,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"test\\"",
     },
+    "pluginImport": [
+      {
+        "libraryDirectory": "lib",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
       "targets": [
         "node >= 14",
@@ -1673,6 +1698,13 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
       "coreJs": "3.26",
       "mode": "entry",
@@ -2282,6 +2314,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     TestPlugin {
       "name": "TestPlugin",
     },
+    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {

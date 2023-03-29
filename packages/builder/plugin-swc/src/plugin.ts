@@ -20,6 +20,17 @@ export const builderPluginSwc = (
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
+    api.modifyBuilderConfig(config => {
+      const extensions: PluginSwcOptions['extensions'] =
+        // eslint-disable-next-line no-multi-assign
+        (pluginConfig.extensions ??= {});
+
+      if (config.source?.transformImport) {
+        extensions.pluginImport ??= [];
+        extensions.pluginImport.push(...config.source.transformImport);
+      }
+    });
+
     applyBuilderPluginSwc(api, {
       pluginConfig,
       transformLoader: path.resolve(__dirname, './loader'),
