@@ -77,7 +77,7 @@
       "default": "./dist/universal/formatWebpack.js"
     },
     "./universal/nestedRoutes": {
-      "jsnext:source": "./src/universal/nestedRoutes.ts",
+      "jsnext:source": "./src/universal/nestedRoutes.tsx",
       "default": "./dist/universal/nestedRoutes.js"
     }
   },
