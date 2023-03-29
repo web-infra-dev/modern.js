@@ -1,10 +1,12 @@
 import { logger } from '@modern-js/utils';
-import { getRspackVersion } from '@modern-js/builder-rspack-provider';
 
 export async function createBuilderGenerator(bundler: 'webpack' | 'rspack') {
   if (bundler === 'rspack') {
     try {
       const { createRspackBuilderForModern } = await import('./builder-rspack');
+      const { getRspackVersion } = await import(
+        '@modern-js/builder-rspack-provider'
+      );
       const version = await getRspackVersion();
       logger.info(`Using Rspack v${version} 🦀`);
       return createRspackBuilderForModern;
