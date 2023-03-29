@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { posix } from 'path';
 import { CSSExtractOptions } from '../types/thirdParty/css';
 import {
   getDistPath,
@@ -36,8 +36,8 @@ export const builderPluginOutput = (): BuilderPlugin => ({
           .plugin(CHAIN_ID.PLUGIN.MINI_CSS_EXTRACT)
           .use(MiniCssExtractPlugin, [
             {
-              filename: join(cssPath, cssFilename),
-              chunkFilename: join(cssPath, `async/${cssFilename}`),
+              filename: posix.join(cssPath, cssFilename),
+              chunkFilename: posix.join(cssPath, `async/${cssFilename}`),
               ignoreOrder: true,
               ...extractPluginOptions,
             },
