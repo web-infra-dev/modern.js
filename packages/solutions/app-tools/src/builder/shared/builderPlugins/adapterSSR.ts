@@ -41,8 +41,8 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         const builderConfig = api.getNormalizedConfig();
         const { normalizedConfig } = options;
 
+        applyRouterPlugin(chain, options);
         if (isSSR(normalizedConfig)) {
-          applyRouterPlugin(chain, options);
           await applySSRLoaderEntry(chain, options, isServer);
         }
 

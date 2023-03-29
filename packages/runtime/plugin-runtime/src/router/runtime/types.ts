@@ -41,3 +41,14 @@ export type RouterConfig = {
 };
 
 export type Routes = RouterConfig['routesConfig']['routes'];
+
+export interface RouteManifest {
+  routeAssets: RouteAssets;
+}
+
+export interface RouteAssets {
+  [routeId: string]: {
+    chunkIds?: (string | number)[];
+    assets?: string[];
+  };
+}

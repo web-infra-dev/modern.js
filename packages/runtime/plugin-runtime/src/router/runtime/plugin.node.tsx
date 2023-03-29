@@ -9,7 +9,7 @@ import { createRoutesFromElements } from 'react-router-dom';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
-import type { RouterConfig } from './types';
+import type { RouteManifest, RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
 import { installGlobals } from './fetch';
 
@@ -109,7 +109,8 @@ export const routerPlugin = ({
           context.routerContext = routerContext;
           context.routes = routes;
           // set routeManifest in context to be consistent with csr context
-          context.routeManifest = context.ssrContext!.routeManifest;
+          context.routeManifest = context.ssrContext!
+            .routeManifest as RouteManifest;
           return next({ context });
         },
         hoc: ({ App }, next) => {
