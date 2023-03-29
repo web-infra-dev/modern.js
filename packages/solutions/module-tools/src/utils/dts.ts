@@ -7,6 +7,7 @@ import type {
   BundlelessGeneratorDtsConfig,
   BuildCommandOptions,
   BaseBuildConfig,
+  BuildType,
   // AliasOption,
 } from '../types';
 
@@ -26,7 +27,10 @@ export const generatorTsConfig = async (
     path.relative(appDirectory, absSourceDir),
   );
 
-  const tempTsconfigPath = path.join(tempDistAbsRootPath, `tsconfig.json`);
+  const tempTsconfigPath = path.join(
+    tempDistAbsRootPath,
+    path.basename(tsconfigPath),
+  );
   fs.ensureFileSync(tempTsconfigPath);
 
   const extendsPath = path.join(
@@ -170,10 +174,37 @@ export const assignTsConfigPath = async (
     config.dts = {
       only: false,
       distPath: './',
+      abortOnError: true,
       ...(config.dts ?? {}),
       tsconfigPath: options.tsconfig,
     };
   }
 
   return config;
+};
+
+export const printOrThrowDtsErrors = async (
+  error: unknown,
+  options: { abortOnError?: boolean; buildType: BuildType },
+) => {
+  const { logger, chalk } = await import('@modern-js/utils');
+  const { InternalDTSError } = await import('../error');
+  const local = await import('../locale');
+  const { abortOnError, buildType } = options ?? {};
+  if (error instanceof Error) {
+    if (abortOnError) {
+      throw new InternalDTSError(error, {
+        buildType,
+      });
+    } else {
+      logger.warn(
+        chalk.bgYellowBright(local.i18n.t(local.localeKeys.dts.abortOnError)),
+      );
+      logger.error(
+        new InternalDTSError(error, {
+          buildType,
+        }),
+      );
+    }
+  }
 };
