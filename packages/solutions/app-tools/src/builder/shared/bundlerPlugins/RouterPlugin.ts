@@ -11,6 +11,7 @@ interface RouteAssets {
   [routeId: string]: {
     chunkIds?: (string | number)[];
     assets?: string[];
+    referenceCssAssets?: string[];
   };
 }
 
@@ -62,9 +63,9 @@ export class RouterPlugin {
             chunks: true,
             ids: true,
           });
-          const { publicPath, chunks = [] } = stats;
+          const { publicPath, chunks = [], assetsByChunkName } = stats;
           const routeAssets: RouteAssets = {};
-          const { namedChunkGroups, assetsByChunkName } = stats;
+          const { namedChunkGroups } = stats;
 
           if (!namedChunkGroups || !assetsByChunkName) {
             logger.warn(
@@ -74,14 +75,25 @@ export class RouterPlugin {
           }
 
           for (const [name, chunkGroup] of Object.entries(namedChunkGroups)) {
-            if (assetsByChunkName[name]) {
-              routeAssets[name] = {
-                chunkIds: chunkGroup.chunks,
-                assets: assetsByChunkName[name].map(item =>
-                  publicPath ? normalizePath(publicPath) + item : item,
-                ),
-              };
-            }
+            type ChunkGroupLike = {
+              assets: { name: string; [prop: string]: any }[];
+              [prop: string]: any;
+            };
+
+            const referenceCssAssets = (chunkGroup as ChunkGroupLike).assets
+              .filter(asset => /\.css$/.test(asset.name))
+              .map(asset => {
+                const item = asset.name;
+                return publicPath ? normalizePath(publicPath) + item : item;
+              });
+
+            routeAssets[name] = {
+              chunkIds: chunkGroup.chunks,
+              assets: assetsByChunkName[name].map(item =>
+                publicPath ? normalizePath(publicPath) + item : item,
+              ),
+              referenceCssAssets,
+            };
           }
 
           const manifest = {
