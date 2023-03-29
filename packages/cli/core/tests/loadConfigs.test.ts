@@ -118,6 +118,23 @@ describe('load user config file', () => {
     expect(userConfig.path).toBe(false);
     expect(userConfig.config).toBeUndefined();
   });
+
+  test('should support pass config', async () => {
+    const fixturePath = path.resolve(__dirname, './fixtures/config/no-config');
+    const loadedConfig = {
+      server: {
+        baseUrl: '/base',
+      },
+    };
+    const userConfig = await loadConfig<any>(
+      fixturePath,
+      getConfigFilePath(fixturePath),
+      undefined,
+      loadedConfig,
+    );
+
+    expect(userConfig.config).toEqual(loadedConfig);
+  });
 });
 
 describe('get file dependencies', () => {
