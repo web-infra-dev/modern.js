@@ -6,7 +6,7 @@ export default defineConfig({
     buildType: 'bundleless',
     sourceDir: 'src-error',
     dts: {
-      abortOnError: true,
+      abortOnError: false,
       tsconfigPath: './tsconfig-error.json',
     },
     outDir: './dist/bundleless-abort-on-error',

@@ -26,7 +26,14 @@ type Config = {
 
 export const runRollup = async (
   api: PluginAPI<ModuleTools>,
-  { distDir, tsconfigPath, externals, input, watch, abortOnError }: Config,
+  {
+    distDir,
+    tsconfigPath,
+    externals,
+    input,
+    watch,
+    abortOnError = true,
+  }: Config,
 ) => {
   const ignoreFiles: Plugin = {
     name: 'ignore-files',

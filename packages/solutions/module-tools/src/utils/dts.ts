@@ -174,7 +174,7 @@ export const assignTsConfigPath = async (
     config.dts = {
       only: false,
       distPath: './',
-      abortOnError: false,
+      abortOnError: true,
       ...(config.dts ?? {}),
       tsconfigPath: options.tsconfig,
     };
@@ -193,6 +193,10 @@ export const printOrThrowDtsErrors = async (
   const { abortOnError, buildType } = options ?? {};
   if (error instanceof Error) {
     if (abortOnError) {
+      throw new InternalDTSError(error, {
+        buildType,
+      });
+    } else {
       logger.warn(
         chalk.bgYellowBright(local.i18n.t(local.localeKeys.dts.abortOnError)),
       );
@@ -201,10 +205,6 @@ export const printOrThrowDtsErrors = async (
           buildType,
         }),
       );
-    } else {
-      throw new InternalDTSError(error, {
-        buildType,
-      });
     }
   }
 };

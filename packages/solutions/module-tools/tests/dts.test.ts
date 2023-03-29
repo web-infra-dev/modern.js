@@ -170,7 +170,7 @@ describe('dts.only is true', () => {
   });
 });
 
-describe('dts.abortOnError is true', () => {
+describe('dts.abortOnError is false', () => {
   const fixtureDir = path.join(__dirname, './fixtures/dts');
   it('buildType is bundle', async () => {
     const configFile = path.join(fixtureDir, './abortOnError-bundle.ts');

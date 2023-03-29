@@ -66,7 +66,12 @@ const generatorDts = async (
     '../../utils/dts'
   );
   const { getTscBinPath } = await import('../../utils/dts');
-  const { tsconfigPath, appDirectory, watch = false, abortOnError } = config;
+  const {
+    tsconfigPath,
+    appDirectory,
+    watch = false,
+    abortOnError = true,
+  } = config;
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
   const result = await generatorTsConfig(config);
 

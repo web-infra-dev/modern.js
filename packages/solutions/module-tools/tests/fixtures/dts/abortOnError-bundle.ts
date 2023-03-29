@@ -6,7 +6,7 @@ export default defineConfig({
     buildType: 'bundle',
     input: ['src-error/index.ts'],
     dts: {
-      abortOnError: true,
+      abortOnError: false,
       tsconfigPath: './tsconfig-error.json',
     },
     outDir: './dist/bundle-abort-on-error',

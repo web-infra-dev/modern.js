@@ -190,7 +190,7 @@ The dts file generates the relevant configuration, by default it generates.
 
 ``` js
 {
-  abortOnError: false,
+  abortOnError: true,
   distPath: './',
   only: false,
   tsconfigPath: './tsconfig.json',
@@ -205,8 +205,8 @@ Whether to allow the build to succeed in case of a type error. By default, this 
 When this configuration is turned on, there is no guarantee that the type files will be generated properly and accurately. In `buildType: 'bundle'` or Bundle build mode, the type file must not be generated.
 :::
 
-- 类型：`boolean`
-- 默认值：`false`
+- type: `boolean`
+- default: `true`
 
 ### distPath
 

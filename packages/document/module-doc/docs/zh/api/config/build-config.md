@@ -243,7 +243,7 @@ export default defineConfig({
 
 ``` js
 {
-  abortOnError: false,
+  abortOnError: true,
   distPath: './',
   only: false,
   tsconfigPath: './tsconfig.json',
@@ -255,11 +255,11 @@ export default defineConfig({
 在出现类型错误的时候，是否允许构建成功。**默认情况下，在出现类型错误的时候会导致构建失败**。
 
 :::warning
-当开启该配置后，无法保证类型文件正常生成以及准确。在 `buildType: 'bundle'` 或者 Bundle 构建模式下，类型文件一定不会生成。
+当关闭该配置后，无法保证类型文件能正常生成，且不保证内容正确。在 `buildType: 'bundle'` 或者 Bundle 构建模式下，类型文件一定不会生成。
 :::
 
 - 类型：`boolean`
-- 默认值：`false`
+- 默认值：`true`
 
 ### distPath
 
