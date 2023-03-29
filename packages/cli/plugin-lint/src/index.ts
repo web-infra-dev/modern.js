@@ -1,6 +1,6 @@
 import type { CliPlugin } from '@modern-js/core';
+import { logger } from '@modern-js/utils/logger';
 import lint from './lint';
-import preCommit from './preCommit';
 
 export default (): CliPlugin => ({
   name: '@modern-js/plugin-lint',
@@ -18,9 +18,11 @@ export default (): CliPlugin => ({
 
         program
           .command('pre-commit')
-          .description('auto run modern lint before commit')
+          .description('Deprecated')
           .action(() => {
-            preCommit();
+            logger.warn(
+              'The "modern pre-commit" command is deprecated, please use "lint-staged" instead.',
+            );
           });
       },
     };
