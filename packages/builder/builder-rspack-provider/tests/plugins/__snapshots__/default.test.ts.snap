@@ -614,6 +614,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "pathinfo": false,
     "publicPath": "/",
   },
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -1251,6 +1254,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "publicPath": "/",
   },
   "plugins": [
+    RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -2282,6 +2286,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     TestPlugin {
       "name": "TestPlugin",
     },
+    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {

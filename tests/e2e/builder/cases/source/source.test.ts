@@ -35,6 +35,9 @@ test.describe('source configure multi', () => {
   allProviderTest('pre-entry', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
     await expect(page.innerHTML('#test-el')).resolves.toBe('aaaaa');
+
+    // test order
+    await expect(page.evaluate(`window.aa`)).resolves.toBe(2);
   });
 });
 
