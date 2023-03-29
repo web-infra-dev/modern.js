@@ -12,7 +12,6 @@ import {
   getBrowserslistWithDefault,
   getSharedPkgCompiledPath,
   applyScriptCondition,
-  logger,
 } from '@modern-js/builder-shared';
 
 import type {
@@ -201,26 +200,8 @@ function applyPluginImport(
   pluginImport?: TransformImport[],
 ) {
   if (pluginImport) {
-    for (let i = 0; i < pluginImport.length; i++) {
-      const item = pluginImport[i];
+    for (const item of pluginImport) {
       const name = item.libraryName;
-
-      if (
-        ['customName', 'customStyleName'].some(key => {
-          // @ts-expect-error
-          if (item[key] && typeof item[key] === 'string') {
-            logger.error(
-              `Can't use template string config in \`source.transformImport[${i}].${key}\`, if you are not using Rspack or SWC plugin`,
-            );
-            return true;
-          }
-          return false;
-        })
-      ) {
-        throw new Error(
-          "Can't use template string config in `source.transformImport` in webpack without SWC plugin",
-        );
-      }
 
       chain
         .plugin(`plugin-import-${name}`)
