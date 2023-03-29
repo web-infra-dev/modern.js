@@ -60,6 +60,7 @@ export class RouterPlugin {
             assets: true,
             chunkGroups: true,
             chunks: true,
+            ids: true,
           });
           const { publicPath, chunks = [] } = stats;
           const routeAssets: RouteAssets = {};
@@ -86,9 +87,18 @@ export class RouterPlugin {
           const manifest = {
             routeAssets,
           };
+
           const injectedContent = `
             ;(function(){
-              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest)};
+              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
+            if (k === 'assets' && Array.isArray(v)) {
+              // should hide publicPath in browser
+              return v.map(item => {
+                return item.replace(publicPath, '');
+              });
+            }
+            return v;
+          })};
             })();
           `;
 
