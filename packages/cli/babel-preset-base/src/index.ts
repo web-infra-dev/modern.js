@@ -15,9 +15,11 @@ export interface IBaseBabelConfigOption {
   plugins?: {
     transformRuntime?: any;
     import?: {
-      antd?: {
-        libraryDirectory: string;
-      };
+      antd?:
+        | {
+            libraryDirectory: string;
+          }
+        | false;
     };
     transformReactRemovePropTypes?: false | Record<string, any>;
     styledComponentsOptions?: IStyledComponentOptions;

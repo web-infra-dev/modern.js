@@ -1,4 +1,4 @@
-import { isPackageInstalled } from '../src/tryResolve';
+import { isPackageInstalled } from '../src/resolve';
 
 describe('isPackageInstalled', () => {
   it('should return false if the package not is resolved', () => {
