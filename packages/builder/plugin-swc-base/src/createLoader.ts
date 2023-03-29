@@ -1,4 +1,4 @@
-import { getBrowserslist, lodash as _ } from '@modern-js/utils';
+import { getBrowserslist } from '@modern-js/utils';
 import type { LoaderContext, LoaderDefinitionFunction } from 'webpack';
 import type { ICompiler, CompilerInstance, TransformConfig } from './types';
 
@@ -8,10 +8,8 @@ export function createLoader<CompilerShape extends ICompiler>(
   const compilers = new Map<Record<string, any>, CompilerInstance>();
 
   function getCompiler(options: Record<string, any>) {
-    for (const [opts, compiler] of compilers.entries()) {
-      if (_.eq(opts, options)) {
-        return compiler;
-      }
+    if (compilers.has(options)) {
+      return compilers.get(options)!;
     }
 
     const compiler = new Compiler(options);
