@@ -1,17 +1,6 @@
+import { getAntdMajorVersion } from '@modern-js/utils';
 import { createBabelChain } from './babel-chain';
 import { IBaseBabelConfigOption } from '.';
-
-const getAntdMajorVersion = (appDirectory: string) => {
-  try {
-    const pkgJsonPath = require.resolve('antd/package.json', {
-      paths: [appDirectory],
-    });
-    const { version } = require(pkgJsonPath);
-    return Number(version.split('.')[0]);
-  } catch (err) {
-    return null;
-  }
-};
 
 export const getPluginsChain = (option: IBaseBabelConfigOption) => {
   const {
@@ -35,24 +24,27 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
       .use(require.resolve('../compiled/babel-plugin-dynamic-import-node'));
   }
 
-  const antdMajorVersion = getAntdMajorVersion(option.appDirectory);
+  const { antd } = babelPluginImport || {
+    antd: { libraryDirectory: 'es' },
+  };
 
-  // antd >= v5 no longer need babel-plugin-import
-  // see: https://ant.design/docs/react/migration-v5#remove-babel-plugin-import
-  if (antdMajorVersion && antdMajorVersion < 5) {
-    const { antd } = babelPluginImport || {
-      antd: { libraryDirectory: 'es' },
-    };
-    chain
-      .plugin('babel-plugin-import')
-      .use(require.resolve('../compiled/babel-plugin-import'), [
-        {
-          libraryName: 'antd',
-          libraryDirectory: antd?.libraryDirectory || 'es',
-          style: true,
-        },
-        'import-antd',
-      ]);
+  if (antd !== false) {
+    const antdMajorVersion = getAntdMajorVersion(option.appDirectory);
+
+    // antd >= v5 no longer need babel-plugin-import
+    // see: https://ant.design/docs/react/migration-v5#remove-babel-plugin-import
+    if (antdMajorVersion && antdMajorVersion < 5) {
+      chain
+        .plugin('babel-plugin-import')
+        .use(require.resolve('../compiled/babel-plugin-import'), [
+          {
+            libraryName: 'antd',
+            libraryDirectory: antd?.libraryDirectory || 'es',
+            style: true,
+          },
+          'import-antd',
+        ]);
+    }
   }
 
   chain

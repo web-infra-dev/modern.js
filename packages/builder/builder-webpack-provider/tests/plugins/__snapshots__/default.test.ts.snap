@@ -462,15 +462,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
@@ -589,15 +580,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1333,15 +1315,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
@@ -1466,15 +1439,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2153,15 +2117,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "lib",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
@@ -2284,15 +2239,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "lib",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2890,15 +2836,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
                   {},
                 ],
@@ -3023,15 +2960,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",

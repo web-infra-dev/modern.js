@@ -38,27 +38,10 @@ export const CHAIN_ID = {
   },
   /** Predefined rule groups */
   ONE_OF: {
-    JS: 'js',
-    TS: 'ts',
-    CSS: 'css',
-    LESS: 'less',
-    SASS: 'sass',
-    YAML: 'yml',
-    TOML: 'toml',
-    FALLBACK: 'fallback',
-    MARKDOWN: 'markdown',
-    BFF_CLIENT: 'bff-client',
-    CSS_MODULES: 'css-modules',
-    LESS_MODULES: 'less-modules',
-    SASS_MODULES: 'sass-modules',
     SVG: 'svg',
     SVG_URL: 'svg-url',
     SVG_ASSET: 'svg-asset',
     SVG_INLINE: 'svg-inline',
-    ASSETS: 'assets',
-    ASSETS_URL: 'assets-url',
-    ASSETS_INLINE: 'assets-inline',
-    IMAGE_COMPRESS: 'image-compress',
   },
   /** Predefined loaders */
   USE: {
