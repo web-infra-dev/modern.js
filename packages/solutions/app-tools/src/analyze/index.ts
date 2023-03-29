@@ -7,6 +7,7 @@ import {
   minimist,
   getCommand,
   isDevCommand,
+  getArgv,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { cloneDeep } from '@modern-js/utils/lodash';
@@ -132,7 +133,7 @@ export default ({
 
         let checkedEntries = entrypoints.map(point => point.entryName);
         if (isDevCommand()) {
-          const { entry } = minimist(process.argv.slice(2));
+          const { entry } = minimist(getArgv());
           checkedEntries = await getSelectedEntries(
             typeof entry === 'string' ? entry.split(',') : entry,
             entrypoints,
