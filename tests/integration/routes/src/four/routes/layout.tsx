@@ -1,4 +1,4 @@
-import { Link, Outlet } from '@modern-js/runtime/router';
+import { PrefetchLink, Outlet } from '@modern-js/runtime/router';
 import type { RuntimeContext } from '@modern-js/runtime';
 
 declare global {
@@ -31,8 +31,12 @@ export default function Layout() {
   return (
     <div>
       root layout
-      <Link to="/user">/user</Link>
-      <Link to="/user/profile">/user/profile</Link>
+      <PrefetchLink to="/user" prefetch="intent">
+        /user
+      </PrefetchLink>
+      <PrefetchLink to="/user/profile" prefetch="intent">
+        /user/profile
+      </PrefetchLink>
       <Outlet />
     </div>
   );

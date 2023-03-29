@@ -24,6 +24,9 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
       client: async ({ App, context, ModernRender, ModernHydrate }) => {
         const hydrateContext: { _hydration?: boolean } = {
           ...context,
+          get routes() {
+            return context.routes;
+          },
           _hydration: true,
         };
         const callback = () => {
