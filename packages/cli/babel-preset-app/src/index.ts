@@ -24,6 +24,7 @@ const defaultOptions: Options = {
   useTsLoader: false,
   lodash: {},
   styledComponents: {},
+  importAntd: true,
 };
 
 export const getBabelConfig = (options?: Options): BabelOptions => {
