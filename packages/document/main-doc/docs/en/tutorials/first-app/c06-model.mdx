@@ -195,18 +195,10 @@ const Item = ({
 export default Item;
 ```
 
-Next, we modify `src/routes/page.tsx` to pass more parameters to the `<Item>` component:
+Next, we add `src/routes.page.loader` and modify `src/routes/page.tsx` to pass more parameters to the `<Item>` component:
 
-```tsx
-import { Helmet } from '@modern-js/runtime/head';
-import { useModel } from '@modern-js/runtime/model';
-import { useLoaderData } from '@modern-js/runtime/router';
-import { List } from 'antd';
-import { name, internet } from 'faker';
-import Item from '../components/Item';
-import contacts from '../models/contacts';
-
-type LoaderData = {
+```tsx title="src/routes/page.loader.ts"
+export type LoaderData = {
   code: number;
   data: {
     name: string;
@@ -215,7 +207,7 @@ type LoaderData = {
   }[];
 };
 
-export const loader = async (): Promise<LoaderData> => {
+export default async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {
@@ -231,6 +223,17 @@ export const loader = async (): Promise<LoaderData> => {
     data,
   };
 };
+```
+
+```tsx title="src/routes/page.tsx"
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { useLoaderData } from '@modern-js/runtime/router';
+import { List } from 'antd';
+import { name, internet } from 'faker';
+import Item from '../components/Item';
+import contacts from '../models/contacts';
+import type { LoaderData } from './page.loader';
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;
