@@ -4,7 +4,7 @@
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
 :::warning
-When using Rspack as a packaging tool, using this configuration item will slow down Rspack builds a bit.
+When using Rspack as a packaging tool, using this configuration item will slow down Rspack builds a bit. Because Rspack uses SWC compilation by default, there will be additional compilation overhead when configuring the Babel.
 :::
 
 ### Function Type
@@ -29,6 +29,10 @@ export default {
   },
 };
 ```
+
+:::tip
+The above example is just for reference, usually you don't need to manually configure `babel-plugin-import`, because the Builder already provides a more general `source.transformImport` configuration.
+:::
 
 ### Object Type
 

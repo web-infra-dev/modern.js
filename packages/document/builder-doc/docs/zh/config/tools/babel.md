@@ -4,7 +4,7 @@
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
 
 :::warning
-在使用 Rspack 作为打包工具时，使用该配置项将在一定程度上拖慢 Rspack 构建速度。
+在使用 Rspack 作为打包工具时，使用该配置项将在一定程度上拖慢 Rspack 构建速度。因为 Rspack 默认使用的是 SWC 编译，配置 Babel 时会产生额外的编译开销。
 :::
 
 ### Function 类型
@@ -16,7 +16,6 @@ export default {
   tools: {
     babel(config) {
       // 添加一个插件，比如配置某个组件库的按需引入
-      // 目前内置了 antd 的按需引入规则
       config.plugins.push([
         'babel-plugin-import',
         {
@@ -29,6 +28,10 @@ export default {
   },
 };
 ```
+
+:::tip
+以上示例仅作为参考，通常来说，你不需要手动配置 `babel-plugin-import`，因为 Builder 已经提供了更通用的 `source.transformImport` 配置。
+:::
 
 ### Object 类型
 
