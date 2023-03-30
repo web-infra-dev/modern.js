@@ -11,8 +11,7 @@ import { merge } from '@modern-js/utils/lodash';
 import { logger, debug } from './logger';
 import { DEFAULT_PORT } from './constants';
 import { createAsyncHook } from './createHook';
-import { Compiler } from 'webpack';
-import { DEFAULT_DEV_HOST } from '@modern-js/utils';
+import type { Compiler } from 'webpack';
 
 type ServerOptions = Exclude<StartDevServerOptions['serverOptions'], undefined>;
 
@@ -79,14 +78,14 @@ export const getDevServerOptions = async ({
   return { config, devConfig };
 };
 
-async function printDevServerURLs(urls: Array<{ url: string; type: string }>) {
+async function printDevServerURLs(urls: Array<{ url: string; label: string }>) {
   const { chalk } = await import('@modern-js/utils');
   let message = 'Dev server running at:\n\n';
 
   message += urls
     .map(
-      ({ type, url }) =>
-        `  ${`> ${type.padEnd(10)}`}${chalk.cyanBright(url)}\n`,
+      ({ label, url }) =>
+        `  ${`> ${label.padEnd(10)}`}${chalk.cyanBright(url)}\n`,
     )
     .join('');
 
@@ -133,7 +132,9 @@ export async function startDevServer<
     process.env.NODE_ENV = 'development';
   }
 
-  const { getPort } = await import('@modern-js/utils');
+  const { getPort, isFunction, DEFAULT_DEV_HOST } = await import(
+    '@modern-js/utils'
+  );
   const builderConfig = options.context.config;
 
   const port = await getPort(builderConfig.dev?.port || DEFAULT_PORT, {
@@ -172,9 +173,19 @@ export async function startDevServer<
 
         const { getAddressUrls } = await import('@modern-js/utils');
         const protocol = builderConfig.dev?.https ? 'https' : 'http';
-        const urls = getAddressUrls(protocol, port);
+        let urls = getAddressUrls(protocol, port);
 
         if (printURLs) {
+          if (isFunction(printURLs)) {
+            urls = printURLs(urls);
+
+            if (!Array.isArray(urls)) {
+              throw new Error(
+                'Please return an array in the `printURLs` function.',
+              );
+            }
+          }
+
           await printDevServerURLs(urls);
         }
 

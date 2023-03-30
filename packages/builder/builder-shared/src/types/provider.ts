@@ -8,9 +8,11 @@ export type Bundler = 'webpack' | 'rspack';
 
 export type CreateCompilerOptions = { watch?: boolean };
 
+export type PrintUrl = { label: string; url: string };
+
 export type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
-  printURLs?: boolean;
+  printURLs?: boolean | ((urls: PrintUrl[]) => PrintUrl[]);
   strictPort?: boolean;
   serverOptions?: Partial<Omit<ModernDevServerOptions, 'config'>> & {
     config?: Partial<ModernDevServerOptions['config']>;
