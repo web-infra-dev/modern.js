@@ -2,23 +2,18 @@
 
 ## 如何配置组件库按需引入？
 
-如果需要配置组件库的按需引入，可以通过 [tools.babel](/api/config-tools.html#toolsbabel) 配置 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 插件。
+如果需要配置组件库的按需引入，你可以通过 [source.transformImport](/api/config-source.html#sourcetransformimport) 配置，这个配置的能力等价于 [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)。
 
 ```ts
 export default {
-  tools: {
-    babel: (config, { addPlugins }) => {
-      addPlugins([
-        [
-          'babel-plugin-import',
-          {
-            libraryName: 'xxx-components',
-            libraryDirectory: 'es',
-            style: true,
-          },
-        ],
-      ]);
-    },
+  source: {
+    transformImport: [
+      {
+        libraryName: 'xxx-components',
+        libraryDirectory: 'es',
+        style: true,
+      },
+    ],
   },
 };
 ```
