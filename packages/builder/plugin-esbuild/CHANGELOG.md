@@ -1,5 +1,22 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.11.0
+
+### Patch Changes
+
+- Updated dependencies [adcedad]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [3aa318d]
+- Updated dependencies [53b0a63]
+- Updated dependencies [381a3b9]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [b71cef1]
+  - @modern-js/builder-shared@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

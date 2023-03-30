@@ -1,5 +1,17 @@
 # @modern-js/builder-doc
 
+## 2.11.0
+
+### Patch Changes
+
+- a8c08c3: feat: 添加 `source.transformImoprt`
+
+  feat: add `source.transformImoprt`
+
+- b71cef1: feat(builder): support setting forceSplitting to be an object
+
+  feat(builder): 支持将 forceSplitting 设置为一个对象
+
 ## 2.10.0
 
 ### Patch Changes
