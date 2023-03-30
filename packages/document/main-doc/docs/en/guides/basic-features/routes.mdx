@@ -230,7 +230,7 @@ When a route jumps from `/` to `/blog`, if the JS Chunk of the `<Blog>` componen
 You can redirect routes by creating a [`data loader`](/guides/basic-features/data-fetch) file, Suppose you have the file `routes/user/page.tsx` and you want to redirect the route corresponding to this file, you can create the file `routes/user/page.loader.ts`:
 
 ```ts title="routes/user/page.loader.ts"
-import { redirect } from "@edenx/runtime/router"
+import { redirect } from '@modern-js/runtime/router'
 
 export default () => {
   const user = await getUser();
