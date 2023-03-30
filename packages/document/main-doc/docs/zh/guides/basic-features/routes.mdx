@@ -297,7 +297,7 @@ Modern.js 建议必须有根 layout 和根 loading。
 可以通过创建 [`data loader`](/guides/basic-features/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.loader.ts` 文件：
 
 ```ts title="routes/user/page.loader.ts"
-import { redirect } from "@edenx/runtime/router"
+import { redirect } from "@modern-js/runtime/router"
 
 export default () => {
   const user = await getUser();
