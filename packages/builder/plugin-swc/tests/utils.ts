@@ -4,6 +4,8 @@ import { Script } from 'node:vm';
 import * as swc from '@swc/core';
 import { expect } from 'vitest';
 import { Output, TransformConfig } from '@modern-js/swc-plugins';
+import { merge } from '@modern-js/utils/lodash';
+import { getDefaultSwcConfig } from '@modern-js/builder-plugin-swc-base';
 
 export function isInUpdate(): boolean {
   return process.env.SNAPSHOT_UPDATE === '1';
@@ -101,7 +103,7 @@ export function findPath(
 export async function fsSnapshot(
   base: string,
   compileFn: (
-    option: Partial<TransformConfig>,
+    option: Required<TransformConfig>,
     filename: string,
     code: string,
     map?: string,
@@ -133,7 +135,7 @@ export async function fsSnapshot(
   }
 
   const { code } = await compileFn(
-    option,
+    applyDefaultConfig(option),
     actualFile
       .replace(path.join(__dirname, './fixtures'), '')
       .replace(
@@ -155,4 +157,13 @@ export async function fsSnapshot(
       expected.replace(new RegExp('\r\n', 'g'), '\n'),
     );
   }
+}
+
+export function applyDefaultConfig(
+  config: TransformConfig,
+): Required<TransformConfig> {
+  return merge(
+    getDefaultSwcConfig(),
+    config,
+  ) as unknown as Required<TransformConfig>;
 }

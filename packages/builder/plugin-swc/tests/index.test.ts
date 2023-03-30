@@ -4,7 +4,7 @@ import MagicString from 'magic-string';
 import { SourceMapConsumer } from 'source-map';
 
 import { transform } from '../src/binding';
-import { fsSnapshot, walkLeafDir } from './utils';
+import { fsSnapshot, walkLeafDir, applyDefaultConfig } from './utils';
 import { lookForBrowserslist } from './browserslist';
 
 /*
@@ -58,7 +58,7 @@ describe('fixtures', () => {
     });
 
     const { map } = await transform(
-      {
+      applyDefaultConfig({
         env: {
           targets: 'ie 11',
         },
@@ -66,7 +66,7 @@ describe('fixtures', () => {
           type: 'commonjs',
         },
         sourceMaps: true,
-      },
+      }),
       '',
       code.toString(),
       JSON.stringify(inputMap),
@@ -102,7 +102,11 @@ describe('fixtures', () => {
 
   it('error reporter', async () => {
     try {
-      await transform({}, 'anonymous', 'if ((1) const a = 1'); // syntax error
+      await transform(
+        applyDefaultConfig({}),
+        'anonymous',
+        'if ((1) const a = 1',
+      ); // syntax error
     } catch (e) {
       expect(e as Error).toMatchSnapshot('transform parse error');
     }

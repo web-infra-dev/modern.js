@@ -5,19 +5,25 @@ import type { ICompiler, CompilerInstance, TransformConfig } from './types';
 export function createLoader<CompilerShape extends ICompiler>(
   Compiler: CompilerShape,
 ): LoaderDefinitionFunction {
-  let compiler: CompilerInstance | null = null;
+  const compilers = new Map<Record<string, any>, CompilerInstance>();
+
+  function getCompiler(options: Record<string, any>) {
+    if (compilers.has(options)) {
+      return compilers.get(options)!;
+    }
+
+    const compiler = new Compiler(options);
+    compilers.set(options, compiler);
+    return compiler;
+  }
 
   return function SwcLoader(code, map) {
     const resolve = this.async();
     const filename = this.resourcePath;
 
-    if (!compiler) {
-      // Only first transform will run following code
-      const options = this.getOptions();
-      normalizeLoaderOption(options, this);
-      compiler = new Compiler(options);
-    }
-
+    const options = this.getOptions();
+    normalizeLoaderOption(options, this);
+    const compiler = getCompiler(options);
     compiler
       .transform(
         filename,

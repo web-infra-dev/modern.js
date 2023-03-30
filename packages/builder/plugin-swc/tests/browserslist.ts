@@ -3,7 +3,12 @@ import * as fs from 'fs';
 import { getBrowserslist } from '@modern-js/utils';
 import { expect } from 'vitest';
 import { transformSync } from '../src/binding';
-import { isInUpdate, replaceCorejsAndSwcHelps, walkLeafDir } from './utils';
+import {
+  isInUpdate,
+  replaceCorejsAndSwcHelps,
+  walkLeafDir,
+  applyDefaultConfig,
+} from './utils';
 
 const testPath = path.resolve(__dirname, 'fixtures/browserslist');
 
@@ -12,9 +17,9 @@ export async function lookForBrowserslist() {
     const browserslist = getBrowserslist(dir);
 
     const { code } = transformSync(
-      {
+      applyDefaultConfig({
         env: { targets: browserslist, mode: 'entry' },
-      },
+      }),
       '',
       fs.readFileSync(path.resolve(dir, 'actual.js')).toString(),
     );
