@@ -229,6 +229,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -875,6 +887,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -1528,6 +1552,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -1918,6 +1954,18 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
