@@ -2,12 +2,12 @@ import { join } from 'path';
 import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { dev, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
+import { rspackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-// hmr will timeout in CI
-test.skip('default & hmr (default true)', async ({ page }) => {
+// webpack hmr test will timeout in CI
+rspackOnlyTest('default & hmr (default true)', async ({ page }) => {
   fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
   const buildOpts = {
     cwd: join(fixtures, 'hmr'),
@@ -93,7 +93,7 @@ export default App;
   await builder.server.close();
 });
 
-allProviderTest('dev.port & output.distPath', async ({ page }) => {
+rspackOnlyTest('dev.port & output.distPath', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'basic'),
     entry: {
