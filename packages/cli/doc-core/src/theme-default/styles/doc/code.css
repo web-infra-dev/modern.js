@@ -106,7 +106,7 @@
 
 .modern-doc [class*='language-'] code {
   display: block;
-  padding: 16px 0;
+  padding: 16px 20px;
   width: fit-content;
   min-width: 100%;
   line-height: 1.7;
@@ -118,10 +118,6 @@
 
 .modern-doc [class*='language-'] .modern-code-content {
   position: relative;
-}
-
-.modern-doc [class*='language-'] .modern-code-content .line:not(:empty) {
-  padding: 0 16px;
 }
 
 .modern-doc [class*='language-'] .modern-code-content > button.copy {
@@ -167,6 +163,9 @@
 
 .modern-doc [class*='language-'] .modern-code-content span.highlighted {
   background-color: var(--modern-code-line-highlight-color);
-  width: 100%;
-  display: inline-block;
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  padding-left: 20px;
 }
