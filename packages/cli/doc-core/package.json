@@ -107,7 +107,8 @@
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.1",
     "unist-util-visit-children": "^2.0.1",
-    "yaml-front-matter": "^4.1.1"
+    "yaml-front-matter": "^4.1.1",
+    "@modern-js/mdx-rs-binding": "^0.0.0"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^2.10.0",
