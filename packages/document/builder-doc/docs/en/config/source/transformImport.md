@@ -19,12 +19,12 @@ Array<{
 
 - **Default:**
 
-When using antd <= 4.x in the project, the default configuration is as follows:
+When the [antd component library](https://www.npmjs.com/package/antd) <= 4.x version is installed in the project, Builder will automatically add the corresponding on-demand import configuration. The default configuration is as follows:
 
 ```js
 {
   libraryName: 'antd',
-  libraryDirectory: 'es',
+  libraryDirectory: target === 'node' ? 'lib' : 'es',
   style: true,
 }
 ```
