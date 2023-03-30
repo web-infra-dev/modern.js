@@ -31,7 +31,7 @@ import { join } from 'path';
 import _ from '@modern-js/utils/lodash';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 
-export const defaultDevConfig: NormalizedSharedDevConfig = {
+export const getDefaultDevConfig = (): NormalizedSharedDevConfig => ({
   hmr: true,
   https: false,
   port: DEFAULT_PORT,
@@ -39,22 +39,22 @@ export const defaultDevConfig: NormalizedSharedDevConfig = {
   startUrl: false,
   progressBar: true,
   host: DEFAULT_DEV_HOST,
-};
+});
 
-export const defaultSourceConfig: NormalizedSharedSourceConfig = {
+export const getDefaultSourceConfig = (): NormalizedSharedSourceConfig => ({
   preEntry: [],
   globalVars: {},
   compileJsDataURI: true,
-};
+});
 
-export const defaultHtmlConfig: NormalizedSharedHtmlConfig = {
+export const getDefaultHtmlConfig = (): NormalizedSharedHtmlConfig => ({
   inject: 'head',
   mountId: DEFAULT_MOUNT_ID,
   crossorigin: false,
   disableHtmlFolder: false,
-};
+});
 
-export const defaultOutputConfig: NormalizedSharedOutputConfig = {
+export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
   distPath: {
     root: ROOT_DIST_DIR,
     js: JS_DIST_DIR,
@@ -96,7 +96,7 @@ export const defaultOutputConfig: NormalizedSharedOutputConfig = {
   enableCssModuleTSDeclaration: false,
   enableInlineScripts: false,
   enableInlineStyles: false,
-};
+});
 
 export async function outputInspectConfigFiles({
   builderConfig,
