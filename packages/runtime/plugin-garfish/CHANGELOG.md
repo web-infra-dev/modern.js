@@ -1,5 +1,23 @@
 # @modern-js/plugin-garfish
 
+## 2.11.0
+
+### Patch Changes
+
+- 02bb383: fix: fix lost props when using nested route in micro-front-end mode
+  修复嵌套路由在微前端场景下主子应用传递 props 丢失问题
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/runtime@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes
