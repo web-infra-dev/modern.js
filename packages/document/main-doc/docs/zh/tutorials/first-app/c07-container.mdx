@@ -15,7 +15,34 @@ import { Tabs, Tab as TabItem } from "@theme";
 
 Modern.js 支持在 `layout.tsx` 通过 Data Loader 获取数据，我们先数据获取这部分代码移动到 `src/routes/layout.tsx` 中：
 
-```tsx
+```ts title="src/routes/layout.loader.ts"
+export type LoaderData = {
+  code: number;
+  data: {
+    name: string;
+    avatar: string;
+    email: string;
+  }[];
+};
+
+export default async (): Promise<LoaderData> => {
+  const data = new Array(20).fill(0).map(() => {
+    const firstName = name.firstName();
+    return {
+      name: firstName,
+      avatar: `https://avatars.dicebear.com/api/identicon/${firstName}.svg`,
+      email: internet.email(),
+    };
+  });
+
+  return {
+    code: 200,
+    data,
+  };
+};
+```
+
+```tsx title="src/routes/layout.tsx"
 import { name, internet } from 'faker';
 import {
   Outlet,
@@ -31,31 +58,7 @@ import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 import '../styles/utils.css';
-
-type LoaderData = {
-  code: number;
-  data: {
-    name: string;
-    avatar: string;
-    email: string;
-  }[];
-};
-
-export const loader = async (): Promise<LoaderData> => {
-  const data = new Array(20).fill(0).map(() => {
-    const firstName = name.firstName();
-    return {
-      name: firstName,
-      avatar: `https://avatars.dicebear.com/api/identicon/${firstName}.svg`,
-      email: internet.email(),
-    };
-  });
-
-  return {
-    code: 200,
-    data,
-  };
-};
+import type { LoaderData } from './layout.loader';
 
 export default function Layout() {
   const { data } = useLoaderData() as LoaderData;

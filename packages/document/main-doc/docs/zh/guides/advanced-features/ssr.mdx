@@ -148,10 +148,10 @@ SPR 利用预渲染与缓存技术，为 SSR 页面提供静态 Web 的响应性
 
 这里模拟一个使用 `useLoaderData` API 的组件，Data Loader 中的请求需要消耗 2s 时间。
 
-```jsx
+```tsx title="page.loader.ts"
 import { useLoaderData } from '@modern-js/runtime/router';
 
-export const loader = async () => {
+export default async () => {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(null);
@@ -162,7 +162,9 @@ export const loader = async () => {
     message: 'Hello Modern.js',
   };
 };
+```
 
+```tsx title="page.tsx"
 export default () => {
   const data = useLoaderData();
   return <div>{data?.message}</div>;
