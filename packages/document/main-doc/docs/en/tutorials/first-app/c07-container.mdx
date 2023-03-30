@@ -15,7 +15,34 @@ Because the two pages need to share the same set of state (point of contact tabu
 
 Modern.js support obtaining data through Data Loader in `layout.tsx`, we first move the data acquisition part of the code to `src/routes/layout.tsx`:
 
-```tsx
+```ts title="src/routes/layout.loader.ts"
+export type LoaderData = {
+  code: number;
+  data: {
+    name: string;
+    avatar: string;
+    email: string;
+  }[];
+};
+
+export default async (): Promise<LoaderData> => {
+  const data = new Array(20).fill(0).map(() => {
+    const firstName = name.firstName();
+    return {
+      name: firstName,
+      avatar: `https://avatars.dicebear.com/api/identicon/${firstName}.svg`,
+      email: internet.email(),
+    };
+  });
+
+  return {
+    code: 200,
+    data,
+  };
+};
+```
+
+```tsx title="src/routes/layout.tsx"
 import { name, internet } from 'faker';
 import {
   Outlet,
@@ -31,31 +58,7 @@ import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 import '../styles/utils.css';
-
-type LoaderData = {
-  code: number;
-  data: {
-    name: string;
-    avatar: string;
-    email: string;
-  }[];
-};
-
-export const loader = async (): Promise<LoaderData> => {
-  const data = new Array(20).fill(0).map(() => {
-    const firstName = name.firstName();
-    return {
-      name: firstName,
-      avatar: `https://avatars.dicebear.com/api/identicon/${firstName}.svg`,
-      email: internet.email(),
-    };
-  });
-
-  return {
-    code: 200,
-    data,
-  };
-};
+import type { LoaderData } from './layout.loader';
 
 export default function Layout() {
   const { data } = useLoaderData() as LoaderData;
