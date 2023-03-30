@@ -1,4 +1,5 @@
 import path from 'path';
+import { logger } from '@modern-js/utils/logger';
 import type {
   InputOptions,
   OutputOptions,
@@ -20,11 +21,19 @@ type Config = {
   externals: BaseBuildConfig['externals'];
   input: Input;
   watch: boolean;
+  abortOnError?: boolean;
 };
 
 export const runRollup = async (
   api: PluginAPI<ModuleTools>,
-  { distDir, tsconfigPath, externals, input, watch }: Config,
+  {
+    distDir,
+    tsconfigPath,
+    externals,
+    input,
+    watch,
+    abortOnError = true,
+  }: Config,
 ) => {
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
@@ -116,11 +125,11 @@ export const runRollup = async (
       output: outputConfig,
     }).on('event', async event => {
       if (event.code === 'START') {
-        console.info(
+        logger.info(
           await watchSectionTitle(BundleDtsLogPrefix, SectionTitleStatus.Log),
         );
       } else if (event.code === 'BUNDLE_END') {
-        console.info(
+        logger.info(
           await watchSectionTitle(
             BundleDtsLogPrefix,
             SectionTitleStatus.Success,
@@ -142,13 +151,9 @@ export const runRollup = async (
       addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {
-      if (e instanceof Error) {
-        const { InternalDTSError } = await import('../../error');
-        throw new InternalDTSError(e, {
-          buildType: 'bundle',
-        });
-      }
-      throw e;
+      const { printOrThrowDtsErrors } = await import('../../utils/dts');
+      await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundle' });
+      return null;
     }
   }
 };

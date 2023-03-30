@@ -18,13 +18,19 @@ export const rehypePluginPreWrapper: Plugin<[], Root> = () => {
         const codeClassName =
           codeNode.properties?.className?.toString() || 'language-text';
         // language-xxx
-        // const lang = codeClassName.split('-')[1];
-        const meta = (codeNode.data?.meta as string) || '';
+        let meta = (codeNode.data?.meta as string) || '';
+        const highlightReg = /{[\d,-]*}/i;
+        const highlightMeta = highlightReg.exec(meta)?.[0];
+        if (highlightMeta && codeNode.properties) {
+          codeNode.properties.className = `${codeNode.properties.className} ${highlightMeta}`;
+          meta = meta.replace(highlightReg, '').trim();
+        }
         const parsedMeta = qs.parse(meta);
         const rawTitle = Array.isArray(parsedMeta.title)
           ? parsedMeta.title.join('')
           : parsedMeta.title;
         const title = rawTitle?.replace(/["'`]/g, '');
+
         const clonedNode: Element = {
           type: 'element',
           tagName: 'pre',

@@ -153,5 +153,5 @@ export default defineConfig({
       }),
     ],
   },
-  plugins: [docTools()],
+  plugins: [docTools({})],
 });

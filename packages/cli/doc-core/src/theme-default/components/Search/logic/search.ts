@@ -207,7 +207,7 @@ export class PageSearcher {
       }
       return false;
     });
-    const currentHeader = toc[currentHeaderIndex] ?? item.title;
+    const currentHeader = toc[currentHeaderIndex];
 
     let statementStartIndex = content.slice(0, queryIndex).lastIndexOf('\n');
     statementStartIndex = statementStartIndex === -1 ? 0 : statementStartIndex;
@@ -219,10 +219,12 @@ export class PageSearcher {
     matchedResult.push({
       type: 'content',
       title: item.title,
-      header: currentHeader.text,
+      header: currentHeader?.text ?? item.title,
       statement,
       highlightIndex: normalizeTextCase(statement).indexOf(query),
-      link: `${domain}${normalizeHref(item.routePath)}#${currentHeader.id}`,
+      link: `${domain}${normalizeHref(item.routePath)}${
+        currentHeader ? `#${currentHeader.id}` : ''
+      }`,
       query,
       group: this.#options.extractGroupName(item.routePath),
     });

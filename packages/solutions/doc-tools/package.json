@@ -1,7 +1,7 @@
 {
   "name": "@modern-js/doc-tools",
   "description": "The Documentation Framework of Modern.js.",
-  "homepage": "https://modernjs.dev",
+  "homepage": "https://modernjs.dev/doc-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": "web-infra-dev/modern.js",
   "license": "MIT",
@@ -66,7 +66,7 @@
     "@types/node": "^14",
     "@types/react": "^18",
     "husky": "^8",
-    "lint-staged": "^11.2.6",
+    "lint-staged": "~13.1.0",
     "prettier": "^2.6.2",
     "react": "^17",
     "rimraf": "^3.0.2",

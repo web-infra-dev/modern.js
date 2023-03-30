@@ -6,6 +6,7 @@ import {
   getDistPath,
   getFilename,
   chainStaticAssetRule,
+  getSvgoDefaultConfig,
 } from '@modern-js/builder-shared';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
@@ -67,7 +68,10 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
           .type('javascript/auto')
           .use(CHAIN_ID.USE.SVGR)
           .loader(require.resolve('@svgr/webpack'))
-          .options({ svgo: true })
+          .options({
+            svgo: true,
+            svgoConfig: getSvgoDefaultConfig(),
+          })
           .end()
           .when(defaultExport === 'url', c =>
             c

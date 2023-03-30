@@ -34,7 +34,9 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-    "node-libs-browser": "2.2.1"
+    "node-libs-browser": "2.2.1",
+    "rspack-plugin-virtual-module": "0.1.0",
+    "@modern-js/builder-shared": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",

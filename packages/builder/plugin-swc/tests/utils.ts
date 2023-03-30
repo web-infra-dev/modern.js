@@ -4,9 +4,34 @@ import { Script } from 'node:vm';
 import * as swc from '@swc/core';
 import { expect } from 'vitest';
 import { Output, TransformConfig } from '@modern-js/swc-plugins';
+import { merge } from '@modern-js/utils/lodash';
+import { getDefaultSwcConfig } from '@modern-js/builder-plugin-swc-base';
 
 export function isInUpdate(): boolean {
   return process.env.SNAPSHOT_UPDATE === '1';
+}
+
+export function replace(
+  origin: string,
+  replaces: Array<{ match: string | RegExp; mark: string }>,
+) {
+  return replaces.reduce((pre, cur) => {
+    const match = new RegExp(cur.match, 'g');
+    return pre.replace(match, cur.mark);
+  }, origin);
+}
+
+export function replaceCorejsAndSwcHelps(source: string) {
+  return replace(source, [
+    {
+      mark: '"<SWC_HELPER>',
+      match: /\".*helpers(?!@)/,
+    },
+    {
+      mark: '"<CORE_JS>',
+      match: /\".*core-js(?!@)/,
+    },
+  ]);
 }
 
 /**
@@ -78,7 +103,7 @@ export function findPath(
 export async function fsSnapshot(
   base: string,
   compileFn: (
-    option: Partial<TransformConfig>,
+    option: Required<TransformConfig>,
     filename: string,
     code: string,
     map?: string,
@@ -110,7 +135,7 @@ export async function fsSnapshot(
   }
 
   const { code } = await compileFn(
-    option,
+    applyDefaultConfig(option),
     actualFile
       .replace(path.join(__dirname, './fixtures'), '')
       .replace(
@@ -121,13 +146,24 @@ export async function fsSnapshot(
   );
 
   const expectedPath = path.resolve(base, 'expected.js');
+  const finalCode = replaceCorejsAndSwcHelps(code);
 
   if (!fs.existsSync(expectedPath) || isInUpdate()) {
-    fs.writeFileSync(expectedPath, code);
+    fs.writeFileSync(expectedPath, finalCode);
   } else {
     const expected = fs.readFileSync(expectedPath).toString();
-    expect(code, `Test base: ${base}`).toEqual(
+
+    expect(finalCode, `Test base: ${base}`).toEqual(
       expected.replace(new RegExp('\r\n', 'g'), '\n'),
     );
   }
+}
+
+export function applyDefaultConfig(
+  config: TransformConfig,
+): Required<TransformConfig> {
+  return merge(
+    getDefaultSwcConfig(),
+    config,
+  ) as unknown as Required<TransformConfig>;
 }

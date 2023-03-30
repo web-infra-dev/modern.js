@@ -208,16 +208,22 @@ export default defineConfig({
         },
       ],
     },
+    replaceRules: [
+      {
+        search: /{MODERN_JS}/g,
+        replace: 'Modern.js',
+      },
+      {
+        search: /{MODERN_JS_CONFIG}/g,
+        replace: 'modern.config.ts',
+      },
+    ],
     builderConfig: {
       source: {
         alias: {
           '@components': path.join(__dirname, 'src/components'),
           '@en': path.join(__dirname, 'docs/en'),
           '@zh': path.join(__dirname, 'docs/zh'),
-        },
-        globalVars: {
-          MODERN_JS: 'Modern.js',
-          MODERN_JS_CONFIG: 'modern.config.ts',
         },
       },
       dev: {

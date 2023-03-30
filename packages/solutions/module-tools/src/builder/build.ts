@@ -1,4 +1,5 @@
 import { join } from 'path';
+import { logger } from '@modern-js/utils/logger';
 import type { CLIConfig } from '@modern-js/libuild';
 import type {
   BuildCommandOptions,
@@ -86,7 +87,7 @@ export const generatorDts = async (
   const { watch, dts } = options;
   const { buildType, input, sourceDir, alias } = config;
   const { appDirectory } = api.useAppContext();
-  const { tsconfigPath, distPath } = dts;
+  const { tsconfigPath, distPath, abortOnError } = dts;
   if (buildType === 'bundle') {
     const { getFinalExternals } = await import('../utils/builder');
     const finalExternals = await getFinalExternals(config, { appDirectory });
@@ -97,6 +98,7 @@ export const generatorDts = async (
       externals: finalExternals,
       input,
       tsconfigPath,
+      abortOnError,
     });
   } else {
     await runTsc(api, {
@@ -106,6 +108,7 @@ export const generatorDts = async (
       watch,
       tsconfigPath,
       sourceDir,
+      abortOnError,
     });
   }
 };
@@ -256,7 +259,7 @@ export const buildLib = async (
         buildType === 'bundle' ? 'Bundle' : 'Bundleless'
       }: ${format}_${target}]`;
 
-      console.info(
+      logger.info(
         await watchSectionTitle(titleText, SectionTitleStatus.Success),
       );
     }

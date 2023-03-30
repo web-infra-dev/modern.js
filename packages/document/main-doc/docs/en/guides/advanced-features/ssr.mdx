@@ -22,8 +22,8 @@ export default defineConfig({
 
 Modern.js provides Data Loader, which is convenient for developers to fetch data under SSR and CSR. Each routing module, such as `layout.tsx` and `page.tsx`, can define its own Data Loader:
 
-```ts title="src/routes/page.tsx"
-export const loader = () => {
+```ts title="src/routes/page.loader.ts"
+export default () => {
   return {
     message: 'Hello World',
   };
@@ -49,6 +49,7 @@ However, developers still need to pay attention to the fallback of data, such as
 1. When you request the page on client-side page transitions, Modern.js sends an API request to the server, which runs Data Loader function.
 
 2. When using Data Loader, data fetching happens before rendering, Modern.js still supports fetching data when the component is rendered. See [Data Fetch](/guides/basic-features/data-fetch).
+
 :::
 
 ## Keep Rendering Consistent
@@ -225,7 +226,7 @@ The Node API is introduced in the component file, usually because of the use of 
 
 ```ts
 import fse from 'fs-extra';
-export const loader = () => {
+export default () => {
   const file = fse.readFileSync('./myfile');
   return {
     ...

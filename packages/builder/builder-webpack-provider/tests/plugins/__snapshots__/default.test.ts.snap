@@ -112,6 +112,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -450,16 +462,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -570,16 +582,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -965,6 +977,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -1303,16 +1327,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1429,16 +1453,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1866,6 +1890,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -2102,19 +2138,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "lib",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2226,19 +2262,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "lib",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2588,6 +2624,18 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                    ],
+                  },
                 },
               },
               {
@@ -2824,16 +2872,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2950,16 +2998,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
                     "libraryDirectory": "es",
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",

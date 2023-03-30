@@ -75,6 +75,10 @@
     "./universal/format-webpack": {
       "jsnext:source": "./src/universal/formatWebpack.ts",
       "default": "./dist/universal/formatWebpack.js"
+    },
+    "./universal/nestedRoutes": {
+      "jsnext:source": "./src/universal/nestedRoutes.tsx",
+      "default": "./dist/universal/nestedRoutes.js"
     }
   },
   "publishConfig": {
@@ -109,7 +113,8 @@
       "./universal/constants": "./dist/universal/constants.js",
       "./universal/serialize": "./dist/universal/serialize.js",
       "./universal/remix-router": "./dist/universal/remixRouter.js",
-      "./universal/format-webpack": "./dist/universal/formatWebpack.js"
+      "./universal/format-webpack": "./dist/universal/formatWebpack.js",
+      "./universal/nestedRoutes": "./dist/universal/nestedRoutes.js"
     }
   },
   "typesVersions": {
@@ -197,6 +202,9 @@
       ],
       "universal/format-webpack": [
         "./dist/universal/formatWebpack.d.ts"
+      ],
+      "universal/nestedRoutes": [
+        "./dist/universal/nestedRoutes.d.ts"
       ]
     }
   },

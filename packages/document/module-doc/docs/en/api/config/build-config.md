@@ -95,6 +95,34 @@ Packaged to handle svg as a React component, options reference [svgr](https://re
 - type: `boolean | Object`
 - default: `false`
 
+When svgr feature is enabled, you can use svg as a component using the default export.
+
+```js index.ts
+// true
+import Logo from './logo.svg';
+
+export default () => <Logo />;
+```
+
+:::warning
+The following usage is not currently supported:
+
+```js index.ts
+import { ReactComponent } from './logo.svg';
+```
+:::
+
+When enabled, the type of svg used can be modified by adding a type definition to the `modern-app-env.d.ts` file:
+
+``` ts modern-app-env.d.ts focus=1:3
+declare module '*.svg' {
+  const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default src;
+}
+
+/// <reference types='@modern-js/module-tools/types' />
+```
+
 #### include
 
 Set the matching svg file
@@ -183,17 +211,30 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 ## dts
 
-The dts file generates the relevant configuration, by default it generates
+The dts file generates the relevant configuration, by default it generates.
 
 - type: `false | Object`
-- default: `{}`
+- default:
 
-### tsconfigPath
+``` js
+{
+  abortOnError: true,
+  distPath: './',
+  only: false,
+  tsconfigPath: './tsconfig.json',
+}
+```
 
-Path to the tsconfig file
+### abortOnError
 
-- type: `string`
-- default: `. /tsconfig.json`
+Whether to allow the build to succeed in case of a type error. By default, this will cause the build to fail in case of a type error.
+
+:::warning
+When this configuration is turned on, there is no guarantee that the type files will be generated properly and accurately. In `buildType: 'bundle'` or Bundle build mode, the type file must not be generated.
+:::
+
+- type: `boolean`
+- default: `true`
 
 ### distPath
 
@@ -208,6 +249,13 @@ Generate only dts files, not js files
 
 - type: `boolean`
 - default: `false`
+
+### tsconfigPath
+
+Path to the tsconfig file
+
+- type: `string`
+- default: `. /tsconfig.json`
 
 ## externals
 

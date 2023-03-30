@@ -25,7 +25,7 @@ pnpm add @modern-js/builder-plugin-node-polyfill -D
 
 ### 注册插件
 
-在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 node polyfill 插件：
+在 Modern.js 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 node polyfill 插件：
 
 ```ts
 import { builderPluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
@@ -51,7 +51,7 @@ builder.addPlugins([builderPluginNodePolyfill()]);
 - `Buffer`
 - `process`
 
-当直接在代码中使用以上模块时，对应 polyfill 会被注入。
+当你在代码中使用以上全局变量时，对应 polyfill 会被自动注入。
 
 ```ts
 const bufferData = Buffer.from('xxxx');
@@ -88,10 +88,31 @@ const bufferData = Buffer.from('xxxx');
 - `vm`
 - `zlib`
 
-当通过 import / require 等语法在代码中引用以上模块时，对应 polyfill 会被注入。
+当你通过 `require` 或 `import` 等语法在代码中引用以上模块时，对应 polyfill 会被注入。
 
 ```ts
 import { Buffer } from 'buffer';
 
 const bufferData = Buffer.from('xxxx');
+```
+
+### Fallbacks
+
+- `child_process`
+- `cluster`
+- `dgram`
+- `dns`
+- `fs`
+- `module`
+- `net`
+- `readline`
+- `repl`
+- `tls`
+
+目前浏览器端没有以上模块的 polyfill，因此当你引用以上模块时，会自动 fallback 为一个空对象。
+
+```ts
+import fs from 'fs';
+
+console.log(fs); // -> {}
 ```

@@ -3,6 +3,7 @@ import type { StaticHandlerContext } from '@modern-js/utils/universal/remix-rout
 import { createContext } from 'react';
 import { createLoaderManager } from './core/loader/loaderManager';
 import { runtime } from './core/plugin';
+import { RouteManifest } from './router/runtime/types';
 import { SSRServerContext } from './ssr/serverRender/types';
 
 export interface BaseRuntimeContext {
@@ -13,6 +14,7 @@ export interface BaseRuntimeContext {
   ssrContext?: SSRServerContext;
   // state type
   store?: Store;
+  routeManifest: RouteManifest;
   routerContext?: StaticHandlerContext;
 }
 

@@ -39,18 +39,21 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@rspack/core": "0.1.1",
-    "@rspack/dev-client": "0.1.1",
-    "@rspack/dev-middleware": "0.1.1",
-    "@rspack/plugin-html": "0.1.1",
-    "@rspack/postcss-loader": "0.1.1",
+    "@babel/preset-typescript": "^7.17.12",
+    "@rspack/core": "0.1.4",
+    "@rspack/dev-client": "0.1.4",
+    "@rspack/dev-middleware": "0.1.4",
+    "@rspack/plugin-html": "0.1.4",
+    "@rspack/postcss-loader": "0.1.4",
     "caniuse-lite": "^1.0.30001451",
-    "core-js": "^3.26.0"
+    "core-js": "^3.26.0",
+    "rspack-plugin-virtual-module": "0.1.0"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
+    "antd": "4",
     "postcss": "8.4.21",
     "typescript": "^4"
   },

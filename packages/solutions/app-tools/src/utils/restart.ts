@@ -1,5 +1,11 @@
 import { cli, ToRunners } from '@modern-js/core';
-import { chalk, clearConsole, logger, program } from '@modern-js/utils';
+import {
+  chalk,
+  clearConsole,
+  getArgv,
+  logger,
+  program,
+} from '@modern-js/utils';
 import { AppToolsHooks } from '../types/hooks';
 
 export async function restart(
@@ -20,7 +26,7 @@ export async function restart(
     hasGetError = true;
   } finally {
     if (!hasGetError) {
-      program.parse(process.argv);
+      program.parse(getArgv());
     }
   }
 }

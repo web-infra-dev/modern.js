@@ -1,5 +1,5 @@
 import { Compiler as RawCompiler, Output } from '@modern-js/swc-plugins';
-import { normalizeConfig, TransformConfig } from './config';
+import { applyExtensionsConfig, TransformConfig } from './config';
 
 export {
   minify,
@@ -11,15 +11,15 @@ export {
 export class Compiler extends RawCompiler {
   config: TransformConfig;
 
-  constructor(config: TransformConfig) {
-    const normalized = normalizeConfig(config);
-    super(normalized);
-    this.config = normalized;
+  constructor(config: Required<TransformConfig>) {
+    const finalConfig = applyExtensionsConfig(config);
+    super(finalConfig);
+    this.config = finalConfig;
   }
 }
 
 export function transformSync(
-  config: TransformConfig,
+  config: Required<TransformConfig>,
   filename: string,
   code: string,
   map?: string,
@@ -30,7 +30,7 @@ export function transformSync(
 }
 
 export function transform(
-  config: TransformConfig,
+  config: Required<TransformConfig>,
   filename: string,
   code: string,
   map?: string,

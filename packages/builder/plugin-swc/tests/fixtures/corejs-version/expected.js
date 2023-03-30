@@ -1,1 +1,1 @@
-import "demo/core-js";
+import "<CORE_JS>";

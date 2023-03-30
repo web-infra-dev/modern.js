@@ -117,6 +117,25 @@ describe('plugins/splitChunks', () => {
       },
     },
     {
+      name: 'should allow forceSplitting to be an object',
+      builderConfig: {
+        performance: {
+          chunkSplit: {
+            strategy: 'custom',
+            forceSplitting: {
+              axios: /axios/,
+            },
+            splitChunks: {
+              cacheGroups: {},
+            },
+          },
+        },
+        output: {
+          polyfill: 'entry',
+        },
+      },
+    },
+    {
       name: 'should not split chunks when target is not',
       target: 'node',
     },

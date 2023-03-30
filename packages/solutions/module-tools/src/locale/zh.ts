@@ -1,11 +1,10 @@
 import { chalk } from '@modern-js/utils';
 
-const noDevTools = `
-暂无可用的 DevTools，可以通过以下选项以及对应的链接了解如何使用。
-- ${chalk.underline(
-  chalk.blue('[Storybook]:'),
-  'https://modernjs.dev/module-tools/guide/basic/using-storybook.html',
-)}
+const noDevTools = `暂无可用的 DevTools，你可以通过以下选项以及对应的链接来了解如何使用。
+  - ${chalk.underline(
+    chalk.blue('[Storybook]:'),
+    'https://modernjs.dev/module-tools/guide/basic/using-storybook.html',
+  )}
 `;
 
 export const ZH_LOCALE = {
@@ -39,5 +38,9 @@ export const ZH_LOCALE = {
     dev: {
       noDevtools: noDevTools,
     },
+  },
+  dts: {
+    abortOnError:
+      '当前开启了 `dts.abortOnError` 配置，类型错误不会导致构建失败，无法保证类型文件正常输出',
   },
 };

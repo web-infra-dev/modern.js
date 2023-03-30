@@ -195,18 +195,10 @@ const Item = ({
 export default Item;
 ```
 
-接下来，我们修改 `src/routes/page.tsx`，为 `<Item>` 组件传递更多参数：
+接下来，我们修改 `src/routes/page.tsx` 和 `src/routes/page.loader.ts`，为 `<Item>` 组件传递更多参数：
 
-```tsx
-import { Helmet } from '@modern-js/runtime/head';
-import { useModel } from '@modern-js/runtime/model';
-import { useLoaderData } from '@modern-js/runtime/router';
-import { List } from 'antd';
-import { name, internet } from 'faker';
-import Item from '../components/Item';
-import contacts from '../models/contacts';
-
-type LoaderData = {
+```ts title="src/routes/page.loader.ts"
+export type LoaderData = {
   code: number;
   data: {
     name: string;
@@ -215,7 +207,7 @@ type LoaderData = {
   }[];
 };
 
-export const loader = async (): Promise<LoaderData> => {
+export default async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {
@@ -231,6 +223,16 @@ export const loader = async (): Promise<LoaderData> => {
     data,
   };
 };
+```
+
+```tsx title="src/routes/page.tsx"
+import { Helmet } from '@modern-js/runtime/head';
+import { useModel } from '@modern-js/runtime/model';
+import { useLoaderData } from '@modern-js/runtime/router';
+import { List } from 'antd';
+import { name, internet } from 'faker';
+import Item from '../components/Item';
+import contacts from '../models/contacts';
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;

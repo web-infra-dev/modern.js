@@ -20,7 +20,7 @@ import {
 } from './context';
 import { loadEnv } from './loadEnv';
 import { manager } from './manager';
-import type { ToolsType, CliHooksRunner } from './types';
+import type { ToolsType, CliHooksRunner, UserConfig } from './types';
 import { createResolveConfig, createLoadedConfig } from './config';
 import { checkIsDuplicationPlugin } from './utils/checkIsDuplicationPlugin';
 
@@ -75,6 +75,9 @@ export interface CoreOptions {
 
   /** force the modern-js core auto register plugin exist in the package.json  */
   forceAutoLoadPlugins?: boolean;
+
+  /** config for Node API */
+  loadedConfig?: UserConfig;
 }
 
 export const mergeOptions = (options?: CoreOptions) => {
@@ -115,6 +118,7 @@ const createCli = () => {
       appDirectory,
       mergedOptions?.configFile,
       mergedOptions?.packageJsonConfig,
+      mergedOptions?.loadedConfig,
     );
 
     const plugins = await loadPlugins(appDirectory, loaded.config, {
@@ -208,6 +212,23 @@ const createCli = () => {
     }
   }
 
+  async function runCommand(
+    command: string,
+    commandOptions: string[] = [],
+    options?: CoreOptions,
+  ) {
+    const argv = process.argv
+      .slice(0, 2)
+      .concat(command)
+      .concat(commandOptions);
+
+    process.env.MODERN_ARGV = argv.join(' ');
+    const { appContext } = await init(options);
+    await hooksRunner.commands({ program });
+    await createFileWatcher(appContext, hooksRunner);
+    program.parse(argv);
+  }
+
   async function test(
     argv: string[],
     options?: {
@@ -227,6 +248,7 @@ const createCli = () => {
     init,
     run,
     test,
+    runCommand,
     getPrevInitOptions: () => initOptions,
   };
 };

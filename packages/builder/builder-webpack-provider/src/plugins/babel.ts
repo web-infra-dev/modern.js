@@ -2,6 +2,7 @@ import {
   getBabelConfig,
   createBabelChain,
   type BabelOptions,
+  BabelChain,
 } from '@modern-js/babel-preset-app';
 import {
   JS_REGEX,
@@ -13,7 +14,12 @@ import {
   applyScriptCondition,
 } from '@modern-js/builder-shared';
 
-import type { WebpackChain, BuilderPlugin, NormalizedConfig } from '../types';
+import type {
+  WebpackChain,
+  BuilderPlugin,
+  NormalizedConfig,
+  TransformImport,
+} from '../types';
 
 const enableCoreJsEntry = (
   config: NormalizedConfig,
@@ -86,6 +92,9 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             },
           };
 
+          const chain = createBabelChain();
+          applyPluginImport(chain, config.source.transformImport);
+
           // 3. Compute final babel config by @modern-js/babel-preset-app
           const babelOptions: BabelOptions = {
             babelrc: false,
@@ -97,11 +106,12 @@ export const builderPluginBabel = (): BuilderPlugin => ({
               useLegacyDecorators: !config.output.enableLatestDecorators,
               useBuiltIns:
                 isServer || isServiceWorker ? false : getUseBuiltIns(config),
-              chain: createBabelChain(),
+              chain,
               styledComponents: styledComponentsOptions,
               userBabelConfig: config.tools.babel,
               userBabelConfigUtils: babelUtils,
               overrideBrowserslist: browserslist,
+              importAntd: false,
             }),
           };
 
@@ -181,6 +191,26 @@ export function addCoreJsEntry({
 
     for (const name of entryPoints) {
       chain.entry(name).prepend(coreJsEntry);
+    }
+  }
+}
+
+function applyPluginImport(
+  chain: BabelChain,
+  pluginImport?: TransformImport[],
+) {
+  if (pluginImport) {
+    for (const item of pluginImport) {
+      const name = item.libraryName;
+
+      chain
+        .plugin(`plugin-import-${name}`)
+        .use(
+          require.resolve(
+            '@modern-js/babel-preset-base/compiled/babel-plugin-import',
+          ),
+          [item, name],
+        );
     }
   }
 }

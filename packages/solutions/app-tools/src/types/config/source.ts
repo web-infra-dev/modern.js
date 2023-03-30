@@ -30,10 +30,6 @@ export interface SharedSourceConfig extends BuilderSharedSourceConfig {
   designSystem?: Record<string, any>;
 }
 
-export interface SourceUserConfig
-  extends BuilderSourceConfig,
-    SharedSourceConfig {}
+export type SourceUserConfig = BuilderSourceConfig & SharedSourceConfig;
 
-export interface RsSourceUserConfig
-  extends RsBuilderSourceConfig,
-    SharedSourceConfig {}
+export type RsSourceUserConfig = RsBuilderSourceConfig & SharedSourceConfig;

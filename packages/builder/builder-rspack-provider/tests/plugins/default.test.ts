@@ -32,6 +32,8 @@ describe('applyDefaultPlugins', () => {
   });
 
   it('should apply default plugins correctyly when target = node', async () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'test';
     const builder = await createBuilder({
       target: 'node',
     });
@@ -41,6 +43,7 @@ describe('applyDefaultPlugins', () => {
     } = await builder.inspectConfig();
 
     expect(bundlerConfigs[0]).toMatchSnapshot();
+    process.env.NODE_ENV = NODE_ENV;
   });
 });
 

@@ -7,6 +7,7 @@ export interface BundlelessGeneratorDtsConfig {
   watch: boolean;
   sourceDir: string;
   alias: AliasOption;
+  abortOnError?: boolean;
 }
 
 export interface ITsconfig {

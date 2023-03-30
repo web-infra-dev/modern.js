@@ -5,6 +5,7 @@ import {
   getBrowserslistWithDefault,
   logger,
   setConfig,
+  isWebTarget,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -12,6 +13,7 @@ import type {
   NormalizedConfig,
   RspackConfig,
 } from '../types';
+import { Builtins } from '@rspack/core';
 
 /**
  * Provide some swc configs of rspack
@@ -20,30 +22,26 @@ export const builderPluginSwc = (): BuilderPlugin => ({
   name: 'builder-plugin-swc',
 
   setup(api) {
-    const getPolyfillEntry = () => {
-      return path.resolve(api.context.cachePath, 'polyfill.js');
-    };
+    const polyfillEntryFileName = 'rspack-polyfill.js';
 
-    api.onBeforeCreateCompiler(async () => {
-      const config = api.getNormalizedConfig();
-      if (
-        isWebTarget(api.context.target) &&
-        config.output.polyfill === 'entry'
-      ) {
-        const fs = await import('@modern-js/utils/fs-extra');
-        fs.ensureFileSync(getPolyfillEntry());
-        fs.writeFileSync(getPolyfillEntry(), "import 'core-js'");
-      }
-    });
-
-    api.modifyBundlerChain((chain, { target }) => {
+    api.modifyBundlerChain(async (chain, { target }) => {
       const config = api.getNormalizedConfig();
       const mode = config?.output?.polyfill ?? 'entry';
       const { entry } = api.context;
       if (['modern-web', 'web'].includes(target) && mode === 'entry') {
         Object.keys(entry).forEach(entryName => {
-          chain.entry(entryName).add(getPolyfillEntry());
+          chain.entry(entryName).prepend(polyfillEntryFileName);
         });
+
+        const { default: RspackVirtualModulePlugin } = await import(
+          'rspack-plugin-virtual-module'
+        );
+
+        chain.plugin('rspack-core-js-entry').use(RspackVirtualModulePlugin, [
+          {
+            [polyfillEntryFileName]: `import 'core-js'`,
+          },
+        ]);
       }
     });
 
@@ -102,6 +100,8 @@ async function applyDefaultConfig(
       await applyCoreJs(rspackConfig);
     }
   }
+
+  applyTransformImport(rspackConfig, builderConfig.source.transformImport);
 }
 
 async function setBrowserslist(
@@ -121,12 +121,6 @@ async function setBrowserslist(
   }
 }
 
-function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
-  return ['modern-web', 'web'].some(t =>
-    (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
-  );
-}
-
 async function applyCoreJs(rspackConfig: RspackConfig) {
   const { getCoreJsVersion } = await import('@modern-js/utils');
   const coreJsPath = require.resolve('core-js/package.json');
@@ -137,4 +131,28 @@ async function applyCoreJs(rspackConfig: RspackConfig) {
   rspackConfig.resolve ??= {};
   rspackConfig.resolve.alias ??= {};
   rspackConfig.resolve.alias['core-js'] = path.dirname(coreJsPath);
+}
+
+async function applyTransformImport(
+  rspackConfig: RspackConfig,
+  pluginImport?: Builtins['pluginImport'],
+) {
+  if (pluginImport) {
+    ensureNoJsFunction(pluginImport);
+    rspackConfig.builtins ??= {};
+    rspackConfig.builtins.pluginImport ??= [];
+    rspackConfig.builtins.pluginImport.push(...pluginImport);
+  }
+}
+
+function ensureNoJsFunction(pluginImport: Array<Record<string, any>>) {
+  for (const item of pluginImport) {
+    for (const key in item) {
+      if (typeof item[key] === 'function') {
+        throw new TypeError(
+          '`builtins.pluginImport` can not contain Function configuration',
+        );
+      }
+    }
+  }
 }

@@ -24,6 +24,11 @@
       },
       "default": "./dist/index.js"
     },
+    "./node": {
+      "jsnext:source": "./src/node-api.ts",
+      "types": "./dist/node-api.d.ts",
+      "default": "./dist/node-api.js"
+    },
     "./bin": {
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
@@ -50,6 +55,9 @@
       ],
       "types": [
         "./dist/types/index.d.ts"
+      ],
+      "node": [
+        "./dist/node-api.d.ts"
       ],
       "runBin": [
         "./dist/runBin.d.ts"

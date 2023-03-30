@@ -6,8 +6,17 @@ This package is used to prebundle 3rd party dependencies, based on [ncc](https:/
 
 Run following command to prebundle all dependencies:
 
-```
+```bash
 pnpm start
+```
+
+Run following command to prebundle single dependencies:
+
+```bash
+pnpm start <pkgName>
+
+# For example, prebundle commander
+pnpm start commander
 ```
 
 ## Add a new dependency

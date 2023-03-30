@@ -23,3 +23,4 @@ export * from './openBrowser';
 export * from './apply';
 export * from './fallback';
 export * from './getLoaderOptions';
+export * from './svgo';
