@@ -175,10 +175,4 @@ export default {
 
 ### 更灵活的修改配置方式
 
-Builder 暂未提供类似 webpack-chain 的方式来灵活修改 Rspack config 的方法。
-
-如需增删插件或 Rule，可使用 [prependPlugins](/api/config-tools.html#prependplugins)、[addRules](/api/config-tools.html#addrules) 等工具方法实现。
-
-如需对已有插件或 Rule 进行修改，推荐优先使用 Builder 已有配置项进行修改。
-
-比如，修改 HTML 相关配置，可以优先查看 [html config](/api/config-html.html) 下是否存在相应的配置项，html config 不支持的情况下，可使用 [tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin) 配置项。
+Builder 支持通过 [bundler-chain](/api/config-tools.html#toolsbundlerchain) 来修改 Rspack config。通过 bundler chain 修改的配置，在 webpack 和 Rspack 构建时均可生效。
