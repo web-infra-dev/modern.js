@@ -168,7 +168,7 @@ async function extractPageData(
         const { html, title, toc } = await compile({
           value: content,
           filepath: route.absolutePath,
-          development: true,
+          development: process.env.NODE_ENV !== 'production',
           root,
           defaultLang: '',
         });
