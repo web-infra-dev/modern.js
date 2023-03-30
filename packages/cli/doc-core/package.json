@@ -157,7 +157,8 @@
     "index.html",
     "runtime.ts",
     "theme.ts",
-    "shiki-theme.json"
+    "shiki-theme.json",
+    "mdx-rs-loader.cjs"
   ],
   "publishConfig": {
     "access": "public",
