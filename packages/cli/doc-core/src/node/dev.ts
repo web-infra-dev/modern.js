@@ -1,4 +1,6 @@
 import { UserConfig } from 'shared/types';
+
+import { removeLeadingSlash } from '../shared/utils';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
 import { modifyConfig, beforeBuild, afterBuild } from './hooks';
@@ -12,7 +14,9 @@ export async function dev(
   config: UserConfig,
 ): Promise<ServerInstance> {
   const docPlugins = [...(config.doc?.plugins ?? [])];
+  const base = config.doc?.base ?? '';
   const isProd = false;
+
   try {
     const modifiedConfig = await modifyConfig({
       config,
@@ -23,8 +27,17 @@ export async function dev(
       docPlugins,
       isProd,
     });
+
     const builder = await createModernBuilder(rootDir, modifiedConfig);
-    const { server } = await builder.startDevServer();
+    const { server } = await builder.startDevServer({
+      printURLs: urls => {
+        return urls.map(({ label, url }) => ({
+          label,
+          url: `${url}/${removeLeadingSlash(base)}`,
+        }));
+      },
+    });
+
     await afterBuild({
       config: modifiedConfig,
       docPlugins,
