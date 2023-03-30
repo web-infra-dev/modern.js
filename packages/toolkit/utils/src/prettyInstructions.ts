@@ -32,22 +32,21 @@ export const getIpv4Interfaces = () => {
   return ipv4Interfaces;
 };
 
+export type AddressUrl = { label: string; url: string };
+
 export const getAddressUrls = (protocol = 'http', port: number) => {
   const ipv4Interfaces = getIpv4Interfaces();
-  return ipv4Interfaces.reduce(
-    (memo: { label: string; url: string }[], detail) => {
-      let label = 'Network:  ';
-      let url = `${protocol}://${detail.address}:${port}`;
-      if (detail.address.includes(`localhost`) || detail.internal) {
-        label = 'Local:  ';
-        url = `${protocol}://localhost:${port}`;
-      }
+  return ipv4Interfaces.reduce((memo: AddressUrl[], detail) => {
+    let label = 'Network:  ';
+    let url = `${protocol}://${detail.address}:${port}`;
+    if (detail.address.includes(`localhost`) || detail.internal) {
+      label = 'Local:  ';
+      url = `${protocol}://localhost:${port}`;
+    }
 
-      memo.push({ label, url });
-      return memo;
-    },
-    [],
-  );
+    memo.push({ label, url });
+    return memo;
+  }, []);
 };
 
 export const prettyInstructions = (appContext: any, config: any) => {

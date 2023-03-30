@@ -3,16 +3,15 @@ import type { BuilderContext } from './context';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
 import type { Server, ModernDevServerOptions } from '@modern-js/server';
+import type { AddressUrl } from '@modern-js/utils';
 
 export type Bundler = 'webpack' | 'rspack';
 
 export type CreateCompilerOptions = { watch?: boolean };
 
-export type PrintUrl = { label: string; url: string };
-
 export type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
-  printURLs?: boolean | ((urls: PrintUrl[]) => PrintUrl[]);
+  printURLs?: boolean | ((urls: AddressUrl[]) => AddressUrl[]);
   strictPort?: boolean;
   serverOptions?: Partial<Omit<ModernDevServerOptions, 'config'>> & {
     config?: Partial<ModernDevServerOptions['config']>;
