@@ -17,7 +17,7 @@ allProviderTest('should preserve viewBox after svgo minification', async () => {
 
   const files = await builder.unwrapOutputJSON();
   const mainJs = Object.keys(files).find(
-    file => file.includes('main') && file.endsWith('.js'),
+    file => file.includes('/main.') && file.endsWith('.js'),
   );
   const content = readFileSync(mainJs!, 'utf-8');
 
