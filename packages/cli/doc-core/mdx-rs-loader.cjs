@@ -26,7 +26,6 @@ function loader(value, compile, callback, resourcePath) {
       }
     },
     error => {
-      // const fpath = path.relative(this.context, this.resourcePath);
       error.message = `${fpath}:${error.name}: ${error.message}`;
       callback(null, '', null);
     },

@@ -139,12 +139,6 @@ async function createInternalBuildConfig(
         chain.module
           .rule('MDX')
           .test(/\.mdx?$/)
-          .use('string-replace-loader')
-          .loader(require.resolve('string-replace-loader'))
-          .options({
-            multiple: config.doc?.replaceRules || [],
-          })
-          .end()
           .use('mdx-loader')
           .when(
             enableMdxRs,
@@ -161,7 +155,12 @@ async function createInternalBuildConfig(
             c =>
               c.loader(require.resolve('@mdx-js/loader')).options(mdxOptions),
           )
-          .end();
+          .end()
+          .use('string-replace-loader')
+          .loader(require.resolve('string-replace-loader'))
+          .options({
+            multiple: config.doc?.replaceRules || [],
+          });
 
         chain.resolve.extensions.prepend('.md').prepend('.mdx');
         // TODO: Rspack split chunks bug
