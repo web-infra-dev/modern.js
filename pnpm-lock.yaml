@@ -578,7 +578,7 @@ importers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-rspack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/mdx-rs-binding': ^0.0.0
+      '@modern-js/mdx-rs-binding': ^0.0.1
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/remark-container': workspace:*
       '@modern-js/tsconfig': workspace:*
@@ -664,7 +664,7 @@ importers:
       '@mdx-js/react': 2.2.1_react@18.2.0
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-rspack-provider': link:../../builder/builder-rspack-provider
-      '@modern-js/mdx-rs-binding': 0.0.0
+      '@modern-js/mdx-rs-binding': 0.0.1
       '@modern-js/remark-container': link:../../toolkit/remark-container
       '@modern-js/utils': link:../../toolkit/utils
       '@types/compression': 1.7.2
@@ -11438,8 +11438,8 @@ packages:
       sucrase: 3.29.0
       terser: 5.15.0
 
-  /@modern-js/mdx-rs-binding-darwin-arm64/0.0.0:
-    resolution: {integrity: sha512-A7uXrij+riiPvkLhgNQGxClXpNzEaqj0+9UGuTIKfdvj+cNQRGBJPiSigDCLguTht0mR+MaiR6jgpANKOsAEFg==}
+  /@modern-js/mdx-rs-binding-darwin-arm64/0.0.1:
+    resolution: {integrity: sha512-8T0eLZReAwj0qg+sLBn2fZB84fA0atiDcoBKAFJDQJYHk/n7ehVMIQTCxKPRvNUFlDJK5mXz+r4ZqQtX9av87w==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [darwin]
@@ -11447,8 +11447,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-darwin-x64/0.0.0:
-    resolution: {integrity: sha512-cL2VaC5ug0OTHGP9wFoMrNpDPR/xG6/jvb5Cf+mVcDmYG4NJ6d95lIMjtDTb8Iur2pu4SFPdKz3WJ0rXHLIsHQ==}
+  /@modern-js/mdx-rs-binding-darwin-x64/0.0.1:
+    resolution: {integrity: sha512-E5SwkyPC3/a0TYZxFw7uIqErY55pT6Jh/Gfb0otvOcEQxvJ3Hl/WjVLh5ZLvhwmk9ferg6mmojl414/GnHnTkA==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [darwin]
@@ -11456,8 +11456,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm-gnueabihf/0.0.0:
-    resolution: {integrity: sha512-GsDLI9ojbkiETjdow0kDk8YP38xyJigyt7sGaxJIhU7TsB7n9L/akFR4GfaDNbyBPquXMV6TN2ocAOuw4GcYLA==}
+  /@modern-js/mdx-rs-binding-linux-arm-gnueabihf/0.0.1:
+    resolution: {integrity: sha512-QsU8JN3XekkmdsjvTTiGLSL0IIkaM5Id6jCp/FU+TqUZzWveRRCRVLHEVxEb9CZ2DdwNj0gRgqlVgbYbwNvB0A==}
     engines: {node: '>=14.12'}
     cpu: [arm]
     os: [linux]
@@ -11465,8 +11465,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm64-gnu/0.0.0:
-    resolution: {integrity: sha512-GlZ+x9i+7H/laZ3LawiFWEbW0wodmtkQBsU9a12HByIRli4MYOi6ADsxphO7BQKVftkio6P7SlZ708cdBC8o9w==}
+  /@modern-js/mdx-rs-binding-linux-arm64-gnu/0.0.1:
+    resolution: {integrity: sha512-kr7iXm46pxPAjJbarouLmYw9aINlAR/qxa6DnSFKgj1az6BI/8W6O16H/ujHwaXRRSrrB+C6a03s7z9fb8WA0Q==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -11474,8 +11474,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm64-musl/0.0.0:
-    resolution: {integrity: sha512-LTHT4OEIPxYdJutOtWPHhpCv//e/H7ljUOCZk0pQAMjgH44iyDMqdC8JrF9aFgH/Jx4P5/JVkxT/Q1e3L0u+eg==}
+  /@modern-js/mdx-rs-binding-linux-arm64-musl/0.0.1:
+    resolution: {integrity: sha512-Gu1GvxTl2BLvvsxV1qz7fZ0fPi0ZUKjNwdn/ldu4ZS8pcyXb7e4JhsPGEnWXaBmhcNLX1BUXK4QTcFYaqaLk+Q==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -11483,8 +11483,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-x64-gnu/0.0.0:
-    resolution: {integrity: sha512-4hUV/EZWa0PXMCn5NGDxsEHzzG+nsRygC5Pd40uJoM7zK0PAmMjLKZw7GuAGZYH266NthC7SPaiR79sdBAHhRg==}
+  /@modern-js/mdx-rs-binding-linux-x64-gnu/0.0.1:
+    resolution: {integrity: sha512-VcUXSU7lLtFrm/J1qryrtHkFWIrpYt8Xj8Gffhrz/W99DhpooHIGMMerv+QLJZLUMnmkLHzUouP/iKkbB8LCnw==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -11492,8 +11492,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-x64-musl/0.0.0:
-    resolution: {integrity: sha512-7UkQ+eB+CaVw2A+PnFezKTUVtg4HieI6bTfaDCwfOsGoUpwg+RNLhN/8NpqG3niVKzYbfo8egA+UrioaSrOqyA==}
+  /@modern-js/mdx-rs-binding-linux-x64-musl/0.0.1:
+    resolution: {integrity: sha512-d7D39Ry8OqLl1dRpoYax6tMv9t3T9jrknOLRd/A4FL9bzKogG7jUoMuTgTUfpcYtwB0N+ggJPGaDxYMM6SIsQA==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -11501,8 +11501,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-win32-arm64-msvc/0.0.0:
-    resolution: {integrity: sha512-AntRv4ZmQcLu3o9VO8Hv6Dytcd215JfGEpTOW2Mx0TgNcbGnZE1F/w27WEkk6Haq6Jg4bYgfg2AE/hTInB1Qgw==}
+  /@modern-js/mdx-rs-binding-win32-arm64-msvc/0.0.1:
+    resolution: {integrity: sha512-Lcx4kRbrG8ryFrn2xklDJfuZNFilITYiDnz4yeOzxPW4luyhb8b+To14L/Nz9uOXYrD0vNQ6+yEyTBeoQqjhBA==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [win32]
@@ -11510,8 +11510,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-win32-x64-msvc/0.0.0:
-    resolution: {integrity: sha512-8Uz7pkxHyPteA2bgJMM+UCAmj8lLEcQl+qF/upoWddJBjkqg64CGRFPzHvb75VzuIYXlTyRF2lk/6HSV24mc1w==}
+  /@modern-js/mdx-rs-binding-win32-x64-msvc/0.0.1:
+    resolution: {integrity: sha512-zPt15RcKx5BXpS/6JyVen1upsA1zQ8MJ4RjeLlG/eKmh/qaN0dRdic5WSIgK4+CMnNKUjVO60HxDmTAT4/+wjA==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [win32]
@@ -11519,21 +11519,21 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding/0.0.0:
-    resolution: {integrity: sha512-GJs3AArikenDs2zCVlhG4UqboFQXV8EfqCJVcV9oCyQLwW9fZN/vz9wWZjfJMhtnWNdIR21BsmxNZ5WWPWkyOQ==}
+  /@modern-js/mdx-rs-binding/0.0.1:
+    resolution: {integrity: sha512-EdZ/QHxvz7NpyCTgyq00q2Qo+703tlDqLyhJIn7bWs5ya3b1Fsqvn3id14z4DpBxJXA4MMdbEPpxRz/dbwpJkg==}
     engines: {node: '>= 10'}
     dependencies:
       release-it: 15.9.3
     optionalDependencies:
-      '@modern-js/mdx-rs-binding-darwin-arm64': 0.0.0
-      '@modern-js/mdx-rs-binding-darwin-x64': 0.0.0
-      '@modern-js/mdx-rs-binding-linux-arm-gnueabihf': 0.0.0
-      '@modern-js/mdx-rs-binding-linux-arm64-gnu': 0.0.0
-      '@modern-js/mdx-rs-binding-linux-arm64-musl': 0.0.0
-      '@modern-js/mdx-rs-binding-linux-x64-gnu': 0.0.0
-      '@modern-js/mdx-rs-binding-linux-x64-musl': 0.0.0
-      '@modern-js/mdx-rs-binding-win32-arm64-msvc': 0.0.0
-      '@modern-js/mdx-rs-binding-win32-x64-msvc': 0.0.0
+      '@modern-js/mdx-rs-binding-darwin-arm64': 0.0.1
+      '@modern-js/mdx-rs-binding-darwin-x64': 0.0.1
+      '@modern-js/mdx-rs-binding-linux-arm-gnueabihf': 0.0.1
+      '@modern-js/mdx-rs-binding-linux-arm64-gnu': 0.0.1
+      '@modern-js/mdx-rs-binding-linux-arm64-musl': 0.0.1
+      '@modern-js/mdx-rs-binding-linux-x64-gnu': 0.0.1
+      '@modern-js/mdx-rs-binding-linux-x64-musl': 0.0.1
+      '@modern-js/mdx-rs-binding-win32-arm64-msvc': 0.0.1
+      '@modern-js/mdx-rs-binding-win32-x64-msvc': 0.0.1
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -16157,7 +16157,7 @@ packages:
       object.fromentries: 2.0.5
       object.getownpropertydescriptors: 2.1.4
       object.values: 1.1.5
-      promise.allsettled: 1.0.5
+      promise.allsettled: 1.0.6
       promise.prototype.finally: 3.1.3
       string.prototype.matchall: 4.0.7
       string.prototype.padend: 3.1.3
@@ -16696,17 +16696,6 @@ packages:
       es-shim-unscopables: 1.0.0
     dev: false
 
-  /array.prototype.map/1.0.4:
-    resolution: {integrity: sha512-Qds9QnX7A0qISY7JT5WuJO0NJPE9CMlC6JzHQfhpqAAQQzufVRoeH7EzUY5GcPTx72voG8LV/5eo+b8Qi8hmhA==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      call-bind: 1.0.2
-      define-properties: 1.1.4
-      es-abstract: 1.20.1
-      es-array-method-boxes-properly: 1.0.0
-      is-string: 1.0.7
-    dev: false
-
   /array.prototype.map/1.0.5:
     resolution: {integrity: sha512-gfaKntvwqYIuC7mLLyv2wzZIJqrRhn5PZ9EfFejSx6a78sV7iDsGpG9P+3oUPtm1Rerqm6nrKS4FYuTIvWfo3g==}
     engines: {node: '>= 0.4'}
@@ -16724,7 +16713,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.21.2
       es-array-method-boxes-properly: 1.0.0
       is-string: 1.0.7
     dev: false
@@ -17813,7 +17802,7 @@ packages:
       bluebird: 3.7.2
       chownr: 1.1.4
       figgy-pudding: 3.5.2
-      glob: 7.2.3
+      glob: 7.2.0
       graceful-fs: 4.2.10
       infer-owner: 1.0.4
       lru-cache: 5.1.1
@@ -17835,7 +17824,7 @@ packages:
       '@npmcli/move-file': 1.1.2
       chownr: 2.0.0
       fs-minipass: 2.1.0
-      glob: 7.2.3
+      glob: 7.2.0
       infer-owner: 1.0.4
       lru-cache: 6.0.0
       minipass: 3.3.3
@@ -23590,7 +23579,7 @@ packages:
       '@types/glob': 7.2.0
       array-union: 2.1.0
       dir-glob: 3.0.1
-      fast-glob: 3.2.12
+      fast-glob: 3.2.11
       glob: 7.2.3
       ignore: 5.2.0
       merge2: 1.4.1
@@ -23613,7 +23602,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       dir-glob: 3.0.1
-      fast-glob: 3.2.12
+      fast-glob: 3.2.11
       ignore: 5.2.0
       merge2: 1.4.1
       slash: 4.0.0
@@ -29281,7 +29270,7 @@ packages:
       got: 12.6.0
       registry-auth-token: 5.0.2
       registry-url: 6.0.1
-      semver: 7.3.8
+      semver: 7.3.7
     dev: false
 
   /pako/1.0.11:
@@ -30555,18 +30544,6 @@ packages:
   /promise-polyfill/8.2.3:
     resolution: {integrity: sha512-Og0+jCRQetV84U8wVjMNccfGCnMQ9mGs9Hv78QFe+pSDD3gWTpz0y+1QCuxy5d/vBFuZ3iwP2eycAkvqIMPmWg==}
     dev: true
-
-  /promise.allsettled/1.0.5:
-    resolution: {integrity: sha512-tVDqeZPoBC0SlzJHzWGZ2NKAguVq2oiYj7gbggbiTvH2itHohijTp7njOUA0aQ/nl+0lr/r6egmhoYu63UZ/pQ==}
-    engines: {node: '>= 0.4'}
-    dependencies:
-      array.prototype.map: 1.0.4
-      call-bind: 1.0.2
-      define-properties: 1.1.4
-      es-abstract: 1.20.1
-      get-intrinsic: 1.1.2
-      iterate-value: 1.0.2
-    dev: false
 
   /promise.allsettled/1.0.6:
     resolution: {integrity: sha512-22wJUOD3zswWFqgwjNHa1965LvqTX87WPu/lreY2KSd7SVcERfuZ4GfUaOnJNnvtoIv2yXT/W00YIGMetXtFXg==}
@@ -32578,7 +32555,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.8
+      minimist: 1.2.6
       strip-json-comments: 2.0.1
     dev: false
 
@@ -33981,7 +33958,7 @@ packages:
     resolution: {integrity: sha512-0Ju4+6A8iOnpL/Thra7dZsSlOHYAHIeMxfhWQRI1/VLcT3WDBZKKtQt/QkBOsiIN9ZpuvHE6cGZ0x4glCMmfiA==}
     engines: {node: '>=12'}
     dependencies:
-      semver: 7.3.8
+      semver: 7.3.7
     dev: false
 
   /semver-store/0.3.0:
@@ -34189,7 +34166,7 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
     dependencies:
-      glob: 7.2.3
+      glob: 7.2.0
       interpret: 1.4.0
       rechoir: 0.6.2
     dev: false
@@ -34807,7 +34784,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.21.2
 
   /string.prototype.trimend/1.0.6:
     resolution: {integrity: sha512-JySq+4mrPf9EsDBEDYMOb/lM7XQLulwg5R/m1r0PXEFqrV0qHvl58sdTilSXtKOflCsK2E8jxf+GKC0T07RWwQ==}
@@ -34821,7 +34798,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.4
-      es-abstract: 1.20.1
+      es-abstract: 1.21.2
 
   /string.prototype.trimstart/1.0.6:
     resolution: {integrity: sha512-omqjMDaY92pbn5HOX7f9IccLA+U1tA9GvtU4JrodiXFfYB7jPzzHpRzpglLAjtUV6bB557zwClJezTqnAiYnQA==}
@@ -36829,7 +36806,7 @@ packages:
       is-yarn-global: 0.4.1
       latest-version: 7.0.0
       pupa: 3.1.0
-      semver: 7.3.8
+      semver: 7.3.7
       semver-diff: 4.0.0
       xdg-basedir: 5.1.0
     dev: false
