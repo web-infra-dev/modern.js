@@ -89,7 +89,7 @@ export class RouterPlugin {
 
             routeAssets[name] = {
               chunkIds: chunkGroup.chunks,
-              assets: assetsByChunkName[name].map(item =>
+              assets: assetsByChunkName[name]?.map(item =>
                 publicPath ? normalizePath(publicPath) + item : item,
               ),
               referenceCssAssets,
