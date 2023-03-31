@@ -7,7 +7,7 @@ Through the `source.include` config, you can specify directories or modules that
 
 For example:
 
-```js
+```ts
 import path from 'path';
 
 export default {
@@ -23,7 +23,7 @@ A typical usage scenario is to compile npm packages under node_modules, because 
 
 Take `query-string` as an example, you can add the following config:
 
-```js
+```ts
 import path from 'path';
 
 export default {
@@ -50,9 +50,7 @@ When you compile an npm package via `source.include`, Builder will only compile 
 
 Take `query-string` for example, it depends on the `decode-uri-component` package, which also has ES6+ code, so you need to add the `decode-uri-component` package to `source.include` as well.
 
-```js
-import path from 'path';
-
+```ts
 export default {
   source: {
     include: [/\/query-string\//, /\/decode-uri-component\//],
@@ -108,3 +106,17 @@ If you match a module that is symlinked to the current project, then you need to
 For example, if you symlink the `packages/foo` path in Monorepo to the `node_modules/foo` path of the current project, you need to match the `packages/foo` path, not the `node_modules/foo` path.
 
 This behavior can be controlled via webpack's [resolve.symlinks](https://webpack.js.org/configuration/resolve/#resolvesymlinks) config.
+
+### Precautions
+
+Note that `source.include` should not be used to compile the entire `node_modules` directory. For example, the following usage is wrong:
+
+```ts
+export default {
+  source: {
+    include: [/\/node_modules\//],
+  },
+};
+```
+
+If you compile the entire `node_modules`, not only will the build time be greatly increased, but also unexpected errors may occur. Because most of the npm packages in `node_modules` are already compiled, there is usually no need for a second compilation. In addition, exceptions may occur after npm packages such as `core-js` are compiled.

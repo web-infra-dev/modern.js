@@ -19,10 +19,11 @@ When using Rspack as the bundler, SWC will be used for transpiling and compressi
 
 ## Install
 
-The `@modern-js/plugin-swc` plugin needs to be installed before use.
+First, you need to execute `pnpm run new` to enable the SWC compile:
 
 ```bash
-pnpm add @modern-js/plugin-swc -D
+? Action: Enable features
+? Enable features: Enable SWC Compile
 ```
 
 After the installation，please register the SWC plugin in the `modern.config.ts` file, then the SWC compilation and compression will be enabled.
