@@ -53,7 +53,7 @@ export default {
 
 #### addIncludes
 
-类型: `(includes: string | RegExp | Array<string | RegExp>) => void`
+- **类型：** `(includes: string | RegExp | Array<string | RegExp>) => void`
 
 默认情况下只会编译 src 目录下的业务代码，使用 addIncludes 可以指定 ts-loader 编译 `node_modules` 下的一些文件。比如:
 
@@ -69,7 +69,7 @@ export default {
 
 #### addExcludes
 
-类型: `(excludes: string | RegExp | Array<string | RegExp>) => void`
+- **类型：** `(excludes: string | RegExp | Array<string | RegExp>) => void`
 
 和 `addIncludes` 相反，指定 `ts-loader` 编译时排除某些文件。
 
