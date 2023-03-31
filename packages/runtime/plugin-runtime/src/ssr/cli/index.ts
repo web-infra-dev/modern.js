@@ -6,7 +6,7 @@ import {
   isUseSSRBundle,
   createRuntimeExportsUtils,
   isSSGEntry,
-  isSSR as checkIsSSR,
+  isSSR,
 } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
@@ -46,10 +46,10 @@ export default (): CliPlugin<AppTools> => ({
     const ssrConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-    const config = api.useConfigContext();
-    const isSSR = checkIsSSR(config);
+    const userConfig = api.useConfigContext();
+    const useSSR = isSSR(userConfig);
     // disable ssr effect, when user doesn't use ssr.
-    if (!isSSR) {
+    if (!useSSR) {
       return {};
     }
     return {
