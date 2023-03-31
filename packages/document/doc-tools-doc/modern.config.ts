@@ -16,6 +16,7 @@ export default defineConfig({
   doc: {
     markdown: {
       experimentalMdxRs: true,
+      checkDeadLinks: true,
     },
     root: path.join(__dirname, 'docs'),
     title: 'Modern.js Doc',
@@ -23,9 +24,6 @@ export default defineConfig({
     // 默认英文
     lang: 'en',
     base: isProd() ? '/doc-tools/' : '/',
-    markdown: {
-      checkDeadLinks: true,
-    },
     builderConfig: {
       dev: {
         startUrl: false,
