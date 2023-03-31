@@ -176,9 +176,4 @@ More information about Rspack, please refer to the [Rspack website](https://www.
 
 ### A more flexible way to modify Rspack configuration
 
-Currently, Builder does not provide a flexible way for modifying Rspack config similar to webpack-chain.
-
-If there is a need to add or remove plugins/rules, you can use utility methods such as [prependPlugins](/api/config-tools.html#prependplugins) or [addRules](/api/config-tools.html#addrules).
-
-If there is a need to modify existing plugins/rules, it is recommended to use existing configuration options provided by the builder first.
-For example, to modify html configuration, you should first check if there is a corresponding configuration item under [html config](/api/config-html.html). If the html config does not support the required modifications, the [tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin) configuration option can be used.
+Builder supports modifying Rspack config via [bundler-chain](/api/config-tools.html#toolsbundlerchain). Configurations modified via bundler chain will take effect on both webpack and Rspack builds.
