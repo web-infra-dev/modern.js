@@ -45,7 +45,7 @@ async function createInternalBuildConfig(
   const outDir = config.doc?.outDir ?? OUTPUT_DIR;
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
-    : path.join(PACKAGE_ROOT, 'src', 'theme-default');
+    : path.join(PACKAGE_ROOT, 'dist', 'theme');
   const checkDeadLinks =
     (config.doc?.markdown?.checkDeadLinks && !isSSR) ?? false;
   const mdxOptions = await createMDXOptions(userRoot, config, checkDeadLinks);

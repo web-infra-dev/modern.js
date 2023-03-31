@@ -58,7 +58,6 @@ export const Layout: React.FC<LayoutProps> = props => {
   } else {
     title = mainTitle;
   }
-
   const description =
     frontmatter?.description || siteData.description || localesData.description;
   // Use doc layout by default

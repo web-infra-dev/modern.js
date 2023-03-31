@@ -6,4 +6,12 @@ export default {
   HomeLayout,
 };
 
-export * from '@modern-js/doc-tools/theme';
+export {
+  Nav,
+  Search,
+  Tab,
+  Tabs,
+  Button,
+  Link,
+  HomeFooter,
+} from '@modern-js/doc-tools/theme';
