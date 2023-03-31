@@ -88,7 +88,7 @@ export function registerLanguages() {
 
 export function highlightCode() {
   if (!registeredLanguage) {
-    // registerLanguages();
+    registerLanguages();
     registeredLanguage = true;
   }
   document.querySelectorAll('pre.code code').forEach(el => {
