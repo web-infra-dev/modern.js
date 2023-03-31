@@ -5,9 +5,10 @@ You can modify the webpack and Rspack configuration by configuring `tools.bundle
 
 :::tip What is BundlerChain
 
-import BundlerChain from '@en/shared/bundlerChain.md';
+Bundler chain is a subset of webpack chain, which contains part of the webpack chain API that you can use to modify both webpack and Rspack configuration.
 
-<BundlerChain />
+Configurations modified via bundler chain will work on both webpack and Rspack builds. Note that the bundler chain only supports modifying the configuration of the non-differentiated parts of webpack and Rspack. For example, modifying the devtool configuration item (webpack and Rspack have the same devtool property value type), or adding an [Rspack-compatible](https://www.rspack.dev/guide/plugin-compat.html) webpack plugin.
+
 :::
 
 > `tools.bundlerChain` is executed earlier than tools.webpackChain / tools.webpack / tools.rspack and thus will be overridden by changes in others.
@@ -173,4 +174,4 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 ### Examples
 
-The usage of BundlerChain can reference: [WebpackChain Examples](/api/config-tools.html#examples).
+The usage of BundlerChain can reference: [WebpackChain Examples](https://modernjs.dev/builder/en/guide/advanced/custom-webpack-config.html#webpack-chain-basics).

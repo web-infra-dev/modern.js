@@ -1,8 +1,6 @@
 import path from 'path';
 import docTools, { defineConfig, Sidebar, NavItem } from '@modern-js/doc-tools';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
   const prefix = cn ? '' : '/en';
@@ -171,7 +169,7 @@ export default defineConfig({
     title: 'Modern.js Builder',
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     markdown: {
-      checkDeadLinks: isProd,
+      checkDeadLinks: true,
       experimentalMdxRs: true,
     },
     themeConfig: {

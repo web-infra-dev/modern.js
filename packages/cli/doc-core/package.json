@@ -138,8 +138,7 @@
     "rimraf": "^3.0.2",
     "typescript": "^4.8.4",
     "vite": "^4.0.4",
-    "vitest": "0.21.1",
-    "@rspack/core": "^0.1.1"
+    "vitest": "0.21.1"
   },
   "sideEffects": [
     "*.css",

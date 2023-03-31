@@ -23,6 +23,9 @@ export default defineConfig({
     // 默认英文
     lang: 'en',
     base: isProd() ? '/doc-tools/' : '/',
+    markdown: {
+      checkDeadLinks: true,
+    },
     builderConfig: {
       dev: {
         startUrl: false,
@@ -116,7 +119,10 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('Client API', 'Client API'),
         items: [getLink('/api/api-runtime'), getLink('/api/api-components')],
       },
-      getLink('/api/commands'),
+      {
+        text: getText('命令', 'Commands'),
+        link: getLink('/api/commands'),
+      },
     ],
   };
 }
