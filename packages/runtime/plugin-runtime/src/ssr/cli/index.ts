@@ -6,6 +6,7 @@ import {
   isUseSSRBundle,
   createRuntimeExportsUtils,
   isSSGEntry,
+  isSSR as checkIsSSR,
 } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
@@ -45,7 +46,12 @@ export default (): CliPlugin<AppTools> => ({
     const ssrConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-
+    const config = api.useConfigContext();
+    const isSSR = checkIsSSR(config);
+    // disable ssr effect, when user doesn't use ssr.
+    if (!isSSR) {
+      return {};
+    }
     return {
       config() {
         const appContext = api.useAppContext();
@@ -99,16 +105,16 @@ export default (): CliPlugin<AppTools> => ({
               });
             },
 
-            babel: (config: any) => {
+            babel: config => {
               // Add id for useLoader method,
               // The useLoader can be used even if the SSR is not enabled
-              config.plugins.push(
+              config.plugins?.push(
                 path.join(__dirname, './babel-plugin-ssr-loader-id'),
               );
 
               const userConfig = api.useResolvedConfigContext();
               if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
-                config.plugins.push(require.resolve('@loadable/babel-plugin'));
+                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
               }
             },
           },
