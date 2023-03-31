@@ -8,9 +8,10 @@
 
 :::tip 什么是 BundlerChain
 
-import BundlerChain from '@zh/shared/bundlerChain.md';
+Bundler chain 是 webpack chain 的子集，其中包含一部分 webpack chain API，你可以用它来同时修改 webpack 和 Rspack 的配置。
 
-<BundlerChain />
+通过 bundler chain 修改的配置，在 webpack 和 Rspack 构建时均可生效。需要注意的是，bundler chain 只支持修改 webpack 和 Rspack 间无差异部分的配置。如，修改 devtool 配置项(webpack 和 Rspack 的 devtool 属性值类型相同)，或添加一个[Rspack 兼容](https://www.rspack.dev/zh/guide/plugin-compat.html)的 webpack 插件。
+
 :::
 
 > `tools.bundlerChain` 的执行时机早于 tools.webpackChain / tools.webpack / tools.rspack，因此会被其他几个配置中的修改所覆盖。
@@ -177,4 +178,4 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 
 ### 常用 BundlerChain 使用示例
 
-BundlerChain 的使用可参考：[常用 WebpackChain 使用示例](/api/config-tools.html#常用-webpackchain-使用示例)。
+BundlerChain 的使用可参考：[常用 WebpackChain 使用示例](https://modernjs.dev/builder/guide/advanced/custom-webpack-config.html#%E4%BD%BF%E7%94%A8-webpack-chain)。
