@@ -1,5 +1,14 @@
 # @modern-js/plugin-module-target
 
+## 2.11.0
+
+### Patch Changes
+
+- Updated dependencies [aa0a312]
+- Updated dependencies [6118636]
+- Updated dependencies [f1b2629]
+  - @modern-js/module-tools@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

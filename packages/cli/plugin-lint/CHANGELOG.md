@@ -1,5 +1,25 @@
 # @modern-js/plugin-lint
 
+## 2.11.0
+
+### Patch Changes
+
+- 58faba2: chore(plugin-lint): deprecate modern pre-commit command
+
+  chore(plugin-lint): 废弃 modern pre-commit 命令
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/tsconfig@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

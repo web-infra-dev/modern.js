@@ -1,5 +1,19 @@
 # @modern-js/main-doc
 
+## 2.11.0
+
+### Patch Changes
+
+- a8c08c3: feat: 添加 `source.transformImoprt`
+
+  feat: add `source.transformImoprt`
+
+- 304c950: fix: translate some chinese to english in en docs
+  fix: 将部分英文文档中的中文翻译为英文
+- Updated dependencies [a8c08c3]
+- Updated dependencies [b71cef1]
+  - @modern-js/builder-doc@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

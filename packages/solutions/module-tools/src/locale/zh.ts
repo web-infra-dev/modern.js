@@ -41,6 +41,6 @@ export const ZH_LOCALE = {
   },
   dts: {
     abortOnError:
-      '当前开启了 `dts.abortOnError` 配置，类型错误不会导致构建失败，无法保证类型文件正常输出',
+      '当前关闭了 `dts.abortOnError` 配置，类型错误不会导致构建失败，但无法保证类型文件正常输出',
   },
 };

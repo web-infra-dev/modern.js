@@ -1,5 +1,36 @@
 # @modern-js/doc-tools
 
+## 2.11.0
+
+### Patch Changes
+
+- 210e9d6: fix: doc tools cli options
+
+  fix: doc tools cli 参数
+
+- 95dd73e: chore: adjust doc-tools constructor
+
+  chore: 调整 doc-tools 入参
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [1adb131]
+- Updated dependencies [800ca61]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [95dd73e]
+- Updated dependencies [7a60f10]
+- Updated dependencies [2c05cb8]
+- Updated dependencies [7178795]
+- Updated dependencies [8ebf399]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/doc-core@2.11.0
+  - @modern-js/core@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

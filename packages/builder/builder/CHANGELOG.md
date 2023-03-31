@@ -1,5 +1,53 @@
 # @modern-js/builder
 
+## 2.11.0
+
+### Patch Changes
+
+- cfb058f: fix(builder): remove duplicated babel-plugin-import
+
+  fix(builder): 移除重复注册的 babel-plugin-import
+
+- 55b07fd: feat(builder): support output.assetsRetry in rspack-provider
+
+  feat(builder): 在 rspack-provider 中支持 output.assetsRetry 配置能力
+
+- 8b90c79: fix(builder): should preserve viewBox when minify svg
+
+  fix(builder): 修复压缩 svg 导致 viewBox 丢失的问题
+
+- 3171c9d: feat(builder): print total file size after build
+
+  feat(builder): 构建后输出文件体积的总和
+
+- cd1040f: feat: use generated default config objects instead of global objects
+  feat: 默认配置项使用动态生成替代全局对象
+- b71cef1: feat(builder): support setting forceSplitting to be an object
+
+  feat(builder): 支持将 forceSplitting 设置为一个对象
+
+- Updated dependencies [adcedad]
+- Updated dependencies [cfb058f]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [0bd018b]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [3aa318d]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [53b0a63]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [b71cef1]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/builder-shared@2.11.0
+  - @modern-js/utils@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes
