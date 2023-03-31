@@ -1,5 +1,7 @@
 import copy from 'copy-to-clipboard';
-import highlight from 'highlight.js';
+import highlight from 'highlight.js/lib/core';
+
+let registeredLanguage = false;
 
 export function setupCopyCodeButton() {
   const timeoutIdMap: Map<HTMLElement, NodeJS.Timeout> = new Map();
@@ -31,7 +33,64 @@ export function setupCopyCodeButton() {
   });
 }
 
+export function registerLanguages() {
+  highlight.registerLanguage(
+    'js',
+    require('highlight.js/lib/languages/javascript'),
+  );
+  highlight.registerLanguage(
+    'jsx',
+    require('highlight.js/lib/languages/javascript'),
+  );
+  highlight.registerLanguage(
+    'ts',
+    require('highlight.js/lib/languages/typescript'),
+  );
+  highlight.registerLanguage(
+    'tsx',
+    require('highlight.js/lib/languages/typescript'),
+  );
+  highlight.registerLanguage(
+    'json',
+    require('highlight.js/lib/languages/json'),
+  );
+  highlight.registerLanguage('css', require('highlight.js/lib/languages/css'));
+  highlight.registerLanguage(
+    'scss',
+    require('highlight.js/lib/languages/scss'),
+  );
+  highlight.registerLanguage(
+    'less',
+    require('highlight.js/lib/languages/less'),
+  );
+  highlight.registerLanguage('html', require('highlight.js/lib/languages/xml'));
+  highlight.registerLanguage(
+    'yaml',
+    require('highlight.js/lib/languages/yaml'),
+  );
+  highlight.registerLanguage(
+    'diff',
+    require('highlight.js/lib/languages/diff'),
+  );
+  highlight.registerLanguage(
+    'bash',
+    require('highlight.js/lib/languages/bash'),
+  );
+  highlight.registerLanguage(
+    'shell',
+    require('highlight.js/lib/languages/bash'),
+  );
+  highlight.registerLanguage(
+    'md',
+    require('highlight.js/lib/languages/markdown'),
+  );
+}
+
 export function highlightCode() {
+  if (!registeredLanguage) {
+    // registerLanguages();
+    registeredLanguage = true;
+  }
   document.querySelectorAll('pre.code code').forEach(el => {
     const codeBlocks = el.innerHTML.split('\n');
     const meta = el.getAttribute('meta');
@@ -71,13 +130,12 @@ export function highlightCode() {
         }">${code}</span>`;
       })
       .join('\n');
-
     // use highlight.js to highlight the code for every span element in el
     // and highlight the code for every span element
     if (el.childNodes.length) {
       el.childNodes.forEach(child => {
         if (child.nodeName === 'SPAN') {
-          highlight.highlightBlock(child as HTMLElement);
+          highlight.highlightElement(child as HTMLElement);
         }
       });
     }
