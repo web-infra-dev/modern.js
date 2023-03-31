@@ -192,7 +192,7 @@ Start the local Dev Server, based on the Modern.js Dev Server.
 ```ts
 type StartDevServerOptions = {
   // Whether to output URL infos, the default is true
-  printURLs?: boolean;
+  printURLs?: boolean | Function;
   // Whether to throw an exception when the port is occupied, the default is false
   strictPort?: boolean;
   // custom Compiler object
@@ -245,13 +245,26 @@ console.log(port); // 8080
 await server.close();
 ```
 
-### Disable print URLs
+### Disable Print URLs
 
 Setting `printURLs` to `false` to disable the default URL output, so you can custom the logs.
 
 ```ts
 await builder.startDevServer({
   printURLs: false,
+});
+```
+
+You can also directly configure `printURLs` as a function to modify URLs, such as adding a subpath to each URL:
+
+```ts
+await builder.startDevServer({
+  printURLs: urls => {
+    return urls.map(({ label, url }) => ({
+      label,
+      url: `${url}/path`,
+    }));
+  },
 });
 ```
 

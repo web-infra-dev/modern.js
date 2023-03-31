@@ -192,7 +192,7 @@ await builder.build({
 ```ts
 type StartDevServerOptions = {
   // 是否输出 URL 信息，默认为 true
-  printURLs?: boolean;
+  printURLs?: boolean | Function;
   // 是否在端口被占用时抛出异常，默认为 false
   strictPort?: boolean;
   // 自定义 Compiler 对象
@@ -252,6 +252,19 @@ await server.close();
 ```ts
 await builder.startDevServer({
   printURLs: false,
+});
+```
+
+你也可以直接将 `printURLs` 配置为一个函数来修改 URL，比如给每个 URL 增加一个子路径：
+
+```ts
+await builder.startDevServer({
+  printURLs: urls => {
+    return urls.map(({ label, url }) => ({
+      label,
+      url: `${url}/path`,
+    }));
+  },
 });
 ```
 

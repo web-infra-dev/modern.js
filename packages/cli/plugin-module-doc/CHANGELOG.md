@@ -1,5 +1,22 @@
 # @modern-js/plugin-module-doc
 
+## 2.11.0
+
+### Patch Changes
+
+- 94c41ad: fix: fix base
+  fix: 修复 base 配置
+- Updated dependencies [1adb131]
+- Updated dependencies [800ca61]
+- Updated dependencies [aa0a312]
+- Updated dependencies [6118636]
+- Updated dependencies [95dd73e]
+- Updated dependencies [2c05cb8]
+- Updated dependencies [8ebf399]
+- Updated dependencies [f1b2629]
+  - @modern-js/doc-core@2.11.0
+  - @modern-js/module-tools@2.11.0
+
 ## 2.10.0
 
 ### Minor Changes
