@@ -1,5 +1,66 @@
 # @modern-js/builder-rspack-provider
 
+## 2.11.0
+
+### Minor Changes
+
+- a8c08c3: feat: 添加 `source.transformImoprt`
+
+  feat: add `source.transformImoprt`
+
+### Patch Changes
+
+- a9c6083: fix(builder): incorrect asset URL in windows
+
+  fix(builder): 修复 windows 上生成静态资源 URL 错误的问题
+
+- 55b07fd: feat(builder): support output.assetsRetry in rspack-provider
+
+  feat(builder): 在 rspack-provider 中支持 output.assetsRetry 配置能力
+
+- c0ba89b: feat: 控制台输出 rspack 版本
+  feat: Print the version of rspack in the console.
+- cd1040f: feat: use generated default config objects instead of global objects
+  feat: 默认配置项使用动态生成替代全局对象
+- e262a99: fix(builder): failed to set empty distPath.js/css
+
+  fix(builder): 修复设置 distPath.js/css 为空时报错的问题
+
+- 1140a69: chore(rspack-builder): update Rspack to 0.1.4
+
+  chore(rspack-builder): 升级 Rspack 相关依赖至 0.1.4 版本
+
+- b71cef1: feat(builder): support setting forceSplitting to be an object
+
+  feat(builder): 支持将 forceSplitting 设置为一个对象
+
+- 274b2e5: fix: For rspack-provider can use `tools.babel` configuration, inline the `@babel/preset-typescript` to handle ts syntax in rspack-provider.
+  fix: 为了 rspack-provider 能给使用 `tools.babel` 配置项，将 `@babel/preset-typescript` 内置进 rspack-provider 去处理 ts 语法。
+- Updated dependencies [adcedad]
+- Updated dependencies [cfb058f]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [0bd018b]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [3aa318d]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [53b0a63]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [b71cef1]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/builder-shared@2.11.0
+  - @modern-js/utils@2.11.0
+  - @modern-js/server@2.11.0
+  - @modern-js/e2e@2.11.0
+  - @modern-js/types@2.11.0
+
 ## 2.10.0
 
 ### Minor Changes

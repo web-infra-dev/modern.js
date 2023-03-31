@@ -1,5 +1,55 @@
 # @modern-js/doc-core
 
+## 2.11.0
+
+### Patch Changes
+
+- 1adb131: feat: support code line highlight
+
+  feat: 支持代码行高亮
+
+- 800ca61: fix: match content result
+
+  fix: 修复搜索错误
+
+- 95dd73e: chore: adjust doc-tools constructor
+
+  chore: 调整 doc-tools 入参
+
+- 2c05cb8: feat: add header anchor in mobile
+
+  feat: 移动端显示 header anchor
+
+- 8ebf399: fix(doc-core): run string-replace-loader before mdx-loader
+
+  fix(doc-core): 在 mdx-loader 之前执行 string-replace-loader
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [c0ba89b]
+- Updated dependencies [0bd018b]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [3171c9d]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [7178795]
+- Updated dependencies [1140a69]
+- Updated dependencies [b71cef1]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/builder@2.11.0
+  - @modern-js/utils@2.11.0
+  - @modern-js/builder-rspack-provider@2.11.0
+  - @modern-js/core@2.11.0
+  - @modern-js/remark-container@2.11.0
+
 ## 2.10.0
 
 ### Minor Changes
