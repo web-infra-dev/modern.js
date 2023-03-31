@@ -19,7 +19,7 @@ Array<{
 
 - **默认值：**
 
-当项目中安装了 [antd 组件库](https://www.npmjs.com/package/antd) <= 4.x 版本时，Builder 会自动添加对应的按需引入配置，默认配置如下：
+当项目中安装了 [antd 组件库](https://www.npmjs.com/package/antd) &lt;= 4.x 版本时，Builder 会自动添加对应的按需引入配置，默认配置如下：
 
 ```js
 {

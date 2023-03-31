@@ -246,6 +246,7 @@ export interface MarkdownOptions {
   remarkPlugins?: PluggableList;
   rehypePlugins?: PluggableList;
   checkDeadLinks?: boolean;
+  experimentalMdxRs?: boolean;
 }
 
 export interface UserConfig {

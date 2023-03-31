@@ -83,7 +83,8 @@ export function normalizeHref(url?: string) {
     return url;
   }
 
-  let cleanUrl = url;
+  // eslint-disable-next-line prefer-const
+  let { url: cleanUrl, hash } = parseUrl(url);
 
   // Ignore email and telephone links
   if (url.startsWith('mailto:') || url.startsWith('tel:')) {
@@ -98,7 +99,7 @@ export function normalizeHref(url?: string) {
     }
   }
 
-  return addLeadingSlash(cleanUrl);
+  return addLeadingSlash(hash ? `${cleanUrl}#${hash}` : cleanUrl);
 }
 
 export function withoutLang(path: string, langs: string[]) {

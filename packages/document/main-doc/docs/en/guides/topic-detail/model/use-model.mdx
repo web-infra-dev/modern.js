@@ -2,6 +2,7 @@
 sidebar_position: 3
 title: Use Models
 ---
+
 # Use Models
 
 ## Using Models in Components
@@ -146,7 +147,7 @@ will always get the initial value of Input.
 
 :::
 
-`useStaticModel` is also suitable for use with animation libraries such as [react-three-fiber](https://github.com/pmndrs/react-three-fiber), because binding fast-changing states in animation component UI can easily cause [performance issues](https:/docs.pmnd.rs/react-three-fiber/advanced/pitfalls#never-bind-fast-state-reactive). In this case, you can choose to use `useStaticModel`, which only subscribes to the State but does not cause the view component to re-render. Here is a simplified example:
+`useStaticModel` is also suitable for use with animation libraries such as [react-three-fiber](https://github.com/pmndrs/react-three-fiber), because binding fast-changing states in animation component UI can easily cause [performance issues](https://docs.pmnd.rs/react-three-fiber/advanced/pitfalls#never-bind-fast-state-reactive). In this case, you can choose to use `useStaticModel`, which only subscribes to the State but does not cause the view component to re-render. Here is a simplified example:
 
 ```ts
 function ThreeComponent() {

@@ -10,6 +10,7 @@ import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
 import { usePageData, Content } from '@/runtime';
 import { useLocaleSiteData } from '@/theme-default/logic';
+import '../../styles/highlight-theme.css';
 
 export type LayoutProps = {
   top?: React.ReactNode;
@@ -75,6 +76,7 @@ export const Layout: React.FC<LayoutProps> = props => {
         return <DocLayout {...docProps} />;
     }
   };
+
   return (
     <div>
       <Helmet>

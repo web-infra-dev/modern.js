@@ -170,6 +170,7 @@ export default defineConfig({
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     markdown: {
       checkDeadLinks: true,
+      experimentalMdxRs: true,
     },
     themeConfig: {
       footer: {

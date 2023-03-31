@@ -2,7 +2,6 @@ import path from 'path';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import { logger } from '@modern-js/utils/logger';
-import chalk from '@modern-js/utils/chalk';
 import { isProduction, withBase } from '@/shared/utils';
 import {
   normalizeRoutePath,
@@ -12,6 +11,38 @@ import {
 export interface DeadLinkCheckOptions {
   root: string;
   base: string;
+}
+
+const IGNORE_REGEXP = /^(https?)|(mailto)|(tel)|(#)/;
+
+export function checkLinks(
+  links: string[],
+  filepath: string,
+  root: string,
+  base: string,
+) {
+  const errorInfos: string[] = [];
+  links
+    .filter(link => !IGNORE_REGEXP.test(link))
+    .forEach(link => {
+      const normalizedRoute = link;
+      const relativePath = path.relative(root, filepath);
+
+      if (!routeService.isExistRoute(withBase(normalizedRoute, base))) {
+        errorInfos.push(
+          `Internal link to ${link} is dead, check it in ${relativePath}`,
+        );
+      }
+    });
+  // output error info
+  if (errorInfos.length > 0) {
+    errorInfos?.forEach(err => {
+      logger.error(err);
+    });
+    if (isProduction()) {
+      throw new Error('Dead link found');
+    }
+  }
 }
 
 /**
@@ -43,30 +74,6 @@ export const remarkCheckDeadLinks: Plugin<
       }
     });
 
-    const errorInfos: string[] = [];
-    internalLinks.forEach(link => {
-      let normalizedRoute = link;
-      const relativePath = path.relative(root, vfile.path);
-      // Handle relative path
-      if (link.startsWith('.')) {
-        normalizedRoute = path.join(relativePath, link);
-      }
-      if (!routeService.isExistRoute(withBase(normalizedRoute, base))) {
-        errorInfos.push(
-          `Find a broken link ${chalk.yellow(link)} in ${chalk.yellow(
-            relativePath,
-          )}`,
-        );
-      }
-    });
-    // output error info
-    if (errorInfos.length > 0) {
-      errorInfos?.forEach(err => {
-        logger.error(err);
-      });
-      if (isProduction()) {
-        throw new Error('Dead link found');
-      }
-    }
+    checkLinks(Array.from(internalLinks), vfile.path, root, base);
   };
 };

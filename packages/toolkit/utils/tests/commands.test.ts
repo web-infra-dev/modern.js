@@ -1,4 +1,3 @@
-import path from 'path';
 import { getArgv, getCommand, isDevCommand } from '../src/commands';
 
 describe('test commands utils', () => {

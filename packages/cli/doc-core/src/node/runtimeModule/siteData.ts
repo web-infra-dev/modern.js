@@ -8,22 +8,16 @@ import {
   NormalizedSidebarGroup,
   PageIndexInfo,
 } from 'shared/types';
-import { remark } from 'remark';
 import yamlFront from 'yaml-front-matter';
-import type { Root } from 'hast';
-import { unified } from 'unified';
 import { htmlToText } from 'html-to-text';
-import remarkParse from 'remark-parse';
-import remarkHtml from 'remark-html';
-import { remarkPluginContainer } from '@modern-js/remark-container';
 import { ReplaceRule } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
 import { logger } from '@modern-js/utils/logger';
-import { parseToc } from '../mdx/remarkPlugins/toc';
+import { compile } from '@modern-js/mdx-rs-binding';
 import { importStatementRegex, PUBLIC_DIR, TEMP_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
-import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { createHash } from '../utils';
+import { flattenMdxContent } from '../utils/flattenMdxContent';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeService } from './routeData';
 import { RuntimeModuleID } from '.';
@@ -134,6 +128,7 @@ async function extractPageData(
   alias: Record<string, string | string[]>,
   domain: string,
   disableSearch: boolean,
+  root: string,
 ): Promise<(PageIndexInfo | null)[]> {
   return Promise.all(
     routeService
@@ -157,6 +152,8 @@ async function extractPageData(
             );
           }
         });
+
+        // TODO: we will find a more efficient way to do this
         const flattenContent = await flattenMdxContent(
           frontmatter.__content,
           route.absolutePath,
@@ -167,32 +164,19 @@ async function extractPageData(
           importStatementRegex,
           '',
         );
-        // 2. Optimize content index
-        const ast = remark.parse({ value: content });
-        const { title, toc } = parseToc(ast as Root);
+
+        const { html, title, toc } = await compile({
+          value: content,
+          filepath: route.absolutePath,
+          development: process.env.NODE_ENV !== 'production',
+          root,
+          defaultLang: '',
+        });
+
         if (!title?.length && !frontmatter.title?.length) {
           return null;
         }
 
-        // If disable search, we don't need to generate search index
-        if (disableSearch) {
-          return {
-            id: index,
-            title: frontmatter.title || title,
-            routePath: route.routePath,
-            domain: '',
-            content: '',
-            frontmatter: {},
-            lang: route.lang,
-            toc,
-          };
-        }
-
-        const precessor = unified()
-          .use(remarkParse)
-          .use(remarkPluginContainer)
-          .use(remarkHtml);
-        const html = await precessor.process(content);
         content = htmlToText(String(html), {
           wordwrap: 80,
           selectors: [
@@ -270,6 +254,7 @@ export async function siteDataVMPlugin(
         alias,
         domain,
         userConfig?.search === false,
+        userRoot,
       )
     ).filter(Boolean) as PageIndexInfo[];
   }

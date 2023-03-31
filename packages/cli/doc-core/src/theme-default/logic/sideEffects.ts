@@ -1,5 +1,5 @@
 import { throttle } from 'lodash-es';
-import { setupCopyCodeButton } from './copyCode';
+import { setupCopyCodeButton } from './code';
 import { inBrowser } from '@/shared/utils';
 
 // The nav height and the height of nav mask

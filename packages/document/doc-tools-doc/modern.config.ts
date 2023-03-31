@@ -14,15 +14,16 @@ const isProd = () => process.env.NODE_ENV === 'production';
 export default defineConfig({
   plugins: [docTools()],
   doc: {
+    markdown: {
+      experimentalMdxRs: true,
+      checkDeadLinks: true,
+    },
     root: path.join(__dirname, 'docs'),
     title: 'Modern.js Doc',
     description: 'A modern web framework for building document site',
     // 默认英文
     lang: 'en',
     base: isProd() ? '/doc-tools/' : '/',
-    markdown: {
-      checkDeadLinks: true,
-    },
     builderConfig: {
       dev: {
         startUrl: false,
