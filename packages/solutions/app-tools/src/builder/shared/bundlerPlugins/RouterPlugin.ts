@@ -103,7 +103,10 @@ export class RouterPlugin {
           const injectedContent = `
             ;(function(){
               window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
-            if (k === 'assets' && Array.isArray(v)) {
+            if (
+              (k === 'assets' || k === 'referenceCssAssets') &&
+              Array.isArray(v)
+            ) {
               // should hide publicPath in browser
               return v.map(item => {
                 return item.replace(publicPath, '');
