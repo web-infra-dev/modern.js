@@ -6,7 +6,6 @@ import {
   isUseSSRBundle,
   createRuntimeExportsUtils,
   isSSGEntry,
-  isSSR,
 } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
@@ -46,12 +45,7 @@ export default (): CliPlugin<AppTools> => ({
     const ssrConfigMap = new Map<string, any>();
 
     let pluginsExportsUtils: any;
-    const userConfig = api.useConfigContext();
-    const useSSR = isSSR(userConfig);
-    // disable ssr effect, when user doesn't use ssr.
-    if (!useSSR) {
-      return {};
-    }
+
     return {
       config() {
         const appContext = api.useAppContext();
@@ -59,6 +53,29 @@ export default (): CliPlugin<AppTools> => ({
           appContext.internalDirectory,
           'plugins',
         );
+
+        const { builder } = api.useAppContext();
+        const bundlerType = builder?.context.bundlerType || 'webpack';
+        const babelConfig =
+          bundlerType === 'webpack'
+            ? (config: any) => {
+                // Add id for useLoader method,
+                // The useLoader can be used even if the SSR is not enabled
+                config.plugins?.push(
+                  path.join(__dirname, './babel-plugin-ssr-loader-id'),
+                );
+
+                const userConfig = api.useResolvedConfigContext();
+                if (
+                  isUseSSRBundle(userConfig) &&
+                  hasStringSSREntry(userConfig)
+                ) {
+                  config.plugins?.push(
+                    require.resolve('@loadable/babel-plugin'),
+                  );
+                }
+              }
+            : undefined;
 
         return {
           source: {
@@ -104,19 +121,7 @@ export default (): CliPlugin<AppTools> => ({
                 ];
               });
             },
-
-            babel: config => {
-              // Add id for useLoader method,
-              // The useLoader can be used even if the SSR is not enabled
-              config.plugins?.push(
-                path.join(__dirname, './babel-plugin-ssr-loader-id'),
-              );
-
-              const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
-                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
-              }
-            },
+            babel: babelConfig,
           },
         };
       },
