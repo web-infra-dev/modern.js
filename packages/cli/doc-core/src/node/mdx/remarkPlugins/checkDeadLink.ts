@@ -2,6 +2,7 @@ import path from 'path';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import { logger } from '@modern-js/utils/logger';
+import chalk from '@modern-js/utils/chalk';
 import { isProduction, withBase } from '@/shared/utils';
 import {
   normalizeRoutePath,
@@ -52,7 +53,9 @@ export const remarkCheckDeadLinks: Plugin<
       }
       if (!routeService.isExistRoute(withBase(normalizedRoute, base))) {
         errorInfos.push(
-          `Internal link to ${link} is dead, check it in ${relativePath}`,
+          `Find a broken link ${chalk.yellow(link)} in ${chalk.yellow(
+            relativePath,
+          )}`,
         );
       }
     });
