@@ -1,10 +1,9 @@
 import 'nprogress/nprogress.css';
-import '../../index.css';
-import 'virtual-global-styles';
-import globalComponents from 'virtual-global-components';
+import '../../styles';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Theme, { Nav } from '@theme';
+import globalComponents from 'virtual-global-components';
 import { DocLayout, DocLayoutProps } from '../DocLayout';
 import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';

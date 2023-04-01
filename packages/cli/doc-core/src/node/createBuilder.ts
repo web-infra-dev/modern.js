@@ -19,7 +19,6 @@ import {
 } from './constants';
 import { createMDXOptions } from './mdx';
 import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
-import createTailwindConfig from './tailwindOptions';
 import { serveSearchIndexMiddleware } from './searchIndex';
 import { checkLinks } from './mdx/remarkPlugins/checkDeadLink';
 
@@ -120,13 +119,6 @@ async function createInternalBuildConfig(
       },
     },
     tools: {
-      postcss(options) {
-        options.postcssOptions!.plugins!.push(
-          require('tailwindcss')({
-            config: createTailwindConfig(themeDir),
-          }),
-        );
-      },
       devServer: {
         // Serve static files
         after: [

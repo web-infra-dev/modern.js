@@ -146,7 +146,8 @@
     "*.less",
     "*.sass",
     "*.scss",
-    "**/virtual-global-styles.js"
+    "**/virtual-global-styles.js",
+    "./src/theme-default/styles/index.ts"
   ],
   "files": [
     "bin",

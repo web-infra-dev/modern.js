@@ -1,5 +1,9 @@
+import { createRequire } from 'module';
 import { Config } from 'tailwindcss';
-import tailwindPlugin from '@modern-js/plugin-tailwindcss';
+
+const require = createRequire(import.meta.url);
+
+const tailwindPlugin = require('@modern-js/plugin-tailwindcss').default;
 
 const tailwindConfig: Config = {
   content: [],
@@ -80,6 +84,7 @@ export default {
       input: ['./src/theme-default/index.ts'],
       outDir: 'dist/theme',
       sourceMap: true,
+      format: 'esm',
       externals: [
         'virtual-routes-ssr',
         'virtual-routes',
@@ -95,6 +100,7 @@ export default {
         svgr: true,
       },
       style: {
+        inject: true,
         tailwindcss: {
           ...tailwindConfig,
         },

@@ -144,7 +144,7 @@ export function Nav(props: NavProps) {
   };
   return (
     <header
-      className={`top-0 left-0 relative md:fixed w-full`}
+      className={`top-0 left-0 md:fixed w-full`}
       style={{
         zIndex: 'var(--modern-z-index-nav)',
         background: 'var(--modern-c-bg)',
