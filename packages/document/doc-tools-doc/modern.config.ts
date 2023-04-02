@@ -12,7 +12,7 @@ function getI18nHelper(lang: 'zh' | 'en') {
 const isProd = () => process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  plugins: [docTools()],
+  plugins: [docTools({})],
   doc: {
     markdown: {
       experimentalMdxRs: true,
@@ -24,6 +24,7 @@ export default defineConfig({
     // 默认英文
     lang: 'en',
     base: isProd() ? '/doc-tools/' : '/',
+    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     builderConfig: {
       dev: {
         startUrl: false,
