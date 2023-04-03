@@ -1,5 +1,16 @@
 import copy from 'copy-to-clipboard';
 import highlight from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import typescript from 'highlight.js/lib/languages/typescript';
+import json from 'highlight.js/lib/languages/json';
+import css from 'highlight.js/lib/languages/css';
+import scss from 'highlight.js/lib/languages/scss';
+import less from 'highlight.js/lib/languages/less';
+import xml from 'highlight.js/lib/languages/xml';
+import yaml from 'highlight.js/lib/languages/yaml';
+import diff from 'highlight.js/lib/languages/diff';
+import bash from 'highlight.js/lib/languages/bash';
+import markdown from 'highlight.js/lib/languages/markdown';
 
 let registeredLanguage = false;
 
@@ -34,56 +45,20 @@ export function setupCopyCodeButton() {
 }
 
 export function registerLanguages() {
-  highlight.registerLanguage(
-    'js',
-    require('highlight.js/lib/languages/javascript'),
-  );
-  highlight.registerLanguage(
-    'jsx',
-    require('highlight.js/lib/languages/javascript'),
-  );
-  highlight.registerLanguage(
-    'ts',
-    require('highlight.js/lib/languages/typescript'),
-  );
-  highlight.registerLanguage(
-    'tsx',
-    require('highlight.js/lib/languages/typescript'),
-  );
-  highlight.registerLanguage(
-    'json',
-    require('highlight.js/lib/languages/json'),
-  );
-  highlight.registerLanguage('css', require('highlight.js/lib/languages/css'));
-  highlight.registerLanguage(
-    'scss',
-    require('highlight.js/lib/languages/scss'),
-  );
-  highlight.registerLanguage(
-    'less',
-    require('highlight.js/lib/languages/less'),
-  );
-  highlight.registerLanguage('html', require('highlight.js/lib/languages/xml'));
-  highlight.registerLanguage(
-    'yaml',
-    require('highlight.js/lib/languages/yaml'),
-  );
-  highlight.registerLanguage(
-    'diff',
-    require('highlight.js/lib/languages/diff'),
-  );
-  highlight.registerLanguage(
-    'bash',
-    require('highlight.js/lib/languages/bash'),
-  );
-  highlight.registerLanguage(
-    'shell',
-    require('highlight.js/lib/languages/bash'),
-  );
-  highlight.registerLanguage(
-    'md',
-    require('highlight.js/lib/languages/markdown'),
-  );
+  highlight.registerLanguage('js', javascript);
+  highlight.registerLanguage('jsx', javascript);
+  highlight.registerLanguage('ts', typescript);
+  highlight.registerLanguage('tsx', typescript);
+  highlight.registerLanguage('json', json);
+  highlight.registerLanguage('css', css);
+  highlight.registerLanguage('scss', scss);
+  highlight.registerLanguage('less', less);
+  highlight.registerLanguage('html', xml);
+  highlight.registerLanguage('yaml', yaml);
+  highlight.registerLanguage('diff', diff);
+  highlight.registerLanguage('bash', bash);
+  highlight.registerLanguage('shell', bash);
+  highlight.registerLanguage('md', markdown);
 }
 
 export function highlightCode() {

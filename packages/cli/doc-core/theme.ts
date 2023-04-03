@@ -1,2 +1,2 @@
-export * from './src/theme-default';
-export { default } from './src/theme-default';
+export * from './dist/theme/index';
+export { default } from './dist/theme/index';
