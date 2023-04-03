@@ -6,7 +6,7 @@ concurrency:
 
 on:
   push:
-    branches: [main]
+    branches: [main, update-rspack-**]
 
   workflow_dispatch:
 
