@@ -42,4 +42,9 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     modules: {},
   },
   sideEffects: undefined,
+  redirect: {
+    alias: true,
+    style: true,
+    asset: true,
+  },
 });
