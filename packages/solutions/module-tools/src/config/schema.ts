@@ -135,6 +135,9 @@ const buildConfigProperties = {
     // TODO: add properties
     type: 'object',
   },
+  redirect: {
+    type: 'object',
+  },
   target: {
     enum: targets,
   },
