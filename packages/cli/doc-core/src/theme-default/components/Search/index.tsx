@@ -293,6 +293,7 @@ export function Search() {
                       onClick={() => {
                         if (searchInputRef.current) {
                           searchInputRef.current.value = '';
+                          setQuery('');
                         }
                       }}
                     />

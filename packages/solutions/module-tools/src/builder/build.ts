@@ -144,6 +144,7 @@ export const buildLib = async (
     dts,
     metafile,
     sideEffects,
+    redirect,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -226,6 +227,7 @@ export const buildLib = async (
     globals: umdGlobals,
     external: externals,
     autoExternal,
+    redirect,
     bundle: buildType === 'bundle',
     sideEffects,
     // outbase for [dir]/[name]

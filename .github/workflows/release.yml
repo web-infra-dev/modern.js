@@ -33,7 +33,7 @@ jobs:
           ref: refs/pull/${{ github.event.issue.number }}/head
 
       - name: Install Pnpm
-        run: npm install -g pnpm@7.29.1
+        run: corepack enable
 
       - name: Setup Node.js 16
         uses: actions/setup-node@v3
@@ -79,7 +79,7 @@ jobs:
           fetch-depth: 1
 
       - name: Install Pnpm
-        run: npm install -g pnpm@7.29.1
+        run: corepack enable
 
       - name: Setup Node.js 16
         uses: actions/setup-node@v3

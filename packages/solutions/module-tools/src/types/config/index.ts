@@ -98,6 +98,7 @@ export type PartialBaseBuildConfig = {
   umdModuleName?: ((chunkName: string) => string) | string | undefined;
   define?: LibuildUserConfig['define'];
   style?: StyleConfig;
+  redirect?: LibuildUserConfig['redirect'];
   sideEffects?: LibuildUserConfig['sideEffects'];
 };
 

@@ -36,7 +36,7 @@ jobs:
           fetch-depth: 25
 
       - name: Install Pnpm
-        run: npm install -g pnpm@7.29.1
+        run: corepack enable
 
       - name: Check docs only change
         run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')"

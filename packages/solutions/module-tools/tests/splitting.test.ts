@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import { fastGlob } from '@modern-js/utils';
 import { runCli, initBeforeTest } from './utils';
 
 initBeforeTest();
@@ -26,9 +26,9 @@ describe('splitting usage', () => {
     });
     expect(success).toBeTruthy();
 
-    let distFilePath = path.join(fixtureDir, './dist/index.js');
-    expect(await fs.pathExists(distFilePath)).toBeTruthy();
-    distFilePath = path.join(fixtureDir, './dist/common.js');
-    expect(await fs.pathExists(distFilePath)).toBeTruthy();
+    const files = await fastGlob('dist/*', {
+      cwd: fixtureDir,
+    });
+    expect(files.length === 3).toBeTruthy();
   });
 });
