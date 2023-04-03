@@ -1,18 +1,56 @@
 ---
-title: icon.png
+title: icon
 sidebar_position: 2
 ---
-# icon.png
 
-应用工程方案 App Icon 文件。
+# Icon
 
-项目根目录下 `config/icon.png` 时，可以在构建时向 html 页面注入 app icon 信息：
+## 设置 favicon
+
+当项目根目录的 `config` 目录下存在 `favicon.*` 文件时，Modern.js 会自动将该文件设置到 [html.favicon](/configure/app/html/favicon) 配置项中，用于生成页面的 favicon 图标：
+
+```
+./config
+└── favicon.ico
+```
+
+构建完成后，可以看到 HTML 中自动生成了以下标签：
+
+```html
+<link rel="icon" href="/favicon.ico" />
+```
+
+### 查找顺序
+
+在设置 app icon 时，Modern.js 会按以下顺序寻找文件：
+
+- favicon.png
+- favicon.jpg
+- favicon.jpeg
+- favicon.svg
+- favicon.ico
+
+## 设置 app icon
+
+当项目根目录的 `config` 目录下存在 `icon.*` 文件时，Modern.js 会自动将该文件设置到 [html.appIcon](/configure/app/html/app-icon) 配置项中，用于生成 iOS 系统下的 apple-touch-icon 图标。
 
 ```
 ./config
 └── icon.png
 ```
 
-最终 html 中会注入 app icon `link` 标签, 如下:
+构建完成后，可以看到 HTML 中自动生成了以下标签：
 
-![app-icon](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/api/app-icon.png)
+```html
+<link rel="apple-touch-icon" sizes="180*180" href="/static/image/icon.png" />
+```
+
+### 查找顺序
+
+在设置 app icon 时，Modern.js 会按以下顺序寻找文件：
+
+- icon.png
+- icon.jpg
+- icon.jpeg
+- icon.svg
+- icon.ico

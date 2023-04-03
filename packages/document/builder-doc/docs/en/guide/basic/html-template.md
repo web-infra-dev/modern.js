@@ -61,7 +61,7 @@ export default {
 };
 ```
 
-You can also set the apple-touch-icon under iOS through the [html.appIcon](/en/api/config-html.html#htmlappicon) config.
+You can also set the apple-touch-icon for iOS system through the [html.appIcon](/en/api/config-html.html#htmlappicon) config.
 
 ```ts
 export default {
