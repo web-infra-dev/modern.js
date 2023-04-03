@@ -42,7 +42,7 @@
     "@babel/preset-typescript": "^7.17.12",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.4.12",
+    "@swc/helpers": "0.4.14",
     "core-js": "^3.26.0"
   },
   "publishConfig": {
