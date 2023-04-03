@@ -21,6 +21,7 @@ exports[`plugins/swc > should add browserslist 1`] = `
     ],
   },
   "module": {},
+  "name": "Client",
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -53,6 +54,7 @@ exports[`plugins/swc > should add browserslist 2`] = `
     ],
   },
   "module": {},
+  "name": "Client",
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -92,6 +94,7 @@ exports[`plugins/swc > should add pluginImport 1`] = `
     ],
   },
   "module": {},
+  "name": "Client",
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -121,6 +124,7 @@ exports[`plugins/swc > should disable preset_env in target other than web 1`] = 
     ],
   },
   "module": {},
+  "name": "Server",
 }
 `;
 
@@ -145,6 +149,7 @@ exports[`plugins/swc > should disable preset_env mode 1`] = `
     ],
   },
   "module": {},
+  "name": "Client",
 }
 `;
 
@@ -171,6 +176,7 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
     ],
   },
   "module": {},
+  "name": "Client",
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -205,6 +211,7 @@ exports[`plugins/swc > should has correct core-js 1`] = `
     ],
   },
   "module": {},
+  "name": "Client",
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -239,6 +246,7 @@ exports[`plugins/swc > should has correct core-js 2`] = `
     ],
   },
   "module": {},
+  "name": "Client",
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -268,6 +276,7 @@ exports[`plugins/swc > should has correct core-js 3`] = `
     ],
   },
   "module": {},
+  "name": "Server",
 }
 `;
 
@@ -294,6 +303,7 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
     ],
   },
   "module": {},
+  "name": "Client",
   "plugins": [
     RspackVirtualModulePlugin {},
   ],

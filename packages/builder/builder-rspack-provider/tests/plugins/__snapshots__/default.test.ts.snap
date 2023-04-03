@@ -574,6 +574,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -1233,6 +1234,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": true,
     "runtimeChunk": {
@@ -1685,6 +1687,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       },
     ],
   },
+  "name": "Server",
   "optimization": {
     "minimize": false,
     "runtimeChunk": undefined,
@@ -2302,6 +2305,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {

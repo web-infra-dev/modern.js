@@ -3,6 +3,7 @@
 exports[`plugins/output > should allow to custom server directory with distPath.server 1`] = `
 {
   "module": {},
+  "name": "Server",
   "output": {
     "chunkFilename": "server/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -20,6 +21,7 @@ exports[`plugins/output > should allow to custom server directory with distPath.
 exports[`plugins/output > should allow to set distPath.js and distPath.css to empty string 1`] = `
 {
   "module": {},
+  "name": "Client",
   "output": {
     "chunkFilename": "async/[name].js",
     "cssChunkFilename": "async/[name].css",
@@ -45,6 +47,7 @@ exports[`plugins/output > should allow to use copy plugin 1`] = `
     },
   },
   "module": {},
+  "name": "Client",
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -61,6 +64,7 @@ exports[`plugins/output > should allow to use copy plugin 1`] = `
 exports[`plugins/output > should allow to use filename.js to modify filename 1`] = `
 {
   "module": {},
+  "name": "Client",
   "output": {
     "chunkFilename": "static/js/async/foo.js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -77,6 +81,7 @@ exports[`plugins/output > should allow to use filename.js to modify filename 1`]
 exports[`plugins/output > should set output correctly 1`] = `
 {
   "module": {},
+  "name": "Client",
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",

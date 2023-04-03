@@ -113,6 +113,7 @@ describe('bundlerApi', () => {
       {
         "devtool": "hidden-source-map",
         "module": {},
+        "name": "Client",
         "target": "node",
       }
     `);
@@ -155,6 +156,7 @@ describe('bundlerApi', () => {
             },
           ],
         },
+        "name": "Client",
       }
     `);
   });
@@ -196,6 +198,7 @@ describe('bundlerApi', () => {
             },
           ],
         },
+        "name": "Client",
       }
     `);
   });

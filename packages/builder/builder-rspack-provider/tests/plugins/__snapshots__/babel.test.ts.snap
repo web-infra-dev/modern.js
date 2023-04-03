@@ -3,6 +3,7 @@
 exports[`plugins/babel > should not set babel-loader 1`] = `
 {
   "module": {},
+  "name": "Client",
 }
 `;
 
@@ -48,5 +49,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
       },
     ],
   },
+  "name": "Client",
 }
 `;
