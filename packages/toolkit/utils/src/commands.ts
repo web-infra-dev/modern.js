@@ -1,5 +1,9 @@
+export const getFullArgv = () => {
+  return process.env.MODERN_ARGV?.split(' ') || process.argv;
+};
+
 export const getArgv = () => {
-  return (process.env.MODERN_ARGV?.split(' ') || process.argv).slice(2);
+  return getFullArgv().slice(2);
 };
 
 export const getCommand = () => {
