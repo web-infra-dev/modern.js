@@ -2,7 +2,7 @@ import { NavItem } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { Search } from '@theme';
 import { useContext, useEffect, useState } from 'react';
-import { getLogoUrl, useLocaleSiteData } from '../../logic';
+import { getLogoUrl, isMobileDevice, useLocaleSiteData } from '../../logic';
 import { NavHamburger } from '../NavHambmger';
 import { SocialLinks } from '../SocialLinks';
 import { SwitchAppearance } from '../SwitchAppearance';
@@ -69,6 +69,7 @@ export function Nav(props: NavProps) {
   const { pathname } = useLocation();
   const { theme } = useContext(ThemeContext);
   const localeData = useLocaleSiteData();
+  const [isMobile, setIsMobile] = useState(false);
   const localeLanguages = Object.values(siteData.themeConfig.locales || {});
   const hasMultiLanguage = localeLanguages.length > 1;
   const socialLinks = siteData?.themeConfig?.socialLinks || [];
@@ -90,6 +91,10 @@ export function Nav(props: NavProps) {
   useEffect(() => {
     setLogo(getLogoUrl(rawLogo, theme));
   }, [theme]);
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+  }, []);
 
   const NavMenu = ({ menuItems }: { menuItems: NavItem[] }) => {
     return (
@@ -168,7 +173,7 @@ export function Nav(props: NavProps) {
             {rightNav()}
 
             <div className={styles.mobileNavMenu}>
-              <Search />
+              {isMobile && <Search />}
               <NavHamburger
                 localeData={localeData}
                 siteData={siteData}
