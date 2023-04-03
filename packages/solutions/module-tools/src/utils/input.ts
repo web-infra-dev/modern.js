@@ -10,13 +10,26 @@ interface EntryOptions {
   appDirectory: string;
 }
 
+export const joinPathWithPrefix =
+  (flag: string) => (p1: string, globPath: string) => {
+    const haveFlag = globPath.trim().startsWith(flag);
+    if (haveFlag) {
+      return path.join(flag, p1, globPath.replace(flag, ''));
+    }
+
+    return path.join(p1, globPath);
+  };
+
 export const getAbsInput = async (entry: Input, options: EntryOptions) => {
   const { slash } = await import('@modern-js/utils');
   const { appDirectory } = options;
+  const resolvePathWithNoMatchFlag = joinPathWithPrefix('!');
 
   if (Array.isArray(entry)) {
     return entry.map(p =>
-      path.isAbsolute(p) ? slash(p) : slash(path.join(appDirectory, p)),
+      path.isAbsolute(p)
+        ? slash(p)
+        : slash(resolvePathWithNoMatchFlag(appDirectory, p)),
     );
   }
 
@@ -24,7 +37,7 @@ export const getAbsInput = async (entry: Input, options: EntryOptions) => {
   for (const key of Object.keys(entry)) {
     newEntry[key] = path.isAbsolute(entry[key])
       ? slash(entry[key])
-      : slash(path.join(appDirectory, entry[key]));
+      : slash(resolvePathWithNoMatchFlag(appDirectory, entry[key]));
   }
   return newEntry;
 };
