@@ -1,6 +1,3 @@
-@import './container.css';
-@import './code.css';
-
 .aside-active,
 .aside-active:hover {
   color: var(--modern-c-brand-dark) !important;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { matchRoutes, useNavigate } from 'react-router-dom';
 import nprogress from 'nprogress';
+import { routes } from 'virtual-routes';
 import styles from './index.module.scss';
 import { normalizeHref, normalizeRoutePath, withBase } from '@/runtime';
 
@@ -27,9 +28,6 @@ export function Link(props: LinkProps) {
   ) => {
     e.preventDefault();
     if (!process.env.__SSR__) {
-      const { routes } =
-        // Rspack will crush when using dynamic import because of duplicate chunk id
-        require('virtual-routes') as typeof import('virtual-routes');
       const matchedRoutes = matchRoutes(
         routes,
         normalizeRoutePath(withBaseUrl),
