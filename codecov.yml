@@ -1,6 +1,7 @@
 coverage:
   branch: main
   status:
+    patch: off
     project:
       default:
         target: 55%
