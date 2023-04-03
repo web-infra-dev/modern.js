@@ -147,6 +147,7 @@
     "*.sass",
     "*.scss",
     "**/virtual-global-styles.js",
+    "virtual-global-styles",
     "./src/theme-default/styles/index.ts"
   ],
   "files": [

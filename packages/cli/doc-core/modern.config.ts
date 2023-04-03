@@ -81,7 +81,18 @@ export default {
       externals: ['@modern-js/mdx-rs-binding', '@rspack/core'],
     },
     {
-      input: ['./src/theme-default/index.ts'],
+      input: {
+        bundle: './src/theme-default/index.ts',
+      },
+      copy: {
+        patterns: [
+          {
+            from: './.theme-entry.js',
+            to: './index.js',
+            context: __dirname,
+          },
+        ],
+      },
       outDir: 'dist/theme',
       sourceMap: true,
       format: 'esm',
@@ -100,7 +111,6 @@ export default {
         svgr: true,
       },
       style: {
-        inject: true,
         tailwindcss: {
           ...tailwindConfig,
         },

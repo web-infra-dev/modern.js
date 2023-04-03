@@ -155,9 +155,6 @@ async function createInternalBuildConfig(
           });
 
         chain.resolve.extensions.prepend('.md').prepend('.mdx');
-        // TODO: Rspack split chunks bug
-        // The default splitChunks config will cause the main module not found
-        chain.optimization.splitChunks(false);
       },
     },
   };
