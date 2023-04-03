@@ -37,7 +37,6 @@ describe('plugins/define', () => {
           },
         },
         "module": {},
-        "name": "Client",
       }
     `);
   });

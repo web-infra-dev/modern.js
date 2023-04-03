@@ -2,7 +2,6 @@ import {
   debug,
   BundlerConfig,
   modifyBundlerChain,
-  TARGET_ID_MAP,
   type NodeEnv,
   type BuilderTarget,
   type ModifyChainUtils,
@@ -157,7 +156,6 @@ export async function generateRspackConfig({
     rspackConfig,
     await getConfigUtils(rspackConfig, chainUtils),
   );
-  rspackConfig.name = TARGET_ID_MAP[target];
 
   return rspackConfig;
 }

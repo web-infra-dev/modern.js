@@ -87,7 +87,6 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
       },
     ],
   },
-  "name": "Client",
 }
 `;
 
@@ -205,7 +204,6 @@ exports[`plugins/less > should add less-loader 1`] = `
       },
     ],
   },
-  "name": "Client",
 }
 `;
 
@@ -329,7 +327,6 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
       },
     ],
   },
-  "name": "Client",
 }
 `;
 
@@ -447,7 +444,6 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
       },
     ],
   },
-  "name": "Client",
 }
 `;
 
@@ -559,7 +555,6 @@ exports[`plugins/sass > should add sass-loader 1`] = `
       },
     ],
   },
-  "name": "Client",
 }
 `;
 
@@ -677,6 +672,5 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
       },
     ],
   },
-  "name": "Client",
 }
 `;

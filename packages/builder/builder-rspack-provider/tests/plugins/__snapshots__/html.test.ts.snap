@@ -8,7 +8,6 @@ exports[`plugins/html > should allow to modify plugin options by tools.htmlPlugi
     ],
   },
   "module": {},
-  "name": "Client",
   "plugins": [
     HtmlRspackPlugin {
       "name": "HtmlRspackPlugin",
@@ -28,7 +27,6 @@ exports[`plugins/html > should allow to set favicon by html.favicon option 1`] =
     ],
   },
   "module": {},
-  "name": "Client",
   "plugins": [
     HtmlRspackPlugin {
       "name": "HtmlRspackPlugin",
@@ -56,7 +54,6 @@ exports[`plugins/html > should allow to set inject by html.inject option 1`] = `
     ],
   },
   "module": {},
-  "name": "Client",
   "plugins": [
     HtmlRspackPlugin {
       "name": "HtmlRspackPlugin",
@@ -83,7 +80,6 @@ exports[`plugins/html > should enable minify in production 1`] = `
     ],
   },
   "module": {},
-  "name": "Client",
   "plugins": [
     HtmlRspackPlugin {
       "name": "HtmlRspackPlugin",
@@ -118,7 +114,6 @@ exports[`plugins/html > should register html plugin correctly 1`] = `
     ],
   },
   "module": {},
-  "name": "Client",
   "plugins": [
     HtmlRspackPlugin {
       "name": "HtmlRspackPlugin",
@@ -148,7 +143,6 @@ exports[`plugins/html > should support multi entry 1`] = `
     ],
   },
   "module": {},
-  "name": "Client",
   "plugins": [
     HtmlRspackPlugin {
       "name": "HtmlRspackPlugin",
