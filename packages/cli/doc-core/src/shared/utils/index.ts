@@ -6,6 +6,8 @@ export const APPEARANCE_KEY = 'modern-theme-appearance';
 
 export const SEARCH_INDEX_NAME = 'search_index';
 
+export const isSCM = () => Boolean(process.env.BUILD_VERSION);
+
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
 export const cleanUrl = (url: string): string =>

@@ -1,4 +1,3 @@
-import { uniqBy } from 'lodash-es';
 import { LOCAL_INDEX, NormalizedSearchResultItem, Provider } from './Provider';
 import { backTrackHeaders, normalizeTextCase } from './util';
 import { LocalProvider } from './providers/LocalProvider';
@@ -11,12 +10,6 @@ import {
 } from '@/shared/types';
 
 const THRESHOLD_CONTENT_LENGTH = 100;
-
-export interface Header {
-  id: string;
-  text: string;
-  depth: number;
-}
 
 interface CommonMatchResult {
   title: string;
@@ -124,8 +117,7 @@ export class PageSearcher {
       // Content match
       this.#matchContent(item, normaizedKeyWord, matchedResult);
     });
-    const res = uniqBy(matchedResult, 'link');
-    return res;
+    return matchedResult;
   }
 
   #matchTitle(
@@ -189,45 +181,52 @@ export class PageSearcher {
   ) {
     const { content, toc, domain } = item;
     const normalizedContent = normalizeTextCase(content);
-    const queryIndex = normalizedContent.indexOf(query);
-    if (queryIndex === -1) {
-      return;
-    }
-    const headersIndex = toc.map(h =>
-      normalizedContent.indexOf(normalizeTextCase(h.text)),
-    );
-    const currentHeaderIndex = headersIndex.findIndex((hIndex, position) => {
-      if (position < toc.length - 1) {
-        const next = headersIndex[position + 1];
-        if (hIndex <= queryIndex && next >= queryIndex) {
-          return true;
+    let queryIndex = normalizedContent.indexOf(query);
+    while (queryIndex !== -1) {
+      const headersIndex = toc.map(h => h.charIndex);
+      // eslint-disable-next-line @typescript-eslint/no-loop-func
+      const currentHeaderIndex = headersIndex.findIndex((hIndex, position) => {
+        if (position < toc.length - 1) {
+          const next = headersIndex[position + 1];
+          if (hIndex <= queryIndex && next >= queryIndex) {
+            return true;
+          }
+        } else {
+          return hIndex < queryIndex;
         }
-      } else {
-        return hIndex < queryIndex;
+        return false;
+      });
+      const currentHeader = toc[currentHeaderIndex];
+      let statementStartIndex = content.slice(0, queryIndex).lastIndexOf('\n');
+      statementStartIndex =
+        statementStartIndex === -1 ? 0 : statementStartIndex;
+      const statementEndIndex = content.indexOf(
+        '\n\n',
+        queryIndex + query.length,
+      );
+      let statement = content.slice(statementStartIndex, statementEndIndex);
+      if (statement.length > THRESHOLD_CONTENT_LENGTH) {
+        statement = this.#normalizeStatement(statement, query);
       }
-      return false;
-    });
-    const currentHeader = toc[currentHeaderIndex];
-
-    let statementStartIndex = content.slice(0, queryIndex).lastIndexOf('\n');
-    statementStartIndex = statementStartIndex === -1 ? 0 : statementStartIndex;
-    const statementEndIndex = content.indexOf('\n', queryIndex + query.length);
-    let statement = content.slice(statementStartIndex, statementEndIndex);
-    if (statement.length > THRESHOLD_CONTENT_LENGTH) {
-      statement = this.#normalizeStatement(statement, query);
+      const highlightIndex = normalizeTextCase(statement).indexOf(query);
+      matchedResult.push({
+        type: 'content',
+        title: item.title,
+        header: currentHeader?.text ?? item.title,
+        statement,
+        highlightIndex,
+        link: `${domain}${normalizeHref(item.routePath)}${
+          currentHeader ? `#${currentHeader.id}` : ''
+        }`,
+        query,
+        group: this.#options.extractGroupName(item.routePath),
+      });
+      queryIndex = normalizedContent.indexOf(
+        query,
+        queryIndex + statement.length - highlightIndex,
+      );
     }
-    matchedResult.push({
-      type: 'content',
-      title: item.title,
-      header: currentHeader?.text ?? item.title,
-      statement,
-      highlightIndex: normalizeTextCase(statement).indexOf(query),
-      link: `${domain}${normalizeHref(item.routePath)}${
-        currentHeader ? `#${currentHeader.id}` : ''
-      }`,
-      query,
-      group: this.#options.extractGroupName(item.routePath),
-    });
+    return matchedResult;
   }
 
   #normalizeStatement(statement: string, query: string) {

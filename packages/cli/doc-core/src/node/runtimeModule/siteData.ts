@@ -10,11 +10,11 @@ import {
 } from 'shared/types';
 import yamlFront from 'yaml-front-matter';
 import { htmlToText } from 'html-to-text';
-import { ReplaceRule } from 'shared/types/index';
+import { ReplaceRule, Header } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
 import { logger } from '@modern-js/utils/logger';
 import { compile } from '@modern-js/mdx-rs-binding';
-import { importStatementRegex, PUBLIC_DIR, TEMP_DIR } from '../constants';
+import { importStatementRegex, TEMP_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { createHash } from '../utils';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
@@ -45,8 +45,8 @@ let pages: PageIndexInfo[] | undefined;
 // As far as I know, we can only do something after the Rspack build process becuase the index hash is generated within Rspack build process.There are two ways to do this:
 // 1. insert window.__INDEX_HASH__ = 'xxx' into the html template manually
 // 2. replace the `__INDEX_HASH__` placeholder in the html template with the real index hash after Rspack build
-// eslint-disable-next-line import/no-mutable-exports
-export let indexHash = '';
+
+export const indexHash = '';
 
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
@@ -165,7 +165,11 @@ async function extractPageData(
           '',
         );
 
-        const { html, title, toc } = await compile({
+        const {
+          html,
+          title,
+          toc: rawToc,
+        } = await compile({
           value: content,
           filepath: route.absolutePath,
           development: process.env.NODE_ENV !== 'production',
@@ -176,7 +180,6 @@ async function extractPageData(
         if (!title?.length && !frontmatter.title?.length) {
           return null;
         }
-
         content = htmlToText(String(html), {
           wordwrap: 80,
           selectors: [
@@ -206,6 +209,22 @@ async function extractPageData(
           // Remove the title from the content
           content = content.slice(title.length);
         }
+
+        const toc: Header[] = rawToc.map(item => {
+          // If the item.id ends with '-number', we take the number
+          const match = item.id.match(/-(\d+)$/);
+          let position = -1;
+          if (match) {
+            for (let i = 0; i < Number(match[1]); i++) {
+              position = content.indexOf(`\n${item.text}#\n\n`, position + 1);
+            }
+          }
+          return {
+            ...item,
+            charIndex: content.indexOf(`\n${item.text}#\n\n`, position + 1),
+          };
+        });
+
         return {
           id: index,
           title: frontmatter.title || title,
@@ -279,17 +298,35 @@ export async function siteDataVMPlugin(
       toc,
     })),
   };
-  await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
-  const stringfiedIndex = JSON.stringify(pages);
-  indexHash = createHash(stringfiedIndex);
-  await fs.writeFile(
-    path.join(TEMP_DIR, `${SEARCH_INDEX_NAME}.${indexHash}.json`),
-    stringfiedIndex,
+  // Categorize pages, sorted by language
+  const pagesByLang = pages.reduce((acc, page) => {
+    if (!acc[page.lang]) {
+      acc[page.lang] = [];
+    }
+    acc[page.lang].push(page);
+    return acc;
+  }, {} as Record<string, PageIndexInfo[]>);
+
+  const indexHashByLang = {} as Record<string, string>;
+
+  // Generate search index by different languages, file name is {SEARCH_INDEX_NAME}.{lang}.{hash}.json
+  await Promise.all(
+    Object.keys(pagesByLang).map(async lang => {
+      const stringfiedIndex = JSON.stringify(pagesByLang[lang]);
+      const indexHash = createHash(stringfiedIndex);
+      indexHashByLang[lang] = indexHash;
+      await fs.ensureDir(TEMP_DIR);
+      await fs.writeFile(
+        path.join(TEMP_DIR, `${SEARCH_INDEX_NAME}.${lang}.${indexHash}.json`),
+        stringfiedIndex,
+      );
+    }),
   );
 
   const plugin = new RuntimeModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,
-    [searchIndexHashPath]: `export default ${JSON.stringify(indexHash)}`,
+    [searchIndexHashPath]: `export default ${JSON.stringify(indexHashByLang)}`,
   });
+
   return plugin;
 }

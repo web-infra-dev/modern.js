@@ -26,18 +26,20 @@ export class LocalProvider implements Provider {
 
   #cjkIndex?: SearchIndex<PageIndexInfo[]>;
 
-  async #getPages(): Promise<PageIndexInfo[]> {
+  async #getPages(lang: string): Promise<PageIndexInfo[]> {
     const result = await fetch(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error __ASSET_PREFIX__ is injected by webpack
-      `${__ASSET_PREFIX__}/static/${SEARCH_INDEX_NAME}.${searchIndexHash}.json`,
+      `${__ASSET_PREFIX__}/static/${SEARCH_INDEX_NAME}.${lang}.${searchIndexHash[lang]}.json`,
     );
     return result.json();
   }
 
   async init(options: SearchOptions) {
     const { currentLang } = options;
-    const pagesForSearch: PageIndexForFlexSearch[] = (await this.#getPages())
+    const pagesForSearch: PageIndexForFlexSearch[] = (
+      await this.#getPages(currentLang)
+    )
       .filter(page => page.lang === currentLang)
       .map(page => ({
         ...page,
