@@ -70,7 +70,7 @@ export const routerPlugin = ({
 
           const getRouteApp = () => {
             return (props => {
-              beforeCreateRouter = true;
+              beforeCreateRouter = false;
               routes = createRoutes
                 ? createRoutes()
                 : createRoutesFromElements(
