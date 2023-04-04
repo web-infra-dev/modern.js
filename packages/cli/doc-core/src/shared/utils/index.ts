@@ -36,7 +36,11 @@ export function replaceLang(
   langs: string[],
   base = '',
 ) {
-  const url = removeBase(rawUrl, base);
+  let url = removeBase(rawUrl, base);
+  // modernjs.dev/builder + switch to en -> modernjs.dev/builder/en/index.html
+  if (!url) {
+    url = '/index.html';
+  }
   const originalLang = url.split('/')[1];
   const inDefaultLang = !langs.includes(originalLang);
   let result: string;
