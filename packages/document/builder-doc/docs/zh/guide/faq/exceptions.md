@@ -196,20 +196,31 @@ Builder 在生产构建时会默认开启 webpack 的 tree shaking 功能，tree
 
 该报错表示打包过程中出现了内存溢出问题，大多数情况下是由于打包的内容较多，超出了 Node.js 默认的内存上限。
 
-如果出现 OOM 问题，最简单的方法是通过增加内存上限来解决，Node.js 提供了 `--max-old-space-size` 选项来对此进行设置。你可以在 CLI 命令前添加 [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) 来设置此参数：
+如果出现 OOM 问题，最简单的方法是通过增加内存上限来解决，Node.js 提供了 `--max-old-space-size` 选项来对此进行设置。你可以在 CLI 命令前添加 [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) 来设置此参数。
 
-```bash
-NODE_OPTIONS=--max_old_space_size=16384 modern build
+比如，在 `modern build` 命令前添加参数：
+
+```diff title="package.json"
+{
+  "scripts": {
+-   "build": "modern build"
++   "build": "NODE_OPTIONS=--max_old_space_size=16384 modern build"
+  }
+}
 ```
 
-参数的值代表内存上限大小（MB)，一般情况下设置为 `16384`（16GB）即可。
+如果你执行的是其他命令，比如 `modern deploy`，请在对应的命令前添加参数。
+
+`max_old_space_size` 参数的值代表内存上限大小（MB)，一般情况下设置为 `16384`（16GB）即可。
 
 Node.js 官方文档中有对以下参数更详细的解释：
 
 - [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions)
 - [--max-old-space-size](https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes)
 
-除了增加内存上限，通过开启一些编译策略来提升效率也是一个解决方案。
+除了增加内存上限，通过开启一些编译策略来提升构建效率也是一个解决方案，请参考 [提升构建性能](/guide/optimization/build-performance)。
+
+如果以上方式无法解决你的问题，可能是项目中某些异常逻辑导致了内存非正常溢出。你可以排查近期的代码变更，定位问题的根因。如果无法定位，请联系我们进行排查。
 
 ## 打包时出现 Can't resolve 'core-js/modules/xxx.js'？
 
@@ -275,7 +286,7 @@ export default function MyComponent() {
 }
 
 // 正确写法 2
-const MyComponent = () => <div>Hello World</div>
+const MyComponent = () => <div>Hello World</div>;
 
 export default MyComponent;
 ```
