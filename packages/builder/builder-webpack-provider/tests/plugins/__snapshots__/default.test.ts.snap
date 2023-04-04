@@ -690,6 +690,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -1562,6 +1563,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": true,
     "minimizer": [
@@ -2370,6 +2372,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       },
     ],
   },
+  "name": "Server",
   "optimization": {
     "minimize": true,
     "minimizer": [
@@ -3109,6 +3112,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       },
     ],
   },
+  "name": "Web Worker",
   "optimization": {
     "minimize": true,
     "minimizer": [

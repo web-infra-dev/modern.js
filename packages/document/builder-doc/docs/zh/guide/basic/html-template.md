@@ -61,7 +61,7 @@ export default {
 };
 ```
 
-也可以通过 [html.appIcon](/api/config-html.html#htmlappicon) 配置项来设置 iOS 下的 apple-touch-icon 图标。
+也可以通过 [html.appIcon](/api/config-html.html#htmlappicon) 配置项来设置 iOS 系统下的 apple-touch-icon 图标。
 
 ```ts
 export default {
