@@ -179,7 +179,7 @@ importers:
       cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 4.2.2
       cssnano: ^5.1.12
-      fork-ts-checker-webpack-plugin: 7.2.13
+      fork-ts-checker-webpack-plugin: 8.0.0
       html-webpack-plugin: 5.5.0
       mini-css-extract-plugin: 2.7.0
       postcss: 8.4.21
@@ -205,7 +205,7 @@ importers:
       cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 4.2.2_webpack@5.76.2
       cssnano: 5.1.12_postcss@8.4.21
-      fork-ts-checker-webpack-plugin: 7.2.13_kuefv56xgqg33iu5i7lcsgj5dy
+      fork-ts-checker-webpack-plugin: 8.0.0_kuefv56xgqg33iu5i7lcsgj5dy
       html-webpack-plugin: 5.5.0_webpack@5.76.2
       mini-css-extract-plugin: 2.7.0_webpack@5.76.2
       postcss: 8.4.21
@@ -14267,7 +14267,7 @@ packages:
     resolution: {integrity: sha512-m8FOdUo77iMTwVRCyzWcqxlEIk+GnopbrRI15a0EaLbpZSCinIVI4kSQzWhkShK83GogvEFJSsHF3Ws0z1vrqA==}
     engines: {node: '>=12'}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@babel/runtime': 7.18.0
       '@types/aria-query': 4.2.2
       aria-query: 5.0.0
@@ -15360,7 +15360,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.3.8
+      semver: 7.3.7
       tsutils: 3.21.0_typescript@4.9.3
       typescript: 4.9.3
     transitivePeerDependencies:
@@ -22334,12 +22334,12 @@ packages:
       vue-template-compiler:
         optional: true
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@types/json-schema': 7.0.11
       chalk: 4.1.2
       chokidar: 3.5.3
       cosmiconfig: 6.0.0
-      deepmerge: 4.2.2
+      deepmerge: 4.3.0
       fs-extra: 9.1.0
       glob: 7.2.3
       memfs: 3.4.12
@@ -22365,12 +22365,12 @@ packages:
       vue-template-compiler:
         optional: true
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@types/json-schema': 7.0.11
       chalk: 4.1.2
       chokidar: 3.5.3
       cosmiconfig: 6.0.0
-      deepmerge: 4.2.2
+      deepmerge: 4.3.0
       fs-extra: 9.1.0
       glob: 7.2.3
       memfs: 3.4.12
@@ -22382,28 +22382,24 @@ packages:
       webpack: 5.76.2_esbuild@0.15.7
     dev: false
 
-  /fork-ts-checker-webpack-plugin/7.2.13_kuefv56xgqg33iu5i7lcsgj5dy:
-    resolution: {integrity: sha512-fR3WRkOb4bQdWB/y7ssDUlVdrclvwtyCUIHCfivAoYxq9dF7XfrDKbMdZIfwJ7hxIAqkYSGeU7lLJE6xrxIBdg==}
+  /fork-ts-checker-webpack-plugin/8.0.0_kuefv56xgqg33iu5i7lcsgj5dy:
+    resolution: {integrity: sha512-mX3qW3idpueT2klaQXBzrIM/pHw+T0B/V9KHEvNrqijTq9NFnMZU6oreVxDYcf33P8a5cW+67PjodNHthGnNVg==}
     engines: {node: '>=12.13.0', yarn: '>=1.0.0'}
     peerDependencies:
       typescript: '>3.6.0'
-      vue-template-compiler: '*'
       webpack: ^5.11.0
-    peerDependenciesMeta:
-      vue-template-compiler:
-        optional: true
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       chalk: 4.1.2
       chokidar: 3.5.3
       cosmiconfig: 7.0.1
-      deepmerge: 4.2.2
+      deepmerge: 4.3.0
       fs-extra: 10.1.0
       memfs: 3.4.12
       minimatch: 3.1.2
       node-abort-controller: 3.0.1
       schema-utils: 3.1.1
-      semver: 7.3.8
+      semver: 7.3.7
       tapable: 2.2.1
       typescript: 4.9.3
       webpack: 5.76.2
@@ -28517,7 +28513,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -32989,6 +32985,7 @@ packages:
   /semver/7.3.5:
     resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
     engines: {node: '>=10'}
+    hasBin: true
     dependencies:
       lru-cache: 6.0.0
     dev: true
