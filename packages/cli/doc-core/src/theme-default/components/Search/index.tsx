@@ -36,7 +36,7 @@ export function Search() {
   });
   const [focused, setFocused] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const [searching, setSearching] = useState(false);
+  const [initing, setIniting] = useState(true);
   const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
   const pageSearcherRef = useRef<PageSearcher | null>(null);
   const { siteData, lang } = usePageData();
@@ -63,6 +63,12 @@ export function Search() {
     });
     pageSearcherRef.current = pageSearcher;
     await pageSearcherRef.current.init();
+    setIniting(false);
+    const query = searchInputRef.current?.value;
+    if (query) {
+      const matched = await pageSearcherRef.current?.match(query);
+      setSearchResult(matched || { current: [], others: [] });
+    }
   }
 
   useEffect(() => {
@@ -137,9 +143,7 @@ export function Search() {
   const onQueryChanged = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
-    setSearching(true);
     const matched = await pageSearcherRef.current?.match(newQuery);
-    setSearching(false);
     setSearchResult(matched || { current: [], others: [] });
   };
 
@@ -153,7 +157,7 @@ export function Search() {
     result: MatchResult,
     searchOptions: SearchOptions,
   ) => {
-    if (!suggestions.length) {
+    if (!suggestions.length && !initing) {
       return <NoSearchResult query={query} />;
     }
 
@@ -196,7 +200,7 @@ export function Search() {
     isCurrent = true,
   ) => {
     // if no result, show no result
-    if (suggestionList.length === 0) {
+    if (suggestionList.length === 0 && !initing) {
       return (
         <div className="mt-4 flex-center">
           <div
@@ -224,7 +228,7 @@ export function Search() {
                   const suggestionIndex = accumulateIndex;
                   return (
                     <SuggestItem
-                      key={suggestion.link}
+                      key={`${suggestion.title}-${suggestionIndex}`}
                       suggestion={suggestion}
                       isCurrent={suggestionIndex === currentSuggestionIndex}
                       setCurrentSuggestionIndex={() => {
@@ -315,7 +319,7 @@ export function Search() {
                   {renderSearchResult(searchResult, search)}
                 </div>
               ) : null}
-              {searching && (
+              {initing && (
                 <div className="flex-center">
                   <div className="p-2 text-sm">
                     <LoadingSvg />

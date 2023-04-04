@@ -4,7 +4,12 @@ import { parse } from 'acorn';
 import Slugger from 'github-slugger';
 import type { Root } from 'hast';
 import type { MdxjsEsm, Program } from 'mdast-util-mdxjs-esm';
-import { Header } from '@/shared/types';
+
+export interface TocItem {
+  id: string;
+  text: string;
+  depth: number;
+}
 
 interface ChildNode {
   type: 'link' | 'text' | 'inlineCode';
@@ -20,7 +25,7 @@ interface Heading {
 
 export const parseToc = (tree: Root) => {
   let title = '';
-  const toc: Header[] = [];
+  const toc: TocItem[] = [];
   const slugger = new Slugger();
   visitChildren((node: Heading) => {
     if (node.type !== 'heading' || !node.depth || !node.children) {
