@@ -1,7 +1,7 @@
 - **Type:** `string`
 - **Default:** `undefined`
 
-Set the file path of the app icon, can be set as a relative path relative to the project root directory, or as an absolute path to the file. Setting it as a CDN URL is not currently supported.
+Set the file path of the apple-touch-icon icon for the iOS system, can be set as a relative path relative to the project root directory, or as an absolute path to the file. Setting it as a CDN URL is not currently supported.
 
 After config this option, the icon will be automatically copied to the dist directory during the compilation, and the corresponding `link` tag will be added to the HTML.
 

@@ -38,6 +38,7 @@
 }
 
 .modern-doc .modern-directive .modern-directive-title {
+  margin-bottom: 8px;
   font-weight: 600;
   font-size: 16px;
 }

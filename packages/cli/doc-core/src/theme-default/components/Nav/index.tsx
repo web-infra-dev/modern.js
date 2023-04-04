@@ -125,6 +125,7 @@ export function Nav(props: NavProps) {
   const hasSearch = siteData?.themeConfig?.search !== false;
 
   const title = localeData.title ?? siteData.title;
+  const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
 
   const rightNav = () => {
     return (
@@ -139,9 +140,11 @@ export function Nav(props: NavProps) {
           {hasMultiLanguage && (
             <NavTranslations translationMenuData={translationMenuData!} />
           )}
-          <div className="mx-2">
-            <SwitchAppearance />
-          </div>
+          {hasAppearanceSwitch && (
+            <div className="mx-2">
+              <SwitchAppearance />
+            </div>
+          )}
           {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
         </div>
       </div>
@@ -149,7 +152,7 @@ export function Nav(props: NavProps) {
   };
   return (
     <header
-      className={`top-0 left-0 relative md:fixed w-full`}
+      className={`top-0 left-0 md:fixed w-full`}
       style={{
         zIndex: 'var(--modern-z-index-nav)',
         background: 'var(--modern-c-bg)',
