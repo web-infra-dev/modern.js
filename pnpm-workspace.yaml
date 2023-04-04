@@ -9,6 +9,7 @@ packages:
  - 'packages/review/*'
  - 'packages/server/*'
  - 'packages/builder/*'
+ - 'packages/module/*'
  - 'packages/solutions/*'
  - 'packages/toolkit/*'
  - 'packages/toolkit/compiler/*'

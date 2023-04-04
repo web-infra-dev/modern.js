@@ -192,20 +192,31 @@ If you encounter the problem that tree shaking does not take effect, you can che
 
 This error indicates that there is a memory overflow problem during the packaging process. In most cases, it is because the packaged content exceeds the default memory limit of Node.js.
 
-In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command:
+In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command。
 
-```bash
-NODE_OPTIONS=--max_old_space_size=16384 modern build
+For example, add parameters before the `modern build` command:
+
+```diff title="package.json"
+{
+   "scripts": {
+- "build": "modern build"
++ "build": "NODE_OPTIONS=--max_old_space_size=16384 modern build"
+   }
+}
 ```
 
-The value of the parameter represents the upper limit of the memory size (MB). Generally, it can be set to `16384` (16GB).
+If you are executing other commands, such as `modern deploy`, please add parameters before the corresponding command.
+
+The value of the `max_old_space_size` parameter represents the upper limit of the memory size (MB). Generally, it can be set to `16384` (16GB).
 
 The following parameters are explained in more detail in the official Node.js documentation:
 
 - [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions)
 - [--max-old-space-size](https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes)
 
-In addition to increasing the memory limit, it is also a solution to improve efficiency by enabling some compilation strategies.
+In addition to increasing the memory limit, it is also a solution to improve efficiency by enabling some compilation strategies, please refer to [Improve Build Performance](/guide/optimization/build-performance).
+
+If the above methods cannot solve your problem, it may be that some abnormal logic in the project has caused memory overflow. You can debug recent code changes and locate the root cause of problems. If it cannot be located, please contact us.
 
 ## Can't resolve 'core-js/modules/xxx.js' when compiling?
 
