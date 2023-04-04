@@ -1,16 +1,56 @@
 ---
-title: icon.png
+title: icon
 sidebar_position: 2
 ---
-# icon.png
 
-When `config/icon.png` exist, it can inject app icon information into the html page at build time:
+# Icon
+
+## Set favicon
+
+When there is a `favicon.*` file in the `config` directory of the project root directory, Modern.js will automatically set the file to the [html.favicon](/configure/app/html/favicon) config to generate the favicon icon for the page:
 
 ```
-.config
+./config
+└── favicon.ico
+```
+
+After the build is complete, you can see that the following tags are automatically generated in the HTML:
+
+```html
+<link rel="icon" href="/favicon.ico" />
+```
+
+### Order
+
+When setting up the favicon, Modern.js looks for files in the following order:
+
+- favicon.png
+- favicon.jpg
+- favicon.jpeg
+- favicon.svg
+- favicon.ico
+
+## Set app icon
+
+When there is an `icon.*` file in the `config` directory of the project root directory, Modern.js will automatically set the file to the [html.appIcon](/configure/app/html/app-icon) config, it is used to generate the apple-touch-icon icon for the iOS system.
+
+```
+./config
 └── icon.png
 ```
 
-the app icon `link` meta will be injected into the html, as follows:
+After the build is complete, you can see that the following tags are automatically generated in the HTML:
 
-![app-icon](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/api/app-icon.png)
+```html
+<link rel="apple-touch-icon" sizes="180*180" href="/static/image/icon.png" />
+```
+
+### Order
+
+When setting the app icon, Modern.js looks for files in the following order:
+
+- icon.png
+- icon.jpg
+- icon.jpeg
+- icon.svg
+- icon.ico
