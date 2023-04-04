@@ -6,10 +6,10 @@
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": "web-infra-dev/modern.js",
   "license": "MIT",
+  "type": "module",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
-  "type": "module",
   "module": "./dist/node/index.js",
   "exports": {
     ".": {
@@ -108,7 +108,7 @@
     "unist-util-visit": "^4.1.1",
     "unist-util-visit-children": "^2.0.1",
     "yaml-front-matter": "^4.1.1",
-    "@modern-js/mdx-rs-binding": "^0.0.1"
+    "@modern-js/mdx-rs-binding": "^0.0.2"
   },
   "peerDependencies": {
     "@modern-js/core": "workspace:^2.11.0",
@@ -138,14 +138,17 @@
     "rimraf": "^3.0.2",
     "typescript": "^4.8.4",
     "vite": "^4.0.4",
-    "vitest": "0.21.1"
+    "vitest": "0.21.1",
+    "@modern-js/plugin-tailwindcss": "workspace:*"
   },
   "sideEffects": [
     "*.css",
     "*.less",
     "*.sass",
     "*.scss",
-    "**/virtual-global-styles.js"
+    "**/virtual-global-styles.js",
+    "virtual-global-styles",
+    "./src/theme-default/styles/index.ts"
   ],
   "files": [
     "bin",

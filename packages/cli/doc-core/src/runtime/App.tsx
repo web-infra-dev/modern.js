@@ -7,6 +7,7 @@ import { getRelativePagePath, normalizeRoutePath } from './utils';
 import { DataContext } from './hooks';
 import { PageData } from '@/shared/types';
 import { cleanUrl, omit } from '@/shared/utils';
+import 'virtual-global-styles';
 
 export async function initPageData(routePath: string): Promise<PageData> {
   const { routes } = process.env.__SSR__
