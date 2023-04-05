@@ -7,7 +7,7 @@ import type { ModernServerContext } from '@modern-js/types';
 import { TemplateAPI, templateInjectableStream } from '../hook-api/template';
 
 // To ensure that the second injection fails, the _SERVER_DATA inject at the front of head,
-export const injectSeverData = (
+export const injectServerData = (
   content: string,
   context: ModernServerContext,
 ) => {
