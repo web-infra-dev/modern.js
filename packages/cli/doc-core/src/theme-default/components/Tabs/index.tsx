@@ -1,4 +1,9 @@
-import { ComponentProps, ReactElement, ReactNode, useContext } from 'react';
+import {
+  ComponentPropsWithRef,
+  ReactElement,
+  ReactNode,
+  useContext,
+} from 'react';
 import { Tab as HeadlessTab } from '@headlessui/react';
 import { TabDataContext } from '../../logic/TabDataContext';
 import styles from './index.module.scss';
@@ -115,7 +120,7 @@ export function Tabs(props: TabsProps): ReactElement {
 export function Tab({
   children,
   ...props
-}: ComponentProps<'div'>): ReactElement {
+}: ComponentPropsWithRef<'div'>): ReactElement {
   return (
     <HeadlessTab.Panel {...props} className="rounded pt-4">
       {children}
