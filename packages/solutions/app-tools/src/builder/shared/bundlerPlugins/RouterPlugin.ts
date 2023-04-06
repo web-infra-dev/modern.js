@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, logger } from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
@@ -63,14 +63,10 @@ export class RouterPlugin {
             chunks: true,
             ids: true,
           });
-          const { publicPath, chunks = [], assetsByChunkName } = stats;
+          const { publicPath, chunks = [], namedChunkGroups } = stats;
           const routeAssets: RouteAssets = {};
-          const { namedChunkGroups } = stats;
 
-          if (!namedChunkGroups || !assetsByChunkName) {
-            logger.warn(
-              'Route manifest does not exist, performance will be affected',
-            );
+          if (!namedChunkGroups) {
             return;
           }
 
@@ -80,18 +76,18 @@ export class RouterPlugin {
               [prop: string]: any;
             };
 
-            const referenceCssAssets = (chunkGroup as ChunkGroupLike).assets
-              .filter(asset => /\.css$/.test(asset.name))
-              .map(asset => {
-                const item = asset.name;
-                return publicPath ? normalizePath(publicPath) + item : item;
-              });
-
+            const assets = (chunkGroup as ChunkGroupLike).assets.map(asset => {
+              const filename = asset.name;
+              return publicPath
+                ? normalizePath(publicPath) + filename
+                : filename;
+            });
+            const referenceCssAssets = assets.filter(asset =>
+              /\.css$/.test(asset),
+            );
             routeAssets[name] = {
               chunkIds: chunkGroup.chunks,
-              assets: assetsByChunkName[name]?.map(item =>
-                publicPath ? normalizePath(publicPath) + item : item,
-              ),
+              assets,
               referenceCssAssets,
             };
           }

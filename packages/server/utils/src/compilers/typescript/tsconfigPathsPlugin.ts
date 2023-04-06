@@ -152,7 +152,6 @@ export function tsconfigPathsBeforeHookFactory(
             if (tsBinary.isImportDeclaration(node)) {
               newNode = tsBinary.factory.updateImportDeclaration(
                 node,
-                node.decorators,
                 node.modifiers,
                 node.importClause,
                 moduleSpecifier,
@@ -161,7 +160,6 @@ export function tsconfigPathsBeforeHookFactory(
             } else {
               newNode = tsBinary.factory.updateExportDeclaration(
                 node,
-                node.decorators,
                 node.modifiers,
                 node.isTypeOnly,
                 node.exportClause,
