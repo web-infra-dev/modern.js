@@ -2,6 +2,6 @@
 '@modern-js/doc-core': patch
 ---
 
-fix: anchor
+fix(doc-core): anchor
 
-fix: 锚点生效
+fix(doc-core): 锚点无效
