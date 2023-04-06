@@ -1,5 +1,19 @@
 # @modern-js/builder-plugin-swc-base
 
+## 2.12.0
+
+### Patch Changes
+
+- 98f8cb6: fix(swc): can not find object_destructuring_empty.mjs
+
+  fix(swc): 修复找不到 object_destructuring_empty.mjs 的问题
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+  - @modern-js/utils@2.12.0
+  - @modern-js/builder-shared@2.12.0
+
 ## 2.11.0
 
 ### Minor Changes

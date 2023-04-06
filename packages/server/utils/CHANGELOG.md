@@ -1,5 +1,17 @@
 # @modern-js/server-utils
 
+## 2.12.0
+
+### Patch Changes
+
+- 05493a7: feat: support noEmitOnError for ts compiler & remove assetsByChunkName from RouterPlugin
+  feat: 支持 ts 编译器的 noEmitOnError 选项 & 从 RouterPlugin 中移除 assetsByChunkName
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/babel-preset-lib@2.12.0
+  - @modern-js/babel-compiler@2.12.0
+
 ## 2.11.0
 
 ### Patch Changes

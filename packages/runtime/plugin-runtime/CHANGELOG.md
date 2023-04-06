@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.12.0
+
+### Patch Changes
+
+- 0b05ec3: fix: the SSR plugin will product some effects, disable the ssr plugin when user doesn't use ssr
+  fix: SSR 插件将会尝试一些副作用，如果用户没有使用它时禁用这个插件。
+- 1aa0cb7: fix: beforeCreateRouter should be false after render router
+  fix: 在渲染 router 后，beforeCreateRouter 应该为 false
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/plugin@2.12.0
+  - @modern-js/types@2.12.0
+
 ## 2.11.0
 
 ### Patch Changes
