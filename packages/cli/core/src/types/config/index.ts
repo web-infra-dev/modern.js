@@ -64,7 +64,7 @@ export type NormalizedConfig<
   >;
 
   /**
-   * auto load plugin that exist in the package.json
+   * Auto load plugin that exist in the package.json
    *
    * **default: `false`**
    */
