@@ -10,7 +10,7 @@ import { RenderResult, ServerHookRunner } from '../../type';
 import cache from './cache';
 import { SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
-import { injectServerDataStream, injectSeverData } from './utils';
+import { injectServerDataStream, injectServerData } from './utils';
 
 export const render = async (
   ctx: ModernServerContext,
@@ -93,7 +93,7 @@ export const render = async (
 
   if (typeof content === 'string') {
     return {
-      content: injectSeverData(content, ctx),
+      content: injectServerData(content, ctx),
       contentType: mime.contentType('html') as string,
     };
   } else {

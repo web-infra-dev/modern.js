@@ -23,14 +23,7 @@ export interface Header {
   id: string;
   text: string;
   depth: number;
-}
-
-export interface SiteSiteData {
-  title: string;
-  description: string;
-  frontmatter: Record<string, unknown>;
-  lastUpdated?: number;
-  headers: Header[];
+  charIndex: number;
 }
 
 export interface DocConfig<ThemeConfig = DefaultThemeConfig> {

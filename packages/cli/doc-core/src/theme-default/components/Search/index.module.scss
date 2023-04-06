@@ -124,8 +124,9 @@
   box-sizing: border-box;
   margin: 5px 2px;
 
-  :global(.dark) & {
-    box-shadow: 0 1px 3px 0 #1f1f1f;
+  :global(.dark) &,
+  :global(.dark) & > a {
+    box-shadow: none;
   }
 
   & > a {
