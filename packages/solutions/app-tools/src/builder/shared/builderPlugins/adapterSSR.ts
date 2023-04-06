@@ -44,6 +44,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         applyRouterPlugin(chain, options);
         if (isSSR(normalizedConfig)) {
           await applySSRLoaderEntry(chain, options, isServer);
+          applySSRDataLoader(chain);
         }
 
         if (['node', 'service-worker'].includes(target)) {
@@ -221,4 +222,13 @@ async function applySSRLoaderEntry<B extends Bundler>(
       }
     }),
   );
+}
+
+function applySSRDataLoader(chain: BundlerChain) {
+  chain.module
+    .rule('ssr-data-loader')
+    .test(/src\/.*\.loader.[t|j]s$/)
+    .use('data-loader')
+    .loader(require.resolve('@modern-js/plugin-data-loader/loader'))
+    .end();
 }
