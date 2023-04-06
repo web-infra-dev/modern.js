@@ -1,5 +1,27 @@
 # @modern-js/doc-tools
 
+## 2.12.0
+
+### Patch Changes
+
+- d50aaf7: fix: schema error in sidebar link
+
+  fix: 修复侧边栏链接 schema 错误问题
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [ca8774e]
+- Updated dependencies [6d86e34]
+- Updated dependencies [809ca3a]
+- Updated dependencies [9328fb9]
+- Updated dependencies [d9bcc86]
+- Updated dependencies [5495f1d]
+- Updated dependencies [bffd8f7]
+- Updated dependencies [a110563]
+- Updated dependencies [240906b]
+  - @modern-js/utils@2.12.0
+  - @modern-js/doc-core@2.12.0
+  - @modern-js/core@2.12.0
+
 ## 2.11.0
 
 ### Patch Changes

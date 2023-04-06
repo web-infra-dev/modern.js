@@ -1,5 +1,23 @@
 # @modern-js/builder-shared
 
+## 2.12.0
+
+### Patch Changes
+
+- 6d86e34: feat(doc-tools): print dev server URLs with base
+
+  feat(doc-tools): 输出 dev server 的 URLs 时补全 base 信息
+
+- fef3394: fix(builder): should add id prefix after minify SVG
+
+  fix(builder): 压缩 SVG 后需要添加 id 前缀
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/server@2.12.0
+  - @modern-js/types@2.12.0
+
 ## 2.11.0
 
 ### Minor Changes
