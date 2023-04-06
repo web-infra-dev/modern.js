@@ -41,7 +41,6 @@ export default async function loader(
     return source;
   }
 
-  // const options = this.resourceQuery();
   const code = generateClient({
     mapFile: options.mapFile,
     loaderId: options.loaderId,
