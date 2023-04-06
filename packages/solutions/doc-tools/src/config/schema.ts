@@ -56,20 +56,26 @@ const sidebarConfig = {
           items: {
             type: 'array',
             items: {
-              type: 'object',
-              properties: {
-                text: {
+              anyOf: [
+                {
+                  type: 'object',
+                  properties: {
+                    text: {
+                      type: 'string',
+                    },
+                    link: {
+                      type: 'string',
+                    },
+                  },
+                  required: ['text', 'link'],
+                },
+                {
                   type: 'string',
                 },
-                link: {
-                  type: 'string',
-                },
-              },
-              required: ['text', 'link'],
+              ],
             },
           },
         },
-        required: ['text', 'items'],
       },
     },
   },
