@@ -3399,9 +3399,9 @@ importers:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': ~0.11.8
-      '@modern-js/libuild-plugin-svgr': ~0.11.8
-      '@modern-js/libuild-plugin-swc': ~0.11.8
+      '@modern-js/libuild': ~0.11.9
+      '@modern-js/libuild-plugin-svgr': ~0.11.9
+      '@modern-js/libuild-plugin-swc': ~0.11.9
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -3425,9 +3425,9 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.11.8
-      '@modern-js/libuild-plugin-svgr': 0.11.8
-      '@modern-js/libuild-plugin-swc': 0.11.8
+      '@modern-js/libuild': 0.11.9
+      '@modern-js/libuild-plugin-svgr': 0.11.9
+      '@modern-js/libuild-plugin-swc': 0.11.9
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -11443,8 +11443,8 @@ packages:
       vm-browserify: 1.1.2
     dev: false
 
-  /@modern-js/libuild-plugin-svgr/0.11.8:
-    resolution: {integrity: sha512-4vukppKvDaq4GSm9rk2MM9PE55PFKn3C6VjxPTL0s2hd9lI8AdknrcqO1g+qFZYGloouPQFx/kOaP8t9oDvLxg==}
+  /@modern-js/libuild-plugin-svgr/0.11.9:
+    resolution: {integrity: sha512-FvKlKyRzQRwmj4qFZiFJS+CUqzOFUlhvgTVYwia1oPI1TPr6IW1/1s8I5bddr8r4t96ANcxfLXjtUoFluSKv/w==}
     dependencies:
       '@svgr/core': 6.2.0
       '@svgr/plugin-jsx': 6.2.0_@svgr+core@6.2.0
@@ -11460,8 +11460,27 @@ packages:
       '@modern-js/swc-plugins': 0.2.0
     dev: false
 
+  /@modern-js/libuild-plugin-swc/0.11.9:
+    resolution: {integrity: sha512-MwAq6U/2BVu9niKunyUt6NIpepSS+DhrysxzwhjH8cz6pShivIK1B6Itap64Z9phQneII9xR3n7SqqyziDgcKA==}
+    dependencies:
+      '@modern-js/swc-plugins': 0.2.0
+    dev: false
+
   /@modern-js/libuild/0.11.8:
     resolution: {integrity: sha512-Fyo/owJyPfmcHyn1VoV8R1c9LoC8W89+dvyOWbLuS8udpVTr3hrNJQ9jOCWKGizDg+14/Q87CoRDYugwV3HpVQ==}
+    dependencies:
+      '@ast-grep/napi': 0.1.13
+      esbuild: 0.17.7
+      postcss: 8.4.6
+      source-map: 0.7.4
+      source-map-support: 0.5.20
+      style-inject: 0.3.0
+      sucrase: 3.29.0
+      terser: 5.15.0
+    dev: true
+
+  /@modern-js/libuild/0.11.9:
+    resolution: {integrity: sha512-5l7+SZ/LLdZBJlD4hCOEfLvy/X18voRZpCmQQSbWT/52lNJvLvU06aBdHPshlaPbIDv7z5gUSgnbRCJRY5DDoQ==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
@@ -11472,6 +11491,7 @@ packages:
       style-inject: 0.3.0
       sucrase: 3.29.0
       terser: 5.15.0
+    dev: false
 
   /@modern-js/mdx-rs-binding-darwin-arm64/0.0.2:
     resolution: {integrity: sha512-xMYEDVLTwt5LgNKlKGWztVsp/HteY+4MO+VsFbCqXz88RwVOLWbVWb3XZv4OIIddRyDl7nJsDxlGINsjgmBzlg==}
@@ -15634,13 +15654,11 @@ packages:
   /acorn/5.7.4:
     resolution: {integrity: sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==}
     engines: {node: '>=0.4.0'}
-    hasBin: true
     dev: true
 
   /acorn/6.4.2:
     resolution: {integrity: sha512-XtGIhXwF8YM8bJhGxG5kXgjkEuNGLTkoYqVE+KMR+aspr4KGYmKYg7yUe3KghyQ9yheNwLnjmzh/7+gfDBmHCQ==}
     engines: {node: '>=0.4.0'}
-    hasBin: true
     dev: false
 
   /acorn/7.4.1:
@@ -17159,7 +17177,6 @@ packages:
   /browserslist/4.21.4:
     resolution: {integrity: sha512-CBHJJdDmgjl3daYjN5Cp5kbTf1mUhZoS+beLklHIvkOWscs83YAhLlF3Wsh/lciQYAcbBJgTOD44VtG31ZM4Hw==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
-    hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001451
       electron-to-chromium: 1.4.284
@@ -17619,7 +17636,6 @@ packages:
 
   /chokidar/2.1.8:
     resolution: {integrity: sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==}
-    deprecated: Chokidar 2 does not receive security updates since 2019. Upgrade to chokidar 3 with 15x fewer dependencies
     dependencies:
       anymatch: 2.0.0
       async-each: 1.0.3
@@ -18711,7 +18727,6 @@ packages:
   /cssesc/3.0.0:
     resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
     engines: {node: '>=4'}
-    hasBin: true
 
   /cssfilter/0.0.10:
     resolution: {integrity: sha512-FAaLDaplstoRsDR8XGYH51znUN0UY7nMc6Z9/fvE8EXGwvJE9hu7W2vHwx1+bd6gCYnln9nLbzxFTrcO9YQDZw==}
@@ -18977,7 +18992,6 @@ packages:
 
   /debug/4.1.1:
     resolution: {integrity: sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==}
-    deprecated: Debug versions >=3.2.0 <3.2.7 || >=4 <4.3.1 have a low-severity ReDos regression when used in a Node.js environment. It is recommended you upgrade to 3.2.7 or 4.3.1. (https://github.com/visionmedia/debug/issues/797)
     peerDependencies:
       supports-color: '*'
     peerDependenciesMeta:
@@ -22739,6 +22753,7 @@ packages:
       minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
+    dev: true
 
   /glob/7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
@@ -22868,7 +22883,7 @@ packages:
       array-union: 1.0.2
       dir-glob: 2.2.2
       fast-glob: 2.2.7
-      glob: 7.2.0
+      glob: 7.2.3
       ignore: 4.0.6
       pify: 4.0.1
       slash: 2.0.0
@@ -23333,7 +23348,6 @@ packages:
   /html-minifier-terser/5.1.1:
     resolution: {integrity: sha512-ZPr5MNObqnV/T9akshPKbVgyOqLmy+Bxo7juKCfTfnjNniTAMdy4hz21YQqoofMBJD2kdREaqPPdThoR78Tgxg==}
     engines: {node: '>=6'}
-    hasBin: true
     dependencies:
       camel-case: 4.1.2
       clean-css: 4.2.4
@@ -23359,7 +23373,6 @@ packages:
   /html-minifier-terser/7.0.0:
     resolution: {integrity: sha512-Adqk0b/pWKIQiGvEAuzPKpBKNHiwblr3QSGS7TTr6v+xXKV9AI2k4vWW+6Oytt6Z5SeBnfvYypKOnz8r75pz3Q==}
     engines: {node: ^14.13.1 || >=16.0.0}
-    hasBin: true
     dependencies:
       camel-case: 4.1.2
       clean-css: 5.2.0
@@ -27214,7 +27227,6 @@ packages:
 
   /miller-rabin/4.0.1:
     resolution: {integrity: sha512-115fLhvZVqWwHPbClyntxEVfVDfl9DLLTuJvq3g2O/Oxi8AiNouAHvDSzHS0viUJc+V5vm3eq91Xwqn9dp4jRA==}
-    hasBin: true
     dependencies:
       bn.js: 4.12.0
       brorand: 1.1.0
@@ -27538,7 +27550,7 @@ packages:
     resolution: {integrity: sha512-sjk8lcRW3vrVYnZ+W+67L/2rL+jbO5K/N6PFGIcLWTiYytNr22Ah9FDXFs+AQntTM1boZcoHi5qS+CV1seuPog==}
     engines: {node: '>=6.0.0'}
     dependencies:
-      glob: 7.2.0
+      glob: 7.2.3
       ko-sleep: 1.1.4
       mkdirp: 0.5.6
       pump: 3.0.0
@@ -29842,7 +29854,6 @@ packages:
   /querystring/0.2.0:
     resolution: {integrity: sha512-X/xY82scca2tau62i9mDyU9K+I+djTMUsvwf7xnUX5GLvVzgJybOJf4Y6o9Zx3oJK/LSXg5tTZBjwzqVPaPO2g==}
     engines: {node: '>=0.4.x'}
-    deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
 
   /querystringify/2.2.0:
@@ -32445,7 +32456,6 @@ packages:
 
   /rimraf/2.7.1:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
-    hasBin: true
     dependencies:
       glob: 7.2.3
 
@@ -32457,7 +32467,6 @@ packages:
   /rimraf/4.4.0:
     resolution: {integrity: sha512-X36S+qpCUR0HjXlkDe4NAOhS//aHH0Z+h8Ckf2auGJk3PTnx5rLmrHkwNdbVQuCSUhOyFrlRvFEllZOYE+yZGQ==}
     engines: {node: '>=14'}
-    hasBin: true
     dependencies:
       glob: 9.3.0
     dev: true
@@ -32779,7 +32788,6 @@ packages:
   /semver/7.3.5:
     resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
     engines: {node: '>=10'}
-    hasBin: true
     dependencies:
       lru-cache: 6.0.0
     dev: true
@@ -32896,7 +32904,6 @@ packages:
 
   /sha.js/2.4.11:
     resolution: {integrity: sha512-QMEp5B7cftE7APOjk5Y6xgrbWu+WkLVQwk8JNjZ8nKRciZaByEW6MubieAiToS7+dwvrjGhH8jRXz3MVd0AYqQ==}
-    hasBin: true
     dependencies:
       inherits: 2.0.4
       safe-buffer: 5.2.1
@@ -33290,6 +33297,7 @@ packages:
 
   /stable/0.1.8:
     resolution: {integrity: sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==}
+    deprecated: 'Modern JS already guarantees Array#sort() is a stable sort, so this library is deprecated. See the compatibility table on MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#browser_compatibility'
 
   /stack-trace/0.0.10:
     resolution: {integrity: sha512-KGzahc7puUKkzyMt+IqAep+TVNbKP+k2Lmwhub39m1AsTSkaDutx56aDCo+HLDzf/D26BIHTJWNiTG1KAJiQCg==}
@@ -35708,8 +35716,6 @@ packages:
 
   /uuid/3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
-    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
-    hasBin: true
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
@@ -35717,7 +35723,6 @@ packages:
   /uvu/0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}
     engines: {node: '>=8'}
-    hasBin: true
     dependencies:
       dequal: 2.0.3
       diff: 5.1.0

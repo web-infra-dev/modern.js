@@ -1,5 +1,52 @@
 # @modern-js/doc-core
 
+## 2.12.0
+
+### Patch Changes
+
+- ca8774e: fix: search result not accurate
+
+  fix: 解决搜索结果遗漏的问题
+
+- 6d86e34: feat(doc-tools): print dev server URLs with base
+
+  feat(doc-tools): 输出 dev server 的 URLs 时补全 base 信息
+
+- 809ca3a: fix(doc-core): fix Tabs props type
+  fix(doc-core): 修复 Tabs 组件类型
+- 9328fb9: feat: prebundle theme
+
+  feat: 预打包主题
+
+- d9bcc86: fix: code highlight
+
+  fix: 代码高亮无效
+
+- 5495f1d: fix: switch lang 404
+
+  fix: 切换语言后 404 问题
+
+- bffd8f7: feat(doc-core): improve dead link log message
+
+  feat(doc-core): 优化死链检测的日志
+
+- a110563: fix: fix darkmode that don't work
+  fix: 修复 darkmode 不生效的问题
+- 240906b: fix: link base missing
+
+  fix: 链接 base 丢失问题
+
+- Updated dependencies [cd1d966]
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+- Updated dependencies [6b30837]
+  - @modern-js/builder-rspack-provider@2.12.0
+  - @modern-js/utils@2.12.0
+  - @modern-js/builder@2.12.0
+  - @modern-js/core@2.12.0
+  - @modern-js/remark-container@2.12.0
+
 ## 2.11.0
 
 ### Patch Changes

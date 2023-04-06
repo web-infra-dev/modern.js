@@ -1,5 +1,28 @@
 # @modern-js/builder-webpack-provider
 
+## 2.12.0
+
+### Patch Changes
+
+- fef3394: fix(builder): should add id prefix after minify SVG
+
+  fix(builder): 压缩 SVG 后需要添加 id 前缀
+
+- 591f53a: chore(deps): bump fork-ts-checker-webpack-plugin to v8
+
+  chore(deps): 升级 fork-ts-checker-webpack-plugin 到 v8
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+  - @modern-js/utils@2.12.0
+  - @modern-js/builder-shared@2.12.0
+  - @modern-js/babel-preset-app@2.12.0
+  - @modern-js/babel-preset-base@2.12.0
+  - @modern-js/server@2.12.0
+  - @modern-js/e2e@2.12.0
+  - @modern-js/types@2.12.0
+
 ## 2.11.0
 
 ### Minor Changes

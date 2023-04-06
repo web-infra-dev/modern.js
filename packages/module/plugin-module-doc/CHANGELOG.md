@@ -1,5 +1,29 @@
 # @modern-js/plugin-module-doc
 
+## 2.12.0
+
+### Patch Changes
+
+- 979b15f: chore: remove to module folder
+  chore: 移动至 module 文件夹
+- Updated dependencies [ca8774e]
+- Updated dependencies [af705fa]
+- Updated dependencies [6d86e34]
+- Updated dependencies [809ca3a]
+- Updated dependencies [9328fb9]
+- Updated dependencies [d9bcc86]
+- Updated dependencies [0baa168]
+- Updated dependencies [5495f1d]
+- Updated dependencies [1cdb379]
+- Updated dependencies [3936535]
+- Updated dependencies [bffd8f7]
+- Updated dependencies [8a3fbbd]
+- Updated dependencies [8bc2d12]
+- Updated dependencies [a110563]
+- Updated dependencies [240906b]
+  - @modern-js/doc-core@2.12.0
+  - @modern-js/module-tools@2.12.0
+
 ## 2.11.0
 
 ### Patch Changes

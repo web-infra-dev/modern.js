@@ -1,5 +1,30 @@
 # @modern-js/builder-rspack-provider
 
+## 2.12.0
+
+### Patch Changes
+
+- cd1d966: chore(rspack-provider): use rspack stats.time instead of manual timing
+
+  chore(rspack-provider): 使用 rspack stats.time 代替手动计时
+
+- fef3394: fix(builder): should add id prefix after minify SVG
+
+  fix(builder): 压缩 SVG 后需要添加 id 前缀
+
+- 6b30837: chore(rspack-provider): update rspack to 0.1.6
+
+  chore(rspack-provider): 升级 rspack 相关依赖到 0.1.6
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+  - @modern-js/utils@2.12.0
+  - @modern-js/builder-shared@2.12.0
+  - @modern-js/server@2.12.0
+  - @modern-js/e2e@2.12.0
+  - @modern-js/types@2.12.0
+
 ## 2.11.0
 
 ### Minor Changes
