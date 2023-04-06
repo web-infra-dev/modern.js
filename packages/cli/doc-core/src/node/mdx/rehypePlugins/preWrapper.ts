@@ -34,6 +34,9 @@ export const rehypePluginPreWrapper: Plugin<[], Root> = () => {
         const clonedNode: Element = {
           type: 'element',
           tagName: 'pre',
+          properties: {
+            className: 'code',
+          },
           children: node.children,
           data: {
             isVisited: true,
