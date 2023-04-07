@@ -227,7 +227,7 @@ async function applySSRLoaderEntry<B extends Bundler>(
 function applySSRDataLoader(chain: BundlerChain) {
   chain.module
     .rule('ssr-data-loader')
-    .test(/src\/.*\.loader.[t|j]s$/)
+    .test(/src.*\.loader\.[t|j]s$/)
     .use('data-loader')
     .loader(require.resolve('@modern-js/plugin-data-loader/loader'))
     .end();
