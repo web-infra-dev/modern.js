@@ -70,7 +70,7 @@ export default ({
           ...(normalizedConfig.server || {}),
           port,
         };
-        resolved.autoLoadPlugins = normalizedConfig.autoLoadPlugins || false;
+        resolved.autoLoadPlugins = normalizedConfig.autoLoadPlugins ?? false;
         stabilizeConfig(resolved, normalizedConfig, [
           'source',
           'bff',
