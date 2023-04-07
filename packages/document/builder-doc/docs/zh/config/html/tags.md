@@ -137,7 +137,7 @@ export default {
   <body>
     <!-- tags with `{ head: false, append: false }` here. -->
     <!-- some other bodyTags... -->
-    <!-- tags with `{ head: false, append: false }` here. -->
+    <!-- tags with `{ head: false, append: true }` here. -->
     <script src="//example.com/a.js"></script>
   </body>
 </html>
