@@ -422,7 +422,7 @@ import 'other-package/dist/index.css';
 }
 ```
 
-同时你又设置了[style.inject](#inject)为`true`，在控制台你会看到类似的警告信息
+同时你又设置了[style.inject](#inject)为 `true`，在控制台可以看到类似的警告信息：
 
 ```bash
 [LIBUILD:ESBUILD_WARN] Ignoring this import because "other-package/dist/index.css" was marked as having no side effects
