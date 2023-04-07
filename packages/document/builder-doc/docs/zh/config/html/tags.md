@@ -89,7 +89,7 @@ export type HtmlInjectTagHandler = (
 
 回调函数接受 tags 列表作为参数，并需要修改或直接返回新的 tags 数组：
 
-```typescript
+```ts
 export default {
   html: {
     tags: [

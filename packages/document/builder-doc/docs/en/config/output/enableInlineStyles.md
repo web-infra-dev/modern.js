@@ -5,7 +5,7 @@ Whether to inline output style files (.css files) into HTML with `<style>` tags 
 
 Note that, with this option on, the style files will no longer be written in dist directory, they will only exist inside the HTML file instead.
 
-:::note
+:::tip
 When using convention-based routing, you need to set [`output.splitRouteChunks`](https://modernjs.dev/en/configure/app/output/splitRouteChunks.html) to false if this option is turned on.
 :::
 

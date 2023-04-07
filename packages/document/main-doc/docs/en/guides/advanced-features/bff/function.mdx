@@ -114,7 +114,7 @@ For example, following the example, a `GET` interface can be exported.
 export const get = async () => {
   return {
     name: 'Modern.js',
-    desc: '现代 web 工程方案',
+    desc: 'Web engineering system',
   };
 };
 ```
@@ -125,14 +125,14 @@ Following the example below, a `POST` interface can be exported.
 export const post = async () => {
   return {
     name: 'Modern.js',
-    desc: '现代 web 工程方案',
+    desc: 'Web engineering system',
   };
 };
 ```
 
 - Modern.js supports 9 definitions for HTTP Method: `GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`, can be exported using these methods as functions.
 
-- The name is size insensitive，if `GET`，can write `get`、`Get`、`GEt`、`GET`，can be accurately identified. But default export as `export default xxx` will be map to `Get`.
+- The name is size insensitive, if `GET`, can write `get`、`Get`、`GEt`、`GET`, can be accurately identified. But default export as `export default xxx` will be map to `Get`.
 
 - Multiple functions of different Methods can be defined in one file, but if multiple functions of the same Method are defined, only the first will take effect.
 

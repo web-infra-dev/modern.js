@@ -89,7 +89,7 @@ export type HtmlInjectTagHandler = (
 
 The callback function accepts a tag list as an argument and needs to modify or return a new tag array directly.
 
-```typescript
+```ts
 export default {
   html: {
     tags: [

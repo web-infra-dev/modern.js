@@ -49,7 +49,7 @@ export async function launchDoc({
       ],
     };
   };
-  const edenxDocConfig: UserConfig = merge<UserConfig, UserConfig>(
+  const modernDocConfig: UserConfig = merge<UserConfig, UserConfig>(
     {
       doc: {
         title: json.name,
@@ -90,8 +90,8 @@ export async function launchDoc({
   );
 
   if (isProduction) {
-    await build(root, edenxDocConfig);
+    await build(root, modernDocConfig);
   } else {
-    await dev(root, edenxDocConfig);
+    await dev(root, modernDocConfig);
   }
 }

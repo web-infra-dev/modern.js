@@ -166,8 +166,7 @@ The Module Tools configuration file - `modern.config.(j|t)s` - is provided in th
 
 By default, the contents of the generated configuration file are as follows.
 
-```typescript
-// modern.config.ts
+```ts title="modern.config.ts"
 import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -178,8 +177,7 @@ export default defineConfig({
 
 **We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the config file: the
 
-``` ts
-// modern.config.ts
+``` ts title="modern.config.ts"
 import moduleTools from '@modern-js/module-tools';
 
 export default {
