@@ -1,5 +1,17 @@
 # @modern-js/utils
 
+## 2.12.0
+
+### Patch Changes
+
+- c2ca6c8: fix(app-tools): failed to restart CLI
+
+  fix(app-tools): 修复 CLI 重启失败的问题
+
+- 6d86e34: feat(doc-tools): print dev server URLs with base
+
+  feat(doc-tools): 输出 dev server 的 URLs 时补全 base 信息
+
 ## 2.11.0
 
 ### Patch Changes

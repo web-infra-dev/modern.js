@@ -128,6 +128,45 @@ export const remarkPluginNormalizeLink: Plugin<
       },
     );
 
+    const normalizeImageUrl = (imageUrl: string): string | undefined => {
+      if (imageUrl.startsWith('/')) {
+        const publicDir = path.join(root, PUBLIC_DIR);
+        const imagePath = path.join(publicDir, imageUrl);
+        if (!fs.existsSync(imagePath)) {
+          console.error(`Image not found: ${imagePath}`);
+          return;
+        }
+        // eslint-disable-next-line consistent-return
+        return imagePath;
+      }
+    };
+
+    const getMdxSrcAttrbute = (tempVar: string) => {
+      return {
+        type: 'mdxJsxAttribute',
+        name: 'src',
+        value: {
+          type: 'mdxJsxAttributeValueExpression',
+          value: tempVar,
+          data: {
+            estree: {
+              type: 'Program',
+              sourceType: 'module',
+              body: [
+                {
+                  type: 'ExpressionStatement',
+                  expression: {
+                    type: 'Identifier',
+                    name: tempVar,
+                  },
+                },
+              ],
+            },
+          },
+        },
+      };
+    };
+
     visit(tree, 'image', node => {
       const { url } = node;
       if (!url) {
@@ -137,15 +176,12 @@ export const remarkPluginNormalizeLink: Plugin<
         return;
       }
 
-      if (url.startsWith('/')) {
-        const publicDir = path.join(root, PUBLIC_DIR);
-        const imagePath = path.join(publicDir, url);
-        if (!fs.existsSync(imagePath)) {
-          console.error(`Image not found: ${imagePath}`);
-          return;
-        }
-        node.url = imagePath;
+      const imagePath = normalizeImageUrl(url);
+      if (!imagePath) {
+        return;
       }
+      node.url = imagePath;
+
       // relative path
       const tempVariableName = `image${images.length}`;
 
@@ -159,33 +195,37 @@ export const remarkPluginNormalizeLink: Plugin<
             name: 'alt',
             value: node.alt,
           },
-          {
-            type: 'mdxJsxAttribute',
-            name: 'src',
-            value: {
-              type: 'mdxJsxAttributeValueExpression',
-              value: tempVariableName,
-              data: {
-                estree: {
-                  type: 'Program',
-                  sourceType: 'module',
-                  body: [
-                    {
-                      type: 'ExpressionStatement',
-                      expression: {
-                        type: 'Identifier',
-                        name: tempVariableName,
-                      },
-                    },
-                  ],
-                },
-              },
-            },
-          },
+          getMdxSrcAttrbute(tempVariableName),
         ].filter(Boolean),
       });
 
-      images.push(getASTNodeImport(tempVariableName, node.url));
+      images.push(getASTNodeImport(tempVariableName, imagePath));
+    });
+
+    visit(tree, 'mdxJsxFlowElement', (node: any) => {
+      // get all img src
+      if (node.name !== 'img') {
+        return;
+      }
+      const src = node.attributes.find(
+        (attr: any) => attr.name === 'src',
+      )?.value;
+
+      if (!src || typeof src !== 'string') {
+        return;
+      }
+
+      const imagePath = normalizeImageUrl(src);
+
+      if (!imagePath) {
+        return;
+      }
+
+      const tempVariableName = `image${images.length}`;
+
+      Object.assign(src, getMdxSrcAttrbute(tempVariableName));
+
+      images.push(getASTNodeImport(tempVariableName, imagePath));
     });
 
     tree.children.unshift(...images);
