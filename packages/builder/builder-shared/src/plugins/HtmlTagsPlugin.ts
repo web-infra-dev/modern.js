@@ -71,7 +71,7 @@ export const withPublicPath = (str: string, base: string) => {
     return str;
   }
 
-  // Only absolute url can be parsed into URL instance.
+  // Only absolute url with hostname & protocol can be parsed into URL instance.
   // e.g. str is https://example.com/foo.js
   try {
     return new URL(str).toString();
