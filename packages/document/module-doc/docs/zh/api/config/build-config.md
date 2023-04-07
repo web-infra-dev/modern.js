@@ -154,6 +154,30 @@ declare module '*.svg' {
 - 类型： `boolean | Object`
 - 默认值： `true`
 
+当我们希望关闭对于第三方依赖的默认处理行为时候，可以通过以下方式来实现：
+
+```ts modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+  },
+});
+```
+
+这样对于 `"dependencies"` 和 `"peerDependencies"` 下面的依赖都会进行打包处理。如果只想要关闭其中某个下面的依赖处理，则可以使用
+`buildConfig.autoExternal` 的对象形式：
+
+```ts modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: {
+      dependencies: false,
+      peerDependencies: false,
+    },
+  },
+});
+```
+
 ### dependencies
 
 是否需要外置项目的 `"dependencies"` 依赖。
