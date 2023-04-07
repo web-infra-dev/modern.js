@@ -26,6 +26,7 @@ export function transformNormalizedConfig(
     cliOptions,
     plugins,
     testing,
+    autoLoadPlugins,
   } = config;
   return {
     source,
@@ -45,7 +46,7 @@ export function transformNormalizedConfig(
     security: {},
     _raw: {},
     experiments: {},
-    autoLoadPlugins: true,
+    autoLoadPlugins,
     performance: {
       removeMomentLocale: true,
     },
