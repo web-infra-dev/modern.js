@@ -145,7 +145,7 @@ export default {
 
 #### 限制
 
-这个配置用于在 Bundler 构建完成后修改 HTML 产物的内容，并不会引入和解析新的模块，它无法替代 [source.preEntry](/api/config-source.html#source.preentry) 等能力。
+这个配置用于在 Builder 构建完成后修改 HTML 产物的内容，并不会引入和解析新的模块。因此，它无法用于引入未编译的源码文件，也无法代替 [source.preEntry](/api/config-source.html#source.preentry) 等配置。
 
 例如对于以下项目：
 
