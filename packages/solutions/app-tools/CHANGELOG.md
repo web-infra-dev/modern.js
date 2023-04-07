@@ -1,5 +1,43 @@
 # @modern-js/app-tools
 
+## 2.12.0
+
+### Patch Changes
+
+- c2ca6c8: fix(app-tools): failed to restart CLI
+
+  fix(app-tools): 修复 CLI 重启失败的问题
+
+- 8e64d03: fix: referenceCssAssets should not include publicPath in bundle
+  fix: referenceCssAssets 不应该包含 publicPath 字段在 bundle 中
+- 05493a7: feat: support noEmitOnError for ts compiler & remove assetsByChunkName from RouterPlugin
+  feat: 支持 ts 编译器的 noEmitOnError 选项 & 从 RouterPlugin 中移除 assetsByChunkName
+- Updated dependencies [cd1d966]
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [7980842]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+- Updated dependencies [591f53a]
+- Updated dependencies [6b30837]
+  - @modern-js/builder-rspack-provider@2.12.0
+  - @modern-js/utils@2.12.0
+  - @modern-js/prod-server@2.12.0
+  - @modern-js/builder-shared@2.12.0
+  - @modern-js/builder-webpack-provider@2.12.0
+  - @modern-js/builder@2.12.0
+  - @modern-js/builder-plugin-esbuild@2.12.0
+  - @modern-js/builder-plugin-node-polyfill@2.12.0
+  - @modern-js/core@2.12.0
+  - @modern-js/plugin-data-loader@2.12.0
+  - @modern-js/plugin-i18n@2.12.0
+  - @modern-js/plugin-lint@2.12.0
+  - @modern-js/new-action@2.12.0
+  - @modern-js/server@2.12.0
+  - @modern-js/node-bundle-require@2.12.0
+  - @modern-js/upgrade@2.12.0
+  - @modern-js/plugin@2.12.0
+  - @modern-js/types@2.12.0
+
 ## 2.11.0
 
 ### Patch Changes

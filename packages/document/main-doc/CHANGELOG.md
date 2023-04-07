@@ -1,5 +1,17 @@
 # @modern-js/main-doc
 
+## 2.12.0
+
+### Patch Changes
+
+- 9e5044d: doc: 修正文档中使用@edenx/runtime 的部分
+  doc: Correct the sections in the document that use @edenx/runtime.
+- 9328fb9: feat: prebundle theme
+
+  feat: 预打包主题
+
+  - @modern-js/builder-doc@2.12.0
+
 ## 2.11.0
 
 ### Patch Changes
