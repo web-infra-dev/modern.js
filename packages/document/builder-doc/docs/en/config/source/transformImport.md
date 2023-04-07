@@ -19,7 +19,7 @@ Array<{
 
 - **Default:**
 
-When the [antd component library](https://www.npmjs.com/package/antd) <= 4.x version is installed in the project, Builder will automatically add the corresponding on-demand import configuration. The default configuration is as follows:
+When the [antd component library](https://www.npmjs.com/package/antd) &lt;= 4.x version is installed in the project, Builder will automatically add the corresponding on-demand import configuration. The default configuration is as follows:
 
 ```js
 {

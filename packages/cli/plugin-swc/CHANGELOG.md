@@ -1,5 +1,37 @@
 # @modern-js/core
 
+## 2.12.0
+
+### Patch Changes
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/builder-plugin-swc@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- ca0c043: fix(plugin-swc): add warning when using esbuild with SWC
+
+  fix(plugin-swc): 在同时启用 SWC 和 esbuild 时抛出 warning
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [c6a94c7]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [99693f0]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/builder-plugin-swc@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

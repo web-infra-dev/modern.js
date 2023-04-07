@@ -1,5 +1,109 @@
 # @modern-js/app-tools
 
+## 2.12.0
+
+### Patch Changes
+
+- c2ca6c8: fix(app-tools): failed to restart CLI
+
+  fix(app-tools): 修复 CLI 重启失败的问题
+
+- 8e64d03: fix: referenceCssAssets should not include publicPath in bundle
+  fix: referenceCssAssets 不应该包含 publicPath 字段在 bundle 中
+- 05493a7: feat: support noEmitOnError for ts compiler & remove assetsByChunkName from RouterPlugin
+  feat: 支持 ts 编译器的 noEmitOnError 选项 & 从 RouterPlugin 中移除 assetsByChunkName
+- Updated dependencies [cd1d966]
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [7980842]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+- Updated dependencies [591f53a]
+- Updated dependencies [6b30837]
+  - @modern-js/builder-rspack-provider@2.12.0
+  - @modern-js/utils@2.12.0
+  - @modern-js/prod-server@2.12.0
+  - @modern-js/builder-shared@2.12.0
+  - @modern-js/builder-webpack-provider@2.12.0
+  - @modern-js/builder@2.12.0
+  - @modern-js/builder-plugin-esbuild@2.12.0
+  - @modern-js/builder-plugin-node-polyfill@2.12.0
+  - @modern-js/core@2.12.0
+  - @modern-js/plugin-data-loader@2.12.0
+  - @modern-js/plugin-i18n@2.12.0
+  - @modern-js/plugin-lint@2.12.0
+  - @modern-js/new-action@2.12.0
+  - @modern-js/server@2.12.0
+  - @modern-js/node-bundle-require@2.12.0
+  - @modern-js/upgrade@2.12.0
+  - @modern-js/plugin@2.12.0
+  - @modern-js/types@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- 415bee6: fix: load chunk while can not load all css asset, when streaming ssr.
+  fix: 使用 streaming ssr 时，不能加载当前 chunk 的所有 css 资源
+- c0ba89b: feat: 控制台输出 rspack 版本
+  feat: Print the version of rspack in the console.
+- 0bd018b: feat: support use node api run dev & build & deploy command
+  feat: 支持通过 node api 运行 dev & build & deploy 命令
+- 5d624fd: feat: assets and data prefetching is supported
+  feat: 支持资源和数据预加载
+- 7017909: fix: distpath.root not take effect when serve
+
+  fix: 修复 distpath.root 在 run serve 时不生效的问题
+
+- 381a3b9: feat(utils): move universal utils to the universal folder
+
+  feat(utils): 将运行时使用的 utils 移动到 universal 目录
+
+- a47543a: fix: should hide publicPath in injected manifest
+  fix: 应该隐藏 publicPath 在注入的 manifest 中
+- Updated dependencies [adcedad]
+- Updated dependencies [cfb058f]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [c0ba89b]
+- Updated dependencies [0bd018b]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [3aa318d]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [58faba2]
+- Updated dependencies [53b0a63]
+- Updated dependencies [02bb383]
+- Updated dependencies [3171c9d]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [73cfc9b]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [7178795]
+- Updated dependencies [1140a69]
+- Updated dependencies [b71cef1]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/builder-shared@2.11.0
+  - @modern-js/builder-webpack-provider@2.11.0
+  - @modern-js/builder@2.11.0
+  - @modern-js/utils@2.11.0
+  - @modern-js/builder-rspack-provider@2.11.0
+  - @modern-js/core@2.11.0
+  - @modern-js/builder-plugin-node-polyfill@2.11.0
+  - @modern-js/plugin-data-loader@2.11.0
+  - @modern-js/plugin-lint@2.11.0
+  - @modern-js/prod-server@2.11.0
+  - @modern-js/server@2.11.0
+  - @modern-js/builder-plugin-esbuild@2.11.0
+  - @modern-js/plugin-i18n@2.11.0
+  - @modern-js/new-action@2.11.0
+  - @modern-js/node-bundle-require@2.11.0
+  - @modern-js/upgrade@2.11.0
+  - @modern-js/plugin@2.11.0
+  - @modern-js/types@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

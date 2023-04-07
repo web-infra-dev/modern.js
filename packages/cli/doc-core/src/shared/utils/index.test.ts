@@ -53,6 +53,9 @@ describe('test shared utils', () => {
     expect(replaceLang('/en/guide/', 'en', 'zh', langs)).toBe('/en/guide/');
     expect(replaceLang('/guide/', 'zh', 'zh', langs)).toBe('/guide/');
     expect(replaceLang('/guide/', 'en', 'zh', langs)).toBe('/en/guide/');
+    expect(replaceLang('/builder', 'en', 'zh', langs, '/builder')).toBe(
+      '/builder/en/index.html',
+    );
   });
 
   test('parseUrl', () => {

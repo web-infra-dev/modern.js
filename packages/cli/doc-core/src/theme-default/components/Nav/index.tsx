@@ -2,7 +2,7 @@ import { NavItem } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { Search } from '@theme';
 import { useContext, useEffect, useState } from 'react';
-import { getLogoUrl, useLocaleSiteData } from '../../logic';
+import { getLogoUrl, isMobileDevice, useLocaleSiteData } from '../../logic';
 import { NavHamburger } from '../NavHambmger';
 import { SocialLinks } from '../SocialLinks';
 import { SwitchAppearance } from '../SwitchAppearance';
@@ -69,6 +69,7 @@ export function Nav(props: NavProps) {
   const { pathname } = useLocation();
   const { theme } = useContext(ThemeContext);
   const localeData = useLocaleSiteData();
+  const [isMobile, setIsMobile] = useState(false);
   const localeLanguages = Object.values(siteData.themeConfig.locales || {});
   const hasMultiLanguage = localeLanguages.length > 1;
   const socialLinks = siteData?.themeConfig?.socialLinks || [];
@@ -90,6 +91,10 @@ export function Nav(props: NavProps) {
   useEffect(() => {
     setLogo(getLogoUrl(rawLogo, theme));
   }, [theme]);
+
+  useEffect(() => {
+    setIsMobile(isMobileDevice());
+  }, []);
 
   const NavMenu = ({ menuItems }: { menuItems: NavItem[] }) => {
     return (
@@ -120,6 +125,7 @@ export function Nav(props: NavProps) {
   const hasSearch = siteData?.themeConfig?.search !== false;
 
   const title = localeData.title ?? siteData.title;
+  const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
 
   const rightNav = () => {
     return (
@@ -134,9 +140,11 @@ export function Nav(props: NavProps) {
           {hasMultiLanguage && (
             <NavTranslations translationMenuData={translationMenuData!} />
           )}
-          <div className="mx-2">
-            <SwitchAppearance />
-          </div>
+          {hasAppearanceSwitch && (
+            <div className="mx-2">
+              <SwitchAppearance />
+            </div>
+          )}
           {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
         </div>
       </div>
@@ -144,7 +152,7 @@ export function Nav(props: NavProps) {
   };
   return (
     <header
-      className={`top-0 left-0 relative md:fixed w-full`}
+      className={`top-0 left-0 md:fixed w-full`}
       style={{
         zIndex: 'var(--modern-z-index-nav)',
         background: 'var(--modern-c-bg)',
@@ -168,7 +176,7 @@ export function Nav(props: NavProps) {
             {rightNav()}
 
             <div className={styles.mobileNavMenu}>
-              <Search />
+              {isMobile && <Search />}
               <NavHamburger
                 localeData={localeData}
                 siteData={siteData}

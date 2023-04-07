@@ -2,7 +2,7 @@ import { cli, ToRunners } from '@modern-js/core';
 import {
   chalk,
   clearConsole,
-  getArgv,
+  getFullArgv,
   logger,
   program,
 } from '@modern-js/utils';
@@ -26,7 +26,7 @@ export async function restart(
     hasGetError = true;
   } finally {
     if (!hasGetError) {
-      program.parse(getArgv());
+      program.parse(getFullArgv());
     }
   }
 }

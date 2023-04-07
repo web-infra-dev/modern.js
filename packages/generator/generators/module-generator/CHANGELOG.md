@@ -1,5 +1,14 @@
 # @modern-js/module-generator
 
+## 3.1.2
+
+### Patch Changes
+
+- 29826f8: feat: enable isolatedModules
+  feat: 开启 isolatedModules
+
+## 3.1.1
+
 ## 3.1.0
 
 ### Patch Changes

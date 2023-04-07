@@ -41,6 +41,6 @@ export const EN_LOCALE = {
   },
   dts: {
     abortOnError:
-      '`dts.abortOnError` currently enabled, type errors don`t cause build failures. Unable to ensure proper type file generation',
+      'With the `dts.abortOnError` configuration currently turned off, type errors do not cause build failures, but they do not guarantee proper type file output',
   },
 };

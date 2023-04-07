@@ -26,10 +26,25 @@ export default ({
 }): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-initialize',
 
+  post: [
+    '@modern-js/plugin-ssr',
+    '@modern-js/plugin-document',
+    '@modern-js/plugin-state',
+    '@modern-js/plugin-router',
+    '@modern-js/plugin-router-v5',
+    '@modern-js/plugin-polyfill',
+  ],
+
   setup(api) {
     const config = () => {
       const appContext = api.useAppContext();
       const userConfig = api.useConfigContext();
+
+      // set bundlerType to appContext
+      api.setAppContext({
+        ...appContext,
+        bundlerType: bundler,
+      });
 
       return checkIsLegacyConfig(userConfig)
         ? (createLegacyDefaultConfig(appContext) as unknown as AppUserConfig)
@@ -70,7 +85,7 @@ export default ({
           ...(normalizedConfig.server || {}),
           port,
         };
-        resolved.autoLoadPlugins = normalizedConfig.autoLoadPlugins || false;
+        resolved.autoLoadPlugins = normalizedConfig.autoLoadPlugins ?? false;
         stabilizeConfig(resolved, normalizedConfig, [
           'source',
           'bff',

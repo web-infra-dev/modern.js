@@ -32,22 +32,21 @@ export const getIpv4Interfaces = () => {
   return ipv4Interfaces;
 };
 
+export type AddressUrl = { label: string; url: string };
+
 export const getAddressUrls = (protocol = 'http', port: number) => {
   const ipv4Interfaces = getIpv4Interfaces();
-  return ipv4Interfaces.reduce(
-    (memo: { type: string; url: string }[], detail) => {
-      let type = 'Network:  ';
-      let url = `${protocol}://${detail.address}:${port}`;
-      if (detail.address.includes(`localhost`) || detail.internal) {
-        type = 'Local:  ';
-        url = `${protocol}://localhost:${port}`;
-      }
+  return ipv4Interfaces.reduce((memo: AddressUrl[], detail) => {
+    let label = 'Network:  ';
+    let url = `${protocol}://${detail.address}:${port}`;
+    if (detail.address.includes(`localhost`) || detail.internal) {
+      label = 'Local:  ';
+      url = `${protocol}://localhost:${port}`;
+    }
 
-      memo.push({ type, url });
-      return memo;
-    },
-    [],
-  );
+    memo.push({ label, url });
+    return memo;
+  }, []);
 };
 
 export const prettyInstructions = (appContext: any, config: any) => {
@@ -74,8 +73,8 @@ export const prettyInstructions = (appContext: any, config: any) => {
   if (isSingleEntry(entrypoints) || apiOnly) {
     message += urls
       .map(
-        ({ type, url }) =>
-          `  ${chalk.bold(`> ${type.padEnd(10)}`)}${chalk.cyanBright(
+        ({ label, url }) =>
+          `  ${chalk.bold(`> ${label.padEnd(10)}`)}${chalk.cyanBright(
             normalizeUrl(`${url}/${routes[0].urlPath}`),
           )}\n`,
       )
@@ -83,8 +82,8 @@ export const prettyInstructions = (appContext: any, config: any) => {
   } else {
     const maxNameLength = Math.max(...routes.map(r => r.entryName.length));
 
-    urls.forEach(({ type, url }) => {
-      message += `  ${chalk.bold(`> ${type}`)}\n`;
+    urls.forEach(({ label, url }) => {
+      message += `  ${chalk.bold(`> ${label}`)}\n`;
       routes.forEach(({ entryName, urlPath, isSSR }) => {
         if (!checkedEntries.includes(entryName)) {
           return;

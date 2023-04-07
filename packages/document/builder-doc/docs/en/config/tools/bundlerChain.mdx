@@ -1,0 +1,177 @@
+- **Type:** `Function | undefined`
+- **Default:** `undefined`
+
+You can modify the webpack and Rspack configuration by configuring `tools.bundlerChain` which is type of `Function`. The function receives two parameters, the first is the original bundler chain object, and the second is an object containing some utils.
+
+:::tip What is BundlerChain
+
+Bundler chain is a subset of webpack chain, which contains part of the webpack chain API that you can use to modify both webpack and Rspack configuration.
+
+Configurations modified via bundler chain will work on both webpack and Rspack builds. Note that the bundler chain only supports modifying the configuration of the non-differentiated parts of webpack and Rspack. For example, modifying the devtool configuration item (webpack and Rspack have the same devtool property value type), or adding an [Rspack-compatible](https://www.rspack.dev/guide/plugin-compat.html) webpack plugin.
+
+:::
+
+> `tools.bundlerChain` is executed earlier than tools.webpackChain / tools.webpack / tools.rspack and thus will be overridden by changes in others.
+
+### Utils
+
+#### env
+
+- **Type:** `'development' | 'production' | 'test'`
+
+The `env` parameter can be used to determine whether the current environment is development, production or test. For example:
+
+```js
+export default {
+  tools: {
+    bundlerChain: (chain, { env }) => {
+      if (env === 'development') {
+        chain.devtool('cheap-module-eval-source-map');
+      }
+    },
+  },
+};
+```
+
+#### isProd
+
+- **Type:** `boolean`
+
+The `isProd` parameter can be used to determine whether the current environment is production. For example:
+
+```js
+export default {
+  tools: {
+    bundlerChain: (chain, { isProd }) => {
+      if (isProd) {
+        chain.devtool('source-map');
+      }
+    },
+  },
+};
+```
+
+#### target
+
+- **Type:** `'web' | 'node' | 'modern-web' | 'web-worker'`
+
+The `target` parameter can be used to determine the current environment. For example:
+
+```js
+export default {
+  tools: {
+    bundlerChain: (chain, { target }) => {
+      if (target === 'node') {
+        // ...
+      }
+    },
+  },
+};
+```
+
+#### isServer
+
+- **Type:** `boolean`
+
+Determines whether the target environment is `node`, equivalent to `target === 'node'`.
+
+```js
+export default {
+  tools: {
+    bundlerChain: (chain, { isServer }) => {
+      if (isServer) {
+        // ...
+      }
+    },
+  },
+};
+```
+
+#### isWebWorker
+
+- **Type:** `boolean`
+
+Determines whether the target environment is `web-worker`, equivalent to `target === 'web-worker'`.
+
+```js
+export default {
+  tools: {
+    bundlerChain: (chain, { isWebWorker }) => {
+      if (isWebWorker) {
+        // ...
+      }
+    },
+  },
+};
+```
+
+### HtmlPlugin
+
+- **Type:** `typeof import('html-webpack-plugin') | import('@rspack/plugin-html') `
+
+The HtmlPlugin instance in webpack or Rspack:
+
+```js
+export default {
+  tools: {
+    bundlerChain: (chain, { HtmlPlugin }) => {
+      console.log(HtmlPlugin);
+    },
+  },
+};
+```
+
+#### CHAIN_ID
+
+Some common Chain IDs are predefined in the Builder, and you can use these IDs to locate the built-in Rule or Plugin.
+
+##### CHAIN_ID.RULE
+
+| ID           | Description      |
+| ------------ | ---------------- |
+| `RULE.CSS`   | Rule for `css`   |
+| `RULE.LESS`  | Rule for `less`  |
+| `RULE.SASS`  | Rule for `sass`  |
+| `RULE.TOML`  | Rule for `toml`  |
+| `RULE.YAML`  | Rule for `yaml`  |
+
+### CHAIN_ID.ONE_OF
+
+`ONE_OF.XXX` can match a certain type of rule in the rule array.
+
+| ID                  | Description                                                        |
+| ------------------- | ------------------------------------------------------------------ |
+| `ONE_OF.SVG`        | Rules for SVG, automatic choice between data URI and separate file |
+| `ONE_OF.SVG_URL`    | Rules for SVG, output as a separate file                           |
+| `ONE_OF.SVG_INLINE` | Rules for SVG, inlined into bundles as data URIs                   |
+| `ONE_OF.SVG_ASSETS` | Rules for SVG, automatic choice between data URI and separate file |
+
+### CHAIN_ID.USE
+
+`USE.XXX` can match a certain loader.
+
+| ID                     | Description                                    |
+| ---------------------- | ---------------------------------------------- |
+| `USE.LESS`             | correspond to `less-loader`                    |
+| `USE.SASS`             | correspond to `sass-loader`                    |
+| `USE.TOML`             | correspond to `toml-loader`                    |
+| `USE.YAML`             | correspond to `yaml-loader`                    |
+| `USE.SVGR`             | correspond to `@svgr/webpack`                  |
+| `USE.POSTCSS`          | correspond to `postcss-loader`                 |
+
+### CHAIN_ID.PLUGIN
+
+`PLUGIN.XXX` can match a certain webpack plugin.
+
+| ID                             | Description                                                                                                    |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `PLUGIN.HTML`                  | correspond to `HtmlPlugin`, you need to splice the entry name when using: `${PLUGIN.HTML}-${entryName}` |
+| `PLUGIN.APP_ICON`              | correspond to `AppIconPlugin`                                                                                  |
+| `PLUGIN.INLINE_HTML`           | correspond to `InlineChunkHtmlPlugin`                                                                          |
+| `PLUGIN.BUNDLE_ANALYZER`       | correspond to `WebpackBundleAnalyzer`                                                                          |
+| `PLUGIN.BOTTOM_TEMPLATE`       | correspond to `BottomTemplatePlugin`                                                                           |
+| `PLUGIN.AUTO_SET_ROOT_SIZE`    | correspond to automatically set root font size plugin in Builder                                               |
+
+### Examples
+
+The usage of BundlerChain can reference: [WebpackChain Examples](https://modernjs.dev/builder/en/guide/advanced/custom-webpack-config.html#webpack-chain-basics).

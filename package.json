@@ -43,7 +43,7 @@
     "node": ">=14.17.6",
     "pnpm": ">=7.12.2 <=7.29.1"
   },
-  "packageManager": "pnpm@7.12.2",
+  "packageManager": "pnpm@7.29.1",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"

@@ -217,13 +217,15 @@ const PrefetchDataLinks: React.FC<{
   const basename = useHref('/');
   const dataHrefs = useMemo(() => {
     return matches
-      ?.filter(
-        match =>
-          match.route.loader &&
-          typeof match.route.loader === 'function' &&
-          match.route.loader.length > 0,
-      )
-      .filter((match, index) => {
+      ?.filter((match, index) => {
+        if (
+          !match.route.loader ||
+          typeof match.route.loader !== 'function' ||
+          match.route.loader.length === 0
+        ) {
+          return false;
+        }
+
         // TODO: rewrite with shouldRevalidate
         const currentMatch = currentMatches[index];
         if (!currentMatch || currentMatch.id !== match.route.id) {

@@ -1,5 +1,38 @@
 # @modern-js/core
 
+## 2.12.0
+
+### Patch Changes
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/node-bundle-require@2.12.0
+  - @modern-js/plugin@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- 0bd018b: feat: support use node api run dev & build & deploy command
+  feat: 支持通过 node api 运行 dev & build & deploy 命令
+- 7178795: fix(core): beforeExit should be sync workflow
+
+  fix(core): beforeExit 需要使用同步的 workflow
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/node-bundle-require@2.11.0
+  - @modern-js/plugin@2.11.0
+
 ## 2.10.0
 
 ### Minor Changes

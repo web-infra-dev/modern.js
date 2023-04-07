@@ -4,7 +4,7 @@ import { fs } from '@modern-js/utils';
 import { compile } from 'path-to-regexp';
 import {
   injectServerDataStream,
-  injectSeverData,
+  injectServerData,
 } from '../src/libs/render/utils';
 import {
   noop,
@@ -154,7 +154,7 @@ describe('test render util', () => {
       'utf-8',
     );
 
-    const rtn = injectSeverData(content, {
+    const rtn = injectServerData(content, {
       serverData: {
         name: 'bytedance',
       },

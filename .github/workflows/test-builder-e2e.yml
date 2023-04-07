@@ -6,7 +6,7 @@ concurrency:
 
 on:
   push:
-    branches: [main]
+    branches: [main, update-rspack-**]
 
   workflow_dispatch:
 
@@ -35,7 +35,7 @@ jobs:
             turbo-
 
       - name: Install Pnpm
-        run: npm install -g pnpm@7.29.1
+        run: corepack enable
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3

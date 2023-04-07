@@ -19,10 +19,17 @@ import {
 } from './constants';
 import { createMDXOptions } from './mdx';
 import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
-import createTailwindConfig from './tailwindOptions';
 import { serveSearchIndexMiddleware } from './searchIndex';
+import { checkLinks } from './mdx/remarkPlugins/checkDeadLink';
 
 const require = createRequire(import.meta.url);
+
+export interface MdxRsLoaderCallbackContext {
+  resourcePath: string;
+  links: string[];
+  root: string;
+  base: string;
+}
 
 async function createInternalBuildConfig(
   userRoot: string,
@@ -37,7 +44,7 @@ async function createInternalBuildConfig(
   const outDir = config.doc?.outDir ?? OUTPUT_DIR;
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
-    : path.join(PACKAGE_ROOT, 'src', 'theme-default');
+    : path.join(PACKAGE_ROOT, 'dist', 'theme');
   const checkDeadLinks =
     (config.doc?.markdown?.checkDeadLinks && !isSSR) ?? false;
   const mdxOptions = await createMDXOptions(userRoot, config, checkDeadLinks);
@@ -51,6 +58,7 @@ async function createInternalBuildConfig(
         config.doc?.builderConfig?.output?.assetPrefix ?? base,
       )
     : '';
+  const enableMdxRs = config.doc?.markdown?.experimentalMdxRs ?? false;
 
   // Using latest browserslist in development to improve build performance
   const browserslist = {
@@ -111,13 +119,6 @@ async function createInternalBuildConfig(
       },
     },
     tools: {
-      postcss(options) {
-        options.postcssOptions!.plugins!.push(
-          require('tailwindcss')({
-            config: createTailwindConfig(themeDir),
-          }),
-        );
-      },
       devServer: {
         // Serve static files
         after: [
@@ -131,20 +132,29 @@ async function createInternalBuildConfig(
           .rule('MDX')
           .test(/\.mdx?$/)
           .use('mdx-loader')
-          .loader(require.resolve('@mdx-js/loader'))
-          .options(mdxOptions)
+          .when(
+            enableMdxRs,
+            c =>
+              c.loader(require.resolve('../mdx-rs-loader.cjs')).options({
+                callback: (context: MdxRsLoaderCallbackContext) => {
+                  const { links, base, root, resourcePath } = context;
+                  checkDeadLinks && checkLinks(links, resourcePath, root, base);
+                },
+                root: userRoot,
+                base,
+                defaultLang: config.doc?.lang || '',
+              }),
+            c =>
+              c.loader(require.resolve('@mdx-js/loader')).options(mdxOptions),
+          )
           .end()
           .use('string-replace-loader')
           .loader(require.resolve('string-replace-loader'))
           .options({
             multiple: config.doc?.replaceRules || [],
-          })
-          .end();
+          });
 
         chain.resolve.extensions.prepend('.md').prepend('.mdx');
-        // TODO: Rspack split chunks bug
-        // The default splitChunks config will cause the main module not found
-        chain.optimization.splitChunks(false);
       },
     },
   };

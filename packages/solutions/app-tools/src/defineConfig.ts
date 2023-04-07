@@ -6,12 +6,14 @@ export const defineConfig = <B extends 'rspack' | 'webpack' = 'webpack'>(
 ) => config;
 
 /**
- * @deprecated
- * Using defineConfig first.
+ * Recommend use `defineConfig` first.
+ *
+ * `defineLegacyConfig` will be deprecated in the future.
  */
 export const defineLegacyConfig = (
   config: AppLegacyUserConfig,
 ): AppLegacyUserConfig => ({
   ...config,
   legacy: true,
+  autoLoadPlugins: config.autoLoadPlugins ?? true,
 });

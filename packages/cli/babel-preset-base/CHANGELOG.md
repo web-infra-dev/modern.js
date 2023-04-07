@@ -1,5 +1,40 @@
 # @modern-js/babel-preset-base
 
+## 2.12.0
+
+### Patch Changes
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+
+## 2.11.0
+
+### Minor Changes
+
+- a8c08c3: feat: 添加 `source.transformImoprt`
+
+  feat: add `source.transformImoprt`
+
+### Patch Changes
+
+- cfb058f: fix(builder): remove duplicated babel-plugin-import
+
+  fix(builder): 移除重复注册的 babel-plugin-import
+
+- 274b2e5: fix: For rspack-provider can use `tools.babel` configuration, inline the `@babel/preset-typescript` to handle ts syntax in rspack-provider.
+  fix: 为了 rspack-provider 能给使用 `tools.babel` 配置项，将 `@babel/preset-typescript` 内置进 rspack-provider 去处理 ts 语法。
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

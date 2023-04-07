@@ -11,6 +11,7 @@ export function getSvgoDefaultConfig() {
           },
         },
       },
+      'prefixIds',
     ],
   };
 }

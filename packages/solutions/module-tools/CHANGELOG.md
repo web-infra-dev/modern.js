@@ -1,5 +1,70 @@
 # @modern-js/module-tools
 
+## 2.12.0
+
+### Minor Changes
+
+- 1cdb379: feat: support redirect config
+  feat: 支持 redirect 配置
+
+### Patch Changes
+
+- af705fa: fix: update libuild version to fix windows resolve path
+  fix: 升级 libuild 版本来修复 windows 机器对于路径的解析
+- 0baa168: chore: upgrade libuild version to ~0.11.8
+  chore: 更新 libuild 版本到 ~0.11.8
+- 3936535: fix(module-tools): fix input glob path
+  fix(module-tools): 修复 input glob 路径的问题
+- 8a3fbbd: fix(module-tools): fix warning content
+  fix(module-tools): 修复警告内容
+- 8bc2d12: fix(module-tools): fix noClear option not work
+  fix(module-tools): 修复 noClear 配置不生效
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/core@2.12.0
+  - @modern-js/plugin-changeset@2.12.0
+  - @modern-js/plugin-i18n@2.12.0
+  - @modern-js/plugin-lint@2.12.0
+  - @modern-js/new-action@2.12.0
+  - @modern-js/upgrade@2.12.0
+  - @modern-js/plugin@2.12.0
+
+## 2.11.0
+
+### Minor Changes
+
+- f1b2629: feat: add `dts.abortOnError` config
+  feat: 添加 `dts.abortOnError` 配置
+
+### Patch Changes
+
+- aa0a312: chore(module-tools): pretty the log format
+
+  chore(module-tools): 优化日志格式
+
+- 6118636: fix(module-tools, module-tools-docs): fix svgr usage
+  fix(module-tools, module-tools-docs): 修复 svgr 的使用
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [58faba2]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [7178795]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/core@2.11.0
+  - @modern-js/plugin-lint@2.11.0
+  - @modern-js/plugin-changeset@2.11.0
+  - @modern-js/plugin-i18n@2.11.0
+  - @modern-js/new-action@2.11.0
+  - @modern-js/upgrade@2.11.0
+  - @modern-js/plugin@2.11.0
+
 ## 2.10.0
 
 ### Patch Changes

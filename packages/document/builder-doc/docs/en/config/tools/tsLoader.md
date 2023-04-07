@@ -53,7 +53,7 @@ When the value of `tools.tsLoader` is a Function, the utils functions available 
 
 #### addIncludes
 
-Type: `(includes: string | RegExp | Array<string | RegExp>) => void`
+- **Type:** `(includes: string | RegExp | Array<string | RegExp>) => void`
 
 By default, only the application code in the src directory will be compiled. Use `addIncludes` to specify ts-loader to compile some files under `node_modules`. For example:
 
@@ -69,7 +69,7 @@ export default {
 
 #### addExcludes
 
-Type: `(excludes: string | RegExp | Array<string | RegExp>) => void`
+- **Type:** `(excludes: string | RegExp | Array<string | RegExp>) => void`
 
 Contrary to `addIncludes`, specify `ts-loader` to exclude certain files when compiling.
 

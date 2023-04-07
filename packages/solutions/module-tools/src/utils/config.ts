@@ -118,6 +118,10 @@ export const mergeDefaultBaseConfig = async (
         pConfig.style?.autoModules ?? defaultConfig.style.autoModules,
       tailwindCss: defaultConfig.style.tailwindCss,
     },
+    redirect: {
+      ...defaultConfig.redirect,
+      ...pConfig.redirect,
+    },
   };
 };
 

@@ -54,6 +54,28 @@ export default (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
+        const { bundlerType = 'webpack' } = api.useAppContext();
+        const babelConfig =
+          bundlerType === 'webpack'
+            ? (config: any) => {
+                // Add id for useLoader method,
+                // The useLoader can be used even if the SSR is not enabled
+                config.plugins?.push(
+                  path.join(__dirname, './babel-plugin-ssr-loader-id'),
+                );
+
+                const userConfig = api.useResolvedConfigContext();
+                if (
+                  isUseSSRBundle(userConfig) &&
+                  hasStringSSREntry(userConfig)
+                ) {
+                  config.plugins?.push(
+                    require.resolve('@loadable/babel-plugin'),
+                  );
+                }
+              }
+            : undefined;
+
         return {
           source: {
             alias: {
@@ -98,19 +120,7 @@ export default (): CliPlugin<AppTools> => ({
                 ];
               });
             },
-
-            babel: (config: any) => {
-              // Add id for useLoader method,
-              // The useLoader can be used even if the SSR is not enabled
-              config.plugins.push(
-                path.join(__dirname, './babel-plugin-ssr-loader-id'),
-              );
-
-              const userConfig = api.useResolvedConfigContext();
-              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
-                config.plugins.push(require.resolve('@loadable/babel-plugin'));
-              }
-            },
+            babel: babelConfig,
           },
         };
       },

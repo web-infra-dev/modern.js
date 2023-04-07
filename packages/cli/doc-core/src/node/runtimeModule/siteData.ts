@@ -8,22 +8,16 @@ import {
   NormalizedSidebarGroup,
   PageIndexInfo,
 } from 'shared/types';
-import { remark } from 'remark';
 import yamlFront from 'yaml-front-matter';
-import type { Root } from 'hast';
-import { unified } from 'unified';
 import { htmlToText } from 'html-to-text';
-import remarkParse from 'remark-parse';
-import remarkHtml from 'remark-html';
-import { remarkPluginContainer } from '@modern-js/remark-container';
-import { ReplaceRule } from 'shared/types/index';
+import { ReplaceRule, Header } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
 import { logger } from '@modern-js/utils/logger';
-import { parseToc } from '../mdx/remarkPlugins/toc';
-import { importStatementRegex, PUBLIC_DIR, TEMP_DIR } from '../constants';
+import { compile } from '@modern-js/mdx-rs-binding';
+import { importStatementRegex, TEMP_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
-import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { createHash } from '../utils';
+import { flattenMdxContent } from '../utils/flattenMdxContent';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeService } from './routeData';
 import { RuntimeModuleID } from '.';
@@ -51,8 +45,8 @@ let pages: PageIndexInfo[] | undefined;
 // As far as I know, we can only do something after the Rspack build process becuase the index hash is generated within Rspack build process.There are two ways to do this:
 // 1. insert window.__INDEX_HASH__ = 'xxx' into the html template manually
 // 2. replace the `__INDEX_HASH__` placeholder in the html template with the real index hash after Rspack build
-// eslint-disable-next-line import/no-mutable-exports
-export let indexHash = '';
+
+export const indexHash = '';
 
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
@@ -134,6 +128,7 @@ async function extractPageData(
   alias: Record<string, string | string[]>,
   domain: string,
   disableSearch: boolean,
+  root: string,
 ): Promise<(PageIndexInfo | null)[]> {
   return Promise.all(
     routeService
@@ -157,6 +152,8 @@ async function extractPageData(
             );
           }
         });
+
+        // TODO: we will find a more efficient way to do this
         const flattenContent = await flattenMdxContent(
           frontmatter.__content,
           route.absolutePath,
@@ -167,32 +164,22 @@ async function extractPageData(
           importStatementRegex,
           '',
         );
-        // 2. Optimize content index
-        const ast = remark.parse({ value: content });
-        const { title, toc } = parseToc(ast as Root);
+
+        const {
+          html,
+          title,
+          toc: rawToc,
+        } = await compile({
+          value: content,
+          filepath: route.absolutePath,
+          development: process.env.NODE_ENV !== 'production',
+          root,
+          defaultLang: '',
+        });
+
         if (!title?.length && !frontmatter.title?.length) {
           return null;
         }
-
-        // If disable search, we don't need to generate search index
-        if (disableSearch) {
-          return {
-            id: index,
-            title: frontmatter.title || title,
-            routePath: route.routePath,
-            domain: '',
-            content: '',
-            frontmatter: {},
-            lang: route.lang,
-            toc,
-          };
-        }
-
-        const precessor = unified()
-          .use(remarkParse)
-          .use(remarkPluginContainer)
-          .use(remarkHtml);
-        const html = await precessor.process(content);
         content = htmlToText(String(html), {
           wordwrap: 80,
           selectors: [
@@ -222,6 +209,22 @@ async function extractPageData(
           // Remove the title from the content
           content = content.slice(title.length);
         }
+
+        const toc: Header[] = rawToc.map(item => {
+          // If the item.id ends with '-number', we take the number
+          const match = item.id.match(/-(\d+)$/);
+          let position = -1;
+          if (match) {
+            for (let i = 0; i < Number(match[1]); i++) {
+              position = content.indexOf(`\n${item.text}#\n\n`, position + 1);
+            }
+          }
+          return {
+            ...item,
+            charIndex: content.indexOf(`\n${item.text}#\n\n`, position + 1),
+          };
+        });
+
         return {
           id: index,
           title: frontmatter.title || title,
@@ -270,6 +273,7 @@ export async function siteDataVMPlugin(
         alias,
         domain,
         userConfig?.search === false,
+        userRoot,
       )
     ).filter(Boolean) as PageIndexInfo[];
   }
@@ -294,17 +298,35 @@ export async function siteDataVMPlugin(
       toc,
     })),
   };
-  await fs.ensureDir(path.join(userRoot, PUBLIC_DIR));
-  const stringfiedIndex = JSON.stringify(pages);
-  indexHash = createHash(stringfiedIndex);
-  await fs.writeFile(
-    path.join(TEMP_DIR, `${SEARCH_INDEX_NAME}.${indexHash}.json`),
-    stringfiedIndex,
+  // Categorize pages, sorted by language
+  const pagesByLang = pages.reduce((acc, page) => {
+    if (!acc[page.lang]) {
+      acc[page.lang] = [];
+    }
+    acc[page.lang].push(page);
+    return acc;
+  }, {} as Record<string, PageIndexInfo[]>);
+
+  const indexHashByLang = {} as Record<string, string>;
+
+  // Generate search index by different languages, file name is {SEARCH_INDEX_NAME}.{lang}.{hash}.json
+  await Promise.all(
+    Object.keys(pagesByLang).map(async lang => {
+      const stringfiedIndex = JSON.stringify(pagesByLang[lang]);
+      const indexHash = createHash(stringfiedIndex);
+      indexHashByLang[lang] = indexHash;
+      await fs.ensureDir(TEMP_DIR);
+      await fs.writeFile(
+        path.join(TEMP_DIR, `${SEARCH_INDEX_NAME}.${lang}.${indexHash}.json`),
+        stringfiedIndex,
+      );
+    }),
   );
 
   const plugin = new RuntimeModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,
-    [searchIndexHashPath]: `export default ${JSON.stringify(indexHash)}`,
+    [searchIndexHashPath]: `export default ${JSON.stringify(indexHashByLang)}`,
   });
+
   return plugin;
 }
