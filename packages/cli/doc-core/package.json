@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.11.0",
+  "version": "2.12.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -111,7 +111,7 @@
     "@modern-js/mdx-rs-binding": "^0.0.2"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.11.0",
+    "@modern-js/core": "workspace:^2.12.0",
     "react": ">=17"
   },
   "devDependencies": {

@@ -5,7 +5,7 @@ import { externalLinkRE } from '@/shared/utils';
 
 export const A = (props: ComponentProps<'a'>) => {
   let { href = '' } = props;
-  if (!externalLinkRE.test(href)) {
+  if (!externalLinkRE.test(href) && !href.startsWith('#')) {
     href = withBase(href || '');
   }
   return (
