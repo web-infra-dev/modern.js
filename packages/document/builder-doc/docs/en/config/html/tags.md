@@ -127,13 +127,113 @@ So the end product will look like:
 ```html
 <html>
   <head>
+    <!-- tags with `{ head: true, append: false }` here. -->
     <!-- some other headTags... -->
+    <!-- tags with `{ head: true, append: true }` here. -->
     <script src="//example.com/c.js"></script>
     <script src="//example.com/d.js"></script>
   </head>
   <body>
+    <!-- tags with `{ head: false, append: false }` here. -->
     <!-- some other bodyTags... -->
+    <!-- tags with `{ head: false, append: false }` here. -->
     <script src="//example.com/a.js"></script>
   </body>
 </html>
+```
+
+#### Limitation
+
+This configuration is used to modify the content of HTML files after Bundler completes building, and does not resolve or parse new modules. It cannot replace [source.preEntry](/api/config-source.html#source.preentry).
+
+For example, for the following project:
+
+```plain
+web-app
+├── src
+│   ├── index.tsx
+│   └── polyfill.ts
+└── edenx.config.ts
+```
+
+```ts title="edenx.config.ts"
+export default {
+  output: {
+    assetPrefix: '//example.com/',
+  },
+  html: {
+    tags: [
+      { tag: 'script', attrs: { src: './src/polyfill.ts' } },
+    ],
+  },
+};
+```
+
+The tag object here will be directly added to the HTML product after simple processing, but the `polyfill.ts` will not be transpiled or bundled, so there will be a 404 error when processing this script in the application.
+
+```html
+<body>
+  <script src="//example.com/src/polyfill.ts"></script>
+</body>
+```
+
+Reasonable use cases include:
+
+* Injecting static resources with **determined paths** on CDN.
+* Injecting inline scripts that need to be loaded on the first screen.
+
+For example, the usage of the following example:
+
+
+```plain
+web-app
+├── src
+│   └── index.tsx
+├── public
+│   └── service-worker.js
+└── edenx.config.ts
+```
+
+```ts title="edenx.config.ts"
+function report() {
+  fetch('https://www.example.com/report')
+}
+
+export default {
+  html: {
+    output: {
+      assetPrefix: '//example.com/',
+    },
+    tags: [
+      // Inject asset from the `public` directory.
+      { tag: 'script', attrs: { src: 'service-worker.js' } },
+      // Inject asset from other CDN url.
+      {
+        tag: 'script',
+        publicPath: false,
+        attrs: { src: 'https://cdn.example.com/foo.js' },
+      },
+      // Inject inline script.
+      {
+        tag: 'script',
+        children: report.toString() + '\nreport()',
+      }
+    ],
+  },
+};
+```
+
+The result will seems like:
+
+```html
+<body>
+  <script src="//example.com/service-worker.js"></script>
+  <script src="https://cdn.example.com/foo.js"></script>
+  <script>
+    function report() {
+      fetch('https://www.example.com/report')
+    }
+    report()
+  </script>
+</body>
 ```
