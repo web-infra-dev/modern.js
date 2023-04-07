@@ -154,10 +154,10 @@ web-app
 ├── src
 │   ├── index.tsx
 │   └── polyfill.ts
-└── edenx.config.ts
+└── modern.config.ts
 ```
 
-```ts title="edenx.config.ts"
+```ts title="modern.config.ts"
 export default {
   output: {
     assetPrefix: '//example.com/',
@@ -191,10 +191,10 @@ web-app
 │   └── index.tsx
 ├── public
 │   └── service-worker.js
-└── edenx.config.ts
+└── modern.config.ts
 ```
 
-```ts title="edenx.config.ts"
+```ts title="modern.config.ts"
 function report() {
   fetch('https://www.example.com/report')
 }
