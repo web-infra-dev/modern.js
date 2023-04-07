@@ -54,8 +54,7 @@ export default (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
-        const { builder } = api.useAppContext();
-        const bundlerType = builder?.context.bundlerType || 'webpack';
+        const { bundlerType = 'webpack' } = api.useAppContext();
         const babelConfig =
           bundlerType === 'webpack'
             ? (config: any) => {
