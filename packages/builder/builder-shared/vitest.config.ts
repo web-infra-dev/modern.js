@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from 'vitest/config';
 import { withTestPreset } from '@scripts/vitest-config';
 
@@ -6,6 +7,12 @@ const config = defineConfig({
     root: __dirname,
     environment: 'node',
   },
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname),
+      '@': path.resolve(__dirname, 'src'),
+    }
+  }
 });
 
 export default withTestPreset(config);
