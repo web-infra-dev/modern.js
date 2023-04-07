@@ -145,6 +145,30 @@ Automatically externalize project dependencies and peerDependencies and not pack
 - type: `boolean | Object`
 - default: `true`
 
+When we want to turn off the default handling behavior for third-party dependencies, we can do so by:
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+  },
+});
+```
+
+This way the dependencies under `"dependencies"` and `"peerDependencies"` will be packaged. If you want to turn off the processing of only one of these dependencies, you can use the
+`buildConfig.autoExternal` in the form of an object.
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: {
+      dependencies: false,
+      peerDependencies: false,
+    },
+  },
+});
+```
+
 ### dependencies
 
 Whether or not the dep dependencies of the external project are needed
