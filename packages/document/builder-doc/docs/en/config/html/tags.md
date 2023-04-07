@@ -144,7 +144,7 @@ So the end product will look like:
 
 #### Limitation
 
-This configuration is used to modify the content of HTML files after Builder completes building, and does not resolve or parse new modules. It cannot be used to import uncompiled source code files. Also cannot replace configurations such as [source.preEntry](/api/config-source.html#source.preentry).
+This configuration is used to modify the content of HTML files after Builder completes building, and does not resolve or parse new modules. It cannot be used to import uncompiled source code files. Also cannot replace configurations such as [source.preEntry](https://modernjs.dev/builder/api/config-source.html#source.preentry).
 
 For example, for the following project:
 
