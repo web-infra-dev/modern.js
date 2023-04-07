@@ -1,13 +1,12 @@
+import _ from '@modern-js/utils/lodash';
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
+import type { Compiler } from 'webpack';
+import { URL } from 'url';
 import {
   HtmlInjectTag,
   HtmlInjectTagDescriptor,
   HtmlInjectTagUtils,
 } from '../types';
-import _ from '@modern-js/utils/lodash';
-import type HtmlWebpackPlugin from 'html-webpack-plugin';
-import path from 'path';
-import type { Compiler } from 'webpack';
-import { isURL } from '../utils';
 
 export interface HtmlTagsPluginOptions {
   hash?: HtmlInjectTag['hash'];
@@ -63,10 +62,20 @@ export const FILE_ATTRS = {
 };
 
 const withPublicPath = (str: string, base: string) => {
-  if (isURL(str)) {
+  // The use of an absolute URL without a protocol is technically legal,
+  // however it cannot be parsed as a URL instance.
+  // Just return it.
+  if (str.startsWith('//')) {
     return str;
   }
-  return path.posix.join(base, str);
+  try {
+    // Only absolute url can be parsed into URL instance.
+    return new URL(str).toString();
+  } catch {
+    // Or it should be a relative path.
+    // Let's join the publicPath.
+    return new URL(str, base).toString();
+  }
 };
 
 const withHash = (url: string, hash: string) => `${url}?${hash}`;
