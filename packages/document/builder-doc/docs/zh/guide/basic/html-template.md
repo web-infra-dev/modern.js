@@ -289,7 +289,7 @@ export default {
 
 `html.tags` 也支持传入回调函数，常用于修改标签列表或是在插入标签的同时确保其相对位置：
 
-```typescript
+```ts
 export default {
   html: {
     tags: [

@@ -89,7 +89,7 @@ import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-comp
 builder.addPlugins([builderPluginImageCompress()]);
 ```
 
-See details in [plugin-image-compress](/en/plugins/plugin-image-compress)。
+See details in [plugin-image-compress](/en/plugins/plugin-image-compress).
 
 ## Split Chunk
 

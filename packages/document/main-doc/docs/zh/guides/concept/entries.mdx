@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# 入口（Entry）
+# 入口
 
 通过本章节，你可以了解到 Modern.js 中的入口约定，以及如何自定义入口。
 
@@ -132,9 +132,9 @@ Modern.js 生成的文件内容如下：
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import customBootstrap from '@_edenx_src/index.tsx';
-import App from '@_edenx_src/App';
-import { router, state } from '@edenx/runtime/plugins';
+import customBootstrap from '@_modern_js_src/index.tsx';
+import App from '@_modern_js_src/App';
+import { router, state } from '@modern-js/runtime/plugins';
 
 const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
 const MOUNT_ID = 'root';

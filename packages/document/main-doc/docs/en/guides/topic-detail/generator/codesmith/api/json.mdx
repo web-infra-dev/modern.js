@@ -35,7 +35,7 @@ Get the JSON file content.
 
 Parameter:
 
-- resource: `FsResource`. A file resource，get by `context.materials.default.get(<filename>)`.
+- resource: `FsResource`. A file resource, get by `context.materials.default.get(<filename>)`.
 
 ### extend
 
@@ -43,7 +43,7 @@ Merge objects into a JSON file.
 
 Parameter:
 
-- resource: `FsResource`. A file resource，get by `context.materials.default.get(<filename>)`.
+- resource: `FsResource`. A file resource, get by `context.materials.default.get(<filename>)`.
 - obj: `Record<string, any>`. Object to be merged.
 
 ### update
@@ -52,5 +52,5 @@ pdate object fields to JSON file.
 
 Parameter:
 
-- resource: `FsResource`. A file resource，get by `context.materials.default.get(<filename>)`.
+- resource: `FsResource`. A file resource, get by `context.materials.default.get(<filename>)`.
 - operation: `{ query: Record<string, any>; update: Record<string, any> }`. Update operation, use gesture to view [declaration-update](https://www.npmjs.com/package/declaration-update) in detail.

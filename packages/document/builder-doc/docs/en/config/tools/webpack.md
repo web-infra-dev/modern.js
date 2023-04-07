@@ -2,7 +2,7 @@
 - **Default:** `undefined`
 - **Bundler:** `only support webpack`
 
-`tools.webpack` is used to configure [webpack](https://webpack.js.org/)。
+`tools.webpack` is used to configure [webpack](https://webpack.js.org/).
 
 > `tools.webpackChain` is also used to modify the webpack configuration, and the function is more powerful. It is recommended to use `tools.webpackChain` first.
 
@@ -275,7 +275,7 @@ export default {
 
 - **Type:** `(...configs: WebpackConfig[]) => WebpackConfig`
 
-Used to merge multiple webpack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
+Used to merge multiple webpack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge).
 
 ```ts
 export default {

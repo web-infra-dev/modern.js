@@ -4,7 +4,7 @@
 
 The config of [style-loader](https://github.com/webpack-contrib/style-loader) can be set through `tools.styleLoader`.
 
-It is worth noting that Builder does not enable `style-loader` by default. You can use `output.disableCssExtract` config to enable it。
+It is worth noting that Builder does not enable `style-loader` by default. You can use `output.disableCssExtract` config to enable it.
 
 ### Object Type
 

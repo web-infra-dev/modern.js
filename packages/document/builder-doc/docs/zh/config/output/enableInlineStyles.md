@@ -5,7 +5,7 @@
 
 注意，如果开启了这个选项，那么 style 文件将不会被写入产物目录中，而只会以 inline 样式的形式存在于 HTML 文件中。
 
-:::note
+:::tip
 当使用约定式路由时，如果开启了这个选项，需要将 [`output.splitRouteChunks`](https://modernjs.dev/configure/app/output/splitRouteChunks.html) 设置为 false。
 :::
 

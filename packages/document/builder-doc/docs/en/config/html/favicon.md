@@ -33,7 +33,7 @@ export default {
 };
 ```
 
-Set to a URL：
+Set to a URL:
 
 ```js
 import path from 'path';

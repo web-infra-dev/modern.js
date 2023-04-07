@@ -192,7 +192,7 @@ If you encounter the problem that tree shaking does not take effect, you can che
 
 This error indicates that there is a memory overflow problem during the packaging process. In most cases, it is because the packaged content exceeds the default memory limit of Node.js.
 
-In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command。
+In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command.
 
 For example, add parameters before the `modern build` command:
 
