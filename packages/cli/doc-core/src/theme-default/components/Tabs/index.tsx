@@ -58,7 +58,7 @@ export function Tabs(props: TabsProps): ReactElement {
   let defaultIndex = 0;
   const needSync = groupId && tabData[groupId] !== undefined;
   if (needSync) {
-    defaultIndex = tabData[groupId];
+    defaultIndex = tabData[groupId] as number;
   } else if (defaultValue) {
     defaultIndex = tabValues.findIndex(item => {
       if (typeof item === 'string') {
