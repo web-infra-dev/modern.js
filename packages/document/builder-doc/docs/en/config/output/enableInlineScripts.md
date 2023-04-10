@@ -48,3 +48,21 @@ And `dist/static/js/main.js` will be inlined in `index.html`:
   </body>
 </html>
 ```
+
+### Using RegExp
+
+If you need to inline part of the JS files, you can set `enableInlineScripts` to a regular expression that matches the URL of the JS file that needs to be inlined.
+
+For example, to inline `main.js` into HTML, you can add the following configuration:
+
+```js
+export default {
+  output: {
+    enableInlineScripts: /\/main\.\w+\.js$/,
+  },
+};
+```
+
+:::tip
+The production filename will contains a hash by default, such as `/main.18a568e5.js`.
+:::

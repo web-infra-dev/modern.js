@@ -1,4 +1,4 @@
-- **类型：** `boolean`
+- **类型：** `boolean | RegExp`
 - **默认值：** `false`
 - **打包工具：** `仅支持 webpack`
 
@@ -48,3 +48,21 @@ dist/static/css/style.css
   </body>
 </html>
 ```
+
+### 通过正则匹配
+
+当你需要内联产物中的一部分 JS 文件时，你可以将 `enableInlineScripts` 设置为一个正则表达式，匹配需要内联的 JS 文件的 URL。
+
+比如，将产物中的 `main.js` 内联到 HTML 中，你可以添加如下配置：
+
+```js
+export default {
+  output: {
+    enableInlineScripts: /\/main\.\w+\.js$/,
+  },
+};
+```
+
+:::tip
+生产环境的文件名中默认包含了一个 hash 值，比如 `/main.18a568e5.js`。
+:::

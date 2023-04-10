@@ -1,4 +1,4 @@
-- **类型：** `boolean`
+- **类型：** `boolean | RegExp`
 - **默认值：** `false`
 
 用来控制生产环境中是否用 `<style>` 标签将产物中的 style 文件（.css 文件）inline 到 HTML 中。
@@ -48,3 +48,21 @@ dist/static/js/main.js
   <body></body>
 </html>
 ```
+
+### 通过正则匹配
+
+当你需要内联产物中的一部分 CSS 文件时，你可以将 `enableInlineStyles` 设置为一个正则表达式，匹配需要内联的 CSS 文件的 URL。
+
+比如，将产物中的 `main.css` 内联到 HTML 中，你可以添加如下配置：
+
+```js
+export default {
+  output: {
+    enableInlineStyles: /\/main\.\w+\.css$/,
+  },
+};
+```
+
+:::tip
+生产环境的文件名中默认包含了一个 hash 值，比如 `/main.18a568e5.css`。
+:::
