@@ -193,7 +193,6 @@ export function getDefaultSwcConfig(): TransformConfig {
     sourceMaps: true,
     env: {
       targets: '> 0.01%, not dead, not op_mini all',
-      mode: 'usage',
     },
     exclude: [],
     inlineSourcesContent: true,
