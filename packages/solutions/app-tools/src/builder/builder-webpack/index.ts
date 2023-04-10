@@ -49,12 +49,6 @@ async function applyBuilderPlugins(
   options: BuilderOptions<'webpack'>,
 ) {
   const { normalizedConfig } = options;
-  if (!normalizedConfig.output.disableNodePolyfill) {
-    const { builderPluginNodePolyfill } = await import(
-      '@modern-js/builder-plugin-node-polyfill'
-    );
-    builder.addPlugins([builderPluginNodePolyfill()]);
-  }
 
   if (normalizedConfig.tools.esbuild) {
     const { esbuild: esbuildOptions } = normalizedConfig.tools;

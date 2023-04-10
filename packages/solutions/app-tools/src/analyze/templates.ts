@@ -229,15 +229,11 @@ export const fileSystemRoutes = async ({
     if (!ssrMode) {
       return '';
     }
-    let dataLoaderPath = require.resolve(
-      `@modern-js/plugin-data-loader/loader`,
-    );
+
     if (nestedRoutesEntry) {
-      dataLoaderPath = `${slash(dataLoaderPath)}?mapFile=${slash(
-        loadersMapFile,
-      )}&loaderId=${loaderId}!`;
+      return `?mapFile=${slash(loadersMapFile)}&loaderId=${loaderId}`;
     }
-    return dataLoaderPath;
+    return '';
   };
 
   const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
@@ -372,13 +368,13 @@ export const fileSystemRoutes = async ({
 
   for (const [key, loaderInfo] of Object.entries(loadersMap)) {
     if (loaderInfo.inline) {
-      importLoadersCode += `import { loader as ${key} } from "${getDataLoaderPath(
-        key,
-      )}${slash(loaderInfo.filePath)}";\n`;
+      importLoadersCode += `import { loader as ${key} } from "${slash(
+        loaderInfo.filePath,
+      )}${getDataLoaderPath(key)}";\n`;
     } else {
-      importLoadersCode += `import ${key} from "${getDataLoaderPath(
-        key,
-      )}${slash(loaderInfo.filePath)}";\n`;
+      importLoadersCode += `import ${key} from "${slash(
+        loaderInfo.filePath,
+      )}${getDataLoaderPath(key)}";\n`;
     }
   }
 

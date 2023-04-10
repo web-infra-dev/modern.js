@@ -39,7 +39,7 @@ function render(ui: React.ReactElement<any>, options: Options): RenderResult;
 
 - `ui`: the React component that needs to be rendered.
 - `options`: render options.
-  - `container`: the dom which component mounted. by default create a `div` element，and auto append to `document.body`. the default value is `document.body.append(document.createElement('div'))`.
+  - `container`: the dom which component mounted. by default create a `div` element, and auto append to `document.body`. the default value is `document.body.append(document.createElement('div'))`.
   - `baseElement`: Used to specify the `basename` used in `queries`. If `container` is specified, the default value is the value of `container`, otherwise it is `document.body`.
   - `hydrate`: If set to `true`, the [ReactDOM.hydrate](https://reactjs.org/docs/react-dom.html#hydrate) rendering component is used. The default value is `false`.
   - `wrapper`: a react component that can be used to customize rendering logic.

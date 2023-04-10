@@ -58,7 +58,7 @@ Note that the value provided here must be a JSON string, e.g. `process.env.NODE_
 
 Similarly `{ foo: "bar" }` should be converted to `"{\"foo\":\"bar\"}"`, which if passed directly into the original object would mean replacing the expression `process.env.NODE_ENV.foo` with the identifier `bar`.
 
-For more about `source.define`, just refer to [API References](/api/config-source.html#sourcedefine)。
+For more about `source.define`, just refer to [API References](/api/config-source.html#sourcedefine).
 
 :::tip
 The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.

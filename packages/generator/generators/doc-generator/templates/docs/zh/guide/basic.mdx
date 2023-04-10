@@ -161,15 +161,13 @@ npm install -g pnpm
 
 初始化的配置文件的内容如下：
 
-```typescript
-// modern.config.ts
+```ts title="modern.config.ts"
 import { defineConfig } from "@modern-js/module-tools";
 
 export default defineConfig({});
 ```
 
-```js
-// modern.config.js
+```js title="modern.config.ts"
 const { defineConfig } = require("@modern-js/module-tools");
 
 module.exports = defineConfig({});
@@ -177,12 +175,10 @@ module.exports = defineConfig({});
 
 **我们推荐使用 `defineConfig` 函数**，不过并不强制使用它。因此你也可以在配置文件中直接返回一个对象：
 
-```typescript
-// modern.config.ts
+```ts title="modern.config.ts"
 export default {};
 ```
 
-```js
-// modern.config.js
+```js title="modern.config.ts"
 module.exports = {};
 ```

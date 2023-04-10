@@ -13,7 +13,7 @@ First need to execute `pnpm run new` to enable the SSG features:
 ? Enable features Enable SSG
 ```
 
-After execute script，register SSG plugin in `modern.config.ts`:
+After execute script, register SSG plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import ssgPlugin from '@modern-js/plugin-ssg';
@@ -106,7 +106,7 @@ export default defineConfig({
 });
 ```
 
-run `pnpm run build` and `pnpm run serve`，access `http://localhost:8080/about`. In the Preview view, you can see that the page has been rendered.
+run `pnpm run build` and `pnpm run serve`, access `http://localhost:8080/about`. In the Preview view, you can see that the page has been rendered.
 
 Looking at the bundle file, a new `main/about/index.html` file has been added in the `dist/` directory.
 

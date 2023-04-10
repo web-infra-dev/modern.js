@@ -30,12 +30,12 @@ describe('data loader', () => {
   let id = 0;
   const routesDir = path.join(__dirname, 'fixtures/loader');
   const mapFile = path.join(__dirname, 'fixtures/loader/map.json');
-  const dataLoaderPath = `${path.resolve(
-    __dirname,
-    '../src/cli/loader.ts',
-  )}?mapFile=${mapFile}!`;
+  const dataLoaderPath = `${path.resolve(__dirname, '../src/cli/loader.ts')}!`;
 
-  const loaderPath = `${dataLoaderPath}./loader`.replace(/\\/g, '/');
+  const loaderPath = `${dataLoaderPath}./loader?mapFile=${mapFile}`.replace(
+    /\\/g,
+    '/',
+  );
 
   const code = `
   import loader from '${loaderPath}';

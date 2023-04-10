@@ -291,6 +291,34 @@ const MyComponent = () => <div>Hello World</div>;
 export default MyComponent;
 ```
 
+## 从 lodash 中引用类型后出现编译报错？
+
+当你的项目中安装了 `@types/lodash` 包时，你可能会从 `lodash` 中引用一些类型，比如引用 `DebouncedFunc` 类型：
+
+```ts
+import { debounce, DebouncedFunc } from 'lodash';
+```
+
+上述代码会在编译后产生如下报错：
+
+```bash
+SyntaxError: /project/src/index.ts: The 'lodash' method `DebouncedFunc` is not a known module.
+Please report bugs to https://github.com/lodash/babel-plugin-lodash/issues.
+```
+
+这个问题的原因是 Builder 默认开启了 [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) 插件来优化 lodash 产物体积，但 Babel 无法区别「值」和「类型」，导致编译后的代码出现异常。
+
+解决方法是使用 TypeScript 的 `import type` 语法，对 `DebouncedFunc` 类型进行显式声明：
+
+```ts
+import { debounce } from 'lodash';
+import type { DebouncedFunc } from 'lodash';
+```
+
+:::tip
+在任意情况下，我们都推荐使用 `import type` 来引用类型，这对于编译器识别类型会有很大帮助。
+:::
+
 ## Less 文件中的除法不生效？
 
 Less v4 版本与 v3 版本相比，除法的写法有一些区别：

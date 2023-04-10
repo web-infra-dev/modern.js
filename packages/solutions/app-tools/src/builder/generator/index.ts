@@ -69,4 +69,12 @@ async function applyBuilderPlugins<B extends Bundler>(
     builderPluginAdapterSSR(options),
     builderPluginAdapterHtml(options),
   ]);
+
+  const { normalizedConfig } = options;
+  if (!normalizedConfig.output.disableNodePolyfill) {
+    const { builderPluginNodePolyfill } = await import(
+      '@modern-js/builder-plugin-node-polyfill'
+    );
+    builder.addPlugins([builderPluginNodePolyfill()]);
+  }
 }

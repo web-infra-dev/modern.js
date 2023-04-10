@@ -85,7 +85,7 @@ pages 目录下的文件满足以下条件的不会被当做路由文件
 import React from 'react';
 import UserLayout from 'xxxx';
 
-export default const App = ({Component, ...pageProps}:{ Component: React.ComponentType}) => {
+export const App = ({Component, ...pageProps}:{ Component: React.ComponentType}) => {
   return (
     <UserLayout>
       <Component {...pageProps} />

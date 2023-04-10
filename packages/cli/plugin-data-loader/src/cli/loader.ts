@@ -18,7 +18,29 @@ export default async function loader(
   if (target === 'webworker') {
     return source;
   }
-  const options = this.getOptions();
+  const { resourceQuery } = this;
+
+  // parse options from resouceQuery
+  const options = resourceQuery
+    .slice(1)
+    .split('&')
+    .map(item => {
+      return item.split('=');
+    })
+    .reduce((pre, cur) => {
+      const [key, value] = cur;
+      if (!key || !value) {
+        return pre;
+      }
+      pre[key] = value;
+      return pre;
+    }, {} as Record<string, any>) as { mapFile: string; loaderId?: string };
+
+  // if we can not parse mapFile from resourceQuery, it means the with no need for data-loader handle.
+  if (!options.mapFile) {
+    return source;
+  }
+
   const code = generateClient({
     mapFile: options.mapFile,
     loaderId: options.loaderId,

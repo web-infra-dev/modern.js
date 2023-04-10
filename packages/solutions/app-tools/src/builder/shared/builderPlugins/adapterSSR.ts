@@ -1,3 +1,4 @@
+import * as path from 'path';
 import {
   BuilderPlugin,
   BundlerChain,
@@ -44,6 +45,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         applyRouterPlugin(chain, options);
         if (isSSR(normalizedConfig)) {
           await applySSRLoaderEntry(chain, options, isServer);
+          applySSRDataLoader(chain, options);
         }
 
         if (['node', 'service-worker'].includes(target)) {
@@ -221,4 +223,25 @@ async function applySSRLoaderEntry<B extends Bundler>(
       }
     }),
   );
+}
+
+function applySSRDataLoader<B extends Bundler>(
+  chain: BundlerChain,
+  options: BuilderOptions<B>,
+) {
+  const { normalizedConfig, appContext } = options;
+  const { appDirectory } = appContext;
+
+  const { entriesDir = './src' } = normalizedConfig.source;
+
+  const absolutePath = path.resolve(appDirectory, entriesDir);
+
+  const reg = new RegExp(`${absolutePath}.*\\.loader\\.[t|j]s$`);
+
+  chain.module
+    .rule('ssr-data-loader')
+    .test(reg)
+    .use('data-loader')
+    .loader(require.resolve('@modern-js/plugin-data-loader/loader'))
+    .end();
 }

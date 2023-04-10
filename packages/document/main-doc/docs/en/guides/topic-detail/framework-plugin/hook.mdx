@@ -32,7 +32,7 @@ pipeline.run(1); // 4
 pipeline.run(5); // 12
 ```
 
-In this example, a `Pipeline<number, number>` is created on line 3. This means that when you run it, you need to pass in a `number`, and you will get a `number` as a result，the type is:
+In this example, a `Pipeline<number, number>` is created on line 3. This means that when you run it, you need to pass in a `number`, and you will get a `number` as a result, the type is:
 
 ```ts
 (count: number, next: (nextCount: number) => number) => number;

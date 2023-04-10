@@ -192,7 +192,7 @@ If you encounter the problem that tree shaking does not take effect, you can che
 
 This error indicates that there is a memory overflow problem during the packaging process. In most cases, it is because the packaged content exceeds the default memory limit of Node.js.
 
-In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command。
+In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command.
 
 For example, add parameters before the `modern build` command:
 
@@ -266,7 +266,7 @@ Here are some examples of wrong usage:
 ```tsx
 // bad
 export default function () {
-   return <div>Hello World</div>;
+  return <div>Hello World</div>;
 }
 
 // bad
@@ -278,14 +278,42 @@ The correct usage is to declare a name for each component function:
 ```tsx
 // good
 export default function MyComponent() {
-   return <div>Hello World</div>;
+  return <div>Hello World</div>;
 }
 
 // good
-const MyComponent = () => <div>Hello World</div>
+const MyComponent = () => <div>Hello World</div>;
 
 export default MyComponent;
 ```
+
+## Compilation error after referencing a type from lodash
+
+If the `@types/lodash` package is installed in your project, you may import some types from `lodash`, such as the `DebouncedFunc` type:
+
+```ts
+import { debounce, DebouncedFunc } from 'lodash';
+```
+
+Builder will throw an error after compiling the above code:
+
+```bash
+Syntax error: /project/src/index.ts: The lodash method `DebouncedFunc` is not a known module.
+Please report bugs to https://github.com/lodash/babel-plugin-lodash/issues.
+```
+
+The reason is that Builder has enabled the [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) plugin by default to optimize the bundle size of lodash, but Babel cannot distinguish between "value" and "type", which resulting in an exception in the compiled code.
+
+The solution is to use TypeScript's `import type` syntax to explicitly declare the `DebouncedFunc` type:
+
+```ts
+import { debounce } from 'lodash';
+import type { DebouncedFunc } from 'lodash';
+```
+
+:::tip
+In any case, it is recommended to use `import type` to import types, this will help the compiler to identify the type.
+:::
 
 ## Division in Less file doesn't work?
 

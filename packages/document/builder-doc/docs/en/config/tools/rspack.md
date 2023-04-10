@@ -232,7 +232,7 @@ export default {
 
 - **Type:** `(...configs: RspackConfig[]) => RspackConfig`
 
-Used to merge multiple Rspack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge)。
+Used to merge multiple Rspack configs, same as [webpack-merge](https://github.com/survivejs/webpack-merge).
 
 ```ts
 export default {

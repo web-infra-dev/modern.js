@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # **/*.[tj]s
 
-Declaring API routing in BFF function mode. Except [some files](/apis/app/hooks/api/functions/api#allow-list)，files in `api/` are registered as routes.
+Declaring API routing in BFF function mode. Except [some files](/apis/app/hooks/api/functions/api#allow-list), files in `api/` are registered as routes.
 
 :::info
 use `api/` need execute new command to enable the 「BFF」 feature.
@@ -40,7 +40,7 @@ Dynamic named routing parameters can be supported by creating folders or files w
 - `api/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
 - `api/article/[id]/info.ts` -> `$BASENAME/article/:id/info`
 
-the `$BASENAME` can be configured in `modern.config.js`，the default value is `/api`.
+the `$BASENAME` can be configured in `modern.config.js`, the default value is `/api`.
 
 ### Allow List
 
@@ -56,7 +56,7 @@ By default, all files in the `api/` will be parsed as BFF function. but we also 
 
 In addition to the above routing rules, the function definition and export in the code also have conventions.
 
-function need named exports，and the name of the exported function is the HTTP Method:
+function need named exports, and the name of the exported function is the HTTP Method:
 
 ```ts
 export const get = async () => {

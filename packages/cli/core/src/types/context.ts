@@ -38,4 +38,5 @@ export interface IAppContext {
   internalDirAlias: string;
   internalSrcAlias: string;
   builder?: BuilderInstance;
+  bundlerType?: 'webpack' | 'rspack' | 'esbuild';
 }

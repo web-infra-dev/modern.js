@@ -56,7 +56,7 @@ export default {
 };
 ```
 
-More configurations can be seen at [tsChecker configuration](/en/api/config-tools.html#toolstschecker)。
+More configurations can be seen at [tsChecker configuration](/en/api/config-tools.html#toolstschecker).
 
 Note that if ts-loader is enabled and `compileOnly: false` is set, please disable tsChecker to avoid duplicate type-checking.
 
