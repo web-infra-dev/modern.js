@@ -289,7 +289,7 @@ So the HTML output built with the above configuration will look like this.
 
 `html.tags` also accepts a callback function, which is often used to modify the list of tags or to ensure their relative position while inserting them.
 
-```typescript
+```ts
 export default {
   html: {
     tags: [

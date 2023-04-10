@@ -48,7 +48,7 @@ When `target` is set to `'node'`, Builder will:
 - CSS code will not be bundled or extracted, but the id information of CSS Modules will be included in the bundle.
 - The default code split strategy will be disabled, but dynamic import can still work.
 - Disable the HMR.
-- Adjust the default value of Browserslist to `['node >= 14']`。
+- Adjust the default value of Browserslist to `['node >= 14']`.
 
 :::tip
 If target is an array, such as building web and node targets at the same time, then the above processing will not affect the web target, The HTML, CSS and other files required for the web target will still be generated correctly.
@@ -79,7 +79,7 @@ Modern browsers are one of our conventions to refer to browsers that support [na
 
 When `target` is set to `'modern-web'`, Builder will:
 
-- Adjust the default value of Browserslist to：
+- Adjust the default value of Browserslist to:
 
 ```js
 const browserslist = [

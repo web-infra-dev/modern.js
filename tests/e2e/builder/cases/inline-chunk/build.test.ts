@@ -124,3 +124,60 @@ webpackOnlyTest('inline all scripts and emit all source maps', async () => {
     Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
   ).toEqual(5);
 });
+
+webpackOnlyTest('using RegExp to inline scripts', async () => {
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: {
+        index: path.resolve(__dirname, './src/index.js'),
+      },
+    },
+    {
+      output: {
+        enableInlineScripts: /\/main\.\w+\.js$/,
+      },
+      tools: toolsConfig,
+    },
+    false,
+  );
+  const files = await builder.unwrapOutputJSON(false);
+
+  // no main.js in output
+  expect(
+    Object.keys(files).filter(
+      fileName => fileName.endsWith('.js') && fileName.includes('/main.'),
+    ).length,
+  ).toEqual(0);
+
+  // all source maps in output
+  expect(
+    Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
+  ).toEqual(4);
+});
+
+webpackOnlyTest('using RegExp to inline styles', async () => {
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: {
+        index: path.resolve(__dirname, './src/index.js'),
+      },
+    },
+    {
+      output: {
+        enableInlineStyles: /\/main\.\w+\.css$/,
+      },
+      tools: toolsConfig,
+    },
+    false,
+  );
+  const files = await builder.unwrapOutputJSON(false);
+
+  // no main.css in output
+  expect(
+    Object.keys(files).filter(
+      fileName => fileName.endsWith('.css') && fileName.includes('/main.'),
+    ).length,
+  ).toEqual(0);
+});

@@ -143,8 +143,10 @@ export function Search() {
   const onQueryChanged = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
-    const matched = await pageSearcherRef.current?.match(newQuery);
-    setSearchResult(matched || { current: [], others: [] });
+    if (newQuery) {
+      const matched = await pageSearcherRef.current?.match(newQuery);
+      setSearchResult(matched || { current: [], others: [] });
+    }
   };
 
   const normalizeSuggestions = (suggestions: MatchResultItem[]) =>
@@ -171,7 +173,7 @@ export function Search() {
       const indexItem = normalizeSearchIndexes(
         searchOptions.searchIndexes || [],
       ).find(indexInfo => indexInfo.value === item.index);
-      return indexItem!.label;
+      return indexItem.label;
     }) as string[];
 
     return (

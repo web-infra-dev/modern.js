@@ -30,6 +30,10 @@ They have their own benefits.
 - Bundle can reduce the size of build products and also pre-package dependencies to reduce the size of installed dependencies. Packaging libraries in advance can speed up application project builds.
 - Bundleless maintains the original file structure and is more conducive to debugging and tree shaking.
 
+:::warning
+Bundleless is a single file compilation mode, so for type references and exports you need to add the `type` field, e.g. `import type { A } from '. /types`
+:::
+
 In `buildConfig` you can specify whether the current build task is Bundle or Bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
 
 ### Relationship between `input` and `sourceDir`

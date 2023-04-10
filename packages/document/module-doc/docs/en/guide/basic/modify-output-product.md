@@ -9,7 +9,7 @@ sidebar_position: 3
 
 When the `modern build` command is used in an initialized project, the products are generated according to the default configuration supported by Module Tools. The default supported configurations are specified as follows.
 
-```typescript
+```ts title="modern.config.ts"
 import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -58,7 +58,7 @@ For example, if the output product is based on the preset string `"npm-library"`
 
 For example, to achieve the same effect as the preset string ``npm-library-es5"` using the form of a preset function, you can do the following.
 
-```typescript
+```ts title="modern.config.ts"
 import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -131,7 +131,7 @@ In addition to the above categories, frequently asked questions and best practic
 
 `buildConfig` is one of the methods used to modify the product, **only `buildConfig` will take effect when configured in conjunction with `buildPreset`**. So if configured as follows.
 
-```typescript
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({

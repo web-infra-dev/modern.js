@@ -188,7 +188,7 @@ const fooModel = model('foo').define((context, { use, onMount }) => {
   let actions;
 
   onMount(() => {
-    // after fooModel mounted，get actions
+    // after fooModel mounted, get actions
     [, actions] = use(fooModel);
   });
 

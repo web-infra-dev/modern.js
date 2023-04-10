@@ -84,7 +84,7 @@ When the entire App needs a global `layout`, it can be achieved through `pages/_
 import React from 'react';
 import UserLayout from 'xxxx';
 
-export default const App = ({Component, ...pageProps}:{ Component: React.ComponentType}) => {
+export const App = ({Component, ...pageProps}:{ Component: React.ComponentType}) => {
   return (
     <UserLayout>
       <Component {...pageProps} />

@@ -38,8 +38,8 @@ function useModel(
 
 Returns an array with each value:
 
-- state: return value of `stateSelector`. if there is no `stateSelector`，will combine all incoming Model States(including derived states) and return them. If there is an attribute of the same name in the State of different Models, the following State will override the previous State. when `state` changes，the component call `useModel` will re-render.
-- actions: return value of `actionSelector`. if there is no `actionSelector`，will combine all incoming Model Action(including Effect) and return them. If there is an attribute of the same name in the Action of different Models, the following Action will override the previous Action.
+- state: return value of `stateSelector`. if there is no `stateSelector`, will combine all incoming Model States(including derived states) and return them. If there is an attribute of the same name in the State of different Models, the following State will override the previous State. when `state` changes, the component call `useModel` will re-render.
+- actions: return value of `actionSelector`. if there is no `actionSelector`, will combine all incoming Model Action(including Effect) and return them. If there is an attribute of the same name in the Action of different Models, the following Action will override the previous Action.
 - subscribe: A function that subscribes to State changes. This function is called when the State of any Model passed in changes.
 
 ## Example

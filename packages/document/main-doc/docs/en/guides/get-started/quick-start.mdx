@@ -7,39 +7,22 @@ sidebar_position: 2
 
 ## Environment
 
-### Node.js
+import Prerequisites from "@site-docs-en/components/prerequisites"
 
-Requires [Node.js LTS](https://github.com/nodejs/Release) and ensures that the Node version is greater than or equal to 14.19.0, 16.x version is recommended.
-
-Modern.js recommend installing [nvm](https://github.com/nvm-sh/nvm#install--update-script) in the development environment and integrating [script to automatically switch node versions](https://github.com/nvm-sh/nvm#deeper-shell-integration) in the shell.
-
-Then there is a `.nvmrc` file with the content of `lts/fermium` or `lts/gallium` in the root directory of the repository, it will automatically install or switch to the correct Node.js version when entering the repository.
-
-### pnpm
-
-[pnpm](https://pnpm.io/installation) is recommended for package management.
-
-```bash
-npm install -g pnpm@7
-```
-
-:::note
-Modern.js also supports other package managers, such as `yarn` or `npm`.
-
-:::
+<Prerequisites />
 
 ## Installation
 
-Modern.js provides the `@modern-js/create` tool to create projects. Don't install globally, use `npx` to run on demand.
+Modern.js provides the `@modern-js/create` tool for creating new projects. You can use `npx` to run it.
 
-Projects can be created using an existing empty directory:
+You can create the project in an existing empty directory:
 
 ```bash
 mkdir myapp && cd myapp
 npx @modern-js/create
 ```
 
-Projects can also be created directly from the new directory:
+You can also directly create the project as a new folder:
 
 ```bash
 npx @modern-js/create myapp
@@ -161,4 +144,4 @@ Open http://localhost:8000/ in the browser and the content should be the same as
 
 ## Deploy
 
-After the local verification is completed, the products under `dist/` can be organized into the structure required by the server for deployment.
+Once the local verification is complete, the outputs under `dist` folder can be organized into the structure required by the server for deployment.

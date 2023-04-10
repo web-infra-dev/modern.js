@@ -124,7 +124,7 @@ import { ReactComponent } from './logo.svg';
 
 当开启功能后，可以通过在 `modern-app-env.d.ts` 文件中增加类型定义，修改使用 SVG 的类型：
 
-``` ts modern-app-env.d.ts focus=1:3
+```ts modern-app-env.d.ts focus=1:3
 declare module '*.svg' {
   const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   export default src;
@@ -153,6 +153,30 @@ declare module '*.svg' {
 
 - 类型： `boolean | Object`
 - 默认值： `true`
+
+当我们希望关闭对于第三方依赖的默认处理行为时候，可以通过以下方式来实现：
+
+```ts modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+  },
+});
+```
+
+这样对于 `"dependencies"` 和 `"peerDependencies"` 下面的依赖都会进行打包处理。如果只想要关闭其中某个下面的依赖处理，则可以使用
+`buildConfig.autoExternal` 的对象形式：
+
+```ts modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: {
+      dependencies: false,
+      peerDependencies: false,
+    },
+  },
+});
+```
 
 ### dependencies
 
@@ -258,7 +282,7 @@ export default defineConfig({
 - 类型： `false | Object`
 - 默认值：
 
-``` js
+```js
 {
   abortOnError: true,
   distPath: './',
@@ -272,7 +296,7 @@ export default defineConfig({
 在出现类型错误的时候，是否允许构建成功。**默认情况下，在出现类型错误的时候会导致构建失败**。
 
 :::warning
-当关闭该配置后，无法保证类型文件能正常生成，且不保证内容正确。在 `buildType: 'bundle'` 或者 Bundle 构建模式下，类型文件一定不会生成。
+当关闭该配置后，无法保证类型文件能正常生成，且不保证内容正确。在 `buildType: 'bundle'`，即打包模式下，类型文件一定不会生成。
 :::
 
 - 类型：`boolean`
@@ -298,7 +322,6 @@ TypeScript 配置文件的路径。
 
 - 类型： `string`
 - 默认值： `./tsconfig.json`
-
 
 ## externals
 
@@ -380,6 +403,27 @@ export default defineConfig({
 - 类型： `'browser' | 'node'`
 - 默认值： `node`
 
+## redirect
+
+在 `buildType: 'bundleless'` 构建模式下，会对引用路径进行重定向，确保指向了正确的产物，例如：
+
+- `import './index.less'` 会被改写成 `import './index.css'`
+- `import icon from './close.svg'` 会被改写成 `import icon from '../asset/close.svg'`（依实际情况而定）
+
+在某些场景下，你可能不需要这些功能，那么可以通过此配置关闭它，关闭后，其引用路径将不会发生改变。
+
+```ts
+export default {
+  buildConfig: {
+    redirect: {
+      alias: false, // 关闭对别名路径的修改
+      style: false, // 关闭对样式文件路径的修改
+      asset: false, // 关闭对资源文件路径的修改
+    },
+  },
+};
+```
+
 ## sideEffects
 
 配置模块的副作用
@@ -387,7 +431,8 @@ export default defineConfig({
 - 类型： `RegExg[] | (filePath: string, isExternal: boolean) => boolean | boolean`
 - 默认值： `undefined`
 
-通常情况下，我们通过 package.json 的 `"sideEffects"` 字段来配置模块的副作用，但是在某些情况下，例如我们引用了一个三方包的样式文件。
+通常情况下，我们通过 package.json 的 `"sideEffects"` 字段来配置模块的副作用，但是在某些情况下，三方包的 package.json 是不可靠的。
+例如我们引用了一个三方包的样式文件。
 
 ```js
 import 'other-package/dist/index.css';
@@ -401,7 +446,13 @@ import 'other-package/dist/index.css';
 }
 ```
 
-这时候就可以使用这个配置项，支持正则和函数形式。
+同时你又设置了[style.inject](#inject)为 `true`，在控制台可以看到类似的警告信息：
+
+```bash
+[LIBUILD:ESBUILD_WARN] Ignoring this import because "other-package/dist/index.css" was marked as having no side effects
+```
+
+这时候就可以使用这个配置项，手动配置模块的`"sideEffects"`，配置支持正则和函数形式。
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
@@ -610,7 +661,7 @@ function styleInject(css, ref) {
 var style_inject_es_default = styleInject;
 
 // src/index.scss
-var css_248z = ".body {\n  color: black;\n}";
+var css_248z = '.body {\n  color: black;\n}';
 style_inject_es_default(css_248z);
 ```
 

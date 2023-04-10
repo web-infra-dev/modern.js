@@ -2,6 +2,7 @@
 sidebar_position: 5
 title: Management Effect
 ---
+
 # Management Effect
 
 The actions in the model must be pure functions and cannot have any side effects during execution. However, in real-world scenarios, we often encounter many side effects, such as: requesting data from an HTTP API to obtain state data, or modifying `localStorage` or sending events while updating the state. In Reduck, side effects are managed through the model's `effects` function.
@@ -88,7 +89,7 @@ For this type of side effect scenario, `handleEffect` stipulates that the state 
 {
   result: null,
   error: null,
-  pending: false，
+  pending: false,
 }
 ```
 

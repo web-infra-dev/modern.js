@@ -2,9 +2,10 @@
 sidebar_position: 1
 title: model
 ---
+
 # model
 
-import ReduckTip from "@site-docs/components/reduck-tip"
+import ReduckTip from '@site-docs/components/reduck-tip';
 
 <ReduckTip />
 
@@ -61,7 +62,8 @@ const fooModel = model('foo').define({
 - context: Context，Reduck 上下文对象，可以获取底层的 `store` 对象。`store` 除支持 Redux Store 的所有 [API](https://redux.js.org/api/store) 以外，还挂载了用于消费 Model 的 `use` 的方法，和用于卸载 Model 的 `unmount` 方法。
 - utils: Utils，定义 Model 时，常用的工具函数：`use`、`onMount`。`use` 作用同 `store` 对象上的 `use`，`onMount` 是 Model 挂载后的钩子函数。
 
-{/* TODO: @anchao 调整类型  */}
+{/* TODO: @anchao 调整类型 */}
+
 ```ts
 interface Utils {
   use: UseModel;

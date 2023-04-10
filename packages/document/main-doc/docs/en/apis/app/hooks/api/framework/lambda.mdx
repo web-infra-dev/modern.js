@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # lambda/*.[tj]s
 
-Declaring API routing in BFF framework mode. Except [some files](/apis/app/hooks/api/framework/lambda#allow-list)，files in `api/` are registered as routes.
+Declaring API routing in BFF framework mode. Except [some files](/apis/app/hooks/api/framework/lambda#allow-list), files in `api/` are registered as routes.
 
 :::info
 use `api/` need execute new command to enable the 「BFF」 feature.
@@ -40,7 +40,7 @@ Dynamic named routing parameters can be supported by creating folders or files w
 - `api/lambda/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
 - `api/lambda/article/[id]/info.ts` -> `$BASENAME/article/:id/info`
 
-the `$BASENAME` can be configured in `modern.config.js`，the default value is `/api`.
+the `$BASENAME` can be configured in `modern.config.js`, the default value is `/api`.
 
 ### Allow List
 

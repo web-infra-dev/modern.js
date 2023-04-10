@@ -65,7 +65,7 @@ In a mobile browser with a screen width of 390, the default value for rootFontSi
 
 The calculated font size for the root element of the page is 52 (`390 * 50 / 375`).
 
-At this point, 1 rem is 52px, 32px（0.64 rem） in the CSS style, the actual size in page is 33.28 px.
+At this point, 1 rem is 52px, 32px (0.64 rem) in the CSS style, the actual size in page is 33.28 px.
 
 ```ts
 export default {
@@ -96,8 +96,8 @@ export default {
 
 ## How to determine if REM is in effect？
 
-1. CSS：Check the generated `.css` file to see if the value of the corresponding property is converted from px to rem.
-2. HTML：Open the Page Console to see if a valid value exists for `document.documentElement.style.fontSize`.
+1. CSS: Check the generated `.css` file to see if the value of the corresponding property is converted from px to rem.
+2. HTML: Open the Page Console to see if a valid value exists for `document.documentElement.style.fontSize`.
 
 ## How to get the rootFontSize value that is actually in effect on the page?
 

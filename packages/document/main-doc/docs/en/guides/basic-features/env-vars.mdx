@@ -6,7 +6,7 @@ sidebar_position: 7
 
 Modern.js provides support for environment variables, including built-in environment variables and custom environment variables.
 
-## Built-in Environment
+## Built-in Environment Variables
 
 ### ASSET_PREFIX
 
@@ -31,7 +31,7 @@ MODERN_ENV priority is higher than NODE_ENV.
 
 ### MODERN_TARGET
 
-Auto inject when use `@modern-js/runtime`，Used to distinguish between SSR and CSR environments. Developers can judge by themselves in the code, and dead code will be removed by default when building.
+Auto inject when use `@modern-js/runtime`, Used to distinguish between SSR and CSR environments. Developers can judge by themselves in the code, and dead code will be removed by default when building.
 
 ```ts title="App.tsx"
 function App() {
@@ -93,7 +93,7 @@ The `.env` file follows the following loading rules:
 
 When you need to use different config according to the environment, you can define environment variables in the `.env` file corresponding to the environment name, and manually set the execution environment when starting the project.
 
-For example, when starting a project with the following command，the `.env` and `.env.staging` will load:
+For example, when starting a project with the following command, the `.env` and `.env.staging` will load:
 
 ```shell
 MODERN_ENV=staging pnpm run dev
@@ -129,7 +129,7 @@ In custom HTML templates, you can also use such environment variables directly. 
 
 ### Any Other Names
 
-If you need to use environment variables with any other names in your code，you can config [`source.globalVars`](/configure/app/source/global-vars), for example:
+If you need to use environment variables with any other names in your code, you can config [`source.globalVars`](/configure/app/source/global-vars), for example:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -171,4 +171,4 @@ const foo = TWO;
 const foo = 1 + 1;
 ```
 
-In most cases, `source.globalVars` is already sufficient to replace variables. But the values passed in by `source.globalVars` will be serialized by JSON by default. So it cannot be replaced like `1 + 1` in the example above，at this time, we need use [`source.define`](/configure/app/source/define).
+In most cases, `source.globalVars` is already sufficient to replace variables. But the values passed in by `source.globalVars` will be serialized by JSON by default. So it cannot be replaced like `1 + 1` in the example above, at this time, we need use [`source.define`](/configure/app/source/define).

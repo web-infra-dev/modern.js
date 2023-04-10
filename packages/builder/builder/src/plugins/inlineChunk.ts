@@ -28,17 +28,32 @@ export const builderPluginInlineChunk = (): DefaultBuilderPlugin => ({
           enableInlineScripts,
         } = config.output;
 
+        const tests: RegExp[] = [];
+
+        if (enableInlineScripts) {
+          tests.push(
+            enableInlineScripts === true ? /\.js$/ : enableInlineScripts,
+          );
+        }
+
+        if (enableInlineStyles) {
+          tests.push(
+            enableInlineStyles === true ? /\.css$/ : enableInlineStyles,
+          );
+        }
+
+        if (!disableInlineRuntimeChunk) {
+          tests.push(
+            // RegExp like /builder-runtime([.].+)?\.js$/
+            // matches builder-runtime.js and builder-runtime.123456.js
+            new RegExp(`${RUNTIME_CHUNK_NAME}([.].+)?\\.js$`),
+          );
+        }
+
         chain.plugin(CHAIN_ID.PLUGIN.INLINE_HTML).use(InlineChunkHtmlPlugin, [
           HtmlPlugin,
           {
-            tests: [
-              enableInlineScripts && /\.js$/,
-              enableInlineStyles && /\.css$/,
-              !disableInlineRuntimeChunk &&
-                // RegExp like /builder-runtime([.].+)?\.js$/
-                // matches builder-runtime.js and builder-runtime.123456.js
-                new RegExp(`${RUNTIME_CHUNK_NAME}([.].+)?\\.js$`),
-            ].filter(Boolean) as RegExp[],
+            tests,
             distPath: pick(config.output.distPath, ['js', 'css']),
           },
         ]);

@@ -5,7 +5,7 @@ Define the path to the HTML template, corresponding to the `template` config of 
 
 ### Example
 
-Replace the default template with a custom HTML template file，you can add the following config:
+Replace the default template with a custom HTML template file, you can add the following config:
 
 ```js
 export default {

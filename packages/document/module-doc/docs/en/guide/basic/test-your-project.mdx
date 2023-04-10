@@ -47,7 +47,7 @@ For common modules, we can use the test function as follows:
 
 <CH.Spotlight>
 
-```typescript ./src/index.ts
+```ts ./src/index.ts
 export default function () {
   return 'hello world';
 }
@@ -57,7 +57,7 @@ export default function () {
 
 First is the code of the module.
 
-```typescript ./src/index.ts
+```ts ./src/index.ts
 export default function () {
   return 'hello world';
 }
@@ -69,7 +69,7 @@ Then in the test file, we can do this.
 
 Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
 
-```typescript ./tests/index.test.ts
+```ts ./tests/index.test.ts
 import main from '@/index';
 
 describe('default cases', () => {

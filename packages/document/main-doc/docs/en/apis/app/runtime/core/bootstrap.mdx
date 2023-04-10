@@ -33,7 +33,7 @@ type BootStrap<T = unknown> = (
 ### Input
 
 - `AppComponent`: reactElement instance created by [`createApp`](./create-app).
-- `rootId`: DOM root element id to mount，like `"root"`.
+- `rootId`: DOM root element id to mount, like `"root"`.
 - `root`: ReactDOM.create the return value, which is used in the scenario where the root needs to destroy the component outside the bootstrap function.
 - `ReactDOM`: ReactDOM object for distinguishing between React 18 and React 17 APIs.
 
@@ -56,7 +56,7 @@ bootstrap(WrappedApp, 'root', undefined, ReactDOM);
 ```
 
 :::info
-since `@modern-js/runtime/plugins` is a alias，when used in a ts project, its type needs to be declared，Just add the following type declarations to `src/modern-app-env.d.ts`:
+since `@modern-js/runtime/plugins` is a alias, when used in a ts project, its type needs to be declared, Just add the following type declarations to `src/modern-app-env.d.ts`:
 
 ```ts
 declare module '@modern-js/runtime/plugins';
