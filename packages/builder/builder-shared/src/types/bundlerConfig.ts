@@ -36,8 +36,9 @@ type RspackResolve = {
   mainFields?: string[];
   browserField?: boolean;
   conditionNames?: string[];
-  alias?: Record<string, string>;
+  alias?: Record<string, false | string | string[]>;
   tsConfigPath?: string;
+  fallback?: Record<string, false | string>;
 };
 
 // fork from the @rspack/core
