@@ -16,10 +16,11 @@ body:
     id: versions
     attributes:
       label: Version
-      description: Use the `npm ls @modern-js/app-tools` command.
+      description: Run `npx envinfo --system --browsers --npmPackages '@modern-js/*'` in your project, and paste the output into the textarea below.
       placeholder: |
-        middle-platform@0.1.0
-          └── @modern-js/app-tools@1.4.1
+        System:
+        Browsers:
+        npmPackages:
       render: sh
     validations:
       required: true
