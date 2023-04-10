@@ -5,6 +5,8 @@ export type CrossOrigin = 'anonymous' | 'use-credentials';
 
 export type ScriptInject = boolean | 'body' | 'head';
 
+export type ScriptLoading = 'defer' | 'module' | 'blocking';
+
 export interface HtmlInjectTag {
   tag: string;
   attrs?: Record<string, string | boolean | null | undefined>;
@@ -122,6 +124,10 @@ export interface SharedHtmlConfig {
     string,
     ChainedConfig<Record<string, unknown>>
   >;
+  /**
+   * Set the loading mode of the `<script>` tag.
+   */
+  scriptLoading?: ScriptLoading;
 }
 
 export type NormalizedSharedHtmlConfig = SharedHtmlConfig & {
@@ -129,4 +135,5 @@ export type NormalizedSharedHtmlConfig = SharedHtmlConfig & {
   inject: ScriptInject;
   crossorigin: boolean | CrossOrigin;
   disableHtmlFolder: boolean;
+  scriptLoading: ScriptLoading;
 };

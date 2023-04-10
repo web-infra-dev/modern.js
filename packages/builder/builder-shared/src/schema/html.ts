@@ -3,6 +3,7 @@ import {
   CrossOrigin,
   HtmlInjectTag,
   HtmlInjectTagDescriptor,
+  ScriptLoading,
   ScriptInject,
   SharedHtmlConfig,
 } from '../types';
@@ -16,6 +17,12 @@ export const MetaAttributesSchema: ZodType<MetaAttributes> = z.record(
 export const MetaOptionsSchema: ZodType<MetaOptions> = z.record(
   z.union([z.string(), z.literal('false'), MetaAttributesSchema]),
 );
+
+export const ScriptLoadingSchema: ZodType<ScriptLoading> = z.union([
+  z.literal('defer'),
+  z.literal('module'),
+  z.literal('blocking'),
+]);
 
 export const ScriptInjectSchema: ZodType<ScriptInject> = z.union([
   z.boolean(),
@@ -62,6 +69,7 @@ export const sharedHtmlConfigSchema = z.partialObj({
   templateByEntries: z.record(z.string()),
   templateParameters: z.chained(z.record(z.unknown())),
   templateParametersByEntries: z.record(z.chained(z.record(z.unknown()))),
+  scriptLoading: ScriptLoadingSchema,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
