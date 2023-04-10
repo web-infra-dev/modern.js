@@ -5,7 +5,7 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
-import { PrefetchLink as Link } from '../../src/router';
+import { Link } from '../../src/router';
 import { RuntimeReactContext } from '../../src';
 
 declare global {

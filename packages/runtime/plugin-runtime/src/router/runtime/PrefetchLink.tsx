@@ -62,10 +62,10 @@ export function composeEventHandlers<
  */
 type PrefetchBehavior = 'intent' | 'render' | 'none';
 const ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
-export interface PrefetchLinkProps extends RouterLinkProps {
+export interface LinkProps extends RouterLinkProps {
   prefetch?: PrefetchBehavior;
 }
-export interface PrefetchNavLinkProps extends RouterNavLinkProps {
+export interface NavLinkProps extends RouterNavLinkProps {
   prefetch?: PrefetchBehavior;
 }
 
@@ -249,9 +249,9 @@ const PrefetchDataLinks: React.FC<{
 };
 
 type InputLinkProps<T> = T extends typeof RouterNavLink
-  ? PrefetchNavLinkProps
+  ? NavLinkProps
   : T extends typeof RouterLink
-  ? PrefetchLinkProps
+  ? LinkProps
   : never;
 
 const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
@@ -290,4 +290,4 @@ Link.displayName = 'Link';
 const NavLink = createPrefetchLink<typeof RouterNavLink>(RouterNavLink);
 NavLink.displayName = 'NavLink';
 
-export { Link as PrefetchLink, NavLink as PrefetchNavLink };
+export { Link, NavLink };
