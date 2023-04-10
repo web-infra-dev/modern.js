@@ -37,6 +37,7 @@ async function getTemplateParameters(
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { mountId, templateParameters, templateParametersByEntries } =
     config.html;
+
   const meta = await getMetaTags(entryName, config);
   const title = getTitle(entryName, config);
   const templateParams =
@@ -167,6 +168,7 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
               filename,
               template,
               templateParameters,
+              scriptLoading: config.html.scriptLoading,
             };
 
             if (favicon) {

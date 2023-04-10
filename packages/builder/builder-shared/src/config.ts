@@ -52,6 +52,7 @@ export const getDefaultHtmlConfig = (): NormalizedSharedHtmlConfig => ({
   mountId: DEFAULT_MOUNT_ID,
   crossorigin: false,
   disableHtmlFolder: false,
+  scriptLoading: 'defer',
 });
 
 export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
