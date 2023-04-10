@@ -54,7 +54,7 @@ describe('bff cli plugin', () => {
     expect(result).toMatchSnapshot();
   });
 
-  it('config webpack chain', async () => {
+  it('config bundler chain', async () => {
     const main = manager.clone().usePlugin(plugin as CliPlugin);
     const runner = await main.init();
     const [{ tools }]: any = await runner.config();
@@ -64,7 +64,7 @@ describe('bff cli plugin', () => {
       apiDirectory: path.resolve('./fixtures/function/api'),
       port: 3000,
     } as any);
-    tools.webpackChain(chain, { CHAIN_ID });
+    tools.bundlerChain(chain, { CHAIN_ID });
 
     const config = chain.toConfig();
     expect(config.module?.rules?.[1]).toMatchObject({

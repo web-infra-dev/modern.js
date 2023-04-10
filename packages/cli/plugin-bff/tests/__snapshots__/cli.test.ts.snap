@@ -10,7 +10,7 @@ exports[`bff cli plugin config 1`] = `
       ],
     },
     "tools": {
-      "webpackChain": [Function],
+      "bundlerChain": [Function],
     },
   },
 ]
