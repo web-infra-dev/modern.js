@@ -429,7 +429,7 @@ export const init = (context: RuntimeContext) => {
 在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片，当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
 这种情况下你可以通过定义 `loading` 组件，在静态资源加载完成前，展示一个自定义的 `loading` 组件。
 
-为了进一步提升用户体验，减少 loading 状态，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载， `prefetch` 属性有三个可选值：
+为了进一步提升用户体验，减少 loading 的时间，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载， `prefetch` 属性有三个可选值：
 
 ```
 <Link prefetch="intent" to="page">
