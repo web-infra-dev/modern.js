@@ -153,11 +153,25 @@ Unsupported configurations and capabilities include:
 In addition to the above configurations, some of the supported configurations may have differences in their capabilities. For specific differences in configurations, please refer to the corresponding API for each configuration.
 :::
 
+### Migrating from webpackChain to bundlerChain
+
+Builder supports modifying Rspack config via [bundlerChain](/api/config-tools.html#toolsbundlerchain). configurations modified via bundlerChain will take effect on both webpack and Rspack builds.
+
+:::tip
+The bundlerChain only provides consistent api modification for Rspack & webpack configurations, the actual plugin / loader availability depends on the actual Rspack / webpack support.
+:::
+
+### CHAIN_ID differences
+
+Because of some implementation differences between webpack and Rspack, there are some differences in the rules configuration.
+
+You can see all the rules that are supported in both Rspack & webpack via [tools.bundlerChain#CHAIN_ID](/api/config-tools.html#chain_id).
+
 ### Modify the Rspack Configuration Object
 
-Before modify the Rspack configuration object, you may should know [the config diff between Rspack and Webapck](https://www.rspack.dev/guide/config-diff.html).
+BundlerChain only supports modifying the Rspack & webpack intersection config, more Rspack-exclusive features need to be modified via [tools.rspack](/api/config-tools.html#toolsrspack).
 
-You can use [tools.rspack](/api/config-tools.html#toolsrspack) to modify the Rspack configuration object.
+Before modify the Rspack configuration object, you may should know [the config diff between Rspack and Webapck](https://www.rspack.dev/guide/config-diff.html).
 
 ```ts
 export default {
@@ -173,7 +187,3 @@ export default {
 ```
 
 More information about Rspack, please refer to the [Rspack website](https://www.rspack.dev/).
-
-### A more flexible way to modify Rspack configuration
-
-Builder supports modifying Rspack config via [bundler-chain](/api/config-tools.html#toolsbundlerchain). Configurations modified via bundler chain will take effect on both webpack and Rspack builds.

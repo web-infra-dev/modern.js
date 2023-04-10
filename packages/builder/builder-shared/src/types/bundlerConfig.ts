@@ -122,10 +122,12 @@ export interface BundlerChain
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
   resolve: Pick<
     Config['resolve'],
-    Extract<
-      Extract<keyof WebpackResolve, keyof RspackResolve>,
-      keyof Config['resolve']
-    >
+    | Extract<
+        Extract<keyof WebpackResolve, keyof RspackResolve>,
+        keyof Config['resolve']
+      >
+    | 'merge'
+    | 'get'
   >;
   output: Pick<
     Config['output'],
@@ -134,6 +136,7 @@ export interface BundlerChain
         keyof Config['output']
       >
     | 'get'
+    | 'merge'
   >;
   infrastructureLogging: Pick<
     Config['infrastructureLogging'],
