@@ -152,11 +152,25 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 除上述配置外，一些已支持的配置可能存在能力差异，请参考各配置 API 获取具体差异信息。
 :::
 
+### 从 webpackChain 迁移到 bundlerChain
+
+Builder 支持通过 [bundler-chain](/api/config-tools.html#toolsbundlerchain) 来修改 Rspack config。通过 bundler chain 修改的配置，在 webpack 和 Rspack 构建时均可生效。
+
+:::tip
+bundler-chain 只为 Rspack & webpack 配置提供一致的 api 修改方式，实际 plugin / loader 是否可用，需要看 Rspack  / webpack 实际支持情况。
+:::
+
+### CHAIN_ID 差异
+
+因为 webpack 和 rspack 的一些实现差异，所以在规则配置上会有些不同。
+
+可通过 [tools.bundlerChain#CHAIN_ID](/api/config-tools.html#chain_id) 查看所有在 Rspack & webpack 中都支持的规则。
+
 ### 修改 Rspack 配置
 
-在修改 Rspack 配置之前，你可能需要了解 [Rspack 和 Webpack 的配置兼容性](https://www.rspack.dev/zh/guide/config-diff.html)。
+BundlerChain 只支持修改 Rspack & webpack 交集部分，更多 Rspack 独有功能，需要通过 [tools.rspack](/api/config-tools.html#toolsrspack) 修改。
 
-你可以使用 [tools.rspack](/api/config-tools.html#toolsrspack) 来修改 Rspack 配置对象，对 Rspack 配置进行更灵活的操作。
+在修改 Rspack 配置之前，你可能需要了解 [Rspack 和 Webpack 的配置兼容性](https://www.rspack.dev/zh/guide/config-diff.html)。
 
 ```ts
 export default {
@@ -172,7 +186,3 @@ export default {
 ```
 
 关于 Rspack 的详细配置信息，请参考 [Rspack 官网](https://rspack.dev/)。
-
-### 更灵活的修改配置方式
-
-Builder 支持通过 [bundler-chain](/api/config-tools.html#toolsbundlerchain) 来修改 Rspack config。通过 bundler chain 修改的配置，在 webpack 和 Rspack 构建时均可生效。
