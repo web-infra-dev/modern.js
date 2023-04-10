@@ -115,7 +115,7 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     ) {
       customReleaseNoteFunction = possibleReleaseNoteFunc;
     } else {
-      throw new Error('Could not resolve relesae note generation functions');
+      throw new Error('Could not resolve release note generation functions');
     }
   }
 
@@ -184,11 +184,11 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
   if (bugFix.length) {
     result += '## Bug Fix:\n';
     for (const commit of bugFix) {
-      const relesaeNote = await getReleaseNoteLine(
+      const releaseNote = await getReleaseNoteLine(
         commit,
         customReleaseNoteFunction,
       );
-      result += relesaeNote;
+      result += releaseNote;
     }
   }
   console.info(result);
