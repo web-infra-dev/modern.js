@@ -1,5 +1,5 @@
-import _async_to_generator from "<SWC_HELPER>/src/_async_to_generator.mjs";
-import _ts_generator from "<SWC_HELPER>/src/_ts_generator.mjs";
+import { _ as _async_to_generator } from "<SWC_HELPER>/_/_async_to_generator";
+import { _ as _ts_generator } from "<SWC_HELPER>/_/_ts_generator";
 import "<CORE_JS>/modules/es.symbol.js";
 import "<CORE_JS>/modules/es.symbol.description.js";
 import "<CORE_JS>/modules/es.symbol.async-iterator.js";
