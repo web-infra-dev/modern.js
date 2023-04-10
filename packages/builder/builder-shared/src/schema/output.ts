@@ -99,8 +99,8 @@ export const sharedOutputConfigSchema = z.partialObj({
   enableAssetFallback: z.boolean(),
   enableLatestDecorators: z.boolean(),
   enableCssModuleTSDeclaration: z.boolean(),
-  enableInlineScripts: z.boolean(),
-  enableInlineStyles: z.boolean(),
+  enableInlineScripts: z.union([z.boolean(), z.instanceof(RegExp)]),
+  enableInlineStyles: z.union([z.boolean(), z.instanceof(RegExp)]),
   overrideBrowserslist: z.union([
     z.array(z.string()),
     z.record(BuilderTargetSchema, z.array(z.string())),
