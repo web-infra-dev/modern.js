@@ -54,6 +54,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "module": {
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -713,6 +719,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "mode": "production",
   "module": {
     "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
       {
         "oneOf": [
           {
@@ -1381,6 +1393,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
   "module": {
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -1783,6 +1801,12 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "loader": "builtin:sass-loader",
           },
         ],
+      },
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
       },
       {
         "oneOf": [
