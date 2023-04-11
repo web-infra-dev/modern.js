@@ -1,5 +1,6 @@
 import path from 'path';
-import { cli, mergeOptions } from '../src';
+import { cli } from '../src';
+import { mergeOptions } from '../src/createCli';
 import { createResolveConfig, createLoadedConfig } from '../src/config';
 import { loadEnv } from '../src/loadEnv';
 

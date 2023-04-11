@@ -215,16 +215,23 @@ const App = () => {
 export default App;
 ```
 
-在组件文件中引入 Node API，通常情况下是因为使用了 Data Loader，例如：
+在组件文件中引入 Node API，通常情况下是因为使用了 `useLoader`，例如：
 
 ```ts
 import fse from 'fs-extra';
-export const loader = () => {
-  const file = fse.readFileSync('./myfile');
-  return {
-    ...
-  };
+import { useLoader } from '@modern-js/runtime'
+
+const App = () => {
+  const { data } = useLoader(async () => {
+    const file = fse.readFileSync('./myfile');
+    return {
+      ...
+    };
+  })
+
+  return <div>Hello World</div>;
 };
+export default App;
 ```
 
 ### 环境变量区分
@@ -239,16 +246,32 @@ if (process.env.MODERN_TARGET === 'browser') {
 }
 ```
 
+开发环境打包后，SSR 产物和 CSR 产物会被编译成以下内容。因此 SSR 环境中不会再因为 Web API 报错：
+
+```ts
+// SSR 产物
+if (false) {
+}
+
+// CSR 产物
+if (true) {
+  document.addEventListener('load', () => {
+    console.log('document load');
+  });
+}
+```
+
 :::note
 更多内容可以查看[环境变量](/guides/basic-features/env-vars)。
-
 :::
 
 ### 文件后缀区分
 
-但例如第二种情况，Treeshaking 的方式并不能保证代码被完全分离。Modern.js 也支持通过 `.node.` 后缀的文件来区分 SSR Bundle 和 CSR Bundle 产物的打包文件。
+但例如第二种情况，在代码中引入了 `fs-extra`，它内部有使用了 Node API 的副作用，如果直接引用到组件中，会造成 CSR 加载报错。
 
-例如在代码中引入了 `fs-extra`，这时候直接引用到组件中，会造成 CSR 加载报错。可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
+环境变量的方式并不能在这种情况下生效，Modern.js 也支持通过 `.node.` 后缀的文件来区分 SSR Bundle 和 CSR Bundle 产物的打包文件。
+
+可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
 
 ```ts title="compat.ts"
 export const readFileSync: any = () => {};
@@ -273,7 +296,27 @@ export const loader = () => {
 
 ### 独立文件
 
-上述两种方式，都会为开发者带来一些心智负担。Modern.js 基于[嵌套路由](/guides/basic-features/routes)开发设计了[更简单的方案](/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
+上述两种方式，都会为开发者带来一些心智负担。在真实的业务中，我们发现大多数的 Node / Web 代码混用都出现在数据请求中。
+
+因此，Modern.js 基于[嵌套路由](/guides/basic-features/routes)开发设计了[更简单的方案](/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
+
+我们可以通过独立文件来分离**数据请求**与**组件代码**。在 `routes/page.tsx` 中编写组件逻辑，在 `routes/page.loader.ts` 中编写数据请求逻辑。
+
+```ts title="routes/page.tsx"
+export default Page = () => {
+  return <div>Hello World<div>
+}
+```
+
+```ts title="routes/page.loader.tsx"
+import fse from 'fs-extra';
+export default () => {
+  const file = fse.readFileSync('./myfile');
+  return {
+    ...
+  };
+}
+```
 
 ## 接口请求
 
@@ -307,7 +350,7 @@ Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
 
 ### 异步获取数据
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 interface User {
@@ -336,11 +379,11 @@ export default ({ params }: LoaderFunctionArgs) => {
 ```
 
 `user` 是一个 Promise 类型的对象，表示需要异步获取的数据，通过 `defer` 处理需要异步获取的 `user`。注意，`defer` 必须接收一个对象类型的参数，
-因此， 传入 `defer` 的参数为 `{data: user}`。
+因此， 传入 `defer` 的参数为：`{ data: user }`
 
 `defer` 还可以同时接收异步数据和同步数据。例如：
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 // 省略部分代码
 
 export default ({ params }: LoaderFunctionArgs) => {
@@ -374,7 +417,7 @@ export default ({ params }: LoaderFunctionArgs) => {
 
 通过 `Await` 组件，可以获取到 Data Loader 中异步返回的数据，然后进行渲染。例如：
 
-```tsx title='page.tsx'
+```tsx title="page.tsx"
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 import type { Data } from './page.loader';
@@ -454,7 +497,7 @@ export default Page;
 `Await` 组件的 `errorElement` 属性，可以用来处理当 Data Loader 执行时，或者子组件渲染时抛出的错误。
 例如，我们故意在 Data Loader 函数中抛出错误：
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 import { defer } from '@modern-js/runtime/router';
 
 export default () => {
@@ -470,7 +513,7 @@ export default () => {
 
 然后通过 `useAsyncError` 获取错误，并将用于渲染错误信息的组件赋值给 `Await` 组件的 `errorElement` 属性：
 
-```tsx title='page.ts'
+```tsx title="page.ts"
 import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 

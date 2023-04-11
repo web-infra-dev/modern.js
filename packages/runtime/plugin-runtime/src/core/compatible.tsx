@@ -15,6 +15,7 @@ const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 export type CreateAppOptions = {
   plugins: Plugin[];
+  props?: any;
 };
 
 function isClientArgs(
@@ -38,7 +39,10 @@ const getInitialContext = (runner: PluginRunner) => ({
     typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
 });
 
-export const createApp = ({ plugins }: CreateAppOptions) => {
+export const createApp = ({
+  plugins,
+  props: globalProps,
+}: CreateAppOptions) => {
   const appRuntime = runtime.clone();
   appRuntime.usePlugin(...plugins);
 
@@ -88,9 +92,12 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
                 },
               );
             }
+
+            const mergedProps = { ...props, ...globalProps };
+
             return (
               <RuntimeReactContext.Provider value={contextValue}>
-                <App {...props} />
+                <App {...mergedProps} />
               </RuntimeReactContext.Provider>
             );
           };

@@ -9,8 +9,8 @@ export { modifyRoutes } from './plugin';
 
 export * from './withRouter';
 
-export { PrefetchLink, PrefetchNavLink } from './PrefetchLink';
-export type { PrefetchLinkProps, PrefetchNavLinkProps } from './PrefetchLink';
+export { Link, NavLink } from './PrefetchLink';
+export type { LinkProps, NavLinkProps } from './PrefetchLink';
 
 // Note: Keep in sync with react-router-dom exports!
 export type {
@@ -25,8 +25,6 @@ export type {
   BrowserRouterProps,
   HashRouterProps,
   HistoryRouterProps,
-  LinkProps,
-  NavLinkProps,
   FormProps,
   ScrollRestorationProps,
   SubmitFunction,
@@ -93,8 +91,6 @@ export {
   // Components
   Await,
   Form,
-  Link,
-  NavLink,
   Navigate,
   Outlet,
   Route,

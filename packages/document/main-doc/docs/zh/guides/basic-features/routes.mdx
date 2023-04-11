@@ -424,6 +424,29 @@ export const init = (context: RuntimeContext) => {
 };
 ```
 
+### Prefetch
+
+在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片，当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
+这种情况下你可以通过定义 `loading` 组件，在静态资源加载完成前，展示一个自定义的 `loading` 组件。
+
+为了进一步提升用户体验，减少 loading 的时间，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载， `prefetch` 属性有三个可选值：
+
+```
+<Link prefetch="intent" to="page">
+```
+
+:::info
+- 该功能目前仅在 Webpack 项目中支持，Rspack 项目暂不支持。
+- 对数据的预加载目前只会预加载 SSR 项目中 [data loader](/guides/basic-features/data-fetch) 中返回的数据。
+
+:::
+
+- `none`， 默认值，不会做 prefetch，没有任何额外的行为。
+- `intent`，这是我们推荐大多数场景下使用的值，当你把鼠标放在 Link 上时，会自动开始加载对应的分片和 data loader 中定义的数据，当鼠标移开时，会自动取消加载。在我们的测试中，即使是直接点击，也能减少大约 200ms 的加载时间。
+- `render`，当 Link 组件渲染时，就会加载对应的分片和 data loader 中定义的数据。
+
+
+
 ## 自控式路由
 
 以 `src/App.tsx` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
@@ -469,3 +492,20 @@ export default defineConfig({
   },
 });
 ```
+
+### 常见问题
+
+1. 产物中的代码是 es2015+ 的，期望产物中是 es5 的代码
+
+react-router^6 的目前默认产物是 es2020 的，如果需要产物中是 es5 的代码，可以配置 `source.include`，让 react-router 相关包经过 bundler 编译 ：
+
+```
+source: {
+  source: {
+    include: [/@remix-run\/router/, /react-router-dom/, /react-router/],
+  }
+}
+```
+
+
+
