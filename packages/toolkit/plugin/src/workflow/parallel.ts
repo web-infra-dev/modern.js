@@ -24,7 +24,7 @@ export const createParallelWorkflow = <
     return workflow;
   };
 
-  const run: ParallelWorkflow<I, O>['run'] = async input =>
+  const run: ParallelWorkflow<I, O>['run'] = input =>
     Promise.all(pipeline.run(input, { onLast: () => [] })).then(result =>
       result.filter(Boolean),
     );

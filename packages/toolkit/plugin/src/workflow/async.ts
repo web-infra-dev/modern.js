@@ -29,7 +29,7 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
     return workflow;
   };
 
-  const run: AsyncWorkflow<I, O>['run'] = async input => {
+  const run: AsyncWorkflow<I, O>['run'] = input => {
     const result = pipeline.run(input, { onLast: () => [] });
     if (isPromise(result)) {
       return result.then(result => result.filter(Boolean));
@@ -50,8 +50,11 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
 
 const mapAsyncWorkerToAsyncMiddleware =
   <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O[]>> =>
-  async (input, next) =>
-    [await worker(input), ...(await next(input))];
+  (input, next) =>
+    Promise.all([worker(input), next(input)]).then(([result, nextResult]) => [
+      result,
+      ...nextResult,
+    ]);
 
 function isPromise(obj: any): obj is Promise<any> {
   return (

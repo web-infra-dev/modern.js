@@ -171,7 +171,7 @@ export const createManager = <
           addPlugin(createPlugin(plugin.setup, plugin));
         }
         // unknown plugin
-        else {
+        else if (process.env.NODE_ENV !== 'production') {
           console.warn(`Unknown plugin: ${JSON.stringify(plugin)}`);
         }
       });
@@ -253,20 +253,15 @@ export const generateRunner = <Hooks extends Record<string, any>>(
 
   if (hooksMap) {
     for (const key in cloneShape) {
-      for (const hooks of hooksList) {
-        if (!hooks) {
-          continue;
-        }
-        if (hooks[key]) {
+      hooksList.forEach(hooks => {
+        if (hooks?.[key]) {
           cloneShape[key].use(hooks[key]);
         }
-      }
+      });
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       runner[key] = (input: any, options: any) =>
-        (cloneShape[key] as any).run(input, {
-          ...options,
-        });
+        (cloneShape[key] as any).run(input, { ...options });
     }
   }
 

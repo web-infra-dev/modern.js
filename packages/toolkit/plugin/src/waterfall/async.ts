@@ -16,7 +16,8 @@ export type AsyncBrookInputs<I = unknown> = AsyncBrookInput<I>[];
 export const getAsyncBrook = <I>(input: AsyncBrookInput<I>) => {
   if (typeof input === 'function') {
     return input;
-  } else if (input && typeof input.middleware === 'function') {
+  }
+  if (input && typeof input.middleware === 'function') {
     return input.middleware;
   }
   throw new Error(`${input} is not a AsyncBrook or { brook: AsyncBrook }`);
@@ -66,5 +67,5 @@ export const isAsyncWaterfall = (input: any): input is AsyncWaterfall<any> =>
 
 const mapAsyncBrookToAsyncMiddleware =
   <I>(brook: AsyncBrook<I>): Middleware<I, MaybeAsync<I>> =>
-  async (input, next) =>
-    next(await brook(input));
+  (input, next) =>
+    Promise.resolve(brook(input)).then(result => next(result));
