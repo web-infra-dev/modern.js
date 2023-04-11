@@ -1,4 +1,4 @@
-import { mergeConfig } from '../src/utils/mergeConfig';
+import { mergeConfig } from '../src';
 import { assignPkgConfig } from '../src/config';
 import { UserConfig, UserConfigExport } from '../src/types';
 
