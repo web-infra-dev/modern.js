@@ -93,7 +93,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         <Down />
       </button>
       <div
-        className="nav-menu-group-content absolute mx-0.8 transition-opacity duration-300 "
+        className="nav-menu-group-content absolute mx-0.8 transition-opacity duration-300"
         style={{
           opacity: isOpen ? 1 : 0,
           visibility: isOpen ? 'visible' : 'hidden',
@@ -102,12 +102,13 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         }}
       >
         <div
-          className="p-3 pr-2 w-full h-full max-h-100vh whitespace-nowrap bg-white"
+          className="p-3 pr-2 w-full h-full max-h-100vh whitespace-nowrap"
           style={{
             boxShadow: 'var(--modern-shadow-3)',
             zIndex: 100,
             border: '1px solid var(--modern-c-divider-light)',
             borderRadius: '2rem',
+            background: 'var(--modern-c-bg)',
           }}
         >
           {/* The item could be a link or a sub group */}
