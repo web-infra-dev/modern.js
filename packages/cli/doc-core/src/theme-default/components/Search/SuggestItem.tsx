@@ -2,9 +2,9 @@ import FileSvg from './assets/file.svg';
 import JumpSvg from './assets/jump.svg';
 import HeaderSvg from './assets/header.svg';
 import TitleSvg from './assets/title.svg';
-import { MatchResultItem } from './logic/search';
+import { HightlightInfo, MatchResultItem } from './logic/search';
 import styles from './index.module.scss';
-import { removeDomain } from './logic/util';
+import { getSlicedStrByByteLength, removeDomain } from './logic/util';
 import { isProduction } from '@/runtime';
 
 const ICON_MAP = {
@@ -27,25 +27,46 @@ export function SuggestItem({
   inCurrentDocIndex: boolean;
 }) {
   const HitIcon = ICON_MAP[suggestion.type];
-  const { query } = suggestion;
   const link =
     inCurrentDocIndex && !isProduction()
       ? removeDomain(suggestion.link)
       : suggestion.link;
+
+  const getHighlightedFragments = (
+    rawText: string,
+    highlights: HightlightInfo[],
+  ) => {
+    // Split raw text into several parts, and add styles.mark className to the parts that need to be highlighted.
+    // highlightInfoList is an array of objects, each object contains the start index and the length of the part that needs to be highlighted.
+    // For example, if the statement is "This is a statement", and the query is "is", then highlightInfoList is [{start: 2, length: 2}, {start: 5, length: 2}].
+    const framegmentList = [];
+    let lastIndex = 0;
+    for (const highlightInfo of highlights) {
+      const { start, length } = highlightInfo;
+      const prefix = rawText.slice(lastIndex, start);
+      const queryStr = getSlicedStrByByteLength(rawText, start, length);
+      framegmentList.push(prefix);
+      framegmentList.push(
+        <span key={start} className={styles.mark}>
+          {queryStr}
+        </span>,
+      );
+      lastIndex = start + queryStr.length;
+    }
+
+    if (lastIndex < rawText.length) {
+      framegmentList.push(rawText.slice(lastIndex));
+    }
+
+    return framegmentList;
+  };
+
   const renderHeaderMatch = () => {
     if (suggestion.type === 'header' || suggestion.type === 'title') {
-      const { header, highlightIndex } = suggestion;
-      const headerPrefix = header.slice(0, highlightIndex);
-      const queryStr = header.slice(
-        highlightIndex,
-        highlightIndex + query.length,
-      );
-      const headerSuffix = header.slice(highlightIndex + query.length);
+      const { header, highlightInfoList } = suggestion;
       return (
         <div className="font-medium">
-          <span>{headerPrefix}</span>
-          <span className={styles.mark}>{queryStr}</span>
-          <span>{headerSuffix}</span>
+          {getHighlightedFragments(header, highlightInfoList)}
         </div>
       );
     } else {
@@ -56,18 +77,10 @@ export function SuggestItem({
     if (suggestion.type !== 'content') {
       return <div></div>;
     }
-    const { highlightIndex, statement } = suggestion;
-    const statementPrefix = statement.slice(0, highlightIndex);
-    const queryStr = statement.slice(
-      highlightIndex,
-      highlightIndex + query.length,
-    );
-    const statementSuffix = statement.slice(highlightIndex + query.length);
+    const { statement, highlightInfoList } = suggestion;
     return (
       <div className="text-sm text-gray-light w-full">
-        <span>{statementPrefix}</span>
-        <span className={styles.mark}>{queryStr}</span>
-        <span>{statementSuffix}</span>
+        {getHighlightedFragments(statement, highlightInfoList)}
       </div>
     );
   };
