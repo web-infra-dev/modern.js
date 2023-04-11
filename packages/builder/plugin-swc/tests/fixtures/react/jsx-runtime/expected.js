@@ -1,4 +1,4 @@
-import _sliced_to_array from "<SWC_HELPER>/src/_sliced_to_array.mjs";
+import { _ as _sliced_to_array } from "<SWC_HELPER>/_/_sliced_to_array";
 var _this = this;
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 import { useState } from "react";

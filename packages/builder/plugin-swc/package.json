@@ -61,7 +61,7 @@
   "dependencies": {
     "@modern-js/builder-plugin-swc-base": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.2.0",
+    "@modern-js/swc-plugins": "0.3.1",
     "@modern-js/utils": "workspace:*"
   },
   "publishConfig": {
