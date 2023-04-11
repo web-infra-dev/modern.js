@@ -10,6 +10,19 @@ export const builderPluginResolve = (): BuilderPlugin => ({
   setup(api) {
     applyBuilderResolvePlugin(api);
 
+    api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
+      const config = api.getNormalizedConfig();
+
+      if (
+        chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI) &&
+        config.source.compileJsDataURI
+      ) {
+        chain.module
+          .rule(CHAIN_ID.RULE.JS_DATA_URI)
+          .resolve.set('fullySpecified', false);
+      }
+    });
+
     api.modifyRspackConfig(async (rspackConfig, { isServer }) => {
       const isTsProject = Boolean(api.context.tsconfigPath);
 

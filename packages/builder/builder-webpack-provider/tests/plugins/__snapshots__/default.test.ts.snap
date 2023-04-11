@@ -33,6 +33,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -437,12 +443,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
-      },
-      {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
       },
       {
         "mimetype": {
@@ -900,6 +900,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -1304,12 +1310,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
-      },
-      {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
       },
       {
         "mimetype": {
@@ -1815,6 +1815,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -2117,12 +2123,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
-      },
-      {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
       },
       {
         "mimetype": {
@@ -2551,6 +2551,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -2853,12 +2859,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
           },
         ],
-      },
-      {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
       },
       {
         "mimetype": {
