@@ -262,11 +262,7 @@ export default ({
         if (!config?.deploy?.microFrontend) {
           return { entrypoint, code };
         }
-        const { nestedRoutesEntry, pageRoutesEntry } = entrypoint;
-        const nCode = makeRenderFunction(
-          code,
-          Boolean(nestedRoutesEntry || pageRoutesEntry),
-        );
+        const nCode = makeRenderFunction(code);
         logger('makeRenderFunction', nCode);
         return {
           entrypoint,
