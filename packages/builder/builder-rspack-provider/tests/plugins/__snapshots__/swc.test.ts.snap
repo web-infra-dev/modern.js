@@ -7,7 +7,7 @@ exports[`plugins/swc > should add browserslist 1`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "chrome 98",
@@ -39,7 +39,7 @@ exports[`plugins/swc > should add browserslist 2`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "chrome 98",
@@ -76,7 +76,7 @@ exports[`plugins/swc > should add pluginImport 1`] = `
       },
     ],
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -155,7 +155,7 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -189,7 +189,7 @@ exports[`plugins/swc > should has correct core-js 1`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -223,7 +223,7 @@ exports[`plugins/swc > should has correct core-js 2`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -278,7 +278,7 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",

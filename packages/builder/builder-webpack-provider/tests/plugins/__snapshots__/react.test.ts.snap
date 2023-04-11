@@ -85,7 +85,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -194,7 +194,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

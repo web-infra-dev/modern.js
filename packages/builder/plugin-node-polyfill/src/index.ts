@@ -65,7 +65,7 @@ window.process = Process;`,
             ]);
 
           // module polyfill
-          chain.resolve.alias.merge(getResolveFallback(nodeLibsBrowser));
+          chain.resolve.fallback.merge(getResolveFallback(nodeLibsBrowser));
         });
         return;
       }
