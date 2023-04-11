@@ -27,6 +27,27 @@ export default {
 };
 ```
 
+`webpack-dev-server` 使用 Express 作为服务端框架。Modern.js 中没有使用任何框架，上述中间件中 `req` 和 `res` 都是 Node 原生对象，因此 `webpack-dev-server` 的 Express 中间件不一定能直接在 Modern.js 中使用。
+
+如果要迁移 `webpack-dev-server` 中使用的 Express 中间件，可以使用以下方式，将 Express app 作为中间件传入：
+
+```js
+import expressMiddleware from 'my-express-middleware';
+import express from 'express';
+
+// 初始化 Express app
+const app = express();
+app.use(expressMiddleware);
+
+export default {
+  tools: {
+    devServer: {
+      after: [app],
+    },
+  },
+};
+```
+
 #### before
 
 - **类型：** `Array`

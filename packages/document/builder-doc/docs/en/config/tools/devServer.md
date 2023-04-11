@@ -27,6 +27,27 @@ export default {
 };
 ```
 
+`webpack-dev-server` uses Express as the server-side framework. Modern.js does not use any framework, and the `req` and `res` in the above middleware are all native Node objects. Therefore, the Express middleware used in `webpack-dev-server` may not be directly usable in Modern.js.
+
+If you want to migrate the Express middleware used in `webpack-dev-server`, you can use the following method to pass the Express app as middleware:
+
+```js
+import expressMiddleware from 'my-express-middleware';
+import express from 'express';
+
+// init Express app
+const app = express();
+app.use(expressMiddleware);
+
+export default {
+  tools: {
+    devServer: {
+      after: [app],
+    },
+  },
+};
+```
+
 #### before
 
 - **Type:** `Array`

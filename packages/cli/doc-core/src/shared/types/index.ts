@@ -131,6 +131,16 @@ export type PageIndexInfo = {
   lang: string;
   domain: string;
 };
+
+export type RemotePageInfo = PageIndexInfo & {
+  _matchesPosition: {
+    content: {
+      start: number;
+      length: number;
+    }[];
+  };
+};
+
 export interface Hero {
   name: string;
   text: string;

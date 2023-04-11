@@ -16,10 +16,11 @@ body:
     id: versions
     attributes:
       label: 版本信息
-      description: 在命令行执行 `npm ls @modern-js/app-tools` 命令，并将输出内容粘贴到下方区域。
+      description: 在你的项目中运行 `npx envinfo --system --browsers --npmPackages '@modern-js/*'` 命令，并将内容粘贴到下方输入框。
       placeholder: |
-        middle-platform@0.1.0
-          └── @modern-js/app-tools@1.4.1
+        System:
+        Browsers:
+        npmPackages:
       render: sh
     validations:
       required: true

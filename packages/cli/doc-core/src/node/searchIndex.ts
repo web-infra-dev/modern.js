@@ -23,6 +23,7 @@ export async function writeSearchIndex(config: UserConfig) {
 
   // For performance, we only stitch the string of search index data instead of big JavaScript object in memory
   let searchIndexData = '[]';
+  let scaning = false;
   for (const searchIndexFile of searchIndexFiles) {
     if (
       !searchIndexFile.includes(SEARCH_INDEX_NAME) ||
@@ -36,8 +37,11 @@ export async function writeSearchIndex(config: UserConfig) {
       join(TEMP_DIR, searchIndexFile),
       'utf-8',
     );
-    searchIndexData = `${searchIndexData.slice(0, -1)},${searchIndex.slice(1)}`;
+    searchIndexData = `${searchIndexData.slice(0, -1)}${
+      scaning ? ',' : ''
+    }${searchIndex.slice(1)}`;
     await fs.move(source, target, { overwrite: true });
+    scaning = true;
   }
 
   if (isProduction() && isSCM() && config.doc?.search?.mode === 'remote') {
@@ -73,7 +77,7 @@ export function serveSearchIndexMiddleware(config: UserConfig): RequestHandler {
     if (req.url?.includes(searchIndexRequestPath)) {
       res.setHeader('Content-Type', 'application/json');
       // Get search index name from request url
-      const searchIndexFile = req.url?.split('/').pop() as string;
+      const searchIndexFile = req.url?.split('/').pop();
       const searchIndex = fs.readFileSync(
         path.join(process.cwd(), OUTPUT_DIR, 'static', searchIndexFile),
         'utf-8',
