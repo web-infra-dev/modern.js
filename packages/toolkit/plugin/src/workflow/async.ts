@@ -33,9 +33,8 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
     const result = pipeline.run(input, { onLast: () => [] });
     if (isPromise(result)) {
       return result.then(result => result.filter(Boolean));
-    } else {
-      return result.filter(Boolean);
     }
+    return result.filter(Boolean);
   };
 
   const workflow: AsyncWorkflow<I, O> = {
@@ -51,10 +50,9 @@ export const createAsyncWorkflow = <I = void, O = unknown>(): AsyncWorkflow<
 const mapAsyncWorkerToAsyncMiddleware =
   <I, O>(worker: AsyncWorker<I, O>): Middleware<I, MaybeAsync<O[]>> =>
   (input, next) =>
-    Promise.all([worker(input), next(input)]).then(([result, nextResult]) => [
-      result,
-      ...nextResult,
-    ]);
+    Promise.resolve(worker(input)).then(result =>
+      Promise.resolve(next(input)).then(nextResult => [result, ...nextResult]),
+    );
 
 function isPromise(obj: any): obj is Promise<any> {
   return (
