@@ -38,12 +38,14 @@ export const normalizeRoutePath = (
   base: string,
 ): string => {
   const normalizedRoutePath = routePath
+    // remove leading slash
+    .replace(/^\//, '')
     // extract lang prefix
     .replace(new RegExp(`^${lang}`), '')
     // remove the extension
     .replace(/\.[^.]+$/, '')
     // remove index
-    .replace(/index$/, '');
+    .replace(/\/index$/, '/');
 
   return withBase(addLeadingSlash(normalizedRoutePath), base);
 };
@@ -151,7 +153,12 @@ export class RouteService {
   }
 
   isExistRoute(routePath: string) {
-    return this.routeData.get(routePath);
+    const normalizedRoute = normalizeRoutePath(
+      routePath,
+      this.#defaultLang,
+      this.#base,
+    );
+    return this.routeData.get(normalizedRoute);
   }
 
   isEmpty() {
