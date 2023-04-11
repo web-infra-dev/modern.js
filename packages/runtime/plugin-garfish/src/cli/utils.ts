@@ -75,45 +75,28 @@ function generateRootDom ({ dom }) {
 }
 `;
 
-export const makeRenderFunction = (code: string, isNested: boolean) => {
+export const makeRenderFunction = (code: string) => {
   const inGarfishToRender = `
   const { basename, props, dom, appName } = typeof arguments[0] === 'object' && arguments[0] || {};
   if (!canContinueRender({ dom, appName })) return null;
   let { mountNode } = generateRootDom({dom});
   `;
 
-  if (isNested) {
-    const codeString =
-      inGarfishToRender +
-      code
-        .replace(`router(`, `generateRouterPlugin(basename,`)
-        .replace(/MOUNT_ID/g, 'mountNode')
-        .replace(`createApp({`, 'createApp({ props,')
-        .replace(
-          `bootstrap(AppWrapper, mountNode, root`,
-          'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
-        )
-        .replace(
-          `customBootstrap(AppWrapper`,
-          'customBootstrap(AppWrapper, mountNode',
-        );
-    return codeString;
-  } else {
-    return (
-      inGarfishToRender +
-      code
-        .replace(`router(`, `generateRouterPlugin(basename,`)
-        .replace(/MOUNT_ID/g, 'mountNode')
-        .replace(
-          `bootstrap(AppWrapper, mountNode, root`,
-          'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
-        )
-        .replace(
-          `customBootstrap(AppWrapper`,
-          'customBootstrap(AppWrapper, mountNode',
-        )
-    );
-  }
+  return (
+    inGarfishToRender +
+    code
+      .replace(`router(`, `generateRouterPlugin(basename,`)
+      .replace(/MOUNT_ID/g, 'mountNode')
+      .replace(`createApp({`, 'createApp({ props,')
+      .replace(
+        `bootstrap(AppWrapper, mountNode, root`,
+        'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',
+      )
+      .replace(
+        `customBootstrap(AppWrapper`,
+        'customBootstrap(AppWrapper, mountNode',
+      )
+  );
 };
 
 // support legacy config
