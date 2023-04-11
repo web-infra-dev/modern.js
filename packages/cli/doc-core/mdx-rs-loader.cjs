@@ -10,7 +10,6 @@ function loader(value, compile, callback, resourcePath) {
     value,
     filepath: resourcePath,
     root: config.root,
-    defaultLang: config.defaultLang,
     development: process.env.NODE_ENV !== 'production',
   }).then(
     result => {
