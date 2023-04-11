@@ -246,6 +246,21 @@ if (process.env.MODERN_TARGET === 'browser') {
 }
 ```
 
+After packaging in the development environment, SSR and CSR artifacts will be compiled into the following content. Therefore, there will be no more errors due to Web API in the SSR environment:
+
+```ts
+// SSR production
+if (false) {
+}
+
+// CSR production
+if (true) {
+  document.addEventListener('load', () => {
+    console.log('document load');
+  });
+}
+```
+
 :::note
 For more information, see [environment variables](/guides/basic-features/env-vars).
 
@@ -253,7 +268,9 @@ For more information, see [environment variables](/guides/basic-features/env-var
 
 ### Use File Suffix
 
-In the second case, the Treeshaking method does not guarantee that the code is completely separated. Modern.js also supports the packaging file of SSR Bundle and CSR Bundle products through the file suffixed with `.node.`.
+However, in the second case, for example, when `fs-extra` is imported into the code, it internally uses the Node API with side effects. If it is directly referenced in the component, it will cause CSR loading errors.
+
+Env vars is not effective in this situation. Modern.js also supports distinguishing SSR Bundle and CSR Bundle packaging files through files with the `.node.` suffix.
 
 For example, the import of `fs-extra` in the code, when it is directly referenced to the component, will cause the CSR to load an error. You can create `.ts` and `.node.ts` files of the same name as a layer of proxy:
 
@@ -280,7 +297,27 @@ export const loader = () => {
 
 ### Independent File
 
-Both of the above methods will bring some burden to the developer. Modern.js based on [Nested Routing](/guides/basic-features/routes) developed and designed [Data Fetch](/guides/basic-features/data-fetch) to separate CSR and SSR code.
+Both of the above methods can bring some mental burden to developers. In real business scenarios, we found that most of the mixed Node/Web code occurs in data requests.
+
+Therefore, Modern.js developed a [Data Fetch](/guides/basic-features/data-fetch) to separate CSR and SSR code based on [Nested Routing](/guides/basic-features/routes).
+
+We can separate **data request** and **component code** by using independent files. Write component logic in `routes/page.tsx` and data request logic in `routes/page.loader.ts`.
+
+```ts title="routes/page.tsx"
+export default Page = () => {
+  return <div>Hello World<div>
+}
+```
+
+```ts title="routes/page.loader.tsx"
+import fse from 'fs-extra';
+export default () => {
+  const file = fse.readFileSync('./myfile');
+  return {
+    ...
+  };
+}
+```
 
 ## Remote Request
 
@@ -317,7 +354,7 @@ The streaming SSR of Modern.js is implemented based on React Router, and the mai
 
 ### Return async data
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 interface User {
@@ -351,7 +388,7 @@ therefore, the parameter passed to `defer` is `{data: user}`.
 
 `defer` can also receive asynchronous data and synchronous data at the same time. For example:
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 
 // skip some codes
 
@@ -388,7 +425,7 @@ export default ({ params }: LoaderFunctionArgs) => {
 
 Use the `Await` component to render the data returned asynchronously from the Data Loader. For example:
 
-```tsx title='page.tsx'
+```tsx title="page.tsx"
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 import type { Data } from './page.loader';
@@ -430,7 +467,7 @@ So, here we import like this: `import type { Data } from './page.loader'`;
 
 You can also get the asynchronous data returned by Data Loader through `useAsyncValue`. For example:
 
-```tsx title='page.tsx'
+```tsx title="page.tsx"
 import { useAsyncValue } from '@modern-js/runtime/router';
 
 // skip some codes
@@ -468,7 +505,7 @@ export default Page;
 The `errorElement` property of the `Await` component can be used to handle errors thrown when the Data Loader executes or when a child component renders.
 For example, we intentionally throw an error in the Data Loader function:
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 import { defer } from '@modern-js/runtime/router';
 
 export default () => {
@@ -484,7 +521,7 @@ export default () => {
 
 Then use `useAsyncError` to get the error, and assign the component used to render the error to the `errorElement` property of the `Await` component:
 
-```tsx title='page.ts'
+```tsx title="page.ts"
 import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 
