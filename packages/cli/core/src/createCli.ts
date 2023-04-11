@@ -24,7 +24,11 @@ const setProgramVersion = (version = 'unknown') => {
   program.name('modern').usage('<command> [options]').version(version);
 };
 
-export const mergeOptions = (options?: CoreOptions) => {
+export const mergeOptions = (
+  options?: CoreOptions,
+): CoreOptions & {
+  serverConfigFile: string;
+} => {
   const defaultOptions = {
     serverConfigFile: DEFAULT_SERVER_CONFIG,
   };
