@@ -55,9 +55,5 @@ const mapAsyncWorkerToAsyncMiddleware =
     );
 
 function isPromise(obj: any): obj is Promise<any> {
-  return (
-    Boolean(obj) &&
-    (typeof obj === 'object' || typeof obj === 'function') &&
-    typeof obj.then === 'function'
-  );
+  return obj && typeof obj.then === 'function';
 }
