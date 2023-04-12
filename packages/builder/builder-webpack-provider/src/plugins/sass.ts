@@ -4,7 +4,6 @@ import {
   isUseCssSourceMap,
   SASS_REGEX,
   getSassLoaderOptions,
-  getSharedPkgCompiledPath,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
@@ -41,7 +40,7 @@ export function builderPluginSass(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.SASS)
-          .loader(getSharedPkgCompiledPath('sass-loader'))
+          .loader(utils.getCompiledPath('sass-loader'))
           .options(options);
       });
     },

@@ -3,7 +3,6 @@ import {
   LESS_REGEX,
   FileFilterUtil,
   getLessLoaderOptions,
-  getSharedPkgCompiledPath,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
@@ -35,7 +34,7 @@ export function builderPluginLess(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.LESS)
-          .loader(getSharedPkgCompiledPath('less-loader'))
+          .loader(utils.getCompiledPath('less-loader'))
           .options(options);
       });
     },

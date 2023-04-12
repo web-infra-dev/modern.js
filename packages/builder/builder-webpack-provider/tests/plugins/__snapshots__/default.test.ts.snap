@@ -90,7 +90,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -103,7 +103,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": false,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -134,7 +134,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 },
               },
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -431,7 +431,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/toml-loader",
           },
         ],
       },
@@ -440,7 +440,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/yaml-loader",
           },
         ],
       },
@@ -957,7 +957,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -970,7 +970,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": false,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -1001,7 +1001,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                 },
               },
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -1298,7 +1298,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/toml-loader",
           },
         ],
       },
@@ -1307,7 +1307,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/yaml-loader",
           },
         ],
       },
@@ -1872,7 +1872,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -1885,7 +1885,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": false,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -1916,7 +1916,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 },
               },
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -2111,7 +2111,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/toml-loader",
           },
         ],
       },
@@ -2120,7 +2120,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/yaml-loader",
           },
         ],
       },
@@ -2608,7 +2608,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": Infinity,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -2621,7 +2621,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "type": "javascript/auto",
             "use": [
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": false,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -2652,7 +2652,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 },
               },
               {
-                "loader": "<WORKSPACE>/packages/builder/builder/compiled/url-loader",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
                 "options": {
                   "limit": 10000,
                   "name": "static/svg/[name].[contenthash:8].svg",
@@ -2847,7 +2847,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/toml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/toml-loader",
           },
         ],
       },
@@ -2856,7 +2856,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<WORKSPACE>/packages/builder/builder/compiled/yaml-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/yaml-loader",
           },
         ],
       },
