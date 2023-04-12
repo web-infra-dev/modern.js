@@ -1,8 +1,4 @@
-import {
-  getSharedPkgCompiledPath,
-  TS_REGEX,
-  applyScriptCondition,
-} from '@modern-js/builder-shared';
+import { TS_REGEX, applyScriptCondition } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '../types';
 import { getUseBuiltIns } from './babel';
@@ -11,7 +7,7 @@ export const builderPluginTsLoader = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-ts-loader',
     setup(api) {
-      api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+      api.modifyWebpackChain(async (chain, { CHAIN_ID, getCompiledPath }) => {
         const config = api.getNormalizedConfig();
         if (!config.tools.tsLoader) {
           return;
@@ -75,7 +71,7 @@ export const builderPluginTsLoader = (): BuilderPlugin => {
         rule
           .test(TS_REGEX)
           .use(CHAIN_ID.USE.BABEL)
-          .loader(getSharedPkgCompiledPath('babel-loader'))
+          .loader(getCompiledPath('babel-loader'))
           .options(babelLoaderOptions)
           .end()
           .use(CHAIN_ID.USE.TS)
