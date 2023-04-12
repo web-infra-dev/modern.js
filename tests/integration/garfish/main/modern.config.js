@@ -43,19 +43,33 @@ module.exports = defineConfig({
     port,
   },
   tools: {
-    // webpack: (config, { appendPlugins, webpack }) => {
-    //   const { ModuleFederationPlugin } = webpack.container;
-    //   appendPlugins([
-    //     new ModuleFederationPlugin({
-    //       name: 'main',
-    //       remotes: {
-    //         dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
-    //       },
-    //     }),
-    //   ]);
-    //   // delete config.optimization?.runtimeChunk;
-    //   // delete config.optimization?.splitChunks;
-    // },
+    rspack: config => {
+      // TODO: It's an rspack or swc bug.
+      // https://github.com/web-infra-dev/rspack/issues/2733
+      config.builtins.presetEnv = undefined;
+    },
+    webpack: (config, { appendPlugins, webpack }) => {
+      const { ModuleFederationPlugin } = webpack.container;
+      appendPlugins([
+        new ModuleFederationPlugin({
+          name: 'main',
+          remotes: {
+            dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
+          },
+        }),
+      ]);
+      // delete config.optimization?.runtimeChunk;
+      // delete config.optimization?.splitChunks;
+    },
   },
-  plugins: [appTools(), routerPlugin(), garfishPlugin()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+    routerPlugin(),
+    garfishPlugin(),
+  ],
 });
