@@ -4,7 +4,7 @@ import {
   BundlerChain,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier, isSSR, fs } from '@modern-js/utils';
+import { ChainIdentifier, isSSR, fs, slash } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -234,7 +234,7 @@ function applySSRDataLoader<B extends Bundler>(
 
   const { entriesDir = './src' } = normalizedConfig.source;
 
-  const absolutePath = path.resolve(appDirectory, entriesDir);
+  const absolutePath = slash(path.resolve(appDirectory, entriesDir));
 
   const reg = new RegExp(`${absolutePath}.*\\.loader\\.[t|j]s$`);
 
