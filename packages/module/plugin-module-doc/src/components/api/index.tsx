@@ -6,18 +6,8 @@ import './index.scss';
 export default (props: { moduleName: string }) => {
   return (
     <ReactMarkdown
-      remarkPlugins={[
-        [
-          remarkGfm,
-          {
-            tablePipeAlign: false,
-            tableCellPadding: false,
-            singleTitle: false,
-          },
-        ],
-      ]}
+      remarkPlugins={[[remarkGfm]]}
       components={getCustomMDXComponent()}
-      className="w-full"
     >
       {props.moduleName}
     </ReactMarkdown>
