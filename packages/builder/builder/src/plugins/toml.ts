@@ -1,5 +1,7 @@
-import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
-import path from 'path';
+import {
+  DefaultBuilderPlugin,
+  getSharedPkgCompiledPath,
+} from '@modern-js/builder-shared';
 
 export const builderPluginToml = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-toml',
@@ -11,7 +13,7 @@ export const builderPluginToml = (): DefaultBuilderPlugin => ({
         .type('javascript/auto')
         .test(/\.toml$/)
         .use(CHAIN_ID.USE.TOML)
-        .loader(path.resolve(__dirname, '../../compiled/toml-loader'));
+        .loader(getSharedPkgCompiledPath('toml-loader'));
     });
   },
 });

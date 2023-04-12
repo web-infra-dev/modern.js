@@ -245,3 +245,35 @@ export default {
   },
 };
 ```
+
+### getCompiledPath
+
+- **Type:** `(name: string) => string`
+
+Get the path to the builder built-in dependencies, such as:
+
+- sass
+- sass-loader
+- less
+- less-loader
+- babel-loader
+- url-loader
+- file-loader
+- ...
+
+This method is usually used when you need to reuse the same dependency with the builder.
+
+:::tip
+Builder built-in dependencies are subject to change with version iterations, e.g. generate large version break changes. Please avoid using this API if it is not necessary.
+:::
+
+```js
+export default {
+  tools: {
+    rspack: (config, { getCompiledPath }) => {
+      const loaderPath = getCompiledPath('less-loader');
+      // ...
+    },
+  },
+};
+```

@@ -3,7 +3,6 @@ import {
   isUseCssSourceMap,
   LESS_REGEX,
   getLessLoaderOptions,
-  getSharedPkgCompiledPath,
 } from '@modern-js/builder-shared';
 
 export function builderPluginLess(): BuilderPlugin {
@@ -34,7 +33,7 @@ export function builderPluginLess(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.LESS)
-          .loader(getSharedPkgCompiledPath('less-loader'))
+          .loader(utils.getCompiledPath('less-loader'))
           .options(options);
       });
 

@@ -9,7 +9,7 @@ exports[`plugins/toml > should add toml rule properly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<ROOT>/compiled/toml-loader",
+            "loader": "<ROOT>-shared/compiled/toml-loader",
           },
         ],
       },

@@ -44,6 +44,7 @@ export const handleTemplateFile = async (
     await generatorPlugin.installPlugins(Solution.Monorepo, extra);
     const schema = generatorPlugin.getInputSchema();
     const inputValue = generatorPlugin.getInputValue();
+    const defaultConfig = generatorPlugin.getDefaultConfig();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
     ans = await appApi.getInputBySchema(
@@ -51,11 +52,11 @@ export const handleTemplateFile = async (
       'formily',
       {
         ...context.config,
-        ...inputValue,
+        ...defaultConfig,
         isMonorepo: true,
       },
       {},
-      {},
+      { ...inputValue },
     );
   } else {
     ans = await appApi.getInputBySchemaFunc(getMonorepoSchema, {

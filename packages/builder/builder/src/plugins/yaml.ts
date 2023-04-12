@@ -1,5 +1,7 @@
-import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
-import path from 'path';
+import {
+  DefaultBuilderPlugin,
+  getSharedPkgCompiledPath,
+} from '@modern-js/builder-shared';
 
 export const builderPluginYaml = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-yaml',
@@ -11,7 +13,7 @@ export const builderPluginYaml = (): DefaultBuilderPlugin => ({
         .type('javascript/auto')
         .test(/\.ya?ml$/)
         .use(CHAIN_ID.USE.YAML)
-        .loader(path.resolve(__dirname, '../../compiled/yaml-loader'));
+        .loader(getSharedPkgCompiledPath('yaml-loader'));
     });
   },
 });

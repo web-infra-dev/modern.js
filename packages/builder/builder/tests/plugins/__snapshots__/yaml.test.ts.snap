@@ -9,7 +9,7 @@ exports[`plugins/yaml > should add yaml rule properly 1`] = `
         "type": "javascript/auto",
         "use": [
           {
-            "loader": "<ROOT>/compiled/yaml-loader",
+            "loader": "<ROOT>-shared/compiled/yaml-loader",
           },
         ],
       },

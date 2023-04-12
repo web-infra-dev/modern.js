@@ -107,7 +107,7 @@ function getDefaultConfig(
     process.exit(1);
   }
 
-  if (process.env.EDENX_NO_INSTALL) {
+  if (process.env.MODERN_NO_INSTALL) {
     initialConfig.noNeedInstall = true;
   }
 
