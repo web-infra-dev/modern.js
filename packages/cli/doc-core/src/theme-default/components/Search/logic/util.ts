@@ -1,5 +1,4 @@
-import type { Header } from './search';
-import { RemoteSearchIndexInfo } from '@/shared/types';
+import { RemoteSearchIndexInfo, Header } from '@/shared/types';
 
 const MAX_TITLE_LENGTH = 20;
 
@@ -60,3 +59,62 @@ export const normalizeSearchIndexes = (
       : item,
   );
 };
+
+export function substrByBytes(str: string, start: number, len: number): string {
+  let resultStr = '';
+  let bytesCount = 0;
+  const strLength = str.length;
+  for (let i = 0; i < strLength; i++) {
+    const charCode = str.charCodeAt(i);
+    if (charCode > 255) {
+      // Chinese character
+      bytesCount += 3;
+    } else {
+      bytesCount++;
+    }
+    if (bytesCount > start + len) {
+      break;
+    } else if (bytesCount > start) {
+      resultStr += str.charAt(i);
+    }
+  }
+  return resultStr;
+}
+
+export function byteToCharIndex(str: string, byteIndex: number): number {
+  let charIndex = 0;
+  let byteCount = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    if (byteCount >= byteIndex) {
+      break;
+    }
+
+    if (str.charCodeAt(i) > 255) {
+      // Chinese character
+      byteCount += 3;
+    } else {
+      byteCount += 1;
+    }
+
+    charIndex++;
+  }
+
+  return charIndex;
+}
+
+/**
+ *
+ * @param str raw text content
+ * @param start start index (char index)
+ * @param length byte length for sliced string
+ * @returns sliced string
+ */
+export function getSlicedStrByByteLength(
+  str: string,
+  start: number,
+  length: number,
+): string {
+  const slicedStr = str.slice(start);
+  return substrByBytes(slicedStr, 0, length);
+}

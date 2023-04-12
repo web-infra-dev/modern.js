@@ -24,6 +24,7 @@ import type {
 import { restart } from './utils/restart';
 import { generateWatchFiles } from './utils/generateWatchFiles';
 
+export { mergeConfig } from '@modern-js/core';
 export * from './defineConfig';
 // eslint-disable-next-line import/export
 export * from './types';

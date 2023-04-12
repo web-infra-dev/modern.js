@@ -5,6 +5,10 @@ title: useLoader
 
 一个同构的 API，通常会用来做异步请求。当 SSR 的时候，服务端使用 `useLoader` 预加载数据，同时浏览器端也会复用这部分数据。
 
+:::tip
+在使用 Rspack 作为打包工具时，暂不支持使用 useLoader API。
+:::
+
 ## 使用姿势
 
 ```ts

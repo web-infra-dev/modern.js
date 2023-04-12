@@ -85,6 +85,7 @@ const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
           transpileOnly: true,
           ignore: ['(?:^|/)node_modules/'],
         });
+        existTsLoader = true;
 
         const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
         const loaderRes = tsConfigPaths.loadConfig(projectSearchDir);

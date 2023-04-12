@@ -1,5 +1,6 @@
 import { getExtensions } from '../config';
 import _ from '@modern-js/utils/lodash';
+import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 import {
   BuilderTarget,
   BundlerChain,
@@ -9,7 +10,7 @@ import {
 } from '../types';
 
 export function applyBuilderResolvePlugin(api: SharedBuilderPluginAPI) {
-  api.modifyBundlerChain(async (chain, { target }) => {
+  api.modifyBundlerChain(async (chain, { target, CHAIN_ID }) => {
     const config = api.getNormalizedConfig();
     const isTsProject = Boolean(api.context.tsconfigPath);
     applyExtensions({
@@ -30,7 +31,25 @@ export function applyBuilderResolvePlugin(api: SharedBuilderPluginAPI) {
       config,
       target,
     });
+
+    applyFullySpecified({ chain, config, CHAIN_ID });
   });
+}
+
+// compatible with legacy packages with type="module"
+// https://github.com/webpack/webpack/issues/11467
+function applyFullySpecified({
+  chain,
+  CHAIN_ID,
+}: {
+  chain: BundlerChain;
+  config: SharedNormalizedConfig;
+  CHAIN_ID: ChainIdentifier;
+}) {
+  chain.module
+    .rule(CHAIN_ID.RULE.MJS)
+    .test(/\.m?js/)
+    .resolve.set('fullySpecified', false);
 }
 
 function applyExtensions({
