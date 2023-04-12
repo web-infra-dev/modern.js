@@ -37,17 +37,19 @@ export const normalizeRoutePath = (
   lang: string,
   base: string,
 ): string => {
-  const normalizedRoutePath = routePath
+  let normalizedRoutePath = routePath
     // remove leading slash
     .replace(/^\//, '')
     // extract lang prefix
     .replace(new RegExp(`^${lang}`), '')
     // remove the extension
-    .replace(/\.[^.]+$/, '')
-    // remove index
-    .replace(/\/index$/, '/');
+    .replace(/\.[^.]+$/, '');
 
-  return withBase(addLeadingSlash(normalizedRoutePath), base);
+  normalizedRoutePath = addLeadingSlash(normalizedRoutePath).replace(
+    /\/index$/,
+    '/',
+  );
+  return withBase(normalizedRoutePath, base);
 };
 
 export class RouteService {
