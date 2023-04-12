@@ -6,11 +6,10 @@ export default defineConfig({
     moduleTools(),
     docPlugin({
       entries: {
-        Alert: './src/interface.ts',
+        Alert: './src/alert.tsx',
+        Button: './src/button.tsx',
       },
       languages: ['zh', 'en'],
-      useTemplate: false,
-      demosDir: './docs',
     }),
   ],
   buildPreset({ extendPreset }) {

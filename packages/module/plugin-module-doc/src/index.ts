@@ -1,4 +1,3 @@
-// import path from 'path';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import type { PluginOptions } from './types';
 import { run } from './features';
@@ -14,39 +13,27 @@ export default (pluginOptions: PluginOptions): CliPlugin<ModuleTools> => ({
           value: 'doc',
         },
         subCommands: ['doc'],
-        async action(_, context) {
+        async action() {
           const appContext = api.useAppContext();
           const { appDirectory } = appContext;
 
           await run({
             ...pluginOptions,
             appDir: appDirectory,
-            isTsProject: context.isTsProject ?? false,
             isProduction: false,
           });
         },
       };
     },
-    // async afterBuild() {
-    //   const appContext = api.useAppContext();
-    //   const { appDirectory } = appContext;
-    //   const { serve } = await import('@modern-js/doc-core');
-    //   await serve(appDirectory, {
-    //     doc: {
-    //       outDir: path.join(appDirectory, 'doc_build'),
-    //     },
-    //   });
-    // },
     registerBuildPlatform() {
       return {
         platform: 'doc',
-        async build(_, context) {
+        async build() {
           const appContext = api.useAppContext();
           const { appDirectory } = appContext;
           await run({
             ...pluginOptions,
             appDir: appDirectory,
-            isTsProject: context.isTsProject ?? false,
             isProduction: true,
           });
         },
@@ -54,6 +41,3 @@ export default (pluginOptions: PluginOptions): CliPlugin<ModuleTools> => ({
     },
   }),
 });
-
-export { run };
-export type { PluginOptions };
