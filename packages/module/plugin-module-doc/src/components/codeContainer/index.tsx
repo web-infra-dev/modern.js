@@ -8,28 +8,13 @@ import '@arco-design/web-react/es/Space/style';
 
 import './index.scss';
 import { normalizeRoutePath } from '../../utils';
-
-const locales = {
-  zh: {
-    copy: '复制',
-    copied: '复制成功',
-    expand: '展开代码',
-    collapse: '收起代码',
-  },
-  en: {
-    copy: 'Copy',
-    copied: 'Copied Success!',
-    expand: 'Expand Code',
-    collapse: 'Collapse Code',
-  },
-};
+import { locales } from '../../locales';
 
 type CodeContainerProps = {
   children: React.ReactNode[];
 };
 
 const CodeContainer: React.FC<CodeContainerProps> = props => {
-  // const btnCopyRef = useRef(null);
   const codeEleRef = useRef(null);
   const [showCode, setShowCode] = useState(false);
   const lang = normalizeRoutePath(window.location.pathname).startsWith('/en/')
@@ -64,7 +49,7 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
   };
 
   return (
-    <Card className="code-wrapper" bordered={false}>
+    <div className="code-wrapper">
       <Card>
         <Space
           style={{
@@ -81,9 +66,9 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
         className={`code-content ${showCode ? 'show-all' : ''}`}
         ref={codeEleRef}
       >
-        {showCode ? props.children?.[1] : null}
+        {props.children?.[1]}
       </div>
-    </Card>
+    </div>
   );
 };
 

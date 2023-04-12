@@ -18,17 +18,12 @@ export type Counter<I = unknown, O = unknown> = {
 export const createCounter = <I, O>(
   callback: CounterCallback<I, O>,
 ): Counter<I, O> => {
-  type Dispatch = Counter<I, O>['dispatch'];
-  type Start = Counter<I, O>['start'];
-
-  const dispatch: Dispatch = (index, input) => {
+  const dispatch: Counter<I, O>['dispatch'] = (index, input) => {
     const next = (nextInput = input) => dispatch(index + 1, nextInput);
     return callback(index, input, next);
   };
-  const start: Start = input => dispatch(0, input);
-
   return {
-    start,
+    start: input => dispatch(0, input),
     dispatch,
   };
 };

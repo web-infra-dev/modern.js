@@ -5,23 +5,25 @@ import type { Plugin } from './sync';
 export const checkPlugins = <Hooks, API>(
   plugins: Plugin<Hooks, API>[] | AsyncPlugin<Hooks, API>[],
 ) => {
-  plugins.forEach(origin => {
-    origin.rivals.forEach(rival => {
-      plugins.forEach(plugin => {
-        if (rival === plugin.name) {
-          throw new Error(`${origin.name} has rival ${plugin.name}`);
+  if (process.env.NODE_ENV !== 'production') {
+    plugins.forEach(origin => {
+      origin.rivals.forEach(rival => {
+        plugins.forEach(plugin => {
+          if (rival === plugin.name) {
+            throw new Error(`${origin.name} has rival ${plugin.name}`);
+          }
+        });
+      });
+
+      origin.required.forEach(required => {
+        if (!plugins.some(plugin => plugin.name === required)) {
+          throw new Error(
+            `The plugin: ${required} is required when plugin: ${origin.name} is exist.`,
+          );
         }
       });
     });
-
-    origin.required.forEach(required => {
-      if (!plugins.some(plugin => plugin.name === required)) {
-        throw new Error(
-          `The plugin: ${required} is required when plugin: ${origin.name} is exist.`,
-        );
-      }
-    });
-  });
+  }
 };
 
 export function sortPlugins<Hooks, API>(
@@ -33,9 +35,7 @@ export function sortPlugins<Hooks, API>(
 export function sortPlugins(
   input: Array<Plugin<unknown, unknown> | AsyncPlugin<unknown, unknown>>,
 ) {
-  const plugins = input.slice();
-
-  return dagSort(plugins);
+  return dagSort(input.slice());
 }
 
 export const includePlugin = <

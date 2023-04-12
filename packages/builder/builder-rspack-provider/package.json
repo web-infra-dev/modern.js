@@ -46,7 +46,7 @@
     "@rspack/plugin-html": "0.1.7",
     "@rspack/postcss-loader": "0.1.7",
     "caniuse-lite": "^1.0.30001451",
-    "core-js": "^3.27.0",
+    "core-js": "~3.27.0",
     "rspack-plugin-virtual-module": "0.1.0"
   },
   "devDependencies": {
