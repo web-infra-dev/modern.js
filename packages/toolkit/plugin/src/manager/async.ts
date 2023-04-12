@@ -131,7 +131,7 @@ export const createAsyncManager = <
     };
 
     const usePlugin: AsyncManager<Hooks, API>['usePlugin'] = (...input) => {
-      for (const plugin of input) {
+      input.forEach(plugin => {
         // already created by createPlugin
         if (isPlugin(plugin)) {
           addPlugin(plugin);
@@ -146,10 +146,10 @@ export const createAsyncManager = <
           addPlugin(createPlugin(plugin.setup, plugin));
         }
         // unknown plugin
-        else {
+        else if (process.env.NODE_ENV !== 'production') {
           console.warn(`Unknown plugin: ${JSON.stringify(plugin)}`);
         }
-      }
+      });
 
       return manager;
     };
@@ -182,7 +182,7 @@ export const createAsyncManager = <
       plugins = [];
     };
 
-    const init: AsyncManager<Hooks, API>['init'] = async () => {
+    const init: AsyncManager<Hooks, API>['init'] = () => {
       const sortedPlugins = sortPlugins(plugins);
       const mergedPluginAPI = {
         ...pluginAPI,
@@ -191,12 +191,12 @@ export const createAsyncManager = <
 
       checkPlugins(sortedPlugins);
 
-      const hooksList = await Promise.all(
+      return Promise.all(
         sortedPlugins.map(plugin => plugin.setup(mergedPluginAPI)),
-      );
-
-      runners = generateRunner<Hooks>(hooksList, currentHooks);
-      return runners;
+      ).then(hooksList => {
+        runners = generateRunner<Hooks>(hooksList, currentHooks);
+        return runners;
+      });
     };
 
     const run: AsyncManager<Hooks, API>['run'] = cb => cb();

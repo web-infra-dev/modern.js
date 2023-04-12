@@ -1,0 +1,29 @@
+@media (max-width: 640px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-6 {
+    width: calc(100%);
+  }
+}
+
+@media (min-width: 640px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-6 {
+    width: calc(100% / 2);
+  }
+}
+
+
+.featureCard {
+  background: var(--modern-home-feature-bg);
+  border: 1px solid transparent;
+  transition: all 0.3s;
+}
+
+.featureCard:hover {
+  background: var(--modern-home-feature-hover-bg);
+  border: 1px solid var(--modern-c-brand);
+}

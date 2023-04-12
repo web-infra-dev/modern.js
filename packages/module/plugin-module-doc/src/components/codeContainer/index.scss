@@ -1,3 +1,7 @@
+.code-wrapper {
+  padding: 16px 0;
+}
+
 .code-operations {
   display: flex;
   justify-content: center;
@@ -11,8 +15,10 @@
 .code-content {
   position: relative;
   overflow: hidden;
+  display: none;
 }
 
 .code-content.show-all {
   margin-top: 16px;
+  display: block;
 }

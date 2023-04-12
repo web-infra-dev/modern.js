@@ -44,7 +44,12 @@ export const generatorTsConfig = async (
       // Ensure that .d.ts files are created by tsc, but not .js files
       declaration: true,
       emitDeclarationOnly: true,
-      outDir: tempDistAbsOurDir,
+      // when `outDir` is './dist', `declarationDir` is `./types`
+      // tsc will emit:
+      // - ./dist/index.js
+      // - ./types/index.d.ts
+      // we only want to emit declarations
+      declarationDir: tempDistAbsOurDir,
     },
   };
 

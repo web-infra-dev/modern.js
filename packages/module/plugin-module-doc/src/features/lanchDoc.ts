@@ -9,18 +9,13 @@ import { remarkTsxToReact } from '../mdx/code-to-jsx';
 export async function launchDoc({
   languages,
   appDir,
-  demosDir,
   doc,
   isProduction,
-  docgenDir,
-  useTemplate,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(path.resolve(appDir, './package.json'), 'utf8'),
   );
-  const root = useTemplate
-    ? path.join(appDir, docgenDir)
-    : path.join(appDir, demosDir);
+  const root = path.join(appDir, 'docs');
   const DEFAULT_LANG = languages[0];
   const { dev, build } = await import('@modern-js/doc-core');
   const getLangPrefixInLink = (language: ModuleDocgenLanguage) =>
@@ -29,13 +24,15 @@ export async function launchDoc({
     return {
       [getLangPrefixInLink(lang)]: [
         {
-          text: lang === 'zh' ? '模块列表' : ' Module List',
+          text: lang === 'zh' ? '组件' : ' Component',
+          link: `${getLangPrefixInLink(lang)}/index`,
           collapsible: false,
           items: [
             ...fastGlob
               .sync('*', {
                 cwd: path.join(root, lang),
                 onlyFiles: true,
+                ignore: ['index.*'],
               })
               .map(filename => {
                 const key = path.parse(filename).name;
@@ -64,7 +61,6 @@ export async function launchDoc({
         globalStyles: path.join(__dirname, '../static/index.css'),
         themeConfig: {
           // TODO: support dark mode in code block
-          // FIXME: fix close dark mode in doc core
           darkMode: false,
           locales: languages.map(lang => ({
             lang,

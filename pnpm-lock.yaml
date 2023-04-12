@@ -2139,20 +2139,16 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/doctrine': ^0.0.5
       '@types/jest': ^29
       '@types/mdast': ^3.0.10
       '@types/node': ^14
-      doctrine: ^3.0.0
       jest: ^29
       mdast-util-mdxjs-esm: ^1.3.0
-      parse-es-import: ^0.5.0
       react: ^18.2.0
       react-docgen-typescript: ^2.2.2
       react-dom: ^18.2.0
       react-markdown: ^8.0.5
       remark-gfm: 3.0.1
-      ts-document: ^0.7.0
       typescript: ^4
       unified: ^10.1.2
       unist-util-visit: ^4.1.1
@@ -2162,21 +2158,17 @@ importers:
       react-docgen-typescript: 2.2.2_typescript@4.9.5
       react-markdown: 8.0.6_react@18.2.0
       remark-gfm: 3.0.1
-      ts-document: 0.7.0_typescript@4.9.5
     devDependencies:
       '@arco-design/web-react': 2.46.1_biqbaboplfbrettd7655fr4n2y
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/doctrine': 0.0.5
       '@types/jest': 29.4.4
       '@types/mdast': 3.0.10
       '@types/node': 14.18.35
-      doctrine: 3.0.0
       jest: 29.5.0_@types+node@14.18.35
       mdast-util-mdxjs-esm: 1.3.0
-      parse-es-import: 0.5.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.9.5
@@ -14534,15 +14526,6 @@ packages:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
 
-  /@ts-morph/common/0.10.1:
-    resolution: {integrity: sha512-rKN/VtZUUlW4M+6vjLFSaFc1Z9sK+1hh0832ucPtPkXqOw/mSWE80Lau4z2zTPNTqtxAjfZbvKpQcEwJy0KIEg==}
-    dependencies:
-      fast-glob: 3.2.12
-      minimatch: 3.1.2
-      mkdirp: 1.0.4
-      path-browserify: 1.0.1
-    dev: false
-
   /@tsconfig/node10/1.0.9:
     resolution: {integrity: sha512-jNsYVVxU8v5g43Erja32laIDHXeoNvFEpX33OK4d6hljo3jDhCBDhx5dhCCTMWUojscpAagGiRkBKxpdl9fxqA==}
 
@@ -14715,10 +14698,6 @@ packages:
     resolution: {integrity: sha512-kB2cpXs3A0TGWl4a4h74yIwvclYZUTW6Irpee/3Dc1s4Cr5rGPHtpGPpBBpEV1MaKH5z/oul+57oDkEkeRXRnw==}
     dependencies:
       '@types/node': 18.11.17
-    dev: true
-
-  /@types/doctrine/0.0.5:
-    resolution: {integrity: sha512-JJwEeFy8Sl9ctiugU4h4DGN9hCB47oyhUkM2H8g8xZr4tHTEXtmV4U6krKrU8Ng0S7RlG/J7fkta1rGu3pq+YQ==}
     dev: true
 
   /@types/empower-core/1.2.1:
@@ -18194,10 +18173,6 @@ packages:
   /co/4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
-
-  /code-block-writer/10.1.1:
-    resolution: {integrity: sha512-67ueh2IRGst/51p0n6FvPrnRjAGHY5F8xdjkgrYE7DDzpJe6qA07RYQ9VcoUeo5ATOjSOiWpSL3SWBRRbempMw==}
-    dev: false
 
   /code-point-at/1.1.0:
     resolution: {integrity: sha512-RpAVKQA5T63xEj6/giIbUEtZwJ4UFIc3ZtvEkiaUERylqe8xb5IvqcgOurZLahv93CLKfxcw5YI+DZcUBRyLXA==}
@@ -28691,13 +28666,6 @@ packages:
       is-hexadecimal: 2.0.1
     dev: false
 
-  /parse-es-import/0.5.0:
-    resolution: {integrity: sha512-Vb7+lH0g28Qvp3Q8lwtsTXT4at8gq4mglh/Mz6C/igpYmriLs7ntTj3GJ1VGgj2rIMVVnJOWL2iM/frgaQDbEw==}
-    dependencies:
-      acorn: 8.8.1
-      acorn-jsx: 5.3.2_acorn@8.8.1
-    dev: true
-
   /parse-json/2.2.0:
     resolution: {integrity: sha512-QR/GGaKCkhwk1ePQNYDRKYZ3mwU9ypsKhB0XyFnLQdomyEqk3e8wpW3V5Jp88zbxK4n5ST1nqo+g9juTpownhQ==}
     engines: {node: '>=0.10.0'}
@@ -34991,15 +34959,6 @@ packages:
     resolution: {integrity: sha512-q5W7tVM71e2xjHZTlgfTDoPF/SmqKG5hddq9SzR49CH2hayqRKJtQ4mtRlSxKaJlR/+9rEM+mnBHf7I2/BQcpQ==}
     engines: {node: '>=6.10'}
 
-  /ts-document/0.7.0_typescript@4.9.5:
-    resolution: {integrity: sha512-7EH0VHo3JOAx9AWtieglkWXz0AV7L1u6uHdtuDh3Hm7S4UW4nYiTjHY7bqFQiffnbEoH42XkQE4luTFE551Deg==}
-    peerDependencies:
-      typescript: '>= 4.3.x'
-    dependencies:
-      ts-morph: 11.0.3
-      typescript: 4.9.5
-    dev: false
-
   /ts-interface-checker/0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
 
@@ -35169,13 +35128,6 @@ packages:
       semver: 7.3.8
       typescript: 4.9.3
       webpack: 5.76.2
-    dev: false
-
-  /ts-morph/11.0.3:
-    resolution: {integrity: sha512-ymuPkndv9rzqTLiHWMkVrFXWcN4nBiBGhRP/kTC9F5amAAl7BNLfyrsTzMD1o9A0zishKoF1KQT/0yyFhJnPgA==}
-    dependencies:
-      '@ts-morph/common': 0.10.1
-      code-block-writer: 10.1.1
     dev: false
 
   /ts-node/10.8.1_5axvewzfuqiugp6622ftukgx6y:
