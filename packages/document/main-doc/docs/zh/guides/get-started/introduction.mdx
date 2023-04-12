@@ -9,7 +9,27 @@ sidebar_position: 1
 
 目前 Modern.js 包含三个解决方案，分别面向 Web 应用开发场景、npm 包开发场景和文档站开发场景：
 
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/Solutions-1311.png)
+import { SolutionCards } from '@site/src/components/SolutionCards';
+
+<SolutionCards
+  cards={[
+    {
+      title: 'Modern.js Framework',
+      description: '基于 React 的渐进式 Web 开发框架',
+      link: 'http://modernjs.dev/',
+    },
+    {
+      title: 'Modern.js Module',
+      description: '易用、高性能的 npm 包开发方案',
+      link: 'http://modernjs.dev/module-tools/',
+    },
+    {
+      title: 'Modern.js Doc',
+      description: '基于 Rspack 的文档站解决方案',
+      link: 'http://modernjs.dev/doc-tools/zh/',
+    },
+  ]}
+/>
 
 作为 Modern.js 工程体系的一部分，以上每个解决方案都可以被单独使用，并且各自部署了独立的文档站点。开发者可以按需选择其中的一个或多个解决方案来使用。
 
