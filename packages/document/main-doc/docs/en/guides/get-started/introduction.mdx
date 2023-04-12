@@ -9,7 +9,27 @@ sidebar_position: 1
 
 Currently, Modern.js includes three solutions, each targeting at different development scenarios: web application development, npm package development, and document site development:
 
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/Solutions-en-0945.png)
+import { SolutionCards } from '@site/src/components/SolutionCards';
+
+<SolutionCards
+  cards={[
+    {
+      title: 'Modern.js Framework',
+      description: 'For web application development',
+      link: 'http://modernjs.dev/en/',
+    },
+    {
+      title: 'Modern.js Module',
+      description: 'For npm package development',
+      link: 'http://modernjs.dev/module-tools/en/',
+    },
+    {
+      title: 'Modern.js Doc',
+      description: 'For document site development',
+      link: 'http://modernjs.dev/doc-tools/',
+    },
+  ]}
+/>
 
 As a part of the Modern.js engineering system, each of these solutions can be used separately and has its own independent documentation site. Developers can choose one or more solutions as needed.
 

@@ -125,7 +125,7 @@ export function bindingAsideScroll() {
         const nextAnchor = links[i + 1];
         const scrollTop = Math.ceil(window.scrollY);
         const currentAnchorTop =
-          currentAnchor.parentElement!.offsetTop - DEFAULT_NAV_HEIGHT;
+          currentAnchor.parentElement.offsetTop - DEFAULT_NAV_HEIGHT;
         if ((i === 0 && scrollTop < currentAnchorTop) || scrollTop === 0) {
           activate(links, 0);
           break;
@@ -137,7 +137,7 @@ export function bindingAsideScroll() {
         }
 
         const nextAnchorTop =
-          nextAnchor.parentElement!.offsetTop - DEFAULT_NAV_HEIGHT;
+          nextAnchor.parentElement.offsetTop - DEFAULT_NAV_HEIGHT;
 
         if (scrollTop >= currentAnchorTop && scrollTop < nextAnchorTop) {
           activate(links, i);
@@ -160,6 +160,7 @@ export function setup() {
   if (!inBrowser()) {
     return;
   }
+
   bindingWindowScroll();
   setupCopyCodeButton();
 }

@@ -1,13 +1,13 @@
 import 'nprogress/nprogress.css';
 import '../../styles';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Theme, { Nav } from '@theme';
 import globalComponents from 'virtual-global-components';
 import { DocLayout, DocLayoutProps } from '../DocLayout';
 import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
-import { usePageData, Content } from '@/runtime';
+import { usePageData, Content, normalizeSlash } from '@/runtime';
 import { useLocaleSiteData } from '@/theme-default/logic';
 import '../../styles/highlight-theme.css';
 
@@ -44,8 +44,10 @@ export const Layout: React.FC<LayoutProps> = props => {
     frontmatter,
     siteData,
     pageType,
+    lang: currentLang,
   } = usePageData();
   const localesData = useLocaleSiteData();
+  const defaultLang = siteData.lang || '';
 
   // Priority: front matter title > h1 title
   let title = frontmatter?.title ?? articleTitle;
@@ -74,6 +76,35 @@ export const Layout: React.FC<LayoutProps> = props => {
         return <DocLayout {...docProps} />;
     }
   };
+
+  useEffect(() => {
+    // Check the window.navigator.language to determine the default language
+    // If the default language is not the same as the current language, redirect to the default language
+    // The default language will not have a lang prefix in the URL
+    const FIRST_VISIT_KEY = 'modern-doc-visited';
+    const visited = localStorage.getItem(FIRST_VISIT_KEY);
+    if (visited) {
+      return;
+    } else {
+      localStorage.setItem(FIRST_VISIT_KEY, '1');
+    }
+    const targetLang = window.navigator.language.split('-')[0];
+    const { pathname } = window.location;
+    if (targetLang !== currentLang) {
+      if (targetLang === defaultLang) {
+        // Redirect to the default language
+        window.location.replace(pathname.replace(`/${currentLang}`, ''));
+      } else if (currentLang === defaultLang) {
+        // Redirect to the current language
+        window.location.replace(`/${targetLang}${normalizeSlash(pathname)}`);
+      } else {
+        // Redirect to the current language
+        window.location.replace(
+          pathname.replace(`/${currentLang}`, `/${targetLang}`),
+        );
+      }
+    }
+  }, []);
 
   return (
     <div>

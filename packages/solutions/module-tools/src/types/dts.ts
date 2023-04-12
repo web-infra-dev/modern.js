@@ -16,6 +16,7 @@ export interface ITsconfig {
         rootDir?: string;
         baseUrl?: string;
         declaration?: boolean;
+        declarationDir?: string;
         emitDeclarationOnly?: boolean;
         emitDecoratorMetadata?: boolean;
         isolatedModules?: boolean;

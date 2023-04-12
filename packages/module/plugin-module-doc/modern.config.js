@@ -17,6 +17,7 @@ module.exports = {
       input: {
         api: './src/components/api/index.tsx',
         codeContainer: './src/components/codeContainer/index.tsx',
+        overview: './src/components/overview/index.tsx',
       },
       style: {
         inject: true,
