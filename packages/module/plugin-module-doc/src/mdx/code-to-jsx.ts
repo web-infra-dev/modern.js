@@ -23,21 +23,27 @@ type MDXJsxAttribute = {
 /**
  * remark plugin to transform code to jsx
  */
+let index = 0;
 export const remarkTsxToReact: Plugin<
   [{ appDir: string; defaultLang: ModuleDocgenLanguage }],
   Root
 > = ({ appDir, defaultLang }) => {
   return tree => {
     const demos: MdxjsEsm[] = [];
-    let index = 0;
-    demos.push(getASTNodeImport(`API`, join(PACKAGE_ROOT, 'dist/api.js')));
-    demos.push(
-      getASTNodeImport(
-        `CodeContainer`,
-        join(PACKAGE_ROOT, 'dist/codeContainer.js'),
-      ),
-    );
+    let hasImportCodeContainer = false;
     visit(tree, 'code', node => {
+      // hasVisited is a custom property
+      if ('hasVisited' in node) {
+        return;
+      }
+      !hasImportCodeContainer &&
+        demos.push(
+          getASTNodeImport(
+            `CodeContainer`,
+            join(PACKAGE_ROOT, 'dist/codeContainer.js'),
+          ),
+        );
+      hasImportCodeContainer = true;
       if (node.lang === 'jsx' || node.lang === 'tsx') {
         const code = node.value;
         const isPure = node?.meta?.includes('pure');
@@ -45,6 +51,7 @@ export const remarkTsxToReact: Plugin<
           // not transform pure code
           return;
         }
+
         const virtualModulePath = join(
           appDir,
           'node_modules',
@@ -64,7 +71,7 @@ export const remarkTsxToReact: Plugin<
             {
               // if lang not change, this node will be visited again and again
               ...node,
-              lang: 'typescript',
+              hasVisited: true,
             },
           ],
         });
@@ -72,6 +79,7 @@ export const remarkTsxToReact: Plugin<
     });
     visit(tree, 'mdxJsxFlowElement', (node: MDXJsxFlowElement) => {
       if (node.name === 'API') {
+        demos.push(getASTNodeImport(`API`, join(PACKAGE_ROOT, 'dist/api.js')));
         let lang = defaultLang;
         node.attributes.forEach(attr => {
           if (attr.name === 'zh' || attr.name === 'en') {
@@ -86,6 +94,11 @@ export const remarkTsxToReact: Plugin<
             attr.value = str ?? '';
           }
         });
+      }
+      if (node.name === 'Overview') {
+        demos.push(
+          getASTNodeImport(`Overview`, join(PACKAGE_ROOT, 'dist/overview.js')),
+        );
       }
     });
     tree.children.unshift(...demos);
