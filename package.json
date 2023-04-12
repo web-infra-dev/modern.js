@@ -98,7 +98,18 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react-dom": "^18",
+      "@modern-js/codesmith-api-app": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-api-ejs": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-api-fs": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-api-git": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-api-handlebars": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-api-json": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-api-npm": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-cli": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith-formily": "0.0.0-canary-20230412061307",
+      "@modern-js/codesmith": "0.0.0-canary-20230412061307",
+      "@modern-js/inquirer-types": "0.0.0-canary-20230412061307"
     }
   }
 }

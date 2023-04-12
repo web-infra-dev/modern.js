@@ -1,4 +1,4 @@
-import { defineConfig } from '@modern-js/module-tools';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   buildConfig: {
@@ -8,4 +8,5 @@ export default defineConfig({
     },
     dts: false,
   },
+  plugins: [moduleTools()],
 });

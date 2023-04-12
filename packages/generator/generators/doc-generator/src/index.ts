@@ -56,12 +56,13 @@ export const handleTemplateFile = async (
     await generatorPlugin.installPlugins(Solution.Doc, extra);
     const schema = generatorPlugin.getInputSchema();
     const inputValue = generatorPlugin.getInputValue();
+    const defaultConfig = generatorPlugin.getDefaultConfig();
     context.config.gitCommitMessage =
       generatorPlugin.getGitMessage() || context.config.gitCommitMessage;
     ans = await appApi.getInputBySchema(
       schema,
       'formily',
-      { ...context.config, ...inputValue },
+      { ...context.config, ...defaultConfig },
       {
         packageName: input =>
           validatePackageName(input as string, packages, {
@@ -73,7 +74,7 @@ export const handleTemplateFile = async (
             path.join(process.cwd(), projectDir),
           ),
       },
-      {},
+      { ...inputValue },
     );
   } else {
     ans = await appApi.getInputBySchemaFunc(
