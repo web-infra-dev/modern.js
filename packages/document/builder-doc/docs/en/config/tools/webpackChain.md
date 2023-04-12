@@ -116,7 +116,7 @@ export default {
 };
 ```
 
-### HtmlWebpackPlugin
+#### HtmlWebpackPlugin
 
 - **Type:** `typeof import('html-webpack-plugin')`
 
@@ -127,6 +127,35 @@ export default {
   tools: {
     webpackChain: (chain, { HtmlWebpackPlugin }) => {
       console.log(HtmlWebpackPlugin);
+    },
+  },
+};
+```
+
+#### getCompiledPath
+
+- **Type:** `(name: string) => string`
+
+Get the path to the builder built-in dependencies, such as:
+
+- sass
+- sass-loader
+- less
+- less-loader
+- css-loader
+- babel-loader
+- url-loader
+- file-loader
+- ...
+
+This method is usually used when you need to reuse the same dependency with the builder.
+
+```js
+export default {
+  tools: {
+    webpackChain: (chain, { getCompiledPath }) => {
+      const loaderPath = getCompiledPath('less-loader');
+      // ...
     },
   },
 };
