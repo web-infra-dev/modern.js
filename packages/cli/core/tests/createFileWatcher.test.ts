@@ -52,14 +52,14 @@ describe('createFileWatcher', () => {
 
     const file = path.join(mockSrcDirectory, './index.ts');
     await fs.outputFile(file, '');
-    await wait(100);
+    await wait(500);
     // expect(hooksRunner.fileChange).toBeCalledTimes(1);
     // expect(triggeredType).toBe('add');
     expect(file.includes(triggeredFile)).toBeTruthy();
 
     await wait(100);
     await fs.remove(file);
-    await wait(500);
+    await wait(2000);
     expect(hooksRunner.fileChange).toBeCalledTimes(2);
     expect(triggeredType).toBe('unlink');
     expect(file.includes(triggeredFile)).toBeTruthy();

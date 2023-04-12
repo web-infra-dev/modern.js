@@ -1,15 +1,15 @@
 import 'nprogress/nprogress.css';
-import '../../index.css';
-import 'virtual-global-styles';
-import globalComponents from 'virtual-global-components';
+import '../../styles';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Theme, { Nav } from '@theme';
+import globalComponents from 'virtual-global-components';
 import { DocLayout, DocLayoutProps } from '../DocLayout';
 import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
 import { usePageData, Content } from '@/runtime';
 import { useLocaleSiteData } from '@/theme-default/logic';
+import '../../styles/highlight-theme.css';
 
 export type LayoutProps = {
   top?: React.ReactNode;
@@ -57,7 +57,6 @@ export const Layout: React.FC<LayoutProps> = props => {
   } else {
     title = mainTitle;
   }
-
   const description =
     frontmatter?.description || siteData.description || localesData.description;
   // Use doc layout by default
@@ -75,6 +74,7 @@ export const Layout: React.FC<LayoutProps> = props => {
         return <DocLayout {...docProps} />;
     }
   };
+
   return (
     <div>
       <Helmet>

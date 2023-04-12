@@ -1,5 +1,11 @@
 import { APPEARANCE_KEY } from '@/shared/utils';
 
+declare global {
+  interface Window {
+    MODERN_THEME?: string;
+  }
+}
+
 let classList: DOMTokenList | undefined;
 // Determine if the theme mode of the user's operating system is dark
 let userPreference: string;
@@ -10,6 +16,11 @@ const setClass = (dark: boolean): void => {
 };
 
 const updateAppearance = (): void => {
+  // We set the MODERN_THEME as a global variable to determine whether the theme is dark or light.
+  if (window.MODERN_THEME) {
+    setClass(window.MODERN_THEME === 'dark');
+    return;
+  }
   const userPreference = localStorage.getItem(APPEARANCE_KEY) || 'auto';
   query = window.matchMedia('(prefers-color-scheme: dark)');
   setClass(

@@ -2,6 +2,7 @@
 title: Routes
 sidebar_position: 1
 ---
+
 # Routes
 
 Modern.js build-in provides partial support for [React Router 6](https://reactrouter.com/en/main) and provides various types of routing modes. According to different [entry](/guides/concept/entries) types, routing is divided into three modes, namely **Conventional routing**, **Self-controlled routing** and **Other**.
@@ -57,8 +58,8 @@ Similarly, `routes/user/layout.tsx` will be used as a layout component for all c
 ```tsx
 <Layout>
   <UserLayout>
-    <UserPage>
-  <UserLayout>
+    <UserPage />
+  </UserLayout>
 </Layout>
 ```
 
@@ -106,8 +107,8 @@ In order to facilitate the introduction of the relationship between `<Layout>` a
 ```tsx
 <Layout>
   <UserLayout>
-    <UserPage>
-  <UserLayout>
+    <UserPage />
+  </UserLayout>
 </Layout>
 ```
 
@@ -158,9 +159,8 @@ The `routes/$.tsx` component is rendered when accessing any path that does not m
 import { useParams } from '@modern-js/runtime/router';
 // When the path is `/aaa/bbb`
 const params = useParams();
-params['*']  // => 'aaa/bbb'
+params['*']; // => 'aaa/bbb'
 ```
-
 
 ### Layout with No Path
 
@@ -230,15 +230,15 @@ When a route jumps from `/` to `/blog`, if the JS Chunk of the `<Blog>` componen
 You can redirect routes by creating a [`data loader`](/guides/basic-features/data-fetch) file, Suppose you have the file `routes/user/page.tsx` and you want to redirect the route corresponding to this file, you can create the file `routes/user/page.loader.ts`:
 
 ```ts title="routes/user/page.loader.ts"
-import { redirect } from "@edenx/runtime/router"
+import { redirect } from '@modern-js/runtime/router';
 
 export default () => {
   const user = await getUser();
-  if(!user){
+  if (!user) {
     return redirect('/login');
   }
   return null;
-}
+};
 ```
 
 ### ErrorBoundary
@@ -255,15 +255,15 @@ Within the `<ErrorBoundary>` component, you can use [useRouteError](/apis/app/ru
 
 ```tsx
 import { useRouteError } from '@modern-js/runtime/router';
-export default const ErrorBoundary = () => {
+export const ErrorBoundary = () => {
   const error = useRouteError();
   return (
     <div>
-        <h1>{error.status}</h1>
-        <h2>{error.message}</h2>
+      <h1>{error.status}</h1>
+      <h2>{error.message}</h2>
     </div>
-  )
-}
+  );
+};
 ```
 
 ### Hooks before rendering
@@ -286,15 +286,13 @@ This feature is useful when the application requires pre-page data, custom data 
 :::
 
 ```ts title="src/routes/layout.tsx"
-import {
-  RuntimeContext,
-} from '@modern-js/runtime';
+import { RuntimeContext } from '@modern-js/runtime';
 
 export const init = (context: RuntimeContext) => {
   return {
     message: 'Hello World',
-  }
-}
+  };
+};
 ```
 
 ```tsx title="src/routes/page.tsx"
@@ -305,7 +303,7 @@ export default () => {
   const { message } = context.getInitData();
 
   return <div>{message}</div>;
-}
+};
 ```
 
 When working with SSR, the browser side can get the data returned by `init` during SSR, and the developer can decide whether to retrieve the data on the browser side to overwrite the SSR data, for example:
@@ -317,18 +315,18 @@ export const init = (context: RuntimeContext) => {
   if (process.env.MODERN_TARGET === 'node') {
     return {
       message: 'Hello World By Server',
-    }
+    };
   } else {
     const { context } = runtimeContext;
     const data = context.getInitData();
     // If do not get the expected data
     if (!data.message) {
       return {
-        message: 'Hello World By Client'
-      }
+        message: 'Hello World By Client',
+      };
     }
   }
-}
+};
 ```
 
 ### Runtime Configuration
@@ -341,11 +339,33 @@ import type { AppConfig } from '@modern-js/runtime';
 export const config = (): AppConfig => {
   return {
     router: {
-      supportHtml5History: false
-    }
-  }
+      supportHtml5History: false,
+    },
+  };
 };
 ```
+
+### Prefetch
+
+When using convention-based routing, Modern.js will automatically split chunks according to the route, and when the user accesses a specific route, the corresponding resources will be loaded automatically, which can effectively reduce the first screen loading time. However, this also brings a problem, when the user accesses a route, if the asset corresponding to that route is not yet loaded, a white screen will appear.
+
+In this case you can show a custom `loading` component by defining a `loading` component before the static resource is loaded.
+
+To further improve the user experience and reduce time of loading, Modern.js supports defining the `prefetch` property on the Link component to load static resources and data in advance, with three optional values for the `prefetch` property:
+
+```
+<Link prefetch="intent" to="page">
+```
+
+:::info
+- This feature is currently only supported in Webpack projects, not in Rspack projects.
+- Prefetching of data will only prefetch the data returned from the data loader of the SSR project.
+
+:::
+
+- `none`, the default value, will not do prefetch, no additional behavior.
+- `intent`, the value we recommend for most scenarios, will automatically start loading the corresponding resources and the data defined in the data loader when you mouse over the Link, and will automatically unload it when the mouse is moved away. In our tests, even a direct click can reduce the loading time by about 200ms.
+- `render`, when the Link component renders, it will load the corresponding resources and the data defined in the data loader.
 
 ## Self-controlled routing
 
@@ -367,7 +387,7 @@ export default () => {
 ```
 
 :::note
-Modern.js has a series of resource loading and rendering optimizations to the default convention-based routing, and provides out-of-the-box SSR capabilities,  when using self-directed routing, need to be packaged by the developer, and it is recommended that developers use convention-based routing.
+Modern.js has a series of resource loading and rendering optimizations to the default convention-based routing, and provides out-of-the-box SSR capabilities, when using self-directed routing, need to be packaged by the developer, and it is recommended that developers use convention-based routing.
 
 :::
 

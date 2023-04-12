@@ -1,21 +1,20 @@
-import { uniqBy } from 'lodash-es';
 import { LOCAL_INDEX, NormalizedSearchResultItem, Provider } from './Provider';
-import { backTrackHeaders, normalizeTextCase } from './util';
+import { backTrackHeaders, byteToCharIndex, normalizeTextCase } from './util';
 import { LocalProvider } from './providers/LocalProvider';
 import { RemoteProvider } from './providers/RemoteProvider';
 import { normalizeHref } from '@/runtime';
 import {
   LocalSearchOptions,
   PageIndexInfo,
+  RemotePageInfo,
   RemoteSearchOptions,
 } from '@/shared/types';
 
 const THRESHOLD_CONTENT_LENGTH = 100;
 
-export interface Header {
-  id: string;
-  text: string;
-  depth: number;
+export interface HightlightInfo {
+  start: number;
+  length: number;
 }
 
 interface CommonMatchResult {
@@ -23,7 +22,7 @@ interface CommonMatchResult {
   header: string;
   link: string;
   query: string;
-  highlightIndex: number;
+  highlightInfoList: HightlightInfo[];
   group: string;
 }
 
@@ -124,8 +123,7 @@ export class PageSearcher {
       // Content match
       this.#matchContent(item, normaizedKeyWord, matchedResult);
     });
-    const res = uniqBy(matchedResult, 'link');
-    return res;
+    return matchedResult;
   }
 
   #matchTitle(
@@ -142,7 +140,12 @@ export class PageSearcher {
         header: title,
         link: `${item.domain}${normalizeHref(item.routePath)}`,
         query,
-        highlightIndex: normalizedTitle.indexOf(query),
+        highlightInfoList: [
+          {
+            start: normalizedTitle.indexOf(query),
+            length: query.length,
+          },
+        ],
         group: this.#options.extractGroupName(item.routePath),
       });
       return true;
@@ -171,7 +174,12 @@ export class PageSearcher {
           type: 'header',
           title: item.title,
           header: `${titlePrefix}${headerStr}`,
-          highlightIndex: titlePrefix.length + Number(headerMatchIndex),
+          highlightInfoList: [
+            {
+              start: headerMatchIndex + titlePrefix.length,
+              length: query.length,
+            },
+          ],
           link: `${domain}${normalizeHref(item.routePath)}#${header.id}`,
           query,
           group: this.#options.extractGroupName(item.routePath),
@@ -188,44 +196,112 @@ export class PageSearcher {
     matchedResult: MatchResultItem[],
   ) {
     const { content, toc, domain } = item;
-    const normalizedContent = normalizeTextCase(content);
-    const queryIndex = normalizedContent.indexOf(query);
-    if (queryIndex === -1) {
+    if (!content.length) {
       return;
     }
-    const headersIndex = toc.map(h =>
-      normalizedContent.indexOf(normalizeTextCase(h.text)),
-    );
-    const currentHeaderIndex = headersIndex.findIndex((hIndex, position) => {
-      if (position < toc.length - 1) {
-        const next = headersIndex[position + 1];
-        if (hIndex <= queryIndex && next >= queryIndex) {
-          return true;
+    const normalizedContent = normalizeTextCase(content);
+    let queryIndex = normalizedContent.indexOf(query);
+    const headersIndex = toc.map(h => h.charIndex);
+    const getCurrentHeader = (currentIndex: number) => {
+      const currentHeaderIndex = headersIndex.findIndex((hIndex, position) => {
+        if (position < toc.length - 1) {
+          const next = headersIndex[position + 1];
+          if (hIndex <= currentIndex && next >= currentIndex) {
+            return true;
+          }
+        } else {
+          return hIndex < currentIndex;
         }
-      } else {
-        return hIndex < queryIndex;
+        return false;
+      });
+      return toc[currentHeaderIndex];
+    };
+    if (queryIndex === -1) {
+      // In case fuzzy search
+      // We get the matched content position from server response
+      const hightlightItems = (item as RemotePageInfo)._matchesPosition.content;
+      if (!hightlightItems?.length) {
+        return;
       }
-      return false;
-    });
-    const currentHeader = toc[currentHeaderIndex] ?? item.title;
+      const highlightStartIndex = (item as RemotePageInfo)._matchesPosition
+        .content[0].start;
+      const currentHeader = getCurrentHeader(highlightStartIndex);
+      const statementStartIndex = byteToCharIndex(content, highlightStartIndex);
+      const statementEndIndex = byteToCharIndex(
+        content,
+        highlightStartIndex + THRESHOLD_CONTENT_LENGTH,
+      );
+      const statement = content.slice(statementStartIndex, statementEndIndex);
+      const highlightInfoList = (
+        item as RemotePageInfo
+      )._matchesPosition.content
+        .filter(
+          match =>
+            match.start >= highlightStartIndex &&
+            match.start + match.length <=
+              highlightStartIndex + THRESHOLD_CONTENT_LENGTH,
+        )
+        .map(match => {
+          const startCharIndex =
+            byteToCharIndex(content, match.start) - statementStartIndex + 3;
+          return {
+            // prefix `...` length is 3
+            start: startCharIndex,
+            length: match.length,
+          };
+        });
 
-    let statementStartIndex = content.slice(0, queryIndex).lastIndexOf('\n');
-    statementStartIndex = statementStartIndex === -1 ? 0 : statementStartIndex;
-    const statementEndIndex = content.indexOf('\n', queryIndex + query.length);
-    let statement = content.slice(statementStartIndex, statementEndIndex);
-    if (statement.length > THRESHOLD_CONTENT_LENGTH) {
-      statement = this.#normalizeStatement(statement, query);
+      matchedResult.push({
+        type: 'content',
+        title: item.title,
+        header: currentHeader?.text ?? item.title,
+        link: `${domain}${normalizeHref(item.routePath)}${
+          currentHeader ? `#${currentHeader.id}` : ''
+        }`,
+        query,
+        highlightInfoList,
+        group: this.#options.extractGroupName(item.routePath),
+        statement: `...${statement}...`,
+      });
+      return;
     }
-    matchedResult.push({
-      type: 'content',
-      title: item.title,
-      header: currentHeader.text,
-      statement,
-      highlightIndex: normalizeTextCase(statement).indexOf(query),
-      link: `${domain}${normalizeHref(item.routePath)}#${currentHeader.id}`,
-      query,
-      group: this.#options.extractGroupName(item.routePath),
-    });
+    while (queryIndex !== -1) {
+      const currentHeader = getCurrentHeader(queryIndex);
+      let statementStartIndex = content.slice(0, queryIndex).lastIndexOf('\n');
+      statementStartIndex =
+        statementStartIndex === -1 ? 0 : statementStartIndex;
+      const statementEndIndex = content.indexOf(
+        '\n\n',
+        queryIndex + query.length,
+      );
+      let statement = content.slice(statementStartIndex, statementEndIndex);
+      if (statement.length > THRESHOLD_CONTENT_LENGTH) {
+        statement = this.#normalizeStatement(statement, query);
+      }
+      const highlightIndex = normalizeTextCase(statement).indexOf(query);
+      const highlightInfoList = [
+        {
+          start: highlightIndex,
+          length: query.length,
+        },
+      ];
+      matchedResult.push({
+        type: 'content',
+        title: item.title,
+        header: currentHeader?.text ?? item.title,
+        statement,
+        highlightInfoList,
+        link: `${domain}${normalizeHref(item.routePath)}${
+          currentHeader ? `#${currentHeader.id}` : ''
+        }`,
+        query,
+        group: this.#options.extractGroupName(item.routePath),
+      });
+      queryIndex = normalizedContent.indexOf(
+        query,
+        queryIndex + statement.length - highlightIndex,
+      );
+    }
   }
 
   #normalizeStatement(statement: string, query: string) {

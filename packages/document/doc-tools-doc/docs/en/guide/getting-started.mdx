@@ -16,7 +16,7 @@ import { Tabs, Tab } from '@theme';
   <Tab>
 
 ```sh
-npm install @modern-js/doc-tools -D
+npm install @modern-js/doc-tools typescript -D
 ```
 
   </Tab>
@@ -24,7 +24,7 @@ npm install @modern-js/doc-tools -D
 <Tab>
 
 ```sh
-yarn add @modern-js/doc-tools -D
+yarn add @modern-js/doc-tools typescript -D
 ```
 
 </Tab>
@@ -32,7 +32,7 @@ yarn add @modern-js/doc-tools -D
 <Tab>
 
 ```sh
-pnpm install @modern-js/doc-tools -D
+pnpm install @modern-js/doc-tools typescript -D
 ```
 
 </Tab>
@@ -45,7 +45,7 @@ Then create the file with the following command
 mkdir docs && echo '# Hello World' > docs/index.md
 ```
 
-在`package.json`中加上如下的脚本: => Add the following script to `package.json`:
+Add the following script to `package.json`:
 
 ```json
 {
@@ -69,6 +69,17 @@ export default defineConfig({
   },
   plugins: [docTools()],
 });
+```
+
+And then create `tsconfig.json`, add the following config:
+
+```ts
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react-jsx"
+  }
+}
 ```
 
 ## 2. Start Dev Server

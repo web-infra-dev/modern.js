@@ -60,7 +60,7 @@ const handleTemplateFile = async (
     path.join(context.materials.default.basePath, 'package.json'),
   );
   const isExitReactDom =
-    pkg.devDependencies['react-dom'] || pkg.dependencies['react-dom'];
+    pkg.devDependencies?.['react-dom'] || pkg.dependencies?.['react-dom'];
   const addReactDomDependence = isExitReactDom
     ? {}
     : {
@@ -69,7 +69,7 @@ const handleTemplateFile = async (
           : '^17',
       };
 
-  const isExitReact = pkg.devDependencies.react || pkg.dependencies.react;
+  const isExitReact = pkg.devDependencies?.react || pkg.dependencies?.react;
   const addReactDependence = isExitReact
     ? {}
     : {

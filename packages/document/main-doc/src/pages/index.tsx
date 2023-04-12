@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { useLang, Helmet } from '@modern-js/doc-tools/runtime';
+import { useLang, Helmet, useLocation } from '@modern-js/doc-tools/runtime';
+import { useEffect } from 'react';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
 import { FeatureLayout } from '../components/FeatureLayout';
@@ -44,6 +45,13 @@ const HomepageHeader = () => {
 
 export default function Home() {
   const t = useI18n();
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.MODERN_THEME = 'dark';
+    return () => {
+      window.MODERN_THEME = undefined;
+    };
+  }, [pathname]);
 
   const features = [
     {
@@ -106,10 +114,7 @@ export default function Home() {
     <div>
       <Helmet>
         <html className="dark"></html>
-        <script>
-          localStorage && localStorage.setItem('modern-theme-appearance',
-          'dark');
-        </script>
+        <script>window.MODERN_THEME = 'dark';</script>
         <style type="text/css">{`
           .modern-doc-appearance {
             display: none!important;

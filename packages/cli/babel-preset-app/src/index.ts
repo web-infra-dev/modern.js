@@ -1,8 +1,5 @@
-import {
-  BabelOptions,
-  createBabelChain,
-  applyUserBabelConfig,
-} from '@modern-js/babel-preset-base';
+import { BabelOptions, createBabelChain } from '@modern-js/babel-preset-base';
+import { applyUserBabelConfig } from '@modern-js/utils';
 import { generate } from './generate';
 import type { Options } from './type';
 
@@ -27,6 +24,7 @@ const defaultOptions: Options = {
   useTsLoader: false,
   lodash: {},
   styledComponents: {},
+  importAntd: true,
 };
 
 export const getBabelConfig = (options?: Options): BabelOptions => {

@@ -7,7 +7,7 @@ exports[`plugins/swc > should add browserslist 1`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "chrome 98",
@@ -16,11 +16,14 @@ exports[`plugins/swc > should add browserslist 1`] = `
   },
   "entry": {
     "main": [
-      "<ROOT>/node_modules/.cache/polyfill.js",
+      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
   "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -36,7 +39,7 @@ exports[`plugins/swc > should add browserslist 2`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "chrome 98",
@@ -45,11 +48,53 @@ exports[`plugins/swc > should add browserslist 2`] = `
   },
   "entry": {
     "main": [
-      "<ROOT>/node_modules/.cache/polyfill.js",
+      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
   "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
+}
+`;
+
+exports[`plugins/swc > should add pluginImport 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "pluginImport": [
+      {
+        "libraryName": "foo",
+      },
+    ],
+    "presetEnv": {
+      "coreJs": "3.27",
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "entry": {
+    "main": [
+      "rspack-polyfill.js",
+      "src/index.js",
+    ],
+  },
+  "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -110,7 +155,7 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -121,11 +166,14 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
   },
   "entry": {
     "main": [
-      "<ROOT>/node_modules/.cache/polyfill.js",
+      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
   "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -141,7 +189,7 @@ exports[`plugins/swc > should has correct core-js 1`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -152,11 +200,14 @@ exports[`plugins/swc > should has correct core-js 1`] = `
   },
   "entry": {
     "main": [
-      "<ROOT>/node_modules/.cache/polyfill.js",
+      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
   "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -172,7 +223,7 @@ exports[`plugins/swc > should has correct core-js 2`] = `
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -183,11 +234,14 @@ exports[`plugins/swc > should has correct core-js 2`] = `
   },
   "entry": {
     "main": [
-      "<ROOT>/node_modules/.cache/polyfill.js",
+      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
   "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -224,7 +278,7 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
       "legacy": true,
     },
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -235,11 +289,14 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
   },
   "entry": {
     "main": [
-      "<ROOT>/node_modules/.cache/polyfill.js",
+      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
   "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",

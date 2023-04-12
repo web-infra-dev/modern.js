@@ -3,6 +3,7 @@ export const EN_LOCALE = {
     self: 'Please select the solution you want to create',
     mwa: 'Web App',
     module: 'Npm Module',
+    doc: 'Doc Site',
     monorepo: 'Monorepo',
     custom: 'Custom Solution',
     default: 'Default',

@@ -78,6 +78,40 @@ const universalBuildConfig = [
 ];
 
 /**
+ * @type {PartialBaseBuildConfig[]}
+ */
+const universalBuildConfigWithBundle = [
+  {
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'es2019',
+    dts: false,
+    outDir: './dist/cjs',
+  },
+  {
+    buildType: 'bundle',
+    format: 'esm',
+    target: 'es5',
+    dts: false,
+    outDir: './dist/esm',
+  },
+  {
+    buildType: 'bundleless',
+    format: 'esm',
+    target: 'es2019',
+    dts: false,
+    outDir: './dist/esm-node',
+  },
+  {
+    buildType: 'bundleless',
+    dts: {
+      only: true,
+    },
+    outDir: './dist/types',
+  },
+];
+
+/**
  *
  * @param {PartialBaseBuildConfig} extendConfig
  * @returns {PartialBaseBuildConfig[]}
@@ -96,4 +130,5 @@ module.exports = {
   extendNodeBuildConfig,
   universalBuildConfig,
   extendUniversalBuildConfig,
+  universalBuildConfigWithBundle,
 };

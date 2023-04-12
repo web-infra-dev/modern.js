@@ -1,5 +1,68 @@
 # @modern-js/core
 
+## 2.12.0
+
+### Patch Changes
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/node-bundle-require@2.12.0
+  - @modern-js/plugin@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- 0bd018b: feat: support use node api run dev & build & deploy command
+  feat: 支持通过 node api 运行 dev & build & deploy 命令
+- 7178795: fix(core): beforeExit should be sync workflow
+
+  fix(core): beforeExit 需要使用同步的 workflow
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/node-bundle-require@2.11.0
+  - @modern-js/plugin@2.11.0
+
+## 2.10.0
+
+### Minor Changes
+
+- a16b9b0: feat: warning when user registe plugin duplication
+  feat: 当用户重复注册插件时进行 warning 提示
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- d3f0642: feat(core): throw warnings when config file is not found
+
+  feat(core): 找不到配置文件时抛出 warning
+
+- 0d9962b: fix: add types field in package.json
+  fix: 添加 package.json 中的 types 字段
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/node-bundle-require@2.10.0
+  - @modern-js/plugin@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

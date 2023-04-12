@@ -1,8 +1,6 @@
 import path from 'path';
 import docTools, { defineConfig, Sidebar, NavItem } from '@modern-js/doc-tools';
 
-const isProd = process.env.NODE_ENV === 'production';
-
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
   const prefix = cn ? '' : '/en';
@@ -144,9 +142,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
       {
         collapsible: false,
         text: getText('指南', 'Guide'),
-        items: [
-          getLink('/plugins/introduction'),
-        ],
+        items: [getLink('/plugins/introduction')],
       },
       {
         collapsible: false,
@@ -173,7 +169,8 @@ export default defineConfig({
     title: 'Modern.js Builder',
     icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     markdown: {
-      checkDeadLinks: isProd,
+      checkDeadLinks: true,
+      experimentalMdxRs: true,
     },
     themeConfig: {
       footer: {
@@ -209,16 +206,22 @@ export default defineConfig({
         },
       ],
     },
+    replaceRules: [
+      {
+        search: /{MODERN_JS}/g,
+        replace: 'Modern.js',
+      },
+      {
+        search: /{MODERN_JS_CONFIG}/g,
+        replace: 'modern.config.ts',
+      },
+    ],
     builderConfig: {
       source: {
         alias: {
           '@components': path.join(__dirname, 'src/components'),
           '@en': path.join(__dirname, 'docs/en'),
           '@zh': path.join(__dirname, 'docs/zh'),
-        },
-        globalVars: {
-          MODERN_JS: 'Modern.js',
-          MODERN_JS_CONFIG: 'modern.config.ts',
         },
       },
       dev: {

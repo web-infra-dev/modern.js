@@ -1,5 +1,108 @@
 # @modern-js/builder-shared
 
+## 2.12.0
+
+### Patch Changes
+
+- 6d86e34: feat(doc-tools): print dev server URLs with base
+
+  feat(doc-tools): 输出 dev server 的 URLs 时补全 base 信息
+
+- fef3394: fix(builder): should add id prefix after minify SVG
+
+  fix(builder): 压缩 SVG 后需要添加 id 前缀
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/server@2.12.0
+  - @modern-js/types@2.12.0
+
+## 2.11.0
+
+### Minor Changes
+
+- a8c08c3: feat: 添加 `source.transformImoprt`
+
+  feat: add `source.transformImoprt`
+
+### Patch Changes
+
+- adcedad: fix: The compiled babel-loader can't find the babel/core in builder-shared
+  fix: 在 builder-shared 中的预编译 babel-loader 找不到 babel/core 依赖
+- a9c6083: fix(builder): incorrect asset URL in windows
+
+  fix(builder): 修复 windows 上生成静态资源 URL 错误的问题
+
+- 55b07fd: feat(builder): support output.assetsRetry in rspack-provider
+
+  feat(builder): 在 rspack-provider 中支持 output.assetsRetry 配置能力
+
+- 8b90c79: fix(builder): should preserve viewBox when minify svg
+
+  fix(builder): 修复压缩 svg 导致 viewBox 丢失的问题
+
+- 3aa318d: fix(rspack-builder): support rspack global node-polyfill use workaround
+
+  fix(rspack-builder): 采用临时方案在 rspack 中支持 global node-polyfill
+
+- 53b0a63: fix: schema parser error, builder tools.devServer.proxy can be a array
+  fix: schema 解析错误，builder `tools.devSerer.proxy' 可以是个数组。
+- 381a3b9: feat(utils): move universal utils to the universal folder
+
+  feat(utils): 将运行时使用的 utils 移动到 universal 目录
+
+- cd1040f: feat: use generated default config objects instead of global objects
+  feat: 默认配置项使用动态生成替代全局对象
+- e262a99: fix(builder): failed to set empty distPath.js/css
+
+  fix(builder): 修复设置 distPath.js/css 为空时报错的问题
+
+- b71cef1: feat(builder): support setting forceSplitting to be an object
+
+  feat(builder): 支持将 forceSplitting 设置为一个对象
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/server@2.11.0
+  - @modern-js/types@2.11.0
+
+## 2.10.0
+
+### Minor Changes
+
+- a8db932: feat: rspack-provider support tools.babel
+  feat: rspack-provider 支持 tools.babel
+
+### Patch Changes
+
+- 92d247f: fix: support tools.devServer.header include string[] type, remove get & delete & apply api in hook or middleware api
+  fix: 支持 tools.devServer.header 包含字符串数组类型，移除 Hook 和 Middleware 中对 响应 Cookie 的获取、删除操作
+- 0d9962b: fix: add types field in package.json
+  fix: 添加 package.json 中的 types 字段
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- Updated dependencies [3e0bd50]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/server@2.10.0
+  - @modern-js/types@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

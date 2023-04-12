@@ -7,16 +7,10 @@ export const watchSectionTitle = async (
 ) => {
   const { chalk } = await import('@modern-js/utils');
   if (status === SectionTitleStatus.Success) {
-    return `${chalk.bgWhite.gray.underline(str)} ${chalk.green.underline(
-      'Successful',
-    )}`;
+    return `${chalk.gray(str)} ${chalk.green('Successful')}`;
   } else if (status === SectionTitleStatus.Fail) {
-    return `${chalk.bgWhite.gray.underline(str)} ${chalk.red.underline(
-      'Build Failed',
-    )}`;
+    return `${chalk.gray(str)} ${chalk.red('Build Failed')}`;
   }
 
-  return `${chalk.bgWhite.gray.underline(str)} ${
-    detailLog ? detailLog : chalk.blue.underline('Log')
-  }`;
+  return `${chalk.gray(str)} ${detailLog ? detailLog : 'Log:'}`;
 };

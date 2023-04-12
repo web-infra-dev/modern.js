@@ -1,11 +1,6 @@
 import { InternalPlugins } from '@modern-js/types';
 
 /**
- * hmr socket connect path
- */
-export const HMR_SOCK_PATH = '/webpack-hmr';
-
-/**
  * route specification file
  */
 export const ROUTE_SPEC_FILE = 'route.json';
@@ -74,12 +69,7 @@ export const DEFAULT_SERVER_CONFIG = 'modern.server-runtime.config';
 /**
  * Routes manifest filename
  */
-export const ROUTE_MINIFEST_FILE = 'routes-manifest.json';
-
-/**
- * Property mounted on window that describes route manifest
- */
-export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
+export const ROUTE_MANIFEST_FILE = 'routes-manifest.json';
 
 /**
  * directory name for loader routes
@@ -317,4 +307,21 @@ export const PLUGIN_SCHEMAS = {
     },
   ],
   '@modern-js/plugin-nocode': [],
+};
+
+/**
+ * The `@babel/preset-typescript` default options.
+ *
+ * for:
+ * - `@modern-js/builder-rspack-provider`
+ * - `@modern-js/babel-preset-base`
+ */
+export const DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS = {
+  allowNamespaces: true,
+  allExtensions: true,
+  allowDeclareFields: true,
+  // aligns Babel's behavior with TypeScript's default behavior.
+  // https://babeljs.io/docs/en/babel-preset-typescript#optimizeconstenums
+  optimizeConstEnums: true,
+  isTSX: true,
 };

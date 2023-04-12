@@ -1,5 +1,67 @@
 # @modern-js/runtime
 
+## 2.12.0
+
+### Patch Changes
+
+- 0b05ec3: fix: the SSR plugin will product some effects, disable the ssr plugin when user doesn't use ssr
+  fix: SSR 插件将会尝试一些副作用，如果用户没有使用它时禁用这个插件。
+- 1aa0cb7: fix: beforeCreateRouter should be false after render router
+  fix: 在渲染 router 后，beforeCreateRouter 应该为 false
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/plugin@2.12.0
+  - @modern-js/types@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- 5d624fd: feat: assets and data prefetching is supported
+  feat: 支持资源和数据预加载
+- e2466a1: fix: remove nestedRoutes file from @modern-js/utils
+  fix: 将 nestedRoutes 从 @modern-js/utils 中移除
+- 02bb383: fix: fix lost props when using nested route in micro-front-end mode
+  修复嵌套路由在微前端场景下主子应用传递 props 丢失问题
+- 381a3b9: feat(utils): move universal utils to the universal folder
+
+  feat(utils): 将运行时使用的 utils 移动到 universal 目录
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/plugin@2.11.0
+  - @modern-js/types@2.11.0
+
+## 2.10.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- 5766414: fix: fix typos
+  fix: 修复拼写错误
+- 950e138: fix: inject i18n placeholder in streaming ssr
+  fix: 流式 SSR 中,注入 i18n 数据占位字段
+- Updated dependencies [3e0bd50]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/types@2.10.0
+  - @modern-js/plugin@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

@@ -89,7 +89,7 @@ export type HtmlInjectTagHandler = (
 
 回调函数接受 tags 列表作为参数，并需要修改或直接返回新的 tags 数组：
 
-```typescript
+```ts
 export default {
   html: {
     tags: [
@@ -128,13 +128,112 @@ export default {
 ```html
 <html>
   <head>
+    <!-- tags with `{ head: true, append: false }` here. -->
     <!-- some other headTags... -->
+    <!-- tags with `{ head: true, append: true }` here. -->
     <script src="//example.com/c.js"></script>
     <script src="//example.com/d.js"></script>
   </head>
   <body>
+    <!-- tags with `{ head: false, append: false }` here. -->
     <!-- some other bodyTags... -->
+    <!-- tags with `{ head: false, append: true }` here. -->
     <script src="//example.com/a.js"></script>
   </body>
 </html>
+```
+
+#### 限制
+
+这个配置用于在 Builder 构建完成后修改 HTML 产物的内容，并不会引入和解析新的模块。因此，它无法用于引入未编译的源码文件，也无法代替 [source.preEntry](https://modernjs.dev/builder/api/config-source.html#source.preentry) 等配置。
+
+例如对于以下项目：
+
+```plain
+web-app
+├── src
+│   ├── index.tsx
+│   └── polyfill.ts
+└── modern.config.ts
+```
+
+```ts title="modern.config.ts"
+export default {
+  output: {
+    assetPrefix: '//example.com/',
+  },
+  html: {
+    tags: [
+      { tag: 'script', attrs: { src: './src/polyfill.ts' } },
+    ],
+  },
+};
+```
+
+这里的 tag 对象将会在简单处理后直接添加到 HTML 产物中，但对应的 `polyfill.ts` 将不会被转译、打包，也因此应用会在处理这行脚本时出现 404 错误。
+
+```html
+<body>
+  <script src="//example.com/src/polyfill.ts"></script>
+</body>
+```
+
+合理的使用场景包括：
+
+* 注入 CDN 上 **路径确定** 的静态资源
+* 注入需要首屏加载的内联脚本
+
+例如以下示例的使用方式：
+
+```plain
+web-app
+├── src
+│   └── index.tsx
+├── public
+│   └── service-worker.js
+└── modern.config.ts
+```
+
+```ts title="modern.config.ts"
+function report() {
+  fetch('https://www.example.com/report')
+}
+
+export default {
+  html: {
+    output: {
+      assetPrefix: '//example.com/',
+    },
+    tags: [
+      // Inject asset from the `public` directory.
+      { tag: 'script', attrs: { src: 'service-worker.js' } },
+      // Inject asset from other CDN url.
+      {
+        tag: 'script',
+        publicPath: false,
+        attrs: { src: 'https://cdn.example.com/foo.js' },
+      },
+      // Inject inline script.
+      {
+        tag: 'script',
+        children: report.toString() + '\nreport()',
+      }
+    ],
+  },
+};
+```
+
+得到的产物将会类似：
+
+```html
+<body>
+  <script src="//example.com/service-worker.js"></script>
+  <script src="https://cdn.example.com/foo.js"></script>
+  <script>
+    function report() {
+      fetch('https://www.example.com/report')
+    }
+    report()
+  </script>
+</body>
 ```

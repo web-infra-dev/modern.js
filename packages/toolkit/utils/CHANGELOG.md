@@ -1,5 +1,64 @@
 # @modern-js/utils
 
+## 2.12.0
+
+### Patch Changes
+
+- c2ca6c8: fix(app-tools): failed to restart CLI
+
+  fix(app-tools): 修复 CLI 重启失败的问题
+
+- 6d86e34: feat(doc-tools): print dev server URLs with base
+
+  feat(doc-tools): 输出 dev server 的 URLs 时补全 base 信息
+
+## 2.11.0
+
+### Patch Changes
+
+- cfb058f: fix(builder): remove duplicated babel-plugin-import
+
+  fix(builder): 移除重复注册的 babel-plugin-import
+
+- 0bd018b: feat: support use node api run dev & build & deploy command
+  feat: 支持通过 node api 运行 dev & build & deploy 命令
+- 5d624fd: feat: assets and data prefetching is supported
+  feat: 支持资源和数据预加载
+- e2466a1: fix: remove nestedRoutes file from @modern-js/utils
+  fix: 将 nestedRoutes 从 @modern-js/utils 中移除
+- 02bb383: fix: fix lost props when using nested route in micro-front-end mode
+  修复嵌套路由在微前端场景下主子应用传递 props 丢失问题
+- 381a3b9: feat(utils): move universal utils to the universal folder
+
+  feat(utils): 将运行时使用的 utils 移动到 universal 目录
+
+- 7a60f10: chore(utils): bump commander from v8 to v10
+
+  chore(utils): 将 commander 从 v8 升级到 v10
+
+- 274b2e5: fix: For rspack-provider can use `tools.babel` configuration, inline the `@babel/preset-typescript` to handle ts syntax in rspack-provider.
+  fix: 为了 rspack-provider 能给使用 `tools.babel` 配置项，将 `@babel/preset-typescript` 内置进 rspack-provider 去处理 ts 语法。
+- b9e1c54: fix(utils): remove useless oneOf chainId，avoid user usage error.
+
+  fix(utils): 移除无用的 oneOf chainId，防止用户使用异常
+
+## 2.10.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- 4d54233: chore(builder): update rspack & show rspack format error
+
+  chore(builder): 更新 rspack 版本 & 优化 rspack 错误日志输出
+
+- 6db4864: feat: add output.splitRouteChunks
+  feat: 添加 output.splitRouteChunks 配置
+
 ## 2.9.0
 
 ## 2.8.0

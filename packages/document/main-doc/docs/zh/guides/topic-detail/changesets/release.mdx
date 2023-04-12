@@ -91,7 +91,7 @@ pnpm run release
 执行该命令时，将会依次判断 Monorepo 中所有的 packages 的版本是否在 NPM 中存在，如果不存在将会执行 `publish` 命令发布。
 
 :::warning
-当 Monorepo 中包之间依赖关系使用 workspace 声明时，注意不要直接在 package 对应的子目录直接执行 `npm publish` 发布 package，使用 `relesae` 命令在发布时将会自动去除 workspace 声明，确保 NPM 包发布之后可用。
+当 Monorepo 中包之间依赖关系使用 workspace 声明时，注意不要直接在 package 对应的子目录直接执行 `npm publish` 发布 package，使用 `release` 命令在发布时将会自动去除 workspace 声明，确保 NPM 包发布之后可用。
 
 :::
 
@@ -133,7 +133,7 @@ pnpm run bump -- --ignore module-2 --ignore module-3
 
 ### release 命令参数
 
-- `--otp` 使用 `npm token` 执行 relesae 命令发布对应包
+- `--otp` 使用 `npm token` 执行 release 命令发布对应包
 
 ```bash
 pnpm run relese -- --otp <token>

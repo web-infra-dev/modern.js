@@ -8,7 +8,7 @@ sidebar_position: 3
 
 当在初始化的项目里使用 `modern build` 命令的时候，会根据 Module Tools 默认支持的配置生成相应的产物。默认支持的配置具体如下：
 
-```typescript
+```ts title="modern.config.ts"
 import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -57,7 +57,7 @@ export default defineConfig({
 
 例如，如果使用预设函数的形式达到预设字符串 `"npm-library-es5"` 同样的效果，可以按照如下的方式：
 
-```typescript
+```ts title="modern.config.ts"
 import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -129,7 +129,7 @@ export default defineConfig({
 
 `buildConfig` 是用于修改产物的方式之一，**当与 `buildPreset` 配置同时存在的时候，只有 `buildConfig` 才会生效**。因此如果按照如下方式配置：
 
-```typescript
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({

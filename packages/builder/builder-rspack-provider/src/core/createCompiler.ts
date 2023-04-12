@@ -21,6 +21,15 @@ export async function createCompiler({
   let isFirstCompile = true;
 
   compiler.hooks.done.tap('done', async stats => {
+    const obj = stats.toJson({
+      timings: true,
+    });
+
+    obj.children?.forEach(c => {
+      c.time &&
+        logger.success(`${c.name} compiled successfully in`, c.time, 'ms');
+    });
+
     const { message, level } = await formatStats(stats);
 
     if (level === 'error' || level === 'warning') {

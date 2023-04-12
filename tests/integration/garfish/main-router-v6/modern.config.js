@@ -14,7 +14,7 @@ module.exports = defineConfig({
       apps: [
         {
           name: 'Dashboard',
-          entry: getPublicPath('@cypress-test/garfish-dashboard'),
+          entry: getPublicPath('@cypress-test/garfish-dashboard-router-v6'),
         },
         {
           name: 'TableList',

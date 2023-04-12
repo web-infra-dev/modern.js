@@ -1,10 +1,7 @@
-import type { TransformOptions } from '@babel/core';
-import { applyOptionsChain } from '@modern-js/utils';
 import { createBabelChain } from './babel-chain';
 import { getPresetChain } from './presets';
 import { getPluginsChain } from './plugins';
-import { BabelConfig, BabelConfigUtils, IStyledComponentOptions } from './type';
-import { getBabelUtils } from './babelUtils';
+import { IStyledComponentOptions } from './type';
 
 export * from './babel-chain';
 
@@ -18,9 +15,11 @@ export interface IBaseBabelConfigOption {
   plugins?: {
     transformRuntime?: any;
     import?: {
-      antd?: {
-        libraryDirectory: string;
-      };
+      antd?:
+        | {
+            libraryDirectory: string;
+          }
+        | false;
     };
     transformReactRemovePropTypes?: false | Record<string, any>;
     styledComponentsOptions?: IStyledComponentOptions;
@@ -45,22 +44,5 @@ export const getBaseBabelChain = (option: IBaseBabelConfigOption) => {
 
 export const getBaseBabelConfig: any = (option: IBaseBabelConfigOption) =>
   getBaseBabelChain(option).toJSON();
-
-export const applyUserBabelConfig = (
-  defaultOptions: TransformOptions,
-  userBabelConfig?: BabelConfig | BabelConfig[],
-  extraBabelUtils?: Partial<BabelConfigUtils>,
-): TransformOptions => {
-  if (userBabelConfig) {
-    const babelUtils = {
-      ...getBabelUtils(defaultOptions),
-      ...extraBabelUtils,
-    } as BabelConfigUtils;
-
-    return applyOptionsChain(defaultOptions, userBabelConfig || {}, babelUtils);
-  }
-
-  return defaultOptions;
-};
 
 export * from './type';

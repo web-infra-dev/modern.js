@@ -219,11 +219,11 @@ export interface SharedOutputConfig {
   /**
    * Whether to inline output scripts files (.js files) into HTML with `<script>` tags.
    */
-  enableInlineScripts?: boolean;
+  enableInlineScripts?: boolean | RegExp;
   /**
    * Whether to inline output style files (.css files) into html with `<style>` tags.
    */
-  enableInlineStyles?: boolean;
+  enableInlineStyles?: boolean | RegExp;
   /**
    * Specifies the range of target browsers that the project is compatible with.
    * This value will be used by [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) and
@@ -254,7 +254,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   enableAssetFallback: boolean;
   enableLatestDecorators: boolean;
   enableCssModuleTSDeclaration: boolean;
-  enableInlineScripts: boolean;
-  enableInlineStyles: boolean;
+  enableInlineScripts: boolean | RegExp;
+  enableInlineStyles: boolean | RegExp;
   svgDefaultExport: SvgDefaultExport;
 }

@@ -19,17 +19,33 @@ Server runtime configuration can be configured in the `modern.server-runtime.con
 
 ## Configure in the configuration file
 
-Modern.js configuration files are defined in the root path of the project, and supports `.js`, `.ts` and `.mjs` formats:
+Modern.js configuration files are defined in the root path of the project, and supports `.ts`, `.js` and `.mjs` formats:
 
-- `modern.config.js`
 - `modern.config.ts`
+- `modern.config.js`
 - `modern.config.mjs`
+
+### modern.config.ts (recommended)
+
+We recommend using configuration files in `.ts` format, which provides friendly TypeScript type hints to help you avoid configuration errors.
+
+Import the `defineConfig` tool function from `@modern-js/app-tools`, which will help you with configuration type derivation and type completion:
+
+```ts title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  source: {
+    alias: {
+      '@common': './src/common',
+    },
+  },
+});
+```
 
 ### modern.config.js
 
-You can use JavaScript syntax in the `modern.config.js` file and it is more flexible than in the `package.json` file.
-
-For example, you can define configuration options for function types in `modern.config.js`:
+If you are developing a non-TypeScript project, you can use the configuration file in .js format:
 
 ```js title="modern.config.js"
 export default {
@@ -49,24 +65,6 @@ export default {
     ssr: process.env.NODE_ENV === 'development',
   },
 };
-```
-
-### modern.config.ts (recommended)
-
-We recommend using configuration files in `.ts` format, which provides friendly TypeScript type hints to help you avoid configuration errors.
-
-Import the `defineConfig` tool function from `@modern-js/app-tools`, which will help you with configuration type derivation and type completion:
-
-```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/app-tools';
-
-export default defineConfig({
-  source: {
-    alias: {
-      '@common': './src/common',
-    },
-  },
-});
 ```
 
 ### Export Configuration Function
@@ -199,4 +197,48 @@ When using `modern.config.local.ts`, please note the following:
 modern.config.local.ts
 modern.config.local.js
 modern.config.local.mjs
+```
+
+## Merge Multiple Configurations
+
+In some cases, you may need to merge multiple configurations into one configuration. You can use the `mergeConfig` util to merge multiple configurations.
+
+The `mergeConfig` function accepts an array as a parameter, and each item in the array is a configuration object. `mergeConfig` will deeply merge each configuration object in the array, automatically merge multiple functions into an array, and returns a merged configuration object.
+
+### Example
+
+```ts title="modern.config.ts"
+import { mergeConfig } from '@modern-js/app-tools';
+
+const config1 = {
+   dev: {
+     port: 3000,
+   },
+   tools: {
+     postcss: () => console. log('config1');
+   },
+};
+const config2 = {
+   dev: {
+     port: 3001,
+   },
+   tools: {
+     postcss: () => console. log('config2');
+   },
+};
+
+const mergedConfig = mergeConfig([config1, config2]);
+```
+
+In the above example, the merged configuration object is:
+
+```ts
+const mergedConfig = {
+  dev: {
+    port: 3001,
+  },
+  tools: {
+    postcss: [() => console.log('config1'), () => console.log('config2')],
+  },
+};
 ```

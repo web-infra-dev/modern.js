@@ -1,5 +1,36 @@
 # @modern-js/builder-plugin-node-polyfill
 
+## 2.12.0
+
+### Patch Changes
+
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+  - @modern-js/builder-shared@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- 3aa318d: fix(rspack-builder): support rspack global node-polyfill use workaround
+
+  fix(rspack-builder): 采用临时方案在 rspack 中支持 global node-polyfill
+
+- Updated dependencies [adcedad]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [3aa318d]
+- Updated dependencies [53b0a63]
+- Updated dependencies [381a3b9]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [b71cef1]
+  - @modern-js/builder-shared@2.11.0
+
+## 2.10.0
+
 ## 2.9.0
 
 ## 2.8.0

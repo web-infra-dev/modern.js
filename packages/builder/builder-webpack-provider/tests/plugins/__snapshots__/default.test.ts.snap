@@ -33,6 +33,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -112,6 +118,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -426,12 +445,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
-      },
-      {
         "mimetype": {
           "or": [
             "text/javascript",
@@ -443,15 +456,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -459,7 +469,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -510,7 +523,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -563,15 +576,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -579,7 +589,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -636,7 +649,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -677,6 +690,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -886,6 +900,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -965,6 +985,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -1279,12 +1312,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         ],
       },
       {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
-      },
-      {
         "mimetype": {
           "or": [
             "text/javascript",
@@ -1296,15 +1323,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -1312,7 +1336,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1369,7 +1396,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1422,15 +1449,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -1438,7 +1462,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1495,7 +1522,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1536,6 +1563,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": true,
     "minimizer": [
@@ -1787,6 +1815,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -1866,6 +1900,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -2078,12 +2125,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         ],
       },
       {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
-      },
-      {
         "mimetype": {
           "or": [
             "text/javascript",
@@ -2095,18 +2136,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -2114,7 +2149,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2219,18 +2260,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -2238,7 +2273,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2331,6 +2372,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       },
     ],
   },
+  "name": "Server",
   "optimization": {
     "minimize": true,
     "minimizer": [
@@ -2509,6 +2551,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     },
     "rules": [
       {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
         "oneOf": [
           {
             "generator": {
@@ -2588,6 +2636,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -2800,12 +2861,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         ],
       },
       {
-        "resolve": {
-          "fullySpecified": false,
-        },
-        "test": /\\\\\\.m\\?js/,
-      },
-      {
         "mimetype": {
           "or": [
             "text/javascript",
@@ -2817,15 +2872,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -2833,7 +2885,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2890,7 +2945,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -2943,15 +2998,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
                   {
@@ -2959,7 +3011,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "libraryName": "antd",
                     "style": true,
                   },
-                  "import-antd",
+                  "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -3016,7 +3071,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3057,6 +3112,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       },
     ],
   },
+  "name": "Web Worker",
   "optimization": {
     "minimize": true,
     "minimizer": [

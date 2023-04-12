@@ -22,9 +22,11 @@ export const mockBuilderPlugins: Plugins = {
   splitChunks: genMockPlugin('builder-plugin-split-chunks'),
   inlineChunk: genMockPlugin('builder-plugin-inline-chunk'),
   bundleAnalyzer: genMockPlugin('builder-plugin-bundle-analyzer'),
+  assetsRetry: genMockPlugin('builder-plugin-assets-retry'),
   font: genMockPlugin('builder-plugin-font'),
   media: genMockPlugin('builder-plugin-media'),
   image: genMockPlugin('builder-plugin-image'),
   svg: genMockPlugin('builder-plugin-svg'),
   html: genMockPlugin('builder-plugin-html'),
+  antd: genMockPlugin('antd'),
 };

@@ -9,6 +9,9 @@ export { modifyRoutes } from './plugin';
 
 export * from './withRouter';
 
+export { Link, NavLink } from './PrefetchLink';
+export type { LinkProps, NavLinkProps } from './PrefetchLink';
+
 // Note: Keep in sync with react-router-dom exports!
 export type {
   // below are react-router-dom exports
@@ -22,8 +25,6 @@ export type {
   BrowserRouterProps,
   HashRouterProps,
   HistoryRouterProps,
-  LinkProps,
-  NavLinkProps,
   FormProps,
   ScrollRestorationProps,
   SubmitFunction,
@@ -90,8 +91,6 @@ export {
   // Components
   Await,
   Form,
-  Link,
-  NavLink,
   Navigate,
   Outlet,
   Route,
@@ -141,5 +140,5 @@ export {
 
 // `react-router-dom` has its own dependency: `@remix-run/router`.
 // In order to make sure `plugin-data-loader` and user's loaders(mainly `defer` API) depend on the singleton of `@remix-run/router`,
-// we export these API from the same package `@modern-js/utils/remix-router`.
-export { defer, json, redirect } from '@modern-js/utils/remix-router';
+// we export these API from the same package `@modern-js/utils/universal/remix-router`.
+export { defer, json, redirect } from '@modern-js/utils/universal/remix-router';

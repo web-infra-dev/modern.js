@@ -19,7 +19,6 @@ export async function render(
           <App helmetContext={helmetContext} />
         </StaticRouter>
       </DataContext.Provider>
-      ,
     </ThemeContext.Provider>,
   );
 

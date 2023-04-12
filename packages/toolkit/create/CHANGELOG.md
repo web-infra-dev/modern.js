@@ -1,5 +1,16 @@
 # @modern-js/create
 
+## 2.12.0
+
+## 2.11.0
+
+## 2.10.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+
 ## 2.9.0
 
 ## 2.8.0

@@ -1,5 +1,125 @@
 # @modern-js/builder-webpack-provider
 
+## 2.12.0
+
+### Patch Changes
+
+- fef3394: fix(builder): should add id prefix after minify SVG
+
+  fix(builder): 压缩 SVG 后需要添加 id 前缀
+
+- 591f53a: chore(deps): bump fork-ts-checker-webpack-plugin to v8
+
+  chore(deps): 升级 fork-ts-checker-webpack-plugin 到 v8
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+  - @modern-js/utils@2.12.0
+  - @modern-js/builder-shared@2.12.0
+  - @modern-js/babel-preset-app@2.12.0
+  - @modern-js/babel-preset-base@2.12.0
+  - @modern-js/server@2.12.0
+  - @modern-js/e2e@2.12.0
+  - @modern-js/types@2.12.0
+
+## 2.11.0
+
+### Minor Changes
+
+- a8c08c3: feat: 添加 `source.transformImoprt`
+
+  feat: add `source.transformImoprt`
+
+### Patch Changes
+
+- cfb058f: fix(builder): remove duplicated babel-plugin-import
+
+  fix(builder): 移除重复注册的 babel-plugin-import
+
+- a9c6083: fix(builder): incorrect asset URL in windows
+
+  fix(builder): 修复 windows 上生成静态资源 URL 错误的问题
+
+- 55b07fd: feat(builder): support output.assetsRetry in rspack-provider
+
+  feat(builder): 在 rspack-provider 中支持 output.assetsRetry 配置能力
+
+- 73cfc9b: fix: 移除 babel plugin-import 对于非法函数参数的校验
+
+  fix: remove babel plugin-import invalid function type options checking
+
+- cd1040f: feat: use generated default config objects instead of global objects
+  feat: 默认配置项使用动态生成替代全局对象
+- e262a99: fix(builder): failed to set empty distPath.js/css
+
+  fix(builder): 修复设置 distPath.js/css 为空时报错的问题
+
+- b71cef1: feat(builder): support setting forceSplitting to be an object
+
+  feat(builder): 支持将 forceSplitting 设置为一个对象
+
+- Updated dependencies [adcedad]
+- Updated dependencies [cfb058f]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [0bd018b]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [3aa318d]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [53b0a63]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [b71cef1]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/builder-shared@2.11.0
+  - @modern-js/babel-preset-base@2.11.0
+  - @modern-js/babel-preset-app@2.11.0
+  - @modern-js/utils@2.11.0
+  - @modern-js/server@2.11.0
+  - @modern-js/e2e@2.11.0
+  - @modern-js/types@2.11.0
+
+## 2.10.0
+
+### Minor Changes
+
+- a8db932: feat: rspack-provider support tools.babel
+  feat: rspack-provider 支持 tools.babel
+- 82326ee: feat: `security.checkSyntax` support exclude configuration.
+  feat: `security.checkSyntax` 支持 exclude 配置项。
+
+### Patch Changes
+
+- 92d247f: fix: support tools.devServer.header include string[] type, remove get & delete & apply api in hook or middleware api
+  fix: 支持 tools.devServer.header 包含字符串数组类型，移除 Hook 和 Middleware 中对 响应 Cookie 的获取、删除操作
+- 0d9962b: fix: add types field in package.json
+  fix: 添加 package.json 中的 types 字段
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- Updated dependencies [a8db932]
+- Updated dependencies [3e0bd50]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/builder-shared@2.10.0
+  - @modern-js/babel-preset-app@2.10.0
+  - @modern-js/server@2.10.0
+  - @modern-js/types@2.10.0
+  - @modern-js/utils@2.10.0
+  - @modern-js/e2e@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

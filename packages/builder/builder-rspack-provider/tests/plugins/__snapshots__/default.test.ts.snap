@@ -17,8 +17,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -46,6 +53,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "mode": "development",
   "module": {
     "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
       {
         "oneOf": [
           {
@@ -222,6 +235,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -554,6 +580,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -614,6 +641,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "pathinfo": false,
     "publicPath": "/",
   },
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -653,8 +683,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "process.env.NODE_ENV": "\\"production\\"",
     },
     "minifyOptions": {},
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -682,6 +719,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "mode": "production",
   "module": {
     "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
       {
         "oneOf": [
           {
@@ -858,6 +901,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -1190,6 +1246,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": true,
     "runtimeChunk": {
@@ -1251,6 +1308,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "publicPath": "/",
   },
   "plugins": [
+    RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -1302,6 +1360,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"test\\"",
     },
+    "pluginImport": [
+      {
+        "libraryDirectory": "lib",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
       "targets": [
         "node >= 14",
@@ -1327,6 +1392,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
   "mode": "development",
   "module": {
     "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
       {
         "oneOf": [
           {
@@ -1503,6 +1574,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -1621,6 +1705,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       },
     ],
   },
+  "name": "Server",
   "optimization": {
     "minimize": false,
     "runtimeChunk": undefined,
@@ -1673,8 +1758,15 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"development\\"",
     },
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
     "presetEnv": {
-      "coreJs": "3.26",
+      "coreJs": "3.27",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -1709,6 +1801,12 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "loader": "builtin:sass-loader",
           },
         ],
+      },
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
       },
       {
         "oneOf": [
@@ -1886,6 +1984,19 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
                 "options": {
                   "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
                 },
               },
               {
@@ -2218,6 +2329,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
     ],
   },
+  "name": "Client",
   "optimization": {
     "minimize": false,
     "runtimeChunk": {
@@ -2282,6 +2394,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     TestPlugin {
       "name": "TestPlugin",
     },
+    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {

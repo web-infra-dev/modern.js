@@ -11,6 +11,7 @@ import CloseSvg from './assets/close.svg';
 import { MatchResult, MatchResultItem, PageSearcher } from './logic/search';
 import { SuggestItem } from './SuggestItem';
 import { normalizeSearchIndexes, removeDomain } from './logic/util';
+import { NoSearchResult } from './NoSearchResult';
 import { isProduction, usePageData } from '@/runtime';
 import { SearchOptions } from '@/shared/types';
 
@@ -35,7 +36,7 @@ export function Search() {
   });
   const [focused, setFocused] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
-  const [searching, setSearching] = useState(false);
+  const [initing, setIniting] = useState(true);
   const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
   const pageSearcherRef = useRef<PageSearcher | null>(null);
   const { siteData, lang } = usePageData();
@@ -62,6 +63,12 @@ export function Search() {
     });
     pageSearcherRef.current = pageSearcher;
     await pageSearcherRef.current.init();
+    setIniting(false);
+    const query = searchInputRef.current?.value;
+    if (query) {
+      const matched = await pageSearcherRef.current?.match(query);
+      setSearchResult(matched || { current: [], others: [] });
+    }
   }
 
   useEffect(() => {
@@ -129,17 +136,17 @@ export function Search() {
   }, [focused]);
 
   useEffect(() => {
-    focused && initPageSearcher();
+    !initing && initPageSearcher();
     // init pageSearcher again when lang changed
   }, [lang]);
 
   const onQueryChanged = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
-    setSearching(true);
-    const matched = await pageSearcherRef.current?.match(newQuery);
-    setSearching(false);
-    setSearchResult(matched || { current: [], others: [] });
+    if (newQuery) {
+      const matched = await pageSearcherRef.current?.match(newQuery);
+      setSearchResult(matched || { current: [], others: [] });
+    }
   };
 
   const normalizeSuggestions = (suggestions: MatchResultItem[]) =>
@@ -152,6 +159,10 @@ export function Search() {
     result: MatchResult,
     searchOptions: SearchOptions,
   ) => {
+    if (!suggestions.length && !initing) {
+      return <NoSearchResult query={query} />;
+    }
+
     const hasOtherResult =
       searchResult.others.map(item => item.items).flat().length > 0;
 
@@ -162,8 +173,9 @@ export function Search() {
       const indexItem = normalizeSearchIndexes(
         searchOptions.searchIndexes || [],
       ).find(indexInfo => indexInfo.value === item.index);
-      return indexItem!.label;
+      return indexItem.label;
     }) as string[];
+
     return (
       <div>
         {/* current index */}
@@ -190,7 +202,7 @@ export function Search() {
     isCurrent = true,
   ) => {
     // if no result, show no result
-    if (suggestionList.length === 0) {
+    if (suggestionList.length === 0 && !initing) {
       return (
         <div className="mt-4 flex-center">
           <div
@@ -212,13 +224,13 @@ export function Search() {
           return (
             <li key={group}>
               {isCurrent && <h2 className={styles.groupTitle}>{group}</h2>}
-              <ul>
+              <ul className="pb-2">
                 {groupSuggestions.map(suggestion => {
                   accumulateIndex++;
                   const suggestionIndex = accumulateIndex;
                   return (
                     <SuggestItem
-                      key={suggestion.link}
+                      key={`${suggestion.title}-${suggestionIndex}`}
                       suggestion={suggestion}
                       isCurrent={suggestionIndex === currentSuggestionIndex}
                       setCurrentSuggestionIndex={() => {
@@ -287,6 +299,7 @@ export function Search() {
                       onClick={() => {
                         if (searchInputRef.current) {
                           searchInputRef.current.value = '';
+                          setQuery('');
                         }
                       }}
                     />
@@ -303,12 +316,12 @@ export function Search() {
                 </h2>
               </div>
 
-              {query && suggestions.length ? (
+              {query ? (
                 <div className={`${styles.searchHits}  modern-scrollbar`}>
                   {renderSearchResult(searchResult, search)}
                 </div>
               ) : null}
-              {searching && (
+              {initing && (
                 <div className="flex-center">
                   <div className="p-2 text-sm">
                     <LoadingSvg />

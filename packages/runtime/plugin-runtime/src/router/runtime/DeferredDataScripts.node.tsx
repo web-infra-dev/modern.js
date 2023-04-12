@@ -1,12 +1,12 @@
 /* eslint-disable react/no-danger */
-import { TrackedPromise } from '@modern-js/utils/remix-router';
+import { TrackedPromise } from '@modern-js/utils/universal/remix-router';
 import { Suspense, useEffect, useRef, useMemo, useContext } from 'react';
 import {
   Await,
   UNSAFE_DataRouterContext as DataRouterContext,
   useAsyncError,
 } from 'react-router-dom';
-import { serializeJson } from '@modern-js/utils/serialize';
+import { serializeJson } from '@modern-js/utils/universal/serialize';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { serializeErrors } from './utils';
 
@@ -48,11 +48,11 @@ const resolveFnStr = `function r(e,r,o,A){A?_ROUTER_DATA.r[e][r].reject(A):_ROUT
     if(typeof error !== 'undefined'){
       return Promise.reject(new Error(error.message));
     }else{
-      return Promise.resovle(data);
+      return Promise.resolve(data);
     }
   }
    */
-const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new Error(r.message)):Promise.resovle(e)};`;
+const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new Error(r.message)):Promise.resolve(e)};`;
 
 /**
  * DeferredDataScripts only renders in server side,

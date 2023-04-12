@@ -1,5 +1,39 @@
 # @modern-js/module-tools-docs
 
+## 2.12.0
+
+### Patch Changes
+
+- a90a6a2: feat(plugin-module-node-polyfill, module-docs): add Node Polyfill feature
+  feat(plugin-module-node-polyfill, module-docs): 添加 Node Polyfill 功能。
+- Updated dependencies [d50aaf7]
+  - @modern-js/doc-tools@2.12.0
+  - @modern-js/doc-plugin-auto-sidebar@2.12.0
+
+## 2.11.0
+
+### Minor Changes
+
+- f1b2629: feat: add `dts.abortOnError` config
+  feat: 添加 `dts.abortOnError` 配置
+
+### Patch Changes
+
+- 6118636: fix(module-tools, module-tools-docs): fix svgr usage
+  fix(module-tools, module-tools-docs): 修复 svgr 的使用
+- Updated dependencies [210e9d6]
+- Updated dependencies [95dd73e]
+  - @modern-js/doc-tools@2.11.0
+  - @modern-js/doc-plugin-auto-sidebar@2.11.0
+
+## 2.10.0
+
+### Patch Changes
+
+- Updated dependencies [c413d79]
+  - @modern-js/doc-tools@2.10.0
+  - @modern-js/doc-plugin-auto-sidebar@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

@@ -89,22 +89,23 @@ import { builderPluginImageCompress } from '@modern-js/builder-plugin-image-comp
 builder.addPlugins([builderPluginImageCompress()]);
 ```
 
-See details in [plugin-image-compress](/en/plugins/plugin-image-compress)。
+See details in [plugin-image-compress](/en/plugins/plugin-image-compress).
 
 ## Split Chunk
 
 A great chunk splitting strategy is very important to improve the loading performance of the application. It can make full use of the browser's caching mechanism to reduce the number of requests and improve the loading speed of the application.
 
-A variety of [chunk splitting strategies](/en/guide/optimization/split-chunk) are built into Builder, which can meet the needs of most applications. You can also customize the chunk splitting config according to your own business scenarios. For example:
+A variety of [chunk splitting strategies](/en/guide/optimization/split-chunk) are built into Builder, which can meet the needs of most applications. You can also customize the chunk splitting config according to your own business scenarios.
 
-```ts
+For example, split the `axios` library under node_modules into `axios.js`:
+
+```js
 export default {
   performance: {
     chunkSplit: {
       strategy: 'split-by-experience',
       forceSplitting: {
-        // For example, split the `react-query` into a Chunk
-        react_query: [/node_modules\/react-query/],
+        axios: /node_modules\/axios/,
       },
     },
   },

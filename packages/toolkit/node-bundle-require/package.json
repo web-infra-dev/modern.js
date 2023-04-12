@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
-  "version": "2.9.0",
+  "version": "2.12.0",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -22,9 +22,13 @@
         "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
-    "./bundle": "./dist/cjs/bundle.js"
+    "./bundle": {
+      "types": "./dist/types/bundle.d.ts",
+      "default": "./dist/cjs/bundle.js"
+    }
   },
   "typesVersions": {
     "*": {

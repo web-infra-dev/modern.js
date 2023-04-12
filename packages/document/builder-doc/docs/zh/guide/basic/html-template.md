@@ -61,7 +61,7 @@ export default {
 };
 ```
 
-也可以通过 [html.appIcon](/api/config-html.html#htmlappicon) 配置项来设置 iOS 下的 apple-touch-icon 图标。
+也可以通过 [html.appIcon](/api/config-html.html#htmlappicon) 配置项来设置 iOS 系统下的 apple-touch-icon 图标。
 
 ```ts
 export default {
@@ -289,7 +289,7 @@ export default {
 
 `html.tags` 也支持传入回调函数，常用于修改标签列表或是在插入标签的同时确保其相对位置：
 
-```typescript
+```ts
 export default {
   html: {
     tags: [

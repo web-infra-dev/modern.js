@@ -61,7 +61,7 @@ export default {
 };
 ```
 
-You can also set the apple-touch-icon under iOS through the [html.appIcon](/en/api/config-html.html#htmlappicon) config.
+You can also set the apple-touch-icon for iOS system through the [html.appIcon](/en/api/config-html.html#htmlappicon) config.
 
 ```ts
 export default {
@@ -289,7 +289,7 @@ So the HTML output built with the above configuration will look like this.
 
 `html.tags` also accepts a callback function, which is often used to modify the list of tags or to ensure their relative position while inserting them.
 
-```typescript
+```ts
 export default {
   html: {
     tags: [

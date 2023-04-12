@@ -1,4 +1,5 @@
 import type { PluginAPI } from '@modern-js/core';
+import { logger } from '@modern-js/utils/logger';
 import type { ModuleContext } from '../types/context';
 import type {
   BuildCommandOptions,
@@ -27,11 +28,11 @@ export const run = async (
     const { default: pMap } = await import('../../compiled/p-map');
 
     const { clearBuildConfigPaths, clearDtsTemp } = await import('./clear');
-    await clearBuildConfigPaths(resolvedBuildConfig);
+    await clearBuildConfigPaths(resolvedBuildConfig, !cmdOptions.clear);
     await clearDtsTemp();
 
     if (cmdOptions.watch) {
-      console.info(chalk.blue.underline('start build in watch mode...\n'));
+      logger.info('Start build in watch mode...\n');
     }
 
     try {
@@ -63,7 +64,7 @@ export const run = async (
       printFileSize();
     }
   } else {
-    console.warn(
+    logger.warn(
       chalk.yellow(
         `No build configuration found! Please configure \`buildConfig\` or \`buildPreset\``,
       ),

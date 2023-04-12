@@ -7,7 +7,7 @@
 
 比如:
 
-```js
+```ts
 import path from 'path';
 
 export default {
@@ -23,7 +23,7 @@ export default {
 
 以 `query-string` 为例，你可以做如下的配置：
 
-```js
+```ts
 import path from 'path';
 
 export default {
@@ -48,9 +48,7 @@ export default {
 
 以 `query-string` 为例，它依赖的 `decode-uri-component` 包中同样存在 ES6+ 代码，因此需要将 `decode-uri-component` 也加入到 `source.include` 中：
 
-```js
-import path from 'path';
-
+```ts
 export default {
   source: {
     include: [/\/query-string\//, /\/decode-uri-component\//],
@@ -106,3 +104,17 @@ export default {
 比如，你将 Monorepo 中的 `packages/foo` 路径 symlink 到当前项目的 `node_modules/foo` 路径下，则需要去匹配 `packages/foo` 路径，而不是 `node_modules/foo` 路径。
 
 该行为可以通过 webpack 的 [resolve.symlinks](https://webpack.js.org/configuration/resolve/#resolvesymlinks) 配置项来进行控制。
+
+### 注意事项
+
+注意，`source.include` 不应该被用于编译整个 `node_modules` 目录，比如下面的写法是错误的：
+
+```ts
+export default {
+  source: {
+    include: [/\/node_modules\//],
+  },
+};
+```
+
+如果你对整个 `node_modules` 进行编译，不仅会使编译时间大幅度增加，并且可能会产生不可预期的错误。因为 `node_modules` 中的大部分 npm 包发布的已经是编译后的产物，通常没必要经过二次编译。此外，`core-js` 等 npm 包被编译后可能会出现异常。

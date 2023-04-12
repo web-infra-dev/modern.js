@@ -1,4 +1,5 @@
 import type { ChildProcess } from 'child_process';
+import { logger } from '@modern-js/utils';
 import type {
   BundlelessGeneratorDtsConfig,
   ITsconfig,
@@ -38,10 +39,10 @@ const resolveLog = async (
    */
   childProgress.stdout?.on('data', async data => {
     if (watch) {
-      console.info(
+      logger.info(
         await watchSectionTitle(BundlelessDtsLogPrefix, SectionTitleStatus.Log),
       );
-      console.info(data.toString());
+      logger.info(data.toString());
       if (data.toString().includes(watchDoneText)) {
         await watchFn();
       }
@@ -49,10 +50,10 @@ const resolveLog = async (
   });
   // 正常以下内容都不会触发，因为tsc 不会产生以下类型的log信息，不过防止意外情况
   childProgress.stdout?.on('error', error => {
-    console.error(error.message);
+    logger.error(error.message);
   });
   childProgress.stderr?.on('data', chunk => {
-    console.error(chunk.toString());
+    logger.error(chunk.toString());
   });
 };
 
@@ -61,10 +62,16 @@ const generatorDts = async (
   config: BundlelessGeneratorDtsConfig,
 ) => {
   const { execa } = await import('@modern-js/utils');
-  const { InternalDTSError } = await import('../../error');
-  const { generatorTsConfig } = await import('../../utils/dts');
+  const { generatorTsConfig, printOrThrowDtsErrors } = await import(
+    '../../utils/dts'
+  );
   const { getTscBinPath } = await import('../../utils/dts');
-  const { tsconfigPath, appDirectory, watch = false } = config;
+  const {
+    tsconfigPath,
+    appDirectory,
+    watch = false,
+    abortOnError = true,
+  } = config;
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
   const result = await generatorTsConfig(config);
 
@@ -101,11 +108,7 @@ const generatorDts = async (
   try {
     await childProgress;
   } catch (e) {
-    if (e instanceof Error) {
-      throw new InternalDTSError(e, {
-        buildType: 'bundleless',
-      });
-    }
+    await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundleless' });
   }
 
   return { ...result, userTsconfig };

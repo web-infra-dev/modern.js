@@ -1,40 +1,21 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import type {
-  ModernServerContext,
-  NestedRoute,
-  ServerRoute,
-} from '@modern-js/types';
+import type { NestedRoute, ServerRoute } from '@modern-js/types';
 import {
   installGlobals,
   writeReadableStreamToWritable,
   Response as NodeResponse,
 } from '@remix-run/node';
-import { transformNestedRoutes } from '@modern-js/utils/nestedRoutes';
 import {
   createStaticHandler,
   ErrorResponse,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
-} from '@modern-js/utils/remix-router';
+} from '@modern-js/utils/universal/remix-router';
 import { isPlainObject } from '@modern-js/utils/lodash';
+import { transformNestedRoutes } from '@modern-js/utils/universal/nestedRoutes';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
+import { matchEntry, ServerContext } from '../common/utils';
 import { createDeferredReadableStream } from './response';
-
-export type ServerContext = Pick<
-  ModernServerContext,
-  | 'req'
-  | 'res'
-  | 'params'
-  | 'headers'
-  | 'method'
-  | 'url'
-  | 'host'
-  | 'protocol'
-  | 'origin'
-  | 'href'
-  | 'path'
-  | 'query'
->;
 
 // Polyfill Web Fetch API
 installGlobals();
@@ -52,21 +33,6 @@ export function isResponse(value: any): value is NodeResponse {
     typeof value.headers === 'object' &&
     typeof value.body !== 'undefined'
   );
-}
-
-function sortByUrlPath(entries: ServerRoute[]): ServerRoute[] {
-  entries.sort(function (a, b) {
-    const length1 = a.urlPath.length;
-    const length2 = b.urlPath.length;
-    if (length1 < length2) {
-      return 1;
-    }
-    if (length1 > length2) {
-      return -1;
-    }
-    return 0;
-  });
-  return entries;
 }
 
 function convertModernRedirectResponse(headers: Headers, basename: string) {
@@ -140,15 +106,10 @@ const sendLoaderResponse = async (
   }
 };
 
-export const matchEntry = (pathname: string, entries: ServerRoute[]) => {
-  sortByUrlPath(entries);
-  return entries.find(entry => pathname.startsWith(entry.urlPath));
-};
-
 export const handleRequest = async ({
   context,
   serverRoutes,
-  routes,
+  routes: routesConfig,
 }: {
   context: ServerContext;
   serverRoutes: ServerRoute[];
@@ -168,8 +129,8 @@ export const handleRequest = async ({
   }
 
   const basename = entry.urlPath;
-  const dataRoutes = transformNestedRoutes(routes);
-  const staticHandler = createStaticHandler(dataRoutes, {
+  const routes = transformNestedRoutes(routesConfig);
+  const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
 
@@ -179,9 +140,8 @@ export const handleRequest = async ({
   let response;
 
   try {
-    response = await staticHandler.queryRoute(request, {
+    response = await queryRoute(request, {
       routeId,
-      requestContext: context,
     });
 
     if (isResponse(response) && isRedirectResponse(response.status)) {
@@ -223,5 +183,5 @@ export const handleRequest = async ({
     });
   }
 
-  sendLoaderResponse(res, response);
+  await sendLoaderResponse(res, response);
 };

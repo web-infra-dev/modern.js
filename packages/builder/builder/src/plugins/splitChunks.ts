@@ -3,10 +3,11 @@ import {
   RUNTIME_CHUNK_NAME,
   getPackageNameFromModulePath,
   type Polyfill,
-  DefaultBuilderPlugin,
-  BuilderChunkSplit,
-  SplitChunks,
-  CacheGroup,
+  type CacheGroup,
+  type SplitChunks,
+  type ForceSplitting,
+  type BuilderChunkSplit,
+  type DefaultBuilderPlugin,
 } from '@modern-js/builder-shared';
 
 // We expose the three-layer to specify webpack chunk-split ability:
@@ -42,19 +43,24 @@ interface SplitChunksContext {
   polyfill: Polyfill;
 }
 
-function getUserDefinedCacheGroups(forceSplitting: Array<RegExp>): CacheGroup {
+function getUserDefinedCacheGroups(forceSplitting: ForceSplitting): CacheGroup {
   const cacheGroups: CacheGroup = {};
-  forceSplitting.forEach((reg, index) => {
-    const key = `force-split-${index}`;
+  const pairs = Array.isArray(forceSplitting)
+    ? forceSplitting.map(
+        (regexp, index) => [`force-split-${index}`, regexp] as const,
+      )
+    : Object.entries(forceSplitting);
 
+  pairs.forEach(([key, regexp]) => {
     cacheGroups[key] = {
-      test: reg,
+      test: regexp,
       name: key,
       chunks: 'all',
       // Ignore minimum size, minimum chunks and maximum requests and always create chunks for user defined cache group.
       enforce: true,
     };
   });
+
   return cacheGroups;
 }
 

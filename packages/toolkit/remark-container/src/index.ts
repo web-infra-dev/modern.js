@@ -56,7 +56,7 @@ const parseTitle = (rawTitle = '', isMDX = false) => {
  * will be transformed to:
  *
  * <div class="modern-directive tip">
- *   <p class="modern-directive-title">TIP</p>
+ *   <div class="modern-directive-title">TIP</div>
  *   <div class="modern-directive-content">
  *     <p>This is a tip</p>
  *   </div>
@@ -79,6 +79,7 @@ const createContainer = (
     {
       type: 'paragraph',
       data: {
+        hName: 'div',
         hProperties: {
           class: 'modern-directive-title',
         },

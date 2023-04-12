@@ -28,22 +28,18 @@ describe('test hook api', () => {
 
     // request data
     expect(request.cookie).toBe(cookie);
-    expect(request.cookies.get('a')).toBe('b');
+    expect(request.cookies.get!('a')).toBe('b');
     expect(request.headers.host).toBe('modernjs.com');
     expect(request.pathname).toBe('/home');
     expect(request.query.id).toBe('12345');
 
     // response data
     response.cookies.set('name', 'modern');
-    expect(response.cookies.get('name')).toBe('modern');
-    response.cookies.delete('name');
-    expect(response.cookies.get('name')).toBeUndefined();
-    response.cookies.set('name', 'modern');
-    expect(res.getHeader('set-cookie')).toBeUndefined();
-    response.cookies.apply();
-    expect(res.getHeader('set-cookie')).toBe('name=modern');
+    expect(res.getHeader('set-cookie')).toMatch('name=modern');
+    response.cookies.set('age', '18');
+    expect(res.getHeader('set-cookie')).toEqual(['name=modern', 'age=18']);
+
     response.cookies.clear();
-    response.cookies.apply();
     expect(res.getHeader('set-cookie')).toBeUndefined();
 
     response.set('x-modern-test', 'foo');

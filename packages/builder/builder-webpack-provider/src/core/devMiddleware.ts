@@ -3,6 +3,7 @@ import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import type { Compiler, MultiCompiler } from 'webpack';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
+import { IncomingMessage, ServerResponse } from 'http';
 
 type DevMiddlewareOptions = ModernDevServerOptions['devMiddleware'];
 
@@ -56,5 +57,11 @@ export const getDevMiddleware: (
   // register hooks for each compilation, update socket stats if recompiled
   setupHooks(compiler, callbacks);
 
-  return webpackDevMiddleware(compiler, restOptions);
+  return webpackDevMiddleware(
+    compiler,
+    restOptions as webpackDevMiddleware.Options<
+      IncomingMessage,
+      ServerResponse
+    >,
+  );
 };

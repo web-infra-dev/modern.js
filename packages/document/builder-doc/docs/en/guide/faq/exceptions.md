@@ -179,11 +179,11 @@ export default {
 
 After adding the above configuration, webpack will output logs for debugging. Please refer to the logs related to `PackFileCacheStrategy` to understand the cause of cache invalidation.
 
-## Tree Shaking does not take effect?
+## Tree shaking does not take effect?
 
-Builder will enable the Tree Shaking function of webpack by default during production construction. Whether Tree Shaking can take effect depends on whether the business code can meet the Tree Shaking conditions of webpack.
+Builder will enable the tree shaking function of webpack by default during production construction. Whether tree shaking can take effect depends on whether the business code can meet the tree shaking conditions of webpack.
 
-If you encounter the problem that Tree Shaking does not take effect, you can check whether the `sideEffects` configuration of the relevant npm package is correct. If you don't know what `sideEffects` is, you can read the following two documents:
+If you encounter the problem that tree shaking does not take effect, you can check whether the `sideEffects` configuration of the relevant npm package is correct. If you don't know what `sideEffects` is, or are interested in the principles behind tree shaking, you can read the following two documents:
 
 - [webpack official documentation - Tree Shaking](https://webpack.docschina.org/guides/tree-shaking/)
 - [Tree Shaking Troubleshooting Guide](https://bytedance.feishu.cn/docs/doccn8E1ldDct5uv1EEDQs8Ycwe)
@@ -192,20 +192,31 @@ If you encounter the problem that Tree Shaking does not take effect, you can che
 
 This error indicates that there is a memory overflow problem during the packaging process. In most cases, it is because the packaged content exceeds the default memory limit of Node.js.
 
-In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command:
+In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command.
 
-```bash
-NODE_OPTIONS=--max_old_space_size=16384 modern build
+For example, add parameters before the `modern build` command:
+
+```diff title="package.json"
+{
+   "scripts": {
+- "build": "modern build"
++ "build": "NODE_OPTIONS=--max_old_space_size=16384 modern build"
+   }
+}
 ```
 
-The value of the parameter represents the upper limit of the memory size (MB). Generally, it can be set to `16384` (16GB).
+If you are executing other commands, such as `modern deploy`, please add parameters before the corresponding command.
+
+The value of the `max_old_space_size` parameter represents the upper limit of the memory size (MB). Generally, it can be set to `16384` (16GB).
 
 The following parameters are explained in more detail in the official Node.js documentation:
 
 - [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions)
 - [--max-old-space-size](https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes)
 
-In addition to increasing the memory limit, it is also a solution to improve efficiency by enabling some compilation strategies.
+In addition to increasing the memory limit, it is also a solution to improve efficiency by enabling some compilation strategies, please refer to [Improve Build Performance](/guide/optimization/build-performance).
+
+If the above methods cannot solve your problem, it may be that some abnormal logic in the project has caused memory overflow. You can debug recent code changes and locate the root cause of problems. If it cannot be located, please contact us.
 
 ## Can't resolve 'core-js/modules/xxx.js' when compiling?
 
@@ -243,6 +254,66 @@ export default {
 
 2. Some code in the project depends on `core-js` v2. In this case, you usually need to find out the corresponding code and upgrade `core-js` to the v3.
 3. An npm package in `node_modules` imported `core-js`, but does not declare the `core-js` dependency in `dependencies`. In this case, you need to declare the `core-js` dependency in the corresponding npm package, or install a copy of `core-js` in the project root directory.
+
+## HMR not work when updating React components?
+
+Builder uses React's official [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) capability to perform component hot updates.
+
+If there is a problem that the hot update of the React component cannot take effect, or the state of the React component is lost after the hot update, it is usually because your React component uses an anonymous function. In the official practice of React Fast Refresh, it is required that the component cannot be an anonymous function, otherwise the state of the React component cannot be preserved after hot update.
+
+Here are some examples of wrong usage:
+
+```tsx
+// bad
+export default function () {
+  return <div>Hello World</div>;
+}
+
+// bad
+export default () => <div>Hello World</div>;
+```
+
+The correct usage is to declare a name for each component function:
+
+```tsx
+// good
+export default function MyComponent() {
+  return <div>Hello World</div>;
+}
+
+// good
+const MyComponent = () => <div>Hello World</div>;
+
+export default MyComponent;
+```
+
+## Compilation error after referencing a type from lodash
+
+If the `@types/lodash` package is installed in your project, you may import some types from `lodash`, such as the `DebouncedFunc` type:
+
+```ts
+import { debounce, DebouncedFunc } from 'lodash';
+```
+
+Builder will throw an error after compiling the above code:
+
+```bash
+Syntax error: /project/src/index.ts: The lodash method `DebouncedFunc` is not a known module.
+Please report bugs to https://github.com/lodash/babel-plugin-lodash/issues.
+```
+
+The reason is that Builder has enabled the [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) plugin by default to optimize the bundle size of lodash, but Babel cannot distinguish between "value" and "type", which resulting in an exception in the compiled code.
+
+The solution is to use TypeScript's `import type` syntax to explicitly declare the `DebouncedFunc` type:
+
+```ts
+import { debounce } from 'lodash';
+import type { DebouncedFunc } from 'lodash';
+```
+
+:::tip
+In any case, it is recommended to use `import type` to import types, this will help the compiler to identify the type.
+:::
 
 ## Division in Less file doesn't work?
 

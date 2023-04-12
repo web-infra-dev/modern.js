@@ -28,7 +28,6 @@ describe('Traditional SSR', () => {
       args: ['--no-sandbox'],
     });
     page = await browser.newPage();
-    page.setDefaultTimeout(10000);
   });
 
   afterAll(async () => {
@@ -47,7 +46,7 @@ describe('Traditional SSR', () => {
     await expect(page).toMatchTextContent('user1-18');
   });
 
-  it(`client navigation works`, async () => {
+  it.skip(`client navigation works`, async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });

@@ -23,7 +23,7 @@ Modern.js is a web engineering system, including multiple solutions:
 - 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
 - 🐹 [Modern.js Doc](https://modernjs.dev/doc-tools): A documentation site solution with modern tech stack.
-- 🐱 [Modern.js Builder](https://modernjs.dev/builder/en/): A build engine for web development.
+- 🐈 [Modern.js Builder](https://modernjs.dev/builder/en/): A build engine for web development.
 
 ## Getting Started
 
@@ -38,7 +38,7 @@ The following solutions are available within the Modern.js ecosystem:
 
 - 🦀 [Rspack](https://github.com/web-infra-dev/rspack): A fast Rust-based web bundler.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
-- 🐈 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
+- 🦆 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
 
 ## Contributing
 

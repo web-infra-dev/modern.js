@@ -5,7 +5,13 @@ import type { BundlerConfig } from '@modern-js/builder-shared';
 import { omitBy, isUndefined } from '@modern-js/utils/lodash';
 
 const formatCondition = (data: any, typeName: string): string | RegExp => {
-  if (!(data instanceof RegExp || typeof data === 'string')) {
+  if (
+    !(
+      data instanceof RegExp ||
+      typeof data === 'string' ||
+      typeof data === 'object'
+    )
+  ) {
     throw new Error(
       `${typeName} only support string or RegExp, but found ${typeof data}`,
     );

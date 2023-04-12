@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { builderPluginAssetsRetry } from '@/plugins/assetsRetry';
+import { builderPluginAssetsRetry } from '@builder/plugins/assetsRetry';
 import { createStubBuilder } from '@/stub/builder';
 
 describe('plugins/assetsRetry', () => {

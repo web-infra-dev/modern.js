@@ -134,3 +134,61 @@ console.log('Hello World');
 ```js title="hello.js"
 console.log('Hello World');
 ```
+
+You can specify code line highlighting with the following syntax, for example:
+
+**Input:**
+
+````md
+```js {1,3-5}
+console.log('Hello World');
+
+const a = 1;
+console.log(a);
+const b = 2;
+console.log(b);
+```
+````
+
+**Output:**
+
+```js {1,3-5}
+console.log('Hello World');
+
+const a = 1;
+console.log(a);
+const b = 2;
+console.log(b);
+```
+
+You can also apply line highlighting and code block title at the same time, for example:
+
+**Input:**
+
+````md
+```js title="hello.js" {1,3-5}
+console.log('Hello World');
+
+const a = 1;
+
+console.log(a);
+
+const b = 2;
+
+console.log(b);
+```
+````
+
+**Ouput:**
+
+```js title="hello.js" {1,3-5}
+console.log('Hello World');
+
+const a = 1;
+
+console.log(a);
+
+const b = 2;
+
+console.log(b);
+```

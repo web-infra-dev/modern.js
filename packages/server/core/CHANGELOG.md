@@ -1,5 +1,45 @@
 # @modern-js/server-plugin
 
+## 2.12.0
+
+### Patch Changes
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/plugin@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/plugin@2.11.0
+
+## 2.10.0
+
+### Patch Changes
+
+- 3e0bd50: feat: when enable bff handle render, support use `useContext` to get framework plugin context in data loader.
+  feat: 当开启 BFF 托管渲染时，支持在 data loader 中使用 `useContext` 获取框架插件提供的上下文。
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- Updated dependencies [0da32d0]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/plugin@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

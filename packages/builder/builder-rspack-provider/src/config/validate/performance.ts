@@ -6,6 +6,7 @@ import {
   BaseSplitRulesSchema,
   SplitBySizeSchema,
   SplitCustomSchema,
+  ForceSplittingSchema,
 } from '@modern-js/builder-shared';
 import type { PerformanceConfig } from '../../types';
 
@@ -16,7 +17,7 @@ const BaseChunkSplitSchema: z.ZodType<BaseChunkSplit> =
       'all-in-one',
       'single-vendor',
     ]),
-    forceSplitting: z.array(z.instanceof(RegExp)).optional(),
+    forceSplitting: ForceSplittingSchema,
     override: z.any().optional(),
   });
 

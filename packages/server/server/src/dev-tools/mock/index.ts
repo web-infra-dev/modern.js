@@ -25,13 +25,10 @@ export const createMockHandler = ({ pwd }: { pwd: string }) => {
     return null;
   }
 
-  const {
-    default: mockModule,
-    config,
-  }: {
-    default: any;
-    config?: MockConfig;
-  } = compatRequire(filepath, false);
+  const mod = compatRequire(filepath, false);
+  // To ensure compatibility with CommonJS syntax, add default mock as mod.
+  // For use mock config, it must use ESM syntax.
+  const { default: mockModule = mod, config } = mod;
 
   if (config?.enable === false) {
     return null;

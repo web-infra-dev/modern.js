@@ -27,6 +27,27 @@ export default {
 };
 ```
 
+`webpack-dev-server` uses Express as the server-side framework. Modern.js does not use any framework, and the `req` and `res` in the above middleware are all native Node objects. Therefore, the Express middleware used in `webpack-dev-server` may not be directly usable in Modern.js.
+
+If you want to migrate the Express middleware used in `webpack-dev-server`, you can use the following method to pass the Express app as middleware:
+
+```js
+import expressMiddleware from 'my-express-middleware';
+import express from 'express';
+
+// init Express app
+const app = express();
+app.use(expressMiddleware);
+
+export default {
+  tools: {
+    devServer: {
+      after: [app],
+    },
+  },
+};
+```
+
 #### before
 
 - **Type:** `Array`
@@ -170,7 +191,7 @@ export default {
 - **Type:** `boolean`
 - **Default:** `true`
 
-By default, the DevServer will reload/refresh the page when file changes are detected（`devServer.hot` option must be disabled in order for liveReload to take effect）. Disable `devServer.liveReload` by setting it to `false`.
+By default, the DevServer will reload/refresh the page when file changes are detected (`devServer.hot` option must be disabled in order for liveReload to take effect). Disable `devServer.liveReload` by setting it to `false`.
 
 #### setupMiddlewares
 
@@ -303,11 +324,11 @@ type ProxyOptions =
 
 In addition to the http-proxy-middleware option, we also support the bypass and context configuration:
 
-- bypass：bypass the proxy based on the return value of a function.
+- bypass: bypass the proxy based on the return value of a function.
   - Return `null` or `undefined` to continue processing the request with proxy.
   - Return `false` to produce a 404 error for the request.
   - Return a path to serve from, instead of continuing to proxy the request.
-- context：If you want to proxy multiple, specific paths to the same target, you can use an array of one or more objects with a context property.
+- context: If you want to proxy multiple, specific paths to the same target, you can use an array of one or more objects with a context property.
 
 ```js
 // custom bypass

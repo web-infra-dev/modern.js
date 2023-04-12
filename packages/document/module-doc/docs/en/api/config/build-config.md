@@ -95,6 +95,35 @@ Packaged to handle svg as a React component, options reference [svgr](https://re
 - type: `boolean | Object`
 - default: `false`
 
+When svgr feature is enabled, you can use svg as a component using the default export.
+
+```js index.ts
+// true
+import Logo from './logo.svg';
+
+export default () => <Logo />;
+```
+
+:::warning
+The following usage is not currently supported:
+
+```js index.ts
+import { ReactComponent } from './logo.svg';
+```
+
+:::
+
+When enabled, the type of svg used can be modified by adding a type definition to the `modern-app-env.d.ts` file:
+
+```ts modern-app-env.d.ts focus=1:3
+declare module '*.svg' {
+  const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  export default src;
+}
+
+/// <reference types='@modern-js/module-tools/types' />
+```
+
 #### include
 
 Set the matching svg file
@@ -115,6 +144,30 @@ Automatically externalize project dependencies and peerDependencies and not pack
 
 - type: `boolean | Object`
 - default: `true`
+
+When we want to turn off the default handling behavior for third-party dependencies, we can do so by:
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: false,
+  },
+});
+```
+
+This way the dependencies under `"dependencies"` and `"peerDependencies"` will be packaged. If you want to turn off the processing of only one of these dependencies, you can use the
+`buildConfig.autoExternal` in the form of an object.
+
+```ts
+export default defineConfig({
+  buildConfig: {
+    autoExternal: {
+      dependencies: false,
+      peerDependencies: false,
+    },
+  },
+});
+```
 
 ### dependencies
 
@@ -183,17 +236,30 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 ## dts
 
-The dts file generates the relevant configuration, by default it generates
+The dts file generates the relevant configuration, by default it generates.
 
 - type: `false | Object`
-- default: `{}`
+- default:
 
-### tsconfigPath
+```js
+{
+  abortOnError: true,
+  distPath: './',
+  only: false,
+  tsconfigPath: './tsconfig.json',
+}
+```
 
-Path to the tsconfig file
+### abortOnError
 
-- type: `string`
-- default: `. /tsconfig.json`
+Whether to allow the build to succeed in case of a type error. By default, this will cause the build to fail in case of a type error.
+
+:::warning
+When this configuration is turned on, there is no guarantee that the type files will be generated properly and accurately. In `buildType: 'bundle'` or Bundle build mode, the type file must not be generated.
+:::
+
+- type: `boolean`
+- default: `true`
 
 ### distPath
 
@@ -208,6 +274,13 @@ Generate only dts files, not js files
 
 - type: `boolean`
 - default: `false`
+
+### tsconfigPath
+
+Path to the tsconfig file
+
+- type: `string`
+- default: `. /tsconfig.json`
 
 ## externals
 
@@ -285,6 +358,27 @@ Generates code for the node environment by default, you can also specify `browse
 - type: `'browser' | 'node'`
 - default: `node`
 
+## redirect
+
+In `buildType: 'bundleless'` build mode, the reference path is redirected to ensure that it points to the correct product, e.g:
+
+- `import '. /index.less'` will be rewritten to `import '. /index.css'`
+- `import icon from '. /close.svg'` would be rewritten as `import icon from '... /asset/close.svg'` to `import icon from '. /asset/close.svg'` (depending on the situation)
+
+In some scenarios, you may not need these functions, then you can turn it off with this configuration, and its reference path will not be changed after turning it off.
+
+```ts
+export default {
+  buildConfig: {
+    redirect: {
+      alias: false, // Turn off modifying alias paths
+      style: false, // Turn off modifying the path to the style file
+      asset: false, // Turn off modifying the path to the resource file
+    },
+  },
+};
+```
+
 ## sideEffects
 
 Module sideEffects
@@ -292,7 +386,7 @@ Module sideEffects
 - Type: `RegExg[] | (filePath: string, isExternal: boolean) => boolean | boolean`
 - Default value: `undefined`
 
-Normally, we configure the module's side effects via the sideEffects field in package.json, but in some cases, such as when we reference a three-party package style file
+Normally, we configure the module's side effects via the sideEffects field in package.json, but in some cases, The package.json of a three-party package is unreliable.Such as when we reference a three-party package style file
 
 ```js
 import 'other-package/dist/index.css';
@@ -306,7 +400,13 @@ But the package.json of this three-party package does not have the style file co
 }
 ```
 
-This is the time to use this configuration item, which supports regular and functional forms
+At the same time you set [style.object](#inject) to `true` and you will see a warning message like this in the console
+
+```bash
+[LIBUILD:ESBUILD_WARN] Ignoring this import because "other-package/dist/index.css" was marked as having no side effects
+```
+
+At this point, you can use this configuration item to manually configure the module's `"sideEffects"` to support regular and functional forms.
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';

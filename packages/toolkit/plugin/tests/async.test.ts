@@ -283,7 +283,7 @@ describe('async manager', () => {
 
       manager.usePlugin(plugin0, plugin1);
 
-      await expect(manager.init).rejects.toThrowError();
+      expect(manager.init).toThrowError();
     });
 
     it('should not throw error without attaching rival plugin', async () => {
@@ -325,7 +325,7 @@ describe('async manager', () => {
 
       manager.usePlugin(plugin0);
 
-      await expect(manager.init).rejects.toThrowError();
+      expect(manager.init).toThrowError();
     });
 
     it('should not throw error without attaching rival plugin', async () => {

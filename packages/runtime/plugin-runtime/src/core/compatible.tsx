@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import type { Renderer } from 'react-dom';
 import type { hydrateRoot, createRoot } from 'react-dom/client';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { ROUTE_MANIFEST } from '@modern-js/utils/constants';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import {
   RuntimeReactContext,
   RuntimeContext,
@@ -15,6 +15,7 @@ const IS_REACT18 = process.env.IS_REACT18 === 'true';
 
 export type CreateAppOptions = {
   plugins: Plugin[];
+  props?: any;
 };
 
 function isClientArgs(
@@ -38,7 +39,10 @@ const getInitialContext = (runner: PluginRunner) => ({
     typeof window !== 'undefined' && (window as any)[ROUTE_MANIFEST],
 });
 
-export const createApp = ({ plugins }: CreateAppOptions) => {
+export const createApp = ({
+  plugins,
+  props: globalProps,
+}: CreateAppOptions) => {
   const appRuntime = runtime.clone();
   appRuntime.usePlugin(...plugins);
 
@@ -48,8 +52,13 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
     const WrapperComponent: React.ComponentType<any> = props => {
       const element = React.createElement(
         App || React.Fragment,
-        { ...props },
-        props.children,
+        App ? { ...props } : null,
+        App
+          ? props.children
+          : React.cloneElement(props.children, {
+              ...props.children?.props,
+              ...props,
+            }),
       );
       const context = useContext(RuntimeReactContext);
 
@@ -83,9 +92,12 @@ export const createApp = ({ plugins }: CreateAppOptions) => {
                 },
               );
             }
+
+            const mergedProps = { ...props, ...globalProps };
+
             return (
               <RuntimeReactContext.Provider value={contextValue}>
-                <App {...props} />
+                <App {...mergedProps} />
               </RuntimeReactContext.Provider>
             );
           };

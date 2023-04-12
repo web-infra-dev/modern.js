@@ -69,16 +69,9 @@ function generateRouterPlugin (basename,routerConfig) {
   return router(routerConfig);
 }
 
-function generateAppWrapperAndRootDom ({ App, props: garfishProps, dom }) {
-  let AppWrapper = App;
-  if (garfishProps) {
-    AppWrapper = function (props) {
-      return React.createElement(App, { ...garfishProps, ...props });
-    };
-    AppWrapper = hoistNonReactStatics(AppWrapper, App);
-  }
+function generateRootDom ({ dom }) {
   const mountNode = dom ? (dom.querySelector('#' + MOUNT_ID) || dom) : document.getElementById(MOUNT_ID);
-  return { AppWrapper, mountNode }
+  return { mountNode }
 }
 `;
 
@@ -86,14 +79,15 @@ export const makeRenderFunction = (code: string) => {
   const inGarfishToRender = `
   const { basename, props, dom, appName } = typeof arguments[0] === 'object' && arguments[0] || {};
   if (!canContinueRender({ dom, appName })) return null;
-  let { AppWrapper, mountNode } = generateAppWrapperAndRootDom({App, props: {...props, basename}, dom});
+  let { mountNode } = generateRootDom({dom});
   `;
+
   return (
     inGarfishToRender +
     code
       .replace(`router(`, `generateRouterPlugin(basename,`)
-      .replace('(App)', `(AppWrapper)`)
       .replace(/MOUNT_ID/g, 'mountNode')
+      .replace(`createApp({`, 'createApp({ props,')
       .replace(
         `bootstrap(AppWrapper, mountNode, root`,
         'bootstrap(AppWrapper, mountNode, root = IS_REACT18 ? ReactDOM.createRoot(mountNode) : null',

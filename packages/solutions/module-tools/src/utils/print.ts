@@ -77,9 +77,8 @@ export const printFileSize = () => {
 };
 
 export const printSucceed = (totalDuration: number) => {
-  logger.info(
-    chalk.bold(chalk.blue(`${buildSuccessText}: ${totalDuration / 1000}s`)),
-  );
+  const time = chalk.cyan(`${totalDuration / 1000}s`);
+  logger.info(`${buildSuccessText} in ${time}`);
 };
 
 const prettyBytes = (bytes: number) => {
@@ -99,14 +98,13 @@ const printBundleFiles = () => {
     (max, str) => Math.max(max, str.name.length),
     reportFile1LineText.length,
   );
-  const info = `Bundle generated ${bundleFiles.length} files\n`;
+
+  logger.info(`Bundle generated ${bundleFiles.length} files\n`);
 
   const headerRow =
     reportFile1LineText +
     ' '.repeat(longestFileLength - 10) +
     reportFile2LineText;
-
-  logger.info(chalk.bold(chalk.blue(info)));
   logger.log(chalk.bold(chalk.green(headerRow)));
 
   bundleFiles.forEach(({ name, size }) => {
@@ -126,8 +124,8 @@ const printBundlelessInfo = () => {
   const totalSize = bundlelessFiles.reduce((total, file) => {
     return total + file.size;
   }, 0);
-  const info = `Bundleless generated ${count} files, the total size is ${prettyBytes(
-    totalSize,
+  const info = `Bundleless generated ${count} files, the total size is ${chalk.cyan(
+    prettyBytes(totalSize),
   )}`;
-  logger.info(chalk.bold(chalk.blue(info)));
+  logger.info(info);
 };

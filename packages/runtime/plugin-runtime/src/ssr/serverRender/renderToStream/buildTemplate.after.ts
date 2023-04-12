@@ -1,11 +1,9 @@
-import type { StaticHandlerContext } from '@modern-js/utils/remix-router';
-import { serializeJson } from '@modern-js/utils/serialize';
-import { RenderLevel, SSRServerContext } from '../types';
+import { serializeJson } from '@modern-js/utils/universal/serialize';
+import { RenderLevel, RuntimeContext } from '../types';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
 type BuildShellAfterTemplateOptions = {
-  ssrContext: SSRServerContext;
-  routerContext: StaticHandlerContext;
+  context: RuntimeContext;
   renderLevel: RenderLevel;
 };
 export function buildShellAfterTemplate(
@@ -20,12 +18,19 @@ export function buildShellAfterTemplate(
     return template.replace('<!--<?- SSRDataScript ?>-->', ssrDataScript);
 
     function buildSSRDataScript() {
-      const { ssrContext, renderLevel } = options;
-      const { request, enableUnsafeCtx } = ssrContext;
+      const {
+        context: { ssrContext, initialData, __i18nData__ },
+        renderLevel,
+      } = options;
+      const { request, enableUnsafeCtx } = ssrContext!;
       const unsafeContext = {
         headers: request.headers,
       };
       const SSRData = {
+        data: {
+          initialData,
+          i18nData: __i18nData__,
+        },
         context: {
           request: {
             params: request.params,

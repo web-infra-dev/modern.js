@@ -10,7 +10,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.9.0",
+  "version": "2.12.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -24,15 +24,27 @@
       },
       "default": "./dist/index.js"
     },
+    "./node": {
+      "jsnext:source": "./src/node-api.ts",
+      "types": "./dist/node-api.d.ts",
+      "default": "./dist/node-api.js"
+    },
     "./bin": {
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
     },
+    "./config": {
+      "jsnext:source": "./src/config.ts",
+      "types": "./dist/config/types/index.d.ts",
+      "default": "./dist/config/index.js"
+    },
     "./runBin": {
       "jsnext:source": "./src/runBin.ts",
+      "types": "./dist/runBin.d.ts",
       "default": "./dist/runBin.js"
     },
     "./types": {
+      "types": "./dist/types/index.d.ts",
       "default": "./dist/types/index.js"
     }
   },
@@ -43,6 +55,9 @@
       ],
       "types": [
         "./dist/types/index.d.ts"
+      ],
+      "node": [
+        "./dist/node-api.d.ts"
       ],
       "runBin": [
         "./dist/runBin.d.ts"

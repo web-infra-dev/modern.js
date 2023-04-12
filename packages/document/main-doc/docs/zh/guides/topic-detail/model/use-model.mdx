@@ -2,6 +2,7 @@
 sidebar_position: 3
 title: 使用 Model
 ---
+
 # 使用 Model
 
 ## 在组件内使用
@@ -147,7 +148,7 @@ function Search() {
 
 :::
 
-`useStaticModel` 还适合和 [react-three-fiber](https://github.com/pmndrs/react-three-fiber) 等动画库一起使用，因为在动画组件 UI 里绑定会快速变化的状态，容易引起[性能问题](https:/docs.pmnd.rs/react-three-fiber/advanced/pitfalls#never-bind-fast-state-reactive)。这种情况就可以选择使用 `useStaticModel`，它只会订阅状态，但不会引起视图组件的重新渲染。下面是一个简化示例：
+`useStaticModel` 还适合和 [react-three-fiber](https://github.com/pmndrs/react-three-fiber) 等动画库一起使用，因为在动画组件 UI 里绑定会快速变化的状态，容易引起[性能问题](https://docs.pmnd.rs/react-three-fiber/advanced/pitfalls#never-bind-fast-state-reactive)。这种情况就可以选择使用 `useStaticModel`，它只会订阅状态，但不会引起视图组件的重新渲染。下面是一个简化示例：
 
 ```ts
 function ThreeComponent() {

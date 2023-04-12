@@ -33,6 +33,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.fileSize?.(),
     plugins.cleanOutput?.(),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
+    plugins.antd(),
     plugins.svg(),
     import('../plugins/pug').then(m => m.builderPluginPug()),
     import('../plugins/checkSyntax').then(m => m.builderPluginCheckSyntax()),
@@ -64,7 +65,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/sri').then(m => m.builderPluginSRI()),
     plugins.startUrl?.(),
     plugins.inlineChunk(),
-    import('../plugins/assetsRetry').then(m => m.builderPluginAssetsRetry()),
+    plugins.assetsRetry(),
     import('../plugins/externals').then(m => m.builderPluginExternals()),
     import('../plugins/performance').then(m => m.builderPluginPerformance()),
     import('../plugins/lazyCompilation').then(m =>

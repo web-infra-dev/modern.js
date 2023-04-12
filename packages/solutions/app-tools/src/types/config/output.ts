@@ -12,6 +12,7 @@ export type RsBuilderOutputConfig = UnwrapBuilderConfig<
 
 export interface SharedOutputConfig extends BuilderSharedOutputConfig {
   ssg?: SSGConfig;
+  splitRouteChunks?: boolean;
   disableNodePolyfill?: boolean;
 }
 

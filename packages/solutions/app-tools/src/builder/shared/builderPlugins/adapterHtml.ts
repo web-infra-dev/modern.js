@@ -1,9 +1,14 @@
-import type {
+import {
   BuilderPlugin,
   BuilderTarget,
   BundlerChain,
+  createVirtualModule,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier, getEntryOptions } from '@modern-js/utils';
+import {
+  ChainIdentifier,
+  getEntryOptions,
+  removeTailSlash,
+} from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { Bundler } from '../../../types';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
@@ -28,11 +33,12 @@ export function isHtmlEnabled(
 export const builderPluginAdapterHtml = <B extends Bundler>(
   options: BuilderOptions<B>,
 ): BuilderPlugin<BuilderPluginAPI> => ({
-  name: 'builder-plugin-adpater-modern-html',
+  name: 'builder-plugin-adapter-modern-html',
   setup(api) {
     api.modifyBundlerChain(
-      (chain, { CHAIN_ID, target, HtmlPlugin: HtmlBundlerPlugin }) => {
+      async (chain, { CHAIN_ID, target, HtmlPlugin: HtmlBundlerPlugin }) => {
         const builderConfig = api.getNormalizedConfig();
+
         if (isHtmlEnabled(builderConfig, target)) {
           applyBottomHtmlPlugin({
             api,
@@ -41,11 +47,47 @@ export const builderPluginAdapterHtml = <B extends Bundler>(
             CHAIN_ID,
             HtmlBundlerPlugin,
           });
+
+          await injectAssetPrefix({
+            api,
+            chain,
+          });
         }
       },
     );
   },
 });
+
+async function injectAssetPrefix({
+  api,
+  chain,
+}: {
+  api: BuilderPluginAPI;
+  chain: BundlerChain;
+}) {
+  const entries = chain.entryPoints.entries() || {};
+  const entryNames = Object.keys(entries);
+  const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
+  const code = `window.__assetPrefix__ = '${assetPrefix}';`;
+  const isRspack = api.context.bundlerType === 'rspack';
+
+  if (isRspack) {
+    const fileName = 'rspack-asset-prefix';
+    const { default: RspackVirtualModulePlugin } = await import(
+      'rspack-plugin-virtual-module'
+    );
+    entryNames.forEach(entryName => {
+      entries[entryName].prepend(fileName);
+      chain
+        .plugin('rspack-asset-prefix')
+        .use(RspackVirtualModulePlugin, [{ [fileName]: code }]);
+    });
+  } else {
+    entryNames.forEach(entryName => {
+      entries[entryName].prepend(createVirtualModule(code));
+    });
+  }
+}
 
 /** inject bottom template */
 function applyBottomHtmlPlugin<B extends Bundler>({

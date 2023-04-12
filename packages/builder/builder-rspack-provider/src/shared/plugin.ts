@@ -5,6 +5,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/transition').then(m => m.builderPluginTransition()),
     import('../plugins/basic').then(m => m.builderPluginBasic()),
+    plugins.antd(),
     plugins.entry(),
     // plugins.cache(),
     plugins.target(),
@@ -19,6 +20,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.media(),
     plugins.svg(),
     plugins.html(),
+    import('../plugins/babel').then(m => m.builderPluginBabel()),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/less').then(m => m.builderPluginLess()),
@@ -36,5 +38,6 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.startUrl(),
     plugins.inlineChunk(),
     plugins.bundleAnalyzer(),
+    plugins.assetsRetry(),
     import('../plugins/fallback').then(m => m.builderPluginFallback()), // fallback should be the last plugin
   ]);

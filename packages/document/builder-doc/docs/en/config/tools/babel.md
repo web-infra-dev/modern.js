@@ -1,12 +1,15 @@
 - **Type:** `Object | Function`
 - **Default:** `undefined`
-- **Bundler:** `only support webpack`
 
 By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
+:::warning
+When using Rspack as a packaging tool, using this configuration item will slow down Rspack builds a bit. Because Rspack uses SWC compilation by default, there will be additional compilation overhead when configuring the Babel.
+:::
+
 ### Function Type
 
-When `tools.babel`'s type is Function，the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result. The second parameter provides some util functions that can be called directly:
+When `tools.babel`'s type is Function, the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result. The second parameter provides some util functions that can be called directly:
 
 ```js
 export default {
@@ -26,6 +29,10 @@ export default {
   },
 };
 ```
+
+:::tip
+The above example is just for reference, usually you don't need to manually configure `babel-plugin-import`, because the Builder already provides a more general `source.transformImport` configuration.
+:::
 
 ### Object Type
 

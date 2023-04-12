@@ -18,7 +18,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -29,15 +29,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -94,7 +85,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -142,7 +133,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -153,15 +144,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -212,7 +194,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -285,7 +267,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
         "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "plugins": [
                 [

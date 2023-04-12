@@ -1,9 +1,10 @@
+import * as path from 'path';
 import {
   BuilderPlugin,
   BundlerChain,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier, fs } from '@modern-js/utils';
+import { ChainIdentifier, isSSR, fs } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -39,15 +40,19 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         { target, CHAIN_ID, isProd, HtmlPlugin: HtmlBundlerPlugin, isServer },
       ) => {
         const builderConfig = api.getNormalizedConfig();
+        const { normalizedConfig } = options;
 
         applyRouterPlugin(chain, options);
-        await applySSRLoaderEntry(chain, options, isServer);
+        if (isSSR(normalizedConfig)) {
+          await applySSRLoaderEntry(chain, options, isServer);
+          applySSRDataLoader(chain, options);
+        }
 
         if (['node', 'service-worker'].includes(target)) {
           applyFilterEntriesBySSRConfig({
             isProd,
             chain,
-            appNormalizedConfig: options.normalizedConfig,
+            appNormalizedConfig: normalizedConfig,
           });
         }
 
@@ -218,4 +223,25 @@ async function applySSRLoaderEntry<B extends Bundler>(
       }
     }),
   );
+}
+
+function applySSRDataLoader<B extends Bundler>(
+  chain: BundlerChain,
+  options: BuilderOptions<B>,
+) {
+  const { normalizedConfig, appContext } = options;
+  const { appDirectory } = appContext;
+
+  const { entriesDir = './src' } = normalizedConfig.source;
+
+  const absolutePath = path.resolve(appDirectory, entriesDir);
+
+  const reg = new RegExp(`${absolutePath}.*\\.loader\\.[t|j]s$`);
+
+  chain.module
+    .rule('ssr-data-loader')
+    .test(reg)
+    .use('data-loader')
+    .loader(require.resolve('@modern-js/plugin-data-loader/loader'))
+    .end();
 }

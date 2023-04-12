@@ -21,7 +21,8 @@
   }
 }
 
-.blockquote {
+.blockquote,
+:global(summary) .blockquote {
   :global(p) {
     margin: 0;
     font-size: 16px;
@@ -29,7 +30,9 @@
   }
 }
 
-.link {
+.link,
+:global(summary) .link,
+:global(summary a) {
   &:not(:global(.header-anchor)) {
     font-weight: 500;
     border-bottom: 1px dashed var(--modern-c-brand);
@@ -44,4 +47,19 @@
     color: var(--modern-c-brand-dark);
     border-style: solid;
   }
+}
+
+:global(.modern-doc details) {
+  margin: 16px 0;
+  padding: 8px;
+  font-size: normal;
+  cursor: pointer;
+  transition: all 0.3s;
+  p {
+    margin: 8px 0;
+  }
+}
+
+:global(.modern-doc details:hover) {
+  background-color: var(--modern-c-bg-mute);
 }

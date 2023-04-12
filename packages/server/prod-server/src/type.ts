@@ -94,7 +94,7 @@ export interface ModernServerInterface {
     req: IncomingMessage,
     res: ServerResponse,
     url?: string,
-  ) => Promise<string | null>;
+  ) => Promise<string | Readable | null>;
 }
 
 export type ServerConstructor = (

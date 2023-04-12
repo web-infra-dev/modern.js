@@ -2,6 +2,7 @@
 title: 路由
 sidebar_position: 1
 ---
+
 # 路由
 
 Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，并提供了多种类型的路由模式。根据不同 [入口](/guides/concept/entries) 类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**其他路由方案**。
@@ -77,8 +78,8 @@ Modern.js 支持了业界流行的约定式路由模式：**嵌套路由**，使
 ```tsx
 <Layout>
   <UserLayout>
-    <UserPage>
-  <UserLayout>
+    <UserPage />
+  </UserLayout>
 </Layout>
 ```
 
@@ -138,8 +139,8 @@ export default () => {
 ```tsx
 <Layout>
   <UserLayout>
-    <UserPage>
-  <UserLayout>
+    <UserPage />
+  </UserLayout>
 </Layout>
 ```
 
@@ -177,6 +178,7 @@ export default () => {
 :::
 
 例如以下目录结构：
+
 ```
 └── routes
     ├── $.tsx
@@ -186,11 +188,12 @@ export default () => {
 ```
 
 当访问任何匹配不到的路径时，都会渲染 `routes/$.tsx` 组件，同样，`$.tsx` 中可以使用 [useParams](/apis/app/runtime/router/router#useparams) 捕获 url 的剩余部分。
+
 ```ts title="$.tsx"
 import { useParams } from '@modern-js/runtime/router';
 // 当 path 是 `/aaa/bbb` 时
 const params = useParams();
-params['*']  // => 'aaa/bbb'
+params['*']; // => 'aaa/bbb'
 ```
 
 `$.tsx` 可以加入到 `routes` 目录下的任意目录中，一个常见的使用示例是添加 `routes/$.tsx` 文件去定制任意层级的 404 页面。
@@ -260,8 +263,8 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 ```tsx title="当路由为 / 时"
 <Layout>
-  <Suspense fallback={<Loading/>}>
-    <Page><Page>
+  <Suspense fallback={<Loading />}>
+    <Page />
   </Suspense>
 </Layout>
 ```
@@ -297,15 +300,15 @@ Modern.js 建议必须有根 layout 和根 loading。
 可以通过创建 [`data loader`](/guides/basic-features/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.loader.ts` 文件：
 
 ```ts title="routes/user/page.loader.ts"
-import { redirect } from "@edenx/runtime/router"
+import { redirect } from '@modern-js/runtime/router';
 
 export default () => {
   const user = await getUser();
-  if(!user){
+  if (!user) {
     return redirect('/login');
   }
   return null;
-}
+};
 ```
 
 ### 错误处理
@@ -338,7 +341,7 @@ export default ErrorBoundary;
 
 在每个根 `Layout` 组件中(`routes/layout.ts`)，可以动态地定义应用运行时配置：
 
-```ts title="src/routes/layout.tsx"
+```tsx title="src/routes/layout.tsx"
 // 定义运行时配置
 import type { AppConfig } from '@modern-js/runtime';
 
@@ -348,13 +351,13 @@ export const config = (): AppConfig => {
       createRoutes() {
         return [
           {
-            path: 'edenx',
-            element: <div>edenx</div>,
+            path: 'modern',
+            element: <div>modern</div>,
           },
         ];
       },
     },
-  }
+  };
 };
 ```
 
@@ -378,15 +381,13 @@ export const init = (context: RuntimeContext) => {
 :::
 
 ```ts title="src/routes/layout.tsx"
-import {
-  RuntimeContext,
-} from '@modern-js/runtime';
+import { RuntimeContext } from '@modern-js/runtime';
 
 export const init = (context: RuntimeContext) => {
   return {
     message: 'Hello World',
-  }
-}
+  };
+};
 ```
 
 ```tsx title="src/routes/page.tsx"
@@ -397,7 +398,7 @@ export default () => {
   const { message } = context.getInitData();
 
   return <div>{message}</div>;
-}
+};
 ```
 
 配合 SSR 功能时，浏览器端可以获取到 SSR 时 `init` 返回的数据，开发者可以自行判断是否要在浏览器端重新获取数据来覆盖 SSR 数据，例如：
@@ -409,19 +410,41 @@ export const init = (context: RuntimeContext) => {
   if (process.env.MODERN_TARGET === 'node') {
     return {
       message: 'Hello World By Server',
-    }
+    };
   } else {
     const { context } = runtimeContext;
     const data = context.getInitData();
     // 如果没有获取到期望的数据
     if (!data.message) {
       return {
-        message: 'Hello World By Client'
-      }
+        message: 'Hello World By Client',
+      };
     }
   }
-}
+};
 ```
+
+### Prefetch
+
+在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片，当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
+这种情况下你可以通过定义 `loading` 组件，在静态资源加载完成前，展示一个自定义的 `loading` 组件。
+
+为了进一步提升用户体验，减少 loading 的时间，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载， `prefetch` 属性有三个可选值：
+
+```
+<Link prefetch="intent" to="page">
+```
+
+:::info
+- 该功能目前仅在 Webpack 项目中支持，Rspack 项目暂不支持。
+- 对数据的预加载目前只会预加载 SSR 项目中 [data loader](/guides/basic-features/data-fetch) 中返回的数据。
+
+:::
+
+- `none`， 默认值，不会做 prefetch，没有任何额外的行为。
+- `intent`，这是我们推荐大多数场景下使用的值，当你把鼠标放在 Link 上时，会自动开始加载对应的分片和 data loader 中定义的数据，当鼠标移开时，会自动取消加载。在我们的测试中，即使是直接点击，也能减少大约 200ms 的加载时间。
+- `render`，当 Link 组件渲染时，就会加载对应的分片和 data loader 中定义的数据。
+
 
 
 ## 自控式路由
@@ -469,3 +492,20 @@ export default defineConfig({
   },
 });
 ```
+
+### 常见问题
+
+1. 产物中的代码是 es2015+ 的，期望产物中是 es5 的代码
+
+react-router^6 的目前默认产物是 es2020 的，如果需要产物中是 es5 的代码，可以配置 `source.include`，让 react-router 相关包经过 bundler 编译 ：
+
+```
+source: {
+  source: {
+    include: [/@remix-run\/router/, /react-router-dom/, /react-router/],
+  }
+}
+```
+
+
+

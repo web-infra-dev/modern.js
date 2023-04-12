@@ -6,8 +6,15 @@ export const clearDtsTemp = async () => {
   await fs.remove(dtsTempDirectory);
 };
 
-export const clearBuildConfigPaths = async (configs: BaseBuildConfig[]) => {
+export const clearBuildConfigPaths = async (
+  configs: BaseBuildConfig[],
+  noClear: boolean,
+) => {
   const { fs } = await import('@modern-js/utils');
+
+  if (noClear) {
+    return;
+  }
 
   for (const config of configs) {
     await fs.remove(config.outDir);

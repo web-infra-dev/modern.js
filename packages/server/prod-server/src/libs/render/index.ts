@@ -7,6 +7,7 @@ import { ERROR_DIGEST } from '../../constants';
 import { handleDirectory } from './static';
 import { readFile } from './reader';
 import * as ssr from './ssr';
+import { injectServerData } from './utils';
 
 export const createRenderHandler = ({
   distDir,
@@ -76,7 +77,9 @@ export const createRenderHandler = ({
     }
 
     return {
-      content,
+      content: route.entryName
+        ? injectServerData(content.toString(), ctx)
+        : content,
       contentType: mime.contentType(path.extname(templatePath)) as string,
     };
   };

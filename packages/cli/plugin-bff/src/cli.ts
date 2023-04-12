@@ -27,7 +27,7 @@ export default (): CliPlugin<AppTools> => ({
       config() {
         return {
           tools: {
-            webpackChain: (chain, { CHAIN_ID, isServer }) => {
+            bundlerChain: (chain, { CHAIN_ID, isServer }) => {
               const { port, apiDirectory, lambdaDirectory } =
                 api.useAppContext();
               const modernConfig = api.useResolvedConfigContext();

@@ -95,12 +95,19 @@ export const compileByTs: CompileFunc = async (
     .getPreEmitDiagnostics(program as unknown as Program)
     .concat(emitResult.diagnostics);
 
+  const { noEmitOnError } = options;
+
   if (allDiagnostics.length > 0) {
     logger.error(
-      ts.formatDiagnosticsWithColorAndContext(allDiagnostics, formatHost),
+      ts.formatDiagnosticsWithColorAndContext(
+        [...new Set(allDiagnostics)],
+        formatHost,
+      ),
     );
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+    if (typeof noEmitOnError === 'undefined' || noEmitOnError === true) {
+      // eslint-disable-next-line no-process-exit
+      process.exit(1);
+    }
   }
 
   for (const source of sourceDirs) {

@@ -179,33 +179,48 @@ export default {
 
 添加以上配置后，webpack 会输出日志用于 debug，请参考 `PackFileCacheStrategy` 相关的日志来了解缓存失效的原因。
 
-## 打包后发现 Tree Shaking 没有生效？
+## 打包后发现 tree shaking 没有生效？
 
-Builder 在生产构建时会默认开启 webpack 的 Tree Shaking 功能，Tree Shaking 是否能够生效，取决于业务代码能否满足 webpack 的 Tree Shaking 条件。
+Builder 在生产构建时会默认开启 webpack 的 tree shaking 功能，tree shaking 是否能够生效，取决于业务代码能否满足 webpack 的 tree shaking 条件。
 
-如果你遇到了 Tree Shaking 不生效的问题，可以检查下相关 npm 包的 `sideEffects` 配置是否正确，如果不了解 `sideEffects` 是什么，可以阅读以下两篇文档：
+如果你遇到了 tree shaking 不生效的问题，可以检查下相关 npm 包的 `sideEffects` 配置是否正确，如果你不了解 `sideEffects` 的作用，或是对 tree shaking 背后的原理感兴趣，可以阅读以下两篇文档：
 
 - [webpack 官方文档 - Tree Shaking](https://webpack.docschina.org/guides/tree-shaking/)
 - [Tree Shaking 问题排查指南](https://bytedance.feishu.cn/docs/doccn8E1ldDct5uv1EEDQs8Ycwe)
+
+如果你是 npm 包的开发者，可以阅读这篇文章：
+
+- [如何编写一个友好支持 Tree-shaking 的库](https://zhuanlan.zhihu.com/p/594124786)
 
 ## 打包时出现 JavaScript heap out of memory?
 
 该报错表示打包过程中出现了内存溢出问题，大多数情况下是由于打包的内容较多，超出了 Node.js 默认的内存上限。
 
-如果出现 OOM 问题，最简单的方法是通过增加内存上限来解决，Node.js 提供了 `--max-old-space-size` 选项来对此进行设置。你可以在 CLI 命令前添加 [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) 来设置此参数：
+如果出现 OOM 问题，最简单的方法是通过增加内存上限来解决，Node.js 提供了 `--max-old-space-size` 选项来对此进行设置。你可以在 CLI 命令前添加 [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) 来设置此参数。
 
-```bash
-NODE_OPTIONS=--max_old_space_size=16384 modern build
+比如，在 `modern build` 命令前添加参数：
+
+```diff title="package.json"
+{
+  "scripts": {
+-   "build": "modern build"
++   "build": "NODE_OPTIONS=--max_old_space_size=16384 modern build"
+  }
+}
 ```
 
-参数的值代表内存上限大小（MB)，一般情况下设置为 `16384`（16GB）即可。
+如果你执行的是其他命令，比如 `modern deploy`，请在对应的命令前添加参数。
+
+`max_old_space_size` 参数的值代表内存上限大小（MB)，一般情况下设置为 `16384`（16GB）即可。
 
 Node.js 官方文档中有对以下参数更详细的解释：
 
 - [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions)
 - [--max-old-space-size](https://nodejs.org/api/cli.html#--max-old-space-sizesize-in-megabytes)
 
-除了增加内存上限，通过开启一些编译策略来提升效率也是一个解决方案。
+除了增加内存上限，通过开启一些编译策略来提升构建效率也是一个解决方案，请参考 [提升构建性能](/guide/optimization/build-performance)。
+
+如果以上方式无法解决你的问题，可能是项目中某些异常逻辑导致了内存非正常溢出。你可以排查近期的代码变更，定位问题的根因。如果无法定位，请联系我们进行排查。
 
 ## 打包时出现 Can't resolve 'core-js/modules/xxx.js'？
 
@@ -243,6 +258,66 @@ export default {
 
 2. 项目里某一处代码依赖了 `core-js` v2 版本。这种情况通常需要你找出对应的代码，并升级其中的 `core-js` 到 v3 版本。
 3. `node_modules` 中的某一个 npm 包引用了 `core-js`，但是没有在 `dependencies` 中声明 `core-js` 依赖。这种情况需要你在对应的 npm 包中声明 `core-js` 依赖，或者在项目根目录下安装一份 `core-js`。
+
+## React 组件的热更新无法生效？
+
+Builder 使用 React 官方的 [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) 能力来进行组件热更新。
+
+如果出现 React 组件的热更新无法生效的问题，或者是热更新后 React 组件的 state 丢失，这通常是因为你的 React 组件使用了匿名函数。在 React Fast Refresh 的官方实践中，要求组件不能为匿名函数，否则热更新后无法保留 React 组件的 state。
+
+以下是一些错误用法的例子：
+
+```tsx
+// 错误写法 1
+export default function () {
+  return <div>Hello World</div>;
+}
+
+// 错误写法 2
+export default () => <div>Hello World</div>;
+```
+
+正确用法是给每个组件函数声明一个名称：
+
+```tsx
+// 正确写法 1
+export default function MyComponent() {
+  return <div>Hello World</div>;
+}
+
+// 正确写法 2
+const MyComponent = () => <div>Hello World</div>;
+
+export default MyComponent;
+```
+
+## 从 lodash 中引用类型后出现编译报错？
+
+当你的项目中安装了 `@types/lodash` 包时，你可能会从 `lodash` 中引用一些类型，比如引用 `DebouncedFunc` 类型：
+
+```ts
+import { debounce, DebouncedFunc } from 'lodash';
+```
+
+上述代码会在编译后产生如下报错：
+
+```bash
+SyntaxError: /project/src/index.ts: The 'lodash' method `DebouncedFunc` is not a known module.
+Please report bugs to https://github.com/lodash/babel-plugin-lodash/issues.
+```
+
+这个问题的原因是 Builder 默认开启了 [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash) 插件来优化 lodash 产物体积，但 Babel 无法区别「值」和「类型」，导致编译后的代码出现异常。
+
+解决方法是使用 TypeScript 的 `import type` 语法，对 `DebouncedFunc` 类型进行显式声明：
+
+```ts
+import { debounce } from 'lodash';
+import type { DebouncedFunc } from 'lodash';
+```
+
+:::tip
+在任意情况下，我们都推荐使用 `import type` 来引用类型，这对于编译器识别类型会有很大帮助。
+:::
 
 ## Less 文件中的除法不生效？
 

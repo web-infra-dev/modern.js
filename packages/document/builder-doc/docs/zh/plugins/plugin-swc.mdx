@@ -7,7 +7,7 @@ Modern.js Builder 提供了开箱即用的 SWC 插件，可以为你的 Web 应�
 ## 快速开始
 
 :::tip
-在使用 Rspack 作为打包工具时，SWC 已经为内置功能，SWC 插件不需要安装。
+在使用 Rspack 作为打包工具时，默认会使用 SWC 进行转译和压缩，因此你不需要再安装和配置 SWC 插件。
 :::
 
 ### 安装
@@ -27,7 +27,7 @@ pnpm add @modern-js/builder-plugin-swc -D
 
 ### 注册插件
 
-在 {MODERN_JS} / EdenX 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 SWC 插件：
+在 Modern.js 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 SWC 插件：
 
 ```ts
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
@@ -52,7 +52,7 @@ That's it !
 
 ## 配置
 
-- 类型: `PluginConfig`
+- **类型：**
 
 ```ts
 type PluginConfig = {
@@ -66,7 +66,7 @@ type PluginConfig = {
 
 ### presetReact
 
-- 类型: SWC 中的 [presetReact](https://swc.rs/docs/configuration/compilation#jsctransformreact)。
+- **类型：** SWC 中的 [presetReact](https://swc.rs/docs/configuration/compilation#jsctransformreact)。
 
 对标 `@babel/preset-react`。传入的值会与默认配置进行合并。
 
@@ -74,7 +74,7 @@ type PluginConfig = {
 
 ### presetEnv
 
-- 类型: SWC 中的 [presetEnv](https://swc.rs/docs/configuration/supported-browsers#options)。
+- **类型：** SWC 中的 [presetEnv](https://swc.rs/docs/configuration/supported-browsers#options)。
 
 对标 `@babel/preset-env`。传入的值会与默认配置进行合并。
 默认配置为:
@@ -88,27 +88,134 @@ type PluginConfig = {
 
 ### jsMinify
 
-- 类型: `boolean` 或者 [terser 中的 compress 配置](https://terser.org/docs/api-reference.html#compress-options)。
-
-默认配置为: `{ compress: {}, mangle: true }`。
+- **类型：** `boolean` 或者 [terser 中的 compress 配置](https://terser.org/docs/api-reference.html#compress-options)。
+- **默认值：** `{ compress: {}, mangle: true }`。
 
 如果配置 `false` 将不会使用 SWC 的压缩能力，配置 `true` 会启用默认压缩配置，如果配置是对象，则会与默认配置进行合并。
 
 ### cssMinify
 
-- 类型: `boolean`
-
-- 默认值: `true`
+- **类型：** `boolean`
+- **默认值：** `true`
 
 是否启用 SWC 对 CSS 文件进行压缩，若启用会使得 CSS 压缩性能提高，但压缩率会略微降低。
 
 ### extensions
 
-- 类型: `Object`
+- **类型：** `Object`
 
-从 Babel 移植过来的一些插件能力。
+`extensions` 包含了从 Babel 移植过来的一些插件能力。
+
+#### extensions.reactUtils
+
+- **类型：**
+
+```ts
+type ReactUtilsOptions = {
+  autoImportReact?: boolean;
+  removeEffect?: boolean;
+  removePropTypes?: {
+    mode?: 'remove' | 'unwrap' | 'unsafe-wrap';
+    removeImport?: boolean;
+    ignoreFilenames?: string[];
+    additionalLibraries?: string[];
+    classNameMatchers?: string[];
+  };
+};
+```
+
+一些用于 `React` 的工具，包括以下配置项:
+
+**reactUtils.autoImportReact**
+
+- **类型：** `boolean`
+
+自动引入 `React`, `import React from 'react'`，用于 `jsx` 转换使用 `React.createElement`。
+
+**reactUtils.removeEffect**
+
+- **类型：** `boolean`
+
+移除 `useEffect` 调用。
+
+**reactUtils.removePropTypes**
+
+- **类型：**
+
+```ts
+type RemovePropTypesOptions = {
+  mode?: 'remove' | 'unwrap' | 'unsafe-wrap';
+  removeImport?: boolean;
+  ignoreFilenames?: string[];
+  additionalLibraries?: string[];
+  classNameMatchers?: string[];
+};
+```
+
+移除 `React` 组件在运行时的类型判断。移植自 [@babel/plugin-react-transform-remove-prop-types](https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types)。
+
+相应配置和 `@babel/plugin-react-transform-remove-prop-types` 插件保持一致。
+
+#### extensions.lodash
+
+- **类型：** `{ cwd?: string; ids?: string;}`
+- **默认值：** `{ cwd: process.cwd(), ids: [] }`
+
+移植自 [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
+
+#### extensions.styledComponent
+
+- **类型：**
+
+```ts
+boolean | {
+  displayName?: boolean; // 默认开发模式开启, 生产模式关闭,
+  ssr?: boolean; // 默认开启
+  fileName?: boolean; // 默认开启
+  topLevelImportPaths?: string[]; // 默认空
+  meaninglessFileNames?: string[]; // 默认为 ["index"].
+  cssProp?: boolean; // 默认开启
+  namespace?: string; // 默认空
+};
+```
+
+由 Next.js 团队移植自 [styled-component](https://github.com/styled-components/babel-plugin-styled-components)。
+
+#### extensions.emotion
+
+- **类型：**
+
+```ts
+boolean | {
+  sourceMap?: boolean, // 默认开启
+  autoLabel?: 'never' | 'dev-only' | 'always', // 默认 'dev-only'
+  // 默认 '[local]'.
+  // 允许的值为: `[local]` `[filename]` 以及 `[dirname]`
+  // 只有当 autoLabel 设置成 'dev-only' 或者 'always' 才会生效.
+  // 该配置允许你定义结果标签的格式，该格式的组成是字符串以及可以由方括号包裹字符串作为变量
+  // 例如对于 "my-classname--[local]"，其中的 [local] 会被替换成相应的变量
+  labelFormat?: string,
+  // 默认值 undefined.
+  // 该配置允许让编译器知道哪一个引入需要进行转换，所以如果你重导出了 emotion
+  // 的导出，你仍然可以使用该插件进行转换
+  importMap?: {
+    [packageName: string]: {
+      [exportName: string]: {
+        canonicalImport?: [string, string],
+        styledBaseImport?: [string, string],
+      }
+    }
+  },
+},
+```
+
+由 Next.js 团队移植自 [@emotion/babel-plugin](https://www.npmjs.com/package/@emotion/babel-plugin)。
 
 #### extensions.pluginImport
+
+:::tip
+Builder 提供了 [source.transformImport](/api/config-source.html#sourcetransformimport) 配置项，因此你不需要手动配置 `extensions.pluginImport`。
+:::
 
 移植自 [babel-plugin-import](https://github.com/umijs/babel-plugin-import)，配置选项保持一致。
 
@@ -167,111 +274,6 @@ import Btn from 'foo/es/my-button';
 ```
 
 除了 `kebabCase` 以外还有 `camelCase`，`snakeCase`，`upperCase`，`lowerCase` 可以使用。
-
-#### extensions.reactUtils
-
-- 类型: `Object`
-
-```ts
-type ReactUtilsOptions = {
-  autoImportReact?: boolean;
-  removeEffect?: boolean;
-  removePropTypes?: {
-    mode?: 'remove' | 'unwrap' | 'unsafe-wrap';
-    removeImport?: boolean;
-    ignoreFilenames?: string[];
-    additionalLibraries?: string[];
-    classNameMatchers?: string[];
-  };
-};
-```
-
-一些用于 `React` 的工具，包括以下配置项:
-
-**reactUtils.autoImportReact**
-
-- 类型: `boolean`
-
-自动引入 `React`, `import React from 'react'`，用于 `jsx` 转换使用 `React.createElement`。
-
-**reactUtils.removeEffect**
-
-- 类型: `boolean`
-
-移除 `useEffect` 调用。
-
-**reactUtils.removePropTypes**
-
-- 类型:
-
-```ts
-type RemovePropTypesOptions = {
-  mode?: 'remove' | 'unwrap' | 'unsafe-wrap';
-  removeImport?: boolean;
-  ignoreFilenames?: string[];
-  additionalLibraries?: string[];
-  classNameMatchers?: string[];
-};
-```
-
-移除 `React` 组件在运行时的类型判断。移植自 [@babel/plugin-react-transform-remove-prop-types](https://github.com/oliviertassinari/babel-plugin-transform-react-remove-prop-types)。
-
-相应配置和 `@babel/plugin-react-transform-remove-prop-types` 插件保持一致。
-
-#### extensions.lodash
-
-- 类型: `{ cwd?: string; ids?: string;}`
-- 默认值: `{ cwd: process.cwd(), ids: [] }`
-
-移植自 [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
-
-#### extensions.styledComponent
-
-- 类型:
-
-```ts
-boolean | {
-  displayName?: boolean; // 默认开发模式开启, 生产模式关闭,
-  ssr?: boolean; // 默认开启
-  fileName?: boolean; // 默认开启
-  topLevelImportPaths?: string[]; // 默认空
-  meaninglessFileNames?: string[]; // 默认为 ["index"].
-  cssProp?: boolean; // 默认开启
-  namespace?: string; // 默认空
-};
-```
-
-由 Next.js 团队移植自 [styled-component](https://github.com/styled-components/babel-plugin-styled-components)。
-
-#### extensions.emotion
-
-- 类型:
-
-```ts
-boolean | {
-  sourceMap?: boolean, // 默认开启
-  autoLabel?: 'never' | 'dev-only' | 'always', // 默认 'dev-only'
-  // 默认 '[local]'.
-  // 允许的值为: `[local]` `[filename]` 以及 `[dirname]`
-  // 只有当 autoLabel 设置成 'dev-only' 或者 'always' 才会生效.
-  // 该配置允许你定义结果标签的格式，该格式的组成是字符串以及可以由方括号包裹字符串作为变量
-  // 例如对于 "my-classname--[local]"，其中的 [local] 会被替换成相应的变量
-  labelFormat?: string,
-  // 默认值 undefined.
-  // 该配置允许让编译器知道哪一个引入需要进行转换，所以如果你重导出了 emotion
-  // 的导出，你仍然可以使用该插件进行转换
-  importMap?: {
-    [packageName: string]: {
-      [exportName: string]: {
-        canonicalImport?: [string, string],
-        styledBaseImport?: [string, string],
-      }
-    }
-  },
-},
-```
-
-由 Next.js 团队移植自 [@emotion/babel-plugin](https://www.npmjs.com/package/@emotion/babel-plugin)。
 
 ## 限制
 

@@ -12,14 +12,19 @@ function getI18nHelper(lang: 'zh' | 'en') {
 const isProd = () => process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  plugins: [docTools()],
+  plugins: [docTools({})],
   doc: {
+    markdown: {
+      experimentalMdxRs: true,
+      checkDeadLinks: true,
+    },
     root: path.join(__dirname, 'docs'),
     title: 'Modern.js Doc',
     description: 'A modern web framework for building document site',
     // 默认英文
     lang: 'en',
     base: isProd() ? '/doc-tools/' : '/',
+    icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
     builderConfig: {
       dev: {
         startUrl: false,
@@ -112,6 +117,10 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
       {
         text: getText('Client API', 'Client API'),
         items: [getLink('/api/api-runtime'), getLink('/api/api-components')],
+      },
+      {
+        text: getText('命令', 'Commands'),
+        link: getLink('/api/commands'),
       },
     ],
   };

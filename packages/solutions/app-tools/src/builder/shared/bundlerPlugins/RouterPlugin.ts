@@ -1,10 +1,7 @@
 import path from 'path';
-import {
-  fs,
-  ROUTE_MANIFEST,
-  logger,
-  ROUTE_MINIFEST_FILE,
-} from '@modern-js/utils';
+import { fs } from '@modern-js/utils';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
+import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
 
@@ -14,6 +11,7 @@ interface RouteAssets {
   [routeId: string]: {
     chunkIds?: (string | number)[];
     assets?: string[];
+    referenceCssAssets?: string[];
   };
 }
 
@@ -58,37 +56,60 @@ export class RouterPlugin {
         },
         async () => {
           const stats = compilation.getStats().toJson({
+            all: false,
+            publicPath: true,
+            assets: true,
             chunkGroups: true,
             chunks: true,
+            ids: true,
           });
-          const { publicPath, chunks = [] } = stats;
+          const { publicPath, chunks = [], namedChunkGroups } = stats;
           const routeAssets: RouteAssets = {};
-          const { namedChunkGroups, assetsByChunkName } = stats;
 
-          if (!namedChunkGroups || !assetsByChunkName) {
-            logger.warn(
-              'Route manifest does not exist, performance will be affected',
-            );
+          if (!namedChunkGroups) {
             return;
           }
 
           for (const [name, chunkGroup] of Object.entries(namedChunkGroups)) {
-            if (assetsByChunkName[name]) {
-              routeAssets[name] = {
-                chunkIds: chunkGroup.chunks,
-                assets: assetsByChunkName[name].map(item =>
-                  publicPath ? normalizePath(publicPath) + item : item,
-                ),
-              };
-            }
+            type ChunkGroupLike = {
+              assets: { name: string; [prop: string]: any }[];
+              [prop: string]: any;
+            };
+
+            const assets = (chunkGroup as ChunkGroupLike).assets.map(asset => {
+              const filename = asset.name;
+              return publicPath
+                ? normalizePath(publicPath) + filename
+                : filename;
+            });
+            const referenceCssAssets = assets.filter(asset =>
+              /\.css$/.test(asset),
+            );
+            routeAssets[name] = {
+              chunkIds: chunkGroup.chunks,
+              assets,
+              referenceCssAssets,
+            };
           }
 
           const manifest = {
             routeAssets,
           };
+
           const injectedContent = `
             ;(function(){
-              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest)};
+              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
+            if (
+              (k === 'assets' || k === 'referenceCssAssets') &&
+              Array.isArray(v)
+            ) {
+              // should hide publicPath in browser
+              return v.map(item => {
+                return item.replace(publicPath, '');
+              });
+            }
+            return v;
+          })};
             })();
           `;
 
@@ -124,7 +145,7 @@ export class RouterPlugin {
             );
           }
 
-          const filename = path.join(outputPath, ROUTE_MINIFEST_FILE);
+          const filename = path.join(outputPath, ROUTE_MANIFEST_FILE);
           await fs.ensureFile(filename);
           await fs.writeFile(filename, JSON.stringify(manifest, null, 2));
         },

@@ -36,3 +36,7 @@ export function getLogoUrl(
   // If logo is an object, use dark/light mode logo
   return theme === 'dark' ? rawLogo.dark : rawLogo.light;
 }
+
+export function isMobileDevice() {
+  return window.innerWidth < 768;
+}

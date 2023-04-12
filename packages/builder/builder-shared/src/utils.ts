@@ -3,7 +3,7 @@ import {
   GLOBAL_CSS_REGEX,
   NODE_MODULES_REGEX,
 } from './constants';
-import type { SharedNormalizedConfig } from './types';
+import type { SharedNormalizedConfig, BuilderTarget } from './types';
 import { join } from 'path';
 
 export const extendsType =
@@ -69,7 +69,13 @@ export const isUseCssSourceMap = (config: SharedNormalizedConfig) => {
 };
 
 export const getSharedPkgCompiledPath = (
-  packageName: 'sass' | 'less' | 'sass-loader' | 'less-loader',
+  packageName:
+    | 'sass'
+    | 'less'
+    | 'sass-loader'
+    | 'less-loader'
+    | 'babel-loader'
+    | 'assetsRetry.js',
 ) => {
   return join(__dirname, '../compiled', packageName);
 };
@@ -79,3 +85,9 @@ export const isURL = (str: string) =>
   str.startsWith('http') || str.startsWith('//:');
 
 export * as z from './zod';
+
+export function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
+  return ['modern-web', 'web'].some(t =>
+    (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
+  );
+}

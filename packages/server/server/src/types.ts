@@ -28,7 +28,7 @@ export type DevMiddlewareOptions = {
   hmrClientPath?: string;
 
   /** The options need by compiler middleware (like webpackMiddleware) */
-  headers?: Record<string, string>;
+  headers?: Record<string, string | string[]>;
   writeToDisk?: boolean | ((filename: string) => boolean);
   stats?: boolean;
 

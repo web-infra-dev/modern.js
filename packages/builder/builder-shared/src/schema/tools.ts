@@ -27,8 +27,8 @@ const sharedDevServerConfigSchema = z.partialObj({
   https: DevServerHttpsOptionsSchema,
   liveReload: z.boolean(),
   setupMiddlewares: z.array(z.function()),
-  headers: z.record(z.string()),
-  proxy: z.record(z.unknown()),
+  headers: z.record(z.union([z.string(), z.array(z.string())])),
+  proxy: z.union([z.record(z.unknown()), z.array(z.any())]),
   watch: z.boolean(),
 });
 

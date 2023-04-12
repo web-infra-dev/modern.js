@@ -1,0 +1,44 @@
+{
+  "name": "@modern-js/plugin-module-babel",
+  "description": "The babel plugin of Modern.js Module Tools.",
+  "homepage": "https://modernjs.dev/module-tools",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": "web-infra-dev/modern.js",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.12.0",
+  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "dev": "mdn build --watch",
+    "build": "mdn build",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@modern-js/libuild-plugin-babel": "0.7.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "typescript": "^4",
+    "@scripts/build": "workspace:*",
+    "jest": "^29",
+    "@scripts/jest-config": "workspace:*",
+    "@modern-js/module-tools": "workspace:*"
+  },
+  "peerDependencies": {
+    "@modern-js/module-tools": "workspace:^2.12.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "types": "./dist/index.d.ts"
+  }
+}

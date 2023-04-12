@@ -27,7 +27,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -38,15 +38,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -97,7 +88,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -145,7 +136,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -156,15 +147,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -215,7 +197,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -277,7 +259,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -288,15 +270,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "lib",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -390,7 +363,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -401,15 +374,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "lib",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -520,7 +484,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -531,15 +495,6 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -590,7 +545,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -638,7 +593,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -649,15 +604,6 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -708,7 +654,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -778,7 +724,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -789,15 +735,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -848,7 +785,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -894,7 +831,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -905,15 +842,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -964,7 +892,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1024,7 +952,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -1035,15 +963,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1094,7 +1013,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1142,7 +1061,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -1153,15 +1072,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1212,7 +1122,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1278,7 +1188,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -1289,15 +1199,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1348,7 +1249,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1396,7 +1297,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
         },
         "use": [
           {
-            "loader": "<ROOT>/compiled/babel-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "babelrc": false,
               "compact": false,
@@ -1407,15 +1308,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
-                  {
-                    "libraryDirectory": "es",
-                    "libraryName": "antd",
-                    "style": true,
-                  },
-                  "import-antd",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1466,7 +1358,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.26",
+                      "version": "3.27",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

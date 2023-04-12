@@ -11,7 +11,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.9.0",
+  "version": "2.12.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
@@ -27,6 +27,7 @@
     },
     ".": {
       "jsnext:source": "./src/cli/index.ts",
+      "types": "./dist/types/cli/index.d.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
@@ -35,6 +36,7 @@
         "import": "./dist/esm-node/runtime-testing/index.js",
         "require": "./dist/cjs/runtime-testing/index.js"
       },
+      "types": "./dist/types/runtime-testing/index.d.ts",
       "default": "./dist/esm/runtime-testing/index.js"
     },
     "./runtime-base": {
@@ -43,18 +45,22 @@
         "import": "./dist/esm-node/runtime-testing/base.js",
         "require": "./dist/cjs/runtime-testing/base.js"
       },
+      "types": "./dist/types/runtime-testing/base.d.ts",
       "default": "./dist/esm/runtime-testing/base.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli/index.ts",
+      "types": "./dist/types/cli/index.d.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./bff-cli": {
       "jsnext:source": "./src/cli/bff/index.ts",
+      "types": "./dist/types/cli/bff/index.d.ts",
       "default": "./dist/cjs/cli/bff/index.js"
     },
     "./base": {
       "jsnext:source": "./src/base/index.ts",
+      "types": "./dist/types/base/index.d.ts",
       "default": "./dist/cjs/base/index.js"
     }
   },
@@ -112,7 +118,7 @@
     "path-to-regexp": "^6.2.0",
     "supertest": "^6.1.6",
     "babel-jest": "^27.0.6",
-    "enhanced-resolve": "^5.8.3",
+    "enhanced-resolve": "5.12.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
@@ -123,7 +129,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.9.0"
+    "@modern-js/runtime": "workspace:^2.12.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

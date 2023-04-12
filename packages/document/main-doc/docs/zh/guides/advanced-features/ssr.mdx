@@ -2,6 +2,7 @@
 title: 服务端渲染（SSR）
 sidebar_position: 3
 ---
+
 # 服务端渲染（SSR）
 
 在 Modern.js 中，SSR 也是开箱即用的。开发者无需为 SSR 编写复杂的服务端逻辑，也无需关心 SSR 的运维，或是创建单独的服务。Modern.js 拥有完备的 SSR 降级策略，保证页面能够安全运行。
@@ -12,10 +13,10 @@ sidebar_position: 3
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  "server": {
-    "ssr": true,
+  server: {
+    ssr: true,
   },
-})
+});
 ```
 
 ## SSR 时的数据获取
@@ -33,7 +34,7 @@ export default () => {
 在组件中可以通过 Hooks API 的方式获取 `loader` 函数返回的数据：
 
 ```tsx
-import { useLoaderData } from '@modern-js/runtime/router'
+import { useLoaderData } from '@modern-js/runtime/router';
 export default () => {
   const data = useLoaderData();
   return <div>{data.message}</div>;
@@ -45,12 +46,12 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 不过，开发者仍然需要关注数据的兜底处理，例如 `null` 值或不符合预期的数据返回。避免在 SSR 时产生 React 渲染错误或是返回凌乱的渲染结果。
 
 :::info 补充信息
+
 1. 当以客户端路由的方式请求页面时，Modern.js 会发送一个 HTTP 请求，服务端接收到请求后执行页面对应的 Data Loader 函数，然后将执行结果作为请求的响应返回浏览器。
 
 2. 使用 Data Loader 时，数据获取发生在渲染前，Modern.js 也仍然支持在组件渲染时获取数据。更多相关内容可以查看[数据获取](/guides/basic-features/data-fetch)。
+
 :::
-
-
 
 ## 保持渲染一致
 
@@ -147,10 +148,10 @@ SPR 利用预渲染与缓存技术，为 SSR 页面提供静态 Web 的响应性
 
 这里模拟一个使用 `useLoaderData` API 的组件，Data Loader 中的请求需要消耗 2s 时间。
 
-```jsx
+```tsx title="page.loader.ts"
 import { useLoaderData } from '@modern-js/runtime/router';
 
-export const loader = async () => {
+export default async () => {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(null);
@@ -161,7 +162,9 @@ export const loader = async () => {
     message: 'Hello Modern.js',
   };
 };
+```
 
+```tsx title="page.tsx"
 export default () => {
   const data = useLoaderData();
   return <div>{data?.message}</div>;
@@ -212,16 +215,23 @@ const App = () => {
 export default App;
 ```
 
-在组件文件中引入 Node API，通常情况下是因为使用了 Data Loader，例如：
+在组件文件中引入 Node API，通常情况下是因为使用了 `useLoader`，例如：
 
 ```ts
 import fse from 'fs-extra';
-export const loader = () => {
-  const file = fse.readFileSync('./myfile');
-  return {
-    ...
-  };
+import { useLoader } from '@modern-js/runtime'
+
+const App = () => {
+  const { data } = useLoader(async () => {
+    const file = fse.readFileSync('./myfile');
+    return {
+      ...
+    };
+  })
+
+  return <div>Hello World</div>;
 };
+export default App;
 ```
 
 ### 环境变量区分
@@ -236,16 +246,32 @@ if (process.env.MODERN_TARGET === 'browser') {
 }
 ```
 
+开发环境打包后，SSR 产物和 CSR 产物会被编译成以下内容。因此 SSR 环境中不会再因为 Web API 报错：
+
+```ts
+// SSR 产物
+if (false) {
+}
+
+// CSR 产物
+if (true) {
+  document.addEventListener('load', () => {
+    console.log('document load');
+  });
+}
+```
+
 :::note
 更多内容可以查看[环境变量](/guides/basic-features/env-vars)。
-
 :::
 
 ### 文件后缀区分
 
-但例如第二种情况，Treeshaking 的方式并不能保证代码被完全分离。Modern.js 也支持通过 `.node.` 后缀的文件来区分 SSR Bundle 和 CSR Bundle 产物的打包文件。
+但例如第二种情况，在代码中引入了 `fs-extra`，它内部有使用了 Node API 的副作用，如果直接引用到组件中，会造成 CSR 加载报错。
 
-例如在代码中引入了 `fs-extra`，这时候直接引用到组件中，会造成 CSR 加载报错。可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
+环境变量的方式并不能在这种情况下生效，Modern.js 也支持通过 `.node.` 后缀的文件来区分 SSR Bundle 和 CSR Bundle 产物的打包文件。
+
+可以创建同名的 `.ts` 和 `.node.ts` 文件做一层代理：
 
 ```ts title="compat.ts"
 export const readFileSync: any = () => {};
@@ -270,7 +296,27 @@ export const loader = () => {
 
 ### 独立文件
 
-上述两种方式，都会为开发者带来一些心智负担。Modern.js 基于[嵌套路由](/guides/basic-features/routes)开发设计了[更简单的方案](/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
+上述两种方式，都会为开发者带来一些心智负担。在真实的业务中，我们发现大多数的 Node / Web 代码混用都出现在数据请求中。
+
+因此，Modern.js 基于[嵌套路由](/guides/basic-features/routes)开发设计了[更简单的方案](/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
+
+我们可以通过独立文件来分离**数据请求**与**组件代码**。在 `routes/page.tsx` 中编写组件逻辑，在 `routes/page.loader.ts` 中编写数据请求逻辑。
+
+```ts title="routes/page.tsx"
+export default Page = () => {
+  return <div>Hello World<div>
+}
+```
+
+```ts title="routes/page.loader.tsx"
+import fse from 'fs-extra';
+export default () => {
+  const file = fse.readFileSync('./myfile');
+  return {
+    ...
+  };
+}
+```
 
 ## 接口请求
 
@@ -288,12 +334,12 @@ Modern.js 支持了 React 18 的流式渲染，可以通过如下配置启用：
 import { defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
-  "server": {
-    "ssr": {
-      "mode": "stream",
+  server: {
+    ssr: {
+      mode: 'stream',
     },
   },
-})
+});
 ```
 
 Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
@@ -302,10 +348,9 @@ Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
 - [`Await`](https://reactrouter.com/en/main/components/await)：用于渲染 Data Loader 返回的异步数据。
 - [`useAsyncValue`](https://reactrouter.com/en/main/hooks/use-async-value)：用于从最近的父级 `Await` 组件中获取数据。
 
-
 ### 异步获取数据
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 interface User {
@@ -331,16 +376,14 @@ export default ({ params }: LoaderFunctionArgs) => {
 
   return defer({ data: user });
 };
-
 ```
 
 `user` 是一个 Promise 类型的对象，表示需要异步获取的数据，通过 `defer` 处理需要异步获取的 `user`。注意，`defer` 必须接收一个对象类型的参数，
-因此， 传入 `defer` 的参数为 `{data: user}`。
+因此， 传入 `defer` 的参数为：`{ data: user }`
 
 `defer` 还可以同时接收异步数据和同步数据。例如：
 
-```ts title='page.loader.ts'
-
+```ts title="page.loader.ts"
 // 省略部分代码
 
 export default ({ params }: LoaderFunctionArgs) => {
@@ -363,20 +406,18 @@ export default ({ params }: LoaderFunctionArgs) => {
 
   return defer({
     data: user,
-    other: await otherData
+    other: await otherData,
   });
 };
-
 ```
 
 `otherData` 前加了 `await`，所以是同步获取的数据，它可以和异步获取的数据 `user` 同时传入 `defer`。
-
 
 ### 渲染异步数据
 
 通过 `Await` 组件，可以获取到 Data Loader 中异步返回的数据，然后进行渲染。例如：
 
-```tsx title='page.tsx'
+```tsx title="page.tsx"
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 import type { Data } from './page.loader';
@@ -389,7 +430,7 @@ const Page = () => {
       User info:
       <Suspense fallback={<div id="loading">loading user data ...</div>}>
         <Await resolve={data.data}>
-          {(user) => {
+          {user => {
             return (
               <div id="data">
                 name: {user.name}, age: {user.age}
@@ -413,10 +454,10 @@ export default Page;
 从 Data Loader 文件导入类型时，需要使用 import type 语法，保证只导入类型信息，这样可以避免 Data Loader 的代码打包到前端产物的 bundle 文件中。
 
 所以，这里的导入方式为：`import type { Data } from './page.loader'`;
+
 :::
 
 也可以通过 `useAsyncValue` 获取 Data Loader 返回的异步数据。例如：
-
 
 ```tsx title='page.tsx'
 import { useAsyncValue } from '@modern-js/runtime/router';
@@ -427,11 +468,11 @@ const UserInfo = () => {
   const user = useAsyncValue();
 
   return (
-     <div>
+    <div>
       name: {user.name}, age: {user.age}
     </div>
-  )
-}
+  );
+};
 
 const Page = () => {
   const data = useLoaderData() as Data;
@@ -456,7 +497,7 @@ export default Page;
 `Await` 组件的 `errorElement` 属性，可以用来处理当 Data Loader 执行时，或者子组件渲染时抛出的错误。
 例如，我们故意在 Data Loader 函数中抛出错误：
 
-```ts title='page.loader.ts'
+```ts title="page.loader.ts"
 import { defer } from '@modern-js/runtime/router';
 
 export default () => {
@@ -472,7 +513,7 @@ export default () => {
 
 然后通过 `useAsyncError` 获取错误，并将用于渲染错误信息的组件赋值给 `Await` 组件的 `errorElement` 属性：
 
-```tsx title='page.ts'
+```tsx title="page.ts"
 import { Await, useAsyncError, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
 

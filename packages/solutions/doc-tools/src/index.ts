@@ -18,17 +18,28 @@ interface ServerInstance {
   close: () => Promise<void>;
 }
 
+interface DocToolsOptions {
+  configFiles?: string[];
+  extraDocConfig?: UserConfig['doc'];
+}
+
 const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
 
-export default (): CliPlugin => ({
+export default (options: DocToolsOptions = {}): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
+    const { configFiles = MODERN_CONFIG_FILES, extraDocConfig = {} } = options;
     const { dev, build, serve } = await import('@modern-js/doc-core');
     let server: ServerInstance | undefined;
     let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
     return {
       validateSchema: () => {
         return schema;
+      },
+      config() {
+        return {
+          doc: extraDocConfig,
+        };
       },
       watchFiles() {
         const { configFile } = api.useAppContext();
@@ -39,7 +50,7 @@ export default (): CliPlugin => ({
         return [configFile, config.doc?.root].filter(Boolean);
       },
       async fileChange({ filename, eventType }) {
-        const isConfigFile = MODERN_CONFIG_FILES.some(configFileName =>
+        const isConfigFile = configFiles.some(configFileName =>
           filename.endsWith(configFileName),
         );
         const isWatchFileType = WATCH_FILE_TYPES.some(type =>
@@ -66,6 +77,7 @@ export default (): CliPlugin => ({
         program
           .command('dev [root]')
           .description('start dev server')
+          .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             startServer = async (isFristStart = false) => {
               if (!isFristStart) {
@@ -85,6 +97,7 @@ export default (): CliPlugin => ({
         program
           .command('build [root]')
           .description('build in production')
+          .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
             await build(root || '', config);
@@ -93,6 +106,7 @@ export default (): CliPlugin => ({
         program
           .command('preview [root]')
           .description('preview in production')
+          .option('-c --config <config>', 'specify config file')
           .option('--port [port]', 'port number')
           .option('--host [host]', 'hostname')
           .action(async (root?: string) => {

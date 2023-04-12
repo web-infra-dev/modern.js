@@ -2,7 +2,7 @@
 
 这篇文档会向你介绍如何在 Builder 中开启 Rspack 构建模式。
 
-import Rspack from '@zh/shared/rspack.md';
+import Rspack from '@zh/shared/rspack-tip.mdx';
 
 <Rspack />
 
@@ -105,7 +105,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [output.assetsRetry](/api/config-output.html#outputassetsretry)
 - [output.disableCssExtract](/api/config-output.html#outputdisablecssextract)
 - [output.enableAssetManifest](/api/config-output.html#outputenableassetmanifest)
 - [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
@@ -137,7 +136,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 不支持的配置项包括：
 
 - [tools.terser](/api/config-tools.html#toolsterser)
-- [tools.babel](/api/config-tools.html#toolsbabel)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
 - [tools.cssLoader](/api/config-tools.html#toolscssloader)
 - [tools.inspector](/api/config-tools.html#toolsinspector)
@@ -154,11 +152,25 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 除上述配置外，一些已支持的配置可能存在能力差异，请参考各配置 API 获取具体差异信息。
 :::
 
+### 从 webpackChain 迁移到 bundlerChain
+
+Builder 支持通过 [bundlerChain](/api/config-tools.html#toolsbundlerchain) 来修改 Rspack config。通过 bundlerChain 修改的配置，在 webpack 和 Rspack 构建时均可生效。
+
+:::tip
+bundlerChain 只为 Rspack & webpack 配置提供一致的 api 修改方式，实际 plugin / loader 是否可用，需要看 Rspack / webpack 实际支持情况。
+:::
+
+### CHAIN_ID 差异
+
+因为 webpack 和 rspack 的一些实现差异，所以在规则配置上会有些不同。
+
+可通过 [tools.bundlerChain#CHAIN_ID](/api/config-tools.html#chain_id) 查看所有在 Rspack & webpack 中都支持的规则。
+
 ### 修改 Rspack 配置
 
-在修改 Rspack 配置之前，你可能需要了解 [Rspack 和 Webpack 的配置兼容性](https://www.rspack.dev/zh/guide/config-diff.html)。
+BundlerChain 只支持修改 Rspack & webpack 交集部分，更多 Rspack 独有功能，需要通过 [tools.rspack](/api/config-tools.html#toolsrspack) 修改。
 
-你可以使用 [tools.rspack](/api/config-tools.html#toolsrspack) 来修改 Rspack 配置对象，对 Rspack 配置进行更灵活的操作。
+在修改 Rspack 配置之前，你可能需要了解 [Rspack 和 Webpack 的配置兼容性](https://www.rspack.dev/zh/guide/config-diff.html)。
 
 ```ts
 export default {
@@ -174,13 +186,3 @@ export default {
 ```
 
 关于 Rspack 的详细配置信息，请参考 [Rspack 官网](https://rspack.dev/)。
-
-### 更灵活的修改配置方式
-
-Builder 暂未提供类似 webpack-chain 的方式来灵活修改 Rspack config 的方法。
-
-如需增删插件或 Rule，可使用 [prependPlugins](/api/config-tools.html#prependplugins)、[addRules](/api/config-tools.html#addrules) 等工具方法实现。
-
-如需对已有插件或 Rule 进行修改，推荐优先使用 Builder 已有配置项进行修改。
-
-比如，修改 HTML 相关配置，可以优先查看 [html config](/api/config-html.html) 下是否存在相应的配置项，html config 不支持的情况下，可使用 [tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin) 配置项。

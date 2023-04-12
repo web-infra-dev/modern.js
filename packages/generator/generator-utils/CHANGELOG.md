@@ -1,5 +1,54 @@
 # @modern-js/generator-utils
 
+## 3.1.2
+
+### Patch Changes
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [6d86e34]
+  - @modern-js/utils@2.12.0
+  - @modern-js/plugin-i18n@2.12.0
+  - @modern-js/generator-common@3.1.2
+
+## 3.1.1
+
+### Patch Changes
+
+- Updated dependencies [cfb058f]
+- Updated dependencies [0bd018b]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [02bb383]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/utils@2.11.0
+  - @modern-js/plugin-i18n@2.11.0
+  - @modern-js/generator-common@3.1.1
+
+## 3.1.0
+
+### Minor Changes
+
+- 03d0eb5: feat: create tools add doc solution
+
+  feat: create 工具增加文档站工程方案
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [03d0eb5]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+  - @modern-js/generator-common@3.1.0
+  - @modern-js/plugin-i18n@2.10.0
+  - @modern-js/utils@2.10.0
+
 ## 3.0.11
 
 ### Patch Changes

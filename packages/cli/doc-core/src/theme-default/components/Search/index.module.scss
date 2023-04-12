@@ -11,10 +11,10 @@
 .modal {
   position: relative;
   background-color: var(--modern-c-bg-soft);
-  border-radius: 6px;
+  border-radius: 16px;
   margin: 80px auto auto;
   max-width: 560px;
-  padding: 12px;
+  padding: 20px;
   padding-bottom: 20px;
   height: auto;
 }
@@ -27,7 +27,8 @@
   padding: 0 12px;
   background-color: var(--modern-c-bg);
   border: 1px solid var(--modern-c-brand);
-  border-radius: 4px;
+  border-radius: 12px;
+
   .input {
     flex: 1;
     padding-left: 8px;
@@ -84,6 +85,7 @@
     justify-content: space-around;
     align-items: center;
     font-size: 13px;
+
     .searchWord {
       margin-left: 5px;
       margin-right: 40px;
@@ -91,6 +93,7 @@
       color: var(--modern-c-text-2);
       transition: all 0.3s;
     }
+
     > div {
       border-radius: 4px;
       color: var(--modern-c-gray);
@@ -120,19 +123,20 @@
   list-style: none;
   box-sizing: border-box;
   margin: 5px 2px;
-  box-shadow: 0 1px 3px 0 #d4d9e1;
 
-  :global(.dark) & {
-    box-shadow: 0 1px 3px 0 #1f1f1f;
+  :global(.dark) &,
+  :global(.dark) & > a {
+    box-shadow: none;
   }
 
   & > a {
     background-color: var(--modern-c-bg);
-    border-radius: 4px;
+    border-radius: 12px;
     padding-left: 12px;
     color: var(--modern-c-black-soft);
     display: flex;
     width: 100%;
+    box-shadow: 0 1px 3px 0 #d4d9e1;
 
     .suggestItemContainer {
       width: 100%;

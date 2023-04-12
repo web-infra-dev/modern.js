@@ -36,8 +36,9 @@ type RspackResolve = {
   mainFields?: string[];
   browserField?: boolean;
   conditionNames?: string[];
-  alias?: Record<string, string>;
+  alias?: Record<string, false | string | string[]>;
   tsConfigPath?: string;
+  fallback?: Record<string, false | string>;
 };
 
 // fork from the @rspack/core
@@ -125,10 +126,12 @@ export interface BundlerChain
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
   resolve: Pick<
     Config['resolve'],
-    Extract<
-      Extract<keyof WebpackResolve, keyof RspackResolve>,
-      keyof Config['resolve']
-    >
+    | Extract<
+        Extract<keyof WebpackResolve, keyof RspackResolve>,
+        keyof Config['resolve']
+      >
+    | 'merge'
+    | 'get'
   >;
   output: Pick<
     Config['output'],
@@ -137,6 +140,7 @@ export interface BundlerChain
         keyof Config['output']
       >
     | 'get'
+    | 'merge'
   >;
   infrastructureLogging: Pick<
     Config['infrastructureLogging'],

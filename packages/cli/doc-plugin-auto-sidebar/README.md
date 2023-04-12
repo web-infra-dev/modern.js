@@ -10,12 +10,12 @@
 
 ## Getting Started
 
-Please follow [Quick Start](https://modernjs.dev/en/guides/get-started/quick-start) to get started with Modern.js.
+Please follow [Quick Start](https://modernjs.dev/doc-tools/guide/getting-started.html) to get started with Modern.js Doc.
 
 ## Documentation
 
-- [English Documentation](https://modernjs.dev/en/)
-- [中文文档](https://modernjs.dev)
+- [English Documentation](https://modernjs.dev/doc-tools/)
+- [中文文档](https://modernjs.dev/doc-tools/zh/)
 
 ## Contributing
 

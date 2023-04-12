@@ -1,5 +1,84 @@
 # @modern-js/plugin-storybook
 
+## 2.12.0
+
+### Patch Changes
+
+- Updated dependencies [c2ca6c8]
+- Updated dependencies [0b05ec3]
+- Updated dependencies [6d86e34]
+- Updated dependencies [fef3394]
+- Updated dependencies [1aa0cb7]
+- Updated dependencies [591f53a]
+  - @modern-js/utils@2.12.0
+  - @modern-js/runtime@2.12.0
+  - @modern-js/builder-shared@2.12.0
+  - @modern-js/builder-webpack-provider@2.12.0
+  - @modern-js/plugin-router-v5@2.12.0
+  - @modern-js/builder@2.12.0
+  - @modern-js/builder-plugin-node-polyfill@2.12.0
+
+## 2.11.0
+
+### Patch Changes
+
+- Updated dependencies [adcedad]
+- Updated dependencies [cfb058f]
+- Updated dependencies [a9c6083]
+- Updated dependencies [55b07fd]
+- Updated dependencies [0bd018b]
+- Updated dependencies [8b90c79]
+- Updated dependencies [a8c08c3]
+- Updated dependencies [3aa318d]
+- Updated dependencies [5d624fd]
+- Updated dependencies [e2466a1]
+- Updated dependencies [53b0a63]
+- Updated dependencies [02bb383]
+- Updated dependencies [3171c9d]
+- Updated dependencies [381a3b9]
+- Updated dependencies [7a60f10]
+- Updated dependencies [73cfc9b]
+- Updated dependencies [cd1040f]
+- Updated dependencies [e262a99]
+- Updated dependencies [b71cef1]
+- Updated dependencies [274b2e5]
+- Updated dependencies [b9e1c54]
+  - @modern-js/builder-shared@2.11.0
+  - @modern-js/builder-webpack-provider@2.11.0
+  - @modern-js/builder@2.11.0
+  - @modern-js/utils@2.11.0
+  - @modern-js/builder-plugin-node-polyfill@2.11.0
+  - @modern-js/runtime@2.11.0
+  - @modern-js/plugin-router-v5@2.11.0
+
+## 2.10.0
+
+### Patch Changes
+
+- 0da32d0: chore: upgrade jest and puppeteer
+  chore: 升级 jest 和 puppeteer 到 latest
+- fbefa7e: chore(deps): bump webpack from 5.75.0 to 5.76.2
+
+  chore(deps): 将 webpack 从 5.75.0 升级至 5.76.2
+
+- Updated dependencies [a8db932]
+- Updated dependencies [92d247f]
+- Updated dependencies [0da32d0]
+- Updated dependencies [0d9962b]
+- Updated dependencies [5766414]
+- Updated dependencies [fbefa7e]
+- Updated dependencies [4d54233]
+- Updated dependencies [6db4864]
+- Updated dependencies [950e138]
+- Updated dependencies [82326ee]
+  - @modern-js/builder-webpack-provider@2.10.0
+  - @modern-js/builder-shared@2.10.0
+  - @modern-js/plugin-router-v5@2.10.0
+  - @modern-js/runtime@2.10.0
+  - @modern-js/utils@2.10.0
+  - @modern-js/builder-plugin-node-polyfill@2.10.0
+  - @modern-js/builder@2.10.0
+
 ## 2.9.0
 
 ### Patch Changes

@@ -6,6 +6,7 @@ import {
   createRoutesFromElements,
   useMatches,
   useLocation,
+  RouteObject,
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { Plugin } from '../../core';
@@ -40,6 +41,7 @@ export const routerPlugin = ({
 }: RouterConfig): Plugin => {
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+  let routes: RouteObject[] = [];
   finalRouteConfig = routesConfig;
   return {
     name: '@modern-js/plugin-router',
@@ -50,6 +52,13 @@ export const routerPlugin = ({
             useMatches,
             useLocation,
           };
+
+          Object.defineProperty(context, 'routes', {
+            get() {
+              return routes;
+            },
+          });
+
           return next({ context });
         },
         hoc: ({ App }, next) => {
@@ -61,10 +70,15 @@ export const routerPlugin = ({
 
           const getRouteApp = () => {
             return (props => {
-              beforeCreateRouter = true;
-              const routes = createRoutes
+              beforeCreateRouter = false;
+              routes = createRoutes
                 ? createRoutes()
-                : createRoutesFromElements(renderRoutes(finalRouteConfig));
+                : createRoutesFromElements(
+                    renderRoutes({
+                      routesConfig: finalRouteConfig,
+                      props,
+                    }),
+                  );
 
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||

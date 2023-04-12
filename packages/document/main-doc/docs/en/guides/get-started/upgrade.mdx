@@ -25,24 +25,24 @@ You can see that the dependency in the project `package.json` has been changed t
 
 ## Specify version upgrade
 
-Modern.js all packages are published using the **unified version number**.
+All packages of Modern.js are published using the **unified version number**.
 
-According to the website Release Note, developers can also manually upgrade the project to the desired version.
+According to the website release note, developers can also manually upgrade the project to the desired version.
 
 :::tip
 When upgrading, you need to upgrade to all packages provided by the Modern.js, rather than upgrading a single dependency.
 
 :::
 
-## lock child dependency
+## Lock nested dependency
 
-When there is a problem with one of the child dependencies of the project, and the Modern.js cannot be updated immediately, you can use the package manager to lock the child dependency version.
+When there is a problem with one of the nested dependencies of the project, and the Modern.js cannot be updated immediately, you can use the package manager to lock the child dependency version.
 
 ### pnpm
 
 For projects using pnpm, add the following configuration to the `package.json` in the **project root directory** and re-execute `pnpm install`:
 
-```json
+```json title="package.json"
 {
   "pnpm": {
     "overrides": {
@@ -56,7 +56,7 @@ For projects using pnpm, add the following configuration to the `package.json` i
 
 For projects using Yarn, add the following configuration to the `package.json` in the **project root directory** and re-execute `yarn install`:
 
-```json
+```json title="package.json"
 {
   "resolutions": {
     "package-name": "^1.0.0"
@@ -68,7 +68,7 @@ For projects using Yarn, add the following configuration to the `package.json` i
 
 For projects using Npm, add the following configuration to the `package.json` in the **project root directory** and re-execute `npm install`:
 
-```json
+```json title="package.json"
 {
   "overrides": {
     "package-name": "^1.0.0"

@@ -5,15 +5,11 @@ export const P = (props: ComponentProps<'p'>) => {
   return <p {...props} className="my-4 leading-7" />;
 };
 
-export const Summary = (props: ComponentProps<'summary'>) => {
-  return <summary {...props} className="my-4 text-base font-semibold" />;
-};
-
 export const Blockquote = (props: ComponentProps<'blockquote'>) => {
   return (
     <blockquote
       {...props}
-      className={`border-l-2 border-solid border-divider pl-4 my-4 transition-colors duration-500 ${styles.blockquote}`}
+      className={`border-l-2 border-solid border-divider pl-4 my-6 transition-colors duration-500 ${styles.blockquote}`}
     />
   );
 };

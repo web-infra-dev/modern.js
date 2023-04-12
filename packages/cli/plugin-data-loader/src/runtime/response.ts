@@ -11,8 +11,8 @@ import { TextEncoder } from 'util';
 import {
   type UNSAFE_DeferredData as DeferredData,
   type TrackedPromise,
-} from '@modern-js/utils/remix-router';
-import { serializeJson } from '@modern-js/utils/serialize';
+} from '@modern-js/utils/universal/remix-router';
+import { serializeJson } from '@modern-js/utils/universal/serialize';
 
 function isTrackedPromise(value: any): value is TrackedPromise {
   return (

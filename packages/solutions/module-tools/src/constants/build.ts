@@ -1,9 +1,4 @@
-import { chalk } from '@modern-js/utils';
 import type { BaseBuildConfig } from '../types';
-
-export const buildingText = chalk.blue('Building...');
-export const buildSuccessText = chalk.green('Build succeed');
-export const buildFailText = chalk.red('Build Failed:');
 
 export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   buildType: 'bundle',
@@ -16,6 +11,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     only: false,
     distPath: './',
     tsconfigPath: './tsconfig.json',
+    abortOnError: true,
   }),
   jsx: 'automatic',
   input: ['src/index.ts'],
@@ -46,4 +42,9 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     modules: {},
   },
   sideEffects: undefined,
+  redirect: {
+    alias: true,
+    style: true,
+    asset: true,
+  },
 });
