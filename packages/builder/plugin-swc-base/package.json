@@ -43,7 +43,7 @@
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.0",
-    "core-js": "^3.27.0"
+    "core-js": "~3.27.0"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
