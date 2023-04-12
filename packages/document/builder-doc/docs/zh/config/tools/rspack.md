@@ -263,6 +263,10 @@ export default {
 
 该方法通常在需要与 builder 复用同一份依赖时会被用到。
 
+:::tip
+Builder 内部依赖会随着版本迭代而发生变化，例如产生大版本变更。在非必要的情况下，请避免使用此 API。
+:::
+
 ```js
 export default {
   tools: {

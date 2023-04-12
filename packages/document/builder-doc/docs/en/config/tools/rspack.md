@@ -263,6 +263,10 @@ Get the path to the builder built-in dependencies, such as:
 
 This method is usually used when you need to reuse the same dependency with the builder.
 
+:::tip
+Builder built-in dependencies are subject to change with version iterations, e.g. generate large version break changes. Please avoid using this API if it is not necessary.
+:::
+
 ```js
 export default {
   tools: {
