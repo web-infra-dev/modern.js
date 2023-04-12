@@ -8,7 +8,13 @@ import type {
   RouteLegacy,
   SSRMode,
 } from '@modern-js/types';
-import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
+import {
+  fs,
+  getEntryOptions,
+  isSSGEntry,
+  logger,
+  slash,
+} from '@modern-js/utils';
 import type { AppNormalizedConfig, IAppContext, RuntimePlugin } from '../types';
 import { APP_CONFIG_NAME, TEMP_LOADERS_DIR } from './constants';
 import { getServerLoadersFile } from './utils';
@@ -374,6 +380,7 @@ export const fileSystemRoutes = async ({
       )}${getDataLoaderPath(key)}";\n`;
     }
   }
+  logger.warn('importLoadersCode\n', importLoadersCode);
 
   await fs.ensureFile(loadersMapFile);
   await fs.writeJSON(loadersMapFile, loadersMap);

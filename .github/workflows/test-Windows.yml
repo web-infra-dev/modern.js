@@ -59,4 +59,7 @@ jobs:
 
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run test:ut
+        # run: pnpm run test:ut routes
+        run:
+          - cd tests
+          - pnpm run test routes
