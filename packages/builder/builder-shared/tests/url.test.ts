@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { withPublicPath } from '@/plugins/HtmlTagsPlugin';
+import { withPublicPath } from '@/url';
 
 const PUBLIC_PATH = 'https://www.example.com/static';
 
