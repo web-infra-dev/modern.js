@@ -8,14 +8,5 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18"
-  },
-  "devDependencies": {
-    "@modern-js/builder-plugin-node-polyfill": "workspace:*",
-    "@modern-js/e2e": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@types/node": "^14",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "typescript": "^4"
   }
 }
