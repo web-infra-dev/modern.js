@@ -268,7 +268,7 @@ export function pluginAutoSidebar(options: Options) {
         ],
       });
       docConfig.themeConfig = docConfig.themeConfig || {};
-      const defaultLang = docConfig.lang || 'zh';
+      const defaultLang = docConfig.lang || '';
       const base = docConfig.base || '/';
       const normalizeKey = (p: string) => addLeadingSlash(addTailingSlash(p));
       const files = await initFiles(paths, userRoot);
