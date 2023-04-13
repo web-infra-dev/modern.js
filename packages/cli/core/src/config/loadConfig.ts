@@ -71,18 +71,22 @@ export const clearFilesOverTime = async (
   targetDir: string,
   overtime: number,
 ) => {
-  // when stats is true, globby return Stats[]
-  const files = (await globby(`${targetDir}/**/*`, {
-    stats: true,
-    absolute: true,
-  })) as unknown as { stats: Stats; path: string }[];
-  const currentTime = Date.now();
-  if (files.length > 0) {
-    for (const file of files) {
-      if (currentTime - file.stats.birthtimeMs >= overtime * 1000) {
-        fs.unlinkSync(file.path);
+  try {
+    // when stats is true, globby return Stats[]
+    const files = (await globby(`${targetDir}/**/*`, {
+      stats: true,
+      absolute: true,
+    })) as unknown as { stats: Stats; path: string }[];
+    const currentTime = Date.now();
+    if (files.length > 0) {
+      for (const file of files) {
+        if (currentTime - file.stats.birthtimeMs >= overtime * 1000) {
+          fs.unlinkSync(file.path);
+        }
       }
     }
+  } catch (err) {
+    // ignore error when clear files
   }
 };
 
