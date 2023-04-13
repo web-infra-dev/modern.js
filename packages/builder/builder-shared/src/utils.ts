@@ -3,7 +3,11 @@ import {
   GLOBAL_CSS_REGEX,
   NODE_MODULES_REGEX,
 } from './constants';
-import type { SharedNormalizedConfig, BuilderTarget } from './types';
+import type {
+  SharedNormalizedConfig,
+  BuilderTarget,
+  SharedCompiledPkgNames,
+} from './types';
 import { join } from 'path';
 
 export const extendsType =
@@ -69,13 +73,7 @@ export const isUseCssSourceMap = (config: SharedNormalizedConfig) => {
 };
 
 export const getSharedPkgCompiledPath = (
-  packageName:
-    | 'sass'
-    | 'less'
-    | 'sass-loader'
-    | 'less-loader'
-    | 'babel-loader'
-    | 'assetsRetry.js',
+  packageName: SharedCompiledPkgNames,
 ) => {
   return join(__dirname, '../compiled', packageName);
 };

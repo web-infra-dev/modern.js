@@ -1,11 +1,20 @@
 import { ComponentProps } from 'react';
 import styles from './index.module.scss';
-import { withBase } from '@/runtime';
-import { externalLinkRE } from '@/shared/utils';
+import { withBase, useLang, usePageData } from '@/runtime';
+import { isExternalUrl, normalizeSlash } from '@/shared/utils';
 
 export const A = (props: ComponentProps<'a'>) => {
   let { href = '' } = props;
-  if (!externalLinkRE.test(href) && !href.startsWith('#')) {
+  const lang = useLang();
+  const pageData = usePageData();
+  const defaultLang = pageData.siteData.lang;
+  if (!isExternalUrl(href) && !href.startsWith('#')) {
+    href = normalizeSlash(href);
+    // Add lang prefix if not default lang
+    if (lang !== defaultLang && !href.startsWith(`/${lang}`)) {
+      href = `/${lang}${href}`;
+    }
+
     href = withBase(href || '');
   }
   return (

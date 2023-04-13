@@ -1,7 +1,6 @@
 export const QUERY_REGEXP = /\?.*$/s;
 export const HASH_REGEXP = /#.*$/s;
 export const MDX_REGEXP = /\.mdx?$/;
-export const externalLinkRE = /^(https?:)/;
 export const APPEARANCE_KEY = 'modern-theme-appearance';
 
 export const SEARCH_INDEX_NAME = 'search_index';
@@ -29,6 +28,15 @@ export function removeTrailingSlash(url: string) {
 
 export function normalizeSlash(url: string) {
   return removeTrailingSlash(addLeadingSlash(url));
+}
+
+export function isExternalUrl(url: string) {
+  return (
+    url.startsWith('http://') ||
+    url.startsWith('https://') ||
+    url.startsWith('mailto:') ||
+    url.startsWith('tel:')
+  );
 }
 
 export function replaceLang(
@@ -85,7 +93,7 @@ export function normalizeHref(url?: string) {
   if (!url) {
     return '/';
   }
-  if (externalLinkRE.test(url)) {
+  if (isExternalUrl(url)) {
     return url;
   }
 

@@ -7,11 +7,9 @@ import {
   getFilename,
   chainStaticAssetRule,
   getSvgoDefaultConfig,
+  getSharedPkgCompiledPath,
 } from '@modern-js/builder-shared';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
-
-export const getCompiledPath = (packageName: string) =>
-  path.join(__dirname, '../../compiled', packageName);
 
 export const builderPluginSvg = (): DefaultBuilderPlugin => {
   return {
@@ -46,7 +44,7 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
           .type('javascript/auto')
           .resourceQuery(/inline/)
           .use(CHAIN_ID.USE.URL)
-          .loader(getCompiledPath('url-loader'))
+          .loader(getSharedPkgCompiledPath('url-loader'))
           .options({
             limit: Infinity,
             name: outputName,
@@ -57,7 +55,7 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
           .type('javascript/auto')
           .resourceQuery(/url/)
           .use(CHAIN_ID.USE.URL)
-          .loader(getCompiledPath('url-loader'))
+          .loader(getSharedPkgCompiledPath('url-loader'))
           .options({
             limit: false,
             name: outputName,
@@ -76,7 +74,7 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
           .when(defaultExport === 'url', c =>
             c
               .use(CHAIN_ID.USE.URL)
-              .loader(getCompiledPath('url-loader'))
+              .loader(getSharedPkgCompiledPath('url-loader'))
               .options({
                 limit: config.output.dataUriLimit.svg,
                 name: outputName,
