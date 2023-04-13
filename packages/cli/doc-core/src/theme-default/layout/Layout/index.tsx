@@ -81,6 +81,9 @@ export const Layout: React.FC<LayoutProps> = props => {
     // Check the window.navigator.language to determine the default language
     // If the default language is not the same as the current language, redirect to the default language
     // The default language will not have a lang prefix in the URL
+    if (!defaultLang) {
+      return;
+    }
     const FIRST_VISIT_KEY = 'modern-doc-visited';
     const visited = localStorage.getItem(FIRST_VISIT_KEY);
     if (visited) {
