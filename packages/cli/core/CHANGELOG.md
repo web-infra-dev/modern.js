@@ -1,5 +1,15 @@
 # @modern-js/core
 
+## 2.13.1
+
+### Patch Changes
+
+- ab79a7b: fix: use nodeApi instead node-api in @modern-js/core exports
+  修复: 使用 nodeApi 代替 node-api 作为 @modern-js/core 的导出
+  - @modern-js/node-bundle-require@2.13.1
+  - @modern-js/plugin@2.13.1
+  - @modern-js/utils@2.13.1
+
 ## 2.13.0
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/prod-server
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.13.1
+- @modern-js/utils@2.13.1
+
 ## 2.13.0
 
 ### Patch Changes

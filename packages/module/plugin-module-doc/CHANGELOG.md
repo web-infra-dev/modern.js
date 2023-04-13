@@ -1,5 +1,12 @@
 # @modern-js/plugin-module-doc
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/doc-core@2.13.1
+- @modern-js/module-tools@2.13.1
+
 ## 2.13.0
 
 ### Minor Changes
