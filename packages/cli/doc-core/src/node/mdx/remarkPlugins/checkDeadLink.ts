@@ -2,7 +2,7 @@ import path from 'path';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import { logger } from '@modern-js/utils/logger';
-import { isProduction, withBase } from '@/shared/utils';
+import { isProduction } from '@/shared/utils';
 import {
   normalizeRoutePath,
   routeService,
@@ -15,20 +15,14 @@ export interface DeadLinkCheckOptions {
 
 const IGNORE_REGEXP = /^(https?)|(mailto)|(tel)|(#)/;
 
-export function checkLinks(
-  links: string[],
-  filepath: string,
-  root: string,
-  base: string,
-) {
+export function checkLinks(links: string[], filepath: string, root: string) {
   const errorInfos: string[] = [];
   links
     .filter(link => !IGNORE_REGEXP.test(link))
     .forEach(link => {
-      const normalizedRoute = link;
       const relativePath = path.relative(root, filepath);
 
-      if (!routeService.isExistRoute(withBase(normalizedRoute, base))) {
+      if (!routeService.isExistRoute(link)) {
         errorInfos.push(
           `Internal link to ${link} is dead, check it in ${relativePath}`,
         );
@@ -51,7 +45,7 @@ export function checkLinks(
 export const remarkCheckDeadLinks: Plugin<
   DeadLinkCheckOptions[]
 > = checkLink => {
-  const { root, base } = checkLink;
+  const { root } = checkLink;
 
   return (tree, vfile) => {
     const internalLinks = new Set<string>();
@@ -74,6 +68,6 @@ export const remarkCheckDeadLinks: Plugin<
       }
     });
 
-    checkLinks(Array.from(internalLinks), vfile.path, root, base);
+    checkLinks(Array.from(internalLinks), vfile.path, root);
   };
 };
