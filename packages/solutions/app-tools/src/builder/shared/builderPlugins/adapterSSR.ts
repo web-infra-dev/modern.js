@@ -234,7 +234,10 @@ function applySSRDataLoader<B extends Bundler>(
 
   const { entriesDir = './src' } = normalizedConfig.source;
 
-  const absolutePath = path.resolve(appDirectory, entriesDir);
+  const absolutePath = path
+    .resolve(appDirectory, entriesDir)
+    .split(path.sep)
+    .join('(\\\\|/)');
 
   const reg = new RegExp(`${absolutePath}.*\\.loader\\.[t|j]s$`);
 
