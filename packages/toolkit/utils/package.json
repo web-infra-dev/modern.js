@@ -98,63 +98,74 @@
     "exports": {
       ".": {
         "import": "./dist/esm/index.js",
+        "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       },
       "./ssr": {
         "import": "./dist/esm/ssr.js",
+        "types": "./dist/types/ssr.d.ts",
         "default": "./dist/cjs/ssr.js"
       },
       "./logger": {
         "import": "./dist/esm/logger.js",
+        "types": "./dist/types/logger.d.ts",
         "default": "./dist/cjs/logger.js"
       },
       "./constants": {
         "import": "./dist/esm/constants.js",
+        "types": "./dist/types/constants.d.ts",
         "default": "./dist/cjs/constants.js"
       },
       "./babel": {
         "import": "./dist/esm/babel.js",
+        "types": "./dist/types/babel.d.ts",
         "default": "./dist/cjs/babel.js"
       },
-      "./ajv": "./compiled/ajv/index.js",
-      "./glob": "./compiled/glob/index.js",
-      "./chalk": "./compiled/chalk/index.js",
-      "./json5": "./compiled/json5/index.js",
-      "./semver": "./compiled/semver/index.js",
-      "./lodash": "./compiled/lodash/index.js",
-      "./globby": "./compiled/globby/index.js",
-      "./fs-extra": "./compiled/fs-extra/index.js",
-      "./fast-glob": "./compiled/fast-glob/index.js",
-      "./gzip-size": "./compiled/gzip-size/index.js",
-      "./mime-types": "./compiled/mime-types/index.js",
-      "./strip-ansi": "./compiled/strip-ansi/index.js",
-      "./ajv-keywords": "./compiled/ajv-keywords/index.js",
-      "./browserslist": "./compiled/browserslist/index.js",
-      "./webpack-chain": "./compiled/webpack-chain/index.js",
-      "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-      "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
-      "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
+      "./ajv": "./dist/compiled/ajv/index.js",
+      "./glob": "./dist/compiled/glob/index.js",
+      "./chalk": "./dist/compiled/chalk/index.js",
+      "./json5": "./dist/compiled/json5/index.js",
+      "./semver": "./dist/compiled/semver/index.js",
+      "./lodash": "./dist/compiled/lodash/index.js",
+      "./globby": "./dist/compiled/globby/index.js",
+      "./fs-extra": "./dist/compiled/fs-extra/index.js",
+      "./fast-glob": "./dist/compiled/fast-glob/index.js",
+      "./gzip-size": "./dist/compiled/gzip-size/index.js",
+      "./mime-types": "./dist/compiled/mime-types/index.js",
+      "./strip-ansi": "./dist/compiled/strip-ansi/index.js",
+      "./ajv-keywords": "./dist/compiled/ajv-keywords/index.js",
+      "./browserslist": "./dist/compiled/browserslist/index.js",
+      "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
+      "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
+      "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js",
+      "./webpack-dev-middleware": "./dist/compiled/webpack-dev-middleware/index.js",
       "./chain-id": {
+        "types": "./dist/types/chainId.d.ts",
         "default": "./dist/cjs/chainId.js"
       },
       "./universal/constants": {
         "import": "./dist/esm/universal/constants.js",
+        "types": "./dist/types/universal/constants.d.ts",
         "default": "./dist/cjs/universal/constants.js"
       },
       "./universal/serialize": {
         "import": "./dist/esm/universal/serialize.js",
+        "types": "./dist/types/universal/serialize.d.ts",
         "default": "./dist/cjs/universal/serialize.js"
       },
       "./universal/remix-router": {
         "import": "./dist/esm/universal/remixRouter.js",
+        "types": "./dist/types/universal/remix-router.d.ts",
         "default": "./dist/cjs/universal/remixRouter.js"
       },
       "./universal/format-webpack": {
         "import": "./dist/esm/universal/formatWebpack.js",
+        "types": "./dist/types/universal/format-webpack.d.ts",
         "default": "./dist/cjs/universal/formatWebpack.js"
       },
       "./universal/nestedRoutes": {
         "import": "./dist/esm/universal/nestedRoutes.js",
+        "types": "./dist/types/universal/nestedRoutes.d.ts",
         "default": "./dist/cjs/universal/nestedRoutes.js"
       }
     }
@@ -174,64 +185,64 @@
         "./dist/types/babel.d.ts"
       ],
       "ajv": [
-        "./compiled/ajv/types/ajv.d.ts"
+        "./dist/compiled/ajv/types/ajv.d.ts"
       ],
       "ajv/json-schema": [
-        "./compiled/ajv/types/types/json-schema.d.ts"
+        "./dist/compiled/ajv/types/types/json-schema.d.ts"
       ],
       "glob": [
-        "./compiled/glob/index.d.ts"
+        "./dist/compiled/glob/index.d.ts"
       ],
       "chalk": [
-        "./compiled/chalk/index.d.ts"
+        "./dist/compiled/chalk/index.d.ts"
       ],
       "json5": [
-        "./compiled/json5/index.d.ts"
+        "./dist/compiled/json5/index.d.ts"
       ],
       "chain-id": [
         "./dist/types/chainId.d.ts"
       ],
       "semver": [
-        "./compiled/semver/index.d.ts"
+        "./dist/compiled/semver/index.d.ts"
       ],
       "lodash": [
-        "./compiled/lodash/index.d.ts"
+        "./dist/compiled/lodash/index.d.ts"
       ],
       "globby": [
-        "./compiled/globby/index.d.ts"
+        "./dist/compiled/globby/index.d.ts"
       ],
       "fs-extra": [
-        "./compiled/fs-extra/index.d.ts"
+        "./dist/compiled/fs-extra/index.d.ts"
       ],
       "fast-glob": [
-        "./compiled/fast-glob/index.d.ts"
+        "./dist/compiled/fast-glob/index.d.ts"
       ],
       "gzip-size": [
-        "./compiled/gzip-size/index.d.ts"
+        "./dist/compiled/gzip-size/index.d.ts"
       ],
       "mime-types": [
-        "./compiled/mime-types/index.d.ts"
+        "./dist/compiled/mime-types/index.d.ts"
       ],
       "strip-ansi": [
-        "./compiled/strip-ansi/index.d.ts"
+        "./dist/compiled/strip-ansi/index.d.ts"
       ],
       "ajv-keywords": [
-        "./compiled/ajv-keywords/index.d.ts"
+        "./dist/compiled/ajv-keywords/index.d.ts"
       ],
       "browserslist": [
-        "./compiled/browserslist/index.d.ts"
+        "./dist/compiled/browserslist/index.d.ts"
       ],
       "webpack-chain": [
-        "./compiled/webpack-chain/types/index.d.ts"
+        "./dist/compiled/webpack-chain/types/index.d.ts"
       ],
       "tsconfig-paths": [
-        "./compiled/tsconfig-paths/lib/index.d.ts"
+        "./dist/compiled/tsconfig-paths/lib/index.d.ts"
       ],
       "better-ajv-errors": [
-        "./compiled/better-ajv-errors/index.d.ts"
+        "./dist/compiled/better-ajv-errors/index.d.ts"
       ],
       "webpack-dev-middleware": [
-        "./compiled/webpack-dev-middleware/types/index.d.ts"
+        "./dist/compiled/webpack-dev-middleware/types/index.d.ts"
       ],
       "universal/constants": [
         "./dist/types/universal/constants.d.ts"
