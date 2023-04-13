@@ -1,6 +1,6 @@
 {
   "name": "@scripts/lint-package-json",
-  "version": "2.12.0",
+  "version": "2.13.1",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",

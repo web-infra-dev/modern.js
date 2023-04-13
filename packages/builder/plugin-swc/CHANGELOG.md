@@ -1,5 +1,34 @@
 # @modern-js/builder-plugin-swc
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.13.1
+- @modern-js/builder-plugin-swc-base@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 5deb1fb: chore: bump core-js and swc
+
+  chore: 升级 core-js 和 swc
+
+- Updated dependencies [1feacdc]
+- Updated dependencies [384406c]
+- Updated dependencies [c89de05]
+- Updated dependencies [d69c0b9]
+- Updated dependencies [5deb1fb]
+- Updated dependencies [348306d]
+- Updated dependencies [384e393]
+- Updated dependencies [9c0572e]
+- Updated dependencies [67a235b]
+  - @modern-js/builder-shared@2.13.0
+  - @modern-js/builder-plugin-swc-base@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

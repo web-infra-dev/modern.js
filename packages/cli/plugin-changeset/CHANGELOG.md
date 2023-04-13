@@ -1,5 +1,29 @@
 # @modern-js/plugin-changeset
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 034f36b: feat: set the default language of CLI to English
+
+  feat: 将命令行的默认语言设置为英文
+
+- 034f36b: fix(upgrade): i18n of upgrade command not work
+
+  fix(upgrade): 修复 upgrade 命令的 i18n 配置不生效的问题
+
+- Updated dependencies [034f36b]
+- Updated dependencies [034f36b]
+  - @modern-js/plugin-i18n@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

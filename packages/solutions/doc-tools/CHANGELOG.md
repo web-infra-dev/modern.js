@@ -1,5 +1,31 @@
 # @modern-js/doc-tools
 
+## 2.13.1
+
+### Patch Changes
+
+- Updated dependencies [ab79a7b]
+  - @modern-js/core@2.13.1
+  - @modern-js/doc-core@2.13.1
+  - @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- Updated dependencies [1897e83]
+- Updated dependencies [e9b1656]
+- Updated dependencies [c04925b]
+- Updated dependencies [8b45566]
+- Updated dependencies [e91ec97]
+- Updated dependencies [e3291d5]
+- Updated dependencies [6d3b023]
+- Updated dependencies [bb03c20]
+- Updated dependencies [72b71b5]
+  - @modern-js/doc-core@2.13.0
+  - @modern-js/core@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

@@ -1,5 +1,94 @@
 # @modern-js/app-tools
 
+## 2.13.1
+
+### Patch Changes
+
+- Updated dependencies [ab79a7b]
+  - @modern-js/core@2.13.1
+  - @modern-js/plugin-data-loader@2.13.1
+  - @modern-js/plugin-lint@2.13.1
+  - @modern-js/builder@2.13.1
+  - @modern-js/builder-rspack-provider@2.13.1
+  - @modern-js/builder-shared@2.13.1
+  - @modern-js/builder-webpack-provider@2.13.1
+  - @modern-js/builder-plugin-esbuild@2.13.1
+  - @modern-js/builder-plugin-node-polyfill@2.13.1
+  - @modern-js/plugin-i18n@2.13.1
+  - @modern-js/new-action@2.13.1
+  - @modern-js/prod-server@2.13.1
+  - @modern-js/server@2.13.1
+  - @modern-js/node-bundle-require@2.13.1
+  - @modern-js/plugin@2.13.1
+  - @modern-js/types@2.13.1
+  - @modern-js/upgrade@2.13.1
+  - @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Minor Changes
+
+- 3d5086b: feat: the rspack unsupport inline loader, so we move data-loader to bundler.module.rules
+  feat: rspack 不支持 inline loader, 所以我们将 data-loader 移动到 bundler.module.rules 配置中去。
+
+### Patch Changes
+
+- 69eed51: refactor: move add builder-plugin-node-polyfill action to builder-generator
+  refactor: 将添加 builder-plugin-node-polyfill 的行为移动到 builder-generator
+- e9b1656: fix: plugin config hook can not get bundlerType, so we can't set babelConfig correctly in ssr plugin
+  fix: 插件的 config 钩子不能获得 bundlerType，所以我们在 ssr 插件不能正确的设置 babelConfig
+- e5e4ba0: refactor(app-tools): inject **assetPrefix** by entry
+
+  refactor(app-tools): 通过 entry 来注入 **assetPrefix** 变量
+
+- 20d694a: fix: the `defineLegacyConfig` should set autoLoadPlugins = true by default.
+  fix: `defineLegacyConfig` 应该默认将 autoLoadPlugins 设置为 true
+- e91ec97: feat(app-tools): export mergeConfig function
+
+  feat(app-tools): 导出 mergeConfig 函数
+
+- 034f36b: feat: set the default language of CLI to English
+
+  feat: 将命令行的默认语言设置为英文
+
+- 034f36b: fix(upgrade): i18n of upgrade command not work
+
+  fix(upgrade): 修复 upgrade 命令的 i18n 配置不生效的问题
+
+- Updated dependencies [1feacdc]
+- Updated dependencies [384406c]
+- Updated dependencies [e9b1656]
+- Updated dependencies [c89de05]
+- Updated dependencies [d69c0b9]
+- Updated dependencies [3d5086b]
+- Updated dependencies [5deb1fb]
+- Updated dependencies [348306d]
+- Updated dependencies [e91ec97]
+- Updated dependencies [034f36b]
+- Updated dependencies [384e393]
+- Updated dependencies [78431f4]
+- Updated dependencies [034f36b]
+- Updated dependencies [9c0572e]
+- Updated dependencies [538d1a8]
+  - @modern-js/builder-shared@2.13.0
+  - @modern-js/builder@2.13.0
+  - @modern-js/core@2.13.0
+  - @modern-js/builder-webpack-provider@2.13.0
+  - @modern-js/builder-rspack-provider@2.13.0
+  - @modern-js/plugin-data-loader@2.13.0
+  - @modern-js/plugin-i18n@2.13.0
+  - @modern-js/upgrade@2.13.0
+  - @modern-js/plugin@2.13.0
+  - @modern-js/builder-plugin-esbuild@2.13.0
+  - @modern-js/builder-plugin-node-polyfill@2.13.0
+  - @modern-js/plugin-lint@2.13.0
+  - @modern-js/new-action@2.13.0
+  - @modern-js/prod-server@2.13.0
+  - @modern-js/server@2.13.0
+  - @modern-js/node-bundle-require@2.13.0
+  - @modern-js/types@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

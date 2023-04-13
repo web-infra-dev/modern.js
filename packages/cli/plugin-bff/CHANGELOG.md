@@ -1,5 +1,27 @@
 # @modern-js/plugin-bff
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.13.1
+- @modern-js/create-request@2.13.1
+- @modern-js/server-utils@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 8c853c7: hotfix: support bffPlugin when use rspack
+
+  hotfix: 在使用 Rspack 构建时，支持 BFF 插件
+
+  - @modern-js/server-utils@2.13.0
+  - @modern-js/bff-core@2.13.0
+  - @modern-js/create-request@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @modern-js/main-doc
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- e91ec97: feat(app-tools): export mergeConfig function
+
+  feat(app-tools): 导出 mergeConfig 函数
+
+- 42700c1: chore: improve ssr docs, add more use case for node/web code split
+  chore: 优化 ssr 文档，为 node/web 代码分割添加更多使用场景
+- Updated dependencies [1feacdc]
+- Updated dependencies [348306d]
+- Updated dependencies [42700c1]
+  - @modern-js/builder-doc@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

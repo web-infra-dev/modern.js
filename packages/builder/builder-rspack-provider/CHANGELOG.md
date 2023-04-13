@@ -1,5 +1,51 @@
 # @modern-js/builder-rspack-provider
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.13.1
+- @modern-js/server@2.13.1
+- @modern-js/e2e@2.13.1
+- @modern-js/types@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- c89de05: chore(rspack-provider): apply fullySpecified mjs default value in Rspack
+
+  chore(rspack-provider): 在 Rspack 中设置 fullySpecified 在 mjs 下的默认值
+
+- d69c0b9: fix: pin core-js version to 3.27 in SWC
+
+  fix: SWC 相关的 core-js 版本固定到 3.27
+
+- 5deb1fb: chore: bump core-js and swc
+
+  chore: 升级 core-js 和 swc
+
+- 9c0572e: chore(builder): support get builder/shared compiled path in provider getCompiledPath api
+
+  chore(builder): 支持通过 provider getCompiledPath api 获取 builder/shared 中预打包依赖路径
+
+- 538d1a8: feat(rspack-provider): update Rspack to 0.1.7
+
+  feat(rspack-provider): 升级 Rspack 相关依赖至 0.1.7
+
+- Updated dependencies [1feacdc]
+- Updated dependencies [384406c]
+- Updated dependencies [c89de05]
+- Updated dependencies [348306d]
+- Updated dependencies [384e393]
+- Updated dependencies [9c0572e]
+  - @modern-js/builder-shared@2.13.0
+  - @modern-js/server@2.13.0
+  - @modern-js/e2e@2.13.0
+  - @modern-js/types@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

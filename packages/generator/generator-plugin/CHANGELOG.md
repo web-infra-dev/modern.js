@@ -1,5 +1,35 @@
 # @modern-js/generator-plugin
 
+## 3.1.4
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.13.1
+- @modern-js/new-action@2.13.1
+- @modern-js/utils@2.13.1
+- @modern-js/generator-common@3.1.4
+- @modern-js/generator-utils@3.1.4
+
+## 3.1.3
+
+### Patch Changes
+
+- 1075bab: feat: generator plugin support relative path
+
+  feat: 生成器插件支持相对路径
+
+- 034f36b: feat: set the default language of CLI to English
+
+  feat: 将命令行的默认语言设置为英文
+
+- Updated dependencies [034f36b]
+- Updated dependencies [034f36b]
+  - @modern-js/generator-common@3.1.3
+  - @modern-js/generator-utils@3.1.3
+  - @modern-js/plugin-i18n@2.13.0
+  - @modern-js/new-action@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 3.1.2
 
 ### Patch Changes
