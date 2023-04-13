@@ -1,5 +1,12 @@
 # @modern-js/builder-plugin-swc-base
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.13.1
+- @modern-js/utils@2.13.1
+
 ## 2.13.0
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @modern-js/doc-core
 
+## 2.13.1
+
+### Patch Changes
+
+- Updated dependencies [ab79a7b]
+  - @modern-js/core@2.13.1
+  - @modern-js/remark-container@2.13.1
+  - @modern-js/builder@2.13.1
+  - @modern-js/builder-rspack-provider@2.13.1
+  - @modern-js/utils@2.13.1
+
 ## 2.13.0
 
 ### Patch Changes

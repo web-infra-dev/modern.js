@@ -1,5 +1,7 @@
 # @modern-js/upgrade-generator
 
+## 3.1.4
+
 ## 3.1.3
 
 ### Patch Changes

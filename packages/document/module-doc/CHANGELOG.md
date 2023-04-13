@@ -1,5 +1,12 @@
 # @modern-js/module-tools-docs
 
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.13.1
+- @modern-js/doc-plugin-auto-sidebar@2.13.1
+
 ## 2.13.0
 
 ### Patch Changes
