@@ -137,8 +137,8 @@ async function createInternalBuildConfig(
             c =>
               c.loader(require.resolve('../mdx-rs-loader.cjs')).options({
                 callback: (context: MdxRsLoaderCallbackContext) => {
-                  const { links, base, root, resourcePath } = context;
-                  checkDeadLinks && checkLinks(links, resourcePath, root, base);
+                  const { links, root, resourcePath } = context;
+                  checkDeadLinks && checkLinks(links, resourcePath, root);
                 },
                 root: userRoot,
                 base,

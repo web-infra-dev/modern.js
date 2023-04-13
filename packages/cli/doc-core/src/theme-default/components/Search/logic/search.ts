@@ -219,7 +219,8 @@ export class PageSearcher {
     if (queryIndex === -1) {
       // In case fuzzy search
       // We get the matched content position from server response
-      const hightlightItems = (item as RemotePageInfo)._matchesPosition.content;
+      const hightlightItems = (item as RemotePageInfo)._matchesPosition
+        ?.content;
       if (!hightlightItems?.length) {
         return;
       }
