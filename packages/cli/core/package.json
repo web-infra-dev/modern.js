@@ -57,7 +57,7 @@
         "./dist/types/index.d.ts"
       ],
       "node": [
-        "./dist/node-api.d.ts"
+        "./dist/nodeApi.d.ts"
       ],
       "runBin": [
         "./dist/runBin.d.ts"
