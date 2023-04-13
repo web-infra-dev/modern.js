@@ -41,3 +41,5 @@ export default (pluginOptions: PluginOptions): CliPlugin<ModuleTools> => ({
     },
   }),
 });
+
+export { PluginOptions };
