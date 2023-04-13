@@ -190,60 +190,6 @@ export const TASKS: TaskConfig[] = [
     ],
   },
   {
-    packageDir: 'builder/builder',
-    packageName: '@modern-js/builder',
-    dependencies: [
-      {
-        name: 'toml-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'loader-utils2',
-        ignoreDts: true,
-        externals: {
-          json5: '@modern-js/utils/json5',
-        },
-      },
-      {
-        name: 'yaml-loader',
-        ignoreDts: true,
-        externals: {
-          'loader-utils': '../loader-utils2',
-        },
-      },
-      {
-        name: 'schema-utils3',
-        ignoreDts: true,
-      },
-      {
-        name: 'url-loader',
-        ignoreDts: true,
-        externals: {
-          'schema-utils': '../schema-utils3',
-          'loader-utils': '../loader-utils2',
-          'mime-types': '@modern-js/utils/mime-types',
-        },
-        afterBundle(task) {
-          replaceFileContent(join(task.distPath, 'index.js'), content => {
-            // using prebunled file-loader
-            return content.replace(
-              '"file-loader"',
-              'require.resolve("../file-loader")',
-            );
-          });
-        },
-      },
-      {
-        name: 'file-loader',
-        ignoreDts: true,
-        externals: {
-          'schema-utils': '../schema-utils3',
-          'loader-utils': '../loader-utils2',
-        },
-      },
-    ],
-  },
-  {
     packageDir: 'builder/builder-shared',
     packageName: '@modern-js/builder-shared',
     dependencies: [
@@ -292,6 +238,54 @@ export const TASKS: TaskConfig[] = [
         name: 'sass-loader',
         externals: {
           sass: '../sass',
+        },
+      },
+      {
+        name: 'toml-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'loader-utils2',
+        ignoreDts: true,
+        externals: {
+          json5: '@modern-js/utils/json5',
+        },
+      },
+      {
+        name: 'yaml-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
+      },
+      {
+        name: 'schema-utils3',
+        ignoreDts: true,
+      },
+      {
+        name: 'url-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'loader-utils': '../loader-utils2',
+          'mime-types': '@modern-js/utils/mime-types',
+        },
+        afterBundle(task) {
+          replaceFileContent(join(task.distPath, 'index.js'), content => {
+            // using prebunled file-loader
+            return content.replace(
+              '"file-loader"',
+              'require.resolve("../file-loader")',
+            );
+          });
+        },
+      },
+      {
+        name: 'file-loader',
+        ignoreDts: true,
+        externals: {
+          'schema-utils': '../schema-utils3',
+          'loader-utils': '../loader-utils2',
         },
       },
     ],

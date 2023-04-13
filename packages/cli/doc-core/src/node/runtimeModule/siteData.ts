@@ -174,7 +174,6 @@ async function extractPageData(
           filepath: route.absolutePath,
           development: process.env.NODE_ENV !== 'production',
           root,
-          defaultLang: '',
         });
 
         if (!title?.length && !frontmatter.title?.length) {
@@ -275,7 +274,7 @@ export async function siteDataVMPlugin(
         userConfig?.search === false,
         userRoot,
       )
-    ).filter(Boolean) as PageIndexInfo[];
+    ).filter(Boolean);
   }
 
   const siteData = {

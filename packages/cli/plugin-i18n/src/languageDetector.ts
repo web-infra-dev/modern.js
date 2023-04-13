@@ -35,3 +35,8 @@ class I18CLILanguageDetector {
 }
 
 export { I18CLILanguageDetector };
+
+export function getLocaleLanguage() {
+  const detector = new I18CLILanguageDetector();
+  return detector.detect();
+}

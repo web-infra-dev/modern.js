@@ -8,7 +8,7 @@ import {
   addLeadingSlash,
   normalizeHref,
   parseUrl,
-  externalLinkRE,
+  isExternalUrl,
 } from '@/shared/utils';
 import { PUBLIC_DIR } from '@/node/constants';
 
@@ -102,7 +102,7 @@ export const remarkPluginNormalizeLink: Plugin<
         // eslint-disable-next-line prefer-const
         let { url, hash } = parseUrl(node.url);
 
-        if (externalLinkRE.test(url)) {
+        if (isExternalUrl(url)) {
           node.url = url + (hash ? `#${hash}` : '');
           return;
         }
@@ -172,7 +172,7 @@ export const remarkPluginNormalizeLink: Plugin<
       if (!url) {
         return;
       }
-      if (externalLinkRE.test(url)) {
+      if (isExternalUrl(url)) {
         return;
       }
 
@@ -180,8 +180,6 @@ export const remarkPluginNormalizeLink: Plugin<
       if (!imagePath) {
         return;
       }
-      node.url = imagePath;
-
       // relative path
       const tempVariableName = `image${images.length}`;
 
@@ -207,15 +205,14 @@ export const remarkPluginNormalizeLink: Plugin<
       if (node.name !== 'img') {
         return;
       }
-      const src = node.attributes.find(
-        (attr: any) => attr.name === 'src',
-      )?.value;
 
-      if (!src || typeof src !== 'string') {
+      const src = node.attributes.find((attr: any) => attr.name === 'src');
+
+      if (!src?.value || typeof src?.value !== 'string') {
         return;
       }
 
-      const imagePath = normalizeImageUrl(src);
+      const imagePath = normalizeImageUrl(src.value);
 
       if (!imagePath) {
         return;

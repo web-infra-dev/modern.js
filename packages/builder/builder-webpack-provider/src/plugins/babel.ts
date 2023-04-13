@@ -10,7 +10,6 @@ import {
   mergeRegex,
   createVirtualModule,
   getBrowserslistWithDefault,
-  getSharedPkgCompiledPath,
   applyScriptCondition,
 } from '@modern-js/builder-shared';
 
@@ -41,7 +40,14 @@ export const builderPluginBabel = (): BuilderPlugin => ({
     api.modifyWebpackChain(
       async (
         chain,
-        { CHAIN_ID, target, isProd, isServer, isServiceWorker },
+        {
+          CHAIN_ID,
+          target,
+          isProd,
+          isServer,
+          isServiceWorker,
+          getCompiledPath,
+        },
       ) => {
         const { applyOptionsChain, isUseSSRBundle } = await import(
           '@modern-js/utils'
@@ -147,7 +153,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
         rule
           .test(useTsLoader ? JS_REGEX : mergeRegex(JS_REGEX, TS_REGEX))
           .use(CHAIN_ID.USE.BABEL)
-          .loader(getSharedPkgCompiledPath('babel-loader'))
+          .loader(getCompiledPath('babel-loader'))
           .options(babelOptions);
 
         /**
@@ -163,7 +169,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
               or: ['text/javascript', 'application/javascript'],
             })
             .use(CHAIN_ID.USE.BABEL)
-            .loader(getSharedPkgCompiledPath('babel-loader'))
+            .loader(getCompiledPath('babel-loader'))
             .options(babelOptions);
         }
 

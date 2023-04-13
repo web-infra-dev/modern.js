@@ -16,15 +16,16 @@ const handleTemplateFile = async (
     await generatorPlugin.installPlugins('custom', extra);
     const schema = generatorPlugin.getInputSchema();
     const inputValue = generatorPlugin.getInputValue();
+    const defaultConfig = generatorPlugin.getDefaultConfig();
     ans = await appApi.getInputBySchema(
       schema,
       'formily',
       {
         ...context.config,
-        ...inputValue,
+        ...defaultConfig,
       },
       {},
-      {},
+      { ...inputValue },
     );
   } else {
     ans = await appApi.getInputBySchemaFunc(getBaseSchema, context.config);

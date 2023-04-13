@@ -1,6 +1,6 @@
 import { Command } from '@modern-js/utils';
+import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { createAction } from './createAction';
-import { getLocaleLanguage } from './utils';
 import { i18n, localeKeys } from './locale';
 import { cleanCacheAction } from './cleanCacheAction';
 
@@ -37,11 +37,7 @@ export default function () {
     .option('--dist-tag <distTag>', i18n.t(localeKeys.command.distTag), '')
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')
     .option('-d,--debug', i18n.t(localeKeys.command.debug), false)
-    .option(
-      '--no-need-install',
-      i18n.t(localeKeys.command.noNeedInstall),
-      false,
-    )
+    .option('--no-need-install', i18n.t(localeKeys.command.noNeedInstall))
     .option('--lang <lang>', i18n.t(localeKeys.command.lang))
     .option('--version', i18n.t(localeKeys.command.version))
     .action(createAction);

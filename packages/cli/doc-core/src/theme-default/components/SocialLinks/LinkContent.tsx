@@ -55,7 +55,7 @@ export const LinkContent = (props: ILinkContentComp) => {
               border: '1px solid var(--modern-c-divider-light)',
               ...popperStyle,
             }}
-            className="z-1 p-3 w-50 absolute right-0 bg-white"
+            className="z-1 p-3 w-50 absolute right-0 bg-white dark:bg-dark"
           >
             <div className="text-md">{content}</div>
           </div>
@@ -73,7 +73,7 @@ export const LinkContent = (props: ILinkContentComp) => {
         {IconComp}
         {contentVisible ? (
           <div
-            className="break-all z-1 p-3 w-50 absolute right-0 bg-white rounded-xl"
+            className="break-all z-1 p-3 w-50 absolute right-0 rounded-xl"
             style={{
               boxShadow: 'var(--modern-shadow-3)',
               ...popperStyle,

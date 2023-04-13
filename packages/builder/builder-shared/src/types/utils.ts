@@ -24,3 +24,15 @@ export type DeepReadonly<T> = keyof T extends never
   : { readonly [k in keyof T]: DeepReadonly<T[k]> };
 
 export type FileFilterUtil = (items: ArrayOrNot<string | RegExp>) => void;
+
+export type SharedCompiledPkgNames =
+  | 'sass'
+  | 'less'
+  | 'sass-loader'
+  | 'less-loader'
+  | 'babel-loader'
+  | 'file-loader'
+  | 'url-loader'
+  | 'toml-loader'
+  | 'yaml-loader'
+  | 'assetsRetry.js';
