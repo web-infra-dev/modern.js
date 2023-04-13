@@ -94,7 +94,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/index.d.ts",
+    "types": "./dist/types/index.d.ts",
     "exports": {
       ".": {
         "import": "./dist/esm/index.js",
