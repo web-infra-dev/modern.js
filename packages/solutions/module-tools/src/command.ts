@@ -118,7 +118,10 @@ export const newCommand = async (program: Command) => {
     .option('--registry', local.i18n.t(local.localeKeys.command.new.registry))
     .action(async options => {
       const { ModuleNewAction } = await import('@modern-js/new-action');
-      const { getLocaleLanguage } = await import('./utils/language');
+      const { getLocaleLanguage } = await import(
+        '@modern-js/plugin-i18n/language-detector'
+      );
+
       const locale = getLocaleLanguage();
 
       await ModuleNewAction({ ...options, locale: options.lang || locale });

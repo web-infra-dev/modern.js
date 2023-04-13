@@ -10,6 +10,6 @@ const i18nPlugin: typeof import('@modern-js/plugin-i18n') = Import.lazy(
 
 const i18n = new i18nPlugin.I18n();
 
-const localeKeys = i18n.init('zh', { zh: ZH_LOCALE, en: EN_LOCALE });
+const localeKeys = i18n.init('en', { zh: ZH_LOCALE, en: EN_LOCALE });
 
 export { i18n, localeKeys };
