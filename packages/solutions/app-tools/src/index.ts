@@ -9,12 +9,12 @@ import {
 } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
+import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import analyzePlugin from './analyze';
 import initializePlugin from './initialize';
 import { AppTools } from './types';
 import { hooks } from './hooks';
 import { i18n, localeKeys } from './locale';
-import { getLocaleLanguage } from './utils/language';
 import type {
   DevOptions,
   BuildOptions,
