@@ -46,6 +46,14 @@ Modern.js 生态提供了以下解决方案：
 
 请阅读 [贡献指南](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md) 来共同参与 Modern.js 的建设。
 
+## 贡献者们
+
+感谢以下伙伴们为 Modern.js 做出的贡献：
+
+<a href="https://github.com/web-infra-dev/modern.js/graphs/contributors">
+  <img src="https://opencollective.com/modernjs/contributors.svg?width=890&button=false" alt="contributors">
+</a>
+
 ## Credits
 
 Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 [create-react-app](https://github.com/facebook/create-react-app)，[vitepress](https://github.com/vuejs/vitepress)，[remix](https://github.com/vuejs/remix)，[jest](https://github.com/facebook/jest) 和 [bundle-require](https://github.com/egoist/bundle-require) 等，感谢这些项目：
