@@ -1,5 +1,21 @@
 # @modern-js/core
 
+## 2.13.2
+
+### Patch Changes
+
+- 106ac07: fix(core): ignore error when clear temp config files
+
+  fix(core): 忽略清理临时文件时的异常
+
+- 7f4fd56: fix: nodeApi type export in modern-js/core
+
+  fix: 修复 nodeApi 在 modern-js/core 中的类型导出
+
+  - @modern-js/node-bundle-require@2.13.2
+  - @modern-js/plugin@2.13.2
+  - @modern-js/utils@2.13.2
+
 ## 2.13.1
 
 ### Patch Changes
