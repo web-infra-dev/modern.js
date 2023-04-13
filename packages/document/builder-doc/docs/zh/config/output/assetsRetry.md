@@ -22,7 +22,7 @@ export type AssetsRetryOptions = {
 };
 ```
 
-由于该能力会往 HTML 中注入额外的一些运行时代码，因此我们默认关闭了该能力，如果需要开启该能力，你可以配置成对象的形式，比如：
+由于该能力会往 HTML 中注入额外的一些运行时代码，因此我们默认关闭了该能力，如果需要开启该能力，你可以添加以下配置：
 
 ```js
 export default {
@@ -47,7 +47,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 };
 ```
 
-同时你也可以根据接下来的一些配置说明，来定制你的重试逻辑。
+同时你也可以使用以下的配置项，来定制你的重试逻辑。
 
 ### assetsRetry.max
 
@@ -193,3 +193,26 @@ export default {
   },
 };
 ```
+
+### assetsRetry.inlineScript
+
+- **类型：** `boolean`
+- **默认值：** `true`
+
+是否将 `assetsRetry` 的运行时 JavaScript 代码内联到 HTML 文件中。
+
+如果你不希望在 HTML 文件中插入相关代码，可以将 `assetsRetry.inlineScript` 设置为 `false`：
+
+```js
+export default {
+  output: {
+    assetsRetry: {
+      inlineScript: false,
+    },
+  },
+};
+```
+
+添加以上配置后，`assetsRetry` 的运行时代码会被抽取为一个独立的 `assets-retry.[version].js` 文件，并输出到产物目录下。
+
+这种方式的弊端在于，`assets-retry.[version].js` 自身有加载失败的可能性。如果出现这种情况，静态资源重试的逻辑就无法生效。因此，我们更推荐将运行时代码内联到 HTML 文件中。

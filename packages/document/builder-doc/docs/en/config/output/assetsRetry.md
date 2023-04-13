@@ -47,7 +47,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 };
 ```
 
-At the same time, you can also customize your retry logic according to the following config instructions.
+At the same time, you can also customize your retry logic using the following configurations.
 
 ### assetsRetry.max
 
@@ -193,3 +193,26 @@ export default {
   },
 };
 ```
+
+### assetsRetry.inlineScript
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+Whether to inline the runtime JavaScript code of `assetsRetry` into the HTML file.
+
+If you don't want to insert the code in the HTML file, you can set `assetsRetry.inlineScript` to `false`:
+
+```js
+export default {
+  output: {
+    assetsRetry: {
+      inlineScript: false,
+    },
+  },
+};
+```
+
+After adding the above configuration, the runtime code of `assetsRetry` will be extracted into a separate `assets-retry.[version].js` file and output to the dist directory.
+
+The downside is that `assets-retry.[version].js` itself may fail to load. If this happens, the assets retry will not work. Therefore, we prefer to inline the runtime code into the HTML file.

@@ -1,6 +1,7 @@
 import {
-  DefaultBuilderPlugin,
+  getDistPath,
   isHtmlDisabled,
+  DefaultBuilderPlugin,
 } from '@modern-js/builder-shared';
 
 export function builderPluginAssetsRetry(): DefaultBuilderPlugin {
@@ -18,9 +19,12 @@ export function builderPluginAssetsRetry(): DefaultBuilderPlugin {
           const { AssetsRetryPlugin } = await import(
             '@modern-js/builder-shared'
           );
+          const distDir = getDistPath(config.output, 'js');
+
           chain.plugin(CHAIN_ID.PLUGIN.ASSETS_RETRY).use(AssetsRetryPlugin, [
             {
               ...(config.output.assetsRetry || {}),
+              distDir,
               HtmlPlugin,
             },
           ]);
