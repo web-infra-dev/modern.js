@@ -1,5 +1,14 @@
 # @modern-js/module-tools-docs
 
+## 2.13.0
+
+### Patch Changes
+
+- 7fa815b: doc: add content about dev config
+  doc: 添加关于 dev 配置的内容
+  - @modern-js/doc-tools@2.13.0
+  - @modern-js/doc-plugin-auto-sidebar@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

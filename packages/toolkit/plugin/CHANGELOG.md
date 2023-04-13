@@ -1,5 +1,13 @@
 # @modern-js/plugin
 
+## 2.13.0
+
+### Patch Changes
+
+- 78431f4: perf(plugin): reduce bundle size
+
+  perf(plugin): 优化包体积
+
 ## 2.12.0
 
 ## 2.11.0

@@ -1,5 +1,50 @@
 # @modern-js/doc-core
 
+## 2.13.0
+
+### Patch Changes
+
+- 1897e83: fix: use display:table in table element
+  fix: 使用 display:table 在 table 元素上
+- c04925b: fix(doc-core): anchor
+
+  fix(doc-core): 锚点无效
+
+- 8b45566: fix: code highlight & image not show
+
+  fix: 代码高亮失效 & 图片不显示
+
+- e3291d5: feat: redirect locale language in first visit
+
+  feat: 优化首次访问时的语言重定向
+
+- 6d3b023: feat: support fuzzy search for remote search
+
+  feat: 服务端搜索支持模糊搜索
+
+- bb03c20: fix: search broken when search keyword is null
+
+  fix: 搜索关键字为空时搜索过程卡住
+
+- 72b71b5: feat: normalize link and image in mdx-rs
+
+  feat: mdx-rs 中支持 link 和 图片的规范化
+
+- Updated dependencies [1feacdc]
+- Updated dependencies [e9b1656]
+- Updated dependencies [c89de05]
+- Updated dependencies [d69c0b9]
+- Updated dependencies [5deb1fb]
+- Updated dependencies [348306d]
+- Updated dependencies [e91ec97]
+- Updated dependencies [9c0572e]
+- Updated dependencies [538d1a8]
+  - @modern-js/builder@2.13.0
+  - @modern-js/core@2.13.0
+  - @modern-js/builder-rspack-provider@2.13.0
+  - @modern-js/remark-container@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @modern-js/plugin-data-loader
 
+## 2.13.0
+
+### Minor Changes
+
+- 3d5086b: feat: the rspack unsupport inline loader, so we move data-loader to bundler.module.rules
+  feat: rspack 不支持 inline loader, 所以我们将 data-loader 移动到 bundler.module.rules 配置中去。
+
+### Patch Changes
+
+- @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

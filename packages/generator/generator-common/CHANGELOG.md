@@ -1,5 +1,17 @@
 # @modern-js/generator-common
 
+## 3.1.3
+
+### Patch Changes
+
+- 034f36b: feat: set the default language of CLI to English
+
+  feat: 将命令行的默认语言设置为英文
+
+- Updated dependencies [034f36b]
+- Updated dependencies [034f36b]
+  - @modern-js/plugin-i18n@2.13.0
+
 ## 3.1.2
 
 ### Patch Changes
