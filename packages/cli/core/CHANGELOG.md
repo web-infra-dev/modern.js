@@ -1,5 +1,20 @@
 # @modern-js/core
 
+## 2.13.0
+
+### Patch Changes
+
+- e9b1656: fix: plugin config hook can not get bundlerType, so we can't set babelConfig correctly in ssr plugin
+  fix: 插件的 config 钩子不能获得 bundlerType，所以我们在 ssr 插件不能正确的设置 babelConfig
+- e91ec97: feat(app-tools): export mergeConfig function
+
+  feat(app-tools): 导出 mergeConfig 函数
+
+- Updated dependencies [78431f4]
+  - @modern-js/plugin@2.13.0
+  - @modern-js/node-bundle-require@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

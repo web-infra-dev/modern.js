@@ -1,5 +1,13 @@
 # @modern-js/base-generator
 
+## 3.1.3
+
+### Patch Changes
+
+- 3f4e0bb: fix: generator plugin default config not work
+
+  fix: 修复生成器插件默认配置未生效问题
+
 ## 3.1.2
 
 ## 3.1.1

@@ -1,5 +1,16 @@
 # @modern-js/babel-preset-app
 
+## 2.13.0
+
+### Patch Changes
+
+- 5deb1fb: chore: bump core-js and swc
+
+  chore: 升级 core-js 和 swc
+
+  - @modern-js/babel-preset-base@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes
