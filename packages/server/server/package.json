@@ -24,7 +24,8 @@
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
-    }
+    },
+    "./hmr-client": "./dist/esm/dev-tools/dev-middleware/hmr-client/index.js"
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
