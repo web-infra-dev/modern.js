@@ -1,5 +1,25 @@
 # @modern-js/doc-core
 
+## 2.13.2
+
+### Patch Changes
+
+- 3d68bd3: fix: theme types cannot access
+
+  fix: 主题类型无法访问
+
+- 3867ab5: feat: optimize route isExist logic
+
+  feat: 优化路由 isExist 逻辑
+
+- Updated dependencies [106ac07]
+- Updated dependencies [7f4fd56]
+  - @modern-js/core@2.13.2
+  - @modern-js/remark-container@2.13.2
+  - @modern-js/builder@2.13.2
+  - @modern-js/builder-rspack-provider@2.13.2
+  - @modern-js/utils@2.13.2
+
 ## 2.13.1
 
 ### Patch Changes

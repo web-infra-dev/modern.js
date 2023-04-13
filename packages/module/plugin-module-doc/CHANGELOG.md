@@ -1,5 +1,18 @@
 # @modern-js/plugin-module-doc
 
+## 2.13.2
+
+### Patch Changes
+
+- 6107696: fix: export PluginOptions type in module-doc
+
+  fix: 从 module-doc 中导出 PluginOptions 类型
+
+- Updated dependencies [3d68bd3]
+- Updated dependencies [3867ab5]
+  - @modern-js/doc-core@2.13.2
+  - @modern-js/module-tools@2.13.2
+
 ## 2.13.1
 
 ### Patch Changes

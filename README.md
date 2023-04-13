@@ -46,6 +46,14 @@ The following solutions are available within the Modern.js ecosystem:
 
 Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
 
+## All Contributors
+
+Thanks to the following friends for their contributions to Modern.js:
+
+<a href="https://github.com/web-infra-dev/modern.js/graphs/contributors">
+  <img src="https://opencollective.com/modernjs/contributors.svg?width=890&button=false" alt="contributors">
+</a>
+
 ## Credits
 
 Some implementations of Modern.js are modified from existing projects, such as [create-react-app](https://github.com/facebook/create-react-app), [vitepress](https://github.com/vuejs/vitepress), [remix](https://github.com/vuejs/remix), [jest](https://github.com/facebook/jest) and [bundle-require](https://github.com/egoist/bundle-require). Thanks for them.
