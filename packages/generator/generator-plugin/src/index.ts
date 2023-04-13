@@ -55,7 +55,11 @@ export class GeneratorPlugin {
     await Promise.all(
       plugins.map(async plugin => {
         let pkgJSON;
-        if (path.isAbsolute(plugin)) {
+        if (plugin.startsWith('file:')) {
+          pkgJSON = await fs.readJSON(
+            path.join(process.cwd(), plugin.slice(5), 'package.json'),
+          );
+        } else if (path.isAbsolute(plugin)) {
           pkgJSON = await fs.readJSON(path.join(plugin, 'package.json'));
         } else {
           const { name, version: pkgVersion } = getPackageInfo(plugin);
