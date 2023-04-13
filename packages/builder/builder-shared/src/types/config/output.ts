@@ -64,6 +64,7 @@ export type AssetsRetryOptions = {
   test?: string | ((url: string) => boolean);
   domain?: string[];
   crossOrigin?: boolean;
+  inlineScript?: boolean;
   onFail?: (options: AssetsRetryHookContext) => void;
   onRetry?: (options: AssetsRetryHookContext) => void;
   onSuccess?: (options: AssetsRetryHookContext) => void;
