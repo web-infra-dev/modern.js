@@ -12,6 +12,7 @@ import {
 } from '../types';
 import { time } from '../time';
 import prefetch from '../../prefetch';
+import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../utils';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -199,13 +200,18 @@ export default class Entry {
     templateData: ReturnType<typeof buildTemplateData>,
     routerData?: Record<string, any>,
   ) {
-    let ssrDataScripts = `<script>window._SSR_DATA = ${serializeJson(
-      templateData,
-    )}</script>`;
+    const useInlineScript = this.pluginConfig.inlineScript;
+    const ssrData = serializeJson(templateData);
+
+    let ssrDataScripts = useInlineScript
+      ? `<script>window._SSR_DATA = ${ssrData}</script>`
+      : `<script type="application/json" id="${SSR_DATA_JSON_ID}">${ssrData}</script>`;
+
     if (routerData) {
-      ssrDataScripts += `\n<script>window._ROUTER_DATA = ${serializeJson(
-        routerData,
-      )}</script>`;
+      const serializedRouterData = serializeJson(routerData);
+      ssrDataScripts += useInlineScript
+        ? `\n<script>window._ROUTER_DATA = ${serializedRouterData}</script>`
+        : `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`;
     }
     return {
       SSRDataScript: ssrDataScripts,

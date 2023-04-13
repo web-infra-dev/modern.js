@@ -1,5 +1,6 @@
 import { loadableReady } from '@loadable/component';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { parsedJSONFromElement } from '@modern-js/utils/runtime';
 import type { Plugin } from '../core';
 import {
   RenderLevel,
@@ -8,6 +9,7 @@ import {
 } from './serverRender/types';
 import { WithCallback } from './react/withCallback';
 import { formatClient, mockResponse, isReact18 } from './utils';
+import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from './serverRender/utils';
 
 declare module '../core' {
   interface SSRContainer {
@@ -20,6 +22,12 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
   name: '@modern-js/plugin-ssr',
   setup: () => {
     const mockResp = mockResponse();
+
+    if (config.inlineScript === false) {
+      window._SSR_DATA = parsedJSONFromElement(SSR_DATA_JSON_ID);
+      window._ROUTER_DATA = parsedJSONFromElement(ROUTER_DATA_JSON_ID);
+    }
+
     return {
       client: async ({ App, context, ModernRender, ModernHydrate }) => {
         const hydrateContext: { _hydration?: boolean } = {

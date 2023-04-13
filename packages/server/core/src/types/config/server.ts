@@ -16,6 +16,7 @@ export type SSR =
   | {
       forceCSR?: boolean;
       mode?: SSRMode;
+      inlineScript?: boolean;
     };
 
 export type SSRByEntries = Record<string, SSR>;
