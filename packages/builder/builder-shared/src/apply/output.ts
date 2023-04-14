@@ -94,7 +94,5 @@ function getPublicPath({
     }
   }
 
-  console.info('publicPath', publicPath);
-
   return addTrailingSlash(publicPath);
 }
