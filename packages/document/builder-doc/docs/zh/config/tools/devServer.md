@@ -90,14 +90,16 @@ export default {
 - **默认值：**
 
 ```js
-{
-    path: '/webpack-hmr',
-    port: '8080',
-    host: networkAddress || 'localhost',
-}
+const defaultConfig = {
+  // 使用当前页面的 host
+  host: '',
+  // 使用当前页面的端口号
+  port: '',
+  path: '/webpack-hmr',
+};
 ```
 
-配置 hmr 客户端相关功能。
+对应 HMR 客户端的配置，通常用于设置 HMR 对应的 WebSocket URL。
 
 #### devMiddleware
 

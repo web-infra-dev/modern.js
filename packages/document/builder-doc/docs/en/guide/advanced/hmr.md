@@ -22,11 +22,13 @@ export default {
 
 ## Specify HMR URL
 
-By default, builder get HMR client URL by local-ip and current port.
+By default, Builder uses the host and port number of the current page to splice the WebSocket URL of HMR.
 
-In the event of a connection failure you can specify an available URL by custom configuration.
+When the HMR connection fails, you can specify the WebSocket URL by customizing `devServer.client` configuration.
 
-For example, set HMR client and port empty to auto derived from browser:
+### Default Config
+
+The default config are as follows, Builder will automatically deduce the URL of the WebSocket request according to the current page:
 
 ```ts
 export default {
@@ -35,6 +37,24 @@ export default {
       client: {
         host: '',
         port: '',
+        path: '/webpack-hmr',
+      },
+    },
+  },
+};
+```
+
+### Proxy
+
+If you are proxying an online page to local development, WebSocket requests will fail to connect. You can try configuring `devServer.client` to the following values so that HMR requests can reach the local Dev Server.
+
+```ts
+export default {
+  tools: {
+    devServer: {
+      client: {
+        host: 'localhost',
+        protocol: 'ws',
       },
     },
   },
