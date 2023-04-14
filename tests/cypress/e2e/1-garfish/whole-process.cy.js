@@ -51,4 +51,9 @@ describe('render sub app', () => {
     cy.get('[data-test=link-shared]').click();
     cy.contains('A Module Federation Shared Button').should('exist');
   });
+
+  // it('dashboard app get basename from masterApp', () => {
+  //   cy.get('[data-test=link-dashboard]').click();
+  //   expect(cy.get('#basename')).not.to.be.empty;
+  // });
 });

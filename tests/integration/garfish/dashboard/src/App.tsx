@@ -1,10 +1,11 @@
 import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
 import './App.css';
-// console.log(window.a.a.a)
 
-const App = (props: { msg?: string; getHelloContext: any }) => {
-  // console.log(props.getHelloContext());
-
+const App = (props: {
+  msg?: string;
+  getHelloContext: any;
+  basename: string;
+}) => {
   return (
     <div>
       <br />
@@ -33,6 +34,8 @@ const App = (props: { msg?: string; getHelloContext: any }) => {
               <p className="description">
                 Get started by editing <code className="code">src/App.tsx</code>
               </p>
+              <span>basename: </span>
+              <span id="basename">{props.basename}</span>
             </main>
           </div>
         </Route>
