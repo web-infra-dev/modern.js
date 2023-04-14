@@ -1,5 +1,5 @@
 {
-  "name": "ssr-base-test",
+  "name": "ssr-base-json-test",
   "version": "2.9.0",
   "private": true,
   "scripts": {
