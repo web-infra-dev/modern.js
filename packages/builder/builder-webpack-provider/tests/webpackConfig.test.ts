@@ -1,6 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { builderPluginBasic } from '@/plugins/basic';
 import { createStubBuilder } from '@/stub';
+import { builderPluginBabel } from '@/plugins/babel';
 
 describe('webpackConfig', () => {
   it('should allow tools.webpack to return config', async () => {
@@ -197,5 +198,31 @@ describe('webpackConfig', () => {
 
     const config = await builder.unwrapWebpackConfig();
     expect(config.module?.rules).toEqual([newRule]);
+  });
+
+  it('should set proper pluginImport option in Babel', async () => {
+    // camelToDashComponentName
+    const builder = await createStubBuilder({
+      plugins: [builderPluginBabel()],
+      builderConfig: {
+        source: {
+          transformImport: [
+            {
+              libraryName: 'foo',
+              camelToDashComponentName: true,
+            },
+          ],
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    const babelRules = config.module!.rules?.filter(item => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error item has use
+      return item?.use?.[0].loader.includes('babel-loader');
+    });
+
+    expect(babelRules).toMatchSnapshot();
   });
 });

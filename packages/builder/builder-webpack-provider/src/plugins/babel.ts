@@ -209,13 +209,28 @@ function applyPluginImport(
     for (const item of pluginImport) {
       const name = item.libraryName;
 
+      const option: TransformImport & {
+        camel2DashComponentName?: boolean;
+      } = {
+        ...item,
+      };
+
+      if (
+        option.camelToDashComponentName !== undefined ||
+        option.camel2DashComponentName !== undefined
+      ) {
+        option.camel2DashComponentName =
+          option.camel2DashComponentName ?? option.camelToDashComponentName;
+        delete option.camelToDashComponentName;
+      }
+
       chain
         .plugin(`plugin-import-${name}`)
         .use(
           require.resolve(
             '@modern-js/babel-preset-base/compiled/babel-plugin-import',
           ),
-          [item, name],
+          [option, name],
         );
     }
   }
