@@ -6,7 +6,6 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@modern-js/builder-plugin-image-compress": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/e2e": "workspace:*",
