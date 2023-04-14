@@ -27,12 +27,14 @@ When the value type is `Object`, The following properties can be configured:
 
 - `mode`: `string = 'string'`, use `renderToString` rendering default. onfigure 'stream' to enable streaming rendering.
 - `forceCSR`: `boolean = false`, forced CSR rendering is disable by default. When configured as `true`, add `?csr=true` in URL to force CSR.
+- `inlineScript`：`boolean = true`，by default SSR data will be injected into HTML as inline scripts and directly assigned to global variables. Configure as `true` to download JSON instead of directly assigning.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     forceCSR: true,
     mode: 'stream',
+    inlineScript: false,
   },
 });
 ```
