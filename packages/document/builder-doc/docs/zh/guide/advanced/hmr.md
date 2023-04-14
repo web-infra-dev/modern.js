@@ -28,16 +28,20 @@ export default {
 
 ### 默认配置
 
-默认配置如下，Builder 会根据当前页面自动推导 WebSocket 请求的 URL：
+默认配置如下，Builder 会根据当前页面的 location 自动推导 WebSocket 请求的 URL：
 
 ```ts
 export default {
   tools: {
     devServer: {
       client: {
-        host: '',
-        port: '',
         path: '/webpack-hmr',
+        // 等价于 location.hostname
+        host: '',
+        // 等价于 location.port
+        port: '',
+        // 等价于 location.protocol === 'https:' ? 'wss' : 'ws'
+        protocol: '',
       },
     },
   },

@@ -91,11 +91,13 @@ export default {
 
 ```js
 const defaultConfig = {
-  // 使用当前页面的 host
-  host: '',
-  // 使用当前页面的端口号
-  port: '',
   path: '/webpack-hmr',
+  // 等价于 location.hostname
+  host: '',
+  // 等价于 location.port
+  port: '',
+  // 等价于 location.protocol === 'https:' ? 'wss' : 'ws'
+  protocol: '',
 };
 ```
 

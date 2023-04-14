@@ -91,11 +91,13 @@ export default {
 
 ```js
 const defaultConfig = {
-  // use the host of the current page
-  host: '',
-  // use the port of the current page
-  port: '',
   path: '/webpack-hmr',
+  // Equivalent to location.hostname
+  host: '',
+  // Equivalent to location.port
+  port: '',
+  // Equivalent to location.protocol === 'https:' ? 'wss' : 'ws'
+  protocol: '',
 };
 ```
 

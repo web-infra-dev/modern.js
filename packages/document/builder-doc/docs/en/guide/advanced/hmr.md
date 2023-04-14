@@ -28,16 +28,20 @@ When the HMR connection fails, you can specify the WebSocket URL by customizing 
 
 ### Default Config
 
-The default config are as follows, Builder will automatically deduce the URL of the WebSocket request according to the current page:
+The default config are as follows, Builder will automatically deduce the URL of the WebSocket request according to the current location:
 
 ```ts
 export default {
   tools: {
     devServer: {
       client: {
-        host: '',
-        port: '',
         path: '/webpack-hmr',
+        // Equivalent to location.hostname
+        host: '',
+        // Equivalent to location.port
+        port: '',
+        // Equivalent to location.protocol === 'https:' ? 'wss' : 'ws'
+        protocol: '',
       },
     },
   },
