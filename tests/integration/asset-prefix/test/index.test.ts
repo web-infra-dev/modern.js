@@ -3,6 +3,7 @@ import { readFileSync } from 'fs';
 import { Page } from 'puppeteer';
 import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
+const DEFAULT_DEV_HOST = '127.0.0.1';
 declare const page: Page;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
@@ -17,7 +18,7 @@ describe('asset prefix', () => {
       path.join(appDir, 'dist/html/main/index.html'),
       'utf-8',
     );
-    expect(HTML.includes(`/static/js/`)).toBeTruthy();
+    expect(HTML.includes(`//${DEFAULT_DEV_HOST}:3333/static/js/`)).toBeTruthy();
 
     killApp(app);
   });
@@ -26,7 +27,7 @@ describe('asset prefix', () => {
     const appDir = path.resolve(fixtures, 'dev-asset-prefix');
 
     const app = await launchApp(appDir);
-    const expected = '';
+    const expected = `//${DEFAULT_DEV_HOST}:3333`;
 
     const mainJs = readFileSync(
       path.join(appDir, 'dist/static/js/main.js'),
@@ -37,7 +38,7 @@ describe('asset prefix', () => {
       mainJs.includes(`window.__assetPrefix__ = '${expected}';`),
     ).toBeTruthy();
 
-    await page.goto(`http://localhost:3333`);
+    await page.goto(`http:${expected}`);
 
     const assetPrefix = await page.evaluate(() => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

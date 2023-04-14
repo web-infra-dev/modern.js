@@ -82,14 +82,19 @@ function getPublicPath({
   } else if (dev.assetPrefix === true) {
     const hostname = context.devServer?.hostname || DEFAULT_DEV_HOST;
     const port = context.devServer?.port || DEFAULT_PORT;
-    if (hostname !== DEFAULT_DEV_HOST) {
-      // If user not specify the hostname, it would use DEFAULT_DEV_HOST(0.0.0.0)
+    if (hostname === DEFAULT_DEV_HOST) {
+      const localHostname = `127.0.0.1`;
+      // If user not specify the hostname, it would use 0.0.0.0
       // The http://0.0.0.0:port can't visit in windows, so we shouldn't set publicPath as `//0.0.0.0:${port}/`;
       // Relative to docs:
       // - https://github.com/quarkusio/quarkus/issues/12246
+      publicPath = `//${localHostname}:${port}/`;
+    } else {
       publicPath = `//${hostname}:${port}/`;
     }
   }
+
+  console.info('publicPath', publicPath);
 
   return addTrailingSlash(publicPath);
 }
