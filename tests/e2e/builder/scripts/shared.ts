@@ -5,6 +5,7 @@ import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
+import type { StartDevServerOptions } from '@modern-js/builder-shared';
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
   const baseUrl = new URL(`http://localhost:${port}`);
@@ -79,12 +80,14 @@ const updateConfigForTest = (config: BuilderConfig) => {
 export async function dev(
   builderOptions: CreateBuilderOptions,
   config: BuilderConfig = {},
+  serverOptions?: StartDevServerOptions['serverOptions'],
 ) {
   updateConfigForTest(config);
 
   const builder = await createBuilder(builderOptions, config);
   return builder.startDevServer({
     printURLs: false,
+    serverOptions,
   });
 }
 
