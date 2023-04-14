@@ -2,7 +2,37 @@
 
 ## builderConfig
 
-自定义 Modern.js Builder 配置，详见 [官网配置](https://modernjs.dev/builder/api/index.html)。
+- Type: `Object`
+
+用于自定义 Modern.js Builder 的配置项，完整配置项请查看 [Modern.js Builder - API](https://modernjs.dev/builder/api/index.html)。
+
+比如，将产物目录修改为 `doc_dist`：
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  doc: {
+    builderConfig: {
+      output: {
+        distPath: {
+          root: 'doc_dist',
+        },
+      },
+    },
+  },
+});
+```
+
+### 默认配置
+
+如果你需要查看默认的 `builderConfig`，可以在执行 `modern dev` 或 `modern build` 命令时，添加 `DEBUG=builder` 参数：
+
+```bash
+DEBUG=builder modern dev
+```
+
+在执行后，`doc_build` 目录下会生成 `builder.config.js` 文件，里面包含了完整的 `builderConfig`。
+
+> 请查看 [Modern.js Builder - 调试模式](https://modernjs.dev/builder/guide/debug/debug-mode.html) 来了解更多调试 Builder 的方法。
 
 ## markdown
 
