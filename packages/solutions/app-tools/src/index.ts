@@ -235,7 +235,12 @@ export default (
 
       async prepare() {
         const command = getCommand();
-        if (command === 'dev' || command === 'start' || command === 'build') {
+        if (
+          command === 'dev' ||
+          command === 'start' ||
+          command === 'build' ||
+          command === 'deploy'
+        ) {
           const appContext = api.useAppContext();
           await emptyDir(appContext.distDirectory);
         }
