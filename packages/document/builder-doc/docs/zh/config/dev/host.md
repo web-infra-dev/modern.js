@@ -1,12 +1,16 @@
 - **类型：** `string`
-- **默认值：** `localhost`
+- **默认值：** `0.0.0.0`
 
-指明 Dev Server 使用的 host。例如，想使 Server 被外部访问，可以设置为:
+指定 dev server 启动时监听的 host。
+
+默认情况下，dev server 会监听 `0.0.0.0`，这代表监听所有的网络接口，包括 `localhost` 和公网地址。
+
+如果你希望 dev server 只监听 `localhost`，可以设置为：
 
 ```ts
 export default {
   dev: {
-    host: '0.0.0.0',
+    host: 'localhost',
   },
 };
 ```
