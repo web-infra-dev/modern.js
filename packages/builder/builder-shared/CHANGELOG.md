@@ -1,5 +1,21 @@
 # @modern-js/builder-shared
 
+## 2.13.3
+
+### Patch Changes
+
+- 18cd03f: fix(builder): devServer.client is not deep merged
+
+  fix(builder): devServer.client 配置项未被 deep merged
+
+- 28583e8: feat(builder): add assetsRetry.inlineScript config
+
+  feat(builder): 新增 assetsRetry.inlineScript 配置项
+
+  - @modern-js/server@2.13.3
+  - @modern-js/types@2.13.3
+  - @modern-js/utils@2.13.3
+
 ## 2.13.2
 
 ### Patch Changes

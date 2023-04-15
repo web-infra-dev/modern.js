@@ -1,5 +1,23 @@
 # @modern-js/builder-webpack-provider
 
+## 2.13.3
+
+### Patch Changes
+
+- 7b9dc49: fix(builder): set camel2dashName properly
+
+  fix(builder): 正确配置 transformImport babel 插件的 camel2dashName
+
+- Updated dependencies [18cd03f]
+- Updated dependencies [28583e8]
+  - @modern-js/builder-shared@2.13.3
+  - @modern-js/babel-preset-app@2.13.3
+  - @modern-js/babel-preset-base@2.13.3
+  - @modern-js/server@2.13.3
+  - @modern-js/e2e@2.13.3
+  - @modern-js/types@2.13.3
+  - @modern-js/utils@2.13.3
+
 ## 2.13.2
 
 ### Patch Changes
