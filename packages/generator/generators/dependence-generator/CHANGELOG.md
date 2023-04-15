@@ -1,5 +1,7 @@
 # @modern-js/dependence-generator
 
+## 3.1.6
+
 ## 3.1.5
 
 ## 3.1.4
