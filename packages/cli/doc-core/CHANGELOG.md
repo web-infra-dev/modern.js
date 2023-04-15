@@ -1,5 +1,15 @@
 # @modern-js/doc-core
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/builder@2.13.4
+- @modern-js/builder-rspack-provider@2.13.4
+- @modern-js/core@2.13.4
+- @modern-js/remark-container@2.13.4
+- @modern-js/utils@2.13.4
+
 ## 2.13.3
 
 ### Patch Changes
