@@ -36,11 +36,11 @@ export default {
     devServer: {
       client: {
         path: '/webpack-hmr',
-        // 等价于 location.hostname
-        host: '',
-        // 等价于 location.port
+        // 默认设置为 dev server 的端口号
         port: '',
-        // 等价于 location.protocol === 'https:' ? 'wss' : 'ws'
+        // 默认设置为 location.hostname
+        host: '',
+        // 默认设置为 location.protocol === 'https:' ? 'wss' : 'ws'
         protocol: '',
       },
     },

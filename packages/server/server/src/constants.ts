@@ -5,11 +5,11 @@ export const getDefaultDevOptions = (): DevServerOptions => {
   return {
     client: {
       path: HMR_SOCK_PATH,
-      // This will fallback to "location.port"
+      // By default it is set to the port number of the dev server
       port: '',
-      // This will fallback to "location.hostname"
+      // By default it is set to "location.hostname"
       host: '',
-      // This will fallback to "location.protocol === 'https:' ? 'wss' : 'ws'"
+      // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
       protocol: '',
     },
     https: false,

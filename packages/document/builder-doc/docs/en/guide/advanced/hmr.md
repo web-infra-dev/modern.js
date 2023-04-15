@@ -36,10 +36,10 @@ export default {
     devServer: {
       client: {
         path: '/webpack-hmr',
+        // Equivalent to port of the dev server
+        port: '',
         // Equivalent to location.hostname
         host: '',
-        // Equivalent to location.port
-        port: '',
         // Equivalent to location.protocol === 'https:' ? 'wss' : 'ws'
         protocol: '',
       },

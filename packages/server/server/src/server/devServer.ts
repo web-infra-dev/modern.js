@@ -21,6 +21,7 @@ import type {
   ExposeServerApis,
 } from '@modern-js/types';
 import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
+import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -61,15 +62,7 @@ export class ModernDevServer extends ModernServer {
   private getDevOptions(options: ModernDevServerOptions) {
     const devOptions = typeof options.dev === 'boolean' ? {} : options.dev;
     const defaultOptions = getDefaultDevOptions();
-
-    return {
-      ...defaultOptions,
-      ...devOptions,
-      client: {
-        ...defaultOptions.client,
-        ...devOptions?.client,
-      },
-    };
+    return deepMerge(defaultOptions, devOptions);
   }
 
   private addMiddlewareHandler(handlers: RequestHandler[]) {

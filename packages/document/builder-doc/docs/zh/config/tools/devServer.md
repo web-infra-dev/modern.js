@@ -92,11 +92,11 @@ export default {
 ```js
 const defaultConfig = {
   path: '/webpack-hmr',
-  // 等价于 location.hostname
-  host: '',
-  // 等价于 location.port
+  // By default it is set to the port number of the dev server
   port: '',
-  // 等价于 location.protocol === 'https:' ? 'wss' : 'ws'
+  // By default it is set to "location.hostname"
+  host: '',
+  // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
   protocol: '',
 };
 ```
