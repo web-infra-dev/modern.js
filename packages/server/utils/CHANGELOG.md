@@ -1,5 +1,13 @@
 # @modern-js/server-utils
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/babel-preset-lib@2.13.4
+- @modern-js/babel-compiler@2.13.4
+- @modern-js/utils@2.13.4
+
 ## 2.13.3
 
 ### Patch Changes
