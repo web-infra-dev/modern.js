@@ -17,13 +17,13 @@
     "build:doc": "modern build",
     "preview": "modern preview"
   },
-  "version": "2.13.3",
+  "version": "2.13.4",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "peerDependencies": {
-    "@modern-js/builder-doc": "workspace:^2.13.3"
+    "@modern-js/builder-doc": "workspace:^2.13.4"
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",
