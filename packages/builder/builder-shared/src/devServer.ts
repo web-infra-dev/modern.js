@@ -177,7 +177,7 @@ export async function startDevServer<
 
         const { getAddressUrls } = await import('@modern-js/utils');
         const protocol = builderConfig.dev?.https ? 'https' : 'http';
-        let urls = getAddressUrls(protocol, port);
+        let urls = getAddressUrls(protocol, port, builderConfig.dev?.host);
 
         if (printURLs) {
           if (isFunction(printURLs)) {
