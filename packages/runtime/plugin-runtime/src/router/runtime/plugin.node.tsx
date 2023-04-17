@@ -12,6 +12,7 @@ import { SSRServerContext } from '../../ssr/serverRender/types';
 import type { RouteManifest, RouterConfig } from './types';
 import { renderRoutes, urlJoin } from './utils';
 import { installGlobals } from './fetch';
+import { modifyRoutes as modifyRoutesHook } from './hooks';
 
 // Polyfill Web Fetch API
 installGlobals();
@@ -69,7 +70,10 @@ export const routerPlugin = ({
 }: RouterConfig): Plugin => {
   return {
     name: '@modern-js/plugin-router',
-    setup: () => {
+    registerHook: {
+      modifyRoutes: modifyRoutesHook,
+    },
+    setup: api => {
       return {
         async init({ context }, next) {
           // can not get routes config, skip wrapping React Router.
@@ -111,6 +115,10 @@ export const routerPlugin = ({
           // set routeManifest in context to be consistent with csr context
           context.routeManifest = context.ssrContext!
             .routeManifest as RouteManifest;
+
+          const runner = (api as any).useHookRunners();
+          runner.modifyRoutes(routes);
+
           return next({ context });
         },
         hoc: ({ App }, next) => {
