@@ -23,7 +23,7 @@ function getHMRClientPath(client: DevServerOptions['client']) {
   const port = client?.port ? `&port=${client.port}` : '';
 
   const clientEntry = `${require.resolve(
-    './hmr-client',
+    '@modern-js/server/hmr-client',
   )}?${host}${path}${port}${protocol}`;
 
   return clientEntry;
