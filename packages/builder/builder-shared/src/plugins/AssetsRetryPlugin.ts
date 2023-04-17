@@ -2,7 +2,12 @@ import { fs } from '@modern-js/utils';
 // @ts-expect-error
 import { RawSource } from 'webpack-sources';
 import { getSharedPkgCompiledPath } from '../utils';
-import { COMPILATION_PROCESS_STAGE } from './util';
+import {
+  generateScriptTag,
+  getBuilderVersion,
+  getPublicPathFromCompiler,
+  COMPILATION_PROCESS_STAGE,
+} from './util';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { WebpackPluginInstance, Compiler, Compilation } from 'webpack';
 import type { AssetsRetryOptions } from '../types';
@@ -57,13 +62,9 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
 
   async getScriptPath() {
     if (!this.scriptPath) {
-      const pkgJson = await fs.readJSON(
-        path.join(__dirname, '../../package.json'),
-      );
-      const version = pkgJson.version.replace(/\./g, '_');
+      const version = await getBuilderVersion();
       this.scriptPath = path.join(this.distDir, `assets-retry.${version}.js`);
     }
-
     return this.scriptPath;
   }
 
@@ -93,14 +94,7 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
       this.HtmlPlugin.getHooks(compilation).afterTemplateExecution.tapPromise(
         this.name,
         async data => {
-          const scriptTag = {
-            tagName: 'script',
-            attributes: {
-              type: 'text/javascript',
-            },
-            voidTag: false,
-            meta: {},
-          };
+          const scriptTag = generateScriptTag();
 
           if (this.inlineScript) {
             data.headTags.unshift({
@@ -108,10 +102,7 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
               innerHTML: await this.getRetryCode(),
             });
           } else {
-            const publicPath =
-              typeof compiler.options.output.publicPath === 'string'
-                ? compiler.options.output.publicPath
-                : '/';
+            const publicPath = getPublicPathFromCompiler(compiler);
             const url = withPublicPath(await this.getScriptPath(), publicPath);
             data.headTags.unshift({
               ...scriptTag,
