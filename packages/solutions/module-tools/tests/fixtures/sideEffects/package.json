@@ -1,4 +1,4 @@
 {
-  "name": "source-dir-test",
+  "name": "module-tools-side-effects-test",
   "sideEffects": true
 }
