@@ -259,8 +259,7 @@ export async function siteDataVMPlugin(
   if (!pages) {
     // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
     if (!isSSR) {
-      // const { logger } = await import('@modern-js/utils/logger');
-      logger.info('[doc-tools] Extracting site data...');
+      logger.info('Extracting site data...');
     }
     const domain =
       userConfig?.search && userConfig?.search?.mode === 'remote'
