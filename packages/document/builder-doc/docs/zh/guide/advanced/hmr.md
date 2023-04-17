@@ -22,17 +22,43 @@ export default {
 
 ## 自定义 HMR URL
 
-Builder 默认使用 local-ip 和当前端口号拼接 HMR 客户端的 URL，当出现连接失败的情况，可以通过自定义配置的方式指定可用的 URL。
+在默认情况下，Builder 使用当前页面的 host 和端口号来拼接 HMR 对应的 WebSocket URL。
 
-例如，通过将 host 和 path 设置为空将根据当前客户端情况自动推导 HMR 客户端 URL：
+当出现 HMR 连接失败的情况时，你可以通过自定义 `devServer.client` 配置的方式来指定 WebSocket URL。
+
+### 默认配置
+
+默认配置如下，Builder 会根据当前页面的 location 自动推导 WebSocket 请求的 URL：
 
 ```ts
 export default {
   tools: {
     devServer: {
       client: {
+        path: '/webpack-hmr',
+        // 默认设置为 dev server 的端口号
         port: '',
+        // 默认设置为 location.hostname
         host: '',
+        // 默认设置为 location.protocol === 'https:' ? 'wss' : 'ws'
+        protocol: '',
+      },
+    },
+  },
+};
+```
+
+### 线上代理
+
+如果你将一个线上页面代理到本地进行开发，WebSocket 请求将会连接失败。此时你可以尝试将 `devServer.client` 配置成如下值，使 HMR 请求能打到本地的 Dev Server。
+
+```ts
+export default {
+  tools: {
+    devServer: {
+      client: {
+        host: 'localhost',
+        protocol: 'ws',
       },
     },
   },

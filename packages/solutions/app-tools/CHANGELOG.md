@@ -1,5 +1,58 @@
 # @modern-js/app-tools
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/builder@2.13.4
+- @modern-js/builder-rspack-provider@2.13.4
+- @modern-js/builder-shared@2.13.4
+- @modern-js/builder-webpack-provider@2.13.4
+- @modern-js/builder-plugin-esbuild@2.13.4
+- @modern-js/builder-plugin-node-polyfill@2.13.4
+- @modern-js/core@2.13.4
+- @modern-js/plugin-data-loader@2.13.4
+- @modern-js/plugin-i18n@2.13.4
+- @modern-js/plugin-lint@2.13.4
+- @modern-js/new-action@2.13.4
+- @modern-js/prod-server@2.13.4
+- @modern-js/server@2.13.4
+- @modern-js/node-bundle-require@2.13.4
+- @modern-js/plugin@2.13.4
+- @modern-js/types@2.13.4
+- @modern-js/upgrade@2.13.4
+- @modern-js/utils@2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- ac0610a: fix: should empty dist dir when execute deploy command
+  fix: 应该清空 dist 目录，当执行 deploy 命令时
+- 6eff0fd: fix: inline-loader match path error in windows
+  fix: inline-loader 在 windows 里路径匹配错误。
+- Updated dependencies [7b9dc49]
+- Updated dependencies [18cd03f]
+- Updated dependencies [28583e8]
+  - @modern-js/builder-webpack-provider@2.13.3
+  - @modern-js/builder-shared@2.13.3
+  - @modern-js/builder@2.13.3
+  - @modern-js/builder-plugin-esbuild@2.13.3
+  - @modern-js/builder-plugin-node-polyfill@2.13.3
+  - @modern-js/builder-rspack-provider@2.13.3
+  - @modern-js/core@2.13.3
+  - @modern-js/plugin-data-loader@2.13.3
+  - @modern-js/plugin-i18n@2.13.3
+  - @modern-js/plugin-lint@2.13.3
+  - @modern-js/new-action@2.13.3
+  - @modern-js/prod-server@2.13.3
+  - @modern-js/server@2.13.3
+  - @modern-js/node-bundle-require@2.13.3
+  - @modern-js/plugin@2.13.3
+  - @modern-js/types@2.13.3
+  - @modern-js/upgrade@2.13.3
+  - @modern-js/utils@2.13.3
+
 ## 2.13.2
 
 ### Patch Changes

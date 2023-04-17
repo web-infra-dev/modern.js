@@ -1,6 +1,7 @@
 import os from 'os';
 import { chalk } from './compiled';
 import { isDev, isSingleEntry } from './is';
+import { DEFAULT_DEV_HOST } from './constants';
 
 // TODO: type
 interface EntryPoint {
@@ -34,17 +35,38 @@ export const getIpv4Interfaces = () => {
 
 export type AddressUrl = { label: string; url: string };
 
-export const getAddressUrls = (protocol = 'http', port: number) => {
-  const ipv4Interfaces = getIpv4Interfaces();
-  return ipv4Interfaces.reduce((memo: AddressUrl[], detail) => {
-    let label = 'Network:  ';
-    let url = `${protocol}://${detail.address}:${port}`;
-    if (detail.address.includes(`localhost`) || detail.internal) {
-      label = 'Local:  ';
-      url = `${protocol}://localhost:${port}`;
-    }
+export const getAddressUrls = (
+  protocol = 'http',
+  port: number,
+  host?: string,
+) => {
+  const LOCAL_LABEL = 'Local:  ';
+  const NETWORK_LABEL = 'Network:  ';
+  const isLocalhost = (url: string) => url?.includes('localhost');
 
-    memo.push({ label, url });
+  if (host && host !== DEFAULT_DEV_HOST) {
+    return [
+      {
+        label: isLocalhost(host) ? LOCAL_LABEL : NETWORK_LABEL,
+        url: `${protocol}://${host}:${port}`,
+      },
+    ];
+  }
+
+  const ipv4Interfaces = getIpv4Interfaces();
+
+  return ipv4Interfaces.reduce((memo: AddressUrl[], detail) => {
+    if (isLocalhost(detail.address) || detail.internal) {
+      memo.push({
+        label: LOCAL_LABEL,
+        url: `${protocol}://localhost:${port}`,
+      });
+    } else {
+      memo.push({
+        label: NETWORK_LABEL,
+        url: `${protocol}://${detail.address}:${port}`,
+      });
+    }
     return memo;
   }, []);
 };
@@ -62,6 +84,7 @@ export const prettyInstructions = (appContext: any, config: any) => {
   const urls = getAddressUrls(
     config.dev.https && isDev() ? 'https' : 'http',
     port,
+    config.dev?.host,
   );
 
   const routes = !apiOnly

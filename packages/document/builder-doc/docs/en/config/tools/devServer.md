@@ -90,14 +90,18 @@ export default {
 - **Default:**
 
 ```js
-{
-    path: '/webpack-hmr',
-    port: '8080',
-    host: networkAddress || 'localhost',
-}
+const defaultConfig = {
+  path: '/webpack-hmr',
+  // By default it is set to the port number of the dev server
+  port: '',
+  // By default it is set to "location.hostname"
+  host: '',
+  // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
+  protocol: '',
+};
 ```
 
-The config of hmr client.
+The config of HMR client, which are usually used to set the WebSocket URL of HMR.
 
 #### devMiddleware
 

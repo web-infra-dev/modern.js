@@ -1,5 +1,15 @@
 # @modern-js/builder-doc
 
+## 2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- 28583e8: feat(builder): add assetsRetry.inlineScript config
+
+  feat(builder): 新增 assetsRetry.inlineScript 配置项
+
 ## 2.13.2
 
 ## 2.13.1
