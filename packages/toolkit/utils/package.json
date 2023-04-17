@@ -23,6 +23,10 @@
       "import": "./dist/esm/index.js",
       "default": "./dist/cjs/index.js"
     },
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "default": "./dist/runtime/index.js"
+    },
     "./ssr": {
       "jsnext:source": "./src/ssr.ts",
       "import": "./dist/esm/ssr.js",
@@ -101,6 +105,11 @@
         "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       },
+      "./runtime": {
+        "import": "./dist/esm/runtime/index.js",
+        "types": "./dist/types/runtime/index.d.ts",
+        "default": "./dist/cjs/runtime/index.js"
+      },
       "./ssr": {
         "import": "./dist/esm/ssr.js",
         "types": "./dist/types/ssr.d.ts",
@@ -172,6 +181,9 @@
   },
   "typesVersions": {
     "*": {
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
+      ],
       "ssr": [
         "./dist/types/ssr.d.ts"
       ],
