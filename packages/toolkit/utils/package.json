@@ -182,7 +182,7 @@
   "typesVersions": {
     "*": {
       "runtime": [
-        "./dist/runtime/index.d.ts"
+        "./dist/types/runtime/index.d.ts"
       ],
       "ssr": [
         "./dist/types/ssr.d.ts"

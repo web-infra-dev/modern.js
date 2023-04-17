@@ -27,7 +27,7 @@ export default defineConfig({
 
 - `mode`：`string = 'string'`，默认为使用 `renderToString` 渲染。配置为 'stream' 开启流式渲染。
 - `forceCSR`：`boolean = false`，默认关闭强制 CSR 渲染。配置为 `true` 后，在页面访问时添加 `?csr=true` 即可强制 CSR。
-- `inlineScript`：`boolean = true`，默认情况下，SSR 的数据会以内联脚本的方式注入到 HTML 中，并且直接为全局变量赋值。配置为 `true` 后，会下发 JSON，而是直接赋值。
+- `inlineScript`：`boolean = true`，默认情况下，SSR 的数据会以内联脚本的方式注入到 HTML 中，并且直接赋值给全局变量。配置为 `false` 后，会下发 JSON，而不是赋值给全局变量。
 
 
 ```ts title="modern.config.ts"
