@@ -20,7 +20,7 @@ describe('asset prefix', () => {
     );
     expect(HTML.includes(`//${DEFAULT_DEV_HOST}:3333/static/js/`)).toBeTruthy();
 
-    killApp(app);
+    await killApp(app);
   });
 
   it(`should inject window.__assetPrefix__ global variable`, async () => {
@@ -48,6 +48,6 @@ describe('asset prefix', () => {
 
     expect(assetPrefix).toEqual(expected);
 
-    killApp(app);
+    await killApp(app);
   });
 });
