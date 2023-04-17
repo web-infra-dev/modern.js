@@ -7,7 +7,7 @@ import '@arco-design/web-react/es/Card/style';
 import '@arco-design/web-react/es/Space/style';
 
 import './index.scss';
-import { normalizeRoutePath } from '../../utils';
+import { normalizeRoutePath } from '@modern-js/doc-core/runtime';
 import { locales } from '../../locales';
 
 type CodeContainerProps = {

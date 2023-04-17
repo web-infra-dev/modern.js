@@ -74,6 +74,13 @@ export async function launchDoc({
             [remarkTsxToReact, { appDir, defaultLang: DEFAULT_LANG }],
           ],
         },
+        head: [
+          `
+          <script>
+            window.MODERN_THEME = 'light';
+          </script>
+          `,
+        ],
       },
     },
     {
