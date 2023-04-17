@@ -58,8 +58,9 @@ function getHeadTemplate(beforeEntryTemplate: string, context: RuntimeContext) {
             const { referenceCssAssets = [] } = routeManifest as {
               referenceCssAssets?: string[];
             };
-            const _cssChunks = referenceCssAssets.filter((asset?: string) =>
-              asset?.endsWith('.css'),
+            const _cssChunks = referenceCssAssets.filter(
+              (asset?: string) =>
+                asset?.endsWith('.css') && !headTemplate.includes(asset),
             );
             cssChunks.push(..._cssChunks);
           }
