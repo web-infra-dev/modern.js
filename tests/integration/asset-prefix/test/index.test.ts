@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { Page } from 'puppeteer';
 import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
-const DEFAULT_DEV_HOST = '127.0.0.1';
+const DEFAULT_DEV_HOST = 'localhost';
 declare const page: Page;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
