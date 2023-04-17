@@ -1,6 +1,4 @@
 @media (max-width: 640px) {
-  .grid-2,
-  .grid-3,
   .grid-4,
   .grid-6 {
     width: calc(100%);
@@ -8,22 +6,41 @@
 }
 
 @media (min-width: 640px) {
-  .grid-2,
-  .grid-3,
   .grid-4,
   .grid-6 {
     width: calc(100% / 2);
   }
 }
 
+@media (min-width: 1280px) {
+  .grid-4,
+  .grid-6 {
+    width: calc(100% / 3);
+  }
+}
+
+
 
 .featureCard {
-  background: var(--modern-home-feature-bg);
-  border: 1px solid transparent;
+  background-color: transparent;
+  border-radius: 8px;
+  border: 1px solid rgb(229, 231, 235);
   transition: all 0.3s;
+  font-size: 20px;
+  font-weight: 500;
+  color: initial;
 }
 
 .featureCard:hover {
-  background: var(--modern-home-feature-hover-bg);
-  border: 1px solid var(--modern-c-brand);
+  background: rgba(248,250,252,1);
+}
+
+.featureCard svg {
+  width: 24px;
+  height: 24px;
+  color: rgba(0,0,0,0.2);
+}
+
+.featureCard:hover svg {
+  color: currentColor;
 }

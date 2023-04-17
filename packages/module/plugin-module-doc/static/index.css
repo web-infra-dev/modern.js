@@ -1,7 +1,9 @@
 :root {
-  --modern-c-brand: #FF9933;
-  --modern-c-brand-dark: #FF9933;
-  --modern-c-brand-darker: #FF9933;
-  --modern-c-brand-light: #FF9933;
-  --modern-c-brand-lighter: #FF9933;
+  --modern-c-brand: #165DFF;
+  --modern-c-brand-dark: #165DFF;
+  --modern-c-brand-darker: #165DFF;
+  --modern-c-brand-light: #165DFF;
+  --modern-c-brand-lighter: #165DFF;
+  --modern-sidebar-width: 210px;
+  --modern-aside-width: 192px;
 }
