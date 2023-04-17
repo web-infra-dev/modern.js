@@ -83,7 +83,7 @@ function getPublicPath({
     const hostname = context.devServer?.hostname || DEFAULT_DEV_HOST;
     const port = context.devServer?.port || DEFAULT_PORT;
     if (hostname === DEFAULT_DEV_HOST) {
-      const localHostname = `127.0.0.1`;
+      const localHostname = `localhost`;
       // If user not specify the hostname, it would use 0.0.0.0
       // The http://0.0.0.0:port can't visit in windows, so we shouldn't set publicPath as `//0.0.0.0:${port}/`;
       // Relative to docs:
