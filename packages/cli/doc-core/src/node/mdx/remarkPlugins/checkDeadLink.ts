@@ -1,7 +1,7 @@
 import path from 'path';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
-import { logger } from '@modern-js/utils/logger';
+import { logger } from '../../utils';
 import { isProduction } from '@/shared/utils';
 import {
   normalizeRoutePath,

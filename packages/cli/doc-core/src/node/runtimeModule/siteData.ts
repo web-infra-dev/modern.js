@@ -12,16 +12,15 @@ import yamlFront from 'yaml-front-matter';
 import { htmlToText } from 'html-to-text';
 import { ReplaceRule, Header } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
-import { logger } from '@modern-js/utils/logger';
 import { compile } from '@modern-js/mdx-rs-binding';
 import { importStatementRegex, TEMP_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
-import { createHash } from '../utils';
+import { logger, createHash } from '../utils';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeService } from './routeData';
 import { RuntimeModuleID } from '.';
-import { MDX_REGEXP, SEARCH_INDEX_NAME, withBase } from '@/shared/utils';
+import { withBase, MDX_REGEXP, SEARCH_INDEX_NAME } from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
 
@@ -260,7 +259,7 @@ export async function siteDataVMPlugin(
   if (!pages) {
     // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
     if (!isSSR) {
-      logger.info('[doc-tools] Extracting site data...');
+      logger.info('Extracting site data...');
     }
     const domain =
       userConfig?.search && userConfig?.search?.mode === 'remote'
