@@ -6,7 +6,7 @@ import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
-import { removeBase, normalizeHref } from '@/runtime';
+import { removeBase, normalizeHref, withBase } from '@/runtime';
 
 interface Props {
   isSidebarOpen?: boolean;
@@ -166,20 +166,20 @@ export function SidebarGroupComp(props: SidebarItemProps) {
     >
       <div
         style={{
-          cursor: collapsible ? 'pointer' : 'normal',
+          cursor: collapsible || item.link ? 'pointer' : 'normal',
         }}
         className={`flex justify-between items-center rounded-xl ${
           // eslint-disable-next-line no-nested-ternary
           active
             ? styles.menuItemActive
-            : collapsible
+            : collapsible || item.link
             ? styles.menuItem
             : styles.menuItemStatic
         }`}
         onMouseEnter={() => item.link && props.preloadLink(item.link)}
         onClick={e => {
           if (item.link) {
-            navigate(normalizeHref(item.link));
+            navigate(withBase(normalizeHref(item.link)));
             collapsed && toggleCollapse(e);
           } else {
             collapsible && toggleCollapse(e);
