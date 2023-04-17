@@ -46,7 +46,11 @@ Modern.js 生态提供了以下解决方案：
 
 请阅读 [贡献指南](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md) 来共同参与 Modern.js 的建设。
 
-## 贡献者们
+### 行为准则
+
+本仓库采纳了字节跳动的开源项目行为准则。请点击 [行为准则](./CODE_OF_CONDUCT.md) 查看更多的信息。
+
+### 贡献者们
 
 感谢以下伙伴们为 Modern.js 做出的贡献：
 
