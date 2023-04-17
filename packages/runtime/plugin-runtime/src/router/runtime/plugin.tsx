@@ -121,7 +121,11 @@ export const routerPlugin = ({
               );
             }) as React.FC<any>;
           };
-          const RouteApp = getRouteApp();
+          let RouteApp = getRouteApp();
+
+          if (App) {
+            RouteApp = hoistNonReactStatics(RouteApp, App);
+          }
 
           if (routesConfig?.globalApp) {
             return next({
