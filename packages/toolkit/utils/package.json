@@ -25,7 +25,8 @@
     },
     "./runtime": {
       "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/runtime/index.js"
+      "import": "./dist/esm/runtime/index.js",
+      "default": "./dist/cjs/runtime/index.js"
     },
     "./ssr": {
       "jsnext:source": "./src/ssr.ts",
