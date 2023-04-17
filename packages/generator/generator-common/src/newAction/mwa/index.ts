@@ -19,16 +19,16 @@ export const MWAActionTypes = [
 ];
 
 export const MWAActionFunctions = [
+  ActionFunction.Rspack,
   ActionFunction.TailwindCSS,
   ActionFunction.BFF,
   ActionFunction.SSG,
+  ActionFunction.SWC,
   ActionFunction.MicroFrontend,
   ActionFunction.Test,
-  ActionFunction.Storybook,
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
-  ActionFunction.SWC,
-  ActionFunction.Rspack,
+  ActionFunction.Storybook,
 ];
 
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
