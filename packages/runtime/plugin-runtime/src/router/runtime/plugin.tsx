@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { Plugin } from '../../core';
+import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
 
@@ -45,7 +46,10 @@ export const routerPlugin = ({
   finalRouteConfig = routesConfig;
   return {
     name: '@modern-js/plugin-router',
-    setup: () => {
+    registerHook: {
+      modifyRoutes: modifyRoutesHook,
+    },
+    setup: api => {
       return {
         init({ context }, next) {
           context.router = {
@@ -79,6 +83,9 @@ export const routerPlugin = ({
                       props,
                     }),
                   );
+
+              const runner = (api as any).useHookRunners();
+              routes = runner.modifyRoutes(routes);
 
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
