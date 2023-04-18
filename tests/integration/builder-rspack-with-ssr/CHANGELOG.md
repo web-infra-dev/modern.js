@@ -1,2 +1,0 @@
-# builder-rspack-with-ssr
-
