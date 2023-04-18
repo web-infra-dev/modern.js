@@ -76,7 +76,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
       commands({ program }) {
         program
           .command('dev [root]')
-          .description('start dev server')
+          .description('start the dev server')
           .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             startServer = async (isFristStart = false) => {
@@ -96,7 +96,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
 
         program
           .command('build [root]')
-          .description('build in production')
+          .description('build the document site for production')
           .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
@@ -105,7 +105,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
 
         program
           .command('preview [root]')
-          .description('preview in production')
+          .description('preview the production build locally')
           .option('-c --config <config>', 'specify config file')
           .option('--port [port]', 'port number')
           .option('--host [host]', 'hostname')
