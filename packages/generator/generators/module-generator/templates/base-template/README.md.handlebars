@@ -1,52 +1,55 @@
-# Your Package
+# Modern.js Package
 
 {{#unless isMonorepoSubProject}}
-## Prerequisites
+## Setup
 
-1. [Node.js LTS](https://github.com/nodejs/Release)
-    * [Automatically call nvm use](https://github.com/nvm-sh/nvm#deeper-shell-integration)
+Install the dependencies:
+
+```bash
+{{packageManager}} install
+```
 
 {{/unless}}
 ## Get Started
 
-按开发环境的要求，运行和调试项目
-
-运行和调试组件
+Run and debug the module:
 
 ```
 {{packageManager}} dev
 ```
 
-运行测试用例
+Run test cases:
 
 ```
 {{packageManager}} test
 ```
 
 {{#if isPublic}}
-按照社区规范和最佳实践，生成构建产物
+Build the module for production:
 
 ```
 {{packageManager}} build
 ```
 
 {{/if}}
-继续创建更多项目要素
+Enable optional features:
 
 ```
 {{packageManager}} new
 ```
 
 {{#unless isMonorepoSubProject}}
-其他
+Other commands:
 
 ```
-{{packageManager}} lint         # 检查和修复所有代码
+{{packageManager}} lint         # Lint and fix source files
 {{#if isPublic}}
-{{packageManager}} change       # 添加 changeset，用于发版时生成 changelog
-{{packageManager}} bump         # 生成发版相关的修改，比如更新版本号、生成 changelog
-{{packageManager}} release      # 根据 bump 自动修改和人工修改的发版要求，发布项目
+{{packageManager}} change       # Add a new changeset
+{{packageManager}} bump         # Update version and changelog via changeset
+{{packageManager}} release      # Release the package
 {{/if}}
 
 ```
 {{/unless}}
+
+For more information, see the [Modern.js Module documentation](https://modernjs.dev/module-tools/en).
