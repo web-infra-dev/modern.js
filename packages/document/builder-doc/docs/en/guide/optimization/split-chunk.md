@@ -132,13 +132,13 @@ export default {
 In addition to using the built-in strategies, you can also customize the splitting strategy to meet more customization needs. Custom strategy is divided into two parts:
 
 - Custom group
-- Custom webpack `splitChunks` config
+- Custom bundler `splitChunks` config
 
 It is worth noting that these two custom capabilities can be used together with the built-in strategy, that is, you can use the built-in strategy to split commonly used packages, and then use the custom function to split other packages.
 
 ### Custom Group
 
-Builder supports custom group, which is more flexible than the built-in strategies, and simpler than writing webpack config.
+Builder supports custom group, which is more flexible than the built-in strategies, and simpler than writing bundler config.
 
 For example, split the `axios` library under node_modules into `axios.js`:
 
@@ -157,9 +157,9 @@ export default {
 
 Through `forceSplitting` config, you can easily split some packages into a Chunk.
 
-### Custom Webpack `splitChunks` Config
+### Custom Bundler `splitChunks` Config
 
-In addition to using custom grouping, you can also customize the native webpack config through `override`, such as:
+In addition to using custom grouping, you can also customize the native bundler config through `override`, such as:
 
 ```ts
 export default {
@@ -175,4 +175,4 @@ export default {
 };
 ```
 
-The config in `override` will be merged with the webpack config. For specific config details, please refer to [webpack official documentation](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks).
+The config in `override` will be merged with the bundler config. For specific config details, please refer to [webpack - splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks) or [Rspack - splitChunks](https://rspack.dev/config/optimization.html#optimization-splitchunks).
