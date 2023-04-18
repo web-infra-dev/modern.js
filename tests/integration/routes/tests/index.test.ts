@@ -25,8 +25,8 @@ const renderSelfRoute = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const description = await page.$('.description');
-  const targetText = await page.evaluate(el => el.textContent, description);
-  expect(targetText.trim()).toEqual('Get started by editing src/App.tsx');
+  const targetText = await page.evaluate(el => el?.textContent, description);
+  expect(targetText?.trim()).toEqual('Get started by editing src/App.tsx');
   expect(errors.length).toEqual(0);
 };
 
@@ -35,8 +35,8 @@ const renderPageRoute = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const element = await page.$('.user');
-  const targetText = await page.evaluate(el => el.textContent, element);
-  expect(targetText.trim()).toEqual('user');
+  const targetText = await page.evaluate(el => el?.textContent, element);
+  expect(targetText?.trim()).toEqual('user');
   expect(errors.length).toEqual(0);
 };
 
@@ -45,8 +45,8 @@ const renderDynamaticRoute = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const element = await page.$('.item');
-  const targetText = await page.evaluate(el => el.textContent, element);
-  expect(targetText.trim()).toEqual('1234');
+  const targetText = await page.evaluate(el => el?.textContent, element);
+  expect(targetText?.trim()).toEqual('1234');
   expect(errors.length).toEqual(0);
 };
 
@@ -55,48 +55,48 @@ const renderOptionalParamsRoute = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const element = await page.$('.item');
-  const targetText = await page.evaluate(el => el.textContent, element);
-  expect(targetText.trim()).toEqual('bid exist');
+  const targetText = await page.evaluate(el => el?.textContent, element);
+  expect(targetText?.trim()).toEqual('bid exist');
   expect(errors.length).toEqual(0);
 
   await page.goto(`http://localhost:${appPort}/two/act/bar/1234`, {
     waitUntil: ['networkidle0'],
   });
   const element1 = await page.$('.item');
-  const targetText1 = await page.evaluate(el => el.textContent, element1);
-  expect(targetText1.trim()).toEqual('1234 bid exist');
+  const targetText1 = await page.evaluate(el => el?.textContent, element1);
+  expect(targetText1?.trim()).toEqual('1234 bid exist');
   expect(errors.length).toEqual(0);
 
   await page.goto(`http://localhost:${appPort}/two/act/foo`, {
     waitUntil: ['networkidle0'],
   });
   const element3 = await page.$('.item');
-  const targetText3 = await page.evaluate(el => el.textContent, element3);
-  expect(targetText3.trim()).toEqual('uid exist');
+  const targetText3 = await page.evaluate(el => el?.textContent, element3);
+  expect(targetText3?.trim()).toEqual('uid exist');
   expect(errors.length).toEqual(0);
 
   await page.goto(`http://localhost:${appPort}/two/act/foo/1234`, {
     waitUntil: ['networkidle0'],
   });
   const element4 = await page.$('.item');
-  const targetText4 = await page.evaluate(el => el.textContent, element4);
-  expect(targetText4.trim()).toEqual('1234 uid exist');
+  const targetText4 = await page.evaluate(el => el?.textContent, element4);
+  expect(targetText4?.trim()).toEqual('1234 uid exist');
   expect(errors.length).toEqual(0);
 
   await page.goto(`http://localhost:${appPort}/two/act/bar/detail`, {
     waitUntil: ['networkidle0'],
   });
   const element5 = await page.$('.item');
-  const targetText5 = await page.evaluate(el => el.textContent, element5);
-  expect(targetText5.trim()).toEqual('bid detail');
+  const targetText5 = await page.evaluate(el => el?.textContent, element5);
+  expect(targetText5?.trim()).toEqual('bid detail');
   expect(errors.length).toEqual(0);
 
   await page.goto(`http://localhost:${appPort}/two/act/bar/1234/detail`, {
     waitUntil: ['networkidle0'],
   });
   const element6 = await page.$('.item');
-  const targetText6 = await page.evaluate(el => el.textContent, element6);
-  expect(targetText6.trim()).toEqual('bid detail 1234');
+  const targetText6 = await page.evaluate(el => el?.textContent, element6);
+  expect(targetText6?.trim()).toEqual('bid detail 1234');
   expect(errors.length).toEqual(0);
 };
 
@@ -106,11 +106,11 @@ const supportGlobalLayout = async (errors: string[], appPort: number) => {
   });
   const element = await page.$('.global-layout');
   const targetText = await page.evaluate(
-    el => el.firstChild.textContent,
+    el => el?.firstChild?.textContent,
     element,
   );
-  expect(targetText.startsWith('global layout'));
-  expect(targetText.trim()).toEqual('global layout');
+  expect(targetText?.startsWith('global layout'));
+  expect(targetText?.trim()).toEqual('global layout');
   expect(errors.length).toEqual(0);
 };
 
@@ -120,21 +120,21 @@ const supportLayout = async (errors: string[], appPort: number) => {
   });
   const globalLayoutElm = await page.$('.global-layout');
   const text = await page.evaluate(
-    el => el.firstChild.textContent,
+    el => el?.firstChild?.textContent,
     globalLayoutElm,
   );
-  expect(text.trim()).toEqual('global layout');
+  expect(text?.trim()).toEqual('global layout');
 
   const shopLayoutElm = await globalLayoutElm!.$('.shop-layout');
   const text1 = await page.evaluate(
-    el => el.firstChild.textContent,
+    el => el?.firstChild?.textContent,
     shopLayoutElm,
   );
-  expect(text1.trim()).toEqual('shop layout');
+  expect(text1?.trim()).toEqual('shop layout');
 
   const shopElm = await shopLayoutElm!.$('.shop');
-  const text2 = await page.evaluate(el => el.textContent, shopElm);
-  expect(text2.trim()).toEqual('shop');
+  const text2 = await page.evaluate(el => el?.textContent, shopElm);
+  expect(text2?.trim()).toEqual('shop');
 
   expect(errors.length).toEqual(0);
 };
@@ -144,20 +144,20 @@ const supportNestedRoutes = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeTruthy();
-  expect(text.includes('user layout')).toBeTruthy();
-  expect(text.includes('user page')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('user layout')).toBeTruthy();
+  expect(text?.includes('user page')).toBeTruthy();
 
   await page.goto(`http://localhost:${appPort}/three/user/profile`, {
     waitUntil: ['networkidle0'],
   });
   const rootElm1 = await page.$('#root');
-  const text1 = await page.evaluate(el => el.textContent, rootElm1);
-  expect(text1.includes('root layout')).toBeTruthy();
-  expect(text1.includes('user layout')).toBeTruthy();
-  expect(text1.includes('profile layout')).toBeTruthy();
-  expect(text1.includes('profile page')).toBeTruthy();
+  const text1 = await page.evaluate(el => el?.textContent, rootElm1);
+  expect(text1?.includes('root layout')).toBeTruthy();
+  expect(text1?.includes('user layout')).toBeTruthy();
+  expect(text1?.includes('profile layout')).toBeTruthy();
+  expect(text1?.includes('profile page')).toBeTruthy();
 
   expect(errors.length).toEqual(0);
 };
@@ -167,9 +167,9 @@ const supportDynamaicPaths = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeTruthy();
-  expect(text.includes('1234')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('1234')).toBeTruthy();
   expect(errors.length).toEqual(0);
 };
 
@@ -178,11 +178,11 @@ const supportNoLayoutDir = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeTruthy();
-  expect(text.includes('user layout')).toBeTruthy();
-  expect(text.includes('item page')).toBeFalsy();
-  expect(text.includes('profile page, param is 1234')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('user layout')).toBeTruthy();
+  expect(text?.includes('item page')).toBeFalsy();
+  expect(text?.includes('profile page, param is 1234')).toBeTruthy();
   expect(errors.length).toEqual(0);
 };
 
@@ -191,19 +191,19 @@ const supportPathLessLayout = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeTruthy();
-  expect(text.includes('auth layout')).toBeFalsy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('auth layout')).toBeFalsy();
 
   await page.goto(`http://localhost:${appPort}/three/item`, {
     waitUntil: ['networkidle0'],
   });
   const rootElm1 = await page.$('#root');
-  const text1 = await page.evaluate(el => el.textContent, rootElm1);
-  expect(text1.includes('root layout')).toBeTruthy();
-  expect(text1.includes('auth layout')).toBeTruthy();
-  expect(text1.includes('shop layout')).toBeTruthy();
-  expect(text1.includes('item page')).toBeTruthy();
+  const text1 = await page.evaluate(el => el?.textContent, rootElm1);
+  expect(text1?.includes('root layout')).toBeTruthy();
+  expect(text1?.includes('auth layout')).toBeTruthy();
+  expect(text1?.includes('shop layout')).toBeTruthy();
+  expect(text1?.includes('item page')).toBeTruthy();
   expect(errors.length).toEqual(0);
 };
 
@@ -212,11 +212,11 @@ const supportPathWithoutLayout = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeTruthy();
-  expect(text.includes('user layout')).toBeFalsy();
-  expect(text.includes('user profile name layout')).toBeTruthy();
-  expect(text.includes('profile name page')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('user layout')).toBeFalsy();
+  expect(text?.includes('user profile name layout')).toBeTruthy();
+  expect(text?.includes('profile name page')).toBeTruthy();
   expect(errors.length).toEqual(0);
 };
 
@@ -225,9 +225,9 @@ const nestedRouteOverPage = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeTruthy();
-  expect(text.includes('page index')).toBeFalsy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('page index')).toBeFalsy();
   expect(errors.length).toEqual(0);
 };
 
@@ -236,32 +236,32 @@ const supportNestedRouteAndPage = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeFalsy();
-  expect(text.includes('1234')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeFalsy();
+  expect(text?.includes('1234')).toBeTruthy();
 
   await page.goto(`http://localhost:${appPort}/four/user/1234`, {
     waitUntil: ['networkidle0'],
   });
   const rootElm1 = await page.$('#root');
-  const text1 = await page.evaluate(el => el.textContent, rootElm1);
-  expect(text1.includes('root layout')).toBeTruthy();
-  expect(text1.includes('1234')).toBeTruthy();
+  const text1 = await page.evaluate(el => el?.textContent, rootElm1);
+  expect(text1?.includes('root layout')).toBeTruthy();
+  expect(text1?.includes('1234')).toBeTruthy();
 
   await page.goto(`http://localhost:${appPort}/four/act`, {
     waitUntil: ['networkidle0'],
   });
   const rootElm2 = await page.$('.act');
-  const text2 = await page.evaluate(el => el.textContent, rootElm2);
-  expect(text2.includes('act page, param is')).toBeTruthy();
-  expect(text2.includes('1234')).toBeFalsy();
+  const text2 = await page.evaluate(el => el?.textContent, rootElm2);
+  expect(text2?.includes('act page, param is')).toBeTruthy();
+  expect(text2?.includes('1234')).toBeFalsy();
 
   await page.goto(`http://localhost:${appPort}/four/act/1234`, {
     waitUntil: ['networkidle0'],
   });
   const rootElm3 = await page.$('.act');
-  const text3 = await page.evaluate(el => el.textContent, rootElm3);
-  expect(text3.includes('act page, param is 1234')).toBeTruthy();
+  const text3 = await page.evaluate(el => el?.textContent, rootElm3);
+  expect(text3?.includes('act page, param is 1234')).toBeTruthy();
 };
 
 const supportHandleLoaderError = async (errors: string[], appPort: number) => {
@@ -274,8 +274,8 @@ const supportHandleLoaderError = async (errors: string[], appPort: number) => {
     page.waitForSelector('.error-case'),
   ]);
   const errorElm = await page.$('.error-case');
-  const text = await page.evaluate(el => el.textContent, errorElm);
-  expect(text.includes('loader error')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, errorElm);
+  expect(text?.includes('loader error')).toBeTruthy();
   expect(errors.length).toBe(0);
 };
 
@@ -294,7 +294,7 @@ const supportLoader = async (errors: string[], appPort: number) => {
     waitUntil: ['domcontentloaded'],
   });
   const userLayout = await page.$('.user-layout');
-  const text = await page.evaluate(el => el.textContent, userLayout);
+  const text = await page.evaluate(el => el?.textContent, userLayout);
   expect(text).toBe('user layout');
   expect(errors.length).toBe(0);
 };
@@ -309,7 +309,7 @@ const supportLoaderForSSRAndCSR = async (errors: string[], appPort: number) => {
     page.waitForSelector('.user-layout'),
   ]);
   const userLayout = await page.$(`.user-layout`);
-  const text = await page.evaluate(el => el.textContent, userLayout);
+  const text = await page.evaluate(el => el?.textContent, userLayout);
   expect(text).toBe('user layout');
   expect(errors.length).toBe(0);
 };
@@ -319,8 +319,8 @@ const supportLoaderForCSR = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('user layout')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('user layout')).toBeTruthy();
   expect(errors.length).toBe(0);
 };
 
@@ -329,8 +329,8 @@ const supportRedirectForSSR = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('profile page')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('profile page')).toBeTruthy();
   expect(errors.length).toBe(0);
 };
 
@@ -340,11 +340,12 @@ const supportRedirectForCSR = async (errors: string[], appPort: number) => {
   });
   await Promise.all([
     page.click('.redirect-btn'),
+    // eslint-disable-next-line max-lines
     page.waitForSelector('.user-profile'),
   ]);
   const rootElm = await page.$('.user-profile');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('profile page')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('profile page')).toBeTruthy();
   expect(errors.length).toBe(0);
 };
 
@@ -363,9 +364,9 @@ const supportCatchAll = async (errors: string[], appPort: number) => {
     waitUntil: ['networkidle0'],
   });
   const rootElm = await page.$('#root');
-  const text = await page.evaluate(el => el.textContent, rootElm);
-  expect(text.includes('root layout')).toBeTruthy();
-  expect(text.includes('catch all')).toBeTruthy();
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('root layout')).toBeTruthy();
+  expect(text?.includes('catch all')).toBeTruthy();
   expect(errors.length).toEqual(0);
 };
 
