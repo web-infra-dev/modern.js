@@ -61,6 +61,7 @@ export type NestedRoute = Merge<
     loading?: string;
     error?: string;
     isRoot?: boolean;
+    config?: string | Record<string, any>;
   }
 >;
 

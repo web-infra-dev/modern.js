@@ -82,6 +82,7 @@ export const walk = async (
   let pageRoute = null;
   let splatLoaderFile = '';
   let splatRoute = null;
+  let pageConfigFile = '';
 
   const items = await fs.readdir(dirname);
 
@@ -113,12 +114,22 @@ export const walk = async (
       }
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CONFIG_FILE) {
+      if (!route.config) {
+        route.config = itemPath;
+      }
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_FILE) {
       route._component = replaceWithAlias(alias.basename, itemPath, alias.name);
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_LOADER_FILE) {
       pageLoaderFile = itemPath;
+    }
+
+    if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {
+      pageConfigFile = itemPath;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_FILE) {
@@ -133,6 +144,9 @@ export const walk = async (
 
       if (pageLoaderFile) {
         pageRoute.loader = pageLoaderFile;
+      }
+      if (pageConfigFile) {
+        pageRoute.config = pageConfigFile;
       }
       route.children?.push(pageRoute);
     }
