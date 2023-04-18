@@ -1,0 +1,12 @@
+{
+  "name": "i18n-doc",
+  "private": true,
+  "dependencies": {
+    "@modern-js/doc-tools": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^14"
+  }
+}
