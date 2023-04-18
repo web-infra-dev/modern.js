@@ -1,2 +1,8 @@
+coverage/
+node_modules/
+dist/
+lib/
+compiled
+.rpt2_cache/
 packages/runtime/plugin-garfish/tests/**
 tests/integration/swc/fixtures/transform-fail/src/App.jsx
