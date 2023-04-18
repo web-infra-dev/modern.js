@@ -209,7 +209,7 @@ export default (
 
         program
           .command('inspect')
-          .description('inspect internal webpack config')
+          .description('inspect the internal configs')
           .option(
             `--env <env>`,
             i18n.t(localeKeys.command.inspect.env),

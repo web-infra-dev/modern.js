@@ -301,7 +301,11 @@ export function SideBar(props: Props) {
     }
   };
   return (
-    <aside className={`${styles.sidebar} ${isSidebarOpen ? styles.open : ''}`}>
+    <aside
+      className={`${styles.sidebar} modern-sidebar ${
+        isSidebarOpen ? styles.open : ''
+      }`}
+    >
       <div className={`mt-1 ${styles.sidebarContent}`}>
         <div
           className="modern-scrollbar"

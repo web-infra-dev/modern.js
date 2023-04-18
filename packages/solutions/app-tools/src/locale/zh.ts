@@ -5,7 +5,7 @@ export const ZH_LOCALE = {
       config: '指定配置文件路径，可以为相对路径或绝对路径',
     },
     dev: {
-      describe: '本地开发命令',
+      describe: '启动开发服务器',
       entry: '指定入口，编译特定的页面',
       apiOnly: '仅启动 API 接口服务',
       webOnly: '仅启动 Web 服务',
@@ -13,10 +13,10 @@ export const ZH_LOCALE = {
       requireEntry: '请至少选择一个入口',
     },
     build: {
-      describe: '构建应用命令',
+      describe: '构建生产环境产物',
     },
-    serve: { describe: '应用启动命令' },
-    deploy: { describe: '部署应用命令' },
+    serve: { describe: '启动生产环境服务' },
+    deploy: { describe: '部署应用' },
     new: {
       describe: 'Web App 项目中执行生成器',
       debug: '开启 Debug 模式，打印调试日志信息',

@@ -5,7 +5,7 @@ export const EN_LOCALE = {
       config: 'specify config file',
     },
     dev: {
-      describe: 'start dev server',
+      describe: 'starting the dev server',
       entry: 'compiler by entry',
       apiOnly: 'start api server only',
       webOnly: 'start web server only',
@@ -13,12 +13,12 @@ export const EN_LOCALE = {
       requireEntry: 'You must choose at least one entry',
     },
     build: {
-      describe: 'build application',
+      describe: 'build the app for production',
     },
-    serve: { describe: 'start server' },
-    deploy: { describe: 'deploy application' },
+    serve: { describe: 'preview the production build locally' },
+    deploy: { describe: 'deploy the application' },
     new: {
-      describe: 'generator runner for MWA project',
+      describe: 'enable optional features or add a new entry',
       debug: 'using debug mode to log something',
       config: 'set default generator config(json string)',
       distTag: `use specified tag version for it's generator`,
