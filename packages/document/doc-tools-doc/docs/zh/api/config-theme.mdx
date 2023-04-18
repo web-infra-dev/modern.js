@@ -231,6 +231,50 @@ export default defineConfig({
 });
 ```
 
+## lastUpdated
+
+- Type: `boolean`
+- Default: `false`
+
+是否显示最后更新时间，默认情况下不显示。
+
+比如:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      lastUpdated: true,
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## lastUpdatedText
+
+- Type: `string`
+- Default: `Last Updated`
+
+最后更新时间的文本。
+
+比如:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      lastUpdatedText: 'Last Updated',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
 ## prevPageText
 
 - Type: `string`
@@ -380,6 +424,12 @@ export interface LocaleConfig {
   sidebar?: Sidebar;
   // 右侧大纲标题
   outlineTitle?: string;
+  // 是否显示右侧大纲
+  outline?: boolean;
+  // 最后更新时间文本
+  lastUpdatedText?: string;
+  // 是否显示最后更新时间
+  lastUpdated?: boolean;
   // 上一页文本
   prevPageText?: string;
   // 下一页文本
@@ -388,7 +438,6 @@ export interface LocaleConfig {
 ```
 
 `LocaleConfig` 中包含许多与主题配置中相同的配置项，但它的优先级会更高。
-
 
 ## darkMode
 

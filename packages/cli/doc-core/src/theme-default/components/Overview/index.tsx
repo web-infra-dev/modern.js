@@ -2,9 +2,8 @@ import { useMemo } from 'react';
 import { Header, NormalizedSidebarGroup, SidebarItem } from 'shared/types';
 import { useSidebarData } from '../../logic';
 import { Link } from '../Link';
-import { isEqualPath } from '../../logic/utils';
 import styles from './index.module.scss';
-import { usePageData, normalizeHref, withBase } from '@/runtime';
+import { usePageData, normalizeHref, withBase, isEqualPath } from '@/runtime';
 
 interface GroupItem {
   text?: string;
@@ -23,7 +22,10 @@ interface Group {
 const DEFAULT_GROUP = 'Others';
 
 export function Overview() {
-  const { routePath, siteData } = usePageData();
+  const {
+    siteData,
+    page: { routePath },
+  } = usePageData();
   const { pages } = siteData;
   const overviewModules = pages.filter(
     page =>
@@ -52,9 +54,7 @@ export function Overview() {
     return {
       ...item,
       link,
-      headers:
-        (pageModule?.toc as Header[])?.filter(header => header.depth === 2) ||
-        [],
+      headers: pageModule?.toc?.filter(header => header.depth === 2) || [],
     };
   }
   const groups = useMemo(() => {

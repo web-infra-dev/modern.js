@@ -126,23 +126,19 @@ export async function renderPages(config: UserConfig) {
 }
 
 export async function build(rootDir: string, config: UserConfig) {
-  const docPlugins = [...(config.doc?.plugins ?? [])];
   const isProd = true;
   const modifiedConfig = await modifyConfig({
     config,
-    docPlugins,
   });
 
   await beforeBuild({
     config: modifiedConfig,
-    docPlugins,
     isProd,
   });
   await bundle(rootDir, modifiedConfig);
   await renderPages(modifiedConfig);
   await afterBuild({
     config: modifiedConfig,
-    docPlugins,
     isProd,
   });
 }

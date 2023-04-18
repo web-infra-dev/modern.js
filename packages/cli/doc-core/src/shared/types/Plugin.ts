@@ -1,6 +1,6 @@
 import { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluggableList } from 'unified';
-import { DocConfig } from '.';
+import { DocConfig, PageIndexInfo } from '.';
 
 export interface DocPlugin {
   /**
@@ -42,4 +42,8 @@ export interface DocPlugin {
    * Callback after build
    */
   afterBuild?: (config: DocConfig, isProd: boolean) => Promise<void>;
+  /**
+   * Extend every page's data
+   */
+  extendPageData?: (pageData: PageIndexInfo) => void;
 }

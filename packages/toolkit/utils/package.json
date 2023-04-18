@@ -51,6 +51,7 @@
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
+    "./execa": "./compiled/execa/index.js",
     "./json5": "./compiled/json5/index.js",
     "./semver": "./compiled/semver/index.js",
     "./lodash": "./compiled/lodash/index.js",
@@ -134,6 +135,7 @@
       "./ajv": "./dist/compiled/ajv/index.js",
       "./glob": "./dist/compiled/glob/index.js",
       "./chalk": "./dist/compiled/chalk/index.js",
+      "./execa": "./dist/compiled/execa/index.js",
       "./json5": "./dist/compiled/json5/index.js",
       "./semver": "./dist/compiled/semver/index.js",
       "./lodash": "./dist/compiled/lodash/index.js",
@@ -199,6 +201,9 @@
       ],
       "ajv": [
         "./dist/compiled/ajv/types/ajv.d.ts"
+      ],
+      "execa": [
+        "./dist/compiled/execa/index.d.ts"
       ],
       "ajv/json-schema": [
         "./dist/compiled/ajv/types/types/json-schema.d.ts"

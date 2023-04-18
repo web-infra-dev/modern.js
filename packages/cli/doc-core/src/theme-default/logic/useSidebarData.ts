@@ -5,8 +5,7 @@ import {
 } from 'shared/types/defaultTheme';
 import { useEffect, useState } from 'react';
 import { useLocaleSiteData } from './useLocaleSiteData';
-import { isEqualPath } from './utils';
-import { useLocation, withBase } from '@/runtime';
+import { useLocation, withBase, isEqualPath } from '@/runtime';
 
 interface SidebarData {
   // The group name for the sidebar
