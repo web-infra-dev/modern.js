@@ -5098,6 +5098,40 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
 
+  tests/integration/doc:
+    specifiers:
+      '@types/jest': ^29
+      '@types/node': ^14
+    dependencies:
+      '@types/jest': 29.2.6
+      '@types/node': 14.18.35
+
+  tests/integration/doc/fixtures/base:
+    specifiers:
+      '@modern-js/doc-tools': workspace:*
+      '@modern-js/tsconfig': workspace:*
+      '@types/jest': ^29
+      '@types/node': ^14
+    dependencies:
+      '@modern-js/doc-tools': link:../../../../../packages/solutions/doc-tools
+    devDependencies:
+      '@modern-js/tsconfig': link:../../../../../packages/review/tsconfig
+      '@types/jest': 29.2.6
+      '@types/node': 14.18.35
+
+  tests/integration/doc/fixtures/i18n:
+    specifiers:
+      '@modern-js/doc-tools': workspace:*
+      '@modern-js/tsconfig': workspace:*
+      '@types/jest': ^29
+      '@types/node': ^14
+    dependencies:
+      '@modern-js/doc-tools': link:../../../../../packages/solutions/doc-tools
+    devDependencies:
+      '@modern-js/tsconfig': link:../../../../../packages/review/tsconfig
+      '@types/jest': 29.2.6
+      '@types/node': 14.18.35
+
   tests/integration/esbuild:
     specifiers:
       '@types/jest': ^29
@@ -5985,7 +6019,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@emotion/hash': 0.8.0
       '@emotion/unitless': 0.7.5
       classnames: 2.3.2
@@ -6000,7 +6034,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@emotion/hash': 0.8.0
       '@emotion/unitless': 0.7.5
       classnames: 2.3.2
@@ -6023,7 +6057,7 @@ packages:
     dependencies:
       '@ant-design/colors': 6.0.0
       '@ant-design/icons-svg': 4.2.1
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -6036,7 +6070,7 @@ packages:
     dependencies:
       '@ant-design/colors': 6.0.0
       '@ant-design/icons-svg': 4.2.1
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -6052,7 +6086,7 @@ packages:
     dependencies:
       '@ant-design/colors': 7.0.0
       '@ant-design/icons-svg': 4.2.1
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
     dev: false
@@ -6066,7 +6100,7 @@ packages:
     dependencies:
       '@ant-design/colors': 7.0.0
       '@ant-design/icons-svg': 4.2.1
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -6078,7 +6112,7 @@ packages:
     peerDependencies:
       react: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       json2mq: 0.2.0
       lodash: 4.17.21
@@ -6089,7 +6123,7 @@ packages:
     peerDependencies:
       react: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       json2mq: 0.2.0
       lodash: 4.17.21
@@ -6102,7 +6136,7 @@ packages:
     peerDependencies:
       react: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       json2mq: 0.2.0
       resize-observer-polyfill: 1.5.1
@@ -6114,7 +6148,7 @@ packages:
     peerDependencies:
       react: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       json2mq: 0.2.0
       react: 18.2.0
@@ -6267,7 +6301,7 @@ packages:
     resolution: {integrity: sha512-gTXYh3M5wb7FRXQy+FErKFAv90BnlOuNn1QkCK2lREoPAjrQCO49+HVSrFoe5uakFAF5eenS75KbO2vQiLrTMQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@babel/generator': 7.20.5
       '@babel/helper-module-transforms': 7.20.2
       '@babel/helpers': 7.20.6
@@ -6291,7 +6325,7 @@ packages:
     resolution: {integrity: sha512-3UG9dsxvYBMYwRv+gS41WKHno4K60/9GPy1CJaH6xy3Elq8CTtvtjT5R5jmNhXfCYLX2mTw+7/aq5ak/gOE0og==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@babel/generator': 7.20.5
       '@babel/helper-compilation-targets': 7.20.0_@babel+core@7.15.8
       '@babel/helper-module-transforms': 7.20.2
@@ -11932,7 +11966,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       rc-util: 5.29.2
     dev: false
 
@@ -11942,7 +11976,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -11952,7 +11986,7 @@ packages:
     resolution: {integrity: sha512-9N8nRk0oKj1qJzANKl+n9eNSMUGsZtjwNuDCiZ/KA+dt1fE3zq5x2XxclRcAbOIXnZcJ53ozP2Pa60gyELXagA==}
     engines: {node: '>=8.x'}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
 
   /@rc-component/mutate-observer/1.0.0:
     resolution: {integrity: sha512-okqRJSfNisXdI6CUeOLZC5ukBW/8kir2Ii4PJiKpUt+3+uS7dxwJUMxsUZquxA1rQuL8YcEmKVp/TCnR+yUdZA==}
@@ -11961,7 +11995,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
     dev: false
@@ -11973,7 +12007,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -11987,7 +12021,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
     dev: false
@@ -11999,7 +12033,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -12013,7 +12047,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0
       classnames: 2.3.2
       rc-trigger: 5.3.4
@@ -12027,7 +12061,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
       '@rc-component/trigger': 1.6.2_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
@@ -14565,7 +14599,7 @@ packages:
   /@types/http-proxy/1.17.9:
     resolution: {integrity: sha512-QsbSjA/fSk7xB+UXlCT3wHBy5ai9wOcNDWwZAtud+jXhwOM3l+EYZh8Lng4+/6n8uar0J7xILzqftJdJ/Wdfkw==}
     dependencies:
-      '@types/node': 14.18.35
+      '@types/node': 18.11.17
 
   /@types/inquirer/8.2.1:
     resolution: {integrity: sha512-wKW3SKIUMmltbykg4I5JzCVzUhkuD9trD6efAmYgN2MrSntY0SMRQzEnD3mkyJ/rv9NLbTC7g3hKKE86YwEDLw==}
@@ -14612,7 +14646,6 @@ packages:
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
-    dev: true
 
   /@types/jest/29.4.4:
     resolution: {integrity: sha512-qezb65VIH7X1wobSnd6Lvdve7PXSyQRa3dljTkhTtDhi603RvHQCshSlJcuyMLHJpeHgY3NKwvDJWxMOOHxGDQ==}
@@ -16562,7 +16595,7 @@ packages:
   /babel-plugin-macros/2.8.0:
     resolution: {integrity: sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       cosmiconfig: 6.0.0
       resolve: 1.22.1
     dev: false
@@ -19327,7 +19360,7 @@ packages:
   /dom-helpers/5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       csstype: 3.1.0
 
   /dom-serializer/1.4.1:
@@ -22119,7 +22152,7 @@ packages:
       vue-template-compiler:
         optional: true
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       chalk: 2.4.2
       micromatch: 3.1.10
       minimatch: 3.1.2
@@ -25136,7 +25169,7 @@ packages:
     resolution: {integrity: sha512-Kijeg9Dag6CKtIDA7O21zNTACqD5MD/8HfIV8pdD94vFyFuer52SigdC3IQMhab3vACxXMiFk+yMHNdbqtyTGA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@jest/types': 29.5.0
       '@types/stack-utils': 2.0.1
       chalk: 4.1.2
@@ -25359,7 +25392,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.5.0
-      '@types/node': 14.18.35
+      '@types/node': 18.11.17
       chalk: 4.1.2
       ci-info: 3.3.2
       graceful-fs: 4.2.10
@@ -25402,7 +25435,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 14.18.35
+      '@types/node': 18.11.17
       merge-stream: 2.0.0
       supports-color: 8.1.1
 
@@ -25410,7 +25443,7 @@ packages:
     resolution: {integrity: sha512-NcrQnevGoSp4b5kg+akIpthoAFHxPBcb5P6mYPY0fUNT+sSvmtu6jlkEle3anczUKIKEbMxFimk9oTP/tpIPgA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@types/node': 14.18.35
+      '@types/node': 18.11.17
       jest-util: 29.5.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
@@ -25948,7 +25981,7 @@ packages:
     resolution: {integrity: sha512-prXSYk799h3GY3iOWnC6ZigYzMPjxN2svgjJ9shk7oMadSNX3wXy0B6F32PMJv7qtMnrIbUxoEHzbutvxR2LBQ==}
     engines: {node: '>=6.0.0', npm: '>=6.0.0', yarn: '>=1.0.0'}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       app-root-dir: 1.0.2
       core-js: 3.27.2
       dotenv: 8.6.0
@@ -28329,7 +28362,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -29922,7 +29955,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       dom-align: 1.12.3
       lodash: 4.17.21
@@ -29935,7 +29968,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       dom-align: 1.12.3
       lodash: 4.17.21
@@ -29950,7 +29983,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       array-tree-filter: 2.1.0
       classnames: 2.3.2
       rc-select: 14.1.8
@@ -29963,7 +29996,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       array-tree-filter: 2.1.0
       classnames: 2.3.2
       rc-select: 14.1.8_biqbaboplfbrettd7655fr4n2y
@@ -29979,7 +30012,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       array-tree-filter: 2.1.0
       classnames: 2.3.2
       rc-select: 14.2.0
@@ -29993,7 +30026,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       array-tree-filter: 2.1.0
       classnames: 2.3.2
       rc-select: 14.3.0_biqbaboplfbrettd7655fr4n2y
@@ -30009,7 +30042,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
 
   /rc-checkbox/2.3.2_biqbaboplfbrettd7655fr4n2y:
@@ -30018,7 +30051,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -30029,7 +30062,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -30041,7 +30074,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30056,7 +30089,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -30069,7 +30102,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30083,7 +30116,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -30094,7 +30127,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30108,7 +30141,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0
       classnames: 2.3.2
       rc-motion: 2.6.3
@@ -30121,7 +30154,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
@@ -30136,7 +30169,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -30146,7 +30179,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30159,7 +30192,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0
       classnames: 2.3.2
       rc-motion: 2.6.3
@@ -30172,7 +30205,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
@@ -30212,7 +30245,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       async-validator: 4.2.5
       rc-util: 5.29.2
 
@@ -30223,7 +30256,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       async-validator: 4.2.5
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30237,7 +30270,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       async-validator: 4.2.5
       rc-util: 5.29.2
     dev: false
@@ -30249,7 +30282,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       async-validator: 4.2.5
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30262,7 +30295,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0
       classnames: 2.3.2
       rc-dialog: 9.0.2
@@ -30276,7 +30309,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/portal': 1.1.0_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       rc-dialog: 9.0.2_biqbaboplfbrettd7655fr4n2y
@@ -30292,7 +30325,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-dialog: 8.9.0
       rc-util: 5.29.2
@@ -30303,7 +30336,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-dialog: 8.9.0_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30317,7 +30350,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -30327,7 +30360,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30340,7 +30373,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/mini-decimal': 1.0.1
       classnames: 2.3.2
       rc-util: 5.29.2
@@ -30352,7 +30385,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/mini-decimal': 1.0.1
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30366,7 +30399,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -30376,7 +30409,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30389,7 +30422,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
     dev: false
@@ -30400,7 +30433,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30413,7 +30446,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-menu: 9.8.2
       rc-textarea: 0.4.7
@@ -30427,7 +30460,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-menu: 9.6.0
       rc-textarea: 0.3.7
@@ -30440,7 +30473,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-menu: 9.6.0_biqbaboplfbrettd7655fr4n2y
       rc-textarea: 0.3.7_biqbaboplfbrettd7655fr4n2y
@@ -30456,7 +30489,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-input: 0.2.2_biqbaboplfbrettd7655fr4n2y
       rc-menu: 9.8.2_biqbaboplfbrettd7655fr4n2y
@@ -30473,7 +30506,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-overflow: 1.2.8
@@ -30487,7 +30520,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
@@ -30504,7 +30537,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-overflow: 1.2.8
@@ -30519,7 +30552,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-overflow: 1.2.8
@@ -30533,7 +30566,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
@@ -30549,7 +30582,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -30559,7 +30592,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30572,7 +30605,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -30584,7 +30617,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30599,7 +30632,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -30612,7 +30645,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30626,7 +30659,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1
       rc-util: 5.29.2
@@ -30637,7 +30670,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30650,7 +30683,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
 
   /rc-pagination/3.1.17_biqbaboplfbrettd7655fr4n2y:
@@ -30659,7 +30692,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -30671,7 +30704,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
     dev: false
 
@@ -30681,7 +30714,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -30694,7 +30727,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       date-fns: 2.29.3
       dayjs: 1.11.3
@@ -30710,7 +30743,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       date-fns: 2.29.3
       dayjs: 1.11.3
@@ -30739,7 +30772,7 @@ packages:
       moment:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       dayjs: 1.11.3
       rc-trigger: 5.3.4
@@ -30764,7 +30797,7 @@ packages:
       moment:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       dayjs: 1.11.3
       rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
@@ -30779,7 +30812,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -30789,7 +30822,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30802,7 +30835,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
     dev: false
@@ -30813,7 +30846,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30827,7 +30860,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -30838,7 +30871,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30850,7 +30883,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
       resize-observer-polyfill: 1.5.1
@@ -30862,7 +30895,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -30900,7 +30933,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -30912,7 +30945,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -30923,7 +30956,7 @@ packages:
       react: '>=16.0.0'
       react-dom: '>=16.0.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -30937,7 +30970,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-overflow: 1.2.8
@@ -30952,7 +30985,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-overflow: 1.2.8_biqbaboplfbrettd7655fr4n2y
@@ -30970,7 +31003,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-overflow: 1.2.8
@@ -30986,7 +31019,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/trigger': 1.6.2_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
@@ -31004,7 +31037,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-tooltip: 5.2.2
       rc-util: 5.29.2
@@ -31017,7 +31050,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-tooltip: 5.2.2_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -31033,7 +31066,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -31047,7 +31080,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -31058,7 +31091,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -31072,7 +31105,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
     dev: false
@@ -31084,7 +31117,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -31097,7 +31130,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
 
@@ -31107,7 +31140,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -31120,7 +31153,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2
     dev: false
@@ -31131,7 +31164,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -31145,7 +31178,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1
       rc-util: 5.29.2
@@ -31158,7 +31191,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -31174,7 +31207,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/context': 1.3.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1
@@ -31188,7 +31221,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/context': 1.3.0_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       rc-resize-observer: 1.3.1_biqbaboplfbrettd7655fr4n2y
@@ -31204,7 +31237,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-dropdown: 4.0.1
       rc-menu: 9.6.0
@@ -31218,7 +31251,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-dropdown: 4.0.1_biqbaboplfbrettd7655fr4n2y
       rc-menu: 9.6.0_biqbaboplfbrettd7655fr4n2y
@@ -31235,7 +31268,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-dropdown: 4.0.1
       rc-menu: 9.8.2
@@ -31251,7 +31284,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-dropdown: 4.0.1_biqbaboplfbrettd7655fr4n2y
       rc-menu: 9.8.2_biqbaboplfbrettd7655fr4n2y
@@ -31268,7 +31301,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1
       rc-util: 5.29.2
@@ -31280,7 +31313,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -31295,7 +31328,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-resize-observer: 1.3.1
       rc-util: 5.29.2
@@ -31308,7 +31341,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-input: 0.2.2_biqbaboplfbrettd7655fr4n2y
       rc-resize-observer: 1.3.1_biqbaboplfbrettd7655fr4n2y
@@ -31323,7 +31356,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       rc-trigger: 5.3.4
 
   /rc-tooltip/5.1.1_biqbaboplfbrettd7655fr4n2y:
@@ -31332,7 +31365,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -31344,7 +31377,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-trigger: 5.3.4
 
@@ -31354,7 +31387,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-trigger: 5.3.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -31367,7 +31400,7 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       '@rc-component/trigger': 1.6.2_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       react: 18.2.0
@@ -31380,7 +31413,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-select: 14.1.8
       rc-tree: 5.6.5
@@ -31392,7 +31425,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-select: 14.1.8_biqbaboplfbrettd7655fr4n2y
       rc-tree: 5.6.5_biqbaboplfbrettd7655fr4n2y
@@ -31407,7 +31440,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-select: 14.2.0
       rc-tree: 5.7.2
@@ -31420,7 +31453,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-select: 14.3.0_biqbaboplfbrettd7655fr4n2y
       rc-tree: 5.7.2_biqbaboplfbrettd7655fr4n2y
@@ -31436,7 +31469,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -31449,7 +31482,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -31465,7 +31498,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3
       rc-util: 5.29.2
@@ -31479,7 +31512,7 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       classnames: 2.3.2
       rc-motion: 2.6.3_biqbaboplfbrettd7655fr4n2y
       rc-util: 5.29.2_biqbaboplfbrettd7655fr4n2y
@@ -31611,7 +31644,7 @@ packages:
     peerDependencies:
       react: ^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       react: 18.2.0
 
   /react-docgen-typescript/2.2.2_typescript@4.9.3:
@@ -31636,7 +31669,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.5
       '@babel/generator': 7.20.5
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
       ast-types: 0.14.2
       commander: 2.20.3
       doctrine: 3.0.0
@@ -32115,7 +32148,7 @@ packages:
   /regenerator-transform/0.15.0:
     resolution: {integrity: sha512-LsrGtPmbYg19bcPHwdtmXwbW+TqNvtY4riE3P83foeHRroMbH6/2ddFBfab3t7kbzc7v7p4wbkIecHImqt0QNg==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.18.0
 
   /regex-not/1.0.2:
     resolution: {integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==}
@@ -33817,6 +33850,7 @@ packages:
   /strip-indent/1.0.1:
     resolution: {integrity: sha512-I5iQq6aFMM62fBEAIB/hXzwJD6EEZ0xEGCX2t7oXqaKPIRgt4WruAQ285BISgdkP+HLGWyeGmNJcpIwFeRYRUA==}
     engines: {node: '>=0.10.0'}
+    hasBin: true
     dependencies:
       get-stdin: 4.0.1
     dev: false
