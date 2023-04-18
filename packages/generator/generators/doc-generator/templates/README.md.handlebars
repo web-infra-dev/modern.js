@@ -1,22 +1,33 @@
-# Your Website
+# Modern.js Website
 
 {{#unless isMonorepoSubProject}}
-## Prerequisites
+## Setup
 
-1. [Node.js LTS](https://github.com/nodejs/Release)
-    * [Automatically call nvm use](https://github.com/nvm-sh/nvm#deeper-shell-integration)
+Install the dependencies:
+
+```bash
+{{packageManager}} install
+```
 
 {{/unless}}
 ## Get Started
 
-按开发环境的要求，运行和调试项目
+Start the dev server:
 
 ```
 {{packageManager}} dev
 ```
 
-按生产环境的要求，构建项目
+Build the document site for production:
 
 ```
 {{packageManager}} build
 ```
+
+Preview the production build locally:
+
+```
+{{packageManager}} serve
+```
+
+For more information, see the [Modern.js Doc documentation](https://modernjs.dev/doc-tools).
