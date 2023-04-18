@@ -10,7 +10,7 @@ const noDevTools = `There are no DevTools available, you can learn about them an
 export const EN_LOCALE = {
   command: {
     build: {
-      describe: 'command for building module',
+      describe: 'build the module for production',
       watch: 'building module in watch mode',
       tsconfig: 'Specify a path to the tsconfig.json file',
       styleOnly: 'only build style',
@@ -22,11 +22,11 @@ export const EN_LOCALE = {
       config: 'specify config file',
     },
     dev: {
-      describe: 'start dev server',
+      describe: 'run and debug the module',
       tsconfig: 'Specify a path to the tsconfig.json file',
     },
     new: {
-      describe: 'generator runner for modern project',
+      describe: 'enable optional features',
       debug: 'using debug mode to log something',
       config: 'set default generator config(json string)',
       distTag: `use specified tag version for it's generator`,
