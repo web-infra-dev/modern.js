@@ -169,6 +169,26 @@ export default () => {
 
 在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
 
+### 动态可选路由
+
+通过 `[$]` 命名的文件目录，生成的路由会作为动态路由。例如以下文件目录：
+
+```
+└── routes
+    ├── user
+    │   └── [id$]
+    │       └── page.tsx
+    ├── blog
+    │   └── page.tsx
+    └── page.tsx
+```
+
+`routes/user/[id$]/page.tsx` 文件会转为 `/user/:id?` 路由。`/user` 下的所有路由都会匹配到该路由，并且 `id` 参数可选存在。通常在区分**创建**于**编辑**时，可以使用该路由。
+
+在组件中，可以通过 [useParams](/apis/app/runtime/router/router#useparams) 获取对应命名的参数。
+
+在 loader 中，params 会作为 [loader](/guides/basic-features/data-fetch#loader-函数) 的入参，通过 `params.xxx` 可以获取。
+
 ### 通配路由
 
 如果在 routes 目录下创建 `$.tsx` 文件，该文件会作为通配路由组件，当没有匹配的路由时，会渲染该路由组件。
