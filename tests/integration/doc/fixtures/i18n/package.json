@@ -1,5 +1,6 @@
 {
   "name": "i18n-doc",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@modern-js/doc-tools": "workspace:*"

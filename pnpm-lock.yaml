@@ -83,11 +83,11 @@ importers:
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@rspack/core': 0.1.7
-      '@rspack/dev-client': 0.1.7
-      '@rspack/dev-middleware': 0.1.7
-      '@rspack/plugin-html': 0.1.7
-      '@rspack/postcss-loader': 0.1.7
+      '@rspack/core': 0.1.8
+      '@rspack/dev-client': 0.1.8
+      '@rspack/dev-middleware': 0.1.8
+      '@rspack/plugin-html': 0.1.8
+      '@rspack/postcss-loader': 0.1.8
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
       antd: '4'
@@ -102,11 +102,11 @@ importers:
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
-      '@rspack/core': 0.1.7
-      '@rspack/dev-client': 0.1.7
-      '@rspack/dev-middleware': 0.1.7
-      '@rspack/plugin-html': 0.1.7
-      '@rspack/postcss-loader': 0.1.7
+      '@rspack/core': 0.1.8
+      '@rspack/dev-client': 0.1.8
+      '@rspack/dev-middleware': 0.1.8
+      '@rspack/plugin-html': 0.1.8
+      '@rspack/postcss-loader': 0.1.8
       caniuse-lite: 1.0.30001451
       core-js: 3.27.2
       rspack-plugin-virtual-module: 0.1.0
@@ -483,41 +483,6 @@ importers:
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
 
-  packages/cli/babel-preset-module:
-    specifiers:
-      '@babel/core': ^7.18.0
-      '@babel/plugin-proposal-class-static-block': ^7.18.0
-      '@babel/plugin-proposal-do-expressions': ^7.16.7
-      '@babel/plugin-proposal-function-sent': ^7.18.0
-      '@babel/plugin-proposal-throw-expressions': ^7.16.7
-      '@babel/runtime': ^7.18.0
-      '@modern-js/babel-preset-lib': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@types/babel__core': ^7.1.15
-      '@types/jest': ^29
-      '@types/node': ^14
-      jest: ^29
-      typescript: ^4
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/plugin-proposal-class-static-block': 7.18.6_@babel+core@7.20.5
-      '@babel/plugin-proposal-do-expressions': 7.18.6_@babel+core@7.20.5
-      '@babel/plugin-proposal-function-sent': 7.18.6_@babel+core@7.20.5
-      '@babel/plugin-proposal-throw-expressions': 7.18.6_@babel+core@7.20.5
-      '@babel/runtime': 7.18.6
-      '@modern-js/babel-preset-lib': link:../babel-preset-lib
-      '@modern-js/utils': link:../../toolkit/utils
-    devDependencies:
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
-      '@types/node': 14.18.35
-      jest: 29.5.0_@types+node@14.18.35
-      typescript: 4.9.3
-
   packages/cli/core:
     specifiers:
       '@modern-js/babel-preset-app': workspace:*
@@ -578,7 +543,6 @@ importers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-rspack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/doc-plugin-last-updated': workspace:*
       '@modern-js/mdx-rs-binding': ^0.1.3
       '@modern-js/plugin-tailwindcss': workspace:*
       '@modern-js/plugin-testing': workspace:*
@@ -665,7 +629,6 @@ importers:
       '@mdx-js/react': 2.2.1_react@18.2.0
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-rspack-provider': link:../../builder/builder-rspack-provider
-      '@modern-js/doc-plugin-last-updated': link:../doc-plugin-last-updated
       '@modern-js/mdx-rs-binding': 0.1.3
       '@modern-js/remark-container': link:../../toolkit/remark-container
       '@modern-js/utils': link:../../toolkit/utils
@@ -778,36 +741,6 @@ importers:
       typescript: 4.9.3
       vitest: 0.21.1
       yaml-front-matter: 4.1.1
-
-  packages/cli/doc-plugin-last-updated:
-    specifiers:
-      '@modern-js/module-tools': workspace:*
-      '@modern-js/tsconfig': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/build': workspace:*
-      '@types/node': ^18.11.17
-      '@types/react': ^18
-      '@types/react-dom': ^18
-      '@types/yaml-front-matter': ^4.1.0
-      husky: ^8
-      lint-staged: ~13.1.0
-      prettier: ^2.6.2
-      typescript: ^4.8.4
-      vitest: 0.21.1
-    devDependencies:
-      '@modern-js/module-tools': link:../../solutions/module-tools
-      '@modern-js/tsconfig': link:../../review/tsconfig
-      '@modern-js/utils': link:../../toolkit/utils
-      '@scripts/build': link:../../../scripts/build
-      '@types/node': 18.11.17
-      '@types/react': 18.0.21
-      '@types/react-dom': 18.0.6
-      '@types/yaml-front-matter': 4.1.0
-      husky: 8.0.1
-      lint-staged: 13.1.4
-      prettier: 2.8.7
-      typescript: 4.9.5
-      vitest: 0.21.1
 
   packages/cli/plugin-bff:
     specifiers:
@@ -7051,17 +6984,6 @@ packages:
       - supports-color
     dev: false
 
-  /@babel/plugin-proposal-do-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-ddToGCONJhCuL+l4FhtGnKl5ZYCj9fDVFiqiCdQDpeIbVn/NvMeSib+7T1/rk08jRafae4qNiP8OnJyuqlsuYA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-      '@babel/plugin-syntax-do-expressions': 7.18.6_@babel+core@7.20.5
-    dev: false
-
   /@babel/plugin-proposal-dynamic-import/7.18.6_@babel+core@7.18.0:
     resolution: {integrity: sha512-1auuwmK+Rz13SJj36R+jqFPMJWyKEDd7lLSdOj4oJK0UTgGueSAtkrCvz9ewmgyU/P941Rv2fQwZJN8s6QruXw==}
     engines: {node: '>=6.9.0'}
@@ -7126,20 +7048,6 @@ packages:
       '@babel/core': 7.20.5
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-syntax-export-namespace-from': 7.8.3_@babel+core@7.20.5
-    dev: false
-
-  /@babel/plugin-proposal-function-sent/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-UdaOKPOLPt0O+Xu26tnw6oAZMLXhk+yMrXOzn6kAzTHBnWHJsoN1hlrgxFAQ+FRLS0ql1oYIQ2phvoFzmN3GMw==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-      '@babel/helper-wrap-function': 7.19.0
-      '@babel/plugin-syntax-function-sent': 7.18.6_@babel+core@7.20.5
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@babel/plugin-proposal-json-strings/7.18.6_@babel+core@7.18.0:
@@ -7393,17 +7301,6 @@ packages:
       - supports-color
     dev: false
 
-  /@babel/plugin-proposal-throw-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-WHOrJyhGoGrdtW480L79cF7Iq/gZDZ/z6OqK7mVyFR5I37dTpog/wNgb6hmaM3HYZtULEJl++7VaMWkNZsOcHg==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-      '@babel/plugin-syntax-throw-expressions': 7.18.6_@babel+core@7.20.5
-    dev: false
-
   /@babel/plugin-proposal-unicode-property-regex/7.18.6_@babel+core@7.18.0:
     resolution: {integrity: sha512-2BShG/d5yoZyXZfVePH91urL5wTG6ASZU9M4o03lKK8u8UW1y08OMttBSOADTcJrnPMpvDXRG3G8fyLh4ovs8w==}
     engines: {node: '>=4'}
@@ -7497,16 +7394,6 @@ packages:
       '@babel/core': 7.20.5
       '@babel/helper-plugin-utils': 7.20.2
 
-  /@babel/plugin-syntax-do-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-kTogvOsjBTVOSZtkkziiXB5hwGXqwhq2gBXDaiWVruRLDT7C2GqfbsMnicHJ7ePq2GE8UJeWS34YbNP6yDhwUA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: false
-
   /@babel/plugin-syntax-dynamic-import/7.8.3_@babel+core@7.18.0:
     resolution: {integrity: sha512-5gdGbFon+PszYzqs83S3E5mpi7/y/8M9eC90MRTZfduQOYW76ig6SOSPNe41IG5LoP3FGBn2N0RjVDSQiS94kQ==}
     peerDependencies:
@@ -7554,16 +7441,6 @@ packages:
 
   /@babel/plugin-syntax-flow/7.18.6_@babel+core@7.20.5:
     resolution: {integrity: sha512-LUbR+KNTBWCUAqRG9ex5Gnzu2IOkt8jRJbHHXFT9q+L9zm7M/QQbEqXyw1n1pohYvOyWC8CjeyjrSaIwiYjK7A==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: false
-
-  /@babel/plugin-syntax-function-sent/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-f3OJHIlFIkg+cP1Hfo2SInLhsg0pz2Ikmgo7jMdIIKC+3jVXQlHB0bgSapOWxeWI0SU28qIWmfn5ZKu1yPJHkg==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -7787,16 +7664,6 @@ packages:
 
   /@babel/plugin-syntax-private-property-in-object/7.14.5_@babel+core@7.20.5:
     resolution: {integrity: sha512-0wVnp9dxJ72ZUJDV27ZfbSj6iHLoytYZmh3rFcxNnvsJF3ktkzLDZPy/mA17HGsaQT3/DQsWYX1f1QGWkCoVUg==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: false
-
-  /@babel/plugin-syntax-throw-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-rp1CqEZXGv1z1YZ3qYffBH3rhnOxrTwQG8fh2yqulTurwv9zu3Gthfd+niZBLSOi1rY6146TgF+JmVeDXaX4TQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -12216,99 +12083,100 @@ packages:
       rollup: 2.79.0
     dev: true
 
-  /@rspack/binding-darwin-arm64/0.1.7:
-    resolution: {integrity: sha512-ORme40lJW2/XDQ1ZBd9SMul+FhU5JL6xqbhRUq/9L0pfc1snxVazxum1YSxzJ3kvTKQBZv+h9St9etuOPaPYFA==}
+  /@rspack/binding-darwin-arm64/0.1.8:
+    resolution: {integrity: sha512-H3Q9B32hJk8oihsD2TXFPzJ7mWqTFivtbB0Sigq/pJnQsyuOR7fzJE9RvA4KxWOgUF3gr8JSZJigKu/iLk7tJg==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-darwin-x64/0.1.7:
-    resolution: {integrity: sha512-97o3vIZJbsItXJIFH8bH9SNSD/dVzCRaJ4x8CCuRDRjHSJI3WxJBhrq7NIG4UUBBr+eXqKqRUdY37Oz8z5QTkQ==}
+  /@rspack/binding-darwin-x64/0.1.8:
+    resolution: {integrity: sha512-1c4GmjgyYUGHof5J8qZnEEXtegTGU/PMXKYK8Da/wfDIO4Tklh5ZCw+T4TNSFigLnzj/SGq7bY+bbE4RM3b1mw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-arm64-gnu/0.1.7:
-    resolution: {integrity: sha512-aMSOBNiHX5QCD3lum6ac1V4NaFGkgqEM3+JDzDUJsGJ2kf3z/WGJE9TLfcouZs2tOogR56iAQfwR2IVzqeNomQ==}
+  /@rspack/binding-linux-arm64-gnu/0.1.8:
+    resolution: {integrity: sha512-xM6IhCZIrCcJjPNpllvlvsekesRT1R9auK07v7vPVJV0tcBJKj8JFqIEOTsjU4a8KK3rr2ImgMSYwpUC/0ORrg==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-arm64-musl/0.1.7:
-    resolution: {integrity: sha512-dsMz6GKeGiLElL4Jri/r/M67C4dHWJXyd6O04LCJ4tPF4IuM+vDhlQctK6ugdtVEn1kvmJuKu8xC/3wbptBIjA==}
+  /@rspack/binding-linux-arm64-musl/0.1.8:
+    resolution: {integrity: sha512-GwP+c917UZ0eqUL0SzzQRByPv6YgJx0M/jx0odjxPmoovrQ5SuJXepDaVnX+kMFpiBJbbcOFZ00orav0SUuuhA==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-x64-gnu/0.1.7:
-    resolution: {integrity: sha512-hdyD152UDzCSqWXoTuIQemR1rUYYpOusmrHRLmsfHFJ3q++tcR+Bh5r76M2tUpXVaclUFBelyXE4YGFPMyURzg==}
+  /@rspack/binding-linux-x64-gnu/0.1.8:
+    resolution: {integrity: sha512-t//YucSLoUWIHICa6o3beybdTghie1PB4aEgjiB8qe36a7JdSTB/NvoSdJMZ/i5Yi4NN3ZVoyBcnzeF78aC9Xg==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-x64-musl/0.1.7:
-    resolution: {integrity: sha512-+YbKgHKUO/kTy0giyJwkkK45079GE7ezNQT3bGOfWX2sgXAxhp9Oxfd0zZ2v8ki6t4wj8lSFIFKiBLKkH1b2kQ==}
+  /@rspack/binding-linux-x64-musl/0.1.8:
+    resolution: {integrity: sha512-Ov7DxKrTRwOjiB2vltrNXqfaoBjv+wpcIVNiHSawfAGQBV/yQyEvoqaIMp5oAt+b9cH/PkPgQAYF7ZdiJI742g==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-win32-arm64-msvc/0.1.7:
-    resolution: {integrity: sha512-TKhfqFCW+kcKdUuCswcUCzJxmmkYMgjFETJsgOcXL2FksBGDv34pfMsrx5TjmVH8FitPyjEIecS/fURnGYfzOw==}
+  /@rspack/binding-win32-arm64-msvc/0.1.8:
+    resolution: {integrity: sha512-Y7lWi3AqR7kLYHOHf10mVNzdg5S/ZSGGh5U6Hi1u/cL3eGg3hfWnXLrHSs4gxUv09GyLMbLbQWZFtsKNLhmi9g==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-win32-ia32-msvc/0.1.7:
-    resolution: {integrity: sha512-E3KsLl8iwEw8KiycLqHtnytSMai1bm849rFOEumFVV3j8AwE6d9MogRu/bt2jBO1picaoytYQc02GZ15rTpOcA==}
+  /@rspack/binding-win32-ia32-msvc/0.1.8:
+    resolution: {integrity: sha512-DY03Kgbp7wJ0vkDg9Enwn2bJp8gxgHVz9ucKzh//aWgWqT468Zof6Yi1+DPK2qs5vmW+6tfcLjTxJWW7UpvUeQ==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-win32-x64-msvc/0.1.7:
-    resolution: {integrity: sha512-AK3Kjkd1z5x5r+UjqATSUsEIxBDk7VCzUF9DADJJhRBcq6Gmw2KompKfFu0OvfooLjdgfv0+22VJsuTF9nR0pw==}
+  /@rspack/binding-win32-x64-msvc/0.1.8:
+    resolution: {integrity: sha512-CPoOFtgidTlMqwmrN/C60LsH5fRBbizpDH+u0TCftAPb3VwMvE6toLCkVl4vlbIVtmonErJLO9KKKbINt6d7bQ==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding/0.1.7:
-    resolution: {integrity: sha512-wQPbkHm+owedlO+SnIYhr1Cjuadx2vxGMKwq+cpw8Aty8CgiR2xCNSISUn9RIRfntxfrT9G0Ym7X/W2DV0o7sA==}
+  /@rspack/binding/0.1.8:
+    resolution: {integrity: sha512-ct8OX1GjSPfNlrL15mctx73KLh5SourHGkmkpVfSF6GS1rhT3DfY2VNFPSiuouybppIZ/KE08lNOHDw9quPaGQ==}
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': 0.1.7
-      '@rspack/binding-darwin-x64': 0.1.7
-      '@rspack/binding-linux-arm64-gnu': 0.1.7
-      '@rspack/binding-linux-arm64-musl': 0.1.7
-      '@rspack/binding-linux-x64-gnu': 0.1.7
-      '@rspack/binding-linux-x64-musl': 0.1.7
-      '@rspack/binding-win32-arm64-msvc': 0.1.7
-      '@rspack/binding-win32-ia32-msvc': 0.1.7
-      '@rspack/binding-win32-x64-msvc': 0.1.7
+      '@rspack/binding-darwin-arm64': 0.1.8
+      '@rspack/binding-darwin-x64': 0.1.8
+      '@rspack/binding-linux-arm64-gnu': 0.1.8
+      '@rspack/binding-linux-arm64-musl': 0.1.8
+      '@rspack/binding-linux-x64-gnu': 0.1.8
+      '@rspack/binding-linux-x64-musl': 0.1.8
+      '@rspack/binding-win32-arm64-msvc': 0.1.8
+      '@rspack/binding-win32-ia32-msvc': 0.1.8
+      '@rspack/binding-win32-x64-msvc': 0.1.8
     dev: false
 
-  /@rspack/core/0.1.7:
-    resolution: {integrity: sha512-RSGWIX5asfPhQbuHirqxsbRAOyNiB8OsHrXp28bbVMw25uPUnVFhipa+uhULCNjFCT7fHOkNVEr9zx8QPuwPwg==}
+  /@rspack/core/0.1.8:
+    resolution: {integrity: sha512-8eGAUjr/b0wKegm5qtS13CKrEBjF5Q5iQ+GTmBvXu86rtKgt9seQGKyaBLZp6AMzObi19yThRLsle8jNvjSfug==}
     dependencies:
-      '@rspack/binding': 0.1.7
-      '@rspack/dev-client': 0.1.7_react-refresh@0.14.0
-      '@swc/helpers': 0.4.13
+      '@rspack/binding': 0.1.8
+      '@rspack/dev-client': 0.1.8_react-refresh@0.14.0
+      '@swc/helpers': 0.5.0
       browserslist: 4.21.4
+      compare-versions: 6.0.0-rc.1
       enhanced-resolve: 5.12.0
       graceful-fs: 4.2.10
       neo-async: 2.6.2
@@ -12333,8 +12201,8 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-client/0.1.7:
-    resolution: {integrity: sha512-NhW+bGZN5TGRQncE+HqA5EwkfyO6DEGMLlIpmDlmJtA7ut5islwKCRX/B109D402DpwlcepVWzf+qOH+SA6Auw==}
+  /@rspack/dev-client/0.1.8:
+    resolution: {integrity: sha512-BDkCTFclZlvZcFORhoHGkgLjfn0xzTrSPsMBMrz2ErrMFZknCL42Fbv7KqP8Ek5PSsatBOvIJ6p51hdH9HOiqg==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
@@ -12362,8 +12230,8 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-client/0.1.7_react-refresh@0.14.0:
-    resolution: {integrity: sha512-NhW+bGZN5TGRQncE+HqA5EwkfyO6DEGMLlIpmDlmJtA7ut5islwKCRX/B109D402DpwlcepVWzf+qOH+SA6Auw==}
+  /@rspack/dev-client/0.1.8_react-refresh@0.14.0:
+    resolution: {integrity: sha512-BDkCTFclZlvZcFORhoHGkgLjfn0xzTrSPsMBMrz2ErrMFZknCL42Fbv7KqP8Ek5PSsatBOvIJ6p51hdH9HOiqg==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
@@ -12392,10 +12260,10 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-middleware/0.1.7:
-    resolution: {integrity: sha512-upxbL7jeJyYfr3bNde3RHs6nZg3CiJURTuMH00VdOsydXbbWlGAAMjmkOKBmOuj4czKvvvFzdivms3Kyjf5bMQ==}
+  /@rspack/dev-middleware/0.1.8:
+    resolution: {integrity: sha512-b0hBTw0QYi6hreGsgia2Q5Pei82IWmdYQN0p7BVoNfDC4x2MFDqW7JxEvU6X+r+nnPQWeZzDcR3OvZgru8qyHQ==}
     dependencies:
-      '@rspack/core': 0.1.7
+      '@rspack/core': 0.1.8
       mime-types: 2.1.35
       webpack-dev-middleware: 6.0.2
     transitivePeerDependencies:
@@ -12415,10 +12283,10 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/plugin-html/0.1.7:
-    resolution: {integrity: sha512-Msq41PFQeEjE8zooxtgRWdvGNNqMRt1a2KouWxMqwBhk3WxX+r2o9aZPgxqPvwcqUwHEpoTKnr3ZML9VUHXpFQ==}
+  /@rspack/plugin-html/0.1.8:
+    resolution: {integrity: sha512-pmxqkP7Y2v17VN1DqjN9mk3au9tyUru8AeK8IC7jnGdWjejfLrBBmEJSGGHmBRT8QLAe3HS+MSX+SWZqdGSSlw==}
     dependencies:
-      '@rspack/core': 0.1.7
+      '@rspack/core': 0.1.8
       '@types/html-minifier-terser': 7.0.0
       html-minifier-terser: 7.0.0
       lodash.template: 4.5.0
@@ -12440,10 +12308,10 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/postcss-loader/0.1.7:
-    resolution: {integrity: sha512-ANhqpSgRRvIAVxZInSeiWZ1ytPAXqZjYPBe8o85Wa4QGS/6DW4m0ORWBUe70/U9D5fPyy/i4WAubt8gi4GjVHw==}
+  /@rspack/postcss-loader/0.1.8:
+    resolution: {integrity: sha512-opgTSns9AReJrEQw42g4aF689JzhANKCI9+OFj2+7gfEHYMJzYAqHyDpxetKxInSm7qZ3jX76SNv55RfOk6WYA==}
     dependencies:
-      '@rspack/binding': 0.1.7
+      '@rspack/binding': 0.1.8
       postcss: 8.4.21
       postcss-modules: 5.0.0_postcss@8.4.21
       postcss-pxtorem: 6.0.0_postcss@8.4.21
@@ -14206,12 +14074,6 @@ packages:
       '@swc/core-win32-ia32-msvc': 1.3.42
       '@swc/core-win32-x64-msvc': 1.3.42
 
-  /@swc/helpers/0.4.13:
-    resolution: {integrity: sha512-WOoZMSqpmUgL72xOeaWcU9IG7C6t5Wh1e8NGpSyBvmN5BSCXleK4/PLS6Oko1i/Lvn/yGYOv62bxlfsDvmRurg==}
-    dependencies:
-      tslib: 2.4.0
-    dev: false
-
   /@swc/helpers/0.5.0:
     resolution: {integrity: sha512-SjY/p4MmECVVEWspzSRpQEM3sjR17sP8PbGxELWrT+YZMBfiUyt1MRUNjMV23zohwlG2HYtCQOsCwsTHguXkyg==}
     dependencies:
@@ -15646,6 +15508,7 @@ packages:
   /acorn/6.4.2:
     resolution: {integrity: sha512-XtGIhXwF8YM8bJhGxG5kXgjkEuNGLTkoYqVE+KMR+aspr4KGYmKYg7yUe3KghyQ9yheNwLnjmzh/7+gfDBmHCQ==}
     engines: {node: '>=0.4.0'}
+    hasBin: true
     dev: false
 
   /acorn/7.4.1:
@@ -18086,6 +17949,10 @@ packages:
       array-ify: 1.0.0
       dot-prop: 5.3.0
     dev: true
+
+  /compare-versions/6.0.0-rc.1:
+    resolution: {integrity: sha512-cFhkjbGY1jLFWIV7KegECbfuyYPxSGvgGkdkfM+ibboQDoPwg2FRHm5BSNTOApiauRBzJIQH7qvOJs2sW5ueKQ==}
+    dev: false
 
   /component-emitter/1.3.0:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}

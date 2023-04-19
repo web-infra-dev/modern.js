@@ -58,7 +58,7 @@ module.exports = {
 
 ## webpack 配置文件
 
-在调试模式下，Builder 还会自动生成 `dist/webpack.config.web.js` 文件，这里面包含了最终生成的 webpack 配置。在这个文件里，你可以了解到 Builder 最终传递给 webpack 的配置里包含了哪些内容。
+如果当前项目是使用 webpack 进行构建的，那么在调试模式下，Builder 还会自动生成 `dist/webpack.config.web.js` 文件，这里面包含了最终生成的 webpack 配置。在这个文件里，你可以了解到 Builder 最终传递给 webpack 的配置里包含了哪些内容。
 
 该文件的大致结构如下：
 
@@ -80,3 +80,26 @@ module.exports = {
 此外，如果项目配置了额外的构建产物类型，比如开启了框架的 SSR 能力（对应额外的 Node.js 构建产物），在 `dist` 目录会另外生成一份 `webpack.config.node.js` 文件，对应 SSR 构建时的 webpack 配置。
 
 关于 webpack 配置项的完整介绍，请查看 [webpack 官方文档](https://webpack.js.org/concepts/configuration/)。
+
+## Rspack 配置文件
+
+如果当前项目是使用 Rspack 进行构建的，那么在调试模式下，Builder 还会自动生成 `dist/rspack.config.web.js` 文件，这里面包含了最终生成的 Rspack 配置。在这个文件里，你可以了解到 Builder 最终传递给 Rspack 的配置里包含了哪些内容。
+
+该文件的大致结构如下：
+
+```js
+module.exports = {
+  resolve: {
+    // some resolve configs...
+  },
+  module: {
+    // some Rspack loaders...
+  },
+  plugins: [
+    // some Rspack plugins...
+  ],
+  // other configs...
+};
+```
+
+关于 Rspack 配置项的完整介绍，请查看 [Rspack 官方文档](https://www.rspack.dev/zh/config.html)。
