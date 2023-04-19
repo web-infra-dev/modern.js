@@ -7,10 +7,6 @@ Create aliases to import or require certain modules, same as the [resolve.alias]
 For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Builder will automatically recognize the aliases in `tsconfig.json`, so the `alias` config is unnecessary.
 :::
 
-:::tip
-When using Rspack as the bundler, only the `Record<string, string> | Function` type is supported.
-:::
-
 #### Object Type
 
 The `alias` can be an Object, and the relative path will be automatically converted to absolute path.
