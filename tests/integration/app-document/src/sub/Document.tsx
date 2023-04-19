@@ -20,11 +20,11 @@ export default function Document(): React.ReactElement {
     <Html {...{ fromUserDoc: true }}>
       <Head>
         {/* comment should be render to html by Comment.children */}
-        <Comment comment="<!== COMMENT BY APP but inline ==>">
+        <Comment comment="!== COMMENT BY APP but inline ==">
           {'<!-- COMMENT BY APP -->'}
         </Comment>
         {/* comment should be render to html by Comment.comment */}
-        <Comment comment="<!== COMMENT BY APP in inline ==>" />
+        <Comment comment="!== COMMENT BY APP in inline ==" />
         <link href="/ababad"></link>
         <script
           dangerouslySetInnerHTML={{

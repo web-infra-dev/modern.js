@@ -112,11 +112,7 @@ describe('test build', () => {
     );
 
     expect(htmlWithDoc.includes('<!-- COMMENT BY APP -->')).toBe(true);
-    expect(htmlWithDoc.includes('<!== COMMENT BY APP in inline ==>')).toBe(
-      true,
-    );
-    expect(htmlWithDoc.includes('<!== COMMENT BY APP but inline ==>')).toBe(
-      false,
-    );
+    expect(htmlWithDoc.includes('== COMMENT BY APP in inline ==')).toBe(true);
+    expect(htmlWithDoc.includes('== COMMENT BY APP but inline ==')).toBe(false);
   });
 });
