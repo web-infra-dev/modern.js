@@ -235,14 +235,19 @@ export default (
 
       async prepare() {
         const command = getCommand();
+
+        // clean dist path before building
         if (
           command === 'dev' ||
           command === 'start' ||
           command === 'build' ||
           command === 'deploy'
         ) {
-          const appContext = api.useAppContext();
-          await emptyDir(appContext.distDirectory);
+          const resolvedConfig = api.useResolvedConfigContext();
+          if (resolvedConfig.output.cleanDistPath) {
+            const appContext = api.useAppContext();
+            await emptyDir(appContext.distDirectory);
+          }
         }
       },
 
