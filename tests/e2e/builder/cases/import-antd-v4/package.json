@@ -3,6 +3,8 @@
   "name": "@e2e/webpack-builder-import-antd-v4",
   "version": "2.9.0",
   "dependencies": {
-    "antd": "^4"
+    "antd": "^4",
+    "react": "^18",
+    "react-dom": "^18"
   }
 }

@@ -145,6 +145,7 @@ export const buildLib = async (
     metafile,
     sideEffects,
     redirect,
+    esbuildOptions,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -232,14 +233,7 @@ export const buildLib = async (
     sideEffects,
     // outbase for [dir]/[name]
     outbase: sourceDir,
-    esbuildOptions: (options: any) => ({
-      ...options,
-      supported: {
-        'dynamic-import': !(
-          ['cjs', 'umd'].includes(format) && buildType === 'bundleless'
-        ),
-      },
-    }),
+    esbuildOptions,
   };
 
   try {

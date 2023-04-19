@@ -282,6 +282,37 @@ Path to the tsconfig file
 - type: `string`
 - default: `. /tsconfig.json`
 
+## esbuildOptions
+
+Directly modify [esbuild configuration](https://esbuild.github.io/api/)
+
+- Type: `Function`
+- Default: `c => c`
+
+For example, if we need to modify the file extension of the generated files:
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
+    esbuildOptions: options => {
+      options.outExtension = { '.js': '.mjs' };
+      return options;
+    },
+  },
+});
+```
+
+:::tip
+We have done many extensions based on the original esbuild build. Therefore, when using this configuration, pay attention to the following:
+
+1. Prefer to use the configuration we provide. For example, esbuild does not support target: 'es5', but we support this scenario internally using swc. Setting target: 'es5' through esbuildOptions will result in an error.
+2. Currently, we use enhanced-resolve internally to replace esbuild's resolve algorithm, so modifying esbuild resolve-related configurations is invalid. We plan to switch back in the future.
+3. When using esbuild plugins, you need to add the plugins to the beginning of the plugins array because we also intervene in the entire build process through an esbuild plugin internally. Therefore, custom plugins need to be registered first.
+
+:::
+
 ## externals
 
 Configure external dependencies that will not be packaged into the final bundle
