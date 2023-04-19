@@ -107,7 +107,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -216,7 +216,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -334,7 +334,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -438,7 +438,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -564,7 +564,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -673,7 +673,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -802,7 +802,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -909,7 +909,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -1032,7 +1032,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -1141,7 +1141,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -1268,7 +1268,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -1377,7 +1377,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },

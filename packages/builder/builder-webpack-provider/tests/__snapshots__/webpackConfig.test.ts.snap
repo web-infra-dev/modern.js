@@ -287,7 +287,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
               {
                 "development": true,
-                "runtime": "classic",
+                "runtime": "automatic",
                 "useBuiltIns": true,
                 "useSpread": false,
               },
@@ -404,7 +404,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
               {
                 "development": true,
-                "runtime": "classic",
+                "runtime": "automatic",
                 "useBuiltIns": true,
                 "useSpread": false,
               },

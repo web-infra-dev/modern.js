@@ -542,7 +542,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -668,7 +668,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -1415,7 +1415,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -1541,7 +1541,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -2226,7 +2226,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -2350,7 +2350,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -2964,7 +2964,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },
@@ -3090,7 +3090,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
                   {
                     "development": false,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                     "useBuiltIns": true,
                     "useSpread": false,
                   },

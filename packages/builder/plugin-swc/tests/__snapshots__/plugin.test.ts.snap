@@ -49,7 +49,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 "transform": {
                   "react": {
                     "refresh": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                   },
                 },
               },
@@ -95,7 +95,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 "transform": {
                   "react": {
                     "refresh": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                   },
                 },
               },
@@ -144,7 +144,7 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
               "transform": {
                 "react": {
                   "refresh": false,
-                  "runtime": "classic",
+                  "runtime": "automatic",
                 },
               },
             },
@@ -194,7 +194,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
               "transform": {
                 "react": {
                   "refresh": true,
-                  "runtime": "classic",
+                  "runtime": "automatic",
                 },
               },
             },
@@ -240,7 +240,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
               "transform": {
                 "react": {
                   "refresh": false,
-                  "runtime": "classic",
+                  "runtime": "automatic",
                 },
               },
             },
@@ -288,7 +288,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
               "transform": {
                 "react": {
                   "refresh": false,
-                  "runtime": "classic",
+                  "runtime": "automatic",
                 },
               },
             },
@@ -336,7 +336,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
               "transform": {
                 "react": {
                   "refresh": true,
-                  "runtime": "classic",
+                  "runtime": "automatic",
                 },
               },
             },
@@ -384,7 +384,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
               "transform": {
                 "react": {
                   "refresh": false,
-                  "runtime": "classic",
+                  "runtime": "automatic",
                 },
               },
             },
@@ -461,7 +461,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 "transform": {
                   "react": {
                     "refresh": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                   },
                 },
               },
@@ -507,7 +507,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 "transform": {
                   "react": {
                     "refresh": true,
-                    "runtime": "classic",
+                    "runtime": "automatic",
                   },
                 },
               },
