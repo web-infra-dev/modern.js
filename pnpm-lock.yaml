@@ -83,11 +83,11 @@ importers:
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
-      '@rspack/core': 0.1.8
-      '@rspack/dev-client': 0.1.8
-      '@rspack/dev-middleware': 0.1.8
-      '@rspack/plugin-html': 0.1.8
-      '@rspack/postcss-loader': 0.1.8
+      '@rspack/core': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/dev-client': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/dev-middleware': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/plugin-html': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/postcss-loader': 0.0.0-canary-4f76a3d-20230419072608
       '@scripts/vitest-config': workspace:*
       '@types/node': ^14
       antd: '4'
@@ -102,11 +102,11 @@ importers:
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
-      '@rspack/core': 0.1.8
-      '@rspack/dev-client': 0.1.8
-      '@rspack/dev-middleware': 0.1.8
-      '@rspack/plugin-html': 0.1.8
-      '@rspack/postcss-loader': 0.1.8
+      '@rspack/core': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/dev-client': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/dev-middleware': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/plugin-html': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/postcss-loader': 0.0.0-canary-4f76a3d-20230419072608
       caniuse-lite: 1.0.30001451
       core-js: 3.27.2
       rspack-plugin-virtual-module: 0.1.0
@@ -11804,97 +11804,52 @@ packages:
       rollup: 2.79.0
     dev: true
 
-  /@rspack/binding-darwin-arm64/0.1.8:
-    resolution: {integrity: sha512-H3Q9B32hJk8oihsD2TXFPzJ7mWqTFivtbB0Sigq/pJnQsyuOR7fzJE9RvA4KxWOgUF3gr8JSZJigKu/iLk7tJg==}
+  /@rspack/binding-darwin-arm64/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-HmLTJ4WMvFia1j8HftcxW6hSYCmQUqryRWzwNOI60R495yOrIvGQDeeJbPsRGcSS9VrvLkhhOAELxpo06J4AoA==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-darwin-x64/0.1.8:
-    resolution: {integrity: sha512-1c4GmjgyYUGHof5J8qZnEEXtegTGU/PMXKYK8Da/wfDIO4Tklh5ZCw+T4TNSFigLnzj/SGq7bY+bbE4RM3b1mw==}
+  /@rspack/binding-darwin-x64/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-ogfYc0ZeCLEOlJA8pLLK9sI/XknknoMgjVkzk0AtVt+MtQ5mVw9SvDpYDpk/uj5CgA0kZpl4OYtvVW0BI9WtYw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-arm64-gnu/0.1.8:
-    resolution: {integrity: sha512-xM6IhCZIrCcJjPNpllvlvsekesRT1R9auK07v7vPVJV0tcBJKj8JFqIEOTsjU4a8KK3rr2ImgMSYwpUC/0ORrg==}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-linux-arm64-musl/0.1.8:
-    resolution: {integrity: sha512-GwP+c917UZ0eqUL0SzzQRByPv6YgJx0M/jx0odjxPmoovrQ5SuJXepDaVnX+kMFpiBJbbcOFZ00orav0SUuuhA==}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-linux-x64-gnu/0.1.8:
-    resolution: {integrity: sha512-t//YucSLoUWIHICa6o3beybdTghie1PB4aEgjiB8qe36a7JdSTB/NvoSdJMZ/i5Yi4NN3ZVoyBcnzeF78aC9Xg==}
+  /@rspack/binding-linux-x64-gnu/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-jZl7ph7C4zTzlCXcjrCZidYcrK8Kc0uuvwKk6Q3XI1JZInFrpbb9WWPrUpcV3fVR7aQ7egpQz82WBN/EYRDmmQ==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-x64-musl/0.1.8:
-    resolution: {integrity: sha512-Ov7DxKrTRwOjiB2vltrNXqfaoBjv+wpcIVNiHSawfAGQBV/yQyEvoqaIMp5oAt+b9cH/PkPgQAYF7ZdiJI742g==}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-win32-arm64-msvc/0.1.8:
-    resolution: {integrity: sha512-Y7lWi3AqR7kLYHOHf10mVNzdg5S/ZSGGh5U6Hi1u/cL3eGg3hfWnXLrHSs4gxUv09GyLMbLbQWZFtsKNLhmi9g==}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-win32-ia32-msvc/0.1.8:
-    resolution: {integrity: sha512-DY03Kgbp7wJ0vkDg9Enwn2bJp8gxgHVz9ucKzh//aWgWqT468Zof6Yi1+DPK2qs5vmW+6tfcLjTxJWW7UpvUeQ==}
-    cpu: [ia32]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-win32-x64-msvc/0.1.8:
-    resolution: {integrity: sha512-CPoOFtgidTlMqwmrN/C60LsH5fRBbizpDH+u0TCftAPb3VwMvE6toLCkVl4vlbIVtmonErJLO9KKKbINt6d7bQ==}
+  /@rspack/binding-win32-x64-msvc/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-abMAuUk3z0KjUlat8+trPash5kmzJnXKXN6P3t0ncHbTPwjpn4OraAHalPdIGqnkJY5+th7ozIH3xOX/258cHg==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding/0.1.8:
-    resolution: {integrity: sha512-ct8OX1GjSPfNlrL15mctx73KLh5SourHGkmkpVfSF6GS1rhT3DfY2VNFPSiuouybppIZ/KE08lNOHDw9quPaGQ==}
+  /@rspack/binding/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-CQIR0tzQfbxvNiEE+8z/upkn3QmkP4rLxZQrab+T6cbfMo9dyuBAZqKF82jAb3MSPOL/HHP2tkeOgkcE15jueg==}
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': 0.1.8
-      '@rspack/binding-darwin-x64': 0.1.8
-      '@rspack/binding-linux-arm64-gnu': 0.1.8
-      '@rspack/binding-linux-arm64-musl': 0.1.8
-      '@rspack/binding-linux-x64-gnu': 0.1.8
-      '@rspack/binding-linux-x64-musl': 0.1.8
-      '@rspack/binding-win32-arm64-msvc': 0.1.8
-      '@rspack/binding-win32-ia32-msvc': 0.1.8
-      '@rspack/binding-win32-x64-msvc': 0.1.8
+      '@rspack/binding-darwin-arm64': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/binding-darwin-x64': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/binding-linux-x64-gnu': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/binding-win32-x64-msvc': 0.0.0-canary-4f76a3d-20230419072608
     dev: false
 
-  /@rspack/core/0.1.8:
-    resolution: {integrity: sha512-8eGAUjr/b0wKegm5qtS13CKrEBjF5Q5iQ+GTmBvXu86rtKgt9seQGKyaBLZp6AMzObi19yThRLsle8jNvjSfug==}
+  /@rspack/core/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-zEi+Bi4BRqR/RQTFfsvFnASnbmkluJt00BdY4f1j7klwOZ3USbdCiBTD43mEvvpOc45Xm2M5DYXLs6L80/SLjw==}
     dependencies:
-      '@rspack/binding': 0.1.8
-      '@rspack/dev-client': 0.1.8_react-refresh@0.14.0
+      '@rspack/binding': 0.0.0-canary-4f76a3d-20230419072608
+      '@rspack/dev-client': 0.0.0-canary-4f76a3d-20230419072608_react-refresh@0.14.0
       '@swc/helpers': 0.5.0
       browserslist: 4.21.4
       compare-versions: 6.0.0-rc.1
@@ -11922,8 +11877,8 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-client/0.1.8:
-    resolution: {integrity: sha512-BDkCTFclZlvZcFORhoHGkgLjfn0xzTrSPsMBMrz2ErrMFZknCL42Fbv7KqP8Ek5PSsatBOvIJ6p51hdH9HOiqg==}
+  /@rspack/dev-client/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-LfOPZEo6QTWF6FxS68ls3x8Sl11ub7MiCHpmoaQXeYZWVSPC1vyG3lL4Puaa3Z7o6OSEiUkyyXjvt9nQiwaRFg==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
@@ -11951,8 +11906,8 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-client/0.1.8_react-refresh@0.14.0:
-    resolution: {integrity: sha512-BDkCTFclZlvZcFORhoHGkgLjfn0xzTrSPsMBMrz2ErrMFZknCL42Fbv7KqP8Ek5PSsatBOvIJ6p51hdH9HOiqg==}
+  /@rspack/dev-client/0.0.0-canary-4f76a3d-20230419072608_react-refresh@0.14.0:
+    resolution: {integrity: sha512-LfOPZEo6QTWF6FxS68ls3x8Sl11ub7MiCHpmoaQXeYZWVSPC1vyG3lL4Puaa3Z7o6OSEiUkyyXjvt9nQiwaRFg==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
@@ -11981,10 +11936,10 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-middleware/0.1.8:
-    resolution: {integrity: sha512-b0hBTw0QYi6hreGsgia2Q5Pei82IWmdYQN0p7BVoNfDC4x2MFDqW7JxEvU6X+r+nnPQWeZzDcR3OvZgru8qyHQ==}
+  /@rspack/dev-middleware/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-qXcWVeyflQJ/D7mdJ2I1TgnQWEyariFo9eDpjEN7cW1vxkt9focJj7JpUPAqpTVEBdgje7xuxxnYx6RYqYTUtQ==}
     dependencies:
-      '@rspack/core': 0.1.8
+      '@rspack/core': 0.0.0-canary-4f76a3d-20230419072608
       mime-types: 2.1.35
       webpack-dev-middleware: 6.0.2
     transitivePeerDependencies:
@@ -12004,10 +11959,10 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/plugin-html/0.1.8:
-    resolution: {integrity: sha512-pmxqkP7Y2v17VN1DqjN9mk3au9tyUru8AeK8IC7jnGdWjejfLrBBmEJSGGHmBRT8QLAe3HS+MSX+SWZqdGSSlw==}
+  /@rspack/plugin-html/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-HZ+NuTG9J6YKhWHCDsWEPkBYVchKxzWiOhmOYNnYc1ksP6aYjAVsZKP5mZyPUUdLGvrvHjZ4MXUt6XCsnceh0w==}
     dependencies:
-      '@rspack/core': 0.1.8
+      '@rspack/core': 0.0.0-canary-4f76a3d-20230419072608
       '@types/html-minifier-terser': 7.0.0
       html-minifier-terser: 7.0.0
       lodash.template: 4.5.0
@@ -12029,10 +11984,10 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/postcss-loader/0.1.8:
-    resolution: {integrity: sha512-opgTSns9AReJrEQw42g4aF689JzhANKCI9+OFj2+7gfEHYMJzYAqHyDpxetKxInSm7qZ3jX76SNv55RfOk6WYA==}
+  /@rspack/postcss-loader/0.0.0-canary-4f76a3d-20230419072608:
+    resolution: {integrity: sha512-FZVN8LL8PuSW/nB0Ml8dVlwGGHoMR9lvkF4eBeemWn918cqdNR/KBvB8ElCS+MLcdyZP0lRnOguCUld3pflztg==}
     dependencies:
-      '@rspack/binding': 0.1.8
+      '@rspack/binding': 0.0.0-canary-4f76a3d-20230419072608
       postcss: 8.4.21
       postcss-modules: 5.0.0_postcss@8.4.21
       postcss-pxtorem: 6.0.0_postcss@8.4.21
@@ -34139,10 +34094,13 @@ packages:
 
   /uuid/3.4.0:
     resolution: {integrity: sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==}
+    deprecated: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+    hasBin: true
     dev: false
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
 
   /uvu/0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}
