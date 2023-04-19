@@ -23,8 +23,16 @@ export const builderPluginAdpaterCopy = (
       };
       publicPath = config.output?.publicPath;
     });
+    api.onDevCompileDone(async () => {
+      await transformHtmlFiles();
+    });
+
     api.onAfterBuild(async () => {
-      // tramsform public/*.html manaully
+      await transformHtmlFiles();
+    });
+
+    /** tramsform public/*.html manaully */
+    async function transformHtmlFiles() {
       const { normalizedConfig } = options;
       const publicDir = path.resolve(
         normalizedConfig.output.distPath?.root || './dist',
@@ -63,7 +71,7 @@ export const builderPluginAdpaterCopy = (
             }
           }),
       );
-    });
+    }
   },
 });
 

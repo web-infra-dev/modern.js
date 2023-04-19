@@ -7,7 +7,7 @@ import type { IAppContext } from '@modern-js/core';
 import { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
 import type { AppNormalizedConfig } from '../../types';
-import { builderPluginCompatModern } from './builderPlugins/compatModern';
+import { builderPluginAdapterModern } from './adapterModern';
 import { createUploadPattern } from './createCopyPattern';
 
 export function createWebpackBuilderForModern(
@@ -59,5 +59,5 @@ async function applyBuilderPlugins(
     builder.addPlugins([builderPluginEsbuild(esbuildOptions)]);
   }
 
-  builder.addPlugins([builderPluginCompatModern(options)]);
+  builder.addPlugins([builderPluginAdapterModern(options)]);
 }

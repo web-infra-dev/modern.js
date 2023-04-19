@@ -1,16 +1,16 @@
 import { join } from 'path';
 import { BuilderPlugin } from '@modern-js/builder-shared';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
-import { BuilderOptions } from '../../shared';
-import { createPublicPattern } from '../createCopyPattern';
+import { BuilderOptions } from '../shared';
+import { createPublicPattern } from './createCopyPattern';
 
 /**
  * Provides default configuration consistent with modern.js v1
  */
-export const builderPluginCompatModern = (
+export const builderPluginAdapterModern = (
   options: BuilderOptions<'webpack'>,
 ): BuilderPlugin<BuilderPluginAPI> => ({
-  name: 'builder-plugin-compat-modern',
+  name: 'builder-plugin-adapter-',
 
   setup(api) {
     const { normalizedConfig: modernConfig, appContext } = options;
