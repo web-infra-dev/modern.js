@@ -202,7 +202,7 @@ export default (): CliPlugin<AppTools> => ({
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_START) &&
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_END)
         ) {
-          html = html.replaceAll(
+          html = html.replace(
             new RegExp(
               `${DOCUMENT_SCRIPT_PLACEHOLDER_START}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
               'g',
@@ -215,7 +215,7 @@ export default (): CliPlugin<AppTools> => ({
           html.includes(DOCUMENT_COMMENT_PLACEHOLDER_START) &&
           html.includes(DOCUMENT_COMMENT_PLACEHOLDER_END)
         ) {
-          html = html.replaceAll(
+          html = html.replace(
             new RegExp(
               `${DOCUMENT_COMMENT_PLACEHOLDER_START}(.*?)${DOCUMENT_COMMENT_PLACEHOLDER_END}`,
               'g',
