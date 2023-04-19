@@ -299,6 +299,12 @@ export const PLUGIN_SCHEMAS = {
     },
   ],
   '@modern-js/plugin-nocode': [],
+  '@modern-js/plugin-worker': [
+    {
+      target: 'deploy.worker.ssr',
+      schema: { type: ['boolean'] },
+    },
+  ],
 };
 
 /**
