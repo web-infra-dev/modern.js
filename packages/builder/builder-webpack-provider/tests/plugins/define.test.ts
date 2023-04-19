@@ -39,4 +39,20 @@ describe('plugins/define', () => {
       }
     `);
   });
+
+  it('should allow globalVars to be a function', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginDefine()],
+      builderConfig: {
+        source: {
+          globalVars: (obj, { env, target }) => {
+            obj.ENV = env;
+            obj.TARGET = target;
+          },
+        },
+      },
+    });
+
+    expect(await builder.unwrapWebpackConfig()).toMatchSnapshot();
+  });
 });
