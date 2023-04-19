@@ -146,6 +146,8 @@ export const buildLib = async (
     sideEffects,
     redirect,
     esbuildOptions,
+    externalHelpers,
+    transformImport,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -154,31 +156,31 @@ export const buildLib = async (
   const assetOutDir = asset.path ? slash(asset.path) : asset.path;
   const { less, sass, postcss, inject, modules, autoModules } = style;
 
-  // support es5,umd and emitDecoratorMetadata by swc
-  const { es5Plugin, umdPlugin, transformPlugin } = await import(
+  // support swc-transform, umd and emitDecoratorMetadata by swc
+  const { umdPlugin, swcTransformPlugin } = await import(
     '@modern-js/libuild-plugin-swc'
   );
-  const plugins = format === 'umd' ? [umdPlugin(umdModuleName)] : [];
-  if (target === 'es5') {
-    plugins.push(es5Plugin());
-  }
+
   const { getProjectTsconfig } = await import('./dts/tsc');
   const tsconfigPath = dts
     ? dts.tsconfigPath
     : join(appDirectory, './tsconfig.json');
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
-  if (userTsconfig?.compilerOptions?.emitDecoratorMetadata) {
-    plugins.push(
-      transformPlugin({
-        jsc: {
-          transform: {
-            legacyDecorator: true,
-            decoratorMetadata: true,
-          },
-        },
-      }),
-    );
+
+  const plugins = [
+    swcTransformPlugin({
+      pluginImport: transformImport,
+      externalHelpers: Boolean(externalHelpers),
+      emitDecoratorMetadata:
+        userTsconfig?.compilerOptions?.emitDecoratorMetadata,
+    }),
+  ];
+  if (format === 'umd') {
+    plugins.push(umdPlugin(umdModuleName));
   }
+
+  const { checkSwcHelpers } = await import('../utils/builder');
+  await checkSwcHelpers({ appDirectory, externalHelpers });
 
   // support svgr
   if (asset.svgr) {

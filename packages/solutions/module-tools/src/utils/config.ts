@@ -124,6 +124,8 @@ export const mergeDefaultBaseConfig = async (
       ...pConfig.redirect,
     },
     esbuildOptions,
+    externalHelpers: pConfig.externalHelpers ?? defaultConfig.externalHelpers,
+    transformImport: pConfig.transformImport ?? defaultConfig.transformImport,
   };
 };
 

@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger } from '@modern-js/utils/logger';
-import type { BaseBuildConfig } from '../types/config';
+import type { BaseBuildConfig, ExternalHelpers } from '../types/config';
 
 export const getFinalExternals = async (
   config: BaseBuildConfig,
@@ -35,6 +35,7 @@ export const getAllDeps = async <T>(
   appDirectory: string,
   options: {
     dependencies?: boolean;
+    devDependencies?: boolean;
     peerDependencies?: boolean;
   } = {},
 ) => {
@@ -53,6 +54,13 @@ export const getAllDeps = async <T>(
       ];
     }
 
+    if (options.devDependencies) {
+      deps = [
+        ...deps,
+        ...Object.keys((json.devDependencies as T | undefined) || {}),
+      ];
+    }
+
     if (options.peerDependencies) {
       deps = [
         ...deps,
@@ -64,5 +72,28 @@ export const getAllDeps = async <T>(
   } catch (e) {
     logger.warn('package.json is broken');
     return [];
+  }
+};
+
+export const checkSwcHelpers = async (options: {
+  appDirectory: string;
+  externalHelpers: ExternalHelpers;
+}) => {
+  const { appDirectory, externalHelpers } = options;
+  if (
+    (typeof externalHelpers === 'object' &&
+      externalHelpers.disableHelpersCheck) ||
+    externalHelpers === false
+  ) {
+    return;
+  }
+  const deps = await getAllDeps(appDirectory, {
+    dependencies: true,
+    devDependencies: true,
+  });
+  const swcHelpersPkgName = '@swc/helpers';
+  if (!deps.includes(swcHelpersPkgName)) {
+    const local = await import('../locale');
+    throw new Error(local.i18n.t(local.localeKeys.errors.externalHelpers));
   }
 };

@@ -4,6 +4,7 @@ import type {
   Style as LibuildStyle,
 } from '@modern-js/libuild';
 import type { Options } from '@modern-js/libuild-plugin-svgr';
+import type { ImportItem } from '@modern-js/libuild-plugin-swc';
 import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
 import { BuildInPreset, presetList } from '../../constants/buildPresets';
 import type { CopyConfig } from '../copy';
@@ -58,6 +59,11 @@ export type AutoExternal =
       peerDependencies?: boolean;
     };
 export type JSX = 'automatic' | 'transform';
+export type ExternalHelpers =
+  | boolean
+  | {
+      disableHelpersCheck?: boolean;
+    };
 
 export type AliasOption =
   | Record<string, string>
@@ -101,6 +107,8 @@ export type PartialBaseBuildConfig = {
   redirect?: LibuildUserConfig['redirect'];
   sideEffects?: LibuildUserConfig['sideEffects'];
   esbuildOptions?: LibuildUserConfig['esbuildOptions'];
+  externalHelpers?: ExternalHelpers;
+  transformImport?: ImportItem[];
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];

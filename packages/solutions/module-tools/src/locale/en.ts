@@ -39,8 +39,14 @@ export const EN_LOCALE = {
       noDevtools: noDevTools,
     },
   },
-  dts: {
-    abortOnError:
-      'With the `dts.abortOnError` configuration currently turned off, type errors do not cause build failures, but they do not guarantee proper type file output',
+  errors: {
+    externalHelpers:
+      'The `externalHelpers` configuration is currently enabled, but the "@swc/helpers" dependency declaration was not found. This will cause issues with the build output.',
+  },
+  warns: {
+    dts: {
+      abortOnError:
+        'With the `dts.abortOnError` configuration currently turned off, type errors do not cause build failures, but they do not guarantee proper type file output',
+    },
   },
 };

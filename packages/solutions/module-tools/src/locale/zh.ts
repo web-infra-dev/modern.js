@@ -39,8 +39,14 @@ export const ZH_LOCALE = {
       noDevtools: noDevTools,
     },
   },
-  dts: {
-    abortOnError:
-      '当前关闭了 `dts.abortOnError` 配置，类型错误不会导致构建失败，但无法保证类型文件正常输出',
+  errors: {
+    externalHelpers:
+      '当前开启了 `externalHelpers` 配置，未找到 "@swc/helpers" 依赖声明，构建产物会存在问题',
+  },
+  warns: {
+    dts: {
+      abortOnError:
+        '当前关闭了 `dts.abortOnError` 配置，类型错误不会导致构建失败，但无法保证类型文件正常输出',
+    },
   },
 };
