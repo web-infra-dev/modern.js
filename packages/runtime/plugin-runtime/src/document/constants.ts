@@ -28,6 +28,12 @@ export const DOCUMENT_SCRIPT_PLACEHOLDER_START = encodeURIComponent(
 export const DOCUMENT_SCRIPT_PLACEHOLDER_END = encodeURIComponent(
   '<!-- script-end -->',
 );
+export const DOCUMENT_COMMENT_PLACEHOLDER_START = encodeURIComponent(
+  '<!-- comment-start -->',
+);
+export const DOCUMENT_COMMENT_PLACEHOLDER_END = encodeURIComponent(
+  '<!-- comment-end -->',
+);
 
 export const PLACEHOLDER_REPLACER_MAP = {
   [DOCUMENT_NO_SCRIPTE_PLACEHOLDER]: `We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.`,
