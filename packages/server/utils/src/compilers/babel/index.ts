@@ -69,13 +69,7 @@ export const resolveBabelConfig = (
   config: Parameters<CompileFunc>[1],
   option: IPackageModeValue,
 ): any => {
-  const { globalVars, alias, babelConfig, define } = config;
-  const globalDefineVars =
-    define &&
-    Object.entries(define).reduce((object, [key, value]) => {
-      object[key] = JSON.stringify(value);
-      return object;
-    }, {} as Record<string, string>);
+  const { alias, babelConfig } = config;
   // alias config
   const aliasConfig = getAliasConfig(alias, {
     appDirectory,
@@ -90,10 +84,6 @@ export const resolveBabelConfig = (
       enableTypescriptPreset: true,
       alias: aliasConfig,
       envVars: [],
-      globalVars: {
-        ...globalVars,
-        ...globalDefineVars,
-      } as Record<string, any>,
     },
     {
       type: option.type,

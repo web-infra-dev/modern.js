@@ -15,8 +15,6 @@ export interface Pattern {
 
 export interface IConfig {
   alias?: SourceNormalizedConfig['alias'];
-  define?: SourceNormalizedConfig['define'];
-  globalVars?: SourceNormalizedConfig['globalVars'];
   babelConfig?: ToolsNormalizedConfig['babel'];
   server: {
     compiler?: 'babel' | 'typescript';

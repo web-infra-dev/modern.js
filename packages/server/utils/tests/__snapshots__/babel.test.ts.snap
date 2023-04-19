@@ -55,10 +55,6 @@ exports[`babel resolveBabelConfig 1`] = `
       "styled-components",
     ],
     [
-      "/babel-plugin-transform-define/lib/index.js",
-      {},
-    ],
-    [
       "/babel-plugin-transform-inline-environment-variables/lib/index.js",
       {
         "include": [],

@@ -151,7 +151,7 @@ export default (): CliPlugin<AppTools> => ({
         }
 
         const { server } = modernConfig;
-        const { alias, define, globalVars } = modernConfig.source;
+        const { alias } = modernConfig.source;
         const { babel } = modernConfig.tools;
 
         if (sourceDirs.length > 0) {
@@ -160,8 +160,6 @@ export default (): CliPlugin<AppTools> => ({
             {
               server,
               alias,
-              define,
-              globalVars,
               babelConfig: babel,
             },
             {
