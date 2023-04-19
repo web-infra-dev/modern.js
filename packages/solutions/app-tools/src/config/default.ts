@@ -1,4 +1,5 @@
 import { createDefaultConfig as createDefaultBuilderConfig } from '@modern-js/builder-webpack-provider';
+import { getAutoInjectEnv } from '../utils/env';
 import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
 export function createDefaultConfig(
@@ -28,6 +29,7 @@ export function createDefaultConfig(
     disableDefaultEntries: false,
     entriesDir: './src',
     configDir: './config',
+    globalVars: getAutoInjectEnv(appContext),
     alias: {
       [appContext.internalDirAlias]: appContext.internalDirectory,
       [appContext.internalSrcAlias]: appContext.srcDirectory,
@@ -102,7 +104,7 @@ export function createLegacyDefaultConfig(
     configDir: './config',
     apiDir: './api',
     envVars: [],
-    globalVars: undefined,
+    globalVars: getAutoInjectEnv(appContext),
     alias: defaultAlias,
     moduleScopes: undefined,
     include: [],
