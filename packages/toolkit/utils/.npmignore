@@ -36,6 +36,7 @@ tests/
 
 **/*/api/typings/auto-generated
 src/
+compiled/
 
 modern.config.js
 modern.config.ts

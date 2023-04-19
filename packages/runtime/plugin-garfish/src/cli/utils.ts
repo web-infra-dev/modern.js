@@ -69,17 +69,23 @@ function generateRouterPlugin (basename,routerConfig) {
   return router(routerConfig);
 }
 
-function generateRootDom ({ dom }) {
+function generateRootDom ({ dom, props, basename }) {
   const mountNode = dom ? (dom.querySelector('#' + MOUNT_ID) || dom) : document.getElementById(MOUNT_ID);
-  return { mountNode }
+  const mergedProps = {
+    ...props,
+    basename,
+  }
+  return { mountNode, props: mergedProps }
 }
 `;
 
 export const makeRenderFunction = (code: string) => {
   const inGarfishToRender = `
-  const { basename, props, dom, appName } = typeof arguments[0] === 'object' && arguments[0] || {};
+  let { basename, props, dom, appName } = typeof arguments[0] === 'object' && arguments[0] || {};
   if (!canContinueRender({ dom, appName })) return null;
-  let { mountNode } = generateRootDom({dom});
+  const rootDomInfo = generateRootDom({dom, props, basename});
+  let mountNode = rootDomInfo.mountNode;
+  props = rootDomInfo.props;
   `;
 
   return (

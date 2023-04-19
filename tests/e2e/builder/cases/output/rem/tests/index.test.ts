@@ -77,3 +77,47 @@ allProviderTest('rem enable', async ({ page }) => {
 
   builder.close();
 });
+
+allProviderTest('should inline runtime code to html by default', async () => {
+  const builder = await build({
+    cwd: fixtures,
+    entry: { index: join(fixtures, 'src/index.ts') },
+    builderConfig: {
+      output: {
+        convertToRem: {},
+      },
+    },
+  });
+  const files = await builder.unwrapOutputJSON();
+  const htmlFile = Object.keys(files).find(file => file.endsWith('.html'));
+
+  expect(htmlFile).toBeTruthy();
+  expect(files[htmlFile!].includes('function setRootPixel')).toBeTruthy();
+});
+
+allProviderTest(
+  'should extract runtime code when inlineRuntime is false',
+  async () => {
+    const builder = await build({
+      cwd: fixtures,
+      entry: { index: join(fixtures, 'src/index.ts') },
+      builderConfig: {
+        output: {
+          convertToRem: {
+            inlineRuntime: false,
+          },
+        },
+      },
+    });
+    const files = await builder.unwrapOutputJSON();
+
+    const htmlFile = Object.keys(files).find(file => file.endsWith('.html'));
+    const retryFile = Object.keys(files).find(
+      file => file.includes('/convert-rem') && file.endsWith('.js'),
+    );
+
+    expect(htmlFile).toBeTruthy();
+    expect(retryFile).toBeTruthy();
+    expect(files[htmlFile!].includes('function setRootPixel')).toBeFalsy();
+  },
+);

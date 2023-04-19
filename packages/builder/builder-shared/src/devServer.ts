@@ -30,7 +30,7 @@ export const getDevServerOptions = async ({
   const { applyOptionsChain } = await import('@modern-js/utils');
   const { merge: deepMerge } = await import('@modern-js/utils/lodash');
 
-  const devConfig = applyOptionsChain(
+  const defaultDevConfig = deepMerge(
     {
       hot: builderConfig.dev?.hmr ?? true,
       watch: true,
@@ -43,9 +43,13 @@ export const getDevServerOptions = async ({
         writeToDisk: (file: string) => !file.includes('.hot-update.'),
       },
       https: builderConfig.dev?.https,
-      // merge devServerOptions from serverOptions
-      ...(serverOptions.dev as Exclude<typeof serverOptions.dev, boolean>),
     },
+    // merge devServerOptions from serverOptions
+    serverOptions.dev as Exclude<typeof serverOptions.dev, boolean>,
+  );
+
+  const devConfig = applyOptionsChain(
+    defaultDevConfig,
     builderConfig.tools?.devServer,
     {},
     deepMerge,
@@ -173,7 +177,7 @@ export async function startDevServer<
 
         const { getAddressUrls } = await import('@modern-js/utils');
         const protocol = builderConfig.dev?.https ? 'https' : 'http';
-        let urls = getAddressUrls(protocol, port);
+        let urls = getAddressUrls(protocol, port, builderConfig.dev?.host);
 
         if (printURLs) {
           if (isFunction(printURLs)) {

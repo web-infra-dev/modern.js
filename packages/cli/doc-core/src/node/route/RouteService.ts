@@ -49,6 +49,7 @@ export const normalizeRoutePath = (
     /\/index$/,
     '/',
   );
+
   return withBase(normalizedRoutePath, base);
 };
 

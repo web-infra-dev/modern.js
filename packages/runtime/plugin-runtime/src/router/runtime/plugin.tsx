@@ -9,7 +9,9 @@ import {
   RouteObject,
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
+import { parsedJSONFromElement } from '@modern-js/utils/runtime';
 import { Plugin } from '../../core';
+import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
 
@@ -43,9 +45,14 @@ export const routerPlugin = ({
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
   let routes: RouteObject[] = [];
   finalRouteConfig = routesConfig;
+  window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
+
   return {
     name: '@modern-js/plugin-router',
-    setup: () => {
+    registerHook: {
+      modifyRoutes: modifyRoutesHook,
+    },
+    setup: api => {
       return {
         init({ context }, next) {
           context.router = {
@@ -80,6 +87,9 @@ export const routerPlugin = ({
                     }),
                   );
 
+              const runner = (api as any).useHookRunners();
+              routes = runner.modifyRoutes(routes);
+
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
@@ -111,7 +121,11 @@ export const routerPlugin = ({
               );
             }) as React.FC<any>;
           };
-          const RouteApp = getRouteApp();
+          let RouteApp = getRouteApp();
+
+          if (App) {
+            RouteApp = hoistNonReactStatics(RouteApp, App);
+          }
 
           if (routesConfig?.globalApp) {
             return next({

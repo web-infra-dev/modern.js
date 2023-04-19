@@ -64,6 +64,7 @@ export type AssetsRetryOptions = {
   test?: string | ((url: string) => boolean);
   domain?: string[];
   crossOrigin?: boolean;
+  inlineScript?: boolean;
   onFail?: (options: AssetsRetryHookContext) => void;
   onRetry?: (options: AssetsRetryHookContext) => void;
   onSuccess?: (options: AssetsRetryHookContext) => void;
@@ -102,8 +103,16 @@ export type PxToRemOptions = {
 };
 
 export type RemOptions = {
-  /** Whether to inject runtime code into html templates。Default: true */
+  /**
+   * Whether to generate runtime code to set root font size.
+   * @default true
+   */
   enableRuntime?: boolean;
+  /**
+   *  Whether to inline runtime code to HTML.
+   * @default true
+   */
+  inlineRuntime?: boolean;
   /** Usually, `fontSize = (clientWidth * rootFontSize) / screenWidth` */
   screenWidth?: number;
   rootFontSize?: number;
@@ -112,7 +121,10 @@ export type RemOptions = {
   widthQueryKey?: string;
   /** The entries to ignore */
   excludeEntries?: string[];
-  /** Use height to calculate rem in landscape。Default: false */
+  /**
+   * Whether to use height to calculate rem in landscape.
+   * @default false
+   */
   supportLandscape?: boolean;
   /** Whether to use rootFontSize when large than maxRootFontSize（scene：pc） */
   useRootFontSizeBeyondMax?: boolean;

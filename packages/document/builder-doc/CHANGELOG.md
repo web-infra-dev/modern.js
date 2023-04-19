@@ -1,5 +1,34 @@
 # @modern-js/builder-doc
 
+## 2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- 28583e8: feat(builder): add assetsRetry.inlineScript config
+
+  feat(builder): 新增 assetsRetry.inlineScript 配置项
+
+## 2.13.2
+
+## 2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 1feacdc: feat(builder): support using RegExp to inline part of chunks
+
+  feat(builder): 支持通过正则来内联部分资源
+
+- 348306d: feat(builder): add html.scriptLoading config
+
+  feat(builder): 新增 html.scriptLoading 配置
+
+- 42700c1: chore: improve ssr docs, add more use case for node/web code split
+  chore: 优化 ssr 文档，为 node/web 代码分割添加更多使用场景
+
 ## 2.12.0
 
 ## 2.11.0

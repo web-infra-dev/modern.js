@@ -45,6 +45,8 @@ export const NESTED_ROUTE = {
   LOADER_FILE: 'loader',
   SPLATE_FILE: '$',
   SPLATE_LOADER_FILE: '$.loader',
+  LAYOUT_CONFIG_FILE: 'layout.config',
+  PAGE_CONFIG_FILE: 'page.config',
 };
 
 export const APP_CONFIG_NAME = 'config';

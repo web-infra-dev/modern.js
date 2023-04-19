@@ -3,7 +3,9 @@ import { usePageData } from '@/runtime';
 
 export function useLocaleSiteData(): NormalizedLocales {
   const pageData = usePageData();
-  const { lang } = pageData;
+  const {
+    page: { lang },
+  } = pageData;
   const themeConfig = pageData?.siteData?.themeConfig ?? {};
   const defaultLang = pageData.siteData.lang ?? '';
   const locales = themeConfig?.locales;

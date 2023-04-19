@@ -1,7 +1,17 @@
-import type HtmlWebpackPlugin from 'html-webpack-plugin';
-import { RemOptions } from '../types';
+import path from 'path';
+// @ts-expect-error
+import { RawSource } from 'webpack-sources';
 import { logger } from '../logger';
-import type { Compiler, WebpackPluginInstance } from 'webpack';
+import { withPublicPath } from '../url';
+import {
+  generateScriptTag,
+  getBuilderVersion,
+  getPublicPathFromCompiler,
+  COMPILATION_PROCESS_STAGE,
+} from './util';
+import type HtmlWebpackPlugin from 'html-webpack-plugin';
+import type { RemOptions } from '../types';
+import type { Compiler, Compilation, WebpackPluginInstance } from 'webpack';
 
 type AutoSetRootFontSizeOptions = Omit<
   RemOptions,
@@ -18,11 +28,10 @@ export async function getRootPixelCode(
   const code = genJSTemplate(options);
 
   if (!isCompress) {
-    return `<script type="text/javascript">${code}</script>`;
+    return code;
   }
 
   const { minify } = await import('terser');
-
   const { code: minifiedRuntimeCode } = await minify(
     {
       RootPixelCode: code,
@@ -31,8 +40,7 @@ export async function getRootPixelCode(
       ecma: 5,
     },
   );
-
-  return `<script type="text/javascript">${minifiedRuntimeCode}</script>`;
+  return minifiedRuntimeCode;
 }
 
 export const DEFAULT_OPTIONS: Required<AutoSetRootFontSizeOptions> = {
@@ -42,6 +50,7 @@ export const DEFAULT_OPTIONS: Required<AutoSetRootFontSizeOptions> = {
   widthQueryKey: '',
   rootFontSizeVariableName: 'ROOT_FONT_SIZE',
   excludeEntries: [],
+  inlineRuntime: true,
   supportLandscape: false,
   useRootFontSizeBeyondMax: false,
 };
@@ -49,9 +58,13 @@ export const DEFAULT_OPTIONS: Required<AutoSetRootFontSizeOptions> = {
 export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
   readonly name: string = 'AutoSetRootFontSizePlugin';
 
+  readonly distDir: string;
+
   options: Required<AutoSetRootFontSizeOptions>;
 
   webpackEntries: Array<string>;
+
+  scriptPath: string;
 
   HtmlPlugin: typeof HtmlWebpackPlugin;
 
@@ -59,45 +72,94 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
     options: RemOptions,
     entries: Array<string>,
     HtmlPlugin: typeof HtmlWebpackPlugin,
+    distDir: string,
   ) {
     this.options = { ...DEFAULT_OPTIONS, ...(options || {}) };
+    this.scriptPath = '';
+    this.distDir = distDir;
     this.webpackEntries = entries;
     this.HtmlPlugin = HtmlPlugin;
   }
 
-  apply(complier: Compiler) {
-    const isCompress = process.env.NODE_ENV === 'production';
+  async getScriptPath() {
+    if (!this.scriptPath) {
+      const version = await getBuilderVersion();
+      this.scriptPath = path.join(this.distDir, `convert-rem.${version}.js`);
+    }
 
-    let rootPixelCode: string | undefined;
+    return this.scriptPath;
+  }
 
-    complier.hooks.compilation.tap(this.name, compilation => {
-      this.HtmlPlugin.getHooks(compilation).beforeEmit.tapPromise(
+  apply(compiler: Compiler) {
+    let runtimeCode: string | undefined;
+
+    const getRuntimeCode = async () => {
+      if (!runtimeCode) {
+        const isCompress = process.env.NODE_ENV === 'production';
+        runtimeCode = await getRootPixelCode(this.options, isCompress);
+      }
+      return runtimeCode;
+    };
+
+    if (!this.options.inlineRuntime) {
+      compiler.hooks.thisCompilation.tap(
         this.name,
-        async htmlPluginData => {
+        (compilation: Compilation) => {
+          compilation.hooks.processAssets.tapPromise(
+            {
+              name: this.name,
+              stage: COMPILATION_PROCESS_STAGE.PROCESS_ASSETS_STAGE_PRE_PROCESS,
+            },
+            async assets => {
+              const scriptPath = await this.getScriptPath();
+              assets[scriptPath] = new RawSource(await getRuntimeCode(), false);
+            },
+          );
+        },
+      );
+    }
+
+    compiler.hooks.compilation.tap(this.name, compilation => {
+      this.HtmlPlugin.getHooks(compilation).afterTemplateExecution.tapPromise(
+        this.name,
+        async data => {
           const isExclude = this.options.excludeEntries.find((item: string) => {
             if (!this.webpackEntries.includes(item)) {
-              logger.error(`Can't find the entryName: ${item}`);
+              logger.error(`convertToRem: can't find the entryName: ${item}`);
               return false;
             }
+
             const reg = new RegExp(
               `(/${item}/index.html)|(/${item}.html)`,
               'gi',
             );
-
-            return reg.test(htmlPluginData.outputName);
+            return reg.test(data.outputName);
           });
 
-          rootPixelCode =
-            rootPixelCode || (await getRootPixelCode(this.options, isCompress));
-
-          if (!isExclude) {
-            htmlPluginData.html = htmlPluginData.html.replace(
-              /(<body[^>]*>)/i,
-              `$1${rootPixelCode}`,
-            );
+          if (isExclude) {
+            return data;
           }
 
-          return htmlPluginData;
+          const scriptTag = generateScriptTag();
+
+          if (this.options.inlineRuntime) {
+            data.headTags.unshift({
+              ...scriptTag,
+              innerHTML: await getRuntimeCode(),
+            });
+          } else {
+            const publicPath = getPublicPathFromCompiler(compiler);
+            const url = withPublicPath(await this.getScriptPath(), publicPath);
+            data.headTags.unshift({
+              ...scriptTag,
+              attributes: {
+                ...scriptTag.attributes,
+                src: url,
+              },
+            });
+          }
+
+          return data;
         },
       );
     });

@@ -33,7 +33,8 @@ function DocContent() {
 export function DocLayout(props: DocLayoutProps) {
   const { beforeDocFooter, beforeDoc, afterDoc, beforeOutline, afterOutline } =
     props;
-  const { toc = [], siteData, frontmatter } = usePageData();
+  const { siteData, page } = usePageData();
+  const { toc, frontmatter } = page;
   const [tabData, setTabData] = useState({});
   const headers = toc;
   const { themeConfig } = siteData;

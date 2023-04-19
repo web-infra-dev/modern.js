@@ -141,7 +141,7 @@ describe('test render util', () => {
 
     writable.on('finish', () => {
       const content = fs.readFileSync(tmpfile, 'utf-8');
-      expect(content).toMatch('window._SERVER_DATA={"name":"bytedance"}');
+      expect(content).toMatch('{"name":"bytedance"}');
       resolve();
     });
 
@@ -160,6 +160,6 @@ describe('test render util', () => {
       },
     } as any);
 
-    expect(rtn).toMatch('window._SERVER_DATA={"name":"bytedance"}');
+    expect(rtn).toMatch('{"name":"bytedance"}');
   });
 });

@@ -87,8 +87,8 @@ export default {
       copy: {
         patterns: [
           {
-            from: './.theme-entry.js',
-            to: './index.js',
+            from: './.theme-entry.ts',
+            to: './index.ts',
             context: __dirname,
           },
         ],

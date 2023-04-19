@@ -1,5 +1,56 @@
 # @modern-js/runtime
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/plugin@2.13.4
+- @modern-js/types@2.13.4
+- @modern-js/utils@2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- @modern-js/plugin@2.13.3
+- @modern-js/types@2.13.3
+- @modern-js/utils@2.13.3
+
+## 2.13.2
+
+### Patch Changes
+
+- @modern-js/plugin@2.13.2
+- @modern-js/types@2.13.2
+- @modern-js/utils@2.13.2
+
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.13.1
+- @modern-js/types@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- cad9676: fix(runtime): compile react-router to ensure the compatibility
+
+  fix(runtime): 通过编译 react-router 来保证对低版本浏览器的兼容性
+
+- e9b1656: fix: plugin config hook can not get bundlerType, so we can't set babelConfig correctly in ssr plugin
+  fix: 插件的 config 钩子不能获得 bundlerType，所以我们在 ssr 插件不能正确的设置 babelConfig
+- 4d413c4: docs: add prefetch docs
+  docs: 添加 prefetch 的文档
+- 4220c0e: feat: support global props in createApp and pass garfish props in
+  feat: createApp 支持全局属性，garfish 通过这个方式透传 garfish props
+- Updated dependencies [78431f4]
+  - @modern-js/plugin@2.13.0
+  - @modern-js/types@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

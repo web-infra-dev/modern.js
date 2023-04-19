@@ -9,6 +9,7 @@ export {
   normalizeSlash,
   isProduction,
   normalizeRoutePath,
+  isEqualPath,
 } from './utils';
 export * from 'react-router-dom';
 export { Helmet } from 'react-helmet-async';

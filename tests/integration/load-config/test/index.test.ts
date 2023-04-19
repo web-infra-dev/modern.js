@@ -17,7 +17,7 @@ describe('local config', () => {
       existsSync(path.join(appDir, 'dist/bar/html/main/index.html')),
     ).toBeTruthy();
 
-    killApp(app);
+    await killApp(app);
   });
 
   it(`should not load local config when running build command`, async () => {
@@ -37,7 +37,7 @@ describe('local config', () => {
       existsSync(path.join(appDir, 'dist/bar/html/main/index.html')),
     ).toBeTruthy();
 
-    killApp(app);
+    await killApp(app);
   });
 
   it(`should passing correct config params when running dev command`, async () => {
@@ -53,7 +53,7 @@ describe('local config', () => {
       command: 'dev',
     });
 
-    killApp(app);
+    await killApp(app);
   });
 
   it(`should passing correct config params when running build command`, async () => {

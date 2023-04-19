@@ -92,8 +92,8 @@ function runModernCommandDev(argv, stdOut, options = {}) {
     function handleStdout(data) {
       const message = data.toString();
       const bootupMarkers = {
-        dev: /App running at/i,
-        serve: /App running at/i,
+        dev: /(App|Dev server) running at/i,
+        serve: /(App|Dev server) running at/i,
       };
       if (bootupMarkers[options.modernServe ? 'serve' : 'dev'].test(message)) {
         if (!didResolve) {
@@ -135,6 +135,7 @@ function modernBuild(dir, args = [], opts = {}) {
     stderr: true,
     env: {
       NODE_ENV: 'production',
+      ...(opts.env || {}),
     },
   });
 }

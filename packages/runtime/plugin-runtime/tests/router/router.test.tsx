@@ -216,5 +216,52 @@ describe('@modern-js/plugin-router', () => {
     const { container } = render(<DefaultNotFound />);
     expect(container.firstChild?.textContent).toEqual('404');
   });
+
+  it('modifyRoutes hook', async () => {
+    const AppWrapper = createApp({
+      plugins: [
+        createPlugin(
+          () =>
+            ({
+              modifyRoutes: (routes: any) => {
+                routes[0].element = <App2>{routes[0].element}</App2>;
+                return routes;
+              },
+            } as any),
+        ),
+        createRouterPlugin({
+          routesConfig: {
+            routes: [
+              {
+                path: '/',
+                component: App1 as any,
+                type: 'nested',
+                _component: '',
+              },
+            ],
+          },
+        }),
+      ],
+    })();
+
+    function App1() {
+      return <div>App1</div>;
+    }
+
+    function App2(props: any) {
+      const { children } = props;
+      return (
+        <div>
+          <div> App2 </div>
+          <div>{children}</div>
+        </div>
+      );
+    }
+
+    const { container } = render(<AppWrapper />);
+    await waitFor(() => {
+      expect(container.innerHTML).toMatch('App2');
+    });
+  });
 });
 /* eslint-enable @typescript-eslint/ban-ts-comment */

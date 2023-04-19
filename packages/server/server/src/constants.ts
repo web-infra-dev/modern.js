@@ -1,14 +1,16 @@
-import { getIpv4Interfaces } from '@modern-js/utils';
 import { HMR_SOCK_PATH } from '@modern-js/utils/universal/constants';
 import { DevServerOptions } from './types';
 
 export const getDefaultDevOptions = (): DevServerOptions => {
-  const network = getIpv4Interfaces().find(item => !item.internal);
   return {
     client: {
-      port: '8080',
       path: HMR_SOCK_PATH,
-      host: network?.address || 'localhost',
+      // By default it is set to the port number of the dev server
+      port: '',
+      // By default it is set to "location.hostname"
+      host: '',
+      // By default it is set to "location.protocol === 'https:' ? 'wss' : 'ws'""
+      protocol: '',
     },
     https: false,
     devMiddleware: { writeToDisk: true },

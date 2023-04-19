@@ -112,7 +112,7 @@ export default {
 
 #### 分包策略
 
-该策略下，设置 `minSize`、`maxSize` 为一个固定值后，Webpack 会自动进行拆分，无需干预。
+该策略下，设置 `minSize`、`maxSize` 为一个固定值后，Builder 会自动进行拆分，无需干预。
 
 #### 配置
 
@@ -133,13 +133,13 @@ export default {
 除了使用内置的拆包策略外，你也可以通过 Builder 自定义拆包功能来满足更多的定制化需求。自定义拆包分为两部分:
 
 - 自定义拆包分组
-- 自定义原生 webpack 拆包配置
+- 自定义原生 bundler 拆包配置
 
 值得注意的是，这两种自定义拆包能力可以和内置的拆包策略一起使用，也就是说，你可以使用内置的拆包策略来拆分常用的包，然后再使用自定义拆包功能来拆分其他的包。
 
 ### 自定义分组
 
-Builder 支持自定义拆包分组，这样比内置拆包策略更灵活，同时比手写 webpack 配置更简单。
+Builder 支持自定义拆包分组，这样比内置拆包策略更灵活，同时比手写 bundler 底层配置更简单。
 
 比如将 node_modules 下的 `axios` 库拆分到 `axios.js` 中：
 
@@ -158,9 +158,9 @@ export default {
 
 通过 `forceSplitting` 配置，你可以很方便把某些模块拆分为一个 chunk。
 
-### 自定义 webpack 拆包配置
+### 自定义 bundler 拆包配置
 
-除了使用自定义分组外，你还可以通过 `override` 配置项来自定义原生 webpack 拆包配置，比如:
+除了使用自定义分组外，你还可以通过 `override` 配置项来自定义底层 bundler 的拆包配置，比如:
 
 ```ts
 export default {
@@ -176,4 +176,4 @@ export default {
 };
 ```
 
-其中 `override` 中的配置会和 webpack 的配置进行合并，具体配置项请参考 [webpack 官方文档](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks)。
+其中 `override` 中的配置会和 bundler 的配置进行合并，具体配置项请参考 [webpack - splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks) 或 [Rspack - splitChunks](https://rspack.dev/zh/config/optimization.html#optimization-splitchunks)。

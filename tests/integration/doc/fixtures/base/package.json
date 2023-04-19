@@ -1,0 +1,13 @@
+{
+  "name": "simple-doc-template",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@modern-js/doc-tools": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^14"
+  }
+}

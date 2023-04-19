@@ -1,5 +1,46 @@
 # @modern-js/plugin-garfish
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/runtime@2.13.4
+- @modern-js/utils@2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- @modern-js/runtime@2.13.3
+- @modern-js/utils@2.13.3
+
+## 2.13.2
+
+### Patch Changes
+
+- @modern-js/runtime@2.13.2
+- @modern-js/utils@2.13.2
+
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 4220c0e: feat: support global props in createApp and pass garfish props in
+  feat: createApp 支持全局属性，garfish 通过这个方式透传 garfish props
+- Updated dependencies [cad9676]
+- Updated dependencies [e9b1656]
+- Updated dependencies [4d413c4]
+- Updated dependencies [4220c0e]
+  - @modern-js/runtime@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

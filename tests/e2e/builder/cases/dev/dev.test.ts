@@ -41,12 +41,7 @@ rspackOnlyTest('default & hmr (default true)', async ({ page }) => {
 
   await fs.writeFile(
     appPath,
-    `import React from 'react';
-import './App.css';
-
-const App = () => <div id="test">Hello Test!</div>;
-export default App;
-`,
+    fs.readFileSync(appPath, 'utf-8').replace('Hello Builder', 'Hello Test'),
   );
 
   // wait for hmr take effect
@@ -75,12 +70,7 @@ export default App;
   // restore
   await fs.writeFile(
     appPath,
-    `import React from 'react';
-import './App.css';
-
-const App = () => <div id="test">Hello Builder!</div>;
-export default App;
-`,
+    fs.readFileSync(appPath, 'utf-8').replace('Hello Test', 'Hello Builder'),
   );
 
   await fs.writeFile(
@@ -131,6 +121,64 @@ rspackOnlyTest('dev.port & output.distPath', async ({ page }) => {
 
   await fs.remove(join(fixtures, 'basic/dist-1'));
 });
+
+rspackOnlyTest(
+  'hmr should work when setting dev.port & serverOptions.dev.client',
+  async ({ page }) => {
+    const cwd = join(fixtures, 'hmr');
+    const buildOpts = {
+      cwd,
+      entry: {
+        main: join(cwd, 'test-src/index.ts'),
+      },
+    };
+
+    const builder = await dev(
+      buildOpts,
+      {
+        dev: {
+          port: 3001,
+        },
+      },
+      {
+        dev: {
+          client: {
+            host: '',
+          },
+        },
+      },
+    );
+
+    await page.goto(getHrefByEntryName('main', builder.port));
+    expect(builder.port).toBe(3001);
+
+    const appPath = join(fixtures, 'hmr', 'test-src/App.tsx');
+
+    await expect(
+      page.evaluate(`document.getElementById('test').innerHTML`),
+    ).resolves.toBe('Hello Builder!');
+
+    await fs.writeFile(
+      appPath,
+      fs.readFileSync(appPath, 'utf-8').replace('Hello Builder', 'Hello Test'),
+    );
+
+    // wait for hmr take effect
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    await expect(
+      page.evaluate(`document.getElementById('test').innerHTML`),
+    ).resolves.toBe('Hello Test!');
+
+    // restore
+    await fs.writeFile(
+      appPath,
+      fs.readFileSync(appPath, 'utf-8').replace('Hello Test', 'Hello Builder'),
+    );
+
+    await builder.server.close();
+  },
+);
 
 // need devcert
 test.skip('dev.https', async () => {

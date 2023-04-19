@@ -136,6 +136,7 @@ export {
   matchRoutes,
   renderMatches,
   resolvePath,
+  createPath,
 } from 'react-router-dom';
 
 // `react-router-dom` has its own dependency: `@remix-run/router`.

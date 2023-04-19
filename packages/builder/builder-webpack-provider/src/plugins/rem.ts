@@ -1,9 +1,10 @@
 import _ from '@modern-js/utils/lodash';
 import type { BuilderPlugin } from '../types';
 import {
-  RemOptions,
-  PxToRemOptions,
+  getDistPath,
   AutoSetRootFontSizePlugin,
+  type RemOptions,
+  type PxToRemOptions,
 } from '@modern-js/builder-shared';
 
 const defaultOptions: RemOptions = {
@@ -17,9 +18,10 @@ export const builderPluginRem = (): BuilderPlugin => ({
   setup(api) {
     api.modifyWebpackChain(
       async (chain, { CHAIN_ID, isServer, isWebWorker }) => {
+        const config = api.getNormalizedConfig();
         const {
           output: { convertToRem },
-        } = api.getNormalizedConfig();
+        } = config;
 
         if (!convertToRem || isServer || isWebWorker) {
           return;
@@ -78,6 +80,7 @@ export const builderPluginRem = (): BuilderPlugin => ({
         }
 
         const entries = Object.keys(chain.entryPoints.entries() || {});
+        const distDir = getDistPath(config.output, 'js');
 
         chain
           .plugin(CHAIN_ID.PLUGIN.AUTO_SET_ROOT_SIZE)
@@ -85,6 +88,7 @@ export const builderPluginRem = (): BuilderPlugin => ({
             userOptions,
             entries,
             HtmlWebpackPlugin,
+            distDir,
           ]);
       },
     );

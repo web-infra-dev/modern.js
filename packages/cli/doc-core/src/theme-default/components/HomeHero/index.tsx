@@ -1,6 +1,7 @@
 import { Button } from '../Button';
 import styles from './index.module.scss';
-import { normalizeHref, usePageData } from '@/runtime';
+import { normalizeHref } from '@/runtime';
+import { FrontMatterMeta } from '@/shared/types';
 
 const DEFAULT_HERO = {
   name: 'modern',
@@ -10,8 +11,7 @@ const DEFAULT_HERO = {
   image: undefined,
 };
 
-export function HomeHero() {
-  const { frontmatter } = usePageData();
+export function HomeHero({ frontmatter }: { frontmatter: FrontMatterMeta }) {
   const hero = frontmatter?.hero || DEFAULT_HERO;
   const hasImage = hero.image !== undefined;
   return (

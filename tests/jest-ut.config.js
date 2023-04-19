@@ -51,6 +51,7 @@ module.exports = {
     '<rootDir>/packages/toolkit/remark-container',
     '<rootDir>/packages/solutions/module-tools-v2/compiled/',
     '<rootDir>/packages/solutions/module-tools/compiled/',
+    '<rootDir>/packages/toolkit/utils/compiled/',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/packages/builder/',

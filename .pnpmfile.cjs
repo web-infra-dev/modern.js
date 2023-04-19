@@ -5,12 +5,6 @@ function readPackage(pkg, _context) {
     pkg.dependencies.resolve = '1.20.0';
   }
 
-  // bump cssnano version to fix integration test
-  // see: https://github.com/web-infra-dev/modern.js/pull/1140
-  if (pkg.dependencies['cssnano']) {
-    pkg.dependencies['cssnano'] = '^5.1.12';
-  }
-
   // esbuild >= 0.15.8 generates the logical or assignment operator and breaks in Node 14
   if (pkg.dependencies['esbuild']?.startsWith('0.15')) {
     pkg.dependencies['esbuild'] = '0.15.7';

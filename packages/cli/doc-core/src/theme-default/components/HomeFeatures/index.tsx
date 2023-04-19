@@ -1,5 +1,5 @@
 import styles from './index.module.scss';
-import { usePageData } from '@/runtime';
+import { FrontMatterMeta } from '@/shared/types';
 
 const PRESET_COUNT = [2, 3, 4];
 
@@ -16,8 +16,7 @@ const getGridClass = (count?: number): string => {
   return '';
 };
 
-export function HomeFeature() {
-  const { frontmatter } = usePageData();
+export function HomeFeature({ frontmatter }: { frontmatter: FrontMatterMeta }) {
   const features = frontmatter?.features;
   const gridClass = getGridClass(features?.length);
 

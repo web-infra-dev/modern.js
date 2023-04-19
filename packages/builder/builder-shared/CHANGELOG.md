@@ -1,5 +1,75 @@
 # @modern-js/builder-shared
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/server@2.13.4
+- @modern-js/types@2.13.4
+- @modern-js/utils@2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- 18cd03f: fix(builder): devServer.client is not deep merged
+
+  fix(builder): devServer.client 配置项未被 deep merged
+
+- 28583e8: feat(builder): add assetsRetry.inlineScript config
+
+  feat(builder): 新增 assetsRetry.inlineScript 配置项
+
+  - @modern-js/server@2.13.3
+  - @modern-js/types@2.13.3
+  - @modern-js/utils@2.13.3
+
+## 2.13.2
+
+### Patch Changes
+
+- @modern-js/server@2.13.2
+- @modern-js/types@2.13.2
+- @modern-js/utils@2.13.2
+
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/server@2.13.1
+- @modern-js/types@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 1feacdc: feat(builder): support using RegExp to inline part of chunks
+
+  feat(builder): 支持通过正则来内联部分资源
+
+- 384406c: fix(builder): `HtmlTagsPlugin` failed to join public path with absolute url
+  fix(builder): `HtmlTagsPlugin` 为绝对路径拼接 public path 会导致格式错误
+- c89de05: chore(rspack-provider): apply fullySpecified mjs default value in Rspack
+
+  chore(rspack-provider): 在 Rspack 中设置 fullySpecified 在 mjs 下的默认值
+
+- 348306d: feat(builder): add html.scriptLoading config
+
+  feat(builder): 新增 html.scriptLoading 配置
+
+- 384e393: chore: support output.merge / resolve.merge / resolve.get / resolve.fallback in bundler-chain
+
+  chore: 在 bundler-chain 中支持 output.merge / resolve.merge / resolve.get / resolve.fallback 方法
+
+- 9c0572e: chore(builder): support get builder/shared compiled path in provider getCompiledPath api
+
+  chore(builder): 支持通过 provider getCompiledPath api 获取 builder/shared 中预打包依赖路径
+
+  - @modern-js/server@2.13.0
+  - @modern-js/types@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

@@ -9,7 +9,7 @@
 
 #### Boolean 类型
 
-如果设置 `assetPrefix` 为 `true`，Builder 会自动计算出 `//ip:port/` 作为 URL 前缀：
+如果设置 `assetPrefix` 为 `true`，Builder 会使用 `//localhost:port/` 作为 URL 前缀：
 
 ```js
 export default {
@@ -22,7 +22,7 @@ export default {
 对应 JS 文件在浏览器中加载的地址如下：
 
 ```js
-<script defer src="//${ip}:8080/static/js/main.js"></script>
+<script defer src="//localhost:8080/static/js/main.js"></script>
 ```
 
 如果设置 `assetPrefix` 为 `false` 或不设置，则默认使用 `/` 作为访问前缀。

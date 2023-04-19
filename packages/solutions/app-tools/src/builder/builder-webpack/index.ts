@@ -4,10 +4,11 @@ import {
   builderWebpackProvider,
 } from '@modern-js/builder-webpack-provider';
 import type { IAppContext } from '@modern-js/core';
-import { BuilderOptions, createCopyPattern } from '../shared';
+import { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
 import type { AppNormalizedConfig } from '../../types';
-import { builderPluginCompatModern } from './builderPlugins/compatModern';
+import { builderPluginAdapterModern } from './adapterModern';
+import { createUploadPattern } from './createCopyPattern';
 
 export function createWebpackBuilderForModern(
   options: BuilderOptions<'webpack'>,
@@ -32,7 +33,7 @@ function modifyOutputConfig(
     config: AppNormalizedConfig<'webpack'>,
     appContext: IAppContext,
   ) {
-    const defaultCopyPattern = createCopyPattern(appContext, config, 'upload');
+    const defaultCopyPattern = createUploadPattern(appContext, config);
     const { copy } = config.output;
     const copyOptions = Array.isArray(copy) ? copy : copy?.patterns;
     const builderCopy = [...(copyOptions || []), defaultCopyPattern];
@@ -58,5 +59,5 @@ async function applyBuilderPlugins(
     builder.addPlugins([builderPluginEsbuild(esbuildOptions)]);
   }
 
-  builder.addPlugins([builderPluginCompatModern(options)]);
+  builder.addPlugins([builderPluginAdapterModern(options)]);
 }

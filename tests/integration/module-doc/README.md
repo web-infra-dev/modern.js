@@ -4,6 +4,13 @@
 
 按开发环境的要求，运行和调试项目
 
+开启模块工程的调试模式
+// FIXME
+
+```
+cd packages/solutions/module-tools && pnpm debug-mode
+```
+
 文档预览
 
 ```

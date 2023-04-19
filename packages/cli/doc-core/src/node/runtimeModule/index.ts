@@ -1,5 +1,5 @@
 import type { UserConfig } from 'shared/types/index';
-import { BuilderPlugin } from '@modern-js/builder-webpack-provider';
+import { BuilderPlugin } from '@modern-js/builder';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeVMPlugin } from './routeData';
 import { siteDataVMPlugin } from './siteData';

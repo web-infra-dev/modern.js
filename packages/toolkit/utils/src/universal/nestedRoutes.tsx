@@ -29,7 +29,8 @@ export const renderNestedRoute = (
     props?: Record<string, any>;
   } = {},
 ) => {
-  const { children, index, id, component, isRoot, lazyImport } = nestedRoute;
+  const { children, index, id, component, isRoot, lazyImport, config } =
+    nestedRoute;
   const Component = component as unknown as React.ComponentType<any>;
   const { parent, DeferredDataComponent, props = {} } = options;
 
@@ -41,7 +42,7 @@ export const renderNestedRoute = (
     action: nestedRoute.action,
     hasErrorBoundary: nestedRoute.hasErrorBoundary,
     shouldRevalidate: nestedRoute.shouldRevalidate,
-    handle: nestedRoute.handle,
+    handle: typeof config === 'object' ? config?.handle : {},
     index: nestedRoute.index,
     element: nestedRoute.element,
     errorElement: nestedRoute.errorElement,

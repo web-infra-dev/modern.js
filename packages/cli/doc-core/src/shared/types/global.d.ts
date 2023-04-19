@@ -41,10 +41,3 @@ declare module '*.svg' {
   const content: any;
   export default content;
 }
-
-declare module 'remark-container' {
-  import { Plugin } from 'unified';
-
-  const container: Plugin;
-  export default container;
-}

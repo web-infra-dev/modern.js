@@ -209,7 +209,7 @@ export default (
 
         program
           .command('inspect')
-          .description('inspect internal webpack config')
+          .description('inspect the internal configs')
           .option(
             `--env <env>`,
             i18n.t(localeKeys.command.inspect.env),
@@ -235,9 +235,19 @@ export default (
 
       async prepare() {
         const command = getCommand();
-        if (command === 'dev' || command === 'start' || command === 'build') {
-          const appContext = api.useAppContext();
-          await emptyDir(appContext.distDirectory);
+
+        // clean dist path before building
+        if (
+          command === 'dev' ||
+          command === 'start' ||
+          command === 'build' ||
+          command === 'deploy'
+        ) {
+          const resolvedConfig = api.useResolvedConfigContext();
+          if (resolvedConfig.output.cleanDistPath) {
+            const appContext = api.useAppContext();
+            await emptyDir(appContext.distDirectory);
+          }
         }
       },
 

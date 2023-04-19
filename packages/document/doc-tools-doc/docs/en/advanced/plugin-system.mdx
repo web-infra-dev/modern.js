@@ -182,3 +182,36 @@ export function pluginForDoc(): DocPlugin {
   };
 }
 ```
+
+### 8. extendPageData
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Extend the page data
+    extendPageData(pageData) {
+      // You can add or modify properties on the pageData object
+      pageData.a = 1;
+    },
+  };
+}
+```
+
+After extending the page data, you can access the page data through the `usePageData` hook in the theme.
+
+```tsx
+import { usePageData } from '@modern-js/doc-tools';
+
+export function MyComponent() {
+  const { page } = usePageData();
+  // page.a === 1
+  return <div>{page.a}</div>;
+}
+```
+
+:::tip
+`extendPageData` function supports declaration as an `async` function.
+:::

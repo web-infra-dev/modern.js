@@ -1,5 +1,94 @@
 # @modern-js/module-tools
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/core@2.13.4
+- @modern-js/plugin-changeset@2.13.4
+- @modern-js/plugin-i18n@2.13.4
+- @modern-js/plugin-lint@2.13.4
+- @modern-js/new-action@2.13.4
+- @modern-js/plugin@2.13.4
+- @modern-js/upgrade@2.13.4
+- @modern-js/utils@2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- c20e67d: fix(module-tools): missing postcss dependency
+
+  fix(module-tools): 修复缺少 postcss 依赖的问题
+
+  - @modern-js/core@2.13.3
+  - @modern-js/plugin-changeset@2.13.3
+  - @modern-js/plugin-i18n@2.13.3
+  - @modern-js/plugin-lint@2.13.3
+  - @modern-js/new-action@2.13.3
+  - @modern-js/plugin@2.13.3
+  - @modern-js/upgrade@2.13.3
+  - @modern-js/utils@2.13.3
+
+## 2.13.2
+
+### Patch Changes
+
+- Updated dependencies [106ac07]
+- Updated dependencies [7f4fd56]
+  - @modern-js/core@2.13.2
+  - @modern-js/plugin-changeset@2.13.2
+  - @modern-js/plugin-lint@2.13.2
+  - @modern-js/plugin-i18n@2.13.2
+  - @modern-js/new-action@2.13.2
+  - @modern-js/plugin@2.13.2
+  - @modern-js/upgrade@2.13.2
+  - @modern-js/utils@2.13.2
+
+## 2.13.1
+
+### Patch Changes
+
+- Updated dependencies [ab79a7b]
+  - @modern-js/core@2.13.1
+  - @modern-js/plugin-changeset@2.13.1
+  - @modern-js/plugin-lint@2.13.1
+  - @modern-js/plugin-i18n@2.13.1
+  - @modern-js/new-action@2.13.1
+  - @modern-js/plugin@2.13.1
+  - @modern-js/upgrade@2.13.1
+  - @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 034f36b: feat: set the default language of CLI to English
+
+  feat: 将命令行的默认语言设置为英文
+
+- 88faab3: feat: use `declarationDir` instead of `outDir`
+  feat: 使用 `declarationDir` 替换 `outDir`
+- 034f36b: fix(upgrade): i18n of upgrade command not work
+
+  fix(upgrade): 修复 upgrade 命令的 i18n 配置不生效的问题
+
+- 79bc089: fix(module-tools): fix noClear option not work
+  fix(module-tools): 修复 noClear 配置不生效
+- Updated dependencies [e9b1656]
+- Updated dependencies [e91ec97]
+- Updated dependencies [034f36b]
+- Updated dependencies [78431f4]
+- Updated dependencies [034f36b]
+  - @modern-js/core@2.13.0
+  - @modern-js/plugin-changeset@2.13.0
+  - @modern-js/plugin-i18n@2.13.0
+  - @modern-js/upgrade@2.13.0
+  - @modern-js/plugin@2.13.0
+  - @modern-js/plugin-lint@2.13.0
+  - @modern-js/new-action@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Minor Changes

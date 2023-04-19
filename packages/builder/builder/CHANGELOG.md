@@ -1,5 +1,64 @@
 # @modern-js/builder
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.13.4
+- @modern-js/utils@2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- 28583e8: feat(builder): add assetsRetry.inlineScript config
+
+  feat(builder): 新增 assetsRetry.inlineScript 配置项
+
+- Updated dependencies [18cd03f]
+- Updated dependencies [28583e8]
+  - @modern-js/builder-shared@2.13.3
+  - @modern-js/utils@2.13.3
+
+## 2.13.2
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.13.2
+- @modern-js/utils@2.13.2
+
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.13.1
+- @modern-js/utils@2.13.1
+
+## 2.13.0
+
+### Patch Changes
+
+- 1feacdc: feat(builder): support using RegExp to inline part of chunks
+
+  feat(builder): 支持通过正则来内联部分资源
+
+- 348306d: feat(builder): add html.scriptLoading config
+
+  feat(builder): 新增 html.scriptLoading 配置
+
+- 9c0572e: chore(builder): support get builder/shared compiled path in provider getCompiledPath api
+
+  chore(builder): 支持通过 provider getCompiledPath api 获取 builder/shared 中预打包依赖路径
+
+- Updated dependencies [1feacdc]
+- Updated dependencies [384406c]
+- Updated dependencies [c89de05]
+- Updated dependencies [348306d]
+- Updated dependencies [384e393]
+- Updated dependencies [9c0572e]
+  - @modern-js/builder-shared@2.13.0
+  - @modern-js/utils@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

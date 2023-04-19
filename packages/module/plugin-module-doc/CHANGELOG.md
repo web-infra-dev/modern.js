@@ -1,5 +1,63 @@
 # @modern-js/plugin-module-doc
 
+## 2.13.4
+
+### Patch Changes
+
+- @modern-js/doc-core@2.13.4
+- @modern-js/module-tools@2.13.4
+
+## 2.13.3
+
+### Patch Changes
+
+- Updated dependencies [c20e67d]
+  - @modern-js/module-tools@2.13.3
+  - @modern-js/doc-core@2.13.3
+
+## 2.13.2
+
+### Patch Changes
+
+- 6107696: fix: export PluginOptions type in module-doc
+
+  fix: 从 module-doc 中导出 PluginOptions 类型
+
+- Updated dependencies [3d68bd3]
+- Updated dependencies [3867ab5]
+  - @modern-js/doc-core@2.13.2
+  - @modern-js/module-tools@2.13.2
+
+## 2.13.1
+
+### Patch Changes
+
+- @modern-js/doc-core@2.13.1
+- @modern-js/module-tools@2.13.1
+
+## 2.13.0
+
+### Minor Changes
+
+- 1897e83: refactor: remove inject template and unuse config, add internal compoennt named overview
+  refactor: 移除插入模板的逻辑和无用的配置，并添加内置概览组件
+
+### Patch Changes
+
+- Updated dependencies [1897e83]
+- Updated dependencies [c04925b]
+- Updated dependencies [8b45566]
+- Updated dependencies [034f36b]
+- Updated dependencies [e3291d5]
+- Updated dependencies [6d3b023]
+- Updated dependencies [bb03c20]
+- Updated dependencies [88faab3]
+- Updated dependencies [034f36b]
+- Updated dependencies [79bc089]
+- Updated dependencies [72b71b5]
+  - @modern-js/doc-core@2.13.0
+  - @modern-js/module-tools@2.13.0
+
 ## 2.12.0
 
 ### Patch Changes

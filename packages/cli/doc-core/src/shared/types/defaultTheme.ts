@@ -36,7 +36,12 @@ export interface Config {
    * @default 'Last updated'
    */
   lastUpdatedText?: string;
-
+  /**
+   * Set custom last updated text.
+   *
+   * @default false
+   */
+  lastUpdated?: boolean;
   /**
    * Set custom prev/next labels.
    */
@@ -91,6 +96,7 @@ export interface LocaleConfig {
   sidebar?: Sidebar;
   outlineTitle?: string;
   lastUpdatedText?: string;
+  lastUpdated?: boolean;
   editLink?: EditLink;
   prevPageText?: string;
   nextPageText?: string;

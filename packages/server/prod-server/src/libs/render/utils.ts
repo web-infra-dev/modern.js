@@ -13,7 +13,7 @@ export const injectServerData = (
 ) => {
   const template = new TemplateAPI(content);
   template.prependHead(
-    `<script>window._SERVER_DATA=${JSON.stringify(
+    `<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
       context.serverData,
     )}</script>`,
   );
@@ -26,7 +26,7 @@ export const injectServerDataStream = (
 ) => {
   return content.pipe(
     templateInjectableStream({
-      prependHead: `<script>window._SERVER_DATA=${JSON.stringify(
+      prependHead: `<script type="application/json" id="__MODERN_SERVER_DATA__">${JSON.stringify(
         context.serverData,
       )}</script>`,
     }),
