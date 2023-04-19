@@ -27,7 +27,7 @@ export const builderPluginDefine = (): BuilderPlugin => ({
       );
 
       const serializedVars = mapValues(globalVars, value =>
-        JSON.stringify(value),
+        JSON.stringify(value) ?? 'undefined',
       );
 
       // Macro defines.
