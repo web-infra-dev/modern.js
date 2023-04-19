@@ -1,5 +1,5 @@
 import { UserConfig, PageIndexInfo, DocPlugin } from 'shared/types';
-import { pluginLastUpdated } from '@modern-js/doc-plugin-last-updated';
+import { pluginLastUpdated } from './plugins/lastUpdated';
 
 type HookOptions = {
   config: UserConfig;
