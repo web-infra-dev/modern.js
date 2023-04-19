@@ -14,6 +14,7 @@ export const MainFieldsSchema: ZodType<MainFields> = z.array(
 );
 
 export const sharedSourceConfigSchema = z.partialObj({
+  alias: z.chained(z.record(z.arrayOrNot(z.string()))),
   include: z.array(z.union([z.string(), z.instanceof(RegExp)])),
   exclude: z.array(z.union([z.string(), z.instanceof(RegExp)])),
   preEntry: z.arrayOrNot(z.string()),
