@@ -43,11 +43,6 @@ module.exports = defineConfig({
     port,
   },
   tools: {
-    rspack: config => {
-      // TODO: It's an rspack or swc bug.
-      // https://github.com/web-infra-dev/rspack/issues/2733
-      config.builtins.presetEnv = undefined;
-    },
     webpack: (config, { appendPlugins, webpack }) => {
       const { ModuleFederationPlugin } = webpack.container;
       appendPlugins([
