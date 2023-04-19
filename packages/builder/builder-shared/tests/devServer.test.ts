@@ -103,8 +103,6 @@ describe('test dev server', () => {
           "server": {},
           "source": {
             "alias": {},
-            "define": {},
-            "globalVars": {},
           },
           "tools": {
             "babel": {},
@@ -171,8 +169,6 @@ describe('test dev server', () => {
           "server": {},
           "source": {
             "alias": {},
-            "define": {},
-            "globalVars": {},
           },
           "tools": {
             "babel": {},
