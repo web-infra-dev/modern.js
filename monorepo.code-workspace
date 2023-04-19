@@ -101,10 +101,6 @@
       "path": "packages/cli/plugin-changeset"
     },
     {
-      "name": "@modern-js/plugin-egg",
-      "path": "packages/server/plugin-egg"
-    },
-    {
       "name": "@modern-js/plugin-express",
       "path": "packages/server/plugin-express"
     },
@@ -119,10 +115,6 @@
     {
       "name": "@modern-js/plugin-garfish",
       "path": "packages/cli/plugin-garfish"
-    },
-    {
-      "name": "@modern-js/plugin-nest",
-      "path": "packages/server/plugin-nest"
     },
     {
       "name": "@modern-js/plugin-polyfill",
