@@ -22,6 +22,8 @@ import {
   DOCUMENT_SCRIPT_PLACEHOLDER_START,
   DOCUMENT_SCRIPT_PLACEHOLDER_END,
   HTML_SEPARATOR,
+  DOCUMENT_COMMENT_PLACEHOLDER_START,
+  DOCUMENT_COMMENT_PLACEHOLDER_END,
 } from '../constants';
 
 const debug = createDebugger('html_genarate');
@@ -206,6 +208,19 @@ export default (): CliPlugin<AppTools> => ({
               'g',
             ),
             (_scriptStr, $1) => `<script>${decodeURIComponent($1)}</script>`,
+          );
+        }
+        // if the Document.tsx has a comment component, replace and convert it
+        if (
+          html.includes(DOCUMENT_COMMENT_PLACEHOLDER_START) &&
+          html.includes(DOCUMENT_COMMENT_PLACEHOLDER_END)
+        ) {
+          html = html.replaceAll(
+            new RegExp(
+              `${DOCUMENT_COMMENT_PLACEHOLDER_START}(.*?)${DOCUMENT_COMMENT_PLACEHOLDER_END}`,
+              'g',
+            ),
+            (_scriptStr, $1) => `${decodeURIComponent($1)}`,
           );
         }
 
