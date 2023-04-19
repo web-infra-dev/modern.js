@@ -3,10 +3,10 @@ import { matchRoutes, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { useContext, useLayoutEffect } from 'react';
 import Theme from '@theme';
-import { getRelativePagePath, normalizeRoutePath } from './utils';
+import { isEqualPath, normalizeRoutePath } from './utils';
 import { DataContext } from './hooks';
 import { PageData } from '@/shared/types';
-import { cleanUrl, omit } from '@/shared/utils';
+import { cleanUrl } from '@/shared/utils';
 import 'virtual-global-styles';
 
 export async function initPageData(routePath: string): Promise<PageData> {
@@ -19,29 +19,30 @@ export async function initPageData(routePath: string): Promise<PageData> {
     const matchedRoute = matched[0].route;
     const mod = await matchedRoute.preload();
     const pagePath = cleanUrl(matched[0].route.filePath);
-    const relativePagePath = getRelativePagePath(
-      routePath,
-      pagePath,
-      siteData?.base || '/',
+    const extractPageInfo = siteData.pages.find(page =>
+      isEqualPath(page.routePath, routePath),
     );
     return {
       siteData,
-      pagePath,
-      relativePagePath,
-      ...omit(mod, ['default']),
-      pageType: mod?.frontmatter?.pageType || 'doc',
-      routePath,
-      lang: matchedRoute.lang,
-    } as PageData;
+      page: {
+        pagePath,
+        pageType: mod?.frontmatter?.pageType || 'doc',
+        ...extractPageInfo,
+      },
+    };
   } else {
     // 404 Page
     return {
       siteData,
-      pagePath: '',
-      relativePagePath: '',
-      pageType: '404',
-      routePath: '/404',
-      lang: siteData.lang || '',
+      page: {
+        pagePath: '',
+        pageType: '404',
+        routePath: '/404',
+        lang: siteData.lang || '',
+        frontmatter: {},
+        title: '404',
+        toc: [],
+      },
     };
   }
 }
@@ -53,7 +54,7 @@ export function App({ helmetContext }: { helmetContext?: object }) {
     async function refetchData() {
       try {
         const pageData = await initPageData(normalizeRoutePath(pathname));
-        setPageData!(pageData);
+        setPageData(pageData);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(e);

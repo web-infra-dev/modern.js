@@ -10,18 +10,18 @@ export function SwitchAppearance({ onClick }: { onClick?: () => void }) {
 
   useEffect(() => {
     if (isDarkMode()) {
-      setTheme!('dark');
+      setTheme('dark');
     }
   }, []);
 
   return (
     <div
       onClick={() => {
-        setTheme!(theme === 'dark' ? 'light' : 'dark');
+        setTheme(theme === 'dark' ? 'light' : 'dark');
         toggleAppearance();
         onClick?.();
       }}
-      className="mr-2"
+      className="mr-2 modern-nav-appearance"
     >
       <div className="p-1 border border-solid border-gray-300 text-gray-400  cursor-pointer rounded-md hover:border-gray-600 hover:text-gray-600 dark:hover:border-gray-200 dark:hover:text-gray-200 transition-all duration-300">
         {theme === 'light' ? (

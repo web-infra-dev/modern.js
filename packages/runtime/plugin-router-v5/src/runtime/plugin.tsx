@@ -16,6 +16,7 @@ import {
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
 import type { Plugin } from '@modern-js/runtime';
+import { parsedJSONFromElement } from '@modern-js/utils/runtime';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 
 declare global {
@@ -78,6 +79,11 @@ export const routerPlugin = ({
 
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
+
+  if (isBrow) {
+    window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
+  }
+
   return {
     name: '@modern-js/plugin-router',
     setup: () => {

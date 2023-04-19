@@ -10,7 +10,7 @@ export default (): CliPlugin => ({
         program
           .command('lint [...files]')
           .allowUnknownOption()
-          .description('lint and fix source files')
+          .description('Run ESLint and automatically fix problems')
           .option('--no-fix', 'disable auto fix source file')
           .action(() => {
             lint();

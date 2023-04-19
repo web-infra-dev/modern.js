@@ -189,3 +189,37 @@ export function pluginForDoc(): DocPlugin {
   };
 }
 ```
+
+### 8. extendPageData
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 扩展页面数据
+    extendPageData(pageData) {
+      // 你可以往 pageData 对象上添加或者修改属性
+      pageData.a = 1;
+    },
+  };
+}
+```
+
+在扩展页面数据之后，你可以在主题中通过 `usePageData` 这个 hook 来访问页面数据。
+
+```tsx
+import { usePageData } from '@modern-js/doc-tools';
+
+export function MyComponent() {
+  const { page } = usePageData();
+  // page.a === 1
+  return <div>{page.a}</div>;
+}
+```
+
+:::tip
+extendPageData 函数支持声明为一个 `async` 异步函数。
+:::

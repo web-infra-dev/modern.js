@@ -12,7 +12,7 @@ DEBUG=builder pnpm build
 
 In debug mode, Builder will output some additional log information, and write the Builder config and webpack config to the dist directory, which is convenient for developers to view and debug.
 
-## Log information
+## Log Information
 
 In debug mode, you will see some additional information output from the shell, among which are some process logs starting with `debug`, indicating what operations are performed inside the Builder.
 
@@ -36,7 +36,7 @@ Inspect config succeeds, open following files to view the content:
    - Webpack Config (web): /Project/demo/dist/webpack.config.web.js
 ```
 
-## Builder config file
+## Builder Config File
 
 In debug mode, Builder will automatically generate `dist/builder.config.js` file, which contains the final generated Builder config. In this file, you can know the final result of the Builder config you passed in after being processed by the framework and Builder.
 
@@ -56,9 +56,9 @@ module.exports = {
 
 For a complete introduction to Builder config, please see the [Builder Config](/guide/basic/builder-config.html) chapter.
 
-## webpack config file
+## Webpack Config File
 
-In debug mode, Builder will also automatically generate `dist/webpack.config.web.js` file, which contains the final generated webpack config. In this file, you can see what is included in the config that Builder finally passes to webpack.
+If the current project is built using webpack, then in debug mode, Builder will also automatically generate `dist/webpack.config.web.js` file, which contains the final generated webpack config. In this file, you can see what is included in the config that Builder finally passes to webpack.
 
 The structure of the file is as follows:
 
@@ -80,3 +80,26 @@ module.exports = {
 In addition, if the project configures additional build targets, such as enabling the SSR capability of the framework (corresponding to additional Node.js build target), an additional `webpack.config.node.js` file will be generated in the `dist` directory, corresponding to the webpack config for SSR bundles.
 
 For a complete introduction to webpack configs, please see [webpack official documentation](https://webpack.js.org/concepts/config/).
+
+## Rspack Config File
+
+If the current project is built using Rspack, then in debug mode, Builder will also automatically generate `dist/rspack.config.web.js` file, which contains the final generated Rspack config. In this file, you can see what is included in the config that Builder finally passes to Rspack.
+
+The structure of the file is as follows:
+
+```js
+module.exports = {
+  resolve: {
+    // some resolve configs...
+  },
+  module: {
+    // some Rspack loaders...
+  },
+  plugins: [
+    // some Rspack plugins...
+  ],
+  // other configs...
+};
+```
+
+For a complete introduction to Rspack configs, please see [Rspack official documentation](https://rspack.dev/config/).

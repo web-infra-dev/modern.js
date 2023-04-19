@@ -13,18 +13,15 @@ export async function dev(
   rootDir: string,
   config: UserConfig,
 ): Promise<ServerInstance> {
-  const docPlugins = [...(config.doc?.plugins ?? [])];
   const base = config.doc?.base ?? '';
   const isProd = false;
 
   try {
     const modifiedConfig = await modifyConfig({
       config,
-      docPlugins,
     });
     await beforeBuild({
       config: modifiedConfig,
-      docPlugins,
       isProd,
     });
 
@@ -40,7 +37,6 @@ export async function dev(
 
     await afterBuild({
       config: modifiedConfig,
-      docPlugins,
       isProd,
     });
     return server;

@@ -1,13 +1,22 @@
-import { UserConfig, DocPlugin } from 'shared/types';
+import { UserConfig, PageIndexInfo, DocPlugin } from 'shared/types';
+import { pluginLastUpdated } from './plugins/lastUpdated';
 
 type HookOptions = {
   config: UserConfig;
-  docPlugins: DocPlugin[];
   isProd?: boolean;
+  pageData?: PageIndexInfo;
 };
 
+const DEFAULT_PLUGINS = [pluginLastUpdated() as DocPlugin];
+
+function getPlugins(config: UserConfig) {
+  const plugins = config.doc?.plugins || [];
+  return [...DEFAULT_PLUGINS, ...plugins];
+}
+
 export async function modifyConfig(hookOptions: HookOptions) {
-  const { config, docPlugins } = hookOptions;
+  const { config } = hookOptions;
+  const docPlugins = getPlugins(config);
 
   // config hooks
   for (const plugin of docPlugins) {
@@ -20,27 +29,43 @@ export async function modifyConfig(hookOptions: HookOptions) {
 }
 
 export async function beforeBuild(hookOptions: HookOptions) {
-  const { config, docPlugins, isProd = true } = hookOptions;
+  const { config, isProd = true } = hookOptions;
+  const docPlugins = getPlugins(config);
 
   // beforeBuild hooks
   return await Promise.all(
     docPlugins
       .filter(plugin => typeof plugin.beforeBuild === 'function')
       .map(plugin => {
-        return plugin.beforeBuild!(config.doc || {}, isProd);
+        return plugin.beforeBuild(config.doc || {}, isProd);
       }),
   );
 }
 
 export async function afterBuild(hookOptions: HookOptions) {
-  const { config, docPlugins, isProd = true } = hookOptions;
+  const { config, isProd = true } = hookOptions;
+  const docPlugins = getPlugins(config);
 
   // afterBuild hooks
   return await Promise.all(
     docPlugins
       .filter(plugin => typeof plugin.afterBuild === 'function')
       .map(plugin => {
-        return plugin.afterBuild!(config.doc || {}, isProd);
+        return plugin.afterBuild(config.doc || {}, isProd);
+      }),
+  );
+}
+
+export async function extendPageData(hookOptions: HookOptions): Promise<void> {
+  const { pageData } = hookOptions;
+  const docPlugins = getPlugins(hookOptions.config);
+
+  // extendPageData hooks
+  await Promise.all(
+    docPlugins
+      .filter(plugin => typeof plugin.extendPageData === 'function')
+      .map(plugin => {
+        return plugin.extendPageData(pageData);
       }),
   );
 }

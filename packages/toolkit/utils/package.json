@@ -23,6 +23,11 @@
       "import": "./dist/esm/index.js",
       "default": "./dist/cjs/index.js"
     },
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "import": "./dist/esm/runtime/index.js",
+      "default": "./dist/cjs/runtime/index.js"
+    },
     "./ssr": {
       "jsnext:source": "./src/ssr.ts",
       "import": "./dist/esm/ssr.js",
@@ -46,6 +51,7 @@
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
+    "./execa": "./compiled/execa/index.js",
     "./json5": "./compiled/json5/index.js",
     "./semver": "./compiled/semver/index.js",
     "./lodash": "./compiled/lodash/index.js",
@@ -101,6 +107,11 @@
         "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       },
+      "./runtime": {
+        "import": "./dist/esm/runtime/index.js",
+        "types": "./dist/types/runtime/index.d.ts",
+        "default": "./dist/cjs/runtime/index.js"
+      },
       "./ssr": {
         "import": "./dist/esm/ssr.js",
         "types": "./dist/types/ssr.d.ts",
@@ -124,6 +135,7 @@
       "./ajv": "./dist/compiled/ajv/index.js",
       "./glob": "./dist/compiled/glob/index.js",
       "./chalk": "./dist/compiled/chalk/index.js",
+      "./execa": "./dist/compiled/execa/index.js",
       "./json5": "./dist/compiled/json5/index.js",
       "./semver": "./dist/compiled/semver/index.js",
       "./lodash": "./dist/compiled/lodash/index.js",
@@ -172,6 +184,9 @@
   },
   "typesVersions": {
     "*": {
+      "runtime": [
+        "./dist/types/runtime/index.d.ts"
+      ],
       "ssr": [
         "./dist/types/ssr.d.ts"
       ],
@@ -186,6 +201,9 @@
       ],
       "ajv": [
         "./dist/compiled/ajv/types/ajv.d.ts"
+      ],
+      "execa": [
+        "./dist/compiled/execa/index.d.ts"
       ],
       "ajv/json-schema": [
         "./dist/compiled/ajv/types/types/json-schema.d.ts"

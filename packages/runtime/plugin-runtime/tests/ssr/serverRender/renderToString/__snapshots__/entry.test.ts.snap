@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Entry should inject inline json correctly 1`] = `
+{
+  "SSRDataScript": "<script>window._SSR_DATA = {"name":"modern.js"}</script>
+<script>window._ROUTER_DATA = {"age":18}</script>",
+}
+`;
+
+exports[`Entry should inject inline scripts correctly 1`] = `
+{
+  "SSRDataScript": "<script type="application/json" id="__MODERN_SSR_DATA__">{"name":"modern.js"}</script>
+<script type="application/json" id="__MODERN_ROUTER_DATA__">{"age":18}</script>",
+}
+`;

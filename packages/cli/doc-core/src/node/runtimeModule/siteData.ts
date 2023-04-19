@@ -12,41 +12,36 @@ import yamlFront from 'yaml-front-matter';
 import { htmlToText } from 'html-to-text';
 import { ReplaceRule, Header } from 'shared/types/index';
 import fs from '@modern-js/utils/fs-extra';
-import { logger } from '@modern-js/utils/logger';
 import { compile } from '@modern-js/mdx-rs-binding';
 import { importStatementRegex, TEMP_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
-import { createHash } from '../utils';
+import { logger, createHash } from '../utils';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
+import { extendPageData } from '../hooks';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeService } from './routeData';
 import { RuntimeModuleID } from '.';
-import { MDX_REGEXP, SEARCH_INDEX_NAME, withBase } from '@/shared/utils';
+import { withBase, MDX_REGEXP, SEARCH_INDEX_NAME } from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
 
-// The concern about future architecture:
-// The `indexHash` will be generated before Rspack build so we can wrap it with virtual module in rspack to ensure that client runtime can access it.The process will be like this:
-// | ........................ process ........................... |
-//
-// Input -> | Compute index | -> Rspack build ->- Output -> | Append index file to output dir |
-
-// However, if we generate the search index at internal Rspack build process in the future, like this:
-// | ........................ process ........................... |
-//
-// Input ->- Rspack build ->- Output ->- | Write Index file to output dir |
-//                 |
-//          +---------------+
-//          | Compute index |
-//          +---------------+
-// In this way, we can compute index in a custom mdx loader instead of `@mdx-js/loader` and reuse the ast info of mdx files and cache all the compile result of unified processor.In other words, we won't need to compile mdx files twice for search index generation.
-
-// Then there will be a problem: how can we let the client runtime access the `indexHash`?
-// As far as I know, we can only do something after the Rspack build process becuase the index hash is generated within Rspack build process.There are two ways to do this:
+// How can we let the client runtime access the `indexHash`?
+// We can only do something after the Rspack build process becuase the index hash is generated within Rspack build process.There are two ways to do this:
 // 1. insert window.__INDEX_HASH__ = 'xxx' into the html template manually
 // 2. replace the `__INDEX_HASH__` placeholder in the html template with the real index hash after Rspack build
-
 export const indexHash = '';
+
+function deletePriviteKey<T>(obj: T): T {
+  if (typeof obj !== 'object' || obj === null) {
+    return obj;
+  }
+  Object.keys(obj).forEach(key => {
+    if (key.startsWith('_')) {
+      delete obj[key];
+    }
+  });
+  return obj;
+}
 
 export function normalizeThemeConfig(
   themeConfig: DefaultThemeConfig,
@@ -127,7 +122,6 @@ async function extractPageData(
   replaceRules: ReplaceRule[],
   alias: Record<string, string | string[]>,
   domain: string,
-  disableSearch: boolean,
   root: string,
 ): Promise<(PageIndexInfo | null)[]> {
   return Promise.all(
@@ -140,9 +134,7 @@ async function extractPageData(
           // eslint-disable-next-line import/no-named-as-default-member
           ...yamlFront.loadFront(content),
         };
-        if (frontmatter.pageType === 'home') {
-          return null;
-        }
+
         // 1. Replace rules for frontmatter & content
         Object.keys(frontmatter).forEach(key => {
           if (typeof frontmatter[key] === 'string') {
@@ -176,7 +168,7 @@ async function extractPageData(
           root,
         });
 
-        if (!title?.length && !frontmatter.title?.length) {
+        if (!title?.length && !frontmatter && !frontmatter.title?.length) {
           return null;
         }
         content = htmlToText(String(html), {
@@ -237,6 +229,7 @@ async function extractPageData(
             ...frontmatter,
             __content: undefined,
           },
+          _filepath: route.absolutePath,
         };
       }),
   );
@@ -260,51 +253,31 @@ export async function siteDataVMPlugin(
   if (!pages) {
     // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
     if (!isSSR) {
-      logger.info('[doc-tools] Extracting site data...');
+      logger.info('Extracting site data...');
     }
     const domain =
       userConfig?.search && userConfig?.search?.mode === 'remote'
         ? userConfig?.search.domain ?? ''
         : '';
     pages = (
-      await extractPageData(
-        replaceRules,
-        alias,
-        domain,
-        userConfig?.search === false,
-        userRoot,
-      )
+      await extractPageData(replaceRules, alias, domain, userRoot)
     ).filter(Boolean);
   }
 
-  const siteData = {
-    title: userConfig?.title || '',
-    description: userConfig?.description || '',
-    icon: userConfig?.icon || '',
-    themeConfig: normalizeThemeConfig(
-      userConfig?.themeConfig || {},
-      pages,
-      config.doc?.base,
-      config.doc?.replaceRules || [],
-    ),
-    base: userConfig?.base || '/',
-    root: userRoot,
-    lang: userConfig?.lang || '',
-    logo: userConfig?.logo || '',
-    search: userConfig?.search ?? { mode: 'local' },
-    pages: pages.map(({ routePath, toc }) => ({
-      routePath,
-      toc,
-    })),
-  };
-  // Categorize pages, sorted by language
-  const pagesByLang = pages.reduce((acc, page) => {
-    if (!acc[page.lang]) {
-      acc[page.lang] = [];
-    }
-    acc[page.lang].push(page);
-    return acc;
-  }, {} as Record<string, PageIndexInfo[]>);
+  // Categorize pages, sorted by language, and write search index to file
+  const pagesByLang = deletePriviteKey<PageIndexInfo[]>(pages).reduce(
+    (acc, page) => {
+      if (!acc[page.lang]) {
+        acc[page.lang] = [];
+      }
+      if (page.frontmatter?.pageType === 'home') {
+        return acc;
+      }
+      acc[page.lang].push(page);
+      return acc;
+    },
+    {} as Record<string, PageIndexInfo[]>,
+  );
 
   const indexHashByLang = {} as Record<string, string>;
 
@@ -321,6 +294,37 @@ export async function siteDataVMPlugin(
       );
     }),
   );
+
+  // Run extendPageData hook in plugins
+  await Promise.all(
+    pages.map(async pageData =>
+      extendPageData({
+        pageData,
+        config,
+      }),
+    ),
+  );
+
+  const siteData = {
+    title: userConfig?.title || '',
+    description: userConfig?.description || '',
+    icon: userConfig?.icon || '',
+    themeConfig: normalizeThemeConfig(
+      userConfig?.themeConfig || {},
+      pages,
+      config.doc?.base,
+      config.doc?.replaceRules || [],
+    ),
+    base: userConfig?.base || '/',
+    root: userRoot,
+    lang: userConfig?.lang || '',
+    logo: userConfig?.logo || '',
+    search: userConfig?.search ?? { mode: 'local' },
+    pages: pages.map(page => {
+      const { content, id, domain, ...rest } = page;
+      return rest;
+    }),
+  };
 
   const plugin = new RuntimeModulesPlugin({
     [entryPath]: `export default ${JSON.stringify(siteData)}`,

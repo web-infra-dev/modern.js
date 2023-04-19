@@ -39,7 +39,10 @@ export function Search() {
   const [initing, setIniting] = useState(true);
   const [currentSuggestionIndex, setCurrentSuggestionIndex] = useState(0);
   const pageSearcherRef = useRef<PageSearcher | null>(null);
-  const { siteData, lang } = usePageData();
+  const {
+    siteData,
+    page: { lang },
+  } = usePageData();
   const { sidebar } = useLocaleSiteData();
   const { search } = siteData;
 

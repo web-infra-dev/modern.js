@@ -46,7 +46,11 @@ The following solutions are available within the Modern.js ecosystem:
 
 Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/blob/main/CONTRIBUTING.md).
 
-## All Contributors
+### Code of Conduct
+
+This repo has adopted the Bytedance Open Source Code of Conduct. Please check [Code of Conduct](./CODE_OF_CONDUCT.md) for more details.
+
+### All Contributors
 
 Thanks to the following friends for their contributions to Modern.js:
 

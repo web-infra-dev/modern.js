@@ -1,8 +1,4 @@
-import { normalizeHref, withBase } from '@/runtime';
-
-export function isEqualPath(a: string, b: string) {
-  return withBase(normalizeHref(a)) === withBase(normalizeHref(b));
-}
+import { isEqualPath } from '@/runtime';
 
 export function isActive(
   currentPath: string,

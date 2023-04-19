@@ -10,7 +10,7 @@ const noDevTools = `暂无可用的 DevTools，你可以通过以下选项以及
 export const ZH_LOCALE = {
   command: {
     build: {
-      describe: '构建模块命令',
+      describe: '构建生产环境产物',
       watch: '使用 Watch 模式构建模块',
       tsconfig: '指定 tsconfig.json 文件的路径',
       styleOnly: '只构建样式文件',
@@ -22,11 +22,11 @@ export const ZH_LOCALE = {
       config: '指定配置文件路径，可以为相对路径或绝对路径',
     },
     dev: {
-      describe: '本地开发命令',
+      describe: '运行和调试模块',
       tsconfig: '指定 tsconfig.json 文件的路径',
     },
     new: {
-      describe: '模块化工程方案中执行生成器',
+      describe: '启用可选功能',
       debug: '开启 Debug 模式，打印调试日志信息',
       config: '生成器运行默认配置(JSON 字符串)',
       distTag: '生成器使用特殊的 npm Tag 版本',

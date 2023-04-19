@@ -11,7 +11,7 @@ sidebar_position: 2
 ```bash
 Usage: modern build [options]
 
-构建模块命令
+构建生产环境产物
 
 Options:
   -w, --watch            使用监听模式构建代码
@@ -41,7 +41,7 @@ Options:
 ```bash
 Usage: modern new [options]
 
-模块化工程方案中执行生成器
+启用可选功能
 
 Options:
   -d, --debug            开启 Debug 模式，打印调试日志信息 (default: false)
@@ -67,7 +67,7 @@ Options:
 ```bash
 Usage: modern dev [options]
 
-本地开发命令
+运行和调试模块
 
 Options:
   -h, --help             display help for command

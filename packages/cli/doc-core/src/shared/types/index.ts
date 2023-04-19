@@ -105,6 +105,11 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
   search?: SearchOptions;
 }
 
+export type BaseRuntimePageInfo = Omit<
+  PageIndexInfo,
+  'id' | 'content' | 'domain'
+>;
+
 export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   root: string;
   base: string;
@@ -114,10 +119,7 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   icon: string;
   themeConfig: ThemeConfig;
   logo: string | { dark: string; light: string };
-  pages: {
-    routePath: string;
-    toc: Header[];
-  }[];
+  pages: BaseRuntimePageInfo[];
   search: SearchOptions;
 }
 
@@ -186,18 +188,12 @@ export interface FrontMatterMeta {
 
 export interface PageData {
   siteData: SiteData<DefaultThemeConfig>;
-  pagePath: string;
-  relativePagePath: string;
-  lastUpdatedTime?: string;
-  title?: string;
-  frontmatter?: FrontMatterMeta;
-  description?: string;
-  pageType: PageType;
-  toc?: Header[];
-  routePath: string;
-  content?: string;
-  lang: string;
-  subModules?: PageModule<ComponentType<unknown>>[];
+  page: BaseRuntimePageInfo & {
+    pagePath: string;
+    lastUpdatedTime?: string;
+    description?: string;
+    pageType: PageType;
+  };
 }
 
 export interface RouteOptions {
