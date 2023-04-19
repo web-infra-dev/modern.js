@@ -1,6 +1,11 @@
 import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { fs, isServiceWorker, ROUTE_SPEC_FILE } from '@modern-js/utils';
+import {
+  fs,
+  isServiceWorker,
+  PLUGIN_SCHEMAS,
+  ROUTE_SPEC_FILE,
+} from '@modern-js/utils';
 import {
   MANIFEST_FILE,
   PKG_FILE,
@@ -31,6 +36,9 @@ export default (): CliPlugin<AppTools> => ({
           //   },
           // },
         };
+      },
+      validateSchema() {
+        return PLUGIN_SCHEMAS['@modern-js/plugin-worker'];
       },
       async afterDev() {
         const { appDirectory, distDirectory } = ctx.useAppContext();

@@ -12,7 +12,11 @@ export default defineConfig({
     ssrByEntries: {
       main: true,
     },
-    worker: true,
+  },
+  deploy: {
+    worker: {
+      ssr: true,
+    },
   },
   plugins: [appTools(), workPlugin()],
 });

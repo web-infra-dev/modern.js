@@ -6,4 +6,7 @@ export interface MicroFrontend {
 
 export interface DeployUserConfig {
   microFrontend?: boolean | MicroFrontend;
+  worker?: {
+    ssr?: boolean;
+  };
 }
