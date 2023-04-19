@@ -124,7 +124,7 @@ export const remarkPluginNormalizeLink: Plugin<
         if (hash) {
           url += `#${hash}`;
         }
-        node.url = path.join(base, url);
+        node.url = path.posix.join(base, url);
       },
     );
 
