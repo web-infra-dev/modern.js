@@ -40,4 +40,24 @@ describe('plugins/define', () => {
       }
     `);
   });
+
+  it('should allow globalVars to be a function', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginDefine()],
+      builderConfig: {
+        source: {
+          globalVars: (obj, { env, target }) => {
+            obj.ENV = env;
+            obj.TARGET = target;
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });

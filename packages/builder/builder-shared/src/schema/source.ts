@@ -18,7 +18,7 @@ export const sharedSourceConfigSchema = z.partialObj({
   include: z.array(z.union([z.string(), z.instanceof(RegExp)])),
   exclude: z.array(z.union([z.string(), z.instanceof(RegExp)])),
   preEntry: z.arrayOrNot(z.string()),
-  globalVars: z.record(z.json()),
+  globalVars: z.chained(z.any(), z.any()),
   compileJsDataURI: z.boolean(),
   resolveMainFields: z.union([
     MainFieldsSchema,
