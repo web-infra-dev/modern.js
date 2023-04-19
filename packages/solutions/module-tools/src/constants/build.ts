@@ -47,4 +47,5 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     style: true,
     asset: true,
   },
+  esbuildOptions: c => c,
 });

@@ -38,6 +38,11 @@ export const builderPluginAdpaterCopy = (
         normalizedConfig.output.distPath?.root || './dist',
         './public',
       );
+
+      if (!fs.existsSync(publicDir) || !fs.statSync(publicDir).isDirectory()) {
+        return;
+      }
+
       const HTML_REGEXP = /\.html?$/;
 
       const filepaths = (await fs.readdir(publicDir)).map(file =>

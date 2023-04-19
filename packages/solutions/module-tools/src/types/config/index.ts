@@ -100,6 +100,7 @@ export type PartialBaseBuildConfig = {
   style?: StyleConfig;
   redirect?: LibuildUserConfig['redirect'];
   sideEffects?: LibuildUserConfig['sideEffects'];
+  esbuildOptions?: LibuildUserConfig['esbuildOptions'];
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
