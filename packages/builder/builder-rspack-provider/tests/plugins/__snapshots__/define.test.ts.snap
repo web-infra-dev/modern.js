@@ -1,0 +1,15 @@
+// Vitest Snapshot v1
+
+exports[`plugins/define > should allow globalVars to be a function 1`] = `
+{
+  "builtins": {
+    "define": {
+      "ENV": "\\"test\\"",
+      "TARGET": "\\"web\\"",
+      "process.env.ASSET_PREFIX": "\\"\\"",
+      "process.env.NODE_ENV": "\\"test\\"",
+    },
+  },
+  "module": {},
+}
+`;

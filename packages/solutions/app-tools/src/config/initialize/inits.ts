@@ -6,7 +6,6 @@ import {
   globby,
   isModernjsMonorepo,
 } from '@modern-js/utils';
-import { getAutoInjectEnv } from '../../utils/env';
 import { AppNormalizedConfig, IAppContext } from '../../types';
 
 export function initHtmlConfig(
@@ -60,19 +59,10 @@ export function initSourceConfig(
   bundler: 'webpack' | 'rspack',
 ) {
   config.source.include = createBuilderInclude(config, appContext);
-  config.source.globalVars = createBuilderGlobalVars(config, appContext);
+
   if (bundler === 'webpack') {
     (config as AppNormalizedConfig).source.moduleScopes =
       createBuilderModuleScope(config as AppNormalizedConfig);
-  }
-
-  function createBuilderGlobalVars(
-    config: AppNormalizedConfig<'shared'>,
-    appContext: IAppContext,
-  ) {
-    const { globalVars = {} } = config.source;
-    const publicEnv = getAutoInjectEnv(appContext);
-    return { ...globalVars, ...publicEnv };
   }
 
   function createBuilderInclude(
