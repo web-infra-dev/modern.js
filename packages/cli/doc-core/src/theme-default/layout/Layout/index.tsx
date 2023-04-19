@@ -38,19 +38,19 @@ export const Layout: React.FC<LayoutProps> = props => {
     beforeOutline,
     afterOutline,
   };
+  const { siteData, page } = usePageData();
   const {
+    pageType,
+    lang: currentLang,
     // Inject by remark-plugin-toc
     title: articleTitle,
     frontmatter,
-    siteData,
-    pageType,
-    lang: currentLang,
-  } = usePageData();
+  } = page;
   const localesData = useLocaleSiteData();
   const defaultLang = siteData.lang || '';
 
   // Priority: front matter title > h1 title
-  let title = frontmatter?.title ?? articleTitle;
+  let title = (frontmatter?.title as string) ?? articleTitle;
   const mainTitle = siteData.title || localesData.title;
 
   if (title && pageType === 'doc') {
@@ -60,7 +60,9 @@ export const Layout: React.FC<LayoutProps> = props => {
     title = mainTitle;
   }
   const description =
-    frontmatter?.description || siteData.description || localesData.description;
+    (frontmatter?.description as string) ||
+    siteData.description ||
+    localesData.description;
   // Use doc layout by default
   const getContentLayout = () => {
     switch (pageType) {

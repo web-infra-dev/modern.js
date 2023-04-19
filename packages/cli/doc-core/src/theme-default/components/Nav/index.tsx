@@ -64,8 +64,9 @@ const NavTranslations = ({
 
 export function Nav(props: NavProps) {
   const { beforeNavTitle, afterNavTitle, beforeNav } = props;
-  const { siteData, lang } = usePageData();
+  const { siteData, page } = usePageData();
   const { logo: rawLogo, base } = siteData;
+  const { lang } = page;
   const { pathname } = useLocation();
   const { theme } = useContext(ThemeContext);
   const localeData = useLocaleSiteData();
@@ -138,7 +139,7 @@ export function Nav(props: NavProps) {
         <NavMenu menuItems={menuItems} />
         <div className="flex-center flex-row">
           {hasMultiLanguage && (
-            <NavTranslations translationMenuData={translationMenuData!} />
+            <NavTranslations translationMenuData={translationMenuData} />
           )}
           {hasAppearanceSwitch && (
             <div className="mx-2">

@@ -5,8 +5,7 @@ import {
 } from 'shared/types';
 import { useLocation } from 'react-router-dom';
 import { useLocaleSiteData } from './useLocaleSiteData';
-import { isEqualPath } from './utils';
-import { withBase } from '@/runtime';
+import { withBase, isEqualPath } from '@/runtime';
 
 export function usePrevNextPage() {
   const { pathname } = useLocation();

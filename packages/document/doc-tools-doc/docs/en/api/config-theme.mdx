@@ -245,6 +245,50 @@ export default defineConfig({
 });
 ```
 
+## lastUpdated
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to display the last update time, it is not displayed by default.
+
+For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      lastUpdated: true,
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## lastUpdatedText
+
+- Type: `string`
+- Default: `Last Updated`
+
+The text of the last update time.
+
+For example:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      lastUpdatedText: 'Last Updated',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
 ## prevPageText
 
 - Type: `string`
@@ -394,6 +438,12 @@ export interface LocaleConfig {
   sidebar?: Sidebar;
   // Right outline title
   outlineTitle?: string;
+  // Whether to display the outline title
+  outline?: boolean;
+  // Whether to display the last update time
+  lastUpdated?: boolean;
+  // Last update time text
+  lastUpdatedText?: string;
   // Previous text
   prevPageText?: string;
   // Next page text

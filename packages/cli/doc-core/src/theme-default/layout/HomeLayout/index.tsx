@@ -2,6 +2,7 @@ import { HomeFooter } from '@theme';
 import { HomeHero } from '../../components/HomeHero';
 import { HomeFeature } from '../../components/HomeFeatures';
 import './index.css';
+import { usePageData } from '@/runtime';
 
 export interface HomeLayoutProps {
   beforeHero?: React.ReactNode;
@@ -12,6 +13,9 @@ export interface HomeLayoutProps {
 
 export function HomeLayout(props: HomeLayoutProps) {
   const { beforeHero, afterHero, beforeFeatures, afterFeatures } = props;
+  const {
+    page: { frontmatter },
+  } = usePageData();
   return (
     <div
       className="relative"
@@ -22,10 +26,10 @@ export function HomeLayout(props: HomeLayoutProps) {
     >
       <div className="mt-14 pb-12">
         {beforeHero}
-        <HomeHero />
+        <HomeHero frontmatter={frontmatter} />
         {afterHero}
         {beforeFeatures}
-        <HomeFeature />
+        <HomeFeature frontmatter={frontmatter} />
         {afterFeatures}
       </div>
       <HomeFooter />
