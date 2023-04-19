@@ -483,41 +483,6 @@ importers:
       jest: 29.5.0_@types+node@14.18.35
       typescript: 4.9.3
 
-  packages/cli/babel-preset-module:
-    specifiers:
-      '@babel/core': ^7.18.0
-      '@babel/plugin-proposal-class-static-block': ^7.18.0
-      '@babel/plugin-proposal-do-expressions': ^7.16.7
-      '@babel/plugin-proposal-function-sent': ^7.18.0
-      '@babel/plugin-proposal-throw-expressions': ^7.16.7
-      '@babel/runtime': ^7.18.0
-      '@modern-js/babel-preset-lib': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@types/babel__core': ^7.1.15
-      '@types/jest': ^29
-      '@types/node': ^14
-      jest: ^29
-      typescript: ^4
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/plugin-proposal-class-static-block': 7.18.6_@babel+core@7.20.5
-      '@babel/plugin-proposal-do-expressions': 7.18.6_@babel+core@7.20.5
-      '@babel/plugin-proposal-function-sent': 7.18.6_@babel+core@7.20.5
-      '@babel/plugin-proposal-throw-expressions': 7.18.6_@babel+core@7.20.5
-      '@babel/runtime': 7.18.6
-      '@modern-js/babel-preset-lib': link:../babel-preset-lib
-      '@modern-js/utils': link:../../toolkit/utils
-    devDependencies:
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/babel__core': 7.1.20
-      '@types/jest': 29.4.4
-      '@types/node': 14.18.35
-      jest: 29.5.0_@types+node@14.18.35
-      typescript: 4.9.3
-
   packages/cli/core:
     specifiers:
       '@modern-js/babel-preset-app': workspace:*
@@ -7019,17 +6984,6 @@ packages:
       - supports-color
     dev: false
 
-  /@babel/plugin-proposal-do-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-ddToGCONJhCuL+l4FhtGnKl5ZYCj9fDVFiqiCdQDpeIbVn/NvMeSib+7T1/rk08jRafae4qNiP8OnJyuqlsuYA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-      '@babel/plugin-syntax-do-expressions': 7.18.6_@babel+core@7.20.5
-    dev: false
-
   /@babel/plugin-proposal-dynamic-import/7.18.6_@babel+core@7.18.0:
     resolution: {integrity: sha512-1auuwmK+Rz13SJj36R+jqFPMJWyKEDd7lLSdOj4oJK0UTgGueSAtkrCvz9ewmgyU/P941Rv2fQwZJN8s6QruXw==}
     engines: {node: '>=6.9.0'}
@@ -7094,20 +7048,6 @@ packages:
       '@babel/core': 7.20.5
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-syntax-export-namespace-from': 7.8.3_@babel+core@7.20.5
-    dev: false
-
-  /@babel/plugin-proposal-function-sent/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-UdaOKPOLPt0O+Xu26tnw6oAZMLXhk+yMrXOzn6kAzTHBnWHJsoN1hlrgxFAQ+FRLS0ql1oYIQ2phvoFzmN3GMw==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-      '@babel/helper-wrap-function': 7.19.0
-      '@babel/plugin-syntax-function-sent': 7.18.6_@babel+core@7.20.5
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   /@babel/plugin-proposal-json-strings/7.18.6_@babel+core@7.18.0:
@@ -7361,17 +7301,6 @@ packages:
       - supports-color
     dev: false
 
-  /@babel/plugin-proposal-throw-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-WHOrJyhGoGrdtW480L79cF7Iq/gZDZ/z6OqK7mVyFR5I37dTpog/wNgb6hmaM3HYZtULEJl++7VaMWkNZsOcHg==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-      '@babel/plugin-syntax-throw-expressions': 7.18.6_@babel+core@7.20.5
-    dev: false
-
   /@babel/plugin-proposal-unicode-property-regex/7.18.6_@babel+core@7.18.0:
     resolution: {integrity: sha512-2BShG/d5yoZyXZfVePH91urL5wTG6ASZU9M4o03lKK8u8UW1y08OMttBSOADTcJrnPMpvDXRG3G8fyLh4ovs8w==}
     engines: {node: '>=4'}
@@ -7465,16 +7394,6 @@ packages:
       '@babel/core': 7.20.5
       '@babel/helper-plugin-utils': 7.20.2
 
-  /@babel/plugin-syntax-do-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-kTogvOsjBTVOSZtkkziiXB5hwGXqwhq2gBXDaiWVruRLDT7C2GqfbsMnicHJ7ePq2GE8UJeWS34YbNP6yDhwUA==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: false
-
   /@babel/plugin-syntax-dynamic-import/7.8.3_@babel+core@7.18.0:
     resolution: {integrity: sha512-5gdGbFon+PszYzqs83S3E5mpi7/y/8M9eC90MRTZfduQOYW76ig6SOSPNe41IG5LoP3FGBn2N0RjVDSQiS94kQ==}
     peerDependencies:
@@ -7522,16 +7441,6 @@ packages:
 
   /@babel/plugin-syntax-flow/7.18.6_@babel+core@7.20.5:
     resolution: {integrity: sha512-LUbR+KNTBWCUAqRG9ex5Gnzu2IOkt8jRJbHHXFT9q+L9zm7M/QQbEqXyw1n1pohYvOyWC8CjeyjrSaIwiYjK7A==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: false
-
-  /@babel/plugin-syntax-function-sent/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-f3OJHIlFIkg+cP1Hfo2SInLhsg0pz2Ikmgo7jMdIIKC+3jVXQlHB0bgSapOWxeWI0SU28qIWmfn5ZKu1yPJHkg==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -7755,16 +7664,6 @@ packages:
 
   /@babel/plugin-syntax-private-property-in-object/7.14.5_@babel+core@7.20.5:
     resolution: {integrity: sha512-0wVnp9dxJ72ZUJDV27ZfbSj6iHLoytYZmh3rFcxNnvsJF3ktkzLDZPy/mA17HGsaQT3/DQsWYX1f1QGWkCoVUg==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.20.5
-      '@babel/helper-plugin-utils': 7.20.2
-    dev: false
-
-  /@babel/plugin-syntax-throw-expressions/7.18.6_@babel+core@7.20.5:
-    resolution: {integrity: sha512-rp1CqEZXGv1z1YZ3qYffBH3rhnOxrTwQG8fh2yqulTurwv9zu3Gthfd+niZBLSOi1rY6146TgF+JmVeDXaX4TQ==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
