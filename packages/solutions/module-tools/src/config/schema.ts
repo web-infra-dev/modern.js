@@ -144,6 +144,9 @@ const buildConfigProperties = {
   umdGlobals: {
     type: 'object',
   },
+  esbuildOpitons: {
+    instanceof: 'Function',
+  },
   umdModuleName: {
     anyOf: [
       {

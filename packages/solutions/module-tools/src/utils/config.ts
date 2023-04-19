@@ -81,6 +81,7 @@ export const mergeDefaultBaseConfig = async (
       return memo;
     }, {}),
   };
+  const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
   return {
     asset: {
       ...defaultConfig.asset,
@@ -122,6 +123,7 @@ export const mergeDefaultBaseConfig = async (
       ...defaultConfig.redirect,
       ...pConfig.redirect,
     },
+    esbuildOptions,
   };
 };
 
