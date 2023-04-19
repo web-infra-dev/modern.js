@@ -1,16 +1,16 @@
 import { join } from 'path';
 import { BuilderPlugin } from '@modern-js/builder-shared';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
-
-import { BuilderOptions, createCopyPattern } from '../../shared';
+import { BuilderOptions } from '../shared';
+import { createPublicPattern } from './createCopyPattern';
 
 /**
  * Provides default configuration consistent with modern.js v1
  */
-export const builderPluginCompatModern = (
+export const builderPluginAdapterModern = (
   options: BuilderOptions<'webpack'>,
 ): BuilderPlugin<BuilderPluginAPI> => ({
-  name: 'builder-plugin-compat-modern',
+  name: 'builder-plugin-adapter-',
 
   setup(api) {
     const { normalizedConfig: modernConfig, appContext } = options;
@@ -22,12 +22,10 @@ export const builderPluginCompatModern = (
         .add(join(api.context.rootPath, 'node_modules'));
 
       // apply copy plugin
-      // TODO: need enhance the copy plugin
       if (chain.plugins.has(CHAIN_ID.PLUGIN.COPY)) {
-        const defaultCopyPattern = createCopyPattern(
+        const defaultCopyPattern = createPublicPattern(
           appContext,
           modernConfig,
-          'public',
           chain,
         );
         chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(args => [

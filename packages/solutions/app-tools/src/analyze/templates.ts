@@ -208,6 +208,8 @@ export const fileSystemRoutes = async ({
       inline: boolean;
     }
   > = {};
+  const configs: string[] = [];
+  const configsMap: Record<string, any> = {};
 
   const loadersMapFile = path.join(
     internalDirectory,
@@ -241,6 +243,7 @@ export const fileSystemRoutes = async ({
     let loading: string | undefined;
     let error: string | undefined;
     let loader: string | undefined;
+    let config: string | undefined;
     let component = '';
     let lazyImport = null;
 
@@ -262,6 +265,12 @@ export const fileSystemRoutes = async ({
           filePath: route.loader,
           inline: false,
         };
+      }
+      if (typeof route.config === 'string') {
+        configs.push(route.config);
+        const configId = configs.length - 1;
+        config = `config_${configId}`;
+        configsMap[config] = route.config;
       }
 
       if (route._component) {
@@ -297,6 +306,7 @@ export const fileSystemRoutes = async ({
       lazyImport,
       loading,
       loader,
+      config,
       error,
       children,
     };
@@ -319,6 +329,7 @@ export const fileSystemRoutes = async ({
         'loader',
         'loading',
         'error',
+        'config',
       ];
       const regs = keywords.map(createMatchReg);
       const newRouteStr = regs
@@ -375,6 +386,12 @@ export const fileSystemRoutes = async ({
     }
   }
 
+  let importConfigsCode = '';
+
+  for (const [key, configPath] of Object.entries(configsMap)) {
+    importConfigsCode += `import * as ${key} from "${slash(configPath)}";\n`;
+  }
+
   await fs.ensureFile(loadersMapFile);
   await fs.writeJSON(loadersMapFile, loadersMap);
 
@@ -385,6 +402,7 @@ export const fileSystemRoutes = async ({
     ${importLoadingCode}
     ${importErrorComponentsCode}
     ${importLoadersCode}
+    ${importConfigsCode}
     ${routeComponentsCode}
   `;
 };
