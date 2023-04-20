@@ -17,6 +17,11 @@ export default defineConfig({
           root: 'doc_dist',
         },
       },
+      tools: {
+        rspack(options) {
+          // 修改 rspack 的配置
+        },
+      },
     },
   },
   plugins: [docTools()],
@@ -27,7 +32,7 @@ export default defineConfig({
 
 你可以通过 [Modern.js Builder - API](https://modernjs.dev/builder/api/index.html) 的文档来了解更多的配置项。
 
-注意，Modern.js Doc 仅支持 Rspack 打包工具，因此一些与 webpack 相关的配置项将无法生效，比如 `tools.webpack`。
+注意，Modern.js Doc 仅支持 Rspack 打包工具，因此一些与 webpack 相关的配置项将无法生效，比如 `tools.webpack`。当然，你可以通过 `tools.rspack` 来修改 Rspack 的配置。
 
 :::
 
