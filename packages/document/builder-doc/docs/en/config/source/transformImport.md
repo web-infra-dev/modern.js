@@ -29,7 +29,9 @@ When the [antd component library](https://www.npmjs.com/package/antd) &lt;= 4.x 
 }
 ```
 
-Note that if you use `external` to exclude antd from the packaged product, the default behavior mentioned above will cause changes in the way antd is imported, which may result in `external` not working. You can manually set `transformImport: false` to turn off the default behavior of transformImport.
+You can manually set `transformImport: false` to turn off the default behavior of transformImport.
+
+For example, when you use `externals` to avoid bundling antd, because `transformImport` will convert the imported path of antd by default, the matching path changes and externals cannot take effect. At this time, you can set `transformImport: false` to avoid this problem.
 
 ### Example
 
