@@ -130,7 +130,6 @@ export default ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            // todo: not support in rspack
             webpackChain: (chain, { webpack, CHAIN_ID }) => {
               // add comments avoid sourcemap abnormal
               if (webpack.BannerPlugin) {
@@ -138,6 +137,18 @@ export default ({
                   .plugin(CHAIN_ID.PLUGIN.BANNER)
                   .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
               }
+            },
+            rspack: (config: any) => {
+              config.builtins ??= {};
+
+              // todo: so ugly...
+              const banner = config.builtins.banner || [];
+              config.builtins.banner = [
+                ...(Array.isArray(banner) ? banner : [banner]),
+                {
+                  banner: 'Micro front-end',
+                },
+              ];
             },
             bundlerChain: (chain, { env, CHAIN_ID }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
