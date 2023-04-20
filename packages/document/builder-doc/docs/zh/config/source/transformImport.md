@@ -5,7 +5,7 @@
 - **类型：**
 
 ```ts
-export type Config = false | Array<{
+type Config = false | Array<{
   libraryName: string;
   libraryDirectory?: string;
   style?: string | boolean;
