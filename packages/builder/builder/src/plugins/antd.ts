@@ -12,6 +12,7 @@ export const builderAntdPlugin = (): DefaultBuilderPlugin => ({
       builderConfig.source ??= {};
 
       if (
+        builderConfig.source.transformImport === false ||
         builderConfig.source.transformImport?.some(
           item => item.libraryName === 'antd',
         )

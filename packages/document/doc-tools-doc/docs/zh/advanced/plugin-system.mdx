@@ -226,7 +226,7 @@ export function MyComponent() {
 
 - **类型**：`(config: UserConfig) => AdditionalPage[] | Promise<AdditionalPage[]>`
 
-其中，`config` 为配置文件中 doc 属性下的所有配置，`AdditionalPage` 的类型定义如下：
+其中，`config` 为 `modern.config.ts` 配置文件中导出的 `doc` 属性值，`AdditionalPage` 的类型定义如下：
 
 ```tsx
 interface AdditionalPage {

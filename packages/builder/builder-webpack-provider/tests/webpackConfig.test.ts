@@ -2,6 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { builderPluginBasic } from '@/plugins/basic';
 import { createStubBuilder } from '@/stub';
 import { builderPluginBabel } from '@/plugins/babel';
+import { builderAntdPlugin } from '~/../builder/src/plugins/antd';
 
 describe('webpackConfig', () => {
   it('should allow tools.webpack to return config', async () => {
@@ -212,6 +213,43 @@ describe('webpackConfig', () => {
               camelToDashComponentName: true,
             },
           ],
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    const babelRules = config.module!.rules?.filter(item => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error item has use
+      return item?.use?.[0].loader.includes('babel-loader');
+    });
+
+    expect(babelRules).toMatchSnapshot();
+  });
+
+  it('should not set default pluginImport for Babel', async () => {
+    // camelToDashComponentName
+    const builder = await createStubBuilder({
+      plugins: [builderPluginBabel(), builderAntdPlugin()],
+    });
+    const config = await builder.unwrapWebpackConfig();
+
+    const babelRules = config.module!.rules?.filter(item => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error item has use
+      return item?.use?.[0].loader.includes('babel-loader');
+    });
+
+    expect(babelRules).toMatchSnapshot();
+  });
+
+  it('should not have any pluginImport in Babel', async () => {
+    // camelToDashComponentName
+    const builder = await createStubBuilder({
+      plugins: [builderPluginBabel(), builderAntdPlugin()],
+      builderConfig: {
+        source: {
+          transformImport: false,
         },
       },
     });
