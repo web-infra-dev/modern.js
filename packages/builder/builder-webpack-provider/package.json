@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.13.4",
+  "version": "2.14.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -123,7 +123,7 @@
     "react-dom": "^18"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.13.4"
+    "@modern-js/e2e": "workspace:^2.14.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

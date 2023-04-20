@@ -1,5 +1,17 @@
 # @modern-js/mwa-generator
 
+## 3.1.8
+
+### Patch Changes
+
+- afea00f: fix(generator): README should be written in English
+
+  fix(generator): README 应该使用英文编写
+
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
 ## 3.1.7
 
 ## 3.1.6

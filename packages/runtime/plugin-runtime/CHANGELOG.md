@@ -1,5 +1,42 @@
 # @modern-js/runtime
 
+## 2.14.0
+
+### Patch Changes
+
+- c921f30: fix: the streaming ssr may add repeated css assets, because the route-manifets would product all css link
+  fix: 因为 route-manifets 会生成所有 css link 信息，导致 streaming ssr 可能添加重复的 css 资源，
+- ead58c8: feat: support Comment component in Document.tsx
+  feat: 支持 Comment 组件,可以保留用户的注释到最终的 html 上
+- afe5d35: feat: add hook `modifyRoutes`
+  feat: 增加 hook `modifyRoutes`
+- 4c74ea7: fix: ssr and document integration test error
+  fix: 修复 ssr 和 document 的集测错误
+- 76ad173: feat: re-export `createPath` from react-router
+  feat: 从 react-router 导出 `createPath`
+- 394470c: fix: router missing App static property
+  fix: router 确实 App 的静态属性
+- 8b634f9: fix: 更新集测 snapshot，修复 document 功能在 node 14 下的错误
+  fix: update test snapshot, fix document error in node 14
+- 1b3afa0: fix: ssr stream test case
+  fix: 修复 ssr stream 测试用例
+- 28721cb: fix(runtime): MODERN_TARGET is not injected when using Rspack
+
+  fix(runtime): 修复 Rspack 模式未注入 MODERN_TARGET 的问题
+
+- 60a81d0: feat: add ssr.inlineScript for use inline json instead inline script when ssr
+  feat: 添加 ssr.inlineScript 用于在 ssr 模式下使用内联 json 而不是内联脚本
+- Updated dependencies [4779152]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/types@2.14.0
+  - @modern-js/plugin@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes
