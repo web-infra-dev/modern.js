@@ -56,7 +56,9 @@
     "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
     "typescript": "^4",
-    "webpack": "^5.76.2"
+    "webpack": "^5.76.2",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "dependencies": {
     "@modern-js/builder-plugin-swc-base": "workspace:*",

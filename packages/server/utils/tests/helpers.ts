@@ -8,7 +8,6 @@ const sourceDefaults = {
   configDir: './config',
   apiDir: './api',
   envVars: [],
-  globalVars: undefined,
   alias: undefined,
   moduleScopes: undefined,
   include: [],

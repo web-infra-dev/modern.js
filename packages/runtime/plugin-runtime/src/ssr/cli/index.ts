@@ -83,6 +83,12 @@ export default (): CliPlugin<AppTools> => ({
               '@modern-js/utils/ssr': require.resolve('@modern-js/utils/ssr'),
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
             },
+            globalVars: (values, { target }) => {
+              values['process.env.MODERN_TARGET'] =
+                target === 'node' || target === 'service-worker'
+                  ? 'node'
+                  : 'browser';
+            },
           },
           tools: {
             webpackChain: (chain, { isServer, isServiceWorker, CHAIN_ID }) => {
@@ -102,23 +108,6 @@ export default (): CliPlugin<AppTools> => ({
                     { filename: LOADABLE_STATS_FILE },
                   ]);
               }
-
-              // add environment variables to determine the node/browser
-              const modernVars = {
-                [`process.env.MODERN_TARGET`]: JSON.stringify(
-                  isServer || isServiceWorker ? 'node' : 'browser',
-                ),
-              };
-              chain.plugin(CHAIN_ID.PLUGIN.DEFINE).tap(args => {
-                const [vars, ...rest] = args;
-                return [
-                  {
-                    ...vars,
-                    ...modernVars,
-                  },
-                  ...rest,
-                ];
-              });
             },
             babel: babelConfig,
           },

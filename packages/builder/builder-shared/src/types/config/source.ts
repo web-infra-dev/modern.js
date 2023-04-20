@@ -1,11 +1,25 @@
+import type { Alias } from '@modern-js/utils';
 import type { BuilderTarget } from '../builder';
-import type { JSONValue } from '../utils';
+import type { ModifyChainUtils } from '../hooks';
+import type { ChainedConfig, JSONValue } from '../utils';
 
 export type ModuleScopes = Array<string | RegExp>;
 
 export type MainFields = (string | string[])[];
 
+export type GlobalVars = Record<string, JSONValue>;
+
+export type ChainedGlobalVars = ChainedConfig<
+  GlobalVars,
+  Pick<ModifyChainUtils, 'env' | 'target'>
+>;
+
 export interface SharedSourceConfig {
+  /**
+   * Create aliases to import or require certain modules,
+   * same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
+   */
+  alias?: ChainedConfig<Alias>;
   /**
    * Specify directories or modules that need additional compilation.
    * In order to maintain faster compilation speed, Builder will not compile files under node_modules through
@@ -25,7 +39,7 @@ export interface SharedSourceConfig {
   /**
    * Define global variables. It can replace expressions like `process.env.FOO` in your code after compile.
    */
-  globalVars?: Record<string, JSONValue>;
+  globalVars?: ChainedGlobalVars;
   /**
    * Whether to compile JavaScript code imported via Data URI.
    */
@@ -54,6 +68,6 @@ export type SharedTransformImport = {
 
 export interface NormalizedSharedSourceConfig extends SharedSourceConfig {
   preEntry: string[];
-  globalVars: Record<string, JSONValue>;
+  globalVars: ChainedGlobalVars;
   compileJsDataURI: boolean;
 }

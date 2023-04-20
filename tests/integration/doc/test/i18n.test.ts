@@ -34,7 +34,7 @@ describe('I18n doc render', () => {
 
   // check the language switch button
   it('Language switch button', async () => {
-    await page.goto(`http://localhost:${appPort}/en`, {
+    await page.goto(`http://localhost:${appPort}/en/`, {
       waitUntil: ['networkidle0'],
     });
 
@@ -72,7 +72,7 @@ describe('I18n doc render', () => {
 
     // English
     // switch to English
-    await page.goto(`http://localhost:${appPort}/en`, {
+    await page.goto(`http://localhost:${appPort}/en/`, {
       waitUntil: ['networkidle0'],
     });
     // take the `click` button

@@ -4,7 +4,6 @@ import type {
   ChainedConfig,
   ModuleScopes,
 } from '@modern-js/builder-shared';
-import type { Alias } from '@modern-js/utils';
 
 export type TransformImport = {
   libraryName: string;
@@ -18,11 +17,6 @@ export type TransformImport = {
 };
 
 export interface SourceConfig extends SharedSourceConfig {
-  /**
-   * Create aliases to import or require certain modules,
-   * same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
-   */
-  alias?: ChainedConfig<Alias>;
   /**
    * Replaces variables in your code with other values or expressions at compile time.
    */
@@ -39,12 +33,6 @@ export interface SourceConfig extends SharedSourceConfig {
 }
 
 export interface NormalizedSourceConfig extends NormalizedSharedSourceConfig {
-  /**
-   * Create aliases to import or require certain modules,
-   * same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
-   */
-  alias?: ChainedConfig<Alias>;
-
   define: Record<string, any>;
 
   /**

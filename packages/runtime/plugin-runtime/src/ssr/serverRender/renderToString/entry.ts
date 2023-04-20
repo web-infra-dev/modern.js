@@ -200,7 +200,7 @@ export default class Entry {
     templateData: ReturnType<typeof buildTemplateData>,
     routerData?: Record<string, any>,
   ) {
-    const useInlineScript = this.pluginConfig.inlineScript;
+    const useInlineScript = this.pluginConfig.inlineScript !== false;
     const ssrData = serializeJson(templateData);
 
     let ssrDataScripts = useInlineScript

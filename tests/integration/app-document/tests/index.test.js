@@ -88,6 +88,7 @@ describe('test build', () => {
     expect(existsSync('html/test/index.html')).toBe(true);
     expect(existsSync('html/sub/index.html')).toBe(true);
   });
+
   it('should have the test html and the correct content', async () => {
     const htmlNoDoc = fs.readFileSync(
       path.join(appDir, 'dist', 'html/test/index.html'),
@@ -95,11 +96,23 @@ describe('test build', () => {
     );
     expect(htmlNoDoc.includes('<div id="root"><!--<?- html ?>--></div>'));
   });
+
   it('should have the sub html and the correct content', async () => {
     const htmlWithDoc = fs.readFileSync(
       path.join(appDir, 'dist', 'html/sub/index.html'),
       'utf-8',
     );
     expect(htmlWithDoc.includes('<div id="root"><!--<?- html ?>--><h1'));
+  });
+
+  it('should has comment in Head', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes('<!-- COMMENT BY APP -->')).toBe(true);
+    expect(htmlWithDoc.includes('== COMMENT BY APP in inline ==')).toBe(true);
+    expect(htmlWithDoc.includes('== COMMENT BY APP but inline ==')).toBe(false);
   });
 });

@@ -2,6 +2,7 @@ import { ModernServerContext, ServerRoute } from '@modern-js/types';
 
 export type ServerContext = Pick<
   ModernServerContext,
+  | 'logger'
   | 'req'
   | 'res'
   | 'params'

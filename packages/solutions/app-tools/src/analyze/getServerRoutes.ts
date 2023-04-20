@@ -122,10 +122,12 @@ const collectHtmlRoutes = (
   const {
     html: { disableHtmlFolder },
     output: { distPath: { html: htmlPath } = {} },
-    server: { baseUrl, routes, ssr, ssrByEntries, worker },
+    server: { baseUrl, routes, ssr, ssrByEntries },
+    deploy,
   } = config;
 
   const { packageName } = appContext;
+  const workerSSR = deploy?.worker?.ssr;
 
   let htmlRoutes = entrypoints.reduce<ServerRoute[]>(
     (previous, { entryName }) => {
@@ -136,7 +138,7 @@ const collectHtmlRoutes = (
         packageName,
       );
       const isSSR = Boolean(entryOptions);
-      const isWorker = Boolean(worker);
+      const isWorker = Boolean(workerSSR);
       const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {

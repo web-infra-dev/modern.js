@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
@@ -288,6 +289,16 @@ const supportLoadChunksParallelly = async () => {
   expect(thressBundleContent.includes(ROUTE_MANIFEST)).toBeTruthy();
 };
 
+const supportHandleConfig = async (appPort: number) => {
+  await page.goto(`http://localhost:${appPort}/three/user/profile/name`, {
+    waitUntil: ['networkidle0'],
+  });
+
+  await expect(page).toMatchTextContent(
+    'root/user.profile.name.layout/user.profile.name.page',
+  );
+};
+
 const supportLoader = async (errors: string[], appPort: number) => {
   // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three/user`, {
@@ -422,6 +433,8 @@ describe('dev', () => {
 
     test('support load chunks Parallelly', supportLoadChunksParallelly);
 
+    test('support handle config', async () => supportHandleConfig(appPort));
+
     // FIXME: skip the test
     test.skip('support handle loader error', async () =>
       supportHandleLoaderError(errors, appPort));
@@ -540,3 +553,4 @@ describe('build', () => {
     await killApp(app);
   });
 });
+/* eslint-enable max-lines */

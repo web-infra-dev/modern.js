@@ -135,6 +135,7 @@ function modernBuild(dir, args = [], opts = {}) {
     stderr: true,
     env: {
       NODE_ENV: 'production',
+      ...(opts.env || {}),
     },
   });
 }
