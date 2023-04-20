@@ -185,6 +185,8 @@ export function pluginForDoc(): DocPlugin {
 
 ### 8. extendPageData
 
+- Type: `(pageData: PageData) => void | Promise<void>`
+
 ```tsx title="plugin.ts"
 import { DocPlugin } from '@modern-js/doc-tools';
 
@@ -212,11 +214,19 @@ export function MyComponent() {
 }
 ```
 
-:::tip
-`extendPageData` function supports declaration as an `async` function.
-:::
-
 ### 9. addPages
+
+- Type: `(config: UserConfig) => AddtionalPage[] | Promise<AddtionalPage[]>`
+
+The `config` parameter is the `doc` config of `modern.config.ts`, and the `AddtionalPage` type is defined as follows:
+
+```tsx
+interface AddtionalPage {
+  routePath: string;
+  filepath?: string;
+  content?: string;
+}
+```
 
 Used to add additional pages, you can return an array in the `addPages` function, each item in the array is a page config, you can specify the route of the page through `routePath`, through `filepath` or `content` to specify the content of the page. For example:
 
@@ -244,7 +254,3 @@ export function docPluginDemo(): DocPlugin {
   };
 }
 ```
-
-:::tip
-`addPages` function supports declaration as an `async` function.
-:::

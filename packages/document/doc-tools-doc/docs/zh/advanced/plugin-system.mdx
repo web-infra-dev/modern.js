@@ -192,6 +192,8 @@ export function pluginForDoc(): DocPlugin {
 
 ### 8. extendPageData
 
+- 类型: `(pageData: PageData) => void | Promise<void>`
+
 ```tsx title="plugin.ts"
 import { DocPlugin } from '@modern-js/doc-tools';
 
@@ -220,11 +222,19 @@ export function MyComponent() {
 }
 ```
 
-:::tip
-extendPageData 函数支持声明为一个 `async` 异步函数。
-:::
-
 ### 9. addPages
+
+- **类型**：`(config: UserConfig) => AdditionalPage[] | Promise<AdditionalPage[]>`
+
+其中，`config` 为配置文件中 doc 属性下的所有配置，`AdditionalPage` 的类型定义如下：
+
+```tsx
+interface AdditionalPage {
+  routePath: string;
+  filepath?: string;
+  content?: string;
+}
+```
 
 主要用来添加额外的页面，你可以在 `addPages` 函数中返回一个数组，数组中的每一项都是一个页面的配置，你可以通过 `routePath` 来指定页面的路由，通过 `filepath` 或者 `content` 来指定页面的内容。比如：
 
@@ -252,7 +262,3 @@ export function docPluginDemo(): DocPlugin {
   };
 }
 ```
-
-:::tip
-`addPages` 函数支持声明为一个 `async` 异步函数。
-:::
