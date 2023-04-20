@@ -5,7 +5,7 @@ The difference from [babel-plugin-import](https://www.npmjs.com/package/babel-pl
 - **Type:**
 
 ```ts
-export type Config = false | Array<{
+type Config = false | Array<{
   libraryName: string;
   libraryDirectory?: string;
   style?: string | boolean;
