@@ -215,3 +215,36 @@ export function MyComponent() {
 :::tip
 `extendPageData` function supports declaration as an `async` function.
 :::
+
+### 9. addPages
+
+Used to add additional pages, you can return an array in the `addPages` function, each item in the array is a page config, you can specify the route of the page through `routePath`, through `filepath` or `content` to specify the content of the page. For example:
+
+```tsx
+import path from 'path';
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function docPluginDemo(): DocPlugin {
+  return {
+    name: 'add-pages',
+    addPages() {
+      return [
+        //  Support the absolute path of the real file (filepath), which will read the content of md(x) in the disk
+        {
+          routePath: '/filepath-route',
+          filepath: path.join(__dirname, 'blog', 'index.md'),
+        },
+        //  Support to directly pass in the content of md(x) through the content parameter
+        {
+          routePath: '/content-route',
+          content: '# Demo2',
+        },
+      ];
+    },
+  };
+}
+```
+
+:::tip
+`addPages` function supports declaration as an `async` function.
+:::

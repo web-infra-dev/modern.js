@@ -4,7 +4,7 @@ import { DocPlugin } from '@modern-js/doc-tools';
 export function docPluginDemo(): DocPlugin {
   return {
     name: 'doc-plugin-demo',
-    addRoutes() {
+    addPages() {
       return [
         {
           routePath: '/filepath-route',

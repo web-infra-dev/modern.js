@@ -7,7 +7,7 @@ import { DocConfig, PageIndexInfo } from '.';
  * 1. Define filepath, then the content will be read from the file.
  * 2. Define content, then then content will be written to temp file and read from it.
  */
-export interface AdditionRoute {
+export interface AdditionPage {
   routePath: string;
   content?: string;
   filepath?: string;
@@ -60,5 +60,5 @@ export interface DocPlugin {
   /**
    * Add custom route
    */
-  addRoutes?: (config: DocConfig) => AdditionRoute[];
+  addPages?: (config: DocConfig) => AdditionPage[];
 }

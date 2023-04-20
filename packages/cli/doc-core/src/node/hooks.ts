@@ -1,6 +1,6 @@
 import { UserConfig, PageIndexInfo, DocPlugin } from 'shared/types';
 import { pluginLastUpdated } from './plugins/lastUpdated';
-import { AdditionRoute } from '@/shared/types/Plugin';
+import { AdditionPage } from '@/shared/types/Plugin';
 
 type HookOptions = {
   config: UserConfig;
@@ -71,18 +71,18 @@ export async function extendPageData(hookOptions: HookOptions): Promise<void> {
   );
 }
 
-export async function addRoutes(
+export async function addPages(
   hookOptions: HookOptions,
-): Promise<AdditionRoute[]> {
+): Promise<AdditionPage[]> {
   const { config } = hookOptions;
   const docPlugins = getPlugins(config);
 
-  // addRoutes hooks
+  // addPages hooks
   const result = await Promise.all(
     docPlugins
-      .filter(plugin => typeof plugin.addRoutes === 'function')
+      .filter(plugin => typeof plugin.addPages === 'function')
       .map(plugin => {
-        return plugin.addRoutes(config.doc || {});
+        return plugin.addPages(config.doc || {});
       }),
   );
 

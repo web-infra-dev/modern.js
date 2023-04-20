@@ -223,3 +223,36 @@ export function MyComponent() {
 :::tip
 extendPageData 函数支持声明为一个 `async` 异步函数。
 :::
+
+### 9. addPages
+
+主要用来添加额外的页面，你可以在 `addPages` 函数中返回一个数组，数组中的每一项都是一个页面的配置，你可以通过 `routePath` 来指定页面的路由，通过 `filepath` 或者 `content` 来指定页面的内容。比如：
+
+```tsx
+import path from 'path';
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function docPluginDemo(): DocPlugin {
+  return {
+    name: 'add-pages',
+    addPages() {
+      return [
+        //  支持真实文件的绝对路径(filepath)，这样会读取磁盘中的 md(x) 内容
+        {
+          routePath: '/filepath-route',
+          filepath: path.join(__dirname, 'blog', 'index.md'),
+        },
+        //  支持通过 content 参数直接传入 md(x) 内容
+        {
+          routePath: '/content-route',
+          content: '# Demo2',
+        },
+      ];
+    },
+  };
+}
+```
+
+:::tip
+`addPages` 函数支持声明为一个 `async` 异步函数。
+:::

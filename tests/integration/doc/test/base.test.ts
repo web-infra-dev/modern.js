@@ -16,7 +16,7 @@ describe('Basic render', () => {
     app = await launchApp(appDir, appPort);
 
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       dumpio: true,
       args: ['--no-sandbox'],
     });

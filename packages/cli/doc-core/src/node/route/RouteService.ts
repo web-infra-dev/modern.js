@@ -2,7 +2,7 @@ import path from 'path';
 import type { ComponentType } from 'react';
 import fs from '@modern-js/utils/fs-extra';
 import { getPageKey, normalizePath } from '../utils';
-import { addRoutes as addRoutesByPlugins } from '../hooks';
+import { addPages as addPagesByPlugins } from '../hooks';
 import { PageModule, UserConfig } from '@/shared/types';
 import { withBase } from '@/shared/utils';
 
@@ -125,7 +125,7 @@ export class RouteService {
       this.addRoute(routeInfo);
     });
     // 2. external routes added by plugins
-    const externalRoutes = await addRoutesByPlugins({
+    const externalRoutes = await addPagesByPlugins({
       config: this.#userConfig,
     });
 
