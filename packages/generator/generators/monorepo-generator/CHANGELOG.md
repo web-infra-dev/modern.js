@@ -1,5 +1,13 @@
 # @modern-js/monorepo-generator
 
+## 3.1.8
+
+### Patch Changes
+
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
 ## 3.1.7
 
 ## 3.1.6

@@ -1,5 +1,22 @@
 # @modern-js/main-doc
 
+## 2.14.0
+
+### Patch Changes
+
+- 60a81d0: feat: add ssr.inlineScript for use inline json instead inline script when ssr
+  feat: 添加 ssr.inlineScript 用于在 ssr 模式下使用内联 json 而不是内联脚本
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
+- de84d94: feat: add optional dynamic routes docs
+  feat: 添加可选动态路由文档
+- Updated dependencies [fefd1c5]
+- Updated dependencies [1f34dba]
+- Updated dependencies [b965df2]
+  - @modern-js/builder-doc@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

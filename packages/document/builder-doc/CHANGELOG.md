@@ -1,5 +1,21 @@
 # @modern-js/builder-doc
 
+## 2.14.0
+
+### Patch Changes
+
+- fefd1c5: feat(builder): add convertToRem.inlineRuntime config
+
+  feat(builder): 新增 convertToRem.inlineRuntime 配置项
+
+- 1f34dba: fix(devServer): using current host and port to create HMR connection
+
+  fix(devServer): 建立 HMR 连接时默认使用当前 host 和 port
+
+- b965df2: fix(builder): update source.alias type when using Rspack
+
+  fix(builder): 更新使用 Rspack 时的 source.alias 类型
+
 ## 2.13.4
 
 ## 2.13.3

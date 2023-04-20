@@ -1,5 +1,17 @@
 # @modern-js/module-tools-docs
 
+## 2.14.0
+
+### Patch Changes
+
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
+- Updated dependencies [432ac8b]
+  - @modern-js/doc-tools@2.14.0
+  - @modern-js/doc-plugin-auto-sidebar@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

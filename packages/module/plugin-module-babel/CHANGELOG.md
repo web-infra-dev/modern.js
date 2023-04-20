@@ -1,5 +1,13 @@
 # @modern-js/plugin-module-babel
 
+## 2.14.0
+
+### Patch Changes
+
+- Updated dependencies [f08f3ab]
+- Updated dependencies [432ac8b]
+  - @modern-js/module-tools@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes
