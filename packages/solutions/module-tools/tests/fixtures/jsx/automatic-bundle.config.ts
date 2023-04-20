@@ -4,6 +4,7 @@ export default defineConfig({
   buildConfig: {
     buildType: 'bundle',
     jsx: 'automatic',
+    externals: [/^react\/*/],
     outDir: './dist/automatic/bundle',
   },
 });

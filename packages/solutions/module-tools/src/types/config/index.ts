@@ -109,6 +109,7 @@ export type PartialBaseBuildConfig = {
   esbuildOptions?: LibuildUserConfig['esbuildOptions'];
   externalHelpers?: ExternalHelpers;
   transformImport?: ImportItem[];
+  sourceType?: 'commonjs' | 'module';
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];

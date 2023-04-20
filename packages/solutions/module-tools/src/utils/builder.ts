@@ -1,6 +1,12 @@
 import path from 'path';
 import { logger } from '@modern-js/utils/logger';
-import type { BaseBuildConfig, ExternalHelpers } from '../types/config';
+import type {
+  BaseBuildConfig,
+  ExternalHelpers,
+  BuildType,
+  Format,
+  Target,
+} from '../types/config';
 
 export const getFinalExternals = async (
   config: BaseBuildConfig,
@@ -96,4 +102,60 @@ export const checkSwcHelpers = async (options: {
     const local = await import('../locale');
     throw new Error(local.i18n.t(local.localeKeys.errors.externalHelpers));
   }
+};
+
+export const matchSwcTransformCondition = (condtionOptions: {
+  sourceType: 'commonjs' | 'module';
+  buildType: BuildType;
+  format: Format;
+}) => {
+  const { sourceType, buildType, format } = condtionOptions;
+  // 1. source code is esm
+  // 2. bundleless
+  // 3. bundle and format is esm
+
+  if (sourceType === 'commonjs') {
+    return false;
+  }
+
+  if (buildType === 'bundleless') {
+    return true;
+  }
+
+  if (format === 'esm' || format === 'iife') {
+    // when format is iife, swc-transform only transform syntax, esbuild transform js format.
+    return true;
+  }
+
+  // bundle only use esbuild-transform in cjs format, because have some limitations
+  // eg: treeshaking
+
+  return false;
+};
+
+export const matchEs5PluginCondition = (condtionOptions: {
+  sourceType: 'commonjs' | 'module';
+  buildType: BuildType;
+  format: Format;
+  target: Target;
+}) => {
+  const { sourceType, buildType, format, target } = condtionOptions;
+
+  // dist is es5
+  if (target !== 'es5') {
+    return false;
+  }
+
+  // only use esbuild-transform, so need es5Plugin
+  if (sourceType === 'commonjs') {
+    return true;
+  }
+
+  // when source code is esm and dist is bundle + cjs, we can`t use swc-transform.
+  // so we only use esbuild-transform and es5Plugin
+  if (buildType === 'bundle' && format === 'cjs') {
+    return true;
+  }
+
+  return false;
 };

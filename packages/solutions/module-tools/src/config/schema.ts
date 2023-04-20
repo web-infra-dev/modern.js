@@ -191,6 +191,9 @@ const buildConfigProperties = {
   transformImport: {
     type: 'array',
   },
+  sourceType: {
+    enum: ['commonjs', 'module'],
+  },
 };
 export const buildConfig = {
   target: 'buildConfig',
