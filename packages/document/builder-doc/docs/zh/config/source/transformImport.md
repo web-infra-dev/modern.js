@@ -5,7 +5,7 @@
 - **类型：**
 
 ```ts
-Array<{
+export type Config = false | Array<{
   libraryName: string;
   libraryDirectory?: string;
   style?: string | boolean;
@@ -28,6 +28,8 @@ Array<{
   style: true,
 }
 ```
+
+注意如果你使用 `external` 将 antd 不打包进产物中，那么上述的默认行为会导致该 antd 的引入发生改变，从而使 external 不生效，你可以手动设置 `transformImport: false` 来关掉 transformImport 的默认行为。
 
 ### 示例
 

@@ -5,7 +5,7 @@ The difference from [babel-plugin-import](https://www.npmjs.com/package/babel-pl
 - **Type:**
 
 ```ts
-Array<{
+export type Config = false | Array<{
   libraryName: string;
   libraryDirectory?: string;
   style?: string | boolean;
@@ -28,6 +28,8 @@ When the [antd component library](https://www.npmjs.com/package/antd) &lt;= 4.x 
   style: true,
 }
 ```
+
+Note that if you use `external` to exclude antd from the packaged product, the default behavior mentioned above will cause changes in the way antd is imported, which may result in `external` not working. You can manually set `transformImport: false` to turn off the default behavior of transformImport.
 
 ### Example
 
