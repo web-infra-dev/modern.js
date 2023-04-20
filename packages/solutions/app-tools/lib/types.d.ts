@@ -7,6 +7,7 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: 'development' | 'production' | 'test';
     readonly ASSET_PREFIX: string;
+    readonly MODERN_TARGET: 'browser' | 'node';
   }
 }
 
