@@ -82,6 +82,7 @@ export type BaseBuildConfig = Omit<
 };
 
 export type PartialBaseBuildConfig = {
+  sourceType?: 'commonjs' | 'module';
   buildType?: 'bundleless' | 'bundle';
   format?: Format;
   target?: Target;
@@ -107,9 +108,10 @@ export type PartialBaseBuildConfig = {
   redirect?: LibuildUserConfig['redirect'];
   sideEffects?: LibuildUserConfig['sideEffects'];
   esbuildOptions?: LibuildUserConfig['esbuildOptions'];
+  // Related to swc-transform
   externalHelpers?: ExternalHelpers;
   transformImport?: ImportItem[];
-  sourceType?: 'commonjs' | 'module';
+  disableSwcTransform?: boolean;
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];

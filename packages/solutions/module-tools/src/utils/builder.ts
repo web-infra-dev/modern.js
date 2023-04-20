@@ -108,8 +108,15 @@ export const matchSwcTransformCondition = (condtionOptions: {
   sourceType: 'commonjs' | 'module';
   buildType: BuildType;
   format: Format;
+  disableSwcTransform?: boolean;
 }) => {
-  const { sourceType, buildType, format } = condtionOptions;
+  const { sourceType, buildType, format, disableSwcTransform } =
+    condtionOptions;
+
+  if (disableSwcTransform) {
+    return false;
+  }
+
   // 1. source code is esm
   // 2. bundleless
   // 3. bundle and format is esm
@@ -138,12 +145,19 @@ export const matchEs5PluginCondition = (condtionOptions: {
   buildType: BuildType;
   format: Format;
   target: Target;
+  disableSwcTransform?: boolean;
 }) => {
-  const { sourceType, buildType, format, target } = condtionOptions;
+  const { sourceType, buildType, format, target, disableSwcTransform } =
+    condtionOptions;
 
   // dist is es5
   if (target !== 'es5') {
     return false;
+  }
+
+  // when use disbaleSwcTransform option, we must be use es5Plugin when target is es5
+  if (disableSwcTransform) {
+    return true;
   }
 
   // only use esbuild-transform, so need es5Plugin

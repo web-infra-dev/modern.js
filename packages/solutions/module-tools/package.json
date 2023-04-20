@@ -46,9 +46,9 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "~0.11.11",
     "@modern-js/libuild-plugin-svgr": "~0.11.11",
-    "@modern-js/libuild-plugin-swc": "~0.11.11",
+    "@modern-js/libuild": "0.12.0-beta.3",
+    "@modern-js/libuild-plugin-swc": "0.12.0-beta.3",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
@@ -56,7 +56,8 @@
     "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "postcss": "8.4.6"
+    "postcss": "8.4.6",
+    "@swc/helpers": "0.5.0"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",

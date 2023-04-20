@@ -51,4 +51,5 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
   externalHelpers: false,
   transformImport: [],
   sourceType: 'module',
+  disableSwcTransform: false,
 });

@@ -149,6 +149,7 @@ export const buildLib = async (
     externalHelpers,
     transformImport,
     sourceType,
+    disableSwcTransform,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -175,7 +176,14 @@ export const buildLib = async (
 
   const plugins = [];
 
-  if (matchSwcTransformCondition({ sourceType, buildType, format })) {
+  if (
+    matchSwcTransformCondition({
+      sourceType,
+      buildType,
+      format,
+      disableSwcTransform,
+    })
+  ) {
     plugins.push(
       swcTransformPlugin({
         pluginImport: transformImport,
@@ -185,7 +193,13 @@ export const buildLib = async (
       }),
     );
   } else if (
-    matchEs5PluginCondition({ sourceType, buildType, format, target })
+    matchEs5PluginCondition({
+      sourceType,
+      buildType,
+      format,
+      target,
+      disableSwcTransform,
+    })
   ) {
     plugins.push(es5Plugin());
   }

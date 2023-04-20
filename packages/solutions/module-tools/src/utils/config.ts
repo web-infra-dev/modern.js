@@ -127,6 +127,8 @@ export const mergeDefaultBaseConfig = async (
     externalHelpers: pConfig.externalHelpers ?? defaultConfig.externalHelpers,
     transformImport: pConfig.transformImport ?? defaultConfig.transformImport,
     sourceType: pConfig.sourceType ?? defaultConfig.sourceType,
+    disableSwcTransform:
+      pConfig.disableSwcTransform ?? defaultConfig.disableSwcTransform,
   };
 };
 
