@@ -31,7 +31,9 @@ MODERN_ENV priority is higher than NODE_ENV.
 
 ### MODERN_TARGET
 
-Auto inject when use `@modern-js/runtime`, Used to distinguish between SSR and CSR environments. Developers can judge by themselves in the code, and dead code will be removed by default when building.
+When using `@modern-js/runtime`, Modern.js will automatically inject `MODERN_TARGET` to distinguish between SSR and CSR environments.
+
+You can use `process.env.MODERN_TARGET` to judge the environment and execute the appropriate code.
 
 ```ts title="App.tsx"
 function App() {
@@ -41,9 +43,10 @@ function App() {
 }
 ```
 
-In the development environment, you can see that the SSR and CSR bundles as follows:
+After the development build, you can see that the SSR and CSR bundles as follows:
 
 ```js title="dist/bundles/main.js"
+// SSR bundles
 function App() {
   if (false) {
   }
@@ -51,6 +54,7 @@ function App() {
 ```
 
 ```js title="dist/static/main.js"
+// CSR bundles
 function App() {
   if (true) {
     console.log(window.innerHeight);
@@ -58,12 +62,16 @@ function App() {
 }
 ```
 
-:::note
-In a production environment, dead code is removed, such as the `if` statement above.
+This can provide different outputs for different environments to ensure that the bundle size is minimized. It can also be convenient to deal with some side effects for different environments.
+
+:::note Dead Code Elimination
+In the production environment, minimizers such as Terser and SWC will analyze the code and remove dead code to reduce the bundle size. This process is called "Dead Code Elimination" (DCE).
+
+For example, the code inside the `if (false)` statement will be removed, while the code inside the `if (true)` will be preserved.
+
+If you do not use `process.env.MODERN_TARGET` as described above, the code minimizer may not be able to analyze the dead code, resulting in an increased bundle size.
 
 :::
-
-This can provide different products for different client sides to ensure that the bundle size is minimized. It can also be convenient to deal with some side effects in the code in different environments.
 
 ## Custom Environment Variables
 
