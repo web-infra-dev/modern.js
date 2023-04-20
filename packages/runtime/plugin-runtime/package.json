@@ -182,7 +182,6 @@
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/react-hooks": "^8.0.1",
     "@types/invariant": "^2.2.30",
     "@types/jest": "^29",
     "@types/loadable__webpack-plugin": "^5.7.3",
