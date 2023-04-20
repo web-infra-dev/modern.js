@@ -1,5 +1,6 @@
 import { UserConfig, PageIndexInfo, DocPlugin } from 'shared/types';
 import { pluginLastUpdated } from './plugins/lastUpdated';
+import { AdditionPage } from '@/shared/types/Plugin';
 
 type HookOptions = {
   config: UserConfig;
@@ -68,4 +69,22 @@ export async function extendPageData(hookOptions: HookOptions): Promise<void> {
         return plugin.extendPageData(pageData);
       }),
   );
+}
+
+export async function addPages(
+  hookOptions: HookOptions,
+): Promise<AdditionPage[]> {
+  const { config } = hookOptions;
+  const docPlugins = getPlugins(config);
+
+  // addPages hooks
+  const result = await Promise.all(
+    docPlugins
+      .filter(plugin => typeof plugin.addPages === 'function')
+      .map(plugin => {
+        return plugin.addPages(config.doc || {});
+      }),
+  );
+
+  return result.flat();
 }

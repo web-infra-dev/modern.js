@@ -21,11 +21,11 @@ export async function routeVMPlugin(
   runtimeTempDir: string,
 ) {
   if (!routeService) {
-    routeService = new RouteService(scanDir, config);
+    routeService = new RouteService(scanDir, config, runtimeTempDir);
     initPromise = routeService.init();
   }
 
-  if (initPromise) {
+  if (initPromise !== null) {
     await initPromise;
   }
 
