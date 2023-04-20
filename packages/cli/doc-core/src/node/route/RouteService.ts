@@ -91,7 +91,7 @@ export class RouteService {
 
   async init() {
     const { default: globby } = await import('@modern-js/utils/globby');
-    // 1. internal routes
+    // 1. internal pages
     const files = globby
       .sync([`**/*.{${this.#extensions.join(',')}}`, ...this.#include], {
         cwd: this.#scanDir,
@@ -124,14 +124,14 @@ export class RouteService {
       };
       this.addRoute(routeInfo);
     });
-    // 2. external routes added by plugins
-    const externalRoutes = await addPagesByPlugins({
+    // 2. external pages added by plugins
+    const externalPages = await addPagesByPlugins({
       config: this.#userConfig,
     });
 
     let index = 0;
     await Promise.all(
-      externalRoutes.map(async route => {
+      externalPages.map(async route => {
         const { routePath, content, filepath } = route;
         // case1: specify the filepath
         if (filepath) {
