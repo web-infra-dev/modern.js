@@ -16,7 +16,7 @@ describe('I18n doc render', () => {
     app = await launchApp(appDir, appPort);
 
     browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       dumpio: true,
       args: ['--no-sandbox'],
     });

@@ -1,6 +1,8 @@
 import path from 'path';
 import type { ComponentType } from 'react';
+import fs from '@modern-js/utils/fs-extra';
 import { getPageKey, normalizePath } from '../utils';
+import { addRoutes as addRoutesByPlugins } from '../hooks';
 import { PageModule, UserConfig } from '@/shared/types';
 import { withBase } from '@/shared/utils';
 
@@ -8,7 +10,6 @@ export const DEFAULT_PAGE_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'];
 
 export interface RouteMeta {
   routePath: string;
-  basePath: string;
   absolutePath: string;
   pageName: string;
   lang: string;
@@ -54,6 +55,8 @@ export const normalizeRoutePath = (
 };
 
 export class RouteService {
+  #userConfig: UserConfig;
+
   #scanDir: string;
 
   #defaultLang: string;
@@ -68,10 +71,13 @@ export class RouteService {
 
   #base: string = '';
 
+  #tempDir: string = '';
+
   routeData: Map<string, RouteMeta> = new Map();
 
-  constructor(scanDir: string, userConfig: UserConfig) {
+  constructor(scanDir: string, userConfig: UserConfig, tempDir: string) {
     const routeOptions = userConfig.doc?.route || {};
+    this.#userConfig = userConfig;
     this.#scanDir = scanDir;
     this.#extensions = routeOptions.extensions || DEFAULT_PAGE_EXTENSIONS;
     this.#include = routeOptions.include || [];
@@ -80,10 +86,12 @@ export class RouteService {
     this.#langs =
       userConfig.doc?.themeConfig?.locales?.map(locale => locale.lang) || [];
     this.#base = userConfig.doc?.base || '';
+    this.#tempDir = tempDir;
   }
 
   async init() {
     const { default: globby } = await import('@modern-js/utils/globby');
+    // 1. internal routes
     const files = globby
       .sync([`**/*.{${this.#extensions.join(',')}}`, ...this.#include], {
         cwd: this.#scanDir,
@@ -96,31 +104,64 @@ export class RouteService {
         ],
       })
       .sort();
-    files.forEach(file => this.addRoute(file));
+    files.forEach(filePath => {
+      const fileRelativePath = normalizePath(
+        path.relative(this.#scanDir, filePath),
+      );
+      const lang = this.#getLang(fileRelativePath);
+      const routePath = normalizeRoutePath(
+        fileRelativePath,
+        this.#defaultLang,
+        this.#base,
+      );
+      const absolutePath = path.join(this.#scanDir, fileRelativePath);
+
+      const routeInfo = {
+        routePath,
+        absolutePath: normalizePath(absolutePath),
+        pageName: getPageKey(fileRelativePath),
+        lang,
+      };
+      this.addRoute(routeInfo);
+    });
+    // 2. external routes added by plugins
+    const externalRoutes = await addRoutesByPlugins({
+      config: this.#userConfig,
+    });
+
+    let index = 0;
+    await Promise.all(
+      externalRoutes.map(async route => {
+        const { routePath, content, filepath } = route;
+        // case1: specify the filepath
+        if (filepath) {
+          const routeInfo: RouteMeta = {
+            routePath,
+            absolutePath: normalizePath(filepath),
+            pageName: getPageKey(path.basename(filepath)),
+            lang: this.#defaultLang,
+          };
+          this.addRoute(routeInfo);
+          return;
+        }
+        // case2: specify the content
+        if (content) {
+          const filepath = await this.#writeTempFile(index, content);
+          const routeInfo: RouteMeta = {
+            routePath,
+            absolutePath: normalizePath(filepath),
+            pageName: getPageKey(path.basename(filepath)),
+            lang: this.#getLang(filepath),
+          };
+          this.addRoute(routeInfo);
+          index++;
+        }
+      }),
+    );
   }
 
-  addRoute(filePath: string) {
-    const fileRelativePath = normalizePath(
-      path.relative(this.#scanDir, filePath),
-    );
-    const lang =
-      this.#langs.find(lang => fileRelativePath.startsWith(lang)) ||
-      this.#defaultLang;
-    const routePath = normalizeRoutePath(
-      fileRelativePath,
-      this.#defaultLang,
-      this.#base,
-    );
-    const absolutePath = path.join(this.#scanDir, fileRelativePath);
-
-    const routeInfo = {
-      routePath,
-      basePath: this.#scanDir,
-      absolutePath: normalizePath(absolutePath),
-      pageName: getPageKey(fileRelativePath),
-      lang,
-    };
-
+  addRoute(routeInfo: RouteMeta) {
+    const { routePath, absolutePath } = routeInfo;
     if (this.routeData.has(routePath)) {
       // apply the one with the extension listed first in the array and skip the rest.
       const preRouteExtIndex = this.#extensions.indexOf(
@@ -214,5 +255,17 @@ ${this.getRoutes()
   .join(',\n')}
 ];
 `;
+  }
+
+  async #writeTempFile(index: number, content: string) {
+    const tempFilePath = path.join(this.#tempDir, `temp-${index}.mdx`);
+    await fs.writeFile(tempFilePath, content);
+    return tempFilePath;
+  }
+
+  #getLang(filepath: string) {
+    return (
+      this.#langs.find(lang => filepath.startsWith(lang)) || this.#defaultLang
+    );
   }
 }

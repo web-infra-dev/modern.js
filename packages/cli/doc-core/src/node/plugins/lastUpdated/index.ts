@@ -1,7 +1,7 @@
 import execa from '@modern-js/utils/execa';
 
 function transform(timestamp: number, lang: string) {
-  return new Date(timestamp).toLocaleString(lang);
+  return new Date(timestamp).toLocaleString(lang || 'zh');
 }
 
 async function getGitLastUpdatedTimeStamp(filePath: string) {
