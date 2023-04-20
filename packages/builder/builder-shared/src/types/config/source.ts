@@ -56,7 +56,7 @@ export interface SharedSourceConfig {
   /**
    * Simple transformImport configuration
    */
-  transformImport?: SharedTransformImport[];
+  transformImport?: false | SharedTransformImport[];
 }
 
 export type SharedTransformImport = {
@@ -64,6 +64,8 @@ export type SharedTransformImport = {
   libraryDirectory?: string;
   style?: string | boolean;
   styleLibraryDirectory?: string;
+  camelToDashComponentName?: boolean;
+  transformToDefaultImport?: boolean;
 };
 
 export interface NormalizedSharedSourceConfig extends SharedSourceConfig {

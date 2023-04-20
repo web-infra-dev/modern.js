@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.14.0
+
+### Patch Changes
+
+- 52d0cb1: feat: support config handle of Route
+  feat: 支持配置 Route 的 handle 属性
+
 ## 2.13.4
 
 ## 2.13.3

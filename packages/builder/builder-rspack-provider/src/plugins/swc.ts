@@ -135,9 +135,9 @@ async function applyCoreJs(rspackConfig: RspackConfig) {
 
 async function applyTransformImport(
   rspackConfig: RspackConfig,
-  pluginImport?: Builtins['pluginImport'],
+  pluginImport?: false | Builtins['pluginImport'],
 ) {
-  if (pluginImport) {
+  if (pluginImport !== false && pluginImport) {
     ensureNoJsFunction(pluginImport);
     rspackConfig.builtins ??= {};
     rspackConfig.builtins.pluginImport ??= [];

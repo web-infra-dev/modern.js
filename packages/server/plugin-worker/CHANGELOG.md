@@ -1,5 +1,25 @@
 # @modern-js/plugin-worker
 
+## 2.14.0
+
+### Patch Changes
+
+- 9321bef: feat: adjust server.worker config to deploy.worker.ssr
+
+  feat: 调整 server.worker 为 deploy.worker.ssr
+
+- Updated dependencies [4779152]
+- Updated dependencies [8a3c693]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/server-utils@2.14.0
+  - @modern-js/prod-server@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes
