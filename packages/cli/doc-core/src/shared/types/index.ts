@@ -7,12 +7,12 @@ import {
   Config as DefaultThemeConfig,
   NormalizedConfig as NormalizedDefaultThemeConfig,
 } from './defaultTheme';
-import { DocPlugin } from './Plugin';
+import { DocPlugin, AdditionalPage } from './Plugin';
 
 export { DefaultThemeConfig, NormalizedDefaultThemeConfig };
 export * from './defaultTheme';
 
-export { DocPlugin };
+export { DocPlugin, AdditionalPage };
 
 export interface ReplaceRule {
   search: string | RegExp;

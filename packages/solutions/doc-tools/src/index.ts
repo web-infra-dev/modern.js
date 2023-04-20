@@ -4,13 +4,21 @@ import type {
   Sidebar,
   NavItem,
   DocPlugin,
+  AdditionalPage,
 } from '@modern-js/doc-core';
 import { logger } from '@modern-js/utils/logger';
 import chalk from '@modern-js/utils/chalk';
 import { cli } from '@modern-js/core';
 import { schema } from './config/schema';
 
-export type { CliPlugin, Sidebar, NavItem, UserConfig, DocPlugin };
+export type {
+  CliPlugin,
+  Sidebar,
+  NavItem,
+  UserConfig,
+  DocPlugin,
+  AdditionalPage,
+};
 
 const MODERN_CONFIG_FILES = ['modern.config.ts', 'modern.config.js'];
 
