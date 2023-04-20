@@ -1,5 +1,46 @@
 // Vitest Snapshot v1
 
+exports[`plugins/swc > should add antd pluginImport 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+    ],
+    "presetEnv": {
+      "coreJs": "3.27",
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "entry": {
+    "main": [
+      "rspack-polyfill.js",
+      "src/index.js",
+    ],
+  },
+  "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
+}
+`;
+
 exports[`plugins/swc > should add browserslist 1`] = `
 {
   "builtins": {
@@ -75,6 +116,40 @@ exports[`plugins/swc > should add pluginImport 1`] = `
         "libraryName": "foo",
       },
     ],
+    "presetEnv": {
+      "coreJs": "3.27",
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  },
+  "entry": {
+    "main": [
+      "rspack-polyfill.js",
+      "src/index.js",
+    ],
+  },
+  "module": {},
+  "plugins": [
+    RspackVirtualModulePlugin {},
+  ],
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+  },
+}
+`;
+
+exports[`plugins/swc > should disable all pluginImport 1`] = `
+{
+  "builtins": {
+    "decorator": {
+      "legacy": true,
+    },
     "presetEnv": {
       "coreJs": "3.27",
       "mode": "entry",
