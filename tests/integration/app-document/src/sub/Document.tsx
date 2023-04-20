@@ -5,6 +5,7 @@ import {
   Head,
   DocumentContext,
   Body,
+  Comment,
 } from '@modern-js/runtime/document';
 
 export default function Document(): React.ReactElement {
@@ -18,6 +19,12 @@ export default function Document(): React.ReactElement {
   return (
     <Html {...{ fromUserDoc: true }}>
       <Head>
+        {/* comment should be render to html by Comment.children */}
+        <Comment comment="!== COMMENT BY APP but inline ==">
+          {'<!-- COMMENT BY APP -->'}
+        </Comment>
+        {/* comment should be render to html by Comment.comment */}
+        <Comment comment="!== COMMENT BY APP in inline ==" />
         <link href="/ababad"></link>
         <script
           dangerouslySetInnerHTML={{

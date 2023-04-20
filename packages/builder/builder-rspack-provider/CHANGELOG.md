@@ -1,5 +1,48 @@
 # @modern-js/builder-rspack-provider
 
+## 2.14.0
+
+### Patch Changes
+
+- fefd1c5: feat(builder): add convertToRem.inlineRuntime config
+
+  feat(builder): 新增 convertToRem.inlineRuntime 配置项
+
+- 4baf588: fix(monorepo): ignore unnessary peer deps warning from antd
+
+  fix(monorepo): 忽略由 antd 造成的不必要的 peer deps 警告
+
+- d0efae3: chore(rspack-provider): update rspack to 0.1.8
+
+  chore(rspack-provider): 升级 rspack 相关依赖到 0.1.8 版本
+
+- 864d55e: feat(builder): source.globalVars support function usage
+
+  feat(builder): source.globalVars 支持函数写法
+
+- b965df2: fix(builder): update source.alias type when using Rspack
+
+  fix(builder): 更新使用 Rspack 时的 source.alias 类型
+
+- Updated dependencies [b46fbcb]
+- Updated dependencies [4779152]
+- Updated dependencies [fefd1c5]
+- Updated dependencies [8a3c693]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [1f34dba]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [864d55e]
+- Updated dependencies [b965df2]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/builder-shared@2.14.0
+  - @modern-js/server@2.14.0
+  - @modern-js/utils@2.14.0
+  - @modern-js/types@2.14.0
+  - @modern-js/e2e@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

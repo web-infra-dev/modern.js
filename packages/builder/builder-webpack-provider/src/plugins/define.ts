@@ -1,25 +1,31 @@
-import _ from '@modern-js/utils/lodash';
-import type { BuilderPlugin, SourceConfig } from '../types';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { removeTailSlash } from '@modern-js/utils';
+import { mapValues } from '@modern-js/utils/lodash';
+import type { GlobalVars } from '@modern-js/builder-shared';
+import type { BuilderPlugin } from '../types';
 
 export const builderPluginDefine = (): BuilderPlugin => ({
   name: 'builder-plugin-define',
 
   async setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { env, target, CHAIN_ID }) => {
+      const { getNodeEnv, removeTailSlash, applyOptionsChain } = await import(
+        '@modern-js/utils'
+      );
       const config = api.getNormalizedConfig();
 
-      const builtinVars: NonNullable<SourceConfig['globalVars']> = {
-        'process.env.NODE_ENV': process.env.NODE_ENV,
+      const builtinVars: GlobalVars = {
+        'process.env.NODE_ENV': getNodeEnv(),
         'process.env.ASSET_PREFIX': removeTailSlash(
           chain.output.get('publicPath') || '/',
         ),
       };
-
       // Serialize global vars. User can customize value of `builtinVars`.
-      const globalVars = { ...builtinVars, ...config.source.globalVars };
-      const serializedVars = _.mapValues(
+      const globalVars = applyOptionsChain(
+        builtinVars,
+        config.source.globalVars,
+        { env, target },
+      );
+
+      const serializedVars = mapValues(
         globalVars,
         value => JSON.stringify(value) ?? 'undefined',
       );

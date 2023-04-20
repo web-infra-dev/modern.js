@@ -5,6 +5,7 @@ export * from './Head';
 export * from './Body';
 export * from './Root';
 export * from './Links';
+export * from './Comment';
 export * from './Scripts';
 export * from './Script';
 export * from './constants';

@@ -5,7 +5,7 @@ The difference from [babel-plugin-import](https://www.npmjs.com/package/babel-pl
 - **Type:**
 
 ```ts
-Array<{
+type Config = false | Array<{
   libraryName: string;
   libraryDirectory?: string;
   style?: string | boolean;
@@ -28,6 +28,10 @@ When the [antd component library](https://www.npmjs.com/package/antd) &lt;= 4.x 
   style: true,
 }
 ```
+
+You can manually set `transformImport: false` to turn off the default behavior of transformImport.
+
+For example, when you use `externals` to avoid bundling antd, because `transformImport` will convert the imported path of antd by default, the matching path changes and externals cannot take effect. At this time, you can set `transformImport: false` to avoid this problem.
 
 ### Example
 

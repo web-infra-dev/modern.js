@@ -134,7 +134,7 @@ export const handleRequest = async ({
     basename,
   });
 
-  const { res } = context;
+  const { res, logger } = context;
 
   const request = createLoaderRequest(context);
   let response;
@@ -160,7 +160,7 @@ export const handleRequest = async ({
         );
       } else {
         const headers = new Headers(init.headers);
-        headers.set('Content-Type', CONTENT_TYPE_DEFERRED);
+        headers.set('Content-Type', `${CONTENT_TYPE_DEFERRED}; charset=UTF-8`);
         init.headers = headers;
         response = new NodeResponse(body, init);
       }
@@ -175,6 +175,7 @@ export const handleRequest = async ({
     }
   } catch (error) {
     const message = error instanceof ErrorResponse ? error.data : String(error);
+    logger?.error(message);
     response = new NodeResponse(message, {
       status: 500,
       headers: {

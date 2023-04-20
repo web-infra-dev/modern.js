@@ -1,5 +1,21 @@
 # @modern-js/plugin-router-v5
 
+## 2.14.0
+
+### Patch Changes
+
+- 60a81d0: feat: add ssr.inlineScript for use inline json instead inline script when ssr
+  feat: 添加 ssr.inlineScript 用于在 ssr 模式下使用内联 json 而不是内联脚本
+- Updated dependencies [4779152]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/types@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

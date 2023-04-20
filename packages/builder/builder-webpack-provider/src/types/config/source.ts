@@ -29,7 +29,7 @@ export interface SourceConfig extends SharedSourceConfig {
   /**
    * Configurare babel-plugin-import or swc-plugin-import or Rspack builtins plugin import
    */
-  transformImport?: TransformImport[];
+  transformImport?: false | TransformImport[];
 }
 
 export interface NormalizedSourceConfig extends NormalizedSharedSourceConfig {
@@ -41,5 +41,5 @@ export interface NormalizedSourceConfig extends NormalizedSharedSourceConfig {
    */
   moduleScopes?: ChainedConfig<ModuleScopes>;
 
-  transformImport?: TransformImport[];
+  transformImport?: false | TransformImport[];
 }

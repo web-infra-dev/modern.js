@@ -49,6 +49,8 @@ import { Html, Body, Root, Head, Scripts } from '@modern-js/runtime/document';
 
 - `Scripts`：构建产生的 script 内容，可用于调整构建产物的位置，默认放在 `<Head>` 组件中。
 
+- `Comment`：将用户编写的 `<!-- gateway -->` 这种注释，保留输出到最新渲染的 html 中。
+
 ### 模板参数
 
 因为是 JSX 形式，`Document.[jt]sx` 里，可以比较自由的在组件内使用各种变量去赋值给各种自定义组件。
@@ -69,8 +71,8 @@ import {
   Root,
   Head,
   Body,
-  Scripts,
   DocumentContext,
+  Comment,
 } from '@modern-js/runtime/document';
 
 export default function Document(): React.ReactElement {
@@ -84,7 +86,8 @@ export default function Document(): React.ReactElement {
   return (
     <Html>
       <Head>
-        <link href="https://modernjs.dev">Modern.js</link>
+        <link href="https://modernjs.dev" />
+        <Comment>{'<!-- Need a Comment -->'}</Comment>
       </Head>
       <Body>
         <Root rootId="root">
@@ -105,49 +108,43 @@ export default function Document(): React.ReactElement {
 ```html
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="renderer" content="webkit" />
-    <meta name="layoutmode" content="standard" />
-    <meta name="imagemode" content="force" />
-    <meta name="wap-font-scale" content="no" />
-    <meta name="format-detection" content="telephone=no" />
-    <script>
-      ...
-    </script>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="layoutmode" content="standard">
+    <meta name="imagemode" content="force">
+    <meta name="wap-font-scale" content="no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon" href="/a.icon">
+    <script defer src="/static/js/builder-runtime.js"></script>
     <script defer src="/static/js/lib-react.js"></script>
     <script defer src="/static/js/lib-polyfill.js"></script>
     <script defer src="/static/js/lib-router.js"></script>
-    <script
-      defer
-      src="/static/js/vendors-node_modules_pnpm_loadable_component_5_15_2_react_18_2_0_node_modules_loadable_compon-3fb0cf.js"
-    ></script>
-    <script
-      defer
-      src="/static/js/packages_runtime_plugin-router-legacy_dist_js_treeshaking_runtime_index_js-packages_runtime_p-28f4c9.js"
-    ></script>
+    <script xxx>
     <script defer src="/static/js/sub.js"></script>
-    <link href="https://www.baidu.com" />
-  </head>
+    <link href="https://modernjs.dev" />
+    <!-- Need a Comment -->
+</head>
 
-  <body>
+<body>
     <div id="root">
-      {/* <?- html ?> */}
-      <h1 style="color:red">以下为构建时传过来的参数：</h1>
-      <h2>entryName：sub</h2>
-      <h2>title：</h2>
-      <h2>rootId: root</h2>
+        <!--<?- html ?>-->
+        <h1 style="color:red">以下为构建时传过来的参数：</h1>
+        <h2> entryName：sub</h2>
+        <h2> title：</h2>
+        <h2> rootId: root</h2>
     </div>
     <h1>bottom</h1>
-    {/* <?- chunksMap.js ?> */}
-    {/* <?- SSRDataScript ?> */}
-  </body>
+    <!--<?- chunksMap.js ?>-->
+    <!--<?- SSRDataScript ?>-->
+</body>
+
 </html>
+
 ```
 
 ## Html 语法

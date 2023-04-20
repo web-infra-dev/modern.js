@@ -63,8 +63,6 @@ export const getDevServerOptions = async ({
     },
     source: {
       alias: {},
-      define: {},
-      globalVars: {},
     },
     html: {},
     tools: {
