@@ -31,7 +31,9 @@ MODERN_ENV 的优先级高于 NODE_ENV。
 
 ### MODERN_TARGET
 
-使用 `@modern-js/runtime` 时会自动注入，用于区分 SSR 与 CSR 环境。开发者可以自行在代码中判断，构建时会默认移除 dead code。
+使用 `@modern-js/runtime` 时，Modern.js 会自动注入 `MODERN_TARGET`，用于区分 SSR 与 CSR 环境。
+
+你可以在代码中通过 `process.env.MODERN_TARGET` 来判断环境，并执行相应的逻辑。
 
 ```ts title="App.tsx"
 function App() {
@@ -41,9 +43,10 @@ function App() {
 }
 ```
 
-开发环境打包后，可以看到 SSR 产物和 CSR 产物如下：
+在开发环境构建完成后，可以看到 SSR 产物和 CSR 产物如下：
 
 ```js title="dist/bundles/main.js"
+// SSR 产物
 function App() {
   if (false) {
   }
@@ -51,6 +54,7 @@ function App() {
 ```
 
 ```js title="dist/static/main.js"
+// CSR 产物
 function App() {
   if (true) {
     console.log(window.innerHeight);
@@ -58,12 +62,17 @@ function App() {
 }
 ```
 
-:::note
-在生产环境，会将 dead code 移除，例如上述 `if` 语句。
+这种方式可以针对不同客户端提供不同的产物，保证代码体积最小化；也便于处理不同环境下代码中的一些副作用。
+
+:::note 死代码移除
+在生产环境，Terser 和 SWC 等代码压缩工具会分析代码，并将 dead code 移除，从而减少产物体积，这个过程被称为死代码移除（DCE）。
+
+例如，上述 `if (false)` 语句包含的代码会被移除，而 `if (true)` 包含的代码将被保留。
+
+如果你未按照上述写法来使用 `process.env.MODERN_TARGET`，代码压缩工具可能会无法分析出 dead code，从而导致产物体积增大。
 
 :::
 
-这种方式可以针对不同客户端提供不同的产物，保证代码体积最小化。也能方便处理不同环境下，代码中的一些副作用，
 
 ## 自定义环境变量
 
