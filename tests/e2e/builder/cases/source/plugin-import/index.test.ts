@@ -164,6 +164,12 @@ function shareTest(
   entry: string,
   transformImport: SharedTransformImport,
 ) {
+  const setupConfig = {
+    cwd: __dirname,
+    entry: {
+      index: entry,
+    },
+  };
   const config: BuilderConfig = {
     source: {
       transformImport: [transformImport],
@@ -177,14 +183,7 @@ function shareTest(
 
   // webpack
   webpackOnlyTest(`${msg}-webpack`, async () => {
-    const builder = await build(
-      {
-        entry: {
-          index: entry,
-        },
-      },
-      { ...config },
-    );
+    const builder = await build(setupConfig, { ...config });
     const files = await builder.unwrapOutputJSON(false);
     expect(files[findEntry(files)]).toContain('transformImport test succeed');
   });
@@ -193,9 +192,7 @@ function shareTest(
   webpackOnlyTest(`${msg}-webpack-swc`, async () => {
     const builder = await build(
       {
-        entry: {
-          index: entry,
-        },
+        ...setupConfig,
         plugins: [builderPluginSwc()],
       },
       { ...config },
@@ -206,14 +203,7 @@ function shareTest(
 
   // rspack
   rspackOnlyTest(`${msg}-rspack`, async () => {
-    const builder = await build(
-      {
-        entry: {
-          index: entry,
-        },
-      },
-      { ...config },
-    );
+    const builder = await build(setupConfig, { ...config });
     const files = await builder.unwrapOutputJSON(false);
     expect(files[findEntry(files)]).toContain('transformImport test succeed');
   });
