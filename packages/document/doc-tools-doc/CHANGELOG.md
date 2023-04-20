@@ -1,5 +1,13 @@
 # @modern-js/doc-tools-doc
 
+## 2.14.0
+
+### Minor Changes
+
+- 16399fd: feat: support extendPageData hook and last updated time
+
+  feat: 支持 extendPageData 钩子和最后更新时间功能
+
 ## 2.13.4
 
 ## 2.13.3

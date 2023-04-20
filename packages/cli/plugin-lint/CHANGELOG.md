@@ -1,5 +1,23 @@
 # @modern-js/plugin-lint
 
+## 2.14.0
+
+### Patch Changes
+
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
+- Updated dependencies [4779152]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/tsconfig@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @modern-js/doc-tools
 
+## 2.14.0
+
+### Patch Changes
+
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
+- Updated dependencies [4779152]
+- Updated dependencies [d27fae0]
+- Updated dependencies [7b002f4]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+- Updated dependencies [e627657]
+  - @modern-js/utils@2.14.0
+  - @modern-js/doc-core@2.14.0
+  - @modern-js/core@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

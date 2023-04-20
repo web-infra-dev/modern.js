@@ -1,5 +1,34 @@
 # @modern-js/utils
 
+## 2.14.0
+
+### Minor Changes
+
+- 16399fd: feat: support extendPageData hook and last updated time
+
+  feat: 支持 extendPageData 钩子和最后更新时间功能
+
+### Patch Changes
+
+- 4779152: fix(utils): the esm format files should be generate for the client
+
+  fix(utils): 应该为客户端使用，生成 esm 格式的文件
+
+- 9321bef: feat: adjust server.worker config to deploy.worker.ssr
+
+  feat: 调整 server.worker 为 deploy.worker.ssr
+
+- 9b45c58: fix(app-tools): should not print all addresses when custom dev.host
+
+  fix(app-tools): 修复自定义 dev.host 时会输出多余的 URL 地址的问题
+
+- 52d0cb1: feat: support config handle of Route
+  feat: 支持配置 Route 的 handle 属性
+- 60a81d0: feat: add ssr.inlineScript for use inline json instead inline script when ssr
+  feat: 添加 ssr.inlineScript 用于在 ssr 模式下使用内联 json 而不是内联脚本
+- dacef96: chore: remove plugin-egg and plugin-nest
+  chore: 移除 plugin-egg 和 plugin-nest
+
 ## 2.13.4
 
 ## 2.13.3

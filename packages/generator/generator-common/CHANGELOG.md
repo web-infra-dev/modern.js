@@ -1,5 +1,15 @@
 # @modern-js/generator-common
 
+## 3.1.8
+
+### Patch Changes
+
+- bfb15e2: chore(generator): make rspack a priority
+
+  chore(generator): 将启用 rspack 作为优先选项
+
+  - @modern-js/plugin-i18n@2.14.0
+
 ## 3.1.7
 
 ### Patch Changes

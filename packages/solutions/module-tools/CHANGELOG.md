@@ -1,5 +1,35 @@
 # @modern-js/module-tools
 
+## 2.14.0
+
+### Minor Changes
+
+- f08f3ab: feat: add esbuildOptions to support that change esbuild options directly
+  feat: 新增 esbuildOptions 配置支持直接修改 esbuild 最终配置
+
+### Patch Changes
+
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
+- Updated dependencies [4779152]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [432ac8b]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/plugin-lint@2.14.0
+  - @modern-js/core@2.14.0
+  - @modern-js/plugin-changeset@2.14.0
+  - @modern-js/plugin-i18n@2.14.0
+  - @modern-js/new-action@2.14.0
+  - @modern-js/upgrade@2.14.0
+  - @modern-js/plugin@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

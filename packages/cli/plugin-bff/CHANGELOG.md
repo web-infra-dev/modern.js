@@ -1,5 +1,26 @@
 # @modern-js/plugin-bff
 
+## 2.14.0
+
+### Patch Changes
+
+- 8a3c693: chore(server): no longer replace globalVars when compiler is babel
+
+  chore(server): 进行 babel compile 时不再替换 globalVars
+
+- Updated dependencies [4779152]
+- Updated dependencies [8a3c693]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/server-utils@2.14.0
+  - @modern-js/bff-core@2.14.0
+  - @modern-js/create-request@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

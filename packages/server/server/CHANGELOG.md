@@ -1,5 +1,30 @@
 # @modern-js/server
 
+## 2.14.0
+
+### Patch Changes
+
+- 4779152: fix(utils): the esm format files should be generate for the client
+
+  fix(utils): 应该为客户端使用，生成 esm 格式的文件
+
+- 1f34dba: fix(devServer): using current host and port to create HMR connection
+
+  fix(devServer): 建立 HMR 连接时默认使用当前 host 和 port
+
+- Updated dependencies [4779152]
+- Updated dependencies [8a3c693]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/server-utils@2.14.0
+  - @modern-js/types@2.14.0
+  - @modern-js/prod-server@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

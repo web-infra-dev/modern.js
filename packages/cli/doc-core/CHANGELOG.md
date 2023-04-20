@@ -1,5 +1,45 @@
 # @modern-js/doc-core
 
+## 2.14.0
+
+### Minor Changes
+
+- 16399fd: feat: support extendPageData hook and last updated time
+
+  feat: 支持 extendPageData 钩子和最后更新时间功能
+
+### Patch Changes
+
+- d27fae0: feat: add doc-tools e2e
+
+  feat: 添加 doc-tools e2e 测试用例
+
+- 7b002f4: fix: doc e2e test in windows
+
+  fix: 解决 windows 下 e2e 测试失败的问题
+
+- e627657: fix(doc-core): fix failed to resolve @modern-js/utils/logger
+
+  fix(doc-core): 修复引用 @modern-js/utils/logger 失败的问题
+
+- Updated dependencies [4779152]
+- Updated dependencies [fefd1c5]
+- Updated dependencies [9321bef]
+- Updated dependencies [4baf588]
+- Updated dependencies [d0efae3]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [864d55e]
+- Updated dependencies [b965df2]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/builder-rspack-provider@2.14.0
+  - @modern-js/builder@2.14.0
+  - @modern-js/core@2.14.0
+  - @modern-js/remark-container@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

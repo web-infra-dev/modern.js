@@ -1,5 +1,73 @@
 # @modern-js/app-tools
 
+## 2.14.0
+
+### Minor Changes
+
+- 7c5c752: feat: adpate rspack copy plugin
+  feat: 适配 rspack copy 插件
+
+### Patch Changes
+
+- b7b181e: fix(app-tools): failed to scan public dir when using Rspack
+
+  fix(app-tools): 修复 Rspack 模式读取 public 目录失败的问题
+
+- b7f72a6: fix(app-tools): can not disable output.cleanDistPath
+
+  fix(app-tools): 修复无法禁用 output.cleanDistPath 的问题
+
+- 9321bef: feat: adjust server.worker config to deploy.worker.ssr
+
+  feat: 调整 server.worker 为 deploy.worker.ssr
+
+- 52d0cb1: feat: support config handle of Route
+  feat: 支持配置 Route 的 handle 属性
+- 432ac8b: chore(cli): improve commands descriptions
+
+  chore(cli): 优化命令的描述文案
+
+- 864d55e: feat(builder): source.globalVars support function usage
+
+  feat(builder): source.globalVars 支持函数写法
+
+- Updated dependencies [b46fbcb]
+- Updated dependencies [4779152]
+- Updated dependencies [bd52693]
+- Updated dependencies [fefd1c5]
+- Updated dependencies [8a3c693]
+- Updated dependencies [9321bef]
+- Updated dependencies [4baf588]
+- Updated dependencies [d0efae3]
+- Updated dependencies [9b45c58]
+- Updated dependencies [1f34dba]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [432ac8b]
+- Updated dependencies [864d55e]
+- Updated dependencies [b965df2]
+- Updated dependencies [dacef96]
+- Updated dependencies [d05651a]
+- Updated dependencies [16399fd]
+  - @modern-js/builder-shared@2.14.0
+  - @modern-js/server@2.14.0
+  - @modern-js/utils@2.14.0
+  - @modern-js/builder-webpack-provider@2.14.0
+  - @modern-js/builder-rspack-provider@2.14.0
+  - @modern-js/types@2.14.0
+  - @modern-js/prod-server@2.14.0
+  - @modern-js/plugin-lint@2.14.0
+  - @modern-js/plugin-data-loader@2.14.0
+  - @modern-js/builder@2.14.0
+  - @modern-js/builder-plugin-esbuild@2.14.0
+  - @modern-js/builder-plugin-node-polyfill@2.14.0
+  - @modern-js/core@2.14.0
+  - @modern-js/plugin-i18n@2.14.0
+  - @modern-js/new-action@2.14.0
+  - @modern-js/node-bundle-require@2.14.0
+  - @modern-js/upgrade@2.14.0
+  - @modern-js/plugin@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

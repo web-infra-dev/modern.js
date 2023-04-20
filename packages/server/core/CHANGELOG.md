@@ -1,5 +1,29 @@
 # @modern-js/server-plugin
 
+## 2.14.0
+
+### Patch Changes
+
+- 8a3c693: chore(server): no longer replace globalVars when compiler is babel
+
+  chore(server): 进行 babel compile 时不再替换 globalVars
+
+- 9321bef: feat: adjust server.worker config to deploy.worker.ssr
+
+  feat: 调整 server.worker 为 deploy.worker.ssr
+
+- 60a81d0: feat: add ssr.inlineScript for use inline json instead inline script when ssr
+  feat: 添加 ssr.inlineScript 用于在 ssr 模式下使用内联 json 而不是内联脚本
+- Updated dependencies [4779152]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/utils@2.14.0
+  - @modern-js/plugin@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes

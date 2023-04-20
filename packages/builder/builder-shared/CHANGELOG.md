@@ -1,5 +1,43 @@
 # @modern-js/builder-shared
 
+## 2.14.0
+
+### Patch Changes
+
+- b46fbcb: fix: The http://0.0.0.0:port can't visit in windows, we shouldn't set publicPath as `//0.0.0.0:${port}/`;
+  fix: 在 windows 里不能正常访问 http://0.0.0.0:port，我们不应该将 publicPath 设置成 `//0.0.0.0:${port}`
+- fefd1c5: feat(builder): add convertToRem.inlineRuntime config
+
+  feat(builder): 新增 convertToRem.inlineRuntime 配置项
+
+- 8a3c693: chore(server): no longer replace globalVars when compiler is babel
+
+  chore(server): 进行 babel compile 时不再替换 globalVars
+
+- 9b45c58: fix(app-tools): should not print all addresses when custom dev.host
+
+  fix(app-tools): 修复自定义 dev.host 时会输出多余的 URL 地址的问题
+
+- 864d55e: feat(builder): source.globalVars support function usage
+
+  feat(builder): source.globalVars 支持函数写法
+
+- b965df2: fix(builder): update source.alias type when using Rspack
+
+  fix(builder): 更新使用 Rspack 时的 source.alias 类型
+
+- Updated dependencies [4779152]
+- Updated dependencies [9321bef]
+- Updated dependencies [9b45c58]
+- Updated dependencies [1f34dba]
+- Updated dependencies [52d0cb1]
+- Updated dependencies [60a81d0]
+- Updated dependencies [dacef96]
+- Updated dependencies [16399fd]
+  - @modern-js/server@2.14.0
+  - @modern-js/utils@2.14.0
+  - @modern-js/types@2.14.0
+
 ## 2.13.4
 
 ### Patch Changes
