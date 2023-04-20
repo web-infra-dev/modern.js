@@ -203,9 +203,9 @@ export function addCoreJsEntry({
 
 function applyPluginImport(
   chain: BabelChain,
-  pluginImport?: TransformImport[],
+  pluginImport?: false | TransformImport[],
 ) {
-  if (pluginImport) {
+  if (pluginImport !== false && pluginImport) {
     for (const item of pluginImport) {
       const name = item.libraryName;
 

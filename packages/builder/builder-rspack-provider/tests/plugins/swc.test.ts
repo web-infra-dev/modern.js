@@ -4,6 +4,7 @@ import { builderPluginEntry } from '@builder/plugins/entry';
 import { createBuilder } from '../helper';
 import { builderPluginSwc } from '@/plugins/swc';
 import { BuilderConfig } from '@/types';
+import { builderAntdPlugin } from '~/../builder/src/plugins/antd';
 
 describe('plugins/swc', () => {
   it('should disable preset_env in target other than web', async () => {
@@ -88,6 +89,47 @@ describe('plugins/swc', () => {
           },
         ],
       },
+    });
+  });
+
+  it('should disable all pluginImport', async () => {
+    const builder = await createBuilder({
+      target: 'web',
+      entry: {
+        main: './src/index.js',
+      },
+      plugins: [builderPluginSwc(), builderPluginEntry(), builderAntdPlugin()],
+      builderConfig: {
+        source: {
+          transformImport: false,
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    bundlerConfigs.forEach(bundlerConfig => {
+      expect(bundlerConfig).toMatchSnapshot();
+    });
+  });
+
+  it('should add antd pluginImport', async () => {
+    const builder = await createBuilder({
+      target: 'web',
+      entry: {
+        main: './src/index.js',
+      },
+      plugins: [builderPluginSwc(), builderPluginEntry(), builderAntdPlugin()],
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    bundlerConfigs.forEach(bundlerConfig => {
+      expect(bundlerConfig).toMatchSnapshot();
     });
   });
 });

@@ -7,10 +7,10 @@ import type { RspackBuiltinsConfig } from '../rspack';
 
 export type SourceConfig = SharedSourceConfig & {
   define?: RspackBuiltinsConfig['define'];
-  transformImport?: Builtins['pluginImport'];
+  transformImport?: false | Builtins['pluginImport'];
 };
 
 export type NormalizedSourceConfig = NormalizedSharedSourceConfig & {
   define: Record<string, string>;
-  transformImport?: Builtins['pluginImport'];
+  transformImport?: false | Builtins['pluginImport'];
 };
