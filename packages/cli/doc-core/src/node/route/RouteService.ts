@@ -135,24 +135,14 @@ export class RouteService {
         const { routePath, content, filepath } = route;
         // case1: specify the filepath
         if (filepath) {
-          const routeInfo: RouteMeta = {
-            routePath,
-            absolutePath: normalizePath(filepath),
-            pageName: getPageKey(path.basename(filepath)),
-            lang: this.#defaultLang,
-          };
+          const routeInfo = this.#generateRouteInfo(routePath, filepath);
           this.addRoute(routeInfo);
           return;
         }
         // case2: specify the content
         if (content) {
           const filepath = await this.#writeTempFile(index, content);
-          const routeInfo: RouteMeta = {
-            routePath,
-            absolutePath: normalizePath(filepath),
-            pageName: getPageKey(path.basename(filepath)),
-            lang: this.#getLang(filepath),
-          };
+          const routeInfo = this.#generateRouteInfo(routePath, filepath);
           this.addRoute(routeInfo);
           index++;
         }
@@ -267,5 +257,14 @@ ${this.getRoutes()
     return (
       this.#langs.find(lang => filepath.startsWith(lang)) || this.#defaultLang
     );
+  }
+
+  #generateRouteInfo(routePath: string, filepath: string): RouteMeta {
+    return {
+      routePath: normalizeRoutePath(routePath, this.#defaultLang, this.#base),
+      absolutePath: normalizePath(filepath),
+      pageName: getPageKey(path.basename(filepath)),
+      lang: this.#getLang(filepath),
+    };
   }
 }
