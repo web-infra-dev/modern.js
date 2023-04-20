@@ -24,7 +24,7 @@ const source = {
   enableAsyncEntry: { type: 'boolean' },
   disableDefaultEntries: { type: 'boolean' },
   envVars: { type: 'array' },
-  globalVars: { type: 'object' },
+  globalVars: { typeof: ['object', 'function'] },
   moduleScopes: { instanceof: ['Array', 'Function'] },
   entriesDir: { type: 'string' },
   configDir: { type: 'string' },
