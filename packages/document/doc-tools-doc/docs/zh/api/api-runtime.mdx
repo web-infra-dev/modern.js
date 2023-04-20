@@ -29,6 +29,19 @@ function MyComponent() {
 }
 ```
 
+## useDark
+
+当前主题是否为暗黑模式，返回值为一个布尔值。
+
+```js
+import { useDark } from '@modern-js/doc-tools/runtime';
+
+function MyComponent() {
+  const dark = useDark();
+  return <div>{dark}</div>;
+}
+```
+
 ## 路由 Hook
 
 框架内部使用并重导出了 `react-router-dom` 的所有 API，你可以这样来使用:
