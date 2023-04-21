@@ -46,8 +46,12 @@ if (false) {
 
 ```ts
 export default {
+  dev: {
+    assetPrefix: '/',
+  },
   output: {
-    copy: [{ from: './static', to: '' }],
+    copy: [{ from: './static', to: 'static' }],
+    assetPrefix: 'https://example.com',
   },
 };
 ```
@@ -55,8 +59,19 @@ export default {
 此时，我们可以在前端代码中通过以下方式来拼接图片 URL：
 
 ```tsx
-const url = `${process.env.ASSET_PREFIX}/icon.png`;
-const Image = <img src={url} />;
+const Image = <img src={`${process.env.ASSET_PREFIX}/static/icon.png`} />;
+```
+
+在开发环境，以上代码会被编译为：
+
+```js
+const Image = <img src={`/static/icon.png`} />;
+```
+
+在生产环境，以上代码会被编译为：
+
+```js
+const Image = <img src={`https://example.com/static/icon.png`} />;
 ```
 
 ## 使用 define 配置项
