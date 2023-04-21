@@ -1,5 +1,17 @@
 # @modern-js/runtime
 
+## 2.15.0
+
+### Patch Changes
+
+- 09a3e57: chore(runtime): remove unused @testing-library/react-hooks
+
+  chore(runtime): 移除多余的 @testing-library/react-hooks
+
+  - @modern-js/plugin@2.15.0
+  - @modern-js/types@2.15.0
+  - @modern-js/utils@2.15.0
+
 ## 2.14.0
 
 ### Patch Changes

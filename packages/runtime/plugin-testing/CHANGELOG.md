@@ -1,5 +1,17 @@
 # @modern-js/plugin-testing
 
+## 2.15.0
+
+### Patch Changes
+
+- Updated dependencies [09a3e57]
+  - @modern-js/runtime@2.15.0
+  - @modern-js/babel-preset-app@2.15.0
+  - @modern-js/prod-server@2.15.0
+  - @modern-js/babel-compiler@2.15.0
+  - @modern-js/plugin@2.15.0
+  - @modern-js/utils@2.15.0
+
 ## 2.14.0
 
 ### Patch Changes
