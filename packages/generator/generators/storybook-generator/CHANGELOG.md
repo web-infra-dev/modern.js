@@ -1,5 +1,7 @@
 # @modern-js/storybook-generator
 
+## 3.1.9
+
 ## 3.1.8
 
 ## 3.1.7
