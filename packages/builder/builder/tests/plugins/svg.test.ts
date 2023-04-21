@@ -47,6 +47,14 @@ describe('plugins/svg', () => {
         },
       },
     },
+    {
+      name: 'disableSvgr',
+      builderConfig: {
+        output: {
+          disableSvgr: true,
+        },
+      },
+    },
   ];
 
   it.each(cases)('$name', async item => {

@@ -1,5 +1,46 @@
 // Vitest Snapshot v1
 
+exports[`plugins/svg > disableSvgr 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 0,
+              },
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+    ],
+  },
+}
+`;
+
 exports[`plugins/svg > export default Component 1`] = `
 {
   "module": {
