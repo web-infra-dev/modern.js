@@ -1,5 +1,12 @@
 # @modern-js/core
 
+## 2.15.0
+
+### Patch Changes
+
+- @modern-js/builder-plugin-swc@2.15.0
+- @modern-js/utils@2.15.0
+
 ## 2.14.0
 
 ### Patch Changes
