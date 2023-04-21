@@ -1,5 +1,21 @@
 # @modern-js/doc-core
 
+## 2.15.0
+
+### Patch Changes
+
+- 81bf045: feat(doc-core): support addPages
+
+  feat(doc-core): 支持 addPages 插件钩子
+
+- Updated dependencies [7d23d39]
+- Updated dependencies [3e5e790]
+  - @modern-js/builder-rspack-provider@2.15.0
+  - @modern-js/builder@2.15.0
+  - @modern-js/core@2.15.0
+  - @modern-js/remark-container@2.15.0
+  - @modern-js/utils@2.15.0
+
 ## 2.14.0
 
 ### Minor Changes

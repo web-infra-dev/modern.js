@@ -60,6 +60,19 @@ export default () => <Logo />;
 
 请阅读 [引用静态资源](/guide/basic/static-assets.html) 章节来了解静态资源的处理规则。
 
+## 禁用 SVGR 处理
+
+默认情况下，在 JS 文件中引用 SVG 资源时，Builder 会调用 SVGR，将 SVG 图片转换为一个 React 组件。
+如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用时，可以通过将 [`disableSvgr`](/api/config-output.html#outputdisablesvgr) 设置为 true 来关闭此项转换，以提升构建性能。
+
+```js
+export default {
+  output: {
+    disableSvgr: true,
+  },
+};
+```
+
 ## 添加类型声明
 
 当你在 TypeScript 代码中引用 SVG 资源时，TypeScript 可能会提示该模块缺少类型定义：

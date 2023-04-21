@@ -310,7 +310,7 @@ export function SideBar(props: Props) {
         <div
           className="modern-scrollbar"
           style={{
-            height: 'calc(100vh - var(--modern-nav-height) - 8px)',
+            maxHeight: 'calc(100vh - var(--modern-nav-height) - 8px)',
             overflow: 'scroll',
           }}
         >

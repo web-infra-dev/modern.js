@@ -1,5 +1,34 @@
 # @modern-js/app-tools
 
+## 2.15.0
+
+### Patch Changes
+
+- 18aeb8c: fix(app-tools): missing MODERN_TARGET type
+
+  fix(app-tools): 缺少 MODERN_TARGET 类型定义
+
+- Updated dependencies [7d23d39]
+- Updated dependencies [3e5e790]
+  - @modern-js/builder-rspack-provider@2.15.0
+  - @modern-js/builder-webpack-provider@2.15.0
+  - @modern-js/builder-shared@2.15.0
+  - @modern-js/builder@2.15.0
+  - @modern-js/builder-plugin-esbuild@2.15.0
+  - @modern-js/builder-plugin-node-polyfill@2.15.0
+  - @modern-js/core@2.15.0
+  - @modern-js/plugin-data-loader@2.15.0
+  - @modern-js/plugin-i18n@2.15.0
+  - @modern-js/plugin-lint@2.15.0
+  - @modern-js/new-action@2.15.0
+  - @modern-js/prod-server@2.15.0
+  - @modern-js/server@2.15.0
+  - @modern-js/node-bundle-require@2.15.0
+  - @modern-js/plugin@2.15.0
+  - @modern-js/types@2.15.0
+  - @modern-js/upgrade@2.15.0
+  - @modern-js/utils@2.15.0
+
 ## 2.14.0
 
 ### Minor Changes
