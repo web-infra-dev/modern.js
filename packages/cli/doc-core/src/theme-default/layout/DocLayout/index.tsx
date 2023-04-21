@@ -52,9 +52,11 @@ export function DocLayout(props: DocLayoutProps) {
     frontmatter?.sidebar !== false && Object.keys(sidebar).length > 0;
   const outlineTitle =
     localesData?.outlineTitle || themeConfig?.outlineTitle || 'ON THIS PAGE';
+  const notInIframe = window.top === window.self;
+  const defaultHasAside = notInIframe;
   const hasAside =
     headers.length > 0 &&
-    (frontmatter?.outline ?? themeConfig?.outline ?? true);
+    (frontmatter?.outline ?? themeConfig?.outline ?? defaultHasAside);
   const isOverviewPage = frontmatter?.overview ?? false;
 
   return (
