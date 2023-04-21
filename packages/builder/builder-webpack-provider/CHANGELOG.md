@@ -1,5 +1,24 @@
 # @modern-js/builder-webpack-provider
 
+## 2.15.0
+
+### Minor Changes
+
+- 3e5e790: feat(transformImport): support disable default transform import, add more test of transformImport
+
+  feat(transformImport): 支持关闭默认的 transform import，增加更多 transformImport 测试
+
+### Patch Changes
+
+- Updated dependencies [3e5e790]
+  - @modern-js/builder-shared@2.15.0
+  - @modern-js/babel-preset-app@2.15.0
+  - @modern-js/babel-preset-base@2.15.0
+  - @modern-js/server@2.15.0
+  - @modern-js/e2e@2.15.0
+  - @modern-js/types@2.15.0
+  - @modern-js/utils@2.15.0
+
 ## 2.14.0
 
 ### Patch Changes

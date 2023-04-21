@@ -1,5 +1,26 @@
 # @modern-js/builder-rspack-provider
 
+## 2.15.0
+
+### Minor Changes
+
+- 3e5e790: feat(transformImport): support disable default transform import, add more test of transformImport
+
+  feat(transformImport): 支持关闭默认的 transform import，增加更多 transformImport 测试
+
+### Patch Changes
+
+- 7d23d39: fix: rspack back to v0.1.7
+
+  fix: rspack 回退到 v0.1.7
+
+- Updated dependencies [3e5e790]
+  - @modern-js/builder-shared@2.15.0
+  - @modern-js/server@2.15.0
+  - @modern-js/e2e@2.15.0
+  - @modern-js/types@2.15.0
+  - @modern-js/utils@2.15.0
+
 ## 2.14.0
 
 ### Patch Changes
