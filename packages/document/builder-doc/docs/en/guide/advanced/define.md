@@ -58,19 +58,19 @@ export default {
 
 Then we can access the image URL in the runtime code:
 
-```tsx
+```jsx
 const Image = <img src={`${process.env.ASSET_PREFIX}/static/icon.png`} />;
 ```
 
 In the development environment, the above code will be compiled as:
 
-```js
+```jsx
 const Image = <img src={`/static/icon.png`} />;
 ```
 
 In the production environment, the above code will be compiled as:
 
-```js
+```jsx
 const Image = <img src={`https://example.com/static/icon.png`} />;
 ```
 
