@@ -29,6 +29,19 @@ function MyComponent() {
 }
 ```
 
+## useDark
+
+Whether it is dark mode currently, the return value is a boolean value.
+
+```js
+import { useDark } from '@modern-js/doc-tools/runtime';
+
+function MyComponent() {
+  const dark = useDark();
+  return <div>{dark}</div>;
+}
+```
+
 ## Router Hook
 
 The framework internally uses and re-exports all APIs of `react-router-dom`, you can use it like this:

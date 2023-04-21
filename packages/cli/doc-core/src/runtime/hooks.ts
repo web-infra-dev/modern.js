@@ -30,3 +30,8 @@ export function useLang(): string {
   const ctx = useContext(DataContext);
   return ctx.data.page.lang;
 }
+
+export function useDark() {
+  const ctx = useContext(ThemeContext);
+  return ctx.theme === 'dark';
+}

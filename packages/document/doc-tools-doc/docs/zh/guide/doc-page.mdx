@@ -1,3 +1,49 @@
 # 正文页面
 
-🚧 建设中
+## 页面类型
+
+你可以在 `frontmatter` 元数据中指定 pageType，以便在页面中使用不同的布局。默认情况下，文档的 pageType 是 `doc`，这样会默认出现左边的`侧边栏`和右侧的`大纲栏`。如果你不需要这些，可以将 pageType 设置为 `custom`:
+
+```yaml
+---
+pageType: custom
+---
+```
+
+## 侧边栏
+
+在 `modern.config.ts` 中，你可以配置侧边栏的内容，具体可参考 [API-侧边栏配置](/api/config-theme#sidebar)。
+
+## 大纲栏标题
+
+通过 `outlineTitle` 配置项，你可以设置大纲栏的标题。
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    outlineTitle: '目录',
+  },
+  plugins: [docTools()],
+});
+```
+
+## 上一页/下一页文本
+
+通过 `prevText` 和 `nextText` 配置项，你可以设置上一页/下一页的文本。
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      prevPageText: '上一页',
+      nextPageText: '下一页',
+    },
+  },
+  plugins: [docTools()],
+});
+```
