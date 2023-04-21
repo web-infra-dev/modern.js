@@ -83,6 +83,9 @@ type InfrastructureLogging = Overlap<
   RspackInfrastructureLogging
 >;
 
+type ExternalItem = string | RegExp | Record<string, string | boolean>;
+type Externals = ExternalItem[] | ExternalItem;
+
 /** The intersection of webpack and Rspack */
 export type BundlerConfig = {
   name?: string;
@@ -92,7 +95,9 @@ export type BundlerConfig = {
   module?: Configuration['module'];
   target?: Configuration['target'];
   mode?: Configuration['mode'];
-  externals?: string | Record<string, string>;
+  externals?: Externals;
+  externalsType?: Configuration['externalsType'];
+  externalsPresets?: Configuration['externalsPresets'];
   output?: Output;
   resolve?: Resolve;
   devtool?: Configuration['devtool'];
@@ -122,7 +127,9 @@ export interface BundlerChain
     | 'context'
   > {
   toConfig: () => BundlerConfig;
-  externals: (value: string | Record<string, string>) => BundlerChain;
+  externals: (value: Externals) => BundlerChain;
+  externalsType: Config['externalsType'];
+  externalsPresets: Config['externalsPresets'];
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
   resolve: Pick<
     Config['resolve'],
