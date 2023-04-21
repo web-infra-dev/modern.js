@@ -1,6 +1,12 @@
 import path, { join } from 'path';
-import puppeteer, { Page, Browser } from 'puppeteer';
-import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
+import { Page, Browser } from 'puppeteer';
+import {
+  launchApp,
+  getPort,
+  killApp,
+  modernBuild,
+  modernServe,
+} from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
@@ -14,13 +20,7 @@ describe('Basic render', () => {
     const appDir = join(fixtureDir, 'base');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
-
-    browser = await puppeteer.launch({
-      headless: true,
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
-    page = await browser.newPage();
+    page = await (global as any).__BROWSER_GLOBAL__.newPage();
   });
 
   afterAll(async () => {
@@ -85,5 +85,27 @@ describe('Basic render', () => {
     await darkModeButton?.click();
     htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
     expect(htmlClass).not.toContain(defaultMode);
+  });
+
+  it('check production build', async () => {
+    const appDir = join(fixtureDir, 'base');
+    const port = await getPort();
+    await modernBuild(appDir);
+    const serveApp = await modernServe(appDir, port);
+    await page.goto(`http://localhost:${port}`, {
+      waitUntil: ['networkidle0'],
+    });
+    const darkModeButton = await page.$('.modern-nav-appearance');
+    const html = await page.$('html');
+    let htmlClass = await page.evaluate(
+      html => html?.getAttribute('class'),
+      html,
+    );
+    const defaultMode = htmlClass?.includes('dark') ? 'dark' : 'light';
+    await darkModeButton?.click();
+    // check the class in html
+    htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
+    expect(htmlClass).toContain(defaultMode === 'dark' ? 'light' : 'dark');
+    killApp(serveApp);
   });
 });

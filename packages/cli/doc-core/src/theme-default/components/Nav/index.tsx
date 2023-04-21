@@ -82,10 +82,10 @@ export function Nav(props: NavProps) {
   const translationMenuData = hasMultiLanguage
     ? {
         items: localeLanguages.map(item => ({
-          text: item.label,
+          text: item?.label,
           link: replaceLang(pathname, item.lang, defaultLang, langs, base),
         })),
-        activeValue: localeLanguages.find(item => lang === item.lang)!.label,
+        activeValue: localeLanguages.find(item => lang === item.lang)?.label,
       }
     : null;
 

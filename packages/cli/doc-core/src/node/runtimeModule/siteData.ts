@@ -249,7 +249,6 @@ export async function siteDataVMPlugin(
   );
   const userConfig = config.doc;
   const replaceRules = userConfig?.replaceRules || [];
-
   if (!pages) {
     // If the dev server restart when config file, we will reuse the siteData instead of extracting the siteData from source files again.
     if (!isSSR) {

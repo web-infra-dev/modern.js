@@ -7,7 +7,7 @@
   "scripts": {
     "test:rspack": "jest -w 1 builder-rspack && pnpm test:builder:rspack",
     "test:builder:rspack": "cd e2e/builder && pnpm test:rspack",
-    "test": "pnpm test --filter api-service-koa & jest -w 1",
+    "test": "pnpm test --filter api-service-koa & jest -w 1 --detectOpenHandles",
     "test:ut": "node --conditions=jsnext:source -r btsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
     "cypress:test": "pnpm --parallel --filter '@cypress-test/*' run dev & cypress open",
     "prepare": "node node_modules/puppeteer/install.js",
@@ -37,6 +37,7 @@
     "fs-extra": "^10.0.0",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
+    "jest-environment-node": "^29.5.0",
     "jest-puppeteer": "^8.0.0",
     "kill-port": "^2.0.0",
     "portfinder": "^1.0.28",

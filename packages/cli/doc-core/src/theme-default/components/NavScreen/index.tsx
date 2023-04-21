@@ -61,11 +61,11 @@ export function NavScreen(props: Props) {
           />
         ),
         items: localesData.map(item => ({
-          text: item.label,
+          text: item?.label,
           link: `/${item.lang}`,
         })),
-        activeValue: localesData.find(item => item.lang === localeData.lang)!
-          .label,
+        activeValue: localesData.find(item => item.lang === localeData.lang)
+          ?.label,
       }
     : null;
   const NavScreenAppearance = () => {
@@ -128,7 +128,7 @@ export function NavScreen(props: Props) {
         <div className="flex-center flex-col gap-2">
           {hasAppearanceSwitch && <NavScreenAppearance />}
           {hasMultiLanguage && (
-            <NavScreenTranslations translationMenuData={translationMenuData!} />
+            <NavScreenTranslations translationMenuData={translationMenuData} />
           )}
           {hasSocialLinks && <SocialLinks socialLinks={socialLinks} />}
         </div>

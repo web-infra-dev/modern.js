@@ -7,7 +7,7 @@ import globalComponents from 'virtual-global-components';
 import { DocLayout, DocLayoutProps } from '../DocLayout';
 import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
-import { usePageData, Content, normalizeSlash } from '@/runtime';
+import { usePageData, Content, removeBase, withBase } from '@/runtime';
 import { useLocaleSiteData } from '@/theme-default/logic';
 import '../../styles/highlight-theme.css';
 
@@ -80,12 +80,29 @@ export const Layout: React.FC<LayoutProps> = props => {
   };
 
   useEffect(() => {
-    // Check the window.navigator.language to determine the default language
-    // If the default language is not the same as the current language, redirect to the default language
-    // The default language will not have a lang prefix in the URL
     if (!defaultLang) {
+      // Check the window.navigator.language to determine the default language
+      // If the default language is not the same as the current language, redirect to the default language
+      // The default language will not have a lang prefix in the URL
       return;
     }
+    // Normalize current url, to ensure that the home url is always with a trailing slash
+    const { pathname } = window.location;
+    const cleanPathname = removeBase(pathname);
+    if (!cleanPathname) {
+      window.location.replace(withBase('/'));
+      return;
+    } else if (
+      currentLang !== defaultLang &&
+      // Check if the pathname is a top level path
+      // e.g. /en will split to ['', 'en']
+      // e.g. /en/ will split to ['', 'en', '']
+      cleanPathname.split('/').length === 2
+    ) {
+      window.location.replace(`${pathname}/`);
+      return;
+    }
+    // Check if the user is visiting the site for the first time
     const FIRST_VISIT_KEY = 'modern-doc-visited';
     const visited = localStorage.getItem(FIRST_VISIT_KEY);
     if (visited) {
@@ -94,14 +111,14 @@ export const Layout: React.FC<LayoutProps> = props => {
       localStorage.setItem(FIRST_VISIT_KEY, '1');
     }
     const targetLang = window.navigator.language.split('-')[0];
-    const { pathname } = window.location;
+
     if (targetLang !== currentLang) {
       if (targetLang === defaultLang) {
         // Redirect to the default language
         window.location.replace(pathname.replace(`/${currentLang}`, ''));
       } else if (currentLang === defaultLang) {
         // Redirect to the current language
-        window.location.replace(`/${targetLang}${normalizeSlash(pathname)}`);
+        window.location.replace(withBase(`/${targetLang}${cleanPathname}`));
       } else {
         // Redirect to the current language
         window.location.replace(

@@ -14,4 +14,7 @@ module.exports = {
   transform: {
     '^.+.tsx?$': 'ts-jest',
   },
+  testEnvironment: './utils/puppeteer_environment.js',
+  globalSetup: './utils/setup.js',
+  globalTeardown: './utils/teardown.js',
 };

@@ -113,14 +113,21 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
 
         program
           .command('preview [root]')
+          .alias('serve')
           .description('preview the production build locally')
           .option('-c --config <config>', 'specify config file')
           .option('--port [port]', 'port number')
           .option('--host [host]', 'hostname')
-          .action(async (root?: string) => {
-            const config = api.useConfigContext() as UserConfig;
-            await serve(root || '', config);
-          });
+          .action(
+            async (
+              root?: string,
+              options?: { port?: number; host?: string },
+            ) => {
+              const { port, host } = options || {};
+              const config = api.useConfigContext() as UserConfig;
+              await serve(root || '', config, port, host);
+            },
+          );
       },
     };
   },
