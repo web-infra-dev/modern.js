@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "integration-module-doc",
   "version": "0.1.0",
   "jsnext:source": "./src/index.ts",
