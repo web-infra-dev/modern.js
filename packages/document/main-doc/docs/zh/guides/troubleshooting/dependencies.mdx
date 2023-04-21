@@ -18,8 +18,8 @@ sidebar_position: 1
 
 ```
 project
-└─┬ @modern-js/app-tools@1.6.10
-  └── @modern-js/core@1.12.4
+└─┬ @modern-js/app-tools@2.0.0
+  └── @modern-js/core@2.0.0
 ```
 
 **pnpm**
@@ -30,8 +30,8 @@ project
 
 ```
 devDependencies:
-@modern-js/app-tools 1.7.0
-└── @modern-js/core 1.13.0
+@modern-js/app-tools 2.0.0
+└── @modern-js/core 2.0.0
 ```
 
 ---
@@ -88,7 +88,7 @@ Type '{}' is not assignable to type 'ReactNode'.
 }
 ```
 
-关于锁定依赖版本的方法，请参考上方的 `如何锁定项目中的某个依赖版本？`。
+关于锁定依赖版本的方法，请参考 [锁定子依赖](/guides/get-started/upgrade.html#锁定子依赖)。
 
 ---
 
@@ -97,3 +97,14 @@ Type '{}' is not assignable to type 'ReactNode'.
 出现该警告的原因是，某些三方 npm 包声明的 peer dependencies 版本范围与 Modern.js 中安装的版本范围不一致。
 
 绝大多数情况下，peer dependencies 的警告不会影响项目运行，不需要额外进行处理，请忽略相关 warning。
+
+---
+
+### Modern.js 框架最低支持的 React 版本是多少？
+
+**Modern.js 框架推荐使用的 React 版本为 >= 18.0.0**，并且不同功能对 React 版本的要求有所不同。
+
+- 如果你在使用 React 17，那么部分框架功能将无法使用，比如 Steaming SSR，因为它依赖 React 18 提供的新特性。
+- 如果你仍然在使用 React 16，那么将无法使用 Modern.js 的运行时或服务端能力。你可以考虑使用 Modern.js 的构建模式，即只使用 Modern.js 的构建能力，这种情况是可以继续使用 React 16 的。
+
+在 Modern.js 未来的 major 版本中，我们会逐步移除对 React 16 和 React 17 的支持。因此，请尽快升级到 React 18 以上版本。
