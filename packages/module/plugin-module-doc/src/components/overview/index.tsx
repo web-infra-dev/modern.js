@@ -1,4 +1,4 @@
-import { usePageData } from '@modern-js/doc-core/runtime';
+import { useLang, usePageData } from '@modern-js/doc-core/runtime';
 import { Link } from '@modern-js/doc-core/theme';
 import { PageData } from '@modern-js/doc-core';
 import { IconRight } from '@arco-design/web-react/icon';
@@ -27,8 +27,8 @@ const getGridClass = (count?: number): string => {
 };
 
 export default ({ list, ...props }: { list?: List[] }) => {
-  const pageData = usePageData() as PageData;
-  const { siteData, lang } = pageData;
+  const { siteData } = usePageData() as PageData;
+  const lang = useLang();
   const moduleList = list ?? [];
 
   if (moduleList.length === 0) {
