@@ -247,6 +247,10 @@ export interface SharedOutputConfig {
    * Configure the default export type of SVG files.
    */
   svgDefaultExport?: SvgDefaultExport;
+  /**
+   * Whether to transform SVGs into React components. If true, will treat all .svg files as assets.
+   */
+  disableSvgr?: boolean;
 }
 
 export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
@@ -269,4 +273,5 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   enableInlineScripts: boolean | RegExp;
   enableInlineStyles: boolean | RegExp;
   svgDefaultExport: SvgDefaultExport;
+  disableSvgr: boolean;
 }
