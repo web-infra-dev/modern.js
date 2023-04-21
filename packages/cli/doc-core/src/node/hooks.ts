@@ -1,6 +1,6 @@
 import { UserConfig, PageIndexInfo, DocPlugin } from 'shared/types';
 import { pluginLastUpdated } from './plugins/lastUpdated';
-import { AdditionPage } from '@/shared/types/Plugin';
+import { AdditionalPage } from '@/shared/types/Plugin';
 
 type HookOptions = {
   config: UserConfig;
@@ -8,11 +8,15 @@ type HookOptions = {
   pageData?: PageIndexInfo;
 };
 
-const DEFAULT_PLUGINS = [pluginLastUpdated() as DocPlugin];
-
 function getPlugins(config: UserConfig) {
-  const plugins = config.doc?.plugins || [];
-  return [...DEFAULT_PLUGINS, ...plugins];
+  const plugins: DocPlugin[] = config.doc?.plugins || [];
+  const enableLastUpdated =
+    config.doc.themeConfig?.lastUpdated ||
+    config.doc.themeConfig?.locales?.some(locale => locale.lastUpdated);
+  if (enableLastUpdated) {
+    plugins.push(pluginLastUpdated());
+  }
+  return plugins;
 }
 
 export async function modifyConfig(hookOptions: HookOptions) {
@@ -60,7 +64,6 @@ export async function afterBuild(hookOptions: HookOptions) {
 export async function extendPageData(hookOptions: HookOptions): Promise<void> {
   const { pageData } = hookOptions;
   const docPlugins = getPlugins(hookOptions.config);
-
   // extendPageData hooks
   await Promise.all(
     docPlugins
@@ -73,7 +76,7 @@ export async function extendPageData(hookOptions: HookOptions): Promise<void> {
 
 export async function addPages(
   hookOptions: HookOptions,
-): Promise<AdditionPage[]> {
+): Promise<AdditionalPage[]> {
   const { config } = hookOptions;
   const docPlugins = getPlugins(config);
 
