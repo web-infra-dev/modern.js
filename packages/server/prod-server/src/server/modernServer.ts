@@ -199,7 +199,7 @@ export class ModernServer implements ModernServerInterface {
     // empty
   }
 
-  protected onServerChange({ filepath }: { filepath: string }) {
+  protected async onServerChange({ filepath }: { filepath: string }) {
     const { pwd } = this;
     const { api, server } = AGGRED_DIR;
     const apiPath = path.normalize(path.join(pwd, api));
@@ -208,7 +208,7 @@ export class ModernServer implements ModernServerInterface {
     const onlyApi = filepath.startsWith(apiPath);
     const onlyWeb = filepath.startsWith(serverPath);
 
-    this.prepareFrameHandler({ onlyWeb, onlyApi });
+    await this.prepareFrameHandler({ onlyWeb, onlyApi });
   }
 
   // exposed requestHandler
