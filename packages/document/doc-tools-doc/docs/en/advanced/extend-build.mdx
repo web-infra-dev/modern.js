@@ -17,6 +17,11 @@ export default defineConfig({
           root: 'doc_dist',
         },
       },
+      tools: {
+        rspack(options) {
+          // 修改 rspack 的配置
+        },
+      },
     },
   },
   plugins: [docTools()],
@@ -27,7 +32,7 @@ export default defineConfig({
 
 You can learn more configurations through the [Modern.js Builder - API](https://modernjs.dev/builder/en/api/index.html) documentation.
 
-Note that Modern.js Doc only supports Rspack bundler, so some configurations related to webpack will not work, such as `tools.webpack`.
+Note that Modern.js Doc only supports Rspack bundler, so some configurations related to webpack will not work, such as `tools.webpack`. Of course, you can use the `tools.rspack` to customize the Rspack config.
 
 :::
 

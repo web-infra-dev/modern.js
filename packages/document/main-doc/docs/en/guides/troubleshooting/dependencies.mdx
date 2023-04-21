@@ -1,0 +1,110 @@
+---
+sidebar_position: 1
+---
+
+# Dependencies FAQ
+
+### How to check the actual installed version of a dependency in the project?
+
+You can use the `ls` command that provided by the package manager to view the dependencies version.
+
+The following are some basic examples, please refer to the documentation of each package manager for detailed usage.
+
+**npm / yarn**
+
+For projects using npm or yarn, the `npm ls` command can be used.
+
+For example, execute `npm ls @modern-js/core`, you can see the following results:
+
+```
+project
+└─┬ @modern-js/app-tools@2.0.0
+  └── @modern-js/core@2.0.0
+```
+
+**pnpm**
+
+For projects using pnpm, you can use `pnpm ls` command.
+
+For example, execute `pnpm ls @modern-js/core --depth Infinity`, you can see the following results:
+
+```
+devDependencies:
+@modern-js/app-tools 2.0.0
+└── @modern-js/core 2.0.0
+```
+
+---
+
+### The engine "node" is incompatible when installing dependencies?
+
+If the following error message appears when installing dependencies, it means that the version of Node.js used in the current environment is too low, and Node.js needs to be upgraded to a higher version.
+
+```bash
+The engine "node" is incompatible with this module.
+
+Expected version ">=14.17.6". Got "12.20.1"
+```
+
+When using Modern.js, it is recommended to use [Node.js 14.x](https://nodejs.org/download/release/latest-v14.x/) or [Node.js 16.x](https://nodejs.org/download/release/latest-v16.x/).
+
+If the Node.js version in the current environment is lower than the required version, you can use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz /fnm) and other tools for version switching.
+
+Here's an example using nvm:
+
+```
+# Install Node.js v14
+nvm install 14
+
+# Switch to Node 14
+nvm use 14
+
+# Set Node 14 as the default version
+nvm default 14
+```
+
+It is recommended to use [fnm](https://github.com/Schniz/fnm) in the local development environment. Its usage is similar to nvm, but it has better performance than nvm.
+
+---
+
+### ReactNode type error after upgrading dependencies?
+
+If the following types of errors are reported after upgrading the project's dependencies, it means that the wrong `@types/react` version is installed in the project.
+
+```bash
+The types returned by 'render()' are incompatible between these types.
+Type 'React.ReactNode' is not assignable to type 'import("/node_modules/@types/react/index").ReactNode'.
+Type '{}' is not assignable to type 'ReactNode'.
+```
+
+The reason for this problem is that the ReactNode type definitions in React 18 and React 16/17 are different. If there are multiple different `@types/react` versions in the project, there will be a ReactNode type conflict, resulting in the above error.
+
+The solution is to lock `@types/react` and `@types/react-dom` in the project to a unified version, such as `v17`.
+
+```json
+{
+  "@types/react": "^17",
+  "@types/react-dom": "^17"
+}
+```
+
+For the method of locking the dependency version, please refer to [Lock nested dependency](/guides/get-started/upgrade.html#lock-nested-dependency).
+
+---
+
+### After pnpm install, there are some peer dependencies warnings in the console?
+
+The reason for this warning is that the version range of peer dependencies declared by some third-party npm packages does not match the version range installed in Modern.js.
+
+In most cases, you can ignore the peer dependency warnings because it will not affect the use of Modern.js.
+
+---
+
+### What is the minimum React version supported by the Modern.js framework?
+
+The recommended React version for **Modern.js framework is >= 18.0.0**, and different features have different React version requirements.
+
+- If you are using React 17, some framework features, such as Steaming SSR, will not be available as they rely on new features provided by React 18.
+- If you're still using React 16, you won't be able to use Modern.js's runtime or server-side featurs. You can consider using Modern.js's build mode, that is, only use Modern.js as a builder. In this case, you can still use React 16.
+
+In a future major release of Modern.js, we will remove support for React 16 and React 17. Please upgrade to React 18+ as soon as possible.
