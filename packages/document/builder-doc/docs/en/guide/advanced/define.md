@@ -2,11 +2,13 @@
 
 Builder supports injecting environment variables or expressions into the code during compilation, which is helpful for distinguishing the running environment or injecting constant values. This chapter introduces how to use environment variables.
 
-## Default environment variables
+## Default Variables
+
+### process.env.NODE_ENV
 
 By default, Builder will automatically set the `process.env.NODE_ENV` environment variable to `'development'` in development mode and `'production'` in production mode.
 
-You can use `process.env.NODE_ENV` directly in configuration files and in front-end code.
+You can use `process.env.NODE_ENV` directly in Node.js and in the runtime code.
 
 ```ts
 if (process.env.NODE_ENV === 'development') {
@@ -31,6 +33,31 @@ if (false) {
 ```
 
 After code minification, `if (false) { ... }` will be recognized as invalid code and removed automatically.
+
+### process.env.ASSET_PREFIX
+
+You can use `process.env.ASSET_PREFIX` in the runtime code to access the URL prefix of static assets.
+
+- In development, it is equivalent to the value set by [dev.assetPrefix](/api/config-dev.html#dev-assetprefix).
+- In production, it is equivalent to the value set by [output.assetPrefix](/api/config-output.html#output-assetprefix).
+- Builder will automatically remove the trailing slash from `assetPrefix` to make string concatenation easier.
+
+For example, we copy the `static/icon.png` image to the `dist` directory through [output.copy](/api/config-output.html#output-copy) configuration:
+
+```ts
+export default {
+   output: {
+     copy: [{ from: './static', to: '' }],
+   },
+};
+```
+
+Then we can access the image URL in the runtime code:
+
+```tsx
+const url = `${process.env.ASSET_PREFIX}/icon.png`;
+const Image = <img src={url} />;
+```
 
 # Using define config
 

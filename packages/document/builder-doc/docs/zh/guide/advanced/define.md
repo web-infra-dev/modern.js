@@ -4,9 +4,11 @@ Builder 支持在编译过程中向代码中注入环境变量或表达式，这
 
 ## 默认环境变量
 
+### process.env.NODE_ENV
+
 默认情况下，Builder 会自动设置 `process.env.NODE_ENV` 环境变量，在开发模式为 `'development'`，生产模式为 `'production'`。
 
-你可以在配置文件和运行时的前端代码中直接使用 `process.env.NODE_ENV`。
+你可以在 Node.js 和运行时代码中直接使用 `process.env.NODE_ENV`。
 
 ```ts
 if (process.env.NODE_ENV === 'development') {
@@ -31,6 +33,31 @@ if (false) {
 ```
 
 在代码压缩过程中，`if (false) { ... }` 会被识别为无效代码，并被自动移除。
+
+### process.env.ASSET_PREFIX
+
+你可以在运行时代码中使用 `process.env.ASSET_PREFIX` 来访问静态资源的前缀。
+
+- 在开发环境下，它等同于 [dev.assetPrefix](/api/config-dev.html#dev-assetprefix) 设置的值。
+- 在生产环境下，它等同于 [output.assetPrefix](/api/config-output.html#output-assetprefix) 设置的值。
+- Builder 会自动移除 `assetPrefix` 尾部的斜线符号，以便于进行字符串拼接。
+
+比如，我们通过 [output.copy](/api/config-output.html#output-copy) 配置，将 `static/icon.png` 图片拷贝到 `dist` 目录下：
+
+```ts
+export default {
+  output: {
+    copy: [{ from: './static', to: '' }],
+  },
+};
+```
+
+此时，我们可以在前端代码中通过以下方式来拼接图片 URL：
+
+```tsx
+const url = `${process.env.ASSET_PREFIX}/icon.png`;
+const Image = <img src={url} />;
+```
 
 ## 使用 define 配置项
 
