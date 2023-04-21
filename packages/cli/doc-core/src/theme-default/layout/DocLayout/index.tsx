@@ -90,7 +90,8 @@ export function DocLayout(props: DocLayoutProps) {
           <div
             className={styles.asideContainer}
             style={{
-              minHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
+              maxHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
+              overflow: 'scroll',
             }}
           >
             <div>
