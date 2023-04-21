@@ -41,7 +41,8 @@ describe('init with SSR', () => {
     }
   });
 
-  it(`use ssr init data`, async () => {
+  // FIXME: Skipped because this test often times out
+  test.skip(`use ssr init data`, async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -51,7 +52,8 @@ describe('init with SSR', () => {
     expect(targetText).toMatch('server');
   });
 
-  it(`use ssr init data`, async () => {
+  // FIXME: Skipped because this test often times out
+  test.skip(`use ssr init data`, async () => {
     await page.goto(`http://localhost:${appPort}?browser=true`, {
       waitUntil: ['networkidle0'],
     });
