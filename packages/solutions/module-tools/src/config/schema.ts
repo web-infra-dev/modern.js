@@ -174,19 +174,7 @@ const buildConfigProperties = {
     ],
   },
   externalHelpers: {
-    anyOf: [
-      {
-        type: 'boolean',
-      },
-      {
-        type: 'object',
-        properties: {
-          disableHelpersCheck: {
-            type: 'boolean',
-          },
-        },
-      },
-    ],
+    type: 'boolean',
   },
   transformImport: {
     type: 'array',

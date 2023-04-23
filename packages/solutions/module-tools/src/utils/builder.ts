@@ -86,11 +86,7 @@ export const checkSwcHelpers = async (options: {
   externalHelpers: ExternalHelpers;
 }) => {
   const { appDirectory, externalHelpers } = options;
-  if (
-    (typeof externalHelpers === 'object' &&
-      externalHelpers.disableHelpersCheck) ||
-    externalHelpers === false
-  ) {
+  if (externalHelpers === false) {
     return;
   }
   const deps = await getAllDeps(appDirectory, {

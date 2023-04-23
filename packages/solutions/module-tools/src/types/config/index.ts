@@ -59,11 +59,7 @@ export type AutoExternal =
       peerDependencies?: boolean;
     };
 export type JSX = 'automatic' | 'transform';
-export type ExternalHelpers =
-  | boolean
-  | {
-      disableHelpersCheck?: boolean;
-    };
+export type ExternalHelpers = boolean;
 
 export type AliasOption =
   | Record<string, string>

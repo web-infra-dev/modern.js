@@ -16,24 +16,11 @@ describe('utils: builder', () => {
     try {
       await checkSwcHelpers({
         appDirectory,
-        externalHelpers: {
-          disableHelpersCheck: true,
-        },
+        externalHelpers: false,
       });
     } catch (err) {
       test2HappenError = true;
     }
     expect(test2HappenError).toBeFalsy();
-
-    let test3HappenError = false;
-    try {
-      await checkSwcHelpers({
-        appDirectory,
-        externalHelpers: false,
-      });
-    } catch (err) {
-      test3HappenError = true;
-    }
-    expect(test3HappenError).toBeFalsy();
   });
 });
