@@ -237,7 +237,7 @@ export class ModernDevServer extends ModernServer {
     // not warmup ssr bundle on development
   }
 
-  protected onServerChange({
+  protected async onServerChange({
     filepath,
     event,
   }: {
@@ -263,7 +263,7 @@ export class ModernDevServer extends ModernServer {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         if (success !== true) {
-          super.onServerChange({ filepath });
+          await super.onServerChange({ filepath });
         }
       } catch (e) {
         this.logger.error(e as Error);
