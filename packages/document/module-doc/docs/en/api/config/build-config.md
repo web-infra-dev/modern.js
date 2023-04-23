@@ -380,13 +380,6 @@ The format of the js product output, where `iife` and `umd` can only take effect
 - type: `'esm' | 'cjs' | 'iife' | 'umd'`
 - default: `cjs`
 
-## jsx
-
-Specify the compilation method of jsx, default support React17, automatically inject jsx runtime code
-
-- type: `automatic | classic`
-- default: `automatic`
-
 ## input
 
 Specify the entry file for the build, in the form of an array that can specify the directory
@@ -401,6 +394,13 @@ export default {
   },
 };
 ```
+
+## jsx
+
+Specify the compilation method of jsx, default support React17, automatically inject jsx runtime code
+
+- type: `automatic | classic`
+- default: `automatic`
 
 ## metafile
 

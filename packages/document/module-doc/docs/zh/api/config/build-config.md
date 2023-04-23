@@ -423,13 +423,6 @@ js 产物输出的格式,其中 `iife` 和 `umd` 只能在 `buildType` 为 `bund
 - 类型： `'esm' | 'cjs' | 'iife' | 'umd'`
 - 默认值： `cjs`
 
-## jsx
-
-指定 jsx 的编译方式, 默认支持 React17 以上,自动注入 jsx 运行时代码。
-
-- 类型： `automatic | classic`
-- 默认值： `automatic`
-
 ## input
 
 指定构建的入口文件，数组形式可以指定目录。
@@ -446,6 +439,13 @@ export default defineConfig({
   },
 });
 ```
+
+## jsx
+
+指定 jsx 的编译方式, 默认支持 React17 以上,自动注入 jsx 运行时代码。
+
+- 类型： `automatic | classic`
+- 默认值： `automatic`
 
 ## metafile
 
