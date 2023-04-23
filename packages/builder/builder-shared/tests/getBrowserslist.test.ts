@@ -31,6 +31,54 @@ describe('getBrowserslistWithDefault', () => {
         'web',
       ),
     ).toEqual(override);
+
+    expect(
+      await getBrowserslistWithDefault(
+        __dirname,
+        {
+          output: {
+            overrideBrowserslist: override,
+          },
+        },
+        'web-worker',
+      ),
+    ).toEqual(override);
+
+    expect(
+      await getBrowserslistWithDefault(
+        __dirname,
+        {
+          output: {
+            overrideBrowserslist: override,
+          },
+        },
+        'node',
+      ),
+    ).toEqual(DEFAULT_BROWSERSLIST.node);
+
+    expect(
+      await getBrowserslistWithDefault(
+        __dirname,
+        {
+          output: {
+            overrideBrowserslist: override,
+          },
+        },
+        'service-worker',
+      ),
+    ).toEqual(DEFAULT_BROWSERSLIST['service-worker']);
+
+    expect(
+      await getBrowserslistWithDefault(
+        __dirname,
+        {
+          output: {
+            overrideBrowserslist: override,
+          },
+        },
+        'modern-web',
+      ),
+    ).toEqual(DEFAULT_BROWSERSLIST['modern-web']);
   });
 
   it('should allow to override browserslist according to target', async () => {
@@ -38,6 +86,18 @@ describe('getBrowserslistWithDefault', () => {
       web: ['Android >= 4.4', 'iOS >= 8'],
       node: ['node >= 12'],
     };
+
+    expect(
+      await getBrowserslistWithDefault(
+        __dirname,
+        {
+          output: {
+            overrideBrowserslist: override,
+          },
+        },
+        'web',
+      ),
+    ).toEqual(override.web);
 
     expect(
       await getBrowserslistWithDefault(
