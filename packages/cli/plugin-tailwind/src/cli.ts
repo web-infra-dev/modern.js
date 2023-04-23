@@ -173,6 +173,10 @@ export default (
 
         return config;
       },
+      modifyLibuild(config, next) {
+        config.transformCache = false;
+        return next(config);
+      },
     };
   },
 });

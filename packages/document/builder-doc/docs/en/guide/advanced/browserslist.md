@@ -46,9 +46,17 @@ last 2 versions
 not dead
 ```
 
+### Effective Scope
+
+By default, the `.browserslistrc` file only takes effect for browser-side bundles, including the `web` and `web-worker` target types.
+
+When you are building multiple targets at the same time, for example if the targets contains both `web` and `node`, only the `web` bundles will be affected by the `.browserslistrc` file. If you want to make changes to the `node` bundles, you can use the `output.overrideBrowserslist` configuration below.
+
 ### Use output.overrideBrowserslist config
 
 In addition to the above standard usage, Builder also provides [output.overrideBrowserslist](/en/api/config-output.html#outputoverridebrowserslist) config, which can also set the value of Browserslist.
+
+`overrideBrowserslist` can be set to an array, which is written in the same way as the `browserslistrc` configuration, but has a higher priority than `browserslistrc`.
 
 ```ts
 export default {
@@ -63,6 +71,8 @@ export default {
   },
 };
 ```
+
+When `.overrideBrowserslist` is set to an array, it will also only work for browser-side bundles.
 
 When you build multiple targets at the same time, you can set different browser ranges for different targets. At this point, you need to set `overrideBrowserslist` to an object whose key is the corresponding build target.
 

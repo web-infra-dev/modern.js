@@ -1,5 +1,9 @@
 import { DEFAULT_BROWSERSLIST } from './constants';
-import type { BuilderTarget, SharedNormalizedConfig } from './types';
+import type {
+  BuilderTarget,
+  SharedBuilderConfig,
+  SharedNormalizedConfig,
+} from './types';
 
 // using cache to avoid multiple calls to loadConfig
 const browsersListCache = new Map<string, string[]>();
@@ -24,17 +28,28 @@ export async function getBrowserslist(path: string) {
 
 export async function getBrowserslistWithDefault(
   path: string,
-  config: SharedNormalizedConfig,
+  config: SharedBuilderConfig | SharedNormalizedConfig,
   target: BuilderTarget,
-) {
-  if (config?.output?.overrideBrowserslist) {
-    const { overrideBrowserslist } = config.output;
-    if (Array.isArray(overrideBrowserslist)) {
-      return overrideBrowserslist;
+): Promise<string[]> {
+  const { overrideBrowserslist: overrides = {} } = config?.output || {};
+
+  if (target === 'web' || target === 'web-worker') {
+    if (Array.isArray(overrides)) {
+      return overrides;
     }
-    return overrideBrowserslist[target] || DEFAULT_BROWSERSLIST[target];
+    if (overrides[target]) {
+      return overrides[target]!;
+    }
+
+    const browserslistrc = await getBrowserslist(path);
+    if (browserslistrc) {
+      return browserslistrc;
+    }
   }
 
-  const result = await getBrowserslist(path);
-  return result || DEFAULT_BROWSERSLIST[target];
+  if (!Array.isArray(overrides) && overrides[target]) {
+    return overrides[target]!;
+  }
+
+  return DEFAULT_BROWSERSLIST[target];
 }

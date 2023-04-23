@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { NormalizedSidebarGroup, SidebarItem } from 'shared/types';
 import { SideBar } from '../Siderbar';
 import MenuIcon from '../../assets/menu.svg';
@@ -20,6 +20,11 @@ export function SideMenu(props: Props) {
   function closeSidebar() {
     setIsOpen(false);
   }
+
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
   return (
     <Fragment>
       <div className={styles.localNav}>
