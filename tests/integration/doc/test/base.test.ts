@@ -10,17 +10,17 @@ import {
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
+declare const page: Page;
+
 describe('Basic render', () => {
   let app: any;
   let appPort: number;
-  let page: Page;
   let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'base');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
-    page = await (global as any).__BROWSER_GLOBAL__.newPage();
   });
 
   afterAll(async () => {
