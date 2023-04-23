@@ -5,7 +5,7 @@ export default defineConfig({
     target: 'es2021',
     buildType: 'bundle',
     outDir: './dist/default',
-    externals: [/^react/],
+    externals: [/^react\/?/],
     format: 'esm',
     asset: {
       svgr: true,
