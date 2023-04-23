@@ -40,8 +40,22 @@ export const ZH_LOCALE = {
     },
   },
   errors: {
-    externalHelpers:
-      '当前开启了 `externalHelpers` 配置，未找到 "@swc/helpers" 依赖声明，构建产物会存在问题',
+    externalHelpers: `当前开启了 'externalHelpers' 配置，未找到 "@swc/helpers" 依赖声明，构建产物会存在问题。使用下面的方式进行安装：
+      ${chalk.blue('Package Manager is npm:')}
+      ${chalk.yellow('`npm i @swc/helpers`')} Or ${chalk.yellow(
+      '`npm i @swc/helpers -D`',
+    )}
+
+      ${chalk.blue('Package Manager is pnpm:')}
+      ${chalk.yellow('`pnpm i @swc/helpers`')} Or ${chalk.yellow(
+      '`pnpm i @swc/helpers -D`',
+    )}
+
+      ${chalk.blue('Package Manager is yarn:')}
+      ${chalk.yellow('`yarn add @swc/helpers`')} Or ${chalk.yellow(
+      '`yarn add @swc/helpers -D`',
+    )}
+    `,
   },
   warns: {
     dts: {

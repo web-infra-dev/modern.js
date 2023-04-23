@@ -40,8 +40,22 @@ export const EN_LOCALE = {
     },
   },
   errors: {
-    externalHelpers:
-      'The `externalHelpers` configuration is currently enabled, but the "@swc/helpers" dependency declaration was not found. This will cause issues with the build output.',
+    externalHelpers: `The 'externalHelpers' configuration is currently enabled, but the "@swc/helpers" dependency declaration was not found. This will cause issues with the build output.Use the following for installation:
+      ${chalk.blue('Package Manager is npm:')}
+      ${chalk.yellow('`npm i @swc/helpers`')} Or ${chalk.yellow(
+      '`npm i @swc/helpers -D`',
+    )}
+
+      ${chalk.blue('Package Manager is pnpm:')}
+      ${chalk.yellow('`pnpm i @swc/helpers`')} Or ${chalk.yellow(
+      '`pnpm i @swc/helpers -D`',
+    )}
+
+      ${chalk.blue('Package Manager is yarn:')}
+      ${chalk.yellow('`yarn add @swc/helpers`')} Or ${chalk.yellow(
+      '`yarn add @swc/helpers -D`',
+    )}
+    `,
   },
   warns: {
     dts: {
