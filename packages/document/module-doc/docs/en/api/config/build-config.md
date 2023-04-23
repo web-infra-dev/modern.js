@@ -234,6 +234,15 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 :::
 
+## disableSwcTransform
+
+Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only Esbuild Transform is used in this case.
+
+The use of SWC Transform can reduce the impact of auxiliary functions on the volume of the constructed product.
+
+* **Type**: `boolean`
+* **Default**: `false`
+
 ## dts
 
 The dts file generates the relevant configuration, by default it generates.
@@ -313,6 +322,50 @@ We have done many extensions based on the original esbuild build. Therefore, whe
 
 :::
 
+## externalHelpers
+
+By default, the output JS code may depend on helper functions to support the target environment or output format, and these helper functions will be inlined in the file that requires it.
+
+When using SWC Transform for code transformation, you can enable the `externalHelpers` configuration to convert inline helper functions to import them from the external module `@swc/helpers`.
+
+* **Type**: `boolean`
+* **Default**: `false`
+
+Below is a comparison of the product changes before and after using this configuration.
+
+Before enable:
+
+``` js ./dist/index.js
+// helper function
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  // ...
+}
+// helper function
+function _async_to_generator(fn) {
+  return function() {
+    // use asyncGeneratorStep
+    // ...
+  };
+}
+
+// your code
+export var yourCode = function() {
+  // use _async_to_generator
+}
+```
+
+After enabled:
+
+``` js ./dist/index.js
+// helper functions imported from @swc/helpers
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+
+// your code
+export var yourCode = function() {
+  // use _async_to_generator
+}
+```
+
 ## externals
 
 Configure external dependencies that will not be packaged into the final bundle
@@ -326,6 +379,13 @@ The format of the js product output, where `iife` and `umd` can only take effect
 
 - type: `'esm' | 'cjs' | 'iife' | 'umd'`
 - default: `cjs`
+
+## jsx
+
+Specify the compilation method of jsx, default support React17, automatically inject jsx runtime code
+
+- type: `automatic | classic`
+- default: `automatic`
 
 ## input
 
@@ -341,13 +401,6 @@ export default {
   },
 };
 ```
-
-## jsx
-
-Specify the compilation method of jsx, default support React17, automatically inject jsx runtime code
-
-- type: `automatic | classic`
-- default: `automatic`
 
 ## metafile
 
@@ -467,6 +520,13 @@ Whether to generate sourceMap or not
 
 - type: `boolean | 'inline' | 'external'`
 - default: `false`
+
+## sourceType
+
+Sets the format of the source code. By default, the source code will be treated as EsModule. When the source code is using CommonJS, you need to set `commonjs`.
+
+- **Type**: `commonjs` | `module`
+- **Default**: `module`
 
 ## splitting
 
@@ -738,6 +798,40 @@ Specify the target environment for the build
 
 - type: `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
 - default: `'es6'`
+
+## transformImport
+
+Using [SWC](https://swc.rs/) provides the same ability and configuration as [`babel-plugin-import`](https://github.com/umijs/babel-plugin-import).
+
+* **Type**: `Array`
+* **Default**: `[]`
+
+The elements of the array are configuration objects for `babel-plugin-import`, which can be referred to [options](https://github.com/umijs/babel-plugin-import#options)。
+
+**Example:**
+
+```ts
+import moduleTools, { defineConfig} from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
+    transformImport: [
+      // babel-plugin-import`s options config
+      {
+        libraryName: 'foo',
+        style: true,
+      },
+    ],
+  },
+  plugins: [
+    moduleTools(),
+  ],
+});
+```
+
+### Notes
+
+Reference the [Import Plugin - Notes](plugins/official-list/plugin-import.html#Notes)
 
 ## umdGlobals
 
