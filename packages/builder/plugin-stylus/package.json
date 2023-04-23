@@ -42,10 +42,19 @@
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "4.7.4",
     "wireit": "^0.7.1"
+  },
+  "peerDependencies": {
+    "@modern-js/builder-rspack-provider": "workspace:^2.15.0"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/builder-rspack-provider": {
+      "optional": true
+    }
   },
   "sideEffects": false,
   "publishConfig": {

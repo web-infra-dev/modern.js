@@ -304,6 +304,7 @@ importers:
   packages/builder/plugin-stylus:
     specifiers:
       '@modern-js/builder': workspace:*
+      '@modern-js/builder-rspack-provider': workspace:*
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/utils': workspace:*
@@ -319,6 +320,7 @@ importers:
       stylus-loader: 7.1.0_stylus@0.59.0
     devDependencies:
       '@modern-js/builder': link:../builder
+      '@modern-js/builder-rspack-provider': link:../builder-rspack-provider
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 4.7.4
