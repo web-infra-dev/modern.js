@@ -46,9 +46,17 @@ last 2 versions
 not dead
 ```
 
+### 生效范围
+
+`.browserslistrc` 文件默认只对浏览器端的构建产物生效，包括 `web` 和 `web-worker` 这两种产物类型。
+
+当你同时构建多种产物，比如 target 包含 `web` 和 `node` 两种产物时，只有 `web` 产物会受到 `.browserslistrc` 文件的影响。如果你希望对 `node` 产物进行修改，可以使用下方的 `output.overrideBrowserslist` 配置。
+
 ### 使用 output.overrideBrowserslist 配置
 
 除了上述的标准用法，Builder 还提供了 [output.overrideBrowserslist](/api/config-output.html#outputoverridebrowserslist) 配置项，同样可以设置 Browserslist 的值。
+
+`overrideBrowserslist` 可以被设置为一个数组，数组的写法与 `browserslistrc` 配置是一样的，但比 `browserslistrc` 拥有更高的优先级。
 
 ```ts
 export default {
@@ -63,6 +71,8 @@ export default {
   },
 };
 ```
+
+当 `.overrideBrowserslist` 被设置为数组时，同样只对浏览器端的构建产物生效。
 
 当你同时构建多种类型的产物时，你可以为不同的产物类型设置不同的目标浏览器范围。此时，你需要把 `overrideBrowserslist` 设置为一个对象，对象的 key 为对应的产物类型。
 
