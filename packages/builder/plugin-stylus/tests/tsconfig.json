@@ -6,6 +6,8 @@
     "jsx": "preserve",
     "baseUrl": "./",
     "isolatedModules": true,
-    "paths": {}
-  },
+    "paths": {
+      "@rspack-builder/tests/*": ["../../builder-rspack-provider/tests/*"]
+    }
+  }
 }

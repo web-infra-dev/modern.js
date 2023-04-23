@@ -36,7 +36,7 @@ export const builderPluginRem = (): BuilderPlugin => ({
           CHAIN_ID.RULE.CSS,
           CHAIN_ID.RULE.LESS,
           CHAIN_ID.RULE.SASS,
-          // CHAIN_ID.RULE.STYLUS,
+          CHAIN_ID.RULE.STYLUS,
         ];
 
         // Deep copy options to prevent unexpected behavior.
