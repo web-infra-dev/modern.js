@@ -38,17 +38,17 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
-    "test": "jest",
-    "test:update": "jest --updateSnapshot",
+    "dev": "npm run debug-mode && modern-lib build --watch",
+    "test": "npm run debug-mode off && jest",
+    "test:update": "npm run debug-mode off && jest --updateSnapshot",
     "new": "modern-lib new",
     "debug-mode": "node ./scripts/debug-mode.js"
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "~0.11.9",
-    "@modern-js/libuild-plugin-svgr": "~0.11.9",
-    "@modern-js/libuild-plugin-swc": "~0.11.9",
+    "@modern-js/libuild": "~0.12.0",
+    "@modern-js/libuild-plugin-svgr": "~0.12.0",
+    "@modern-js/libuild-plugin-swc": "~0.12.0",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
@@ -56,7 +56,8 @@
     "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "postcss": "8.4.6"
+    "postcss": "8.4.6",
+    "@swc/helpers": "0.5.0"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",

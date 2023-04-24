@@ -52,11 +52,21 @@ export function DocLayout(props: DocLayoutProps) {
     frontmatter?.sidebar !== false && Object.keys(sidebar).length > 0;
   const outlineTitle =
     localesData?.outlineTitle || themeConfig?.outlineTitle || 'ON THIS PAGE';
-  const hasAside =
-    headers.length > 0 &&
-    (frontmatter?.outline ?? themeConfig?.outline ?? true);
   const isOverviewPage = frontmatter?.overview ?? false;
 
+  const getHasAside = () => {
+    // if in iframe, default value is false
+    const defaultHasAside =
+      typeof window === 'undefined' ? true : window.top === window.self;
+    return (
+      (frontmatter?.outline ?? themeConfig?.outline ?? defaultHasAside) &&
+      headers.length > 0
+    );
+  };
+  const [hasAside, setHasAside] = useState(getHasAside());
+  useEffect(() => {
+    setHasAside(getHasAside());
+  }, [pathname]);
   return (
     <div className={`${styles.docLayout} pt-0 md:mt-14`}>
       {beforeDoc}

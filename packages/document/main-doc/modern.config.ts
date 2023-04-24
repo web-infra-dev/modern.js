@@ -8,6 +8,7 @@ const rootCategories = [
   'apis/app',
   'configure/app',
   'blog',
+  'about',
 ];
 
 const { version } = require('./package.json');
@@ -44,6 +45,11 @@ const getNavbar = (lang: string): NavItem[] => {
       text: getText('博客', 'Blog'),
       link: getLink('/blog/index'),
       activeMatch: '/blog/',
+    },
+    {
+      text: getText('关于', 'About'),
+      link: getLink('/about/team'),
+      activeMatch: '/about/',
     },
     {
       text: `v${version}`,

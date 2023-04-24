@@ -1,10 +1,10 @@
 import React from 'react';
 import { createApp } from '@modern-js/runtime';
 import type { Plugin, RouterConfig } from '@modern-js/runtime';
-import { state, router } from '@modern-js/runtime/plugins';
+import router from '@modern-js/runtime/router';
+import state from '@modern-js/runtime/model';
 import type { StoryFn as StoryFunction } from '@storybook/addons';
 import type { IConfig } from '../type';
-import { getStateOption } from './state';
 
 export const WrapProviders = (
   storyFn: StoryFunction<JSX.Element>,
@@ -36,12 +36,13 @@ export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
       if (api === allowedRuntimeAPI.state) {
         if (typeof runtime.state === 'boolean') {
           if (runtime.state) {
-            plugins.push(state(getStateOption(true)));
+            plugins.push(state({}));
           }
         } else if (typeof runtime.state === 'object') {
-          plugins.push(state(getStateOption(runtime.state)));
+          plugins.push(state(runtime.state));
         }
       } else if (api === allowedRuntimeAPI.router) {
+        // TODO: React Router v6 is not supported yet
         plugins.push(
           router({
             ...{ serverBase: ['/'] },

@@ -1,5 +1,5 @@
 import { Configuration } from 'webpack';
-import type Config from '../../compiled/webpack-5-chain';
+import type WebpackChain from '../../compiled/webpack-5-chain';
 
 interface BundlerPluginInstance {
   [index: string]: any;
@@ -112,9 +112,38 @@ export type BundlerConfig = {
   //   experiments?: RawExperiments;
 };
 
+// excludeAny: any extends boolean/string/xxx ? A : B  => A | B;
+type ExtendsExcludeAny<T, E> = T extends any
+  ? T extends E
+    ? true
+    : false
+  : false;
+
+/**
+ * use `fn: (...args) => BundlerChain` instead of `fn: (...args) => WebpackChain`
+ */
+type ModifyReturnThis<F extends (...args: any) => any, R = ReturnType<F>> = (
+  ...values: Parameters<F>
+) => ExtendsExcludeAny<R, WebpackChain> extends true
+  ? BundlerChain
+  : ExtendsExcludeAny<R, Record<string, any>> extends true
+  ? PickAndModifyThis<R>
+  : R;
+
+/**
+ * use `{ a: () => BundlerChain; b: { c: () => BundlerChain }}` instead of `{ a: () => WebpackChain; b: { c: () => WebpackChain }}`
+ */
+type PickAndModifyThis<T, K extends keyof T = keyof T> = {
+  [P in K]: T[P] extends (...args: any) => any
+    ? ModifyReturnThis<T[P]>
+    : ExtendsExcludeAny<T[P], Record<string, any>> extends true
+    ? PickAndModifyThis<T[P]>
+    : T[P];
+};
+
 export interface BundlerChain
-  extends Pick<
-    Config,
+  extends PickAndModifyThis<
+    WebpackChain,
     | 'devtool'
     | 'target'
     | 'name'
@@ -127,41 +156,43 @@ export interface BundlerChain
     | 'context'
     | 'externalsType'
     | 'externalsPresets'
+    | 'entry'
   > {
   toConfig: () => BundlerConfig;
-  externals: (value: Externals) => BundlerChain;
-  optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
-  resolve: Pick<
-    Config['resolve'],
+  optimization: PickAndModifyThis<
+    WebpackChain['optimization'],
+    'splitChunks' | 'runtimeChunk'
+  >;
+  resolve: PickAndModifyThis<
+    WebpackChain['resolve'],
     | Extract<
         Extract<keyof WebpackResolve, keyof RspackResolve>,
-        keyof Config['resolve']
+        keyof WebpackChain['resolve']
       >
     | 'merge'
     | 'get'
   >;
-  output: Pick<
-    Config['output'],
+  output: PickAndModifyThis<
+    WebpackChain['output'],
     | Extract<
         Extract<keyof WebpackOutput, keyof RspackOutput>,
-        keyof Config['output']
+        keyof WebpackChain['output']
       >
     | 'get'
     | 'merge'
   >;
-  infrastructureLogging: Pick<
-    Config['infrastructureLogging'],
+  infrastructureLogging: PickAndModifyThis<
+    WebpackChain['infrastructureLogging'],
     Extract<
       Extract<
         keyof WebpackInfrastructureLogging,
         keyof RspackInfrastructureLogging
       >,
-      keyof Config['infrastructureLogging']
+      keyof WebpackChain['infrastructureLogging']
     >
   >;
-  /** only support add string | string[] */
-  entry: Config['entry'];
-  module: Pick<Config['module'], 'rules' | 'rule'>;
+  module: PickAndModifyThis<WebpackChain['module'], 'rules' | 'rule'>;
 }
 
-export type BundlerChainRule = Config.Rule;
+export type WebpackChainRule = WebpackChain.Rule;
+export type BundlerChainRule = PickAndModifyThis<WebpackChain.Rule>;

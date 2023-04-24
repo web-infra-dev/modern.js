@@ -101,20 +101,20 @@ export const newCommand = async (program: Command) => {
     .command('new')
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.new.describe))
+    .option('--lang <lang>', local.i18n.t(local.localeKeys.command.new.lang))
+    .option(
+      '-c, --config <config>',
+      local.i18n.t(local.localeKeys.command.new.config),
+    )
     .option(
       '-d, --debug',
       local.i18n.t(local.localeKeys.command.new.debug),
       false,
     )
     .option(
-      '-c, --config <config>',
-      local.i18n.t(local.localeKeys.command.new.config),
-    )
-    .option(
       '--dist-tag <tag>',
       local.i18n.t(local.localeKeys.command.new.distTag),
     )
-    .option('--lang <lang>', local.i18n.t(local.localeKeys.command.new.lang))
     .option('--registry', local.i18n.t(local.localeKeys.command.new.registry))
     .action(async options => {
       const { ModuleNewAction } = await import('@modern-js/new-action');

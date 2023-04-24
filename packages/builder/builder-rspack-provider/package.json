@@ -23,6 +23,18 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
+    },
+    "./plugins/*": {
+      "jsnext:source": "./src/plugins/*.ts",
+      "types": "./dist/plugins/*.d.ts",
+      "default": "./dist/plugins/*.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "plugins/*": [
+        "./dist/plugins/*.d.ts"
+      ]
     }
   },
   "scripts": {

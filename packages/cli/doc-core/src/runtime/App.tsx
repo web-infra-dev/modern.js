@@ -28,6 +28,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
         pagePath,
         pageType: mod?.frontmatter?.pageType || 'doc',
         ...extractPageInfo,
+        frontmatter: mod?.frontmatter || {},
       },
     };
   } else {

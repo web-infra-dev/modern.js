@@ -1,5 +1,5 @@
 import path from 'path';
-import { Import } from '@modern-js/utils';
+import { Import, isEmpty } from '@modern-js/utils';
 import type {
   ModuleNormalizedConfig,
   IAppContext,
@@ -52,9 +52,7 @@ export const runBuild = async (
     return;
   }
 
-  const { checkEnableRuntime } = await import('./utils/check');
-  const enableRuntime = await checkEnableRuntime(appContext.internalDirectory);
-
+  const enableRuntime = !isEmpty(modernConfig.runtime);
   const configDir = await gen.generateConfig(appDirectory, pluginOption, {
     stories,
     enableRuntime,

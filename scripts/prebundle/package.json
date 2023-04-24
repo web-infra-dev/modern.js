@@ -108,7 +108,7 @@
     "p-map": "4.0.0",
     "patch-console": "1.0.0",
     "pkg-up": "3.1.0",
-    "postcss-custom-properties": "12.1.7",
+    "postcss-custom-properties": "13.1.5",
     "postcss-flexbugs-fixes": "5.0.2",
     "postcss-font-variant": "5.0.0",
     "postcss-initial": "4.0.1",

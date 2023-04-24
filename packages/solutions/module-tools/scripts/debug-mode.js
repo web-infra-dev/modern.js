@@ -17,33 +17,35 @@ const appDir = path.join(__dirname, '..');
 const pkgPath = path.join(appDir, './package.json');
 const tempPkgPath = path.join(appDir, 'temp-package.json');
 
+console.debug('operation is', operation);
+
 if (operation === ON) {
   if (!fs.pathExistsSync(tempPkgPath)) {
     fs.copyFileSync(pkgPath, tempPkgPath);
   }
-} else {
+
+  const pkgJson = require(pkgPath);
+  const originalExports = {
+    '.': './src/index.ts',
+    './defineConfig': './src/config/defineConfig.ts',
+  };
+  const debugExports = {
+    '.': './dist/index.js',
+    './defineConfig': './dist/config/defineConfig.js',
+  };
+
+  if (operation === ON) {
+    pkgJson.exports = debugExports;
+  } else {
+    pkgJson.exports = originalExports;
+  }
+
+  const output = fs.readFileSync(pkgPath, 'utf-8');
+  const indent = detectIndent(output);
+  fs.writeJSONSync(pkgPath, pkgJson, { spaces: indent.amount });
+} else if (operation === OFF && fs.pathExistsSync(tempPkgPath)) {
   fs.copyFileSync(tempPkgPath, pkgPath);
   fs.removeSync(tempPkgPath);
 }
 
-const pkgJson = require(pkgPath);
-const originalExports = {
-  '.': './src/index.ts',
-  './defineConfig': './src/config/defineConfig.ts',
-};
-const debugExports = {
-  '.': './dist/index.js',
-  './defineConfig': './dist/config/defineConfig.js',
-};
-
-console.debug('operation is', operation);
-if (operation === ON) {
-  pkgJson.exports = debugExports;
-} else {
-  pkgJson.exports = originalExports;
-}
-
-const output = fs.readFileSync(pkgPath, 'utf-8');
-const indent = detectIndent(output);
-fs.writeJSONSync(pkgPath, pkgJson, { spaces: indent.amount });
 /* eslint-enable no-console */

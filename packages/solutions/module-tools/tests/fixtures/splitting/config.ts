@@ -5,7 +5,6 @@ export default defineConfig({
     buildType: 'bundle',
     input: ['./src/index.ts'],
     splitting: true,
-
     outDir: './dist',
   },
 });

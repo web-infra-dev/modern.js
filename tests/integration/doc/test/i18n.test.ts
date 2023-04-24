@@ -1,26 +1,20 @@
 import path, { join } from 'path';
-import puppeteer, { Page, Browser } from 'puppeteer';
+import { Page, Browser } from 'puppeteer';
 import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
+declare const page: Page;
+
 describe('I18n doc render', () => {
   let app: any;
   let appPort: number;
-  let page: Page;
   let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'i18n');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
-
-    browser = await puppeteer.launch({
-      headless: true,
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
-    page = await browser.newPage();
   });
 
   afterAll(async () => {

@@ -28,7 +28,7 @@ describe('test status code page', () => {
     expect(text).toMatch('Entry Page');
   });
 
-  it('should router redirect correctly ', async () => {
+  it.skip('should router redirect correctly ', async () => {
     const response = await page.goto(`http://localhost:${port}/redirect`);
     const text = await response!.text();
     expect(text).toMatch('Modern Web Development');

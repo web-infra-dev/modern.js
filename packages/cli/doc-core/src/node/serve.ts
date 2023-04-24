@@ -12,11 +12,18 @@ export interface CLIServeOption {
 }
 
 // Serve ssg site in production
-export async function serve(rootDir: string, config: UserConfig) {
-  const port = 4173;
-  const host = 'localhost';
+export async function serve(
+  _rootDir: string,
+  config: UserConfig,
+  userPort?: number,
+  userHost?: string,
+) {
+  const envPort = process.env.PORT;
+  const envHost = process.env.HOST;
+  const port = envPort || userPort || 4173;
+  const host = envHost || userHost || 'localhost';
   const base = config.doc?.base?.replace(/^\//, '').replace(/\/$/, '') || '';
-
+  process.env.NODE_ENV = 'production';
   const compress = compression();
   const serve = sirv(config.doc?.outDir || OUTPUT_DIR, {
     etag: true,
@@ -32,7 +39,9 @@ export async function serve(rootDir: string, config: UserConfig) {
           throw err;
         }
         // eslint-disable-next-line no-console
-        console.log(`Built site served at http://${host}:${port}/${base}/\n`);
+        console.log(
+          `Preview server running at http://${host}:${port}/${base}/\n`,
+        );
       });
   } else {
     polka()
@@ -42,7 +51,7 @@ export async function serve(rootDir: string, config: UserConfig) {
           throw err;
         }
         // eslint-disable-next-line no-console
-        console.log(`Built site served at http://${host}:${port}/\n`);
+        console.log(`Preview server running at http://${host}:${port}/\n`);
       });
   }
 }
