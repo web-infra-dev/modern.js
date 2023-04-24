@@ -8,6 +8,7 @@ const rootCategories = [
   'apis/app',
   'configure/app',
   'blog',
+  'about',
 ];
 
 const { version } = require('./package.json');
