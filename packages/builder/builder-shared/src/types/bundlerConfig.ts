@@ -125,11 +125,11 @@ export interface BundlerChain
     | 'entryPoints'
     | 'mode'
     | 'context'
+    | 'externalsType'
+    | 'externalsPresets'
   > {
   toConfig: () => BundlerConfig;
   externals: (value: Externals) => BundlerChain;
-  externalsType: Config['externalsType'];
-  externalsPresets: Config['externalsPresets'];
   optimization: Pick<Config['optimization'], 'splitChunks' | 'runtimeChunk'>;
   resolve: Pick<
     Config['resolve'],
