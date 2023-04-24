@@ -146,6 +146,10 @@ export const buildLib = async (
     sideEffects,
     redirect,
     esbuildOptions,
+    externalHelpers,
+    transformImport,
+    sourceType,
+    disableSwcTransform,
   } = config;
   const { appDirectory } = api.useAppContext();
   const { slash } = await import('@modern-js/utils');
@@ -154,31 +158,57 @@ export const buildLib = async (
   const assetOutDir = asset.path ? slash(asset.path) : asset.path;
   const { less, sass, postcss, inject, modules, autoModules } = style;
 
-  // support es5,umd and emitDecoratorMetadata by swc
-  const { es5Plugin, umdPlugin, transformPlugin } = await import(
+  // support swc-transform, umd and emitDecoratorMetadata by swc
+  const { umdPlugin, swcTransformPlugin, es5Plugin } = await import(
     '@modern-js/libuild-plugin-swc'
   );
-  const plugins = format === 'umd' ? [umdPlugin(umdModuleName)] : [];
-  if (target === 'es5') {
-    plugins.push(es5Plugin());
-  }
+  const {
+    checkSwcHelpers,
+    matchEs5PluginCondition,
+    matchSwcTransformCondition,
+  } = await import('../utils/builder');
+
   const { getProjectTsconfig } = await import('./dts/tsc');
   const tsconfigPath = dts
     ? dts.tsconfigPath
     : join(appDirectory, './tsconfig.json');
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
-  if (userTsconfig?.compilerOptions?.emitDecoratorMetadata) {
+
+  const plugins = [];
+
+  if (
+    matchSwcTransformCondition({
+      sourceType,
+      buildType,
+      format,
+      disableSwcTransform,
+    })
+  ) {
     plugins.push(
-      transformPlugin({
-        jsc: {
-          transform: {
-            legacyDecorator: true,
-            decoratorMetadata: true,
-          },
-        },
+      swcTransformPlugin({
+        pluginImport: transformImport,
+        externalHelpers: Boolean(externalHelpers),
+        emitDecoratorMetadata:
+          userTsconfig?.compilerOptions?.emitDecoratorMetadata,
       }),
     );
+  } else if (
+    matchEs5PluginCondition({
+      sourceType,
+      buildType,
+      format,
+      target,
+      disableSwcTransform,
+    })
+  ) {
+    plugins.push(es5Plugin());
   }
+
+  if (format === 'umd') {
+    plugins.push(umdPlugin(umdModuleName));
+  }
+
+  await checkSwcHelpers({ appDirectory, externalHelpers });
 
   // support svgr
   if (asset.svgr) {

@@ -40,11 +40,13 @@ describe('format is esm', () => {
 
   it('buildType is bundleless', async () => {
     const configFile = path.join(configDir, './esm-bundleless.config.ts');
-    await runCli({
+    const { success } = await runCli({
       argv: ['build'],
       configFile,
       appDirectory: fixtureDir,
     });
+
+    expect(success).toBe(true);
 
     const distIndexPath = path.join(
       fixtureDir,
@@ -97,7 +99,9 @@ describe('format is cjs', () => {
       './index.js',
     );
     const content1 = await fs.readFile(distIndexPath, 'utf-8');
-    expect(content1.includes('module.exports')).toBe(true);
+    expect(
+      content1.includes('Object.defineProperty(exports, "__esModule", {'),
+    ).toBe(true);
     expect(IMPORT_FROM_REGEX.test(content1)).toBe(false);
     expect(content1).toMatchSnapshot();
 
@@ -107,7 +111,9 @@ describe('format is cjs', () => {
       './utils.js',
     );
     const content2 = await fs.readFile(distUtilsPath, 'utf-8');
-    expect(content2.includes('module.exports')).toBe(true);
+    expect(
+      content2.includes('Object.defineProperty(exports, "__esModule", {'),
+    ).toBe(true);
     expect(IMPORT_FROM_REGEX.test(content2)).toBe(false);
     expect(content2).toMatchSnapshot();
   });

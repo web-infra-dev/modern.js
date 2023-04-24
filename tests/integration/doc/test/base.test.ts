@@ -106,6 +106,6 @@ describe('Basic render', () => {
     // check the class in html
     htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
     expect(htmlClass).toContain(defaultMode === 'dark' ? 'light' : 'dark');
-    killApp(serveApp);
+    await killApp(serveApp);
   });
 });

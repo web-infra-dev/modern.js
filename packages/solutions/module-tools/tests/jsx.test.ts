@@ -22,13 +22,14 @@ describe('jsx is automatic', () => {
       configFile,
       appDirectory: fixtureDir,
     });
+
     expect(ret.success).toBeTruthy();
     const distFilePath = path.join(
       fixtureDir,
       './dist/automatic/bundle/index.js',
     );
     const content = await fs.readFile(distFilePath, 'utf8');
-    expect(content.includes('import_jsx_runtime')).toBeTruthy();
+    expect(content.includes('react/jsx-runtime')).toBeTruthy();
   });
 
   it('buildType is bundleless', async () => {
@@ -46,7 +47,7 @@ describe('jsx is automatic', () => {
       './dist/automatic/bundleless/index.js',
     );
     const content = await fs.readFile(distFilePath, 'utf8');
-    expect(content.includes('import_jsx_runtime')).toBeTruthy();
+    expect(content.includes('react/jsx-runtime')).toBeTruthy();
   });
 });
 

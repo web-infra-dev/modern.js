@@ -173,6 +173,15 @@ const buildConfigProperties = {
       },
     ],
   },
+  externalHelpers: {
+    type: 'boolean',
+  },
+  transformImport: {
+    type: 'array',
+  },
+  sourceType: {
+    enum: ['commonjs', 'module'],
+  },
 };
 export const buildConfig = {
   target: 'buildConfig',
