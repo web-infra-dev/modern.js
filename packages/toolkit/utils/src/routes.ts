@@ -22,5 +22,6 @@ export const getRouteId = (
   } else {
     id = `${entryName}_${pathWithoutExt}`;
   }
-  return id;
+
+  return id.replace(/\[(.*?)\]/g, '($1)');
 };

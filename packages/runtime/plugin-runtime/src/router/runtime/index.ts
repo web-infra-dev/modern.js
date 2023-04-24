@@ -1,3 +1,4 @@
+import { useRouteLoaderData as useRouteData } from 'react-router-dom';
 import { routerPlugin } from './plugin';
 import type { SingleRouteConfig, RouterConfig } from './types';
 
@@ -11,6 +12,11 @@ export * from './withRouter';
 
 export { Link, NavLink } from './PrefetchLink';
 export type { LinkProps, NavLinkProps } from './PrefetchLink';
+
+export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
+  const realRouteId = routeId.replace(/\((.*?)\)/g, '[$1]');
+  return useRouteData(realRouteId);
+};
 
 // Note: Keep in sync with react-router-dom exports!
 export type {
@@ -121,7 +127,6 @@ export {
   useResolvedPath,
   useRevalidator,
   useRouteError,
-  useRouteLoaderData,
   useRoutes,
   useSearchParams,
   useSubmit,
