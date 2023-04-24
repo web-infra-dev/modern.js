@@ -1,4 +1,5 @@
-import {
+import type {
+  WebpackChainRule,
   BundlerChainRule,
   SharedNormalizedConfig,
   BuilderContext,
@@ -11,7 +12,7 @@ export function applyScriptCondition({
   includes,
   excludes,
 }: {
-  rule: BundlerChainRule;
+  rule: BundlerChainRule | WebpackChainRule;
   config: SharedNormalizedConfig;
   context: BuilderContext;
   includes: (string | RegExp)[];
