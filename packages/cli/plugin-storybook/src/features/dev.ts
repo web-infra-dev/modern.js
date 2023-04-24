@@ -1,4 +1,4 @@
-import { Import, getPort } from '@modern-js/utils';
+import { Import, getPort, isEmpty } from '@modern-js/utils';
 import type { PluginAPI, ModuleTools } from '@modern-js/module-tools';
 import type { PluginOptions } from '../types';
 import { valid } from './utils/valid';
@@ -39,9 +39,7 @@ export const runDev = async (
     return;
   }
 
-  const { checkEnableRuntime } = await import('./utils/check');
-  const enableRuntime = await checkEnableRuntime(appContext.internalDirectory);
-
+  const enableRuntime = !isEmpty(modernConfig.runtime);
   const configDir = await gen.generateConfig(appDirectory, pluginOption, {
     isTsProject,
     stories,
