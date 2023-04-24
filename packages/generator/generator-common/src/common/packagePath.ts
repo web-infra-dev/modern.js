@@ -1,7 +1,7 @@
 import { Schema } from '@modern-js/codesmith-formily';
 import { i18n, localeKeys } from '../locale';
 
-const PackagePathRegex = new RegExp('^[a-z0-9-_]+[a-z0-9-/_]*$');
+export const PackagePathRegex = new RegExp('^[a-z0-9-_]+[a-z0-9-/_]*$');
 
 export const getPackagePathSchema = (extra: Record<string, any>): Schema => {
   return {
