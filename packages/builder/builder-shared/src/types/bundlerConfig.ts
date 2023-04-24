@@ -163,6 +163,7 @@ export interface BundlerChain
     WebpackChain['optimization'],
     'splitChunks' | 'runtimeChunk'
   >;
+  externals: (value: Externals) => BundlerChain;
   resolve: PickAndModifyThis<
     WebpackChain['resolve'],
     | Extract<
