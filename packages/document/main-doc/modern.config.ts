@@ -46,6 +46,11 @@ const getNavbar = (lang: string): NavItem[] => {
       activeMatch: '/blog/',
     },
     {
+      text: getText('关于', 'About'),
+      link: getLink('/about/team'),
+      activeMatch: '/about/',
+    },
+    {
       text: `v${version}`,
       items: [
         {
