@@ -195,11 +195,11 @@ export default (
           .usage('[options]')
           .description(i18n.t(localeKeys.command.new.describe))
           .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
-          .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
           .option(
             '-c, --config <config>',
             i18n.t(localeKeys.command.new.config),
           )
+          .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
           .option('--dist-tag <tag>', i18n.t(localeKeys.command.new.distTag))
           .option('--registry', i18n.t(localeKeys.command.new.registry))
           .action(async (options: any) => {
