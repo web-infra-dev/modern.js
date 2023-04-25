@@ -29,7 +29,7 @@ describe('bff koa in dev', () => {
     await page.goto(`${host}:${port}?name=bytedance`, {
       waitUntil: ['networkidle0'],
     });
-    const text = await page.$eval('#item', el => el.textContent);
+    const text = await page.$eval('#item', el => el?.textContent);
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
@@ -39,7 +39,7 @@ describe('bff koa in dev', () => {
     });
     await page.click('#home-btn');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const text = await page.$eval('#item', el => el.textContent);
+    const text = await page.$eval('#item', el => el?.textContent);
     expect(text).toMatch('name: modernjs, age: 18');
   });
 
@@ -70,7 +70,7 @@ describe('bff express in prod', () => {
     await page.goto(`${host}:${port}?name=bytedance`, {
       waitUntil: ['networkidle0'],
     });
-    const text = await page.$eval('#item', el => el.textContent);
+    const text = await page.$eval('#item', el => el?.textContent);
     expect(text).toMatch('name: bytedance, age: 18');
   });
 
@@ -80,7 +80,7 @@ describe('bff express in prod', () => {
     });
     await page.click('#home-btn');
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const text = await page.$eval('#item', el => el.textContent);
+    const text = await page.$eval('#item', el => el?.textContent);
     expect(text).toMatch('name: modernjs, age: 18');
   });
 

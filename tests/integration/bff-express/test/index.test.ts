@@ -31,13 +31,13 @@ describe('bff express in dev', () => {
   test('basic usage', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
     await new Promise(resolve => setTimeout(resolve, 500));
-    const text = await page.$eval('.hello', el => el.textContent);
+    const text = await page.$eval('.hello', el => el?.textContent);
     expect(text).toBe('Hello Modern.js');
   });
 
   test('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
-    const text1 = await page.$eval('.hello', el => el.textContent);
+    const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('Hello Modern.js');
   });
 
@@ -83,10 +83,10 @@ describe('bff express in prod', () => {
   // FIXME: Skipped because this test often times out on Windows
   test.skip('basic usage', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
-    const text1 = await page.$eval('.hello', el => el.textContent);
+    const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('bff-express');
     await new Promise(resolve => setTimeout(resolve, 300));
-    const text2 = await page.$eval('.hello', el => el.textContent);
+    const text2 = await page.$eval('.hello', el => el?.textContent);
     expect(text2).toBe('Hello Modern.js');
   });
 
@@ -95,7 +95,7 @@ describe('bff express in prod', () => {
   // when you run it on test, It is crazy.
   test.skip('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
-    const text1 = await page.$eval('.hello', el => el.textContent);
+    const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('Hello Modern.js');
   });
 
