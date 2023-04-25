@@ -28,9 +28,12 @@
 .preview {
   display: block;
   width: 100%;
+  aspect-ratio: 1.84;
+  object-fit: contain;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   pointer-events: none;
+  background-color: var(--modern-c-bg-soft);
 }
 
 .bottom {
@@ -38,10 +41,36 @@
 }
 
 .name {
+  display: flex;
+  justify-content: space-between;
   font-weight: 600;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 28px;
   color: var(--modern-c-text-1);
+}
+
+.type {
+  display: block;
+  color: #fff;
+  font-size: 12px;
+  background: -webkit-linear-gradient(
+    305deg,
+    hsl(166deg, 77%, 43%) 10%,
+    hsl(198deg, 100%, 50%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:global(.dark) .type {
+  background: -webkit-linear-gradient(
+    305deg,
+    hsl(166deg, 77%, 53%) 10%,
+    hsl(198deg, 100%, 60%)
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 .domain {

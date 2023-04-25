@@ -53,4 +53,5 @@ export const EN_US = {
   volctrans: 'Volctrans',
   shidianbaike: 'Shidian Baike',
   xiaohe: 'Xiaohe',
+  dongchedi: 'Dongchedi',
 } as const;

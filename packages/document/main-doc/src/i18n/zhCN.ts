@@ -53,4 +53,5 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   volctrans: '火山翻译',
   shidianbaike: '识典百科',
   xiaohe: '小荷健康',
+  dongchedi: '懂车帝',
 };
