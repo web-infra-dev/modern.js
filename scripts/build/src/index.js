@@ -13,6 +13,7 @@ const nodeBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/cjs',
+    externalHelpers: true,
   },
   {
     buildType: 'bundleless',
@@ -20,6 +21,7 @@ const nodeBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/esm',
+    externalHelpers: true,
   },
   {
     buildType: 'bundleless',
@@ -53,6 +55,7 @@ const universalBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/cjs',
+    externalHelpers: true,
   },
   {
     buildType: 'bundleless',
@@ -60,6 +63,7 @@ const universalBuildConfig = [
     target: 'es5',
     dts: false,
     outDir: './dist/esm',
+    externalHelpers: true,
   },
   {
     buildType: 'bundleless',
@@ -67,6 +71,7 @@ const universalBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/esm-node',
+    externalHelpers: true,
   },
   {
     buildType: 'bundleless',
@@ -87,6 +92,7 @@ const universalBuildConfigWithBundle = [
     target: 'es2019',
     dts: false,
     outDir: './dist/cjs',
+    externalHelpers: true,
   },
   {
     buildType: 'bundle',
@@ -94,6 +100,7 @@ const universalBuildConfigWithBundle = [
     target: 'es5',
     dts: false,
     outDir: './dist/esm',
+    externalHelpers: true,
   },
   {
     buildType: 'bundleless',
@@ -101,6 +108,7 @@ const universalBuildConfigWithBundle = [
     target: 'es2019',
     dts: false,
     outDir: './dist/esm-node',
+    externalHelpers: true,
   },
   {
     buildType: 'bundleless',
@@ -108,6 +116,7 @@ const universalBuildConfigWithBundle = [
       only: true,
     },
     outDir: './dist/types',
+    externalHelpers: true,
   },
 ];
 
