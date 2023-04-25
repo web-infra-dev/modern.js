@@ -32,7 +32,7 @@ describe('test status code page', () => {
       cookie: 'age=18;',
     });
     await page.goto(`http://localhost:${port}${pathname}?name=modern-team`);
-    const text = await page.$eval('#append', el => el.textContent);
+    const text = await page.$eval('#append', el => el?.textContent);
     expect(text).toMatch(pathname);
     expect(text).toMatch('modern-team');
     expect(text).toMatch('modern-header');
