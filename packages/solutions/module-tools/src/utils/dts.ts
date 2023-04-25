@@ -203,7 +203,9 @@ export const printOrThrowDtsErrors = async (
       });
     } else {
       logger.warn(
-        chalk.bgYellowBright(local.i18n.t(local.localeKeys.dts.abortOnError)),
+        chalk.bgYellowBright(
+          local.i18n.t(local.localeKeys.warns.dts.abortOnError),
+        ),
       );
       logger.error(
         new InternalDTSError(error, {

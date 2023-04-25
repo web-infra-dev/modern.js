@@ -7,7 +7,7 @@ export const newCli = (program: Command, locale?: string) => {
     .command('new')
     .usage('[options]')
     .description(i18n.t(localeKeys.command.new.describe))
-    .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
+    .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
     .option('-c, --config <config>', i18n.t(localeKeys.command.new.config))
     .option(
       '-p, --plugin <plugin>',
@@ -18,7 +18,7 @@ export const newCli = (program: Command, locale?: string) => {
       },
       [],
     )
-    .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
+    .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
     .option('--dist-tag <tag>', i18n.t(localeKeys.command.new.distTag))
     .option('--registry', i18n.t(localeKeys.command.new.registry))
     .action(async options => {

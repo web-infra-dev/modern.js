@@ -47,4 +47,11 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   projectGenerator: '项目生成器',
   githubDiscussion: 'Github 讨论区',
   changelog: '更新日志',
+
+  // Showcase
+  writingo: '火山写作',
+  volctrans: '火山翻译',
+  shidianbaike: '识典百科',
+  xiaohe: '小荷健康',
+  dongchedi: '懂车帝',
 };

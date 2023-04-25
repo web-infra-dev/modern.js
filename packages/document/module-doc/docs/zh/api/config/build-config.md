@@ -275,6 +275,15 @@ export default defineConfig({
 
 :::
 
+## disableSwcTransform
+
+从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 Esbuild Transform。
+
+使用 SWC Transform 可以减小辅助函数对构建产物体积的影响。
+
+* 类型：`boolean`
+* 默认值：`false`
+
 ## dts
 
 类型文件生成的相关配置，默认情况会生成。
@@ -353,6 +362,52 @@ export default defineConfig({
 3. 使用 esbuild 插件时需要将插件加在 plugins 数组的头部，因为我们内部也是通过一个 esbuild 插件介入到整个构建流程中去的，因此需要将自定义插件优先注册。
 
 :::
+
+## externalHelpers
+
+默认情况下，输出的 JS 代码可能会依赖一些辅助函数来支持目标环境或者输出格式，这些辅助函数会被内联在需要它的文件中。
+
+当在使用 SWC Transform 进行代码转换的时候，可以启动 `externalHelpers` 配置，将内联的辅助函数转换为从外部模块 `@swc/helpers` 导入这些辅助函数。
+
+* 类型：`boolean`
+* 默认值：`false`
+
+
+下面是使用该配置前后的产物变化比较。
+
+开启前：
+
+``` js ./dist/index.js
+// 辅助函数
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  // ...
+}
+// 辅助函数
+function _async_to_generator(fn) {
+  return function() {
+    // use asyncGeneratorStep
+    // ...
+  };
+}
+
+// 你的代码
+export var yourCode = function() {
+  // use _async_to_generator
+}
+```
+
+开启后：
+
+``` js ./dist/index.js
+// 从 @swc/helpers 导入的辅助函数
+import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+
+// 你的代码
+export var yourCode = function() {
+  // use _async_to_generator
+}
+```
+
 
 ## externals
 
@@ -513,6 +568,13 @@ export default defineConfig({
 
 - 类型： `boolean | 'inline' | 'external'`
 - 默认值： `false`
+
+## sourceType
+
+设置源码的格式。默认情况下，会将源码作为 EsModule 进行处理。当源码使用的是 CommonJS 的时候，需要设置 `commonjs`。
+
+- 类型：`commonjs` | `module`
+- 默认值：`module`
 
 ## splitting
 
@@ -798,6 +860,41 @@ const tailwind = {
 
 - 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
 - 默认值： `'es6'`
+
+## transformImport
+
+提供与 babel-plugin-import 等价的能力和配置，基于 SWC 实现。
+
+* 类型：`Array`
+* 默认值：`[]`
+
+数组元素为一个 babel-plugin-import 的配置对象。配置对象可以参考 [options](https://github.com/umijs/babel-plugin-import#options)。
+
+使用示例：
+
+```ts
+import moduleTools, { defineConfig} from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
+    transformImport: [
+      // babel-plugin-import 的 options 配置
+      {
+        libraryName: 'foo',
+        style: true,
+      },
+    ],
+  },
+  plugins: [
+    moduleTools(),
+  ],
+});
+```
+
+### 注意事项
+
+参考[【Import 插件——注意事项】](plugins/official-list/plugin-import.html#注意事项)
+
 
 ## umdGlobals
 

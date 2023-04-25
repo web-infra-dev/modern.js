@@ -4,6 +4,7 @@ import type {
   Style as LibuildStyle,
 } from '@modern-js/libuild';
 import type { Options } from '@modern-js/libuild-plugin-svgr';
+import type { ImportItem } from '@modern-js/libuild-plugin-swc';
 import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
 import { BuildInPreset, presetList } from '../../constants/buildPresets';
 import type { CopyConfig } from '../copy';
@@ -58,6 +59,7 @@ export type AutoExternal =
       peerDependencies?: boolean;
     };
 export type JSX = 'automatic' | 'transform';
+export type ExternalHelpers = boolean;
 
 export type AliasOption =
   | Record<string, string>
@@ -76,6 +78,7 @@ export type BaseBuildConfig = Omit<
 };
 
 export type PartialBaseBuildConfig = {
+  sourceType?: 'commonjs' | 'module';
   buildType?: 'bundleless' | 'bundle';
   format?: Format;
   target?: Target;
@@ -101,6 +104,10 @@ export type PartialBaseBuildConfig = {
   redirect?: LibuildUserConfig['redirect'];
   sideEffects?: LibuildUserConfig['sideEffects'];
   esbuildOptions?: LibuildUserConfig['esbuildOptions'];
+  // Related to swc-transform
+  externalHelpers?: ExternalHelpers;
+  transformImport?: ImportItem[];
+  disableSwcTransform?: boolean;
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];

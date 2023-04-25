@@ -7,12 +7,12 @@ import {
   isUseCssSourceMap,
   isLooseCssModules,
   getBrowserslistWithDefault,
+  BundlerChainRule,
   type BuilderTarget,
   type BuilderContext,
 } from '@modern-js/builder-shared';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
-  WebpackChain,
   BuilderPlugin,
   CSSExtractOptions,
   CSSLoaderOptions,
@@ -62,7 +62,7 @@ export const normalizeCssLoaderOptions = (
 };
 
 export async function applyBaseCSSRule(
-  rule: WebpackChain.Rule,
+  rule: BundlerChainRule,
   config: NormalizedConfig,
   context: BuilderContext,
   {

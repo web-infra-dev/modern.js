@@ -14,7 +14,7 @@ export async function getBundlerChain() {
 
   const bundlerChain = new WebpackChain();
 
-  return bundlerChain as BundlerChain;
+  return bundlerChain as unknown as BundlerChain;
 }
 
 export async function modifyBundlerChain(
