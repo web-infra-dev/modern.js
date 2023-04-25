@@ -1,4 +1,4 @@
-import { pluginDagSort } from '@modern-js/utils';
+import { pluginDagSort } from '@modern-js/utils/universal/pluginDagSort';
 import type { AsyncPlugin } from './async';
 import type { Plugin } from './sync';
 
