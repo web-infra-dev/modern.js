@@ -54,4 +54,5 @@ export const EN_US = {
   shidianbaike: 'Shidian Baike',
   xiaohe: 'Xiaohe',
   dongchedi: 'Dongchedi',
+  volcengineDeveloper: 'Volcengine Developer',
 } as const;

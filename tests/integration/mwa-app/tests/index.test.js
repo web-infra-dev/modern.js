@@ -30,8 +30,8 @@ describe('test dev', () => {
     });
 
     const root = await page.$('.description');
-    const targetText = await page.evaluate(el => el.textContent, root);
-    expect(targetText.trim()).toEqual('Get started by editing src/App.tsx');
+    const targetText = await page.evaluate(el => el?.textContent, root);
+    expect(targetText?.trim()).toEqual('Get started by editing src/App.tsx');
     expect(errors.length).toEqual(0);
 
     await killApp(app);
@@ -67,7 +67,7 @@ describe('test build', () => {
     await page.goto(`${host}:${port}`);
 
     const description = await page.$('.description');
-    const targetText = await page.evaluate(el => el.textContent, description);
-    expect(targetText.trim()).toEqual('Get started by editing src/App.tsx');
+    const targetText = await page.evaluate(el => el?.textContent, description);
+    expect(targetText?.trim()).toEqual('Get started by editing src/App.tsx');
   });
 });

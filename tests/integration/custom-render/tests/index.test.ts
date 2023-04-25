@@ -22,7 +22,7 @@ describe('custom render', () => {
     });
 
     const root = await page.$('#csr');
-    const targetText = await page.evaluate(el => el.textContent, root);
-    expect(targetText.trim()).toEqual('Custom Render');
+    const targetText = await page.evaluate(el => el?.textContent, root);
+    expect(targetText?.trim()).toEqual('Custom Render');
   });
 });
