@@ -18,6 +18,7 @@
     "reset": "npx rimraf --glob ./**/node_modules",
     "test": "npm run test:ut",
     "test:rspack": "cd tests && pnpm run test:rspack",
+    "test:doc": "cd tests && pnpm run test:doc",
     "test:jest": "cd tests && pnpm run test:ut",
     "test:vitest": "node scripts/vitestRunAll.js",
     "test:ut": "pnpm run test:jest && pnpm run test:vitest",
