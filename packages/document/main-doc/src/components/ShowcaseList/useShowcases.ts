@@ -62,5 +62,12 @@ export const useShowcases = (): ShowcaseItem[] => {
         'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/showcase/dongchedi-0425.png',
       type: 'builder',
     },
+    {
+      name: t('volcengineDeveloper'),
+      url: 'https://developer.volcengine.com/',
+      preview:
+        'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/showcase/developer-volcengine-0425.png',
+      type: 'framework',
+    },
   ];
 };

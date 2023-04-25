@@ -4,7 +4,7 @@
   grid-gap: 32px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1100px) {
   .wrapper {
     grid-template-columns: repeat(1, 1fr);
   }
@@ -44,7 +44,7 @@
   display: flex;
   justify-content: space-between;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 28px;
   color: var(--modern-c-text-1);
 }

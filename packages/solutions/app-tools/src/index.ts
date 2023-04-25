@@ -112,10 +112,10 @@ export const buildCommand = async (
   }
 };
 
-interface AppToolsOptions {
+export type AppToolsOptions = {
   /** Specify the use what kind of bundler to compiler, default: `webpack` */
   bundler?: 'experimental-rspack' | 'webpack';
-}
+};
 
 export default (
   options: AppToolsOptions = {
