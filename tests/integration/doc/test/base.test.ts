@@ -74,6 +74,6 @@ describe('Check basic render in development', () => {
     // click the button again, check the class in html
     await darkModeButton?.click();
     htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
-    expect(htmlClass).not.toContain(defaultMode);
+    expect(htmlClass?.includes('dark')).toBe(defaultMode === 'dark');
   });
 });

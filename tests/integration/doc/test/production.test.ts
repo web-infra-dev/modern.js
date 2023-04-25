@@ -13,20 +13,16 @@ describe('Check production build', () => {
   let app: any;
   let appDir: string;
   let appPort: number;
-
   beforeAll(async () => {
     appDir = join(fixtureDir, 'base');
-
     await modernBuild(appDir);
     app = await modernServe(appDir, (appPort = await getPort()), {
       cwd: appDir,
     });
   });
-
   afterAll(async () => {
     await killApp(app);
   });
-
   it('check whether the page can be interacted', async () => {
     const page: Page = await (global as any).__BROWSER_GLOBAL__.newPage();
     await page.goto(`http://localhost:${appPort}`, {
