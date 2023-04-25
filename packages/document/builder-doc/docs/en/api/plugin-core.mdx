@@ -12,10 +12,14 @@ The type of the plugin object. The plugin object contains the following properti
 
 - `name`: The name of the plugin, a unique identifier.
 - `setup`: The setup function of the plugin, which can be an asynchronous function. This function will only be executed once when the plugin is initialized.
+- `pre`：Specify which plugins precede the current plugin, and the current plugin will be adjusted to execute after these plugins.
+- `post`：Specify which post-plugins are available for the current plugin, and the current plugin will be adjusted to execute before these plugins.
 
 ```ts
 export type BuilderPlugin<API = BuilderPluginAPI> = {
   name: string;
+  pre?: string[];
+  post?: string[];
   setup: (api: API) => Promise<void> | void;
 };
 ```
@@ -27,6 +31,8 @@ import type { BuilderPlugin } from '@modern-js/builder';
 
 export default (): BuilderPlugin => ({
   name: 'builder-plugin-foo',
+
+  pre: ['builder-plugin-bar'],
 
   setup: api => {
     api.onAfterBuild(() => {

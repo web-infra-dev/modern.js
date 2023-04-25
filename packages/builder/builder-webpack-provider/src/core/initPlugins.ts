@@ -81,7 +81,11 @@ export async function initPlugins({
 }) {
   debug('init plugins');
 
-  for (const plugin of pluginStore.plugins) {
+  const { pluginDagSort } = await import('@modern-js/utils');
+
+  const plugins = pluginDagSort(pluginStore.plugins);
+
+  for (const plugin of plugins) {
     await plugin.setup(context.pluginAPI);
   }
 

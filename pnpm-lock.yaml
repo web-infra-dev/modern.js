@@ -3464,6 +3464,7 @@ importers:
   packages/toolkit/plugin:
     specifiers:
       '@babel/runtime': ^7.18.0
+      '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
       '@types/jest': ^29
@@ -3472,6 +3473,7 @@ importers:
       typescript: ^4
     dependencies:
       '@babel/runtime': 7.18.6
+      '@modern-js/utils': link:../utils
     devDependencies:
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config

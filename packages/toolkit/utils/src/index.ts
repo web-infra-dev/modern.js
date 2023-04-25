@@ -42,3 +42,4 @@ export * from './getCoreJsVersion';
 export * from './react';
 export * from './getTargetDir';
 export * from './babel';
+export * from './pluginDagSort';

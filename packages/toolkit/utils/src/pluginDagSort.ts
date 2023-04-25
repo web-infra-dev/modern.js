@@ -1,4 +1,4 @@
-export const dagSort = <P extends Record<string, any>>(
+export const pluginDagSort = <P extends Record<string, any>>(
   plugins: P[],
   key = 'name',
   preKey = 'pre',
@@ -17,13 +17,13 @@ export const dagSort = <P extends Record<string, any>>(
     return target;
   }
   plugins.forEach(item => {
-    item[preKey].forEach((p: PluginQueryCondition) => {
+    item[preKey]?.forEach((p: PluginQueryCondition) => {
       // compatibility: do not add the plugin-name that plugins not have
       if (plugins.find(ap => ap.name === p)) {
         allLines.push([getPluginByAny(p)[key], getPluginByAny(item)[key]]);
       }
     });
-    item[postKey].forEach((pt: PluginQueryCondition) => {
+    item[postKey]?.forEach((pt: PluginQueryCondition) => {
       // compatibility: do not add the plugin-name that plugins not have
       if (plugins.find(ap => ap.name === pt)) {
         allLines.push([getPluginByAny(item)[key], getPluginByAny(pt)[key]]);
