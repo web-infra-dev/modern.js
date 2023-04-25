@@ -94,7 +94,7 @@ git checkout -b MY_BRANCH_NAME
 
 ### Build the Package
 
-To build the package you want to make changes to, first navigate to the package directory, then build the package:
+To build the package you want to change, first open the package directory, then build the package:
 
 ```sh
 # Replace some-package with the name of the package you want to work on
@@ -108,97 +108,13 @@ Alternatively, you can build the package from the root directory of the reposito
 pnpm run --filter @modern-js/some-package build
 ```
 
-## Testing Your Changes
-
-### Create Your Test Project
-
-Go to the `local-test-project` directory, and create your test project:
-
-```sh
-cd local-test-project
-pnpm dlx @modern-js/create my-test-project
-cd my-test-project
-```
-
-Subdirectories of `local-test-project` directory is ignored by `.gitignore` file, and thus we can safely use it as a playground for the code we are developing. Furthermore, the `local-test-project/pnpm-workspace.yaml` file helps pnpm symlink dependencies in our test project to the built files in the main monorepo. Here is more info on [pnpm Workspaces](https://pnpm.io/workspaces).
-
-### Configure Your Test Project
-
-1. remove `.npmrc` to prevent conflicts with the root
-
-```sh
-rm .npmrc
-```
-
-2. change relative dependencies to `"workspace:*"`, for example:
-
-```json
-{
-  "dependencies": {
-      "@modern-js/runtime": "workspace:*"
-  },
-  "devDependencies": {
-      "@modern-js/app-tools": "workspace:*",
-      "@modern-js/plugin-lint": "workspace:*",
-      "@modern-js/some_package": "workspace:*",
-      ...
-  }
-}
-```
-
-[more info on pnpm workspaces](https://pnpm.io/workspaces).
-
-### Create Symlinks
-
-let pnpm create the necessary symlinks:
-
-```sh
-pnpm install
-```
-
-### Test Your Code
-
-Depending on where you made your changes, you may need to run different commands
-
-```sh
-pnpm dev
-pnpm build
-pnpm deploy
-...
-```
-
-## Submitting Changes
-
-Be sure that you have [set up your email](#set-your-email-appropriately-for-git) accordingly. Also make sure that you are [working on a new branch](#checkout-a-new-branch).
-
-### Add a Changeset
-
-Add changeset. Select changed packages in this commits and add changeset info.
-
-```sh
-pnpm run change
-```
-
-### Committing your Changes
-
-Commit your changes to your forked repo, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/).
-
-## Building
-
-You can build single package, with:
-
-```sh
-cd ./packages/*
-pnpm run build
-```
-
-Build all packages, with:
+Build all packages:
 
 ```sh
 pnpm run prepare
 ```
 
-If you need to clean all `node_modules/*` in the project for some reason, with:
+If you need to clean all `node_modules/*` in the project:
 
 ```sh
 pnpm run reset
@@ -206,11 +122,13 @@ pnpm run reset
 
 ## Testing
 
-You need write th new tests for new feature or modify exist tests for changes.
+### Add New Tests
 
-We wish you write unit tests at `PACKAGE_DIR/tests`. Test syntax is based on [Jest](https://jestjs.io/).
+If you've fixed a bug or added code that should be tested, then add some tests.
 
-### Run Unit Testing
+You can add unit test cases in the `<PACKAGE_DIR>/tests` folder. The test syntax is based on [Jest](https://jestjs.io/) and [Vitest](https://vitest.dev/).
+
+### Run Unit Tests
 
 Before submitting a pull request, it's important to make sure that your changes haven't introduced any regressions or bugs. You can run the unit tests for the project by executing the following command:
 
@@ -218,20 +136,24 @@ Before submitting a pull request, it's important to make sure that your changes 
 pnpm run test
 ```
 
-### Run E2E Testing
-
-In addition to the unit tests, the project also includes end-to-end (E2E) tests that verify the functionality of the application as a whole. To run the E2E tests, you'll need to follow these steps:
-
-1. Execute the E2E prepare command to set up the necessary environment:
+Alternatively, you can run the unit tests of single package using the `--filter` option:
 
 ```sh
-pnpm run --filter "tests" prepare
+pnpm run --filter @modern-js/some-package test
 ```
 
-2. Start the E2E tests:
+### Run E2E Tests
+
+In addition to the unit tests, the project also includes end-to-end (E2E) tests, which checks the functionality of the application as a whole. To run the E2E tests, you'll need to follow these steps:
 
 ```sh
 pnpm run test:e2e
+```
+
+If you need to run a specified test, you can add keywords to filter:
+
+```sh
+npx jest copy-assets
 ```
 
 ## Linting
@@ -261,6 +183,22 @@ root
 This website is built with [Modern.js Doc](https://modernjs.dev/doc-tools), the document content can be written using markdown or mdx syntax. You can refer to the [Modern.js Doc Website](https://modernjs.dev/doc-tools) for detailed usage.
 
 The source code of Modern.js Doc can be found in [this folder](https://github.com/web-infra-dev/modern.js/tree/main/packages/solutions/doc-tools).
+
+## Submitting Changes
+
+Be sure that you have [set up your email](#set-your-email-appropriately-for-git) accordingly. Also make sure that you are [working on a new branch](#checkout-a-new-branch).
+
+### Add a Changeset
+
+Add changeset. Select changed packages in this commits and add changeset info.
+
+```sh
+pnpm run change
+```
+
+### Committing your Changes
+
+Commit your changes to your forked repo, and [create a pull request](https://help.github.com/articles/creating-a-pull-request/).
 
 ### Format of PR titles
 
@@ -292,25 +230,25 @@ Repository maintainers can publish a new version of all packages to npm.
 1. Fetch newest code at branch `main`.
 2. Install
 
-   ```sh
-   pnpm run setup
-   ```
+```sh
+pnpm run setup
+```
 
 3. Prepare
 
-   ```sh
-   pnpm run prepare
-   ```
+```sh
+pnpm run prepare
+```
 
 4. Bump version
 
-   ```sh
-   pnpm run bump
-   ```
+```sh
+pnpm run bump
+```
 
 5. Commit version change. The format of commit message should be `chore: va.b.c` which is the main version of current release.
 
-   ```sh
-   git add .
-   git commit -m "chore: va.b.c"
-   ```
+```sh
+git add .
+git commit -m "chore: va.b.c"
+```
