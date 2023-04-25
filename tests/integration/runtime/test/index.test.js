@@ -52,7 +52,7 @@ describe('useLoader with SSR', () => {
   it(`use ssr data without load request`, async () => {
     logs = [];
     errors = [];
-    const targetText = await page.evaluate(el => el.textContent, $data);
+    const targetText = await page.evaluate(el => el?.textContent, $data);
     expect(targetText).toEqual('0');
     expect(logs.join('\n')).not.toMatch('useLoader exec with params: ');
     expect(errors.length).toEqual(0);
@@ -63,7 +63,7 @@ describe('useLoader with SSR', () => {
     errors = [];
     await page.click('#add');
     await sleep(2000);
-    const targetText = await page.evaluate(el => el.textContent, $data);
+    const targetText = await page.evaluate(el => el?.textContent, $data);
     expect(targetText).toEqual('1');
 
     const logMsg = logs.join('\n');
@@ -76,7 +76,7 @@ describe('useLoader with SSR', () => {
     errors = [];
     await page.click('#reload');
     await sleep(2000);
-    const targetText = await page.evaluate(el => el.textContent, $data);
+    const targetText = await page.evaluate(el => el?.textContent, $data);
     expect(targetText).toEqual('1');
 
     const logMsg = logs.join('\n');
@@ -89,7 +89,7 @@ describe('useLoader with SSR', () => {
     errors = [];
     await page.click('#update');
     await sleep(2000);
-    const targetText = await page.evaluate(el => el.textContent, $data);
+    const targetText = await page.evaluate(el => el?.textContent, $data);
     expect(targetText).toEqual('100');
 
     const logMsg = logs.join('\n');
@@ -153,17 +153,17 @@ describe('convention router', () => {
       waitUntil: ['networkidle0'],
     });
 
-    const title = await page.$eval('.title', el => el.textContent);
-    const initDisplay = await page.$eval('.display', el => el.textContent);
+    const title = await page.$eval('.title', el => el?.textContent);
+    const initDisplay = await page.$eval('.display', el => el?.textContent);
 
     await page.click('#kobe');
     await page.waitForSelector('.display');
-    const firstDisplay = await page.$eval('.display', el => el.textContent);
+    const firstDisplay = await page.$eval('.display', el => el?.textContent);
     const firstUrl = page.url();
 
     await page.click('#lebron');
     await page.waitForSelector('.display');
-    const secondDisplay = await page.$eval('.display', el => el.textContent);
+    const secondDisplay = await page.$eval('.display', el => el?.textContent);
     const secondUrl = page.url();
 
     expect(title).toEqual('_app');
@@ -179,7 +179,7 @@ describe('convention router', () => {
     await page.goto(getUrl('abc'), {
       waitUntil: ['networkidle0'],
     });
-    const text = await page.$eval('h1', el => el.textContent);
+    const text = await page.$eval('h1', el => el?.textContent);
     expect(text).toEqual('404');
   });
 });

@@ -24,7 +24,7 @@ describe('test status code page', () => {
 
   it('should router rewrite correctly ', async () => {
     await page.goto(`http://localhost:${port}/rewrite`);
-    const text = await page.$eval('#root', el => el.textContent);
+    const text = await page.$eval('#root', el => el?.textContent);
     expect(text).toMatch('Entry Page');
   });
 
