@@ -10,6 +10,7 @@ module.exports = {
     '/node_modules/',
     '/api-service-koa/api/',
     '/api-service-koa/dist',
+    '/api/tests',
   ],
   transform: {
     '^.+.tsx?$': 'ts-jest',
@@ -17,4 +18,5 @@ module.exports = {
   testEnvironment: './utils/puppeteer_environment.js',
   globalSetup: './utils/setup.js',
   globalTeardown: './utils/teardown.js',
+  testSequencer: './utils/custom-sequencer.js',
 };

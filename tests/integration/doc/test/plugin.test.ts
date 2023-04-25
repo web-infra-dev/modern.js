@@ -1,5 +1,5 @@
 import path, { join } from 'path';
-import { Page, Browser } from 'puppeteer';
+import { Page } from 'puppeteer';
 import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -9,7 +9,6 @@ declare const page: Page;
 describe('I18n doc render', () => {
   let app: any;
   let appPort: number;
-  let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'plugin');
@@ -18,9 +17,6 @@ describe('I18n doc render', () => {
   });
 
   afterAll(async () => {
-    if (browser) {
-      browser.close();
-    }
     if (app) {
       await killApp(app);
     }

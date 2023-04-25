@@ -74,7 +74,7 @@ describe('use tailwindcss v2', () => {
 
 describe('use tailwindcss v3', () => {
   it(`should show style by use tailwindcss text-black`, async () => {
-    const appDir = resolve(fixtures, 'tailwindcss-v2');
+    const appDir = resolve(fixtures, 'tailwindcss-v3');
 
     const port = await getPort();
 
