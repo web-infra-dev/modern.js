@@ -14,6 +14,13 @@ const defaultOptions: RemOptions = {
 export const builderPluginRem = (): BuilderPlugin => ({
   name: 'builder-plugin-rem',
 
+  pre: [
+    'builder-plugin-css',
+    'builder-plugin-less',
+    'builder-plugin-sass',
+    'builder-plugin-stylus',
+  ],
+
   setup(api) {
     api.modifyBundlerChain(
       async (chain, { CHAIN_ID, isServer, isWebWorker }) => {

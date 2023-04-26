@@ -9,7 +9,8 @@ import { PageData } from '@/shared/types';
 import { cleanUrl } from '@/shared/utils';
 import 'virtual-global-styles';
 
-export async function initPageData(routePath: string): Promise<PageData> {
+export async function initPageData(rawRoutePath: string): Promise<PageData> {
+  const routePath = decodeURIComponent(rawRoutePath);
   const { routes } = process.env.__SSR__
     ? (require('virtual-routes-ssr') as typeof import('virtual-routes-ssr'))
     : (require('virtual-routes') as typeof import('virtual-routes'));

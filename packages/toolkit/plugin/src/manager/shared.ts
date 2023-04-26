@@ -1,4 +1,4 @@
-import { dagSort } from '../utils/pluginDagSort';
+import { pluginDagSort } from '@modern-js/utils/universal/pluginDagSort';
 import type { AsyncPlugin } from './async';
 import type { Plugin } from './sync';
 
@@ -35,7 +35,7 @@ export function sortPlugins<Hooks, API>(
 export function sortPlugins(
   input: Array<Plugin<unknown, unknown> | AsyncPlugin<unknown, unknown>>,
 ) {
-  return dagSort(input.slice());
+  return pluginDagSort(input.slice());
 }
 
 export const includePlugin = <

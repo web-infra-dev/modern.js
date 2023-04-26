@@ -51,6 +51,27 @@ describe('plugins/rem', () => {
     expect(config).toMatchSnapshot();
   });
 
+  it('should order plugins and run rem plugin with default config', async () => {
+    const builder = await createStubBuilder({
+      plugins: [
+        builderPluginRem(),
+        builderPluginCss(),
+        builderPluginLess(),
+        builderPluginSass(),
+      ],
+      builderConfig: {
+        output: {
+          convertToRem: true,
+        },
+      },
+    });
+
+    const config = await builder.unwrapWebpackConfig();
+
+    // should add AutoSetRootFontSizePlugin and postcss-rem plugin
+    expect(config).toMatchSnapshot();
+  });
+
   it('should not run htmlPlugin with enableRuntime is false', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginCss(), builderPluginRem()],
