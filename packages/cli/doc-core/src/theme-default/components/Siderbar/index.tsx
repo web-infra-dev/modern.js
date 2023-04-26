@@ -36,6 +36,12 @@ interface SidebarItemProps {
 export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (active) {
+      ref.current?.scrollIntoView();
+    }
+  }, []);
   if ('items' in item) {
     return (
       <SidebarGroupComp
@@ -53,6 +59,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
     return (
       <Link href={normalizeHref(item.link)} className={styles.menuLink}>
         <div
+          ref={ref}
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
