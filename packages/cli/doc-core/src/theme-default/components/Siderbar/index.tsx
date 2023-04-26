@@ -240,12 +240,13 @@ export function SideBar(props: Props) {
   const {
     isSidebarOpen,
     langRoutePrefix,
-    pathname,
+    pathname: rawPathname,
     sidebarData: rawSidebarData,
   } = props;
   const [sidebarData, setSidebarData] = useState<
     (SidebarItem | NormalizedSidebarGroup)[]
   >(rawSidebarData.filter(Boolean).flat());
+  const pathname = decodeURIComponent(rawPathname);
   useEffect(() => {
     // 1. Update sidebarData when pathname changes
     // 2. For current active item, expand its parent group
