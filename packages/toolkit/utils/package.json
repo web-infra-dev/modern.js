@@ -95,6 +95,11 @@
       "jsnext:source": "./src/universal/nestedRoutes.tsx",
       "import": "./dist/esm/universal/nestedRoutes.js",
       "default": "./dist/cjs/universal/nestedRoutes.js"
+    },
+    "./universal/pluginDagSort": {
+      "jsnext:source": "./src/universal/pluginDagSort.ts",
+      "import": "./dist/esm/universal/pluginDagSort.js",
+      "default": "./dist/cjs/universal/pluginDagSort.js"
     }
   },
   "publishConfig": {
@@ -179,6 +184,11 @@
         "import": "./dist/esm/universal/nestedRoutes.js",
         "types": "./dist/types/universal/nestedRoutes.d.ts",
         "default": "./dist/cjs/universal/nestedRoutes.js"
+      },
+      "./universal/pluginDagSort": {
+        "import": "./dist/esm/universal/pluginDagSort.js",
+        "types": "./dist/types/universal/pluginDagSort.d.ts",
+        "default": "./dist/cjs/universal/pluginDagSort.js"
       }
     }
   },
@@ -276,6 +286,9 @@
       ],
       "universal/nestedRoutes": [
         "./dist/types/universal/nestedRoutes.d.ts"
+      ],
+      "universal/pluginDagSort": [
+        "./dist/types/universal/pluginDagSort.d.ts"
       ]
     }
   },
