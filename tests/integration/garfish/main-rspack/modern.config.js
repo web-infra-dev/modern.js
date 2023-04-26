@@ -4,7 +4,7 @@ import routerPlugin from '@modern-js/plugin-router-v5';
 
 import { getPort, getPublicPath } from '../../../utils/testCase';
 
-const port = getPort('@cypress-test/garfish-main');
+const port = getPort('@cypress-test/garfish-main-rspack');
 
 module.exports = defineConfig({
   runtime: {
@@ -44,10 +44,7 @@ module.exports = defineConfig({
   },
   plugins: [
     appTools({
-      bundler:
-        process.env.PROVIDE_TYPE === 'rspack'
-          ? 'experimental-rspack'
-          : 'webpack',
+      bundler: 'experimental-rspack',
     }),
     routerPlugin(),
     garfishPlugin(),
