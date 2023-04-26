@@ -1,5 +1,5 @@
 import path from 'path';
-import { chalk } from '@modern-js/utils';
+import { logger } from '@modern-js/utils';
 import type { ComponentDoc } from 'react-docgen-typescript';
 import { withDefaultConfig } from 'react-docgen-typescript';
 import type { ModuleDocgenLanguage, Options } from '../types';
@@ -11,38 +11,48 @@ export const docgen = async ({
   appDir,
   languages,
 }: Required<Options>) => {
-  console.info('[module-doc-plugin]', 'Start to parse API document...');
+  if (Object.keys(entries).length === 0) {
+    return;
+  }
+
+  logger.info('[module-doc-plugin]', 'Start to generate API table...');
+
+  const { parse } = withDefaultConfig({
+    propFilter: prop =>
+      prop.parent == null ||
+      prop.parent.fileName.indexOf('node_modules/@types/react') < 0,
+  });
 
   Object.entries(entries).map(async ([key, value]) => {
     const generateDocStr = async (language: ModuleDocgenLanguage) => {
       const moduleSourceFilePath = path.resolve(appDir, value);
       const defaultLang = languages[0];
-      const [param] = parse(moduleSourceFilePath);
-      const PropsMarkdown = generateTable(param, language);
-
-      if (!PropsMarkdown) {
-        console.warn(
-          '[module-doc-plugin]',
-          `No API document was parsed in ${moduleSourceFilePath}`,
-        );
+      try {
+        const componentDoc = parse(moduleSourceFilePath);
+        if (componentDoc.length === 0) {
+          logger.warn(
+            '[module-doc-plugin]',
+            `Unable to parse API document in ${moduleSourceFilePath}`,
+          );
+        } else {
+          const param = componentDoc[0];
+          const PropsMarkdown = generateTable(param, language);
+          const suffix = language === defaultLang ? '' : `-${language}`;
+          PropsMarkdownMap.set(`${key}${suffix}`, PropsMarkdown);
+        }
+      } catch (e) {
+        if (e instanceof Error) {
+          logger.error(
+            '[module-doc-plugin]',
+            `Generate API table error: ${e.message}`,
+          );
+        }
       }
-
-      const suffix = language === defaultLang ? '' : `-${language}`;
-      PropsMarkdownMap.set(`${key}${suffix}`, PropsMarkdown);
     };
     await Promise.all(languages.map(lang => generateDocStr(lang)));
   });
-  console.info(
-    '[module-doc-plugin]',
-    `${chalk.black.bgGreen.bold(`Parse API document success!`)}`,
-  );
+  logger.success('[module-doc-plugin]', `Generate API table successfully!`);
 };
-
-const { parse } = withDefaultConfig({
-  propFilter: prop =>
-    prop.parent == null ||
-    prop.parent.fileName.indexOf('node_modules/@types/react') < 0,
-});
 
 function generateTable(param: ComponentDoc, language: ModuleDocgenLanguage) {
   const { props } = param;
@@ -81,7 +91,7 @@ function generateTable(param: ComponentDoc, language: ModuleDocgenLanguage) {
         }
       };
       return `|${[name, getDescription(), getType(), getDefaultValue()]
-        .map(str => str.replaceAll(/(?<!\\)\|/g, '&#124;'))
+        .map(str => str.replace(/(?<!\\)\|/g, '&#124;'))
         .join('|')}|`;
     });
 
