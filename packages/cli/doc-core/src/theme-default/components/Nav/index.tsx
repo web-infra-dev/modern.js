@@ -66,7 +66,6 @@ export function Nav(props: NavProps) {
   const { beforeNavTitle, afterNavTitle, beforeNav } = props;
   const { siteData, page } = usePageData();
   const { logo: rawLogo, base } = siteData;
-  const { lang } = page;
   const { pathname } = useLocation();
   const { theme } = useContext(ThemeContext);
   const localeData = useLocaleSiteData();
@@ -76,6 +75,7 @@ export function Nav(props: NavProps) {
   const socialLinks = siteData?.themeConfig?.socialLinks || [];
   const hasSocialLinks = socialLinks.length > 0;
   const defaultLang = siteData.lang || 'zh';
+  const { lang } = page;
   const langs = localeLanguages.map(item => item.lang || 'zh') || [];
   const [logo, setLogo] = useState(getLogoUrl(rawLogo, theme));
 

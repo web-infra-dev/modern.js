@@ -39,7 +39,9 @@ export function SidebarItemComp(props: SidebarItemProps) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (active) {
-      ref.current?.scrollIntoView();
+      ref.current?.scrollIntoView({
+        block: 'center',
+      });
     }
   }, []);
   if ('items' in item) {
