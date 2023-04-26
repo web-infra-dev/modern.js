@@ -275,14 +275,14 @@ export default defineConfig({
 
 :::
 
-## disableSwcTransform
+<!-- ## disableSwcTransform
 
 从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 Esbuild Transform。
 
 使用 SWC Transform 可以减小辅助函数对构建产物体积的影响。
 
 * 类型：`boolean`
-* 默认值：`false`
+* 默认值：`false` -->
 
 ## dts
 
@@ -363,7 +363,7 @@ export default defineConfig({
 
 :::
 
-## externalHelpers
+<!-- ## externalHelpers
 
 默认情况下，输出的 JS 代码可能会依赖一些辅助函数来支持目标环境或者输出格式，这些辅助函数会被内联在需要它的文件中。
 
@@ -406,7 +406,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 export var yourCode = function() {
   // use _async_to_generator
 }
-```
+``` -->
 
 
 ## externals
@@ -569,12 +569,12 @@ export default defineConfig({
 - 类型： `boolean | 'inline' | 'external'`
 - 默认值： `false`
 
-## sourceType
+<!-- ## sourceType
 
 设置源码的格式。默认情况下，会将源码作为 EsModule 进行处理。当源码使用的是 CommonJS 的时候，需要设置 `commonjs`。
 
 - 类型：`commonjs` | `module`
-- 默认值：`module`
+- 默认值：`module` -->
 
 ## splitting
 
@@ -861,7 +861,7 @@ const tailwind = {
 - 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
 - 默认值： `'es6'`
 
-## transformImport
+<!-- ## transformImport
 
 提供与 babel-plugin-import 等价的能力和配置，基于 SWC 实现。
 
@@ -893,7 +893,7 @@ export default defineConfig({
 
 ### 注意事项
 
-参考[【Import 插件——注意事项】](plugins/official-list/plugin-import.html#注意事项)
+参考[【Import 插件——注意事项】](plugins/official-list/plugin-import.html#注意事项) -->
 
 
 ## umdGlobals
