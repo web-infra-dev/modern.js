@@ -234,14 +234,14 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 :::
 
-## disableSwcTransform
+<!-- ## disableSwcTransform
 
 Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only Esbuild Transform is used in this case.
 
 The use of SWC Transform can reduce the impact of auxiliary functions on the volume of the constructed product.
 
 * **Type**: `boolean`
-* **Default**: `false`
+* **Default**: `false` -->
 
 ## dts
 
@@ -322,7 +322,7 @@ We have done many extensions based on the original esbuild build. Therefore, whe
 
 :::
 
-## externalHelpers
+<!-- ## externalHelpers
 
 By default, the output JS code may depend on helper functions to support the target environment or output format, and these helper functions will be inlined in the file that requires it.
 
@@ -364,7 +364,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 export var yourCode = function() {
   // use _async_to_generator
 }
-```
+``` -->
 
 ## externals
 
@@ -521,12 +521,12 @@ Whether to generate sourceMap or not
 - type: `boolean | 'inline' | 'external'`
 - default: `false`
 
-## sourceType
+<!-- ## sourceType
 
 Sets the format of the source code. By default, the source code will be treated as EsModule. When the source code is using CommonJS, you need to set `commonjs`.
 
 - **Type**: `commonjs` | `module`
-- **Default**: `module`
+- **Default**: `module` -->
 
 ## splitting
 
@@ -799,7 +799,7 @@ Specify the target environment for the build
 - type: `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
 - default: `'es6'`
 
-## transformImport
+<!-- ## transformImport
 
 Using [SWC](https://swc.rs/) provides the same ability and configuration as [`babel-plugin-import`](https://github.com/umijs/babel-plugin-import).
 
@@ -831,7 +831,7 @@ export default defineConfig({
 
 ### Notes
 
-Reference the [Import Plugin - Notes](plugins/official-list/plugin-import.html#Notes)
+Reference the [Import Plugin - Notes](plugins/official-list/plugin-import.html#Notes) -->
 
 ## umdGlobals
 
