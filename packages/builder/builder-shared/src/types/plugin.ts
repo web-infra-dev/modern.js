@@ -26,6 +26,8 @@ export type PluginStore = {
 export type BuilderPlugin<API = any> = {
   name: string;
   setup: (api: API) => PromiseOrNot<void>;
+  pre?: string[];
+  post?: string[];
 };
 
 type PluginsFn = () => Promise<BuilderPlugin>;

@@ -56,6 +56,28 @@ describe('plugins/rem', () => {
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 
+  it('should order plugins and run rem plugin with default config', async () => {
+    const builder = await createBuilder({
+      plugins: [
+        builderPluginRem(),
+        builderPluginCss(),
+        builderPluginLess(),
+        builderPluginSass(),
+      ],
+      builderConfig: {
+        output: {
+          convertToRem: true,
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
   it('should not run htmlPlugin with enableRuntime is false', async () => {
     const builder = await createBuilder({
       plugins: [builderPluginCss(), builderPluginRem()],

@@ -37,8 +37,8 @@ describe('test dev', () => {
     });
 
     const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el.textContent, root);
-    expect(targetText.trim()).toEqual('A');
+    const targetText = await page.evaluate(el => el?.textContent, root);
+    expect(targetText?.trim()).toEqual('A');
     expect(errors.length).toEqual(0);
   });
 
@@ -48,8 +48,8 @@ describe('test dev', () => {
     });
 
     const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el.textContent, root);
-    expect(targetText.trim()).toEqual('去 A去 B');
+    const targetText = await page.evaluate(el => el?.textContent, root);
+    expect(targetText?.trim()).toEqual('去 A去 B');
     expect(errors.length).toEqual(0);
   });
 
@@ -59,8 +59,8 @@ describe('test dev', () => {
     });
 
     const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el.textContent, root);
-    expect(targetText.trim()).toEqual('去 A去 B');
+    const targetText = await page.evaluate(el => el?.textContent, root);
+    expect(targetText?.trim()).toEqual('去 A去 B');
     expect(errors.length).toEqual(0);
   });
 });

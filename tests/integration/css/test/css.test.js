@@ -397,7 +397,9 @@ describe('less-support', () => {
 
       const app = await launchApp(appDir, port);
 
-      await page.goto(`http://localhost:${port}`);
+      await page.goto(`http://localhost:${port}`, {
+        waitUntil: ['networkidle0'],
+      });
 
       const bgColor = await page.$eval('button', button =>
         window.getComputedStyle(button).getPropertyValue('background-color'),
