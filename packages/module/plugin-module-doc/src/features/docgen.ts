@@ -80,8 +80,9 @@ function generateTable(param: ComponentDoc, language: ModuleDocgenLanguage) {
             return description;
         }
       };
-
-      return `|${name}|${getDescription()}|${getType()}|${getDefaultValue()}|`;
+      return `|${[name, getDescription(), getType(), getDefaultValue()]
+        .map(str => str.replaceAll(/(?<!\\)\|/g, '&#124;'))
+        .join('|')}|`;
     });
 
   return `
