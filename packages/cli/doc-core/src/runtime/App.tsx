@@ -22,7 +22,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
     const extractPageInfo = siteData.pages.find(page => {
       const normalize = (p: string) =>
         // compat the path that has no / suffix
-        p.replace(/\/$/, '').replace(`/${page.lang}`, '');
+        p.replace(/\/$/, '');
       return isEqualPath(normalize(page.routePath), normalize(routePath));
     });
     return {
@@ -30,8 +30,8 @@ export async function initPageData(routePath: string): Promise<PageData> {
       page: {
         pagePath,
         pageType: mod?.frontmatter?.pageType || 'doc',
-        frontmatter: mod?.frontmatter || {},
         ...extractPageInfo,
+        frontmatter: mod?.frontmatter || {},
         // Trade off:
         // 1. the `extractPageInfo` includes complete toc even if import doc fragments, because we use `flattenMdxContent` function to make all doc fragments' toc included.However, it is only computed once when build
         // 2. the mod.toc is not complete toc, but it is computed every time through loader when doc changed
