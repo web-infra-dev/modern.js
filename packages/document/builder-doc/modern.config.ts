@@ -32,6 +32,7 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
 
 function getSidebar(lang: 'zh' | 'en'): Sidebar {
   const { getLink, getText } = getI18nHelper(lang);
+
   return {
     [getLink('/guide/')]: [
       {
@@ -171,6 +172,9 @@ export default defineConfig({
     markdown: {
       checkDeadLinks: true,
       experimentalMdxRs: true,
+    },
+    route: {
+      exclude: ['**/config/**'],
     },
     themeConfig: {
       footer: {
