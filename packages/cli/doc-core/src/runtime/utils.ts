@@ -10,7 +10,9 @@ import {
 } from '../shared/utils';
 
 export function normalizeRoutePath(routePath: string) {
-  return routePath.replace(/\.html$/, '').replace(/\/index$/, '/');
+  return decodeURIComponent(routePath)
+    .replace(/\.html$/, '')
+    .replace(/\/index$/, '/');
 }
 
 export function withBase(url = '/'): string {
