@@ -11,10 +11,11 @@ describe('initHooks', () => {
 
 describe('onExit hook', () => {
   test('should listen to process exit when calling api.onExit', async () => {
+    const exitCbs: Array<(...args: any[]) => void> = [];
     const spy = vi.spyOn(process, 'on');
     spy.mockImplementation((event, cb) => {
       if (event === 'exit') {
-        setTimeout(cb, 0);
+        exitCbs.push(cb);
       }
       return process;
     });
@@ -31,6 +32,11 @@ describe('onExit hook', () => {
       ],
     });
     await builder.unwrapWebpackConfig();
+
+    exitCbs.forEach(cb => cb());
+
+    // wait exit async callback end
+    await new Promise(resolve => setTimeout(resolve));
 
     expect(onExit).toHaveBeenCalledTimes(1);
   });

@@ -35,7 +35,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0"
+    "@babel/runtime": "^7.18.0",
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29",
