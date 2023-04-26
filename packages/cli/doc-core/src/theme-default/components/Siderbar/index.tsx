@@ -36,6 +36,14 @@ interface SidebarItemProps {
 export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (active) {
+      ref.current?.scrollIntoView({
+        block: 'center',
+      });
+    }
+  }, []);
   if ('items' in item) {
     return (
       <SidebarGroupComp
@@ -53,6 +61,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
     return (
       <Link href={normalizeHref(item.link)} className={styles.menuLink}>
         <div
+          ref={ref}
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
@@ -240,12 +249,13 @@ export function SideBar(props: Props) {
   const {
     isSidebarOpen,
     langRoutePrefix,
-    pathname,
+    pathname: rawPathname,
     sidebarData: rawSidebarData,
   } = props;
   const [sidebarData, setSidebarData] = useState<
     (SidebarItem | NormalizedSidebarGroup)[]
   >(rawSidebarData.filter(Boolean).flat());
+  const pathname = decodeURIComponent(rawPathname);
   useEffect(() => {
     // 1. Update sidebarData when pathname changes
     // 2. For current active item, expand its parent group
