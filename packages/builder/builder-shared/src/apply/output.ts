@@ -88,9 +88,9 @@ function getPublicPath({
       // The http://0.0.0.0:port can't visit in windows, so we shouldn't set publicPath as `//0.0.0.0:${port}/`;
       // Relative to docs:
       // - https://github.com/quarkusio/quarkus/issues/12246
-      publicPath = `//${localHostname}:${port}/`;
+      publicPath = `http://${localHostname}:${port}/`;
     } else {
-      publicPath = `//${hostname}:${port}/`;
+      publicPath = `http://${hostname}:${port}/`;
     }
   }
 
