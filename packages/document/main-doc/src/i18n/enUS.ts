@@ -47,4 +47,12 @@ export const EN_US = {
   projectGenerator: 'Project Generator',
   githubDiscussion: 'Github Discussion',
   changelog: 'Changelog',
+
+  // Showcases
+  writingo: 'Writingo',
+  volctrans: 'Volctrans',
+  shidianbaike: 'Shidian Baike',
+  xiaohe: 'Xiaohe',
+  dongchedi: 'Dongchedi',
+  volcengineDeveloper: 'Volcengine Developer',
 } as const;

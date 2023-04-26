@@ -47,8 +47,8 @@ describe('test build', () => {
     });
 
     const root = await page.$('#root');
-    const targetText = await page.evaluate(el => el.textContent, root);
-    expect(targetText.trim()).toEqual('Hello Modern.js! 1');
+    const targetText = await page.evaluate(el => el?.textContent, root);
+    expect(targetText?.trim()).toEqual('Hello Modern.js! 1');
     expect(errors.length).toEqual(0);
 
     browser.close();

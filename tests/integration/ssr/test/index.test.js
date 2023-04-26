@@ -47,7 +47,7 @@ describe('init with SSR', () => {
       waitUntil: ['networkidle0'],
     });
     const element = await page.$('#data');
-    const targetText = await page.evaluate(el => el.textContent, element);
+    const targetText = await page.evaluate(el => el?.textContent, element);
 
     expect(targetText).toMatch('server');
   });
@@ -58,7 +58,7 @@ describe('init with SSR', () => {
       waitUntil: ['networkidle0'],
     });
     const element = await page.$('#data');
-    const targetText = await page.evaluate(el => el.textContent, element);
+    const targetText = await page.evaluate(el => el?.textContent, element);
 
     expect(targetText).toMatch('client');
   });

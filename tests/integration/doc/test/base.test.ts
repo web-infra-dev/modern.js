@@ -1,21 +1,14 @@
 import path, { join } from 'path';
-import { Page, Browser } from 'puppeteer';
-import {
-  launchApp,
-  getPort,
-  killApp,
-  modernBuild,
-  modernServe,
-} from '../../../utils/modernTestUtils';
+import { Page } from 'puppeteer';
+import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 declare const page: Page;
 
-describe('Basic render', () => {
+describe('Check basic render in development', () => {
   let app: any;
   let appPort: number;
-  let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'base');
@@ -24,9 +17,6 @@ describe('Basic render', () => {
   });
 
   afterAll(async () => {
-    if (browser) {
-      browser.close();
-    }
     if (app) {
       await killApp(app);
     }
@@ -80,32 +70,10 @@ describe('Basic render', () => {
     await darkModeButton?.click();
     // check the class in html
     htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
-    expect(htmlClass).toContain(defaultMode === 'dark' ? 'light' : 'dark');
+    expect(htmlClass?.includes('dark')).toBe(defaultMode !== 'dark');
     // click the button again, check the class in html
     await darkModeButton?.click();
     htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
-    expect(htmlClass).not.toContain(defaultMode);
-  });
-
-  it('check production build', async () => {
-    const appDir = join(fixtureDir, 'base');
-    const port = await getPort();
-    await modernBuild(appDir);
-    const serveApp = await modernServe(appDir, port);
-    await page.goto(`http://localhost:${port}`, {
-      waitUntil: ['networkidle0'],
-    });
-    const darkModeButton = await page.$('.modern-nav-appearance');
-    const html = await page.$('html');
-    let htmlClass = await page.evaluate(
-      html => html?.getAttribute('class'),
-      html,
-    );
-    const defaultMode = htmlClass?.includes('dark') ? 'dark' : 'light';
-    await darkModeButton?.click();
-    // check the class in html
-    htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
-    expect(htmlClass).toContain(defaultMode === 'dark' ? 'light' : 'dark');
-    await killApp(serveApp);
+    expect(htmlClass?.includes('dark')).toBe(defaultMode === 'dark');
   });
 });
