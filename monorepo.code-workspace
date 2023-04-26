@@ -271,10 +271,6 @@
     {
       "name": "Integration Tests",
       "path": "tests"
-    },
-    {
-      "name": "Local Test Projects",
-      "path": "local-test-project"
     }
   ],
   "settings": {
