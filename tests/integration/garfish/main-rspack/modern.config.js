@@ -42,20 +42,14 @@ module.exports = defineConfig({
   server: {
     port,
   },
-  tools: {
-    webpack: (config, { appendPlugins, webpack }) => {
-      const { ModuleFederationPlugin } = webpack.container;
-      appendPlugins([
-        new ModuleFederationPlugin({
-          name: 'main',
-          remotes: {
-            dashboardApp: 'dashboard@http://localhost:3002/remoteEntry.js',
-          },
-        }),
-      ]);
-      // delete config.optimization?.runtimeChunk;
-      // delete config.optimization?.splitChunks;
-    },
-  },
-  plugins: [appTools(), routerPlugin(), garfishPlugin()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+    routerPlugin(),
+    garfishPlugin(),
+  ],
 });
