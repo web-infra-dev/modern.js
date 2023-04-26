@@ -1,7 +1,7 @@
 import path from 'path';
 import { logger } from '@modern-js/utils';
 import type { ComponentDoc } from 'react-docgen-typescript';
-import { withDefaultConfig } from 'react-docgen-typescript';
+import { parse } from 'react-docgen-typescript';
 import type { ModuleDocgenLanguage, Options } from '../types';
 import { PropsMarkdownMap } from '../constants';
 import { locales } from '../locales';
@@ -16,12 +16,6 @@ export const docgen = async ({
   }
 
   logger.info('[module-doc-plugin]', 'Start to generate API table...');
-
-  const { parse } = withDefaultConfig({
-    propFilter: prop =>
-      prop.parent == null ||
-      prop.parent.fileName.indexOf('node_modules/@types/react') < 0,
-  });
 
   Object.entries(entries).map(async ([key, value]) => {
     const generateDocStr = async (language: ModuleDocgenLanguage) => {
