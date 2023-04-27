@@ -1,7 +1,7 @@
 name: "✨ Feature Request"
 description: Submit a new feature request to Modern.js
-title: "[RFC]: "
-labels: ["rfc"]
+title: "[Feature]: "
+labels: ["✨ feature request"]
 body:
   - type: markdown
     attributes:
