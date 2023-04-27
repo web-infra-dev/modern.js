@@ -1,5 +1,6 @@
 import { createContext, useContext } from 'react';
 import { PageData } from 'shared/types';
+import i18nTextData from 'virtual-i18n-text';
 
 // Type shim for window.__EDEN_PAGE_DATA__
 declare global {
@@ -34,4 +35,10 @@ export function useLang(): string {
 export function useDark() {
   const ctx = useContext(ThemeContext);
   return ctx.theme === 'dark';
+}
+
+export function useI18n<T = Record<string, Record<string, string>>>() {
+  const lang = useLang();
+
+  return (key: keyof T) => i18nTextData[key][lang];
 }

@@ -32,6 +32,8 @@ declare module 'virtual-global-components' {
 
 declare module 'virtual-global-styles';
 
+declare module 'virtual-i18n-text';
+
 declare module '*.module.scss' {
   const classes: { [key: string]: string };
   export default classes;
