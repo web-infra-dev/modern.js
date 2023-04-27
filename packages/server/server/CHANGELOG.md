@@ -1,5 +1,21 @@
 # @modern-js/server
 
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/prod-server@2.16.0
+  - @modern-js/types@2.16.0
+  - @modern-js/server-utils@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

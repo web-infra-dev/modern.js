@@ -3,7 +3,11 @@
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/server/bff-core"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -11,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.15.0",
+  "version": "2.16.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",

@@ -3,7 +3,11 @@
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/solutions/module-tools"
+  },
   "license": "MIT",
   "keywords": [
     "modern",
@@ -11,7 +15,7 @@
     "module-tools",
     "lib-tools"
   ],
-  "version": "2.15.0",
+  "version": "2.16.0",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"

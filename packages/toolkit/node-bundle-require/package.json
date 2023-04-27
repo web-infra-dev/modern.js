@@ -1,10 +1,14 @@
 {
   "name": "@modern-js/node-bundle-require",
-  "version": "2.15.0",
+  "version": "2.16.0",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/toolkit/node-bundle-require"
+  },
   "license": "MIT",
   "keywords": [
     "react",

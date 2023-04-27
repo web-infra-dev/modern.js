@@ -3,7 +3,11 @@
   "description": "Documentation of modern.js framework",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/document/main-doc"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -17,13 +21,13 @@
     "build:doc": "modern build",
     "preview": "modern preview"
   },
-  "version": "2.15.0",
+  "version": "2.16.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "peerDependencies": {
-    "@modern-js/builder-doc": "workspace:^2.15.0"
+    "@modern-js/builder-doc": "workspace:^2.16.0"
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",

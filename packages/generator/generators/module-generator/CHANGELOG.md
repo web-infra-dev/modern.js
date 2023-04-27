@@ -1,5 +1,13 @@
 # @modern-js/module-generator
 
+## 3.1.10
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 3.1.9
 
 ## 3.1.8

@@ -3,7 +3,11 @@
   "description": "The main fields plugin of Modern.js Module Tools.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/module/plugin-module-main-fields"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -11,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.15.0",
+  "version": "2.16.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
@@ -30,7 +34,7 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.15.0"
+    "@modern-js/module-tools": "workspace:^2.16.0"
   },
   "sideEffects": false,
   "publishConfig": {

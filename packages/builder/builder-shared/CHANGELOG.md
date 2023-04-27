@@ -1,5 +1,38 @@
 # @modern-js/builder-shared
 
+## 2.16.0
+
+### Minor Changes
+
+- 7596520: feat(builder): builder plugin supports specifying relative order via the `pre` / `post` configuration items
+
+  feat(builder): builder 插件支持通过 `pre` / `post` 配置项指定相对顺序
+
+### Patch Changes
+
+- fe92de6: fix(builder): browserslist config should not affect node bundles
+
+  fix(builder): 修复 browserslist 配置会对 node 产物生效的问题
+
+- 091986a: hotfix(builder): fix the inaccurate type when bundlerChain chain called
+
+  hotfix(builder):修复 bundlerChain 链式调用后，类型提示不准确问题
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- e4e0e01: fix(builder-shared): add protocol for generated URL when assetPrefix is true
+
+  fix(builder-shared): assetPrefix 为 true 时生成的 URL 添加 protocol
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/server@2.16.0
+  - @modern-js/types@2.16.0
+
 ## 2.15.0
 
 ### Minor Changes

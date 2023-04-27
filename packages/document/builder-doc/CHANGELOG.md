@@ -1,5 +1,17 @@
 # @modern-js/builder-doc
 
+## 2.16.0
+
+### Patch Changes
+
+- fe92de6: fix(builder): browserslist config should not affect node bundles
+
+  fix(builder): 修复 browserslist 配置会对 node 产物生效的问题
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 2.15.0
 
 ## 2.14.0
