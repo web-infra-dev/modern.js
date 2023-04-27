@@ -1,5 +1,43 @@
 # @modern-js/module-tools
 
+## 2.16.0
+
+### Minor Changes
+
+- b06f571: feat(module-tools): Replace esbuild-transform with swc-transform for the underlying build, reducing the size of the build product. Added `externalHelpers`, `transformImport` and `disbaleSwcTransform` configurations.
+  feat(module-tools): 底层构建使用 swc-transform 替换 esbuild-transform, 减少构建产物体积.新增 `externalHelpers`、`transformImport` 和 `disbaleSwcTransform` 配置.
+
+### Patch Changes
+
+- acc0a00: fix: upgrade libuild version to support tailwind in watch mode
+  fix: 更新 libuild 版本以支持 tailwindcss 在 watch 模式下生效
+- fd4a8a6: chore(deps): bump postcss-custom-properties to v13.1.5
+
+  chore(deps): 升级 postcss-custom-properties 到 v13.1.5
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 355d36e: feat: adjust create tools and new command option order
+
+  feat: 调整 create 工具及 new 命令 option 操作顺序
+
+- b06f571: chore: update libuild and libuild plugins version to 0.12.0
+  chore: 更新 libuild 和 libuild 插件的版本到 0.12.0
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [6d5219e]
+  - @modern-js/utils@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/plugin-changeset@2.16.0
+  - @modern-js/new-action@2.16.0
+  - @modern-js/plugin-i18n@2.16.0
+  - @modern-js/plugin-lint@2.16.0
+  - @modern-js/upgrade@2.16.0
+  - @modern-js/core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

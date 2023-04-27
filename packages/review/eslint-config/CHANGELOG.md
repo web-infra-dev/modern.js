@@ -1,5 +1,16 @@
 # @modern-js/eslint-config
 
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [4e876ab]
+  - @modern-js-app/eslint-config@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

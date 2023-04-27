@@ -1,5 +1,23 @@
 # @modern-js/plugin-module-banner
 
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- b06f571: chore: update libuild and libuild plugins version to 0.12.0
+  chore: 更新 libuild 和 libuild 插件的版本到 0.12.0
+- Updated dependencies [b06f571]
+- Updated dependencies [acc0a00]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [4e876ab]
+- Updated dependencies [355d36e]
+- Updated dependencies [b06f571]
+  - @modern-js/module-tools@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

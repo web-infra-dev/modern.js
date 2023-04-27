@@ -1,5 +1,36 @@
 # @modern-js/plugin-module-doc
 
+## 2.16.0
+
+### Patch Changes
+
+- f02c98a: fix: make plugin options optional
+  fix: 使插件参数变为可选项
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- a824aad: fix: get lang from useLang not pageData
+  fix: 使用 useLang 获取 lang
+- Updated dependencies [f15fe5a]
+- Updated dependencies [cd0bc21]
+- Updated dependencies [b06f571]
+- Updated dependencies [5cd8527]
+- Updated dependencies [acc0a00]
+- Updated dependencies [628be4b]
+- Updated dependencies [ddc066d]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [4e876ab]
+- Updated dependencies [9eec77b]
+- Updated dependencies [355d36e]
+- Updated dependencies [b06f571]
+- Updated dependencies [6b905d5]
+- Updated dependencies [b16de50]
+- Updated dependencies [a824aad]
+- Updated dependencies [6f3548a]
+  - @modern-js/doc-core@2.16.0
+  - @modern-js/module-tools@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes
