@@ -424,6 +424,9 @@ I18n config. This config is an array, and every item of it is `LocaleConfig`, an
 
 ```ts
 export interface LocaleConfig {
+  /**
+   * General locale config for site, which will have a higher priority than `doc.locales`
+   */
   // language name
   lang?: string;
   // HTML title, takes precedence over `themeConfig.title
@@ -432,10 +435,9 @@ export interface LocaleConfig {
   description?: string;
   // Display text for the corresponding language
   label: string;
-  // Navbar config, takes precedence over `themeConfig.nav
-  nav?: NavItem[];
-  // Sidebar config, takes precedence over `themeConfig.sidebar`
-  sidebar?: Sidebar;
+  /**
+   * Locale config for theme.
+   */
   // Right outline title
   outlineTitle?: string;
   // Whether to display the outline title

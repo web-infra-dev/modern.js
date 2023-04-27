@@ -1,7 +1,10 @@
 {
   "extends": "@modern-js/tsconfig/base",
   "compilerOptions": {
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "paths": {
+      "i18n": ["./i18n.json"]
+    }
   },
-  "include": ["./modern.config.ts"]
+  "include": ["./modern.config.ts", "docs/**/*", "src/**/*"]
 }

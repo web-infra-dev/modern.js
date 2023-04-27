@@ -1,5 +1,4 @@
 import { UserConfig } from 'shared/types';
-
 import { removeLeadingSlash } from '../shared/utils';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
@@ -24,7 +23,6 @@ export async function dev(
       config: modifiedConfig,
       isProd,
     });
-
     const builder = await createModernBuilder(rootDir, modifiedConfig);
     const { server } = await builder.startDevServer({
       printURLs: urls => {

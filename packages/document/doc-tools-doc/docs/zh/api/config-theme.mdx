@@ -410,6 +410,9 @@ export default defineConfig({
 
 ```ts
 export interface LocaleConfig {
+  /**
+   * 通用站点信息，优先级高于 `doc.locales` 中的配置
+   */
   // 语言名称
   lang?: string;
   // HTML 标题，优先于 `themeConfig.title`
@@ -418,10 +421,9 @@ export interface LocaleConfig {
   description?: string;
   // 对应语言的显示文本
   label: string;
-  // 导航栏配置，优先于 `themeConfig.nav`
-  nav?: NavItem[];
-  // 侧边栏配置，优先于 `themeConfig.sidebar`
-  sidebar?: Sidebar;
+  /**
+   * 主题相关信息
+   */
   // 右侧大纲标题
   outlineTitle?: string;
   // 是否显示右侧大纲

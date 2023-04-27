@@ -26,6 +26,14 @@ export interface Header {
   charIndex: number;
 }
 
+// The general i18n config, which is not related to the theme.
+export interface Locale {
+  lang: string;
+  label: string;
+  title?: string;
+  description?: string;
+}
+
 export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
   /**
    * The root directory of the site.
@@ -60,6 +68,14 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    */
   head?: string[];
   /**
+   * I18n config of the site.
+   */
+  locales?: Locale[];
+  /**
+   * The i18n text data source path. Default is `i18n.json` in cwd.
+   */
+  i18nSourcePath?: string;
+  /**
    * Theme config.
    */
   themeConfig?: ThemeConfig;
@@ -80,7 +96,7 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    */
   plugins?: DocPlugin[];
   /**
-   * Replace rule
+   * Replace rule, will replace the content of the page.
    */
   replaceRules?: ReplaceRule[];
   /**

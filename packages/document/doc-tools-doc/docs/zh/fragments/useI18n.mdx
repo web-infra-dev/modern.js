@@ -1,0 +1,37 @@
+框架提供了 `useI18n` 这个 hook 来获取国际化文本，使用方式如下：
+
+```tsx
+import { useI18n } from '@modern-js/doc-tools/runtime';
+
+const MyComponent = () => {
+  const { t } = useI18n();
+
+  return <div>{t('getting-started')}</div>;
+};
+```
+
+为了获得更好的类型提示，你可以在 tsconfig.json 中配置 `paths`:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "i18n": ["./i18n.json"]
+    }
+  }
+}
+```
+
+然后在组件中这样使用:
+
+```tsx
+import { useI18n } from '@modern-js/doc-tools/runtime';
+
+const MyComponent = () => {
+  const { t } = useI18n<keyof typeof import('i18n')>();
+
+  return <div>{t('getting-started')}</div>;
+};
+```
+
+这样你就可以获得 `i18n.json` 中定义的所有文本 key 的类型提示了。

@@ -87,11 +87,16 @@ export interface Config {
  * locale config
  */
 export interface LocaleConfig {
+  /**
+   * Site i18n config, which will recover the locales config in the site level.
+   */
   lang: string;
   title?: string;
   description?: string;
   label: string;
-  selectText?: string;
+  /**
+   * Theme i18n config
+   */
   nav?: NavItem[];
   sidebar?: Sidebar;
   outlineTitle?: string;

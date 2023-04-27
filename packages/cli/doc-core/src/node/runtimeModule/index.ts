@@ -3,6 +3,7 @@ import { BuilderPlugin } from '@modern-js/builder';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeVMPlugin } from './routeData';
 import { siteDataVMPlugin } from './siteData';
+import { i18nVMPlugin } from './i18n';
 import { globalUIComponentsVMPlugin } from './globalUIComponents';
 import { globalStylesVMPlugin } from './globalStyles';
 
@@ -19,6 +20,7 @@ export const runtimeModuleFactory: RuntimeModuleFactory[] = [
   siteDataVMPlugin,
   globalUIComponentsVMPlugin,
   globalStylesVMPlugin,
+  i18nVMPlugin,
 ];
 
 export function builderDocVMPlugin(
@@ -59,6 +61,7 @@ export enum RuntimeModuleID {
   RouteForSSR = 'virtual-routes-ssr',
   SiteData = 'virtual-site-data',
   SearchIndexHash = 'virtual-search-index-hash',
+  I18nText = 'virtual-i18n-text',
 }
 
 export const runtimeModuleIDs = [
@@ -68,4 +71,5 @@ export const runtimeModuleIDs = [
   RuntimeModuleID.RouteForSSR,
   RuntimeModuleID.SiteData,
   RuntimeModuleID.SearchIndexHash,
+  RuntimeModuleID.I18nText,
 ];
