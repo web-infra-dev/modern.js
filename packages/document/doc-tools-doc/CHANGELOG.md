@@ -1,5 +1,17 @@
 # @modern-js/doc-tools-doc
 
+## 2.16.0
+
+### Patch Changes
+
+- 5cd8527: fix: toc hmr not work
+
+  fix: toc 热更新不生效
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 2.15.0
 
 ## 2.14.0

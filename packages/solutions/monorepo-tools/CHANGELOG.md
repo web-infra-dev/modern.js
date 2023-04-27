@@ -1,5 +1,30 @@
 # @modern-js/monorepo-tools
 
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 355d36e: feat: adjust create tools and new command option order
+
+  feat: 调整 create 工具及 new 命令 option 操作顺序
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [6d5219e]
+  - @modern-js/utils@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/plugin-changeset@2.16.0
+  - @modern-js/new-action@2.16.0
+  - @modern-js/plugin-i18n@2.16.0
+  - @modern-js/plugin-lint@2.16.0
+  - @modern-js/upgrade@2.16.0
+  - @modern-js/core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

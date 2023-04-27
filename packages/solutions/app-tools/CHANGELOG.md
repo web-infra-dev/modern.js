@@ -1,5 +1,50 @@
 # @modern-js/app-tools
 
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 355d36e: feat: adjust create tools and new command option order
+
+  feat: 调整 create 工具及 new 命令 option 操作顺序
+
+- 03997c2: chore(app-tools): export AppToolsOptions type
+
+  chore(app-tools): 导出 AppToolsOptions 类型
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [50bc0db]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [6d5219e]
+- Updated dependencies [e4e0e01]
+- Updated dependencies [fb19f48]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/builder-webpack-provider@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/builder-rspack-provider@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/builder-plugin-node-polyfill@2.16.0
+  - @modern-js/node-bundle-require@2.16.0
+  - @modern-js/builder-plugin-esbuild@2.16.0
+  - @modern-js/plugin-data-loader@2.16.0
+  - @modern-js/new-action@2.16.0
+  - @modern-js/prod-server@2.16.0
+  - @modern-js/builder@2.16.0
+  - @modern-js/plugin-i18n@2.16.0
+  - @modern-js/plugin-lint@2.16.0
+  - @modern-js/upgrade@2.16.0
+  - @modern-js/server@2.16.0
+  - @modern-js/types@2.16.0
+  - @modern-js/core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

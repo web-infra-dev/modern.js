@@ -1,5 +1,20 @@
 # @modern-js/builder-plugin-node-polyfill
 
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+  - @modern-js/builder-shared@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes
