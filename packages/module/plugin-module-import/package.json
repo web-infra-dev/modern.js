@@ -3,7 +3,11 @@
   "description": "The import plugin of Modern.js Module Tools.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
-  "repository": "modern-js-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/module/plugin-module-import"
+  },
   "license": "MIT",
   "keywords": [
     "react",

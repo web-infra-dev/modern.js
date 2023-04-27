@@ -3,7 +3,11 @@
   "description": "The node polyfill plugin of Modern.js Module Tools.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/module/plugin-module-node-polyfill"
+  },
   "license": "MIT",
   "keywords": [
     "react",
