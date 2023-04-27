@@ -3,7 +3,11 @@
   "description": "A module plugin which provides documentation abilities",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
-  "repository": "modern-js-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/module/plugin-module-doc"
+  },
   "license": "MIT",
   "keywords": [
     "react",

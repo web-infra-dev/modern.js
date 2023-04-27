@@ -3,7 +3,11 @@
   "description": "Image compress plugin for modern-js/web-builder",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/plugin-image-compress"
+  },
   "license": "MIT",
   "keywords": [
     "react",

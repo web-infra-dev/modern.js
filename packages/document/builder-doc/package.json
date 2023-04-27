@@ -4,7 +4,11 @@
   "description": "Shared documentation of modern.js builder",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/document/builder-doc"
+  },
   "license": "MIT",
   "keywords": [
     "react",
