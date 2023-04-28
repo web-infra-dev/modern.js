@@ -5,6 +5,7 @@ import {
   MaterialsManager,
 } from '@modern-js/codesmith';
 import { fs } from '@modern-js/generator-utils';
+import { FileType } from '../src/utils/file';
 import { PluginFileAPI } from '../src/context/file';
 
 describe('test file api', () => {
@@ -92,5 +93,29 @@ describe('test file api', () => {
       'line1',
       'utf-8',
     );
+  });
+  test('render ejs raw file', async () => {
+    const pluginFileApi = new PluginFileAPI();
+    pluginFileApi.prepare(
+      mockGeneratorCore,
+      path.resolve(__dirname, 'fixtures', 'file-test'),
+      path.resolve(__dirname, 'fixtures', 'file-test', 'templates'),
+    );
+    const filePath = path.resolve(
+      __dirname,
+      'fixtures',
+      'file-test',
+      'testEjs.txt',
+    );
+    fs.removeSync(filePath);
+    await pluginFileApi.addFile({
+      type: FileType.Text,
+      file: 'testEjs.txt',
+      templateFile: 'test.ejs',
+      data: { name: 'test' },
+    });
+    const content = fs.readFileSync(filePath, 'utf-8');
+    expect(content).toEqual('renderString test\n');
+    fs.removeSync(filePath);
   });
 });
