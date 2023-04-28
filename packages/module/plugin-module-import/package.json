@@ -35,7 +35,8 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-swc": "0.12.2"
+    "@modern-js/libuild-plugin-swc": "0.12.2",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@types/jest": "^29",

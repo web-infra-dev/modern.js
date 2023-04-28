@@ -3,6 +3,8 @@
  * @typedef {import('../../../packages/solutions/module-tools').PartialBaseBuildConfig} PartialBaseBuildConfig
  */
 
+const externalHelpers = true;
+
 /**
  * @type {PartialBaseBuildConfig[]}
  */
@@ -13,7 +15,7 @@ const nodeBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/cjs',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundleless',
@@ -21,7 +23,7 @@ const nodeBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/esm',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundleless',
@@ -55,7 +57,7 @@ const universalBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/cjs',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundleless',
@@ -63,7 +65,7 @@ const universalBuildConfig = [
     target: 'es5',
     dts: false,
     outDir: './dist/esm',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundleless',
@@ -71,7 +73,7 @@ const universalBuildConfig = [
     target: 'es2019',
     dts: false,
     outDir: './dist/esm-node',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundleless',
@@ -92,7 +94,7 @@ const universalBuildConfigWithBundle = [
     target: 'es2019',
     dts: false,
     outDir: './dist/cjs',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundle',
@@ -100,7 +102,7 @@ const universalBuildConfigWithBundle = [
     target: 'es5',
     dts: false,
     outDir: './dist/esm',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundleless',
@@ -108,7 +110,7 @@ const universalBuildConfigWithBundle = [
     target: 'es2019',
     dts: false,
     outDir: './dist/esm-node',
-    externalHelpers: true,
+    externalHelpers,
   },
   {
     buildType: 'bundleless',
@@ -116,7 +118,7 @@ const universalBuildConfigWithBundle = [
       only: true,
     },
     outDir: './dist/types',
-    externalHelpers: true,
+    externalHelpers,
   },
 ];
 

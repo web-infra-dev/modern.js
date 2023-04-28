@@ -106,7 +106,6 @@
   "dependencies": {
     "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
     "@modern-js-reduck/plugin-auto-actions": "^1.0.2",
     "@modern-js-reduck/plugin-effects": "^1.0.2",
     "@modern-js-reduck/plugin-immutable": "^1.0.1",
@@ -128,7 +127,8 @@
     "jest-environment-jsdom": "^29.5.0",
     "@jest/types": "^29.5.0",
     "ts-jest": "^29.0.5",
-    "yargs": "^17.0.1"
+    "yargs": "^17.0.1",
+    "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {
     "react": ">=17",

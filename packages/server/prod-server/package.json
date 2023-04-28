@@ -68,7 +68,8 @@
     "lru-cache": "^6.0.0",
     "merge-deep": "^3.0.3",
     "path-to-regexp": "^6.2.0",
-    "serve-static": "^1.14.1"
+    "serve-static": "^1.14.1",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",

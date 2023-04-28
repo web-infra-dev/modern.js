@@ -36,15 +36,15 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
     "@modern-js/babel-preset-base": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "babel-plugin-transform-define": "^2",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3"
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.0",
     "@types/babel__core": "^7.1.15",
     "@types/jest": "^29",
     "@types/node": "^14",

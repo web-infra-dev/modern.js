@@ -40,13 +40,13 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "cross-spawn": "^7.0.1",
     "eslint": "^8.28.0",
     "eslint-formatter-codeframe": "^7.32.1",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
