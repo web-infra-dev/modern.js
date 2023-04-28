@@ -50,6 +50,11 @@ export default defineConfig({
           label: 'English',
         },
       ],
+      editLink: {
+        repoUrl: 'https://github.com/test/blog',
+        text: 'Edit this page on GitHub',
+        pattern: '',
+      },
     },
   },
 });

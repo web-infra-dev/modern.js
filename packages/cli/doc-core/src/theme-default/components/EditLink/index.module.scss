@@ -1,0 +1,22 @@
+.editLink {
+  color: var(--modern-c-brand);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  &:hover {
+    text-decoration: underline;
+  }
+  margin: 20px 0;
+}
+
+.editLink span{
+  margin-right: 4px;
+}
+
+.rightSymbol {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 4px;
+  color: var(--modern-c-brand);
+}

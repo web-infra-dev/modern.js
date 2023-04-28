@@ -1,4 +1,5 @@
 import { useLocaleSiteData, usePrevNextPage } from '../../logic';
+import EditLink from '../EditLink';
 import { Link } from '../Link';
 import styles from './index.module.scss';
 import { normalizeHref, usePageData } from '@/runtime';
@@ -19,6 +20,11 @@ export function DocFooter() {
   const lastUpdatedText =
     themeConfig?.lastUpdatedText || localesLastUpdatedText;
   const showLastUpdated = themeConfig.lastUpdated || localesLastUpdated;
+  const editLink = {
+    repoUrl: themeConfig.editLink.repoUrl,
+    pattern: themeConfig.editLink.pattern,
+    text: themeConfig.editLink.text,
+  };
   return (
     <footer className="mt-8">
       <div className="xs:flex pb-5 px-2 justify-end items-center">
@@ -52,6 +58,9 @@ export function DocFooter() {
             </Link>
           ) : null}
         </div>
+      </div>
+      <div className="flex flex-col">
+        <EditLink editLink={editLink} relativePagePath={''} />
       </div>
     </footer>
   );

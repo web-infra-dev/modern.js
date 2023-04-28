@@ -149,6 +149,11 @@ export type SidebarItem = { text: string; link: string };
 
 export interface EditLink {
   /**
+   * Custom repository url for edit link.
+   */
+  repoUrl: string;
+
+  /**
    * Pattern for edit link.
    */
   pattern: string;
