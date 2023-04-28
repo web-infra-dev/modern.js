@@ -1,5 +1,25 @@
 # @modern-js/doc-core
 
+## 2.17.0
+
+### Minor Changes
+
+- 85fb207: feat(doc-core): auto i18n
+
+  feat(doc-core): 自动化 i18n
+
+### Patch Changes
+
+- cb52e34: fix: code line highlight in js compiler
+
+  fix: js 版本编译器中代码行高亮问题
+
+  - @modern-js/builder@2.17.0
+  - @modern-js/builder-rspack-provider@2.17.0
+  - @modern-js/core@2.17.0
+  - @modern-js/remark-container@2.17.0
+  - @modern-js/utils@2.17.0
+
 ## 2.16.0
 
 ### Patch Changes
