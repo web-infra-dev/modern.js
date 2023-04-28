@@ -142,6 +142,8 @@ export {
   renderMatches,
   resolvePath,
   createPath,
+  unstable_useBlocker,
+  unstable_usePrompt,
 } from 'react-router-dom';
 
 // `react-router-dom` has its own dependency: `@remix-run/router`.
