@@ -22,7 +22,7 @@ export const rehypePluginPreWrapper: Plugin<[], Root> = () => {
         const highlightReg = /{[\d,-]*}/i;
         const highlightMeta = highlightReg.exec(meta)?.[0];
         if (highlightMeta && codeNode.properties) {
-          codeNode.properties.className = `${codeNode.properties.className} ${highlightMeta}`;
+          codeNode.properties.meta = highlightMeta;
           meta = meta.replace(highlightReg, '').trim();
         }
         const parsedMeta = qs.parse(meta);
@@ -58,7 +58,7 @@ export const rehypePluginPreWrapper: Plugin<[], Root> = () => {
             children: [
               {
                 type: 'text',
-                value: title as string,
+                value: title,
               },
             ],
           },

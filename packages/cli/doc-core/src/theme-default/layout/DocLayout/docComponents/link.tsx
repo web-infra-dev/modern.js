@@ -8,7 +8,7 @@ export const A = (props: ComponentProps<'a'>) => {
   const lang = useLang();
   const pageData = usePageData();
   const defaultLang = pageData.siteData.lang;
-  if (!isExternalUrl(href) && !href.startsWith('#')) {
+  if (defaultLang && !isExternalUrl(href) && !href.startsWith('#')) {
     href = normalizeSlash(href);
     // Add lang prefix if not default lang
     if (lang !== defaultLang && !href.startsWith(`/${lang}`)) {
