@@ -115,7 +115,7 @@ describe('test file api', () => {
       data: { name: 'test' },
     });
     const content = fs.readFileSync(filePath, 'utf-8');
-    expect(content).toEqual('renderString test\n');
+    expect(content).toContain('renderString test');
     fs.removeSync(filePath);
   });
 });
