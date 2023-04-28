@@ -1,5 +1,7 @@
 # @modern-js/generator-plugin-plugin
 
+## 3.1.11
+
 ## 3.1.10
 
 ### Patch Changes

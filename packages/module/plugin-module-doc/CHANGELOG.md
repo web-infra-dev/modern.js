@@ -1,5 +1,16 @@
 # @modern-js/plugin-module-doc
 
+## 2.17.0
+
+### Patch Changes
+
+- c76a80b: fix: replace line in table content and optimize error treatment,log info
+  fix: 替换表格里的竖线并且优化错误处理和输出信息
+- Updated dependencies [85fb207]
+- Updated dependencies [cb52e34]
+  - @modern-js/doc-core@2.17.0
+  - @modern-js/module-tools@2.17.0
+
 ## 2.16.0
 
 ### Patch Changes

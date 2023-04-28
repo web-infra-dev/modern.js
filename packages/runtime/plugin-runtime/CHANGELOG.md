@@ -1,5 +1,15 @@
 # @modern-js/runtime
 
+## 2.17.0
+
+### Patch Changes
+
+- 3810930: fix: optimize alias for plugin-express & export useBlocker
+  fix: 优化 plugin-express 的 alias 的实现 & 导出 useBlocker
+  - @modern-js/plugin@2.17.0
+  - @modern-js/types@2.17.0
+  - @modern-js/utils@2.17.0
+
 ## 2.16.0
 
 ### Patch Changes
