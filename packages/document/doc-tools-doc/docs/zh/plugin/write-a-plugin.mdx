@@ -1,0 +1,42 @@
+# 编写一个插件
+
+我们以注入一个全局组件为例，来看看如何定义和使用插件。
+
+### 1. 定义插件
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginMonitor(slug: string): DocPlugin {
+  // 组件路径，你需要自己实现
+  const componentPath = path.join(__dirname, 'some-component.tsx');
+  return {
+    // 插件名称
+    name: 'plugin-monitor',
+    // 全局组件的路径
+    globalUIComponents: [componentPath],
+    // 构建阶段的全局变量定义
+    builderConfig: {
+      source: {
+        define: {
+          SLUG: JSON.stringify(slug),
+        },
+      },
+    },
+  };
+}
+```
+
+插件一般为一个函数，接收一些插件参数(可选)，返回一个对象，对象中包含插件的名称以及其它配置。在上面的例子中，我们定义了一个插件，它的名称为`plugin-monitor`，它会在构建阶段定义一个全局变量`SLUG`，并且在文档中注入一个全局组件`some-component.tsx`。
+
+### 2. 使用插件
+
+```tsx title="modern.config.ts"
+import { pluginMonitor } from './plugin';
+
+export default {
+  doc: {
+    plugins: [pluginMonitor('test')],
+  },
+};
+```

@@ -1,0 +1,16 @@
+# 介绍
+
+插件机制是 Modern.js Doc 至关重要的部分，它可以让你在搭建站点的过程中，方便地扩展框架的功能。那么，你可以通过插件扩展哪些功能呢？我们先来看看 Modern.js 的整体架构。
+
+Modern.js Doc 的整体架构如下图所示：
+
+![Modern.js Doc 架构图](/architecture-zh.png)
+
+框架整体分为**Node 端**和**浏览器运行时**两部分。通过插件机制，你可以轻松地扩展这两部分的功能。具体来说，你可以扩展如下的能力:
+
+- **Markdown/MDX** 编译功能。你可以通过添加 [`remark`](https://github.com/remarkjs/remark)/[`rehype`](https://github.com/rehypejs/rehype) 插件，扩展 Markdown/MDX 的语法和功能。
+- **添加自定义页面**。在框架约定式路由的基础，你也可以通过插件，添加新路由，比如添加一个 `/blog` 路由，用于展示博客列表，内容由你自己定义。
+- **定制构建工具的行为**。在框架插件中，你可以自定义底层构建工具 [Rspack](https://rspack.dev) 的配置，如 `define`、`alias`，也可以添加自定义 Rspack 插件。
+- **扩展页面元数据**。针对每个页面，框架内部会计算出一些元数据，如 `title`、`description` 等等，你可以通过插件，扩展这些元数据的计算逻辑，并在运行时通过 [usePageData](/api/api-runtime.html#usepagedata) hook 访问到。
+- 在构建流程前后插入一些**自定义逻辑**。如在构建流程结束后关闭一些事件监听器。
+- **添加全局组件**。Modern.js Doc 内部使用 React 进行渲染，你可以通过定义全局 React 组件来灵活地扩展`页面运行时`的功能，比如`添加全局的 BackToTop(返回顶部) 组件`、`添加全局副作用逻辑`。

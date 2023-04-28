@@ -25,12 +25,16 @@ export async function initPageData(routePath: string): Promise<PageData> {
         p.replace(/\/$/, '');
       return isEqualPath(normalize(page.routePath), normalize(routePath));
     });
+
+    // FIXME: when sidebar item is configured as link string, the sidebar text won't updated when page title changed
+    // Reason: The sidebar item text depends on pageData, which is not updated when page title changed, because the pageData is computed once when build
     return {
       siteData,
       page: {
         pagePath,
         pageType: mod?.frontmatter?.pageType || 'doc',
         ...extractPageInfo,
+        title: mod?.title,
         frontmatter: mod?.frontmatter || {},
         // Trade off:
         // 1. the `extractPageInfo` includes complete toc even if import doc fragments, because we use `flattenMdxContent` function to make all doc fragments' toc included.However, it is only computed once when build

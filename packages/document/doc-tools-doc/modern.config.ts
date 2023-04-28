@@ -113,6 +113,23 @@ function getSidebar(): Sidebar {
         link: '/api/commands',
       },
     ],
+    '/plugin/': [
+      {
+        text: getI18nKey('plugin-system'),
+        items: [
+          '/plugin/introduction',
+          '/plugin/write-a-plugin',
+          '/plugin/plugin-api',
+        ],
+      },
+      {
+        text: getI18nKey('plugin-list'),
+        items: [
+          '/plugin/official-plugins/',
+          '/plugin/official-plugins/medium-zoom',
+        ],
+      },
+    ],
   };
 }
 
@@ -122,6 +139,11 @@ function getNavbar(): NavItem[] {
       text: getI18nKey('guide'),
       link: '/guide/getting-started',
       activeMatch: '/guide/',
+    },
+    {
+      text: getI18nKey('plugin'),
+      link: '/plugin/introduction',
+      activeMatch: '/plugin/',
     },
     {
       text: getI18nKey('api'),
