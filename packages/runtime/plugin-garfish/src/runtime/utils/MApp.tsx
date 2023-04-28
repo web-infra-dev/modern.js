@@ -18,7 +18,10 @@ export function generateMApp(
   options: typeof Garfish.options,
   manifest?: Manifest,
 ) {
-  class MApp extends React.Component<MicroProps, any> {
+  class MApp extends React.Component<
+    MicroProps & { nodeRef: React.ForwardedRef<HTMLDivElement> },
+    any
+  > {
     state: {
       domId: string;
       SubModuleComponent?: React.ComponentType<any>;
@@ -148,15 +151,23 @@ export function generateMApp(
     }
 
     render() {
-      const { style } = this.props;
+      const { style, nodeRef } = this.props;
       const { SubModuleComponent } = this.state;
       return (
-        <div style={{ ...style }} id={generateSubAppContainerKey()}>
+        <div
+          ref={nodeRef}
+          style={{ ...style }}
+          id={generateSubAppContainerKey()}
+        >
           {SubModuleComponent && <SubModuleComponent />}
         </div>
       );
     }
   }
 
-  return Loadable(MApp)(manifest?.loadable);
+  return Loadable(
+    React.forwardRef<HTMLDivElement, MicroProps>((props, ref) => (
+      <MApp {...props} nodeRef={ref} />
+    )),
+  )(manifest?.loadable);
 }

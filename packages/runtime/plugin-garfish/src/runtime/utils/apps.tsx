@@ -41,7 +41,9 @@ function getAppInstance(
   manifest?: Manifest,
 ) {
   let locationHref = '';
-  function MicroApp(props: MicroProps) {
+  function MicroApp(
+    props: MicroProps & { nodeRef: React.ForwardedRef<HTMLDivElement> },
+  ) {
     const appRef = useRef<interfaces.App | null>(null);
     const domId = generateSubAppContainerKey(appInfo);
     const [SubModuleComponent, setSubModuleComponent] = useState<
@@ -78,7 +80,7 @@ function getAppInstance(
     }, [location]);
 
     useEffect(() => {
-      const { setLoadingState, ...userProps } = props;
+      const { setLoadingState, nodeRef, ...userProps } = props;
 
       const loadAppOptions: Omit<interfaces.AppInfo, 'name'> = {
         ...appInfo,
@@ -188,12 +190,18 @@ function getAppInstance(
 
     return (
       <>
-        <div id={domId}>{SubModuleComponent && <SubModuleComponent />}</div>
+        <div ref={props.nodeRef} id={domId}>
+          {SubModuleComponent && <SubModuleComponent />}
+        </div>
       </>
     );
   }
 
-  return Loadable(MicroApp)(manifest?.loadable);
+  return Loadable(
+    React.forwardRef<HTMLDivElement, MicroProps>((props, ref) => (
+      <MicroApp {...props} nodeRef={ref} />
+    )),
+  )(manifest?.loadable);
 }
 
 export function generateApps(
