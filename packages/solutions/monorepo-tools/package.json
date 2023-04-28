@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@modern-js/core": "workspace:*",
-    "@babel/runtime": "^7.18.0",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/plugin": "workspace:*",
@@ -56,7 +55,8 @@
     "@rushstack/package-deps-hash": "^3.0.54",
     "anymatch": "^3.1.2",
     "md5": "^2.3.0",
-    "p-map": "^4.0.0"
+    "p-map": "^4.0.0",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

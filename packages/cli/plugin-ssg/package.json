@@ -66,11 +66,11 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "node-mocks-http": "^1.10.1",
     "normalize-path": "^3.0.0",
-    "portfinder": "^1.0.28"
+    "portfinder": "^1.0.28",
+    "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {
     "react-router-dom": ">=5.1.2"

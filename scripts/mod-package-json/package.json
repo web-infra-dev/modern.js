@@ -1,8 +1,0 @@
-{
-  "name": "mod-package-json",
-  "private": true,
-  "devDependencies": {
-    "detect-indent": "6.1.0",
-    "@modern-js/utils": "workspace:*"
-  }
-}

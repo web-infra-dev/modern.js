@@ -47,7 +47,6 @@
     "dev": "modern-lib build --watch"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
@@ -65,7 +64,8 @@
     "findup-sync": "^4.0.0",
     "fs-extra": "^10.0.0",
     "process.argv": "^0.6.0",
-    "tsconfig-paths-webpack-plugin": "4.0.0"
+    "tsconfig-paths-webpack-plugin": "4.0.0",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.18.0",

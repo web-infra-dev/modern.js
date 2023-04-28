@@ -38,8 +38,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-classes": "^7.18.0",

@@ -48,7 +48,6 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/upgrade-generator": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",

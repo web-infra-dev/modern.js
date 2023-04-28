@@ -74,7 +74,6 @@
   },
   "dependencies": {
     "@babel/parser": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
     "@babel/traverse": "^7.18.0",
     "@babel/types": "^7.18.0",
     "@modern-js/builder": "workspace:*",
@@ -96,7 +95,8 @@
     "@modern-js/utils": "workspace:*",
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.15.7",
-    "rspack-plugin-virtual-module": "0.1.0"
+    "rspack-plugin-virtual-module": "0.1.0",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",

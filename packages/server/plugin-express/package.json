@@ -50,7 +50,6 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/bff-core": "workspace:*",
     "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -59,7 +58,8 @@
     "finalhandler": "^1.1.2",
     "formidable": "^1.2.2",
     "reflect-metadata": "^0.1.13",
-    "type-is": "^1.6.18"
+    "type-is": "^1.6.18",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
