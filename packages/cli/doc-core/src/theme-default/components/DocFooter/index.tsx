@@ -20,13 +20,6 @@ export function DocFooter() {
   const lastUpdatedText =
     themeConfig?.lastUpdatedText || localesLastUpdatedText;
   const showLastUpdated = themeConfig.lastUpdated || localesLastUpdated;
-  const editLink =
-    themeConfig?.editLink?.docRepoBaseUrl && themeConfig?.editLink?.text
-      ? {
-          docRepoBaseUrl: themeConfig?.editLink?.docRepoBaseUrl,
-          text: themeConfig?.editLink?.text,
-        }
-      : null;
 
   return (
     <footer className="mt-8">
@@ -39,7 +32,7 @@ export function DocFooter() {
         )}
       </div>
       <div className="flex flex-col">
-        {editLink && <EditLink editLink={editLink} />}
+        <EditLink />
       </div>
       <div className="flex flex-col sm:flex-row sm:justify-around gap-4 pt-6">
         <div className={`${styles.prev} flex flex-col`}>
