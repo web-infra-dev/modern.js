@@ -298,6 +298,7 @@ async function extractPageData(
             __content: undefined,
           },
           _filepath: route.absolutePath,
+          _relativePath: path.relative(root, route.absolutePath),
         };
       }),
   );

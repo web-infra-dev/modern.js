@@ -151,12 +151,7 @@ export interface EditLink {
   /**
    * Custom repository url for edit link.
    */
-  repoUrl: string;
-
-  /**
-   * Pattern for edit link.
-   */
-  pattern: string;
+  docRepoBaseUrl: string;
 
   /**
    * Custom text for edit link.

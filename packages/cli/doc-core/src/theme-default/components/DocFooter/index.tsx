@@ -21,8 +21,7 @@ export function DocFooter() {
     themeConfig?.lastUpdatedText || localesLastUpdatedText;
   const showLastUpdated = themeConfig.lastUpdated || localesLastUpdated;
   const editLink = {
-    repoUrl: themeConfig.editLink.repoUrl,
-    pattern: themeConfig.editLink.pattern,
+    docRepoBaseUrl: themeConfig.editLink.docRepoBaseUrl,
     text: themeConfig.editLink.text,
   };
   return (
@@ -34,6 +33,9 @@ export function DocFooter() {
             <span>{lastUpdatedTime}</span>
           </div>
         )}
+      </div>
+      <div className="flex flex-col">
+        <EditLink editLink={editLink} />
       </div>
       <div className="flex flex-col sm:flex-row sm:justify-around gap-4 pt-6">
         <div className={`${styles.prev} flex flex-col`}>
@@ -58,9 +60,6 @@ export function DocFooter() {
             </Link>
           ) : null}
         </div>
-      </div>
-      <div className="flex flex-col">
-        <EditLink editLink={editLink} relativePagePath={''} />
       </div>
     </footer>
   );

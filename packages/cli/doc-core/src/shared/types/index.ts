@@ -209,6 +209,7 @@ export interface PageData {
     lastUpdatedTime?: string;
     description?: string;
     pageType: PageType;
+    _relativePath: string;
   };
 }
 

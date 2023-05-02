@@ -51,9 +51,8 @@ export default defineConfig({
         },
       ],
       editLink: {
-        repoUrl: 'https://github.com/test/blog',
+        docRepoBaseUrl: 'https://github.com/test/blog/',
         text: 'Edit this page on GitHub',
-        pattern: '',
       },
     },
   },

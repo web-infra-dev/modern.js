@@ -1,15 +1,18 @@
 import { EditLink } from 'shared/types';
+import { usePageData } from '@/runtime';
 
-export function useEditLink(editLink: EditLink, relativePagePath: string) {
+export function useEditLink(editLink: EditLink) {
+  const pageData = usePageData();
+
   if (!editLink) {
     return null;
   }
-  const { repoUrl, text, pattern } = editLink;
-  const link = pattern.replace(':path', relativePagePath);
+  const { docRepoBaseUrl, text } = editLink;
+  const relativePagePath = pageData.page._relativePath.replace(/\\/g, '/');
 
   return {
-    repoUrl,
+    docRepoBaseUrl,
     text,
-    link,
+    relativePagePath,
   };
 }

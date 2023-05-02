@@ -4,28 +4,24 @@ import styles from './index.module.scss';
 
 interface EditLinkProps {
   editLink: {
-    repoUrl: string;
-    pattern: string;
+    docRepoBaseUrl: string;
     text: string;
+    relativePagePath: string;
   };
-  relativePagePath: string;
 }
 
-export default function EditLink({
-  editLink,
-  relativePagePath,
-}: EditLinkProps) {
-  const editLinkObj = useEditLink(editLink, relativePagePath);
+export default function EditLink({ editLink }: EditLinkProps) {
+  const editLinkObj = useEditLink(editLink);
 
   if (!editLinkObj) {
     return null;
   }
 
   const { text } = editLinkObj;
-  const repoUrl = `${editLink.repoUrl}${window.location.pathname}`;
+  const docRepoBaseUrl = `${editLinkObj.docRepoBaseUrl}${editLinkObj.relativePagePath}`;
 
   return (
-    <a href={repoUrl} className={styles.editLink}>
+    <a href={docRepoBaseUrl} className={styles.editLink}>
       <span>
         <Edit
           style={{
@@ -36,7 +32,6 @@ export default function EditLink({
         />
       </span>
       {text}
-      <span className={styles.rightSymbol}>&gt;</span>
     </a>
   );
 }
