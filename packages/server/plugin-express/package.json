@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.16.0",
+  "version": "2.17.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli",
   "main": "./dist/cjs/cli/index.js",
@@ -37,6 +37,9 @@
         "require": "./dist/cjs/index.js"
       },
       "default": "./dist/esm/index.js"
+    },
+    "./runtime": {
+      "default": "./dist/cjs/runtime/index.js"
     }
   },
   "scripts": {

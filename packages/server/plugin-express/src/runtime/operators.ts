@@ -52,7 +52,7 @@ export type Pipe = typeof Pipe;
 
 export const Middleware = (
   middleware: (req: Request, res: Response, next: NextFunction) => void,
-): Operator => {
+): Operator<void> => {
   return {
     name: 'middleware',
     metadata(helper) {

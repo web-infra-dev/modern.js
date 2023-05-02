@@ -29,7 +29,7 @@ export function usePageData() {
 
 export function useLang(): string {
   const ctx = useContext(DataContext);
-  return ctx.data.page.lang || 'zh';
+  return ctx.data.page.lang || '';
 }
 
 export function useDark() {
