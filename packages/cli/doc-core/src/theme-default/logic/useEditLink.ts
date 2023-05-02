@@ -1,7 +1,7 @@
 import { EditLink } from 'shared/types';
 import { usePageData } from '@/runtime';
 
-export function useEditLink(editLink: EditLink) {
+export function useEditLink(editLink?: EditLink) {
   const pageData = usePageData();
 
   if (!editLink) {

@@ -20,10 +20,14 @@ export function DocFooter() {
   const lastUpdatedText =
     themeConfig?.lastUpdatedText || localesLastUpdatedText;
   const showLastUpdated = themeConfig.lastUpdated || localesLastUpdated;
-  const editLink = {
-    docRepoBaseUrl: themeConfig.editLink.docRepoBaseUrl,
-    text: themeConfig.editLink.text,
-  };
+  const editLink =
+    themeConfig?.editLink?.docRepoBaseUrl && themeConfig?.editLink?.text
+      ? {
+          docRepoBaseUrl: themeConfig?.editLink?.docRepoBaseUrl,
+          text: themeConfig?.editLink?.text,
+        }
+      : null;
+
   return (
     <footer className="mt-8">
       <div className="xs:flex pb-5 px-2 justify-end items-center">
@@ -35,7 +39,7 @@ export function DocFooter() {
         )}
       </div>
       <div className="flex flex-col">
-        <EditLink editLink={editLink} />
+        {editLink && <EditLink editLink={editLink} />}
       </div>
       <div className="flex flex-col sm:flex-row sm:justify-around gap-4 pt-6">
         <div className={`${styles.prev} flex flex-col`}>
