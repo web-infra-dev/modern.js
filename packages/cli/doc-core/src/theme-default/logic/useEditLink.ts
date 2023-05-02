@@ -1,18 +1,30 @@
-import { EditLink } from 'shared/types';
 import { usePageData } from '@/runtime';
 
-export function useEditLink(editLink?: EditLink) {
+interface EditLink {
+  docRepoBaseUrl?: string;
+  text?: string;
+}
+
+export function useEditLink() {
   const pageData = usePageData();
 
-  if (!editLink) {
+  const editLink: EditLink = pageData.siteData.themeConfig?.editLink ?? {};
+
+  if (!editLink.docRepoBaseUrl || !editLink.text) {
     return null;
   }
-  const { docRepoBaseUrl, text } = editLink;
+
+  let { docRepoBaseUrl } = editLink;
+
+  if (!docRepoBaseUrl.endsWith('/')) {
+    docRepoBaseUrl += '/';
+  }
+
   const relativePagePath = pageData.page._relativePath.replace(/\\/g, '/');
+  const link = `${docRepoBaseUrl}${relativePagePath}`;
 
   return {
-    docRepoBaseUrl,
-    text,
-    relativePagePath,
+    text: editLink.text,
+    link,
   };
 }

@@ -2,26 +2,18 @@ import { useEditLink } from '../../logic';
 import Edit from '../../assets/edit.svg';
 import styles from './index.module.scss';
 
-interface EditLinkProps {
-  editLink: {
-    docRepoBaseUrl: string;
-    text: string;
-    relativePagePath: string;
-  };
-}
-
-export default function EditLink({ editLink }: EditLinkProps) {
-  const editLinkObj = useEditLink(editLink);
+export default function EditLink() {
+  const editLinkObj = useEditLink();
 
   if (!editLinkObj) {
     return null;
   }
 
   const { text } = editLinkObj;
-  const docRepoBaseUrl = `${editLinkObj.docRepoBaseUrl}${editLinkObj.relativePagePath}`;
+  const realLink = `${editLinkObj.link}`;
 
   return (
-    <a href={docRepoBaseUrl} className={styles.editLink}>
+    <a href={realLink} className={styles.editLink}>
       <span>
         <Edit
           style={{
