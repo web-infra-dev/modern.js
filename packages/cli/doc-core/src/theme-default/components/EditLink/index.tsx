@@ -9,11 +9,10 @@ export default function EditLink() {
     return null;
   }
 
-  const { text } = editLinkObj;
-  const realLink = `${editLinkObj.link}`;
+  const { text, link } = editLinkObj;
 
   return (
-    <a href={realLink} className={styles.editLink}>
+    <a href={link} className={styles.editLink}>
       <span>
         <Edit
           style={{
