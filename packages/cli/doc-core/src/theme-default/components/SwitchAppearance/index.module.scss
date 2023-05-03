@@ -1,3 +1,7 @@
+.modernNavAppearance{
+  margin-right: 0.5rem;
+}
+
 .sun {
   opacity: 1;
 }
@@ -12,4 +16,10 @@
 
 :global(.dark) .moon {
   opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .modernNavAppearance {
+    margin-right: 0;
+  }
 }

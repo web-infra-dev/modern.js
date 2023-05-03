@@ -13,7 +13,7 @@ export const ShownLinks = (props: IShownLinksProps) => {
 
   return (
     <>
-      <div className="flex-center h-full gap-x-4 transition-colors duration-300 mr-2">
+      <div className="flex-center h-full gap-x-4 transition-colors duration-300">
         {links.map((item, index) => (
           <LinkContent
             key={index}
@@ -23,7 +23,7 @@ export const ShownLinks = (props: IShownLinksProps) => {
         ))}
       </div>
       {moreIconVisible ? (
-        <div className="ml-1" onMouseEnter={mouseEnter}>
+        <div onMouseEnter={mouseEnter}>
           <ArrowDown />
         </div>
       ) : null}
