@@ -28,7 +28,6 @@ export default defineConfig({
       exclude: ['**/fragments/**'],
     },
     themeConfig: {
-      nav: getNavbar(),
       sidebar: getSidebar(),
       footer: {
         message: '© 2023 Bytedance Inc. All Rights Reserved.',
@@ -44,10 +43,12 @@ export default defineConfig({
         {
           lang: 'zh',
           label: '简体中文',
+          nav: getNavbar('zh'),
         },
         {
           lang: 'en',
           label: 'English',
+          nav: getNavbar('en'),
         },
       ],
       editLink: {
@@ -121,16 +122,19 @@ function getSidebar(): Sidebar {
   };
 }
 
-function getNavbar(): NavItem[] {
+function getNavbar(lang: string): NavItem[] {
+  const cn = lang === 'zh';
+  const prefix = cn ? '/zh' : '';
+  const getLink = (str: string) => `${prefix}${str}`;
   return [
     {
       text: getI18nKey('guide'),
-      link: '/guide/getting-started',
+      link: getLink('/guide/getting-started'),
       activeMatch: '/guide/',
     },
     {
       text: getI18nKey('api'),
-      link: '/api/',
+      link: getLink('/api/'),
       activeMatch: '/api/',
     },
   ];
