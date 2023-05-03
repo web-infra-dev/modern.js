@@ -10,6 +10,7 @@ import {
   fileExists,
 } from '../utils/file';
 import { PluginHandlebarsAPI } from './handlebars';
+import { PluginEjsAPI } from './ejs';
 
 export enum FileType {
   Text = 'text',
@@ -31,6 +32,8 @@ export class PluginFileAPI {
 
   private readonly handlebarAPI: PluginHandlebarsAPI =
     new PluginHandlebarsAPI();
+
+  private readonly ejsAPI: PluginEjsAPI = new PluginEjsAPI();
 
   private jsonAPI?: JsonAPI;
 
@@ -60,7 +63,14 @@ export class PluginFileAPI {
     };
   }
 
-  renderString(template = '', data: Record<string, string> = {}) {
+  renderString(
+    template = '',
+    data: Record<string, string> = {},
+    type: 'handlebars' | 'ejs' = 'handlebars',
+  ) {
+    if (type === 'ejs') {
+      return this.ejsAPI.renderString(template, data);
+    }
     return this.handlebarAPI.renderString(template, data);
   }
 
