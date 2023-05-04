@@ -12,16 +12,11 @@ export default function EditLink() {
   const { text, link } = editLinkObj;
 
   return (
-    <a href={link} className={styles.editLink}>
-      <span>
-        <Edit
-          style={{
-            with: '18px',
-            height: '18px',
-            display: 'inline-block',
-          }}
-        />
-      </span>
+    <a href={link} target="_blank" className={styles.editLink}>
+      <Edit
+        className="h-5.5 mr-2 inline-block"
+        style={{ verticalAlign: '-5px' }}
+      />
       {text}
     </a>
   );
