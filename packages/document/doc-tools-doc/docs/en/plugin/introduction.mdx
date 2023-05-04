@@ -6,7 +6,7 @@ The overall architecture of Modern.js Doc is shown in the figure below:
 
 ![Modern.js Doc Architecture](https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/arch-en.png)
 
-The overall framework is divided into two parts: **Node Side**and **Browser Runtime**. Through the plugin system, you can easily extend the abilities of these two parts. Specifically, you can extend the ability to:
+The overall framework is divided into two parts: **Node Side** and **Browser Runtime**. Through the plugin system, you can easily extend the abilities of these two parts. Specifically, you can extend the ability to:
 
 - [**Markdown/MDX compilation**](/plugin/plugin-api#markdown)。You can add [`remark`](https://github.com/remarkjs/remark)/[`rehype`](https://github.com/rehypejs/rehype) plugins to extend the compliation ability of Markdown/MDX.
 - [**Add custom page**](/plugin/plugin-api#addpages). On the basis of the framework's conventional routing, you can also add new routes through plugins, such as adding a `/blog` route to display a list of blogs, and the content is defined by yourself.
