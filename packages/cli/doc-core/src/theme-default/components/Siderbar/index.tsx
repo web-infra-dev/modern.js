@@ -6,7 +6,8 @@ import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
-import { removeBase, normalizeHref, withBase } from '@/runtime';
+import { removeBase, normalizeHref, withBase, usePageData } from '@/runtime';
+import { inBrowser, isProduction } from '@/shared/utils';
 
 interface Props {
   isSidebarOpen?: boolean;
@@ -36,6 +37,7 @@ interface SidebarItemProps {
 export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
+  const { page } = usePageData();
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (active) {
@@ -44,6 +46,18 @@ export function SidebarItemComp(props: SidebarItemProps) {
       });
     }
   }, []);
+  let { text } = item;
+  /* HMR fix: When page title changed, we use the latest title as sidebar text, in the meantime, it takes more complexity */
+  if (inBrowser() && !isProduction()) {
+    if (active) {
+      localStorage.setItem(item.link, page.title);
+    }
+    const cached = localStorage.getItem(item.link);
+    if (cached) {
+      text = cached;
+    }
+  }
+
   if ('items' in item) {
     return (
       <SidebarGroupComp
@@ -73,7 +87,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
             marginLeft: depth === 0 ? 0 : '12px',
           }}
         >
-          {item.text}
+          {text}
         </div>
       </Link>
     );
