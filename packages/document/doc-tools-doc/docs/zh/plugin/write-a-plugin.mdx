@@ -7,19 +7,19 @@
 ```tsx title="plugin.ts"
 import { DocPlugin } from '@modern-js/doc-tools';
 
-export function pluginMonitor(slug: string): DocPlugin {
-  // 组件路径，你需要自己实现
-  const componentPath = path.join(__dirname, 'some-component.tsx');
+export function pluginExample(slug: string): DocPlugin {
+  // 组件路径，组件的内容你需要自己实现
+  const componentPath = path.join(__dirname, 'Example.tsx');
   return {
     // 插件名称
-    name: 'plugin-monitor',
+    name: 'plugin-example',
     // 全局组件的路径
     globalUIComponents: [componentPath],
     // 构建阶段的全局变量定义
     builderConfig: {
       source: {
         define: {
-          SLUG: JSON.stringify(slug),
+          'process.env.slug': JSON.stringify(slug),
         },
       },
     },
@@ -27,16 +27,31 @@ export function pluginMonitor(slug: string): DocPlugin {
 }
 ```
 
-插件一般为一个函数，接收一些插件参数(可选)，返回一个对象，对象中包含插件的名称以及其它配置。在上面的例子中，我们定义了一个插件，它的名称为`plugin-monitor`，它会在构建阶段定义一个全局变量`SLUG`，并且在文档中注入一个全局组件`some-component.tsx`。
+```tsx title="Example.tsx"
+import React from 'react';
+
+const Example = () => {
+  console.log(process.env.SLUG);
+  return <div>Example</div>;
+};
+
+export default Example;
+```
+
+插件一般为一个函数，接收一些插件参数(可选)，返回一个对象，对象中包含插件的名称以及其它配置。在上面的例子中，我们定义了一个插件，它的名称为`plugin-example`，它会在构建阶段定义一个全局变量`slug`，并且在文档中注入一个全局组件`Example.tsx`。
 
 ### 2. 使用插件
 
+在 `modern.config.ts` 中通过 `doc.plugins` 注册插件:
+
 ```tsx title="modern.config.ts"
-import { pluginMonitor } from './plugin';
+import { pluginExample } from './plugin';
 
 export default {
   doc: {
-    plugins: [pluginMonitor('test')],
+    plugins: [pluginExample('test')],
   },
 };
 ```
+
+这样，Example 组件会自动在页面中渲染，并且我们可以在 Example 组件中访问到`process.env.slug`。

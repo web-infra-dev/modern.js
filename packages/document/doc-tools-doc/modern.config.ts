@@ -88,11 +88,7 @@ function getSidebar(): Sidebar {
       },
       {
         text: getI18nKey('advanced'),
-        items: [
-          '/advanced/extend-build',
-          '/advanced/custom-theme',
-          '/advanced/plugin-system',
-        ],
+        items: ['/advanced/extend-build', '/advanced/custom-theme'],
       },
     ],
     '/api/': [
@@ -127,13 +123,13 @@ function getSidebar(): Sidebar {
           '/plugin/plugin-api',
         ],
       },
-      {
-        text: getI18nKey('plugin-list'),
-        items: [
-          '/plugin/official-plugins/',
-          '/plugin/official-plugins/medium-zoom',
-        ],
-      },
+      // {
+      //   text: getI18nKey('plugin-list'),
+      //   items: [
+      //     '/plugin/official-plugins/',
+      //     '/plugin/official-plugins/medium-zoom',
+      //   ],
+      // },
     ],
   };
 }
