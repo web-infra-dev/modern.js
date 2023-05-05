@@ -1,5 +1,36 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-rspack-provider@2.17.0
+- @modern-js/builder-shared@2.17.0
+- @modern-js/builder-webpack-provider@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- ed0d0d5: feat: support stylus plugin in Rspack build
+
+  feat: stylus 插件支持在 Rspack 构建时使用
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [50bc0db]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/builder-webpack-provider@2.16.0
+  - @modern-js/builder-rspack-provider@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

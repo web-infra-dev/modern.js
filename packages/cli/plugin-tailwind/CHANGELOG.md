@@ -1,5 +1,30 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.17.0
+
+### Patch Changes
+
+- Updated dependencies [3810930]
+  - @modern-js/runtime@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- acc0a00: fix: upgrade libuild version to support tailwind in watch mode
+  fix: 更新 libuild 版本以支持 tailwindcss 在 watch 模式下生效
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [02e9c5d]
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/runtime@2.16.0
+  - @modern-js/utils@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

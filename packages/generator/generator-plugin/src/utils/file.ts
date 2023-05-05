@@ -63,7 +63,11 @@ export async function addFile(
   config: AddFileParams,
   projectPath: string,
   templatePath: string,
-  renderString: (content?: string, data?: Record<string, string>) => string,
+  renderString: (
+    content?: string,
+    data?: Record<string, string>,
+    type?: 'ejs' | 'handlebars',
+  ) => string,
 ) {
   const fileDestPath = path.join(projectPath, config.file);
 
@@ -89,7 +93,11 @@ export async function addFile(
     }
     await fs.writeFile(
       fileDestPath,
-      renderString(template, config.data || {})!,
+      renderString(
+        template,
+        config.data || {},
+        config.templateFile?.endsWith('.ejs') ? 'ejs' : 'handlebars',
+      )!,
       'utf8',
     );
   }
@@ -99,7 +107,11 @@ export async function addManyFiles(
   config: AddManyFilesParams,
   projectPath: string,
   templatePath: string,
-  renderString: (content?: string, data?: Record<string, string>) => string,
+  renderString: (
+    content?: string,
+    data?: Record<string, string>,
+    type?: 'handlebars' | 'ejs',
+  ) => string,
 ) {
   const dest = config.destination;
   if (typeof dest !== 'string') {

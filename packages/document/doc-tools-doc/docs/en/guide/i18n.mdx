@@ -1,12 +1,61 @@
-# I18n
+# Internationalization
 
-To implement i18n in Modern.js Doc, you need to do three things:
+To achieve document internationalization in Modern.js Doc, you need to do the following:
 
-- 1. Configure the default language.
-- 2. Configure `doc.themeConfig.locales`。
-- 3. Create documents in different language version.
+- 1. Defines I18n text data.
+- 2. Configure the default language.
+- 3. Configure `doc.locales` and `doc.themeConfig.locales`。
+- 4. Create documents in different language version.
+- 5. Configure sidebar and navbar.
+- 6. Use `useI18n` in custom components.
 
-## Configure Default Language
+## Defines I18n text data
+
+Create a new `i18n.json` in the current workspace, the directory structure is as follows:
+
+```bash {15}
+.
+├── docs
+├── i18n.json
+├── package.json
+├── tsconfig.json
+└── modern.config.ts
+```
+
+In this JSON file, you can define the text needed for internationalization, the type definition is as follows:
+
+```ts
+export interface I18n {
+  // key: text id
+  [key: string]: {
+    // key: language
+    [key: string]: string;
+  };
+}
+```
+
+For example:
+
+```json title="i18n.json"
+{
+  "getting-started": {
+    "zh": "开始",
+    "en": "Getting Started"
+  },
+  "features": {
+    "zh": "基础功能",
+    "en": "Features"
+  },
+  "guide": {
+    "zh": "指南",
+    "en": "Guide"
+  }
+}
+```
+
+These text data are used in both **config file** and **custom components**, which will be introduced in detail later.
+
+## Configure the default language
 
 In `modern.config.ts`, you can configure the default language of the document via `doc.lang`, as shown in the following example:
 
@@ -21,33 +70,45 @@ export default defineConfig({
 });
 ```
 
-This is important, because for routes in the default language, the framework will remove the language prefix, such as `/zh/guide/getting-started` will be converted to `/guide/getting-started`.
+This is important because **for routes in the default language, the framework will remove the language prefix**, such as `/zh/guide/getting-started` will be converted to `/guide/getting-started`.
 
-## Configure `doc.themeConfig.locales`
+## Configure `locales`
 
-In `modern.config.ts`, you can configure the multiple version of the document via `doc.themeConfig.locales`, as shown in the following example:
+In `modern.config.ts`, you can configure `locales` data in two places:
+
+- `doc.locales`, used to configure the `lang`, `title`, `description` and other information of the site, mainly around the information of the site itself.
+- `doc.themeConfig.locales`, used to configure the theme's `lang`, `outline title`, `previous page/next page text` and other information, mainly for theme-related config.
 
 ```ts title="modern.config.ts"
 import docTools, { defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
+    locales: [
+      {
+        lang: 'en',
+        // The label in nav bar to switch language
+        label: 'English',
+        title: 'Modern.js',
+        description: 'Modern.js 文档框架',
+      },
+      {
+        lang: 'zh',
+        // The label in nav bar to switch language
+        label: '简体中文',
+        title: 'Modern.js',
+        description: 'Modern.js Doc',
+      },
+    ],
     themeConfig: {
-      // locales is an array of object
       locales: [
         {
           lang: 'en',
-          // Labels for switching languages ​​in the navbar
-          label: 'English',
-          title: 'Modern.js',
-          description: 'Modern.js 文档框架',
+          outlineTitle: 'ON THIS Page',
         },
         {
           lang: 'zh',
-          // Labels for switching languages ​​in the navbar
-          label: '简体中文',
-          title: 'Modern.js',
-          description: 'Modern.js Doc',
+          outlineTitle: '大纲',
         },
       ],
     },
@@ -56,79 +117,15 @@ export default defineConfig({
 });
 ```
 
-In this example, we configure the title, description, and navbar language labels for documents in different languages. Of course, in general, we also need to configure other information, such as `sidebar`, `nav`, etc. Let's take `nav` as an example to see how to configure it.
+:::tip Note
+In the default theme, `doc.themeConfig.locales` also contains all the fields in `doc.locales`, the former takes precedence.
+:::
 
-First, we create a new util function to return different text and links according to the language:
-:
+For other international theme parameters, please refer to [API type](/api/config-theme#locales).
 
-```ts title="modern.config.ts"
-// Added util functions, return getText and getLink methods
-function getI18nHelper(lang: 'zh' | 'en') {
-  const isZh = lang === 'zh';
-  // Currently the default language is Chinese, so the prefix here is '', if the default language is English, then the prefix is ​​'/en'
-  const prefix = isZh ? '' : '/en';
-  const getLink = (str: string) => `${prefix}${str}`;
-  const getText = (zhText: string, enText: string) => (isZh ? zhText : enText);
-  return { getText, getLink };
-}
-```
+## Create documents in different language
 
-Then write the `nav` configuration based on the util function:
-
-```ts title="modern.config.ts"
-function getNavbar(lang: 'zh' | 'en'): NavItem[] {
-  const { getLink, getText } = getI18nHelper(lang);
-
-  return [
-    {
-      text: getText('指南', 'Guide'),
-      link: getLink('/guide/getting-started'),
-      activeMatch: '/guide/',
-    },
-    {
-      text: getText('API', 'API'),
-      link: getLink('/api/'),
-      activeMatch: '/api/',
-    },
-  ];
-}
-```
-
-Finally used in `locales` config:
-
-```diff title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
-
-export default defineConfig({
-  doc: {
-    themeConfig: {
-      locales: [
-        {
-          lang: 'en',
-          label: 'English',
-          title: 'Modern.js',
-          description: 'Modern.js 文档框架',
-+          nav: getNavbar('en'),
-        },
-        {
-          lang: 'zh',
-          label: '简体中文',
-          title: 'Modern.js',
-          description: 'Modern.js Doc',
-+          nav: getNavbar('zh'),
-        },
-      ]
-    },
-  },
-  plugins: [docTools()],
-});
-```
-
-For other i18n parameters, please refer to [API type](/api/config-theme#locales).
-
-## Create Documents
-
-Now we can start to create documents in different language versions. It is very simple. We only need to create the following structure in the document root directory:
+After the above configuration, we can start to create documents in different language versions. It is very simple. We only need to create the following structure in the document root directory:
 
 ```bash
 docs
@@ -137,11 +134,70 @@ docs
 │   │   └── index.md
 │   └── guide
 │       └── getting-started.md
+│       └── features.md
 └── zh
     ├── api
     │   └── index.md
     └── guide
         └── getting-started.md
+        └── features.md
 ```
 
 As you can see, we put documents in different languages ​​in the `en` and `zh` directories under the `docs` directory, so that we can easily distinguish documents in different languages.
+
+## Configure sidebar and navbar
+
+As we mentioned in [Conventional Routing](/guide/conventional-route), we will automatically generate corresponding routes for different file paths. Then, in the scenario of internationalized documents, the routing of each document is different, so for documents in N languages, do we need to write N copies of sidebar and nav bar config?
+
+The answer is **no**. In the Modern.js Doc framework, you only need to write a configuration. How to do it?
+
+Let's configure the sidebar and navbar like this:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+// Utility function for getting type hints
+const getI18nKey = (key: keyof typeof import('./i18n.json')) => key;
+
+export default defineConfig({
+  doc: {
+    // The previous config is omitted
+    themeConfig: {
+      nav: [
+        {
+          text: getI18nKey('guide'),
+          link: '/guide/',
+        },
+      ],
+      sidebar: {
+        '/guide/': [
+          {
+            text: getI18nKey('getting-started'),
+            link: '/guide/getting-started',
+          },
+          {
+            text: getI18nKey('features'),
+            link: '/guide/features',
+          },
+        ],
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+It can be seen that in the config of nav and sidebar, we mainly involve the two elements:
+
+- `text`. In the internationalization scenario, you only need to pass in the key in `i18n.json`, and the framework will automatically obtain the corresponding text according to the current language.
+- `link`. You don't need to add a language prefix, the framework will automatically add the corresponding language prefix according to the current language. For example, if the default language is Chinese, `/guide/features` will be converted to `/en/guide/features` in the English document.
+
+Finally, you only need to write a `nav` and `sidebar` config, and the framework will automatically obtain the corresponding text and links according to the current language.
+
+## Use `useI18n` in custom components
+
+In the process of MDX development or custom theme development, you may write some custom components, which also need to use international text, so how to get it?
+
+import UseI18n from '../fragments/useI18n';
+
+<UseI18n />

@@ -27,7 +27,7 @@ export interface IPluginContext {
   setInput: (key: string, field: string, value: unknown) => void;
   setInputValue: (value: Record<string, unknown>) => void;
   setDefaultConfig: (value: Record<string, unknown>) => void;
-  isFileExit: (fileName: string) => Promise<boolean>;
+  isFileExist: (fileName: string) => Promise<boolean>;
   readDir: (dir: string) => Promise<string[]>;
   setGitMessage: (gitMessage: string) => void;
   onForged: (func: PluginForgedFunc) => void;

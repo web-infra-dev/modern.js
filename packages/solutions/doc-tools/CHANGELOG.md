@@ -1,5 +1,45 @@
 # @modern-js/doc-tools
 
+## 2.17.0
+
+### Patch Changes
+
+- Updated dependencies [85fb207]
+- Updated dependencies [cb52e34]
+  - @modern-js/doc-core@2.17.0
+  - @modern-js/core@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 628be4b: fix: home page hmr & e2e build test
+
+  fix: 首页热更新问题 & doc tools e2e 生产环境构建测试
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [f15fe5a]
+- Updated dependencies [cd0bc21]
+- Updated dependencies [5cd8527]
+- Updated dependencies [5954330]
+- Updated dependencies [628be4b]
+- Updated dependencies [ddc066d]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [9eec77b]
+- Updated dependencies [6b905d5]
+- Updated dependencies [6d5219e]
+- Updated dependencies [b16de50]
+- Updated dependencies [a824aad]
+- Updated dependencies [6f3548a]
+  - @modern-js/doc-core@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

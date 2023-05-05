@@ -1,5 +1,80 @@
 # @modern-js/doc-core
 
+## 2.17.0
+
+### Minor Changes
+
+- 85fb207: feat(doc-core): auto i18n
+
+  feat(doc-core): 自动化 i18n
+
+### Patch Changes
+
+- cb52e34: fix: code line highlight in js compiler
+
+  fix: js 版本编译器中代码行高亮问题
+
+  - @modern-js/builder@2.17.0
+  - @modern-js/builder-rspack-provider@2.17.0
+  - @modern-js/core@2.17.0
+  - @modern-js/remark-container@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- f15fe5a: fix(doc-core): add useEffect dependencyList for docLayout and use padding in content
+  fix(doc-core): 给 docLayout 组件添加 useEffect 的依赖项并给 doc content 加上 padding
+- cd0bc21: feat: local sidebar closed when router changed
+
+  feat: 路由变化时关闭本地侧边栏
+
+- 5cd8527: fix: toc hmr not work
+
+  fix: toc 热更新不生效
+
+- 628be4b: fix: home page hmr & e2e build test
+
+  fix: 首页热更新问题 & doc tools e2e 生产环境构建测试
+
+- ddc066d: fix: nest relative ../ path not work in mdx-rs
+
+  fix: mdx-rs 中嵌套相对路径 ../ 不生效
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 9eec77b: fix: sidebar not exist when meeting chinese path
+
+  fix: 侧边栏在遇到中文路径时不存在
+
+- 6b905d5: fix(doc-core): failed to resolve useLocation method in some cases
+
+  fix(doc-core): 修复个别情况下找不到 useLocation 方法的问题
+
+- b16de50: fix: support chinese route
+
+  fix: 支持中文路由
+
+- a824aad: fix: set defaultHasAside false if in iframe
+  fix: 被 iframe 引入时默认不展示 aside
+- 6f3548a: fix: set sidebar and aside max-height not height
+  fix: 设置 sidebar 和 aside 的最大高度而不是高度属性
+- Updated dependencies [5954330]
+- Updated dependencies [50bc0db]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [6d5219e]
+- Updated dependencies [fb19f48]
+  - @modern-js/utils@2.16.0
+  - @modern-js/builder-rspack-provider@2.16.0
+  - @modern-js/builder@2.16.0
+  - @modern-js/core@2.16.0
+  - @modern-js/remark-container@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

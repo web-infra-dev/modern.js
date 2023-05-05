@@ -118,3 +118,13 @@ After enabling this config, the framework will check the links in the document b
 :::warning
 However, we do not recommend using this feature during the development environment, because it will disable the physical cache of the build tool webpack, resulting in slower project startup.
 :::
+
+### markdown.experimentalMdxRs
+
+- Type: `boolean`
+
+Whether to use the Rust version of the MDX compiler, an experimental feature. For example:
+
+import MdxRs from '../fragments/mdx-rs';
+
+<MdxRs />

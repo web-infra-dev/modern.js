@@ -1,5 +1,45 @@
 # @modern-js/plugin-storybook
 
+## 2.17.0
+
+### Patch Changes
+
+- Updated dependencies [3810930]
+  - @modern-js/runtime@2.17.0
+  - @modern-js/plugin-router-v5@2.17.0
+  - @modern-js/builder@2.17.0
+  - @modern-js/builder-shared@2.17.0
+  - @modern-js/builder-webpack-provider@2.17.0
+  - @modern-js/builder-plugin-node-polyfill@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 02e9c5d: fix: fix storybook runtime addon
+  fix: 修复 storybook runtime addon
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [02e9c5d]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+- Updated dependencies [fb19f48]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/runtime@2.16.0
+  - @modern-js/builder-webpack-provider@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/builder-plugin-node-polyfill@2.16.0
+  - @modern-js/plugin-router-v5@2.16.0
+  - @modern-js/builder@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

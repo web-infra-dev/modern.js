@@ -1,5 +1,26 @@
 # @modern-js/generator-common
 
+## 3.1.11
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.17.0
+
+## 3.1.10
+
+### Patch Changes
+
+- 84a8008: fix: packagePath validate regex
+
+  fix: 修复 packagePath 校验正则
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [4e876ab]
+  - @modern-js/plugin-i18n@2.16.0
+
 ## 3.1.9
 
 ### Patch Changes

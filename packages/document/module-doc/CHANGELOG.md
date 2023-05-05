@@ -1,5 +1,30 @@
 # @modern-js/module-tools-docs
 
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.17.0
+- @modern-js/doc-plugin-auto-sidebar@2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- b06f571: docs: 新增 buildConfig api 和更新 plugin-import 内容
+  docs: add buildConfig api content and update plugin-import content
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [628be4b]
+- Updated dependencies [4e876ab]
+  - @modern-js/doc-tools@2.16.0
+  - @modern-js/doc-plugin-auto-sidebar@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

@@ -1,0 +1,16 @@
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      experimentalMdxRs: true,
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+:::tip NOTICE
+The bottom layer of this function is based on the [@modern-js/mdx-rs-binding](https://github.com/web-infra-dev/mdx-rs-binding) library developed by Modern.js Doc. The performance is **5 ~ 10** times higher than the JS version of the MDX compiler, but the JS version of the plugin is not yet supported. If you need to add a custom remark or rehype plugin, it is not recommended to enable this function.
+:::

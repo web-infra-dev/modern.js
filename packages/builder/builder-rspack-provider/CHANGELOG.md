@@ -1,5 +1,47 @@
 # @modern-js/builder-rspack-provider
 
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.0
+- @modern-js/server@2.17.0
+- @modern-js/e2e@2.17.0
+- @modern-js/types@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- 7596520: feat(builder): builder plugin supports specifying relative order via the `pre` / `post` configuration items
+
+  feat(builder): builder 插件支持通过 `pre` / `post` 配置项指定相对顺序
+
+### Patch Changes
+
+- 50bc0db: feat(builder): update swc-plugins, core-js, swc-helpers
+  feat(builder): 更新 swc-plugins, core-js, swc-helpers
+- fd4a8a6: chore(deps): bump postcss-custom-properties to v13.1.5
+
+  chore(deps): 升级 postcss-custom-properties 到 v13.1.5
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/server@2.16.0
+  - @modern-js/types@2.16.0
+  - @modern-js/e2e@2.16.0
+
 ## 2.15.0
 
 ### Minor Changes

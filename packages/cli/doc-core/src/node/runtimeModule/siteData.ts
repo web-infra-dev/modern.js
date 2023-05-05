@@ -7,6 +7,7 @@ import {
   SidebarGroup,
   NormalizedSidebarGroup,
   PageIndexInfo,
+  NavItemWithLink,
 } from 'shared/types';
 import yamlFront from 'yaml-front-matter';
 import { htmlToText } from 'html-to-text';
@@ -20,8 +21,14 @@ import { flattenMdxContent } from '../utils/flattenMdxContent';
 import { extendPageData } from '../hooks';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { routeService } from './routeData';
+import { getI18nData } from './i18n';
 import { RuntimeModuleID } from '.';
-import { withBase, MDX_REGEXP, SEARCH_INDEX_NAME } from '@/shared/utils';
+import {
+  withBase,
+  MDX_REGEXP,
+  SEARCH_INDEX_NAME,
+  addLeadingSlash,
+} from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
 
@@ -44,15 +51,39 @@ function deletePriviteKey<T>(obj: T): T {
 }
 
 export function normalizeThemeConfig(
-  themeConfig: DefaultThemeConfig,
+  docConfig: UserConfig['doc'],
   pages: PageIndexInfo[] = [],
-  base = '',
-  replaceRules: ReplaceRule[],
 ): NormalizedDefaultThemeConfig {
+  const {
+    locales: siteLocales,
+    base = '',
+    lang,
+    replaceRules = [],
+  } = docConfig;
+  docConfig.themeConfig = docConfig.themeConfig || {};
+  const { themeConfig } = docConfig;
+  const locales = siteLocales ?? (themeConfig?.locales || []);
+  const i18nTextData = getI18nData(docConfig);
   // In following code, we will normalize the theme config reference to the pages data extracted from mdx files
+  const normalizeLangPrefix = (link?: string, currentLang?: string) => {
+    if (!currentLang || !link || link.startsWith(`/${currentLang}`)) {
+      return link;
+    }
+    // if lang exists, we should add the lang prefix to the link
+    // such /guide -> /en/guide
+    return lang === currentLang
+      ? link
+      : `/${currentLang}${addLeadingSlash(link)}`;
+  };
+
+  const getI18nText = (key: string, currentLang: string) => {
+    const text = i18nTextData[key]?.[currentLang];
+    return text || key;
+  };
   // Normalize sidebar
   const normalizeSidebar = (
-    sidebar: DefaultThemeConfig['sidebar'],
+    sidebar?: DefaultThemeConfig['sidebar'],
+    currentLang?: string,
   ): NormalizedDefaultThemeConfig['sidebar'] => {
     const normalizedSidebar: NormalizedDefaultThemeConfig['sidebar'] = {};
     if (!sidebar) {
@@ -63,8 +94,11 @@ export function normalizeThemeConfig(
     ): NormalizedSidebarGroup | SidebarItem => {
       if (typeof item === 'object' && 'items' in item) {
         return {
-          text: applyReplaceRules(item.text, replaceRules),
-          link: item.link,
+          text: applyReplaceRules(
+            getI18nText(item.text, currentLang),
+            replaceRules,
+          ),
+          link: normalizeLangPrefix(item.link, currentLang),
           collapsed: item.collapsed ?? false,
           collapsible: item.collapsible ?? true,
           items: item.items.map(subItem => {
@@ -74,45 +108,103 @@ export function normalizeThemeConfig(
       }
 
       if (typeof item === 'string') {
+        const normalizedItem = normalizeLangPrefix(item, currentLang);
         const page = pages.find(
-          page => page.routePath === withBase(item, base),
+          page => page.routePath === withBase(normalizedItem, base),
         );
         return {
           text: applyReplaceRules(page?.title || '', replaceRules),
-          link: item,
+          link: normalizedItem,
         };
       }
 
       return {
         ...item,
-        text: applyReplaceRules(item.text, replaceRules),
+        text: applyReplaceRules(
+          getI18nText(item.text, currentLang),
+          replaceRules,
+        ),
       };
     };
     Object.keys(sidebar).forEach(key => {
       const value = sidebar[key];
-      normalizedSidebar[key] = value.map(normalizeSidebarItem);
+      const normalizedKey = normalizeLangPrefix(key, currentLang);
+      normalizedSidebar[normalizedKey] = value.map(normalizeSidebarItem);
     });
     return normalizedSidebar;
   };
 
-  const normalizeNav = (nav: DefaultThemeConfig['nav']) => {
+  const normalizeNav = (
+    nav?: DefaultThemeConfig['nav'],
+    currentLang?: string,
+  ) => {
+    if (!nav) {
+      return [];
+    }
     return nav?.map(navItem => {
-      return {
-        ...navItem,
-        text: applyReplaceRules(navItem.text, replaceRules),
-      };
+      const text = applyReplaceRules(
+        getI18nText(navItem.text, currentLang),
+        replaceRules,
+      );
+      if ('link' in navItem) {
+        return {
+          ...navItem,
+          text,
+          link: normalizeLangPrefix(navItem.link, currentLang),
+        };
+      }
+
+      if ('items' in navItem) {
+        return {
+          ...navItem,
+          text,
+          items: navItem.items.map((item: NavItemWithLink) => {
+            return {
+              ...item,
+              text: applyReplaceRules(
+                getI18nText(item.text, currentLang),
+                replaceRules,
+              ),
+              link: normalizeLangPrefix(item.link, currentLang),
+            };
+          }),
+        };
+      }
+
+      return navItem;
     });
   };
 
-  const locales = themeConfig?.locales || [];
+  /**
+   * There are two place the user will define the locales:
+   * 1. in the `doc.locales` (the site config)
+   * 2. in the `doc.themeConfig.locales`
+   * The locales in the theme config will override the locales in the site config.
+   *
+   * For nav and sidebar, we prefer the locales in the `themeConfig.nav` and `themeConfig.sidebar` if it exists. And the frameowork will generate complete nav and sidebar for each locale and place them in the `themeConfig.locales` field.
+   */
   if (locales.length) {
-    locales.forEach(locale => {
-      locale.sidebar = normalizeSidebar(locale.sidebar);
-      locale.nav = normalizeNav(locale.nav);
+    themeConfig.locales = locales.map(({ lang: currentLang, label }) => {
+      const localeInThemeConfig = themeConfig.locales?.find(
+        locale => locale.lang === currentLang,
+      );
+      return {
+        lang: currentLang,
+        label,
+        ...(localeInThemeConfig || {}),
+        sidebar: normalizeSidebar(
+          localeInThemeConfig?.sidebar ?? themeConfig.sidebar,
+          currentLang,
+        ),
+        nav: normalizeNav(
+          localeInThemeConfig?.nav ?? themeConfig.nav,
+          currentLang,
+        ),
+      };
     });
   } else {
-    themeConfig.sidebar = normalizeSidebar(themeConfig.sidebar);
-    themeConfig.nav = normalizeNav(themeConfig.nav);
+    themeConfig.sidebar = normalizeSidebar(themeConfig?.sidebar);
+    themeConfig.nav = normalizeNav(themeConfig?.nav);
   }
 
   return themeConfig as NormalizedDefaultThemeConfig;
@@ -230,6 +322,7 @@ async function extractPageData(
             __content: undefined,
           },
           _filepath: route.absolutePath,
+          _relativePath: path.relative(root, route.absolutePath),
         };
       }),
   );
@@ -308,12 +401,7 @@ export async function siteDataVMPlugin(
     title: userConfig?.title || '',
     description: userConfig?.description || '',
     icon: userConfig?.icon || '',
-    themeConfig: normalizeThemeConfig(
-      userConfig?.themeConfig || {},
-      pages,
-      config.doc?.base,
-      config.doc?.replaceRules || [],
-    ),
+    themeConfig: normalizeThemeConfig(userConfig, pages),
     base: userConfig?.base || '/',
     root: userRoot,
     lang: userConfig?.lang || '',

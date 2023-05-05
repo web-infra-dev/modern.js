@@ -1,5 +1,33 @@
 # @modern-js/generator-plugin
 
+## 3.1.11
+
+### Patch Changes
+
+- a5e1863: feat: generator plugin support ejs template
+
+  feat: 生成器插件支持 ejs 模板
+
+  - @modern-js/generator-common@3.1.11
+  - @modern-js/generator-utils@3.1.11
+  - @modern-js/plugin-i18n@2.17.0
+  - @modern-js/new-action@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 3.1.10
+
+### Patch Changes
+
+- Updated dependencies [5954330]
+- Updated dependencies [84a8008]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/generator-common@3.1.10
+  - @modern-js/generator-utils@3.1.10
+  - @modern-js/new-action@2.16.0
+  - @modern-js/plugin-i18n@2.16.0
+
 ## 3.1.9
 
 ### Patch Changes

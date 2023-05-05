@@ -1,5 +1,31 @@
 # @modern-js/main-doc
 
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 63b3538: fix: dev server crashed when prepare api handler failed
+
+  fix: 修复更新 api server 报错导致 dev server 退出的问题
+
+- fe92de6: fix(builder): browserslist config should not affect node bundles
+
+  fix(builder): 修复 browserslist 配置会对 node 产物生效的问题
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [4e876ab]
+  - @modern-js/builder-doc@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes
