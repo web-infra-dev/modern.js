@@ -118,3 +118,13 @@ export default defineConfig({
 :::warning
 不过我们并不推荐在开发阶段使用这个功能，因为它会禁用底层构建工具 webpack 的物理缓存，导致项目启动速度变慢。
 :::
+
+### markdown.experimentalMdxRs
+
+- Type: `boolean`
+
+是否使用 MDX 的 Rust 版本编译器，为实验性质功能。比如：
+
+import MdxRs from '../fragments/mdx-rs';
+
+<MdxRs />

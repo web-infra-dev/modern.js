@@ -1,0 +1,16 @@
+# Introduction
+
+The plugin system is a crucial part of Modern.js Doc, which allows you to easily extend the abilities of the framework during the process of building a site. So, what ability can you extend with plugins? Let's take a look at the overall architecture of Modern.js first.
+
+The overall architecture of Modern.js Doc is shown in the figure below:
+
+![Modern.js Doc Architecture](https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/edenx-doc/arch-en.png)
+
+The overall framework is divided into two parts: **Node Side** and **Browser Runtime**. Through the plugin system, you can easily extend the abilities of these two parts. Specifically, you can extend the ability to:
+
+- [**Markdown/MDX compilation**](/plugin/plugin-api#markdown)。You can add [`remark`](https://github.com/remarkjs/remark)/[`rehype`](https://github.com/rehypejs/rehype) plugins to extend the compliation ability of Markdown/MDX.
+- [**Add custom page**](/plugin/plugin-api#addpages). On the basis of the framework's conventional routing, you can also add new routes through plugins, such as adding a `/blog` route to display a list of blogs, and the content is defined by yourself.
+- [**Custom build tool behavior**](/plugin/plugin-api#builderconfig).In the framework plugin, you can customize the config of the underlying build tool [Rspack](https://rspack.dev), such as `define`, `alias`, and you can also add custom Rspack plugins.
+- [**Extend page metadata**](/plugin/plugin-api#extendpagedata). For each page, some metadata will be calculated inside the framework, such as `title`, `description`, etc. You can extend the calculation logic of these metadata through plugins, and pass [usePageData](/api/api-runtime.html#usepagedata) hook access.
+- Insert some [**custom logic**](/plugin/plugin-api#beforebuild/afterbuild) before and after the build process. Such as closing some event listeners after the build process ends.
+- [**Add global components**](/plugin/plugin-api#globaluicomponents). Modern.js Doc internally uses React for rendering. You can flexibly extend the runtime page by defining global React components, such as `adding a global BackToTop (return to top) component`, `adding a global side effect logic`.

@@ -122,6 +122,11 @@ export default defineConfig({
           label: 'English',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/main-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
       socialLinks: [
         {
           icon: 'github',

@@ -113,6 +113,11 @@ export default defineConfig({
           description: 'Module Engineering Solutions',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/module-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
     },
     builderConfig: {
       dev: {
