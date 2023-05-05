@@ -611,7 +611,7 @@ export default (): CliPlugin => ({
 
 这样就为 HTML 模版中新增了一个 Script 标签。
 
-## Server
+<!-- ## Server
 
 :::note
 目前 Server 插件还未完全开放，API 不保证稳定，使用需谨慎。
@@ -692,7 +692,7 @@ export default (): ServerPlugin => ({
     };
   },
 });
-```
+``` -->
 
 ## Runtime
 
@@ -701,7 +701,7 @@ export default (): ServerPlugin => ({
 
 :::
 
-Runtime 插件主要用于开发者修改需要渲染的组件与 Element 和定制服务器端、客户端的渲染过程。
+Runtime 插件主要用于开发者修改需要渲染的组件。
 
 ### `init`
 
@@ -734,23 +734,29 @@ export default (): Plugin => ({
 - 类型：`Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
 - 使用示例：
 
+:::note
+使用 hoc 钩子时，需要把原来的 App 组件的静态属性拷贝到新的组件上，并透传 props.
+:::
+
 ```ts
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 export default (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
       hoc({ App }, next) {
+        const AppWrapper = (props: any) => {
+          return (
+            <FooContext.Provider store={'test'}>
+              <App {...props} />
+            </FooContext.Provider>
+          );
+        };
         return next({
-          App: (props: any) => {
-            return (
-              <FooContext.Provider store={'test'}>
-                <App {...props} />
-              </FooContext.Provider>
-            );
-          },
+          App: hoistNonReactStatics(AppWrapper, App)
         });
       },
     };
@@ -758,7 +764,7 @@ export default (): Plugin => ({
 });
 ```
 
-### `provide`
+<!-- ### `provide`
 
 - 功能：修改需要渲染的 Element
 - 执行阶段：渲染（SSR/CSR）
@@ -830,4 +836,4 @@ export default (): Plugin => ({
     };
   },
 });
-```
+``` -->
