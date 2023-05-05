@@ -123,10 +123,29 @@ export function Nav(props: NavProps) {
   };
 
   const menuItems = localeData.nav || [];
+
+  // eslint-disable-next-line react/prop-types
+  const { leftMenuItems = [], rightMenuItems = [] } = menuItems.reduce(
+    (acc, curr) => {
+      const { position = 'right' } = curr;
+      acc[`${position}MenuItems`].push(curr);
+      return acc;
+    },
+    { leftMenuItems: [], rightMenuItems: [] },
+  );
+
   const hasSearch = siteData?.themeConfig?.search !== false;
 
   const title = localeData.title ?? siteData.title;
   const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
+
+  const leftNav = () => {
+    return (
+      <div className={styles.leftNav}>
+        <NavMenu menuItems={leftMenuItems} />
+      </div>
+    );
+  };
 
   const rightNav = () => {
     return (
@@ -136,7 +155,7 @@ export function Nav(props: NavProps) {
             <Search />
           </div>
         )}
-        <NavMenu menuItems={menuItems} />
+        <NavMenu menuItems={rightMenuItems} />
         <div className="flex-center flex-row">
           {hasMultiLanguage && (
             <NavTranslations translationMenuData={translationMenuData} />
@@ -174,6 +193,7 @@ export function Nav(props: NavProps) {
           <div
             className={`${styles.content} flex flex-1 justify-end items-center`}
           >
+            {leftNav()}
             {rightNav()}
 
             <div className={styles.mobileNavMenu}>

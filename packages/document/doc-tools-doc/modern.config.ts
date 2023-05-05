@@ -140,11 +140,13 @@ function getNavbar(): NavItem[] {
       text: getI18nKey('guide'),
       link: '/guide/getting-started',
       activeMatch: '/guide/',
+      position: 'left',
     },
     {
       text: getI18nKey('plugin'),
       link: '/plugin/introduction',
       activeMatch: '/plugin/',
+      position: 'right',
     },
     {
       text: getI18nKey('api'),

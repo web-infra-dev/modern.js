@@ -115,6 +115,7 @@ export type NavItemWithLink = {
   text: string;
   link: string;
   activeMatch?: string;
+  position: 'left' | 'right';
 };
 
 export type NavItemChildren = {
