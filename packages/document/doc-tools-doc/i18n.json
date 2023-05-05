@@ -38,5 +38,17 @@
   "api": {
     "zh": "API",
     "en": "API"
+  },
+  "plugin": {
+    "zh": "插件",
+    "en": "Plugin"
+  },
+  "plugin-system": {
+    "zh": "插件机制",
+    "en": "Plugin System"
+  },
+  "plugin-list": {
+    "zh": "官方插件列表",
+    "en": "Official Plugins"
   }
 }

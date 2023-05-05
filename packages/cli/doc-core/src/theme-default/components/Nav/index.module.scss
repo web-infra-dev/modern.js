@@ -15,6 +15,10 @@
   border-radius: 12px;
 }
 
+.navContainer {
+  height: var(--modern-nav-height);
+}
+
 .navContainer :deep(*) {
   pointer-events: all;
 }
@@ -37,6 +41,9 @@
 }
 
 @media (max-width: 768px) {
+  :root {
+    --modern-nav-height: 56px;
+  }
   .menu-item:before {
     display: none;
   }

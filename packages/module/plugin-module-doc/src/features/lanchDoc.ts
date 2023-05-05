@@ -1,7 +1,6 @@
 import path from 'path';
-import type { UserConfig } from '@modern-js/doc-core';
+import { mergeDocConfig } from '@modern-js/doc-core';
 import { fs, fastGlob } from '@modern-js/utils';
-import { merge } from '@modern-js/utils/lodash';
 import { demoRuntimeModules } from '../runtimeModule';
 import { Options, ModuleDocgenLanguage } from '../types';
 import { remarkTsxToReact } from '../mdx/code-to-jsx';
@@ -46,7 +45,7 @@ export async function launchDoc({
       ],
     };
   };
-  const modernDocConfig: UserConfig = merge<UserConfig, UserConfig>(
+  const modernDocConfig = mergeDocConfig(
     {
       doc: {
         title: json.name,

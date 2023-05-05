@@ -209,6 +209,11 @@ export default defineConfig({
           description: 'A build engine for web development.',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/builder-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
     },
     replaceRules: [
       {

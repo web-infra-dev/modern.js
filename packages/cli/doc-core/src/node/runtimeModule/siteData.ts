@@ -7,6 +7,7 @@ import {
   SidebarGroup,
   NormalizedSidebarGroup,
   PageIndexInfo,
+  NavItemWithLink,
 } from 'shared/types';
 import yamlFront from 'yaml-front-matter';
 import { htmlToText } from 'html-to-text';
@@ -141,13 +142,36 @@ export function normalizeThemeConfig(
       return [];
     }
     return nav?.map(navItem => {
-      return {
-        ...navItem,
-        text: applyReplaceRules(
-          getI18nText(navItem.text, currentLang),
-          replaceRules,
-        ),
-      };
+      const text = applyReplaceRules(
+        getI18nText(navItem.text, currentLang),
+        replaceRules,
+      );
+      if ('link' in navItem) {
+        return {
+          ...navItem,
+          text,
+          link: normalizeLangPrefix(navItem.link, currentLang),
+        };
+      }
+
+      if ('items' in navItem) {
+        return {
+          ...navItem,
+          text,
+          items: navItem.items.map((item: NavItemWithLink) => {
+            return {
+              ...item,
+              text: applyReplaceRules(
+                getI18nText(item.text, currentLang),
+                replaceRules,
+              ),
+              link: normalizeLangPrefix(item.link, currentLang),
+            };
+          }),
+        };
+      }
+
+      return navItem;
     });
   };
 
@@ -298,6 +322,7 @@ async function extractPageData(
             __content: undefined,
           },
           _filepath: route.absolutePath,
+          _relativePath: path.relative(root, route.absolutePath),
         };
       }),
   );

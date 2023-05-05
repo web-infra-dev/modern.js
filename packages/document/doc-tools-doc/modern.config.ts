@@ -50,6 +50,11 @@ export default defineConfig({
           label: 'English',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/doc-tools-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
     },
   },
 });
@@ -83,11 +88,7 @@ function getSidebar(): Sidebar {
       },
       {
         text: getI18nKey('advanced'),
-        items: [
-          '/advanced/extend-build',
-          '/advanced/custom-theme',
-          '/advanced/plugin-system',
-        ],
+        items: ['/advanced/extend-build', '/advanced/custom-theme'],
       },
     ],
     '/api/': [
@@ -113,6 +114,23 @@ function getSidebar(): Sidebar {
         link: '/api/commands',
       },
     ],
+    '/plugin/': [
+      {
+        text: getI18nKey('plugin-system'),
+        items: [
+          '/plugin/introduction',
+          '/plugin/write-a-plugin',
+          '/plugin/plugin-api',
+        ],
+      },
+      // {
+      //   text: getI18nKey('plugin-list'),
+      //   items: [
+      //     '/plugin/official-plugins/',
+      //     '/plugin/official-plugins/medium-zoom',
+      //   ],
+      // },
+    ],
   };
 }
 
@@ -122,6 +140,11 @@ function getNavbar(): NavItem[] {
       text: getI18nKey('guide'),
       link: '/guide/getting-started',
       activeMatch: '/guide/',
+    },
+    {
+      text: getI18nKey('plugin'),
+      link: '/plugin/introduction',
+      activeMatch: '/plugin/',
     },
     {
       text: getI18nKey('api'),
