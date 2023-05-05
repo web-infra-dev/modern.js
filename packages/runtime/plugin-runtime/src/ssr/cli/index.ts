@@ -56,7 +56,7 @@ export default (): CliPlugin<AppTools> => ({
 
         const { bundlerType = 'webpack' } = api.useAppContext();
         const babelConfig =
-          bundlerType === 'webpack'
+          bundlerType === 'webpack' || bundlerType === 'rspack'
             ? (config: any) => {
                 // Add id for useLoader method,
                 // The useLoader can be used even if the SSR is not enabled
@@ -91,7 +91,7 @@ export default (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            webpackChain: (chain, { isServer, isServiceWorker, CHAIN_ID }) => {
+            bundlerChain(chain, { isServer, isServiceWorker, CHAIN_ID }) {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -101,7 +101,7 @@ export default (): CliPlugin<AppTools> => ({
                 hasStringSSREntry(userConfig)
               ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
+                const LoadableWebpackPlugin = require('./loadable-webpack-plugin.js');
                 chain
                   .plugin(CHAIN_ID.PLUGIN.LOADABLE)
                   .use(LoadableWebpackPlugin, [
