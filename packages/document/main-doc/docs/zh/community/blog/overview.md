@@ -2,7 +2,9 @@
 sidebar_position: 1
 ---
 
-# 博客
+# 总览
+
+欢迎来到 Modern.js 博客频道！
 
 在这里，你可以了解到 Modern.js 的最新进展和技术分享。
 
@@ -18,7 +20,7 @@ Modern.js 是字节跳动 Web Infra 团队开源的一套 Web 工程体系。在
 
 在这篇文章里，我们会和大家一起聊一聊 Modern.js 在过去一年多时间里的变化。
 
-[了解更多 →](/blog/updates/v2-release-note)
+[了解更多 →](/community/blog/v2-release-note)
 
 ---
 
@@ -56,7 +58,7 @@ Modern.js 9 ~ 10 月的最新版本为 v1.21.0，本双月的主要更新有：
 - **支持 pnpm v7**：完成框架对 pnpm v7 的支持。
 - **服务端增加 Typescript 作为 ts 文件编译器**。
 
-[了解更多 →](/blog/updates/2022-0910-updates)
+[了解更多 →](/community/blog/2022-0910-updates)
 
 ---
 
@@ -71,4 +73,4 @@ Modern.js 7 ~ 8 月的最新版本为 v1.17.0，本双月的主要更新有：
 - **模块工程支持 bundle 构建**：模块工程类型的项目，支持对产物做 bundle 构建。
 - **Reduck v1.1**：发布 Reduck v1.1，使用文档全面更新。
 
-[了解更多 →](/blog/updates/2022-0708-updates)
+[了解更多 →](/community/blog/2022-0708-updates)
