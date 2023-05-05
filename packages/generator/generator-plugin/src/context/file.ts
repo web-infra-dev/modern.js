@@ -44,7 +44,7 @@ export class PluginFileAPI {
 
   get context() {
     return {
-      isFileExit: this.isFileExit.bind(this),
+      isFileExist: this.isFileExist.bind(this),
       readDir: this.readDir.bind(this),
     };
   }
@@ -155,7 +155,7 @@ export class PluginFileAPI {
     }
   }
 
-  async isFileExit(fileName: string) {
+  async isFileExist(fileName: string) {
     return fileExists(path.join(this.projectPath, fileName));
   }
 

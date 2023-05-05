@@ -39,7 +39,7 @@ export const runDev = async (
     return;
   }
 
-  const enableRuntime = !isEmpty(modernConfig.runtime);
+  const enableRuntime = modernConfig.runtime && !isEmpty(modernConfig.runtime);
   const configDir = await gen.generateConfig(appDirectory, pluginOption, {
     isTsProject,
     stories,
