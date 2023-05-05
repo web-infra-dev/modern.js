@@ -2,7 +2,7 @@
 
 上一节我们介绍了插件的基本结构，本节我们来介绍插件的 API，帮助你更细致地了解插件功能。
 
-### 1. globalStyles
+### globalStyles
 
 - **类型**：`string`
 
@@ -36,7 +36,7 @@ export function pluginForDoc(): DocPlugin {
 }
 ```
 
-### 2. globalUIComponents
+### globalUIComponents
 
 - **类型**：`string[]`
 
@@ -101,7 +101,7 @@ export default function PluginSideEffect() {
 - 路由变化时，上报不同页面的 PV 数据。
 - ......
 
-### 3. builderConfig
+### builderConfig
 
 - **类型**：`BuilderConfig`
 
@@ -133,7 +133,7 @@ export function pluginForDoc(slug: string): DocPlugin {
 }
 ```
 
-### 4. config
+### config
 
 - **类型**：`(config: DocConfig) => DocConfig | Promise<DocConfig>`
 
@@ -158,7 +158,7 @@ export function pluginForDoc(): DocPlugin {
 }
 ```
 
-### 5. beforeBuild/afterBuild
+### beforeBuild/afterBuild
 
 - **类型**：`(config: DocConfig, isProd: boolean) => void | Promise<void>`
 
@@ -187,7 +187,7 @@ export function pluginForDoc(): DocPlugin {
 在 `beforeBuild` 钩子执行时，已经经过了所有插件的 `config` 插件处理，因此 config 参数已经代表了最终的文档配置。
 :::
 
-### 6. markdown
+### markdown
 
 - **类型**：`{ remarkPlugins?: Plugin[]; rehypePlugins?: Plugin[] }`
 
@@ -217,7 +217,7 @@ export function pluginForDoc(): DocPlugin {
 在开启 mdx-rs 编译的情况下(即配置文件中 `doc.markdown.experimentalMdxRs` 为 `true`)，添加的 remark/rehype 插件会被忽略。
 :::
 
-### 7. extendPageData
+### extendPageData
 
 - **类型**：`(pageData: PageData) => void | Promise<void>`
 
@@ -251,7 +251,7 @@ export function MyComponent() {
 }
 ```
 
-### 8. addPages
+### addPages
 
 - **类型**：`(config: UserConfig) => AdditionalPage[] | Promise<AdditionalPage[]>`
 
