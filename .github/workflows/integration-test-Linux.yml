@@ -1,8 +1,4 @@
-name: Integration Test(macOS)
-
-concurrency:
-  group: macos-integration-test-${{ github.ref }}
-  cancel-in-progress: true
+name: Integration Test(Linux)
 
 # Controls when the action will run.
 on:
@@ -15,13 +11,13 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  integration-test-mac:
+  integration-test-linux:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         node-version: [16.x]
-        os: [macos-latest] # macos-latest
+        os: [ubuntu-latest] # ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
