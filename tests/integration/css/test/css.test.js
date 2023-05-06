@@ -8,6 +8,7 @@ const {
   getPort,
   launchApp,
   killApp,
+  openPage,
 } = require('../../../utils/modernTestUtils');
 
 const { getCssFiles, readCssFile, copyModules } = require('./utils');
@@ -397,6 +398,8 @@ describe('less-support', () => {
 
       const app = await launchApp(appDir, port);
 
+      const page = await openPage();
+
       await page.goto(`http://localhost:${port}`, {
         waitUntil: ['networkidle0'],
       });
@@ -408,6 +411,7 @@ describe('less-support', () => {
       expect(bgColor).toBe(expectedColor);
 
       await killApp(app);
+      await page.close();
     };
 
     it(`should import antd component with style`, async () => {

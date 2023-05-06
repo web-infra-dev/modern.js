@@ -2,6 +2,9 @@
   "name": "simple-doc-template",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev": "modern dev"
+  },
   "dependencies": {
     "@modern-js/doc-tools": "workspace:*"
   },

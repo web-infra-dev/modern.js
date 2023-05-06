@@ -6,10 +6,9 @@ import {
   killApp,
   modernBuild,
   modernServe,
+  openPage,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
-
-declare const page: Page;
 
 describe('bff express in dev', () => {
   let port = 8080;
@@ -19,6 +18,7 @@ describe('bff express in dev', () => {
   const prefix = '/bff-api';
   const appPath = path.resolve(__dirname, '../');
   let app: any;
+  let page: Page;
 
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
@@ -26,16 +26,17 @@ describe('bff express in dev', () => {
     app = await launchApp(appPath, port, {
       cwd: appPath,
     });
+    page = await openPage();
   });
 
-  test.skip('basic usage', async () => {
+  test('basic usage', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
     await new Promise(resolve => setTimeout(resolve, 500));
     const text = await page.$eval('.hello', el => el?.textContent);
     expect(text).toBe('Hello Modern.js');
   });
 
-  test.skip('basic usage with ssr', async () => {
+  test('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
     const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('Hello Modern.js');
@@ -56,6 +57,7 @@ describe('bff express in dev', () => {
 
   afterAll(async () => {
     await killApp(app);
+    await page.close();
   });
 });
 
@@ -67,6 +69,7 @@ describe('bff express in prod', () => {
   const prefix = '/bff-api';
   const appPath = path.resolve(__dirname, '../');
   let app: any;
+  let page: Page;
 
   beforeAll(async () => {
     port = await getPort();
@@ -78,6 +81,8 @@ describe('bff express in prod', () => {
     app = await modernServe(appPath, port, {
       cwd: appPath,
     });
+
+    page = await openPage();
   });
 
   // FIXME: Skipped because this test often times out on Windows
@@ -114,5 +119,6 @@ describe('bff express in prod', () => {
 
   afterAll(async () => {
     await killApp(app);
+    await page.close();
   });
 });

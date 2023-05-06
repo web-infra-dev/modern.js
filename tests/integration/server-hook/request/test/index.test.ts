@@ -1,17 +1,22 @@
 import path from 'path';
 import { Page } from 'puppeteer';
-import { launchApp, getPort, killApp } from '../../../../utils/modernTestUtils';
+import {
+  launchApp,
+  getPort,
+  killApp,
+  openPage,
+} from '../../../../utils/modernTestUtils';
 
 const appPath = path.resolve(__dirname, '../');
-
-declare let page: Page;
 
 describe('test status code page', () => {
   let app: any;
   let port: number;
+  let page: Page;
 
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
+    page = await openPage();
     await page.deleteCookie();
     port = await getPort();
 
@@ -22,6 +27,7 @@ describe('test status code page', () => {
     if (app) {
       await killApp(app);
     }
+    await page.close();
   });
 
   it('should get request info correctly', async () => {

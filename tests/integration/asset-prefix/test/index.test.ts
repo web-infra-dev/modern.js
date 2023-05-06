@@ -1,10 +1,14 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 import { Page } from 'puppeteer';
-import { launchApp, killApp, getPort } from '../../../utils/modernTestUtils';
+import {
+  launchApp,
+  killApp,
+  getPort,
+  openPage,
+} from '../../../utils/modernTestUtils';
 
 const DEFAULT_DEV_HOST = 'localhost';
-declare const page: Page;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 
@@ -26,7 +30,7 @@ describe('asset prefix', () => {
     await killApp(app);
   });
 
-  it.skip(`should inject window.__assetPrefix__ global variable`, async () => {
+  it(`should inject window.__assetPrefix__ global variable`, async () => {
     const appDir = path.resolve(fixtures, 'dev-asset-prefix');
     const appPort = await getPort();
     const app = await launchApp(appDir, appPort);
@@ -41,6 +45,7 @@ describe('asset prefix', () => {
       mainJs.includes(`window.__assetPrefix__ = '${expected}';`),
     ).toBeTruthy();
 
+    const page: Page = await openPage();
     await page.goto(`${expected}`);
 
     const assetPrefix = await page.evaluate(() => {
@@ -52,5 +57,6 @@ describe('asset prefix', () => {
     expect(assetPrefix).toEqual(expected);
 
     await killApp(app);
+    await page.close();
   });
 });
