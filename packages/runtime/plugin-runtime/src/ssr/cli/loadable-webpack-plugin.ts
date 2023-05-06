@@ -1,4 +1,4 @@
-// fork from [@loadable/webpack-plugin](https://github.com/gregberge/loadable-components/tree/main/packages/webpack-plugin)
+//! fork from [@loadable/webpack-plugin](https://github.com/gregberge/loadable-components/tree/main/packages/webpack-plugin)
 
 import path from 'path';
 import { Rspack, webpack } from '@modern-js/app-tools';
@@ -75,11 +75,13 @@ class LoadablePlugin {
     const stats = compilation.getStats().toJson({
       all: false,
       assets: true,
-      // cachedAssets: true,
+      // rspack not support cachedAssets,
+      cachedAssets: true,
       chunks: true,
       chunkGroups: true,
       entrypoints: true,
-      // chunkGroupChildren: true,
+      // rspack not support chunkGroupChildren.
+      chunkGroupChildren: true,
       hash: true,
       ids: true,
       outputPath: true,

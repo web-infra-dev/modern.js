@@ -54,27 +54,37 @@ export default (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
+        const userConfig = api.useResolvedConfigContext();
         const { bundlerType = 'webpack' } = api.useAppContext();
-        const babelConfig =
-          bundlerType === 'webpack' || bundlerType === 'rspack'
-            ? (config: any) => {
-                // Add id for useLoader method,
-                // The useLoader can be used even if the SSR is not enabled
+        // eslint-disable-next-line consistent-return
+        const babelConfig = (() => {
+          if (bundlerType === 'webpack') {
+            return (config: any) => {
+              // Add id for useLoader method,
+              // The useLoader can be used even if the SSR is not enabled
+              config.plugins?.push(
+                path.join(__dirname, './babel-plugin-ssr-loader-id'),
+              );
+
+              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
+                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
+              }
+            };
+          } else if (bundlerType === 'rspack') {
+            if (isUseSSRBundle(userConfig)) {
+              return (config: any) => {
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-
-                const userConfig = api.useResolvedConfigContext();
-                if (
-                  isUseSSRBundle(userConfig) &&
-                  hasStringSSREntry(userConfig)
-                ) {
+                if (hasStringSSREntry(userConfig)) {
                   config.plugins?.push(
                     require.resolve('@loadable/babel-plugin'),
                   );
                 }
-              }
-            : undefined;
+              };
+            }
+          }
+        })();
 
         return {
           source: {
