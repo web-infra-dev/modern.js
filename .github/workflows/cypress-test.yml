@@ -2,7 +2,6 @@ name: Cypress Test
 
 concurrency:
   group: macos-cypress-test-${{ github.head_ref }}
-  cancel-in-progress: true
 
 # Controls when the action will run.
 on:
