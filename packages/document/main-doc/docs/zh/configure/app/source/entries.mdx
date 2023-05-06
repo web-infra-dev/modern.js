@@ -13,6 +13,7 @@ type Entries = Record<
   | {
       entry: string;
       disableMount?: boolean;
+      customBootstrap?: string;
     }
 >;
 ```
@@ -83,6 +84,7 @@ export default defineConfig({
 
 - `entry`：`string`，入口文件路径。
 - `disableMount`：`boolean = false`，关闭 Modern.js 自动生成入口代码的行为。
+- `customBootstrap`： `string = ''`，指定[自定义 Bootstrap](/guides/concept/entries#自定义-bootstrap) 的文件路径。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
