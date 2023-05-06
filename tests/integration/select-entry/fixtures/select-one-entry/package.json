@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "select-entry-test",
+  "name": "select-one-entry-test",
   "version": "2.9.0",
   "scripts": {
     "dev": "modern dev",
