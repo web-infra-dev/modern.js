@@ -139,8 +139,17 @@ export const formatSplitChunks = (
     return cacheGroups as Record<string, OptimizationSplitChunksOptions>;
   };
 
+  const { name, ...rest } = splitChunks;
+
+  if (name instanceof Function) {
+    throw new Error(`name not support function`);
+  }
+
   return {
-    ...splitChunks,
+    ...rest,
+
+    name,
+
     minRemainingSize: formatSplitSize(
       splitChunks.minRemainingSize,
       'minRemainingSize',
