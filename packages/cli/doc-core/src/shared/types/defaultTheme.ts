@@ -115,7 +115,7 @@ export type NavItemWithLink = {
   text: string;
   link: string;
   activeMatch?: string;
-  position: 'left' | 'right';
+  position?: 'left' | 'right';
 };
 
 export type NavItemChildren = {
@@ -126,6 +126,7 @@ export type NavItemChildren = {
 export interface NavItemWithChildren {
   text?: string;
   items: (NavItemWithChildren | NavItemWithLink)[];
+  position?: 'left' | 'right';
 }
 
 // image -----------------------------------------------------------------------

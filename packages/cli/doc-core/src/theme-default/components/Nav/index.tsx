@@ -125,14 +125,9 @@ export function Nav(props: NavProps) {
   const menuItems = localeData.nav || [];
 
   // eslint-disable-next-line react/prop-types
-  const { leftMenuItems = [], rightMenuItems = [] } = menuItems.reduce(
-    (acc, curr) => {
-      const { position = 'right' } = curr;
-      acc[`${position}MenuItems`].push(curr);
-      return acc;
-    },
-    { leftMenuItems: [], rightMenuItems: [] },
-  );
+  const leftMenuItems = menuItems.filter(item => item.position === 'left');
+  // eslint-disable-next-line react/prop-types
+  const rightMenuItems = menuItems.filter(item => item.position === 'right');
 
   const hasSearch = siteData?.themeConfig?.search !== false;
 
