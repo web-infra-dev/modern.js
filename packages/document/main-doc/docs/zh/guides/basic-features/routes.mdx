@@ -519,7 +519,7 @@ export default defineConfig({
 
 react-router^6 的目前默认产物是 es2020 的，如果需要产物中是 es5 的代码，可以配置 `source.include`，让 react-router 相关包经过 bundler 编译 ：
 
-```
+```js
 export default defineConfig({
   source: {
     include: [/@remix-run\/router/, /react-router-dom/, /react-router/],
