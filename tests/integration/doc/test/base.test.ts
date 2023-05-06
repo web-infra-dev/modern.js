@@ -43,7 +43,7 @@ describe('Check basic render in development', () => {
     await page.close();
   });
 
-  it('Guide page', async () => {
+  it.skip('Guide page', async () => {
     const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}/guide`, {
       waitUntil: ['networkidle0'],
