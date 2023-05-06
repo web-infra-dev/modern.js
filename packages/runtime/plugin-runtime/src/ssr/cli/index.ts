@@ -58,6 +58,7 @@ export default (): CliPlugin<AppTools> => ({
         const { bundlerType = 'webpack' } = api.useAppContext();
         // eslint-disable-next-line consistent-return
         const babelConfig = (() => {
+          // In webpack build, we should let `useLoader` support CSR & SSR both.
           if (bundlerType === 'webpack') {
             return (config: any) => {
               // Add id for useLoader method,
@@ -71,6 +72,9 @@ export default (): CliPlugin<AppTools> => ({
               }
             };
           } else if (bundlerType === 'rspack') {
+            // In Rspack build, we need transform the babel-loader again.
+            // It would increase performance overhead,
+            // so we only use useLoader in CSR on Rspack build temporarily.
             if (isUseSSRBundle(userConfig)) {
               return (config: any) => {
                 config.plugins?.push(
@@ -111,10 +115,10 @@ export default (): CliPlugin<AppTools> => ({
                 hasStringSSREntry(userConfig)
               ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableWebpackPlugin = require('./loadable-webpack-plugin.js');
+                const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
                   .plugin(CHAIN_ID.PLUGIN.LOADABLE)
-                  .use(LoadableWebpackPlugin, [
+                  .use(LoadableBundlerPlugin, [
                     { filename: LOADABLE_STATS_FILE },
                   ]);
               }

@@ -1,4 +1,15 @@
-//! fork from [@loadable/webpack-plugin](https://github.com/gregberge/loadable-components/tree/main/packages/webpack-plugin)
+/**
+ * The following code is modified based on
+ * https://github.com/gregberge/loadable-components
+ *
+ * MIT Licensed
+ * Author Greg Bergé
+ * Copyright 2019 Greg Bergé
+ * https://github.com/gregberge/loadable-components/blob/main/LICENSE
+ */
+
+// The Rspack stas & compilation lacks some fields, so `loadable-webpack-plugin` can not run normally in Rspack.
+// So that we write a `loadable-bundler-plugin` based on it.
 
 import path from 'path';
 import { Rspack, webpack } from '@modern-js/app-tools';
