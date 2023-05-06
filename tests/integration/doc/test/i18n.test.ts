@@ -26,7 +26,7 @@ describe('I18n doc render', () => {
   });
 
   // check the language switch button
-  it.skip('Language switch button', async () => {
+  it('Language switch button', async () => {
     const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}/en/`, {
       waitUntil: ['networkidle0'],
@@ -53,7 +53,7 @@ describe('I18n doc render', () => {
     await page.close();
   });
 
-  it.skip('Add language prefix in route automatically', async () => {
+  it('Add language prefix in route automatically', async () => {
     // Chinese
     const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}`, {
