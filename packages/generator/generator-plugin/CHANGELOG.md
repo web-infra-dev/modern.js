@@ -1,5 +1,19 @@
 # @modern-js/generator-plugin
 
+## 3.1.12
+
+### Patch Changes
+
+- 7d899fb: fix: typo isFileExist
+
+  fix: isFileExist 拼写错误
+
+  - @modern-js/generator-common@3.1.12
+  - @modern-js/generator-utils@3.1.12
+  - @modern-js/plugin-i18n@2.17.1
+  - @modern-js/new-action@2.17.1
+  - @modern-js/utils@2.17.1
+
 ## 3.1.11
 
 ### Patch Changes
