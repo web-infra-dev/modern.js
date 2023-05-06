@@ -1,5 +1,15 @@
 # @modern-js/builder-rspack-provider
 
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.1
+- @modern-js/server@2.17.1
+- @modern-js/e2e@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/utils@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes

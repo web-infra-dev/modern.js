@@ -1,5 +1,11 @@
 # @modern-js/plugin-module-import
 
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes
