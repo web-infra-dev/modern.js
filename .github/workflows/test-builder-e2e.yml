@@ -1,8 +1,5 @@
 name: E2E Test (Builder)
 
-concurrency:
-  group: builder-test-${{ github.head_ref }}
-
 on:
   push:
     branches: [main, update-rspack-**]

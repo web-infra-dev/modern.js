@@ -1,8 +1,5 @@
 name: Integration Test(Windows)
 
-concurrency:
-  group: windows-integration-test-${{ github.ref }}
-
 # Controls when the action will run.
 on:
   # Triggers the workflow on pull request events but only for the main branch
