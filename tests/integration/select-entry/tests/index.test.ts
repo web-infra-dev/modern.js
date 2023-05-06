@@ -5,7 +5,7 @@ import { runModernCommandDev, killApp } from '../../../utils/modernTestUtils';
 
 describe('select entry', () => {
   it(`should only compile selected entry`, async () => {
-    const appDir = path.resolve(__dirname, '..', 'fixtures/one-entry');
+    const appDir = path.resolve(__dirname, '..', 'fixtures/select-one-entry');
     const port = await getPort();
     const app = await runModernCommandDev(
       ['dev', '--entry', 'foo'],
@@ -33,7 +33,7 @@ describe('select entry', () => {
   });
 
   it(`should allow to select multiple entry`, async () => {
-    const appDir = path.resolve(__dirname, '..', 'fixtures/mul-entry');
+    const appDir = path.resolve(__dirname, '..', 'fixtures/select-mul-entry');
     const port = await getPort();
     const app = await runModernCommandDev(
       ['dev', '--entry', 'foo,bar'],
