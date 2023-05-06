@@ -43,6 +43,15 @@ export default defineConfig({
 });
 ```
 
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify `<'rspack'>` generic type for `defineConfig`:
+
+```diff title=modern.config.ts
+- export default defineConfig({
++ export default defineConfig<'rspack'>({
+   //...
+});
+```
+
 ### modern.config.js
 
 If you are developing a non-TypeScript project, you can use the configuration file in .js format:
@@ -239,6 +248,32 @@ const mergedConfig = {
   },
   tools: {
     postcss: [() => console.log('config1'), () => console.log('config2')],
+  },
+};
+```
+
+## Configuration Type
+
+Modern.js exports `AppUserConfig` type, which corresponds to the type of Modern.js configuration object:
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig = {
+  tools: {
+    webpack: {},
+  },
+};
+```
+
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify `<'rspack'>` generic type for `defineConfig`:
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig<'rspack'> = {
+  tools: {
+    rspack: {},
   },
 };
 ```

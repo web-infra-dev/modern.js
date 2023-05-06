@@ -43,6 +43,15 @@ export default defineConfig({
 });
 ```
 
+当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `defineConfig` 指定 `<'rspack'>` 泛型：
+
+```diff title=modern.config.ts
+- export default defineConfig({
++ export default defineConfig<'rspack'>({
+  // ...
+});
+```
+
 ### modern.config.js
 
 如果你在开发一个非 TypeScript 项目，可以使用 .js 格式的配置文件：
@@ -239,6 +248,32 @@ const mergedConfig = {
   },
   tools: {
     postcss: [() => console.log('config1'), () => console.log('config2')],
+  },
+};
+```
+
+## 配置类型定义
+
+Modern.js 导出了 `AppUserConfig` 类型，对应 Modern.js 配置对象的类型：
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig = {
+  tools: {
+    webpack: {},
+  },
+};
+```
+
+当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 `AppUserConfig` 指定 `<'rspack'>` 泛型：
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig<'rspack'> = {
+  tools: {
+    rspack: {},
   },
 };
 ```
