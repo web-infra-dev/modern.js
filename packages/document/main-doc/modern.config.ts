@@ -7,8 +7,7 @@ const rootCategories = [
   'guides',
   'apis/app',
   'configure/app',
-  'blog',
-  'about',
+  'community',
 ];
 
 const { version } = require('./package.json');
@@ -42,14 +41,9 @@ const getNavbar = (lang: string): NavItem[] => {
       activeMatch: '/apis/',
     },
     {
-      text: getText('博客', 'Blog'),
-      link: getLink('/blog/index'),
-      activeMatch: '/blog/',
-    },
-    {
-      text: getText('关于', 'About'),
-      link: getLink('/about/showcase'),
-      activeMatch: '/about/',
+      text: getText('社区', 'Community'),
+      link: getLink('/community/showcase'),
+      activeMatch: '/community/',
     },
     {
       text: `v${version}`,
