@@ -18,6 +18,8 @@ export interface NavProps {
   afterNavTitle?: React.ReactNode;
 }
 
+const DEFAULT_NAV_POSTION = 'right';
+
 interface NavBarTitleProps {
   title: string;
   langRoutePrefix: string;
@@ -124,10 +126,12 @@ export function Nav(props: NavProps) {
 
   const menuItems = localeData.nav || [];
 
-  // eslint-disable-next-line react/prop-types
-  const leftMenuItems = menuItems.filter(item => item.position === 'left');
-  // eslint-disable-next-line react/prop-types
-  const rightMenuItems = menuItems.filter(item => item.position === 'right');
+  const getPosition = (menuItem: NavItem) =>
+    menuItem.position ?? DEFAULT_NAV_POSTION;
+  const leftMenuItems = menuItems.filter(item => getPosition(item) === 'left');
+  const rightMenuItems = menuItems.filter(
+    item => getPosition(item) === 'right',
+  );
 
   const hasSearch = siteData?.themeConfig?.search !== false;
 
