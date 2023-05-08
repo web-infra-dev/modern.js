@@ -148,6 +148,8 @@ export type PageIndexInfo = {
   frontmatter: Record<string, unknown>;
   lang: string;
   domain: string;
+  _filepath: string;
+  _relativePath: string;
 };
 
 export type RemotePageInfo = PageIndexInfo & {
