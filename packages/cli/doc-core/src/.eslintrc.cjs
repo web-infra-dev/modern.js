@@ -9,5 +9,6 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-require-imports': 0,
     '@typescript-eslint/no-var-requires': 0,
+    'react/prop-types': 0,
   },
 };

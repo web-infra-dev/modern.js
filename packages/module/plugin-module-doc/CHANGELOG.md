@@ -1,5 +1,25 @@
 # @modern-js/plugin-module-doc
 
+## 2.17.1
+
+### Patch Changes
+
+- ee40be9: fix: use dynamic import doc-core
+  fix: 使用动态引用 doc-core
+- 7cca880: fix: use mergeDocConfig to merge modern doc config
+  fix: 支持 mergeDocConfig 合并 modern doc 的配置
+- Updated dependencies [846590d]
+- Updated dependencies [e3733a3]
+- Updated dependencies [ecdcd71]
+- Updated dependencies [01b4e32]
+- Updated dependencies [01b4e32]
+- Updated dependencies [06dd14e]
+- Updated dependencies [8b7f7f2]
+- Updated dependencies [cb3cc7f]
+- Updated dependencies [e3733a3]
+  - @modern-js/doc-core@2.17.1
+  - @modern-js/module-tools@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes

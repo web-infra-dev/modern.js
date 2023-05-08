@@ -1,5 +1,4 @@
 import path from 'path';
-import { mergeDocConfig } from '@modern-js/doc-core';
 import { fs, fastGlob } from '@modern-js/utils';
 import { demoRuntimeModules } from '../runtimeModule';
 import { Options, ModuleDocgenLanguage } from '../types';
@@ -16,7 +15,7 @@ export async function launchDoc({
   );
   const root = path.join(appDir, 'docs');
   const DEFAULT_LANG = languages[0];
-  const { dev, build } = await import('@modern-js/doc-core');
+  const { dev, build, mergeDocConfig } = await import('@modern-js/doc-core');
   const getLangPrefixInLink = (language: ModuleDocgenLanguage) =>
     language === DEFAULT_LANG ? '' : `/${language}`;
   const getSidebar = (lang: 'zh' | 'en') => {

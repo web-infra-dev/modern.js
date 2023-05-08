@@ -78,7 +78,9 @@ export async function renderPages(config: UserConfig) {
       const { helmet } = helmetContext.context;
 
       let html = htmlTemplate
-        .replace(APP_HTML_MARKER, appHtml)
+        // Don't use `string` as second param
+        // To avoid some special characters transformed to the marker, such as `$&`, etc.
+        .replace(APP_HTML_MARKER, () => appHtml)
         .replace(
           HEAD_MARKER,
           (config.doc?.head || [])

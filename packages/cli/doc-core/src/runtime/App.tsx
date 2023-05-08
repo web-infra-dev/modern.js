@@ -57,6 +57,8 @@ export async function initPageData(routePath: string): Promise<PageData> {
         frontmatter: {},
         title: '404',
         toc: [],
+        _filepath: '',
+        _relativePath: '',
       },
     };
   }

@@ -3,6 +3,10 @@
   margin: auto;
 }
 
+.leftNav {
+  display: none;
+}
+
 .rightNav {
   display: none;
 }
@@ -56,6 +60,12 @@
   .menu-item {
     display: flex;
   }
+  .leftNav {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin: 0 0.5rem;
+  }
   .rightNav {
     display: flex;
     align-items: center;
@@ -84,5 +94,9 @@
     height: 30px;
     background: linear-gradient(var(--modern-c-bg), transparent 60%);
     content: '';
+  }
+
+  .leftNav {
+    margin: 0 2rem;
   }
 }

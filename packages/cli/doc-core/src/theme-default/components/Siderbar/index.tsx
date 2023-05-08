@@ -38,6 +38,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
   const { page } = usePageData();
+  const { lang } = page;
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (active) {
@@ -49,10 +50,11 @@ export function SidebarItemComp(props: SidebarItemProps) {
   let { text } = item;
   /* HMR fix: When page title changed, we use the latest title as sidebar text, in the meantime, it takes more complexity */
   if (inBrowser() && !isProduction()) {
+    const withLang = (link: string) => `${link}-${lang}`;
     if (active) {
-      localStorage.setItem(item.link, page.title);
+      localStorage.setItem(withLang(item.link), page.title);
     }
-    const cached = localStorage.getItem(item.link);
+    const cached = localStorage.getItem(withLang(item.link));
     if (cached) {
       text = cached;
     }
