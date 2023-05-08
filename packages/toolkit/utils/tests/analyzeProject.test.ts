@@ -1,5 +1,5 @@
 import path from 'path';
-import { isApiOnly } from '../src/analyzeProject';
+import { isApiOnly } from '../src';
 
 describe('analyzeProject', () => {
   test('apiOnly should be calculate correctly', () => {

@@ -1,12 +1,12 @@
 /* eslint-disable react/no-danger */
-import { TrackedPromise } from '@modern-js/utils/universal/remix-router';
+import { TrackedPromise } from '@modern-js/utils/runtime';
 import { Suspense, useEffect, useRef, useMemo, useContext } from 'react';
 import {
   Await,
   UNSAFE_DataRouterContext as DataRouterContext,
   useAsyncError,
 } from 'react-router-dom';
-import { serializeJson } from '@modern-js/utils/universal/serialize';
+import { serializeJson } from '@modern-js/utils/runtime-node';
 import { JSX_SHELL_STREAM_END_MARK } from '../../common';
 import { serializeErrors } from './utils';
 

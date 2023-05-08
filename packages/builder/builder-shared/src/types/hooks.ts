@@ -1,4 +1,4 @@
-import type { ChainIdentifier } from '@modern-js/utils';
+import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 import type { Stats, MultiStats } from './stats';
 import { NodeEnv, PromiseOrNot } from './utils';
 import { BuilderTarget } from './builder';

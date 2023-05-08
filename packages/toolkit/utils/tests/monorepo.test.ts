@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { isPnpmWorkspaces, isModernjsMonorepo } from '../src/monorepo';
+import { isPnpmWorkspaces, isModernjsMonorepo } from '../src';
 
 describe('isPnpmWorkspaces', () => {
   test('should return correct result', () => {

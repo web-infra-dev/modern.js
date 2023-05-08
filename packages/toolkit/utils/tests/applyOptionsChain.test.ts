@@ -1,4 +1,4 @@
-import { applyOptionsChain } from '../src/applyOptionsChain';
+import { applyOptionsChain } from '../src';
 
 describe('apply options chain', () => {
   test(`should return default options`, () => {
