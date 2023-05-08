@@ -43,7 +43,7 @@ describe('Check basic render in development', () => {
     await page.close();
   });
 
-  it.skip('Guide page', async () => {
+  it('Guide page', async () => {
     const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}/guide`, {
       waitUntil: ['networkidle0'],
@@ -65,7 +65,7 @@ describe('Check basic render in development', () => {
     await page.close();
   });
 
-  it.skip('dark mode', async () => {
+  it('dark mode', async () => {
     const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],

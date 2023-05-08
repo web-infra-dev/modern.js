@@ -16,7 +16,7 @@ describe('Check production build', () => {
   let appPort: number;
   let page: Page;
   beforeAll(async () => {
-    appDir = join(fixtureDir, 'base');
+    appDir = join(fixtureDir, 'production');
     await modernBuild(appDir);
     app = await modernServe(appDir, (appPort = await getPort()), {
       cwd: appDir,
