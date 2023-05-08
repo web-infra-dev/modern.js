@@ -141,6 +141,15 @@ export default ({
             rspack: (config: any) => {
               config.builtins ??= {};
 
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const resolveOptions = useResolvedConfigContext();
+              if (
+                resolveOptions?.deploy?.microFrontend &&
+                !config.externalsType
+              ) {
+                config.externalsType = 'commonjs';
+              }
+
               // todo: so ugly...
               const banner = config.builtins.banner || [];
               config.builtins.banner = [
