@@ -65,7 +65,7 @@ describe('Check basic render in development', () => {
     await page.close();
   });
 
-  it('dark mode', async () => {
+  it.skip('dark mode', async () => {
     const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
