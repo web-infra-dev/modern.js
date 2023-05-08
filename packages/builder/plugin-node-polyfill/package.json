@@ -38,12 +38,12 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-    "node-libs-browser": "2.2.1",
-    "rspack-plugin-virtual-module": "0.1.0",
-    "@modern-js/builder-shared": "workspace:*"
+    "@modern-js/builder-shared": "workspace:*",
+    "node-libs-browser": "2.2.1"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
