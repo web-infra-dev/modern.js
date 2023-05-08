@@ -54,27 +54,41 @@ export default (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
+        const userConfig = api.useResolvedConfigContext();
         const { bundlerType = 'webpack' } = api.useAppContext();
-        const babelConfig =
-          bundlerType === 'webpack'
-            ? (config: any) => {
-                // Add id for useLoader method,
-                // The useLoader can be used even if the SSR is not enabled
+        // eslint-disable-next-line consistent-return
+        const babelConfig = (() => {
+          // In webpack build, we should let `useLoader` support CSR & SSR both.
+          if (bundlerType === 'webpack') {
+            return (config: any) => {
+              // Add id for useLoader method,
+              // The useLoader can be used even if the SSR is not enabled
+              config.plugins?.push(
+                path.join(__dirname, './babel-plugin-ssr-loader-id'),
+              );
+
+              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
+                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
+              }
+            };
+          } else if (bundlerType === 'rspack') {
+            // In Rspack build, we need transform the babel-loader again.
+            // It would increase performance overhead,
+            // so we only use useLoader in CSR on Rspack build temporarily.
+            if (isUseSSRBundle(userConfig)) {
+              return (config: any) => {
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-
-                const userConfig = api.useResolvedConfigContext();
-                if (
-                  isUseSSRBundle(userConfig) &&
-                  hasStringSSREntry(userConfig)
-                ) {
+                if (hasStringSSREntry(userConfig)) {
                   config.plugins?.push(
                     require.resolve('@loadable/babel-plugin'),
                   );
                 }
-              }
-            : undefined;
+              };
+            }
+          }
+        })();
 
         return {
           source: {
@@ -91,7 +105,7 @@ export default (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            webpackChain: (chain, { isServer, isServiceWorker, CHAIN_ID }) => {
+            bundlerChain(chain, { isServer, isServiceWorker, CHAIN_ID }) {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -101,10 +115,10 @@ export default (): CliPlugin<AppTools> => ({
                 hasStringSSREntry(userConfig)
               ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
+                const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
                   .plugin(CHAIN_ID.PLUGIN.LOADABLE)
-                  .use(LoadableWebpackPlugin, [
+                  .use(LoadableBundlerPlugin, [
                     { filename: LOADABLE_STATS_FILE },
                   ]);
               }
