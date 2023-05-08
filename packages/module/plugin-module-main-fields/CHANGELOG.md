@@ -1,5 +1,33 @@
 # @modern-js/plugin-module-main-fields
 
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [b06f571]
+- Updated dependencies [acc0a00]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [4e876ab]
+- Updated dependencies [355d36e]
+- Updated dependencies [b06f571]
+  - @modern-js/module-tools@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

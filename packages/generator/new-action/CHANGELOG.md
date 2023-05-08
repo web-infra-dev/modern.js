@@ -1,5 +1,37 @@
 # @modern-js/new-action
 
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.12
+- @modern-js/generator-utils@3.1.12
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.11
+- @modern-js/generator-utils@3.1.11
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [84a8008]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/generator-common@3.1.10
+  - @modern-js/generator-utils@3.1.10
+
 ## 2.15.0
 
 ### Patch Changes

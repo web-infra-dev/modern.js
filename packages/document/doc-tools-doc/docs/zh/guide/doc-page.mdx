@@ -24,7 +24,9 @@ import path from 'path';
 
 export default defineConfig({
   doc: {
-    outlineTitle: '目录',
+    themeConfig: {
+      outlineTitle: '目录',
+    },
   },
   plugins: [docTools()],
 });

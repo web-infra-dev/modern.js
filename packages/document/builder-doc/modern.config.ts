@@ -32,6 +32,7 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
 
 function getSidebar(lang: 'zh' | 'en'): Sidebar {
   const { getLink, getText } = getI18nHelper(lang);
+
   return {
     [getLink('/guide/')]: [
       {
@@ -172,6 +173,9 @@ export default defineConfig({
       checkDeadLinks: true,
       experimentalMdxRs: true,
     },
+    route: {
+      exclude: ['**/config/**'],
+    },
     themeConfig: {
       footer: {
         message: 'Copyright © 2023 ByteDance.',
@@ -205,6 +209,11 @@ export default defineConfig({
           description: 'A build engine for web development.',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/builder-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
     },
     replaceRules: [
       {

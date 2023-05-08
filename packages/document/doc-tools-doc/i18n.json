@@ -1,0 +1,54 @@
+{
+  "getting-started": {
+    "zh": "开始",
+    "en": "Getting Started"
+  },
+  "features": {
+    "zh": "基础功能",
+    "en": "Features"
+  },
+  "default-theme": {
+    "zh": "默认主题",
+    "en": "Default Theme"
+  },
+  "advanced": {
+    "zh": "高级能力",
+    "en": "Advanced"
+  },
+  "api-overview": {
+    "zh": "API 概览",
+    "en": "API Overview"
+  },
+  "config": {
+    "zh": "配置",
+    "en": "Config"
+  },
+  "client-api": {
+    "zh": "Client API",
+    "en": "Client API"
+  },
+  "commands": {
+    "zh": "命令",
+    "en": "Commands"
+  },
+  "guide": {
+    "zh": "指南",
+    "en": "Guide"
+  },
+  "api": {
+    "zh": "API",
+    "en": "API"
+  },
+  "plugin": {
+    "zh": "插件",
+    "en": "Plugin"
+  },
+  "plugin-system": {
+    "zh": "插件机制",
+    "en": "Plugin System"
+  },
+  "plugin-list": {
+    "zh": "官方插件列表",
+    "en": "Official Plugins"
+  }
+}

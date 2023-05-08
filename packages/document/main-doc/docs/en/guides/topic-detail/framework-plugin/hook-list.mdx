@@ -611,7 +611,7 @@ export default (): CliPlugin => ({
 
 This adds a new Script tag to the HTML template.
 
-## Server
+{/* ## Server
 
 :::note
 The Server plugin is currently not fully opened, and the API is not guaranteed to be stable. Use with caution.
@@ -691,7 +691,7 @@ export default (): ServerPlugin => ({
     };
   },
 });
-```
+```*/}
 
 ## Runtime
 
@@ -699,7 +699,7 @@ export default (): ServerPlugin => ({
 The Runtime plugin is currently not fully opened, and the API is not guaranteed to be stable. Use with caution.
 :::
 
-The Runtime plugin is mainly used for developers to modify the components and elements that need to be rendered, and customize the rendering process on the server and client side.
+The Runtime plugin is mainly used for developers to modify the component that need to be rendered.
 
 ### `init`
 
@@ -732,23 +732,29 @@ export default (): Plugin => ({
 - Type: `Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
 - Usage Example:
 
+:::note
+When using the hoc hook, you need to copy the static properties of the original App component to the new component and pass through the props.
+:::
+
 ```ts
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
 export default (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
       hoc({ App }, next) {
+        const AppWrapper = (props: any) => {
+          return (
+            <FooContext.Provider store={'test'}>
+              <App {...props} />
+            </FooContext.Provider>
+          );
+        };
         return next({
-          App: (props: any) => {
-            return (
-              <FooContext.Provider store={'test'}>
-                <App {...props} />
-              </FooContext.Provider>
-            );
-          },
+          App: hoistNonReactStatics(AppWrapper, App)
         });
       },
     };
@@ -756,7 +762,7 @@ export default (): Plugin => ({
 });
 ```
 
-### `provide`
+{/* ### `provide`
 
 - Function: Modifies the Elements that need to be rendered.
 - Execution Stage: Rendering (SSR/CSR).
@@ -828,4 +834,4 @@ export default (): Plugin => ({
     };
   },
 });
-```
+``` */}

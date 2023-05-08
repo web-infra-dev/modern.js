@@ -1,5 +1,38 @@
 # @modern-js/builder-plugin-swc
 
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.1
+- @modern-js/builder-plugin-swc-base@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.0
+- @modern-js/builder-plugin-swc-base@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 50bc0db: feat(builder): update swc-plugins, core-js, swc-helpers
+  feat(builder): 更新 swc-plugins, core-js, swc-helpers
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [50bc0db]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/builder-plugin-swc-base@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

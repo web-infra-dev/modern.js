@@ -34,6 +34,7 @@ export interface NavItemWithLink {
   text: string;
   link: string;
   activeMatch?: string;
+  position?: 'left' | 'right';
 }
 ```
 
@@ -42,10 +43,22 @@ export interface NavItemWithLink {
 - `text` - 导航栏文本
 - `link` - 导航栏链接
 - `activeMatch` - 导航栏链接的激活规则
+- `position` - 导航栏菜单项定位
+
+
+
+属性详情：
 
 `activeMatch` 用于匹配当前路由，当路由匹配 `activeMatch` 规则时，nav 项会高亮显示。
 
 > 默认情况下，`activeMatch` 是 NavItem 的 `link` 属性。
+
+`position` 用于配置顶部菜单项的独立定位，可选项为：
+
+- `'left'`：置于菜单项到顶部的左侧菜单栏；
+- `'right'`：置于菜单项到顶部的右侧菜单栏。
+
+> 如果`position`未配置的情况下会默认放到右侧菜单栏，效果等同于配置`'right'`。
 
 ### NavItemWithChildren
 
@@ -53,6 +66,7 @@ export interface NavItemWithLink {
 export interface NavItemWithChildren {
   text: string;
   items: (NavItemWithLink | NavItemWithChildren)[];
+  position?: 'left' | 'right';
 }
 ```
 
@@ -60,6 +74,7 @@ export interface NavItemWithChildren {
 
 - `text` - 导航栏文本
 - `items` - 子导航栏元素
+- `position`- 带有子元素的导航栏菜单项定位
 
 ### 示例
 
@@ -73,6 +88,7 @@ export default defineConfig({
         {
           text: 'Home',
           link: '/',
+          position: 'left',
         },
         {
           text: '更多链接',
@@ -100,6 +116,7 @@ export default defineConfig({
               ],
             },
           ],
+          position: 'right',
         },
       ],
     },

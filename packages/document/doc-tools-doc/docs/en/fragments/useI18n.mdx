@@ -1,0 +1,37 @@
+The framework provides `useI18n` this hook to get the internationalized text, the usage is as follows:
+
+```tsx
+import { useI18n } from '@modern-js/doc-tools/runtime';
+
+const MyComponent = () => {
+  const { t } = useI18n();
+
+  return <div>{t('getting-started')}</div>;
+};
+```
+
+For better type hinting, you can configure `paths` in tsconfig.json:
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "i18n": ["./i18n.json"]
+    }
+  }
+}
+```
+
+Then use it like this in the component:
+
+```tsx
+import { useI18n } from '@modern-js/doc-tools/runtime';
+
+const MyComponent = () => {
+  const { t } = useI18n<keyof typeof import('i18n')>();
+
+  return <div>{t('getting-started')}</div>;
+};
+```
+
+This way you get type hints for all literal keys defined in `i18n.json`.

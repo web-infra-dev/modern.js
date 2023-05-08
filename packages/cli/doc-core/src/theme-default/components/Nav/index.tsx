@@ -66,7 +66,6 @@ export function Nav(props: NavProps) {
   const { beforeNavTitle, afterNavTitle, beforeNav } = props;
   const { siteData, page } = usePageData();
   const { logo: rawLogo, base } = siteData;
-  const { lang } = page;
   const { pathname } = useLocation();
   const { theme } = useContext(ThemeContext);
   const localeData = useLocaleSiteData();
@@ -76,6 +75,7 @@ export function Nav(props: NavProps) {
   const socialLinks = siteData?.themeConfig?.socialLinks || [];
   const hasSocialLinks = socialLinks.length > 0;
   const defaultLang = siteData.lang || 'zh';
+  const { lang } = page;
   const langs = localeLanguages.map(item => item.lang || 'zh') || [];
   const [logo, setLogo] = useState(getLogoUrl(rawLogo, theme));
 
@@ -123,10 +123,24 @@ export function Nav(props: NavProps) {
   };
 
   const menuItems = localeData.nav || [];
+
+  // eslint-disable-next-line react/prop-types
+  const leftMenuItems = menuItems.filter(item => item.position === 'left');
+  // eslint-disable-next-line react/prop-types
+  const rightMenuItems = menuItems.filter(item => item.position === 'right');
+
   const hasSearch = siteData?.themeConfig?.search !== false;
 
   const title = localeData.title ?? siteData.title;
   const hasAppearanceSwitch = siteData.themeConfig.darkMode !== false;
+
+  const leftNav = () => {
+    return (
+      <div className={styles.leftNav}>
+        <NavMenu menuItems={leftMenuItems} />
+      </div>
+    );
+  };
 
   const rightNav = () => {
     return (
@@ -136,7 +150,7 @@ export function Nav(props: NavProps) {
             <Search />
           </div>
         )}
-        <NavMenu menuItems={menuItems} />
+        <NavMenu menuItems={rightMenuItems} />
         <div className="flex-center flex-row">
           {hasMultiLanguage && (
             <NavTranslations translationMenuData={translationMenuData} />
@@ -174,6 +188,7 @@ export function Nav(props: NavProps) {
           <div
             className={`${styles.content} flex flex-1 justify-end items-center`}
           >
+            {leftNav()}
             {rightNav()}
 
             <div className={styles.mobileNavMenu}>

@@ -1,5 +1,41 @@
 # @modern-js/plugin-express
 
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.17.1
+- @modern-js/bff-runtime@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- 3810930: fix: optimize alias for plugin-express & export useBlocker
+  fix: 优化 plugin-express 的 alias 的实现 & 导出 useBlocker
+  - @modern-js/bff-core@2.17.0
+  - @modern-js/bff-runtime@2.17.0
+  - @modern-js/types@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/bff-runtime@2.16.0
+  - @modern-js/bff-core@2.16.0
+  - @modern-js/types@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

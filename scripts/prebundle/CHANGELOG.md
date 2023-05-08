@@ -1,5 +1,27 @@
 # @scripts/prebundle
 
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.17.1
+- @scripts/build@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.17.0
+- @scripts/build@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- Updated dependencies [4e876ab]
+  - @modern-js/tsconfig@2.16.0
+  - @scripts/build@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

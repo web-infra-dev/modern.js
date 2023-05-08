@@ -1,15 +1,9 @@
 import path from 'path';
 import docTools, { defineConfig, NavItem, Sidebar } from '@modern-js/doc-tools';
 
-function getI18nHelper(lang: 'zh' | 'en') {
-  const isZh = lang === 'zh';
-  const prefix = isZh ? '/zh' : '';
-  const getLink = (str: string) => `${prefix}${str}`;
-  const getText = (zhText: string, enText: string) => (isZh ? zhText : enText);
-  return { getText, getLink };
-}
-
 const isProd = () => process.env.NODE_ENV === 'production';
+
+const getI18nKey = (key: keyof typeof import('./i18n.json')) => key;
 
 export default defineConfig({
   plugins: [docTools({})],
@@ -30,7 +24,12 @@ export default defineConfig({
         startUrl: false,
       },
     },
+    route: {
+      exclude: ['**/fragments/**'],
+    },
     themeConfig: {
+      nav: getNavbar(),
+      sidebar: getSidebar(),
       footer: {
         message: '© 2023 Bytedance Inc. All Rights Reserved.',
       },
@@ -43,101 +42,113 @@ export default defineConfig({
       ],
       locales: [
         {
-          nav: getNavbar('zh'),
-          sidebar: getSidebar('zh'),
           lang: 'zh',
           label: '简体中文',
         },
         {
-          nav: getNavbar('en'),
-          sidebar: getSidebar('en'),
           lang: 'en',
           label: 'English',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/doc-tools-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
     },
   },
 });
 
-function getSidebar(lang: 'zh' | 'en'): Sidebar {
-  const { getLink, getText } = getI18nHelper(lang);
-
+function getSidebar(): Sidebar {
   return {
-    [getLink('/guide/')]: [
+    '/guide/': [
       {
-        text: getText('开始', 'Getting Started'),
+        text: getI18nKey('getting-started'),
+        items: ['/guide/introduction', '/guide/getting-started'],
+      },
+      {
+        text: getI18nKey('features'),
         items: [
-          getLink('/guide/introduction'),
-          getLink('/guide/getting-started'),
+          '/guide/conventional-route',
+          '/guide/use-mdx',
+          '/guide/static-assets',
+          '/guide/global-styles',
         ],
       },
       {
-        text: getText('基础功能', 'Features'),
+        text: getI18nKey('default-theme'),
         items: [
-          getLink('/guide/conventional-route'),
-          getLink('/guide/use-mdx'),
-          getLink('/guide/static-assets'),
-          getLink('/guide/global-styles'),
+          '/guide/navbar',
+          '/guide/home-page',
+          '/guide/doc-page',
+          '/guide/overview-page',
+          '/guide/i18n',
+          '/guide/components',
         ],
       },
       {
-        text: getText('默认主题功能', 'Default Theme'),
-        items: [
-          getLink('/guide/navbar'),
-          getLink('/guide/home-page'),
-          getLink('/guide/doc-page'),
-          getLink('/guide/overview-page'),
-          getLink('/guide/i18n'),
-          getLink('/guide/components'),
-        ],
-      },
-      {
-        text: getText('高级能力', 'Advanced'),
-        items: [
-          getLink('/advanced/extend-build'),
-          getLink('/advanced/custom-theme'),
-          getLink('/advanced/plugin-system'),
-        ],
+        text: getI18nKey('advanced'),
+        items: ['/advanced/extend-build', '/advanced/custom-theme'],
       },
     ],
-    [getLink('/api/')]: [
+    '/api/': [
       {
-        text: getText('API 概览', 'API Overview'),
-        link: getLink('/api/'),
+        text: getI18nKey('api-overview'),
+        link: '/api/',
       },
       {
-        text: getText('配置项', 'Config'),
+        text: getI18nKey('config'),
         items: [
-          getLink('/api/config-basic'),
-          getLink('/api/config-theme'),
-          getLink('/api/config-frontmatter'),
-          getLink('/api/config-build'),
+          '/api/config-basic',
+          '/api/config-theme',
+          '/api/config-frontmatter',
+          '/api/config-build',
         ],
       },
       {
-        text: getText('Client API', 'Client API'),
-        items: [getLink('/api/api-runtime'), getLink('/api/api-components')],
+        text: getI18nKey('client-api'),
+        items: ['/api/api-runtime', '/api/api-components'],
       },
       {
-        text: getText('命令', 'Commands'),
-        link: getLink('/api/commands'),
+        text: getI18nKey('commands'),
+        link: '/api/commands',
       },
+    ],
+    '/plugin/': [
+      {
+        text: getI18nKey('plugin-system'),
+        items: [
+          '/plugin/introduction',
+          '/plugin/write-a-plugin',
+          '/plugin/plugin-api',
+        ],
+      },
+      // {
+      //   text: getI18nKey('plugin-list'),
+      //   items: [
+      //     '/plugin/official-plugins/',
+      //     '/plugin/official-plugins/medium-zoom',
+      //   ],
+      // },
     ],
   };
 }
 
-function getNavbar(lang: 'zh' | 'en'): NavItem[] {
-  const { getLink, getText } = getI18nHelper(lang);
-
+function getNavbar(): NavItem[] {
   return [
     {
-      text: getText('指南', 'Guide'),
-      link: getLink('/guide/getting-started'),
+      text: getI18nKey('guide'),
+      link: '/guide/getting-started',
       activeMatch: '/guide/',
     },
     {
-      text: getText('API', 'API'),
-      link: getLink('/api/'),
+      text: getI18nKey('plugin'),
+      link: '/plugin/introduction',
+      activeMatch: '/plugin/',
+    },
+    {
+      text: getI18nKey('api'),
+      link: '/api/',
       activeMatch: '/api/',
     },
   ];

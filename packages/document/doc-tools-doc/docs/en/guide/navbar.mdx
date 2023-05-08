@@ -34,16 +34,31 @@ export interface NavItemWithLink {
   text: string;
   link: string;
   activeMatch?: string;
+  position?: 'left' | 'right';
 }
 ```
 
 The meanings of the attributes are as follows:
 
--`text` - Navbar text -`link` - Navbar link -`activeMatch` - activation rule for navbar links
+- `text` - Navbar text
+- `link` - Navbar link
+- `activeMatch` - Activation rule for navbar links
+- `position` - Navbar menu item position
+
+
+
+Attribute details:
 
 `activeMatch` is used to match the current route, when the route matches the `activeMatch` rule, the nav item will be highlighted.
 
 > By default, `activeMatch` is the `link` attribute of NavItem.
+
+`position` is used to configure independent positioning of top menu items, with the following options available:
+
+- `left` placed in the left menu bar at the top of the menu item;
+- `right` pplaced in the right menu bar at the top of the menu item.
+
+> If the `position` is not configured, it will be placed on the right menu bar by default, which is equivalent to configuring `right` .
 
 ### NavItemWithChildren
 
@@ -51,12 +66,15 @@ The meanings of the attributes are as follows:
 export interface NavItemWithChildren {
   text: string;
   items: NavItem[];
+  position?: 'left' | 'right';
 }
 ```
 
 The meanings of the attributes are as follows:
 
--`text` - Navbar text -`items` - subnavbar elements
+- `text` - Navbar text
+- `items` - Subnavbar elements
+- `position` - Navbar menu item position with child navbar elements
 
 ### Example
 
@@ -70,6 +88,7 @@ export default defineConfig({
         {
           text: 'Home',
           link: '/',
+          position: 'left',
         },
         {
           text: 'Links',
@@ -83,6 +102,7 @@ export default defineConfig({
               link: 'http://twitter.com/',
             },
           ],
+          position: 'left',
         },
       ],
     },

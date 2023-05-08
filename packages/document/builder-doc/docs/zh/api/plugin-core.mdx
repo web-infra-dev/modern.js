@@ -12,10 +12,14 @@ extractApiHeaders: [2]
 
 - `name`：插件的名称，唯一标识符。
 - `setup`：插件逻辑的主入口函数，可以是一个异步函数。该函数仅会在初始化插件时执行一次。
+- `pre`：指定当前插件的前置插件有哪些，当前插件会被调整到这些插件之后执行。
+- `post`：指定当前插件的后置插件有哪些，当前插件会被调整到这些插件之前执行。
 
 ```ts
 type BuilderPlugin<API = BuilderPluginAPI> = {
   name: string;
+  pre?: string[];
+  post?: string[];
   setup: (api: API) => Promise<void> | void;
 };
 ```
@@ -27,6 +31,8 @@ import type { BuilderPlugin } from '@modern-js/builder';
 
 export default (): BuilderPlugin => ({
   name: 'builder-plugin-foo',
+
+  pre: ['builder-plugin-bar'],
 
   setup: api => {
     api.onAfterBuild(() => {

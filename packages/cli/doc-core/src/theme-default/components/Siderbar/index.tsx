@@ -6,7 +6,8 @@ import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
-import { removeBase, normalizeHref, withBase } from '@/runtime';
+import { removeBase, normalizeHref, withBase, usePageData } from '@/runtime';
+import { inBrowser, isProduction } from '@/shared/utils';
 
 interface Props {
   isSidebarOpen?: boolean;
@@ -36,6 +37,29 @@ interface SidebarItemProps {
 export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
+  const { page } = usePageData();
+  const { lang } = page;
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (active) {
+      ref.current?.scrollIntoView({
+        block: 'center',
+      });
+    }
+  }, []);
+  let { text } = item;
+  /* HMR fix: When page title changed, we use the latest title as sidebar text, in the meantime, it takes more complexity */
+  if (inBrowser() && !isProduction()) {
+    const withLang = (link: string) => `${link}-${lang}`;
+    if (active) {
+      localStorage.setItem(withLang(item.link), page.title);
+    }
+    const cached = localStorage.getItem(withLang(item.link));
+    if (cached) {
+      text = cached;
+    }
+  }
+
   if ('items' in item) {
     return (
       <SidebarGroupComp
@@ -53,6 +77,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
     return (
       <Link href={normalizeHref(item.link)} className={styles.menuLink}>
         <div
+          ref={ref}
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
@@ -64,7 +89,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
             marginLeft: depth === 0 ? 0 : '12px',
           }}
         >
-          {item.text}
+          {text}
         </div>
       </Link>
     );
@@ -240,12 +265,13 @@ export function SideBar(props: Props) {
   const {
     isSidebarOpen,
     langRoutePrefix,
-    pathname,
+    pathname: rawPathname,
     sidebarData: rawSidebarData,
   } = props;
   const [sidebarData, setSidebarData] = useState<
     (SidebarItem | NormalizedSidebarGroup)[]
   >(rawSidebarData.filter(Boolean).flat());
+  const pathname = decodeURIComponent(rawPathname);
   useEffect(() => {
     // 1. Update sidebarData when pathname changes
     // 2. For current active item, expand its parent group

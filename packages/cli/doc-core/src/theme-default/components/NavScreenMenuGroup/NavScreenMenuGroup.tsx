@@ -17,7 +17,7 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
   function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
     return (
       <div className="p-1">
-        <span className="mr-1 text-brand">{item.text}</span>
+        <span className="text-brand">{item.text}</span>
       </div>
     );
   }
@@ -27,8 +27,8 @@ export function NavScreenMenuGroup(item: NavScreenMenuGroupItem) {
       <div className="py-1 font-medium">
         <Link href={item.link}>
           <div>
-            <div className="flex">
-              <span className="mr-1">{item.text}</span>
+            <div className="flex justify-center">
+              <span>{item.text}</span>
             </div>
           </div>
         </Link>

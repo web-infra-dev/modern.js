@@ -18,7 +18,9 @@ describe('asset prefix', () => {
       path.join(appDir, 'dist/html/main/index.html'),
       'utf-8',
     );
-    expect(HTML.includes(`//${DEFAULT_DEV_HOST}:3333/static/js/`)).toBeTruthy();
+    expect(
+      HTML.includes(`http://${DEFAULT_DEV_HOST}:3333/static/js/`),
+    ).toBeTruthy();
 
     await killApp(app);
   });
@@ -27,7 +29,7 @@ describe('asset prefix', () => {
     const appDir = path.resolve(fixtures, 'dev-asset-prefix');
 
     const app = await launchApp(appDir);
-    const expected = `//${DEFAULT_DEV_HOST}:3333`;
+    const expected = `http://${DEFAULT_DEV_HOST}:3333`;
 
     const mainJs = readFileSync(
       path.join(appDir, 'dist/static/js/main.js'),
@@ -38,7 +40,7 @@ describe('asset prefix', () => {
       mainJs.includes(`window.__assetPrefix__ = '${expected}';`),
     ).toBeTruthy();
 
-    await page.goto(`http:${expected}`);
+    await page.goto(`${expected}`);
 
     const assetPrefix = await page.evaluate(() => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment

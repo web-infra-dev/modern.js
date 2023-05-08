@@ -1,10 +1,14 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.15.0",
+  "version": "2.17.1",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/doc-core"
+  },
   "license": "MIT",
   "type": "module",
   "jsnext:source": "./src/index.ts",
@@ -111,7 +115,7 @@
     "@modern-js/mdx-rs-binding": "^0.1.4"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.15.0",
+    "@modern-js/core": "workspace:^2.17.1",
     "react": ">=17"
   },
   "devDependencies": {

@@ -89,19 +89,6 @@ export const Layout: React.FC<LayoutProps> = props => {
     // Normalize current url, to ensure that the home url is always with a trailing slash
     const { pathname } = window.location;
     const cleanPathname = removeBase(pathname);
-    if (!cleanPathname) {
-      window.location.replace(withBase('/'));
-      return;
-    } else if (
-      currentLang !== defaultLang &&
-      // Check if the pathname is a top level path
-      // e.g. /en will split to ['', 'en']
-      // e.g. /en/ will split to ['', 'en', '']
-      cleanPathname.split('/').length === 2
-    ) {
-      window.location.replace(`${pathname}/`);
-      return;
-    }
     // Check if the user is visiting the site for the first time
     const FIRST_VISIT_KEY = 'modern-doc-visited';
     const visited = localStorage.getItem(FIRST_VISIT_KEY);

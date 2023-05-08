@@ -64,9 +64,11 @@ export function DocLayout(props: DocLayoutProps) {
     );
   };
   const [hasAside, setHasAside] = useState(getHasAside());
+
   useEffect(() => {
     setHasAside(getHasAside());
-  }, [pathname]);
+  }, [page, siteData]);
+
   return (
     <div className={`${styles.docLayout} pt-0 md:mt-14`}>
       {beforeDoc}

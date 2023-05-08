@@ -1,0 +1,293 @@
+# 插件 API
+
+上一节我们介绍了插件的基本结构，本节我们来介绍插件的 API，帮助你更细致地了解插件功能。
+
+### globalStyles
+
+- **类型**：`string`
+
+用于添加全局样式，传入一个样式文件的绝对路径，使用方式如下：
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+import path from 'path';
+
+export function pluginForDoc(): DocPlugin {
+  // 样式路径
+  const stylePath = path.join(__dirname, 'some-style.css');
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 全局样式的路径
+    globalStyles: path.join(__dirname, 'global.css'),
+  };
+}
+```
+
+比如你想修改主题色，可以通过添加全局样式来实现：
+
+```css title="global.css"
+:root {
+  --modern-c-brand: #ffa500;
+  --modern-c-brand-dark: #ffa500;
+  --modern-c-brand-darker: #c26c1d;
+  --modern-c-brand-light: #f2a65a;
+  --modern-c-brand-lighter: #f2a65a;
+}
+```
+
+### globalUIComponents
+
+- **类型**：`string[]`
+
+用于添加全局组件，传入一个数组，数组中的每一项都是一个组件的绝对路径，使用方式如下：
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  // 组件路径
+  const componentPath = path.join(__dirname, 'xxx.tsx');
+  return {
+    // 插件名称
+    name: 'plugin-comp',
+    // 全局组件的路径
+    globalUIComponents: [componentPath],
+  };
+}
+```
+
+当你注册了全局组件之后，框架会自动将这些 React 组件在主题中进行渲染，而不用你手动引入。
+
+通过全局组件，你可以完成诸多自定义的功能，比如:
+
+#### 添加全局的 UI 组件
+
+```tsx title="comp-ui.tsx"
+import React from 'react';
+
+// 需要默认导出一个组件
+export default function PluginUI() {
+  return <div>这是一个全局的布局组件</div>;
+}
+```
+
+这样，在主题页面中会渲染组件的内容，比如添加**回到顶部按钮**。
+
+#### 注册全局副作用
+
+```tsx title="comp-side-effect.tsx"
+import { useEffect } from 'react';
+import { useLocation } from '@modern-js/doc-tools/runtime';
+
+// 需要默认导出一个组件
+export default function PluginSideEffect() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    // 组件初次渲染时执行
+  }, []);
+
+  useEffect(() => {
+    // 路由变化时执行
+  }, [pathname]);
+  return null;
+}
+```
+
+这样，在主题页面中会执行组件的副作用。比如以下的一些需要副作用的场景:
+
+- 针对某些页面路由进行重定向操作。
+- 对页面的 img 标签进行事件监听，实现图片放大功能。
+- 路由变化时，上报不同页面的 PV 数据。
+- ......
+
+### builderConfig
+
+- **类型**：`BuilderConfig`
+
+Modern.js Doc 底层基于 [Modern.js Builder](https://modernjs.dev/builder/) 的 Rspack 模式来进行文档构建。通过 `builderConfig` 可以对 Builder 进行配置，具体的配置项可以参考 [Modern.js Builder](https://modernjs.dev/builder/api/index.html)。
+
+> 当然，如果你想要直接配置 Rspack，也可以通过 `buildConfig.tools.rspack` 进行配置。
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(slug: string): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 构建阶段的全局变量定义
+    builderConfig: {
+      source: {
+        define: {
+          SLUG: JSON.stringify(slug),
+        },
+      },
+      tools: {
+        rspack(options) {
+          // 修改 rspack 的配置
+        },
+      },
+    },
+  };
+}
+```
+
+### config
+
+- **类型**：`(config: DocConfig) => DocConfig | Promise<DocConfig>`
+
+用于修改/扩展 Modern.js Doc 本身的配置，比如你想要修改文档的标题，可以通过 `config` 来实现：
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 扩展 Modern.js Doc 本身的配置
+    config(config) {
+      return {
+        ...config,
+        // 这里可以扩展 Modern.js Doc 的配置
+        title: '新的文档标题',
+      };
+    },
+  };
+}
+```
+
+### beforeBuild/afterBuild
+
+- **类型**：`(config: DocConfig, isProd: boolean) => void | Promise<void>`
+
+用于在文档构建之前/之后执行一些操作，第一个参数是文档的配置，第二个参数是当前是否是生产环境。使用方式如下：
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 在构建之前执行的钩子
+    async beforeBuild(config, isProd) {
+      // 这里可以执行一些操作
+    },
+    // 在构建之后执行的钩子
+    async afterBuild(config, isProd) {
+      // 这里可以执行一些操作
+    },
+  };
+}
+```
+
+:::tip 提醒
+在 `beforeBuild` 钩子执行时，已经经过了所有插件的 `config` 插件处理，因此 config 参数已经代表了最终的文档配置。
+:::
+
+### markdown
+
+- **类型**：`{ remarkPlugins?: Plugin[]; rehypePlugins?: Plugin[] }`
+
+用于扩展 Markdown/MDX 的编译能力，如果你想要添加自定义的 remark/rehype 插件，可以通过 `markdown.remarkPlugins/markdown.rehypePlugins` 来实现：
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 扩展 Markdown/MDX 编译能力
+    markdown: {
+      remarkPlugins: [
+        // 添加自定义的 remark 插件
+      ],
+      rehypePlugins: [
+        // 添加自定义的 rehype 插件
+      ],
+    },
+  };
+}
+```
+
+:::warning 注意
+在开启 mdx-rs 编译的情况下(即配置文件中 `doc.markdown.experimentalMdxRs` 为 `true`)，添加的 remark/rehype 插件会被忽略。
+:::
+
+### extendPageData
+
+- **类型**：`(pageData: PageData) => void | Promise<void>`
+
+用于扩展页面数据，比如你想要在页面数据中添加一些自定义的属性，可以通过 `extendPageData` 来实现：
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-name',
+    // 扩展页面数据
+    extendPageData(pageData) {
+      // 你可以往 pageData 对象上添加或者修改属性
+      pageData.a = 1;
+    },
+  };
+}
+```
+
+在扩展页面数据之后，你可以在主题中通过 `usePageData` 这个 hook 来访问页面数据。
+
+```tsx
+import { usePageData } from '@modern-js/doc-tools';
+
+export function MyComponent() {
+  const { page } = usePageData();
+  // page.a === 1
+  return <div>{page.a}</div>;
+}
+```
+
+### addPages
+
+- **类型**：`(config: UserConfig) => AdditionalPage[] | Promise<AdditionalPage[]>`
+
+其中，`config` 为 `modern.config.ts` 配置文件中导出的 `doc` 属性值，`AdditionalPage` 的类型定义如下：
+
+```tsx
+interface AdditionalPage {
+  routePath: string;
+  filepath?: string;
+  content?: string;
+}
+```
+
+主要用来添加额外的页面，你可以在 `addPages` 函数中返回一个数组，数组中的每一项都是一个页面的配置，你可以通过 `routePath` 来指定页面的路由，通过 `filepath` 或者 `content` 来指定页面的内容。比如：
+
+```tsx
+import path from 'path';
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function docPluginDemo(): DocPlugin {
+  return {
+    name: 'add-pages',
+    addPages() {
+      return [
+        //  支持真实文件的绝对路径(filepath)，这样会读取磁盘中的 md(x) 内容
+        {
+          routePath: '/filepath-route',
+          filepath: path.join(__dirname, 'blog', 'index.md'),
+        },
+        //  支持通过 content 参数直接传入 md(x) 内容
+        {
+          routePath: '/content-route',
+          content: '# Demo2',
+        },
+      ];
+    },
+  };
+}
+```

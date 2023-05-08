@@ -1,5 +1,25 @@
 # @modern-js/utils
 
+## 2.17.1
+
+## 2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- 7596520: feat(builder): builder plugin supports specifying relative order via the `pre` / `post` configuration items
+
+  feat(builder): builder 插件支持通过 `pre` / `post` 配置项指定相对顺序
+
+### Patch Changes
+
+- 5954330: fix: route id should not include [ or ]
+  fix: 路由 id 不应该包含 [ 或 ]
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 2.15.0
 
 ## 2.14.0

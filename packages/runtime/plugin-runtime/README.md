@@ -24,3 +24,9 @@ Please read the [Contributing Guide](https://github.com/web-infra-dev/modern.js/
 ## License
 
 Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).
+
+## Credist
+
+Thanks to:
+
+- [@loadable/webpack-plugin](https://github.com/gregberge/loadable-components) to create a webpack plugin prepare for loadable usage in ssr.

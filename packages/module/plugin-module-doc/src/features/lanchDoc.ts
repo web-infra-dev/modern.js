@@ -1,7 +1,5 @@
 import path from 'path';
-import type { UserConfig } from '@modern-js/doc-core';
 import { fs, fastGlob } from '@modern-js/utils';
-import { merge } from '@modern-js/utils/lodash';
 import { demoRuntimeModules } from '../runtimeModule';
 import { Options, ModuleDocgenLanguage } from '../types';
 import { remarkTsxToReact } from '../mdx/code-to-jsx';
@@ -17,7 +15,7 @@ export async function launchDoc({
   );
   const root = path.join(appDir, 'docs');
   const DEFAULT_LANG = languages[0];
-  const { dev, build } = await import('@modern-js/doc-core');
+  const { dev, build, mergeDocConfig } = await import('@modern-js/doc-core');
   const getLangPrefixInLink = (language: ModuleDocgenLanguage) =>
     language === DEFAULT_LANG ? '' : `/${language}`;
   const getSidebar = (lang: 'zh' | 'en') => {
@@ -46,7 +44,7 @@ export async function launchDoc({
       ],
     };
   };
-  const modernDocConfig: UserConfig = merge<UserConfig, UserConfig>(
+  const modernDocConfig = mergeDocConfig(
     {
       doc: {
         title: json.name,
