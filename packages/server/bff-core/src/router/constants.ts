@@ -32,5 +32,5 @@ export const API_FILE_RULES = [
   '!__test__/*.ts',
   '!__tests__/*.ts',
   '!node_modules/**',
-  '!bootstrap.js',
+  '!bootstrap.jsx',
 ];
