@@ -1,5 +1,7 @@
+import { createAsyncPipeline } from '@modern-js/server-core';
 import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
+
 import { metrics as defaultMetrics } from './libs/metrics';
 
 export type Context = Record<string, any>;
@@ -8,10 +10,19 @@ export interface UrlQuery {
   [key: string]: string;
 }
 
+type Middleware = (ctx: any, next: any) => Promise<void> | void;
+
+type CustomServer = {
+  middleware?: Middleware | Middleware[];
+  afterRender?: (ctx: any, next: any) => Promise<void> | void;
+  afterMatch?: (ctx: any, next: any) => Promise<void> | void;
+};
+
 export type Manifest = {
   pages: Record<
     string, // path
     {
+      customServer?: CustomServer;
       entryName: string;
       template: string;
       serverRender?: (ctx: Record<string, any>) => Promise<string>;
@@ -23,6 +34,8 @@ export type Manifest = {
 export const handleUrl = (url: string) => {
   return url.replace(/^https?:\/\/.*?\//gi, '/');
 };
+
+const middlewarePipeline = createAsyncPipeline<any, void>();
 
 export const createHandler = (manifest: Manifest) => {
   const routeMgr = new RouteMatchManager();
@@ -36,12 +49,31 @@ export const createHandler = (manifest: Manifest) => {
       return;
     }
     const page = pages[pageMatch.spec.urlPath];
+    page?.customServer?.afterMatch?.(ctx, undefined);
     ctx.request.query ??= ctx.query;
     ctx.request.pathname ??= ctx.pathname;
     ctx.request.params ??= ctx.params;
     const params = pageMatch.parseURLParams(ctx.url);
     if (page.serverRender) {
       try {
+        // run middlewares
+        if (page.customServer?.middleware) {
+          const middlewares = (() => {
+            if (Array.isArray(page.customServer.middleware)) {
+              return page.customServer.middleware;
+            } else {
+              return [page.customServer.middleware];
+            }
+          })();
+
+          middlewares.forEach(middleware => {
+            middlewarePipeline.use(middleware);
+          });
+
+          middlewarePipeline.run(ctx);
+        }
+
+        // render
         ctx.body = await page.serverRender({
           entryName: page.entryName,
           template: page.template,
@@ -62,6 +94,8 @@ export const createHandler = (manifest: Manifest) => {
           routeManifest: ctx.routeManifest,
         });
         ctx.status = 200;
+
+        page?.customServer?.afterRender?.(ctx, () => undefined);
         return;
       } catch (e) {
         if (page.template) {

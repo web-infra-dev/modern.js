@@ -2,9 +2,11 @@ import path from 'path';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   fs,
+  isProd,
   isServiceWorker,
   PLUGIN_SCHEMAS,
   ROUTE_SPEC_FILE,
+  SERVER_DIR,
 } from '@modern-js/utils';
 import {
   MANIFEST_FILE,
@@ -64,8 +66,16 @@ export default (): CliPlugin<AppTools> => ({
   },
 });
 
+const WEB_APP_NAME = 'index';
 const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
   const workServerDir = path.join(distDirectory, WORKER_SERVER);
+  const pwd = isProd() ? distDirectory : appDirectory;
+  const customServerDir = path.join(pwd, SERVER_DIR, WEB_APP_NAME);
+  const isExistsCustomServer =
+    fs.existsSync(`${customServerDir}.ts`) ||
+    fs.existsSync(`${customServerDir}.js`);
+  const relativePath = path.relative(workServerDir, customServerDir);
+
   fs.removeSync(workServerDir);
   fs.mkdirSync(workServerDir);
   // entry file
@@ -80,6 +90,9 @@ const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
     isSSR: boolean;
     urlPath: string;
   }[] = [];
+  if (isExistsCustomServer) {
+    importStr += `import * as customServer from '${relativePath}'\n`;
+  }
   routes.forEach(
     (route: {
       urlPath: string;
@@ -95,6 +108,7 @@ const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
       if (!route.isApi) {
         importStr += `import ${route.entryName}template from "../${route.entryPath}";\n`;
         pageStr += `"${route.urlPath}": {
+        ${isExistsCustomServer ? 'customSerer,' : ''}
         entryName: "${route.entryName}",
         template: ${route.entryName}template,
         serverRender: ${
