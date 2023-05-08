@@ -17,7 +17,7 @@ describe('generate async entry', () => {
 
     expect(
       readFileSync(
-        path.resolve(appDir, `node_modules/.modern-js/main/index.js`),
+        path.resolve(appDir, `node_modules/.modern-js/main/index.jsx`),
         'utf8',
       ),
     ).toContain(`import('./bootstrap.jsx');`);
