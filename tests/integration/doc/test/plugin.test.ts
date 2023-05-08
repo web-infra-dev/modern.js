@@ -1,24 +1,30 @@
 import path, { join } from 'path';
 import { Page } from 'puppeteer';
-import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
+import {
+  launchApp,
+  getPort,
+  killApp,
+  openPage,
+} from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
-
-declare const page: Page;
 
 describe('I18n doc render', () => {
   let app: any;
   let appPort: number;
+  let page: Page;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'plugin');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
+    page = await openPage();
   });
 
   afterAll(async () => {
     if (app) {
       await killApp(app);
+      await page.close();
     }
   });
 

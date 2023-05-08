@@ -1,6 +1,7 @@
 import path from 'path';
 import { readdirSync, readFileSync } from 'fs';
 import type { ChildProcess } from 'child_process';
+import getPort from 'get-port';
 import {
   modernBuild,
   runModernCommandDev,
@@ -35,11 +36,12 @@ describe('swc minify', () => {
 
   it('should not exit unexpectly when transform failed', async () => {
     const appDir = path.resolve(fixtures, 'transform-fail');
-
+    const port = await getPort();
     const cp: ChildProcess = await runModernCommandDev(['dev'], false, {
       cwd: appDir,
       env: {
         NODE_ENV: 'development',
+        PORT: port,
       },
     });
 

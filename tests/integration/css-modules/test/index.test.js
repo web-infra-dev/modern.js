@@ -9,6 +9,7 @@ const {
   // launchApp,
   killApp,
   clearBuildDist,
+  openPage,
 } = require('../../../utils/modernTestUtils');
 
 const { readdir, readFile, remove } = fs;
@@ -184,7 +185,7 @@ describe('Has CSS Module in computed styles in Production', () => {
   });
 
   it('should have CSS for page', async () => {
-    // const page = await global.__BROWSER__.newPage();
+    const page = await openPage();
 
     await page.goto(`http://localhost:${appPort}`);
     const currentColor = await page.$eval(
@@ -192,6 +193,7 @@ describe('Has CSS Module in computed styles in Production', () => {
       node => window.getComputedStyle(node).color,
     );
     expect(currentColor).toMatch('rgb(255, 0, 0)');
+    await page.close();
   });
 });
 

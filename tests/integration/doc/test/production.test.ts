@@ -5,6 +5,7 @@ import {
   killApp,
   modernBuild,
   modernServe,
+  openPage,
 } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -13,18 +14,20 @@ describe('Check production build', () => {
   let app: any;
   let appDir: string;
   let appPort: number;
+  let page: Page;
   beforeAll(async () => {
     appDir = join(fixtureDir, 'base');
     await modernBuild(appDir);
     app = await modernServe(appDir, (appPort = await getPort()), {
       cwd: appDir,
     });
+    page = await openPage();
   });
   afterAll(async () => {
     await killApp(app);
+    await page.close();
   });
   it('check whether the page can be interacted', async () => {
-    const page: Page = await (global as any).__BROWSER_GLOBAL__.newPage();
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -39,6 +42,5 @@ describe('Check production build', () => {
     // check the class in html
     htmlClass = await page.evaluate(html => html?.getAttribute('class'), html);
     expect(htmlClass?.includes('dark')).toBe(defaultMode !== 'dark');
-    await page.close();
   });
 });
