@@ -29,6 +29,10 @@ Source Map 是保存源代码映射关系的信息文件，它记录了编译后
 - 在开发环境构建时，会生成 JS 文件和 CSS 文件的 SourceMap，便于进行开发调试。
 - 在生产环境构建时，会生成 JS 文件的 Source Map，用于调试和排查线上问题；不会生成 CSS 文件的 Source Map。
 
+:::tip
+在使用 Rspack 作为打包工具时，暂不支持单独禁用 css sourcemap。
+:::
+
 如果项目不需要 Source Map，可以关闭该功能，从而提升构建的速度。
 
 ```js

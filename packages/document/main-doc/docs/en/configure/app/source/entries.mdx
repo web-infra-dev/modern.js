@@ -13,6 +13,7 @@ type Entries = Record<
   | {
       entry: string;
       disableMount?: boolean;
+      customBootstrap?: string;
     }
 >;
 ```
@@ -81,6 +82,7 @@ When the value is `Object`, the following properties can be configured:
 
 - `entry`: `string`, entry file path.
 - `disableMount`: `boolean = false`, turn off the entry-scanning behavior of Modern.js.
+- `customBootstrap`: `string = ''`, [Custom Bootstrap](/guides/concept/entries#custom-bootstrap) file path。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';

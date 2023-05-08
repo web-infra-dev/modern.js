@@ -98,27 +98,49 @@ Framework mode refers to the need to use the capabilities of the Modern.js frame
 
 #### Conventional Routing
 
-If there is a `routes/` directory in the entry, Modern.js will scan the files under `routes/` at startup, and automatically generate client-side routes (react-router) based on file conventions.
+If there is a `routes/` directory in the entry, Modern.js will scan the files under `routes/` at startup, and automatically generate client-side routes (react-router) based on file conventions. For example:
 
-For details, please refer to [routing](/guides/basic-features/routes).
+```bash
+.
+├── src
+│   └── routes
+│       ├── layout.tsx
+│       └── page.tsx
+```
 
-#### Custom Routing
+For details, please refer to [routing](/guides/basic-features/routes#conventional-routing).
+
+#### Self-controlled Routing
 
 If there is an `App.[jt]sx?` file in the entry, the developer can freely set the client route in this file, or not set the client route.
 
-For details, please refer to [routing](/guides/basic-features/routes).
+```tsx
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-#### Custom App
+export default () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<div>index</div>} />
+        <Route path="about" element={<div>about</div>} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+```
 
-If there is an `index.[jt]sx` file in the entry, and when the file exports functions by default, Modern.js will still generate the code wrapped by createApp according to the runtime settings. In the rendering process, the component wrapped by createApp is passed as a parameter to the function exported by the index file, so that developers can customize the component to be mounted on the DOM node, or add custom behavior before mounting. For example:
+For details, please refer to [routing](/guides/basic-features/routes#self-controlled-routing).
+
+#### Custom Bootstrap
+
+If there is an `index.[jt]sx` file in the entry, and when the file defaults to exporting functions, Modern.js will pass the default bootstrap function as an imported parameter, and replace the default bootstrap with the exported function, so that developers can customize Mounting components to DOM nodes, or adding custom behavior before mounting. E.g:
 
 ```tsx
-import ReactDOM from 'react-dom/client';
-import { bootstrap } from '@modern-js/runtime';
-
-export default (App: React.ComponentType) => {
+export default (App: React.ComponentType, bootstrap: () => void) => {
   // do something before bootstrap...
-  bootstrap(App, 'root', undefined, ReactDOM);
+  initSomething().then(() => {
+    bootstrap();
+  })
 };
 ```
 
@@ -170,9 +192,9 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-Modern.js **not recommended** to use this method, this method loses some capabilities of the framework, such as the `runtime` configuration in the **`modern.config.js` file will no longer take effect**. But this method will be very useful when the project is migrated from other frameworks to Modern.js, such as CRA, or webpack that is manually built by yourself.
+Modern.js **not recommended** new project to use this method, this method loses some capabilities of the framework, such as the `runtime` configuration in the **`modern.config.js` file will no longer take effect**. But this method will be very useful when the project is migrated from other frameworks to Modern.js, such as CRA, or webpack that is manually built by yourself.
 
-## Custom Entry
+## Specify Entry Using Configuration
 
 Most existing projects are not built according to the directory convention of Modern.js. If you want to change to the directory structure agreed by Modern.js, there will be a certain migration cost.
 

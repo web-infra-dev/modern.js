@@ -98,36 +98,55 @@ Modern.js 会将与 package.json 文件中 `name` 字段同名的入口作为主
 
 #### 约定式路由
 
-如果入口中存在 `routes/` 目录，Modern.js 会在启动时扫描 `routes/` 下的文件，基于文件约定，自动生成客户端路由（react-router）。
+如果入口中存在 `routes/` 目录，Modern.js 会在启动时扫描 `routes/` 下的文件，基于文件约定，自动生成客户端路由（react-router）。例如：
 
-详细内容可以参考[路由](/guides/basic-features/routes)。
+```bash
+.
+├── src
+│   └── routes
+│       ├── layout.tsx
+│       └── page.tsx
+```
 
-#### 自定义路由
+上述目录中，`layout.tsx` 中导出的组件会作为最外层的组件，`page.tsx` 中导出的组件会作为 `/` 路由的组件。
 
-如果入口中存在 `App.[jt]sx?` 文件，开发者可以在这个文件中自由的设置客户端路由，或者不设置客户端路由。
+详细内容可以参考[路由](/guides/basic-features/routes#约定式路由)。
 
-详细内容可以参考[路由](/guides/basic-features/routes)。
+#### 自控式路由
 
-#### 自定义 App
-
-如果入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 还是会根据 runtime 的设置情况生成 createApp 包裹后的代码。在渲染过程中，将 createApp 包裹后的组件作为参数传递给 index 文件导出的函数，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
+如果入口中存在 `App.[jt]sx?` 文件，开发者可以在这个文件中通过代码的方式，设置客户端路由，或者不设置客户端路由。
 
 ```tsx
-import ReactDOM from 'react-dom/client';
-import { bootstrap } from '@modern-js/runtime';
+import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-export default (App: React.ComponentType) => {
-  // do something before bootstrap...
-  bootstrap(App, 'root', undefined, ReactDOM);
+export default () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<div>index</div>} />
+        <Route path="about" element={<div>about</div>} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 ```
 
-:::warning
-由于 bootstrap 函数需要兼容 React17 和 React18 的用法，调用 bootstrap 函数时需要手动传入 ReactDOM 参数。
+详细内容可以参考[路由](/guides/basic-features/routes#自控式路由)。
 
-:::
+#### 自定义 Bootstrap
 
-Modern.js 生成的文件内容如下：
+如果入口中存在 `index.[jt]sx` 文件，并且当文件默认导出函数时，Modern.js 会将默认的 bootstrap 函数作为入参传入，并用导出的函数替代默认的 bootstrap，这样开发者可以自定义将组件挂载到 DOM 节点上，或在挂载前添加自定义行为。例如：
+
+```tsx
+export default (App: React.ComponentType, bootstrap: () => void) => {
+  // do something before bootstrap...
+  initSomething().then(() => {
+    bootstrap();
+  })
+};
+```
+
+此时，Modern.js 生成的文件内容如下：
 
 ```js
 import React from 'react';
@@ -140,13 +159,14 @@ const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
 const MOUNT_ID = 'root';
 
 let AppWrapper = null;
+let root = null;
 
 function render() {
   AppWrapper = createApp({
     // runtime 的插件参数...
   })(App);
   if (IS_BROWSER) {
-    customBootstrap(AppWrapper);
+    customBootstrap(AppWrapper, () => bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM));
   }
   return AppWrapper;
 }
@@ -170,9 +190,9 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-Modern.js **不推荐**使用这种方式，这种方式丧失了框架的一些能力，如 **`modern.config.js` 文件中的 `runtime` 配置将不会再生效**。但是在项目从其他框架迁移到 Modern.js，例如 CRA，或是自己手动搭建的 webpack 时，这种方式会非常有用。
+Modern.js **不推荐**新项目使用这种方式，这种方式丧失了框架的一些能力，如 **`modern.config.js` 文件中的 `runtime` 配置将不会再生效**。但是在项目从其他框架迁移到 Modern.js，例如 CRA，或是自己手动搭建的 webpack 时，这种方式会非常有用。
 
-## 自定义入口
+## 使用配置指定入口
 
 大部分存量项目并不是按照 Modern.js 的目录结构来搭建的。如果要改成 Modern.js 约定的目录结构，会存在一定的迁移成本。
 

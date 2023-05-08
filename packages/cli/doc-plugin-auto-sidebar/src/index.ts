@@ -10,6 +10,7 @@ export interface CategoryMeta {
   position?: number;
   sidebar_position?: number;
   collapsed?: boolean;
+  collapsible?: boolean;
   link?: {
     type: string;
     id: string;
@@ -43,6 +44,7 @@ interface SidebarGroup {
   link?: string;
   items: (SidebarGroup | SidebarItem)[];
   collapsed?: boolean;
+  collapsible?: boolean;
   // For internal usage
   path?: string;
 }
@@ -239,12 +241,14 @@ export function pluginAutoSidebar(options: Options) {
         label,
         link,
         collapsed = userCollapsed ?? DEFAULT_COLLAPSED,
+        collapsible,
       } = item.meta!;
       return {
         text: label || '默认',
         link: link?.id,
         items: item.children!.map(child => createSidebarItem(child)),
         collapsed,
+        collapsible,
       };
     }
     const { title } = item as File;

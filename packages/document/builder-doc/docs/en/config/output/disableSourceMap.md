@@ -29,6 +29,10 @@ By default, Builder's Source Map generation rules are:
 - In development build, SourceMap of JS files and CSS files will be generated, which is convenient for debugging.
 - In production build, the Source Map of JS files will be generated for debugging and troubleshooting online problems; the Source Map of CSS files will not be generated.
 
+:::tip
+When using Rspack as the bundler, disable css sourcemap alone is not currently supported.
+:::
+
 If the project does not need Source Map, you can turned off it to speed up the compile speed.
 
 ```js
