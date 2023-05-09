@@ -42,7 +42,7 @@
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.1.0",
+    "@modern-js/codesmith": "2.1.1",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

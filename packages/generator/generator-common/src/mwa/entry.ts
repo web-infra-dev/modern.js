@@ -7,7 +7,7 @@ export const getEntryNameSchema = (extra: Record<string, any> = {}): Schema => {
     type: 'string',
     title: i18n.t(localeKeys.entry.name),
     default: 'entry',
-    'x-validate': (value: string) => {
+    'x-validator': (value: string) => {
       if (!value) {
         return i18n.t(localeKeys.entry.no_empty);
       }
