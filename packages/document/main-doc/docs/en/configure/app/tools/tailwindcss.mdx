@@ -24,9 +24,37 @@ const tailwind = {
 };
 ```
 
-When the value is of type `Object`, rhe configuration corresponding to [TailwindCSS](https://tailwindcss.com/docs/configuration) is merged with the default configuration through `Object.assign`.
+### Function Type
 
-When the value is of type `Function`, the object returned by the function is merged with the default configuration by `Object.assign`.
+When `tools.tailwindcss`'s type is Function, the default tailwindcss config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result.
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss(config) {
+      config.content.push('./some-folder/**/*.{js,ts}');
+    },
+  },
+};
+```
+
+### Object Type
+
+When `tools.tailwindcss`'s type is `Object`, the config will be shallow merged with default config by `Object.assign`.
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/aspect-ratio'),
+        require('@tailwindcss/typography'),
+      ],
+    },
+  },
+};
+```
 
 ### Limitations
 

@@ -163,7 +163,9 @@ You can set this to disable the default behavior of a client-side route:
 ```js
 export default defineConfig({
   output: {
-    preventDefault: ['/user'],
+    ssg: {
+      preventDefault: ['/user'],
+    },
   },
 });
 ```

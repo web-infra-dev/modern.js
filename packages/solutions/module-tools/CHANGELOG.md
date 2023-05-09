@@ -1,5 +1,33 @@
 # @modern-js/module-tools
 
+## 2.18.0
+
+### Patch Changes
+
+- f65d3e8: chore: update libuild version
+  chore: 更新 libuild 版本
+  - @modern-js/core@2.18.0
+  - @modern-js/plugin-changeset@2.18.0
+  - @modern-js/plugin-i18n@2.18.0
+  - @modern-js/plugin-lint@2.18.0
+  - @modern-js/new-action@2.18.0
+  - @modern-js/plugin@2.18.0
+  - @modern-js/upgrade@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/core@2.17.1
+- @modern-js/plugin-changeset@2.17.1
+- @modern-js/plugin-i18n@2.17.1
+- @modern-js/plugin-lint@2.17.1
+- @modern-js/new-action@2.17.1
+- @modern-js/plugin@2.17.1
+- @modern-js/upgrade@2.17.1
+- @modern-js/utils@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes

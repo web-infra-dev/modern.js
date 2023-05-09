@@ -1,4 +1,4 @@
-import { getEntryOptions } from '../src/getEntryOptions';
+import { getEntryOptions } from '../src';
 
 describe('get entry options', () => {
   test('should return default options', () => {

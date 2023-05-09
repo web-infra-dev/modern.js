@@ -1,25 +1,30 @@
 import path from 'path';
 import { readFileSync } from 'fs';
 import { Page } from 'puppeteer';
-import { launchApp, killApp } from '../../../utils/modernTestUtils';
+import {
+  launchApp,
+  killApp,
+  getPort,
+  openPage,
+} from '../../../utils/modernTestUtils';
 
 const DEFAULT_DEV_HOST = 'localhost';
-declare const page: Page;
 
 const fixtures = path.resolve(__dirname, '../fixtures');
 
 describe('asset prefix', () => {
   it(`should generate assetPrefix correctly when dev.assetPrefix is true`, async () => {
+    const appPort = await getPort();
     const appDir = path.resolve(fixtures, 'dev-asset-prefix');
 
-    const app = await launchApp(appDir);
+    const app = await launchApp(appDir, appPort);
 
     const HTML = readFileSync(
       path.join(appDir, 'dist/html/main/index.html'),
       'utf-8',
     );
     expect(
-      HTML.includes(`http://${DEFAULT_DEV_HOST}:3333/static/js/`),
+      HTML.includes(`http://${DEFAULT_DEV_HOST}:${appPort}/static/js/`),
     ).toBeTruthy();
 
     await killApp(app);
@@ -27,9 +32,9 @@ describe('asset prefix', () => {
 
   it(`should inject window.__assetPrefix__ global variable`, async () => {
     const appDir = path.resolve(fixtures, 'dev-asset-prefix');
-
-    const app = await launchApp(appDir);
-    const expected = `http://${DEFAULT_DEV_HOST}:3333`;
+    const appPort = await getPort();
+    const app = await launchApp(appDir, appPort);
+    const expected = `http://${DEFAULT_DEV_HOST}:${appPort}`;
 
     const mainJs = readFileSync(
       path.join(appDir, 'dist/static/js/main.js'),
@@ -40,6 +45,7 @@ describe('asset prefix', () => {
       mainJs.includes(`window.__assetPrefix__ = '${expected}';`),
     ).toBeTruthy();
 
+    const page: Page = await openPage();
     await page.goto(`${expected}`);
 
     const assetPrefix = await page.evaluate(() => {
@@ -51,5 +57,6 @@ describe('asset prefix', () => {
     expect(assetPrefix).toEqual(expected);
 
     await killApp(app);
+    await page.close();
   });
 });

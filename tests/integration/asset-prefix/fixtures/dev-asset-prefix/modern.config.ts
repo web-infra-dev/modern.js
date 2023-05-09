@@ -7,8 +7,5 @@ export default defineConfig({
   output: {
     polyfill: 'off',
   },
-  server: {
-    port: 3333,
-  },
   plugins: [appTools()],
 });

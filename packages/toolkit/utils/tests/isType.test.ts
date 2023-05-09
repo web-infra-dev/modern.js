@@ -6,7 +6,7 @@ import {
   isPromise,
   isUndefined,
   isPlainObject,
-} from '../src/is/type';
+} from '../src';
 
 describe('validate type', () => {
   it('should validate string correctly', () => {

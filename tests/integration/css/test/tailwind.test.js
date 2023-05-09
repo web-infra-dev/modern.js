@@ -6,6 +6,7 @@ const {
   getPort,
   launchApp,
   killApp,
+  openPage,
 } = require('../../../utils/modernTestUtils');
 
 const fixtures = path.resolve(__dirname, '../fixtures');
@@ -22,6 +23,8 @@ describe('use twin.macro', () => {
 
     const app = await launchApp(appDir, port);
 
+    const page = await openPage();
+
     await page.goto(`http://localhost:${port}`);
 
     const textColor = await page.$eval('p', p =>
@@ -31,6 +34,7 @@ describe('use twin.macro', () => {
     expect(textColor).toBe('rgb(255, 0, 0)');
 
     await killApp(app);
+    await page.close();
   });
 
   it(`should show style by use tailwindcss theme when use twin.macro v3`, async () => {
@@ -40,6 +44,8 @@ describe('use twin.macro', () => {
 
     const app = await launchApp(appDir, port);
 
+    const page = await openPage();
+
     await page.goto(`http://localhost:${port}`);
 
     const textColor = await page.$eval('p', p =>
@@ -49,6 +55,7 @@ describe('use twin.macro', () => {
     expect(textColor).toBe('rgb(255, 0, 0)');
 
     await killApp(app);
+    await page.close();
   });
 });
 
@@ -59,6 +66,8 @@ describe('use tailwindcss v2', () => {
     const port = await getPort();
 
     const app = await launchApp(appDir, port);
+
+    const page = await openPage();
 
     await page.goto(`http://localhost:${port}`);
 
@@ -80,6 +89,8 @@ describe('use tailwindcss v3', () => {
 
     const app = await launchApp(appDir, port);
 
+    const page = await openPage();
+
     await page.goto(`http://localhost:${port}`);
 
     const textColor = await page.$eval('p', p =>
@@ -89,6 +100,7 @@ describe('use tailwindcss v3', () => {
     expect(textColor).toBe('rgb(0, 0, 0)');
 
     await killApp(app);
+    await page.close();
   });
 });
 

@@ -1,5 +1,24 @@
 # @modern-js/plugin-garfish
 
+## 2.18.0
+
+### Patch Changes
+
+- 1fdf649: feat(plugin-garfish): support garfish plugin in Rspack
+
+  feat(plugin-garfish): 在使用 Rspack 构建时支持 garfish 插件
+
+- Updated dependencies [7de6599]
+  - @modern-js/runtime@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.17.1
+- @modern-js/utils@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes

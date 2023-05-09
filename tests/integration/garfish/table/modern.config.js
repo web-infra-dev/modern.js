@@ -27,5 +27,14 @@ module.exports = defineConfig({
       moduleName: 'Dashboard',
     },
   },
-  plugins: [appTools(), garfishPlugin(), routerPlugin()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+    garfishPlugin(),
+    routerPlugin(),
+  ],
 });

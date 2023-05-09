@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils/constants';
+import { DEFAULT_SERVER_CONFIG } from '@modern-js/utils';
 import { addServerConfigToDeps } from '../../src/utils/generateWatchFiles';
 
 jest.useRealTimers();

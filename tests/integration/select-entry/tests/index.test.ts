@@ -1,11 +1,12 @@
 import path from 'path';
 import { existsSync } from 'fs';
+import getPort from 'get-port';
 import { runModernCommandDev, killApp } from '../../../utils/modernTestUtils';
 
 describe('select entry', () => {
   it(`should only compile selected entry`, async () => {
-    const appDir = path.resolve(__dirname, '..');
-
+    const appDir = path.resolve(__dirname, '..', 'fixtures/select-one-entry');
+    const port = await getPort();
     const app = await runModernCommandDev(
       ['dev', '--entry', 'foo'],
       undefined,
@@ -13,6 +14,7 @@ describe('select entry', () => {
         cwd: appDir,
         env: {
           NODE_ENV: 'development',
+          PORT: port,
         },
       },
     );
@@ -31,8 +33,8 @@ describe('select entry', () => {
   });
 
   it(`should allow to select multiple entry`, async () => {
-    const appDir = path.resolve(__dirname, '..');
-
+    const appDir = path.resolve(__dirname, '..', 'fixtures/select-mul-entry');
+    const port = await getPort();
     const app = await runModernCommandDev(
       ['dev', '--entry', 'foo,bar'],
       undefined,
@@ -40,6 +42,7 @@ describe('select entry', () => {
         cwd: appDir,
         env: {
           NODE_ENV: 'development',
+          PORT: port,
         },
       },
     );

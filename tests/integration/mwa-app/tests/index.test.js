@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-undef */
 const fs = require('fs');
 const path = require('path');
 const {
@@ -8,6 +6,7 @@ const {
   getPort,
   modernBuild,
   modernServe,
+  openPage,
 } = require('../../../utils/modernTestUtils');
 
 const appDir = path.resolve(__dirname, '../');
@@ -21,7 +20,7 @@ describe('test dev', () => {
     const appPort = await getPort();
     const app = await launchApp(appDir, appPort, {}, {});
     const errors = [];
-
+    const page = await openPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -35,6 +34,7 @@ describe('test dev', () => {
     expect(errors.length).toEqual(0);
 
     await killApp(app);
+    await page.close();
   });
 });
 
@@ -64,10 +64,12 @@ describe('test build', () => {
   it('should support enableInlineScripts', async () => {
     const host = `http://localhost`;
     expect(buildRes.code === 0).toBe(true);
+    const page = await openPage();
     await page.goto(`${host}:${port}`);
 
     const description = await page.$('.description');
     const targetText = await page.evaluate(el => el?.textContent, description);
     expect(targetText?.trim()).toEqual('Get started by editing src/App.tsx');
+    await page.close();
   });
 });
