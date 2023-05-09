@@ -1,5 +1,15 @@
 # @modern-js/builder-plugin-node-polyfill
 
+## 2.18.0
+
+### Patch Changes
+
+- ea60b58: refactor(node-polyfill): using Rspack builtins to provide global variables
+
+  refactor(node-polyfill): 通过 Rspack 内置的 provide 注入全局变量
+
+  - @modern-js/builder-shared@2.18.0
+
 ## 2.17.1
 
 ### Patch Changes
