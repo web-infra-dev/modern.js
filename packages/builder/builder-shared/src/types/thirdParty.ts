@@ -6,6 +6,8 @@ import type * as SassLoader from '../../compiled/sass-loader';
 import type Less from '../../compiled/less';
 import type { LoaderContext } from 'webpack';
 
+export type { Options as PugOptions } from '../../compiled/pug';
+
 export type AutoprefixerOptions = {
   /** environment for `Browserslist` */
   env?: string;

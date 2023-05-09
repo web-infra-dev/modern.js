@@ -1,6 +1,5 @@
 - **Type:** `true | Object | Function | undefined`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
 Configure the [Pug](https://pugjs.org/) template engine.
 
