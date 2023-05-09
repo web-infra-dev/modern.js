@@ -10,8 +10,8 @@ import {
   isRouteErrorResponse,
   type Router,
   type StaticHandlerContext,
-} from '@modern-js/utils/universal/remix-router';
-import { renderNestedRoute } from '@modern-js/utils/universal/nestedRoutes';
+  renderNestedRoute,
+} from '@modern-js/utils/runtime/router';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';

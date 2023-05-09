@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { validAlias, getUserAlias } from '../src/alias';
+import { validAlias, getUserAlias } from '../src';
 
 describe('validAlias', () => {
   it('should return null if no alias config', () => {

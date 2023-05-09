@@ -1,8 +1,4 @@
-import {
-  compilePathMatcherRegExp,
-  upwardPaths,
-  _joinPathParts,
-} from '../src/path';
+import { compilePathMatcherRegExp, upwardPaths, _joinPathParts } from '../src';
 
 describe('upwardPaths', () => {
   it('should get upward paths', () => {

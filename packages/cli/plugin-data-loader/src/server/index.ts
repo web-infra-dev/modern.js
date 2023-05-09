@@ -6,7 +6,7 @@ import type { ServerRoute } from '@modern-js/types';
 import {
   MAIN_ENTRY_NAME,
   SERVER_BUNDLE_DIRECTORY,
-} from '@modern-js/utils/constants';
+} from '@modern-js/utils';
 import { matchEntry, ServerContext } from '../common/utils';
 
 export default (): ServerPlugin => ({

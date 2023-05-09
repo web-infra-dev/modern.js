@@ -1,4 +1,4 @@
-import { prettyInstructions } from '../src/prettyInstructions';
+import { prettyInstructions } from '../src';
 
 const mockNetworkInterfaces = {
   lo0: [

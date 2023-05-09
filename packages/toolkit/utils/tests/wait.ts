@@ -1,4 +1,4 @@
-import { wait } from '../src/wait';
+import { wait } from '../src';
 
 jest.useRealTimers();
 

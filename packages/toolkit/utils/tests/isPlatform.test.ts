@@ -1,4 +1,4 @@
-import { isNodeJS, isBrowser } from '../src/is/platform';
+import { isNodeJS, isBrowser } from '../src';
 
 describe('validate platform', () => {
   it('should validate Node.js correctly', () => {

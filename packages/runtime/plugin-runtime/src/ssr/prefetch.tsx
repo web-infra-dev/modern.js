@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from 'react-dom/server';
-import { run } from '@modern-js/utils/ssr';
+import { run } from '@modern-js/utils/runtime-node';
 import { ChunkExtractor } from '@loadable/server';
 import { RuntimeContext } from '../core';
 

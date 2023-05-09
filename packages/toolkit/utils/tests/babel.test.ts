@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { applyUserBabelConfig } from '../src/babel';
+import { applyUserBabelConfig } from '../src';
 
 describe('applyUserBabelConfig', () => {
   test('should add plugins correctly', () => {

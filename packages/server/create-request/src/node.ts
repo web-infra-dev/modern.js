@@ -1,6 +1,6 @@
 import nodeFetch from 'node-fetch';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
-import { useHeaders } from '@modern-js/utils/ssr';
+import { useHeaders } from '@modern-js/utils/runtime-node';
 import qs from 'query-string';
 import { handleRes } from './handleRes';
 import type {
