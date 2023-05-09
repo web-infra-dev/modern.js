@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type {
   // Browser,
@@ -13,15 +13,18 @@ import {
   getPort,
   modernBuild,
   modernServe,
+  openPage,
 } from '../../../utils/modernTestUtils';
-
-declare const page: Page;
 
 // declare const browser: Browser;
 
 const appDir = path.resolve(__dirname, '../');
 
-const renderSelfRoute = async (errors: string[], appPort: number) => {
+const renderSelfRoute = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/one`, {
     waitUntil: ['networkidle0'],
   });
@@ -31,7 +34,11 @@ const renderSelfRoute = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const renderPageRoute = async (errors: string[], appPort: number) => {
+const renderPageRoute = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/two/user`, {
     waitUntil: ['networkidle0'],
   });
@@ -41,7 +48,11 @@ const renderPageRoute = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const renderDynamaticRoute = async (errors: string[], appPort: number) => {
+const renderDynamaticRoute = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/two/item/1234`, {
     waitUntil: ['networkidle0'],
   });
@@ -51,7 +62,11 @@ const renderDynamaticRoute = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const renderOptionalParamsRoute = async (errors: string[], appPort: number) => {
+const renderOptionalParamsRoute = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/two/act/bar`, {
     waitUntil: ['networkidle0'],
   });
@@ -101,7 +116,11 @@ const renderOptionalParamsRoute = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportGlobalLayout = async (errors: string[], appPort: number) => {
+const supportGlobalLayout = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/two/user`, {
     waitUntil: ['networkidle0'],
   });
@@ -115,7 +134,7 @@ const supportGlobalLayout = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportLayout = async (errors: string[], appPort: number) => {
+const supportLayout = async (page: Page, errors: string[], appPort: number) => {
   await page.goto(`http://localhost:${appPort}/two/shop`, {
     waitUntil: ['networkidle0'],
   });
@@ -140,7 +159,11 @@ const supportLayout = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportNestedRoutes = async (errors: string[], appPort: number) => {
+const supportNestedRoutes = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/three/user`, {
     waitUntil: ['networkidle0'],
   });
@@ -163,7 +186,11 @@ const supportNestedRoutes = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportDynamaicPaths = async (errors: string[], appPort: number) => {
+const supportDynamaicPaths = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/three/user/1234`, {
     waitUntil: ['networkidle0'],
   });
@@ -174,7 +201,11 @@ const supportDynamaicPaths = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportNoLayoutDir = async (errors: string[], appPort: number) => {
+const supportNoLayoutDir = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/three/user/1234/profile`, {
     waitUntil: ['networkidle0'],
   });
@@ -187,7 +218,11 @@ const supportNoLayoutDir = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportPathLessLayout = async (errors: string[], appPort: number) => {
+const supportPathLessLayout = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['networkidle0'],
   });
@@ -208,7 +243,11 @@ const supportPathLessLayout = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportPathWithoutLayout = async (errors: string[], appPort: number) => {
+const supportPathWithoutLayout = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/three/user/profile/name`, {
     waitUntil: ['networkidle0'],
   });
@@ -221,7 +260,11 @@ const supportPathWithoutLayout = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const nestedRouteOverPage = async (errors: string[], appPort: number) => {
+const nestedRouteOverPage = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/four`, {
     waitUntil: ['networkidle0'],
   });
@@ -232,7 +275,11 @@ const nestedRouteOverPage = async (errors: string[], appPort: number) => {
   expect(errors.length).toEqual(0);
 };
 
-const supportNestedRouteAndPage = async (errors: string[], appPort: number) => {
+const supportNestedRouteAndPage = async (
+  page: Page,
+  _errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/four/item/1234`, {
     waitUntil: ['networkidle0'],
   });
@@ -265,7 +312,11 @@ const supportNestedRouteAndPage = async (errors: string[], appPort: number) => {
   expect(text3?.includes('act page, param is 1234')).toBeTruthy();
 };
 
-const supportHandleLoaderError = async (errors: string[], appPort: number) => {
+const supportHandleLoaderError = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
@@ -289,7 +340,7 @@ const supportLoadChunksParallelly = async () => {
   expect(thressBundleContent.includes(ROUTE_MANIFEST)).toBeTruthy();
 };
 
-const supportHandleConfig = async (appPort: number) => {
+const supportHandleConfig = async (page: Page, appPort: number) => {
   await page.goto(`http://localhost:${appPort}/three/user/profile/name`, {
     waitUntil: ['networkidle0'],
   });
@@ -299,7 +350,7 @@ const supportHandleConfig = async (appPort: number) => {
   );
 };
 
-const supportLoader = async (errors: string[], appPort: number) => {
+const supportLoader = async (page: Page, errors: string[], appPort: number) => {
   // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three/user`, {
     waitUntil: ['domcontentloaded'],
@@ -314,7 +365,11 @@ const supportLoader = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-const supportLoaderForSSRAndCSR = async (errors: string[], appPort: number) => {
+const supportLoaderForSSRAndCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
@@ -331,7 +386,11 @@ const supportLoaderForSSRAndCSR = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-const supportLoaderForCSR = async (errors: string[], appPort: number) => {
+const supportLoaderForCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/four/user/123`, {
     waitUntil: ['networkidle0'],
   });
@@ -341,7 +400,11 @@ const supportLoaderForCSR = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-const supportRedirectForSSR = async (errors: string[], appPort: number) => {
+const supportRedirectForSSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/three/redirect`, {
     waitUntil: ['networkidle0'],
   });
@@ -351,8 +414,11 @@ const supportRedirectForSSR = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-// eslint-disable-next-line max-lines
-const supportRedirectForCSR = async (errors: string[], appPort: number) => {
+const supportRedirectForCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/three/user`, {
     waitUntil: ['networkidle0'],
   });
@@ -366,7 +432,11 @@ const supportRedirectForCSR = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-const supportDefineInit = async (errors: string[], appPort: number) => {
+const supportDefineInit = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/four/user`, {
     waitUntil: ['networkidle0'],
   });
@@ -376,7 +446,11 @@ const supportDefineInit = async (errors: string[], appPort: number) => {
   expect(errors.length).toBe(0);
 };
 
-const supportCatchAll = async (errors: string[], appPort: number) => {
+const supportCatchAll = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
   await page.goto(`http://localhost:${appPort}/four/user/1234/1234`, {
     waitUntil: ['networkidle0'],
   });
@@ -390,10 +464,12 @@ const supportCatchAll = async (errors: string[], appPort: number) => {
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
+  let page: Page;
   const errors: string[] = [];
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
+    page = await openPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -401,77 +477,86 @@ describe('dev', () => {
 
   describe('self control route', () => {
     test('should render correctly', async () =>
-      renderSelfRoute(errors, appPort));
+      renderSelfRoute(page, errors, appPort));
   });
 
   describe('pages routes', () => {
     test('render pages route correctly', async () =>
-      renderPageRoute(errors, appPort));
+      renderPageRoute(page, errors, appPort));
 
     test('render dynamic pages route correctly', async () =>
-      renderDynamaticRoute(errors, appPort));
+      renderDynamaticRoute(page, errors, appPort));
 
     test('support global layout', async () =>
-      supportGlobalLayout(errors, appPort));
+      supportGlobalLayout(page, errors, appPort));
 
-    test('support _layout', async () => supportLayout(errors, appPort));
+    test('support _layout', async () => supportLayout(page, errors, appPort));
   });
 
   describe('nested routes', () => {
-    test('basic usage', async () => supportNestedRoutes(errors, appPort));
+    test('basic usage', async () => supportNestedRoutes(page, errors, appPort));
 
-    test('dynamic path', async () => supportDynamaicPaths(errors, appPort));
+    test('dynamic path', async () =>
+      supportDynamaicPaths(page, errors, appPort));
 
-    test('support catch all', async () => supportCatchAll(errors, appPort));
+    test('support catch all', async () =>
+      supportCatchAll(page, errors, appPort));
 
-    test('no layout dir', async () => supportNoLayoutDir(errors, appPort));
+    test('no layout dir', async () =>
+      supportNoLayoutDir(page, errors, appPort));
 
-    test('pathless layout', async () => supportPathLessLayout(errors, appPort));
+    test('pathless layout', async () =>
+      supportPathLessLayout(page, errors, appPort));
 
     test('path without layout', async () =>
-      supportPathWithoutLayout(errors, appPort));
+      supportPathWithoutLayout(page, errors, appPort));
 
     test('support load chunks Parallelly', supportLoadChunksParallelly);
 
-    test('support handle config', async () => supportHandleConfig(appPort));
+    test('support handle config', async () =>
+      supportHandleConfig(page, appPort));
 
     // FIXME: skip the test
     test.skip('support handle loader error', async () =>
-      supportHandleLoaderError(errors, appPort));
+      supportHandleLoaderError(page, errors, appPort));
   });
 
   describe('support both page route and nested route', () => {
     test('nested route has higher priority', async () =>
-      nestedRouteOverPage(errors, appPort));
+      nestedRouteOverPage(page, errors, appPort));
 
     test('support works together', async () =>
-      supportNestedRouteAndPage(errors, appPort));
+      supportNestedRouteAndPage(page, errors, appPort));
   });
 
   describe('loader', () => {
-    test('support loader', async () => supportLoader(errors, appPort));
+    test('support loader', async () => supportLoader(page, errors, appPort));
     test.skip('support loader for ssr and csr', async () =>
-      supportLoaderForSSRAndCSR(errors, appPort));
+      supportLoaderForSSRAndCSR(page, errors, appPort));
 
-    test('support loader for csr', () => supportLoaderForCSR(errors, appPort));
+    test('support loader for csr', () =>
+      supportLoaderForCSR(page, errors, appPort));
     test('support redirect for ssr', () =>
-      supportRedirectForSSR(errors, appPort));
+      supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
-      supportRedirectForCSR(errors, appPort));
+      supportRedirectForCSR(page, errors, appPort));
   });
 
   describe('global configuration', () => {
-    test('support app init', async () => supportDefineInit(errors, appPort));
+    test('support app init', async () =>
+      supportDefineInit(page, errors, appPort));
   });
 
   afterAll(async () => {
     await killApp(app);
+    await page.close();
   });
 });
 
 describe('build', () => {
   let appPort: number;
   let app: unknown;
+  let page: Page;
   const errors: string[] = [];
 
   beforeAll(async () => {
@@ -480,6 +565,7 @@ describe('build', () => {
     app = await modernServe(appDir, appPort, {
       cwd: appDir,
     });
+    page = await openPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -487,70 +573,77 @@ describe('build', () => {
 
   describe('self control route', () => {
     test('should render correctly', async () =>
-      renderSelfRoute(errors, appPort));
+      renderSelfRoute(page, errors, appPort));
   });
 
   describe('pages routes', () => {
     test('render pages route correctly', async () =>
-      renderPageRoute(errors, appPort));
+      renderPageRoute(page, errors, appPort));
 
     test('render dynamic pages route correctly', async () =>
-      renderDynamaticRoute(errors, appPort));
+      renderDynamaticRoute(page, errors, appPort));
 
     test('render options params pages route correctly', async () =>
-      renderOptionalParamsRoute(errors, appPort));
+      renderOptionalParamsRoute(page, errors, appPort));
 
     test('support global layout', async () =>
-      supportGlobalLayout(errors, appPort));
+      supportGlobalLayout(page, errors, appPort));
 
-    test('support _layout', async () => supportLayout(errors, appPort));
+    test('support _layout', async () => supportLayout(page, errors, appPort));
   });
 
   describe('nested routes', () => {
-    test('basic usage', async () => supportNestedRoutes(errors, appPort));
+    test('basic usage', async () => supportNestedRoutes(page, errors, appPort));
 
-    test('dynamic path', async () => supportDynamaicPaths(errors, appPort));
+    test('dynamic path', async () =>
+      supportDynamaicPaths(page, errors, appPort));
 
-    test('support catch all', async () => supportCatchAll(errors, appPort));
+    test('support catch all', async () =>
+      supportCatchAll(page, errors, appPort));
 
-    test('no layout dir', async () => supportNoLayoutDir(errors, appPort));
+    test('no layout dir', async () =>
+      supportNoLayoutDir(page, errors, appPort));
 
-    test('pathless layout', async () => supportPathLessLayout(errors, appPort));
+    test('pathless layout', async () =>
+      supportPathLessLayout(page, errors, appPort));
 
     test('path without layout', async () =>
-      supportPathWithoutLayout(errors, appPort));
+      supportPathWithoutLayout(page, errors, appPort));
 
     // FIXME: skip the test
     test.skip('support handle loader error', async () =>
-      supportHandleLoaderError(errors, appPort));
+      supportHandleLoaderError(page, errors, appPort));
   });
 
   describe('suppot both page route and nested route', () => {
     test('nested route has higher priority', async () =>
-      nestedRouteOverPage(errors, appPort));
+      nestedRouteOverPage(page, errors, appPort));
 
     test('support works together', async () =>
-      supportNestedRouteAndPage(errors, appPort));
+      supportNestedRouteAndPage(page, errors, appPort));
   });
 
   describe('loader', () => {
-    test('support loader', async () => supportLoader(errors, appPort));
+    test('support loader', async () => supportLoader(page, errors, appPort));
     test('support loader for ssr and csr', async () =>
-      supportLoaderForSSRAndCSR(errors, appPort));
+      supportLoaderForSSRAndCSR(page, errors, appPort));
 
-    test('support loader for csr', () => supportLoaderForCSR(errors, appPort));
+    test('support loader for csr', () =>
+      supportLoaderForCSR(page, errors, appPort));
     test('support redirect for ssr', () =>
-      supportRedirectForSSR(errors, appPort));
+      supportRedirectForSSR(page, errors, appPort));
     test('support redirect for csr', () =>
-      supportRedirectForCSR(errors, appPort));
+      supportRedirectForCSR(page, errors, appPort));
   });
 
   describe('global configuration', () => {
-    test('support app init', async () => supportDefineInit(errors, appPort));
+    test('support app init', async () =>
+      supportDefineInit(page, errors, appPort));
   });
 
   afterAll(async () => {
     await killApp(app);
+    await page.close();
   });
 });
 /* eslint-enable max-lines */

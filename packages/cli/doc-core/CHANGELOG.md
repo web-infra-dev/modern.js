@@ -1,5 +1,69 @@
 # @modern-js/doc-core
 
+## 2.18.0
+
+### Patch Changes
+
+- 2034e01: feat(doc-core): doc support nav postion
+
+  feat(doc-core): doc 支持顶部菜单独立配置定位
+
+- 77932c1: fix(doc-core): none nav bar
+
+  fix(doc-core): 导航栏消失
+
+- Updated dependencies [ea60b58]
+- Updated dependencies [7de6599]
+  - @modern-js/builder-rspack-provider@2.18.0
+  - @modern-js/remark-container@2.18.0
+  - @modern-js/builder@2.18.0
+  - @modern-js/core@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- 846590d: feat: add new modern.js doc support edit this page on github (#3527)
+
+  feat: 添加新的 modern.js 文档支持在 Github 上编辑此页面 (#3527)。
+
+- e3733a3: feat(doc-core): doc plugin system doc optimization
+
+  feat(doc-core): 文档框架插件机制文档优化
+
+- ecdcd71: fix(doc-tools): edit link should open a new tab
+
+  fix(doc-tools): edit link 应该打开一个新窗口
+
+- 01b4e32: fix(doc-core): sidebar title not correct in dev
+
+  fix(doc-core): 开发环境下，侧边栏标题不正确
+
+- 01b4e32: fix(doc-core): avoid ssg marker transform
+
+  fix(doc-core): 避免某些特殊字符转换为 marker 字符
+
+- 06dd14e: fix(doc-core): Nav top menu style issue (#3598)
+
+  fix(doc-core): Nav 顶部菜单样式问题 (#3598)
+
+- 8b7f7f2: fix(doc-core): The 960px-1440px and 1440px center container widths do not include the width of the scroll bar to avoid horizontal scroll bars
+  fix(doc-core): 960px-1440px 和 1440px 版心容器宽度不包含滚动条宽度，避免出现横向滚动条
+- cb3cc7f: fix(doc-core): alias react-dom
+
+  fix(doc-core): 内置 react-dom 别名
+
+- e3733a3: fix: code line highlight in js compiler
+
+  fix: js 版本编译器中代码行高亮问题
+
+  - @modern-js/builder@2.17.1
+  - @modern-js/builder-rspack-provider@2.17.1
+  - @modern-js/core@2.17.1
+  - @modern-js/remark-container@2.17.1
+  - @modern-js/utils@2.17.1
+
 ## 2.17.0
 
 ### Minor Changes

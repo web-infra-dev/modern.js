@@ -18,7 +18,7 @@ export const getPackagePathSchema = (extra: Record<string, any>): Schema => {
         },
       },
     ],
-    'x-validate': (value: string) => {
+    'x-validator': (value: string) => {
       if (!value) {
         return i18n.t(localeKeys.packagePath.no_empty);
       }

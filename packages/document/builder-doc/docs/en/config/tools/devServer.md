@@ -121,6 +121,8 @@ The config of HMR client, which are usually used to set the WebSocket URL of HMR
 }
 ```
 
+- **Bundler:** `only support webpack`
+
 The config of devMiddleware. Current options is the subset of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware).
 
 #### headers

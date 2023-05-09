@@ -4,7 +4,8 @@ import {
   BundlerChain,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier, isSSR, fs } from '@modern-js/utils';
+import { isSSR, fs } from '@modern-js/utils';
+import { ChainIdentifier } from '@modern-js/utils/chain-id'
 import type {
   AppNormalizedConfig,
   Bundler,

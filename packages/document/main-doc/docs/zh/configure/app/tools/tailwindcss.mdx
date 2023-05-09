@@ -26,12 +26,40 @@ const tailwind = {
 
 对应 [TailwindCSS](https://tailwindcss.com/docs/configuration) 的配置。
 
-当值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
+### Function 类型
 
-当值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
+当 `tools.tailwindcss` 为 Function 类型时，默认配置会作为第一个参数传入，你可以直接修改配置对象，也可以返回一个值作为最终结果：
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss(config) {
+      config.content.push('./some-folder/**/*.{js,ts}');
+    },
+  },
+};
+```
+
+### Object 类型
+
+当 `tools.tailwindcss` 的值为 `Object` 类型时，会与默认配置通过 `Object.assign` 浅合并。
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/aspect-ratio'),
+        require('@tailwindcss/typography'),
+      ],
+    },
+  },
+};
+```
 
 ### 限制
 
 注意，该配置中不允许使用 `theme` 配置项，否则会构建失败。在 Modern.js 中，请使用 [source.designSystem](/configure/app/source/design-system) 作为 `Tailwind CSS Theme` 配置。
 
-其他的使用方式和 Tailwind CSS 一致: [快速传送门](https://tailwindcss.com/docs/configuration)。
+其他配置的使用方式和 Tailwind CSS 一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。

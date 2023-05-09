@@ -1,5 +1,25 @@
 # @modern-js/doc-tools-doc
 
+## 2.18.0
+
+### Patch Changes
+
+- 2034e01: feat(doc-core): doc support nav postion
+
+  feat(doc-core): doc 支持顶部菜单独立配置定位
+
+## 2.17.1
+
+### Patch Changes
+
+- 846590d: feat: add new modern.js doc support edit this page on github (#3527)
+
+  feat: 添加新的 modern.js 文档支持在 Github 上编辑此页面 (#3527)。
+
+- e3733a3: feat(doc-core): doc plugin system doc optimization
+
+  feat(doc-core): 文档框架插件机制文档优化
+
 ## 2.17.0
 
 ## 2.16.0

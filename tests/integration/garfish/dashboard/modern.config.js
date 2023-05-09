@@ -38,7 +38,16 @@ module.exports = defineConfig({
       delete config.optimization?.splitChunks;
     },
   },
-  plugins: [appTools(), routerPlugin(), garfishPlugin()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+    routerPlugin(),
+    garfishPlugin(),
+  ],
   // dev: {
   //   withMasterApp: {
   //     moduleApp: 'http://localhost:8080/',

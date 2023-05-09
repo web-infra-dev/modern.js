@@ -288,6 +288,38 @@ export const TASKS: TaskConfig[] = [
           'loader-utils': '../loader-utils2',
         },
       },
+      {
+        name: '@babel/helper-validator-identifier',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/parser',
+        ignoreDts: true,
+      },
+      {
+        name: '@babel/types',
+        externals: {
+          '@babel/helper-validator-identifier':
+            '../helper-validator-identifier',
+        },
+      },
+      {
+        name: 'pug',
+        externals: {
+          '@babel/types': '../@babel/types',
+          '@babel/parser': '../@babel/parser',
+        },
+        afterBundle(task) {
+          replaceFileContent(
+            join(task.distPath, 'index.d.ts'),
+            content =>
+              `${content.replace(
+                "declare module 'pug'",
+                'declare namespace pug',
+              )}\nexport = pug;`,
+          );
+        },
+      },
     ],
   },
   {
@@ -416,23 +448,6 @@ export const TASKS: TaskConfig[] = [
             json.types = 'dist/index.d.ts';
             return JSON.stringify(json);
           });
-        },
-      },
-      {
-        name: 'pug',
-        externals: {
-          '@babel/types': '../@babel/types',
-          '@babel/parser': '../@babel/parser',
-        },
-        afterBundle(task) {
-          replaceFileContent(
-            join(task.distPath, 'index.d.ts'),
-            content =>
-              `${content.replace(
-                "declare module 'pug'",
-                'declare namespace pug',
-              )}\nexport = pug;`,
-          );
         },
       },
       {

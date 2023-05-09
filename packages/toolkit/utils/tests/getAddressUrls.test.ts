@@ -1,4 +1,4 @@
-import { getAddressUrls } from '../src/prettyInstructions';
+import { getAddressUrls } from '../src';
 
 describe('getAddressUrls', () => {
   test('should allow to custom host', () => {

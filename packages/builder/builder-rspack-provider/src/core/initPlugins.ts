@@ -81,7 +81,7 @@ export async function initPlugins({
   debug('init plugins');
 
   const { pluginDagSort } = await import(
-    '@modern-js/utils/universal/pluginDagSort'
+    '@modern-js/utils/universal/plugin-dag-sort'
   );
 
   const plugins = pluginDagSort(pluginStore.plugins);

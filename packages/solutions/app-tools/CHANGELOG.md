@@ -1,5 +1,53 @@
 # @modern-js/app-tools
 
+## 2.18.0
+
+### Patch Changes
+
+- Updated dependencies [ea60b58]
+- Updated dependencies [7de6599]
+  - @modern-js/builder-rspack-provider@2.18.0
+  - @modern-js/builder-plugin-node-polyfill@2.18.0
+  - @modern-js/builder@2.18.0
+  - @modern-js/builder-shared@2.18.0
+  - @modern-js/builder-webpack-provider@2.18.0
+  - @modern-js/builder-plugin-esbuild@2.18.0
+  - @modern-js/core@2.18.0
+  - @modern-js/plugin-data-loader@2.18.0
+  - @modern-js/plugin-i18n@2.18.0
+  - @modern-js/plugin-lint@2.18.0
+  - @modern-js/new-action@2.18.0
+  - @modern-js/prod-server@2.18.0
+  - @modern-js/server@2.18.0
+  - @modern-js/node-bundle-require@2.18.0
+  - @modern-js/plugin@2.18.0
+  - @modern-js/types@2.18.0
+  - @modern-js/upgrade@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder@2.17.1
+- @modern-js/builder-rspack-provider@2.17.1
+- @modern-js/builder-shared@2.17.1
+- @modern-js/builder-webpack-provider@2.17.1
+- @modern-js/builder-plugin-esbuild@2.17.1
+- @modern-js/builder-plugin-node-polyfill@2.17.1
+- @modern-js/core@2.17.1
+- @modern-js/plugin-data-loader@2.17.1
+- @modern-js/plugin-i18n@2.17.1
+- @modern-js/plugin-lint@2.17.1
+- @modern-js/new-action@2.17.1
+- @modern-js/prod-server@2.17.1
+- @modern-js/server@2.17.1
+- @modern-js/node-bundle-require@2.17.1
+- @modern-js/plugin@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/upgrade@2.17.1
+- @modern-js/utils@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes

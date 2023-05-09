@@ -35,7 +35,7 @@ type BundlerRule = NonNullable<
 
 export const formatRule = (rule: BundlerRule): RspackRule => {
   if (rule === '...') {
-    return rule;
+    return rule as RspackRule;
   }
 
   const formatRuleUse = (use: typeof rule['use']) => {

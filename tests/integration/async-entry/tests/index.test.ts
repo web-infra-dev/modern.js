@@ -10,16 +10,16 @@ describe('generate async entry', () => {
 
     expect(
       readFileSync(
-        path.resolve(appDir, `node_modules/.modern-js/main/bootstrap.js`),
+        path.resolve(appDir, `node_modules/.modern-js/main/bootstrap.jsx`),
         'utf8',
       ),
     ).toContain(`import App from '@_modern_js_src/App';`);
 
     expect(
       readFileSync(
-        path.resolve(appDir, `node_modules/.modern-js/main/index.js`),
+        path.resolve(appDir, `node_modules/.modern-js/main/index.jsx`),
         'utf8',
       ),
-    ).toContain(`import('./bootstrap.js');`);
+    ).toContain(`import('./bootstrap.jsx');`);
   });
 });

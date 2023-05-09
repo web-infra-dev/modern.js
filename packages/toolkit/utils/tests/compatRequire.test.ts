@@ -1,5 +1,5 @@
 import path from 'path';
-import { compatRequire, cleanRequireCache } from '../src/compatRequire';
+import { compatRequire, cleanRequireCache } from '../src';
 
 describe('compat require', () => {
   const fixturePath = path.resolve(__dirname, './fixtures/compat-require');

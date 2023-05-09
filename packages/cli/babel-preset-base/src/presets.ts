@@ -1,5 +1,5 @@
 import { getBrowserslist } from '@modern-js/utils';
-import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils/constants';
+import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
 import { createBabelChain } from './babel-chain';
 import { IBaseBabelConfigOption } from '.';
 

@@ -1,5 +1,25 @@
 # @modern-js/main-doc
 
+## 2.18.0
+
+### Patch Changes
+
+- d0a9bf8: chore: improve entry docs, fix ssg docs
+  chore: 优化入口文档，修复 ssg 文档
+  - @modern-js/builder-doc@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- fc76194: chore: comment the doc for runtime and server plugin hooks
+  chore: 注释 runtime 和 server 插件钩子文档
+- 7d899fb: fix: typo isFileExist
+
+  fix: isFileExist 拼写错误
+
+  - @modern-js/builder-doc@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes

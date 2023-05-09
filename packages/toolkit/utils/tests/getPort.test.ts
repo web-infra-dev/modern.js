@@ -1,5 +1,5 @@
 import net from 'net';
-import { getPort } from '../src/getPort';
+import { getPort } from '../src';
 
 describe('get port', () => {
   const originalPort = 45577;

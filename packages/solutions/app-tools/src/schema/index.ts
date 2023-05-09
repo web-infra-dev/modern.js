@@ -1,4 +1,4 @@
-import { ENTRY_NAME_PATTERN } from '@modern-js/utils/constants';
+import { ENTRY_NAME_PATTERN } from '@modern-js/utils';
 import { Schema } from './Schema';
 
 const source = {

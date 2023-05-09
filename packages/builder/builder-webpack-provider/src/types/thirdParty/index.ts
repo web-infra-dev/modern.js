@@ -10,7 +10,6 @@ export type { BabelTransformOptions } from '@modern-js/types';
 export type { InspectorPluginOptions } from '@modern-js/inspector-webpack-plugin';
 export type { CopyPluginOptions } from './CopyWebpackPlugin';
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
-export type { Options as PugOptions } from '../../../compiled/pug';
 export type { SubresourceIntegrityPluginOptions as SubresourceIntegrityOptions } from '../../../compiled/webpack-subresource-integrity';
 
 export type TerserPluginOptions = TerserPlugin.BasePluginOptions &

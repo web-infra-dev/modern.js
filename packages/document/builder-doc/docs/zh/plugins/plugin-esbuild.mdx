@@ -13,7 +13,30 @@ Builder 提供了 esbuild 插件，让你能使用 esbuild 代替 babel-loader�
 
 ## 快速开始
 
-### 安装插件
+### 在 Modern.js 框架中使用
+
+Modern.js 框架默认集成了 Builder 的 esbuild 插件，因此，你不需要手动安装和注册插件，只需要使用 [tools.esbuild](https://modernjs.dev/configure/app/tools/esbuild.html) 配置项即可：
+
+```js
+export default defineConfig({
+  tools: {
+    esbuild: {
+      loader: {
+        target: 'chrome61',
+      },
+      minimize: {
+        target: 'chrome61',
+      },
+    },
+  },
+});
+```
+
+### 通过 Node API 使用
+
+如果你直接使用了 Builder 的 Node API，那么需要手动安装和注册 esbuild 插件。
+
+#### 安装插件
 
 你可以通过如下的命令安装插件:
 
@@ -28,19 +51,9 @@ yarn add @modern-js/builder-plugin-esbuild -D
 pnpm add @modern-js/builder-plugin-esbuild -D
 ```
 
-### 注册插件
+#### 注册插件
 
-在 Modern.js 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 esbuild 插件：
-
-```ts
-import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
-
-export default {
-  builderPlugins: [builderPluginEsbuild()],
-};
-```
-
-当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 esbuild 插件：
+通过 `addPlugins` 方法来注册 esbuild 插件：
 
 ```js
 import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';

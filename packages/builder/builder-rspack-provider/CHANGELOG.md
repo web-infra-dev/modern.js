@@ -1,5 +1,34 @@
 # @modern-js/builder-rspack-provider
 
+## 2.18.0
+
+### Minor Changes
+
+- 7de6599: feat: rspack-provider support modern.js ssr mode
+  feat: rspack-provider 支持 modern.js ssr 模式
+
+### Patch Changes
+
+- ea60b58: refactor(node-polyfill): using Rspack builtins to provide global variables
+
+  refactor(node-polyfill): 通过 Rspack 内置的 provide 注入全局变量
+
+  - @modern-js/builder-shared@2.18.0
+  - @modern-js/server@2.18.0
+  - @modern-js/e2e@2.18.0
+  - @modern-js/types@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.1
+- @modern-js/server@2.17.1
+- @modern-js/e2e@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/utils@2.17.1
+
 ## 2.17.0
 
 ### Patch Changes
