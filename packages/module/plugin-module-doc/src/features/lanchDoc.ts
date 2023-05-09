@@ -53,6 +53,9 @@ export async function launchDoc({
           tools: {
             rspack: {
               plugins: [demoRuntimeModules],
+              watchOptions: {
+                ignored: ['**/virtual-demo*.tsx'],
+              },
             },
           },
         },
