@@ -2105,7 +2105,7 @@ importers:
       jest: ^29
       typescript: ^4
     devDependencies:
-      '@modern-js/libuild': 0.12.1
+      '@modern-js/libuild': 0.12.2
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -2171,9 +2171,9 @@ importers:
       jest: ^29
       typescript: ^4
     dependencies:
-      '@modern-js/libuild-plugin-swc': 0.12.1
+      '@modern-js/libuild-plugin-swc': 0.12.2
     devDependencies:
-      '@modern-js/libuild': 0.12.1
+      '@modern-js/libuild': 0.12.2
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3277,9 +3277,9 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.12.1
-      '@modern-js/libuild-plugin-svgr': 0.12.1
-      '@modern-js/libuild-plugin-swc': 0.12.1_@swc+helpers@0.5.0
+      '@modern-js/libuild': 0.12.2
+      '@modern-js/libuild-plugin-svgr': 0.12.2
+      '@modern-js/libuild-plugin-swc': 0.12.2_@swc+helpers@0.5.0
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -6157,7 +6157,7 @@ packages:
     resolution: {integrity: sha512-gTXYh3M5wb7FRXQy+FErKFAv90BnlOuNn1QkCK2lREoPAjrQCO49+HVSrFoe5uakFAF5eenS75KbO2vQiLrTMQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@babel/generator': 7.20.5
       '@babel/helper-module-transforms': 7.20.2
       '@babel/helpers': 7.20.6
@@ -6181,7 +6181,7 @@ packages:
     resolution: {integrity: sha512-3UG9dsxvYBMYwRv+gS41WKHno4K60/9GPy1CJaH6xy3Elq8CTtvtjT5R5jmNhXfCYLX2mTw+7/aq5ak/gOE0og==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@babel/generator': 7.20.5
       '@babel/helper-compilation-targets': 7.20.0_@babel+core@7.15.8
       '@babel/helper-module-transforms': 7.20.2
@@ -6189,7 +6189,7 @@ packages:
       '@babel/parser': 7.20.5
       '@babel/template': 7.18.10
       '@babel/traverse': 7.20.5
-      '@babel/types': 7.20.5
+      '@babel/types': 7.18.4
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
@@ -8630,7 +8630,7 @@ packages:
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6_@babel+core@7.18.0
       '@babel/plugin-transform-dotall-regex': 7.18.6_@babel+core@7.18.0
-      '@babel/types': 7.20.5
+      '@babel/types': 7.18.4
       esutils: 2.0.3
     dev: true
 
@@ -8643,7 +8643,7 @@ packages:
       '@babel/helper-plugin-utils': 7.20.2
       '@babel/plugin-proposal-unicode-property-regex': 7.18.6_@babel+core@7.20.5
       '@babel/plugin-transform-dotall-regex': 7.18.6_@babel+core@7.20.5
-      '@babel/types': 7.20.5
+      '@babel/types': 7.18.4
       esutils: 2.0.3
     dev: false
 
@@ -10903,8 +10903,8 @@ packages:
       vm-browserify: 1.1.2
     dev: false
 
-  /@modern-js/libuild-plugin-svgr/0.12.1:
-    resolution: {integrity: sha512-SnmG/Jl4MpH5DV2cO3NVe/EuyeqZJjSqjLxzhQTskmMtIEeXojlfOXxKsteHJTVOjaL1LFY3edxQY4Nqq9BUXQ==}
+  /@modern-js/libuild-plugin-svgr/0.12.2:
+    resolution: {integrity: sha512-w1y7nr6bcR/TjeKb4Tt1CJNoUAoHvivMtnWGofYZ9GPhjErn5lPxl1mXTEwwJlYMzM1XJ8JrVFh0BU92Xo/68Q==}
     dependencies:
       '@svgr/core': 6.2.0
       '@svgr/plugin-jsx': 6.2.0_@svgr+core@6.2.0
@@ -10914,8 +10914,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc/0.12.1:
-    resolution: {integrity: sha512-f0Jfy3wTHakbfw1h34qbPzss2NEXIg8ACWynaqEsNtv/4MSxOgcaygdkRrSquAO92u0hg6/nOTMtJYQDOj5mnw==}
+  /@modern-js/libuild-plugin-swc/0.12.2:
+    resolution: {integrity: sha512-UJR61WdyJy/wM9/gYWOEg+oADsSSdZlzo3T+qz33t6ACoE6tESsO27KmRRcSksZKCkYaJMTsxrQhqQqmKIWa1w==}
     dependencies:
       '@modern-js/swc-plugins': 0.3.1
       chalk: 4.1.0
@@ -10923,8 +10923,8 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@modern-js/libuild-plugin-swc/0.12.1_@swc+helpers@0.5.0:
-    resolution: {integrity: sha512-f0Jfy3wTHakbfw1h34qbPzss2NEXIg8ACWynaqEsNtv/4MSxOgcaygdkRrSquAO92u0hg6/nOTMtJYQDOj5mnw==}
+  /@modern-js/libuild-plugin-swc/0.12.2_@swc+helpers@0.5.0:
+    resolution: {integrity: sha512-UJR61WdyJy/wM9/gYWOEg+oADsSSdZlzo3T+qz33t6ACoE6tESsO27KmRRcSksZKCkYaJMTsxrQhqQqmKIWa1w==}
     dependencies:
       '@modern-js/swc-plugins': 0.3.1_@swc+helpers@0.5.0
       chalk: 4.1.0
@@ -10932,8 +10932,8 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@modern-js/libuild/0.12.1:
-    resolution: {integrity: sha512-pe4AMc4IxfKrMoa5EXSxxd9mhZlgzqHMG2v3ecPBFNlyQPl+j41vAMVnXHLlcayJTo4J9FPLS6JoknNPcFfH9Q==}
+  /@modern-js/libuild/0.12.2:
+    resolution: {integrity: sha512-A4i2Y/zepNZFpXS5vX3ox/A49rQLVuFxomimpBxJW6QvZRAFmN+U5W0SABJDjxNSZARnGheQ7l1xLOECB+buZA==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
@@ -12819,7 +12819,7 @@ packages:
       find-up: 5.0.0
       fork-ts-checker-webpack-plugin: 6.5.2_4saukclyqastvrycwsozxxbldi
       fs-extra: 9.1.0
-      glob: 7.2.3
+      glob: 7.2.0
       handlebars: 4.7.7
       interpret: 2.2.0
       json5: 2.2.3
@@ -13615,7 +13615,7 @@ packages:
     dependencies:
       '@svgr/core': 6.5.1
       cosmiconfig: 7.0.1
-      deepmerge: 4.2.2
+      deepmerge: 4.3.0
       svgo: 2.8.0
     dev: false
 
@@ -20941,7 +20941,7 @@ packages:
       vue-template-compiler:
         optional: true
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       chalk: 2.4.2
       micromatch: 3.1.10
       minimatch: 3.1.2
@@ -20975,7 +20975,7 @@ packages:
       cosmiconfig: 6.0.0
       deepmerge: 4.3.0
       fs-extra: 9.1.0
-      glob: 7.2.3
+      glob: 7.2.0
       memfs: 3.4.12
       minimatch: 3.1.2
       schema-utils: 2.7.0
@@ -21006,7 +21006,7 @@ packages:
       cosmiconfig: 6.0.0
       deepmerge: 4.3.0
       fs-extra: 9.1.0
-      glob: 7.2.3
+      glob: 7.2.0
       memfs: 3.4.12
       minimatch: 3.1.2
       schema-utils: 2.7.0
@@ -23863,7 +23863,7 @@ packages:
     resolution: {integrity: sha512-Kijeg9Dag6CKtIDA7O21zNTACqD5MD/8HfIV8pdD94vFyFuer52SigdC3IQMhab3vACxXMiFk+yMHNdbqtyTGA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.16.7
       '@jest/types': 29.5.0
       '@types/stack-utils': 2.0.1
       chalk: 4.1.2
