@@ -1,5 +1,16 @@
 # @modern-js/doc-plugin-auto-sidebar
 
+## 2.18.0
+
+### Patch Changes
+
+- d1dafb0: feat(doc-plugin-auto-sidebar): allow to set collapsible option
+
+  feat(doc-plugin-auto-sidebar): 支持设置 collapsible 选项
+
+  - @modern-js/doc-tools@2.18.0
+  - @modern-js/utils@2.18.0
+
 ## 2.17.1
 
 ### Patch Changes

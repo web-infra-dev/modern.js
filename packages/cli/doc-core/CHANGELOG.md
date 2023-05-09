@@ -1,5 +1,25 @@
 # @modern-js/doc-core
 
+## 2.18.0
+
+### Patch Changes
+
+- 2034e01: feat(doc-core): doc support nav postion
+
+  feat(doc-core): doc 支持顶部菜单独立配置定位
+
+- 77932c1: fix(doc-core): none nav bar
+
+  fix(doc-core): 导航栏消失
+
+- Updated dependencies [ea60b58]
+- Updated dependencies [7de6599]
+  - @modern-js/builder-rspack-provider@2.18.0
+  - @modern-js/remark-container@2.18.0
+  - @modern-js/builder@2.18.0
+  - @modern-js/core@2.18.0
+  - @modern-js/utils@2.18.0
+
 ## 2.17.1
 
 ### Patch Changes
