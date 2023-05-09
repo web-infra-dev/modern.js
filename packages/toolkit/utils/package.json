@@ -34,9 +34,9 @@
       "jsnext:source": "./src/cli/constants/chainId.ts",
       "default": "./dist/cjs/cli/constants/chainId.js"
     },
-    "./runtime": {
-      "jsnext:source": "./src/runtime/index.ts",
-      "default": "./dist/esm/runtime/index.js"
+    "./runtime/router": {
+      "jsnext:source": "./src/runtime/router.ts",
+      "default": "./dist/esm/runtime/router.js"
     },
     "./runtime-browser": {
       "jsnext:source": "./src/runtime-browser/index.ts",
@@ -98,9 +98,9 @@
         "types": "./dist/types/cli/constants/chainId.d.ts",
         "default": "./dist/cjs/cli/constants/chainId.js"
       },
-      "./runtime": {
-        "types": "./dist/types/runtime/index.d.ts",
-        "default": "./dist/esm/runtime/index.js"
+      "./runtime/router": {
+        "types": "./dist/types/runtime/router.d.ts",
+        "default": "./dist/esm/runtime/router.js"
       },
       "./runtime-browser": {
         "jsnext:source": "./src/runtime-browser/index.d.ts",
@@ -154,8 +154,8 @@
       "chain-id": [
         "./dist/types/cli/constants/chainId.d.ts"
       ],
-      "runtime": [
-        "./dist/types/runtime/index.d.ts"
+      "runtime/router": [
+        "./dist/types/runtime/router.d.ts"
       ],
       "runtime-browser": [
         "./dist/types/runtime-browser/index.d.ts"
