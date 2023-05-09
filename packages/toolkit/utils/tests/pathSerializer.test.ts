@@ -2,7 +2,7 @@ import {
   applyMatcherReplacement,
   applyPathMatcher,
   matchUpwardPathsAsUnknown,
-} from '../src/pathSerializer';
+} from '../src';
 
 describe('matchUpwardPathsAsUnknown', () => {
   it('should match upward paths', () => {

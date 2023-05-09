@@ -18,39 +18,48 @@
   "version": "2.18.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/index.js",
+  "main": "./dist/cjs/index.js",
   "module": "./dist/index.js",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
-      "import": "./dist/esm/index.js",
       "default": "./dist/cjs/index.js"
     },
-    "./runtime": {
-      "jsnext:source": "./src/runtime/index.ts",
-      "import": "./dist/esm/runtime/index.js",
-      "default": "./dist/cjs/runtime/index.js"
-    },
-    "./ssr": {
-      "jsnext:source": "./src/ssr.ts",
-      "import": "./dist/esm/ssr.js",
-      "default": "./dist/cjs/ssr.js"
-    },
     "./logger": {
-      "jsnext:source": "./src/logger.ts",
-      "import": "./dist/esm/logger.js",
-      "default": "./dist/cjs/logger.js"
+      "jsnext:source": "./src/cli/logger.ts",
+      "default": "./dist/cjs/cli/logger.js"
     },
-    "./constants": {
-      "jsnext:source": "./src/constants.ts",
-      "import": "./dist/esm/constants.js",
-      "default": "./dist/cjs/constants.js"
+    "./chain-id": {
+      "jsnext:source": "./src/cli/constants/chainId.ts",
+      "default": "./dist/cjs/cli/constants/chainId.js"
     },
-    "./babel": {
-      "jsnext:source": "./src/babel.ts",
-      "import": "./dist/esm/babel.js",
-      "default": "./dist/cjs/babel.js"
+    "./runtime/router": {
+      "jsnext:source": "./src/runtime/router.ts",
+      "default": "./dist/esm/runtime/router.js"
+    },
+    "./runtime-browser": {
+      "jsnext:source": "./src/runtime-browser/index.ts",
+      "default": "./dist/esm/runtime-browser/index.js"
+    },
+    "./runtime-node": {
+      "jsnext:source": "./src/runtime-node/index.ts",
+      "default": "./dist/esm/runtime-node/index.js"
+    },
+    "./universal/constants": {
+      "jsnext:source": "./src/universal/constants.ts",
+      "import": "./dist/esm/universal/constants.js",
+      "default": "./dist/cjs/universal/constants.js"
+    },
+    "./universal/format-webpack": {
+      "jsnext:source": "./src/universal/formatWebpack.ts",
+      "import": "./dist/esm/universal/formatWebpack.js",
+      "default": "./dist/cjs/universal/formatWebpack.js"
+    },
+    "./universal/plugin-dag-sort": {
+      "jsnext:source": "./src/universal/pluginDagSort.ts",
+      "import": "./dist/esm/universal/pluginDagSort.js",
+      "default": "./dist/cjs/universal/pluginDagSort.js"
     },
     "./ajv": "./compiled/ajv/index.js",
     "./glob": "./compiled/glob/index.js",
@@ -70,41 +79,7 @@
     "./webpack-chain": "./compiled/webpack-chain/index.js",
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
     "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
-    "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
-    "./chain-id": {
-      "jsnext:source": "./src/chainId.ts",
-      "default": "./dist/cjs/chainId.js"
-    },
-    "./universal/constants": {
-      "jsnext:source": "./src/universal/constants.ts",
-      "import": "./dist/esm/universal/constants.js",
-      "default": "./dist/cjs/universal/constants.js"
-    },
-    "./universal/serialize": {
-      "jsnext:source": "./src/universal/serialize.ts",
-      "import": "./dist/esm/universal/serialize.js",
-      "default": "./dist/cjs/universal/serialize.js"
-    },
-    "./universal/remix-router": {
-      "jsnext:source": "./src/universal/remixRouter.ts",
-      "import": "./dist/esm/universal/remixRouter.js",
-      "default": "./dist/cjs/universal/remixRouter.js"
-    },
-    "./universal/format-webpack": {
-      "jsnext:source": "./src/universal/formatWebpack.ts",
-      "import": "./dist/esm/universal/formatWebpack.js",
-      "default": "./dist/cjs/universal/formatWebpack.js"
-    },
-    "./universal/nestedRoutes": {
-      "jsnext:source": "./src/universal/nestedRoutes.tsx",
-      "import": "./dist/esm/universal/nestedRoutes.js",
-      "default": "./dist/cjs/universal/nestedRoutes.js"
-    },
-    "./universal/pluginDagSort": {
-      "jsnext:source": "./src/universal/pluginDagSort.ts",
-      "import": "./dist/esm/universal/pluginDagSort.js",
-      "default": "./dist/cjs/universal/pluginDagSort.js"
-    }
+    "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -112,34 +87,43 @@
     "types": "./dist/types/index.d.ts",
     "exports": {
       ".": {
-        "import": "./dist/esm/index.js",
         "types": "./dist/types/index.d.ts",
         "default": "./dist/cjs/index.js"
       },
-      "./runtime": {
-        "import": "./dist/esm/runtime/index.js",
-        "types": "./dist/types/runtime/index.d.ts",
-        "default": "./dist/cjs/runtime/index.js"
-      },
-      "./ssr": {
-        "import": "./dist/esm/ssr.js",
-        "types": "./dist/types/ssr.d.ts",
-        "default": "./dist/cjs/ssr.js"
-      },
       "./logger": {
-        "import": "./dist/esm/logger.js",
-        "types": "./dist/types/logger.d.ts",
-        "default": "./dist/cjs/logger.js"
+        "types": "./dist/types/cli/logger.d.ts",
+        "default": "./dist/cjs/cli/logger.js"
       },
-      "./constants": {
-        "import": "./dist/esm/constants.js",
-        "types": "./dist/types/constants.d.ts",
-        "default": "./dist/cjs/constants.js"
+      "./chain-id": {
+        "types": "./dist/types/cli/constants/chainId.d.ts",
+        "default": "./dist/cjs/cli/constants/chainId.js"
       },
-      "./babel": {
-        "import": "./dist/esm/babel.js",
-        "types": "./dist/types/babel.d.ts",
-        "default": "./dist/cjs/babel.js"
+      "./runtime/router": {
+        "types": "./dist/types/runtime/router.d.ts",
+        "default": "./dist/esm/runtime/router.js"
+      },
+      "./runtime-browser": {
+        "jsnext:source": "./src/runtime-browser/index.d.ts",
+        "default": "./dist/esm/runtime-browser/index.js"
+      },
+      "./runtime-node": {
+        "types": "./dist/types/runtime-node/index.d.ts",
+        "default": "./dist/esm/runtime-node/index.js"
+      },
+      "./universal/constants": {
+        "types": "./dist/types/universal/constants.d.ts",
+        "import": "./dist/esm/universal/constants.js",
+        "default": "./dist/cjs/universal/constants.js"
+      },
+      "./universal/format-webpack": {
+        "types": "./dist/types/universal/format-webpack.d.ts",
+        "import": "./dist/esm/universal/formatWebpack.js",
+        "default": "./dist/cjs/universal/formatWebpack.js"
+      },
+      "./universal/plugin-dag-sort": {
+        "types": "./dist/types/universal/pluginDagSort.d.ts",
+        "import": "./dist/esm/universal/pluginDagSort.js",
+        "default": "./dist/cjs/universal/pluginDagSort.js"
       },
       "./ajv": "./dist/compiled/ajv/index.js",
       "./glob": "./dist/compiled/glob/index.js",
@@ -159,59 +143,34 @@
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
       "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js",
-      "./webpack-dev-middleware": "./dist/compiled/webpack-dev-middleware/index.js",
-      "./chain-id": {
-        "types": "./dist/types/chainId.d.ts",
-        "default": "./dist/cjs/chainId.js"
-      },
-      "./universal/constants": {
-        "import": "./dist/esm/universal/constants.js",
-        "types": "./dist/types/universal/constants.d.ts",
-        "default": "./dist/cjs/universal/constants.js"
-      },
-      "./universal/serialize": {
-        "import": "./dist/esm/universal/serialize.js",
-        "types": "./dist/types/universal/serialize.d.ts",
-        "default": "./dist/cjs/universal/serialize.js"
-      },
-      "./universal/remix-router": {
-        "import": "./dist/esm/universal/remixRouter.js",
-        "types": "./dist/types/universal/remix-router.d.ts",
-        "default": "./dist/cjs/universal/remixRouter.js"
-      },
-      "./universal/format-webpack": {
-        "import": "./dist/esm/universal/formatWebpack.js",
-        "types": "./dist/types/universal/format-webpack.d.ts",
-        "default": "./dist/cjs/universal/formatWebpack.js"
-      },
-      "./universal/nestedRoutes": {
-        "import": "./dist/esm/universal/nestedRoutes.js",
-        "types": "./dist/types/universal/nestedRoutes.d.ts",
-        "default": "./dist/cjs/universal/nestedRoutes.js"
-      },
-      "./universal/pluginDagSort": {
-        "import": "./dist/esm/universal/pluginDagSort.js",
-        "types": "./dist/types/universal/pluginDagSort.d.ts",
-        "default": "./dist/cjs/universal/pluginDagSort.js"
-      }
+      "./webpack-dev-middleware": "./dist/compiled/webpack-dev-middleware/index.js"
     }
   },
   "typesVersions": {
     "*": {
-      "runtime": [
-        "./dist/types/runtime/index.d.ts"
-      ],
-      "ssr": [
-        "./dist/types/ssr.d.ts"
-      ],
       "logger": [
-        "./dist/types/logger.d.ts"
+        "./dist/types/cli/logger.d.ts"
       ],
-      "constants": [
-        "./dist/types/constants.d.ts"
+      "chain-id": [
+        "./dist/types/cli/constants/chainId.d.ts"
       ],
-      "babel": [
-        "./dist/types/babel.d.ts"
+      "runtime/router": [
+        "./dist/types/runtime/router.d.ts"
+      ],
+      "runtime-browser": [
+        "./dist/types/runtime-browser/index.d.ts"
+      ],
+      "runtime-node": [
+        "./dist/types/runtime-node/index.d.ts"
+      ],
+      "universal/constants": [
+        "./dist/types/universal/constants.d.ts"
+      ],
+      "universal/format-webpack": [
+        "./dist/types/universal/formatWebpack.d.ts"
+      ],
+      "universal/plugin-dag-sort": [
+        "./dist/types/universal/pluginDagSort.d.ts"
       ],
       "ajv": [
         "./dist/compiled/ajv/types/ajv.d.ts"
@@ -230,9 +189,6 @@
       ],
       "json5": [
         "./dist/compiled/json5/index.d.ts"
-      ],
-      "chain-id": [
-        "./dist/types/chainId.d.ts"
       ],
       "semver": [
         "./dist/compiled/semver/index.d.ts"
@@ -275,24 +231,6 @@
       ],
       "webpack-dev-middleware": [
         "./dist/compiled/webpack-dev-middleware/types/index.d.ts"
-      ],
-      "universal/constants": [
-        "./dist/types/universal/constants.d.ts"
-      ],
-      "universal/serialize": [
-        "./dist/types/universal/serialize.d.ts"
-      ],
-      "universal/remix-router": [
-        "./dist/types/universal/remixRouter.d.ts"
-      ],
-      "universal/format-webpack": [
-        "./dist/types/universal/formatWebpack.d.ts"
-      ],
-      "universal/nestedRoutes": [
-        "./dist/types/universal/nestedRoutes.d.ts"
-      ],
-      "universal/pluginDagSort": [
-        "./dist/types/universal/pluginDagSort.d.ts"
       ]
     }
   },

@@ -20,7 +20,7 @@ import type {
   RequestHandler,
   ExposeServerApis,
 } from '@modern-js/types';
-import { LOADABLE_STATS_FILE } from '@modern-js/utils/constants';
+import { LOADABLE_STATS_FILE } from '@modern-js/utils';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';

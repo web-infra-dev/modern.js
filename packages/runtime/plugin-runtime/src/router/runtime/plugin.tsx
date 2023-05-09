@@ -9,7 +9,7 @@ import {
   RouteObject,
 } from 'react-router-dom';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { parsedJSONFromElement } from '@modern-js/utils/runtime';
+import { parsedJSONFromElement } from '@modern-js/utils/runtime-browser';
 import { Plugin } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';

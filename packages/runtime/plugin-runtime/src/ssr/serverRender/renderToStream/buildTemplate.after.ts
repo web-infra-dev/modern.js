@@ -1,4 +1,4 @@
-import { serializeJson } from '@modern-js/utils/universal/serialize';
+import { serializeJson } from '@modern-js/utils/runtime-node';
 import { RenderLevel, RuntimeContext } from '../types';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 

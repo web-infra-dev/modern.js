@@ -6,7 +6,7 @@ import {
   isProdProfile,
   isUseSSRBundle,
   isSSGEntry,
-} from '../src/is';
+} from '../src';
 
 describe('validate', () => {
   it('should validate empty object correctly', () => {

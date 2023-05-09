@@ -7,7 +7,7 @@ import {
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils/constants';
+import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
