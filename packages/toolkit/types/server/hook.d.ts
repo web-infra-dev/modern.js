@@ -60,10 +60,11 @@ export type AfterRenderContext = HookContext & {
   };
 };
 
-export type MiddlewareContext = HookContext & {
-  response: ModernResponse & { locals: Record<string, any> };
-  source: {
-    req: IncomingMessage;
-    res: ServerResponse;
+export type MiddlewareContext<Mode extends 'node' | 'worker' = 'node'> =
+  HookContext & {
+    response: ModernResponse & { locals: Record<string, any> };
+    source: {
+      req: Mode extends 'node' ? IncomingMessage : Request;
+      res: Mode extends 'node' ? ServerResponse : any;
+    };
   };
-};

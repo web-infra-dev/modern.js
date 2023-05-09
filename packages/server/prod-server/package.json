@@ -60,6 +60,7 @@
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "@modern-js/server-core": "workspace:*",
+    "@modern-js/plugin": "workspace:*",
     "etag": "^1.8.1",
     "fresh": "^0.5.2",
     "cookie": "^0.4.2",

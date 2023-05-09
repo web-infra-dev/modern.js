@@ -11,16 +11,15 @@ async function handleRequest(request) {
       url: request.url,
     },
     url: handleUrl(request.url),
-    body: null,
     loadableStats,
     routeManifest,
   };
   const handler = createHandler(manifest);
-  await handler(context);
-  return new Response(context.body, {
-    headers: {
-      'content-type': 'text/html;charset=UTF-8',
-    },
+  const {body, status, headers = new Headers()} = await handler(context);
+  headers.set('content-type', 'text/html;charset=UTF-8');
+  return new Response(body, {
+    status,
+    headers,
   });
 }
 
