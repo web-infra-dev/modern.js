@@ -1,13 +1,12 @@
-import { useRef, useState } from 'react';
-import { Button, Tooltip, Card, Space } from '@arco-design/web-react';
+import { useEffect, useRef, useState } from 'react';
+import { Button, Tooltip, Card } from '@arco-design/web-react';
 import { IconCode } from '@arco-design/web-react/icon';
 import '@arco-design/web-react/es/Button/style';
 import '@arco-design/web-react/es/Tooltip/style';
 import '@arco-design/web-react/es/Card/style';
-import '@arco-design/web-react/es/Space/style';
 
 import './index.scss';
-import { normalizeRoutePath } from '@modern-js/doc-core/runtime';
+import { normalizeRoutePath, useDark } from '@modern-js/doc-core/runtime';
 import { locales } from '../../locales';
 
 type CodeContainerProps = {
@@ -26,7 +25,14 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
     }
     setShowCode(!showCode);
   };
-
+  const dark = useDark();
+  useEffect(() => {
+    if (dark) {
+      document.body.setAttribute('arco-theme', 'dark');
+    } else {
+      document.body.removeAttribute('arco-theme');
+    }
+  }, [dark]);
   const renderOperations = () => {
     const t = locales[lang];
 
@@ -51,16 +57,15 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
   return (
     <div className="code-wrapper">
       <Card>
-        <Space
+        <div
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            overflow: 'auto',
+            marginRight: '44px',
           }}
         >
           {props.children[0]}
-          {renderOperations()}
-        </Space>
+        </div>
+        {renderOperations()}
       </Card>
       <div
         className={`code-content ${showCode ? 'show-all' : ''}`}
