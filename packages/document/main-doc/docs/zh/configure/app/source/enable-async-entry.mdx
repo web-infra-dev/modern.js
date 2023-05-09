@@ -36,7 +36,7 @@ export default defineConfig({
 node_modules
   └─ .modern-js
      └─ main
-        ├─ bootstrap.js  # 真正的入口代码
+        ├─ bootstrap.jsx  # 真正的入口代码
         ├─ index.js      # 异步入口文件（asynchronous boundary）
         └─ index.html
 ```
@@ -44,7 +44,7 @@ node_modules
 其中 `index.js` 的内容如下：
 
 ```js
-import('./bootstrap.js');
+import('./bootstrap.jsx');
 ```
 
 此时，就可以在当前页面中消费任意的远程模块了。

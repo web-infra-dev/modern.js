@@ -14,9 +14,9 @@ export const LOADER_EXPORT_NAME = 'loader';
 
 export const TEMP_LOADERS_DIR = '__loaders__';
 
-export const ENTRY_POINT_FILE_NAME = 'index.js';
+export const ENTRY_POINT_FILE_NAME = 'index.jsx';
 
-export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.js';
+export const ENTRY_BOOTSTRAP_FILE_NAME = 'bootstrap.jsx';
 
 export const FILE_SYSTEM_ROUTES_DYNAMIC_REGEXP = /^\[(\S+)\]([*+?]?)$/;
 
