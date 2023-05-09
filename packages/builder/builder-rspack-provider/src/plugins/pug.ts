@@ -37,6 +37,7 @@ export const builderPluginPug = (): BuilderPlugin => ({
       const { applyOptionsChain } = await import('@modern-js/utils');
 
       const pugOptions = applyOptionsChain({}, pug === true ? {} : pug);
+      // not support childCompiler in Rspack html-plugin, use templateCompiler instead.
       const templateCompiler = getPugTemplateCompiler(pugOptions);
 
       entryNames.forEach(entry => {
