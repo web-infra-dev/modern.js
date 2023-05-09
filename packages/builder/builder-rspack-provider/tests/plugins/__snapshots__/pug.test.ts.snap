@@ -1,0 +1,48 @@
+// Vitest Snapshot v1
+
+exports[`plugins/pug > should add pug correctly when tools.pug is used 1`] = `
+{
+  "entry": {
+    "foo": [
+      "src/foo.ts",
+    ],
+    "main": [
+      "src/main.ts",
+    ],
+  },
+  "module": {},
+  "plugins": [
+    HtmlRspackPlugin {
+      "name": "HtmlRspackPlugin",
+      "userOptions": {
+        "chunks": [
+          "main",
+        ],
+        "filename": "html/main/index.html",
+        "inject": "head",
+        "minify": false,
+        "scriptLoading": "defer",
+        "template": "foo.pug",
+        "templateCompiler": {
+          "compile": [Function],
+        },
+        "templateParameters": [Function],
+      },
+    },
+    HtmlRspackPlugin {
+      "name": "HtmlRspackPlugin",
+      "userOptions": {
+        "chunks": [
+          "foo",
+        ],
+        "filename": "html/foo/index.html",
+        "inject": "head",
+        "minify": false,
+        "scriptLoading": "defer",
+        "template": "bar.html",
+        "templateParameters": [Function],
+      },
+    },
+  ],
+}
+`;

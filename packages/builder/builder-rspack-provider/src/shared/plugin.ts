@@ -13,13 +13,15 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.devtool(),
     import('../plugins/resolve').then(m => m.builderPluginResolve()),
     plugins.fileSize(),
-    // should before the html plugin
+    // cleanOutput plugin should before the html plugin
     plugins.cleanOutput(),
     plugins.font(),
     plugins.image(),
     plugins.media(),
     plugins.svg(),
     plugins.html(),
+    // pug plugin should after html plugin
+    import('../plugins/pug').then(m => m.builderPluginPug()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/css').then(m => m.builderPluginCss()),
