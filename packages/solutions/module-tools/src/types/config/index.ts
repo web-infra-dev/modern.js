@@ -72,7 +72,7 @@ export type BaseBuildConfig = Omit<
   sideEffects: LibuildUserConfig['sideEffects'];
   dts: false | DTSOptions;
   style: Omit<Required<LibuildStyle>, 'cleanCss'> & {
-    tailwindCss: TailwindCSSConfig;
+    tailwindcss: TailwindCSSConfig;
   };
   alias: Record<string, string>;
 };

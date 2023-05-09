@@ -155,7 +155,7 @@ export default (
         const { designSystem } = modernConfig;
         const tailwindConfig = getTailwindConfig(
           tailwindVersion,
-          config.style.tailwindCss,
+          config.style.tailwindcss,
           designSystem,
           {
             pureConfig: {
