@@ -1,5 +1,6 @@
-import pug from '../../compiled/pug';
-import type { webpack, PugOptions } from '../types';
+import pug from '@modern-js/builder-shared/pug';
+import type { PugOptions } from '@modern-js/builder-shared';
+import type { webpack } from '../types';
 
 export default function (
   this: webpack.LoaderContext<PugOptions>,
