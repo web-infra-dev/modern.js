@@ -106,6 +106,7 @@ async function runModuleNewCommand(
       [
         'run',
         'new',
+        '--',
         '--dist-tag',
         'next',
         '--config',
