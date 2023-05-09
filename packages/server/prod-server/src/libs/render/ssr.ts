@@ -1,6 +1,7 @@
 import path from 'path';
-import { fs, mime } from '@modern-js/utils';
 import {
+  fs,
+  mime,
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
