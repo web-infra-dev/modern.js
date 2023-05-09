@@ -1,5 +1,5 @@
 import { Store } from '@modern-js-reduck/store';
-import type { StaticHandlerContext } from '@modern-js/utils/runtime';
+import type { StaticHandlerContext } from '@modern-js/utils/runtime/router';
 import { createContext } from 'react';
 import { createLoaderManager } from './core/loader/loaderManager';
 import { runtime } from './core/plugin';

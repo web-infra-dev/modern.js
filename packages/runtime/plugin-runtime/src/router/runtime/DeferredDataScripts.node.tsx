@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import { TrackedPromise } from '@modern-js/utils/runtime';
+import { TrackedPromise } from '@modern-js/utils/runtime/router';
 import { Suspense, useEffect, useRef, useMemo, useContext } from 'react';
 import {
   Await,

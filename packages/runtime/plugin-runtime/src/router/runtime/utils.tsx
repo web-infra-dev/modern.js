@@ -11,7 +11,7 @@ import {
   type Router,
   type StaticHandlerContext,
   renderNestedRoute,
-} from '@modern-js/utils/runtime';
+} from '@modern-js/utils/runtime/router';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
