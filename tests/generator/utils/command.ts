@@ -84,7 +84,7 @@ export async function runInstallAndBuildProject(type: string, tmpDir: string) {
         const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
         await execaWithStreamLog(
           packageManager,
-          ['install', '--ignore-scripts'],
+          ['install', '--ignore-scripts', '--force'],
           {
             cwd: path.join(tmpDir, project),
           },
