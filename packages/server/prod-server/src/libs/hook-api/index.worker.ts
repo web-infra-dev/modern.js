@@ -114,12 +114,10 @@ export const createMiddlewareContext = (
   context: WorkerServerContext,
 ): MiddlewareContext<'worker'> => {
   const baseContext = base(context);
+  (baseContext.response as any).locals = context.res.locals;
   return {
     ...baseContext,
-    response: {
-      ...baseContext.response,
-      locals: context.res.locals || {},
-    },
+    response: baseContext.response as any,
     source: {
       req: context.req,
       // FIXME: match the res types

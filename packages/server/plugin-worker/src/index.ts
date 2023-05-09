@@ -51,7 +51,10 @@ export default (): CliPlugin<AppTools> => ({
         if (!isServiceWorker(configContext)) {
           return;
         }
-        writeWorkerServerFile(appDirectory, distDirectory);
+        const enableWorkerInWeb =
+          (configContext.deploy as any).enableWorker ||
+          (configContext.deploy.worker as any)?.web;
+        writeWorkerServerFile(appDirectory, distDirectory, enableWorkerInWeb);
       },
       async afterBuild() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
@@ -61,13 +64,20 @@ export default (): CliPlugin<AppTools> => ({
         if (!isServiceWorker(configContext)) {
           return;
         }
-        writeWorkerServerFile(appDirectory, distDirectory);
+        const enableWorkerInWeb =
+          (configContext.deploy as any).enableWorker ||
+          (configContext.deploy.worker as any)?.web;
+        writeWorkerServerFile(appDirectory, distDirectory, enableWorkerInWeb);
       },
     };
   },
 });
 
-const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
+const writeWorkerServerFile = (
+  appDirectory: string,
+  distDirectory: string,
+  enableWorkerInWeb: boolean,
+) => {
   const workServerDir = path.join(distDirectory, WORKER_SERVER);
   const customServerDir = path.join(appDirectory, SERVER_DIR, WEB_APP_NAME);
   const isExistsCustomServer =
@@ -89,7 +99,7 @@ const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
     isSSR: boolean;
     urlPath: string;
   }[] = [];
-  if (isExistsCustomServer) {
+  if (isExistsCustomServer && !enableWorkerInWeb) {
     importStr += `import * as ${CUSTOM_SERVER} from '${relativePath}'\n`;
   }
   routes.forEach(
@@ -107,7 +117,7 @@ const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
       if (!route.isApi) {
         importStr += `import ${route.entryName}template from "../${route.entryPath}";\n`;
         pageStr += `"${route.urlPath}": {
-        ${isExistsCustomServer ? `${CUSTOM_SERVER},` : ''}
+        ${isExistsCustomServer && !enableWorkerInWeb ? `${CUSTOM_SERVER},` : ''}
         entryName: "${route.entryName}",
         template: ${route.entryName}template,
         serverRender: ${

@@ -16,6 +16,10 @@ import {
 
 import { metrics as defaultMetrics } from './libs/metrics';
 
+const isRedirect = (code: number) => {
+  return [301, 302, 307, 308].includes(code);
+};
+
 export type Context = Record<string, any>;
 
 export interface UrlQuery {
@@ -63,7 +67,17 @@ export const handleUrl = (url: string) => {
 
 const middlewarePipeline = createAsyncPipeline<MiddlewareContext, void>();
 
-const checkIsSent = (context: WorkerServerContext) => context.res.isSent;
+const checkIsSent = (context: WorkerServerContext) => {
+  if (context.res.isSent) {
+    return true;
+  }
+
+  if (context.res.headers.get('Location') && isRedirect(context.res.status)) {
+    return true;
+  }
+
+  return false;
+};
 
 const createHandlerRes = (context: WorkerServerContext) => ({
   body: context.res.body || 'Unkown body',
@@ -124,7 +138,7 @@ export const createHandler = (manifest: Manifest) => {
     }
 
     return {
-      body,
+      body: afterRenderHookContext.template.get(),
       status,
     };
   };
