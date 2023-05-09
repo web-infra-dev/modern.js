@@ -46,7 +46,7 @@ jobs:
         run: pnpm --filter @modern-js/builder-doc run build:doc
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           branch: gh-pages
           folder: packages/document/builder-doc/doc_build
