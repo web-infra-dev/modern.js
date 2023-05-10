@@ -67,7 +67,7 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
   const assets = multiStats
     .map(stats => {
       const origin = stats.toJson({
-        all: true,
+        all: false,
         assets: true,
         groupAssetsByInfo: false,
         groupAssetsByPath: false,
@@ -75,6 +75,7 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
         groupAssetsByExtension: false,
         groupAssetsByEmitStatus: false,
       });
+
       const filteredAssets = origin.assets!.filter(asset =>
         filterAsset(asset.name),
       );
