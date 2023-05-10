@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [docTools({})],
   doc: {
     markdown: {
-      experimentalMdxRs: true,
+      // experimentalMdxRs: true,
       checkDeadLinks: true,
     },
     root: path.join(__dirname, 'docs'),

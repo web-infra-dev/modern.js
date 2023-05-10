@@ -18,13 +18,17 @@ const Component = () => {
 
 You can directly use the Tab/Tabs component in the document to achieve the effect of tab switching. for example:
 
-```mdx title="index.mdx"
+```tsx title="index.mdx"
 import { Tab, Tabs } from '@modern-js/doc-tools/theme';
 
-<Tabs>
-  <Tab label="Tab 1">Tab 1 content</Tab>
-  <Tab label="Tab 2">Tab 2 content</Tab>
-</Tabs>
+function App() {
+  return (
+    <Tabs>
+      <Tab label="Tab 1">Tab 1 content</Tab>
+      <Tab label="Tab 2">Tab 2 content</Tab>
+    </Tabs>
+  );
+}
 ```
 
 import { Tab, Tabs } from '@theme';

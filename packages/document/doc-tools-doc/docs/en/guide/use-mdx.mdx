@@ -27,7 +27,7 @@ import { CustomComponent } from './custom';
 
 You can add Front Matter at the beginning of your Markdown file, which is a YAML-formatted object that defines some metadata. For example:
 
-```mdx
+```yaml
 ---
 title: Hello World
 ---
@@ -37,7 +37,7 @@ title: Hello World
 
 You can also access properties defined in Front Matter in the body, for example:
 
-```mdx
+```markdown
 ---
 title: Hello World
 ---
@@ -111,6 +111,8 @@ This is a `block` of `Custom Title`
 
 ## Code Block
 
+### Basic Usage
+
 You can use the \`\`\` syntax to create code blocks and support custom titles. For example:
 
 **Input:**
@@ -135,31 +137,22 @@ console.log('Hello World');
 console.log('Hello World');
 ```
 
-You can specify code line highlighting with the following syntax, for example:
+### Show Line Numbers
 
-**Input:**
+If you want to display line numbers, you can enable the `showLineNumbers` option in the config file:
 
-````md
-```js {1,3-5}
-console.log('Hello World');
-
-const a = 1;
-console.log(a);
-const b = 2;
-console.log(b);
+```ts title="modern.config.ts"
+export default {
+  // ...
+  doc: {
+    markdown: {
+      showLineNumbers: true,
+    },
+  },
+};
 ```
-````
 
-**Output:**
-
-```js {1,3-5}
-console.log('Hello World');
-
-const a = 1;
-console.log(a);
-const b = 2;
-console.log(b);
-```
+### Line Highlighting
 
 You can also apply line highlighting and code block title at the same time, for example:
 

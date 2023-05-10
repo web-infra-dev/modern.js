@@ -6,7 +6,7 @@
 
 页面的标题。默认情况下，页面的 h1 标题将用作 HTML 文档的标题。但是如果你想使用不同的标题，你可以使用 Front Matter 来指定页面的标题。例如：
 
-```md
+```yaml
 ---
 title: 我的主页
 ---
@@ -18,7 +18,7 @@ title: 我的主页
 
 页面的自定义描述。例如：
 
-```md
+```yaml
 ---
 description: 这是我的主页
 ---
@@ -31,7 +31,7 @@ description: 这是我的主页
 
 页面的类型。默认情况下，页面类型为`doc`。但是如果你想使用不同的页面类型，你可以使用`pageType`前面的东西来指定页面类型。例如：
 
-```md
+```yaml
 ---
 pageType: home
 ---
@@ -62,7 +62,7 @@ export interface Hero {
 
 例如，你可以使用以下 Front Matter 来指定页面的 hero config：
 
-```md
+```yaml
 ---
 pageType: home
 
@@ -101,7 +101,7 @@ export type Features = Feature[];
 
 例如，你可以使用以下内容来指定 `home` 页面的 features 配置：
 
-```md
+```yaml
 ---
 pageType: home
 
