@@ -1,6 +1,5 @@
 - **Type:** `'linked' | 'inline' | 'none'`
 - **Default:** `'linked'`
-- **Bundler:** `only support webpack`
 
 Configure how to handle the legal comment.
 
@@ -11,6 +10,10 @@ This behavior can be configured by using one of the following options:
 - `linked`: Extract all legal comments to a .LEGAL.txt file and link to them with a comment.
 - `inline`: Preserve all legal comments in original position.
 - `none`: Remove all legal comments.
+
+:::tip
+When using Rspack as the bundler, `inline` is not currently supported.
+:::
 
 ### Example
 
