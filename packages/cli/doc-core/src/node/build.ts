@@ -1,6 +1,7 @@
 import { dirname, join } from 'path';
 import { pathToFileURL } from 'url';
 import { HelmetData } from 'react-helmet-async';
+import chalk from '@modern-js/utils/chalk';
 import { PageData, UserConfig } from 'shared/types';
 import {
   OUTPUT_DIR,
@@ -12,6 +13,7 @@ import {
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
 import { modifyConfig, beforeBuild, afterBuild } from './hooks';
+import { logger } from './utils';
 import { APPEARANCE_KEY, normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
 
@@ -55,6 +57,9 @@ export interface SSRBundleExports {
 }
 
 export async function renderPages(config: UserConfig) {
+  logger.info('Rendering pages...');
+  const startTime = Date.now();
+
   const cwd = process.cwd();
   const outputPath = config.doc?.outDir ?? join(cwd, OUTPUT_DIR);
   const ssrBundlePath = join(outputPath, 'ssr', 'bundles', 'main.js');
@@ -125,6 +130,9 @@ export async function renderPages(config: UserConfig) {
   // Remove ssr bundle
   await fs.remove(join(outputPath, 'ssr'));
   await fs.remove(join(outputPath, 'html', 'main', 'index.html'));
+
+  const totalTime = Date.now() - startTime;
+  logger.success(`Pages rendered in ${chalk.yellow(totalTime)} ms.`);
 }
 
 export async function build(rootDir: string, config: UserConfig) {
