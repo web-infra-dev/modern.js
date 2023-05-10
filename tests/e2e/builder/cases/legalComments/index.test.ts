@@ -133,6 +133,7 @@ webpackOnlyTest('legalComments inline', async ({ page }) => {
     ];
 
   expect(JsContent.includes('@license BBB')).toBeTruthy();
+  expect(JsContent.includes('Foo Bar')).toBeFalsy();
 
   builder.close();
 });

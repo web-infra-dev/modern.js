@@ -1,6 +1,5 @@
 - **类型：** `'linked' | 'inline' | 'none'`
 - **默认值：** `'linked'`
-- **打包工具：** `仅支持 webpack`
 
 配置 legal comment 的处理方式。
 
@@ -11,6 +10,10 @@ legal comment 是 JS 或 CSS 文件中的一些特殊注释，这些注释包含
 - `linked`：将所有 legal comments 移至 .LEGAL.txt 文件并通过注释链接到它们。
 - `inline`：保留所有 legal comments。
 - `none`：移除所有 legal comments。
+
+:::tip
+在使用 Rspack 作为打包工具时，暂不支持 `inline` 配置项。
+:::
 
 ### 示例
 
