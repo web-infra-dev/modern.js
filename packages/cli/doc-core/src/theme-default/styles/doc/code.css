@@ -106,7 +106,7 @@
 
 .modern-doc [class*='language-'] code {
   display: block;
-  padding: 16px 20px;
+  padding: 16px 0;
   width: fit-content;
   min-width: 100%;
   line-height: 1.7;
@@ -120,7 +120,7 @@
   position: relative;
 }
 
-.modern-doc [class*='language-'] .modern-code-content > button.copy {
+.modern-doc [class*='language-'] .modern-code-content button.copy {
   position: absolute;
   top: 12px;
   right: 12px;
@@ -141,20 +141,17 @@
   background-color: var(--modern-code-copy-code-hover-bg);
 }
 
-.modern-doc [class*='language-']:hover .modern-code-content > button.copy,
-.modern-doc [class*='language-'] .modern-code-content > button.copy:focus {
+.modern-doc [class*='language-']:hover .modern-code-content button.copy,
+.modern-doc [class*='language-'] .modern-code-content button.copy:focus {
   opacity: 1;
 }
 
-.modern-doc [class*='language-'] .modern-code-content > button.copy:hover {
+.modern-doc [class*='language-'] .modern-code-content button.copy:hover {
   transform: scale(1.15);
 }
 
-.modern-doc [class*='language-'] .modern-code-content > button.copy.copied,
-.modern-doc
-  [class*='language-']
-  .modern-code-content
-  > button.copy:hover.copied {
+.modern-doc [class*='language-'] .modern-code-content button.copy.copied,
+.modern-doc [class*='language-'] .modern-code-content button.copy:hover.copied {
   border-radius: 0 4px 4px 0;
   background-image: var(--modern-icon-copied);
   transform: scale(1);

@@ -68,22 +68,7 @@ export const rehypePluginPreWrapper: Plugin<[], Root> = () => {
             properties: {
               className: 'modern-code-content',
             },
-            children: [
-              {
-                type: 'element',
-                tagName: 'button',
-                properties: {
-                  className: 'copy',
-                },
-                children: [
-                  {
-                    type: 'text',
-                    value: '',
-                  },
-                ],
-              },
-              clonedNode,
-            ],
+            children: [clonedNode],
           },
         ];
       }
