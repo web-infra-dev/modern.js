@@ -444,7 +444,7 @@ export const init = (context: RuntimeContext) => {
 };
 ```
 
-### Prefetch
+### 预加载
 
 在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片，当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
 这种情况下你可以通过定义 `loading` 组件，在静态资源加载完成前，展示一个自定义的 `loading` 组件。
@@ -462,9 +462,24 @@ export const init = (context: RuntimeContext) => {
 :::
 
 - `none`， 默认值，不会做 prefetch，没有任何额外的行为。
-- `intent`，这是我们推荐大多数场景下使用的值，当你把鼠标放在 Link 上时，会自动开始加载对应的分片和 data loader 中定义的数据，当鼠标移开时，会自动取消加载。在我们的测试中，即使是直接点击，也能减少大约 200ms 的加载时间。
+- `intent`，这是我们推荐大多数场景下使用的值，当你把鼠标放在 Link 上时，会自动开始加载对应的分片和 data loader 中定义的数据，当鼠标移开时，会自动取消加载。在我们的测试中，即使是快速点击，也能减少大约 200ms 的加载时间。
 - `render`，当 Link 组件渲染时，就会加载对应的分片和 data loader 中定义的数据。
 
+#### 常见问题
+
+1. 使用 `render` 和不根据路由做静态资源分片的区别？
+
+- 使用 `render` 可以指定哪些路由在首屏时，进行加载，同时你可以通过对渲染的控制，仅当 Link 组件进入到可视区域时，才对 Link 组件进行渲染。
+- 使用 `render`，仅在空闲时对静态资源进行加载，不会与首屏静态资源抢占网络。
+- 在 SSR 场景下，也会对数据进行预取。
+
+import Motivation from '@site-docs/components/convention-routing-movitation'
+
+<Motivation/>
+
+import Practice from '@site-docs/components/routes-practice'
+
+<Practice/>
 
 
 ## 自控式路由
