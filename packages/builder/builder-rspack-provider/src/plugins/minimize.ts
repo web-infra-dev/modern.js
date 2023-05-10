@@ -21,6 +21,23 @@ export async function applyJSMinimizer(
     options.pureFuncs = pureFuncs;
   }
 
+  switch (config.output.legalComments) {
+    case 'inline':
+      // todo: 'inline' does not work in Rspack, because the default behavior for handling comments in Rspack is `false`, not `some`.
+      // options.terserOptions!.format!.comments = 'some';
+      options.extractComments = false;
+      break;
+    case 'linked':
+      options.extractComments = true;
+      break;
+    case 'none':
+      // options.terserOptions!.format!.comments = false;
+      options.extractComments = false;
+      break;
+    default:
+      break;
+  }
+
   setConfig(rspackConfig, 'builtins.minifyOptions', options);
 }
 

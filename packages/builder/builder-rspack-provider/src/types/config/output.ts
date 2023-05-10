@@ -5,7 +5,7 @@ import type {
 } from '@modern-js/builder-shared';
 import type { Builtins } from '@rspack/core';
 
-export type OutputConfig = Omit<SharedOutputConfig, 'legalComments'> & {
+export type OutputConfig = SharedOutputConfig & {
   /**
    * Copies the specified file or directory to the dist directory.
    */
