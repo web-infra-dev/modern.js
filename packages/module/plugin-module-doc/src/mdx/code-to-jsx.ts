@@ -1,4 +1,5 @@
 import { join } from 'path';
+import { createHash as createHashFunc } from 'crypto';
 import type { Plugin } from 'unified';
 import type { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
@@ -20,10 +21,14 @@ type MDXJsxAttribute = {
   // not right
   value: string;
 };
+
+function createHash(str: string) {
+  return createHashFunc('sha256').update(str).digest('hex').slice(0, 8);
+}
+
 /**
  * remark plugin to transform code to jsx
  */
-let index = 0;
 export const remarkTsxToReact: Plugin<
   [{ appDir: string; defaultLang: ModuleDocgenLanguage }],
   Root
@@ -51,22 +56,22 @@ export const remarkTsxToReact: Plugin<
           // not transform pure code
           return;
         }
-
+        const codeHash = createHash(code);
         const virtualModulePath = join(
           appDir,
           'node_modules',
           '.modern-doc',
-          `virtual-demo${++index}.tsx`,
+          `virtual-demo${codeHash}.tsx`,
         );
         demoRuntimeModules.writeModule(virtualModulePath, code);
-        demos.push(getASTNodeImport(`Demo${index}`, virtualModulePath));
+        demos.push(getASTNodeImport(`Demo${codeHash}`, virtualModulePath));
         Object.assign(node, {
           type: 'mdxJsxFlowElement',
           name: 'CodeContainer',
           children: [
             {
               type: 'mdxJsxFlowElement',
-              name: `Demo${index}`,
+              name: `Demo${codeHash}`,
             },
             {
               // if lang not change, this node will be visited again and again

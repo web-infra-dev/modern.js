@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { run } from '@modern-js/utils/ssr';
+import { run } from '@modern-js/utils/runtime-node';
 import { PreRender } from '../../react/prerender';
 import { time } from '../time';
 import { ServerRenderOptions } from '../types';

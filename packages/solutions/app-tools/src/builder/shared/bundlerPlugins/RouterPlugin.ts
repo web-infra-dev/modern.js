@@ -1,6 +1,5 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
+import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import type { Rspack } from '@modern-js/builder-rspack-provider';

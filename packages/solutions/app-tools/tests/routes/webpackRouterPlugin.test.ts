@@ -1,6 +1,5 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
+import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { RouterPlugin } from '../../src/builder/shared/bundlerPlugins';
 import { compiler } from './compiler';
 

@@ -2,7 +2,7 @@
 /* eslint-disable node/prefer-global/url */
 import { compile } from 'path-to-regexp';
 import { redirect } from 'react-router-dom';
-import { type UNSAFE_DeferredData as DeferredData } from '@modern-js/utils/universal/remix-router';
+import { type UNSAFE_DeferredData as DeferredData } from '@modern-js/utils/runtime/router';
 import {
   LOADER_ID_PARAM,
   DIRECT_PARAM,

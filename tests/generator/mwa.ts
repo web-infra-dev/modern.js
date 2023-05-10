@@ -151,6 +151,7 @@ async function runMWANewCommand(
       [
         'run',
         'new',
+        '--',
         '--dist-tag',
         'next',
         '--config',
