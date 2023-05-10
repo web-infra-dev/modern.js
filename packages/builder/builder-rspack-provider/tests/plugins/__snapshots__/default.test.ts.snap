@@ -686,7 +686,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"production\\"",
     },
-    "minifyOptions": {},
+    "minifyOptions": {
+      "extractComments": true,
+    },
     "pluginImport": [
       {
         "libraryDirectory": "es",

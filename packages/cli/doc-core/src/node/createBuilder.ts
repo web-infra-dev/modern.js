@@ -8,7 +8,8 @@ import type {
 } from '@modern-js/builder-rspack-provider';
 import sirv from 'sirv';
 import fs from '@modern-js/utils/fs-extra';
-import { removeTrailingSlash } from '../shared/utils';
+import { isDebugMode, removeTrailingSlash } from '../shared/utils';
+import { tailwindConfig } from '../../tailwind.config';
 import {
   CLIENT_ENTRY,
   SSR_ENTRY,
@@ -42,9 +43,13 @@ async function createInternalBuildConfig(
   const CUSTOM_THEME_DIR =
     config.doc?.themeDir ?? path.join(process.cwd(), 'theme');
   const outDir = config.doc?.outDir ?? OUTPUT_DIR;
+  // In debug mode, we will not use the bundled theme chunk and skip the build process of module tools, which make the debug process faster
+  const DEFAULT_THEME_DIR = isDebugMode()
+    ? path.join(PACKAGE_ROOT, 'src', 'theme-default')
+    : path.join(PACKAGE_ROOT, 'dist', 'theme');
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
-    : path.join(PACKAGE_ROOT, 'dist', 'theme');
+    : DEFAULT_THEME_DIR;
   const checkDeadLinks =
     (config.doc?.markdown?.checkDeadLinks && !isSSR) ?? false;
   const mdxOptions = await createMDXOptions(userRoot, config, checkDeadLinks);
@@ -129,6 +134,21 @@ async function createInternalBuildConfig(
           serveSearchIndexMiddleware(config),
         ],
         historyApiFallback: true,
+      },
+      postcss(config) {
+        // In debug mode, we should use tailwindcss to build the theme source code
+        if (isDebugMode()) {
+          config.postcssOptions.plugins.push(
+            require('tailwindcss')({
+              config: {
+                ...tailwindConfig,
+                content: [
+                  path.join(PACKAGE_ROOT, 'src', 'theme-default', '**/*'),
+                ],
+              },
+            }),
+          );
+        }
       },
       bundlerChain(chain) {
         chain.module

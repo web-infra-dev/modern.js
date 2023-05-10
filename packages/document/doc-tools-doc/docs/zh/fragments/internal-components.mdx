@@ -18,13 +18,17 @@ const Component = () => {
 
 你可以在文档中直接使用 Tab/Tabs 组件来实现 tab 切换的效果。比如
 
-```mdx title="index.mdx"
+```tsx title="index.mdx"
 import { Tab, Tabs } from '@modern-js/doc-tools/theme';
 
-<Tabs>
-  <Tab label="Tab 1">Tab 1 content</Tab>
-  <Tab label="Tab 2">Tab 2 content</Tab>
-</Tabs>
+function App() {
+  return (
+    <Tabs>
+      <Tab label="Tab 1">Tab 1 content</Tab>
+      <Tab label="Tab 2">Tab 2 content</Tab>
+    </Tabs>
+  );
+}
 ```
 
 import { Tab, Tabs } from '@theme';

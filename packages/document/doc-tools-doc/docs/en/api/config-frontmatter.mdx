@@ -6,7 +6,7 @@
 
 The title of the page. By default, the page's h1 heading will be used as the title of the HTML document. But if you want to use a different title, you can use Front Matter to specify the title of the page. For example:
 
-```md
+```yaml
 ---
 title: My Home Page
 ---
@@ -18,7 +18,7 @@ title: My Home Page
 
 A custom description for the page. For example:
 
-```md
+```yaml
 ---
 description: This is my custom description for this page.
 ---
@@ -31,7 +31,7 @@ description: This is my custom description for this page.
 
 The type of page. By default, the page type is `doc`. But if you want to use a different page type, you can specify the page type with something preceding `pageType`. For example:
 
-```md
+```yaml
 ---
 pageType: home
 ---
@@ -62,7 +62,7 @@ export interface Hero {
 
 For example, you can use the following Front Matter to specify a page's hero config:
 
-```md
+```yaml
 ---
 pageType: home
 
@@ -101,7 +101,7 @@ export type Features = Feature[];
 
 For example, you could use the following to specify the features configuration for the `home` page:
 
-```md
+```yaml
 ---
 pageType: home
 

@@ -411,6 +411,9 @@ export async function siteDataVMPlugin(
       const { content, id, domain, ...rest } = page;
       return rest;
     }),
+    markdown: {
+      showLineNumbers: userConfig?.markdown?.showLineNumbers ?? false,
+    },
   };
 
   const plugin = new RuntimeModulesPlugin({

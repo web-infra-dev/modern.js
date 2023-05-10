@@ -6,7 +6,13 @@ import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
-import { removeBase, normalizeHref, withBase, usePageData } from '@/runtime';
+import {
+  removeBase,
+  normalizeHref,
+  withBase,
+  usePageData,
+  isEqualPath,
+} from '@/runtime';
 import { inBrowser, isProduction } from '@/shared/utils';
 
 interface Props {
@@ -37,7 +43,11 @@ interface SidebarItemProps {
 export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
-  const { page } = usePageData();
+  const { page, siteData } = usePageData();
+  // page data for corresponding current sidebar item
+  const [itemPage] = siteData.pages.filter(p =>
+    isEqualPath(item.link, p.routePath),
+  );
   const { lang } = page;
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -49,7 +59,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
   }, []);
   let { text } = item;
   /* HMR fix: When page title changed, we use the latest title as sidebar text, in the meantime, it takes more complexity */
-  if (inBrowser() && !isProduction()) {
+  if (inBrowser() && !isProduction() && itemPage?.title) {
     const withLang = (link: string) => `${link}-${lang}`;
     if (active) {
       localStorage.setItem(withLang(item.link), page.title);

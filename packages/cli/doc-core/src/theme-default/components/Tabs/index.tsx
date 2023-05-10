@@ -7,7 +7,6 @@ import {
 import { Tab as HeadlessTab } from '@headlessui/react';
 import { TabDataContext } from '../../logic/TabDataContext';
 import styles from './index.module.scss';
-import { highlightCode } from '@/theme-default/logic';
 
 type TabItem = {
   value?: string;
@@ -58,7 +57,7 @@ export function Tabs(props: TabsProps): ReactElement {
   let defaultIndex = 0;
   const needSync = groupId && tabData[groupId] !== undefined;
   if (needSync) {
-    defaultIndex = tabData[groupId] as number;
+    defaultIndex = tabData[groupId];
   } else if (defaultValue) {
     defaultIndex = tabValues.findIndex(item => {
       if (typeof item === 'string') {
@@ -74,10 +73,6 @@ export function Tabs(props: TabsProps): ReactElement {
     <HeadlessTab.Group
       onChange={index => {
         onChange?.(index);
-        // fix: code block not highlight when tab change
-        setTimeout(() => {
-          highlightCode();
-        }, 0);
         if (groupId) {
           setTabData({ ...tabData, [groupId]: index });
         }
