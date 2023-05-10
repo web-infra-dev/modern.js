@@ -33,7 +33,7 @@ export class TsConfigPathsPlugin {
 
   matchPath: MatchPath | null;
 
-  resolved: Map<string, string | undefined>;
+  resolvedCache: Map<string, string | undefined>;
 
   constructor({
     cwd = process.cwd(),
@@ -42,7 +42,7 @@ export class TsConfigPathsPlugin {
   }: TsConfigPathsPluginOptions) {
     this.cwd = cwd;
     this.extensions = extensions;
-    this.resolved = new Map();
+    this.resolvedCache = new Map();
     this.compilerOptions = readTsConfig(cwd).compilerOptions || {};
     this.absoluteBaseUrl = path.resolve(
       cwd,
@@ -81,42 +81,38 @@ export class TsConfigPathsPlugin {
       .tapAsync('TsConfigPathsPlugin', (request, resolveContext, callback) => {
         const requestName = request.request;
 
-        if (!requestName) {
+        if (
+          !requestName ||
+          isRelativePath(requestName) ||
+          path.isAbsolute(requestName)
+        ) {
           return callback();
         }
 
-        if (isRelativePath(requestName)) {
-          return callback();
-        }
+        let resolvedPath = this.resolvedCache.get(requestName);
 
-        if (path.isAbsolute(requestName)) {
-          return callback();
-        }
-
-        if (!this.resolved.has(requestName)) {
-          const matched = this.matchPath!(
+        if (resolvedPath === undefined) {
+          resolvedPath = this.matchPath!(
             requestName,
             undefined,
             undefined,
             this.extensions,
           );
 
-          this.resolved.set(requestName, matched);
-        }
-
-        if (this.resolved.get(requestName) === undefined) {
-          return callback();
+          if (resolvedPath) {
+            this.resolvedCache.set(requestName, resolvedPath);
+          } else {
+            return callback();
+          }
         }
 
         return resolver.doResolve(
           target,
           {
             ...request,
-            request: this.resolved.get(requestName),
+            request: resolvedPath,
           },
-          `Aliased with tsconfig.json ${requestName} to ${this.resolved.get(
-            requestName,
-          )!}`,
+          `Aliased with tsconfig.json ${requestName} to ${resolvedPath}`,
           resolveContext,
           (resolverErr: any, resolvedResult?: any) => {
             if (resolverErr) {

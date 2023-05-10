@@ -48,7 +48,7 @@ exports[`plugins/resolve > should disable resolve.fullySpecified by default 1`] 
           ".json",
         ],
         "matchPath": [Function],
-        "resolved": Map {},
+        "resolvedCache": Map {},
       },
     ],
   },
