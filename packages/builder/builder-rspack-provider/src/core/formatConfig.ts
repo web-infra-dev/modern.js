@@ -35,7 +35,7 @@ type BundlerRule = NonNullable<
 
 export const formatRule = (rule: BundlerRule): RspackRule => {
   if (rule === '...') {
-    return rule;
+    return rule as RspackRule;
   }
 
   const formatRuleUse = (use: typeof rule['use']) => {
@@ -139,8 +139,17 @@ export const formatSplitChunks = (
     return cacheGroups as Record<string, OptimizationSplitChunksOptions>;
   };
 
+  const { name, ...rest } = splitChunks;
+
+  if (name instanceof Function) {
+    throw new Error(`name not support function`);
+  }
+
   return {
-    ...splitChunks,
+    ...rest,
+
+    name,
+
     minRemainingSize: formatSplitSize(
       splitChunks.minRemainingSize,
       'minRemainingSize',

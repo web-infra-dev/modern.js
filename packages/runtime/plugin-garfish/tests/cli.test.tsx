@@ -129,6 +129,12 @@ describe('plugin-garfish cli', () => {
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 
+    config[0].tools.bundlerChain(webpackConfig, {
+      webpack: jest.fn(),
+      env: 'development',
+      CHAIN_ID,
+    });
+
     config[0].tools.webpackChain(webpackConfig, {
       webpack: jest.fn(),
       env: 'development',
@@ -170,6 +176,11 @@ describe('plugin-garfish cli', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
+
+    config[0].tools.bundlerChain(webpackConfig, {
+      webpack: jest.fn(),
+      env: 'development',
+    });
 
     config[0].tools.webpackChain(webpackConfig, {
       webpack: jest.fn(),

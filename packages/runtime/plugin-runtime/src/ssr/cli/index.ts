@@ -93,8 +93,10 @@ export default (): CliPlugin<AppTools> => ({
         return {
           source: {
             alias: {
-              // ensure that all packages use the same storage in @modern-js/utils/ssr
-              '@modern-js/utils/ssr': require.resolve('@modern-js/utils/ssr'),
+              // ensure that all packages use the same storage in @modern-js/utils/runtime-node
+              '@modern-js/utils/runtime-node': require.resolve(
+                '@modern-js/utils/runtime-node',
+              ),
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
             },
             globalVars: (values, { target }) => {

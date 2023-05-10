@@ -148,5 +148,5 @@ export {
 
 // `react-router-dom` has its own dependency: `@remix-run/router`.
 // In order to make sure `plugin-data-loader` and user's loaders(mainly `defer` API) depend on the singleton of `@remix-run/router`,
-// we export these API from the same package `@modern-js/utils/universal/remix-router`.
-export { defer, json, redirect } from '@modern-js/utils/universal/remix-router';
+// we export these API from the same package `@modern-js/utils/runtime`.
+export { defer, json, redirect } from '@modern-js/utils/runtime/router';

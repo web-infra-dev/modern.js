@@ -137,6 +137,9 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   logo: string | { dark: string; light: string };
   pages: BaseRuntimePageInfo[];
   search: SearchOptions;
+  markdown: {
+    showLineNumbers: boolean;
+  };
 }
 
 export type PageIndexInfo = {
@@ -148,6 +151,8 @@ export type PageIndexInfo = {
   frontmatter: Record<string, unknown>;
   lang: string;
   domain: string;
+  _filepath: string;
+  _relativePath: string;
 };
 
 export type RemotePageInfo = PageIndexInfo & {
@@ -263,6 +268,7 @@ export interface MarkdownOptions {
   rehypePlugins?: PluggableList;
   checkDeadLinks?: boolean;
   experimentalMdxRs?: boolean;
+  showLineNumbers?: boolean;
 }
 
 export interface UserConfig {

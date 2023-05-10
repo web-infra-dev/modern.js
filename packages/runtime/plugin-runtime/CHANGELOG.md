@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.18.0
+
+### Minor Changes
+
+- 7de6599: feat: rspack-provider support modern.js ssr mode
+  feat: rspack-provider 支持 modern.js ssr 模式
+
+### Patch Changes
+
+- @modern-js/plugin@2.18.0
+- @modern-js/types@2.18.0
+- @modern-js/utils@2.18.0
+
 ## 2.17.1
 
 ### Patch Changes

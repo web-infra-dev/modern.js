@@ -20,7 +20,6 @@ import type {
   InspectorPluginOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
-  PugOptions,
   StyleLoaderOptions,
   TerserPluginOptions,
   TSLoaderOptions,
@@ -53,8 +52,6 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
   { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
 >;
 
-export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
-
 export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
 
 export type ToolsHtmlPluginConfig = ChainedConfig<
@@ -78,9 +75,6 @@ export type ToolsWebpackChainConfig = ArrayOrNot<
 
 export interface ToolsConfig extends SharedToolsConfig {
   /**
-   * Configure the [Pug](https://pugjs.org/) template engine.
-   */
-  pug?: ToolsPugConfig;
   /**
    * Modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader).
    */

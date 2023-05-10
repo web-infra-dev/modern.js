@@ -8,7 +8,23 @@ By using the Node Polyfill plugin, Node core libs polyfills are automatically in
 
 ## Quick Start
 
-### Install
+### Used in Modern.js framework
+
+The Modern.js framework integrates the Builder's Node Polyfill plugin by default, so you don't need to manually install and register the plugin, just set the [output.disableNodePolyfill](https://modernjs.dev/configure/app/output/disable-node-polyfill.html) config to `false`:
+
+```js
+export default defineConfig({
+  output: {
+    disableNodePolyfill: false,
+  },
+});
+```
+
+### Use via the Node API
+
+If you use the Builder's Node API, you need to manually install and register the esbuild plugin.
+
+#### Install
 
 You can install the plugin with the following command:
 
@@ -23,19 +39,9 @@ yarn add @modern-js/builder-plugin-node-polyfill -D
 pnpm add @modern-js/builder-plugin-node-polyfill -D
 ```
 
-### Register
+#### Register
 
-In upper-level frameworks such as Modern.js, you can register node polyfill plugins through the `builderPlugins` config:
-
-```ts
-import { builderPluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';
-
-export default {
-  builderPlugins: [builderPluginNodePolyfill()],
-};
-```
-
-If you are using the Builder's Node API, you can register node polyfill plugins through the `addPlugins` method:
+Register node polyfill plugins through the `addPlugins` method:
 
 ```js
 import { builderPluginNodePolyfill } from '@modern-js/builder-plugin-node-polyfill';

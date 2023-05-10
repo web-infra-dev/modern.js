@@ -1,6 +1,5 @@
 import { debug } from '../src/compiled';
-import { stripAnsi } from '../src';
-import { createDebugger } from '../src/debug';
+import { stripAnsi, createDebugger } from '../src';
 
 describe('debug utility', () => {
   test('should return file path', () => {

@@ -1,11 +1,11 @@
 import { join, resolve } from 'path';
 import { expect } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
+import { allProviderTest } from '@scripts/helper';
 
 const fixtures = resolve(__dirname, '../');
 
-webpackOnlyTest('pug', async ({ page }) => {
+allProviderTest('pug', async ({ page }) => {
   const buildOpts = {
     cwd: fixtures,
     entry: {

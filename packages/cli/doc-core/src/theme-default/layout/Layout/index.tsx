@@ -9,7 +9,6 @@ import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
 import { usePageData, Content, removeBase, withBase } from '@/runtime';
 import { useLocaleSiteData } from '@/theme-default/logic';
-import '../../styles/highlight-theme.css';
 
 export type LayoutProps = {
   top?: React.ReactNode;

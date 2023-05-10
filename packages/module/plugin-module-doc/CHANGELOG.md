@@ -1,5 +1,15 @@
 # @modern-js/plugin-module-doc
 
+## 2.18.0
+
+### Patch Changes
+
+- Updated dependencies [2034e01]
+- Updated dependencies [f65d3e8]
+- Updated dependencies [77932c1]
+  - @modern-js/doc-core@2.18.0
+  - @modern-js/module-tools@2.18.0
+
 ## 2.17.1
 
 ### Patch Changes

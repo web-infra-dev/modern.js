@@ -1,19 +1,26 @@
 import path from 'path';
 import type { Page } from 'puppeteer';
-import { getPort, killApp, launchApp } from '../../../utils/modernTestUtils';
+import {
+  getPort,
+  killApp,
+  launchApp,
+  openPage,
+} from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
-declare const page: Page;
 
 describe('custom render', () => {
   let app: any;
   let appPort: number;
+  let page: Page;
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
+    page = await openPage();
   });
   afterAll(async () => {
     await killApp(app);
+    await page.close();
   });
 
   it(`should add custom div correctly`, async () => {

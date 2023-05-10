@@ -66,36 +66,35 @@ button:focus-visible {
   z-index: 999;
 }
 
-/**
- * Custom shiki code block theme
- * reference: https://github.com/shikijs/shiki/blob/main/docs/themes.md
- * -------------------------------------------------------------------------- */
-
 :root {
-  --shiki-color-text: #414141;
-  --shiki-color-background: transparent;
-  --shiki-token-constant: #1976d2;
-  --shiki-token-string: #31a94d;
-  --shiki-token-comment: rgb(182, 180, 180);
-  --shiki-token-keyword: #cf2727;
-  --shiki-token-parameter: #f59403;
-  --shiki-token-function: #7041c8;
-  --shiki-token-string-expression: #218438;
-  --shiki-token-punctuation: #242323;
-  --shiki-token-link: #22863a;
+  --code-color-text: #414141;
+  --code-color-background: transparent;
+  --code-token-constant: #f59403;
+  --code-token-string: #31a94d;
+  --code-token-comment: rgb(182, 180, 180);
+  --code-token-keyword: #cf2727;
+  --code-token-parameter: #1976d2;
+  --code-token-function: #7041c8;
+  --code-token-string-expression: #218438;
+  --code-token-punctuation: #242323;
+  --code-token-link: #22863a;
+  --code-token-variable: #1976d2;
+  --code-token-symbol: #f59403;
 }
 
 .dark {
-  --shiki-color-text: #cac7c7;
-  --shiki-token-constant: #6fb0fa;
-  --shiki-token-string: #f9a86e;
-  --shiki-token-comment: #6a727b;
-  --shiki-token-keyword: #f47481;
-  --shiki-token-parameter: #ff9800;
-  --shiki-token-function: #ae8eeb;
-  --shiki-token-string-expression: #4fb74d;
-  --shiki-token-punctuation: #bbbbbb;
-  --shiki-token-link: #f9a76d;
+  --code-color-text: #cac7c7;
+  --code-token-constant: #6fb0fa;
+  --code-token-string: #f9a86e;
+  --code-token-comment: #6a727b;
+  --code-token-keyword: #f47481;
+  --code-token-parameter: #ff9800;
+  --code-token-function: #ae8eeb;
+  --code-token-string-expression: #4fb74d;
+  --code-token-punctuation: #bbbbbb;
+  --code-token-link: #f9a76d;
+  --code-token-variable: #6fb0fa;
+  --code-token-symbol: #f9a86e;
 }
 
 /**

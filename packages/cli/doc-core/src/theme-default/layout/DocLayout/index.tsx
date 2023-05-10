@@ -4,7 +4,7 @@ import { MDXProvider } from '@mdx-js/react';
 import mediumZoom from 'medium-zoom';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
-import { highlightCode, useLocaleSiteData, useSidebarData } from '../../logic';
+import { useLocaleSiteData, useSidebarData } from '../../logic';
 import { SideMenu } from '../../components/LocalSideBar';
 import { Overview } from '../../components/Overview';
 import { TabDataContext } from '../../logic/TabDataContext';
@@ -25,7 +25,6 @@ function DocContent() {
   useEffect(() => {
     const images = document.querySelectorAll('.modern-doc img');
     mediumZoom(images);
-    highlightCode();
   }, [pathname]);
   return <Content />;
 }

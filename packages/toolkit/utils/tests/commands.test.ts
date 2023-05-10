@@ -1,4 +1,4 @@
-import { getArgv, getCommand, isDevCommand } from '../src/commands';
+import { getArgv, getCommand, isDevCommand } from '../src';
 
 describe('test commands utils', () => {
   test('should get command correctly', () => {

@@ -1,5 +1,13 @@
 # @modern-js/main-doc
 
+## 2.18.0
+
+### Patch Changes
+
+- d0a9bf8: chore: improve entry docs, fix ssg docs
+  chore: 优化入口文档，修复 ssg 文档
+  - @modern-js/builder-doc@2.18.0
+
 ## 2.17.1
 
 ### Patch Changes

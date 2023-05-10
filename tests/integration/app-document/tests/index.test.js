@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-undef */
 const fs = require('fs');
 const path = require('path');
 const {
@@ -8,6 +6,7 @@ const {
   getPort,
   modernBuild,
   modernServe,
+  openPage,
 } = require('../../../utils/modernTestUtils');
 
 const appDir = path.resolve(__dirname, '../');
@@ -17,18 +16,19 @@ function existsSync(filePath) {
 }
 
 describe('test dev', () => {
-  let app, appPort, errors;
+  let app, appPort, errors, page;
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
     errors = [];
-
+    page = await openPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
   });
   afterAll(async () => {
     await killApp(app);
+    await page.close();
   });
 
   it(`should render page test correctly`, async () => {

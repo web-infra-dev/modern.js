@@ -9,6 +9,8 @@ export const isSCM = () => Boolean(process.env.BUILD_VERSION);
 
 export const isProduction = () => process.env.NODE_ENV === 'production';
 
+export const isDebugMode = () => Boolean(process.env.DOC_DEBUG);
+
 export const cleanUrl = (url: string): string =>
   url.replace(HASH_REGEXP, '').replace(QUERY_REGEXP, '');
 

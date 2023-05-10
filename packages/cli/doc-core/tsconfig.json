@@ -17,6 +17,11 @@
       "@theme": ["./theme-default/index.ts"]
     }
   },
-  "include": ["src", "vitest.config.ts", "./modern.config.ts"],
+  "include": [
+    "src",
+    "vitest.config.ts",
+    "./modern.config.ts",
+    "./tailwind.config.ts"
+  ],
   "exclude": ["runtime.ts", "theme.ts"]
 }

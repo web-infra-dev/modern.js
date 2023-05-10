@@ -62,7 +62,7 @@ async function runNewInModuleProject(
       cwd: path.join(tmpDir, project),
     },
   );
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
+  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
   const cases = getModuleNewCases();
   for (const config of cases) {
     await runModuleNewCommand(isLocal, packageManager, {
@@ -71,10 +71,10 @@ async function runNewInModuleProject(
         ...config,
       }),
     });
-    await execaWithStreamLog(packageManager, ['build'], {
+    await execaWithStreamLog(packageManager, ['run', 'build'], {
       cwd: path.join(tmpDir, project),
     });
-    await execaWithStreamLog(packageManager, ['lint'], {
+    await execaWithStreamLog(packageManager, ['run', 'lint'], {
       cwd: path.join(tmpDir, project),
     });
   }
@@ -82,7 +82,7 @@ async function runNewInModuleProject(
 
 async function runModuleNewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'yarn',
+  packageManager: 'pnpm' | 'npm',
   options: {
     config: string;
     cwd: string;
@@ -102,8 +102,17 @@ async function runModuleNewCommand(
     });
   } else {
     await execaWithStreamLog(
-      'yarn',
-      ['new', '--dist-tag', 'next', '--config', config, debug ? '--debug' : ''],
+      'npm',
+      [
+        'run',
+        'new',
+        '--',
+        '--dist-tag',
+        'next',
+        '--config',
+        config,
+        debug ? '--debug' : '',
+      ],
       {
         cwd,
         env: {

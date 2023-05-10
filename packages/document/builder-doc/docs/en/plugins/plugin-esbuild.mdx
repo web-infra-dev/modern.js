@@ -13,7 +13,30 @@ Therefore, we recommend that you use SWC instead of esbuild, please refer to [SW
 
 ## Quick Start
 
-### Install
+### Used in Modern.js framework
+
+The Modern.js framework integrates the Builder's esbuild plugin by default, so you don't need to manually install and register the plugin, just use the [tools.esbuild](https://modernjs.dev/en/configure/app/tools/esbuild.html) configuration:
+
+```js
+export default defineConfig({
+  tools: {
+    esbuild: {
+      loader: {
+        target: 'chrome61',
+      },
+      minimize: {
+        target: 'chrome61',
+      },
+    },
+  },
+});
+```
+
+### Use via the Node API
+
+If you use the Builder's Node API, you need to manually install and register the esbuild plugin.
+
+#### Install
 
 You can install the plugin with the following command:
 
@@ -28,19 +51,9 @@ yarn add @modern-js/builder-plugin-esbuild -D
 pnpm add @modern-js/builder-plugin-esbuild -D
 ```
 
-### Register
+#### Register
 
-In upper-level frameworks such as Modern.js, you can register esbuild plugins through the `builderPlugins` config:
-
-```ts
-import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
-
-export default {
-  builderPlugins: [builderPluginEsbuild()],
-};
-```
-
-If you are using the Builder's Node API, you can register esbuild plugins through the `addPlugins` method:
+Register esbuild plugins through the `addPlugins` method:
 
 ```js
 import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';

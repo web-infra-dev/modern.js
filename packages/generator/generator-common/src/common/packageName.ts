@@ -21,7 +21,7 @@ export const getPackageNameSchema = (
         },
       },
     ],
-    'x-validate': (value: string) => {
+    'x-validator': (value: string) => {
       if (!value) {
         return i18n.t(localeKeys.packageName.no_empty);
       }

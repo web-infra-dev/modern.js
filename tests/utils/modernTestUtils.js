@@ -1,8 +1,7 @@
 const path = require('path');
 const spawn = require('cross-spawn');
 const treeKill = require('tree-kill');
-const portfinder = require('portfinder');
-
+const getRandomPort = require('get-port');
 // const kModernBin = path.join(
 //   __dirname,
 //   '../node_modules/@modern-js/core/dist/bin.js',
@@ -227,12 +226,25 @@ function clearBuildDist(dir) {
   // _clearBuildDist(dir);
 }
 
+const portMap = new Map();
+
 async function getPort() {
-  return await portfinder.getPortPromise({ port: 8080 });
+  while (true) {
+    const port = await getRandomPort();
+    if (!portMap.get(port)) {
+      portMap.set(port, 1);
+      return port;
+    }
+  }
 }
 
 function sleep(t) {
   return new Promise(resolve => setTimeout(resolve, t));
+}
+
+// open a new brower tag
+async function openPage() {
+  return globalThis.__BROWSER_GLOBAL__.newPage();
 }
 
 module.exports = {
@@ -246,4 +258,5 @@ module.exports = {
   getPort,
   clearBuildDist,
   sleep,
+  openPage,
 };

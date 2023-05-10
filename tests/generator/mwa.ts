@@ -63,7 +63,7 @@ async function runNewMWAProject(
       cwd: path.join(tmpDir, project),
     },
   );
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
+  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
   const cases = getMWANewCases(isSimple ? 5 : undefined);
   let hasMicroFrontend = false;
   let hasSSG = false;
@@ -116,10 +116,10 @@ async function runNewMWAProject(
         ...config,
       }),
     });
-    await execaWithStreamLog(packageManager, ['build'], {
+    await execaWithStreamLog(packageManager, ['run', 'build'], {
       cwd: path.join(tmpDir, project),
     });
-    await execaWithStreamLog(packageManager, ['lint'], {
+    await execaWithStreamLog(packageManager, ['run', 'lint'], {
       cwd: path.join(tmpDir, project),
     });
   }
@@ -127,7 +127,7 @@ async function runNewMWAProject(
 
 async function runMWANewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'yarn',
+  packageManager: 'pnpm' | 'npm',
   options: {
     config: string;
     cwd: string;
@@ -147,8 +147,17 @@ async function runMWANewCommand(
     });
   } else {
     await execaWithStreamLog(
-      'yarn',
-      ['new', '--dist-tag', 'next', '--config', config, debug ? '--debug' : ''],
+      'npm',
+      [
+        'run',
+        'new',
+        '--',
+        '--dist-tag',
+        'next',
+        '--config',
+        config,
+        debug ? '--debug' : '',
+      ],
       {
         cwd,
         env: {

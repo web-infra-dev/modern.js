@@ -8,6 +8,7 @@ import type {
   AutoprefixerOptions,
   SassLoaderOptions,
   LessLoaderOptions,
+  PugOptions,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
@@ -38,6 +39,8 @@ export type ToolsBabelConfig = ChainedConfig<
   BabelConfigUtils
 >;
 
+export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
+
 export interface SharedToolsConfig {
   /**
    * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
@@ -63,4 +66,9 @@ export interface SharedToolsConfig {
    * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
    */
   babel?: ToolsBabelConfig;
+
+  /**
+   * Configure the [Pug](https://pugjs.org/) template engine.
+   */
+  pug?: ToolsPugConfig;
 }

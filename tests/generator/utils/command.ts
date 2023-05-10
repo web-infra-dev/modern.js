@@ -76,51 +76,44 @@ export async function runCreteCommand(
 
 export async function runInstallAndBuildProject(type: string, tmpDir: string) {
   const projects = fs.readdirSync(tmpDir);
-  for (const project of projects) {
-    if (!project.includes(type)) {
-      continue;
-    }
-    console.info('install and build process', project);
-    const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
-    await execaWithStreamLog(packageManager, ['install', '--ignore-scripts'], {
-      cwd: path.join(tmpDir, project),
-    });
-    if (project.includes('monorepo')) {
-      continue;
-    }
-    await execaWithStreamLog(packageManager, ['build'], {
-      cwd: path.join(tmpDir, project),
-    });
-  }
+  await Promise.all(
+    projects
+      .filter(project => project.includes(type))
+      .map(async project => {
+        console.info('install and build process', project);
+        const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+        await execaWithStreamLog(
+          packageManager,
+          ['install', '--ignore-scripts', '--force'],
+          {
+            cwd: path.join(tmpDir, project),
+          },
+        );
+        if (project.includes('monorepo')) {
+          return Promise.resolve();
+        }
+        await execaWithStreamLog(packageManager, ['run', 'build'], {
+          cwd: path.join(tmpDir, project),
+        });
+        return Promise.resolve();
+      }),
+  );
 }
 
 export async function runLintProject(type: string, tmpDir: string) {
   const projects = fs.readdirSync(tmpDir);
-  for (const project of projects) {
-    if (!project.includes(type)) {
-      continue;
-    }
-    console.info('lint process', project);
-    const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
-    if (project.includes('monorepo')) {
-      continue;
-    }
-    await execaWithStreamLog(packageManager, ['lint'], {
-      cwd: path.join(tmpDir, project),
-    });
-  }
-}
-
-export async function runTestProject(tmpDir: string) {
-  const projects = fs.readdirSync(tmpDir);
-  for (const project of projects) {
-    console.info('test process', project);
-    const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
-    if (project.includes('monorepo')) {
-      continue;
-    }
-    await execaWithStreamLog(packageManager, ['test'], {
-      cwd: path.join(tmpDir, project),
-    });
-  }
+  await Promise.all(
+    projects
+      .filter(
+        project => project.includes(type) && !project.includes('monorepo'),
+      )
+      .map(async project => {
+        console.info('lint process', project);
+        const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+        await execaWithStreamLog(packageManager, ['run', 'lint'], {
+          cwd: path.join(tmpDir, project),
+        });
+        return Promise.resolve();
+      }),
+  );
 }
