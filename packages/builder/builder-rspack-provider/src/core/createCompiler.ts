@@ -22,6 +22,7 @@ export async function createCompiler({
 
   compiler.hooks.done.tap('done', async stats => {
     const obj = stats.toJson({
+      all: false,
       timings: true,
     });
 
