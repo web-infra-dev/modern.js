@@ -1,6 +1,5 @@
 import Theme from '@theme';
 import { useState } from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App, initPageData } from './App';
 import { DataContext, ThemeContext } from './hooks';
@@ -28,10 +27,20 @@ export async function renderInBrowser() {
     };
   };
   const RootApp = await enhancedApp();
-  if (isProduction()) {
-    hydrateRoot(container, <RootApp />);
+  if (process.env.__IS_REACT_18__) {
+    const { createRoot, hydrateRoot } = require('react-dom/client');
+    if (isProduction()) {
+      hydrateRoot(container, <RootApp />);
+    } else {
+      createRoot(container).render(<RootApp />);
+    }
   } else {
-    createRoot(container).render(<RootApp />);
+    const ReactDOM = require('react-dom');
+    if (isProduction()) {
+      ReactDOM.hydrate(<RootApp />, container);
+    } else {
+      ReactDOM.render(<RootApp />, container);
+    }
   }
 }
 
