@@ -22,6 +22,7 @@ import { createMDXOptions } from './mdx';
 import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
 import { serveSearchIndexMiddleware } from './searchIndex';
 import { checkLinks } from './mdx/remarkPlugins/checkDeadLink';
+import { detectReactVersion, resolveReactAlias } from './utils';
 
 const require = createRequire(import.meta.url);
 
@@ -64,6 +65,7 @@ async function createInternalBuildConfig(
       )
     : '';
   const enableMdxRs = config.doc?.markdown?.experimentalMdxRs ?? false;
+  const reactVersion = await detectReactVersion();
 
   // Using latest browserslist in development to improve build performance
   const browserslist = {
@@ -96,7 +98,7 @@ async function createInternalBuildConfig(
       polyfill: 'usage',
       svgDefaultExport: 'component',
       disableTsChecker: true,
-      // disable production source map, it is useless for doc site
+      // Disable production source map, it is useless for doc site
       disableSourceMap: isProduction(),
       overrideBrowserslist: browserslist,
       assetPrefix,
@@ -104,12 +106,6 @@ async function createInternalBuildConfig(
     source: {
       alias: {
         '@mdx-js/react': require.resolve('@mdx-js/react'),
-        'react/jsx-runtime': require.resolve('react/jsx-runtime'),
-        'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
-        react: require.resolve('react'),
-        'react-dom': require.resolve('react-dom'),
-        'react-dom/server': require.resolve('react-dom/server'),
-        'react-dom/client': require.resolve('react-dom/client'),
         '@': path.join(PACKAGE_ROOT, 'src'),
         '@/runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
         '@theme': themeDir,
@@ -119,11 +115,13 @@ async function createInternalBuildConfig(
           acc[cur] = path.join(runtimeTempDir, `${cur}.js`);
           return acc;
         }, {} as Record<string, string>),
+        ...(await resolveReactAlias(reactVersion)),
       },
       include: [PACKAGE_ROOT],
       define: {
         __ASSET_PREFIX__: JSON.stringify(assetPrefix),
         'process.env.__SSR__': JSON.stringify(isSSR),
+        'process.env.__IS_REACT_18__': JSON.stringify(reactVersion === 18),
       },
     },
     tools: {
