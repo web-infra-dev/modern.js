@@ -47,6 +47,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "newSplitChunks": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -629,6 +632,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "enforceSizeThreshold": 50000,
       "minRemainingSize": undefined,
       "minSize": undefined,
+      "name": undefined,
     },
   },
   "output": {
@@ -713,6 +717,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "hot": false,
   },
   "devtool": "hidden-source-map",
+  "experiments": {
+    "newSplitChunks": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1295,6 +1302,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "enforceSizeThreshold": 50000,
       "minRemainingSize": undefined,
       "minSize": undefined,
+      "name": undefined,
     },
   },
   "output": {
@@ -1386,6 +1394,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "hot": false,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "newSplitChunks": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1788,6 +1799,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "newSplitChunks": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2378,6 +2392,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "enforceSizeThreshold": 50000,
       "minRemainingSize": undefined,
       "minSize": undefined,
+      "name": undefined,
     },
   },
   "output": {

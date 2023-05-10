@@ -3,9 +3,9 @@ import {
   logger,
   getPackageManager,
   chalk,
+  PLUGIN_SCHEMAS,
 } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
-import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import { patchSchema } from '../schema/patchSchema';
 import type {
   UserConfig,
