@@ -2096,7 +2096,7 @@ importers:
 
   packages/module/plugin-module-banner:
     specifiers:
-      '@modern-js/libuild': ~0.12.0
+      '@modern-js/libuild': 0.12.2
       '@modern-js/module-tools': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2105,7 +2105,7 @@ importers:
       jest: ^29
       typescript: ^4
     devDependencies:
-      '@modern-js/libuild': 0.12.1
+      '@modern-js/libuild': 0.12.2
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -2161,8 +2161,8 @@ importers:
 
   packages/module/plugin-module-import:
     specifiers:
-      '@modern-js/libuild': ~0.12.0
-      '@modern-js/libuild-plugin-swc': ~0.12.0
+      '@modern-js/libuild': 0.12.2
+      '@modern-js/libuild-plugin-swc': 0.12.2
       '@modern-js/module-tools': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2171,9 +2171,9 @@ importers:
       jest: ^29
       typescript: ^4
     dependencies:
-      '@modern-js/libuild-plugin-swc': 0.12.1
+      '@modern-js/libuild-plugin-swc': 0.12.2
     devDependencies:
-      '@modern-js/libuild': 0.12.1
+      '@modern-js/libuild': 0.12.2
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -2202,7 +2202,7 @@ importers:
 
   packages/module/plugin-module-node-polyfill:
     specifiers:
-      '@modern-js/libuild-plugin-node-polyfill': ~0.12.0
+      '@modern-js/libuild-plugin-node-polyfill': 0.12.2
       '@modern-js/module-tools': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
@@ -2211,7 +2211,7 @@ importers:
       jest: ^29
       typescript: ^4
     dependencies:
-      '@modern-js/libuild-plugin-node-polyfill': 0.12.1
+      '@modern-js/libuild-plugin-node-polyfill': 0.12.2
     devDependencies:
       '@modern-js/module-tools': link:../../solutions/module-tools
       '@scripts/build': link:../../../scripts/build
@@ -3250,9 +3250,9 @@ importers:
     specifiers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/libuild': ~0.12.0
-      '@modern-js/libuild-plugin-svgr': ~0.12.0
-      '@modern-js/libuild-plugin-swc': ~0.12.0
+      '@modern-js/libuild': 0.12.2
+      '@modern-js/libuild-plugin-svgr': 0.12.2
+      '@modern-js/libuild-plugin-swc': 0.12.2
       '@modern-js/new-action': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/plugin-changeset': workspace:*
@@ -3277,9 +3277,9 @@ importers:
       typescript: ^4
     dependencies:
       '@modern-js/core': link:../../cli/core
-      '@modern-js/libuild': 0.12.1
-      '@modern-js/libuild-plugin-svgr': 0.12.1
-      '@modern-js/libuild-plugin-swc': 0.12.1_@swc+helpers@0.5.0
+      '@modern-js/libuild': 0.12.2
+      '@modern-js/libuild-plugin-svgr': 0.12.2
+      '@modern-js/libuild-plugin-swc': 0.12.2_@swc+helpers@0.5.0
       '@modern-js/new-action': link:../../generator/new-action
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/plugin-changeset': link:../../cli/plugin-changeset
@@ -6189,7 +6189,7 @@ packages:
       '@babel/parser': 7.20.5
       '@babel/template': 7.18.10
       '@babel/traverse': 7.20.5
-      '@babel/types': 7.20.5
+      '@babel/types': 7.18.4
       convert-source-map: 1.8.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
@@ -10880,8 +10880,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-node-polyfill/0.12.1:
-    resolution: {integrity: sha512-RPGIIeot3rVzGatVeZsUj6Leb61sunGM1nTJSBQpgUlah+5X48evYEfUQaQrdY0R80ioMQQUWAoNEKBHQJwv1A==}
+  /@modern-js/libuild-plugin-node-polyfill/0.12.2:
+    resolution: {integrity: sha512-TklBpTnXZNfRDpthDf5ifHfSJR0ZFD0O7U1m43vm60HgVXgANORABxjCAUwx/TKyK/ykpOM7tSO+ZS67DD83Iw==}
     dependencies:
       assert: 2.0.0
       browserify-zlib: 0.2.0
@@ -10909,8 +10909,8 @@ packages:
       vm-browserify: 1.1.2
     dev: false
 
-  /@modern-js/libuild-plugin-svgr/0.12.1:
-    resolution: {integrity: sha512-SnmG/Jl4MpH5DV2cO3NVe/EuyeqZJjSqjLxzhQTskmMtIEeXojlfOXxKsteHJTVOjaL1LFY3edxQY4Nqq9BUXQ==}
+  /@modern-js/libuild-plugin-svgr/0.12.2:
+    resolution: {integrity: sha512-w1y7nr6bcR/TjeKb4Tt1CJNoUAoHvivMtnWGofYZ9GPhjErn5lPxl1mXTEwwJlYMzM1XJ8JrVFh0BU92Xo/68Q==}
     dependencies:
       '@svgr/core': 6.2.0
       '@svgr/plugin-jsx': 6.2.0_@svgr+core@6.2.0
@@ -10920,8 +10920,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc/0.12.1:
-    resolution: {integrity: sha512-f0Jfy3wTHakbfw1h34qbPzss2NEXIg8ACWynaqEsNtv/4MSxOgcaygdkRrSquAO92u0hg6/nOTMtJYQDOj5mnw==}
+  /@modern-js/libuild-plugin-swc/0.12.2:
+    resolution: {integrity: sha512-UJR61WdyJy/wM9/gYWOEg+oADsSSdZlzo3T+qz33t6ACoE6tESsO27KmRRcSksZKCkYaJMTsxrQhqQqmKIWa1w==}
     dependencies:
       '@modern-js/swc-plugins': 0.3.1
       chalk: 4.1.0
@@ -10929,8 +10929,8 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@modern-js/libuild-plugin-swc/0.12.1_@swc+helpers@0.5.0:
-    resolution: {integrity: sha512-f0Jfy3wTHakbfw1h34qbPzss2NEXIg8ACWynaqEsNtv/4MSxOgcaygdkRrSquAO92u0hg6/nOTMtJYQDOj5mnw==}
+  /@modern-js/libuild-plugin-swc/0.12.2_@swc+helpers@0.5.0:
+    resolution: {integrity: sha512-UJR61WdyJy/wM9/gYWOEg+oADsSSdZlzo3T+qz33t6ACoE6tESsO27KmRRcSksZKCkYaJMTsxrQhqQqmKIWa1w==}
     dependencies:
       '@modern-js/swc-plugins': 0.3.1_@swc+helpers@0.5.0
       chalk: 4.1.0
@@ -10938,8 +10938,8 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@modern-js/libuild/0.12.1:
-    resolution: {integrity: sha512-pe4AMc4IxfKrMoa5EXSxxd9mhZlgzqHMG2v3ecPBFNlyQPl+j41vAMVnXHLlcayJTo4J9FPLS6JoknNPcFfH9Q==}
+  /@modern-js/libuild/0.12.2:
+    resolution: {integrity: sha512-A4i2Y/zepNZFpXS5vX3ox/A49rQLVuFxomimpBxJW6QvZRAFmN+U5W0SABJDjxNSZARnGheQ7l1xLOECB+buZA==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
@@ -12819,7 +12819,7 @@ packages:
       find-up: 5.0.0
       fork-ts-checker-webpack-plugin: 6.5.2_4saukclyqastvrycwsozxxbldi
       fs-extra: 9.1.0
-      glob: 7.2.3
+      glob: 7.2.0
       handlebars: 4.7.7
       interpret: 2.2.0
       json5: 2.2.3
@@ -15197,10 +15197,8 @@ packages:
       ajv: 6.12.6
     dev: false
 
-  /ajv-formats/2.1.1_ajv@8.11.0:
+  /ajv-formats/2.1.1:
     resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
-    peerDependencies:
-      ajv: ^8.0.0
     peerDependenciesMeta:
       ajv:
         optional: true
@@ -15600,7 +15598,7 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.1.4
       es-abstract: 1.20.1
-      get-intrinsic: 1.1.2
+      get-intrinsic: 1.2.0
       is-string: 1.0.7
     dev: false
 
@@ -20977,7 +20975,7 @@ packages:
       cosmiconfig: 6.0.0
       deepmerge: 4.3.0
       fs-extra: 9.1.0
-      glob: 7.2.3
+      glob: 7.2.0
       memfs: 3.4.12
       minimatch: 3.1.2
       schema-utils: 2.7.0
@@ -21008,7 +21006,7 @@ packages:
       cosmiconfig: 6.0.0
       deepmerge: 4.3.0
       fs-extra: 9.1.0
-      glob: 7.2.3
+      glob: 7.2.0
       memfs: 3.4.12
       minimatch: 3.1.2
       schema-utils: 2.7.0
@@ -21306,14 +21304,6 @@ packages:
   /get-func-name/2.0.0:
     resolution: {integrity: sha512-Hm0ixYtaSZ/V7C8FJrtZIuBBI+iSgL+1Aq82zSu8VQNB4S3Gk8e7Qs3VwBDJAhmRZcFqkl3tQu36g/Foh5I5ig==}
     dev: true
-
-  /get-intrinsic/1.1.2:
-    resolution: {integrity: sha512-Jfm3OyCxHh9DJyc28qGk+JmfkpO41A4XkneDSujN9MDXrm4oDKdHvndhZ2dN94+ERNfkYJWDclW6k2L/ZGHjXA==}
-    dependencies:
-      function-bind: 1.1.1
-      has: 1.0.3
-      has-symbols: 1.0.3
-    dev: false
 
   /get-intrinsic/1.2.0:
     resolution: {integrity: sha512-L049y6nFOuom5wGyRc3/gdTLO94dySVKRACj1RmJZBQXlbTMhtNIgkWkUHq+jYmZvKf14EW1EoJnnjbmoHij0Q==}
@@ -30561,7 +30551,7 @@ packages:
     dependencies:
       '@types/json-schema': 7.0.11
       ajv: 8.11.0
-      ajv-formats: 2.1.1_ajv@8.11.0
+      ajv-formats: 2.1.1
       ajv-keywords: 5.1.0_ajv@8.11.0
 
   /scroll-into-view-if-needed/2.2.20:
@@ -31319,7 +31309,7 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.1.4
       es-abstract: 1.20.1
-      get-intrinsic: 1.1.2
+      get-intrinsic: 1.2.0
       has-symbols: 1.0.3
       internal-slot: 1.0.3
       regexp.prototype.flags: 1.4.3
