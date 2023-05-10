@@ -14,7 +14,7 @@ export { Link, NavLink } from './PrefetchLink';
 export type { LinkProps, NavLinkProps } from './PrefetchLink';
 
 export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
-  const realRouteId = routeId.replace(/\((.*?)\)/g, '[$1]');
+  const realRouteId = routeId.replace(/\[(.*?)\]/g, '($1)');
   return useRouteData(realRouteId);
 };
 

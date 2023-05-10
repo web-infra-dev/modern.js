@@ -367,6 +367,22 @@ To further improve the user experience and reduce time of loading, Modern.js sup
 - `intent`, the value we recommend for most scenarios, will automatically start loading the corresponding resources and the data defined in the data loader when you mouse over the Link, and will automatically unload it when the mouse is moved away. In our tests, even a direct click can reduce the loading time by about 200ms.
 - `render`, when the Link component renders, it will load the corresponding resources and the data defined in the data loader.
 
+#### FAQ
+
+1. What is the difference between using `render` and not split chunks based on routes?
+
+- With `render` you can specify which routes are loaded on the first screen, and you can control the rendering so that Link components are rendered only when they are in the visible area.
+- With `render`, static resources are loaded only when they are idle and do not hog the network with first-screen static resources.
+- When using server side rendering, data is also prefetched.
+
+import Motivation from '@site-docs-en/components/convention-routing-movitation'
+
+<Motivation/>
+
+import Practice from '@site-docs-en/components/routes-practice'
+
+<Practice/>
+
 ## Self-controlled routing
 
 With `src/App.tsx` as the agreed entry, Modern.js will not do additional operations with multiple routes, developers can use the React Router 6 API for development by themselves, for example:

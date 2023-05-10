@@ -339,6 +339,15 @@ export default async (): Promise<ProfileData> => {
 
 4. 在服务端运行时，`loader` 函数会被打包为一个统一的 bundle，所以我们不推荐服务端的代码使用 `__filename` 和 `__dirname`。
 
+### 常见问题
+
+1. loader 和 bff 函数的关系
+
+在 CSR 项目中，loader 在客户端执行，在 loader 可以直接调用 bff 函数进行接口请求。
+
+在 SSR 项目中，每个 loader 也是一个服务端接口，我们推荐使用 loader 替代 http method 为 `get` 的 BFF 函数，作为接口层，避免多一层转发和执行。
+
+
 ## useLoader（旧版）
 
 **`useLoader`** 是 Modern.js 老版本中的 API。该 API 是一个 React Hook，专门提供给 SSR 应用使用，让开发者能同构的在组件中获取数据。
