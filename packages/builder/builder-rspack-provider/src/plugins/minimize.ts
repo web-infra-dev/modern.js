@@ -21,6 +21,22 @@ export async function applyJSMinimizer(
     options.pureFuncs = pureFuncs;
   }
 
+  switch (config.output.legalComments) {
+    case 'inline':
+      options.extractComments = false;
+      break;
+    case 'linked':
+      options.extractComments = true;
+      break;
+    case 'none':
+      // todo
+      // options.terserOptions!.format!.comments = false;
+      options.extractComments = false;
+      break;
+    default:
+      break;
+  }
+
   setConfig(rspackConfig, 'builtins.minifyOptions', options);
 }
 
