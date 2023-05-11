@@ -1,5 +1,13 @@
 # @modern-js/doc-tools-doc
 
+## 2.18.1
+
+### Patch Changes
+
+- a784fcd: feat(doc-core): use prism for code highlight
+
+  feat(doc-core): 代码高亮使用 prism
+
 ## 2.18.0
 
 ### Patch Changes
