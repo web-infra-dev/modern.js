@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable consistent-return */
-import { fs, execa } from '@modern-js/utils';
+import { fs, execa, semver } from '@modern-js/utils';
 
 export async function usingTempDir(
   tmpDir: string,
@@ -33,11 +33,14 @@ export async function execaWithStreamLog(
 }
 
 export function getPackageManager(projectName: string) {
+  const isNode16 = semver.gte(process.versions.node, '16.0.0');
+  if (!isNode16) {
+    return 'pnpm';
+  }
   // eslint-disable-next-line no-nested-ternary
-  const packageManager = projectName.includes('pnpm')
+  return projectName.includes('pnpm')
     ? 'pnpm'
     : projectName.includes('yarn')
     ? 'yarn'
     : 'npm';
-  return packageManager;
 }

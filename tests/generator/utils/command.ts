@@ -17,7 +17,7 @@ export async function runCreteCommand(
   const debug =
     process.env.DEBUG === 'true' || process.env.CUSTOM_DEBUG === 'true';
   const packages = process.env.PACKAGES;
-  const isNode16 = semver.gte(process.versions.node, '16.0.0');
+  const packageManager = getPackageManager(projectName);
   if (isLocal) {
     return execaWithStreamLog(
       'node',
@@ -28,7 +28,7 @@ export async function runCreteCommand(
         JSON.stringify({
           packageName: projectName,
           ...config,
-          packageManager: isNode16 ? config.packageManager : 'pnpm',
+          packageManager,
         }),
         '--dist-tag',
         'next',
@@ -59,7 +59,7 @@ export async function runCreteCommand(
       JSON.stringify({
         packageName: projectName,
         ...config,
-        packageManager: isNode16 ? config.packageManager : 'pnpm',
+        packageManager,
       }),
       debug ? '--debug' : '',
       platform ? '--platform' : '',
@@ -85,13 +85,18 @@ export async function runInstallAndBuildProject(type: string, tmpDir: string) {
       .map(async project => {
         console.info('install and build process', project);
         const packageManager = getPackageManager(project);
-        await execaWithStreamLog(
-          packageManager,
-          ['install', '--ignore-scripts', '--force'],
-          {
+        const isNode16 = semver.gte(process.versions.node, '16.0.0');
+        const params = ['install', '--ignore-scripts', '--force'];
+        if (isNode16 || project.includes('pnpm')) {
+          await execaWithStreamLog(packageManager, params, {
             cwd: path.join(tmpDir, project),
-          },
-        );
+          });
+        } else {
+          params.push('--shamefully-hoist');
+          await execaWithStreamLog(packageManager, params, {
+            cwd: path.join(tmpDir, project),
+          });
+        }
         if (project.includes('monorepo')) {
           return Promise.resolve();
         }
