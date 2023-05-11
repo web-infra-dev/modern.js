@@ -50,11 +50,12 @@ export function Code(props: {
     registerLanguages();
   }
   const { className, meta } = props;
-  const children = props.children.trim();
   const language = className?.replace(/language-/, '');
   if (!language) {
     return <code {...props}></code>;
   }
+  const children = props.children.trim();
+
   let highlightMeta = '';
   let highlightLines: number[] = [];
   if (meta) {
