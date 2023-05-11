@@ -53,7 +53,8 @@ export default {
       },
       style: {
         tailwindcss: {
-          ...tailwindConfig,
+          // ...tailwindConfig,
+          darkMode: 'class',
         },
         modules: {
           localsConvention: 'camelCase',
