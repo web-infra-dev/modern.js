@@ -1,5 +1,4 @@
 import { matchRoutes, useLocation } from 'react-router-dom';
-import { Suspense } from 'react';
 import { normalizeRoutePath } from './utils';
 
 const { routes } = process.env.__SSR__
@@ -13,5 +12,6 @@ export const Content = () => {
     return <div></div>;
   }
   const routesElement = matched[0].route.element;
-  return <Suspense>{routesElement}</Suspense>;
+
+  return routesElement;
 };

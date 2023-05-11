@@ -341,6 +341,14 @@ export default async (): Promise<ProfileData> => {
 
 4. When run on the server side, the `loader` functions are packaged into a single bundle, so we do not recommend using `__filename` and `__dirname` for server-side code.
 
+### FAQ
+
+1. Relationship between loader and bff functions
+
+In a CSR project, the loader is executed on the client side and the bff function can be called directly from the loader to make a request.
+
+In an SSR project, each loader is also a server-side API, and we recommend using loader instead of the BFF function which http method is `get` to avoid one more layer of forwarding and execution.
+
 ## useLoader(Old)
 
 **`useLoader`** is an API in Modern.js old version. The API is a React Hook specially provided for SSR applications, allowing developers to fetch data in components.
