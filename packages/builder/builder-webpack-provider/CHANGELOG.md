@@ -1,5 +1,30 @@
 # @modern-js/builder-webpack-provider
 
+## 2.18.1
+
+### Patch Changes
+
+- 9b0b7ef: feat(rspack-provider): support tools.pug configuration when Rspack build
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 tools.pug 配置项
+
+- e9ee8ba: perf(builder): reduce map.get calls in tsconfigPathsPlugin
+
+  perf(builder): 减少 tsconfigPathsPlugin 中的 map.get 调用
+
+- 010b67e: fix(builder): incorrect dynamicImportMode when target is web-worker
+
+  fix(builder): 修复 target 为 web-worker 时 dynamicImportMode 错误的问题
+
+- Updated dependencies [9b0b7ef]
+  - @modern-js/builder-shared@2.18.1
+  - @modern-js/babel-preset-app@2.18.1
+  - @modern-js/babel-preset-base@2.18.1
+  - @modern-js/server@2.18.1
+  - @modern-js/e2e@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

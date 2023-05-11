@@ -1,5 +1,15 @@
 # @modern-js/plugin-module-import
 
+## 2.18.1
+
+### Patch Changes
+
+- b161968: chore: fix libuild version
+  chore: 锁定 libuild 版本号
+- Updated dependencies [cdc9db1]
+- Updated dependencies [b161968]
+  - @modern-js/module-tools@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

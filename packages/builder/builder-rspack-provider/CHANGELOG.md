@@ -1,5 +1,32 @@
 # @modern-js/builder-rspack-provider
 
+## 2.18.1
+
+### Patch Changes
+
+- 9b0b7ef: feat(rspack-provider): support tools.pug configuration when Rspack build
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 tools.pug 配置项
+
+- abf8c6d: perf(builder): optimize stats.toJson performance
+
+  perf(builder): 优化 stats.toJson 性能
+
+- a6ac01a: feat(rspack-provider): support legalComments `linked` and `none` configuration items when building with Rspack
+
+  feat(rspack-provider): 在使用 Rspack 构建时，支持 legalComments `linked` 和 `none` 配置项
+
+- 160a0b3: feat(rspack-provider): update Rspack to 0.1.10
+
+  feat(rspack-provider): 升级 Rspack 相关依赖到 0.1.10
+
+- Updated dependencies [9b0b7ef]
+  - @modern-js/builder-shared@2.18.1
+  - @modern-js/server@2.18.1
+  - @modern-js/e2e@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Minor Changes

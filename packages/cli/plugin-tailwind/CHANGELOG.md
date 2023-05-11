@@ -1,5 +1,15 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.18.1
+
+### Patch Changes
+
+- cdc9db1: fix(module-tools, plugin-tailwindcss): fix `style.tailwindcss` config name and merge logic
+  fix(module-tools, plugin-tailwindcss): 修复 `style.tailwindcss` 错误的配置名和合并逻辑
+- Updated dependencies [8fb93d1]
+  - @modern-js/runtime@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

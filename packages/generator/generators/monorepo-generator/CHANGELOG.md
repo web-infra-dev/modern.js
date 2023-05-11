@@ -1,5 +1,17 @@
 # @modern-js/monorepo-generator
 
+## 3.1.14
+
+### Patch Changes
+
+- 21c87bf: feat: bump codesmith packages version
+
+  feat: 升级 codesmith 包版本
+
+- bc61dab: feat: bump codesmith version
+
+  feat: 升级 codesmith 版本
+
 ## 3.1.13
 
 ## 3.1.12
