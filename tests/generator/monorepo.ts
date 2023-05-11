@@ -135,11 +135,6 @@ async function runMonorepoNewCommand(
         },
       },
     );
-    if (packageManager === 'pnpm') {
-      await execaWithStreamLog('pnpm', ['install'], {
-        cwd,
-      });
-    }
   }
 }
 
