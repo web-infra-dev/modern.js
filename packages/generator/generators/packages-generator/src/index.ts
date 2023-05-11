@@ -46,9 +46,21 @@ const handleTemplateFile = async (
       },
     });
   } else {
+    const pkgInfo = fs.readJSONSync(
+      path.join(context.materials.default.basePath, 'package.json'),
+      'utf-8',
+    );
+    const { dependencies = {}, devDependencies = {} } = pkgInfo;
+
     const update: Record<string, string> = {};
     Object.entries(packagesInfo || {}).forEach(([name, version]) => {
       update[`overrides.${name}`] = version as string;
+      if (dependencies[name]) {
+        update[`dependencies.${name}`] = version as string;
+      }
+      if (devDependencies[name]) {
+        update[`devDependencies.${name}`] = version as string;
+      }
     });
     await jsonAPI.update(context.materials.default.get('package.json'), {
       query: {},
