@@ -36,7 +36,7 @@ export const defaultBuildConfig = Object.freeze<BaseBuildConfig>({
     less: {},
     sass: {},
     postcss: {},
-    tailwindCss: {},
+    tailwindcss: {},
     inject: false,
     autoModules: true,
     modules: {},

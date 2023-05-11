@@ -10,26 +10,23 @@ export const builderPluginBasic = (): BuilderPlugin => ({
   setup(api) {
     applyBuilderBasicPlugin(api);
 
-    api.modifyWebpackChain(
-      async (chain, { isServer, isWebWorker, isServiceWorker }) => {
-        /**
-         * If the chunk size exceeds 3MB, we will throw a warning.
-         * If the target is server or web-worker, we will increase
-         * the limit to 30MB because they are only single file.
-         */
-        const maxAssetSize =
-          isServer || isWebWorker ? 30 * 1000 * 1000 : 3 * 1000 * 1000;
-        chain.performance.maxAssetSize(maxAssetSize);
-        chain.performance.maxEntrypointSize(maxAssetSize);
+    api.modifyWebpackChain(async (chain, { isServer, isWebWorker }) => {
+      /**
+       * If the chunk size exceeds 3MB, we will throw a warning.
+       * If the target is server or web-worker, we will increase
+       * the limit to 30MB because they are only single file.
+       */
+      const maxAssetSize =
+        isServer || isWebWorker ? 30 * 1000 * 1000 : 3 * 1000 * 1000;
+      chain.performance.maxAssetSize(maxAssetSize);
+      chain.performance.maxEntrypointSize(maxAssetSize);
 
-        // This will be futureDefaults in webpack 6
-        chain.module.parser.merge({
-          javascript: {
-            exportsPresence: 'error',
-            dynamicImportMode: isServiceWorker ? 'eager' : undefined,
-          },
-        });
-      },
-    );
+      // This will be futureDefaults in webpack 6
+      chain.module.parser.merge({
+        javascript: {
+          exportsPresence: 'error',
+        },
+      });
+    });
   },
 });

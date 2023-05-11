@@ -249,7 +249,7 @@ export function builderPluginSplitChunks(): DefaultBuilderPlugin {
             chain.optimization.splitChunks(false);
 
             // web worker does not support dynamic imports, dynamicImportMode need set to eager
-            if (isWebWorker) {
+            if (isWebWorker || isServiceWorker) {
               // todo: not support in rspack
               // @ts-expect-error
               chain.module.parser.merge({
