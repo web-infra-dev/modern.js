@@ -125,11 +125,12 @@ rspackOnlyTest('dev.port & output.distPath', async ({ page }) => {
 rspackOnlyTest(
   'hmr should work when setting dev.port & serverOptions.dev.client',
   async ({ page }) => {
+    await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src-1'));
     const cwd = join(fixtures, 'hmr');
     const buildOpts = {
       cwd,
       entry: {
-        main: join(cwd, 'test-src/index.ts'),
+        main: join(cwd, 'test-src-1/index.ts'),
       },
     };
 
@@ -152,7 +153,7 @@ rspackOnlyTest(
     await page.goto(getHrefByEntryName('main', builder.port));
     expect(builder.port).toBe(3001);
 
-    const appPath = join(fixtures, 'hmr', 'test-src/App.tsx');
+    const appPath = join(fixtures, 'hmr', 'test-src-1/App.tsx');
 
     await expect(
       page.evaluate(`document.getElementById('test').innerHTML`),
