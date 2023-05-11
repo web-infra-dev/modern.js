@@ -22,7 +22,7 @@ const handleTemplateFile = async (
         $set: update,
       },
     });
-  } else {
+  } else if (packageManager === PackageManager.Yarn) {
     const pkgInfo = fs.readJSONSync(
       path.join(context.materials.default.basePath, 'package.json'),
       'utf-8',
@@ -38,6 +38,17 @@ const handleTemplateFile = async (
       if (devDependencies[name]) {
         update[`devDependencies.${name}`] = version as string;
       }
+    });
+    await jsonAPI.update(context.materials.default.get('package.json'), {
+      query: {},
+      update: {
+        $set: update,
+      },
+    });
+  } else {
+    const update: Record<string, string> = {};
+    Object.entries(packagesInfo || {}).forEach(([name, version]) => {
+      update[`overrides.${name}`] = version as string;
     });
     await jsonAPI.update(context.materials.default.get('package.json'), {
       query: {},
