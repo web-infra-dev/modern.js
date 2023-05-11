@@ -3,7 +3,11 @@ import { getMWACases, getMWANewCases } from '@modern-js/generator-cases';
 import { fs, nanoid } from '@modern-js/utils';
 import { MWANewAction } from '@modern-js/new-action';
 import { prepare } from './utils/prepare';
-import { execaWithStreamLog, usingTempDir } from './utils/tools';
+import {
+  execaWithStreamLog,
+  getPackageManager,
+  usingTempDir,
+} from './utils/tools';
 import {
   runLintProject,
   runCreteCommand,
@@ -63,7 +67,7 @@ async function runNewMWAProject(
       cwd: path.join(tmpDir, project),
     },
   );
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+  const packageManager = getPackageManager(project);
   const cases = getMWANewCases(isSimple ? 5 : undefined);
   let hasMicroFrontend = false;
   let hasSSG = false;
@@ -128,7 +132,7 @@ async function runNewMWAProject(
 
 async function runMWANewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'npm',
+  packageManager: 'pnpm' | 'yarn' | 'npm',
   options: {
     config: string;
     cwd: string;

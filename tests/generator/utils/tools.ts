@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable consistent-return */
 import { fs, execa } from '@modern-js/utils';
 
 export async function usingTempDir(
@@ -28,4 +30,14 @@ export async function execaWithStreamLog(
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
+}
+
+export function getPackageManager(projectName: string) {
+  // eslint-disable-next-line no-nested-ternary
+  const packageManager = projectName.includes('pnpm')
+    ? 'pnpm'
+    : projectName.includes('yarn')
+    ? 'yarn'
+    : 'npm';
+  return packageManager;
 }

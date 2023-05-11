@@ -3,7 +3,11 @@ import { getModuleCases, getModuleNewCases } from '@modern-js/generator-cases';
 import { fs, nanoid } from '@modern-js/utils';
 import { ModuleNewAction } from '@modern-js/new-action';
 import { prepare } from './utils/prepare';
-import { execaWithStreamLog, usingTempDir } from './utils/tools';
+import {
+  execaWithStreamLog,
+  getPackageManager,
+  usingTempDir,
+} from './utils/tools';
 import {
   runLintProject,
   runCreteCommand,
@@ -62,7 +66,7 @@ async function runNewInModuleProject(
       cwd: path.join(tmpDir, project),
     },
   );
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+  const packageManager = getPackageManager(project);
   const cases = getModuleNewCases();
   for (const config of cases) {
     await runModuleNewCommand(isLocal, packageManager, {
@@ -83,7 +87,7 @@ async function runNewInModuleProject(
 
 async function runModuleNewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'npm',
+  packageManager: 'pnpm' | 'yarn' | 'npm',
   options: {
     config: string;
     cwd: string;
