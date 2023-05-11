@@ -1,5 +1,23 @@
 # @modern-js/new-action
 
+## 2.18.1
+
+### Patch Changes
+
+- 21c87bf: feat: bump codesmith packages version
+
+  feat: 升级 codesmith 包版本
+
+- bc61dab: feat: bump codesmith version
+
+  feat: 升级 codesmith 版本
+
+- Updated dependencies [21c87bf]
+- Updated dependencies [bc61dab]
+  - @modern-js/generator-common@3.1.14
+  - @modern-js/generator-utils@3.1.14
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes
