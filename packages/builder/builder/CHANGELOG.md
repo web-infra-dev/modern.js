@@ -1,5 +1,21 @@
 # @modern-js/builder
 
+## 2.18.1
+
+### Patch Changes
+
+- abf8c6d: perf(builder): optimize stats.toJson performance
+
+  perf(builder): 优化 stats.toJson 性能
+
+- 010b67e: fix(builder): incorrect dynamicImportMode when target is web-worker
+
+  fix(builder): 修复 target 为 web-worker 时 dynamicImportMode 错误的问题
+
+- Updated dependencies [9b0b7ef]
+  - @modern-js/builder-shared@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

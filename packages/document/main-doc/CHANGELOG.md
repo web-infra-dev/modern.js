@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.18.1
+
+### Patch Changes
+
+- 21c87bf: feat: bump codesmith packages version
+
+  feat: 升级 codesmith 包版本
+
+  - @modern-js/builder-doc@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

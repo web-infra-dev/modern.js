@@ -1,5 +1,15 @@
 # @modern-js/runtime
 
+## 2.18.1
+
+### Patch Changes
+
+- 8fb93d1: fix: replace route id correctly
+  fix: 正确地替换 route id
+  - @modern-js/plugin@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Minor Changes

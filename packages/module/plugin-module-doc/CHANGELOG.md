@@ -1,5 +1,19 @@
 # @modern-js/plugin-module-doc
 
+## 2.18.1
+
+### Patch Changes
+
+- c911ca5: feat: code block support scroll,dark mode and improve the experience
+  feat: 代码块区域支持滚动以及暗黑模式并且提升开发体验
+- Updated dependencies [3f35bdc]
+- Updated dependencies [5c56edd]
+- Updated dependencies [a784fcd]
+- Updated dependencies [cdc9db1]
+- Updated dependencies [b161968]
+  - @modern-js/doc-core@2.18.1
+  - @modern-js/module-tools@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes
