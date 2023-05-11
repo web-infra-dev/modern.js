@@ -1,9 +1,13 @@
 import path from 'path';
 import { getMWACases, getMWANewCases } from '@modern-js/generator-cases';
-import { fs, nanoid } from '@modern-js/utils';
+import { fs, nanoid, semver } from '@modern-js/utils';
 import { MWANewAction } from '@modern-js/new-action';
 import { prepare } from './utils/prepare';
-import { execaWithStreamLog, usingTempDir } from './utils/tools';
+import {
+  execaWithStreamLog,
+  getPackageManager,
+  usingTempDir,
+} from './utils/tools';
 import {
   runLintProject,
   runCreteCommand,
@@ -63,7 +67,7 @@ async function runNewMWAProject(
       cwd: path.join(tmpDir, project),
     },
   );
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+  const packageManager = getPackageManager(project);
   const cases = getMWANewCases(isSimple ? 5 : undefined);
   let hasMicroFrontend = false;
   let hasSSG = false;
@@ -110,7 +114,7 @@ async function runNewMWAProject(
     if (config.actionType === 'refactor') {
       continue;
     }
-    await runMWANewCommand(isLocal, packageManager, {
+    await runMWANewCommand(isLocal, project, {
       cwd: path.join(tmpDir, project),
       config: JSON.stringify({
         noNeedInstall: true,
@@ -128,7 +132,7 @@ async function runNewMWAProject(
 
 async function runMWANewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'npm',
+  project: string,
   options: {
     config: string;
     cwd: string;
@@ -146,13 +150,6 @@ async function runMWANewCommand(
       config,
       cwd,
     });
-    await execaWithStreamLog(
-      packageManager,
-      ['install', '--ignore-scripts', '--force'],
-      {
-        cwd,
-      },
-    );
   } else {
     await execaWithStreamLog(
       'npm',
@@ -173,13 +170,19 @@ async function runMWANewCommand(
         },
       },
     );
-    await execaWithStreamLog(
-      packageManager,
-      ['install', '--ignore-scripts', '--force'],
-      {
-        cwd,
-      },
-    );
+  }
+  const isNode16 = semver.gte(process.versions.node, '16.0.0');
+  const params = ['install', '--ignore-scripts', '--force'];
+  const packageManager = getPackageManager(project);
+  if (isNode16 || project.includes('pnpm')) {
+    await execaWithStreamLog(packageManager, params, {
+      cwd,
+    });
+  } else {
+    params.push('--shamefully-hoist');
+    await execaWithStreamLog(packageManager, params, {
+      cwd,
+    });
   }
 }
 

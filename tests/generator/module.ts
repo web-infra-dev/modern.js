@@ -1,9 +1,13 @@
 import path from 'path';
 import { getModuleCases, getModuleNewCases } from '@modern-js/generator-cases';
-import { fs, nanoid } from '@modern-js/utils';
+import { fs, nanoid, semver } from '@modern-js/utils';
 import { ModuleNewAction } from '@modern-js/new-action';
 import { prepare } from './utils/prepare';
-import { execaWithStreamLog, usingTempDir } from './utils/tools';
+import {
+  execaWithStreamLog,
+  getPackageManager,
+  usingTempDir,
+} from './utils/tools';
 import {
   runLintProject,
   runCreteCommand,
@@ -62,10 +66,10 @@ async function runNewInModuleProject(
       cwd: path.join(tmpDir, project),
     },
   );
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+  const packageManager = getPackageManager(project);
   const cases = getModuleNewCases();
   for (const config of cases) {
-    await runModuleNewCommand(isLocal, packageManager, {
+    await runModuleNewCommand(isLocal, project, {
       cwd: path.join(tmpDir, project),
       config: JSON.stringify({
         noNeedInstall: true,
@@ -83,7 +87,7 @@ async function runNewInModuleProject(
 
 async function runModuleNewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'npm',
+  project: string,
   options: {
     config: string;
     cwd: string;
@@ -101,13 +105,6 @@ async function runModuleNewCommand(
       config,
       cwd,
     });
-    await execaWithStreamLog(
-      packageManager,
-      ['install', '--ignore-scripts', '--force'],
-      {
-        cwd,
-      },
-    );
   } else {
     await execaWithStreamLog(
       'npm',
@@ -128,13 +125,19 @@ async function runModuleNewCommand(
         },
       },
     );
-    await execaWithStreamLog(
-      packageManager,
-      ['install', '--ignore-scripts', '--force'],
-      {
-        cwd,
-      },
-    );
+  }
+  const isNode16 = semver.gte(process.versions.node, '16.0.0');
+  const params = ['install', '--ignore-scripts', '--force'];
+  const packageManager = getPackageManager(project);
+  if (isNode16 || project.includes('pnpm')) {
+    await execaWithStreamLog(packageManager, params, {
+      cwd,
+    });
+  } else {
+    params.push('--shamefully-hoist');
+    await execaWithStreamLog(packageManager, params, {
+      cwd,
+    });
   }
 }
 
