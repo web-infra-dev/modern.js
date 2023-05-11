@@ -113,6 +113,7 @@ async function runNewMWAProject(
     await runMWANewCommand(isLocal, packageManager, {
       cwd: path.join(tmpDir, project),
       config: JSON.stringify({
+        noNeedInstall: true,
         ...config,
       }),
     });
@@ -145,6 +146,13 @@ async function runMWANewCommand(
       config,
       cwd,
     });
+    await execaWithStreamLog(
+      packageManager,
+      ['install', '--ignore-scripts', '--force'],
+      {
+        cwd,
+      },
+    );
   } else {
     await execaWithStreamLog(
       'npm',
@@ -165,11 +173,13 @@ async function runMWANewCommand(
         },
       },
     );
-    if (packageManager === 'pnpm') {
-      await execaWithStreamLog('pnpm', ['install'], {
+    await execaWithStreamLog(
+      packageManager,
+      ['install', '--ignore-scripts', '--force'],
+      {
         cwd,
-      });
-    }
+      },
+    );
   }
 }
 
