@@ -1,3 +1,4 @@
+import os from 'os';
 import path from 'path';
 import { getModuleCases, getModuleNewCases } from '@modern-js/generator-cases';
 import { fs, nanoid, semver } from '@modern-js/utils';
@@ -130,6 +131,10 @@ async function runModuleNewCommand(
   const params = ['install', '--ignore-scripts', '--force'];
   const packageManager = getPackageManager(project);
   if (isNode16 || project.includes('pnpm')) {
+    if (packageManager === 'yarn') {
+      params.push('--cache-folder');
+      params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
+    }
     await execaWithStreamLog(packageManager, params, {
       cwd,
     });
