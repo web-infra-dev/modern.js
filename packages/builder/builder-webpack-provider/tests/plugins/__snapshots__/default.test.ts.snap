@@ -27,7 +27,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -894,7 +893,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -1809,7 +1807,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -2545,7 +2542,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
+        "dynamicImportMode": "eager",
         "exportsPresence": "error",
       },
     },
