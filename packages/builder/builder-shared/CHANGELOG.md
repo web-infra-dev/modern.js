@@ -1,5 +1,17 @@
 # @modern-js/builder-shared
 
+## 2.18.1
+
+### Patch Changes
+
+- 9b0b7ef: feat(rspack-provider): support tools.pug configuration when Rspack build
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 tools.pug 配置项
+
+  - @modern-js/server@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

@@ -1,5 +1,32 @@
 # @modern-js/doc-core
 
+## 2.18.1
+
+### Patch Changes
+
+- 3f35bdc: feat(doc-core): add time logs for page rendering
+
+  feat(doc-core): 增加页面渲染的耗时日志
+
+- 5c56edd: feat(doc-core): support react 17
+
+  feat(doc-core): 支持 react 17
+
+- a784fcd: feat(doc-core): use prism for code highlight
+
+  feat(doc-core): 代码高亮使用 prism
+
+- Updated dependencies [9b0b7ef]
+- Updated dependencies [abf8c6d]
+- Updated dependencies [a6ac01a]
+- Updated dependencies [010b67e]
+- Updated dependencies [160a0b3]
+  - @modern-js/builder-rspack-provider@2.18.1
+  - @modern-js/builder@2.18.1
+  - @modern-js/remark-container@2.18.1
+  - @modern-js/core@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

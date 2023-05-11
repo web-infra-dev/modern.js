@@ -1,5 +1,24 @@
 # @modern-js/module-tools
 
+## 2.18.1
+
+### Patch Changes
+
+- cdc9db1: fix(module-tools, plugin-tailwindcss): fix `style.tailwindcss` config name and merge logic
+  fix(module-tools, plugin-tailwindcss): 修复 `style.tailwindcss` 错误的配置名和合并逻辑
+- b161968: chore: fix libuild version
+  chore: 锁定 libuild 版本号
+- Updated dependencies [21c87bf]
+- Updated dependencies [bc61dab]
+  - @modern-js/new-action@2.18.1
+  - @modern-js/upgrade@2.18.1
+  - @modern-js/core@2.18.1
+  - @modern-js/plugin-changeset@2.18.1
+  - @modern-js/plugin-i18n@2.18.1
+  - @modern-js/plugin-lint@2.18.1
+  - @modern-js/plugin@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes

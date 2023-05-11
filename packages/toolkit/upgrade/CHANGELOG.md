@@ -1,5 +1,20 @@
 # @modern-js/upgrade
 
+## 2.18.1
+
+### Patch Changes
+
+- 21c87bf: feat: bump codesmith packages version
+
+  feat: 升级 codesmith 包版本
+
+- bc61dab: feat: bump codesmith version
+
+  feat: 升级 codesmith 版本
+
+  - @modern-js/plugin-i18n@2.18.1
+  - @modern-js/utils@2.18.1
+
 ## 2.18.0
 
 ### Patch Changes
