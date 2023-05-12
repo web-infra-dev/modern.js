@@ -54,7 +54,7 @@ export default (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
-        const userConfig = api.useResolvedConfigContext();
+        const userConfig = api.useConfigContext();
         const { bundlerType = 'webpack' } = api.useAppContext();
         // eslint-disable-next-line consistent-return
         const babelConfig = (() => {
@@ -67,7 +67,10 @@ export default (): CliPlugin<AppTools> => ({
                 path.join(__dirname, './babel-plugin-ssr-loader-id'),
               );
 
-              if (isUseSSRBundle(userConfig) && hasStringSSREntry(userConfig)) {
+              if (
+                isUseSSRBundle(userConfig) &&
+                hasStringSSREntry(userConfig as any)
+              ) {
                 config.plugins?.push(require.resolve('@loadable/babel-plugin'));
               }
             };
@@ -80,7 +83,7 @@ export default (): CliPlugin<AppTools> => ({
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-                if (hasStringSSREntry(userConfig)) {
+                if (hasStringSSREntry(userConfig as any)) {
                   config.plugins?.push(
                     require.resolve('@loadable/babel-plugin'),
                   );
