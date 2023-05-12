@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.19.0
+
+### Minor Changes
+
+- 8a3a2e5: feat: support modifyRoutes hook for router v5
+  feat: 为 router v5 支持 modifyRoutes hook
+
+### Patch Changes
+
+- @modern-js/plugin@2.19.0
+- @modern-js/types@2.19.0
+- @modern-js/utils@2.19.0
+
 ## 2.18.1
 
 ### Patch Changes
