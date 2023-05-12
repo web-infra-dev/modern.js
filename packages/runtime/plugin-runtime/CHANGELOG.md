@@ -1,5 +1,21 @@
 # @modern-js/runtime
 
+## 2.19.0
+
+### Minor Changes
+
+- 8a3a2e5: feat: support modifyRoutes hook for router v5
+  feat: 为 router v5 支持 modifyRoutes hook
+
+### Patch Changes
+
+- 579d3d5: fix: config hook can't get nomarlized config
+  fix: config hook 不能拿到固定后的 config
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/plugin@2.19.0
+  - @modern-js/types@2.19.0
+
 ## 2.18.1
 
 ### Patch Changes
