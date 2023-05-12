@@ -38,6 +38,15 @@
       },
       "types": "./dist/types/workerServer.d.ts",
       "default": "./dist/esm/workerServer.js"
+    },
+    "./renderHtml": {
+      "node": {
+        "jsnext:source": "./src/renderHtml.ts",
+        "import": "./dist/esm-node/renderHtml.js",
+        "require": "./dist/cjs/renderHtml.js"
+      },
+      "types": "./dist/types/renderHtml.d.ts",
+      "default": "./dist/esm/renderHtml.js"
     }
   },
   "typesVersions": {
