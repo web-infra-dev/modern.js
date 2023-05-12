@@ -1,4 +1,4 @@
-import { MetaAttributes, MetaOptions } from '@modern-js/utils';
+import { MetaAttributes, MetaOptions } from '../generateMetaTags';
 import {
   CrossOrigin,
   HtmlInjectTag,
