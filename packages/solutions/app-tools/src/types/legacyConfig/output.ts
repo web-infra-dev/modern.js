@@ -1,5 +1,5 @@
-import { MetaOptions } from '@modern-js/utils';
-import { SSGConfig } from '../config';
+import type { MetaOptions } from '@modern-js/builder-shared';
+import type { SSGConfig } from '../config';
 
 type CrossOrigin = 'anonymous' | 'use-credentials';
 
