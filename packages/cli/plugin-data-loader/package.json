@@ -84,7 +84,7 @@
     "supertest": "^6.1.6",
     "ts-jest": "^29.0.5",
     "typescript": "^4",
-    "webpack": "^5.76.2",
+    "webpack": "^5.82.1",
     "webpack-chain": "^6.5.1",
     "react": ">=17.0.0",
     "react-router-dom": "^6.8.1"

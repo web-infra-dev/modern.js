@@ -111,7 +111,7 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.6",
     "ts-loader": "9.4.1",
-    "webpack": "^5.76.2"
+    "webpack": "^5.82.1"
   },
   "devDependencies": {
     "@babel/preset-env": "7.18.0",
