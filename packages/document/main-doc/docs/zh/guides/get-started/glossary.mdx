@@ -1,0 +1,63 @@
+---
+sidebar_position: 4
+---
+
+# 名词解释
+
+## BFF
+
+BFF 是 "Backend For Frontend"（前端的后端） 的缩写。它是一种架构模式，表示为前端应用程序创建一个专门的后台服务。
+
+BFF 服务作为前端应用程序和服务端 API 之间的中介，可以为前端提供定制的 API 供其使用。这允许前端开发者对需要的数据和功能有更多的控制，而不必依赖后端服务提供相应的能力。
+
+## Bundler
+
+import Bundler from '@modern-js/builder-doc/docs/zh/shared/bundler.md';
+
+<Bundler />
+
+## Builder
+
+import Builder from '@modern-js/builder-doc/docs/zh/shared/builder.md';
+
+<Builder />
+
+## CSR
+
+CSR 是 "Client-Side Rendering"（客户端渲染）的缩写。它表示页面是在浏览器中通过 JavaScript 渲染的，数据获取、模板和路由等逻辑都在浏览器端完成，而不是在服务器上。
+
+在 CSR 中，服务器会向浏览器端发送一个空的 HTML 外壳和一些 JavaScript 脚本，然后由浏览器端从服务器的 API 中拉取数据，并将动态内容渲染到页面中。
+
+## Garfish
+
+[Garfish](https://garfish.bytedance.net/) 是一套微前端解决方案，主要用于解决 web 应用的跨团队协作、技术体系多样化等问题。
+
+它从架构层面出发，将多个独立交付的前端应用组成整体，这些前端应用能够独立开发、独立测试、独立部署，但是在用户视角仍然是内聚的单个产品。
+
+## Rspack
+
+import Rspack from '@modern-js/builder-doc/docs/zh/shared/rspack.md';
+
+<Rspack />
+
+## SSR
+
+SSR 是 "Server-Side Rendering"（服务器端渲染）的缩写。它表示由服务器生成网页的 HTML，并将其发送给客户端，而不是只发送一个空的 HTML 外壳，并依赖 JavaScript 来生成页面内容。
+
+在传统的客户端渲染中，服务器会向客户端发送一个空的 HTML 外壳和一些 JavaScript 脚本，然后从服务器的 API 中获取数据，并用动态内容填充页面。这会导致页面的初始加载时间较慢，不利于用户体验和 SEO。
+
+使用 SSR 后，服务器会生成已经包含动态内容的 HTML，并将其发送给客户端。这使得首屏加载速度更快，并对 SEO 更加友好，因为搜索引擎可以爬取到渲染后的页面。
+
+## SSG
+
+SSG 是 "Static Site Generation"（静态网站生成）的缩写。它表示网页被预先渲染成静态的 HTML，然后直接提供给客户端，而不需要服务器实时生成 HTML。
+
+在传统的 SSR 中，每当用户请求一个页面时，服务器就会实时生成 HTML。有了 SSG，HTML 可以在构建过程中被提前生成，并被托管在 CDN 或其他静态资源服务中。
+
+与传统的 SSR 相比，SSG 可以提供更快的加载速度以及更少的服务端开销，因为不需要维护一个服务器来实时生成 HTML。然而，SSG 不适合需要动态内容的网站，因为 HTML 是在构建过程中生成的，不支持实时更新。
+
+## SWC
+
+import SWC from '@modern-js/builder-doc/docs/zh/shared/swc.md';
+
+<SWC />
