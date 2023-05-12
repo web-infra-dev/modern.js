@@ -1,0 +1,63 @@
+---
+sidebar_position: 4
+---
+
+# Glossary
+
+## BFF
+
+BFF stands for "Backend For Frontend". It is an architectural pattern where a dedicated backend service is created for frontend applications.
+
+The BFF service acts as an intermediary between the frontend application and the backend APIs, providing a tailored API for the frontend to consume. This allows the frontend developers to have more control over the data and functionality that they need, without having to rely on a monolithic backend API to provide coresponding capabilities.
+
+## Bundler
+
+import Bundler from '@modern-js/builder-doc/docs/en/shared/bundler.md';
+
+<Bundler />
+
+## Builder
+
+import Builder from '@modern-js/builder-doc/docs/en/shared/builder.md';
+
+<Builder />
+
+## CSR
+
+CSR stands for "Client-Side Rendering". It means that pages are rendered directly in the browser using JavaScript. All the logic, data fetching, templating and routing is done on the client rather than the server.
+
+In CSR, the server sends an empty HTML shell to the client along with some JavaScript bundles, which then fetches data from the server's APIs and populates the page with dynamic content.
+
+## Garfish
+
+[Garfish](https://garfish.bytedance.net/) is a set of micro front-end solutions mainly used to solve problems such as cross-team collaboration and technical system diversification of web applications.
+
+Starting from the architectural level, it integrates several independently delivered front-end applications. These front-end applications can be developed, tested and deployed independently, but from the user's point of view they are still a cohesive single product.
+
+## Rspack
+
+import Rspack from '@modern-js/builder-doc/docs/en/shared/rspack.md';
+
+<Rspack />
+
+## SSR
+
+SSR stands for "Server-Side Rendering". It is a technique where the server generates the HTML of a web page and sends it to the client, instead of sending just an empty HTML shell and relying on JavaScript to populate the page.
+
+In traditional client-side rendering, the server sends an empty HTML shell to the client along with some JavaScript bundles, which then fetches data from the server's APIs and populates the page with dynamic content. This can result in a slower initial load time, which can be detrimental to user experience and SEO.
+
+With SSR, the server generates the HTML with the dynamic content already populated, and sends it to the client. This can result in a faster initial load time and better SEO, as search engines can crawl the fully rendered page.
+
+## SSG
+
+SSG stands for "Static Site Generation". It is a technique where a web page is pre-rendered into static HTML, and then served directly to the client without the need for a server to generate the HTML on the fly.
+
+In traditional SSR, the server generates the HTML on the fly each time a user requests a page. With SSG, the HTML is generated ahead of time during the build process and can be served directly from a CDN or other static hosting service.
+
+SSG can provide faster load times and less server overhead to traditional SSR, as there is no need to maintain a server to generate the HTML on the fly. However, it is not suitable for websites that require dynamic content, as the HTML is generated during the build process and cannot be updated in real-time.
+
+## SWC
+
+import SWC from '@modern-js/builder-doc/docs/en/shared/swc.md';
+
+<SWC />
