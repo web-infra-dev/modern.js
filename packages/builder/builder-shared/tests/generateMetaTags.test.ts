@@ -1,4 +1,5 @@
-import { generateMetaTags } from '../src';
+import { expect, describe, it } from 'vitest';
+import { generateMetaTags } from '../src/generateMetaTags';
 
 describe('generateMetaTags', () => {
   it('should return empty string when params is empty', () => {

@@ -8,7 +8,6 @@ export * from './commands';
 export * from './common';
 export * from './ensure';
 export * from './fs';
-export * from './generateMetaTags';
 export * from './logger';
 export * from './monorepo';
 export * from './package';

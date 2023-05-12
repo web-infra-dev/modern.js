@@ -1,4 +1,3 @@
-// Todo: only @modern-js/builder-shared used
 /**
  * Copyright JS Foundation and other contributors.
  *
