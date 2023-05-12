@@ -1,5 +1,12 @@
 # @modern-js/plugin-module-doc
 
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/doc-core@2.19.1
+- @modern-js/module-tools@2.19.1
+
 ## 2.19.0
 
 ### Patch Changes

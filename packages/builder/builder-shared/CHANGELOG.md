@@ -1,5 +1,17 @@
 # @modern-js/builder-shared
 
+## 2.19.1
+
+### Patch Changes
+
+- afb735f: fix(builder): failed to print file size in some cases
+
+  fix(builder): 修复部分情况下输出产物体积失败的问题
+
+  - @modern-js/server@2.19.1
+  - @modern-js/types@2.19.1
+  - @modern-js/utils@2.19.1
+
 ## 2.19.0
 
 ### Patch Changes
