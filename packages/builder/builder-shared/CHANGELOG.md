@@ -1,5 +1,18 @@
 # @modern-js/builder-shared
 
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+- Updated dependencies [1134fe2]
+  - @modern-js/server@2.19.0
+  - @modern-js/utils@2.19.0
+  - @modern-js/types@2.19.0
+
 ## 2.18.1
 
 ### Patch Changes

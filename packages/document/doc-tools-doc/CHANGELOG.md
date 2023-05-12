@@ -1,5 +1,7 @@
 # @modern-js/doc-tools-doc
 
+## 2.19.0
+
 ## 2.18.1
 
 ### Patch Changes

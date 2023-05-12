@@ -1,5 +1,13 @@
 # @modern-js/packages-generator
 
+## 3.1.15
+
+### Patch Changes
+
+- 3c0c5bb: fix: packages generator overrides field when use npm
+
+  fix: 修复当使用 npm 安装依赖时 packages-generator overrides 字段
+
 ## 3.1.14
 
 ### Patch Changes
