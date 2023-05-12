@@ -18,6 +18,7 @@ import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
 import type { Plugin } from '@modern-js/runtime';
 import { parsedJSONFromElement } from '@modern-js/utils/runtime-browser';
 import { renderRoutes, getLocation, urlJoin } from './utils';
+import { modifyRoutesHook } from './hooks';
 
 declare global {
   interface Window {
@@ -75,6 +76,7 @@ export const routerPlugin = ({
   createRoutes,
   historyOptions = {},
 }: RouterConfig): Plugin => {
+  const originRoutes = routesConfig?.routes || [];
   const isBrow = isBrowser();
 
   const select = (pathname: string) =>
@@ -86,7 +88,10 @@ export const routerPlugin = ({
 
   return {
     name: '@modern-js/plugin-router',
-    setup: () => {
+    registerHook: {
+      modifyRoutes: modifyRoutesHook,
+    },
+    setup: api => {
       return {
         init({ context }, next) {
           context.router = {
@@ -111,16 +116,20 @@ export const routerPlugin = ({
                 (supportHtml5History
                   ? createBrowserHistory(historyOptions)
                   : createHashHistory(historyOptions));
-
-              return (props: any) => (
-                <Router history={history}>
-                  {createRoutes ? (
-                    <App {...props} Component={createRoutes()} />
-                  ) : (
-                    <App {...props}>{renderRoutes(routesConfig, props)}</App>
-                  )}
-                </Router>
-              );
+              return (props: any) => {
+                const runner = (api as any).useHookRunners();
+                const routes = runner.modifyRoutes(originRoutes);
+                routesConfig && (routesConfig.routes = routes);
+                return (
+                  <Router history={history}>
+                    {createRoutes ? (
+                      <App {...props} Component={createRoutes()} />
+                    ) : (
+                      <App {...props}>{renderRoutes(routesConfig, props)}</App>
+                    )}
+                  </Router>
+                );
+              };
             }
             return (props: any) => {
               const runtimeContext = useContext(RuntimeReactContext);
@@ -133,6 +142,9 @@ export const routerPlugin = ({
                 baseUrl === '/'
                   ? urlJoin(baseUrl, historyOptions.basename as string)
                   : baseUrl;
+              const runner = (api as any).useHookRunners();
+              const routes = runner.modifyRoutes(originRoutes);
+              routesConfig && (routesConfig.routes = routes);
               return (
                 <StaticRouter
                   basename={basename === '/' ? '' : basename}
@@ -148,18 +160,16 @@ export const routerPlugin = ({
               );
             };
           };
-          let RouteApp = getRouteApp();
 
+          let RouteApp = getRouteApp();
           if (App) {
             RouteApp = hoistNonReactStatics(RouteApp, App);
           }
-
           if (routesConfig?.globalApp) {
             return next({
               App: hoistNonReactStatics(RouteApp, routesConfig.globalApp),
             });
           }
-
           return next({
             App: RouteApp,
           });

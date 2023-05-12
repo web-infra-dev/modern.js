@@ -61,6 +61,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@modern-js/plugin": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/history": "^4.7.9",

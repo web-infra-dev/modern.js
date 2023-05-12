@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import { createBrowserHistory } from 'history';
 import { createApp, createPlugin } from '@modern-js/runtime';
-import createRouterPlugin, { useLocation } from '../src/runtime';
+import createRouterPlugin, { RouteProps, useLocation } from '../src/runtime';
 import { useHistory } from '../src';
 import { DefaultNotFound } from '../src/runtime/DefaultNotFound';
 
@@ -185,5 +185,46 @@ describe('@modern-js/plugin-router-v5', () => {
   it('DefaultNotFound', () => {
     const { container } = render(<DefaultNotFound />);
     expect(container.firstChild?.textContent).toEqual('404');
+  });
+
+  it('support modify routes', () => {
+    type ModifyRoutesFn = (routes: RouteProps[]) => RouteProps[];
+    const expectedText = 'modify routes';
+    let modifyFn: ModifyRoutesFn | null = null;
+    const modifyRoutes = (fn: ModifyRoutesFn) => {
+      modifyFn = fn;
+    };
+
+    modifyRoutes(routes => {
+      routes[0].component = function () {
+        return <>{expectedText}</>;
+      };
+      return routes;
+    });
+
+    const AppWrapper = createApp({
+      plugins: [
+        createPlugin(() => ({
+          hoc: ({ App: App1 }, next) => next({ App: App1 }),
+          modifyRoutes(routes: RouteProps[]) {
+            return modifyFn?.(routes);
+          },
+        })),
+        createRouterPlugin({
+          routesConfig: { routes: [{ path: '/', component: App as any }] },
+        }),
+      ],
+    })(App);
+
+    interface Props {
+      children: React.ReactNode;
+    }
+    function App({ children }: Props) {
+      return <div>{children}</div>;
+    }
+    const { container } = render(<AppWrapper test={1} />);
+
+    expect(container.firstChild?.textContent).toBe(`${expectedText}`);
+    expect(container.innerHTML).toBe(`<div>${expectedText}</div>`);
   });
 });
