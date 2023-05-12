@@ -4,11 +4,37 @@ import SWC from '@zh/shared/swc.md';
 
 <SWC />
 
-## 快速开始
+## 适用场景
 
-:::tip
-在使用 Rspack 作为打包工具时，默认会使用 SWC 进行转译和压缩，因此你不需要再安装和配置 SWC 插件。
-:::
+在使用 SWC 插件之前，请先了解一下 SWC 插件的适用场景和局限性，以明确你的项目是否需要使用 SWC 插件。
+
+### Rspack 场景
+
+如果你的项目中已经使用了 Rspack 作为打包工具，那么你不需要接入 SWC 插件，因为 Rspack 默认会使用 SWC 进行转译和压缩，各个 SWC 编译能力可以开箱即用。
+
+### Babel 插件
+
+如果你的项目需要注册一些自定义的 Babel 插件，由于 SWC 替代了 Babel 作为转译工具，因此使用 SWC 后，你将无法注册和使用 Babel 插件。
+
+对于大部分常见的 Babel 插件，你可以在 SWC 中找到对应的替代品，比如：
+
+- `@babel/preset-env`: 使用 [presetEnv](#presetenv) 代替。
+- `@babel/preset-react`: 使用 [presetReact](#presetreact) 代替。
+- `babel-plugin-import`：使用 [source.transformImport](/api/config-source.html#sourcetransformimport) 代替。
+- `babel-plugin-lodash`：使用 [extensions.lodash](#extensionslodash) 代替。
+- `@emotion/babel-plugin`：使用 [extensions.emotion](#extensionsemotion) 代替。
+- `babel-plugin-styled-components`：使用 [extensions.styledComponent](#extensionsstyledcomponent) 代替。
+- `@babel/plugin-react-transform-remove-prop-types`: 使用 [reactUtils.removePropTypes](#extensionsreactutils) 代替。
+
+如果你使用了 SWC 尚未支持的 Babel 插件能力，在切换到 SWC 编译后，将无法再使用它们。你可以到 [swc-plugins](https://github.com/web-infra-dev/swc-plugins) 仓库下通过 issues 进行反馈，我们会评估是否需要内置支持。
+
+### 产物体积
+
+在使用 SWC 来代替 [terser](https://github.com/terser/terser) 和 [cssnano](https://github.com/cssnano/cssnano) 进行代码压缩时，构建产物的体积可能会出现少量变化。在 JavaScript 代码压缩方面，SWC 的压缩率是优于 terser 的；在 CSS 代码压缩方面，SWC 的压缩率稍逊于 cssnano。
+
+对于压缩工具之间的详细对比，可以参考 [minification-benchmarks](https://github.com/privatenumber/minification-benchmarks)。
+
+## 快速开始
 
 ### 安装
 
@@ -161,7 +187,7 @@ type RemovePropTypesOptions = {
 - **类型：** `{ cwd?: string; ids?: string;}`
 - **默认值：** `{ cwd: process.cwd(), ids: [] }`
 
-移植自 [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
+移植自 [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
 
 #### extensions.styledComponent
 
@@ -179,7 +205,7 @@ boolean | {
 };
 ```
 
-由 Next.js 团队移植自 [styled-component](https://github.com/styled-components/babel-plugin-styled-components)。
+由 Next.js 团队移植自 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components)。
 
 #### extensions.emotion
 
