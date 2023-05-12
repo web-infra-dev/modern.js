@@ -204,13 +204,6 @@ export const handleTemplateFile = async (
   }
 
   const { packagesInfo, buildTools } = context.config;
-  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
-    await appApi.runSubGenerator(
-      getGeneratorPath(PackagesGenerator, context.config.distTag),
-      undefined,
-      context.config,
-    );
-  }
 
   if (buildTools === BuildTools.Rspack) {
     await appApi.runSubGenerator(
@@ -222,6 +215,14 @@ export const handleTemplateFile = async (
         isSubGenerator: true,
         modernVersion,
       },
+    );
+  }
+
+  if (packagesInfo && Object.keys(packagesInfo).length > 0) {
+    await appApi.runSubGenerator(
+      getGeneratorPath(PackagesGenerator, context.config.distTag),
+      undefined,
+      context.config,
     );
   }
 
