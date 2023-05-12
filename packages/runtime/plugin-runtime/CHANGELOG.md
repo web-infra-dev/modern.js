@@ -1,5 +1,13 @@
 # @modern-js/runtime
 
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.19.1
+- @modern-js/types@2.19.1
+- @modern-js/utils@2.19.1
+
 ## 2.19.0
 
 ### Minor Changes
