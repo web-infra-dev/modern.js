@@ -1,5 +1,13 @@
 # @modern-js/doc-tools
 
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/core@2.19.1
+- @modern-js/doc-core@2.19.1
+- @modern-js/utils@2.19.1
+
 ## 2.19.0
 
 ### Patch Changes
