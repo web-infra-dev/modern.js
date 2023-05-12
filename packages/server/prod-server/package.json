@@ -56,6 +56,9 @@
       ],
       "worker": [
         "./dist/types/workerServer.d.ts"
+      ],
+      "renderHtml": [
+        "./dist/types/renderHtml.d.ts"
       ]
     }
   },

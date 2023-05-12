@@ -30,6 +30,8 @@ class IncomingMessageLike extends Readable {
     super();
     this.socket = new Socket();
     this.headers = headers || {};
+    // mock the request host as `localhost:8080`
+    this.headers.host = 'localhost:8080';
     this.method = method || 'get';
     this.url = url;
   }
@@ -72,7 +74,7 @@ class CustomServer extends Server {
   }
 }
 
-interface RenderHtmlOptions {
+export interface RenderHtmlOptions {
   /** request url */
   url: string;
 
