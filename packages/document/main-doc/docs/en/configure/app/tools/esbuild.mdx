@@ -9,9 +9,9 @@ sidebar_label: esbuild
 
 ## Introduction
 
-[esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
+import Esbuild from '@modern-js/builder-doc/docs/en/shared/esbuild.md';
 
-Modern.js provides esbuild plugin that allow you to use esbuild instead of babel-loader, ts-loader and terser for transformation and minification process.
+<Esbuild />
 
 :::tip Recommend using SWC
 We recommend using SWC to transform and minify code rather than esbuild, because SWC supports more syntaxes, provides better code compression, and the compiled code has better compatibility.
@@ -19,7 +19,6 @@ We recommend using SWC to transform and minify code rather than esbuild, because
 Therefore, we recommend that you use SWC instead of esbuild, please refer to [tools.swc](/configure/app/tools/swc) for usage.
 
 :::
-
 
 ## Configuration
 
