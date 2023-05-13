@@ -60,7 +60,7 @@
     "@mdx-js/react": "2.2.1",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/mdx-rs-binding": "^0.1.6",
+    "@modern-js/mdx-rs-binding": "^0.1.8",
     "@modern-js/remark-container": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/compression": "^1.7.2",
