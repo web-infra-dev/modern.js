@@ -18,7 +18,7 @@ Haiyaaaaa~~ we are excited to announce the release of Modern.js v2!
 
 Modern.js is a suite of infrastructure tools we built for web development inside Bytedance (we call ourself Web-Infra-Dev internally...). Since we open sourced this project a little more than a year ago, there were dozens of contributors helped us on development; we aggregated more than 2,000 pull requests and Modern.js started to support build tool like Rspack, features like nested routes, Streaming SSR(Server-side Rendering) and there are more to come!
 
-We are extremely proud of what we have achieved so far, you can also refer to [this article(English version under construction)](/blog/updates/v2-release-note)👈🏻 to see what has changed over the last year in Modern.js.
+We are extremely proud of what we have achieved so far, you can also refer to [this article(English version under construction)](/community/blog/v2-release-note)👈🏻 to see what has changed over the last year in Modern.js.
 
 ---
 
@@ -34,7 +34,7 @@ Since React 18, React supports a new type of SSR(streaming server rendering) and
 
 To understand its design further, check out this [Github Discussion](https://github.com/reactwg/react-18/discussions/37) by Dan Abramov or watch this [talk](https://www.youtube.com/watch?v=pj5N-Khihgc).
 
-Or read more from us at [here(Further content in English under construction)](react-streaming-ssr) or [here](/blog/react-streaming-ssr).
+Or read more from us at [here(Further content in English under construction)](<[communityreact-streaming-ssr](https://mp.weixin.qq.com/s/w4FS5sBcHqRl-Saqi19Y6g)>) or [here](/community/blog/react-streaming-ssr).
 
 ---
 
@@ -57,7 +57,7 @@ We updated Modern.js to v1.21.0 during Sept - Oct. Major upgrade includes:
 - **support pnpm v7**
 - **added typescript compiler option on server side**
 
-[Read more](/blog/updates/2022-0910-updates)
+[Read more](/community/blog/2022-0910-updates)
 
 ---
 
@@ -72,4 +72,4 @@ Modern.js upgraded to v1.17.0 during July to August in 2022. Major updates inclu
 - **Support npm module bundle building**: We support bundling npm module output.
 - **Reduck v1.1**: We released [Reduck v1.1](https://github.com/web-infra-dev/reduck) and updated all our documentations.
 
-[Read more](/blog/updates/2022-0708-updates)
+[Read more](/community/blog/2022-0708-updates)
