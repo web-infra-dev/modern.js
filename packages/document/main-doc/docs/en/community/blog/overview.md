@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Welcome to Modern.js blog!
 
-You can um...find the latest update of Modern.js and our thought processes here. Occasionally we explain the infrastructure behind it.
+You can find the latest update of Modern.js and our thought processes here. Occasionally we explain the infrastructure behind it.
 
 ---
 
@@ -16,17 +16,17 @@ You can um...find the latest update of Modern.js and our thought processes here.
 
 We are excited to announce the release of Modern.js v2!
 
-Modern.js is a suite of infrastructure tools we built for web development inside Bytedance (we call ourself Web-Infra-Dev internally...). Since we open sourced this project a little more than a year ago, there were dozens of contributors helped us on development; we aggregated more than 2,000 pull requests and Modern.js started to support build tool like Rspack, features like nested routes, Streaming SSR(Server-side Rendering) and there are more to come!
+Modern.js is a suite of infrastructure tools we built for web development inside Bytedance (we call ourself Web Infra). Since we open sourced this project a little more than a year ago, there were dozens of contributors helped us on development; we aggregated more than 2,000 pull requests and Modern.js started to support build tool like Rspack, features like nested routes, Streaming SSR and there are more to come!
 
 We are extremely proud of what we have achieved so far, you can also refer to [this article(English version under construction)](/community/blog/v2-release-note)👈🏻 to see what has changed over the last year in Modern.js.
 
 ---
 
-## What is SSR(Streaming Server Rendering) in React 18
+## What is Streaming SSR in React 18
 
 > Published on 16.12.2022
 
-Since React 18, React supports a new type of SSR(streaming server rendering) and it brought two advantages over the React tool chain:
+Since React 18, React supports a new type of SSR (streaming SSR) and it brought two advantages over the React tool chain:
 
 - Streaming HTML: Server will be able to transmit HTML to browser parts by parts, rather than waiting until the whole page being rendered. Client side will render the page faster thus dramatically increase performance benchmark scores like TTFB(Time to First Byte), FCP(First Contentful Paint) and more.
 
@@ -57,7 +57,7 @@ We updated Modern.js to v1.21.0 during Sept - Oct. Major upgrade includes:
 - **support pnpm v7**
 - **added typescript compiler option on server side**
 
-[Read more](/community/blog/2022-0910-updates)
+[Read more (English version under construction)](/community/blog/2022-0910-updates)
 
 ---
 
@@ -72,4 +72,4 @@ Modern.js upgraded to v1.17.0 during July to August in 2022. Major updates inclu
 - **Support npm module bundle building**: We support bundling npm module output.
 - **Reduck v1.1**: We released [Reduck v1.1](https://github.com/web-infra-dev/reduck) and updated all our documentations.
 
-[Read more](/community/blog/2022-0708-updates)
+[Read more (English version under construction)](/community/blog/2022-0708-updates)
