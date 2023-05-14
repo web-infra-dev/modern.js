@@ -14,7 +14,7 @@ You can um...find the latest update of Modern.js and our thought processes here.
 
 > Published on 16.03.2023
 
-Haiyaaaaa~~ we are excited to announce the release of Modern.js v2!
+We are excited to announce the release of Modern.js v2!
 
 Modern.js is a suite of infrastructure tools we built for web development inside Bytedance (we call ourself Web-Infra-Dev internally...). Since we open sourced this project a little more than a year ago, there were dozens of contributors helped us on development; we aggregated more than 2,000 pull requests and Modern.js started to support build tool like Rspack, features like nested routes, Streaming SSR(Server-side Rendering) and there are more to come!
 
