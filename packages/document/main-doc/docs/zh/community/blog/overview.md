@@ -71,6 +71,6 @@ Modern.js 7 ~ 8 月的最新版本为 v1.17.0，本双月的主要更新有：
 - **支持 React 18**：完成框架和插件对 React 18 的适配。
 - **包版本统一**：Modern.js 所有组成包的版本号进行统一，提供升级命令。
 - **模块工程支持 bundle 构建**：模块工程类型的项目，支持对产物做 bundle 构建。
-- **Reduck v1.1**：发布 Reduck v1.1，使用文档全面更新。
+- **Reduck v1.1**：发布 [Reduck v1.1](https://github.com/web-infra-dev/reduck)，使用文档全面更新。
 
 [了解更多 →](/community/blog/2022-0708-updates)
