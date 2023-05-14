@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Overview
 
-Uhhhh welcome to Modern.js' blog x
+Welcome to Modern.js blog!
 
 You can um...find the latest update of Modern.js and our thought processes here. Occasionally we explain the infrastructure behind it.
 
