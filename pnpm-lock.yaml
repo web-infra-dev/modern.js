@@ -185,12 +185,8 @@ importers:
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.1.19
       '@types/babel__preset-env': ^7.9.2
-      '@types/caniuse-lite': ^1.0.1
       '@types/node': ^14
-      acorn: ^8.8.1
       antd: '4'
-      caniuse-lite: ^1.0.30001451
-      cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 5.0.0
       cssnano: 6.0.0
       fork-ts-checker-webpack-plugin: 8.0.0
@@ -200,7 +196,6 @@ importers:
       react: ^18
       react-dom: ^18
       react-refresh: 0.14.0
-      source-map: ^0.7.4
       style-loader: 3.3.1
       terser-webpack-plugin: 5.3.6
       ts-loader: 9.4.1
@@ -216,9 +211,6 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9_2sh2n464chklv3oeyrys3t3hwy
-      acorn: 8.8.1
-      caniuse-lite: 1.0.30001451
-      cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 5.0.0_webpack@5.82.1
       cssnano: 6.0.0_postcss@8.4.21
       fork-ts-checker-webpack-plugin: 8.0.0_7rk4b2hmmye4ay4nslib7apbti
@@ -226,7 +218,6 @@ importers:
       mini-css-extract-plugin: 2.7.0_webpack@5.82.1
       postcss: 8.4.21
       react-refresh: 0.14.0
-      source-map: 0.7.4
       style-loader: 3.3.1_webpack@5.82.1
       terser-webpack-plugin: 5.3.6_webpack@5.82.1
       ts-loader: 9.4.1_7rk4b2hmmye4ay4nslib7apbti
@@ -237,7 +228,6 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.1.20
       '@types/babel__preset-env': 7.9.2
-      '@types/caniuse-lite': 1.0.1
       '@types/node': 14.18.35
       antd: 4.21.4_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
@@ -567,7 +557,7 @@ importers:
       '@modern-js/builder': workspace:*
       '@modern-js/builder-rspack-provider': workspace:*
       '@modern-js/core': workspace:*
-      '@modern-js/mdx-rs-binding': ^0.1.6
+      '@modern-js/mdx-rs-binding': ^0.1.8
       '@modern-js/plugin-tailwindcss': workspace:*
       '@modern-js/plugin-testing': workspace:*
       '@modern-js/remark-container': workspace:*
@@ -652,7 +642,7 @@ importers:
       '@mdx-js/react': 2.2.1_react@18.2.0
       '@modern-js/builder': link:../../builder/builder
       '@modern-js/builder-rspack-provider': link:../../builder/builder-rspack-provider
-      '@modern-js/mdx-rs-binding': 0.1.6
+      '@modern-js/mdx-rs-binding': 0.1.8
       '@modern-js/remark-container': link:../../toolkit/remark-container
       '@modern-js/utils': link:../../toolkit/utils
       '@types/compression': 1.7.2
@@ -10961,8 +10951,8 @@ packages:
       sucrase: 3.29.0
       terser: 5.15.0
 
-  /@modern-js/mdx-rs-binding-darwin-arm64/0.1.6:
-    resolution: {integrity: sha512-BpkslS/zmr0VVrdf4nXBeM3cK0p6SnQjFQVKmFIM++IkWFJ2OjZoQL1fPij0xXgM+sZcFwPaLb3AnxIMPCTSRg==}
+  /@modern-js/mdx-rs-binding-darwin-arm64/0.1.8:
+    resolution: {integrity: sha512-2O/OyS0HQwgGpOJIcpxzWbUaxv8U9wqu7PdHTXqybqAcohlR0okbCWH8YDl3L/IsMnDxYJElWnquuEO0u5FZqw==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [darwin]
@@ -10970,8 +10960,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-darwin-x64/0.1.6:
-    resolution: {integrity: sha512-KjlzTcJ4OhfSwNZEPaNRPZnwKSnKAvlP4J3/EGni16Loa9cj3oXbYoone5PxJ+Uy6NvJA9A98x3NIlumcmcwMw==}
+  /@modern-js/mdx-rs-binding-darwin-x64/0.1.8:
+    resolution: {integrity: sha512-dOLyOR8prtzf9eyrWMDfPfxWNjcz/Wi6D+3db9UHawOGAXio5KGfPLqoGKJoKzTcrZw1RTvw9WaiA+1IUymOEw==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [darwin]
@@ -10979,8 +10969,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm-gnueabihf/0.1.6:
-    resolution: {integrity: sha512-O4SE2Ly0n0VhJqDV2jA/8rnfBA8XbD5+wiN3KLAXqZKH4/TrQ+HuLtlmAENNFIPOl3I9+pw/f+kX5lfneAk7CA==}
+  /@modern-js/mdx-rs-binding-linux-arm-gnueabihf/0.1.8:
+    resolution: {integrity: sha512-YrdhrNL/PcbDV3TOuXGmCNfABUqqwMG75zXyNop8ZVtw4d5BirtRHeYpKePhaAnhFNceLAdvgDmOsy8s25X04w==}
     engines: {node: '>=14.12'}
     cpu: [arm]
     os: [linux]
@@ -10988,8 +10978,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm64-gnu/0.1.6:
-    resolution: {integrity: sha512-34nfa6FpVF5HIADKSQuW2zylyvJhcVDMN402pc8Qm3dColU69+zBIyHe9Rwz4OkrFpulQDuFH0bssTzeuR05eg==}
+  /@modern-js/mdx-rs-binding-linux-arm64-gnu/0.1.8:
+    resolution: {integrity: sha512-Uxix5nTmyed6O9ffFL+y9Sq9nIifV4AxgFzS01I8lQyc56cgvlWEzbHJqMdyyIw29Yr5QcsCU+JI5RVo2uqPTA==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -10997,8 +10987,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm64-musl/0.1.6:
-    resolution: {integrity: sha512-Td4IkknCEKTCkRRb5dAU8aI0fpptgLztD/23KP9olJUMlvses0hUdzaSUsGzM63eiUuqvVfBeRPm6nFTwwpcpg==}
+  /@modern-js/mdx-rs-binding-linux-arm64-musl/0.1.8:
+    resolution: {integrity: sha512-PufMmu5UFg2lFNbggeZpeQ0/eidoJUmAgs4oIEd/zARlHglH1eSo5wZbm+sAxbxM9yS5/pkQxGPI4c97BwSvgQ==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -11006,8 +10996,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-x64-gnu/0.1.6:
-    resolution: {integrity: sha512-JEoQt01ObDUaY2/p1nnevmhOxcTtiVpB/5sn5NMh3vHXL94m88MkcnqeIdzcwYVwjGawLbe140uQn3cieomm1Q==}
+  /@modern-js/mdx-rs-binding-linux-x64-gnu/0.1.8:
+    resolution: {integrity: sha512-Jslw+MYZq7OnPXXHAl78P+vql6TLYqLzCvs6y5TzTV2sO3EfYbybH3IYsCa6jdALHWjnEeJj4tYiDKY5dhH2Eg==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -11015,8 +11005,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-x64-musl/0.1.6:
-    resolution: {integrity: sha512-Mdq1dOUcrtUMBI/zZzDlue9f790pgXX/iH0Mu8Co7y2KyAc/K6JHQ3UPBKXxPaTB+tulPG5KnGCnP1Hi1f6jTA==}
+  /@modern-js/mdx-rs-binding-linux-x64-musl/0.1.8:
+    resolution: {integrity: sha512-qyADWKxKSBMDNafBCuBSfeSYTiUkGyVPsTdPxvrScw4pfXaLM/gpnweuxIwa57mp0oszSoA69KYm6PoJWT1ZSA==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -11024,8 +11014,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-win32-arm64-msvc/0.1.6:
-    resolution: {integrity: sha512-uJEi2CN15kFm5xm+S5CQxcBz1CW+fyOR4c9/d4CtU5POBagIfY2A95rciw2ySDau8fJ6EKWFuoiBA8XG1EwpwQ==}
+  /@modern-js/mdx-rs-binding-win32-arm64-msvc/0.1.8:
+    resolution: {integrity: sha512-oheysTyLO7oPlHVJfto4qKeXTgIMoBVmtd7eUMAd5AioKtEjGcj9aQyRIn2lptlhuc82L0sns1/ML9JswSWfsA==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [win32]
@@ -11033,8 +11023,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-win32-x64-msvc/0.1.6:
-    resolution: {integrity: sha512-UBbItICR7h3PPB6vupUBuGbQq7DXMMeBbSxgwh/vxpt3ESCFoIopkZAhnacWmLKco9H2yp6WTkbmuAdjLu7AWQ==}
+  /@modern-js/mdx-rs-binding-win32-x64-msvc/0.1.8:
+    resolution: {integrity: sha512-EXl4lmANIwzNm4hy59EswHd8JUsxGgpdJ6MEf3OShkUYpwwYinDUneh5ST9fERU1Ojl85WUmegzMcZGP19Gusg==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [win32]
@@ -11042,19 +11032,19 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding/0.1.6:
-    resolution: {integrity: sha512-V4uTqRdDTJTtL/otz0kENl1jzP6Lojs0SlR7yf2YJHOlu3AUa6nmL7r6Qgl+4zGVXETf3z8G+xjmAwuDCM77TQ==}
+  /@modern-js/mdx-rs-binding/0.1.8:
+    resolution: {integrity: sha512-tJBTnOE4qyK00N5ZDvMcmbbJbk++1BJLoQO3ZgP1aiGceDOx0VHyMB67BXgQ2CARFKD2nT9BjiiCe58KkzNN9Q==}
     engines: {node: '>= 10'}
     optionalDependencies:
-      '@modern-js/mdx-rs-binding-darwin-arm64': 0.1.6
-      '@modern-js/mdx-rs-binding-darwin-x64': 0.1.6
-      '@modern-js/mdx-rs-binding-linux-arm-gnueabihf': 0.1.6
-      '@modern-js/mdx-rs-binding-linux-arm64-gnu': 0.1.6
-      '@modern-js/mdx-rs-binding-linux-arm64-musl': 0.1.6
-      '@modern-js/mdx-rs-binding-linux-x64-gnu': 0.1.6
-      '@modern-js/mdx-rs-binding-linux-x64-musl': 0.1.6
-      '@modern-js/mdx-rs-binding-win32-arm64-msvc': 0.1.6
-      '@modern-js/mdx-rs-binding-win32-x64-msvc': 0.1.6
+      '@modern-js/mdx-rs-binding-darwin-arm64': 0.1.8
+      '@modern-js/mdx-rs-binding-darwin-x64': 0.1.8
+      '@modern-js/mdx-rs-binding-linux-arm-gnueabihf': 0.1.8
+      '@modern-js/mdx-rs-binding-linux-arm64-gnu': 0.1.8
+      '@modern-js/mdx-rs-binding-linux-arm64-musl': 0.1.8
+      '@modern-js/mdx-rs-binding-linux-x64-gnu': 0.1.8
+      '@modern-js/mdx-rs-binding-linux-x64-musl': 0.1.8
+      '@modern-js/mdx-rs-binding-win32-arm64-msvc': 0.1.8
+      '@modern-js/mdx-rs-binding-win32-x64-msvc': 0.1.8
     dev: false
 
   /@modern-js/plugin-i18n/2.18.0:
