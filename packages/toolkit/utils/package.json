@@ -62,6 +62,8 @@
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
     "./ajv": "./compiled/ajv/index.js",
+    "./commander": "./compiled/commander/index.js",
+    "./ora": "./compiled/ora/index.js",
     "./glob": "./compiled/glob/index.js",
     "./chalk": "./compiled/chalk/index.js",
     "./execa": "./compiled/execa/index.js",
@@ -231,6 +233,12 @@
       ],
       "webpack-dev-middleware": [
         "./dist/compiled/webpack-dev-middleware/types/index.d.ts"
+      ],
+      "commander": [
+        "./dist/compiled/commander/typings/index.d.ts"
+      ],
+      "ora": [
+        "./dist/compiled/ora/index.d.ts"
       ]
     }
   },
