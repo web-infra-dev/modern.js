@@ -34,7 +34,7 @@ Since React 18, React supports a new type of SSR (streaming SSR) and it brought 
 
 To understand its design further, check out this [Github Discussion](https://github.com/reactwg/react-18/discussions/37) by Dan Abramov or watch this [talk](https://www.youtube.com/watch?v=pj5N-Khihgc).
 
-Or read more from us at [here(Further content in English under construction)](<[communityreact-streaming-ssr](https://mp.weixin.qq.com/s/w4FS5sBcHqRl-Saqi19Y6g)>) or [here](/community/blog/react-streaming-ssr).
+Or read more from us at [here(Further content in English under construction)](https://mp.weixin.qq.com/s/w4FS5sBcHqRl-Saqi19Y6g).
 
 ---
 
