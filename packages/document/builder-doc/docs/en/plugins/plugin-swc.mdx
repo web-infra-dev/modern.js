@@ -4,11 +4,37 @@ import SWC from '@en/shared/swc.md';
 
 <SWC />
 
-## Quick Start
+## Usage Scenarios
 
-:::tip
-When using Rspack as the bundler, SWC will be used for transpiling and compression by default, so you don't need to install or configure the SWC plugin.
-:::
+Before using the SWC plugin, please understand the scenarios and limitations of the SWC plugin to determine whether your project is suitable for using it.
+
+### Rspack Scenario
+
+If you are already using Rspack as the bundler in your project, then you do not need to use the SWC plugin, because Rspack uses SWC for transpiler and minifier by default, and the SWC compilation capabilities are available out of the box.
+
+### Babel Plugins
+
+If your project requires the registration of some custom Babel plugins, you will not be able to register and use Babel plugins after using SWC, since it replaces Babel as the transpiler.
+
+For most common Babel plugins, you can find corresponding replacements in SWC, such as:
+
+- `@babel/preset-env`: use [presetEnv](#presetenv) instead.
+- `@babel/preset-react`: use [presetReact](#presetreact) instead.
+- `babel-plugin-import`: use [source.transformImport](/api/config-source.html#sourcetransformimport) instead.
+- `babel-plugin-lodash`: use [extensions.lodash](#extensionslodash) instead.
+- `@emotion/babel-plugin`: use [extensions.emotion](#extensionsemotion) instead.
+- `babel-plugin-styled-components`: use [extensions.styledComponent](#extensionsstyledcomponent) instead.
+- `@babel/plugin-react-transform-remove-prop-types`: use [reactUtils.removePropTypes](#extensionsreactutils) instead.
+
+If you use Babel plugin capabilities that are not yet supported by SWC, you will no longer be able to use them after switching to SWC compilation. You can give feedback via issues under the [swc-plugins](https://github.com/web-infra-dev/swc-plugins) repository and we will evaluate if built-in support is needed.
+
+### Bundle Size
+
+When using SWC for code minification instead of [terser](https://github.com/terser/terser) and [cssnano](https://github.com/cssnano/cssnano), there may be a small change in the bundle size. SWC outperforms terser for JavaScript code compression and slightly underperforms cssnano for CSS code compression.
+
+For a detailed comparison between minifiers, see [minification-benchmarks](https://github.com/privatenumber/minification-benchmarks).
+
+## Quick Start
 
 ### Install
 
@@ -161,7 +187,7 @@ Remove `React` runtime type checking. This is ported from [@babel/plugin-react-t
 - **Type:** `{ cwd?: string; ids?: string;}`
 - **Default:** `{ cwd: process.cwd(), ids: [] }`
 
-Ported from [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
+Ported from [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
 
 #### extensions.styledComponent
 
@@ -187,7 +213,7 @@ boolean | {
 };
 ```
 
-This is ported by Next.js team from [styled-component](https://github.com/styled-components/babel-plugin-styled-components).
+This is ported by Next.js team from [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components).
 
 #### extensions.emotion
 

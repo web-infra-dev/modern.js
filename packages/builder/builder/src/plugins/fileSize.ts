@@ -69,6 +69,7 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
       const origin = stats.toJson({
         all: false,
         assets: true,
+        cachedAssets: true,
         groupAssetsByInfo: false,
         groupAssetsByPath: false,
         groupAssetsByChunk: false,
@@ -146,7 +147,12 @@ export const builderPluginFileSize = (): DefaultBuilderPlugin => ({
       const config = api.getNormalizedConfig();
 
       if (config.performance.printFileSize && stats) {
-        await printFileSizes(stats, api.context.distPath);
+        try {
+          await printFileSizes(stats, api.context.distPath);
+        } catch (err) {
+          logger.error('Failed to print file size.');
+          logger.error(err as Error);
+        }
       }
     });
   },

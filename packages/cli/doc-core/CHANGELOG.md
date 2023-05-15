@@ -1,5 +1,39 @@
 # @modern-js/doc-core
 
+## 2.19.1
+
+### Patch Changes
+
+- Updated dependencies [afb735f]
+  - @modern-js/builder@2.19.1
+  - @modern-js/builder-rspack-provider@2.19.1
+  - @modern-js/core@2.19.1
+  - @modern-js/remark-container@2.19.1
+  - @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 7c234b5: fix(doc-core): make sidebar font-weight consistent
+
+  fix(doc-core): 使 sidebar 的 font-weight 保持一致
+
+- 9fe6499: feat(doc-core): reduce 80% time of ssg
+
+  feat(doc-core): 减少 80% 的 ssg 时间
+
+- c8ba482: fix(doc-core): props.children error in code component
+
+  fix(doc-core): 修复 code 组件中 props.children 不存在的错误
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/core@2.19.0
+  - @modern-js/builder@2.19.0
+  - @modern-js/builder-rspack-provider@2.19.0
+  - @modern-js/remark-container@2.19.0
+
 ## 2.18.1
 
 ### Patch Changes

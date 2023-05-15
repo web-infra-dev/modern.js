@@ -8,7 +8,7 @@
     "test:rspack": "jest -w 1 builder-rspack && pnpm test:builder:rspack",
     "test:builder:rspack": "cd e2e/builder && pnpm test:rspack",
     "test:doc": "cd integration && jest -w 1 --testMatch **/doc/**/*.test.ts",
-    "test": "pnpm test --filter api-service-koa & jest -w 8",
+    "test": "pnpm test --filter api-service-koa & jest",
     "test:ut": "node --conditions=jsnext:source -r btsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
     "cypress:test": "pnpm --parallel --filter '@cypress-test/*' run dev & cypress open",
     "prepare": "node node_modules/puppeteer/install.js",
