@@ -1,6 +1,7 @@
 import os from 'os';
 import path from 'path';
-import { fs, ora } from '@modern-js/utils';
+import fs from '@modern-js/utils/fs-extra';
+import ora from '@modern-js/utils/ora';
 import { i18n, localeKeys } from './locale';
 
 export async function cleanCacheAction() {
