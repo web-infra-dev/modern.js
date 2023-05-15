@@ -74,7 +74,7 @@ In the production environment, the above code will be compiled as:
 const Image = <img src={`https://example.com/static/icon.png`} />;
 ```
 
-# Using define config
+## Using define config
 
 By configuring the [source.define](/en/api/config-source.html#sourcedefine), you can replace expressions with other expressions or values in compile time.
 
@@ -105,6 +105,27 @@ For more about `source.define`, just refer to [API References](/api/config-sourc
 :::tip
 The environment variable `NODE_ENV` shown in the example above is already injected by the Builder, and you usually do not need to configure it manually.
 :::
+
+### process.env Injection
+
+When using `source.define` or `source.globalVars`, please avoid injecting the entire `process.env` object, e.g. the following usage is not recommended:
+
+```js
+export default {
+  source: {
+    define: {
+      'process.env': JSON.stringify(process.env),
+    },
+  },
+};
+```
+
+If the above usage is adopted, the following problems will be caused:
+
+1. Some unused environment variables are additionally injected, causing the environment variables of the development environment to be leaked into the front-end code.
+2. As each `process.env` code will be replaced by a complete environment variable object, the bundle size of the front-end code will increase and the performance will decrease.
+
+So please avoid full injection, just inject the used variables from `process.env`.
 
 ## Setup Environment Variables
 
