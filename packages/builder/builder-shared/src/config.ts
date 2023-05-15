@@ -14,6 +14,7 @@ import {
   DEFAULT_MOUNT_ID,
   DEFAULT_DATA_URL_SIZE,
 } from './constants';
+import { generateMetaTags } from './generateMetaTags';
 import type {
   BuilderTarget,
   SharedHtmlConfig,
@@ -270,7 +271,6 @@ export async function getMetaTags(
   entryName: string,
   config: { html: SharedHtmlConfig; output: NormalizedSharedOutputConfig },
 ) {
-  const { generateMetaTags } = await import('@modern-js/utils');
   const { meta, metaByEntries } = config.html;
 
   const metaOptions = {
