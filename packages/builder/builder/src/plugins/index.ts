@@ -36,4 +36,6 @@ export const plugins = {
   assetsRetry: () =>
     import('./assetsRetry').then(m => m.builderPluginAssetsRetry()),
   antd: () => import('./antd').then(m => m.builderAntdPlugin()),
+  checkSyntax: () =>
+    import('./checkSyntax').then(m => m.builderPluginCheckSyntax()),
 };

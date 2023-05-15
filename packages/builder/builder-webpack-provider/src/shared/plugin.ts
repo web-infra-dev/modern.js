@@ -36,7 +36,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.antd(),
     plugins.svg(),
     import('../plugins/pug').then(m => m.builderPluginPug()),
-    import('../plugins/checkSyntax').then(m => m.builderPluginCheckSyntax()),
+    plugins.checkSyntax(),
     import('../plugins/copy').then(m => m.builderPluginCopy()),
     plugins.font(),
     plugins.image(),

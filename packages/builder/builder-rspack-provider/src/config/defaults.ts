@@ -22,7 +22,8 @@ export const createDefaultConfig = () =>
     output: getDefaultOutputConfig(),
     tools: {},
     security: {
-      // sri: false
+      sri: false,
+      checkSyntax: false,
     },
     performance: {
       // profile: false,
