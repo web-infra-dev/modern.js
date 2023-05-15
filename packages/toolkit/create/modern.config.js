@@ -5,5 +5,6 @@ module.exports = {
       chalk: '@modern-js/utils/chalk',
     },
     dts: false,
+    sideEffects: false,
   },
 };

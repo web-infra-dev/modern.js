@@ -36,10 +36,10 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/generator-common": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/codesmith": "2.2.0",

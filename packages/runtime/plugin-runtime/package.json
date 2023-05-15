@@ -142,7 +142,6 @@
   },
   "dependencies": {
     "@babel/core": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
     "@babel/types": "^7.18.0",
     "cookie": "0.5.0",
     "@loadable/babel-plugin": "^5.13.2",
@@ -171,7 +170,8 @@
     "react-router-dom": "^6.8.1",
     "react-side-effect": "^2.1.1",
     "redux-logger": "^3.0.6",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {
     "react": ">=17",

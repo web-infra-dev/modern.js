@@ -15,6 +15,7 @@ module.exports = {
           },
         ],
       },
+      externalHelpers: true,
     },
     {
       buildType: 'bundleless',
@@ -22,6 +23,7 @@ module.exports = {
       target: 'es2019',
       dts: false,
       outDir: './dist/esm',
+      externalHelpers: true,
     },
     {
       buildType: 'bundleless',
@@ -29,6 +31,7 @@ module.exports = {
         only: true,
       },
       outDir: './dist/types',
+      externalHelpers: true,
     },
   ],
 };

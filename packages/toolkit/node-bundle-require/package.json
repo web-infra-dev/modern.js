@@ -51,9 +51,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
-    "esbuild": "0.15.7"
+    "esbuild": "0.15.7",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

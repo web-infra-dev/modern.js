@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",

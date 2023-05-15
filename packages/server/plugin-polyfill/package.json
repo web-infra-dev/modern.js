@@ -54,11 +54,11 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "@modern-js/polyfill-lib": "^1.0.0",
     "lru-cache": "^6.0.0",
-    "ua-parser-js": "^0.7.28"
+    "ua-parser-js": "^0.7.28",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",

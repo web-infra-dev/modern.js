@@ -8,6 +8,8 @@ import { newCli, deployCli, clearCli } from './cli';
 import { hooks } from './hooks';
 import { MonorepoTools } from './type';
 
+export * from './projects/getProjects';
+
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
   require,

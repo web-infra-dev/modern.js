@@ -44,7 +44,6 @@
     "@svgr/webpack": "6.5.1"
   },
   "devDependencies": {
-    "@babel/core": "7.18.0",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.1.19",
     "@types/babel__preset-env": "^7.9.2",
