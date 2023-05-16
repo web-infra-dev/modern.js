@@ -106,6 +106,27 @@ export default {
 以上例子中的环境变量 `NODE_ENV` 已经由 Builder 自动注入，通常你不需要手动配置它的值。
 :::
 
+### process.env 注入方式
+
+在使用 `source.define` 或 `source.globalVars` 时，请避免注入整个 `process.env` 对象，比如下面的用法是不推荐的：
+
+```js
+export default {
+  source: {
+    define: {
+      'process.env': JSON.stringify(process.env),
+    },
+  },
+};
+```
+
+如果你采用了上述用法，将会导致如下问题：
+
+1. 额外注入了一些未使用的环境变量，导致开发环境的环境变量被泄露到前端代码中。
+2. 由于每一处 `process.env` 代码都会被替换为完整的环境变量对象，导致前端代码的包体积增加，性能降低。
+
+因此，请按照实际需求来注入 `process.env` 上的环境变量，避免全量注入。
+
 ## 设置环境变量
 
 针对设置环境变量的高频场景，Builder 还提供了 [source.globalVars](/api/config-source.html#sourceglobalvars) 配置用于简化配置，它是 `source.define` 的一个语法糖，唯一的区别是 `source.globalVars` 会自动将传入的值进行 JSON 序列化处理，这使得设置环境变量的值更容易，避免大量书写 `JSON.stringify(...)` 转换语句：

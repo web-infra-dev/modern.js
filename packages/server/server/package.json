@@ -55,7 +55,8 @@
     "connect-history-api-fallback": "^2.0.0",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
-    "ws": "^8.2.0"
+    "ws": "^8.2.0",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",

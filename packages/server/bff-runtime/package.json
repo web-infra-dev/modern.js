@@ -37,10 +37,10 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "farrow-api": "^1.10.8",
     "farrow-pipeline": "^1.10.6",
-    "farrow-schema": "^1.10.8"
+    "farrow-schema": "^1.10.8",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

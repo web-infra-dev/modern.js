@@ -52,7 +52,6 @@
     "dist/"
   ],
   "dependencies": {
-    "@babel/runtime": "7.18.0",
     "@headlessui/react": "^1.7.7",
     "@loadable/component": "5.15.2",
     "@mdx-js/loader": "2.2.1",
