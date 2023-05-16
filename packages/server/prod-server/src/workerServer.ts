@@ -55,10 +55,6 @@ export type Manifest = {
   routes: ModernRouteInterface[];
 };
 
-export const handleUrl = (url: string) => {
-  return url.replace(/^https?:\/\/.*?\//gi, '/');
-};
-
 const RESPONSE_NOTFOUND = new ReturnResponse('404: Page not found', 404, {});
 
 export const createHandler = (manifest: Manifest) => {

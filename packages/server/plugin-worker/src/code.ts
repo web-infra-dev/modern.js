@@ -1,6 +1,6 @@
 export const worker = () => `
 // work entry code
-import { createHandler, handleUrl } from "@modern-js/prod-server/worker";
+import { createHandler } from "@modern-js/prod-server/worker";
 import loadableStats from "../loadable-stats.json";
 import routeManifest from "../routes-manifest.json";
 import { manifest } from "./manifest";
