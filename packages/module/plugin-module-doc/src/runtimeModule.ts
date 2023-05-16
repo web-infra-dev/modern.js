@@ -20,6 +20,7 @@ export default class RuntimeModulesPlugin {
   writeModule(path: string, content: string) {
     const normalizedPath = this.#normalizePath(path);
     this.staticModules[normalizedPath] = content;
+    fs.ensureFileSync(normalizedPath);
     fs.writeFileSync(normalizedPath, content);
   }
 
