@@ -13,11 +13,10 @@ async function handleRequest(request) {
   }
   const handler = createHandler(manifest);
 
-  const returnResposne = await handler(options);
+  const { body, status, headers } = await handler(options);
 
-  const { body, statusCode, headers } = returnResponse;
   return new Response(body, {
-    status: statusCode,
+    status,
     headers,
   });
 }

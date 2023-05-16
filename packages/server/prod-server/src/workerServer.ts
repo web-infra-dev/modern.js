@@ -14,32 +14,49 @@ export interface HandlerOptions {
 export class ReturnResponse {
   body: string;
 
-  statusCode: number;
+  status: number;
 
   headers: Headers;
 
-  locals: Record<string, any>;
-
-  constructor(
-    body: string,
-    status: number,
-    locals: Record<string, any>,
-    headers: Record<string, any> = {
-      'content-type': 'text/html;charset=UTF-8',
-    },
-  ) {
+  constructor(body: string, status: number, headers: Record<string, any> = {}) {
     this.body = body;
-    this.statusCode = status;
-    this.locals = locals;
+    this.status = status;
     this.headers = new Headers(headers);
+    this.headers.set('content-type', 'text/html;charset=UTF-8');
   }
 
-  setHeader(key: string, value: string) {
-    this.headers.set(key, value);
+  /**
+   * Iterate a Object
+   * 1. adds the value if the key does not already exist.
+   * 2. append the value if the key does already exist.
+   *
+   * more detail follow: https://developer.mozilla.org/en-US/docs/Web/API/Headers/append
+   * @param headers
+   * @returns
+   */
+  appendHeaders(headers: Record<string, any>): this {
+    Object.entries(headers).forEach(([key, value]) => {
+      this.headers.append(key, value.toString() as string);
+    });
+
+    return this;
   }
 
-  status(code: number) {
-    this.statusCode = code;
+  /**
+   * Iterate a Object
+   * 1. adds the value if the key does not already exist.
+   * 2. modify the value if the key does already exist.
+   *
+   * more detail follow: https://developer.mozilla.org/en-US/docs/Web/API/Headers/set
+   * @param headers
+   * @returns
+   */
+  setHeaders(headers: Record<string, any>): this {
+    Object.entries(headers).forEach(([key, value]) => {
+      this.headers.set(key, value.toString() as string);
+    });
+
+    return this;
   }
 }
 
@@ -55,7 +72,7 @@ export type Manifest = {
   routes: ModernRouteInterface[];
 };
 
-const RESPONSE_NOTFOUND = new ReturnResponse('404: Page not found', 404, {});
+const RESPONSE_NOTFOUND = new ReturnResponse('404: Page not found', 404);
 
 export const createHandler = (manifest: Manifest) => {
   const routeMgr = new RouteMatchManager();
@@ -72,12 +89,22 @@ export const createHandler = (manifest: Manifest) => {
     const page = pages[pageMatch.spec.urlPath];
     if (page.serverRender) {
       try {
-        const response = new ReturnResponse('', 200, {});
+        const responseLike = {
+          headers: {} as Record<string, any>,
+          statusCode: 200,
+          locals: {} as Record<string, any>,
+          setHeader(key: string, value: string) {
+            this.headers[key] = value;
+          },
+          status(code: number) {
+            this.statusCode = code;
+          },
+        };
         const params = pageMatch.parseURLParams(url.pathname) || {};
 
         const serverRenderContext: BaseSSRServerContext = {
           request: createServerRequest(url, request, params),
-          response,
+          response: responseLike,
           loadableStats,
           routeManifest,
           redirection: {},
@@ -87,18 +114,29 @@ export const createHandler = (manifest: Manifest) => {
             level: 'warn',
           }) as Logger & LoggerInterface,
           metrics: defaultMetrics as any,
+          // FIXME: pass correctly req & res
           req: request as any,
-          res: response as any,
+          res: responseLike as any,
         };
 
         const body = await page.serverRender(serverRenderContext);
-        response.body = body;
 
-        return response;
+        return new ReturnResponse(
+          body,
+          responseLike.statusCode,
+          responseLike.headers,
+        );
       } catch (e) {
+        console.warn(
+          `page(${pageMatch.spec.urlPath}) serverRender occur error: `,
+        );
+        console.warn(e);
+
         return createResponse(page.template);
       }
     }
+
+    console.warn(`Can't not page(${pageMatch.spec.urlPath}) serverRender`);
 
     return createResponse(page.template);
 
@@ -130,7 +168,7 @@ export const createHandler = (manifest: Manifest) => {
 
 function createResponse(template?: string) {
   if (template) {
-    return new ReturnResponse(template, 200, {});
+    return new ReturnResponse(template, 200);
   } else {
     return RESPONSE_NOTFOUND;
   }
