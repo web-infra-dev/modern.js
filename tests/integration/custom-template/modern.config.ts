@@ -8,5 +8,6 @@ export default defineConfig({
     disableFilenameHash: true,
     disableInlineRuntimeChunk: true,
   },
+  performance: { chunkSplit: { strategy: 'all-in-one' } },
   plugins: [appTools()],
 });
