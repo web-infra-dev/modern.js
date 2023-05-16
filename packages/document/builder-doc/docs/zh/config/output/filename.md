@@ -39,7 +39,7 @@ const prodDefaultFilename = {
 
 在生产环境构建后，会自动在文件名中间添加 hash 值，如果不需要添加，可以通过 `output.disableFilenameHash` 配置来禁用该行为。
 
-其中：
+下面是各个文件类型的说明：
 
 - `js`：表示 JavaScript 文件的名称。
 - `css`：表示 CSS 样式文件的名称。
@@ -64,3 +64,24 @@ export default {
   },
 };
 ```
+
+### 异步模块的文件名
+
+当你在代码中通过 dynamic import 的方式引入模块时，该模块会被单独打包成一个文件，它默认的命名规则如下：
+
+- 在开发环境下会基于模块路径生成名称，比如 `dist/static/js/async/src_add_ts.js`。
+- 在生产环境下会是一个随机的数字 id，比如 `dist/static/js/async/798.27e3083e.js`，这是为了避免在生产环境中泄露源代码的路径，同时字符数也更少。
+
+```js title="src/index.ts"
+const { add } = await import('./add.ts');
+```
+
+如果你希望为异步模块指定一个固定的名称，可以通过打包工具提供的 [magic comments](https://webpack.js.org/api/module-methods/#magic-comments) 来实现，通过 `webpackChunkName` 指定模块名称：
+
+```js title="src/index.ts"
+const { add } = await import(
+  /* webpackChunkName: "my-chunk-name" */ './add.ts'
+);
+```
+
+通过以上写法指定模块名称后，生成的文件会是 `dist/static/js/async/my-chunk-name.js`。
