@@ -343,9 +343,9 @@ export default async (): Promise<ProfileData> => {
 
 ### FAQ
 
-1. Relationship between loader and bff functions
+1. Relationship between loader and BFF functions
 
-In a CSR project, the loader is executed on the client side and the bff function can be called directly from the loader to make a request.
+In a CSR project, the loader is executed on the client side and the bff function can be called directly in the loader to make a request.
 
 In an SSR project, each loader is also a server-side API, and we recommend using loader instead of the BFF function which http method is `get` to avoid one more layer of forwarding and execution.
 
