@@ -4,23 +4,21 @@ import { createHandler, handleUrl } from "@modern-js/prod-server/worker";
 import loadableStats from "../loadable-stats.json";
 import routeManifest from "../routes-manifest.json";
 import { manifest } from "./manifest";
+
 async function handleRequest(request) {
-  const context = {
-    request: {
-      ...request,
-      url: request.url,
-    },
-    url: handleUrl(request.url),
-    body: null,
+  const options = {
+    request,
     loadableStats,
     routeManifest,
-  };
+  }
   const handler = createHandler(manifest);
-  await handler(context);
-  return new Response(context.body, {
-    headers: {
-      'content-type': 'text/html;charset=UTF-8',
-    },
+
+  const returnResposne = await handler(options);
+
+  const { body, statusCode, headers } = returnResponse;
+  return new Response(body, {
+    status: statusCode,
+    headers,
   });
 }
 
