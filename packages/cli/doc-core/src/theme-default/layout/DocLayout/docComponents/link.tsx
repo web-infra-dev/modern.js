@@ -1,6 +1,6 @@
 import { ComponentProps } from 'react';
 import styles from './index.module.scss';
-import { withBase, useLang, usePageData } from '@/runtime';
+import { withBase, useLang, usePageData, removeBase } from '@/runtime';
 import { isExternalUrl, normalizeSlash } from '@/shared/utils';
 
 export const A = (props: ComponentProps<'a'>) => {
@@ -11,7 +11,7 @@ export const A = (props: ComponentProps<'a'>) => {
   if (defaultLang && !isExternalUrl(href) && !href.startsWith('#')) {
     href = normalizeSlash(href);
     // Add lang prefix if not default lang
-    if (lang !== defaultLang && !href.startsWith(`/${lang}`)) {
+    if (lang !== defaultLang && !removeBase(href).startsWith(`/${lang}`)) {
       href = `/${lang}${href}`;
     }
 
