@@ -5,10 +5,7 @@ export default defineConfig({
   runtime: {},
   output: {
     disableTsChecker: true,
+    tempDir: path.join('node_modules', '.temp-dir'),
   },
-  plugins: [
-    appTools({
-      tempDir: path.join('node_modules', '.temp-dir'),
-    }),
-  ],
+  plugins: [appTools({})],
 });
