@@ -14,8 +14,8 @@ hero:
       link: /en/guide/intro/getting-started
 
 features:
-  - title: 'Esbuild: The High Performance JS Bundler'
-    details: Built on Esbuild, the build is extremely fast and gives you the ultimate development experience.
+  - title: 'esbuild: The High Performance JS Bundler'
+    details: Built on esbuild, the build is extremely fast and gives you the ultimate development experience.
     icon: 🚀
   - title: 'Two build modes'
     details: Both bundle and bundleless build modes are supported.
