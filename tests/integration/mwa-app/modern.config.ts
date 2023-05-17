@@ -6,6 +6,11 @@ export default defineConfig({
   },
   output: {
     disableTsChecker: true,
+    enableAssetManifest: true,
   },
-  plugins: [appTools()],
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
+    }),
+  ],
 });
