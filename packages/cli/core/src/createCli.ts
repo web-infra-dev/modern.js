@@ -128,8 +128,6 @@ export const createCli = () => {
     ConfigContext.set(loaded.config);
     ResolvedConfigContext.set(resolved);
 
-    await hooksRunner.addRuntimeExports();
-
     await hooksRunner.prepare();
 
     await hooksRunner.afterPrepare();
