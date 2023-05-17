@@ -154,7 +154,7 @@ export default (
     i18n.changeLanguage({ locale });
 
     return {
-      async afterInit() {
+      async beforeConfig() {
         const userConfig = api.useConfigContext();
         const appContext = api.useAppContext();
         if (userConfig.output?.tempDir) {

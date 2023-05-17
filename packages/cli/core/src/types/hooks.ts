@@ -22,7 +22,7 @@ export type BaseHooks<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
-  afterInit: AsyncWorkflow<void, void>;
+  beforeConfig: AsyncWorkflow<void, void>;
   config: ParallelWorkflow<void, UserConfig<Extends>>;
   resolvedConfig: AsyncWaterfall<{
     resolved: NormalizedConfig<Extends>;
