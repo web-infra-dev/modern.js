@@ -4,10 +4,10 @@ sidebar_position: 2
 
 # Plugin Object
 
-The module-tools plugin is an object, and the object contains the following properties.
+The Module Tools plugin is an object, and the object contains the following properties.
 
 - `name`: The name of the plugin, a unique identifier.
-- `setup`: plugin initialization function, which will be executed only once. setup function can return a [Hooks object](), and module-tools will execute the function corresponding to the Hook defined on the Hooks object at a specific time.
+- `setup`: plugin initialization function, which will be executed only once. setup function can return a [Hooks object](), and Module Tools will execute the function corresponding to the Hook defined on the Hooks object at a specific time.
 
 For example, in the following plugin code example, the `beforeBuild` function is triggered before the project starts the build task and the `build start` log is printed.
 

@@ -341,9 +341,9 @@ export default async (): Promise<ProfileData> => {
 
 ### 常见问题
 
-1. loader 和 bff 函数的关系
+1. loader 和 BFF 函数的关系
 
-在 CSR 项目中，loader 在客户端执行，在 loader 可以直接调用 bff 函数进行接口请求。
+在 CSR 项目中，loader 在客户端执行，在 loader 可以直接调用 BFF 函数进行接口请求。
 
 在 SSR 项目中，每个 loader 也是一个服务端接口，我们推荐使用 loader 替代 http method 为 `get` 的 BFF 函数，作为接口层，避免多一层转发和执行。
 

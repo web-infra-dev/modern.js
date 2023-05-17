@@ -123,9 +123,10 @@ function applyRouterPlugin<B extends Bundler>(
 
   const routerConfig: any = normalizedConfig?.runtime?.router;
   const routerManifest = Boolean(routerConfig?.manifest);
+  const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
   // for ssr mode
-  if (existNestedRoutes || routerManifest) {
+  if (existNestedRoutes || routerManifest || workerSSR) {
     chain.plugin('route-plugin').use(RouterPlugin);
   }
 }

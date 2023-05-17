@@ -38,7 +38,7 @@ Set via `browserslist` in `package.json`:
 
 Set via a separate `.browserslistrc` file:
 
-```
+```yaml
 iOS >= 9
 Android >= 4.4
 last 2 versions
@@ -101,11 +101,45 @@ In most cases, it is recommended to use the `.browserslistrc` file rather than t
 
 The following are some commonly used Browserslist, you can choose according to your project type.
 
-### Mobile H5 scene
+### Desktop PC scenario
 
-The mobile H5 scene is mainly compatible with `iOS` and `Android` systems, usually we set Browserslist as:
+In the desktop PC scenario, if you need to be compatible with IE 11 browsers, you can set Browserslist to:
 
+```yaml
+> 0.5%
+not dead
+Internet Explorer 11
 ```
+
+The above Browserslist will compile the code to the ES5 specification. For the specific browser list, please check [browserslist.dev](https://browserslist.dev/?q=PiAwLjUlLCBub3QgZGVhZCwgSUUgMTE%3D).
+
+If you don't need to be compatible with IE 11 browsers, you can adjust Browserslist to get a more performant output, such as:
+
+- Set to browsers that supports native ES Modules (recommended):
+
+```yaml
+chrome >= 61
+edge >= 16
+firefox >= 60
+safari >= 11
+ios_saf >= 11
+```
+
+- Set to browsers that support ES6:
+
+```yaml
+chrome >= 51
+edge >= 15
+firefox >= 54
+safari >= 10
+ios_saf >= 10
+```
+
+### Mobile H5 scenario
+
+The mobile H5 scenario is mainly compatible with `iOS` and `Android` systems, usually we set Browserslist as:
+
+```yaml
 iOS >= 9
 Android >= 4.4
 last 2 versions
@@ -119,34 +153,12 @@ The above Browserslist will compile the code to the ES5 specification, which is 
 
 You can also choose to use the ES6 specification in the H5 scene, which will make the performance of the page better. The corresponding Browserslist is as follows:
 
-```
+```yaml
 iOS >= 10
 Chrome >= 51
 > 0.5%
 not dead
 not op_mini all
-```
-
-### Desktop PC scene
-
-In the desktop PC scenario, if you need to be compatible with IE 11 browsers, you can set Browserslist to:
-
-```
-> 0.5%
-not dead
-Internet Explorer 11
-```
-
-The above Browserslist will compile the code to the ES5 specification. For the specific browser list, please check [browserslist.dev](https://browserslist.dev/?q=PiAwLjUlLCBub3QgZGVhZCwgSUUgMTE%3D).
-
-If you don't need to be compatible with IE 11 browsers, you can adjust Browserslist to get a more performant output, such as setting it to browsers that supports native ES Modules:
-
-```
-chrome >= 61
-edge >= 16
-firefox >= 60
-safari >= 11
-ios_saf >= 11
 ```
 
 ## Default Browserslist
@@ -157,7 +169,7 @@ Builder will set different default values of Browserslist according to [build ta
 
 The default values of web target are as follows:
 
-```bash
+```yaml
 > 0.01%
 not dead
 not op_mini all
@@ -169,7 +181,7 @@ Under this browser range, JavaScript code will be compiled to ES5 syntax.
 
 Node target will be compatible with Node.js 14.0 by default.
 
-```bash
+```yaml
 node >= 14
 ```
 
@@ -177,7 +189,7 @@ node >= 14
 
 The default Browserslist of the Web Worker target is consistent with the Web target.
 
-```bash
+```yaml
 > 0.01%
 not dead
 not op_mini all
@@ -187,7 +199,7 @@ not op_mini all
 
 Modern Web target will be compatible with browsers that support [native ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) by default.
 
-```bash
+```yaml
 chrome >= 61
 edge >= 16
 firefox >= 60

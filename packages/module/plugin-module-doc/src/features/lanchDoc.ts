@@ -47,6 +47,7 @@ export async function launchDoc({
   const modernDocConfig = mergeDocConfig(
     {
       doc: {
+        root,
         title: json.name,
         lang: DEFAULT_LANG,
         builderConfig: {

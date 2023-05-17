@@ -277,7 +277,7 @@ export default defineConfig({
 
 <!-- ## disableSwcTransform
 
-从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 Esbuild Transform。
+从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 esbuild Transform。
 
 使用 SWC Transform 可以减小辅助函数对构建产物体积的影响。
 
@@ -451,8 +451,8 @@ export default defineConfig({
 
 esbuild 以 JSON 格式生成有关构建的一些元数据，可以通过例如 [bundle-buddy](https://bundle-buddy.com/esbuild) 的工具可视化
 
-- type: `boolean`
-- default: `false`
+- 类型：`boolean`
+- 默认值：`false`
 
 ## minify
 
@@ -758,7 +758,7 @@ var css_248z = '.body {\n  color: black;\n}';
 style_inject_es_default(css_248z);
 ```
 
-:::tip {title="注意"}
+:::tip
 
 开启了 `inject` 后，你需要注意以下几点：
 

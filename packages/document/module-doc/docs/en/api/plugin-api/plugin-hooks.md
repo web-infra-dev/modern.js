@@ -335,7 +335,7 @@ export interface DevToolData {
 }
 ```
 
-<!-- :::tip{title='About disableRunBuild configuration'}
+<!-- :::tip About disableRunBuild configuration
 When dev a project, it may be possible to set `disableRunBuild: true` to disable build tasks for source execution (in listening mode) if you only need to dev code functionality.
 
 The currently supported Storybook dev supports using source code products as dev objects, so `disableRunBuild: false` in the Storybook plugin.

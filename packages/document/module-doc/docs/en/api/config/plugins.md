@@ -4,9 +4,9 @@ sidebar_position: 4
 
 # Plugins
 
-This chapter describes the configuration of the registered module-tools plugin.
+This chapter describes the configuration of the registered Module Tools plugin.
 
-- type: `Array<ModuleToolsPlugin>`
+- Type: `Array<ModuleToolsPlugin>`
 
 ```js modern.config.ts
 import { examplePlugin } from '. /plugins/example';

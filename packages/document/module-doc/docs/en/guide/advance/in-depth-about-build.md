@@ -4,13 +4,10 @@ sidebar_position: 1
 
 # In-depth understanding of build
 
-In the [Basic Usage] section, we already knew that you can modify the output product of a project through the `buildConfig` configuration. `buildConfig` not only describes some of the features of the product, but also provides some functionality for building the product.
+In the "Basic Usage" section, we already knew that you can modify the output product of a project through the `buildConfig` configuration. `buildConfig` not only describes some of the features of the product, but also provides some functionality for building the product.
 
-:::tip{title=notes}
-If you are not sure what `buildConfig` is, it is recommended to take some time to understand it by following this link.
-
-- [[modify-output-product](/en/guide/basic/modify-output-product)]
-
+:::tip
+If you are not familiar with `buildConfig`, please read [modify-output-product](/en/guide/basic/modify-output-product).
 :::
 
 In this chapter we'll dive into the use of certain build configurations and understand what happens when the `modern build` command is executed.
@@ -43,7 +40,7 @@ In `buildConfig` you can specify whether the current build task is Bundle or Bun
 - When `buildType: 'bundle'`, `input` defaults to `src/index.(j|t)sx?`
 - When `buildType: 'bundleless'`, `input` defaults to `['src']`
 
-:::warning{title=notes}
+:::warning
 It is recommended that you do not specify multiple source file directories during a Bundleless build, as unintended results may occur. Bundleless builds with multiple source directories are currently in an unstable stage.
 :::
 
