@@ -9,6 +9,8 @@ export interface ServerRoute {
   isSPA?: boolean;
   // if route is ssr page
   isSSR?: boolean;
+  // if route is stream response
+  isStream?: boolean;
   // if route is api service
   isApi?: boolean;
   // worker js bundle for ssr page
