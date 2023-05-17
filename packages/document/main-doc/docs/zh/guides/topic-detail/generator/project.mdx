@@ -11,7 +11,7 @@ Modern.js 提供了 `@modern-js/create` 作为项目生成器用于进行 Modern
 不需要全局安装 `@modern-js/create`，直接使用 npx 执行该工具即可：
 
 ```bash
-npx @modern-js/create [projectDir]
+npx @modern-js/create@latest [projectDir]
 ```
 
 :::info
@@ -32,7 +32,7 @@ npx @modern-js/create [projectDir]
 获取 `@modern-js/create` 工具版本。
 
 ```bash
-$ npx @modern-js/create --version
+$ npx @modern-js/create@latest --version
 
 [INFO] @modern-js/create v2.0.0
 ```
@@ -52,7 +52,7 @@ $ npx @modern-js/create --version
 该字段为 JSON 字符串，例如需执行包管理工具时：
 
 ```bash
-npx @modern-js/create --config '{"packageManager": "pnpm"}'
+npx @modern-js/create@latest --config '{"packageManager": "pnpm"}'
 ```
 
 具体配置信息可查看[工程方案配置](/guides/topic-detail/generator/config/common)。
@@ -105,7 +105,7 @@ Modern.js 支持使用生成器插件定制 Modern.js 默认的工程方案类�
 
 指定微生成器。
 
-默认情况下 `@modern-js/create` 会执行 Modern.js 框架内置的微生成器，如果你需要执行定制的微生成器，又需要使用 `npx @modern-js/create` 的姿势，可直接使用该参数。
+默认情况下 `@modern-js/create` 会执行 Modern.js 框架内置的微生成器，如果你需要执行定制的微生成器，又需要使用 `npx @modern-js/create@latest` 的姿势，可直接使用该参数。
 
 关于定制微生成器可以参考[开发微生成器](/guides/topic-detail/generator/codesmith/introduce)。
 
