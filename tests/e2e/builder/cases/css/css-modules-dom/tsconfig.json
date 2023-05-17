@@ -1,0 +1,13 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "paths": {
+      "@scripts/*": ["../../../scripts/*"]
+    }
+  },
+  "include": ["src", "tests"]
+}
