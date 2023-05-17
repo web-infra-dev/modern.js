@@ -11,7 +11,7 @@ Modern.js provides `@modern-js/create` as a project generator for Modern.js proj
 There is no need to install `@modern-js/create` globally, just execute the tool directly with npx:
 
 ```bash
-npx @modern-js/create [projectDir]
+npx @modern-js/create@latest [projectDir]
 ```
 
 :::info
@@ -32,7 +32,7 @@ When executing the above command, the `projectDir` folder will be created in the
 Get the `@modern-js/create` tool version.
 
 ```bash
-$ npx @modern-js/create --version
+$ npx @modern-js/create@latest --version
 
 [INFO] @modern-js/create v2.0.0
 ```
@@ -52,7 +52,7 @@ By default, `@modern-js/create` will have interaction problems such as language 
 This field is a JSON character string, for example when running a package manager:
 
 ```bash
-npx @modern-js/create --config '{"packageManager": "pnpm"}'
+npx @modern-js/create@latest --config '{"packageManager": "pnpm"}'
 ```
 
 Specific configuration information viewable [Project Configuration](/guides/topic-detail/generator/config/common).
@@ -105,7 +105,7 @@ For custom generator plugins, please refer to [Development Generator Plugin](/gu
 
 Specifies the microgenerator.
 
-By default, `@modern-js/create` will execute the microgenerator Modern.js framework build-in. If you need to execute a customized microgenerator, and you need to use the posture of `npx @modern-js/create`, you can use this parameter directly.
+By default, `@modern-js/create` will execute the microgenerator Modern.js framework build-in. If you need to execute a customized microgenerator, and you need to use the posture of `npx @modern-js/create@latest`, you can use this parameter directly.
 
 For custom microgenerators, please refer to [Develop Microgenerator](/guides/topic-detail/generator/codesmith/introduce).
 
