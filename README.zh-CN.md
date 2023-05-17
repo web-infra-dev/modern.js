@@ -40,6 +40,10 @@ Modern.js 生态提供了以下解决方案：
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): 一站式微前端解决方案。
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck): 基于 Redux 的状态管理库。
 
+## Benchmark
+
+我们通过 [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) 来观测核心指标的变化情况，比如 bundle size、compile speed 和 install size。
+
 ## 参与贡献
 
 > 欢迎参与 Modern.js 贡献！

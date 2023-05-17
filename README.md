@@ -40,6 +40,10 @@ The following solutions are available within the Modern.js ecosystem:
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
 
+## Benchmark
+
+We use [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+
 ## Contributing
 
 > New contributors welcome!
