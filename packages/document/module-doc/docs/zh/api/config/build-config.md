@@ -277,7 +277,7 @@ export default defineConfig({
 
 <!-- ## disableSwcTransform
 
-从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 Esbuild Transform。
+从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 esbuild Transform。
 
 使用 SWC Transform 可以减小辅助函数对构建产物体积的影响。
 

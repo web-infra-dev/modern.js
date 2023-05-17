@@ -236,7 +236,7 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 <!-- ## disableSwcTransform
 
-Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only Esbuild Transform is used in this case.
+Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only esbuild Transform is used in this case.
 
 The use of SWC Transform can reduce the impact of auxiliary functions on the volume of the constructed product.
 

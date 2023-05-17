@@ -14,8 +14,8 @@ hero:
       link: /guide/intro/getting-started
 
 features:
-  - title: 'Esbuild: 高性能的 JS Bundler'
-    details: 基于 Esbuild 构建，构建速度极快，带给你极致的开发体验。
+  - title: 'esbuild: 高性能的 JS Bundler'
+    details: 基于 esbuild 构建，构建速度极快，带给你极致的开发体验。
     icon: 🚀
   - title: '双构建模式'
     details: 支持 Bundle 和 Bundleless 两种构建模式。
