@@ -9,6 +9,28 @@ Modern.js exposes three types of plugins: CLI, Runtime, and Server.
 
 ## CLI
 
+### `beforeConfig`
+
+- Functionality: Running tasks before the config process
+- Execution phase: Before the config process
+- Hook model: AsyncWorkflow
+- Type: `AsyncWorkflow<void, void>`
+- Example usage:
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  setup(api) {
+    return {
+      beforeConfig: () => {
+        // do something
+      },
+    };
+  },
+});
+```
+
 ### `config`
 
 - Functionality: Collect configuration

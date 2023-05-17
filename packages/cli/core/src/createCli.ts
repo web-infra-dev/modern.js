@@ -109,6 +109,8 @@ export const createCli = () => {
       },
     );
 
+    await hooksRunner.beforeConfig();
+
     const extraConfigs = await hooksRunner.config();
 
     const extraSchemas = await hooksRunner.validateSchema();

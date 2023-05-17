@@ -8,6 +8,28 @@ sidebar_position: 8
 
 ## CLI
 
+### `beforeConfig`
+
+- 功能：运行收集配置前的任务
+- 执行阶段：收集配置前
+- Hook 模型：AsyncWorkflow
+- 类型：`AsyncWorkflow<void, void>`
+- 使用示例：
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  setup(api) {
+    return {
+      beforeConfig: () => {
+        // do something
+      },
+    };
+  },
+});
+```
+
 ### `config`
 
 - 功能：收集配置

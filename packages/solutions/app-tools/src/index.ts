@@ -154,6 +154,19 @@ export default (
     i18n.changeLanguage({ locale });
 
     return {
+      async beforeConfig() {
+        const userConfig = api.useConfigContext();
+        const appContext = api.useAppContext();
+        if (userConfig.output?.tempDir) {
+          api.setAppContext({
+            ...appContext,
+            internalDirectory: path.resolve(
+              appContext.appDirectory,
+              userConfig.output.tempDir,
+            ),
+          });
+        }
+      },
       async commands({ program }) {
         await devCommand(program, api);
 
