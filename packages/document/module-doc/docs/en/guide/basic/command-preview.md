@@ -108,7 +108,7 @@ Run [ESLint](https://eslint.org/) to check the syntax of the code. Usually, we o
 
 - The `-no-fix` argument turns off the ability to automatically fix lint error code.
 
-## `-modern change`
+## `modern change`
 
 ```bash
 Usage: modern change [options]

@@ -10,8 +10,8 @@ This chapter describes the configuration related to designSystem
 The Tailwind CSS feature needs to be enabled first via `pnpm run new`.
 :::
 
-- type: `Object`
-- default: `see configuration details below`.
+- Type: `Object`
+- Default: `see configuration details below`.
 
 <details>
   <summary>designSystem configuration details</summary>

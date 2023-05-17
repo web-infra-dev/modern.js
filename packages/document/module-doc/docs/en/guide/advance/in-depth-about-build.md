@@ -4,10 +4,10 @@ sidebar_position: 1
 
 # In-depth understanding of build
 
-In the [Basic Usage] section, we already knew that you can modify the output product of a project through the `buildConfig` configuration. `buildConfig` not only describes some of the features of the product, but also provides some functionality for building the product.
+In the "Basic Usage" section, we already knew that you can modify the output product of a project through the `buildConfig` configuration. `buildConfig` not only describes some of the features of the product, but also provides some functionality for building the product.
 
 :::tip
-If you are not familiar with `buildConfig`, please read the [modify-output-product](/en/guide/basic/modify-output-product) chapter first.
+If you are not familiar with `buildConfig`, please read [modify-output-product](/en/guide/basic/modify-output-product).
 :::
 
 In this chapter we'll dive into the use of certain build configurations and understand what happens when the `modern build` command is executed.

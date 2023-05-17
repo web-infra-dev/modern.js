@@ -10,8 +10,8 @@ sidebar_position: 3
 需要先通过 `pnpm run new` 启用 Tailwind CSS 功能。
 :::
 
-- type: `Object`
-- default: `见下方配置详情`。
+- 类型：`Object`
+- 默认值: `见下方配置详情`。
 
 <details>
   <summary>designSystem 配置详情</summary>

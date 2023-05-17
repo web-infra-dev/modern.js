@@ -451,8 +451,8 @@ export default defineConfig({
 
 esbuild 以 JSON 格式生成有关构建的一些元数据，可以通过例如 [bundle-buddy](https://bundle-buddy.com/esbuild) 的工具可视化
 
-- type: `boolean`
-- default: `false`
+- 类型：`boolean`
+- 默认值：`false`
 
 ## minify
 

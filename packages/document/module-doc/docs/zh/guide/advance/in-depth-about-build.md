@@ -4,10 +4,10 @@ sidebar_position: 1
 
 # 深入理解构建
 
-在【基础使用】的部分，我们已经知道可以通过 `buildConfig` 配置对项目的输出产物进行修改。`buildConfig` 不仅描述了产物的一些特性，同时还为构建产物提供了一些功能。
+在 "基础使用" 的部分，我们已经知道可以通过 `buildConfig` 配置对项目的输出产物进行修改。`buildConfig` 不仅描述了产物的一些特性，同时还为构建产物提供了一些功能。
 
 :::tip
-如果你还不了解 `buildConfig` 的作用，请先阅读 [修改输出产物](/guide/basic/modify-output-product) 章节。
+如果你还不了解 `buildConfig` 的作用，请先阅读 [修改输出产物](/guide/basic/modify-output-product)。
 :::
 
 而在本章里我们将要深入理解某些构建配置的使用以及了解执行 `modern build` 命令的时候发生了什么。

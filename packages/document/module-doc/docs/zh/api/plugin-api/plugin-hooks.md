@@ -1,6 +1,6 @@
 # Plugin Hooks
 
-本章介绍关于 module-tools 支持的生命周期钩子。
+本章介绍关于 Module Tools 支持的生命周期钩子。
 
 目前主要包含两类生命周期钩子：
 

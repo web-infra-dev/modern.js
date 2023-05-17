@@ -1,9 +1,8 @@
 ---
 sidebar_position: 3
 ---
-# modify-output-product
 
-## Modify the output product
+# Modify the output product
 
 ## Default output products
 
