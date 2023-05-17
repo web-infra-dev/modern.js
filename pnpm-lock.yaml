@@ -5096,60 +5096,6 @@ importers:
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
 
-  tests/integration/inline-assets/fixtures/always-inline:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
-  tests/integration/inline-assets/fixtures/always-url:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
-  tests/integration/inline-assets/fixtures/assets-in-css:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      antd: ^4.18.5
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      antd: 4.21.4_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
-  tests/integration/inline-assets/fixtures/inline-limit:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
   tests/integration/load-config:
     specifiers:
       '@types/jest': ^29
