@@ -758,7 +758,7 @@ var css_248z = '.body {\n  color: black;\n}';
 style_inject_es_default(css_248z);
 ```
 
-:::tip {title="注意"}
+:::tip
 
 开启了 `inject` 后，你需要注意以下几点：
 

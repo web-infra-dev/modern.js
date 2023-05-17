@@ -698,7 +698,7 @@ var css_248z = '.body {\n color: black;\n}';
 style_inject_es_default(css_248z);
 ```
 
-:::tip {title="Note"}
+:::tip
 
 With `inject` turned on, you need to pay attention to the following points.
 

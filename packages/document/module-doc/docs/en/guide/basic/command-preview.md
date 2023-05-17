@@ -32,7 +32,7 @@ When you want to start a project build, you can execute the `modern build` comma
 
 In addition to the above, module projects also support `platform` build mode, which can be used to perform build tasks for other tools. For example, it is currently officially supported to start a Storybook build task to generate Storybook products by executing the `modern build --platform` or `modern build --platform storybook` commands after installing the `@modern-js/plugin-storybook` plugin.
 
-:::tip{title=Note}
+:::tip
 When executing a Storybook build, if you need to read the build product of the project. Then **don't forget to execute the `modern build` command to ensure the existence of the project's build product before executing the `modern build --platform` command to start the Storybook build**.
 :::
 
@@ -185,7 +185,7 @@ Options:
 
 Automatically generate [Release Note](https://en.wikipedia.org/wiki/Release_notes) based on the changeset information of the current repository.
 
-:::tip{title=Note}
+:::tip
 needs to be executed before the `bump` command.
 :::
 

@@ -164,7 +164,7 @@ export default {
 };
 ```
 
-:::tip{title='why is the source code approach not recommended'}
+:::tip Why is the source code approach not recommended
 Not only is it impossible to verify that the component product is correct using the component source code, **but also some of the configurations supported by the module project for building the product cannot be fully translated into Storybook internal configuration**. If some of the configurations cannot be converted to each other, there will be unintended results during Storybook debugging.
 
 Module Tools is based on esbuild, while Storybook is based on Webpack, and esbuild's configuration is not fully compatible with Webpack.
