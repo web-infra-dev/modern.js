@@ -2507,6 +2507,7 @@ importers:
   packages/runtime/plugin-testing:
     specifiers:
       '@babel/core': ^7.18.0
+      '@babel/plugin-proposal-decorators': ^7.18.0
       '@babel/preset-env': ^7.18.0
       '@jest/types': ^29.5.0
       '@modern-js-reduck/plugin-auto-actions': ^1.0.2
@@ -2546,6 +2547,7 @@ importers:
       yargs: ^17.0.1
     dependencies:
       '@babel/core': 7.20.5
+      '@babel/plugin-proposal-decorators': 7.18.2_@babel+core@7.20.5
       '@babel/preset-env': 7.20.2_@babel+core@7.20.5
       '@jest/types': 29.5.0
       '@modern-js-reduck/plugin-auto-actions': 1.1.6_ey2tb66lspd63dpe7kr4h74444
@@ -6274,7 +6276,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/types': 7.20.5
-    dev: true
 
   /@babel/helper-annotate-as-pure/7.18.6:
     resolution: {integrity: sha512-duORpUiYrEpzKIop6iNbjnwKLAKnJ47csTyRACyEmWj0QdUrm5aqNJGHSSEQSUAvNW0ojX0dOmK9dZduvkfeXA==}
@@ -6354,7 +6355,6 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@babel/helper-create-class-features-plugin/7.18.6:
     resolution: {integrity: sha512-YfDzdnoxHGV8CzqHGyCbFvXg5QESPFkXlHtvdCkesLjjVMT2Adxe4FGUR5ChIb3DxSaXO12iIOCWoXdsUVwnqw==}
@@ -6839,7 +6839,6 @@ packages:
       charcodes: 0.2.0
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@babel/plugin-proposal-decorators/7.18.6_@babel+core@7.20.5:
     resolution: {integrity: sha512-gAdhsjaYmiZVxx5vTMiRfj31nB7LhwBJFMSLzeDxc7X4tKLixup0+k9ughn0RcpBrv9E3PBaXJW7jF5TCihAOg==}
@@ -12759,7 +12758,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.5
       '@babel/plugin-proposal-class-properties': 7.18.6_@babel+core@7.20.5
-      '@babel/plugin-proposal-decorators': 7.18.6_@babel+core@7.20.5
+      '@babel/plugin-proposal-decorators': 7.18.2_@babel+core@7.20.5
       '@babel/plugin-proposal-export-default-from': 7.18.6_@babel+core@7.20.5
       '@babel/plugin-proposal-nullish-coalescing-operator': 7.18.6_@babel+core@7.20.5
       '@babel/plugin-proposal-object-rest-spread': 7.20.2_@babel+core@7.20.5
@@ -17001,7 +17000,6 @@ packages:
   /charcodes/0.2.0:
     resolution: {integrity: sha512-Y4kiDb+AM4Ecy58YkuZrrSRJBDQdQ2L+NyS1vHHFtNtUjgutcZfx3yp1dAONI/oPaPmyGfCLx5CxL+zauIMyKQ==}
     engines: {node: '>=6'}
-    dev: true
 
   /chardet/0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}

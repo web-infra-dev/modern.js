@@ -10,6 +10,14 @@ const babelTransformer = (babelJest.createTransformer as any)?.({
       },
     ],
   ],
+  plugins: [
+    [
+      require.resolve('@babel/plugin-proposal-decorators'),
+      {
+        version: 'legacy',
+      },
+    ],
+  ],
   configFile: false,
   babelrc: false,
 });
