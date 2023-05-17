@@ -115,6 +115,7 @@ export const buildCommand = async (
 export type AppToolsOptions = {
   /** Specify the use what kind of bundler to compiler, default: `webpack` */
   bundler?: 'experimental-rspack' | 'webpack';
+  tempDir?: string;
 };
 
 export default (
@@ -154,6 +155,16 @@ export default (
     i18n.changeLanguage({ locale });
 
     return {
+      async afterInit() {
+        const { tempDir } = options;
+        const appContext = api.useAppContext();
+        if (tempDir) {
+          api.setAppContext({
+            ...appContext,
+            internalDirectory: path.resolve(appContext.appDirectory, tempDir),
+          });
+        }
+      },
       async commands({ program }) {
         await devCommand(program, api);
 

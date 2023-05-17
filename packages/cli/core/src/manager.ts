@@ -16,6 +16,7 @@ import {
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const baseHooks: BaseHooks<{}> = {
+  afterInit: createAsyncWorkflow(),
   config: createParallelWorkflow(),
   resolvedConfig: createAsyncWaterfall(),
   validateSchema: createParallelWorkflow(),
