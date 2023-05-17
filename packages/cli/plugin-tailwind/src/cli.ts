@@ -30,6 +30,30 @@ export const getRandomTwConfigFileName = (internalDirectory: string) => {
   );
 };
 
+function getDefaultContent(appDirectory: string) {
+  const defaultContent = [
+    './src/**/*.js',
+    './src/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+  ];
+
+  // Only add storybook and html config when they exist
+  // Otherwise, it will cause an unnecessary rebuild
+  if (fs.existsSync(path.join(appDirectory, 'storybook'))) {
+    defaultContent.push('./storybook/**/*');
+  }
+  if (fs.existsSync(path.join(appDirectory, 'config/html'))) {
+    defaultContent.push(
+      './config/html/**/*.html',
+      './config/html/**/*.ejs',
+      './config/html/**/*.hbs',
+    );
+  }
+
+  return defaultContent;
+}
+
 export default (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
@@ -50,18 +74,7 @@ export default (
     const haveTwinMacro = await checkTwinMacroExist(appDirectory);
     const tailwindPath = getTailwindPath(appDirectory);
     const tailwindVersion = getTailwindVersion(appDirectory);
-
-    const defaultContent = [
-      './config/html/**/*.html',
-      './config/html/**/*.ejs',
-      './config/html/**/*.hbs',
-      './src/**/*.js',
-      './src/**/*.jsx',
-      './src/**/*.ts',
-      './src/**/*.tsx',
-      // about storybook
-      './storybook/**/*',
-    ];
+    const defaultContent = getDefaultContent(appDirectory);
 
     return {
       prepare() {
