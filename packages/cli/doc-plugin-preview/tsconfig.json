@@ -16,6 +16,6 @@
       "@theme": ["./theme-default/index.ts"]
     }
   },
-  "include": ["src", "vitest.config.ts", "index.d.ts", "mdx-meta.cjs"],
+  "include": ["src", "vitest.config.ts", "index.d.ts", "mdx-meta-loader.cjs"],
   "exclude": ["runtime.d.ts", "theme.d.ts", "node_modules", "dist"]
 }

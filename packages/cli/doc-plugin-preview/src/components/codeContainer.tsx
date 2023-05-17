@@ -5,7 +5,6 @@ import '@arco-design/web-react/es/Button/style';
 import '@arco-design/web-react/es/Tooltip/style';
 import '@arco-design/web-react/es/Card/style';
 
-import './index.scss';
 import { normalizeRoutePath, useDark } from '@modern-js/doc-core/runtime';
 import { locales } from '../locales';
 

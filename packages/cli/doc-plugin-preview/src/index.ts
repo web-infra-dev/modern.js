@@ -1,5 +1,5 @@
-import path, { join } from 'path';
-import { sync } from '@modern-js/utils/globby';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { DocPlugin } from '@modern-js/doc-core';
 import { RspackVirtualModulePlugin } from 'rspack-plugin-virtual-module';
 import { remarkCodeToDemo } from './codeToDemo';
@@ -17,27 +17,14 @@ export type Options = {
  */
 export function pluginPreview(options?: Options): DocPlugin {
   const isMobile = options?.isMobile ?? true;
-  const cwd = process.cwd();
   const DemoComponentPath = path.join(__dirname, '..', 'dist/demo.js');
   const demoRuntimeModule = new RspackVirtualModulePlugin({});
   return {
     name: '@modern-js/doc-plugin-preview',
-    addPages() {
-      return [
-        {
-          routePath: '/~demo/:id',
-          content: `
-            ---
-            pageType: custom
-            ---
-            import Demo from '${DemoComponentPath}'
-            <Demo />
-          `,
-        },
-      ];
-    },
-    async beforeBuild(config) {
-      const files = sync('**/*.mdx', { cwd: config.root, onlyFiles: true });
+    addPages(_config, routes) {
+      const files = routes
+        .map(route => route.absolutePath)
+        .filter(item => item.endsWith('.mdx'));
       /**
        * expect the meta of each demo file is like this:
        * {
@@ -51,19 +38,29 @@ export function pluginPreview(options?: Options): DocPlugin {
       const virtualMeta = `
         ${files
           .map((filepath, index) => {
-            return `import * as Route${index} from '${filepath}?meta';`;
+            return `import Route${index} from '${filepath}?meta';`;
           })
           .join('\n')}
-        export const demos = ${files.map((_, index) => `Route${index}`).flat()};
+        export const demos = [${files
+          .map((_, index) => `Route${index}`)
+          .flat()
+          .join(',')}];
         `;
-      const virtualMetaPath = join(
-        cwd,
-        'node_modules',
-        '.modern-doc',
-        'client-runtime',
-        'virtual-meta.js',
-      );
-      demoRuntimeModule.writeModule(virtualMetaPath, virtualMeta);
+      demoRuntimeModule.writeModule('virtual-meta', virtualMeta);
+
+      return [
+        {
+          routePath: '/~demo/:id',
+          content: `---
+pageType: custom
+---
+
+import Demo from '${DemoComponentPath}'
+
+<Demo />
+          `,
+        },
+      ];
     },
     builderConfig: {
       tools: {
@@ -71,11 +68,13 @@ export function pluginPreview(options?: Options): DocPlugin {
           plugins: [demoRuntimeModule],
         },
         bundlerChain(chain) {
+          const dirname = path.dirname(fileURLToPath(new URL(import.meta.url)));
           chain.module
             .rule('MDX')
-            .enforce('pre')
-            .test(/\.mdx\?meta/)
+            .test(/\.mdx/)
+            .resourceQuery(/meta/)
             .use('mdx-meta-loader')
+            .loader(path.join(dirname, '../mdx-meta-loader.cjs'))
             .end();
 
           chain.resolve.extensions.prepend('.md').prepend('.mdx');

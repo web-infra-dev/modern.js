@@ -4,7 +4,7 @@ export default {
   buildConfig: [
     {
       buildType: 'bundle',
-      format: 'cjs',
+      format: 'esm',
       sourceMap: true,
     },
     {
@@ -17,7 +17,7 @@ export default {
         preview: './src/components/preview.tsx',
         demo: './src/components/demo.tsx',
       },
-      externals: ['virtual-meta'],
+      externals: ['virtual-meta', '@modern-js/doc-core/runtime'],
       style: {
         inject: true,
       },
