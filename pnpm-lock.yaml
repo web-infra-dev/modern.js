@@ -4444,18 +4444,6 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
-  tests/integration/css-modules/fixtures/basic-module:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
   tests/integration/css-modules/fixtures/composes-basic:
     specifiers:
       '@modern-js/app-tools': workspace:*
@@ -4481,18 +4469,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
 
   tests/integration/css-modules/fixtures/dev-module:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
-  tests/integration/css-modules/fixtures/diff-suffix-module:
     specifiers:
       '@modern-js/app-tools': workspace:*
       '@modern-js/runtime': workspace:*
@@ -4578,18 +4554,6 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
-  tests/integration/css/fixtures/css-ts-declaration:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
   tests/integration/css/fixtures/disable-source-map:
     specifiers:
       '@modern-js/app-tools': workspace:*
@@ -4627,30 +4591,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
 
   tests/integration/css/fixtures/import-common-css:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
-  tests/integration/css/fixtures/inline-css-url:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
-  tests/integration/css/fixtures/keep-css-url:
     specifiers:
       '@modern-js/app-tools': workspace:*
       '@modern-js/runtime': workspace:*
@@ -4748,43 +4688,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
 
   tests/integration/css/fixtures/npm-import:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
-  tests/integration/css/fixtures/single-css:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
-  tests/integration/css/fixtures/single-less:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-
-  tests/integration/css/fixtures/single-sass:
     specifiers:
       '@modern-js/app-tools': workspace:*
       '@modern-js/runtime': workspace:*
@@ -5192,60 +5095,6 @@ importers:
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       typescript: 4.9.3
-
-  tests/integration/inline-assets/fixtures/always-inline:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
-  tests/integration/inline-assets/fixtures/always-url:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
-  tests/integration/inline-assets/fixtures/assets-in-css:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      antd: ^4.18.5
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      antd: 4.21.4_biqbaboplfbrettd7655fr4n2y
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
-
-  tests/integration/inline-assets/fixtures/inline-limit:
-    specifiers:
-      '@modern-js/app-tools': workspace:*
-      '@modern-js/runtime': workspace:*
-      react: ^18
-      react-dom: ^18
-    dependencies:
-      '@modern-js/runtime': link:../../../../../packages/runtime/plugin-runtime
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    devDependencies:
-      '@modern-js/app-tools': link:../../../../../packages/solutions/app-tools
 
   tests/integration/load-config:
     specifiers:
