@@ -1,5 +1,16 @@
 # @modern-js/server-plugin
 
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/utils@2.20.0
+  - @modern-js/plugin@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes
