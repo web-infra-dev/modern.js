@@ -1,4 +1,4 @@
-- **类型：** `Object` | `Function` | `undefined`
+- **类型：** `Object | Function | undefined`
 - **默认值：** `undefined`
 - **打包工具：** `仅支持 webpack`
 
@@ -8,7 +8,9 @@
 
 ### Object 类型
 
-你可以配置为一个对象，这个对象将会和原始的 webpack 配置通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 进行合并。比如：
+`tools.webpack` 可以配置为一个对象，这个对象将会和内置的 webpack 配置通过 [webpack-merge](https://github.com/survivejs/webpack-merge) 进行深层合并。
+
+比如添加 `resolve.alias` 配置：
 
 ```js
 export default {
@@ -26,7 +28,7 @@ export default {
 
 ### Function 类型
 
-你也可以配置为一个函数，这个函数接收一个参数，即原始的 webpack 配置，你可以对这个配置进行修改，然后返回一个新的配置。比如：
+`tools.webpack` 也可以配置为一个函数，这个函数的第一个入参为内置的 webpack 配置对象，你可以对这个对象进行修改，然后返回一份新的配置。比如：
 
 ```js
 export default {
@@ -39,9 +41,13 @@ export default {
 };
 ```
 
-这个函数的第二个参数是一个对象，包含了一些工具集合的信息。详情如下：
+:::tip
+`tools.webpack` 函数返回的对象会直接作为最终使用的 webpack 配置，不会再与内置的 webpack 配置进行合并。
+:::
 
 ### 工具集合
+
+这个函数的第二个参数是一个对象，包含了一些工具函数和属性，详情如下：
 
 #### env
 
@@ -155,7 +161,7 @@ export default {
 };
 ```
 
-### HtmlWebpackPlugin
+#### HtmlWebpackPlugin
 
 - **类型：** `typeof import('html-webpack-plugin')`
 
@@ -171,7 +177,7 @@ export default {
 };
 ```
 
-### addRules
+#### addRules
 
 - **类型：** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
@@ -205,7 +211,7 @@ export default {
 };
 ```
 
-### prependPlugins
+#### prependPlugins
 
 - **类型：** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
 
@@ -229,7 +235,7 @@ export default {
 };
 ```
 
-### appendPlugins
+#### appendPlugins
 
 - **类型：** `(plugins: WebpackPluginInstance | WebpackPluginInstance[]) => void`
 
@@ -253,7 +259,7 @@ export default {
 };
 ```
 
-### removePlugin
+#### removePlugin
 
 - **类型：** `(name: string) => void`
 
@@ -271,7 +277,7 @@ export default {
 };
 ```
 
-### mergeConfig
+#### mergeConfig
 
 - **类型：** `(...configs: WebpackConfig[]) => WebpackConfig`
 
@@ -289,7 +295,7 @@ export default {
 };
 ```
 
-### getCompiledPath
+#### getCompiledPath
 
 - **类型：** `(name: string) => string`
 

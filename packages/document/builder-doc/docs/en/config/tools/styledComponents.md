@@ -1,5 +1,5 @@
 - **Type:** `Object | Function`
-- **Default**
+- **Default:**
 
 ```js
 {
