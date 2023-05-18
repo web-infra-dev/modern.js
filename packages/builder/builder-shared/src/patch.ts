@@ -1,5 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import path from 'path';
 import { pathToFileURL } from 'url';
 

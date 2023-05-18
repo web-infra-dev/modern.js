@@ -2,6 +2,8 @@ import {
   isUseCssSourceMap,
   SASS_REGEX,
   getSassLoaderOptions,
+  patchGlobalLocation,
+  unpatchGlobalLocation,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
@@ -9,9 +11,6 @@ export function builderPluginSass(): BuilderPlugin {
   return {
     name: 'builder-plugin-sass',
     async setup(api) {
-      const { patchGlobalLocation, unpatchGlobalLocation } = await import(
-        '@modern-js/utils'
-      );
       patchGlobalLocation();
       api.onAfterBuild(unpatchGlobalLocation);
 

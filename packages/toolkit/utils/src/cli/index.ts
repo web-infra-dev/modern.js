@@ -21,4 +21,3 @@ export * from './routes';
 export * from './runtimeExports';
 export * from './test';
 export * from './watch';
-export * from './patch';
