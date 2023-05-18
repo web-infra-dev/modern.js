@@ -59,7 +59,6 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
         <div
           style={{
             overflow: 'auto',
-            marginRight: '44px',
           }}
         >
           {props.children[0]}

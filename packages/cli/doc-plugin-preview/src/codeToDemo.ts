@@ -1,4 +1,4 @@
-import { basename, join } from 'path';
+import { basename, join, extname } from 'path';
 import type { Plugin } from 'unified';
 import type { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
@@ -37,7 +37,9 @@ export const remarkCodeToDemo: Plugin<[{ isMobile: boolean }], Root> = ({
           return;
         }
         // FIXME: fix id when support i18n
-        const id = `${basename(vfile.path)}${index++}`;
+        const filename = basename(vfile.path);
+        const ext = extname(filename);
+        const id = `${filename.replace(ext, '')}_${index++}`;
         Object.assign(node, {
           type: 'mdxJsxFlowElement',
           name: 'CodeContainer',
@@ -46,10 +48,13 @@ export const remarkCodeToDemo: Plugin<[{ isMobile: boolean }], Root> = ({
             {
               type: 'mdxJsxFlowElement',
               name: `Preview`,
-              attributes: {
-                name: 'url',
-                value: `/~demo/${id}`,
-              },
+              attributes: [
+                {
+                  type: 'mdxJsxAttribute',
+                  name: 'url',
+                  value: `/~demo/${id}`,
+                },
+              ],
             },
             {
               // if lang not change, this node will be visited again and again
@@ -60,6 +65,7 @@ export const remarkCodeToDemo: Plugin<[{ isMobile: boolean }], Root> = ({
         });
       }
     });
+    tree.children.unshift(...demos);
   };
 };
 

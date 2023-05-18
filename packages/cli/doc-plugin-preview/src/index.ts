@@ -22,9 +22,7 @@ export function pluginPreview(options?: Options): DocPlugin {
   return {
     name: '@modern-js/doc-plugin-preview',
     addPages(_config, routes) {
-      const files = routes
-        .map(route => route.absolutePath)
-        .filter(item => item.endsWith('.mdx'));
+      const files = routes.map(route => route.absolutePath);
       /**
        * expect the meta of each demo file is like this:
        * {
@@ -51,13 +49,13 @@ export function pluginPreview(options?: Options): DocPlugin {
       return [
         {
           routePath: '/~demo/:id',
-          content: `---
-pageType: custom
----
-
+          content: `
 import Demo from '${DemoComponentPath}'
 
 <Demo />
+
+export const pageType = "blank";
+
           `,
         },
       ];
@@ -71,7 +69,8 @@ import Demo from '${DemoComponentPath}'
           const dirname = path.dirname(fileURLToPath(new URL(import.meta.url)));
           chain.module
             .rule('MDX')
-            .test(/\.mdx/)
+            .oneOf('MDXMeta')
+            .before('MDXCompile')
             .resourceQuery(/meta/)
             .use('mdx-meta-loader')
             .loader(path.join(dirname, '../mdx-meta-loader.cjs'))

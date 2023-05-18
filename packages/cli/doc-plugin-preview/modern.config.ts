@@ -17,7 +17,13 @@ export default {
         preview: './src/components/preview.tsx',
         demo: './src/components/demo.tsx',
       },
-      externals: ['virtual-meta', '@modern-js/doc-core/runtime'],
+      externals: [
+        'virtual-meta',
+        '@modern-js/doc-core/runtime',
+        'react',
+        'react-dom',
+        'react-router-dom',
+      ],
       style: {
         inject: true,
       },

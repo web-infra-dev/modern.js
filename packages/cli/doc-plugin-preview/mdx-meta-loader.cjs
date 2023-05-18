@@ -1,4 +1,4 @@
-const { join, basename } = require('path');
+const { join, basename, extname } = require('path');
 
 module.exports = async function (source) {
   const callback = this.async();
@@ -13,7 +13,9 @@ module.exports = async function (source) {
     visit(ast, 'code', node => {
       if (node.lang === 'jsx' || node.lang === 'tsx') {
         const { value } = node;
-        const base = basename(this.resourcePath, '.mdx');
+        const filename = basename(this.resourcePath);
+        const ext = extname(filename);
+        const base = filename.replace(ext, '');
         // FIXME: fix id when support i18n
         const id = `${base}_${index}`;
         const demoDir = join(

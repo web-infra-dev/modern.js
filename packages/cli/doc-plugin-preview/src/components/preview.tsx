@@ -6,7 +6,7 @@ export default (props: IPriviewProps) => {
   return (
     <iframe
       src={props.url}
-      style={{ width: '375px', height: '750px' }}
+      style={{ width: '375px', height: '600px' }}
     ></iframe>
   );
 };

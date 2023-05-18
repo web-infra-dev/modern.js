@@ -1,13 +1,16 @@
-import meta from 'virtual-meta';
+import { demos } from 'virtual-meta';
 import { createElement } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from '@modern-js/doc-core/runtime';
 
 // 渲染出 Demo 组件
-export function Demo() {
+export default function Demo() {
   // 获取路由参数
-  const { id } = useParams();
+  const { pathname } = useLocation();
+  // Get the id from the pathname
+  const id = pathname.split('/').pop();
+  // console.log(params, demos);
   // 根据 id 获取 Demo 组件
-  const result = meta.demos.find(item => item.id === id);
+  const result = demos.flat().find(item => item.id === id);
   if (result) {
     return createElement(result.component);
   } else {

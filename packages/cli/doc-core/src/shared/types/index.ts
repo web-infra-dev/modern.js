@@ -208,7 +208,7 @@ export interface PageModule<T extends ComponentType<unknown>> {
   [key: string]: unknown;
 }
 
-export type PageType = 'home' | 'doc' | 'custom' | '404';
+export type PageType = 'home' | 'doc' | 'custom' | '404' | 'blank';
 
 export interface FrontMatterMeta {
   title?: string;
