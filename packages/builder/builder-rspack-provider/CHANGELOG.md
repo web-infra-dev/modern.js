@@ -1,5 +1,22 @@
 # @modern-js/builder-rspack-provider
 
+## 2.20.0
+
+### Patch Changes
+
+- f0ef868: feat(rspack-provider): update rspack to 0.1.11
+
+  feat(rspack-provider): 升级 rspack 相关依赖到 0.1.11
+
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [5f055ab]
+  - @modern-js/builder-shared@2.20.0
+  - @modern-js/utils@2.20.0
+  - @modern-js/server@2.20.0
+  - @modern-js/types@2.20.0
+  - @modern-js/e2e@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes

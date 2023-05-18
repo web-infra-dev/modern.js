@@ -1,5 +1,19 @@
 # @modern-js/plugin-module-doc
 
+## 2.20.0
+
+### Patch Changes
+
+- 2c3f566: chore: add root and ensure vm path
+  chore: 添加 root 和确认虚拟模块路径
+- Updated dependencies [09c7af6]
+- Updated dependencies [0ce52ad]
+- Updated dependencies [d714326]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [6b9d90a]
+  - @modern-js/doc-core@2.20.0
+  - @modern-js/module-tools@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes

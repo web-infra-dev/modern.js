@@ -1,5 +1,7 @@
 # @scripts/lint-package-json
 
+## 2.20.0
+
 ## 2.19.1
 
 ## 2.19.0

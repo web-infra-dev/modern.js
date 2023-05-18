@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 2.20.0
+
+### Patch Changes
+
+- 4b03d17: feat: 添加 output.tempDir 配置，支持单项目多配置同时启动
+  feat: add output.tempDir configuration, supports launching project with multiple config at the same time
+- 6289d31: fix: remove duplicate addRuntimeExports hook in @modern-js/core
+  fix: 删除 @modern-js/core 中重复的 addRuntimeExports hook
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/utils@2.20.0
+  - @modern-js/node-bundle-require@2.20.0
+  - @modern-js/plugin@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes
