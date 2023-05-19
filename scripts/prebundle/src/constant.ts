@@ -247,6 +247,10 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
+        name: 'babel-loader',
+        ignoreDts: true,
+      },
+      {
         name: 'loader-utils2',
         ignoreDts: true,
         externals: {
@@ -328,10 +332,6 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'schema-utils3',
-        ignoreDts: true,
-      },
-      {
-        name: 'babel-loader',
         ignoreDts: true,
       },
       {

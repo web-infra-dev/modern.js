@@ -96,7 +96,6 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
-    "@babel/core": "^7.21.8",
     "acorn": "^8.8.1",
     "caniuse-lite": "^1.0.30001451",
     "cheerio": "1.0.0-rc.12",

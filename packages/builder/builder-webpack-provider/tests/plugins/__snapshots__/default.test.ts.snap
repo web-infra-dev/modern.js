@@ -489,7 +489,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -609,7 +609,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -1355,7 +1355,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -1481,7 +1481,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -2170,7 +2170,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -2294,7 +2294,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -2903,7 +2903,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -3029,7 +3029,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
