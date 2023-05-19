@@ -90,24 +90,26 @@
     }
   },
   "dependencies": {
+    "@babel/types": "^7.21.5",
+    "@babel/parser": "^7.21.8",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@babel/core": "7.18.0",
+    "@babel/core": "^7.21.8",
     "webpack-sources": "^3.2.3",
     "zod": "^3.20.2",
     "zod-validation-error": "^0.3.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.18.0",
+    "@babel/preset-env": "^7.21.5",
     "@scripts/vitest-config": "workspace:*",
-    "@types/babel__core": "^7.1.19",
-    "@types/babel__preset-env": "^7.9.2",
+    "@types/babel__core": "^7.20.0",
     "@types/node": "^14",
     "html-webpack-plugin": "5.5.0",
     "terser": "^5.14.1",
     "typescript": "^4",
-    "webpack": "^5.82.1"
+    "webpack": "^5.82.1",
+    "@rspack/core": "0.0.0-canary-22b006c-20230517164249"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

@@ -7,6 +7,7 @@ export default {
   buildConfig: {
     buildType: 'bundle',
     format: 'esm',
+    dts: false,
     sourceMap: true,
   },
 };

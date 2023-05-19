@@ -68,7 +68,7 @@
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.0",
+    "@babel/core": "^7.21.8",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",

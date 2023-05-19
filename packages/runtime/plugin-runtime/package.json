@@ -88,6 +88,11 @@
       "jsnext:source": "./src/router/runtime/server.ts",
       "types": "./dist/types/router/runtime/server.d.ts",
       "default": "./dist/esm/router/runtime/server.js"
+    },
+    "./loadable-bundler-plugin": {
+      "jsnext:source": "./src/ssr/cli/loadable-bundler-plugin.ts",
+      "types": "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts",
+      "default": "./dist/cjs/ssr/cli/loadable-bundler-plugin.js"
     }
   },
   "typesVersions": {
@@ -130,6 +135,9 @@
       ],
       "router/server": [
         "./dist/types/router/runtime/server.d.ts"
+      ],
+      "loadable-bundler-plugin": [
+        "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts"
       ]
     }
   },
@@ -141,8 +149,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/types": "^7.18.0",
+    "@babel/core": "^7.21.8",
+    "@babel/types": "^7.21.5",
     "cookie": "0.5.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/component": "^5.15.0",

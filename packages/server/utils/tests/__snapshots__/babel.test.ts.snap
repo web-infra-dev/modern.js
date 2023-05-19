@@ -28,7 +28,7 @@ exports[`babel resolveBabelConfig 1`] = `
         "helpers": false,
         "regenerator": true,
         "useESModules": false,
-        "version": "7.18.6",
+        "version": "7.21.5",
       },
     ],
     [

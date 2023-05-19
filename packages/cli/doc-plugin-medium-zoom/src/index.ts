@@ -1,5 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
+// TODO: Add @modern-js/doc-shared to provide types
 import type { DocPlugin } from '../../doc-core';
 
 /**
