@@ -20,9 +20,11 @@ declare global {
 
 /** fix issue about dart2js: https://github.com/dart-lang/sdk/issues/27979 */
 export function patchGlobalLocation() {
-  const href = pathToFileURL(process.cwd()).href + path.sep;
-  const location = Object.freeze({ [GLOBAL_PATCHED_SYMBOL]: true, href });
-  global.location ||= location as unknown as Location;
+  if (!global.location) {
+    const href = pathToFileURL(process.cwd()).href + path.sep;
+    const location = Object.freeze({ [GLOBAL_PATCHED_SYMBOL]: true, href });
+    global.location = location as unknown as Location;
+  }
   assert(typeof global.location.href === 'string');
 }
 
