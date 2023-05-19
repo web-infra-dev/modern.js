@@ -37,6 +37,7 @@ function renderToPipe(
       const readableOriginal: ReactDOMServerReadableStream =
         await renderToReadableStream(rootElement, {
           ...options,
+          nonce: ssrContext?.nonce,
           onError(error: unknown) {
             ssrContext!.logger.error(
               'An error occurs during streaming SSR',

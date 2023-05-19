@@ -13,10 +13,12 @@ export const createRenderHandler = ({
   distDir,
   staticGenerate,
   forceCSR,
+  nonce,
 }: {
   distDir: string;
   staticGenerate: boolean;
   forceCSR?: boolean;
+  nonce?: string;
 }) =>
   async function render({
     ctx,
@@ -63,6 +65,7 @@ export const createRenderHandler = ({
             bundle: route.bundle,
             template: content.toString(),
             staticGenerate,
+            nonce,
           },
           runner,
         );

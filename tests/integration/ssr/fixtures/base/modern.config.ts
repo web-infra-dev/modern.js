@@ -9,6 +9,9 @@ export default defineConfig({
   server: {
     ssr: true,
   },
+  security: {
+    nonce: 'test-nonce',
+  },
   plugins: [
     appTools({
       bundler: bundler === 'rspack' ? 'experimental-rspack' : 'webpack',

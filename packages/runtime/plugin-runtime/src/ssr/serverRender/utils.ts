@@ -25,3 +25,9 @@ export function getLoadableScripts(extractor: ChunkExtractor) {
       .join('')
   );
 }
+export function attributesToString(attributes: Record<string, any>) {
+  // 遍历属性并转化为字符串，只包含非 undefined 的属性
+  return Object.entries(attributes).reduce((str, [key, value]) => {
+    return value === undefined ? str : `${str} ${key}="${value}"`;
+  }, '');
+}

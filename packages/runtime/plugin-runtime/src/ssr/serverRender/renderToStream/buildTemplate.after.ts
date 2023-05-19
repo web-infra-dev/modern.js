@@ -1,5 +1,6 @@
 import { serializeJson } from '@modern-js/utils/runtime-node';
 import { RenderLevel, RuntimeContext } from '../types';
+import { attributesToString } from '../utils';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
 
 type BuildShellAfterTemplateOptions = {
@@ -22,7 +23,7 @@ export function buildShellAfterTemplate(
         context: { ssrContext, initialData, __i18nData__ },
         renderLevel,
       } = options;
-      const { request, enableUnsafeCtx } = ssrContext!;
+      const { request, enableUnsafeCtx, nonce } = ssrContext!;
       const unsafeContext = {
         headers: request.headers,
       };
@@ -43,8 +44,10 @@ export function buildShellAfterTemplate(
         },
         renderLevel,
       };
+      const attrsStr = attributesToString({ nonce });
+
       return `
-      <script>window._SSR_DATA = ${serializeJson(SSRData)}</script>
+      <script${attrsStr}>window._SSR_DATA = ${serializeJson(SSRData)}</script>
       `;
     }
   }

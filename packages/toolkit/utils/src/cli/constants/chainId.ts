@@ -130,6 +130,8 @@ export const CHAIN_ID = {
     BOTTOM_TEMPLATE: 'bottom-template',
     /** HtmlCrossOriginPlugin */
     HTML_CROSS_ORIGIN: 'html-cross-origin',
+    /** HtmlNoncePlugin */
+    HTML_NONCE: 'html-nonce',
     /** MiniCssExtractPlugin */
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** ReactFastRefreshPlugin */
