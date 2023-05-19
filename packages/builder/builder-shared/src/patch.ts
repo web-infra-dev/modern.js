@@ -1,4 +1,3 @@
-import assert from 'assert';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import type {
@@ -25,7 +24,6 @@ export function patchGlobalLocation() {
     const location = Object.freeze({ [GLOBAL_PATCHED_SYMBOL]: true, href });
     global.location = location as unknown as Location;
   }
-  assert(typeof global.location.href === 'string');
 }
 
 export function unpatchGlobalLocation() {
