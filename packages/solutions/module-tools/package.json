@@ -49,6 +49,10 @@
     "debug-mode": "node ./scripts/debug-mode.js"
   },
   "dependencies": {
+    "@babel/parser": "^7.21.8",
+    "@babel/generator": "^7.21.5",
+    "@babel/types": "^7.21.5",
+    "@babel/traverse": "^7.21.5",
     "@modern-js/core": "workspace:*",
     "@modern-js/libuild": "0.12.2",
     "@modern-js/libuild-plugin-svgr": "0.12.2",
@@ -68,6 +72,8 @@
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@types/babel__generator": "7.6.4",
+    "@types/babel__traverse": "7.18.5",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "^29",
     "@types/node": "^14",

@@ -149,8 +149,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/types": "^7.18.0",
+    "@babel/core": "^7.21.8",
+    "@babel/types": "^7.21.5",
     "cookie": "0.5.0",
     "@loadable/babel-plugin": "^5.13.2",
     "@loadable/component": "^5.15.0",

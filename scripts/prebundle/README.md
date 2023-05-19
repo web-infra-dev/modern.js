@@ -152,3 +152,12 @@ dependencies: [
   },
 ];
 ```
+
+## Note
+
+We will not prebundle the following packages because their dependencies are complex or are depended by many community packages:
+
+- @babel/xxx
+- webpack
+- lodash
+- caniuse-lite
