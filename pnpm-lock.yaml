@@ -121,7 +121,9 @@ importers:
   packages/builder/builder-shared:
     specifiers:
       '@babel/core': ^7.21.8
+      '@babel/parser': ^7.21.8
       '@babel/preset-env': ^7.21.5
+      '@babel/types': ^7.21.5
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -137,6 +139,8 @@ importers:
       zod-validation-error: ^0.3.0
     dependencies:
       '@babel/core': 7.21.8
+      '@babel/parser': 7.21.8
+      '@babel/types': 7.21.5
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils

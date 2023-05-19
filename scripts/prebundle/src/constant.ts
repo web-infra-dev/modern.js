@@ -289,25 +289,10 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: '@babel/helper-validator-identifier',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/parser',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/types',
-        externals: {
-          '@babel/helper-validator-identifier':
-            '../helper-validator-identifier',
-        },
-      },
-      {
         name: 'pug',
         externals: {
-          '@babel/types': '../@babel/types',
-          '@babel/parser': '../@babel/parser',
+          '@babel/types': '@babel/types',
+          '@babel/parser': '@babel/parser',
         },
         afterBundle(task) {
           replaceFileContent(
@@ -346,21 +331,6 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'schema-utils3',
         ignoreDts: true,
-      },
-      {
-        name: '@babel/parser',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/helper-validator-identifier',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/types',
-        externals: {
-          '@babel/helper-validator-identifier':
-            '../helper-validator-identifier',
-        },
       },
       {
         name: 'babel-loader',
