@@ -2,7 +2,7 @@ import { UserConfig } from 'shared/types';
 import { removeLeadingSlash } from '../shared/utils';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
-import { modifyConfig, beforeBuild, afterBuild } from './hooks';
+import { modifyConfig, beforeBuild, afterBuild, loadPlugins } from './hooks';
 
 interface ServerInstance {
   close: () => Promise<void>;
@@ -14,7 +14,7 @@ export async function dev(
 ): Promise<ServerInstance> {
   const base = config.doc?.base ?? '';
   const isProd = false;
-
+  await loadPlugins(config);
   try {
     const modifiedConfig = await modifyConfig({
       config,

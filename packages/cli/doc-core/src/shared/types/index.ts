@@ -119,6 +119,14 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Search options
    */
   search?: SearchOptions;
+  /**
+   * Whether to enable medium-zoom, default is true
+   */
+  mediumZoom?:
+    | boolean
+    | {
+        selector?: string;
+      };
 }
 
 export type BaseRuntimePageInfo = Omit<
