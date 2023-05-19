@@ -11,6 +11,12 @@ export const cli = (): CliPlugin<ModuleTools> => ({
 });
 
 const setup: CliPlugin<ModuleTools>['setup'] = async api => {
+  const appContext = api.useAppContext();
+  api.setAppContext({
+    ...appContext,
+    toolsType: 'module-tools',
+  });
+
   const prepare = async () => {
     const { initLocalLanguage } = await import('./utils/language');
     await initLocalLanguage();
