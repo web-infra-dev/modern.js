@@ -1,7 +1,4 @@
 import path from 'path';
-// import type { NodePath } from '../../compiled/@babel/traverse';
-// import type * as tt from '../../compiled/@babel/types';
-// import t from '../../compiled/@babel/types';
 import type {
   ITsconfig,
   BundlelessGeneratorDtsConfig,

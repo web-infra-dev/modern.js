@@ -40,6 +40,9 @@
   },
   "dependencies": {
     "@babel/core": "^7.21.8",
+    "@babel/types": "^7.21.5",
+    "@babel/traverse": "^7.21.5",
+    "@babel/template": "^7.20.7",
     "@babel/plugin-transform-runtime": "^7.21.4",
     "@babel/plugin-transform-typescript": "^7.21.3",
     "@babel/preset-env": "^7.21.5",
