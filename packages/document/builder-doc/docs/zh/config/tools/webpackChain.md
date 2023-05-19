@@ -2,7 +2,7 @@
 - **默认值：** `undefined`
 - **打包工具：** `仅支持 webpack`
 
-你可以通过 `tools.webpackChain` 来修改默认的 webpack 配置，值为 `Function` 类型，接收两个参数：
+你可以通过 `tools.webpackChain` 来修改默认的 webpack 配置，它的值为 `Function` 类型，接收两个参数：
 
 - 第一个参数为 `webpack-chain` 对象实例，你可以通过这个实例来修改默认的 webpack 配置。
 - 第二个参数为一个工具集合，包括`env`、`isProd`、`CHAIN_ID` 等。

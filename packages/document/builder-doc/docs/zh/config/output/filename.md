@@ -1,4 +1,4 @@
-- **类型**
+- **类型：**
 
 ```ts
 type FilenameConfig = {
@@ -11,7 +11,7 @@ type FilenameConfig = {
 };
 ```
 
-- **默认值**
+- **默认值：**
 
 ```js
 // 开发环境
