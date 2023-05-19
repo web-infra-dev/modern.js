@@ -438,7 +438,7 @@ import type { CliPlugin } from '@modern-js/core';
 export default (): CliPlugin => ({
   setup(api) {
     return {
-      modifyEntryImports({ entrypoint, exportStatement }) {
+      modifyEntryExport({ entrypoint, exportStatement }) {
         return {
           entrypoint,
           exportStatement: [`export const foo = 'test'`, exportStatement].join(
