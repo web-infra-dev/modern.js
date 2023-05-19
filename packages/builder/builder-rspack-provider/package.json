@@ -55,7 +55,7 @@
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@babel/preset-typescript": "^7.17.12",
+    "@babel/preset-typescript": "^7.21.5",
     "@rspack/core": "0.0.0-canary-22b006c-20230517164249",
     "@rspack/dev-client": "0.0.0-canary-22b006c-20230517164249",
     "@rspack/dev-middleware": "0.0.0-canary-22b006c-20230517164249",
