@@ -515,6 +515,18 @@ export const TASKS: TaskConfig[] = [
           glob: '@modern-js/utils/glob',
           '@babel/helper-module-imports': '../@babel/helper-module-imports',
         },
+        // Fix the deprecated babel API
+        // https://github.com/lodash/babel-plugin-lodash/issues/259
+        // https://github.com/lodash/babel-plugin-lodash/pull/261
+        beforeBundle(task) {
+          const mainFile = join(task.depPath, 'lib/index.js');
+          replaceFileContent(mainFile, content => {
+            return content.replace(
+              '(0, _types.isModuleDeclaration)(node)',
+              '(0, _types.isImportDeclaration)(node) || (0, _types.isExportDeclaration)(node)',
+            );
+          });
+        },
       },
       {
         name: 'babel-plugin-styled-components',
