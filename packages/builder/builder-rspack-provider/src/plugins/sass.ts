@@ -2,13 +2,18 @@ import {
   isUseCssSourceMap,
   SASS_REGEX,
   getSassLoaderOptions,
+  patchCompilerGlobalLocation,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 export function builderPluginSass(): BuilderPlugin {
   return {
     name: 'builder-plugin-sass',
-    setup(api) {
+    async setup(api) {
+      api.onAfterCreateCompiler(({ compiler }) => {
+        patchCompilerGlobalLocation(compiler);
+      });
+
       api.modifyBundlerChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
         const { applyBaseCSSRule } = await import('./css');
