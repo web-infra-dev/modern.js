@@ -106,6 +106,28 @@ function App() {
 }
 ```
 
+### useRouteError
+
+```ts
+export declare function useRouteError(): unknown;
+```
+
+`useRouteError` 返回离 ErrorBoundary 定义最近的路由渲染错误信息。
+
+```tsx
+import { useRouteError } from '@modern-js/runtime/router';
+const ErrorBoundary = () => {
+  const error = useRouteError();
+  return (
+    <div>
+      <h1>{error.status}</h1>
+      <h2>{error.message}</h2>
+    </div>
+  );
+};
+export default ErrorBoundary;
+```
+
 ## 组件
 
 ### Link

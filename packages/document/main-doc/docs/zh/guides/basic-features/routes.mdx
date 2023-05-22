@@ -18,7 +18,7 @@ Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，�
 
 Modern.js 支持了业界流行的约定式路由模式：**嵌套路由**，使用嵌套路由时，页面的路由 与 UI 结构是相呼应的，我们将会详细介绍这种路由模式。
 
-```
+```bash
 /user/johnny/profile                  /user/johnny/posts
 +------------------+                  +-----------------+
 | User             |                  | User            |
@@ -154,7 +154,7 @@ export default () => {
 
 通过 `[]` 命名的文件目录，生成的路由会作为动态路由。例如以下文件目录：
 
-```
+```bash
 └── routes
     ├── [id]
     │   └── page.tsx
@@ -173,7 +173,7 @@ export default () => {
 
 通过 `[$]` 命名的文件目录，生成的路由会作为动态路由。例如以下文件目录：
 
-```
+```bash
 └── routes
     ├── user
     │   └── [id$]
@@ -199,7 +199,7 @@ export default () => {
 
 例如以下目录结构：
 
-```
+```bash
 └── routes
     ├── $.tsx
     ├── blog
@@ -222,7 +222,7 @@ params['*']; // => 'aaa/bbb'
 
 当目录名以 \_\_ 开头时，对应的目录名不会转换为实际的路由路径，例如以下文件目录：
 
-```
+```bash
 .
 └── routes
     ├── __auth
@@ -245,7 +245,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 因此 Modern.js 支持了通过 `.` 来分割路由片段，代替文件目录。例如，当需要 `/user/profile/2022/edit` 时，可以直接创建如下文件：
 
-```
+```bash
 └── routes
     ├── user.profile.[id].edit
     │      └── page.tsx
@@ -281,7 +281,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 
 当定义 `loading.tsx` 时，就相当于以下布局：
 
-```tsx title="当路由为 / 时"
+```tsx title=当路由为"/"时
 <Layout>
   <Suspense fallback={<Loading />}>
     <Page />
@@ -289,7 +289,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 </Layout>
 ```
 
-```tsx title="当路由为 /blog 时"
+```tsx title=当路由为"/blog"时
 <Layout>
   <Suspense fallback={<Loading />}>
     <BlogPage />
@@ -297,7 +297,7 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 </Layout>
 ```
 
-```tsx title="当路由为 /blog/123 时"
+```tsx title=当路由为"/blog/123"时
 <Layout>
   <Suspense fallback={<Loading />}>
     <BlogIdPage />
@@ -306,8 +306,8 @@ Modern.js 会生成 `/login` 和 `/sign` 两条路由，`__auth/layout.tsx` 组�
 ```
 
 :::info
-当目录的 layout 组件不存在时，该目录下的 loading 组件也不会生效。
-Modern.js 建议必须有根 layout 和根 loading。
+当目录的 Layout 组件不存在时，该目录下的 Loading 组件也不会生效。
+Modern.js 建议必须有根 Layout 和根 Loading。
 
 :::
 
@@ -317,7 +317,7 @@ Modern.js 建议必须有根 layout 和根 loading。
 
 ### 路由重定向
 
-可以通过创建 [`data loader`](/guides/basic-features/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.loader.ts` 文件：
+可以通过创建 [`Data Loader`](/guides/basic-features/data-fetch) 文件做路由的重定向，如有文件 `routes/user/page.tsx`，想对这个文件对应的路由做重定向，可以创建 `routes/user/page.loader.ts` 文件：
 
 ```ts title="routes/user/page.loader.ts"
 import { redirect } from '@modern-js/runtime/router';
@@ -335,13 +335,13 @@ export default () => {
 
 `routes/` 下每一层目录中，开发者同样可以定义一个 `error.tsx` 文件，默认导出一个 `<ErrorBoundary>` 组件。
 
-当有路由目录下存在该组件时，组件渲染出错会被 ErrorBoundary 组件捕获。当目录未定义 `layout.tsx` 文件时，`<ErrorBoundary>` 组件不会生效。
+当有路由目录下存在该组件时，组件渲染出错会被 `ErrorBoundary` 组件捕获。当目录未定义 `layout.tsx` 文件时，`<ErrorBoundary>` 组件不会生效。
 
 `<ErrorBoundary>` 可以返回出错时的 UI 视图，当前层级未声明 `<ErrorBoundary>` 组件时，错误会向上冒泡到更上层的组件，直到被捕获或抛出错误。同时，当组件出错时，只会影响捕获到该错误的路由组件及子组件，其他组件的状态和视图不受影响，可以继续交互。
 
 {/* Todo API 路由 */}
 
-在 `<ErrorBoundary>` 组件内，可以使用 [useRouteError](/apis/app/runtime/router/router#useparams) 获取的错误的具体信息：
+在 `<ErrorBoundary>` 组件内，可以使用 [useRouteError](/apis/app/runtime/router/router#userouteerror) 获取的错误的具体信息：
 
 ```tsx
 import { useRouteError } from '@modern-js/runtime/router';
@@ -359,7 +359,7 @@ export default ErrorBoundary;
 
 ### 运行时配置
 
-在每个根 `Layout` 组件中(`routes/layout.ts`)，可以动态地定义应用运行时配置：
+在每个根 `Layout` 组件中(`routes/layout.ts`)，可以动态地定义运行时配置：
 
 ```tsx title="src/routes/layout.tsx"
 // 定义运行时配置
@@ -447,29 +447,29 @@ export const init = (context: RuntimeContext) => {
 ### 预加载
 
 在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片，当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
-这种情况下你可以通过定义 `loading` 组件，在静态资源加载完成前，展示一个自定义的 `loading` 组件。
+这种情况下你可以通过定义 `Loading` 组件，在静态资源加载完成前，展示一个自定义的 `Loading` 组件。
 
 为了进一步提升用户体验，减少 loading 的时间，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载， `prefetch` 属性有三个可选值：
 
-```
+```tsx
 <Link prefetch="intent" to="page">
 ```
 
 :::info
 - 该功能目前仅在 Webpack 项目中支持，Rspack 项目暂不支持。
-- 对数据的预加载目前只会预加载 SSR 项目中 [data loader](/guides/basic-features/data-fetch) 中返回的数据。
+- 对数据的预加载目前只会预加载 SSR 项目中 [Data Loader](/guides/basic-features/data-fetch) 中返回的数据。
 
 :::
 
 - `none`， 默认值，不会做 prefetch，没有任何额外的行为。
-- `intent`，这是我们推荐大多数场景下使用的值，当你把鼠标放在 Link 上时，会自动开始加载对应的分片和 data loader 中定义的数据，当鼠标移开时，会自动取消加载。在我们的测试中，即使是快速点击，也能减少大约 200ms 的加载时间。
-- `render`，当 Link 组件渲染时，就会加载对应的分片和 data loader 中定义的数据。
+- `intent`，这是我们推荐大多数场景下使用的值，当你把鼠标放在 Link 上时，会自动开始加载对应的分片和 Data Loader 中定义的数据，当鼠标移开时，会自动取消加载。在我们的测试中，即使是快速点击，也能减少大约 200ms 的加载时间。
+- `render`，当 Link 组件渲染时，就会加载对应的分片和 Data Loader 中定义的数据。
 
 #### 常见问题
 
 1. 使用 `render` 和不根据路由做静态资源分片的区别？
 
-- 使用 `render` 可以指定哪些路由在首屏时，进行加载，同时你可以通过对渲染的控制，仅当 Link 组件进入到可视区域时，才对 Link 组件进行渲染。
+- 使用 `render` 可以指定哪些路由在首屏时，进行加载，同时你可以通过对渲染的控制，仅当 `Link` 组件进入到可视区域时，才对 `Link` 组件进行渲染。
 - 使用 `render`，仅在空闲时对静态资源进行加载，不会与首屏静态资源抢占网络。
 - 在 SSR 场景下，也会对数据进行预取。
 
@@ -484,7 +484,7 @@ import Practice from '@site-docs/components/routes-practice'
 
 ## 自控式路由
 
-以 `src/App.tsx` 为约定的入口，Modern.js 不会多路由做额外的操作，开发者可以自行使用 React Router 6 的 API 进行开发，例如：
+以 `src/App.tsx` 为约定的入口，Modern.js 不会对路由做额外的操作，开发者可以自行使用 [React Router 6](https://reactrouter.com/en/main) 的 API 进行开发，例如：
 
 ```ts title="src/App.tsx"
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
