@@ -51,11 +51,11 @@
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@swc/core": "1.3.42",
-    "@types/babel__core": "^7.1.20",
+    "@types/babel__core": "^7.20.0",
     "antd": "4",
     "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
-    "typescript": "^4",
+    "typescript": "^5",
     "webpack": "^5.82.1",
     "react": "^18",
     "react-dom": "^18"

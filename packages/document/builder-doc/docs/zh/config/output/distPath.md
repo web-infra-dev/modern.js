@@ -1,4 +1,4 @@
-- **类型**
+- **类型：**
 
 ```ts
 type DistPathConfig = {
@@ -14,7 +14,7 @@ type DistPathConfig = {
 };
 ```
 
-- **默认值**
+- **默认值：**
 
 ```js
 const defaultDistPath = {

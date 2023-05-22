@@ -12,7 +12,7 @@ import {
 } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
-import { modifyConfig, beforeBuild, afterBuild } from './hooks';
+import { modifyConfig, beforeBuild, afterBuild, loadPlugins } from './hooks';
 import { logger } from './utils';
 import { APPEARANCE_KEY, normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
@@ -137,6 +137,8 @@ export async function renderPages(config: UserConfig) {
 
 export async function build(rootDir: string, config: UserConfig) {
   const isProd = true;
+  await loadPlugins(config);
+
   const modifiedConfig = await modifyConfig({
     config,
   });

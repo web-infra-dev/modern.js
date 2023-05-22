@@ -1,4 +1,4 @@
-- **Type**
+- **Type:**
 
 ```ts
 type FilenameConfig = {
@@ -11,7 +11,7 @@ type FilenameConfig = {
 };
 ```
 
-- **Default**
+- **Default:**
 
 ```js
 // Development
