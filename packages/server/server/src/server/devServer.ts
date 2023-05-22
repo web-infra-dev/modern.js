@@ -132,9 +132,12 @@ export class ModernDevServer extends ModernServer {
 
     // compression should be the first middleware
     if (dev.compress) {
-      const { default: compression } = await import('compression');
+      const { default: compression } = await import('http-compression');
       this.addHandler((ctx, next) => {
-        (compression() as RequestHandler)(ctx.req, ctx.res, next);
+        compression({
+          gzip: true,
+          brotli: false,
+        })(ctx.req, ctx.res, next);
       });
     }
 
