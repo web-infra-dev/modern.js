@@ -130,6 +130,19 @@ export class ModernDevServer extends ModernServer {
   private async applyDefaultMiddlewares(app: Server) {
     const { pwd, dev, devMiddleware } = this;
 
+    // compression should be the first middleware
+    if (dev.compress) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error http-compression does not provide a type definition
+      const { default: compression } = await import('http-compression');
+      this.addHandler((ctx, next) => {
+        compression({
+          gzip: true,
+          brotli: false,
+        })(ctx.req, ctx.res, next);
+      });
+    }
+
     this.addHandler((ctx: ModernServerContext, next: NextFunction) => {
       // allow hmr request cross-domain, because the user may use global proxy
       ctx.res.setHeader('Access-Control-Allow-Origin', '*');

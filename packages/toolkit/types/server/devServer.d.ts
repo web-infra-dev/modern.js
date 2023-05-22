@@ -24,6 +24,8 @@ export type DevServerOptions = {
     host?: string;
     protocol?: string;
   };
+  /** Whether to enable gzip compression */
+  compress?: boolean;
   devMiddleware?: {
     writeToDisk?: boolean | ((filename: string) => boolean);
     outputFileSystem?: Record<string, any>;

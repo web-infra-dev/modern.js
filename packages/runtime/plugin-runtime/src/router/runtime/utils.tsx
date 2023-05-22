@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, isRouteErrorResponse } from '@modern-js/utils/runtime/router';
 import {
   type NestedRoute,
   type PageRoute,
@@ -7,11 +7,10 @@ import {
 } from '@modern-js/types';
 import {
   ErrorResponse,
-  isRouteErrorResponse,
-  type Router,
   type StaticHandlerContext,
-  renderNestedRoute,
-} from '@modern-js/utils/runtime/router';
+  type Router,
+} from '@modern-js/utils/runtime/remix-router';
+import { renderNestedRoute } from '@modern-js/utils/runtime/nested-routes';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';
