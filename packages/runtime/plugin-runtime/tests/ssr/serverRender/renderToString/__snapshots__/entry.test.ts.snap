@@ -2,14 +2,21 @@
 
 exports[`Entry should inject inline json correctly 1`] = `
 {
-  "SSRDataScript": "<script >window._SSR_DATA = {"name":"modern.js"}</script>
-<script >window._ROUTER_DATA = {"age":18}</script>",
+  "SSRDataScript": "<script type="application/json" id="__MODERN_SSR_DATA__">{"name":"modern.js"}</script>
+<script type="application/json" id="__MODERN_ROUTER_DATA__">{"age":18}</script>",
 }
 `;
 
-exports[`Entry should inject inline scripts correctly 1`] = `
+exports[`Entry should inject inline script correctly 1`] = `
 {
-  "SSRDataScript": "<script  type="application/json" id="__MODERN_SSR_DATA__">{"name":"modern.js"}</script>
-<script  type="application/json" id="__MODERN_ROUTER_DATA__">{"age":18}</script>",
+  "SSRDataScript": "<script>window._SSR_DATA = {"name":"modern.js"}</script>
+<script>window._ROUTER_DATA = {"age":18}</script>",
+}
+`;
+
+exports[`Entry should inject inline scripts with nonce correctly 1`] = `
+{
+  "SSRDataScript": "<script nonce="test-nonce">window._SSR_DATA = {"name":"modern.js"}</script>
+<script nonce="test-nonce">window._ROUTER_DATA = {"age":18}</script>",
 }
 `;

@@ -50,6 +50,22 @@ describe('plugins/html', () => {
     expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
   });
 
+  it('should register nonce plugin when using security.nonce', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        security: {
+          nonce: 'test-nonce',
+        },
+      },
+    });
+
+    expect(await builder.matchWebpackPlugin('HtmlNoncePlugin')).toBeTruthy();
+  });
+
   it('should register crossorigin plugin when using html.crossorigin', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],
