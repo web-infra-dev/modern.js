@@ -212,37 +212,41 @@ By default, Rspack uses SWC for transpilation and compression. Therefore, when u
 
 For most common Babel plugins, you can find corresponding alternatives in Rspack, and there are also corresponding compatible configuration options in Builder.
 
-| Babel Plugin                                    | Rspack Configuration     | Builder Configuration                                           |
-| ----------------------------------------------- | --------------------- | ------------------------------------------------------------ |
-| @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/config/builtins.html#builtinspresetenv)    | [Browserslist](/guide/advanced/browserslist.html)、<br />[Browser Compatibility](/guide/advanced/browser-compatibility.html) |
-| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/config/builtins.html#builtinsreact)            | [Hot Module Replacement](/guide/advanced/hmr.html)                       |
-| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/config/builtins.html#builtinsemotion)        | none                                                         |
-| babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                       |
-| babel-plugin-lodash                             | none                   | none                                                         |
-| babel-plugin-styled-components                  | none                   | none                                                         |
-| @babel/plugin-react-transform-remove-prop-types | none                   | none                                                         |
+| Babel Plugin                                    | Rspack Configuration                                                                      | Builder Configuration                                                                                                        |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/config/builtins.html#builtinspresetenv)       | [Browserslist](/guide/advanced/browserslist.html)、<br />[Browser Compatibility](/guide/advanced/browser-compatibility.html) |
+| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/config/builtins.html#builtinsreact)               | [Hot Module Replacement](/guide/advanced/hmr.html)                                                                           |
+| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/config/builtins.html#builtinsemotion)           | none                                                                                                                         |
+| babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                                      |
+| babel-plugin-lodash                             | none                                                                                      | none                                                                                                                         |
+| babel-plugin-styled-components                  | none                                                                                      | none                                                                                                                         |
+| @babel/plugin-react-transform-remove-prop-types | none                                                                                      | none                                                                                                                         |
 
 :::Tip
 When using Rspack for building, you can still configure Babel plugins through [tools.babel](/api/config-tools.html#toolsbabel), but this will result in additional compilation overhead, which may slow down the Rspack build to some extent.
 :::
 
 ### 5. SWC Configuration Support
+
 Rspack has built-in support for some swc configurations, such as builtins.react, which can be referred to in [Builtins](https://www.rspack.dev/config/builtins.html).
 
-Adding swc plugins and more custom configurations is not currently supported in Rspack. Relevant requirements can be tracked through the corresponding [issue]](https://github.com/web-infra-dev/rspack/issues/3067).
+Adding swc plugins and more custom configurations is not currently supported in Rspack. Relevant requirements can be tracked through the corresponding [issue](https://github.com/web-infra-dev/rspack/issues/3067).
 
 ### 6. Webpack Plugin Migration
 
-Currently, only a limited number of webpack plugins are compatible with Rspack. If the following plugins (or indirect dependencies) are used in your project, they need to be temporarily removed or alternative solutions need to be used, otherwise switching to Rspack for building is not supported:
+Currently, only a limited number of webpack plugins are compatible with Rspack.
+
+If you have the following plugins (or indirect dependencies) in your project, you need to be temporarily removed or alternative solutions need to be used, otherwise switching to Rspack for building is not supported:
 
 - webpack-retry-chunk-load-plugin：use [output.assetsRetry](/api/config-output.html#outputassetsretry) instead.
 - webpack.ProviderPlugin：use [builtins.provide](https://www.rspack.dev/config/builtins.html#builtinsprovide) instead.
+- webpack.DefinePlugin：use [builtins.define](https://www.rspack.dev/config/builtins.html#builtinsdefine) instead.
 - copy-webpack-plugin：use [builtins.copy](https://www.rspack.dev/config/builtins.html#builtinscopy) instead.
 - banner-plugin：use [builtins.banner](https://www.rspack.dev/config/builtins.html#builtinsbanner) instead.
-- webpack.DefinePlugin：use [builtins.define](https://www.rspack.dev/config/builtins.html#builtinsdefine) instead.
-- webpack.HashedModuleIdsPlugin
 - webpack.IgnorePlugin
 - webpack.ContextReplacementPlugin
 - ...
+
+Detailed plugin support can be found at: [Plugin compatibility](https://www.rspack.dev/guide/plugin-compat.html).
 
 The plugins not listed can be judged according to [Rspack Plugin API](https://www.rspack.dev/api/plugin-api.html).

@@ -211,15 +211,15 @@ Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构
 
 对于大部分常见的 Babel 插件，你可以在 Rspack 中找到对应的替代品，且 Builder 中也有对应兼容的配置项。
 
-| Babel 插件                                      | Rspack 配置项     | Builder 配置项                                           |
-| ----------------------------------------------- | --------------------- | ------------------------------------------------------------ |
-| @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/zh/config/builtins.html#builtinspresetenv)    | [设置浏览器范围](/guide/advanced/browserslist.html)、<br />[浏览器兼容性](/guide/advanced/browser-compatibility.html) |
-| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/zh/config/builtins.html#builtinsreact)        | [模块热替换](/guide/advanced/hmr.html)                       |
-| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/zh/config/builtins.html#builtinsemotion)      | 暂无                                                         |
-| babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/zh/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                       |
-| babel-plugin-lodash                             | 暂无                   | 暂无                                                         |
-| babel-plugin-styled-components                  | 暂无                   | 暂无                                                         |
-| @babel/plugin-react-transform-remove-prop-types | 暂无                   | 暂无                                                         |
+| Babel 插件                                      | Rspack 配置项                                                                                | Builder 配置项                                                                                                        |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/zh/config/builtins.html#builtinspresetenv)       | [设置浏览器范围](/guide/advanced/browserslist.html)、<br />[浏览器兼容性](/guide/advanced/browser-compatibility.html) |
+| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/zh/config/builtins.html#builtinsreact)               | [模块热替换](/guide/advanced/hmr.html)                                                                                |
+| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/zh/config/builtins.html#builtinsemotion)           | 暂无                                                                                                                  |
+| babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/zh/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                               |
+| babel-plugin-lodash                             | 暂无                                                                                         | 暂无                                                                                                                  |
+| babel-plugin-styled-components                  | 暂无                                                                                         | 暂无                                                                                                                  |
+| @babel/plugin-react-transform-remove-prop-types | 暂无                                                                                         | 暂无                                                                                                                  |
 
 :::tip
 在使用 Rspack 构建时，仍然**支持通过 [tools.babel](/api/config-tools.html#toolsbabel) 配置 babel 插件**，但会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
@@ -237,10 +237,9 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 
 - webpack-retry-chunk-load-plugin：使用 [output.assetsRetry](/api/config-output.html#outputassetsretry) 代替。
 - webpack.ProviderPlugin：使用 [builtins.provide](https://www.rspack.dev/zh/config/builtins.html#builtinsprovide) 代替。
+- webpack.DefinePlugin：使用 [builtins.define](https://www.rspack.dev/zh/config/builtins.html#builtinsdefine) 代替。
 - copy-webpack-plugin：使用 [builtins.copy](https://www.rspack.dev/zh/config/builtins.html#builtinscopy) 代替。
 - banner-plugin：使用 [builtins.banner](https://www.rspack.dev/zh/config/builtins.html#builtinsbanner) 代替。
-- webpack.DefinePlugin：使用 [builtins.define](https://www.rspack.dev/zh/config/builtins.html#builtinsdefine) 代替。
-- webpack.HashedModuleIdsPlugin
 - webpack.IgnorePlugin
 - webpack.ContextReplacementPlugin
 - ...
