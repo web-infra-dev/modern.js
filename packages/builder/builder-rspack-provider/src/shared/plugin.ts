@@ -28,6 +28,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/less').then(m => m.builderPluginLess()),
     import('../plugins/sass').then(m => m.builderPluginSass()),
     import('../plugins/minimize').then(m => m.builderPluginMinimize()),
+    import('../plugins/manifest').then(m => m.builderPluginManifest()),
     // rem should after css/less/sass/stylus
     import('../plugins/rem').then(m => m.builderPluginRem()),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),

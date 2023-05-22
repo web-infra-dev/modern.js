@@ -1,6 +1,5 @@
 - **Type:** `boolean`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
 Whether to generate a manifest file that contains information of all assets.
 

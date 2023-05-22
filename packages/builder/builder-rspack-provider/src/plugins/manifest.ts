@@ -5,16 +5,14 @@ export const builderPluginManifest = (): BuilderPlugin => ({
   name: 'builder-plugin-manifest',
 
   setup(api) {
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
 
       if (!config.output.enableAssetManifest) {
         return;
       }
 
-      const { WebpackManifestPlugin } = await import(
-        '../../compiled/webpack-manifest-plugin'
-      );
+      const { WebpackManifestPlugin } = await import('rspack-manifest-plugin');
       const publicPath = chain.output.get('publicPath');
 
       chain.plugin(CHAIN_ID.PLUGIN.MANIFEST).use(WebpackManifestPlugin, [

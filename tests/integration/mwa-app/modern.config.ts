@@ -7,5 +7,12 @@ export default defineConfig({
   output: {
     disableTsChecker: true,
   },
-  plugins: [appTools()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+  ],
 });
