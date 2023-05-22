@@ -1,5 +1,24 @@
 # @modern-js/monorepo-tools
 
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [4b03d17]
+- Updated dependencies [6289d31]
+  - @modern-js/utils@2.20.0
+  - @modern-js/plugin-changeset@2.20.0
+  - @modern-js/new-action@2.20.0
+  - @modern-js/plugin-i18n@2.20.0
+  - @modern-js/plugin-lint@2.20.0
+  - @modern-js/upgrade@2.20.0
+  - @modern-js/plugin@2.20.0
+  - @modern-js/core@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes

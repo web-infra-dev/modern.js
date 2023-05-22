@@ -11,5 +11,4 @@ require('@modern-js/core/runBin').run({
     server: INTERNAL_SERVER_PLUGINS,
     autoLoad: INTERNAL_APP_TOOLS_RUNTIME_PLUGINS,
   },
-  toolsType: 'app-tools',
 });

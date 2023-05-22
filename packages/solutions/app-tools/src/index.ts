@@ -150,10 +150,29 @@ export default (
   ],
 
   setup: api => {
+    const appContext = api.useAppContext();
+    api.setAppContext({
+      ...appContext,
+      toolsType: 'app-tools',
+    });
+
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
 
     return {
+      async beforeConfig() {
+        const userConfig = api.useConfigContext();
+        const appContext = api.useAppContext();
+        if (userConfig.output?.tempDir) {
+          api.setAppContext({
+            ...appContext,
+            internalDirectory: path.resolve(
+              appContext.appDirectory,
+              userConfig.output.tempDir,
+            ),
+          });
+        }
+      },
       async commands({ program }) {
         await devCommand(program, api);
 

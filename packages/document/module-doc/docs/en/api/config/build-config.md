@@ -8,8 +8,8 @@ This section describes all the configuration of Module Tools for building
 
 ## alias
 
-- type: `Record<string, string> | Function`
-- default: `{'@': 'src',}`
+- Type: `Record<string, string> | Function`
+- Default: `{'@': 'src',}`
 
 :::tip
 For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module Tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
@@ -59,22 +59,22 @@ export default {
 
 Static resource output path, will be based on [outDir](/api/config/build-config#outDir)
 
-- type: `string`
-- default: `assets`
+- Type: `string`
+- Default: `assets`
 
 ### limit
 
 Threshold for automatically inlining static resources when building, resources less than 10 KB will be automatically inlined into the bundle product
 
-- type: `number`
-- default: `10 * 1024`
+- Type: `number`
+- Default: `10 * 1024`
 
 ### publicPath
 
 The CDN prefix given to unlinked resources when packaging
 
-- type: `string`
-- default: `undefined`
+- Type: `string`
+- Default: `undefined`
 
 ```js modern.config.ts
 export default {
@@ -92,8 +92,8 @@ At this point, all static resources will be prefixed with `https://xxx/`
 
 Packaged to handle svg as a React component, options reference [svgr](https://react-svgr.com/docs/options/), plus support for two configuration items `include` and `exclude` to match the svg file to be handled
 
-- type: `boolean | Object`
-- default: `false`
+- Type: `boolean | Object`
+- Default: `false`
 
 When svgr feature is enabled, you can use svg as a component using the default export.
 
@@ -128,22 +128,22 @@ declare module '*.svg' {
 
 Set the matching svg file
 
-- type: `string | RegExp | (string | RegExp)[]`
-- default: `/\.svg$/`
+- Type: `string | RegExp | (string | RegExp)[]`
+- Default: `/\.svg$/`
 
 #### exclude
 
 Set unmatched svg files
 
-- type: `string | RegExp | (string | RegExp)[]`
-- default: `undefined`
+- Type: `string | RegExp | (string | RegExp)[]`
+- Default: `undefined`
 
 ## autoExternal
 
 Automatically externalize project dependencies and peerDependencies and not package them into the final bundle
 
-- type: `boolean | Object`
-- default: `true`
+- Type: `boolean | Object`
+- Default: `true`
 
 When we want to turn off the default handling behavior for third-party dependencies, we can do so by:
 
@@ -173,29 +173,29 @@ export default defineConfig({
 
 Whether or not the dep dependencies of the external project are needed
 
-- type: `boolean`
-- default: `true`
+- Type: `boolean`
+- Default: `true`
 
 ### peerDependencies
 
 Whether to require peerDep dependencies for external projects
 
-- type: `boolean`
-- default: `true`
+- Type: `boolean`
+- Default: `true`
 
 ## buildType
 
 The build type, `bundle` will package your code, `bundleless` will only do the code conversion
 
-- type: `'bundle' | 'bundleless'`
-- default: `bundle`
+- Type: `'bundle' | 'bundleless'`
+- Default: `bundle`
 
 ## copy
 
 Copies the specified file or directory into the build output directory
 
-- type: `Array`
-- default: `[]`
+- Type: `Array`
+- Default: `[]`
 
 ```js
 export default {
@@ -211,8 +211,8 @@ Reference for array settings: [copy-webpack-plugin patterns](https://github.com/
 
 Define global variables that will be injected into the code
 
-- type: `Record<string, string>`
-- default: `{}`
+- Type: `Record<string, string>`
+- Default: `{}`
 
 Since the `define` function is implemented by global text replacement, you need to ensure that the global variable values are strings. A safer approach is to convert the value of each global variable to a string, using `JSON.stringify`, as follows.
 
@@ -236,7 +236,7 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 <!-- ## disableSwcTransform
 
-Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only Esbuild Transform is used in this case.
+Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only esbuild Transform is used in this case.
 
 The use of SWC Transform can reduce the impact of auxiliary functions on the volume of the constructed product.
 
@@ -247,8 +247,8 @@ The use of SWC Transform can reduce the impact of auxiliary functions on the vol
 
 The dts file generates the relevant configuration, by default it generates.
 
-- type: `false | Object`
-- default:
+- Type: `false | Object`
+- Default:
 
 ```js
 {
@@ -267,29 +267,29 @@ Whether to allow the build to succeed in case of a type error. By default, this 
 When this configuration is turned on, there is no guarantee that the type files will be generated properly and accurately. In `buildType: 'bundle'` or Bundle build mode, the type file must not be generated.
 :::
 
-- type: `boolean`
-- default: `true`
+- Type: `boolean`
+- Default: `true`
 
 ### distPath
 
 The output path of the dts file, based on [outDir](/api/config/build-config#outDir)
 
-- type: `string`
-- default: `. /types`
+- Type: `string`
+- Default: `. /types`
 
 ### only
 
 Generate only dts files, not js files
 
-- type: `boolean`
-- default: `false`
+- Type: `boolean`
+- Default: `false`
 
 ### tsconfigPath
 
 Path to the tsconfig file
 
-- type: `string`
-- default: `. /tsconfig.json`
+- Type: `string`
+- Default: `. /tsconfig.json`
 
 ## esbuildOptions
 
@@ -370,22 +370,22 @@ export var yourCode = function() {
 
 Configure external dependencies that will not be packaged into the final bundle
 
-- type: `(string | RegExp)[]`
-- default: `[]`
+- Type: `(string | RegExp)[]`
+- Default: `[]`
 
 ## format
 
 The format of the js product output, where `iife` and `umd` can only take effect when `buildType` is `bundle`
 
-- type: `'esm' | 'cjs' | 'iife' | 'umd'`
-- default: `cjs`
+- Type: `'esm' | 'cjs' | 'iife' | 'umd'`
+- Default: `cjs`
 
 ## input
 
 Specify the entry file for the build, in the form of an array that can specify the directory
 
-- type: `string[] | Record<string, string>`
-- default: `['src/index.ts']` in `bundle` mode, `['src']` in `bundleless` mode
+- Type: `string[] | Record<string, string>`
+- Default: `['src/index.ts']` in `bundle` mode, `['src']` in `bundleless` mode
 
 ```js modern.config.ts
 export default {
@@ -399,22 +399,22 @@ export default {
 
 Specify the compilation method of jsx, default support React17, automatically inject jsx runtime code
 
-- type: `automatic | classic`
-- default: `automatic`
+- Type: `automatic | classic`
+- Default: `automatic`
 
 ## metafile
 
 esbuild to produce some metadata about the build in JSON format, which can be visualized by tools such as [bundle-buddy](https://bundle-buddy.com/esbuild)
 
-- type: `boolean`
-- default: `false`
+- Type: `boolean`
+- Default: `false`
 
 ## minify
 
 Use esbuild or terser to compress code, also pass [terserOptions](https://github.com/terser/terser#minify-options)
 
-- type: `'terser' | 'esbuild' | false | Object`
-- default: `false`
+- Type: `'terser' | 'esbuild' | false | Object`
+- Default: `false`
 
 ```js modern.config.ts
 export default {
@@ -432,15 +432,15 @@ export default {
 
 Specifies the output directory of the build
 
-- type: `string`
-- default: `dist`
+- Type: `string`
+- Default: `dist`
 
 ## platform
 
 Generates code for the node environment by default, you can also specify `browser` which will generate code for the browser environment
 
-- type: `'browser' | 'node'`
-- default: `node`
+- Type: `'browser' | 'node'`
+- Default: `node`
 
 ## redirect
 
@@ -468,7 +468,7 @@ export default {
 Module sideEffects
 
 - Type: `RegExg[] | (filePath: string, isExternal: boolean) => boolean | boolean`
-- Default value: `undefined`
+- Default: `undefined`
 
 Normally, we configure the module's side effects via the sideEffects field in package.json, but in some cases, The package.json of a three-party package is unreliable.Such as when we reference a three-party package style file
 
@@ -511,15 +511,15 @@ After adding this configuration, the sideEffects field in package.json will no l
 
 Specify the source directory of the build, default is `src`, which is used to generate the corresponding product directory based on the source directory structure when building `bundleless`.
 
-- type: `string`
-- default: `src`
+- Type: `string`
+- Default: `src`
 
 ## sourceMap
 
 Whether to generate sourceMap or not
 
-- type: `boolean | 'inline' | 'external'`
-- default: `false`
+- Type: `boolean | 'inline' | 'external'`
+- Default: `false`
 
 <!-- ## sourceType
 
@@ -532,8 +532,8 @@ Sets the format of the source code. By default, the source code will be treated 
 
 Whether to enable code splitting
 
-- type: `boolean`
-- default: `false`
+- Type: `boolean`
+- Default: `false`
 
 ## style
 
@@ -547,15 +547,15 @@ less-related configuration
 
 Refer to [less](https://less.bootcss.com/usage/#less-options) for detailed configuration
 
-- type: `Object`
-- default: `{ javascriptEnabled: true }`
+- Type: `Object`
+- Default: `{ javascriptEnabled: true }`
 
 #### additionalData
 
 Add `Less` code to the beginning of the entry file.
 
-- type: `string`
-- default: `undefined`
+- Type: `string`
+- Default: `undefined`
 
 ```js modern.config.ts
 export default {
@@ -573,8 +573,8 @@ export default {
 
 Configure the implementation library used by `Less`, if not specified, the built-in version used is `4.1.3`
 
-- type: `string | Object`
-- default: `undefined`
+- Type: `string | Object`
+- Default: `undefined`
 
 Specify the implementation library for `Less` when the `Object` type is specified
 
@@ -612,15 +612,15 @@ sass-related configuration
 
 Refer to [node-sass](https://github.com/sass/node-sass#options) for detailed configuration
 
-- type: `Object`
-- default: `{}`
+- Type: `Object`
+- Default: `{}`
 
 #### additionalData
 
 Add `Sass` code to the beginning of the entry file.
 
-- type: `string | Function`
-- default: `undefined`
+- Type: `string | Function`
+- Default: `undefined`
 
 ```js modern.config.ts
 export default {
@@ -639,8 +639,8 @@ export default {
 
 Configure the implementation library used by `Sass`, the built-in version used is `1.5.4` if not specified
 
-- type: `string | Object`
-- default: `undefined`
+- Type: `string | Object`
+- Default: `undefined`
 
 Specify the implementation library for `Sass` when the `Object` type is specified
 
@@ -681,8 +681,8 @@ See [postcss](https://github.com/postcss/postcss#options) for detailed configura
 
 Configure whether to insert style into js in packaged mode
 
-- type: `boolean`
-- default: `false`
+- Type: `boolean`
+- Default: `false`
 
 After opening inject, you will see an extra piece of style code in the js file. For example, if you write `import '. /index.scss'`，you will see the following code.
 
@@ -698,7 +698,7 @@ var css_248z = '.body {\n color: black;\n}';
 style_inject_es_default(css_248z);
 ```
 
-:::tip {title="Note"}
+:::tip
 
 With `inject` turned on, you need to pay attention to the following points.
 
@@ -717,8 +717,8 @@ This can be fixed by configuring [sideEffects](#sideeffects) in this case.
 
 Enable CSS Modules automatically based on the filename.
 
-- type: `boolean | RegExp`
-- default: `true`
+- Type: `boolean | RegExp`
+- Default: `true`
 
 `true` : Enables CSS Modules for style files ending with `.module.css` `.module.less` `.module.scss` `.module.sass` filenames
 
@@ -730,8 +730,8 @@ Enable CSS Modules automatically based on the filename.
 
 CSS Modules configuration
 
-- type: `Object`
-- default: `{}`
+- Type: `Object`
+- Default: `{}`
 
 A common configuration is `localsConvention`, which changes the class name generation rules for css modules
 
@@ -763,8 +763,8 @@ For detailed configuration see [postcss-modules](https://github.com/madyankin/po
 
 tailwindcss related configuration
 
-- type: `Object | Function`
-- default: `see configuration details below`
+- Type: `Object | Function`
+- Default: `see configuration details below`
 
 <details>
   <summary>Tailwind CSS configuration details</summary>
@@ -796,8 +796,8 @@ The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwi
 
 Specify the target environment for the build
 
-- type: `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
-- default: `'es6'`
+- Type: `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
+- Default: `'es6'`
 
 <!-- ## transformImport
 
@@ -837,8 +837,8 @@ Reference the [Import Plugin - Notes](plugins/official-list/plugin-import.html#N
 
 Specify global variables for external import of umd products
 
-- type: `Record<string, string>`
-- default: `{}`
+- Type: `Record<string, string>`
+- Default: `{}`
 
 ```js modern.config.ts
 export default {
@@ -857,8 +857,8 @@ At this point, `react` and `react-dom` will be seen as global variables imported
 
 Specifies the module name of the umd product
 
-- type: `string` | `Function`
-- default: `name => name`
+- Type: `string` | `Function`
+- Default: `name => name`
 
 ```js
 export default {

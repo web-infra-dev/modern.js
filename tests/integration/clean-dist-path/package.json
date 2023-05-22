@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
-    "typescript": "^4",
+    "typescript": "^5",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/jest": "^29",

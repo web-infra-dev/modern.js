@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.19.1",
+  "version": "2.20.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
@@ -52,7 +52,7 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2",
     "type-fest": "2.15.0",
-    "typescript": "^4",
+    "typescript": "^5",
     "zod": "^3.17.3"
   },
   "peerDependencies": {

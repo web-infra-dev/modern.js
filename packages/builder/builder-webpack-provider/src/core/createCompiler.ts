@@ -1,6 +1,10 @@
-import { logger, debug, formatStats } from '@modern-js/builder-shared';
+import {
+  logger,
+  debug,
+  formatStats,
+  type Stats,
+} from '@modern-js/builder-shared';
 import type { Context, WebpackConfig } from '../types';
-import type { Stats } from 'webpack';
 
 export async function createCompiler({
   context,

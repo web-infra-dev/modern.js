@@ -60,12 +60,6 @@ button:focus-visible {
   height: 2px;
 }
 
-/* https://github.com/francoischalifour/medium-zoom#debugging */
-.medium-zoom-overlay,
-.medium-zoom-image--opened {
-  z-index: 999;
-}
-
 :root {
   --code-color-text: #414141;
   --code-color-background: transparent;

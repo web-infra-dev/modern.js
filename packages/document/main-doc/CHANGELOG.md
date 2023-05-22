@@ -1,5 +1,19 @@
 # @modern-js/main-doc
 
+## 2.20.0
+
+### Patch Changes
+
+- 3c4e0a5: chore(utils): move generateMetaTags method to builder-shared
+
+  chore(utils): 移动 generateMetaTags 方法到 builder-shared
+
+- 0ce52ad: docs(main): optimize mobile adaptation
+
+  docs(main): 优化移动端适配
+
+  - @modern-js/builder-doc@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes

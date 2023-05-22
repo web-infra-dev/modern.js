@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.19.1",
+  "version": "2.20.0",
   "types": "./src/cli",
   "jsnext:source": "./src/cli",
   "main": "./dist/cjs/cli.js",
@@ -67,7 +67,7 @@
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "typescript": "^4",
+    "typescript": "^5",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",

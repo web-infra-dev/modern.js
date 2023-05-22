@@ -139,6 +139,8 @@ const collectHtmlRoutes = (
       );
       const isSSR = Boolean(entryOptions);
       const isWorker = Boolean(workerSSR);
+      const isStream =
+        typeof entryOptions === 'object' && entryOptions.mode === 'stream';
       const { resHeaders } = routes?.[entryName] || ({} as any);
 
       let route: ServerRoute | ServerRoute[] = {
@@ -152,6 +154,7 @@ const collectHtmlRoutes = (
           ),
         ),
         isSPA: true,
+        isStream,
         isSSR,
         responseHeaders: resHeaders,
         worker: isWorker

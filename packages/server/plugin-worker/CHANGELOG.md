@@ -1,5 +1,20 @@
 # @modern-js/plugin-worker
 
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- 4425fd6: fix: worker ssr context lack some fields & worker ssr must have routerManifest.json
+  fix: worker ssr 上下文缺少一些字段，worker ssr 必须有 routerManifest.json 文件
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [4425fd6]
+  - @modern-js/utils@2.20.0
+  - @modern-js/prod-server@2.20.0
+  - @modern-js/server-utils@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes

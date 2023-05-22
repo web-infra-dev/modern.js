@@ -1,9 +1,10 @@
 import { join } from 'path';
+import { globalUIComponents } from '../hooks';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
 import { RuntimeModuleID } from '.';
 import { UserConfig } from '@/shared/types';
 
-export function globalUIComponentsVMPlugin(
+export async function globalUIComponentsVMPlugin(
   _scanDir: string,
   config: UserConfig,
   _isSSR: boolean,
@@ -14,11 +15,10 @@ export function globalUIComponentsVMPlugin(
     runtimeTempDir,
     `${RuntimeModuleID.GlobalComponents}.js`,
   );
+  const globalUIComponentsByPlugins = await globalUIComponents();
   const moduleContent = [
     ...(config.doc?.globalUIComponents || []),
-    ...(config.doc?.plugins || [])
-      .map(plugin => plugin.globalUIComponents || [])
-      .flat(),
+    ...globalUIComponentsByPlugins,
   ]
     .map(source => `import Comp_${index++} from '${source}';`)
     .concat(

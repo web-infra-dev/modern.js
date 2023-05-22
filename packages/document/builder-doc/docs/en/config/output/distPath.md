@@ -1,4 +1,4 @@
-- **Type**
+- **Type:**
 
 ```ts
 type DistPathConfig = {
@@ -14,7 +14,7 @@ type DistPathConfig = {
 };
 ```
 
-- **Default**
+- **Default:**
 
 ```js
 const defaultDistPath = {

@@ -1,5 +1,14 @@
 # @scripts/prebundle
 
+## 2.20.0
+
+### Patch Changes
+
+- Updated dependencies [6b9d90a]
+- Updated dependencies [6b9d90a]
+  - @scripts/build@2.20.0
+  - @modern-js/tsconfig@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes

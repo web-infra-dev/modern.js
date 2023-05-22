@@ -4,10 +4,10 @@ import styles from './index.module.scss';
 const getDomain = (url: string) => new URL(url).hostname;
 
 const TYPE_MAP = {
-  doc: 'Modern.js Doc',
-  module: 'Modern.js Module',
-  builder: 'Modern.js Builder',
-  framework: 'Modern.js Framework',
+  doc: 'Doc',
+  module: 'Module',
+  builder: 'Builder',
+  framework: 'Framework',
 };
 
 export const ShowcaseList = () => {

@@ -145,6 +145,15 @@ export const formatSplitChunks = (
     throw new Error(`name not support function`);
   }
 
+  const fallbackCacheGroup = (
+    data: NonNullable<typeof splitChunks.fallbackCacheGroup>,
+  ) => ({
+    maxSize: formatSplitSize(data.maxSize, 'maxSize'),
+    maxAsyncSize: formatSplitSize(data.maxSize, 'maxAsyncSize'),
+    maxInitialSize: formatSplitSize(data.maxSize, 'maxInitialSize'),
+    minSize: formatSplitSize(data.minSize, 'minSize'),
+  });
+
   return {
     ...rest,
 
@@ -154,8 +163,9 @@ export const formatSplitChunks = (
       splitChunks.minRemainingSize,
       'minRemainingSize',
     ),
-    // todo: not support in rspack
-    // maxSize: formatSplitSize(splitChunks.maxSize, 'maxSize'),
+    maxSize: formatSplitSize(splitChunks.maxSize, 'maxSize'),
+    maxAsyncSize: formatSplitSize(splitChunks.maxSize, 'maxAsyncSize'),
+    maxInitialSize: formatSplitSize(splitChunks.maxSize, 'maxInitialSize'),
     minSize: formatSplitSize(splitChunks.minSize, 'minSize'),
     enforceSizeThreshold: formatSplitSize(
       splitChunks.enforceSizeThreshold,
@@ -163,5 +173,8 @@ export const formatSplitChunks = (
     ),
     chunks: splitChunks.chunks,
     cacheGroups: formatCacheGroups(splitChunks.cacheGroups),
+    fallbackCacheGroup: splitChunks.fallbackCacheGroup
+      ? fallbackCacheGroup(splitChunks.fallbackCacheGroup)
+      : undefined,
   };
 };

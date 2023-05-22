@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.20.0
+
+### Minor Changes
+
+- 5f055ab: feat(app-tools): route.json add `isStream` field.
+  feat(app-tools): route.json 添加 `isStream` 字段.
+
 ## 2.19.1
 
 ## 2.19.0

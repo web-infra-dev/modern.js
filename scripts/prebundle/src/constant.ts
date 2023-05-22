@@ -25,6 +25,8 @@ export const DEFAULT_EXTERNALS = {
   '../../package.json': './package.json',
   postcss: 'postcss',
   '@babel/core': '@babel/core',
+  '@babel/types': '@babel/types',
+  '@babel/parser': '@babel/parser',
   '@babel/runtime': '@babel/runtime',
   '/^@babel/runtime(/.*)/': '@babel/runtime$1',
 };
@@ -245,6 +247,10 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
+        name: 'babel-loader',
+        ignoreDts: true,
+      },
+      {
         name: 'loader-utils2',
         ignoreDts: true,
         externals: {
@@ -289,26 +295,7 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: '@babel/helper-validator-identifier',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/parser',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/types',
-        externals: {
-          '@babel/helper-validator-identifier':
-            '../helper-validator-identifier',
-        },
-      },
-      {
         name: 'pug',
-        externals: {
-          '@babel/types': '../@babel/types',
-          '@babel/parser': '../@babel/parser',
-        },
         afterBundle(task) {
           replaceFileContent(
             join(task.distPath, 'index.d.ts'),
@@ -346,28 +333,6 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'schema-utils3',
         ignoreDts: true,
-      },
-      {
-        name: '@babel/parser',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/helper-validator-identifier',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/types',
-        externals: {
-          '@babel/helper-validator-identifier':
-            '../helper-validator-identifier',
-        },
-      },
-      {
-        name: 'babel-loader',
-        ignoreDts: true,
-        externals: {
-          '@babel/core': '@babel/core',
-        },
       },
       {
         name: 'copy-webpack-plugin',
@@ -517,78 +482,16 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/babel-preset-base',
     dependencies: [
       {
-        name: '@babel/parser',
-        ignoreDts: true,
-      },
-      {
         name: '@babel/helper-plugin-utils',
         ignoreDts: true,
       },
       {
-        name: '@babel/helper-validator-identifier',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/types',
-        externals: {
-          '@babel/helper-validator-identifier':
-            '../helper-validator-identifier',
-        },
-      },
-      {
-        name: '@babel/generator',
-        ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-        },
-      },
-      {
-        name: '@babel/highlight',
-        ignoreDts: true,
-        externals: {
-          chalk: '@modern-js/utils/chalk',
-        },
-      },
-      {
-        name: '@babel/code-frame',
-        ignoreDts: true,
-        externals: {
-          '@babel/highlight': '../highlight',
-        },
-      },
-      {
-        name: '@babel/template',
-        ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-          '@babel/parser': '../parser',
-          '@babel/code-frame': '../code-frame',
-        },
-      },
-      {
-        name: '@babel/traverse',
-        ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-          '@babel/parser': '../parser',
-          '@babel/generator': '../generator',
-          '@babel/template': '../template',
-          '@babel/code-frame': '../code-frame',
-        },
-      },
-      {
         name: '@babel/helper-annotate-as-pure',
         ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-        },
       },
       {
         name: '@babel/helper-module-imports',
         ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-        },
       },
       {
         name: 'babel-plugin-transform-react-remove-prop-types',
@@ -610,8 +513,19 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
         externals: {
           glob: '@modern-js/utils/glob',
-          '@babel/types': '../@babel/types',
           '@babel/helper-module-imports': '../@babel/helper-module-imports',
+        },
+        // Fix the deprecated babel API
+        // https://github.com/lodash/babel-plugin-lodash/issues/259
+        // https://github.com/lodash/babel-plugin-lodash/pull/261
+        beforeBundle(task) {
+          const mainFile = join(task.depPath, 'lib/index.js');
+          replaceFileContent(mainFile, content => {
+            return content.replace(
+              '(0, _types.isModuleDeclaration)(node)',
+              '(0, _types.isImportDeclaration)(node) || (0, _types.isExportDeclaration)(node)',
+            );
+          });
         },
       },
       {
@@ -647,17 +561,13 @@ export const TASKS: TaskConfig[] = [
         name: '@babel/helper-create-class-features-plugin',
         ignoreDts: true,
         externals: {
-          '@babel/types': '../types',
-          '@babel/traverse': '../traverse',
-          '@babel/template': '../template',
+          '@babel/template': '@babel/template',
         },
       },
       {
         name: '@babel/plugin-proposal-decorators',
         ignoreDts: true,
         externals: {
-          '@babel/types': '../types',
-          '@babel/traverse': '../traverse',
           '@babel/helper-plugin-utils': '../helper-plugin-utils',
           '@babel/helper-create-class-features-plugin':
             '../helper-create-class-features-plugin',
@@ -693,7 +603,6 @@ export const TASKS: TaskConfig[] = [
     dependencies: [
       '@rollup/plugin-json',
       'normalize-path',
-      '@babel/parser',
       'signal-exit',
       'p-map',
       'rollup',
@@ -702,58 +611,6 @@ export const TASKS: TaskConfig[] = [
         name: 'rollup-plugin-dts',
         externals: {
           typescript: 'typescript',
-        },
-      },
-      {
-        name: '@babel/types',
-        externals: {
-          '@babel/helper-validator-identifier':
-            '../helper-validator-identifier',
-        },
-      },
-      {
-        name: '@babel/helper-validator-identifier',
-        ignoreDts: true,
-      },
-      {
-        name: '@babel/traverse',
-        // ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-          '@babel/parser': '../parser',
-          '@babel/generator': '../generator',
-          '@babel/template': '../template',
-          '@babel/code-frame': '../code-frame',
-        },
-      },
-      {
-        name: '@babel/generator',
-        ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-        },
-      },
-      {
-        name: '@babel/template',
-        ignoreDts: true,
-        externals: {
-          '@babel/types': '../types',
-          '@babel/parser': '../parser',
-          '@babel/code-frame': '../code-frame',
-        },
-      },
-      {
-        name: '@babel/code-frame',
-        ignoreDts: true,
-        externals: {
-          '@babel/highlight': '../highlight',
-        },
-      },
-      {
-        name: '@babel/highlight',
-        ignoreDts: true,
-        externals: {
-          chalk: '@modern-js/utils/chalk',
         },
       },
       {
