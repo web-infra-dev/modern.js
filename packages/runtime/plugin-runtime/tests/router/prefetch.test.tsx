@@ -3,7 +3,7 @@ import {
   createMemoryRouter,
   LoaderFunctionArgs,
   RouterProvider,
-} from 'react-router-dom';
+} from '@modern-js/utils/runtime/router';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import { Link } from '../../src/router';
 import { RuntimeReactContext } from '../../src';
