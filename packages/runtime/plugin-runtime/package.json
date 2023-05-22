@@ -203,7 +203,7 @@
     "react": "^18",
     "react-dom": "^18",
     "ts-jest": "^29.0.5",
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "sideEffects": false,
   "modernConfig": {},

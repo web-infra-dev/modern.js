@@ -83,7 +83,7 @@
     "memfs": "^3.3.0",
     "supertest": "^6.1.6",
     "ts-jest": "^29.0.5",
-    "typescript": "^4",
+    "typescript": "^5",
     "webpack": "^5.82.1",
     "webpack-chain": "^6.5.1",
     "react": ">=17.0.0",

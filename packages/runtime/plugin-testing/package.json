@@ -153,7 +153,7 @@
     "@types/supertest": "^2.0.11",
     "@types/node": "^14",
     "@types/yargs": "^17.0.2",
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "sideEffects": false,
   "modernConfig": {},

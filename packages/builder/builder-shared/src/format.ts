@@ -1,5 +1,5 @@
 import chalk from '@modern-js/utils/chalk';
-import { Stats, MultiStats } from './types';
+import type { Stats, MultiStats } from './types';
 
 export async function formatStats(
   stats: Stats | MultiStats,
