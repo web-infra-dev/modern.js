@@ -52,11 +52,12 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1",
     "connect-history-api-fallback": "^2.0.0",
+    "http-compression": "1.0.6",
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
-    "ws": "^8.2.0",
-    "@swc/helpers": "0.5.1"
+    "ws": "^8.2.0"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
