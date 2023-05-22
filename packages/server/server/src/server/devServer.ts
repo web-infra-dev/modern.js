@@ -132,6 +132,8 @@ export class ModernDevServer extends ModernServer {
 
     // compression should be the first middleware
     if (dev.compress) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error http-compression does not provide a type definition
       const { default: compression } = await import('http-compression');
       this.addHandler((ctx, next) => {
         compression({
