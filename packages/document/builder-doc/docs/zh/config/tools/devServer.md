@@ -114,8 +114,10 @@ const defaultConfig = {
 
 ```ts
 export default {
-  devServer: {
-    compress: false,
+  tools: {
+    devServer: {
+      compress: false,
+    },
   },
 };
 ```

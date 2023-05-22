@@ -114,8 +114,10 @@ If you want to disable the gzip compression, you can set `compress` to `false`:
 
 ```ts
 export default {
-  devServer: {
-    compress: false,
+  tools: {
+    devServer: {
+      compress: false,
+    },
   },
 };
 ```
