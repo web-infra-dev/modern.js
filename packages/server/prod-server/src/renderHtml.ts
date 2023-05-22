@@ -84,6 +84,9 @@ export interface RenderHtmlOptions {
   /** request headers  */
   headers?: IncomingHttpHeaders;
 
+  /** request body */
+  body?: string;
+
   serverOptions: ModernServerOptions;
 }
 
@@ -91,6 +94,7 @@ async function renderHtml({
   url,
   method,
   headers,
+  body,
   serverOptions,
 }: RenderHtmlOptions): Promise<string> {
   const req = new IncomingMessageLike({
@@ -98,6 +102,11 @@ async function renderHtml({
     url,
     headers,
   });
+
+  if (body) {
+    req.push(body);
+    req.push(null);
+  }
 
   const res = new ServerResponseLike();
 
