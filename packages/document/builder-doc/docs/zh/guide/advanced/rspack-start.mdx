@@ -65,7 +65,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 本文将从 Builder 的角度介绍 webpack 和 Rspack 之间的区别。如果需要了解更深层次的差异，请参考 [Rspack 文档](http://rspack.dev/zh/guide/migrate-from-webpack.html)。
 
-### Builder 配置差异
+### 1. 了解 Builder 配置差异
 
 目前，Builder 内大部分的配置项已经适配了 Rspack。Builder 所做的工作包括不限于：
 
@@ -111,8 +111,9 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 - [output.disableSourcemap.css](/api/config-output.html#outputdisablesourcemap)
 - [output.enableAssetManifest](/api/config-output.html#outputenableassetmanifest)
 - [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
-- [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
+- [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
+- [output.polyfill.usage](/api/config-output.html#usage)
 - tsChecker 能力
   - [output.disableTsChecker](/api/config-output.html#outputdisabletschecker)
 
@@ -155,30 +156,44 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 除上述配置外，一些已支持的配置可能存在能力差异，请参考各配置 API 获取具体差异信息。
 :::
 
-### 从 webpackChain 迁移到 bundlerChain
+### 2. 从 tools.webpackChain 迁移至 tools.bundlerChain
 
 Builder 支持通过 [bundlerChain](/api/config-tools.html#toolsbundlerchain) 来修改 Rspack config。通过 bundlerChain 修改的配置，在 webpack 和 Rspack 构建时均可生效。
+
+```diff
+export default {
+  tools: {
+-   webpackChain: (chain, { env }) => {
++   bundlerChain: (chain, { env }) => {
+      if (env === 'development') {
+        chain.devtool('cheap-module-eval-source-map');
+      }
+    },
+  },
+};
+```
 
 :::tip
 bundlerChain 只为 Rspack & webpack 配置提供一致的 api 修改方式，实际 plugin / loader 是否可用，需要看 Rspack / webpack 实际支持情况。
 :::
 
-### CHAIN_ID 差异
+#### CHAIN_ID 差异
 
-因为 webpack 和 rspack 的一些实现差异，所以在规则配置上会有些不同。
+因为 webpack 和 Rspack 的一些实现差异，所以在规则配置上会有些不同。
 
 可通过 [tools.bundlerChain#CHAIN_ID](/api/config-tools.html#chain_id) 查看所有在 Rspack & webpack 中都支持的规则。
 
-### 修改 Rspack 配置
+### 3. 从 tools.webpack 迁移至 tools.rspack
 
 BundlerChain 只支持修改 Rspack & webpack 交集部分，更多 Rspack 独有功能，需要通过 [tools.rspack](/api/config-tools.html#toolsrspack) 修改。
 
 在修改 Rspack 配置之前，你可能需要了解 [Rspack 和 Webpack 的配置兼容性](https://www.rspack.dev/zh/guide/config-diff.html)。
 
-```ts
+```diff
 export default {
   tools: {
-    rspack: (config, { env }) => {
+-   webppack: (config, { env }) => {
++   rspack: (config, { env }) => {
       if (env === 'development') {
         config.devtool = 'cheap-module-eval-source-map';
       }
@@ -189,3 +204,46 @@ export default {
 ```
 
 关于 Rspack 的详细配置信息，请参考 [Rspack 官网](https://rspack.dev/)。
+
+### 4. Babel 配置迁移
+
+Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构建时，babel-loader 默认不会被启用。
+
+对于大部分常见的 Babel 插件，你可以在 Rspack 中找到对应的替代品，同时 Builder 也提供了一些相应的配置项。
+
+| Babel 插件                                      | Rspack 配置项                                                                                | Builder 配置项                                                                                                        |
+| ----------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/zh/config/builtins.html#builtinspresetenv)       | [设置浏览器范围](/guide/advanced/browserslist.html)、<br />[浏览器兼容性](/guide/advanced/browser-compatibility.html) |
+| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/zh/config/builtins.html#builtinsreact)               | [模块热替换](/guide/advanced/hmr.html)                                                                                |
+| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/zh/config/builtins.html#builtinsemotion)           | 暂无                                                                                                                  |
+| babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/zh/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                               |
+| babel-plugin-lodash                             | 暂无                                                                                         | 暂无                                                                                                                  |
+| babel-plugin-styled-components                  | 暂无                                                                                         | 暂无                                                                                                                  |
+| @babel/plugin-react-transform-remove-prop-types | 暂无                                                                                         | 暂无                                                                                                                  |
+
+:::tip
+在使用 Rspack 构建时，仍然**支持通过 [tools.babel](/api/config-tools.html#toolsbabel) 配置 babel 插件**，但会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
+:::
+
+### 5. SWC 配置支持
+
+Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，可参考 [Builtins](https://www.rspack.dev/zh/config/builtins.html)。
+
+暂不支持在 Rspack 中添加 swc 插件和更多自定义配置，相关需求可追踪对应 [issue 进度](https://github.com/web-infra-dev/rspack/issues/3067)。
+
+### 6. Webpack Plugin 插件迁移
+
+目前 Rspack 中兼容的 webpack 插件有限，当你的项目中有用到以下插件（或间接依赖）时，需要暂时将该插件移除或使用替代方案，否则不支持切换至 Rspack 构建：
+
+- webpack-retry-chunk-load-plugin：使用 [output.assetsRetry](/api/config-output.html#outputassetsretry) 代替。
+- webpack.ProviderPlugin：使用 [builtins.provide](https://www.rspack.dev/zh/config/builtins.html#builtinsprovide) 代替。
+- webpack.DefinePlugin：使用 [builtins.define](https://www.rspack.dev/zh/config/builtins.html#builtinsdefine) 代替。
+- copy-webpack-plugin：使用 [builtins.copy](https://www.rspack.dev/zh/config/builtins.html#builtinscopy) 代替。
+- banner-plugin：使用 [builtins.banner](https://www.rspack.dev/zh/config/builtins.html#builtinsbanner) 代替。
+- webpack.IgnorePlugin
+- webpack.ContextReplacementPlugin
+- ...
+
+具体插件支持情况可参考：[Plugin 兼容情况](https://www.rspack.dev/zh/guide/plugin-compat.html)。
+
+未列出的插件可根据 [Rspack Plugin API 支持情况](https://www.rspack.dev/zh/api/plugin-api.html) 自行判断。
