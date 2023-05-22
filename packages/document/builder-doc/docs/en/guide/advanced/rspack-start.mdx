@@ -236,7 +236,7 @@ Adding swc plugins and more custom configurations is not currently supported in 
 
 Currently, only a limited number of webpack plugins are compatible with Rspack.
 
-If you have the following plugins (or indirect dependencies) in your project, you need to be temporarily removed or alternative solutions need to be used, otherwise switching to Rspack for building is not supported:
+If you are using the following plugins (or indirect dependencies) in your project, you will need to temporarily remove them or use alternative solutions, otherwise you won't be able to switch to the Rspack build:
 
 - webpack-retry-chunk-load-plugin：use [output.assetsRetry](/api/config-output.html#outputassetsretry) instead.
 - webpack.ProviderPlugin：use [builtins.provide](https://www.rspack.dev/config/builtins.html#builtinsprovide) instead.
