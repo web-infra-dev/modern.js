@@ -103,6 +103,23 @@ const defaultConfig = {
 
 对应 HMR 客户端的配置，通常用于设置 HMR 对应的 WebSocket URL。
 
+#### compress
+
+- **类型：** `boolean`
+- **默认值：** `true`
+
+是否对静态资源启用 gzip 压缩。
+
+如果你需要禁用 gzip 压缩，可以将 `compress` 设置为 `false`：
+
+```ts
+export default {
+  devServer: {
+    compress: false,
+  },
+};
+```
+
 #### devMiddleware
 
 - **类型：**

@@ -23,6 +23,7 @@ const sharedDevServerConfigSchema = z.partialObj({
     ]),
   }),
   historyApiFallback: z.union([z.boolean(), z.record(z.unknown())]),
+  compress: z.boolean(),
   hot: z.boolean(),
   https: DevServerHttpsOptionsSchema,
   liveReload: z.boolean(),
