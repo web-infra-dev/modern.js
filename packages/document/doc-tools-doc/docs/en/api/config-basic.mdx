@@ -166,3 +166,30 @@ export default defineConfig({
   plugins: [docTools()],
 });
 ```
+
+## mediumZoom
+
+- Type: `boolean` | `{ selector?: string }`
+- Default: `true`
+
+Whether to enable the image zoom function. It is enabled by default, you can disable it by setting `mediumZoom` to `false`.
+
+> The bottom layer is implemented using the [medium-zoom](https://github.com/francoischalifour/medium-zoom) library.
+
+Example usage:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    // Turn off image zoom
+    mediumZoom: false,
+    // Configure the CSS selector to customize the picture to be zoomed, the default is '.modern-doc img'
+    mediumZoom: {
+      selector: '.modern-doc img',
+    },
+  },
+  plugins: [docTools()],
+});
+```
