@@ -150,6 +150,12 @@ export default (
   ],
 
   setup: api => {
+    const appContext = api.useAppContext();
+    api.setAppContext({
+      ...appContext,
+      toolsType: 'app-tools',
+    });
+
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
 
