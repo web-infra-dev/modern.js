@@ -1,5 +1,12 @@
 # @modern-js/ssg-generator
 
+## 3.1.17
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+
 ## 3.1.16
 
 ## 3.1.15

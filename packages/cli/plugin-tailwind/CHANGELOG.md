@@ -1,5 +1,20 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.20.0
+
+### Patch Changes
+
+- 25e28a9: fix(tailwindcss): avoid unnecessary rebuild when running dev
+
+  fix(tailwindcss): 修复 dev 模式下不必要的重新构建
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/utils@2.20.0
+  - @modern-js/runtime@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes

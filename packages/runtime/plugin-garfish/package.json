@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.19.1",
+  "version": "2.20.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -71,17 +71,17 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "@types/debug": "^4.1.7",
     "@types/react-loadable": "^5.5.6",
     "debug": "^4.3.2",
     "garfish": "^1.8.1",
     "hoist-non-react-statics": "^3.3.2",
-    "react-loadable": "^5.5.0"
+    "react-loadable": "^5.5.0",
+    "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.19.1"
+    "@modern-js/runtime": "workspace:^2.20.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
@@ -102,7 +102,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-router-dom": "^6.8.1",
-    "typescript": "^4",
+    "typescript": "^5",
     "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,

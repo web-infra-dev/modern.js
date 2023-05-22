@@ -1,4 +1,4 @@
-- **Type:** `Object` | `Function` | `undefined`
+- **Type:** `Object | Function | undefined`
 - **Default:** `undefined`
 - **Bundler:** `only support Rspack`
 
@@ -6,7 +6,9 @@
 
 ### Object Type
 
-You can configure it as an object, which will be merged with the original Rspack configuration through [webpack-merge](https://github.com/survivejs/webpack-merge). For example:
+`tools.rspack` can be configured as an object to be deep merged with the built-in Rspack configuration through [webpack-merge](https://github.com/survivejs/webpack-merge).
+
+For example, add `resolve.alias` configuration:
 
 ```js
 export default {
@@ -24,7 +26,7 @@ export default {
 
 ### Function Type
 
-You can also configure it as a function, which accepts one parameter, the original Rspack configuration, you can modify this configuration, and then return a new configuration. For example:
+`tools.rspack` can be configured as a function. The first parameter of this function is the built-in Rspack configuration object, you can modify this object, and then return it. For example:
 
 ```js
 export default {
@@ -37,7 +39,11 @@ export default {
 };
 ```
 
-The second parameter of this function is an object that contains some information about the tool collection. Details are as follows:
+:::tip
+The object returned by the `tools.rspack` function is used directly as the final Rspack configuration and is not merged with the built-in Rspack configuration.
+:::
+
+The second parameter of this function is an object, which contains some utility functions and properties, as follows:
 
 ### Utils
 
@@ -136,7 +142,7 @@ export default {
 };
 ```
 
-### addRules
+#### addRules
 
 - **Type:** `(rules: RuleSetRule | RuleSetRule[]) => void`
 
@@ -170,7 +176,7 @@ export default {
 };
 ```
 
-### prependPlugins
+#### prependPlugins
 
 - **Type:** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
@@ -190,7 +196,7 @@ export default {
 };
 ```
 
-### appendPlugins
+#### appendPlugins
 
 - **Type:** `(plugins: RspackPluginInstance | RspackPluginInstance[]) => void`
 
@@ -210,7 +216,7 @@ export default {
 };
 ```
 
-### removePlugin
+#### removePlugin
 
 - **Type:** `(name: string) => void`
 
@@ -228,7 +234,7 @@ export default {
 };
 ```
 
-### mergeConfig
+#### mergeConfig
 
 - **Type:** `(...configs: RspackConfig[]) => RspackConfig`
 
@@ -246,7 +252,7 @@ export default {
 };
 ```
 
-### getCompiledPath
+#### getCompiledPath
 
 - **Type:** `(name: string) => string`
 

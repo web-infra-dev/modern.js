@@ -9,7 +9,7 @@ sidebar_position: 5
 - [使用微生成器开启 Storybook 调试](/guide/basic/use-micro-generator#storybook-调试)
 - [`modern dev`](/guide/basic/command-preview#modern-dev)
 
-[Storybook](https://storybook.js.org/) 是一个专门用于组件调试的工具，围绕着组件开发提供了：
+[Storybook](https://storybook.js.org/) 是一个专门用于组件调试的工具，它围绕着组件开发提供了：
 
 - 丰富多样的调试能力
 - 可与一些测试工具结合使用
@@ -17,9 +17,9 @@ sidebar_position: 5
 - 可分享能力
 - 工作流程自动化
 
-因此它是一个复杂且功能强大的工具。
+因此 Storybook 是一个复杂且功能强大的工具。
 
-模块工程解决方案集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下。
+Module Tools 集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下。
 
 ## 调试代码
 
@@ -169,11 +169,11 @@ export default {
 ```
 
 
-:::tip{title='为什么不推荐使用源码的方式?'}
+:::tip 为什么不推荐使用源码的方式?
 不仅仅是因为使用组件源码无法验证组件产物是否正确，**同时模块工程对于构建产物支持的一些配置无法完全转换为 Storybook
 内部的配置**。如果某些配置无法进行相互转换的话，就会在 Storybook 调试过程中出现不符合预期的结果。
 
-Module Tools 是基于 Esbuild 实现的，而 Storybook 是基于 Webpack 实现的。Esbuild 的配置无法与 Webpack 完全兼容。
+Module Tools 是基于 esbuild 实现的，而 Storybook 是基于 Webpack 实现的。esbuild 的配置无法与 Webpack 完全兼容。
 :::
 
 ## 配置 Storybook

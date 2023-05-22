@@ -15,7 +15,7 @@
     "module-tools",
     "lib-tools"
   ],
-  "version": "2.19.1",
+  "version": "2.20.0",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"
@@ -49,6 +49,10 @@
     "debug-mode": "node ./scripts/debug-mode.js"
   },
   "dependencies": {
+    "@babel/parser": "^7.21.8",
+    "@babel/generator": "^7.21.5",
+    "@babel/types": "^7.21.5",
+    "@babel/traverse": "^7.21.5",
     "@modern-js/core": "workspace:*",
     "@modern-js/libuild": "0.12.2",
     "@modern-js/libuild-plugin-svgr": "0.12.2",
@@ -61,13 +65,15 @@
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "postcss": "8.4.6",
-    "@swc/helpers": "0.5.0"
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/self": "workspace:@modern-js/module-tools@*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@types/babel__generator": "7.6.4",
+    "@types/babel__traverse": "7.18.5",
     "@types/fs-extra": "9.0.13",
     "@types/jest": "^29",
     "@types/node": "^14",
@@ -77,7 +83,7 @@
     "path-browserify": "1.0.1",
     "postcss-alias": "2.0.0",
     "react": "17",
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -108,6 +114,6 @@
     }
   },
   "peerDependencies": {
-    "typescript": "^4"
+    "typescript": "^4 || ^5"
   }
 }

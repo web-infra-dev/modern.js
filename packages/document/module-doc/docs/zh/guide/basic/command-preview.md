@@ -32,7 +32,7 @@ Options:
 
 除了以上，模块工程还支持 `platform` 构建模式，可以用于执行其他工具的构建任务。例如，目前官方支持在安装了 `@modern-js/plugin-storybook` 插件后，可以通过执行 `modern build --platform` 或者 `modern build --platform storybook` 命令启动 Storybook 构建任务生成 Storybook 产物。
 
-:::tip{title=注意}
+:::tip
 在执行 Storybook 构建的时候，如果需要读取项目的构建产物。那么**在执行 `modern build --platform` 命令启动 Storybook 构建之前，不要忘记先执行 `modern build` 命令确保项目构建产物的存在**。
 :::
 
@@ -185,7 +185,7 @@ Options:
 
 根据当前仓库的 changeset 信息自动生成 [Release Note](https://en.wikipedia.org/wiki/Release_notes)。
 
-:::tip{title=注意}
+:::tip
 需要在 `bump` 命令之前执行。
 :::
 

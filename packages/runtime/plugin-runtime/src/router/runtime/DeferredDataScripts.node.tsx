@@ -181,7 +181,7 @@ const DeferredDataScript = ({
             <ErrorDeferredDataScript routeId={routeId} dataKey={dataKey} />
           }
         >
-          {data => (
+          {(data: any) => (
             <script
               async
               suppressHydrationWarning

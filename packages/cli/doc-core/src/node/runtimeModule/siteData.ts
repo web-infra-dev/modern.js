@@ -28,6 +28,7 @@ import {
   MDX_REGEXP,
   SEARCH_INDEX_NAME,
   addLeadingSlash,
+  isExternalUrl,
 } from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
@@ -66,7 +67,12 @@ export function normalizeThemeConfig(
   const i18nTextData = getI18nData(docConfig);
   // In following code, we will normalize the theme config reference to the pages data extracted from mdx files
   const normalizeLangPrefix = (link?: string, currentLang?: string) => {
-    if (!currentLang || !link || link.startsWith(`/${currentLang}`)) {
+    if (
+      !currentLang ||
+      !link ||
+      link.startsWith(`/${currentLang}`) ||
+      isExternalUrl(link)
+    ) {
       return link;
     }
     // if lang exists, we should add the lang prefix to the link

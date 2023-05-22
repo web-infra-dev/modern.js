@@ -42,7 +42,7 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
         },
         {
           text: getText('贡献指南', 'Contributing'),
-          link: 'https://github.com/web-infra-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md',
+          link: 'https://modernjs.dev/en/community/contributing-guide.html',
         },
       ],
     },

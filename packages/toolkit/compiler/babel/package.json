@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.19.1",
+  "version": "2.20.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -37,18 +37,18 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
-    "@modern-js/utils": "workspace:*"
+    "@babel/core": "^7.21.8",
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
-    "@babel/plugin-transform-classes": "^7.18.0",
-    "@babel/preset-typescript": "^7.17.12",
-    "@types/babel__core": "^7.1.15",
+    "@babel/plugin-transform-classes": "^7.21.0",
+    "@babel/preset-typescript": "^7.21.5",
+    "@types/babel__core": "^7.20.0",
     "@types/glob": "^7.1.4",
     "@types/jest": "^29",
     "@types/node": "^14",
-    "typescript": "^4",
+    "typescript": "^5",
     "@scripts/build": "workspace:*",
     "jest": "^29",
     "@scripts/jest-config": "workspace:*"

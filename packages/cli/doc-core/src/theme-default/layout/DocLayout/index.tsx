@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import mediumZoom from 'medium-zoom';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
 import { useLocaleSiteData, useSidebarData } from '../../logic';
@@ -18,15 +17,6 @@ export interface DocLayoutProps {
   afterDoc?: React.ReactNode;
   beforeOutline?: React.ReactNode;
   afterOutline?: React.ReactNode;
-}
-
-function DocContent() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    const images = document.querySelectorAll('.modern-doc img');
-    mediumZoom(images);
-  }, [pathname]);
-  return <Content />;
 }
 
 export function DocLayout(props: DocLayoutProps) {
@@ -86,7 +76,7 @@ export function DocLayout(props: DocLayoutProps) {
             <div className="modern-doc">
               <TabDataContext.Provider value={{ tabData, setTabData }}>
                 <MDXProvider components={getCustomMDXComponent()}>
-                  <DocContent />
+                  <Content />
                 </MDXProvider>
               </TabDataContext.Provider>
               <div>

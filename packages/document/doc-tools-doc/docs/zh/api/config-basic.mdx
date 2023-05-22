@@ -166,3 +166,30 @@ export default defineConfig({
   plugins: [docTools()],
 });
 ```
+
+## mediumZoom
+
+- Type: `boolean` | `{ selector?: string }`
+- Default: `true`
+
+是否开启图片放大功能。默认开启，你可以通过设置 `mediumZoom` 为 `false` 来关闭。
+
+> 底层使用的是 [medium-zoom](https://github.com/francoischalifour/medium-zoom) 库来实现的。
+
+使用示例：
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    // 关闭图片放大功能
+    mediumZoom: false,
+    // 配置 CSS 选择器，自定义要放大的图片，默认为 '.modern-doc img'
+    mediumZoom: {
+      selector: '.modern-doc img',
+    },
+  },
+  plugins: [docTools()],
+});
+```

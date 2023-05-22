@@ -79,7 +79,6 @@ export const createCli = () => {
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 
     const appContext = initAppContext({
-      toolsType: mergedOptions?.toolsType,
       appDirectory,
       plugins,
       configFile: loaded.filePath,
@@ -109,6 +108,8 @@ export const createCli = () => {
       },
     );
 
+    await hooksRunner.beforeConfig();
+
     const extraConfigs = await hooksRunner.config();
 
     const extraSchemas = await hooksRunner.validateSchema();
@@ -127,8 +128,6 @@ export const createCli = () => {
     // update context value
     ConfigContext.set(loaded.config);
     ResolvedConfigContext.set(resolved);
-
-    await hooksRunner.addRuntimeExports();
 
     await hooksRunner.prepare();
 

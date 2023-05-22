@@ -1,10 +1,10 @@
 - **Type:** `Object | Function`
 - **Default:** `undefined`
 
-By `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
+With `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
 :::warning
-When using Rspack as a packaging tool, using this configuration item will slow down Rspack builds a bit. Because Rspack uses SWC compilation by default, there will be additional compilation overhead when configuring the Babel.
+When using Rspack as the bundler, using this configuration will slow down the build speed of Rspack. As Rspack uses SWC compilation by default, there will be additional compilation overhead when using the Babel.
 :::
 
 ### Function Type

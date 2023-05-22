@@ -1,11 +1,63 @@
+import { BaseSSRServerContext } from '@modern-js/types';
 import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
 
 export type Context = Record<string, any>;
 
-export interface UrlQuery {
-  [key: string]: string;
+export interface HandlerOptions {
+  request: Request;
+  loadableStats: Record<string, any>;
+  routeManifest: Record<string, any>;
+}
+
+export class ReturnResponse {
+  body: string;
+
+  status: number;
+
+  headers: Headers;
+
+  constructor(body: string, status: number, headers: Record<string, any> = {}) {
+    this.body = body;
+    this.status = status;
+    this.headers = new Headers(headers);
+    this.headers.set('content-type', 'text/html;charset=UTF-8');
+  }
+
+  /**
+   * Iterate a Object
+   * 1. adds the value if the key does not already exist.
+   * 2. append the value if the key does already exist.
+   *
+   * more detail follow: https://developer.mozilla.org/en-US/docs/Web/API/Headers/append
+   * @param headers
+   * @returns
+   */
+  appendHeaders(headers: Record<string, any>): this {
+    Object.entries(headers).forEach(([key, value]) => {
+      this.headers.append(key, value.toString() as string);
+    });
+
+    return this;
+  }
+
+  /**
+   * Iterate a Object
+   * 1. adds the value if the key does not already exist.
+   * 2. modify the value if the key does already exist.
+   *
+   * more detail follow: https://developer.mozilla.org/en-US/docs/Web/API/Headers/set
+   * @param headers
+   * @returns
+   */
+  setHeaders(headers: Record<string, any>): this {
+    Object.entries(headers).forEach(([key, value]) => {
+      this.headers.set(key, value.toString() as string);
+    });
+
+    return this;
+  }
 }
 
 export type Manifest = {
@@ -20,67 +72,104 @@ export type Manifest = {
   routes: ModernRouteInterface[];
 };
 
-export const handleUrl = (url: string) => {
-  return url.replace(/^https?:\/\/.*?\//gi, '/');
-};
+const RESPONSE_NOTFOUND = new ReturnResponse('404: Page not found', 404);
 
 export const createHandler = (manifest: Manifest) => {
   const routeMgr = new RouteMatchManager();
   const { pages, routes } = manifest;
   routeMgr.reset(routes);
-  return async (ctx: Context) => {
-    const pageMatch = routeMgr.match(ctx.url);
+  return async (options: HandlerOptions): Promise<ReturnResponse> => {
+    const { request, loadableStats, routeManifest } = options;
+    // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
+    const url = new URL(request.url);
+    const pageMatch = routeMgr.match(url.pathname);
     if (!pageMatch) {
-      ctx.body = '404: Page not found';
-      ctx.status = 404;
-      return;
+      return RESPONSE_NOTFOUND;
     }
     const page = pages[pageMatch.spec.urlPath];
-    ctx.request.query ??= ctx.query;
-    ctx.request.pathname ??= ctx.pathname;
-    ctx.request.params ??= ctx.params;
-    const params = pageMatch.parseURLParams(ctx.url);
     if (page.serverRender) {
       try {
-        ctx.body = await page.serverRender({
-          entryName: page.entryName,
+        const responseLike = {
+          headers: {} as Record<string, any>,
+          statusCode: 200,
+          locals: {} as Record<string, any>,
+          setHeader(key: string, value: string) {
+            this.headers[key] = value;
+          },
+          status(code: number) {
+            this.statusCode = code;
+          },
+        };
+        const params = pageMatch.parseURLParams(url.pathname) || {};
+
+        const serverRenderContext: BaseSSRServerContext = {
+          request: createServerRequest(url, request, params),
+          response: responseLike,
+          loadableStats,
+          routeManifest,
+          redirection: {},
           template: page.template,
-          query: ctx.query,
-          request: ctx.request,
-          response: ctx.response,
-          pathname: ctx.pathname,
-          req: ctx.request,
-          res: ctx.response,
-          params: ctx.params || params || {},
-          logger:
-            ctx.logger ||
-            (new Logger({
-              level: 'warn',
-            }) as Logger & LoggerInterface),
-          metrics: ctx.metrics || defaultMetrics,
-          loadableStats: ctx.loadableStats,
-          routeManifest: ctx.routeManifest,
-        });
-        ctx.status = 200;
-        return;
+          entryName: page.entryName,
+          logger: new Logger({
+            level: 'warn',
+          }) as Logger & LoggerInterface,
+          metrics: defaultMetrics as any,
+          // FIXME: pass correctly req & res
+          req: request as any,
+          res: responseLike as any,
+        };
+
+        const body = await page.serverRender(serverRenderContext);
+
+        return new ReturnResponse(
+          body,
+          responseLike.statusCode,
+          responseLike.headers,
+        );
       } catch (e) {
-        if (page.template) {
-          ctx.body = page.template;
-          ctx.status = 200;
-          return;
-        } else {
-          ctx.body = '404: not found';
-          ctx.status = 404;
-          return;
-        }
+        console.warn(
+          `page(${pageMatch.spec.urlPath}) serverRender occur error: `,
+        );
+        console.warn(e);
+
+        return createResponse(page.template);
       }
     }
-    if (page.template) {
-      ctx.body = page.template;
-      ctx.status = 200;
-      return;
+
+    console.warn(`Can't not page(${pageMatch.spec.urlPath}) serverRender`);
+
+    return createResponse(page.template);
+
+    function createServerRequest(
+      // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
+      url: URL,
+      request: Request,
+      params: Record<string, string>,
+    ) {
+      const { pathname, host, searchParams } = url;
+      const { headers: rawHeaders } = request;
+      const headers = {} as Record<string, any>;
+      rawHeaders.forEach((value, key) => {
+        headers[key] = value;
+      });
+      // eslint-disable-next-line node/no-unsupported-features/es-builtins
+      const query = Object.fromEntries(searchParams);
+
+      return {
+        pathname,
+        host,
+        headers,
+        params,
+        query,
+      };
     }
-    ctx.body = '404: not found';
-    ctx.status = 404;
   };
 };
+
+function createResponse(template?: string) {
+  if (template) {
+    return new ReturnResponse(template, 200);
+  } else {
+    return RESPONSE_NOTFOUND;
+  }
+}

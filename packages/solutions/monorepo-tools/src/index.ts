@@ -8,6 +8,8 @@ import { newCli, deployCli, clearCli } from './cli';
 import { hooks } from './hooks';
 import { MonorepoTools } from './type';
 
+export * from './projects/getProjects';
+
 const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   '@modern-js/upgrade',
   require,
@@ -18,6 +20,12 @@ export default (): CliPlugin<MonorepoTools> => ({
   usePlugins: [changesetPlugin(), lintPlugin()],
   registerHook: hooks,
   setup: api => {
+    const appContext = api.useAppContext();
+    api.setAppContext({
+      ...appContext,
+      toolsType: 'monorepo-tools',
+    });
+
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
 

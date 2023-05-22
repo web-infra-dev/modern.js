@@ -38,7 +38,7 @@ polyfill 是一种用于解决浏览器兼容问题的技术。它用于模拟�
 
 通过独立的 `.browserslistrc` 文件设置：
 
-```
+```yaml
 iOS >= 9
 Android >= 4.4
 last 2 versions
@@ -101,11 +101,45 @@ export default {
 
 以下是一些常用的浏览器范围，你可以根据自己的项目类型进行选择。
 
+### 桌面端 PC 场景
+
+在桌面端 PC 场景下，如果你需要兼容 IE 11 浏览器，则可以将 Browserslist 设置为：
+
+```yaml
+> 0.5%
+not dead
+IE 11
+```
+
+以上浏览器范围会将代码编译至 ES5 规范，具体对应的浏览器列表可以查看 [browserslist.dev](https://browserslist.dev/?q=PiAwLjUlLCBub3QgZGVhZCwgSUUgMTE%3D)。
+
+如果你不需要兼容 IE 11 浏览器，那么可以调整 Browserslist 来获得更高性能的产物，比如：
+
+- 设置为支持原生 ES Modules 的浏览器（推荐）：
+
+```yaml
+chrome >= 61
+edge >= 16
+firefox >= 60
+safari >= 11
+ios_saf >= 11
+```
+
+- 设置为支持 ES6 的浏览器：
+
+```yaml
+chrome >= 51
+edge >= 15
+firefox >= 54
+safari >= 10
+ios_saf >= 10
+```
+
 ### 移动端 H5 场景
 
 移动端 H5 场景主要兼容 `iOS` 和 `Android` 系统，通常我们将 Browserslist 设置为：
 
-```
+```yaml
 iOS >= 9
 Android >= 4.4
 last 2 versions
@@ -119,34 +153,12 @@ not dead
 
 你也可以选择在 H5 场景使用 ES6 规范，这样会让页面的性能表现更好，对应的 Browserslist 如下：
 
-```
+```yaml
 iOS >= 10
 Chrome >= 51
 > 0.5%
 not dead
 not op_mini all
-```
-
-### 桌面端 PC 场景
-
-在桌面端 PC 场景下，如果你需要兼容 IE 11 浏览器，则可以将 Browserslist 设置为：
-
-```
-> 0.5%
-not dead
-IE 11
-```
-
-以上浏览器范围会将代码编译至 ES5 规范，具体对应的浏览器列表可以查看 [browserslist.dev](https://browserslist.dev/?q=PiAwLjUlLCBub3QgZGVhZCwgSUUgMTE%3D)。
-
-如果你不需要兼容 IE 11 浏览器，那么可以调整 Browserslist 来获得更高性能的产物，比如设置为支持原生 ES Modules 的浏览器：
-
-```
-chrome >= 61
-edge >= 16
-firefox >= 60
-safari >= 11
-ios_saf >= 11
 ```
 
 ## Browserslist 默认值
@@ -157,7 +169,7 @@ Builder 会根据[构建产物类型](/guide/basic/build-target.html)来设置�
 
 Web 产物的默认值如下所示：
 
-```
+```yaml
 > 0.01%
 not dead
 not op_mini all
@@ -169,7 +181,7 @@ not op_mini all
 
 Node 产物默认最低兼容到 Node.js 14.0 版本。
 
-```
+```yaml
 node >= 14
 ```
 
@@ -177,7 +189,7 @@ node >= 14
 
 Web Worker 产物默认的浏览器范围与 Web 一致。
 
-```
+```yaml
 > 0.01%
 not dead
 not op_mini all
@@ -187,7 +199,7 @@ not op_mini all
 
 Modern Web 产物默认最低兼容到支持[原生 ES Modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) 的浏览器。
 
-```
+```yaml
 chrome >= 61
 edge >= 16
 firefox >= 60

@@ -1,6 +1,5 @@
 import type { ErrorObject } from '@modern-js/utils/compiled/ajv';
 import type { InternalPlugins } from './plugin';
-import type { ToolsType } from './context';
 import type { UserConfig } from './config';
 
 export interface CoreOptions {
@@ -21,7 +20,6 @@ export interface CoreOptions {
     distDir?: string;
     sharedDir?: string;
   };
-  toolsType?: ToolsType;
 
   /** force the modern-js core auto register plugin exist in the package.json  */
   forceAutoLoadPlugins?: boolean;

@@ -1,5 +1,4 @@
 import { UserConfig, PageIndexInfo, DocPlugin } from 'shared/types';
-import { pluginLastUpdated } from './plugins/lastUpdated';
 import { AdditionalPage } from '@/shared/types/Plugin';
 
 type HookOptions = {
@@ -8,20 +7,35 @@ type HookOptions = {
   pageData?: PageIndexInfo;
 };
 
-function getPlugins(config: UserConfig) {
-  const plugins: DocPlugin[] = config.doc?.plugins || [];
+let docPlugins: DocPlugin[] = [];
+
+// The init function is used to initialize the doc plugins and will execute before the build process.
+export async function loadPlugins(config: UserConfig) {
+  // Clear docPlugins first, for the watch mode
+  docPlugins = [];
   const enableLastUpdated =
     config.doc.themeConfig?.lastUpdated ||
     config.doc.themeConfig?.locales?.some(locale => locale.lastUpdated);
+  const mediumZoomConfig = config.doc.mediumZoom ?? true;
   if (enableLastUpdated) {
-    plugins.push(pluginLastUpdated());
+    const { pluginLastUpdated } = await import('./plugins/lastUpdated');
+    docPlugins.push(pluginLastUpdated());
   }
-  return plugins;
+  if (mediumZoomConfig) {
+    const { pluginMediumZoom } = await import(
+      '@modern-js/doc-plugin-medium-zoom'
+    );
+    docPlugins.push(
+      pluginMediumZoom(
+        typeof mediumZoomConfig === 'object' ? mediumZoomConfig : undefined,
+      ),
+    );
+  }
+  docPlugins.push(...(config.doc.plugins || []));
 }
 
 export async function modifyConfig(hookOptions: HookOptions) {
   const { config } = hookOptions;
-  const docPlugins = getPlugins(config);
 
   // config hooks
   for (const plugin of docPlugins) {
@@ -35,7 +49,6 @@ export async function modifyConfig(hookOptions: HookOptions) {
 
 export async function beforeBuild(hookOptions: HookOptions) {
   const { config, isProd = true } = hookOptions;
-  const docPlugins = getPlugins(config);
 
   // beforeBuild hooks
   return await Promise.all(
@@ -49,7 +62,6 @@ export async function beforeBuild(hookOptions: HookOptions) {
 
 export async function afterBuild(hookOptions: HookOptions) {
   const { config, isProd = true } = hookOptions;
-  const docPlugins = getPlugins(config);
 
   // afterBuild hooks
   return await Promise.all(
@@ -63,7 +75,6 @@ export async function afterBuild(hookOptions: HookOptions) {
 
 export async function extendPageData(hookOptions: HookOptions): Promise<void> {
   const { pageData } = hookOptions;
-  const docPlugins = getPlugins(hookOptions.config);
   // extendPageData hooks
   await Promise.all(
     docPlugins
@@ -78,7 +89,6 @@ export async function addPages(
   hookOptions: HookOptions,
 ): Promise<AdditionalPage[]> {
   const { config } = hookOptions;
-  const docPlugins = getPlugins(config);
 
   // addPages hooks
   const result = await Promise.all(
@@ -90,4 +100,24 @@ export async function addPages(
   );
 
   return result.flat();
+}
+
+export async function globalUIComponents(): Promise<string[]> {
+  // globalUIComponents hooks
+  const result = docPlugins.map(plugin => {
+    return plugin.globalUIComponents || [];
+  });
+
+  return result.flat();
+}
+
+export async function globalStyles(): Promise<string[]> {
+  // globalStyles hooks
+  const result = docPlugins
+    .filter(plugin => typeof plugin.globalStyles === 'string')
+    .map(plugin => {
+      return plugin.globalStyles;
+    });
+
+  return result;
 }

@@ -1,4 +1,4 @@
-import { Command } from '@modern-js/utils';
+import { Command } from '@modern-js/utils/commander';
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
 import { createAction } from './createAction';
 import { i18n, localeKeys } from './locale';

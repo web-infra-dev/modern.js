@@ -1,0 +1,4 @@
+dist-1
+dist-2
+*.d.ts
+!types.d.ts

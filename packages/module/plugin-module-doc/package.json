@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.19.1",
+  "version": "2.20.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -54,13 +54,13 @@
     "mdast-util-mdxjs-esm": "^1.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^4",
+    "typescript": "^5",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.1",
     "webpack-virtual-modules": "0.4.6"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.19.1",
+    "@modern-js/module-tools": "workspace:^2.20.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

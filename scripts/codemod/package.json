@@ -1,7 +1,7 @@
 {
   "name": "@scripts/codemod",
   "private": true,
-  "version": "2.19.1",
+  "version": "2.20.0",
   "scripts": {
     "build": "modern-lib build"
   },
@@ -12,7 +12,7 @@
     "@types/glob": "^7.1.4",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

@@ -1,5 +1,34 @@
 # @modern-js/doc-core
 
+## 2.20.0
+
+### Patch Changes
+
+- 09c7af6: fix(doc-core): external link normalize
+
+  fix(doc-core): 修复外部链接不规范的问题
+
+- 0ce52ad: docs(main): optimize mobile adaptation
+
+  docs(main): 优化移动端适配
+
+- d714326: fix(doc-core): link error when base url exsits
+
+  fix(doc-core): 修复存在 base url 时链接错误的问题
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [f0ef868]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [4b03d17]
+- Updated dependencies [6289d31]
+  - @modern-js/utils@2.20.0
+  - @modern-js/builder-rspack-provider@2.20.0
+  - @modern-js/builder@2.20.0
+  - @modern-js/core@2.20.0
+  - @modern-js/remark-container@2.20.0
+
 ## 2.19.1
 
 ### Patch Changes
