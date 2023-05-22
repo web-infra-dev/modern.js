@@ -20,6 +20,12 @@ export default (): CliPlugin<MonorepoTools> => ({
   usePlugins: [changesetPlugin(), lintPlugin()],
   registerHook: hooks,
   setup: api => {
+    const appContext = api.useAppContext();
+    api.setAppContext({
+      ...appContext,
+      toolsType: 'monorepo-tools',
+    });
+
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
 
