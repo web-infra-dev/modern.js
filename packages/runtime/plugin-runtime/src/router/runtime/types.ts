@@ -1,4 +1,4 @@
-import type { RouteProps, RouteObject } from 'react-router-dom';
+import type { RouteProps, RouteObject } from '@modern-js/utils/runtime/router';
 import { PageRoute, NestedRoute } from '@modern-js/types';
 
 declare global {

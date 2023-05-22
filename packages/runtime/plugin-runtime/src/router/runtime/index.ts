@@ -1,4 +1,4 @@
-import { useRouteLoaderData as useRouteData } from 'react-router-dom';
+import { useRouteLoaderData as useRouteData } from '@modern-js/utils/runtime/router';
 import { routerPlugin } from './plugin';
 import type { SingleRouteConfig, RouterConfig } from './types';
 
@@ -78,7 +78,7 @@ export type {
   Search,
   ShouldRevalidateFunction,
   To,
-} from 'react-router-dom';
+} from '@modern-js/utils/runtime/router';
 
 // Note: Keep in sync with react-router-dom exports!
 export {
@@ -144,9 +144,7 @@ export {
   createPath,
   unstable_useBlocker,
   unstable_usePrompt,
-} from 'react-router-dom';
-
-// `react-router-dom` has its own dependency: `@remix-run/router`.
-// In order to make sure `plugin-data-loader` and user's loaders(mainly `defer` API) depend on the singleton of `@remix-run/router`,
-// we export these API from the same package `@modern-js/utils/runtime`.
-export { defer, json, redirect } from '@modern-js/utils/runtime/router';
+  defer,
+  json,
+  redirect,
+} from '@modern-js/utils/runtime/router';

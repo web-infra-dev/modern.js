@@ -104,6 +104,14 @@
         "types": "./dist/types/runtime/router.d.ts",
         "default": "./dist/esm/runtime/router.js"
       },
+      "./runtime/remix-router": {
+        "types": "./dist/types/runtime/remixRouter.d.ts",
+        "default": "./dist/esm/runtime/remixRouter.js"
+      },
+      "./runtime/nested-routes": {
+        "types": "./dist/types/runtime/nestedRoutes.d.ts",
+        "default": "./dist/esm/runtime/nestedRoutes.js"
+      },
       "./runtime-browser": {
         "jsnext:source": "./src/runtime-browser/index.d.ts",
         "default": "./dist/esm/runtime-browser/index.js"
@@ -111,6 +119,10 @@
       "./runtime-node": {
         "types": "./dist/types/runtime-node/index.d.ts",
         "default": "./dist/esm/runtime-node/index.js"
+      },
+      "./runtime-node/router": {
+        "types": "./dist/types/runtime-node/router.d.ts",
+        "default": "./dist/esm/runtime-node/router.js"
       },
       "./universal/constants": {
         "types": "./dist/types/universal/constants.d.ts",
@@ -161,11 +173,20 @@
       "runtime/router": [
         "./dist/types/runtime/router.d.ts"
       ],
+      "runtime/remix-router": [
+        "./dist/types/runtime/remixRouter.d.ts"
+      ],
+      "runtime/nested-routes": [
+        "./dist/types/runtime/nestedRoutes.d.ts"
+      ],
       "runtime-browser": [
         "./dist/types/runtime-browser/index.d.ts"
       ],
       "runtime-node": [
         "./dist/types/runtime-node/index.d.ts"
+      ],
+      "runtime-node/router": [
+        "./dist/types/runtime-node/router.d.ts"
       ],
       "universal/constants": [
         "./dist/types/universal/constants.d.ts"
@@ -255,13 +276,13 @@
     "caniuse-lite": "^1.0.30001451",
     "lodash": "^4.17.21",
     "serialize-javascript": "^6.0.0",
-    "@remix-run/router": "^1.3.2",
+    "react-router-dom": "6.11.2",
+    "@remix-run/router": "1.6.2",
     "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
-    "react-dom": ">=17.0.0",
-    "react-router-dom": "^6.8.1"
+    "react-dom": ">=17.0.0"
   },
   "peerDependenciesMeta": {
     "react": {

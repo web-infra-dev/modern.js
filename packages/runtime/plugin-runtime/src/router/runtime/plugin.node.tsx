@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { createStaticHandler } from '@modern-js/utils/runtime/router';
+import { createStaticHandler } from '@modern-js/utils/runtime/remix-router';
 import {
   createStaticRouter,
   StaticRouterProvider,
-} from 'react-router-dom/server';
+} from '@modern-js/utils/runtime-node/router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { createRoutesFromElements } from 'react-router-dom';
+import { createRoutesFromElements } from '@modern-js/utils/runtime/router';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';

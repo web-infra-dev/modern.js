@@ -1,1 +1,1 @@
-export * from 'react-router-dom/server';
+export * from '@modern-js/utils/runtime-node/router';
