@@ -7,9 +7,8 @@ import { getTemplates } from './template';
 export type Pipe<T extends Writable> = (output: T) => Promise<T | string>;
 
 enum ShellChunkStatus {
-  IDLE = 0,
-  START = 1,
-  FINIESH = 2,
+  START = 0,
+  FINIESH = 1,
 }
 
 function renderToPipe(
@@ -17,9 +16,10 @@ function renderToPipe(
   context: RuntimeContext,
   options?: RenderToPipeableStreamOptions,
 ) {
-  let shellChunkStatus = ShellChunkStatus.IDLE;
+  let shellChunkStatus = ShellChunkStatus.START;
 
   const { ssrContext } = context;
+  const chunkVec: string[] = [];
   const forUserPipe: Pipe<Writable> = stream => {
     return new Promise(resolve => {
       let renderToPipeableStream;
@@ -40,28 +40,24 @@ function renderToPipe(
             transform(chunk, _encoding, callback) {
               try {
                 if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
-                  let concatedChunk = chunk.toString();
-                  if (shellChunkStatus === ShellChunkStatus.IDLE) {
-                    concatedChunk = `${shellBefore}${concatedChunk}`;
-                    shellChunkStatus = ShellChunkStatus.START;
-                  }
+                  chunkVec.push(chunk.toString());
+
                   /**
                    * The shell content of App may be splitted by multiple chunks to transform,
                    * when any node value's size is larger than the React limitation, refer to:
                    * https://github.com/facebook/react/blob/v18.2.0/packages/react-server/src/ReactServerStreamConfigNode.js#L53.
                    * So we use the `SHELL_STREAM_END_MARK` to mark the shell content' tail.
                    */
-                  if (
-                    shellChunkStatus === ShellChunkStatus.START &&
-                    concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)
-                  ) {
+                  let concatedChunk = chunkVec.join('');
+                  if (concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)) {
                     concatedChunk = concatedChunk.replace(
                       ESCAPED_SHELL_STREAM_END_MARK,
-                      shellAfter,
+                      '',
                     );
+
                     shellChunkStatus = ShellChunkStatus.FINIESH;
+                    this.push(`${shellBefore}${concatedChunk}${shellAfter}`);
                   }
-                  this.push(concatedChunk);
                 } else {
                   this.push(chunk);
                 }
