@@ -65,7 +65,7 @@ Builder aims to eliminate the main differences between different bundlers and he
 
 This article will introduce the differences between webpack and Rspack from the perspective of Builder. If you need to know more in-depth differences, please refer to the [Rspack documentation](http://rspack.dev/guide/migrate-from-webpack.html).
 
-### Builder configuration differences
+### 1. Builder configuration differences
 
 Currently, most of configuration options in Builder have been adapted for Rspack.
 Throughout this process, Builder's work includes but is not limited to:
@@ -112,8 +112,9 @@ Unsupported configurations and capabilities include:
 - [output.disableSourcemap.css](/api/config-output.html#outputdisablesourcemap)
 - [output.enableAssetManifest](/api/config-output.html#outputenableassetmanifest)
 - [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
-- [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
+- [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
+- [output.polyfill.usage](/api/config-output.html#usage)
 - tsChecker ability
   - [output.disableTsChecker](/api/config-output.html#outputdisabletschecker)
 
@@ -156,30 +157,44 @@ Unsupported configurations and capabilities include:
 In addition to the above configurations, some of the supported configurations may have differences in their capabilities. For specific differences in configurations, please refer to the corresponding API for each configuration.
 :::
 
-### Migrating from webpackChain to bundlerChain
+### 2. Migrating from webpackChain to bundlerChain
 
 Builder supports modifying Rspack config via [bundlerChain](/api/config-tools.html#toolsbundlerchain). configurations modified via bundlerChain will take effect on both webpack and Rspack builds.
+
+```diff
+export default {
+  tools: {
+-   webpackChain: (chain, { env }) => {
++   bundlerChain: (chain, { env }) => {
+      if (env === 'development') {
+        chain.devtool('cheap-module-eval-source-map');
+      }
+    },
+  },
+};
+```
 
 :::tip
 The bundlerChain only provides consistent api modification for Rspack & webpack configurations, the actual plugin / loader availability depends on the actual Rspack / webpack support.
 :::
 
-### CHAIN_ID differences
+#### CHAIN_ID differences
 
 Because of some implementation differences between webpack and Rspack, there are some differences in the rules configuration.
 
 You can see all the rules that are supported in both Rspack & webpack via [tools.bundlerChain#CHAIN_ID](/api/config-tools.html#chain_id).
 
-### Modify the Rspack Configuration Object
+### 3. Migrating from tools.webpack to tools.rspack
 
 BundlerChain only supports modifying the Rspack & webpack intersection config, more Rspack-exclusive features need to be modified via [tools.rspack](/api/config-tools.html#toolsrspack).
 
 Before modify the Rspack configuration object, you may should know [the config diff between Rspack and Webapck](https://www.rspack.dev/guide/config-diff.html).
 
-```ts
+```diff
 export default {
   tools: {
-    rspack: (config, { env }) => {
+-   webppack: (config, { env }) => {
++   rspack: (config, { env }) => {
       if (env === 'development') {
         config.devtool = 'cheap-module-eval-source-map';
       }
@@ -190,3 +205,44 @@ export default {
 ```
 
 More information about Rspack, please refer to the [Rspack website](https://www.rspack.dev/).
+
+### 4. Babel Configuration Migration
+
+By default, Rspack uses SWC for transpilation and compression. Therefore, when using Rspack for building, babel-loader is not loaded by default.
+
+For most common Babel plugins, you can find corresponding alternatives in Rspack, and there are also corresponding compatible configuration options in Builder.
+
+| Babel Plugin                                    | Rspack Configuration     | Builder Configuration                                           |
+| ----------------------------------------------- | --------------------- | ------------------------------------------------------------ |
+| @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/config/builtins.html#builtinspresetenv)    | [Browserslist](/guide/advanced/browserslist.html)、<br />[Browser Compatibility](/guide/advanced/browser-compatibility.html) |
+| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/config/builtins.html#builtinsreact)            | [Hot Module Replacement](/guide/advanced/hmr.html)                       |
+| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/config/builtins.html#builtinsemotion)        | none                                                         |
+| babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                       |
+| babel-plugin-lodash                             | none                   | none                                                         |
+| babel-plugin-styled-components                  | none                   | none                                                         |
+| @babel/plugin-react-transform-remove-prop-types | none                   | none                                                         |
+
+:::Tip
+When using Rspack for building, you can still configure Babel plugins through [tools.babel](/api/config-tools.html#toolsbabel), but this will result in additional compilation overhead, which may slow down the Rspack build to some extent.
+:::
+
+### 5. SWC Configuration Support
+Rspack has built-in support for some swc configurations, such as builtins.react, which can be referred to in [Builtins](https://www.rspack.dev/config/builtins.html).
+
+Adding swc plugins and more custom configurations is not currently supported in Rspack. Relevant requirements can be tracked through the corresponding [issue]](https://github.com/web-infra-dev/rspack/issues/3067).
+
+### 6. Webpack Plugin Migration
+
+Currently, only a limited number of webpack plugins are compatible with Rspack. If the following plugins (or indirect dependencies) are used in your project, they need to be temporarily removed or alternative solutions need to be used, otherwise switching to Rspack for building is not supported:
+
+- webpack-retry-chunk-load-plugin：use [output.assetsRetry](/api/config-output.html#outputassetsretry) instead.
+- webpack.ProviderPlugin：use [builtins.provide](https://www.rspack.dev/config/builtins.html#builtinsprovide) instead.
+- copy-webpack-plugin：use [builtins.copy](https://www.rspack.dev/config/builtins.html#builtinscopy) instead.
+- banner-plugin：use [builtins.banner](https://www.rspack.dev/config/builtins.html#builtinsbanner) instead.
+- webpack.DefinePlugin：use [builtins.define](https://www.rspack.dev/config/builtins.html#builtinsdefine) instead.
+- webpack.HashedModuleIdsPlugin
+- webpack.IgnorePlugin
+- webpack.ContextReplacementPlugin
+- ...
+
+The plugins not listed can be judged according to [Rspack Plugin API](https://www.rspack.dev/api/plugin-api.html).
