@@ -1,4 +1,4 @@
 export type InjectTemplate = {
-  shellBefore?: string;
-  shellAfter?: string;
+  shellBefore: string;
+  shellAfter: string;
 };
