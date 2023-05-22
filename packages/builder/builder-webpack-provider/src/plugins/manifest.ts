@@ -1,4 +1,5 @@
 import type { BuilderPlugin } from '../types';
+import { generateManifest } from '@modern-js/builder-shared';
 
 export const builderPluginManifest = (): BuilderPlugin => ({
   name: 'builder-plugin-manifest',
@@ -20,25 +21,7 @@ export const builderPluginManifest = (): BuilderPlugin => ({
         {
           fileName: 'asset-manifest.json',
           publicPath,
-          generate: (seed, files, entries) => {
-            const manifestFiles = files.reduce((manifest, file) => {
-              manifest[file.name] = file.path;
-              return manifest;
-            }, seed);
-
-            const entrypointFiles = Object.keys(entries).reduce<string[]>(
-              (previous, name) =>
-                previous.concat(
-                  entries[name].filter(fileName => !fileName.endsWith('.map')),
-                ),
-              [],
-            );
-
-            return {
-              files: manifestFiles,
-              entrypoints: entrypointFiles,
-            };
-          },
+          generate: generateManifest,
         },
       ]);
     });
