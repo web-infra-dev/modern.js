@@ -10,9 +10,8 @@ import { getTemplates } from './template';
 export type Pipe<T extends Writable> = (output: T) => Promise<T | string>;
 
 enum ShellChunkStatus {
-  IDLE = 0,
-  START = 1,
-  FINIESH = 2,
+  START = 0,
+  FINIESH = 1,
 }
 
 function renderToPipe(
@@ -20,7 +19,8 @@ function renderToPipe(
   context: RuntimeContext,
   options?: RenderToReadableStreamOptions,
 ) {
-  let shellChunkStatus = ShellChunkStatus.IDLE;
+  let shellChunkStatus = ShellChunkStatus.START;
+  const chunkVec: string[] = [];
 
   const { ssrContext } = context;
   const forUserPipe = async () => {
@@ -56,20 +56,24 @@ function renderToPipe(
               return;
             }
             if (shellChunkStatus !== ShellChunkStatus.FINIESH) {
-              let concatedChunk = new TextDecoder().decode(value);
-              if (shellChunkStatus === ShellChunkStatus.IDLE) {
-                concatedChunk = `${shellBefore}${concatedChunk}`;
-                shellChunkStatus = ShellChunkStatus.START;
-              }
-              if (
-                shellChunkStatus === ShellChunkStatus.START &&
-                concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)
-              ) {
+              const chunk = new TextDecoder().decode(value);
+
+              chunkVec.push(chunk);
+
+              let concatedChunk = chunkVec.join('');
+              if (concatedChunk.endsWith(ESCAPED_SHELL_STREAM_END_MARK)) {
                 concatedChunk = concatedChunk.replace(
                   ESCAPED_SHELL_STREAM_END_MARK,
-                  shellAfter!,
+                  '',
                 );
+
                 shellChunkStatus = ShellChunkStatus.FINIESH;
+
+                controller.enqueue(
+                  encodeForWebStream(
+                    `${shellBefore}${concatedChunk}${shellAfter}`,
+                  ),
+                );
               }
               controller.enqueue(encodeForWebStream(concatedChunk));
             } else {
