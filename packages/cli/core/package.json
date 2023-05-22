@@ -98,7 +98,7 @@
     "postcss": "8.4.21",
     "sass": "^1.45.0",
     "terser-webpack-plugin": "^5.1.4",
-    "typescript": "^4",
+    "typescript": "^5",
     "webpack": "^5.82.1"
   },
   "sideEffects": false,

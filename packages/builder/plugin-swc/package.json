@@ -55,7 +55,7 @@
     "antd": "4",
     "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
-    "typescript": "^4",
+    "typescript": "^5",
     "webpack": "^5.82.1",
     "react": "^18",
     "react-dom": "^18"

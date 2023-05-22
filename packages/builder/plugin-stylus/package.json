@@ -49,7 +49,7 @@
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "typescript": "4.7.4",
+    "typescript": "^5",
     "wireit": "^0.7.1"
   },
   "peerDependencies": {

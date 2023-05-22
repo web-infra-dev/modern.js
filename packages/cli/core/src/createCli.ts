@@ -79,7 +79,6 @@ export const createCli = () => {
     plugins.forEach(plugin => plugin && manager.usePlugin(plugin));
 
     const appContext = initAppContext({
-      toolsType: mergedOptions?.toolsType,
       appDirectory,
       plugins,
       configFile: loaded.filePath,
