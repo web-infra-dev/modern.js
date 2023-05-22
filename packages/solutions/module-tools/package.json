@@ -83,7 +83,7 @@
     "path-browserify": "1.0.1",
     "postcss-alias": "2.0.0",
     "react": "17",
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -114,6 +114,6 @@
     }
   },
   "peerDependencies": {
-    "typescript": "^4"
+    "typescript": "^4 || ^5"
   }
 }

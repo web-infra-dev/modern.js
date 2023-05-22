@@ -48,6 +48,6 @@
     "@types/node": "^14",
     "@types/serve-static": "^1.13.10",
     "got": "^11.8.3",
-    "typescript": "^4"
+    "typescript": "^5"
   }
 }

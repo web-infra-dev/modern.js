@@ -1,8 +1,11 @@
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import { logger, type BuildOptions } from '@modern-js/builder-shared';
+import {
+  logger,
+  type Stats,
+  type BuildOptions,
+} from '@modern-js/builder-shared';
 import type {
-  Stats,
   MultiStats,
   Compiler,
   MultiCompiler,
@@ -28,7 +31,7 @@ export const webpackBuild: BuildExecuter = async compiler => {
       if (err || stats?.hasErrors()) {
         const buildError: WebpackBuildError =
           err || new Error('webpack build failed!');
-        buildError.stats = stats;
+        buildError.stats = stats as Stats;
         reject(buildError);
       }
       // If there is a compilation error, the close method should not be called.
@@ -87,7 +90,7 @@ export const build = async (
   } else {
     const executeResult = await executer?.(compiler);
     await context.hooks.onAfterBuildHook.call({
-      stats: executeResult?.stats,
+      stats: executeResult?.stats as Stats,
     });
   }
 };
