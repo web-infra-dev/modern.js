@@ -43,7 +43,7 @@
       "default": "./dist/esm/runtime/remixRouter.js"
     },
     "./runtime/nested-routes": {
-      "jsnext:source": "./src/runtime/nestedRoutes.ts",
+      "jsnext:source": "./src/runtime/nestedRoutes.tsx",
       "default": "./dist/esm/runtime/nestedRoutes.js"
     },
     "./runtime-browser": {
