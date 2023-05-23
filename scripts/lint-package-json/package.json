@@ -15,6 +15,6 @@
     "fast-glob": "^3.2.11"
   },
   "devDependencies": {
-    "tsx": "^3.7.1"
+    "tsx": "^3.12.7"
   }
 }
