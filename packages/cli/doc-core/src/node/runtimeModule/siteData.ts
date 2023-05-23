@@ -125,11 +125,11 @@ export function normalizeThemeConfig(
       }
 
       return {
-        ...item,
         text: applyReplaceRules(
           getI18nText(item.text, currentLang),
           replaceRules,
         ),
+        link: normalizeLangPrefix(item.link, currentLang),
       };
     };
     Object.keys(sidebar).forEach(key => {
