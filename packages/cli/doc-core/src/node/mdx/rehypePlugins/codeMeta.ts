@@ -6,7 +6,7 @@ export const rehypePluginCodeMeta: Plugin<[], Root> = () => {
   return tree => {
     visit(tree, 'element', node => {
       // <pre><code>...</code></pre>
-      // 1. 找到 pre 元素
+      // 1. Find pre element
       if (
         node.tagName === 'pre' &&
         node.children[0]?.type === 'element' &&
