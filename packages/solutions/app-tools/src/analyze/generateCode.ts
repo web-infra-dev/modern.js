@@ -6,6 +6,7 @@ import {
   isSSGEntry,
   isUseSSRBundle,
   logger,
+  SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
@@ -294,13 +295,13 @@ export const generateCode = async (
         );
         if (ssr) {
           rawAsyncEntryCode = `
-          export const serverRender = async (...args) => {
-            let exports = await ${rawAsyncEntryCode};
-            if(exports.default instanceof Promise){
-              exports = await exports.default;
-              return exports.default.serverRender.apply(null, args);
+          export const ${SERVER_RENDER_FUNCTION_NAME} = async (...args) => {
+            let entry = await ${rawAsyncEntryCode};
+            if (entry.default instanceof Promise){
+              entry = await entry.default;
+              return entry.default.${SERVER_RENDER_FUNCTION_NAME}.apply(null, args);
             }
-            return exports.serverRender.apply(null, args);
+            return entry.${SERVER_RENDER_FUNCTION_NAME}.apply(null, args);
           };
           if(typeof window!=='undefined'){
             ${rawAsyncEntryCode}
