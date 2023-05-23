@@ -96,7 +96,6 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
-    "@babel/core": "7.18.0",
     "css-minimizer-webpack-plugin": "5.0.0",
     "cssnano": "6.0.0",
     "fork-ts-checker-webpack-plugin": "8.0.0",
@@ -112,8 +111,6 @@
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "@types/babel__core": "^7.20.0",
-    "@types/babel__preset-env": "^7.9.2",
     "@types/caniuse-lite": "^1.0.1",
     "@types/node": "^14",
     "antd": "4",
