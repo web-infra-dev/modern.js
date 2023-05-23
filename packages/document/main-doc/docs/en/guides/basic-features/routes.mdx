@@ -15,7 +15,7 @@ The routing mentioned in this section refers to client-side routing, i.e., SPA r
 
 With `routes/` as the convention for entry points, Modern.js automatically generates the corresponding routing structure based on the file system.
 
-Modern.js supports the popular conventional routing mode in the industry: **Nested Routing**. When using nested routing, the page's routing corresponds to the UI structure, and we will discuss this routing mode in detail.
+Modern.js supports the popular conventional routing mode in the industry: **Nested Routing**. When using nested routing, the page's routing corresponds to the UI structure, and we will introduce this routing mode in detail.
 
 ```bash
 /user/johnny/profile                  /user/johnny/posts
@@ -30,7 +30,7 @@ Modern.js supports the popular conventional routing mode in the industry: **Nest
 
 ### Routing File Convention
 
-Under the `routes/` directory, the directory name is mapped to the route URL. Modern.js has two file conventions, `layout.[jt]sx` and `page.[jt]sx` (abbreviated as`.tsx`). These two files determine the layout structure of the application. `layout.tsx` acts as the layout component, and `page.tsx` acts as the content component, which is the leaf node of the entire route (a route has only one leaf node and must end with a leaf node).
+Under the `routes/` directory, the directory name is mapped to the route URL. Modern.js has two file conventions, `layout.[jt]sx` and `page.[jt]sx` (abbreviated as`.tsx`). These two files determine the layout structure of the application. `layout.tsx` is used as the layout component, and `page.tsx` acts as the content component, which is the leaf node of the entire route (a route has only one leaf node and must end with a leaf node).
 
 For example, the following directory structure:
 
@@ -335,7 +335,7 @@ export default () => {
 
 In each directory under `routes/`, developers can also define an `error.tsx` file that exports an `<ErrorBoundary>` component by default.
 
-When this component exists in a route directory, any rendering errors will be caught by the `ErrorBoundary` component. When the `layout.tsx` file is not defined in the directory, the `<ErrorBoundary>` component will not take effect.
+When this component exists in the routes directory, any rendering errors will be caught by the `ErrorBoundary` component. When the `layout.tsx` file is not defined in the directory, the `<ErrorBoundary>` component will not take effect.
 
 `<ErrorBoundary>` can return the UI view when an error occurs. When the `<ErrorBoundary>` component is not declared in the current level, the error will bubble up to a higher-level component until it is caught or thrown. At the same time, when a component has an error, it will only affect the route component and its child components that catch the error. The status and view of other components are not affected and can continue to interact.
 
