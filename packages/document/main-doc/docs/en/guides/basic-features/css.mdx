@@ -4,33 +4,33 @@ sidebar_position: 2
 
 # CSS Solutions
 
-Modern.js has built-in multiple CSS solutions, including Less / Sass / Stylus preprocessor, PostCSS, CSS Modules, CSS-in-JS and Tailwind CSS.
+Modern.js has built-in a variety of commonly used CSS solutions, including Less / Sass / Stylus preprocessors, PostCSS, CSS Modules, CSS-in-JS, and Tailwind CSS.
 
 ## Using Less, Sass and Stylus
 
-Modern.js has built-in community popular CSS preprocessors such as Less, Sass.
+Modern.js has built-in popular community CSS preprocessors, including Less and Sass.
 
-By default, you don't need to configure anything for Less and Sass. If you need to customize loader config, you can configure [tools.less](/configure/app/tools/less), [tools.sass](/configure/app/tools/sass) to set it up.
+By default, you don't need to configure Less and Sass. If you have custom loader configuration requirements, you can set them up by configuring [tools.less](/configure/app/tools/less) and [tools.sass](/configure/app/tools/sass).
 
-You can also use Stylus in Modern.js, just install the Stylus plugin provided by Modern.js Builder, please refer to [Stylus Plugin](https://modernjs.dev/builder/en/plugins/plugin-stylus.html) for usage.
+You can also use Stylus in Modern.js by installing the Stylus plugin provided by Modern.js Builder. For usage, please refer to [Stylus Plugin](https://modernjs.dev/builder/plugins/plugin-stylus.html).
 
 ## Using PostCSS
 
-Modern.js has built-in [PostCSS](https://postcss.org/) to transform the CSS code.
+Modern.js has built-in [PostCSS](https://postcss.org/) to transform CSS code.
 
 Please refer to [Modern.js Builder - Using PostCSS](https://modernjs.dev/builder/en/guide/basic/css-usage.html#using-postcss) for detailed usage.
 
 ## Using CSS Modules
 
-Please read the [Using CSS Modules](https://modernjs.dev/builder/en/guide/basic/css-modules.html) chapter for a complete usage of CSS Modules.
+Please read the [Using CSS Modules](https://modernjs.dev/builder/en/guide/basic/css-modules.html) section to learn about the complete usage of CSS Modules.
 
 ## Using CSS-in-JS
 
-CSS-in-JS is a technology that can write CSS styles in JS files.
+CSS-in-JS is a technique that allows you to write CSS styles in JS files.
 
-Modern.js integrates the CSS-in-JS library [styled-components](https://styled-components.com/) commonly used in the community, which uses the new feature of JavaScript [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) to write CSS styles for components. You can use the [styled-components](https://styled-components.com/) API directly from `@modern-js/runtime/styled`.
+Modern.js integrates the popular CSS-in-JS implementation library [styled-components](https://styled-components.com/), which uses the new JavaScript feature [Tagged template](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#tagged_templates) to write component CSS styles. You can directly import the API of [styled-components](https://styled-components.com/) from `@modern-js/runtime/styled` for usage.
 
-When you need to write a `div` component with an internal font in red, you can do the following implementation:
+When you need to write a `div` component with an internal font color of red, you can implement it as follows:
 
 ```js
 import styled from '@modern-js/runtime/styled';
@@ -40,7 +40,7 @@ const RedDiv = styled.div`
 `;
 ```
 
-When you need to dynamically set the component style according to the `props` of the component, for example, when the attribute `primary` of `props` is `true`, the color of the button is white, and otherwise it is red. The implementation code is as follows:
+When you need to dynamically set component styles based on the component's `props`, for example, the `primary` property of `props` is `true`, the button color is white, otherwise it is red, you can implement the code as follows:
 
 ```js
 import styled from '@modern-js/runtime/styled';
@@ -51,26 +51,36 @@ const Button = styled.button`
 `;
 ```
 
-For more usage of styled-components, please refer to [[styled-components official website](https://styled-components.com/) ].
+For more usage of styled-components, please refer to [styled-components official website](https://styled-components.com/).
 
-Modern.js uses the Babel plugin [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) internally, and the plugin can be configured through [tools.styledComponents](/configure/app/tools/styled-components).
+Modern.js integrates Babel's [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) plugin internally, and you can configure the plugin through [tools.styledComponents](/configure/app/tools/styled-components).
 
-:::tip
-If you need to use [styled-jsx](https://www.npmjs.com/package/styled-jsx), [Emotion](https://emotion.sh/) and other CSS-in-JS libraries, you need to install the dependency of the corresponding library first. For specific usage, please refer to the official website of the corresponding library.
+:::tip Tip
+If you need to use other CSS-in-JS libraries such as [styled-jsx](https://www.npmjs.com/package/styled-jsx) and [Emotion](https://emotion.sh/), you need to install the corresponding dependencies first. For specific usage, please refer to the official website of the corresponding library.
 :::
 
 ## Using Tailwind CSS
 
-[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles. To use [Tailwind CSS](https://tailwindcss.com/) in the Modern.js, just execute `pnpm run new` in the project root directory and turn it on.
+[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles. To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, just run `pnpm run new` in the project root directory and turn it on.
 
-Choose as follows:
+Follow the steps below to make a selection:
 
 ```bash
 ? Action: Enable features
 ? Enable features: Enable Tailwind CSS
 ```
 
-When using, add the following code to the root component of the entry (such as `src/App.jsx`):
+Register the Tailwind plugin in `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
+
+export default defineConfig({
+  plugins: [..., tailwindcssPlugin()],
+});
+```
+
+To use, add the following code to the root component (such as `src/App.jsx`) of the entry:
 
 ```js
 import 'tailwindcss/base.css';
@@ -78,7 +88,7 @@ import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 ```
 
-You can then use the Utility Class provided by Tailwind CSS in each component:
+Then you can use the Utility Class provided by Tailwind CSS in each component:
 
 ```tsx
 const App = () => (
@@ -88,14 +98,14 @@ const App = () => (
 );
 ```
 
-:::info Additional
-According to different needs, you can optionally import the CSS files provided by Tailwind CSS. Since the use of `@taiwind` is equivalent to directly importing CSS files, you can refer to the content in the annotate in the [`@tailwind` usage](https://tailwindcss.com/docs/functions-and-directives#tailwind) document for the purpose of the CSS files provided by Tailwind CSS.
+:::info Additional Information
+Depending on your needs, you can selectively import the CSS files provided by Tailwind CSS. Since using `@tailwind` is equivalent to directly importing CSS files, you can refer to the comments in the [`@tailwind` usage](https://tailwindcss.com/docs/functions-and-directives#tailwind) documentation for the purpose of the CSS files provided by Tailwind CSS.
 
 :::
 
-### Tailwind CSS version
+### Tailwind CSS Version
 
-Modern.js supports both Tailwind CSS v2 and v3. The framework will recognize the version of `tailwindcss` in the project `package.json` and apply the corresponding configuration. By default, we install Tailwind CSS v3 for you.
+Modern.js supports both Tailwind CSS v2 and v3 versions, and the framework will recognize the version of the `tailwindcss` dependency in the project `package.json` file and enable the corresponding configuration. By default, we will install Tailwind CSS v3 version for you.
 
 If your project is still using Tailwind CSS v2, we recommend that you upgrade to v3 to support JIT and other capabilities. For the differences between Tailwind CSS v2 and v3 versions, please refer to the following articles:
 
@@ -104,16 +114,16 @@ If your project is still using Tailwind CSS v2, we recommend that you upgrade to
 
 ### Browser Compatibility
 
-Both Tailwind CSS v2 and v3 do not support IE 11 browsers. For background, please refer to:
+Tailwind CSS v2 and v3 do not support the IE 11 browser, please refer to:
 
 - [Tailwind CSS v3 - Browser Support](https://tailwindcss.com/docs/browser-support).
 - [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
 
-If you use Tailwind CSS on IE 11 browser, some styles may not be available, please pay attention.
+If you use Tailwind CSS on IE 11 browser, some styles may not be available, please use it with caution.
 
-### Theme config
+### Theme Configuration
 
-When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the configuration [`source.designSystem`](/configure/app/source/design-system), for example, add a color theme `primary`:
+When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the [`source.designSystem`](/configure/app/source/design-system) configuration. For example, adding a `primary` color theme:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -129,7 +139,7 @@ export default defineConfig({
 });
 ```
 
-When you need special configuration for Tailwind CSS other than [theme](https://tailwindcss.com/docs/theme), you can configure it in [`tools.tailwindcss`](/configure/app/tools/tailwindcss), for example setting `variants`:
+When you need to make other special configurations to Tailwind CSS besides [theme](https://tailwindcss.com/docs/theme), you can configure them in [`tools.tailwindcss`](/configure/app/tools/tailwindcss), such as setting `variants`:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -145,4 +155,4 @@ export default defineConfig({
 });
 ```
 
-> When configuring Tailwind CSS for a project, the combination of the two configurations [source.designSystem](/configure/app/source/design-system) and [tools.tailwindcss](/configure/app/tools/tailwindcss) is equivalent to a separate configuration `tailwindcss.config.js` file. Where [source.designSystem](/configure/app/source/design-system) is equivalent to the [theme](https://v2.tailwindcss.com/docs/configuration#theme) configuration of Tailwind CSS.
+> When you configure Tailwind CSS for your project, the combination of [source.designSystem](/configure/app/source/design-system) and [tools.tailwindcss](/configure/app/tools/tailwindcss) configurations is equivalent to configuring a `tailwindcss.config.js` file separately. [source.designSystem](/configure/app/source/design-system) is equivalent to the Tailwind CSS [theme](https://v2.tailwindcss.com/docs/configuration#theme) configuration.
