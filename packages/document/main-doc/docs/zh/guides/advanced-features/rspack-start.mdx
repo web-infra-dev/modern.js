@@ -58,3 +58,40 @@ import appTools, { defineConfig } from '@modern-js/app-tools';
 :::tip
 从 webpack 迁移至 Rspack 时，存在一些构建能力和配置上的差异，详情可参考：[配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack)
 :::
+
+## Rspack 和 Modern.js 版本关系
+
+通常情况下，Modern.js 内会集成 Rspack 的最新版本，通过 `npx modern upgrade` 即可将当前项目中的 Modern.js 相关依赖以及内置的 Rspack 更新至最新版本。
+
+但 Modern.js 对于 Rspack 的依赖方式为锁版本方式(非自动升级)，由于发版周期不同步等原因，可能会出现 Modern.js 内集成的 Rspack 版本落后于 Rspack 最新版本的情况。
+
+当通过 dev / build 执行 Rspack 构建时，会自动打印当前框架内所用的 Rspack 版本：
+
+![rspack_version_log](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/img_v2_dfcf051f-21db-4741-a108-d9f7a82c3abg.png)
+
+#### 修改内置 Rspack 版本
+
+可通过 pnpm / yarn / npm 等包管理工具自带的依赖升级方式修改 Rspack 至指定版本。
+
+以 pnpm 为例，可通过 `overrides` 以下依赖更新 Rspack 版本:
+
+```json title=package.json
+{
+  "pnpm": {
+    "overrides": {
+      "@rspack/core": "nightly",
+      "@rspack/dev-client": "nightly",
+      "@rspack/dev-middleware": "nightly",
+      "@rspack/plugin-html": "nightly",
+      "@rspack/postcss-loader": "nightly"
+    }
+  }
+}
+```
+
+:::tip Nightly 版本介绍
+Rspack 每天会从基于最新的代码自动构建发布 nightly 版本用于测试，以便及早发现错误。
+通常情况下它是可用的，当出现问题时我们会第一时间进行修复，但如果有一些 break change 需要 modern.js 同步修改代码，此时推荐等待下一个 modern.js 版本。
+:::
+
+更多包管理工具使用示例可参考：[锁定子依赖](/guides/get-started/upgrade.html#%E9%94%81%E5%AE%9A%E5%AD%90%E4%BE%9D%E8%B5%96)。
