@@ -42,7 +42,7 @@
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.2.0",
+    "@modern-js/codesmith": "2.2.3",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
