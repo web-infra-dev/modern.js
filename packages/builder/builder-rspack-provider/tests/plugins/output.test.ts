@@ -92,4 +92,34 @@ describe('plugins/output', () => {
     } = await builder.inspectConfig();
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
+
+  it('should allow to use copy plugin with multiply config', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginOutput()],
+      builderConfig: {
+        output: {
+          copy: [
+            {
+              from: 'test',
+            },
+            'src/assets/',
+          ],
+        },
+        tools: {
+          rspack: {
+            builtins: {
+              copy: {
+                patterns: ['tests/'],
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });
