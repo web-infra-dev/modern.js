@@ -13,7 +13,11 @@ import {
 } from '../types';
 import { time } from '../time';
 import prefetch from '../../prefetch';
-import { ROUTER_DATA_JSON_ID, SSR_DATA_JSON_ID } from '../utils';
+import {
+  ROUTER_DATA_JSON_ID,
+  SSR_DATA_JSON_ID,
+  attributesToString,
+} from '../utils';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -69,12 +73,15 @@ export default class Entry {
 
   private readonly host: string;
 
+  private readonly nonce?: string;
+
   constructor(options: EntryOptions) {
     const { ctx, config } = options;
     const {
       entryName,
       template,
       request: { host },
+      nonce,
     } = ctx;
 
     this.fragments = toFragments(template, entryName);
@@ -85,6 +92,7 @@ export default class Entry {
 
     this.metrics = ctx.metrics;
     this.logger = ctx.logger;
+    this.nonce = nonce;
 
     this.result = {
       renderLevel: RenderLevel.CLIENT_RENDER,
@@ -178,6 +186,7 @@ export default class Entry {
         result: this.result,
         entryName: this.entryName,
         config: this.pluginConfig,
+        nonce: this.nonce,
       };
       html = reduce(App, renderContext, [
         styledComponentRenderer.toHtml,
@@ -203,15 +212,16 @@ export default class Entry {
   ) {
     const useInlineScript = this.pluginConfig.inlineScript !== false;
     const ssrData = serializeJson(templateData);
+    const attrsStr = attributesToString({ nonce: this.nonce });
 
     let ssrDataScripts = useInlineScript
-      ? `<script>window._SSR_DATA = ${ssrData}</script>`
+      ? `<script${attrsStr}>window._SSR_DATA = ${ssrData}</script>`
       : `<script type="application/json" id="${SSR_DATA_JSON_ID}">${ssrData}</script>`;
 
     if (routerData) {
       const serializedRouterData = serializeJson(routerData);
       ssrDataScripts += useInlineScript
-        ? `\n<script>window._ROUTER_DATA = ${serializedRouterData}</script>`
+        ? `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`
         : `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`;
     }
     return {

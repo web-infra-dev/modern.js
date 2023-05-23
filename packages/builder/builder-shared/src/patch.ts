@@ -1,13 +1,6 @@
 import path from 'path';
 import { pathToFileURL } from 'url';
-import type {
-  Compiler as WebpackCompiler,
-  MultiCompiler as WebpackMultiCompiler,
-} from 'webpack';
-import type {
-  Compiler as RspackCompiler,
-  MultiCompiler as RspackMultiCompiler,
-} from '@rspack/core';
+import { CompilerTapFn } from './types';
 
 const GLOBAL_PATCHED_SYMBOL: unique symbol = Symbol('GLOBAL_PATCHED_SYMBOL');
 
@@ -33,13 +26,14 @@ export function unpatchGlobalLocation() {
   }
 }
 
-export function patchCompilerGlobalLocation(
-  compiler:
-    | WebpackCompiler
-    | RspackCompiler
-    | WebpackMultiCompiler
-    | RspackMultiCompiler,
-) {
+export function patchCompilerGlobalLocation(compiler: {
+  hooks: {
+    run: CompilerTapFn;
+    watchRun: CompilerTapFn;
+    watchClose: CompilerTapFn;
+    done: CompilerTapFn;
+  };
+}) {
   // https://github.com/webpack/webpack/blob/136b723023f8f26d71eabdd16badf04c1c8554e4/lib/MultiCompiler.js#L64
   compiler.hooks.run.tap('PatchGlobalLocation', patchGlobalLocation);
   compiler.hooks.watchRun.tap('PatchGlobalLocation', patchGlobalLocation);

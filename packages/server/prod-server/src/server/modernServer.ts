@@ -177,6 +177,7 @@ export class ModernServer implements ModernServerInterface {
       distDir,
       staticGenerate,
       forceCSR,
+      nonce: conf.security?.nonce,
     });
 
     await this.setupBeforeProdMiddleware();

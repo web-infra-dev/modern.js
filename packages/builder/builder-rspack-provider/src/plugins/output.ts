@@ -31,7 +31,16 @@ export const builderPluginOutput = (): BuilderPlugin => ({
       }
 
       if (config.output.copy) {
-        setConfig(rspackConfig, 'builtins.copy', config.output.copy);
+        const { copy } = config.output;
+        const options = Array.isArray(copy) ? { patterns: copy } : copy;
+
+        setConfig(rspackConfig, 'builtins.copy', {
+          ...options,
+          patterns: [
+            ...(rspackConfig?.builtins?.copy?.patterns || []),
+            ...options.patterns,
+          ],
+        });
       }
     });
   },

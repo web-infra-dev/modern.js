@@ -21,7 +21,7 @@ import type {
   RsHtmlUserConfig,
   SharedHtmlConfig,
 } from './html';
-import type { SecurityUserConfig } from './security';
+import type { RsSecurityConfig, SecurityUserConfig } from './security';
 import type { DeployUserConfig } from './deploy';
 import type { ExperimentsUserConfig } from './experiments';
 import type {
@@ -75,6 +75,7 @@ export interface RsAppToolsUserConfig extends SharedUserConfig {
   html?: RsHtmlUserConfig;
   tools?: RsToolsUserConfig;
   performance?: RsPerformanceConfig;
+  security?: RsSecurityConfig;
 }
 
 interface SharedNormalizedConfig<RawConfig> {

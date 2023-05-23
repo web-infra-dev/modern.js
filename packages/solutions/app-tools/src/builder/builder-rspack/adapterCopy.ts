@@ -16,7 +16,7 @@ export const builderPluginAdpaterCopy = (
         ...(config.builtins || {}),
         copy: {
           patterns: [
-            ...transformCopy(config.builtins?.copy?.patterns),
+            ...(config.builtins?.copy?.patterns || []),
             ...createConfigBuiltinCopy(options),
           ],
         },
@@ -79,22 +79,6 @@ export const builderPluginAdpaterCopy = (
     }
   },
 });
-
-function transformCopy(
-  patterns?: string[] | { from: string; [prop: string]: any }[],
-) {
-  if (patterns) {
-    patterns.map(value => {
-      if (typeof value === 'string') {
-        return {
-          from: value,
-        };
-      }
-      return value;
-    });
-  }
-  return [];
-}
 
 function createConfigBuiltinCopy(options: BuilderOptions<'rspack'>) {
   const { normalizedConfig, appContext } = options;

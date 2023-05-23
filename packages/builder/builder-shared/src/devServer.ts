@@ -5,6 +5,7 @@ import type {
   BuilderContext,
   OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
+  CompilerTapFn,
 } from './types';
 import type { ModernDevServerOptions, Server } from '@modern-js/server';
 import { merge } from '@modern-js/utils/lodash';
@@ -205,10 +206,6 @@ export async function startDevServer<
 type ServerCallbacks = {
   onInvalid: () => void;
   onDone: (stats: any) => void;
-};
-
-type CompilerTapFn<CallBack extends (...args: any[]) => void> = {
-  tap: (name: string, cb: CallBack) => void;
 };
 
 export const setupServerHooks = (
