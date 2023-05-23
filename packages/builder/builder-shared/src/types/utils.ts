@@ -37,3 +37,9 @@ export type SharedCompiledPkgNames =
   | 'toml-loader'
   | 'yaml-loader'
   | 'assetsRetry.js';
+
+export type CompilerTapFn<
+  CallBack extends (...args: any[]) => void = () => void,
+> = {
+  tap: (name: string, cb: CallBack) => void;
+};
