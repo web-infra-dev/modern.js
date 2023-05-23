@@ -16,8 +16,15 @@ export function getTemplatePath(
 export const isHtmlDisabled = (
   config: SharedNormalizedConfig,
   target: BuilderTarget,
-) =>
-  (config.tools as { htmlPlugin: boolean }).htmlPlugin === false ||
-  target === 'node' ||
-  target === 'web-worker' ||
-  target === 'service-worker';
+) => {
+  const { htmlPlugin } = config.tools as {
+    htmlPlugin: boolean | Array<unknown>;
+  };
+  return (
+    htmlPlugin === false ||
+    (Array.isArray(htmlPlugin) && htmlPlugin.includes(false)) ||
+    target === 'node' ||
+    target === 'web-worker' ||
+    target === 'service-worker'
+  );
+};

@@ -205,4 +205,24 @@ describe('plugins/html', () => {
 
     expect(matchPlugin(bundlerConfigs[0], 'HtmlRspackPlugin')).toBeNull();
   });
+
+  it('should disable html plugin when htmlPlugin is an array and contains false', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        tools: {
+          htmlPlugin: [{}, false],
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(matchPlugin(bundlerConfigs[0], 'HtmlRspackPlugin')).toBeNull();
+  });
 });
