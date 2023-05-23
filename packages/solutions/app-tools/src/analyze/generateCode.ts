@@ -285,9 +285,31 @@ export const generateCode = async (
 
       // generate entry file.
       if (config.source.enableAsyncEntry) {
+        let rawAsyncEntryCode = `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`;
+        const ssr = getEntryOptions(
+          entryName,
+          config.server.ssr,
+          config.server.ssrByEntries,
+          packageName,
+        );
+        if (ssr) {
+          rawAsyncEntryCode = `
+          export const serverRender = async (...args) => {
+            let exports = await ${rawAsyncEntryCode};
+            if(exports.default instanceof Promise){
+              exports = await exports.default;
+              return exports.default.serverRender.apply(null, args);
+            }
+            return exports.serverRender.apply(null, args);
+          };
+          if(typeof window!=='undefined'){
+            ${rawAsyncEntryCode}
+          }
+          `;
+        }
         const { code: asyncEntryCode } = await hookRunners.modifyAsyncEntry({
           entrypoint,
-          code: `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
+          code: rawAsyncEntryCode,
         });
         fs.outputFileSync(entryFile, asyncEntryCode, 'utf8');
 
