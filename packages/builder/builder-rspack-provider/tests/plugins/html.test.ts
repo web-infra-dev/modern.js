@@ -19,6 +19,26 @@ describe('plugins/html', () => {
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
 
+  it('should register nonce plugin when using security.nonce', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        security: {
+          nonce: 'test-nonce',
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(matchPlugin(bundlerConfigs[0], 'HtmlNoncePlugin')).toBeDefined();
+  });
+
   it('should register crossorigin plugin when using html.crossorigin', async () => {
     const builder = await createBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],

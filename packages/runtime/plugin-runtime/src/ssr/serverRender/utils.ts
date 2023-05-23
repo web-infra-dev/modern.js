@@ -19,9 +19,15 @@ export function getLoadableScripts(extractor: ChunkExtractor) {
   return (
     scripts
       .split('</script>')
-      // 前两个 script为 loadable 必须的 script
+      // The first two scripts are essential for Loadable.
       .slice(0, 2)
       .map(i => `${i}</script>`)
       .join('')
   );
+}
+export function attributesToString(attributes: Record<string, any>) {
+  // Iterate through the properties and convert them into a string, only including properties that are not undefined.
+  return Object.entries(attributes).reduce((str, [key, value]) => {
+    return value === undefined ? str : `${str} ${key}="${value}"`;
+  }, '');
 }

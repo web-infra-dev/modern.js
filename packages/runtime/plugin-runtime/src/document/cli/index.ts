@@ -93,8 +93,10 @@ export default (): CliPlugin<AppTools> => ({
       }
 
       return async ({ htmlWebpackPlugin }: { [option: string]: any }) => {
+        const config = api.useResolvedConfigContext();
+
         const documentParams = getDocParams({
-          config: api.useResolvedConfigContext(),
+          config,
           entryName,
           templateParameters,
         });
@@ -202,12 +204,16 @@ export default (): CliPlugin<AppTools> => ({
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_START) &&
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_END)
         ) {
+          const { nonce } = config.security;
+          const nonceAttr = nonce ? `nonce=${nonce}` : '';
+
           html = html.replace(
             new RegExp(
               `${DOCUMENT_SCRIPT_PLACEHOLDER_START}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
               'g',
             ),
-            (_scriptStr, $1) => `<script>${decodeURIComponent($1)}</script>`,
+            (_scriptStr, $1) =>
+              `<script ${nonceAttr}>${decodeURIComponent($1)}</script>`,
           );
         }
         // if the Document.tsx has a comment component, replace and convert it

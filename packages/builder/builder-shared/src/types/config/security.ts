@@ -10,4 +10,10 @@ export interface SharedSecurityConfig {
    * verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
    */
   sri?: SriOptions | boolean;
+
+  /**
+   * Adding an nonce attribute to sub-resources introduced by HTML allows the browser to
+   * verify the nonce of the introduced resource, thus preventing xss.
+   */
+  nonce?: string;
 }
