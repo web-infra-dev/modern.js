@@ -13,7 +13,7 @@
     "@manypkg/get-packages": "^1.1.3"
   },
   "devDependencies": {
-    "tsx": "^3.7.1",
+    "tsx": "^3.12.7",
     "@types/node": "^18.0.1",
     "@types/fs-extra": "^9"
   }
