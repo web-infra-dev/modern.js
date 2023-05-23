@@ -9,7 +9,7 @@ export type OutputConfig = SharedOutputConfig & {
   /**
    * Copies the specified file or directory to the dist directory.
    */
-  copy?: Builtins['copy'];
+  copy?: Builtins['copy'] | NonNullable<Builtins['copy']>['patterns'];
   /**
    * Convert px to rem in CSS.
    */
