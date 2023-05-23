@@ -78,7 +78,7 @@ export const render = async (
   context.metrics = createMetrics(context, ctx.metrics);
 
   runner.extendSSRContext(context);
-  const bundleJSContent = await require(bundleJS);
+  const bundleJSContent = await Promise.resolve(require(bundleJS));
   const serverRender = bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
   const content = await cache(serverRender, ctx)(context);
 
