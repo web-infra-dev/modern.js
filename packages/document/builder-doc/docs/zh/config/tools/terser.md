@@ -44,3 +44,7 @@ export default {
   },
 };
 ```
+
+:::tip 禁用代码压缩
+如果你需要禁用代码压缩，可以使用 [output.disableMinimize](https://modernjs.dev/builder/api/config-output.html#outputdisableminimize) 配置项。
+:::
