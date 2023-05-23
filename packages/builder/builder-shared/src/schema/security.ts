@@ -11,7 +11,15 @@ export const SriOptionsSchema: ZodType<SriOptions> = z.partialObj({
 });
 
 export const sharedSecurityConfigSchema = z.partialObj({
-  sri: z.union([SriOptionsSchema, z.boolean()]),
+  checkSyntax: z.union([
+    z.boolean(),
+    z.object({
+      targets: z.array(z.string()),
+      exclude: z.optional(
+        z.union([z.instanceof(RegExp), z.array(z.instanceof(RegExp))]),
+      ),
+    }),
+  ]),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
