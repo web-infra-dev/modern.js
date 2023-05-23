@@ -205,6 +205,20 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
           }),
         );
 
+        if (config.security) {
+          const { nonce } = config.security;
+
+          if (nonce) {
+            const { HtmlNoncePlugin } = await import(
+              '@modern-js/builder-shared'
+            );
+
+            chain
+              .plugin(CHAIN_ID.PLUGIN.HTML_NONCE)
+              .use(HtmlNoncePlugin, [{ nonce, HtmlPlugin }]);
+          }
+        }
+
         if (config.html) {
           const { appIcon, crossorigin } = config.html;
 

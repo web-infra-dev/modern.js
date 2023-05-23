@@ -27,7 +27,7 @@ export const createDefaultConfig = () =>
       define: {},
     },
     output: getDefaultOutputConfig(),
-    security: { sri: false, checkSyntax: false },
+    security: { sri: false, checkSyntax: false, nonce: '' },
     experiments: {
       lazyCompilation: false,
     },

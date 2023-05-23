@@ -98,11 +98,19 @@ export async function getModernPluginVersion(
     return getLatetPluginVersion('latest');
   }
   // get project solution version
-  const pkgPath = path.join(
+  let pkgPath = path.join(
     require.resolve(SolutionToolsMap[solution], { paths: [cwd] }),
-    '../../../../',
+    '../../..',
     'package.json',
   );
+  if (solution === Solution.Module) {
+    pkgPath = path.join(
+      require.resolve(SolutionToolsMap[solution], { paths: [cwd] }),
+      '../..',
+      'package.json',
+    );
+  }
+
   if (fs.existsSync(pkgPath)) {
     const pkgInfo = fs.readJSONSync(pkgPath);
 

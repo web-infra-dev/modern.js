@@ -30,6 +30,7 @@ function renderToPipe(
 
       const { pipe } = renderToPipeableStream(rootElement, {
         ...options,
+        nonce: ssrContext?.nonce,
         onShellReady() {
           const { shellAfter, shellBefore } = getTemplates(
             context,

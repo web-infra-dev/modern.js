@@ -114,8 +114,7 @@
     "html-webpack-plugin": "5.5.0",
     "terser": "^5.14.1",
     "typescript": "^5",
-    "webpack": "^5.82.1",
-    "@rspack/core": "0.0.0-canary-22b006c-20230517164249"
+    "webpack": "^5.82.1"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

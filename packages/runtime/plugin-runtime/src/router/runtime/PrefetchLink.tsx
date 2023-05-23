@@ -14,7 +14,7 @@ import {
   useMatches,
   NavLink as RouterNavLink,
   NavLinkProps as RouterNavLinkProps,
-} from 'react-router-dom';
+} from '@modern-js/utils/runtime/router';
 import { RuntimeReactContext } from '../../core';
 import { RouteAssets, RouteManifest } from './types';
 

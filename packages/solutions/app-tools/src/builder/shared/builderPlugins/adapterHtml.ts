@@ -1,6 +1,6 @@
 import {
+  isHtmlDisabled,
   BuilderPlugin,
-  BuilderTarget,
   BundlerChain,
   createVirtualModule,
 } from '@modern-js/builder-shared';
@@ -12,23 +12,7 @@ import {
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
 import { Bundler } from '../../../types';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
-import type {
-  BuilderNormalizedConfig,
-  BuilderOptions,
-  BuilderPluginAPI,
-} from '../types';
-
-export function isHtmlEnabled(
-  config: BuilderNormalizedConfig,
-  target: BuilderTarget,
-) {
-  return (
-    config.tools?.htmlPlugin !== false &&
-    target !== 'node' &&
-    target !== 'service-worker' &&
-    target !== 'web-worker'
-  );
-}
+import type { BuilderOptions, BuilderPluginAPI } from '../types';
 
 export const builderPluginAdapterHtml = <B extends Bundler>(
   options: BuilderOptions<B>,
@@ -39,7 +23,7 @@ export const builderPluginAdapterHtml = <B extends Bundler>(
       async (chain, { CHAIN_ID, target, HtmlPlugin: HtmlBundlerPlugin }) => {
         const builderConfig = api.getNormalizedConfig();
 
-        if (isHtmlEnabled(builderConfig, target)) {
+        if (!isHtmlDisabled(builderConfig, target)) {
           applyBottomHtmlPlugin({
             api,
             options,

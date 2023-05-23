@@ -92,7 +92,7 @@
     "@types/less": "^3.0.3",
     "@types/node": "^14",
     "autoprefixer": "10.4.13",
-    "btsm": "2.2.2",
+    "tsm": "2.3.0",
     "html-webpack-plugin": "5.5.0",
     "jest": "^29",
     "postcss": "8.4.21",

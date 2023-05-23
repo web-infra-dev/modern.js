@@ -89,6 +89,8 @@ export type BaseSSRServerContext = {
 
   enableUnsafeCtx?: boolean;
 
+  nonce?: string;
+
   req: ModernServerContext['req'];
 
   res: ModernServerContext['res'];

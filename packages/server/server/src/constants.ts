@@ -16,6 +16,7 @@ export const getDefaultDevOptions = (): DevServerOptions => {
     devMiddleware: { writeToDisk: true },
     watch: true,
     hot: true,
+    compress: true,
     liveReload: true,
   };
 };

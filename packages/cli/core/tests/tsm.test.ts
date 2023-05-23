@@ -7,7 +7,7 @@ describe('jsnext:source', () => {
   test('process exit status is 0', () => {
     const { status, stdout, stderr } = spawnSync(
       process.execPath,
-      ['--conditions=jsnext:source', '-r', 'btsm', 'src/bin.ts'],
+      ['--conditions=jsnext:source', '-r', 'tsm', 'src/bin.ts'],
       {
         cwd: kPackageDir,
         encoding: 'utf-8',

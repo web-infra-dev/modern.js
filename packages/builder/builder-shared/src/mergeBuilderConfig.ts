@@ -16,6 +16,11 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
         return source ?? target;
       }
 
+      // allow using `htmlPlugin: false` to disable HTML
+      if (key === 'htmlPlugin' && source === false) {
+        return false;
+      }
+
       if (pair.some(_.isArray)) {
         return [..._.castArray(target), ..._.castArray(source)];
       }
