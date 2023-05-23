@@ -1,5 +1,7 @@
 import { CodeProps } from './code';
 
+const DEFAULT_LANGUAGE_CLASS = 'language-bash';
+
 export function parseTitleFromMeta(meta: string): string {
   if (!meta) {
     return '';
@@ -24,9 +26,10 @@ export function Pre({
   }
 
   const { className, meta } = children.props as CodeProps;
+
   const codeTitle = parseTitleFromMeta(meta);
   return (
-    <div className={className}>
+    <div className={className || DEFAULT_LANGUAGE_CLASS}>
       {codeTitle && <div className="modern-code-title">{codeTitle}</div>}
       <div className="modern-code-content">{children}</div>
     </div>

@@ -166,3 +166,7 @@
   right: 0;
   padding-left: 20px;
 }
+
+.modern-doc [class*='language-'] .modern-code-content > code {
+  padding: 16px 20px;
+}
