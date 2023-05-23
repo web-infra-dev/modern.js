@@ -1,5 +1,6 @@
 import * as path from 'path';
 import {
+  isHtmlDisabled,
   BuilderPlugin,
   BundlerChain,
   mergeBuilderConfig,
@@ -15,7 +16,6 @@ import type {
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions, BuilderPluginAPI } from '../types';
 import { getServerCombinedModueFile } from '../../../analyze/utils';
-import { isHtmlEnabled } from './adapterHtml';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
   options: BuilderOptions<B>,
@@ -57,7 +57,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           });
         }
 
-        if (isHtmlEnabled(builderConfig, target)) {
+        if (!isHtmlDisabled(builderConfig, target)) {
           applyAsyncChunkHtmlPlugin({
             chain,
             modernConfig: options.normalizedConfig,
