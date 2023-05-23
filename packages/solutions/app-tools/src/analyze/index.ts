@@ -113,7 +113,7 @@ export default ({
 
         pagesDir = entrypoints
           .map(point => point.entry)
-          // only file-based routes should be watched
+          // should only watch file-based routes
           .filter(entry => entry && !path.extname(entry))
           .concat(nestedRouteEntries);
 
