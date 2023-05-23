@@ -302,15 +302,11 @@
     },
     "react-dom": {
       "optional": true
-    },
-    "react-router-dom": {
-      "optional": true
     }
   },
   "devDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0",
-    "react-router-dom": "^6.8.1",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
