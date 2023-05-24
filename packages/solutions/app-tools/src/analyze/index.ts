@@ -113,7 +113,8 @@ export default ({
 
         pagesDir = entrypoints
           .map(point => point.entry)
-          .filter(Boolean)
+          // should only watch file-based routes
+          .filter(entry => entry && !path.extname(entry))
           .concat(nestedRouteEntries);
 
         originEntrypoints = cloneDeep(entrypoints);
