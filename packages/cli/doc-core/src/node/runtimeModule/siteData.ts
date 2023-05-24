@@ -18,11 +18,10 @@ import { importStatementRegex, TEMP_DIR } from '../constants';
 import { applyReplaceRules } from '../utils/applyReplaceRules';
 import { logger, createHash } from '../utils';
 import { flattenMdxContent } from '../utils/flattenMdxContent';
-import { extendPageData } from '../hooks';
+import { RouteService } from '../route/RouteService';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
-import { routeService } from './routeData';
 import { getI18nData } from './i18n';
-import { RuntimeModuleID } from '.';
+import { FactoryContext, RuntimeModuleID } from '.';
 import {
   withBase,
   MDX_REGEXP,
@@ -221,6 +220,7 @@ async function extractPageData(
   alias: Record<string, string | string[]>,
   domain: string,
   root: string,
+  routeService: RouteService,
 ): Promise<(PageIndexInfo | null)[]> {
   return Promise.all(
     routeService
@@ -334,13 +334,16 @@ async function extractPageData(
   );
 }
 
-export async function siteDataVMPlugin(
-  userRoot: string,
-  config: UserConfig,
-  isSSR: boolean,
-  runtimeTempDir: string,
-  alias: Record<string, string | string[]>,
-) {
+export async function siteDataVMPlugin(context: FactoryContext) {
+  const {
+    runtimeTempDir,
+    config,
+    isSSR,
+    alias,
+    userRoot,
+    routeService,
+    pluginDriver,
+  } = context;
   const entryPath = join(runtimeTempDir, `${RuntimeModuleID.SiteData}.js`);
   const searchIndexHashPath = join(
     runtimeTempDir,
@@ -358,7 +361,7 @@ export async function siteDataVMPlugin(
         ? userConfig?.search.domain ?? ''
         : '';
     pages = (
-      await extractPageData(replaceRules, alias, domain, userRoot)
+      await extractPageData(replaceRules, alias, domain, userRoot, routeService)
     ).filter(Boolean);
   }
 
@@ -395,12 +398,7 @@ export async function siteDataVMPlugin(
 
   // Run extendPageData hook in plugins
   await Promise.all(
-    pages.map(async pageData =>
-      extendPageData({
-        pageData,
-        config,
-      }),
-    ),
+    pages.map(async pageData => pluginDriver.extendPageData(pageData)),
   );
 
   const siteData = {

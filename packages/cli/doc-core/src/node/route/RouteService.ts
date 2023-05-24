@@ -2,18 +2,11 @@ import path from 'path';
 import type { ComponentType } from 'react';
 import fs from '@modern-js/utils/fs-extra';
 import { getPageKey, normalizePath } from '../utils';
-import { addPages as addPagesByPlugins } from '../hooks';
-import { PageModule, UserConfig } from '@/shared/types';
+import { PluginDriver } from '../PluginDriver';
+import { PageModule, UserConfig, RouteMeta } from '@/shared/types';
 import { withBase } from '@/shared/utils';
 
 export const DEFAULT_PAGE_EXTENSIONS = ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'];
-
-export interface RouteMeta {
-  routePath: string;
-  absolutePath: string;
-  pageName: string;
-  lang: string;
-}
 
 export interface Route {
   path: string;
@@ -55,7 +48,7 @@ export const normalizeRoutePath = (
 };
 
 export class RouteService {
-  #userConfig: UserConfig;
+  routeData: Map<string, RouteMeta> = new Map();
 
   #scanDir: string;
 
@@ -73,11 +66,15 @@ export class RouteService {
 
   #tempDir: string = '';
 
-  routeData: Map<string, RouteMeta> = new Map();
+  #pluginDriver: PluginDriver;
 
-  constructor(scanDir: string, userConfig: UserConfig, tempDir: string) {
+  constructor(
+    scanDir: string,
+    userConfig: UserConfig,
+    tempDir: string,
+    pluginDriver: PluginDriver,
+  ) {
     const routeOptions = userConfig.doc?.route || {};
-    this.#userConfig = userConfig;
     this.#scanDir = scanDir;
     this.#extensions = routeOptions.extensions || DEFAULT_PAGE_EXTENSIONS;
     this.#include = routeOptions.include || [];
@@ -87,6 +84,7 @@ export class RouteService {
       userConfig.doc?.themeConfig?.locales?.map(locale => locale.lang) || [];
     this.#base = userConfig.doc?.base || '';
     this.#tempDir = tempDir;
+    this.#pluginDriver = pluginDriver;
   }
 
   async init() {
@@ -125,9 +123,7 @@ export class RouteService {
       this.addRoute(routeInfo);
     });
     // 2. external pages added by plugins
-    const externalPages = await addPagesByPlugins({
-      config: this.#userConfig,
-    });
+    const externalPages = await this.#pluginDriver.addPages(this.getRoutes());
 
     let index = 0;
     await Promise.all(
