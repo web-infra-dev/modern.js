@@ -13,6 +13,9 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
         },
       },
       "moduleNameMapper": {},
+      "modulePathIgnorePatterns": [
+        "config.test.ts",
+      ],
       "resolver": "/packages/runtime/plugin-testing/src/base/config/resolver.ts",
       "rootDir": "/packages/runtime/plugin-testing/tests/bff/fixtures/bff1/api",
       "setupFilesAfterEnv": [
@@ -50,6 +53,9 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
         },
       },
       "moduleNameMapper": {},
+      "modulePathIgnorePatterns": [
+        "config.test.ts",
+      ],
       "resolver": "/packages/runtime/plugin-testing/src/base/config/resolver.ts",
       "rootDir": "/packages/runtime/plugin-testing/tests/bff/fixtures/bff1/api",
       "setupFilesAfterEnv": [
