@@ -3,15 +3,16 @@ import {
   BuilderTarget,
   DEFAULT_BROWSERSLIST,
   getBrowserslistWithDefault,
+  DefaultBuilderPlugin,
+  SharedNormalizedConfig,
 } from '@modern-js/builder-shared';
-import type { BuilderPlugin, NormalizedConfig } from '../types';
 
-export function builderPluginCheckSyntax(): BuilderPlugin {
+export function builderPluginCheckSyntax(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-check-syntax',
 
     setup(api) {
-      api.modifyWebpackChain(async (chain, { isProd, target }) => {
+      api.modifyBundlerChain(async (chain, { isProd, target }) => {
         const config = api.getNormalizedConfig();
         const { checkSyntax } = config.security;
 
@@ -29,9 +30,7 @@ export function builderPluginCheckSyntax(): BuilderPlugin {
           target,
           checkSyntax,
         );
-        const { CheckSyntaxPlugin } = await import(
-          '../webpackPlugins/CheckSyntaxPlugin'
-        );
+        const { CheckSyntaxPlugin } = await import('@modern-js/builder-shared');
         chain.plugin(CheckSyntaxPlugin.name).use(CheckSyntaxPlugin, [
           {
             targets,
@@ -46,7 +45,7 @@ export function builderPluginCheckSyntax(): BuilderPlugin {
 
 async function getCheckTargets(
   builderContext: BuilderContext,
-  builderConfig: NormalizedConfig,
+  builderConfig: SharedNormalizedConfig,
   builderTarget: BuilderTarget,
   checkSyntax: { targets: string[] } | true,
 ) {

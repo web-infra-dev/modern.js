@@ -1,6 +1,6 @@
 import { SyntaxError } from './type';
 import chalk from '@modern-js/utils/chalk';
-import { logger } from '@modern-js/builder-shared';
+import { logger } from '../../../logger';
 
 type Error = {
   source: string;
