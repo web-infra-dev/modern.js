@@ -113,7 +113,8 @@ export default ({
 
         pagesDir = entrypoints
           .map(point => point.entry)
-          .filter(Boolean)
+          // should only watch file-based routes
+          .filter(entry => entry && !path.extname(entry))
           .concat(nestedRouteEntries);
 
         originEntrypoints = cloneDeep(entrypoints);
@@ -179,7 +180,7 @@ export default ({
             async onDevCompileDone({ isFirstCompile }) {
               const hookRunners = api.useHookRunners();
               if (process.stdout.isTTY || isFirstCompile) {
-                hookRunners.afterDev();
+                hookRunners.afterDev({ isFirstCompile });
 
                 if (isFirstCompile) {
                   printInstructions(hookRunners, appContext, normalizedConfig);

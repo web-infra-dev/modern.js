@@ -92,7 +92,7 @@ export const getBundleEntry = (
                 : undefined,
             };
 
-      if (entrypoint.fileSystemRoutes && isRouterV5(config)) {
+      if (entrypoint.fileSystemRoutes && !isRouterV5(config)) {
         entrypoint.nestedRoutesEntry = entrypoint.entry;
       }
       if (!ifAlreadyExists(defaults, entrypoint)) {

@@ -23,8 +23,10 @@ export default (): CliPlugin => {
         }
 
         const rule = createProxyRule(internalDirectory, dev.proxy);
-        proxyServer = new WhistleProxy({ port: 8899, rule });
-        await proxyServer.start();
+        if (!proxyServer) {
+          proxyServer = new WhistleProxy({ port: 8899, rule });
+          await proxyServer.start();
+        }
       },
 
       beforeExit() {

@@ -20,6 +20,12 @@ import { usePageData } from '@/runtime';
 let registered = false;
 const timeoutIdMap: Map<HTMLElement, NodeJS.Timeout> = new Map();
 
+export interface CodeProps {
+  children: string;
+  className: string;
+  meta?: string;
+}
+
 function registerLanguages() {
   SyntaxHighlighter.registerLanguage('jsx', jsx);
   SyntaxHighlighter.registerLanguage('jsx', tsx);
@@ -38,11 +44,7 @@ function registerLanguages() {
   registered = true;
 }
 
-export function Code(props: {
-  children: string;
-  className: string;
-  meta?: string;
-}) {
+export function Code(props: CodeProps) {
   const copyButtonRef = useRef<HTMLButtonElement>(null);
   const { siteData } = usePageData();
   const { showLineNumbers } = siteData.markdown;
@@ -101,6 +103,7 @@ export function Code(props: {
         language={language}
         style={style}
         wrapLines={true}
+        className="code"
         // Notice: if the highlight line is specified, the line number must be displayed
         showLineNumbers={showLineNumbers || highlightLines.length > 0}
         lineProps={lineNumber => {

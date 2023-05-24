@@ -6,6 +6,7 @@ import {
   isSSGEntry,
   isUseSSRBundle,
   logger,
+  SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
@@ -285,9 +286,31 @@ export const generateCode = async (
 
       // generate entry file.
       if (config.source.enableAsyncEntry) {
+        let rawAsyncEntryCode = `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`;
+        const ssr = getEntryOptions(
+          entryName,
+          config.server.ssr,
+          config.server.ssrByEntries,
+          packageName,
+        );
+        if (ssr) {
+          rawAsyncEntryCode = `
+          export const ${SERVER_RENDER_FUNCTION_NAME} = async (...args) => {
+            let entry = await ${rawAsyncEntryCode};
+            if (entry.default instanceof Promise){
+              entry = await entry.default;
+              return entry.default.${SERVER_RENDER_FUNCTION_NAME}.apply(null, args);
+            }
+            return entry.${SERVER_RENDER_FUNCTION_NAME}.apply(null, args);
+          };
+          if(typeof window!=='undefined'){
+            ${rawAsyncEntryCode}
+          }
+          `;
+        }
         const { code: asyncEntryCode } = await hookRunners.modifyAsyncEntry({
           entrypoint,
-          code: `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
+          code: rawAsyncEntryCode,
         });
         fs.outputFileSync(entryFile, asyncEntryCode, 'utf8');
 

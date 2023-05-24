@@ -11,7 +11,8 @@ import {
   checkIsExcludeSource,
   CheckSyntaxExclude,
 } from './helpers';
-import { CheckSyntaxOptions, webpack } from '../../types';
+import { CheckSyntaxOptions } from '../../types';
+import type { Compiler, Compilation } from 'webpack';
 
 const HTML_REGEX = /\.html$/;
 const JS_REGEX = /\.js$/;
@@ -31,14 +32,18 @@ export class CheckSyntaxPlugin {
     this.ecmaVersion = getEcmaVersion(this.targets);
   }
 
-  apply(complier: webpack.Compiler) {
+  apply(complier: Compiler) {
     complier.hooks.afterEmit.tapPromise(
       CheckSyntaxPlugin.name,
-      async (compilation: webpack.Compilation) => {
+      async (compilation: Compilation) => {
         const outputPath = compilation.outputOptions.path || 'dist';
-        const emittedAssets = Array.from(compilation.emittedAssets).map(p =>
-          resolve(outputPath, p),
-        );
+        // not support compilation.emittedAssets in Rspack
+        const emittedAssets = compilation
+          .getAssets()
+          .filter(a => a.source)
+          .map(a => a.name)
+          .map(p => resolve(outputPath, p));
+
         const files = emittedAssets.filter(
           assets => HTML_REGEX.test(assets) || JS_REGEX.test(assets),
         );

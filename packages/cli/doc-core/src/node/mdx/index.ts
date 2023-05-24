@@ -9,7 +9,7 @@ import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
 import rehypePluginExternalLinks from 'rehype-external-links';
 import { remarkPluginContainer } from '@modern-js/remark-container';
 import { remarkPluginToc } from './remarkPlugins/toc';
-import { rehypePluginPreWrapper } from './rehypePlugins/preWrapper';
+import { rehypePluginCodeMeta } from './rehypePlugins/codeMeta';
 import { remarkPluginNormalizeLink } from './remarkPlugins/normalizeLink';
 import { remarkCheckDeadLinks } from './remarkPlugins/checkDeadLink';
 
@@ -71,7 +71,7 @@ export async function createMDXOptions(
           },
         },
       ],
-      rehypePluginPreWrapper,
+      rehypePluginCodeMeta,
       [
         rehypePluginExternalLinks,
         {
