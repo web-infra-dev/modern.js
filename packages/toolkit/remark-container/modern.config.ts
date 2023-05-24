@@ -7,5 +7,6 @@ export default {
     buildType: 'bundle',
     format: 'cjs',
     sourceMap: true,
+    dts: false,
   },
 };

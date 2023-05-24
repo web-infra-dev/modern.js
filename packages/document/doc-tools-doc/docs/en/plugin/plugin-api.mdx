@@ -281,3 +281,21 @@ export function docPluginDemo(): DocPlugin {
   };
 }
 ```
+
+`addPages` accepts three parameters, `config` is the config of the current document site, `isProd` indicates whether it is a production environment, `routes` is an array of conventional routes, and the structure of each routing information is as follows:
+
+```ts
+export interface RouteMeta {
+  routePath: string;
+  // file absolute path
+  absolutePath: string;
+  // The page name, as part of the chunk filename
+  pageName: string;
+  // language of current route
+  lang: string;
+}
+```
+
+:::tip Hint
+The `addPages` hook is executed before the Rspack build tool is started. In addition to returning the custom page, you can also get the routing information in this hook and complete some operations.
+:::

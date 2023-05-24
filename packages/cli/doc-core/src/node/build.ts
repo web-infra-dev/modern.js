@@ -12,8 +12,8 @@ import {
 } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
-import { modifyConfig, beforeBuild, afterBuild, loadPlugins } from './hooks';
 import { logger } from './utils';
+import { PluginDriver } from './PluginDriver';
 import { APPEARANCE_KEY, normalizeSlash } from '@/shared/utils';
 import type { Route } from '@/node/route/RouteService';
 
@@ -30,11 +30,15 @@ const CHECK_DARK_LIGHT_SCRIPT = `
 </script>
 `;
 
-export async function bundle(rootDir: string, config: UserConfig) {
+export async function bundle(
+  rootDir: string,
+  config: UserConfig,
+  pluginDriver: PluginDriver,
+) {
   try {
     const [clientBuilder, ssrBuilder] = await Promise.all([
-      createModernBuilder(rootDir, config, false),
-      createModernBuilder(rootDir, config, true, {
+      createModernBuilder(rootDir, config, pluginDriver, false),
+      createModernBuilder(rootDir, config, pluginDriver, true, {
         output: {
           distPath: {
             root: `${config.doc?.outDir ?? OUTPUT_DIR}/ssr`,
@@ -136,21 +140,11 @@ export async function renderPages(config: UserConfig) {
 }
 
 export async function build(rootDir: string, config: UserConfig) {
-  const isProd = true;
-  await loadPlugins(config);
-
-  const modifiedConfig = await modifyConfig({
-    config,
-  });
-
-  await beforeBuild({
-    config: modifiedConfig,
-    isProd,
-  });
-  await bundle(rootDir, modifiedConfig);
+  const pluginDriver = new PluginDriver(config, true);
+  await pluginDriver.init();
+  const modifiedConfig = await pluginDriver.modifyConfig();
+  await pluginDriver.beforeBuild();
+  await bundle(rootDir, modifiedConfig, pluginDriver);
   await renderPages(modifiedConfig);
-  await afterBuild({
-    config: modifiedConfig,
-    isProd,
-  });
+  await pluginDriver.afterBuild();
 }
