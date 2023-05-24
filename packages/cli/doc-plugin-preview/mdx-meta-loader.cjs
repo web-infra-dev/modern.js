@@ -1,4 +1,5 @@
-const { join, basename, extname } = require('path');
+const { join } = require('path');
+const { routeMeta } = require('./dist');
 
 module.exports = async function (source) {
   const callback = this.async();
@@ -8,16 +9,16 @@ module.exports = async function (source) {
   try {
     const processor = createProcessor();
     const ast = processor.parse(source);
-    const index = 1;
+    let index = 1;
     const meta = [];
     visit(ast, 'code', node => {
       if (node.lang === 'jsx' || node.lang === 'tsx') {
         const { value } = node;
-        const filename = basename(this.resourcePath);
-        const ext = extname(filename);
-        const base = filename.replace(ext, '');
-        // FIXME: fix id when support i18n
-        const id = `${base}_${index}`;
+        const { pageName } = routeMeta.find(
+          meta => meta.absolutePath === this.resourcePath,
+        );
+        const id = `${pageName}_${index++}`;
+
         const demoDir = join(
           process.cwd(),
           'node_modules',

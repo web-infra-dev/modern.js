@@ -1,65 +1,78 @@
-import { basename, join, extname } from 'path';
+import { join } from 'path';
+import { visit } from 'unist-util-visit';
+
+import type { RouteMeta } from '@modern-js/doc-core';
 import type { Plugin } from 'unified';
 import type { Root } from 'mdast';
-import { visit } from 'unist-util-visit';
 import type { MdxjsEsm } from 'mdast-util-mdxjs-esm';
 
 /**
- * remark plugin to transform code to jsx
+ * remark plugin to transform code to demo
  */
-export const remarkCodeToDemo: Plugin<[{ isMobile: boolean }], Root> = ({
-  isMobile,
-}) => {
+export const remarkCodeToDemo: Plugin<
+  [{ isMobile: boolean; getRouteMeta: () => RouteMeta[] }],
+  Root
+> = ({ isMobile, getRouteMeta }) => {
   return (tree, vfile) => {
     const demos: MdxjsEsm[] = [];
-    const hasImportCodeContainer = false;
+    const hasImportContainer = false;
     let index = 1;
     visit(tree, 'code', node => {
       // hasVisited is a custom property
       if ('hasVisited' in node) {
         return;
       }
-      !hasImportCodeContainer &&
+      !hasImportContainer &&
         demos.push(
           getASTNodeImport(
-            `CodeContainer`,
-            join(__dirname, '..', 'dist/codeContainer.js'),
+            `Container`,
+            join(__dirname, '..', 'dist/container.js'),
           ),
-        ) &&
-        demos.push(
-          getASTNodeImport(`Preview`, join(__dirname, '..', 'dist/preview.js')),
         );
+
       if (node.lang === 'jsx' || node.lang === 'tsx') {
-        // const code = node.value;
         const isPure = node?.meta?.includes('pure');
         if (isPure) {
           // not transform pure code
           return;
         }
-        // FIXME: fix id when support i18n
-        const filename = basename(vfile.path);
-        const ext = extname(filename);
-        const id = `${filename.replace(ext, '')}_${index++}`;
+        const routeMeta = getRouteMeta();
+        const { pageName } = routeMeta.find(
+          meta => meta.absolutePath === vfile.path,
+        )!;
+        const id = `${pageName}_${index++}`;
+        const demoDir = join(
+          process.cwd(),
+          'node_modules',
+          '.modern-doc',
+          `virtual-demo`,
+        );
+        const virtualModulePath = join(demoDir, `${id}.tsx`);
+        demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
         Object.assign(node, {
           type: 'mdxJsxFlowElement',
-          name: 'CodeContainer',
-          isMobile,
-          children: [
+          name: 'Container',
+          attributes: [
             {
-              type: 'mdxJsxFlowElement',
-              name: `Preview`,
-              attributes: [
-                {
-                  type: 'mdxJsxAttribute',
-                  name: 'url',
-                  value: `/~demo/${id}`,
-                },
-              ],
+              type: 'mdxJsxAttribute',
+              name: 'isMobile',
+              value: isMobile,
             },
+            {
+              type: 'mdxJsxAttribute',
+              name: 'url',
+              value: `/~demo/${id}`,
+            },
+          ],
+          children: [
             {
               // if lang not change, this node will be visited again and again
               ...node,
               hasVisited: true,
+            },
+            {
+              type: 'mdxJsxFlowElement',
+              name: `Demo${id}`,
             },
           ],
         });

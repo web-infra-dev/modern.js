@@ -3,16 +3,16 @@ import type { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluginConfig } from '@modern-js/core';
 import _ from '@modern-js/utils/lodash';
 import type { PluggableList } from 'unified';
-import {
+import type {
   Config as DefaultThemeConfig,
   NormalizedConfig as NormalizedDefaultThemeConfig,
 } from './defaultTheme';
-import { DocPlugin, AdditionalPage } from './Plugin';
+import type { DocPlugin, AdditionalPage } from './Plugin';
 
-export { DefaultThemeConfig, NormalizedDefaultThemeConfig };
+export type { DefaultThemeConfig, NormalizedDefaultThemeConfig };
 export * from './defaultTheme';
 
-export { DocPlugin, AdditionalPage };
+export type { DocPlugin, AdditionalPage };
 
 export interface RouteMeta {
   routePath: string;

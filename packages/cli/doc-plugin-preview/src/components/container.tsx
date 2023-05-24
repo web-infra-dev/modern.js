@@ -5,15 +5,20 @@ import '@arco-design/web-react/es/Button/style';
 import '@arco-design/web-react/es/Tooltip/style';
 import '@arco-design/web-react/es/Card/style';
 
+import './container.scss';
 import { normalizeRoutePath, useDark } from '@modern-js/doc-core/runtime';
 import { locales } from '../locales';
+import Preview from './preview';
 
-type CodeContainerProps = {
+type ContainerProps = {
   children: React.ReactNode[];
+  isMobile: boolean;
+  url: string;
 };
 
-const CodeContainer: React.FC<CodeContainerProps> = props => {
+const Container: React.FC<ContainerProps> = props => {
   const codeEleRef = useRef(null);
+  const { children, isMobile, url } = props;
   const [showCode, setShowCode] = useState(false);
   const lang = normalizeRoutePath(window.location.pathname).startsWith('/en/')
     ? 'en'
@@ -52,7 +57,6 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
       </div>
     );
   };
-
   return (
     <div className="code-wrapper">
       <Card>
@@ -61,7 +65,7 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
             overflow: 'auto',
           }}
         >
-          {props.children[0]}
+          {isMobile ? <Preview url={url} /> : children?.[1]}
         </div>
         {renderOperations()}
       </Card>
@@ -69,10 +73,10 @@ const CodeContainer: React.FC<CodeContainerProps> = props => {
         className={`code-content ${showCode ? 'show-all' : ''}`}
         ref={codeEleRef}
       >
-        {props.children?.[1]}
+        {children?.[0]}
       </div>
     </div>
   );
 };
 
-export default CodeContainer;
+export default Container;

@@ -1,7 +1,6 @@
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { DocPlugin } from '@modern-js/doc-core';
 import { RspackVirtualModulePlugin } from 'rspack-plugin-virtual-module';
+import type { DocPlugin, RouteMeta } from '@modern-js/doc-core';
 import { remarkCodeToDemo } from './codeToDemo';
 
 export type Options = {
@@ -12,16 +11,21 @@ export type Options = {
   isMobile: boolean;
 };
 
+// eslint-disable-next-line import/no-mutable-exports
+export let routeMeta: RouteMeta[];
+
 /**
  * The plugin is used to preview component.
  */
 export function pluginPreview(options?: Options): DocPlugin {
   const isMobile = options?.isMobile ?? true;
-  const DemoComponentPath = path.join(__dirname, '..', 'dist/demo.js');
+  const demoComponentPath = path.join(__dirname, '..', 'dist/demo.js');
   const demoRuntimeModule = new RspackVirtualModulePlugin({});
+  const getRouteMeta = () => routeMeta;
   return {
     name: '@modern-js/doc-plugin-preview',
-    addPages(_config, routes) {
+    addPages(_config, _isProd, routes) {
+      routeMeta = routes;
       const files = routes.map(route => route.absolutePath);
       /**
        * expect the meta of each demo file is like this:
@@ -30,9 +34,6 @@ export function pluginPreview(options?: Options): DocPlugin {
        *   component,
        * }
        */
-      // const obj = arr.reduce((acc, { id, component }) => {
-      //   return { ...acc, [id]: component };
-      // }, {});
       const virtualMeta = `
         ${files
           .map((filepath, index) => {
@@ -50,7 +51,7 @@ export function pluginPreview(options?: Options): DocPlugin {
         {
           routePath: '/~demo/:id',
           content: `
-import Demo from '${DemoComponentPath}'
+import Demo from '${demoComponentPath}'
 
 <Demo />
 
@@ -66,14 +67,13 @@ export const pageType = "blank";
           plugins: [demoRuntimeModule],
         },
         bundlerChain(chain) {
-          const dirname = path.dirname(fileURLToPath(new URL(import.meta.url)));
           chain.module
             .rule('MDX')
             .oneOf('MDXMeta')
             .before('MDXCompile')
             .resourceQuery(/meta/)
             .use('mdx-meta-loader')
-            .loader(path.join(dirname, '../mdx-meta-loader.cjs'))
+            .loader(path.join(__dirname, '../mdx-meta-loader.cjs'))
             .end();
 
           chain.resolve.extensions.prepend('.md').prepend('.mdx');
@@ -81,7 +81,7 @@ export const pageType = "blank";
       },
     },
     markdown: {
-      remarkPlugins: [[remarkCodeToDemo, { isMobile }]],
+      remarkPlugins: [[remarkCodeToDemo, { isMobile, getRouteMeta }]],
     },
   };
 }
