@@ -11,6 +11,7 @@ export const SriOptionsSchema: ZodType<SriOptions> = z.partialObj({
 });
 
 export const sharedSecurityConfigSchema = z.partialObj({
+  nonce: z.string(),
   checkSyntax: z.union([
     z.boolean(),
     z.object({

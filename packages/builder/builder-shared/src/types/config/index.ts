@@ -8,7 +8,10 @@ import type {
   SharedSourceConfig,
   NormalizedSharedSourceConfig,
 } from './source';
-import type { SharedSecurityConfig } from './security';
+import type {
+  SharedSecurityConfig,
+  NormalizedSharedSecurityConfig,
+} from './security';
 import type {
   SharedPerformanceConfig,
   NormalizedSharedPerformanceConfig,
@@ -37,7 +40,7 @@ export type SharedNormalizedConfig = DeepReadonly<{
   html: NormalizedSharedHtmlConfig;
   source: NormalizedSharedSourceConfig;
   output: NormalizedSharedOutputConfig;
-  security: Required<SharedSecurityConfig>;
+  security: NormalizedSharedSecurityConfig;
   performance: NormalizedSharedPerformanceConfig;
   tools: SharedToolsConfig;
 }>;

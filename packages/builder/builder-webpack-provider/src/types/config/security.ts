@@ -1,6 +1,7 @@
 import type {
   SriOptions,
   SharedSecurityConfig,
+  NormalizedSharedSecurityConfig,
 } from '@modern-js/builder-shared';
 
 export type SecurityConfig = SharedSecurityConfig & {
@@ -11,4 +12,5 @@ export type SecurityConfig = SharedSecurityConfig & {
   sri?: SriOptions | boolean;
 };
 
-export type NormalizedSecurityConfig = Required<SecurityConfig>;
+export type NormalizedSecurityConfig = NormalizedSharedSecurityConfig &
+  Required<Pick<SecurityConfig, 'sri'>>;

@@ -19,3 +19,5 @@ export interface SharedSecurityConfig {
    */
   nonce?: string;
 }
+
+export type NormalizedSharedSecurityConfig = Required<SharedSecurityConfig>;

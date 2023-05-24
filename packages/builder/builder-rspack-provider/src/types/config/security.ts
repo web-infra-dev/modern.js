@@ -1,7 +1,8 @@
-import type { SharedSecurityConfig } from '@modern-js/builder-shared';
+import type {
+  SharedSecurityConfig,
+  NormalizedSharedSecurityConfig,
+} from '@modern-js/builder-shared';
 
-export type SecurityConfig = SharedSecurityConfig & {
-  nonce?: string;
-};
+export type SecurityConfig = SharedSecurityConfig;
 
-export type NormalizedSecurityConfig = Required<SecurityConfig>;
+export type NormalizedSecurityConfig = NormalizedSharedSecurityConfig;
