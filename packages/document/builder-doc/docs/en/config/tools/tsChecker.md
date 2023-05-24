@@ -29,8 +29,6 @@ const defaultOptions = {
 },
 ```
 
-- **Bundler:** `only support webpack`
-
 By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin) is enabled for type checking. You can use `output.disableTsChecker` config to disable it.
 
 ### Object Type

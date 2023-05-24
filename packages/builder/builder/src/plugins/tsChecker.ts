@@ -1,11 +1,11 @@
-import type { BuilderPlugin } from '../types';
+import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const builderPluginTsChecker = (): BuilderPlugin => {
+export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
   return {
     name: 'builder-plugin-ts-checker',
 
     setup(api) {
-      api.modifyWebpackChain(async (chain, { target }) => {
+      api.modifyBundlerChain(async (chain, { target }) => {
         const config = api.getNormalizedConfig();
 
         // Use tsChecker if disableTsChecker is not `true`, So there are two situations for user:
@@ -25,7 +25,7 @@ export const builderPluginTsChecker = (): BuilderPlugin => {
         }
 
         const { default: ForkTsCheckerWebpackPlugin } = await import(
-          'fork-ts-checker-webpack-plugin'
+          '@modern-js/builder-shared/fork-ts-checker-webpack-plugin'
         );
         const { logger, CHAIN_ID, applyOptionsChain } = await import(
           '@modern-js/utils'

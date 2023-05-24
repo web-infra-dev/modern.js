@@ -650,6 +650,29 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "publicPath": "/",
   },
   "plugins": [
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
     RspackVirtualModulePlugin {},
   ],
   "resolve": {
@@ -1326,6 +1349,29 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "publicPath": "/",
   },
   "plugins": [
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
     RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
@@ -1743,6 +1789,31 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "pathinfo": false,
     "publicPath": "/",
   },
+  "plugins": [
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+  ],
   "resolve": {
     "conditionNames": [
       "require",
@@ -2422,6 +2493,29 @@ exports[`tools.rspack > should match snapshot 1`] = `
   "plugins": [
     TestPlugin {
       "name": "TestPlugin",
+    },
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
     },
     RspackVirtualModulePlugin {},
   ],

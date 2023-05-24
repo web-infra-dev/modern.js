@@ -132,6 +132,7 @@ importers:
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.20.0
       '@types/node': ^14
+      fork-ts-checker-webpack-plugin: 8.0.0
       html-webpack-plugin: 5.5.0
       terser: ^5.14.1
       typescript: ^5
@@ -146,6 +147,7 @@ importers:
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
+      fork-ts-checker-webpack-plugin: 8.0.0_b73sldshwrlnhikvubwhfqvrfa
       webpack-sources: 3.2.3
       zod: 3.20.2
       zod-validation-error: 0.3.0_zod@3.20.2
@@ -180,7 +182,6 @@ importers:
       cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 5.0.0
       cssnano: 6.0.0
-      fork-ts-checker-webpack-plugin: 8.0.0
       html-webpack-plugin: 5.5.0
       mini-css-extract-plugin: 2.7.0
       postcss: 8.4.21
@@ -207,7 +208,6 @@ importers:
       cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 5.0.0_webpack@5.82.1
       cssnano: 6.0.0_postcss@8.4.21
-      fork-ts-checker-webpack-plugin: 8.0.0_b73sldshwrlnhikvubwhfqvrfa
       html-webpack-plugin: 5.5.0_webpack@5.82.1
       mini-css-extract-plugin: 2.7.0_webpack@5.82.1
       postcss: 8.4.21
@@ -6025,6 +6025,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/highlight': 7.17.12
+    dev: true
 
   /@babel/code-frame/7.18.6:
     resolution: {integrity: sha512-TDCmlK5eOvH+eH7cdAFlNXeVJqWIQ7gW9tY1GJIpUtFb6CmjVyq2VM3u71bOyR8CRihcCgMUYoDNyLXao3+70Q==}
@@ -6631,6 +6632,7 @@ packages:
       '@babel/helper-validator-identifier': 7.19.1
       chalk: 2.4.2
       js-tokens: 4.0.0
+    dev: true
 
   /@babel/highlight/7.18.6:
     resolution: {integrity: sha512-u7stbOuYjaPezCuLj29hNW1v64M2Md2qupEKP1fHc7WdOA3DgLh37suiSrZYY7haUB7iBeQZ9P1uiRF359do3g==}
@@ -20848,7 +20850,7 @@ packages:
       typescript: '>3.6.0'
       webpack: ^5.11.0
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.21.4
       chalk: 4.1.2
       chokidar: 3.5.3
       cosmiconfig: 7.0.1
@@ -20857,8 +20859,8 @@ packages:
       memfs: 3.4.12
       minimatch: 3.1.2
       node-abort-controller: 3.0.1
-      schema-utils: 3.1.1
-      semver: 7.3.8
+      schema-utils: 3.1.2
+      semver: 7.3.7
       tapable: 2.2.1
       typescript: 5.0.4
       webpack: 5.82.1
@@ -23405,7 +23407,7 @@ packages:
     resolution: {integrity: sha512-Kijeg9Dag6CKtIDA7O21zNTACqD5MD/8HfIV8pdD94vFyFuer52SigdC3IQMhab3vACxXMiFk+yMHNdbqtyTGA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
-      '@babel/code-frame': 7.18.6
+      '@babel/code-frame': 7.21.4
       '@jest/types': 29.5.0
       '@types/stack-utils': 2.0.1
       chalk: 4.1.2
@@ -26327,7 +26329,7 @@ packages:
     resolution: {integrity: sha512-ayCKvm/phCGxOkYRSCM82iDwct8/EonSEgCSxWxD7ve6jHggsFl4fZVQBPRNgQoKiuV/odhFrGzQXZwbifC8Rg==}
     engines: {node: '>=8'}
     dependencies:
-      '@babel/code-frame': 7.16.7
+      '@babel/code-frame': 7.21.4
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
@@ -31076,7 +31078,7 @@ packages:
       mime: 2.6.0
       qs: 6.11.0
       readable-stream: 3.6.0
-      semver: 7.3.8
+      semver: 7.3.7
     transitivePeerDependencies:
       - supports-color
 

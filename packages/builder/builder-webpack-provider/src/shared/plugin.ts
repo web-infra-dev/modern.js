@@ -51,7 +51,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/moduleScopes').then(m => m.builderPluginModuleScopes()),
     import('../plugins/tsLoader').then(m => m.builderPluginTsLoader()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
-    import('../plugins/tsChecker').then(m => m.builderPluginTsChecker()),
+    plugins.tsChecker(),
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/sass').then(m => m.builderPluginSass()),
     import('../plugins/less').then(m => m.builderPluginLess()),

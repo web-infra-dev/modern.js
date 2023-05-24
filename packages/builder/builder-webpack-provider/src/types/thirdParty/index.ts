@@ -3,7 +3,6 @@ import type webpack from 'webpack';
 import type { Configuration as WebpackConfig } from 'webpack';
 import type TerserPlugin from 'terser-webpack-plugin';
 import type CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import type ForkTSCheckerPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Options as RawTSLoaderOptions } from 'ts-loader';
 
 export type { BabelTransformOptions } from '@modern-js/types';
@@ -23,10 +22,6 @@ export type { CssNanoOptions } from 'css-minimizer-webpack-plugin';
 export type { BabelConfigUtils } from '@modern-js/babel-preset-app';
 
 export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
-
-export type ForkTSCheckerOptions = ConstructorParameters<
-  typeof ForkTSCheckerPlugin
->[0];
 
 export type { webpack, WebpackChain, WebpackConfig };
 

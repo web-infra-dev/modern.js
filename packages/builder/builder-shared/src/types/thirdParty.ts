@@ -5,6 +5,7 @@ import type {
 import type * as SassLoader from '../../compiled/sass-loader';
 import type Less from '../../compiled/less';
 import type { LoaderContext } from 'webpack';
+import type ForkTSCheckerPlugin from 'fork-ts-checker-webpack-plugin';
 
 export type { Options as PugOptions } from '../../compiled/pug';
 
@@ -66,3 +67,7 @@ export type LessLoaderOptions = {
   webpackImporter?: boolean;
   implementation?: unknown;
 };
+
+export type ForkTSCheckerOptions = ConstructorParameters<
+  typeof ForkTSCheckerPlugin
+>[0];
