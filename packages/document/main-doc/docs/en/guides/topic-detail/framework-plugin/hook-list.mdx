@@ -260,9 +260,9 @@ export default (): CliPlugin => ({
 ### `afterDev`
 
 - Function: Tasks to be executed after the main process of `dev` command
-- Execution Stage: Executed after the project is started when running the `dev` command
+- Execution Stage: It is executed after each compilation is completed when running the `dev` command
 - Hook Model: AsyncWorkflow
-- Type: `AsyncWorkflow<void, unknown>`
+- Type: `AsyncWorkflow<{ isFirstCompile: boolean }, unknown>`
 - Usage Example:
 
 ```ts
@@ -273,6 +273,24 @@ export default (): CliPlugin => ({
     return {
       afterDev: () => {
         // do something
+      },
+    };
+  },
+});
+```
+
+`afterDev` will be executed after each compilation is completed, you can use the `isFirstCompile` param to determine whether it is the first compilation:
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  setup(api) {
+    return {
+      afterDev: ({ isFirstCompile }) => {
+        if (isFirstCompile) {
+          // do something
+        }
       },
     };
   },
@@ -776,7 +794,7 @@ export default (): Plugin => ({
           );
         };
         return next({
-          App: hoistNonReactStatics(AppWrapper, App)
+          App: hoistNonReactStatics(AppWrapper, App),
         });
       },
     };
