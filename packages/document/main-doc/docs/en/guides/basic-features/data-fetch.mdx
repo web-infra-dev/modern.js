@@ -13,7 +13,7 @@ It should be noted that these APIs do not help applications initiate requests, b
 Modern.js recommends using [conventional routing](/guides/basic-features/routes) for routing management. Through Modern.js's [conventional (nested) routing](/guides/basic-features/routes#conventional-routing), each routing component (`layout.ts` or `page.ts`) can have a same-named `loader` file. The `loader` file needs to export a function that will be executed before the component is rendered to provide data for the routing component.
 
 :::info
-Modern.js v1 supports getting data through [useLoader](/guides/basic-features/data-fetch.html#useloader-(old-version)), which is no longer the recommended usage. We do not recommend mixing the two except during the migration process.
+Modern.js v1 supports fetching data via [useLoader](/guides/basic-features/data-fetch.html#useloader-(old-version)), which is no longer the recommended usage. We do not recommend mixing the two except during the migration process.
 
 :::
 
@@ -348,10 +348,10 @@ In SSR projects, each `loader` is also a server-side interface. We recommend usi
 
 ## useLoader (old version)
 
-**`useLoader`** is an API in the old version of Modern.js. This API is a React Hook designed specifically for SSR applications, allowing developers to get data in components in isomorphic development.
+**`useLoader`** is a legacy API in Modern.js v1. This API is a React Hook designed specifically for SSR applications, allowing developers to fetch data in components in isomorphic development.
 
 :::tip
-It is not necessary to use `useLoader` to get data in CSR projects.
+It is not necessary to use `useLoader` to fetch data in CSR projects.
 :::
 
 Here is the simplest example:
@@ -384,7 +384,7 @@ This is because Modern.js collects the data returned by `useLoader` during serve
 </script>
 ```
 
-In this global variable, each piece of data is recorded, and during the browser-side rendering process, this data is used first. If the data does not exist, the `useLoader` function will be executed again.
+This global variable is used to record data, and during the browser-side rendering process, this data is used first. If the data does not exist, the `useLoader` function will be executed again.
 
 :::note
 During the build phase, Modern.js will automatically generate a Loader ID for each `useLoader` and inject it into the SSR and CSR JS Bundles to associate the Loader with the data.
