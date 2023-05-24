@@ -23,6 +23,8 @@ import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
 import { serveSearchIndexMiddleware } from './searchIndex';
 import { checkLinks } from './mdx/remarkPlugins/checkDeadLink';
 import { detectReactVersion, resolveReactAlias } from './utils';
+import { initRouteService } from './route/init';
+import { PluginDriver } from './PluginDriver';
 
 const require = createRequire(import.meta.url);
 
@@ -184,6 +186,7 @@ async function createInternalBuildConfig(
 export async function createModernBuilder(
   rootDir: string,
   config: UserConfig,
+  pluginDriver: PluginDriver,
   isSSR = false,
   extraBuilderConfig?: BuilderConfig,
 ): Promise<BuilderInstance<BuilderRspackProvider>> {
@@ -194,9 +197,13 @@ export async function createModernBuilder(
     TEMP_DIR,
     isSSR ? 'ssr-runtime' : 'client-runtime',
   );
-
   await fs.ensureDir(runtimeTempDir);
-
+  const routeService = await initRouteService({
+    config,
+    runtimeTempDir,
+    scanDir: userRoot,
+    pluginDriver,
+  });
   const { createBuilder } = await import('@modern-js/builder');
   const { builderRspackProvider } = await import(
     '@modern-js/builder-rspack-provider'
@@ -226,7 +233,14 @@ export async function createModernBuilder(
   });
 
   builder.addPlugins([
-    builderDocVMPlugin(userRoot, config, isSSR, runtimeTempDir),
+    builderDocVMPlugin({
+      userRoot,
+      config,
+      isSSR,
+      runtimeTempDir,
+      routeService,
+      pluginDriver,
+    }),
   ]);
 
   return builder;

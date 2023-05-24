@@ -274,7 +274,7 @@ import { DocPlugin } from '@modern-js/doc-tools';
 export function docPluginDemo(): DocPlugin {
   return {
     name: 'add-pages',
-    addPages() {
+    addPages(config, isProd, routes) {
       return [
         //  支持真实文件的绝对路径(filepath)，这样会读取磁盘中的 md(x) 内容
         {
@@ -291,3 +291,22 @@ export function docPluginDemo(): DocPlugin {
   };
 }
 ```
+
+`addPages` 接受三个参数，`config` 为当前文档站的配置，`isProd` 表示是否为生产环境，`routes` 为约定式路由数组，每一项路由信息的结构如下:
+
+```ts
+export interface RouteMeta {
+  // 路由
+  routePath: string;
+  // 文件绝对路径
+  absolutePath: string;
+  // 页面名称，作为打包产物文件名的一部分
+  pageName: string;
+  // 语言
+  lang: string;
+}
+```
+
+:::tip 提示
+`addPages` 钩子执行时机在 Rspack 构建工具启动之前，除了返回自定义的页面之外，你也可以在这个钩子里面拿到路由信息，并完成一些操作。
+:::

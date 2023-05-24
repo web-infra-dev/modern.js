@@ -2,7 +2,7 @@ import { UserConfig } from 'shared/types';
 import { removeLeadingSlash } from '../shared/utils';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
-import { modifyConfig, beforeBuild, afterBuild, loadPlugins } from './hooks';
+import { PluginDriver } from './PluginDriver';
 
 interface ServerInstance {
   close: () => Promise<void>;
@@ -14,16 +14,19 @@ export async function dev(
 ): Promise<ServerInstance> {
   const base = config.doc?.base ?? '';
   const isProd = false;
-  await loadPlugins(config);
+  const pluginDriver = new PluginDriver(config, isProd);
+  await pluginDriver.init();
+
   try {
-    const modifiedConfig = await modifyConfig({
-      config,
-    });
-    await beforeBuild({
-      config: modifiedConfig,
-      isProd,
-    });
-    const builder = await createModernBuilder(rootDir, modifiedConfig);
+    const modifiedConfig = await pluginDriver.modifyConfig();
+    await pluginDriver.beforeBuild();
+    const builder = await createModernBuilder(
+      rootDir,
+      modifiedConfig,
+      pluginDriver,
+      false,
+      {},
+    );
     const { server } = await builder.startDevServer({
       printURLs: urls => {
         return urls.map(({ label, url }) => ({
@@ -33,10 +36,7 @@ export async function dev(
       },
     });
 
-    await afterBuild({
-      config: modifiedConfig,
-      isProd,
-    });
+    await pluginDriver.afterBuild();
     return server;
   } finally {
     await writeSearchIndex(config);

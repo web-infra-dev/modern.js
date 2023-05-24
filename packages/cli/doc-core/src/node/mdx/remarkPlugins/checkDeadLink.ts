@@ -3,10 +3,8 @@ import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import { logger } from '../../utils';
 import { isProduction } from '@/shared/utils';
-import {
-  normalizeRoutePath,
-  routeService,
-} from '@/node/runtimeModule/routeData';
+import { normalizeRoutePath } from '@/node/runtimeModule/routeData';
+import { routeService } from '@/node/route/init';
 
 export interface DeadLinkCheckOptions {
   root: string;

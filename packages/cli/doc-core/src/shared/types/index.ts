@@ -14,6 +14,13 @@ export * from './defaultTheme';
 
 export { DocPlugin, AdditionalPage };
 
+export interface RouteMeta {
+  routePath: string;
+  absolutePath: string;
+  pageName: string;
+  lang: string;
+}
+
 export interface ReplaceRule {
   search: string | RegExp;
   replace: string;

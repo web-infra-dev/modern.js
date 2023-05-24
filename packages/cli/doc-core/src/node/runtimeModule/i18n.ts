@@ -2,8 +2,7 @@ import { join } from 'path';
 import { createRequire } from 'module';
 import { DocConfig } from '../..';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
-import { RuntimeModuleID } from '.';
-import { UserConfig } from '@/shared/types';
+import { FactoryContext, RuntimeModuleID } from '.';
 
 const require = createRequire(import.meta.url);
 
@@ -20,12 +19,8 @@ export function getI18nData(docConfig: DocConfig) {
   }
 }
 
-export function i18nVMPlugin(
-  _scanDir: string,
-  config: UserConfig,
-  _isSSR: boolean,
-  runtimeTempDir: string,
-) {
+export function i18nVMPlugin(context: FactoryContext) {
+  const { config, runtimeTempDir } = context;
   const i18nData = getI18nData(config.doc);
   const modulePath = join(runtimeTempDir, `${RuntimeModuleID.I18nText}.js`);
   return new RuntimeModulesPlugin({
