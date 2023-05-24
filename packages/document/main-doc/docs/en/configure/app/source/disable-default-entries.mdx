@@ -7,13 +7,14 @@ sidebar_label: disableDefaultEntries
 - **Type:** `boolean`
 - **Default:** `false`
 
-Used to disable the function of automatically identifying the page entry according to the project directory structure.
+Used to disable the functionality of automatically identifying page entry points based on directory structure.
 
 :::info
-By default, Modern.js will get the page entries according to the project directory structure. For details, please refer to [Entry](/guides/concept/entries).
+By default, Modern.js automatically determines the entry points of pages based on directory conventions, as described in [Entries](/guides/concept/entries).
+
 :::
 
-Set the following to disable the default behavior:
+To disable this default behavior, set the following:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -23,9 +24,9 @@ export default defineConfig({
 });
 ```
 
-After turning off the default behavior, you need to use [`source.entries`](/configure/app/source/entries) to configure custom entries.
+After disabling the default behavior, you will need to use the [`source.entries`](/configure/app/source/entries) configuration to define custom entry points.
 
 :::warning
-We recommend using the directory convention provided by Modern.js to organize the code, so as to better use the functions of the framework and avoid some redundant configurations.
+We recommend organizing your code using the directory conventions provided by Modern.js to better utilize framework functionality and avoid some redundant configuration.
 
 :::
