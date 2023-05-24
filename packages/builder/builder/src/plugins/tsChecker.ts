@@ -77,7 +77,7 @@ export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
           api.context.bundlerType === 'rspack' &&
           chain.get('mode') === 'production'
         ) {
-          logger.warn(
+          logger.info(
             `ts-checker running... \nts-checker is running slowly and will block builds until it is complete, please be patient and wait.`,
           );
         }
