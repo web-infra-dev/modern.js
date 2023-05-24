@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@arco-design/mobile-react": "^2.27.4",
     "@modern-js/doc-tools": "workspace:*"
   },
   "devDependencies": {

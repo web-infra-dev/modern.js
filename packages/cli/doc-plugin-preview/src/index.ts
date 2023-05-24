@@ -51,6 +51,7 @@ export function pluginPreview(options?: Options): DocPlugin {
         {
           routePath: '/~demo/:id',
           content: `
+
 import Demo from '${demoComponentPath}'
 
 <Demo />

@@ -4,10 +4,6 @@
 
 .code-operations {
   display: flex;
-  position: absolute;
-  top: calc(50% - 14px);
-  right: 16px;
-  justify-content: center;
   .ac-btn-expanded {
     background-color: #1d2129 !important;
     color: #f7f8fa !important;
@@ -15,13 +11,24 @@
   }
 }
 
-.code-content {
-  position: relative;
-  overflow: hidden;
-  display: none;
+.code-operations.web {
+  justify-content: center;
+  position: absolute;
+  top: calc(50% - 14px);
+  right: 16px;
 }
 
-.code-content.show-all {
-  margin-top: 16px;
-  display: block;
+.code-operations.mobile {
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.preview-code {
+  position: relative;
+  overflow: hidden;
+}
+
+.preview-device {
+  flex: 0 1;
+  padding: 24px 0 0 16px;
 }
