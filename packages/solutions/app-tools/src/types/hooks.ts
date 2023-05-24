@@ -76,7 +76,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
 
   // beforeCreateBuilder
   beforeDev: AsyncWorkflow<void, unknown>;
-  afterDev: AsyncWorkflow<void, unknown>;
+  afterDev: AsyncWorkflow<{ isFirstCompile: boolean }, unknown>;
   beforeCreateCompiler: AsyncWorkflow<
     {
       bundlerConfigs?: B extends 'rspack'
