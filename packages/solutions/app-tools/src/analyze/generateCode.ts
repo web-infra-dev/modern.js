@@ -265,6 +265,7 @@ export const generateIndexCode = async ({
     internalSrcAlias,
     internalDirAlias,
     internalDirectory,
+    packageName,
   } = appContext;
 
   await Promise.all(
