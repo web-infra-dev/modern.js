@@ -30,6 +30,7 @@ export const setJestConfigForBFF = async ({
     setupFilesAfterEnv: [require.resolve('./setup')],
     testEnvironment: 'node',
     testMatch: [`**/api/**/*.test.[jt]s`],
+    modulePathIgnorePatterns: ['config.test.ts'],
     globals: {
       [bff_info_key]: {
         appDir: pwd,
