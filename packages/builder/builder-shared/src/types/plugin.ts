@@ -53,6 +53,7 @@ export type Plugins = {
   html: PluginsFn;
   antd: PluginsFn;
   tsChecker: PluginsFn;
+  checkSyntax: PluginsFn;
 };
 
 /**

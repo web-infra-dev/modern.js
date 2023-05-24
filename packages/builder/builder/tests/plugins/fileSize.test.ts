@@ -7,6 +7,8 @@ describe('plugins/fileSize', () => {
     expect(filterAsset('dist/a.css')).toBeTruthy();
     expect(filterAsset('dist/a.js.map')).toBeFalsy();
     expect(filterAsset('dist/b.css.map')).toBeFalsy();
+    expect(filterAsset('dist/a.js.LICENSE.txt')).toBeFalsy();
+    expect(filterAsset('dist/b.css.LICENSE.txt')).toBeFalsy();
     expect(filterAsset('dist/a.png')).toBeTruthy();
   });
 });

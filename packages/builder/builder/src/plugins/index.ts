@@ -38,4 +38,6 @@ export const plugins: Plugins = {
     import('./assetsRetry').then(m => m.builderPluginAssetsRetry()),
   antd: () => import('./antd').then(m => m.builderAntdPlugin()),
   tsChecker: () => import('./tsChecker').then(m => m.builderPluginTsChecker()),
+  checkSyntax: () =>
+    import('./checkSyntax').then(m => m.builderPluginCheckSyntax()),
 };

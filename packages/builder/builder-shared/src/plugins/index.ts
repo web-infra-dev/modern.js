@@ -7,3 +7,4 @@ export { HtmlAppIconPlugin } from './HtmlAppIconPlugin';
 export { HtmlFaviconUrlPlugin, type FaviconUrls } from './HtmlFaviconUrlPlugin';
 export { InlineChunkHtmlPlugin } from './InlineChunkHtmlPlugin';
 export { AssetsRetryPlugin } from './AssetsRetryPlugin';
+export { CheckSyntaxPlugin } from './CheckSyntaxPlugin';

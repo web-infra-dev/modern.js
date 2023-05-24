@@ -179,7 +179,7 @@ export default ({
             async onDevCompileDone({ isFirstCompile }) {
               const hookRunners = api.useHookRunners();
               if (process.stdout.isTTY || isFirstCompile) {
-                hookRunners.afterDev();
+                hookRunners.afterDev({ isFirstCompile });
 
                 if (isFirstCompile) {
                   printInstructions(hookRunners, appContext, normalizedConfig);

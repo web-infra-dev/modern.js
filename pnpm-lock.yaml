@@ -131,9 +131,14 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       '@types/babel__core': ^7.20.0
+      '@types/caniuse-lite': ^1.0.1
       '@types/node': ^14
+      acorn: ^8.8.1
+      caniuse-lite: ^1.0.30001451
+      cheerio: 1.0.0-rc.12
       fork-ts-checker-webpack-plugin: 8.0.0
       html-webpack-plugin: 5.5.0
+      source-map: ^0.7.4
       terser: ^5.14.1
       typescript: ^5
       webpack: ^5.82.1
@@ -147,7 +152,11 @@ importers:
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
+      acorn: 8.8.1
+      caniuse-lite: 1.0.30001451
+      cheerio: 1.0.0-rc.12
       fork-ts-checker-webpack-plugin: 8.0.0_b73sldshwrlnhikvubwhfqvrfa
+      source-map: 0.7.4
       webpack-sources: 3.2.3
       zod: 3.20.2
       zod-validation-error: 0.3.0_zod@3.20.2
@@ -155,6 +164,7 @@ importers:
       '@babel/preset-env': 7.21.5_@babel+core@7.21.8
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/babel__core': 7.20.0
+      '@types/caniuse-lite': 1.0.1
       '@types/node': 14.18.35
       html-webpack-plugin: 5.5.0_webpack@5.82.1
       terser: 5.15.0
@@ -173,13 +183,9 @@ importers:
       '@modern-js/utils': workspace:*
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9
       '@scripts/vitest-config': workspace:*
-      '@types/babel__core': ^7.20.0
       '@types/caniuse-lite': ^1.0.1
       '@types/node': ^14
-      acorn: ^8.8.1
       antd: '4'
-      caniuse-lite: ^1.0.30001451
-      cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 5.0.0
       cssnano: 6.0.0
       html-webpack-plugin: 5.5.0
@@ -188,7 +194,6 @@ importers:
       react: ^18
       react-dom: ^18
       react-refresh: 0.14.0
-      source-map: ^0.7.4
       style-loader: 3.3.1
       terser-webpack-plugin: 5.3.6
       ts-loader: 9.4.1
@@ -203,16 +208,12 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9_2sh2n464chklv3oeyrys3t3hwy
-      acorn: 8.8.1
-      caniuse-lite: 1.0.30001451
-      cheerio: 1.0.0-rc.12
       css-minimizer-webpack-plugin: 5.0.0_webpack@5.82.1
       cssnano: 6.0.0_postcss@8.4.21
       html-webpack-plugin: 5.5.0_webpack@5.82.1
       mini-css-extract-plugin: 2.7.0_webpack@5.82.1
       postcss: 8.4.21
       react-refresh: 0.14.0
-      source-map: 0.7.4
       style-loader: 3.3.1_webpack@5.82.1
       terser-webpack-plugin: 5.3.6_webpack@5.82.1
       ts-loader: 9.4.1_b73sldshwrlnhikvubwhfqvrfa
@@ -220,7 +221,6 @@ importers:
     devDependencies:
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
-      '@types/babel__core': 7.20.0
       '@types/caniuse-lite': 1.0.1
       '@types/node': 14.18.35
       antd: 4.21.4_biqbaboplfbrettd7655fr4n2y
@@ -15019,6 +15019,7 @@ packages:
   /acorn/7.4.1:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
     engines: {node: '>=0.4.0'}
+    hasBin: true
 
   /acorn/8.8.1:
     resolution: {integrity: sha512-7zFpHzhnqYKrkYdUjF1HI1bzd0VygEGX8lFk4k5zVMqHEoES+P+7TKI+EvLO9WVMJ8eekdO0aDEK044xTXwPPA==}

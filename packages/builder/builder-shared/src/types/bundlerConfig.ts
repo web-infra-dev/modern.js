@@ -157,6 +157,7 @@ export interface BundlerChain
     | 'externalsType'
     | 'externalsPresets'
     | 'entry'
+    | 'get'
   > {
   toConfig: () => BundlerConfig;
   optimization: PickAndModifyThis<
