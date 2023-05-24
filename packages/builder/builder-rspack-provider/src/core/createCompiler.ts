@@ -26,10 +26,12 @@ export async function createCompiler({
       timings: true,
     });
 
-    obj.children?.forEach(c => {
-      c.time &&
-        logger.success(`${c.name} compiled successfully in`, c.time, 'ms');
-    });
+    if (!stats.hasErrors()) {
+      obj.children?.forEach(c => {
+        c.time &&
+          logger.success(`${c.name} compiled successfully in`, c.time, 'ms');
+      });
+    }
 
     const { message, level } = await formatStats(stats);
 

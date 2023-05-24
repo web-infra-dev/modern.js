@@ -9,6 +9,7 @@ import type {
   SassLoaderOptions,
   LessLoaderOptions,
   PugOptions,
+  ForkTSCheckerOptions,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
@@ -41,6 +42,8 @@ export type ToolsBabelConfig = ChainedConfig<
 
 export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
 
+export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
+
 export interface SharedToolsConfig {
   /**
    * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
@@ -71,4 +74,8 @@ export interface SharedToolsConfig {
    * Configure the [Pug](https://pugjs.org/) template engine.
    */
   pug?: ToolsPugConfig;
+  /**
+   * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
+   */
+  tsChecker?: ToolsTSCheckerConfig;
 }

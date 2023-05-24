@@ -37,6 +37,10 @@
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
+    "./fork-ts-checker-webpack-plugin": {
+      "jsnext:source": "./src/exports/fork-ts-checker-webpack-plugin.ts",
+      "default": "./dist/exports/fork-ts-checker-webpack-plugin.js"
+    },
     "./open": {
       "types": "./compiled/open/index.d.ts",
       "default": "./compiled/open/index.js"
@@ -70,6 +74,9 @@
       "open": [
         "./compiled/open/index.d.ts"
       ],
+      "fork-ts-checker-webpack-plugin": [
+        "./dist/exports/fork-ts-checker-webpack-plugin.d.ts"
+      ],
       "webpack-bundle-analyzer": [
         "./compiled/webpack-bundle-analyzer/index.d.ts"
       ],
@@ -96,6 +103,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@babel/core": "^7.21.8",
+    "fork-ts-checker-webpack-plugin": "8.0.0",
     "acorn": "^8.8.1",
     "caniuse-lite": "^1.0.30001451",
     "cheerio": "1.0.0-rc.12",
@@ -127,6 +135,7 @@
       "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
       "./test-stub": "./dist/test-stub/index.js",
       "./zod": "./dist/exports/zod.js",
+      "./fork-ts-checker-webpack-plugin": "./dist/exports/fork-ts-checker-webpack-plugin.js",
       "./pug": "./compiled/pug/index.js"
     }
   }

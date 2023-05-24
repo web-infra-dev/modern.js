@@ -1,5 +1,5 @@
 import { expect, describe, it } from 'vitest';
-import { builderPluginTsChecker } from '@/plugins/tsChecker';
+import { builderPluginTsChecker } from '@builder/plugins/tsChecker';
 import { createStubBuilder } from '@/stub';
 import type { Context } from '@/types';
 

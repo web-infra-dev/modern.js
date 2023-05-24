@@ -98,7 +98,6 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
     "css-minimizer-webpack-plugin": "5.0.0",
     "cssnano": "6.0.0",
-    "fork-ts-checker-webpack-plugin": "8.0.0",
     "html-webpack-plugin": "5.5.0",
     "mini-css-extract-plugin": "2.7.0",
     "postcss": "8.4.21",

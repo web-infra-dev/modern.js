@@ -15,7 +15,6 @@ import type {
   CSSExtractOptions,
   CSSLoaderOptions,
   CssMinimizerPluginOptions,
-  ForkTSCheckerOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
   PostCSSLoaderOptions,
@@ -51,8 +50,6 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
   PostCSSLoaderOptions,
   { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
 >;
-
-export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
 
 export type ToolsHtmlPluginConfig = ChainedConfig<
   HTMLPluginOptions,
@@ -92,10 +89,6 @@ export interface ToolsConfig extends SharedToolsConfig {
    * When `tools.tsLoader` is not undefined, builder will use ts-loader instead of babel-loader to compile TypeScript code.
    */
   tsLoader?: ToolsTSLoaderConfig;
-  /**
-   * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
-   */
-  tsChecker?: ToolsTSCheckerConfig;
   /**
    * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
    */

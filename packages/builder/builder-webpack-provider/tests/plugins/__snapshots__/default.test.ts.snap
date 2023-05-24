@@ -752,6 +752,29 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "maxEntrypointSize": 3000000,
   },
   "plugins": [
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
       "options": {
@@ -790,29 +813,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "showEntries": true,
       "showModules": true,
       "showRecompileLog": true,
-    },
-    ForkTsCheckerWebpackPlugin {
-      "options": {
-        "issue": {
-          "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
-          ],
-        },
-        "logger": {
-          "error": [Function],
-          "log": [Function],
-        },
-        "typescript": {
-          "configFile": "<ROOT>/tsconfig.json",
-          "memoryLimit": 8192,
-          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
-        },
-      },
     },
     ReactRefreshPlugin {
       "options": {
@@ -1666,6 +1666,29 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "maxEntrypointSize": 3000000,
   },
   "plugins": [
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -1713,29 +1736,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       "showEntries": true,
       "showModules": true,
       "showRecompileLog": true,
-    },
-    ForkTsCheckerWebpackPlugin {
-      "options": {
-        "issue": {
-          "exclude": [
-            {
-              "file": "**/*.(spec|test).ts",
-            },
-            {
-              "file": "**/node_modules/**/*",
-            },
-          ],
-        },
-        "logger": {
-          "error": [Function],
-          "log": [Function],
-        },
-        "typescript": {
-          "configFile": "<ROOT>/tsconfig.json",
-          "memoryLimit": 8192,
-          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
-        },
-      },
     },
   ],
   "resolve": {
@@ -2431,27 +2431,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "maxEntrypointSize": 30000000,
   },
   "plugins": [
-    DefinePlugin {
-      "definitions": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
-      },
-    },
-    ProgressPlugin {
-      "compileTime": null,
-      "dependenciesCount": 10000,
-      "handler": [Function],
-      "hasErrors": false,
-      "modulesCount": 5000,
-      "name": "ProgressPlugin",
-      "percentBy": null,
-      "profile": false,
-      "showActiveModules": false,
-      "showDependencies": true,
-      "showEntries": true,
-      "showModules": true,
-      "showRecompileLog": true,
-    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -2474,6 +2453,27 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
+    },
+    DefinePlugin {
+      "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+    },
+    ProgressPlugin {
+      "compileTime": null,
+      "dependenciesCount": 10000,
+      "handler": [Function],
+      "hasErrors": false,
+      "modulesCount": 5000,
+      "name": "ProgressPlugin",
+      "percentBy": null,
+      "profile": false,
+      "showActiveModules": false,
+      "showDependencies": true,
+      "showEntries": true,
+      "showModules": true,
+      "showRecompileLog": true,
     },
   ],
   "resolve": {
@@ -3170,27 +3170,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "maxEntrypointSize": 30000000,
   },
   "plugins": [
-    DefinePlugin {
-      "definitions": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
-      },
-    },
-    ProgressPlugin {
-      "compileTime": null,
-      "dependenciesCount": 10000,
-      "handler": [Function],
-      "hasErrors": false,
-      "modulesCount": 5000,
-      "name": "ProgressPlugin",
-      "percentBy": null,
-      "profile": false,
-      "showActiveModules": false,
-      "showDependencies": true,
-      "showEntries": true,
-      "showModules": true,
-      "showRecompileLog": true,
-    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -3213,6 +3192,27 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
+    },
+    DefinePlugin {
+      "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+    },
+    ProgressPlugin {
+      "compileTime": null,
+      "dependenciesCount": 10000,
+      "handler": [Function],
+      "hasErrors": false,
+      "modulesCount": 5000,
+      "name": "ProgressPlugin",
+      "percentBy": null,
+      "profile": false,
+      "showActiveModules": false,
+      "showDependencies": true,
+      "showEntries": true,
+      "showModules": true,
+      "showRecompileLog": true,
     },
   ],
   "resolve": {
