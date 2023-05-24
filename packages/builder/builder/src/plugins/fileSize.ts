@@ -12,8 +12,9 @@ import {
 } from '@modern-js/builder-shared';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-/** Filter source map files */
-export const filterAsset = (asset: string) => !/\.map$/.test(asset);
+/** Filter source map and license files */
+export const filterAsset = (asset: string) =>
+  !/\.map$/.test(asset) && !/\.LICENSE\.txt$/.test(asset);
 
 const getAssetColor = (size: number) => {
   if (size > 300 * 1000) {
