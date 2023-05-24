@@ -43,5 +43,6 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.inlineChunk(),
     plugins.bundleAnalyzer(),
     plugins.assetsRetry(),
+    plugins.checkSyntax(),
     import('../plugins/fallback').then(m => m.builderPluginFallback()), // fallback should be the last plugin
   ]);

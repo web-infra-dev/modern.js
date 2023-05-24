@@ -2,6 +2,7 @@
 title: Hook 列表
 sidebar_position: 8
 ---
+
 # Hook 列表
 
 在 Modern.js 中暴露了三类插件：CLI、Runtime、Server。下面列举下各类中的 Hook：
@@ -166,7 +167,6 @@ export default (): CliPlugin => ({
 });
 ```
 
-
 ### `commands`
 
 - 功能：为 command 添加新的命令
@@ -260,9 +260,9 @@ export default (): CliPlugin => ({
 ### `afterDev`
 
 - 功能：运行 dev 主流程的之后的任务
-- 执行阶段：`dev` 命令运行时，项目启动完成之后执行
+- 执行阶段：运行 `dev` 命令时，每一次编译完成后执行
 - Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, unknown>`
+- 类型：`AsyncWorkflow<{ isFirstCompile: boolean }, unknown>`
 - 使用示例：
 
 ```ts
@@ -273,6 +273,24 @@ export default (): CliPlugin => ({
     return {
       afterDev: () => {
         // do something
+      },
+    };
+  },
+});
+```
+
+`afterDev` 会在每一次编译完成后执行，你可以通过 `isFirstCompile` 参数来判断是否为首次编译：
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export default (): CliPlugin => ({
+  setup(api) {
+    return {
+      afterDev: ({ isFirstCompile }) => {
+        if (isFirstCompile) {
+          // do something
+        }
       },
     };
   },
@@ -778,7 +796,7 @@ export default (): Plugin => ({
           );
         };
         return next({
-          App: hoistNonReactStatics(AppWrapper, App)
+          App: hoistNonReactStatics(AppWrapper, App),
         });
       },
     };
