@@ -1,14 +1,14 @@
-Modern.js provides out-of-the-box global proxy plugin `@modern-js/plugin-proxy`, which is based on [whistle](https://github.com/avwo/whistle) and can be used to view and modify HTTP/HTTPS requests and responses, and can also be used as an HTTP proxy server.
+Modern.js provides an out-of-the-box global proxy plugin `@modern-js/plugin-proxy`, which is based on [whistle](https://github.com/avwo/whistle) and can be used to view and modify the requests and responses of HTTP/HTTPS, as well as be used as an HTTP proxy server.
 
-### Set Proxy Rules
+### Setting Proxy Rules
 
-After install the proxy plugin and filling in the rules, execute `pnpm run dev`, Modern.js will automatically enable the proxy server after the development server starts.
+After installing the proxy plugin and configuring the rules, run `pnpm run dev`. Modern.js will automatically enable the proxy server when the development server is started.
 
 Specific proxy rules can be set via the [`dev.proxy`](/configure/app/dev/proxy) or the `config/proxy.js` file.
 
-### Use Proxy Dashboard
+### Proxy Dashboard
 
-After exec `pnpm run dev` command:
+After installing the proxy plugin and configuring the proxy rules, run the `pnpm run dev` command:
 
 ```bash
   App running at:
@@ -20,8 +20,8 @@ After exec `pnpm run dev` command:
 ✔  success   Proxy Server start on localhost:8899
 ```
 
-In the console you can see that the proxy server started successfully.
+You can see that the proxy server has started successfully in the console.
 
-Accessing the `http://localhost:8899` and, you can set the rules through the dashboard.
+Access `http://localhost:8899`, and you can set the rules through the dashboard.
 
 ![debug-proxy-ui](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/debug/debug-proxy-ui.png)
