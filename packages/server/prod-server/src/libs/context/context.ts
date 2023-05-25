@@ -155,8 +155,8 @@ export class ModernServerContext implements ModernServerContextInterface {
       host = this.getReqHeader('Host');
     }
     // the host = '',if we can't cat Host or X-Forwarded-Host header
-    // but the this.href would assignment `http[s]://${pathname}`
-    // the url is invalid, so we need assign host a no-empty value.
+    // but the this.href would assign a invalid value:`http[s]://${pathname}`
+    // so we need assign host a no-empty value.
     return (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
   }
 
