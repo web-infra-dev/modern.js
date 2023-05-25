@@ -80,8 +80,8 @@ Throughout this process, Builder's work includes but is not limited to:
 
 Unsupported configurations and capabilities include:
 
-- [source.include](/api/config-source.html#sourceinclude)
-- [source.exclude](/api/config-source.html#sourceexclude)
+- [source.include](/api/config-source.html#sourceinclude) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
+- [source.exclude](/api/config-source.html#sourceexclude) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes)
 
 #### Html Config
@@ -96,7 +96,7 @@ All configurations and capabilities under html are available within rspack.
 
 Unsupported configurations and capabilities include:
 
-- [source.sri](/api/config-security.html#securitysri)
+- [source.sri](/api/config-security.html#securitysri) ([track issue](https://github.com/web-infra-dev/rspack/issues/2669))
 
 #### Dev Config
 
@@ -115,7 +115,7 @@ Unsupported configurations and capabilities include:
 - [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
 - [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
-- [output.polyfill.usage](/api/config-output.html#usage)
+- [output.polyfill.usage](/api/config-output.html#usage) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
 
 #### Experiments Config
 
@@ -142,14 +142,14 @@ Unsupported configurations and capabilities include:
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
 - [tools.cssLoader](/api/config-tools.html#toolscssloader)
-- [tools.devServer.devMiddleware](/api/config-tools.html#devmiddleware)
+- [tools.devServer.devMiddleware](/api/config-tools.html#devmiddleware) ([track issue](https://github.com/web-infra-dev/rspack/issues/2391))
 - [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.minifyCss](/api/config-tools.html#toolsminifycss)
 - [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
-- [tools.webpack](/api/config-tools.html#toolswebpack)
-- [tools.webpackChain](/api/config-tools.html#toolswebpackchain)
+- [tools.webpack](/api/config-tools.html#toolswebpack)：use [tools.rspack](/api/config-tools#toolsrspack) instead.
+- [tools.webpackChain](/api/config-tools.html#toolswebpackchain)：use [tools.bundlerChain](/api/config-tools#toolsbundlerchain) instead.
 
 :::tip
 In addition to the above configurations, some of the supported configurations may have differences in their capabilities. For specific differences in configurations, please refer to the corresponding API for each configuration.
@@ -239,9 +239,6 @@ If you are using the following plugins (or indirect dependencies) in your projec
 - webpack-retry-chunk-load-plugin：use [output.assetsRetry](/api/config-output.html#outputassetsretry) instead.
 - webpack.ProviderPlugin：use [builtins.provide](https://www.rspack.dev/config/builtins.html#builtinsprovide) instead.
 - webpack.DefinePlugin：use [builtins.define](https://www.rspack.dev/config/builtins.html#builtinsdefine) instead.
-- copy-webpack-plugin：use [builtins.copy](https://www.rspack.dev/config/builtins.html#builtinscopy) instead.
-- banner-plugin：use [builtins.banner](https://www.rspack.dev/config/builtins.html#builtinsbanner) instead.
-- webpack.IgnorePlugin
 - webpack.ContextReplacementPlugin
 - ...
 

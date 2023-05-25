@@ -79,8 +79,8 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [source.include](/api/config-source.html#sourceinclude)
-- [source.exclude](/api/config-source.html#sourceexclude)
+- [source.include](/api/config-source.html#sourceinclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
+- [source.exclude](/api/config-source.html#sourceexclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes)
 
 #### Html Config
@@ -95,7 +95,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [source.sri](/api/config-security.html#securitysri)
+- [source.sri](/api/config-security.html#securitysri) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/2669))
 
 #### Dev Config
 
@@ -114,7 +114,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 - [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
 - [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
-- [output.polyfill.usage](/api/config-output.html#usage)
+- [output.polyfill.usage](/api/config-output.html#usage) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 
 #### Experiments Config
 
@@ -141,14 +141,14 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
 - [tools.cssLoader](/api/config-tools.html#toolscssloader)
-- [tools.devServer.devMiddleware](/api/config-tools.html#devmiddleware)
+- [tools.devServer.devMiddleware](/api/config-tools.html#devmiddleware) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/2391))
 - [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.minifyCss](/api/config-tools.html#toolsminifycss)
 - [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
-- [tools.webpack](/api/config-tools.html#toolswebpack)
-- [tools.webpackChain](/api/config-tools.html#toolswebpackchain)
+- [tools.webpack](/api/config-tools.html#toolswebpack)：使用 [tools.rspack](/api/config-tools#toolsrspack) 代替。
+- [tools.webpackChain](/api/config-tools.html#toolswebpackchain)：使用 [tools.bundlerChain](/api/config-tools#toolsbundlerchain) 代替。
 
 :::tip
 除上述配置外，一些已支持的配置可能存在能力差异，请参考各配置 API 获取具体差异信息。
@@ -236,9 +236,6 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 - webpack-retry-chunk-load-plugin：使用 [output.assetsRetry](/api/config-output.html#outputassetsretry) 代替。
 - webpack.ProviderPlugin：使用 [builtins.provide](https://www.rspack.dev/zh/config/builtins.html#builtinsprovide) 代替。
 - webpack.DefinePlugin：使用 [builtins.define](https://www.rspack.dev/zh/config/builtins.html#builtinsdefine) 代替。
-- copy-webpack-plugin：使用 [builtins.copy](https://www.rspack.dev/zh/config/builtins.html#builtinscopy) 代替。
-- banner-plugin：使用 [builtins.banner](https://www.rspack.dev/zh/config/builtins.html#builtinsbanner) 代替。
-- webpack.IgnorePlugin
 - webpack.ContextReplacementPlugin
 - ...
 
