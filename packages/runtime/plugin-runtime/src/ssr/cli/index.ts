@@ -184,11 +184,18 @@ export default (): CliPlugin<AppTools> => ({
           imports,
         };
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
+      modifyEntryRuntimePlugins({ entrypoint, plugins, bundlerConfigs }) {
         if (ssrConfigMap.get(entrypoint.entryName)) {
+          const chunkLoadingGlobal = bundlerConfigs?.find(
+            config => config.name === 'client',
+          )?.output?.chunkLoadingGlobal;
+
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify(ssrConfigMap.get(entrypoint.entryName)),
+            options: JSON.stringify({
+              ...(ssrConfigMap.get(entrypoint.entryName) || {}),
+              chunkLoadingGlobal,
+            }),
           });
         }
         return {
