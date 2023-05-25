@@ -87,6 +87,7 @@ export const sharedOutputConfigSchema = z.partialObj({
   dataUriLimit: z.union([z.number(), DataUriLimitSchema]),
   legalComments: LegalCommentsSchema,
   cleanDistPath: z.boolean(),
+  convertToRem: z.union([z.boolean(), z.instanceof(Object)]),
   cssModuleLocalIdentName: z.string(),
   disableCssExtract: z.boolean(),
   disableMinimize: z.boolean(),
@@ -101,6 +102,7 @@ export const sharedOutputConfigSchema = z.partialObj({
   enableCssModuleTSDeclaration: z.boolean(),
   enableInlineScripts: z.union([z.boolean(), z.instanceof(RegExp)]),
   enableInlineStyles: z.union([z.boolean(), z.instanceof(RegExp)]),
+  externals: z.any(),
   overrideBrowserslist: z.union([
     z.array(z.string()),
     z.record(BuilderTargetSchema, z.array(z.string())),
