@@ -1,5 +1,21 @@
 # @modern-js/generator-generator
 
+## 3.1.18
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 877e373: fix: remove micro generator bebel runtime dependencies
+
+  fix: 移除微生成器模板中的 bebel runtime 依赖
+
+- de8f73f: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
 ## 3.1.17
 
 ### Patch Changes

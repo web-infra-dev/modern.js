@@ -1,5 +1,26 @@
 # @modern-js/prod-server
 
+## 2.21.0
+
+### Patch Changes
+
+- cfc5bda: feat: ssr mode support async entry
+  feat: ssr 模式支持异步入口
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+  - @modern-js/server-core@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

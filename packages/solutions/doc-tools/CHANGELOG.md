@@ -1,5 +1,32 @@
 # @modern-js/doc-tools
 
+## 2.21.0
+
+### Patch Changes
+
+- df43559: fix(core): toolsType is overridden when install multiple solutions
+
+  fix(core): 修复安装多个 solutions 时 toolsType 被覆盖的问题
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [df43559]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [fdb0406]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [0dd531a]
+- Updated dependencies [056627f]
+- Updated dependencies [0a6b969]
+- Updated dependencies [8007951]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/core@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/doc-core@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

@@ -1,5 +1,38 @@
 # @modern-js/module-tools
 
+## 2.21.0
+
+### Patch Changes
+
+- df43559: fix(core): toolsType is overridden when install multiple solutions
+
+  fix(core): 修复安装多个 solutions 时 toolsType 被覆盖的问题
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [df43559]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [de8f73f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/core@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/plugin-changeset@2.21.0
+  - @modern-js/new-action@2.21.0
+  - @modern-js/plugin-i18n@2.21.0
+  - @modern-js/plugin-lint@2.21.0
+  - @modern-js/upgrade@2.21.0
+  - @modern-js/plugin@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

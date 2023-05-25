@@ -1,5 +1,20 @@
 # @modern-js/generator-common
 
+## 3.1.18
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- de8f73f: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+- Updated dependencies [26dcf3a]
+  - @modern-js/plugin-i18n@2.21.0
+
 ## 3.1.17
 
 ### Patch Changes

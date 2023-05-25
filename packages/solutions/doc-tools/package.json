@@ -9,7 +9,7 @@
     "directory": "packages/solutions/doc-tools"
   },
   "license": "MIT",
-  "version": "2.20.0",
+  "version": "2.21.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",

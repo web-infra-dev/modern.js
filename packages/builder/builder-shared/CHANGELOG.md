@@ -1,5 +1,47 @@
 # @modern-js/builder-shared
 
+## 2.21.0
+
+### Patch Changes
+
+- 7d2972e: feat(builder): update rspack to 0.1.12
+
+  feat(builder): 升级 rspack 到 0.1.12 版本
+
+- 863f8df: feat(rspack-provider): support security.checkSyntax in Rspack
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 security.checkSyntax 配置项
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 1ef03dc: feat(dev-server): enable gzip compression, add devServer.compress config
+
+  feat(dev-server): 默认启用 gzip 压缩，新增 devServer.compress 配置项
+
+- 4274510: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [8fa8566]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+  - @modern-js/server@2.21.0
+  - @modern-js/types@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

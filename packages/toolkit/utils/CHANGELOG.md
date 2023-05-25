@@ -1,5 +1,28 @@
 # @modern-js/utils
 
+## 2.21.0
+
+### Minor Changes
+
+- 056627f: fix(plugin-sass): pollute the `global.location` object
+  fix(plugin-sass): 污染全局对象 `global.location`
+
+### Patch Changes
+
+- e81eeaf: refactor: guard react-router version consistency
+  refactor: 保证 react-router 相关包的版本一致性
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 0fc15ca: fix: fix `@modern-js/utils` subpath exports
+  fix: 修复 `@modern-js/utils` 子路径导出
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
 ## 2.20.0
 
 ### Patch Changes

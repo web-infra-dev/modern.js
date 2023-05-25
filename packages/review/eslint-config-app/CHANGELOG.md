@@ -1,5 +1,21 @@
 # @modern-js-app/eslint-config
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [26dcf3a]
+- Updated dependencies [ad78387]
+  - @modern-js/babel-preset-app@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

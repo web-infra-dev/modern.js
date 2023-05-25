@@ -1,5 +1,44 @@
 # @modern-js/builder
 
+## 2.21.0
+
+### Patch Changes
+
+- 863f8df: feat(rspack-provider): support security.checkSyntax in Rspack
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 security.checkSyntax 配置项
+
+- 55d37e9: fix(builder): should not print file size of LICENSE.text
+
+  fix(builder): 打印文件体积时忽略 LICENSE.text
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 441a579: feat(builder): support output.disableTsChecker in Rspack
+
+  feat(builder): 在使用 Rspack 构建时支持 output.disableTsChecker 配置项
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [4274510]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/utils@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

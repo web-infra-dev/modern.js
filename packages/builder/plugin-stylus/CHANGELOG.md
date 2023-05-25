@@ -1,5 +1,29 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [8a7d4d2]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [441a579]
+- Updated dependencies [056627f]
+- Updated dependencies [4274510]
+- Updated dependencies [c90ea5a]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-rspack-provider@2.21.0
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/builder-webpack-provider@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

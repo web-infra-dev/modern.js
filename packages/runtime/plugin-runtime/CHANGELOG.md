@@ -1,5 +1,43 @@
 # @modern-js/runtime
 
+## 2.21.0
+
+### Minor Changes
+
+- 0a1aa3b: feat: the runtime package export `loadable_bundler_plugin`
+  feat: runtime 包导出 `loadable_bundler_plugin`
+
+### Patch Changes
+
+- e81eeaf: refactor: guard react-router version consistency
+  refactor: 保证 react-router 相关包的版本一致性
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 8b7c6d4: chore: update reduck
+  chore: 更新 reduck
+- 807f04a: fix(plugin-runtime): streaming ssr split chunk so that can't match `SHELL_STREAM_END_MARK`
+  fix(plugin-runtime): streaming ssr chunk 进行分割导致无法匹配 `SHELL_STREAM_END_MARK`
+- 0fc15ca: fix: fix `@modern-js/utils` subpath exports
+  fix: 修复 `@modern-js/utils` 子路径导出
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+  - @modern-js/plugin@2.21.0
+  - @modern-js/types@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes
