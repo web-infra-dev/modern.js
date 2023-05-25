@@ -150,6 +150,7 @@ type MinimizeOptions = EsbuildMinifyOptions | false | undefined;
 const defaultOptions = {
   css: true,
   target: 'es2015',
+  format: builderTarget === 'web' ? 'iife' : undefined,
 };
 ```
 

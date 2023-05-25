@@ -24,4 +24,17 @@ describe('plugins/esbuild', () => {
 
     process.env.NODE_ENV = 'test';
   });
+
+  it('should not set format iife when target is not web', async () => {
+    process.env.NODE_ENV = 'production';
+    const builder = await createStubBuilder({
+      plugins: [builderPluginEsbuild()],
+      builderConfig: {},
+      target: 'node',
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+
+    process.env.NODE_ENV = 'test';
+  });
 });

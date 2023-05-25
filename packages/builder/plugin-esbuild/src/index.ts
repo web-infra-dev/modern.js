@@ -18,13 +18,13 @@ export function builderPluginEsbuild(
     name: 'builder-plugin-esbuild',
 
     setup(api) {
-      api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd }) => {
+      api.modifyWebpackChain(async (chain, { CHAIN_ID, isProd, target }) => {
         const builderConfig = api.getNormalizedConfig();
         const compiledEsbuildLoaderPath = require.resolve(
           '../compiled/esbuild-loader',
         );
 
-        const options = {
+        const options: PluginEsbuildOptions = {
           loader: {
             target: 'es2015',
             charset: builderConfig.output.charset,
@@ -32,6 +32,7 @@ export function builderPluginEsbuild(
           minimize: {
             css: true,
             target: 'es2015',
+            format: target === 'web' ? 'iife' : undefined,
           },
           ...userOptions,
         };
