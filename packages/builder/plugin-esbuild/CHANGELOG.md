@@ -1,5 +1,16 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.21.1
+
+### Patch Changes
+
+- 8e9f8c8: fix(plugin-esbuild): set minify format to iife when target is web
+
+  fix(plugin-esbuild): 当 target 为 web 时，将压缩的 format 设置为 iife
+
+- Updated dependencies [19b3b64]
+  - @modern-js/builder-shared@2.21.1
+
 ## 2.21.0
 
 ### Patch Changes

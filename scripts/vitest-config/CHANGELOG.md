@@ -1,5 +1,12 @@
 # @scripts/vitest-config
 
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.21.1
+- @modern-js/utils@2.21.1
+
 ## 2.21.0
 
 ### Patch Changes
