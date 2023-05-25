@@ -1,5 +1,20 @@
 # @modern-js/doc-core
 
+## 2.21.1
+
+### Patch Changes
+
+- 9503a5e: fix(doc-core): mdx flatten path resolve
+
+  fix(doc-core): mdx 文件扁平化过程中路径解析错误
+
+  - @modern-js/builder@2.21.1
+  - @modern-js/builder-rspack-provider@2.21.1
+  - @modern-js/core@2.21.1
+  - @modern-js/doc-plugin-medium-zoom@2.21.1
+  - @modern-js/remark-container@2.21.1
+  - @modern-js/utils@2.21.1
+
 ## 2.21.0
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/builder
 
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [19b3b64]
+  - @modern-js/builder-shared@2.21.1
+  - @modern-js/utils@2.21.1
+
 ## 2.21.0
 
 ### Patch Changes
