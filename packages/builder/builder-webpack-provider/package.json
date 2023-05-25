@@ -96,6 +96,7 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
+    "caniuse-lite": "^1.0.30001451",
     "css-minimizer-webpack-plugin": "5.0.0",
     "cssnano": "6.0.0",
     "html-webpack-plugin": "5.5.0",
