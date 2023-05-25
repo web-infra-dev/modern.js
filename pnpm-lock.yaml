@@ -186,6 +186,7 @@ importers:
       '@types/caniuse-lite': ^1.0.1
       '@types/node': ^14
       antd: '4'
+      caniuse-lite: ^1.0.30001451
       css-minimizer-webpack-plugin: 5.0.0
       cssnano: 6.0.0
       html-webpack-plugin: 5.5.0
@@ -208,6 +209,7 @@ importers:
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.9_2sh2n464chklv3oeyrys3t3hwy
+      caniuse-lite: 1.0.30001451
       css-minimizer-webpack-plugin: 5.0.0_webpack@5.82.1
       cssnano: 6.0.0_postcss@8.4.21
       html-webpack-plugin: 5.5.0_webpack@5.82.1
