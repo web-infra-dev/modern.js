@@ -6,7 +6,7 @@ import { remarkCodeToDemo } from './codeToDemo';
 export type Options = {
   /**
    * preview in mobile mode or not
-   * @default true
+   * @default false
    */
   isMobile: boolean;
 };
@@ -18,7 +18,7 @@ export let routeMeta: RouteMeta[];
  * The plugin is used to preview component.
  */
 export function pluginPreview(options?: Options): DocPlugin {
-  const isMobile = options?.isMobile ?? true;
+  const isMobile = options?.isMobile ?? false;
   const demoComponentPath = path.join(__dirname, '..', 'dist/demo.js');
   const demoRuntimeModule = new RspackVirtualModulePlugin({});
   const getRouteMeta = () => routeMeta;
