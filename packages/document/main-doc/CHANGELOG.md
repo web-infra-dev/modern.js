@@ -1,5 +1,16 @@
 # @modern-js/main-doc
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [1ef03dc]
+  - @modern-js/builder-doc@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

@@ -1,5 +1,38 @@
 # @modern-js/server
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 1ef03dc: feat(dev-server): enable gzip compression, add devServer.compress config
+
+  feat(dev-server): 默认启用 gzip 压缩，新增 devServer.compress 配置项
+
+- 8fa8566: fix(dev-server): adjust hmr connection log level
+
+  fix(dev-server): 调整 hmr 连接的日志级别
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [cfc5bda]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/prod-server@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/server-utils@2.21.0
+  - @modern-js/types@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

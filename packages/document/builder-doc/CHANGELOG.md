@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.21.0
+
+### Patch Changes
+
+- 1ef03dc: feat(dev-server): enable gzip compression, add devServer.compress config
+
+  feat(dev-server): 默认启用 gzip 压缩，新增 devServer.compress 配置项
+
 ## 2.20.0
 
 ## 2.19.1

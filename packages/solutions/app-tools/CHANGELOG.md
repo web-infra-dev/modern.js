@@ -1,5 +1,75 @@
 # @modern-js/app-tools
 
+## 2.21.0
+
+### Patch Changes
+
+- 5424051: fix: the proxy should not recreated when exists
+  fix: proxy server 不应该被重新创建当存在时
+- cfc5bda: feat: ssr mode support async entry
+  feat: ssr 模式支持异步入口
+- df43559: fix(core): toolsType is overridden when install multiple solutions
+
+  fix(core): 修复安装多个 solutions 时 toolsType 被覆盖的问题
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- d6aed02: feat(app-tools): add isFirstCompile param to afterDev hook
+
+  feat(app-tools): 为 afterDev 钩子增加 isFirstCompile 参数
+
+- 5c56949: fix: should only watch file-based routes changes
+  fix: 只有基于文件的路由（约定式路由）需要被监听变化
+- 4274510: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [cfc5bda]
+- Updated dependencies [7d2972e]
+- Updated dependencies [df43559]
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [55d37e9]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [8a7d4d2]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [441a579]
+- Updated dependencies [056627f]
+- Updated dependencies [de8f73f]
+- Updated dependencies [8fa8566]
+- Updated dependencies [4274510]
+- Updated dependencies [c90ea5a]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/prod-server@2.21.0
+  - @modern-js/builder-rspack-provider@2.21.0
+  - @modern-js/core@2.21.0
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/builder@2.21.0
+  - @modern-js/plugin-data-loader@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/builder-webpack-provider@2.21.0
+  - @modern-js/builder-plugin-node-polyfill@2.21.0
+  - @modern-js/node-bundle-require@2.21.0
+  - @modern-js/builder-plugin-esbuild@2.21.0
+  - @modern-js/new-action@2.21.0
+  - @modern-js/plugin-i18n@2.21.0
+  - @modern-js/plugin-lint@2.21.0
+  - @modern-js/upgrade@2.21.0
+  - @modern-js/plugin@2.21.0
+  - @modern-js/server@2.21.0
+  - @modern-js/types@2.21.0
+
 ## 2.20.0
 
 ### Minor Changes

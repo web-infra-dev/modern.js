@@ -1,5 +1,17 @@
 # @modern-js/create
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- de8f73f: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
 ## 2.20.0
 
 ### Patch Changes

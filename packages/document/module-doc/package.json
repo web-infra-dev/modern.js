@@ -9,7 +9,7 @@
     "directory": "packages/document/module-doc"
   },
   "license": "MIT",
-  "version": "2.20.0",
+  "version": "2.21.0",
   "main": "index.js",
   "scripts": {
     "dev": "modern dev",

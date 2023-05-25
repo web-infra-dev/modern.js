@@ -1,5 +1,38 @@
 # @modern-js/plugin-testing
 
+## 2.21.0
+
+### Patch Changes
+
+- 5424051: fix: the proxy should not recreated when exists
+  fix: proxy server 不应该被重新创建当存在时
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 8b7c6d4: chore: update reduck
+  chore: 更新 reduck
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [cfc5bda]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [0a1aa3b]
+- Updated dependencies [056627f]
+- Updated dependencies [8b7c6d4]
+- Updated dependencies [807f04a]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/prod-server@2.21.0
+  - @modern-js/runtime@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/babel-compiler@2.21.0
+  - @modern-js/babel-preset-app@2.21.0
+  - @modern-js/plugin@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

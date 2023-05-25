@@ -1,5 +1,31 @@
 # @modern-js/builder-plugin-swc
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [4274510]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/builder-plugin-swc-base@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

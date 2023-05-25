@@ -1,5 +1,53 @@
 # @modern-js/doc-core
 
+## 2.21.0
+
+### Patch Changes
+
+- fdb0406: feat(doc-core): add routes for addPages hook
+
+  feat(doc-core): 在 addPages 钩子中增加路由入参
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 0dd531a: fix(doc-core): sidebar link i18n
+
+  fix(doc-core): 修复侧边栏链接国际化问题
+
+- 0a6b969: feat(doc-core): support space in code title
+
+  feat(doc-core): 代码块标题支持空格
+
+- 8007951: feat: add doc medium-zoom plugin
+
+  feat: 增加 medium-zoom 插件
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [4cbe958]
+- Updated dependencies [df43559]
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [55d37e9]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [8a7d4d2]
+- Updated dependencies [441a579]
+- Updated dependencies [056627f]
+- Updated dependencies [0a86b31]
+- Updated dependencies [4274510]
+- Updated dependencies [c90ea5a]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-rspack-provider@2.21.0
+  - @modern-js/doc-plugin-medium-zoom@2.21.0
+  - @modern-js/core@2.21.0
+  - @modern-js/builder@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/remark-container@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

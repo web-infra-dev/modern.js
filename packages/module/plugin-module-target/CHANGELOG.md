@@ -1,5 +1,18 @@
 # @modern-js/plugin-module-target
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [df43559]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [ad78387]
+  - @modern-js/module-tools@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

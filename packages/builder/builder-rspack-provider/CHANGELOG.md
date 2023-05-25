@@ -1,5 +1,66 @@
 # @modern-js/builder-rspack-provider
 
+## 2.21.0
+
+### Patch Changes
+
+- 7d2972e: fix(builder): output.copy not work in Rspack
+
+  fix(builder): output.copy 在 Rspack 构建时不生效
+
+- 7d2972e: feat(builder): update rspack to 0.1.12
+
+  feat(builder): 升级 rspack 到 0.1.12 版本
+
+- 863f8df: feat(rspack-provider): support security.checkSyntax in Rspack
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 security.checkSyntax 配置项
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 8a7d4d2: hotfix(rspack-provider): update Rspack and fix upgrade error
+
+  hotfix(rspack-provider): 升级 Rspack 并处理升级问题
+
+- 441a579: feat(builder): support output.disableTsChecker in Rspack
+
+  feat(builder): 在使用 Rspack 构建时支持 output.disableTsChecker 配置项
+
+- 056627f: fix(plugin-sass): pollute the `global.location` object
+  fix(plugin-sass): 污染全局对象 `global.location`
+- 4274510: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- c90ea5a: feat(builder): support output.enableAssetManifest in Rspack
+
+  feat(builder): 在使用 Rspack 构建时支持 output.enableAssetManifest 配置项
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [8fa8566]
+- Updated dependencies [4274510]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/server@2.21.0
+  - @modern-js/e2e@2.21.0
+  - @modern-js/types@2.21.0
+
 ## 2.20.0
 
 ### Patch Changes

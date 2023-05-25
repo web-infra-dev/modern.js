@@ -1,5 +1,13 @@
 # @modern-js/bff-runtime
 
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
 ## 2.20.0
 
 ### Patch Changes
