@@ -86,6 +86,7 @@ export const createHandler = (manifest: Manifest) => {
     if (!pageMatch) {
       return RESPONSE_NOTFOUND;
     }
+
     const page = pages[pageMatch.spec.urlPath];
     if (page.serverRender) {
       try {
@@ -102,8 +103,9 @@ export const createHandler = (manifest: Manifest) => {
         };
         const params = pageMatch.parseURLParams(url.pathname) || {};
 
+        const { urlPath: baseUrl } = pageMatch;
         const serverRenderContext: BaseSSRServerContext = {
-          request: createServerRequest(url, request, params),
+          request: createServerRequest(url, baseUrl, request, params),
           response: responseLike,
           loadableStats,
           routeManifest,
@@ -143,6 +145,7 @@ export const createHandler = (manifest: Manifest) => {
     function createServerRequest(
       // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
       url: URL,
+      baseUrl: string,
       request: Request,
       params: Record<string, string>,
     ) {
@@ -156,6 +159,8 @@ export const createHandler = (manifest: Manifest) => {
       const query = Object.fromEntries(searchParams);
 
       return {
+        url: url.href,
+        baseUrl,
         pathname,
         host,
         headers,
