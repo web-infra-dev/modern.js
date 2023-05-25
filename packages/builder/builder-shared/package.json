@@ -108,6 +108,7 @@
     "caniuse-lite": "^1.0.30001451",
     "cheerio": "1.0.0-rc.12",
     "source-map": "^0.7.4",
+    "webpack": "^5.82.1",
     "webpack-sources": "^3.2.3",
     "zod": "^3.20.2",
     "zod-validation-error": "^0.3.0"
@@ -120,8 +121,7 @@
     "@types/node": "^14",
     "html-webpack-plugin": "5.5.0",
     "terser": "^5.14.1",
-    "typescript": "^5",
-    "webpack": "^5.82.1"
+    "typescript": "^5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
