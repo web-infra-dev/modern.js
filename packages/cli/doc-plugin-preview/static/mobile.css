@@ -5,4 +5,5 @@
 .modern-doc div[class*='language-'] {
   margin: 0;
   border-radius: 0;
+  height: 100%
 }
