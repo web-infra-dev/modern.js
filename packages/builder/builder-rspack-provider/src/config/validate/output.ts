@@ -5,6 +5,6 @@ export const outputConfigSchema: z.ZodType<OutputConfig> =
   sharedOutputConfigSchema
     .extend({
       convertToRem: z.union([z.boolean(), z.instanceof(Object)]),
-      externals: z.record(z.string()),
+      externals: z.any(),
     })
     .partial();
