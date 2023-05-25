@@ -1,4 +1,5 @@
 import { join } from 'path';
+import fs from 'fs';
 import { visit } from 'unist-util-visit';
 
 import type { RouteMeta } from '@modern-js/doc-core';
@@ -31,9 +32,10 @@ export const remarkCodeToDemo: Plugin<
         );
 
       if (node.lang === 'jsx' || node.lang === 'tsx') {
+        const { value } = node;
         const isPure = node?.meta?.includes('pure');
+        // not transform pure code
         if (isPure) {
-          // not transform pure code
           return;
         }
         const routeMeta = getRouteMeta();
@@ -48,6 +50,10 @@ export const remarkCodeToDemo: Plugin<
           `virtual-demo`,
         );
         const virtualModulePath = join(demoDir, `${id}.tsx`);
+        if (!isMobile) {
+          // only need to write in web mode, in mobile mode, it has been written by addPage.
+          fs.writeFileSync(virtualModulePath, value);
+        }
         demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
         Object.assign(node, {
           type: 'mdxJsxFlowElement',

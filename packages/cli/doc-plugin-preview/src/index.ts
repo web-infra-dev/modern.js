@@ -22,10 +22,16 @@ export function pluginPreview(options?: Options): DocPlugin {
   const demoComponentPath = path.join(__dirname, '..', 'dist/demo.js');
   const demoRuntimeModule = new RspackVirtualModulePlugin({});
   const getRouteMeta = () => routeMeta;
+
   return {
     name: '@modern-js/doc-plugin-preview',
     addPages(_config, _isProd, routes) {
+      // init routeMeta
       routeMeta = routes;
+      // only addPages in mobile mode
+      if (!isMobile) {
+        return [];
+      }
       const files = routes.map(route => route.absolutePath);
       /**
        * expect the meta of each demo file is like this:
@@ -84,5 +90,9 @@ export const pageType = "blank";
     markdown: {
       remarkPlugins: [[remarkCodeToDemo, { isMobile, getRouteMeta }]],
     },
+    globalStyles: path.join(
+      __dirname,
+      `../static/${isMobile ? 'mobile' : 'web'}.css`,
+    ),
   };
 }

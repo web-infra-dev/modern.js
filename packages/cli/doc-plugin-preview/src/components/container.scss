@@ -20,15 +20,27 @@
 
 .code-operations.mobile {
   justify-content: flex-end;
-  margin-top: 8px;
+  position: absolute;
+  width: 360px;
+  border-top: 1px solid #e6e6e6;
+  bottom: 0px;
+  right: 0px;
+  padding: 6px;
 }
 
 .preview-code {
   position: relative;
   overflow: hidden;
+  flex: 1 1;
+  max-height: 700px;
 }
 
 .preview-device {
-  flex: 0 1;
-  padding: 24px 0 0 16px;
+  position: relative;
+  flex: 0 0;
+  &-iframe {
+    width: 360px;
+    height: 100%;
+    padding-bottom: 40px;
+  }
 }

@@ -6,10 +6,13 @@ import '@arco-design/web-react/es/Tooltip/style';
 import '@arco-design/web-react/es/Card/style';
 
 import './container.scss';
-import { normalizeRoutePath, useDark } from '@modern-js/doc-core/runtime';
+import {
+  normalizeRoutePath,
+  useDark,
+  withBase,
+} from '@modern-js/doc-core/runtime';
 import { QRCodeSVG } from 'qrcode.react';
 import { locales } from '../locales';
-import Preview from './preview';
 
 type ContainerProps = {
   children: React.ReactNode[];
@@ -23,6 +26,9 @@ const Container: React.FC<ContainerProps> = props => {
   const lang = normalizeRoutePath(window.location.pathname).startsWith('/en/')
     ? 'en'
     : 'zh';
+  const pageUrl = window.location.origin + withBase(url);
+  const dark = useDark();
+  const t = locales[lang];
   const toggleCode = (e: any) => {
     if (!showCode) {
       e.target.blur();
@@ -33,9 +39,9 @@ const Container: React.FC<ContainerProps> = props => {
     if (!showCode) {
       e.target.blur();
     }
-    window.open(url);
+    window.open(pageUrl);
   };
-  const dark = useDark();
+  // support dark theme in container
   useEffect(() => {
     if (dark) {
       document.body.setAttribute('arco-theme', 'dark');
@@ -43,8 +49,7 @@ const Container: React.FC<ContainerProps> = props => {
       document.body.removeAttribute('arco-theme');
     }
   }, [dark]);
-  const t = locales[lang];
-  const renderOperations = () => {
+  const renderWebOperations = () => {
     return (
       <div className="code-operations web">
         <Tooltip content={showCode ? t.collapse : t.expand}>
@@ -62,44 +67,48 @@ const Container: React.FC<ContainerProps> = props => {
       </div>
     );
   };
+  const renderMobileOperations = () => {
+    return (
+      <div className="code-operations mobile">
+        <Tooltip
+          content={<QRCodeSVG value={pageUrl} size={96} />}
+          color="#f7f8fa"
+          trigger={'click'}
+        >
+          <Button
+            size="small"
+            shape="circle"
+            type="secondary"
+            style={{ marginLeft: '8px' }}
+          >
+            <IconQrcode />
+          </Button>
+        </Tooltip>
+        <Button
+          size="small"
+          shape="circle"
+          onClick={openNewPage}
+          type="secondary"
+          aria-label={t.open}
+          style={{ marginLeft: '8px' }}
+        >
+          <IconLaunch />
+        </Button>
+      </div>
+    );
+  };
   return (
     <div className="code-wrapper">
       {isMobile ? (
-        <>
-          <Card>
-            <div className="flex">
-              <div className="preview-code">{children?.[0]}</div>
-              <div className="preview-device">
-                <Preview url={url} />
-              </div>
+        <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: '8px' }}>
+          <div className="flex">
+            <div className="preview-code">{children?.[0]}</div>
+            <div className="preview-device">
+              <iframe src={url} className="preview-device-iframe"></iframe>
+              {renderMobileOperations()}
             </div>
-          </Card>
-          <div className="code-operations mobile">
-            <Tooltip content={<QRCodeSVG value={url} size={96} />}>
-              <Button
-                size="small"
-                shape="circle"
-                type="secondary"
-                className={showCode ? 'ac-btn-expanded' : ''}
-              >
-                <IconQrcode />
-              </Button>
-            </Tooltip>
-            <Tooltip content={t.open}>
-              <Button
-                size="small"
-                shape="circle"
-                onClick={openNewPage}
-                type="secondary"
-                aria-label={t.open}
-                style={{ marginLeft: '8px' }}
-                className={showCode ? 'ac-btn-expanded' : ''}
-              >
-                <IconLaunch />
-              </Button>
-            </Tooltip>
           </div>
-        </>
+        </Card>
       ) : (
         <>
           <Card>
@@ -110,7 +119,7 @@ const Container: React.FC<ContainerProps> = props => {
             >
               {children?.[1]}
             </div>
-            {renderOperations()}
+            {renderWebOperations()}
           </Card>
           <div className={`code-content ${showCode ? 'show-all' : ''}`}>
             {children?.[0]}
