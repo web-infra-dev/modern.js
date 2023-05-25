@@ -27,7 +27,7 @@ export default defineConfig({
 
 When access `http://localhost:8080/go/api`, the response content will be returned from [http://www.example.com/](http://www.example.com/).
 
-:::info Info
+:::info
 For more detail, see [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware).
 :::
 
@@ -39,7 +39,7 @@ import GlobalProxy from "@site-docs-en/components/global-proxy"
 
 ## BFF Proxy
 
-By configuring [`bff.proxy`](/configure/app/bff/proxy), BFF API requests can be proxied to a specified service. Unlike other proxy above, it can also be used in production environment:
+By configuring [`bff.proxy`](/configure/app/bff/proxy), BFF API requests can be proxied to a specified service. Unlike the other proxy methods above, it can be used in the production environment:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
