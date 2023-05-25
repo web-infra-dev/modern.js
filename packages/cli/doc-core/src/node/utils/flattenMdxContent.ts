@@ -7,8 +7,9 @@ import { Root } from 'hast';
 import { MDX_REGEXP } from '@/shared/utils';
 
 const { CachedInputFileSystem, ResolverFactory } = enhancedResolve;
-let resolver: Resolver;
 const processor = createProcessor();
+let resolver: Resolver;
+let startFlatten = false;
 
 export async function resolveDepPath(
   importPath: string,
@@ -54,7 +55,16 @@ export async function flattenMdxContent(
   alias: Record<string, string | string[]>,
 ): Promise<string> {
   let result = content;
-
+  // We should update the resolver instanceof because the alias should be passed to it
+  // If we reuse the resolver instance in `detectReactVersion` method, the resolver will lose the alias info and cannot resolve path correctly in mdx files.
+  if (!startFlatten) {
+    resolver = ResolverFactory.createResolver({
+      fileSystem: new CachedInputFileSystem(fs),
+      extensions: ['.mdx', '.md', '.js'],
+      alias,
+    });
+    startFlatten = true;
+  }
   let ast: Root;
   try {
     ast = processor.parse(content) as Root;
