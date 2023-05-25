@@ -3,11 +3,13 @@ import {
   ServerResponse,
   IncomingHttpHeaders,
   OutgoingMessage,
+  OutgoingHttpHeaders,
 } from 'http';
 import { Readable } from 'stream';
 import { Socket } from 'net';
 import { Server } from './server';
 import { ModernServerOptions } from './type';
+import { isRedirect } from './utils';
 
 class IncomingMessageLike extends Readable {
   headers: IncomingHttpHeaders;
@@ -38,10 +40,13 @@ class IncomingMessageLike extends Readable {
 }
 
 class ServerResponseLike extends OutgoingMessage {
+  statusCode: number;
+
   public data: string[];
 
   constructor() {
     super();
+    this.statusCode = 200;
     this.data = [];
   }
 
@@ -90,13 +95,21 @@ export interface RenderHtmlOptions {
   serverOptions: ModernServerOptions;
 }
 
+export interface ReturnResponse {
+  headers: OutgoingHttpHeaders;
+  redirected: boolean;
+  status: number;
+  url: string;
+  body: string;
+}
+
 async function renderHtml({
   url,
   method,
   headers,
   body,
   serverOptions,
-}: RenderHtmlOptions): Promise<string> {
+}: RenderHtmlOptions): Promise<ReturnResponse> {
   const req = new IncomingMessageLike({
     method,
     url,
@@ -120,7 +133,13 @@ async function renderHtml({
 
   return new Promise(resolve => {
     res.addListener('finish', () => {
-      resolve(res.data.join(''));
+      resolve({
+        headers: res.getHeaders(),
+        redirected: isRedirect(res.statusCode),
+        status: res.statusCode,
+        url,
+        body: res.data.join(),
+      });
     });
   });
 }
