@@ -157,6 +157,7 @@ importers:
       cheerio: 1.0.0-rc.12
       fork-ts-checker-webpack-plugin: 8.0.0_b73sldshwrlnhikvubwhfqvrfa
       source-map: 0.7.4
+      webpack: 5.82.1
       webpack-sources: 3.2.3
       zod: 3.20.2
       zod-validation-error: 0.3.0_zod@3.20.2
@@ -169,7 +170,6 @@ importers:
       html-webpack-plugin: 5.5.0_webpack@5.82.1
       terser: 5.17.3
       typescript: 5.0.4
-      webpack: 5.82.1
 
   packages/builder/builder-webpack-provider:
     specifiers:
