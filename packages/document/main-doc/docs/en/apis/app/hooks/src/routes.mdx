@@ -4,13 +4,13 @@ sidebar_position: 2
 ---
 # routes/
 
-The entry identifier when the application uses file system-based routing.
+The identifier for the entry point when the application uses [Conventional Routing](guides/basic-features/routes.html#conventional-routing).
 
-When the project structure is of type `Routes directory entry`, the files in the `src/routes` directory are parsed to get the client-side routing configuration. See [Routing by convention](/guides/basic-features/routes) for more details on usage.
+Conventional routing uses `routes/` as the convention for the entry point and analyzes the files in the `src/routes` directory to obtain the client-side routing configuration.
 
-Any `layout.[tj]sx` and `page.[tj]sx` under `src/routes` will be used as a route to the application:
+Any `layout.[tj]sx` and `page.[tj]sx` under `src/routes` will be used as the application's routes:
 
-```bash {3}
+```bash {3,4}
 .
 └── routes
     ├── layout.tsx
@@ -20,9 +20,9 @@ Any `layout.[tj]sx` and `page.[tj]sx` under `src/routes` will be used as a route
         └── page.tsx
 ```
 
-## basic example
+## Basic Example
 
-The directory names in the `routes` directory will be used as a mapping of the route url, where `layout.tsx` is used as the layout component and `page.tsx` as the content component, which is a leaf node of the whole route, for example the following directory structure:
+The directory name under `routes` will be used as the mapping of the route URL. `layout.tsx` is used as the layout component and `page.tsx` is used as the content component in the routing. They are the leaf nodes of the entire route. For example, the following directory structure:
 
 ```bash
 .
@@ -32,14 +32,14 @@ The directory names in the `routes` directory will be used as a mapping of the r
         └── page.tsx
 ```
 
-The following two routes are produced:
+will generate two routes:
 
 - `/`
 - `/user`
 
-## Dynamic Route
+## Dynamic Routing
 
-If the directory name of the route file is named with `[]`, the generated route will be used as a dynamic route. For example, the following file directories:
+If the directory name of the route file is named with `[]`, the generated route will be used as a dynamic route. For example, the following file directory:
 
 ```
 └── routes
@@ -50,35 +50,15 @@ If the directory name of the route file is named with `[]`, the generated route 
     └── page.tsx
 ```
 
-The `routes/[id]/page.tsx` file will be converted to a `/:id` route. All `/xxx` will match that route, except for the `/blog` route, which can be matched exactly.
+The `routes/[id]/page.tsx` file will be converted to the `/:id` route. Except for the `/blog` route that can be matched exactly, all other `/xxx` routes will be matched to this route.
 
-In the component, you can get the corresponding parameters by [useParams](/apis/app/runtime/router/router#useparams).
+In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to obtain the corresponding named parameter.
 
-In the loader, params will be used as input to [loader](/guides/basic-features/data-fetch#loader-function), and the corresponding parameters can be retrieved through the property `params`.
+When using the [loader](/guides/basic-features/data-fetch#loader-函数) function to obtain data, `params` will be passed as an input parameter to the `loader` function, and the corresponding parameter can be obtained through the attribute of `params`.
 
-## Dynamic Optional Routes
+## Layout Component
 
-By using file directories named with `[$]`, the generated routes will be treated as dynamic routes. For example, the following file directory:
-
-```
-└── routes
-    ├── user
-    │   └── [id$]
-    │       └── page.tsx
-    ├── blog
-    │   └── page.tsx
-    └── page.tsx
-```
-
-The `routes/user/[id$]/page.tsx` file will be converted to the `/user/:id?` route. All routes under `/user` will match this route, and the `id` parameter is optional. This route is commonly used to differentiate between **creating** and **editing**.
-
-In the component, you can get the corresponding named parameters using [useParams](/apis/app/runtime/router/router#useparams).
-
-In the loader, params will be passed as an argument to the [loader](/guides/basic-features/data-fetch#loader-函数), and you can get them through `params.xxx`.
-
-## Layout component
-
-As in the example below, you can add a common layout component for all routing components by adding `layout.tsx`
+In the following example, a common layout component can be added to all route components by adding `layout.tsx`:
 
 ```bash
 .
@@ -90,7 +70,7 @@ As in the example below, you can add a common layout component for all routing c
         └── page.tsx
 ```
 
-You can represent child components in layout components by using `<Outlet>`:
+In the layout component, you can use `<Outlet>` to represent the child components:
 
 ```tsx title=routes/layout.tsx
 import { Link, Outlet, useLoaderData } from '@modern-js/runtime/router';
@@ -105,6 +85,6 @@ export default () => {
 ```
 
 :::note
-`<Outlet>` is a new API in React Router 6, see [Outlet] for details(https://reactrouter.com/en/main/components/outlet#outlet).
+`<Outlet>` is a new API in React Router 6. For details, see [Outlet](https://reactrouter.com/en/main/components/outlet#outlet).
 
 :::
