@@ -3,7 +3,7 @@ import type {
   NormalizedSharedOutputConfig,
   RemOptions,
 } from '@modern-js/builder-shared';
-import type { Builtins } from '@rspack/core';
+import type { Builtins, Externals } from '@rspack/core';
 
 export type OutputConfig = SharedOutputConfig & {
   /**
@@ -17,7 +17,7 @@ export type OutputConfig = SharedOutputConfig & {
   /**
    * At build time, prevent some `import` dependencies from being packed into bundles in your code, and instead fetch them externally at runtime.
    */
-  externals?: Record<string, string>;
+  externals?: Externals;
 };
 
 export type NormalizedOutputConfig = OutputConfig &
