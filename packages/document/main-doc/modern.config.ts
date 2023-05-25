@@ -130,7 +130,8 @@ export default defineConfig({
       ],
     },
     route: {
-      exclude: ['scripts/**', '**/components/**'],
+      // exclude document fragments from routes
+      exclude: ['scripts/**', '**/zh/components/**', '**/en/components/**'],
     },
     builderConfig: {
       output: {

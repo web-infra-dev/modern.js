@@ -174,7 +174,13 @@ export default defineConfig({
       experimentalMdxRs: true,
     },
     route: {
-      exclude: ['**/config/**'],
+      // exclude document fragments from routes
+      exclude: [
+        '**/zh/config/**',
+        '**/en/config/**',
+        '**/zh/shared/**',
+        '**/en/shared/**',
+      ],
     },
     themeConfig: {
       footer: {
