@@ -44,3 +44,14 @@
     padding-bottom: 40px;
   }
 }
+
+.code-content {
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+
+.code-content.show-all {
+  margin-top: 16px;
+  display: block;
+}

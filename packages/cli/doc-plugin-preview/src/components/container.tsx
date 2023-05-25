@@ -16,7 +16,7 @@ import { locales } from '../locales';
 
 type ContainerProps = {
   children: React.ReactNode[];
-  isMobile: boolean;
+  isMobile: 'true' | 'false';
   url: string;
 };
 
@@ -99,7 +99,7 @@ const Container: React.FC<ContainerProps> = props => {
   };
   return (
     <div className="code-wrapper">
-      {isMobile ? (
+      {isMobile === 'true' ? (
         <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: '8px' }}>
           <div className="flex">
             <div className="preview-code">{children?.[0]}</div>
@@ -115,6 +115,7 @@ const Container: React.FC<ContainerProps> = props => {
             <div
               style={{
                 overflow: 'auto',
+                marginRight: '44px',
               }}
             >
               {children?.[1]}
