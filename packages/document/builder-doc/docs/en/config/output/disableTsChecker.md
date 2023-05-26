@@ -1,6 +1,5 @@
 - **Type:** `boolean`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
 Whether to disable TypeScript type checker during compilation.
 
