@@ -1,5 +1,17 @@
 # @modern-js/builder-shared
 
+## 2.21.1
+
+### Patch Changes
+
+- 19b3b64: fix(builder): fix the misalignment of the dependencies version that fork-ts-checker-webpack-plugin and autoprefixer depends on
+
+  fix(builder): 修复 fork-ts-checker-webpack-plugin 和 autoprefixer 的依赖版本错位问题
+
+  - @modern-js/server@2.21.1
+  - @modern-js/types@2.21.1
+  - @modern-js/utils@2.21.1
+
 ## 2.21.0
 
 ### Patch Changes

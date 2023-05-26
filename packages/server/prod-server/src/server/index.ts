@@ -74,7 +74,11 @@ export class Server {
    * - 执行 prepare hook
    * - 执行 server init
    */
-  public async init() {
+  public async init(
+    { disableHttpServer = false }: { disableHttpServer: boolean } = {
+      disableHttpServer: false,
+    },
+  ) {
     const { options } = this;
 
     await this.loadServerEnv(options);
@@ -97,7 +101,9 @@ export class Server {
     await this.runPrepareHook(this.runner);
 
     // create http-server
-    this.app = await this.server.createHTTPServer(this.getRequestHandler());
+    if (!disableHttpServer) {
+      this.app = await this.server.createHTTPServer(this.getRequestHandler());
+    }
 
     // runner can only be used after server init
     await this.server.onInit(this.runner, this.app);

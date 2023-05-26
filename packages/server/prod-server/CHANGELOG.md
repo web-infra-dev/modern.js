@@ -1,5 +1,16 @@
 # @modern-js/prod-server
 
+## 2.21.1
+
+### Patch Changes
+
+- 78e3ac8: fix(prod-server): worker ssr should pass baseUrl & url by request.
+  fix(prod-server): worker ssr 通过 request 应该传递 baseUrl & url .
+- 2728724: fix(prod-server): the ssr render maybe get invalid url, like `http:///`
+  fix(prod-server): ssr 渲染函数可能获得非法 url, 类似 `http:///`
+  - @modern-js/server-core@2.21.1
+  - @modern-js/utils@2.21.1
+
 ## 2.21.0
 
 ### Patch Changes
