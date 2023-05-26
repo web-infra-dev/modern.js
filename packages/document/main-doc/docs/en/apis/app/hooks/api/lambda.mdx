@@ -4,10 +4,10 @@ sidebar_position: 3
 ---
 # lambda/*.[tj]s
 
-Files that declare API routes under the [BFF Framework Mode](/guides/advanced-features/bff/type.html#framework-mode). Except for [convention files](/apis/app/hooks/api/api#white-list), files under the `lambda/` directory will be registered as the routes.
+Files that declare API routes under the [BFF Framework Mode](/guides/advanced-features/bff/type.html#framework-mode). Except for [convention files](/apis/app/hooks/api/api#allow-list), files under the `lambda/` directory will be registered as the routes.
 
 :::info
-Using the `api` directory requires enabling the BFF function, and you need to execute the new command to enable the "BFF" function under the project.
+Using the `api` directory requires enabling the BFF function, and you need to run the new command to enable the "BFF" function under the project.
 
 :::
 
@@ -42,7 +42,7 @@ The routing system supports generating dynamic routes through file directories n
 
 The `$BASENAME` can be configured in `modern.config.js`, and the default value is `/api`.
 
-### Whitelist
+### Allow List
 
 By default, all files under the `lambda` directory are parsed as BFF function files, but we also set up a whitelist so that these files are not parsed:
 

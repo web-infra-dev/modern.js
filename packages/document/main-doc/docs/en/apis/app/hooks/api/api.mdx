@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # **/*.[tj]s
 
-Files that declare API routes in the [BFF Function Mode](/guides/advanced-features/bff/type.html#function-mode). Except for some [convention files](/apis/app/hooks/api/api#white-list), files under the `api` directory will be registered as the routes.
+Files that declare API routes in the [BFF Function Mode](/guides/advanced-features/bff/type.html#function-mode). Except for some [convention files](/apis/app/hooks/api/api#allow-list), files under the `api` directory will be registered as the routes.
 
 :::info
 Using the `api` directory requires enabling the BFF feature, and you need to run the `new` command in the project to enable the "BFF" feature.
@@ -39,7 +39,7 @@ The routing system supports generating dynamic routes through file directories n
 
 The `$BASENAME` can be configured in `modern.config.js`, and the default value is `/api`.
 
-### White List
+### Allow List
 
 By default, all files under the `api` directory will be parsed as BFF function files, but we also set a white list for these files that are not parsed:
 

@@ -4,29 +4,29 @@ sidebar_position: 4
 ---
 # upload/
 
-Static resource files in any format can be placed in the `upload/`.
+Any static resource files can be placed in the `upload/` directory.
 
 ## Description
 
-In the development environment, the static resource files in this directory will be hosted in the '/upload' path. After building the application product, the files in this directory will be copied to the dist path.
+In the development environment, the static resource files in this directory will be hosted under the `/upload` path. After building the application, the files in this directory will be copied to the dist directory.
 
-This file convention is mainly used for developers to use plugins to upload static resource files to the CDN.
+This file convention is mainly used for developers to use plugins to proactively upload static resource files to the CDN.
 
-## Scene
+## Scenarios
 
-For example, the SDK used by the project such as `google-analysis.js` (usually requires http caching).
+For example, SDKs for project use only, such as `google-analysis.js` (usually requires HTTP caching).
 
-Images, font files, generic CSS, etc.
+Pictures, font files, common CSS, etc.
 
-## Compression
+## Code Compression
 
-If the file is a `.js` file, it will be automatically compressed when the production environment is built.
+If the file in the directory is a `.js` file, it will be automatically compressed during production environment construction.
 
-If the file ends with `.min.js`, it will not compression.
+If the file ends with `.min.js`, it will not be compressed.
 
 ## More Usage
 
-In React components, this prefix can be added via [built-in environment variables](/guides/basic-features/env-vars.html#asset_prefix):
+In React components, you can add this prefix through [Environment Variables](/guides/basic-features/env-vars.html#asset_prefix):
 
 ```tsx
 export default () => {
@@ -36,19 +36,19 @@ export default () => {
 };
 ```
 
-Whether in [custom HTML](/guides/basic-features/html), or in any HTML file under ['config/public/'](/apis/app/hooks/config/public), you can directly use the HTML tag to refer to the resources in the `config/upload/`:
+In addition, whether it is in [Custom HTML](/guides/basic-features/html) or any HTML file under [`config/public/`](/apis/app/hooks/config/public), you can directly use HTML tags to reference resources in the `config/upload/` directory:
 
 ```html
 <script src="/upload/index.js"></script>
 ```
 
-if [`output.assetPrefix`](/configure/app/output/asset-prefix) is configured, add this prefix directly using template syntax:
+If you set the [`dev.assetPrefix`](/configure/app/dev/asset-prefix) or [`output.assetPrefix`](/configure/app/output/asset-prefix) prefix, you can also use template syntax to add the prefix directly:
 
 ```html
 <script src="<%=assetPrefix %>/upload/index.js"></script>
 ```
 
 :::info
-Modern.js does not support the use files under `upload/` in `config/public/*.css` via URL.
+Modern.js does not support using files under `config/upload/` through URLs in `config/public/*.css` (such as background-image).
 
 :::
