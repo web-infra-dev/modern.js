@@ -125,9 +125,8 @@ export class RouteService {
     // 2. external pages added by plugins
     const externalPages = await this.#pluginDriver.addPages(this.getRoutes());
 
-    let index = 0;
     await Promise.all(
-      externalPages.map(async route => {
+      externalPages.map(async (route, index) => {
         const { routePath, content, filepath } = route;
         // case1: specify the filepath
         if (filepath) {
@@ -140,7 +139,6 @@ export class RouteService {
           const filepath = await this.#writeTempFile(index, content);
           const routeInfo = this.#generateRouteInfo(routePath, filepath);
           this.addRoute(routeInfo);
-          index++;
         }
       }),
     );
