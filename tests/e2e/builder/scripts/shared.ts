@@ -75,6 +75,13 @@ const updateConfigForTest = (config: BuilderConfig) => {
       buildCache: false,
     };
   }
+
+  if (config.output?.disableTsChecker !== false) {
+    config.output = {
+      ...(config.output || {}),
+      disableTsChecker: true,
+    };
+  }
 };
 
 export async function dev(
