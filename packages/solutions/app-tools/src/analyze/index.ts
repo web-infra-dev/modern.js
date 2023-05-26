@@ -24,7 +24,6 @@ import {
   APP_INIT_EXPORTED,
   APP_INIT_IMPORTED,
 } from './constants';
-import { generateIndexCode } from './generateCode';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -163,13 +162,6 @@ export default ({
             async onBeforeBuild({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
               await generateRoutes(appContext);
-              await generateIndexCode({
-                appContext,
-                config: resolvedConfig,
-                entrypoints,
-                api,
-                bundlerConfigs,
-              });
               await hookRunners.beforeBuild({
                 bundlerConfigs:
                   bundlerConfigs as unknown as webpack.Configuration[],
@@ -198,13 +190,6 @@ export default ({
 
             async onBeforeCreateCompiler({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
-              await generateIndexCode({
-                appContext,
-                config: resolvedConfig,
-                entrypoints,
-                api,
-                bundlerConfigs,
-              });
               // run modernjs framework `beforeCreateCompiler` hook
               await hookRunners.beforeCreateCompiler({
                 bundlerConfigs:

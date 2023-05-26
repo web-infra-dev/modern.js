@@ -8,7 +8,6 @@ export { RuntimeContext, RenderLevel };
 
 export type SSRPluginConfig = {
   crossorigin?: boolean | 'anonymous' | 'use-credentials';
-  chunkLoadingGlobal?: string;
 } & Exclude<ServerUserConfig['ssr'], boolean>;
 
 export type ServerRenderOptions = {
