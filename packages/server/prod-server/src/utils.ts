@@ -3,7 +3,7 @@ import type {
   OutputNormalizedConfig,
   HtmlNormalizedConfig,
 } from '@modern-js/server-core';
-import { createDebugger, isProd } from '@modern-js/utils';
+import { createDebugger } from '@modern-js/utils';
 
 export const debug = createDebugger('prod-server') as any;
 

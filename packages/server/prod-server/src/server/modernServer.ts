@@ -157,7 +157,9 @@ export class ModernServer implements ModernServerInterface {
 
     // start file reader
     this.reader.init();
-    app.on('close', () => {
+
+    // the app server maybe a `undefined`;
+    app?.on('close', () => {
       this.reader.close();
     });
 
