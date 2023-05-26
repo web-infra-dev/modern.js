@@ -14,6 +14,7 @@ export const locales = {
     type: '类型',
     defaultValue: '默认值',
     overview: '概览',
+    open: '在新页面打开',
   },
   en: {
     copy: 'Copy',
@@ -30,5 +31,6 @@ export const locales = {
     type: 'Type',
     defaultValue: 'Default Value',
     overview: 'Overview',
+    open: 'Open in new page',
   },
 };

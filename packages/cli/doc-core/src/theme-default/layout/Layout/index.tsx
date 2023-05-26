@@ -71,7 +71,9 @@ export const Layout: React.FC<LayoutProps> = props => {
         return <DocLayout {...docProps} />;
       case '404':
         return <Theme.NotFoundLayout />;
+      // The custom pageType will have navbar while the blank pageType will not.
       case 'custom':
+      case 'blank':
         return <Content />;
       default:
         return <DocLayout {...docProps} />;
@@ -113,7 +115,6 @@ export const Layout: React.FC<LayoutProps> = props => {
       }
     }
   }, []);
-
   return (
     <div>
       <Helmet>
@@ -121,11 +122,14 @@ export const Layout: React.FC<LayoutProps> = props => {
         {description ? <meta name="description" content={description} /> : null}
       </Helmet>
       {top}
-      <Nav
-        beforeNavTitle={beforeNavTitle}
-        afterNavTitle={afterNavTitle}
-        beforeNav={beforeNav}
-      />
+      {pageType !== 'blank' && (
+        <Nav
+          beforeNavTitle={beforeNavTitle}
+          afterNavTitle={afterNavTitle}
+          beforeNav={beforeNav}
+        />
+      )}
+
       <section>{getContentLayout()}</section>
       {bottom}
       {

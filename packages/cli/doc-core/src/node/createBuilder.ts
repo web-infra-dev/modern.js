@@ -154,6 +154,7 @@ async function createInternalBuildConfig(
         chain.module
           .rule('MDX')
           .test(/\.mdx?$/)
+          .oneOf('MDXCompile')
           .use('mdx-loader')
           .when(
             enableMdxRs,
