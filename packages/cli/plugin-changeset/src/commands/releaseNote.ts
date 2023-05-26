@@ -41,7 +41,10 @@ export type CustomReleaseNoteFunction =
         commit: string,
         commitObj: Commit,
       ) => Commit | Promise<Commit>;
-      getReleaseNoteLine?: (commit: Commit) => string | Promise<string>;
+      getReleaseNoteLine?: (
+        commit: Commit,
+        lang?: 'en' | 'zh',
+      ) => string | Promise<string>;
     }
   | undefined;
 
@@ -103,7 +106,7 @@ export function getReleaseNoteLine(
   lang: 'en' | 'zh' = 'en',
 ) {
   if (customReleaseNoteFunction?.getReleaseNoteLine) {
-    return customReleaseNoteFunction.getReleaseNoteLine(commit);
+    return customReleaseNoteFunction.getReleaseNoteLine(commit, lang);
   }
 
   const { repository, pullRequestId, summary, summary_zh, author } = commit;
