@@ -202,7 +202,8 @@
     "react": "^18",
     "react-dom": "^18",
     "ts-jest": "^29.1.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "webpack": "^5.82.1"
   },
   "sideEffects": false,
   "modernConfig": {},

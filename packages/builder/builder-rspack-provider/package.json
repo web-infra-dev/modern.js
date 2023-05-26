@@ -51,6 +51,7 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@babel/core": "^7.21.8",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -62,9 +63,11 @@
     "@rspack/plugin-html": "0.1.12",
     "@rspack/postcss-loader": "0.1.12",
     "rspack-manifest-plugin": "5.0.0-alpha0",
-    "caniuse-lite": "^1.0.30001451",
+    "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",
-    "rspack-plugin-virtual-module": "0.1.0"
+    "react-refresh": "0.14.0",
+    "rspack-plugin-virtual-module": "0.1.0",
+    "webpack": "^5.82.1"
   },
   "devDependencies": {
     "@modern-js/e2e": "workspace:*",

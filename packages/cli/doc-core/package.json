@@ -141,7 +141,8 @@
     "rimraf": "^3.0.2",
     "typescript": "^5",
     "vite": "^4.0.4",
-    "vitest": "0.21.1"
+    "vitest": "0.21.1",
+    "webpack": "^5.82.1"
   },
   "sideEffects": [
     "*.css",
