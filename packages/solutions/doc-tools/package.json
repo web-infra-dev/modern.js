@@ -58,7 +58,7 @@
     "@modern-js/utils": "workspace:*"
   },
   "peerDependencies": {
-    "react": "^17"
+    "react": ">=17"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",
