@@ -44,10 +44,10 @@ The `$BASENAME` can be configured in `modern.config.js`, and the default value i
 
 ### Allow List
 
-By default, all files under the `lambda` directory are parsed as BFF function files, but we also set up a whitelist so that these files are not parsed:
+By default, all files in the `lambda` directory are parsed as BFF function files, but we also set up a whitelist so that these files are not parsed:
 
 - Files named starting with `_`. For example: `_utils.ts`.
-- All files under a folder named starting with `_`. For example: `_utils/index.ts`, `_utils/cp.ts`.
+- All files in a folder named starting with `_`. For example: `_utils/index.ts`, `_utils/cp.ts`.
 - Test files. For example: `foo.test.ts`.
 - TypeScript type files. For example: `hello.d.ts`.
 - Files under `node_module`.
