@@ -11,7 +11,7 @@ export default function Demo() {
   if (result) {
     return createElement(result.component);
   } else {
-    // TODO add 404 page
+    // TODO add some information
     return null;
   }
 }

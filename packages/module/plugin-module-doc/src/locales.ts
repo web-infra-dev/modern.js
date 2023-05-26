@@ -28,7 +28,7 @@ export const locales = {
     property: 'Property',
     description: 'Description',
     type: 'Type',
-    defaultValue: 'DefaultValue',
+    defaultValue: 'Default Value',
     overview: 'Overview',
   },
 };
