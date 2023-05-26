@@ -158,7 +158,7 @@ export const handleTemplateFile = async (
         query: {},
         update: {
           $set: {
-            'devDependencies.typescript': '~4.9.4',
+            'devDependencies.typescript': '~5.0.4',
             'devDependencies.@types/jest': '~29.2.4',
             'devDependencies.@types/node': '~16.11.7',
             'devDependencies.@types/react': '~18.0.26',
