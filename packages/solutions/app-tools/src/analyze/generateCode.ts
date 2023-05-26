@@ -22,8 +22,6 @@ import {
   AppTools,
   ImportSpecifier,
   ImportStatement,
-  Rspack,
-  webpack,
 } from '../types';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
@@ -117,12 +115,14 @@ export const generateCode = async (
   const hookRunners = api.useHookRunners();
 
   const isV5 = isRouterV5(config);
+  const { mountId } = config.html;
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
   async function generateEntryCode(entrypoint: Entrypoint) {
-    const { entryName, isAutoMount, fileSystemRoutes } = entrypoint;
+    const { entryName, isAutoMount, customBootstrap, fileSystemRoutes } =
+      entrypoint;
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
       if (fileSystemRoutes) {
@@ -233,44 +233,7 @@ export const generateCode = async (
           code,
           'utf8',
         );
-
-        // !modify the entrypoint.entry
-        const entryFile = path.resolve(
-          internalDirectory,
-          `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
-        );
-        entrypoint.entry = entryFile;
       }
-    }
-  }
-};
-
-export const generateIndexCode = async ({
-  appContext,
-  api,
-  entrypoints,
-  bundlerConfigs,
-  config,
-}: {
-  appContext: IAppContext;
-  api: PluginAPI<AppTools<'shared'>>;
-  entrypoints: Entrypoint[];
-  config: AppNormalizedConfig<'shared'>;
-  bundlerConfigs?: webpack.Configuration[] | Rspack.Configuration[];
-}) => {
-  const hookRunners = api.useHookRunners();
-  const { mountId } = config.html;
-  const {
-    srcDirectory,
-    internalSrcAlias,
-    internalDirAlias,
-    internalDirectory,
-    packageName,
-  } = appContext;
-
-  await Promise.all(
-    entrypoints.map(async entrypoint => {
-      const { entryName, customBootstrap, fileSystemRoutes } = entrypoint;
 
       // call modifyEntryImports hook
       const { imports: importStatements } =
@@ -289,7 +252,6 @@ export const generateIndexCode = async ({
       const { plugins } = await hookRunners.modifyEntryRuntimePlugins({
         entrypoint,
         plugins: [],
-        bundlerConfigs: bundlerConfigs as any,
       });
 
       // call modifyEntryRenderFunction hook
@@ -320,6 +282,7 @@ export const generateIndexCode = async ({
         internalDirectory,
         `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
       );
+      entrypoint.entry = entryFile;
 
       // generate entry file.
       if (config.source.enableAsyncEntry) {
@@ -359,6 +322,6 @@ export const generateIndexCode = async ({
       } else {
         fs.outputFileSync(entryFile, code, 'utf8');
       }
-    }),
-  );
+    }
+  }
 };

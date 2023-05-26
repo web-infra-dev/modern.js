@@ -54,10 +54,6 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
         return stringSSRHydrate();
 
         function stringSSRHydrate() {
-          const loadableReadyOptions: any = {
-            chunkLoadingGlobal: config.chunkLoadingGlobal,
-          };
-
           // client render and server prefetch use same logic
           if (
             renderLevel === RenderLevel.CLIENT_RENDER ||
@@ -75,11 +71,11 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
                 );
                 SSRApp = hoistNonReactStatics(SSRApp, App);
                 ModernHydrate(<SSRApp />);
-              }, loadableReadyOptions);
+              });
             } else {
               loadableReady(() => {
                 ModernHydrate(<App context={hydrateContext} />, callback);
-              }, loadableReadyOptions);
+              });
             }
           } else {
             // unknown renderlevel or renderlevel is server prefetch.

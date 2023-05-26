@@ -45,9 +45,6 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   modifyEntryRuntimePlugins: AsyncWaterfall<{
     entrypoint: Entrypoint;
     plugins: RuntimePlugin[];
-    bundlerConfigs?: B extends 'rspack'
-      ? Rspack.Configuration[]
-      : webpack.Configuration[];
   }>;
   modifyEntryRenderFunction: AsyncWaterfall<{
     entrypoint: Entrypoint;
