@@ -6,7 +6,7 @@ title: Frameworks
 
 Modern.js's BFF supports different runtime frameworks, currently Modern.js's BFF supports two runtime frameworks[Express.js](https://expressjs.com/) 和 [Koa.js](https://koajs.com/).
 
-## Function Writing
+## Function Mode
 
 Under the function writing, only the middleware writing method of various runtime frameworks is different, and other implementations are basically the same. Take Express as an example to introduce how to write a middleware by hand in the `api/_ app.ts` and add permission verification:
 
@@ -96,7 +96,7 @@ Refresh the page and you can see that `/api/hello` was accessed successfully:
 
 The above code simulates the way to add middleware to the `/api/_app.ts` to achieve an easy login function. Also, other functions can be implemented in this hook file to extend BFF Server.
 
-## Framework Writing
+## Framework Mode
 
 Under the framework writing, Modern.js does not collect middleware in the `api/_app.ts`, and the running process is controlled by the plugin itself.
 

@@ -51,10 +51,10 @@ Execute `pnpm run dev`, then open `http://localhost:8080/` to see that the page 
 
 In Modern.js, the BFF function routing system is implemented based on the file system, and it is also a conventional routing system.
 
-In **Function Writing**, All files under `api/` will map to an interface. In **Framework Writing**, All files under `api/lambda` will map to an interface
+In **Function Mode**, All files under `api/` will map to an interface. In **Framework Mode**, All files under `api/lambda` will map to an interface
 
 :::note
-Function Writing & Framework Writing will introduce soon.
+Function Mode & Framework Mode will introduce soon.
 
 :::
 
@@ -69,14 +69,14 @@ Files named `index.[jt]s` are mapped to the previous directory.
 - `api/index.ts` -> `{prefix}/`
 - `api/user/index.ts` -> `{prefix}/user`
 
-### Multi-layer Route
+### Multi-layer Routing
 
 Supports parsing nested files, if you create a nested folder structure, the files will still automatically parse routes in the same way.
 
 - `api/hello.ts` -> `{prefix}/hello`
 - `api/user/list.ts` -> `{prefix}/user/list`
 
-### Dynamic Route
+### Dynamic Routing
 
 Create folders or files named with `[xxx]` to support dynamic named routing parameters.
 
