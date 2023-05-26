@@ -91,6 +91,7 @@
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
+    "@testing-library/dom": "^8.14.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",

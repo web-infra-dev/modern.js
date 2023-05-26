@@ -285,7 +285,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "caniuse-lite": "^1.0.30001451",
+    "caniuse-lite": "^1.0.30001489",
     "lodash": "^4.17.21",
     "serialize-javascript": "^6.0.0",
     "react-router-dom": "6.11.2",

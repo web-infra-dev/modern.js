@@ -86,7 +86,8 @@
     "typescript": "^5",
     "webpack": "^5.82.1",
     "webpack-chain": "^6.5.1",
-    "react": ">=17.0.0",
+    "react": "^18",
+    "react-dom": "^18",
     "react-router-dom": "^6.8.1"
   },
   "peerDependencies": {
