@@ -107,11 +107,17 @@ export function getReleaseNoteLine(
   }
 
   const { repository, pullRequestId, summary, summary_zh, author } = commit;
-  const pullRequest = `https://github.com/${repository}/pull/${pullRequestId}`;
+  const pullRequest = pullRequestId
+    ? `https://github.com/${repository}/pull/${pullRequestId}`
+    : '';
   if (lang === 'en') {
-    return `- ${summary} by @${author} in ${pullRequest} \n`;
+    return `- ${summary} by @${author}${
+      pullRequest ? ` in ${pullRequest}` : ''
+    } \n`;
   }
-  return `- ${summary_zh} 由 @${author} 实现，详情可查看 ${pullRequest} \n`;
+  return `- ${summary_zh} 由 @${author} 实现${
+    pullRequest ? `， 详情可查看 ${pullRequest}` : ''
+  } \n`;
 }
 
 export async function genReleaseNote(options: ReleaseNoteOptions) {
