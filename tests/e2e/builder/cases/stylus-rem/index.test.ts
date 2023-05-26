@@ -25,7 +25,7 @@ allProviderTest('should compile stylus and rem correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      'body{color:#f00;font:.28rem Arial,sans-serif}.KsRAA{font-size:.28rem}',
+      'body{color:#f00;font:.28rem Arial,sans-serif}._7352{font-size:.28rem}',
     );
   } else {
     expect(content).toEqual(
