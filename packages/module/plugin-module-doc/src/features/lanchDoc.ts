@@ -1,14 +1,15 @@
 import path from 'path';
 import { fs, fastGlob } from '@modern-js/utils';
-import { demoRuntimeModules } from '../runtimeModule';
+import { pluginPreview } from '@modern-js/doc-plugin-preview';
 import { Options, ModuleDocgenLanguage } from '../types';
-import { remarkTsxToReact } from '../mdx/code-to-jsx';
+import { remarkBuiltIn } from '../mdx/builtin';
 
 export async function launchDoc({
   languages,
   appDir,
   doc,
   isProduction,
+  previewMode,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(path.resolve(appDir, './package.json'), 'utf8'),
@@ -50,16 +51,6 @@ export async function launchDoc({
         root,
         title: json.name,
         lang: DEFAULT_LANG,
-        builderConfig: {
-          tools: {
-            rspack: {
-              plugins: [demoRuntimeModules],
-              watchOptions: {
-                ignored: ['**/virtual-demo*.tsx'],
-              },
-            },
-          },
-        },
         globalStyles: path.join(__dirname, '../static/index.css'),
         themeConfig: {
           // TODO: support dark mode in code block
@@ -73,7 +64,7 @@ export async function launchDoc({
         },
         markdown: {
           remarkPlugins: [
-            [remarkTsxToReact, { appDir, defaultLang: DEFAULT_LANG }],
+            [remarkBuiltIn, { appDir, defaultLang: DEFAULT_LANG }],
           ],
         },
         head: [
@@ -83,6 +74,7 @@ export async function launchDoc({
           </script>
           `,
         ],
+        plugins: [pluginPreview({ isMobile: previewMode === 'mobile' })],
       },
     },
     {

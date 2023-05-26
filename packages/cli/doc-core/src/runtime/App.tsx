@@ -32,8 +32,8 @@ export async function initPageData(routePath: string): Promise<PageData> {
       siteData,
       page: {
         pagePath,
-        pageType: mod?.frontmatter?.pageType || 'doc',
         ...extractPageInfo,
+        pageType: mod?.frontmatter?.pageType || mod?.pageType || 'doc',
         title: mod?.title,
         frontmatter: mod?.frontmatter || {},
         // Trade off:

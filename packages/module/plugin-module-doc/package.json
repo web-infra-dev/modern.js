@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@modern-js/doc-core": "workspace:*",
+    "@modern-js/doc-plugin-preview": "workspace:*",
     "react-docgen-typescript": "^2.2.2",
     "react-markdown": "^8.0.5",
     "remark-gfm": "3.0.1"

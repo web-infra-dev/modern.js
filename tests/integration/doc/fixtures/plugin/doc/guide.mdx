@@ -1,0 +1,22 @@
+# Guide
+
+```tsx
+import React from 'react';
+import Button from '@arco-design/mobile-react/esm/button';
+import '@arco-design/mobile-react/esm/button/style';
+import setRootPixel from '@arco-design/mobile-react/tools/flexible';
+
+export default function ButtonDemo() {
+  setRootPixel();
+  return (
+    <>
+    <Button type="default" needActive>
+      Auxiliary
+    </Button>
+    <Button type="default" disabled style={{ marginTop: 20 }}>
+      Disabled
+    </Button>
+    </>
+  );
+}
+```
