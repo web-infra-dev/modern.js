@@ -109,7 +109,7 @@ export const routerPlugin = ({
           }
 
           const router = createStaticRouter(routes, routerContext);
-          context.router = router;
+          context.remixRouter = router;
           context.routerContext = routerContext;
           context.routes = routes;
           // set routeManifest in context to be consistent with csr context
@@ -130,11 +130,12 @@ export const routerPlugin = ({
 
           const getRouteApp = () => {
             return (props => {
-              const { router, routerContext } = useContext(RuntimeReactContext);
+              const { remixRouter, routerContext } =
+                useContext(RuntimeReactContext);
               return (
                 <App {...props}>
                   <StaticRouterProvider
-                    router={router}
+                    router={remixRouter}
                     context={routerContext!}
                     hydrate={false}
                   />
@@ -153,6 +154,17 @@ export const routerPlugin = ({
 
           return next({
             App: RouteApp,
+          });
+        },
+        pickContext: ({ context, pickedContext }, next) => {
+          const { remixRouter } = context;
+
+          return next({
+            context,
+            pickedContext: {
+              ...pickedContext,
+              router: remixRouter,
+            },
           });
         },
       };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   createBrowserRouter,
   createHashRouter,
@@ -10,7 +10,7 @@ import {
 } from '@modern-js/utils/runtime/router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/utils/runtime-browser';
-import { Plugin } from '../../core';
+import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
@@ -114,6 +114,9 @@ export const routerPlugin = ({
                     hydrationData,
                   });
 
+              const runtimeContext = useContext(RuntimeReactContext);
+              runtimeContext.remixRouter = router;
+
               return (
                 <App {...props}>
                   <RouterProvider router={router} />
@@ -135,6 +138,17 @@ export const routerPlugin = ({
 
           return next({
             App: RouteApp,
+          });
+        },
+        pickContext: ({ context, pickedContext }, next) => {
+          const { remixRouter } = context;
+
+          return next({
+            context,
+            pickedContext: {
+              ...pickedContext,
+              router: remixRouter,
+            },
           });
         },
       };
