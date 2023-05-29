@@ -111,6 +111,18 @@ export class PluginDriver {
     return result.flat();
   }
 
+  async addSSGRoutes() {
+    const result = await Promise.all(
+      this.#plugins
+        .filter(plugin => typeof plugin.addSSGRoutes === 'function')
+        .map(plugin => {
+          return plugin.addSSGRoutes(this.#config.doc || {}, this.#isProd);
+        }),
+    );
+
+    return result.flat();
+  }
+
   globalUIComponents(): string[] {
     const result = this.#plugins.map(plugin => {
       return plugin.globalUIComponents || [];

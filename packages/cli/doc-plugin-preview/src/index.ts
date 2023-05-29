@@ -13,6 +13,7 @@ export type Options = {
 
 // eslint-disable-next-line import/no-mutable-exports
 export let routeMeta: RouteMeta[];
+export const demoRoutes: { path: string }[] = [];
 
 /**
  * The plugin is used to preview component.
@@ -94,5 +95,8 @@ export const pageType = "blank";
       __dirname,
       `../static/${isMobile ? 'mobile' : 'web'}.css`,
     ),
+    addSSGRoutes() {
+      return demoRoutes;
+    },
   };
 }
