@@ -4,7 +4,7 @@ import { builderPluginEntry } from '@builder/plugins/entry';
 import { createBuilder } from '../helper';
 import { builderPluginSwc } from '@/plugins/swc';
 import { BuilderConfig } from '@/types';
-import { builderAntdPlugin } from '~/../builder/src/plugins/antd';
+import { builderPluginAntd } from '~/../builder/src/plugins/antd';
 
 describe('plugins/swc', () => {
   it('should disable preset_env in target other than web', async () => {
@@ -98,7 +98,7 @@ describe('plugins/swc', () => {
       entry: {
         main: './src/index.js',
       },
-      plugins: [builderPluginSwc(), builderPluginEntry(), builderAntdPlugin()],
+      plugins: [builderPluginSwc(), builderPluginEntry(), builderPluginAntd()],
       builderConfig: {
         source: {
           transformImport: false,
@@ -121,7 +121,7 @@ describe('plugins/swc', () => {
       entry: {
         main: './src/index.js',
       },
-      plugins: [builderPluginSwc(), builderPluginEntry(), builderAntdPlugin()],
+      plugins: [builderPluginSwc(), builderPluginEntry(), builderPluginAntd()],
     });
 
     const {

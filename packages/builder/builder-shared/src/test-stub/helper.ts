@@ -29,6 +29,7 @@ export const mockBuilderPlugins: Plugins = {
   svg: genMockPlugin('builder-plugin-svg'),
   html: genMockPlugin('builder-plugin-html'),
   antd: genMockPlugin('antd'),
+  arco: genMockPlugin('arco'),
   tsChecker: genMockPlugin('builder-plugin-ts-checker'),
   checkSyntax: genMockPlugin('builder-plugin-check-syntax'),
 };

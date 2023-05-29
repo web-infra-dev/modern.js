@@ -70,6 +70,7 @@
     "webpack": "^5.82.1"
   },
   "devDependencies": {
+    "@arco-design/web-react": "^2.46.0",
     "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",

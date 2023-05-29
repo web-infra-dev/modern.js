@@ -23,6 +23,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "libraryName": "antd",
         "style": true,
       },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "es",
+        "libraryName": "@arco-design/web-react",
+        "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "react-icon",
+        "libraryName": "@arco-design/web-react/icon",
+      },
     ],
     "presetEnv": {
       "coreJs": "3.30",
@@ -721,6 +732,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "libraryDirectory": "es",
         "libraryName": "antd",
         "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "es",
+        "libraryName": "@arco-design/web-react",
+        "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "react-icon",
+        "libraryName": "@arco-design/web-react/icon",
       },
     ],
     "presetEnv": {
@@ -1430,6 +1452,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "libraryName": "antd",
         "style": true,
       },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "lib",
+        "libraryName": "@arco-design/web-react",
+        "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "react-icon-cjs",
+        "libraryName": "@arco-design/web-react/icon",
+      },
     ],
     "presetEnv": {
       "targets": [
@@ -1855,6 +1888,17 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "libraryDirectory": "es",
         "libraryName": "antd",
         "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "es",
+        "libraryName": "@arco-design/web-react",
+        "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "react-icon",
+        "libraryName": "@arco-design/web-react/icon",
       },
     ],
     "presetEnv": {

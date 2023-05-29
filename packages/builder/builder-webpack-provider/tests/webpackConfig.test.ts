@@ -2,7 +2,7 @@ import { expect, describe, it } from 'vitest';
 import { builderPluginBasic } from '@/plugins/basic';
 import { createStubBuilder } from '@/stub';
 import { builderPluginBabel } from '@/plugins/babel';
-import { builderAntdPlugin } from '~/../builder/src/plugins/antd';
+import { builderPluginAntd } from '~/../builder/src/plugins/antd';
 
 describe('webpackConfig', () => {
   it('should allow tools.webpack to return config', async () => {
@@ -230,7 +230,7 @@ describe('webpackConfig', () => {
   it('should not set default pluginImport for Babel', async () => {
     // camelToDashComponentName
     const builder = await createStubBuilder({
-      plugins: [builderPluginBabel(), builderAntdPlugin()],
+      plugins: [builderPluginBabel(), builderPluginAntd()],
     });
     const config = await builder.unwrapWebpackConfig();
 
@@ -246,7 +246,7 @@ describe('webpackConfig', () => {
   it('should not have any pluginImport in Babel', async () => {
     // camelToDashComponentName
     const builder = await createStubBuilder({
-      plugins: [builderPluginBabel(), builderAntdPlugin()],
+      plugins: [builderPluginBabel(), builderPluginAntd()],
       builderConfig: {
         source: {
           transformImport: false,

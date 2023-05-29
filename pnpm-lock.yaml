@@ -73,6 +73,7 @@ importers:
 
   packages/builder/builder-rspack-provider:
     specifiers:
+      '@arco-design/web-react': ^2.46.0
       '@babel/core': ^7.21.8
       '@babel/preset-typescript': ^7.21.5
       '@modern-js/builder-shared': workspace:*
@@ -117,6 +118,7 @@ importers:
       rspack-plugin-virtual-module: 0.1.0
       webpack: 5.82.1
     devDependencies:
+      '@arco-design/web-react': 2.46.1_biqbaboplfbrettd7655fr4n2y
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/node': 14.18.35
@@ -179,6 +181,7 @@ importers:
 
   packages/builder/builder-webpack-provider:
     specifiers:
+      '@arco-design/web-react': ^2.46.0
       '@modern-js/babel-preset-app': workspace:*
       '@modern-js/babel-preset-base': workspace:*
       '@modern-js/builder-shared': workspace:*
@@ -227,6 +230,7 @@ importers:
       ts-loader: 9.4.1_b73sldshwrlnhikvubwhfqvrfa
       webpack: 5.82.1
     devDependencies:
+      '@arco-design/web-react': 2.46.1_biqbaboplfbrettd7655fr4n2y
       '@modern-js/e2e': link:../../toolkit/e2e
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       '@types/caniuse-lite': 1.0.1
@@ -4218,6 +4222,16 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
+  tests/e2e/builder/cases/import-arco:
+    specifiers:
+      '@arco-design/web-react': ^2.46.0
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@arco-design/web-react': 2.46.1_biqbaboplfbrettd7655fr4n2y
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+
   tests/e2e/builder/cases/node-polyfill:
     specifiers:
       react: ^18
@@ -6031,6 +6045,30 @@ packages:
   /@arco-design/transformable/1.0.2:
     resolution: {integrity: sha512-Wq3zOf7RAKxwRWaQ2t0u8QoLSWlPG7pJV6GdUyPQ++QiD9n0zXycmwRiNVzSep8GY9Ur5PCLBiCs7B92CaUwcA==}
     dev: false
+
+  /@arco-design/web-react/2.46.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-XjG44rODJklDu++OApvxjt/TbRrgkNqVq6grt/H+9skysm46jFn2SwhuSljBHmjo11LtIeB1m/OMPMaFtafeYg==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      '@arco-design/color': 0.4.0
+      '@babel/runtime': 7.21.5
+      b-tween: 0.3.3
+      b-validate: 1.4.4
+      compute-scroll-into-view: 1.0.17
+      dayjs: 1.11.3
+      lodash: 4.17.21
+      number-precision: 1.5.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-focus-lock: 2.9.1_react@18.2.0
+      react-transition-group: 4.4.2_biqbaboplfbrettd7655fr4n2y
+      resize-observer-polyfill: 1.5.1
+      scroll-into-view-if-needed: 2.2.20
+      shallowequal: 1.1.0
+    transitivePeerDependencies:
+      - '@types/react'
 
   /@arco-design/web-react/2.46.1_rj7ozvcq3uehdlnj3cbwzbi5ce:
     resolution: {integrity: sha512-XjG44rODJklDu++OApvxjt/TbRrgkNqVq6grt/H+9skysm46jFn2SwhuSljBHmjo11LtIeB1m/OMPMaFtafeYg==}
@@ -27039,6 +27077,23 @@ packages:
       use-callback-ref: 1.3.0_iapumuv4e6jcjznwuxpf4tt22e
       use-sidecar: 1.1.2_iapumuv4e6jcjznwuxpf4tt22e
 
+  /react-focus-lock/2.9.1_react@18.2.0:
+    resolution: {integrity: sha512-pSWOQrUmiKLkffPO6BpMXN7SNKXMsuOakl652IBuALAu1esk+IcpJyM+ALcYzPTTFz1rD0R54aB9A4HuP5t1Wg==}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.5
+      focus-lock: 0.11.2
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-clientside-effect: 1.2.6_react@18.2.0
+      use-callback-ref: 1.3.0_react@18.2.0
+      use-sidecar: 1.1.2_react@18.2.0
+
   /react-helmet-async/1.3.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-9jZ57/dAn9t3q6hneQS0wukqC2ENOBgMNVEhb/ZG9ZSxUetzVIw4iAmEU38IaVg3QGYauQPhSeUTuIUtFglWpg==}
     peerDependencies:
@@ -30766,6 +30821,19 @@ packages:
       react: 18.2.0
       tslib: 2.4.0
 
+  /use-callback-ref/1.3.0_react@18.2.0:
+    resolution: {integrity: sha512-3FT9PRuRdbB9HfXhEq35u4oZkvpJ5kuYbpqhCfmiZyReuRgpnhDlbr2ZEnnuS0RrJAPn6l23xjFg9kpDM+Ms7w==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      react: 18.2.0
+      tslib: 2.4.0
+
   /use-sidecar/1.1.2_iapumuv4e6jcjznwuxpf4tt22e:
     resolution: {integrity: sha512-epTbsLuzZ7lPClpz2TyryBfztm7m+28DlEv2ZCQ3MDr5ssiwyOwGH/e5F9CkfWjJ1t4clvI58yF822/GUkjjhw==}
     engines: {node: '>=10'}
@@ -30777,6 +30845,20 @@ packages:
         optional: true
     dependencies:
       '@types/react': 18.0.21
+      detect-node-es: 1.1.0
+      react: 18.2.0
+      tslib: 2.4.0
+
+  /use-sidecar/1.1.2_react@18.2.0:
+    resolution: {integrity: sha512-epTbsLuzZ7lPClpz2TyryBfztm7m+28DlEv2ZCQ3MDr5ssiwyOwGH/e5F9CkfWjJ1t4clvI58yF822/GUkjjhw==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      '@types/react': ^16.9.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
       detect-node-es: 1.1.0
       react: 18.2.0
       tslib: 2.4.0

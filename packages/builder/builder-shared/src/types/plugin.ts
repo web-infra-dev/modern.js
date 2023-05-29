@@ -52,6 +52,7 @@ export type Plugins = {
   svg: PluginsFn;
   html: PluginsFn;
   antd: PluginsFn;
+  arco: PluginsFn;
   tsChecker: PluginsFn;
   checkSyntax: PluginsFn;
 };

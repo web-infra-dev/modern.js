@@ -4,7 +4,7 @@ import type {
   DefaultBuilderPlugin,
 } from '@modern-js/builder-shared';
 
-export const builderAntdPlugin = (): DefaultBuilderPlugin => ({
+export const builderPluginAntd = (): DefaultBuilderPlugin => ({
   name: `builder-plugin-antd`,
 
   setup(api) {
@@ -38,7 +38,7 @@ export const builderAntdPlugin = (): DefaultBuilderPlugin => ({
   },
 });
 
-function useSSR(target: BuilderTarget | BuilderTarget[]) {
+export function useSSR(target: BuilderTarget | BuilderTarget[]) {
   return (Array.isArray(target) ? target : [target]).some(item =>
     ['node', 'service-worker'].includes(item),
   );
