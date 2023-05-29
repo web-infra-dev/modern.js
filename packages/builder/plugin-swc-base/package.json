@@ -30,7 +30,6 @@
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
-    "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
     "typescript": "^5",
     "webpack": "^5.82.1"
