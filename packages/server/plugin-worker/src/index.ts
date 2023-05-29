@@ -5,10 +5,13 @@ import {
   isServiceWorker,
   PLUGIN_SCHEMAS,
   ROUTE_SPEC_FILE,
+  SERVER_DIR,
 } from '@modern-js/utils';
 import {
   MANIFEST_FILE,
   PKG_FILE,
+  SERVER_HOOKS,
+  WEB_APP_NAME,
   WORKER_SERVER,
   WORKER_SERVER_ENTRY,
   WRANGLER_FILE,
@@ -48,7 +51,10 @@ export default (): CliPlugin<AppTools> => ({
         if (!isServiceWorker(configContext)) {
           return;
         }
-        writeWorkerServerFile(appDirectory, distDirectory);
+        const enableWorkerInWeb =
+          (configContext.deploy as any).enableWorker ||
+          (configContext.deploy.worker as any)?.web;
+        writeWorkerServerFile(appDirectory, distDirectory, enableWorkerInWeb);
       },
       async afterBuild() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
@@ -58,14 +64,27 @@ export default (): CliPlugin<AppTools> => ({
         if (!isServiceWorker(configContext)) {
           return;
         }
-        writeWorkerServerFile(appDirectory, distDirectory);
+        const enableWorkerInWeb =
+          (configContext.deploy as any).enableWorker ||
+          (configContext.deploy.worker as any)?.web;
+        writeWorkerServerFile(appDirectory, distDirectory, enableWorkerInWeb);
       },
     };
   },
 });
 
-const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
+const writeWorkerServerFile = (
+  appDirectory: string,
+  distDirectory: string,
+  enableWorkerInWeb: boolean,
+) => {
   const workServerDir = path.join(distDirectory, WORKER_SERVER);
+  const serverHookDir = path.join(appDirectory, SERVER_DIR, WEB_APP_NAME);
+  const isExistsServerHook =
+    fs.existsSync(`${serverHookDir}.ts`) ||
+    fs.existsSync(`${serverHookDir}.js`);
+  const relativePath = path.relative(workServerDir, serverHookDir);
+
   fs.removeSync(workServerDir);
   fs.mkdirSync(workServerDir);
   // entry file
@@ -80,6 +99,9 @@ const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
     isSSR: boolean;
     urlPath: string;
   }[] = [];
+  if (isExistsServerHook && !enableWorkerInWeb) {
+    importStr += `import * as ${SERVER_HOOKS} from '${relativePath}'\n`;
+  }
   routes.forEach(
     (route: {
       urlPath: string;
@@ -95,6 +117,7 @@ const writeWorkerServerFile = (appDirectory: string, distDirectory: string) => {
       if (!route.isApi) {
         importStr += `import ${route.entryName}template from "../${route.entryPath}";\n`;
         pageStr += `"${route.urlPath}": {
+        ${isExistsServerHook && !enableWorkerInWeb ? `${SERVER_HOOKS},` : ''}
         entryName: "${route.entryName}",
         template: ${route.entryName}template,
         serverRender: ${

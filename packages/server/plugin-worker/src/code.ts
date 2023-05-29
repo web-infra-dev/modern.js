@@ -5,13 +5,14 @@ import loadableStats from "../loadable-stats.json";
 import routeManifest from "../routes-manifest.json";
 import { manifest } from "./manifest";
 
+const handler = createHandler(manifest);
+
 async function handleRequest(request) {
   const options = {
     request,
     loadableStats,
     routeManifest,
   }
-  const handler = createHandler(manifest);
 
   const { body, status, headers } = await handler(options);
 

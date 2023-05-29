@@ -3052,6 +3052,7 @@ importers:
 
   packages/server/prod-server:
     specifiers:
+      '@modern-js/plugin': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -3081,6 +3082,7 @@ importers:
       serve-static: ^1.14.1
       typescript: ^5
     dependencies:
+      '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/server-core': link:../core
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.5.1
