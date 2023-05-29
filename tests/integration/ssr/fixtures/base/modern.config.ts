@@ -9,6 +9,11 @@ export default defineConfig({
   server: {
     ssr: true,
   },
+  tools: {
+    webpack(config) {
+      config.output!.chunkLoadingGlobal = 'hello xxx';
+    },
+  },
   plugins: [
     appTools({
       bundler: bundler === 'rspack' ? 'experimental-rspack' : 'webpack',
