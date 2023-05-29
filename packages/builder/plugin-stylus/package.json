@@ -50,8 +50,7 @@
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "^5",
-    "webpack": "^5.82.1",
-    "wireit": "^0.7.1"
+    "webpack": "^5.82.1"
   },
   "peerDependencies": {
     "@modern-js/builder-rspack-provider": "workspace:^2.21.1"

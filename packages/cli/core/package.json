@@ -82,24 +82,14 @@
   },
   "devDependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/babel__code-frame": "^7.0.3",
-    "@types/babel__core": "^7.20.0",
     "@types/jest": "^29",
-    "@types/less": "^3.0.3",
     "@types/node": "^14",
-    "autoprefixer": "10.4.13",
     "tsm": "2.3.0",
-    "html-webpack-plugin": "5.5.0",
     "jest": "^29",
-    "postcss": "8.4.21",
-    "sass": "^1.45.0",
-    "terser-webpack-plugin": "^5.1.4",
-    "typescript": "^5",
-    "webpack": "^5.82.1"
+    "typescript": "^5"
   },
   "sideEffects": false,
   "publishConfig": {
