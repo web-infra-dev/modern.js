@@ -249,7 +249,6 @@ importers:
       '@scripts/vitest-config': workspace:*
       esbuild: 0.15.7
       typescript: ^5
-      wireit: ^0.7.1
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       esbuild: 0.15.7
@@ -259,7 +258,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 5.0.4
-      wireit: 0.7.1
 
   packages/builder/plugin-image-compress:
     specifiers:
@@ -294,7 +292,6 @@ importers:
       '@scripts/vitest-config': workspace:*
       node-libs-browser: 2.2.1
       typescript: ^5
-      wireit: ^0.7.1
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       node-libs-browser: 2.2.1
@@ -305,7 +302,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 5.0.4
-      wireit: 0.7.1
 
   packages/builder/plugin-stylus:
     specifiers:
@@ -319,7 +315,6 @@ importers:
       stylus-loader: 7.1.0
       typescript: ^5
       webpack: ^5.82.1
-      wireit: ^0.7.1
     dependencies:
       '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
@@ -332,7 +327,6 @@ importers:
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 5.0.4
       webpack: 5.82.1
-      wireit: 0.7.1
 
   packages/builder/plugin-swc:
     specifiers:
@@ -517,7 +511,6 @@ importers:
 
   packages/cli/core:
     specifiers:
-      '@modern-js/babel-preset-app': workspace:*
       '@modern-js/builder-shared': workspace:*
       '@modern-js/node-bundle-require': workspace:*
       '@modern-js/plugin': workspace:*
@@ -525,44 +518,25 @@ importers:
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
       '@scripts/jest-config': workspace:*
-      '@types/babel__code-frame': ^7.0.3
-      '@types/babel__core': ^7.20.0
       '@types/jest': ^29
-      '@types/less': ^3.0.3
       '@types/node': ^14
-      autoprefixer: 10.4.13
-      html-webpack-plugin: 5.5.0
       jest: ^29
-      postcss: 8.4.21
-      sass: ^1.45.0
-      terser-webpack-plugin: ^5.1.4
       tsm: 2.3.0
       typescript: ^5
-      webpack: ^5.82.1
     dependencies:
       '@modern-js/node-bundle-require': link:../../toolkit/node-bundle-require
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
-      '@modern-js/babel-preset-app': link:../babel-preset-app
       '@modern-js/builder-shared': link:../../builder/builder-shared
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/babel__code-frame': 7.0.3
-      '@types/babel__core': 7.20.0
       '@types/jest': 29.2.6
-      '@types/less': 3.0.3
       '@types/node': 14.18.35
-      autoprefixer: 10.4.13_postcss@8.4.21
-      html-webpack-plugin: 5.5.0_webpack@5.82.1
       jest: 29.5.0_@types+node@14.18.35
-      postcss: 8.4.21
-      sass: 1.54.4
-      terser-webpack-plugin: 5.3.6_webpack@5.82.1
       tsm: 2.3.0
       typescript: 5.0.4
-      webpack: 5.82.1
 
   packages/cli/doc-core:
     specifiers:
@@ -12500,10 +12474,6 @@ packages:
   /@types/aria-query/4.2.2:
     resolution: {integrity: sha512-HnYpAE1Y6kRyKM/XkEuiRQhTHvkzMBurTHnpFLYLBGPIylZNPs9jJcuOOYWxPLJCSEtmZT0Y8rHDokKN7rRTig==}
 
-  /@types/babel__code-frame/7.0.3:
-    resolution: {integrity: sha512-2TN6oiwtNjOezilFVl77zwdNPwQWaDBBCCWWxyo1ctiO3vAtd7H/aB/CBJdw9+kqq3+latD0SXoedIuHySSZWw==}
-    dev: true
-
   /@types/babel__core/7.20.0:
     resolution: {integrity: sha512-+n8dL/9GWblDO0iU6eZAwEIJVr5DWigtle+Q6HLOrh/pdbXOhOtqzq8VPPE2zvNJzSKY4vH/z3iT3tn0A3ypiQ==}
     dependencies:
@@ -22269,6 +22239,7 @@ packages:
 
   /jsonc-parser/3.0.0:
     resolution: {integrity: sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==}
+    dev: false
 
   /jsonfile/2.4.0:
     resolution: {integrity: sha512-PKllAqbgLgxHaj8TElYymKCAgrASebJrWpTnEkOaTowt23VKXXN0sUeriJ+eh7y6ufb/CC5ap11pz71/cM0hUw==}
@@ -25807,14 +25778,6 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /proper-lockfile/4.1.2:
-    resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
-    dependencies:
-      graceful-fs: 4.2.10
-      retry: 0.12.0
-      signal-exit: 3.0.7
-    dev: true
-
   /property-information/5.6.0:
     resolution: {integrity: sha512-YUHSPk+A30YPv+0Qf8i9Mbfe/C0hdPXk1s1jPVToV8pk8BQtpw10ct89Eo7OWkutrwqvT0eicAxlOg3dOAu8JA==}
     dependencies:
@@ -27901,11 +27864,6 @@ packages:
     engines: {node: '>=0.12'}
     dev: false
 
-  /retry/0.12.0:
-    resolution: {integrity: sha512-9LkiTwjUh6rT555DtE9rTX+BKByPfrMzEAtnlEtdEwr3Nkffwiihqe2bWADg+OQRjt9gl6ICdmB/ZFDCGAtSow==}
-    engines: {node: '>= 4'}
-    dev: true
-
   /reusify/1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -29483,6 +29441,7 @@ packages:
       serialize-javascript: 6.0.1
       terser: 5.17.3
       webpack: 5.82.1
+    dev: false
 
   /terser-webpack-plugin/5.3.8_5kdg5ibgw3do6r335nvs4fbnj4:
     resolution: {integrity: sha512-WiHL3ElchZMsK27P8uIUh4604IgJyAW47LVXGbEoB21DbQcZ+OuMpGjVYnEUaqcWM6dO8uS2qUbA7LSCWqvsbg==}
@@ -31789,18 +31748,6 @@ packages:
     resolution: {integrity: sha512-aB2BGVMsX1iPJ79hqC5JvbDvUXpy3nhoxmbiFw74aEewrHPnkNiFYAFbx+BgurhxuOUZV+qIj/9HurtO8ZTH5w==}
     engines: {node: '>= 0.10.0'}
     hasBin: true
-    dev: true
-
-  /wireit/0.7.1:
-    resolution: {integrity: sha512-TwuKae0aHk06DZ2omLW6YF4Y74YxCyuRCcsjZMm+cUPRXhvxAU2JhYyuCvD9wIALWK+cQUpB9GjeRFPRAbKsdw==}
-    engines: {node: '>=14.14.0'}
-    hasBin: true
-    dependencies:
-      braces: 3.0.2
-      chokidar: 3.5.3
-      fast-glob: 3.2.11
-      jsonc-parser: 3.0.0
-      proper-lockfile: 4.1.2
     dev: true
 
   /with/7.0.2:

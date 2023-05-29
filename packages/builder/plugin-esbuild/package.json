@@ -46,8 +46,7 @@
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "typescript": "^5",
-    "wireit": "^0.7.1"
+    "typescript": "^5"
   },
   "sideEffects": false,
   "publishConfig": {
