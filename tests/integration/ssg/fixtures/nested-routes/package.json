@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "ssg-fixtures-nested-routes",
+  "version": "2.9.0",
+  "scripts": {
+    "build": "modern build"
+  },
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-ssg": "workspace:*",
+    "@modern-js/app-tools": "workspace:*"
+  }
+}
