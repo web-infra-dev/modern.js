@@ -42,11 +42,6 @@ export const createRenderHandler = ({
     }
 
     const templatePath = entry;
-
-    if (!fs.existsSync(templatePath)) {
-      throw new Error(`Could not find template file: ${templatePath}`);
-    }
-
     const content = await readFile(templatePath);
     if (!content) {
       return null;

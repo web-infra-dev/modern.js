@@ -3053,6 +3053,7 @@ importers:
       ignore-styles: ^5.0.1
       jest: ^29
       lru-cache: ^6.0.0
+      memfs: ^3.5.1
       merge-deep: ^3.0.3
       node-mocks-http: ^1.11.0
       path-to-regexp: ^6.2.0
@@ -3087,6 +3088,7 @@ importers:
       '@types/serve-static': 1.13.10
       axios: 1.2.1
       jest: 29.5.0_@types+node@14.18.35
+      memfs: 3.5.1
       node-mocks-http: 1.11.0
       portfinder: 1.0.28
       typescript: 5.0.4
@@ -5893,6 +5895,29 @@ importers:
       '@modern-js/prod-server': link:../../../../../packages/server/prod-server
       '@modern-js/tsconfig': link:../../../../../packages/review/tsconfig
       '@types/node': 16.11.68
+      '@types/react': 18.0.21
+      '@types/react-dom': 18.0.6
+      typescript: 5.0.4
+
+  tests/integration/write-to-dist:
+    specifiers:
+      '@modern-js/app-tools': workspace:*
+      '@modern-js/plugin-swc': workspace:*
+      '@modern-js/runtime': workspace:*
+      '@types/node': ^14
+      '@types/react': ^18
+      '@types/react-dom': ^18
+      react: ^18
+      react-dom: ^18
+      typescript: ^5
+    dependencies:
+      '@modern-js/runtime': link:../../../packages/runtime/plugin-runtime
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@modern-js/app-tools': link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc': link:../../../packages/cli/plugin-swc
+      '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
       typescript: 5.0.4
@@ -19231,7 +19256,7 @@ packages:
       deepmerge: 4.3.0
       fs-extra: 9.1.0
       glob: 7.2.0
-      memfs: 3.4.12
+      memfs: 3.5.1
       minimatch: 3.1.2
       schema-utils: 2.7.0
       semver: 7.3.7
@@ -19262,7 +19287,7 @@ packages:
       deepmerge: 4.3.0
       fs-extra: 9.1.0
       glob: 7.2.0
-      memfs: 3.4.12
+      memfs: 3.5.1
       minimatch: 3.1.2
       schema-utils: 2.7.0
       semver: 7.3.7
@@ -23218,6 +23243,12 @@ packages:
 
   /memfs/3.4.12:
     resolution: {integrity: sha512-BcjuQn6vfqP+k100e0E9m61Hyqa//Brp+I3f0OBmN0ATHlFA8vx3Lt8z57R3u2bPqe3WGDBC+nF72fTH7isyEw==}
+    engines: {node: '>= 4.0.0'}
+    dependencies:
+      fs-monkey: 1.0.3
+
+  /memfs/3.5.1:
+    resolution: {integrity: sha512-UWbFJKvj5k+nETdteFndTpYxdeTMox/ULeqX5k/dpaQJCCFmj5EeKv3dBcyO2xmkRAx2vppRu5dVG7SOtsGOzA==}
     engines: {node: '>= 4.0.0'}
     dependencies:
       fs-monkey: 1.0.3
@@ -31313,7 +31344,7 @@ packages:
     dependencies:
       colorette: 1.4.0
       mem: 8.1.1
-      memfs: 3.4.12
+      memfs: 3.5.1
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 3.1.2
@@ -31327,7 +31358,7 @@ packages:
       webpack: ^5.0.0
     dependencies:
       colorette: 2.0.19
-      memfs: 3.4.12
+      memfs: 3.5.1
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.0.0
@@ -31344,7 +31375,7 @@ packages:
         optional: true
     dependencies:
       colorette: 2.0.19
-      memfs: 3.4.12
+      memfs: 3.5.1
       mime-types: 2.1.35
       range-parser: 1.2.1
       schema-utils: 4.0.0

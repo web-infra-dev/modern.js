@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer';
-import { fs } from '@modern-js/utils';
+import { fs as extraFS } from '@modern-js/utils';
+import type { IFs } from 'memfs';
 import LRU from 'lru-cache';
 
 const Byte = 1;
@@ -13,9 +14,7 @@ type FileCache = {
 
 const getContentLength = (cache: FileCache) => cache.content.length;
 
-const createCacheItem = async (filepath: string, mtime: Date) => {
-  const content = await fs.readFile(filepath);
-
+const createCacheItem = async (content: Buffer, mtime: Date) => {
   return {
     content,
     mtime,
@@ -26,6 +25,8 @@ export class LruReader {
 
   // private timer?: NodeJS.Timeout;
 
+  private fs!: IFs;
+
   constructor() {
     this.cache = new LRU({
       max: 256 * MB,
@@ -34,20 +35,18 @@ export class LruReader {
     });
   }
 
-  public init() {
-    // this.timeTask();
+  public init(fs?: IFs) {
+    this.fs = fs || (extraFS as unknown as IFs);
   }
 
   public close() {
-    // if (this.timer) {
-    //   clearInterval(this.timer);
-    // }
+    // empty
   }
 
   public async read(filepath: string) {
+    const { fs } = this;
     if (this.cache.has(filepath)) {
       const { content } = this.cache.get(filepath)!;
-
       return { content };
     }
 
@@ -65,13 +64,14 @@ export class LruReader {
       return null;
     }
 
-    const item = await createCacheItem(filepath, stat.mtime);
+    const content = (await fs.promises.readFile(filepath)) as Buffer;
+    const item = await createCacheItem(content, stat.mtime);
     this.cache.set(filepath, item);
     return item;
   }
 
   public update() {
-    const { cache } = this;
+    const { cache, fs } = this;
     const files = cache.keys();
 
     for (const filepath of files) {
@@ -110,8 +110,8 @@ export const updateFile = () => {
   reader.update();
 };
 
-export const init = () => {
-  reader.init();
+export const init = (fs?: IFs) => {
+  reader.init(fs);
 };
 
 export const close = () => {

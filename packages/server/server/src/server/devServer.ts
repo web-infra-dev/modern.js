@@ -7,6 +7,7 @@ import {
   SERVER_DIR,
   SHARED_DIR,
   LOADABLE_STATS_FILE,
+  logger,
 } from '@modern-js/utils';
 import {
   createProxyHandler,
@@ -114,6 +115,7 @@ export class ModernDevServer extends ModernServer {
 
     // after dev handler
     const afterHandlers = await this.setupAfterDevMiddleware();
+
     this.addMiddlewareHandler([...afters, ...afterHandlers]);
 
     await super.onInit(runner, app);
@@ -248,6 +250,29 @@ export class ModernDevServer extends ModernServer {
 
   protected warmupSSRBundle() {
     // not warmup ssr bundle on development
+  }
+
+  protected initReader() {
+    let isInit = false;
+    if (this.devMiddleware && this.dev.devMiddleware?.writeToDisk === false) {
+      this.addHandler((ctx, next) => {
+        if (isInit) {
+          return next();
+        }
+
+        isInit = true;
+        const { devMiddleware: webpackDevMid } = ctx.res.locals!.webpack;
+        const { outputFileSystem } = webpackDevMid;
+        if (outputFileSystem) {
+          this.reader.init(outputFileSystem);
+        } else {
+          this.reader.init();
+        }
+        return next();
+      });
+    } else {
+      super.initReader();
+    }
   }
 
   protected async onServerChange({
