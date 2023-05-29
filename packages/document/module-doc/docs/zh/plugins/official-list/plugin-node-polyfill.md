@@ -39,7 +39,7 @@ export default defineConfig({
 
 ## 配置
 
-* 类型：
+* **类型：**
 
 ```ts
 type NodePolyfillOptions = {
@@ -86,14 +86,13 @@ export default defineConfig({
 });
 ```
 
-
 ## Node Polyfills
 
 ### Globals
 
-- `Buffer`
-- `process`
-- `console`
+* `Buffer`
+* `process`
+* `console`
 
 当你在代码中使用以上全局变量时，对应 polyfill 会被自动注入。
 
@@ -103,34 +102,34 @@ const bufferData = Buffer.from('xxxx');
 
 ### Modules
 
-- `assert`
-- `buffer`
-- `console`
-- `constants`
-- `crypto`
-- `domain`
-- `events`
-- `http`
-- `https`
-- `os`
-- `path`
-- `punycode`
-- `process`
-- `querystring`
-- `stream`
-- `_stream_duplex`
-- `_stream_passthrough`
-- `_stream_readable`
-- `_stream_transform`
-- `_stream_writable`
-- `string_decoder`
-- `sys`
-- `timers`
-- `tty`
-- `url`
-- `util`
-- `vm`
-- `zlib`
+* `assert`
+* `buffer`
+* `console`
+* `constants`
+* `crypto`
+* `domain`
+* `events`
+* `http`
+* `https`
+* `os`
+* `path`
+* `punycode`
+* `process`
+* `querystring`
+* `stream`
+* `_stream_duplex`
+* `_stream_passthrough`
+* `_stream_readable`
+* `_stream_transform`
+* `_stream_writable`
+* `string_decoder`
+* `sys`
+* `timers`
+* `tty`
+* `url`
+* `util`
+* `vm`
+* `zlib`
 
 当你通过 `require` 或 `import` 等语法在代码中引用以上模块时，对应 polyfill 会被注入。
 
@@ -142,16 +141,16 @@ const bufferData = Buffer.from('xxxx');
 
 ### Fallbacks
 
-- `child_process`
-- `cluster`
-- `dgram`
-- `dns`
-- `fs`
-- `module`
-- `net`
-- `readline`
-- `repl`
-- `tls`
+* `child_process`
+* `cluster`
+* `dgram`
+* `dns`
+* `fs`
+* `module`
+* `net`
+* `readline`
+* `repl`
+* `tls`
 
 目前浏览器端没有以上模块的 polyfill，因此当你引用以上模块时，会自动 fallback 为一个空对象。
 

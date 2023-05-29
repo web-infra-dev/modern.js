@@ -86,14 +86,13 @@ export default defineConfig({
 });
 ```
 
-
 ## Node Polyfills
 
 ### Globals
 
-- `Buffer`
-- `process`
-- `console`
+* `Buffer`
+* `process`
+* `console`
 
 When the above global variables are used directly in code, the corresponding polyfill will be injected.
 
@@ -103,34 +102,34 @@ const bufferData = Buffer.from('xxxx');
 
 ### Modules
 
-- `assert`
-- `buffer`
-- `console`
-- `constants`
-- `crypto`
-- `domain`
-- `events`
-- `http`
-- `https`
-- `os`
-- `path`
-- `punycode`
-- `process`
-- `querystring`
-- `stream`
-- `_stream_duplex`
-- `_stream_passthrough`
-- `_stream_readable`
-- `_stream_transform`
-- `_stream_writable`
-- `string_decoder`
-- `sys`
-- `timers`
-- `tty`
-- `url`
-- `util`
-- `vm`
-- `zlib`
+* `assert`
+* `buffer`
+* `console`
+* `constants`
+* `crypto`
+* `domain`
+* `events`
+* `http`
+* `https`
+* `os`
+* `path`
+* `punycode`
+* `process`
+* `querystring`
+* `stream`
+* `_stream_duplex`
+* `_stream_passthrough`
+* `_stream_readable`
+* `_stream_transform`
+* `_stream_writable`
+* `string_decoder`
+* `sys`
+* `timers`
+* `tty`
+* `url`
+* `util`
+* `vm`
+* `zlib`
 
 When the above module is referenced in code via import / require syntax, the corresponding polyfill will be injected.
 
@@ -142,16 +141,16 @@ const bufferData = Buffer.from('xxxx');
 
 ### Fallbacks
 
-- `child_process`
-- `cluster`
-- `dgram`
-- `dns`
-- `fs`
-- `module`
-- `net`
-- `readline`
-- `repl`
-- `tls`
+* `child_process`
+* `cluster`
+* `dgram`
+* `dns`
+* `fs`
+* `module`
+* `net`
+* `readline`
+* `repl`
+* `tls`
 
 Currently there is no polyfill for the above modules on the browser side, so when you import the above modules, it will automatically fallback to an empty object.
 

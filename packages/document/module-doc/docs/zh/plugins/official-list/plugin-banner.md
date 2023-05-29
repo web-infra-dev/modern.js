@@ -17,19 +17,18 @@ yarn add @modern-js/plugin-module-banner -D
 pnpm add @modern-js/plugin-module-banner -D
 ```
 
-
 ### 注册插件
 
 在 Module Tools 中，你可以按照如下方式注册插件：
 
 ```ts
-import moduleTools, defineConfig from '@modern-js/module-tools';
-import pluginBanner from '@modern-js/plugin-module-banner';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { modulePluginBanner } from '@modern-js/plugin-module-banner';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    pluginBanner({
+    modulePluginBanner({
       banner: {
         js: '//comment',
         css: '/*comment*/',
@@ -48,7 +47,8 @@ export default defineConfig({
 ### 在 JS 文件顶部增加版权信息
 
 ```ts
-import pluginBanner from '@modern-js/plugin-module-banner';
+import { modulePluginBanner } from '@modern-js/plugin-module-banner';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 const copyRight = `/*
  © Copyright 2020 xxx.com or one of its affiliates.
@@ -62,7 +62,8 @@ const copyRight = `/*
 
 export default defineConfig({
   plugins: [
-    pluginBanner({
+    moduleTools(),
+    modulePluginBanner({
       banner: {
         js: copyRight,
       },
@@ -73,7 +74,7 @@ export default defineConfig({
 
 ## 配置
 
-* 类型：
+* **类型：**
 
 ```ts
 type BannerOptions = {

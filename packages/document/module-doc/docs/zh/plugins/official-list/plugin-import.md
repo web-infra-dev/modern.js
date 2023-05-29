@@ -29,13 +29,13 @@ pnpm add @modern-js/plugin-module-import -D
 在 Module Tools 中，你可以按照如下方式注册插件：
 
 ```ts
-import moduleTools, defineConfig from '@modern-js/module-tools';
-import moduleImport from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    moduleImport({
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'antd',
         style: true,
@@ -49,7 +49,7 @@ export default defineConfig({
 
 ## 配置
 
-* 类型：
+* **类型：**
 
 ```ts
 type Options = {
@@ -66,11 +66,13 @@ type Options = {
 使用示例：
 
 ```ts
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    moduleTools(),
+    modulePluginImport({
       pluginImport: [
         // babel-plugin-import 的 options 配置
         {
@@ -109,13 +111,14 @@ import { MyButton as Btn } from 'foo';
 
 添加右侧的配置：
 
-
 ```ts
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    moduleTools(),
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'foo',
         customName: 'foo/es/{{ member }}'
@@ -130,11 +133,13 @@ export default defineConfig({
 其中的 `{{ member }}` 会被替换为相应的引入成员
 
 ```ts focus=8:8
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    moduleTools(),
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'foo',
         customName: 'foo/es/{{ member }}'
@@ -143,7 +148,6 @@ export default defineConfig({
   ],
 });
 ```
-
 
 ---
 转换后:
@@ -154,17 +158,18 @@ import Btn from 'foo/es/MyButton';
 
 </CH.Spotlight>
 
-
 可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 `` customName: (member) => `foo/es/${member}`  `` ，但是不会有 Node-API 的调用开销。
 
 这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 
 ```ts focus=8:8
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    moduleTools(),
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'foo',
         customName: 'foo/es/{{ kebabCase member }}',
