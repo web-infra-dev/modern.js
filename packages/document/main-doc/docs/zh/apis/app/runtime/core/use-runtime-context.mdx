@@ -28,6 +28,7 @@ type RuntimeContext = {
     cookie: string;
   };
   store: ReduckStore;
+  router: RemixRouter;
 };
 
 function useRuntimeContext(): RuntimeContext;
@@ -42,6 +43,7 @@ function useRuntimeContext(): RuntimeContext;
   - `headers`：请求头信息。
   - `cookie`：请求的 cookie 信息。
 - `store`：在开启了 state 插件的时候，该值为 reduck 全局 `store`。
+- `router`：在开启 router 插件的时候，该值为 React Router 的 `createBrowserRouter`/`createHashRouter`/`createStaticRouter` 等方法返回的 router 实例对象。
 
 ## 示例
 
