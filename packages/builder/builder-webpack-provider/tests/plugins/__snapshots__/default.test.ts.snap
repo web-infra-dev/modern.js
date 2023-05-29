@@ -471,6 +471,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "antd",
                 ],
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -589,6 +608,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "style": true,
                   },
                   "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
@@ -1337,6 +1375,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "antd",
                 ],
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -1461,6 +1518,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "style": true,
                   },
                   "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
@@ -2149,6 +2225,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "antd",
                 ],
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -2271,6 +2366,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "style": true,
                   },
                   "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
@@ -2885,6 +2999,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "antd",
                 ],
                 [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
@@ -3009,6 +3142,25 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "style": true,
                   },
                   "antd",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  "@arco-design/web-react",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+                  {
+                    "camel2DashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                  "@arco-design/web-react/icon",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
