@@ -36,7 +36,8 @@ export const plugins: Plugins = {
     ),
   assetsRetry: () =>
     import('./assetsRetry').then(m => m.builderPluginAssetsRetry()),
-  antd: () => import('./antd').then(m => m.builderAntdPlugin()),
+  antd: () => import('./antd').then(m => m.builderPluginAntd()),
+  arco: () => import('./arco').then(m => m.builderPluginArco()),
   tsChecker: () => import('./tsChecker').then(m => m.builderPluginTsChecker()),
   checkSyntax: () =>
     import('./checkSyntax').then(m => m.builderPluginCheckSyntax()),

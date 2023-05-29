@@ -1,48 +1,74 @@
 Used to import the code and style of the component library on demand, which is equivalent to [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import).
 
-The difference from [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import) is that `source.transformImport` is not coupled with Babel. The Builder will automatically identify whether the currently used tools is Babel, SWC or Rspack, and apply the corresponding on-demand import configuration.
+The difference between it and [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import) is that `source.transformImport` is not coupled with Babel. Builder will automatically identify whether the currently used tools is Babel, SWC or Rspack, and apply the corresponding on-demand import configuration.
 
 - **Type:**
 
 ```ts
-type Config = false | Array<{
-  libraryName: string;
-  libraryDirectory?: string;
-  style?: string | boolean;
-  styleLibraryDirectory?: string;
-  camelToDashComponentName?: boolean;
-  transformToDefaultImport?: boolean;
-  customName?: ((member: string) => string | undefined) | string;
-  customStyleName?: ((member: string) => string | undefined) | string;
-}>;
+type Config =
+  | false
+  | Array<{
+      libraryName: string;
+      libraryDirectory?: string;
+      style?: string | boolean;
+      styleLibraryDirectory?: string;
+      camelToDashComponentName?: boolean;
+      transformToDefaultImport?: boolean;
+      customName?: ((member: string) => string | undefined) | string;
+      customStyleName?: ((member: string) => string | undefined) | string;
+    }>;
 ```
 
 - **Default:**
 
-When the [antd component library](https://www.npmjs.com/package/antd) &lt;= 4.x version is installed in the project, Builder will automatically add the corresponding on-demand import configuration. The default configuration is as follows:
+When the [Ant Design component library](https://www.npmjs.com/package/antd) &lt;= 4.x version is installed in the project, Builder will automatically add the following default configurations:
 
 ```js
-{
+const defaultAntdConfig = {
   libraryName: 'antd',
-  libraryDirectory: target === 'node' ? 'lib' : 'es',
+  libraryDirectory: isServer ? 'lib' : 'es',
   style: true,
-}
+};
 ```
 
-You can manually set `transformImport: false` to turn off the default behavior of transformImport.
+When the [Arco Design component library](https://www.npmjs.com/package/@arco-design/web-react) is installed in the project, Builder will automatically add the following default configurations:
 
-For example, when you use `externals` to avoid bundling antd, because `transformImport` will convert the imported path of antd by default, the matching path changes and externals cannot take effect. At this time, you can set `transformImport: false` to avoid this problem.
+```js
+const defaultArcoConfig = [
+  {
+    libraryName: '@arco-design/web-react',
+    libraryDirectory: isServer ? 'lib' : 'es',
+    camelToDashComponentName: false,
+    style: true,
+  },
+  {
+    libraryName: '@arco-design/web-react/icon',
+    libraryDirectory: isServer ? 'react-icon-cjs' : 'react-icon',
+    camelToDashComponentName: false,
+  },
+];
+```
+
+:::tip
+When you add configurations for `antd` or `@arco-design/web-react`, the priority will be higher than the default configurations mentioned above.
+:::
 
 ### Example
 
 When using the above antd default configuration:
 
 ```js
-{
-  libraryName: 'antd',
-  libraryDirectory: 'es',
-  style: true,
-}
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: true,
+      },
+    ],
+  },
+};
 ```
 
 The source code is as follows:
@@ -57,6 +83,20 @@ It will be transformed into:
 import Button from 'antd/es/button';
 import 'antd/es/button/style';
 ```
+
+### Disable Default Config
+
+You can manually set `transformImport: false` to disable the default config.
+
+```js
+export default {
+  source: {
+    transformImport: false,
+  },
+};
+```
+
+For example, if you use `externals` to avoid bundling antd, because `transformImport` will convert the imported path of antd by default, the matching path changes and externals cannot take effect. At this time, you can disable `transformImport` to avoid this problem.
 
 ### Configuration
 

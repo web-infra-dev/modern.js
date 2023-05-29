@@ -1,48 +1,74 @@
 用于按需引入组件库的代码和样式，能力等价于 [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import)。
 
-与 [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import) 的区别在于，`source.transformImport` 不与 Babel 耦合。Builder 会自动识别当前使用的编译工具是 Babel、SWC 还是 Rspack，并添加相应的按需引入配置。
+它与 [babel-plugin-import](https://www.npmjs.com/package/babel-plugin-import) 的区别在于，`source.transformImport` 不与 Babel 耦合。Builder 会自动识别当前使用的编译工具是 Babel、SWC 还是 Rspack，并添加相应的按需引入配置。
 
 - **类型：**
 
 ```ts
-type Config = false | Array<{
-  libraryName: string;
-  libraryDirectory?: string;
-  style?: string | boolean;
-  styleLibraryDirectory?: string;
-  camelToDashComponentName?: boolean;
-  transformToDefaultImport?: boolean;
-  customName?: ((member: string) => string | undefined) | string;
-  customStyleName?: ((member: string) => string | undefined) | string;
-}>;
+type Config =
+  | false
+  | Array<{
+      libraryName: string;
+      libraryDirectory?: string;
+      style?: string | boolean;
+      styleLibraryDirectory?: string;
+      camelToDashComponentName?: boolean;
+      transformToDefaultImport?: boolean;
+      customName?: ((member: string) => string | undefined) | string;
+      customStyleName?: ((member: string) => string | undefined) | string;
+    }>;
 ```
 
 - **默认值：**
 
-当项目中安装了 [antd 组件库](https://www.npmjs.com/package/antd) &lt;= 4.x 版本时，Builder 会自动添加对应的按需引入配置，默认配置如下：
+当项目中安装了 [Ant Design 组件库](https://www.npmjs.com/package/antd) &lt;= 4.x 版本时，Builder 会自动添加以下默认配置：
 
 ```js
-{
+const defaultAntdConfig = {
   libraryName: 'antd',
-  libraryDirectory: target === 'node' ? 'lib' : 'es',
+  libraryDirectory: isServer ? 'lib' : 'es',
   style: true,
-}
+};
 ```
 
-你可以手动设置 `transformImport: false` 来关掉 transformImport 的默认行为。
+当项目中安装了 [Arco Design 组件库](https://www.npmjs.com/package/@arco-design/web-react) 时，Builder 会自动添加以下默认配置：
 
-比如，当你使用了 `externals` 来避免打包 antd 时，由于 `transformImport` 默认会转换 antd 的引用路径，导致匹配的路径发生了变化，因此 externals 无法生效。此时你可以设置 `transformImport: false` 来避免该问题。
+```js
+const defaultArcoConfig = [
+  {
+    libraryName: '@arco-design/web-react',
+    libraryDirectory: isServer ? 'lib' : 'es',
+    camelToDashComponentName: false,
+    style: true,
+  },
+  {
+    libraryName: '@arco-design/web-react/icon',
+    libraryDirectory: isServer ? 'react-icon-cjs' : 'react-icon',
+    camelToDashComponentName: false,
+  },
+];
+```
+
+:::tip
+当你添加了 `antd` 或 `@arco-design/web-react` 相关的配置时，优先级会高于上述默认配置。
+:::
 
 ### 示例
 
 当使用上述 antd 默认配置：
 
 ```js
-{
-  libraryName: 'antd',
-  libraryDirectory: 'es',
-  style: true,
-}
+export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: true,
+      },
+    ],
+  },
+};
 ```
 
 源代码如下：
@@ -57,6 +83,20 @@ import { Button } from 'antd';
 import Button from 'antd/es/button';
 import 'antd/es/button/style';
 ```
+
+### 禁用默认配置
+
+你可以手动设置 `transformImport: false` 来关掉 transformImport 的默认行为。
+
+```js
+export default {
+  source: {
+    transformImport: false,
+  },
+};
+```
+
+比如，当你使用了 `externals` 来避免打包 antd 时，由于 `transformImport` 默认会转换 antd 的引用路径，导致匹配的路径发生了变化，因此 externals 无法正确生效，此时你可以设置关闭 `transformImport` 来避免该问题。
 
 ### 配置
 
