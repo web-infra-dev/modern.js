@@ -32,7 +32,7 @@ export default {
   /* the default method is GET */
   '/api/getExample': { id: 1 },
 
-  /* You can use custom functions to dynamically return data */
+  /* You can use custom functions to dynamically return data, req and res are both Node.js HTTP objects. */
   'POST /api/addInfo': (req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.end('200');

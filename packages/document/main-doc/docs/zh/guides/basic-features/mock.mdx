@@ -32,7 +32,7 @@ export default {
   /* method 默认为 GET */
   '/api/getExample': { id: 1 },
 
-  /* 可以使用自定义函数根据请求动态返回数据，返回值参考 express middleware */
+  /* 可以使用自定义函数根据请求动态返回数据, req & res 都是 Node.js HTTP 原生对象 */
   'POST /api/addInfo': (req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.end('200');
