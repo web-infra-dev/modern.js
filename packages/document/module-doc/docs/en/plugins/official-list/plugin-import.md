@@ -28,13 +28,13 @@ pnpm add @modern-js/plugin-module-import -D
 In Module Tools, you can register plugins in the following way:
 
 ```ts
-import moduleTools, defineConfig from '@modern-js/module-tools';
-import moduleImport from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    moduleImport({
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'antd',
         style: true,
@@ -65,11 +65,13 @@ The elements of the array are configuration objects for `babel-plugin-import`, w
 **Example:**
 
 ```ts
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    moduleTools(),
+    modulePluginImport({
       pluginImport: [
         // babel-plugin-import`s options config
         {
@@ -108,13 +110,14 @@ import { MyButton as Btn } from 'foo';
 
 Add the following configuration on the right-hand side:
 
-
 ```ts
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    moduleTools(),
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'foo',
         customName: 'foo/es/{{ member }}'
@@ -129,11 +132,11 @@ export default defineConfig({
 The `{{ member }}` in it will be replaced with the corresponding import member.
 
 ```ts focus=8:8
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'foo',
         customName: 'foo/es/{{ member }}'
@@ -142,7 +145,6 @@ export default defineConfig({
   ],
 });
 ```
-
 
 ---
 After transformation:
@@ -153,18 +155,18 @@ import Btn from 'foo/es/MyButton';
 
 </CH.Spotlight>
 
-
 Template `customName: 'foo/es/{{ member }}'` is the same as `` customName: (member) => `foo/es/${member}` ``, but template value has no performance overhead of Node-API.
 
 The template used here is [handlebars](https://handlebarsjs.com). There are some useful builtin tools, Take the above import statement as an example:
 
-
 ```ts focus=8:8
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
-    moduleImport({
+    moduleTools(),
+    modulePluginImport({
       pluginImport: [{
         libraryName: 'foo',
         customName: 'foo/es/{{ kebabCase member }}',

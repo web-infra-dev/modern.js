@@ -1,6 +1,7 @@
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { babelPlugin } from '@modern-js/libuild-plugin-babel';
 
+// deprecated named export
 export const ModulePolyfillPlugin = (options?: {
   targets?: Record<string, string> | string;
 }): CliPlugin<ModuleTools> => ({
@@ -27,3 +28,6 @@ export const ModulePolyfillPlugin = (options?: {
     },
   }),
 });
+
+// right named export
+export { ModulePolyfillPlugin as modulePluginPolyfill };

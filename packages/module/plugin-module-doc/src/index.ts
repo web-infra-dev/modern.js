@@ -2,7 +2,9 @@ import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import type { PluginOptions } from './types';
 import { run } from './features';
 
-export default (pluginOptions?: PluginOptions): CliPlugin<ModuleTools> => ({
+export const modulePluginDoc = (
+  pluginOptions?: PluginOptions,
+): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-doc',
   setup: api => ({
     registerDev() {
@@ -43,3 +45,6 @@ export default (pluginOptions?: PluginOptions): CliPlugin<ModuleTools> => ({
 });
 
 export { PluginOptions };
+
+// deprecated default export
+export default modulePluginDoc;

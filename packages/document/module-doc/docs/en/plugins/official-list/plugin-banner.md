@@ -17,19 +17,18 @@ yarn add @modern-js/plugin-module-banner -D
 pnpm add @modern-js/plugin-module-banner -D
 ```
 
-
 ### Register
 
 You can install the plugin with the following command:
 
 ```ts
-import moduleTools, defineConfig from '@modern-js/module-tools';
-import pluginBanner from '@modern-js/plugin-module-banner';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { modulePluginBanner } from '@modern-js/plugin-module-banner';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    pluginBanner({
+    modulePluginBanner({
       banner: {
         js: '//comment',
         css: '/*comment*/',
@@ -48,7 +47,9 @@ Note: CSS comments do not support the `//comment` syntax. Refer to [【CSS Comme
 ### Add copyright information at the top of a JS file
 
 ```ts
-import pluginBanner from '@modern-js/plugin-module-banner';
+import { modulePluginBanner } from '@modern-js/plugin-module-banner';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+
 
 const copyRight = `/*
  © Copyright 2020 xxx.com or one of its affiliates.
@@ -62,7 +63,8 @@ const copyRight = `/*
 
 export default defineConfig({
   plugins: [
-    pluginBanner({
+    moduleTools(),
+    modulePluginBanner({
       banner: {
         js: copyRight,
       },
@@ -73,7 +75,7 @@ export default defineConfig({
 
 ## Configuration
 
-* **Type:**
+* **Type**
 
 ```ts
 type BannerOptions = {
