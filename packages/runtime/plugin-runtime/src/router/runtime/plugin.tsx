@@ -143,11 +143,19 @@ export const routerPlugin = ({
         pickContext: ({ context, pickedContext }, next) => {
           const { remixRouter } = context;
 
+          // only export partial common API from remix-router
+          const router = {
+            navigate: remixRouter.navigate,
+            get location() {
+              return remixRouter.state.location;
+            },
+          };
+
           return next({
             context,
             pickedContext: {
               ...pickedContext,
-              router: remixRouter,
+              router,
             },
           });
         },
