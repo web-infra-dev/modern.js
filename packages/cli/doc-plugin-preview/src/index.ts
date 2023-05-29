@@ -96,7 +96,7 @@ export const pageType = "blank";
       `../static/${isMobile ? 'mobile' : 'web'}.css`,
     ),
     addSSGRoutes() {
-      return demoRoutes;
+      return isMobile ? demoRoutes : [];
     },
   };
 }
