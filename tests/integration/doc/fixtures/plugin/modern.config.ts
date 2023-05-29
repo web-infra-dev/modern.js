@@ -6,11 +6,6 @@ import { docPluginDemo } from './plugin';
 export default defineConfig({
   plugins: [docTools()],
   doc: {
-    builderConfig: {
-      output: {
-        disableMinimize: true,
-      },
-    },
     root: path.join(__dirname, 'doc'),
     plugins: [docPluginDemo(), pluginPreview({ isMobile: true })],
   },
