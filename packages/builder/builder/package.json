@@ -41,7 +41,7 @@
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@svgr/webpack": "6.5.1"
+    "@svgr/webpack": "8.0.1"
   },
   "devDependencies": {
     "@scripts/vitest-config": "workspace:*",
