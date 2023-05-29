@@ -6,6 +6,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/transition').then(m => m.builderPluginTransition()),
     import('../plugins/basic').then(m => m.builderPluginBasic()),
     plugins.antd(),
+    plugins.arco(),
     plugins.entry(),
     // plugins.cache(),
     plugins.target(),

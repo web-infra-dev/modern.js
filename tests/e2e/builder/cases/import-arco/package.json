@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@e2e/webpack-builder-import-arco",
+  "version": "2.9.0",
+  "dependencies": {
+    "@arco-design/web-react": "^2.46.0",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}
