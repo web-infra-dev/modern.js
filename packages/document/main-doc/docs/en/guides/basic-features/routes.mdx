@@ -182,7 +182,7 @@ Routes generated from file directories named with `[$]` will be treated as dynam
 
 The `routes/user/[id$]/page.tsx` file will be converted to the `/user/:id?` route. All routes under `/user` will match this route, and the `id` parameter is optional. This route is usually used to distinguish between **creation** and **editing**.
 
-In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to obtain the corresponding named parameter.
+In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to get the corresponding named parameter.
 
 In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
 
@@ -191,7 +191,7 @@ In the loader, params will be passed as the input parameter of the [loader funct
 If you create a `$.tsx` file under the routes directory, it will be treated as the catch-all routing component. When there is no matching route, this component will be rendered.
 
 :::note
-`$.tsx` can be considered as a special `page` route component. When there is a `layout` component in the current directory, `$.tsx` will be rendered as a child component of `layout`.
+`$.tsx` can be considered as a special `page` route component. When there is a `layout.tsx` file in the current directory, `$.tsx` will be rendered as a child component of `layout`.
 :::
 
 For example, the following directory structure:
@@ -215,7 +215,7 @@ params['*']; // => 'aaa/bbb'
 
 ### No-path Layout
 
-When the directory name starts with `__`, the corresponding directory name will not be converted to an actual route path. For example, the following file directory:
+When the directory name starts with `__`, the directory name will not be converted to an actual route path. For example, the following file directory:
 
 ```bash
 .
@@ -449,7 +449,7 @@ However, this also brings a problem: if the chunk corresponding to the route has
 
 In this case, you can define a `Loading` component to display a custom `Loading` component before the static resources are loaded.
 
-To further improve the user experience and reduce loading time, Modern.js supports defining the `prefetch` attribute on the Link component to preload static resources and data. The `prefetch` attribute has three optional values:
+To further improve the user experience and reduce loading time, Modern.js supports defining the `prefetch` attribute on the Link component to preload static resources and data.
 
 ```tsx
 <Link prefetch="intent" to="page">
@@ -460,6 +460,8 @@ To further improve the user experience and reduce loading time, Modern.js suppor
 - Preloading data currently only preloads the data returned by the [Data Loader](/guides/basic-features/data-fetch) in SSR projects.
 
 :::
+
+The `prefetch` attribute has three optional values:
 
 - `none`: default value, no prefetching, no additional behavior.
 - `intent`: This is the value we recommend for most scenarios. When you hover over the Link, the corresponding chunk and data defined in the data loader will be loaded automatically. When you move the mouse away, the loading will be cancelled automatically. In our tests, even fast clicks can reduce loading time by about 200ms.
@@ -504,8 +506,6 @@ export default () => {
 Modern.js provides a series of optimizations for resource loading and rendering for conventional routing by default, and provides out-of-the-box SSR capabilities. When using self-controlled routing, developers need to encapsulate these capabilities themselves. It is recommended to use conventional routing.
 :::
 
-When using self-controlled routing, if the developer turns off the [`runtime.router`](/configure/app/runtime/router) configuration and uses `react-router-dom` directly, they also need to wrap it according to the React Router documentation.
-
 ## Other
 
 By default, Modern.js will enable the built-in routing scheme, which is React Router.
@@ -518,7 +518,9 @@ export default defineConfig({
 });
 ```
 
-Modern.js exposes the API of React Router from the `@modern-js/runtime/router` namespace for developers to use, ensuring that developers and Modern.js use the same code. In addition, in this case, the React Router code will be bundled into the JS output. If the project already has its own routing scheme or does not need to use client-side routing, this feature can be turned off.
+As mentioned above, when the [`runtime.router`](/configure/app/runtime/router) configuration is enabled, Modern.js will export the API of React Router from the `@modern-js/runtime/router` namespace for developers to use, ensuring that developers and Modern.js are using the same code, and automatically wrapping the `Provider` component according to the router configuration. In addition, in this case, the code of React Router will be packed into the JS output.
+
+If the project already has its own routing plan or does not need to use client-side routing, this feature can be disabled.
 
 ```js
 export default defineConfig({
@@ -527,3 +529,5 @@ export default defineConfig({
   },
 });
 ```
+
+As mentioned above, if the [`runtime.router`](/configure/app/runtime/router) configuration is disabled and `react-router-dom` is used directly for project routing management, the `Provider` needs to be wrapped according to the React Router documentation.
