@@ -449,7 +449,7 @@ export const init = (context: RuntimeContext) => {
 在约定式路由下， Modern.js 会根据路由，自动地对路由进行分片，当用户访问具体的路由时，会自动加载对应的分片，这样可以有效地减少首屏加载的时间。但这也带来了一个问题，当用户访问一个路由时，如果该路由对应的分片还未加载完成，就会出现白屏的情况。
 这种情况下你可以通过定义 `Loading` 组件，在静态资源加载完成前，展示一个自定义的 `Loading` 组件。
 
-为了进一步提升用户体验，减少 loading 的时间，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载， `prefetch` 属性有三个可选值：
+为了进一步提升用户体验，减少 loading 的时间，Modern.js 支持在 Link 组件上定义 `prefetch` 属性，可以提前对静态资源和数据进行加载：
 
 ```tsx
 <Link prefetch="intent" to="page">
@@ -460,6 +460,8 @@ export const init = (context: RuntimeContext) => {
 - 对数据的预加载目前只会预加载 SSR 项目中 [Data Loader](/guides/basic-features/data-fetch) 中返回的数据。
 
 :::
+
+`prefetch` 属性有三个可选值：
 
 - `none`， 默认值，不会做 prefetch，没有任何额外的行为。
 - `intent`，这是我们推荐大多数场景下使用的值，当你把鼠标放在 Link 上时，会自动开始加载对应的分片和 Data Loader 中定义的数据，当鼠标移开时，会自动取消加载。在我们的测试中，即使是快速点击，也能减少大约 200ms 的加载时间。
@@ -505,8 +507,6 @@ export default () => {
 Modern.js 默认对约定式路由做了一系列资源加载及渲染上的优化，并且提供了开箱即用的 SSR 能力，而这些能力，在使用自控路由时，都需要开发者自行封装，推荐开发者使用约定式路由。
 :::
 
-使用自控式路由时，如果开发者关闭了 [`runtime.router`](/configure/app/runtime/router) 配置，并直接使用 `react-router-dom`，那还需要根据 React Router 文档自行包裹 `Provider`。
-
 ## 其他路由方案
 
 默认情况下，Modern.js 会开启内置的路由方案，即 React Router。
@@ -519,7 +519,9 @@ export default defineConfig({
 });
 ```
 
-Modern.js 从 `@modern-js/runtime/router` 命名空间暴露了 React Router 的 API 供开发者使用，保证开发者和 Modern.js 中使用同一份代码。另外，这种情况下，React Router 的代码会被打包到 JS 产物中。如果项目已经有自己的路由方案，或者不需要使用客户端路由，可以关闭这个功能。
+如上述配置，当开启 [`runtime.router`](/configure/app/runtime/router) 配置时，Modern.js 会从 `@modern-js/runtime/router` 命名空间导出 React Router 的 API 供开发者使用，保证开发者和 Modern.js 中使用同一份代码，并自动根据 router 配置包裹 `Provider` 组件。另外，这种情况下，React Router 的代码会被打包到 JS 产物中。
+
+如果项目已经有自己的路由方案，或者不需要使用客户端路由，可以关闭这个功能。
 
 ```js
 export default defineConfig({
@@ -529,5 +531,6 @@ export default defineConfig({
 });
 ```
 
+如上述配置， 如果关闭了 [`runtime.router`](/configure/app/runtime/router) 配置，并直接使用 `react-router-dom` 进行项目路由管理时，还需要根据 React Router 文档自行包裹 `Provider`。
 
 
