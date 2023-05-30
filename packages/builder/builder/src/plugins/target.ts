@@ -10,8 +10,14 @@ export const builderPluginTarget = (): DefaultBuilderPlugin => ({
         chain.target('node');
         return;
       }
-      if (target === 'web-worker' || target === 'service-worker') {
+      if (target === 'service-worker') {
         chain.target('webworker');
+        return;
+      }
+
+      // browserslist is not supported when target is web-worker
+      if (target === 'web-worker') {
+        chain.target(['webworker', 'es5']);
         return;
       }
 
