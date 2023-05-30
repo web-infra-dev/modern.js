@@ -1,6 +1,6 @@
 export const EN_LOCALE = {
   solution: {
-    self: 'Please select the solution you want to create',
+    self: 'Please select the type of project you want to create:',
     mwa: 'Web App',
     module: 'Npm Module',
     doc: 'Doc Site',
@@ -9,10 +9,10 @@ export const EN_LOCALE = {
     default: 'Default',
   },
   scenes: {
-    self: 'Please select the scene you want to create',
+    self: 'Please select the project scenario:',
   },
   sub_solution: {
-    self: 'Please select the solution you want to create',
+    self: 'Please select the type of project you want to create:',
     mwa: 'Web App',
     mwa_test: 'Web App (Test)',
     module: 'Npm Module',
@@ -20,9 +20,10 @@ export const EN_LOCALE = {
     monorepo: 'Monorepo',
   },
   action: {
-    self: 'Action',
+    self: 'Please select the operation you want:',
     function: {
-      self: 'Enable features',
+      self: 'Enable Features',
+      question: 'Please select the feature name:',
       tailwindcss: 'Enable Tailwind CSS',
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
@@ -40,12 +41,14 @@ export const EN_LOCALE = {
       rspack: 'Enable Rspack Build (experimental)',
     },
     element: {
-      self: 'Create project element',
+      self: 'Create Element',
+      question: 'Please select the type of element to create:',
       entry: 'New "entry"',
       server: 'New "Custom Web Server" source code directory',
     },
     refactor: {
-      self: 'Automatic refactor',
+      self: 'Automatic Refactor',
+      question: 'Please select the type of refactoring:',
       react_router_5: 'Use React Router v5',
     },
   },
@@ -54,29 +57,29 @@ export const EN_LOCALE = {
     no: 'No',
   },
   language: {
-    self: 'Development Language',
+    self: 'Please select the programming language:',
   },
   packageManager: {
-    self: 'Package Manager',
+    self: 'Please select the package manager:',
+  },
+  entry: {
+    name: 'Please fill in the entry name:',
+    no_empty: 'The entry name cannot be empty!',
+    no_pages: 'The entry name cannot be "pages"!',
   },
   packageName: {
-    self: 'Package Name',
-    sub_name: 'Package Name',
+    self: 'Please fill in the project name:',
+    sub_name: 'Please fill in the sub-project name:',
     no_empty: 'The package name cannot be empty!',
   },
   packagePath: {
-    self: 'Package Path',
+    self: 'Please fill in the sub-project directory name:',
     no_empty: 'The package path cannot be empty!',
     format:
       'Only lowercase letters, numbers and delimiters (-), and underscore (_), and directory delimiters (/) can be used in package path.',
   },
-  entry: {
-    name: 'Entry name',
-    no_empty: 'The entry name cannot be empty!',
-    no_pages: 'The entry name cannot be "pages"!',
-  },
   framework: {
-    self: 'Please select the framework you want to use',
+    self: 'Please select the framework:',
     egg: 'Egg',
     express: 'Express',
     koa: 'Koa',
@@ -84,13 +87,13 @@ export const EN_LOCALE = {
   },
   bff: {
     bffType: {
-      self: 'BFF Type',
+      self: 'Please select the BFF type:',
       func: 'Function',
       framework: 'Framework',
     },
   },
   buildTools: {
-    self: 'Bundler',
+    self: 'Please select the bundler:',
     webpack: 'webpack',
     rspack: 'Rspack (experimental)',
   },

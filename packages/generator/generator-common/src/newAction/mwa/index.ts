@@ -8,6 +8,7 @@ import {
   ActionRefactor,
   ActionRefactorText,
   ActionType,
+  ActionTypeQuestionText,
   ActionTypeText,
 } from '../common';
 import { i18n, localeKeys } from '../../locale';
@@ -66,7 +67,7 @@ export const getMWANewActionSchema = (
       },
       [ActionType.Element]: {
         type: 'string',
-        title: ActionTypeText[ActionType.Element](),
+        title: ActionTypeQuestionText[ActionType.Element](),
         enum: MWAActionElements.map(element => ({
           value: element,
           label: ActionElementText[element](),
@@ -84,7 +85,7 @@ export const getMWANewActionSchema = (
       },
       [ActionType.Function]: {
         type: 'string',
-        title: ActionTypeText[ActionType.Function](),
+        title: ActionTypeQuestionText[ActionType.Function](),
         enum: funcs.map(func => ({
           value: func,
           label:
@@ -105,7 +106,7 @@ export const getMWANewActionSchema = (
       },
       [ActionType.Refactor]: {
         type: 'string',
-        title: ActionTypeText[ActionType.Refactor](),
+        title: ActionTypeQuestionText[ActionType.Refactor](),
         enum: refactors.map(refactor => ({
           value: refactor,
           label: ActionRefactorText[refactor](),

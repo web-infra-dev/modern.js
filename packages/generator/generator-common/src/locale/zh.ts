@@ -22,7 +22,8 @@ export const ZH_LOCALE = {
     self: '请选择你想要的操作',
     function: {
       self: '启用可选功能',
-      tailwindcss: '启用 Tailwind CSS 支持',
+      question: '请选择功能名称',
+      tailwindcss: '启用 「Tailwind CSS」 支持',
       bff: '启用「BFF」功能',
       micro_frontend: '启用「微前端」模式',
       i18n: '启用「国际化（i18n）」功能',
@@ -40,11 +41,13 @@ export const ZH_LOCALE = {
     },
     element: {
       self: '创建工程元素',
+      question: '请选择创建元素类型',
       entry: '新建「应用入口」',
       server: '新建「自定义 Web Server」源码目录',
     },
     refactor: {
       self: '自动重构',
+      question: '请选择重构类型',
       react_router_5: '使用 React Router v5',
     },
   },

@@ -3,6 +3,7 @@ import {
   ActionFunction,
   ActionFunctionText,
   ActionType,
+  ActionTypeQuestionText,
   ActionTypeText,
 } from '../common';
 import { i18n, localeKeys } from '../../locale';
@@ -39,7 +40,7 @@ export const getModuleNewActionSchema = (
       },
       [ActionType.Function]: {
         type: 'string',
-        title: ActionTypeText[ActionType.Function](),
+        title: ActionTypeQuestionText[ActionType.Function](),
         enum: ModuleActionFunctions.filter(func => !funcMap[func]).map(
           func => ({
             value: func,
