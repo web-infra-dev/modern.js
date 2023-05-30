@@ -11,7 +11,7 @@ The usage is same as `template`, and you can use the "entry name" as the key to 
 
 ```js
 export default {
-  output: {
+  html: {
     template: './static/index.html',
     templateByEntries: {
       foo: './src/pages/foo/index.html',

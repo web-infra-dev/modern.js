@@ -8,8 +8,8 @@ export function createBuilderProviderConfig<B extends Bundler>(
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
     htmlConfig.templateByEntries = {
-      ...htmlConfig.templateByEntries,
       ...appContext.htmlTemplates,
+      ...htmlConfig.templateByEntries,
     };
   }
   const config = {

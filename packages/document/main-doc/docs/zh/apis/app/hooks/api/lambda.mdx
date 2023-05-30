@@ -1,10 +1,10 @@
 ---
 title: lambda/*.[tj]s
-sidebar_position: 1
+sidebar_position: 3
 ---
 # lambda/*.[tj]s
 
-在 BFF 框架写法下，声明 API 路由的文件。除了[某些约定文件](/apis/app/hooks/api/framework/lambda#白名单)外，`api/` 目录下的文件会被注册为接口的路由。
+在 [BFF 框架写法](/guides/advanced-features/bff/type.html#框架写法)下，声明 API 路由的文件。除了[某些约定文件](/apis/app/hooks/api/lambda#白名单)外，`lambda/` 目录下的文件会被注册为接口的路由。
 
 :::info
 使用 `api` 目录需要开启 BFF 功能，需要在项目下执行 new 命令启用「BFF」功能。
@@ -34,7 +34,7 @@ sidebar_position: 1
 
 ### 动态路由
 
-同样的，你可以通过创建带有 `[xxx]` 的文件夹或者文件来支持动态的命名路由参数。
+路由系统支持通过 `[]` 命名的文件目录生成动态路由。
 
 - `api/lambda/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
 - `api/lambda/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
@@ -44,7 +44,7 @@ sidebar_position: 1
 
 ### 白名单
 
-默认 `api` 目录下所有文件都会当作 BFF 函数文件去解析，但同样我们也设置了白名单，这些文件不被被解析：
+默认 `lambda` 目录下所有文件都会当作 BFF 函数文件去解析，但同样我们也设置了白名单，这些文件不被被解析：
 
 - 命名以 `_` 开头的文件。例如：`_utils.ts`。
 - 命名以 `_` 开头的文件夹下所有文件。例如：`_utils/index.ts`、`_utils/cp.ts`。
@@ -54,4 +54,4 @@ sidebar_position: 1
 
 ## 函数定义
 
-和函数写法下[函数定义](/apis/app/hooks/api/functions/api#define-function)完全一致。
+和函数写法下[函数定义](/apis/app/hooks/api/api#函数定义)完全一致。

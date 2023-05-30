@@ -5,13 +5,6 @@ sidebar_position: 1
 
 # index.[tj]s
 
-A file that extends the Modern.js Web Server, to add a Hook or Middleware to the Web Server that the project uses.
+A file that extends the Modern.js Web Server. You can add [Hooks](/apis/app/runtime/web-server/hook) or [Middleware](/apis/app/runtime/web-server/middleware) to the Web Server started by the application project in this file.
 
-It can intercept requests and responses, authenticate and role, request preprocessing, exception bottom-up, etc.;
-
-It can also be inserted logic into the built-in processing handler (including route matching, resource addressing, header injection, page rendering, static web hosting).
-
-:::info
-For detail, see [Hook](/apis/app/runtime/web-server/hook) & [Middleware](/apis/app/runtime/web-server/middleware).
-
-:::
+You can intercept and process requests and responses, perform authentication and role verification, preprocess requests, and catch exceptions. You can also insert specific business logic into the built-in processing logic (including route matching, resource addressing, header injection, page rendering, and static web hosting).

@@ -4,7 +4,7 @@ sidebar_position: 1
 ---
 # **/*.[tj]s
 
-在 BFF 函数写法下，声明 API 路由的文件。除了[某些约定文件](/apis/app/hooks/api/functions/api)外，`api` 目录下的文件会被注册为接口的路由。
+在 [BFF 函数写法](/guides/advanced-features/bff/type.html#函数写法)下，声明 API 路由的文件。除了[某些约定文件](/apis/app/hooks/api/api#白名单)外，`api` 目录下的文件会被注册为接口的路由。
 
 :::info
 使用 `api` 目录需要开启 BFF 功能，需要在项目下执行 new 命令启用「BFF」功能。
@@ -31,7 +31,7 @@ sidebar_position: 1
 
 ### 动态路由
 
-同样的，你可以通过创建带有 `[xxx]` 的文件夹或者文件来支持动态的命名路由参数。
+路由系统支持通过 `[]` 命名的文件目录生成动态路由。
 
 - `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
 - `api/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
@@ -64,7 +64,7 @@ export const get = async () => {
 };
 ```
 
-这样导出函数，则会得到一个 `POST` 接口。
+这样导出函数，则会得到一个 `GET` 接口。
 
 应用工程中支持了 9 个 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
 
@@ -75,6 +75,6 @@ export const get = async () => {
 可以在一个文件中定义多个不同 Method 的函数，但如果定义多个相同 Method 的函数，则只有第一个会生效。
 
 :::info
-需要注意的是，定义的函数都应该是异步的，这个与函数调用时类型有关，这个后面会提到。
+需要注意的是，定义的函数都应该是异步的，这个与函数调用时类型有关。
 
 :::

@@ -4,11 +4,15 @@ sidebar_position: 3
 ---
 # pages/
 
-Entry identifier if the application want uses file system-based routing.
+The identifier for the entry point when the application uses the [`Pages` entry](https://modernjs.dev/v1/docs/guides/usages/entries#pages-%E5%85%A5%E5%8F%A3) type.
 
-When the entry is the **Pages entry** type, the files in the `pages/` directory will be analyzed to client side routing.
+:::info
+Compatible with Modern.js 1.0 `Pages` entry. It is recommended to use [conventional routing](guides/basic-features/routes.html#conventional-routing).
+:::
 
-For example, the following directory:
+When the project structure is of the `Pages entry` type, the client-side routing configuration will be obtained by analyzing the files in the `src/pages` directory.
+
+For example, the following directory structure:
 
 ```bash
 .
@@ -20,7 +24,7 @@ For example, the following directory:
         └── info.jsx
 ```
 
-The generated route is configured as:
+The corresponding generated routing configuration is:
 
 ```bash
 [
@@ -30,22 +34,22 @@ The generated route is configured as:
 ]
 ```
 
-Files match the following conditions will not be treated as routing files:
+Files under the pages directory that meet the following conditions will not be treated as routing files:
 
-- suffix is not `.(j|t)sx?`.
-- `.d.ts` type definition file.
-- test file suffix like `.(test|spec|e2e).(j|t)sx?`.
+- Files whose suffix is not `.(j|t)sx?`.
+- `.d.ts` type definition files.
+- Test files ending in `.test.(j|t)sx?` or `.spec.(j|t)sx?` or `.e2e.(j|t)sx?`.
 
 :::tip
-it is recommended to write only the routing files in the `pages/`, and write the business logic to the independent features directory outside the `pages/`. In this way, most of the files in the pages directory will be routing files, and there is no need for additional filtering rules.
+It is recommended to only write entry code in the pages directory and write business logic in the independent features directory outside the pages directory. In this way, most of the files under the pages directory will be routing files, and there is no need for additional filtering rules.
 
 :::
 
 ### Dynamic Routing
 
-Directories or files wrapped with `[]` are considered dynamic routing.
+If the directory name of the route file is named with [], the generated route will be used as a dynamic route.
 
-For example the following directory structure:
+For example, the following directory structure:
 
 ```bash
 .
@@ -60,7 +64,7 @@ For example the following directory structure:
         └── info.jsx
 ```
 
-The generated route is configured as:
+The corresponding generated routing configuration is:
 
 ```js
 [
@@ -72,13 +76,13 @@ The generated route is configured as:
 ]
 ```
 
-Basis dynamic routing, it supports adding special routing suffixes `(*、?、+)`.
+On the basis of dynamic routing, special routing suffixes `(*, ?, +)` can be added.
 
-For example: `src/pages/users/[id]*.tsx` generate route `/users/:id*`
+For example: `src/pages/users/[id]*.tsx` will result in the route `/users/:id*`.
 
 ### Global Layout
 
-When the entire App needs a global `layout`, it can be achieved through `pages/_app.tsx`, which as follows:
+When the entire application needs a global `layout`, it can be achieved through `pages/_app.tsx`. The specific writing method is as follows:
 
 ```js
 import React from 'react';
@@ -93,9 +97,9 @@ export const App = ({Component, ...pageProps}:{ Component: React.ComponentType})
 }
 ```
 
-The above `Component` is the component to which the route is accessed.
+The above `Component` is the component matched when accessing a specific route.
 
-For example the following directory structure:
+For example, the following directory structure:
 
 ```bash
 .
@@ -107,26 +111,26 @@ For example the following directory structure:
     └── index.js
 ```
 
-- access `/`, the `Component` is `pages/index.js`.
-- access `/a`, the `Component` is `pages/a/index.js`.
-- access `/a/b`, the `Component` is `pages/a/b/index.js`.
+- Accessing `/` corresponds to the `Component` component in `pages/index.js`.
+- Accessing `/a` corresponds to the `Component` component in `pages/a/index.js`.
+- Accessing `/a/b` corresponds to the `Component` component in `pages/a/b/index.js`.
 
-:::tip Advantages
+:::tip Advantages of global layout
 
-- preserve the state of the global layout when the page changes.
-- add global css.
-- handle ComponentDidCatch error
-- use [defineConfig](/apis/app/runtime/app/define-config) dynamic configuration runtime.
+- Preserve the state of the global layout when the page changes.
+- Add global styles.
+- ComponentDidCatch error handling.
+- Use [defineConfig](/apis/app/runtime/app/define-config) to dynamically configure the runtime configuration.
 
 :::
 
 ### Partial Layout
 
-When developing an App, where sub routes under the same route may share the layout.
+When developing an application, there are scenarios where sub-routes under the same route share a layout.
 
-For this scene, Modern.js convention, when there is a `_layout.js` in the directory, the routes can shared this layout.
+For this scenario, Modern.js conventionally has a similar effect to global layout when there is `_layout.js` under the directory.
 
-For example the following directory structure:
+For example, the following directory structure:
 
 ```bash
 └── pages
@@ -147,18 +151,18 @@ const ALayout = ({ Component, ...pageProps }) => {
 export default ALayout;
 ```
 
-The Component props is the specific route, for example
+The `Component` parameter is the component corresponding to a specific accessed route, for example:
 
-- access `/a`, the `Component` is `pages/a/index.js`.
-- 访问 `/a/b`, the `Component` is `pages/a/b/index.js`.
+- Accessing `/a` corresponds to the `Component` component in `pages/a/index.js`.
+- Accessing `/a/b` corresponds to the `Component` component in `pages/a/b/index.js`.
 
-In this way, you can use `pages/a/_layout.js` to display the routing common layout in the `a` directory.
+In this way, `pages/a/_layout.js` can be used to meet the layout needs of shared routes under the `a` directory.
 
-### 404 路由
+### 404 Route
 
-The convention `pages/404.[tj]sx` is the default 404 route.
+`pages/404.[tj]sx` is conventionally the default 404 route.
 
-For example the following directory structure:
+For example, the following directory structure:
 
 ```bash
 .
@@ -169,7 +173,7 @@ For example the following directory structure:
         ├── 404.js
 ```
 
-the generated route is configured is as:
+The generated routing configuration is as follows:
 
 ```bash
 [
@@ -179,4 +183,4 @@ the generated route is configured is as:
 ]
 ```
 
-All unmatched routes will match to `pages/404.[tj]s`.
+All unmatched routes will be matched to `pages/404.[tj]s`.

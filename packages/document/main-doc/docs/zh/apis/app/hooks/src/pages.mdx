@@ -4,9 +4,13 @@ sidebar_position: 3
 ---
 # pages/
 
-应用使用基于文件系统路由时的入口标识。
+应用使用 [`Pages` 入口](https://modernjs.dev/v1/docs/guides/usages/entries#pages-%E5%85%A5%E5%8F%A3)时的入口标识。
 
-当项目结构为 `Pages 入口` 类型时， 会分析 `src/pages` 目录下的文件得到客户端路由配置。
+:::info
+兼容 Modern.js 1.0 `Pages` 入口，推荐使用[约定式路由](guides/basic-features/routes.html#约定式路由)。
+:::
+
+当项目结构为 `Pages 入口`类型时， 会分析 `src/pages` 目录下的文件得到客户端路由配置。
 
 举例说明，例如以下目录结构：
 
@@ -20,7 +24,7 @@ sidebar_position: 3
         └── info.jsx
 ```
 
-对应生成的路由配置为:
+对应生成的路由配置为：
 
 ```bash
 [

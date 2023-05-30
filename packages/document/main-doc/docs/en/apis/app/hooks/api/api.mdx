@@ -1,0 +1,80 @@
+---
+title: '**/*.[tj]s'
+sidebar_position: 1
+---
+# **/*.[tj]s
+
+Files that declare API routes in the [BFF Function Mode](/guides/advanced-features/bff/type.html#function-mode). Except for some [convention files](/apis/app/hooks/api/api#allow-list), files in the `api` directory will be registered as the routes.
+
+:::info
+Using the `api` directory requires enabling the BFF feature, and you need to run the `new` command in the project to enable the "BFF" feature.
+
+This file supports using the `js` or `ts` language, but you must use `esm` syntax to export functions.
+
+:::
+
+## Routing File Convention
+
+### Default Routing
+
+The routing system will map files named `index` to the previous directory.
+
+- `api/index.ts` -> `$BASENAME/`
+- `api/user/index.ts` -> `$BASENAME/user`
+
+### Nested Routing
+
+The routing system also supports parsing nested files. If you create a nested folder structure, the files will still automatically resolve routes in the same way.
+
+- `api/hello.ts` -> `$BASENAME/hello`
+- `api/user/list.ts` -> `$BASENAME/user/list`
+
+### Dynamic Routing
+
+The routing system supports generating dynamic routes through file directories named with `[]`.
+
+- `api/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
+- `api/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
+- `api/article/[id]/info.ts` -> `$BASENAME/article/:id/info`
+
+The `$BASENAME` can be configured in `modern.config.js`, and the default value is `/api`.
+
+### Allow List
+
+By default, all files in the `api` directory will be parsed as BFF function files, but we also set a white list for these files that are not parsed:
+
+- Files whose names start with `_`. For example: `_utils.ts`.
+- All files in folders whose names start with `_`. For example: `_utils/index.ts`, `_utils/cp.ts`.
+- Test files. For example: `foo.test.ts`.
+- TypeScript type files. For example: `hello.d.ts`.
+- Files under `node_modules`.
+
+## Function Definition
+
+In addition to the routing rules above, there are also conventions for function definitions and exports in the code.
+
+Functions are exported by name, and the name of the exported function is the HTTP method accepted by the corresponding interface, that is:
+
+```ts
+export const get = async () => {
+  return {
+    name: 'Modern.js',
+    desc: 'Modern web Solutions',
+  };
+};
+```
+
+By exporting functions in this way, you will get a `GET` interface.
+
+The application project supports 9 Method definitions, namely: `GET`, `POST`, `PUT`, `DELETE`, `CONNECT`, `TRACE`, `PATCH`, `OPTION`, `HEAD`, that is, these Methods can be used as the names of the exported functions.
+
+The name is case-insensitive, that is, if it is `GET`, it can be written as `get`, `Get`, `GEt`, `GET`, all of which can be accurately recognized. The default export, that is, `export default xxx`, will be mapped to `Get`.
+
+Because `delete` is a keyword in JavaScript, you can use `del` or `DELETE` instead.
+
+Multiple functions with different Methods can be defined in one file, but if multiple functions with the same Method are defined, only the first one will take effect.
+
+:::info
+It should be noted that the defined functions should all be asynchronous, which is related to the type when calling the function.
+
+:::
