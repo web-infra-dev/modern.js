@@ -41,7 +41,7 @@ export const EN_LOCALE = {
       rspack: 'Enable Rspack Build (experimental)',
     },
     element: {
-      self: 'Create Elements',
+      self: 'Create Element',
       question: 'Please select the type of element to create:',
       entry: 'New "entry"',
       server: 'New "Custom Web Server" source code directory',
