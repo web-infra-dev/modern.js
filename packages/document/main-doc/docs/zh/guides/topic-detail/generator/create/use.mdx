@@ -1,0 +1,66 @@
+---
+sidebar_position: 1
+---
+
+# 使用
+
+Modern.js 提供了 `@modern-js/create` 工具用于创建 Modern.js 提供的工程方案项目，例如 [Web 应用](https://modernjs.dev/)、[Npm 模块](https://modernjs.dev/module-tools)、[文档站](https://modernjs.dev/doc-tools)、[Monorepo](/guides/topic-detail/monorepo/intro.html) 等。
+
+下面将介绍 `@modern-js/create` 的使用姿势。
+
+## 环境准备
+
+import Prerequisites from "@site-docs/components/prerequisites"
+
+<Prerequisites />
+
+## 使用 `@modern-js/create` 创建项目
+
+不需要全局安装 `@modern-js/create`，直接使用 npx 执行即可：
+
+```bash
+npx @modern-js/create@latest [projectDir]
+```
+
+:::info
+`[projectDir]` 为项目目录名称，不填写将会在当前目录创建项目。
+:::
+
+执行过程中需要根据提示完成交互，创建符合需求的项目。
+
+### 创建 Web 应用项目
+
+```bash
+npx @modern-js/create@latest web-app
+? 请选择你想创建的工程类型 Web 应用
+? 请选择开发语言 TS
+? 请选择包管理工具 pnpm
+? 请选择构建工具 webpack
+```
+
+### 创建 Npm 模块项目
+
+```bash
+npx @modern-js/create@latest npm-module
+? 请选择你想创建的工程类型 Npm 模块
+? 请填写项目名称 npm-module
+? 请选择开发语言 TS
+? 请选择包管理工具 pnpm
+```
+
+### 创建文档站项目
+
+```bash
+npx @modern-js/create@latest doc-website
+? 请选择你想创建的工程类型 文档站
+? 请选择包管理工具 pnpm
+```
+
+### 创建 Monorepo
+
+```bash
+npx @modern-js/create@latest monorepo
+? 请选择你想创建的工程类型 Monorepo
+? 请选择包管理工具 pnpm
+```
+
