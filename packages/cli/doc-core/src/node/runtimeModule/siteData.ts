@@ -28,6 +28,7 @@ import {
   SEARCH_INDEX_NAME,
   addLeadingSlash,
   isExternalUrl,
+  withoutBase,
 } from '@/shared/utils';
 
 let pages: PageIndexInfo[] | undefined;
@@ -69,7 +70,7 @@ export function normalizeThemeConfig(
     if (
       !currentLang ||
       !link ||
-      link.startsWith(`/${currentLang}`) ||
+      withoutBase(link, base).startsWith(`/${currentLang}`) ||
       isExternalUrl(link)
     ) {
       return link;
@@ -211,7 +212,6 @@ export function normalizeThemeConfig(
     themeConfig.sidebar = normalizeSidebar(themeConfig?.sidebar);
     themeConfig.nav = normalizeNav(themeConfig?.nav);
   }
-
   return themeConfig as NormalizedDefaultThemeConfig;
 }
 
