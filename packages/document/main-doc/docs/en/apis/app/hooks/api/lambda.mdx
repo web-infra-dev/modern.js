@@ -1,0 +1,57 @@
+---
+title: lambda/*.[tj]s
+sidebar_position: 3
+---
+# lambda/*.[tj]s
+
+Files that declare API routes under the [BFF Framework Mode](/guides/advanced-features/bff/type.html#framework-mode). Except for [convention files](/apis/app/hooks/api/api#allow-list), files under the `lambda/` directory will be registered as the routes.
+
+:::info
+Using the `api` directory requires enabling the BFF function, and you need to run the new command to enable the "BFF" function under the project.
+
+:::
+
+:::tip
+This file supports using `js` or `ts` language, but must export functions using `esm` syntax.
+
+:::
+
+## Routing File Convention
+
+### Default Routing
+
+The routing system will map files named `index` to the previous directory.
+
+- `api/lambda/index.ts` -> `$BASENAME/`
+- `api/lambda/user/index.ts` -> `$BASENAME/user`
+
+### Nested Routing
+
+The routing system also supports parsing nested files. If you create a nested folder structure, the files will still automatically resolve routes in the same way.
+
+- `api/lambda/hello.ts` -> `$BASENAME/hello`
+- `api/lambda/user/list.ts` -> `$BASENAME/user/list`
+
+### Dynamic Routing
+
+The routing system supports generating dynamic routes through file directories named with `[]`.
+
+- `api/lambda/user/[username]/info.ts` -> `$BASENAME/user/:username/info`
+- `api/lambda/user/[username]/delete.ts` -> `$BASENAME/user/:username/delete`
+- `api/lambda/article/[id]/info.ts` -> `$BASENAME/article/:id/info`
+
+The `$BASENAME` can be configured in `modern.config.js`, and the default value is `/api`.
+
+### Allow List
+
+By default, all files in the `lambda` directory are parsed as BFF function files, but we also set up a whitelist so that these files are not parsed:
+
+- Files named starting with `_`. For example: `_utils.ts`.
+- All files in a folder named starting with `_`. For example: `_utils/index.ts`, `_utils/cp.ts`.
+- Test files. For example: `foo.test.ts`.
+- TypeScript type files. For example: `hello.d.ts`.
+- Files under `node_module`.
+
+## Function Definition
+
+Completely consistent with the [Function Definition](/apis/app/hooks/api/api#function-definition) under the function mode.

@@ -1,20 +1,20 @@
 ---
-title: icon
+title: icon/
 sidebar_position: 2
 ---
 
-# Icon
+# icon/
 
-## Set favicon
+## Favicon
 
-When there is a `favicon.*` file in the `config` directory of the project root directory, Modern.js will automatically set the file to the [html.favicon](/configure/app/html/favicon) config to generate the favicon icon for the page:
+When there is a `favicon.*` file in the `config` directory at the root of the project, Modern.js will automatically set the file to the [html.favicon](/configure/app/html/favicon) configuration item for generating the favicon icon on the page:
 
 ```
 ./config
 └── favicon.ico
 ```
 
-After the build is complete, you can see that the following tags are automatically generated in the HTML:
+After the build is completed, you can see the following tags automatically generated in HTML:
 
 ```html
 <link rel="icon" href="/favicon.ico" />
@@ -24,22 +24,22 @@ After the build is complete, you can see that the following tags are automatical
 
 When setting up the favicon, Modern.js looks for files in the following order:
 
-- favicon.png
-- favicon.jpg
-- favicon.jpeg
-- favicon.svg
-- favicon.ico
+- `favicon.png`
+- `favicon.jpg`
+- `favicon.jpeg`
+- `favicon.svg`
+- `favicon.ico`
 
-## Set app icon
+## Apple Touch Icon
 
-When there is an `icon.*` file in the `config` directory of the project root directory, Modern.js will automatically set the file to the [html.appIcon](/configure/app/html/app-icon) config, it is used to generate the apple-touch-icon icon for the iOS system.
+When there is an `icon.*` file in the `config` directory at the root of the project, Modern.js will automatically set the file to the [html.appIcon](/configure/app/html/app-icon) configuration item for generating the Apple Touch Icon icon under the iOS system.
 
 ```
 ./config
 └── icon.png
 ```
 
-After the build is complete, you can see that the following tags are automatically generated in the HTML:
+After the build is completed, you can see the following tags automatically generated in HTML:
 
 ```html
 <link rel="apple-touch-icon" sizes="180*180" href="/static/image/icon.png" />
@@ -47,10 +47,10 @@ After the build is complete, you can see that the following tags are automatical
 
 ### Order
 
-When setting the app icon, Modern.js looks for files in the following order:
+When setting up the app icon, Modern.js looks for files in the following order:
 
-- icon.png
-- icon.jpg
-- icon.jpeg
-- icon.svg
-- icon.ico
+- `icon.png`
+- `icon.jpg`
+- `icon.jpeg`
+- `icon.svg`
+- `icon.ico`
