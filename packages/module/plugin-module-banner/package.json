@@ -17,15 +17,13 @@
   ],
   "version": "2.21.1",
   "types": "./src/index.ts",
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
-      },
-      "default": "./dist/esm/index.js"
+        "require": "./dist/index.js"
+      }
     }
   },
   "scripts": {
@@ -58,6 +56,6 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/index.d.ts"
   }
 }
