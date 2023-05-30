@@ -23,7 +23,7 @@ export const EN_LOCALE = {
     self: 'Please select the operation you want:',
     function: {
       self: 'Enable Features',
-      question: 'Please select the name of feature:',
+      question: 'Please select the feature name:',
       tailwindcss: 'Enable Tailwind CSS',
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',
@@ -57,10 +57,10 @@ export const EN_LOCALE = {
     no: 'No',
   },
   language: {
-    self: 'Please select the development language:',
+    self: 'Please select the programming language:',
   },
   packageManager: {
-    self: 'Please select the package management tool:',
+    self: 'Please select the package manager:',
   },
   entry: {
     name: 'Please fill in the entry name:',
@@ -93,7 +93,7 @@ export const EN_LOCALE = {
     },
   },
   buildTools: {
-    self: 'Please select the bundler tool:',
+    self: 'Please select the bundler:',
     webpack: 'webpack',
     rspack: 'Rspack (experimental)',
   },

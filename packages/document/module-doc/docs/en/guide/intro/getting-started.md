@@ -26,7 +26,7 @@ Next, in the issue interaction, follow the options below.
 ```bash
 ? Please select the type of project you want to create: Npm Module
 ? Please fill in the project name: library
-? Please select the development language: TS
+? Please select the programming language: TS
 ? Please select the package manager: pnpm
 ```
 
