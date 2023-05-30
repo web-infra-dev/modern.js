@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
@@ -91,8 +91,16 @@ export class RouterPlugin {
             };
           }
 
+          const prevManifestAsset = compilation.getAsset(ROUTE_MANIFEST_FILE);
+          const prevManifest = prevManifestAsset
+            ? prevManifestAsset.source.source().toString()
+            : JSON.stringify({ routeAssets: {} });
+
           const manifest = {
-            routeAssets,
+            routeAssets: {
+              ...JSON.parse(prevManifest),
+              ...routeAssets,
+            },
           };
 
           const injectedContent = `
@@ -144,9 +152,10 @@ export class RouterPlugin {
             );
           }
 
-          const filename = path.join(outputPath, ROUTE_MANIFEST_FILE);
-          await fs.ensureFile(filename);
-          await fs.writeFile(filename, JSON.stringify(manifest, null, 2));
+          compilation.emitAsset(
+            ROUTE_MANIFEST_FILE,
+            new RawSource(JSON.stringify(manifest, null, 2)),
+          );
         },
       );
     });
