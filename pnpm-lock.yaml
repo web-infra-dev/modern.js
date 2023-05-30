@@ -4230,6 +4230,12 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
+  tests/e2e/builder/cases/moment:
+    specifiers:
+      moment: ^2
+    dependencies:
+      moment: 2.29.3
+
   tests/e2e/builder/cases/node-polyfill:
     specifiers:
       react: ^18

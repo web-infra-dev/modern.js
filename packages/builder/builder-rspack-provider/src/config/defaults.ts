@@ -31,7 +31,7 @@ export const createDefaultConfig = () =>
       buildCache: true,
       printFileSize: true,
       removeConsole: false,
-      // removeMomentLocale: false,
+      removeMomentLocale: false,
       chunkSplit: {
         strategy: 'split-by-experience',
       },
