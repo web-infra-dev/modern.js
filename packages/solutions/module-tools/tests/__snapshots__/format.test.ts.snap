@@ -43,9 +43,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
   enumerable: true,
-  get: function() {
-    return _default;
-  }
+  get: () => _default
 });
 const _utils = require("./utils");
 const _default = (str) => (0, _utils.addPrefix)("DEBUG:", str);
@@ -59,9 +57,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "addPrefix", {
   enumerable: true,
-  get: function() {
-    return addPrefix;
-  }
+  get: () => addPrefix
 });
 const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
 "
@@ -189,9 +185,7 @@ exports[`format is umd buildType is bundle 1`] = `
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: function() {
-            return _default;
-        }
+        get: ()=>_default
     });
     var __getOwnPropNames = Object.getOwnPropertyNames;
     var __commonJS = (cb, mod)=>function __require() {
