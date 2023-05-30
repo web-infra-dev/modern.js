@@ -14,7 +14,7 @@ describe('Check basic render in development', () => {
   let appPort: number;
 
   beforeAll(async () => {
-    const appDir = join(fixtureDir, 'base');
+    const appDir = join(fixtureDir, 'basic');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
   });
