@@ -23,7 +23,7 @@ export const EN_LOCALE = {
     self: 'Please select the operation you want:',
     function: {
       self: 'Enable Features',
-      question: 'Please select the features you want to enable:',
+      question: 'Please select the name of feature:',
       tailwindcss: 'Enable Tailwind CSS',
       bff: 'Enable BFF',
       micro_frontend: 'Enable Micro Frontend',

@@ -22,7 +22,7 @@ export const ZH_LOCALE = {
     self: '请选择你想要的操作',
     function: {
       self: '启用可选功能',
-      question: '请选择需要启用的功能',
+      question: '请选择功能名称',
       tailwindcss: '启用 「Tailwind CSS」 支持',
       bff: '启用「BFF」功能',
       micro_frontend: '启用「微前端」模式',
