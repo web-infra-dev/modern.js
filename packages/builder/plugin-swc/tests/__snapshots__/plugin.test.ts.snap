@@ -37,6 +37,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
               "exclude": [],
               "extensions": {
                 "lodash": {
+                  "cwd": "<ROOT>",
                   "ids": [
                     "lodash",
                     "lodash-es",
@@ -90,6 +91,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
               "exclude": [],
               "extensions": {
                 "lodash": {
+                  "cwd": "<ROOT>",
                   "ids": [
                     "lodash",
                     "lodash-es",
@@ -146,6 +148,7 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
             "exclude": [],
             "extensions": {
               "lodash": {
+                "cwd": "<ROOT>",
                 "ids": [
                   "lodash",
                   "lodash-es",
@@ -203,6 +206,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
             "exclude": [],
             "extensions": {
               "lodash": {
+                "cwd": "<ROOT>",
                 "ids": [
                   "lodash",
                   "lodash-es",
@@ -256,6 +260,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
             "exclude": [],
             "extensions": {
               "lodash": {
+                "cwd": "<ROOT>",
                 "ids": [
                   "lodash",
                   "lodash-es",
@@ -311,6 +316,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
             "exclude": [],
             "extensions": {
               "lodash": {
+                "cwd": "<ROOT>",
                 "ids": [
                   "lodash",
                   "lodash-es",
@@ -366,6 +372,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
             "exclude": [],
             "extensions": {
               "lodash": {
+                "cwd": "<ROOT>",
                 "ids": [
                   "lodash",
                   "lodash-es",
@@ -421,6 +428,7 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
             "exclude": [],
             "extensions": {
               "lodash": {
+                "cwd": "<ROOT>",
                 "ids": [
                   "lodash",
                   "lodash-es",
@@ -505,6 +513,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
               "exclude": [],
               "extensions": {
                 "lodash": {
+                  "cwd": "<ROOT>",
                   "ids": [
                     "lodash",
                     "lodash-es",
@@ -558,6 +567,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
               "exclude": [],
               "extensions": {
                 "lodash": {
+                  "cwd": "<ROOT>",
                   "ids": [
                     "lodash",
                     "lodash-es",
