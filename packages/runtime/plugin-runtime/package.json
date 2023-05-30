@@ -27,6 +27,7 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
+      "require": "./dist/cjs/index.js",
       "default": "./dist/esm/index.js"
     },
     "./loadable": {

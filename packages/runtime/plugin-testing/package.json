@@ -66,6 +66,15 @@
       "jsnext:source": "./src/base/index.ts",
       "types": "./dist/types/base/index.d.ts",
       "default": "./dist/cjs/base/index.js"
+    },
+    "./bff": {
+      "jsnext:source": "./src/runtime-testing/bff.ts",
+      "node": {
+        "import": "./dist/esm-node/runtime-testing/bff.js",
+        "require": "./dist/cjs/runtime-testing/bff.js"
+      },
+      "types": "./dist/types/runtime-testing/bff.d.ts",
+      "default": "./dist/esm/runtime-testing/bff.js"
     }
   },
   "typesVersions": {
@@ -93,6 +102,9 @@
       ],
       "base": [
         "./dist/types/base/index.d.ts"
+      ],
+      "bff": [
+        "./dist/types/runtime-testing/bff.d.ts"
       ]
     }
   },

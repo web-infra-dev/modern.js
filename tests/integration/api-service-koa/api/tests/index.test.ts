@@ -1,8 +1,8 @@
-import { testBff } from '@modern-js/runtime/testing';
-import get from '..';
+import { testBff } from '@modern-js/runtime/testing/bff';
 
 describe('basic usage', () => {
   it('should support get', async () => {
+    const { get } = await import('..');
     const data = await get();
     expect(data).toEqual({
       message: 'Hello Modern.js',
@@ -10,6 +10,7 @@ describe('basic usage', () => {
   });
 
   it('should support testBff', async () => {
+    const { get } = await import('..');
     await testBff(get)
       .expect('Content-Type', /json/)
       .expect(200, { message: 'Hello Modern.js' });

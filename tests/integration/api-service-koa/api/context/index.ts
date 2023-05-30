@@ -1,6 +1,6 @@
+import { useContext } from '@modern-js/runtime/koa';
+
 export const get = async () => {
-  const { useContext } = await import('@modern-js/runtime/koa');
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const ctx = useContext();
   const { res } = ctx;
   res.setHeader('x-id', '1');
@@ -10,8 +10,6 @@ export const get = async () => {
 };
 
 export const post = async () => {
-  const { useContext } = await import('@modern-js/runtime/koa');
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const ctx = useContext();
   return {
     message: ctx.message,
