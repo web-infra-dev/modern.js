@@ -340,6 +340,7 @@ importers:
       '@swc/helpers': 0.5.0
       '@types/babel__core': ^7.20.0
       antd: '4'
+      lodash: ^4.17.21
       magic-string: 0.29.0
       react: ^18
       react-dom: ^18
@@ -358,6 +359,7 @@ importers:
       '@swc/helpers': 0.5.0
       '@types/babel__core': 7.20.0
       antd: 4.21.4_biqbaboplfbrettd7655fr4n2y
+      lodash: 4.17.21
       magic-string: 0.29.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -4101,14 +4103,17 @@ importers:
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/e2e': workspace:*
       '@modern-js/utils': workspace:*
+      '@types/lodash': ^4.14.195
       '@types/node': ^14
       '@types/react': ^18
       '@types/react-dom': ^18
+      lodash: ^4.17.21
       playwright: ^1.25.1
       react: ^18
       react-dom: ^18
       typescript: ^5
     dependencies:
+      lodash: 4.17.21
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     devDependencies:
@@ -4122,6 +4127,7 @@ importers:
       '@modern-js/builder-webpack-provider': link:../../../packages/builder/builder-webpack-provider
       '@modern-js/e2e': link:../../../packages/toolkit/e2e
       '@modern-js/utils': link:../../../packages/toolkit/utils
+      '@types/lodash': 4.14.195
       '@types/node': 14.18.35
       '@types/react': 18.0.21
       '@types/react-dom': 18.0.6
@@ -11681,7 +11687,7 @@ packages:
       '@babel/preset-env': 7.21.5_@babel+core@7.21.8
       '@babel/types': 7.21.5
       '@mdx-js/mdx': 1.6.22
-      '@types/lodash': 4.14.181
+      '@types/lodash': 4.14.195
       js-string-escape: 1.0.1
       loader-utils: 2.0.4
       lodash: 4.17.21
@@ -12851,11 +12857,15 @@ packages:
   /@types/lodash-es/4.17.6:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
     dependencies:
-      '@types/lodash': 4.14.181
+      '@types/lodash': 4.14.195
     dev: true
 
   /@types/lodash/4.14.181:
     resolution: {integrity: sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==}
+    dev: true
+
+  /@types/lodash/4.14.195:
+    resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
 
   /@types/lru-cache/5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
