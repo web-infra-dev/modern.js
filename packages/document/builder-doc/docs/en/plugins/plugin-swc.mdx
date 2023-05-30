@@ -184,10 +184,34 @@ Remove `React` runtime type checking. This is ported from [@babel/plugin-react-t
 
 #### extensions.lodash
 
-- **Type:** `{ cwd?: string; ids?: string;}`
-- **Default:** `{ cwd: process.cwd(), ids: [] }`
+- **Type:**
 
-Ported from [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
+```ts
+type LodashOptions = {
+  cwd?: string;
+  ids?: string[];
+};
+```
+
+- **Default:**
+
+```ts
+const defaultOptions = {
+  cwd: process.cwd(),
+  ids: ['lodash', 'lodash-es'],
+};
+```
+
+Ported from [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash), it is used to automatically convert references to Lodash into on-demand imports, thereby reducing the bundle size of Lodash code.
+
+```ts
+// Input
+import { get, throttle } from 'lodash';
+
+// Output
+import get from 'lodash/get';
+import throttle from 'lodash/throttle';
+```
 
 #### extensions.styledComponent
 

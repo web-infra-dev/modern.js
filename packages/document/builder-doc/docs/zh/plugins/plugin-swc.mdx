@@ -184,10 +184,34 @@ type RemovePropTypesOptions = {
 
 #### extensions.lodash
 
-- **类型：** `{ cwd?: string; ids?: string;}`
-- **默认值：** `{ cwd: process.cwd(), ids: [] }`
+- **类型：**
 
-移植自 [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
+```ts
+type LodashOptions = {
+  cwd?: string;
+  ids?: string[];
+};
+```
+
+- **默认值：**
+
+```ts
+const defaultOptions = {
+  cwd: process.cwd(),
+  ids: ['lodash', 'lodash-es'],
+};
+```
+
+移植自 [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash)，用于自动将 Lodash 的引用转换为按需引入，从而减少打包后的 Lodash 代码大小。
+
+```ts
+// Input
+import { get, throttle } from 'lodash';
+
+// Output
+import get from 'lodash/get';
+import throttle from 'lodash/throttle';
+```
 
 #### extensions.styledComponent
 
