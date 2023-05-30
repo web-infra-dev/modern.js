@@ -162,7 +162,6 @@ export default ({
             appContext,
             async onBeforeBuild({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
-              const entrypoints = cloneDeep(originEntrypoints);
               await generateRoutes(appContext);
               await generateIndexCode({
                 appContext,
@@ -199,7 +198,6 @@ export default ({
 
             async onBeforeCreateCompiler({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
-              const entrypoints = cloneDeep(originEntrypoints);
               await generateIndexCode({
                 appContext,
                 config: resolvedConfig,

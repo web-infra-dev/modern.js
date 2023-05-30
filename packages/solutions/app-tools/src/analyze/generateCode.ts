@@ -239,7 +239,7 @@ export const generateCode = async (
         internalDirectory,
         `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
       );
-      entrypoint.entry = entryFile;
+      entrypoint.internalEntry = entryFile;
     }
   }
 };
@@ -320,8 +320,6 @@ export const generateIndexCode = async ({
           internalDirectory,
           `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
         );
-        entrypoint.entry = entryFile;
-
         // generate entry file.
         if (config.source.enableAsyncEntry) {
           let rawAsyncEntryCode = `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`;
