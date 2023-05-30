@@ -3402,9 +3402,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       },
     ],
   },
-  "target": [
-    "webworker",
-    "es5",
-  ],
+  "target": "webworker",
 }
 `;

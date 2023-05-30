@@ -10,20 +10,19 @@ export const builderPluginTarget = (): DefaultBuilderPlugin => ({
         chain.target('node');
         return;
       }
-      if (target === 'service-worker') {
+      if (target === 'web-worker' || target === 'service-worker') {
         chain.target('webworker');
         return;
       }
 
       const browserslist = await getBrowserslist(api.context.rootPath);
-      const basicTarget = target === 'web-worker' ? 'webworker' : 'web';
 
       if (browserslist) {
-        chain.merge({ target: [basicTarget, 'browserslist'] });
+        chain.merge({ target: ['web', 'browserslist'] });
       } else if (target === 'modern-web') {
-        chain.merge({ target: [basicTarget, 'es2015'] });
+        chain.merge({ target: ['web', 'es2015'] });
       } else {
-        chain.merge({ target: [basicTarget, 'es5'] });
+        chain.merge({ target: ['web', 'es5'] });
       }
     });
   },

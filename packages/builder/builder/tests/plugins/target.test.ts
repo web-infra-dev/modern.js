@@ -27,7 +27,7 @@ describe('plugins/target', () => {
     {
       target: 'web-worker',
       browserslist: null,
-      expected: { target: ['webworker', 'es5'] },
+      expected: { target: 'webworker' },
     },
   ];
 
