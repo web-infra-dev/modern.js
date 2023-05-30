@@ -1,6 +1,6 @@
 import { demos } from 'virtual-meta';
 import { createElement } from 'react';
-import { useLocation } from '@modern-js/doc-core/runtime';
+import { NoSSR, useLocation } from '@modern-js/doc-core/runtime';
 
 export default function Demo() {
   // get the id from the pathname
@@ -9,7 +9,7 @@ export default function Demo() {
   // get component from virtual-meta
   const result = demos.flat().find(item => item.id === id);
   if (result) {
-    return createElement(result.component);
+    return <NoSSR>{createElement(result.component)}</NoSSR>;
   } else {
     // TODO add some information
     return null;

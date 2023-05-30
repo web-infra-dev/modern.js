@@ -6,6 +6,7 @@ import type { RouteMeta } from '@modern-js/doc-core';
 import type { Plugin } from 'unified';
 import type { Root } from 'mdast';
 import type { MdxjsEsm } from 'mdast-util-mdxjs-esm';
+import { demoRoutes } from '.';
 
 /**
  * remark plugin to transform code to demo
@@ -55,6 +56,10 @@ export const remarkCodeToDemo: Plugin<
           fs.writeFileSync(virtualModulePath, value);
         }
         demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
+        const demoRoute = `/~demo/${id}`;
+        demoRoutes.push({
+          path: demoRoute,
+        });
         Object.assign(node, {
           type: 'mdxJsxFlowElement',
           name: 'Container',
@@ -67,7 +72,7 @@ export const remarkCodeToDemo: Plugin<
             {
               type: 'mdxJsxAttribute',
               name: 'url',
-              value: `/~demo/${id}`,
+              value: demoRoute,
             },
           ],
           children: [

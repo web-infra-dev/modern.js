@@ -65,4 +65,11 @@ export interface DocPlugin {
     isProd: boolean,
     routes: RouteMeta[],
   ) => AdditionalPage[];
+  /**
+   * Add addition ssg routes, for dynamic routes.
+   */
+  addSSGRoutes?: (
+    config: DocConfig,
+    isProd: boolean,
+  ) => { path: string }[] | Promise<{ path: string }[]>;
 }
