@@ -38,7 +38,7 @@ export const formatRule = (rule: BundlerRule): RspackRule => {
     return rule as RspackRule;
   }
 
-  const formatRuleUse = (use: typeof rule['use']) => {
+  const formatRuleUse = (use: (typeof rule)['use']) => {
     if (!use) {
       return undefined;
     }
@@ -56,10 +56,6 @@ export const formatRule = (rule: BundlerRule): RspackRule => {
         return {
           loader: content,
         };
-      }
-
-      if (!content.loader) {
-        throw new Error(`loader is required in rule.use`);
       }
 
       return {
@@ -125,7 +121,7 @@ export const formatSplitChunks = (
   }
 
   const formatCacheGroups = (
-    cacheGroups?: NonNullable<typeof splitChunks['cacheGroups']>,
+    cacheGroups?: NonNullable<(typeof splitChunks)['cacheGroups']>,
   ) => {
     if (!cacheGroups) {
       return cacheGroups;
