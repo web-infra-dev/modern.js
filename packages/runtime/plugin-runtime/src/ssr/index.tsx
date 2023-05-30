@@ -61,6 +61,9 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
           ) {
             ModernRender(<App context={context} />);
           } else if (renderLevel === RenderLevel.SERVER_RENDER) {
+            const loadableReadyOptions: any = {
+              chunkLoadingGlobal: config.chunkLoadingGlobal,
+            };
             if (isReact18()) {
               loadableReady(() => {
                 // callback: https://github.com/reactwg/react-18/discussions/5
@@ -71,11 +74,11 @@ export const ssr = (config: SSRPluginConfig): Plugin => ({
                 );
                 SSRApp = hoistNonReactStatics(SSRApp, App);
                 ModernHydrate(<SSRApp />);
-              });
+              }, loadableReadyOptions);
             } else {
               loadableReady(() => {
                 ModernHydrate(<App context={hydrateContext} />, callback);
-              });
+              }, loadableReadyOptions);
             }
           } else {
             // unknown renderlevel or renderlevel is server prefetch.

@@ -1,6 +1,7 @@
 const { join } = require('path');
 const path = require('path');
 const puppeteer = require('puppeteer');
+const { fs } = require('@modern-js/utils');
 const {
   launchApp,
   getPort,
@@ -45,6 +46,13 @@ async function redirectInLoader(page, appPort) {
   expect(body).not.toMatch(/Redirect page/);
 }
 
+async function checkIsPassChunkLoadingGlobal() {
+  const modernJsDir = join(fixtureDir, 'base', 'node_modules', '.modern-js');
+  const entryFilePath = join(modernJsDir, 'main', 'index.jsx');
+  const content = await fs.readFile(entryFilePath, 'utf-8');
+  expect(content).toMatch(/chunkLoadingGlobal/);
+}
+
 describe('Traditional SSR', () => {
   let app,
     appPort,
@@ -77,6 +85,10 @@ describe('Traditional SSR', () => {
 
   it(`basic usage`, async () => {
     await basicUsage(page, appPort);
+  });
+
+  it(`should pass chunkLoadingGlobal`, async () => {
+    await checkIsPassChunkLoadingGlobal();
   });
 
   it.skip(`client navigation works`, async () => {

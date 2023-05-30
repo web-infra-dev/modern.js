@@ -92,6 +92,28 @@
     "overrides": {
       "@types/react": "^18",
       "@types/react-dom": "^18"
+    },
+    "allowedDeprecatedVersions": {
+      "formidable": "1.2.6",
+      "hast": "1.0.0",
+      "sourcemap-codec": "1.4.8",
+      "uuid-browser": "3.1.0",
+      "stable": "0.1.8",
+      "js-polyfills": "0.1.43",
+      "picturefill": "3.0.3",
+      "string-similarity": "4.0.4",
+      "querystring": "0.2.0",
+      "source-map-resolve": "0.6.0 || 0.5.3",
+      "@formatjs/intl-utils": "3.8.4",
+      "debug": "4.1.1",
+      "sane": "4.1.0",
+      "@npmcli/move-file": "1.1.2",
+      "uuid": "3.4.0",
+      "chokidar": "2.1.8",
+      "fsevents": "1.2.13",
+      "source-map-url": "0.4.1",
+      "urix": "0.1.0",
+      "resolve-url": "0.2.1"
     }
   }
 }
