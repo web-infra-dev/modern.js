@@ -1,5 +1,9 @@
-const { nodeBuildConfig } = require('@scripts/build');
-
 module.exports = {
-  buildConfig: nodeBuildConfig,
+  buildConfig: [
+    {
+      format: 'cjs',
+      target: 'es6',
+      sourceMap: true,
+    },
+  ],
 };
