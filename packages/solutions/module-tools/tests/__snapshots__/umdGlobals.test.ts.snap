@@ -112,9 +112,7 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     });
     Object.defineProperty(exports, "debug", {
         enumerable: true,
-        get: function() {
-            return debug;
-        }
+        get: ()=>debug
     });
     function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
         try {
