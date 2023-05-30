@@ -33,6 +33,7 @@ export class LruReader {
       length: getContentLength,
       maxAge: 5 * 60 * 5000, // 60s
     });
+    this.fs = extraFS as unknown as IFs;
   }
 
   public init(fs?: IFs) {
