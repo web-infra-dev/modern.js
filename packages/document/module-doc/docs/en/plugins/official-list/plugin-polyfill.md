@@ -3,7 +3,8 @@
 :::tip
 Normally, we don't need to inject polyfill for npm packages, this step should be done on the web application framework side, but in some scenarios we need to inject polyfill in order to make our library run directly in low version browsers.
 
-Note that this plugin does not transform your code syntax, it only injects polyfill for unsupported functions used in your code, importing them as normal functions instead of polluting the global. You need to install the `core-js-pure` dependency
+Note that this plugin does not transform your code syntax, it only injects polyfill for unsupported functions used in your code, importing them as normal functions instead of polluting the global. You need to install the `core-js-pure` dependency.
+
 :::
 
 ## Quick start

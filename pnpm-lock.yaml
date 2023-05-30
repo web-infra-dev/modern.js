@@ -4972,7 +4972,7 @@ importers:
       '@types/jest': 29.2.6
       '@types/node': 14.18.35
 
-  tests/integration/doc/fixtures/base:
+  tests/integration/doc/fixtures/basic:
     specifiers:
       '@modern-js/doc-tools': workspace:*
       '@modern-js/tsconfig': workspace:*
@@ -5022,6 +5022,19 @@ importers:
       '@types/node': 14.18.35
 
   tests/integration/doc/fixtures/production:
+    specifiers:
+      '@modern-js/doc-tools': workspace:*
+      '@modern-js/tsconfig': workspace:*
+      '@types/jest': ^29
+      '@types/node': ^14
+    dependencies:
+      '@modern-js/doc-tools': link:../../../../../packages/solutions/doc-tools
+    devDependencies:
+      '@modern-js/tsconfig': link:../../../../../packages/review/tsconfig
+      '@types/jest': 29.2.6
+      '@types/node': 14.18.35
+
+  tests/integration/doc/fixtures/with-base:
     specifiers:
       '@modern-js/doc-tools': workspace:*
       '@modern-js/tsconfig': workspace:*
