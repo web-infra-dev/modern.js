@@ -35,7 +35,15 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,
@@ -81,7 +89,15 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,
@@ -130,7 +146,15 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -180,7 +204,15 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -226,7 +258,15 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -274,7 +314,15 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -322,7 +370,15 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -370,7 +426,15 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -447,7 +511,15 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,
@@ -493,7 +565,15 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,

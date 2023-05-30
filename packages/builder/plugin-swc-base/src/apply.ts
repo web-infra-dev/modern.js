@@ -170,8 +170,9 @@ export function applyBuilderPluginSwc(
 
 /// default swc configuration
 export function getDefaultSwcConfig(): TransformConfig {
+  const cwd = process.cwd();
   return {
-    cwd: process.cwd(),
+    cwd,
     jsc: {
       target: 'es5',
       externalHelpers: true,
@@ -196,7 +197,12 @@ export function getDefaultSwcConfig(): TransformConfig {
     },
     exclude: [],
     inlineSourcesContent: true,
-    extensions: {},
+    extensions: {
+      lodash: {
+        cwd,
+        ids: ['lodash', 'lodash-es'],
+      },
+    },
   };
 }
 
