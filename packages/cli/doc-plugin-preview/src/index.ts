@@ -14,7 +14,10 @@ export type Options = {
 // eslint-disable-next-line import/no-mutable-exports
 export let routeMeta: RouteMeta[];
 export const demoRoutes: { path: string }[] = [];
-export const demoMeta: { id: string; virtualModulePath: string }[] = [];
+export const demoMeta: Record<
+  string,
+  { id: string; virtualModulePath: string }[]
+> = {};
 
 /**
  * The plugin is used to preview component.
@@ -63,10 +66,15 @@ export function pluginPreview(options?: Options): DocPlugin {
                 );
 
                 const virtualModulePath = join(demoDir, `${id}.tsx`);
-                demoMeta.push({
-                  id,
-                  virtualModulePath,
-                });
+                demoMeta[filepath] = demoMeta[filepath] ?? [];
+                const isExist = demoMeta[filepath].find(item => item.id === id);
+                if (!isExist) {
+                  demoMeta[filepath].push({
+                    id,
+                    virtualModulePath,
+                  });
+                }
+
                 fs.ensureDirSync(join(demoDir));
                 fs.writeFileSync(virtualModulePath, value);
               }

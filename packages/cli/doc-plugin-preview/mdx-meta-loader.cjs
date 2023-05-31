@@ -2,14 +2,15 @@ const { demoMeta } = require('./dist');
 
 module.exports = async function () {
   const callback = this.async();
+  const demos = demoMeta[this.resourcePath] || [];
   try {
     const result = `
-      ${demoMeta
+      ${demos
         .map(item => {
           return `import Demo_${item.id} from '${item.virtualModulePath}';`;
         })
         .join('\n')}
-      export default [${demoMeta
+      export default [${demos
         .map(item => {
           return `{
             "id": "${item.id}",
