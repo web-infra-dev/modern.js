@@ -68,6 +68,20 @@ export default {
 - `Parsed`：磁盘上的文件体积，它反映了代码在压缩之后的体积。
 - `Gzipped`：浏览器里请求的文件体积，它反映了代码在压缩和 gzip 后的体积。
 
+### 生成 stats.json
+
+`generateStatsFile` 设置为 true 时，将会生成 stats JSON 文件。
+
+```js
+export default {
+  performance: {
+    bundleAnalyze: {
+      generateStatsFile: true,
+    },
+  },
+};
+```
+
 ### 注意事项
 
 1. 开启 Server 模式会导致 `build` 进程不能正常退出。
