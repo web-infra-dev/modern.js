@@ -1,0 +1,75 @@
+---
+sidebar_position: 3
+---
+
+# Configuration Parameters
+
+`@modern-js/create` provides the [--config](/guides/topic-detail/generator/create/option.html#-c,---config-<config>) parameter, which is used to specify the answers to interactive questions in advance during the execution process.
+
+Here, we will introduce the fields and field values that can be configured in the `config` under different circumstances.
+
+## General Configuration
+
+### solution
+
+Question: Please select the type of project you want to create.
+
+Options:
+
+- Web App -- mwa
+
+- Npm Module -- module
+
+- Doc Site -- doc
+
+- Monorepo -- monorepo
+
+### scenes
+
+Question: Please select the project scenario.
+
+Options:
+
+List of plugin keywords when using custom generator plugins.
+
+## Web App
+
+import LanguageConfig from '@site-docs-en/components/language-config';
+
+<LanguageConfig />
+
+import PackageManager from '@site-docs-en/components/package-manager';
+
+<PackageManager />
+
+### buildTools
+
+Question: Please select the bundler.
+
+Options:
+
+- webpack -- webpack
+
+- Rspack -- rspack
+
+## Npm Module
+
+### packageName
+
+Question: Please fill in the project name.
+
+:::info
+The value of the `name` field in the `package.json` file of the Npm module, which is a string type.
+:::
+
+<LanguageConfig />
+
+<PackageManager />
+
+## Modern Doc
+
+<PackageManager />
+
+## Monorepo
+
+<PackageManager />

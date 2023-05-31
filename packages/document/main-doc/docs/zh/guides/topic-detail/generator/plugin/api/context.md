@@ -72,7 +72,7 @@ files.map(name => {
 
 ### input 操作
 
-input 操作中使用的 key 参数可参考[配置参数](/guides/topic-detail/generator/create/config.html)，需要在使用对应工程方案下的 key，即不支持在 `vertical` 和 `projectOrg`。
+input 操作中使用的 key 参数可参考[配置参数](/guides/topic-detail/generator/create/config.html)，需要在使用对应工程方案下的 key，即不支持在 `solution` 和 `scenes`。
 
 input 操作中的 input 参数对应的 Schema 类型可参考 [Input](/guides/topic-detail/generator/plugin/api/input.html)。
 
@@ -121,7 +121,7 @@ context.addInputAfter('packageManager', {
 ```
 
 :::info
-1. 添加问题的 `key` 不能和 EdenX 提供的工程方案自身的问题的 `key` 重复。
+1. 添加问题的 `key` 不能和 Modern.js 提供的工程方案自身的问题的 `key` 重复。
 2. 添加问题 `addInputAfter` 的优先级高于 `addInputBefore`，当同时对一个 key 添加 After 问题和对其后一个key 添加 Before 问题时，After 问题会在 Before 之前。
 3. 当需要在相同 `key` 前面或者后面添加多个问题时，可多次调用该方法，问题的顺序会按照调用顺序进行排列。
 
@@ -138,7 +138,7 @@ context.setInput('packageName', 'title', "展示名称");
 ```
 
 :::info
-对于 EdenX 工程方案提供的输入选项，只支持删除，不支持增加，增加会造成代码中的逻辑判断存在问题。
+对于 Modern.js 工程方案提供的输入选项，只支持删除，不支持增加，增加会造成代码中的逻辑判断存在问题。
 :::
 
 
@@ -176,7 +176,7 @@ context.setDefaultConfig({
 
 #### setGitMessage
 
-设置 Git 初始提交信息。EdenX 默认 Git 初始化提交信息为 `feat: init`，通过该函数可以修改。
+设置 Git 初始提交信息。Modern.js 默认 Git 初始化提交信息为 `feat: init`，通过该函数可以修改。
 
 
 ### 生命周期函数

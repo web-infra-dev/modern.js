@@ -39,6 +39,7 @@ npm run new
 npm run new
 ? 请选择你想要的操作 启用可选功能
 ? 请选择功能名称 启用「BFF」功能
+? 请选择 BFF 类型 函数模式
 ? 请选择运行时框架 Express
 ```
 

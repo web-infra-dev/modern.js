@@ -26,7 +26,7 @@ export default function (context: IPluginContext) {
 
 ## 自定义 Input
 
-EdenX 应用和模块工程方案都存在一些默认的 Input 交互，使用这里的 API 可以对这些 Input 进行添加、修改、隐藏、提供默认值等操作。
+Modern.js Web 应用和 Npm 模块工程方案都存在一些默认的 Input 交互，使用这里的 API 可以对这些 Input 进行添加、修改、隐藏、提供默认值等操作。
 
 例如：
 
@@ -60,7 +60,7 @@ context.setDefaultConfig({ langauge: 'ts' });
 
 ## onForged
 
-在 EdenX 工程方案生成器完成文件操作之后的钩子函数，用于完成生成器插件中的文件操作，比如添加模板文件，覆盖现有文件，删除现有文件等。
+在 Modern.js 工程方案生成器完成文件操作之后的钩子函数，用于完成生成器插件中的文件操作，比如添加模板文件，覆盖现有文件，删除现有文件等。
 
 对于扩展类型同时执行多个生成器插件时，将会按照声明顺序依次执行对应生成器插件的 `onForged` 操作。
 
@@ -88,7 +88,7 @@ context.onForged(async (api: ForgedAPI, input: Record<string, unknown>) => {
 
 `onForged` 钩子函数执行完成后执行，这里主要用于进行安装依赖，Git 操作等。
 
-默认 EdenX 的工程方案在完成文件操作后会默认执行安装依赖及 Git 初始化，Git 初次提交等，该钩子函数可以不使用。
+默认 Modern.js 工程方案在完成文件操作后会默认执行安装依赖及 Git 初始化，Git 初次提交等，该钩子函数可以不使用。
 
 对于自定义的生成器插件还支持 custom 类型，该类型只提供了少量最佳实践的项目配置，则需要在该钩子函数中完成安装依赖和 Git 初始化等操作。
 

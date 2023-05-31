@@ -18,6 +18,7 @@ Options:
   -c, --config <config>  生成器运行默认配置(JSON 字符串)
   -d, --debug            开启 Debug 模式，打印调试日志信息 (default: false)
   --dist-tag <tag>       生成器使用特殊的 npm Tag 版本
+  --registry <registry>  生成器运行过程中定制 npm Registry
   -h, --help             display help for command
 ```
 

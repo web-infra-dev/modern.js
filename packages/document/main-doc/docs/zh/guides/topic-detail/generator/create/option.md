@@ -11,7 +11,7 @@ npx @modern-js/create@latest --help
 
 Usage: npx @modern-js/create@latest [projectDir]
 
-创建 @modern-js 工程方案
+创建 Modern.js 工程方案
 
 Options:
   --version                当前 create 工具版本号
@@ -20,7 +20,7 @@ Options:
   -d,--debug               开启 Debug 模式，打印调试日志信息 (default: false)
   --mwa                    一键创建 Web 应用(使用默认配置) (default: false)
   --module                 一键创建 Module 应用(使用默认配置) (default: false)
-  --monorepo               一键常见 Monorepo 应用(使用默认配置) (default: false)
+  --monorepo               一键创建 Monorepo 应用(使用默认配置) (default: false)
   --generator <generator>  使用自定义生成器
   -p, --plugin <plugin>    使用生成器插件创建新的工程方案类型或定制化 Modern.js 工程方案 (default: [])
   --dist-tag <distTag>     生成项目时生成器使用特殊的 npm Tag (default: "")
