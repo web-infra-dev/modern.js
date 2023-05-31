@@ -22,4 +22,4 @@ function request(...args: any): SuperTest<Test> | Test {
   return res;
 }
 
-export { request };
+export { request as testBff };
