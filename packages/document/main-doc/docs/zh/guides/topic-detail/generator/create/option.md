@@ -4,14 +4,14 @@ sidebar_position: 2
 
 # CLI 参数
 
-`@modern-js/create` 提供了很多配置参数用于配置其执行过程中的行为，可以通过 --help 参数进行查看：
+`@modern-js/create` 提供了很多配置参数用于配置其执行过程中的行为，可以通过 `--help` 参数进行查看：
 
 ```bash
 npx @modern-js/create@latest --help
 
 Usage: npx @modern-js/create@latest [projectDir]
 
-创建 @modern-js 应用
+创建 @modern-js 工程方案
 
 Options:
   --version                当前 create 工具版本号
@@ -97,9 +97,7 @@ npx @modern-js/create@latest --config '{"packageManager": "pnpm"}'
 
 指定生成器插件。
 
-<!-- TODO 详情可查看[开发生成器插件]-->
-
-`@modern-js/create` 支持使用生成器插件定制 Modern.js 默认的工程方案类型或者添加工程方案类型场景。
+`@modern-js/create` 支持使用生成器插件定制 Modern.js 默认的工程方案类型或者添加工程方案类型场景，详情可查看[开发生成器插件](/guides/topic-detail/generator/plugin/structure.html)。
 
 ## --generator \<generator>
 
