@@ -107,6 +107,9 @@ export type PartialBaseBuildConfig = {
   // Related to swc-transform
   externalHelpers?: ExternalHelpers;
   transformImport?: ImportItem[];
+  /**
+   * internal configuration
+   */
   disableSwcTransform?: boolean;
 };
 
