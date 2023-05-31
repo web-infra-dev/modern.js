@@ -1,9 +1,7 @@
 import path from 'path';
-import docTools, { defineConfig, NavItem, Sidebar } from '@modern-js/doc-tools';
+import docTools, { defineConfig } from '@modern-js/doc-tools';
 
 const isProd = () => process.env.NODE_ENV === 'production';
-
-const getI18nKey = (key: keyof typeof import('./i18n.json')) => key;
 
 export default defineConfig({
   plugins: [docTools({})],
@@ -28,8 +26,6 @@ export default defineConfig({
       exclude: ['**/fragments/**'],
     },
     themeConfig: {
-      nav: getNavbar(),
-      sidebar: getSidebar(),
       footer: {
         message: '© 2023 Bytedance Inc. All Rights Reserved.',
       },
@@ -58,98 +54,3 @@ export default defineConfig({
     },
   },
 });
-
-function getSidebar(): Sidebar {
-  return {
-    '/guide/': [
-      {
-        text: getI18nKey('getting-started'),
-        items: ['/guide/introduction', '/guide/getting-started'],
-      },
-      {
-        text: getI18nKey('features'),
-        items: [
-          '/guide/conventional-route',
-          '/guide/use-mdx',
-          '/guide/static-assets',
-          '/guide/global-styles',
-        ],
-      },
-      {
-        text: getI18nKey('default-theme'),
-        items: [
-          '/guide/navbar',
-          '/guide/home-page',
-          '/guide/doc-page',
-          '/guide/overview-page',
-          '/guide/i18n',
-          '/guide/components',
-        ],
-      },
-      {
-        text: getI18nKey('advanced'),
-        items: ['/advanced/extend-build', '/advanced/custom-theme'],
-      },
-    ],
-    '/api/': [
-      {
-        text: getI18nKey('api-overview'),
-        link: '/api/',
-      },
-      {
-        text: getI18nKey('config'),
-        items: [
-          '/api/config-basic',
-          '/api/config-theme',
-          '/api/config-frontmatter',
-          '/api/config-build',
-        ],
-      },
-      {
-        text: getI18nKey('client-api'),
-        items: ['/api/api-runtime', '/api/api-components'],
-      },
-      {
-        text: getI18nKey('commands'),
-        link: '/api/commands',
-      },
-    ],
-    '/plugin/': [
-      {
-        text: getI18nKey('plugin-system'),
-        items: [
-          '/plugin/introduction',
-          '/plugin/write-a-plugin',
-          '/plugin/plugin-api',
-        ],
-      },
-      // {
-      //   text: getI18nKey('plugin-list'),
-      //   items: [
-      //     '/plugin/official-plugins/',
-      //     '/plugin/official-plugins/medium-zoom',
-      //   ],
-      // },
-    ],
-  };
-}
-
-function getNavbar(): NavItem[] {
-  return [
-    {
-      text: getI18nKey('guide'),
-      link: '/guide/getting-started',
-      activeMatch: '/guide/',
-    },
-    {
-      text: getI18nKey('plugin'),
-      link: '/plugin/introduction',
-      activeMatch: '/plugin/',
-    },
-    {
-      text: getI18nKey('api'),
-      link: '/api/',
-      activeMatch: '/api/',
-    },
-  ];
-}

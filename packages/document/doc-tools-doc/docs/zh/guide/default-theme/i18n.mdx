@@ -1,0 +1,204 @@
+# 国际化
+
+在 Modern.js Doc 中实现文档的国际化，你需要做如下的操作:
+
+- 1. 定义 I18n 文本数据。
+- 2. 配置默认语言。
+- 3. 配置 `doc.locales` 和 `doc.themeConfig.locales`。
+- 4. 新建不同的语言版本的文档。
+- 5. 配置侧边栏和导航栏。
+- 6. 自定义组件中使用 `useI18n`。
+
+## 定义 I18n 文本数据
+
+在当前工作区新建 `i18n.json`，目录结构如下：
+
+```bash {15}
+.
+├── docs
+├── i18n.json
+├── package.json
+├── tsconfig.json
+└── modern.config.ts
+```
+
+在这个 JSON 文件中，你可以定义国际化所需的文本，类型定义如下:
+
+```ts
+export interface I18n {
+  // key 为文本 id
+  [key: string]: {
+    // key 为语言
+    [key: string]: string;
+  };
+}
+```
+
+举个例子:
+
+```json title="i18n.json"
+{
+  "getting-started": {
+    "zh": "开始",
+    "en": "Getting Started"
+  },
+  "features": {
+    "zh": "基础功能",
+    "en": "Features"
+  },
+  "guide": {
+    "zh": "指南",
+    "en": "Guide"
+  }
+}
+```
+
+这些文本数据在**配置文件**和**自定义组件**中都会用到，后文会详细介绍。
+
+## 配置默认语言
+
+在 `modern.config.ts`中，你可以通过 `doc.lang` 配置文档的默认语言，如下例子所示:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    lang: 'zh',
+  },
+  plugins: [docTools()],
+});
+```
+
+这很重要，因为**对于默认语言下的路由，框架会去掉语言前缀**，比如 `/zh/guide/getting-started` 会被转换为 `/guide/getting-started`。
+
+## 配置 `locales` 数据
+
+在 `modern.config.ts`中，你可以通过两个地方来配置 `locales` 数据:
+
+- `doc.locales`，用于配置站点的`语言`、`标题`、`描述`等信息，主要围绕站点本身的信息来配置。
+- `doc.themeConfig.locales`，用于配置主题的`语言`、`大纲栏标题`、`上一页/下一页文本`等信息，主要进行主题相关的配置。
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    // locales 为一个对象数组
+    locales: [
+      {
+        lang: 'en',
+        // 导航栏切换语言的标签
+        label: 'English',
+        title: 'Modern.js',
+        description: 'Modern.js 文档框架',
+      },
+      {
+        lang: 'zh',
+        // 导航栏切换语言的标签
+        label: '简体中文',
+        title: 'Modern.js',
+        description: 'Modern.js Doc',
+      },
+    ],
+    themeConfig: {
+      locales: [
+        {
+          lang: 'en',
+          outlineTitle: 'ON THIS Page',
+        },
+        {
+          lang: 'zh',
+          outlineTitle: '大纲',
+        },
+      ],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+:::tip 注意
+默认主题中， `doc.themeConfig.locales` 也包含 `doc.locales` 中的所有字段，前者优先级更高。
+:::
+
+对于其它的国际化主题参数配置，请参考[API 类型](/api/config-theme#locales)。
+
+## 新建不同的语言版本的文档
+
+在做好上面的配置后，我们就可以开始新建不同语言版本的文档了，非常简单，我们只需要在文档根目录下新建如下的结构即可：
+
+```bash
+docs
+├── en
+│   ├── api
+│   │   └── index.md
+│   └── guide
+│       └── getting-started.md
+│       └── features.md
+└── zh
+    ├── api
+    │   └── index.md
+    └── guide
+        └── getting-started.md
+        └── features.md
+```
+
+可以看到，我们把不同语言的文档放在了 `docs` 目录下的 `en` 和 `zh` 目录中，这样就可以方便地区分不同语言的文档了。
+
+## 配置侧边栏和导航栏
+
+我们在[约定式路由](/guide/basic/conventional-route)中提到过，针对不同的文件路径，我们会自动生成对应的路由。那么，在国际化文档的场景中，每份文档的路由是不一样的，那么针对 N 种语言的文档，我们需要写 N 份侧边栏和导航栏的配置吗？
+
+答案是**不用**。在 Modern.js Doc 框架中，你只需要写一份配置即可。如何完成呢？
+
+我们来这样配置侧边栏和导航栏:
+
+```ts title="modern.config.ts"
+import docTools, { defineConfig } from '@modern-js/doc-tools';
+
+// 工具函数，用于获取类型提示
+const getI18nKey = (key: keyof typeof import('./i18n.json')) => key;
+
+export default defineConfig({
+  doc: {
+    // 前面的配置省略
+    themeConfig: {
+      nav: [
+        {
+          text: getI18nKey('guide'),
+          link: '/guide/',
+        },
+      ],
+      sidebar: {
+        '/guide/': [
+          {
+            text: getI18nKey('getting-started'),
+            link: '/guide/getting-started',
+          },
+          {
+            text: getI18nKey('features'),
+            link: '/guide/features',
+          },
+        ],
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+可以看到，在 nav 和 sidebar 的配置中，我们主要涉及到两种元素的配置:
+
+- `文本`。在国际化场景中，你只需要传入 `i18n.json` 中的文案 key 即可，框架会自动根据当前语言来获取对应的文本。
+- `链接`。你无需添加语言前缀，框架会自动根据当前语言来添加对应的语言前缀。比如默认语言为中文的情况下，在英文文档中 `/guide/features` 会被转换为 `/en/guide/features`。
+
+最后你只需要写一份 `nav` 和 `sidebar` 的配置，框架会自动根据当前语言来获取对应的文本和链接。
+
+## 自定义组件中使用 `useI18n`
+
+在 MDX 开发或者自定义主题开发的过程中，你可能会写一些自定义组件，这些组件中也需要使用到国际化文本，那么如何获取呢？
+
+import UseI18n from '../../fragments/useI18n';
+
+<UseI18n />
