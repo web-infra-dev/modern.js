@@ -10,39 +10,7 @@ import Rspack from '@zh/shared/rspack-tip.mdx';
 
 ### 在 Modern.js 框架中启用
 
-Modern.js 框架默认使用 webpack 作为打包工具。如果希望启用 Rspack 作为打包工具，我们推荐通过 [Modern.js 生成器](https://modernjs.dev/guides/advanced-features/rspack-start.html#初始化-rspack-项目) 方式启用。
-
-当然，你也可以通过下面的步骤来手动接入:
-
-1. 安装 `@modern-js/builder-rspack-provider`（版本号需要与 Modern.js 版本号保持一致）。
-
-```
-pnpm add @modern-js/builder-rspack-provider -D
-```
-
-通过 package.json 或 lock 文件，确认 Modern.js 版本号:
-
-```json title=package.json
-{
-  "devDependencies": {
-    "@modern-js/app-tools": "2.8.0"
-  }
-}
-```
-
-2. 在 Modern.js 配置文件中声明使用 Rspack:
-
-```diff title=modern.config.ts
-import appTools, { defineConfig } from '@modern-js/app-tools';
-
-+ export default defineConfig<'rspack'>({
-  plugins: [
-    appTools({
-+     bundler: 'experimental-rspack',
-    }),
-  ],
-});
-```
+Modern.js 框架默认使用 webpack 作为打包工具。如果希望启用 Rspack 作为打包工具，可参考：[使用 Rspack](https://modernjs.dev/guides/advanced-features/rspack-start.html)。
 
 ### 在前端框架中接入
 
@@ -59,19 +27,25 @@ const provider = builderRspackProvider({
 });
 ```
 
+
+```diff title=package.json
+{
+  "devDependencies": {
+-    "@modern-js/builder-webpack-provider": "2.8.0",
++    "@modern-js/builder-rspack-provider": "2.8.0"
+  }
+}
+```
+
 ## 从 webpack 迁移到 Rspack
 
 Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较低成本进行迁移。但由于各个打包工具提供的能力不同，你仍需要了解其中的部分差异。
 
 本文将从 Builder 的角度介绍 webpack 和 Rspack 之间的区别。如果需要了解更深层次的差异，请参考 [Rspack 文档](http://rspack.dev/zh/guide/migrate-from-webpack.html)。
 
-### 1. 了解 Builder 配置差异
+### 1. Builder 配置差异
 
-目前，Builder 内大部分的配置项已经适配了 Rspack。Builder 所做的工作包括不限于：
-
-- 对一些原本使用借助 webpack loader / plugin (在 Rspack 中不支持使用) 实现的功能，使用 Rspack 替代方案实现。比如，通过 `css/module` 替代 `css-loader` 的 modules 能力。
-- 对 webpack 插件进行验证及封装。如 `@svgr/webpack`、`webpack-bundle-analyzer` 等;
-- 对 Rspack 内置能力进行封装。如 `css`、`minify` 等;
+目前，Builder 内大部分的配置项已经适配了 Rspack，但仍有部分配置在支持中。
 
 #### Source Config
 
@@ -120,7 +94,9 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 > Builder 中的一些实验性配置。
 
-所有 experiments 下的配置项及能力**均不支持**在 Rspack 内使用。
+不支持的配置项及能力包括：
+
+- [experiments.lazyCompilation](/api/config-experiments.html#experimentslazycompilation)
 
 #### Performance Config
 
@@ -128,6 +104,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
+- [performance.chunkSplit (split-by-module)](/api/config-performance.html#performancechunksplit)
 - [performance.profile](/api/config-performance.html#performanceprofile)
 - [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
 - [performance.buildCache](/api/config-performance.html#performancebuildcache)
@@ -242,3 +219,35 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 具体插件支持情况可参考：[Plugin 兼容情况](https://www.rspack.dev/zh/guide/plugin-compat.html)。
 
 未列出的插件可根据 [Rspack Plugin API 支持情况](https://www.rspack.dev/zh/api/plugin-api.html) 自行判断。
+
+## 常见问题
+
+### 启用 Rspack 构建后，性能没有预期的快？
+
+通常情况下，启用 Rspack 后，相较 Webpack 会有 5 到 10 倍的编译性能提升。
+
+目前已知以下行为会在一定程度上拖慢 Rspack 构建性能：
+
+##### 使用依赖 babel 实现的配置项或插件
+
+在使用 Rspack 构建时，babel-loader 默认不会被启用。但在项目中使用到依赖 babel 实现的配置项或插件时，会额外添加 babel-loader 进行文件转译：
+
+- 通过 [tools.babel](/api/config-tools.html#toolsbabel) 添加 babel plugin
+- 使用 [Modern.js SSR 功能](https://modernjs.dev/guides/advanced-features/ssr.html)
+- ...
+
+可通过开启[调试模式](/guide/debug/debug-mode.html)，查看最终生成的 Rspack 配置中是否存在 babel 插件。
+
+##### 开启 TypeScript 类型检查
+
+Builder 构建时会默认开启 TypeScript 类型检查。较大项目中类型检查的耗时可能远超过 Rspack 本身的构建耗时，在生产环境构建时，此行为会在一定程度上拖慢构建。
+
+此时，可通过 [output.disableTsChecker](/api/config-output.html#outputdisabletschecker) 关闭类型检查，以查看排除类型检查后 Rspack 性能是否符合预期。
+
+##### 大量 Less 文件
+
+目前 Less 文件使用 js 版本的 less-loader 进行处理，还未提供 rust 实现版本。
+
+##### 大量 SVG 文件
+
+Builder 默认支持将 SVG 资源当成 React 组件使用。如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用，可以通过将 [output.disableSvgr](/api/config-output.html#outputdisablesvgr) 设置为 true 来关闭此行为，以提升构建性能。
