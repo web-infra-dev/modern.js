@@ -1,6 +1,6 @@
 export const ZH_LOCALE = {
   command: {
-    description: '创建 @modern-js 应用',
+    description: '创建 Modern.js 工程方案',
     mwa: '一键创建 Web 应用(使用默认配置)',
     module: '一键创建 Module 应用(使用默认配置)',
     monorepo: '一键常见 Monorepo 应用(使用默认配置)',
