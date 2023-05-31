@@ -12,7 +12,7 @@ The initial templates provided by Modern.js are generic and can meet some common
 
 When you use Modern.js deeply, you will inevitably find that each created project will make some specific similar changes for its own project, such as modifying example code, adding some configurations, enabling certain features, etc.
 
-Generator plugin can help you to deposit these specific changes for individuals or teams. When executing `npx @modern-js/create@latest`, you only need to simply add the `--plugin` parameter to avoid repetitive modification of the project after each project creation.
+Generator plugin can help you to deposit these specific changes for individuals or teams. When running `npx @modern-js/create@latest`, you only need to simply add the `--plugin` parameter to avoid repetitive modification of the project after each project creation.
 
 Generator plugin is based on the initial template projects provided by Modern.js, providing methods to add, delete, and modify templates, and modifying `package.json`, `modernConfig` configurations, and enabling features through a convenient way.
 

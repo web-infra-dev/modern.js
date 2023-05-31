@@ -26,7 +26,7 @@ npx @modern-js/create@latest --plugin file:../<pluginPath>
 
 ## NPM package
 
-Suitable for scenarios where the generator project is published on bnpm for sharing.
+Suitable for scenarios where the generator project is published on npm for sharing.
 
 ```bash
 npx @modern-js/create@latest --plugin <pluginPackage>

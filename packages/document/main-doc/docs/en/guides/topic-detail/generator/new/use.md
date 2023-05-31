@@ -32,7 +32,7 @@ npm run new
 ? Please fill in the entry name: entry
 ```
 
-After execution, a new folder with the corresponding name of the entry will be created in the `src` directory of the project, along with the default entry file. The previous entry files under the `src` directory will be sorted into the folder corresponding to the `name` field in `package.json`.
+After running, a new folder with the corresponding name of the entry will be created in the `src` directory of the project, along with the default entry file. The previous entry files under the `src` directory will be sorted into the folder corresponding to the `name` field in `package.json`.
 
 Enable BFF function:
 
@@ -44,7 +44,7 @@ npm run new
 ? Please select the framework: Express
 ```
 
-After execution, BFF-related dependencies will be installed in the project, and an `api` directory will be created for BFF module development, along with prompt information for registering BFF plugins.
+After running, BFF-related dependencies will be installed in the project, and an `api` directory will be created for BFF module development, along with prompt information for registering BFF plugins.
 
 :::info
 We did not automatically register the plugin for the user here because the `modern.config.[tj]s` may change during the project lifecycle, and there may be problems with mutual references between modules, so allowing the user to manually register can ensure the correctness of modifying the configuration.
@@ -53,7 +53,7 @@ In subsequent customized development, if there are similar needs, you can also p
 :::
 
 :::warning
-When executing the `new` command, it may be necessary to enable a feature that is not in the list. Check whether the corresponding plugin for the feature has been installed in the `package.json` file of the project. If you still need to use the `new` command to enable it, you need to manually remove the plugin dependency first.
+When running the `new` command, it may be necessary to enable a feature that is not in the list. Check whether the corresponding plugin for the feature has been installed in the `package.json` file of the project. If you still need to use the `new` command to enable it, you need to manually remove the plugin dependency first.
 :::
 
 ## Npm Module
@@ -72,7 +72,7 @@ npm run new
 ? Please select the feature name: Enable Storybook
 ```
 
-After execution, Storybook plugin dependencies will be installed in the project, and the `storybook` command will be added. A `stories` directory will be created for Storybook module development, along with prompt information for registering Storybook plugins.
+After running, Storybook plugin dependencies will be installed in the project, and the `storybook` command will be added. A `stories` directory will be created for Storybook module development, along with prompt information for registering Storybook plugins.
 
 ## Monorepo
 

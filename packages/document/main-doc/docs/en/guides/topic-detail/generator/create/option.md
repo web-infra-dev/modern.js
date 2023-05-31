@@ -97,7 +97,7 @@ Quickly create a Monorepo project.
 
 Specify a generator plugin.
 
-`@modern-js/create` supports customizing the default project solution type of EdenX or adding project solution type scenarios using generator plugin. For details, please refer to [Developing Generator Plugin](/guides/topic-detail/generator/plugin/structure.html).
+`@modern-js/create` supports customizing the default project solution type of Modern.js or adding project solution type scenarios using generator plugin. For details, please refer to [Developing Generator Plugin](/guides/topic-detail/generator/plugin/structure.html).
 
 ## --generator \<generator>
 
@@ -108,9 +108,9 @@ Specify a micro-generator.
 
 ## --dist-tag \<distTag>
 
-Specify the version of the generator and EdenX-related dependencies.
+Specify the version of the generator and Modern.js-related dependencies.
 
-During the execution of `@modern-js/create`, a smaller micro-generator will be executed by default, and the `latest` version of the micro-generator will be used by default. This parameter can be used to specify the version number of the micro-generator to be executed and the version of the installed EdenX-related dependencies.
+During the execution of `@modern-js/create`, a smaller micro-generator will be executed by default, and the `latest` version of the micro-generator will be used by default. This parameter can be used to specify the version number of the micro-generator to be executed and the version of the installed Modern.js-related dependencies.
 
 For example, use the `next` version:
 

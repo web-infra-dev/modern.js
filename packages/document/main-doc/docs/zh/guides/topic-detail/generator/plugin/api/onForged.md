@@ -207,7 +207,7 @@ context.onForged(async (api: ForgedAPI, _input: Record<string, unknown>) => {
 
 ### updateModernConfig(不推荐)
 
-EdenX 配置除了可以在 `modern.config.[tj]s` 中配置外，还支持 `package.json` 中配置 `modernConfig` 配置。该函数用于更新该字段。
+Modern.js 配置除了可以在 `modern.config.[tj]s` 中配置外，还支持 `package.json` 中配置 `modernConfig` 配置。该函数用于更新该字段。
 
 参数类型：
 

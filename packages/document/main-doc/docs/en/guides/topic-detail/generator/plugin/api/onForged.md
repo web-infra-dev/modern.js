@@ -195,7 +195,7 @@ update: (content: string[]) => string[]
 ```
 
 - `fileName`: Text list file path, relative to the target project path.
-- `update`: Update function. The parameter is an array divided by `\n` of the current file content, and the return value is also the modified array after modification. `@byted/create` will automatically merge it with `\n` and write it to the source file.
+- `update`: Update function. The parameter is an array divided by `\n` of the current file content, and the return value is also the modified array after modification. `@modern-js/create` will automatically merge it with `\n` and write it to the source file.
 
 For example, add the `dist` directory to the `.gitinore` file:
 
@@ -279,7 +279,7 @@ str: Handlebars.Template
 
 ### createElement
 
-Automatically call the `new` command to create project elements.
+Automatically run the `new` command to create project elements.
 
 Parameter types:
 
@@ -293,7 +293,7 @@ params: Record<string, unknown>
 
 ### enableFunc
 
-Automatically call the `new` command to enable optional features.
+Automatically run the `new` command to enable optional features.
 
 Parameter types:
 
