@@ -120,7 +120,12 @@ export default ({
 
         originEntrypoints = cloneDeep(entrypoints);
 
-        await generateCode(appContext, resolvedConfig, entrypoints, api);
+        const { importsStatemets } = await generateCode(
+          appContext,
+          resolvedConfig,
+          entrypoints,
+          api,
+        );
 
         const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
           appContext,
@@ -163,13 +168,6 @@ export default ({
             async onBeforeBuild({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
               await generateRoutes(appContext);
-              await generateIndexCode({
-                appContext,
-                config: resolvedConfig,
-                entrypoints,
-                api,
-                bundlerConfigs,
-              });
               await hookRunners.beforeBuild({
                 bundlerConfigs:
                   bundlerConfigs as unknown as webpack.Configuration[],
@@ -203,6 +201,7 @@ export default ({
                 config: resolvedConfig,
                 entrypoints,
                 api,
+                importsStatemets,
                 bundlerConfigs,
               });
               // run modernjs framework `beforeCreateCompiler` hook
