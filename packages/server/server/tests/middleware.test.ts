@@ -60,6 +60,7 @@ describe('test dev server middleware', () => {
         onInvalid: expect.any(Function),
       },
       hmrClientPath: expect.any(String),
+      serverSideRender: expect.any(Boolean),
     });
 
     expect(middlewareCbFn).not.toBeCalled();
