@@ -68,6 +68,20 @@ In the `webpack-bundle-analyzer` panel, you can control size types in the upper 
 - `Parsed`: The size of the file on the disk, which reflects the size of the code after minification.
 - `Gzipped`: The file size requested in the browser reflects the size of the code after minification and gzip.
 
+### Generate stats.json
+
+By setting `generateStatsFile` to true, stats JSON file will be generated in bundle output directory.
+
+```js
+export default {
+  performance: {
+    bundleAnalyze: {
+      generateStatsFile: true,
+    },
+  },
+};
+```
+
 ### Notes
 
 1. Enabling the server mode will cause the `build` process to not exit normally.
