@@ -250,4 +250,4 @@ Builder 构建时会默认开启 TypeScript 类型检查。较大项目中类型
 
 ##### 大量 SVG 文件
 
-Builder 默认支持将 SVG 资源当成 React 组件使用。如果你确定项目内的所有 SVG 资源都没有当成 React 组件使用，可以通过将 [output.disableSvgr](/api/config-output.html#outputdisablesvgr) 设置为 true 来关闭此行为，以提升构建性能。
+Builder 默认支持将 SVG 资源作为 React 组件使用，这会产生一定的性能开销。如果你不需要此能力，可以将 [output.disableSvgr](/api/config-output.html#outputdisablesvgr) 设置为 `true` 来关闭此行为，以提升构建性能。
