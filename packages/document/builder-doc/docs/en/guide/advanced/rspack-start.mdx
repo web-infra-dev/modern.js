@@ -10,39 +10,7 @@ import Rspack from '@en/shared/rspack-tip.mdx';
 
 ### Enable in Modern.js framework
 
-We recommend enabling Rspack as the bundler for Modern.js framework through the [Modern.js generator](https://modernjs.dev/en/guides/advanced-features/rspack-start.html#initializing-an-rspack-project) if you prefer it over the default webpack bundler.
-
-Of course, you can also access it manually by following the steps below:
-
-1. Install `@modern-js/builder-rspack-provider` (The version needs to be the same as the Modern.js version).
-
-```
-pnpm add @modern-js/builder-rspack-provider -D
-```
-
-Confirm the Modern.js version via package.json or lock file:
-
-```json title=package.json
-{
-  "devDependencies": {
-    "@modern-js/app-tools": "2.8.0"
-  }
-}
-```
-
-2. Declare the use of Rspack in the Modern.js configuration file:
-
-```diff title=modern.config.ts
-import appTools, { defineConfig } from '@modern-js/app-tools';
-
-+ export default defineConfig<'rspack'>({
-  plugins: [
-    appTools({
-+     bundler: 'experimental-rspack',
-    }),
-  ],
-});
-```
+Modern.js framework uses webpack as the default bundler. If you want to use Rspack as the bundler, you can refer to: [Using Rspack](https://modernjs.dev/en/guides/advanced-features/rspack-start.html#initializing-an-rspack-project).
 
 ### Use Builder in a front-end framework
 
@@ -59,6 +27,15 @@ const provider = builderRspackProvider({
 });
 ```
 
+```diff title=package.json
+{
+  "devDependencies": {
+-    "@modern-js/builder-webpack-provider": "2.8.0",
++    "@modern-js/builder-rspack-provider": "2.8.0"
+  }
+}
+```
+
 ## Migrating from webpack to Rspack
 
 Builder aims to eliminate the main differences between different bundlers and help users migrate at a lower cost. However, due to the different capabilities of each bundler, you still need to be aware of some differences.
@@ -67,12 +44,7 @@ This article will introduce the differences between webpack and Rspack from the 
 
 ### 1. Builder configuration differences
 
-Currently, most of configuration options in Builder have been adapted for Rspack.
-Throughout this process, Builder's work includes but is not limited to:
-
-- Replace features that rely on webpack loader/plugin (which are not supported in Rspack) with alternative solutions provided by Rspack. For example, use `css/module` instead of `css-loader` modules.
-- Validating and encapsulating webpack plugins such as `@svgr/webpack` and `webpack-bundle-analyzer`;
-- Encapsulating Rspack built-in features such as `css` and `minify`.
+Currently, most of configuration options in Builder have been adapted for Rspack, but there are still some configurations that are in the process of being supported.
 
 #### Source Config
 
@@ -121,7 +93,9 @@ Unsupported configurations and capabilities include:
 
 > Experimental related configurations in the Builder
 
-All configurations and capabilities under experiments are **not supported** for use within rspack.
+Unsupported configurations and capabilities include:
+
+- [experiments.lazyCompilation](/api/config-experiments.html#experimentslazycompilation)
 
 #### Performance Config
 
@@ -132,6 +106,7 @@ Unsupported configurations and capabilities include:
 - [performance.profile](/api/config-performance.html#performanceprofile)
 - [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
 - [performance.buildCache](/api/config-performance.html#performancebuildcache)
+- [performance.chunkSplit (split-by-module)](/api/config-performance.html#performancechunksplit)
 
 #### Tools Config
 
@@ -245,3 +220,39 @@ If you are using the following plugins (or indirect dependencies) in your projec
 Detailed plugin support can be found at: [Plugin compatibility](https://www.rspack.dev/guide/plugin-compat.html).
 
 The plugins not listed can be judged according to [Rspack Plugin API](https://www.rspack.dev/api/plugin-api.html).
+
+## FAQ
+
+### After enabling Rspack, the performance is not as fast as expected?
+
+Usually, after enabling Rspack, there will be a 5 to 10 times improvement in compilation performance compared to Webpack.
+
+The following behaviors are currently known to slow down Rspack build performance to some extent:
+
+##### Using configuration options or plugins that rely on babel
+
+When using Rspack to build, babel-loader is not enabled by default.
+
+However, when a project uses configuration options or plugins implemented with babel, an additional babel-loader will be added for file transpilation:
+
+- Add the babel plugin via [tools.babel](/api/config-tools.html#toolsbabel)
+- Use [Modern.js SSR feature](https://modernjs.dev/en/guides/advanced-features/ssr.html)
+- ...
+
+You can check whether the babel plugin exists in the final generated Rspack configuration by using [debug mode](/guide/debug/debug-mode.html).
+
+##### Enable TypeScript type checking
+
+By default, Builder enables TypeScript type checking during build. In large projects, type checking can take much longer than the actual build time of Rspack, so this behavior can slow down the build speed to some extent during production environment builds.
+
+In this case, you can disable type checking using [output.disableTsChecker](/api/config-output.html#outputdisabletschecker) to see if Rspack performance meets your expectations after excluding type checking.
+
+##### Large number of Less files
+
+Currently, Less files are processed using the `less-loader` based on JavaScript and no Rust version is provided. Therefore, processing a large number of Less files can slow down the build performance.
+
+##### Large number of SVG files
+
+By default, builder supports using SVG resources as React components, which incurs some performance overhead.
+
+If you don't need this feature, you can set [output.disableSvgr](/api/config-output.html#outputdisablesvgr) to true to disable this behavior to improve build performance.
