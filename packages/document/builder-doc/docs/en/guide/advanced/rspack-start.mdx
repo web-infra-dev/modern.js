@@ -233,7 +233,7 @@ The following behaviors are currently known to slow down Rspack build performanc
 
 When using Rspack to build, babel-loader is not enabled by default.
 
-However, when configuration options or plugins that rely on babel are used in your project, babel-loader will be additionally added to transpile files:
+However, when a project uses configuration options or plugins implemented with babel, an additional babel-loader will be added for file transpilation:
 
 - Add the babel plugin via [tools.babel](/api/config-tools.html#toolsbabel)
 - Use [Modern.js SSR feature](https://modernjs.dev/en/guides/advanced-features/ssr.html)
@@ -243,14 +243,16 @@ You can check whether the babel plugin exists in the final generated Rspack conf
 
 ##### Enable TypeScript type checking
 
-TypeScript type checking is enabled by default when the Builder builds. The time-consuming of type checking in larger projects may far exceed the time-consuming of building Rspack itself. When building in production, this behavior may slow down the build to some extent.
+By default, Builder enables TypeScript type checking during build. In large projects, type checking can take much longer than the actual build time of Rspack, so this behavior can slow down the build speed to some extent during production environment builds.
 
 In this case, you can disable type checking using [output.disableTsChecker](/api/config-output.html#outputdisabletschecker) to see if Rspack performance meets your expectations after excluding type checking.
 
 ##### Large number of Less files
 
-Currently, Less files are processed using the JavaScript version of less-loader, and a Rust implementation version is not yet available.
+Currently, Less files are processed using the `less-loader` based on JavaScript and no Rust version is provided. Therefore, processing a large number of Less files can slow down the build performance.
 
 ##### Large number of SVG files
 
-Builder supports using SVG resources as React components by default. If you are sure that all SVG resources in the project are not used as React components, you can set [output.disableSvgr](/api/config-output.html#outputdisablesvgr) to true to disable this behavior to improve build performance.
+By default, builder supports using SVG resources as React components, which incurs some performance overhead.
+
+If you don't need this feature, you can set [output.disableSvgr](/api/config-output.html#outputdisablesvgr) to true to disable this behavior to improve build performance.
