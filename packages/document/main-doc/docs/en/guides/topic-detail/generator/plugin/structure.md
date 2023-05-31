@@ -23,7 +23,7 @@ Use `@modern-js/create` to create a generator plugin project directly:
 ```bash
 npx @modern-js/create@latest plugin --plugin @modern-js/generator-plugin-plugin
 ? Please select the type of project you want to create: Npm Module
-? Please select the project scenario: 生成器插件
+? Please select the project scenario: Generator Plugin
 ? Please fill in the package name of the generator plugin: plugin
 ? Please select the programming language: TS
 ? Please select the package manager: pnpm

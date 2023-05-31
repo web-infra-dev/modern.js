@@ -50,7 +50,7 @@ For custom type, the `type` field supports the `custom` value, which utilizes so
 ```bash
 npx @modern-js/create@latest plugin --plugin @modern-js/generator-plugin-plugin
 ? Please select the type of project you want to create: Npm Module
-? Please select the project scenario: 生成器插件
+? Please select the project scenario: Generator Plugin
 ? Please fill in the package name of the generator plugin: plugin
 ? Please select the programming language: TS
 ? Please select the package manager: pnpm
@@ -63,7 +63,7 @@ npx @modern-js/create@latest plugin --plugin @modern-js/generator-plugin-plugin
 ```bash
 npx @modern-js/create@latest plugin --plugin @modern-js/generator-plugin-plugin
 ? Please select the type of project you want to create: Npm Module
-? Please select the project scenario: 生成器插件
+? Please select the project scenario: Generator Plugin
 ? Please fill in the package name of the generator plugin: plugin
 ? Please select the programming language: TS
 ? Please select the package manager: pnpm

@@ -24,7 +24,8 @@
   ],
   "meta": {
     "key": "generator-plugin",
-    "name": "生成器插件",
+    "name": "Generator Plugin",
+    "name_zh": "生成器插件",
     "type": "module"
   },
   "scripts": {
