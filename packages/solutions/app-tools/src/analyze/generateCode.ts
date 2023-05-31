@@ -118,8 +118,13 @@ export const generateCode = async (
 
   const isV5 = isRouterV5(config);
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
+  const importsStatemets = new Map<string, ImportStatement[]>();
 
   await Promise.all(entrypoints.map(generateEntryCode));
+
+  return {
+    importsStatemets,
+  };
 
   async function generateEntryCode(entrypoint: Entrypoint) {
     const { entryName, isAutoMount, fileSystemRoutes } = entrypoint;
@@ -235,6 +240,19 @@ export const generateCode = async (
         );
       }
 
+      // call modifyEntryImports hook
+      const { imports } = await hookRunners.modifyEntryImports({
+        entrypoint,
+        imports: getDefaultImports({
+          entrypoint,
+          srcDirectory,
+          internalSrcAlias,
+          internalDirAlias,
+          internalDirectory,
+        }),
+      });
+      importsStatemets.set(entryName, imports);
+
       const entryFile = path.resolve(
         internalDirectory,
         `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
@@ -249,42 +267,25 @@ export const generateIndexCode = async ({
   api,
   entrypoints,
   config,
+  importsStatemets,
   bundlerConfigs,
 }: {
   appContext: IAppContext;
   api: PluginAPI<AppTools<'shared'>>;
   entrypoints: Entrypoint[];
   config: AppNormalizedConfig<'shared'>;
+  importsStatemets: Map<string, ImportStatement[]>;
   bundlerConfigs?: webpack.Configuration[] | Rspack.Configuration[];
 }) => {
   const hookRunners = api.useHookRunners();
   const { mountId } = config.html;
-  const {
-    srcDirectory,
-    internalSrcAlias,
-    internalDirAlias,
-    internalDirectory,
-    packageName,
-  } = appContext;
+  const { internalDirectory, packageName } = appContext;
 
   await Promise.all(
     entrypoints.map(async entrypoint => {
       const { entryName, isAutoMount, customBootstrap, fileSystemRoutes } =
         entrypoint;
       if (isAutoMount) {
-        // call modifyEntryImports hook
-        const { imports: importStatements } =
-          await hookRunners.modifyEntryImports({
-            entrypoint,
-            imports: getDefaultImports({
-              entrypoint,
-              srcDirectory,
-              internalSrcAlias,
-              internalDirAlias,
-              internalDirectory,
-            }),
-          });
-
         // call modifyEntryRuntimePlugins hook
         const { plugins } = await hookRunners.modifyEntryRuntimePlugins({
           entrypoint,
@@ -309,9 +310,11 @@ export const generateIndexCode = async ({
           exportStatement: 'export default AppWrapper;',
         });
 
+        const imports = importsStatemets.get(entryName)!;
+
         const code = templates.index({
           mountId: mountId as string,
-          imports: createImportStatements(importStatements),
+          imports: createImportStatements(imports),
           renderFunction,
           exportStatement,
         });
