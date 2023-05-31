@@ -38,6 +38,12 @@ export default (): CliPlugin<AppTools> => ({
               'process.env.IS_REACT18': process.env.IS_REACT18,
             },
           },
+          tools: {
+            styledComponents: {
+              // https://github.com/styled-components/babel-plugin-styled-components/issues/287
+              topLevelImportPaths: ['@modern-js/runtime/styled'],
+            },
+          },
         };
       },
       validateSchema() {
