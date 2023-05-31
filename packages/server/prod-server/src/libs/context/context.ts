@@ -5,6 +5,7 @@ import { Buffer } from 'buffer';
 import type { ModernServerContext as ModernServerContextInterface } from '@modern-js/types';
 import createEtag from 'etag';
 import fresh from 'fresh';
+import type { IFs } from 'memfs';
 import { headersWithoutCookie } from '../../utils';
 
 const MOCK_URL_BASE = 'https://modernjs.dev/';

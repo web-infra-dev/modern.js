@@ -75,6 +75,9 @@ export default (): CliPlugin<{
                 // The module-tools alias configuration is different and more specific than app-tools.
                 // So for the time being, the @ alias is configured here.
                 '@': path.join(appContext.appDirectory, 'src'),
+                '@modern-js/runtime/testing/bff': require.resolve(
+                  '@modern-js/plugin-testing/bff',
+                ),
                 '@modern-js/runtime/testing': testingExportsUtils.getPath(),
               },
             },
