@@ -240,7 +240,7 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 
 ##### 开启 TypeScript 类型检查
 
-Builder 构建时会默认开启 TypeScript 类型检查。较大项目中类型检查的耗时可能远超过 Rspack 本身的构建耗时，在生产环境构建时，此行为会在一定程度上拖慢构建。
+Builder 构建时会默认开启 TypeScript 类型检查。在大型项目中，类型检查的耗时可能远超过 Rspack 本身的构建耗时，因此在生产环境构建时，该行为会在一定程度上拖慢构建速度。
 
 此时，可通过 [output.disableTsChecker](/api/config-output.html#outputdisabletschecker) 关闭类型检查，以查看排除类型检查后 Rspack 性能是否符合预期。
 
