@@ -1,47 +1,15 @@
-const { join } = require('path');
-const { routeMeta } = require('./dist');
+const { demoMeta } = require('./dist');
 
-module.exports = async function (source) {
+module.exports = async function () {
   const callback = this.async();
-  const { createProcessor } = await import('@mdx-js/mdx');
-  const { visit } = await import('unist-util-visit');
-  const { default: fs } = await import('@modern-js/utils/fs-extra');
   try {
-    const processor = createProcessor();
-    const ast = processor.parse(source);
-    let index = 1;
-    const meta = [];
-    visit(ast, 'code', node => {
-      if (node.lang === 'jsx' || node.lang === 'tsx') {
-        const { value } = node;
-        const { pageName } = routeMeta.find(
-          meta => meta.absolutePath === this.resourcePath,
-        );
-        const id = `${pageName}_${index++}`;
-
-        const demoDir = join(
-          process.cwd(),
-          'node_modules',
-          '.modern-doc',
-          `virtual-demo`,
-        );
-        const virtualModulePath = join(demoDir, `${id}.tsx`);
-        const item = {
-          id,
-          virtualModulePath,
-        };
-        meta.push(item);
-        fs.ensureDirSync(join(demoDir));
-        fs.writeFileSync(virtualModulePath, value);
-      }
-    });
     const result = `
-      ${meta
+      ${demoMeta
         .map(item => {
           return `import Demo_${item.id} from '${item.virtualModulePath}';`;
         })
         .join('\n')}
-      export default [${meta
+      export default [${demoMeta
         .map(item => {
           return `{
             "id": "${item.id}",
