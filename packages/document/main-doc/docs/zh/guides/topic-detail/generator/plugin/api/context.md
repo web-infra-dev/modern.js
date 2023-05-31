@@ -98,7 +98,7 @@ context.addInputBefore('packageManager', {
 });
 ```
 
-### addInputAfter
+#### addInputAfter
 
 在指定的 input `key` 后添加问题。
 

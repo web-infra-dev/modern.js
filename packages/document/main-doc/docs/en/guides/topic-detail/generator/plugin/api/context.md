@@ -181,4 +181,4 @@ Sets the initial git commit message. Modern.js defaults to the git initializatio
 
 ### Lifecycle Functions
 
-The lifecycle functions are relatively complex and will be introduced separately in the following two sections, [`onForged`](/api/generator-plugin/onForged.html) and [`afterForged`](/api/generator-plugin/onForged.html).
+The lifecycle functions are relatively complex and will be introduced separately in the following two sections, [`onForged`](/guides/topic-detail/generator/plugin/api/onForged.html) and [`afterForged`](/guides/topic-detail/generator/plugin/api/afterForged.html).
