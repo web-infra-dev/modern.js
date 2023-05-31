@@ -1,3 +1,5 @@
+// eslint-disable-next-line eslint-comments/disable-enable-pair
+/* eslint-disable max-lines */
 import {
   DEFAULT_PORT,
   ROOT_DIST_DIR,
@@ -345,4 +347,18 @@ export const chainStaticAssetRule = ({
       filename,
     })
     .set('issuer', issuer);
+};
+
+export const getDefaultStyledComponentsConfig = (
+  isProd: boolean,
+  ssr: boolean,
+) => {
+  return {
+    ssr,
+    // "pure" is used to improve dead code elimination in production.
+    // we don't need to enable it in development because it will slow down the build process.
+    pure: isProd,
+    displayName: true,
+    transpileTemplateLiterals: true,
+  };
 };
