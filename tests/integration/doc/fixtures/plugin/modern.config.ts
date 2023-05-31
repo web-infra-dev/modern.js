@@ -7,10 +7,6 @@ export default defineConfig({
   plugins: [docTools()],
   doc: {
     root: path.join(__dirname, 'doc'),
-    plugins: [
-      docPluginDemo(),
-      // FIXME: demo not found error
-      pluginPreview({ isMobile: true }),
-    ],
+    plugins: [docPluginDemo(), pluginPreview({ isMobile: true })],
   },
 });
