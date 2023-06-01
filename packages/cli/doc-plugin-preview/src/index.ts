@@ -33,7 +33,6 @@ export function pluginPreview(options?: Options): DocPlugin {
     async addPages(_config, _isProd, routes) {
       // init routeMeta
       routeMeta = routes;
-      // only addPages in mobile mode
       if (!isMobile) {
         return [];
       }
@@ -104,6 +103,7 @@ export function pluginPreview(options?: Options): DocPlugin {
           .join(',')}];
         `;
       demoRuntimeModule.writeModule('virtual-meta', virtualMeta);
+      // only addPages in mobile mode
 
       return [
         {
