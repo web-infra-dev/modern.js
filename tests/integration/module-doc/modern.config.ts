@@ -10,7 +10,8 @@ export default defineConfig({
         Button: './src/button.tsx',
       },
       languages: ['zh', 'en'],
-      previewMode: 'mobile',
+      previewMode: 'web',
+      apiParseTool: 'react-docgen-typescript',
     }),
   ],
   buildPreset({ extendPreset }) {
