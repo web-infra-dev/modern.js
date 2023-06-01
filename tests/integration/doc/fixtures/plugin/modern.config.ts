@@ -9,8 +9,8 @@ export default defineConfig({
     root: path.join(__dirname, 'doc'),
     plugins: [
       docPluginDemo(),
-      // FIXME: demo not found error
-      // pluginPreview({ isMobile: true })
+      // FIX: adapt windows path
+      // pluginPreview({ isMobile: true }),
     ],
   },
 });

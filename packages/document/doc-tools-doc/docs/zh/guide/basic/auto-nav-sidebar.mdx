@@ -104,7 +104,7 @@ export type SideMetaItem =
 }
 ```
 
-其中，`name` 表示文件名，同时支持`带`/`不带`后缀，`label` 表示该文件在侧边栏中的显示名称，比如:
+其中，`name` 表示文件名，同时支持`带`/`不带`后缀，`label` 表示该文件在侧边栏中的显示名称，为可选值，如果未填则会自动取文档中的 h1 标题。比如:
 
 ```json
 {
@@ -120,7 +120,7 @@ export type SideMetaItem =
 {
   type: 'dir';
   name: string;
-  label?: string;
+  label: string;
   collapsible?: boolean;
   collapsed?: boolean;
 }
