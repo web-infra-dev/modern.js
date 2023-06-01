@@ -74,11 +74,6 @@ export async function launchDoc({
           </script>
           `,
         ],
-        builderConfig: {
-          output: {
-            disableMinimize: true,
-          },
-        },
         plugins: [pluginPreview({ isMobile: previewMode === 'mobile' })],
       },
     },
