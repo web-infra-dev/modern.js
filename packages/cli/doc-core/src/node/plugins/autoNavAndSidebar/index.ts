@@ -156,7 +156,8 @@ export async function detectFilePath(rawPath: string) {
   const extensions = ['.mdx', '.md'];
   // The params doesn't have extension name, so we need to try to find the file with the extension name.
   let realPath = rawPath;
-  if (rawPath.indexOf('.') === -1) {
+  const filename = path.basename(rawPath);
+  if (filename.indexOf('.') === -1) {
     const pathWithExtension = extensions.map(ext => `${rawPath}${ext}`);
     const pathExistInfo = await Promise.all(
       pathWithExtension.map(p => fs.pathExists(p)),
