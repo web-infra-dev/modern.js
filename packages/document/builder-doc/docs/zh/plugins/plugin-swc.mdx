@@ -23,7 +23,7 @@ import SWC from '@zh/shared/swc.md';
 - `babel-plugin-import`：使用 [source.transformImport](/api/config-source.html#sourcetransformimport) 代替。
 - `babel-plugin-lodash`：使用 [extensions.lodash](#extensionslodash) 代替。
 - `@emotion/babel-plugin`：使用 [extensions.emotion](#extensionsemotion) 代替。
-- `babel-plugin-styled-components`：使用 [extensions.styledComponent](#extensionsstyledcomponent) 代替。
+- `babel-plugin-styled-components`：使用 [extensions.styledComponents](#extensionsstyledcomponents) 代替。
 - `@babel/plugin-react-transform-remove-prop-types`: 使用 [reactUtils.removePropTypes](#extensionsreactutils) 代替。
 
 如果你使用了 SWC 尚未支持的 Babel 插件能力，在切换到 SWC 编译后，将无法再使用它们。你可以到 [swc-plugins](https://github.com/web-infra-dev/swc-plugins) 仓库下通过 issues 进行反馈，我们会评估是否需要内置支持。
@@ -213,7 +213,7 @@ import get from 'lodash/get';
 import throttle from 'lodash/throttle';
 ```
 
-#### extensions.styledComponent
+#### extensions.styledComponents
 
 - **类型：**
 
