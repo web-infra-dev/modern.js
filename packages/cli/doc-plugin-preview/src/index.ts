@@ -33,6 +33,9 @@ export function pluginPreview(options?: Options): DocPlugin {
     async addPages(_config, _isProd, routes) {
       // init routeMeta
       routeMeta = routes;
+      if (!isMobile) {
+        return [];
+      }
       const files = routes.map(route => route.absolutePath);
       // Write the demo code ahead of time
       // Fix: rspack build error because demo file is not exist, probably the demo file was written in rspack build process?
@@ -101,9 +104,7 @@ export function pluginPreview(options?: Options): DocPlugin {
         `;
       demoRuntimeModule.writeModule('virtual-meta', virtualMeta);
       // only addPages in mobile mode
-      if (!isMobile) {
-        return [];
-      }
+
       return [
         {
           routePath: '/~demo/:id',
