@@ -2,11 +2,7 @@
 '@modern-js/builder-rspack-provider': patch
 ---
 
-fix(builder): 使用 rspack 0601 nightly 版本
+feat(builder): 使用 Rspack 0601 nightly 版本 (与 0.2.0 版本功能相同)
 
-breakingChange(rspack): 生产环境构建默认开启 realContentHash
-
-fix(builder): adapt and use rspack 0601 nightly version
-
-breakingChange(rspack): Enabled realContentHash by default in production
+feat(builder): adapt and use Rspack 0601 nightly version (Same features as version 0.2.0.)
 
