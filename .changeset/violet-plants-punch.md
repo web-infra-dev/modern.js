@@ -2,6 +2,11 @@
 '@modern-js/builder-rspack-provider': patch
 ---
 
-hotfix(builder): adapt and use rspack 0526 nightly version (update cssModuleLocalIdentName snapshot to passed ecosystem-ci)
+fix(builder): 使用 rspack 0601 nightly 版本
 
-hotfix(builder): 适配并使用 rspack 0526 nightly 版本 (更新 e2e cssModuleLocalIdentName snapshot)
+breakingChange(rspack): 生产环境构建默认开启 realContentHash
+
+fix(builder): adapt and use rspack 0601 nightly version
+
+breakingChange(rspack): Enabled realContentHash by default in production
+
