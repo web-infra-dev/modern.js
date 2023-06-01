@@ -6,7 +6,7 @@ export type ModuleDocgenLanguage = 'zh' | 'en';
 
 export type PluginOptions = Pick<
   Options,
-  'entries' | 'languages' | 'doc' | 'previewMode'
+  'entries' | 'languages' | 'doc' | 'previewMode' | 'apiParseTool'
 >;
 
 export type Options = {
@@ -44,4 +44,11 @@ export type Options = {
    * @default 'web'
    */
   previewMode?: 'mobile' | 'web';
+  /**
+   * apiParseTool
+   * @experimental
+   * @zh 解析工具
+   * @default 'react-docgen-typescript'
+   */
+  apiParseTool?: 'react-docgen-typescript' | 'documentation';
 };
