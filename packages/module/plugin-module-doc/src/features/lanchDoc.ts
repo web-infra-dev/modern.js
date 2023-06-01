@@ -23,7 +23,7 @@ export async function launchDoc({
     return {
       [getLangPrefixInLink(lang)]: [
         {
-          text: lang === 'zh' ? '组件' : ' Component',
+          text: lang === 'zh' ? '模块列表' : ' Module List',
           link: `${getLangPrefixInLink(lang)}/index`,
           collapsible: false,
           items: [
