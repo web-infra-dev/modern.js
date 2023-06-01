@@ -102,12 +102,10 @@ export function applyBuilderPluginSwc(
       getDefaultStyledComponentsConfig(isProd, isSSR),
       config.tools.styledComponents,
     );
-    // TODO we can remove JSON.stringify after upgrading swc-plugins
-    // https://github.com/web-infra-dev/swc-plugins/pull/122
-    swc.extensions.styledComponents = JSON.stringify({
+    swc.extensions.styledComponents = {
       ...styledComponentsOptions,
       ...swc.extensions.styledComponents,
-    });
+    };
 
     /**
      * SWC can't use latestDecorator in TypeScript file for now
