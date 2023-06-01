@@ -1,5 +1,29 @@
 # @modern-js/builder-webpack-provider
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- ae3fcc2: fix(builder): failed to configure browserslist when target is web-worker
+
+  fix(builder): 修复 target 为 web-worker 时无法配置 browserslist 的问题
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [dc45896]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/babel-preset-base@2.22.0
+  - @modern-js/babel-preset-app@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/e2e@2.22.0
+  - @modern-js/types@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/generator-common
 
+## 3.1.20
+
+### Patch Changes
+
+- b647c68: chore(generator): update codesmith version
+
+  chore(generator): 更新 codesmith 版本
+
+- 3c3d1e2: feat: optimize generator English expression.
+
+  feat: 优化生成器英文表达。
+
+  - @modern-js/plugin-i18n@2.22.0
+
 ## 3.1.19
 
 ### Patch Changes

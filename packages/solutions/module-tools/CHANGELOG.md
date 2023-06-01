@@ -1,5 +1,33 @@
 # @modern-js/module-tools
 
+## 2.22.0
+
+### Patch Changes
+
+- d19dc11: chore(module-tools): bump rollup v3
+
+  chore(module-tools): 升级 rollup v3
+
+- c890980: feat: add swc transform content and fix build logic when disable swc-transform
+  feat: 添加 swc transform 相关文档内容,并且修复禁用 swc-transform 时候的构建逻辑
+- 4b7488c: chore(deps): bump libuild v0.12.4 and swc-plugins v0.3.5
+
+  chore(deps): 升级 libuild v0.12.4 和 swc-plugins v0.3.5
+
+- Updated dependencies [3d48836]
+- Updated dependencies [7d1b96e]
+- Updated dependencies [5050e8e]
+- Updated dependencies [27618e4]
+- Updated dependencies [b647c68]
+  - @modern-js/utils@2.22.0
+  - @modern-js/plugin-changeset@2.22.0
+  - @modern-js/core@2.22.0
+  - @modern-js/new-action@2.22.0
+  - @modern-js/upgrade@2.22.0
+  - @modern-js/plugin-i18n@2.22.0
+  - @modern-js/plugin-lint@2.22.0
+  - @modern-js/plugin@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

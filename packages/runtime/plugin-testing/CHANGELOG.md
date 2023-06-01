@@ -1,5 +1,32 @@
 # @modern-js/plugin-testing
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 8f1141c: fix: refactor the mock logic of BFF testing plugin
+  fix: 修改 BFF 测试插件的 mock 逻辑
+- Updated dependencies [3d48836]
+- Updated dependencies [63cdea1]
+- Updated dependencies [8f1141c]
+- Updated dependencies [5050e8e]
+- Updated dependencies [4991c8a]
+- Updated dependencies [cb9e1ec]
+- Updated dependencies [dc45896]
+- Updated dependencies [79180c2]
+- Updated dependencies [c271c5d]
+- Updated dependencies [ea961e7]
+  - @modern-js/runtime@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/prod-server@2.22.0
+  - @modern-js/babel-preset-app@2.22.0
+  - @modern-js/babel-compiler@2.22.0
+  - @modern-js/plugin@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

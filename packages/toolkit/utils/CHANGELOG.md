@@ -1,5 +1,16 @@
 # @modern-js/utils
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 5050e8e: fix: browser should get last element that server insert to html for baseUrl
+  fix: 浏览器需要获取最后一个 Server 注入 HTML 的 baseUrl 数据
+
 ## 2.21.1
 
 ## 2.21.0

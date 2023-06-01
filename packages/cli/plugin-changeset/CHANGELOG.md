@@ -1,5 +1,20 @@
 # @modern-js/plugin-changeset
 
+## 2.22.0
+
+### Minor Changes
+
+- 7d1b96e: feat(changeset): optimize release note display
+
+  feat(changeset): 优化生成 Release Note 文案
+
+### Patch Changes
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/plugin-i18n@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

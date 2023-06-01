@@ -1,5 +1,22 @@
 # @modern-js/plugin-module-import
 
+## 2.22.0
+
+### Patch Changes
+
+- ad49140: chore: adjust output and package.json fields
+  chore: 调整包的产物格式以及 packgae.json 里的字段
+- 4b7488c: chore(deps): bump libuild v0.12.4 and swc-plugins v0.3.5
+
+  chore(deps): 升级 libuild v0.12.4 和 swc-plugins v0.3.5
+
+- e2913dd: chore: update module plugin docs and readme
+  chore: 更新模块插件的文档和 readme
+- Updated dependencies [d19dc11]
+- Updated dependencies [c890980]
+- Updated dependencies [4b7488c]
+  - @modern-js/module-tools@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

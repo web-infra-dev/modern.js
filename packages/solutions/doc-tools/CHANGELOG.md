@@ -1,5 +1,28 @@
 # @modern-js/doc-tools
 
+## 2.22.0
+
+### Patch Changes
+
+- b8553a3: fix(doc-tools): peerDependencies should allow react v18
+
+  fix(doc-tools): peerDependencies 支持 react v18
+
+- Updated dependencies [3d48836]
+- Updated dependencies [80d7bba]
+- Updated dependencies [5050e8e]
+- Updated dependencies [e465c68]
+- Updated dependencies [7b25598]
+- Updated dependencies [562ba82]
+- Updated dependencies [27618e4]
+- Updated dependencies [68333c8]
+- Updated dependencies [60fddc8]
+- Updated dependencies [b371c97]
+- Updated dependencies [271f2c1]
+  - @modern-js/utils@2.22.0
+  - @modern-js/doc-core@2.22.0
+  - @modern-js/core@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

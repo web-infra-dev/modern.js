@@ -1,5 +1,22 @@
 # @modern-js/module-tools-docs
 
+## 2.22.0
+
+### Minor Changes
+
+- c890980: feat: add swc transform content and fix build logic when disable swc-transform
+  feat: 添加 swc transform 相关文档内容,并且修复禁用 swc-transform 时候的构建逻辑
+
+### Patch Changes
+
+- 3c3d1e2: docs: update project creation and new command text.
+
+  docs: 更新生成器创建项目和 new 命令文案。
+
+- Updated dependencies [b8553a3]
+  - @modern-js/doc-tools@2.22.0
+  - @modern-js/doc-plugin-auto-sidebar@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes
