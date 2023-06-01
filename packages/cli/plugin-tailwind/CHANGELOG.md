@@ -1,5 +1,19 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.22.0
+
+### Patch Changes
+
+- Updated dependencies [3d48836]
+- Updated dependencies [63cdea1]
+- Updated dependencies [8f1141c]
+- Updated dependencies [5050e8e]
+- Updated dependencies [dc45896]
+- Updated dependencies [79180c2]
+- Updated dependencies [c271c5d]
+  - @modern-js/runtime@2.22.0
+  - @modern-js/utils@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

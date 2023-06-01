@@ -1,5 +1,23 @@
 # @modern-js/main-doc
 
+## 2.22.0
+
+### Minor Changes
+
+- 7d1b96e: feat(changeset): optimize release note display
+
+  feat(changeset): 优化生成 Release Note 文案
+
+### Patch Changes
+
+- 3c3d1e2: docs: update project creation and new command text.
+
+  docs: 更新生成器创建项目和 new 命令文案。
+
+- Updated dependencies [850cde6]
+- Updated dependencies [e7a5f94]
+  - @modern-js/builder-doc@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

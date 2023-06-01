@@ -1,5 +1,13 @@
 # @modern-js/doc-tools-doc
 
+## 2.22.0
+
+### Patch Changes
+
+- 60fddc8: feat(doc-core): support auto nav and sidebar
+
+  feat(doc-core): 支持自动生成导航和侧边栏
+
 ## 2.21.1
 
 ## 2.21.0

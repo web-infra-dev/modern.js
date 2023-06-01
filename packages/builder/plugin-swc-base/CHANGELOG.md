@@ -1,5 +1,19 @@
 # @modern-js/builder-plugin-swc-base
 
+## 2.22.0
+
+### Patch Changes
+
+- e7a5f94: feat(plugin-swc): should reduce lodash bundle size by default
+
+  feat(plugin-swc): 默认优化 lodash 包体积
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

@@ -1,5 +1,34 @@
 # @modern-js/runtime
 
+## 2.22.0
+
+### Minor Changes
+
+- 63cdea1: feat: ssr runtime need webpack.output.chunkLoadingGlobal pass to loadableReady
+  feat: ssr runtime 需要传递 webpack.output.chunnkLoadingGlobal 给 loadableReady
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 8f1141c: fix: refactor the mock logic of BFF testing plugin
+  fix: 修改 BFF 测试插件的 mock 逻辑
+- dc45896: fix(runtime): babel-plugin-styled-components not work
+
+  fix(runtime): 修复 babel-plugin-styled-components 不生效的问题
+
+- 79180c2: feat: export only partial common router API for better stability
+  feat: 只导出 Router 实例的常用 API, 保证更好的稳定性
+- c271c5d: feat: export react-router instance
+  feat: 导出 react-router 路由实例
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/plugin@2.22.0
+  - @modern-js/types@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

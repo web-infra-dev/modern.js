@@ -1,5 +1,32 @@
 # @modern-js/plugin-storybook
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- Updated dependencies [3d48836]
+- Updated dependencies [63cdea1]
+- Updated dependencies [8f1141c]
+- Updated dependencies [9c3c231]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [27618e4]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [dc45896]
+- Updated dependencies [79180c2]
+- Updated dependencies [c271c5d]
+  - @modern-js/builder-webpack-provider@2.22.0
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/runtime@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/builder@2.22.0
+  - @modern-js/builder-plugin-node-polyfill@2.22.0
+  - @modern-js/plugin-router-v5@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

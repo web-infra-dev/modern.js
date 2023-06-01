@@ -1,5 +1,17 @@
 # @modern-js/babel-preset-base
 
+## 2.22.0
+
+### Patch Changes
+
+- dc45896: fix(runtime): babel-plugin-styled-components not work
+
+  fix(runtime): 修复 babel-plugin-styled-components 不生效的问题
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

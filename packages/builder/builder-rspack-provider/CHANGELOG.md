@@ -1,5 +1,34 @@
 # @modern-js/builder-rspack-provider
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 4161b09: fix(builder): rule.loader support undefined in rspack
+
+  fix(builder): 使用 rspack 构建时, rule.loader 允许为空
+
+- becfd36: fix(builder): support array in output.externals when use Rspack
+
+  fix(builder): 在使用 Rspack 构建时，output.externals 支持数组
+
+- 02238e6: feat(builder): 使用 Rspack 0601 nightly 版本 (与 0.2.0 版本功能相同)
+
+  feat(builder): adapt and use Rspack 0601 nightly version (Same features as version 0.2.0.)
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/e2e@2.22.0
+  - @modern-js/types@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

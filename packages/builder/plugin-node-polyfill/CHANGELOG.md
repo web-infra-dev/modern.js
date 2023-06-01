@@ -1,5 +1,17 @@
 # @modern-js/builder-plugin-node-polyfill
 
+## 2.22.0
+
+### Patch Changes
+
+- 27618e4: chore(deps): remove unused wireit
+
+  chore(deps): 移除未使用的 wireit
+
+- Updated dependencies [3d48836]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

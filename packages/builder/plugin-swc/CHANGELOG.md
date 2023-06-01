@@ -1,5 +1,29 @@
 # @modern-js/builder-plugin-swc
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- e7a5f94: feat(plugin-swc): should reduce lodash bundle size by default
+
+  feat(plugin-swc): 默认优化 lodash 包体积
+
+- 4b7488c: chore(deps): bump libuild v0.12.4 and swc-plugins v0.3.5
+
+  chore(deps): 升级 libuild v0.12.4 和 swc-plugins v0.3.5
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [e7a5f94]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/builder-plugin-swc-base@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes
