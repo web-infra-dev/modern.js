@@ -200,7 +200,7 @@ export const remarkPluginNormalizeLink: Plugin<
       images.push(getASTNodeImport(tempVariableName, imagePath));
     });
 
-    visit(tree, 'mdxJsxFlowElement', (node: any) => {
+    visit(tree, ['mdxJsxFlowElement', 'mdxJsxTextElement'], (node: any) => {
       // get all img src
       if (node.name !== 'img') {
         return;
