@@ -23,8 +23,8 @@
   "types": "./src/index.ts",
   "main": "./src/index.ts",
   "exports": {
-    ".": "./dist/index.js",
-    "./defineConfig": "./dist/config/defineConfig.js"
+    ".": "./src/index.ts",
+    "./defineConfig": "./src/config/defineConfig.ts"
   },
   "typesVersions": {
     "*": {

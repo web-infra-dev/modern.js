@@ -10,6 +10,7 @@ export default defineConfig({
         Button: './src/button.tsx',
       },
       languages: ['zh', 'en'],
+      previewMode: 'mobile',
     }),
   ],
   buildPreset({ extendPreset }) {
