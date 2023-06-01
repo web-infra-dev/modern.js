@@ -43,7 +43,7 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@modern-js/codesmith": "2.2.3",
+    "@modern-js/codesmith": "2.2.5",
     "@modern-js/generator-plugin-plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/repo-generator": "workspace:*",

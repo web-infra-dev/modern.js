@@ -1,6 +1,6 @@
 export const EN_LOCALE = {
   command: {
-    description: 'create @modern-js application',
+    description: 'create Modern.js solution project',
     mwa: 'create mwa application using default config',
     module: 'create module application using default config',
     monorepo: 'create monorepo application using default config',

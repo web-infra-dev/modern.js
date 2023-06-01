@@ -1,0 +1,161 @@
+# Auto Nav/Sidebar
+
+In Modern.js Doc, in addition to declaring [nav](/api/config-theme.html#nav) and [sidebar](/api/config-theme.html#sidebar) through `themeConfig` in the config file, you You can also automatically generate the nav bar and sidebar by declaring the `_meta.json` description file. We recommend the latter because it can make the config file more concise and clear.
+
+:::tip
+Automated navbar/sidebar will only work if there are no `nav` and `sidebar` configurations in the config file `modern.config.ts`.
+:::
+
+## Basic Concept
+
+First, `_meta.json` can be divided into two categories: navbar level and sidebar level. The difference between the two is that the navigation-level `_meta.json` lives in the document root, while the sidebar-level `_meta.json` lives in a subdirectory of the document root. for example:
+
+```js
+docs
+├── _meta.json // navigation bar level
+└── guides
+    ├── _meta.json // sidebar level
+    ├── introduction.mdx
+    └── advanced
+        ├── _meta.json // sidebar level
+        └── plugin-development.md
+```
+
+If your document supports i18n, then `_meta.json` at the navigation bar level will be placed in the corresponding language directory, for example:
+
+```js
+docs
+├── en
+│   ├── _meta.json // navigation bar level
+│   └── guides
+│       ├── _meta.json // sidebar level
+│       ├── introduction.mdx
+│       ├── install.mdx
+│       └── advanced
+│           ├── _meta.json // sidebar level
+│           └── plugin-development.md
+└── zh
+    ├── _meta.json // navigation bar level
+    └── guides
+        ├── _meta.json // sidebar level
+        ├── introduction.mdx
+        ├── install.mdx
+        └── advanced
+            ├── _meta.json // sidebar level
+            └── plugin-development.md
+```
+
+## Navbar Level Config
+
+In the case of the navigation bar level, you can fill in an array in `_meta.json`, and its type is exactly the same as the nav config of the default theme. For details, please refer to [nav config](/api/config-theme.html#nav). for example:
+
+```json
+[
+  {
+    "text": "Guide",
+    "link": "/guides/introduction",
+    "activeMatch": "^/guides/"
+  }
+]
+```
+
+## Sidebar Level Config
+
+In the case of the sidebar level, you can fill in `_meta.json` an array with each item of the following type:
+
+```ts
+export type SideMetaItem =
+  | string
+  | {
+      type: 'file';
+      name: string;
+      label?: string;
+    }
+  | {
+      type: 'dir';
+      name: string;
+      label?: string;
+      collapsible?: boolean;
+      collapsed?: boolean;
+    };
+```
+
+### string
+
+When the type is `string`, it means that the item is a file, and the file name is the string, for example:
+
+```json
+["introduction"]
+```
+
+The file name may or may not have a suffix, for example `introduction` will be parsed as `introduction.mdx`.
+
+### obejct
+
+When the type is an object, you can describe it as a file or a directory.
+
+In the case of describing **file**, the types are as follows:
+
+```ts
+{
+  type: 'file';
+  name: string;
+  label?: string;
+}
+```
+
+Among them, `name` means the file name, `with`/`without` suffix is ​​supported, `label` means the display name of the file in the sidebar.`label` is an optional value, if it is not filled, it will automatically take the h1 title in the document. For example:
+
+```json
+{
+  "type": "file",
+  "name": "introduction",
+  "label": "Introduction"
+}
+```
+
+In the case of describing **directories**, the types are as follows:
+
+```ts
+{
+  type: 'dir';
+  name: string;
+  label?: string;
+  collapsible?: boolean;
+  collapsed?: boolean;
+}
+```
+
+Among them, `name` indicates the directory name, `label` indicates the display name of the directory in the sidebar, `collapsible` indicates whether the directory can be collapsed, and `collapsed` indicates whether the directory is collapsed by default, for example:
+
+```json
+{
+  "type": "dir",
+  "name": "advanced",
+  "label": "Advanced",
+  "collapsible": true,
+  "collapsed": false
+}
+```
+
+### Complete Example
+
+Here is a complete example using the three types above:
+
+```json
+[
+  "install",
+  {
+    "type": "file",
+    "name": "introduction",
+    "label": "Introduction"
+  },
+  {
+    "type": "dir",
+    "name": "advanced",
+    "label": "Advanced",
+    "collapsible": true,
+    "collapsed": false
+  }
+]
+```

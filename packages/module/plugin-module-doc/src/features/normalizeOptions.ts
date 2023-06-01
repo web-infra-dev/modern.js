@@ -8,6 +8,7 @@ export const normalizeOptions = (options: Options): Required<Options> => {
     appDir = process.cwd(),
     entries = {},
     previewMode = 'web',
+    apiParseTool = 'react-docgen-typescript',
   } = options;
   return {
     languages,
@@ -16,5 +17,6 @@ export const normalizeOptions = (options: Options): Required<Options> => {
     appDir,
     entries,
     previewMode,
+    apiParseTool,
   };
 };

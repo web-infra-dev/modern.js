@@ -322,7 +322,7 @@ We have done many extensions based on the original esbuild build. Therefore, whe
 
 :::
 
-<!-- ## externalHelpers
+## externalHelpers
 
 By default, the output JS code may depend on helper functions to support the target environment or output format, and these helper functions will be inlined in the file that requires it.
 
@@ -364,7 +364,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 export var yourCode = function() {
   // use _async_to_generator
 }
-``` -->
+```
 
 ## externals
 
@@ -521,12 +521,12 @@ Whether to generate sourceMap or not
 - Type: `boolean | 'inline' | 'external'`
 - Default: `false`
 
-<!-- ## sourceType
+## sourceType
 
 Sets the format of the source code. By default, the source code will be treated as EsModule. When the source code is using CommonJS, you need to set `commonjs`.
 
 - **Type**: `commonjs` | `module`
-- **Default**: `module` -->
+- **Default**: `module`
 
 ## splitting
 

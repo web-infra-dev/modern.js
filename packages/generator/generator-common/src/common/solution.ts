@@ -114,7 +114,10 @@ export const getScenesSchema = (extra: Record<string, any> = {}): Schema => {
                 extra?.customPlugin ? extra?.customPlugin[solution] || [] : []
               ).map((plugin: any) => ({
                 value: plugin.key,
-                label: plugin.name,
+                label:
+                  extra.locale === 'zh'
+                    ? plugin.name_zh || plugin.name
+                    : plugin.name,
               }));
               if (solution && solution !== 'custom') {
                 items.unshift({
