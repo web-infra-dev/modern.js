@@ -122,9 +122,7 @@ describe('test build', () => {
       'utf-8',
     );
 
-    expect(htmlWithDoc.includes('.bytedance-logo-spin > div:last-child')).toBe(
-      true,
-    );
+    expect(htmlWithDoc.includes('.logo-spin > div:last-child')).toBe(true);
   });
 
   it('should has lang property in html', async () => {
