@@ -104,7 +104,7 @@ export const isCssModules = (filename: string, modules: CssModules) => {
     return modules;
   }
 
-  // todo
+  // todo: this configuration is not common and more complex.
   if (typeof modules === 'string') {
     return true;
   }
