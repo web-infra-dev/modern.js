@@ -1,5 +1,24 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 5cbe8b5: fix: unable parsing within a ts ambient context, and set plugin options optional
+  fix: 关闭在 ts 环境中的解析，并将插件参数设为可选
+- ad49140: chore: adjust output and package.json fields
+  chore: 调整包的产物格式以及 packgae.json 里的字段
+- e2913dd: chore: update module plugin docs and readme
+  chore: 更新模块插件的文档和 readme
+- Updated dependencies [d19dc11]
+- Updated dependencies [c890980]
+- Updated dependencies [4b7488c]
+  - @modern-js/module-tools@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

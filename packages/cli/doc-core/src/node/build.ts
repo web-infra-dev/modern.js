@@ -79,7 +79,6 @@ export async function renderPages(
   const htmlTemplatePath = join(outputPath, 'html', 'main', 'index.html');
   const htmlTemplate = await fs.readFile(htmlTemplatePath, 'utf-8');
   const additionalRoutes = await pluginDriver.addSSGRoutes();
-
   await Promise.all(
     [...routes, ...additionalRoutes]
       .filter(route => {
@@ -91,7 +90,13 @@ export async function renderPages(
           context: {},
         } as HelmetData;
         const routePath = route.path;
-        const { appHtml } = await render(routePath, helmetContext.context);
+        let appHtml: string;
+        try {
+          ({ appHtml } = await render(routePath, helmetContext.context));
+        } catch (e) {
+          logger.error(`page "${route.path}" render error: ${e.stack}`);
+          return;
+        }
 
         const { helmet } = helmetContext.context;
 

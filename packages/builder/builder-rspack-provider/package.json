@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.21.1",
+  "version": "2.22.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -57,11 +57,11 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@babel/preset-typescript": "^7.21.5",
-    "@rspack/core": "0.0.0-canary-246a271-20230526005602",
-    "@rspack/dev-client": "0.0.0-canary-246a271-20230526005602",
-    "@rspack/dev-middleware": "0.0.0-canary-246a271-20230526005602",
-    "@rspack/plugin-html": "0.0.0-canary-246a271-20230526005602",
-    "@rspack/postcss-loader": "0.0.0-canary-246a271-20230526005602",
+    "@rspack/core": "0.0.0-canary-e8556c5-20230601010039",
+    "@rspack/dev-client": "0.0.0-canary-e8556c5-20230601010039",
+    "@rspack/dev-middleware": "0.0.0-canary-e8556c5-20230601010039",
+    "@rspack/plugin-html": "0.0.0-canary-e8556c5-20230601010039",
+    "@rspack/postcss-loader": "0.0.0-canary-e8556c5-20230601010039",
     "rspack-manifest-plugin": "5.0.0-alpha0",
     "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",
@@ -81,7 +81,7 @@
     "react-dom": "^18"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.21.1"
+    "@modern-js/e2e": "workspace:^2.22.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {

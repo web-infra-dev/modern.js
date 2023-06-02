@@ -1,5 +1,7 @@
 # @scripts/check-changeset
 
+## 2.22.0
+
 ## 2.21.1
 
 ## 2.21.0

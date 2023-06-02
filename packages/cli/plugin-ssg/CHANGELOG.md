@@ -1,5 +1,17 @@
 # @modern-js/plugin-ssg
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

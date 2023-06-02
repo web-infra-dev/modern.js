@@ -1,5 +1,57 @@
 # @modern-js/app-tools
 
+## 2.22.0
+
+### Minor Changes
+
+- 63cdea1: feat: ssr runtime need webpack.output.chunkLoadingGlobal pass to loadableReady
+  feat: ssr runtime 需要传递 webpack.output.chunnkLoadingGlobal 给 loadableReady
+
+### Patch Changes
+
+- 4a35eb4: fix: templateByEntries should have a higher priority than appContext.htmlTemplates
+  fix: templateByEntries 的优先级需要比 appContext.htmlTemplates 更高
+- 597a0bf: fix(app-tools): the hook `moidfyEntryImports` must run before `htmlPartials`,
+  builder onBeforeCreateCompiler hook would run in build mode, so we no need to run generateIndexCode twice.
+
+  fix(app-tools): 钩子 `moidfyEntryImports` 必须早于钩子 `htmlPartials` 运行,
+  builder onBeforeCreateCompiler 钩子也将在 build 模式运行, 我们不需要运行 generateIndexCode 函数两次.
+
+- 290e9f4: chore: write router manifest to final asset and support user insert some extra msgs.
+  chore: 将 router manifest 写入最终产物，并支持用户插入一些额外信息
+- Updated dependencies [3d48836]
+- Updated dependencies [4161b09]
+- Updated dependencies [9c3c231]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [4991c8a]
+- Updated dependencies [27618e4]
+- Updated dependencies [cb9e1ec]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [27618e4]
+- Updated dependencies [becfd36]
+- Updated dependencies [b647c68]
+- Updated dependencies [ea961e7]
+- Updated dependencies [02238e6]
+  - @modern-js/builder-webpack-provider@2.22.0
+  - @modern-js/builder-rspack-provider@2.22.0
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/plugin-data-loader@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/builder@2.22.0
+  - @modern-js/prod-server@2.22.0
+  - @modern-js/builder-plugin-node-polyfill@2.22.0
+  - @modern-js/builder-plugin-esbuild@2.22.0
+  - @modern-js/core@2.22.0
+  - @modern-js/new-action@2.22.0
+  - @modern-js/upgrade@2.22.0
+  - @modern-js/plugin-i18n@2.22.0
+  - @modern-js/plugin-lint@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/node-bundle-require@2.22.0
+  - @modern-js/plugin@2.22.0
+  - @modern-js/types@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

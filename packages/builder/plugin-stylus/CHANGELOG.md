@@ -1,5 +1,27 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 27618e4: chore(deps): remove unused wireit
+
+  chore(deps): 移除未使用的 wireit
+
+- Updated dependencies [3d48836]
+- Updated dependencies [4161b09]
+- Updated dependencies [850cde6]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [becfd36]
+- Updated dependencies [02238e6]
+  - @modern-js/builder-webpack-provider@2.22.0
+  - @modern-js/builder-rspack-provider@2.22.0
+  - @modern-js/builder-shared@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

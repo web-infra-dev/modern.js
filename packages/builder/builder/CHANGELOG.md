@@ -1,5 +1,27 @@
 # @modern-js/builder
 
+## 2.22.0
+
+### Patch Changes
+
+- 9c3c231: feat(deps): bump @svgr/webpack from v6 to v8
+
+  feat(deps): 将 @svgr/webpack 从 v6 升级到 v8
+
+- 850cde6: feat(builder): add arco config to transformImport by default
+
+  feat(builder): 默认增加 arco 的 transformImport 配置
+
+- ae3fcc2: fix(builder): failed to configure browserslist when target is web-worker
+
+  fix(builder): 修复 target 为 web-worker 时无法配置 browserslist 的问题
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

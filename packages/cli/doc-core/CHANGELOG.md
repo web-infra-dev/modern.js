@@ -1,5 +1,62 @@
 # @modern-js/doc-core
 
+## 2.22.0
+
+### Minor Changes
+
+- e465c68: feat: support blank page type and adjust doc layout
+  feat: 支持 blank 页面并调整整体布局
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 80d7bba: fix(doc-core): custom page written into the same file
+
+  fix(doc-core): 自定义页面写入到同一个文件
+
+- 7b25598: fix(doc-core): theme config normalize error
+
+  fix(doc-core): 主题配置规范化错误
+
+- 562ba82: fix(doc-core): avoid panic when mdx-rs parse error
+
+  fix(doc-core): mdx-rs 出现编译错误避免 panic
+
+- 68333c8: fix(doc-core): demo preview ssg
+
+  fix(doc-core): demo 预览 SSG 失败的问题
+
+- 60fddc8: feat(doc-core): support auto nav and sidebar
+
+  feat(doc-core): 支持自动生成导航和侧边栏
+
+- b371c97: fix(doc-core): build error when doc path includes "."
+
+  fix(doc-core): 当文档路径包含 "." 时，构建失败
+
+- 271f2c1: fix(doc-plugin-preview): preview plugin build error
+
+  fix(doc-plugin-preview): 预览插件构建错误
+
+- Updated dependencies [3d48836]
+- Updated dependencies [4161b09]
+- Updated dependencies [9c3c231]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [27618e4]
+- Updated dependencies [becfd36]
+- Updated dependencies [02238e6]
+  - @modern-js/builder-rspack-provider@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/builder@2.22.0
+  - @modern-js/core@2.22.0
+  - @modern-js/doc-plugin-medium-zoom@2.22.0
+  - @modern-js/remark-container@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # @modern-js/generator-plugin-plugin
 
+## 3.1.20
+
+### Patch Changes
+
+- 3c3d1e2: feat: optimize generator plugin English expression.
+
+  feat: 优化生成器插件英文表达。
+
+- 3d33047: docs(main): optimize generator documentation.
+
+  docs(main): 优化生成器文档。
+
+- 3d33047: feat(generator): generator plugin support config chinese name
+
+  feat(generator): 生成器插件支持设置中文名称
+
 ## 3.1.19
 
 ## 3.1.18

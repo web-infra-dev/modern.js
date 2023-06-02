@@ -1,5 +1,18 @@
 # @modern-js/upgrade
 
+## 2.22.0
+
+### Patch Changes
+
+- b647c68: chore(generator): update codesmith version
+
+  chore(generator): 更新 codesmith 版本
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/plugin-i18n@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/upgrade-generator
 
+## 3.1.20
+
+### Patch Changes
+
+- b647c68: chore(generator): update codesmith version
+
+  chore(generator): 更新 codesmith 版本
+
 ## 3.1.19
 
 ## 3.1.18

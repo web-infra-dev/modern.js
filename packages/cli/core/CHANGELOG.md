@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 2.22.0
+
+### Patch Changes
+
+- 27618e4: chore(deps): remove unused dev dependencies
+
+  chore(deps): 移除未使用的 dev dependencies
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/node-bundle-require@2.22.0
+  - @modern-js/plugin@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes
