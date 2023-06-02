@@ -89,3 +89,34 @@ export function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
     (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
   );
 }
+
+export type CssModules =
+  | boolean
+  | string
+  | {
+      auto: boolean | RegExp | ((filename: string) => boolean);
+    };
+
+const IS_MODULES = /\.module(s)?\.\w+$/i;
+
+export const isCssModules = (filename: string, modules: CssModules) => {
+  if (typeof modules === 'boolean') {
+    return modules;
+  }
+
+  // todo
+  if (typeof modules === 'string') {
+    return true;
+  }
+
+  const { auto } = modules;
+
+  if (typeof auto === 'boolean') {
+    return auto && IS_MODULES.test(filename);
+  } else if (auto instanceof RegExp) {
+    return auto.test(filename);
+  } else if (typeof auto === 'function') {
+    return auto(filename);
+  }
+  return true;
+};
