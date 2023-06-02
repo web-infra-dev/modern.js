@@ -69,3 +69,36 @@ rm -rf ./node_modules/.cache
 在生产环境构建时，我们可以移除代码中的 `console`，从而避免开发环境的日志被输出到生产环境。
 
 Builder 默认提供了移除 console 的配置项，请查看 [performance.removeConsole](/api/config-performance.html#performanceremoveconsole)。
+
+## 如何查看最终生成的 webpack / Rspack 配置?
+
+### 通过 inspect 命令查看
+
+当你使用 Modern.js 等上层框架时，框架通常会提供 [inspect 命令](https://modernjs.dev/apis/app/commands.html) 用于查看项目最终生成的 Modern.js Builder 配置以及 webpack / Rspack 配置。
+
+```bash
+➜ npx modern inspect
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.js
+```
+
+### 通过 Builder 调试模式查看
+
+通过在执行构建时添加 `DEBUG=builder` 环境变量可开启 Builder 的[调试模式](/guide/debug/debug-mode.html)，此时会输出最终生成的 webpack 或 Rspack 配置到 dist 目录下。
+
+```bash
+➜ DEBUG=builder pnpm dev
+
+debug   create context [1842.90 ms]
+debug   add default plugins [1874.45 ms]
+debug   add default plugins done [1938.57 ms]
+...
+
+Inspect config succeed, open following files to view the content:
+
+  - Builder Config: /root/my-project/dist/builder.config.js
+  - Rspack Config (web): /root/my-project/dist/rspack.config.web.js
+```
