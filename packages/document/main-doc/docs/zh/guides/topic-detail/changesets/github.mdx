@@ -6,7 +6,7 @@ sidebar_position: 9
 
 ## BOT
 
-在 Github 上，Changesets 提供了机器人用于检测当前 Pull Request 是否存在 changeset，并提供了 UI 界面添加和修改 changeset。
+在 Github 上，changesets 提供了机器人用于检测当前 Pull Request 是否存在 changeset，并提供了 UI 界面添加和修改 changeset。
 
 ### 安装
 
@@ -46,7 +46,7 @@ sidebar_position: 9
 
 Modern.js 提供了自动创建发版 Pull Request 的 Github Action，提供基于选择的分支自动执行 bump 操作，更新 lock 文件及创建 Pull Request 操作。
 
-### 使用
+#### 使用
 
 在仓库中创建 `.github/workflows/release-pull-request.yml` 文件，填入以下内容：
 
@@ -57,8 +57,15 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release Version(v1.0.0)'
+        type: choice
+        description: 'Release Type(canary, beta, alpha, latest)'
         required: true
+        default: 'latest'
+        options:
+        - canary
+        - beta
+        - alpha
+        - latest
 
 jobs:
   release:
@@ -71,14 +78,17 @@ jobs:
           # This makes Actions fetch only one branch to release
           fetch-depth: 100
 
+      - ... # install dependencies and build repo package
       - name: Create Release Pull Request
-        uses: web-infra-dev/actions@main
+        uses: web-infra-dev/actions@v2
         with:
-          # this expects you to have a script called release which does a build for your packages and calls changeset publish
-          versionNumber: ${{ github.event.inputs.version }}
+          version: ${{ github.event.inputs.version }}
+          versionNumber: 'auto'
           type: 'pull request'
+          tools: 'modern'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}
 ```
@@ -87,17 +97,17 @@ jobs:
 
 ![Release Pull Request Action](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/action-pull-request.png)
 
-选择本次发布的分支并填入版本号，版本号格式推荐 v1.0.0，点击 Run workflow 按钮：
+选择本次发布类型，点击 Run workflow 按钮：
 
-![Run Release Pull Request](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/run-pull-request-action.png)
+![Run Release Pull Request](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/action-pull-request.jpeg)
 
 workflow 运行完成后将自动创建 `Release-${version}` 的 Pull Request，自动完成 `bump` changeset 相关版本号并更新 lock 文件，Pull Request 的内容为执行 `gen-release-note` 命令自动生成的 Release Note。
 
-![Release Pull Request](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/release-pull-request.png)
+![Release Pull Request](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/release-pull-request.jpeg)
 
 ### 自动 Release
 
-Modern.js 提供了自动创建发版 Pull Request 的 Github Action，提供基于选择的分支自动执行 release 操作，将包发布到 NPM 上。
+Modern.js 提供了自动发布版本 的 Github Action，提供基于选择的分支自动执行 release 操作，将包发布到 NPM 上。
 
 #### 使用
 
@@ -111,14 +121,14 @@ on:
     inputs:
       version:
         type: choice
-        description: 'Release Version(canary, alpha, pre, latest)'
+        description: 'Release Version(canary, beta, alpha, latest)'
         required: true
-        default: 'canary'
+        default: 'next'
         options:
-          - canary
-          - alpha
-          - pre
-          - latest
+        - canary
+        - beta
+        - alpha
+        - latest
       branch:
         description: 'Release Branch(confirm release branch)'
         required: true
@@ -135,13 +145,14 @@ jobs:
           # This makes Actions fetch only one branch to release
           fetch-depth: 1
 
+      - ... # install dependencies and build repo package
       - name: Release
-        uses: web-infra-dev/actions@main
+        uses: web-infra-dev/actions@v2
         with:
-          # this expects you to have a script called release which does a build for your packages and calls changeset publish
           version: ${{ github.event.inputs.version }}
           branch: ${{ github.event.inputs.branch }}
           type: 'release'
+          tools: 'modern'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

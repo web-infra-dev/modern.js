@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # 添加一个 changeset
 
-当我们开发完成一个功能时，需要添加一个 changeset 用于声明当前功能，用于后续版本发布。
+当我们开发完成时，需要添加一个 changeset 声明当前变更，用于后续版本发布。
 
 ## 信息
 
@@ -14,7 +14,7 @@ sidebar_position: 2
 
 - 本次变更需要升级的版本号类型，类型符合 [semver](https://semver.org/) 规范。
 
-- 本次变更的 Changelog 信息。
+- 本次变更的 changelog 信息。
 
 ## 步骤
 
@@ -35,7 +35,7 @@ pnpm run change
 
 ![选择版本类型](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-select-version.png)
 
-#### 填入 Changelog 信息，并点击两次回车：
+#### 填入 changelog 信息，并点击两次回车：
 
 ![写入变更信息](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-input-changelog.png)
 
@@ -63,7 +63,7 @@ pnpm run change
 
 #### 选择本次需要升级的包列表：
 
-Changesets 会根据当前代码变更(`git diff Head...baseBranch`)，将 Monorepo 中的 package 分为两类，`changed packages` 和 `unchanged packages`，方便用户进行选择。
+changesets 会根据当前代码变更(`git diff Head...baseBranch`)，将 Monorepo 中的 package 分为两类，`changed packages` 和 `unchanged packages`，方便用户进行选择。
 
 使用空格键选择对应的包或者分类即可，选择完成后点击回车：
 
@@ -73,7 +73,7 @@ Changesets 会根据当前代码变更(`git diff Head...baseBranch`)，将 Monor
 
 ![选择升级包版本类型](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-auto-select-patch.png)
 
-#### 填入 Changelog 信息，并点击两次回车：
+#### 填入 changelog 信息，并点击两次回车：
 
 ![写入变更信息](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-input-changelog-monorepo.png)
 
@@ -97,7 +97,7 @@ change 命令支持以下参数：
 - `--empty` 添加一个空的 changeset。
 
 ```bash
-pnpm run change -- --empty
+pnpm run change --empty
 ```
 
 执行完成后，将在项目的 `.changeset` 目录创建空的 changeset 文件，文件内容如下：
@@ -107,7 +107,7 @@ pnpm run change -- --empty
 ---
 ```
 
-- `--open` 使用该参数时，在填写 Changelog 步骤会打开系统默认编辑器进行填写。
+- `--open` 使用该参数时，在填写 changelog 步骤会打开系统默认编辑器进行填写。
 
 ## 注意事项
 
