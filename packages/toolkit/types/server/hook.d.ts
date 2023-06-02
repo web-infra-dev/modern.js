@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
 
 export type CookieAPI = {
   /**
