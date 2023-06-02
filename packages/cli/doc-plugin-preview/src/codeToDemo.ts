@@ -1,5 +1,5 @@
 import { join } from 'path';
-import fs from 'fs';
+import fs from '@modern-js/utils/fs-extra';
 import { visit } from 'unist-util-visit';
 
 import type { RouteMeta } from '@modern-js/doc-core';
@@ -43,7 +43,7 @@ export const remarkCodeToDemo: Plugin<
         const { pageName } = routeMeta.find(
           meta => meta.absolutePath === vfile.path,
         )!;
-        const id = `${pageName}_${index++}`;
+        const id = `${toValidVarName(pageName)}_${index++}`;
         const demoDir = join(
           process.cwd(),
           'node_modules',
@@ -53,6 +53,7 @@ export const remarkCodeToDemo: Plugin<
         const virtualModulePath = join(demoDir, `${id}.tsx`);
         if (!isMobile) {
           // only need to write in web mode, in mobile mode, it has been written by addPage.
+          fs.ensureDirSync(join(demoDir));
           fs.writeFileSync(virtualModulePath, value);
         }
         demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
@@ -120,3 +121,18 @@ const getASTNodeImport = (name: string, from: string) =>
       },
     },
   } as MdxjsEsm);
+
+/**
+ * Converts a string to a valid variable name. If the string is already a valid variable name, returns the original string.
+ * @param str - The string to convert.
+ * @returns The converted string.
+ */
+export const toValidVarName = (str: string): string => {
+  // Check if the string is a valid variable name
+  if (/^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(str)) {
+    return str; // If it is a valid variable name, return the original string
+  } else {
+    // If it is not a valid variable name, convert it to a valid variable name
+    return str.replace(/[^0-9a-zA-Z_$]/g, '_').replace(/^([0-9])/, '_$1');
+  }
+};

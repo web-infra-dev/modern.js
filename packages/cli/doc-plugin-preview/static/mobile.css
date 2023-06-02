@@ -1,8 +1,8 @@
-:root {
+:root div {
   --modern-sidebar-width: 210px;
   --modern-aside-width: 0;
 }
-.modern-doc div[class*='language-'] {
+:root .modern-doc div[class*='language-'] {
   margin: 0;
   border-radius: 0;
   height: 100%
