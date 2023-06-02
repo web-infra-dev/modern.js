@@ -395,10 +395,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
-        name: 'css-modules-typescript-loader',
-        ignoreDts: true,
-      },
-      {
         name: 'webpack-manifest-plugin',
         externals: {
           tapable: '../tapable',
