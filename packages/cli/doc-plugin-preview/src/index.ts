@@ -1,7 +1,8 @@
 import path, { join } from 'path';
 import { RspackVirtualModulePlugin } from 'rspack-plugin-virtual-module';
 import type { DocPlugin, RouteMeta } from '@modern-js/doc-core';
-import { remarkCodeToDemo, toValidVarName } from './codeToDemo';
+import { remarkCodeToDemo } from './codeToDemo';
+import { toValidVarName } from './utils';
 
 export type Options = {
   /**

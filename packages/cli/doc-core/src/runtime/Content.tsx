@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { matchRoutes, useLocation } from 'react-router-dom';
 import { normalizeRoutePath } from './utils';
 
@@ -13,5 +14,5 @@ export const Content = () => {
   }
   const routesElement = matched[0].route.element;
 
-  return routesElement;
+  return <Suspense fallback={<></>}>{routesElement}</Suspense>;
 };
