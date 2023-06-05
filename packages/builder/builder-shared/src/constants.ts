@@ -1,5 +1,9 @@
 import type { BuilderTarget } from './types';
 
+// PACKAGES
+export const RSPACK_PROVIDER = '@modern-js/builder-rspack-provider';
+export const WEBPACK_PROVIDER = '@modern-js/builder-webpack-provider';
+
 // Defaults
 export const DEFAULT_PORT = 8080;
 export const DEFAULT_DATA_URL_SIZE = 10000;
