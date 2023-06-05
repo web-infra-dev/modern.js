@@ -23,7 +23,7 @@ For most common Babel plugins, you can find corresponding replacements in SWC, s
 - `babel-plugin-import`: use [source.transformImport](/api/config-source.html#sourcetransformimport) instead.
 - `babel-plugin-lodash`: use [extensions.lodash](#extensionslodash) instead.
 - `@emotion/babel-plugin`: use [extensions.emotion](#extensionsemotion) instead.
-- `babel-plugin-styled-components`: use [extensions.styledComponent](#extensionsstyledcomponent) instead.
+- `babel-plugin-styled-components`: use [extensions.styledComponents](#extensionsstyledcomponents) instead.
 - `@babel/plugin-react-transform-remove-prop-types`: use [reactUtils.removePropTypes](#extensionsreactutils) instead.
 
 If you use Babel plugin capabilities that are not yet supported by SWC, you will no longer be able to use them after switching to SWC compilation. You can give feedback via issues under the [swc-plugins](https://github.com/web-infra-dev/swc-plugins) repository and we will evaluate if built-in support is needed.
@@ -213,7 +213,7 @@ import get from 'lodash/get';
 import throttle from 'lodash/throttle';
 ```
 
-#### extensions.styledComponent
+#### extensions.styledComponents
 
 - **Type:**
 
