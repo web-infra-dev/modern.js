@@ -69,7 +69,8 @@
   },
   "files": [
     "dist",
-    "mdx-meta.cjs"
+    "static",
+    "mdx-meta-loader.cjs"
   ],
   "publishConfig": {
     "access": "public",

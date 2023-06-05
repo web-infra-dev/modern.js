@@ -1,7 +1,7 @@
 import path, { join } from 'path';
 import { RspackVirtualModulePlugin } from 'rspack-plugin-virtual-module';
 import type { DocPlugin, RouteMeta } from '@modern-js/doc-core';
-import { remarkCodeToDemo } from './codeToDemo';
+import { remarkCodeToDemo, toValidVarName } from './codeToDemo';
 
 export type Options = {
   /**
@@ -55,7 +55,7 @@ export function pluginPreview(options?: Options): DocPlugin {
                 const { pageName } = routeMeta.find(
                   meta => meta.absolutePath === filepath,
                 )!;
-                const id = `${pageName}_${index++}`;
+                const id = `${toValidVarName(pageName)}_${index++}`;
 
                 const demoDir = join(
                   process.cwd(),
