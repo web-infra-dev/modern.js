@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "@e2e/builder-cli-rspack",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "builder dev",
+    "build": "builder build",
+    "serve": "builder serve"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "devDependencies": {
+    "@modern-js/builder-cli": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "typescript": "^5",
+    "@types/node": "^14"
+  }
+}
