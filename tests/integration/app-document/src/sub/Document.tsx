@@ -5,6 +5,7 @@ import {
   Head,
   DocumentContext,
   Body,
+  Style,
   Comment,
 } from '@modern-js/runtime/document';
 
@@ -17,8 +18,15 @@ export default function Document(): React.ReactElement {
   } = useContext(DocumentContext);
 
   return (
-    <Html {...{ fromUserDoc: true }}>
+    <Html {...{ fromUserDoc: true, lang: 'cn' }}>
       <Head>
+        <Style>
+          {`
+            logo-spin > div:last-child {
+              margin-right: 0;
+            }
+          `}
+        </Style>
         {/* comment should be render to html by Comment.children */}
         <Comment comment="!== COMMENT BY APP but inline ==">
           {'<!-- COMMENT BY APP -->'}

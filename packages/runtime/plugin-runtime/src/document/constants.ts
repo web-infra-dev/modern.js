@@ -28,6 +28,11 @@ export const DOCUMENT_SCRIPT_PLACEHOLDER_START = encodeURIComponent(
 export const DOCUMENT_SCRIPT_PLACEHOLDER_END = encodeURIComponent(
   '<!-- script-end -->',
 );
+export const DOCUMENT_STYLE_PLACEHOLDER_START = encodeURIComponent(
+  '<!-- style-start -->',
+);
+export const DOCUMENT_STYLE_PLACEHOLDER_END =
+  encodeURIComponent('<!-- style-end -->');
 export const DOCUMENT_COMMENT_PLACEHOLDER_START = encodeURIComponent(
   '<!-- comment-start -->',
 );

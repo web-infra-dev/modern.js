@@ -6,6 +6,7 @@ export * from './Body';
 export * from './Root';
 export * from './Links';
 export * from './Comment';
+export * from './Style';
 export * from './Scripts';
 export * from './Script';
 export * from './constants';
