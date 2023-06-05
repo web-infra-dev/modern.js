@@ -40,6 +40,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.21.8",
+    "@babel/parser": "^7.21.8",
     "@babel/types": "^7.21.5",
     "@babel/traverse": "^7.21.5",
     "@babel/template": "^7.20.7",
