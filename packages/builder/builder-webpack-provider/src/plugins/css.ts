@@ -162,40 +162,6 @@ export async function applyBaseCSSRule(
     config.tools.styleLoader,
   );
 
-  // 3. Create webpack rule
-  // Order: style-loader/mini-css-extract -> css-loader -> postcss-loader
-  if (!isServer && !isWebWorker) {
-    // use mini-css-extract-plugin loader
-    if (enableExtractCSS) {
-      rule
-        .use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
-        .loader(require('mini-css-extract-plugin').loader)
-        .options(extraCSSOptions.loaderOptions)
-        .end();
-    }
-    // use style-loader
-    else {
-      rule
-        .use(CHAIN_ID.USE.STYLE)
-        .loader(require.resolve('style-loader'))
-        .options(styleLoaderOptions)
-        .end();
-    }
-
-    // use css-modules-typescript-loader
-    if (enableCSSModuleTS) {
-      rule
-        .use(CHAIN_ID.USE.CSS_MODULES_TS)
-        .loader(getCompiledPath('css-modules-typescript-loader'))
-        .end();
-    }
-  } else {
-    rule
-      .use(CHAIN_ID.USE.IGNORE_CSS)
-      .loader(path.resolve(__dirname, '../webpackLoaders/ignoreCssLoader'))
-      .end();
-  }
-
   const localIdentName =
     config.output.cssModuleLocalIdentName ||
     // Using shorter classname in production to reduce bundle size
@@ -221,6 +187,45 @@ export async function applyBaseCSSRule(
     mergedCssLoaderOptions,
     isServer || isWebWorker,
   );
+
+  // 3. Create webpack rule
+  // Order: style-loader/mini-css-extract -> css-loader -> postcss-loader
+  if (!isServer && !isWebWorker) {
+    // use mini-css-extract-plugin loader
+    if (enableExtractCSS) {
+      rule
+        .use(CHAIN_ID.USE.MINI_CSS_EXTRACT)
+        .loader(require('mini-css-extract-plugin').loader)
+        .options(extraCSSOptions.loaderOptions)
+        .end();
+    }
+    // use style-loader
+    else {
+      rule
+        .use(CHAIN_ID.USE.STYLE)
+        .loader(require.resolve('style-loader'))
+        .options(styleLoaderOptions)
+        .end();
+    }
+
+    // use css-modules-typescript-loader
+    if (enableCSSModuleTS && cssLoaderOptions.modules) {
+      rule
+        .use(CHAIN_ID.USE.CSS_MODULES_TS)
+        .loader(
+          require.resolve('../webpackLoaders/css-modules-typescript-loader'),
+        )
+        .options({
+          modules: cssLoaderOptions.modules,
+        })
+        .end();
+    }
+  } else {
+    rule
+      .use(CHAIN_ID.USE.IGNORE_CSS)
+      .loader(path.resolve(__dirname, '../webpackLoaders/ignoreCssLoader'))
+      .end();
+  }
 
   rule
     .use(CHAIN_ID.USE.CSS)

@@ -222,6 +222,7 @@ importers:
       css-minimizer-webpack-plugin: 5.0.0
       cssnano: 6.0.0
       html-webpack-plugin: 5.5.0
+      line-diff: ^2.0.1
       mini-css-extract-plugin: 2.7.0
       postcss: 8.4.21
       react: ^18
@@ -245,6 +246,7 @@ importers:
       css-minimizer-webpack-plugin: 5.0.0_webpack@5.82.1
       cssnano: 6.0.0_postcss@8.4.21
       html-webpack-plugin: 5.5.0_webpack@5.82.1
+      line-diff: 2.1.1
       mini-css-extract-plugin: 2.7.0_webpack@5.82.1
       postcss: 8.4.21
       react-refresh: 0.14.0
@@ -3821,7 +3823,6 @@ importers:
       commander: 10.0.0
       copy-webpack-plugin: 9.1.0
       css-loader: 6.7.1
-      css-modules-typescript-loader: 4.0.1
       cssnano: 6.0.0
       debug: 4.3.4
       dotenv: 10.0.0
@@ -3961,7 +3962,6 @@ importers:
       commander: 10.0.0
       copy-webpack-plugin: 9.1.0_webpack@5.82.1
       css-loader: 6.7.1_webpack@5.82.1
-      css-modules-typescript-loader: 4.0.1
       cssnano: 6.0.0_postcss@8.4.21
       debug: 4.3.4
       dotenv: 10.0.0
@@ -16304,13 +16304,6 @@ packages:
       webpack: 5.82.1
     dev: false
 
-  /css-modules-typescript-loader/4.0.1:
-    resolution: {integrity: sha512-vXrUAwPGcRaopnGdg7I5oqv/NSSKQRN5L80m3f49uSGinenU5DTNsMFHS+2roh5tXqpY5+yAAKAl7A2HDvumzg==}
-    dependencies:
-      line-diff: 2.1.1
-      loader-utils: 1.4.0
-    dev: true
-
   /css-select/4.3.0:
     resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
     dependencies:
@@ -22622,7 +22615,7 @@ packages:
 
   /levdist/1.0.0:
     resolution: {integrity: sha512-YguwC2spb0pqpJM3a5OsBhih/GG2ZHoaSHnmBqhEI7997a36buhqcRTegEjozHxyxByIwLpZHZTVYMThq+Zd3g==}
-    dev: true
+    dev: false
 
   /leven/3.1.0:
     resolution: {integrity: sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A==}
@@ -22650,7 +22643,7 @@ packages:
     resolution: {integrity: sha512-vswdynAI5AMPJacOo2o+JJ4caDJbnY2NEqms4MhMW0NJbjh3skP/brpVTAgBxrg55NRZ2Vtw88ef18hnagIpYQ==}
     dependencies:
       levdist: 1.0.0
-    dev: true
+    dev: false
 
   /lines-and-columns/1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
@@ -22765,6 +22758,7 @@ packages:
       big.js: 5.2.2
       emojis-list: 3.0.0
       json5: 1.0.1
+    dev: false
 
   /loader-utils/2.0.4:
     resolution: {integrity: sha512-xXqpXoINfFhgua9xiqD8fPFHgkoq1mmmpE92WlDbm9rNRd/EbRb+Gqf908T2DMfuHjjJlksiK2RbHVOdD/MqSw==}
