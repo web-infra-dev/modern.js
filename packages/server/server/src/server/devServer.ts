@@ -7,7 +7,6 @@ import {
   SERVER_DIR,
   SHARED_DIR,
   LOADABLE_STATS_FILE,
-  logger,
 } from '@modern-js/utils';
 import {
   createProxyHandler,

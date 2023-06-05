@@ -23,9 +23,9 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
 
   readonly HtmlPlugin: typeof HtmlWebpackPlugin;
 
-  readonly #retryOptions: AssetsRetryOptions;
-
   scriptPath: string;
+
+  readonly #retryOptions: AssetsRetryOptions;
 
   constructor(
     options: AssetsRetryOptions & {
