@@ -9,7 +9,7 @@
     "directory": "packages/builder/builder-cli"
   },
   "bin": {
-    "builder": "./dist/bin.js"
+    "builder": "./bin/builder.js"
   },
   "license": "MIT",
   "keywords": [
