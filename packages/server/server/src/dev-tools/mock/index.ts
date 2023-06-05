@@ -1,13 +1,8 @@
 import path from 'path';
-import { IncomingMessage, ServerResponse } from 'http';
 import { compatRequire, fs } from '@modern-js/utils';
 import type { ModernServerContext, NextFunction } from '@modern-js/types';
 import { AGGRED_DIR } from '@modern-js/prod-server';
 import getMockData, { getMatched } from './getMockData';
-
-type MockConfig = {
-  enable: ((req: IncomingMessage, res: ServerResponse) => boolean) | boolean;
-};
 
 export const createMockHandler = ({ pwd }: { pwd: string }) => {
   const exts = ['.ts', '.js'];
