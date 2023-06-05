@@ -14,24 +14,17 @@ describe('awaitableGetter', () => {
 it('check isCssModules', () => {
   expect(isCssModules('src/index.css', false)).toBeFalsy();
   expect(isCssModules('src/index.css', { auto: false })).toBeFalsy();
-  expect(isCssModules('src/index.modules.css', { auto: false })).toBeFalsy();
+  expect(isCssModules('src/index.module.css', { auto: false })).toBeFalsy();
 
   expect(isCssModules('src/index.css', true)).toBeTruthy();
 
   expect(isCssModules('src/index.css', { auto: true })).toBeFalsy();
-  expect(isCssModules('src/index.modules.css', { auto: true })).toBeTruthy();
+  expect(isCssModules('src/index.module.css', { auto: true })).toBeTruthy();
 
   expect(
-    isCssModules('src/index.modules.css', { auto: /\.module(s)?\.\w+$/i }),
-  ).toBeTruthy();
-  expect(
-    isCssModules('src/index.css', { auto: /\.module(s)?\.\w+$/i }),
-  ).toBeFalsy();
-
-  expect(
-    isCssModules('src/index.modules.css', {
+    isCssModules('src/index.module.css', {
       auto: path => {
-        return path.includes('.modules.');
+        return path.includes('.module.');
       },
     }),
   ).toBeTruthy();
@@ -39,7 +32,7 @@ it('check isCssModules', () => {
   expect(
     isCssModules('src/index.css', {
       auto: path => {
-        return path.includes('.modules.');
+        return path.includes('.module.');
       },
     }),
   ).toBeFalsy();

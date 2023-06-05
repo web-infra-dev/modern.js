@@ -94,10 +94,8 @@ export type CssModules =
   | boolean
   | string
   | {
-      auto: boolean | RegExp | ((filename: string) => boolean);
+      auto: boolean | ((filename: string) => boolean);
     };
-
-const IS_MODULES = /\.module(s)?\.\w+$/i;
 
 export const isCssModules = (filename: string, modules: CssModules) => {
   if (typeof modules === 'boolean') {
@@ -112,9 +110,7 @@ export const isCssModules = (filename: string, modules: CssModules) => {
   const { auto } = modules;
 
   if (typeof auto === 'boolean') {
-    return auto && IS_MODULES.test(filename);
-  } else if (auto instanceof RegExp) {
-    return auto.test(filename);
+    return auto && CSS_MODULES_REGEX.test(filename);
   } else if (typeof auto === 'function') {
     return auto(filename);
   }
