@@ -22,7 +22,7 @@ export default function Document(): React.ReactElement {
       <Head>
         <Style>
           {`
-            logo-spin > div:last-child {
+            .logo-spin > div:last-child {
               margin-right: 0;
             }
           `}
