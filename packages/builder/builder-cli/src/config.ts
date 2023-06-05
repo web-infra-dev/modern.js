@@ -38,7 +38,7 @@ export function getDefaultEntries() {
 
   if (entryFile) {
     return {
-      index: './src/index.ts',
+      index: entryFile,
     };
   }
 
