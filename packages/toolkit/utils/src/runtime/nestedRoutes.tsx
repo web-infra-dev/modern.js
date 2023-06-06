@@ -21,11 +21,15 @@ export const transformNestedRoutes = (routes: NestedRoute[]) => {
   return createRoutesFromElements(routeElements);
 };
 
+type DeferredDataComponentType = (props?: {
+  nonce?: string;
+}) => JSX.Element | null;
+
 export const renderNestedRoute = (
   nestedRoute: NestedRoute,
   options: {
     parent?: NestedRoute;
-    DeferredDataComponent?: () => JSX.Element | null;
+    DeferredDataComponent?: DeferredDataComponentType;
     props?: Record<string, any>;
   } = {},
 ) => {
@@ -74,7 +78,7 @@ export const renderNestedRoute = (
         <>
           <Component {...props} />
           {typeof document === 'undefined' && DeferredDataComponent && (
-            <DeferredDataComponent />
+            <DeferredDataComponent nonce={props?.nonce} />
           )}
         </>
       );
