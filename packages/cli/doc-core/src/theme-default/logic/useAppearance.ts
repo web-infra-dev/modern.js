@@ -1,3 +1,4 @@
+import siteData from 'virtual-site-data';
 import { APPEARANCE_KEY } from '@/shared/utils';
 
 declare global {
@@ -16,6 +17,11 @@ const setClass = (dark: boolean): void => {
 };
 
 const updateAppearance = (): void => {
+  const disableDarkMode = siteData.themeConfig.darkMode === false;
+  if (disableDarkMode) {
+    setClass(false);
+    return;
+  }
   // We set the MODERN_THEME as a global variable to determine whether the theme is dark or light.
   if (window.MODERN_THEME) {
     setClass(window.MODERN_THEME === 'dark');
