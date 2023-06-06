@@ -1,5 +1,4 @@
 import type { RspackConfig, RspackRule } from '../types';
-import { OptimizationSplitChunksOptions } from '@rspack/core';
 
 import type { BundlerConfig } from '@modern-js/builder-shared';
 import { omitBy, isUndefined } from '@modern-js/utils/lodash';
@@ -122,20 +121,63 @@ export const formatSplitChunks = (
 
   const formatCacheGroups = (
     cacheGroups?: NonNullable<(typeof splitChunks)['cacheGroups']>,
-  ) => {
+  ): Exclude<NonNullable<RspackSplitChunks>, false>['cacheGroups'] => {
     if (!cacheGroups) {
       return cacheGroups;
     }
-    Object.values(cacheGroups).forEach(c => {
-      if (!(c instanceof Object)) {
-        throw new Error(`cacheGroups only support object`);
-      }
-    });
-
-    return cacheGroups as Record<string, OptimizationSplitChunksOptions>;
+    const formatted = Object.fromEntries(
+      Object.entries(cacheGroups).map(([key, group]) => {
+        if (
+          typeof group === 'string' ||
+          group instanceof RegExp ||
+          group instanceof Function
+        ) {
+          throw new Error(`cacheGroups only support object or \`false\``);
+        }
+        return [
+          key,
+          (function () {
+            if (typeof group === 'object') {
+              const {
+                chunks,
+                name,
+                minSize,
+                maxAsyncSize,
+                maxInitialSize,
+                maxSize,
+                test,
+                ...passTrhough
+              } = group;
+              if (chunks instanceof Function) {
+                throw new Error(`chunks doesn't support function`);
+              }
+              if (name instanceof Function) {
+                throw new Error(`name doesn't support function`);
+              }
+              return {
+                ...passTrhough,
+                name,
+                chunks,
+                minSize: formatSplitSize(minSize, 'minSize'),
+                maxAsyncSize: formatSplitSize(maxAsyncSize, 'maxAsyncSize'),
+                maxInitialSize: formatSplitSize(
+                  maxInitialSize,
+                  'maxInitialSize',
+                ),
+                maxSize: formatSplitSize(maxSize, 'maxSize'),
+              };
+            }
+            return group;
+          })(),
+        ];
+      }),
+    );
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore
+    return formatted;
   };
 
-  const { name, ...rest } = splitChunks;
+  const { name, cacheGroups, ...rest } = splitChunks;
 
   if (name instanceof Function) {
     throw new Error(`name not support function`);
@@ -150,25 +192,19 @@ export const formatSplitChunks = (
     minSize: formatSplitSize(data.minSize, 'minSize'),
   });
 
+  // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+  // @ts-ignore
   return {
     ...rest,
 
     name,
 
-    minRemainingSize: formatSplitSize(
-      splitChunks.minRemainingSize,
-      'minRemainingSize',
-    ),
     maxSize: formatSplitSize(splitChunks.maxSize, 'maxSize'),
     maxAsyncSize: formatSplitSize(splitChunks.maxSize, 'maxAsyncSize'),
     maxInitialSize: formatSplitSize(splitChunks.maxSize, 'maxInitialSize'),
     minSize: formatSplitSize(splitChunks.minSize, 'minSize'),
-    enforceSizeThreshold: formatSplitSize(
-      splitChunks.enforceSizeThreshold,
-      'enforceSizeThreshold',
-    ),
     chunks: splitChunks.chunks,
-    cacheGroups: formatCacheGroups(splitChunks.cacheGroups),
+    cacheGroups: formatCacheGroups(cacheGroups),
     fallbackCacheGroup: splitChunks.fallbackCacheGroup
       ? fallbackCacheGroup(splitChunks.fallbackCacheGroup)
       : undefined,
