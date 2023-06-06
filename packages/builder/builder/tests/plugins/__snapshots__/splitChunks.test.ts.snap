@@ -112,11 +112,23 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
         },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-moment": {
+          "name": "lib-moment",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(dayjs\\|date-fns\\|moment\\|moment-\\.\\+\\)\\[\\\\\\\\/\\]/,
         },
         "lib-polyfill": {
           "name": "lib-polyfill",
@@ -135,6 +147,12 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-tailwindcss": {
+          "name": "lib-tailwindcss",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(\\.\\*tailwindcss\\.\\*\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
@@ -164,11 +182,23 @@ exports[`plugins/splitChunks > should set split-by-experience config correctly w
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
         },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-moment": {
+          "name": "lib-moment",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(dayjs\\|date-fns\\|moment\\|moment-\\.\\+\\)\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",
@@ -181,6 +211,12 @@ exports[`plugins/splitChunks > should set split-by-experience config correctly w
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-tailwindcss": {
+          "name": "lib-tailwindcss",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(\\.\\*tailwindcss\\.\\*\\)\\[\\\\\\\\/\\]/,
         },
       },
       "chunks": "all",
