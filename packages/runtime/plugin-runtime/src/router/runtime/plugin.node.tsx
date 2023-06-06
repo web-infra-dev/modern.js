@@ -82,7 +82,7 @@ export const routerPlugin = ({
             return next({ context });
           }
 
-          const { request, mode: ssrMode } = context.ssrContext!;
+          const { request, mode: ssrMode, nonce } = context.ssrContext!;
           const baseUrl = request.baseUrl as string;
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
@@ -93,6 +93,9 @@ export const routerPlugin = ({
                 renderRoutes({
                   routesConfig,
                   ssrMode,
+                  props: {
+                    nonce,
+                  },
                 }),
               );
 
