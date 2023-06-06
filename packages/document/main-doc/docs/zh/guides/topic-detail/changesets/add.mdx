@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# 添加一个 changeset
+# 添加 Changesets
 
 当我们开发完成时，需要添加一个 changeset 声明当前变更，用于后续版本发布。
 
@@ -63,7 +63,7 @@ pnpm run change
 
 #### 选择本次需要升级的包列表：
 
-changesets 会根据当前代码变更(`git diff Head...baseBranch`)，将 Monorepo 中的 package 分为两类，`changed packages` 和 `unchanged packages`，方便用户进行选择。
+Changesets 会根据当前代码变更(`git diff Head...baseBranch`)，将 Monorepo 中的 package 分为两类，`changed packages` 和 `unchanged packages`，方便用户进行选择。
 
 使用空格键选择对应的包或者分类即可，选择完成后点击回车：
 

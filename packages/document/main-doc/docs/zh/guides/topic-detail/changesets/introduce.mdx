@@ -2,13 +2,13 @@
 sidebar_position: 1
 ---
 
-# 认识 changesets
+# 认识 Changesets
 
 Modern.js 默认集成了 [changesets](https://github.com/changesets/changesets) 用于模块和 Monorepo 工程方案项目中的包版本管理。
 
 ## 特点
 
-changesets 具有以下几个特点：
+Changesets 具有以下几个特点：
 
 - 在开发时，需要开发者提供本次变更涉及的包名称、升级版本类型(`pathch`、`minor`、`major`)及变更信息，即 changeset。
 
@@ -22,7 +22,7 @@ Modern.js 默认创建的模块和 Monorepo 工程方案项目已经初始化完
 
 并且，Modern.js 在其对应的工程方案工具 `@modern-js/module-tools` 和 `@modern-js/monorepo-tools` 提供了 changesets 相应的命令，无需再手动安装 changesets 相关依赖。
 
-changesets 默认配置如下：
+Changesets 默认配置如下：
 
 ```json title=".changeset/config.json"
 {

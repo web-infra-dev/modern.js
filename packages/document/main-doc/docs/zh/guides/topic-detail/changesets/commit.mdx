@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # 自定义提交 commit 信息
 
-changesets 支持配置 `commit` 为 true 时，在执行 `change` 和 `bump` 命令时自动提交当前变更。
+Changesets 支持配置 `commit` 为 true 时，在执行 `change` 和 `bump` 命令时自动提交当前变更。
 
 默认的 `commit` 信息由 `@changesets/cli/commit` 提供，默认信息格式为：
 
@@ -157,7 +157,7 @@ const getVersionMessage = async (
 
 ## 配置
 
-changesets 配置文件中 `commit` 字段，该字段用于标记是否需要在 `change` 和 `bump` 命令是提交 commit 信息及 commit 信息的获取途径。
+Changesets 配置文件中 `commit` 字段，该字段用于标记是否需要在 `change` 和 `bump` 命令是提交 commit 信息及 commit 信息的获取途径。
 
 该配置可以为 `boolean`，为 true 时使用默认 `@changesets/cli/commit` 格式化 commit 信息。
 
