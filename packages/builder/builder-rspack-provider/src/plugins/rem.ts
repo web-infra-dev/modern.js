@@ -13,6 +13,7 @@ const defaultOptions: RemOptions = {
   rootFontSize: 50,
 };
 
+// todo: move to modern-js/builder
 export const builderPluginRem = (): BuilderPlugin => ({
   name: 'builder-plugin-rem',
 
