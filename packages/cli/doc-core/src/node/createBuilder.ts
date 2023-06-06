@@ -97,7 +97,8 @@ async function createInternalBuildConfig(
         // `root` must be a relative path in Builder
         root: path.isAbsolute(outDir) ? path.relative(cwd, outDir) : outDir,
       },
-      polyfill: 'usage',
+      // TODO: switch to 'usage' if Rspack supports it
+      polyfill: 'entry',
       svgDefaultExport: 'component',
       disableTsChecker: true,
       // Disable production source map, it is useless for doc site
