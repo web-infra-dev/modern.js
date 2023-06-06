@@ -4,7 +4,7 @@ sidebar_position: 7
 
 # Customizing Commit Messages
 
-Changesets supports configuring `commit` to automatically submit the current changes when executing the `change` and `bump` commands.
+Changesets supports configuring `commit` to automatically submit the current changes when running the `change` and `bump` commands.
 
 The default `commit` information is provided by `@changesets/cli/commit`, and the default information format is:
 
@@ -17,8 +17,8 @@ When the default commit information cannot meet the requirements, custom commit 
 
 Commit information is divided into two types:
 
-- Commit information automatically generated when executing the `change` command.
-- Commit information automatically generated when executing the `bump` command.
+- Commit information automatically generated when running the `change` command.
+- Commit information automatically generated when running the `bump` command.
 
 The custom logic mainly implements two functions, `getAddMessage` and `getVersionMessage`, which are used to define the above two types of information, respectively.
 
@@ -101,18 +101,18 @@ type ComprehensiveRelease = {
 };
 
 type PreState = {
-  mode: 'pre' | 'exit'; // pre 模式当前状态
-  tag: string; // pre 的类型
+  mode: 'pre' | 'exit'; // Current state of pre mode
+  tag: string; // Type of pre
   initialVersions: {
-    [pkgName: string]: string; // 版本升级前包名及版本号信息，Map 格式
+    [pkgName: string]: string; // Package name and version information before version upgrade
   };
-  changesets: string[]; // 本次升级的 changeset id 列表
+  changesets: string[]; // List of changeset ids for this upgrade
 };
 
 type ReleasePlan = {
-  changesets: Changeset[]; // 本次升级的 changeset 列表
-  releases: ComprehensiveRelease[]; // 当前升级的包信息，包含包名称、当前版本、升级后版本、升级类型等
-  preState: PreState | undefined; // 当前如果为 pre 发布，提供相关状态信息
+  changesets: Changeset[]; // List of changesets for this upgrade
+  releases: ComprehensiveRelease[]; // Information of the current upgrade, including package name, current version, upgraded version, and upgrade type
+  preState: PreState | undefined; // If it is a pre-release, provide relevant state information
 };
 ```
 
@@ -128,7 +128,7 @@ Commit message content.
 
 #### Default Implementation
 
-The default processing logic of `@changesets/cli/commit` is to first display the number of packages that need to be released, then display the names and new version numbers of the released packages, and [skip ci] information is added according to the `skipCI` parameter configuration passed in.
+The default processing logic of `@changesets/cli/commit` is to first display the number of packages that need to be released, then display the names and new version of the released packages, and [skip ci] information is added according to the `skipCI` parameter configuration passed in.
 
 ```ts
 const getVersionMessage = async (
@@ -157,7 +157,7 @@ const getVersionMessage = async (
 
 ## Configuration
 
-The `commit` field in the changesets configuration file is used to mark whether to submit commit information when executing the `change` and `bump` commands, and the way to obtain commit information.
+The `commit` field in the changesets configuration file is used to mark whether to submit commit information when running the `change` and `bump` commands, and the way to obtain commit information.
 
 This configuration can be a `boolean`. When it is `true`, the default `@changesets/cli/commit` formatting commit information will be used.
 
@@ -191,15 +191,15 @@ Configure `commit` as `./my-commit-config.js`:
 }
 ```
 
-### Using Module Project
+### Using NPM Module
 
-Customizing commit can also be managed using the module project to provide a common solution.
+Customizing commit can also be managed using the NPM module project to provide a common solution.
 
-#### Use `npx @modern-js/create@latest` to create a module project.
+#### Use `npx @modern-js/create@latest` to create a module project
 
 ```md
 ? Please select the type of project you want to create: Npm Module
-? Please fill in the project name: custom-changelog
+? Please fill in the project name: custom-commit
 ? Please select the programming language: TS
 ? Please select the package manager: pnpm
 ```
@@ -212,11 +212,11 @@ export async function getAddMessage() {}
 export async function getVersionMessage() {}
 ```
 
-#### Publish the module to NPM.
+#### Publish the module to NPM
 
-#### Install the corresponding module in the root directory of the target repository, such as `custom-commit`.
+#### Install the corresponding module in the root directory of the target repository, such as `custom-commit`
 
-#### Configure the commit configuration of changesets as the package name.
+#### Configure the commit configuration of changesets as the package name
 
 ```json title="package.json"
 {
@@ -227,9 +227,9 @@ export async function getVersionMessage() {}
 
 ### Using Monorepo Sub-Project
 
-If your current repository is Monorepo, you can directly manage it using module sub-projects.
+If your current repository is Monorepo, you can directly manage it using NPM module sub-projects.
 
-#### Run `pnpm run new` to create a module sub-project.
+#### Run `pnpm run new` to create a module sub-project
 
 ```bash
 ? Please select the type of project you want to create: Npm Module
@@ -246,7 +246,7 @@ export async function getAddMessage() {}
 export async function getVersionMessage() {}
 ```
 
-Add the sub-project module dependency, such as `custom-commit`, to the Monorepo root directory.
+#### Add the sub-project module dependency, such as `custom-commit`, to the Monorepo root directory
 
 ```json title="package.json"
 {
@@ -257,7 +257,7 @@ Add the sub-project module dependency, such as `custom-commit`, to the Monorepo 
 }
 ```
 
-Configure the commit configuration of Changesets as the package name.
+#### Configure the commit configuration of Changesets as the package name
 
 ```json title=".changesets/config.json"
 {
