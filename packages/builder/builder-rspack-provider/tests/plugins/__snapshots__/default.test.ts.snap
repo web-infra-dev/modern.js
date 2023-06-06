@@ -284,7 +284,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -325,7 +325,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -372,7 +372,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -423,7 +423,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -480,7 +480,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -528,7 +528,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -994,7 +994,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1035,7 +1035,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1082,7 +1082,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1133,7 +1133,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1190,7 +1190,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1238,7 +1238,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2158,7 +2158,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2199,7 +2199,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2246,7 +2246,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2297,7 +2297,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2354,7 +2354,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2402,7 +2402,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
