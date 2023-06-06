@@ -36,7 +36,19 @@ For a detailed comparison between minifiers, see [minification-benchmarks](https
 
 ## Quick Start
 
-### Install
+### Used in Modern.js framework
+
+The Modern.js framework integrates the Builder's SWC plugin, and you can use it in the following ways:
+
+import EnableSWC from '@en/shared/enable-swc.md';
+
+<EnableSWC />
+
+### Use via the Node API
+
+If you use the Builder's Node API, you need to manually install and register the SWC plugin of Builder.
+
+#### Install
 
 You can install the plugin with the following command:
 
@@ -51,19 +63,9 @@ yarn add @modern-js/builder-plugin-swc -D
 pnpm add @modern-js/builder-plugin-swc -D
 ```
 
-### Register
+#### Register
 
-In upper-level frameworks such as Modern.js, you can register SWC plugin through the `builderPlugins` config:
-
-```ts
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-
-export default {
-  builderPlugins: [builderPluginSwc()],
-};
-```
-
-If you are using the Builder's Node API, you can register SWC plugin through the `addPlugins` method:
+Register SWC plugin through the `addPlugins` method:
 
 ```js
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
@@ -72,9 +74,7 @@ import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 builder.addPlugins([builderPluginSwc()]);
 ```
 
-That's it !
-
-Now you can use SWC transformation and minification in your project.
+That's it! Now you can use SWC transformation and minification in your project.
 
 ## Config
 

@@ -89,3 +89,30 @@ export function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
     (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
   );
 }
+
+export type CssModules =
+  | boolean
+  | string
+  | {
+      auto: boolean | ((filename: string) => boolean);
+    };
+
+export const isCssModules = (filename: string, modules: CssModules) => {
+  if (typeof modules === 'boolean') {
+    return modules;
+  }
+
+  // todo: this configuration is not common and more complex.
+  if (typeof modules === 'string') {
+    return true;
+  }
+
+  const { auto } = modules;
+
+  if (typeof auto === 'boolean') {
+    return auto && CSS_MODULES_REGEX.test(filename);
+  } else if (typeof auto === 'function') {
+    return auto(filename);
+  }
+  return true;
+};

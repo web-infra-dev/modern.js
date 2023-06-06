@@ -148,7 +148,7 @@ export const createCli = () => {
 
     program.parse(process.argv);
 
-    if (!program.commands || !program.commands.length) {
+    if (!program.commands?.length) {
       logger.warn(
         'No command found, please make sure you have registered plugins correctly.',
       );

@@ -206,6 +206,14 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
+        name: 'postcss-pxtorem',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-loader',
+        ignoreDts: true,
+      },
+      {
         name: 'less',
         externals: {
           // needle is an optional dependency and no need to bundle it.
@@ -323,10 +331,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
-        name: 'postcss-pxtorem',
-        ignoreDts: true,
-      },
-      {
         name: 'webpack-sources',
         ignoreDts: true,
       },
@@ -388,14 +392,6 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: 'css-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'css-modules-typescript-loader',
         ignoreDts: true,
       },
       {

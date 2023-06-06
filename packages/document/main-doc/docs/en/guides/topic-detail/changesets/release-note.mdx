@@ -1,0 +1,273 @@
+---
+sidebar_position: 8
+---
+
+# Customizing Release Note Format
+
+Modern.js provides the `modern gen-release-note` command, which supports automatically generating Release Note through the current existing changeset and git commit information. Before running the release command, you can run this command to generate the Release Note for this release.
+
+The default generated Release Note format is:
+
+```markdown
+- fix: add missing type definitions by @zllkjc in https://github.com/web-infra-dev/modern.js/pull/3835
+```
+
+Get the Pull Request ID of the changeset through the commit information, and generate a Github link, which includes the changeset's changelog information and author information.
+
+:::info
+To get author information, you need to provide the Github Token environment variable, which is passed in through GITHUB_AUTH_TOKEN.
+:::
+
+When the default generated Release Note logic cannot meet the requirements, custom Release Note format is supported.
+
+## Information
+
+### getReleaseInfo
+
+To generate Release Note information, some information needs to be collected, such as commit ID, Pull Request ID, commit message, etc.
+
+This logic can be implemented through the `getReleaseInfo` function.
+
+#### Params
+
+- commit
+
+Type: string;
+
+The commit message information corresponding to the current changeset.
+
+The result of executing `git log --pretty=format:%h--%s--%ae .changeset/${changeset.id}.md`.
+
+- commitObj
+
+Basic information about commit.
+
+```ts
+export enum CommitType {
+  Performance = 'performance',
+  Features = 'features',
+  BugFix = 'bugFix',
+  Doc = 'doc',
+  Other = 'other',
+}
+
+interface Commit {
+  id: string; // commit id
+  type: CommitType;
+  repository?: string; // Repo information passed in as a parameter or defined in package.json
+  pullRequestId?: string;
+  author?: string;
+  message: string; // Commit message
+  summary: string; // Changeset summary
+  summary_zh: string; // Changeset summary in Chinese
+  [key: string]: string | undefined;
+}
+```
+
+#### Returns
+
+commitObj, the complete commit object after supplementation.
+
+#### Default Implementation
+
+The default implementation of Modern.js is to split out the Pull Request ID based on the commit information, and get the user information based on the commit ID and add it to the commitObj.
+
+```ts
+function getReleaseInfo(commit: string, commitObj: Commit) {
+const commitRegex = /(.*)\(#(\d*)\)/;
+
+  const [commitId, message, email] = commit.split('--');
+
+  const author = AuthorMap.get(email);
+  const token = authToken || process.env.GITHUB_AUTH_TOKEN;
+  if (author) {
+    commitObj.author = author;
+  } else if (repo && token) {
+    try {
+      const res = await axios.get(
+        `https://api.github.com/repos/${repo}/commits/${commitId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        },
+      );
+      const author = res.data.author.login;
+      commitObj.author = author;
+      AuthorMap.set(email, author);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+
+  if ((message || commitObj.summary).match(commitRegex)) {
+    const [, messageShort, pullRequestId] = (
+      message || commitObj.summary
+    ).match(commitRegex)!;
+    commitObj.pullRequestId = pullRequestId;
+    commitObj.message = messageShort.trim();
+  }
+
+  return commitObj;
+}
+```
+
+### getReleaseNoteLine
+
+Generate the corresponding Release Note based on the commit object information getted in `getReleaseInfo`.
+
+This logic can be implemented through the `getReleaseNoteLine` function.
+
+#### Params
+
+- commit
+
+The type is the same as the above `commitObj` type.
+
+- lang
+
+Type: string;
+
+Get the Release Note information of the corresponding language, supporting `en` and `zh`, the default is `en`.
+
+#### Returns
+
+The generated Release Note.
+
+#### Default Implementation
+
+The default implementation of Modern.js is:
+
+```ts
+export function getReleaseNoteLine(
+  commit: Commit,
+  lang: 'en' | 'zh' = 'en',
+) {
+  const { repository, pullRequestId, summary, summary_zh, author } = commit;
+  const pullRequest =
+    pullRequestId && repository
+      ? `https://github.com/${repository}/pull/${pullRequestId}`
+      : '';
+  if (lang === 'en') {
+    return `- ${summary}${author ? ` by @${author}` : ''}${
+      pullRequest ? ` in ${pullRequest}` : ''
+    }\n`;
+  }
+  return `- ${summary_zh}${author ? ` 由 @${author} 实现` : ''}${
+    pullRequest ? `， 详情可查看 ${pullRequest}` : ''
+  }\n`;
+}
+```
+
+## Using Custom Modules
+
+The `gen-release-note` command supports the `--custom` parameter, which can pass in the module name or path of the custom Release Note module.
+
+### Configuring Relative Paths
+
+If the custom parameter value is a relative path, it is the **project root directory**.
+
+For example, create the `scripts/my-release-note-config.js` file and define the following content:
+
+```ts title="scripts/my-release-note-config.js"
+function getReleaseInfo(commit, commitObj) {
+  return commitObj;
+}
+
+function getReleaseNoteLine(commit) {}
+
+module.exports = {
+  getReleaseInfo,
+  getReleaseNoteLine,
+};
+```
+
+Run the following command:
+
+```bash
+pnpm run gen-release-note --custom ./scripts/my-release-note-config.js
+```
+
+You can also define the command parameters directly in `package.json`:
+
+```json title="package.json"
+{
+    "scripts": {
+        ...
+        "gen-release-note": "modern gen-release-note --custom ./scripts/my-release-note-config.js"
+    },
+    ...
+}
+```
+
+Run the command `pnpm run gen-release-note` directly.
+
+### Using NPM Module
+
+Customizing release note can also be managed using the NPM module project to provide a common solution.
+
+#### Use `npx @modern-js/create@latest` to create a module project
+
+```md
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: custom-release-note
+? Please select the programming language: TS
+? Please select the package manager: pnpm
+```
+
+#### Implement Custom Content
+
+```ts title="src/index.ts"
+export function getReleaseInfo() {}
+
+export function getReleaseNoteLine() {}
+```
+
+#### Publish the module to NPM
+#### Install the corresponding module in the root directory of the target repository, such as `custom-release-note`
+#### Run the `gen-release-note` command with the `custom` parameter added
+
+```bash
+pnpm run gen-release-note --custom custom-release-note
+```
+
+### Using Monorepo Sub-Project
+
+If your current repository is Monorepo, you can directly manage it using NPM module sub-projects.
+
+#### Run `pnpm run new` to create a module sub-project
+
+```md
+? Please select the type of project you want to create: Npm Module
+? Please fill in the sub-project name: custom-release-note
+? Please fill in the sub-project directory name: custom-release-note
+? Please select the programming language: TS
+```
+
+#### Implement Custom Content
+
+```ts title="src/index.ts"
+export function getReleaseInfo() {}
+
+export function getReleaseNoteLine() {}
+```
+
+#### Add the sub-project module dependency, such as `custom-release-note`, to the Monorepo root directory
+
+```json title="package.json"
+{
+  "devDependencies": {
+    "custom-release-note": "workspace: *",
+    ...
+}
+```
+
+#### Run the `gen-release-note` command with the `custom` parameter added
+
+```bash
+pnpm run gen-release-note --custom custom-release-note
+```
+
+After the module is published to NPM, it can still be used like a module type for other repositories.

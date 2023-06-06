@@ -7,42 +7,43 @@ sidebar_position: 3
 
 ## Upgrade with command
 
-Modern.js provides the `upgrade` command to support projects to upgrade to the latest version.
+Modern.js provides the `upgrade` command to support upgrading the project to the latest version of Modern.js.
 
-Execute `pnpm run upgrade` in the project:
+Run `pnpm run upgrade` in the project:
 
 ```bash
 $ pnpm run upgrade
 
 > modern upgrade
 
-[INFO] [Project Type]: Application
+[INFO] [Project Type]: Web App
 [INFO] [Modern.js Latest Version]: 2.0.0
 [INFO] Upgrade Modern.js package version success!
 ```
 
-You can see that the dependency in the project `package.json` has been changed to the latest.
+You can see that the dependencies in the project's `package.json` have been updated to the latest version.
 
-## Specify version upgrade
+## Upgrade to a specified version
 
-All packages of Modern.js are published using the **unified version number**.
+All packages of Modern.js are currently released with a **uniform version number**.
 
-According to the website release note, developers can also manually upgrade the project to the desired version.
+import ReleaseNote from "@site-docs-en/components/release-note"
+
+<ReleaseNote />
 
 :::tip
-When upgrading, you need to upgrade to all packages provided by the Modern.js, rather than upgrading a single dependency.
+When upgrading, you need to upgrade all packages provided by Modern.js, instead of upgrading a single dependency.
 
 :::
 
 ## Lock nested dependency
 
-When there is a problem with one of the nested dependencies of the project, and the Modern.js cannot be updated immediately, you can use the package manager to lock the child dependency version.
+When a nested dependency of the project has a problem and Modern.js cannot be updated immediately, you can use the package manager to lock the version of the nested dependency.
 
 ### pnpm
 
-For projects using pnpm, add the following configuration to the `package.json` in the **project root directory** and re-execute `pnpm install`:
+For projects using pnpm, add the following configuration to the `package.json` in the **root directory** of the project, and then run `pnpm install` again:
 
-```json title="package.json"
 {
   "pnpm": {
     "overrides": {
@@ -54,7 +55,7 @@ For projects using pnpm, add the following configuration to the `package.json` i
 
 ### Yarn
 
-For projects using Yarn, add the following configuration to the `package.json` in the **project root directory** and re-execute `yarn install`:
+For projects using Yarn, add the following configuration to the `package.json` in the **root directory** of the project, and then run `yarn install` again:
 
 ```json title="package.json"
 {
@@ -66,7 +67,7 @@ For projects using Yarn, add the following configuration to the `package.json` i
 
 ### Npm
 
-For projects using Npm, add the following configuration to the `package.json` in the **project root directory** and re-execute `npm install`:
+For projects using Npm, add the following configuration to the `package.json` in the **root directory** of the project, and then run `npm install` again:
 
 ```json title="package.json"
 {
@@ -77,6 +78,6 @@ For projects using Npm, add the following configuration to the `package.json` in
 ```
 
 :::info
-For Monorepo repositories, the dependency version can only be locked in the `package.json` in the project root directory, and all packages in Monorepo are affected.
+For Monorepo repositories, you can only lock dependency versions in the `package.json` in the root directory of the project, and it will affect all packages in the Monorepo.
 
 :::

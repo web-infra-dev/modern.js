@@ -93,9 +93,7 @@ export class LocalProvider implements Provider {
       this.#index?.search(searchParams),
       this.#cjkIndex?.search(searchParams),
     ]);
-    const flattenSearchResult = searchResult
-      .flat(2)
-      .filter(Boolean) as PageIndexInfo[];
+    const flattenSearchResult = searchResult.flat(2).filter(Boolean);
 
     return [
       {
