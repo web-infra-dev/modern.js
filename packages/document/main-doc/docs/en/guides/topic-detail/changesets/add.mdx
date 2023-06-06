@@ -1,0 +1,123 @@
+---
+sidebar_position: 2
+---
+
+# Add Changesets
+
+When we finish development, we need to add a changeset to declare the current changes for future version releases.
+
+## Information
+
+A changeset includes:
+
+- Which packages are affected by this change.
+
+- The type of version number upgrade needed for this change, which complies with the [semver](https://semver.org/) specification.
+
+- Changelog information for this change.
+
+## Steps
+
+:::info
+The following example commands are all using pnpm as the package management tool. If you need to use other package management tools, please replace them as needed.
+:::
+
+### Module project scheme
+
+#### Run the following command in the root directory:
+
+```bash
+pnpm run change
+```
+
+#### Select the type of version number upgrade needed for this change and press Enter:
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-select-version.png)
+
+#### Fill in the changelog information and press Enter twice:
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-input-changelog.png)
+
+After running, a corresponding changeset file will be created in the `.changeset` directory of the project, and the file content is as follows:
+
+```markdown
+---
+'module-changeset': patch
+---
+
+feat: test module solution changeset
+```
+
+This file contains all the information of the changeset.
+
+### Monorepo
+
+Assuming there are three module packages in the monorepo, `module-1`, `module-2`, and `module-3`.
+
+#### Run the following command in the root directory:
+
+```bash
+pnpm run change
+```
+
+#### Select the list of packages to upgrade for this change:
+
+Changesets will categorize the packages in the Monorepo into two categories, `changed packages` and `unchanged packages`, based on the current code changes (`git diff Head...baseBranch`), making it easy for users to choose.
+
+Use the space key to select the corresponding package or category, and then press Enter after the selection is completed:
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-select-packages.png)
+
+#### Select the packages corresponding to different version types. Changesets will ask about the `major` and `minor` types. If there are packages that have not selected these two types, the `patch` type will be used by default:
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-auto-select-patch.png)
+
+#### Fill in the changelog information and press Enter twice:
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-input-changelog-monorepo.png)
+
+After running, a corresponding changeset file will be created in the `.changeset` directory of the project, and the file content is as follows:
+
+```markdown
+---
+'module-2': minor
+'module-3': patch
+---
+
+feat: test-changeset
+```
+
+This file contains all the information of the changeset, and different packages will be marked according to the selected version type.
+
+## Parameters
+
+The `change` command supports the following parameters:
+
+- `--empty` Adds an empty changeset.
+
+```bash
+pnpm run change --empty
+```
+
+After running, an empty changeset file will be created in the `.changeset` directory of the project, and the file content is as follows:
+
+```markdown
+---
+---
+```
+
+- `--open` When using this parameter, the system default editor will be opened for filling in the changelog.
+
+## Notes
+
+- Not all changes require changesets
+
+If the current change is to modify some infrastructure of the repository, such as CI, testing, etc., there is no need to add changesets, or an empty changeset can be added.
+
+- Multiple changesets can be submitted in one pull request
+
+When a pull request has multiple feature developments or bug fixes, multiple `pnpm run change` commands can be executed to add multiple changeset files. Each file selects the corresponding packages for the feature and adds change information.
+
+- When creating a changeset, all packages related to the feature need to be selected
+
+When creating a changeset in a Monorepo, all related packages to the feature need to be selected to avoid some packages not being published when releasing.

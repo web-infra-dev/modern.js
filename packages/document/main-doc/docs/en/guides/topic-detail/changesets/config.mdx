@@ -1,0 +1,147 @@
+---
+sidebar_position: 5
+---
+
+# Changesets Configuration
+
+As we learned earlier, when initializing a Modern.js repository, the configuration file for changesets will be initialized by default, that is, the `.changeset/config.json` file. Below, we will learn in detail what configurations are supported in this file.
+
+## Configuration introduction
+
+### commit
+
+Type: `boolean`
+
+Default: `false`
+
+When this field is configured as `true`, the code submission operation will be automatically executed when executing the `change` and `bump` commands.
+
+The default commit information format is as follows:
+
+![change commit](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-change-commit-info.png)
+![bump commit](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-bump-commit-info.png)
+
+This commit information supports customization, which we will discuss in detail in the [Customizing Commit Information](/guides/topic-detail/changesets/commit) chapter.
+
+### access
+
+Type: `restricted` | `public`
+
+Default: `restricted`
+
+Used to configure the publishing form of the current package. If configured as `restricted`, it will be published as a private package. If it is `public`, it will be published as a public scope package.
+
+For packages that need to configure access in the repository, `publishConfig` can be configured in `package.json`, for example:
+
+```json title=package.json
+{
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  }
+}
+```
+
+For packages that don't need to be published, you can set `private` to `true` in `package.json` to prevent them from being published.
+
+### baseBranch
+
+Type: `string`
+
+Default: `main`
+
+Repository main branch. This configuration is used to calculate the changed packages of the current branch and classify them.
+
+### ignore
+
+Type: `string[]`
+
+Default: `[]`
+
+Used to declare packages to be ignored when executing the `bump` command. The usage is consistent with the `--ignore` parameter of the `bump` command. Note that the two cannot be used at the same time.
+
+### fixed
+
+Type: `string[][]`
+
+Default: `[]`
+
+Used to group packages in monorepos. The version numbers of packages in the same group will be bound, and each time the `bump` command is executed, if a package in the same group is upgraded, others will be upgraded together.
+Regular expressions can be used to match package names.
+
+### linked
+
+Type: `string[][]`
+
+Default: `[]`
+
+Similar to `fixed`, it also groups packages in monorepos, but only the packages related to the changeset declaration will be upgraded when the `bump` command is executed, and the version numbers of the changeset packages in the same group will remain consistent.
+Regular expressions can be used to match package names.
+
+### updateInternalDependencies
+
+Type: `patch` | `minor`
+
+Default: `patch`
+
+Used to declare the version number rule for updating internal dependencies.
+
+When upgrading the version number by executing the `bump` command, the dependency declaration using the package in the repository will be automatically updated by default. After configuring this field as `minor`, if the version number is upgraded to `patch`, the reference dependency declaration will not be updated automatically.
+
+For example:
+
+```
+pkg-a @ version 1.0.0
+pkg-b @ version 1.0.0
+  depends on pkg-a at range `^1.0.0
+```
+
+By default, when upgrading `pkg-a` to `1.0.1`, the dependency version of `pkg-a` in `pkg-b` will be updated to `^1.0.1`.
+
+When configuring `updateInternalDependencies` as `minor`, when upgrading `pkg-a` to `1.0.1`, the dependency version of `pkg-a` in `pkg-b` will not be updated. Only when the version number of `pkg-a` is upgraded to `1.1.0` or `2.0.0`, the dependency of `pkg-a` in `pkg-b` will be updated.
+
+### changelog
+
+Type: `boolean` | `string` | `[string, unknow]`
+
+Default: `@changesets/cli/changelog`
+
+The rule for generating changelog.
+
+When configured as `false`, only the version number will be declared in the `CHANGELOG.md` file when executing the `bump` command, and no other changelog information will be declared.
+
+![Close changelog configuration](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-empty-changelog.png)
+
+When configured as `@changesets/cli/changelog`, the official provided changelog generation rule will be used to convert the changeset information into changelog content.
+
+When configured as an array, the first parameter is a custom NPM package or path, and the second parameter is the default parameter configuration that needs to be passed in. We will explain the custom format in the subsequent [Custom Changelog](/guides/topic-detail/changesets/changelog) section.
+
+### \_\_\_experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
+
+Some experimental configurations.
+
+#### onlyUpdatePeerDependentsWhenOutOfRange
+
+Type: `boolean`
+
+Default: `false`
+
+Configuration for the upgrade strategy of `peerDependence` dependencies. By default, when `peerDependence` is upgraded to a `minor` or `major` version, the current package will be upgraded to a major version.
+
+When this configuration is set to `true`, the version will only be updated when the declared dependencies of `peerDependence` are outside the declared range.
+
+#### updateInternalDependents
+
+Type: `always` | `out-of-range`
+
+Default: `always`
+
+When upgrading the version number by executing the `bump` command, the dependency declaration using the package in the repository will be automatically updated by default. When this parameter is set to `out-of-range`, the dependency declaration using the package in the repository will be updated only when it is outside the declared range.
+
+#### useCalculatedVersionForSnapshots
+
+Type: `boolean`
+
+Default: `false`
+
+When publishing snapshots, the version format of `0.0.0-timestamp` will be used by default to ensure that users can use pre-release versions normally. When you need to ignore the above problem and use the normal version number format, that is, the current version is `1.0.1`, and the snapshot version is expected to use `1.0.1-timestamp`, you can configure this parameter as `true`.

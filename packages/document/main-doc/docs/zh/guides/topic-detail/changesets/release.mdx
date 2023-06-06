@@ -108,7 +108,7 @@ git push --follow-tags
 - `--snapshot` 生成基于时间戳的版本号。
 
 ```bash
-pnpm run bump -- --snapshot canary
+pnpm run bump --snapshot canary
 ```
 
 执行完成后，对应的升级版本号将会变成 `0.0.0-canary-20220622092823` 的形式，其中 canary 为 snapshot 配置的标记，如果不配置，将直接生成 `0.0.0-20220622092823` 的形式。
@@ -120,7 +120,7 @@ pnpm run bump -- --snapshot canary
 例如本次发布你需要忽略 `module-2` 包：
 
 ```bash
-pnpm run bump -- --ignore module-2
+pnpm run bump --ignore module-2
 ```
 
 命令执行完成后，将会忽略 `module-2` 包的更新。注意如果存在包依赖 `module-2`，需要将对应包也加入到 `ignore` 参数中，否则 `bump` 命令将执行失败。
@@ -128,7 +128,7 @@ pnpm run bump -- --ignore module-2
 加入多个包的使用姿势为：
 
 ```bash
-pnpm run bump -- --ignore module-2 --ignore module-3
+pnpm run bump --ignore module-2 --ignore module-3
 ```
 
 ### release 命令参数
@@ -136,13 +136,13 @@ pnpm run bump -- --ignore module-2 --ignore module-3
 - `--otp` 使用 `npm token` 执行 release 命令发布对应包
 
 ```bash
-pnpm run relese -- --otp <token>
+pnpm run relese --otp <token>
 ```
 
 - `--tag` 本地发布使用特定的 tag，默认使用 `latest`
 
 ```bash
-pnpm run release -- --tag <tag>
+pnpm run release --tag <tag>
 ```
 
 - `--ignore-scripts` 发布时忽略 npm scripts。
@@ -150,7 +150,7 @@ pnpm run release -- --tag <tag>
 执行 `publish` 命令时，npm 会自动触发很多命令，比如 `prepare`、`prepublish`，使用该参数可以忽略这些命令执行。该参数仅支持在使用 pnpm 的 Monorepo 中使用。
 
 ```bash
-pnpm run release -- --ignore-scripts
+pnpm run release --ignore-scripts
 ```
 
 - `--no-git-checks` 发布时忽略检查当前分支。
@@ -158,7 +158,7 @@ pnpm run release -- --ignore-scripts
 执行发布命令时，默认会自动检查当前分支是否为发布分支，是否存在未提交变更等等，使用该参数可以忽略 git 相关检查。
 
 ```bash
-pnpm run release -- --no-git-checks
+pnpm run release --no-git-checks
 ```
 
 ## 升级版本策略

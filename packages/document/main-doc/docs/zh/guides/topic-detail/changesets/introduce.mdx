@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 认识 Changesets
 
-Modern.js 默认集成了 [Changesets](https://github.com/changesets/changesets) 用于模块和 Monorepo 工程方案项目中的包版本管理。
+Modern.js 默认集成了 [changesets](https://github.com/changesets/changesets) 用于模块和 Monorepo 工程方案项目中的包版本管理。
 
 ## 特点
 
@@ -12,15 +12,15 @@ Changesets 具有以下几个特点：
 
 - 在开发时，需要开发者提供本次变更涉及的包名称、升级版本类型(`pathch`、`minor`、`major`)及变更信息，即 changeset。
 
-- 在发布版本时，会根据 changeset 自动升级对应包的版本号，并在对应的包中生成 Changelog 信息。
+- 在发布版本时，会根据 changeset 内容自动升级对应包的版本号，并在对应的包中生成 changelog 信息。
 
 - 在 Monorepo 场景中，changeset 会自动生成仓库依赖图，升级时只会升级变更包及相关依赖包的版本号。
 
 ## 初始化
 
-Modern.js 默认创建的模块和 Monorepo 工程方案项目已经初始化完成 Changesets，在项目根目录会自动创建 `.changeset` 目录，及 `.changeset/config.json` 的配置文件。
+Modern.js 默认创建的模块和 Monorepo 工程方案项目已经初始化完成 changesets，在项目根目录会自动创建 `.changeset` 目录，及 `.changeset/config.json` 的配置文件。
 
-并且，Modern.js 在其对应的工程方案工具 `@modern-js/module-tools` 和 `@modern-js/monorepo-tools` 提供了 Changesets 相应的命令，无需再手动安装 Changesets 相关依赖。
+并且，Modern.js 在其对应的工程方案工具 `@modern-js/module-tools` 和 `@modern-js/monorepo-tools` 提供了 changesets 相应的命令，无需再手动安装 changesets 相关依赖。
 
 Changesets 默认配置如下：
 
@@ -37,7 +37,7 @@ Changesets 默认配置如下：
 }
 ```
 
-配置文件提供了生成 Changesets 的一些基本配置，字段详细介绍请参考后续章节： [Changesets 配置文件](/guides/topic-detail/changesets/config)。
+配置文件提供了生成 changesets 的一些基本配置，字段详细介绍请参考后续章节： [changesets 配置文件](/guides/topic-detail/changesets/config)。
 
 ## 命令
 
