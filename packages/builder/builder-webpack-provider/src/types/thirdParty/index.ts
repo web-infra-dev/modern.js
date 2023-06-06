@@ -29,8 +29,6 @@ export type {
   CSSLoaderOptions,
   StyleLoaderOptions,
   CSSExtractOptions,
-  PostCSSLoaderOptions,
-  PostCSSPlugin,
   MiniCSSExtractPluginOptions,
   MiniCSSExtractLoaderOptions,
 } from './css';

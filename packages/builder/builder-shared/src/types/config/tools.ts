@@ -10,6 +10,8 @@ import type {
   LessLoaderOptions,
   PugOptions,
   ForkTSCheckerOptions,
+  PostCSSLoaderOptions,
+  PostCSSPlugin,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
@@ -44,6 +46,11 @@ export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
 
 export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
 
+export type ToolsPostCSSLoaderConfig = ChainedConfig<
+  PostCSSLoaderOptions,
+  { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
+>;
+
 export interface SharedToolsConfig {
   /**
    * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
@@ -69,6 +76,11 @@ export interface SharedToolsConfig {
    * Note that `Object.assign` is a shallow copy and will completely overwrite the built-in `presets` or `plugins` array, please use it with caution.
    */
   babel?: ToolsBabelConfig;
+
+  /**
+   * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
+   */
+  postcss?: ToolsPostCSSLoaderConfig;
 
   /**
    * Configure the [Pug](https://pugjs.org/) template engine.

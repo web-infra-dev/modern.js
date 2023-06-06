@@ -6,12 +6,14 @@ import {
   type RemOptions,
   type PxToRemOptions,
 } from '@modern-js/builder-shared';
+import { getCompiledPath } from '../shared';
 
 const defaultOptions: RemOptions = {
   enableRuntime: true,
   rootFontSize: 50,
 };
 
+// todo: move to modern-js/builder
 export const builderPluginRem = (): BuilderPlugin => ({
   name: 'builder-plugin-rem',
 
@@ -41,7 +43,7 @@ export const builderPluginRem = (): BuilderPlugin => ({
 
         // handle css
         const { default: PxToRemPlugin } = (await import(
-          '../../compiled/postcss-pxtorem'
+          getCompiledPath('postcss-pxtorem')
         )) as {
           default: (_opts: PxToRemOptions) => any;
         };

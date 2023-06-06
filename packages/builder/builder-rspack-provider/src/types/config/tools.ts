@@ -3,9 +3,10 @@ import type {
   SharedToolsConfig,
   ToolsLessConfig,
   ToolsSassConfig,
+  PostCSSLoaderOptions,
+  PostCSSPlugin,
 } from '@modern-js/builder-shared';
 import type { Options as HTMLPluginOptions } from '@rspack/plugin-html';
-import type { PostCSSLoaderOptions, PostCSSPlugin } from '../thirdParty';
 import type { RspackConfig } from '../rspack';
 import type { ModifyRspackConfigUtils } from '../hooks';
 

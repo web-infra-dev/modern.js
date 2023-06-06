@@ -260,7 +260,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -316,7 +316,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -379,7 +379,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": "<ROOT>/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -1164,7 +1164,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             },
           },
           {
-            "loader": "<ROOT>/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -1220,7 +1220,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             },
           },
           {
-            "loader": "<ROOT>/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
@@ -1283,7 +1283,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             },
           },
           {
-            "loader": "<ROOT>/compiled/postcss-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
             "options": {
               "postcssOptions": {
                 "plugins": [
