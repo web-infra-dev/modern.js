@@ -61,7 +61,6 @@
     "@rspack/dev-client": "0.0.0-canary-e8556c5-20230601010039",
     "@rspack/dev-middleware": "0.0.0-canary-e8556c5-20230601010039",
     "@rspack/plugin-html": "0.0.0-canary-e8556c5-20230601010039",
-    "@rspack/postcss-loader": "0.0.0-canary-e8556c5-20230601010039",
     "rspack-manifest-plugin": "5.0.0-alpha0",
     "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",

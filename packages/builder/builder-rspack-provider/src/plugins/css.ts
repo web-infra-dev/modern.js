@@ -12,6 +12,7 @@ import {
   GLOBAL_CSS_REGEX,
   NODE_MODULES_REGEX,
   logger,
+  PostCSSPlugin,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -19,7 +20,6 @@ import type {
   RspackRule,
   RuleSetRule,
 } from '../types';
-import type { AcceptedPlugin } from 'postcss';
 import { isUseCssExtract, getCompiledPath } from '../shared';
 
 type CssNanoOptions = {
@@ -58,9 +58,9 @@ export async function applyBaseCSSRule(
   );
 
   const getPostcssConfig = () => {
-    const extraPlugins: AcceptedPlugin[] = [];
+    const extraPlugins: PostCSSPlugin[] = [];
     const utils = {
-      addPlugins(plugins: AcceptedPlugin | AcceptedPlugin[]) {
+      addPlugins(plugins: PostCSSPlugin | PostCSSPlugin[]) {
         if (Array.isArray(plugins)) {
           extraPlugins.push(...plugins);
         } else {
@@ -144,7 +144,7 @@ export async function applyBaseCSSRule(
 
     rule
       .use(CHAIN_ID.USE.POSTCSS)
-      .loader(require.resolve('@rspack/postcss-loader'))
+      .loader(getCompiledPath('postcss-loader'))
       .options(postcssLoaderOptions)
       .end();
   }

@@ -3,8 +3,10 @@ import type { BuilderPlugin } from '../types';
 import {
   getDistPath,
   AutoSetRootFontSizePlugin,
+  PxToRemOptions,
   type RemOptions,
 } from '@modern-js/builder-shared';
+import { getCompiledPath } from '../shared';
 
 const defaultOptions: RemOptions = {
   enableRuntime: true,
@@ -46,6 +48,21 @@ export const builderPluginRem = (): BuilderPlugin => ({
           CHAIN_ID.RULE.STYLUS,
         ];
 
+        // handle css
+        const { default: PxToRemPlugin } = (await import(
+          getCompiledPath('postcss-pxtorem')
+        )) as {
+          default: (_opts: PxToRemOptions) => any;
+        };
+
+        const getPxToRemPlugin = () =>
+          PxToRemPlugin({
+            rootValue: userOptions.rootFontSize,
+            unitPrecision: 5,
+            propList: ['*'],
+            ..._.cloneDeep(userOptions.pxtorem || {}),
+          });
+
         // Deep copy options to prevent unexpected behavior.
         applyRules.forEach(name => {
           chain.module.rules.has(name) &&
@@ -54,11 +71,12 @@ export const builderPluginRem = (): BuilderPlugin => ({
               .use(CHAIN_ID.USE.POSTCSS)
               .tap((options = {}) => ({
                 ...options,
-                pxToRem: {
-                  rootValue: userOptions.rootFontSize,
-                  unitPrecision: 5,
-                  propList: ['*'],
-                  ..._.cloneDeep(userOptions.pxtorem || {}),
+                postcssOptions: {
+                  ...(options.postcssOptions || {}),
+                  plugins: [
+                    ...(options.postcssOptions?.plugins || []),
+                    getPxToRemPlugin(),
+                  ],
                 },
               }));
         });
