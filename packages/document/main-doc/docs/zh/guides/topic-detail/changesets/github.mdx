@@ -48,7 +48,7 @@ Modern.js 提供了自动创建发版 Pull Request 的 Github Action，提供基
 
 #### 使用
 
-在仓库中创建 `.github/workflows/release-pull-request.yml` 文件，填入以下内容：
+- 在仓库中创建 `.github/workflows/release-pull-request.yml` 文件，填入以下内容：
 
 ```yaml
 name: Release Pull Request
@@ -93,15 +93,15 @@ jobs:
           REF: ${{ github.ref }}
 ```
 
-将 Workflow 合并到主分支后，进入 Github 仓库对应的 Action 页面，选择 Release Pull Request：
+- 将 Workflow 合并到主分支后，进入 Github 仓库对应的 Action 页面，选择 Release Pull Request：
 
 ![Release Pull Request Action](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/action-pull-request.png)
 
-选择本次发布类型，点击 Run workflow 按钮：
+- 选择本次发布类型，点击 Run workflow 按钮：
 
 ![Run Release Pull Request](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/action-pull-request.jpeg)
 
-workflow 运行完成后将自动创建 `Release-${version}` 的 Pull Request，自动完成 `bump` changeset 相关版本号并更新 lock 文件，Pull Request 的内容为执行 `gen-release-note` 命令自动生成的 Release Note。
+- Workflow 运行完成后将自动创建 `Release-${version}` 的 Pull Request，自动完成 `bump` changeset 相关版本号并更新 lock 文件，Pull Request 的内容为执行 `gen-release-note` 命令自动生成的 Release Note。
 
 ![Release Pull Request](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/release-pull-request.jpeg)
 
@@ -111,7 +111,7 @@ Modern.js 提供了自动发布版本 的 Github Action，提供基于选择的�
 
 #### 使用
 
-在仓库中创建 `.github/workflows/release.yml` 文件，填入以下内容：
+- 在仓库中创建 `.github/workflows/release.yml` 文件，填入以下内容：
 
 ```yaml
 name: Release
@@ -160,16 +160,16 @@ jobs:
           REF: ${{ github.ref }}
 ```
 
-配置仓库的 NPM_TOKEN:
+- 配置仓库的 NPM_TOKEN:
 
 ![配置 Token](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/github-set-npm-token.png)
 
-将 Workflow 合并到主分支后，进入 Github 仓库对应的 Action 页面，选择 Release：
+- 将 Workflow 合并到主分支后，进入 Github 仓库对应的 Action 页面，选择 Release：
 
 ![Release Action](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/release-action.png)
 
-选择分支名称和发布版本类型，点击 Run workflow 按钮：
+- 选择分支名称和发布版本类型，点击 Run workflow 按钮：
 
 ![Run Release Action](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/run-release-workflow.png)
 
-Workflow 将自动完成仓库 build 和发布到 NPM 流程。
+- Workflow 将自动完成仓库 build 和发布到 NPM 流程。

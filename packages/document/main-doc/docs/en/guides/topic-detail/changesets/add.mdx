@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Add Changesets
 
-When we finish development, we need to add a changeset to declare the current changes for future version releases.
+When we finish development, we need to add a changeset to declare the current changes for version releases.
 
 ## Information
 
@@ -12,29 +12,29 @@ A changeset includes:
 
 - Which packages are affected by this change.
 
-- The type of version number upgrade needed for this change, which complies with the [semver](https://semver.org/) specification.
+- The type of version for this change, which complies with the [semver](https://semver.org/) specification.
 
 - Changelog information for this change.
 
 ## Steps
 
 :::info
-The following example commands are all using pnpm as the package management tool. If you need to use other package management tools, please replace them as needed.
+The following example commands are all using pnpm. If you need to use other package management tools, please replace them as needed.
 :::
 
-### Module project scheme
+### NPM Module
 
-#### Run the following command in the root directory:
+#### Run the change command in the root directory:
 
 ```bash
 pnpm run change
 ```
 
-#### Select the type of version number upgrade needed for this change and press Enter:
+#### Select the type of version for this change
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-select-version.png)
 
-#### Fill in the changelog information and press Enter twice:
+#### Fill in the changelog information
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-input-changelog.png)
 
@@ -52,15 +52,15 @@ This file contains all the information of the changeset.
 
 ### Monorepo
 
-Assuming there are three module packages in the monorepo, `module-1`, `module-2`, and `module-3`.
+There are three NPM module packages in the monorepo, `module-1`, `module-2`, and `module-3`.
 
-#### Run the following command in the root directory:
+#### Run the change command in the root directory
 
 ```bash
 pnpm run change
 ```
 
-#### Select the list of packages to upgrade for this change:
+#### Select the list of packages to upgrade for this change
 
 Changesets will categorize the packages in the Monorepo into two categories, `changed packages` and `unchanged packages`, based on the current code changes (`git diff Head...baseBranch`), making it easy for users to choose.
 
@@ -68,11 +68,13 @@ Use the space key to select the corresponding package or category, and then pres
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-select-packages.png)
 
-#### Select the packages corresponding to different version types. Changesets will ask about the `major` and `minor` types. If there are packages that have not selected these two types, the `patch` type will be used by default:
+#### Select the packages corresponding to different version types
+
+Changesets will ask about the `major` and `minor` types. If there are packages that have not selected these two types, the `patch` type will be used by default.
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-auto-select-patch.png)
 
-#### Fill in the changelog information and press Enter twice:
+#### Fill in the changelog information
 
 ![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-input-changelog-monorepo.png)
 
@@ -93,7 +95,7 @@ This file contains all the information of the changeset, and different packages 
 
 The `change` command supports the following parameters:
 
-- `--empty` Adds an empty changeset.
+- `--empty`: Adds an empty changeset.
 
 ```bash
 pnpm run change --empty
@@ -106,7 +108,7 @@ After running, an empty changeset file will be created in the `.changeset` direc
 ---
 ```
 
-- `--open` When using this parameter, the system default editor will be opened for filling in the changelog.
+- `--open`: When using this parameter, the system default editor will be opened for filling in the changelog.
 
 ## Notes
 
