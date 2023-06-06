@@ -142,22 +142,22 @@ export default (
               }
             },
 
-            babel(_, { addPlugins }) {
-              if (haveTwinMacro) {
-                initTailwindConfig();
-                addPlugins([
-                  [
-                    require.resolve('babel-plugin-macros'),
-                    {
-                      twin: {
-                        preset: supportCssInJsLibrary,
-                        config: internalTwConfigPath || tailwindConfig,
+            babel: haveTwinMacro
+              ? (_, { addPlugins }) => {
+                  initTailwindConfig();
+                  addPlugins([
+                    [
+                      require.resolve('babel-plugin-macros'),
+                      {
+                        twin: {
+                          preset: supportCssInJsLibrary,
+                          config: internalTwConfigPath || tailwindConfig,
+                        },
                       },
-                    },
-                  ],
-                ]);
-              }
-            },
+                    ],
+                  ]);
+                }
+              : undefined,
           },
         };
       },
