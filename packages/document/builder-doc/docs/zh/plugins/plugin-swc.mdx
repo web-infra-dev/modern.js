@@ -36,7 +36,19 @@ import SWC from '@zh/shared/swc.md';
 
 ## 快速开始
 
-### 安装
+### 在 Modern.js 框架中使用
+
+Modern.js 框架对 Builder 的 SWC 插件进行了封装，你可以通过以下方式来使用：
+
+import EnableSWC from '@zh/shared/enable-swc.md';
+
+<EnableSWC />
+
+### 通过 Node API 使用
+
+如果你直接使用了 Builder 的 Node API，那么需要手动安装和注册 Builder 的 SWC 插件。
+
+#### 安装插件
 
 你可以通过如下的命令安装插件:
 
@@ -51,19 +63,9 @@ yarn add @modern-js/builder-plugin-swc -D
 pnpm add @modern-js/builder-plugin-swc -D
 ```
 
-### 注册插件
+#### 注册插件
 
-在 Modern.js 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 SWC 插件：
-
-```ts
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-
-export default {
-  builderPlugins: [builderPluginSwc()],
-};
-```
-
-当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 SWC 插件：
+通过 `addPlugins` 方法来注册 SWC 插件：
 
 ```js
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
@@ -72,9 +74,7 @@ import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 builder.addPlugins([builderPluginSwc()]);
 ```
 
-That's it !
-
-现在你可以在项目中无缝使用 SWC 的转译和压缩能力了。
+That's it! 现在你可以在项目中无缝使用 SWC 的转译和压缩能力了。
 
 ## 配置
 
