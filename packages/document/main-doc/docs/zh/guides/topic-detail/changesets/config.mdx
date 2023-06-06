@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Changesets 配置文件
 
-我们前面了解到，初始化 Modern.js 仓库时，会默认初始化 Changesets 的配置文件，即 `.changeset/config.json` 文件，下面我们将详细了解一下该文件中支持哪些配置。
+我们前面了解到，初始化 Modern.js 仓库时，会默认初始化 changesets 的配置文件，即 `.changeset/config.json` 文件，下面我们将详细了解一下该文件中支持哪些配置。
 
 ## 配置介绍
 
@@ -106,15 +106,15 @@ pkg-b @ version 1.0.0
 
 默认值：`@changesets/cli/changelog`
 
-生成 Changelog 规则。
+生成 changelog 规则。
 
-配置为 `false` 时，执行 bump 命令时，在 `CHANGELOG.md` 文件中只声明版本号，不声明其他 Changelog 信息。
+配置为 `false` 时，执行 bump 命令时，在 `CHANGELOG.md` 文件中只声明版本号，不声明其他 changelog 信息。
 
 ![关闭 changelog 配置](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-empty-changelog.png)
 
-配置为 `@changesets/cli/changelog` 将使用官方提供的 Changlog 生成规则，将 changeset 信息转换为 Changlog 内容。
+配置为 `@changesets/cli/changelog` 将使用官方提供的 Changlog 生成规则，将 changeset 信息转换为 changlog 内容。
 
-配置为数组时，第一个参数为自定义 NPM 包或者路径，第二个参数为需要传入的默认参数配置，自定义格式我们将在后续[自定义 Changelog](/guides/topic-detail/changesets/changelog) 章节讲解。
+配置为数组时，第一个参数为自定义 NPM 包或者路径，第二个参数为需要传入的默认参数配置，自定义格式我们将在后续[自定义 changelog](/guides/topic-detail/changesets/changelog) 章节讲解。
 
 ### \_\_\_experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH
 

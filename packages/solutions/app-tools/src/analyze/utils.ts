@@ -1,6 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import { isReact18, normalizeToPosixPath, fs as fse } from '@modern-js/utils';
+import {
+  isReact18,
+  normalizeToPosixPath,
+  fs as fse,
+  getCommand,
+} from '@modern-js/utils';
 import type { Entrypoint } from '@modern-js/types';
 import type { Loader } from 'esbuild';
 import { transform } from 'esbuild';
@@ -161,4 +166,11 @@ export const getServerCombinedModueFile = (
   entryName: string,
 ) => {
   return path.join(internalDirectory, entryName, 'server-loader-combined.js');
+};
+
+export const checkIsBuildCommands = () => {
+  const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
+  const command = getCommand();
+
+  return buildCommands.includes(command);
 };
