@@ -168,6 +168,8 @@ export const formatSplitChunks = (
       'enforceSizeThreshold',
     ),
     chunks: splitChunks.chunks,
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore
     cacheGroups: formatCacheGroups(splitChunks.cacheGroups),
     fallbackCacheGroup: splitChunks.fallbackCacheGroup
       ? fallbackCacheGroup(splitChunks.fallbackCacheGroup)
