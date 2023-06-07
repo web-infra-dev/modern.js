@@ -7,6 +7,7 @@ import type {
   SharedNormalizedConfig,
   BuilderTarget,
   SharedCompiledPkgNames,
+  CssModules,
 } from './types';
 import { join } from 'path';
 
@@ -90,14 +91,14 @@ export function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
   );
 }
 
-export type CssModules =
+export type CssLoaderModules =
   | boolean
   | string
   | {
       auto: boolean | ((filename: string) => boolean);
     };
 
-export const isCssModules = (filename: string, modules: CssModules) => {
+export const isCssModules = (filename: string, modules: CssLoaderModules) => {
   if (typeof modules === 'boolean') {
     return modules;
   }
@@ -115,4 +116,15 @@ export const isCssModules = (filename: string, modules: CssModules) => {
     return auto(filename);
   }
   return true;
+};
+
+export const getCssModulesAutoRule = (
+  config?: CssModules,
+  disableCssModuleExtension = false,
+) => {
+  if (!config || config?.auto === undefined) {
+    return disableCssModuleExtension ? isLooseCssModules : true;
+  }
+
+  return config.auto;
 };
