@@ -113,7 +113,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            const docConfig = mergeDocConfig(config.doc || {}, {
+            const docConfig = mergeDocConfig(config, {
               doc: extraDocConfig,
             });
             await build(root || '', docConfig);
@@ -133,7 +133,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
             ) => {
               const { port, host } = options || {};
               const config = api.useConfigContext() as UserConfig;
-              const docConfig = mergeDocConfig(config.doc || {}, {
+              const docConfig = mergeDocConfig(config, {
                 doc: extraDocConfig,
               });
               await serve(root || '', docConfig, port, host);
