@@ -201,7 +201,7 @@ type StartDevServerOptions = {
   serverOptions?: Partial<ModernDevServerOptions>;
 };
 
-type StartDevServerResult = {
+type StartServerResult = {
   urls: string[];
   port: number;
   server: Server;
@@ -209,7 +209,7 @@ type StartDevServerResult = {
 
 function StartDevServer(
   options?: StartDevServerOptions,
-): Promise<StartDevServerResult>;
+): Promise<StartServerResult>;
 ```
 
 - **Example**
@@ -232,7 +232,7 @@ info    Dev server running at:
 
 `startDevServer` returns the following parameters:
 
-- `urls`: URLs to access Dev Server.
+- `urls`: URLs to access dev server.
 - `port`: The actual listening port number.
 - `server`: Server instance object.
 
@@ -241,7 +241,7 @@ const { urls, port, server } = await builder.startDevServer();
 console.log(urls); // ['http://localhost:8080', 'http://192.168.0.1:8080']
 console.log(port); // 8080
 
-// Close the Dev Server
+// Close the dev server
 await server.close();
 ```
 
@@ -292,6 +292,46 @@ await builder.startDevServer({
   compiler,
 });
 ```
+
+## builder.serve
+
+Start a server to preview the production build locally. This method should be executed after `builder.build`.
+
+- **Type**
+
+```ts
+type StartServerResult = {
+  urls: string[];
+  port: number;
+  server: Server;
+};
+
+function server(): Promise<StartServerResult>;
+```
+
+- **Example**
+
+Start the server：
+
+```ts
+await builder.serve();
+```
+
+`serve` returns the following parameters:
+
+- `urls`: URLs to access server.
+- `port`: The actual listening port number.
+- `server`: Server instance object.
+
+```ts
+const { urls, port, server } = await builder.serve();
+console.log(urls); // ['http://localhost:8080', 'http://192.168.0.1:8080']
+console.log(port); // 8080
+
+// Close the server
+await server.close();
+```
+
 
 ## builder.createCompiler
 

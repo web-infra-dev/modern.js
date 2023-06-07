@@ -1,4 +1,5 @@
 import {
+  startProdServer,
   createPublicContext,
   type BuilderProvider,
 } from '@modern-js/builder-shared';
@@ -63,6 +64,10 @@ export function builderWebpackProvider({
           { context, pluginStore, builderOptions },
           options,
         );
+      },
+
+      async serve() {
+        return startProdServer(context, context.config);
       },
 
       async build(options) {
