@@ -123,6 +123,8 @@ export const pageType = "blank";
     },
     builderConfig: {
       tools: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment, @typescript-eslint/prefer-ts-expect-error
+        // @ts-ignore
         rspack: {
           plugins: [demoRuntimeModule],
         },

@@ -81,6 +81,7 @@ export async function applyBaseCSSRule(
     target,
   );
 
+  // todo: move to modern-js/shared
   const getPostcssConfig = () => {
     const extraPlugins: AcceptedPlugin[] = [];
 

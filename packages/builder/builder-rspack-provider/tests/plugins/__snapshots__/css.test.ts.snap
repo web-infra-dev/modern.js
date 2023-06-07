@@ -21,7 +21,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -54,7 +54,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -102,7 +102,7 @@ exports[`plugins/less > should add less-loader 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -153,7 +153,7 @@ exports[`plugins/less > should add less-loader 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -222,7 +222,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -276,7 +276,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -342,7 +342,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -393,7 +393,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -459,7 +459,7 @@ exports[`plugins/sass > should add sass-loader 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -507,7 +507,7 @@ exports[`plugins/sass > should add sass-loader 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -573,7 +573,7 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -624,7 +624,7 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [

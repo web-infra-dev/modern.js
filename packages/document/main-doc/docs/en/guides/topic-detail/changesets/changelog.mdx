@@ -2,15 +2,15 @@
 sidebar_position: 6
 ---
 
-# Customizing Changelog Generation
+# Customizing Changelog
 
-By default, Changesets will use `@changesets/cli/changelog` to generate changelog information. If the default changelog information cannot meet the requirements, you can customize the generation of changelog.
+By default, Changesets will use `@changesets/cli/changelog` to generate changelog. If the default changelog cannot meet the requirements, you can customize the generation of changelog.
 
 ## Customizing Changelog Content
 
-Changelog information mainly includes the following two types of information:
+Changelog mainly includes the following two types of information:
 
-- Changelog information written in the changeset.
+- Changelog written in the changeset.
 
 - Version change information of related packages in this version upgrade.
 
@@ -28,10 +28,10 @@ export type VersionType = 'major' | 'minor' | 'patch' | 'none';
 export type Release = { name: string; type: VersionType };
 
 export type Changeset = {
-  id: string; // changeset 的文件名称
-  commit?: string; // changeset 提交时的 commit id 信息
-  summary: string; // changeset 内容信息
-  releases: Array<Release>; // 当前计算出的 changeset 升级包名称及类型信息
+  id: string; // changeset id
+  commit?: string; // changeset commit id
+  summary: string; // changeset summary content
+  releases: Array<Release>; // The name and type information of the current computed changeset upgrade package.
 };
 ```
 
@@ -77,13 +77,13 @@ All associated changeset information, which is an array of `getReleaseLine` chan
 
 ```ts
 type ModCompWithPackage = {
-  name: string; // 依赖模块名称
-  type: VersionType; // 依赖模块的升级类型
-  oldVersion: string; // 依赖模块当前版本号
-  newVersion: string; // 依赖模块新版本号
-  changesets: string[]; // 关联的 changeset id 列表
-  packageJson: PackageJSON; // 依赖模块完整的 package.json 内容
-  dir: string; // 依赖模块的路径(绝对路径)
+  name: string; // Name of the dependent module
+  type: VersionType; // Upgrade type of the dependent module
+  oldVersion: string; // Current version of the dependent module
+  newVersion: string; // New version of the dependent module
+  changesets: string[]; // List of associated changeset ids
+  packageJson: PackageJSON; // Complete package.json content of the dependent module
+  dir: string; // Path (absolute path) of the dependent module
 };
 
 type DependenciesUpdated = ModCompWithPackage[];
@@ -95,7 +95,7 @@ Changelog content.
 
 #### Default Implementation
 
-By default, `@changesets/cli/changelog` will display the corresponding `Updated dependencies + commit id` information of the changesets as a list. Then, based on the `dependenciesUpdated` information, it will display the package name and new version number of the corresponding dependency package as a child list item of the list.
+By default, `@changesets/cli/changelog` will display the corresponding `Updated dependencies + commit id` information of the changesets as a list. Then, based on the `dependenciesUpdated` information, it will display the package name and new version of the corresponding dependency package as a child list item of the list.
 
 ```ts
 async function getDependencyReleaseLine(changesets, dependenciesUpdated) {
@@ -128,11 +128,11 @@ It is displayed as follows:
 
 ## Configuration
 
-The `changelog` field in the changesets configuration file is used to mark the way to obtain changelog information.
+The `changelog` field in the changesets configuration file is used to mark the way to get changelog.
 
-This configuration can be a string, directly declaring the module name or path of the changelog information acquisition module.
+This configuration can be a string, directly declaring the module name or path of the changelog module.
 
-This configuration also supports configuring arrays. The first element in the array is the module name or path of the changelog information acquisition module, and the second element is the parameter value passed to the corresponding function, which will be passed as the third parameter of the `getReleaseLine` and `getDependencyReleaseLine` functions.
+This configuration also supports configuring arrays. The first element in the array is the module name or path of the changelog module, and the second element is the parameter value passed to the corresponding function, which will be passed as the third parameter of the `getReleaseLine` and `getDependencyReleaseLine` functions.
 
 ### Configuring Relative Paths
 
@@ -160,9 +160,9 @@ Configure `changlog` as `./my-changelog-config.js`:
 }
 ```
 
-### Using Module Project
+### Using Npm Module
 
-Customizing changelog can also be managed using the module project to provide a common solution.
+Customizing changelog can also be managed using the NPM module project to provide a common solution.
 
 #### Use `npx @modern-js/create@latest` to create a module project.
 
@@ -181,11 +181,11 @@ export async function getReleaseLine() {}
 export async function getDependencyReleaseLine() {}
 ```
 
-#### Publish the module to NPM.
+#### Publish the module to NPM
 
-#### Install the corresponding module in the root directory of the target repository, such as `custom-changelog`.
+#### Install the module in the root directory of the target repository, such as `custom-changelog`.
 
-#### Configure the changelog configuration of Changesets as the package name.
+#### Configure the changelog configuration of changesets as the package name.
 
 ```json title=".changesets/config.json"
 {
@@ -196,9 +196,9 @@ export async function getDependencyReleaseLine() {}
 
 ### Using Monorepo Sub-Project
 
-If your current repository is Monorepo, you can directly manage it using module sub-projects.
+If your current repository is Monorepo, you can directly manage it using NPM module sub-projects.
 
-#### Run `pnpm run new` to create a module sub-project.
+#### Run `pnpm run new` to create a NPM module sub-project
 
 ```bash
 ? Please select the type of project you want to create: Npm Module
@@ -215,7 +215,7 @@ export async function getReleaseLine() {}
 export async function getDependencyReleaseLine() {}
 ```
 
-#### Add the sub-project module dependency, such as `custom-changelog`, to the Monorepo root directory.
+#### Add the sub-project module dependency, such as `custom-changelog`, to the Monorepo root directory
 
 ```json title="package.json"
 {
@@ -226,7 +226,7 @@ export async function getDependencyReleaseLine() {}
 }
 ```
 
-#### Configure the changelog configuration of Changesets as the package name.
+#### Configure the changelog configuration of Changesets as the package name
 
 ```json title=".changesets/config.json"
 {

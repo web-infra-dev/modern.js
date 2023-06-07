@@ -12,7 +12,7 @@ exports[`plugins/stylus > should add stylus loader config correctly 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -59,7 +59,7 @@ exports[`plugins/stylus > should add stylus loader config correctly 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -121,7 +121,7 @@ exports[`plugins/stylus > should allow to configure stylus options 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -171,7 +171,7 @@ exports[`plugins/stylus > should allow to configure stylus options 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [

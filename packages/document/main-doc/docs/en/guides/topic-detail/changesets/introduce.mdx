@@ -2,25 +2,25 @@
 sidebar_position: 1
 ---
 
-# Introduction to Changesets
+# Introducing Changesets
 
-Modern.js integrates [changesets](https://github.com/changesets/changesets) by default for package version management in Npm Module and Monorepo project.
+Modern.js integrates [changesets](https://github.com/changesets/changesets) for package version management in Npm Module and Monorepo project.
 
 ## Features
 
 Changesets have the following features:
 
-- During development, developers need to provide the package names involved in this change, the type of version upgrade (`pathch`, `minor`, `major`), and change information, that is, changeset.
+- During development, developers need to provide the package names, the type of version upgrade (`pathch`, `minor`, `major`), and change information involved in this change.
 
 - When releasing a version, the version number of the corresponding package will be automatically upgraded based on the content of the changeset, and changelog information will be generated in the corresponding package.
 
-- In the Monorepo scenario, changesets will automatically generate a repository dependency graph, and only upgrade the version numbers of the changed packages and related dependent packages during upgrade.
+- In the Monorepo project, changesets will automatically generate a repository dependency graph, and only upgrade the version numbers of the changed packages and related dependent packages during upgrade.
 
 ## Initialization
 
-The module and Monorepo project schemes created by Modern.js have already initialized changesets. The `.changeset` directory and the configuration file `.changeset/config.json` will be automatically created in the project root directory.
+The Npm Module and Monorepo project created by Modern.js have already initialized changesets. The `.changeset` directory and the configuration file `.changeset/config.json` will be automatically created in the project root directory.
 
-In addition, Modern.js provides corresponding commands for changesets in its corresponding project scheme tools `@modern-js/module-tools` and `@modern-js/monorepo-tools`, and there is no need to manually install changeset-related dependencies.
+In addition, Modern.js provides corresponding commands for changesets in its corresponding project tools `@modern-js/module-tools` and `@modern-js/monorepo-tools`, and there is no need to manually install changeset-related dependencies.
 
 The default configuration for changesets is as follows:
 
@@ -37,20 +37,20 @@ The default configuration for changesets is as follows:
 }
 ```
 
-The configuration file provides some basic configurations for generating changesets. For detailed field descriptions, please refer to the following chapter: [changesets configuration](/guides/topic-detail/changesets/config).
+The configuration file provides some basic configurations for generating changesets. For detailed field descriptions, please refer to [Changesets configuration](/guides/topic-detail/changesets/config).
 
 ## Commands
 
-- `change` Creates a changeset. After executing this command, a changeset file will be automatically generated in the `.changeset` directory.
+- `change`: Creates a changeset. After running this command, a changeset file will be automatically generated in the `.changeset` directory.
 
-- `bump` Upgrades the version number of the corresponding package based on the current changeset.
+- `bump`: Upgrades the version of the corresponding package based on the current changeset.
 
-- `pre` Marks entering and exiting `pre release` mode. When executing the `bump` command in `pre release` mode, the version number format will be `x.x.x-${pre-tag}.x`.
+- `pre`: Marks entering and exiting `pre release` mode. When running the `bump` command in `pre release` mode, the version format will be `x.x.x-${pre-tag}.x`.
 
-- `release` Publishes the package to NPM.
+- `release`: Publishes the package to NPM.
 
-- `status` Views the current changeset status.
+- `status`: Views the current changeset status.
 
-- `gen-release-note` Generates Release Note information based on the current chagneset status.
+- `gen-release-note`: Generates Release Note information based on the current chagneset status.
 
 For specific command-supported parameters, please refer to the corresponding chapter introduction.

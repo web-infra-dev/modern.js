@@ -17,8 +17,6 @@ import type {
   CssMinimizerPluginOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
-  PostCSSLoaderOptions,
-  PostCSSPlugin,
   StyleLoaderOptions,
   TerserPluginOptions,
   TSLoaderOptions,
@@ -45,11 +43,6 @@ export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
 export type ToolsCssExtractConfig =
   | CSSExtractOptions
   | ((options: CSSExtractOptions) => CSSExtractOptions | void);
-
-export type ToolsPostCSSLoaderConfig = ChainedConfig<
-  PostCSSLoaderOptions,
-  { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
->;
 
 export type ToolsHtmlPluginConfig = ChainedConfig<
   HTMLPluginOptions,
@@ -113,10 +106,6 @@ export interface ToolsConfig extends SharedToolsConfig {
    * Modify the options of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
    */
   cssExtract?: CSSExtractOptions;
-  /**
-   * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
-   */
-  postcss?: ToolsPostCSSLoaderConfig;
   /**
    * Configure [webpack](https://webpack.js.org/).
    */
