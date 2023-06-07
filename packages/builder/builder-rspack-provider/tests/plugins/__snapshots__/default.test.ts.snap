@@ -58,9 +58,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -641,13 +638,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "fallbackCacheGroup": undefined,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
-      "minRemainingSize": undefined,
-      "minSize": undefined,
-      "name": undefined,
     },
   },
   "output": {
@@ -768,9 +758,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "hot": false,
   },
   "devtool": "hidden-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1351,13 +1338,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "fallbackCacheGroup": undefined,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
-      "minRemainingSize": undefined,
-      "minSize": undefined,
-      "name": undefined,
     },
   },
   "output": {
@@ -1483,9 +1463,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "hot": false,
   },
   "devtool": "cheap-module-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1808,7 +1785,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
   "name": "Server",
   "optimization": {
     "minimize": false,
-    "runtimeChunk": undefined,
     "splitChunks": false,
   },
   "output": {
@@ -1924,9 +1900,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2515,13 +2488,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "fallbackCacheGroup": undefined,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
-      "minRemainingSize": undefined,
-      "minSize": undefined,
-      "name": undefined,
     },
   },
   "output": {

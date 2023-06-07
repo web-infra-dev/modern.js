@@ -29,7 +29,6 @@ exports[`plugins/swc > should add antd pluginImport 1`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -61,7 +60,6 @@ exports[`plugins/swc > should add browserslist 1`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -93,7 +91,6 @@ exports[`plugins/swc > should add browserslist 2`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -132,7 +129,6 @@ exports[`plugins/swc > should add pluginImport 1`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -166,7 +162,6 @@ exports[`plugins/swc > should disable all pluginImport 1`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -195,7 +190,6 @@ exports[`plugins/swc > should disable preset_env in target other than web 1`] = 
       "src/index.js",
     ],
   },
-  "module": {},
 }
 `;
 
@@ -219,7 +213,6 @@ exports[`plugins/swc > should disable preset_env mode 1`] = `
       "src/index.js",
     ],
   },
-  "module": {},
 }
 `;
 
@@ -245,7 +238,6 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -279,7 +271,6 @@ exports[`plugins/swc > should has correct core-js 1`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -313,7 +304,6 @@ exports[`plugins/swc > should has correct core-js 2`] = `
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],
@@ -342,7 +332,6 @@ exports[`plugins/swc > should has correct core-js 3`] = `
       "src/index.js",
     ],
   },
-  "module": {},
 }
 `;
 
@@ -368,7 +357,6 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
       "src/index.js",
     ],
   },
-  "module": {},
   "plugins": [
     RspackVirtualModulePlugin {},
   ],

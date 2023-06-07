@@ -10,6 +10,5 @@ exports[`plugins/define > should allow globalVars to be a function 1`] = `
       "process.env.NODE_ENV": "\\"test\\"",
     },
   },
-  "module": {},
 }
 `;
