@@ -44,6 +44,23 @@ const mockNetworkInterfaces = {
   ],
 };
 
+const mockEntrypoints = [
+  {
+    entryName: 'main',
+    entry: '/example/node_modules/.modern-js/main/index.js',
+    isAutoMount: true,
+    customBootstrap: false,
+  },
+];
+
+const mockServerRoute = {
+  urlPath: '/',
+  entryName: 'main',
+  entryPath: 'html/main/index.html',
+  isSPA: true,
+  isSSR: false,
+};
+
 jest.mock('os', () => {
   const originalModule = jest.requireActual('os');
   return {
@@ -71,22 +88,9 @@ jest.mock('../compiled/chalk', () => {
 describe('prettyInstructions', () => {
   test('basic usage', () => {
     const mockAppContext = {
-      entrypoints: [
-        {
-          entryName: 'main',
-          entry: '/example/node_modules/.modern-js/main/index.js',
-          isAutoMount: true,
-          customBootstrap: false,
-        },
-      ],
+      entrypoints: mockEntrypoints,
       serverRoutes: [
-        {
-          urlPath: '/',
-          entryName: 'main',
-          entryPath: 'html/main/index.html',
-          isSPA: true,
-          isSSR: false,
-        },
+        mockServerRoute,
         {
           urlPath: '/api',
           isApi: true,
@@ -98,13 +102,52 @@ describe('prettyInstructions', () => {
       port: 8080,
       apiOnly: false,
     };
-    const mockConfig = {
-      dev: {
-        https: true,
+
+    const message = prettyInstructions(mockAppContext, {});
+
+    expect(message).toMatchSnapshot();
+  });
+
+  test('should print https URLs', () => {
+    const { NODE_ENV } = process.env;
+    process.env.NODE_ENV = 'development';
+
+    const mockAppContext = {
+      entrypoints: mockEntrypoints,
+      serverRoutes: [mockServerRoute],
+      port: 8080,
+      apiOnly: false,
+      builder: {
+        context: {
+          devServer: {
+            https: true,
+          },
+        },
       },
     };
 
-    const message = prettyInstructions(mockAppContext, mockConfig);
+    const message = prettyInstructions(mockAppContext, {});
+
+    expect(message).toMatchSnapshot();
+
+    process.env.NODE_ENV = NODE_ENV;
+  });
+
+  test('should print host correctly', () => {
+    process.env.NODE_ENV = 'development';
+
+    const mockAppContext = {
+      entrypoints: mockEntrypoints,
+      serverRoutes: [mockServerRoute],
+      port: 8080,
+      apiOnly: false,
+    };
+
+    const message = prettyInstructions(mockAppContext, {
+      dev: {
+        host: 'my-host',
+      },
+    });
 
     expect(message).toMatchSnapshot();
   });
@@ -125,13 +168,7 @@ describe('prettyInstructions', () => {
       apiOnly: true,
     };
 
-    const mockConfig = {
-      dev: {
-        https: true,
-      },
-    };
-
-    const message = prettyInstructions(mockAppContext, mockConfig);
+    const message = prettyInstructions(mockAppContext, {});
 
     expect(message).toMatchSnapshot();
   });

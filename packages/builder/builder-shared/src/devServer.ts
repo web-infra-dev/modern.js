@@ -119,9 +119,15 @@ export async function startDevServer<
       ? serverOptions?.dev?.host
       : DEFAULT_DEV_HOST;
 
+  const https =
+    typeof serverOptions?.dev === 'object' && serverOptions?.dev?.https
+      ? Boolean(serverOptions?.dev?.https)
+      : false;
+
   options.context.devServer = {
     hostname: host,
     port,
+    https,
   };
 
   const server = await createDevServer(options, port, serverOptions, compiler);
@@ -145,7 +151,7 @@ export async function startDevServer<
         debug('listen dev server done');
 
         const { getAddressUrls } = await import('@modern-js/utils');
-        const protocol = builderConfig.dev?.https ? 'https' : 'http';
+        const protocol = https ? 'https' : 'http';
         let urls = getAddressUrls(protocol, port, builderConfig.dev?.host);
 
         if (printURLs) {

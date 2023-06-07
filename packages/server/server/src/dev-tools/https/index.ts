@@ -20,7 +20,7 @@ export const genHttpsOptions = async (
     } catch (err) {
       const packageManager = await getPackageManager(pwd);
       const command = chalk.yellow.bold(
-        `${packageManager} install devcert@1.2.2 -D`,
+        `${packageManager} add devcert@1.2.2 -D`,
       );
       logger.error(
         `You have enabled "dev.https" option, but the "devcert" package is not installed.`,
