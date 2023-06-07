@@ -1,14 +1,8 @@
 import * as path from 'path';
-import {
-  getBabelChain,
-  ILibPresetOption,
-  ISyntaxOption,
-  applyUserBabelConfig,
-} from '@modern-js/babel-preset-lib';
-import { TransformOptions } from '@babel/core';
 import { fs, json5, getAliasConfig } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
 import { CompileFunc, FILE_EXTENSIONS } from '../../common';
+import { getBabelChain, applyUserBabelConfig } from './preset';
 
 export * from '@babel/core';
 
@@ -46,18 +40,6 @@ export const existTsConfigFile = (tsconfigAbsolutePath: string) => {
   return Boolean(tsconfig);
 };
 
-export const getBabelConfig = (
-  libPresetOption: ILibPresetOption,
-  syntaxOption: ISyntaxOption,
-): TransformOptions => {
-  const chain = getBabelChain(libPresetOption, syntaxOption);
-
-  return {
-    sourceType: 'unambiguous',
-    ...chain.toJSON(),
-  };
-};
-
 export interface IPackageModeValue {
   type: 'module' | 'commonjs';
   syntax: 'es5' | 'es6+';
@@ -83,7 +65,6 @@ export const resolveBabelConfig = (
       enableReactPreset: true,
       enableTypescriptPreset: true,
       alias: aliasConfig,
-      envVars: [],
     },
     {
       type: option.type,

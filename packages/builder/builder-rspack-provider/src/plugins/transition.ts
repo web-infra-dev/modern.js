@@ -15,12 +15,6 @@ export const builderPluginTransition = (): BuilderPlugin => ({
 
       return mergeBuilderConfig(config, {
         tools: {
-          rspack: {
-            experiments: {
-              // will be built-in in rspack 0.2.0
-              newSplitChunks: true,
-            },
-          },
           devServer: {
             devMiddleware: {
               // not support set writeToDisk true or function, so use outputFileSystem instead.

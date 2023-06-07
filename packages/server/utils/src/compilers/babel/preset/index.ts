@@ -1,16 +1,6 @@
-import {
-  getBaseBabelChain,
-  createBabelChain,
-} from '@modern-js/babel-preset-base';
-import { getPlugins } from './plugins';
+import { getBaseBabelChain } from '@modern-js/babel-preset-base';
 import { ISyntaxOption, ILibPresetOption } from './types';
-
-export * from '@modern-js/babel-preset-base';
-
-export const getBabelConfig = (
-  libPresetOption: ILibPresetOption,
-  syntaxOption: ISyntaxOption,
-) => getBabelChain(libPresetOption, syntaxOption).toJSON();
+import { aliasPlugin } from './alias';
 
 export const getBabelChain = (
   libPresetOption: ILibPresetOption,
@@ -25,8 +15,7 @@ export const getBabelChain = (
     styledComponentsOptions,
   } = libPresetOption;
   const { syntax, type } = syntaxOption;
-  const chain = createBabelChain();
-  const baseChain = getBaseBabelChain({
+  const chain = getBaseBabelChain({
     appDirectory,
     type,
     syntax,
@@ -49,8 +38,12 @@ export const getBabelChain = (
     jsxTransformRuntime,
   });
 
-  const plugins = getPlugins(libPresetOption);
-  return chain.merge(baseChain).merge(plugins);
+  if (libPresetOption.alias) {
+    const [name, opt] = aliasPlugin(libPresetOption.alias);
+    chain.plugin(name).use(require.resolve(name), [opt]);
+  }
+
+  return chain;
 };
 
 export * from './types';
