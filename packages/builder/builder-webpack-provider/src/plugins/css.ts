@@ -5,7 +5,7 @@ import {
   getCssSupport,
   ModifyChainUtils,
   isUseCssSourceMap,
-  isLooseCssModules,
+  getCssModulesAutoRule,
   getBrowserslistWithDefault,
   BundlerChainRule,
   type BuilderTarget,
@@ -168,13 +168,16 @@ export async function applyBaseCSSRule(
     // Using shorter classname in production to reduce bundle size
     (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
 
+  const { cssModules } = config.output;
+
   const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {
       importLoaders: 1,
       modules: {
-        auto: config.output.disableCssModuleExtension
-          ? isLooseCssModules
-          : true,
+        auto: getCssModulesAutoRule(
+          cssModules,
+          config.output.disableCssModuleExtension,
+        ),
         exportLocalsConvention: 'camelCase',
         localIdentName,
       },
