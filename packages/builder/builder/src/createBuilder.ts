@@ -16,6 +16,7 @@ export async function createBuilder<
   const pluginStore = createPluginStore();
   const {
     build,
+    serve,
     pluginAPI,
     publicContext,
     initConfigs,
@@ -48,6 +49,7 @@ export async function createBuilder<
       'getBuilderConfig',
       'getNormalizedConfig',
     ]),
+    serve,
     build,
     createCompiler,
     initConfigs,
