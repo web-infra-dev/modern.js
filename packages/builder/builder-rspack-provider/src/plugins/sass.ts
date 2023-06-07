@@ -50,6 +50,7 @@ export function builderPluginSass(): BuilderPlugin {
           rules,
           SASS_REGEX,
           config.output.disableCssModuleExtension,
+          config.output.cssModules,
         );
       });
     },
