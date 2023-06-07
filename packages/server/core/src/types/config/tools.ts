@@ -1,4 +1,4 @@
-import { BabelConfigUtils } from '@modern-js/babel-preset-app';
+import type { BabelConfigUtils } from '@modern-js/babel-preset-app';
 import { BabelTransformOptions } from '@modern-js/types/common';
 import { ChainedConfig } from './share';
 

@@ -2743,6 +2743,7 @@ importers:
 
   packages/server/core:
     specifiers:
+      '@modern-js/babel-preset-app': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -2760,6 +2761,7 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.5.1
     devDependencies:
+      '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config

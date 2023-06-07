@@ -44,6 +44,7 @@
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
+    "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
