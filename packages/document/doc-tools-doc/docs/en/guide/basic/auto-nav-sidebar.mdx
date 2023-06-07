@@ -92,7 +92,7 @@ The file name may or may not have a suffix, for example `introduction` will be p
 
 ### obejct
 
-When the type is an object, you can describe it as a file or a directory.
+When the type is an object, you can describe it as a file, a directory or a custom link.
 
 In the case of describing **file**, the types are as follows:
 
@@ -138,6 +138,36 @@ Among them, `name` indicates the directory name, `label` indicates the display n
 }
 ```
 
+In the case of describing **custom link**, the types are as follows:
+
+```ts
+{
+  type: 'custom_link';
+  link: string;
+  label: string;
+}
+```
+
+Among them, `link` indicates the link address, `label` indicates the display name of the link in the sidebar, for example:
+
+```json
+{
+  "type": "custom_link",
+  "link": "/my-link",
+  "label": "My Link"
+}
+```
+
+`link` support external links, for example:
+
+```json
+{
+  "type": "custom_link",
+  "link": "https://github.com",
+  "label": "GitHub"
+}
+```
+
 ### Complete Example
 
 Here is a complete example using the three types above:
@@ -156,6 +186,11 @@ Here is a complete example using the three types above:
     "label": "Advanced",
     "collapsible": true,
     "collapsed": false
+  },
+  {
+    "type": "custom_link",
+    "link": "/my-link",
+    "label": "My Link"
   }
 ]
 ```
