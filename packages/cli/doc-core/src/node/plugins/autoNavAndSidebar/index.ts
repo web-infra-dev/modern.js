@@ -198,7 +198,14 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
         };
       }
 
-      const { type = 'file', name, label, collapsible, collapsed } = metaItem;
+      const {
+        type = 'file',
+        name,
+        label,
+        collapsible,
+        collapsed,
+        link,
+      } = metaItem;
       if (type === 'file') {
         const title =
           label ?? (await extractH1Title(path.resolve(workDir, name)));
@@ -206,7 +213,7 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
           text: title,
           link: `/${relativePath}/${name.replace(/\.mdx?$/, '')}`,
         };
-      } else {
+      } else if (type === 'dir') {
         const subDir = path.resolve(workDir, name);
         const subSidebar = await scanSideMeta(subDir, rootDir);
         const realpath = await detectFilePath(subDir);
@@ -217,6 +224,11 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
           collapsed,
           items: subSidebar,
           link: isExsit ? `/${relativePath}/${name}` : undefined,
+        };
+      } else {
+        return {
+          text: label,
+          link,
         };
       }
     }),
