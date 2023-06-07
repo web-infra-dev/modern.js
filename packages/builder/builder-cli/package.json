@@ -44,7 +44,6 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
-    "@modern-js/prod-server": "workspace:*",
     "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
