@@ -26,7 +26,7 @@ export const ZH_LOCALE = {
       no_git_checks:
         '发布命令忽略检查当前分支是否是发布分支，干净且最新，仅支持在 pnpm monorepo 中使用',
       provenance:
-        '当从支持的云CI/CD系统发布时，软件包将公开链接到其构建和发布来源',
+        '当从支持的云 CI/CD 系统发布时，软件包将公开链接到其构建和发布来源',
     },
     status: {
       describe: '展示当前存在的变更集的状态信息',
