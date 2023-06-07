@@ -14,7 +14,7 @@ Modern.js 允许在 JS 和 CSS 中使用别名导入自定义目录下的模块�
 ```
 
 :::info
-在开启可选功能时，生成器也会动态的添加内置别名，例如启用 BFF 时默认会添加 `@api` 别名。
+在开启可选功能时，new 命令也会动态的添加内置别名，例如启用 BFF 时默认会添加 `@api` 别名。
 
 :::
 
@@ -27,7 +27,7 @@ Modern.js 允许在 JS 和 CSS 中使用别名导入自定义目录下的模块�
 │   │   └── base.css
 │   └── utils
 │       └── index.ts
-├── App.tsx
+└── App.tsx
 ```
 
 `src/App.tsx` 中写法如下：
@@ -37,7 +37,9 @@ import utils from '@/src/common/utils';
 import '@/src/common/styles/base.css';
 ```
 
-Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为例，对于 TypeScript 项目，只需要在项目根目录 `tsconfig.json` 下配置 `compilerOptions.paths` 如下：
+Modern.js 也提供了自定义别名的方式，以添加 `@common` 别名为例：
+
+对于 TypeScript 项目，只需要在项目根目录 `tsconfig.json` 下配置 `compilerOptions.paths`：
 
 ```json
 {
