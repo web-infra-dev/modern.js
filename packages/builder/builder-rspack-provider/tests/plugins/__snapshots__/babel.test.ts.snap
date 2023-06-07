@@ -1,10 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`plugins/babel > should not set babel-loader 1`] = `
-{
-  "module": {},
-}
-`;
+exports[`plugins/babel > should not set babel-loader 1`] = `{}`;
 
 exports[`plugins/babel > should set babel-loader 1`] = `
 {
