@@ -81,8 +81,10 @@ export const prettyInstructions = (appContext: any, config: any) => {
       checkedEntries: string[];
     };
 
+  const isHttps = isDev() && appContext.builder?.context.devServer?.https;
+
   const urls = getAddressUrls(
-    config.dev.https && isDev() ? 'https' : 'http',
+    isHttps ? 'https' : 'http',
     port,
     config.dev?.host,
   );

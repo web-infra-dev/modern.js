@@ -65,6 +65,12 @@ export default {
 };
 ```
 
+:::tip 文件名中的 hash 值
+通常来说，我们只会在生产环境下设置文件名的 hash 值（即 `process.env.NODE_ENV === 'production'` 时）。
+
+如果你在开发环境下设置了文件名的 hash，那么可能会导致热更新不生效（尤其是 CSS 文件）。这是因为每次文件内容变化时，都会引起 hash 变化，导致 [mini-css-extract-plugin](https://www.npmjs.com/package/mini-css-extract-plugin) 等工具无法读取到最新的文件内容。
+:::
+
 ### 异步模块的文件名
 
 当你在代码中通过 dynamic import 的方式引入模块时，该模块会被单独打包成一个文件，它默认的命名规则如下：

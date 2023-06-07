@@ -26,6 +26,7 @@ export type BuilderContext = {
   devServer?: {
     hostname: string;
     port: number;
+    https: boolean;
   };
   bundlerType: BundlerType;
 };

@@ -22,7 +22,8 @@ export function builderPluginStartUrl(): DefaultBuilderPlugin {
         }
 
         const config = api.getNormalizedConfig();
-        const { https, startUrl, beforeStartUrl } = config.dev;
+        const { startUrl, beforeStartUrl } = config.dev;
+        const { https } = api.context.devServer || {};
 
         if (!startUrl) {
           return;
