@@ -21,7 +21,7 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -50,14 +50,13 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -69,7 +68,7 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -98,14 +97,13 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -141,7 +139,7 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -182,7 +180,7 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -247,7 +245,7 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -288,7 +286,7 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -353,7 +351,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -382,14 +380,13 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -401,7 +398,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -430,14 +427,13 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -455,7 +451,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -484,14 +480,13 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -513,7 +508,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -542,14 +537,13 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -577,7 +571,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -606,14 +600,13 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -632,7 +625,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -661,14 +654,13 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -732,7 +724,7 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -761,14 +753,13 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "font-size",
-                    ],
-                    "rootValue": 30,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -780,7 +771,7 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -809,14 +800,13 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "font-size",
-                    ],
-                    "rootValue": 30,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -878,7 +868,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -907,14 +897,13 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -926,7 +915,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -955,14 +944,13 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -980,7 +968,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1009,14 +997,13 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -1038,7 +1025,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1067,14 +1054,13 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -1102,7 +1088,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1131,14 +1117,13 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
@@ -1157,7 +1142,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1186,14 +1171,13 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
                         "postcssPlugin": "autoprefixer",
                         "prepare": [Function],
                       },
+                      {
+                        "AtRule": [Function],
+                        "Declaration": [Function],
+                        "Once": [Function],
+                        "postcssPlugin": "postcss-pxtorem",
+                      },
                     ],
-                  },
-                  "pxToRem": {
-                    "propList": [
-                      "*",
-                    ],
-                    "rootValue": 50,
-                    "unitPrecision": 5,
                   },
                   "sourceMap": true,
                 },
