@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@modern-js/types": "workspace:*",
-    "@modern-js/babel-preset-app": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

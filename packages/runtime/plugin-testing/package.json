@@ -124,7 +124,6 @@
     "@modern-js-reduck/store": "^1.1.10",
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@testing-library/jest-dom": "^5.14.1",
