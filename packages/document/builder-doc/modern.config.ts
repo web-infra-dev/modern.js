@@ -102,6 +102,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/faq/general'),
           getLink('/guide/faq/features'),
           getLink('/guide/faq/exceptions'),
+          getLink('/guide/faq/hmr'),
         ],
       },
     ],
