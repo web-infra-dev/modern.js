@@ -9,7 +9,6 @@ import type {
 import { logger } from '@modern-js/utils/logger';
 import chalk from '@modern-js/utils/chalk';
 import { cli } from '@modern-js/core';
-import { schema } from './config/schema';
 
 export type {
   CliPlugin,
@@ -53,9 +52,6 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
     let server: ServerInstance | undefined;
     let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
     return {
-      validateSchema: () => {
-        return schema;
-      },
       watchFiles() {
         const { configFile } = api.useAppContext();
         const config = api.useConfigContext() as UserConfig & {
