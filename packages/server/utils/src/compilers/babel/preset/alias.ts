@@ -2,7 +2,7 @@ import path from 'path';
 import { createMatchPath } from '@modern-js/utils/tsconfig-paths';
 import { PluginOptions } from '@babel/core';
 import { getUserAlias } from '@modern-js/utils';
-import { AliasOption } from '../types';
+import type { AliasOption } from './types';
 
 const { resolvePath } = require('babel-plugin-module-resolver');
 

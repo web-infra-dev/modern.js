@@ -503,39 +503,6 @@ importers:
       jest: 29.5.0_@types+node@14.18.35
       typescript: 5.0.4
 
-  packages/cli/babel-preset-lib:
-    specifiers:
-      '@babel/core': ^7.21.8
-      '@modern-js/babel-preset-base': workspace:*
-      '@modern-js/utils': workspace:*
-      '@scripts/build': workspace:*
-      '@scripts/jest-config': workspace:*
-      '@swc/helpers': 0.5.1
-      '@types/babel__core': ^7.20.0
-      '@types/jest': ^29
-      '@types/node': ^14
-      babel-plugin-module-resolver: ^4.0.0
-      babel-plugin-transform-define: ^2
-      babel-plugin-transform-inline-environment-variables: ^0.4.3
-      jest: ^29
-      typescript: ^5
-    dependencies:
-      '@modern-js/babel-preset-base': link:../babel-preset-base
-      '@modern-js/utils': link:../../toolkit/utils
-      '@swc/helpers': 0.5.1
-      babel-plugin-module-resolver: 4.1.0
-      babel-plugin-transform-define: 2.0.1
-      babel-plugin-transform-inline-environment-variables: 0.4.4
-    devDependencies:
-      '@babel/core': 7.21.8
-      '@scripts/build': link:../../../scripts/build
-      '@scripts/jest-config': link:../../../scripts/jest-config
-      '@types/babel__core': 7.20.0
-      '@types/jest': 29.2.6
-      '@types/node': 14.18.35
-      jest: 29.5.0_@types+node@14.18.35
-      typescript: 5.0.4
-
   packages/cli/core:
     specifiers:
       '@modern-js/builder-shared': workspace:*
@@ -1206,7 +1173,6 @@ importers:
   packages/cli/plugin-swc:
     specifiers:
       '@modern-js/app-tools': workspace:*
-      '@modern-js/babel-preset-app': workspace:*
       '@modern-js/builder-plugin-swc': workspace:*
       '@modern-js/builder-shared': workspace:*
       '@modern-js/types': workspace:*
@@ -1221,7 +1187,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@modern-js/app-tools': link:../../solutions/app-tools
-      '@modern-js/babel-preset-app': link:../babel-preset-app
       '@modern-js/builder-shared': link:../../builder/builder-shared
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
@@ -2641,7 +2606,6 @@ importers:
       '@modern-js-reduck/plugin-immutable': ^1.1.10
       '@modern-js-reduck/store': ^1.1.10
       '@modern-js/babel-compiler': workspace:*
-      '@modern-js/babel-preset-app': workspace:*
       '@modern-js/bff-core': workspace:*
       '@modern-js/core': workspace:*
       '@modern-js/plugin': workspace:*
@@ -2680,7 +2644,6 @@ importers:
       '@modern-js-reduck/plugin-immutable': 1.1.10_tygkeh5we3jquzciezrjrny4zu
       '@modern-js-reduck/store': 1.1.10
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
-      '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/plugin': link:../../toolkit/plugin
       '@modern-js/prod-server': link:../../server/prod-server
       '@modern-js/utils': link:../../toolkit/utils
@@ -2780,7 +2743,6 @@ importers:
 
   packages/server/core:
     specifiers:
-      '@modern-js/babel-preset-app': workspace:*
       '@modern-js/plugin': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -2798,7 +2760,6 @@ importers:
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.5.1
     devDependencies:
-      '@modern-js/babel-preset-app': link:../../cli/babel-preset-app
       '@modern-js/types': link:../../toolkit/types
       '@scripts/build': link:../../../scripts/build
       '@scripts/jest-config': link:../../../scripts/jest-config
@@ -3191,7 +3152,7 @@ importers:
       '@babel/preset-env': ^7.21.5
       '@babel/preset-typescript': ^7.21.5
       '@modern-js/babel-compiler': workspace:*
-      '@modern-js/babel-preset-lib': workspace:*
+      '@modern-js/babel-preset-base': workspace:*
       '@modern-js/server-core': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/build': workspace:*
@@ -3212,7 +3173,7 @@ importers:
       '@babel/preset-env': 7.21.5_@babel+core@7.21.8
       '@babel/preset-typescript': 7.21.5_@babel+core@7.21.8
       '@modern-js/babel-compiler': link:../../toolkit/compiler/babel
-      '@modern-js/babel-preset-lib': link:../../cli/babel-preset-lib
+      '@modern-js/babel-preset-base': link:../../cli/babel-preset-base
       '@modern-js/utils': link:../../toolkit/utils
       '@swc/helpers': 0.5.1
       babel-plugin-module-resolver: 4.1.0
@@ -14608,18 +14569,6 @@ packages:
 
   /babel-plugin-syntax-jsx/6.18.0:
     resolution: {integrity: sha512-qrPaCSo9c8RHNRHIotaufGbuOBN8rtdC4QrrFFc43vyWCCz7Kl7GL1PGaXtMGQZUXrkCjNEgxDfmAuAabr/rlw==}
-
-  /babel-plugin-transform-define/2.0.1:
-    resolution: {integrity: sha512-7lDR1nFGSJHmhq/ScQtp9LTDmNE2yKPoLtwfiu+WQZnj84XL/J/5AZWZXwYcOwbDtUPhtg+y0yxTiP/oGDU6Kw==}
-    engines: {node: '>= 8.x.x'}
-    dependencies:
-      lodash: 4.17.21
-      traverse: 0.6.6
-    dev: false
-
-  /babel-plugin-transform-inline-environment-variables/0.4.4:
-    resolution: {integrity: sha512-bJILBtn5a11SmtR2j/3mBOjX4K3weC6cq+NNZ7hG22wCAqpc3qtj/iN7dSe9HDiS46lgp1nHsQgeYrea/RUe+g==}
-    dev: false
 
   /babel-plugin-transform-react-remove-prop-types/0.4.24:
     resolution: {integrity: sha512-eqj0hVcJUR57/Ug2zE1Yswsw4LhuqqHhD+8v120T1cl3kjg76QwtyBrdIk4WVwK+lAhBJVYCd/v+4nc4y+8JsA==}
@@ -29956,10 +29905,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       punycode: 2.1.1
-
-  /traverse/0.6.6:
-    resolution: {integrity: sha512-kdf4JKs8lbARxWdp7RKdNzoJBhGUcIalSYibuGyHJbmk40pOysQ0+QPvlkCOICOivDWU2IJo2rkrxyTK2AH4fw==}
-    dev: false
 
   /tree-kill/1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
