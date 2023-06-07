@@ -43,9 +43,9 @@
   },
   "engines": {
     "node": ">=14.17.6",
-    "pnpm": ">=7.12.2 <=7.29.1"
+    "pnpm": ">=8.0.0 <=8.6.1"
   },
-  "packageManager": "pnpm@7.29.1",
+  "packageManager": "pnpm@8.6.1",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -85,7 +85,7 @@
     "execa": "^5.1.1",
     "globby": "^11.0.4",
     "husky": "^8.0.0",
-    "turbo": "^1.6.3",
+    "turbo": "^1.10.2",
     "vitest": "0.21.1"
   },
   "pnpm": {
@@ -113,7 +113,10 @@
       "fsevents": "1.2.13",
       "source-map-url": "0.4.1",
       "urix": "0.1.0",
-      "resolve-url": "0.2.1"
+      "resolve-url": "0.2.1",
+      "devcert": "1.0.0",
+      "superagent": "6.1.0",
+      "@types/sass": "1.45.0"
     }
   }
 }
