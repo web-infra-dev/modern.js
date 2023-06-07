@@ -163,8 +163,9 @@ export const applyCSSModuleRule = (
   rules: RspackRule[] | undefined,
   ruleTest: RegExp,
   disableCssModuleExtension: boolean | undefined,
+  modules: boolean | ((resourcePath: string) => boolean),
 ) => {
-  if (!rules) {
+  if (!rules || !modules) {
     return;
   }
 
@@ -178,7 +179,22 @@ export const applyCSSModuleRule = (
 
   const { test, type, ...rest } = rule;
 
-  if (disableCssModuleExtension) {
+  if (typeof modules === 'function') {
+    rules[ruleIndex] = {
+      test: ruleTest,
+      oneOf: [
+        {
+          ...rest,
+          test: modules,
+          type: 'css/module',
+        },
+        {
+          ...rest,
+          type: 'css',
+        },
+      ],
+    };
+  } else if (disableCssModuleExtension) {
     // Equivalent to css-loader looseCssModules
     rules[ruleIndex] = {
       test: ruleTest,
@@ -264,6 +280,7 @@ export const builderPluginCss = (): BuilderPlugin => {
             rules,
             CSS_REGEX,
             config.output.disableCssModuleExtension,
+            config.output.cssModules,
           );
         },
       );

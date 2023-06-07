@@ -168,16 +168,24 @@ export async function applyBaseCSSRule(
     // Using shorter classname in production to reduce bundle size
     (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
 
+  const { cssModules } = config.output;
+
   const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {
       importLoaders: 1,
-      modules: {
-        auto: config.output.disableCssModuleExtension
-          ? isLooseCssModules
-          : true,
-        exportLocalsConvention: 'camelCase',
-        localIdentName,
-      },
+      modules: cssModules
+        ? {
+            auto:
+              // eslint-disable-next-line no-nested-ternary
+              typeof cssModules === 'function'
+                ? cssModules
+                : config.output.disableCssModuleExtension
+                ? isLooseCssModules
+                : true,
+            exportLocalsConvention: 'camelCase',
+            localIdentName,
+          }
+        : false,
       sourceMap: enableSourceMap,
     },
     config.tools.cssLoader,

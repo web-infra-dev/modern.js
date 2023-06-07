@@ -47,6 +47,7 @@ export function builderPluginLess(): BuilderPlugin {
           rules,
           LESS_REGEX,
           config.output.disableCssModuleExtension,
+          config.output.cssModules,
         );
       });
     },

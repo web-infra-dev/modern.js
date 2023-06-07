@@ -84,6 +84,7 @@ export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
   legalComments: 'linked',
   cleanDistPath: true,
   svgDefaultExport: 'url',
+  cssModules: true,
   disableSvgr: false,
   disableCssExtract: false,
   disableMinimize: false,

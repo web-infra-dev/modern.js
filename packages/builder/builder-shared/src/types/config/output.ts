@@ -183,6 +183,12 @@ export interface SharedOutputConfig {
    * Set the local ident name of CSS modules.
    */
   cssModuleLocalIdentName?: string;
+
+  /**
+   * Allows to enable/disable CSS Modules, or enable CSS Modules for specific files.
+   */
+  cssModules?: boolean | ((resourcePath: string) => boolean);
+
   /**
    * Disable css extract and inline CSS files into the JS bundle.
    */
@@ -260,6 +266,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   assetsRetry?: AssetsRetryOptions;
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
+  cssModules: boolean | ((resourcePath: string) => boolean);
   disableCssExtract: boolean;
   disableMinimize: boolean;
   disableSourceMap: DisableSourceMapOption;

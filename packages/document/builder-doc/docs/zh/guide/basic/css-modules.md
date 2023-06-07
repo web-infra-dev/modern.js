@@ -59,6 +59,22 @@ import styles2 from './bar.css';
 我们不推荐开启此配置项，因为开启 `disableCssModuleExtension` 后，CSS Modules 文件和普通 CSS 文件无法得到明确的区分，不利于长期维护。
 :::
 
+## 为指定的样式文件启用 CSS Modules
+
+在默认情况下，只有 `*.module.css` 结尾的文件才被视为 CSS Modules 模块。
+
+如果你想只为一些指定的样式文件启用 CSS Modules，可以通过配置 [output.cssModules](/api/config-output.html#outputcssmodule) 来实现，比如：
+
+```ts
+export default {
+  output: {
+    cssModules: (resource) => {
+      return resource.includes('.module.') || resource.includes('shared/');
+    }
+  },
+};
+```
+
 ## 自定义类名
 
 自定义 CSS Modules 生成的类名也是我们比较常用的功能，你可以使用 [output.cssModuleLocalIdentName](/api/config-output.html#outputcssmodulelocalidentname) 来进行配置。

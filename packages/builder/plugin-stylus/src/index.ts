@@ -79,6 +79,7 @@ export function builderPluginStylus(
             rules,
             STYLUS_REGEX,
             config.output.disableCssModuleExtension,
+            config.output.cssModules,
           );
         });
     },

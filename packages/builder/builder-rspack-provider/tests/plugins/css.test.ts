@@ -110,6 +110,21 @@ describe('plugins/css', () => {
       '"localIdentName":"[hash:5]"',
     );
   });
+
+  it('should use custom cssModules rule when using output.cssModules config', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginCss()],
+      builderConfig: {
+        output: {
+          cssModules: resourcePath => resourcePath.includes('.module.'),
+        },
+      },
+    });
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });
 
 describe('plugins/less', () => {
