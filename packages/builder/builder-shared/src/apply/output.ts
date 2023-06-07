@@ -80,7 +80,7 @@ function getPublicPath({
   } else if (typeof dev.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
   } else if (dev.assetPrefix === true) {
-    const protocol = dev.https ? 'https' : 'http';
+    const protocol = context.devServer?.https ? 'https' : 'http';
     const hostname = context.devServer?.hostname || DEFAULT_DEV_HOST;
     const port = context.devServer?.port || DEFAULT_PORT;
     if (hostname === DEFAULT_DEV_HOST) {
