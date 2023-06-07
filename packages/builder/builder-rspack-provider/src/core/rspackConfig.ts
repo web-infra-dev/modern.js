@@ -108,7 +108,7 @@ async function getChainUtils(target: BuilderTarget): Promise<ModifyChainUtils> {
  * There is no need to consider it in builder, and it is handed over to rspack for verification
  */
 const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
-  return config as any as RspackConfig;
+  return config as unknown as RspackConfig;
 };
 
 export async function generateRspackConfig({
