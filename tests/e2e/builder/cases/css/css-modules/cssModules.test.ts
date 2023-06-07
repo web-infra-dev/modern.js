@@ -61,8 +61,10 @@ test('should compile CSS modules follow by output.cssModules', async () => {
     entry: { index: path.resolve(__dirname, './src/index.js') },
     builderConfig: {
       output: {
-        cssModules: resource => {
-          return resource.includes('.scss');
+        cssModules: {
+          auto: resource => {
+            return resource.includes('.scss');
+          },
         },
         disableSourceMap: true,
       },
@@ -80,6 +82,35 @@ test('should compile CSS modules follow by output.cssModules', async () => {
   } else {
     expect(content).toEqual(
       '.the-a-class{color:red}._HnKp{color:blue}.the-c-class{color:#ff0}.the-d-class{color:green}',
+    );
+  }
+});
+
+test('should not compile CSS modules when output.cssModules false', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
+    builderConfig: {
+      output: {
+        cssModules: {
+          auto: false,
+        },
+        disableSourceMap: true,
+      },
+    },
+  });
+  const files = await builder.unwrapOutputJSON();
+
+  const content =
+    files[Object.keys(files).find(file => file.endsWith('.css'))!];
+
+  if (builder.providerType === 'rspack') {
+    expect(content).toEqual(
+      '.the-a-class{color:red}.the-b-class{color:blue}.the-c-class{color:yellow}.the-d-class{color:green}',
+    );
+  } else {
+    expect(content).toEqual(
+      '.the-a-class{color:red}.the-b-class{color:blue}.the-c-class{color:#ff0}.the-d-class{color:green}',
     );
   }
 });

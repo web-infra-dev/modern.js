@@ -116,7 +116,9 @@ describe('plugins/css', () => {
       plugins: [builderPluginCss()],
       builderConfig: {
         output: {
-          cssModules: resourcePath => resourcePath.includes('.module.'),
+          cssModules: {
+            auto: resourcePath => resourcePath.includes('.module.'),
+          },
         },
       },
     });

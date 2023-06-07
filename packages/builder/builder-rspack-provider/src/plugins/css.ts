@@ -3,16 +3,16 @@ import {
   getBrowserslistWithDefault,
   isUseCssSourceMap,
   CSS_REGEX,
+  CSS_MODULES_REGEX,
   type BuilderContext,
   BundlerChain,
   ModifyBundlerChainUtils,
   getCssSupport,
   setConfig,
-  CSS_MODULES_REGEX,
-  GLOBAL_CSS_REGEX,
-  NODE_MODULES_REGEX,
   logger,
   PostCSSPlugin,
+  CssModules,
+  getCssModulesAutoRule,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -163,7 +163,7 @@ export const applyCSSModuleRule = (
   rules: RspackRule[] | undefined,
   ruleTest: RegExp,
   disableCssModuleExtension: boolean | undefined,
-  modules: boolean | ((resourcePath: string) => boolean),
+  modules: CssModules,
 ) => {
   if (!rules || !modules) {
     return;
@@ -175,68 +175,37 @@ export const applyCSSModuleRule = (
     return;
   }
 
+  const cssModulesAuto = getCssModulesAutoRule(
+    modules,
+    disableCssModuleExtension,
+  );
+
+  if (!cssModulesAuto) {
+    return;
+  }
+
   const rule = rules[ruleIndex] as RuleSetRule;
 
   const { test, type, ...rest } = rule;
 
-  if (typeof modules === 'function') {
-    rules[ruleIndex] = {
-      test: ruleTest,
-      oneOf: [
-        {
-          ...rest,
-          test: modules,
-          type: 'css/module',
-        },
-        {
-          ...rest,
-          type: 'css',
-        },
-      ],
-    };
-  } else if (disableCssModuleExtension) {
-    // Equivalent to css-loader looseCssModules
-    rules[ruleIndex] = {
-      test: ruleTest,
-      oneOf: [
-        {
-          ...rest,
-          test: CSS_MODULES_REGEX,
-          type: 'css/module',
-        },
-        {
-          ...rest,
-          test: NODE_MODULES_REGEX,
-          type: 'css',
-        },
-        {
-          ...rest,
-          test: GLOBAL_CSS_REGEX,
-          type: 'css',
-        },
-        {
-          ...rest,
-          type: 'css/module',
-        },
-      ],
-    };
-  } else {
-    // Equivalent to css-loader modules.auto: true
-    rules[ruleIndex] = {
-      test: ruleTest,
-      oneOf: [
-        {
-          ...rest,
-          test: CSS_MODULES_REGEX,
-          type: 'css/module',
-        },
-        {
-          ...rest,
-          type: 'css',
-        },
-      ],
-    };
-  }
+  rules[ruleIndex] = {
+    test: ruleTest,
+    oneOf: [
+      {
+        ...rest,
+        test:
+          typeof cssModulesAuto !== 'boolean'
+            ? cssModulesAuto
+            : // auto: true
+              CSS_MODULES_REGEX,
+        type: 'css/module',
+      },
+      {
+        ...rest,
+        type: 'css',
+      },
+    ],
+  };
 };
 
 export const builderPluginCss = (): BuilderPlugin => {

@@ -68,9 +68,11 @@ import styles2 from './bar.css';
 ```ts
 export default {
   output: {
-    cssModules: (resource) => {
-      return resource.includes('.module.') || resource.includes('shared/');
-    }
+    cssModules: {
+      auto: resource => {
+        return resource.includes('.module.') || resource.includes('shared/');
+      },
+    },
   },
 };
 ```

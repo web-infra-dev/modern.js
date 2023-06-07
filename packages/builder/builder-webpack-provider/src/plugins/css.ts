@@ -5,7 +5,7 @@ import {
   getCssSupport,
   ModifyChainUtils,
   isUseCssSourceMap,
-  isLooseCssModules,
+  getCssModulesAutoRule,
   getBrowserslistWithDefault,
   BundlerChainRule,
   type BuilderTarget,
@@ -175,13 +175,10 @@ export async function applyBaseCSSRule(
       importLoaders: 1,
       modules: cssModules
         ? {
-            auto:
-              // eslint-disable-next-line no-nested-ternary
-              typeof cssModules === 'function'
-                ? cssModules
-                : config.output.disableCssModuleExtension
-                ? isLooseCssModules
-                : true,
+            auto: getCssModulesAutoRule(
+              cssModules,
+              config.output.disableCssModuleExtension,
+            ),
             exportLocalsConvention: 'camelCase',
             localIdentName,
           }

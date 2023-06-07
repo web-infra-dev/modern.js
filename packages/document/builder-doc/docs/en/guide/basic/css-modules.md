@@ -68,9 +68,11 @@ If you want to enable CSS Modules only for specified style files, you can config
 ```ts
 export default {
   output: {
-    cssModules: (resource) => {
-      return resource.includes('.module.') || resource.includes('shared/');
-    }
+    cssModules: {
+      auto: resource => {
+        return resource.includes('.module.') || resource.includes('shared/');
+      },
+    },
   },
 };
 ```

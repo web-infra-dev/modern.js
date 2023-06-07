@@ -132,6 +132,12 @@ export type RemOptions = {
   pxtorem?: PxToRemOptions;
 };
 
+export type CssModules =
+  | boolean
+  | {
+      auto?: boolean | RegExp | ((resourcePath: string) => boolean);
+    };
+
 export interface SharedOutputConfig {
   /**
    * Set the directory of the dist files.
@@ -185,9 +191,9 @@ export interface SharedOutputConfig {
   cssModuleLocalIdentName?: string;
 
   /**
-   * Allows to enable/disable CSS Modules, or enable CSS Modules for specific files.
+   * Allows to enable/disable CSS Modules or setup configuration.
    */
-  cssModules?: boolean | ((resourcePath: string) => boolean);
+  cssModules?: CssModules;
 
   /**
    * Disable css extract and inline CSS files into the JS bundle.
@@ -266,7 +272,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   assetsRetry?: AssetsRetryOptions;
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
-  cssModules: boolean | ((resourcePath: string) => boolean);
+  cssModules: CssModules;
   disableCssExtract: boolean;
   disableMinimize: boolean;
   disableSourceMap: DisableSourceMapOption;
