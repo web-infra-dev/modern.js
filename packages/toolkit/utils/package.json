@@ -36,26 +36,32 @@
     },
     "./runtime/router": {
       "jsnext:source": "./src/runtime/router.ts",
+      "require": "./dist/cjs/runtime/router.js",
       "default": "./dist/esm/runtime/router.js"
     },
     "./runtime/remix-router": {
       "jsnext:source": "./src/runtime/remixRouter.ts",
+      "require": "./dist/cjs/runtime/remixRouter.js",
       "default": "./dist/esm/runtime/remixRouter.js"
     },
     "./runtime/nested-routes": {
       "jsnext:source": "./src/runtime/nestedRoutes.tsx",
+      "require": "./dist/cjs/runtime/nestedRoutes.js",
       "default": "./dist/esm/runtime/nestedRoutes.js"
     },
     "./runtime-browser": {
       "jsnext:source": "./src/runtime-browser/index.ts",
+      "require": "./dist/cjs/runtime-browser/index.js",
       "default": "./dist/esm/runtime-browser/index.js"
     },
     "./runtime-node": {
       "jsnext:source": "./src/runtime-node/index.ts",
+      "require": "./dist/cjs/runtime-node/index.js",
       "default": "./dist/esm/runtime-node/index.js"
     },
     "./runtime-node/router": {
       "jsnext:source": "./src/runtime-node/router.ts",
+      "require": "./dist/cjs/runtime-node/router.js",
       "default": "./dist/esm/runtime-node/router.js"
     },
     "./universal/constants": {
@@ -115,41 +121,50 @@
       },
       "./runtime/router": {
         "types": "./dist/types/runtime/router.d.ts",
+        "require": "./dist/cjs/runtime/router.js",
         "default": "./dist/esm/runtime/router.js"
       },
       "./runtime/remix-router": {
         "types": "./dist/types/runtime/remixRouter.d.ts",
+        "require": "./dist/cjs/runtime/remixRouter.js",
         "default": "./dist/esm/runtime/remixRouter.js"
       },
       "./runtime/nested-routes": {
         "types": "./dist/types/runtime/nestedRoutes.d.ts",
+        "require": "./dist/cjs/runtime/nestedRoutes.js",
         "default": "./dist/esm/runtime/nestedRoutes.js"
       },
       "./runtime-browser": {
         "jsnext:source": "./src/runtime-browser/index.d.ts",
+        "require": "./dist/cjs/runtime-browser/index.js",
         "default": "./dist/esm/runtime-browser/index.js"
       },
       "./runtime-node": {
         "types": "./dist/types/runtime-node/index.d.ts",
+        "require": "./dist/cjs/runtime-node/index.js",
         "default": "./dist/esm/runtime-node/index.js"
       },
       "./runtime-node/router": {
         "types": "./dist/types/runtime-node/router.d.ts",
+        "require": "./dist/cjs/runtime-node/router.js",
         "default": "./dist/esm/runtime-node/router.js"
       },
       "./universal/constants": {
         "types": "./dist/types/universal/constants.d.ts",
         "import": "./dist/esm/universal/constants.js",
+        "require": "./dist/cjs/universal/constants.js",
         "default": "./dist/cjs/universal/constants.js"
       },
       "./universal/format-webpack": {
         "types": "./dist/types/universal/format-webpack.d.ts",
         "import": "./dist/esm/universal/formatWebpack.js",
+        "require": "./dist/cjs/universal/formatWebpack.js",
         "default": "./dist/cjs/universal/formatWebpack.js"
       },
       "./universal/plugin-dag-sort": {
         "types": "./dist/types/universal/pluginDagSort.d.ts",
         "import": "./dist/esm/universal/pluginDagSort.js",
+        "require": "./dist/cjs/universal/pluginDagSort.js",
         "default": "./dist/cjs/universal/pluginDagSort.js"
       },
       "./ajv": "./dist/compiled/ajv/index.js",

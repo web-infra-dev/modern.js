@@ -4,7 +4,7 @@ import fs from 'fs';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { ServerRoute } from '@modern-js/types';
 import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
-import { matchEntry, ServerContext } from '../common/utils';
+import { matchEntry, ServerContext } from '@modern-js/utils/runtime-node';
 
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-data-loader',
