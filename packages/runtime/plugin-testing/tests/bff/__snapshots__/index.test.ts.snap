@@ -27,7 +27,7 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
       ],
       "transform": {
         "\\.[jt]sx?$": [
-          "/node_modules/.pnpm/ts-jest@29.1.0_4hoxxs4eziezne7kxyui4q2nwm/node_modules/ts-jest/dist/index.js",
+          "/node_modules/.pnpm/ts-jest@29.1.0_@babel+core@7.21.8_@jest+types@29.5.0_babel-jest@29.5.0_esbuild@0.15.7_jest@29.5.0_typescript@5.0.4/node_modules/ts-jest/dist/index.js",
           {
             "diagnostics": {
               "warnOnly": true,
@@ -67,7 +67,7 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
       ],
       "transform": {
         "\\.[jt]sx?$": [
-          "/node_modules/.pnpm/ts-jest@29.1.0_4hoxxs4eziezne7kxyui4q2nwm/node_modules/ts-jest/dist/index.js",
+          "/node_modules/.pnpm/ts-jest@29.1.0_@babel+core@7.21.8_@jest+types@29.5.0_babel-jest@29.5.0_esbuild@0.15.7_jest@29.5.0_typescript@5.0.4/node_modules/ts-jest/dist/index.js",
           {
             "diagnostics": {
               "warnOnly": true,
