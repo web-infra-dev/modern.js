@@ -325,6 +325,16 @@ export default defineConfig({
 - 类型： `boolean`
 - 默认值： `false`
 
+### respectExternal
+
+当设为 `false` 时，不会打包任何三方包类型，设为 `true` 时，会根据[externals](#externals)来决定是否需要打包三方类型。
+
+在做 d.ts bundle 时，还没有分析 export，所以你使用的任何一个三方包类型都可能会破坏你的构建，这显然是不可控的，
+因此我们可以通过此配置来避免。
+
+- 类型： `boolean`
+- 默认值： `true`
+
 ### tsconfigPath
 
 TypeScript 配置文件的路径。
@@ -369,9 +379,8 @@ export default defineConfig({
 
 当在使用 SWC Transform 进行代码转换的时候，可以启动 `externalHelpers` 配置，将内联的辅助函数转换为从外部模块 `@swc/helpers` 导入这些辅助函数。
 
-* 类型：`boolean`
-* 默认值：`false`
-
+- 类型：`boolean`
+- 默认值：`false`
 
 下面是使用该配置前后的产物变化比较。
 
@@ -407,7 +416,6 @@ export var yourCode = function() {
   // use _async_to_generator
 }
 ```
-
 
 ## externals
 
@@ -865,8 +873,8 @@ const tailwind = {
 
 提供与 babel-plugin-import 等价的能力和配置，基于 SWC 实现。
 
-* 类型：`Array`
-* 默认值：`[]`
+- 类型：`Array`
+- 默认值：`[]`
 
 数组元素为一个 babel-plugin-import 的配置对象。配置对象可以参考 [options](https://github.com/umijs/babel-plugin-import#options)。
 
@@ -894,7 +902,6 @@ export default defineConfig({
 ### 注意事项
 
 参考[【Import 插件——注意事项】](plugins/official-list/plugin-import.html#注意事项)
-
 
 ## umdGlobals
 

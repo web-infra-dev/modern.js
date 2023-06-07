@@ -284,6 +284,16 @@ Generate only dts files, not js files
 - Type: `boolean`
 - Default: `false`
 
+### respectExternal
+
+When set to `false`, three-party package types will be excluded from bundle, when set to `true`, it will determine whether three-party types need to be bundled based on[externals](#externals).
+
+When bundle d.ts, export is not analyzed, so any three-party package type you use may break your build, which is obviously uncontrollable.
+So we can avoid it with this configuration.
+
+- Type: `boolean`
+- Default value: `true`
+
 ### tsconfigPath
 
 Path to the tsconfig file
@@ -328,8 +338,8 @@ By default, the output JS code may depend on helper functions to support the tar
 
 When using SWC Transform for code transformation, you can enable the `externalHelpers` configuration to convert inline helper functions to import them from the external module `@swc/helpers`.
 
-* **Type**: `boolean`
-* **Default**: `false`
+- **Type**: `boolean`
+- **Default**: `false`
 
 Below is a comparison of the product changes before and after using this configuration.
 
@@ -703,7 +713,7 @@ style_inject_es_default(css_248z);
 With `inject` turned on, you need to pay attention to the following points.
 
 - `@import` in the css file will not be processed. So if you have `@import` in your css file, then you need to bring in the css file manually in js (less,scss files don't need it because they will be preprocessed).
-- The impact of `sideEffects` needs to be considered, by default our builder will consider it as a side effect, if the `sideEffects` field set in your project or in the package.json of the three-way package and it does not contain this css file, then you will get a warning
+- The impact of `sideEffects` needs to be considered, by default our builder will consider it as a side effect, if the `sideEffects` field set in your project or in the package.json of the three-party package and it does not contain this css file, then you will get a warning
 
 ```
 [LIBUILD:ESBUILD_WARN] Ignoring this import because "src/index.scss" was marked as having no side effects by plugin "libuild:adapter"

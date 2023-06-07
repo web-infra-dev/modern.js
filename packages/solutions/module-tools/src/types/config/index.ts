@@ -42,6 +42,15 @@ export type DTSOptions = {
   distPath: string;
   tsconfigPath: string;
   only: boolean;
+  /**
+   * Only for rollup-plugin-dts, see more in https://github.com/Swatinem/rollup-plugin-dts#what-to-expect.
+   * We hope you use external to prevent them(like @types) which come from node_modules from be bundled.
+   * However, some types from outside that we don't re-export are also checked by plugin.
+   * And a third-party package is uncontrollable, it may cause errors.
+   * You can overridden by setting it false to excluded all packages from node_modules.
+   * @default true
+   */
+  respectExternal: boolean;
 };
 export type DTS = false | Partial<DTSOptions>;
 
