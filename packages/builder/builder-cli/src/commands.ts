@@ -1,7 +1,7 @@
+import { join } from 'path';
 import { fs } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
-import { BuilderInstance } from '@modern-js/builder';
-import { join } from 'path';
+import type { BuilderInstance } from '@modern-js/builder';
 
 export function setupProgram(builder: BuilderInstance) {
   const pkgJson = join(__dirname, '../package.json');
@@ -21,6 +21,13 @@ export function setupProgram(builder: BuilderInstance) {
     .description('build the app for production')
     .action(async () => {
       await builder.build();
+    });
+
+  program
+    .command('serve')
+    .description('preview the production build locally')
+    .action(async () => {
+      await builder.serve();
     });
 
   program.parse();
