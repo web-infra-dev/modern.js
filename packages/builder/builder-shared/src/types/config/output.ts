@@ -132,11 +132,9 @@ export type RemOptions = {
   pxtorem?: PxToRemOptions;
 };
 
-export type CssModules =
-  | boolean
-  | {
-      auto?: boolean | RegExp | ((resourcePath: string) => boolean);
-    };
+export type CssModules = {
+  auto?: boolean | RegExp | ((resourcePath: string) => boolean);
+};
 
 export interface SharedOutputConfig {
   /**
@@ -272,7 +270,6 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   assetsRetry?: AssetsRetryOptions;
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
-  cssModules: CssModules;
   disableCssExtract: boolean;
   disableMinimize: boolean;
   disableSourceMap: DisableSourceMapOption;

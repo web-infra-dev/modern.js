@@ -173,16 +173,14 @@ export async function applyBaseCSSRule(
   const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {
       importLoaders: 1,
-      modules: cssModules
-        ? {
-            auto: getCssModulesAutoRule(
-              cssModules,
-              config.output.disableCssModuleExtension,
-            ),
-            exportLocalsConvention: 'camelCase',
-            localIdentName,
-          }
-        : false,
+      modules: {
+        auto: getCssModulesAutoRule(
+          cssModules,
+          config.output.disableCssModuleExtension,
+        ),
+        exportLocalsConvention: 'camelCase',
+        localIdentName,
+      },
       sourceMap: enableSourceMap,
     },
     config.tools.cssLoader,

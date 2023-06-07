@@ -1,30 +1,16 @@
 - **Type:**
 
 ```ts
-type CssModules =
-  | boolean
-  | {
-      auto?: boolean | RegExp | ((resourcePath: string) => boolean);
-    };
+type CssModules = {
+  auto?: boolean | RegExp | ((resourcePath: string) => boolean);
+};
 ```
 
-- **Default:** `true`
+- **Default:** `undefined`
 
-Allows to enable/disable CSS Modules, or setup configuration.
+Setup css modules configuration.
 
-#### Boolean Type
-
-Enable or disable CSS modules by setting `output.cssModules` to true or false.
-
-When CSS modules are enabled, which style files will be processed as CSS Modules modules will be determined by default according to the [output.disableCssModuleExtension](/api/config-output.html#outputdisablecssmoduleextension) configuration item.
-
-Also, You can configure more flexible file processing rules through `output.cssModules.auto`.
-
-#### Object Type
-
-When the value of `output.cssModules` is object type, the CSS modules behavior will be determined according to the following configuration:
-
-##### auto
+### cssModules.auto
 
 The `auto` configuration option allows CSS modules to be automatically enabled based on their filenames.
 

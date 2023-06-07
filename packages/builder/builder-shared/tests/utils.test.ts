@@ -44,10 +44,7 @@ it('check isCssModules', () => {
 });
 
 it('getCssModulesAutoRule', () => {
-  expect(getCssModulesAutoRule(true, false)).toBeTruthy();
-  expect(getCssModulesAutoRule(true, true)).toEqual(isLooseCssModules);
-  expect(getCssModulesAutoRule({}, true)).toEqual(isLooseCssModules);
-  expect(getCssModulesAutoRule(false, false)).toBeFalsy();
+  expect(getCssModulesAutoRule(undefined, true)).toEqual(isLooseCssModules);
 
   expect(
     getCssModulesAutoRule(

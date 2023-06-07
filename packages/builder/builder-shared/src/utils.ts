@@ -119,17 +119,10 @@ export const isCssModules = (filename: string, modules: CssLoaderModules) => {
 };
 
 export const getCssModulesAutoRule = (
-  config: CssModules,
+  config?: CssModules,
   disableCssModuleExtension = false,
 ) => {
-  if (
-    config === false ||
-    (typeof config === 'object' && config.auto === false)
-  ) {
-    return false;
-  }
-
-  if (config === true || config.auto === undefined) {
+  if (!config || config?.auto === undefined) {
     return disableCssModuleExtension ? isLooseCssModules : true;
   }
 
