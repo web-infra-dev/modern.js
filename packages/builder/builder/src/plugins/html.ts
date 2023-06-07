@@ -269,11 +269,11 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
       },
     );
 
-    api.onBeforeStartDevServer(async () => {
+    const emitRouteJson = async () => {
       const { fs, ROUTE_SPEC_FILE } = await import('@modern-js/utils');
       const routeFilePath = path.join(api.context.distPath, ROUTE_SPEC_FILE);
 
-      // generate a basic route.json for modern.js dev server
+      // generate a basic route.json for modern.js server
       // if the framework has already generate a route.json, do nothing
       if (!(await isFileExists(routeFilePath)) && routesInfo.length) {
         await fs.outputFile(
@@ -281,7 +281,10 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
           JSON.stringify({ routes: routesInfo }, null, 2),
         );
       }
-    });
+    };
+
+    api.onBeforeBuild(emitRouteJson);
+    api.onBeforeStartDevServer(emitRouteJson);
 
     applyInjectTags(api);
   },
