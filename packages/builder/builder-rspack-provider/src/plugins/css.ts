@@ -163,9 +163,9 @@ export const applyCSSModuleRule = (
   rules: RspackRule[] | undefined,
   ruleTest: RegExp,
   disableCssModuleExtension: boolean | undefined,
-  modules: CssModules,
+  modules?: CssModules,
 ) => {
-  if (!rules || !modules) {
+  if (!rules) {
     return;
   }
 
