@@ -89,3 +89,17 @@ const MyComponent = () => <div>Hello World</div>;
 
 export default MyComponent;
 ```
+
+---
+
+### HMR not working when use https?
+
+If https is enabled, the HMR connection may fail due to a certificate issue, and if you open the console, you will get an HMR connect failed error.
+
+![hmr-connect-error-0](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/img_v2_2f90d027-a232-4bd8-8021-dac3c651682g.jpg)
+
+The solution to this problem is to click on "Advanced" -> "Proceed to xxx (unsafe)" on the Chrome problem page.
+
+![hmr-connect-error-1](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/3d2d4a38-acfe-4fe2-bdff-48b3366db481.png)
+
+> Tips: When accessing the page through Localhost, the words "Your connection is not private" may not appear and can be handled by visiting the Network domain.
