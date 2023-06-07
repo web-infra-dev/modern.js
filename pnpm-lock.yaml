@@ -78,21 +78,21 @@ importers:
       '@modern-js/builder-shared': workspace:*
       '@modern-js/builder-webpack-provider': workspace:*
       '@modern-js/node-bundle-require': workspace:*
+      '@modern-js/prod-server': workspace:*
       '@modern-js/utils': workspace:*
       '@scripts/vitest-config': workspace:*
       typescript: ^5
-      webpack: ^5.82.1
     dependencies:
       '@modern-js/builder': link:../builder
       '@modern-js/builder-shared': link:../builder-shared
       '@modern-js/node-bundle-require': link:../../toolkit/node-bundle-require
+      '@modern-js/prod-server': link:../../server/prod-server
+      '@modern-js/utils': link:../../toolkit/utils
     devDependencies:
       '@modern-js/builder-rspack-provider': link:../builder-rspack-provider
       '@modern-js/builder-webpack-provider': link:../builder-webpack-provider
-      '@modern-js/utils': link:../../toolkit/utils
       '@scripts/vitest-config': link:../../../scripts/vitest-config
       typescript: 5.0.4
-      webpack: 5.82.1
 
   packages/builder/builder-rspack-provider:
     specifiers:

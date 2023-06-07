@@ -43,16 +43,15 @@
   "dependencies": {
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/node-bundle-require": "workspace:*"
+    "@modern-js/node-bundle-require": "workspace:*",
+    "@modern-js/prod-server": "workspace:*",
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
-    "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "typescript": "^5",
-    "webpack": "^5.82.1"
+    "typescript": "^5"
   },
   "peerDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:^2.22.0",
