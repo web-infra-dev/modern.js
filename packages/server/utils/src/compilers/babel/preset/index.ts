@@ -2,11 +2,6 @@ import { getBaseBabelChain } from '@modern-js/babel-preset-base';
 import { ISyntaxOption, ILibPresetOption } from './types';
 import { aliasPlugin } from './alias';
 
-export const getBabelConfig = (
-  libPresetOption: ILibPresetOption,
-  syntaxOption: ISyntaxOption,
-) => getBabelChain(libPresetOption, syntaxOption).toJSON();
-
 export const getBabelChain = (
   libPresetOption: ILibPresetOption,
   syntaxOption: ISyntaxOption,
