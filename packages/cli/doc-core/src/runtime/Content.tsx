@@ -13,6 +13,11 @@ export const Content = () => {
     return <div></div>;
   }
   const routesElement = matched[0].route.element;
-
-  return <Suspense fallback={<></>}>{routesElement}</Suspense>;
+  // There is no need to use Suspense in SSR mode
+  // The component in SSR is imported synchronously
+  return process.env.__SSR__ ? (
+    routesElement
+  ) : (
+    <Suspense fallback={<></>}>{routesElement}</Suspense>
+  );
 };
