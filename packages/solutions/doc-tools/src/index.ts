@@ -20,7 +20,11 @@ export type {
   AdditionalPage,
 };
 
-const MODERN_CONFIG_FILES = ['modern.config.ts', 'modern.config.js'];
+const MODERN_CONFIG_FILES = [
+  'modern.config.ts',
+  'modern.config.js',
+  '_meta.json',
+];
 
 interface ServerInstance {
   close: () => Promise<void>;
@@ -31,7 +35,7 @@ interface DocToolsOptions {
   extraDocConfig?: UserConfig['doc'];
 }
 
-const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
+const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js', '.json'];
 
 export default (options: DocToolsOptions = {}): CliPlugin => ({
   name: '@modern-js/doc-tools',
@@ -58,7 +62,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           configFile: string;
         };
         // Concern: if the doc root is set by cli, we cannot get the root parms in `watchFiles` hook, so we can only get the root from config file.
-        return [configFile, config.doc?.root].filter(Boolean);
+        return [configFile, config.doc?.root, '**/_meta.json'].filter(Boolean);
       },
       async fileChange({ filename, eventType }) {
         const isConfigFile = configFiles.some(configFileName =>

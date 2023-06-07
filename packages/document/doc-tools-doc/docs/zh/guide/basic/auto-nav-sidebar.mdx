@@ -92,7 +92,7 @@ export type SideMetaItem =
 
 ### obejct
 
-当类型为对象形式时，你可以描述为一个文件或者目录。
+当类型为对象形式时，你可以描述为一个文件、目录或者自定义链接。
 
 在描述**文件**的情况下，类型如下:
 
@@ -138,6 +138,36 @@ export type SideMetaItem =
 }
 ```
 
+在描述**自定义链接**的情况下，类型如下:
+
+```ts
+{
+  type: 'custom-link';
+  label: string;
+  link: string;
+}
+```
+
+其中，`label` 表示该链接在侧边栏中的显示名称，`link` 表示该链接的跳转地址，比如:
+
+```json
+{
+  "type": "custom-link",
+  "label": "My Link",
+  "link": "/my-link"
+}
+```
+
+`link` 支持外部链接，比如:
+
+```json
+{
+  "type": "custom-link",
+  "link": "https://github.com",
+  "label": "GitHub"
+}
+```
+
 ### 完整示例
 
 下面是一个完整的示例，用到了上述的三种类型:
@@ -156,6 +186,11 @@ export type SideMetaItem =
     "label": "Advanced",
     "collapsible": true,
     "collapsed": false
+  },
+  {
+    "type": "custom-link",
+    "label": "My Link",
+    "link": "/my-link"
   }
 ]
 ```
