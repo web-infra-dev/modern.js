@@ -157,6 +157,7 @@ importers:
       '@babel/parser': ^7.21.8
       '@babel/preset-env': ^7.21.5
       '@babel/types': ^7.21.5
+      '@modern-js/prod-server': workspace:*
       '@modern-js/server': workspace:*
       '@modern-js/types': workspace:*
       '@modern-js/utils': workspace:*
@@ -180,6 +181,7 @@ importers:
       '@babel/core': 7.21.8
       '@babel/parser': 7.21.8
       '@babel/types': 7.21.5
+      '@modern-js/prod-server': link:../../server/prod-server
       '@modern-js/server': link:../../server/server
       '@modern-js/types': link:../../toolkit/types
       '@modern-js/utils': link:../../toolkit/utils
