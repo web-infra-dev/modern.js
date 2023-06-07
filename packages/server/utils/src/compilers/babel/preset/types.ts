@@ -18,8 +18,6 @@ export interface ILibPresetOption {
   enableReactPreset?: boolean;
   lodashOptions?: any;
   alias?: AliasOption;
-  envVars?: string[];
-  globalVars?: Record<string, string>;
   jsxTransformRuntime?: JsxTransformRuntimeType;
   styledComponentsOptions?: IStyledComponentOptions;
 }

@@ -61,10 +61,6 @@
       "path": "packages/cli/babel-preset-base"
     },
     {
-      "name": "@modern-js/babel-preset-lib",
-      "path": "packages/cli/babel-preset-lib"
-    },
-    {
       "name": "@modern-js/bff-runtime",
       "path": "packages/server/bff-runtime"
     },
