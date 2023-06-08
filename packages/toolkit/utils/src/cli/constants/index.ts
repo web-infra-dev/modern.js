@@ -6,6 +6,11 @@ import { InternalPlugins } from '@modern-js/types';
 export const ROUTE_SPEC_FILE = 'route.json';
 
 /**
+ * Front-end routing metadata
+ */
+export const NESTED_ROUTE_SPEC_FILE = 'nestedRoutes.json';
+
+/**
  * main entry name
  */
 export const MAIN_ENTRY_NAME = 'main';

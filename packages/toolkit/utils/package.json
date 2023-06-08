@@ -36,6 +36,7 @@
     },
     "./runtime/router": {
       "jsnext:source": "./src/runtime/router.ts",
+      "require": "./dist/cjs/runtime/router.js",
       "default": "./dist/esm/runtime/router.js"
     },
     "./runtime/remix-router": {
@@ -52,10 +53,12 @@
     },
     "./runtime-node": {
       "jsnext:source": "./src/runtime-node/index.ts",
+      "require": "./dist/cjs/runtime-node/index.js",
       "default": "./dist/esm/runtime-node/index.js"
     },
     "./runtime-node/router": {
       "jsnext:source": "./src/runtime-node/router.ts",
+      "require": "./dist/cjs/runtime-node/router.js",
       "default": "./dist/esm/runtime-node/router.js"
     },
     "./universal/constants": {
@@ -115,6 +118,7 @@
       },
       "./runtime/router": {
         "types": "./dist/types/runtime/router.d.ts",
+        "require": "./dist/cjs/runtime/router.js",
         "default": "./dist/esm/runtime/router.js"
       },
       "./runtime/remix-router": {
@@ -131,10 +135,12 @@
       },
       "./runtime-node": {
         "types": "./dist/types/runtime-node/index.d.ts",
+        "require": "./dist/cjs/runtime-node/index.js",
         "default": "./dist/esm/runtime-node/index.js"
       },
       "./runtime-node/router": {
         "types": "./dist/types/runtime-node/router.d.ts",
+        "require": "./dist/cjs/runtime-node/router.js",
         "default": "./dist/esm/runtime-node/router.js"
       },
       "./universal/constants": {
