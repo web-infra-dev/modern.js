@@ -99,12 +99,6 @@ async function splitByExperience(
     ),
     lodash: createDependenciesRegExp('lodash', 'lodash-es'),
     axios: createDependenciesRegExp('axios', /axios-.+/),
-    moment: createDependenciesRegExp(
-      'dayjs',
-      'date-fns',
-      'moment',
-      /moment-.+/,
-    ),
   };
 
   // Detect if the package is installed in current project
@@ -119,15 +113,6 @@ async function splitByExperience(
     packageRegExps.semi = createDependenciesRegExp(
       /@(ies|douyinfe)[\\/]semi-.*/,
     );
-  }
-  if (isPackageInstalled('tailwindcss', rootPath)) {
-    packageRegExps.tailwindcss = createDependenciesRegExp(/.*tailwindcss.*/);
-  }
-  if (isPackageInstalled('echarts', rootPath)) {
-    packageRegExps.echarts = createDependenciesRegExp('echarts');
-  }
-  if (isPackageInstalled('@slardar/web', rootPath)) {
-    packageRegExps.slardar = createDependenciesRegExp('@slardar/web');
   }
   if (polyfill === 'entry' || polyfill === 'usage') {
     packageRegExps.polyfill = createDependenciesRegExp(
