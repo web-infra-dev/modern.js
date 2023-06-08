@@ -41,6 +41,18 @@ it('check isCssModules', () => {
       },
     }),
   ).toBeFalsy();
+
+  expect(
+    isCssModules('src/index.module.css', {
+      auto: /\.module\./i,
+    }),
+  ).toBeTruthy();
+
+  expect(
+    isCssModules('src/index.css', {
+      auto: /\.module\./i,
+    }),
+  ).toBeFalsy();
 });
 
 it('getCssModulesAutoRule', () => {
