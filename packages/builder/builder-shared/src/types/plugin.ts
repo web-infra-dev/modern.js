@@ -55,6 +55,7 @@ export type Plugins = {
   arco: PluginsFn;
   tsChecker: PluginsFn;
   checkSyntax: PluginsFn;
+  rem: PluginsFn;
 };
 
 /**

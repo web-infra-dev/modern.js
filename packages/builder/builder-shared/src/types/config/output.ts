@@ -194,6 +194,11 @@ export interface SharedOutputConfig {
   cssModules?: CssModules;
 
   /**
+   * Convert px to rem in CSS.
+   */
+  convertToRem?: boolean | RemOptions;
+
+  /**
    * Disable css extract and inline CSS files into the JS bundle.
    */
   disableCssExtract?: boolean;
