@@ -1,20 +1,19 @@
 import _ from '@modern-js/utils/lodash';
-import type { BuilderPlugin } from '../types';
 import {
   getDistPath,
   AutoSetRootFontSizePlugin,
+  getSharedPkgCompiledPath,
+  type DefaultBuilderPlugin,
   type RemOptions,
   type PxToRemOptions,
 } from '@modern-js/builder-shared';
-import { getCompiledPath } from '../shared';
 
 const defaultOptions: RemOptions = {
   enableRuntime: true,
   rootFontSize: 50,
 };
 
-// todo: move to modern-js/builder
-export const builderPluginRem = (): BuilderPlugin => ({
+export const builderPluginRem = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-rem',
 
   pre: [
@@ -25,8 +24,8 @@ export const builderPluginRem = (): BuilderPlugin => ({
   ],
 
   setup(api) {
-    api.modifyWebpackChain(
-      async (chain, { CHAIN_ID, isServer, isWebWorker }) => {
+    api.modifyBundlerChain(
+      async (chain, { CHAIN_ID, isServer, isWebWorker, HtmlPlugin }) => {
         const config = api.getNormalizedConfig();
         const {
           output: { convertToRem },
@@ -43,14 +42,10 @@ export const builderPluginRem = (): BuilderPlugin => ({
 
         // handle css
         const { default: PxToRemPlugin } = (await import(
-          getCompiledPath('postcss-pxtorem')
+          getSharedPkgCompiledPath('postcss-pxtorem')
         )) as {
           default: (_opts: PxToRemOptions) => any;
         };
-
-        const { default: HtmlWebpackPlugin } = await import(
-          'html-webpack-plugin'
-        );
 
         const applyRules = [
           CHAIN_ID.RULE.CSS,
@@ -96,7 +91,7 @@ export const builderPluginRem = (): BuilderPlugin => ({
           .use(AutoSetRootFontSizePlugin, [
             userOptions,
             entries,
-            HtmlWebpackPlugin,
+            HtmlPlugin,
             distDir,
           ]);
       },

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { builderPluginRem } from '@builder/plugins/rem';
 import { createBuilder, matchPlugin } from '../helper';
 import { builderPluginCss } from '@/plugins/css';
 import { builderPluginLess } from '@/plugins/less';
 import { builderPluginSass } from '@/plugins/sass';
-import { builderPluginRem } from '@/plugins/rem';
 
 describe('plugins/rem', () => {
   it('should not run rem plugin without config', async () => {

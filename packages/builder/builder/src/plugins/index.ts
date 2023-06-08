@@ -41,4 +41,5 @@ export const plugins: Plugins = {
   tsChecker: () => import('./tsChecker').then(m => m.builderPluginTsChecker()),
   checkSyntax: () =>
     import('./checkSyntax').then(m => m.builderPluginCheckSyntax()),
+  rem: () => import('./rem').then(m => m.builderPluginRem()),
 };

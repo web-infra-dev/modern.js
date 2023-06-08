@@ -56,7 +56,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/sass').then(m => m.builderPluginSass()),
     import('../plugins/less').then(m => m.builderPluginLess()),
-    import('../plugins/rem').then(m => m.builderPluginRem()),
+    plugins.rem(),
     import('../plugins/react').then(m => m.builderPluginReact()),
     plugins.bundleAnalyzer(),
     plugins.toml(),
