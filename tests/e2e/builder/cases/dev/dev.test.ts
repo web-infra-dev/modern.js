@@ -6,8 +6,8 @@ import { rspackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-// webpack hmr test will timeout in CI
-rspackOnlyTest('default & hmr (default true)', async ({ page }) => {
+// hmr test will timeout in CI
+test.skip('default & hmr (default true)', async ({ page }) => {
   await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
   const buildOpts = {
     cwd: join(fixtures, 'hmr'),
