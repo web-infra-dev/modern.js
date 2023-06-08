@@ -1,5 +1,14 @@
 # @modern-js/bff-core
 
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/bff-runtime@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes

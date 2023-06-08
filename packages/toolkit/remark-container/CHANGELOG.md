@@ -1,5 +1,7 @@
 # @modern-js/remark-container
 
+## 2.22.1
+
 ## 2.22.0
 
 ## 2.21.1

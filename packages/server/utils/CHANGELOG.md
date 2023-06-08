@@ -1,5 +1,19 @@
 # @modern-js/server-utils
 
+## 2.22.1
+
+### Patch Changes
+
+- 4be1da5: chore: merge babel-preset-lib to server-utils, remove unused codes
+
+  chore: 合并 babel-preset-lib 到 server-utils，移除无用代码
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/babel-preset-base@2.22.1
+  - @modern-js/babel-compiler@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes

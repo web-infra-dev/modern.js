@@ -1,5 +1,35 @@
 # @modern-js/builder
 
+## 2.22.1
+
+### Patch Changes
+
+- a470c04: chore(builder): reuse rem plugin between rspack and webpack provider
+
+  chore(builder): 在 rspack 和 webpack provider 间复用 rem 插件
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes

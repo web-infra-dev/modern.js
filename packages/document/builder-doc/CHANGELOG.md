@@ -1,5 +1,17 @@
 # @modern-js/builder-doc
 
+## 2.22.1
+
+### Patch Changes
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- 2ede584: docs(main): update start doc
+
+  docs(main): 更新开始文档
+
 ## 2.22.0
 
 ### Patch Changes

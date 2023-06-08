@@ -1,5 +1,56 @@
 # @modern-js/doc-core
 
+## 2.22.1
+
+### Patch Changes
+
+- a9009ee: fix(doc-core): suspense error in react 17 ssr
+
+  fix(doc-core): react 17 版本服务端渲染 suspense 错误
+
+- af75f6d: fix(doc-core): img compile error in table tag
+
+  fix(doc-core): table 标签中的图片编译错误
+
+- 9f732e0: fix(doc-core): dead link
+
+  fix(doc-core): 死链问题
+
+- 9093c4e: fix(doc-core): remove dark class when darkMode is false
+
+  fix(doc-core): 当 darkMode 为 false 时，移除 dark 类
+
+- 903de0f: fix(doc-core): polyfills are not injected
+
+  fix(doc-core): 修复 polyfills 未注入的问题
+
+- c290b9c: fix(doc-core): suspense runtime error
+
+  fix(doc-core): 异步组件运行时错误
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- 0a5e2ef: fix(doc-core): sidebar title not correct sometimes
+
+  fix(doc-core): 侧边栏标题有时不正确
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [bd4b150]
+- Updated dependencies [c739207]
+- Updated dependencies [c465db6]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-rspack-provider@2.22.1
+  - @modern-js/builder@2.22.1
+  - @modern-js/core@2.22.1
+  - @modern-js/doc-plugin-medium-zoom@2.22.1
+  - @modern-js/remark-container@2.22.1
+
 ## 2.22.0
 
 ### Minor Changes
