@@ -24,7 +24,8 @@
   "version": "2.22.1",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "peerDependencies": {
     "@modern-js/builder-doc": "workspace:^2.22.1"

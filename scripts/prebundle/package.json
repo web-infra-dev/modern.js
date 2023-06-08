@@ -144,9 +144,5 @@
     "webpack-sources": "3.2.3",
     "webpack-subresource-integrity": "5.1.0",
     "yaml-loader": "0.8.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
   }
 }
