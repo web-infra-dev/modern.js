@@ -109,7 +109,7 @@ export default {
 export * from '@modern-js/doc-tools/theme';
 ```
 
-当然，在开发过程可能需要使用页面的数据，你可以通过 [`usePageData`](/api/api-runtime#usepagedata) 这个 Hook 来获取。
+当然，在开发过程可能需要使用页面的数据，你可以通过 [`usePageData`](/api/client-api/api-runtime#usepagedata) 这个 Hook 来获取。
 
 ## 重新开发自定义主题
 
@@ -174,8 +174,6 @@ export function Navbar() {
 获取站点所有数据的信息，比如:
 
 ```tsx
-import { usePageData } from '@modern-js/doc-tools/runtime';
-
 import { usePageData } from '@modern-js/doc-tools/runtime';
 
 function MyComponent() {
