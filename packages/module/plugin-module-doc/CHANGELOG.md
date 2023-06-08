@@ -1,5 +1,26 @@
 # @modern-js/plugin-module-doc
 
+## 2.22.1
+
+### Patch Changes
+
+- eaf2698: fix: enhance the weight of custom global css
+  fix: 提高自定义全局 css 样式的权重
+- Updated dependencies [eaf2698]
+- Updated dependencies [a9009ee]
+- Updated dependencies [af75f6d]
+- Updated dependencies [eaf2698]
+- Updated dependencies [9f732e0]
+- Updated dependencies [9093c4e]
+- Updated dependencies [903de0f]
+- Updated dependencies [dba893f]
+- Updated dependencies [c290b9c]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [0a5e2ef]
+  - @modern-js/doc-plugin-preview@2.22.1
+  - @modern-js/doc-core@2.22.1
+  - @modern-js/module-tools@2.22.1
+
 ## 2.22.0
 
 ### Minor Changes

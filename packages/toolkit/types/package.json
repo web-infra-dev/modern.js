@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.22.0",
+  "version": "2.22.1",
   "types": "./index.d.ts",
   "exports": {
     ".": {
@@ -52,6 +52,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "main": "",
     "types": "./index.d.ts"
   },

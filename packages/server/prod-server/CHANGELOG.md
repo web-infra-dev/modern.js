@@ -1,5 +1,19 @@
 # @modern-js/prod-server
 
+## 2.22.1
+
+### Patch Changes
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/server-core@2.22.1
+  - @modern-js/plugin@2.22.1
+
 ## 2.22.0
 
 ### Minor Changes

@@ -423,6 +423,12 @@ builder.isPluginExists(builderPluginFoo().name); // true
 
 Inspect the final generated builder config and bundler config.
 
+:::tip
+The `inspectConfig` method does not support simultaneous use with the `startDevServer` / `build` method.
+
+When you need to view the complete builder and bundler config during the build process, you can use [debug mode](/guide/debug/debug-mode.html).
+:::
+
 - **Type**
 
 ```ts

@@ -32,4 +32,5 @@ export const mockBuilderPlugins: Plugins = {
   arco: genMockPlugin('arco'),
   tsChecker: genMockPlugin('builder-plugin-ts-checker'),
   checkSyntax: genMockPlugin('builder-plugin-check-syntax'),
+  rem: genMockPlugin('builder-plugin-rem'),
 };

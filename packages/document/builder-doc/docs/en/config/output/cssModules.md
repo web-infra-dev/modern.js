@@ -20,7 +20,7 @@ The `auto` configuration option allows CSS modules to be automatically enabled b
 
 Type description:
 
-- `undefined`: According to the [output.disableCssModuleExtension](/api/config-output.html#outputdisablecssmoduleextension) configuration item to determine which style files to enable CSS modules.
+- `undefined`: According to the [output.disableCssModuleExtension](https://modernjs.dev/builder/en/api/config-output.html#outputdisablecssmoduleextension) configuration item to determine which style files to enable CSS modules.
 - `true`: enable CSS modules for all files matching `/\.module\.\w+$/i.test(filename)` regexp.
 - `false`: disables CSS Modules.
 - `RegExp`: enable CSS modules for all files matching `/RegExp/i.test(filename)` regexp.

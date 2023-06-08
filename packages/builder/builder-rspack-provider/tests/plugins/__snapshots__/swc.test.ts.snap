@@ -25,13 +25,9 @@ exports[`plugins/swc > should add antd pluginImport 1`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -56,13 +52,9 @@ exports[`plugins/swc > should add browserslist 1`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -87,13 +79,9 @@ exports[`plugins/swc > should add browserslist 2`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -125,13 +113,9 @@ exports[`plugins/swc > should add pluginImport 1`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -158,13 +142,9 @@ exports[`plugins/swc > should disable all pluginImport 1`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -234,13 +214,9 @@ exports[`plugins/swc > should enable entry mode preset_env 1`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -267,13 +243,9 @@ exports[`plugins/swc > should has correct core-js 1`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -300,13 +272,9 @@ exports[`plugins/swc > should has correct core-js 2`] = `
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
@@ -353,13 +321,9 @@ exports[`plugins/swc > should'n override browserslist when target platform is no
   },
   "entry": {
     "main": [
-      "rspack-polyfill.js",
       "src/index.js",
     ],
   },
-  "plugins": [
-    RspackVirtualModulePlugin {},
-  ],
   "resolve": {
     "alias": {
       "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",

@@ -1,5 +1,27 @@
 # @modern-js/server
 
+## 2.22.1
+
+### Patch Changes
+
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [4be1da5]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/server-utils@2.22.1
+  - @modern-js/prod-server@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes

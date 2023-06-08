@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.22.1
+
+### Patch Changes
+
+- e2848a2: fix: support nonce in streaming SSR
+  fix: 在 streaming SSR 中支持 nonce
+- 9b69987: feat: support Style component to use style with some <> special chartset
+  feat: 支持 Style 组件,用于渲染含 <> 等特殊字符
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/plugin@2.22.1
+
 ## 2.22.0
 
 ### Minor Changes

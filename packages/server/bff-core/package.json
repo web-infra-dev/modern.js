@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.22.0",
+  "version": "2.22.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
@@ -68,6 +68,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/types/index.d.ts"
   }
 }

@@ -38,7 +38,7 @@ export default () => {
 
 在默认情况下，只有 `*.module.css` 结尾的文件才被视为 CSS Modules 模块。
 
-如果你想将源码目录下的所有 CSS 文件当做 CSS Modules 模块进行处理，可以通过开启 [output.disableCssModuleExtension](/api/config-output.html#outputdisablecssmoduleextension) 来实现，比如：
+如果你想将源码目录下的所有 CSS 文件当做 CSS Modules 模块进行处理，可以通过开启 [output.disableCssModuleExtension](https://modernjs.dev/builder/api/config-output.html#outputdisablecssmoduleextension) 来实现，比如：
 
 ```ts
 export default {

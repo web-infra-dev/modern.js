@@ -25,6 +25,8 @@ export const EN_LOCALE = {
         'publish command ignore npm scripts, only can use in pnpm monorepo',
       no_git_checks:
         'publish command ignore checking if current branch is your publish branch, clean, and up-to-date, only can use in pnpm monorepo',
+      provenance:
+        'when publishing from a supported cloud CI/CD system, the package will be publicly linked to where it was built and published from',
     },
     status: {
       describe:

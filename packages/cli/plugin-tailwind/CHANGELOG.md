@@ -1,5 +1,19 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.22.1
+
+### Patch Changes
+
+- 5522285: fix(tailwind): should not add tools.babel config when not haveTwinMacro
+
+  fix(tailwind): 在没有命中 haveTwinMacro 时，不添加 tools.babel 配置
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [9b69987]
+- Updated dependencies [d4045ed]
+  - @modern-js/runtime@2.22.1
+  - @modern-js/utils@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes

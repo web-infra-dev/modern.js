@@ -1,4 +1,4 @@
-import { ModernServerContext, ServerRoute } from '@modern-js/types';
+import type { ModernServerContext, ServerRoute } from '@modern-js/types';
 
 export type ServerContext = Pick<
   ModernServerContext,

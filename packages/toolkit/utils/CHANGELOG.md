@@ -1,5 +1,15 @@
 # @modern-js/utils
 
+## 2.22.1
+
+### Patch Changes
+
+- e2848a2: fix: support nonce in streaming SSR
+  fix: 在 streaming SSR 中支持 nonce
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
 ## 2.22.0
 
 ### Patch Changes

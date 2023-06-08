@@ -27,4 +27,5 @@ export * from './fallback';
 export * from './getLoaderOptions';
 export * from './svgo';
 export * from './patch';
+export * from './polyfill';
 export * from './manifest';

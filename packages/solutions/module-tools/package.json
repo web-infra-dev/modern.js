@@ -15,7 +15,7 @@
     "module-tools",
     "lib-tools"
   ],
-  "version": "2.22.0",
+  "version": "2.22.1",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"
@@ -88,6 +88,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/index.d.ts",
     "main": "./dist/index.js",
     "exports": {
