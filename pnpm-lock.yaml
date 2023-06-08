@@ -173,9 +173,6 @@ importers:
       rspack-manifest-plugin:
         specifier: 5.0.0-alpha0
         version: 5.0.0-alpha0(webpack@5.82.1)
-      rspack-plugin-virtual-module:
-        specifier: 0.1.0
-        version: 0.1.0
       webpack:
         specifier: ^5.82.1
         version: 5.82.1(esbuild@0.15.7)
@@ -590,6 +587,43 @@ importers:
       source-map:
         specifier: ^0.7.4
         version: 0.7.4
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+      webpack:
+        specifier: ^5.82.1
+        version: 5.82.1(esbuild@0.15.7)
+
+  packages/builder/plugin-vue:
+    dependencies:
+      '@modern-js/builder-shared':
+        specifier: workspace:*
+        version: link:../builder-shared
+      '@vue/babel-plugin-jsx':
+        specifier: 1.1.1
+        version: 1.1.1(@babel/core@7.21.8)
+      vue-loader:
+        specifier: ^17.2.2
+        version: 17.2.2(webpack@5.82.1)
+    devDependencies:
+      '@babel/core':
+        specifier: ^7.21.8
+        version: 7.21.8
+      '@modern-js/builder':
+        specifier: workspace:*
+        version: link:../builder
+      '@modern-js/builder-rspack-provider':
+        specifier: workspace:*
+        version: link:../builder-rspack-provider
+      '@modern-js/builder-webpack-provider':
+        specifier: workspace:*
+        version: link:../builder-webpack-provider
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
+      '@scripts/vitest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/vitest-config
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -4590,9 +4624,6 @@ importers:
       esbuild:
         specifier: 0.15.7
         version: 0.15.7
-      rspack-plugin-virtual-module:
-        specifier: 0.1.0
-        version: 0.1.0
     devDependencies:
       '@modern-js/builder-plugin-swc':
         specifier: workspace:*
@@ -15560,6 +15591,27 @@ packages:
       sirv: 2.0.2
     dev: true
 
+  /@vue/babel-helper-vue-transform-on@1.0.2:
+    resolution: {integrity: sha512-hz4R8tS5jMn8lDq6iD+yWL6XNB699pGIVLk7WSJnn1dbpjaazsjZQkieJoRX6gW5zpYSCFqQ7jUquPNY65tQYA==}
+    dev: false
+
+  /@vue/babel-plugin-jsx@1.1.1(@babel/core@7.21.8):
+    resolution: {integrity: sha512-j2uVfZjnB5+zkcbc/zsOc0fSNGCMMjaEXP52wdwdIfn0qjFfEYpYZBFKFg+HHnQeJCVrjOeO0YxgaL7DMrym9w==}
+    dependencies:
+      '@babel/helper-module-imports': 7.21.4
+      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.21.8)
+      '@babel/template': 7.20.7
+      '@babel/traverse': 7.21.5
+      '@babel/types': 7.21.5
+      '@vue/babel-helper-vue-transform-on': 1.0.2
+      camelcase: 6.3.0
+      html-tags: 3.2.0
+      svg-tags: 1.0.0
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
+    dev: false
+
   /@vue/compiler-core@3.3.4:
     resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
     dependencies:
@@ -21724,6 +21776,7 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
+    dev: true
 
   /fs-extra@7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
@@ -22300,6 +22353,10 @@ packages:
       inherits: 2.0.4
       readable-stream: 3.6.0
       safe-buffer: 5.2.1
+    dev: false
+
+  /hash-sum@2.0.0:
+    resolution: {integrity: sha512-WdZTbAByD+pHfl/g9QSsBIIwy8IT+EsPiKDs0KNX+zSHhdDLFKdZu0BQHljvO+0QI/BasbMSUa8wYNCZTvhslg==}
     dev: false
 
   /hash.js@1.1.7:
@@ -30320,12 +30377,6 @@ packages:
       webpack-sources: 2.3.1
     dev: false
 
-  /rspack-plugin-virtual-module@0.1.0:
-    resolution: {integrity: sha512-v+TD289c/zHBTXgqlLIwxa7V/RdFKOEPaIFIrZ4eUQzkiI6uxHRp+bqOukO8u7RYoYhOgrLLspwNPcpJYrHBRg==}
-    dependencies:
-      fs-extra: 11.1.1
-    dev: false
-
   /rspack-plugin-virtual-module@0.1.5:
     resolution: {integrity: sha512-PB8x2g915JUNaa99rqx/jf8nnheErGnr1yWZS58+fCx0oAWa4sWX1K6+n4d606oG706pd0AGBG6Pq1V1CTTyog==}
     dependencies:
@@ -31528,6 +31579,10 @@ packages:
 
   /svg-parser@2.0.4:
     resolution: {integrity: sha512-e4hG1hRwoOdRb37cIMSgzNsxyzKfayW6VOflrwvR+/bzrkyxY/31WkbgnQpgtrNp1SdpJvpUAGTa/ZoiPNDuRQ==}
+    dev: false
+
+  /svg-tags@1.0.0:
+    resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
     dev: false
 
   /svgo@3.0.2:
@@ -33275,6 +33330,24 @@ packages:
 
   /vscode-textmate@6.0.0:
     resolution: {integrity: sha512-gu73tuZfJgu+mvCSy4UZwd2JXykjK9zAZsfmDeut5dx/1a7FeTk0XwJsSuqQn+cuMCGVbIBfl+s53X4T19DnzQ==}
+    dev: false
+
+  /vue-loader@17.2.2(webpack@5.82.1):
+    resolution: {integrity: sha512-aqNvKJvnz2A/6VWeJZodAo8XLoAlVwBv+2Z6dama+LHsAF+P/xijQ+OfWrxIs0wcGSJduvdzvTuATzXbNKkpiw==}
+    peerDependencies:
+      '@vue/compiler-sfc': '*'
+      vue: '*'
+      webpack: ^4.1.0 || ^5.0.0-0
+    peerDependenciesMeta:
+      '@vue/compiler-sfc':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      chalk: 4.1.2
+      hash-sum: 2.0.0
+      watchpack: 2.4.0
+      webpack: 5.82.1(esbuild@0.15.7)
     dev: false
 
   /vue-template-compiler@2.7.14:
