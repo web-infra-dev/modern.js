@@ -25,6 +25,8 @@ jobs:
     name: Release with commentd
     if: github.event.issue.pull_request && contains(github.event.comment.body, '!canary')
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
