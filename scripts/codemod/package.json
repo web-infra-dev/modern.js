@@ -13,9 +13,5 @@
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
     "typescript": "^5"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
   }
 }
