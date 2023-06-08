@@ -19,5 +19,4 @@ export * from './print';
 export * from './require';
 export * from './routes';
 export * from './runtimeExports';
-export * from './test';
 export * from './watch';
