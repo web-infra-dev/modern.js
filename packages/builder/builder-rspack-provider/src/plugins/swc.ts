@@ -26,6 +26,11 @@ export const builderPluginSwc = (): BuilderPlugin => ({
     api.modifyBundlerChain(async (chain, { isServer, isServiceWorker }) => {
       const config = api.getNormalizedConfig();
       addCoreJsEntry({ chain, config, isServer, isServiceWorker });
+
+      // Use the built-in core-js dependency, same as `babelPluginLockCorejsVersion`
+      chain.resolve.alias.merge({
+        'core-js': path.dirname(require.resolve('core-js')),
+      });
     });
 
     api.modifyRspackConfig(async (rspackConfig, { target }) => {

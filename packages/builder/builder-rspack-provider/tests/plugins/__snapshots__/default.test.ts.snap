@@ -1822,6 +1822,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     },
   ],
   "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
     "conditionNames": [
       "require",
       "node",
