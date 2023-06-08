@@ -126,17 +126,14 @@
       },
       "./runtime/remix-router": {
         "types": "./dist/types/runtime/remixRouter.d.ts",
-        "require": "./dist/cjs/runtime/remixRouter.js",
         "default": "./dist/esm/runtime/remixRouter.js"
       },
       "./runtime/nested-routes": {
         "types": "./dist/types/runtime/nestedRoutes.d.ts",
-        "require": "./dist/cjs/runtime/nestedRoutes.js",
         "default": "./dist/esm/runtime/nestedRoutes.js"
       },
       "./runtime-browser": {
         "jsnext:source": "./src/runtime-browser/index.d.ts",
-        "require": "./dist/cjs/runtime-browser/index.js",
         "default": "./dist/esm/runtime-browser/index.js"
       },
       "./runtime-node": {
@@ -152,19 +149,16 @@
       "./universal/constants": {
         "types": "./dist/types/universal/constants.d.ts",
         "import": "./dist/esm/universal/constants.js",
-        "require": "./dist/cjs/universal/constants.js",
         "default": "./dist/cjs/universal/constants.js"
       },
       "./universal/format-webpack": {
         "types": "./dist/types/universal/format-webpack.d.ts",
         "import": "./dist/esm/universal/formatWebpack.js",
-        "require": "./dist/cjs/universal/formatWebpack.js",
         "default": "./dist/cjs/universal/formatWebpack.js"
       },
       "./universal/plugin-dag-sort": {
         "types": "./dist/types/universal/pluginDagSort.d.ts",
         "import": "./dist/esm/universal/pluginDagSort.js",
-        "require": "./dist/cjs/universal/pluginDagSort.js",
         "default": "./dist/cjs/universal/pluginDagSort.js"
       },
       "./ajv": "./dist/compiled/ajv/index.js",
