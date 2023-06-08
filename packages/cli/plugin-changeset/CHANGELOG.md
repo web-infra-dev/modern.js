@@ -1,5 +1,22 @@
 # @modern-js/plugin-changeset
 
+## 2.22.1
+
+### Patch Changes
+
+- a2dd693: fix: release note get use not right
+
+  fix: 修复 Release Note 获取用户名称错误问题
+
+- b904b3a: feat(plugin-changeset): release commad support --provenance params
+
+  feat(plugin-changeset): release 命令支持 --provenance 参数
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/plugin-i18n@2.22.1
+
 ## 2.22.0
 
 ### Minor Changes
