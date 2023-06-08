@@ -41,6 +41,9 @@ jobs:
           node-version: "16"
           cache: 'pnpm'
 
+      - name: Install npm v9
+        run: npm install -g npm@9
+
       - name: Turbo Cache
         id: turbo-cache
         uses: actions/cache@v3
@@ -86,6 +89,9 @@ jobs:
         with:
           node-version: "16"
           cache: 'pnpm'
+
+      - name: Install npm v9
+        run: npm install -g npm@9
 
       - name: Turbo Cache
         id: turbo-cache
