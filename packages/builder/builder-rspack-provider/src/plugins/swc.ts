@@ -23,9 +23,9 @@ export const builderPluginSwc = (): BuilderPlugin => ({
   name: 'builder-plugin-swc',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { isServer, isServiceWorker }) => {
+    api.modifyBundlerChain(async (chain, { target }) => {
       const config = api.getNormalizedConfig();
-      addCoreJsEntry({ chain, config, isServer, isServiceWorker });
+      addCoreJsEntry({ chain, config, target });
     });
 
     api.modifyRspackConfig(async (rspackConfig, { target }) => {

@@ -160,7 +160,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             .options(babelOptions);
         }
 
-        addCoreJsEntry({ chain, config, isServer, isServiceWorker });
+        addCoreJsEntry({ chain, config, target });
       },
     );
   },
