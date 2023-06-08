@@ -173,9 +173,6 @@ importers:
       rspack-manifest-plugin:
         specifier: 5.0.0-alpha0
         version: 5.0.0-alpha0(webpack@5.82.1)
-      rspack-plugin-virtual-module:
-        specifier: 0.1.0
-        version: 0.1.0
       webpack:
         specifier: ^5.82.1
         version: 5.82.1(esbuild@0.15.7)
@@ -4590,9 +4587,6 @@ importers:
       esbuild:
         specifier: 0.15.7
         version: 0.15.7
-      rspack-plugin-virtual-module:
-        specifier: 0.1.0
-        version: 0.1.0
     devDependencies:
       '@modern-js/builder-plugin-swc':
         specifier: workspace:*
@@ -21726,6 +21720,7 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
+    dev: true
 
   /fs-extra@7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
@@ -30321,12 +30316,6 @@ packages:
       tapable: 2.2.1
       webpack: 5.82.1(esbuild@0.15.7)
       webpack-sources: 2.3.1
-    dev: false
-
-  /rspack-plugin-virtual-module@0.1.0:
-    resolution: {integrity: sha512-v+TD289c/zHBTXgqlLIwxa7V/RdFKOEPaIFIrZ4eUQzkiI6uxHRp+bqOukO8u7RYoYhOgrLLspwNPcpJYrHBRg==}
-    dependencies:
-      fs-extra: 11.1.1
     dev: false
 
   /rspack-plugin-virtual-module@0.1.5:

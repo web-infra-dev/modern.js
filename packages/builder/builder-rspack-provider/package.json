@@ -65,7 +65,6 @@
     "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",
     "react-refresh": "0.14.0",
-    "rspack-plugin-virtual-module": "0.1.0",
     "webpack": "^5.82.1"
   },
   "devDependencies": {
