@@ -72,7 +72,6 @@
 '@modern-js/plugin-tailwindcss': patch
 '@modern-js/app-tools': patch
 '@modern-js/doc-tools': patch
-'integration-module-doc': patch
 '@modern-js/builder-plugin-swc': patch
 '@modern-js/bff-runtime': patch
 '@modern-js/prod-server': patch
@@ -95,13 +94,8 @@
 '@modern-js/utils': patch
 '@modern-js/doc-core': patch
 '@modern-js/server-utils': patch
-'@scripts/vitest-config': patch
 '@modern-js/server-core': patch
-'@scripts/jest-config': patch
 '@modern-js/core': patch
-'@scripts/prebundle': patch
-'@scripts/codemod': patch
-'@scripts/build': patch
 ---
 
 chore: publishConfig add provenance config
