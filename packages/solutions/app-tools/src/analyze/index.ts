@@ -61,6 +61,7 @@ export default ({
         const apiOnly = await isApiOnly(
           appContext.appDirectory,
           resolvedConfig.source?.entriesDir,
+          appContext.apiDirectory,
         );
         await hookRunners.addRuntimeExports();
 
