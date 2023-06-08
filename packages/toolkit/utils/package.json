@@ -41,17 +41,14 @@
     },
     "./runtime/remix-router": {
       "jsnext:source": "./src/runtime/remixRouter.ts",
-      "require": "./dist/cjs/runtime/remixRouter.js",
       "default": "./dist/esm/runtime/remixRouter.js"
     },
     "./runtime/nested-routes": {
       "jsnext:source": "./src/runtime/nestedRoutes.tsx",
-      "require": "./dist/cjs/runtime/nestedRoutes.js",
       "default": "./dist/esm/runtime/nestedRoutes.js"
     },
     "./runtime-browser": {
       "jsnext:source": "./src/runtime-browser/index.ts",
-      "require": "./dist/cjs/runtime-browser/index.js",
       "default": "./dist/esm/runtime-browser/index.js"
     },
     "./runtime-node": {
