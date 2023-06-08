@@ -611,6 +611,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
         },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
@@ -1309,6 +1315,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
@@ -2458,6 +2470,12 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",

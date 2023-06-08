@@ -98,6 +98,7 @@ async function splitByExperience(
       'history',
     ),
     lodash: createDependenciesRegExp('lodash', 'lodash-es'),
+    axios: createDependenciesRegExp('axios', /axios-.+/),
   };
 
   // Detect if the package is installed in current project

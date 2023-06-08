@@ -28,8 +28,9 @@ Builder 默认采用 `split-by-experience` 策略，这是我们根据经验制�
 - `lib-router.js`：包含 `react-router`，`react-router-dom`，`history`，`@remix-run/router`。
 - `lib-lodash.js`：包含 `lodash`，`lodash-es`。
 - `lib-antd.js`：包含 `antd`。
-- `lib-arco.js`：包含 `@arco-design/web-react`。
-- `lib-semi.js`：包含 `@douyinfe/semi-ui`。
+- `lib-arco.js`：包含 `@arco-design/web-react` 以及 `@arco-design` 组织下相关的包。
+- `lib-semi.js`：包含 `@douyinfe/semi-ui` 以及 `@ies` 和 `@douyinfe` 组织下相关的包。
+- `lib-axios.js`：包含 `axios` 以及相关的包。
 
 这种拆包策略将常用的包进行分组，然后拆分为单独的 chunk，一般 chunk 的数量不会很多，适合绝大部分应用，同时也是我们推荐的拆包策略。
 

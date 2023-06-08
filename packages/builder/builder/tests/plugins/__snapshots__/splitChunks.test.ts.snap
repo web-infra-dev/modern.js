@@ -112,6 +112,12 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
         },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
@@ -163,6 +169,12 @@ exports[`plugins/splitChunks > should set split-by-experience config correctly w
           "priority": 0,
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
         },
         "lib-lodash": {
           "name": "lib-lodash",
