@@ -2,7 +2,7 @@ import path from 'path';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
 import { logger } from '../../utils';
-import { isProduction } from '@/shared/utils';
+import { cleanUrl, isProduction } from '@/shared/utils';
 import { normalizeRoutePath } from '@/node/runtimeModule/routeData';
 import { routeService } from '@/node/route/init';
 
@@ -11,7 +11,7 @@ export interface DeadLinkCheckOptions {
   base: string;
 }
 
-const IGNORE_REGEXP = /^(https?)|(mailto)|(tel)|(#)/;
+const IGNORE_REGEXP = /^(https?|mailto|tel|#)/;
 
 export function checkLinks(links: string[], filepath: string, root: string) {
   const errorInfos: string[] = [];
@@ -20,7 +20,7 @@ export function checkLinks(links: string[], filepath: string, root: string) {
     .forEach(link => {
       const relativePath = path.relative(root, filepath);
 
-      if (!routeService.isExistRoute(link)) {
+      if (!routeService.isExistRoute(cleanUrl(link))) {
         errorInfos.push(
           `Internal link to ${link} is dead, check it in ${relativePath}`,
         );

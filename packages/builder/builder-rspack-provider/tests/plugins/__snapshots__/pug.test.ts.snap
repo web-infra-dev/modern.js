@@ -10,7 +10,6 @@ exports[`plugins/pug > should add pug correctly when tools.pug is used 1`] = `
       "src/main.ts",
     ],
   },
-  "module": {},
   "plugins": [
     HtmlRspackPlugin {
       "name": "HtmlRspackPlugin",

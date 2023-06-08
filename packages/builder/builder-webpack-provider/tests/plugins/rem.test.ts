@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import { builderPluginRem } from '@builder/plugins/rem';
 import { builderPluginCss } from '@/plugins/css';
 import { builderPluginLess } from '@/plugins/less';
 import { builderPluginSass } from '@/plugins/sass';
-import { builderPluginRem } from '@/plugins/rem';
 import { createStubBuilder } from '@/stub';
 
 describe('plugins/rem', () => {

@@ -17,6 +17,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const apiOnly = await isApiOnly(
     appContext.appDirectory,
     userConfig?.source?.entriesDir,
+    appContext.apiDirectory,
   );
   const serverInternalPlugins = await getServerInternalPlugins(api);
 

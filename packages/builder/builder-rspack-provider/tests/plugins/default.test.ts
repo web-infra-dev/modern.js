@@ -112,7 +112,6 @@ describe('bundlerApi', () => {
     expect(bundlerConfigs[0]).toMatchInlineSnapshot(`
       {
         "devtool": "hidden-source-map",
-        "module": {},
         "target": "node",
       }
     `);

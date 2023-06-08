@@ -86,6 +86,9 @@ const buildConfigProperties = {
         distPath: { type: 'string' },
         tsconfigPath: { type: 'string' },
         abortOnError: { type: 'boolean' },
+        respectExternal: {
+          type: 'boolean',
+        },
       },
     },
     else: { type: 'boolean' },

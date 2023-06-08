@@ -1,5 +1,28 @@
 # @modern-js/builder-plugin-swc
 
+## 2.22.1
+
+### Patch Changes
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+  - @modern-js/builder-plugin-swc-base@2.22.1
+
 ## 2.22.0
 
 ### Patch Changes

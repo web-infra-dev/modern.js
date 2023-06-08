@@ -110,7 +110,7 @@ export default {
 export * from '@modern-js/doc-tools/theme';
 ```
 
-Of course, you may need to use page data during the development process, you can get it through the Hook [`usePageData`](/api/api-runtime#usepagedata).
+Of course, you may need to use page data during the development process, you can get it through the Hook [`usePageData`](/api/client-api/api-runtime#usepagedata).
 
 ## Redevelop a custom theme
 
@@ -175,8 +175,6 @@ So the question is, how does the theme component get the page data and the conte
 Get information about all data on the site, such as:
 
 ```tsx
-import { usePageData } from '@modern-js/doc-tools/runtime';
-
 import { usePageData } from '@modern-js/doc-tools/runtime';
 
 function MyComponent() {

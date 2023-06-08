@@ -1,6 +1,6 @@
 # Auto Nav/Sidebar
 
-In Modern.js Doc, in addition to declaring [nav](/api/config-theme.html#nav) and [sidebar](/api/config-theme.html#sidebar) through `themeConfig` in the config file, you You can also automatically generate the nav bar and sidebar by declaring the `_meta.json` description file. We recommend the latter because it can make the config file more concise and clear.
+In Modern.js Doc, in addition to declaring [nav](/api/config/config-theme.html#nav) and [sidebar](/api/config/config-theme.html#sidebar) through `themeConfig` in the config file, you You can also automatically generate the nav bar and sidebar by declaring the `_meta.json` description file. We recommend the latter because it can make the config file more concise and clear.
 
 :::tip
 Automated navbar/sidebar will only work if there are no `nav` and `sidebar` configurations in the config file `modern.config.ts`.
@@ -47,7 +47,7 @@ docs
 
 ## Navbar Level Config
 
-In the case of the navigation bar level, you can fill in an array in `_meta.json`, and its type is exactly the same as the nav config of the default theme. For details, please refer to [nav config](/api/config-theme.html#nav). for example:
+In the case of the navigation bar level, you can fill in an array in `_meta.json`, and its type is exactly the same as the nav config of the default theme. For details, please refer to [nav config](/api/config/config-theme.html#nav). for example:
 
 ```json
 [
@@ -92,7 +92,7 @@ The file name may or may not have a suffix, for example `introduction` will be p
 
 ### obejct
 
-When the type is an object, you can describe it as a file or a directory.
+When the type is an object, you can describe it as a file, a directory or a custom link.
 
 In the case of describing **file**, the types are as follows:
 
@@ -138,6 +138,36 @@ Among them, `name` indicates the directory name, `label` indicates the display n
 }
 ```
 
+In the case of describing **custom link**, the types are as follows:
+
+```ts
+{
+  type: 'custom-link';
+  link: string;
+  label: string;
+}
+```
+
+Among them, `link` indicates the link address, `label` indicates the display name of the link in the sidebar, for example:
+
+```json
+{
+  "type": "custom-link",
+  "link": "/my-link",
+  "label": "My Link"
+}
+```
+
+`link` support external links, for example:
+
+```json
+{
+  "type": "custom-link",
+  "link": "https://github.com",
+  "label": "GitHub"
+}
+```
+
 ### Complete Example
 
 Here is a complete example using the three types above:
@@ -156,6 +186,11 @@ Here is a complete example using the three types above:
     "label": "Advanced",
     "collapsible": true,
     "collapsed": false
+  },
+  {
+    "type": "custom-link",
+    "link": "/my-link",
+    "label": "My Link"
   }
 ]
 ```

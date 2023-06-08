@@ -132,6 +132,10 @@ export type RemOptions = {
   pxtorem?: PxToRemOptions;
 };
 
+export type CssModules = {
+  auto?: boolean | RegExp | ((resourcePath: string) => boolean);
+};
+
 export interface SharedOutputConfig {
   /**
    * Set the directory of the dist files.
@@ -183,6 +187,17 @@ export interface SharedOutputConfig {
    * Set the local ident name of CSS modules.
    */
   cssModuleLocalIdentName?: string;
+
+  /**
+   * Allows to enable/disable CSS Modules or setup configuration.
+   */
+  cssModules?: CssModules;
+
+  /**
+   * Convert px to rem in CSS.
+   */
+  convertToRem?: boolean | RemOptions;
+
   /**
    * Disable css extract and inline CSS files into the JS bundle.
    */

@@ -38,7 +38,7 @@ export default () => {
 
 By default, only files ending in `*.module.css` are treated CSS Modules.
 
-If you want to treat all CSS files in the source directory as CSS Modules, you can enable the [output.disableCssModuleExtension](/en/api/config-output.html#outputdisablecssmoduleextension) config, for example:
+If you want to treat all CSS files in the source directory as CSS Modules, you can enable the [output.disableCssModuleExtension](https://modernjs.dev/builder/en/api/config-output.html#outputdisablecssmoduleextension) config, for example:
 
 ```ts
 export default {
@@ -58,6 +58,24 @@ import styles2 from './bar.css';
 :::tip
 We do not recommend enabling this config, because after enabling disableCssModuleExtension, CSS Modules files and ordinary CSS files cannot be clearly distinguished, which is not conducive to long-term maintenance.
 :::
+
+## Enable CSS Modules for the specified style file
+
+By default, only files ending in `*.module.css` are treated CSS Modules.
+
+If you want to enable CSS Modules only for specified style files, you can configure [output.cssModules](/api/config-output.html#outputcssmodule), for example:
+
+```ts
+export default {
+  output: {
+    cssModules: {
+      auto: resource => {
+        return resource.includes('.module.') || resource.includes('shared/');
+      },
+    },
+  },
+};
+```
 
 ## Custom Class Names
 

@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.22.0",
+  "version": "2.22.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -57,15 +57,14 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@babel/preset-typescript": "^7.21.5",
-    "@rspack/core": "0.0.0-canary-e8556c5-20230601010039",
-    "@rspack/dev-client": "0.0.0-canary-e8556c5-20230601010039",
-    "@rspack/dev-middleware": "0.0.0-canary-e8556c5-20230601010039",
-    "@rspack/plugin-html": "0.0.0-canary-e8556c5-20230601010039",
+    "@rspack/core": "0.2.1",
+    "@rspack/dev-client": "0.2.1",
+    "@rspack/dev-middleware": "0.2.1",
+    "@rspack/plugin-html": "0.2.1",
     "rspack-manifest-plugin": "5.0.0-alpha0",
     "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",
     "react-refresh": "0.14.0",
-    "rspack-plugin-virtual-module": "0.1.0",
     "webpack": "^5.82.1"
   },
   "devDependencies": {
@@ -80,7 +79,7 @@
     "react-dom": "^18"
   },
   "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.22.0"
+    "@modern-js/e2e": "workspace:^2.22.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/e2e": {
