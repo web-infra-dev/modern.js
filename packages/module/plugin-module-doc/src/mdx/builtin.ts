@@ -6,7 +6,7 @@ import type { MdxjsEsm } from 'mdast-util-mdxjs-esm';
 import { PACKAGE_ROOT, PropsMarkdownMap } from '../constants';
 import { ModuleDocgenLanguage } from '../types';
 
-// FIXME: import type from third party package
+// FIXME: import type from third-party package
 type MDXJsxFlowElement = {
   type: string;
   name: string;
