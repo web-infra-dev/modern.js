@@ -1,8 +1,10 @@
 import path from 'path';
 import { fs, fastGlob } from '@modern-js/utils';
 import { pluginPreview } from '@modern-js/doc-plugin-preview';
+import type { UserConfig } from '@modern-js/doc-core';
 import { Options, ModuleDocgenLanguage } from '../types';
 import { remarkBuiltIn } from '../mdx/builtin';
+import { mergeModuleDocConfig } from '../utils';
 
 export async function launchDoc({
   languages,
@@ -16,7 +18,7 @@ export async function launchDoc({
   );
   const root = path.join(appDir, 'docs');
   const DEFAULT_LANG = languages[0];
-  const { dev, build, mergeDocConfig } = await import('@modern-js/doc-core');
+  const { dev, build } = await import('@modern-js/doc-core');
   const getLangPrefixInLink = (language: ModuleDocgenLanguage) =>
     language === DEFAULT_LANG ? '' : `/${language}`;
   const getSidebar = (lang: 'zh' | 'en') => {
@@ -45,7 +47,7 @@ export async function launchDoc({
       ],
     };
   };
-  const modernDocConfig = mergeDocConfig(
+  const modernDocConfig = mergeModuleDocConfig<UserConfig>(
     {
       doc: {
         root,
