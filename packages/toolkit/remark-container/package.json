@@ -6,6 +6,11 @@
   "main": "./dist/index.js",
   "module": "./dist/node/index.js",
   "author": "yangxingyuan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/toolkit/remark-container"
+  },
   "scripts": {
     "dev": "modern-lib dev",
     "build": "modern-lib build",

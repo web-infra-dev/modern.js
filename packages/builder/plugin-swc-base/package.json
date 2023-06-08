@@ -2,6 +2,11 @@
   "name": "@modern-js/builder-plugin-swc-base",
   "version": "2.22.1",
   "description": "SWC plugin for builder in Modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/plugin-swc-base"
+  },
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
