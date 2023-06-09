@@ -685,7 +685,7 @@ export default {
 - plugins
 - processOptions
 
-See [postcss](https://github.com/postcss/postcss#options) for detailed configuration
+See [PostCSS](https://github.com/postcss/postcss#options) for detailed configuration
 
 ### inject
 
