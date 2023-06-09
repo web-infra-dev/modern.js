@@ -1,14 +1,37 @@
 - **类型：** `string | Object`
 - **默认值：** `null`
 
-配置该选项后，开发环境时会启动全局代理，类似 [Fiddler](https://www.telerik.com/fiddler), [Charles](https://www.charlesproxy.com/) 等 web 代理调试工具，可以用来查看、修改 HTTP/HTTPS 请求、响应、也可以用作代理服务器。
+该选项用于在开发环境下启用基于 [whistle](https://wproxy.org/whistle/) 的全局代理，可以用来查看、修改 HTTP/HTTPS 请求、响应、也可以用作代理服务器。
 
-:::tip 提示
-使用该选项需要提前安装 `@modern-js/plugin-proxy`。
+### 注册插件
 
-:::
+使用该选项前，你需要提前安装和注册 `@modern-js/plugin-proxy` 插件：
 
-值为 `Object` 时，对象的 `key` 对应匹配的 `pattern`，对象的 `value` 对应匹配的 `target`。
+```bash
+# npm
+npm add @modern-js/plugin-proxy -D
+
+# yarn
+yarn add @modern-js/plugin-proxy -D
+
+# pnpm
+pnpm add @modern-js/plugin-proxy -D
+```
+
+安装完成后，在 `modern.config.ts` 文件中注册插件：
+
+```ts title="modern.config.ts"
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import proxyPlugin from '@modern-js/plugin-proxy';
+
+export default defineConfig({
+  plugins: [appTools(), proxyPlugin()],
+});
+```
+
+### Object 类型
+
+`dev.proxy` 的值为 `Object` 时，对象的 `key` 对应匹配的 `pattern`，对象的 `value` 对应匹配的 `target`。
 
 例如：
 
@@ -24,7 +47,11 @@ export default defineConfig({
 });
 ```
 
-值为 `string` 时， 可以用来指定单独的代理文件，例如：
+请参考 [whistle - 匹配模式](https://wproxy.org/whistle/pattern.html) 来了解详细用法。
+
+### String 类型
+
+`dev.proxy` 的值为 `string` 时， 可以用来指定单独的代理文件，例如：
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -43,10 +70,7 @@ module.exports = {
 };
 ```
 
-:::info
-Modern.js 全局代理实现底层基于 [whistle](https://wproxy.org/whistle/), 更多匹配模式请参考: [匹配模式](https://wproxy.org/whistle/pattern.html)
-
-:::
+### 启动代理
 
 执行 `dev`, 提示如下时，即代理服务器启动成功：
 
@@ -64,7 +88,7 @@ Modern.js 全局代理实现底层基于 [whistle](https://wproxy.org/whistle/),
 
 ![proxy ui 界面](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/dev-proxy.png)
 
-:::caution 注意
+:::info
 https 代理自动安装证书需要获取 root 权限, 请根据提示输入密码即可。**密码仅在信任证书时使用，不会泄漏或者用于其他环节**。
 
 :::
