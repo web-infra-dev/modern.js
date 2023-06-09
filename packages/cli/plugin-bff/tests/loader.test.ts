@@ -5,7 +5,7 @@ import { compiler } from './compiler';
 const apiDir = path.resolve(__dirname, './fixtures/function/api');
 const filepath = path.resolve(__dirname, './fixtures/function/api/hello.ts');
 
-initSnapshotSerializer({ cwd: __dirname });
+initSnapshotSerializer({ cwd: path.resolve(__dirname) });
 
 describe('bff loader', () => {
   it('should works well', async () => {

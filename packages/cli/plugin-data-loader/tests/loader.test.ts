@@ -8,7 +8,7 @@ import { compiler } from './compiler';
 // @ts-expect-error
 global.setImmediate = setTimeout;
 
-initSnapshotSerializer({ cwd: __dirname });
+initSnapshotSerializer({ cwd: path.resolve(__dirname) });
 
 describe('data loader', () => {
   let id = 0;
