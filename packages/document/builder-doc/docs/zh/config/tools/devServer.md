@@ -140,8 +140,6 @@ export default {
 }
 ```
 
-- **打包工具：** `仅支持 webpack`
-
 devMiddleware 配置项。当前配置是 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) 配置项的子集.
 
 #### headers
