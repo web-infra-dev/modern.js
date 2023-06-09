@@ -5,7 +5,7 @@ exports[`bff cli plugin config 1`] = `
   {
     "source": {
       "moduleScopes": [
-        "./api",
+        "api",
         /create-request/,
       ],
     },
