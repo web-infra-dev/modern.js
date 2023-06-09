@@ -155,9 +155,6 @@ importers:
       '@rspack/dev-client':
         specifier: 0.2.1
         version: 0.2.1(react-refresh@0.14.0)(webpack@5.82.1)
-      '@rspack/dev-middleware':
-        specifier: 0.2.1
-        version: 0.2.1(webpack@5.82.1)
       '@rspack/plugin-html':
         specifier: 0.2.1
         version: 0.2.1(@rspack/core@0.2.1)
@@ -12749,21 +12746,6 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-middleware@0.2.1(webpack@5.82.1):
-    resolution: {integrity: sha512-K42kkXsfi7xQGCm19VczAGGX/CYk2JZcNDdLjSeIppejPXDn/3GVHijG+fbqa/eyPEvzWy10cZ7+bDmoW5rCmQ==}
-    dependencies:
-      '@rspack/core': 0.2.1(webpack@5.82.1)
-      webpack-dev-middleware: 6.0.2(webpack@5.82.1)
-    transitivePeerDependencies:
-      - '@types/webpack'
-      - sockjs-client
-      - type-fest
-      - webpack
-      - webpack-dev-server
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-    dev: false
-
   /@rspack/plugin-html@0.2.1(@rspack/core@0.2.1):
     resolution: {integrity: sha512-Qn3tUJrG8WmNmCBKzwFxCBk96teQ/g9wzNytMucgC35efSCfgFW5PvtSk+vlIztccLmbBMngl2+qoBUU2+UUUA==}
     peerDependencies:
@@ -17867,6 +17849,7 @@ packages:
 
   /colorette@2.0.19:
     resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==}
+    dev: true
 
   /colors@1.1.2:
     resolution: {integrity: sha512-ENwblkFQpqqia6b++zLD/KUWafYlVY/UNnAp7oz7LY7E924wmpye416wBOmvv/HMWzl8gL1kJlfvId/1Dg176w==}
@@ -33427,23 +33410,6 @@ packages:
       schema-utils: 4.0.0
       webpack: 5.82.1(esbuild@0.15.7)
     dev: true
-
-  /webpack-dev-middleware@6.0.2(webpack@5.82.1):
-    resolution: {integrity: sha512-iOddiJzPcQC6lwOIu60vscbGWth8PCRcWRCwoQcTQf9RMoOWBHg5EyzpGdtSmGMrSPd5vHEfFXmVErQEmkRngQ==}
-    engines: {node: '>= 14.15.0'}
-    peerDependencies:
-      webpack: ^5.0.0
-    peerDependenciesMeta:
-      webpack:
-        optional: true
-    dependencies:
-      colorette: 2.0.19
-      memfs: 3.5.1
-      mime-types: 2.1.35
-      range-parser: 1.2.1
-      schema-utils: 4.0.0
-      webpack: 5.82.1(esbuild@0.15.7)
-    dev: false
 
   /webpack-filter-warnings-plugin@1.2.1(webpack@4.46.0):
     resolution: {integrity: sha512-Ez6ytc9IseDMLPo0qCuNNYzgtUl8NovOqjIq4uAU8LTD4uoa1w1KpZyyzFtLTEMZpkkOkLfL9eN+KGYdk1Qtwg==}

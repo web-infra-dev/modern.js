@@ -140,8 +140,6 @@ export default {
 }
 ```
 
-- **Bundler:** `only support webpack`
-
 The config of devMiddleware. Current options is the subset of [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware).
 
 #### headers
