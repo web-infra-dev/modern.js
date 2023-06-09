@@ -47,7 +47,7 @@ const renderPageRoute = async (
   expect(errors.length).toEqual(0);
 };
 
-const renderDynamaticRoute = async (
+const renderDynamicRoute = async (
   page: Page,
   errors: string[],
   appPort: number,
@@ -484,7 +484,7 @@ describe('dev', () => {
       renderPageRoute(page, errors, appPort));
 
     test('render dynamic pages route correctly', async () =>
-      renderDynamaticRoute(page, errors, appPort));
+      renderDynamicRoute(page, errors, appPort));
 
     test('support global layout', async () =>
       supportGlobalLayout(page, errors, appPort));
@@ -580,7 +580,7 @@ describe('build', () => {
       renderPageRoute(page, errors, appPort));
 
     test('render dynamic pages route correctly', async () =>
-      renderDynamaticRoute(page, errors, appPort));
+      renderDynamicRoute(page, errors, appPort));
 
     test('render options params pages route correctly', async () =>
       renderOptionalParamsRoute(page, errors, appPort));

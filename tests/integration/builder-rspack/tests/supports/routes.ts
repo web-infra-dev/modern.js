@@ -29,7 +29,7 @@ export const renderPageRoute = async (
   expect(errors.length).toEqual(0);
 };
 
-export const renderDynamaticRoute = async (
+export const renderDynamicRoute = async (
   errors: string[],
   appPort: number,
   page: Page,
