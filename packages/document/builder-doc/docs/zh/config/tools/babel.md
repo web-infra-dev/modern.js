@@ -7,7 +7,7 @@
 
 请留意 `tools.babel` 在以下使用场景中的局限性：
 
-- Rspack 场景：在使用 Rspack 作为打包工具时，使用 `tools.babel` 配置项将会明显拖慢 Rspack 构建速度。因为 Rspack 默认使用的是 SWC 编译，配置 Babel 会导致代码需要编译两次，产生额外的编译开销。
+- Rspack 场景：在使用 Rspack 作为打包工具时，使用 `tools.babel` 配置项将会明显拖慢 Rspack 构建速度。因为 Rspack 默认使用的是 SWC 编译，配置 Babel 会导致代码需要被编译两次，产生了额外的编译开销。
 - webpack + SWC 场景：在使用 webpack 作为打包工具时，如果你使用了 Builder 的 SWC 插件进行代码编译，那么 `tools.babel` 选项将不会生效。
 
 ### Function 类型
