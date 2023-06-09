@@ -50,9 +50,9 @@ type options = {
 
 ### targets
 
-See [babel target](https://babeljs.io/docs/options#targets).
+参考 [Babel target](https://babeljs.io/docs/options#targets).
 
-This is a example.
+下面是一个例子：
 
 ```ts
 import moduleTools, { defineConfig } from '@modern-js/module-tools';

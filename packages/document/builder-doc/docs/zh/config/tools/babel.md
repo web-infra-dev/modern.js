@@ -3,13 +3,16 @@
 
 通过 `tools.babel` 可以修改 [babel-loader](https://github.com/babel/babel-loader) 的配置项。
 
-:::warning
-在使用 Rspack 作为打包工具时，使用该配置项将在一定程度上拖慢 Rspack 构建速度。因为 Rspack 默认使用的是 SWC 编译，配置 Babel 时会产生额外的编译开销。
-:::
+### 使用场景
+
+请留意 `tools.babel` 在以下使用场景中的局限性：
+
+- Rspack 场景：在使用 Rspack 作为打包工具时，使用 `tools.babel` 配置项将会明显拖慢 Rspack 构建速度。因为 Rspack 默认使用的是 SWC 编译，配置 Babel 会导致代码需要编译两次，产生额外的编译开销。
+- webpack + SWC 场景：在使用 webpack 作为打包工具时，如果你使用了 Builder 的 SWC 插件进行代码编译，那么 `tools.babel` 选项将不会生效。
 
 ### Function 类型
 
-当 `tools.babel` 为 Function 类型时，默认配置作为第一个参数传入，可以直接修改配置对象，也可以返回一个值作为最终结果，第二个参数提供了一些可以直接调用的工具函数：
+当 `tools.babel` 为 Function 类型时，默认 Babel 配置会作为第一个参数传入，你可以直接修改配置对象，也可以返回一个对象作为最终的 `babel-loader` 配置。
 
 ```js
 export default {
@@ -28,6 +31,8 @@ export default {
   },
 };
 ```
+
+`tools.babel` 函数的第二个参数提供了一些方便的工具函数，请继续阅读下方文档。
 
 :::tip
 以上示例仅作为参考，通常来说，你不需要手动配置 `babel-plugin-import`，因为 Builder 已经提供了更通用的 `source.transformImport` 配置。
@@ -216,3 +221,19 @@ export default {
   },
 };
 ```
+
+### 调试 Babel 配置
+
+当你通过 `tools.babel` 修改 `babel-loader` 配置后，可以在 [Builder 调试模式](https://modernjs.dev/builder/guide/debug/debug-mode.html) 下查看最终生成的配置。
+
+首先通过 `DEBUG=builder` 参数开启调试模式：
+
+```bash
+# 调试开发环境
+DEBUG=builder pnpm dev
+
+# 调试生产环境
+DEBUG=builder pnpm build
+```
+
+然后打开生成的 `(webpack|rspack).config.web.js`，搜索 `babel-loader` 关键词，即可看到完整的 `babel-loader` 配置内容。

@@ -65,14 +65,14 @@ Solution:
 
 ### Find `exports is not defined` runtime error?
 
-If the compilation is succeed, but the `exports is not defined` error appears after opening the page, it is usually because a CommonJS module is compiled by babel.
+If the compilation is succeed, but the `exports is not defined` error appears after opening the page, it is usually because a CommonJS module is compiled by Babel.
 
-Under normal circumstances, Builder will not use babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#sourceinclude) configuration item is used in the project, or the [tools.babel](/en/api/config-tools.html#tools -babel) `addIncludes` method, some CommonJS modules may be added to the babel compilation.
+Under normal circumstances, Builder will not use Babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#sourceinclude) configuration item is used in the project, or the [tools.babel](/en/api/config-tools.html#tools-babel) `addIncludes` method, some CommonJS modules may be added to the Babel compilation.
 
 There are two workarounds for this problem:
 
-1. Avoid adding CommonJS modules to babel compilation.
-2. Set babel's `sourceType` configuration item to `unambiguous`, for example:
+1. Avoid adding CommonJS modules to Babel compilation.
+2. Set Babel's `sourceType` configuration item to `unambiguous`, for example:
 
 ```js
 export default {
@@ -84,13 +84,13 @@ export default {
 };
 ```
 
-Setting `sourceType` to `unambiguous` may have some other effects, please refer to [babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
+Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
 
 ---
 
 ### Compile error "Error: ES Modules may not assign module.exports or exports.\*, Use ESM export syntax"?
 
-If the following error occurs during compilation, it is usually because a CommonJS module is compiled with babel in the project, and the solution is same as the above `exports is not defined` problem.
+If the following error occurs during compilation, it is usually because a CommonJS module is compiled with Babel in the project, and the solution is same as the above `exports is not defined` problem.
 
 ```bash
 Error: ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: 581
