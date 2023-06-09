@@ -8,7 +8,7 @@ As a client-centric development framework, Modern.js has weak server-side custom
 
 Some developers may be wondering, Modern.js already provides [BFF](/guides/advanced-features/bff/function.html), why you need **Custom Web Server**.
 
-The reason is that by default, page routing does not go through BFF, it has no way to provide server-side custom logic for page access. The reason for this design is that we do not want the service that controls the page to be bound to the BFF service, This is to avoid the BFF framework restricting how the page is deployed.
+The reason is that by default, page routing does not go through BFF, it has no way to provide server-side custom logic for page access. The reason for this design is that we do not want the service that controls the page to be bound to the BFF service, this is to avoid the BFF framework restricting how the page is deployed.
 
 For example, hosting pages separately from BFF, deploying page services to non-Node environments, customizing for deployment platforms, etc.
 
