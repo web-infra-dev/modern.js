@@ -155,9 +155,6 @@ importers:
       '@rspack/dev-client':
         specifier: 0.2.1
         version: 0.2.1(react-refresh@0.14.0)(webpack@5.82.1)
-      '@rspack/dev-middleware':
-        specifier: 0.2.1
-        version: 0.2.1(webpack@5.82.1)
       '@rspack/plugin-html':
         specifier: 0.2.1
         version: 0.2.1(@rspack/core@0.2.1)
@@ -1432,9 +1429,6 @@ importers:
       eslint:
         specifier: ^8.28.0
         version: 8.28.0
-      eslint-formatter-codeframe:
-        specifier: ^7.32.1
-        version: 7.32.1
       husky:
         specifier: ^8.0.0
         version: 8.0.1
@@ -8446,12 +8440,6 @@ packages:
       '@ast-grep/napi-win32-ia32-msvc': 0.1.13
       '@ast-grep/napi-win32-x64-msvc': 0.1.13
 
-  /@babel/code-frame@7.12.11:
-    resolution: {integrity: sha512-Zt1yodBx1UcyiePMSkWnU4hPqhwq7hGi2nFL1LeA3EUl+q2LQx16MISgJ0+z7dnmgvP9QtIleuETGOiOH1RcIw==}
-    dependencies:
-      '@babel/highlight': 7.18.6
-    dev: false
-
   /@babel/code-frame@7.21.4:
     resolution: {integrity: sha512-LYvhNKfwWSPpocw8GI7gpK2nq3HSDuEPC/uSYaALSJu9xjsalaaYFOq0Pwt5KmVqwEbZlDu81aLXwBOmD/Fv9g==}
     engines: {node: '>=6.9.0'}
@@ -12748,21 +12736,6 @@ packages:
     dependencies:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack@5.82.1)
       react-refresh: 0.14.0
-    transitivePeerDependencies:
-      - '@types/webpack'
-      - sockjs-client
-      - type-fest
-      - webpack
-      - webpack-dev-server
-      - webpack-hot-middleware
-      - webpack-plugin-serve
-    dev: false
-
-  /@rspack/dev-middleware@0.2.1(webpack@5.82.1):
-    resolution: {integrity: sha512-K42kkXsfi7xQGCm19VczAGGX/CYk2JZcNDdLjSeIppejPXDn/3GVHijG+fbqa/eyPEvzWy10cZ7+bDmoW5rCmQ==}
-    dependencies:
-      '@rspack/core': 0.2.1(webpack@5.82.1)
-      webpack-dev-middleware: 6.0.2(webpack@5.82.1)
     transitivePeerDependencies:
       - '@types/webpack'
       - sockjs-client
@@ -17876,6 +17849,7 @@ packages:
 
   /colorette@2.0.19:
     resolution: {integrity: sha512-3tlv/dIP7FWvj3BsbHrGLJ6l/oKh1O3TcgBqMn+yyCagOxc23fyzDS6HypQbgxWbkpDnf52p1LuR4eWDQ/K9WQ==}
+    dev: true
 
   /colors@1.1.2:
     resolution: {integrity: sha512-ENwblkFQpqqia6b++zLD/KUWafYlVY/UNnAp7oz7LY7E924wmpye416wBOmvv/HMWzl8gL1kJlfvId/1Dg176w==}
@@ -20385,14 +20359,6 @@ packages:
       window-size: 0.3.0
       yargs: 16.2.0
     dev: true
-
-  /eslint-formatter-codeframe@7.32.1:
-    resolution: {integrity: sha512-DK/3Q3+zVKq/7PdSYiCxPrsDF8H/TRMK5n8Hziwr4IMkMy+XiKSwbpj25AdajS63I/B61Snetq4uVvX9fOLyAg==}
-    engines: {node: ^10.12.0 || >=12.0.0}
-    dependencies:
-      '@babel/code-frame': 7.12.11
-      chalk: 4.1.2
-    dev: false
 
   /eslint-import-resolver-node@0.3.6:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
@@ -33444,23 +33410,6 @@ packages:
       schema-utils: 4.0.0
       webpack: 5.82.1(esbuild@0.15.7)
     dev: true
-
-  /webpack-dev-middleware@6.0.2(webpack@5.82.1):
-    resolution: {integrity: sha512-iOddiJzPcQC6lwOIu60vscbGWth8PCRcWRCwoQcTQf9RMoOWBHg5EyzpGdtSmGMrSPd5vHEfFXmVErQEmkRngQ==}
-    engines: {node: '>= 14.15.0'}
-    peerDependencies:
-      webpack: ^5.0.0
-    peerDependenciesMeta:
-      webpack:
-        optional: true
-    dependencies:
-      colorette: 2.0.19
-      memfs: 3.5.1
-      mime-types: 2.1.35
-      range-parser: 1.2.1
-      schema-utils: 4.0.0
-      webpack: 5.82.1(esbuild@0.15.7)
-    dev: false
 
   /webpack-filter-warnings-plugin@1.2.1(webpack@4.46.0):
     resolution: {integrity: sha512-Ez6ytc9IseDMLPo0qCuNNYzgtUl8NovOqjIq4uAU8LTD4uoa1w1KpZyyzFtLTEMZpkkOkLfL9eN+KGYdk1Qtwg==}
