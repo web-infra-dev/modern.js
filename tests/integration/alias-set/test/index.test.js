@@ -36,7 +36,7 @@ describe('test build', () => {
     const errors = [];
 
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       dumpio: true,
       args: ['--no-sandbox'],
     });

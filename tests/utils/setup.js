@@ -9,7 +9,7 @@ const DIR = path.join(os.tmpdir(), 'jest_puppeteer_global_setup');
 module.exports = async function () {
   const browser = await puppeteer.launch({
     args: ['--no-sandbox'],
-    // headless: false,
+    headless: 'new',
   });
   // store the browser instance so we can teardown it later
   // this global is only available in the teardown but not in TestEnvironments
