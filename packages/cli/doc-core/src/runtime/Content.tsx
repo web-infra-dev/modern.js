@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { ReactNode, Suspense } from 'react';
 import { matchRoutes, useLocation } from 'react-router-dom';
 import { normalizeRoutePath } from './utils';
 
@@ -6,18 +6,16 @@ const { routes } = process.env.__SSR__
   ? (require('virtual-routes-ssr') as typeof import('virtual-routes-ssr'))
   : (require('virtual-routes') as typeof import('virtual-routes'));
 
-export const Content = () => {
+export const Content = ({ fallback = <></> }: { fallback?: ReactNode }) => {
   const { pathname } = useLocation();
   const matched = matchRoutes(routes, normalizeRoutePath(pathname));
   if (!matched) {
     return <div></div>;
   }
   const routesElement = matched[0].route.element;
-  // There is no need to use Suspense in SSR mode
-  // The component in SSR is imported synchronously
-  return process.env.__SSR__ ? (
-    routesElement
-  ) : (
-    <Suspense fallback={<></>}>{routesElement}</Suspense>
-  );
+  // React 17 Suspense SSR is not supported
+  if (!process.env.__IS_REACT_18__ || process.env.__SSR__) {
+    return routesElement;
+  }
+  return <Suspense fallback={fallback}>{routesElement}</Suspense>;
 };
