@@ -7,9 +7,9 @@ export default function Demo() {
   // get the id from the pathname
   const { pathname } = useLocation();
   const id = pathname.split('/').pop();
-  const validId = toValidVarName(id || '');
+  const normalizedId = normalizeId(id || '');
   // get component from virtual-meta
-  const result = demos.flat().find(item => item.id === validId);
+  const result = demos.flat().find(item => item.id === normalizedId);
   if (result) {
     return <NoSSR>{createElement(result.component)}</NoSSR>;
   } else {
@@ -17,3 +17,13 @@ export default function Demo() {
     return null;
   }
 }
+
+/**
+ * remove .html extension and validate
+ * @param routePath id from pathname
+ * @returns normalized id
+ */
+const normalizeId = (routePath: string) => {
+  const result = routePath.replace(/\.(.*)?$/, '');
+  return toValidVarName(result);
+};
