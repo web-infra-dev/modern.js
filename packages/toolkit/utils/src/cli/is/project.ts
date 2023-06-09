@@ -59,7 +59,7 @@ export const isApiOnly = async (
   apiDir?: string,
 ): Promise<boolean> => {
   const existApi = await fs.pathExists(
-    path.join(appDirectory, apiDir ?? 'api'),
+    apiDir ?? path.join(appDirectory, 'api'),
   );
   const existSrc = await fs.pathExists(
     path.join(appDirectory, entryDir ?? 'src'),

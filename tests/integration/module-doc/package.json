@@ -61,9 +61,5 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
-  "sideEffects": [],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  }
+  "sideEffects": []
 }
