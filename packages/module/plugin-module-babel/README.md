@@ -1,8 +1,8 @@
 # @modern-js/plugin-module-babel
 
-The babel plugin of Modern.js Module Tools.
+The Babel plugin of Modern.js Module Tools.
 
-You can add babel compile by the plugin before module-tools internal building.
+You can add Babel compile by the plugin before module-tools internal building.
 
 ## Usage
 

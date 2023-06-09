@@ -742,7 +742,7 @@ export default defineConfig({
 - plugins
 - processOptions
 
-详细配置查看 [postcss](https://github.com/postcss/postcss#options)。
+详细配置查看 [PostCSS](https://github.com/postcss/postcss#options)。
 
 ### inject
 

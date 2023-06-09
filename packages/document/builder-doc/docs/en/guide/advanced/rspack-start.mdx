@@ -180,7 +180,7 @@ More information about Rspack, please refer to the [Rspack website](https://www.
 
 ### 4. Babel Configuration Migration
 
-By default, Rspack uses SWC for transpilation and compression. Therefore, when using Rspack for building, babel-loader is not loaded by default.
+By default, Rspack uses SWC for transpilation and compression. Therefore, when using Rspack as the bundler, `babel-loader` is not loaded by default.
 
 For most common Babel plugins, you can find corresponding alternatives in Rspack, and there are also corresponding compatible configuration options in Builder.
 
@@ -228,17 +228,17 @@ Usually, after enabling Rspack, there will be a 5 to 10 times improvement in com
 
 The following behaviors are currently known to slow down Rspack build performance to some extent:
 
-##### Using configuration options or plugins that rely on babel
+##### Using configuration options or plugins that rely on Babel
 
 When using Rspack to build, babel-loader is not enabled by default.
 
-However, when a project uses configuration options or plugins implemented with babel, an additional babel-loader will be added for file transpilation:
+However, when a project uses configuration options or plugins implemented with Babel, an additional babel-loader will be added for file transpilation:
 
-- Add the babel plugin via [tools.babel](/api/config-tools.html#toolsbabel)
+- Add the Babel plugin via [tools.babel](/api/config-tools.html#toolsbabel)
 - Use [Modern.js SSR feature](https://modernjs.dev/en/guides/advanced-features/ssr.html)
 - ...
 
-You can check whether the babel plugin exists in the final generated Rspack configuration by using [debug mode](/guide/debug/debug-mode.html).
+You can check whether the Babel plugin exists in the final generated Rspack configuration by using [debug mode](/guide/debug/debug-mode.html).
 
 ##### Enable TypeScript type checking
 
