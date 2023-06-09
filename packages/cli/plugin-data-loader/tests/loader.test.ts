@@ -8,7 +8,7 @@ import { compiler } from './compiler';
 // @ts-expect-error
 global.setImmediate = setTimeout;
 
-initSnapshotSerializer({ cwd: path.resolve(__dirname) });
+initSnapshotSerializer({ cwd: __dirname });
 
 describe('data loader', () => {
   let id = 0;
@@ -16,10 +16,7 @@ describe('data loader', () => {
   const mapFile = path.join(__dirname, 'fixtures/loader/map.json');
   const dataLoaderPath = `${path.resolve(__dirname, '../src/cli/loader.ts')}!`;
 
-  const loaderPath = `${dataLoaderPath}./loader?mapFile=${mapFile}`.replace(
-    /\\/g,
-    '/',
-  );
+  const loaderPath = `${dataLoaderPath}./loader?mapFile=${mapFile}`;
 
   const code = `
   import loader from '${loaderPath}';
