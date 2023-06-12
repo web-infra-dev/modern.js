@@ -234,6 +234,9 @@ importers:
       cheerio:
         specifier: 1.0.0-rc.12
         version: 1.0.0-rc.12
+      cssnano:
+        specifier: 6.0.0
+        version: 6.0.0(postcss@8.4.21)
       fork-ts-checker-webpack-plugin:
         specifier: 8.0.0
         version: 8.0.0(typescript@5.0.4)(webpack@5.82.1)
@@ -313,9 +316,6 @@ importers:
       css-minimizer-webpack-plugin:
         specifier: 5.0.0
         version: 5.0.0(esbuild@0.15.7)(webpack@5.82.1)
-      cssnano:
-        specifier: 6.0.0
-        version: 6.0.0(postcss@8.4.21)
       html-webpack-plugin:
         specifier: 5.5.0
         version: 5.5.0(webpack@5.82.1)

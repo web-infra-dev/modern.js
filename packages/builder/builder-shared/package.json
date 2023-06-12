@@ -108,6 +108,7 @@
     "acorn": "^8.8.1",
     "caniuse-lite": "^1.0.30001489",
     "cheerio": "1.0.0-rc.12",
+    "cssnano": "6.0.0",
     "postcss": "8.4.21",
     "source-map": "^0.7.4",
     "webpack": "^5.82.1",

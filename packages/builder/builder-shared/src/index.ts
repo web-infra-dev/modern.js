@@ -29,3 +29,4 @@ export * from './svgo';
 export * from './patch';
 export * from './polyfill';
 export * from './manifest';
+export * from './css';
