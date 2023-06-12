@@ -23,6 +23,8 @@ async function applyTsProject({
       {
         cwd,
         extensions,
+        // Enable source code build mode for monorepo
+        loadClosestTsConfig: true,
       },
     ]);
 }
