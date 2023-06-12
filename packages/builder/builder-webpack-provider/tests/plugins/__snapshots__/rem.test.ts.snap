@@ -277,7 +277,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
           {
             "loader": "<ROOT>/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -349,7 +349,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
           {
             "loader": "<ROOT>/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -607,7 +607,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
           {
             "loader": "<ROOT>/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -679,7 +679,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
           {
             "loader": "<ROOT>/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
