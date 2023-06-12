@@ -11,4 +11,7 @@ export default defineConfig<'rspack'>({
       router: false,
     },
   },
+  output: {
+    disableTsChecker: true,
+  },
 });

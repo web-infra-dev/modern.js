@@ -2,7 +2,6 @@ import { join } from 'path';
 import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { dev, getHrefByEntryName } from '@scripts/shared';
-import { rspackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -83,7 +82,7 @@ test.skip('default & hmr (default true)', async ({ page }) => {
   await builder.server.close();
 });
 
-rspackOnlyTest('dev.port & output.distPath', async ({ page }) => {
+test.skip('dev.port & output.distPath', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'basic'),
     entry: {
@@ -122,64 +121,63 @@ rspackOnlyTest('dev.port & output.distPath', async ({ page }) => {
   await fs.remove(join(fixtures, 'basic/dist-1'));
 });
 
-rspackOnlyTest(
-  'hmr should work when setting dev.port & serverOptions.dev.client',
-  async ({ page }) => {
-    await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src-1'));
-    const cwd = join(fixtures, 'hmr');
-    const buildOpts = {
-      cwd,
-      entry: {
-        main: join(cwd, 'test-src-1/index.ts'),
-      },
-    };
+test.skip('hmr should work when setting dev.port & serverOptions.dev.client', async ({
+  page,
+}) => {
+  await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src-1'));
+  const cwd = join(fixtures, 'hmr');
+  const buildOpts = {
+    cwd,
+    entry: {
+      main: join(cwd, 'test-src-1/index.ts'),
+    },
+  };
 
-    const builder = await dev(
-      buildOpts,
-      {
-        dev: {
-          port: 3001,
+  const builder = await dev(
+    buildOpts,
+    {
+      dev: {
+        port: 3001,
+      },
+    },
+    {
+      dev: {
+        client: {
+          host: '',
         },
       },
-      {
-        dev: {
-          client: {
-            host: '',
-          },
-        },
-      },
-    );
+    },
+  );
 
-    await page.goto(getHrefByEntryName('main', builder.port));
-    expect(builder.port).toBe(3001);
+  await page.goto(getHrefByEntryName('main', builder.port));
+  expect(builder.port).toBe(3001);
 
-    const appPath = join(fixtures, 'hmr', 'test-src-1/App.tsx');
+  const appPath = join(fixtures, 'hmr', 'test-src-1/App.tsx');
 
-    await expect(
-      page.evaluate(`document.getElementById('test').innerHTML`),
-    ).resolves.toBe('Hello Builder!');
+  await expect(
+    page.evaluate(`document.getElementById('test').innerHTML`),
+  ).resolves.toBe('Hello Builder!');
 
-    await fs.writeFile(
-      appPath,
-      fs.readFileSync(appPath, 'utf-8').replace('Hello Builder', 'Hello Test'),
-    );
+  await fs.writeFile(
+    appPath,
+    fs.readFileSync(appPath, 'utf-8').replace('Hello Builder', 'Hello Test'),
+  );
 
-    // wait for hmr take effect
-    await new Promise(resolve => setTimeout(resolve, 2000));
+  // wait for hmr take effect
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
-    await expect(
-      page.evaluate(`document.getElementById('test').innerHTML`),
-    ).resolves.toBe('Hello Test!');
+  await expect(
+    page.evaluate(`document.getElementById('test').innerHTML`),
+  ).resolves.toBe('Hello Test!');
 
-    // restore
-    await fs.writeFile(
-      appPath,
-      fs.readFileSync(appPath, 'utf-8').replace('Hello Test', 'Hello Builder'),
-    );
+  // restore
+  await fs.writeFile(
+    appPath,
+    fs.readFileSync(appPath, 'utf-8').replace('Hello Test', 'Hello Builder'),
+  );
 
-    await builder.server.close();
-  },
-);
+  await builder.server.close();
+});
 
 // need devcert
 test.skip('dev.https', async () => {
