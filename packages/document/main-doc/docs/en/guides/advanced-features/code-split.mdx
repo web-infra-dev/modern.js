@@ -31,7 +31,7 @@ The officially way provides by React to split component code.
 :::caution
 `React.lazy` is typically used in together with `<Suspense>`, hence it is only available in CSR or React 18 Streaming SSR.
 
-For projects that use String SSR, `React.lazy` is not supported. Please use the Loadable API instead.
+For projects that use Traditional SSR（renderToString）, `React.lazy` is not supported. Please use the Loadable API instead.
 :::
 
 ```ts
@@ -54,7 +54,7 @@ function MyComponent() {
 }
 ```
 
-For detail, see [React lazy](https://reactjs.org/docs/code-splitting.html#reactlazy).
+For details, see [React lazy](https://reactjs.org/docs/code-splitting.html#reactlazy).
 
 ## Loadable
 
@@ -78,4 +78,4 @@ However, it's important to note that any Loadable API in SSR does not support th
 If you want to use `<Suspense>` in CSR projects with React 17 and below, you can substitute `React.lazy` with `loadable.lazy`.
 :::
 
-For detail, see [Loadable API](/apis/app/runtime/utility/loadable).
+For details, see [Loadable API](/apis/app/runtime/utility/loadable).
