@@ -7,10 +7,9 @@ sidebar_label: proxy
 - **类型：** `Record<string, string>`
 - **默认值：** `{}`
 
-:::caution 注意
-请先在当前应用项目根目录使用【[new](/apis/app/commands#modern-new)】 启用 BFF 功能。
+import EnableBFFCaution from "@site-docs/components/enable-bff-caution";
 
-:::
+<EnableBFFCaution />
 
 通过简单配置，Modern.js 可以将发送给 BFF server 的请求，自动代理到指定的服务上。
 BFF Proxy 使用了强大的 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)，如果需要更多高级的用法， 可以查看它的[文档](https://github.com/chimurai/http-proxy-middleware#options)。
