@@ -2,18 +2,19 @@
 title: Static Site Generation
 sidebar_position: 4
 ---
+
 # Static Site Generation
 
-Static Site Generation is a solution for rendering complete static web pages at build time based on data and templates.
+SSG (Static Site Generation) is a solution based on data and templates that renders complete static web pages during the build process.
 
-First need to execute `pnpm run new` to enable the SSG features:
+First need to execute `pnpm run new` to enable the SSG feature:
 
 ```bash
 ? Please select the operation you want: Enable features
 ? Please select the feature name: Enable SSG
 ```
 
-After execute script, register SSG plugin in `modern.config.ts`:
+Register the SSG plugin in `modern.config.ts` after executing the command:
 
 ```ts title="modern.config.ts"
 import ssgPlugin from '@modern-js/plugin-ssg';
@@ -26,13 +27,13 @@ export default defineConfig({
 });
 ```
 
-SSG in **Conventional Routing** and **Self-controlled Routing** has different usage.
+The usage of SSG differs between the **Conventional Routing** and **Self-controlled Routing**.
 
-### Conventional Routing
+### Using with Conventional Routing
 
-Modern.js generate routes based on the file structure under the entry, so the framework can collect complete routing information.
+In the Conventional Routing of Modern.js, the framework generates routes based on the file structure under the entry point, so it can collect complete routing information.
 
-For example, the following is a project directory structure using conventional routing:
+For example, here is a project directory structure that uses conventional routing:
 
 ```bash
 .
@@ -54,11 +55,11 @@ The above file directory will generate the following three routes:
 - `/user/profile`
 
 :::note
-If you don't know the rules for routing, you can first check [routes](/guides/basic-features/routes).
+If you are not familiar with the rules of Conventional Routing, you can first check [routes](/guides/basic-features/routes).
 
 :::
 
-add component to `src/routes/page.tsx`:
+Add component code in `src/routes/page.tsx`:
 
 ```jsx title="src/routes/page.tsx"
 export default () => {
@@ -66,7 +67,7 @@ export default () => {
 };
 ```
 
-SSG is also render in Node.js. So we can enable SSR in developmenet env, expose code problems in advance and verify SSG rendering effect:
+SSG also renders pages in a Node.js environment, so we can **enable SSR during development** to expose code issues and validate SSG rendering effects in advance:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -80,21 +81,21 @@ Execute the `pnpm run dev` command in the project to view the `dist/` directory,
 
 Execute the `pnpm run build` command in the root path of the project. After the construction is completed, view the `dist/` directory, and generate `main/index.html`, `main/user/index.html` and `main/user/profile/index.html` three HTML files, the content corresponds to the above three routes.
 
-Using **Conventional Routing**, each route will generate a HTML file. Looking at the `main/index.html`, we can find the text content containing the `Index Page`, which is exactly the effect of SSG.
+Each route in the **Conventional Routing** will generate a separate HTML file. By viewing `main/index.html`, you can find the text content that includes the `Index Page`, which is exactly the effect of SSG.
 
 After executing `pnpm run serve` to start the project, visit the page in the Network, view the document returned by the request. The document contains the complete page content rendered by the component.
 
-### Self-controlled Routing
+### Using with Self-controlled Routing
 
-**Self-controlled routing** is a routing through component code, which requires the application to run to obtain accurate routing information. Therefore, the SSG function cannot be used out of the box. At this time, the user needs to inform the Modern.js framework in advance which routes need to enable the SSG.
+**Self-controlled routing** is a routing through component code, which requires the application to run to obtain accurate routing information. Therefore, the SSG function cannot be used out of the box. At this time, users needs to inform the Modern.js framework in advance which routes need to enable SSG.
 
-For example, there is the following code, which contains multiple routes. When setting `output.ssg` to `true`, only the entry route '/' will be rendered by default:
+For example, there is the following code which contains multiple routes. When setting `output.ssg` to `true`, only the entry route '/' will be rendered by default:
 
-import SelfRouteExample from "@site-docs/components/self-route-example";
+import SelfRouteExample from '@site-docs/components/self-route-example';
 
 <SelfRouteExample />
 
-If we want to enable the SSG of `/about` at the same time, we can configure the `output.ssg` to tell Modern.js to enable the SSG of the specified route.
+We can configure `output.ssg` to inform Modern.js to enable SSG for specific routes, such as `/about`:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -106,11 +107,11 @@ export default defineConfig({
 });
 ```
 
-run `pnpm run build` and `pnpm run serve`, access `http://localhost:8080/about`. In the Preview view, you can see that the page has been rendered.
+After executing `pnpm run build` and `pnpm run serve`, you can access `http://localhost:8080/about` to see the rendered page in preview.
 
-Looking at the bundle file, a new `main/about/index.html` file has been added in the `dist/` directory.
+You can check the bundle file that a new `main/about/index.html` file has been added to the `dist/` directory.
 
 :::info
-The above only introduces the single entry, more related content can be viewed [SSG API](/configure/app/output/ssg).
+Above only introduces the case of single entry, for more related content please refer to the [SSG API](/configure/app/output/ssg).
 
 :::
