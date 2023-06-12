@@ -9,7 +9,7 @@ sidebar_position: 9
 
 Used to configure custom Modern.js framework plugins.
 
-Refer to [How to write plugins](/guides/topic-detail/framework-plugin/implement) for how to write custom plugins.
+Refer to [How to Develop Plugins](/guides/topic-detail/framework-plugin/implement) for how to write custom plugins.
 
 ## Note
 
@@ -21,7 +21,7 @@ This option is used to configure framework plugins. If you need to configure oth
 
 ## Plugin types
 
-Modern.js has three types of built-in framework plugins:
+Modern.js has three types of plugins:
 
 - `CLI plugins`, applicable to local development, compilation and construction stages, can extend various capabilities in the command line and compilation stages.
 - `Server plugins`, applicable to the server.
@@ -33,7 +33,7 @@ Currently, Modern.js has opened up the ability to customize CLI plugins, and Ser
 
 By default, custom plugins are executed in the order of the `plugins` array, and the execution time of built-in Modern.js plugins is earlier than that of custom plugins.
 
-When the plugin uses related fields that control the order, such as `pre` and `post`, the execution order will be adjusted based on the declared fields. Refer to [Relationship between plugins](/guides/topic-detail/framework-plugin/relationship) for more information.
+When the plugin sets options that control the order, such as `pre` and `post`, the execution order will be adjusted based on the declared fields. Refer to [Relationship between plugins](/guides/topic-detail/framework-plugin/relationship) for more information.
 
 ## Example
 
@@ -41,7 +41,7 @@ The following is an example of using CLI plugins.
 
 ### Use plugins on npm
 
-To use plugins on npm, you need to install the plugins through a package manager and import them through `import`.
+To use plugins from npm registry, you need to first install the plugins , and import them in `modern.config.ts`.
 
 ```ts title="modern.config.ts"
 import myPlugin from 'my-plugin';
@@ -53,7 +53,7 @@ export default defineConfig({
 
 ### Use local plugins
 
-To use plugins from a local code repository, import them directly using a relative path.
+To use local plugins, import them directly using a relative path.
 
 ```ts title="modern.config.ts"
 import myPlugin from './config/plugin/myPlugin';
