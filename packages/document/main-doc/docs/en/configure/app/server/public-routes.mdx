@@ -5,20 +5,20 @@ sidebar_label: publicRoutes
 # server.publicRoutes
 
 - **Type:** `Object`
-- **Default:** Automatic generation of server-level routing rules based on file conventions: One routing rule is generated per file of the application.
+- **Default:** Server-side routing rules generated based on file conventions, with one route rule generated for each file.
 
-This configuration option only applies to server-level routing, and you can customize the access route of resources in `config/public/`.
+This configuration option only applies to server-side routing and can customize the access route of resources under `config/public/`.
 
-The `key` of the object is the relative file path of the current application (not used `./`), value can be `string`.
+The `key` of the object is the relative file path of the current application (without using `./`), and the value can be a `string`.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     publicRoutes: {
-      // Set up a long route
+      // Set a long route
       'index.json': '/user-config/card-info/extra/help.json',
 
-      // Set up a route without a suffix
+      // Set a route without a suffix
       'robot.txt': '/app/authentication',
     },
   },
