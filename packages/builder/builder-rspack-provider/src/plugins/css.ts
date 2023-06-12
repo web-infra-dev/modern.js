@@ -39,12 +39,17 @@ export const getCssnanoDefaultOptions = (): CssNanoOptions => ({
   ],
 });
 
-export async function applyBaseCSSRule(
-  rule: ReturnType<BundlerChain['module']['rule']>,
-  config: NormalizedConfig,
-  context: BuilderContext,
-  { target, isProd, isServer, isWebWorker, CHAIN_ID }: ModifyBundlerChainUtils,
-) {
+export async function applyBaseCSSRule({
+  rule,
+  config,
+  context,
+  utils: { target, isProd, isServer, isWebWorker, CHAIN_ID },
+}: {
+  rule: ReturnType<BundlerChain['module']['rule']>;
+  config: NormalizedConfig;
+  context: BuilderContext;
+  utils: ModifyBundlerChainUtils;
+}) {
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
   const enableSourceMap = isUseCssSourceMap(config);
@@ -218,7 +223,12 @@ export const builderPluginCss = (): BuilderPlugin => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
         rule.test(CSS_REGEX).type('css');
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
       });
       api.modifyRspackConfig(
         async (rspackConfig, { isProd, isServer, isWebWorker }) => {

@@ -61,19 +61,19 @@ export const normalizeCssLoaderOptions = (
   return options;
 };
 
-export async function applyBaseCSSRule(
-  rule: BundlerChainRule,
-  config: NormalizedConfig,
-  context: BuilderContext,
-  {
-    target,
-    isProd,
-    isServer,
-    CHAIN_ID,
-    isWebWorker,
-    getCompiledPath,
-  }: ModifyChainUtils,
-) {
+export async function applyBaseCSSRule({
+  rule,
+  config,
+  context,
+  utils: { target, isProd, isServer, CHAIN_ID, isWebWorker, getCompiledPath },
+  importLoaders = 1,
+}: {
+  rule: BundlerChainRule;
+  config: NormalizedConfig;
+  context: BuilderContext;
+  utils: ModifyChainUtils;
+  importLoaders?: number;
+}) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
     context.rootPath,
@@ -172,7 +172,7 @@ export async function applyBaseCSSRule(
 
   const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {
-      importLoaders: 1,
+      importLoaders,
       modules: {
         auto: getCssModulesAutoRule(
           cssModules,
@@ -258,7 +258,12 @@ export const builderPluginCss = (): BuilderPlugin => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
         const config = api.getNormalizedConfig();
         rule.test(CSS_REGEX);
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
       });
     },
   };
