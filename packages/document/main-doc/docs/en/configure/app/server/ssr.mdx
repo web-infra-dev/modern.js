@@ -11,7 +11,7 @@ Enalbe SSR configuration.
 
 ### Boolean Type
 
-When the value type is `boolean`, it indicates whether to enable SSR deployment mode, and `false` is not enabled by default.
+When the value type is `boolean`, it indicates whether to enable SSR deployment mode. The default is `false` to disable it.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -23,11 +23,11 @@ export default defineConfig({
 
 ### Object Type
 
-When the value type is `Object`, The following properties can be configured:
+When the value type is `Object`, the following properties can be configured:
 
-- `mode`: `string = 'string'`, use `renderToString` rendering default. onfigure 'stream' to enable streaming rendering.
-- `forceCSR`: `boolean = false`, forced CSR rendering is disable by default. When configured as `true`, add `?csr=true` in URL to force CSR.
-- `inlineScript`：`boolean = true`, by default SSR data will be injected into HTML as inline scripts and directly assigned to global variables. Configure as `false` to inject JSON instead of directly assigning.
+- `mode`: `string = 'string'`, which defaults to using `renderToString` for rendering. Configure `stream` to enable streaming rendering.
+- `forceCSR`: `boolean = false`, which is off by default for forcing CSR rendering. Configure `true` to force CSR by adding `?csr=true` when accessing the page.
+- `inlineScript`: `boolean = true`, by default, SSR data is injected into HTML as inline scripts and assigned directly to global variables. Configure `false` to issue JSON instead of assigning to global variables.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
