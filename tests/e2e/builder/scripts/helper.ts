@@ -19,4 +19,3 @@ export const getProviderTest = (supportType: string[] = ['webpack']) => {
 
 export const webpackOnlyTest = getProviderTest(['webpack']);
 export const rspackOnlyTest = getProviderTest(['rspack']);
-export const allProviderTest = getProviderTest(['webpack', 'rspack']);

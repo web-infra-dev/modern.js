@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -27,12 +26,12 @@ test.describe('source configure multi', () => {
     );
   });
 
-  allProviderTest('alias', async ({ page }) => {
+  test('alias', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
     await expect(page.innerHTML('#test')).resolves.toBe('Hello Builder! 1');
   });
 
-  allProviderTest('pre-entry', async ({ page }) => {
+  test('pre-entry', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
     await expect(page.innerHTML('#test-el')).resolves.toBe('aaaaa');
 
@@ -72,7 +71,7 @@ test.skip('module-scopes', async ({ page }) => {
   });
 });
 
-allProviderTest('global-vars & tsConfigPath', async ({ page }) => {
+test('global-vars & tsConfigPath', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'global-vars'),
     entry: {
@@ -97,7 +96,7 @@ allProviderTest('global-vars & tsConfigPath', async ({ page }) => {
   ).resolves.toBe('alias work correctly');
 });
 
-allProviderTest('define', async ({ page }) => {
+test('define', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'global-vars'),
     entry: {

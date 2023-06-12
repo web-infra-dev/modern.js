@@ -5,7 +5,8 @@ import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
-import type { StartDevServerOptions } from '@modern-js/builder-shared';
+import { StartDevServerOptions } from '@modern-js/builder-shared';
+import { getPort } from '@modern-js/utils';
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
   const baseUrl = new URL(`http://localhost:${port}`);
@@ -58,14 +59,12 @@ export const createBuilder = async (
   return builder;
 };
 
-const updateConfigForTest = (config: BuilderConfig) => {
+const updateConfigForTest = async (config: BuilderConfig) => {
   // make devPort random to avoid port conflict
-  if (!config.dev?.port) {
-    config.dev = {
-      ...(config.dev || {}),
-      port: Math.ceil(Math.random() * 10000) + 10000,
-    };
-  }
+  config.dev = {
+    ...(config.dev || {}),
+    port: await getRandomPort(config.dev?.port),
+  };
 
   config.dev!.progressBar = config.dev!.progressBar || false;
 
@@ -89,13 +88,29 @@ export async function dev(
   config: BuilderConfig = {},
   serverOptions?: StartDevServerOptions['serverOptions'],
 ) {
-  updateConfigForTest(config);
+  process.env.NODE_ENV = 'development';
+
+  await updateConfigForTest(config);
 
   const builder = await createBuilder(builderOptions, config);
   return builder.startDevServer({
     printURLs: false,
     serverOptions,
   });
+}
+
+const portMap = new Map();
+
+async function getRandomPort(
+  defaultPort = Math.ceil(Math.random() * 10000) + 10000,
+) {
+  while (true) {
+    const port = await getPort(defaultPort);
+    if (!portMap.get(port)) {
+      portMap.set(port, 1);
+      return port;
+    }
+  }
 }
 
 export async function build(
@@ -106,7 +121,9 @@ export async function build(
   config: BuilderConfig = builderOptions.builderConfig || {},
   runServer = true,
 ) {
-  updateConfigForTest(config);
+  process.env.NODE_ENV = 'production';
+
+  await updateConfigForTest(config);
 
   const builder = await createBuilder(builderOptions, config);
 

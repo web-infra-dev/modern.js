@@ -1,7 +1,6 @@
 import { join } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -59,7 +58,7 @@ const cases = [
 ];
 
 cases.forEach(_case => {
-  allProviderTest(_case.name, async ({ page }) => {
+  test(_case.name, async ({ page }) => {
     const buildOpts = {
       cwd: _case.cwd,
       entry: {
