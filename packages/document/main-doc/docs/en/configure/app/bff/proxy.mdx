@@ -8,7 +8,7 @@ sidebar_label: proxy
 - **Default:** `{}`
 
 :::caution
-Please enable BFF feature first by using 【[new](/apis/app/commands#modern-new)】 in the root directory of the current application project.
+Please enable BFF functionality in the current application project root directory using [new](/apis/app/commands#modern-new) first.
 
 :::
 
@@ -48,7 +48,7 @@ export default defineConfig({
 });
 ```
 
-Unlike [dev.proxy](/configure/app/dev/proxy), the proxy in tshis section only applies to requests entering the BFF/API service; at the same time, this configuration can not only be used in the development environment, but also proxies corresponding requests in the production environment.
+Unlike [dev.proxy](/configure/app/dev/proxy), the proxy here only applies to requests entering the BFF/API service; at the same time, this configuration can not only be used in the development environment, but also proxies corresponding requests in the production environment.
 
 ## Common Usage
 
@@ -58,7 +58,7 @@ During project development, cross-domain issues are often encountered because we
 There are many ways to solve cross-domain issues, and here we can easily solve them using `bff.proxy`.
 
 :::info
-Under BFF proxy mode, if you don't need to write BFF interfaces, the API directory can be deleted; BFF proxy will still be enabled.
+Under BFF proxy mode, if you don't need to write BFF code, the API directory can be deleted; BFF proxy will still be enabled.
 
 :::
 

@@ -13,7 +13,7 @@ Please enable BFF functionality in the current application project root director
 
 By default, the BFF service can only handle requests for BFF APIs.
 
-When this value is set to `true`, page request traffic will also pass through BFF, and the default logic for page rendering built into Modern.js will run as the last middleware of the BFF service.
+When this value is set to `true`, page request will also pass through BFF, and the default logic for page rendering built into Modern.js will run as the last middleware of the BFF service.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
