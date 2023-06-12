@@ -9,39 +9,39 @@ sidebar_position: 9
 
 Used to configure custom Modern.js framework plugins.
 
-For the way to write custom plugins, please refer to [How to Write Plugins](/guides/topic-detail/framework-plugin/implement).
+Refer to [How to write plugins](/guides/topic-detail/framework-plugin/implement) for how to write custom plugins.
 
-## Precautions
+## Note
 
-This config **is used to configure the Modern.js framework plugin**. If you need to configure other types of plugins, please select the corresponding configs:
+This option is used to configure framework plugins. If you need to configure other types of plugins, please choose the corresponding configuration method:
 
-- Use [builderPlugins](/configure/app/builder-plugins) to configure Modern.js Builder plugins.
-- Use [tools.webpack](/configure/app/tools/webpack) or [tools.webpackChain](/configure/app/tools/webpack-chain) to configure webpack plugins.
-- Use [tools.babel](/configure/app/tools/babel) to configure Babel plugins.
+- To configure Modern.js Builder plugins, use the [builderPlugins](/configure/app/builder-plugins) option.
+- To configure webpack plugins, use the [tools.webpack](/configure/app/tools/webpack) or [tools.webpackChain](/configure/app/tools/webpack-chain) options.
+- To configure Babel plugins, use the [tools.babel](/configure/app/tools/babel) option.
 
-## Plugin type
+## Plugin types
 
-There are three different type of framework plugins built into the Modern.js:
+Modern.js has three types of built-in framework plugins:
 
-- `CLI Plugin`, for local development, compilation and build phases, can extend various capabilities on the command line and compilation phases.
-- `Server Plugin`, for server-level.
-- `Runtime Plugin`, for runtime.
+- `CLI plugins`, applicable to local development, compilation and construction stages, can extend various capabilities in the command line and compilation stages.
+- `Server plugins`, applicable to the server.
+- `Runtime plugins`, applicable to the front-end runtime.
 
-The ability to customize CLI plugins is currently open Modern.js, and the Server plugin and Runtime plugin will be available in the future.
+Currently, Modern.js has opened up the ability to customize CLI plugins, and Server plugins and Runtime plugins will be opened up later.
 
 ## Plugin execution order
 
-By default, custom plugins are executed sequentially in the order of an array of `plugins`, Modern.js built-in plugins are executed earlier than custom plugins.
+By default, custom plugins are executed in the order of the `plugins` array, and the execution time of built-in Modern.js plugins is earlier than that of custom plugins.
 
-When the plugin uses related fields that control the order, such as `pre` and `post`, the execution order will be adjusted based on the declared fields, see [Relationship between plugins](/guides/topic-detail/framework-plugin/relationship).
+When the plugin uses related fields that control the order, such as `pre` and `post`, the execution order will be adjusted based on the declared fields. Refer to [Relationship between plugins](/guides/topic-detail/framework-plugin/relationship) for more information.
 
 ## Example
 
-Below is an example of using the CLI plugin.
+The following is an example of using CLI plugins.
 
-### Using plugins on npm
+### Use plugins on npm
 
-To use the plugin on npm, you need to install the plugin through the package manager and import it.
+To use plugins on npm, you need to install the plugins through a package manager and import them through `import`.
 
 ```ts title="modern.config.ts"
 import myPlugin from 'my-plugin';
@@ -53,7 +53,7 @@ export default defineConfig({
 
 ### Use local plugins
 
-Using the plugin in the local code repository, you can import it directly through the relative path import.
+To use plugins from a local code repository, import them directly using a relative path.
 
 ```ts title="modern.config.ts"
 import myPlugin from './config/plugin/myPlugin';
@@ -65,7 +65,7 @@ export default defineConfig({
 
 ### Plugin configuration
 
-If the plugin provides some custom configuration options, you can pass in the configuration through the parameters of the plugin function.
+If the plugin provides some custom configuration options, they can be passed in as parameters to the plugin function.
 
 ```ts title="modern.config.ts"
 import myPlugin from 'my-plugin';
