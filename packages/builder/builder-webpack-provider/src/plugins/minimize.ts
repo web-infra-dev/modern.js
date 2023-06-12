@@ -1,9 +1,9 @@
 import { CHAIN_ID } from '@modern-js/utils/chain-id';
+import { getCssnanoDefaultOptions } from '@modern-js/builder-shared';
 import type {
   WebpackChain,
   BuilderPlugin,
   TerserPluginOptions,
-  CssNanoOptions,
   CssMinimizerPluginOptions,
   NormalizedConfig,
 } from '../types';
@@ -37,18 +37,6 @@ function applyRemoveConsole(
 
   return options;
 }
-
-export const getCssnanoDefaultOptions = (): CssNanoOptions => ({
-  preset: [
-    'default',
-    {
-      // merge longhand will break safe-area-inset-top, so disable it
-      // https://github.com/cssnano/cssnano/issues/803
-      // https://github.com/cssnano/cssnano/issues/967
-      mergeLonghand: false,
-    },
-  ],
-});
 
 async function applyJSMinimizer(chain: WebpackChain, config: NormalizedConfig) {
   const { applyOptionsChain } = await import('@modern-js/utils');
