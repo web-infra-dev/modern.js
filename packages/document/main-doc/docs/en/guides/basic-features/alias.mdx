@@ -14,7 +14,7 @@ Modern.js allows you to use alias to import modules from custom directories in J
 ```
 
 :::info
-When enabling optional features, the `new` command will also dynamically add built-in alias. For example, when enabling BFF, the `@api` alias is added by default.
+When enabling optional features, the `new` command will also dynamically add built-in alias specific to the features. For example, when enabling BFF, the `@api` alias is added by default.
 
 :::
 
@@ -37,9 +37,9 @@ import utils from '@/src/common/utils';
 import '@/src/common/styles/base.css';
 ```
 
-Modern.js also provides a way to customize alias. Taking adding the `@common` alias as an example:
+Modern.js also provides a way to customize alias. For example, adding the `@common` alias is as follows:
 
-For TypeScript projects, just configure `compilerOptions.paths` in the project's `tsconfig.json`:
+For TypeScript projects, just set `compilerOptions.paths` in the project's `tsconfig.json`:
 
 ```json
 {
@@ -52,9 +52,9 @@ For TypeScript projects, just configure `compilerOptions.paths` in the project's
 }
 ```
 
-JavaScript projects can configure [`source.alias`](/configure/app/source/alias) in `modern.config.js`:
+For JavaScript projects, set `source.alias` in `modern.config.js`:
 
-```ts title="modern.config.ts"
+```ts title="modern.config.js"
 export default defineConfig({
   source: {
     alias: {
