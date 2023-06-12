@@ -7,13 +7,13 @@ sidebar_label: baseUrl
 - **Type:** `string | string[]`
 - **Default:** `undefined`
 
-Uniformly set the server-level routing prefix (often used in the case of shared domain names to distinguish traffic).
+Uniformly set the prefix of server-side routes (commonly used in situations where domain names are shared to distinguish traffic).
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
-    // All generated routes are automatically prefixed with `/base`
-    // Path to the generated server-side route file: dist/route.json
+    // All generated routes will automatically have the prefix `/base`
+    // Generated server-side route file path: dist/route.json
     baseUrl: '/base'
 
     // Multiple baseUrl
@@ -22,7 +22,7 @@ export default defineConfig({
 })
 ```
 
-After `dev`, you can see that the routed access will be prefixed accordingly:
+After running `dev`, you will see that the route access will have the corresponding prefix added:
 
 ```bash
 App running at:
