@@ -5,7 +5,7 @@ sidebar_label: routes
 # server.routes
 
 - **Type:** `Object`
-- **Default:** Server-side routing rules generated based on file conventions, with one route rule generated for each entry, and the entry name is equal to the route name.
+- **Default:** Server-side routing rules generated based on file conventions, with one route rule generated for each entry, and the entry name is equal to the route path.
 
 This configuration option only applies to server-side routing and can customize the access route of application entries.
 
@@ -13,7 +13,7 @@ This configuration option only applies to server-side routing and can customize 
 
 The `key` of the object is the name of the current application entry, and the value can be a `string | Array<string>`.
 
-When the value type is `string`, the current value represents the route name for accessing the entry.
+When the value type is `string`, the current value represents the route path for accessing the entry.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
