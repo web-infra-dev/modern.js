@@ -12,11 +12,23 @@ import { logger } from '@modern-js/builder-shared';
 import { readTsConfig, isRelativePath } from '@modern-js/utils';
 import { createMatchPath, MatchPath } from '@modern-js/utils/tsconfig-paths';
 import type { Resolver } from 'webpack';
+import { TsconfigLoader } from './TsconfigLoader';
 
 export type TsConfigPathsPluginOptions = {
   cwd?: string;
   extensions?: string[];
   mainFields?: string[];
+  /**
+   * ignore files under node_modules, default to true
+   */
+  ignoreNodeModules?: boolean;
+  loadClosestTsConfig?: boolean;
+  /**
+   * tsconfigPaths options
+   */
+  tsconfigPaths?: {
+    matchAll?: boolean;
+  };
 };
 
 export class TsConfigPathsPlugin {
@@ -31,15 +43,31 @@ export class TsConfigPathsPlugin {
 
   absoluteBaseUrl: string;
 
+  // current project matchPath instance
   matchPath: MatchPath | null;
 
   resolvedCache: Map<string, string | undefined>;
 
-  constructor({
-    cwd = process.cwd(),
-    extensions = ['.ts', '.tsx'],
-    mainFields = ['browser', 'module', 'main'],
-  }: TsConfigPathsPluginOptions) {
+  #ignoreNodeModules: boolean;
+
+  #loadClosestTsConfig: boolean;
+
+  // monorepo sub projects matcher
+  #matchers: Record<string, MatchPath> = {};
+
+  #loader: TsconfigLoader = new TsconfigLoader();
+
+  #options: TsConfigPathsPluginOptions;
+
+  constructor(options: TsConfigPathsPluginOptions) {
+    const {
+      cwd = process.cwd(),
+      extensions = ['.ts', '.tsx'],
+      mainFields = ['browser', 'module', 'main'],
+      loadClosestTsConfig = false,
+      ignoreNodeModules = true,
+    } = options;
+
     this.cwd = cwd;
     this.extensions = extensions;
     this.resolvedCache = new Map();
@@ -48,6 +76,9 @@ export class TsConfigPathsPlugin {
       cwd,
       this.compilerOptions.baseUrl || './',
     );
+    this.#loadClosestTsConfig = loadClosestTsConfig;
+    this.#ignoreNodeModules = ignoreNodeModules;
+    this.#options = options;
 
     // if paths is not configured, do not create matchPath method
     const { paths } = this.compilerOptions;
@@ -64,7 +95,7 @@ export class TsConfigPathsPlugin {
   }
 
   apply(resolver: Resolver) {
-    if (this.matchPath === null) {
+    if (this.matchPath === null && !this.#loadClosestTsConfig) {
       return;
     }
 
@@ -89,14 +120,64 @@ export class TsConfigPathsPlugin {
           return callback();
         }
 
+        const issuerDir: string | undefined =
+          // @ts-expect-error context is exsited, but the internal type do not provide it, so we ignore it for now
+          (request.context?.issuer && path.dirname(request.context?.issuer)) ||
+          request.path;
+        // Filter the files from node_modules,
+        // the remaining files are the files of the current project and the files of the monorepo subprojects
+        if (
+          !issuerDir ||
+          (this.#ignoreNodeModules &&
+            issuerDir &&
+            issuerDir.includes('node_modules'))
+        ) {
+          return callback();
+        }
+
         let resolvedPath = this.resolvedCache.get(requestName);
 
-        if (resolvedPath === undefined) {
-          resolvedPath = this.matchPath!(
+        // match current project
+        if (issuerDir.includes(this.cwd)) {
+          if (this.matchPath === null) {
+            return callback();
+          }
+          if (resolvedPath === undefined) {
+            resolvedPath = this.matchPath(
+              requestName,
+              undefined,
+              undefined,
+              this.extensions,
+            );
+
+            if (resolvedPath) {
+              this.resolvedCache.set(requestName, resolvedPath);
+            } else {
+              return callback();
+            }
+          }
+        } else if (resolvedPath === undefined) {
+          // match monorepo sub project files
+
+          const tsconfig = this.#loader.load(issuerDir);
+          if (!tsconfig?.baseUrl) {
+            return callback();
+          }
+
+          if (!this.#matchers[tsconfig.configFileAbsolutePath]) {
+            this.#matchers[tsconfig.configFileAbsolutePath] = createMatchPath(
+              tsconfig.absoluteBaseUrl,
+              tsconfig.paths,
+              this.#options.mainFields,
+              this.#options?.tsconfigPaths?.matchAll,
+            );
+          }
+
+          resolvedPath = this.#matchers[tsconfig.configFileAbsolutePath](
             requestName,
             undefined,
             undefined,
-            this.extensions,
+            this.#options.extensions,
           );
 
           if (resolvedPath) {
