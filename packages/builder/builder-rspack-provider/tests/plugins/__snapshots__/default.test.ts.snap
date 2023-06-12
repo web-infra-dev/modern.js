@@ -680,6 +680,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
+    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {
@@ -1385,6 +1386,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
       },
     },
+    RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -2543,6 +2545,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
+    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {
