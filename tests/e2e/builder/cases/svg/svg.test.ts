@@ -1,11 +1,10 @@
 import { join } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest('svg (default)', async ({ page }) => {
+test('svg (default)', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'svg'),
     entry: {
@@ -39,7 +38,7 @@ allProviderTest('svg (default)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('svg (defaultExport component)', async ({ page }) => {
+test('svg (defaultExport component)', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'svg-default-export-component'),
     entry: {
@@ -62,7 +61,7 @@ allProviderTest('svg (defaultExport component)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('svg (url)', async ({ page }) => {
+test('svg (url)', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'svg-url'),
     entry: {
@@ -92,7 +91,7 @@ allProviderTest('svg (url)', async ({ page }) => {
 });
 
 // It's an old bug when use svgr in css and external react.
-allProviderTest('svg (external react)', async ({ page }) => {
+test('svg (external react)', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'svg-external-react'),
     entry: {
@@ -136,7 +135,7 @@ allProviderTest('svg (external react)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('svg (disableSvgr)', async ({ page }) => {
+test('svg (disableSvgr)', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'svg-assets'),
     entry: {

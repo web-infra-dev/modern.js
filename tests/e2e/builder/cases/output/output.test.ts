@@ -2,11 +2,11 @@ import { join, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest, allProviderTest } from '@scripts/helper';
+import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest.describe('output configure multi', () => {
+test.describe('output configure multi', () => {
   const distFilePath = join(fixtures, 'rem/dist-1/test.json');
 
   let builder: Awaited<ReturnType<typeof build>>;
@@ -60,7 +60,7 @@ allProviderTest.describe('output configure multi', () => {
   });
 });
 
-allProviderTest('cleanDistPath disable', async () => {
+test('cleanDistPath disable', async () => {
   const buildOpts = {
     cwd: join(fixtures, 'rem'),
     entry: {
