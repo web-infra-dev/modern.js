@@ -18,7 +18,12 @@ export function builderPluginLess(): BuilderPlugin {
           .test(LESS_REGEX)
           .type('css');
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
 
         const { excludes, options } = await getLessLoaderOptions(
           config.tools.less,
@@ -29,7 +34,12 @@ export function builderPluginLess(): BuilderPlugin {
           rule.exclude.add(item);
         });
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
 
         rule
           .use(utils.CHAIN_ID.USE.LESS)

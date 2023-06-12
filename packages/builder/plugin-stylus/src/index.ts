@@ -50,12 +50,23 @@ export function builderPluginStylus(
           const { applyBaseCSSRule } = await import(
             '@modern-js/builder-rspack-provider/plugins/css'
           );
-          await applyBaseCSSRule(rule, config as any, api.context, utils);
+          await applyBaseCSSRule({
+            rule,
+            config: config as any,
+            context: api.context,
+            utils,
+          });
         } else {
           const { applyBaseCSSRule } = await import(
             '@modern-js/builder-webpack-provider/plugins/css'
           );
-          await applyBaseCSSRule(rule, config, api.context, utils);
+          await applyBaseCSSRule({
+            rule,
+            config,
+            context: api.context,
+            utils,
+            importLoaders: 2,
+          });
         }
 
         rule

@@ -75,3 +75,32 @@ allProviderTest('removeConsole', async () => {
   expect(jsFile.includes('test-console-warn')).toBeFalsy();
   expect(jsFile.includes('test-console-error')).toBeTruthy();
 });
+
+allProviderTest(
+  'should generate vendor chunk when chunkSplit is "single-vendor"',
+  async () => {
+    const builder = await build(
+      {
+        cwd: join(fixtures, 'basic'),
+        entry: {
+          main: join(fixtures, 'basic/src/index.ts'),
+        },
+      },
+      {
+        performance: {
+          chunkSplit: {
+            strategy: 'single-vendor',
+          },
+        },
+      },
+    );
+
+    const files = await builder.unwrapOutputJSON();
+
+    const [vendorFile] = Object.entries(files).find(
+      ([name, content]) => name.includes('vendor') && content.includes('React'),
+    )!;
+
+    expect(vendorFile).toBeTruthy();
+  },
+);

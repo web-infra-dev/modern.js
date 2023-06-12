@@ -26,7 +26,7 @@ describe('useLoader with SSR', () => {
     app = await launchApp(appDir, appPort);
 
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       dumpio: true,
       args: ['--no-sandbox'],
     });
@@ -117,7 +117,7 @@ describe('convention router', () => {
     app = await launchApp(appDir, appPort);
 
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       dumpio: true,
       args: ['--no-sandbox'],
     });

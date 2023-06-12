@@ -59,7 +59,7 @@ describe('Traditional SSR in json data', () => {
     app = await launchApp(appDir, appPort);
 
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       dumpio: true,
       args: ['--no-sandbox'],
     });
@@ -113,7 +113,7 @@ describe('Traditional SSR in json data with rspack', () => {
     );
 
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       dumpio: true,
       args: ['--no-sandbox'],
     });

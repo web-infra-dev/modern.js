@@ -1,8 +1,7 @@
 import path from 'path';
-import assert from 'assert';
 import {
   CSS_REGEX,
-  getCssSupport,
+  getPostcssConfig,
   ModifyChainUtils,
   isUseCssSourceMap,
   getCssModulesAutoRule,
@@ -19,8 +18,6 @@ import type {
   NormalizedConfig,
   StyleLoaderOptions,
 } from '../types';
-import type { AcceptedPlugin, ProcessOptions } from 'postcss';
-import { getCssnanoDefaultOptions } from './minimize';
 
 export const isUseCssExtract = (
   config: NormalizedConfig,
@@ -61,19 +58,19 @@ export const normalizeCssLoaderOptions = (
   return options;
 };
 
-export async function applyBaseCSSRule(
-  rule: BundlerChainRule,
-  config: NormalizedConfig,
-  context: BuilderContext,
-  {
-    target,
-    isProd,
-    isServer,
-    CHAIN_ID,
-    isWebWorker,
-    getCompiledPath,
-  }: ModifyChainUtils,
-) {
+export async function applyBaseCSSRule({
+  rule,
+  config,
+  context,
+  utils: { target, isProd, isServer, CHAIN_ID, isWebWorker, getCompiledPath },
+  importLoaders = 1,
+}: {
+  rule: BundlerChainRule;
+  config: NormalizedConfig;
+  context: BuilderContext;
+  utils: ModifyChainUtils;
+  importLoaders?: number;
+}) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
     context.rootPath,
@@ -81,73 +78,10 @@ export async function applyBaseCSSRule(
     target,
   );
 
-  // todo: move to modern-js/shared
-  const getPostcssConfig = () => {
-    const extraPlugins: AcceptedPlugin[] = [];
-
-    const utils = {
-      addPlugins(plugins: AcceptedPlugin | AcceptedPlugin[]) {
-        if (Array.isArray(plugins)) {
-          extraPlugins.push(...plugins);
-        } else {
-          extraPlugins.push(plugins);
-        }
-      },
-    };
-
-    const enableCssMinify = !enableExtractCSS && isProd;
-
-    const cssSupport = getCssSupport(browserslist);
-
-    const mergedConfig = applyOptionsChain(
-      {
-        postcssOptions: {
-          plugins: [
-            require(getCompiledPath('postcss-flexbugs-fixes')),
-            !cssSupport.customProperties &&
-              require(getCompiledPath('postcss-custom-properties')),
-            !cssSupport.initial && require(getCompiledPath('postcss-initial')),
-            !cssSupport.pageBreak &&
-              require(getCompiledPath('postcss-page-break')),
-            !cssSupport.fontVariant &&
-              require(getCompiledPath('postcss-font-variant')),
-            !cssSupport.mediaMinmax &&
-              require(getCompiledPath('postcss-media-minmax')),
-            require(getCompiledPath('postcss-nesting')),
-            require(getCompiledPath('autoprefixer'))(
-              applyOptionsChain(
-                {
-                  flexbox: 'no-2009',
-                  overrideBrowserslist: browserslist,
-                },
-                config.tools.autoprefixer,
-              ),
-            ),
-            enableCssMinify
-              ? require('cssnano')(getCssnanoDefaultOptions())
-              : false,
-          ].filter(Boolean),
-        },
-        sourceMap: enableSourceMap,
-      },
-      config.tools.postcss || {},
-      utils,
-    );
-    if (extraPlugins.length) {
-      assert('postcssOptions' in mergedConfig);
-      assert('plugins' in mergedConfig.postcssOptions!);
-      mergedConfig.postcssOptions.plugins!.push(...extraPlugins);
-    }
-
-    return mergedConfig as ProcessOptions & {
-      postcssOptions: {
-        plugins?: AcceptedPlugin[];
-      };
-    };
-  };
-
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
+  const enableCssMinify = !enableExtractCSS && isProd;
+
   const enableSourceMap = isUseCssSourceMap(config);
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   // 2. Prepare loader options
@@ -172,7 +106,7 @@ export async function applyBaseCSSRule(
 
   const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
     {
-      importLoaders: 1,
+      importLoaders,
       modules: {
         auto: getCssModulesAutoRule(
           cssModules,
@@ -238,7 +172,13 @@ export async function applyBaseCSSRule(
     .end();
 
   if (!isServer && !isWebWorker) {
-    const postcssLoaderOptions = getPostcssConfig();
+    const postcssLoaderOptions = await getPostcssConfig({
+      enableSourceMap,
+      browserslist,
+      config,
+      enableCssMinify,
+    });
+
     rule
       .use(CHAIN_ID.USE.POSTCSS)
       .loader(getCompiledPath('postcss-loader'))
@@ -258,7 +198,12 @@ export const builderPluginCss = (): BuilderPlugin => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
         const config = api.getNormalizedConfig();
         rule.test(CSS_REGEX);
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
       });
     },
   };

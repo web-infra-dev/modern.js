@@ -4,7 +4,7 @@ sidebar_position: 8
 ---
 # Alias
 
-Modern.js allow aliases in JS and CSS, and the following aliases are built in:
+Modern.js allows you to use alias to import modules from custom directories in JS and CSS, and comes with the following built-in alias:
 
 ```js
 {
@@ -14,11 +14,11 @@ Modern.js allow aliases in JS and CSS, and the following aliases are built in:
 ```
 
 :::info
-When the optional features is enable, the generator will also add built-in aliases dynamically. For example, when BFF is enabled, the `@api` alias will be added by default.
+When enabling optional features, the `new` command will also dynamically add built-in alias specific to the features. For example, when enabling BFF, the `@api` alias is added by default.
 
 :::
 
-For example, import the modules from the `src/common/` directory in the `src/App.tsx` file:
+For example, importing modules from the `src/common` directory in the `src/App.tsx` file:
 
 ```bash
 .
@@ -27,17 +27,19 @@ For example, import the modules from the `src/common/` directory in the `src/App
 │   │   └── base.css
 │   └── utils
 │       └── index.ts
-├── App.tsx
+└── App.tsx
 ```
 
-the code in `src/App.tsx`:
+The code in `src/App.tsx` is as follows:
 
 ```ts
 import utils from '@/src/common/utils';
 import '@/src/common/styles/base.css';
 ```
 
-Modern.js also provides a way to config aliases. Adding the `@common` alias as an example. For TypeScript projects, you only need to configure `compilerOptions.paths` under the project root directory `tsconfig.json` as follows:
+Modern.js also provides a way to customize alias. For example, adding the `@common` alias is as follows:
+
+For TypeScript projects, just set `compilerOptions.paths` in the project's `tsconfig.json`:
 
 ```json
 {
@@ -50,9 +52,9 @@ Modern.js also provides a way to config aliases. Adding the `@common` alias as a
 }
 ```
 
-JavaScript project can config by [`source.alias`](/configure/app/source/alias) in `modern.config.js`:
+For JavaScript projects, set `source.alias` in `modern.config.js`:
 
-```ts title="modern.config.ts"
+```ts title="modern.config.js"
 export default defineConfig({
   source: {
     alias: {
@@ -62,4 +64,4 @@ export default defineConfig({
 });
 ```
 
-For detailed usage, please refer to [source.alias documentation](/configure/app/source/alias).
+For the specific usage of alias configuration, please refer to the [source.alias documentation](/configure/app/source/alias).
