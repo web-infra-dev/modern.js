@@ -5,30 +5,30 @@ sidebar_label: routes
 # server.routes
 
 - **Type:** `Object`
-- **Default:** Automatic generation of server-level routing rules based on file conventions: One routing rule is generated per file of the application,and the default route is the same as the entry name.
+- **Default:** Server-side routing rules generated based on file conventions, with one route rule generated for each entry, and the entry name is equal to the route name.
 
-This configuration option only applies to server-level routing, and can customize the service access configuration of the application entry.
+This configuration option only applies to server-side routing and can customize the access route of application entries.
 
-## Custom access routing
+## Custom access routes
 
-The `key` of the object is the entry name of the current application, and the value can be `string | Array<string>`.
+The `key` of the object is the name of the current application entry, and the value can be a `string | Array<string>`.
 
-When the value type is `string`, the current value represents the name of the route to access the entry.
+When the value type is `string`, the current value represents the route name for accessing the entry.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
     routes: {
-      // The default route is /entryName1, /p/test1 after customization
+      // Default route is /entryName1, customized to /p/test1
       entryName1: '/p/test1'
-      // Support dynamic server-level routing configuration
+      // Supports dynamic server-side routing configuration
       entryName2: '/detail/:id'
     }
   }
 });
 ```
 
-Multiple access routes can also be set for entries using the `Array<string>`:
+Multiple access routes can also be set for the entry through `Array<string>`:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -40,9 +40,9 @@ export default defineConfig({
 });
 ```
 
-At this point, the '`page-a` entry can be accessed through both `/a` and `/b` routes.
+At this time, the `page-a` entry can be accessed through both the `/a` and `/b` routes.
 
-After executing the `dev` command, you can see in `dist/route.json` that there are two routing records in the entry `page-a`:
+After executing the `dev` command, you can view two route records for the `page-a` entry in `dist/route.json`:
 
 ```json
 {
@@ -65,9 +65,9 @@ After executing the `dev` command, you can see in `dist/route.json` that there a
 }
 ```
 
-## Custom response header
+## Custom response headers
 
-The response header can be set by configuring the resHeaders of the entry:
+Response headers can be set by configuring the `resHeaders` of the entry:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -85,6 +85,6 @@ export default defineConfig({
 ```
 
 :::note
-This configuration takes effect in both the production environment and the development environment, and can set different response headers according to the NODE_ENV. But if you only need to set response headers in the development environment, `tools.devServer.headers` is recommended.
+This configuration takes effect in both the production and development environments, and different response headers can be set according to the NODE_ENV to distinguish between environments. However, if you only need to set response headers in the development environment, it is recommended to use `tools.devServer.headers`.
 
 :::
