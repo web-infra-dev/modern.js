@@ -14,7 +14,7 @@ exports[`plugins/stylus > should add stylus loader config correctly 1`] = `
           {
             "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -85,7 +85,7 @@ exports[`plugins/stylus > should allow to configure stylus options 1`] = `
           {
             "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",

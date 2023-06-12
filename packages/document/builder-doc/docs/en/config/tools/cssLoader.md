@@ -6,7 +6,6 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
 
 ```js
 {
-  importLoaders: 1,
   modules: {
     auto: true,
     exportLocalsConvention: 'camelCase',
@@ -17,6 +16,8 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
   },
   // CSS Source Map enabled by default in development environment
   sourceMap: isDev,
+  // importLoaders is `1` when compiling css files, and is `2` when compiling sass/less files
+  importLoaders: 1 || 2,
 }
 ```
 
