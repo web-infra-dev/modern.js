@@ -6,6 +6,7 @@ const {
   launchApp,
   getPort,
   killApp,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -66,11 +67,7 @@ describe('Traditional SSR', () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
+    browser = await puppeteer.launch(launchOptions);
     page = await browser.newPage();
   });
 
@@ -125,11 +122,7 @@ describe('Traditional SSR with rspack', () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, { BUNDLER: 'rspack' });
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
+    browser = await puppeteer.launch(launchOptions);
     page = await browser.newPage();
   });
 
