@@ -1,0 +1,35 @@
+{
+  "name": "@source-code-build/utils",
+  "private": true,
+  "version": "2.9.0",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "types": "./dist/types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "common": [
+        "./dist/types/common/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "typescript": "^5"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./common": "./src/common/index.ts"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ]
+}
