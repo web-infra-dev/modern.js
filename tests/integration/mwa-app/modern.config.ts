@@ -6,7 +6,6 @@ export default defineConfig({
   },
   output: {
     disableTsChecker: true,
-    disableCssExtract: true,
   },
   plugins: [
     appTools({
