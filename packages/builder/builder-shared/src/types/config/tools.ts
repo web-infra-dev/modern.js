@@ -12,6 +12,8 @@ import type {
   ForkTSCheckerOptions,
   PostCSSLoaderOptions,
   PostCSSPlugin,
+  CSSLoaderOptions,
+  StyleLoaderOptions,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
@@ -51,6 +53,10 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
   { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
 >;
 
+export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
+
+export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
+
 export interface SharedToolsConfig {
   /**
    * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
@@ -78,6 +84,11 @@ export interface SharedToolsConfig {
   babel?: ToolsBabelConfig;
 
   /**
+   * Modify the options of [css-loader](https://github.com/webpack-contrib/css-loader).
+   */
+  cssLoader?: ToolsCSSLoaderConfig;
+
+  /**
    * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
    */
   postcss?: ToolsPostCSSLoaderConfig;
@@ -86,6 +97,12 @@ export interface SharedToolsConfig {
    * Configure the [Pug](https://pugjs.org/) template engine.
    */
   pug?: ToolsPugConfig;
+
+  /**
+   * Modify the options of [style-loader](https://github.com/webpack-contrib/style-loader).
+   */
+  styleLoader?: ToolsStyleLoaderConfig;
+
   /**
    * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
    */

@@ -29,6 +29,7 @@ export type SharedCompiledPkgNames =
   | 'pug'
   | 'sass'
   | 'less'
+  | 'css-loader'
   | 'postcss-loader'
   | 'postcss-pxtorem'
   | 'postcss-flexbugs-fixes'
