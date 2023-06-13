@@ -1,3 +1,4 @@
+import dns from 'node:dns';
 import path from 'path';
 import {
   getPort,
@@ -8,6 +9,7 @@ import {
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
+dns.setDefaultResultOrder('ipv4first');
 describe('api-service in dev', () => {
   let port = 8080;
   const prefix = '/api';
