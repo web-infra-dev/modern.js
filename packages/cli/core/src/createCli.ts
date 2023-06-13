@@ -118,7 +118,6 @@ export const createCli = () => {
       loaded,
       extraConfigs,
       extraSchemas,
-      options?.onSchemaError,
     );
 
     const { resolved } = await hooksRunner.resolvedConfig({

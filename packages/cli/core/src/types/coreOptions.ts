@@ -1,4 +1,3 @@
-import type { ErrorObject } from '@modern-js/utils/compiled/ajv';
 import type { InternalPlugins } from './plugin';
 import type { UserConfig } from './config';
 
@@ -13,7 +12,6 @@ export interface CoreOptions {
     server?: InternalPlugins;
     autoLoad?: InternalPlugins;
   };
-  onSchemaError?: (error: ErrorObject) => void;
   options?: {
     metaName?: string;
     srcDir?: string;

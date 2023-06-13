@@ -1,5 +1,4 @@
 import { createDebugger, logger } from '@modern-js/utils';
-import type { ErrorObject } from '@modern-js/utils/ajv';
 import { patchSchema } from '../schema/patchSchema';
 import type {
   UserConfig,
@@ -18,7 +17,6 @@ export const createResolveConfig = async (
   loaded: LoadedConfig<{}>,
   configs: UserConfig[],
   schemas: PluginValidateSchema[],
-  onSchemaError?: (error: ErrorObject) => void | Promise<void>,
 ): Promise<NormalizedConfig> => {
   const { default: Ajv } = await import('@modern-js/utils/ajv');
   const { default: ajvKeywords } = await import(
@@ -56,9 +54,6 @@ export const createResolveConfig = async (
     );
 
   if (!valid && validate.errors?.length) {
-    if (onSchemaError) {
-      await onSchemaError(validate?.errors[0]);
-    }
     const errors = formatValidateError(userConfig);
     logger.log(errors);
     throw new Error(`Validate configuration error`);
