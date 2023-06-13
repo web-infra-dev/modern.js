@@ -23,17 +23,20 @@ export async function launchDoc({
   const base = join(root, DEFAULT_LANG);
   const getAutoSidebar = async (): Promise<Sidebar> => {
     const traverse = async (cwd: string): Promise<SidebarGroup['items']> => {
+      // FIXME: win32
       const [files, directories] = await Promise.all([
-        await fastGlob(['*'], {
+        fastGlob(['*'], {
           cwd,
           onlyFiles: true,
           ignore: ['index.*'],
         }),
-        await fastGlob(['*'], {
+        fastGlob(['*'], {
           cwd,
           onlyDirectories: true,
         }),
       ]);
+
+      // files --> string[]
       const fileItems = files.map(file => {
         const link = `/${relative(base, join(cwd, file)).replace(
           /\.[^.]+$/,
@@ -41,6 +44,8 @@ export async function launchDoc({
         )}`;
         return link;
       });
+
+      // dir --> SidebarGroup[]
       const directoryItems = await Promise.all(
         directories.map(async (directory: string) => {
           const directoryCwd = join(cwd, directory);
@@ -70,6 +75,7 @@ export async function launchDoc({
           }
         }),
       );
+
       return [...fileItems, ...directoryItems];
     };
     return {
