@@ -6,6 +6,7 @@ const {
   getPort,
   killApp,
   sleep,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -25,11 +26,7 @@ describe('useLoader with SSR', () => {
     const appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
+    browser = await puppeteer.launch(launchOptions);
     page = await browser.newPage();
 
     page.on('console', msg => logs.push(msg.text));
@@ -116,11 +113,7 @@ describe('convention router', () => {
 
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
+    browser = await puppeteer.launch(launchOptions);
     page = await browser.newPage();
 
     page.on('console', msg => logs.push(msg.text));
