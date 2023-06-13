@@ -4,5 +4,5 @@
 '@modern-js/plugin-swc': minor
 ---
 
-chore: merge the swc plugin
-chore: 合并 swc 插件
+refactor: merge the swc plugin
+refactor: 合并 swc 插件
