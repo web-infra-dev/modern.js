@@ -9,11 +9,11 @@ import {
   getDefaultSecurityConfig,
   getDefaultPerformanceConfig,
 } from '@modern-js/builder-shared';
-import type { BuilderConfig, NormalizedConfig } from '../types';
+import type { BuilderConfig } from '../types';
 
 const defineDefaultConfig = extendsType<BuilderConfig>();
 
-export const createDefaultConfig = (): NormalizedConfig =>
+export const createDefaultConfig = () =>
   defineDefaultConfig({
     dev: getDefaultDevConfig(),
     html: getDefaultHtmlConfig(),
@@ -28,7 +28,4 @@ export const createDefaultConfig = (): NormalizedConfig =>
   });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
-  mergeBuilderConfig<BuilderConfig>(
-    createDefaultConfig() as BuilderConfig,
-    config,
-  );
+  mergeBuilderConfig<BuilderConfig>(createDefaultConfig(), config);
