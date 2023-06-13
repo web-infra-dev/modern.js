@@ -75,10 +75,19 @@ const updateConfigForTest = async (config: BuilderConfig) => {
     };
   }
 
+  // disable ts checker to make the tests faster
   if (config.output?.disableTsChecker !== false) {
     config.output = {
       ...(config.output || {}),
       disableTsChecker: true,
+    };
+  }
+
+  // disable polyfill to make the tests faster
+  if (config.output?.polyfill === undefined) {
+    config.output = {
+      ...(config.output || {}),
+      polyfill: 'off',
     };
   }
 };

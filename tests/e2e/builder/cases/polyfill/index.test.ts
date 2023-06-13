@@ -21,10 +21,17 @@ const getPolyfillContent = (files: Record<string, string>) => {
 };
 
 test('should add polyfill when set polyfill entry (default)', async () => {
-  const builder = await build({
-    cwd: __dirname,
-    entry: { index: path.resolve(__dirname, './src/index.js') },
-  });
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    },
+    {
+      output: {
+        polyfill: 'entry',
+      },
+    },
+  );
   const files = await builder.unwrapOutputJSON(false);
 
   const content = getPolyfillContent(files);
