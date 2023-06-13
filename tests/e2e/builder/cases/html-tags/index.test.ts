@@ -6,12 +6,10 @@ const isHtmlMatch = (html: string, pattern: RegExp): boolean =>
   Boolean(html.match(pattern));
 
 test('should inject tags', async () => {
-  const builder = await build(
-    {
-      cwd: __dirname,
-      entry: { index: path.resolve(__dirname, './src/index.ts') },
-    },
-    {
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.ts') },
+    builderConfig: {
       html: {
         tags: [
           { tag: 'script', attrs: { src: 'foo.js' } },
@@ -22,8 +20,7 @@ test('should inject tags', async () => {
         ],
       },
     },
-    false,
-  );
+  });
 
   const files = await builder.unwrapOutputJSON();
 

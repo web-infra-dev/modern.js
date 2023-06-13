@@ -59,14 +59,14 @@ const cases = [
 
 cases.forEach(_case => {
   test(_case.name, async ({ page }) => {
-    const buildOpts = {
+    const builder = await build({
       cwd: _case.cwd,
       entry: {
         main: join(_case.cwd, 'src/index.js'),
       },
-    };
-
-    const builder = await build(buildOpts, _case.config || {});
+      runServer: true,
+      builderConfig: _case.config || {},
+    });
 
     await page.goto(getHrefByEntryName('main', builder.port));
 

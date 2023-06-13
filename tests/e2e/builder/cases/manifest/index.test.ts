@@ -5,16 +5,12 @@ import { build } from '@scripts/shared';
 const fixtures = __dirname;
 
 test('enableAssetManifest', async () => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(
-    buildOpts,
-    {
+    builderConfig: {
       output: {
         enableAssetManifest: true,
         legalComments: 'none',
@@ -25,8 +21,7 @@ test('enableAssetManifest', async () => {
         },
       },
     },
-    false,
-  );
+  });
 
   const files = await builder.unwrapOutputJSON();
 

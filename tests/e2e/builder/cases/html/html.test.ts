@@ -9,18 +9,22 @@ test.describe('html configure multi', () => {
   let builder: Awaited<ReturnType<typeof build>>;
 
   test.beforeAll(async () => {
-    const buildOpts = {
+    builder = await build({
       cwd: join(fixtures, 'mount-id'),
       entry: {
         main: join(join(fixtures, 'mount-id'), 'src/index.ts'),
       },
-    };
-
-    builder = await build(buildOpts, {
-      html: {
-        mountId: 'app',
+      runServer: true,
+      builderConfig: {
+        html: {
+          mountId: 'app',
+        },
       },
     });
+  });
+
+  test.afterAll(() => {
+    builder.close();
   });
 
   test('mountId', async ({ page }) => {
@@ -56,23 +60,23 @@ test.describe('html element set', () => {
   let fooContent: string;
 
   test.beforeAll(async () => {
-    const buildOpts = {
+    builder = await build({
       cwd: join(fixtures, 'template'),
       entry: {
         main: join(join(fixtures, 'template'), 'src/index.ts'),
         foo: join(fixtures, 'template/src/index.ts'),
       },
-    };
-
-    builder = await build(buildOpts, {
-      html: {
-        meta: {
-          description: 'a description of the page',
+      runServer: true,
+      builderConfig: {
+        html: {
+          meta: {
+            description: 'a description of the page',
+          },
+          inject: 'body',
+          crossorigin: 'anonymous',
+          appIcon: './src/assets/icon.png',
+          favicon: './src/assets/icon.png',
         },
-        inject: 'body',
-        crossorigin: 'anonymous',
-        appIcon: './src/assets/icon.png',
-        favicon: './src/assets/icon.png',
       },
     });
 
@@ -84,6 +88,10 @@ test.describe('html element set', () => {
       join(builder.distPath, 'html/foo/index.html'),
       'utf-8',
     );
+  });
+
+  test.afterAll(() => {
+    builder.close();
   });
 
   test('appicon', async () => {
@@ -141,37 +149,39 @@ test.describe('html element set', () => {
 });
 
 test('custom title', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: join(fixtures, 'template'),
     entry: {
       main: join(join(fixtures, 'template'), 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    html: {
-      title: 'custom title',
+    runServer: true,
+    builderConfig: {
+      html: {
+        title: 'custom title',
+      },
     },
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
   await expect(page.evaluate(`document.title`)).resolves.toBe('custom title');
+
+  builder.close();
 });
 
 test('template & templateParameters', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: join(fixtures, 'template'),
     entry: {
       main: join(join(fixtures, 'template'), 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    html: {
-      template: './static/index.html',
-      templateParameters: {
-        foo: 'bar',
+    runServer: true,
+    builderConfig: {
+      html: {
+        template: './static/index.html',
+        templateParameters: {
+          foo: 'bar',
+        },
       },
     },
   });
@@ -190,30 +200,32 @@ test('template & templateParameters', async ({ page }) => {
   ).resolves.toBe('Hello Builder!');
 
   await expect(page.evaluate(`window.foo`)).resolves.toBe('bar');
+
+  builder.close();
 });
 
 test('templateByEntries & templateParametersByEntries', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: join(fixtures, 'template'),
     entry: {
       main: join(fixtures, 'template/src/index.ts'),
       foo: join(fixtures, 'template/src/index.ts'),
       bar: join(fixtures, 'template/src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    html: {
-      templateByEntries: {
-        foo: './static/foo.html',
-        bar: './static/bar.html',
-      },
-      templateParametersByEntries: {
-        foo: {
-          type: 'foo',
+    runServer: true,
+    builderConfig: {
+      html: {
+        templateByEntries: {
+          foo: './static/foo.html',
+          bar: './static/bar.html',
         },
-        bar: {
-          type: 'bar',
+        templateParametersByEntries: {
+          foo: {
+            type: 'foo',
+          },
+          bar: {
+            type: 'bar',
+          },
         },
       },
     },
@@ -234,30 +246,32 @@ test('templateByEntries & templateParametersByEntries', async ({ page }) => {
   ).resolves.toBe('bar');
 
   await expect(page.evaluate(`window.type`)).resolves.toBe('bar');
+
+  builder.close();
 });
 
 test('title & titleByEntries & templateByEntries', async ({ page }) => {
-  const buildOpts = {
+  // priority: template title > titleByEntries > title
+  const builder = await build({
     cwd: join(fixtures, 'template'),
     entry: {
       main: join(fixtures, 'template/src/index.ts'),
       foo: join(fixtures, 'template/src/index.ts'),
       bar: join(fixtures, 'template/src/index.ts'),
     },
-  };
-
-  // priority: template title > titleByEntries > title
-  const builder = await build(buildOpts, {
-    html: {
-      title: 'custom title',
-      titleByEntries: {
-        foo: 'Tiktok',
-      },
-      templateByEntries: {
-        bar: './static/index.html',
-      },
-      templateParameters: {
-        foo: 'bar',
+    runServer: true,
+    builderConfig: {
+      html: {
+        title: 'custom title',
+        titleByEntries: {
+          foo: 'Tiktok',
+        },
+        templateByEntries: {
+          bar: './static/index.html',
+        },
+        templateParameters: {
+          foo: 'bar',
+        },
       },
     },
   });
@@ -272,19 +286,21 @@ test('title & titleByEntries & templateByEntries', async ({ page }) => {
   await expect(page.evaluate(`document.title`)).resolves.toBe(
     'custom template',
   );
+
+  builder.close();
 });
 
 test('disableHtmlFolder', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: join(fixtures, 'template'),
     entry: {
       main: join(join(fixtures, 'template'), 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    html: {
-      disableHtmlFolder: true,
+    runServer: true,
+    builderConfig: {
+      html: {
+        disableHtmlFolder: true,
+      },
     },
   });
 
@@ -293,22 +309,24 @@ test('disableHtmlFolder', async ({ page }) => {
   const pagePath = join(builder.distPath, 'html/main.html');
 
   expect(fs.existsSync(pagePath)).toBeTruthy();
+
+  builder.close();
 });
 
 test('tools.htmlPlugin', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: join(fixtures, 'template'),
     entry: {
       main: join(join(fixtures, 'template'), 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    tools: {
-      htmlPlugin(config, { entryName }) {
-        if (entryName === 'main') {
-          config.scriptLoading = 'module';
-        }
+    runServer: true,
+    builderConfig: {
+      tools: {
+        htmlPlugin(config, { entryName }) {
+          if (entryName === 'main') {
+            config.scriptLoading = 'module';
+          }
+        },
       },
     },
   });
@@ -323,4 +341,6 @@ test('tools.htmlPlugin', async ({ page }) => {
   expect(
     allScripts?.every(data => data.includes('type="module"')),
   ).toBeTruthy();
+
+  builder.close();
 });
