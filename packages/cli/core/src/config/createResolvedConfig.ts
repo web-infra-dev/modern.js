@@ -1,10 +1,4 @@
-import {
-  createDebugger,
-  logger,
-  getPackageManager,
-  chalk,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
+import { createDebugger, logger } from '@modern-js/utils';
 import type { ErrorObject } from '@modern-js/utils/ajv';
 import { patchSchema } from '../schema/patchSchema';
 import type {
@@ -19,45 +13,12 @@ import { createDefaultConfig } from './createDefaultConfig';
 
 const debug = createDebugger('resolve-config');
 
-const showAdditionalPropertiesError = async (error: ErrorObject) => {
-  if (
-    error.keyword === 'additionalProperties' &&
-    error.params.additionalProperty
-  ) {
-    const target = [
-      error.instancePath.slice(1),
-      error.params.additionalProperty,
-    ]
-      .filter(Boolean)
-      .join('.');
-
-    const name = Object.keys(PLUGIN_SCHEMAS).find(key =>
-      (PLUGIN_SCHEMAS as Record<string, any>)[key].some(
-        (schemaItem: any) => schemaItem.target === target,
-      ),
-    );
-
-    if (name) {
-      const packageManager = await getPackageManager();
-      logger.warn(
-        `The configuration of ${chalk.bold(
-          target,
-        )} is provided by plugin ${chalk.bold(name)}. Please use ${chalk.bold(
-          `${packageManager} run new`,
-        )} to enable the corresponding capability.\n`,
-      );
-    }
-  }
-};
-
 export const createResolveConfig = async (
   // eslint-disable-next-line @typescript-eslint/ban-types
   loaded: LoadedConfig<{}>,
   configs: UserConfig[],
   schemas: PluginValidateSchema[],
-  onSchemaError: (
-    error: ErrorObject,
-  ) => void | Promise<void> = showAdditionalPropertiesError,
+  onSchemaError?: (error: ErrorObject) => void | Promise<void>,
 ): Promise<NormalizedConfig> => {
   const { default: Ajv } = await import('@modern-js/utils/ajv');
   const { default: ajvKeywords } = await import(
@@ -95,7 +56,9 @@ export const createResolveConfig = async (
     );
 
   if (!valid && validate.errors?.length) {
-    await onSchemaError(validate?.errors[0]);
+    if (onSchemaError) {
+      await onSchemaError(validate?.errors[0]);
+    }
     const errors = formatValidateError(userConfig);
     logger.log(errors);
     throw new Error(`Validate configuration error`);

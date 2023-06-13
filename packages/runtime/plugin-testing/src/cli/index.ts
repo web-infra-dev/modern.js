@@ -2,7 +2,6 @@ import path from 'path';
 import {
   isApiOnly,
   mergeAlias,
-  PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
@@ -58,7 +57,16 @@ export default (): CliPlugin<{
         },
 
         validateSchema() {
-          return PLUGIN_SCHEMAS['@modern-js/plugin-testing'];
+          return [
+            {
+              target: 'testing',
+              schema: { typeof: ['object'] },
+            },
+            {
+              target: 'tools.jest',
+              schema: { typeof: ['object', 'function'] },
+            },
+          ];
         },
 
         config() {
