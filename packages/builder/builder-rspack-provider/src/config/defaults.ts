@@ -2,41 +2,33 @@ import {
   extendsType,
   mergeBuilderConfig,
   getDefaultDevConfig,
-  getDefaultOutputConfig,
   getDefaultHtmlConfig,
+  getDefaultToolsConfig,
+  getDefaultOutputConfig,
   getDefaultSourceConfig,
+  getDefaultSecurityConfig,
+  getDefaultPerformanceConfig,
 } from '@modern-js/builder-shared';
-import type { BuilderConfig } from '../types';
+import type { BuilderConfig, NormalizedConfig } from '../types';
 
 const defineDefaultConfig = extendsType<BuilderConfig>();
 
-export const createDefaultConfig = () =>
+export const createDefaultConfig = (): NormalizedConfig =>
   defineDefaultConfig({
     dev: getDefaultDevConfig(),
     html: getDefaultHtmlConfig(),
     source: {
       ...getDefaultSourceConfig(),
-      alias: {},
       define: {},
     },
     output: getDefaultOutputConfig(),
-    tools: {},
-    security: {
-      checkSyntax: false,
-      nonce: '',
-      // sri: false
-    },
-    performance: {
-      // profile: false,
-      buildCache: true,
-      printFileSize: true,
-      removeConsole: false,
-      // removeMomentLocale: false,
-      chunkSplit: {
-        strategy: 'split-by-experience',
-      },
-    },
+    tools: getDefaultToolsConfig(),
+    security: getDefaultSecurityConfig(),
+    performance: getDefaultPerformanceConfig(),
   });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
-  mergeBuilderConfig<BuilderConfig>(createDefaultConfig(), config);
+  mergeBuilderConfig<BuilderConfig>(
+    createDefaultConfig() as BuilderConfig,
+    config,
+  );

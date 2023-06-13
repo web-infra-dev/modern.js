@@ -5,43 +5,46 @@ import {
   getDefaultOutputConfig,
   getDefaultHtmlConfig,
   getDefaultSourceConfig,
+  getDefaultSecurityConfig,
+  getDefaultPerformanceConfig,
+  getDefaultToolsConfig,
 } from '@modern-js/builder-shared';
-import type { BuilderConfig } from '../types';
+import type { BuilderConfig, NormalizedConfig } from '../types';
 
 const defineDefaultConfig = extendsType<BuilderConfig>();
 
-export const createDefaultConfig = () =>
+export const createDefaultConfig = (): NormalizedConfig =>
   defineDefaultConfig({
     dev: getDefaultDevConfig(),
     html: getDefaultHtmlConfig(),
     tools: {
+      ...getDefaultToolsConfig(),
       cssExtract: {
         loaderOptions: {},
         pluginOptions: {},
       },
-      tsChecker: {},
     },
     source: {
       ...getDefaultSourceConfig(),
-      alias: {},
       define: {},
     },
     output: getDefaultOutputConfig(),
-    security: { sri: false, checkSyntax: false, nonce: '' },
+    security: {
+      ...getDefaultSecurityConfig(),
+      sri: false,
+    },
     experiments: {
       lazyCompilation: false,
     },
     performance: {
+      ...getDefaultPerformanceConfig(),
       profile: false,
-      buildCache: true,
-      printFileSize: true,
-      removeConsole: false,
       removeMomentLocale: false,
-      chunkSplit: {
-        strategy: 'split-by-experience',
-      },
     },
   });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
-  mergeBuilderConfig<BuilderConfig>(createDefaultConfig(), config);
+  mergeBuilderConfig<BuilderConfig>(
+    createDefaultConfig() as BuilderConfig,
+    config,
+  );

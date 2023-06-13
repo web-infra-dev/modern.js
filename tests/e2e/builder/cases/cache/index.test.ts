@@ -7,18 +7,16 @@ import { fs } from '@modern-js/utils';
 webpackOnlyTest(
   'should save the buildDependencies to cache directory',
   async () => {
-    await build(
-      {
-        cwd: __dirname,
-        entry: { index: path.resolve(__dirname, './src/index.js') },
-        configPath: __dirname,
-      },
-      {
+    await build({
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+      configPath: __dirname,
+      builderConfig: {
         performance: {
           buildCache: {},
         },
       },
-    );
+    });
 
     const configFile = path.resolve(
       __dirname,
