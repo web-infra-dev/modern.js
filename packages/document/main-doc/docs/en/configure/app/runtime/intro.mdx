@@ -5,7 +5,7 @@ sidebar_position: 1
 
 # Overview
 
-This section describes the configuration of the Runtime plugin.
+This section describes configuration of the Runtime plugin.
 
 ## Configuration
 
@@ -32,12 +32,33 @@ export default defineConfig({
 
 #### DefineConfig
 
-Configure use [`defineConfig`](/apis/app/runtime/app/define-config) API:
+Configure using [`defineConfig`](/apis/app/runtime/app/define-config) API:
 
 :::info
-When there is a function in the runtime configuration, it can only be configured in this way.
+When there is a function in the runtime configuration, it can only be configured this way.
 
 :::
+
+import { Tabs, Tab as TabItem } from "@theme";
+
+<Tabs>
+  <TabItem value="layout" label="Conventional Routing" default>
+
+```tsx title="src/routes/layout.tsx"
+import type { AppConfig } from '@modern-js/runtime';
+
+export const config = (): AppConfig => {
+  return {
+    router: {
+      supportHtml5History: false
+    }
+  }
+};
+```
+
+  </TabItem>
+
+  <TabItem value="app" label="Self-controlled Routing">
 
 ```ts title="src/App.tsx"
 import { defineConfig } from '@modern-js/runtime';
@@ -55,6 +76,9 @@ defineConfig(App, {
 export default App;
 ```
 
+  </TabItem>
+</Tabs>
+
 :::info
 Using runtime configuration, you can solve the problem that runtime plugin configuration needs to be at runtime to get specific content.
 
@@ -63,7 +87,7 @@ Runtime plugin runtime configuration and configuration directly in `modern.confi
 :::
 
 :::warning
-defineConfig can only define the specific configuration content of the Runtime plugin. To confirm whether to enable the plugin, it needs to be determined through the configuration in `modernConfig` in `package.json` or `modern.config.ts`.
+The `defineConfig` API only accepts the specific configuration of Runtime plugins. Enabling the plugin is determined through `modern.config.ts` configuration."
 
 :::
 
