@@ -4,11 +4,11 @@ sidebar_position: 6
 ---
 # Mock
 
-Modern.js provides the ability to quickly generate Mock data, allowing the front-end to develop independently without being blocked by the back-end interface.
+Modern.js allows you to easily generate mock data so that the front-end can develop independently without depending on the back-end API.
 
-## Mock File
+## Enabling Mock
 
-By convention, when there is `index.[jt]s` in the `config/mock/` directory, the Mock Data will be automatically enabled, as follows:
+By convention, when there is an `index.[jt]s` in the `config/mock/` directory, mock data will be automatically enabled:
 
 ```bash
 .
@@ -22,7 +22,7 @@ By convention, when there is `index.[jt]s` in the `config/mock/` directory, the 
 
 ## Writing Mock Files
 
-the `config/mock/index.ts` file only needs to export an object containing all Mock APIs. The properties of the object are composed of the request configuration `method` and `url`, and the corresponding property values can be `Object`, `Array`, `Function`:
+The `config/mock/index.ts` file only needs to export an object containing all Mock APIs. The properties of the object are composed of the request configuration `method` and `url`, and the corresponding property values can be `Object`, `Array`, or `Function`:
 
 ```js
 export default {
@@ -40,11 +40,11 @@ export default {
 };
 ```
 
-when access `http://localhost:8080/api/getInfo`, the api will return json `{ "data": [1, 2, 3, 4] }`.
+When you access `http://localhost:8080/api/getInfo`, the API will return JSON `{ "data": [1, 2, 3, 4] }`.
 
 ## Return Random Data
 
-Libraries such as [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started) can be used in `config/mock/index.js` to generate random data, for example:
+Libraries such as [Mock.js](https://github.com/nuysoft/Mock/wiki/Getting-Started) can be used in `config/mock/index.js` to generate random data. For example:
 
 ```js
 const Mock = require('mockjs');
@@ -56,16 +56,16 @@ module.exports = {
 };
 ```
 
-:::info Other Mock Lib
+:::info Other Mock Libraries
 
 - [Chancejs](https://github.com/chancejs/chancejs)
 - [Mock](https://github.com/nuysoft/Mock/wiki/Getting-Started)
 
 :::
 
-## Delayed Return
+## Delayed Response
 
-- It can be achieved using the function of the browser "weak connection simulation".
+- You can do this by using the browser's "weak connection simulation" feature.
 - Delays can be set via `setTimeout`, for example:
 
 ```ts
@@ -92,7 +92,7 @@ export const config = {
 }
 ```
 
-Currently only the `enable` configuration is supported, through which developers can control whether to execute Mock.
+Currently only the `enable` configuration is supported, which allows developers to control whether to execute mock.
 
 :::note
 After modifying `config`, there is no need to restart the service, which will take effect immediately.

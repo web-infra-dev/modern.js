@@ -9,14 +9,12 @@ test.describe('performance configure multi', () => {
   const basicFixtures = resolve(__dirname, 'basic');
 
   test.beforeAll(async () => {
-    const builder = await build(
-      {
-        cwd: basicFixtures,
-        entry: {
-          main: join(basicFixtures, 'src/index.ts'),
-        },
+    const builder = await build({
+      cwd: basicFixtures,
+      entry: {
+        main: join(basicFixtures, 'src/index.ts'),
       },
-      {
+      builderConfig: {
         performance: {
           bundleAnalyze: {},
           chunkSplit: {
@@ -24,7 +22,7 @@ test.describe('performance configure multi', () => {
           },
         },
       },
-    );
+    });
 
     files = await builder.unwrapOutputJSON();
   });
@@ -46,14 +44,12 @@ test.describe('performance configure multi', () => {
 });
 
 test('removeConsole', async () => {
-  const builder = await build(
-    {
-      cwd: join(fixtures, 'removeConsole'),
-      entry: {
-        main: join(fixtures, 'removeConsole/src/index.js'),
-      },
+  const builder = await build({
+    cwd: join(fixtures, 'removeConsole'),
+    entry: {
+      main: join(fixtures, 'removeConsole/src/index.js'),
     },
-    {
+    builderConfig: {
       performance: {
         chunkSplit: {
           strategy: 'all-in-one',
@@ -61,7 +57,7 @@ test('removeConsole', async () => {
         removeConsole: ['log', 'warn'],
       },
     },
-  );
+  });
 
   const files = await builder.unwrapOutputJSON();
 
@@ -76,21 +72,19 @@ test('removeConsole', async () => {
 });
 
 test('should generate vendor chunk when chunkSplit is "single-vendor"', async () => {
-  const builder = await build(
-    {
-      cwd: join(fixtures, 'basic'),
-      entry: {
-        main: join(fixtures, 'basic/src/index.ts'),
-      },
+  const builder = await build({
+    cwd: join(fixtures, 'basic'),
+    entry: {
+      main: join(fixtures, 'basic/src/index.ts'),
     },
-    {
+    builderConfig: {
       performance: {
         chunkSplit: {
           strategy: 'single-vendor',
         },
       },
     },
-  );
+  });
 
   const files = await builder.unwrapOutputJSON();
 

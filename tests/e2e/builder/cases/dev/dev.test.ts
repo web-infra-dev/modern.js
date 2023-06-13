@@ -8,19 +8,18 @@ const fixtures = __dirname;
 // hmr test will timeout in CI
 test.skip('default & hmr (default true)', async ({ page }) => {
   await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'hmr'),
     entry: {
       main: join(fixtures, 'hmr', 'test-src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    tools: {
-      devServer: {
-        client: {
-          host: '',
-          port: '',
+    builderConfig: {
+      tools: {
+        devServer: {
+          client: {
+            host: '',
+            port: '',
+          },
         },
       },
     },
@@ -83,21 +82,20 @@ test.skip('default & hmr (default true)', async ({ page }) => {
 });
 
 test.skip('dev.port & output.distPath', async ({ page }) => {
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(fixtures, 'basic', 'src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    dev: {
-      port: 3000,
-    },
-    output: {
-      distPath: {
-        root: 'dist-1',
-        js: 'aa/js',
+    builderConfig: {
+      dev: {
+        port: 3000,
+      },
+      output: {
+        distPath: {
+          root: 'dist-1',
+          js: 'aa/js',
+        },
       },
     },
   });
@@ -126,28 +124,24 @@ test.skip('hmr should work when setting dev.port & serverOptions.dev.client', as
 }) => {
   await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src-1'));
   const cwd = join(fixtures, 'hmr');
-  const buildOpts = {
+  const builder = await dev({
     cwd,
     entry: {
       main: join(cwd, 'test-src-1/index.ts'),
     },
-  };
-
-  const builder = await dev(
-    buildOpts,
-    {
+    builderConfig: {
       dev: {
         port: 3001,
       },
     },
-    {
+    serverOptions: {
       dev: {
         client: {
           host: '',
         },
       },
     },
-  );
+  });
 
   await page.goto(getHrefByEntryName('main', builder.port));
   expect(builder.port).toBe(3001);
@@ -181,16 +175,15 @@ test.skip('hmr should work when setting dev.port & serverOptions.dev.client', as
 
 // need devcert
 test.skip('dev.https', async () => {
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(join(fixtures, 'basic'), 'src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    dev: {
-      https: true,
+    builderConfig: {
+      dev: {
+        https: true,
+      },
     },
   });
 
@@ -201,31 +194,30 @@ test.skip('dev.https', async () => {
 
 // hmr will timeout in CI
 test.skip('tools.devServer', async ({ page }) => {
-  const buildOpts = {
-    cwd: join(fixtures, 'basic'),
-    entry: {
-      main: join(join(fixtures, 'basic'), 'src/index.ts'),
-    },
-  };
-
   let i = 0;
   let reloadFn: undefined | (() => void);
 
   // Only tested to see if it works, not all configurations.
-  const builder = await dev(buildOpts, {
-    tools: {
-      devServer: {
-        setupMiddlewares: [
-          (_middlewares, server) => {
-            reloadFn = () => server.sockWrite('content-changed');
-          },
-        ],
-        before: [
-          (req, res, next) => {
-            i++;
-            next();
-          },
-        ],
+  const builder = await dev({
+    cwd: join(fixtures, 'basic'),
+    entry: {
+      main: join(join(fixtures, 'basic'), 'src/index.ts'),
+    },
+    builderConfig: {
+      tools: {
+        devServer: {
+          setupMiddlewares: [
+            (_middlewares, server) => {
+              reloadFn = () => server.sockWrite('content-changed');
+            },
+          ],
+          before: [
+            (req, res, next) => {
+              i++;
+              next();
+            },
+          ],
+        },
       },
     },
   });

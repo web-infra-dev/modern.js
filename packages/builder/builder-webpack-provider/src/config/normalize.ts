@@ -1,13 +1,6 @@
-import { extendsType, mergeBuilderConfig } from '@modern-js/builder-shared';
+import { mergeBuilderConfig } from '@modern-js/builder-shared';
 import { BuilderConfig, NormalizedConfig } from '../types';
 import { createDefaultConfig } from './defaults';
-
-const defineNormalizedDefaultConfig = extendsType<NormalizedConfig>();
-
-const createNormalizedDefaultConfig = () =>
-  defineNormalizedDefaultConfig({
-    ...createDefaultConfig(),
-  });
 
 /** #__PURE__
  * 1. May used by multiple plugins.
@@ -16,6 +9,6 @@ const createNormalizedDefaultConfig = () =>
  */
 export const normalizeConfig = (config: BuilderConfig): NormalizedConfig =>
   mergeBuilderConfig<NormalizedConfig>(
-    createNormalizedDefaultConfig(),
+    createDefaultConfig() as NormalizedConfig,
     config as NormalizedConfig,
   );

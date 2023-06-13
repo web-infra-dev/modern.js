@@ -5,19 +5,19 @@ import { build, getHrefByEntryName } from '@scripts/shared';
 const fixtures = resolve(__dirname, '../');
 
 test('pug', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    html: {
-      template: './static/index.pug',
-    },
-    tools: {
-      pug: true,
+    runServer: true,
+    builderConfig: {
+      html: {
+        template: './static/index.pug',
+      },
+      tools: {
+        pug: true,
+      },
     },
   });
 

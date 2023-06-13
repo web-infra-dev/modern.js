@@ -4,12 +4,10 @@ import { build } from '@scripts/shared';
 
 test('should throw error when exist syntax errors', async () => {
   await expect(
-    build(
-      {
-        cwd: __dirname,
-        entry: { index: path.resolve(__dirname, './src/index.js') },
-      },
-      {
+    build({
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+      builderConfig: {
         source: {
           exclude: [path.resolve(__dirname, './src/test.js')],
         },
@@ -25,6 +23,6 @@ test('should throw error when exist syntax errors', async () => {
           },
         },
       },
-    ),
+    }),
   ).rejects.toThrowError('[Syntax Checker]');
 });

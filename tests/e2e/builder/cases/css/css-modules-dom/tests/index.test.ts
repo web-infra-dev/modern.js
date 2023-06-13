@@ -9,22 +9,18 @@ const fixtures = resolve(__dirname, '../');
 webpackOnlyTest('enableCssModuleTSDeclaration', async () => {
   fs.removeSync(join(fixtures, 'src/App.module.less.d.ts'));
   fs.removeSync(join(fixtures, 'src/App.module.scss.d.ts'));
-  const buildOpts = {
+
+  await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
-  };
-
-  const builder = await build(
-    buildOpts,
-    {
+    builderConfig: {
       output: {
         enableCssModuleTSDeclaration: true,
       },
     },
-    false,
-  );
+  });
 
   expect(
     fs.existsSync(join(fixtures, 'src/App.module.less.d.ts')),
@@ -49,21 +45,19 @@ webpackOnlyTest('enableCssModuleTSDeclaration', async () => {
       })
       .includes(`'header': string;`),
   ).toBeTruthy();
-
-  builder.close();
 });
 
 test('disableCssExtract', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {
-      disableCssExtract: true,
+    runServer: true,
+    builderConfig: {
+      output: {
+        disableCssExtract: true,
+      },
     },
   });
 

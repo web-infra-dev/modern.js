@@ -10,6 +10,7 @@ test('should add node-polyfill when add node-polyfill plugin', async ({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
     plugins: [builderPluginNodePolyfill()],
+    runServer: true,
   });
   await page.goto(getHrefByEntryName('index', builder.port));
 
@@ -24,4 +25,6 @@ test('should add node-polyfill when add node-polyfill plugin', async ({
   await expect(
     page.evaluate(`document.getElementById('test-querystring').innerHTML`),
   ).resolves.toBe('foo=bar');
+
+  builder.close();
 });
