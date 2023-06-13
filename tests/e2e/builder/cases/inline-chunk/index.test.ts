@@ -135,7 +135,7 @@ webpackOnlyTest(
     expect(
       Object.keys(files).filter(fileName => fileName.endsWith('.js.map'))
         .length,
-    ).toEqual(5);
+    ).toEqual(4);
   },
 );
 
@@ -167,7 +167,7 @@ webpackOnlyTest('using RegExp to inline scripts', async () => {
   // all source maps in output
   expect(
     Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
-  ).toEqual(4);
+  ).toEqual(3);
 });
 
 webpackOnlyTest('using RegExp to inline styles', async () => {
