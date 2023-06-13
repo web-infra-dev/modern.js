@@ -13,7 +13,7 @@ import type { BuilderConfig } from '../types';
 
 const defineDefaultConfig = extendsType<BuilderConfig>();
 
-export const createDefaultConfig = () =>
+export const createDefaultConfig = (): BuilderConfig =>
   defineDefaultConfig({
     dev: getDefaultDevConfig(),
     html: getDefaultHtmlConfig(),
