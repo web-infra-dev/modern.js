@@ -1,5 +1,4 @@
 import {
-  extendsType,
   mergeBuilderConfig,
   getDefaultDevConfig,
   getDefaultOutputConfig,
@@ -11,9 +10,7 @@ import {
 } from '@modern-js/builder-shared';
 import type { BuilderConfig } from '../types';
 
-const defineDefaultConfig = extendsType<BuilderConfig>();
-
-export const createDefaultConfig = () => ({
+export const createDefaultConfig = (): BuilderConfig => ({
   dev: getDefaultDevConfig(),
   html: getDefaultHtmlConfig(),
   tools: {
@@ -43,7 +40,4 @@ export const createDefaultConfig = () => ({
 });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
-  mergeBuilderConfig<BuilderConfig>(
-    defineDefaultConfig(createDefaultConfig()),
-    config,
-  );
+  mergeBuilderConfig<BuilderConfig>(createDefaultConfig(), config);
