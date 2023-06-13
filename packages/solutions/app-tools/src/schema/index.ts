@@ -76,13 +76,9 @@ const server = {
   enableFrameworkExt: { type: 'boolean' },
 };
 const tools = {
-  tailwindcss: { type: 'object' },
-  jest: { typeof: ['object', 'function'] },
   esbuild: { typeof: ['object'] },
 };
-const deploy = {
-  microFrontend: { type: ['boolean', 'object'] },
-};
+const deploy = {};
 const builderPlugins = { type: 'array' };
 
 const schema = new Schema();
