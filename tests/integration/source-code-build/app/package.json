@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "name": "@source-code-build/app",
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "new": "modern new",
+    "lint": "modern lint"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "react": "^18",
+    "react-dom": "^18",
+    "@source-code-build/components": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-swc": "workspace:*",
+    "typescript": "^5",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/node": "^14"
+  }
+}

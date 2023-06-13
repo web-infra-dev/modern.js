@@ -1,0 +1,18 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "composite": true,
+    "declaration": true,
+    "declarationDir": "./dist/types",
+    "declarationMap": true,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@common/*": ["./src/common/*"]
+    },
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src"]
+}
