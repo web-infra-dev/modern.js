@@ -114,7 +114,7 @@
     "webpack": "^5.82.1",
     "webpack-sources": "^3.2.3",
     "zod": "^3.20.2",
-    "zod-validation-error": "^0.3.0"
+    "zod-validation-error": "1.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.5",

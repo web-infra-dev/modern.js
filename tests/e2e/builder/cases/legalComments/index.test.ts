@@ -1,11 +1,11 @@
 import { join } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest, webpackOnlyTest } from '@scripts/helper';
+import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest('legalComments linked (default)', async ({ page }) => {
+test('legalComments linked (default)', async ({ page }) => {
   const buildOpts = {
     cwd: fixtures,
     entry: {
@@ -51,7 +51,7 @@ allProviderTest('legalComments linked (default)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('legalComments none', async ({ page }) => {
+test('legalComments none', async ({ page }) => {
   const buildOpts = {
     cwd: fixtures,
     entry: {
