@@ -25,8 +25,7 @@ export function builderPluginSass(): BuilderPlugin {
 
         const rule = chain.module
           .rule(utils.CHAIN_ID.RULE.SASS)
-          .test(SASS_REGEX)
-          .type('css');
+          .test(SASS_REGEX);
 
         excludes.forEach(item => {
           rule.exclude.add(item);
@@ -37,6 +36,7 @@ export function builderPluginSass(): BuilderPlugin {
           utils,
           config,
           context: api.context,
+          importLoaders: 2,
         });
 
         rule
@@ -51,12 +51,7 @@ export function builderPluginSass(): BuilderPlugin {
 
         const rules = rspackConfig.module?.rules;
 
-        applyCSSModuleRule(
-          rules,
-          SASS_REGEX,
-          config.output.disableCssModuleExtension,
-          config.output.cssModules,
-        );
+        applyCSSModuleRule(rules, SASS_REGEX, config);
       });
     },
   };
