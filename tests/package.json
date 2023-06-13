@@ -42,7 +42,7 @@
     "jest-puppeteer": "^8.0.0",
     "kill-port": "^2.0.0",
     "get-port": "5.0.0",
-    "puppeteer": "^20.5.0",
+    "puppeteer": "^19.11.1",
     "rimraf": "^3.0.2",
     "tree-kill": "^1.2.2",
     "ts-node": "^10.9.1",
