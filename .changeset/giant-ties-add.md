@@ -44,7 +44,6 @@
 '@modern-js/plugin-router-v5': patch
 '@modern-js/monorepo-tools': patch
 '@modern-js/remark-container': patch
-'@modern-js/builder-plugin-swc-base': patch
 '@modern-js/builder-shared': patch
 '@modern-js/builder-plugin-esbuild': patch
 '@modern-js/doc-plugin-preview': patch
