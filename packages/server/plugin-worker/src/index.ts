@@ -3,7 +3,6 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   fs,
   isServiceWorker,
-  PLUGIN_SCHEMAS,
   ROUTE_SPEC_FILE,
   SERVER_DIR,
 } from '@modern-js/utils';
@@ -41,7 +40,12 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-worker'];
+        return [
+          {
+            target: 'deploy.worker.ssr',
+            schema: { type: ['boolean'] },
+          },
+        ];
       },
       async afterDev() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
