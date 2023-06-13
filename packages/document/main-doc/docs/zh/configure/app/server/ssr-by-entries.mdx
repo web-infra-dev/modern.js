@@ -7,7 +7,7 @@ sidebar_label: ssrByEntries
 - **类型：** `Object`
 - **默认值：** `undefined`
 
-按入口设置 ssr 选项，选项内的属性同 [ssr](./ssr.mdx)，指定值会和 ssr 属性内容做替换合并操作，例如：
+按入口设置 SSR 选项，选项内的属性同 [ssr](./ssr.mdx)，指定值会和 SSR 属性内容做替换合并操作，例如：
 
 :::info
 「 入口名 」默认为目录名，少数情况下通过 `source.entries` 自定义入口时，入口名为 `source.entries` 对象的 `key`。
@@ -19,11 +19,11 @@ export default defineConfig({
   server: {
     ssr: true,
     ssrByEntries: {
-      // page-a 不启用 ssr
+      // page-a 不启用 SSR
       'page-a': false,
     },
   },
 });
 ```
 
-如上配置，项目整体启用了 ssr, 但是针对入口 `page-a` 关闭了 ssr 渲染能力。
+如上配置，项目整体启用了 SSR, 但是针对入口 `page-a` 关闭了 SSR 渲染能力。

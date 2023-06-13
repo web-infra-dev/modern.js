@@ -7,9 +7,9 @@ sidebar_label: enableFrameworkExt
 - **Type:** `boolean`
 - **Default:** `false`
 
-By default, with [Custom Web Server](/guides/advanced-features/web-server) enabled, Middleware uses the syntax of the Modern.js itself.
+By default, when the [custom Web Server feature](/guides/advanced-features/web-server) is enabled, the Middleware will use the Modern.js's syntax.
 
-Enable `server.enableFrameworkExt` to use the syntax of framework extensions.
+Enabling `server.enableFrameworkExt` allows the use of syntax extensions from other frameworks.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -32,7 +32,7 @@ export const middleware: Middleware = (ctx, next) => {
 };
 ```
 
-When enabled, Middleware types will be exported from other namespaces and can the syntax of framework extensions:
+After enabling it, the Middleware type will be exported from other namespaces, and syntax extensions from frameworks can be used:
 
 ```ts title="server/index.ts"
 import { SomeType } from '@modern-js/runtime/{namespace}';
@@ -44,6 +44,6 @@ export const middleware: SomeType = (...args) => {
 ```
 
 :::note
-The above code is pseudo-code, and the specific usage needs to refer to the corresponding framework extension.
+The above code is pseudocode, and the specific usage needs to refer to the corresponding framework extension.
 
 :::
