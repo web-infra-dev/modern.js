@@ -5,21 +5,21 @@ import { build, getHrefByEntryName } from '@scripts/shared';
 const fixtures = resolve(__dirname, '../');
 
 test('externals', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.js'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {
-      externals: {
-        './aaa': 'aa',
+    runServer: true,
+    builderConfig: {
+      output: {
+        externals: {
+          './aaa': 'aa',
+        },
       },
-    },
-    source: {
-      preEntry: './src/ex.js',
+      source: {
+        preEntry: './src/ex.js',
+      },
     },
   });
 
@@ -42,21 +42,18 @@ test('externals', async ({ page }) => {
 });
 
 test('should not external dependencies when target is web worker', async () => {
-  const builder = await build(
-    {
-      cwd: fixtures,
-      target: 'web-worker',
-      entry: { index: resolve(fixtures, './src/index.js') },
-    },
-    {
+  const builder = await build({
+    cwd: fixtures,
+    target: 'web-worker',
+    entry: { index: resolve(fixtures, './src/index.js') },
+    builderConfig: {
       output: {
         externals: {
           react: 'MyReact',
         },
       },
     },
-    false,
-  );
+  });
   const files = await builder.unwrapOutputJSON();
 
   const content = files[Object.keys(files).find(file => file.endsWith('.js'))!];

@@ -12,6 +12,7 @@ test('resolve-extension-prefix', async ({ page }) => {
     entry: {
       main: join(fixtures, 'src/index.js'),
     },
+    runServer: true,
   };
 
   // ex.js take effect when not set resolveExtensionPrefix
@@ -22,11 +23,15 @@ test('resolve-extension-prefix', async ({ page }) => {
   builder.close();
 
   // ex.web.js take effect when set resolveExtensionPrefix
-  builder = await build(buildOpts, {
-    source: {
-      resolveExtensionPrefix: '.web',
+  builder = await build({
+    ...buildOpts,
+    builderConfig: {
+      source: {
+        resolveExtensionPrefix: '.web',
+      },
     },
   });
+
   await page.goto(getHrefByEntryName('main', builder.port));
   await expect(page.innerHTML('#test-el')).resolves.toBe('web');
 

@@ -6,17 +6,17 @@ import { webpackOnlyTest } from '@scripts/helper';
 const fixtures = __dirname;
 
 test('legalComments linked (default)', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    performance: {
-      chunkSplit: {
-        strategy: 'all-in-one',
+    runServer: true,
+    builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'all-in-one',
+        },
       },
     },
   });
@@ -52,21 +52,21 @@ test('legalComments linked (default)', async ({ page }) => {
 });
 
 test('legalComments none', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    performance: {
-      chunkSplit: {
-        strategy: 'all-in-one',
+    runServer: true,
+    builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'all-in-one',
+        },
       },
-    },
-    output: {
-      legalComments: 'none',
+      output: {
+        legalComments: 'none',
+      },
     },
   });
 
@@ -95,21 +95,21 @@ test('legalComments none', async ({ page }) => {
 });
 
 webpackOnlyTest('legalComments inline', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    performance: {
-      chunkSplit: {
-        strategy: 'all-in-one',
+    runServer: true,
+    builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'all-in-one',
+        },
       },
-    },
-    output: {
-      legalComments: 'inline',
+      output: {
+        legalComments: 'inline',
+      },
     },
   });
 

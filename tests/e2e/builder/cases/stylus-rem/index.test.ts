@@ -5,18 +5,16 @@ import { build } from '@scripts/shared';
 import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
 test('should compile stylus and rem correctly', async () => {
-  const builder = await build(
-    {
-      cwd: __dirname,
-      entry: { index: path.resolve(__dirname, './src/index.js') },
-      plugins: [builderPluginStylus()],
-    },
-    {
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
+    plugins: [builderPluginStylus()],
+    builderConfig: {
       output: {
         convertToRem: true,
       },
     },
-  );
+  });
   const files = await builder.unwrapOutputJSON();
 
   const content =

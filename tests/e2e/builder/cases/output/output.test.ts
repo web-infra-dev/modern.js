@@ -12,13 +12,6 @@ test.describe('output configure multi', () => {
   let builder: Awaited<ReturnType<typeof build>>;
 
   test.beforeAll(async () => {
-    const buildOpts = {
-      cwd: join(fixtures, 'rem'),
-      entry: {
-        main: join(fixtures, 'rem/src/index.ts'),
-      },
-    };
-
     await fs.mkdir(dirname(distFilePath), { recursive: true });
     await fs.writeFile(
       distFilePath,
@@ -27,13 +20,19 @@ test.describe('output configure multi', () => {
     }`,
     );
 
-    builder = await build(buildOpts, {
-      output: {
-        distPath: {
-          root: 'dist-1',
-          js: 'aa/js',
+    builder = await build({
+      cwd: join(fixtures, 'rem'),
+      entry: {
+        main: join(fixtures, 'rem/src/index.ts'),
+      },
+      builderConfig: {
+        output: {
+          distPath: {
+            root: 'dist-1',
+            js: 'aa/js',
+          },
+          copy: [{ from: './src/assets', to: '' }],
         },
-        copy: [{ from: './src/assets', to: '' }],
       },
     });
   });
@@ -61,13 +60,6 @@ test.describe('output configure multi', () => {
 });
 
 test('cleanDistPath disable', async () => {
-  const buildOpts = {
-    cwd: join(fixtures, 'rem'),
-    entry: {
-      main: join(fixtures, 'rem/src/index.ts'),
-    },
-  };
-
   const distFilePath = join(fixtures, 'rem/dist-2/test.json');
 
   await fs.mkdir(dirname(distFilePath), { recursive: true });
@@ -78,12 +70,18 @@ test('cleanDistPath disable', async () => {
   }`,
   );
 
-  const builder = await build(buildOpts, {
-    output: {
-      distPath: {
-        root: 'dist-2',
+  const builder = await build({
+    cwd: join(fixtures, 'rem'),
+    entry: {
+      main: join(fixtures, 'rem/src/index.ts'),
+    },
+    builderConfig: {
+      output: {
+        distPath: {
+          root: 'dist-2',
+        },
+        cleanDistPath: false,
       },
-      cleanDistPath: false,
     },
   });
 
