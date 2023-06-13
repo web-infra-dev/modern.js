@@ -29,7 +29,7 @@ export interface SharedToolsConfig extends BuilderSharedToolsConfig {
    * The configuration of `swc` is provided by `swc` plugin.
    * @requires `swc` plugin
    */
-  swc?: PluginSwcOptions;
+  swc?: PluginSwcOptions<'outer'>;
 }
 export interface ToolsUserConfig
   extends BuilderToolsConfig,

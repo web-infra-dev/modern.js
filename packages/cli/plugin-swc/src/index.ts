@@ -1,6 +1,9 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { PLUGIN_SCHEMAS } from '@modern-js/utils';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
+import {
+  builderPluginSwc,
+  PluginSwcOptions,
+} from '@modern-js/builder-plugin-swc';
 import { logger } from '@modern-js/utils/logger';
 
 export default (): CliPlugin<AppTools> => ({
@@ -19,6 +22,15 @@ export default (): CliPlugin<AppTools> => ({
 
       const config = api.useResolvedConfigContext();
       const { esbuild, swc = {} } = config.tools;
+
+      // for useloader api use
+      (swc as PluginSwcOptions).extensions = {
+        ...(swc.extensions || {}),
+        ssrLoaderId: {
+          runtimePackageName: '@modern-js/runtime',
+          functionUseLoaderName: 'useloader',
+        },
+      };
 
       context.builder.addPlugins([builderPluginSwc(swc)]);
 
