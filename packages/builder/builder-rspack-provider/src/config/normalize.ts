@@ -5,9 +5,7 @@ import { createDefaultConfig } from './defaults';
 const defineNormalizedDefaultConfig = extendsType<NormalizedConfig>();
 
 const createNormalizedDefaultConfig = () =>
-  defineNormalizedDefaultConfig({
-    ...createDefaultConfig(),
-  });
+  defineNormalizedDefaultConfig(createDefaultConfig());
 
 /** #__PURE__
  * 1. May used by multiple plugins.
