@@ -1,0 +1,32 @@
+{
+  "name": "@source-code-build/components",
+  "private": true,
+  "version": "2.9.0",
+  "main": "./dist/index.js",
+  "source": "./src/index.tsx",
+  "exports": {
+    ".": "./src/index.tsx",
+    "./card": "./src/card/index.tsx"
+  },
+  "types": "./dist/types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types/index.d.ts"
+      ],
+      "card": [
+        "./dist/types/card/index.ts"
+      ]
+    }
+  },
+  "dependencies": {
+    "@source-code-build/utils": "workspace:*"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ]
+}
