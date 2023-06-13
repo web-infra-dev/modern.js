@@ -4932,14 +4932,14 @@ importers:
         specifier: workspace:*
         version: link:../utils
       '@playwright/test':
-        specifier: ^1.25.1
-        version: 1.25.1
+        specifier: 1.33.0
+        version: 1.33.0
       connect:
         specifier: ^3.7.0
         version: 3.7.0
       playwright:
-        specifier: ^1.25.1
-        version: 1.25.1
+        specifier: 1.33.0
+        version: 1.33.0
       serve-static:
         specifier: ^1.14.1
         version: 1.15.0
@@ -5826,6 +5826,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../../packages/toolkit/utils
+      '@playwright/test':
+        specifier: 1.33.0
+        version: 1.33.0
       '@types/lodash':
         specifier: ^4.14.195
         version: 4.14.195
@@ -5838,9 +5841,6 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.0.6
-      playwright:
-        specifier: ^1.25.1
-        version: 1.25.1
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -12271,14 +12271,15 @@ packages:
       rimraf: 3.0.2
     dev: false
 
-  /@playwright/test@1.25.1:
-    resolution: {integrity: sha512-IJ4X0yOakXtwkhbnNzKkaIgXe6df7u3H3FnuhI9Jqh+CdO0e/lYQlDLYiyI9cnXK8E7UAppAWP+VqAv6VX7HQg==}
+  /@playwright/test@1.33.0:
+    resolution: {integrity: sha512-YunBa2mE7Hq4CfPkGzQRK916a4tuZoVx/EpLjeWlTVOnD4S2+fdaQZE0LJkbfhN5FTSKNLdcl7MoT5XB37bTkg==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@types/node': 18.11.17
-      playwright-core: 1.25.1
-    dev: false
+      playwright-core: 1.33.0
+    optionalDependencies:
+      fsevents: 2.3.2
 
   /@pmmmwh/react-refresh-webpack-plugin@0.5.10(react-refresh@0.14.0)(webpack@5.82.1):
     resolution: {integrity: sha512-j0Ya0hCFZPd4x40qLzbhGsh9TMtdb+CJQiso+WxLOPNasohq9cc5SNUcwsZaRH6++Xh91Xkm/xHCkuIiIu0LUA==}
@@ -27039,18 +27040,19 @@ packages:
     dependencies:
       find-up: 3.0.0
 
-  /playwright-core@1.25.1:
-    resolution: {integrity: sha512-lSvPCmA2n7LawD2Hw7gSCLScZ+vYRkhU8xH0AapMyzwN+ojoDqhkH/KIEUxwNu2PjPoE/fcE0wLAksdOhJ2O5g==}
+  /playwright-core@1.33.0:
+    resolution: {integrity: sha512-aizyPE1Cj62vAECdph1iaMILpT0WUDCq3E6rW6I+dleSbBoGbktvJtzS6VHkZ4DKNEOG9qJpiom/ZxO+S15LAw==}
     engines: {node: '>=14'}
     hasBin: true
 
-  /playwright@1.25.1:
-    resolution: {integrity: sha512-kOlW7mllnQ70ALTwAor73q/FhdH9EEXLUqjdzqioYLcSVC4n4NBfDqeCikGuayFZrLECLkU6Hcbziy/szqTXSA==}
+  /playwright@1.33.0:
+    resolution: {integrity: sha512-+zzU3V2TslRX2ETBRgQKsKytYBkJeLZ2xzUj4JohnZnxQnivoUvOvNbRBYWSYykQTO0Y4zb8NwZTYFUO+EpPBQ==}
     engines: {node: '>=14'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      playwright-core: 1.25.1
+      playwright-core: 1.33.0
+    dev: false
 
   /pnp-webpack-plugin@1.6.4(typescript@5.0.4):
     resolution: {integrity: sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==}
