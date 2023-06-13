@@ -91,7 +91,7 @@ export const middleware: Middlewre = (context, next) => {
 For more detail, see [Middleware] (/apis/app/runtime/web-server/middleware).
 :::
 
-Projects should have the following best practices when using Middleware:
+Projects should follow these best practices when using Middleware:
 
 1. In Middleware, you can directly operate origin request and response objects, do event tracking, and inject Node services (databases, Redis, etc.) that may be used for SSR rendering.
 2. Functions such as marking and crawler optimization can be done in Middleware.
