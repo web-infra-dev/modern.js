@@ -82,9 +82,8 @@ All configurations and capabilities under dev are available within rspack.
 
 Unsupported configurations and capabilities include:
 
-- [output.disableCssExtract](/api/config-output.html#outputdisablecssextract)
 - [output.disableSourcemap.css](/api/config-output.html#outputdisablesourcemap)
-- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
+- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration) (Only supported when [disableCssExtract](/api/config-output.html#outputdisablecssextract) is true)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
 - [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
 - [output.polyfill.usage](/api/config-output.html#usage) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
@@ -116,10 +115,9 @@ Unsupported configurations and capabilities include:
 
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
-- [tools.cssLoader](/api/config-tools.html#toolscssloader)
+- [tools.cssLoader](/api/config-tools.html#toolscssloader) (Only supported when [disableCssExtract](/api/config-output.html#outputdisablecssextract) is true)
 - [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.minifyCss](/api/config-tools.html#toolsminifycss)
-- [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
 - [tools.webpack](/api/config-tools.html#toolswebpack)：use [tools.rspack](/api/config-tools#toolsrspack) instead.
