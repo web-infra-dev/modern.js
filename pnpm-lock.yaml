@@ -1325,9 +1325,6 @@ importers:
       path-to-regexp:
         specifier: ^6.2.0
         version: 6.2.1
-      react-router-dom:
-        specifier: ^6.8.1
-        version: 6.11.2(react-dom@18.2.0)(react@18.2.0)
     devDependencies:
       '@modern-js/core':
         specifier: workspace:*
