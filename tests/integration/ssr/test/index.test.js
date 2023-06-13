@@ -5,6 +5,7 @@ const {
   launchApp,
   getPort,
   killApp,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -24,11 +25,7 @@ describe('init with SSR', () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
+    browser = await puppeteer.launch(launchOptions);
     page = await browser.newPage();
   });
 
