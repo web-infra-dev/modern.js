@@ -2,11 +2,12 @@
 sidebar_position: 2
 title: BFF Type
 ---
-# BFF Type
+
+# Function Mode or Framework Mode
 
 Runtime framework support is also an important part of **BFF**. Modern.js supports extending BFF's runtime framework through plugins, and provides a series of built-in plugins, developers can directly use the conventions and ecology of the framework.
 
-The plugin is compatible with most of the specifications of these frameworks, and each framework needs to provide two types of ways to extend the writing of BFF functions, namely **Function Mode** and **Framework Mode**.
+The plugin is compatible with the majority of the specifications within these frameworks, and each framework needs to provide two types of ways to extend the writing of BFF functions, namely **Function Mode** and **Framework Mode**.
 
 :::note
 Whether the current `api/` directory structure is written as a framework is determined by the corresponding plugin, Modern.js don't care.
@@ -15,7 +16,7 @@ Whether the current `api/` directory structure is written as a framework is dete
 
 ## Function Mode
 
-When the plugin considers that it is currently written as a function, it must support writing middleware in the `api/_ app.ts` to extend the BFF function.
+When the plugin considers that it is currently written as a function, it should be able to support middleware writing in the `api/_app.ts` file for expanding the BFF function.
 
 Modern.js collects the middleware in the `api/_app.ts` and passes it to the plugin, which injects the middleware into the runtime, for example:
 
@@ -34,11 +35,11 @@ The writing of middleware for different plugins is not the same, see [Runtime Fr
 
 ## Framework Mode
 
-Framework writing is a way of using frame structure to extend BFF functions. Compared with function writing, although frame writing can use more frame structure and make the entire BFF Server clearer in complex scenarios, it is also more complex and requires more attention to the content at the framework level.
+Framework Mode is a method of utilizing structural frames to enhance BFF capabilities. Compared with function writing, although frame writing can use more frame structure and make the entire BFF Server clearer in complex scenarios, it is also more complex and requires more attention to the content at the framework level.
 
-In the framework writing method, all BFF functions need to be written in the `api/lambda/` directory, and the hook file `_app.[tj]s` cannot be used.
+In the framework writing approach, all BFF (backend for frontend) functions are required to be written within the `api/lambda/` directory, and the hook file `_app.[tj]s` must be excluded from use.
 
-In most cases, the function writing method can cover the customization requirements of most BFF functions. Only when your project server level logic is more complex, the code needs to be layered, or you need to use more elements of the framework, you need to use the framework writing method.
+In the majority of cases, the function writing approach suffices to address the customization demands of most BFF functions. Solely when the level of logic for your project server is more intricate and layered code is necessary, or when you require additional aspects of the framework, should you opt for the framework writing technique.
 
 :::note
 The directory structure of different plugin frameworks is not the same, see [Runtime Frameworks](/guides/advanced-features/bff/frameworks) for details.

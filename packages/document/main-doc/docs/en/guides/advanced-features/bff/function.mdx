@@ -2,25 +2,31 @@
 sidebar_position: 1
 title: Basic Usage
 ---
+
 # Basic Usage
 
-Applications developed with Modern.js can define API functions in the `api/` directory, which can be called by the front-end to send requests without writing front and back-end glue layer code, At the same time, it ensures the type safety of the front and back end
+When developing web applications, you can define interface functions in the `api/` directory, which can be called by the front-end to send requests without writing front and back-end glue layer code, At the same time, it ensures the type safety of the front and back end
 
 ## Enable BFF
 
-import EnableBFF from "@site-docs-en/components/enable-bff"
+import EnableBFF from '@site-docs-en/components/enable-bff';
 
-<EnableBFF/>
+<EnableBFF />
 
 ## BFF Function
 
-The functions that are allowed to be called through integration are called **BFF functions**. Here is the simplest BFF function to write, creating an `api/hello.ts` file:
+The functions that are allowed to be called through integration are called **BFF functions**. Here is the simplest BFF function to write by creating an `api/hello.ts` file:
+
+:::caution
+In case of framework mode (with `api/lambda` directory), you need to create `api/lambda/hello.ts`
+
+:::
 
 ```ts title="api/hello.ts"
 export const get = async () => 'Hello Modern.js';
 ```
 
-Then directly import the function in `src/App.tsx` and call:
+Then import the function into `src/App.tsx` and call it:
 
 ```tsx title=src/App.tsx
 import { useState, useEffect } from 'react';
@@ -41,7 +47,7 @@ Modern.js generator has already configured the `@api` alias in tsconfig.json, so
 
 :::
 
-The functions import in `src/App.tsx` will be automatically converted into interface calls, so there is no need to call the interface through fetch.
+The functions import in `src/App.tsx` will be automatically converted into interface invocations, so there is no need to call the interface through fetch.
 
 Execute `pnpm run dev`, then open `http://localhost:8080/` to see that the page has displayed the content returned by the BFF function. In Network, you can see that the page sent a request to `http://localhost:8080/api/hello`.
 
@@ -49,9 +55,9 @@ Execute `pnpm run dev`, then open `http://localhost:8080/` to see that the page 
 
 ## API Routes
 
-In Modern.js, the BFF function routing system is implemented based on the file system, and it is also a conventional routing system.
+In Modern.js, the BFF function routing system is implemented based on the file system, and it is also a **conventional routing system**.
 
-In **Function Mode**, All files under `api/` will map to an interface. In **Framework Mode**, All files under `api/lambda` will map to an interface
+In **Function Mode**, All files under `api/` will be mapped to interfaces. In **Framework Mode**, all files under `api/lambda` will be mapped to interfaces
 
 :::note
 Function Mode & Framework Mode will introduce soon.
@@ -64,12 +70,12 @@ Several routing conventions are described as follow.
 
 ### Default Route
 
-Files named `index.[jt]s` are mapped to the previous directory.
+The files named `index.[jt]s` will be mapped to the parent directory.
 
 - `api/index.ts` -> `{prefix}/`
 - `api/user/index.ts` -> `{prefix}/user`
 
-### Multi-layer Routing
+### Nested routing
 
 Supports parsing nested files, if you create a nested folder structure, the files will still automatically parse routes in the same way.
 
@@ -85,7 +91,7 @@ Create folders or files named with `[xxx]` to support dynamic named routing para
 
 ### Allow List
 
-By default, all files in the'api/'directory will be parsed as BFF function files, but the following files will not be parsed:
+All files under the `api/` directory are parsed as BFF function files by default, but the following files are excluded from parsing:
 
 - file name start with `_`, for example `_utils.ts`.
 - files in directory which name start with `_`, for example `_utils/index.ts`、`_utils/cp.ts`.
@@ -130,9 +136,9 @@ export const post = async () => {
 };
 ```
 
-- Modern.js supports 9 definitions for HTTP Method: `GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTIONS`、`HEAD`, can be exported using these methods as functions.
+- Modern.js supports 9 definitions for HTTP Method: `GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTIONS`、`HEAD`, these methods can be used as function names for exporting.
 
-- The name is size insensitive, if `GET`, can write `get`、`Get`、`GEt`、`GET`, can be accurately identified. But default export as `export default xxx` will be map to `Get`.
+- The function names are case-insensitive, if `GET`, can write `get`、`Get`、`GEt`、`GET`, can be accurately identified. But default export as `export default xxx` will be map to `Get`.
 
 - Multiple functions of different Methods can be defined in one file, but if multiple functions of the same Method are defined, only the first will take effect.
 
@@ -149,7 +155,7 @@ The function parameters are divided into two parts, the dynamic part in the requ
 
 #### Dynamic Path
 
-Dynamic routing will be used as imported parameters in the first part of the function, and each imported parameter corresponds to a dynamic route. For example, in the following example, uid will be passed into the function as the first two parameters:
+Dynamic routes will be passed as the input parameters of the first part of the function, with each input parameter corresponding to a segment of the dynamic route. For example, in the following example, `uid` will be passed as the first two parameters to the function:
 
 ```ts title="api/[level]/[id].ts"
 export default async (level: number, id: number) => {
@@ -158,7 +164,7 @@ export default async (level: number, id: number) => {
 };
 ```
 
-Pass dynamic parameters directly when calling:
+Pass dynamic parameters directly when invoking the function：
 
 ```ts title="App.tsx"
 import { useState, useEffect } from 'react';
@@ -177,9 +183,9 @@ export default () => {
 
 #### RequestOption
 
-The parameter after Dynamic Path is the object `RequestOption` containing querystring and request body, which is used to define the types of `data` and `query`.
+The parameter following Dynamic Path is the `RequestOption` object that contains the query string and request body. It is used to define the `data` and `query` types.
 
-In normal functions without dynamic routing, the incoming `data` and `query` can be obtained from the first imported parameter, for example:
+In normal functions without dynamic routing, the initial imported parameter can be used to acquire the incoming `data` and `query`, for example:
 
 ```ts title="api/hello.ts"
 import type { RequestOption } from '@modern-js/runtime/server';
@@ -188,6 +194,23 @@ export async function post({
   query,
   data,
 }: RequestOption<Record<string, string>, Record<string, string>>) {
+  // do somethings
+}
+```
+
+You also can use custom type：
+
+```ts title="api/lambda/hello.ts"
+import type { RequestOption } from '@modern-js/runtime/server';
+
+type IQuery = {
+  // some types
+};
+type IData = {
+  // some types
+};
+
+export async function post({ query, data }: { query: IQuery; data: IData }) {
   // do somethings
 }
 ```
@@ -207,7 +230,7 @@ export async function post(
 }
 ```
 
-Also pass in the parameters according to the function definition:
+Make sure to provide the appropriate parameters as specified in the function definition:
 
 ```ts title="App.tsx"
 import { post } from '@api/[sku]/[id]/item';
@@ -230,4 +253,4 @@ export default () => {
 
 As mentioned earlier, the defined functions should be asynchronous because they are automatically converted to HTTP interface calls when called by the front end.
 
-so in order to keep the type definition consistent with the actual calling, it is necessary to set the BFF function to asynchronous when defining it.
+To ensure the type definition aligns with the actual call, it is essential to define the BFF function as asynchronous.
