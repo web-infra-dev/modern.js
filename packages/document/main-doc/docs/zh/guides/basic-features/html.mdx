@@ -9,7 +9,7 @@ Modern.js 提供了 **JSX 语法**和 **HTML(EJS) 语法**两种方式用于自�
 
 ## JSX 语法
 
-Modern.js 约定，在 `src/` 目录下，或在入口目录下，可以创建 `Document.[jt]sx` 并默认导出组件。该组件的渲染结果可以作为入口的 HTML 模板。
+Modern.js 约定，在 `src/` 或入口目录下，可以创建 `Document.[jt]sx` 文件并默认导出组件，该组件的渲染结果可以作为入口的 HTML 模板。
 
 例如以下目录结构：
 
@@ -27,17 +27,17 @@ Modern.js 约定，在 `src/` 目录下，或在入口目录下，可以创建 `
 
 `entry-a` 会优先使用当前入口下的 `Docoument.[jt]sx` 文件。如果当前入口没有 `Document.[jt]sx` 文件，例如 `entry-b`，则会查找根目录下的 `Document.[jt]sx` 文件。
 
-如果还没有，则会兜底到传统模板的逻辑。
+如果未找到，将会使用 Modern.js 的默认模板。
 
 ### HTML 组件
 
-Modern.js 提供了一些列渲染页面的组件，用来帮助开发者生成模板，可以从 `@modern-js/runtime/document` 中导出这些组件：
+Modern.js 提供了一些列渲染页面的组件，用来帮助开发者生成模板，可以从 `@modern-js/runtime/document` 中使用这些组件：
 
 ```tsx
 import { Html, Body, Root, Head, Scripts } from '@modern-js/runtime/document';
 ```
 
-这些组件分别渲染：
+这些组件分别用于渲染：
 
 - `Html`：提供原生 HTML Element 的能力，并能默认渲染开发者未添加的必须的组件。`<Head>` 和 `<Body>` 是必须要存在的，其它组件可以按需选择合适的组件进行组装。
 
@@ -57,10 +57,10 @@ import { Html, Body, Root, Head, Scripts } from '@modern-js/runtime/document';
 
 Modern.js 也提供了 `DocumentContext` 来提供一些配置、环境参数，方便直接获取。主要以下参数：
 
-- `processEnv`：提供构建时的 `process.env`
-- `config`：Modern.js 项目的配置。目前只暴露出 output 相关的配置
-- `entryName`：当前的入口名
-- `templateParams`：HTML 模板的参数（为了兼容传统模板，不推荐使用）
+- `processEnv`：提供构建时的 `process.env`。
+- `config`：Modern.js 项目的配置。目前只暴露出 output 相关的配置。
+- `entryName`：当前的入口名。
+- `templateParams`：HTML 模板的参数（为了兼容传统模板，不推荐使用）。
 
 ### 示例
 
@@ -151,7 +151,7 @@ export default function Document(): React.ReactElement {
 
 Modern.js 也支持 HTML 语法。默认情况下，Modern.js 的应用工程中会内置一份 HTML 模板，用于生成 HTML 代码。
 
-基于 HTML 语法的模板，Modern.js 提供了 **自定义 HTML 片段**和**完全自定义 HTML 模板**两种方式来自定义模板。
+基于 HTML 语法的模板，Modern.js 提供了**自定义 HTML 片段**和**完全自定义 HTML 模板**两种方式来自定义模板。
 
 ### 自定义 HTML 片段
 

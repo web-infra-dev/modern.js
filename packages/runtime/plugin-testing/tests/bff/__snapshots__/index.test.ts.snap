@@ -6,7 +6,7 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
     {
       "globals": {
         "modern_bff_info": {
-          "appDir": "/packages/runtime/plugin-testing/tests/bff/fixtures/bff1",
+          "appDir": "<ROOT>/tests/bff/fixtures/bff1",
           "modernUserConfig": {},
           "plugins": [],
           "routes": [],
@@ -16,18 +16,18 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
       "modulePathIgnorePatterns": [
         "config.test.ts",
       ],
-      "resolver": "/packages/runtime/plugin-testing/src/base/config/resolver.ts",
-      "rootDir": "/packages/runtime/plugin-testing/tests/bff/fixtures/bff1/api",
+      "resolver": "<ROOT>/src/base/config/resolver.ts",
+      "rootDir": "<ROOT>/tests/bff/fixtures/bff1/api",
       "setupFilesAfterEnv": [
-        "/packages/runtime/plugin-testing/src/cli/bff/setup.ts",
+        "<ROOT>/src/cli/bff/setup.ts",
       ],
       "testEnvironment": "node",
       "testMatch": [
         "**/api/**/*.test.[jt]s",
       ],
       "transform": {
-        "\\.[jt]sx?$": [
-          "/node_modules/.pnpm/ts-jest@29.1.0_@babel+core@7.21.8_@jest+types@29.5.0_babel-jest@29.5.0_esbuild@0.15.7_jest@29.5.0_typescript@5.0.4/node_modules/ts-jest/dist/index.js",
+        "/.[jt]sx?$": [
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/ts-jest/dist/index.js",
           {
             "diagnostics": {
               "warnOnly": true,
@@ -46,7 +46,7 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
     {
       "globals": {
         "modern_bff_info": {
-          "appDir": "/packages/runtime/plugin-testing/tests/bff/fixtures/bff1",
+          "appDir": "<ROOT>/tests/bff/fixtures/bff1",
           "modernUserConfig": {},
           "plugins": [],
           "routes": [],
@@ -56,18 +56,18 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
       "modulePathIgnorePatterns": [
         "config.test.ts",
       ],
-      "resolver": "/packages/runtime/plugin-testing/src/base/config/resolver.ts",
-      "rootDir": "/packages/runtime/plugin-testing/tests/bff/fixtures/bff1/api",
+      "resolver": "<ROOT>/src/base/config/resolver.ts",
+      "rootDir": "<ROOT>/tests/bff/fixtures/bff1/api",
       "setupFilesAfterEnv": [
-        "/packages/runtime/plugin-testing/src/cli/bff/setup.ts",
+        "<ROOT>/src/cli/bff/setup.ts",
       ],
       "testEnvironment": "node",
       "testMatch": [
         "**/api/**/*.test.[jt]s",
       ],
       "transform": {
-        "\\.[jt]sx?$": [
-          "/node_modules/.pnpm/ts-jest@29.1.0_@babel+core@7.21.8_@jest+types@29.5.0_babel-jest@29.5.0_esbuild@0.15.7_jest@29.5.0_typescript@5.0.4/node_modules/ts-jest/dist/index.js",
+        "/.[jt]sx?$": [
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/ts-jest/dist/index.js",
           {
             "diagnostics": {
               "warnOnly": true,

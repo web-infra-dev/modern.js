@@ -71,7 +71,7 @@ export const SASS_REGEX = /\.s(a|c)ss$/;
 export const STYLUS_REGEX = /\.styl$/;
 export const CSS_MODULES_REGEX = /\.module\.\w+$/i;
 export const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
-export const NODE_MODULES_REGEX = /node_modules/;
+export const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 export const MODULE_PATH_REGEX =
   /[\\/]node_modules[\\/](\.pnpm[\\/])?(?:(@[^[\\/]+)(?:[\\/]))?([^\\/]+)/;
 

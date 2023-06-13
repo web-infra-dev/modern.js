@@ -56,7 +56,7 @@ export async function startProdServer(
 
   const { getPort, DEFAULT_DEV_HOST } = await import('@modern-js/utils');
 
-  const port = await getPort(DEFAULT_PORT);
+  const port = await getPort(builderConfig.dev?.port || DEFAULT_PORT);
   const server = await prodServer({
     pwd: context.rootPath,
     config: getServerOptions(builderConfig),

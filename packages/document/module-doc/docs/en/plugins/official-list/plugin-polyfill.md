@@ -50,7 +50,7 @@ type options = {
 
 ### targets
 
-See [babel target](https://babeljs.io/docs/options#targets).
+See [Babel target](https://babeljs.io/docs/options#targets).
 
 This is a example.
 

@@ -2,7 +2,6 @@ import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -24,7 +23,7 @@ test.describe('html configure multi', () => {
     });
   });
 
-  allProviderTest('mountId', async ({ page }) => {
+  test('mountId', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
 
     await expect(
@@ -32,13 +31,13 @@ test.describe('html configure multi', () => {
     ).resolves.toBe('Hello Builder!');
   });
 
-  allProviderTest('title default', async ({ page }) => {
+  test('title default', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
 
     await expect(page.evaluate(`document.title`)).resolves.toBe('');
   });
 
-  allProviderTest('inject default (head)', async () => {
+  test('inject default (head)', async () => {
     const pagePath = join(builder.distPath, 'html/main/index.html');
     const content = await fs.readFile(pagePath, 'utf-8');
 
@@ -87,7 +86,7 @@ test.describe('html element set', () => {
     );
   });
 
-  allProviderTest('appicon', async () => {
+  test('appicon', async () => {
     const [, iconRelativePath] =
       /<link.*rel="apple-touch-icon".*href="(.*?)">/.exec(mainContent) || [];
 
@@ -102,7 +101,7 @@ test.describe('html element set', () => {
     ).toBeTruthy();
   });
 
-  allProviderTest('favicon', async () => {
+  test('favicon', async () => {
     const [, iconRelativePath] =
       /<link.*rel="icon".*href="(.*?)">/.exec(mainContent) || [];
 
@@ -115,7 +114,7 @@ test.describe('html element set', () => {
     expect(/<link.*rel="icon".*href="(.*?)">/.test(fooContent)).toBeTruthy();
   });
 
-  allProviderTest('custom inject', async () => {
+  test('custom inject', async () => {
     expect(
       /<head>[\s\S]*<script[\s\S]*>[\s\S]*<\/head>/.test(mainContent),
     ).toBeFalsy();
@@ -124,7 +123,7 @@ test.describe('html element set', () => {
     ).toBeTruthy();
   });
 
-  allProviderTest('custom meta', async () => {
+  test('custom meta', async () => {
     expect(
       /<meta name="description" content="a description of the page">/.test(
         mainContent,
@@ -132,7 +131,7 @@ test.describe('html element set', () => {
     ).toBeTruthy();
   });
 
-  allProviderTest('custom crossorigin', async () => {
+  test('custom crossorigin', async () => {
     const allScripts = /(<script [\s\S]*?>)/g.exec(mainContent);
 
     expect(
@@ -141,7 +140,7 @@ test.describe('html element set', () => {
   });
 });
 
-allProviderTest('custom title', async ({ page }) => {
+test('custom title', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'template'),
     entry: {
@@ -160,7 +159,7 @@ allProviderTest('custom title', async ({ page }) => {
   await expect(page.evaluate(`document.title`)).resolves.toBe('custom title');
 });
 
-allProviderTest('template & templateParameters', async ({ page }) => {
+test('template & templateParameters', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'template'),
     entry: {
@@ -193,95 +192,89 @@ allProviderTest('template & templateParameters', async ({ page }) => {
   await expect(page.evaluate(`window.foo`)).resolves.toBe('bar');
 });
 
-allProviderTest(
-  'templateByEntries & templateParametersByEntries',
-  async ({ page }) => {
-    const buildOpts = {
-      cwd: join(fixtures, 'template'),
-      entry: {
-        main: join(fixtures, 'template/src/index.ts'),
-        foo: join(fixtures, 'template/src/index.ts'),
-        bar: join(fixtures, 'template/src/index.ts'),
-      },
-    };
+test('templateByEntries & templateParametersByEntries', async ({ page }) => {
+  const buildOpts = {
+    cwd: join(fixtures, 'template'),
+    entry: {
+      main: join(fixtures, 'template/src/index.ts'),
+      foo: join(fixtures, 'template/src/index.ts'),
+      bar: join(fixtures, 'template/src/index.ts'),
+    },
+  };
 
-    const builder = await build(buildOpts, {
-      html: {
-        templateByEntries: {
-          foo: './static/foo.html',
-          bar: './static/bar.html',
+  const builder = await build(buildOpts, {
+    html: {
+      templateByEntries: {
+        foo: './static/foo.html',
+        bar: './static/bar.html',
+      },
+      templateParametersByEntries: {
+        foo: {
+          type: 'foo',
         },
-        templateParametersByEntries: {
-          foo: {
-            type: 'foo',
-          },
-          bar: {
-            type: 'bar',
-          },
+        bar: {
+          type: 'bar',
         },
       },
-    });
+    },
+  });
 
-    await page.goto(getHrefByEntryName('foo', builder.port));
+  await page.goto(getHrefByEntryName('foo', builder.port));
 
-    await expect(
-      page.evaluate(`document.getElementById('test-template').innerHTML`),
-    ).resolves.toBe('foo');
+  await expect(
+    page.evaluate(`document.getElementById('test-template').innerHTML`),
+  ).resolves.toBe('foo');
 
-    await expect(page.evaluate(`window.type`)).resolves.toBe('foo');
+  await expect(page.evaluate(`window.type`)).resolves.toBe('foo');
 
-    await page.goto(getHrefByEntryName('bar', builder.port));
+  await page.goto(getHrefByEntryName('bar', builder.port));
 
-    await expect(
-      page.evaluate(`document.getElementById('test-template').innerHTML`),
-    ).resolves.toBe('bar');
+  await expect(
+    page.evaluate(`document.getElementById('test-template').innerHTML`),
+  ).resolves.toBe('bar');
 
-    await expect(page.evaluate(`window.type`)).resolves.toBe('bar');
-  },
-);
+  await expect(page.evaluate(`window.type`)).resolves.toBe('bar');
+});
 
-allProviderTest(
-  'title & titleByEntries & templateByEntries',
-  async ({ page }) => {
-    const buildOpts = {
-      cwd: join(fixtures, 'template'),
-      entry: {
-        main: join(fixtures, 'template/src/index.ts'),
-        foo: join(fixtures, 'template/src/index.ts'),
-        bar: join(fixtures, 'template/src/index.ts'),
+test('title & titleByEntries & templateByEntries', async ({ page }) => {
+  const buildOpts = {
+    cwd: join(fixtures, 'template'),
+    entry: {
+      main: join(fixtures, 'template/src/index.ts'),
+      foo: join(fixtures, 'template/src/index.ts'),
+      bar: join(fixtures, 'template/src/index.ts'),
+    },
+  };
+
+  // priority: template title > titleByEntries > title
+  const builder = await build(buildOpts, {
+    html: {
+      title: 'custom title',
+      titleByEntries: {
+        foo: 'Tiktok',
       },
-    };
-
-    // priority: template title > titleByEntries > title
-    const builder = await build(buildOpts, {
-      html: {
-        title: 'custom title',
-        titleByEntries: {
-          foo: 'Tiktok',
-        },
-        templateByEntries: {
-          bar: './static/index.html',
-        },
-        templateParameters: {
-          foo: 'bar',
-        },
+      templateByEntries: {
+        bar: './static/index.html',
       },
-    });
+      templateParameters: {
+        foo: 'bar',
+      },
+    },
+  });
 
-    await page.goto(getHrefByEntryName('main', builder.port));
-    await expect(page.evaluate(`document.title`)).resolves.toBe('custom title');
+  await page.goto(getHrefByEntryName('main', builder.port));
+  await expect(page.evaluate(`document.title`)).resolves.toBe('custom title');
 
-    await page.goto(getHrefByEntryName('foo', builder.port));
-    await expect(page.evaluate(`document.title`)).resolves.toBe('Tiktok');
+  await page.goto(getHrefByEntryName('foo', builder.port));
+  await expect(page.evaluate(`document.title`)).resolves.toBe('Tiktok');
 
-    await page.goto(getHrefByEntryName('bar', builder.port));
-    await expect(page.evaluate(`document.title`)).resolves.toBe(
-      'custom template',
-    );
-  },
-);
+  await page.goto(getHrefByEntryName('bar', builder.port));
+  await expect(page.evaluate(`document.title`)).resolves.toBe(
+    'custom template',
+  );
+});
 
-allProviderTest('disableHtmlFolder', async ({ page }) => {
+test('disableHtmlFolder', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'template'),
     entry: {
@@ -302,7 +295,7 @@ allProviderTest('disableHtmlFolder', async ({ page }) => {
   expect(fs.existsSync(pagePath)).toBeTruthy();
 });
 
-allProviderTest('tools.htmlPlugin', async ({ page }) => {
+test('tools.htmlPlugin', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'template'),
     entry: {

@@ -1,4 +1,3 @@
-import assert from 'assert';
 import {
   getBrowserslistWithDefault,
   isUseCssSourceMap,
@@ -7,12 +6,11 @@ import {
   type BuilderContext,
   BundlerChain,
   ModifyBundlerChainUtils,
-  getCssSupport,
   setConfig,
   logger,
-  PostCSSPlugin,
   CssModules,
   getCssModulesAutoRule,
+  getPostcssConfig,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -22,99 +20,29 @@ import type {
 } from '../types';
 import { isUseCssExtract, getCompiledPath } from '../shared';
 
-type CssNanoOptions = {
-  configFile?: string | undefined;
-  preset?: [string, object] | string | undefined;
-};
-
-export const getCssnanoDefaultOptions = (): CssNanoOptions => ({
-  preset: [
-    'default',
-    {
-      // merge longhand will break safe-area-inset-top, so disable it
-      // https://github.com/cssnano/cssnano/issues/803
-      // https://github.com/cssnano/cssnano/issues/967
-      mergeLonghand: false,
-    },
-  ],
-});
-
-export async function applyBaseCSSRule(
-  rule: ReturnType<BundlerChain['module']['rule']>,
-  config: NormalizedConfig,
-  context: BuilderContext,
-  { target, isProd, isServer, isWebWorker, CHAIN_ID }: ModifyBundlerChainUtils,
-) {
+export async function applyBaseCSSRule({
+  rule,
+  config,
+  context,
+  utils: { target, isProd, isServer, isWebWorker, CHAIN_ID },
+}: {
+  rule: ReturnType<BundlerChain['module']['rule']>;
+  config: NormalizedConfig;
+  context: BuilderContext;
+  utils: ModifyBundlerChainUtils;
+}) {
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
   const enableSourceMap = isUseCssSourceMap(config);
   // const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
 
-  const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
     context.rootPath,
     config,
     target,
   );
 
-  // todo: move to modern-js/shared
-  const getPostcssConfig = () => {
-    const extraPlugins: PostCSSPlugin[] = [];
-    const utils = {
-      addPlugins(plugins: PostCSSPlugin | PostCSSPlugin[]) {
-        if (Array.isArray(plugins)) {
-          extraPlugins.push(...plugins);
-        } else {
-          extraPlugins.push(plugins);
-        }
-      },
-    };
-    const enableCssMinify = !enableExtractCSS && isProd;
-
-    const cssSupport = getCssSupport(browserslist);
-
-    const mergedConfig = applyOptionsChain(
-      {
-        postcssOptions: {
-          plugins: [
-            require(getCompiledPath('postcss-flexbugs-fixes')),
-            !cssSupport.customProperties &&
-              require(getCompiledPath('postcss-custom-properties')),
-            !cssSupport.initial && require(getCompiledPath('postcss-initial')),
-            !cssSupport.pageBreak &&
-              require(getCompiledPath('postcss-page-break')),
-            !cssSupport.fontVariant &&
-              require(getCompiledPath('postcss-font-variant')),
-            !cssSupport.mediaMinmax &&
-              require(getCompiledPath('postcss-media-minmax')),
-            require(getCompiledPath('postcss-nesting')),
-            require(getCompiledPath('autoprefixer'))(
-              applyOptionsChain(
-                {
-                  flexbox: 'no-2009',
-                  overrideBrowserslist: browserslist,
-                },
-                config.tools.autoprefixer,
-              ),
-            ),
-            enableCssMinify
-              ? require('cssnano')(getCssnanoDefaultOptions())
-              : false,
-          ].filter(Boolean),
-        },
-        sourceMap: enableSourceMap,
-      },
-      // postcss-loader will modify config
-      config.tools.postcss || {},
-      utils,
-    );
-    if (extraPlugins.length) {
-      assert('postcssOptions' in mergedConfig);
-      assert('plugins' in mergedConfig.postcssOptions!);
-      mergedConfig.postcssOptions.plugins!.push(...extraPlugins);
-    }
-    return mergedConfig;
-  };
+  const enableCssMinify = !enableExtractCSS && isProd;
 
   /**
    * TODO: support style-loader & ignore css (need Rspack support inline css first)
@@ -141,7 +69,12 @@ export async function applyBaseCSSRule(
   // }
 
   if (!isServer && !isWebWorker) {
-    const postcssLoaderOptions = getPostcssConfig();
+    const postcssLoaderOptions = await getPostcssConfig({
+      enableSourceMap,
+      browserslist,
+      config,
+      enableCssMinify,
+    });
 
     rule
       .use(CHAIN_ID.USE.POSTCSS)
@@ -218,7 +151,12 @@ export const builderPluginCss = (): BuilderPlugin => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
         rule.test(CSS_REGEX).type('css');
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
       });
       api.modifyRspackConfig(
         async (rspackConfig, { isProd, isServer, isWebWorker }) => {

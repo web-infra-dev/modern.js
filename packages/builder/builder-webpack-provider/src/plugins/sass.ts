@@ -30,7 +30,13 @@ export function builderPluginSass(): BuilderPlugin {
           rule.exclude.add(item);
         });
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+          importLoaders: 2,
+        });
 
         rule
           .use(utils.CHAIN_ID.USE.SASS)

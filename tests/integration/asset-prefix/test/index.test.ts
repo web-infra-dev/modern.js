@@ -42,7 +42,7 @@ describe('asset prefix', () => {
     );
 
     expect(
-      mainJs.includes(`window.__assetPrefix__ = "${expected}";`),
+      mainJs.includes(`window.__assetPrefix__ = '${expected}';`),
     ).toBeTruthy();
 
     const page: Page = await openPage();

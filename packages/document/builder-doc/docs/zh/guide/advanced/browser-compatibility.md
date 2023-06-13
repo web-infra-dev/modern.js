@@ -179,7 +179,7 @@ export default {
 
 ## Polyfill 方案
 
-Builder 底层通过 babel 或 SWC 编译 JavaScript 代码，并注入 [core-js](https://github.com/zloirock/core-js)、[@babel/runtime](https://www.npmjs.com/package/@babel/runtime)、[@swc/helpers](https://www.npmjs.com/package/@swc/helpers) 等 polyfill 库。
+Builder 底层通过 Babel 或 SWC 编译 JavaScript 代码，并注入 [core-js](https://github.com/zloirock/core-js)、[@babel/runtime](https://www.npmjs.com/package/@babel/runtime)、[@swc/helpers](https://www.npmjs.com/package/@swc/helpers) 等 polyfill 库。
 
 在不同的使用场景下，你可能会需要不同的 polyfill 方案。Builder 提供了 [output.polyfill](/api/config-output.html#outputpolyfill) 配置项来切换不同的 polyfill 方案。
 

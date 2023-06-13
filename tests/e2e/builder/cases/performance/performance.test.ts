@@ -1,11 +1,10 @@
 import { join, resolve } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest.describe('performance configure multi', () => {
+test.describe('performance configure multi', () => {
   let files: Record<string, string>;
   const basicFixtures = resolve(__dirname, 'basic');
 
@@ -46,7 +45,7 @@ allProviderTest.describe('performance configure multi', () => {
   });
 });
 
-allProviderTest('removeConsole', async () => {
+test('removeConsole', async () => {
   const builder = await build(
     {
       cwd: join(fixtures, 'removeConsole'),
@@ -74,4 +73,30 @@ allProviderTest('removeConsole', async () => {
   expect(jsFile.includes('test-console-info')).toBeFalsy();
   expect(jsFile.includes('test-console-warn')).toBeFalsy();
   expect(jsFile.includes('test-console-error')).toBeTruthy();
+});
+
+test('should generate vendor chunk when chunkSplit is "single-vendor"', async () => {
+  const builder = await build(
+    {
+      cwd: join(fixtures, 'basic'),
+      entry: {
+        main: join(fixtures, 'basic/src/index.ts'),
+      },
+    },
+    {
+      performance: {
+        chunkSplit: {
+          strategy: 'single-vendor',
+        },
+      },
+    },
+  );
+
+  const files = await builder.unwrapOutputJSON();
+
+  const [vendorFile] = Object.entries(files).find(
+    ([name, content]) => name.includes('vendor') && content.includes('React'),
+  )!;
+
+  expect(vendorFile).toBeTruthy();
 });

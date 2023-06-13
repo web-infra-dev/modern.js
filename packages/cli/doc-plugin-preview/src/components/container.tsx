@@ -105,7 +105,10 @@ const Container: React.FC<ContainerProps> = props => {
             <div className="flex">
               <div className="preview-code">{children?.[0]}</div>
               <div className="preview-device">
-                <iframe src={url} className="preview-device-iframe"></iframe>
+                <iframe
+                  src={getPageUrl()}
+                  className="preview-device-iframe"
+                ></iframe>
                 {renderMobileOperations()}
               </div>
             </div>

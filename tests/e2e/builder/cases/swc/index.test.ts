@@ -25,13 +25,20 @@ webpackOnlyTest('should run SWC compilation correctly', async ({ page }) => {
 });
 
 webpackOnlyTest('should optimize lodash bundle size', async ({ page }) => {
-  const builder = await build({
-    cwd: __dirname,
-    entry: {
-      index: path.resolve(__dirname, './src/main.ts'),
+  const builder = await build(
+    {
+      cwd: __dirname,
+      entry: {
+        index: path.resolve(__dirname, './src/main.ts'),
+      },
+      plugins: [builderPluginSwc()],
     },
-    plugins: [builderPluginSwc()],
-  });
+    {
+      output: {
+        polyfill: 'entry',
+      },
+    },
+  );
 
   await page.goto(getHrefByEntryName('index', builder.port));
 

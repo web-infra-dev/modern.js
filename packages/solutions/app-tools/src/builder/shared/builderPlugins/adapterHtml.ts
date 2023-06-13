@@ -10,8 +10,8 @@ import {
   removeTailSlash,
 } from '@modern-js/utils';
 import { template as lodashTemplate } from '@modern-js/utils/lodash';
+import { Bundler } from '../../../types';
 import { BottomTemplatePlugin } from '../bundlerPlugins';
-import type { Bundler } from '../../../types';
 import type { BuilderOptions, BuilderPluginAPI } from '../types';
 
 export const builderPluginAdapterHtml = <B extends Bundler>(
@@ -32,22 +32,45 @@ export const builderPluginAdapterHtml = <B extends Bundler>(
             HtmlBundlerPlugin,
           });
 
-          await injectAssetPrefix({ chain });
+          await injectAssetPrefix({
+            api,
+            chain,
+          });
         }
       },
     );
   },
 });
 
-async function injectAssetPrefix({ chain }: { chain: BundlerChain }) {
+async function injectAssetPrefix({
+  api,
+  chain,
+}: {
+  api: BuilderPluginAPI;
+  chain: BundlerChain;
+}) {
   const entries = chain.entryPoints.entries() || {};
   const entryNames = Object.keys(entries);
   const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
-  const code = `window.__assetPrefix__ = "${assetPrefix}";`;
+  const code = `window.__assetPrefix__ = '${assetPrefix}';`;
+  const isRspack = api.context.bundlerType === 'rspack';
 
-  entryNames.forEach(entryName => {
-    entries[entryName].prepend(createVirtualModule(code));
-  });
+  if (isRspack) {
+    const fileName = 'rspack-asset-prefix';
+    const { default: RspackVirtualModulePlugin } = await import(
+      'rspack-plugin-virtual-module'
+    );
+    entryNames.forEach(entryName => {
+      entries[entryName].prepend(fileName);
+      chain
+        .plugin('rspack-asset-prefix')
+        .use(RspackVirtualModulePlugin, [{ [fileName]: code }]);
+    });
+  } else {
+    entryNames.forEach(entryName => {
+      entries[entryName].prepend(createVirtualModule(code));
+    });
+  }
 }
 
 /** inject bottom template */

@@ -67,7 +67,7 @@ describe('Traditional SSR', () => {
     app = await launchApp(appDir, appPort);
 
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       dumpio: true,
       args: ['--no-sandbox'],
     });
@@ -126,7 +126,7 @@ describe('Traditional SSR with rspack', () => {
     app = await launchApp(appDir, appPort, {}, { BUNDLER: 'rspack' });
 
     browser = await puppeteer.launch({
-      headless: true,
+      headless: 'new',
       dumpio: true,
       args: ['--no-sandbox'],
     });

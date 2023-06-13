@@ -10,7 +10,7 @@ import {
 } from '../../../utils/modernTestUtils';
 import {
   nestedRouteOverPage,
-  renderDynamaticRoute,
+  renderDynamicRoute,
   renderPageRoute,
   renderSelfRoute,
   supportDefineInit,
@@ -46,7 +46,7 @@ describe('dev', () => {
       renderPageRoute(errors, appPort, page));
 
     test('render dynamic pages route correctly', async () =>
-      renderDynamaticRoute(errors, appPort, page));
+      renderDynamicRoute(errors, appPort, page));
 
     test('support global layout', async () =>
       supportGlobalLayout(errors, appPort, page));
@@ -101,7 +101,7 @@ describe('build', () => {
       renderPageRoute(errors, appPort, page));
 
     test('render dynamic pages route correctly', async () =>
-      renderDynamaticRoute(errors, appPort, page));
+      renderDynamicRoute(errors, appPort, page));
 
     test('support global layout', async () =>
       supportGlobalLayout(errors, appPort, page));

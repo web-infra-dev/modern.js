@@ -118,7 +118,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
 - [tools.cssLoader](/api/config-tools.html#toolscssloader)
-- [tools.devServer.devMiddleware](/api/config-tools.html#devmiddleware) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/2391))
 - [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.minifyCss](/api/config-tools.html#toolsminifycss)
 - [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
@@ -197,7 +196,7 @@ Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构
 | @babel/plugin-react-transform-remove-prop-types | 暂无                                                                                         | 暂无                                                                                                                  |
 
 :::tip
-在使用 Rspack 构建时，仍然**支持通过 [tools.babel](/api/config-tools.html#toolsbabel) 配置 babel 插件**，但会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
+在使用 Rspack 构建时，仍然**支持通过 [tools.babel](/api/config-tools.html#toolsbabel) 配置 Babel 插件**，但会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
 :::
 
 ### 5. SWC 配置支持
@@ -228,15 +227,15 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 
 目前已知以下行为会在一定程度上拖慢 Rspack 构建性能：
 
-##### 使用依赖 babel 实现的配置项或插件
+##### 使用依赖 Babel 实现的配置项或插件
 
-在使用 Rspack 构建时，Builder 默认不会启用 babel-loader。但当项目中使用到依赖 babel 实现的配置项或插件时，会额外添加 babel-loader 进行文件转译：
+在使用 Rspack 构建时，Builder 默认不会启用 `babel-loader`。但当项目中使用到依赖 Babel 实现的配置项或插件时，会额外添加 `babel-loader` 进行文件转译：
 
-- 通过 [tools.babel](/api/config-tools.html#toolsbabel) 添加 babel plugin
+- 通过 [tools.babel](/api/config-tools.html#toolsbabel) 添加 Babel plugin
 - 使用 [Modern.js SSR 功能](https://modernjs.dev/guides/advanced-features/ssr.html)
 - ...
 
-你可以通过开启[调试模式](/guide/debug/debug-mode.html) 来查看最终生成的 Rspack 配置中是否存在 babel 插件。
+你可以通过开启[调试模式](/guide/debug/debug-mode.html) 来查看最终生成的 Rspack 配置中是否存在 Babel 插件。
 
 ##### 开启 TypeScript 类型检查
 
