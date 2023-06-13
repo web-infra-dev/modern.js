@@ -94,7 +94,7 @@ For more detail, see [Middleware] (/apis/app/runtime/web-server/middleware).
 Projects should follow these best practices when using Middleware:
 
 1. In Middleware, you can directly operate origin request and response objects, do event tracking, and inject Node services (databases, Redis, etc.) that may be used for SSR rendering.
-2. Functions such as marking and crawler optimization can be done in Middleware.
+2. Operations such as marking and crawler optimization can be done in Middleware.
 3. In Middleware, you can ignore the default rendering and customize the rendering process.
 
 **In general, in CSR projects, using Hook can basically meet all the needs of simple scenarios. In SSR projects, Middleware can be used for more complex Node extensions.**
