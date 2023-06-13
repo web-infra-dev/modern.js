@@ -13,6 +13,7 @@ webpackOnlyTest('should run SWC compilation correctly', async ({ page }) => {
       index: path.resolve(__dirname, './src/main.ts'),
     },
     plugins: [builderPluginSwc()],
+    runServer: true,
   });
 
   await page.goto(getHrefByEntryName('index', builder.port));
@@ -22,6 +23,8 @@ webpackOnlyTest('should run SWC compilation correctly', async ({ page }) => {
     age: 10,
     school: 'yyy',
   });
+
+  builder.close();
 });
 
 webpackOnlyTest('should optimize lodash bundle size', async ({ page }) => {
@@ -31,6 +34,12 @@ webpackOnlyTest('should optimize lodash bundle size', async ({ page }) => {
       index: path.resolve(__dirname, './src/main.ts'),
     },
     plugins: [builderPluginSwc()],
+    runServer: true,
+    builderConfig: {
+      output: {
+        polyfill: 'entry',
+      },
+    },
   });
 
   await page.goto(getHrefByEntryName('index', builder.port));
@@ -45,4 +54,6 @@ webpackOnlyTest('should optimize lodash bundle size', async ({ page }) => {
   const bundleSize = readFileSync(lodashBundle, 'utf-8').length / 1024;
 
   expect(bundleSize < 10).toBeTruthy();
+
+  builder.close();
 });

@@ -19,19 +19,16 @@ webpackOnlyTest(
     const testDir = join(fixtures, 'test-src-1');
     const clear = await generatorTempDir(testDir);
 
-    await build(
-      {
-        cwd: __dirname,
-        entry: { index: resolve(testDir, 'index.js') },
-      },
-      {
+    await build({
+      cwd: __dirname,
+      entry: { index: resolve(testDir, 'index.js') },
+      builderConfig: {
         output: {
           disableSourceMap: true,
           enableCssModuleTSDeclaration: true,
         },
       },
-      false,
-    );
+    });
 
     expect(fs.existsSync(join(testDir, './a.css.d.ts'))).toBeFalsy();
     expect(fs.existsSync(join(testDir, './b.module.scss.d.ts'))).toBeTruthy();
@@ -54,12 +51,10 @@ webpackOnlyTest(
     const testDir = join(fixtures, 'test-src-2');
     const clear = await generatorTempDir(testDir);
 
-    await build(
-      {
-        cwd: __dirname,
-        entry: { index: resolve(testDir, 'index.js') },
-      },
-      {
+    await build({
+      cwd: __dirname,
+      entry: { index: resolve(testDir, 'index.js') },
+      builderConfig: {
         output: {
           disableSourceMap: true,
           enableCssModuleTSDeclaration: true,
@@ -74,8 +69,7 @@ webpackOnlyTest(
           },
         },
       },
-      false,
-    );
+    });
 
     expect(fs.existsSync(join(testDir, './a.css.d.ts'))).toBeFalsy();
     expect(fs.existsSync(join(testDir, './b.module.scss.d.ts'))).toBeFalsy();
@@ -92,12 +86,10 @@ webpackOnlyTest(
     const testDir = join(fixtures, 'test-src-3');
     const clear = await generatorTempDir(testDir);
 
-    await build(
-      {
-        cwd: __dirname,
-        entry: { index: resolve(testDir, 'index.js') },
-      },
-      {
+    await build({
+      cwd: __dirname,
+      entry: { index: resolve(testDir, 'index.js') },
+      builderConfig: {
         output: {
           disableSourceMap: true,
           enableCssModuleTSDeclaration: true,
@@ -110,8 +102,7 @@ webpackOnlyTest(
           },
         },
       },
-      false,
-    );
+    });
 
     expect(fs.existsSync(join(testDir, './a.css.d.ts'))).toBeFalsy();
     expect(fs.existsSync(join(testDir, './b.module.scss.d.ts'))).toBeTruthy();

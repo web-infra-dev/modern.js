@@ -7,13 +7,13 @@ title: enableHandleWeb
 - **Type:** `boolean`
 - **Default:** `false`
 
-:::caution
-First you need to enable the "BFF" function using [new](/apis/app/commands#modern-new) command.
-:::
+import EnableBFFCaution from "@site-docs-en/components/enable-bff-caution";
 
-By default, the BFF service can only handle requests from the BFF API.
+<EnableBFFCaution />
 
-When this value is set to `true`, page request traffic also goes through the BFF, and the logic built into Modern.js for page rendering defaults to running as the last middleware for the BFF service.
+By default, the BFF service can only handle requests for BFF APIs.
+
+When this value is set to `true`, page request will also pass through BFF, and the default logic for page rendering built in Modern.js will run as the last middleware of the BFF service.
 
 ```ts title="modern.config.ts"
 export default defineConfig({

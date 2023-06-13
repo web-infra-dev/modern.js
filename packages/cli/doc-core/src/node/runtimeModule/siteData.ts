@@ -242,6 +242,7 @@ async function extractPageData(
             );
           }
         });
+
         // TODO: we will find a more efficient way to do this
         const flattenContent = await flattenMdxContent(
           frontmatter.__content,
@@ -249,10 +250,7 @@ async function extractPageData(
           alias,
         );
 
-        content = applyReplaceRules(flattenContent, replaceRules).replace(
-          importStatementRegex,
-          '',
-        );
+        content = flattenContent.replace(importStatementRegex, '');
 
         const {
           html,

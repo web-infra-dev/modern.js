@@ -5,14 +5,13 @@ import { build, getHrefByEntryName } from '@scripts/shared';
 
 test('should serve dist files correctly', async ({ page }) => {
   const cwd = join(__dirname, 'basic');
-  const buildOpts = {
+
+  const { instance } = await build({
     cwd,
     entry: {
       main: join(cwd, 'src/index.js'),
     },
-  };
-
-  const { instance } = await build(buildOpts, {}, false);
+  });
 
   const { port, server } = await instance.serve();
 

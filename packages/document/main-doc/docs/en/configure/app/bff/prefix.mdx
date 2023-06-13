@@ -7,18 +7,18 @@ sidebar_label: prefix
 - **Type:** `string`
 - **Default:** `/api`
 
-:::caution
-First you need to enable the "BFF" function using [new](/apis/app/commands#modern-new) command.
-:::
+import EnableBFFCaution from "@site-docs-en/components/enable-bff-caution";
 
-By default, the route access BFF prefix's directory is `/api`, with the following directory structure:
+<EnableBFFCaution />
+
+By default, the prefix for accessing routes in the BFF API directory is `/api`, as shown in the following directory structure:
 
 ```bash
 api
 └── hello.ts
 ```
 
-The corresponding route for `api/hello.ts` access is `localhost:8080/api/hello`.
+The route corresponding to `api/hello.ts` when accessed is `localhost:8080/api/hello`.
 
 This configuration option can modify the default route prefix:
 
@@ -30,4 +30,4 @@ export default defineConfig({
 });
 ```
 
-The corresponding `api/hello.ts` access route is `localhost:8080/api-demo/hello`.
+The corresponding route for `api/hello.ts` when accessed is `localhost:8080/api-demo/hello`.

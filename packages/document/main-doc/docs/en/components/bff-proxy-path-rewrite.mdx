@@ -1,0 +1,16 @@
+Path rewriting can also be performed here, such as proxying the request sent to `localhost:8080/api/topics` to `https://cnodejs.org/api/v1/topics`.
+
+```js title="modern.server-runtime.config.js"
+import { defineConfig } from '@modern-js/app-tools/server';
+export default defineConfig({
+  bff: {
+    proxy: {
+      '/api': {
+        target: 'https://cnodejs.org',
+        pathRewrite: { '/api/topics': '/api/v1/topics' },
+        changeOrigin: true,
+      },
+    },
+  },
+});
+```

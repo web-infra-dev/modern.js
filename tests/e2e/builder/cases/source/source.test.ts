@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -9,14 +8,13 @@ test.describe('source configure multi', () => {
   let builder: Awaited<ReturnType<typeof build>>;
 
   test.beforeAll(async () => {
-    builder = await build(
-      {
-        cwd: join(fixtures, 'basic'),
-        entry: {
-          main: join(fixtures, 'basic/src/index.js'),
-        },
+    builder = await build({
+      cwd: join(fixtures, 'basic'),
+      entry: {
+        main: join(fixtures, 'basic/src/index.js'),
       },
-      {
+      runServer: true,
+      builderConfig: {
         source: {
           alias: {
             '@common': './src/common',
@@ -24,15 +22,19 @@ test.describe('source configure multi', () => {
           preEntry: ['./src/pre.js'],
         },
       },
-    );
+    });
   });
 
-  allProviderTest('alias', async ({ page }) => {
+  test.afterAll(() => {
+    builder.close();
+  });
+
+  test('alias', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
     await expect(page.innerHTML('#test')).resolves.toBe('Hello Builder! 1');
   });
 
-  allProviderTest('pre-entry', async ({ page }) => {
+  test('pre-entry', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
     await expect(page.innerHTML('#test-el')).resolves.toBe('aaaaa');
 
@@ -51,42 +53,56 @@ test.skip('module-scopes', async ({ page }) => {
   };
 
   await expect(
-    build(buildOpts, {
-      source: {
-        moduleScopes: ['./src'],
+    build({
+      ...buildOpts,
+      builderConfig: {
+        source: {
+          moduleScopes: ['./src'],
+        },
       },
     }),
   ).rejects.toThrowError('webpack build failed!');
 
-  let builder = await build(buildOpts, {});
+  let builder = await build({
+    ...buildOpts,
+    runServer: true,
+  });
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
   await expect(page.innerHTML('#test')).resolves.toBe('Hello Builder! 1');
 
+  builder.close();
+
   // should not throw
-  builder = await build(buildOpts, {
-    source: {
-      moduleScopes: ['./src', './common'],
+  builder = await build({
+    ...buildOpts,
+    builderConfig: {
+      source: {
+        moduleScopes: ['./src', './common'],
+      },
     },
   });
+
+  builder.close();
 });
 
-allProviderTest('global-vars & tsConfigPath', async ({ page }) => {
-  const buildOpts = {
+test('global-vars & tsConfigPath', async ({ page }) => {
+  const builder = await build({
     cwd: join(fixtures, 'global-vars'),
     entry: {
       main: join(fixtures, 'global-vars/src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    source: {
-      globalVars: {
-        ENABLE_TEST: true,
+    runServer: true,
+    builderConfig: {
+      source: {
+        globalVars: {
+          ENABLE_TEST: true,
+        },
       },
     },
   });
+
   await page.goto(getHrefByEntryName('main', builder.port));
   await expect(
     page.evaluate(`document.getElementById('test-el').innerHTML`),
@@ -95,25 +111,30 @@ allProviderTest('global-vars & tsConfigPath', async ({ page }) => {
   await expect(
     page.evaluate(`document.getElementById('test-alias-el').innerHTML`),
   ).resolves.toBe('alias work correctly');
+
+  builder.close();
 });
 
-allProviderTest('define', async ({ page }) => {
-  const buildOpts = {
+test('define', async ({ page }) => {
+  const builder = await build({
     cwd: join(fixtures, 'global-vars'),
     entry: {
       main: join(fixtures, 'global-vars/src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    source: {
-      define: {
-        ENABLE_TEST: JSON.stringify(true),
+    runServer: true,
+    builderConfig: {
+      source: {
+        define: {
+          ENABLE_TEST: JSON.stringify(true),
+        },
       },
     },
   });
+
   await page.goto(getHrefByEntryName('main', builder.port));
   await expect(
     page.evaluate(`document.getElementById('test-el').innerHTML`),
   ).resolves.toBe('aaaaa');
+
+  builder.close();
 });

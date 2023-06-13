@@ -1,11 +1,10 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
-import { allProviderTest } from '@scripts/helper';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
 import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
-allProviderTest('should compile stylus correctly', async () => {
+test('should compile stylus correctly', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
