@@ -1,4 +1,4 @@
-import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
@@ -47,7 +47,20 @@ export default ({
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
+        return [
+          {
+            target: 'runtime.masterApp',
+            schema: { type: ['boolean', 'object'] },
+          },
+          {
+            target: 'dev.withMasterApp',
+            schema: { type: ['object'] },
+          },
+          {
+            target: 'deploy.microFrontend',
+            schema: { type: ['boolean', 'object'] },
+          },
+        ];
       },
       resolvedConfig: async config => {
         const { resolved } = config;

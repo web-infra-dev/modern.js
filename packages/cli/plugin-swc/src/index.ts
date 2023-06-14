@@ -1,5 +1,5 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { PLUGIN_SCHEMAS, isSSR } from '@modern-js/utils';
+import { isSSR } from '@modern-js/utils';
 import {
   builderPluginSwc,
   PluginSwcOptions,
@@ -14,9 +14,13 @@ export function factory(
     name,
     setup: api => ({
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-swc'];
+        return [
+          {
+            target: 'tools.swc',
+            schema: { typeof: ['object'] },
+          },
+        ];
       },
-
       prepare() {
         const context = api.useAppContext();
         if (!context.builder) {

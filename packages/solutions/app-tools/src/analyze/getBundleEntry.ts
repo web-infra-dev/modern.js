@@ -18,6 +18,12 @@ const ensureExtensions = (file: string) => {
   return file;
 };
 
+/**
+ *
+ * Lightweight method for whether it is a directory.
+ */
+const isDirectory = (file: string) => !path.extname(file);
+
 const ifAlreadyExists = (
   entrypoints: Entrypoint[],
   checked: Entrypoint,
@@ -48,9 +54,7 @@ export const getBundleEntry = (
   config: AppNormalizedConfig<'shared'>,
 ) => {
   const { appDirectory, packageName } = appContext;
-  const {
-    source: { disableDefaultEntries, entries, entriesDir },
-  } = config;
+  const { disableDefaultEntries, entries, entriesDir } = config.source;
 
   const defaults = disableDefaultEntries
     ? []
@@ -65,9 +69,11 @@ export const getBundleEntry = (
           ? {
               entryName: name,
               entry: ensureAbsolutePath(appDirectory, value),
-              absoluteEntryDir: path.dirname(
+              absoluteEntryDir: isDirectory(
                 ensureAbsolutePath(appDirectory, value),
-              ),
+              )
+                ? ensureAbsolutePath(appDirectory, value)
+                : path.dirname(ensureAbsolutePath(appDirectory, value)),
               isAutoMount: true,
               fileSystemRoutes: fs
                 .statSync(ensureAbsolutePath(appDirectory, value))
@@ -78,9 +84,11 @@ export const getBundleEntry = (
           : {
               entryName: name,
               entry: ensureAbsolutePath(appDirectory, value.entry),
-              absoluteEntryDir: path.dirname(
+              absoluteEntryDir: isDirectory(
                 ensureAbsolutePath(appDirectory, value.entry),
-              ),
+              )
+                ? ensureAbsolutePath(appDirectory, value.entry)
+                : path.dirname(ensureAbsolutePath(appDirectory, value.entry)),
               isAutoMount: !value.disableMount,
               customBootstrap:
                 value.customBootstrap &&

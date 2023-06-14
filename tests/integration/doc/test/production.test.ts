@@ -1,11 +1,11 @@
 import path, { join } from 'path';
-import { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   getPort,
   killApp,
   modernBuild,
   modernServe,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -15,17 +15,24 @@ describe('Check production build', () => {
   let appDir: string;
   let appPort: number;
   let page: Page;
+  let browser: Browser;
   beforeAll(async () => {
     appDir = join(fixtureDir, 'production');
     await modernBuild(appDir);
     app = await modernServe(appDir, (appPort = await getPort()), {
       cwd: appDir,
     });
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
   afterAll(async () => {
     await killApp(app);
-    await page.close();
+    if (page) {
+      await page.close();
+    }
+    if (browser) {
+      browser.close();
+    }
   });
   it('check whether the page can be interacted', async () => {
     await page.goto(`http://localhost:${appPort}`, {

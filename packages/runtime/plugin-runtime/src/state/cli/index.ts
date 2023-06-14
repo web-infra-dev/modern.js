@@ -1,8 +1,4 @@
-import {
-  getEntryOptions,
-  createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
+import { getEntryOptions, createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'state';
@@ -80,7 +76,12 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-state'];
+        return [
+          {
+            target: 'runtime.state',
+            schema: { type: ['boolean', 'object'] },
+          },
+        ];
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(

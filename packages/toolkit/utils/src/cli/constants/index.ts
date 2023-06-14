@@ -115,8 +115,6 @@ export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-testing': '@modern-js/plugin-testing/cli',
   '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
-  // TODO: Maybe can remove it
-  '@modern-js/plugin-nocode': '@modern-js/plugin-nocode/cli',
   // legacy router (inner react-router-dom v5)
   '@modern-js/plugin-router-legacy': '@modern-js/plugin-router-legacy/cli',
 };
@@ -159,8 +157,6 @@ export const INTERNAL_CLI_PLUGINS: InternalPlugins = {
   '@modern-js/plugin-garfish': '@modern-js/plugin-garfish/cli',
   '@modern-js/plugin-tailwindcss': '@modern-js/plugin-tailwindcss/cli',
   '@modern-js/plugin-polyfill': '@modern-js/plugin-polyfill/cli',
-  // TODO: Maybe can remove it
-  '@modern-js/plugin-nocode': '@modern-js/plugin-nocode/cli',
   // legacy router (inner react-router-dom v5)
   '@modern-js/plugin-router-v5': '@modern-js/plugin-router-v5/cli',
 };
@@ -177,134 +173,6 @@ export const INTERNAL_SERVER_PLUGINS: InternalPlugins = {
   [SERVER_PLUGIN_KOA]: '@modern-js/plugin-koa/server',
   [SERVER_PLUGIN_SERVER]: '@modern-js/plugin-server/server',
   [SERVER_PLUGIN_POLYFILL]: '@modern-js/plugin-polyfill/server',
-};
-
-/**
- * The schema registered in the plugin.
- */
-export const PLUGIN_SCHEMAS = {
-  '@modern-js/runtime': [
-    {
-      target: 'runtime',
-      schema: {
-        type: 'object',
-        additionalProperties: false,
-      },
-    },
-    {
-      target: 'runtimeByEntries',
-      schema: {
-        type: 'object',
-        patternProperties: { [ENTRY_NAME_PATTERN]: { type: 'object' } },
-        additionalProperties: false,
-      },
-    },
-  ],
-  '@modern-js/plugin-swc': [
-    {
-      target: 'tools.swc',
-      schema: { typeof: ['object'] },
-    },
-  ],
-  '@modern-js/plugin-bff': [
-    {
-      target: 'bff',
-      schema: {
-        type: 'object',
-        properties: {
-          prefix: {
-            type: ['string', 'array'],
-            items: { type: 'string' },
-          },
-          fetcher: { type: 'string' },
-          proxy: { type: 'object' },
-          requestCreator: { type: 'string' },
-        },
-      },
-    },
-  ],
-  '@modern-js/plugin-tailwindcss': [
-    {
-      target: 'tools.tailwindcss',
-      schema: { typeof: ['object', 'function'] },
-    },
-  ],
-  '@modern-js/plugin-proxy': [
-    {
-      target: 'dev.proxy',
-      schema: { typeof: ['string', 'object'] },
-    },
-  ],
-  '@modern-js/plugin-ssg': [
-    {
-      target: 'output.ssg',
-      schema: {
-        oneOf: [
-          { type: 'boolean' },
-          { type: 'object' },
-          { instanceof: 'Function' },
-        ],
-      },
-    },
-  ],
-  '@modern-js/plugin-state': [
-    {
-      target: 'runtime.state',
-      schema: { type: ['boolean', 'object'] },
-    },
-  ],
-  '@modern-js/plugin-design-token': [
-    // Legacy Features
-    {
-      target: 'source.designSystem',
-      schema: { typeof: ['object'] },
-    },
-    {
-      target: 'source.designSystem.supportStyledComponents',
-      schema: { type: ['boolean'] },
-    },
-    {
-      target: 'designSystem',
-      schema: { typeof: ['object'] },
-    },
-  ],
-  '@modern-js/plugin-router': [
-    {
-      target: 'runtime.router',
-      schema: { type: ['boolean', 'object'] },
-    },
-  ],
-  '@modern-js/plugin-testing': [
-    {
-      target: 'testing',
-      schema: { typeof: ['object'] },
-    },
-    {
-      target: 'tools.jest',
-      schema: { typeof: ['object', 'function'] },
-    },
-  ],
-  '@modern-js/plugin-garfish': [
-    {
-      target: 'runtime.masterApp',
-      schema: { type: ['boolean', 'object'] },
-    },
-    {
-      target: 'dev.withMasterApp',
-      schema: { type: ['object'] },
-    },
-    {
-      target: 'deploy.microFrontend',
-      schema: { type: ['boolean', 'object'] },
-    },
-  ],
-  '@modern-js/plugin-nocode': [],
-  '@modern-js/plugin-worker': [
-    {
-      target: 'deploy.worker.ssr',
-      schema: { type: ['boolean'] },
-    },
-  ],
 };
 
 /**
