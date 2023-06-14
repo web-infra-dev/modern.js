@@ -1,7 +1,8 @@
-import { dirname, join } from 'path';
+import { dirname, isAbsolute, join } from 'path';
 import { pathToFileURL } from 'url';
 import { HelmetData } from 'react-helmet-async';
 import chalk from '@modern-js/utils/chalk';
+import fs from '@modern-js/utils/fs-extra';
 import { PageData, UserConfig } from 'shared/types';
 import {
   OUTPUT_DIR,
@@ -9,6 +10,7 @@ import {
   HEAD_MARKER,
   HTML_START_TAG,
   BODY_START_TAG,
+  PUBLIC_DIR,
 } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
@@ -30,23 +32,54 @@ const CHECK_DARK_LIGHT_SCRIPT = `
 </script>
 `;
 
+interface BuildOptions {
+  appDirectory: string;
+  docDirectory: string;
+  config: UserConfig;
+}
+
 export async function bundle(
-  rootDir: string,
+  appDirectory: string,
+  docDirectory: string,
   config: UserConfig,
   pluginDriver: PluginDriver,
 ) {
   try {
+    const outputDir = config.doc?.outDir ?? OUTPUT_DIR;
     const [clientBuilder, ssrBuilder] = await Promise.all([
-      createModernBuilder(rootDir, config, pluginDriver, false),
-      createModernBuilder(rootDir, config, pluginDriver, true, {
+      createModernBuilder(docDirectory, config, pluginDriver, false),
+      createModernBuilder(docDirectory, config, pluginDriver, true, {
         output: {
           distPath: {
-            root: `${config.doc?.outDir ?? OUTPUT_DIR}/ssr`,
+            root: `${outputDir}/ssr`,
           },
         },
       }),
     ]);
     await Promise.all([clientBuilder.build(), ssrBuilder.build()]);
+    // Handle logo path
+    const logoPaths = [];
+    const { logo } = config.doc;
+    if (typeof logo === 'string') {
+      logoPaths.push(logo);
+    } else if (typeof logo === 'object') {
+      logoPaths.push(logo.light);
+      logoPaths.push(logo.dark);
+    }
+    logoPaths
+      .filter(p => p.startsWith('/'))
+      .forEach(p => {
+        const normalize = (rawPath: string) =>
+          isAbsolute(rawPath) ? rawPath : join(appDirectory, rawPath);
+        // move logo to output folder
+        const logoPath = join(
+          normalize(docDirectory || config.doc.root),
+          PUBLIC_DIR,
+          p,
+        );
+        const outputLogoPath = join(normalize(outputDir), p);
+        fs.copyFileSync(logoPath, outputLogoPath);
+      });
   } finally {
     await writeSearchIndex(config);
   }
@@ -61,14 +94,13 @@ export interface SSRBundleExports {
 }
 
 export async function renderPages(
+  appDirectory: string,
   config: UserConfig,
   pluginDriver: PluginDriver,
 ) {
   logger.info('Rendering pages...');
   const startTime = Date.now();
-
-  const cwd = process.cwd();
-  const outputPath = config.doc?.outDir ?? join(cwd, OUTPUT_DIR);
+  const outputPath = config.doc?.outDir ?? join(appDirectory, OUTPUT_DIR);
   const ssrBundlePath = join(outputPath, 'ssr', 'bundles', 'main.js');
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const { default: ssrExports } = await import(
@@ -156,12 +188,13 @@ export async function renderPages(
   logger.success(`Pages rendered in ${chalk.yellow(totalTime)} ms.`);
 }
 
-export async function build(rootDir: string, config: UserConfig) {
+export async function build(options: BuildOptions) {
+  const { docDirectory, appDirectory, config } = options;
   const pluginDriver = new PluginDriver(config, true);
   await pluginDriver.init();
   const modifiedConfig = await pluginDriver.modifyConfig();
   await pluginDriver.beforeBuild();
-  await bundle(rootDir, modifiedConfig, pluginDriver);
-  await renderPages(modifiedConfig, pluginDriver);
+  await bundle(appDirectory, docDirectory, modifiedConfig, pluginDriver);
+  await renderPages(appDirectory, modifiedConfig, pluginDriver);
   await pluginDriver.afterBuild();
 }
