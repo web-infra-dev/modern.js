@@ -15,7 +15,7 @@ export type AssetsRetryOptions = {
   domain?: string[];
   max?: number;
   test?: string | ((url: string) => boolean);
-  crossOrigin?: boolean;
+  crossOrigin?: boolean | 'anonymous' | 'use-credentials';
   inlineScript?: boolean;
   onRetry?: (options: AssetsRetryHookContext) => void;
   onSuccess?: (options: AssetsRetryHookContext) => void;
@@ -128,10 +128,12 @@ export default {
 
 ### assetsRetry.crossOrigin
 
-- **类型：** `undefined | boolean`
-- **默认值：** `false`
+- **类型：** `undefined | boolean | 'anonymous' | 'use-credentials'`
+- **默认值：** `与 html.crossorigin 一致`
 
-用于向 `<script>` 资源标签中注入 crossorigin 属性，传入 true 则会启用默认值 anonymous。比如：
+在发起资源重新请求时，Builder 会重新创建 `<script>` 标签，此选项可以设置这些标签的 `crossorigin` 属性。
+
+默认情况下，`assetsRetry.crossOrigin` 的值会与 `html.crossorigin` 配置项保持一致，无须额外配置。如果你需要对重新创建的标签进行单独配置，可以使用该选项，比如：
 
 ```js
 export default {
