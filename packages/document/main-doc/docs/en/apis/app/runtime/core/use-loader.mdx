@@ -3,10 +3,10 @@ title: useLoader
 ---
 # useLoader
 
-Isomorphic API, usually used to make asynchronous requests. When SSR, the server level uses `useLoader` to prefetch the data, and the browser side also reuses this part of the data.
+`useLoader` is an Isomorphic API, usually used to make asynchronous requests. During Server-Side Rendering (SSR), the server uses `useLoader` to prefetch the data, which is then reused on the client side.
 
 :::tip
-When using Rspack as the bundler, the useLoader API is not currently supported.
+The useLoader API is currently not supported when using Rspack as the bundler.
 :::
 
 ## Usage
