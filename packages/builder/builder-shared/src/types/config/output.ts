@@ -1,4 +1,5 @@
 import type { BuilderTarget } from '../builder';
+import type { CrossOrigin } from './html';
 
 export type DistPathConfig = {
   /** The root directory of all files. */
@@ -63,7 +64,7 @@ export type AssetsRetryOptions = {
   type?: string[];
   test?: string | ((url: string) => boolean);
   domain?: string[];
-  crossOrigin?: boolean;
+  crossOrigin?: boolean | CrossOrigin;
   inlineScript?: boolean;
   onFail?: (options: AssetsRetryHookContext) => void;
   onRetry?: (options: AssetsRetryHookContext) => void;
