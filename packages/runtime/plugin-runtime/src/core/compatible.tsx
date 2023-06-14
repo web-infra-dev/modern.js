@@ -204,7 +204,7 @@ export const bootstrap: BootStrap = async (
       if (!ReactDOM) {
         throw Error('The `bootstrap` need provide `ReactDOM` parameter');
       }
-      // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
+      // https://react.dev/blog/2022/03/08/react-18-upgrade-guide
       const ModernRender = (App: React.ReactElement) => {
         if (IS_REACT18) {
           if (root) {

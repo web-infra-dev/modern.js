@@ -15,7 +15,7 @@ beforeAll(() => {
   process.env.IS_REACT18 = 'true';
 
   // reference: https://github.com/remix-run/react-router/blob/main/packages/react-router-dom/__tests__/setup.ts
-  // https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#configuring-your-testing-environment
+  // https://react.dev/blog/2022/03/08/react-18-upgrade-guide#configuring-your-testing-environment
   // @ts-expect-error
   globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
