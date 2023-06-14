@@ -28,6 +28,8 @@ export function builderPluginVue(
             compilerOptions: {
               preserveWhitespace: false,
             },
+            experimentalInlineMatchResource:
+              api.context.bundlerType === 'rspack',
           },
           options?.vueLoaderOptions,
         );
