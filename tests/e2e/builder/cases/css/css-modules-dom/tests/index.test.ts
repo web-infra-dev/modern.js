@@ -2,7 +2,7 @@ import { join, resolve } from 'path';
 import { fs } from '@modern-js/utils';
 import { build, getHrefByEntryName } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 
 const fixtures = resolve(__dirname, '../');
 
@@ -47,7 +47,7 @@ webpackOnlyTest('enableCssModuleTSDeclaration', async () => {
   ).toBeTruthy();
 });
 
-webpackOnlyTest('disableCssExtract', async ({ page }) => {
+test('disableCssExtract', async ({ page }) => {
   const builder = await build({
     cwd: fixtures,
     entry: {

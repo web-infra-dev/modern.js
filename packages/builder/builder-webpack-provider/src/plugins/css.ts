@@ -1,22 +1,20 @@
-import path from 'path';
 import {
   CSS_REGEX,
   getPostcssConfig,
   ModifyChainUtils,
   isUseCssSourceMap,
-  getCssModulesAutoRule,
+  getCssLoaderOptions,
   getBrowserslistWithDefault,
+  getCssModuleLocalIdentName,
   BundlerChainRule,
   type BuilderTarget,
   type BuilderContext,
+  type StyleLoaderOptions,
 } from '@modern-js/builder-shared';
-import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
   BuilderPlugin,
   CSSExtractOptions,
-  CSSLoaderOptions,
   NormalizedConfig,
-  StyleLoaderOptions,
 } from '../types';
 
 export const isUseCssExtract = (
@@ -26,37 +24,6 @@ export const isUseCssExtract = (
   !config.output.disableCssExtract &&
   target !== 'node' &&
   target !== 'web-worker';
-
-// If the target is 'node' or 'web-worker' and the modules option of css-loader is enabled,
-// we must enable exportOnlyLocals to only exports the modules identifier mappings.
-// Otherwise, the compiled CSS code may contain invalid code, such as `new URL`.
-// https://github.com/webpack-contrib/css-loader#exportonlylocals
-export const normalizeCssLoaderOptions = (
-  options: CSSLoaderOptions,
-  exportOnlyLocals: boolean,
-) => {
-  if (options.modules && exportOnlyLocals) {
-    let { modules } = options;
-    if (modules === true) {
-      modules = { exportOnlyLocals: true };
-    } else if (typeof modules === 'string') {
-      modules = { mode: modules, exportOnlyLocals: true };
-    } else {
-      // create a new object to avoid modifying the original options
-      modules = {
-        ...modules,
-        exportOnlyLocals: true,
-      };
-    }
-
-    return {
-      ...options,
-      modules,
-    };
-  }
-
-  return options;
-};
 
 export async function applyBaseCSSRule({
   rule,
@@ -97,34 +64,16 @@ export async function applyBaseCSSRule({
     config.tools.styleLoader,
   );
 
-  const localIdentName =
-    config.output.cssModuleLocalIdentName ||
-    // Using shorter classname in production to reduce bundle size
-    (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
+  const localIdentName = getCssModuleLocalIdentName(config, isProd);
 
-  const { cssModules } = config.output;
-
-  const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
-    {
-      importLoaders,
-      modules: {
-        auto: getCssModulesAutoRule(
-          cssModules,
-          config.output.disableCssModuleExtension,
-        ),
-        exportLocalsConvention: 'camelCase',
-        localIdentName,
-      },
-      sourceMap: enableSourceMap,
-    },
-    config.tools.cssLoader,
-    undefined,
-    deepMerge,
-  );
-  const cssLoaderOptions = normalizeCssLoaderOptions(
-    mergedCssLoaderOptions,
-    isServer || isWebWorker,
-  );
+  const cssLoaderOptions = await getCssLoaderOptions({
+    config,
+    enableSourceMap,
+    importLoaders,
+    isServer,
+    isWebWorker,
+    localIdentName,
+  });
 
   // 3. Create webpack rule
   // Order: style-loader/mini-css-extract -> css-loader -> postcss-loader
@@ -150,9 +99,7 @@ export async function applyBaseCSSRule({
     if (enableCSSModuleTS && cssLoaderOptions.modules) {
       rule
         .use(CHAIN_ID.USE.CSS_MODULES_TS)
-        .loader(
-          require.resolve('../webpackLoaders/css-modules-typescript-loader'),
-        )
+        .loader('@modern-js/builder-shared/css-modules-typescript-loader')
         .options({
           modules: cssLoaderOptions.modules,
         })
@@ -161,7 +108,7 @@ export async function applyBaseCSSRule({
   } else {
     rule
       .use(CHAIN_ID.USE.IGNORE_CSS)
-      .loader(path.resolve(__dirname, '../webpackLoaders/ignoreCssLoader'))
+      .loader('@modern-js/builder-shared/ignore-css-loader')
       .end();
   }
 
