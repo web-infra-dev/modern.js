@@ -21,7 +21,6 @@
 - Updated dependencies [15181be]
   - @modern-js/utils@2.22.1
   - @modern-js/builder-shared@2.22.1
-  - @modern-js/builder-plugin-swc-base@2.22.1
 
 ## 2.22.0
 
@@ -45,7 +44,6 @@
 - Updated dependencies [e7a5f94]
   - @modern-js/builder-shared@2.22.0
   - @modern-js/utils@2.22.0
-  - @modern-js/builder-plugin-swc-base@2.22.0
 
 ## 2.21.1
 
@@ -53,7 +51,6 @@
 
 - Updated dependencies [19b3b64]
   - @modern-js/builder-shared@2.21.1
-  - @modern-js/builder-plugin-swc-base@2.21.1
   - @modern-js/utils@2.21.1
 
 ## 2.21.0
@@ -80,7 +77,6 @@
 - Updated dependencies [ad78387]
   - @modern-js/builder-shared@2.21.0
   - @modern-js/utils@2.21.0
-  - @modern-js/builder-plugin-swc-base@2.21.0
 
 ## 2.20.0
 
@@ -90,7 +86,6 @@
 - Updated dependencies [6b9d90a]
   - @modern-js/builder-shared@2.20.0
   - @modern-js/utils@2.20.0
-  - @modern-js/builder-plugin-swc-base@2.20.0
 
 ## 2.19.1
 
@@ -98,7 +93,6 @@
 
 - Updated dependencies [afb735f]
   - @modern-js/builder-shared@2.19.1
-  - @modern-js/builder-plugin-swc-base@2.19.1
   - @modern-js/utils@2.19.1
 
 ## 2.19.0
@@ -112,7 +106,6 @@
 - Updated dependencies [1134fe2]
   - @modern-js/builder-shared@2.19.0
   - @modern-js/utils@2.19.0
-  - @modern-js/builder-plugin-swc-base@2.19.0
 
 ## 2.18.1
 
@@ -120,7 +113,6 @@
 
 - Updated dependencies [9b0b7ef]
   - @modern-js/builder-shared@2.18.1
-  - @modern-js/builder-plugin-swc-base@2.18.1
   - @modern-js/utils@2.18.1
 
 ## 2.18.0
@@ -128,7 +120,6 @@
 ### Patch Changes
 
 - @modern-js/builder-shared@2.18.0
-- @modern-js/builder-plugin-swc-base@2.18.0
 - @modern-js/utils@2.18.0
 
 ## 2.17.1
@@ -136,15 +127,12 @@
 ### Patch Changes
 
 - @modern-js/builder-shared@2.17.1
-- @modern-js/builder-plugin-swc-base@2.17.1
-- @modern-js/utils@2.17.1
 
 ## 2.17.0
 
 ### Patch Changes
 
 - @modern-js/builder-shared@2.17.0
-- @modern-js/builder-plugin-swc-base@2.17.0
 - @modern-js/utils@2.17.0
 
 ## 2.16.0
@@ -162,7 +150,6 @@
 - Updated dependencies [e4e0e01]
   - @modern-js/builder-shared@2.16.0
   - @modern-js/utils@2.16.0
-  - @modern-js/builder-plugin-swc-base@2.16.0
 
 ## 2.15.0
 
@@ -170,7 +157,6 @@
 
 - Updated dependencies [3e5e790]
   - @modern-js/builder-shared@2.15.0
-  - @modern-js/builder-plugin-swc-base@2.15.0
   - @modern-js/utils@2.15.0
 
 ## 2.14.0
@@ -195,14 +181,12 @@
 - Updated dependencies [16399fd]
   - @modern-js/builder-shared@2.14.0
   - @modern-js/utils@2.14.0
-  - @modern-js/builder-plugin-swc-base@2.14.0
 
 ## 2.13.4
 
 ### Patch Changes
 
 - @modern-js/builder-shared@2.13.4
-- @modern-js/builder-plugin-swc-base@2.13.4
 - @modern-js/utils@2.13.4
 
 ## 2.13.3
@@ -212,7 +196,6 @@
 - Updated dependencies [18cd03f]
 - Updated dependencies [28583e8]
   - @modern-js/builder-shared@2.13.3
-  - @modern-js/builder-plugin-swc-base@2.13.3
   - @modern-js/utils@2.13.3
 
 ## 2.13.2
@@ -220,7 +203,6 @@
 ### Patch Changes
 
 - @modern-js/builder-shared@2.13.2
-- @modern-js/builder-plugin-swc-base@2.13.2
 - @modern-js/utils@2.13.2
 
 ## 2.13.1
@@ -228,7 +210,6 @@
 ### Patch Changes
 
 - @modern-js/builder-shared@2.13.1
-- @modern-js/builder-plugin-swc-base@2.13.1
 - @modern-js/utils@2.13.1
 
 ## 2.13.0
@@ -249,7 +230,6 @@
 - Updated dependencies [9c0572e]
 - Updated dependencies [67a235b]
   - @modern-js/builder-shared@2.13.0
-  - @modern-js/builder-plugin-swc-base@2.13.0
   - @modern-js/utils@2.13.0
 
 ## 2.12.0
@@ -261,7 +241,6 @@
 - Updated dependencies [6d86e34]
 - Updated dependencies [fef3394]
   - @modern-js/utils@2.12.0
-  - @modern-js/builder-plugin-swc-base@2.12.0
   - @modern-js/builder-shared@2.12.0
 
 ## 2.11.0
@@ -302,7 +281,6 @@
 - Updated dependencies [b9e1c54]
   - @modern-js/builder-shared@2.11.0
   - @modern-js/utils@2.11.0
-  - @modern-js/builder-plugin-swc-base@2.11.0
 
 ## 2.10.0
 
