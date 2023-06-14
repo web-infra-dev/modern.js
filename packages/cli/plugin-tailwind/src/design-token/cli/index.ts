@@ -1,8 +1,4 @@
-import {
-  lazyImport,
-  PLUGIN_SCHEMAS,
-  createRuntimeExportsUtils,
-} from '@modern-js/utils';
+import { lazyImport, createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
 import { DesignSystem } from '../../types';
 
@@ -114,7 +110,21 @@ export default (
 
       validateSchema() {
         // add source.designSystem.supportStyledComponents config
-        return PLUGIN_SCHEMAS['@modern-js/plugin-design-token'];
+        return [
+          // Legacy Features
+          {
+            target: 'source.designSystem',
+            schema: { typeof: ['object'] },
+          },
+          {
+            target: 'source.designSystem.supportStyledComponents',
+            schema: { type: ['boolean'] },
+          },
+          {
+            target: 'designSystem',
+            schema: { typeof: ['object'] },
+          },
+        ];
       },
 
       addRuntimeExports() {

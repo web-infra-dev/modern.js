@@ -1,3 +1,4 @@
+const dns = require('node:dns');
 const { join } = require('path');
 const path = require('path');
 const puppeteer = require('puppeteer');
@@ -6,8 +7,10 @@ const {
   launchApp,
   getPort,
   killApp,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
+dns.setDefaultResultOrder('ipv4first');
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 async function basicUsage(page, appPort) {
@@ -66,11 +69,7 @@ describe('Traditional SSR', () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
+    browser = await puppeteer.launch(launchOptions);
     page = await browser.newPage();
   });
 
@@ -125,11 +124,7 @@ describe('Traditional SSR with rspack', () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, { BUNDLER: 'rspack' });
 
-    browser = await puppeteer.launch({
-      headless: 'new',
-      dumpio: true,
-      args: ['--no-sandbox'],
-    });
+    browser = await puppeteer.launch(launchOptions);
     page = await browser.newPage();
   });
 

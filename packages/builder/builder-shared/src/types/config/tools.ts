@@ -91,3 +91,7 @@ export interface SharedToolsConfig {
    */
   tsChecker?: ToolsTSCheckerConfig;
 }
+
+export interface NormalizedSharedToolsConfig extends SharedToolsConfig {
+  tsChecker: ToolsTSCheckerConfig;
+}

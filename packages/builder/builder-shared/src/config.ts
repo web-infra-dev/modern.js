@@ -19,14 +19,17 @@ import {
 import { generateMetaTags } from './generateMetaTags';
 import type {
   BuilderTarget,
+  BundlerChainRule,
   SharedHtmlConfig,
   InspectConfigOptions,
   CreateBuilderOptions,
   NormalizedSharedDevConfig,
+  NormalizedSharedHtmlConfig,
   NormalizedSharedOutputConfig,
   NormalizedSharedSourceConfig,
-  NormalizedSharedHtmlConfig,
-  BundlerChainRule,
+  NormalizedSharedSecurityConfig,
+  NormalizedSharedPerformanceConfig,
+  NormalizedSharedToolsConfig,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
@@ -45,6 +48,7 @@ export const getDefaultDevConfig = (): NormalizedSharedDevConfig => ({
 });
 
 export const getDefaultSourceConfig = (): NormalizedSharedSourceConfig => ({
+  alias: {},
   preEntry: [],
   globalVars: {},
   compileJsDataURI: true,
@@ -57,6 +61,25 @@ export const getDefaultHtmlConfig = (): NormalizedSharedHtmlConfig => ({
   disableHtmlFolder: false,
   scriptLoading: 'defer',
 });
+
+export const getDefaultSecurityConfig = (): NormalizedSharedSecurityConfig => ({
+  nonce: '',
+  checkSyntax: false,
+});
+
+export const getDefaultToolsConfig = (): NormalizedSharedToolsConfig => ({
+  tsChecker: {},
+});
+
+export const getDefaultPerformanceConfig =
+  (): NormalizedSharedPerformanceConfig => ({
+    buildCache: true,
+    printFileSize: true,
+    removeConsole: false,
+    chunkSplit: {
+      strategy: 'split-by-experience',
+    },
+  });
 
 export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
   distPath: {

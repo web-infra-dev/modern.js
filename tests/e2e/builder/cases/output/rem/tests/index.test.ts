@@ -5,15 +5,12 @@ import { build, getHrefByEntryName } from '@scripts/shared';
 const fixtures = resolve(__dirname, '../');
 
 test('rem default (disable)', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {},
+    runServer: true,
   });
   await page.goto(getHrefByEntryName('main', builder.port));
 
@@ -33,17 +30,17 @@ test('rem default (disable)', async ({ page }) => {
 });
 
 test('rem enable', async ({ page }) => {
-  const buildOpts = {
+  // convert to rem
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
-  };
-
-  // convert to rem
-  const builder = await build(buildOpts, {
-    output: {
-      convertToRem: true,
+    runServer: true,
+    builderConfig: {
+      output: {
+        convertToRem: true,
+      },
     },
   });
 

@@ -247,6 +247,16 @@ Builder 构建时会默认开启 TypeScript 类型检查。在大型项目中，
 
 目前 Less 文件使用基于 JavaScript 实现的 `less-loader` 进行处理，未提供 Rust 版本，因此在处理大量 Less 文件时会拖累构建性能。
 
+:::tip
+在使用 [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) 等组件库时，请尽量避免全量引入 Less 样式。你可以改为按需引入，或直接引入 CSS 样式。
+:::
+
 ##### 大量 SVG 文件
 
 Builder 默认支持将 SVG 资源作为 React 组件使用，这会产生一定的性能开销。如果你不需要此能力，可以将 [output.disableSvgr](/api/config-output.html#outputdisablesvgr) 设置为 `true` 来关闭此行为，以提升构建性能。
+
+##### 组件库未按需引入
+
+默认情况下，在使用 [Ant Design](https://www.npmjs.com/package/antd) 或 [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) 组件库时，Builder 会自动开启按需引入功能，默认配置可参考 [source.transformImport](/api/config-source.html#sourcetransformimport)。
+
+在使用其他组件库时，如果该组件库支持按需引入，我们推荐优先通过 [source.transformImport](/api/config-source.html#sourcetransformimport) 配置按需引入。

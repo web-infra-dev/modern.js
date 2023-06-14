@@ -5,19 +5,18 @@ import { dev, getHrefByEntryName } from '@scripts/shared';
 const fixtures = __dirname;
 
 test('writeToDisk default', async ({ page }) => {
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(fixtures, 'basic', 'src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    tools: {
-      devServer: {
-        client: {
-          host: '',
-          port: '',
+    builderConfig: {
+      tools: {
+        devServer: {
+          client: {
+            host: '',
+            port: '',
+          },
         },
       },
     },
@@ -33,18 +32,17 @@ test('writeToDisk default', async ({ page }) => {
 });
 
 test('writeToDisk false', async ({ page }) => {
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(fixtures, 'basic', 'src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    tools: {
-      devServer: {
-        devMiddleware: {
-          writeToDisk: false,
+    builderConfig: {
+      tools: {
+        devServer: {
+          devMiddleware: {
+            writeToDisk: false,
+          },
         },
       },
     },
@@ -60,18 +58,17 @@ test('writeToDisk false', async ({ page }) => {
 });
 
 test('writeToDisk true', async ({ page }) => {
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(fixtures, 'basic', 'src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    tools: {
-      devServer: {
-        devMiddleware: {
-          writeToDisk: true,
+    builderConfig: {
+      tools: {
+        devServer: {
+          devMiddleware: {
+            writeToDisk: true,
+          },
         },
       },
     },

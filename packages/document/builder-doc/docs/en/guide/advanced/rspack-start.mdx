@@ -250,8 +250,18 @@ In this case, you can disable type checking using [output.disableTsChecker](/api
 
 Currently, Less files are processed using the `less-loader` based on JavaScript and no Rust version is provided. Therefore, processing a large number of Less files can slow down the build performance.
 
+:::tip
+When using component libraries such as [Arco Design](https://www.npmjs.com/package/@arco-design/web-react), please try to avoid fully introducing Less styles. You can import on-demand instead. or directly import CSS styles.
+:::
+
 ##### Large number of SVG files
 
 By default, builder supports using SVG resources as React components, which incurs some performance overhead.
 
 If you don't need this feature, you can set [output.disableSvgr](/api/config-output.html#outputdisablesvgr) to true to disable this behavior to improve build performance.
+
+##### Not import component library on demand
+
+By default, when using [Ant Design](https://www.npmjs.com/package/antd) or [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) component library, Builder will automatically enable the on-demand import function, and the default configuration can refer to [source.transformImport](/api/config-source.html#sourcetransformimport).
+
+When using other component libraries, if the component library supports on-demand import, we recommend to configure on-demand import through [source.transformImport](/api/config-source.html#sourcetransformimport) first.
