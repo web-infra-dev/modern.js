@@ -21,9 +21,16 @@ export function builderPluginAssetsRetry(): DefaultBuilderPlugin {
           );
           const distDir = getDistPath(config.output, 'js');
 
+          const { assetsRetry = {} } = config.output;
+
+          // assetsRetry.crossOrigin should be same as html.crossorigin by default
+          if (assetsRetry.crossOrigin === undefined) {
+            assetsRetry.crossOrigin = config.html.crossorigin;
+          }
+
           chain.plugin(CHAIN_ID.PLUGIN.ASSETS_RETRY).use(AssetsRetryPlugin, [
             {
-              ...(config.output.assetsRetry || {}),
+              ...assetsRetry,
               distDir,
               HtmlPlugin,
             },
