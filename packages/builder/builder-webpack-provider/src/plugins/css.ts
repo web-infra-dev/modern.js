@@ -1,5 +1,6 @@
 import {
   CSS_REGEX,
+  resolveLoader,
   getPostcssConfig,
   ModifyChainUtils,
   isUseCssSourceMap,
@@ -99,7 +100,11 @@ export async function applyBaseCSSRule({
     if (enableCSSModuleTS && cssLoaderOptions.modules) {
       rule
         .use(CHAIN_ID.USE.CSS_MODULES_TS)
-        .loader('@modern-js/builder-shared/css-modules-typescript-loader')
+        .loader(
+          resolveLoader(
+            '@modern-js/builder-shared/css-modules-typescript-loader',
+          ),
+        )
         .options({
           modules: cssLoaderOptions.modules,
         })
@@ -108,7 +113,7 @@ export async function applyBaseCSSRule({
   } else {
     rule
       .use(CHAIN_ID.USE.IGNORE_CSS)
-      .loader('@modern-js/builder-shared/ignore-css-loader')
+      .loader(resolveLoader('@modern-js/builder-shared/ignore-css-loader'))
       .end();
   }
 

@@ -71,3 +71,8 @@ export function isWebTarget(target: BuilderTarget | BuilderTarget[]) {
     (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
   );
 }
+
+export function resolveLoader(loader: string) {
+  // Vitest do not support require.resolve to source file
+  return process.env.VITEST ? loader : require.resolve(loader);
+}
