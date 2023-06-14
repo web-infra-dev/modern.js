@@ -1,12 +1,12 @@
 import path from 'path';
-import type { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   launchApp,
   killApp,
   getPort,
   modernBuild,
   modernServe,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 import {
   nestedRouteOverPage,
@@ -26,11 +26,13 @@ describe('dev', () => {
   let app: unknown;
   let appPort: number;
   let page: Page;
+  let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -70,6 +72,7 @@ describe('dev', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });
 
@@ -77,6 +80,7 @@ describe('build', () => {
   let appPort: number;
   let app: unknown;
   let page: Page;
+  let browser: Browser;
   const errors: string[] = [];
 
   beforeAll(async () => {
@@ -85,7 +89,8 @@ describe('build', () => {
     app = await modernServe(appDir, appPort, {
       cwd: appDir,
     });
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -130,5 +135,6 @@ describe('build', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });

@@ -1,11 +1,11 @@
 import path from 'path';
 import fs from 'fs';
-import type { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   launchApp,
   killApp,
   getPort,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
@@ -18,15 +18,18 @@ describe('test dev', () => {
   let appPort: number;
   let app: any;
   let page: Page;
+  let browser: Browser;
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 
   it(`should render csr page with memory correctly`, async () => {

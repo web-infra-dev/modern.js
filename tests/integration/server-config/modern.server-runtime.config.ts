@@ -5,7 +5,8 @@ export default defineConfig({
   bff: {
     proxy: {
       '/api/proxy': {
-        target: `http://localhost:${process.env.PORT}`,
+        // https://github.com/chimurai/http-proxy-middleware/issues/705
+        target: `http://127.0.0.1:${process.env.PORT}`,
         pathRewrite: { '/api/proxy': '/api/foo' },
         changeOrigin: true,
       },
