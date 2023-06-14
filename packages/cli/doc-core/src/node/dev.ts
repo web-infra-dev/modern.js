@@ -8,10 +8,14 @@ interface ServerInstance {
   close: () => Promise<void>;
 }
 
-export async function dev(
-  rootDir: string,
-  config: UserConfig,
-): Promise<ServerInstance> {
+interface DevOptions {
+  appDirectory: string;
+  docDirectory: string;
+  config: UserConfig;
+}
+
+export async function dev(options: DevOptions): Promise<ServerInstance> {
+  const { docDirectory, config } = options;
   const base = config.doc?.base ?? '';
   const isProd = false;
   const pluginDriver = new PluginDriver(config, isProd);
@@ -21,7 +25,7 @@ export async function dev(
     const modifiedConfig = await pluginDriver.modifyConfig();
     await pluginDriver.beforeBuild();
     const builder = await createModernBuilder(
-      rootDir,
+      docDirectory,
       modifiedConfig,
       pluginDriver,
       false,

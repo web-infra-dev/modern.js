@@ -89,7 +89,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           .command('dev [root]')
           .description('start the dev server')
           .option('-c --config <config>', 'specify config file')
-          .action(async (root?: string) => {
+          .action(async (docRoot?: string) => {
             startServer = async (isFristStart = false) => {
               if (!isFristStart) {
                 try {
@@ -99,10 +99,16 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
                 }
               }
               const config = api.useConfigContext() as UserConfig;
+              const app = api.useAppContext();
+              const { appDirectory } = app;
               const docConfig = mergeDocConfig(config, {
                 doc: extraDocConfig,
               });
-              server = await dev(root || '', docConfig);
+              server = await dev({
+                appDirectory,
+                docDirectory: docRoot || '',
+                config: docConfig,
+              });
             };
             await startServer(true);
           });
@@ -111,12 +117,18 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           .command('build [root]')
           .description('build the document site for production')
           .option('-c --config <config>', 'specify config file')
-          .action(async (root?: string) => {
+          .action(async (docRoot?: string) => {
             const config = api.useConfigContext() as UserConfig;
             const docConfig = mergeDocConfig(config, {
               doc: extraDocConfig,
             });
-            await build(root || '', docConfig);
+            const app = api.useAppContext();
+            const { appDirectory } = app;
+            await build({
+              appDirectory,
+              docDirectory: docRoot || '',
+              config: docConfig,
+            });
           });
 
         program
@@ -136,7 +148,11 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
               const docConfig = mergeDocConfig(config, {
                 doc: extraDocConfig,
               });
-              await serve(root || '', docConfig, port, host);
+              await serve({
+                config: docConfig,
+                host,
+                port,
+              });
             },
           );
       },
