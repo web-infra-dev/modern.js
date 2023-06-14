@@ -1,5 +1,6 @@
 import {
   CSS_REGEX,
+  resolveLoader,
   getPostcssConfig,
   ModifyChainUtils,
   isUseCssSourceMap,
@@ -100,7 +101,7 @@ export async function applyBaseCSSRule({
       rule
         .use(CHAIN_ID.USE.CSS_MODULES_TS)
         .loader(
-          require.resolve(
+          resolveLoader(
             '@modern-js/builder-shared/css-modules-typescript-loader',
           ),
         )
@@ -112,7 +113,7 @@ export async function applyBaseCSSRule({
   } else {
     rule
       .use(CHAIN_ID.USE.IGNORE_CSS)
-      .loader(require.resolve('@modern-js/builder-shared/ignore-css-loader'))
+      .loader(resolveLoader('@modern-js/builder-shared/ignore-css-loader'))
       .end();
   }
 
