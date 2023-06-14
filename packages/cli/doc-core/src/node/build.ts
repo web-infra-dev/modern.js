@@ -1,7 +1,8 @@
-import { dirname, join } from 'path';
+import { dirname, isAbsolute, join } from 'path';
 import { pathToFileURL } from 'url';
 import { HelmetData } from 'react-helmet-async';
 import chalk from '@modern-js/utils/chalk';
+import fs from '@modern-js/utils/fs-extra';
 import { PageData, UserConfig } from 'shared/types';
 import {
   OUTPUT_DIR,
@@ -9,6 +10,7 @@ import {
   HEAD_MARKER,
   HTML_START_TAG,
   BODY_START_TAG,
+  PUBLIC_DIR,
 } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
@@ -36,17 +38,42 @@ export async function bundle(
   pluginDriver: PluginDriver,
 ) {
   try {
+    const outputDir = config.doc?.outDir ?? OUTPUT_DIR;
+    const cwd = process.cwd();
     const [clientBuilder, ssrBuilder] = await Promise.all([
       createModernBuilder(rootDir, config, pluginDriver, false),
       createModernBuilder(rootDir, config, pluginDriver, true, {
         output: {
           distPath: {
-            root: `${config.doc?.outDir ?? OUTPUT_DIR}/ssr`,
+            root: `${outputDir}/ssr`,
           },
         },
       }),
     ]);
     await Promise.all([clientBuilder.build(), ssrBuilder.build()]);
+    // Handle logo path
+    const logoPaths = [];
+    const { logo } = config.doc;
+    if (typeof logo === 'string') {
+      logoPaths.push(logo);
+    } else if (typeof logo === 'object') {
+      logoPaths.push(logo.light);
+      logoPaths.push(logo.dark);
+    }
+    logoPaths
+      .filter(p => p.startsWith('/'))
+      .forEach(p => {
+        const normalize = (rawPath: string) =>
+          isAbsolute(rawPath) ? rawPath : join(cwd, rawPath);
+        // move logo to output folder
+        const logoPath = join(
+          normalize(rootDir || config.doc.root),
+          PUBLIC_DIR,
+          p,
+        );
+        const outputLogoPath = join(normalize(outputDir), p);
+        fs.copyFileSync(logoPath, outputLogoPath);
+      });
   } finally {
     await writeSearchIndex(config);
   }
