@@ -53,6 +53,11 @@ export function pluginPreview(options?: Options): DocPlugin {
             visit(ast, 'code', (node: any) => {
               if (node.lang === 'jsx' || node.lang === 'tsx') {
                 const { value } = node;
+                const isPure = node?.meta?.includes('pure');
+                // not transform pure code
+                if (isPure) {
+                  return;
+                }
                 const { pageName } = routeMeta.find(
                   meta => meta.absolutePath === filepath,
                 )!;
@@ -127,6 +132,9 @@ export const pageType = "blank";
         // @ts-ignore
         rspack: {
           plugins: [demoRuntimeModule],
+          watchOptions: {
+            ignored: ['**/.modern-doc/virtual-demo/*.tsx'],
+          },
         },
         bundlerChain(chain) {
           chain.module
