@@ -1,3 +1,4 @@
+const dns = require('node:dns');
 const { join } = require('path');
 const path = require('path');
 const puppeteer = require('puppeteer');
@@ -9,6 +10,7 @@ const {
   launchOptions,
 } = require('../../../utils/modernTestUtils');
 
+dns.setDefaultResultOrder('ipv4first');
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 async function basicUsage(page, appPort) {

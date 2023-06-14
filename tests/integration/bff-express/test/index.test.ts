@@ -1,3 +1,4 @@
+import dns from 'node:dns';
 import path from 'path';
 import { Page } from 'puppeteer';
 import {
@@ -10,6 +11,7 @@ import {
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
+dns.setDefaultResultOrder('ipv4first');
 describe('bff express in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';

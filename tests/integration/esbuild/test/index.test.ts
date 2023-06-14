@@ -1,5 +1,5 @@
 import path from 'path';
-import { readdirSync, readFileSync } from 'fs';
+import { readdirSync, readFileSync, rmdirSync, existsSync } from 'fs';
 import { modernBuild } from '../../../utils/modernTestUtils';
 
 const fixtures = path.resolve(__dirname, '../fixtures');
@@ -12,7 +12,9 @@ const getJsFiles = (appDir: string) =>
 describe('esbuild', () => {
   it(`should emitted script files correctly when using esbuild transform`, async () => {
     const appDir = path.resolve(fixtures, 'transform-and-minify');
-
+    if (existsSync(path.join(appDir, 'dist'))) {
+      rmdirSync(path.join(appDir, 'dist'), { recursive: true });
+    }
     await modernBuild(appDir);
 
     const files = getJsFiles(appDir);
@@ -26,7 +28,9 @@ describe('esbuild', () => {
 
   it(`should emitted script files correctly when using legacy esbuild minify`, async () => {
     const appDir = path.resolve(fixtures, 'legacy-minify-js');
-
+    if (existsSync(path.join(appDir, 'dist'))) {
+      rmdirSync(path.join(appDir, 'dist'), { recursive: true });
+    }
     await modernBuild(appDir);
 
     const files = getJsFiles(appDir);

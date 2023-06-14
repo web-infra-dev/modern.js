@@ -1,10 +1,10 @@
 import path, { join } from 'path';
-import { Page } from 'puppeteer';
+import puppeteer, { Page, Browser } from 'puppeteer';
 import {
   launchApp,
   getPort,
   killApp,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -13,18 +13,25 @@ describe('I18n doc render', () => {
   let app: any;
   let appPort: number;
   let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'plugin');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   afterAll(async () => {
     if (app) {
       await killApp(app);
+    }
+    if (page) {
       await page.close();
+    }
+    if (browser) {
+      browser.close();
     }
   });
 

@@ -1,10 +1,10 @@
 import path, { join } from 'path';
-import type { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   launchApp,
   getPort,
   killApp,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -12,21 +12,30 @@ const fixtureDir = path.resolve(__dirname, '../fixtures');
 describe('Check functions when base path exists', () => {
   let app: any;
   let appPort: number;
+  let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'with-base');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   afterAll(async () => {
     if (app) {
       await killApp(app);
     }
+    if (page) {
+      await page.close();
+    }
+    if (browser) {
+      browser.close();
+    }
   });
 
   it('Should render sidebar correctly', async () => {
-    const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}/base/en/guide/quick-start`, {
       waitUntil: ['networkidle0'],
     });
@@ -35,12 +44,10 @@ describe('Check functions when base path exists', () => {
       '.modern-sidebar .modern-scrollbar > nav > section',
     );
     expect(sidebar?.length).toBe(1);
-    await page.close();
     // get the section
   });
 
   it('Should goto correct link', async () => {
-    const page: Page = await openPage();
     await page.goto(`http://localhost:${appPort}/base/en/guide/quick-start`, {
       waitUntil: ['networkidle0'],
     });
