@@ -12,8 +12,8 @@ import {
   logger,
   getCssModulesAutoRule,
   getPostcssConfig,
+  getCssModuleLocalIdentName,
 } from '@modern-js/builder-shared';
-import path from 'path';
 import type {
   BuilderPlugin,
   NormalizedConfig,
@@ -22,11 +22,8 @@ import type {
 } from '../types';
 import { isUseCssExtract, getCompiledPath } from '../shared';
 
-export const enableNativeCss = (config: {
-  output: {
-    disableCssExtract: boolean;
-  };
-}) => !config.output.disableCssExtract;
+export const enableNativeCss = (config: NormalizedConfig) =>
+  !config.output.disableCssExtract;
 
 export async function applyBaseCSSRule({
   rule,
@@ -57,10 +54,7 @@ export async function applyBaseCSSRule({
 
   // when disableExtractCSS, use css-loader + style-loader
   if (!enableNativeCss(config)) {
-    const localIdentName =
-      config.output.cssModuleLocalIdentName ||
-      // Using shorter classname in production to reduce bundle size
-      (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
+    const localIdentName = getCssModuleLocalIdentName(config, isProd);
 
     const cssLoaderOptions = await getCssLoaderOptions({
       config,
@@ -92,9 +86,7 @@ export async function applyBaseCSSRule({
       if (enableCSSModuleTS && cssLoaderOptions.modules) {
         rule
           .use(CHAIN_ID.USE.CSS_MODULES_TS)
-          .loader(
-            require.resolve('../webpackLoaders/css-modules-typescript-loader'),
-          )
+          .loader('@modern-js/builder-shared/css-modules-typescript-loader')
           .options({
             modules: cssLoaderOptions.modules,
           })
@@ -103,7 +95,7 @@ export async function applyBaseCSSRule({
     } else {
       rule
         .use(CHAIN_ID.USE.IGNORE_CSS)
-        .loader(path.resolve(__dirname, '../webpackLoaders/ignoreCssLoader'))
+        .loader('@modern-js/builder-shared/ignore-css-loader')
         .end();
     }
 

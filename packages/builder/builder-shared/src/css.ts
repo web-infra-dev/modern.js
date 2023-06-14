@@ -10,6 +10,14 @@ import { getCssSupport } from './getCssSupport';
 import { getSharedPkgCompiledPath as getCompiledPath } from './utils';
 import { SharedNormalizedConfig, CSSLoaderOptions, CssModules } from './types';
 
+export const getCssModuleLocalIdentName = (
+  config: SharedNormalizedConfig,
+  isProd: boolean,
+) =>
+  config.output.cssModuleLocalIdentName ||
+  // Using shorter classname in production to reduce bundle size
+  (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
+
 /** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
 export const isLooseCssModules = (path: string) => {
   if (NODE_MODULES_REGEX.test(path)) {

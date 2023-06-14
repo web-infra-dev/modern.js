@@ -1,4 +1,3 @@
-import path from 'path';
 import {
   CSS_REGEX,
   getPostcssConfig,
@@ -6,6 +5,7 @@ import {
   isUseCssSourceMap,
   getCssLoaderOptions,
   getBrowserslistWithDefault,
+  getCssModuleLocalIdentName,
   BundlerChainRule,
   type BuilderTarget,
   type BuilderContext,
@@ -64,10 +64,7 @@ export async function applyBaseCSSRule({
     config.tools.styleLoader,
   );
 
-  const localIdentName =
-    config.output.cssModuleLocalIdentName ||
-    // Using shorter classname in production to reduce bundle size
-    (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
+  const localIdentName = getCssModuleLocalIdentName(config, isProd);
 
   const cssLoaderOptions = await getCssLoaderOptions({
     config,
@@ -102,9 +99,7 @@ export async function applyBaseCSSRule({
     if (enableCSSModuleTS && cssLoaderOptions.modules) {
       rule
         .use(CHAIN_ID.USE.CSS_MODULES_TS)
-        .loader(
-          require.resolve('../webpackLoaders/css-modules-typescript-loader'),
-        )
+        .loader('@modern-js/builder-shared/css-modules-typescript-loader')
         .options({
           modules: cssLoaderOptions.modules,
         })
@@ -113,7 +108,7 @@ export async function applyBaseCSSRule({
   } else {
     rule
       .use(CHAIN_ID.USE.IGNORE_CSS)
-      .loader(path.resolve(__dirname, '../webpackLoaders/ignoreCssLoader'))
+      .loader('@modern-js/builder-shared/ignore-css-loader')
       .end();
   }
 
