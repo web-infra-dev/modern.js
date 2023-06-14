@@ -1,12 +1,62 @@
 import assert from 'assert';
+import {
+  CSS_MODULES_REGEX,
+  GLOBAL_CSS_REGEX,
+  NODE_MODULES_REGEX,
+} from './constants';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { getCssSupport } from './getCssSupport';
-import {
-  getSharedPkgCompiledPath as getCompiledPath,
-  getCssModulesAutoRule,
-} from './utils';
-import { SharedNormalizedConfig, CSSLoaderOptions } from './types';
+import { getSharedPkgCompiledPath as getCompiledPath } from './utils';
+import { SharedNormalizedConfig, CSSLoaderOptions, CssModules } from './types';
+
+/** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
+export const isLooseCssModules = (path: string) => {
+  if (NODE_MODULES_REGEX.test(path)) {
+    return CSS_MODULES_REGEX.test(path);
+  }
+  return !GLOBAL_CSS_REGEX.test(path);
+};
+
+export type CssLoaderModules =
+  | boolean
+  | string
+  | {
+      auto: boolean | RegExp | ((filename: string) => boolean);
+    };
+
+export const isCssModules = (filename: string, modules: CssLoaderModules) => {
+  if (typeof modules === 'boolean') {
+    return modules;
+  }
+
+  // todo: this configuration is not common and more complex.
+  if (typeof modules === 'string') {
+    return true;
+  }
+
+  const { auto } = modules;
+
+  if (typeof auto === 'boolean') {
+    return auto && CSS_MODULES_REGEX.test(filename);
+  } else if (auto instanceof RegExp) {
+    return auto.test(filename);
+  } else if (typeof auto === 'function') {
+    return auto(filename);
+  }
+  return true;
+};
+
+export const getCssModulesAutoRule = (
+  config?: CssModules,
+  disableCssModuleExtension = false,
+) => {
+  if (!config || config?.auto === undefined) {
+    return disableCssModuleExtension ? isLooseCssModules : true;
+  }
+
+  return config.auto;
+};
 
 type CssNanoOptions = {
   configFile?: string | undefined;

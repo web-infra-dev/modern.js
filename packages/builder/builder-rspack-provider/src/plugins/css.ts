@@ -87,6 +87,7 @@ export async function applyBaseCSSRule({
         .end();
 
       // todo: use plugin instead (can be worked in rspack native css)
+      // https://github.com/webpack/webpack/issues/14893#issuecomment-1589561543
       // use css-modules-typescript-loader
       if (enableCSSModuleTS && cssLoaderOptions.modules) {
         rule
