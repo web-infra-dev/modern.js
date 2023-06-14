@@ -53,7 +53,7 @@ At the same time, you can also customize your retry logic using the following co
 ### assetsRetry.domain
 
 - **Type:** `string[]`
-- **Default Value:** `[]`
+- **Default:** `[]`
 
 Specifies the retry domain when assets fail to load. In the `domain` array, the first item is the currently used domain, and the following items are backup domains. When a asset request for a domain fails, Builder will find that domain in the array and replace it with the next domain in the array.
 
