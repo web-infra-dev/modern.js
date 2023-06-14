@@ -41,7 +41,7 @@ function render(ui: React.ReactElement<any>, options: Options): RenderResult;
 - `options`：render 可选配置。
   - `container`：表示组件所要挂载到的 DOM 节点，默认是会创建一个 `div` 元素，并自动添加到 `document.body` 上。这个 `div` 元素就是组件要挂载的节点。默认值是 `document.body.append(document.createElement('div'))`。
   - `baseElement`：用于指定 `queries` 中使用到的 `basename`。如果指定了 `container`, 则默认值为 `container` 的值，否则就是 `document.body`。
-  - `hydrate`：如果设置为 `true`，则会使用 [ReactDOM.hydrate](https://reactjs.org/docs/react-dom.html#hydrate) 渲染组件。默认值为 `false`。
+  - `hydrate`：如果设置为 `true`，则会使用 [ReactDOM.hydrate](https://zh-hans.react.dev/reference/react-dom/hydrate) 渲染组件。默认值为 `false`。
   - `wrapper`：是一个 react 组件，可用于自定义渲染逻辑。
   - `queries`：自定义一些自己的 `queries`。
 

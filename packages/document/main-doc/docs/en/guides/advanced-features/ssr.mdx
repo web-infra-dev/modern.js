@@ -75,7 +75,7 @@ Warning: Expected server HTML to contain a matching <div> in <div>.
 This is caused by the inconsistency between the rendering result and the SSR rendering result when React executes the hydrate logic on the client side. Although the page performs normally, in complex applications, it is likely to cause problems such as DOM hierarchy confusion and style confusion.
 
 :::info
-For hydrate logic, please refer to [here](https://reactjs.org/docs/react-dom.html#hydrate).
+For hydrate logic, please refer to [here](https://react.dev/reference/react-dom/hydrate).
 
 :::
 
@@ -455,7 +455,7 @@ export default Page;
 ```
 
 `Await` needs to be wrapped inside the `Suspense` component. The `resolve` of `Await` passes in the data acquired asynchronously by the Data Loader. When the data acquisition is completed,
-the obtained data is rendered through the [Render Props](https://reactjs.org/docs/render-props.html) mode. When the data acquisition is in pending status, the
+the obtained data is rendered through the [Render Props](https://react.dev/reference/react/cloneElement#passing-data-with-a-render-prop) mode. When the data acquisition is in pending status, the
 content set by the `fallback` property of the `Suspense` component will display.
 
 
