@@ -1,14 +1,15 @@
 ---
 sidebar_position: 3
-title: Frameworks
+title: Runtime Frameworks
 ---
-# Frameworks
+
+# Runtime Frameworks
 
 Modern.js's BFF supports different runtime frameworks, currently Modern.js's BFF supports two runtime frameworks[Express.js](https://expressjs.com/) 和 [Koa.js](https://koajs.com/).
 
 ## Function Mode
 
-Under the function writing, only the middleware writing method of various runtime frameworks is different, and other implementations are basically the same. Take Express as an example to introduce how to write a middleware by hand in the `api/_ app.ts` and add permission verification:
+Within the functional mode, the middleware writing protocols of different runtime frameworks may vary, while most other implementations remain consistent. Take Express as an example to introduce how to write a middleware by hand in the `api/_ app.ts` and add permission verification:
 
 ```ts
 import { hook } from '@modern-js/runtime/server';
@@ -65,7 +66,7 @@ Then exec `pnpm run dev` starts the project, and accessing `http://localhost:808
 
 ![Network](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/network2.png)
 
-Finally, modify the front-end code `src/App.tsx` to call the login interface before accessing `/api/hello`:
+Finally, modify the front-end code located at `src/App.tsx` to invoke the login interface prior to accessing the `/api/hello` endpoint.
 
 ```ts
 import { useState, useEffect } from 'react';
@@ -98,7 +99,7 @@ The above code simulates the way to add middleware to the `/api/_app.ts` to achi
 
 ## Framework Mode
 
-Under the framework writing, Modern.js does not collect middleware in the `api/_app.ts`, and the running process is controlled by the plugin itself.
+In the framework mode of Modern.js, middleware is not gathered in the `api/_app.ts` file, and the plugin itself controls the running process.
 
 ### Express
 
@@ -127,10 +128,10 @@ export default app;
 
 The Koa framework is written in a similar way to Express. It supports defining the startup logic of API Server in `app.[tj]s`, performing the initialization work of the application, adding global middleware, declaring routes, extending the original framework, etc.
 
-The route defined by the BFF function will be registered after the route defined by the `app.ts` file, so here you can also intercept the route defined by the BFF function, preprocess or respond in advance.
+The route specified by the BFF function will be registered subsequent to the route specified by the `app.ts` file. Therefore, you have the ability to intercept the BFF function's route, preprocess it, and respond in advance.
 
 :::caution
-Use the framework writing, when there is no `app.ts`, Modern.js will add koa-body by default. When there is `app.ts`, if the developer wants to use the BFF function with Body, he needs to ensure that the koa-body middleware has been added.
+When operating in framework mode without an `app.ts`, Modern.js will automatically include the koa-body middleware. If there is an `app.ts`, developers who wish to use the BFF function with Body must verify that the koa-body middleware has been added.
 
 :::
 

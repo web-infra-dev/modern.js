@@ -1,17 +1,18 @@
 ---
 sidebar_position: 5
-title: Use Proxy
+title: Use BFF Proxy
 ---
-# Use Proxy
 
-By configuring the BFF proxy, API requests can be forwarded without manual coding
+# Use BFF Proxy
+
+Through BFF proxy configuration, API requests can be seamlessly forwarded without the need for manual coding.
 
 :::caution
 Using a BFF proxy ensures that requests can enter the BFF handler. (eg the request path must contain a bff prefix)
 
 :::
 
-Writing the following BFF proxy configuration in the `modern.server-runtime.config.js` file will proxy requests sent to `http://localhost:8080/api/v1/topics` to `https://cnodejs.org/api/v1/topics`.
+To configure BFF proxy in the `modern.server-runtime.config.js` file, add the following configuration to proxy requests from `http://localhost:8080/api/v1/topics` to `https://cnodejs.org/api/v1/topics`.
 
 ```js title="modern.server-runtime.config.js"
 import { defineConfig } from '@modern-js/app-tools/server';
