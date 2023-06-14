@@ -7,7 +7,7 @@ sidebar_position: 3
 
 In Modern.js, SSR is readily available without the need for developers to write intricate server-level logic or worry about the operation and maintenance of SSR services. Additionally, Modern.js includes a comprehensive degradation strategy for SSR to ensure safe page execution.
 
-Enabling SSR is a simple process. Just set the value of [`server.ssr`](/configure/app/server/ssr) to `true`.
+Enabling SSR is simple. Just set the value of [`server.ssr`](/configure/app/server/ssr) to `true`.
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -21,7 +21,7 @@ export default defineConfig({
 
 ## SSR Data Fetch
 
-Modern.js offers a Data Loader that simplifies data fetching for developers working with SSR and CSR. Each routing module, such as `layout.tsx` and `page.tsx`, can define its own Data Loader:
+Modern.js provides a Data Loader that simplifies data fetching for developers working with SSR and CSR. Each routing module, such as `layout.tsx` and `page.tsx`, can define its own Data Loader:
 
 ```ts title="src/routes/page.loader.ts"
 export default () => {
@@ -42,7 +42,7 @@ export default () => {
 
 Modern.js breaks the traditional model of server-side rendering (SSR) development and offers users a more user-friendly SSR development experience.
 
-This feature offers elegant degradation processing. In case the SSR request fails, it will automatically downgrade and restart the request on the browser side.
+This feature offers elegant degradation processing. If the SSR request fails, it will automatically downgrade and restart the request on the browser side.
 
 Developers should still be mindful of data fallback, including `null` values or unexpected data returns. This will help prevent React rendering errors and messy results during SSR.
 
@@ -50,7 +50,7 @@ Developers should still be mindful of data fallback, including `null` values or 
 
 1. When requesting a page through client-side routing, Modern.js sends an HTTP request. The server receives the request and executes the corresponding Data Loader function for the page, then returns the execution result as a response to the browser.
 
-2. When using Data Loader, data is obtained before rendering. Modern.js also supports obtaining data during component rendering. For more related content, please refer to [Data Fetch](/guides/basic-features/data-fetch).
+2. When using Data Loader, data is fetched before rendering. Modern.js also supports obtaining data during component rendering. For more related content, please refer to [Data Fetch](/guides/basic-features/data-fetch).
 
 :::
 
@@ -77,7 +77,7 @@ Warning: Expected server HTML to contain a matching <div> in <div>.
 This is caused by React's hydration logic on the client side detecting inconsistencies between the rendered result and the SSR rendering result. Although the page appears normal, in complex applications, it is likely to cause problems such as DOM hierarchy confusion and style disorder.
 
 :::info
-About the logic of hydrate injection, please refer to [here](https://reactjs.org/docs/react-dom.html#hydrate).
+More information about [`React hydrate`](https://reactjs.org/docs/react-dom.html#hydrate).
 
 :::
 
@@ -97,7 +97,7 @@ Wrap the element that does not require SSR with the `NoSSR` component:
 </NoSSR>
 ```
 
-After modifying the code, refreshing the page shows that the previous warning has disappeared. Opening the Network window of the browser developer tool and checking the returned HTML document reveals that it does not contain content wrapped by `NoSSR` components.
+After modifying the code, refreshing the page shows that the previous warning has disappeared. Opening the Network tab of the browser devtools and checking the returned HTML document does not contain content wrapped by `NoSSR` components.
 
 :::info
 ['useRuntimeContext'](/apis/app/runtime/core/use-runtime-context) can get complete request information, which can be used to ensure consistent rendering results between SSR and CSR.
@@ -107,7 +107,7 @@ After modifying the code, refreshing the page shows that the previous warning ha
 ## Pay Attention to Memory Leaks
 
 :::warning
-Developers need to pay special attention to memory leaks in the SSR scenario. Even tiny memory leaks can have an impact on the service after a large number of accesses.
+Developers need to pay special attention to memory leaks in the SSR mode. Even tiny memory leaks can have an impact on the service after a large number of accesses.
 
 :::
 
@@ -134,7 +134,7 @@ When running on the client-side, this code will not cause any issues. However, d
 
 Every time a component is rendered and `epicMiddleware.run(rootEpic)` is called, new event bindings are added internally which causes the entire object to grow continuously and ultimately affects application performance.
 
-CSR issues are not easy to detect, so when switching from CSR to SSR, if you are unsure whether the application has such vulnerabilities, you can conduct load testing on the application.
+CSR issues are not easy to detect, so when switching from CSR to SSR, if you are unsure whether the application has such problems, you can perform stress testing on applications.
 
 ## Converging Server Data.
 
@@ -200,7 +200,7 @@ The first time it is opened, there is no difference in rendering compared to bef
 
 Clicking refresh opens the page instantly, but at this point, the page data has not changed due to the refresh because the cache has not yet expired.
 
-After waiting for 5 seconds and refreshing the page, the data on the page remained unchanged. After refreshing again, the data changed, but the response was almost instantaneous.
+After waiting for 5 seconds and refreshing the page, the data on the page remained unchanged. After refreshing again, the data changed, but the response was nearly immediate.
 
 This is because during the previous request, SPR had already asynchronously obtained a new rendering result in the background, and this time's requested page is a version that has been cached on the server.
 
@@ -215,7 +215,7 @@ For more detail, see [`<PreRender>`](/apis/app/runtime/ssr/pre-render).
 
 When SSR is enabled, Modern.js uses the same entry point to build both SSR Bundle and CSR Bundle. Therefore, errors may occur if there are Web APIs in the SSR Bundle or Node APIs in the CSR Bundle.
 
-Introducing Web APIs in components usually involves some global listening or obtaining browser-related data, such as:
+Introducing Web APIs in components usually do some global listening or obtaining browser-related data, such as:
 
 ```tsx
 document.addEventListener('load', () => {
@@ -241,7 +241,7 @@ export default () => {
 
 ### Use Environment Variables
 
-For the first scenario, we can directly use the built-in environment variable `MODERN_TARGET` in Modern.js to determine and remove unused code during build time:
+For the first case, we can directly use the built-in environment variable `MODERN_TARGET` in Modern.js to determine and remove unused code during build time:
 
 ```ts
 if (process.env.MODERN_TARGET === 'browser') {
@@ -273,7 +273,7 @@ For more information, see [environment variables](/guides/basic-features/env-var
 
 ### Use File Suffix
 
-But for example, in the second scenario, `fs-extra` is imported in the code, which has side effects using Node API internally. If it is directly referenced in the component, it will cause an error when CSR loading.
+But for example, in the second case, `fs-extra` is imported in the code, which has side effects using Node API internally. If it is directly referenced in the component, it will cause an error when CSR loading.
 
 Environment variables does not work in this case. Modern.js also supports using files with the `.node.` suffix to distinguish between the packaging files of SSR Bundle and CSR Bundle products.
 
@@ -326,11 +326,9 @@ export default () => {
 
 ## Remote Request
 
-When initiating interface requests in SSR, developers sometimes encapsulate isomorphic request tools themselves. For some interfaces that require passing user cookies, developers can use the ['useRuntimeContext'](/guides/basic-features/data-fetch#route-loader) API to obtain the request header for implementation.
+When initiating interface requests in SSR, developers sometimes encapsulate isomorphic request tools themselves. For some interfaces that require passing user cookies, developers can use the ['useRuntimeContext'](/guides/basic-features/data-fetch#route-loader) API to get the request header for implementation.
 
-It should be noted, the request header of the HTML request is obtained, which may not be applicable to remote requests, so **must not** pass through all request headers.
-
-It should be noted that the obtained request header is for HTML requests, which may not be suitable for API requests. Therefore, **all request headers must not be passed through**.
+It should be noted that the obtained request header is for HTML requests, which may not be suitable for API requests. Therefore, ** don't passed through all request headers **.
 
 In addition, some backend interfaces or common gateways will verify based on the information in the request header. Full pass-through can easily lead to various difficult-to-troubleshoot issues, so it is recommended to **pass through as needed**.
 
