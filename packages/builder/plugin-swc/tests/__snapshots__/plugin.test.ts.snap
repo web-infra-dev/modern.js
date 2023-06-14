@@ -514,8 +514,6 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
 {
   "minimizer": [
     SwcMinimizerPlugin {
-      "minifyCss": [Function],
-      "minifyJs": [Function],
       "minifyOptions": {
         "cssMinify": {},
         "jsMinify": {
@@ -523,6 +521,7 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
           "mangle": true,
         },
       },
+      "name": "swc-minimizer-plugin",
     },
   ],
 }
