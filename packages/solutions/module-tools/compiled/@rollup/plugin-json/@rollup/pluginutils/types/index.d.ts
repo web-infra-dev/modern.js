@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import { BaseNode } from '../../estree';
 
 export interface AttachedScope {
@@ -18,7 +17,7 @@ export interface DataToEsmOptions {
 }
 
 /**
- * A valid `minimatch` pattern, or array of patterns.
+ * A valid `picomatch` glob pattern, or array of patterns.
  */
 export type FilterPattern = ReadonlyArray<string | RegExp> | string | RegExp | null;
 
@@ -68,11 +67,17 @@ export function extractAssignedNames(param: BaseNode): string[];
  */
 export function makeLegalIdentifier(str: string): string;
 
+/**
+ * Converts path separators to forward slash.
+ */
+export function normalizePath(filename: string): string;
+
 export type AddExtension = typeof addExtension;
 export type AttachScopes = typeof attachScopes;
 export type CreateFilter = typeof createFilter;
 export type ExtractAssignedNames = typeof extractAssignedNames;
 export type MakeLegalIdentifier = typeof makeLegalIdentifier;
+export type NormalizePath = typeof normalizePath;
 export type DataToEsm = typeof dataToEsm;
 
 declare const defaultExport: {
@@ -82,5 +87,6 @@ declare const defaultExport: {
   dataToEsm: DataToEsm;
   extractAssignedNames: ExtractAssignedNames;
   makeLegalIdentifier: MakeLegalIdentifier;
+  normalizePath: NormalizePath;
 };
 export default defaultExport;

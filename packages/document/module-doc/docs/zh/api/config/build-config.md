@@ -325,6 +325,15 @@ export default defineConfig({
 - 类型： `boolean`
 - 默认值： `false`
 
+### respectExternal
+
+当设为 `false` 时，不会打包任何三方包类型，设为 `true` 时，会根据[externals](#externals)来决定是否需要打包三方类型。
+
+在对类型文件进行打包时，构建工具还未对 export 进行分析，因此当你引用的任何一个三方包出现类型错误时，都可能会中断当前的构建流程，这会导致构建流程不可控，因此我们可以通过这个配置来避免该问题。
+
+- 类型： `boolean`
+- 默认值： `true`
+
 ### tsconfigPath
 
 TypeScript 配置文件的路径。
@@ -363,15 +372,14 @@ export default defineConfig({
 
 :::
 
-<!-- ## externalHelpers
+## externalHelpers
 
 默认情况下，输出的 JS 代码可能会依赖一些辅助函数来支持目标环境或者输出格式，这些辅助函数会被内联在需要它的文件中。
 
 当在使用 SWC Transform 进行代码转换的时候，可以启动 `externalHelpers` 配置，将内联的辅助函数转换为从外部模块 `@swc/helpers` 导入这些辅助函数。
 
-* 类型：`boolean`
-* 默认值：`false`
-
+- 类型：`boolean`
+- 默认值：`false`
 
 下面是使用该配置前后的产物变化比较。
 
@@ -406,8 +414,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 export var yourCode = function() {
   // use _async_to_generator
 }
-``` -->
-
+```
 
 ## externals
 
@@ -569,12 +576,12 @@ export default defineConfig({
 - 类型： `boolean | 'inline' | 'external'`
 - 默认值： `false`
 
-<!-- ## sourceType
+## sourceType
 
 设置源码的格式。默认情况下，会将源码作为 EsModule 进行处理。当源码使用的是 CommonJS 的时候，需要设置 `commonjs`。
 
 - 类型：`commonjs` | `module`
-- 默认值：`module` -->
+- 默认值：`module`
 
 ## splitting
 
@@ -735,7 +742,7 @@ export default defineConfig({
 - plugins
 - processOptions
 
-详细配置查看 [postcss](https://github.com/postcss/postcss#options)。
+详细配置查看 [PostCSS](https://github.com/postcss/postcss#options)。
 
 ### inject
 
@@ -861,12 +868,12 @@ const tailwind = {
 - 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
 - 默认值： `'es6'`
 
-<!-- ## transformImport
+## transformImport
 
 提供与 babel-plugin-import 等价的能力和配置，基于 SWC 实现。
 
-* 类型：`Array`
-* 默认值：`[]`
+- 类型：`Array`
+- 默认值：`[]`
 
 数组元素为一个 babel-plugin-import 的配置对象。配置对象可以参考 [options](https://github.com/umijs/babel-plugin-import#options)。
 
@@ -893,8 +900,7 @@ export default defineConfig({
 
 ### 注意事项
 
-参考[【Import 插件——注意事项】](plugins/official-list/plugin-import.html#注意事项) -->
-
+参考[【Import 插件——注意事项】](plugins/official-list/plugin-import.html#注意事项)
 
 ## umdGlobals
 

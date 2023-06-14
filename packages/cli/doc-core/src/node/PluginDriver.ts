@@ -1,4 +1,5 @@
 import { UserConfig, PageIndexInfo, DocPlugin, RouteMeta } from 'shared/types';
+import { pluginAutoNavSidebar } from './plugins/autoNavAndSidebar';
 
 export class PluginDriver {
   #config: UserConfig;
@@ -17,10 +18,16 @@ export class PluginDriver {
     // Clear docPlugins first, for the watch mode
     this.clearPlugins();
     const config = this.#config;
+    const themeConfig = config.doc.themeConfig || {};
     const enableLastUpdated =
-      config.doc.themeConfig?.lastUpdated ||
-      config.doc.themeConfig?.locales?.some(locale => locale.lastUpdated);
+      themeConfig?.lastUpdated ||
+      themeConfig?.locales?.some(locale => locale.lastUpdated);
     const mediumZoomConfig = config.doc.mediumZoom ?? true;
+    const haveNavSidebarConfig =
+      themeConfig.nav ||
+      themeConfig.sidebar ||
+      themeConfig.locales?.[0].nav ||
+      themeConfig.locales?.[0].sidebar;
     if (enableLastUpdated) {
       const { pluginLastUpdated } = await import('./plugins/lastUpdated');
       this.addPlugin(pluginLastUpdated());
@@ -35,6 +42,10 @@ export class PluginDriver {
         ),
       );
     }
+    if (!haveNavSidebarConfig) {
+      this.addPlugin(pluginAutoNavSidebar());
+    }
+
     (config.doc.plugins || []).forEach(plugin => {
       this.addPlugin(plugin);
     });
@@ -105,6 +116,18 @@ export class PluginDriver {
         .filter(plugin => typeof plugin.addPages === 'function')
         .map(plugin => {
           return plugin.addPages(this.#config.doc || {}, this.#isProd, routes);
+        }),
+    );
+
+    return result.flat();
+  }
+
+  async addSSGRoutes() {
+    const result = await Promise.all(
+      this.#plugins
+        .filter(plugin => typeof plugin.addSSGRoutes === 'function')
+        .map(plugin => {
+          return plugin.addSSGRoutes(this.#config.doc || {}, this.#isProd);
         }),
     );
 

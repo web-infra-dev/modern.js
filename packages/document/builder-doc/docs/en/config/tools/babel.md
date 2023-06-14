@@ -3,19 +3,23 @@
 
 With `tools.babel` you can modify the options of [babel-loader](https://github.com/babel/babel-loader).
 
-:::warning
-When using Rspack as the bundler, using this configuration will slow down the build speed of Rspack. As Rspack uses SWC compilation by default, there will be additional compilation overhead when using the Babel.
-:::
+### Usage Scenarios
+
+Please note the limitations of `tools.babel` in the following usage scenarios:
+
+- Rspack scenario: When using Rspack as the bundler, using the `tools.babel` option will significantly slow down the Rspack's build speed. This is because Rspack defaults to using SWC for compilation, and configuring Babel will cause the code to be compiled twice, resulting in additional compilation overhead.
+- webpack + SWC scenario: When using webpack as the bundler, if you use Builder's SWC plugin for code compilation, the `tools.babel` option will not take effect.
 
 ### Function Type
 
-When `tools.babel`'s type is Function, the default babel config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result. The second parameter provides some util functions that can be called directly:
+
+When `tools.babel` is of type `Function`, the default Babel configuration will be passed as the first parameter. You can directly modify the configuration object or return an object as the final `babel-loader` configuration.
 
 ```js
 export default {
   tools: {
     babel(config) {
-      // Add a babel plugin
+      // Add a Babel plugin
       // note: the plugin have been added to the default config to support antd load on demand
       config.plugins.push([
         'babel-plugin-import',
@@ -29,6 +33,8 @@ export default {
   },
 };
 ```
+
+The second parameter of the `tools.babel` function provides some more convenient utility functions. Please continue reading the documentation below.
 
 :::tip
 The above example is just for reference, usually you don't need to manually configure `babel-plugin-import`, because the Builder already provides a more general `source.transformImport` configuration.
@@ -217,3 +223,19 @@ export default {
   },
 };
 ```
+
+### Debugging Babel Configuration
+
+After modifying the `babel-loader` configuration through `tools.babel`, you can view the final generated configuration in [Builder debug mode](https://modernjs.dev/builder/en/guide/debug/debug-mode.html).
+
+First, enable debug mode by using the `DEBUG=builder` parameter:
+
+```bash
+# Debug development mode
+DEBUG=builder pnpm dev
+
+# Debug production mode
+DEBUG=builder pnpm build
+```
+
+Then open the generated `(webpack|rspack).config.web.js` file and search for the `babel-loader` keyword to see the complete `babel-loader` configuration.

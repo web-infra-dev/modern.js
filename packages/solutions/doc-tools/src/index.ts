@@ -9,7 +9,6 @@ import type {
 import { logger } from '@modern-js/utils/logger';
 import chalk from '@modern-js/utils/chalk';
 import { cli } from '@modern-js/core';
-import { schema } from './config/schema';
 
 export type {
   CliPlugin,
@@ -20,7 +19,11 @@ export type {
   AdditionalPage,
 };
 
-const MODERN_CONFIG_FILES = ['modern.config.ts', 'modern.config.js'];
+const MODERN_CONFIG_FILES = [
+  'modern.config.ts',
+  'modern.config.js',
+  '_meta.json',
+];
 
 interface ServerInstance {
   close: () => Promise<void>;
@@ -31,7 +34,7 @@ interface DocToolsOptions {
   extraDocConfig?: UserConfig['doc'];
 }
 
-const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js'];
+const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js', '.json'];
 
 export default (options: DocToolsOptions = {}): CliPlugin => ({
   name: '@modern-js/doc-tools',
@@ -43,25 +46,19 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
     });
 
     const { configFiles = MODERN_CONFIG_FILES, extraDocConfig = {} } = options;
-    const { dev, build, serve } = await import('@modern-js/doc-core');
+    const { dev, build, serve, mergeDocConfig } = await import(
+      '@modern-js/doc-core'
+    );
     let server: ServerInstance | undefined;
     let startServer: ((isFirst?: boolean) => Promise<void>) | undefined;
     return {
-      validateSchema: () => {
-        return schema;
-      },
-      config() {
-        return {
-          doc: extraDocConfig,
-        };
-      },
       watchFiles() {
         const { configFile } = api.useAppContext();
         const config = api.useConfigContext() as UserConfig & {
           configFile: string;
         };
         // Concern: if the doc root is set by cli, we cannot get the root parms in `watchFiles` hook, so we can only get the root from config file.
-        return [configFile, config.doc?.root].filter(Boolean);
+        return [configFile, config.doc?.root, '**/_meta.json'].filter(Boolean);
       },
       async fileChange({ filename, eventType }) {
         const isConfigFile = configFiles.some(configFileName =>
@@ -102,8 +99,10 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
                 }
               }
               const config = api.useConfigContext() as UserConfig;
-
-              server = await dev(root || '', config);
+              const docConfig = mergeDocConfig(config, {
+                doc: extraDocConfig,
+              });
+              server = await dev(root || '', docConfig);
             };
             await startServer(true);
           });
@@ -114,7 +113,10 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           .option('-c --config <config>', 'specify config file')
           .action(async (root?: string) => {
             const config = api.useConfigContext() as UserConfig;
-            await build(root || '', config);
+            const docConfig = mergeDocConfig(config, {
+              doc: extraDocConfig,
+            });
+            await build(root || '', docConfig);
           });
 
         program
@@ -131,7 +133,10 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
             ) => {
               const { port, host } = options || {};
               const config = api.useConfigContext() as UserConfig;
-              await serve(root || '', config, port, host);
+              const docConfig = mergeDocConfig(config, {
+                doc: extraDocConfig,
+              });
+              await serve(root || '', docConfig, port, host);
             },
           );
       },

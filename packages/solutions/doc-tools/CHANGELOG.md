@@ -1,5 +1,58 @@
 # @modern-js/doc-tools
 
+## 2.22.1
+
+### Patch Changes
+
+- 30a8d8d: fix(doc-tools): extraDocConfig not work
+
+  fix(doc-tools): extraDocConfig 不生效
+
+- f6b2b3a: fix(doc-tools): build error
+
+  fix(doc-tools): 生产环境构建错误
+
+- 5a5f164: chore(doc-tools): remove schema validate
+
+  chore(doc-tools): 移除 schema 验证
+
+- Updated dependencies [a9009ee]
+- Updated dependencies [af75f6d]
+- Updated dependencies [e2848a2]
+- Updated dependencies [9f732e0]
+- Updated dependencies [9093c4e]
+- Updated dependencies [903de0f]
+- Updated dependencies [c290b9c]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [0a5e2ef]
+  - @modern-js/doc-core@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/core@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- b8553a3: fix(doc-tools): peerDependencies should allow react v18
+
+  fix(doc-tools): peerDependencies 支持 react v18
+
+- Updated dependencies [3d48836]
+- Updated dependencies [80d7bba]
+- Updated dependencies [5050e8e]
+- Updated dependencies [e465c68]
+- Updated dependencies [7b25598]
+- Updated dependencies [562ba82]
+- Updated dependencies [27618e4]
+- Updated dependencies [68333c8]
+- Updated dependencies [60fddc8]
+- Updated dependencies [b371c97]
+- Updated dependencies [271f2c1]
+  - @modern-js/utils@2.22.0
+  - @modern-js/doc-core@2.22.0
+  - @modern-js/core@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

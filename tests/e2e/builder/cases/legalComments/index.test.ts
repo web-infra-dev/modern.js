@@ -1,22 +1,22 @@
 import { join } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest, webpackOnlyTest } from '@scripts/helper';
+import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest('legalComments linked (default)', async ({ page }) => {
-  const buildOpts = {
+test('legalComments linked (default)', async ({ page }) => {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    performance: {
-      chunkSplit: {
-        strategy: 'all-in-one',
+    runServer: true,
+    builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'all-in-one',
+        },
       },
     },
   });
@@ -51,22 +51,22 @@ allProviderTest('legalComments linked (default)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('legalComments none', async ({ page }) => {
-  const buildOpts = {
+test('legalComments none', async ({ page }) => {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    performance: {
-      chunkSplit: {
-        strategy: 'all-in-one',
+    runServer: true,
+    builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'all-in-one',
+        },
       },
-    },
-    output: {
-      legalComments: 'none',
+      output: {
+        legalComments: 'none',
+      },
     },
   });
 
@@ -95,21 +95,21 @@ allProviderTest('legalComments none', async ({ page }) => {
 });
 
 webpackOnlyTest('legalComments inline', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    performance: {
-      chunkSplit: {
-        strategy: 'all-in-one',
+    runServer: true,
+    builderConfig: {
+      performance: {
+        chunkSplit: {
+          strategy: 'all-in-one',
+        },
       },
-    },
-    output: {
-      legalComments: 'inline',
+      output: {
+        legalComments: 'inline',
+      },
     },
   });
 

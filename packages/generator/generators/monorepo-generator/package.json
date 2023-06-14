@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.19",
+  "version": "3.1.21",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -31,9 +31,9 @@
   "devDependencies": {
     "@modern-js/base-generator": "workspace:*",
     "@modern-js/changeset-generator": "workspace:*",
-    "@modern-js/codesmith": "2.2.3",
-    "@modern-js/codesmith-api-app": "2.2.3",
-    "@modern-js/codesmith-api-json": "2.2.3",
+    "@modern-js/codesmith": "2.2.5",
+    "@modern-js/codesmith-api-app": "2.2.5",
+    "@modern-js/codesmith-api-json": "2.2.5",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-utils": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
@@ -49,7 +49,8 @@
   "publishConfig": {
     "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "types": "./src/index.ts"
 }

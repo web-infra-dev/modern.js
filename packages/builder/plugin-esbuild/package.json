@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.21.1",
+  "version": "2.22.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -38,7 +38,7 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-    "esbuild": "0.15.7",
+    "esbuild": "0.16.17",
     "@modern-js/builder-shared": "workspace:*"
   },
   "devDependencies": {
@@ -46,13 +46,13 @@
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
-    "typescript": "^5",
-    "wireit": "^0.7.1"
+    "typescript": "^5"
   },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/index.d.ts"
   }
 }

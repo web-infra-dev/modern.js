@@ -1,19 +1,17 @@
 import { join } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest('svg (default)', async ({ page }) => {
-  const buildOpts = {
+test('svg (default)', async ({ page }) => {
+  const builder = await build({
     cwd: join(fixtures, 'svg'),
     entry: {
       main: join(fixtures, 'svg', 'src/index.js'),
     },
-  };
-
-  const builder = await build(buildOpts, {});
+    runServer: true,
+  });
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
@@ -39,17 +37,17 @@ allProviderTest('svg (default)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('svg (defaultExport component)', async ({ page }) => {
-  const buildOpts = {
+test('svg (defaultExport component)', async ({ page }) => {
+  const builder = await build({
     cwd: join(fixtures, 'svg-default-export-component'),
     entry: {
       main: join(fixtures, 'svg-default-export-component', 'src/index.js'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {
-      svgDefaultExport: 'component',
+    runServer: true,
+    builderConfig: {
+      output: {
+        svgDefaultExport: 'component',
+      },
     },
   });
 
@@ -62,15 +60,14 @@ allProviderTest('svg (defaultExport component)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('svg (url)', async ({ page }) => {
-  const buildOpts = {
+test('svg (url)', async ({ page }) => {
+  const builder = await build({
     cwd: join(fixtures, 'svg-url'),
     entry: {
       main: join(fixtures, 'svg-url', 'src/index.js'),
     },
-  };
-
-  const builder = await build(buildOpts, {});
+    runServer: true,
+  });
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
@@ -92,23 +89,23 @@ allProviderTest('svg (url)', async ({ page }) => {
 });
 
 // It's an old bug when use svgr in css and external react.
-allProviderTest('svg (external react)', async ({ page }) => {
-  const buildOpts = {
+test('svg (external react)', async ({ page }) => {
+  const builder = await build({
     cwd: join(fixtures, 'svg-external-react'),
     entry: {
       main: join(fixtures, 'svg-external-react', 'src/index.js'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {
-      externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
+    runServer: true,
+    builderConfig: {
+      output: {
+        externals: {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+        },
       },
-    },
-    html: {
-      template: './static/index.html',
+      html: {
+        template: './static/index.html',
+      },
     },
   });
 
@@ -136,17 +133,17 @@ allProviderTest('svg (external react)', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest('svg (disableSvgr)', async ({ page }) => {
-  const buildOpts = {
+test('svg (disableSvgr)', async ({ page }) => {
+  const builder = await build({
     cwd: join(fixtures, 'svg-assets'),
     entry: {
       main: join(fixtures, 'svg-assets', 'src/index.js'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {
-      disableSvgr: true,
+    runServer: true,
+    builderConfig: {
+      output: {
+        disableSvgr: true,
+      },
     },
   });
 

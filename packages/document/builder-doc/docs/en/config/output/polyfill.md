@@ -17,19 +17,16 @@ Polyfill is injected in each file based on the API used in the code.
 
 Equivalent to `useBuiltIns: 'usage'` configuration in `@babel/preset-env`.
 
+:::tip
+When using Rspack as the bundler, the `usage` configuration item is not currently supported.
+:::
+
 #### ua
 
 The Polyfill code is dynamically delivered according to the currently requested UA information.
 
-:::tip
-The dynamic delivery feature requires the `@modern-js/plugin-polyfill` plugin.
-For more details, please refer to [Polyfill At Runtime](https://modernjs.dev/en/guides/advanced-features/compatibility.html#polyfill-at-runtime).
-:::
+The dynamic delivery feature needs to be used with the upper-level framework. For more details, please refer to [Modern.js - Polyfill At Runtime](https://modernjs.dev/en/guides/advanced-features/compatibility.html#polyfill-at-runtime).
 
 #### off
 
 Polyfill is not injected. When using this option, you need to ensure code compatibility yourself.
-
-:::tip
-When using Rspack as the bundler, the `usage` configuration item is not currently supported.
-:::

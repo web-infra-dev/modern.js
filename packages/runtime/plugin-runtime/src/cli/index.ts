@@ -1,5 +1,9 @@
 import path from 'path';
-import { PLUGIN_SCHEMAS, cleanRequireCache, isReact18 } from '@modern-js/utils';
+import {
+  isReact18,
+  cleanRequireCache,
+  ENTRY_NAME_PATTERN,
+} from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import PluginState from '../state/cli';
 import PluginSSR from '../ssr/cli';
@@ -38,10 +42,32 @@ export default (): CliPlugin<AppTools> => ({
               'process.env.IS_REACT18': process.env.IS_REACT18,
             },
           },
+          tools: {
+            styledComponents: {
+              // https://github.com/styled-components/babel-plugin-styled-components/issues/287
+              topLevelImportPaths: ['@modern-js/runtime/styled'],
+            },
+          },
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/runtime'];
+        return [
+          {
+            target: 'runtime',
+            schema: {
+              type: 'object',
+              additionalProperties: false,
+            },
+          },
+          {
+            target: 'runtimeByEntries',
+            schema: {
+              type: 'object',
+              patternProperties: { [ENTRY_NAME_PATTERN]: { type: 'object' } },
+              additionalProperties: false,
+            },
+          },
+        ];
       },
       async beforeRestart() {
         cleanRequireCache([

@@ -23,7 +23,7 @@ import SWC from '@zh/shared/swc.md';
 - `babel-plugin-import`：使用 [source.transformImport](/api/config-source.html#sourcetransformimport) 代替。
 - `babel-plugin-lodash`：使用 [extensions.lodash](#extensionslodash) 代替。
 - `@emotion/babel-plugin`：使用 [extensions.emotion](#extensionsemotion) 代替。
-- `babel-plugin-styled-components`：使用 [extensions.styledComponent](#extensionsstyledcomponent) 代替。
+- `babel-plugin-styled-components`：使用 [extensions.styledComponents](#extensionsstyledcomponents) 代替。
 - `@babel/plugin-react-transform-remove-prop-types`: 使用 [reactUtils.removePropTypes](#extensionsreactutils) 代替。
 
 如果你使用了 SWC 尚未支持的 Babel 插件能力，在切换到 SWC 编译后，将无法再使用它们。你可以到 [swc-plugins](https://github.com/web-infra-dev/swc-plugins) 仓库下通过 issues 进行反馈，我们会评估是否需要内置支持。
@@ -36,7 +36,19 @@ import SWC from '@zh/shared/swc.md';
 
 ## 快速开始
 
-### 安装
+### 在 Modern.js 框架中使用
+
+Modern.js 框架对 Builder 的 SWC 插件进行了封装，你可以通过以下方式来使用：
+
+import EnableSWC from '@zh/shared/enable-swc.md';
+
+<EnableSWC />
+
+### 通过 Node API 使用
+
+如果你直接使用了 Builder 的 Node API，那么需要手动安装和注册 Builder 的 SWC 插件。
+
+#### 安装插件
 
 你可以通过如下的命令安装插件:
 
@@ -51,19 +63,9 @@ yarn add @modern-js/builder-plugin-swc -D
 pnpm add @modern-js/builder-plugin-swc -D
 ```
 
-### 注册插件
+#### 注册插件
 
-在 Modern.js 等上层框架中，你可以通过 `builderPlugins` 配置项来注册 SWC 插件：
-
-```ts
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-
-export default {
-  builderPlugins: [builderPluginSwc()],
-};
-```
-
-当你直接调用 Builder 的 Node API 时，可以通过 `addPlugins` 方法来注册 SWC 插件：
+通过 `addPlugins` 方法来注册 SWC 插件：
 
 ```js
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
@@ -72,9 +74,7 @@ import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 builder.addPlugins([builderPluginSwc()]);
 ```
 
-That's it !
-
-现在你可以在项目中无缝使用 SWC 的转译和压缩能力了。
+That's it! 现在你可以在项目中无缝使用 SWC 的转译和压缩能力了。
 
 ## 配置
 
@@ -184,12 +184,36 @@ type RemovePropTypesOptions = {
 
 #### extensions.lodash
 
-- **类型：** `{ cwd?: string; ids?: string;}`
-- **默认值：** `{ cwd: process.cwd(), ids: [] }`
+- **类型：**
 
-移植自 [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash)。
+```ts
+type LodashOptions = {
+  cwd?: string;
+  ids?: string[];
+};
+```
 
-#### extensions.styledComponent
+- **默认值：**
+
+```ts
+const defaultOptions = {
+  cwd: process.cwd(),
+  ids: ['lodash', 'lodash-es'],
+};
+```
+
+移植自 [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash)，用于自动将 Lodash 的引用转换为按需引入，从而减少打包后的 Lodash 代码大小。
+
+```ts
+// Input
+import { get, throttle } from 'lodash';
+
+// Output
+import get from 'lodash/get';
+import throttle from 'lodash/throttle';
+```
+
+#### extensions.styledComponents
 
 - **类型：**
 

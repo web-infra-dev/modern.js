@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.19",
+  "version": "3.1.21",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -24,7 +24,8 @@
   ],
   "meta": {
     "key": "generator-plugin",
-    "name": "生成器插件",
+    "name": "Generator Plugin",
+    "name_zh": "生成器插件",
     "type": "module"
   },
   "scripts": {
@@ -48,7 +49,8 @@
   "publishConfig": {
     "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "types": "./src/index.ts"
 }

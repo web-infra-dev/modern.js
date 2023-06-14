@@ -33,6 +33,8 @@ describe('rollup', () => {
       input,
       watch: true,
       externals: [],
+      abortOnError: true,
+      respectExternal: true,
     })) as RollupWatcher;
     const p = new Promise(resolve => {
       watcher.on('event', async event => {
@@ -69,6 +71,8 @@ describe('rollup', () => {
         input,
         watch: false,
         externals: [],
+        abortOnError: true,
+        respectExternal: true,
       });
     } catch (_) {
       heppenError = true;

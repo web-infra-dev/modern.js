@@ -135,6 +135,10 @@ describe('fixtures', () => {
   it('compat', async () => {
     await normalFsSnapshot('fixtures/compat');
   });
+
+  it('lodash', async () => {
+    await normalFsSnapshot('fixtures/lodash');
+  });
 });
 
 async function normalFsSnapshot(name: string) {

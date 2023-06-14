@@ -8,10 +8,10 @@ hero:
   actions:
     - theme: brand
       text: Introduction
-      link: /guide/introduction
+      link: /guide/start/introduction
     - theme: alt
       text: Quick Start
-      link: /guide/getting-started
+      link: /guide/start/getting-started
 
 features:
   - title: Blazing fast build speed

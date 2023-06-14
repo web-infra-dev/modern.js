@@ -1,4 +1,4 @@
-export default async () => ({
+export const get = async () => ({
   message: 'Hello Modern.js',
 });
 

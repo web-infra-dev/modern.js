@@ -66,6 +66,7 @@ export default (): CliPlugin => ({
             i18n.t(localeKeys.command.release.no_git_checks),
             '',
           )
+          .option('--provenance', i18n.t(localeKeys.command.release.provenance))
           .action((options: any) => release(options));
 
         program

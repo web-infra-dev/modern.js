@@ -1,5 +1,38 @@
 # @modern-js/prod-server
 
+## 2.22.1
+
+### Patch Changes
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/server-core@2.22.1
+  - @modern-js/plugin@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- 4991c8a: feat: support custom render html
+  feat: 支持自定义渲染 html.
+- cb9e1ec: feat: worker ssr support server hooks
+  feat: worker ssr 支持 server hooks
+
+### Patch Changes
+
+- ea961e7: fix: use path.resolve instead path.join for distPath
+  fix: 使用 path.resolve 代替 path.join 处理产物目录
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/server-core@2.22.0
+  - @modern-js/plugin@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

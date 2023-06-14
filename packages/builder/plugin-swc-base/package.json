@@ -1,7 +1,12 @@
 {
   "name": "@modern-js/builder-plugin-swc-base",
-  "version": "2.21.1",
+  "version": "2.22.1",
   "description": "SWC plugin for builder in Modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/plugin-swc-base"
+  },
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
@@ -30,7 +35,6 @@
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
-    "magic-string": "^0.26.2",
     "source-map": "^0.7.4",
     "typescript": "^5",
     "webpack": "^5.82.1"
@@ -48,6 +52,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/index.d.ts"
   }
 }

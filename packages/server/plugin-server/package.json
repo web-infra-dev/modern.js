@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.21.1",
+  "version": "2.22.1",
   "types": "./src/cli",
   "jsnext:source": "./src/cli",
   "main": "./dist/cjs/cli.js",
@@ -81,6 +81,7 @@
   ],
   "publishConfig": {
     "access": "public",
+    "provenance": true,
     "registry": "https://registry.npmjs.org/",
     "types": "./dist/types/cli.d.ts"
   }

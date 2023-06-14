@@ -32,9 +32,7 @@ describe('bff loader', () => {
       prefix: '/api',
       port: 80,
       target: 'client',
-      requestCreator: path
-        .resolve(__dirname, './fixtures/requestCreator')
-        .replace(/\\/g, '/'),
+      requestCreator: path.resolve(__dirname, './fixtures/requestCreator'),
     });
     const output = stats?.toJson({ source: true }).modules?.[0].source;
 

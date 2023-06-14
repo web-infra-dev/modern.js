@@ -1,5 +1,26 @@
 # @modern-js/utils
 
+## 2.22.1
+
+### Patch Changes
+
+- e2848a2: fix: support nonce in streaming SSR
+  fix: 在 streaming SSR 中支持 nonce
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 5050e8e: fix: browser should get last element that server insert to html for baseUrl
+  fix: 浏览器需要获取最后一个 Server 注入 HTML 的 baseUrl 数据
+
 ## 2.21.1
 
 ## 2.21.0

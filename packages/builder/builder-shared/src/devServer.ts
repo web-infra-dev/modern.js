@@ -1,7 +1,7 @@
 import type {
   SharedBuilderConfig,
   StartDevServerOptions,
-  StartDevServerResult,
+  StartServerResult,
   BuilderContext,
   OnAfterStartDevServerFn,
   OnBeforeStartDevServerFn,
@@ -12,6 +12,7 @@ import { merge } from '@modern-js/utils/lodash';
 import { logger, debug } from './logger';
 import { DEFAULT_PORT } from './constants';
 import { createAsyncHook } from './createHook';
+import { getServerOptions, printServerURLs } from './prodServer';
 import type { Compiler } from 'webpack';
 
 type ServerOptions = Exclude<StartDevServerOptions['serverOptions'], undefined>;
@@ -56,44 +57,13 @@ export const getDevServerOptions = async ({
     deepMerge,
   );
 
-  const defaultConfig: ModernDevServerOptions['config'] = {
-    output: {
-      path: builderConfig.output?.distPath?.root,
-      assetPrefix: builderConfig.output?.assetPrefix,
-      distPath: builderConfig.output?.distPath,
-    },
-    source: {
-      alias: {},
-    },
-    html: {},
-    tools: {
-      babel: {},
-    },
-    server: {},
-    runtime: {},
-    bff: {},
-  };
-
+  const defaultConfig = getServerOptions(builderConfig);
   const config = serverOptions.config
     ? merge({}, defaultConfig, serverOptions.config)
     : defaultConfig;
 
   return { config, devConfig };
 };
-
-async function printDevServerURLs(urls: Array<{ url: string; label: string }>) {
-  const { chalk } = await import('@modern-js/utils');
-  let message = 'Dev server running at:\n\n';
-
-  message += urls
-    .map(
-      ({ label, url }) =>
-        `  ${`> ${label.padEnd(10)}`}${chalk.cyanBright(url)}\n`,
-    )
-    .join('');
-
-  logger.info(message);
-}
 
 /** The context used by startDevServer. */
 export type Context = BuilderContext & {
@@ -149,9 +119,15 @@ export async function startDevServer<
       ? serverOptions?.dev?.host
       : DEFAULT_DEV_HOST;
 
+  const https =
+    typeof serverOptions?.dev === 'object' && serverOptions?.dev?.https
+      ? Boolean(serverOptions?.dev?.https)
+      : false;
+
   options.context.devServer = {
     hostname: host,
     port,
+    https,
   };
 
   const server = await createDevServer(options, port, serverOptions, compiler);
@@ -161,7 +137,7 @@ export async function startDevServer<
   debug('listen dev server');
   await server.init();
 
-  return new Promise<StartDevServerResult>(resolve => {
+  return new Promise<StartServerResult>(resolve => {
     server.listen(
       {
         host,
@@ -175,7 +151,7 @@ export async function startDevServer<
         debug('listen dev server done');
 
         const { getAddressUrls } = await import('@modern-js/utils');
-        const protocol = builderConfig.dev?.https ? 'https' : 'http';
+        const protocol = https ? 'https' : 'http';
         let urls = getAddressUrls(protocol, port, builderConfig.dev?.host);
 
         if (printURLs) {
@@ -189,7 +165,7 @@ export async function startDevServer<
             }
           }
 
-          await printDevServerURLs(urls);
+          await printServerURLs(urls, 'Dev server');
         }
 
         await options.context.hooks.onAfterStartDevServerHook.call({ port });
@@ -238,19 +214,12 @@ export const isClientCompiler = (compiler: {
 }) => {
   const { target } = compiler.options;
 
-  // if target not contains `node`, it's a client compiler
+  // if target not contains `node` or `webworker`, it's a client compiler
   if (target) {
     if (Array.isArray(target)) {
-      return !target.includes('node');
+      return !target.includes('node') && !target.includes('webworker');
     }
-    return target !== 'node';
-  }
-
-  if (target) {
-    if (Array.isArray(target)) {
-      return !target.includes('service-worker');
-    }
-    return target !== 'service-worker';
+    return target !== 'node' && target !== 'webworker';
   }
 
   return compiler.name === 'client';

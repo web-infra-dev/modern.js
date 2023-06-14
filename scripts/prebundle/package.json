@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.21.1",
+  "version": "2.22.1",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -29,7 +29,7 @@
     "@babel/plugin-proposal-export-default-from": "7.18.10",
     "@babel/plugin-proposal-partial-application": "7.18.9",
     "@babel/plugin-proposal-pipeline-operator": "7.18.9",
-    "@rollup/plugin-json": "4.1.0",
+    "@rollup/plugin-json": "6.0.0",
     "@types/debug": "4.1.7",
     "@types/fs-extra": "9.0.13",
     "@types/glob": "7.2.0",
@@ -68,12 +68,11 @@
     "commander": "10.0.0",
     "copy-webpack-plugin": "9.1.0",
     "css-loader": "6.7.1",
-    "css-modules-typescript-loader": "4.0.1",
     "cssnano": "6.0.0",
     "debug": "4.3.4",
     "dotenv": "10.0.0",
     "dotenv-expand": "5.1.0",
-    "esbuild-loader": "2.19.0",
+    "esbuild-loader": "2.21.0",
     "execa": "5.1.1",
     "fast-glob": "3.2.11",
     "file-loader": "6.2.0",
@@ -115,8 +114,8 @@
     "react": "^18",
     "react-dom": "^18",
     "react-is": "^18",
-    "rollup": "2.79.0",
-    "rollup-plugin-dts": "5.2.0",
+    "rollup": "3.23.0",
+    "rollup-plugin-dts": "5.3.0",
     "sass": "1.54.4",
     "sass-loader": "13.0.2",
     "schema-utils3": "npm:schema-utils@3.1.1",
@@ -145,9 +144,5 @@
     "webpack-sources": "3.2.3",
     "webpack-subresource-integrity": "5.1.0",
     "yaml-loader": "0.8.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
   }
 }

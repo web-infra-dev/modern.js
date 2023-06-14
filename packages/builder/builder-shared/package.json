@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.21.1",
+  "version": "2.22.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -99,6 +99,7 @@
   "dependencies": {
     "@babel/types": "^7.21.5",
     "@babel/parser": "^7.21.8",
+    "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
@@ -107,11 +108,13 @@
     "acorn": "^8.8.1",
     "caniuse-lite": "^1.0.30001489",
     "cheerio": "1.0.0-rc.12",
+    "cssnano": "6.0.0",
+    "postcss": "8.4.21",
     "source-map": "^0.7.4",
     "webpack": "^5.82.1",
     "webpack-sources": "^3.2.3",
     "zod": "^3.20.2",
-    "zod-validation-error": "^0.3.0"
+    "zod-validation-error": "1.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.5",
@@ -126,6 +129,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/index.d.ts",
     "exports": {
       ".": "./dist/index.js",

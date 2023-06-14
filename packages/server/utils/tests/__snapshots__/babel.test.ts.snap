@@ -12,17 +12,17 @@ exports[`babel resolveBabelConfig 1`] = `
 {
   "plugins": [
     [
-      "/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
       {},
     ],
     [
-      "/@babel/plugin-proposal-decorators/lib/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
       {
         "legacy": true,
       },
     ],
     [
-      "/@babel/plugin-transform-runtime/lib/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
       {
         "corejs": false,
         "helpers": false,
@@ -32,40 +32,34 @@ exports[`babel resolveBabelConfig 1`] = `
       },
     ],
     [
-      "/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
       {
         "removeImport": true,
       },
     ],
     [
-      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
     ],
     [
-      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
       {
         "proposal": "minimal",
       },
     ],
     [
-      "/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
     ],
     [
-      "/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
       {},
       "styled-components",
     ],
     [
-      "/babel-plugin-transform-inline-environment-variables/lib/index.js",
-      {
-        "include": [],
-      },
-    ],
-    [
-      "/babel-plugin-module-resolver/lib/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-module-resolver/lib/index.js",
       {
         "alias": {
           "@/*": [
-            "./src/*",
+            "src/*",
           ],
         },
         "extensions": [
@@ -78,14 +72,14 @@ exports[`babel resolveBabelConfig 1`] = `
           ".mjs",
         ],
         "resolvePath": [Function],
-        "root": "/packages/server/utils/tests/fixtures/",
+        "root": "<ROOT>/tests/fixtures/",
       },
     ],
     [
-      "/babel-plugin-transform-typescript-metadata/lib/plugin.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-typescript-metadata/lib/plugin.js",
     ],
     [
-      "/@babel/plugin-proposal-class-properties/lib/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-class-properties/lib/index.js",
       {
         "loose": true,
       },
@@ -93,7 +87,7 @@ exports[`babel resolveBabelConfig 1`] = `
   ],
   "presets": [
     [
-      "/@babel/preset-env/lib/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
       {
         "bugfixes": true,
         "loose": true,
@@ -109,13 +103,13 @@ exports[`babel resolveBabelConfig 1`] = `
       },
     ],
     [
-      "/@babel/preset-react/lib/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
       {
         "runtime": "automatic",
       },
     ],
     [
-      "/@babel/preset-typescript/lib/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
       {
         "allExtensions": true,
         "allowDeclareFields": true,

@@ -8,14 +8,14 @@ Modern.js 默认集成了 [Jest](https://jestjs.io/) 的测试能力。
 
 我们首先需要执行 `pnpm run new` 启用「单元测试 / 集成测试」功能：
 
-```
-? 请选择你想要的操作： 启用可选功能
-? 启用可选功能： 启用「单元测试 / 集成测试」功能
+```bash
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用「单元测试 / 集成测试」功能
 ```
 
-执行上述命令后，`package.json` 中将会自动生成 `"test": "modern test"` 命令。
+执行上述命令后，`package.json` 中将会自动添加 `"test": "modern test"` 命令。
 
-在 `modern.config.ts` 中注册 Test 插件：
+在 `modern.config.ts` 中注册 `@modern-js/plugin-testing` 插件后即可使用测试功能：
 
 ```ts title="modern.config.ts"
 import testPlugin from '@modern-js/plugin-testing';
@@ -36,7 +36,7 @@ Modern.js 默认识别的测试文件路径为：`<rootDir>/src/**/*.test.[jt]s?
 
 Modern.js test 支持使用 [testing-library](https://testing-library.com/docs/) 相关包 API，可直接通过 `@modern-js/runtime/testing` 进行导入:
 
-```
+```ts
 import { render, screen } from '@modern-js/runtime/testing';
 ```
 

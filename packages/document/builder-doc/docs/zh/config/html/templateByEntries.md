@@ -11,7 +11,7 @@
 
 ```js
 export default {
-  output: {
+  html: {
     template: './static/index.html',
     templateByEntries: {
       foo: './src/pages/foo/index.html',

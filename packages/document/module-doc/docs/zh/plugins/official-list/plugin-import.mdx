@@ -1,0 +1,186 @@
+# Import 插件
+
+提供与 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 等价的能力和配置，基于 [SWC](https://swc.rs/) 实现。
+
+:::tip
+从 @modern-js/module-tools 2.16.0 版本开始，该插件功能内置在 module-tools 中，由 [`transformImport`](api/config/build-config.html#transformimport)
+配置提供。
+:::
+
+## 快速开始
+
+### 安装
+
+```bash
+# npm
+npm install @modern-js/plugin-module-import -D
+
+# yarn
+yarn add @modern-js/plugin-module-import -D
+
+# pnpm
+pnpm add @modern-js/plugin-module-import -D
+```
+
+### 注册插件
+
+在 Module Tools 中，你可以按照如下方式注册插件：
+
+```ts
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'antd',
+        style: true,
+      }],
+    }),
+  ],
+});
+```
+
+这样我们就可以在 Module Tools 中使用自动导入的能力了。
+
+## 配置
+
+* **类型：**
+
+```ts
+type Options = {
+  pluginImport?: ImportItem[];
+}
+```
+
+### pluginImport
+
+* 类型：`Array`
+
+其中数组元素为一个 babel-plugin-import 的配置对象。配置对象可以参考 [options](https://github.com/umijs/babel-plugin-import#options)。
+
+使用示例：
+
+```ts
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [
+        // babel-plugin-import 的 options 配置
+        {
+          libraryName: 'foo',
+          style: true,
+        }
+      ],
+    }),
+  ],
+});
+```
+
+## 注意事项
+
+[SWC](https://swc.rs/) (Speedy Web Compiler) 是基于 Rust 语言编写的，而该插件是基于 SWC，移植自 [babel-plugin-import](https://github.com/umijs/babel-plugin-import)，配置选项保持了一致。
+
+一些配置可以传入函数，例如 `customName`，`customStyleName` 等，这些 JavaScript 函数会由 Rust 通过 Node-API 调用，这种调用会造成一些性能劣化。
+
+简单的函数逻辑其实可以通过模版语言来代替，因此 `customName`，`customStyleName` 等这些配置除了可以传入函数，也可以传入字符串作为模版来代替函数，提高性能。
+
+<CH.Spotlight>
+
+```ts
+import { MyButton as Btn } from 'foo';
+```
+
+---
+
+我们以这段代码进行说明。
+
+```ts
+import { MyButton as Btn } from 'foo';
+```
+
+---
+
+添加右侧的配置：
+
+```ts
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'foo',
+        customName: 'foo/es/{{ member }}'
+      }],
+    }),
+  ],
+});
+```
+
+---
+
+其中的 `{{ member }}` 会被替换为相应的引入成员
+
+```ts focus=8:8
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'foo',
+        customName: 'foo/es/{{ member }}'
+      }],
+    }),
+  ],
+});
+```
+
+---
+转换后:
+
+```ts
+import Btn from 'foo/es/MyButton';
+```
+
+</CH.Spotlight>
+
+可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 `` customName: (member) => `foo/es/${member}`  `` ，但是不会有 Node-API 的调用开销。
+
+这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
+
+```ts focus=8:8
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'foo',
+        customName: 'foo/es/{{ kebabCase member }}',
+      }],
+    }),
+  ],
+});
+```
+
+会转换成下面的结果：
+
+```ts
+import Btn from 'foo/es/my-button';
+```
+
+除了 `kebabCase` 以外还有 `camelCase`，`snakeCase`，`upperCase`，`lowerCase` 可以使用。

@@ -58,9 +58,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -284,7 +281,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -325,7 +322,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -372,7 +369,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -423,7 +420,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -480,7 +477,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -528,7 +525,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -614,6 +611,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
         },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
@@ -641,13 +644,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "fallbackCacheGroup": undefined,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
-      "minRemainingSize": undefined,
-      "minSize": undefined,
-      "name": undefined,
     },
   },
   "output": {
@@ -768,9 +764,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "hot": false,
   },
   "devtool": "hidden-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -994,7 +987,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1035,7 +1028,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1082,7 +1075,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1133,7 +1126,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1190,7 +1183,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1238,7 +1231,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -1324,6 +1317,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
         },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
@@ -1351,13 +1350,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "fallbackCacheGroup": undefined,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
-      "minRemainingSize": undefined,
-      "minSize": undefined,
-      "name": undefined,
     },
   },
   "output": {
@@ -1483,9 +1475,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "hot": false,
   },
   "devtool": "cheap-module-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1808,7 +1797,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
   "name": "Server",
   "optimization": {
     "minimize": false,
-    "runtimeChunk": undefined,
     "splitChunks": false,
   },
   "output": {
@@ -1924,9 +1912,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
-  "experiments": {
-    "newSplitChunks": true,
-  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2158,7 +2143,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2199,7 +2184,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2246,7 +2231,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2297,7 +2282,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2354,7 +2339,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2402,7 +2387,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -2488,6 +2473,12 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "reuseExistingChunk": true,
           "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
         },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
         "lib-lodash": {
           "name": "lib-lodash",
           "priority": 0,
@@ -2515,13 +2506,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
-      "fallbackCacheGroup": undefined,
-      "maxAsyncSize": undefined,
-      "maxInitialSize": undefined,
-      "maxSize": undefined,
-      "minRemainingSize": undefined,
-      "minSize": undefined,
-      "name": undefined,
     },
   },
   "output": {

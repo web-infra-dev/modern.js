@@ -1,5 +1,14 @@
 # @modern-js/types
 
+## 2.22.1
+
+### Patch Changes
+
+- 25b490a: fix: add missing type definitions
+  fix: 添加遗漏的类型定义
+
+## 2.22.0
+
 ## 2.21.1
 
 ## 2.21.0

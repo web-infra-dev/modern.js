@@ -118,7 +118,7 @@ type ReleasePlan = {
 
 - options
 
-配置 commit 时的配置信息。
+配置 commit 时的其他参数。
 
 > commit 配置为数组时，第二个参数支持传入默认的配置信息，会对应的使用该参数传递。
 
@@ -169,7 +169,7 @@ Changesets 配置文件中 `commit` 字段，该字段用于标记是否需要�
 
 commit 配置如果为相对路径为 `.changesets` 目录下的相对路径。
 
-例如创建 .changeset/my-commit-config.js 文件，定义如下内容：
+例如创建 `.changeset/my-commit-config.js` 文件，定义如下内容：
 
 ```js title=".changeset/my-commit-config.js"
 async function getAddMessage(changeset, options) {}
@@ -195,9 +195,7 @@ commit 配置为 ./my-commit-config.js 即可:
 
 自定义 commit 还可以使用模块工程方案进行管理，提供通用方案。
 
-自定义 Changelog 还可以使用模块工程方案进行管理，提供通用方案。
-
-#### 使用 `npx @modern-js/create@latest` 创建模块工程方案。
+#### 使用 `npx @modern-js/create@latest` 创建模块工程方案
 
 ```md
 ? 请选择你想创建的工程类型：Npm 模块
@@ -206,7 +204,7 @@ commit 配置为 ./my-commit-config.js 即可:
 ? 请选择包管理工具：pnpm
 ```
 
-#### 实现自定义内容。
+#### 实现自定义内容
 
 ```ts title="src/index.ts"
 export async function getAddMessage() {}
@@ -214,15 +212,15 @@ export async function getAddMessage() {}
 export async function getVersionMessage() {}
 ```
 
-#### 将模块发布到 NPM。
+#### 将模块发布到 NPM
 
-#### 在目标仓库根目录安装对应模块，例如 custom-commit。
+#### 在目标仓库根目录安装对应模块，例如 `custom-commit`
 
-#### 配置 changeset 的 commit 配置为包名称。
+#### 配置 changeset 的 commit 配置为包名称
 
 ```json title="package.json"
 {
-  "changelog": "custom-commit",
+  "commit": "custom-commit",
    ...
 }
 ```
@@ -231,7 +229,7 @@ export async function getVersionMessage() {}
 
 如果你当前仓库为 Monorepo 工程方案，可以直接使用模块子项目进行管理。
 
-#### 执行 `pnpm run new` 创建模块子项目。
+#### 执行 `pnpm run new` 创建模块子项目
 
 ```md
 ? 请选择你想创建的工程类型：Npm 模块
@@ -240,7 +238,7 @@ export async function getVersionMessage() {}
 ? 请选择开发语言：TS
 ```
 
-#### 实现自定义内容。
+#### 实现自定义内容
 
 ```ts title="src/index.ts"
 export async function getAddMessage() {}
@@ -248,7 +246,7 @@ export async function getAddMessage() {}
 export async function getVersionMessage() {}
 ```
 
-#### 在 Monorepo 根目录添加子项目模块依赖，例如 custom-commit。
+#### 在 Monorepo 根目录添加子项目模块依赖，例如 `custom-commit`
 
 ```json title="package.json"
 {
@@ -259,7 +257,7 @@ export async function getVersionMessage() {}
 }
 ```
 
-#### 配置 changeset 的 commit 配置为包名称。
+#### 配置 changeset 的 commit 配置为包名称
 
 ```json title=".changesets/config.json"
 {

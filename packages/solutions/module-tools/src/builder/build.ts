@@ -87,7 +87,7 @@ export const generatorDts = async (
   const { watch, dts } = options;
   const { buildType, input, sourceDir, alias } = config;
   const { appDirectory } = api.useAppContext();
-  const { tsconfigPath, distPath, abortOnError } = dts;
+  const { tsconfigPath, distPath, abortOnError, respectExternal } = dts;
   if (buildType === 'bundle') {
     const { getFinalExternals } = await import('../utils/builder');
     const finalExternals = await getFinalExternals(config, { appDirectory });
@@ -99,6 +99,7 @@ export const generatorDts = async (
       input,
       tsconfigPath,
       abortOnError,
+      respectExternal,
     });
   } else {
     await runTsc(api, {
@@ -159,9 +160,12 @@ export const buildLib = async (
   const { less, sass, postcss, inject, modules, autoModules } = style;
 
   // support swc-transform, umd and emitDecoratorMetadata by swc
-  const { umdPlugin, swcTransformPlugin, es5Plugin } = await import(
-    '@modern-js/libuild-plugin-swc'
-  );
+  const {
+    umdPlugin,
+    swcTransformPlugin,
+    transformPlugin: legacyTransformPlugin,
+    es5Plugin,
+  } = await import('@modern-js/libuild-plugin-swc');
   const {
     checkSwcHelpers,
     matchEs5PluginCondition,
@@ -192,16 +196,31 @@ export const buildLib = async (
           userTsconfig?.compilerOptions?.emitDecoratorMetadata,
       }),
     );
-  } else if (
-    matchEs5PluginCondition({
-      sourceType,
-      buildType,
-      format,
-      target,
-      disableSwcTransform,
-    })
-  ) {
-    plugins.push(es5Plugin());
+  } else {
+    if (
+      matchEs5PluginCondition({
+        sourceType,
+        buildType,
+        format,
+        target,
+        disableSwcTransform,
+      })
+    ) {
+      plugins.push(es5Plugin());
+    }
+
+    if (userTsconfig?.compilerOptions?.emitDecoratorMetadata) {
+      plugins.push(
+        legacyTransformPlugin({
+          jsc: {
+            transform: {
+              legacyDecorator: true,
+              decoratorMetadata: true,
+            },
+          },
+        }),
+      );
+    }
   }
 
   if (format === 'umd') {

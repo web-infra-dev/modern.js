@@ -9,24 +9,26 @@ Modern.js 提供了 `modern gen-release-note` 命令，支持通过当前存在�
 默认生成的 Release Note 格式为：
 
 ```markdown
-[[#1220](https://github.com/web-infra-dev/modern.js/pull/1220)] feat: support bff operators -- Ming
+- fix: add missing type definitions by @zllkjc in https://github.com/web-infra-dev/modern.js/pull/3835
 ```
 
 根据 commit 信息获取 changeset 的 Pull Request ID，并生成 Github 的链接，内容为 changeset 的 changelog 信息和作者信息。
+
+:::info
+获取作者信息，需要提供 Github Token 环境变量，通过 GITHUB_AUTH_TOKEN 传入。
+:::
 
 当默认生成 Release Note 逻辑不能满足需求时，支持自定义 Release Note 格式。
 
 ## 信息
 
-### 自定义 Release Note 所需信息
+### getReleaseInfo
 
 生成 Release Note 信息需要先收集一些信息，比如 commit ID、Pull Request ID、commit message 等等。
 
 该逻辑可通过 `getReleaseInfo` 函数实现。
 
-#### getReleaseInfo
-
-##### Params
+#### Params
 
 - commit
 
@@ -34,40 +36,71 @@ Modern.js 提供了 `modern gen-release-note` 命令，支持通过当前存在�
 
 当前 changeset 对应的 commit message 信息。
 
-执行 `git log --pretty=format:%h--%s--%an .changeset/${changeset.id}.md` 的结果。
+执行 `git log --pretty=format:%h--%s--%ae .changeset/${changeset.id}.md` 的结果。
 
 - commitObj
 
 初步解析 commit 获取基本信息。
 
 ```ts
+export enum CommitType {
+  Performance = 'performance',
+  Features = 'features',
+  BugFix = 'bugFix',
+  Doc = 'doc',
+  Other = 'other',
+}
+
 interface Commit {
   id: string; // commit id
-  type: 'feature' | 'fix'; // commit 类型，默认通过开头字符串如果为 fix，类型为 fix，其他为 feature
+  type: CommitType;
   repository?: string; // 参数传入的 repo 信息或者 package.json 中定义的 repository 信息
   pullRequestId?: string;
   author?: string;
   message: string; // commit message
   summary: string; // changeset summary
+  summary_zh: string; // changeset zh summary
   [key: string]: string | undefined;
 }
 ```
 
-##### 返回值
+#### 返回值
 
 commitObj， 补充后完整的 commit 对象。
 
-##### 默认实现
+#### 默认实现
 
-Modern.js 的默认实现为：根据 commit 信息拆分出 Pull Request ID 和作者，加入到 commitObj 中。
+Modern.js 的默认实现为：根据 commit 信息拆分出 Pull Request ID，并根据 commit id 获取到用户信息，加入到 commitObj 中。
 
 ```ts
 function getReleaseInfo(commit: string, commitObj: Commit) {
   const commitRegex = /(.*)\(#(\d*)\)/;
 
-  const [, message, author] = commit.split('--');
+  const [commitId, message, email] = commit.split('--');
 
-  commitObj.author = author;
+  const author = AuthorMap.get(email);
+  const token = authToken || process.env.GITHUB_AUTH_TOKEN;
+  if (author) {
+    commitObj.author = author;
+  } else if (repo && token) {
+    try {
+      const res = await axios.get(
+        `https://api.github.com/repos/${repo}/commits/${commitId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        },
+      );
+      const author = res.data.author.login;
+      commitObj.author = author;
+      AuthorMap.set(email, author);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 
   if ((message || commitObj.summary).match(commitRegex)) {
     const [, messageShort, pullRequestId] = (
@@ -81,75 +114,56 @@ function getReleaseInfo(commit: string, commitObj: Commit) {
 }
 ```
 
-### 使用获取的信息生成 Release Note
+#### getReleaseNoteLine
 
 根据 `getReleaseInfo` 中获取的 commit 对象信息，生成对应的 Release Note。
 
 该逻辑可通过 `getReleaseNoteLine` 函数实现。
 
-#### getReleaseNoteLine
-
-##### Params
+#### Params
 
 - commit
 
 类型和上述 commitObj 类型一致。
 
-##### 返回值
+- lang
+
+类型： string;
+
+获取对应语言的 Release Note 信息，支持 `en` 和 `zh`，默认为 `en`。
+
+#### 返回值
 
 生成的 Release Note。
 
-##### 默认实现
+#### 默认实现
 
 Modern.js 的默认实现为：
 
 ```ts
-function formatSummary(summary: string, pullRequestId?: string) {
-  const [firstLine, ...futureLines] = summary
-    .split('\n')
-    .map(l => l.trimRight());
-
-  let returnVal = firstLine;
-
-  if (futureLines.length > 0) {
-    if (pullRequestId) {
-      returnVal = `\n\n  ${returnVal}`;
-    } else {
-      returnVal = `\n  ${returnVal}`;
-    }
-    returnVal += `\n\n  ${futureLines
-      .filter(l => Boolean(l))
-      .map(l => l)
-      .join('\n\n')}`;
-  }
-  return returnVal;
-}
-
-export async function getReleaseNoteLine(
+export function getReleaseNoteLine(
   commit: Commit,
-  customReleaseNoteFunction?: CustomReleaseNoteFunction,
+  lang: 'en' | 'zh' = 'en',
 ) {
-  if (customReleaseNoteFunction?.getReleaseNoteLine) {
-    return customReleaseNoteFunction.getReleaseNoteLine(commit);
+  const { repository, pullRequestId, summary, summary_zh, author } = commit;
+  const pullRequest =
+    pullRequestId && repository
+      ? `https://github.com/${repository}/pull/${pullRequestId}`
+      : '';
+  if (lang === 'en') {
+    return `- ${summary}${author ? ` by @${author}` : ''}${
+      pullRequest ? ` in ${pullRequest}` : ''
+    }\n`;
   }
-
-  const { repository, pullRequestId, summary } = commit;
-  if (pullRequestId && repository) {
-    return `- [#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId}) ${formatSummary(
-      summary,
-      pullRequestId,
-    )}\n`;
-  }
-  if (pullRequestId) {
-    return `#${pullRequestId} ${formatSummary(summary, pullRequestId)}\n`;
-  }
-  return `${formatSummary(summary, pullRequestId)}\n`;
+  return `- ${summary_zh}${author ? ` 由 @${author} 实现` : ''}${
+    pullRequest ? `， 详情可查看 ${pullRequest}` : ''
+  }\n`;
 }
 ```
 
 ## 使用自定义模块
 
-`gen-release-note` 命令支持 `--custom` 参数，该参数可传入自定义 release note 模块的模块名称或者路径。
+`gen-release-note` 命令支持 `--custom` 参数，该参数可传入自定义 Release Note 模块的模块名称或者路径。
 
 ### 配置相对路径
 
@@ -173,10 +187,10 @@ module.exports = {
 执行下面命令：
 
 ```bash
-pnpm run gen-release-note -- --custom ./scripts/my-release-note-config.js
+pnpm run gen-release-note --custom ./scripts/my-release-note-config.js
 ```
 
-也可以把命令参数直接定义到 package.json 中：
+也可以把命令参数直接定义到 `package.json` 中：
 
 ```json title="package.json"
 {
@@ -194,7 +208,7 @@ pnpm run gen-release-note -- --custom ./scripts/my-release-note-config.js
 
 custom 参数值还可以使用模块工程方案进行管理，提供通用方案。
 
-1. 使用 npx @modern-js/create@latest 创建模块工程方案。
+#### 使用 `npx @modern-js/create@latest` 创建模块工程方案
 
 ```md
 ? 请选择你想创建的工程类型：Npm 模块
@@ -203,7 +217,7 @@ custom 参数值还可以使用模块工程方案进行管理，提供通用方�
 ? 请选择包管理工具：pnpm
 ```
 
-2. 实现自定义内容。
+#### 实现自定义内容
 
 ```ts title="src/index.ts"
 export function getReleaseInfo() {}
@@ -211,19 +225,19 @@ export function getReleaseInfo() {}
 export function getReleaseNoteLine() {}
 ```
 
-3. 将模块发布到 NPM。
-4. 在目标仓库根目录安装对应模块，例如 `custom-release-note`。
-5. 执行 gen-release-note 命令添加 custom 参数
+#### 将模块发布到 NPM
+#### 在目标仓库根目录安装对应模块，例如 `custom-release-note`
+#### 执行 gen-release-note 命令添加 custom 参数
 
 ```bash
-pnpm run gen-release-note -- --custom custom-release-note
+pnpm run gen-release-note --custom custom-release-note
 ```
 
 ### 使用 Monorepo 工程方案
 
 如果你当前仓库为 Monorepo 工程方案，可以直接使用模块子项目进行管理。
 
-1. 执行 `pnpm run new` 创建模块子项目
+#### 执行 `pnpm run new` 创建模块子项目
 
 ```md
 ? 请选择你想创建的工程类型：Npm 模块
@@ -232,7 +246,7 @@ pnpm run gen-release-note -- --custom custom-release-note
 ? 请选择开发语言：TS
 ```
 
-2. 实现自定义内容。
+#### 实现自定义内容
 
 ```ts title="src/index.ts"
 export function getReleaseInfo() {}
@@ -240,7 +254,7 @@ export function getReleaseInfo() {}
 export function getReleaseNoteLine() {}
 ```
 
-3. 在 Monorepo 根目录添加子项目模块依赖，例如 `custom-release-note`。
+#### 在 Monorepo 根目录添加子项目模块依赖，例如 `custom-release-note`。
 
 ```json title="package.json"
 {
@@ -250,10 +264,10 @@ export function getReleaseNoteLine() {}
 }
 ```
 
-4. 执行 `gen-release-note` 命令添加 `--custom` 参数
+#### 执行 `gen-release-note` 命令添加 `--custom` 参数
 
 ```bash
-pnpm run gen-release-note -- --custom custom-release-note
+pnpm run gen-release-note --custom custom-release-note
 ```
 
 该模块发布到 NPM 后，依然可以和模块类型一样供其他仓库使用。

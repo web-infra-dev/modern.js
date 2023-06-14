@@ -177,6 +177,7 @@ export const assignTsConfigPath = async (
       only: false,
       distPath: './',
       abortOnError: true,
+      respectExternal: true,
       ...(config.dts ?? {}),
       tsconfigPath: options.tsconfig,
     };

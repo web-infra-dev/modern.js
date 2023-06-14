@@ -21,7 +21,21 @@ exports[`should apply swc config correctly 1`] = `
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": false,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,

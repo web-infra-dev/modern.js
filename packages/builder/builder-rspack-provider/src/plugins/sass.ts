@@ -32,7 +32,12 @@ export function builderPluginSass(): BuilderPlugin {
           rule.exclude.add(item);
         });
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
 
         rule
           .use(utils.CHAIN_ID.USE.SASS)
@@ -50,6 +55,7 @@ export function builderPluginSass(): BuilderPlugin {
           rules,
           SASS_REGEX,
           config.output.disableCssModuleExtension,
+          config.output.cssModules,
         );
       });
     },

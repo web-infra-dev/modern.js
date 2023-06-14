@@ -1,0 +1,49 @@
+---
+sidebar_position: 4
+---
+
+# Publishing Pre-Release Version
+
+Before doing an actual release, we also need to publish a pre-release version for internal testing and user use. Changesets also support publishing pre-release versions.
+
+## Steps
+
+:::info
+The following example commands are all using pnpm. If you need to use other package management tools, please replace them as needed.
+:::
+
+#### Run the bump command to upgrade the version of the pre-release
+
+```bash
+pnpm run bump --canary --preid <preid>
+```
+
+`preid` is the tag for the pre-release version, such as `alpha`, `beta`, etc., and the default value is `next`.
+
+After using the `--canary` parameter, the `bump` command completes the following three steps:
+
+- `changeset pre enter <preid>`: Enters pre-release mode.
+
+- `changeset version`: Upgrades the version.
+
+- `changeset pre exit`: Exits pre-release mode.
+
+#### Check the changes and submit
+
+Check whether the version changes are correct and submit the changes.
+
+It is recommended to perform pre-release operations not on the main branch and not merge them into the main branch. After the pre-release verification is completed, an actual version can be directly released based on the main branch.
+
+#### Run the release command to publish the pre-release version:
+
+```bash
+pnpm run release --tag <tag>
+```
+
+When publishing a pre-release version, you must use the `--tag` parameter. The parameter value is best the same as the `preid` value to facilitate user use.
+
+## Notes
+
+### Exiting pre-release mode
+
+After entering pre-release mode, changesets will automatically create a `pre.json` file in the `.changeset` directory to record some status information when entering pre-release mode. When the status information is inconsistent with the current repository status, you can directly delete this file to exit pre-release mode.

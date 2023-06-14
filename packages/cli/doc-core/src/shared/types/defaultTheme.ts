@@ -186,6 +186,7 @@ export interface SocialLink {
 }
 
 export type SocialLinkIcon =
+  | 'lark'
   | 'discord'
   | 'facebook'
   | 'github'

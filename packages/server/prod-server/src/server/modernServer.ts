@@ -126,7 +126,7 @@ export class ModernServer implements ModernServerInterface {
     require('ignore-styles');
 
     this.pwd = pwd;
-    this.distDir = path.join(pwd, config.output.path || 'dist');
+    this.distDir = path.resolve(pwd, config.output.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
     debug('server conf', this.conf);
@@ -146,6 +146,8 @@ export class ModernServer implements ModernServerInterface {
 
     const { distDir, staticGenerate, conf } = this;
 
+    this.initReader();
+
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
     this.proxyHandler = createProxyHandler(conf.bff?.proxy as BffProxyOptions);
@@ -154,9 +156,6 @@ export class ModernServer implements ModernServerInterface {
         this.addHandler(handler);
       });
     }
-
-    // start file reader
-    this.reader.init();
 
     // the app server maybe a `undefined`;
     app?.on('close', () => {
@@ -202,18 +201,6 @@ export class ModernServer implements ModernServerInterface {
     // empty
   }
 
-  protected async onServerChange({ filepath }: { filepath: string }) {
-    const { pwd } = this;
-    const { api, server } = AGGRED_DIR;
-    const apiPath = path.normalize(path.join(pwd, api));
-    const serverPath = path.normalize(path.join(pwd, server));
-
-    const onlyApi = filepath.startsWith(apiPath);
-    const onlyWeb = filepath.startsWith(serverPath);
-
-    await this.prepareFrameHandler({ onlyWeb, onlyApi });
-  }
-
   // exposed requestHandler
   public getRequestHandler() {
     return this.requestHandler.bind(this);
@@ -253,6 +240,22 @@ export class ModernServer implements ModernServerInterface {
   }
 
   /* —————————————————————— function will be overwrite —————————————————————— */
+  protected initReader() {
+    this.reader.init();
+  }
+
+  protected async onServerChange({ filepath }: { filepath: string }) {
+    const { pwd } = this;
+    const { api, server } = AGGRED_DIR;
+    const apiPath = path.normalize(path.join(pwd, api));
+    const serverPath = path.normalize(path.join(pwd, server));
+
+    const onlyApi = filepath.startsWith(apiPath);
+    const onlyWeb = filepath.startsWith(serverPath);
+
+    await this.prepareFrameHandler({ onlyWeb, onlyApi });
+  }
+
   // get routes info
   protected getRoutes() {
     // Preferred to use preset routes

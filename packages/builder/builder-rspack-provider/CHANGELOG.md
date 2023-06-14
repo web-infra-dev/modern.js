@@ -1,5 +1,76 @@
 # @modern-js/builder-rspack-provider
 
+## 2.22.1
+
+### Patch Changes
+
+- a470c04: chore(builder): reuse rem plugin between rspack and webpack provider
+
+  chore(builder): 在 rspack 和 webpack provider 间复用 rem 插件
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- c739207: feat(builder): support enable CSS Modules for the specified style file by output.cssModules configuration
+
+  feat(builder): 支持通过 output.cssModules 配置项为指定的样式文件启用 CSS Modules
+
+- c465db6: fix(builder): update rspack to 0.2.1 and remove useless config format logic
+
+  fix(builder): 将 Rspack 升级到 0.2.1 并移除无用的配置转换逻辑
+
+- 8bd9981: fix(builder): use postcss-loader instead of @rspack/postcss-loader to fix tailwindcss hmr bug
+
+  fix(builder): 使用 postcss-loader 代替 @rspack/postcss-loader, 来修复 tailwindcss hmr 问题
+
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+  - @modern-js/server@2.22.1
+  - @modern-js/e2e@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 4161b09: fix(builder): rule.loader support undefined in rspack
+
+  fix(builder): 使用 rspack 构建时, rule.loader 允许为空
+
+- becfd36: fix(builder): support array in output.externals when use Rspack
+
+  fix(builder): 在使用 Rspack 构建时，output.externals 支持数组
+
+- 02238e6: feat(builder): 使用 Rspack 0601 nightly 版本 (与 0.2.0 版本功能相同)
+
+  feat(builder): adapt and use Rspack 0601 nightly version (Same features as version 0.2.0.)
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/e2e@2.22.0
+  - @modern-js/types@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

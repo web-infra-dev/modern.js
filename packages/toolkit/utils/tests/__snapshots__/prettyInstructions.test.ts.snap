@@ -17,3 +17,19 @@ exports[`prettyInstructions basic usage 1`] = `
   > Network:  http://10.100.100.100:8080/
 "
 `;
+
+exports[`prettyInstructions should print host correctly 1`] = `
+"App running at:
+
+  > Network:  http://my-host:8080/
+"
+`;
+
+exports[`prettyInstructions should print https URLs 1`] = `
+"App running at:
+
+  > Local:    https://localhost:8080/
+  > Network:  https://11.11.111.11:8080/
+  > Network:  https://10.100.100.100:8080/
+"
+`;

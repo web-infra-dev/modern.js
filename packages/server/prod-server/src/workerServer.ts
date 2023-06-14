@@ -1,4 +1,17 @@
-import { BaseSSRServerContext } from '@modern-js/types';
+import {
+  AfterMatchContext,
+  AfterRenderContext,
+  BaseSSRServerContext,
+  MiddlewareContext,
+  NextFunction,
+} from '@modern-js/types';
+import { createAsyncPipeline } from '@modern-js/plugin';
+import {
+  WorkerServerContext,
+  createAfterMatchContext,
+  createAfterRenderContext,
+  createMiddlewareContext,
+} from './libs/hook-api/index.worker';
 import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
@@ -60,19 +73,54 @@ export class ReturnResponse {
   }
 }
 
+type Middleware = (
+  context: MiddlewareContext<'worker'>,
+  next: NextFunction,
+) => Promise<void> | void;
+
+type ServerHooks = {
+  middleware?: Middleware | Middleware[];
+  afterRender?: (
+    ctx: AfterRenderContext,
+    next: unknown,
+  ) => Promise<void> | void;
+  afterMatch?: (ctx: AfterMatchContext, next: unknown) => Promise<void> | void;
+};
+
+type Page = {
+  entryName: string;
+  template: string;
+  serverHooks?: ServerHooks;
+  serverRender?: (ctx: Record<string, any>) => Promise<string>;
+};
+
 export type Manifest = {
-  pages: Record<
-    string, // path
-    {
-      entryName: string;
-      template: string;
-      serverRender?: (ctx: Record<string, any>) => Promise<string>;
-    }
-  >;
+  /**
+   * @param key - path
+   */
+  pages: Record<string, Page>;
   routes: ModernRouteInterface[];
 };
 
 const RESPONSE_NOTFOUND = new ReturnResponse('404: Page not found', 404);
+const isRedirect = (code: number) => {
+  return [301, 302, 307, 308].includes(code);
+};
+const checkIsSent = (context: WorkerServerContext) => {
+  if (context.res.isSent) {
+    return true;
+  }
+
+  if (context.res.headers.get('Location') && isRedirect(context.res.status)) {
+    return true;
+  }
+
+  return false;
+};
+const middlewarePipeline = createAsyncPipeline<
+  MiddlewareContext<'worker'>,
+  void
+>();
 
 export const createHandler = (manifest: Manifest) => {
   const routeMgr = new RouteMatchManager();
@@ -87,9 +135,42 @@ export const createHandler = (manifest: Manifest) => {
       return RESPONSE_NOTFOUND;
     }
 
-    const page = pages[pageMatch.spec.urlPath];
+    const entryName = pageMatch.spec.urlPath;
+    const page = pages[entryName];
+    const logger = new Logger({
+      level: 'warn',
+    }) as Logger & LoggerInterface;
+    const metrics = defaultMetrics as any;
+
+    const hookContext = createWorkerHookContext(request.url, logger, metrics);
+
+    const afterMatchHookContext = createAfterMatchContext(
+      hookContext,
+      entryName,
+    );
+    // apply afterMatch
+    page?.serverHooks?.afterMatch?.(afterMatchHookContext, () => undefined);
+    if (checkIsSent(hookContext)) {
+      return new ReturnResponse(
+        hookContext.res.body || 'Unkown body',
+        hookContext.res.status,
+        hookContext.res.headers,
+      );
+    }
+
     if (page.serverRender) {
       try {
+        // apply middlewares
+        const middlewarsHookContext = createMiddlewareContext(hookContext);
+        applyMiddlewares(middlewarsHookContext, page.serverHooks?.middleware);
+        if (checkIsSent(hookContext)) {
+          return new ReturnResponse(
+            hookContext.res.body || 'Unkown body',
+            hookContext.res.status,
+            hookContext.res.headers,
+          );
+        }
+
         const responseLike = {
           headers: {} as Record<string, any>,
           statusCode: 200,
@@ -112,10 +193,8 @@ export const createHandler = (manifest: Manifest) => {
           redirection: {},
           template: page.template,
           entryName: page.entryName,
-          logger: new Logger({
-            level: 'warn',
-          }) as Logger & LoggerInterface,
-          metrics: defaultMetrics as any,
+          logger,
+          metrics,
           // FIXME: pass correctly req & res
           req: request as any,
           res: responseLike as any,
@@ -123,8 +202,25 @@ export const createHandler = (manifest: Manifest) => {
 
         const body = await page.serverRender(serverRenderContext);
 
-        return new ReturnResponse(
+        // apply afterRender
+        const afterRenderHookContext = createAfterRenderContext(
+          hookContext,
           body,
+        );
+        page.serverHooks?.afterRender?.(
+          afterRenderHookContext,
+          () => undefined,
+        );
+        if (checkIsSent(hookContext)) {
+          return new ReturnResponse(
+            hookContext.res.body || 'Unkown body',
+            hookContext.res.status,
+            hookContext.res.headers,
+          );
+        }
+
+        return new ReturnResponse(
+          afterRenderHookContext.template.get(),
           responseLike.statusCode,
           responseLike.headers,
         );
@@ -138,7 +234,7 @@ export const createHandler = (manifest: Manifest) => {
       }
     }
 
-    console.warn(`Can't not page(${pageMatch.spec.urlPath}) serverRender`);
+    console.warn(`Can't not page(${entryName}) serverRender`);
 
     return createResponse(page.template);
 
@@ -176,5 +272,44 @@ function createResponse(template?: string) {
     return new ReturnResponse(template, 200);
   } else {
     return RESPONSE_NOTFOUND;
+  }
+}
+
+function createWorkerHookContext(
+  url: string,
+  logger: any,
+  metrics: any,
+): WorkerServerContext {
+  const [res, req] = [
+    { headers: new Headers(), body: '', status: 200, isSent: false },
+    new Request(url),
+  ];
+
+  return {
+    res,
+    req,
+    logger,
+    metrics,
+  };
+}
+
+function applyMiddlewares(
+  ctx: MiddlewareContext<'worker'>,
+  middleware?: Middleware[] | Middleware,
+) {
+  if (middleware) {
+    // fold as a middleware array
+    const middlewares = (() => {
+      if (Array.isArray(middleware)) {
+        return middleware;
+      } else {
+        return [middleware];
+      }
+    })();
+
+    middlewares.forEach(middleware => {
+      middlewarePipeline.use(middleware);
+    });
+    middlewarePipeline.run(ctx, { onLast: () => undefined });
   }
 }

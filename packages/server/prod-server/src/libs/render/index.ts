@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, mime } from '@modern-js/utils';
+import { mime } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
@@ -42,11 +42,6 @@ export const createRenderHandler = ({
     }
 
     const templatePath = entry;
-
-    if (!fs.existsSync(templatePath)) {
-      throw new Error(`Could not find template file: ${templatePath}`);
-    }
-
     const content = await readFile(templatePath);
     if (!content) {
       return null;

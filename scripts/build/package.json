@@ -1,7 +1,7 @@
 {
   "name": "@scripts/build",
   "private": true,
-  "version": "2.21.1",
+  "version": "2.22.1",
   "main": "./src/index.js",
   "bin": {
     "modern-lib": "./bin/modern.js",
@@ -12,9 +12,5 @@
     "tsm": "2.3.0",
     "@types/jest": "^29",
     "@types/node": "^14"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
   }
 }

@@ -1,8 +1,9 @@
+import { HTML_CHUNKSMAP_SEPARATOR } from '@modern-js/utils/universal/constants';
+
 export const DOC_EXT = ['jsx', 'tsx', 'ts', 'js'];
 export const DOCUMENT_META_PLACEHOLDER = encodeURIComponent('<%= meta %>');
 export const HTML_SEPARATOR = '<!--<?- html ?>-->';
 
-export const HTML_CHUNKSMAP_SEPARATOR = '<!--<?- chunksMap.js ?>-->';
 export const HTML_SSRDATASCRIPT_SEPARATOR = '<!--<?- SSRDataScript ?>-->';
 // export const HTML_BOTTOMTPL_SEPARATOR = '<!--<?- bottomTemplate ?>-->'; // document jsx not need bottom
 
@@ -28,6 +29,11 @@ export const DOCUMENT_SCRIPT_PLACEHOLDER_START = encodeURIComponent(
 export const DOCUMENT_SCRIPT_PLACEHOLDER_END = encodeURIComponent(
   '<!-- script-end -->',
 );
+export const DOCUMENT_STYLE_PLACEHOLDER_START = encodeURIComponent(
+  '<!-- style-start -->',
+);
+export const DOCUMENT_STYLE_PLACEHOLDER_END =
+  encodeURIComponent('<!-- style-end -->');
 export const DOCUMENT_COMMENT_PLACEHOLDER_START = encodeURIComponent(
   '<!-- comment-start -->',
 );

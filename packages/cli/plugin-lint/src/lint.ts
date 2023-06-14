@@ -27,7 +27,6 @@ export default () => {
 
   rawArgs.push(...ensureOption(args, 'ext', exts));
   rawArgs.push(...ensureOption(args, 'fix', true));
-  rawArgs.push(...ensureOption(args, 'format', 'codeframe'));
 
   // default ignore pattern
   ['node_modules/', 'dist/', 'output/', 'output_resource/'].forEach(pattern => {

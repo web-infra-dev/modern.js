@@ -5,7 +5,6 @@
 
 ```js
 {
-  importLoaders: 1,
   modules: {
     auto: true,
     exportLocalsConvention: 'camelCase',
@@ -16,6 +15,8 @@
   },
   // 默认在开发环境下启用 CSS 的 Source Map
   sourceMap: isDev,
+  // importLoaders 在编译 css 文件时为 `1`，在编译 sass/less 文件时为 `2`
+  importLoaders: 1 || 2,
 }
 ```
 

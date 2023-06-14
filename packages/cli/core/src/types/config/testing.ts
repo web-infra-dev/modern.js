@@ -21,5 +21,5 @@ export type BaseTestingUserConfig<ExtendTestingUserConfig = {}> = Merge<
 >;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type BaseTestingNormalizedConfig<ExtendTestingNormailzedConfig = {}> =
-  BaseTestingUserConfig<ExtendTestingNormailzedConfig>;
+export type BaseTestingNormalizedConfig<ExtendTestingNormalizedConfig = {}> =
+  BaseTestingUserConfig<ExtendTestingNormalizedConfig>;

@@ -1,5 +1,56 @@
 # @modern-js/plugin-module-doc
 
+## 2.22.1
+
+### Patch Changes
+
+- eaf2698: fix: enhance the weight of custom global css
+  fix: 提高自定义全局 css 样式的权重
+- Updated dependencies [eaf2698]
+- Updated dependencies [a9009ee]
+- Updated dependencies [af75f6d]
+- Updated dependencies [eaf2698]
+- Updated dependencies [9f732e0]
+- Updated dependencies [9093c4e]
+- Updated dependencies [903de0f]
+- Updated dependencies [dba893f]
+- Updated dependencies [c290b9c]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [0a5e2ef]
+  - @modern-js/doc-plugin-preview@2.22.1
+  - @modern-js/doc-core@2.22.1
+  - @modern-js/module-tools@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- e465c68: feat: refactor and support two preview mode
+  feat: 重构并支持两种预览模式
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- Updated dependencies [3d48836]
+- Updated dependencies [e465c68]
+- Updated dependencies [80d7bba]
+- Updated dependencies [d19dc11]
+- Updated dependencies [c890980]
+- Updated dependencies [e465c68]
+- Updated dependencies [7b25598]
+- Updated dependencies [562ba82]
+- Updated dependencies [68333c8]
+- Updated dependencies [4b7488c]
+- Updated dependencies [60fddc8]
+- Updated dependencies [b371c97]
+- Updated dependencies [271f2c1]
+  - @modern-js/doc-plugin-preview@2.22.0
+  - @modern-js/doc-core@2.22.0
+  - @modern-js/module-tools@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

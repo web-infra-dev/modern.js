@@ -1,5 +1,77 @@
 # @modern-js/builder-webpack-provider
 
+## 2.22.1
+
+### Patch Changes
+
+- a470c04: chore(builder): reuse rem plugin between rspack and webpack provider
+
+  chore(builder): 在 rspack 和 webpack provider 间复用 rem 插件
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- c739207: feat(builder): support enable CSS Modules for the specified style file by output.cssModules configuration
+
+  feat(builder): 支持通过 output.cssModules 配置项为指定的样式文件启用 CSS Modules
+
+- 8bd9981: fix(builder): use postcss-loader instead of @rspack/postcss-loader to fix tailwindcss hmr bug
+
+  fix(builder): 使用 postcss-loader 代替 @rspack/postcss-loader, 来修复 tailwindcss hmr 问题
+
+- cfcf003: fix(plugin-swc): styledComponents configuration not work
+
+  fix(plugin-swc): 修复 styledComponents 配置不生效的问题
+
+- 15181be: fix(builder): only generator .d.ts file for css-modules file when enableCssModuleTSDeclaration
+
+  fix(builder): 当开启 enableCssModuleTSDeclaration 时仅为 css modules 文件生成 .d.ts 声明
+
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+  - @modern-js/server@2.22.1
+  - @modern-js/e2e@2.22.1
+  - @modern-js/babel-preset-base@2.22.1
+  - @modern-js/babel-preset-app@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- ae3fcc2: fix(builder): failed to configure browserslist when target is web-worker
+
+  fix(builder): 修复 target 为 web-worker 时无法配置 browserslist 的问题
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [dc45896]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/babel-preset-base@2.22.0
+  - @modern-js/babel-preset-app@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/e2e@2.22.0
+  - @modern-js/types@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

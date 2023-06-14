@@ -4,6 +4,7 @@
 通常情况下，我们不需要为 npm 包注入 polyfill，这一步应该在 Web 应用的框架侧完成，但是在某些场景，为了让我们的库能够直接运行在低版本浏览器里，我们需要注入 polyfill。
 
 请注意，此插件并不会转化你的代码语法，只会为你的代码中使用到的不支持的功能注入 polyfill，把它们作为普通函数导入而不是污染全局。你需要安装 `core-js-pure` 依赖
+
 :::
 
 ## 快速开始
@@ -49,9 +50,9 @@ type options = {
 
 ### targets
 
-See [babel target](https://babeljs.io/docs/options#targets).
+参考 [Babel target](https://babeljs.io/docs/options#targets).
 
-This is a example.
+下面是一个例子：
 
 ```ts
 import moduleTools, { defineConfig } from '@modern-js/module-tools';

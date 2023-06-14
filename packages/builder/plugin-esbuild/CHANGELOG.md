@@ -1,5 +1,33 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/builder-shared@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 27618e4: chore(deps): remove unused wireit
+
+  chore(deps): 移除未使用的 wireit
+
+- Updated dependencies [3d48836]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

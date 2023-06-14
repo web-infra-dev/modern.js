@@ -65,6 +65,12 @@ export default {
 };
 ```
 
+:::tip Filename hash
+Usually, we only set the filename hash in the production mode (i.e., when `process.env.NODE_ENV === 'production'`).
+
+If you set the filename hash in the development mode, it may cause HMR to fail (especially for CSS files). This is because every time the file content changes, the hash value changes, preventing tools like [mini-css-extract-plugin](https://www.npmjs.com/package/mini-css-extract-plugin) from reading the latest file content.
+:::
+
 ### Filename of Async Modules
 
 When you import a module via dynamic import, the module will be bundled into a single file, and its default naming rules are as follows:

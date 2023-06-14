@@ -31,14 +31,14 @@ import InitRspackApp from '@site-docs/components/init-rspack-app';
 
 :::
 
-## 从 webpack 迁移至 Rspack
+## 开启 Rspack 构建
 
 在一个已有的 Modern.js 项目中，你可以通过执行 `pnpm run new` 来启用 Rspack 构建：
 
 ```bash
 $ pnpm run new
-? 请选择你想要的操作：启用可选功能
-? 启用可选功能：启用「Rspack 构建」
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用「Rspack 构建」
 ```
 
 执行以上命令后，在 `modern.config.ts` 中添加 Rspack 相关配置即可：
@@ -55,9 +55,9 @@ import appTools, { defineConfig } from '@modern-js/app-tools';
 });
 ```
 
-:::tip
-从 webpack 迁移至 Rspack 时，存在一些构建能力和配置上的差异，详情可参考：[配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack)
-:::
+## 配置迁移
+
+开启 Rspack 构建能力后，还需要参考 [配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack) 进行进一步的配置迁移。
 
 ## Rspack 和 Modern.js 的版本关系
 
@@ -81,9 +81,7 @@ import appTools, { defineConfig } from '@modern-js/app-tools';
     "overrides": {
       "@rspack/core": "nightly",
       "@rspack/dev-client": "nightly",
-      "@rspack/dev-middleware": "nightly",
-      "@rspack/plugin-html": "nightly",
-      "@rspack/postcss-loader": "nightly"
+      "@rspack/plugin-html": "nightly"
     }
   }
 }

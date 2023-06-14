@@ -1,5 +1,57 @@
 # @modern-js/builder
 
+## 2.22.1
+
+### Patch Changes
+
+- a470c04: chore(builder): reuse rem plugin between rspack and webpack provider
+
+  chore(builder): 在 rspack 和 webpack provider 间复用 rem 插件
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 9c3c231: feat(deps): bump @svgr/webpack from v6 to v8
+
+  feat(deps): 将 @svgr/webpack 从 v6 升级到 v8
+
+- 850cde6: feat(builder): add arco config to transformImport by default
+
+  feat(builder): 默认增加 arco 的 transformImport 配置
+
+- ae3fcc2: fix(builder): failed to configure browserslist when target is web-worker
+
+  fix(builder): 修复 target 为 web-worker 时无法配置 browserslist 的问题
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

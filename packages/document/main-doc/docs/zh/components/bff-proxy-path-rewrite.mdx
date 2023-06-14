@@ -1,0 +1,16 @@
+这里还可以进行路径重写，如将发送到 `localhost:8080/api/topics` 的请求代理到 `https://cnodejs.org/api/v1/topics`。
+
+```ts title="modern.server-runtime.config.ts"
+import { defineConfig } from '@modern-js/app-tools/server';
+export default defineConfig({
+  bff: {
+    proxy: {
+      '/api': {
+        target: 'https://cnodejs.org',
+        pathRewrite: { '/api/topics': '/api/v1/topics' },
+        changeOrigin: true,
+      },
+    },
+  },
+});
+```

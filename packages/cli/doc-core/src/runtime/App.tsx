@@ -42,7 +42,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
         // We choose the better solutions for different environments:
         // In production, we use the extractPageInfo.toc to ensure the toc is complete and accurate.
         // In development, we use the mod.toc to ensure the toc is up to date to ensure DX.However, we cannot ensure the complete toc info when including doc fragments.
-        toc: isProduction() ? extractPageInfo.toc : mod.toc,
+        toc: isProduction() ? extractPageInfo?.toc : mod.toc,
       },
     };
   } else {

@@ -1,5 +1,15 @@
 # @modern-js/create
 
+## 2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- b647c68: chore(generator): update codesmith version
+
+  chore(generator): 更新 codesmith 版本
+
 ## 2.21.1
 
 ## 2.21.0

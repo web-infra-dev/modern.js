@@ -42,6 +42,7 @@ export function DocLayout(props: DocLayoutProps) {
   const outlineTitle =
     localesData?.outlineTitle || themeConfig?.outlineTitle || 'ON THIS PAGE';
   const isOverviewPage = frontmatter?.overview ?? false;
+  const hasFooter = frontmatter?.footer ?? true;
 
   const getHasAside = () => {
     // if in iframe, default value is false
@@ -81,7 +82,7 @@ export function DocLayout(props: DocLayoutProps) {
               </TabDataContext.Provider>
               <div>
                 {beforeDocFooter}
-                <DocFooter />
+                {hasFooter && <DocFooter />}
               </div>
             </div>
           )}

@@ -80,7 +80,7 @@ export default (): ServerPlugin => ({
         app = appModule[0];
         const hooks: Hooks = appModule[1];
 
-        if (!app || !app.use) {
+        if (!app?.use) {
           // console.warn('There is not api/app.ts.');
           app = express();
         }

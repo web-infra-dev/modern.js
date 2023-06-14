@@ -8,6 +8,7 @@ export default (props: { moduleName: string }) => {
     <ReactMarkdown
       remarkPlugins={[[remarkGfm]]}
       components={getCustomMDXComponent()}
+      skipHtml={true}
     >
       {props.moduleName}
     </ReactMarkdown>

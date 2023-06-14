@@ -1,5 +1,113 @@
 # @modern-js/doc-core
 
+## 2.22.1
+
+### Patch Changes
+
+- a9009ee: fix(doc-core): suspense error in react 17 ssr
+
+  fix(doc-core): react 17 版本服务端渲染 suspense 错误
+
+- af75f6d: fix(doc-core): img compile error in table tag
+
+  fix(doc-core): table 标签中的图片编译错误
+
+- 9f732e0: fix(doc-core): dead link
+
+  fix(doc-core): 死链问题
+
+- 9093c4e: fix(doc-core): remove dark class when darkMode is false
+
+  fix(doc-core): 当 darkMode 为 false 时，移除 dark 类
+
+- 903de0f: fix(doc-core): polyfills are not injected
+
+  fix(doc-core): 修复 polyfills 未注入的问题
+
+- c290b9c: fix(doc-core): suspense runtime error
+
+  fix(doc-core): 异步组件运行时错误
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- 0a5e2ef: fix(doc-core): sidebar title not correct sometimes
+
+  fix(doc-core): 侧边栏标题有时不正确
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [bd4b150]
+- Updated dependencies [c739207]
+- Updated dependencies [c465db6]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-rspack-provider@2.22.1
+  - @modern-js/builder@2.22.1
+  - @modern-js/core@2.22.1
+  - @modern-js/doc-plugin-medium-zoom@2.22.1
+  - @modern-js/remark-container@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- e465c68: feat: support blank page type and adjust doc layout
+  feat: 支持 blank 页面并调整整体布局
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 80d7bba: fix(doc-core): custom page written into the same file
+
+  fix(doc-core): 自定义页面写入到同一个文件
+
+- 7b25598: fix(doc-core): theme config normalize error
+
+  fix(doc-core): 主题配置规范化错误
+
+- 562ba82: fix(doc-core): avoid panic when mdx-rs parse error
+
+  fix(doc-core): mdx-rs 出现编译错误避免 panic
+
+- 68333c8: fix(doc-core): demo preview ssg
+
+  fix(doc-core): demo 预览 SSG 失败的问题
+
+- 60fddc8: feat(doc-core): support auto nav and sidebar
+
+  feat(doc-core): 支持自动生成导航和侧边栏
+
+- b371c97: fix(doc-core): build error when doc path includes "."
+
+  fix(doc-core): 当文档路径包含 "." 时，构建失败
+
+- 271f2c1: fix(doc-plugin-preview): preview plugin build error
+
+  fix(doc-plugin-preview): 预览插件构建错误
+
+- Updated dependencies [3d48836]
+- Updated dependencies [4161b09]
+- Updated dependencies [9c3c231]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [27618e4]
+- Updated dependencies [becfd36]
+- Updated dependencies [02238e6]
+  - @modern-js/builder-rspack-provider@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/builder@2.22.0
+  - @modern-js/core@2.22.0
+  - @modern-js/doc-plugin-medium-zoom@2.22.0
+  - @modern-js/remark-container@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

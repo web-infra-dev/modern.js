@@ -10,6 +10,8 @@ import type {
   LessLoaderOptions,
   PugOptions,
   ForkTSCheckerOptions,
+  PostCSSLoaderOptions,
+  PostCSSPlugin,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
@@ -44,6 +46,11 @@ export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
 
 export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
 
+export type ToolsPostCSSLoaderConfig = ChainedConfig<
+  PostCSSLoaderOptions,
+  { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
+>;
+
 export interface SharedToolsConfig {
   /**
    * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
@@ -71,6 +78,11 @@ export interface SharedToolsConfig {
   babel?: ToolsBabelConfig;
 
   /**
+   * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
+   */
+  postcss?: ToolsPostCSSLoaderConfig;
+
+  /**
    * Configure the [Pug](https://pugjs.org/) template engine.
    */
   pug?: ToolsPugConfig;
@@ -78,4 +90,8 @@ export interface SharedToolsConfig {
    * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
    */
   tsChecker?: ToolsTSCheckerConfig;
+}
+
+export interface NormalizedSharedToolsConfig extends SharedToolsConfig {
+  tsChecker: ToolsTSCheckerConfig;
 }

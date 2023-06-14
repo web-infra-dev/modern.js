@@ -58,7 +58,7 @@ const preResolvedFnStr = `function p(e,r){return void 0!==r?Promise.reject(new E
  * DeferredDataScripts only renders in server side,
  * it doesn't need to be hydrated in client side.
  */
-const DeferredDataScripts = () => {
+const DeferredDataScripts = (props?: { nonce?: string }) => {
   const context = useContext(DataRouterContext);
   const { staticContext } = context || {};
   const hydratedRef = useRef(false);
@@ -98,6 +98,7 @@ const DeferredDataScripts = () => {
             if (pendingKeys.has(key)) {
               deferredDataScripts.push(
                 <DeferredDataScript
+                  nonce={props?.nonce}
                   key={`${routeId} | ${key}`}
                   data={deferredData.data[key]}
                   dataKey={key}
@@ -153,6 +154,7 @@ const DeferredDataScripts = () => {
       {!hydratedRef.current && (
         <script
           async
+          nonce={props?.nonce}
           suppressHydrationWarning
           dangerouslySetInnerHTML={{ __html: deferredScripts[0] }}
         />
@@ -167,10 +169,12 @@ const DeferredDataScript = ({
   data,
   routeId,
   dataKey,
+  nonce,
 }: {
   data: any;
   routeId: string;
   dataKey: string;
+  nonce?: string;
 }) => {
   return (
     <Suspense>
@@ -178,12 +182,17 @@ const DeferredDataScript = ({
         <Await
           resolve={data}
           errorElement={
-            <ErrorDeferredDataScript routeId={routeId} dataKey={dataKey} />
+            <ErrorDeferredDataScript
+              routeId={routeId}
+              dataKey={dataKey}
+              nonce={nonce}
+            />
           }
         >
           {(data: any) => (
             <script
               async
+              nonce={nonce}
               suppressHydrationWarning
               dangerouslySetInnerHTML={{
                 __html: `_ROUTER_DATA.r(${JSON.stringify(
@@ -201,14 +210,17 @@ const DeferredDataScript = ({
 const ErrorDeferredDataScript = ({
   routeId,
   dataKey,
+  nonce,
 }: {
   routeId: string;
   dataKey: string;
+  nonce?: string;
 }) => {
   const error = useAsyncError() as Error;
 
   return (
     <script
+      nonce={nonce}
       suppressHydrationWarning
       dangerouslySetInnerHTML={{
         __html: `_ROUTER_DATA.r(${JSON.stringify(routeId)}, ${JSON.stringify(

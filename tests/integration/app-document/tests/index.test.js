@@ -115,4 +115,22 @@ describe('test build', () => {
     expect(htmlWithDoc.includes('== COMMENT BY APP in inline ==')).toBe(true);
     expect(htmlWithDoc.includes('== COMMENT BY APP but inline ==')).toBe(false);
   });
+
+  it('should has style in Head', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes('.logo-spin > div:last-child')).toBe(true);
+  });
+
+  it('should has lang property in html', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes(`html lang="cn"`)).toBe(true);
+  });
 });

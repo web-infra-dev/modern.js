@@ -1,5 +1,19 @@
 # @modern-js/mwa-generator
 
+## 3.1.21
+
+## 3.1.20
+
+### Patch Changes
+
+- c2f9ac1: feat(generator): using typescript v5 for new projects
+
+  feat(generator): 新项目默认使用 typescript v5
+
+- b647c68: chore(generator): update codesmith version
+
+  chore(generator): 更新 codesmith 版本
+
 ## 3.1.19
 
 ## 3.1.18

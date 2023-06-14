@@ -33,6 +33,7 @@ export type BuilderInstance<P extends BuilderProvider = BuilderProvider> = {
   removePlugins: PluginStore['removePlugins'];
   isPluginExists: PluginStore['isPluginExists'];
 
+  serve: ProviderInstance['serve'];
   build: ProviderInstance['build'];
   initConfigs: ProviderInstance['initConfigs'];
   inspectConfig: ProviderInstance['inspectConfig'];

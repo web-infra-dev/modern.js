@@ -1,5 +1,47 @@
 # @modern-js/main-doc
 
+## 2.22.1
+
+### Patch Changes
+
+- 411d047: docs: fix reset command
+
+  docs: 修复 reset command 翻译问题
+
+- bce7a12: docs(main): update concept doc
+
+  docs(main): 更新核心概念文档
+
+- 2ede584: docs(main): update start doc
+
+  docs(main): 更新开始文档
+
+- 7267a1a: docs(main): update changeset doc
+
+  docs(main): 更新包版本管理文档
+
+- Updated dependencies [bd4b150]
+- Updated dependencies [2ede584]
+  - @modern-js/builder-doc@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- 7d1b96e: feat(changeset): optimize release note display
+
+  feat(changeset): 优化生成 Release Note 文案
+
+### Patch Changes
+
+- 3c3d1e2: docs: update project creation and new command text.
+
+  docs: 更新生成器创建项目和 new 命令文案。
+
+- Updated dependencies [850cde6]
+- Updated dependencies [e7a5f94]
+  - @modern-js/builder-doc@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

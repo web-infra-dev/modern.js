@@ -6,7 +6,7 @@ sidebar_position: 6
 
 Modern.js 提供了快速生成 Mock 数据的功能，能够让前端独立自主开发，不被后端接口阻塞。
 
-## Mock 文件
+## 启用 Mock
 
 约定当 `config/mock` 目录下存在 `index.[jt]s` 时，会自动开启 Mock 功能，如下：
 
@@ -32,7 +32,7 @@ export default {
   /* method 默认为 GET */
   '/api/getExample': { id: 1 },
 
-  /* 可以使用自定义函数根据请求动态返回数据，返回值参考 express middleware */
+  /* 可以使用自定义函数根据请求动态返回数据, req & res 都是 Node.js HTTP 原生对象 */
   'POST /api/addInfo': (req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.end('200');
@@ -63,7 +63,7 @@ module.exports = {
 
 :::
 
-## 延迟返回
+## 延迟响应
 
 - 可以使用浏览器「 弱网模拟 」的功能实现。
 - 可以通过 `setTimeout` 为单个接口设置延迟，例如：

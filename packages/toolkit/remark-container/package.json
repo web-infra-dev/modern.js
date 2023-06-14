@@ -1,11 +1,16 @@
 {
   "name": "@modern-js/remark-container",
-  "version": "2.21.1",
+  "version": "2.22.1",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "module": "./dist/node/index.js",
   "author": "yangxingyuan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/toolkit/remark-container"
+  },
   "scripts": {
     "dev": "modern-lib dev",
     "build": "modern-lib build",
@@ -42,6 +47,7 @@
   ],
   "publishConfig": {
     "access": "public",
+    "provenance": true,
     "registry": "https://registry.npmjs.org/"
   }
 }

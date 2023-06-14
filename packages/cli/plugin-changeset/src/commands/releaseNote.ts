@@ -1,5 +1,6 @@
 import path from 'path';
 import resolveFrom from 'resolve-from';
+import axios from 'axios';
 import { fs, execa } from '@modern-js/utils';
 import readChangesets from '@changesets/read';
 
@@ -33,6 +34,7 @@ export type ReleaseNote = Record<CommitType, Changes>;
 interface ReleaseNoteOptions {
   repo?: string;
   custom?: string;
+  authToken?: string;
 }
 
 export type CustomReleaseNoteFunction =
@@ -82,12 +84,41 @@ export function getCommitType(message: string) {
   return CommitType.Other;
 }
 
-export function getReleaseInfo(commit: string, commitObj: Commit) {
+const AuthorMap = new Map();
+
+export async function getReleaseInfo(
+  commit: string,
+  commitObj: Commit,
+  repo?: string,
+  authToken?: string,
+) {
   const commitRegex = /(.*)\(#(\d*)\)/;
 
-  const [, message, author] = commit.split('--');
+  const [commitId, message, email] = commit.split('--');
 
-  commitObj.author = author;
+  const author = AuthorMap.get(email);
+  const token = authToken || process.env.GITHUB_AUTH_TOKEN;
+  if (author) {
+    commitObj.author = author;
+  } else if (repo && token) {
+    try {
+      const res = await axios.get(
+        `https://api.github.com/repos/${repo}/commits/${commitId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        },
+      );
+      const author = res.data.author.login;
+      commitObj.author = author;
+      AuthorMap.set(email, author);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 
   if ((message || commitObj.summary).match(commitRegex)) {
     const [, messageShort, pullRequestId] = (
@@ -173,7 +204,7 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
   for (const changeset of changesets) {
     const { stdout } = await execa('git', [
       'log',
-      '--pretty=format:%h--%s--%an',
+      '--pretty=format:%h--%s--%ae',
       `.changeset/${changeset.id}.md`,
     ]);
     const [id, message] = stdout.split('--');
@@ -195,7 +226,12 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
         commitObj,
       );
     } else {
-      commitObj = getReleaseInfo(stdout, commitObj);
+      commitObj = await getReleaseInfo(
+        stdout,
+        commitObj,
+        repository,
+        options.authToken,
+      );
     }
 
     releaseNote[commitObj.type].en.push(commitObj);

@@ -1,3 +1,4 @@
+import dns from 'node:dns';
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import {
@@ -9,6 +10,7 @@ import {
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
+dns.setDefaultResultOrder('ipv4first');
 const supportServerConfig = async ({
   host,
   port,

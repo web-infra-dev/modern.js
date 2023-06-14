@@ -1,0 +1,76 @@
+---
+sidebar_position: 3
+---
+
+# 配置参数
+
+`@modern-js/create` 提供了 [--config](/guides/topic-detail/generator/create/option.html#-c,---config-<config>) 参数，用于提前指定执行过程中交互问题的答案。
+
+这里将介绍不同情况下，可以在 `config` 中配置的字段及字段值。
+
+
+## 通用配置
+
+### solution
+
+问题：请选择你想创建的工程类型
+
+选项：
+
+- Web 应用 -- mwa
+
+- Npm 模块 -- module
+
+- 文档站 -- doc
+
+- Monorepo -- monorepo
+
+### scenes
+
+问题：请选择项目场景
+
+选项：
+
+使用自定义生成器插件时的插件关键字列表。
+
+## Web 应用
+
+import LanguageConfig from '@site-docs/components/language-config';
+
+<LanguageConfig />
+
+import PackageManager from '@site-docs/components/package-manager';
+
+<PackageManager />
+
+### buildTools
+
+问题：请选择构建工具
+
+选项：
+
+- webpack -- webpack
+
+- Rspack -- rspack
+
+## Npm 模块
+
+### packageName
+
+问题：请填写项目名称
+
+:::info
+Npm 模块的 `package.json` 的 name 字段值，该配置值为字符串类型。
+:::
+
+<LanguageConfig />
+
+<PackageManager />
+
+## 文档站
+
+<PackageManager />
+
+## Monorepo
+
+<PackageManager />

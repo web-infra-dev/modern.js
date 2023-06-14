@@ -21,7 +21,8 @@ type Config = {
   externals: BaseBuildConfig['externals'];
   input: Input;
   watch: boolean;
-  abortOnError?: boolean;
+  abortOnError: boolean;
+  respectExternal: boolean;
 };
 
 export const runRollup = async (
@@ -32,7 +33,8 @@ export const runRollup = async (
     externals,
     input,
     watch,
-    abortOnError = true,
+    abortOnError,
+    respectExternal,
   }: Config,
 ) => {
   const ignoreFiles: Plugin = {
@@ -77,8 +79,7 @@ export const runRollup = async (
       jsonPlugin(),
       ignoreFiles,
       dtsPlugin({
-        // use external to prevent them which come from node_modules from be bundled.
-        respectExternal: true,
+        respectExternal,
         compilerOptions: {
           declarationMap: false,
           skipLibCheck: true,

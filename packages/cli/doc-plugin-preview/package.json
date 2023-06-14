@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-plugin-preview",
-  "version": "2.21.1",
+  "version": "2.22.1",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -69,10 +69,12 @@
   },
   "files": [
     "dist",
-    "mdx-meta.cjs"
+    "static",
+    "mdx-meta-loader.cjs"
   ],
   "publishConfig": {
     "access": "public",
+    "provenance": true,
     "registry": "https://registry.npmjs.org/"
   }
 }

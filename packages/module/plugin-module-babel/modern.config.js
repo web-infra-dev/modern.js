@@ -4,11 +4,6 @@ module.exports = {
       format: 'cjs',
       target: 'es6',
       sourceMap: true,
-      // dts: false,
     },
-    // {
-    //   buildType: 'bundleless',
-    //   dts: { only: true },
-    // },
   ],
 };

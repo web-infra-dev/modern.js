@@ -8,6 +8,7 @@
     "test:rspack": "PROVIDE_TYPE=rspack playwright test"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -23,9 +24,10 @@
     "@modern-js/e2e": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/node": "^14",
+    "@types/lodash": "^4.14.195",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "playwright": "^1.25.1",
+    "@playwright/test": "1.33.0",
     "typescript": "^5"
   }
 }

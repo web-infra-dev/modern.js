@@ -1,12 +1,13 @@
-Modern.js generator will provide an interactive Q & A interface, initialization items according to the result, according to the default selection:
+`@modern-js/create` provides an interactive Q & A interface to initialize the project based on the results, with initialization performed according to the default settings:
 
 ```bash
-? Please select the solution you want to create: Web App
-? Development Language: TS
-? Package Manager: pnpm
+? Please select the type of project you want to create: Web App
+? Please select the programming language: TS
+? Please select the package manager: pnpm
+? Please select the bundler: webpack
 ```
 
-After create the project, Modern.js automatically installs dependency and creates a git repository.
+After create the project, Modern.js will automatically install dependencies and create a git repository.
 
 ```bash
 [INFO] dependencies are automatically installed
@@ -19,11 +20,6 @@ pnpm run serve        # Preview the production build locally
 pnpm run lint         # Run ESLint and automatically fix problems
 pnpm run new          # Enable optional features or add a new entry
 ```
-
-:::note
-In addition to working during project initialization, the Modern.js generator can also generate modules of the project in subsequent development, which is not thrown away as soon as it is used.
-
-:::
 
 Now, the project structure is as follows:
 

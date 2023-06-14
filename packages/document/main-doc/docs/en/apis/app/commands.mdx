@@ -112,6 +112,7 @@ For example, add application entry, enable some optional features such as Tailwi
 Usage: modern new [options]
 
 Options:
+  --lang <lang>          set the language (zh or en) for the new command.
   -d, --debug            using debug mode to log something (default: false)
   -c, --config <config>  set default generator config(json string)
   --dist-tag <tag>       use specified tag version for its generator
@@ -125,9 +126,9 @@ In the project, execute the `new` command to add entries as follows:
 
 ```bash
 $ npx modern new
-? Action Create project element
-? Create project element New "entry"
-? Entry name entry
+? Please select the operation you want: Create Element
+? Please select the type of element to create: New "entry"
+? Please fill in the entry name: entry
 ```
 
 ### Enable Features
@@ -136,8 +137,8 @@ In the project, execute the `new` command to enable features as follows:
 
 ```bash
 $ npx modern new
-? Action Enable features
-? Enable features (Use arrow keys)
+? Please select the operation you want: Enable Features
+? Please select the feature name: (Use arrow keys)
 ❯ Enable Tailwind CSS
   Enable BFF
   Enable SSG
@@ -162,11 +163,10 @@ Usage: modern serve [options]
 Options:
   -c --config <config>  configuration file path, which can be a relative path or an absolute path
   -h, --help            show command help
-  --web-only            only run web service
   --api-only            only run API service
 ```
 
-By default, the project will run in `localhost:8080`, you can modify the Server port number with `server.port`:
+By default, the project will run in `localhost:8080`, you can modify the server port number with `server.port`:
 
 ```js
 export default defineConfig({
@@ -180,7 +180,7 @@ export default defineConfig({
 
 Execute the command `npx modern upgrade` in the project, by default, dependencies in the `package.json` are updated to the latest version.
 
-```
+```bash
 Usage: modern upgrade [options]
 
 Options:
@@ -194,7 +194,7 @@ Options:
 
 The `modern inspect` command is used to view the [Modern.js Builder config](https://modernjs.dev/builder/en/guide/basic/builder-config.html) and webpack config of the project.
 
-```
+```bash
 Usage: modern inspect [options]
 
 Options:

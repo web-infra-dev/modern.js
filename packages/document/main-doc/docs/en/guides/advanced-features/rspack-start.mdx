@@ -30,14 +30,14 @@ When using Rspack as the bundler, the following Features are temporarily unavail
 
 :::
 
-## Migrating from webpack to Rspack
+## Enable Rspack build
 
 You can enable Rspack build by running `pnpm run new`:
 
 ```bash
 $ pnpm run new
-? Action: Enable features
-? Enable features: Enable Rspack Build
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Rspack Build
 ```
 
 After executing the command, enable the Rspack build in `modern.config.ts`:
@@ -54,9 +54,9 @@ import appTools, { defineConfig } from '@modern-js/app-tools';
 });
 ```
 
-:::tip
-When migrating from webpack to Rspack, there may have some differences in build and configuration capabilities. For more details, please refer to [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
-:::
+## Migrating configuration
+
+After enabling Rspack building capability, further configuration migration is needed by referring to the [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
 
 ## The relationship between Rspack and Modern.js versions
 
@@ -80,9 +80,7 @@ For example, if you are using pnpm, you can update the Rspack version with `over
     "overrides": {
       "@rspack/core": "nightly",
       "@rspack/dev-client": "nightly",
-      "@rspack/dev-middleware": "nightly",
-      "@rspack/plugin-html": "nightly",
-      "@rspack/postcss-loader": "nightly"
+      "@rspack/plugin-html": "nightly"
     }
   }
 }

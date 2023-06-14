@@ -69,6 +69,7 @@ export type SharedTransformImport = {
 };
 
 export interface NormalizedSharedSourceConfig extends SharedSourceConfig {
+  alias: ChainedConfig<Alias>;
   preEntry: string[];
   globalVars: ChainedGlobalVars;
   compileJsDataURI: boolean;

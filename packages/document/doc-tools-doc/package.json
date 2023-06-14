@@ -20,10 +20,11 @@
     "build:doc": "modern build",
     "preview": "cross-env NODE_ENV=production modern preview"
   },
-  "version": "2.21.1",
+  "version": "2.22.1",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
     "ts-node": "^10.9.1",

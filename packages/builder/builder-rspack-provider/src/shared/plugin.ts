@@ -32,8 +32,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/sass').then(m => m.builderPluginSass()),
     import('../plugins/minimize').then(m => m.builderPluginMinimize()),
     import('../plugins/manifest').then(m => m.builderPluginManifest()),
-    // rem should after css/less/sass/stylus
-    import('../plugins/rem').then(m => m.builderPluginRem()),
+    plugins.rem(),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
     import('../plugins/react').then(m => m.builderPluginReact()),

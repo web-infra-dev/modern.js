@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.21.1",
+  "version": "2.22.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -59,6 +59,7 @@
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "resolve-from": "^5.0.0",
+    "axios": "^1.2.1",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
@@ -74,6 +75,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/types/index.d.ts"
   }
 }

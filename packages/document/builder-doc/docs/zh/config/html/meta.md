@@ -3,7 +3,7 @@
 
 配置 HTML 页面的 `<meta>` 标签。
 
-#### 字符串用法
+### String 类型
 
 当 `meta` 对象的 `value` 为字符串时，会自动将对象的 `key` 映射为 `name`，`value` 映射为 `content`。
 
@@ -25,7 +25,7 @@ export default {
 <meta name="description" content="a description of the page" />
 ```
 
-#### 对象用法
+### Object 类型
 
 当 `meta` 对象的 `value` 为对象时，会将该对象的 `key: value` 映射为 `meta` 标签的属性。
 

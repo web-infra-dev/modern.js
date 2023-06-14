@@ -9,10 +9,10 @@ This chapter will describe how to develop component projects using the module en
 ```bash Interactive questions
 npx @modern-js/create@latest components-project
 
-? Please select the solution you want to create: Npm Module
-? Package Name: components-demo
-? Development Language: TS
-? Package Manager: pnpm
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: components-demo
+? Please select the programming language: TS
+? Please select the package manager: pnpm
 ```
 
 ---
@@ -22,10 +22,10 @@ It is recommended to use the `@modern-js/create` command to initialize an npm pr
 ```bash Interactive questions
 npx @modern-js/create@latest components-project
 
-? Please select the solution you want to create: Npm Module
-? Package Name: components-demo
-? Development Language: TS
-? Package Manager: pnpm
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: components-demo
+? Please select the programming language: TS
+? Please select the package manager: pnpm
 ```
 
 ---
@@ -67,8 +67,8 @@ export default () => {
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Visual Testing (Storybook)
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Visual Testing (Storybook)
 ```
 
 ---
@@ -78,8 +78,8 @@ Execute the `new` command in the project root directory to enable the Storybook 
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Visual Testing (Storybook)
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Visual Testing (Storybook)
 ```
 
 ---
@@ -204,7 +204,7 @@ The following capabilities are currently supported for developing styles.
 
 ### CSS/PostCSS
 
-The module project supports PostCSS and has the following built-in postcss plugins.
+The module project supports PostCSS and has the following built-in PostCSS plugins.
 
 - [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
 - [custom-properties](https://github.com/postcss/postcss-custom-properties)
@@ -356,8 +356,8 @@ By default, this feature is not enabled in the module project, you need to enabl
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Visual Testing (Storybook)
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Visual Testing (Storybook)
 ```
 
 ---
@@ -367,8 +367,8 @@ The Tailwind CSS feature can be enabled by executing the `new` command in the pr
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Tailwind CSS
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Tailwind CSS
 ```
 
 ---

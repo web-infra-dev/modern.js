@@ -1,0 +1,66 @@
+---
+sidebar_position: 1
+---
+
+# Usage
+
+Modern.js provides `@modern-js/create` tool for creating project templates provided by Modern.js, including [Web App](https://modernjs.dev/), [Npm Module](https://modernjs.dev/module-tools), [Modern Doc](https://modernjs.dev/doc-tools), [Monorepo](/guides/topic-detail/monorepo/intro.html).
+
+The following will introduce how to use `@modern-js/create`.
+
+## Environment Preparation
+
+import Prerequisites from "@site-docs-en/components/prerequisites"
+
+<Prerequisites />
+
+## Create a Project with `@modern-js/create`
+
+You do not need to install `@modern-js/create` globally, just use npx to run it:
+
+```bash
+npx @modern-js/create@latest [projectDir]
+```
+
+:::info
+`[projectDir]` is the project directory name. If it is not filled in, the project will be created in the current directory.
+:::
+
+During the execution, complete the interaction according to the prompt to create a project that meets your requirements.
+
+### Create an Web APP Project
+
+```bash
+npx @modern-js/create@latest web-app
+? Please select the type of project you want to create: Web App
+? Please select the programming language: TS
+? Please select the package manager: pnpm
+? Please select the bundler: webpack
+```
+
+### Create an Npm Module Project
+
+```bash
+npx @modern-js/create@latest npm-module
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: npm-module
+? Please select the programming language: TS
+? Please select the package manager: pnpm
+```
+
+### Create a Modern Doc Project
+
+```bash
+npx @modern-js/create@latest doc-website
+? Please select the type of project you want to create: Doc Site
+? Please select the package manager: pnpm
+```
+
+### Create Monorepo Project
+
+```bash
+npx @modern-js/create@latest monorepo
+? Please select the type of project you want to create: Doc Site
+? Please select the package manager: pnpm
+```
+

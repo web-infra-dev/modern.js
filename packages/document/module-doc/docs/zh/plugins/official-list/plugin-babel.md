@@ -37,7 +37,7 @@ export default defineConfig({
 
 ## 配置
 
-See [babel options](https://babeljs.io/docs/options)
+See [Babel options](https://babeljs.io/docs/options)
 
 下面是一个配置了`@babel/preset-env`的例子：
 

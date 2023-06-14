@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
-  "version": "2.21.1",
+  "version": "2.22.1",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -67,6 +67,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/types/index.d.ts"
   }
 }

@@ -1,5 +1,41 @@
 # @modern-js/builder-plugin-swc-base
 
+## 2.22.1
+
+### Patch Changes
+
+- cfcf003: fix(plugin-swc): styledComponents configuration not work
+
+  fix(plugin-swc): 修复 styledComponents 配置不生效的问题
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- e7a5f94: feat(plugin-swc): should reduce lodash bundle size by default
+
+  feat(plugin-swc): 默认优化 lodash 包体积
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

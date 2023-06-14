@@ -206,6 +206,57 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
+        name: 'postcss-pxtorem',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-loader',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
+      {
+        name: 'autoprefixer',
+        ignoreDts: true,
+        externals: {
+          browserslist: '@modern-js/utils/browserslist',
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
         name: 'less',
         externals: {
           // needle is an optional dependency and no need to bundle it.
@@ -323,10 +374,6 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
-        name: 'postcss-pxtorem',
-        ignoreDts: true,
-      },
-      {
         name: 'webpack-sources',
         ignoreDts: true,
       },
@@ -344,58 +391,7 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
-        name: 'postcss-value-parser',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-custom-properties',
-        ignoreDts: true,
-        externals: {
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'postcss-flexbugs-fixes',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-font-variant',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-initial',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-media-minmax',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-nesting',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-page-break',
-        ignoreDts: true,
-      },
-      {
-        name: 'autoprefixer',
-        ignoreDts: true,
-        externals: {
-          browserslist: '@modern-js/utils/browserslist',
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
         name: 'css-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-loader',
-        ignoreDts: true,
-      },
-      {
-        name: 'css-modules-typescript-loader',
         ignoreDts: true,
       },
       {
@@ -431,49 +427,6 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'pretty-time',
         ignoreDts: true,
-      },
-      {
-        name: 'postcss-value-parser',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-custom-properties',
-        ignoreDts: true,
-        externals: {
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'postcss-flexbugs-fixes',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-font-variant',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-initial',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-media-minmax',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-nesting',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-page-break',
-        ignoreDts: true,
-      },
-      {
-        name: 'autoprefixer',
-        ignoreDts: true,
-        externals: {
-          browserslist: '@modern-js/utils/browserslist',
-          'postcss-value-parser': '../postcss-value-parser',
-        },
       },
     ],
   },

@@ -1,6 +1,6 @@
 // eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
-import type { Compiler, Compilation } from 'webpack';
+import { Compiler, Compilation } from 'webpack';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import {
   mergeRegex,
@@ -9,9 +9,15 @@ import {
   getBrowserslistWithDefault,
   logger,
   isUsingHMR,
+  getDefaultStyledComponentsConfig,
 } from '@modern-js/builder-shared';
 import { merge } from '@modern-js/utils/lodash';
-import { chalk, getCoreJsVersion, isBeyondReact17 } from '@modern-js/utils';
+import {
+  applyOptionsChain,
+  chalk,
+  getCoreJsVersion,
+  isBeyondReact17,
+} from '@modern-js/utils';
 import {
   MinifyJs,
   MinifyCss,
@@ -53,7 +59,7 @@ export function applyBuilderPluginSwc(
     const builderConfig = api.getNormalizedConfig();
     determinePresetReact(rootPath, pluginConfig);
 
-    const swc: TransformConfig = {
+    const swc = {
       jsc: {
         transform: {
           react: {
@@ -64,36 +70,42 @@ export function applyBuilderPluginSwc(
       env: pluginConfig.presetEnv || {},
       extensions: { ...pluginConfig.extensions },
       cwd: rootPath,
-    };
+    } satisfies TransformConfig;
 
     if (pluginConfig.presetReact) {
-      swc.jsc.transform!.react = {
-        ...swc.jsc.transform!.react,
+      swc.jsc.transform.react = {
+        ...swc.jsc.transform.react,
         ...pluginConfig.presetReact,
       };
     }
 
     const { polyfill } = builderConfig.output;
-    if (
-      swc.env!.mode === undefined &&
-      polyfill !== 'ua' &&
-      polyfill !== 'off'
-    ) {
-      swc.env!.mode = polyfill;
+    if (swc.env.mode === undefined && polyfill !== 'ua' && polyfill !== 'off') {
+      swc.env.mode = polyfill;
     }
 
-    if (!swc.env!.coreJs) {
-      swc.env!.coreJs = getCoreJsVersion(CORE_JS_PATH);
+    if (!swc.env.coreJs) {
+      swc.env.coreJs = getCoreJsVersion(CORE_JS_PATH);
     }
 
     // If `targets` is not specified manually, we get `browserslist` from project.
-    if (!swc.env!.targets) {
-      swc.env!.targets = await getBrowserslistWithDefault(
+    if (!swc.env.targets) {
+      swc.env.targets = await getBrowserslistWithDefault(
         api.context.rootPath,
         builderConfig,
         target,
       );
     }
+
+    const isSSR = utils.target === 'node';
+    const styledComponentsOptions = applyOptionsChain(
+      getDefaultStyledComponentsConfig(isProd, isSSR),
+      config.tools.styledComponents,
+    );
+    swc.extensions.styledComponents = {
+      ...styledComponentsOptions,
+      ...swc.extensions.styledComponents,
+    };
 
     /**
      * SWC can't use latestDecorator in TypeScript file for now
@@ -170,8 +182,9 @@ export function applyBuilderPluginSwc(
 
 /// default swc configuration
 export function getDefaultSwcConfig(): TransformConfig {
+  const cwd = process.cwd();
   return {
-    cwd: process.cwd(),
+    cwd,
     jsc: {
       target: 'es5',
       externalHelpers: true,
@@ -196,7 +209,12 @@ export function getDefaultSwcConfig(): TransformConfig {
     },
     exclude: [],
     inlineSourcesContent: true,
-    extensions: {},
+    extensions: {
+      lodash: {
+        cwd,
+        ids: ['lodash', 'lodash-es'],
+      },
+    },
   };
 }
 

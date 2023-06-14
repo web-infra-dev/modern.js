@@ -1,7 +1,6 @@
 import {
   getEntryOptions,
   createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
@@ -45,7 +44,12 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-router'];
+        return [
+          {
+            target: 'runtime.router',
+            schema: { type: ['boolean', 'object'] },
+          },
+        ];
       },
       modifyEntryImports({ entrypoint, imports }: any) {
         const { entryName, fileSystemRoutes } = entrypoint;

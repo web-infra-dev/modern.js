@@ -15,15 +15,19 @@ webpackOnlyTest('should import with function customName', async () => {
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
   };
+
   {
-    const builder = await build(setupConfig, {
-      source: {
-        transformImport: [
-          {
-            libraryName: 'foo',
-            customName: (member: string) => `foo/lib/${member}`,
-          },
-        ],
+    const builder = await build({
+      ...setupConfig,
+      builderConfig: {
+        source: {
+          transformImport: [
+            {
+              libraryName: 'foo',
+              customName: (member: string) => `foo/lib/${member}`,
+            },
+          ],
+        },
       },
     });
     const files = await builder.unwrapOutputJSON(false);
@@ -31,9 +35,10 @@ webpackOnlyTest('should import with function customName', async () => {
     expect(files[entry]).toContain('transformImport test succeed');
   }
 
-  const builder = await build(
-    { ...setupConfig, plugins: [builderPluginSwc()] },
-    {
+  const builder = await build({
+    ...setupConfig,
+    plugins: [builderPluginSwc()],
+    builderConfig: {
       source: {
         transformImport: [
           {
@@ -49,7 +54,7 @@ webpackOnlyTest('should import with function customName', async () => {
         },
       },
     },
-  );
+  });
   const files = await builder.unwrapOutputJSON(false);
   const entry = findEntry(files);
   expect(files[entry]).toContain('transformImport test succeed');
@@ -58,22 +63,22 @@ webpackOnlyTest('should import with function customName', async () => {
 rspackOnlyTest('should import with template config', async () => {
   copyPkgToNodeModules();
 
-  const setupConfig = {
+  const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
-  };
-  const builder = await build(setupConfig, {
-    source: {
-      transformImport: [
-        {
-          libraryName: 'foo',
-          customName: 'foo/lib/{{ member }}',
+    builderConfig: {
+      source: {
+        transformImport: [
+          {
+            libraryName: 'foo',
+            customName: 'foo/lib/{{ member }}',
+          },
+        ],
+      },
+      performance: {
+        chunkSplit: {
+          strategy: 'all-in-one',
         },
-      ],
-    },
-    performance: {
-      chunkSplit: {
-        strategy: 'all-in-one',
       },
     },
   });
@@ -90,15 +95,19 @@ webpackOnlyTest('should import with template config with SWC', async () => {
     entry: { index: path.resolve(__dirname, './src/index.js') },
     plugins: [builderPluginSwc()],
   };
+
   {
-    const builder = await build(setupConfig, {
-      source: {
-        transformImport: [
-          {
-            libraryName: 'foo',
-            customName: 'foo/lib/{{ member }}',
-          },
-        ],
+    const builder = await build({
+      ...setupConfig,
+      builderConfig: {
+        source: {
+          transformImport: [
+            {
+              libraryName: 'foo',
+              customName: 'foo/lib/{{ member }}',
+            },
+          ],
+        },
       },
     });
     const files = await builder.unwrapOutputJSON(false);
@@ -107,14 +116,17 @@ webpackOnlyTest('should import with template config with SWC', async () => {
   }
 
   {
-    const builder = await build(setupConfig, {
-      source: {
-        transformImport: [
-          {
-            libraryName: 'foo',
-            customName: member => `foo/lib/${member}`,
-          },
-        ],
+    const builder = await build({
+      ...setupConfig,
+      builderConfig: {
+        source: {
+          transformImport: [
+            {
+              libraryName: 'foo',
+              customName: member => `foo/lib/${member}`,
+            },
+          ],
+        },
       },
     });
     const files = await builder.unwrapOutputJSON(false);
@@ -183,27 +195,31 @@ function shareTest(
 
   // webpack
   webpackOnlyTest(`${msg}-webpack`, async () => {
-    const builder = await build(setupConfig, { ...config });
+    const builder = await build({
+      ...setupConfig,
+      builderConfig: { ...config },
+    });
     const files = await builder.unwrapOutputJSON(false);
     expect(files[findEntry(files)]).toContain('transformImport test succeed');
   });
 
   // webpack with swc
   webpackOnlyTest(`${msg}-webpack-swc`, async () => {
-    const builder = await build(
-      {
-        ...setupConfig,
-        plugins: [builderPluginSwc()],
-      },
-      { ...config },
-    );
+    const builder = await build({
+      ...setupConfig,
+      plugins: [builderPluginSwc()],
+      builderConfig: { ...config },
+    });
     const files = await builder.unwrapOutputJSON(false);
     expect(files[findEntry(files)]).toContain('transformImport test succeed');
   });
 
   // rspack
   rspackOnlyTest(`${msg}-rspack`, async () => {
-    const builder = await build(setupConfig, { ...config });
+    const builder = await build({
+      ...setupConfig,
+      builderConfig: { ...config },
+    });
     const files = await builder.unwrapOutputJSON(false);
     expect(files[findEntry(files)]).toContain('transformImport test succeed');
   });

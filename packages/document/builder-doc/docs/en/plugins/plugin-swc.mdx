@@ -23,7 +23,7 @@ For most common Babel plugins, you can find corresponding replacements in SWC, s
 - `babel-plugin-import`: use [source.transformImport](/api/config-source.html#sourcetransformimport) instead.
 - `babel-plugin-lodash`: use [extensions.lodash](#extensionslodash) instead.
 - `@emotion/babel-plugin`: use [extensions.emotion](#extensionsemotion) instead.
-- `babel-plugin-styled-components`: use [extensions.styledComponent](#extensionsstyledcomponent) instead.
+- `babel-plugin-styled-components`: use [extensions.styledComponents](#extensionsstyledcomponents) instead.
 - `@babel/plugin-react-transform-remove-prop-types`: use [reactUtils.removePropTypes](#extensionsreactutils) instead.
 
 If you use Babel plugin capabilities that are not yet supported by SWC, you will no longer be able to use them after switching to SWC compilation. You can give feedback via issues under the [swc-plugins](https://github.com/web-infra-dev/swc-plugins) repository and we will evaluate if built-in support is needed.
@@ -36,7 +36,19 @@ For a detailed comparison between minifiers, see [minification-benchmarks](https
 
 ## Quick Start
 
-### Install
+### Used in Modern.js framework
+
+The Modern.js framework integrates the Builder's SWC plugin, and you can use it in the following ways:
+
+import EnableSWC from '@en/shared/enable-swc.md';
+
+<EnableSWC />
+
+### Use via the Node API
+
+If you use the Builder's Node API, you need to manually install and register the SWC plugin of Builder.
+
+#### Install
 
 You can install the plugin with the following command:
 
@@ -51,19 +63,9 @@ yarn add @modern-js/builder-plugin-swc -D
 pnpm add @modern-js/builder-plugin-swc -D
 ```
 
-### Register
+#### Register
 
-In upper-level frameworks such as Modern.js, you can register SWC plugin through the `builderPlugins` config:
-
-```ts
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-
-export default {
-  builderPlugins: [builderPluginSwc()],
-};
-```
-
-If you are using the Builder's Node API, you can register SWC plugin through the `addPlugins` method:
+Register SWC plugin through the `addPlugins` method:
 
 ```js
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
@@ -72,9 +74,7 @@ import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 builder.addPlugins([builderPluginSwc()]);
 ```
 
-That's it !
-
-Now you can use SWC transformation and minification in your project.
+That's it! Now you can use SWC transformation and minification in your project.
 
 ## Config
 
@@ -184,12 +184,36 @@ Remove `React` runtime type checking. This is ported from [@babel/plugin-react-t
 
 #### extensions.lodash
 
-- **Type:** `{ cwd?: string; ids?: string;}`
-- **Default:** `{ cwd: process.cwd(), ids: [] }`
+- **Type:**
 
-Ported from [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
+```ts
+type LodashOptions = {
+  cwd?: string;
+  ids?: string[];
+};
+```
 
-#### extensions.styledComponent
+- **Default:**
+
+```ts
+const defaultOptions = {
+  cwd: process.cwd(),
+  ids: ['lodash', 'lodash-es'],
+};
+```
+
+Ported from [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash), it is used to automatically convert references to Lodash into on-demand imports, thereby reducing the bundle size of Lodash code.
+
+```ts
+// Input
+import { get, throttle } from 'lodash';
+
+// Output
+import get from 'lodash/get';
+import throttle from 'lodash/throttle';
+```
+
+#### extensions.styledComponents
 
 - **Type:**
 

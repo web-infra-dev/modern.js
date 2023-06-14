@@ -1,7 +1,12 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.21.1",
+  "version": "2.22.1",
   "description": "SWC plugin for builder in Modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/plugin-swc"
+  },
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
@@ -51,10 +56,11 @@
     "@modern-js/utils": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@swc/core": "1.3.42",
-    "@swc/helpers": "0.5.0",
+    "@swc/helpers": "0.5.1",
     "@types/babel__core": "^7.20.0",
     "antd": "4",
-    "magic-string": "^0.26.2",
+    "lodash": "^4.17.21",
+    "magic-string": "0.29.0",
     "source-map": "^0.7.4",
     "typescript": "^5",
     "webpack": "^5.82.1",
@@ -64,12 +70,13 @@
   "dependencies": {
     "@modern-js/builder-plugin-swc-base": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.3.1",
+    "@modern-js/swc-plugins": "0.3.5",
     "@modern-js/utils": "workspace:*"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/index.d.ts"
   }
 }

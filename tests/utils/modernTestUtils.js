@@ -2,6 +2,8 @@ const path = require('path');
 const spawn = require('cross-spawn');
 const treeKill = require('tree-kill');
 const getRandomPort = require('get-port');
+const { launchOptions } = require('./launchOptions');
+
 // const kModernBin = path.join(
 //   __dirname,
 //   '../node_modules/@modern-js/core/dist/bin.js',
@@ -259,4 +261,5 @@ module.exports = {
   clearBuildDist,
   sleep,
   openPage,
+  launchOptions,
 };

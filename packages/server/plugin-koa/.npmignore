@@ -44,4 +44,3 @@ jest.config.js
 .eslintrc
 tsconfig.json
 
-.wireit/

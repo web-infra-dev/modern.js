@@ -1,0 +1,229 @@
+---
+sidebar_position: 3
+---
+
+# Publishing Version
+
+When releasing a version, we need to upgrade the version of the corresponding packages based on the changeset generated during development, and run the publish command to publish them to NPM.
+
+## Steps
+
+:::info
+The following example commands are all using pnpm. If you need to use other package management tools, please replace them as needed.
+
+:::
+
+### Npm Module
+
+#### Run the bump command in the root directory
+
+```bash
+pnpm run bump
+```
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-module-bump.png)
+
+When running this command, changesets will automatically perform the following operations:
+
+- Delete all changeset files under the `.changesets` directory.
+
+- Upgrade the package version based on the changeset information.
+
+- Write changelog information to the `CHANGELOG.md` file in the root directory. The file will be automatically created if it does not exist.
+
+#### Confirm and submit the current changes
+
+```bash
+git add .
+git commit -m "release: bump package"
+```
+
+#### Run the release command in the root directory to publish the package to NPM
+
+```bash
+pnpm run release
+```
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-module-release.png)
+
+#### Push the tag to the remote repository
+
+```bash
+git push --follow-tags
+```
+
+### Monorepo
+
+#### Run the bmp command in the root directory
+
+```bash
+pnpm run bump
+```
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-monorepo-bump.png)
+
+When running this command, changesets will automatically perform the following operations:
+
+- Delete all changeset files under the `.changesets` directory.
+
+- Upgrade the version of the relevant packages based on the changeset information. In addition to the packages written in the changeset, changesets will also analyze the dependency graph of all packages in the Monorepo during running. If is required, the version will be automatically upgraded accordingly.
+
+- Write changelog to the `CHANGELOG.md` file in the directory of the package that needs to be upgraded. The file will be automatically created if it does not exist.
+
+#### Confirm and submit the current changes
+
+:::info
+Make sure that the automatically upgraded version meet the expected requirements. If you need to understand the version upgrade strategy, please refer to [Version Upgrade Strategy](/guides/topic-detail/changesets/release#version-upgrade-strategy).
+:::
+
+```bash
+git add .
+git commit -m "release: bump package"
+```
+
+#### Run the release command in the root directory to publish the package to NPM
+
+```bash
+pnpm run release
+```
+
+When running this command, it will sequentially determine whether the versions of all packages in the Monorepo exist on NPM. If they do not exist, the `publish` command will be run to publish them.
+
+:::warning
+When the dependencies between packages in the Monorepo are declared using workspace, do not directly run `npm publish` to publish the package in the corresponding subdirectory of the package. Use the `release` command instead. When publishing, the workspace declaration will be automatically removed to ensure that the NPM package is available after publishing.
+:::
+
+#### Push the tag to the remote repository
+
+```bash
+git push --follow-tags
+```
+
+## Parameters
+
+### Parameters for the `bump` command
+
+- `--snapshot`: Generates a timestamp-based version.
+
+```bash
+pnpm run bump --snapshot canary
+```
+
+After running, the corresponding upgraded version will become `0.0.0-canary-20220622092823`, and `canary` is the tag configured for snapshot. If not configured, it will directly generate the form of `0.0.0-20220622092823`.
+
+This parameter is mainly used to publish temporary test versions for testing and does not require code submission.
+
+- `--ignore`: Manually ignore some packages during publishing.
+
+For example, if you need to ignore the `module-2` package for this release:
+
+```bash
+pnpm run bump --ignore module-2
+```
+
+After running the command, the update of the `module-2` package will be ignored. Note that if there are packages that depend on `module-2`, the corresponding packages also need to be added to the `ignore` parameter, otherwise the `bump` command will fail.
+
+The usage for adding multiple packages is as follows:
+
+```bash
+pnpm run bump --ignore module-2 --ignore module-3
+```
+
+### Parameters for the `release` command
+
+- `--otp`: Uses `npm token` to publish the package.
+
+```bash
+pnpm run relese --otp <token>
+```
+
+- `--tag`: Uses a specific tag for publishing, and `latest` is used by default.
+
+```bash
+pnpm run release --tag <tag>
+```
+
+- `--ignore-scripts`: Ignores npm scripts during publishing.
+
+When running the `publish` command, npm will automatically trigger many commands, such as `prepare` and `prepublish`. Using this parameter can ignore the running of these commands. This parameter is only supported in Monorepo using pnpm.
+
+```bash
+pnpm run release --ignore-scripts
+```
+
+- `--no-git-checks`: Ignores checking the current branch during publishing.
+
+By default, when running the `release` command, it will automatically check whether the current branch is a release branch, whether there are uncommitted changes, etc. Using this parameter can ignore git-related checks.
+
+```bash
+pnpm run release --no-git-checks
+```
+
+## Version Upgrade Strategy
+
+### dependencies or devDependencies
+
+- Only upgrade the patch version of the package itself for patch version
+
+For example, the following scenario exists:
+
+There are two packages in Monorepo, `module-1` and `module-2`, and `module-1` exists in the `dependencies` of `module-2`.
+
+The current changeset is the patch version upgrade of `module-1`.
+
+After running the `bump` command, only the patch version of `module-1` will be upgraded.
+
+- Upgrade the major or minor version of the package itself for major/minor version upgrades, and upgrade the patch version of the dependent packages
+
+For example, the following scenario exists:
+
+There are two packages in Monorepo, `module-1` and `module-2`, and `module-1` exists in the `dependencies` of `module-2`.
+
+The current changeset is the minor version upgrade of `module-1`.
+
+After running the `bump` command, `module-1` will upgrade the `minor` version, and `module-2` will upgrade the `patch` version number.
+
+### peerDependencies
+
+- Upgrade the patch version of the package itself and the dependent package for patch version dependencies
+
+For example, the following scenario exists:
+
+There are two packages in Monorepo, `module-1` and `module-2`, and `module-1` exists in the `peerDependencies` of `module-2`.
+
+The current changeset is the patch version upgrade of `module-1`.
+
+After running the `bump` command, both `module-1` and `module-2` will upgrade the patch version.
+
+- Upgrade the major version of the dependent package for major/minor version upgrades of the package itself
+
+For example, the following scenario exists:
+
+There are two packages in Monorepo, `module-1` and `module-2`, and `module-1` exists in the `peerDependencies` of `module-2`.
+
+The current changeset is the minor version upgrade of `module-1`.
+
+After running the bump command, `module-1` will upgrade the `minor` version, and `module-2` will upgrade the `major` version number.
+
+- Modify the upgrade strategy for peerDependencies
+
+The upgrade strategy of `peerDependencies` can be modified by configuring `onlyUpdatePeerDependentsWhenOutOfRange`. When only the declared version type range is exceeded, the corresponding `peerDependencies` will be upgraded.
+
+```json
+{
+  "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
+    "onlyUpdatePeerDependentsWhenOutOfRange": true
+  },
+  ...
+}
+```
+
+For example, the following scenario exists:
+
+There are two packages in Monorepo, `module-1` and `module-2`, and `module-1` exists in the `peerDependencies` of `module-2`, and the version of `module-1` is declared using `^`.
+
+The current changeset is the patch or minor version upgrade of `module-1`.
+
+After running the `bump` command, only the version of `module-1` will be upgraded.
+
+Note that if the package version is in the `0.x.x` range, upgrading the `minor` version is also beyond the declared version type range.

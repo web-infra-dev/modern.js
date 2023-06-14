@@ -5,7 +5,6 @@ import {
   fs,
   isApiOnly,
   minimist,
-  getCommand,
   isDevCommand,
   getArgv,
 } from '@modern-js/utils';
@@ -18,12 +17,18 @@ import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools, webpack } from '../types';
 import { initialNormalizedConfig } from '../config';
 import { createBuilderGenerator } from '../builder';
-import { isPageComponentFile, parseModule, replaceWithAlias } from './utils';
+import {
+  checkIsBuildCommands,
+  isPageComponentFile,
+  parseModule,
+  replaceWithAlias,
+} from './utils';
 import {
   APP_CONFIG_NAME,
   APP_INIT_EXPORTED,
   APP_INIT_IMPORTED,
 } from './constants';
+import { generateIndexCode } from './generateCode';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -46,7 +51,9 @@ export default ({
         const hookRunners = api.useHookRunners();
 
         try {
-          fs.emptydirSync(appContext.internalDirectory);
+          if (checkIsBuildCommands()) {
+            fs.emptydirSync(appContext.internalDirectory);
+          }
         } catch {
           // FIXME:
         }
@@ -54,6 +61,7 @@ export default ({
         const apiOnly = await isApiOnly(
           appContext.appDirectory,
           resolvedConfig.source?.entriesDir,
+          appContext.apiDirectory,
         );
         await hookRunners.addRuntimeExports();
 
@@ -119,7 +127,12 @@ export default ({
 
         originEntrypoints = cloneDeep(entrypoints);
 
-        await generateCode(appContext, resolvedConfig, entrypoints, api);
+        const { importsStatemets } = await generateCode(
+          appContext,
+          resolvedConfig,
+          entrypoints,
+          api,
+        );
 
         const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
           appContext,
@@ -151,9 +164,7 @@ export default ({
         };
         api.setAppContext(appContext);
 
-        const command = getCommand();
-        const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
-        if (buildCommands.includes(command)) {
+        if (checkIsBuildCommands()) {
           const normalizedConfig = api.useResolvedConfigContext();
           const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({
@@ -190,6 +201,14 @@ export default ({
 
             async onBeforeCreateCompiler({ bundlerConfigs }) {
               const hookRunners = api.useHookRunners();
+              await generateIndexCode({
+                appContext,
+                config: resolvedConfig,
+                entrypoints,
+                api,
+                importsStatemets,
+                bundlerConfigs,
+              });
               // run modernjs framework `beforeCreateCompiler` hook
               await hookRunners.beforeCreateCompiler({
                 bundlerConfigs:

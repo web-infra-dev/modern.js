@@ -1,5 +1,74 @@
 # @modern-js/builder-shared
 
+## 2.22.1
+
+### Patch Changes
+
+- a470c04: chore(builder): reuse rem plugin between rspack and webpack provider
+
+  chore(builder): 在 rspack 和 webpack provider 间复用 rem 插件
+
+- 95ffa6b: fix(builder): support filter css modules file by cssLoader.modules.auto Regexp
+
+  fix(builder): 支持过滤 css modules 文件根据 tools.cssLoader.modules.auto 正则配置
+
+- 12d54ae: feat(builder): add new builder-cli npm package
+
+  feat(builder): 新增 builder-cli npm 包
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- dd36311: fix(builder-shared): the webworker should not check is a client compiler.
+  fix(builder-shared): webworker 不应该被判定为客户端 compiler
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+- 8bd9981: fix(builder): use postcss-loader instead of @rspack/postcss-loader to fix tailwindcss hmr bug
+
+  fix(builder): 使用 postcss-loader 代替 @rspack/postcss-loader, 来修复 tailwindcss hmr 问题
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- cfcf003: fix(plugin-swc): styledComponents configuration not work
+
+  fix(plugin-swc): 修复 styledComponents 配置不生效的问题
+
+- 15181be: fix(builder): only generator .d.ts file for css-modules file when enableCssModuleTSDeclaration
+
+  fix(builder): 当开启 enableCssModuleTSDeclaration 时仅为 css modules 文件生成 .d.ts 声明
+
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/server@2.22.1
+  - @modern-js/prod-server@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 850cde6: feat(builder): add arco config to transformImport by default
+
+  feat(builder): 默认增加 arco 的 transformImport 配置
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/types@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

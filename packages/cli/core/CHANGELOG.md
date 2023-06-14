@@ -1,5 +1,33 @@
 # @modern-js/core
 
+## 2.22.1
+
+### Patch Changes
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/node-bundle-require@2.22.1
+  - @modern-js/plugin@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 27618e4: chore(deps): remove unused dev dependencies
+
+  chore(deps): 移除未使用的 dev dependencies
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/node-bundle-require@2.22.0
+  - @modern-js/plugin@2.22.0
+
 ## 2.21.1
 
 ### Patch Changes

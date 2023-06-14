@@ -6,7 +6,7 @@ import {
 } from '../src/commands';
 
 describe('release note function test', () => {
-  test('getReleaseInfo', () => {
+  test('getReleaseInfo', async () => {
     let commitObj: Commit = {
       id: '552d98d',
       type: CommitType.Features,
@@ -14,12 +14,11 @@ describe('release note function test', () => {
       summary: 'chore: update devcert version to 1.2.2',
       summary_zh: 'chore: 更新 devcert 版本到 1.2.2',
     };
-    commitObj = getReleaseInfo(
+    commitObj = await getReleaseInfo(
       '552d98d--chore: update devcert version to 1.2.2 (#1222)--zhangsan',
       commitObj,
     );
     expect(commitObj.pullRequestId).toEqual('1222');
-    expect(commitObj.author).toEqual('zhangsan');
   });
   test('getReleaseNoteLine', () => {
     const commitObj: Commit = {

@@ -1,21 +1,16 @@
 import { join } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest('enableAssetManifest', async () => {
-  const buildOpts = {
+test('enableAssetManifest', async () => {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.jsx'),
     },
-  };
-
-  const builder = await build(
-    buildOpts,
-    {
+    builderConfig: {
       output: {
         enableAssetManifest: true,
         legalComments: 'none',
@@ -26,8 +21,7 @@ allProviderTest('enableAssetManifest', async () => {
         },
       },
     },
-    false,
-  );
+  });
 
   const files = await builder.unwrapOutputJSON();
 

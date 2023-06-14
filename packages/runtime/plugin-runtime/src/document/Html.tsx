@@ -45,7 +45,7 @@ function findTargetElement(
 }
 
 export function Html(props: { children: any[] }) {
-  const { children } = props;
+  const { children, ...rest } = props;
 
   // deal with the component with default
   const hasSetHead = Boolean(findTargetChild('Head', children));
@@ -88,7 +88,7 @@ export function Html(props: { children: any[] }) {
   }
 
   return (
-    <html>
+    <html {...rest}>
       <DocumentStructureContext.Provider
         value={{
           hasSetHead,

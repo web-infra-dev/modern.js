@@ -43,14 +43,34 @@ export const isPackageInstalled = (
   }
 };
 
+/**
+ * Check is api only project
+ * 1. env --api-only
+ * 2. exist ${apiDir}/ && not exist ${entryDir}/
+ *
+ * @param appDirectory
+ * @param entryDir default 'src'
+ * @param apiDir default 'api'
+ * @returns boolean
+ */
 export const isApiOnly = async (
   appDirectory: string,
   entryDir?: string,
+  apiDir?: string,
 ): Promise<boolean> => {
-  const srcDir = path.join(appDirectory, entryDir ?? 'src');
-  const existSrc = await fs.pathExists(srcDir);
+  const existApi = await fs.pathExists(
+    apiDir ?? path.join(appDirectory, 'api'),
+  );
+  const existSrc = await fs.pathExists(
+    path.join(appDirectory, entryDir ?? 'src'),
+  );
   const options = minimist(getArgv());
-  return !existSrc || Boolean(options['api-only']);
+  // env first
+  if (options['api-only']) {
+    return true;
+  }
+  // exist api/ && not exist ${entryDir}/
+  return existApi && !existSrc;
 };
 
 export const isWebOnly = async () => {

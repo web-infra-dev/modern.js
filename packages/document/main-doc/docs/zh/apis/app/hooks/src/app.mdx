@@ -4,46 +4,36 @@ sidebar_position: 1
 ---
 # App.[tj]sx
 
-应用使用自控路由时的入口标识符。
+应用使用[自控路由](/guides/basic-features/routes.html#self-controlled-routing)时的入口标识符。
 
 `App.[tj]sx` 并不是实际的应用入口，Modern.js 会自动生成真正的构建打包的入口文件, 内容大致如下：
 
 ```js
 import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { createApp, bootstrap } from '@modern-js/runtime';
 // App.[jt]sx
 import App from '@_modern_js_src/App';
-import { state } from '@modern-js/runtime/plugins';
-import {
-  immer,
-  effects,
-  autoActions,
-  devtools,
-} from '@modern-js/runtime/model';
+// runtime plugin
+import { router } from '@modern-js/runtime/plugins';
 
-const createStatePlugins = config => {
-  const plugins = [];
-  plugins.push(immer(config['immer']));
-  plugins.push(effects(config['effects']));
-  plugins.push(autoActions(config['autoActions']));
-  plugins.push(devtools(config['devtools']));
-  return plugins;
-};
+const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
+const MOUNT_ID = 'root';
+
 let AppWrapper = null;
+
 function render() {
   AppWrapper = createApp({
     plugins: [
-      state({
-        ...{ plugins: createStatePlugins(true) },
-        ...App?.config?.state,
-      }),
-    ],
-  })(App);
+     router({...{"serverBase":["/"]}, ...App.config?.router}),
+    ]
+  })(App)
   if (IS_BROWSER) {
-    bootstrap(AppWrapper, MOUNT_ID);
+    bootstrap(AppWrapper, MOUNT_ID, null, ReactDOM);
   }
-  return AppWrapper;
+  return AppWrapper
 }
+
 AppWrapper = render();
 export default AppWrapper;
 ```

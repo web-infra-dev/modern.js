@@ -34,6 +34,9 @@ export type DevMiddlewareOptions = {
 
   /** should trigger when compiler hook called */
   callbacks: MiddlewareCallbacks;
+
+  /** whether use Server Side Render */
+  serverSideRender?: boolean;
 };
 
 /**

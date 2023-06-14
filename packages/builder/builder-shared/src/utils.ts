@@ -7,13 +7,9 @@ import type {
   SharedNormalizedConfig,
   BuilderTarget,
   SharedCompiledPkgNames,
+  CssModules,
 } from './types';
 import { join } from 'path';
-
-export const extendsType =
-  <T>() =>
-  <P extends T>(source: P): P =>
-    source;
 
 export const createVirtualModule = (content: string) =>
   `data:text/javascript,${content}`;
@@ -84,8 +80,48 @@ export const isURL = (str: string) =>
 
 export * as z from './zod';
 
-export function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
-  return ['modern-web', 'web'].some(t =>
+export function isWebTarget(target: BuilderTarget | BuilderTarget[]) {
+  return ['modern-web', 'web', 'web-worker'].some(t =>
     (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
   );
 }
+
+export type CssLoaderModules =
+  | boolean
+  | string
+  | {
+      auto: boolean | RegExp | ((filename: string) => boolean);
+    };
+
+export const isCssModules = (filename: string, modules: CssLoaderModules) => {
+  if (typeof modules === 'boolean') {
+    return modules;
+  }
+
+  // todo: this configuration is not common and more complex.
+  if (typeof modules === 'string') {
+    return true;
+  }
+
+  const { auto } = modules;
+
+  if (typeof auto === 'boolean') {
+    return auto && CSS_MODULES_REGEX.test(filename);
+  } else if (auto instanceof RegExp) {
+    return auto.test(filename);
+  } else if (typeof auto === 'function') {
+    return auto(filename);
+  }
+  return true;
+};
+
+export const getCssModulesAutoRule = (
+  config?: CssModules,
+  disableCssModuleExtension = false,
+) => {
+  if (!config || config?.auto === undefined) {
+    return disableCssModuleExtension ? isLooseCssModules : true;
+  }
+
+  return config.auto;
+};

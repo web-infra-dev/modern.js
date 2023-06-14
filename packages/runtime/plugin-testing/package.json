@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.21.1",
+  "version": "2.22.1",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
@@ -66,6 +66,15 @@
       "jsnext:source": "./src/base/index.ts",
       "types": "./dist/types/base/index.d.ts",
       "default": "./dist/cjs/base/index.js"
+    },
+    "./bff": {
+      "jsnext:source": "./src/runtime-testing/bff.ts",
+      "node": {
+        "import": "./dist/esm-node/runtime-testing/bff.js",
+        "require": "./dist/cjs/runtime-testing/bff.js"
+      },
+      "types": "./dist/types/runtime-testing/bff.d.ts",
+      "default": "./dist/esm/runtime-testing/bff.js"
     }
   },
   "typesVersions": {
@@ -93,6 +102,9 @@
       ],
       "base": [
         "./dist/types/base/index.d.ts"
+      ],
+      "bff": [
+        "./dist/types/runtime-testing/bff.d.ts"
       ]
     }
   },
@@ -112,7 +124,6 @@
     "@modern-js-reduck/store": "^1.1.10",
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/prod-server": "workspace:*",
     "@testing-library/jest-dom": "^5.14.1",
@@ -133,7 +144,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.21.1"
+    "@modern-js/runtime": "workspace:^2.22.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
@@ -160,6 +171,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/types/cli/index.d.ts"
   }
 }

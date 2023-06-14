@@ -1,3 +1,4 @@
+import dns from 'node:dns';
 import path from 'path';
 import { Page } from 'puppeteer';
 import {
@@ -10,6 +11,7 @@ import {
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
+dns.setDefaultResultOrder('ipv4first');
 describe('bff express in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
@@ -31,13 +33,15 @@ describe('bff express in dev', () => {
 
   test('basic usage', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Reduce the probability of timeout on windows CI
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const text = await page.$eval('.hello', el => el?.textContent);
     expect(text).toBe('Hello Modern.js');
   });
 
   test('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('Hello Modern.js');
   });

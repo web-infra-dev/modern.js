@@ -1,0 +1,196 @@
+# 自动化导航栏/侧边栏
+
+在 Modern.js Doc 中，除了在配置文件中通过 `themeConfig` 声明 [nav](/api/config/config-theme.html#nav) 和 [sidebar](/api/config/config-theme.html#sidebar)， 你也可以通过声明 `_meta.json` 描述文件来自动化生成导航栏和侧边栏，我们更加推荐后者，因为可以使配置文件更加简洁和清晰。
+
+:::tip 提示
+当配置文件 `modern.config.ts` 中没有 `nav` 和 `sidebar` 配置的情况下，自动化导航栏/侧边栏才会生效。
+:::
+
+## 基础概念
+
+首先，`_meta.json` 可以分为两类：导航栏级别和侧边栏级别。两者的区别在于，导航级别的 `_meta.json` 位于文档根目录中，而侧边栏级别的 `_meta.json` 位于文档根目录的子目录中。比如:
+
+```js
+docs
+├── _meta.json // 导航栏级别
+└── guides
+    ├── _meta.json // 侧边栏级别
+    ├── introduction.mdx
+    └── advanced
+        ├── _meta.json // 侧边栏级别
+        └── plugin-development.md
+```
+
+如果你的文档使用了国际化，那么导航栏级别的 `_meta.json` 会放置在对应语言目录下，比如：
+
+```js
+docs
+├── en
+│   ├── _meta.json // 导航栏级别
+│   └── guides
+│       ├── _meta.json // 侧边栏级别
+│       ├── introduction.mdx
+│       ├── install.mdx
+│       └── advanced
+│           ├── _meta.json // 侧边栏级别
+│           └── plugin-development.md
+└── zh
+    ├── _meta.json // 导航栏级别
+    └── guides
+        ├── _meta.json // 侧边栏级别
+        ├── introduction.mdx
+        ├── install.mdx
+        └── advanced
+            ├── _meta.json // 侧边栏级别
+            └── plugin-development.md
+```
+
+## 导航栏级别配置
+
+在导航栏级别的情况中，你可以在 `_meta.json` 中填入一个数组，其类型跟默认主题的 nav 配置完全一致，详情可以参考[nav 配置](/api/config/config-theme.html#nav)。比如:
+
+```json
+[
+  {
+    "text": "Guide",
+    "link": "/guides/introduction",
+    "activeMatch": "^/guides/"
+  }
+]
+```
+
+## 侧边栏级别配置
+
+在侧边栏级别的情况中，你可以在 `_meta.json` 中填入一个数组，数组每一项的类型如下:
+
+```ts
+export type SideMetaItem =
+  | string
+  | {
+      type: 'file';
+      name: string;
+      label?: string;
+    }
+  | {
+      type: 'dir';
+      name: string;
+      label?: string;
+      collapsible?: boolean;
+      collapsed?: boolean;
+    };
+```
+
+### string
+
+当类型为 `string` 时，表示该项是一个文件，文件名为该字符串，比如:
+
+```json
+["introduction"]
+```
+
+其中文件名可以带后缀，也可以不带后缀，比如 `introduction` 会被解析为 `introduction.mdx`。
+
+### obejct
+
+当类型为对象形式时，你可以描述为一个文件、目录或者自定义链接。
+
+在描述**文件**的情况下，类型如下:
+
+```ts
+{
+  type: 'file';
+  name: string;
+  label?: string;
+}
+```
+
+其中，`name` 表示文件名，同时支持`带`/`不带`后缀，`label` 表示该文件在侧边栏中的显示名称，为可选值，如果未填则会自动取文档中的 h1 标题。比如:
+
+```json
+{
+  "type": "file",
+  "name": "introduction",
+  "label": "Introduction"
+}
+```
+
+在描述**目录**的情况下，类型如下:
+
+```ts
+{
+  type: 'dir';
+  name: string;
+  label: string;
+  collapsible?: boolean;
+  collapsed?: boolean;
+}
+```
+
+其中，`name` 表示目录名，`label` 表示该目录在侧边栏中的显示名称，`collapsible` 表示该目录是否可以折叠，`collapsed` 表示该目录是否默认折叠，比如:
+
+```json
+{
+  "type": "dir",
+  "name": "advanced",
+  "label": "Advanced",
+  "collapsible": true,
+  "collapsed": false
+}
+```
+
+在描述**自定义链接**的情况下，类型如下:
+
+```ts
+{
+  type: 'custom-link';
+  label: string;
+  link: string;
+}
+```
+
+其中，`label` 表示该链接在侧边栏中的显示名称，`link` 表示该链接的跳转地址，比如:
+
+```json
+{
+  "type": "custom-link",
+  "label": "My Link",
+  "link": "/my-link"
+}
+```
+
+`link` 支持外部链接，比如:
+
+```json
+{
+  "type": "custom-link",
+  "link": "https://github.com",
+  "label": "GitHub"
+}
+```
+
+### 完整示例
+
+下面是一个完整的示例，用到了上述的三种类型:
+
+```json
+[
+  "install",
+  {
+    "type": "file",
+    "name": "introduction",
+    "label": "Introduction"
+  },
+  {
+    "type": "dir",
+    "name": "advanced",
+    "label": "Advanced",
+    "collapsible": true,
+    "collapsed": false
+  },
+  {
+    "type": "custom-link",
+    "label": "My Link",
+    "link": "/my-link"
+  }
+]
+```

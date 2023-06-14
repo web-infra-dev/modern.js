@@ -1,0 +1,183 @@
+# Import Plugin
+
+Using [SWC](https://swc.rs/) provides the same ability and configuration as [`babel-plugin-import`](https://github.com/umijs/babel-plugin-import).
+
+:::tip
+Since @modern-js/module-tools version >= 2.16.0, this plugin functionality is built into module-tools and is provided by [`transformImport`](api/config/build-config.html#transformimport).
+:::
+
+## Quick Start
+
+### Install
+
+```bash
+# npm
+npm install @modern-js/plugin-module-import -D
+
+# yarn
+yarn add @modern-js/plugin-module-import -D
+
+# pnpm
+pnpm add @modern-js/plugin-module-import -D
+```
+
+### Register
+
+In Module Tools, you can register plugins in the following way:
+
+```ts
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'antd',
+        style: true,
+      }],
+    }),
+  ],
+});
+```
+
+This way we can use the ability of automatic import in Module Tools.
+
+## Configurations
+
+* **Type**:
+
+```ts
+type Options = {
+  pluginImport?: ImportItem[];
+}
+```
+
+### pluginImport
+
+* **Type**: `Array`
+
+The elements of the array are configuration objects for `babel-plugin-import`, which can be referred to [options](https://github.com/umijs/babel-plugin-import#options)。
+
+**Example:**
+
+```ts
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [
+        // babel-plugin-import`s options config
+        {
+          libraryName: 'foo',
+          style: true,
+        }
+      ],
+    }),
+  ],
+});
+```
+
+## Notes
+
+[SWC](https://swc.rs/) (Speedy Web Compiler) is written in Rust, and this plugin is based on SWC and ported from [babel-plugin-import](https://github.com/umijs/babel-plugin-import). The configuration options remain consistent.
+
+Some configurations can accept functions, such as `customName`, `customStyleName`, etc. These JavaScript functions are called by Rust through Node-API, which can cause some performance degradation.
+
+Simple function logic can be replaced by template language. Therefore, for configurations such as `customName`, `customStyleName`, etc., instead of passing functions, you can also pass a string as a template to replace the function, improving performance.
+
+<CH.Spotlight>
+
+```ts
+import { MyButton as Btn } from 'foo';
+```
+
+---
+
+We will use this piece of code for illustration.
+
+```ts
+import { MyButton as Btn } from 'foo';
+```
+
+---
+
+Add the following configuration on the right-hand side:
+
+```ts
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'foo',
+        customName: 'foo/es/{{ member }}'
+      }],
+    }),
+  ],
+});
+```
+
+---
+
+The `{{ member }}` in it will be replaced with the corresponding import member.
+
+```ts focus=8:8
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+
+export default defineConfig({
+  plugins: [
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'foo',
+        customName: 'foo/es/{{ member }}'
+      }],
+    }),
+  ],
+});
+```
+
+---
+After transformation:
+
+```ts
+import Btn from 'foo/es/MyButton';
+```
+
+</CH.Spotlight>
+
+Template `customName: 'foo/es/{{ member }}'` is the same as `` customName: (member) => `foo/es/${member}` ``, but template value has no performance overhead of Node-API.
+
+The template used here is [handlebars](https://handlebarsjs.com). There are some useful builtin tools, Take the above import statement as an example:
+
+```ts focus=8:8
+import { modulePluginImport } from '@modern-js/plugin-module-import';
+import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginImport({
+      pluginImport: [{
+        libraryName: 'foo',
+        customName: 'foo/es/{{ kebabCase member }}',
+      }],
+    }),
+  ],
+});
+```
+
+Transformed to:
+
+```ts
+import Btn from 'foo/es/my-button';
+```
+
+In addition to kebabCase, there are cameraCase, snakeCase, upperCase and lowerCase can be used as well.
