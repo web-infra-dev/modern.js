@@ -129,7 +129,7 @@ export default {
 ### assetsRetry.crossOrigin
 
 - **Type:** `undefined | boolean`
-- **Default:** false
+- **Default:** `false`
 
 Whether to add the `crossOrigin` attribute to the asset to be retried. For example:
 
