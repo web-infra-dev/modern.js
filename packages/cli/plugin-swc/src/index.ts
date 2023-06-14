@@ -65,7 +65,7 @@ export default factory(PLUGIN_NAME, swcOptions => {
     ...(swcOptions.extensions || {}),
     ssrLoaderId: {
       runtimePackageName: '@modern-js/runtime',
-      functionUseLoaderName: 'useloader',
+      functionUseLoaderName: 'useLoader',
     },
   };
   return swcOptions;
