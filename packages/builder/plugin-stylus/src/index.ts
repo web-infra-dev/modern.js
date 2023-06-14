@@ -55,6 +55,7 @@ export function builderPluginStylus(
             config: config as any,
             context: api.context,
             utils,
+            importLoaders: 2,
           });
         } else {
           const { applyBaseCSSRule } = await import(
@@ -86,12 +87,7 @@ export function builderPluginStylus(
 
           const rules = rspackConfig.module?.rules;
 
-          applyCSSModuleRule(
-            rules,
-            STYLUS_REGEX,
-            config.output.disableCssModuleExtension,
-            config.output.cssModules,
-          );
+          applyCSSModuleRule(rules, STYLUS_REGEX, config as any);
         });
     },
   };

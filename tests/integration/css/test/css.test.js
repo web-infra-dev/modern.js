@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 const path = require('path');
 const { resolve } = require('path');
+const puppeteer = require('puppeteer');
 const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
@@ -8,7 +9,7 @@ const {
   getPort,
   launchApp,
   killApp,
-  openPage,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const { getCssFiles, readCssFile, copyModules } = require('./utils');
@@ -304,7 +305,8 @@ describe('less-support', () => {
 
       const app = await launchApp(appDir, port);
 
-      const page = await openPage();
+      const browser = await puppeteer.launch(launchOptions);
+      const page = await browser.newPage();
 
       await page.goto(`http://localhost:${port}`, {
         waitUntil: ['networkidle0'],
@@ -318,6 +320,7 @@ describe('less-support', () => {
 
       await killApp(app);
       await page.close();
+      await browser.close();
     };
 
     it(`should import antd component with style`, async () => {

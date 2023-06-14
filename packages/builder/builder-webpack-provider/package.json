@@ -99,7 +99,6 @@
     "caniuse-lite": "^1.0.30001489",
     "css-minimizer-webpack-plugin": "5.0.0",
     "html-webpack-plugin": "5.5.0",
-    "line-diff": "^2.0.1",
     "mini-css-extract-plugin": "2.7.0",
     "postcss": "8.4.21",
     "react-refresh": "0.14.0",

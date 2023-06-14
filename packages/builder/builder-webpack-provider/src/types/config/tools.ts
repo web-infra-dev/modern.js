@@ -13,11 +13,9 @@ import type {
 } from '../hooks';
 import type {
   CSSExtractOptions,
-  CSSLoaderOptions,
   CssMinimizerPluginOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
-  StyleLoaderOptions,
   TerserPluginOptions,
   TSLoaderOptions,
   WebpackChain,
@@ -35,10 +33,6 @@ export type ToolsTSLoaderConfig = ChainedConfig<
 >;
 
 export type ToolsStyledComponentConfig = ChainedConfig<IStyledComponentOptions>;
-
-export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
-
-export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
 
 export type ToolsCssExtractConfig =
   | CSSExtractOptions
@@ -94,14 +88,6 @@ export interface ToolsConfig extends SharedToolsConfig {
    * Modify the options of [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components).
    */
   styledComponents?: ToolsStyledComponentConfig;
-  /**
-   * Modify the options of [css-loader](https://github.com/webpack-contrib/css-loader).
-   */
-  cssLoader?: ToolsCSSLoaderConfig;
-  /**
-   * Modify the options of [style-loader](https://github.com/webpack-contrib/style-loader).
-   */
-  styleLoader?: ToolsStyleLoaderConfig;
   /**
    * Modify the options of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
    */

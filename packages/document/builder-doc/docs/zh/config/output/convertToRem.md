@@ -6,7 +6,7 @@
 - 将 CSS 中的 px 转成 rem
 - 在 HTML 模版中插入运行时代码，对根元素 fontSize 进行设置
 
-#### Boolean 类型
+### Boolean 类型
 
 当设置 `output.convertToRem` 为 `true`，将开启 rem 处理能力。
 
@@ -39,7 +39,7 @@ export default {
 }
 ```
 
-#### Object 类型
+### Object 类型
 
 当 `output.convertToRem` 的值为 `object` 类型时，Builder 会根据当前配置进行 rem 处理。
 

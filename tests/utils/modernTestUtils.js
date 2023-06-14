@@ -244,11 +244,6 @@ function sleep(t) {
   return new Promise(resolve => setTimeout(resolve, t));
 }
 
-// open a new brower tag
-async function openPage() {
-  return globalThis.__BROWSER_GLOBAL__.newPage();
-}
-
 module.exports = {
   runModernCommand,
   runModernCommandDev,
@@ -260,6 +255,5 @@ module.exports = {
   getPort,
   clearBuildDist,
   sleep,
-  openPage,
   launchOptions,
 };

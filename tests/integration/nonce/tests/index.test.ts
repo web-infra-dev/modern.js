@@ -1,10 +1,10 @@
 import path from 'path';
-import { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   launchApp,
   getPort,
   killApp,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const appPath = path.resolve(__dirname, '../');
@@ -13,10 +13,11 @@ describe('test nonce', () => {
   let app: any;
   let port: number;
   let page: Page;
-
+  let browser: Browser;
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
     await page.deleteCookie();
     port = await getPort();
 
@@ -28,6 +29,7 @@ describe('test nonce', () => {
       await killApp(app);
     }
     await page.close();
+    await browser.close();
   });
 
   it('should inject nonce correctly', async () => {

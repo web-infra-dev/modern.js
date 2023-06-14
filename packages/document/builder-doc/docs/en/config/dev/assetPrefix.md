@@ -7,7 +7,7 @@ Set the URL prefix of static assets in the development environment, similar to t
 
 This config is only used in the development environment. In the production environment, please use the `output.assetPrefix` to set the URL prefix.
 
-#### Boolean Type
+### Boolean Type
 
 If `assetPrefix` is set to `true`, the URL prefix will be `http://localhost:port/`:
 
@@ -27,7 +27,7 @@ The script URL will be:
 
 If `assetPrefix` is set to `false` or not set, `/` is used as the default value.
 
-#### String type
+### String type
 
 When the value of `assetPrefix` is `string` type, the string will be used as the URL prefix:
 

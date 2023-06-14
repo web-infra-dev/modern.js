@@ -12,7 +12,7 @@ import path from 'path';
 
 export default defineConfig({
   doc: {
-    globalStyles: [path.join(__dirname, 'styles/index.css')],
+    globalStyles: path.join(__dirname, 'styles/index.css'),
   },
   plugins: [docTools()],
 });

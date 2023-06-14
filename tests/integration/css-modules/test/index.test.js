@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 
 const { join } = require('path');
+const puppeteer = require('puppeteer');
 const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
@@ -9,7 +10,7 @@ const {
   // launchApp,
   killApp,
   clearBuildDist,
-  openPage,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const { readdir, readFile, remove } = fs;
@@ -106,7 +107,8 @@ describe('Has CSS Module in computed styles in Production', () => {
   });
 
   it('should have CSS for page', async () => {
-    const page = await openPage();
+    browser = await puppeteer.launch(launchOptions);
+    page = await browser.newPage();
 
     await page.goto(`http://localhost:${appPort}`);
     const currentColor = await page.$eval(
@@ -115,6 +117,7 @@ describe('Has CSS Module in computed styles in Production', () => {
     );
     expect(currentColor).toMatch('rgb(255, 0, 0)');
     await page.close();
+    await browser.close();
   });
 });
 

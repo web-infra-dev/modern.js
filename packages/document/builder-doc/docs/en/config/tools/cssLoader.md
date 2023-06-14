@@ -1,6 +1,5 @@
 - **Type:** `Object | Function`
 - **Default:** `undefined`
-- **Bundler:** `only support webpack`
 
 The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be modified through `tools.cssLoader`. The default config is as follows:
 
@@ -20,6 +19,10 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
   importLoaders: 1 || 2,
 }
 ```
+
+:::tip
+When using Rspack as the bundler, this configuration is only supported when set [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) is true.
+:::
 
 ### Object Type
 

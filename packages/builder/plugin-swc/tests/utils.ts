@@ -5,7 +5,7 @@ import * as swc from '@swc/core';
 import { expect } from 'vitest';
 import { Output, TransformConfig } from '@modern-js/swc-plugins';
 import { merge } from '@modern-js/utils/lodash';
-import { getDefaultSwcConfig } from '@modern-js/builder-plugin-swc-base';
+import { getDefaultSwcConfig } from '../src/plugin';
 
 export function isInUpdate(): boolean {
   return process.env.SNAPSHOT_UPDATE === '1';
