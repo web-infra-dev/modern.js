@@ -36,7 +36,7 @@ export default {
 };
 ```
 
-#### Array Type
+### Array Type
 
 You can directly set several paths like this:
 
@@ -48,7 +48,7 @@ export default {
 };
 ```
 
-#### Function Type
+### Function Type
 
 `moduleScopes` also supports setting as a function, which can be modified instead of overriding the default value:
 

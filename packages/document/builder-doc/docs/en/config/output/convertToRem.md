@@ -6,7 +6,7 @@ By setting `output.convertToRem`, the Builder can do the following things:
 - Convert px to rem in CSS.
 - Insert runtime code into the HTML template to set the fontSize of the root element.
 
-#### Boolean Type
+### Boolean Type
 
 If `output.convertToRem` is set to `true`, Rem processing capability will be turned on.
 
@@ -39,7 +39,7 @@ At this point, the rem configuration defaults as follows:
 }
 ```
 
-#### Object Type
+### Object Type
 
 When the value of `output.convertToRem` is `object` type, The Builder will perform Rem processing based on the current configuration.
 
