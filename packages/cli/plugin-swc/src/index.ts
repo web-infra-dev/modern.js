@@ -1,5 +1,5 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { PLUGIN_SCHEMAS, isSSR } from '@modern-js/utils';
 import {
   builderPluginSwc,
   PluginSwcOptions,
@@ -26,8 +26,15 @@ export function factory(
         const config = api.useResolvedConfigContext();
         const { esbuild, swc = {} } = config.tools;
 
-        // for useloader api use
         const swcOptions = modifySwcOptions(swc);
+
+        // common configuration
+        if (isSSR(config)) {
+          swcOptions.extensions = {
+            ...(swcOptions.extensions || {}),
+            loadableComponents: true,
+          };
+        }
 
         context.builder.addPlugins([builderPluginSwc(swcOptions)]);
 
