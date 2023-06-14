@@ -208,7 +208,7 @@ exports[`plugins/css disableCssExtract > should apply ignoreCssLoader when disab
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "@modern-js/builder-shared/ignore-css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/dist/loaders/ignore-css-loader.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",

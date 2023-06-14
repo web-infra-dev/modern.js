@@ -2113,7 +2113,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "@modern-js/builder-shared/ignore-css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/dist/loaders/ignore-css-loader.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
@@ -2135,7 +2135,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "@modern-js/builder-shared/ignore-css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/dist/loaders/ignore-css-loader.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
@@ -2164,7 +2164,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "@modern-js/builder-shared/ignore-css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/dist/loaders/ignore-css-loader.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
@@ -2887,7 +2887,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "@modern-js/builder-shared/ignore-css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/dist/loaders/ignore-css-loader.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
@@ -2909,7 +2909,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "@modern-js/builder-shared/ignore-css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/dist/loaders/ignore-css-loader.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
@@ -2938,7 +2938,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "@modern-js/builder-shared/ignore-css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/dist/loaders/ignore-css-loader.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
