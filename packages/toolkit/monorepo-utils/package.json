@@ -22,7 +22,7 @@
   "exports": {
     ".": {
       "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.ts"
+      "import": "./dist/esm/index.js"
     }
   },
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
