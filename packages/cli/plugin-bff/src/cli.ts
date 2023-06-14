@@ -2,7 +2,6 @@ import path from 'path';
 import {
   fs,
   API_DIR,
-  PLUGIN_SCHEMAS,
   normalizeOutputPath,
   SHARED_DIR,
   isProd,
@@ -22,7 +21,23 @@ export default (): CliPlugin<AppTools> => ({
     let unRegisterResolveRuntimePath: (() => void) | null = null;
     return {
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-bff'];
+        return [
+          {
+            target: 'bff',
+            schema: {
+              type: 'object',
+              properties: {
+                prefix: {
+                  type: ['string', 'array'],
+                  items: { type: 'string' },
+                },
+                fetcher: { type: 'string' },
+                proxy: { type: 'object' },
+                requestCreator: { type: 'string' },
+              },
+            },
+          },
+        ];
       },
       config() {
         return {

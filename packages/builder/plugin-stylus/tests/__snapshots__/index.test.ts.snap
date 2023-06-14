@@ -12,7 +12,7 @@ exports[`plugins/stylus > should add stylus loader config correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -83,7 +83,7 @@ exports[`plugins/stylus > should allow to configure stylus options 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {

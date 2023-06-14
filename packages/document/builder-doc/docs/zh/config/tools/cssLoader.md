@@ -20,7 +20,9 @@
 }
 ```
 
-- **打包工具：** `仅支持 webpack`
+:::tip
+在使用 Rspack 作为打包工具时，仅支持在 [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) 时使用该配置。
+:::
 
 ### Object 类型
 

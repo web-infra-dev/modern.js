@@ -13,24 +13,32 @@ export type RsBuilderToolsConfig = UnwrapBuilderConfig<
   RsBuilderConfig,
   'tools'
 >;
-/**
- * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
- * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
- * @requires `tailwindcss` plugin
- */
 export type Tailwindcss =
   | Record<string, any>
   | ((options: Record<string, any>) => Record<string, any> | void);
 
 export interface SharedToolsConfig extends BuilderSharedToolsConfig {
+  /**
+   * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `tailwindcss` plugin
+   */
   tailwindcss?: Tailwindcss;
+
+  /**
+   * The configuration of `tools.jest` is provided by `test` plugin.
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @requires `test` plugin
+   */
   jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
+
   /**
    * The configuration of `swc` is provided by `swc` plugin.
    * @requires `swc` plugin
    */
-  swc?: PluginSwcOptions;
+  swc?: PluginSwcOptions<'outer'>;
 }
+
 export interface ToolsUserConfig
   extends BuilderToolsConfig,
     SharedToolsConfig {}

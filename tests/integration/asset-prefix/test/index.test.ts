@@ -1,11 +1,11 @@
 import path from 'path';
 import { readFileSync } from 'fs';
-import { Page } from 'puppeteer';
+import puppeteer from 'puppeteer';
 import {
   launchApp,
   killApp,
   getPort,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 const DEFAULT_DEV_HOST = 'localhost';
@@ -34,6 +34,8 @@ describe('asset prefix', () => {
     const appDir = path.resolve(fixtures, 'dev-asset-prefix');
     const appPort = await getPort();
     const app = await launchApp(appDir, appPort);
+    const browser = await puppeteer.launch(launchOptions as any);
+    const page = await browser.newPage();
     const expected = `http://${DEFAULT_DEV_HOST}:${appPort}`;
 
     const mainJs = readFileSync(
@@ -45,7 +47,6 @@ describe('asset prefix', () => {
       mainJs.includes(`window.__assetPrefix__ = '${expected}';`),
     ).toBeTruthy();
 
-    const page: Page = await openPage();
     await page.goto(`${expected}`);
 
     const assetPrefix = await page.evaluate(() => {
@@ -58,5 +59,6 @@ describe('asset prefix', () => {
 
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });

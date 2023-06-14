@@ -248,7 +248,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -304,7 +304,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -367,7 +367,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -1158,7 +1158,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -1214,7 +1214,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -1277,7 +1277,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -2113,10 +2113,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -2135,10 +2135,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -2164,10 +2164,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -2887,10 +2887,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -2909,10 +2909,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {
@@ -2938,10 +2938,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 2,
               "modules": {

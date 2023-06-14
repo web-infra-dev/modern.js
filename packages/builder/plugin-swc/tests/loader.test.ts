@@ -1,8 +1,6 @@
 import { describe } from 'vitest';
 import { LoaderContext, LoaderDefinitionFunction } from 'webpack';
-import { createLoader } from '@modern-js/builder-plugin-swc-base';
-import { Compiler } from '../src/binding';
-import { applyDefaultConfig } from './utils';
+import { createLoader } from '../src/loader';
 
 const mockSwcLoaderRunner = (): [
   Promise<ReturnType<LoaderDefinitionFunction>>,
@@ -27,7 +25,7 @@ const mockSwcLoaderRunner = (): [
 };
 
 describe('should handle loader interface correctly', async done => {
-  const loader = createLoader(Compiler);
+  const loader = createLoader();
 
   const [finish, runner] = mockSwcLoaderRunner();
 

@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import path from 'path';
+import puppeteer, { Browser } from 'puppeteer';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type {
@@ -12,7 +13,7 @@ import {
   getPort,
   modernBuild,
   modernServe,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 
 // declare const browser: Browser;
@@ -373,10 +374,8 @@ const supportLoaderForSSRAndCSR = async (
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
-  await Promise.all([
-    page.click('.user-btn'),
-    page.waitForSelector('.user-layout'),
-  ]);
+  await page.click('.user-btn');
+  await page.waitForSelector('.user-layout');
   const userLayout = await page.$(`.user-layout`);
   const text = await page.evaluate(el => {
     return el?.textContent;
@@ -421,10 +420,8 @@ const supportRedirectForCSR = async (
   await page.goto(`http://localhost:${appPort}/three/user`, {
     waitUntil: ['networkidle0'],
   });
-  await Promise.all([
-    page.click('.redirect-btn'),
-    page.waitForSelector('.user-profile'),
-  ]);
+  await page.click('.redirect-btn');
+  await page.waitForSelector('.user-profile');
   const rootElm = await page.$('.user-profile');
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('profile page')).toBeTruthy();
@@ -464,11 +461,13 @@ describe('dev', () => {
   let app: unknown;
   let appPort: number;
   let page: Page;
+  let browser: Browser;
   const errors: string[] = [];
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -549,6 +548,7 @@ describe('dev', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });
 
@@ -556,6 +556,7 @@ describe('build', () => {
   let appPort: number;
   let app: unknown;
   let page: Page;
+  let browser: Browser;
   const errors: string[] = [];
 
   beforeAll(async () => {
@@ -564,7 +565,8 @@ describe('build', () => {
     app = await modernServe(appDir, appPort, {
       cwd: appDir,
     });
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -643,6 +645,7 @@ describe('build', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });
 /* eslint-enable max-lines */

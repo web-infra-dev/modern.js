@@ -15,7 +15,8 @@ export type AssetsRetryOptions = {
   domain?: string[];
   max?: number;
   test?: string | ((url: string) => boolean);
-  crossOrigin?: boolean;
+  crossOrigin?: boolean | 'anonymous' | 'use-credentials';
+  inlineScript?: boolean;
   onRetry?: (options: AssetsRetryHookContext) => void;
   onSuccess?: (options: AssetsRetryHookContext) => void;
   onFail?: (options: AssetsRetryHookContext) => void;
@@ -49,6 +50,48 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 
 同时你也可以使用以下的配置项，来定制你的重试逻辑。
 
+### assetsRetry.domain
+
+- **类型：** `string[]`
+- **默认值：** `[]`
+
+指定资源加载失败时的重试域名列表。在 `domain` 数组中，第一项是当前使用的域名，后面几项为备用域名。当某个域名的资源请求失败时，Builder 会在数组中找到该域名，并替换为数组的下一个域名。
+
+比如：
+
+```js
+export default {
+  output: {
+    assetsRetry: {
+      domain: ['https://cdn1.com', 'https://cdn2.com', 'https://cdn3.com'],
+    },
+  },
+};
+```
+
+添加以上配置后，当 `cdn1.com` 域名的资源加载失败时，请求域名会自动降级到 `cdn2.com`。
+
+如果 `cdn2.com` 的资源也请求失败，则会继续请求 `cdn3.com`。
+
+### assetsRetry.type
+
+- **类型：** `string[]`
+- **默认值：** `['script', 'link', 'img']`
+
+用于指定需要进行重试的 HTML 标签类型。默认会处理 script 标签、link 标签和 img 标签，对应 JS 代码、CSS 代码和图片。
+
+比如只对 script 标签和 link 标签进行处理：
+
+```js
+export default {
+  output: {
+    assetsRetry: {
+      type: ['script', 'link'],
+    },
+  },
+};
+```
+
 ### assetsRetry.max
 
 - **类型：** `number`
@@ -60,41 +103,7 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 export default {
   output: {
     assetsRetry: {
-      max: 3,
-    },
-  },
-};
-```
-
-### assetsRetry.domain
-
-- **类型：** `string[]`
-- **默认值：** `[]`
-
-指定资源加载失败时的重试域名，如果为空则使用当前页面的域名。比如：
-
-```js
-export default {
-  output: {
-    assetsRetry: {
-      domain: ['https://cdn1.example.com', 'https://cdn2.example.com'],
-    },
-  },
-};
-```
-
-### assetsRetry.type
-
-- **类型：** `string[]`
-- **默认值：** `['script', 'link', 'img']`
-
-可重试的资源类型。比如：
-
-```js
-export default {
-  output: {
-    assetsRetry: {
-      type: ['script', 'link'],
+      max: 5,
     },
   },
 };
@@ -119,10 +128,12 @@ export default {
 
 ### assetsRetry.crossOrigin
 
-- **类型：** `undefined | boolean`
-- **默认值：** false
+- **类型：** `undefined | boolean | 'anonymous' | 'use-credentials'`
+- **默认值：** `与 html.crossorigin 一致`
 
-用于向 `<script>` 资源标签中注入 crossorigin 属性，传入 true 则会启用默认值 anonymous。比如：
+在发起资源重新请求时，Builder 会重新创建 `<script>` 标签，此选项可以设置这些标签的 `crossorigin` 属性。
+
+默认情况下，`assetsRetry.crossOrigin` 的值会与 `html.crossorigin` 配置项保持一致，无须额外配置。如果你需要对重新创建的标签进行单独配置，可以使用该选项，比如：
 
 ```js
 export default {

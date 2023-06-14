@@ -1,8 +1,8 @@
 import path, { join } from 'path';
-import { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   modernServe,
-  openPage,
+  launchOptions,
   modernBuild,
   getPort,
   killApp,
@@ -17,17 +17,20 @@ describe('ssg', () => {
   let appDir: string;
   let appPort: number;
   let page: Page;
+  let browser: Browser;
   beforeAll(async () => {
     appDir = join(fixtureDir, 'nested-routes');
     await modernBuild(appDir);
     app = await modernServe(appDir, (appPort = await getPort()), {
       cwd: appDir,
     });
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 
   it('should nested-routes ssg access / work correctly', async () => {
