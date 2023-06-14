@@ -1,12 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const puppeteer = require('puppeteer');
 const {
   launchApp,
   killApp,
   getPort,
   modernBuild,
   modernServe,
-  openPage,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const appDir = path.resolve(__dirname, '../');
@@ -16,12 +17,13 @@ function existsSync(filePath) {
 }
 
 describe('test dev', () => {
-  let app, appPort, errors, page;
+  let app, appPort, errors, browser, page;
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
     errors = [];
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions);
+    page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
@@ -29,6 +31,7 @@ describe('test dev', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 
   it(`should render page test correctly`, async () => {

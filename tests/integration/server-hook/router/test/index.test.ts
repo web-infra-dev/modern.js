@@ -1,10 +1,10 @@
 import path from 'path';
-import { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   launchApp,
   getPort,
   killApp,
-  openPage,
+  launchOptions,
 } from '../../../../utils/modernTestUtils';
 
 const appPath = path.resolve(__dirname, '../');
@@ -13,12 +13,14 @@ describe('test status code page', () => {
   let app: any;
   let port: number;
   let page: Page;
+  let browser: Browser;
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
     port = await getPort();
 
     app = await launchApp(appPath, port);
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   afterAll(async () => {
@@ -26,6 +28,7 @@ describe('test status code page', () => {
       await killApp(app);
     }
     await page.close();
+    await browser.close();
   });
 
   it('should router rewrite correctly ', async () => {

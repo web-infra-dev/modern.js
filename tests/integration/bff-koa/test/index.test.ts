@@ -1,12 +1,12 @@
 import path from 'path';
-import { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   getPort,
   launchApp,
   killApp,
   modernBuild,
   modernServe,
-  openPage,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
@@ -16,6 +16,7 @@ describe('bff koa in dev', () => {
   const appPath = path.resolve(__dirname, '../');
   let app: any;
   let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
@@ -23,7 +24,8 @@ describe('bff koa in dev', () => {
     app = await launchApp(appPath, port, {
       cwd: appPath,
     });
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   test('stream ssr with bff handle web', async () => {
@@ -47,6 +49,7 @@ describe('bff koa in dev', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });
 
@@ -56,6 +59,7 @@ describe('bff express in prod', () => {
   const appPath = path.resolve(__dirname, '../');
   let app: any;
   let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     port = await getPort();
@@ -67,7 +71,8 @@ describe('bff express in prod', () => {
     app = await modernServe(appPath, port, {
       cwd: appPath,
     });
-    page = await openPage();
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   test('stream ssr with bff handle web', async () => {
@@ -91,5 +96,6 @@ describe('bff express in prod', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });

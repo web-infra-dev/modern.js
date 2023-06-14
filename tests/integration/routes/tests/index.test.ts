@@ -548,6 +548,7 @@ describe('dev', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });
 
@@ -644,6 +645,7 @@ describe('build', () => {
   afterAll(async () => {
     await killApp(app);
     await page.close();
+    await browser.close();
   });
 });
 /* eslint-enable max-lines */
