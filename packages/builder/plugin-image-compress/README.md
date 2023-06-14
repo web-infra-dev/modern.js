@@ -13,13 +13,13 @@
   A build engine for web development.
 </p>
 
-# @modern-js/builder-plugin-swc
+# @modern-js/builder-plugin-image-compress
 
-This package is the swc plugin of Modern.js Builder.
+This package is the image compress plugin of Modern.js Builder.
 
 ## Getting Started
 
-- [Documentation](https://modernjs.dev/builder/en/plugins/plugin-swc.html)
+- [Documentation](https://modernjs.dev/builder/en/plugins/plugin-image-compress.html)
 
 ## Contributing
 

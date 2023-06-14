@@ -1,8 +1,70 @@
 import assert from 'assert';
+import {
+  CSS_MODULES_REGEX,
+  GLOBAL_CSS_REGEX,
+  NODE_MODULES_REGEX,
+} from './constants';
 import type { AcceptedPlugin, ProcessOptions } from 'postcss';
+import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { getCssSupport } from './getCssSupport';
 import { getSharedPkgCompiledPath as getCompiledPath } from './utils';
-import { SharedNormalizedConfig } from './types';
+import { SharedNormalizedConfig, CSSLoaderOptions, CssModules } from './types';
+
+export const getCssModuleLocalIdentName = (
+  config: SharedNormalizedConfig,
+  isProd: boolean,
+) =>
+  config.output.cssModuleLocalIdentName ||
+  // Using shorter classname in production to reduce bundle size
+  (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
+
+/** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
+export const isLooseCssModules = (path: string) => {
+  if (NODE_MODULES_REGEX.test(path)) {
+    return CSS_MODULES_REGEX.test(path);
+  }
+  return !GLOBAL_CSS_REGEX.test(path);
+};
+
+export type CssLoaderModules =
+  | boolean
+  | string
+  | {
+      auto: boolean | RegExp | ((filename: string) => boolean);
+    };
+
+export const isCssModules = (filename: string, modules: CssLoaderModules) => {
+  if (typeof modules === 'boolean') {
+    return modules;
+  }
+
+  // todo: this configuration is not common and more complex.
+  if (typeof modules === 'string') {
+    return true;
+  }
+
+  const { auto } = modules;
+
+  if (typeof auto === 'boolean') {
+    return auto && CSS_MODULES_REGEX.test(filename);
+  } else if (auto instanceof RegExp) {
+    return auto.test(filename);
+  } else if (typeof auto === 'function') {
+    return auto(filename);
+  }
+  return true;
+};
+
+export const getCssModulesAutoRule = (
+  config?: CssModules,
+  disableCssModuleExtension = false,
+) => {
+  if (!config || config?.auto === undefined) {
+    return disableCssModuleExtension ? isLooseCssModules : true;
+  }
+
+  return config.auto;
+};
 
 type CssNanoOptions = {
   configFile?: string | undefined;
@@ -93,4 +155,79 @@ export const getPostcssConfig = async ({
       plugins?: AcceptedPlugin[];
     };
   };
+};
+
+// If the target is 'node' or 'web-worker' and the modules option of css-loader is enabled,
+// we must enable exportOnlyLocals to only exports the modules identifier mappings.
+// Otherwise, the compiled CSS code may contain invalid code, such as `new URL`.
+// https://github.com/webpack-contrib/css-loader#exportonlylocals
+export const normalizeCssLoaderOptions = (
+  options: CSSLoaderOptions,
+  exportOnlyLocals: boolean,
+) => {
+  if (options.modules && exportOnlyLocals) {
+    let { modules } = options;
+    if (modules === true) {
+      modules = { exportOnlyLocals: true };
+    } else if (typeof modules === 'string') {
+      modules = { mode: modules, exportOnlyLocals: true };
+    } else {
+      // create a new object to avoid modifying the original options
+      modules = {
+        ...modules,
+        exportOnlyLocals: true,
+      };
+    }
+
+    return {
+      ...options,
+      modules,
+    };
+  }
+
+  return options;
+};
+
+export const getCssLoaderOptions = async ({
+  config,
+  enableSourceMap,
+  importLoaders,
+  isServer,
+  isWebWorker,
+  localIdentName,
+}: {
+  config: SharedNormalizedConfig;
+  enableSourceMap: boolean;
+  importLoaders: number;
+  isServer: boolean;
+  isWebWorker: boolean;
+  localIdentName: string;
+}) => {
+  const { applyOptionsChain } = await import('@modern-js/utils');
+
+  const { cssModules } = config.output;
+
+  const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
+    {
+      importLoaders,
+      modules: {
+        auto: getCssModulesAutoRule(
+          cssModules,
+          config.output.disableCssModuleExtension,
+        ),
+        exportLocalsConvention: 'camelCase',
+        localIdentName,
+      },
+      sourceMap: enableSourceMap,
+    },
+    config.tools.cssLoader,
+    undefined,
+    deepMerge,
+  );
+  const cssLoaderOptions = normalizeCssLoaderOptions(
+    mergedCssLoaderOptions,
+    isServer || isWebWorker,
+  );
+
+  return cssLoaderOptions;
 };

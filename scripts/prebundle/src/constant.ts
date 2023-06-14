@@ -199,6 +199,10 @@ export const TASKS: TaskConfig[] = [
       'webpack-5-chain',
       'serialize-javascript',
       {
+        name: 'css-loader',
+        ignoreDts: true,
+      },
+      {
         name: 'webpack-bundle-analyzer',
         externals: {
           chalk: '@modern-js/utils/chalk',
@@ -389,10 +393,6 @@ export const TASKS: TaskConfig[] = [
           'fast-glob': '@modern-js/utils/fast-glob',
           'schema-utils': '../schema-utils3',
         },
-      },
-      {
-        name: 'css-loader',
-        ignoreDts: true,
       },
       {
         name: 'webpack-manifest-plugin',

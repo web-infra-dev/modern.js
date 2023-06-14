@@ -15,14 +15,14 @@ export function builderPluginLess(): BuilderPlugin {
 
         const rule = chain.module
           .rule(utils.CHAIN_ID.RULE.LESS)
-          .test(LESS_REGEX)
-          .type('css');
+          .test(LESS_REGEX);
 
         await applyBaseCSSRule({
           rule,
           utils,
           config,
           context: api.context,
+          importLoaders: 2,
         });
 
         const { excludes, options } = await getLessLoaderOptions(
@@ -53,12 +53,7 @@ export function builderPluginLess(): BuilderPlugin {
 
         const rules = rspackConfig.module?.rules;
 
-        applyCSSModuleRule(
-          rules,
-          LESS_REGEX,
-          config.output.disableCssModuleExtension,
-          config.output.cssModules,
-        );
+        applyCSSModuleRule(rules, LESS_REGEX, config);
       });
     },
   };

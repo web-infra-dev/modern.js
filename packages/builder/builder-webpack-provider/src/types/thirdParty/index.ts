@@ -26,8 +26,6 @@ export type TSLoaderOptions = Partial<RawTSLoaderOptions>;
 export type { webpack, WebpackChain, WebpackConfig };
 
 export type {
-  CSSLoaderOptions,
-  StyleLoaderOptions,
   CSSExtractOptions,
   MiniCSSExtractPluginOptions,
   MiniCSSExtractLoaderOptions,

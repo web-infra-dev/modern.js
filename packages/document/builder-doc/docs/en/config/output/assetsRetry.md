@@ -15,7 +15,7 @@ export type AssetsRetryOptions = {
   domain?: string[];
   max?: number;
   test?: string | ((url: string) => boolean);
-  crossOrigin?: boolean;
+  crossOrigin?: boolean | 'anonymous' | 'use-credentials';
   inlineScript?: boolean;
   onRetry?: (options: AssetsRetryHookContext) => void;
   onSuccess?: (options: AssetsRetryHookContext) => void;
@@ -128,10 +128,12 @@ export default {
 
 ### assetsRetry.crossOrigin
 
-- **Type:** `undefined | boolean`
-- **Default:** `false`
+- **Type:** `undefined | boolean | 'anonymous' | 'use-credentials'`
+- **Default:** `same as html.crossorigin`
 
-Whether to add the `crossOrigin` attribute to the asset to be retried. For example:
+When initiating a retry for assets, Builder will recreate the `<script>` tags. This option allows you to set the `crossorigin` attribute for these tags.
+
+By default, the value of `assetsRetry.crossOrigin` will be consistent with the `html.crossorigin` configuration, so no additional configuration is required. If you need to configure the recreated tags separately, you can use this option, for example:
 
 ```js
 export default {
