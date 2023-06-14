@@ -5,6 +5,7 @@ import type {
   BuildCommandOptions,
   BaseBuildConfig,
   BuildType,
+  TsTarget,
   // AliasOption,
 } from '../types';
 
@@ -213,3 +214,6 @@ export const printOrThrowDtsErrors = async (
     }
   }
 };
+
+export const tsTargetAtOrAboveES2022 = (target: TsTarget) =>
+  target === 'es2022' || target === 'esnext';
