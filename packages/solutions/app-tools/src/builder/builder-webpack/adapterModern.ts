@@ -10,7 +10,7 @@ import { createPublicPattern } from './createCopyPattern';
 export const builderPluginAdapterModern = (
   options: BuilderOptions<'webpack'>,
 ): BuilderPlugin<BuilderPluginAPI> => ({
-  name: 'builder-plugin-adapter-',
+  name: 'builder-plugin-adapter-modern',
 
   setup(api) {
     const { normalizedConfig: modernConfig, appContext } = options;
