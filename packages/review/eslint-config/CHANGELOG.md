@@ -1,5 +1,16 @@
 # @modern-js/eslint-config
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+  - @modern-js-app/eslint-config@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

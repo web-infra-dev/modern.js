@@ -1,5 +1,37 @@
 # @modern-js/builder
 
+## 2.23.0
+
+### Patch Changes
+
+- 9b270b6: feat(builder): extend rules of splitByExperience
+  feat(builder): 拓展 splitByExperience 内部规则
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 692cc0e: fix(builder): assetsRetry.crossOrigin default to html.crossorigin
+
+  fix(builder): assetsRetry.crossOrigin 默认值与 html.crossorigin 保持一致
+
+- a82d6f7: fix(builder): single-vendor chunkSplit not work as expected
+
+  fix(builder): single-vendor 拆包规则未按照预期生效
+
+- Updated dependencies [15eac36]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

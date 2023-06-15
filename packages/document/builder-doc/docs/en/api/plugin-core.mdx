@@ -12,14 +12,18 @@ The type of the plugin object. The plugin object contains the following properti
 
 - `name`: The name of the plugin, a unique identifier.
 - `setup`: The setup function of the plugin, which can be an asynchronous function. This function will only be executed once when the plugin is initialized.
-- `pre`：Specify which plugins precede the current plugin, and the current plugin will be adjusted to execute after these plugins.
-- `post`：Specify which post-plugins are available for the current plugin, and the current plugin will be adjusted to execute before these plugins.
+- `pre`: Specifies the preceding plugins for the current plugin. You can pass an array of preceding plugin names, and the current plugin will be executed after these plugins.
+- `post`: Specifies the succeeding plugins for the current plugin. You can pass an array of succeeding plugin names, and the current plugin will be executed before these plugins.
+- `remove`: Specifies the plugins to be removed. You can pass an array of plugin names to be removed.
+
+The type of the plugin object, which contains the following properties:
 
 ```ts
 export type BuilderPlugin<API = BuilderPluginAPI> = {
   name: string;
   pre?: string[];
   post?: string[];
+  remove?: string[];
   setup: (api: API) => Promise<void> | void;
 };
 ```
@@ -41,6 +45,59 @@ export default (): BuilderPlugin => ({
   },
 });
 ```
+
+### Pre-Plugins
+
+By default, plugins are executed in the order they are added. You can declare pre-execution plugins using the `pre` field.
+
+For example, consider the following two plugins:
+
+```ts
+const builderPluginFoo = {
+  name: 'builder-plugin-foo',
+};
+
+const builderPluginBar = {
+  name: 'builder-plugin-bar',
+  pre: ['builder-plugin-foo'],
+};
+```
+
+The Bar plugin is configured with the Foo plugin in its `pre` field, so the Foo plugin will always be executed before the Bar plugin.
+
+### Post-Plugins
+
+Similarly, you can declare post-execution plugins using the `post` field.
+
+```ts
+const builderPluginFoo = {
+  name: 'builder-plugin-foo',
+};
+
+const builderPluginBar = {
+  name: 'builder-plugin-bar',
+  post: ['builder-plugin-foo'],
+};
+```
+
+The Bar plugin is configured with the Foo plugin in its `post` field, so the Foo plugin will always be executed after the Bar plugin.
+
+### Removing Plugins
+
+You can remove other plugins within a plugin using the `remove` field.
+
+```ts
+const builderPluginFoo = {
+  name: 'builder-plugin-foo',
+};
+
+const builderPluginBar = {
+  name: 'builder-plugin-bar',
+  remove: ['builder-plugin-foo'],
+};
+```
+
+For example, if you register both the Foo and Bar plugins mentioned above, the Foo plugin will not take effect because the Bar plugin declares the removal of the Foo plugin.
 
 ## BuilderPluginAPI
 
@@ -121,10 +178,10 @@ The content of `api.context` is exactly the same as `builder.context`, please re
 
 ```ts
 const builderPluginFoo = () => ({
-   setup(api) {
-     console.log(api.context.distPath);
-   }
-);
+  setup(api) {
+    console.log(api.context.distPath);
+  },
+});
 ```
 
 ## api.getBuilderConfig
@@ -137,11 +194,11 @@ import GetBuilderConfig from '@en/shared/getBuilderConfig.md';
 
 ```ts
 const builderPluginFoo = () => ({
-   setup(api) {
-     const config = api.getBuilderConfig();
-     console.log(config.html?.title);
-   }
-);
+  setup(api) {
+    const config = api.getBuilderConfig();
+    console.log(config.html?.title);
+  },
+});
 ```
 
 ## api.getNormalizedConfig
@@ -154,11 +211,11 @@ import GetNormalizedConfig from '@en/shared/getNormalizedConfig.md';
 
 ```ts
 const builderPluginFoo = () => ({
-   setup(api) {
-     const config = api.getNormalizedConfig();
-     console.log(config.html.title);
-   }
-);
+  setup(api) {
+    const config = api.getNormalizedConfig();
+    console.log(config.html.title);
+  },
+});
 ```
 
 ## api.isPluginExists
@@ -187,11 +244,11 @@ import GetHTMLPaths from '@en/shared/getHTMLPaths.md';
 
 ```ts
 const builderPluginFoo = () => ({
-   setup(api) {
-     api.modifyWebpackChain(() => {
-       const htmlPaths = api.getHTMLPaths();
-       console.log(htmlPaths); // { main: 'html/main/index.html' };
-     });
-   }
-);
+  setup(api) {
+    api.modifyWebpackChain(() => {
+      const htmlPaths = api.getHTMLPaths();
+      console.log(htmlPaths); // { main: 'html/main/index.html' };
+    });
+  },
+});
 ```

@@ -1,5 +1,64 @@
 # @modern-js/doc-core
 
+## 2.23.0
+
+### Patch Changes
+
+- 5d6652c: fix(doc-core): add withBase in addSSGRoutes
+
+  fix(doc-core): 在 addSSGRoutes 中添加 withBase
+
+- 090c9c3: chore(doc-core): add footer in frontmatter
+
+  chore(doc-core): frontmatter 中增加 footer
+
+- 074978b: fix(doc-core): toc replace multiply
+
+  fix(doc-core): toc 内容被替换多次
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 12a5bb2: fix(doc-core): lark icon type
+
+  fix(doc-core): lark 图标类型缺失
+
+- 836da92: fix(doc-core): logo not show in production
+
+  fix(doc-core): logo 在生产环境下不显示
+
+- 5eba3a9: fix(doc-core): hydration error
+
+  fix(doc-core): hydration 错误
+
+- ad75a6e: fix(doc-core): hydrate error
+
+  fix(doc-core): hydrate 阶段报错
+
+- Updated dependencies [15eac36]
+- Updated dependencies [a912b66]
+- Updated dependencies [9b270b6]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [f212633]
+- Updated dependencies [b593040]
+- Updated dependencies [5684381]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-rspack-provider@2.23.0
+  - @modern-js/builder@2.23.0
+  - @modern-js/doc-plugin-medium-zoom@2.23.0
+  - @modern-js/remark-container@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

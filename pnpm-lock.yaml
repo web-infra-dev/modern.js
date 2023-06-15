@@ -972,7 +972,7 @@ importers:
   packages/cli/doc-plugin-auto-sidebar:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.22.1
+        specifier: workspace:^2.23.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1024,7 +1024,7 @@ importers:
   packages/cli/doc-plugin-medium-zoom:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.22.1
+        specifier: workspace:^2.23.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1528,7 +1528,7 @@ importers:
         specifier: workspace:*
         version: link:../../builder/builder-webpack-provider
       '@modern-js/plugin-router-v5':
-        specifier: workspace:^2.22.1
+        specifier: workspace:^2.23.0
         version: link:../../runtime/plugin-router-v5
       '@modern-js/utils':
         specifier: workspace:*

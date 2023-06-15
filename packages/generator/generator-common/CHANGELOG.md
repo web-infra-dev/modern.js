@@ -1,5 +1,20 @@
 # @modern-js/generator-common
 
+## 3.1.22
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 8433b4f: fix: generator function zh text
+
+  fix: 修复生成器启用功能中文文案
+
+- Updated dependencies [7e6fb5f]
+  - @modern-js/plugin-i18n@2.23.0
+
 ## 3.1.21
 
 ### Patch Changes

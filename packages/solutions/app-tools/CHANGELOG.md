@@ -1,5 +1,72 @@
 # @modern-js/app-tools
 
+## 2.23.0
+
+### Minor Changes
+
+- b185fdf: refactor: merge the swc plugin
+  refactor: 合并 swc 插件
+
+### Patch Changes
+
+- 162fb9d: fix: should only restart when changed file is watched
+  fix: 只有在变化的文件被监听是才重启
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- b593040: fix(app-tools): incorrect tools.tailwindcss schema
+
+  fix(app-tools): 修复 tools.tailwindcss schema 错误
+
+- 6dec7c2: test(utils): reuse the snapshot serializer of vitest config
+
+  test(utils): 复用 vitest 的 snapshot serializer
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+- e5259fb: fix: absoluteEntryDir should support directory entry
+  fix: absoluteEntryDir 应该支持配置目录 entry，这里 document 会使用
+- Updated dependencies [15eac36]
+- Updated dependencies [a912b66]
+- Updated dependencies [9b270b6]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [f212633]
+- Updated dependencies [b593040]
+- Updated dependencies [e2245c3]
+- Updated dependencies [5684381]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [e5259fb]
+- Updated dependencies [f91c557]
+- Updated dependencies [65721f2]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-webpack-provider@2.23.0
+  - @modern-js/builder-rspack-provider@2.23.0
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/builder@2.23.0
+  - @modern-js/builder-plugin-node-polyfill@2.23.0
+  - @modern-js/node-bundle-require@2.23.0
+  - @modern-js/builder-plugin-esbuild@2.23.0
+  - @modern-js/plugin-data-loader@2.23.0
+  - @modern-js/new-action@2.23.0
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/plugin-i18n@2.23.0
+  - @modern-js/plugin-lint@2.23.0
+  - @modern-js/upgrade@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

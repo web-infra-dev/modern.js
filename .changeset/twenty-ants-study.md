@@ -2,8 +2,9 @@
 '@modern-js/builder-webpack-provider': patch
 '@modern-js/builder-rspack-provider': patch
 '@modern-js/builder-shared': patch
+'@modern-js/builder-doc': patch
 ---
 
-feat(rspack-provider): support disableCssExtract in rspack
+feat(builder): add new plugin.remove option
 
-feat(rspack-provider): 在 Rspack 构建时支持 disableCssExtract 能力
+feat(builder): 新增 plugin.remove 选项

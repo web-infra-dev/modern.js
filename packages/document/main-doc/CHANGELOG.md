@@ -1,5 +1,43 @@
 # @modern-js/main-doc
 
+## 2.23.0
+
+### Patch Changes
+
+- 8a93276: docs(main): update basic features alias doc
+
+  docs(main): 更新基础功能 -- 别名文档
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 372b950: docs(main): update plugin config doc
+
+  docs(main): 更新插件配置文档
+
+- f28b485: docs(main): update faq doc
+
+  docs(main): 更新 faq 文档
+
+- f264c4a: docs(main): update html template doc
+
+  docs(main): 更新 HTML 模板文档
+
+- 5cba7c4: docs(main): update bff config doc
+
+  docs(main): 更新 BFF 配置文档
+
+- ef865f2: docs(main): update config server doc
+
+  docs(main): 更新 server 配置文档
+
+- 8bb0e14: chore: review code split docs
+  chore: 审查代码分割文档
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [692cc0e]
+  - @modern-js/builder-doc@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes
