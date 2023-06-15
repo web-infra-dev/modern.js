@@ -1,5 +1,13 @@
 # @modern-js/remark-container
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
 ## 2.22.1
 
 ## 2.22.0

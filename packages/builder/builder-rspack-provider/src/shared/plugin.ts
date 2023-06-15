@@ -22,6 +22,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.svg(),
     plugins.html(),
     plugins.tsChecker(),
+    plugins.moment(),
     // pug plugin should after html plugin
     import('../plugins/pug').then(m => m.builderPluginPug()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),

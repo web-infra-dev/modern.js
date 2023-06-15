@@ -5,10 +5,6 @@ import type {
 
 export type PerformanceConfig = SharedPerformanceConfig & {
   /**
-   * Whether to remove the locales of [moment.js](https://momentjs.com/).
-   */
-  removeMomentLocale?: boolean;
-  /**
    * Whether capture timing information for each module,
    * same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack.
    */
@@ -16,6 +12,6 @@ export type PerformanceConfig = SharedPerformanceConfig & {
 };
 
 export type NormalizedPerformanceConfig = Required<
-  Pick<PerformanceConfig, 'removeMomentLocale' | 'profile'>
+  Pick<PerformanceConfig, 'profile'>
 > &
   NormalizedSharedPerformanceConfig;

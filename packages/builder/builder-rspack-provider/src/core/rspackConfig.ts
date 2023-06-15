@@ -86,6 +86,7 @@ async function getChainUtils(target: BuilderTarget): Promise<ModifyChainUtils> {
   const nodeEnv = process.env.NODE_ENV as NodeEnv;
   const { CHAIN_ID } = await import('@modern-js/utils');
   const { default: HtmlPlugin } = await import('@rspack/plugin-html');
+  const { default: webpack } = await import('webpack');
 
   return {
     env: nodeEnv,
@@ -97,6 +98,7 @@ async function getChainUtils(target: BuilderTarget): Promise<ModifyChainUtils> {
     getCompiledPath,
     CHAIN_ID,
     HtmlPlugin,
+    webpack,
   };
 }
 

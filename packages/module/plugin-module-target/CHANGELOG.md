@@ -1,5 +1,18 @@
 # @modern-js/plugin-module-target
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [21b7f86]
+- Updated dependencies [d1ef55f]
+  - @modern-js/module-tools@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

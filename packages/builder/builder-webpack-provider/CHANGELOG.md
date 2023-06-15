@@ -1,5 +1,57 @@
 # @modern-js/builder-webpack-provider
 
+## 2.23.0
+
+### Patch Changes
+
+- 15eac36: chore(builder): move more default config to shared package
+
+  chore(builder): 移动更多默认 config 到 shared 包
+
+- d4e85c1: fix(rspack-provider): should inject polyfill for web-worker target
+
+  fix(rspack-provider): 修复 web-worker target 未注入 polyfill 的问题
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 5684381: fix(builder): incorrect importLoaders option for sass/less files
+
+  fix(builder): 修正 importLoaders 对于 sass/less 文件的值
+
+- f14f920: feat(rspack-provider): support disableCssExtract in rspack
+
+  feat(rspack-provider): 在 Rspack 构建时支持 disableCssExtract 能力
+
+- 38eccef: chore(builder): move getPostcssConfig and postcss related pkg to builder-shared
+
+  chore(builder): 将 getPostcssConfig 和 postcss 相关的 pkg 移动到 builder-shared 中
+
+- f91c557: fix(builder): failed to minify css when use style-loader in Rspack
+
+  fix(builder): 修复使用 Rspack + style-loader 时未压缩 CSS 的问题
+
+- Updated dependencies [964c41b]
+- Updated dependencies [15eac36]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/e2e@2.23.0
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/babel-preset-base@2.23.0
+  - @modern-js/babel-preset-app@2.23.0
+  - @modern-js/server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

@@ -54,6 +54,10 @@ export type ModifyChainUtils = {
   getCompiledPath: (name: string) => string;
   // todo: html plugin type declare
   HtmlPlugin: any;
+  /**
+   * @private should only used in builder
+   */
+  webpack: typeof import('webpack');
 };
 
 export type ModifyBundlerChainUtils = ModifyChainUtils;

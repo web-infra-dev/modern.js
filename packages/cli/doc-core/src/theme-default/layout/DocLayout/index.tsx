@@ -23,12 +23,12 @@ export function DocLayout(props: DocLayoutProps) {
   const { beforeDocFooter, beforeDoc, afterDoc, beforeOutline, afterOutline } =
     props;
   const { siteData, page } = usePageData();
-  const { toc, frontmatter } = page;
+  const { toc = [], frontmatter } = page;
   const [tabData, setTabData] = useState({});
   const headers = toc;
   const { themeConfig } = siteData;
   const localesData = useLocaleSiteData();
-  const sidebar = localesData.sidebar || [];
+  const sidebar = localesData.sidebar || {};
   const { pathname } = useLocation();
 
   const { items: sidebarData } = useSidebarData();

@@ -12,14 +12,16 @@ extractApiHeaders: [2]
 
 - `name`：插件的名称，唯一标识符。
 - `setup`：插件逻辑的主入口函数，可以是一个异步函数。该函数仅会在初始化插件时执行一次。
-- `pre`：指定当前插件的前置插件有哪些，当前插件会被调整到这些插件之后执行。
-- `post`：指定当前插件的后置插件有哪些，当前插件会被调整到这些插件之前执行。
+- `pre`：指定当前插件的前置插件有哪些，可以传入前置插件 name 的数组，当前插件会被调整到这些插件之后执行。
+- `post`：指定当前插件的后置插件有哪些，可以传入后置插件 name 的数组，当前插件会被调整到这些插件之前执行。
+- `remove`：指定需要移除的插件，可以传入插件 name 的数组。
 
 ```ts
 type BuilderPlugin<API = BuilderPluginAPI> = {
   name: string;
   pre?: string[];
   post?: string[];
+  remove?: string[];
   setup: (api: API) => Promise<void> | void;
 };
 ```
@@ -41,6 +43,59 @@ export default (): BuilderPlugin => ({
   },
 });
 ```
+
+### 前置插件
+
+默认情况下，插件会按照添加顺序依次执行，通过 `pre` 字段可以声明前置执行的插件。
+
+比如有下面两个插件：
+
+```ts
+const builderPluginFoo = {
+  name: 'builder-plugin-foo',
+};
+
+const builderPluginBar = {
+  name: 'builder-plugin-bar',
+  pre: ['builder-plugin-foo'],
+};
+```
+
+Bar 插件在 `pre` 字段中配置了 Foo 插件，因此 Foo 插件一定会在 Bar 插件之前执行。
+
+### 后置插件
+
+同样的，通过 `post` 字段可以声明后置执行的插件。
+
+```ts
+const builderPluginFoo = {
+  name: 'builder-plugin-foo',
+};
+
+const builderPluginBar = {
+  name: 'builder-plugin-bar',
+  post: ['builder-plugin-foo'],
+};
+```
+
+Bar 插件在 `post` 字段中配置了 Foo 插件，因此 Foo 插件一定会在 Bar 插件之后执行。
+
+### 移除插件
+
+通过 `remove` 字段可以在一个插件中移除其他插件。
+
+```ts
+const builderPluginFoo = {
+  name: 'builder-plugin-foo',
+};
+
+const builderPluginBar = {
+  name: 'builder-plugin-bar',
+  remove: ['builder-plugin-foo'],
+};
+```
+
+比如同时注册上述的 Foo 和 Bar 插件，由于 Bar 插件声明 remove 了 Foo 插件，因此 Foo 插件不会生效。
 
 ## BuilderPluginAPI
 
@@ -123,8 +178,8 @@ export default (): BuilderPlugin<DefaultBuilderPlugin> => ({
 const builderPluginFoo = () => ({
   setup(api) {
     console.log(api.context.distPath);
-  }
-);
+  },
+});
 ```
 
 ## api.getBuilderConfig
@@ -140,8 +195,8 @@ const builderPluginFoo = () => ({
   setup(api) {
     const config = api.getBuilderConfig();
     console.log(config.html?.title);
-  }
-);
+  },
+});
 ```
 
 ## api.getNormalizedConfig
@@ -157,8 +212,8 @@ const builderPluginFoo = () => ({
   setup(api) {
     const config = api.getNormalizedConfig();
     console.log(config.html.title);
-  }
-);
+  },
+});
 ```
 
 ## api.isPluginExists
@@ -192,6 +247,6 @@ const builderPluginFoo = () => ({
       const htmlPaths = api.getHTMLPaths();
       console.log(htmlPaths); // { main: 'html/main/index.html' };
     });
-  }
-);
+  },
+});
 ```

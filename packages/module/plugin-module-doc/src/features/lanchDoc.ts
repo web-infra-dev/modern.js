@@ -136,8 +136,16 @@ export async function launchDoc({
   );
 
   if (isProduction) {
-    await build(root, modernDocConfig);
+    await build({
+      appDirectory: appDir,
+      docDirectory: root,
+      config: modernDocConfig,
+    });
   } else {
-    await dev(root, modernDocConfig);
+    await dev({
+      appDirectory: appDir,
+      docDirectory: root,
+      config: modernDocConfig,
+    });
   }
 }

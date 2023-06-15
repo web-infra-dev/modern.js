@@ -6,9 +6,9 @@ sidebar_position: 5
 
 ## Browserslist Configuration
 
-Modern.js supports setting the browserslist for your web applications. You can set the [Browserslist](https://browsersl.ist/) in the `.browserslistrc` file.
+Modern.js supports setting the browserslist for your web applications. You can set the value of [Browserslist](https://browsersl.ist/) in the `.browserslistrc` file.
 
-When you create a new Modern.js project, it includes a `.browserslistrc` configuration by default, which means that JavaScript code will be compiled to ES6.
+When you create a new Modern.js project, it will includes a `.browserslistrc` configuration by default, which means that the JavaScript code will be compiled to ES6.
 
 ```yaml title=".browserslistrc"
 chrome >= 51
@@ -22,32 +22,11 @@ ios_saf >= 10
 Please refer to [Modern.js Builder - Browserslist](https://modernjs.dev/builder/en/guide/advanced/browserslist) for more information.
 :::
 
-## Browserslist
-
-Modern.js supports the `browserslist` field in the `package.json` file, or a `.browserslistrc` file to specify the target browser range covered by the project.
-
-This value is used by ['@babel/preset-env'] (https://babeljs.io/docs/en/babel-preset-env) and ['autoprefixer'] (https://github.com/postcss/autoprefixer) to determine the JavaScript syntax features to be converted and the CSS browser prefix to be added.
-
-The default value in Modern.js as follow:
-
-```js
-['> 0.01%', 'not dead', 'not op_mini all'];
-```
-
-You can learn how to customize the browserslist [here](https://github.com/browserslist/browserslist).
-
-See Modern.js Builder docs to learn more [Browserslist](https://modernjs.dev/builder/en/guide/advanced/browserslist.html) info.
-
-:::note
-Modern.js also supports configuring [output.override Browserslist](/configure/app/output/override-browserslist) to override the default browserslist value.
-
-:::
-
 ## Polyfill
 
 ### Polyfill At Compile
 
-Modern.js inject the Polyfill code via [core-js] (https://github.com/zloirock/core-js) at compile time by default.
+Modern.js defaults to importing corresponding polyfill code from [core-js] (https://github.com/zloirock/core-js) during compilation.
 
 By default, the required Polyfill code will be introduced according to the settings of the Browserslist, so there is no need to worry about the Polyfill problem of the project source code and third-party dependencies, but because it contains some Polyfill code that is not used, the final bundle size may be increased.
 
