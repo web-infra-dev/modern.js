@@ -1,5 +1,31 @@
 # @modern-js/plugin-testing
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 6dec7c2: test(utils): reuse the snapshot serializer of vitest config
+
+  test(utils): 复用 vitest 的 snapshot serializer
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/runtime@2.23.0
+  - @modern-js/babel-compiler@2.23.0
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

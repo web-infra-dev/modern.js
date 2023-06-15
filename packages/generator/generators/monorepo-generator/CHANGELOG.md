@@ -1,5 +1,13 @@
 # @modern-js/monorepo-generator
 
+## 3.1.22
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
 ## 3.1.21
 
 ## 3.1.20

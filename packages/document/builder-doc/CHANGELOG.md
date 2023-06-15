@@ -1,5 +1,17 @@
 # @modern-js/builder-doc
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 692cc0e: fix(builder): assetsRetry.crossOrigin default to html.crossorigin
+
+  fix(builder): assetsRetry.crossOrigin 默认值与 html.crossorigin 保持一致
+
 ## 2.22.1
 
 ### Patch Changes

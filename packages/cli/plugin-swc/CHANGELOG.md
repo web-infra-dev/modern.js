@@ -1,5 +1,30 @@
 # @modern-js/core
 
+## 2.23.0
+
+### Minor Changes
+
+- b185fdf: refactor: merge the swc plugin
+  refactor: 合并 swc 插件
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [b185fdf]
+  - @modern-js/builder-plugin-swc@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes
