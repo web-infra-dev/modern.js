@@ -1,19 +1,20 @@
 import {
   getBrowserslistWithDefault,
+  isUseCssExtract,
   isUseCssSourceMap,
   CSS_REGEX,
   CSS_MODULES_REGEX,
-  type BuilderContext,
-  type StyleLoaderOptions,
   getCssLoaderOptions,
-  BundlerChain,
-  ModifyBundlerChainUtils,
   setConfig,
   logger,
   getCssModulesAutoRule,
   getPostcssConfig,
   getCssModuleLocalIdentName,
   resolveLoader,
+  type BundlerChain,
+  type BuilderContext,
+  type StyleLoaderOptions,
+  type ModifyBundlerChainUtils,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -21,7 +22,7 @@ import type {
   RspackRule,
   RuleSetRule,
 } from '../types';
-import { isUseCssExtract, getCompiledPath } from '../shared';
+import { getCompiledPath } from '../shared';
 
 export const enableNativeCss = (config: NormalizedConfig) =>
   !config.output.disableCssExtract;

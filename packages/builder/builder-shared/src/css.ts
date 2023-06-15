@@ -8,7 +8,12 @@ import type { AcceptedPlugin, ProcessOptions } from 'postcss';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { getCssSupport } from './getCssSupport';
 import { getSharedPkgCompiledPath as getCompiledPath } from './utils';
-import { SharedNormalizedConfig, CSSLoaderOptions, CssModules } from './types';
+import type {
+  CssModules,
+  BuilderTarget,
+  CSSLoaderOptions,
+  SharedNormalizedConfig,
+} from './types';
 
 export const getCssModuleLocalIdentName = (
   config: SharedNormalizedConfig,
@@ -231,3 +236,11 @@ export const getCssLoaderOptions = async ({
 
   return cssLoaderOptions;
 };
+
+export const isUseCssExtract = (
+  config: SharedNormalizedConfig,
+  target: BuilderTarget,
+) =>
+  !config.output.disableCssExtract &&
+  target !== 'node' &&
+  target !== 'web-worker';

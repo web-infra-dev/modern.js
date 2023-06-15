@@ -3,9 +3,9 @@ import { CSSExtractOptions } from '../types/thirdParty/css';
 import {
   getDistPath,
   getFilename,
+  isUseCssExtract,
   applyBuilderOutputPlugin,
 } from '@modern-js/builder-shared';
-import { isUseCssExtract } from './css';
 import type { BuilderPlugin } from '../types';
 
 export const builderPluginOutput = (): BuilderPlugin => ({
