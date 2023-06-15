@@ -1,12 +1,12 @@
 import {
   debug,
   isDebug,
+  initPlugins,
   mergeBuilderConfig,
   type PluginStore,
   type InspectConfigOptions,
   type CreateBuilderOptions,
 } from '@modern-js/builder-shared';
-import { initPlugins } from './initPlugins';
 import { inspectConfig } from './inspectConfig';
 import { generateRspackConfig } from './rspackConfig';
 import { normalizeConfig } from '../config/normalize';
@@ -38,7 +38,7 @@ export async function initConfigs({
 
   await context.configValidatingTask;
   await initPlugins({
-    context,
+    pluginAPI: context.pluginAPI,
     pluginStore,
   });
 

@@ -28,6 +28,7 @@ export type BuilderPlugin<API = any> = {
   setup: (api: API) => PromiseOrNot<void>;
   pre?: string[];
   post?: string[];
+  remove?: string[];
 };
 
 type PluginsFn = () => Promise<BuilderPlugin>;

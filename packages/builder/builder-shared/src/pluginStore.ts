@@ -1,5 +1,9 @@
-import { logger } from './logger';
-import type { PluginStore, BuilderPlugin } from './types';
+import { logger, debug } from './logger';
+import type {
+  PluginStore,
+  BuilderPlugin,
+  DefaultBuilderPluginAPI,
+} from './types';
 
 export function createPluginStore(): PluginStore {
   let plugins: BuilderPlugin[] = [];
@@ -50,4 +54,36 @@ export function createPluginStore(): PluginStore {
     removePlugins,
     isPluginExists,
   };
+}
+
+export async function initPlugins({
+  pluginAPI,
+  pluginStore,
+}: {
+  pluginAPI?: DefaultBuilderPluginAPI;
+  pluginStore: PluginStore;
+}) {
+  debug('init plugins');
+
+  const { pluginDagSort } = await import(
+    '@modern-js/utils/universal/plugin-dag-sort'
+  );
+
+  const plugins = pluginDagSort(pluginStore.plugins);
+
+  const removedPlugins = plugins.reduce<string[]>((ret, plugin) => {
+    if (plugin.remove) {
+      return ret.concat(plugin.remove);
+    }
+    return ret;
+  }, []);
+
+  for (const plugin of plugins) {
+    if (removedPlugins.includes(plugin.name)) {
+      continue;
+    }
+    await plugin.setup(pluginAPI);
+  }
+
+  debug('init plugins done');
 }
