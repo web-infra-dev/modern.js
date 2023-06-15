@@ -1,5 +1,22 @@
 # @modern-js/server
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/server-utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

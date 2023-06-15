@@ -1,5 +1,34 @@
 # @modern-js/plugin-module-doc
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 85f9b19: fix: adjust merge doc config logic, support to use custom locales
+  fix: 调整合并文档配置的逻辑,支持用户自定义 locales
+- 6c95e2b: refactor: adjust default sidebar and overview component, support auto sidebar by dir and remove overview title, divider and list data which from sidebar data.
+  refactor: 调整默认 sidebar 和 overview 组件，支持根据文档目录自动生成 sidebar，移除了 overview 组件的标题、分割线以及从 sidebar 数据里拿到的列表数据
+- Updated dependencies [02e8d2e]
+- Updated dependencies [5d6652c]
+- Updated dependencies [090c9c3]
+- Updated dependencies [074978b]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [12a5bb2]
+- Updated dependencies [21b7f86]
+- Updated dependencies [ee10c09]
+- Updated dependencies [d1ef55f]
+- Updated dependencies [689d223]
+- Updated dependencies [836da92]
+- Updated dependencies [5eba3a9]
+- Updated dependencies [ad75a6e]
+  - @modern-js/doc-plugin-preview@2.23.0
+  - @modern-js/doc-core@2.23.0
+  - @modern-js/module-tools@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

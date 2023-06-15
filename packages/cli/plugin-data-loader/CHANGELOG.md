@@ -1,5 +1,27 @@
 # @modern-js/plugin-data-loader
 
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- a7a7ad7: chore: move some public code to the utils package
+  chore: 移动一些公共的代码到 utils 包
+- 6dec7c2: test(utils): reuse the snapshot serializer of vitest config
+
+  test(utils): 复用 vitest 的 snapshot serializer
+
+- e5259fb: fix: absoluteEntryDir should support directory entry
+  fix: absoluteEntryDir 应该支持配置目录 entry，这里 document 会使用
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

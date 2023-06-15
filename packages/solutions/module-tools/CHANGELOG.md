@@ -1,5 +1,35 @@
 # @modern-js/module-tools
 
+## 2.23.0
+
+### Minor Changes
+
+- 21b7f86: feat: support dts.respectExternal
+  feat: 支持 dts.respectExternal 配置
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- d1ef55f: fix: config useDefineForClassFields by user tsconfig.json
+  fix: 根据用户 tsconfig.json 配置,设置 useDefineForClassFields
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [b593040]
+- Updated dependencies [e2245c3]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/plugin-changeset@2.23.0
+  - @modern-js/new-action@2.23.0
+  - @modern-js/plugin-i18n@2.23.0
+  - @modern-js/plugin-lint@2.23.0
+  - @modern-js/upgrade@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes
