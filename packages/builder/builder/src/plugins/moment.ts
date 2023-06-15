@@ -1,11 +1,10 @@
-import type { BuilderPlugin } from '../types';
+import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-export const builderPluginMoment = (): BuilderPlugin => ({
+export const builderPluginMoment = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-moment',
 
   setup(api) {
-    api.modifyWebpackChain(async chain => {
-      const { default: webpack } = await import('webpack');
+    api.modifyBundlerChain(async (chain, { webpack }) => {
       const config = api.getNormalizedConfig();
 
       if (config.performance.removeMomentLocale) {

@@ -3,6 +3,7 @@ import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
 
+// todo: https://github.com/web-infra-dev/rspack/issues/3346
 webpackOnlyTest('removeMomentLocale false (default)', async () => {
   const builder = await build({
     cwd: __dirname,
@@ -37,7 +38,7 @@ webpackOnlyTest('removeMomentLocale false (default)', async () => {
   expect(momentMapFile.includes('moment/locale')).toBeTruthy();
 });
 
-test.skip('removeMomentLocale true', async () => {
+test('removeMomentLocale true', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { main: join(__dirname, './src/index.js') },

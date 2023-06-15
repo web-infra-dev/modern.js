@@ -42,4 +42,5 @@ export const plugins: Plugins = {
   checkSyntax: () =>
     import('./checkSyntax').then(m => m.builderPluginCheckSyntax()),
   rem: () => import('./rem').then(m => m.builderPluginRem()),
+  moment: () => import('./moment').then(m => m.builderPluginMoment()),
 };
