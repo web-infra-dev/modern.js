@@ -44,7 +44,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.media(),
     plugins.html(),
     import('../plugins/wasm').then(m => m.builderPluginWasm()),
-    import('../plugins/moment').then(m => m.builderPluginMoment()),
+    plugins.moment(),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
     import('../plugins/minimize').then(m => m.builderPluginMinimize()),

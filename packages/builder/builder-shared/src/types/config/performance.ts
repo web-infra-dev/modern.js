@@ -15,6 +15,10 @@ export interface SharedPerformanceConfig {
    */
   removeConsole?: boolean | ConsoleType[];
   /**
+   * Whether to remove the locales of [moment.js](https://momentjs.com/).
+   */
+  removeMomentLocale?: boolean;
+  /**
    * Controls the Builder's caching behavior during the build process.
    */
   buildCache?: BuildCacheOptions | boolean;
