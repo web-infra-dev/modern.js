@@ -1,15 +1,15 @@
 import {
   CSS_REGEX,
   resolveLoader,
+  isUseCssExtract,
   getPostcssConfig,
   ModifyChainUtils,
   isUseCssSourceMap,
   getCssLoaderOptions,
   getBrowserslistWithDefault,
   getCssModuleLocalIdentName,
-  BundlerChainRule,
-  type BuilderTarget,
   type BuilderContext,
+  type BundlerChainRule,
   type StyleLoaderOptions,
 } from '@modern-js/builder-shared';
 import type {
@@ -17,14 +17,6 @@ import type {
   CSSExtractOptions,
   NormalizedConfig,
 } from '../types';
-
-export const isUseCssExtract = (
-  config: NormalizedConfig,
-  target: BuilderTarget,
-) =>
-  !config.output.disableCssExtract &&
-  target !== 'node' &&
-  target !== 'web-worker';
 
 export async function applyBaseCSSRule({
   rule,
