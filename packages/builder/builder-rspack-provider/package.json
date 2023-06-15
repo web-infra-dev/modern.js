@@ -70,7 +70,6 @@
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",
-    "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "antd": "4",
@@ -78,14 +77,6 @@
     "typescript": "^5",
     "react": "^18",
     "react-dom": "^18"
-  },
-  "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.22.1"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/e2e": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "publishConfig": {
