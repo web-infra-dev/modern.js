@@ -8,14 +8,10 @@ sidebar_position: 1
 - **Type:** `'babel-jest' | 'ts-jest'`
 - **Default:** `babel-jest`
 
-:::caution Caution
-First you need to enable the "Unit Test" function using [new](/apis/app/commands#modern-new) command.
+First need to run `new` command to enable [Unit Test / Integration Test] features.
 
-:::
+Configure the compilation tool used during test execution. By default, `babel-jest` is used. You can configure it to use either [babel-jest](https://www.npmjs.com/package/babel-jest) or [ts-jest](https://github.com/kulshekhar/ts-jest).
 
-Configure the compiler for source code when executing tests: [babel-jest](https://www.npmjs.com/package/babel-jest) or [ts-jest](https://github.com/kulshekhar/ts-jest). `babel-jest` is used by default.
-
-:::info Additional information
-`Babel-jest` can also compile TS files, but there is no type error. If you need to check the TS type when running tests, then use `ts-jest`.
-
+:::info Additional
+`babel-jest` can compile TypeScript files but does not perform type checking. If you want to perform type checking on your TypeScript files while running test cases, you can use `ts-jest`.
 :::
