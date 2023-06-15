@@ -1,0 +1,64 @@
+// Vitest Snapshot v1
+
+exports[`plugins/vue > should add vue-loader and VueLoaderPlugin correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.vue\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/vue-loader/dist/index.js",
+            "options": {
+              "compilerOptions": {
+                "preserveWhitespace": false,
+              },
+              "experimentalInlineMatchResource": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    Plugin {},
+  ],
+  "resolve": {
+    "extensions": [
+      ".vue",
+    ],
+  },
+}
+`;
+
+exports[`plugins/vue > should allow to configure vueLoader options 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.vue\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/vue-loader/dist/index.js",
+            "options": {
+              "compilerOptions": {
+                "preserveWhitespace": false,
+              },
+              "experimentalInlineMatchResource": false,
+              "hotReload": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    Plugin {},
+  ],
+  "resolve": {
+    "extensions": [
+      ".vue",
+    ],
+  },
+}
+`;

@@ -1,0 +1,60 @@
+# Vue Plugin
+
+The Vue plugin provides support for Vue 3 application builds.
+
+## Quick Start
+
+### Install
+
+You can install the plugin with the following command:
+
+```bash
+# npm
+npm install @modern-js/builder-plugin-vue -D
+
+# yarn
+yarn add @modern-js/builder-plugin-vue -D
+
+# pnpm
+pnpm install @modern-js/builder-plugin-vue -D
+```
+
+### Register
+
+You can register Vue plugin with the `addPlugins` method:
+
+```js
+import { builderPluginVue } from '@modern-js/builder-plugin-vue';
+
+builder.addPlugins([builderPluginVue()]);
+```
+
+After installing the plugin, you can directly import `*.vue` files into the code without adding other configs.
+
+## Config
+
+If you need to customize the compilation behavior of Vue, you can use the following configs.
+
+### vueLoaderOptions
+
+- **Type:** `VueLoaderOptions`
+- **Default:**
+
+```js
+const defaultOptions = {
+  compilerOptions: {
+    preserveWhitespace: false,
+  },
+  experimentalInlineMatchResource: builder === 'rspack',
+};
+```
+
+Options passed to `vue-loader`, please refer to the [vue-loader documentation](https://vue-loader.vuejs.org/) for detailed usage.
+
+```ts
+builderPluginVue({
+  vueLoaderOptions: {
+    hotReload: false,
+  },
+});
+```

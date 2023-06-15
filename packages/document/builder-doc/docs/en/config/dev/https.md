@@ -27,10 +27,10 @@ When using this method, you need to manually install the [devcert](https://githu
 # npm
 npm install devcert@1.2.2 -D
 
-#yarn
+# yarn
 yarn add devcert@1.2.2 -D
 
-#pnpm
+# pnpm
 pnpm add devcert@1.2.2 -D
 ```
 

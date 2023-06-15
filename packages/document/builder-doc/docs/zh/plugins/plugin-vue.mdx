@@ -1,0 +1,60 @@
+# Vue 插件
+
+Vue 插件提供了对 Vue 3 应用构建的支持。
+
+## 快速开始
+
+### 安装插件
+
+你可以通过如下的命令安装插件:
+
+```bash
+# npm
+npm install @modern-js/builder-plugin-vue -D
+
+# yarn
+yarn add @modern-js/builder-plugin-vue -D
+
+# pnpm
+pnpm install @modern-js/builder-plugin-vue -D
+```
+
+### 注册插件
+
+你可以通过 `addPlugins` 方法来注册 Vue 插件：
+
+```js
+import { builderPluginVue } from '@modern-js/builder-plugin-vue';
+
+builder.addPlugins([builderPluginVue()]);
+```
+
+安装完插件后，你可以直接在代码中引入 `*.vue` 文件，无须添加其他配置。
+
+## 配置
+
+如果你需要自定义 Vue 的编译行为，可以使用以下配置项。
+
+### vueLoaderOptions
+
+- **类型：** `VueLoaderOptions`
+- **默认值：**
+
+```js
+const defaultOptions = {
+  compilerOptions: {
+    preserveWhitespace: false,
+  },
+  experimentalInlineMatchResource: builder === 'rspack',
+};
+```
+
+传递给 `vue-loader` 的选项，请查阅 [vue-loader 文档](https://vue-loader.vuejs.org/) 来了解具体用法。
+
+```ts
+builderPluginVue({
+  vueLoaderOptions: {
+    hotReload: false,
+  },
+});
+```

@@ -151,6 +151,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('列表', 'List'),
         items: [
           getLink('/plugins/list'),
+          getLink('/plugins/plugin-vue'),
           getLink('/plugins/plugin-swc'),
           getLink('/plugins/plugin-stylus'),
           getLink('/plugins/plugin-esbuild'),
