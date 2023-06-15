@@ -183,9 +183,6 @@ importers:
       '@arco-design/web-react':
         specifier: ^2.46.0
         version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
-      '@modern-js/e2e':
-        specifier: workspace:*
-        version: link:../../toolkit/e2e
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config

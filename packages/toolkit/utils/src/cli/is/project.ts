@@ -1,4 +1,5 @@
 import path from 'path';
+import pkgUp from '../../../compiled/pkg-up';
 import { getArgv } from '../commands';
 import { fs, minimist, semver } from '../../compiled';
 import { createDebugger } from '../common';
@@ -79,9 +80,9 @@ export const isWebOnly = async () => {
 };
 
 export const isBeyondReact17 = (cwd: string) => {
-  const pkgPath = path.join(cwd, 'package.json');
+  const pkgPath = pkgUp.sync({ cwd });
 
-  if (!fs.existsSync(pkgPath)) {
+  if (!pkgPath) {
     return false;
   }
 

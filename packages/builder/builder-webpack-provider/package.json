@@ -118,14 +118,6 @@
     "react": "^18",
     "react-dom": "^18"
   },
-  "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.23.0"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/e2e": {
-      "optional": true
-    }
-  },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
