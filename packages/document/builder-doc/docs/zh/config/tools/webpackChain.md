@@ -186,6 +186,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `RULE.VUE`   | 处理 `vue` 的规则  |
 | `RULE.TOML`  | 处理 `toml` 的规则 |
 | `RULE.YAML`  | 处理 `yaml` 的规则 |
+| `RULE.WASM`  | 处理 `wasm` 的规则 |
 | `RULE.FONT`  | 处理字体的规则     |
 | `RULE.IMAGE` | 处理图片的规则     |
 | `RULE.MEDIA` | 处理媒体资源的规则 |

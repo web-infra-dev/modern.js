@@ -277,6 +277,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "test": /\\\\\\.svg\\$/,
       },
       {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
         "oneOf": [
           {
             "sideEffects": true,
@@ -985,6 +993,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           },
         ],
         "test": /\\\\\\.svg\\$/,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
       },
       {
         "oneOf": [
@@ -1702,6 +1718,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "test": /\\\\\\.svg\\$/,
       },
       {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
         "oneOf": [
           {
             "sideEffects": true,
@@ -2149,6 +2173,14 @@ exports[`tools.rspack > should match snapshot 1`] = `
           },
         ],
         "test": /\\\\\\.svg\\$/,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
       },
       {
         "oneOf": [

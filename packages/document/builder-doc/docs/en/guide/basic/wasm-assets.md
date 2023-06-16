@@ -27,6 +27,14 @@ import('./add.wasm').then(({ add }) => {
 });
 ```
 
+You can also get the path of a WebAssembly module using the `new URL` syntax:
+
+```js title="index.js"
+const wasmURL = new URL('./add.wasm', import.meta.url);
+
+console.log(wasmURL).pathname; // "/static/wasm/[hash].module.wasm"
+```
+
 ## Output Directory
 
 When a `.wasm` asset is imported, it will be output by Builder to the `dist/static/wasm` directory by default.

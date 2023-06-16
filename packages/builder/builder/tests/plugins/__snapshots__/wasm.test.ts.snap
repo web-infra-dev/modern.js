@@ -5,6 +5,18 @@ exports[`plugins/wasm > should add wasm rule properly 1`] = `
   "experiments": {
     "asyncWebAssembly": true,
   },
+  "module": {
+    "rules": [
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+    ],
+  },
   "output": {
     "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
