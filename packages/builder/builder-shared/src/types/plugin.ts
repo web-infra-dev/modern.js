@@ -57,6 +57,7 @@ export type Plugins = {
   tsChecker: PluginsFn;
   checkSyntax: PluginsFn;
   rem: PluginsFn;
+  wasm: PluginsFn;
   moment: PluginsFn;
 };
 

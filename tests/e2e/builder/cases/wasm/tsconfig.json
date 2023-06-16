@@ -1,0 +1,15 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["wasm-basic/src/*"],
+      "@shared/*": ["./shared/*"],
+      "@scripts/*": ["../../scripts/*"]
+    }
+  },
+  "include": ["wasm-basic/src", "*.test.ts", "index.test.ts"]
+}

@@ -6,16 +6,12 @@ import { build } from '@scripts/shared';
 webpackOnlyTest(
   'should ignore css content when build node target',
   async () => {
-    const builder = await build(
-      {
-        cwd: __dirname,
+    const builder = await build({
+      cwd: __dirname,
 
-        target: 'node',
-        entry: { index: path.resolve(__dirname, './src/index.js') },
-      },
-      undefined,
-      false,
-    );
+      target: 'node',
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    });
     const files = await builder.unwrapOutputJSON();
 
     const content =
@@ -32,15 +28,11 @@ webpackOnlyTest(
 webpackOnlyTest(
   'should ignore css content when build web-worker target',
   async () => {
-    const builder = await build(
-      {
-        cwd: __dirname,
-        target: 'web-worker',
-        entry: { index: path.resolve(__dirname, './src/index.js') },
-      },
-      undefined,
-      false,
-    );
+    const builder = await build({
+      cwd: __dirname,
+      target: 'web-worker',
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+    });
     const files = await builder.unwrapOutputJSON();
 
     const content =
