@@ -7,11 +7,13 @@ async function applyTsProject({
   CHAIN_ID,
   cwd,
   extensions,
+  sourceBuild,
 }: {
   chain: WebpackChain;
   CHAIN_ID: ChainIdentifier;
   cwd: string;
   extensions: string[];
+  sourceBuild: boolean;
 }) {
   const { TsConfigPathsPlugin } = await import(
     '../webpackPlugins/TsConfigPathsPlugin'
@@ -24,7 +26,7 @@ async function applyTsProject({
         cwd,
         extensions,
         // Enable source code build mode for monorepo
-        loadClosestTsConfig: true,
+        loadClosestTsConfig: sourceBuild,
       },
     ]);
 }
@@ -55,6 +57,7 @@ export const builderPluginResolve = (): BuilderPlugin => ({
         CHAIN_ID,
         cwd: api.context.rootPath,
         extensions: chain.resolve.extensions.values(),
+        sourceBuild: config.experiments.sourceBuild,
       });
     });
   },
