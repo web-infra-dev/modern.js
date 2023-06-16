@@ -42,3 +42,30 @@ test('should allow to dynamic import wasm file', async () => {
   expect(wasmFile).toBeTruthy();
   expect(wasmFile?.includes('static/wasm/')).toBeTruthy();
 });
+
+test('should allow to use new URL to get path of wasm file', async ({
+  page,
+}) => {
+  const root = join(__dirname, 'wasm-url');
+  const builder = await build({
+    cwd: root,
+    entry: { main: path.resolve(root, 'src/index.js') },
+    runServer: true,
+  });
+  const files = await builder.unwrapOutputJSON();
+
+  const wasmFile = Object.keys(files).find(file =>
+    file.endsWith('.module.wasm'),
+  );
+
+  expect(wasmFile).toBeTruthy();
+  expect(wasmFile?.includes('static/wasm/')).toBeTruthy();
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.querySelector('#root').innerHTML`),
+  ).resolves.toMatch(/\/static\/wasm\/\w+\.module\.wasm/);
+
+  builder.close();
+});

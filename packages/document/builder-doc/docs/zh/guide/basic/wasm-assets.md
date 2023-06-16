@@ -27,6 +27,14 @@ import('./add.wasm').then(({ add }) => {
 });
 ```
 
+还可以通过 `new URL` 语法来获取 WebAssembly 模块的路径：
+
+```js title="index.js"
+const wasmURL = new URL('./add.wasm', import.meta.url);
+
+console.log(wasmURL).pathname; // "/static/wasm/[hash].module.wasm"
+```
+
 ## 输出目录
 
 当 `.wasm` 资源被引用后，默认会被 Builder 输出到 `dist/static/wasm` 目录下。

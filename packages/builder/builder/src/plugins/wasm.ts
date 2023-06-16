@@ -8,7 +8,7 @@ export const builderPluginWasm = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-wasm',
 
   setup(api) {
-    api.modifyBundlerChain(async chain => {
+    api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
       const config = api.getNormalizedConfig();
       const distPath = getDistPath(config.output, 'wasm');
 
@@ -16,9 +16,25 @@ export const builderPluginWasm = (): DefaultBuilderPlugin => ({
         ...chain.get('experiments'),
         asyncWebAssembly: true,
       });
+
+      const wasmFilename = join(distPath, '[hash].module.wasm');
+
       chain.output.merge({
-        webassemblyModuleFilename: join(distPath, '[hash].module.wasm'),
+        webassemblyModuleFilename: wasmFilename,
       });
+
+      // support new URL('./xx.wasm', import.meta.url)
+      chain.module
+        .rule(CHAIN_ID.RULE.WASM)
+        .test(/\.wasm$/)
+        // only include assets that came from new URL calls
+        .merge({
+          dependency: 'url',
+        })
+        .type('asset/resource')
+        .set('generator', {
+          filename: wasmFilename,
+        });
     });
   },
 });
