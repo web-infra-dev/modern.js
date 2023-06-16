@@ -6,6 +6,13 @@
  * Author Michael Jackson
  * Copyright (c) 2016 Jonas Kello
  * https://github.com/dividab/tsconfig-paths-webpack-plugin/blob/master/LICENSE
+ *
+ * https://github.com/wre232114/enhanced-tsconfig-paths-webpack-plugin/
+ *
+ * MIT Licensed
+ * Author wre232114
+ * Copyright (c) 2021 wre232114
+ * https://github.com/wre232114/enhanced-tsconfig-paths-webpack-plugin/blob/main/LICENSE
  */
 import path from 'path';
 import { logger } from '@modern-js/builder-shared';
@@ -149,15 +156,9 @@ export class TsConfigPathsPlugin {
               undefined,
               this.extensions,
             );
-
-            if (resolvedPath) {
-              this.resolvedCache.set(requestName, resolvedPath);
-            } else {
-              return callback();
-            }
           }
-        } else if (resolvedPath === undefined) {
-          // match monorepo sub project files
+        } else if (this.#loadClosestTsConfig && resolvedPath === undefined) {
+          // match monorepo sub project files and match node_modules files when ignoreNodeModules is false.
 
           const tsconfig = this.#loader.load(issuerDir);
           if (!tsconfig?.baseUrl) {
@@ -179,12 +180,12 @@ export class TsConfigPathsPlugin {
             undefined,
             this.#options.extensions,
           );
+        }
 
-          if (resolvedPath) {
-            this.resolvedCache.set(requestName, resolvedPath);
-          } else {
-            return callback();
-          }
+        if (resolvedPath) {
+          this.resolvedCache.set(requestName, resolvedPath);
+        } else {
+          return callback();
         }
 
         return resolver.doResolve(
