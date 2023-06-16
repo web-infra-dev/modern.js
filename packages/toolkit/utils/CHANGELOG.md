@@ -1,5 +1,21 @@
 # @modern-js/utils
 
+## 2.23.1
+
+### Patch Changes
+
+- f08bbfc: feat(builder): add basic Vue 3 plugin
+
+  feat(builder): 增加基础的 Vue 3 插件
+
+- a6b313a: fix(builder): can't use new React JSX with parent's package.json
+
+  fix(builder): 修复 package.json 在父级目录时无法使用新版 react jsx 的问题
+
+- 8f2cab0: feat(builder): support using new URL to handle wasm assets
+
+  feat(builder): 支持通过 new URL 来处理 wasm 资源
+
 ## 2.23.0
 
 ### Patch Changes

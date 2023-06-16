@@ -1,5 +1,11 @@
 # @scripts/update-codesmith
 
+## 2.23.1
+
+### Patch Changes
+
+- @modern-js/generator-utils@3.1.23
+
 ## 2.23.0
 
 ### Patch Changes

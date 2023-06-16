@@ -1,5 +1,31 @@
 # @modern-js/builder
 
+## 2.23.1
+
+### Patch Changes
+
+- 20c85bb: feat(rspack-provider): support performance.removeMomentLocale in rspack
+
+  feat(rspack-provider): 在使用 rspack 构建时支持 performance.removeMomentLocale 配置项
+
+- 5772927: feat(rspack-provider): support import .wasm assets
+
+  feat(rspack-provider): 支持引用 .wasm 资源
+
+- 8f2cab0: feat(builder): support using new URL to handle wasm assets
+
+  feat(builder): 支持通过 new URL 来处理 wasm 资源
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+
 ## 2.23.0
 
 ### Patch Changes
