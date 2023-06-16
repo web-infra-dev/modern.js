@@ -147,7 +147,7 @@ function reloadElementResource(
   }
 }
 
-export function retry(config: AssetsRetryOptions, e: Event) {
+function retry(config: AssetsRetryOptions, e: Event) {
   const targetInfo = validateTargetInfo(config, e);
   if (targetInfo === false) {
     return;
