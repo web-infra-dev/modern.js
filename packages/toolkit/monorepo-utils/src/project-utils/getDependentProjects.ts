@@ -57,7 +57,8 @@ const getDependentProjects = async (
 
   const monoBaseData = await getMonorepoBaseData(cwd, extraMonorepoStrategies);
   if (!monoBaseData.isMonorepo) {
-    throw new Error('The current project is not in monorepo.');
+    dlog('The current project is not in monorepo.');
+    return [];
   }
 
   dlog('current monorepo is', monoBaseData.type);
