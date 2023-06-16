@@ -90,9 +90,8 @@ export class InlineChunkHtmlPlugin {
     if (!(tag?.attributes.src && isString(tag.attributes.src))) {
       return tag;
     }
-    const scriptName = publicPath
-      ? tag.attributes.src.replace(publicPath, '')
-      : tag.attributes.src;
+    const { src, ...otherAttrs } = tag.attributes;
+    const scriptName = publicPath ? src.replace(publicPath, '') : src;
 
     if (!this.tests.some(test => test.exec(scriptName))) {
       return tag;
@@ -112,6 +111,9 @@ export class InlineChunkHtmlPlugin {
         publicPath,
         type: 'js',
       }),
+      attributes: {
+        ...otherAttrs,
+      },
       closeTag: true,
     };
 
