@@ -1,12 +1,14 @@
 import { join } from 'path';
-import { getDistPath } from '@modern-js/builder-shared';
-import type { BuilderPlugin } from '../types';
+import {
+  getDistPath,
+  type DefaultBuilderPlugin,
+} from '@modern-js/builder-shared';
 
-export const builderPluginWasm = (): BuilderPlugin => ({
+export const builderPluginWasm = (): DefaultBuilderPlugin => ({
   name: 'builder-plugin-wasm',
 
   setup(api) {
-    api.modifyWebpackChain(async chain => {
+    api.modifyBundlerChain(async chain => {
       const config = api.getNormalizedConfig();
       const distPath = getDistPath(config.output, 'wasm');
 
