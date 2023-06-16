@@ -58,6 +58,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -655,6 +658,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     ForkTsCheckerWebpackPlugin {
@@ -764,6 +768,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "hot": false,
   },
   "devtool": "hidden-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1361,6 +1368,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     ForkTsCheckerWebpackPlugin {
@@ -1475,6 +1483,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "hot": false,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1809,6 +1820,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     ForkTsCheckerWebpackPlugin {
@@ -1912,6 +1924,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2517,6 +2532,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     TestPlugin {
