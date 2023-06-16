@@ -3,14 +3,16 @@
 ```ts
 type DistPathConfig = {
   root?: string;
+  html?: string;
   js?: string;
   css?: string;
   svg?: string;
   font?: string;
-  html?: string;
+  wasm?: string;
   image?: string;
   media?: string;
   server?: string;
+  worker?: string;
 };
 ```
 
@@ -24,9 +26,11 @@ const defaultDistPath = {
   css: 'static/css',
   svg: 'static/svg',
   font: 'static/font',
+  wasm: 'static/wasm',
   image: 'static/image',
   media: 'static/media',
   server: 'bundles',
+  worker: 'worker',
 };
 ```
 
@@ -40,9 +44,11 @@ Detail:
 - `css`: The output directory of CSS style files.
 - `svg`: The output directory of SVG images.
 - `font`: The output directory of font files.
+- `wasm`: The output directory of WebAssembly files.
 - `image`: The output directory of non-SVG images.
 - `media`: The output directory of media assets, such as videos.
 - `server`: The output directory of server bundles when target is `node`.
+- `worker`: The output directory of worker bundles when target is `service-worker`.
 
 ### Example
 
