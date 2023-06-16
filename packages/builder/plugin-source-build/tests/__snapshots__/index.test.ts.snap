@@ -1,0 +1,16 @@
+// Vitest Snapshot v1
+
+exports[`plugins/source-build > should add source-build config 1`] = `
+{
+  "resolve": {
+    "conditionNames": [
+      "...",
+      "source",
+    ],
+    "mainFields": [
+      "source",
+      "...",
+    ],
+  },
+}
+`;

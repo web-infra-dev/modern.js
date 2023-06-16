@@ -8,6 +8,8 @@ import {
   filterByField,
 } from '@modern-js/monorepo-utils';
 
+export const pluginName = 'builder-plugin-source-build';
+
 export const getSourceInclude = async (options: {
   projectNameOrRootPath: string;
   findMonorepoStartPath: string;
@@ -57,7 +59,7 @@ export function builderPluginSourceBuild(
     extraMonorepoStrategies,
   } = options ?? {};
   return {
-    name: 'builder-plugin-source-build',
+    name: pluginName,
 
     async setup(api) {
       const projectRootPath = api.context.rootPath;
