@@ -183,6 +183,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `RULE.VUE`   | Rule for `vue`   |
 | `RULE.TOML`  | Rule for `toml`  |
 | `RULE.YAML`  | Rule for `yaml`  |
+| `RULE.WASM`  | Rule for `WASM`  |
 | `RULE.FONT`  | Rule for `font`  |
 | `RULE.IMAGE` | Rule for `image` |
 | `RULE.MEDIA` | Rule for `media` |
