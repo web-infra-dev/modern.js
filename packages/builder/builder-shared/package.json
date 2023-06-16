@@ -137,6 +137,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.5",
+    "@babel/preset-typescript": "^7.21.5",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
     "@types/caniuse-lite": "^1.0.1",
