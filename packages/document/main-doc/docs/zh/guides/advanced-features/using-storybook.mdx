@@ -1,0 +1,44 @@
+---
+sidebar_position: 20
+---
+
+# 使用 Storybook
+
+[Storybook](https://storybook.js.org/) 是一个专门用于组件调试的工具，它围绕着组件开发提供了：
+
+- 丰富多样的调试能力
+- 可与一些测试工具结合使用
+- 可重复使用的文档内容
+- 可分享能力
+- 工作流程自动化
+
+## 开启 Storybook 调试
+
+EdenX 默认集成了 Storybook 的调试能力。
+
+当我们想要对组件进行调试的时候，可以通过 `pnpm run new` 启用 Storybook 调试功能。
+
+```bash
+$ npx modern new
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用「Visual Testing (Storybook)」模式
+```
+
+执行完成后，你只需在 `modern.config.ts` 文件中注册 Modern.js 的 Storybook 插件，即可启用 Storybook 调试能力。
+
+```ts title="modern.config.ts"
+import appTools, { defineConfig } from '@modern-js/app-tools';
+import storybookPlugin from '@modern-js/plugin-storybook';
+
+export default defineConfig({
+  plugins: [appTools(), storybookPlugin()],
+});
+```
+
+## 调试代码
+
+Modern.js 默认识别项目源码目录 src/ 下 [\*.stories.(js|jsx|ts|tsx|mdx)](/apis/app/hooks/src/stories.html) 格式的文件作为 Storybook 的调试文件。
+
+## 配置 Storybook
+
+在 Modern.js 中，可以在项目的 [`config/storybook`](/apis/app/hooks/config/storybook.html) 目录下增加 Storybook 配置文件。
