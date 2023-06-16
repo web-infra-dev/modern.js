@@ -1,0 +1,12 @@
+// Vitest Snapshot v1
+
+exports[`plugins/wasm > should add wasm rule properly 1`] = `
+{
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
+  "output": {
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+  },
+}
+`;
