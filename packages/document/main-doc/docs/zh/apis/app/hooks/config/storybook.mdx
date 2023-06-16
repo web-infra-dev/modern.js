@@ -2,6 +2,7 @@
 title: storybook/
 sidebar_position: 7
 ---
+
 # storybook/
 
 Modern.js 支持使用 Storybook 进行调试，当需要对 Storybook 进行配置时，需要在项目 config/storybook 目录进行配置。
@@ -12,3 +13,26 @@ Storybook 配置请查看：[Storybook 配置](https://storybook.js.org/docs/rea
 使用 Storybook 进行调试需要提前在项目下执行 new 命令启用「Visual Testing (Storybook)」模式功能。
 
 :::
+
+### 示例
+
+对于 Storybook Manager app 部分的 webpack 配置，可以通过增加 `./config/storybook/main.js` 文件进行配置。
+
+```js
+// ./config/storybook/main.js
+
+module.exports = {
+  // it controls the Storybook manager app
+  managerWebpack: async (config, options) => {
+    // update config here
+    return config;
+  },
+};
+```
+
+### 限制
+
+在使用 config/storybook 目录进行配置时，存在以下限制：
+
+- 不能修改 Story 文件存放的位置，即无法在 `main.js` 文件里修改 `stories` 配置。
+- 不支持在 `main.js` 中修改 Webpack 和 Babel 相关配置，相关需求可通过 [`tools.webpack`](/configure/app/tools/webpack.html) / [`tools.babel`](/configure/app/tools/babel.html) 修改。
