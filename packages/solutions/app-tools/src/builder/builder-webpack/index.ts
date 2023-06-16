@@ -14,6 +14,18 @@ export async function createWebpackBuilderForModern(
 
   const { normalizedConfig } = options;
 
+  if (normalizedConfig.experiments.sourceBuild) {
+    const { builderPluginSourceBuild } = await import(
+      '@modern-js/builder-plugin-source-build'
+    );
+    builder.addPlugins([
+      builderPluginSourceBuild({
+        sourceField: 'source',
+        projectName: options.appContext.packageName,
+      }),
+    ]);
+  }
+
   if (normalizedConfig.tools.esbuild) {
     const { esbuild: esbuildOptions } = normalizedConfig.tools;
     const { builderPluginEsbuild } = await import(

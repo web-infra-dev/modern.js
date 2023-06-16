@@ -50,18 +50,11 @@ async function applyBuilderPlugins<B extends Bundler>(
     builderPluginAdapterHtml,
     builderPluginAdapterSSR,
   } = await import('../shared/builderPlugins');
-  const { builderPluginSourceBuild } = await import(
-    '@modern-js/builder-plugin-source-build'
-  );
 
   builder.addPlugins([
     builderPluginAdapterBasic(),
     builderPluginAdapterSSR(options),
     builderPluginAdapterHtml(options),
-    builderPluginSourceBuild({
-      sourceField: 'source',
-      projectName: options.appContext.packageName,
-    }),
   ]);
 
   const { normalizedConfig } = options;
