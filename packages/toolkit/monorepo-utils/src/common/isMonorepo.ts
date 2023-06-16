@@ -34,20 +34,6 @@ export const isMonorepo = async (
   monorepoRootPath: string,
   otherMonrepoChecks?: Record<string, IsMonorepoFn>,
 ): Promise<IsMonorepoResult> => {
-  if (await isPnpmMonorepo(monorepoRootPath)) {
-    return {
-      isMonorepo: true,
-      type: 'pnpm',
-    };
-  }
-
-  if (await isRushMonorepo(monorepoRootPath)) {
-    return {
-      isMonorepo: true,
-      type: 'rush',
-    };
-  }
-
   if (typeof otherMonrepoChecks === 'object') {
     for (const [monorepoType, monorepoCheck] of Object.entries(
       otherMonrepoChecks,
@@ -62,6 +48,20 @@ export const isMonorepo = async (
         };
       }
     }
+  }
+
+  if (await isPnpmMonorepo(monorepoRootPath)) {
+    return {
+      isMonorepo: true,
+      type: 'pnpm',
+    };
+  }
+
+  if (await isRushMonorepo(monorepoRootPath)) {
+    return {
+      isMonorepo: true,
+      type: 'rush',
+    };
   }
 
   return {
