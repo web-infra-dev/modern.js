@@ -1,5 +1,27 @@
 # @modern-js/doc-core
 
+## 2.23.1
+
+### Patch Changes
+
+- 496ec52: fix(module-doc): api params break
+
+  fix(module-doc): api 参数错误
+
+- Updated dependencies [20c85bb]
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [4af25d9]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/builder-rspack-provider@2.23.1
+  - @modern-js/builder@2.23.1
+  - @modern-js/utils@2.23.1
+  - @modern-js/core@2.23.1
+  - @modern-js/doc-plugin-medium-zoom@2.23.1
+  - @modern-js/remark-container@2.23.1
+
 ## 2.23.0
 
 ### Patch Changes

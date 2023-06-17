@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-plugin-preview",
-  "version": "2.23.0",
+  "version": "2.23.1",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
