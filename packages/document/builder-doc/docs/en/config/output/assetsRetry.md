@@ -227,3 +227,31 @@ export default {
 After adding the above configuration, the runtime code of `assetsRetry` will be extracted into a separate `assets-retry.[version].js` file and output to the dist directory.
 
 The downside is that `assets-retry.[version].js` itself may fail to load. If this happens, the assets retry will not work. Therefore, we prefer to inline the runtime code into the HTML file.
+
+### Notes
+
+When you use `assetsRetry`, the Builder injects some runtime code into the HTML and serializes the `assetsRetry` config, inserting it into the runtime code. Therefore, you need to be aware of the following:
+
+- Avoid configuring sensitive information in `assetsRetry`, such as internal tokens.
+- Avoid referencing variables or methods outside of `onRetry`, `onSuccess`, and `onFail`.
+- Avoid using syntax with compatibility issues in `onRetry`, `onSuccess` and `onFail` as these functions are inlined directly into the HTML.
+
+Here's an example of incorrect usage:
+
+```js
+import { someMethod } from 'utils';
+
+export default {
+  output: {
+    assetsRetry: {
+      onRetry() {
+        // Incorrect usage, includes sensitive information
+        const privateToken = 'a-private-token';
+
+        // Incorrect usage, uses an external method
+        someMethod(privateToken);
+      },
+    },
+  },
+};
+```
