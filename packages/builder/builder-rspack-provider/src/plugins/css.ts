@@ -10,7 +10,7 @@ import {
   getCssModulesAutoRule,
   getPostcssConfig,
   getCssModuleLocalIdentName,
-  resolveLoader,
+  resolvePackage,
   type BundlerChain,
   type BuilderContext,
   type StyleLoaderOptions,
@@ -89,8 +89,9 @@ export async function applyBaseCSSRule({
         rule
           .use(CHAIN_ID.USE.CSS_MODULES_TS)
           .loader(
-            resolveLoader(
+            resolvePackage(
               '@modern-js/builder-shared/css-modules-typescript-loader',
+              __dirname,
             ),
           )
           .options({
@@ -101,7 +102,12 @@ export async function applyBaseCSSRule({
     } else {
       rule
         .use(CHAIN_ID.USE.IGNORE_CSS)
-        .loader(resolveLoader('@modern-js/builder-shared/ignore-css-loader'))
+        .loader(
+          resolvePackage(
+            '@modern-js/builder-shared/ignore-css-loader',
+            __dirname,
+          ),
+        )
         .end();
     }
 

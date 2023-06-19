@@ -282,6 +282,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                   "@modern-js/babel-preset-app",
                   {
                     "appDirectory": "<ROOT>",
+                    "disableReactPreset": true,
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,
