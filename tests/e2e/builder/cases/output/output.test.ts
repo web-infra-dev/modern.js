@@ -2,7 +2,6 @@ import { join, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -46,7 +45,7 @@ test.describe('output configure multi', () => {
     expect(fs.existsSync(distFilePath)).toBeFalsy();
   });
 
-  webpackOnlyTest('copy', async () => {
+  test('copy', async () => {
     expect(fs.existsSync(join(fixtures, 'rem/dist-1/icon.png'))).toBeTruthy();
   });
 
