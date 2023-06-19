@@ -16,8 +16,6 @@ sidebar_position: 1
 :::
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     alias: {
@@ -32,8 +30,6 @@ export default defineConfig({
 `alias` 的值定义为函数时，可以接受预设的 alias 对象，并对其进行修改。
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     alias: alias => {
@@ -46,8 +42,6 @@ export default defineConfig({
 也可以在函数中返回一个新对象作为最终结果，新对象会覆盖预设的 alias 对象。
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     alias: alias => {
@@ -61,21 +55,39 @@ export default defineConfig({
 
 ## asset
 
-### path
+包含静态资源相关的配置。
+
+## asset.path
 
 静态资源输出路径，会基于 [outDir](/api/config/build-config#outDir) 进行输出。
 
 - 类型： `string`
 - 默认值： `assets`
 
-### limit
+## asset.limit
 
-打包时自动内联静态资源的阈值，小于 10KB 的资源会被自动内联进 bundle 产物中。
+用于设置静态资源被自动内联为 base64 的体积阈值。
+
+Module Tools 在进行打包时，默认会内联体积小于 10KB 的图片、字体、媒体等资源，将它们通过 Base64 编码，并内联到产物中，不再会发送独立的 HTTP 请求。
+
+你可以通过修改 `limit` 参数来调整这个阈值。
 
 - 类型： `number`
 - 默认值： `10 * 1024`
 
-### publicPath
+例如，将 `limit` 设置为 `0` 来避免资源内联：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    asset: {
+      limit: 0,
+    },
+  },
+});
+```
+
+## asset.publicPath
 
 打包时给未内联资源的 CDN 前缀。
 
@@ -83,8 +95,6 @@ export default defineConfig({
 - 默认值： `undefined`
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     asset: {
@@ -96,7 +106,7 @@ export default defineConfig({
 
 此时，所有静态资源都会添加 `https://xxx/` 前缀。
 
-### svgr
+## asset.svgr
 
 打包时将 SVG 作为一个 React 组件处理，options 参考 [svgr](https://react-svgr.com/docs/options/)，另外还支持了 `include` 和 `exclude` 两个配置项，用于匹配需要处理的 SVG 文件。
 
@@ -133,14 +143,14 @@ declare module '*.svg' {
 /// <reference types='@modern-js/module-tools/types' />
 ```
 
-#### include
+## asset.svgr.include
 
 设定匹配的 SVG 文件
 
 - 类型： `string | RegExp | (string | RegExp)[]`
 - 默认值： `/\.svg$/`
 
-#### exclude
+## asset.svgr.exclude
 
 设定不匹配的 SVG 文件
 
@@ -178,14 +188,14 @@ export default defineConfig({
 });
 ```
 
-### dependencies
+## autoExternal.dependencies
 
 是否需要外置项目的 `"dependencies"` 依赖。
 
 - 类型： `boolean`
 - 默认值： `true`
 
-### peerDependencies
+## autoExternal.peerDependencies
 
 是否需要外置项目的 `"peerDependencies"` 依赖。
 
@@ -206,8 +216,6 @@ export default defineConfig({
 - 类型： `Object`
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     copy: {
@@ -217,13 +225,13 @@ export default defineConfig({
 });
 ```
 
-### `copy.patterns`
+## copy.patterns
 
 - 类型： `CopyPattern[]`
 - 默认值： `[]`
 
 ```ts
-export interface CopyPattern {
+interface CopyPattern {
   from: string;
   to?: string;
   context?: string;
@@ -231,10 +239,9 @@ export interface CopyPattern {
 }
 ```
 
-### copy.options
+## copy.options
 
-- 类型： `Object`
-- 默认值： `{ concurrency: 100, enableCopySync: false }`
+- 类型：
 
 ```ts
 type Options = {
@@ -242,6 +249,8 @@ type Options = {
   enableCopySync?: boolean;
 };
 ```
+
+- 默认值： `{ concurrency: 100, enableCopySync: false }`
 
 - `concurrency`: 指定并行执行多少个复制任务。
 - `enableCopySync`: 使用 [`fs.copySync`](https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy/copy-sync.js)，默认情况下 [`fs.copy`](https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy/copy.js)。
@@ -256,8 +265,6 @@ type Options = {
 由于 `define` 功能是由全局文本替换实现的，所以需要保证全局变量值为字符串，更为安全的做法是将每个全局变量的值转化为字符串，使用 `JSON.stringify` 进行转换，如下所示：
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     define: {
@@ -300,41 +307,53 @@ export default defineConfig({
 }
 ```
 
-### abortOnError
+## dts.abortOnError
 
-在出现类型错误的时候，是否允许构建成功。**默认情况下，在出现类型错误的时候会导致构建失败**。
-
-:::warning
-当关闭该配置后，无法保证类型文件能正常生成，且不保证内容正确。在 `buildType: 'bundle'`，即打包模式下，类型文件一定不会生成。
-:::
+用于控制在出现类型错误的时候，是否允许构建成功。
 
 - 类型：`boolean`
 - 默认值：`true`
 
-### distPath
+**默认情况下，在出现类型错误的时候会导致构建失败**。将 `abortOnError` 设置为 `false` 后，即使代码中出现了类型问题，构建依然会成功：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      abortOnError: false,
+    },
+  },
+});
+```
+
+:::warning
+当关闭该配置后，无法保证类型文件能正常生成，且不保证内容正确。在 `buildType: 'bundle'` 时，即打包模式下，类型文件一定不会生成。
+:::
+
+## dts.distPath
 
 类型文件的输出路径，基于 [outDir](/api/config/build-config#outDir) 进行输出。
 
 - 类型: `string`
 - 默认值: `./types`
 
-### only
+## dts.only
 
 只生成类型文件，不生成 js 文件。
 
 - 类型： `boolean`
 - 默认值： `false`
 
-### respectExternal
+## dts.respectExternal
 
-当设为 `false` 时，不会打包任何三方包类型，设为 `true` 时，会根据[externals](#externals)来决定是否需要打包三方类型。
+当设为 `false` 时，不会打包任何三方包类型，设为 `true` 时，会根据 [externals](#externals) 来决定是否需要打包三方类型。
 
 在对类型文件进行打包时，构建工具还未对 export 进行分析，因此当你引用的任何一个三方包出现类型错误时，都可能会中断当前的构建流程，这会导致构建流程不可控，因此我们可以通过这个配置来避免该问题。
 
 - 类型： `boolean`
 - 默认值： `true`
 
-### tsconfigPath
+## dts.tsconfigPath
 
 TypeScript 配置文件的路径。
 
@@ -351,8 +370,6 @@ TypeScript 配置文件的路径。
 例如我们需要修改生成文件的后缀：
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     esbuildOptions: options => {
@@ -385,35 +402,35 @@ export default defineConfig({
 
 开启前：
 
-``` js ./dist/index.js
+```js ./dist/index.js
 // 辅助函数
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   // ...
 }
 // 辅助函数
 function _async_to_generator(fn) {
-  return function() {
+  return function () {
     // use asyncGeneratorStep
     // ...
   };
 }
 
 // 你的代码
-export var yourCode = function() {
+export var yourCode = function () {
   // use _async_to_generator
-}
+};
 ```
 
 开启后：
 
-``` js ./dist/index.js
+```js ./dist/index.js
 // 从 @swc/helpers 导入的辅助函数
-import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _async_to_generator } from '@swc/helpers/_/_async_to_generator';
 
 // 你的代码
-export var yourCode = function() {
+export var yourCode = function () {
   // use _async_to_generator
-}
+};
 ```
 
 ## externals
@@ -438,8 +455,6 @@ js 产物输出的格式,其中 `iife` 和 `umd` 只能在 `buildType` 为 `bund
 - 默认值： `bundle` 模式下默认为 `['src/index.ts']`，`bundleless` 模式下默认为 `['src']`
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     input: ['src/index.ts', 'src/index2.ts'],
@@ -469,8 +484,6 @@ esbuild 以 JSON 格式生成有关构建的一些元数据，可以通过例如
 - 默认值： `false`
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     minify: {
@@ -505,7 +518,7 @@ export default defineConfig({
 
 在某些场景下，你可能不需要这些功能，那么可以通过此配置关闭它，关闭后，其引用路径将不会发生改变。
 
-```ts
+```js modern.config.ts
 export default {
   buildConfig: {
     redirect: {
@@ -539,7 +552,7 @@ import 'other-package/dist/index.css';
 }
 ```
 
-同时你又设置了[style.inject](#inject)为 `true`，在控制台可以看到类似的警告信息：
+同时你又设置了 [style.inject](#styleinject) 为 `true`，在控制台可以看到类似的警告信息：
 
 ```bash
 [LIBUILD:ESBUILD_WARN] Ignoring this import because "other-package/dist/index.css" was marked as having no side effects
@@ -548,7 +561,6 @@ import 'other-package/dist/index.css';
 这时候就可以使用这个配置项，手动配置模块的`"sideEffects"`，配置支持正则和函数形式。
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
 export default defineConfig({
   buildConfig: {
     sideEffects: [/\.css$/],
@@ -594,18 +606,18 @@ export default defineConfig({
 
 配置样式相关的配置。
 
-### less
+## style.less
 
 less 相关配置。
 
-#### lessOptions
+## style.less.lessOptions
 
 详细配置参考 [less](https://less.bootcss.com/usage/#less-options)。
 
 - 类型： `Object`
 - 默认值： `{ javascriptEnabled: true }`
 
-#### additionalData
+## style.less.additionalData
 
 在入口文件起始添加 `Less` 代码。
 
@@ -613,8 +625,6 @@ less 相关配置。
 - 默认值： `undefined`
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     style: {
@@ -626,7 +636,7 @@ export default defineConfig({
 });
 ```
 
-#### implementation
+## style.less.implementation
 
 配置 `Less` 使用的实现库，在不指定的情况下，使用的内置版本是 `4.1.3`。
 
@@ -636,8 +646,6 @@ export default defineConfig({
 `Object` 类型时，指定 `Less` 的实现库
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     style: {
@@ -652,8 +660,6 @@ export default defineConfig({
 `string` 类型时，指定 `Less` 的实现库的路径
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     style: {
@@ -665,18 +671,18 @@ export default defineConfig({
 });
 ```
 
-### sass
+## sass
 
 Sass 相关配置。
 
-#### sassOptions
+## style.sass.sassOptions
 
 详细配置参考 [node-sass](https://github.com/sass/node-sass#options)
 
 - 类型： `Object`
 - 默认值： `{}`
 
-#### additionalData
+## style.sass.additionalData
 
 在入口文件起始添加 `Sass` 代码。
 
@@ -684,8 +690,6 @@ Sass 相关配置。
 - 默认值： `undefined`
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     style: {
@@ -698,7 +702,7 @@ export default defineConfig({
 });
 ```
 
-#### implementation
+## style.sass.implementation
 
 配置 `Sass` 使用的实现库，在不指定的情况下，使用的内置版本是 `1.5.4`。
 
@@ -708,8 +712,6 @@ export default defineConfig({
 `Object` 类型时，指定 `Sass` 的实现库
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     style: {
@@ -724,8 +726,6 @@ export default defineConfig({
 `string` 类型时，指定 `Sass` 的实现库的路径
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     style: {
@@ -737,24 +737,36 @@ export default defineConfig({
 });
 ```
 
-### postcss
+## style.postcss
 
 - plugins
 - processOptions
 
 详细配置查看 [PostCSS](https://github.com/postcss/postcss#options)。
 
-### inject
+## style.inject
 
-配置打包模式下是否将 style 插入到 js 中
+配置打包模式下是否将 CSS 样式插入到 JavaScript 代码中。
 
 - 类型： `boolean`
 - 默认值： `false`
 
-开启 inject 后，你会看到打包后的 js 文件中会多出一段 style 的代码。例如你在源码里写了`import './index.scss'`，那么你会看到以下代码。
+将 `inject` 设置为 `true` 来开启此功能：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    inject: true,
+  },
+});
+```
+
+开启后，你会看到源码中引用的 CSS 代码被包含在了打包后的 JS 产物中。
+
+例如，你在源码里写了 `import './index.scss'`，那么在产物中你会看到以下代码：
 
 ```js dist/index.js
-// node_modules/.pnpm/style-inject@0.3.0/node_modules/style-inject/dist/style-inject.es.js
+// node_modules/style-inject/dist/style-inject.es.js
 function styleInject(css, ref) {
   // ...
 }
@@ -767,20 +779,20 @@ style_inject_es_default(css_248z);
 
 :::tip
 
-开启了 `inject` 后，你需要注意以下几点：
+开启 `inject` 后，你需要注意以下几点：
 
-- css 文件中的 `@import` 不会被处理。因此如果你的 css 文件中有 `@import` ，那么你需要在 js 中手动引入 css 文件(less,scss 文件不需要，因为它们会有预处理)。
-- 需要考虑 `sideEffects`的影响，默认情况下我们的构建器会认为它是有副作用的，如果你的项目中或者三方包的 package.json 设置了 `sideEffects` 字段并且没有包含此 css 文件，那么你将会得到一个警告
+- CSS 文件中的 `@import` 不会被处理。如果你的 CSS 文件中有 `@import` ，那么你需要在 JS 文件中手动引入 CSS 文件（less,scss 文件不需要，因为它们会有预处理）。
+- 需要考虑 `sideEffects` 的影响。默认情况下，我们的构建器会认为 CSS 是有副作用的，如果你的项目中或者三方包的 package.json 设置了 `sideEffects` 字段并且没有包含此 CSS 文件，那么你将会得到一个警告：
 
-```
+```shell
 [LIBUILD:ESBUILD_WARN] Ignoring this import because "src/index.scss" was marked as having no side effects by plugin "libuild:adapter"
 ```
 
-此时可以通过配置[sideEffects](#sideeffects)来解决。
+此时可以通过配置 [sideEffects](#sideeffects) 来解决。
 
 :::
 
-### autoModules
+## style.autoModules
 
 根据文件名自动启用 CSS Modules。
 
@@ -793,7 +805,7 @@ style_inject_es_default(css_248z);
 
 `RegExp` : 为匹配正则条件的所有文件启用 CSS Modules.
 
-### modules
+## style.modules
 
 CSS Modules 配置
 
@@ -803,8 +815,6 @@ CSS Modules 配置
 一个常用的配置是 `localsConvention`，它可以改变 CSS Modules 的类名生成规则。
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     style: {
@@ -828,7 +838,7 @@ export default defineConfig({
 
 详细配置查看 [postcss-modules](https://github.com/madyankin/postcss-modules#usage)
 
-### tailwindcss
+## style.tailwindcss
 
 Tailwind CSS 相关配置。
 
@@ -863,10 +873,36 @@ const tailwind = {
 
 ## target
 
-指定构建的目标环境
+`target` 用于为生成的 JavaScript 代码设置目标环境。它让 Module Tools 将目标环境无法识别的 JavaScript 语法转换为在这些环境中可用的低版本 JavaScript 语法。
 
-- 类型： `'es5' | 'es6' | 'es2015' | 'es2016' | 'es2017' | 'es2018' | 'es2019' | 'es2020' | 'es2021' | 'es2022' | 'esnext'`
+- 类型：
+
+```ts
+type Target =
+  | 'es5'
+  | 'es6'
+  | 'es2015'
+  | 'es2016'
+  | 'es2017'
+  | 'es2018'
+  | 'es2019'
+  | 'es2020'
+  | 'es2021'
+  | 'es2022'
+  | 'esnext';
+```
+
 - 默认值： `'es6'`
+
+例如，将代码编译到 `es5` 语法：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    target: 'es5',
+  },
+});
+```
 
 ## transformImport
 
@@ -879,9 +915,7 @@ const tailwind = {
 
 使用示例：
 
-```ts
-import moduleTools, { defineConfig} from '@modern-js/module-tools';
-
+```js modern.config.ts
 export default defineConfig({
   buildConfig: {
     transformImport: [
@@ -892,9 +926,6 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [
-    moduleTools(),
-  ],
 });
 ```
 
@@ -910,8 +941,6 @@ export default defineConfig({
 - 默认值： `{}`
 
 ```ts modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     umdGlobals: {
@@ -932,8 +961,6 @@ export default defineConfig({
 - 默认值： `name => name`
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     format: 'umd',
@@ -954,8 +981,6 @@ export default defineConfig({
 同时函数形式可以接收一个参数，为当前打包文件的输出路径
 
 ```js modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
 export default defineConfig({
   buildConfig: {
     format: 'umd',
