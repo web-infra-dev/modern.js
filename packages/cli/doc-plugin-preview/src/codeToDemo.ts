@@ -35,7 +35,13 @@ export const remarkCodeToDemo: Plugin<
       if (node.lang === 'jsx' || node.lang === 'tsx') {
         const { value } = node;
         const isPure = node?.meta?.includes('pure');
-        // not transform pure code
+
+        // every code block can change their preview mode by meta
+        const isMobileMode =
+          node?.meta?.includes('mobile') ||
+          (!node?.meta?.includes('web') && isMobile);
+
+        // do nothing for pure mode
         if (isPure) {
           return;
         }
@@ -51,7 +57,7 @@ export const remarkCodeToDemo: Plugin<
           `virtual-demo`,
         );
         const virtualModulePath = join(demoDir, `${id}.tsx`);
-        if (!isMobile) {
+        if (!isMobileMode) {
           // only need to write in web mode, in mobile mode, it has been written by addPage.
           fs.ensureDirSync(join(demoDir));
           fs.writeFileSync(virtualModulePath, value);
@@ -68,7 +74,7 @@ export const remarkCodeToDemo: Plugin<
             {
               type: 'mdxJsxAttribute',
               name: 'isMobile',
-              value: isMobile,
+              value: isMobileMode,
             },
             {
               type: 'mdxJsxAttribute',
