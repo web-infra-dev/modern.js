@@ -384,8 +384,10 @@ export class ModernDevServer extends ModernServer {
 
     // 监听文件变动，如果有变动则给 client，也就是 start 启动的插件发消息
     watcher.listen(defaultWatchedPaths, watchOptions, (filepath, event) => {
+      // Todo should delte this cache in onRepack
       if (filepath.includes('-server-loaders.js')) {
         delete require.cache[filepath];
+        return;
       } else {
         watcher.updateDepTree();
         watcher.cleanDepCache(filepath);
