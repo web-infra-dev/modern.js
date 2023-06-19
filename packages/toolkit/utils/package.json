@@ -36,11 +36,11 @@
     },
     "./runtime/router": {
       "jsnext:source": "./src/runtime/router.ts",
-      "require": "./dist/cjs/runtime/router.js",
       "default": "./dist/esm/runtime/router.js"
     },
     "./runtime/remix-router": {
       "jsnext:source": "./src/runtime/remixRouter.ts",
+      "require": "./dist/cjs/runtime/remixRouter.js",
       "default": "./dist/esm/runtime/remixRouter.js"
     },
     "./runtime/nested-routes": {
@@ -58,7 +58,6 @@
     },
     "./runtime-node/router": {
       "jsnext:source": "./src/runtime-node/router.ts",
-      "require": "./dist/cjs/runtime-node/router.js",
       "default": "./dist/esm/runtime-node/router.js"
     },
     "./universal/constants": {
@@ -118,11 +117,11 @@
       },
       "./runtime/router": {
         "types": "./dist/types/runtime/router.d.ts",
-        "require": "./dist/cjs/runtime/router.js",
         "default": "./dist/esm/runtime/router.js"
       },
       "./runtime/remix-router": {
         "types": "./dist/types/runtime/remixRouter.d.ts",
+        "require": "./dist/cjs/runtime/remixRouter.js",
         "default": "./dist/esm/runtime/remixRouter.js"
       },
       "./runtime/nested-routes": {
