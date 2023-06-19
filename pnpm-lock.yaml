@@ -1618,6 +1618,9 @@ importers:
       process.argv:
         specifier: ^0.6.0
         version: 0.6.0
+      react-docgen-typescript-plugin:
+        specifier: 1.0.5
+        version: 1.0.5(typescript@5.0.4)(webpack@5.82.1)
       tsconfig-paths-webpack-plugin:
         specifier: 4.0.0
         version: 4.0.0
@@ -29171,6 +29174,25 @@ packages:
     dependencies:
       '@babel/runtime': 7.21.5
       react: 18.2.0
+
+  /react-docgen-typescript-plugin@1.0.5(typescript@5.0.4)(webpack@5.82.1):
+    resolution: {integrity: sha512-Ds6s2ioyIlH45XSfEVMNwRcDkzuff3xQCPxDFOzTc8GEshy+hksas8RYlmV4JEQREI+OGEGybhMCJk3vFbQZNQ==}
+    peerDependencies:
+      typescript: '>= 4.x'
+      webpack: '>= 4'
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+      endent: 2.1.0
+      find-cache-dir: 3.3.2
+      flat-cache: 3.0.4
+      micromatch: 4.0.5
+      react-docgen-typescript: 2.2.2(typescript@5.0.4)
+      tslib: 2.4.0
+      typescript: 5.0.4
+      webpack: 5.82.1(esbuild@0.15.7)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /react-docgen-typescript@2.2.2(typescript@5.0.4):
     resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==}
