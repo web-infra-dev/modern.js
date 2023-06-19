@@ -8,7 +8,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
     plugins: {
       import: babelPluginImport,
       transformRuntime,
-      transformReactRemovePropTypes,
       styledComponentsOptions,
       lodashOptions,
     } = {},
@@ -94,25 +93,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
         ...(transformRuntime || {}),
       },
     ]);
-
-  const disableTransformReactRemovePropTypes =
-    typeof transformReactRemovePropTypes === 'boolean' &&
-    !transformReactRemovePropTypes;
-  if (!disableTransformReactRemovePropTypes) {
-    chain
-      .plugin('babel-plugin-transform-react-remove-prop-types')
-      .use(
-        require.resolve(
-          '../compiled/babel-plugin-transform-react-remove-prop-types',
-        ),
-        [
-          {
-            removeImport: true,
-            ...(transformReactRemovePropTypes || {}),
-          },
-        ],
-      );
-  }
 
   // link: https://github.com/tc39/proposal-export-default-from
   chain
