@@ -54,15 +54,16 @@ export function pluginPreview(options?: Options): DocPlugin {
                 const { value } = node;
                 const isPure = node?.meta?.includes('pure');
 
+                // do not anything for pure mode
+                if (isPure) {
+                  return;
+                }
+
                 // every code block can change their preview mode by meta
                 const isMobileMode =
                   node?.meta?.includes('mobile') ||
                   (!node?.meta?.includes('web') && isMobile);
 
-                // do not add pages for pure mode and web mode
-                if (isPure || !isMobileMode) {
-                  return;
-                }
                 const { pageName } = routeMeta.find(
                   meta => meta.absolutePath === filepath,
                 )!;
@@ -76,13 +77,19 @@ export function pluginPreview(options?: Options): DocPlugin {
                 );
 
                 const virtualModulePath = join(demoDir, `${id}.tsx`);
-                demoMeta[filepath] = demoMeta[filepath] ?? [];
-                const isExist = demoMeta[filepath].find(item => item.id === id);
-                if (!isExist) {
-                  demoMeta[filepath].push({
-                    id,
-                    virtualModulePath,
-                  });
+
+                if (isMobileMode) {
+                  // only add demoMeta in mobile mode
+                  demoMeta[filepath] = demoMeta[filepath] ?? [];
+                  const isExist = demoMeta[filepath].find(
+                    item => item.id === id,
+                  );
+                  if (!isExist) {
+                    demoMeta[filepath].push({
+                      id,
+                      virtualModulePath,
+                    });
+                  }
                 }
 
                 fs.ensureDirSync(join(demoDir));
