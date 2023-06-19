@@ -1,18 +1,18 @@
-import { BuilderPlugin } from '../types';
+import { DefaultBuilderPlugin, BundlerConfig } from '@modern-js/builder-shared';
 
-export function builderPluginExternals(): BuilderPlugin {
+export function builderPluginExternals(): DefaultBuilderPlugin {
   return {
     name: 'builder-plugin-externals',
     setup(api) {
-      api.modifyRspackConfig(rspackConfig => {
+      api.modifyBundlerChain(chain => {
         const { externals } = api.getNormalizedConfig().output;
         if (externals) {
-          rspackConfig.externals = externals;
+          chain.externals(externals);
         }
       });
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-        bundlerConfigs.forEach(config => {
+        (bundlerConfigs as BundlerConfig[]).forEach(config => {
           const isWebWorker = Array.isArray(config.target)
             ? config.target.includes('webworker')
             : config.target === 'webworker';

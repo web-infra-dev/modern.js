@@ -35,4 +35,5 @@ export const mockBuilderPlugins: Plugins = {
   rem: genMockPlugin('builder-plugin-rem'),
   wasm: genMockPlugin('builder-plugin-wasm'),
   moment: genMockPlugin('builder-plugin-moment'),
+  externals: genMockPlugin('builder-plugin-externals'),
 };

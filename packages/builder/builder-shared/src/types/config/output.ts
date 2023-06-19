@@ -1,5 +1,6 @@
 import type { BuilderTarget } from '../builder';
 import type { CrossOrigin } from './html';
+import type { Externals } from 'webpack';
 
 export type DistPathConfig = {
   /** The root directory of all files. */
@@ -138,6 +139,11 @@ export type CssModules = {
 };
 
 export interface SharedOutputConfig {
+  /**
+   * At build time, prevent some `import` dependencies from being packed into bundles in your code, and instead fetch them externally at runtime.
+   * For more information, please see: [webpack Externals](https://webpack.js.org/configuration/externals/)
+   */
+  externals?: Externals;
   /**
    * Set the directory of the dist files.
    * Builder will output files to the corresponding subdirectory according to the file type.
@@ -290,4 +296,5 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   enableInlineStyles: boolean | RegExp;
   svgDefaultExport: SvgDefaultExport;
   disableSvgr: boolean;
+  externals?: Externals;
 }
