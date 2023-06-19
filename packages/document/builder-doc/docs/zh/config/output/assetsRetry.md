@@ -227,3 +227,31 @@ export default {
 添加以上配置后，`assetsRetry` 的运行时代码会被抽取为一个独立的 `assets-retry.[version].js` 文件，并输出到产物目录下。
 
 这种方式的弊端在于，`assets-retry.[version].js` 自身有加载失败的可能性。如果出现这种情况，静态资源重试的逻辑就无法生效。因此，我们更推荐将运行时代码内联到 HTML 文件中。
+
+### 注意事项
+
+当你使用 `assetsRetry` 时，Builder 会向 HTML 中注入一段运行时代码，并将 `assetsRetry` 配置的内容序列化，插入到这段代码中，因此你需要注意：
+
+- 避免在 `assetsRetry` 中配置敏感信息，比如内部使用的 token。
+- 避免在 `onRetry`，`onSuccess`，`onFail` 中引用函数外部的变量或方法。
+- 避免在 `onRetry`，`onSuccess`，`onFail` 中使用有兼容性问题的语法，因为这些函数会被直接内联到 HTML 中。
+
+以下是一个错误示例：
+
+```js
+import { someMethod } from 'utils';
+
+export default {
+  output: {
+    assetsRetry: {
+      onRetry() {
+        // 错误用法，包含了敏感信息
+        const privateToken = 'a-private-token';
+
+        // 错误用法，使用了外部的方法
+        someMethod(privateToken);
+      },
+    },
+  },
+};
+```

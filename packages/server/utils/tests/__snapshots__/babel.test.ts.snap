@@ -32,12 +32,6 @@ exports[`babel resolveBabelConfig 1`] = `
       },
     ],
     [
-      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-      {
-        "removeImport": true,
-      },
-    ],
-    [
       "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
     ],
     [

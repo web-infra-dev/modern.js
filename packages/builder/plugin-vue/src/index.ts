@@ -14,6 +14,14 @@ export function builderPluginVue(
   return {
     name: 'builder-plugin-vue',
 
+    // Remove built-in react plugins.
+    // These plugins should be moved to a separate package in the next major version.
+    remove: [
+      'builder-plugin-react',
+      'builder-plugin-antd',
+      'builder-plugin-arco',
+    ],
+
     async setup(api) {
       api.modifyBuilderConfig(config => {
         config.output ||= {};

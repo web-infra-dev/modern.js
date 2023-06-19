@@ -83,8 +83,7 @@ type InfrastructureLogging = Overlap<
   RspackInfrastructureLogging
 >;
 
-type ExternalItem = string | RegExp | Record<string, string | boolean>;
-type Externals = ExternalItem[] | ExternalItem;
+type Externals = Configuration['externals'];
 
 /** The intersection of webpack and Rspack */
 export type BundlerConfig = {

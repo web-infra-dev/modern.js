@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.23.1
+
+### Patch Changes
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
 ## 2.23.0
 
 ### Patch Changes

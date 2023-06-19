@@ -565,15 +565,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -581,6 +572,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -710,15 +710,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -726,6 +717,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -1438,12 +1438,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -1464,6 +1458,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -1489,15 +1489,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -1505,6 +1496,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -1583,12 +1583,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -1609,6 +1603,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -1634,15 +1634,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -1650,6 +1641,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -2305,12 +2305,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -2332,6 +2326,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                   "styled-components",
                 ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -2351,15 +2351,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -2367,6 +2358,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -2448,12 +2448,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -2475,6 +2469,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                   "styled-components",
                 ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -2494,15 +2494,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -2510,6 +2501,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -3084,12 +3084,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -3110,6 +3104,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -3135,15 +3135,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -3151,6 +3142,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -3229,12 +3229,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -3255,6 +3249,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -3280,15 +3280,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -3296,6 +3287,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],

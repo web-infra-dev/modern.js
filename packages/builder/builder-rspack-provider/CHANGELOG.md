@@ -1,5 +1,37 @@
 # @modern-js/builder-rspack-provider
 
+## 2.23.1
+
+### Patch Changes
+
+- 20c85bb: feat(rspack-provider): support performance.removeMomentLocale in rspack
+
+  feat(rspack-provider): 在使用 rspack 构建时支持 performance.removeMomentLocale 配置项
+
+- 5772927: feat(rspack-provider): support import .wasm assets
+
+  feat(rspack-provider): 支持引用 .wasm 资源
+
+- 4af25d9: fix(builder): remove @modern-js/e2e from peerDependencies
+
+  fix(builder): 移除 @modern-js/e2e peerDependencies
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+  - @modern-js/server@2.23.1
+  - @modern-js/types@2.23.1
+
 ## 2.23.0
 
 ### Patch Changes

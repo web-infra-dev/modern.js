@@ -1,5 +1,37 @@
 # @modern-js/app-tools
 
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [20c85bb]
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4af25d9]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/builder-webpack-provider@2.23.1
+  - @modern-js/builder-rspack-provider@2.23.1
+  - @modern-js/builder@2.23.1
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+  - @modern-js/builder-plugin-esbuild@2.23.1
+  - @modern-js/builder-plugin-node-polyfill@2.23.1
+  - @modern-js/core@2.23.1
+  - @modern-js/plugin-data-loader@2.23.1
+  - @modern-js/plugin-i18n@2.23.1
+  - @modern-js/plugin-lint@2.23.1
+  - @modern-js/new-action@2.23.1
+  - @modern-js/prod-server@2.23.1
+  - @modern-js/server@2.23.1
+  - @modern-js/node-bundle-require@2.23.1
+  - @modern-js/plugin@2.23.1
+  - @modern-js/upgrade@2.23.1
+  - @modern-js/types@2.23.1
+
 ## 2.23.0
 
 ### Minor Changes

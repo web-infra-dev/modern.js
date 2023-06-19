@@ -7,7 +7,6 @@ import {
 import {
   isTest,
   isDev,
-  isProd,
   getCoreJsVersion,
   isBeyondReact17,
 } from '@modern-js/utils';
@@ -72,16 +71,17 @@ export const genCommon = (options: Options): BabelChain => {
         allowDeclareFields: true,
         isTSX: true,
       },
-      reactOptions: {
-        // Adds component stack to warning messages
-        // Adds __self attribute to JSX which React will use for some warnings
-        development: isDev() || isTest(),
-        // Will use the native built-in instead of trying to polyfill
-        // behavior for any plugins that require one.
-        useBuiltIns: true,
-        // 原来配置中没有配置这个，默认为false，而 base config里有配置
-        useSpread: false,
-      },
+      reactOptions: options.disableReactPreset
+        ? false
+        : {
+            // Adds component stack to warning messages
+            // Adds __self attribute to JSX which React will use for some warnings
+            development: isDev() || isTest(),
+            // Will use the native built-in instead of trying to polyfill
+            // behavior for any plugins that require one.
+            useBuiltIns: true,
+            useSpread: false,
+          },
     },
     plugins: {
       lodashOptions,
@@ -100,11 +100,6 @@ export const genCommon = (options: Options): BabelChain => {
         useESModules: !modules,
         helpers: target === 'client' && !isTest(),
       },
-      transformReactRemovePropTypes: isProd()
-        ? {
-            // 内部默认 removeImport: true,
-          }
-        : false,
       styledComponentsOptions: styledComponents,
     },
     syntax: 'es5',

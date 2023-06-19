@@ -386,6 +386,10 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
+        name: 'babel-plugin-transform-react-remove-prop-types',
+        ignoreDts: true,
+      },
+      {
         name: 'copy-webpack-plugin',
         ignoreDts: true,
         externals: {
@@ -444,10 +448,6 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: '@babel/helper-module-imports',
-        ignoreDts: true,
-      },
-      {
-        name: 'babel-plugin-transform-react-remove-prop-types',
         ignoreDts: true,
       },
       {

@@ -189,10 +189,15 @@ export default (): CliPlugin<AppTools> => ({
           const chunkLoadingGlobal = bundlerConfigs?.find(
             config => config.name === 'client',
           )?.output?.chunkLoadingGlobal;
+          const config = api.useResolvedConfigContext();
+          const { crossorigin, scriptLoading } = config.html;
+
           plugins.push({
             name: PLUGIN_IDENTIFIER,
             options: JSON.stringify({
               ...(ssrConfigMap.get(entrypoint.entryName) || {}),
+              crossorigin,
+              scriptLoading,
               chunkLoadingGlobal,
             }),
           });

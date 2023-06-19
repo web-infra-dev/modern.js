@@ -5,6 +5,6 @@
 '@modern-js/builder': patch
 ---
 
-feat(rspack-provider): support import .wasm assets
+chore(builder): reuse externals plugin
 
-feat(rspack-provider): 支持引用 .wasm 资源
+chore(builder): 复用 externals 插件

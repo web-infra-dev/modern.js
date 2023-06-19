@@ -1,5 +1,18 @@
 # @modern-js/plugin-module-doc
 
+## 2.23.1
+
+### Patch Changes
+
+- 496ec52: fix(module-doc): api params break
+
+  fix(module-doc): api 参数错误
+
+- Updated dependencies [496ec52]
+  - @modern-js/doc-core@2.23.1
+  - @modern-js/module-tools@2.23.1
+  - @modern-js/doc-plugin-preview@2.23.1
+
 ## 2.23.0
 
 ### Patch Changes

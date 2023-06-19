@@ -1,10 +1,46 @@
-import type { BuilderPlugin } from '../types';
+import type { BuilderConfig, BuilderPlugin } from '../types';
 import { isUsingHMR } from '@modern-js/builder-shared';
 
 export const builderPluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',
 
   setup(api) {
+    api.modifyBuilderConfig(async (config, { mergeBuilderConfig }) => {
+      const { isProd, isBeyondReact17 } = await import('@modern-js/utils');
+
+      const babelConfig: BuilderConfig = {
+        tools: {
+          babel(_, { addPresets, addPlugins }) {
+            const isNewJsx = isBeyondReact17(api.context.rootPath);
+            const presetReactOptions = {
+              development: !isProd(),
+              // Will use the native built-in instead of trying to polyfill
+              useBuiltIns: true,
+              useSpread: false,
+              runtime: isNewJsx ? 'automatic' : 'classic',
+            };
+
+            addPresets([
+              [require.resolve('@babel/preset-react'), presetReactOptions],
+            ]);
+
+            if (isProd()) {
+              addPlugins([
+                [
+                  require.resolve(
+                    '../../compiled/babel-plugin-transform-react-remove-prop-types',
+                  ),
+                  { removeImport: true },
+                ],
+              ]);
+            }
+          },
+        },
+      };
+
+      return mergeBuilderConfig(babelConfig, config);
+    });
+
     api.modifyWebpackChain(async (chain, utils) => {
       const config = api.getNormalizedConfig();
 

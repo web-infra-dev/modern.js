@@ -1,5 +1,31 @@
 # @modern-js/builder-shared
 
+## 2.23.1
+
+### Patch Changes
+
+- 5772927: feat(rspack-provider): support import .wasm assets
+
+  feat(rspack-provider): 支持引用 .wasm 资源
+
+- 811ccd4: fix: add attributes for inline runtime script
+  fix: 为 inline runtime 脚本添加属性
+- 5a3eeff: fix(builder): assetsRetry cause global variable pollution
+
+  fix(builder): 修复 assetsRetry 污染全局变量的问题
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/prod-server@2.23.1
+  - @modern-js/server@2.23.1
+  - @modern-js/types@2.23.1
+
 ## 2.23.0
 
 ### Patch Changes

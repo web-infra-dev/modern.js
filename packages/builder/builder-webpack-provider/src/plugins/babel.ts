@@ -112,6 +112,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
               userBabelConfigUtils: babelUtils,
               overrideBrowserslist: browserslist,
               importAntd: false,
+              disableReactPreset: true,
             }),
           };
 
