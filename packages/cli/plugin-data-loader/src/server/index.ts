@@ -17,6 +17,7 @@ export default (): ServerPlugin => ({
       distDir: string;
     }) {
       return async (context: ServerContext) => {
+        // Todo remove matchEntry, bundle follow logic to server-loader
         const entry = matchEntry(context.path, serverRoutes);
         if (!entry) {
           return;
