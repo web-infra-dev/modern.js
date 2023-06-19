@@ -3,13 +3,15 @@ import { VueLoaderPlugin } from 'vue-loader';
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type { VueLoaderOptions } from 'vue-loader';
+import type { VueJSXPluginOptions } from '@vue/babel-plugin-jsx';
 
 export type PluginVueOptions = {
+  vueJsxOptions?: VueJSXPluginOptions;
   vueLoaderOptions?: VueLoaderOptions;
 };
 
 export function builderPluginVue(
-  options?: PluginVueOptions,
+  options: PluginVueOptions = {},
 ): BuilderPlugin<BuilderPluginAPI> {
   return {
     name: 'builder-plugin-vue',
@@ -23,9 +25,22 @@ export function builderPluginVue(
     ],
 
     async setup(api) {
-      api.modifyBuilderConfig(config => {
-        config.output ||= {};
-        config.output.disableSvgr = true;
+      api.modifyBuilderConfig((config, { mergeBuilderConfig }) => {
+        return mergeBuilderConfig(config, {
+          output: {
+            disableSvgr: true,
+          },
+          tools: {
+            babel(_, { addPlugins }) {
+              addPlugins([
+                [
+                  require.resolve('@vue/babel-plugin-jsx'),
+                  options.vueJsxOptions || {},
+                ],
+              ]);
+            },
+          },
+        });
       });
 
       api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
@@ -39,7 +54,7 @@ export function builderPluginVue(
             experimentalInlineMatchResource:
               api.context.bundlerType === 'rspack',
           },
-          options?.vueLoaderOptions,
+          options.vueLoaderOptions,
         );
 
         chain.module

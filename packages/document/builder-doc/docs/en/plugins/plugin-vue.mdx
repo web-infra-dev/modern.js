@@ -58,3 +58,36 @@ builderPluginVue({
   },
 });
 ```
+
+### vueJsxOptions
+
+- **Type:**
+
+```ts
+type VueJSXPluginOptions = {
+  /** transform `on: { click: xx }` to `onClick: xxx` */
+  transformOn?: boolean;
+  /** enable optimization or not. */
+  optimize?: boolean;
+  /** merge static and dynamic class / style attributes / onXXX handlers */
+  mergeProps?: boolean;
+  /** configuring custom elements */
+  isCustomElement?: (tag: string) => boolean;
+  /** enable object slots syntax */
+  enableObjectSlots?: boolean;
+  /** Replace the function used when compiling JSX expressions */
+  pragma?: string;
+};
+```
+
+- **Default:** `{}`
+
+Options passed to `@vue/babel-plugin-jsx`, please refer to the [@vue/babel-plugin-jsx documentation](https://github.com/vuejs/babel-plugin-jsx) for specific usage.
+
+```ts
+builderPluginVue({
+  vueJsxOptions: {
+    transformOn: true,
+  },
+});
+```
