@@ -29,6 +29,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
                   "@modern-js/babel-preset-app",
                   {
                     "appDirectory": "<ROOT>",
+                    "disableReactPreset": true,
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,
@@ -81,6 +82,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
                   "@modern-js/babel-preset-app",
                   {
                     "appDirectory": "<ROOT>",
+                    "disableReactPreset": true,
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,

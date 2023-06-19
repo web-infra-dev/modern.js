@@ -295,6 +295,12 @@ importers:
 
   packages/builder/builder-webpack-provider:
     dependencies:
+      '@babel/core':
+        specifier: ^7.21.8
+        version: 7.21.8
+      '@babel/preset-react':
+        specifier: ^7.18.6
+        version: 7.18.6(@babel/core@7.21.8)
       '@modern-js/babel-preset-app':
         specifier: workspace:*
         version: link:../../cli/babel-preset-app

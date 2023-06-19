@@ -21,7 +21,6 @@ export interface IBaseBabelConfigOption {
           }
         | false;
     };
-    transformReactRemovePropTypes?: false | Record<string, any>;
     styledComponentsOptions?: IStyledComponentOptions;
     lodashOptions?: any;
   };

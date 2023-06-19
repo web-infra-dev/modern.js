@@ -101,15 +101,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -117,6 +108,15 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -210,15 +210,6 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -226,6 +217,15 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -282,10 +282,11 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                   "@modern-js/babel-preset-app",
                   {
                     "appDirectory": "<ROOT>",
+                    "disableReactPreset": true,
                     "target": "client",
                     "useBuiltIns": "entry",
                     "useTsLoader": true,
-                    "userBabelConfig": undefined,
+                    "userBabelConfig": [Function],
                   },
                 ],
               ],
