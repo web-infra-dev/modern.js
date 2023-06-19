@@ -2,7 +2,7 @@
   --modern-sidebar-width: 210px;
   --modern-aside-width: 0;
 }
-:root .modern-doc div[class*='language-'] {
+:root .preview-code div[class*='language-'] {
   margin: 0;
   border-radius: 0;
   height: 100%
