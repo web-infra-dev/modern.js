@@ -3015,8 +3015,8 @@ importers:
         version: 0.5.1
     devDependencies:
       '@modern-js/libuild':
-        specifier: 0.13.0
-        version: 0.13.0
+        specifier: 0.13.1
+        version: 0.13.1
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
@@ -3115,15 +3115,15 @@ importers:
   packages/module/plugin-module-import:
     dependencies:
       '@modern-js/libuild-plugin-swc':
-        specifier: 0.13.0
-        version: 0.13.0(@swc/helpers@0.5.1)
+        specifier: 0.13.1
+        version: 0.13.1(@swc/helpers@0.5.1)
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
     devDependencies:
       '@modern-js/libuild':
-        specifier: 0.13.0
-        version: 0.13.0
+        specifier: 0.13.1
+        version: 0.13.1
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
@@ -3173,8 +3173,8 @@ importers:
   packages/module/plugin-module-node-polyfill:
     dependencies:
       '@modern-js/libuild-plugin-node-polyfill':
-        specifier: 0.13.0
-        version: 0.13.0
+        specifier: 0.13.1
+        version: 0.13.1
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -4698,14 +4698,14 @@ importers:
         specifier: workspace:*
         version: link:../../cli/core
       '@modern-js/libuild':
-        specifier: 0.13.0
-        version: 0.13.0
+        specifier: 0.13.1
+        version: 0.13.1
       '@modern-js/libuild-plugin-svgr':
-        specifier: 0.13.0
-        version: 0.13.0
+        specifier: 0.13.1
+        version: 0.13.1
       '@modern-js/libuild-plugin-swc':
-        specifier: 0.13.0
-        version: 0.13.0(@swc/helpers@0.5.1)
+        specifier: 0.13.1
+        version: 0.13.1(@swc/helpers@0.5.1)
       '@modern-js/new-action':
         specifier: workspace:*
         version: link:../../generator/new-action
@@ -11617,8 +11617,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-node-polyfill@0.13.0:
-    resolution: {integrity: sha512-rtvfgB92O6g4Tl1QbP+e/VzuKOKS0aqbHaKizdIj04xZb+BkdeDhpbdUWhxcn890fl7kLBB56XN0E01QY+2B7g==}
+  /@modern-js/libuild-plugin-node-polyfill@0.13.1:
+    resolution: {integrity: sha512-Ak33Vh0MGC/N234vmJU0bx2VSUzX4K13GOPHuMQ33fpPJy4VVFfAt6F+0qwdK6E3nt0Fx2zZpck6N3Ski2dtwQ==}
     dependencies:
       assert: 2.0.0
       browserify-zlib: 0.2.0
@@ -11646,8 +11646,8 @@ packages:
       vm-browserify: 1.1.2
     dev: false
 
-  /@modern-js/libuild-plugin-svgr@0.13.0:
-    resolution: {integrity: sha512-zkk9KRHZceg516doTFhrNntd5axYZUE1o17CybNOCDXupxCnSAC8KxZIZK0eZBQlgwSBoMnK5MFRqNt+hBUu2A==}
+  /@modern-js/libuild-plugin-svgr@0.13.1:
+    resolution: {integrity: sha512-cwghl7vJ1eLbjR7kb+JzLgJc+ftb5OlFL1ms+YQp6YbovySJsj6oXYP9D+kQS1QmpaS6nulvxBA42XStA8SsNQ==}
     dependencies:
       '@svgr/core': 8.0.0
       '@svgr/plugin-jsx': 8.0.1(@svgr/core@8.0.0)
@@ -11657,8 +11657,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc@0.13.0(@swc/helpers@0.5.1):
-    resolution: {integrity: sha512-w9HieakjiJ9f7KGsGWQKUJR+jC4yGgVhJV/ctqm1RgS9icGX7YDOQKf2lHoUFe+MdlEJ665I4oxbgCRdNzGycQ==}
+  /@modern-js/libuild-plugin-swc@0.13.1(@swc/helpers@0.5.1):
+    resolution: {integrity: sha512-sFtns3ceq45TD2PO5DByaPm4vCIMyxcl/pMCSAmIyoL42eQCQI6AFzIsq/3BpD0MCnkj6/hOS2txHOsEcEkE+Q==}
     dependencies:
       '@modern-js/swc-plugins': 0.3.5(@swc/helpers@0.5.1)
       chalk: 4.1.0
@@ -11666,8 +11666,8 @@ packages:
       - '@swc/helpers'
     dev: false
 
-  /@modern-js/libuild@0.13.0:
-    resolution: {integrity: sha512-4lCEYcEnEnR7Xp+/OlWnAH/0Biv2K2WwfvOqpPA5R0znMD9CjF5OYz+V+d0WbjFmtrTyvSrBXzzMHAxJojQtEg==}
+  /@modern-js/libuild@0.13.1:
+    resolution: {integrity: sha512-Bs7sappo1VhFjN5iZiqmEVzVY21iLK98sEnVPx9iwSFozs+Hk7UeM+ujypnez61tHDK1bKUOAjre8E+r2FleHw==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
