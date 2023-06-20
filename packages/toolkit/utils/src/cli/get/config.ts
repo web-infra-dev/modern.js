@@ -1,8 +1,8 @@
 import { isPlainObject } from '../is';
-import { MAIN_ENTRY_NAME } from '../constants';
 
 export const getEntryOptions = <T>(
   name: string,
+  isMainEntry: boolean,
   baseOptions?: T,
   optionsByEntries?: Record<string, T>,
   packageName?: string,
@@ -11,11 +11,7 @@ export const getEntryOptions = <T>(
     let optionsByEntry = getOptionsByEntryName(name, optionsByEntries);
 
     // compatible with main entry using packageName as the key
-    if (
-      optionsByEntry === undefined &&
-      name === MAIN_ENTRY_NAME &&
-      packageName
-    ) {
+    if (optionsByEntry === undefined && isMainEntry && packageName) {
       optionsByEntry = getOptionsByEntryName(packageName, optionsByEntries);
     }
 

@@ -52,12 +52,13 @@ export default (): CliPlugin<AppTools> => ({
         ];
       },
       modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName, fileSystemRoutes } = entrypoint;
+        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName } = api.useAppContext();
 
         const runtimeConfig = getEntryOptions(
           entryName,
+          isMainEntry,
           userConfig.runtime,
           userConfig.runtimeByEntries,
           packageName,

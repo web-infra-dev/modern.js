@@ -6,6 +6,7 @@ import {
 } from '@modern-js/builder-shared';
 import {
   ChainIdentifier,
+  MAIN_ENTRY_NAME,
   getEntryOptions,
   removeTailSlash,
 } from '@modern-js/utils';
@@ -90,11 +91,16 @@ function applyBottomHtmlPlugin<B extends Bundler>({
   const { normalizedConfig: modernConfig, appContext } = options;
   // inject bottomTemplate into html-webpack-plugin
   for (const entryName of Object.keys(api.context.entry)) {
+    const {
+      source: { mainEntryName },
+    } = modernConfig;
+    const isMainEntry = entryName === (mainEntryName || MAIN_ENTRY_NAME);
     // FIXME: the only need necessary
     const baseTemplateParams = {
       entryName,
       title: getEntryOptions<string | undefined>(
         entryName,
+        isMainEntry,
         modernConfig.html.title,
         modernConfig.html.titleByEntries,
         appContext.packageName,
@@ -102,6 +108,7 @@ function applyBottomHtmlPlugin<B extends Bundler>({
       mountId: modernConfig.html.mountId,
       ...getEntryOptions<any>(
         entryName,
+        isMainEntry,
         modernConfig.html.templateParameters,
         modernConfig.html.templateParametersByEntries,
         appContext.packageName,

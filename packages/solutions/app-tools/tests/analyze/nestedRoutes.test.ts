@@ -17,6 +17,7 @@ describe('nested routes', () => {
         basename: routesDir,
       },
       'main',
+      true,
     );
     expect(route).toMatchSnapshot();
   });

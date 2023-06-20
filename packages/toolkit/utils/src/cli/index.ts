@@ -17,6 +17,5 @@ export * from './port';
 export * from './prettyInstructions';
 export * from './print';
 export * from './require';
-export * from './routes';
 export * from './runtimeExports';
 export * from './watch';

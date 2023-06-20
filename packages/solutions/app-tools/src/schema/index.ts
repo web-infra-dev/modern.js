@@ -20,6 +20,7 @@ const source = {
       },
     },
   },
+  mainEntryName: { type: 'string' },
   enableAsyncEntry: { type: 'boolean' },
   disableDefaultEntries: { type: 'boolean' },
   entriesDir: { type: 'string' },

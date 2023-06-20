@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, findExists, MAIN_ENTRY_NAME } from '@modern-js/utils';
+import { fs, findExists } from '@modern-js/utils';
 import type { Entrypoint, HtmlPartials, HtmlTemplates } from '@modern-js/types';
 import type {
   AppNormalizedConfig,
@@ -69,11 +69,8 @@ export const getHtmlTemplate = async (
   const htmlTemplates: HtmlTemplates = {};
 
   for (const entrypoint of entrypoints) {
-    const { entryName } = entrypoint;
-    const name =
-      entrypoints.length === 1 && entryName === MAIN_ENTRY_NAME
-        ? ''
-        : entryName;
+    const { entryName, isMainEntry } = entrypoint;
+    const name = entrypoints.length === 1 && isMainEntry ? '' : entryName;
 
     const customIndexTemplate = findPartials(
       htmlDir,
