@@ -120,7 +120,6 @@
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
-    "@modern-js/plugin-module-banner": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
