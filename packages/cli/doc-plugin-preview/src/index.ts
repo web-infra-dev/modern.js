@@ -125,14 +125,13 @@ export function pluginPreview(options?: Options): DocPlugin {
       return [
         {
           routePath: '/~demo/:id',
-          content: `
+          content: `---
+pageType: "blank"
+---
 
 import Demo from '${demoComponentPath}'
 
 <Demo />
-
-export const pageType = "blank";
-
           `,
         },
       ];
@@ -143,9 +142,6 @@ export const pageType = "blank";
         // @ts-ignore
         rspack: {
           plugins: [demoRuntimeModule],
-          watchOptions: {
-            ignored: ['**/.modern-doc/virtual-demo/*.tsx'],
-          },
         },
         bundlerChain(chain) {
           chain.module

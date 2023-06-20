@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { visit } from 'unist-util-visit';
-
+import fs from '@modern-js/utils/fs-extra';
 import type { RouteMeta } from '@modern-js/doc-core';
 import type { Plugin } from 'unified';
 import type { Root } from 'mdast';
@@ -32,6 +32,8 @@ export const remarkCodeToDemo: Plugin<
         );
 
       if (node.lang === 'jsx' || node.lang === 'tsx') {
+        const { value } = node;
+
         const isPure = node?.meta?.includes('pure');
 
         // do nothing for pure mode
@@ -56,6 +58,16 @@ export const remarkCodeToDemo: Plugin<
           `virtual-demo`,
         );
         const virtualModulePath = join(demoDir, `${id}.tsx`);
+        fs.ensureDirSync(join(demoDir));
+        // Only when the content of the file changes, the file will be written
+        // Avoid to trigger the hmr indefinitely
+        if (fs.existsSync(virtualModulePath)) {
+          const content = fs.readFileSync(virtualModulePath, 'utf-8');
+          if (content !== value) {
+            fs.writeFileSync(virtualModulePath, value);
+          }
+        }
+        demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
         const demoRoute = `/~demo/${id}`;
 
         if (isMobileMode) {

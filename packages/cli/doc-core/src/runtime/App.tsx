@@ -5,9 +5,18 @@ import { useContext, useLayoutEffect } from 'react';
 import Theme from '@theme';
 import { isEqualPath, normalizeRoutePath } from './utils';
 import { DataContext } from './hooks';
-import { PageData } from '@/shared/types';
+import { Header, PageData } from '@/shared/types';
 import { cleanUrl, isProduction } from '@/shared/utils';
 import 'virtual-global-styles';
+
+type RspressPageMeta = Record<
+  string,
+  {
+    title: string;
+    toc: Header[];
+    frontmatter: Record<string, any>;
+  }
+>;
 
 export async function initPageData(routePath: string): Promise<PageData> {
   const { routes } = process.env.__SSR__
@@ -17,7 +26,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
   if (matched) {
     // Preload route component
     const matchedRoute = matched[0].route;
-    const mod = await matchedRoute.preload();
+    await matchedRoute.preload();
     const pagePath = cleanUrl(matched[0].route.filePath);
     const extractPageInfo = siteData.pages.find(page => {
       const normalize = (p: string) =>
@@ -28,21 +37,24 @@ export async function initPageData(routePath: string): Promise<PageData> {
 
     // FIXME: when sidebar item is configured as link string, the sidebar text won't updated when page title changed
     // Reason: The sidebar item text depends on pageData, which is not updated when page title changed, because the pageData is computed once when build
+    const { toc, title, frontmatter } = (
+      globalThis.__RSPRESS_PAGE_META as RspressPageMeta
+    )[pagePath];
     return {
       siteData,
       page: {
         pagePath,
         ...extractPageInfo,
-        pageType: mod?.frontmatter?.pageType || mod?.pageType || 'doc',
-        title: mod?.title,
-        frontmatter: mod?.frontmatter || {},
+        pageType: frontmatter?.pageType || 'doc',
+        title,
+        frontmatter: frontmatter || {},
         // Trade off:
         // 1. the `extractPageInfo` includes complete toc even if import doc fragments, because we use `flattenMdxContent` function to make all doc fragments' toc included.However, it is only computed once when build
         // 2. the mod.toc is not complete toc, but it is computed every time through loader when doc changed
         // We choose the better solutions for different environments:
         // In production, we use the extractPageInfo.toc to ensure the toc is complete and accurate.
         // In development, we use the mod.toc to ensure the toc is up to date to ensure DX.However, we cannot ensure the complete toc info when including doc fragments.
-        toc: isProduction() ? extractPageInfo?.toc : mod.toc,
+        toc: isProduction() ? extractPageInfo?.toc : toc,
       },
     };
   } else {
