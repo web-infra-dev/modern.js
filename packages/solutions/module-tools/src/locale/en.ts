@@ -62,5 +62,7 @@ export const EN_LOCALE = {
       abortOnError:
         'With the `dts.abortOnError` configuration currently turned off, type errors do not cause build failures, but they do not guarantee proper type file output',
     },
+    clearRootPath:
+      'It is detected that the outDir in the configuration is the same as the current project directory, and the current product directory will not be automatically deleted.',
   },
 };
