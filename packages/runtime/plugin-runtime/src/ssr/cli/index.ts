@@ -133,7 +133,7 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       modifyEntryImports({ entrypoint, imports }) {
-        const { entryName, fileSystemRoutes } = entrypoint;
+        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
         pluginsExportsUtils.addExport(
@@ -143,6 +143,7 @@ export default (): CliPlugin<AppTools> => ({
         // if use ssg then set ssr config to true
         const ssrConfig = getEntryOptions(
           entryName,
+          isMainEntry,
           userConfig.server.ssr,
           userConfig.server.ssrByEntries,
           packageName,
@@ -151,6 +152,7 @@ export default (): CliPlugin<AppTools> => ({
         if (typeof ssrConfig === 'object' && ssrConfig.mode === 'stream') {
           const runtimeConfig = getEntryOptions(
             entryName,
+            isMainEntry,
             userConfig.runtime,
             userConfig.runtimeByEntries,
             packageName,

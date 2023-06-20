@@ -29,12 +29,13 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName } = entrypoint;
+        const { entryName, isMainEntry } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName } = api.useAppContext();
 
         const stateConfig = getEntryOptions(
           entryName,
+          isMainEntry,
           userConfig.runtime,
           userConfig.runtimeByEntries,
           packageName,

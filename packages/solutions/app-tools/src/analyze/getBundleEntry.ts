@@ -54,7 +54,8 @@ export const getBundleEntry = (
   config: AppNormalizedConfig<'shared'>,
 ) => {
   const { appDirectory, packageName } = appContext;
-  const { disableDefaultEntries, entries, entriesDir } = config.source;
+  const { disableDefaultEntries, entries, entriesDir, mainEntryName } =
+    config.source;
 
   const defaults = disableDefaultEntries
     ? []
@@ -68,6 +69,7 @@ export const getBundleEntry = (
         typeof value === 'string'
           ? {
               entryName: name,
+              isMainEntry: false,
               entry: ensureAbsolutePath(appDirectory, value),
               absoluteEntryDir: isDirectory(
                 ensureAbsolutePath(appDirectory, value),
@@ -83,6 +85,7 @@ export const getBundleEntry = (
             }
           : {
               entryName: name,
+              isMainEntry: false,
               entry: ensureAbsolutePath(appDirectory, value.entry),
               absoluteEntryDir: isDirectory(
                 ensureAbsolutePath(appDirectory, value.entry),
@@ -118,7 +121,10 @@ export const getBundleEntry = (
         path.dirname(entry) === entriesDirAbs ||
         path.dirname(nestedRoutesEntry) === entriesDirAbs,
     );
-    found && (found.entryName = MAIN_ENTRY_NAME);
+    if (found) {
+      found.entryName = mainEntryName || MAIN_ENTRY_NAME;
+      found.isMainEntry = true;
+    }
   }
   return defaults;
 };

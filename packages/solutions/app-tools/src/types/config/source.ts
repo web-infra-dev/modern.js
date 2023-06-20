@@ -17,6 +17,7 @@ export type Entries = Record<string, Entry>;
 
 export interface SharedSourceConfig extends BuilderSharedSourceConfig {
   entries?: Entries;
+  mainEntryName?: string;
   enableAsyncEntry?: boolean;
   disableDefaultEntries?: boolean;
   entriesDir?: string;
