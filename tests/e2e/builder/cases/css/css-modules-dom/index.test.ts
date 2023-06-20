@@ -4,7 +4,7 @@ import { build, getHrefByEntryName } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
 import { expect, test } from '@modern-js/e2e/playwright';
 
-const fixtures = resolve(__dirname, '../');
+const fixtures = resolve(__dirname);
 
 webpackOnlyTest('enableCssModuleTSDeclaration', async () => {
   fs.removeSync(join(fixtures, 'src/App.module.less.d.ts'));

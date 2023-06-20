@@ -20,6 +20,10 @@ test('should allow to import wasm file', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
+  await page.waitForFunction(() => {
+    return Boolean(document.querySelector('#root')?.innerHTML);
+  });
+
   await expect(
     page.evaluate(`document.querySelector('#root').innerHTML`),
   ).resolves.toBe('6');
@@ -62,6 +66,10 @@ test('should allow to use new URL to get path of wasm file', async ({
   expect(wasmFile?.includes('static/wasm/')).toBeTruthy();
 
   await page.goto(getHrefByEntryName('main', builder.port));
+
+  await page.waitForFunction(() => {
+    return Boolean(document.querySelector('#root')?.innerHTML);
+  });
 
   await expect(
     page.evaluate(`document.querySelector('#root').innerHTML`),

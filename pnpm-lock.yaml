@@ -5893,65 +5893,6 @@ importers:
         specifier: ^5
         version: 5.0.4
 
-  tests/e2e/builder/cases/css/css-modules:
-    dependencies:
-      react:
-        specifier: ^18.0.2
-        version: 18.2.0
-      react-dom:
-        specifier: ^18.0.2
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js/builder':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e':
-        specifier: workspace:*
-        version: link:../../../../../../packages/toolkit/e2e
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18
-        version: 18.0.21
-      '@types/react-dom':
-        specifier: ^18
-        version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.0.4
-
-  tests/e2e/builder/cases/image-compress:
-    dependencies:
-      react:
-        specifier: ^17
-        version: 17.0.2
-    devDependencies:
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e':
-        specifier: workspace:*
-        version: link:../../../../../packages/toolkit/e2e
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18
-        version: 18.0.21
-      '@types/react-dom':
-        specifier: ^18
-        version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.0.4
-
   tests/e2e/builder/cases/import-antd-v4:
     dependencies:
       antd:
@@ -5993,52 +5934,6 @@ importers:
       moment:
         specifier: ^2
         version: 2.29.3
-
-  tests/e2e/builder/cases/node-polyfill:
-    dependencies:
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/e2e/builder/cases/source/plugin-import:
-    dependencies:
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js/builder-plugin-swc':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/plugin-swc
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-shared
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../../../../../../packages/builder/builder-webpack-provider
-      '@modern-js/e2e':
-        specifier: workspace:*
-        version: link:../../../../../../packages/toolkit/e2e
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../../../../../packages/toolkit/utils
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18
-        version: 18.0.21
-      '@types/react-dom':
-        specifier: ^18
-        version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.0.4
 
   tests/integration/alias-set:
     dependencies:
