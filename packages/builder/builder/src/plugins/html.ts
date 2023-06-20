@@ -236,8 +236,6 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
                 { crossOrigin: formattedCrossorigin, HtmlPlugin },
               ]);
 
-            // todo: not support in rspack
-            // @ts-expect-error
             chain.output.crossOriginLoading(formattedCrossorigin);
           }
 
