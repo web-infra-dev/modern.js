@@ -7,6 +7,7 @@ import { toValidVarName } from './utils';
 export type Options = {
   /**
    * preview in mobile mode or not
+   * when isMobile is true, 1. aside will hide. 2. default preview component by iframe
    * @default false
    */
   isMobile: boolean;
@@ -34,9 +35,7 @@ export function pluginPreview(options?: Options): DocPlugin {
     async addPages(_config, _isProd, routes) {
       // init routeMeta
       routeMeta = routes;
-      if (!isMobile) {
-        return [];
-      }
+
       const files = routes.map(route => route.absolutePath);
       // Write the demo code ahead of time
       // Fix: rspack build error because demo file is not exist, probably the demo file was written in rspack build process?
@@ -54,10 +53,17 @@ export function pluginPreview(options?: Options): DocPlugin {
               if (node.lang === 'jsx' || node.lang === 'tsx') {
                 const { value } = node;
                 const isPure = node?.meta?.includes('pure');
-                // not transform pure code
+
+                // do not anything for pure mode
                 if (isPure) {
                   return;
                 }
+
+                // every code block can change their preview mode by meta
+                const isMobileMode =
+                  node?.meta?.includes('mobile') ||
+                  (!node?.meta?.includes('web') && isMobile);
+
                 const { pageName } = routeMeta.find(
                   meta => meta.absolutePath === filepath,
                 )!;
@@ -71,13 +77,19 @@ export function pluginPreview(options?: Options): DocPlugin {
                 );
 
                 const virtualModulePath = join(demoDir, `${id}.tsx`);
-                demoMeta[filepath] = demoMeta[filepath] ?? [];
-                const isExist = demoMeta[filepath].find(item => item.id === id);
-                if (!isExist) {
-                  demoMeta[filepath].push({
-                    id,
-                    virtualModulePath,
-                  });
+
+                if (isMobileMode) {
+                  // only add demoMeta in mobile mode
+                  demoMeta[filepath] = demoMeta[filepath] ?? [];
+                  const isExist = demoMeta[filepath].find(
+                    item => item.id === id,
+                  );
+                  if (!isExist) {
+                    demoMeta[filepath].push({
+                      id,
+                      virtualModulePath,
+                    });
+                  }
                 }
 
                 fs.ensureDirSync(join(demoDir));
@@ -109,7 +121,6 @@ export function pluginPreview(options?: Options): DocPlugin {
           .join(',')}];
         `;
       demoRuntimeModule.writeModule('virtual-meta', virtualMeta);
-      // only addPages in mobile mode
 
       return [
         {
@@ -154,7 +165,7 @@ import Demo from '${demoComponentPath}'
       `../static/${isMobile ? 'mobile' : 'web'}.css`,
     ),
     addSSGRoutes() {
-      return isMobile ? demoRoutes : [];
+      return demoRoutes;
     },
   };
 }

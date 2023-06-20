@@ -1,7 +1,6 @@
 import { join } from 'path';
-import fs from '@modern-js/utils/fs-extra';
 import { visit } from 'unist-util-visit';
-
+import fs from '@modern-js/utils/fs-extra';
 import type { RouteMeta } from '@modern-js/doc-core';
 import type { Plugin } from 'unified';
 import type { Root } from 'mdast';
@@ -34,11 +33,19 @@ export const remarkCodeToDemo: Plugin<
 
       if (node.lang === 'jsx' || node.lang === 'tsx') {
         const { value } = node;
+
         const isPure = node?.meta?.includes('pure');
-        // not transform pure code
+
+        // do nothing for pure mode
         if (isPure) {
           return;
         }
+
+        // every code block can change their preview mode by meta
+        const isMobileMode =
+          node?.meta?.includes('mobile') ||
+          (!node?.meta?.includes('web') && isMobile);
+
         const routeMeta = getRouteMeta();
         const { pageName } = routeMeta.find(
           meta => meta.absolutePath === vfile.path,
@@ -62,9 +69,15 @@ export const remarkCodeToDemo: Plugin<
         }
         demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
         const demoRoute = `/~demo/${id}`;
-        demoRoutes.push({
-          path: demoRoute,
-        });
+
+        if (isMobileMode) {
+          // only add demoRoutes in mobile mode
+          demoRoutes.push({
+            path: demoRoute,
+          });
+        } else {
+          demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
+        }
         Object.assign(node, {
           type: 'mdxJsxFlowElement',
           name: 'Container',
@@ -72,7 +85,7 @@ export const remarkCodeToDemo: Plugin<
             {
               type: 'mdxJsxAttribute',
               name: 'isMobile',
-              value: isMobile,
+              value: isMobileMode,
             },
             {
               type: 'mdxJsxAttribute',
@@ -86,10 +99,15 @@ export const remarkCodeToDemo: Plugin<
               ...node,
               hasVisited: true,
             },
-            {
-              type: 'mdxJsxFlowElement',
-              name: `Demo${id}`,
-            },
+            isMobileMode
+              ? {
+                  type: 'mdxJsxFlowElement',
+                  name: null,
+                }
+              : {
+                  type: 'mdxJsxFlowElement',
+                  name: `Demo${id}`,
+                },
           ],
         });
       }

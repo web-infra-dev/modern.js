@@ -43,6 +43,12 @@ module.exports = {
     },
     ...(userMainConfig.addons || []),
   ],
+  // Fix typescript v5 capability issue
+  // https://github.com/hipstersmoothie/react-docgen-typescript-plugin/issues/78
+  // https://github.com/storybookjs/storybook/issues/21642
+  typescript: {
+    reactDocgen: 'react-docgen-typescript-plugin'
+  },
   webpackFinal: async (config, options) => {
     // change webpack config
     const { customFinalWebpack = () => config } = options;

@@ -25,3 +25,24 @@ test('should build basic Vue sfc correctly', async ({ page }) => {
 
   builder.close();
 });
+
+test('should build basic Vue jsx correctly', async ({ page }) => {
+  const root = join(__dirname, 'jsx-basic');
+
+  const builder = await build({
+    cwd: root,
+    entry: {
+      main: join(root, 'src/index.js'),
+    },
+    runServer: true,
+    plugins: [builderPluginVue()],
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.querySelector('#button1').innerHTML`),
+  ).resolves.toBe('A: 0');
+
+  builder.close();
+});
