@@ -19,6 +19,7 @@ const source = {
       },
     },
   },
+  mainEntryName: { type: 'string' },
   preEntry: { type: ['string', 'array'] },
   alias: { typeof: ['object', 'function'] },
   enableAsyncEntry: { type: 'boolean' },
