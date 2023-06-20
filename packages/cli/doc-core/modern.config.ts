@@ -29,7 +29,7 @@ export default {
       target: 'es2020',
       outDir: 'dist',
       sourceMap: true,
-      externals: ['@modern-js/mdx-rs-binding', '@rspack/core'],
+      externals: ['@modern-js/mdx-rs-binding'],
       esbuildOptions: options => {
         options.banner = {
           js: 'import { createRequire } from "module"; const require = createRequire(import.meta.url);',
