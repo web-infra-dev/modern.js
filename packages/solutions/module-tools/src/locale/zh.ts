@@ -62,5 +62,7 @@ export const ZH_LOCALE = {
       abortOnError:
         '当前关闭了 `dts.abortOnError` 配置，类型错误不会导致构建失败，但无法保证类型文件正常输出',
     },
+    clearRootPath:
+      '检测到 Edenx 配置中 outDir 与当前项目目录相同，不会自动删除当前产物目录',
   },
 };
