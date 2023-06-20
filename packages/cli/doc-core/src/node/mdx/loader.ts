@@ -58,6 +58,7 @@ export default async function mdxLoader(
       value: content,
       path: filepath,
     });
+
     compileResult = String(vFile);
     pageMeta = {
       ...(compiler.data('pageMeta') as { toc: Header[]; title: string }),
