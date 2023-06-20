@@ -59,7 +59,7 @@
     "@mdx-js/react": "2.2.1",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/mdx-rs-binding": "^0.2.1",
+    "@modern-js/mdx-rs-binding": "0.2.2",
     "@modern-js/remark-container": "workspace:*",
     "@modern-js/doc-plugin-medium-zoom": "workspace:*",
     "@modern-js/utils": "workspace:*",
@@ -120,6 +120,7 @@
     "@modern-js/core": "workspace:*",
     "@modern-js/plugin-tailwindcss": "workspace:*",
     "@modern-js/plugin-testing": "workspace:*",
+    "@modern-js/plugin-module-banner": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
@@ -142,7 +143,8 @@
     "typescript": "^5",
     "vite": "^4.0.4",
     "vitest": "0.21.1",
-    "webpack": "^5.82.1"
+    "webpack": "^5.82.1",
+    "gray-matter": "4.0.3"
   },
   "sideEffects": [
     "*.css",
@@ -163,7 +165,7 @@
     "runtime.ts",
     "theme.ts",
     "shiki-theme.json",
-    "mdx-rs-loader.cjs"
+    "loader.cjs"
   ],
   "publishConfig": {
     "access": "public",

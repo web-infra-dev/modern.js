@@ -18,13 +18,12 @@ import {
   isProduction,
   TEMP_DIR,
 } from './constants';
-import { createMDXOptions } from './mdx';
 import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
 import { serveSearchIndexMiddleware } from './searchIndex';
-import { checkLinks } from './mdx/remarkPlugins/checkDeadLink';
 import { detectReactVersion, resolveReactAlias } from './utils';
 import { initRouteService } from './route/init';
 import { PluginDriver } from './PluginDriver';
+import { RouteService } from './route/RouteService';
 
 const require = createRequire(import.meta.url);
 
@@ -40,6 +39,7 @@ async function createInternalBuildConfig(
   config: UserConfig,
   isSSR: boolean,
   runtimeTempDir: string,
+  routeService: RouteService,
 ): Promise<BuilderConfig> {
   const cwd = process.cwd();
   const { default: fs } = await import('@modern-js/utils/fs-extra');
@@ -55,7 +55,6 @@ async function createInternalBuildConfig(
     : DEFAULT_THEME_DIR;
   const checkDeadLinks =
     (config.doc?.markdown?.checkDeadLinks && !isSSR) ?? false;
-  const mdxOptions = await createMDXOptions(userRoot, config, checkDeadLinks);
   const base = config.doc?.base ?? '';
 
   const publicDir = path.join(userRoot, 'public');
@@ -154,24 +153,18 @@ async function createInternalBuildConfig(
       bundlerChain(chain) {
         chain.module
           .rule('MDX')
+          .type('jsx')
           .test(/\.mdx?$/)
           .oneOf('MDXCompile')
           .use('mdx-loader')
-          .when(
+          .loader(require.resolve('../loader.cjs'))
+          .options({
+            config,
+            docDirectory: userRoot,
+            checkDeadLinks,
             enableMdxRs,
-            c =>
-              c.loader(require.resolve('../mdx-rs-loader.cjs')).options({
-                callback: (context: MdxRsLoaderCallbackContext) => {
-                  const { links, root, resourcePath } = context;
-                  checkDeadLinks && checkLinks(links, resourcePath, root);
-                },
-                root: userRoot,
-                base,
-                defaultLang: config.doc?.lang || '',
-              }),
-            c =>
-              c.loader(require.resolve('@mdx-js/loader')).options(mdxOptions),
-          )
+            routeService,
+          })
           .end()
           .use('string-replace-loader')
           .loader(require.resolve('string-replace-loader'))
@@ -216,6 +209,7 @@ export async function createModernBuilder(
     config,
     isSSR,
     runtimeTempDir,
+    routeService,
   );
 
   const builderProvider = builderRspackProvider({

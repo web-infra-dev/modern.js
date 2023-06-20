@@ -4,19 +4,19 @@ import rehypeAutoLink from 'rehype-autolink-headings';
 import { Options } from '@mdx-js/loader';
 import { UserConfig } from 'shared/types/index';
 import { PluggableList } from 'unified';
-import remarkPluginFrontMatter from 'remark-frontmatter';
-import remarkPluginMDXFrontMatter from 'remark-mdx-frontmatter';
 import rehypePluginExternalLinks from 'rehype-external-links';
 import { remarkPluginContainer } from '@modern-js/remark-container';
+import type { RouteService } from '../route/RouteService';
 import { remarkPluginToc } from './remarkPlugins/toc';
 import { rehypePluginCodeMeta } from './rehypePlugins/codeMeta';
 import { remarkPluginNormalizeLink } from './remarkPlugins/normalizeLink';
 import { remarkCheckDeadLinks } from './remarkPlugins/checkDeadLink';
 
 export async function createMDXOptions(
-  userRoot: string,
+  docDirectory: string,
   config: UserConfig,
   checkDeadLinks: boolean,
+  routeService: RouteService,
 ): Promise<Options> {
   const {
     remarkPlugins: remarkPluginsFromConfig = [],
@@ -32,25 +32,25 @@ export async function createMDXOptions(
   const defaultLang = config.doc?.lang || '';
   return {
     providerImportSource: '@mdx-js/react',
+    jsx: true,
     remarkPlugins: [
       remarkPluginContainer,
       remarkGFM,
-      remarkPluginFrontMatter,
-      [remarkPluginMDXFrontMatter, { name: 'frontmatter' }],
       remarkPluginToc,
       [
         remarkPluginNormalizeLink,
         {
           base: config.doc?.base || '',
           defaultLang,
-          root: userRoot,
+          root: docDirectory,
         },
       ],
       checkDeadLinks && [
         remarkCheckDeadLinks,
         {
-          root: userRoot,
+          root: docDirectory,
           base: config.doc?.base || '',
+          routeService,
         },
       ],
       ...remarkPluginsFromConfig,

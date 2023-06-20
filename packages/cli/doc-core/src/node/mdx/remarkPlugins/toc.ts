@@ -1,9 +1,9 @@
 import type { Plugin } from 'unified';
 import { visitChildren } from 'unist-util-visit-children';
-import { parse } from 'acorn';
 import Slugger from 'github-slugger';
 import type { Root } from 'hast';
-import type { MdxjsEsm, Program } from 'mdast-util-mdxjs-esm';
+import { Processor } from '@mdx-js/mdx/lib/core';
+import { PageMeta } from '../loader';
 
 export interface TocItem {
   id: string;
@@ -60,63 +60,16 @@ export const parseToc = (tree: Root) => {
   };
 };
 
-export const remarkPluginToc: Plugin<[], Root> = () => {
+export const remarkPluginToc: Plugin<[], Root> = function (this: Processor) {
+  // eslint-disable-next-line @babel/no-invalid-this
+  const data = this.data() as {
+    pageMeta: PageMeta;
+  };
   return (tree: Root) => {
     const { toc, title } = parseToc(tree);
-
-    const insertedTocCode = `export const toc = ${JSON.stringify(
-      toc,
-      null,
-      2,
-    )}`;
-    // Add toc ast to current ast tree
-    tree.children.push({
-      type: 'mdxjsEsm',
-      value: insertedTocCode,
-      data: {
-        estree: parse(insertedTocCode, {
-          ecmaVersion: 2020,
-          sourceType: 'module',
-        }) as unknown as Program,
-      },
-    } as MdxjsEsm);
-
+    data.pageMeta.toc = toc;
     if (title) {
-      const insertedTitle = `export const title = "${title}"`;
-      tree.children.push({
-        type: 'mdxjsEsm',
-        value: insertedTitle,
-        data: {
-          estree: {
-            type: 'Program',
-            sourceType: 'module',
-            body: [
-              {
-                type: 'ExportNamedDeclaration',
-                declaration: {
-                  type: 'VariableDeclaration',
-                  kind: 'const',
-                  declarations: [
-                    {
-                      type: 'VariableDeclarator',
-                      id: {
-                        type: 'Identifier',
-                        name: 'title',
-                      },
-                      init: {
-                        type: 'Literal',
-                        value: title,
-                        raw: `\`${title}\``,
-                      },
-                    },
-                  ],
-                },
-                specifiers: [],
-              },
-            ],
-          },
-        },
-      } as MdxjsEsm);
+      data.pageMeta.title = title;
     }
   };
 };

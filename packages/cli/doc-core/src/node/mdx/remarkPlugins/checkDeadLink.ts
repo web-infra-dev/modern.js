@@ -1,19 +1,27 @@
 import path from 'path';
 import { visit } from 'unist-util-visit';
 import type { Plugin } from 'unified';
-import { logger } from '../../utils';
+import logUtils from '@modern-js/utils/logger';
 import { cleanUrl, isProduction } from '@/shared/utils';
 import { normalizeRoutePath } from '@/node/runtimeModule/routeData';
-import { routeService } from '@/node/route/init';
+import type { RouteService } from '@/node/route/RouteService';
+
+const { logger } = logUtils;
 
 export interface DeadLinkCheckOptions {
   root: string;
   base: string;
+  routeService: RouteService;
 }
 
 const IGNORE_REGEXP = /^(https?|mailto|tel|#)/;
 
-export function checkLinks(links: string[], filepath: string, root: string) {
+export function checkLinks(
+  links: string[],
+  filepath: string,
+  root: string,
+  routeService: RouteService,
+) {
   const errorInfos: string[] = [];
   links
     .filter(link => !IGNORE_REGEXP.test(link))
@@ -43,7 +51,7 @@ export function checkLinks(links: string[], filepath: string, root: string) {
 export const remarkCheckDeadLinks: Plugin<
   DeadLinkCheckOptions[]
 > = checkLink => {
-  const { root } = checkLink;
+  const { root, routeService } = checkLink;
 
   return (tree, vfile) => {
     const internalLinks = new Set<string>();
@@ -66,6 +74,6 @@ export const remarkCheckDeadLinks: Plugin<
       }
     });
 
-    checkLinks(Array.from(internalLinks), vfile.path, root);
+    checkLinks(Array.from(internalLinks), vfile.path, root, routeService);
   };
 };

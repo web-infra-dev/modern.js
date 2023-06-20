@@ -51,10 +51,14 @@ export const remarkCodeToDemo: Plugin<
           `virtual-demo`,
         );
         const virtualModulePath = join(demoDir, `${id}.tsx`);
-        if (!isMobile) {
-          // only need to write in web mode, in mobile mode, it has been written by addPage.
-          fs.ensureDirSync(join(demoDir));
-          fs.writeFileSync(virtualModulePath, value);
+        fs.ensureDirSync(join(demoDir));
+        // Only when the content of the file changes, the file will be written
+        // Avoid to trigger the hmr indefinitely
+        if (fs.existsSync(virtualModulePath)) {
+          const content = fs.readFileSync(virtualModulePath, 'utf-8');
+          if (content !== value) {
+            fs.writeFileSync(virtualModulePath, value);
+          }
         }
         demos.push(getASTNodeImport(`Demo${id}`, virtualModulePath));
         const demoRoute = `/~demo/${id}`;

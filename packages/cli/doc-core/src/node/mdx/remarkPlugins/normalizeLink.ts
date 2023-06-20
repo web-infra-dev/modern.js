@@ -10,7 +10,8 @@ import {
   parseUrl,
   isExternalUrl,
 } from '@/shared/utils';
-import { PUBLIC_DIR } from '@/node/constants';
+
+const PUBLIC_DIR = 'public';
 
 interface LinkNode {
   type: string;
