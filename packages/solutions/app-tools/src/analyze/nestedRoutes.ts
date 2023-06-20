@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, getRouteId } from '@modern-js/utils';
+import { fs, normalizeToPosixPath, MAIN_ENTRY_NAME } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
 import { replaceWithAlias } from './utils';
@@ -8,6 +8,30 @@ const conventionNames = Object.values(NESTED_ROUTE);
 
 const replaceDynamicPath = (routePath: string) => {
   return routePath.replace(/\[(.*?)\]/g, ':$1');
+};
+
+const getPathWithoutExt = (filename: string) => {
+  const extname = path.extname(filename);
+  return filename.slice(0, -extname.length);
+};
+
+export const getRouteId = (
+  componentPath: string,
+  routesDir: string,
+  entryName: string,
+) => {
+  const relativePath = normalizeToPosixPath(
+    path.relative(routesDir, componentPath),
+  );
+  const pathWithoutExt = getPathWithoutExt(relativePath);
+  let id = ``;
+  if (entryName === MAIN_ENTRY_NAME) {
+    id = pathWithoutExt;
+  } else {
+    id = `${entryName}_${pathWithoutExt}`;
+  }
+
+  return id.replace(/\[(.*?)\]/g, '($1)');
 };
 
 const createIndexRoute = (
