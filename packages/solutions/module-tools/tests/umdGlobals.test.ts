@@ -30,7 +30,9 @@ describe('globals usage', () => {
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(await fs.pathExists(distFilePath)).toBeTruthy();
     expect(
-      content.includes(`Function("return this")()["React"];`),
+      content.includes(
+        `(typeof globalThis !== "undefined" ? globalThis : Function("return this")() || global || self)["React"]`,
+      ),
     ).toBeTruthy();
     expect(content).toMatchSnapshot();
   });
@@ -40,7 +42,9 @@ describe('globals usage', () => {
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(await fs.pathExists(distFilePath)).toBeTruthy();
     expect(
-      content.includes(`module.exports = Function("return this")()["React"];`),
+      content.includes(
+        `module.exports = (typeof globalThis !== "undefined" ? globalThis : Function("return this")() || global || self)["React"];`,
+      ),
     ).toBeTruthy();
     expect(content).toMatchSnapshot();
   });
