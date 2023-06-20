@@ -20,6 +20,7 @@ import type {
   ModernServerContext,
   RequestHandler,
   ExposeServerApis,
+  ServerRoute,
 } from '@modern-js/types';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { getDefaultDevOptions } from '../constants';
@@ -38,12 +39,16 @@ export class ModernDevServer extends ModernServer {
 
   private readonly devMiddleware: DevMiddleware;
 
+  private readonly routes?: ServerRoute[];
+
   private watcher?: Watcher;
 
   constructor(options: ModernDevServerOptions) {
     super(options);
 
     this.appContext = options.appContext;
+
+    this.routes = options.routes;
     // dev server should work in pwd
     this.workDir = this.pwd;
 
@@ -131,8 +136,13 @@ export class ModernDevServer extends ModernServer {
   private async applyDefaultMiddlewares(app: Server) {
     const { pwd, dev, devMiddleware } = this;
 
+    // the http-compression can't handler stream http.
+    // so we disable compress when user use stream ssr temporarily.
+    const isUseStreamingSSR = (routes?: ServerRoute[]) =>
+      routes?.some(r => r.isStream === true);
+
     // compression should be the first middleware
-    if (dev.compress) {
+    if (!isUseStreamingSSR(this.routes) && dev.compress) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error http-compression does not provide a type definition
       const { default: compression } = await import('http-compression');
