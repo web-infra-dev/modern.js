@@ -39,8 +39,6 @@ export class ModernDevServer extends ModernServer {
 
   private readonly devMiddleware: DevMiddleware;
 
-  private readonly routes?: ServerRoute[];
-
   private watcher?: Watcher;
 
   constructor(options: ModernDevServerOptions) {
@@ -48,7 +46,6 @@ export class ModernDevServer extends ModernServer {
 
     this.appContext = options.appContext;
 
-    this.routes = options.routes;
     // dev server should work in pwd
     this.workDir = this.pwd;
 
@@ -142,7 +139,7 @@ export class ModernDevServer extends ModernServer {
       routes?.some(r => r.isStream === true);
 
     // compression should be the first middleware
-    if (!isUseStreamingSSR(this.routes) && dev.compress) {
+    if (!isUseStreamingSSR(this.getRoutes()) && dev.compress) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error http-compression does not provide a type definition
       const { default: compression } = await import('http-compression');
