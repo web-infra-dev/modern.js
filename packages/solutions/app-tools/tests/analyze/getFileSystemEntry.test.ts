@@ -1,6 +1,7 @@
 import path from 'path';
-import { IAppContext, NormalizedConfig } from '@modern-js/core';
+import { IAppContext } from '@modern-js/core';
 import { getFileSystemEntry } from '../../src/analyze/getFileSystemEntry';
+import { AppNormalizedConfig } from '../../src/types';
 
 describe('get entrypoints from file system', () => {
   const fixtures = path.resolve(__dirname, './fixtures/entries');
@@ -13,7 +14,10 @@ describe('get entrypoints from file system', () => {
     };
 
     expect(
-      getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
+      getFileSystemEntry(
+        appContext as IAppContext,
+        config as AppNormalizedConfig<'shared'>,
+      ),
     ).toMatchObject([
       {
         entryName: 'src',
@@ -30,7 +34,10 @@ describe('get entrypoints from file system', () => {
     };
 
     expect(
-      getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
+      getFileSystemEntry(
+        appContext as IAppContext,
+        config as AppNormalizedConfig<'shared'>,
+      ),
     ).toMatchObject([
       {
         entryName: 'src',
@@ -53,7 +60,10 @@ describe('get entrypoints from file system', () => {
     };
 
     expect(
-      getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
+      getFileSystemEntry(
+        appContext as IAppContext,
+        config as AppNormalizedConfig<'shared'>,
+      ),
     ).toMatchObject([
       {
         entryName: 'src',
@@ -69,7 +79,10 @@ describe('get entrypoints from file system', () => {
     };
 
     expect(
-      getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig),
+      getFileSystemEntry(
+        appContext as IAppContext,
+        config as AppNormalizedConfig<'shared'>,
+      ),
     ).toMatchObject([
       {
         entryName: 'src',
@@ -87,8 +100,10 @@ describe('get entrypoints from file system', () => {
     const appContext = { appDirectory: path.resolve(fixtures, './no-entry') };
 
     expect(
-      getFileSystemEntry(appContext as IAppContext, config as NormalizedConfig)
-        .length,
+      getFileSystemEntry(
+        appContext as IAppContext,
+        config as AppNormalizedConfig<'shared'>,
+      ).length,
     ).toBe(0);
   });
 });
