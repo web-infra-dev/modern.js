@@ -58,3 +58,36 @@ builderPluginVue({
   },
 });
 ```
+
+### vueJsxOptions
+
+- **类型：**
+
+```ts
+type VueJSXPluginOptions = {
+  /** 将 `on: { click: xx }` 转换为 `onClick: xxx` */
+  transformOn?: boolean;
+  /** 是否启用优化。 */
+  optimize?: boolean;
+  /** 合并静态和动态 class / style 属性 / onXXX 事件处理函数 */
+  mergeProps?: boolean;
+  /** 配置自定义元素 */
+  isCustomElement?: (tag: string) => boolean;
+  /** 启用对象插槽语法 */
+  enableObjectSlots?: boolean;
+  /** 替换用于编译 JSX 表达式的函数 */
+  pragma?: string;
+};
+```
+
+- **默认值：** `{}`
+
+传递给 `@vue/babel-plugin-jsx` 的选项，请查阅 [@vue/babel-plugin-jsx 文档](https://github.com/vuejs/babel-plugin-jsx) 来了解具体用法。
+
+```ts
+builderPluginVue({
+  vueJsxOptions: {
+    transformOn: true,
+  },
+});
+```
