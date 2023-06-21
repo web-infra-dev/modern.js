@@ -16,6 +16,13 @@ exports[`create builder provider config should add default config 1`] = `
         "from": "xxx",
         "to": "yyy",
       },
+      {
+        "context": "/fixtrues/config/upload",
+        "from": "**/*",
+        "info": [Function],
+        "noErrorOnMissing": true,
+        "to": "upload",
+      },
     ],
   },
   "performance": {},
