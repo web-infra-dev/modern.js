@@ -1,6 +1,6 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import garfishPlugin from '@modern-js/plugin-garfish';
-import routerPlugin from '@modern-js/plugin-router-v5';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
+import { routerPlugin } from '@modern-js/plugin-router-v5';
 import { getPort } from '../../../utils/testCase';
 
 const port = getPort('@cypress-test/garfish-table');

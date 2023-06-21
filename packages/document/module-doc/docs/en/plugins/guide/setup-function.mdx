@@ -11,7 +11,7 @@ In the [[Plugin object]](/plugins/guide/plugin-object) section we know that the 
 The `setup` function of the plugin will provide an `api` object parameter, and you can call some of the methods provided on this object to get information about the configuration, project context, etc.
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup(api) {
@@ -79,7 +79,7 @@ Used to get the executors of Hooks and trigger the execution of a specific Hook.
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   async setup(api) {
@@ -95,7 +95,7 @@ export default (): CliPlugin => ({
 The setup of a CLI plugin can be an asynchronous function that performs asynchronous logic during the initialization process.
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   async setup(api) {

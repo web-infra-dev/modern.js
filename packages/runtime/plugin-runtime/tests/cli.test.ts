@@ -1,8 +1,8 @@
-import { manager } from '@modern-js/core';
-import plugin from '../src/cli';
+import { CliPlugin, manager } from '@modern-js/core';
+import { runtimePlugin } from '../src/cli';
 
 describe('plugin runtime cli', () => {
-  const main = manager.clone().usePlugin(plugin);
+  const main = manager.clone().usePlugin(runtimePlugin as CliPlugin);
   let runner: any;
 
   beforeAll(async () => {
@@ -10,7 +10,7 @@ describe('plugin runtime cli', () => {
   });
 
   it('plugin is defined', () => {
-    expect(plugin).toBeDefined();
+    expect(runtimePlugin).toBeDefined();
   });
 
   it('plugin-runtime cli config is defined', async () => {

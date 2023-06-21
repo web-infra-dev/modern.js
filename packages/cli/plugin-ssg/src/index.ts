@@ -16,7 +16,7 @@ import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
 import { makeRoute } from './libs/make';
 
-export default (): CliPlugin<AppTools> => ({
+export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
 
   pre: ['@modern-js/plugin-server', '@modern-js/plugin-bff'],
@@ -208,3 +208,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default ssgPlugin;

@@ -118,7 +118,7 @@ export const setJestConfigForBFF = async ({
   utils.setJestConfig(commonConfig);
 };
 
-export default (): CliPlugin<{
+export const testingBffPlugin = (): CliPlugin<{
   hooks: Hooks;
   userConfig: UserConfig;
   normalizedConfig: Required<UserConfig>;

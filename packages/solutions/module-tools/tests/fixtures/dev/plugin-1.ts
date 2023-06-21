@@ -1,4 +1,4 @@
-import type { CliPlugin, ModuleToolsHooks } from '../../utils';
+import type { CliPlugin, ModuleTools } from '../../utils';
 
 export const meta = {
   name: 'plugin-1',
@@ -12,7 +12,7 @@ export const meta = {
   },
 };
 
-export default (): CliPlugin<ModuleToolsHooks> => {
+export const devPlugin1 = (): CliPlugin<ModuleTools> => {
   return {
     name: 'dev-plugin-1',
     setup: () => {

@@ -12,12 +12,12 @@ sidebar_position: 6
 
 ``` ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import testPlugin from '@modern-js/plugin-testing';
+import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    testPlugin(),
+    testingPlugin(),
   ],
 });
 ```

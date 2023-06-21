@@ -14,7 +14,7 @@ import {
 import { MODERNJS_CONFIG_KEY } from '../constant';
 import type { Hooks } from '../base/hook';
 import type { UserConfig } from '../base/config';
-import testingBffPlugin from './bff';
+import { testingBffPlugin } from './bff';
 import test from './test';
 
 export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
@@ -26,7 +26,7 @@ export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
   }
 };
 
-export default (): CliPlugin<{
+export const testingPlugin = (): CliPlugin<{
   hooks: Hooks;
   userConfig: UserConfig;
   normalizedConfig: Required<UserConfig>;
@@ -138,3 +138,5 @@ export default (): CliPlugin<{
     },
   };
 };
+
+export default testingPlugin;

@@ -2,6 +2,7 @@
 title: 静态站点生成（SSG）
 sidebar_position: 4
 ---
+
 # 静态站点生成（SSG）
 
 SSG（Static Site Generation）是一种基于数据与模板，在构建时渲染完整静态网页的技术解决方案。
@@ -16,7 +17,7 @@ SSG（Static Site Generation）是一种基于数据与模板，在构建时渲�
 执行命令后，在 `modern.config.ts` 中注册 SSG 插件：
 
 ```ts title="modern.config.ts"
-import ssgPlugin from '@modern-js/plugin-ssg';
+import { ssgPlugin } from '@modern-js/plugin-ssg';
 
 export default defineConfig({
   output: {
@@ -90,7 +91,7 @@ export default defineConfig({
 
 例如有以下代码，包含多条路由，设置 `output.ssg` 为 `true` 时，默认只会渲染入口路由即 `/`：
 
-import SelfRouteExample from "@site-docs/components/self-route-example";
+import SelfRouteExample from '@site-docs/components/self-route-example';
 
 <SelfRouteExample />
 

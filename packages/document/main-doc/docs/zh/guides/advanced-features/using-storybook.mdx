@@ -28,7 +28,7 @@ $ npx modern new
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import storybookPlugin from '@modern-js/plugin-storybook';
+import { storybookPlugin } from '@modern-js/plugin-storybook';
 
 export default defineConfig({
   plugins: [appTools(), storybookPlugin()],

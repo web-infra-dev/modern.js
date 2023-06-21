@@ -3,7 +3,7 @@ import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 import type { AppTools } from '@modern-js/app-tools';
 
-export default (): CliPlugin<AppTools> => ({
+export const expressPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-express',
   setup: api => {
     let bffExportsUtils: any;
@@ -62,3 +62,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default expressPlugin;

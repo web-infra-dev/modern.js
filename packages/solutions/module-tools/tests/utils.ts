@@ -3,7 +3,7 @@ import { cli } from '@modern-js/core';
 import { version } from '../package.json';
 
 export { defineConfig } from '../src/config/defineConfig';
-export type { CliPlugin, ModuleToolsHooks } from '../src';
+export type { CliPlugin, ModuleTools } from '../src';
 
 export const runCli = async (options: {
   argv: string[];

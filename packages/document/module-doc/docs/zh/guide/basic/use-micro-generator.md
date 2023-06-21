@@ -22,12 +22,12 @@ sidebar_position: 4
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 ``` ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import testPlugin from '@modern-js/plugin-testing';
+import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    testPlugin(),
+    testingPlugin(),
   ],
 });
 ```
@@ -41,7 +41,7 @@ export default defineConfig({
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 ``` ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import storybookPlugin from '@modern-js/plugin-storybook';
+import { storybookPlugin } from '@modern-js/plugin-storybook';
 
 export default defineConfig({
   plugins: [
@@ -69,7 +69,7 @@ export default defineConfig({
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 ``` ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import tailwindPlugin from '@modern-js/plugin-tailwindcss';
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   plugins: [

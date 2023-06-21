@@ -1,10 +1,10 @@
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import docPlugin from '@modern-js/plugin-module-doc';
+import { modulePluginDoc } from '@modern-js/plugin-module-doc';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    docPlugin({
+    modulePluginDoc({
       entries: {
         Alert: './src/alert.tsx',
         Button: './src/button.tsx',
