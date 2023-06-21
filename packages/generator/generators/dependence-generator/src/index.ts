@@ -95,7 +95,8 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
       const appDir = context.materials.default.basePath;
       const configFile = await getModernConfigFile(appDir);
       const isTS = configFile.endsWith('ts');
-      const { pluginName, pluginDependence } = context.config;
+      const { pluginName, pluginDependence, shouldUsePluginNameExport } =
+        context.config;
       console.info(
         chalk.green(`\n[INFO]`),
         `${i18n.t(localeKeys.success)}`,
@@ -103,9 +104,18 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
         ':',
         '\n',
       );
-      console.info(
-        chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
-      );
+      if (shouldUsePluginNameExport) {
+        console.info(
+          chalk.yellow.bold(
+            `import { ${pluginName} } from '${pluginDependence}';`,
+          ),
+        );
+      } else {
+        console.info(
+          chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
+        );
+      }
+
       if (isTS) {
         console.info(`
 export default defineConfig({
