@@ -17,7 +17,7 @@ exports[`create builder provider config should add default config 1`] = `
         "to": "yyy",
       },
       {
-        "context": "/fixtrues/config/upload",
+        "context": "<ROOT>/tests/builder/fixtures/config/upload",
         "from": "**/*",
         "info": [Function],
         "noErrorOnMissing": true,
