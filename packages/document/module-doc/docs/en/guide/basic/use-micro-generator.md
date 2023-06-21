@@ -22,7 +22,7 @@ When we want to test some modules, we can enable the test feature. When this fea
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 ``` ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import testPlugin from '@modern-js/plugin-testing';
 
 export default defineConfig({
@@ -41,7 +41,7 @@ The **Storybook feature** can be enabled when we want to debug a component or a 
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 ``` ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import storybookPlugin from '@modern-js/plugin-storybook';
 
 export default defineConfig({
@@ -71,7 +71,7 @@ For more information on how to use Tailwind CSS in your module projects, check o
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 ``` ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import tailwindPlugin from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
@@ -94,7 +94,7 @@ Also, the Storybook debugging tool will determine if the project needs to use th
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 ``` ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import runtime from '@modern-js/runtime/cli';
 
 export default defineConfig({

@@ -51,7 +51,7 @@ npm install -D @modern-js/module-tools typescript
 接着在项目的根目录下创建 `modern.config.(t|j)s` 文件：
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],

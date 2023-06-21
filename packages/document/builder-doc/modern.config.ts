@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig, Sidebar, NavItem } from '@modern-js/doc-tools';
+import { docTools, defineConfig, Sidebar, NavItem } from '@modern-js/doc-tools';
 
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';

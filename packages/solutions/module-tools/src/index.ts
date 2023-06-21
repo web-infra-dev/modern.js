@@ -1,6 +1,7 @@
-import { cli } from './cli';
+import { moduleTools } from './cli';
 
 export { defineConfig, defineLegacyConfig } from './config/defineConfig';
 export { legacyPresets } from './constants/legacyBuildPresets';
 export * from './types';
-export default cli;
+export { moduleTools };
+export default moduleTools;

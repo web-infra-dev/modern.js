@@ -22,7 +22,7 @@ pnpm add @modern-js/plugin-module-banner -D
 You can install the plugin with the following command:
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBanner } from '@modern-js/plugin-module-banner';
 
 export default defineConfig({
@@ -48,7 +48,7 @@ Note: CSS comments do not support the `//comment` syntax. Refer to [【CSS Comme
 
 ```ts
 import { modulePluginBanner } from '@modern-js/plugin-module-banner';
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 
 const copyRight = `/*

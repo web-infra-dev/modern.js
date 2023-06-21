@@ -7,7 +7,7 @@ Modern.js Doc 底层基于 [Modern.js Builder](https://modernjs.dev/builder/) �
 Modern.js Builder 提供了丰富的构建配置，你可以使用 [doc.builderConfig](/api/config/config-build.html#builderconfig) 来自定义这些配置项。比如，将产物目录修改为 `doc_dist`：
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -41,7 +41,7 @@ export default defineConfig({
 在框架中 MDX 的编译基于 [unified](https://github.com/unifiedjs/unified) 完成，你可以通过 `markdown` 配置来添加相关的编译插件。比如
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {

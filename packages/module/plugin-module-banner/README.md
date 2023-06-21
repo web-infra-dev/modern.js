@@ -5,7 +5,7 @@ The banner plugin of Modern.js Module Tools.
 ## Usage
 
 ```ts modern.config.ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBanner } from '@modern-js/plugin-module-banner';
 
 export default defineConfig({

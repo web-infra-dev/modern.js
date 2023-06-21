@@ -36,7 +36,7 @@ interface DocToolsOptions {
 
 const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js', '.json'];
 
-export default (options: DocToolsOptions = {}): CliPlugin => ({
+export const docTools = (options: DocToolsOptions = {}): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
     const appContext = api.useAppContext();
@@ -159,5 +159,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
     };
   },
 });
+
+export default docTools;
 
 export { defineConfig } from './config/defineConfig';
