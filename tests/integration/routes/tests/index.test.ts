@@ -469,6 +469,7 @@ describe('dev', () => {
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
     page.on('pageerror', error => {
+      console.log(error.message);
       errors.push(error.message);
     });
   });
