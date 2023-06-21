@@ -3,12 +3,10 @@ import { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
 import { builderPluginAdpaterCopy } from './adapterCopy';
 
-export function createRspackBuilderForModern(
+export async function createRspackBuilderForModern(
   options: BuilderOptions<'rspack'>,
 ) {
-  return generateBuilder(options, builderRspackProvider, {
-    modifyBuilderInstance(builder) {
-      builder.addPlugins([builderPluginAdpaterCopy(options)]);
-    },
-  });
+  const builder = await generateBuilder(options, builderRspackProvider);
+  builder.addPlugins([builderPluginAdpaterCopy(options)]);
+  return builder;
 }

@@ -7,21 +7,11 @@ import { BuilderOptions } from '../shared';
 import { generateBuilder } from '../generator';
 import { builderPluginAdapterModern } from './adapterModern';
 
-export function createWebpackBuilderForModern(
+export async function createWebpackBuilderForModern(
   options: BuilderOptions<'webpack'>,
 ): Promise<BuilderInstance<BuilderWebpackProvider>> {
-  return generateBuilder(options, builderWebpackProvider, {
-    async modifyBuilderInstance(builder) {
-      await applyBuilderPlugins(builder, options);
-    },
-  });
-}
+  const builder = await generateBuilder(options, builderWebpackProvider);
 
-/** register builder Plugin by condition */
-async function applyBuilderPlugins(
-  builder: BuilderInstance,
-  options: BuilderOptions<'webpack'>,
-) {
   const { normalizedConfig } = options;
 
   if (normalizedConfig.tools.esbuild) {
@@ -33,4 +23,6 @@ async function applyBuilderPlugins(
   }
 
   builder.addPlugins([builderPluginAdapterModern(options)]);
+
+  return builder;
 }
