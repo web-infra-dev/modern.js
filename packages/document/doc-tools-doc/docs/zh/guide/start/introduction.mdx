@@ -28,7 +28,7 @@ Modern.js Doc 基于 [MDX](https://mdxjs.com/) 来进行 Markdown 语法的扩�
 
 ### 代码块高亮
 
-基于 [Shiki](https://github.com/shikijs/shiki) 来进行编译时代码着色，支持多种代码语言高亮。如:
+基于 [PrismJS](https://github.com/PrismJS/prism) 来进行运行时代码着色，支持多种代码语言高亮。如:
 
 ```ts title="modern.config.ts"
 import { docTools, defineConfig } from '@modern-js/doc-tools';
@@ -41,6 +41,12 @@ export default defineConfig({
   plugins: [docTools()],
 });
 ```
+
+### 自动生成布局
+
+内置了多种布局组件，如：`顶部导航`、`左侧侧边栏`等，你可以通过配置文件来进行自动生成，详情可参考[自动化导航栏/侧边栏](/guide/basic/auto-nav-sidebar)。
+
+同时，你也可以通过配置 pageType 来自定义布局类型，详情可参考 [pageType](/api/config/config-frontmatter.html#pagetype)。
 
 ### 支持自定义主题
 
