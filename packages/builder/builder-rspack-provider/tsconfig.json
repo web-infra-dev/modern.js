@@ -9,5 +9,5 @@
     "isolatedModules": true,
     "paths": {}
   },
-  "include": ["src", "./shims.d.ts"]
+  "include": ["src"]
 }

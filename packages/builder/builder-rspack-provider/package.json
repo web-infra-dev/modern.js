@@ -45,7 +45,6 @@
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
     "dev": "tsc --watch",
-    "example": "node __fixture__/execute",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
