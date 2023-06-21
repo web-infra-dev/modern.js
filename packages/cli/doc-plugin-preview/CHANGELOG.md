@@ -1,5 +1,25 @@
 # @modern-js/doc-plugin-preview
 
+## 2.24.0
+
+### Minor Changes
+
+- 2858c11: feat: support web and mobile meta for code block to change preview mode
+  feat: 支持在代码块添加 web 和 mobile meta 来更改预览模式
+
+### Patch Changes
+
+- af9af0f: fix(doc-core): doc hmr invalid
+
+  fix(doc-core): 文档热更新失效
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [af9af0f]
+- Updated dependencies [4a82c3b]
+- Updated dependencies [cdb88da]
+  - @modern-js/utils@2.24.0
+  - @modern-js/doc-core@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @modern-js/builder-rspack-provider
 
+## 2.24.0
+
+### Patch Changes
+
+- ef041c0: chore(builder): reuse externals plugin
+
+  chore(builder): 复用 externals 插件
+
+- 4fdd868: feat(rspack-provider): update rspack to v0.2.3
+
+  feat(rspack-provider): 升级 rspack 到 v0.2.3
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [8c9923f]
+- Updated dependencies [ef041c0]
+- Updated dependencies [0424a2d]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server@2.24.0
+  - @modern-js/builder-shared@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

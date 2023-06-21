@@ -1,5 +1,24 @@
 # @modern-js/builder-plugin-vue
 
+## 2.24.0
+
+### Patch Changes
+
+- 3223b8b: feat(plugin-vue): support Vue 3 JSX compilation
+
+  feat(plugin-vue): 支持编译 Vue 3 JSX
+
+- 36f5bdf: fix(plugin-vue): remove react-related babel plugins
+
+  fix(plugin-vue): 移除 react 相关的 babel 插件
+
+- Updated dependencies [ef041c0]
+- Updated dependencies [4fdd868]
+- Updated dependencies [36f5bdf]
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-rspack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

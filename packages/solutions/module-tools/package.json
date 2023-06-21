@@ -15,7 +15,7 @@
     "module-tools",
     "lib-tools"
   ],
-  "version": "2.23.1",
+  "version": "2.24.0",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"

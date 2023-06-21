@@ -1,5 +1,16 @@
 # @modern-js/utils
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 4a82c3b: fix: export `@remix-run/router` cjs instead of `react-router-dom`
+  fix: 暴露 `@remix-run/router` 的 cjs 导出代替 `react-router-dom`
+
 ## 2.23.1
 
 ### Patch Changes

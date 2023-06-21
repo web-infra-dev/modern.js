@@ -1,5 +1,19 @@
 # @modern-js/plugin-router-v5
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/plugin@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @modern-js/plugin-storybook
 
+## 2.24.0
+
+### Patch Changes
+
+- 580fcf7: fix(storybook): fix typescript v5 capability issue
+
+  fix(storybook): 修复与 typescript v5 的兼容问题
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [ef041c0]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [56693a3]
+- Updated dependencies [4a82c3b]
+  - @modern-js/plugin-router-v5@2.24.0
+  - @modern-js/runtime@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+  - @modern-js/builder@2.24.0
+  - @modern-js/builder-plugin-node-polyfill@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes
