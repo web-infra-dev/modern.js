@@ -1,5 +1,5 @@
 import path from 'path';
-import lintPlugin from '@modern-js/plugin-lint';
+import { lintPlugin } from '@modern-js/plugin-lint';
 import {
   cleanRequireCache,
   emptyDir,
@@ -117,7 +117,7 @@ export type AppToolsOptions = {
   bundler?: 'experimental-rspack' | 'webpack';
 };
 
-export default (
+export const appTools = (
   options: AppToolsOptions = {
     bundler: 'webpack',
   },
@@ -311,3 +311,5 @@ export default (
     };
   },
 });
+
+export default appTools;

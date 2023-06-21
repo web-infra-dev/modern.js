@@ -1,12 +1,12 @@
 import path from 'path';
 import { existsSync } from 'fs';
-import { IAppContext, manager } from '@modern-js/core';
+import { CliPlugin, IAppContext, manager } from '@modern-js/core';
 
 import { getBundleEntry } from '../../../../solutions/app-tools/src/analyze/getBundleEntry';
-import plugin, { getDocumenByEntryName } from '../../src/document/cli';
+import { documentPlugin, getDocumenByEntryName } from '../../src/document/cli';
 
 describe('plugin runtime cli', () => {
-  const main = manager.clone().usePlugin(plugin);
+  const main = manager.clone().usePlugin(documentPlugin as CliPlugin);
   let runner: any;
 
   beforeAll(async () => {
@@ -14,7 +14,7 @@ describe('plugin runtime cli', () => {
   });
 
   it('plugin is defined', () => {
-    expect(plugin).toBeDefined();
+    expect(documentPlugin).toBeDefined();
   });
 
   it('plugin-document cli config is defined', async () => {
@@ -37,7 +37,7 @@ describe('plugin runtime cli', () => {
       })),
     };
     const cloned = manager.clone(mockAPI);
-    cloned.usePlugin(plugin);
+    cloned.usePlugin(documentPlugin as CliPlugin);
     const runner2 = await cloned.init();
     const config = await runner2.config();
 

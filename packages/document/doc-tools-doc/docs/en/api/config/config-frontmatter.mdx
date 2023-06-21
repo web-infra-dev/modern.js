@@ -26,16 +26,24 @@ description: This is my custom description for this page.
 
 ## pageType
 
-- Type: `'home' | 'doc' | 'custom' | '404'`
+- Type: `'home' | 'doc' | 'custom' | 'blank' | '404'`
 - Default: `'doc'`
 
-The type of page. By default, the page type is `doc`. But if you want to use a different page type, you can specify the page type with something preceding `pageType`. For example:
+The type of the page. By default, the page type is `doc`. But if you want to use a different page type, you can use the Front Matter field `pageType` to specify the page type. E.g:
 
 ```yaml
 ---
 pageType: home
 ---
 ```
+
+The meaning of each `pageType` config is as follows:
+
+- `home`: **Home page**, including the layout content of the top navigation bar and home page.
+- `doc`: **Doc page**, including top navigation bar, left sidebar, body content, and outline bar on the right.
+- `custom`: **Custom page**, including top navigation bar and custom content.
+- `blank`: Also belongs to **custom page**, but does not include `Top Navigation Bar`.
+- `404`: **Not found page**.
 
 ## hero
 

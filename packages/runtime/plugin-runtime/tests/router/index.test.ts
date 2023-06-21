@@ -1,7 +1,7 @@
-import { manager } from '@modern-js/core';
+import { CliPlugin, manager } from '@modern-js/core';
 import plugin, { useLocation, useParams } from '../../src/router';
-import cliPlugin from '../../src/router/cli';
-import RuntimePlugin from '../../src/cli';
+import { routerPlugin } from '../../src/router/cli';
+import { runtimePlugin } from '../../src/cli';
 
 describe('plugin-router', () => {
   it('default', () => {
@@ -12,7 +12,9 @@ describe('plugin-router', () => {
 });
 
 describe('cli-router', () => {
-  const main = manager.clone().usePlugin(RuntimePlugin, cliPlugin);
+  const main = manager
+    .clone()
+    .usePlugin(runtimePlugin as CliPlugin, routerPlugin as CliPlugin);
   let runner: any;
 
   beforeAll(async () => {
@@ -20,7 +22,7 @@ describe('cli-router', () => {
   });
 
   test('should plugin-router defined', async () => {
-    expect(cliPlugin).toBeDefined();
+    expect(routerPlugin).toBeDefined();
   });
 
   it('plugin-router cli config is defined', async () => {

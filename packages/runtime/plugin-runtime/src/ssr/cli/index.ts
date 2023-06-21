@@ -38,9 +38,11 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   return false;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export const ssrPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
+
   required: ['@modern-js/runtime'],
+
   setup: api => {
     const ssrConfigMap = new Map<string, any>();
 
@@ -226,3 +228,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default ssrPlugin;

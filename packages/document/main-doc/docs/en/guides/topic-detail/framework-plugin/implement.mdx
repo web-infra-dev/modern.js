@@ -2,6 +2,7 @@
 title: Develop Plugins
 sidebar_position: 3
 ---
+
 # How to Develop Plugins
 
 The previous section introduced the Hook models used by Modern.js plugins, while this section describes how to develop plugins.
@@ -22,8 +23,7 @@ const myPlugin = {
 
     // return hook object
     return {
-      afterBuild: () => {
-      },
+      afterBuild: () => {},
     };
   },
 };
@@ -57,8 +57,7 @@ const myPlugin: CliPlugin = {
     const foo = '1';
 
     return {
-      afterBuild: () => {
-      },
+      afterBuild: () => {},
     };
   },
 };
@@ -76,8 +75,7 @@ const myPlugin: CliPlugin<AppTools> = {
     const foo = '1';
 
     return {
-      afterBuild: () => {
-      },
+      afterBuild: () => {},
     };
   },
 };
@@ -137,11 +135,10 @@ const myPlugin = (options: MyPluginOptions): CliPlugin => ({
 
 The `setup` function of a plugin receives an `api` parameter, and you can call some methods provided on the `api` to get configuration, application context, and other information.
 
-
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup(api) {
@@ -161,11 +158,10 @@ For more detail [Plugin API](/guides/topic-detail/framework-plugin/plugin-api).
 
 The `setup` function of a CLI plugin can be an asynchronous function, which can execute asynchronous logic during the initialization process.
 
-
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   async setup(api) {
@@ -185,7 +181,7 @@ It is recommended to write local plugins in the `config/plugin` directory and ex
 ```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup() {
@@ -198,7 +194,7 @@ register plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import myPlugin from './config/plugin/myPlugin';
+import { myPlugin } from './config/plugin/myPlugin';
 
 export default defineConfig({
   plugins: [myPlugin()],
@@ -223,7 +219,7 @@ create plugin main file:
 ```ts title=src/index.ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup() {
@@ -236,7 +232,7 @@ After publishing, install it to the project you need to use `pnpm add my-plugin`
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import myPlugin from 'my-plugin';
+import { myPlugin } from 'my-plugin';
 
 export default defineConfig({
   plugins: [myPlugin()],

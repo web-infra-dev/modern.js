@@ -32,7 +32,7 @@ export default {
       externals: ['@modern-js/mdx-rs-binding'],
       esbuildOptions: options => {
         options.banner = {
-          js: 'import { createRequire } from "module"; const require = createRequire(import.meta.url);',
+          js: 'import { createRequire } from "module";\nconst { url } = import.meta;\nconst require = createRequire(url);',
         };
         return options;
       },

@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs-extra';
-import type { CliPlugin, ModuleToolsHooks } from '@modern-js/self';
+import type { CliPlugin, ModuleTools } from '@modern-js/self';
 
-export default (): CliPlugin<ModuleToolsHooks> => {
+export const plugin1 = (): CliPlugin<ModuleTools> => {
   return {
     name: 'plugin-1',
     setup: () => {

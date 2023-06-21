@@ -27,7 +27,7 @@ pnpm add @modern-js/plugin-module-polyfill -D
 In Module Tools, you can register plugins in the following way:
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginPolyfill } from '@modern-js/plugin-module-polyfill';
 
 export default defineConfig({
@@ -55,7 +55,7 @@ See [Babel target](https://babeljs.io/docs/options#targets).
 This is a example.
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginPolyfill } from '@modern-js/plugin-module-polyfill';
 
 export default defineConfig({

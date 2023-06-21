@@ -2,6 +2,7 @@
 title: 如何编写插件
 sidebar_position: 3
 ---
+
 # 如何编写插件
 
 上一小节介绍了 Modern.js 插件的 Hook 模型，这一小节介绍如何编写插件。
@@ -144,7 +145,7 @@ const myPlugin = (options: MyPluginOptions): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup(api) {
@@ -167,7 +168,7 @@ CLI 插件的 setup 可以是一个异步函数，在初始化过程中执行异
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   async setup(api) {
@@ -187,7 +188,7 @@ export default (): CliPlugin => ({
 ```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup() {
@@ -200,7 +201,7 @@ export default (): CliPlugin => ({
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import myPlugin from './config/plugin/myPlugin';
+import { myPlugin } from './config/plugin/myPlugin';
 
 export default defineConfig({
   plugins: [myPlugin()],
@@ -225,7 +226,7 @@ export default defineConfig({
 ```ts title=src/index.ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup() {
@@ -238,7 +239,7 @@ export default (): CliPlugin => ({
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import myPlugin from 'my-plugin';
+import { myPlugin } from 'my-plugin';
 
 export default defineConfig({
   plugins: [myPlugin()],

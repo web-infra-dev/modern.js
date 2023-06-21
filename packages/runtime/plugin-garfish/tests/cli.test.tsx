@@ -3,7 +3,7 @@ import { manager, CliPlugin } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
 import type { AppUserConfig } from '@modern-js/app-tools';
-import garfishPlugin, { externals } from '../src/cli';
+import { garfishPlugin, externals } from '../src/cli';
 import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
 

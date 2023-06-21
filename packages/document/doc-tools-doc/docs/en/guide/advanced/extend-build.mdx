@@ -7,7 +7,7 @@ Modern.js Doc builds documents based on the Rspack mode of [Modern.js Builder](h
 Modern.js Builder provides flexible build configurations, you can use [doc.builderConfig](/api/config/config-build.html#builderconfig) to customize these configurations. For example, change the output directory to `doc_dist`:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -42,7 +42,7 @@ The compilation of MDX in the framework is based on [unified](https://github.com
 :
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {

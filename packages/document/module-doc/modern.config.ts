@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig, NavItem } from '@modern-js/doc-tools';
+import { docTools, defineConfig, NavItem } from '@modern-js/doc-tools';
 import { remarkCodeHike } from '@code-hike/mdx';
 import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 

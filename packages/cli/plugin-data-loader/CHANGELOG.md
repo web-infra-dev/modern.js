@@ -1,5 +1,15 @@
 # @modern-js/plugin-data-loader
 
+## 2.24.0
+
+### Patch Changes
+
+- 4a82c3b: fix: export `@remix-run/router` cjs instead of `react-router-dom`
+  fix: 暴露 `@remix-run/router` 的 cjs 导出代替 `react-router-dom`
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

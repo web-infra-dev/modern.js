@@ -1,5 +1,30 @@
 # @modern-js/builder-webpack-provider
 
+## 2.24.0
+
+### Patch Changes
+
+- ef041c0: chore(builder): reuse externals plugin
+
+  chore(builder): 复用 externals 插件
+
+- 36f5bdf: fix(plugin-vue): remove react-related babel plugins
+
+  fix(plugin-vue): 移除 react 相关的 babel 插件
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [8c9923f]
+- Updated dependencies [ef041c0]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [0424a2d]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server@2.24.0
+  - @modern-js/builder-shared@2.24.0
+  - @modern-js/babel-preset-base@2.24.0
+  - @modern-js/babel-preset-app@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

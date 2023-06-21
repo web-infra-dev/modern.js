@@ -34,7 +34,7 @@ You can run the'pnpm run new 'command in the project root directory to enable th
 After executing the command, register the `@modern-js/plugin-server` plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import serverPlugin from '@modern-js/plugin-server';
+import { serverPlugin } from '@modern-js/plugin-server';
 
 export default defineConfig({
   plugins: [..., serverPlugin()],

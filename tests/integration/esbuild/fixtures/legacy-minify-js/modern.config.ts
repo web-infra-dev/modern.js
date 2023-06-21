@@ -1,4 +1,4 @@
-import appTools, { defineLegacyConfig } from '@modern-js/app-tools';
+import { appTools, defineLegacyConfig } from '@modern-js/app-tools';
 
 export default defineLegacyConfig({
   tools: {

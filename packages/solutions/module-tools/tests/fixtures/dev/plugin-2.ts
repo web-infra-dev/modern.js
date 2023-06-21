@@ -1,6 +1,6 @@
-import type { CliPlugin, ModuleToolsHooks } from '../../utils';
+import type { CliPlugin, ModuleTools } from '../../utils';
 
-export default (): CliPlugin<ModuleToolsHooks> => {
+export const devPlugin2 = (): CliPlugin<ModuleTools> => {
   return {
     name: 'dev-plugin-2',
     setup: () => {

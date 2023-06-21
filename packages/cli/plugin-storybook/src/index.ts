@@ -6,7 +6,9 @@ import type { PluginOptions } from './types';
 
 export type { PluginOptions } from './types';
 
-export default (pluginOption: PluginOptions = {}): CliPlugin<ModuleTools> => ({
+export const storybookPlugin = (
+  pluginOption: PluginOptions = {},
+): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-storybook',
   setup: api => ({
     async validateSchema() {
@@ -103,3 +105,5 @@ export default (pluginOption: PluginOptions = {}): CliPlugin<ModuleTools> => ({
     // isModuleTools: false
   }),
 });
+
+export default storybookPlugin;

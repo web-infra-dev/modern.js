@@ -1,5 +1,26 @@
 # @modern-js/module-tools
 
+## 2.24.0
+
+### Patch Changes
+
+- 53ba418: chore: upgrade libuild and libuild plugins version to 0.13.1
+  chore: 升级 libuild 和 libuild 插件版本到 0.13.1
+- 3b82675: feat: Auto delete build product by checking if outdir is project root path
+  feat: 根据 outDir 是否是项目根目录决定是否自动删除产物目录
+- 7073297: fix: close declarationMap when bundle dts
+  fix: 打包 dts 时关闭 declarationMap
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/core@2.24.0
+  - @modern-js/plugin-changeset@2.24.0
+  - @modern-js/plugin-i18n@2.24.0
+  - @modern-js/plugin-lint@2.24.0
+  - @modern-js/new-action@2.24.0
+  - @modern-js/plugin@2.24.0
+  - @modern-js/upgrade@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

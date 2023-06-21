@@ -17,7 +17,7 @@ import {
 } from './constants';
 import { worker } from './code';
 
-export default (): CliPlugin<AppTools> => ({
+export const workerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-worker',
   setup: ctx => {
     return {
@@ -158,3 +158,5 @@ compatibility_date = "${new Date().toISOString().substring(0, 10)}"
         `,
   );
 };
+
+export default workerPlugin;

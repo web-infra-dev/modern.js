@@ -23,5 +23,5 @@
     "./modern.config.ts",
     "./tailwind.config.ts"
   ],
-  "exclude": ["runtime.ts", "theme.ts"]
+  "exclude": ["runtime.ts", "theme.ts", "node_modules"]
 }

@@ -46,7 +46,7 @@ import DebugApp from "@site-docs/components/debug-app"
 可以通过该配置文件修改配置，覆盖 Modern.js 的默认行为。例如添加如下配置，开启 SSR：
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   runtime: {

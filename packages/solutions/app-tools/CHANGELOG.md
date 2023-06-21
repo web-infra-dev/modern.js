@@ -1,5 +1,41 @@
 # @modern-js/app-tools
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 36c3982: fix: fix the line number mapping offset between the sourcemap and the source code
+  fix: 修复 sourcemap 到源代码行号映射偏移问题
+- Updated dependencies [c882fbd]
+- Updated dependencies [8c9923f]
+- Updated dependencies [ef041c0]
+- Updated dependencies [4fdd868]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [0424a2d]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server@2.24.0
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-rspack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+  - @modern-js/builder@2.24.0
+  - @modern-js/plugin-data-loader@2.24.0
+  - @modern-js/core@2.24.0
+  - @modern-js/prod-server@2.24.0
+  - @modern-js/builder-plugin-esbuild@2.24.0
+  - @modern-js/builder-plugin-node-polyfill@2.24.0
+  - @modern-js/plugin-i18n@2.24.0
+  - @modern-js/plugin-lint@2.24.0
+  - @modern-js/new-action@2.24.0
+  - @modern-js/node-bundle-require@2.24.0
+  - @modern-js/plugin@2.24.0
+  - @modern-js/upgrade@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

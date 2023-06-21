@@ -18,11 +18,11 @@ Modern.js 默认集成了 [Jest](https://jestjs.io/) 的测试能力。
 在 `modern.config.ts` 中注册 `@modern-js/plugin-testing` 插件后即可使用测试功能：
 
 ```ts title="modern.config.ts"
-import testPlugin from '@modern-js/plugin-testing';
+import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
   ...,
-  plugins: [..., testPlugin()],
+  plugins: [..., testingPlugin()],
 });
 ```
 

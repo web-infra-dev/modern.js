@@ -121,8 +121,8 @@ Execute `pnpm run new` and select the following to start Tailwind CSS:
 Register the Tailwind plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   runtime: {
