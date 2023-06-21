@@ -34,11 +34,12 @@ Modern.js is a web engineering system, including multiple solutions:
 
 ## Ecosystem
 
-The following solutions are available within the Modern.js ecosystem:
+The following solutions and libraries are available within the Modern.js ecosystem:
 
 - 🦀 [Rspack](https://github.com/web-infra-dev/rspack): A fast Rust-based web bundler.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
+- 🐴 [SWC Plugins](https://github.com/web-infra-dev/swc-plugins)：Built-in SWC plugins for Modern.js.
 
 ## Benchmark
 
