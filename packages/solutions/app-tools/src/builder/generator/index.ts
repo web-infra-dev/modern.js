@@ -59,7 +59,7 @@ async function applyBuilderPlugins<B extends Bundler>(
   } = await import('../shared/builderPlugins');
 
   builder.addPlugins([
-    builderPluginAdapterBasic(options),
+    builderPluginAdapterBasic(),
     builderPluginAdapterSSR(options),
     builderPluginAdapterHtml(options),
   ]);
