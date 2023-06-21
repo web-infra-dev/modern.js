@@ -7,7 +7,7 @@
 你可以在 `themeConfig.nav` 中添加自定义的导航菜单，配置为一个数组，如下：
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -77,7 +77,7 @@ export interface NavItemWithChildren {
 ### 示例
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -128,7 +128,7 @@ export default defineConfig({
 默认情况下导航栏会带上 `白天/夜间` 模式的切换按钮，你可以通过如下的配置禁用：
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -145,7 +145,7 @@ export default defineConfig({
 网站的社交链接。比如：
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {

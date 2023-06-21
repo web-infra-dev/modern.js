@@ -1,5 +1,5 @@
 import { join } from 'path';
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import { fs } from '@modern-js/utils';
 
 const logs: string[] = [];

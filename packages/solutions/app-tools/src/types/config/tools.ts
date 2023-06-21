@@ -1,16 +1,21 @@
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { JestConfig } from '@modern-js/core';
 import type { PluginSwcOptions } from '@modern-js/builder-plugin-swc';
 import type { PluginEsbuildOptions } from '@modern-js/builder-plugin-esbuild';
-import type { BuilderConfig as RsBuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { SharedToolsConfig as BuilderSharedToolsConfig } from '@modern-js/builder-shared';
 import type { UnwrapBuilderConfig } from '../utils';
+import type {
+  WebpackBuilderConfig,
+  RspackBuilderConfig,
+} from '../../builder/shared';
 
-export type BuilderToolsConfig = UnwrapBuilderConfig<BuilderConfig, 'tools'> & {
+export type BuilderToolsConfig = UnwrapBuilderConfig<
+  WebpackBuilderConfig,
+  'tools'
+> & {
   esbuild?: PluginEsbuildOptions;
 };
 export type RsBuilderToolsConfig = UnwrapBuilderConfig<
-  RsBuilderConfig,
+  RspackBuilderConfig,
   'tools'
 >;
 export type Tailwindcss =

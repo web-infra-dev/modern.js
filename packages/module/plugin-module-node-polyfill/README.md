@@ -5,7 +5,7 @@ The node polyfill plugin of Modern.js Module Tools.
 ## Usage
 
 ```js
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({
