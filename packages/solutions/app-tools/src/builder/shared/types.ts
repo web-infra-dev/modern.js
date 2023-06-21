@@ -12,7 +12,9 @@ import type {
   BuilderInstance,
   DefaultBuilderPluginAPI,
 } from '@modern-js/builder-shared';
-import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
+import type { Bundler, AppNormalizedConfig, IAppContext } from '../../types';
+
+export { WebpackBuilderConfig, RspackBuilderConfig };
 
 type Parameter<T extends (arg: any) => void> = Parameters<T>[0];
 type FnParameter<
@@ -43,10 +45,6 @@ export type BuilderOptions<B extends Bundler> = {
   normalizedConfig: AppNormalizedConfig<B>;
   appContext: IAppContext;
 } & BuilderPluginCallbacks<B>;
-
-export type ModifyBuilderConfig<B extends Bundler> = (
-  config: AppNormalizedConfig<B>,
-) => Promise<void> | void;
 
 export type ModifyBuilderInstance = (
   builder: BuilderInstance,
