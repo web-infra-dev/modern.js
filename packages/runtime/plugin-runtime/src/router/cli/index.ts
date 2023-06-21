@@ -125,3 +125,5 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default routerPlugin;

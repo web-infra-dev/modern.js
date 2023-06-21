@@ -1,6 +1,7 @@
 import path from 'path';
 import { initSnapshotSerializer } from '@scripts/jest-config/utils';
-import createPlugin, { setJestConfigForBFF } from '../../src/cli/bff';
+import { InternalPlugins } from '@modern-js/core';
+import { testingBffPlugin, setJestConfigForBFF } from '../../src/cli/bff';
 
 initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
 
@@ -20,15 +21,15 @@ describe('testing-plugin-bff', () => {
   };
 
   test('plugin', async () => {
-    expect(createPlugin).toBeDefined();
-    expect(createPlugin).toBeInstanceOf(Function);
+    expect(testingBffPlugin).toBeDefined();
+    expect(testingBffPlugin).toBeInstanceOf(Function);
   });
 
   test('setJestConfigForBFF', async () => {
     await setJestConfigForBFF({
       pwd: appDir,
       userConfig: {},
-      plugins: [],
+      plugins: {} as InternalPlugins,
       routes: [],
       utils: mockUtils,
     });
@@ -43,7 +44,7 @@ describe('testing-plugin-bff', () => {
     await setJestConfigForBFF({
       pwd: appDir,
       userConfig: {},
-      plugins: [],
+      plugins: {} as InternalPlugins,
       routes: [],
       utils: mockUtils,
     });

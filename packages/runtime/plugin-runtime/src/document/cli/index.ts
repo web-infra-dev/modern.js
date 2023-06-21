@@ -304,3 +304,5 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default documentPlugin;

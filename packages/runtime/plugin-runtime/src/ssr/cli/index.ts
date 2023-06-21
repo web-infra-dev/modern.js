@@ -228,3 +228,5 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default ssrPlugin;

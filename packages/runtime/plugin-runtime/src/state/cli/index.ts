@@ -94,3 +94,5 @@ export const statePlugin = (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default statePlugin;
