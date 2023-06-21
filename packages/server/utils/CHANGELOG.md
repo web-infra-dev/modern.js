@@ -1,5 +1,24 @@
 # @modern-js/server-utils
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 36f5bdf: fix(plugin-vue): remove react-related babel plugins
+
+  fix(plugin-vue): 移除 react 相关的 babel 插件
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/babel-preset-base@2.24.0
+  - @modern-js/babel-compiler@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

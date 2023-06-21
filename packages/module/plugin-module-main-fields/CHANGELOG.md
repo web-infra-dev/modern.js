@@ -1,5 +1,14 @@
 # @modern-js/plugin-module-main-fields
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [53ba418]
+- Updated dependencies [3b82675]
+- Updated dependencies [7073297]
+  - @modern-js/module-tools@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

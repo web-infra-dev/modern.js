@@ -1,5 +1,16 @@
 # @modern-js/plugin-module-import
 
+## 2.24.0
+
+### Patch Changes
+
+- 53ba418: chore: upgrade libuild and libuild plugins version to 0.13.1
+  chore: 升级 libuild 和 libuild 插件版本到 0.13.1
+- Updated dependencies [53ba418]
+- Updated dependencies [3b82675]
+- Updated dependencies [7073297]
+  - @modern-js/module-tools@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

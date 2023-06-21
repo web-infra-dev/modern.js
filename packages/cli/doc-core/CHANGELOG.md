@@ -1,5 +1,28 @@
 # @modern-js/doc-core
 
+## 2.24.0
+
+### Patch Changes
+
+- af9af0f: fix(doc-core): doc hmr invalid
+
+  fix(doc-core): 文档热更新失效
+
+- cdb88da: fix(doc-core): import with .js extension
+
+  fix(doc-core): import 中携带 .js 后缀
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [ef041c0]
+- Updated dependencies [4fdd868]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/builder-rspack-provider@2.24.0
+  - @modern-js/builder@2.24.0
+  - @modern-js/core@2.24.0
+  - @modern-js/doc-plugin-medium-zoom@2.24.0
+  - @modern-js/remark-container@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes

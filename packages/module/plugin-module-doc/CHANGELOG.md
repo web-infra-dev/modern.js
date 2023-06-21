@@ -1,5 +1,19 @@
 # @modern-js/plugin-module-doc
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [53ba418]
+- Updated dependencies [af9af0f]
+- Updated dependencies [2858c11]
+- Updated dependencies [3b82675]
+- Updated dependencies [7073297]
+- Updated dependencies [cdb88da]
+  - @modern-js/module-tools@2.24.0
+  - @modern-js/doc-plugin-preview@2.24.0
+  - @modern-js/doc-core@2.24.0
+
 ## 2.23.1
 
 ### Patch Changes
