@@ -56,7 +56,7 @@ describe('create builder provider config', () => {
       html: {},
     };
     const appContext = {
-      appDirectory: join(__dirname, '/fixtures'),
+      appDirectory: join(__filename, '../fixtures'),
       configDir: './icons',
     };
 
