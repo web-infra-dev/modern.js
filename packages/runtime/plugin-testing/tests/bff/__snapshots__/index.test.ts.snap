@@ -8,7 +8,7 @@ exports[`testing-plugin-bff setJestConfigForBFF 1`] = `
         "modern_bff_info": {
           "appDir": "<ROOT>/tests/bff/fixtures/bff1",
           "modernUserConfig": {},
-          "plugins": [],
+          "plugins": {},
           "routes": [],
         },
       },
@@ -48,7 +48,7 @@ exports[`testing-plugin-bff testTimeout should not set in projects 1`] = `
         "modern_bff_info": {
           "appDir": "<ROOT>/tests/bff/fixtures/bff1",
           "modernUserConfig": {},
-          "plugins": [],
+          "plugins": {},
           "routes": [],
         },
       },
