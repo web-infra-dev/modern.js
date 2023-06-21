@@ -1,7 +1,7 @@
 import { WebpackChain } from '@modern-js/builder-webpack-provider';
 import { removeTailSlash } from '@modern-js/utils';
 import { createCopyInfo } from '../shared';
-import { AppNormalizedConfig, IAppContext } from '../../types';
+import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
 
 const minifiedJsRexExp = /\.min\.js/;
 const info = (file: { sourceFilename: string }) => ({
@@ -39,9 +39,9 @@ export function createPublicPattern(
   };
 }
 
-export function createUploadPattern(
+export function createUploadPattern<B extends Bundler>(
   appContext: IAppContext,
-  config: AppNormalizedConfig,
+  config: AppNormalizedConfig<B>,
 ) {
   const { uploadDir } = createCopyInfo(appContext, config);
   return {

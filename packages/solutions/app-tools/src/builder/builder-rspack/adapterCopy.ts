@@ -82,19 +82,13 @@ export const builderPluginAdpaterCopy = (
 
 function createConfigBuiltinCopy(options: BuilderOptions<'rspack'>) {
   const { normalizedConfig, appContext } = options;
-  const { uploadDir, publicDir } = createCopyInfo(appContext, normalizedConfig);
+  const { publicDir } = createCopyInfo(appContext, normalizedConfig);
 
   return [
     {
       from: '**/*',
       to: 'public',
       context: publicDir,
-      noErrorOnMissing: true,
-    },
-    {
-      from: '**/*',
-      to: 'upload',
-      context: uploadDir,
       noErrorOnMissing: true,
     },
   ];
