@@ -12,7 +12,7 @@ import {
   useLocation,
   MemoryRouter,
 } from '@modern-js/plugin-router-v5/runtime';
-import { garfishPlugin } from '../src/runtime';
+import garfishPlugin from '../src/runtime';
 import { useModuleApps } from '../src';
 import {
   TABLE_LIST_ESCAPE_NODE,
