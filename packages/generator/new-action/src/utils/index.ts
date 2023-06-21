@@ -1,7 +1,12 @@
 import path from 'path';
-import { json5 } from '@modern-js/utils';
-import { ActionFunction, ActionRefactor } from '@modern-js/generator-common';
-import { fs } from '@modern-js/generator-utils';
+import { json5, semver } from '@modern-js/utils';
+import {
+  ActionFunction,
+  ActionRefactor,
+  Solution,
+  SolutionToolsMap,
+} from '@modern-js/generator-common';
+import { fs, getModernPluginVersion } from '@modern-js/generator-utils';
 
 export function alreadyRepo(cwd = process.cwd()) {
   try {
@@ -54,4 +59,19 @@ export function getGeneratorPath(generator: string, distTag: string) {
     return `${generator}@${distTag}`;
   }
   return generator;
+}
+
+export async function usePluginNameExport(
+  solution: Solution,
+  options: Record<string, string>,
+) {
+  const solutionVersion = await getModernPluginVersion(
+    solution,
+    SolutionToolsMap[Solution.MWA],
+    options,
+  );
+  if (semver.valid(solutionVersion) && semver.gte(solutionVersion, '2.0.0')) {
+    return semver.gt(solutionVersion, '2.24.0');
+  }
+  return true;
 }
