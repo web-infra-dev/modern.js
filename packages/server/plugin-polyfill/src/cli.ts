@@ -2,7 +2,7 @@ import type { CliPlugin } from '@modern-js/core';
 import type { AppTools } from '@modern-js/app-tools';
 import { defaultPolyfill } from './const';
 
-export default (): CliPlugin<AppTools> => ({
+export const polyfillPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-polyfill',
 
   setup: api => ({
@@ -25,3 +25,5 @@ export default (): CliPlugin<AppTools> => ({
     },
   }),
 });
+
+export default polyfillPlugin;

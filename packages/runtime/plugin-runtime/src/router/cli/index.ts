@@ -10,7 +10,7 @@ const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-export default (): CliPlugin<AppTools> => ({
+export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router',
   required: ['@modern-js/runtime'],
   setup: api => {

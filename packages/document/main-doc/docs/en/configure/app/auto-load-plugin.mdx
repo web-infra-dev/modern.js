@@ -15,10 +15,10 @@ By default, installing the plugin requires you to register the plugin manually i
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import i18nPlugin from '@modern-js/plugin-i18n';
+import { bffPlugin } from '@modern-js/plugin-bff';
 
 export default defineConfig({
-  plugins: [appTools(), i18nPlugin()],
+  plugins: [appTools(), bffPlugin()],
 });
 ```
 

@@ -1,5 +1,5 @@
 import path from 'path';
-import lintPlugin from '@modern-js/plugin-lint';
+import { lintPlugin } from '@modern-js/plugin-lint';
 import {
   cleanRequireCache,
   emptyDir,

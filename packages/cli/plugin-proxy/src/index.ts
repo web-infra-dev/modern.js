@@ -2,7 +2,7 @@ import type { CliPlugin } from '@modern-js/core';
 import { createProxyRule } from './utils/createProxyRule';
 import WhistleProxy from './utils/whistleProxy';
 
-export default (): CliPlugin => {
+export const proxyPlugin = (): CliPlugin => {
   let proxyServer: WhistleProxy;
 
   return {
@@ -40,3 +40,5 @@ export default (): CliPlugin => {
     }),
   };
 };
+
+export default proxyPlugin;

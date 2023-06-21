@@ -3,9 +3,11 @@ import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'state';
 
-export default (): CliPlugin<AppTools> => ({
+export const statePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-state',
+
   required: ['@modern-js/runtime'],
+
   setup: api => {
     const stateConfigMap = new Map<string, any>();
 

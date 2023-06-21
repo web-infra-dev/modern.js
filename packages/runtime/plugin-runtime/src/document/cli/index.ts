@@ -55,8 +55,9 @@ export const getDocumenByEntryName = function (
   return docFile || undefined;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export const documentPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-document',
+
   pre: ['@modern-js/plugin-analyze'],
   setup: async api => {
     // get params for document.tsx

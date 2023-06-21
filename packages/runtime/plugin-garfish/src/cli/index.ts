@@ -38,7 +38,7 @@ export function getDefaultMicroFrontedConfig(
   };
 }
 
-export default ({
+export const garfishPlugin = ({
   pluginName = '@modern-js/plugin-garfish',
   runtimePluginName = '@modern-js/runtime/plugins',
 } = {}): CliPlugin<AppTools> => ({
@@ -339,3 +339,5 @@ export default ({
     };
   },
 });
+
+export default garfishPlugin;

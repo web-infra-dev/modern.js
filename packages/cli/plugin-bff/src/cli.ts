@@ -15,7 +15,7 @@ import { registerModernRuntimePath } from './helper';
 const DEFAULT_API_PREFIX = '/api';
 const TS_CONFIG_FILENAME = 'tsconfig.json';
 
-export default (): CliPlugin<AppTools> => ({
+export const bffPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-bff',
   setup: api => {
     let unRegisterResolveRuntimePath: (() => void) | null = null;
@@ -188,3 +188,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default bffPlugin;

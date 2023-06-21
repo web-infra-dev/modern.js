@@ -3,7 +3,7 @@ import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
 import type { AppTools } from '@modern-js/app-tools';
 
-export default (): CliPlugin<AppTools> => ({
+export const koaPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-koa',
   setup: api => {
     let bffExportsUtils: any;
@@ -69,3 +69,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default koaPlugin;

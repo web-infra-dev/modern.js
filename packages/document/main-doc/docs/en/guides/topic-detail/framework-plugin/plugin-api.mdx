@@ -10,7 +10,7 @@ The `setup` function of the plugin will receive an `api` imported parameter, and
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup(api) {
@@ -106,7 +106,7 @@ Used to retrieve the executor of Hooks and trigger the execution of specific Hoo
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   async setup(api) {

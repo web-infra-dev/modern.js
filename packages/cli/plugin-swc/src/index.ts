@@ -60,7 +60,8 @@ export function factory(
 }
 
 const PLUGIN_NAME = '@modern-js/plugin-swc';
-export default factory(PLUGIN_NAME, swcOptions => {
+
+export const swcPlugin = factory(PLUGIN_NAME, swcOptions => {
   swcOptions.extensions = {
     ...(swcOptions.extensions || {}),
     ssrLoaderId: {
@@ -70,3 +71,5 @@ export default factory(PLUGIN_NAME, swcOptions => {
   };
   return swcOptions;
 });
+
+export default swcPlugin;

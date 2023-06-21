@@ -23,12 +23,12 @@ When we want to test some modules, we can enable the test feature. When this fea
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 ``` ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import testPlugin from '@modern-js/plugin-testing';
+import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
-    testPlugin(),
+    testingPlugin(),
   ],
 });
 ```
@@ -42,7 +42,7 @@ The **Storybook feature** can be enabled when we want to debug a component or a 
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 ``` ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import storybookPlugin from '@modern-js/plugin-storybook';
+import { storybookPlugin } from '@modern-js/plugin-storybook';
 
 export default defineConfig({
   plugins: [
@@ -72,7 +72,7 @@ For more information on how to use Tailwind CSS in your module projects, check o
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
 ``` ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import tailwindPlugin from '@modern-js/plugin-tailwindcss';
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   plugins: [

@@ -1,5 +1,5 @@
 import React from 'react';
-import garfishPlugin from '../src/cli';
+import { garfishPlugin } from '../src/cli';
 import '@testing-library/jest-dom';
 
 global.React = React;

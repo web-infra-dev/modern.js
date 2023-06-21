@@ -47,7 +47,7 @@ function getDefaultContent(appDirectory: string) {
   return defaultContent;
 }
 
-export default (
+export const tailwindcssPlugin = (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
@@ -191,3 +191,5 @@ export default (
     };
   },
 });
+
+export default tailwindcssPlugin;

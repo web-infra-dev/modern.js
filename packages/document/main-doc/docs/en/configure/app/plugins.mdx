@@ -2,6 +2,7 @@
 title: plugins
 sidebar_position: 9
 ---
+
 # plugins
 
 - **Type:** `CliPlugin[]`
@@ -44,7 +45,7 @@ The following is an example of using CLI plugins.
 To use plugins from npm registry, you need to first install the plugins , and import them in `modern.config.ts`.
 
 ```ts title="modern.config.ts"
-import myPlugin from 'my-plugin';
+import { myPlugin } from 'my-plugin';
 
 export default defineConfig({
   plugins: [myPlugin()],
@@ -56,7 +57,7 @@ export default defineConfig({
 To use local plugins, import them directly using a relative path.
 
 ```ts title="modern.config.ts"
-import myPlugin from './config/plugin/myPlugin';
+import { myPlugin } from './config/plugin/myPlugin';
 
 export default defineConfig({
   plugins: [myPlugin()],
@@ -68,7 +69,7 @@ export default defineConfig({
 If the plugin provides some custom configuration options, they can be passed in as parameters to the plugin function.
 
 ```ts title="modern.config.ts"
-import myPlugin from 'my-plugin';
+import { myPlugin } from 'my-plugin';
 
 export default defineConfig({
   plugins: [

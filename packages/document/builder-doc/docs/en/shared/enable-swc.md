@@ -9,7 +9,7 @@ After the installation, please register the SWC plugin in the `modern.config.ts`
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import swcPlugin from '@modern-js/plugin-swc';
+import { swcPlugin } from '@modern-js/plugin-swc';
 
 export default defineConfig({
   plugins: [appTools(), swcPlugin()],

@@ -1,7 +1,9 @@
+import type { AppTools } from '@modern-js/app-tools';
 import { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const cliPlugin1 = (): CliPlugin<AppTools> => ({
   name: 'cliPlugin1',
+
   setup: () => {
     return {
       modifyServerRoutes({ routes }: { routes: any[] }) {

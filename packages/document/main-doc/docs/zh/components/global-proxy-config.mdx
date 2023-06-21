@@ -22,7 +22,7 @@ pnpm add @modern-js/plugin-proxy -D
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import proxyPlugin from '@modern-js/plugin-proxy';
+import { proxyPlugin } from '@modern-js/plugin-proxy';
 
 export default defineConfig({
   plugins: [appTools(), proxyPlugin()],
