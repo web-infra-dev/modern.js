@@ -1,3 +1,4 @@
+import path from 'path';
 import remarkGFM from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutoLink from 'rehype-autolink-headings';
@@ -17,6 +18,7 @@ export async function createMDXOptions(
   config: UserConfig,
   checkDeadLinks: boolean,
   routeService: RouteService,
+  filepath: string,
 ): Promise<Options> {
   const {
     remarkPlugins: remarkPluginsFromConfig = [],
@@ -33,6 +35,7 @@ export async function createMDXOptions(
   return {
     providerImportSource: '@mdx-js/react',
     jsx: true,
+    format: path.extname(filepath).slice(1) as 'mdx' | 'md',
     remarkPlugins: [
       remarkPluginContainer,
       remarkGFM,

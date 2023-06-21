@@ -40,52 +40,53 @@ export default async function mdxLoader(
     options;
 
   const { data: frontmatter, content } = grayMatter(source);
-  let compileResult: string;
-  if (!enableMdxRs) {
-    const mdxOptions = await createMDXOptions(
-      docDirectory,
-      config,
-      checkDeadLinks,
-      routeService,
-    );
-    const compiler = createProcessor(mdxOptions);
-
-    compiler.data('pageMeta', {
-      toc: [],
-      title: '',
-    });
-    const vFile = await compiler.process({
-      value: content,
-      path: filepath,
-    });
-
-    compileResult = String(vFile);
-    pageMeta = {
-      ...(compiler.data('pageMeta') as { toc: Header[]; title: string }),
-      frontmatter,
-    } as PageMeta;
-  } else {
-    const { compile } = require('@modern-js/mdx-rs-binding');
-    const { toc, links, title, code } = await compile({
-      value: content,
-      filepath,
-      root: docDirectory,
-      development: process.env.NODE_ENV !== 'production',
-    });
-
-    compileResult = code;
-    pageMeta = {
-      toc,
-      title,
-      frontmatter,
-    };
-    // We should check dead links in mdx-rs mode
-    if (checkDeadLinks) {
-      checkLinks(links, filepath, docDirectory, routeService);
-    }
-  }
 
   try {
+    let compileResult: string;
+    if (!enableMdxRs) {
+      const mdxOptions = await createMDXOptions(
+        docDirectory,
+        config,
+        checkDeadLinks,
+        routeService,
+        filepath,
+      );
+      const compiler = createProcessor(mdxOptions);
+
+      compiler.data('pageMeta', {
+        toc: [],
+        title: '',
+      });
+      const vFile = await compiler.process({
+        value: content,
+        path: filepath,
+      });
+
+      compileResult = String(vFile);
+      pageMeta = {
+        ...(compiler.data('pageMeta') as { toc: Header[]; title: string }),
+        frontmatter,
+      } as PageMeta;
+    } else {
+      const { compile } = require('@modern-js/mdx-rs-binding');
+      const { toc, links, title, code } = await compile({
+        value: content,
+        filepath,
+        root: docDirectory,
+        development: process.env.NODE_ENV !== 'production',
+      });
+
+      compileResult = code;
+      pageMeta = {
+        toc,
+        title,
+        frontmatter,
+      };
+      // We should check dead links in mdx-rs mode
+      if (checkDeadLinks) {
+        checkLinks(links, filepath, docDirectory, routeService);
+      }
+    }
     const result = `globalThis.__RSPRESS_PAGE_META ||= {};
 globalThis.__RSPRESS_PAGE_META["${filepath}"] = ${JSON.stringify(pageMeta)};
 ${compileResult}`;
