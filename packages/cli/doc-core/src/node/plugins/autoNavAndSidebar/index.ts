@@ -182,8 +182,8 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
   let sideMeta: SideMeta | undefined;
   // Get the sidebar config from the `_meta.json` file
   try {
-    // eslint-disable-next-line import/no-dynamic-require
-    sideMeta = require(metaFile) as SideMeta;
+    // Don't use require to avoid require cache, which make hmr not work.
+    sideMeta = (await fs.readJSON(metaFile, 'utf8')) as SideMeta;
   } catch (e) {
     sideMeta = [];
   }

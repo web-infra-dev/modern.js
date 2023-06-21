@@ -28,7 +28,7 @@ Built-in i18n support, supports multi-language switching, and supports multi-lan
 
 ### Code Block Syntax Highlighting
 
-Based on [Shiki](https://github.com/shikijs/shiki) for compile-time code coloring, it supports multiple code language highlighting. For example:
+Based on [PrismJS](https://github.com/PrismJS/prism) for runtime code coloring, it supports multiple code language highlighting. For example:
 
 ```ts title="modern.config.ts"
 import docTools, { defineConfig } from '@modern-js/doc-tools';
@@ -41,6 +41,12 @@ export default defineConfig({
   plugins: [docTools()],
 });
 ```
+
+### Auto Layout Generation
+
+There are multiple built-in layout components, such as `Top Navigation Bar` and `Left Sidebar`, that can be automatically generated through config files. For details, please refer to [Auto Nav/Sidebar](/guide/basic/auto-nav-sidebar).
+
+At the same time, you can also customize the layout type by configuring `pageType`. For more information, please refer to [pageType](/api/config/config-frontmatter.html#pagetype).
 
 ### Support Custom Theme
 
