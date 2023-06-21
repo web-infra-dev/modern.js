@@ -15,7 +15,7 @@ const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
   require,
 );
 
-export default (): CliPlugin<MonorepoTools> => ({
+export const monorepoTools = (): CliPlugin<MonorepoTools> => ({
   name: '@modern-js/monorepo-tools',
   usePlugins: [changesetPlugin(), lintPlugin()],
   registerHook: hooks,
@@ -40,3 +40,5 @@ export default (): CliPlugin<MonorepoTools> => ({
   },
   post: ['@modern-js/plugin-changeset'],
 });
+
+export default monorepoTools;

@@ -1,4 +1,4 @@
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import workPlugin from '@modern-js/plugin-worker';
 
 export default defineConfig({

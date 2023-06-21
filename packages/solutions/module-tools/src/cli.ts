@@ -3,7 +3,7 @@ import type { ModuleTools } from './types';
 import { registerHook } from './hooks';
 import { getPlugins } from './plugins';
 
-export const cli = (): CliPlugin<ModuleTools> => ({
+export const moduleTools = (): CliPlugin<ModuleTools> => ({
   name: '@modern-js/module-tools',
   registerHook,
   usePlugins: getPlugins(process.argv.slice(2)[0]),
@@ -49,12 +49,12 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
     prepare,
     validateSchema,
     async commands({ program }) {
-      const { buildCommand, devCommand, newCommand, upgradCommand } =
+      const { buildCommand, devCommand, newCommand, upgradeCommand } =
         await import('./command');
       await buildCommand(program, api);
       await devCommand(program, api);
       await newCommand(program);
-      await upgradCommand(program);
+      await upgradeCommand(program);
     },
   };
 };

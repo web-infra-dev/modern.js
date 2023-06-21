@@ -9,7 +9,7 @@ A Library author don't want to "pollute" the global scope with the polyfills you
 ## Usage
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginPolyfill } from '@modern-js/plugin-module-polyfill';
 
 export default defineConfig({

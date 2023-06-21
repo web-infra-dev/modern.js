@@ -1,4 +1,4 @@
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import serverPlugin from '@modern-js/plugin-server';
 
 export default defineConfig({

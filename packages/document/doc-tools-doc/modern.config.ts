@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 const isProd = () => process.env.NODE_ENV === 'production';
 

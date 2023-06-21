@@ -26,7 +26,7 @@ pnpm add @modern-js/plugin-module-node-polyfill -D
 In Module Tools, you can register plugins in the following way:
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({
@@ -53,7 +53,7 @@ type NodePolyfillOptions = {
 Exclude the Node Polyfill to be injected.
 
 ``` ts focus=7:9
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({
@@ -71,7 +71,7 @@ export default defineConfig({
 Override the built-in Node Polyfill.
 
 ``` ts focus=7:9
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({

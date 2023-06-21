@@ -7,7 +7,7 @@ You can add Babel compile by the plugin before module-tools internal building.
 ## Usage
 
 ```ts modern.config.ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 export default defineConfig({
   plugins: [

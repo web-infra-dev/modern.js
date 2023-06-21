@@ -21,7 +21,7 @@ pnpm add @modern-js/plugin-proxy -D
 安装完成后，在 `modern.config.ts` 文件中注册插件：
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 import proxyPlugin from '@modern-js/plugin-proxy';
 
 export default defineConfig({
