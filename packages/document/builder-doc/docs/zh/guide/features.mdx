@@ -8,7 +8,7 @@
 | --------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Babel 编译      | 默认开启 Babel 编译，将 JavaScript 和 TypeScript 代码转换为向后兼容的 JavaScript 语法 | <ul><li>[tools.babel](/api/config-tools.html#toolsbabel)</li></ul>                                                                                                                                        |
 | TS 编译         | 默认通过 Babel 编译 TS 文件，支持切换为 `ts-loader` 编译                              | <ul><li>[TypeScript 转译](/guide/basic/typescript.html#typescript-转译)</li><li>[tools.babel](/api/config-tools.html#toolsbabel)</li><li>[tools.tsLoader](/api/config-tools.html#toolstsloader)</li></ul> |
-| TS 类型检查     | 默认通过 TS Checker 检查类型问题                                                      | <ul><li>[类型检查](/guide/basic/typescript.html#类型检查)</li><li>[tools.tsChecker](/api/config-tools.html#toolstschecker)</li></ul>                                                                      |
+| TS 类型检查     | 默认通过 TS Checker 检查类型问题                                                      | <ul><li>[类型检查](/guide/basic/typescript.html#类型检查)</li><li>[tools.tsChecker](/api/config-tools.html#toolstschecker)</li><li>[output.disableTsChecker](/api/config-output.html#outputdisabletschecker)</li></ul>                                                                      |
 | JS 压缩         | 默认在生产环境构建时开启压缩                                                          | <ul><li>[tools.terser](/api/config-tools.html#toolsterser)</li></ul>                                                                                                                                      |
 | Polyfill 注入   | 默认会注入 core-js 等 Polyfill                                                        | <ul><li>[浏览器兼容性](/guide/advanced/browser-compatibility.html)</li><li>[output.polyfill](/api/config-output.html#outputpolyfill)</li></ul>                                                            |
 | SourceMap 生成  | 默认在生产环境构建时生成高质量 SourceMap                                              | <ul><li>[output.disableSourceMap](/api/config-output.html#outputdisablesourcemap)</li></ul>                                                                                                               |
@@ -60,7 +60,7 @@
 | 功能              | 描述                                     | 相关链接                                                                                                                                          |
 | ----------------- | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | React Refresh     | 默认支持 React Refresh 热更新            | <ul><li>[模块热替换](/guide/advanced/hmr.html)</li><li>[dev.hmr](/api/config-dev.html#devhmr)</li></ul>                                           |
-| SVG 转 React 组件 | 默认支持在 React 组件中引用 SVG 作为组件 | <ul><li>[引用 SVG 资源](/guide/basic/svg-assets.html)</li><li>[output.svgDefaultExport](/api/config-output.html#outputsvgdefaultexport)</li></ul> |
+| SVG 转 React 组件 | 默认支持在 React 组件中引用 SVG 作为组件 | <ul><li>[引用 SVG 资源](/guide/basic/svg-assets.html)</li><li>[output.svgDefaultExport](/api/config-output.html#outputsvgdefaultexport)</li><li>[output.disableSvgr](/api/config-output.html#outputdisablesvgr)</li></ul> |
 
 ## 静态资源相关
 

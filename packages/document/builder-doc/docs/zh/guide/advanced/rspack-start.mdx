@@ -27,7 +27,6 @@ const provider = builderRspackProvider({
 });
 ```
 
-
 ```diff title=package.json
 {
   "devDependencies": {
@@ -215,6 +214,23 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 具体插件支持情况可参考：[Plugin 兼容情况](https://www.rspack.dev/zh/guide/plugin-compat.html)。
 
 未列出的插件可根据 [Rspack Plugin API 支持情况](https://www.rspack.dev/zh/api/plugin-api.html) 自行判断。
+
+## 对比 Rspack CLI
+
+Builder Rspack 构建模式对比 [Rspack CLI](https://www.rspack.dev/zh/guide/quick-start.html#%E4%BD%BF%E7%94%A8-rspack-cli) 添加了很多开箱即用的能力，同时，这些能力的封装会带来一定程度上的性能开销:
+
+| 功能                         | 描述                                                                                                                                                                                  | 相关链接                                                                                                                     |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| 浏览器兼容性                 | Builder 会根据[构建产物类型](/guide/basic/build-target)来设置不同的 Browserslist 默认值                                                                                               | [浏览器范围](/guide/advanced/browserslist.html)                                                                              |
+| SourceMap 生成               | Builder 默认根据环境生成不同的 SourceMap                                                                                                                                              | [output.disableSourceMap](/api/config-output.html#outputdisablesourcemap)                                                    |
+| SVG 转 React 组件            | Builder 默认支持在 React 组件中引用 SVG 作为组件                                                                                                                                      | [引用 SVG 资源](/guide/basic/svg-assets.html)<br />[output.disableSvgr](/api/config-output.html#outputdisablesvgr)           |
+| 按需引入常用组件库           | 当项目中安装了 [Ant Design](https://www.npmjs.com/package/antd) 或 [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) 组件库时，Builder 会自动添加对应的按需引入能力 | [source.transformImport](/api/config-source#sourcetransformimport)                                                           |
+| 默认开启 TypeScript 类型检查 | Builder 会默认通过 TS Checker 检查类型问题                                                                                                                                            | [类型检查](/guide/basic/typescript.html#类型检查) <br />[output.disableTsChecker](/api/config-output#outputdisabletschecker) |
+| 默认集成 PostCSS             | Builder 默认集成了 postcss-loader 和一些常用的 poscss 插件                                                                                                                            | [使用 PostCSS](/guide/basic/css-usage.html#使用-postcss)                                                                     |
+
+以上能力均提供可调整的配置选项，可以根据项目实际情况按需进行调整。
+
+更多内置能力，可参考 [功能导航](/guide/features.html)。
 
 ## 常见问题
 
