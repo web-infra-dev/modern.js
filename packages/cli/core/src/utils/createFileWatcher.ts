@@ -20,9 +20,27 @@ export const createFileWatcher = async (
   if (isDevCommand()) {
     const { appDirectory } = appContext;
     const extraFiles = await hooksRunner.watchFiles();
-    const watched = extraFiles.filter(Boolean);
+    const watched = extraFiles
+      .filter((extra): extra is string[] => {
+        return Array.isArray(extra);
+      })
+      .flat();
+    const privateWatched = extraFiles
+      .filter((extra): extra is { files: string[]; isPrivate: boolean } => {
+        return !Array.isArray(extra) && extra.isPrivate;
+      })
+      .map(extra => {
+        return extra.files;
+      })
+      .flat();
+
+    const isPrivate = (filename: string) =>
+      privateWatched.some(ff => {
+        return path.resolve(appDirectory, filename).startsWith(ff);
+      });
+
     debug(`watched: %o`, watched);
-    const watcher = chokidar.watch(watched, {
+    const watcher = chokidar.watch([...watched, ...privateWatched], {
       cwd: appDirectory,
       ignoreInitial: true,
       ignorePermissionErrors: true,
@@ -43,25 +61,37 @@ export const createFileWatcher = async (
       if (currentHash !== lastHash) {
         debug(`file change: %s`, changed);
         hashMap.set(changed, currentHash);
-        hooksRunner.fileChange({ filename: changed, eventType: 'change' });
+        hooksRunner.fileChange({
+          filename: changed,
+          eventType: 'change',
+          isPrivate: isPrivate(changed),
+        });
       }
     });
 
-    watcher.on('add', name => {
-      debug(`add file: %s`, name);
+    watcher.on('add', changed => {
+      debug(`add file: %s`, changed);
       const currentHash = md5(
-        fs.readFileSync(path.join(appDirectory, name), 'utf8'),
+        fs.readFileSync(path.join(appDirectory, changed), 'utf8'),
       );
-      hashMap.set(name, currentHash);
-      hooksRunner.fileChange({ filename: name, eventType: 'add' });
+      hashMap.set(changed, currentHash);
+      hooksRunner.fileChange({
+        filename: changed,
+        eventType: 'add',
+        isPrivate: isPrivate(changed),
+      });
     });
 
-    watcher.on('unlink', name => {
-      debug(`remove file: %s`, name);
-      if (hashMap.has(name)) {
-        hashMap.delete(name);
+    watcher.on('unlink', changed => {
+      debug(`remove file: %s`, changed);
+      if (hashMap.has(changed)) {
+        hashMap.delete(changed);
       }
-      hooksRunner.fileChange({ filename: name, eventType: 'unlink' });
+      hooksRunner.fileChange({
+        filename: changed,
+        eventType: 'unlink',
+        isPrivate: isPrivate(changed),
+      });
     });
 
     watcher.on('error', err => {
