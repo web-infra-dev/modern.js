@@ -7862,6 +7862,34 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  tests/integration/ssr/fixtures/fallback:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18.0.1
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.0.1
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../../../packages/review/tsconfig
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   tests/integration/ssr/fixtures/init:
     dependencies:
       '@modern-js/app-tools':

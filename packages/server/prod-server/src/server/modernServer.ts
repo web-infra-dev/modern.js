@@ -113,6 +113,8 @@ export class ModernServer implements ModernServerInterface {
 
   private readonly staticGenerate: boolean;
 
+  private readonly metaName?: string;
+
   constructor({
     pwd,
     config,
@@ -122,6 +124,7 @@ export class ModernServer implements ModernServerInterface {
     metrics,
     runMode,
     proxyTarget,
+    appContext,
   }: ModernServerOptions) {
     require('ignore-styles');
 
@@ -137,6 +140,7 @@ export class ModernServer implements ModernServerInterface {
     this.proxyTarget = proxyTarget;
     this.staticGenerate = staticGenerate || false;
     this.runMode = runMode || RUN_MODE.FULL;
+    this.metaName = appContext?.metaName;
     // process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
@@ -144,7 +148,7 @@ export class ModernServer implements ModernServerInterface {
   public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
 
-    const { distDir, staticGenerate, conf } = this;
+    const { distDir, staticGenerate, conf, metaName } = this;
 
     this.initReader();
 
@@ -179,6 +183,7 @@ export class ModernServer implements ModernServerInterface {
       staticGenerate,
       forceCSR,
       nonce: conf.security?.nonce,
+      metaName,
     });
 
     await this.setupBeforeProdMiddleware();

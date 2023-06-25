@@ -1,8 +1,9 @@
+import { cutNameByHyphen } from '@modern-js/utils';
 import type { IAppContext } from '../types';
 
 export function getAutoInjectEnv(appContext: IAppContext) {
   const { metaName } = appContext;
-  const prefix = `${metaName.split(/[-_]/)[0]}_`.toUpperCase();
+  const prefix = `${cutNameByHyphen(metaName)}_`.toUpperCase();
   const envReg = new RegExp(`^${prefix}`);
   return Object.keys(process.env).reduce((prev, key) => {
     const value = process.env[key];
