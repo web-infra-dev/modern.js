@@ -284,6 +284,7 @@ export interface MarkdownOptions {
   checkDeadLinks?: boolean;
   experimentalMdxRs?: boolean;
   showLineNumbers?: boolean;
+  globalComponents?: string[];
 }
 
 export interface UserConfig {

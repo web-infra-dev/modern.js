@@ -11,41 +11,12 @@ import {
   isExternalUrl,
 } from '@/shared/utils';
 import { PUBLIC_DIR } from '@/node/constants';
+import { getASTNodeImport } from '@/node/utils/getASTNodeImport';
 
 interface LinkNode {
   type: string;
   url?: string;
 }
-
-// Construct import statement for AST
-// Such as: import image1 from './test.png'
-const getASTNodeImport = (name: string, from: string) =>
-  ({
-    type: 'mdxjsEsm',
-    value: `import ${name} from "${from}"`,
-    data: {
-      estree: {
-        type: 'Program',
-        sourceType: 'module',
-        body: [
-          {
-            type: 'ImportDeclaration',
-            specifiers: [
-              {
-                type: 'ImportDefaultSpecifier',
-                local: { type: 'Identifier', name },
-              },
-            ],
-            source: {
-              type: 'Literal',
-              value: from,
-              raw: `"${from}"`,
-            },
-          },
-        ],
-      },
-    },
-  } as MdxjsEsm);
 
 export function extractLangFromFilePath(filePath: string) {
   const [lang] = filePath.split(path.sep);
