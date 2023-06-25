@@ -255,3 +255,7 @@ export default {
   },
 };
 ```
+
+Additionally, if your project is a micro-frontend application (such as a Garfish sub-application), the assets retry may not work because micro-frontend sub-applications are typically not loaded directly based on the `<script>` tag.
+
+If you need to retry assets in micro-frontend scenarios, please contact the developers of the micro-frontend framework to find a solution.
