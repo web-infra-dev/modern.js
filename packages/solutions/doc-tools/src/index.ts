@@ -58,7 +58,9 @@ export const docTools = (options: DocToolsOptions = {}): CliPlugin => ({
           configFile: string;
         };
         // Concern: if the doc root is set by cli, we cannot get the root parms in `watchFiles` hook, so we can only get the root from config file.
-        return [configFile, config.doc?.root, '**/_meta.json'].filter(Boolean);
+        return [configFile, config.doc?.root, '**/_meta.json'].filter(
+          Boolean,
+        ) as string[];
       },
       async fileChange({ filename, eventType }) {
         const isConfigFile = configFiles.some(configFileName =>
