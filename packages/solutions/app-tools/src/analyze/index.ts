@@ -73,7 +73,7 @@ export default ({
           debug(`server routes: %o`, routes);
 
           appContext = {
-            ...appContext,
+            ...api.useAppContext(),
             apiOnly,
             serverRoutes: routes,
           };
@@ -109,7 +109,7 @@ export default ({
         debug(`server routes: %o`, routes);
 
         appContext = {
-          ...appContext,
+          ...api.useAppContext(),
           entrypoints,
           serverRoutes: routes,
         };
@@ -155,7 +155,7 @@ export default ({
         }
 
         appContext = {
-          ...appContext,
+          ...api.useAppContext(),
           entrypoints,
           checkedEntries,
           apiOnly,
@@ -230,7 +230,7 @@ export default ({
           builder.addPlugins(resolvedConfig.builderPlugins);
 
           appContext = {
-            ...appContext,
+            ...api.useAppContext(),
             builder,
           };
           api.setAppContext(appContext);
