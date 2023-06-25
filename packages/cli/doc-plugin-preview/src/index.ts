@@ -2,7 +2,8 @@ import path, { join } from 'path';
 import { RspackVirtualModulePlugin } from 'rspack-plugin-virtual-module';
 import type { DocPlugin, RouteMeta } from '@modern-js/doc-core';
 import { remarkCodeToDemo } from './codeToDemo';
-import { toValidVarName } from './utils';
+import { injectDemoBlockImport, toValidVarName } from './utils';
+import { demoBlockComponentPath, demoComponentPath } from './constant';
 
 export type Options = {
   /**
@@ -26,10 +27,8 @@ export const demoMeta: Record<
  */
 export function pluginPreview(options?: Options): DocPlugin {
   const isMobile = options?.isMobile ?? false;
-  const demoComponentPath = path.join(__dirname, '..', 'dist/demo.js');
   const demoRuntimeModule = new RspackVirtualModulePlugin({});
   const getRouteMeta = () => routeMeta;
-
   return {
     name: '@modern-js/doc-plugin-preview',
     async addPages(_config, _isProd, routes) {
@@ -93,7 +92,10 @@ export function pluginPreview(options?: Options): DocPlugin {
                 }
 
                 fs.ensureDirSync(join(demoDir));
-                fs.writeFileSync(virtualModulePath, value);
+                fs.writeFileSync(
+                  virtualModulePath,
+                  injectDemoBlockImport(value, demoBlockComponentPath),
+                );
               }
             });
           } catch (e) {
@@ -159,10 +161,22 @@ import Demo from '${demoComponentPath}'
     },
     markdown: {
       remarkPlugins: [[remarkCodeToDemo, { isMobile, getRouteMeta }]],
+      globalComponents: [
+        path.join(
+          __dirname,
+          '..',
+          'static',
+          'global-components',
+          'Container.tsx',
+        ),
+      ],
     },
     globalStyles: path.join(
       __dirname,
-      `../static/${isMobile ? 'mobile' : 'web'}.css`,
+      '..',
+      'static',
+      'global-styles',
+      `${isMobile ? 'mobile' : 'web'}.css`,
     ),
     addSSGRoutes() {
       return demoRoutes;

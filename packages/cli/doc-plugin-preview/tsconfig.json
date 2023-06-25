@@ -10,12 +10,20 @@
     "lib": ["ESNext", "DOM"],
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "noEmit": true,
     "paths": {
       "@/*": ["./*"],
       "@style/*": ["./styles/*"],
       "@theme": ["./theme-default/index.ts"]
     }
   },
-  "include": ["src", "vitest.config.ts", "index.d.ts", "mdx-meta-loader.cjs"],
+  "include": [
+    "src",
+    "vitest.config.ts",
+    "index.d.ts",
+    "mdx-meta-loader.cjs",
+    "static",
+    "modern.config.ts"
+  ],
   "exclude": ["runtime.d.ts", "theme.d.ts", "node_modules", "dist"]
 }

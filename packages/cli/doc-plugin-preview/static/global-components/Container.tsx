@@ -5,10 +5,22 @@ import '@arco-design/web-react/es/Button/style';
 import '@arco-design/web-react/es/Tooltip/style';
 import '@arco-design/web-react/es/Card/style';
 
-import './container.scss';
+import './Container.scss';
 import { useDark, withBase, useLang, NoSSR } from '@modern-js/doc-core/runtime';
 import { QRCodeSVG } from 'qrcode.react';
-import { locales } from '../locales';
+
+const locales = {
+  zh: {
+    expand: '展开代码',
+    collapse: '收起代码',
+    open: '在新页面打开',
+  },
+  en: {
+    expand: 'Expand Code',
+    collapse: 'Collapse Code',
+    open: 'Open in new page',
+  },
+};
 
 type ContainerProps = {
   children: React.ReactNode[];
