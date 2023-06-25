@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/ban-types */
 export type UnwrapBuilderConfig<
   Config,

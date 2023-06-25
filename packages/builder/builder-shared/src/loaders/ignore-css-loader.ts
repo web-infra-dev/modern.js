@@ -1,7 +1,6 @@
 import type { LoaderContext } from 'webpack';
 
 export default function (this: LoaderContext<unknown>, source: string) {
-  // eslint-disable-next-line @babel/no-invalid-this
   this?.cacheable(true);
 
   // if the source code include '___CSS_LOADER_EXPORT___'

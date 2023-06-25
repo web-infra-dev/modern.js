@@ -66,7 +66,6 @@ describe('validateBuilderConfig', () => {
     await validateBuilderConfig(config);
     const endedAt = performance.now();
     const cost = endedAt - startedAt;
-    // eslint-disable-next-line no-console
     console.log(`config validator cost: ${cost.toFixed(2)}ms`);
     expect(cost).lessThan(100);
   });

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import fs from 'fs';
 import path from 'path';
@@ -71,4 +70,3 @@ function main() {
 main();
 
 /* eslint-enable @typescript-eslint/no-unused-vars */
-/* eslint-enable no-console */

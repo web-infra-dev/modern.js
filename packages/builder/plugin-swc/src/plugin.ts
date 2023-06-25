@@ -151,7 +151,6 @@ export const builderPluginSwc = (
 
       if (checkUseMinify(pluginOptions, builderConfig, isProd)) {
         // Insert swc minify plugin
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error webpack-chain missing minimizers type
         const minimizersChain = chain.optimization.minimizers;
 

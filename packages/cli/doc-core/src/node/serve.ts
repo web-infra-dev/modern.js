@@ -40,7 +40,6 @@ export async function serve(options: ServeOptions) {
         if (err) {
           throw err;
         }
-        // eslint-disable-next-line no-console
         console.log(
           `Preview server running at http://${host}:${port}/${base}/\n`,
         );
@@ -52,7 +51,6 @@ export async function serve(options: ServeOptions) {
         if (err) {
           throw err;
         }
-        // eslint-disable-next-line no-console
         console.log(`Preview server running at http://${host}:${port}/\n`);
       });
   }

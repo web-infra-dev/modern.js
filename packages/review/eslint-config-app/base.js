@@ -74,8 +74,6 @@ module.exports = {
     'no-compare-neg-zero': 'error',
     // https://eslint.org/docs/rules/no-cond-assign
     'no-cond-assign': ['error', 'always'],
-    // https://eslint.org/docs/rules/no-console
-    'no-console': ['error', { allow: ['info', 'warn', 'error'] }],
     // https://eslint.org/docs/rules/no-constant-condition
     'no-constant-condition': ['error', { checkLoops: false }],
 
@@ -266,9 +264,6 @@ module.exports = {
     'no-implicit-globals': 'error',
     // https://eslint.org/docs/rules/no-implied-eval
     'no-implied-eval': 'error',
-    // https://eslint.org/docs/rules/no-invalid-this
-    'no-invalid-this': 'off',
-    '@babel/no-invalid-this': 'error',
     // https://eslint.org/docs/rules/no-iterator
     'no-iterator': 'error',
     // https://eslint.org/docs/rules/no-labels
@@ -1100,7 +1095,7 @@ module.exports = {
     // 'import/no-relative-parent-imports': 'error',
     // eslint-comments
     // https://github.com/mysticatea/eslint-plugin-eslint-comments/blob/HEAD/docs/rules/disable-enable-pair.md
-    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: false }],
+    'eslint-comments/disable-enable-pair': 'off',
     // https://github.com/mysticatea/eslint-plugin-eslint-comments/blob/HEAD/docs/rules/no-duplicate-disable.md
     'eslint-comments/no-duplicate-disable': 'error',
 
