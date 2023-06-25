@@ -199,10 +199,17 @@ export const appTools = (
             '-c --config <config>',
             i18n.t(localeKeys.command.shared.config),
           )
+          .option(
+            '-s --skip-build',
+            i18n.t(localeKeys.command.shared.skipBuild),
+          )
           .description(i18n.t(localeKeys.command.deploy.describe))
           .action(async (options: DeployOptions) => {
-            const { build } = await import('./commands/build');
-            await build(api);
+            if (!options.skipBuild) {
+              const { build } = await import('./commands/build');
+              await build(api);
+            }
+
             const { deploy } = await import('./commands/deploy');
             await deploy(api, options);
             // eslint-disable-next-line no-process-exit

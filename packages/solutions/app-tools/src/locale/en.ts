@@ -3,6 +3,7 @@ export const EN_LOCALE = {
     shared: {
       analyze: 'analyze bundle size',
       config: 'specify config file',
+      skipBuild: 'skip the build phase',
     },
     dev: {
       describe: 'starting the dev server',

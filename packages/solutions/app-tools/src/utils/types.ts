@@ -12,6 +12,7 @@ export type BuildOptions = {
 
 export type DeployOptions = {
   config?: string;
+  skipBuild?: boolean;
 };
 
 export type StartOptions = {
