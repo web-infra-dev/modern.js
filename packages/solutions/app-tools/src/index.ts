@@ -151,13 +151,6 @@ export const appTools = (
 
   setup: api => {
     const appContext = api.useAppContext();
-    let watchedFiles: string[] = [];
-    const isWatched = (fn: string) => {
-      return watchedFiles.some(ff => {
-        return fn.includes(ff);
-      });
-    };
-
     api.setAppContext({
       ...appContext,
       toolsType: 'app-tools',
@@ -280,25 +273,18 @@ export const appTools = (
       async watchFiles() {
         const appContext = api.useAppContext();
         const config = api.useResolvedConfigContext();
-        const files = await generateWatchFiles(
-          appContext,
-          config.source.configDir,
-        );
-        watchedFiles = files;
-        return files;
+        return await generateWatchFiles(appContext, config.source.configDir);
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
-      async fileChange(e: { filename: string; eventType: string }) {
-        const { filename, eventType } = e;
-        const appContext = api.useAppContext();
-        const { appDirectory } = appContext;
-        const absolutePath = path.resolve(appDirectory, filename);
+      async fileChange(e: {
+        filename: string;
+        eventType: string;
+        isPrivate: boolean;
+      }) {
+        const { filename, eventType, isPrivate } = e;
 
-        if (
-          isWatched(absolutePath) &&
-          (eventType === 'change' || eventType === 'unlink')
-        ) {
+        if (!isPrivate && (eventType === 'change' || eventType === 'unlink')) {
           const { closeServer } = await import('./utils/createServer');
           await closeServer();
           await restart(api.useHookRunners(), filename);

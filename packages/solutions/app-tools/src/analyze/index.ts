@@ -238,7 +238,7 @@ export default ({
       },
 
       watchFiles() {
-        return pagesDir;
+        return { files: pagesDir, isPrivate: true };
       },
 
       resolvedConfig({ resolved }) {
