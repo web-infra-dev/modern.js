@@ -89,7 +89,6 @@ class Logger {
 
   private _log(type: string, message?: LogMsg, ...args: string[]) {
     if (message === undefined || message === null) {
-      // eslint-disable-next-line no-console
       console.log();
       return;
     }
@@ -121,7 +120,7 @@ class Logger {
     }
 
     const log = label.length > 0 ? `${label} ${text}` : text;
-    // eslint-disable-next-line no-console
+
     console.log(log, ...args);
   }
 

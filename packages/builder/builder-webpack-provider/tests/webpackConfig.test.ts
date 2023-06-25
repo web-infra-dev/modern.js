@@ -219,7 +219,6 @@ describe('webpackConfig', () => {
     const config = await builder.unwrapWebpackConfig();
 
     const babelRules = config.module!.rules?.filter(item => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error item has use
       return item?.use?.[0].loader.includes('babel-loader');
     });
@@ -235,7 +234,6 @@ describe('webpackConfig', () => {
     const config = await builder.unwrapWebpackConfig();
 
     const babelRules = config.module!.rules?.filter(item => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error item has use
       return item?.use?.[0].loader.includes('babel-loader');
     });
@@ -256,7 +254,6 @@ describe('webpackConfig', () => {
     const config = await builder.unwrapWebpackConfig();
 
     const babelRules = config.module!.rules?.filter(item => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error item has use
       return item?.use?.[0].loader.includes('babel-loader');
     });

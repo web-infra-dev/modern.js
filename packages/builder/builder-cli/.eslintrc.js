@@ -7,6 +7,5 @@ module.exports = {
   },
   rules: {
     'import/order': 0,
-    '@typescript-eslint/naming-convention': 0,
   },
 };

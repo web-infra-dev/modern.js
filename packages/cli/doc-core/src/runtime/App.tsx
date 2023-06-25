@@ -85,7 +85,6 @@ export function App({ helmetContext }: { helmetContext?: object }) {
         const pageData = await initPageData(normalizeRoutePath(pathname));
         setPageData(pageData);
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.log(e);
       }
     }

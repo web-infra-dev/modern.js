@@ -44,9 +44,6 @@ module.exports = {
   },
   rules: {
     'import/order': 0,
-    '@babel/no-invalid-this': 0,
-    '@typescript-eslint/ban-ts-comment': 0,
-    'eslint-comments/no-unlimited-disable': 0,
   },
   overrides: [
     {

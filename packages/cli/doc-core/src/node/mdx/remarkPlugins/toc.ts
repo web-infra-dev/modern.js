@@ -61,7 +61,6 @@ export const parseToc = (tree: Root) => {
 };
 
 export const remarkPluginToc: Plugin<[], Root> = function (this: Processor) {
-  // eslint-disable-next-line @babel/no-invalid-this
   const data = this.data() as {
     pageMeta: PageMeta;
   };

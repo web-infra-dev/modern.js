@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /**
  * 修改 exports.* 配置
  * 将 export.'.': './src/index.ts' 转换为 export.'.': './dist/index.js'
@@ -47,5 +46,3 @@ if (operation === ON) {
   fs.copyFileSync(tempPkgPath, pkgPath);
   fs.removeSync(tempPkgPath);
 }
-
-/* eslint-enable no-console */

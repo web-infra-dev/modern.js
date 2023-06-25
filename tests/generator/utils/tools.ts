@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable consistent-return */
 import { fs, execa, semver } from '@modern-js/utils';
 

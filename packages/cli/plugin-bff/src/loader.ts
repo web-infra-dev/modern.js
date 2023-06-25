@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable @babel/no-invalid-this */
 import { generateClient, GenClientOptions } from '@modern-js/bff-core';
 import type { HttpMethodDecider } from '@modern-js/types';
 import type { LoaderContext } from 'webpack';

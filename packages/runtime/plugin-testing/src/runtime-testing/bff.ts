@@ -1,4 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
 import type { SuperTest, Test } from 'supertest';
 import supertest from 'supertest';
 import { getApp } from '../cli/bff/app';

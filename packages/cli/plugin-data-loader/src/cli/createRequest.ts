@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable node/prefer-global/url */
 // Todo move this file to `runtime/` dir
 import { compile } from 'path-to-regexp';

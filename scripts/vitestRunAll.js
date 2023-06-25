@@ -18,7 +18,6 @@ const restArgv = process.argv.slice(2);
     .map(dir => `--filter "${dir}..."`)
     .join(' ');
   const buildCmd = `pnpm ${pnpmFilters} run build`;
-  // eslint-disable-next-line no-console
   console.log('>', buildCmd);
 
   try {

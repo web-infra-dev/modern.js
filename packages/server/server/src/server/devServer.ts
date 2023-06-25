@@ -140,7 +140,6 @@ export class ModernDevServer extends ModernServer {
 
     // compression should be the first middleware
     if (!isUseStreamingSSR(this.getRoutes()) && dev.compress) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error http-compression does not provide a type definition
       const { default: compression } = await import('http-compression');
       this.addHandler((ctx, next) => {
@@ -309,7 +308,7 @@ export class ModernDevServer extends ModernServer {
 
         // onApiChange 钩子被调用，且返回 true，则表示无需重新编译
         // onApiChange 的类型是 WaterFall,WaterFall 钩子的返回值类型目前有问题
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
         // @ts-expect-error
         if (success !== true) {
           await super.onServerChange({ filepath });

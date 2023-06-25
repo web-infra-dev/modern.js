@@ -64,7 +64,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': [
           'error',
           {
-            'ts-expect-error': true,
+            'ts-expect-error': false,
             'ts-ignore': true,
             'ts-nocheck': true,
             'ts-check': false,

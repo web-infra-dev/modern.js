@@ -50,7 +50,6 @@ describe('asset prefix', () => {
     await page.goto(`${expected}`);
 
     const assetPrefix = await page.evaluate(() => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       return window.__assetPrefix__;
     });

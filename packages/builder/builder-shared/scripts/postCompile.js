@@ -35,7 +35,6 @@ async function compileRetryRuntime() {
 async function compile() {
   const startTime = performance.now();
   await compileRetryRuntime();
-  // eslint-disable-next-line no-console
   console.log(
     `Compiled assets retry runtime code. Time cost: ${(
       performance.now() - startTime

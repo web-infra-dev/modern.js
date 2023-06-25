@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable @babel/no-invalid-this */
 /**
  * The following code is modified based on
  * https://github.com/seek-oss/css-modules-typescript-loader

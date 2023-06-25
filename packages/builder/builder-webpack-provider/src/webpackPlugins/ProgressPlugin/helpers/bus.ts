@@ -35,7 +35,6 @@ class Bus {
   constructor() {
     this.prevOutput = '';
     this.log = create(process.stdout);
-    // eslint-disable-next-line no-console
     console.Console = Console;
     this.restore = patchConsole((type, data) => {
       this.writeToStd(type, data);
