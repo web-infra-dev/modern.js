@@ -28,6 +28,7 @@ export interface DocPlugin {
   markdown?: {
     remarkPlugins?: PluggableList;
     rehypePlugins?: PluggableList;
+    globalComponents?: string[];
   };
   /**
    * Builder config.
