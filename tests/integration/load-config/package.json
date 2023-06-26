@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "integration-load-config",
-  "version": "2.9.0",
+  "version": "2.24.1",
   "dependencies": {
     "@types/jest": "^29",
     "@types/node": "^14"

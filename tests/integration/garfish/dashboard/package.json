@@ -1,7 +1,7 @@
 {
   "name": "@cypress-test/garfish-dashboard",
   "private": true,
-  "version": "2.9.0",
+  "version": "2.24.1",
   "scripts": {
     "dev": "DEBUG=modern-js:plugin-garfish modern dev",
     "build": "DEBUG=modern-js:plugin-garfish modern build",

@@ -1,6 +1,6 @@
 {
   "name": "server-prod",
-  "version": "2.9.0",
+  "version": "2.24.1",
   "private": true,
   "scripts": {
     "new": "modern new",

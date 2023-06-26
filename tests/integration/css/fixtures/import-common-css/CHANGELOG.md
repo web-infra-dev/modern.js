@@ -1,0 +1,9 @@
+# import-common-css
+
+## 2.24.1
+
+### Patch Changes
+
+- Updated dependencies [13354d3356]
+  - @modern-js/runtime@2.24.1
+  - @modern-js/app-tools@2.24.1

@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "ssg-fixtures-nested-routes",
-  "version": "2.9.0",
+  "version": "2.24.1",
   "scripts": {
     "build": "modern build"
   },

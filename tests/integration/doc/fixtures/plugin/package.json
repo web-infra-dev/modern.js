@@ -1,6 +1,6 @@
 {
   "name": "doc-plugin",
-  "version": "1.0.0",
+  "version": "2.24.1",
   "private": true,
   "dependencies": {
     "react": "^18",

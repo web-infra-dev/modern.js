@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@e2e/builder-cli-webpack",
-  "version": "1.0.0",
+  "version": "2.24.1",
   "scripts": {
     "dev": "builder dev",
     "build": "builder build",

@@ -1,5 +1,13 @@
 # @modern-js/builder-plugin-vue
 
+## 2.24.1
+
+### Patch Changes
+
+- @modern-js/builder-rspack-provider@2.24.1
+- @modern-js/builder-shared@2.24.1
+- @modern-js/builder-webpack-provider@2.24.1
+
 ## 2.24.0
 
 ### Patch Changes

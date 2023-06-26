@@ -1,5 +1,11 @@
 # @modern-js/plugin-module-target
 
+## 2.24.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.24.1
+
 ## 2.24.0
 
 ### Patch Changes
