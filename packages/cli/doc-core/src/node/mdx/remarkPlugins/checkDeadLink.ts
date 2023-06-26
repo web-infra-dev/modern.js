@@ -5,6 +5,7 @@ import logUtils from '@modern-js/utils/logger';
 import { cleanUrl, isProduction } from '@/shared/utils';
 import { normalizeRoutePath } from '@/node/runtimeModule/routeData';
 import type { RouteService } from '@/node/route/RouteService';
+import { normalizePath } from '@/node/utils';
 
 const { logger } = logUtils;
 
@@ -25,7 +26,7 @@ export function checkLinks(
   const errorInfos: string[] = [];
   links
     .filter(link => !IGNORE_REGEXP.test(link))
-    .map(link => link.replace(/\\/g, '/'))
+    .map(link => normalizePath(link))
     .forEach(link => {
       const relativePath = path.relative(root, filepath);
 

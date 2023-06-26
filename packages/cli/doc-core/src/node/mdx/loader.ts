@@ -2,6 +2,7 @@ import type { Rspack } from '@modern-js/builder-rspack-provider';
 import { createProcessor } from '@mdx-js/mdx';
 import grayMatter from 'gray-matter';
 import type { RouteService } from '../route/RouteService';
+import { normalizePath } from '../utils';
 import { createMDXOptions } from './options';
 import { TocItem } from './remarkPlugins/toc';
 import { checkLinks } from './remarkPlugins/checkDeadLink';
@@ -91,7 +92,7 @@ export default async function mdxLoader(
     // encode filename to be compatible with Windows
     const result = `globalThis.__RSPRESS_PAGE_META ||= {};
 globalThis.__RSPRESS_PAGE_META["${encodeURIComponent(
-      filepath,
+      normalizePath(filepath),
     )}"] = ${JSON.stringify(pageMeta)};
 ${compileResult}`;
     callback(null, result);
