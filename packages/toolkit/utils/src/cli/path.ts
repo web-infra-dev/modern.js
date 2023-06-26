@@ -77,3 +77,7 @@ export const removeTailSlash = (s: string): string => s.replace(/\/+$/, '');
 
 export const removeSlash = (s: string): string =>
   removeLeadingSlash(removeTailSlash(s));
+
+export const cutNameByHyphen = (s: string) => {
+  return s.split(/[-_]/)[0];
+};
