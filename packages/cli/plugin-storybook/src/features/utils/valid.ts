@@ -20,7 +20,7 @@ export const valid = ({ stories, isModuleTools, isTs }: ValidOption) => {
             } file`
           : `No stories found, please add *.stories.${
               isTs ? 'tsx' : 'jsx'
-            } file`,
+            } file in "src" directory`,
       ),
     );
     return false;

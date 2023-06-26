@@ -454,6 +454,8 @@ js 产物输出的格式,其中 `iife` 和 `umd` 只能在 `buildType` 为 `bund
 - 类型： `string[] | Record<string, string>`
 - 默认值： `bundle` 模式下默认为 `['src/index.ts']`，`bundleless` 模式下默认为 `['src']`
 
+**数组使用：**
+
 ```js modern.config.ts
 export default defineConfig({
   buildConfig: {
@@ -462,11 +464,33 @@ export default defineConfig({
 });
 ```
 
+**对象使用：**
+
+当在 bundle 模式下需要修改产物的输出文件名称的时候，可以使用对象形式进行配置。
+
+**对象的 Key 是产物的文件名称，Value 是源码的文件路径。**
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'esm',
+    input: {
+      'index.esm': './src/index.ts',
+    },
+  },
+});
+```
+
 ## jsx
 
-指定 jsx 的编译方式, 默认支持 React17 以上,自动注入 jsx 运行时代码。
+指定 JSX 的编译方式，默认支持 React17 以上，自动注入 JSX 运行时代码。如果需要支持 React16，则设置 `jsx` 为 `transform`。
 
-- 类型： `automatic | classic`
+> 关于 JSX Transform，可以参考以下链接：
+>
+> - [React Blog](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)。
+> - [esbuild JSX](https://esbuild.github.io/api/#jsx)
+>
+- 类型： `automatic | transform`
 - 默认值： `automatic`
 
 ## metafile
@@ -743,6 +767,22 @@ export default defineConfig({
 - processOptions
 
 详细配置查看 [PostCSS](https://github.com/postcss/postcss#options)。
+
+**基础使用：**
+
+``` js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    style: {
+      postcss: {
+        plugins: [
+          yourPostCSSPlugin,
+        ],
+      },
+    },
+  },
+});
+```
 
 ## style.inject
 

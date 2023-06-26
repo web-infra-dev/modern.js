@@ -455,6 +455,8 @@ Specify the entry file for the build, in the form of an array that can specify t
 - **Type**: `string[] | Record<string, string>`
 - **Default**: `['src/index.ts']` in `bundle` mode, `['src']` in `bundleless` mode
 
+**Array usage:**
+
 ```js modern.config.ts
 export default {
   buildConfig: {
@@ -463,11 +465,34 @@ export default {
 };
 ```
 
+**Object usage:**
+
+When you need to modify the output file name in bundle mode, you can use an object configuration.
+
+**The key of the object is the file name of the output, and the value is the file path of the source code.**
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'esm',
+    input: {
+      'index.esm': './src/index.ts',
+    },
+  },
+});
+```
+
 ## jsx
 
-Specify the compilation method of jsx, default support React17, automatically inject jsx runtime code
+Specify the compilation method of JSX, default support React17, automatically inject JSX Runtime code.If you need to support React16, set `jsx` to `transform`
 
-- **Type**: `automatic | classic`
+> For more information about JSX Transform, you can refer to the following links:
+>
+> - [React Blog](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)。
+> - [esbuild JSX](https://esbuild.github.io/api/#jsx)
+>
+
+- **Type**: `automatic | transform`
 - **Default**: `automatic`
 
 ## metafile
@@ -743,6 +768,22 @@ export default {
 - processOptions
 
 See [PostCSS](https://github.com/postcss/postcss#options) for detailed configuration
+
+**Base usage：**
+
+``` js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    style: {
+      postcss: {
+        plugins: [
+          yourPostCSSPlugin,
+        ],
+      },
+    },
+  },
+});
+```
 
 ## style.inject
 
