@@ -484,7 +484,7 @@ export default defineConfig({
 
 ## jsx
 
-Specify the compilation method of JSX, default support React17, automatically inject JSX Runtime code.If you need to support React16, set `jsx` to `transform`
+Specify the compilation method of JSX, default support React17, automatically inject JSX Runtime code. If you need to support React16, set `jsx` to `transform`.
 
 > For more information about JSX Transform, you can refer to the following links:
 >
