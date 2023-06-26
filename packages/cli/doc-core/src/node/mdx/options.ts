@@ -12,6 +12,7 @@ import { remarkPluginToc } from './remarkPlugins/toc';
 import { rehypePluginCodeMeta } from './rehypePlugins/codeMeta';
 import { remarkPluginNormalizeLink } from './remarkPlugins/normalizeLink';
 import { remarkCheckDeadLinks } from './remarkPlugins/checkDeadLink';
+import { remarkBuiltin } from './remarkPlugins/builtin';
 
 export async function createMDXOptions(
   docDirectory: string,
@@ -23,6 +24,7 @@ export async function createMDXOptions(
   const {
     remarkPlugins: remarkPluginsFromConfig = [],
     rehypePlugins: rehypePluginsFromConfig = [],
+    globalComponents: globalComponentsFromConfig = [],
   } = config.doc?.markdown || {};
   const docPlugins = config.doc?.plugins || [];
   const remarkPluginsFromPlugins = docPlugins.flatMap(
@@ -31,6 +33,10 @@ export async function createMDXOptions(
   const rehypePluginsFromPlugins = docPlugins.flatMap(
     plugin => plugin.markdown?.rehypePlugins || [],
   ) as PluggableList;
+  const globalComponents = [
+    ...docPlugins.flatMap(plugin => plugin.markdown?.globalComponents || []),
+    ...globalComponentsFromConfig,
+  ];
   const defaultLang = config.doc?.lang || '';
   return {
     providerImportSource: '@mdx-js/react',
@@ -54,6 +60,12 @@ export async function createMDXOptions(
           root: docDirectory,
           base: config.doc?.base || '',
           routeService,
+        },
+      ],
+      globalComponents.length && [
+        remarkBuiltin,
+        {
+          globalComponents,
         },
       ],
       ...remarkPluginsFromConfig,
