@@ -3,7 +3,6 @@ import { fs } from '@modern-js/utils';
 import { compiler } from './compiler';
 
 // compiler needs setImmediate
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 global.setImmediate = setTimeout;
 

@@ -1,10 +1,11 @@
 import path from 'path';
-import type { IAppContext, NormalizedConfig } from '@modern-js/core';
+import type { IAppContext } from '@modern-js/core';
 import { getBundleEntry } from '../../src/analyze/getBundleEntry';
 import {
   getClientRoutes,
   getClientRoutesLegacy,
 } from '../../src/analyze/getClientRoutes';
+import { AppNormalizedConfig } from '../../src/types';
 
 type GetClientRoutesFunc =
   | typeof getClientRoutesLegacy
@@ -51,7 +52,7 @@ function basicUsage(getClientRoutes: GetClientRoutesFunc) {
 
   const entries = getBundleEntry(
     appContext as IAppContext,
-    config as NormalizedConfig,
+    config as AppNormalizedConfig<'shared'>,
   );
 
   let routes;
@@ -79,7 +80,7 @@ function supportLayout(getClientRoutes: GetClientRoutesFunc) {
 
   const entries = getBundleEntry(
     appContext as IAppContext,
-    config as NormalizedConfig,
+    config as AppNormalizedConfig<'shared'>,
   );
 
   let routes;

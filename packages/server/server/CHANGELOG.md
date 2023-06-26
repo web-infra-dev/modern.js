@@ -1,5 +1,220 @@
 # @modern-js/server
 
+## 2.24.0
+
+### Patch Changes
+
+- 8c9923f: fix(dev-server): streaming ssr fail when dev mode, because `http-compression` can't handler stream http
+  fix(dev-server): streaming ssr 在开发模式失败, 因为 `http-compression` 不能处理 stream http
+- 0424a2d: fix: should not invoke onServerChange when `-server-loader.js` file change
+  fix: 不应该在 `-server-loader.js` 变化时触发 onServerChange
+- Updated dependencies [c882fbd]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server-utils@2.24.0
+  - @modern-js/prod-server@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/prod-server@2.23.1
+  - @modern-js/server-utils@2.23.1
+  - @modern-js/types@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/server-utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [4be1da5]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/server-utils@2.22.1
+  - @modern-js/prod-server@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [4991c8a]
+- Updated dependencies [cb9e1ec]
+- Updated dependencies [ea961e7]
+  - @modern-js/utils@2.22.0
+  - @modern-js/prod-server@2.22.0
+  - @modern-js/server-utils@2.22.0
+  - @modern-js/types@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [78e3ac8]
+- Updated dependencies [2728724]
+  - @modern-js/prod-server@2.21.1
+  - @modern-js/server-utils@2.21.1
+  - @modern-js/types@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 1ef03dc: feat(dev-server): enable gzip compression, add devServer.compress config
+
+  feat(dev-server): 默认启用 gzip 压缩，新增 devServer.compress 配置项
+
+- 8fa8566: fix(dev-server): adjust hmr connection log level
+
+  fix(dev-server): 调整 hmr 连接的日志级别
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [cfc5bda]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/prod-server@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/server-utils@2.21.0
+  - @modern-js/types@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [5f055ab]
+- Updated dependencies [4425fd6]
+  - @modern-js/utils@2.20.0
+  - @modern-js/prod-server@2.20.0
+  - @modern-js/server-utils@2.20.0
+  - @modern-js/types@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.19.1
+- @modern-js/server-utils@2.19.1
+- @modern-js/types@2.19.1
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/prod-server@2.19.0
+  - @modern-js/server-utils@2.19.0
+  - @modern-js/types@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.18.1
+- @modern-js/server-utils@2.18.1
+- @modern-js/types@2.18.1
+- @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.18.0
+- @modern-js/server-utils@2.18.0
+- @modern-js/types@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.17.1
+- @modern-js/server-utils@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.17.0
+- @modern-js/server-utils@2.17.0
+- @modern-js/types@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/prod-server@2.16.0
+  - @modern-js/types@2.16.0
+  - @modern-js/server-utils@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

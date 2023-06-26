@@ -1,9 +1,11 @@
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { BuilderConfig as RsBuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { SharedSourceConfig as BuilderSharedSourceConfig } from '@modern-js/builder-shared';
+import type {
+  WebpackBuilderConfig,
+  RspackBuilderConfig,
+} from '../../builder/shared';
 
-export type BuilderSourceConfig = NonNullable<BuilderConfig['source']>;
-export type RsBuilderSourceConfig = NonNullable<RsBuilderConfig['source']>;
+export type BuilderSourceConfig = NonNullable<WebpackBuilderConfig['source']>;
+export type RsBuilderSourceConfig = NonNullable<RspackBuilderConfig['source']>;
 
 export type Entry =
   | string
@@ -17,6 +19,7 @@ export type Entries = Record<string, Entry>;
 
 export interface SharedSourceConfig extends BuilderSharedSourceConfig {
   entries?: Entries;
+  mainEntryName?: string;
   enableAsyncEntry?: boolean;
   disableDefaultEntries?: boolean;
   entriesDir?: string;

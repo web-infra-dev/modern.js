@@ -1,22 +1,40 @@
 import path from 'path';
 import resolveFrom from 'resolve-from';
+import axios from 'axios';
 import { fs, execa } from '@modern-js/utils';
 import readChangesets from '@changesets/read';
 
+export enum CommitType {
+  Performance = 'performance',
+  Features = 'features',
+  BugFix = 'bugFix',
+  Doc = 'doc',
+  Other = 'other',
+}
+
 export interface Commit {
   id: string;
-  type: 'feature' | 'fix';
+  type: CommitType;
   repository?: string;
   pullRequestId?: string;
   author?: string;
   message: string; // commit message
-  summary: string; // changeset summary
+  summary: string; // changeset en ssummary
+  summary_zh: string; // changeset zh summary
   [key: string]: string | undefined;
 }
+
+export interface Changes {
+  en: Commit[];
+  zh: Commit[];
+}
+
+export type ReleaseNote = Record<CommitType, Changes>;
 
 interface ReleaseNoteOptions {
   repo?: string;
   custom?: string;
+  authToken?: string;
 }
 
 export type CustomReleaseNoteFunction =
@@ -25,16 +43,82 @@ export type CustomReleaseNoteFunction =
         commit: string,
         commitObj: Commit,
       ) => Commit | Promise<Commit>;
-      getReleaseNoteLine?: (commit: Commit) => string | Promise<string>;
+      getReleaseNoteLine?: (
+        commit: Commit,
+        lang?: 'en' | 'zh',
+      ) => string | Promise<string>;
     }
   | undefined;
 
-export function getReleaseInfo(commit: string, commitObj: Commit) {
+export const ChangesTitle = `What's Changed`;
+export const ChangesZhTitle = '更新内容';
+export const CommitTypeTitle = {
+  performance: 'Performance Improvements ⚡',
+  features: 'New Features 🎉',
+  bugFix: 'Bug Fixes 🐞',
+  doc: 'Docs update 📄',
+  other: 'Other Changes',
+};
+
+export const CommitTypeZhTitle = {
+  performance: '性能优化 ⚡',
+  features: '新特性 🎉',
+  bugFix: 'Bug 修复 🐞',
+  doc: '文档更新 📄',
+  other: '其他变更',
+};
+
+export function getCommitType(message: string) {
+  if (message.startsWith('perf')) {
+    return CommitType.Performance;
+  }
+  if (message.startsWith('feat')) {
+    return CommitType.Features;
+  }
+  if (message.startsWith('fix') || message.startsWith('hotfix')) {
+    return CommitType.BugFix;
+  }
+  if (message.startsWith('docs')) {
+    return CommitType.Doc;
+  }
+  return CommitType.Other;
+}
+
+const AuthorMap = new Map();
+
+export async function getReleaseInfo(
+  commit: string,
+  commitObj: Commit,
+  repo?: string,
+  authToken?: string,
+) {
   const commitRegex = /(.*)\(#(\d*)\)/;
 
-  const [, message, author] = commit.split('--');
+  const [commitId, message, email] = commit.split('--');
 
-  commitObj.author = author;
+  const author = AuthorMap.get(email);
+  const token = authToken || process.env.GITHUB_AUTH_TOKEN;
+  if (author) {
+    commitObj.author = author;
+  } else if (repo && token) {
+    try {
+      const res = await axios.get(
+        `https://api.github.com/repos/${repo}/commits/${commitId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        },
+      );
+      const author = res.data.author.login;
+      commitObj.author = author;
+      AuthorMap.set(email, author);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
 
   if ((message || commitObj.summary).match(commitRegex)) {
     const [, messageShort, pullRequestId] = (
@@ -47,46 +131,28 @@ export function getReleaseInfo(commit: string, commitObj: Commit) {
   return commitObj;
 }
 
-function formatSummary(summary: string, pullRequestId?: string) {
-  const [firstLine, ...futureLines] = summary
-    .split('\n')
-    .map(l => l.trimRight());
-
-  let returnVal = firstLine;
-
-  if (futureLines.length > 0) {
-    if (pullRequestId) {
-      returnVal = `\n\n  ${returnVal}`;
-    } else {
-      returnVal = `\n  ${returnVal}`;
-    }
-    returnVal += `\n\n  ${futureLines
-      .filter(l => Boolean(l))
-      .map(l => l)
-      .join('\n\n')}`;
-  }
-  return returnVal;
-}
-
 export function getReleaseNoteLine(
   commit: Commit,
   customReleaseNoteFunction?: CustomReleaseNoteFunction,
+  lang: 'en' | 'zh' = 'en',
 ) {
   if (customReleaseNoteFunction?.getReleaseNoteLine) {
-    return customReleaseNoteFunction.getReleaseNoteLine(commit);
+    return customReleaseNoteFunction.getReleaseNoteLine(commit, lang);
   }
 
-  const { repository, pullRequestId, summary } = commit;
-  if (pullRequestId && repository) {
-    return `- [#${pullRequestId}](https://github.com/${repository}/pull/${pullRequestId}) ${formatSummary(
-      summary,
-      pullRequestId,
-    )}\n`;
+  const { repository, pullRequestId, summary, summary_zh, author } = commit;
+  const pullRequest =
+    pullRequestId && repository
+      ? `https://github.com/${repository}/pull/${pullRequestId}`
+      : '';
+  if (lang === 'en') {
+    return `- ${summary}${author ? ` by @${author}` : ''}${
+      pullRequest ? ` in ${pullRequest}` : ''
+    }\n`;
   }
-  if (pullRequestId) {
-    return `#${pullRequestId} ${formatSummary(summary, pullRequestId)}\n`;
-  }
-  return `${formatSummary(summary, pullRequestId)}\n`;
+  return `- ${summary_zh}${author ? ` 由 @${author} 实现` : ''}${
+    pullRequest ? `， 详情可查看 ${pullRequest}` : ''
+  }\n`;
 }
 
 export async function genReleaseNote(options: ReleaseNoteOptions) {
@@ -127,24 +193,31 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
     return '';
   }
 
-  const features: Commit[] = [];
-  const bugFix: Commit[] = [];
+  const releaseNote: ReleaseNote = {
+    [CommitType.Performance]: { en: [], zh: [] },
+    [CommitType.Features]: { en: [], zh: [] },
+    [CommitType.BugFix]: { en: [], zh: [] },
+    [CommitType.Doc]: { en: [], zh: [] },
+    [CommitType.Other]: { en: [], zh: [] },
+  };
 
   for (const changeset of changesets) {
     const { stdout } = await execa('git', [
       'log',
-      '--pretty=format:%h--%s--%an',
+      '--pretty=format:%h--%s--%ae',
       `.changeset/${changeset.id}.md`,
     ]);
     const [id, message] = stdout.split('--');
+    const [firstLine, ...futureLines] = changeset.summary
+      .split('\n')
+      .map(l => l.trimRight());
     let commitObj: Commit = {
       id,
-      type: (message || changeset.summary).startsWith('fix')
-        ? 'fix'
-        : 'feature',
+      type: getCommitType(changeset.summary || message),
       repository,
       message: (message || changeset.summary).trim(),
-      summary: changeset.summary,
+      summary: firstLine,
+      summary_zh: futureLines.filter(l => Boolean(l)).join('\n'),
     };
 
     if (customReleaseNoteFunction?.getReleaseInfo) {
@@ -153,44 +226,53 @@ export async function genReleaseNote(options: ReleaseNoteOptions) {
         commitObj,
       );
     } else {
-      commitObj = getReleaseInfo(stdout, commitObj);
-    }
-
-    if (commitObj.type === 'fix') {
-      bugFix.push(commitObj);
-    } else {
-      features.push(commitObj);
-    }
-  }
-
-  if (!features.length && !bugFix.length) {
-    console.warn(
-      'no release note found, you can run `pnpm run add` to add changeset',
-    );
-  }
-
-  let result = '';
-  if (features.length) {
-    result += '## Features:\n';
-    for (const commit of features) {
-      const releaseNote = await getReleaseNoteLine(
-        commit,
-        customReleaseNoteFunction,
+      commitObj = await getReleaseInfo(
+        stdout,
+        commitObj,
+        repository,
+        options.authToken,
       );
-      result += releaseNote;
+    }
+
+    releaseNote[commitObj.type].en.push(commitObj);
+    if (commitObj.summary_zh) {
+      releaseNote[commitObj.type].zh.push(commitObj);
     }
   }
 
-  if (bugFix.length) {
-    result += '## Bug Fix:\n';
-    for (const commit of bugFix) {
-      const releaseNote = await getReleaseNoteLine(
-        commit,
-        customReleaseNoteFunction,
-      );
-      result += releaseNote;
+  const result: { en: string; zh: string } = {
+    en: `## ${ChangesTitle}\n\n`,
+    zh: `## ${ChangesZhTitle}\n\n`,
+  };
+  // Flag contains zh content.
+  let flag = 0;
+  for (const [type, { en, zh }] of Object.entries(releaseNote)) {
+    if (en.length > 0) {
+      result.en += `### ${CommitTypeTitle[type as CommitType]}\n\n`;
+      for (const commit of en) {
+        const releaseNote = await getReleaseNoteLine(
+          commit,
+          customReleaseNoteFunction,
+          'en',
+        );
+        result.en += releaseNote;
+      }
+    }
+    if (zh.length > 0) {
+      flag = 1;
+      result.zh += `### ${CommitTypeZhTitle[type as CommitType]}\n\n`;
+      for (const commit of zh) {
+        const releaseNote = await getReleaseNoteLine(
+          commit,
+          customReleaseNoteFunction,
+          'zh',
+        );
+        result.zh += releaseNote;
+      }
     }
   }
-  console.info(result);
-  return result;
+
+  const resultStr = flag ? `${result.en}\n\n${result.zh}` : result.en;
+  console.info(resultStr);
+  return resultStr;
 }

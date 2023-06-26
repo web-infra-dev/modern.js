@@ -1,17 +1,18 @@
 # @modern-js/plugin-module-babel
 
-The babel plugin of Modern.js Module Tools.
+The Babel plugin of Modern.js Module Tools.
 
-You can add babel compile by the plugin before module-tools internal building.
+You can add Babel compile by the plugin before module-tools internal building.
 
 ## Usage
 
-```ts
-import { defineConfig } from '@modern-js/module-tools';
-import { ModulePluginBabel } from '@modern-js/plugin-module-main-fields';
+```ts modern.config.ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 export default defineConfig({
   plugins: [
-    ModulePluginBabel({
+    moduleTools(),
+    modulePluginBabel({
       internalPresetOptions: {
         // babel-plugin-import options
         import: {},

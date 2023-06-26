@@ -1,8 +1,4 @@
-import {
-  removeLeadingSlash,
-  removeSlash,
-  removeTailSlash,
-} from '../src/removeSlash';
+import { removeLeadingSlash, removeSlash, removeTailSlash } from '../src';
 
 describe('remove slash', () => {
   test(`should remove leading slash`, () => {

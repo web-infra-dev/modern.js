@@ -1,10 +1,14 @@
 {
   "name": "@modern-js/builder-doc",
-  "version": "2.15.0",
+  "version": "2.24.0",
   "description": "Shared documentation of modern.js builder",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/document/builder-doc"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -19,7 +23,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
     "@modern-js/tsconfig": "workspace:*",

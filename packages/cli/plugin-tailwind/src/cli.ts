@@ -1,12 +1,5 @@
 import path from 'path';
-import {
-  PLUGIN_SCHEMAS,
-  fs,
-  CONFIG_CACHE_DIR,
-  globby,
-  nanoid,
-  slash,
-} from '@modern-js/utils';
+import { fs, CONFIG_CACHE_DIR, globby, nanoid, slash } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import designTokenPlugin from './design-token/cli';
@@ -30,7 +23,31 @@ export const getRandomTwConfigFileName = (internalDirectory: string) => {
   );
 };
 
-export default (
+function getDefaultContent(appDirectory: string) {
+  const defaultContent = [
+    './src/**/*.js',
+    './src/**/*.jsx',
+    './src/**/*.ts',
+    './src/**/*.tsx',
+  ];
+
+  // Only add storybook and html config when they exist
+  // Otherwise, it will cause an unnecessary rebuild
+  if (fs.existsSync(path.join(appDirectory, 'storybook'))) {
+    defaultContent.push('./storybook/**/*');
+  }
+  if (fs.existsSync(path.join(appDirectory, 'config/html'))) {
+    defaultContent.push(
+      './config/html/**/*.html',
+      './config/html/**/*.ejs',
+      './config/html/**/*.hbs',
+    );
+  }
+
+  return defaultContent;
+}
+
+export const tailwindcssPlugin = (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
@@ -50,18 +67,7 @@ export default (
     const haveTwinMacro = await checkTwinMacroExist(appDirectory);
     const tailwindPath = getTailwindPath(appDirectory);
     const tailwindVersion = getTailwindVersion(appDirectory);
-
-    const defaultContent = [
-      './config/html/**/*.html',
-      './config/html/**/*.ejs',
-      './config/html/**/*.hbs',
-      './src/**/*.js',
-      './src/**/*.jsx',
-      './src/**/*.ts',
-      './src/**/*.tsx',
-      // about storybook
-      './storybook/**/*',
-    ];
+    const defaultContent = getDefaultContent(appDirectory);
 
     return {
       prepare() {
@@ -92,7 +98,12 @@ export default (
       },
 
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-tailwindcss'];
+        return [
+          {
+            target: 'tools.tailwindcss',
+            schema: { typeof: ['object', 'function'] },
+          },
+        ];
       },
 
       config() {
@@ -129,22 +140,22 @@ export default (
               }
             },
 
-            babel(_, { addPlugins }) {
-              if (haveTwinMacro) {
-                initTailwindConfig();
-                addPlugins([
-                  [
-                    require.resolve('babel-plugin-macros'),
-                    {
-                      twin: {
-                        preset: supportCssInJsLibrary,
-                        config: internalTwConfigPath || tailwindConfig,
+            babel: haveTwinMacro
+              ? (_, { addPlugins }) => {
+                  initTailwindConfig();
+                  addPlugins([
+                    [
+                      require.resolve('babel-plugin-macros'),
+                      {
+                        twin: {
+                          preset: supportCssInJsLibrary,
+                          config: internalTwConfigPath || tailwindConfig,
+                        },
                       },
-                    },
-                  ],
-                ]);
-              }
-            },
+                    ],
+                  ]);
+                }
+              : undefined,
           },
         };
       },
@@ -155,7 +166,7 @@ export default (
         const { designSystem } = modernConfig;
         const tailwindConfig = getTailwindConfig(
           tailwindVersion,
-          config.style.tailwindCss,
+          config.style.tailwindcss,
           designSystem,
           {
             pureConfig: {
@@ -180,3 +191,5 @@ export default (
     };
   },
 });
+
+export default tailwindcssPlugin;

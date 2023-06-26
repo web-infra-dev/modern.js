@@ -4,6 +4,8 @@ import { Table, Td, Th, Tr } from './table';
 import { Hr } from './hr';
 import { A } from './link';
 import { P, Strong, Blockquote } from './paragraph';
+import { Code } from './code';
+import { Pre } from './pre';
 
 export function getCustomMDXComponent() {
   return {
@@ -25,5 +27,7 @@ export function getCustomMDXComponent() {
     blockquote: Blockquote,
     strong: Strong,
     a: A,
+    code: Code,
+    pre: Pre,
   };
 }

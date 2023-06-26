@@ -1,31 +1,36 @@
 import { UserConfig } from 'shared/types';
-
 import { removeLeadingSlash } from '../shared/utils';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
-import { modifyConfig, beforeBuild, afterBuild } from './hooks';
+import { PluginDriver } from './PluginDriver';
 
 interface ServerInstance {
   close: () => Promise<void>;
 }
 
-export async function dev(
-  rootDir: string,
-  config: UserConfig,
-): Promise<ServerInstance> {
+interface DevOptions {
+  appDirectory: string;
+  docDirectory: string;
+  config: UserConfig;
+}
+
+export async function dev(options: DevOptions): Promise<ServerInstance> {
+  const { docDirectory, config } = options;
   const base = config.doc?.base ?? '';
   const isProd = false;
+  const pluginDriver = new PluginDriver(config, isProd);
+  await pluginDriver.init();
 
   try {
-    const modifiedConfig = await modifyConfig({
-      config,
-    });
-    await beforeBuild({
-      config: modifiedConfig,
-      isProd,
-    });
-
-    const builder = await createModernBuilder(rootDir, modifiedConfig);
+    const modifiedConfig = await pluginDriver.modifyConfig();
+    await pluginDriver.beforeBuild();
+    const builder = await createModernBuilder(
+      docDirectory,
+      modifiedConfig,
+      pluginDriver,
+      false,
+      {},
+    );
     const { server } = await builder.startDevServer({
       printURLs: urls => {
         return urls.map(({ label, url }) => ({
@@ -35,10 +40,7 @@ export async function dev(
       },
     });
 
-    await afterBuild({
-      config: modifiedConfig,
-      isProd,
-    });
+    await pluginDriver.afterBuild();
     return server;
   } finally {
     await writeSearchIndex(config);

@@ -1,4 +1,4 @@
-import { ENTRY_NAME_PATTERN } from '@modern-js/utils/constants';
+import { ENTRY_NAME_PATTERN } from '@modern-js/utils';
 import { Schema } from './Schema';
 
 const source = {
@@ -20,6 +20,7 @@ const source = {
       },
     },
   },
+  mainEntryName: { type: 'string' },
   enableAsyncEntry: { type: 'boolean' },
   disableDefaultEntries: { type: 'boolean' },
   entriesDir: { type: 'string' },
@@ -76,13 +77,9 @@ const server = {
   enableFrameworkExt: { type: 'boolean' },
 };
 const tools = {
-  tailwindcss: { type: 'object' },
-  jest: { typeof: ['object', 'function'] },
   esbuild: { typeof: ['object'] },
 };
-const deploy = {
-  microFrontend: { type: ['boolean', 'object'] },
-};
+const deploy = {};
 const builderPlugins = { type: 'array' };
 
 const schema = new Schema();

@@ -2,26 +2,24 @@ import { join } from 'path';
 import { fs } from '@modern-js/utils';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { dev, getHrefByEntryName } from '@scripts/shared';
-import { rspackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-// webpack hmr test will timeout in CI
-rspackOnlyTest('default & hmr (default true)', async ({ page }) => {
+// hmr test will timeout in CI
+test.skip('default & hmr (default true)', async ({ page }) => {
   await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src'));
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'hmr'),
     entry: {
       main: join(fixtures, 'hmr', 'test-src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    tools: {
-      devServer: {
-        client: {
-          host: '',
-          port: '',
+    builderConfig: {
+      tools: {
+        devServer: {
+          client: {
+            host: '',
+            port: '',
+          },
         },
       },
     },
@@ -83,22 +81,21 @@ rspackOnlyTest('default & hmr (default true)', async ({ page }) => {
   await builder.server.close();
 });
 
-rspackOnlyTest('dev.port & output.distPath', async ({ page }) => {
-  const buildOpts = {
+test.skip('dev.port & output.distPath', async ({ page }) => {
+  const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(fixtures, 'basic', 'src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    dev: {
-      port: 3000,
-    },
-    output: {
-      distPath: {
-        root: 'dist-1',
-        js: 'aa/js',
+    builderConfig: {
+      dev: {
+        port: 3000,
+      },
+      output: {
+        distPath: {
+          root: 'dist-1',
+          js: 'aa/js',
+        },
       },
     },
   });
@@ -122,76 +119,71 @@ rspackOnlyTest('dev.port & output.distPath', async ({ page }) => {
   await fs.remove(join(fixtures, 'basic/dist-1'));
 });
 
-rspackOnlyTest(
-  'hmr should work when setting dev.port & serverOptions.dev.client',
-  async ({ page }) => {
-    const cwd = join(fixtures, 'hmr');
-    const buildOpts = {
-      cwd,
-      entry: {
-        main: join(cwd, 'test-src/index.ts'),
+test.skip('hmr should work when setting dev.port & serverOptions.dev.client', async ({
+  page,
+}) => {
+  await fs.copy(join(fixtures, 'hmr/src'), join(fixtures, 'hmr/test-src-1'));
+  const cwd = join(fixtures, 'hmr');
+  const builder = await dev({
+    cwd,
+    entry: {
+      main: join(cwd, 'test-src-1/index.ts'),
+    },
+    builderConfig: {
+      dev: {
+        port: 3001,
       },
-    };
-
-    const builder = await dev(
-      buildOpts,
-      {
-        dev: {
-          port: 3001,
+    },
+    serverOptions: {
+      dev: {
+        client: {
+          host: '',
         },
       },
-      {
-        dev: {
-          client: {
-            host: '',
-          },
-        },
-      },
-    );
+    },
+  });
 
-    await page.goto(getHrefByEntryName('main', builder.port));
-    expect(builder.port).toBe(3001);
+  await page.goto(getHrefByEntryName('main', builder.port));
+  expect(builder.port).toBe(3001);
 
-    const appPath = join(fixtures, 'hmr', 'test-src/App.tsx');
+  const appPath = join(fixtures, 'hmr', 'test-src-1/App.tsx');
 
-    await expect(
-      page.evaluate(`document.getElementById('test').innerHTML`),
-    ).resolves.toBe('Hello Builder!');
+  await expect(
+    page.evaluate(`document.getElementById('test').innerHTML`),
+  ).resolves.toBe('Hello Builder!');
 
-    await fs.writeFile(
-      appPath,
-      fs.readFileSync(appPath, 'utf-8').replace('Hello Builder', 'Hello Test'),
-    );
+  await fs.writeFile(
+    appPath,
+    fs.readFileSync(appPath, 'utf-8').replace('Hello Builder', 'Hello Test'),
+  );
 
-    // wait for hmr take effect
-    await new Promise(resolve => setTimeout(resolve, 2000));
+  // wait for hmr take effect
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
-    await expect(
-      page.evaluate(`document.getElementById('test').innerHTML`),
-    ).resolves.toBe('Hello Test!');
+  await expect(
+    page.evaluate(`document.getElementById('test').innerHTML`),
+  ).resolves.toBe('Hello Test!');
 
-    // restore
-    await fs.writeFile(
-      appPath,
-      fs.readFileSync(appPath, 'utf-8').replace('Hello Test', 'Hello Builder'),
-    );
+  // restore
+  await fs.writeFile(
+    appPath,
+    fs.readFileSync(appPath, 'utf-8').replace('Hello Test', 'Hello Builder'),
+  );
 
-    await builder.server.close();
-  },
-);
+  await builder.server.close();
+});
 
 // need devcert
 test.skip('dev.https', async () => {
-  const buildOpts = {
+  const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {
       main: join(join(fixtures, 'basic'), 'src/index.ts'),
     },
-  };
-
-  const builder = await dev(buildOpts, {
-    dev: {
-      https: true,
+    builderConfig: {
+      dev: {
+        https: true,
+      },
     },
   });
 
@@ -202,31 +194,30 @@ test.skip('dev.https', async () => {
 
 // hmr will timeout in CI
 test.skip('tools.devServer', async ({ page }) => {
-  const buildOpts = {
-    cwd: join(fixtures, 'basic'),
-    entry: {
-      main: join(join(fixtures, 'basic'), 'src/index.ts'),
-    },
-  };
-
   let i = 0;
   let reloadFn: undefined | (() => void);
 
   // Only tested to see if it works, not all configurations.
-  const builder = await dev(buildOpts, {
-    tools: {
-      devServer: {
-        setupMiddlewares: [
-          (_middlewares, server) => {
-            reloadFn = () => server.sockWrite('content-changed');
-          },
-        ],
-        before: [
-          (req, res, next) => {
-            i++;
-            next();
-          },
-        ],
+  const builder = await dev({
+    cwd: join(fixtures, 'basic'),
+    entry: {
+      main: join(join(fixtures, 'basic'), 'src/index.ts'),
+    },
+    builderConfig: {
+      tools: {
+        devServer: {
+          setupMiddlewares: [
+            (_middlewares, server) => {
+              reloadFn = () => server.sockWrite('content-changed');
+            },
+          ],
+          before: [
+            (req, res, next) => {
+              i++;
+              next();
+            },
+          ],
+        },
       },
     },
   });

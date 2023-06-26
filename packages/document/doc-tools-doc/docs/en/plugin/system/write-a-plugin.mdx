@@ -1,0 +1,58 @@
+# Write a plugin
+
+Let's inject a global component as an example to see how to define and use plugins.
+
+### 1. Define a plugin
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginMonitor(slug: string): DocPlugin {
+  // Component path, you need to implement the content of the component yourself
+  const componentPath = path.join(__dirname, 'Example.tsx');
+  return {
+    name: 'plugin-monitor',
+    // Path to global components
+    globalUIComponents: [componentPath],
+    // Global variable definitions for build phase
+    builderConfig: {
+      source: {
+        define: {
+          'process.env.SLUG': JSON.stringify(slug),
+        },
+      },
+    },
+  };
+}
+```
+
+```tsx title="Example.tsx"
+import React from 'react';
+
+const Example = () => {
+  console.log(process.env.SLUG);
+  return <div>Example</div>;
+};
+
+export default Example;
+```
+
+A plugin is generally a function that receives some plugin params (optional) and returns an object that contains the name of the plugin and other config.
+
+In the above example, we define a plugin named `plugin-example`, which will define a global environment variable `slug` during the build phase, and inject a global component `Example.tsx` in the document.
+
+### 2. Use a plugin
+
+Register plugins via `doc.plugins` in `modern.config.ts`:
+
+```tsx title="modern.config.ts"
+import { pluginExample } from './plugin';
+
+export default {
+  doc: {
+    plugins: [pluginMonitor('test')],
+  },
+};
+```
+
+Then the `Example` component will be injected into the page and we can access the `slug` variable in the component.

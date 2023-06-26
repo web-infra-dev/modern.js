@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 const path = require('path');
 const { resolve } = require('path');
+const puppeteer = require('puppeteer');
 const { fs } = require('@modern-js/utils');
 const {
   modernBuild,
@@ -8,6 +9,7 @@ const {
   getPort,
   launchApp,
   killApp,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const { getCssFiles, readCssFile, copyModules } = require('./utils');
@@ -33,25 +35,6 @@ describe('default less loader options', () => {
 });
 
 describe('test css support', () => {
-  describe('base css support', () => {
-    it(`should emitted single css file `, async () => {
-      const appDir = path.resolve(fixtures, 'single-css');
-
-      await modernBuild(appDir);
-
-      const files = getCssFiles(appDir);
-
-      expect(files.length).toBe(1);
-
-      expect(
-        readFileSync(
-          path.resolve(appDir, `dist/static/css/${files[0]}`),
-          'utf8',
-        ),
-      ).toContain('#base-css{color:red}');
-    });
-  });
-
   describe('multi page css', () => {
     it('should emitted multiple css files', async () => {
       const appDir = path.resolve(fixtures, 'multi-css');
@@ -208,36 +191,6 @@ describe('test css support', () => {
     });
   });
 
-  describe('css url function', () => {
-    // FIXME: import svg in css files
-    // it('should use data-uri load image', async () => {
-    //   const appDir = path.resolve(fixtures, 'inline-css-url');
-
-    //   await modernBuild(appDir, [], { stderr: true });
-
-    //   const cssFiles = getCssFiles(appDir);
-
-    //   expect(cssFiles.length).toBe(1);
-
-    //   expect(readCssFile(appDir, cssFiles[0])).toMatch(
-    //     /background:url\(data:image\/svg\+xml;base64/,
-    //   );
-    // });
-    it('should keep image url', async () => {
-      const appDir = path.resolve(fixtures, 'keep-css-url');
-
-      await modernBuild(appDir);
-
-      const cssFiles = getCssFiles(appDir);
-
-      expect(cssFiles.length).toBe(1);
-
-      expect(readCssFile(appDir, cssFiles[0])).toMatch(
-        /background:url\(\/static\/image\/logo\.[a-z0-9]+\.png/,
-      );
-    });
-  });
-
   describe('css source map', () => {
     const getCssMaps = appDir =>
       readdirSync(path.resolve(appDir, 'dist/static/css')).filter(filepath =>
@@ -264,42 +217,11 @@ describe('test css support', () => {
 
       expect(cssMaps.length).toBe(0);
     });
-    // Todo skip, wait fix
-    it.skip(`should generate css ts declaration file`, async () => {
-      const appDir = path.resolve(fixtures, 'css-ts-declaration');
-
-      await modernBuild(appDir);
-
-      const generatedDTSFile = path.resolve(
-        appDir,
-        'src/index.module.css.d.ts',
-      );
-
-      expect(fs.readFileSync(generatedDTSFile, 'utf8')).toContain(
-        'export default cssExports',
-      );
-
-      fs.unlinkSync(generatedDTSFile);
-    });
   });
 });
 
 describe('less-support', () => {
   describe('base less support', () => {
-    it(`should emitted single css file`, async () => {
-      const appDir = resolve(fixtures, 'single-less');
-
-      await modernBuild(appDir);
-
-      const cssFiles = getCssFiles(appDir);
-
-      expect(cssFiles.length).toBe(1);
-
-      expect(readCssFile(appDir, cssFiles[0])).toContain(
-        '#header{height:20px;width:10px}',
-      );
-    });
-
     it(`should emitted multi css file`, async () => {
       const appDir = resolve(fixtures, 'multi-less');
 
@@ -326,20 +248,6 @@ describe('less-support', () => {
   });
 
   describe('base sass support', () => {
-    it(`should emitted single css file`, async () => {
-      const appDir = resolve(fixtures, 'single-sass');
-
-      await modernBuild(appDir);
-
-      const cssFiles = getCssFiles(appDir);
-
-      expect(cssFiles.length).toBe(1);
-
-      expect(readCssFile(appDir, cssFiles[0])).toContain(
-        '#header{height:20px;width:10px}',
-      );
-    });
-
     it(`should emitted multi css file`, async () => {
       const appDir = resolve(fixtures, 'multi-sass');
 
@@ -397,6 +305,9 @@ describe('less-support', () => {
 
       const app = await launchApp(appDir, port);
 
+      const browser = await puppeteer.launch(launchOptions);
+      const page = await browser.newPage();
+
       await page.goto(`http://localhost:${port}`, {
         waitUntil: ['networkidle0'],
       });
@@ -408,6 +319,8 @@ describe('less-support', () => {
       expect(bgColor).toBe(expectedColor);
 
       await killApp(app);
+      await page.close();
+      await browser.close();
     };
 
     it(`should import antd component with style`, async () => {

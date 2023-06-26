@@ -2,13 +2,37 @@
 title: storybook/
 sidebar_position: 7
 ---
+
 # storybook/
 
-Modern.js.js supports debugging with Storybook. When you need to configure Storybook, configure it in the `config/storybook/`.
+Modern.js supports debugging using Storybook. When configuring Storybook, you need to configure it in the `config/storybook` directory of the project.
 
-For detail, see [Storybook](https://storybook.js.org/docs/react/configure/overview).
+Please refer to [Storybook Configuration](https://storybook.js.org/docs/react/configure/overview) for Storybook configuration.
 
 :::info
-Debugging with Storybook requires executing the `new` command to enable the 「Visual Testing (Storybook)」 mode feature.
+Enabling the Visual Testing (Storybook) mode function requires running the new command to enable it under the project first.
 
 :::
+
+#### Example
+
+For the webpack configuration of the Storybook Manager app section, you can configure it by adding the `./config/storybook/main.js` file to configure it.
+
+```js
+// ./config/storybook/main.js
+
+module.exports = {
+  // it controls the Storybook manager app
+  managerWebpack: async (config, options) => {
+    // update config here
+    return config;
+  },
+};
+```
+
+### Limitation
+
+There are some limitations when using the `config/storybook` directory for configuration:
+
+- The location where the Story file is stored cannot be modified, that is, the `stories` configuration cannot be modified in the `main.js` file.
+- It is not supported to modify Webpack and Babel related configurations in `main.js`, related requirements can be passed through [`tools.webpack`](/configure/app/tools/webpack.html) /[`tools.babel`](/configure/app/tools/babel.html) modify.

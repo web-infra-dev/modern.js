@@ -14,7 +14,7 @@ import {
   useMatches,
   NavLink as RouterNavLink,
   NavLinkProps as RouterNavLinkProps,
-} from 'react-router-dom';
+} from '@modern-js/utils/runtime/router';
 import { RuntimeReactContext } from '../../core';
 import { RouteAssets, RouteManifest } from './types';
 
@@ -189,9 +189,9 @@ const getDataHref = (
 const PrefetchPageLinks: React.FC<{ pathname: string }> = ({ pathname }) => {
   const context = useContext(RuntimeReactContext);
   const { routeManifest, routes } = context;
-  const { routeAssets } = routeManifest;
+  const { routeAssets } = routeManifest || {};
   const matches = Array.isArray(routes) ? matchRoutes(routes, pathname) : [];
-  if (Array.isArray(matches)) {
+  if (Array.isArray(matches) && routeAssets) {
     matches?.forEach(match => loadRouteModule(match.route, routeAssets));
   }
 

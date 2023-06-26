@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { RouteLegacy } from '@modern-js/types/cli';
 import {

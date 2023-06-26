@@ -9,14 +9,11 @@ sidebar_label: enableAsyncEntry
 
 该选项用于 webpack 模块联邦（Module Federation）场景。
 
-开启此选项后，Modern.js 会通过 Dynamic Import 来包裹自动生成的入口文件（asynchronous boundary），使页面代码可以消费模块联邦生成的远程模块。
+开启此选项后，Modern.js 会通过 Dynamic Import 来包裹自动生成的入口文件（Asynchronous Boundaries），使页面代码可以消费模块联邦生成的远程模块。
 
 ## 背景知识
 
-如果不了解 webpack 模块联邦，请先阅读 Module Federation 官方文档：
-
-- [中文文档](https://webpack.docschina.org/concepts/module-federation/)
-- [英文文档](https://webpack.js.org/concepts/module-federation)
+如果不了解 webpack 模块联邦，请先阅读 [Module Federation 官方文档](https://webpack.docschina.org/concepts/module-federation/)。
 
 ## 示例
 
@@ -36,7 +33,7 @@ export default defineConfig({
 node_modules
   └─ .modern-js
      └─ main
-        ├─ bootstrap.js  # 真正的入口代码
+        ├─ bootstrap.jsx  # 真正的入口代码
         ├─ index.js      # 异步入口文件（asynchronous boundary）
         └─ index.html
 ```
@@ -44,7 +41,7 @@ node_modules
 其中 `index.js` 的内容如下：
 
 ```js
-import('./bootstrap.js');
+import('./bootstrap.jsx');
 ```
 
 此时，就可以在当前页面中消费任意的远程模块了。

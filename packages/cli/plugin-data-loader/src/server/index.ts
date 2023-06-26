@@ -3,11 +3,8 @@ import path from 'path';
 import fs from 'fs';
 import type { ServerPlugin } from '@modern-js/server-core';
 import type { ServerRoute } from '@modern-js/types';
-import {
-  MAIN_ENTRY_NAME,
-  SERVER_BUNDLE_DIRECTORY,
-} from '@modern-js/utils/constants';
-import { matchEntry, ServerContext } from '../common/utils';
+import { MAIN_ENTRY_NAME, SERVER_BUNDLE_DIRECTORY } from '@modern-js/utils';
+import { matchEntry, ServerContext } from '@modern-js/utils/runtime-node';
 
 export default (): ServerPlugin => ({
   name: '@modern-js/plugin-data-loader',
@@ -20,6 +17,7 @@ export default (): ServerPlugin => ({
       distDir: string;
     }) {
       return async (context: ServerContext) => {
+        // Todo remove matchEntry, bundle follow logic to server-loader
         const entry = matchEntry(context.path, serverRoutes);
         if (!entry) {
           return;

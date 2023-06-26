@@ -23,9 +23,9 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
 
   readonly HtmlPlugin: typeof HtmlWebpackPlugin;
 
-  readonly #retryOptions: AssetsRetryOptions;
-
   scriptPath: string;
+
+  readonly #retryOptions: AssetsRetryOptions;
 
   constructor(
     options: AssetsRetryOptions & {
@@ -53,11 +53,9 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
     );
     const runtimeFilePath = getSharedPkgCompiledPath('assetsRetry.js');
     const runtimeCode = await fs.readFile(runtimeFilePath, 'utf-8');
-    // Runtime code will include `Object.defineProperty(exports,"__esModule",{value:!0})` after compiled by tsc
-    // So we inject `var exports={}` to avoid `exports is not defined` error
-    return `var exports={};${runtimeCode}init(${serialize(
+    return `(function(){${runtimeCode};init(${serialize(
       this.#retryOptions,
-    )})`;
+    )});})()`;
   }
 
   async getScriptPath() {

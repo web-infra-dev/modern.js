@@ -1,8 +1,8 @@
 # Esbuild Plugin
 
-[esbuild](https://esbuild.github.io/) is a front-end build tool based on Golang. It has the functions of bundling, compiling and minimizing JavaScript code. Compared with traditional tools, the performance is significantly improved. When minimizing code, compared to webpack's built-in terser minimizer, esbuild has dozens of times better performance.
+import Esbuild from '@en/shared/esbuild.md';
 
-Builder provides esbuild plugin that allow you to use esbuild instead of babel-loader, ts-loader and terser for transformation and minification process. When you enable esbuild in a large project, **it can greatly reduce the time required for code compilation and compression, while effectively avoiding OOM (heap out of memory) problems**.
+<Esbuild />
 
 :::tip Recommend using SWC
 We recommend using SWC to transform and minify code rather than esbuild, because SWC supports more syntaxes, provides better code compression, and the compiled code has better compatibility.
@@ -13,7 +13,30 @@ Therefore, we recommend that you use SWC instead of esbuild, please refer to [SW
 
 ## Quick Start
 
-### Install
+### Used in Modern.js framework
+
+The Modern.js framework integrates the Builder's esbuild plugin by default, so you don't need to manually install and register the plugin, just use the [tools.esbuild](https://modernjs.dev/en/configure/app/tools/esbuild.html) configuration:
+
+```js
+export default defineConfig({
+  tools: {
+    esbuild: {
+      loader: {
+        target: 'chrome61',
+      },
+      minimize: {
+        target: 'chrome61',
+      },
+    },
+  },
+});
+```
+
+### Use via the Node API
+
+If you use the Builder's Node API, you need to manually install and register the esbuild plugin.
+
+#### Install
 
 You can install the plugin with the following command:
 
@@ -28,19 +51,9 @@ yarn add @modern-js/builder-plugin-esbuild -D
 pnpm add @modern-js/builder-plugin-esbuild -D
 ```
 
-### Register
+#### Register
 
-In upper-level frameworks such as Modern.js, you can register esbuild plugins through the `builderPlugins` config:
-
-```ts
-import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
-
-export default {
-  builderPlugins: [builderPluginEsbuild()],
-};
-```
-
-If you are using the Builder's Node API, you can register esbuild plugins through the `addPlugins` method:
+Register esbuild plugin through the `addPlugins` method:
 
 ```js
 import { builderPluginEsbuild } from '@modern-js/builder-plugin-esbuild';
@@ -137,6 +150,7 @@ type MinimizeOptions = EsbuildMinifyOptions | false | undefined;
 const defaultOptions = {
   css: true,
   target: 'es2015',
+  format: builderTarget === 'web' ? 'iife' : undefined,
 };
 ```
 

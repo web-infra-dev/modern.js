@@ -2,7 +2,7 @@
 - **默认值：** `undefined`
 - **打包工具：** `仅支持 webpack`
 
-你可以通过 `tools.webpackChain` 来修改默认的 webpack 配置，值为 `Function` 类型，接收两个参数：
+你可以通过 `tools.webpackChain` 来修改默认的 webpack 配置，它的值为 `Function` 类型，接收两个参数：
 
 - 第一个参数为 `webpack-chain` 对象实例，你可以通过这个实例来修改默认的 webpack 配置。
 - 第二个参数为一个工具集合，包括`env`、`isProd`、`CHAIN_ID` 等。
@@ -140,6 +140,7 @@ export default {
 - **类型：** `(name: string) => string`
 
 获取 builder 内置依赖的所在路径，例如：
+
 - sass
 - sass-loader
 - less
@@ -182,8 +183,10 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `RULE.LESS`  | 处理 `less` 的规则 |
 | `RULE.SASS`  | 处理 `sass` 的规则 |
 | `RULE.PUG`   | 处理 `pug` 的规则  |
+| `RULE.VUE`   | 处理 `vue` 的规则  |
 | `RULE.TOML`  | 处理 `toml` 的规则 |
 | `RULE.YAML`  | 处理 `yaml` 的规则 |
+| `RULE.WASM`  | 处理 `wasm` 的规则 |
 | `RULE.FONT`  | 处理字体的规则     |
 | `RULE.IMAGE` | 处理图片的规则     |
 | `RULE.MEDIA` | 处理媒体资源的规则 |
@@ -210,6 +213,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `USE.LESS`             | 对应 `less-loader`                    |
 | `USE.SASS`             | 对应 `sass-loader`                    |
 | `USE.PUG`              | 对应 `pug-loader`                     |
+| `USE.VUE`              | 对应 `vue-loader`                     |
 | `USE.TOML`             | 对应 `toml-loader`                    |
 | `USE.YAML`             | 对应 `yaml-loader`                    |
 | `USE.FILE`             | 对应 `file-loader`                    |
@@ -243,6 +247,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `PLUGIN.BUNDLE_ANALYZER`       | 对应 `WebpackBundleAnalyzer`                                                       |
 | `PLUGIN.BOTTOM_TEMPLATE`       | 对应 `BottomTemplatePlugin`                                                        |
 | `PLUGIN.MINI_CSS_EXTRACT`      | 对应 `MiniCssExtractPlugin`                                                        |
+| `PLUGIN.VUE_LOADER_PLUGIN`     | 对应 `VueLoaderPlugin`                                                             |
 | `PLUGIN.REACT_FAST_REFRESH`    | 对应 `ReactFastRefreshPlugin`                                                      |
 | `PLUGIN.NODE_POLYFILL_PROVIDE` | 对应处理 node polyfill 的 `ProvidePlugin`                                          |
 | `PLUGIN.INSPECTOR`             | 对应 `@modern-js/inspector-webpack-plugin`                                         |

@@ -10,11 +10,11 @@ import {
   ErrorResponse,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
-} from '@modern-js/utils/universal/remix-router';
+} from '@modern-js/utils/runtime/remix-router';
+import { transformNestedRoutes } from '@modern-js/utils/runtime/nested-routes';
 import { isPlainObject } from '@modern-js/utils/lodash';
-import { transformNestedRoutes } from '@modern-js/utils/universal/nestedRoutes';
+import { matchEntry, ServerContext } from '@modern-js/utils/runtime-node';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
-import { matchEntry, ServerContext } from '../common/utils';
 import { createDeferredReadableStream } from './response';
 
 // Polyfill Web Fetch API

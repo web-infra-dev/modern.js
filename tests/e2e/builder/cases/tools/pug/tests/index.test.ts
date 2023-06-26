@@ -1,24 +1,23 @@
 import { join, resolve } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = resolve(__dirname, '../');
 
-webpackOnlyTest('pug', async ({ page }) => {
-  const buildOpts = {
+test('pug', async ({ page }) => {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    html: {
-      template: './static/index.pug',
-    },
-    tools: {
-      pug: true,
+    runServer: true,
+    builderConfig: {
+      html: {
+        template: './static/index.pug',
+      },
+      tools: {
+        pug: true,
+      },
     },
   });
 

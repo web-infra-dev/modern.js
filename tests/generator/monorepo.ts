@@ -51,7 +51,7 @@ async function runNewInMonorepoProject(
     return;
   }
   console.info('process', project);
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
+  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
   const cases = getMonorepoNewCases(isSimple ? 5 : undefined);
   for (const config of cases) {
     const subProjectPath = path.join(
@@ -98,7 +98,7 @@ async function runNewInMonorepoProject(
 
 async function runMonorepoNewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'yarn',
+  packageManager: 'pnpm' | 'npm',
   options: {
     config: string;
     cwd: string;
@@ -118,8 +118,16 @@ async function runMonorepoNewCommand(
     });
   } else {
     await execaWithStreamLog(
-      'yarn',
-      ['new', '--dist-tag', 'next', '--config', config, debug ? '--debug' : ''],
+      'npm',
+      [
+        'new',
+        '--',
+        '--dist-tag',
+        'next',
+        '--config',
+        config,
+        debug ? '--debug' : '',
+      ],
       {
         cwd,
         env: {
@@ -127,11 +135,6 @@ async function runMonorepoNewCommand(
         },
       },
     );
-    if (packageManager === 'pnpm') {
-      await execaWithStreamLog('pnpm', ['install'], {
-        cwd,
-      });
-    }
   }
 }
 

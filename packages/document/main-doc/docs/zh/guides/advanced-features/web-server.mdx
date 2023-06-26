@@ -26,13 +26,13 @@ Modern.js 作为以客户端为中心的开发框架，对服务端的定制能�
 
 ```bash
 ? 请选择你想要的操作 创建工程元素
-? 创建工程元素 新建「自定义 Web Server」源码目录
+? 请选择创建元素类型 新建「自定义 Web Server」源码目录
 ```
 
 执行命令后，在 `modern.config.ts` 中注册 `@modern-js/plugin-server` 插件:
 
 ```ts title="modern.config.ts"
-import serverPlugin from '@modern-js/plugin-server';
+import { serverPlugin } from '@modern-js/plugin-server';
 
 export default defineConfig({
   plugins: [..., serverPlugin()],

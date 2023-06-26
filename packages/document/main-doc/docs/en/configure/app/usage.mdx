@@ -12,7 +12,7 @@ The compile configuration can be configured in two places:
 - `package.json` file
 
 :::info
-Configurations in both package.json and modern.config.ts file are not supported for the same configuration. Configuration in modern.config.ts is recommended.
+Configurations in both `package.json` and `modern.config.ts` file are not supported for the same configuration. Configuration in `modern.config.ts` is recommended.
 :::
 
 Server runtime configuration can be configured in the `modern.server-runtime.config.(ts|js|mjs)` file in the root path.
@@ -43,9 +43,18 @@ export default defineConfig({
 });
 ```
 
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify `<'rspack'>` generic type for `defineConfig`:
+
+```diff title=modern.config.ts
+- export default defineConfig({
++ export default defineConfig<'rspack'>({
+   //...
+});
+```
+
 ### modern.config.js
 
-If you are developing a non-TypeScript project, you can use the configuration file in .js format:
+If you are developing a non-TypeScript project, you can use the configuration file in `.js` format:
 
 ```js title="modern.config.js"
 export default {
@@ -57,7 +66,7 @@ export default {
 };
 ```
 
-You can also dynamically set it with `process.env.NODE _ENV`:
+You can also configure depending on your environment with `process.env.NODE_ENV`:
 
 ```js title="modern.config.js"
 export default {
@@ -113,7 +122,7 @@ export default defineConfig(async ({ env, command }) => {
 
 You can specify the name of the configuration file using the `--config` option.
 
-For example, if you need to use the `modern.prod.config.js` file when running build, you can add the following scripts to `package.json`:
+For example, if you need to use the `modern.prod.config.js` file when running `build`, you can add the following scripts to `package.json`:
 
 ```json title="package.json"
 {
@@ -146,7 +155,7 @@ In addition to configuration files, configuration options can also be set the `m
 }
 ```
 
-Due to the limitation of the JSON file format, only simple types such as numbers, strings, boolean values, arrays, etc. can be defined in `package.json`. When we need to set the value of the function type, it is recommended to set it in the Modern.js configuration file.
+Due to the limitation of the JSON file format, only simple types such as numbers, strings, boolean values, arrays, etc. can be defined in `package.json`. When we need to set the value of the function type, it is recommended to do so in the Modern.js configuration file.
 
 ### Note
 
@@ -239,6 +248,32 @@ const mergedConfig = {
   },
   tools: {
     postcss: [() => console.log('config1'), () => console.log('config2')],
+  },
+};
+```
+
+## Configuration Type
+
+Modern.js exports `AppUserConfig` type, which corresponds to the type of Modern.js configuration object:
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig = {
+  tools: {
+    webpack: {},
+  },
+};
+```
+
+When using Rspack as the bundler, due to some differences in configuration types between webpack and Rspack, you need to specify `<'rspack'>` generic type for `defineConfig`:
+
+```ts title="modern.config.ts"
+import type { AppUserConfig } from '@modern-js/app-tools';
+
+const config: AppUserConfig<'rspack'> = {
+  tools: {
+    rspack: {},
   },
 };
 ```

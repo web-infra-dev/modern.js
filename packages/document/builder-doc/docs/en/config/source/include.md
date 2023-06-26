@@ -18,6 +18,10 @@ export default {
 };
 ```
 
+:::tip
+When using Rspack as the bundler,  **all files** will be compiled by default, and at the same time, exclusion through `source.exclude` is not supported.
+:::
+
 ### Compile Npm Packages
 
 A typical usage scenario is to compile npm packages under node_modules, because some third-party dependencies have ES6+ syntax, which may cause them to fail to run on low-version browsers. You can solve the problem by using this config to specify the dependencies that need to be compiled.

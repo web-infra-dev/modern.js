@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Environment preparation
 
-In order to use the Modern.js module engineering solution, you first need [NodeJS](https://nodejs.org/zh/) engine, we recommend the latest [LTS version](https://github.com/nodejs/Release), and make sure the Node version is **>=14.18.0**. because non-stable NodeJS releases frequently have bugs. You might consider installing via [nvm-windows](https://github.com/coreybutler/nvm-windows) and [nvm](https://github.com/nvm-sh/nvm) (Mac/linux), so you can easily switch to different NodeJS versions that might be required for different projects that you work on.
+In order to use the Modern.js module engineering solution, you first need [NodeJS](https://nodejs.org/zh/) engine, we recommend the latest [LTS version](https://github.com/nodejs/Release), and make sure the Node version is **>=14.18.0**. because non-stable NodeJS releases frequently have bugs. You might consider installing via [nvm-windows](https://github.com/coreybutler/nvm-windows) and [nvm](https://github.com/nvm-sh/nvm) (Mac / Linux), so you can easily switch to different NodeJS versions that might be required for different projects that you work on.
 
 ## Getting Started with npm
 
@@ -167,7 +167,7 @@ The Module Tools configuration file - `modern.config.(j|t)s` - is provided in th
 By default, the contents of the generated configuration file are as follows.
 
 ```ts title="modern.config.ts"
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],
@@ -178,7 +178,7 @@ export default defineConfig({
 **We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the config file: the
 
 ``` ts title="modern.config.ts"
-import moduleTools from '@modern-js/module-tools';
+import { moduleTools } from '@modern-js/module-tools';
 
 export default {
   plugins: [moduleTools()],

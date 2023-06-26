@@ -17,7 +17,7 @@ import Prerequisites from "@site-docs/components/prerequisites"
 
 ```bash
 mkdir myapp && cd myapp
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 import InitApp from "@site-docs/components/init-app"
@@ -82,7 +82,7 @@ rm src/routes/index.css
 接下来，我们修改项目中的 `modern.config.ts`，开启 SSR 能力：
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   runtime: {

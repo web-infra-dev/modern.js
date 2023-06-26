@@ -2,6 +2,7 @@ import { BffNormalizedConfig, BffUserConfig } from './bff';
 import { DevNormalizedConfig, DevUserConfig } from './dev';
 import { HtmlNormalizedConfig, HtmlUserConfig } from './html';
 import { OutputNormalizedConfig, OutputUserConfig } from './output';
+import { SecurityNormalizedConfig, SecurityUserConfig } from './security';
 import { ServerNormalizedConfig, ServerUserConfig } from './server';
 import { SourceNormalizedConfig, SourceUserConfig } from './source';
 import { ToolsNormalizedConfig, ToolsUserConfig } from './tools';
@@ -27,6 +28,7 @@ export interface UserConfig {
   html?: HtmlUserConfig;
   bff?: BffUserConfig;
   dev?: DevUserConfig;
+  security?: SecurityUserConfig;
 }
 
 export type ServerOptions = {
@@ -38,4 +40,5 @@ export type ServerOptions = {
   html: HtmlNormalizedConfig;
   bff: BffNormalizedConfig;
   dev?: DevNormalizedConfig;
+  security?: SecurityNormalizedConfig;
 };

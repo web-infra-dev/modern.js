@@ -1,4 +1,4 @@
-import type { MetaOptions } from '@modern-js/utils';
+import type { MetaOptions } from '../../generateMetaTags';
 import type { ArrayOrNot, ChainedConfig } from '../utils';
 
 export type CrossOrigin = 'anonymous' | 'use-credentials';

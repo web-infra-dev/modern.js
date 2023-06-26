@@ -17,7 +17,6 @@ export const isBFFProject = (pwd: string) => {
 
     return isMWA && isBFF;
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.log(chalk.red(error));
     return false;
   }

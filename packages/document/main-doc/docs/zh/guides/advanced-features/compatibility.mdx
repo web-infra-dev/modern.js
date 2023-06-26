@@ -1,26 +1,25 @@
 ---
-title: 客户端兼容性
 sidebar_position: 5
 ---
-# 客户端兼容性
+
+# 浏览器兼容性
 
 ## Browserslist 配置
 
-Modern.js 支持在项目根目录 `package.json` 文件中的 `browserslist` 字段（或单独的 `.browserslistrc` 文件）指定项目覆盖的目标浏览器范围。该值会被 [`@babel/preset-env`](https://babeljs.io/docs/en/babel-preset-env) 和 [`autoprefixer`](https://github.com/postcss/autoprefixer) 用来确定需要转换的 JavaScript 语法特性和需要添加的 CSS 浏览器前缀。
+Modern.js 支持设置 Web 应用需要兼容的浏览器范围，你可以在 `.browserslistrc` 文件里设置 [Browserslist](https://browsersl.ist/) 的值。
 
-Modern.js 中默认值如下:
+当你创建一个新的 Modern.js 项目时，默认会包含一份 `.browserslistrc` 配置，这表示 JavaScript 代码会被编译至 ES6 格式。
 
-```js
-['> 0.01%', 'not dead', 'not op_mini all'];
+```yaml title=".browserslistrc"
+chrome >= 51
+edge >= 15
+firefox >= 54
+safari >= 10
+ios_saf >= 10
 ```
 
-可以在[这里](https://github.com/browserslist/browserslist)了解如何自定义浏览器范围。
-
-查看 Modern.js Builder 文档了解更多 [Browserslist](https://modernjs.dev/builder/guide/advanced/browserslist.html) 相关内容。
-
-:::note
-Modern.js 支持配置 [output.overrideBrowserslist](/configure/app/output/override-browserslist) 覆盖默认 browserslist 值。
-
+:::tip
+请查看 [Modern.js Builder - 设置浏览器范围](https://modernjs.dev/builder/guide/advanced/browserslist) 来了解更多内容。
 :::
 
 ## Polyfill
@@ -36,42 +35,6 @@ Modern.js 在编译时默认通过 [core-js](https://github.com/zloirock/core-js
 
 :::
 
-### 运行时按需 Polyfill
+import UAPolyfill from '@site-docs/components/ua-polyfill';
 
-Modern.js 中还提供了基于浏览器 [UA](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/User-Agent) 信息的运行时按需 Polyfill 方案，相比于 Babel 优势如下：
-
-- 不会插入到代码中，只根据访问页面的设备，按需下发 Polyfill 代码 ，减少整体代码体积。
-- 相同浏览器会公用一份 Polyfill 代码。因此，随着项目越来越多，基于 UA 的 Polyfill 代码下发速度会越来越快，综合速度超过常规方案。
-
-可以通过微生成器开启该功能：
-
-```bash
-? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「基于 UA 的 Polyfill」功能
-```
-
-执行命令后，在 `modern.config.ts` 中注册 Polyfill 插件:
-
-```ts title="modern.config.ts"
-import polyfillPlugin from '@modern-js/plugin-polyfill';
-
-export default defineConfig({
-  plugins: [..., polyfillPlugin()],
-});
-```
-
-配置 `output.polyfill` 为 `ua` 并且执行 `pnpm run build && pnpm run serve` 启动服务器后，访问页面可以看到 HTML 产物中包含如下脚本:
-
-```js
-<script src="/__polyfill__" crossorigin></script>
-```
-
-在 Chrome 51 下访问页面可以看到 `http://localhost:8080/__polyfill__` 返回内容如下:
-
-![ua-polyfill](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ua-polyfill.png)
-
-:::caution 注意
-该功能只有在使用 Modern.js 内置的 Web Server 时才会生效。
-
-如果有自定义模版的需求，请参考 [HTML 模板](/guides/basic-features/html.html)。通过 `html.template` 或 `tools.html` 手动修改模版时，可能会导致该功能无法正确生效。
-:::
+<UAPolyfill />

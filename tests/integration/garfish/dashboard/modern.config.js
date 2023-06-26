@@ -1,6 +1,6 @@
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import garfishPlugin from '@modern-js/plugin-garfish';
-import routerPlugin from '@modern-js/plugin-router-v5';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
+import { routerPlugin } from '@modern-js/plugin-router-v5';
 import { getPort } from '../../../utils/testCase';
 
 module.exports = defineConfig({
@@ -38,7 +38,16 @@ module.exports = defineConfig({
       delete config.optimization?.splitChunks;
     },
   },
-  plugins: [appTools(), routerPlugin(), garfishPlugin()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+    routerPlugin(),
+    garfishPlugin(),
+  ],
   // dev: {
   //   withMasterApp: {
   //     moduleApp: 'http://localhost:8080/',

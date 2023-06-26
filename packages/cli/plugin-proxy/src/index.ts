@@ -1,9 +1,8 @@
-import { PLUGIN_SCHEMAS } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
 import { createProxyRule } from './utils/createProxyRule';
 import WhistleProxy from './utils/whistleProxy';
 
-export default (): CliPlugin => {
+export const proxyPlugin = (): CliPlugin => {
   let proxyServer: WhistleProxy;
 
   return {
@@ -11,7 +10,12 @@ export default (): CliPlugin => {
 
     setup: api => ({
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-proxy'];
+        return [
+          {
+            target: 'dev.proxy',
+            schema: { typeof: ['string', 'object'] },
+          },
+        ];
       },
 
       async afterDev() {
@@ -23,8 +27,10 @@ export default (): CliPlugin => {
         }
 
         const rule = createProxyRule(internalDirectory, dev.proxy);
-        proxyServer = new WhistleProxy({ port: 8899, rule });
-        await proxyServer.start();
+        if (!proxyServer) {
+          proxyServer = new WhistleProxy({ port: 8899, rule });
+          await proxyServer.start();
+        }
       },
 
       beforeExit() {
@@ -34,3 +40,5 @@ export default (): CliPlugin => {
     }),
   };
 };
+
+export default proxyPlugin;

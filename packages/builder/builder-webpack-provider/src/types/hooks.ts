@@ -1,7 +1,7 @@
 import type { ModifyChainUtils } from '@modern-js/builder-shared';
 import type { WebpackChain, WebpackConfig } from './thirdParty';
 import type { RuleSetRule, WebpackPluginInstance } from 'webpack';
-import type { ChainIdentifier } from '@modern-js/utils';
+import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 
 export type ModifyWebpackChainUtils = ModifyChainUtils & {
   /** @deprecated Use target instead. */

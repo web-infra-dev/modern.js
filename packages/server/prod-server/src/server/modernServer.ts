@@ -113,6 +113,8 @@ export class ModernServer implements ModernServerInterface {
 
   private readonly staticGenerate: boolean;
 
+  private readonly metaName?: string;
+
   constructor({
     pwd,
     config,
@@ -122,11 +124,12 @@ export class ModernServer implements ModernServerInterface {
     metrics,
     runMode,
     proxyTarget,
+    appContext,
   }: ModernServerOptions) {
     require('ignore-styles');
 
     this.pwd = pwd;
-    this.distDir = path.join(pwd, config.output.path || 'dist');
+    this.distDir = path.resolve(pwd, config.output.path || 'dist');
     this.workDir = this.distDir;
     this.conf = config;
     debug('server conf', this.conf);
@@ -137,6 +140,7 @@ export class ModernServer implements ModernServerInterface {
     this.proxyTarget = proxyTarget;
     this.staticGenerate = staticGenerate || false;
     this.runMode = runMode || RUN_MODE.FULL;
+    this.metaName = appContext?.metaName;
     // process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
@@ -144,7 +148,9 @@ export class ModernServer implements ModernServerInterface {
   public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
 
-    const { distDir, staticGenerate, conf } = this;
+    const { distDir, staticGenerate, conf, metaName } = this;
+
+    this.initReader();
 
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
@@ -155,9 +161,8 @@ export class ModernServer implements ModernServerInterface {
       });
     }
 
-    // start file reader
-    this.reader.init();
-    app.on('close', () => {
+    // the app server maybe a `undefined`;
+    app?.on('close', () => {
       this.reader.close();
     });
 
@@ -177,6 +182,8 @@ export class ModernServer implements ModernServerInterface {
       distDir,
       staticGenerate,
       forceCSR,
+      nonce: conf.security?.nonce,
+      metaName,
     });
 
     await this.setupBeforeProdMiddleware();
@@ -197,18 +204,6 @@ export class ModernServer implements ModernServerInterface {
   // server ready
   public onRepack(_: BuildOptions) {
     // empty
-  }
-
-  protected async onServerChange({ filepath }: { filepath: string }) {
-    const { pwd } = this;
-    const { api, server } = AGGRED_DIR;
-    const apiPath = path.normalize(path.join(pwd, api));
-    const serverPath = path.normalize(path.join(pwd, server));
-
-    const onlyApi = filepath.startsWith(apiPath);
-    const onlyWeb = filepath.startsWith(serverPath);
-
-    await this.prepareFrameHandler({ onlyWeb, onlyApi });
   }
 
   // exposed requestHandler
@@ -250,6 +245,22 @@ export class ModernServer implements ModernServerInterface {
   }
 
   /* —————————————————————— function will be overwrite —————————————————————— */
+  protected initReader() {
+    this.reader.init();
+  }
+
+  protected async onServerChange({ filepath }: { filepath: string }) {
+    const { pwd } = this;
+    const { api, server } = AGGRED_DIR;
+    const apiPath = path.normalize(path.join(pwd, api));
+    const serverPath = path.normalize(path.join(pwd, server));
+
+    const onlyApi = filepath.startsWith(apiPath);
+    const onlyWeb = filepath.startsWith(serverPath);
+
+    await this.prepareFrameHandler({ onlyWeb, onlyApi });
+  }
+
   // get routes info
   protected getRoutes() {
     // Preferred to use preset routes

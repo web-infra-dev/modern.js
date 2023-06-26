@@ -1,5 +1,144 @@
 # @modern-js/babel-preset-base
 
+## 2.24.0
+
+### Patch Changes
+
+- 36f5bdf: fix(plugin-vue): remove react-related babel plugins
+
+  fix(plugin-vue): 移除 react 相关的 babel 插件
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- dc45896: fix(runtime): babel-plugin-styled-components not work
+
+  fix(runtime): 修复 babel-plugin-styled-components 不生效的问题
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/utils@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

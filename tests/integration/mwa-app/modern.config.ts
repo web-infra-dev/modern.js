@@ -1,4 +1,4 @@
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   runtime: {
@@ -7,5 +7,12 @@ export default defineConfig({
   output: {
     disableTsChecker: true,
   },
-  plugins: [appTools()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+  ],
 });

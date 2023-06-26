@@ -1,5 +1,75 @@
 # @modern-js/types
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+## 2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+## 2.22.1
+
+### Patch Changes
+
+- 25b490a: fix: add missing type definitions
+  fix: 添加遗漏的类型定义
+
+## 2.22.0
+
+## 2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 1ef03dc: feat(dev-server): enable gzip compression, add devServer.compress config
+
+  feat(dev-server): 默认启用 gzip 压缩，新增 devServer.compress 配置项
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+## 2.20.0
+
+### Minor Changes
+
+- 5f055ab: feat(app-tools): route.json add `isStream` field.
+  feat(app-tools): route.json 添加 `isStream` 字段.
+
+## 2.19.1
+
+## 2.19.0
+
+## 2.18.1
+
+## 2.18.0
+
+## 2.17.1
+
+## 2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 2.15.0
 
 ## 2.14.0

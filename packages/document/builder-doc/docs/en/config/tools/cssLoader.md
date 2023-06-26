@@ -1,12 +1,10 @@
 - **Type:** `Object | Function`
 - **Default:** `undefined`
-- **Bundler:** `only support webpack`
 
 The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be modified through `tools.cssLoader`. The default config is as follows:
 
 ```js
 {
-  importLoaders: 1,
   modules: {
     auto: true,
     exportLocalsConvention: 'camelCase',
@@ -17,8 +15,14 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
   },
   // CSS Source Map enabled by default in development environment
   sourceMap: isDev,
+  // importLoaders is `1` when compiling css files, and is `2` when compiling sass/less files
+  importLoaders: 1 || 2,
 }
 ```
+
+:::tip
+When using Rspack as the bundler, this configuration is only supported when set [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) is true.
+:::
 
 ### Object Type
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   createBrowserRouter,
   createHashRouter,
@@ -7,10 +7,10 @@ import {
   useMatches,
   useLocation,
   RouteObject,
-} from 'react-router-dom';
+} from '@modern-js/utils/runtime/router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { parsedJSONFromElement } from '@modern-js/utils/runtime';
-import { Plugin } from '../../core';
+import { parsedJSONFromElement } from '@modern-js/utils/runtime-browser';
+import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
 import type { RouterConfig, Routes } from './types';
@@ -114,6 +114,9 @@ export const routerPlugin = ({
                     hydrationData,
                   });
 
+              const runtimeContext = useContext(RuntimeReactContext);
+              runtimeContext.remixRouter = router;
+
               return (
                 <App {...props}>
                   <RouterProvider router={router} />
@@ -135,6 +138,25 @@ export const routerPlugin = ({
 
           return next({
             App: RouteApp,
+          });
+        },
+        pickContext: ({ context, pickedContext }, next) => {
+          const { remixRouter } = context;
+
+          // only export partial common API from remix-router
+          const router = {
+            navigate: remixRouter.navigate,
+            get location() {
+              return remixRouter.state.location;
+            },
+          };
+
+          return next({
+            context,
+            pickedContext: {
+              ...pickedContext,
+              router,
+            },
           });
         },
       };

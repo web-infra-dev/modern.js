@@ -27,8 +27,14 @@ export const dev = async (
   normalizedConfig = { ...normalizedConfig, cliOptions: options };
   ResolvedConfigContext.set(normalizedConfig);
 
-  const { appDirectory, distDirectory, port, apiOnly, serverConfigFile } =
-    appContext;
+  const {
+    appDirectory,
+    distDirectory,
+    port,
+    apiOnly,
+    serverConfigFile,
+    metaName,
+  } = appContext;
 
   await buildServerConfig({
     appDirectory,
@@ -60,6 +66,7 @@ export const dev = async (
       ...normalizedConfig.tools?.devServer,
     },
     appContext: {
+      metaName,
       appDirectory: appContext.appDirectory,
       sharedDirectory: appContext.sharedDirectory,
       apiDirectory: appContext.apiDirectory,

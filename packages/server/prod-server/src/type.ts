@@ -38,6 +38,7 @@ export type ModernServerOptions = {
     sharedDirectory: string;
     apiDirectory: string;
     lambdaDirectory: string;
+    metaName: string;
   };
   serverConfigFile?: string;
   proxyTarget?: any;

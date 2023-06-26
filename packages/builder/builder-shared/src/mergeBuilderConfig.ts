@@ -11,9 +11,14 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
         return undefined;
       }
 
-      // source maybe array，should not merge source & target
-      if (key === 'removeConsole') {
+      // always use source override target, if target defined.
+      if (['cssModules', 'removeConsole'].includes(key)) {
         return source ?? target;
+      }
+
+      // allow using `htmlPlugin: false` to disable HTML
+      if (key === 'htmlPlugin' && source === false) {
+        return false;
       }
 
       if (pair.some(_.isArray)) {

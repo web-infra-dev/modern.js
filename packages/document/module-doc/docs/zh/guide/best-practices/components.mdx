@@ -11,7 +11,7 @@ sidebar_position: 1
 <CH.Spotlight>
 
 ```bash 交互式问题
-npx @modern-js/create components-project
+npx @modern-js/create@latest components-project
 
 ? 请选择你想创建的工程类型：Npm 模块
 ? 请填写项目名称：components-demo
@@ -24,7 +24,7 @@ npx @modern-js/create components-project
 推荐使用 `@modern-js/create` 命令来初始化一个 npm 项目。
 
 ```bash 交互式问题
-npx @modern-js/create components-project
+npx @modern-js/create@latest components-project
 
 ? 请选择你想创建的工程类型：Npm 模块
 ? 请填写项目名称：components-demo
@@ -72,7 +72,7 @@ export default () => {
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「Storybook」
+? 请选择功能名称 启用「Storybook」
 ```
 
 ---
@@ -83,7 +83,7 @@ pnpm run new
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「Storybook」
+? 请选择功能名称 启用「Storybook」
 ```
 
 ---
@@ -208,7 +208,7 @@ export default {
 
 ### CSS/PostCSS
 
-模块工程支持 PostCSS，并且内置了以下 postcss 插件：
+模块工程支持 PostCSS，并且内置了以下 PostCSS 插件：
 
 - [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
 - [custom-properties](https://github.com/postcss/postcss-custom-properties)
@@ -275,7 +275,7 @@ e b {
 
 模块工程支持使用 Less 开发样式。
 
-> 目前支持的版本为 4.1.3
+> 目前内置的 Less 版本为 v4.1.3
 
 <CH.Spotlight>
 
@@ -314,7 +314,7 @@ div {
 
 模块工程支持使用 Scss/Sass 开发样式。
 
-> 目前支持的版本为 1.54.4
+> 目前内置的 Sass 版本为 v1.54.4
 
 <CH.Spotlight>
 
@@ -361,7 +361,7 @@ body {
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「Storybook」
+? 请选择功能名称 启用「Storybook」
 ```
 
 ---
@@ -372,7 +372,7 @@ pnpm run new
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用 Tailwind CSS 支持
+? 请选择功能名称 启用 「Tailwind CSS」 支持
 ```
 
 ---
@@ -621,9 +621,9 @@ export default () => {
 
 Bundle 模式下，会将第三方依赖打包进来。
 
-对于样式则会生成一份单独的产物文件，并且在 Js 产物文件中并不会存在导入样式的相关代码。
+对于样式则会生成一份单独的产物文件，并且在 JS 产物文件中并不会存在导入样式的相关代码。
 
-如果需要将样式注入 Js 产物中，可以开启 [`style.inject` API](/api/config/build-config#inject)。
+如果需要将样式注入 JS 产物中，可以开启 [`style.inject`](/api/config/build-config#styleinject) 选项。
 
 <CH.Code>
 ```css ./dist/es/index.css
@@ -730,10 +730,10 @@ export { src_default as default };
 - `.module.scss`
 - `.module.sass`
 
-如果需要对 CSS Modules 进行配置，可以查看一下 API：
+如果需要对 CSS Modules 进行配置，可以查看以下 API：
 
-- [autoModules](/api/config/build-config#automodules)
-- [modules](/api/config/build-config#modules)
+- [style.autoModules](/api/config/build-config#styleautomodules)
+- [style.modules](/api/config/build-config#stylemodules)
 
 下面是一个代码示例：
 

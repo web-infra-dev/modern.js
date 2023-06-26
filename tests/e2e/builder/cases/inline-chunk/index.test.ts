@@ -1,8 +1,8 @@
 import path from 'path';
 import { expect } from '@modern-js/e2e/playwright';
-import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
 import { webpackOnlyTest } from '@scripts/helper';
-import { build } from '@scripts/shared';
+import { build, getHrefByEntryName } from '@scripts/shared';
+import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
 
 // todo: Rspack not output RUNTIME_CHUNK_NAME.js.map
 const isRuntimeChunkInHtml = (html: string): boolean =>
@@ -20,17 +20,21 @@ const toolsConfig = {
   },
 };
 
-webpackOnlyTest('inline runtime chunk by default', async () => {
-  const builder = await build(
-    {
-      cwd: __dirname,
-      entry: { index: path.resolve(__dirname, './src/index.js') },
-    },
-    {
+webpackOnlyTest('inline runtime chunk by default', async ({ page }) => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: { index: path.resolve(__dirname, './src/index.js') },
+    runServer: true,
+    builderConfig: {
       tools: toolsConfig,
     },
-    false,
-  );
+  });
+
+  // test runtime
+  await page.goto(getHrefByEntryName('index', builder.port));
+
+  expect(await page.evaluate(`window.test`)).toBe('aaaa');
+
   const files = await builder.unwrapOutputJSON(false);
 
   // no builder-runtime file in output
@@ -54,24 +58,23 @@ webpackOnlyTest('inline runtime chunk by default', async () => {
     files[path.resolve(__dirname, './dist/html/index/index.html')];
 
   expect(isRuntimeChunkInHtml(indexHtml)).toBeTruthy();
+
+  builder.close();
 });
 
 webpackOnlyTest(
   'inline runtime chunk by default with multiple entries',
   async () => {
-    const builder = await build(
-      {
-        cwd: __dirname,
-        entry: {
-          index: path.resolve(__dirname, './src/index.js'),
-          another: path.resolve(__dirname, './src/another.js'),
-        },
+    const builder = await build({
+      cwd: __dirname,
+      entry: {
+        index: path.resolve(__dirname, './src/index.js'),
+        another: path.resolve(__dirname, './src/another.js'),
       },
-      {
+      builderConfig: {
         tools: toolsConfig,
       },
-      false,
-    );
+    });
     const files = await builder.unwrapOutputJSON(false);
 
     // no builder-runtime file in output
@@ -93,54 +96,61 @@ webpackOnlyTest(
   },
 );
 
-webpackOnlyTest('inline all scripts and emit all source maps', async () => {
-  const builder = await build(
-    {
+webpackOnlyTest(
+  'inline all scripts and emit all source maps',
+  async ({ page }) => {
+    const builder = await build({
       cwd: __dirname,
       entry: {
         index: path.resolve(__dirname, './src/index.js'),
         another: path.resolve(__dirname, './src/another.js'),
       },
-    },
-    {
-      output: {
-        enableInlineScripts: true,
+      runServer: true,
+      builderConfig: {
+        output: {
+          enableInlineScripts: true,
+        },
+        tools: toolsConfig,
       },
-      tools: toolsConfig,
-    },
-    false,
-  );
-  const files = await builder.unwrapOutputJSON(false);
+    });
 
-  // no entry chunks or runtime chunks in output
-  expect(
-    Object.keys(files).filter(
-      fileName => fileName.endsWith('.js') && !fileName.includes('/async/'),
-    ).length,
-  ).toEqual(0);
+    await page.goto(getHrefByEntryName('index', builder.port));
 
-  // all source maps in output
-  expect(
-    Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
-  ).toEqual(5);
-});
+    // test runtime
+    expect(await page.evaluate(`window.test`)).toBe('aaaa');
+
+    const files = await builder.unwrapOutputJSON(false);
+
+    // no entry chunks or runtime chunks in output
+    expect(
+      Object.keys(files).filter(
+        fileName => fileName.endsWith('.js') && !fileName.includes('/async/'),
+      ).length,
+    ).toEqual(0);
+
+    // all source maps in output
+    expect(
+      Object.keys(files).filter(fileName => fileName.endsWith('.js.map'))
+        .length,
+    ).toEqual(4);
+
+    builder.close();
+  },
+);
 
 webpackOnlyTest('using RegExp to inline scripts', async () => {
-  const builder = await build(
-    {
-      cwd: __dirname,
-      entry: {
-        index: path.resolve(__dirname, './src/index.js'),
-      },
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/index.js'),
     },
-    {
+    builderConfig: {
       output: {
         enableInlineScripts: /\/main\.\w+\.js$/,
       },
       tools: toolsConfig,
     },
-    false,
-  );
+  });
   const files = await builder.unwrapOutputJSON(false);
 
   // no main.js in output
@@ -153,25 +163,22 @@ webpackOnlyTest('using RegExp to inline scripts', async () => {
   // all source maps in output
   expect(
     Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
-  ).toEqual(4);
+  ).toEqual(3);
 });
 
 webpackOnlyTest('using RegExp to inline styles', async () => {
-  const builder = await build(
-    {
-      cwd: __dirname,
-      entry: {
-        index: path.resolve(__dirname, './src/index.js'),
-      },
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/index.js'),
     },
-    {
+    builderConfig: {
       output: {
         enableInlineStyles: /\/main\.\w+\.css$/,
       },
       tools: toolsConfig,
     },
-    false,
-  );
+  });
   const files = await builder.unwrapOutputJSON(false);
 
   // no main.css in output

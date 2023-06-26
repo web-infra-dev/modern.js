@@ -1,4 +1,4 @@
-#!/usr/bin/env node --conditions=jsnext:source -r btsm
+#!/usr/bin/env node --conditions=jsnext:source -r tsm
 
 const path = require('path');
 

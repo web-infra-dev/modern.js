@@ -1,0 +1,59 @@
+# Custom Global Styles
+
+In some scenarios, you may need to add some global styles based on the theme UI. The framework provides a config param `globalStyles` to implement it.
+
+## Usage
+
+Add the following config to `modern.config.ts`:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    globalStyles: path.join(__dirname, 'styles/index.css'),
+  },
+  plugins: [docTools()],
+});
+```
+
+Then you can add the following code:
+
+```css
+/* styles/index.css */
+:root {
+  --modern-c-brand: #f00;
+}
+```
+
+In this way, the framework will automatically collect all global styles and merge them into the final style file.
+
+Below are some commonly used global styles:
+
+```css
+/* styles/index.css */
+
+:root {
+  /* Modify the theme color */
+  --modern-c-brand: #f00;
+  --modern-c-brand-dark: #ffa500;
+  --modern-c-brand-darker: #c26c1d;
+  --modern-c-brand-light: #f2a65a;
+  --modern-c-brand-lighter: #f2a65a;
+
+  /* Modify the width of the left sidebar */
+  --modern-sidebar-width: 280px;
+
+  /* Modify the width of the right outline column */
+  --modern-aside-width: 256px;
+
+  /* Modify the code block title background */
+  --modern-code-title-bg: rgba(250, 192, 61, 0.15);
+
+  /* Modify the code block content background */
+  --modern-code-block-bg: rgba(214, 188, 70, 0.05);
+}
+```
+
+> If you want to know more about internal global styles, you can check [vars.css](https://github.com/web-infra-dev/modern.js/blob/main/packages/cli/doc-core/src/theme-default/styles/vars.css).

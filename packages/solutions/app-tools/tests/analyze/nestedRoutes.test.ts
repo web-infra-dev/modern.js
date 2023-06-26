@@ -1,11 +1,10 @@
 import path from 'path';
-import { initSnapshotSerializer } from '@modern-js/utils';
+import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { walk } from '../../src/analyze/nestedRoutes';
 
 const fixtures = path.join(__dirname, 'fixtures');
 
-const root = path.resolve(__dirname, '../../../../../');
-initSnapshotSerializer(root);
+initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
 
 describe('nested routes', () => {
   test('walk', async () => {
@@ -18,6 +17,7 @@ describe('nested routes', () => {
         basename: routesDir,
       },
       'main',
+      true,
     );
     expect(route).toMatchSnapshot();
   });

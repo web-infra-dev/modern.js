@@ -1,15 +1,13 @@
-import {
-  getEntryOptions,
-  createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
-} from '@modern-js/utils';
+import { getEntryOptions, createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
 const PLUGIN_IDENTIFIER = 'state';
 
-export default (): CliPlugin<AppTools> => ({
+export const statePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-state',
+
   required: ['@modern-js/runtime'],
+
   setup: api => {
     const stateConfigMap = new Map<string, any>();
 
@@ -33,12 +31,13 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       modifyEntryImports({ entrypoint, imports }: any) {
-        const { entryName } = entrypoint;
+        const { entryName, isMainEntry } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName } = api.useAppContext();
 
         const stateConfig = getEntryOptions(
           entryName,
+          isMainEntry,
           userConfig.runtime,
           userConfig.runtimeByEntries,
           packageName,
@@ -80,7 +79,12 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-state'];
+        return [
+          {
+            target: 'runtime.state',
+            schema: { type: ['boolean', 'object'] },
+          },
+        ];
       },
       addRuntimeExports() {
         pluginsExportsUtils.addExport(
@@ -90,3 +94,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default statePlugin;

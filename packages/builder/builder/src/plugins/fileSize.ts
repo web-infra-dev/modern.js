@@ -12,8 +12,9 @@ import {
 } from '@modern-js/builder-shared';
 import type { DefaultBuilderPlugin } from '@modern-js/builder-shared';
 
-/** Filter source map files */
-export const filterAsset = (asset: string) => !/\.map$/.test(asset);
+/** Filter source map and license files */
+export const filterAsset = (asset: string) =>
+  !/\.map$/.test(asset) && !/\.LICENSE\.txt$/.test(asset);
 
 const getAssetColor = (size: number) => {
   if (size > 300 * 1000) {
@@ -67,14 +68,16 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
   const assets = multiStats
     .map(stats => {
       const origin = stats.toJson({
-        all: true,
+        all: false,
         assets: true,
+        cachedAssets: true,
         groupAssetsByInfo: false,
         groupAssetsByPath: false,
         groupAssetsByChunk: false,
         groupAssetsByExtension: false,
         groupAssetsByEmitStatus: false,
       });
+
       const filteredAssets = origin.assets!.filter(asset =>
         filterAsset(asset.name),
       );
@@ -145,7 +148,12 @@ export const builderPluginFileSize = (): DefaultBuilderPlugin => ({
       const config = api.getNormalizedConfig();
 
       if (config.performance.printFileSize && stats) {
-        await printFileSizes(stats, api.context.distPath);
+        try {
+          await printFileSizes(stats, api.context.distPath);
+        } catch (err) {
+          logger.error('Failed to print file size.');
+          logger.error(err as Error);
+        }
       }
     });
   },

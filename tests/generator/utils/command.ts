@@ -1,6 +1,7 @@
+import os from 'os';
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import { execaWithStreamLog } from './tools';
+import { fs, semver } from '@modern-js/utils';
+import { execaWithStreamLog, getPackageManager } from './tools';
 
 export async function runCreteCommand(
   repoDir: string,
@@ -17,6 +18,7 @@ export async function runCreteCommand(
   const debug =
     process.env.DEBUG === 'true' || process.env.CUSTOM_DEBUG === 'true';
   const packages = process.env.PACKAGES;
+  const packageManager = getPackageManager(projectName);
   if (isLocal) {
     return execaWithStreamLog(
       'node',
@@ -27,6 +29,7 @@ export async function runCreteCommand(
         JSON.stringify({
           packageName: projectName,
           ...config,
+          packageManager,
         }),
         '--dist-tag',
         'next',
@@ -57,6 +60,7 @@ export async function runCreteCommand(
       JSON.stringify({
         packageName: projectName,
         ...config,
+        packageManager,
       }),
       debug ? '--debug' : '',
       platform ? '--platform' : '',
@@ -76,51 +80,53 @@ export async function runCreteCommand(
 
 export async function runInstallAndBuildProject(type: string, tmpDir: string) {
   const projects = fs.readdirSync(tmpDir);
-  for (const project of projects) {
-    if (!project.includes(type)) {
-      continue;
-    }
-    console.info('install and build process', project);
-    const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
-    await execaWithStreamLog(packageManager, ['install', '--ignore-scripts'], {
-      cwd: path.join(tmpDir, project),
-    });
-    if (project.includes('monorepo')) {
-      continue;
-    }
-    await execaWithStreamLog(packageManager, ['build'], {
-      cwd: path.join(tmpDir, project),
-    });
-  }
+  await Promise.all(
+    projects
+      .filter(project => project.includes(type))
+      .map(async project => {
+        console.info('install and build process', project);
+        const packageManager = getPackageManager(project);
+        const isNode16 = semver.gte(process.versions.node, '16.0.0');
+        const params = ['install', '--ignore-scripts', '--force'];
+        if (isNode16 || project.includes('pnpm')) {
+          if (packageManager === 'yarn') {
+            params.push('--cache-folder');
+            params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
+          }
+          await execaWithStreamLog(packageManager, params, {
+            cwd: path.join(tmpDir, project),
+          });
+        } else {
+          params.push('--shamefully-hoist');
+          await execaWithStreamLog(packageManager, params, {
+            cwd: path.join(tmpDir, project),
+          });
+        }
+        if (project.includes('monorepo')) {
+          return Promise.resolve();
+        }
+        await execaWithStreamLog(packageManager, ['run', 'build'], {
+          cwd: path.join(tmpDir, project),
+        });
+        return Promise.resolve();
+      }),
+  );
 }
 
 export async function runLintProject(type: string, tmpDir: string) {
   const projects = fs.readdirSync(tmpDir);
-  for (const project of projects) {
-    if (!project.includes(type)) {
-      continue;
-    }
-    console.info('lint process', project);
-    const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
-    if (project.includes('monorepo')) {
-      continue;
-    }
-    await execaWithStreamLog(packageManager, ['lint'], {
-      cwd: path.join(tmpDir, project),
-    });
-  }
-}
-
-export async function runTestProject(tmpDir: string) {
-  const projects = fs.readdirSync(tmpDir);
-  for (const project of projects) {
-    console.info('test process', project);
-    const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
-    if (project.includes('monorepo')) {
-      continue;
-    }
-    await execaWithStreamLog(packageManager, ['test'], {
-      cwd: path.join(tmpDir, project),
-    });
-  }
+  await Promise.all(
+    projects
+      .filter(
+        project => project.includes(type) && !project.includes('monorepo'),
+      )
+      .map(async project => {
+        console.info('lint process', project);
+        const packageManager = getPackageManager(project);
+        await execaWithStreamLog(packageManager, ['run', 'lint'], {
+          cwd: path.join(tmpDir, project),
+        });
+        return Promise.resolve();
+      }),
+  );
 }

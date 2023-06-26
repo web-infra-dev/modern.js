@@ -4,13 +4,13 @@ sidebar_position: 4
 ---
 # index.[tj]s
 
-Entry identifier if App want use custom entry. In most case, [`App.[tj]sx`](/apis/app/hooks/src/app) hook file can already meet our needs.
+The identifier for the entry point when the application uses custom `bootstrap`.
 
-When we need to add custom behavior before `bootstrap` or completely take over the webpack entry, we can place `index.[tj]s` in `src/` or entry directory. The following are discussed in two cases:
+In general, the [`App.[tj]sx`](/apis/app/hooks/src/app) hook file can already meet our needs. When we need to add custom behavior before `bootstrap` or completely take over the webpack packaging entry, we can place `index.[tj]s` in the `src` or entry directory. There are two cases below:
 
-1. add custom behavior before bootstrap
+## Add custom behavior before bootstrap
 
-Just add default export under `src/index.[tj]s`:
+Just export a function in `src/index.[tj]s`:
 
 ```js title=src/index.js
 import { bootstrap } from '@modern-js/runtime';
@@ -21,9 +21,9 @@ export default App => {
 };
 ```
 
-2. Fully take over the webpack entry
+## Completely take over the webpack entry
 
-When there is no default export function under `src/index.[tj]sx?`, this file is the real webpack entry file, and the code can be organized such as create-react-app:
+When there is no default export function in `src/index.[tj]sx?`, the file is the real webpack packaging entry file and the code can be organized directly as using create-react-app and other scaffolding tools:
 
 ```js title=src/index.jsx
 import React from 'react';

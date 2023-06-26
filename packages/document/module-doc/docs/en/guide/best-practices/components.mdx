@@ -2,17 +2,17 @@
 
 This chapter will describe how to develop component projects using the module engineering solution.
 
-# # Initialize the project
+## Initialize the project
 
 <CH.Spotlight>
 
 ```bash Interactive questions
-npx @modern-js/create components-project
+npx @modern-js/create@latest components-project
 
-? Please select the solution you want to create: Npm Module
-? Package Name: components-demo
-? Development Language: TS
-? Package Manager: pnpm
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: components-demo
+? Please select the programming language: TS
+? Please select the package manager: pnpm
 ```
 
 ---
@@ -20,12 +20,12 @@ npx @modern-js/create components-project
 It is recommended to use the `@modern-js/create` command to initialize an npm project.
 
 ```bash Interactive questions
-npx @modern-js/create components-project
+npx @modern-js/create@latest components-project
 
-? Please select the solution you want to create: Npm Module
-? Package Name: components-demo
-? Development Language: TS
-? Package Manager: pnpm
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: components-demo
+? Please select the programming language: TS
+? Please select the package manager: pnpm
 ```
 
 ---
@@ -67,8 +67,8 @@ export default () => {
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Visual Testing (Storybook)
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Visual Testing (Storybook)
 ```
 
 ---
@@ -78,8 +78,8 @@ Execute the `new` command in the project root directory to enable the Storybook 
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Visual Testing (Storybook)
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Visual Testing (Storybook)
 ```
 
 ---
@@ -204,7 +204,7 @@ The following capabilities are currently supported for developing styles.
 
 ### CSS/PostCSS
 
-The module project supports PostCSS and has the following built-in postcss plugins.
+The module project supports PostCSS and has the following built-in PostCSS plugins.
 
 - [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
 - [custom-properties](https://github.com/postcss/postcss-custom-properties)
@@ -271,7 +271,7 @@ e b {
 
 Module projects support development styles using Less.
 
-> Currently supported version is 4.1.3
+> The current built-in Less version is v4.1.3
 
 <CH.Spotlight>
 
@@ -310,7 +310,7 @@ div {
 
 Module projects support developing styles using Scss/Sass.
 
-> Currently supported version is 1.54.4
+> The current built-in Sass version is v1.54.4
 
 <CH.Spotlight>
 
@@ -356,8 +356,8 @@ By default, this feature is not enabled in the module project, you need to enabl
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Visual Testing (Storybook)
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Visual Testing (Storybook)
 ```
 
 ---
@@ -367,8 +367,8 @@ The Tailwind CSS feature can be enabled by executing the `new` command in the pr
 ```bash Terminal
 pnpm run new
 
-? Action Enable features
-? Enable features Enable Tailwind CSS
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Tailwind CSS
 ```
 
 ---
@@ -617,9 +617,9 @@ export default () => {
 
 In Bundle mode, third-party dependencies are packaged in.
 
-For styles, a separate product file is generated, and there is no code related to importing styles in the Js product file.
+For styles, a separate product file is generated, and there is no code related to importing styles in the JS output files.
 
-If you need to inject styles into Js products, you can enable the [`style.inject` API](/en/api/config/build-config#inject).
+If you need to inject styles into JS products, you can enable the [`style.inject`](/en/api/config/build-config#styleinject) option.
 
 <CH.Code>
 ```css ./dist/es/index.css
@@ -728,8 +728,8 @@ Module projects support the development of styles using CSS Modules. By default,
 
 If you need to configure CSS Modules, you can check out the API at
 
-- [autoModules](en/api/config/build-config#automodules)
-- [modules](/en/api/config/build-config#modules)
+- [style.autoModules](en/api/config/build-config#styleautomodules)
+- [style.modules](/en/api/config/build-config#stylemodules)
 
 The following is a code example.
 

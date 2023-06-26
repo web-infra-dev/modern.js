@@ -1,5 +1,84 @@
 # @modern-js/create
 
+## 2.24.0
+
+## 2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+## 2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- b647c68: chore(generator): update codesmith version
+
+  chore(generator): 更新 codesmith 版本
+
+## 2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- de8f73f: feat: update codesmith version
+
+  feat: 更新 codesmith 版本
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: optimize bundle size
+  chore: 优化打包体积
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+
+## 2.19.1
+
+## 2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- 21c87bf: feat: bump codesmith packages version
+
+  feat: 升级 codesmith 包版本
+
+- bc61dab: feat: bump codesmith version
+
+  feat: 升级 codesmith 版本
+
+## 2.18.0
+
+## 2.17.1
+
+## 2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 355d36e: feat: adjust create tools and new command option order
+
+  feat: 调整 create 工具及 new 命令 option 操作顺序
+
 ## 2.15.0
 
 ## 2.14.0

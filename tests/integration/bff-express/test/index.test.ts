@@ -1,16 +1,17 @@
+import dns from 'node:dns';
 import path from 'path';
-import { Page } from 'puppeteer';
+import puppeteer, { Browser, Page } from 'puppeteer';
 import {
   getPort,
   launchApp,
   killApp,
   modernBuild,
   modernServe,
+  launchOptions,
 } from '../../../utils/modernTestUtils';
 import 'isomorphic-fetch';
 
-declare const page: Page;
-
+dns.setDefaultResultOrder('ipv4first');
 describe('bff express in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
@@ -19,6 +20,8 @@ describe('bff express in dev', () => {
   const prefix = '/bff-api';
   const appPath = path.resolve(__dirname, '../');
   let app: any;
+  let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
@@ -26,17 +29,21 @@ describe('bff express in dev', () => {
     app = await launchApp(appPath, port, {
       cwd: appPath,
     });
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   test('basic usage', async () => {
     await page.goto(`${host}:${port}/${BASE_PAGE}`);
-    await new Promise(resolve => setTimeout(resolve, 500));
+    // Reduce the probability of timeout on windows CI
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const text = await page.$eval('.hello', el => el?.textContent);
     expect(text).toBe('Hello Modern.js');
   });
 
   test('basic usage with ssr', async () => {
     await page.goto(`${host}:${port}/${SSR_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 3000));
     const text1 = await page.$eval('.hello', el => el?.textContent);
     expect(text1).toBe('Hello Modern.js');
   });
@@ -56,6 +63,8 @@ describe('bff express in dev', () => {
 
   afterAll(async () => {
     await killApp(app);
+    await page.close();
+    await browser.close();
   });
 });
 
@@ -67,6 +76,8 @@ describe('bff express in prod', () => {
   const prefix = '/bff-api';
   const appPath = path.resolve(__dirname, '../');
   let app: any;
+  let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     port = await getPort();
@@ -78,6 +89,9 @@ describe('bff express in prod', () => {
     app = await modernServe(appPath, port, {
       cwd: appPath,
     });
+
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   // FIXME: Skipped because this test often times out on Windows
@@ -114,5 +128,7 @@ describe('bff express in prod', () => {
 
   afterAll(async () => {
     await killApp(app);
+    await page.close();
+    await browser.close();
   });
 });

@@ -5,7 +5,7 @@ import { i18n, localeKeys } from './locale';
 
 export * from './commands';
 
-export default (): CliPlugin => ({
+export const changesetPlugin = (): CliPlugin => ({
   name: '@modern-js/plugin-changeset',
 
   setup: () => {
@@ -66,6 +66,7 @@ export default (): CliPlugin => ({
             i18n.t(localeKeys.command.release.no_git_checks),
             '',
           )
+          .option('--provenance', i18n.t(localeKeys.command.release.provenance))
           .action((options: any) => release(options));
 
         program
@@ -94,3 +95,5 @@ export default (): CliPlugin => ({
     };
   },
 });
+
+export default changesetPlugin;

@@ -12,6 +12,7 @@ interface StatsOptionsObj {
   colors?: boolean;
 
   /** Rspack not support below opts */
+  cachedAssets?: boolean;
   groupAssetsByInfo?: boolean;
   groupAssetsByPath?: boolean;
   groupAssetsByChunk?: boolean;

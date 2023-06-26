@@ -110,6 +110,60 @@ describe('plugins/css', () => {
       '"localIdentName":"[hash:5]"',
     );
   });
+
+  it('should use custom cssModules rule when using output.cssModules config', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginCss()],
+      builderConfig: {
+        output: {
+          cssModules: {
+            auto: resourcePath => resourcePath.includes('.module.'),
+          },
+        },
+      },
+    });
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+});
+
+describe('plugins/css disableCssExtract', () => {
+  it('should use css-loader + style-loader when disableCssExtract is true', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginCss()],
+      builderConfig: {
+        output: {
+          disableCssExtract: true,
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should apply ignoreCssLoader when disableCssExtract is true and target is node', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginCss()],
+      target: 'node',
+      builderConfig: {
+        output: {
+          disableCssExtract: true,
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });
 
 describe('plugins/less', () => {
@@ -119,6 +173,22 @@ describe('plugins/less', () => {
       builderConfig: {
         tools: {
           less: {},
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should add less-loader and css-loader when disableCssExtract', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginLess()],
+      builderConfig: {
+        output: {
+          disableCssExtract: true,
         },
       },
     });
@@ -174,6 +244,22 @@ describe('plugins/sass', () => {
       plugins: [builderPluginSass()],
       builderConfig: {
         tools: {},
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should add sass-loader and css-loader when disableCssExtract', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginSass()],
+      builderConfig: {
+        output: {
+          disableCssExtract: true,
+        },
       },
     });
 

@@ -28,6 +28,7 @@ export type BuilderPlugin<API = any> = {
   setup: (api: API) => PromiseOrNot<void>;
   pre?: string[];
   post?: string[];
+  remove?: string[];
 };
 
 type PluginsFn = () => Promise<BuilderPlugin>;
@@ -52,6 +53,13 @@ export type Plugins = {
   svg: PluginsFn;
   html: PluginsFn;
   antd: PluginsFn;
+  arco: PluginsFn;
+  tsChecker: PluginsFn;
+  checkSyntax: PluginsFn;
+  rem: PluginsFn;
+  wasm: PluginsFn;
+  moment: PluginsFn;
+  externals: PluginsFn;
 };
 
 /**

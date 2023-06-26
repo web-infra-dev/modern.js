@@ -15,7 +15,8 @@ export type AssetsRetryOptions = {
   domain?: string[];
   max?: number;
   test?: string | ((url: string) => boolean);
-  crossOrigin?: boolean;
+  crossOrigin?: boolean | 'anonymous' | 'use-credentials';
+  inlineScript?: boolean;
   onRetry?: (options: AssetsRetryHookContext) => void;
   onSuccess?: (options: AssetsRetryHookContext) => void;
   onFail?: (options: AssetsRetryHookContext) => void;
@@ -49,6 +50,48 @@ export const defaultAssetsRetryOptions: AssetsRetryOptions = {
 
 At the same time, you can also customize your retry logic using the following configurations.
 
+### assetsRetry.domain
+
+- **Type:** `string[]`
+- **Default:** `[]`
+
+Specifies the retry domain when assets fail to load. In the `domain` array, the first item is the currently used domain, and the following items are backup domains. When a asset request for a domain fails, Builder will find that domain in the array and replace it with the next domain in the array.
+
+For example:
+
+```js
+export default {
+  output: {
+    assetsRetry: {
+      domain: ['https://cdn1.com', 'https://cdn2.com', 'https://cdn3.com'],
+    },
+  },
+};
+```
+
+After adding the above configuration, when assets fail to load from the `cdn1.com` domain, the request domain will automatically fallback to `cdn2.com`.
+
+If the assets request for `cdn2.com` also fails, the request will fallback to `cdn3.com`.
+
+### assetsRetry.type
+
+- **Type:** `string[]`
+- **Default:** `['script', 'link', 'img']`
+
+Used to specify the HTML tag types that need to be retried. By default, script tags, link tags, and img tags are processed, corresponding to JS code, CSS code, and images.
+
+For example, only script tags and link tags are processed:
+
+```js
+export default {
+  output: {
+    assetsRetry: {
+      type: ['script', 'link'],
+    },
+  },
+};
+```
+
 ### assetsRetry.max
 
 - **Type:** `number`
@@ -60,41 +103,7 @@ The maximum number of retries for a single asset. For example:
 export default {
   output: {
     assetsRetry: {
-      max: 3,
-    },
-  },
-};
-```
-
-### assetsRetry.domain
-
-- **Type:** `string[]`
-- **Default:** `[]`
-
-The domain of the asset to be retried. For example:
-
-```js
-export default {
-  output: {
-    assetsRetry: {
-      domain: ['https://cdn1.example.com', 'https://cdn2.example.com'],
-    },
-  },
-};
-```
-
-### assetsRetry.type
-
-- **Type:** `string[]`
-- **Default:** `['script', 'link', 'img']`
-
-The type of the asset to be retried. For example:
-
-```js
-export default {
-  output: {
-    assetsRetry: {
-      type: ['script', 'link'],
+      max: 5,
     },
   },
 };
@@ -119,10 +128,12 @@ export default {
 
 ### assetsRetry.crossOrigin
 
-- **Type:** `undefined | boolean`
-- **Default:** false
+- **Type:** `undefined | boolean | 'anonymous' | 'use-credentials'`
+- **Default:** `same as html.crossorigin`
 
-Whether to add the `crossOrigin` attribute to the asset to be retried. For example:
+When initiating a retry for assets, Builder will recreate the `<script>` tags. This option allows you to set the `crossorigin` attribute for these tags.
+
+By default, the value of `assetsRetry.crossOrigin` will be consistent with the `html.crossorigin` configuration, so no additional configuration is required. If you need to configure the recreated tags separately, you can use this option, for example:
 
 ```js
 export default {
@@ -216,3 +227,35 @@ export default {
 After adding the above configuration, the runtime code of `assetsRetry` will be extracted into a separate `assets-retry.[version].js` file and output to the dist directory.
 
 The downside is that `assets-retry.[version].js` itself may fail to load. If this happens, the assets retry will not work. Therefore, we prefer to inline the runtime code into the HTML file.
+
+### Notes
+
+When you use `assetsRetry`, the Builder injects some runtime code into the HTML and serializes the `assetsRetry` config, inserting it into the runtime code. Therefore, you need to be aware of the following:
+
+- Avoid configuring sensitive information in `assetsRetry`, such as internal tokens.
+- Avoid referencing variables or methods outside of `onRetry`, `onSuccess`, and `onFail`.
+- Avoid using syntax with compatibility issues in `onRetry`, `onSuccess` and `onFail` as these functions are inlined directly into the HTML.
+
+Here's an example of incorrect usage:
+
+```js
+import { someMethod } from 'utils';
+
+export default {
+  output: {
+    assetsRetry: {
+      onRetry() {
+        // Incorrect usage, includes sensitive information
+        const privateToken = 'a-private-token';
+
+        // Incorrect usage, uses an external method
+        someMethod(privateToken);
+      },
+    },
+  },
+};
+```
+
+Additionally, if your project is a micro-frontend application (such as a Garfish sub-application), the assets retry may not work because micro-frontend sub-applications are typically not loaded directly based on the `<script>` tag.
+
+If you need to retry assets in micro-frontend scenarios, please contact the developers of the micro-frontend framework to find a solution.

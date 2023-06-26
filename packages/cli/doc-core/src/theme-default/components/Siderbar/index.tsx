@@ -36,12 +36,18 @@ interface SidebarItemProps {
 export function SidebarItemComp(props: SidebarItemProps) {
   const { item, depth = 0, activeMatcher, id, setSidebarData } = props;
   const active = item.link && activeMatcher(item.link);
+
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (active) {
-      ref.current?.scrollIntoView();
+      ref.current?.scrollIntoView({
+        block: 'center',
+      });
     }
   }, []);
+
+  const { text } = item;
+
   if ('items' in item) {
     return (
       <SidebarGroupComp
@@ -63,7 +69,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
-          } mt-1 py-1.5 px-3 block rounded-xl`}
+          } mt-1 py-1.5 px-3 block rounded-xl font-medium`}
           style={{
             ...textEllipsisStyle,
             // The first level menu item will have the same font size as the sidebar group
@@ -71,7 +77,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
             marginLeft: depth === 0 ? 0 : '12px',
           }}
         >
-          {item.text}
+          {text}
         </div>
       </Link>
     );
@@ -194,7 +200,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         }}
       >
         <h2
-          className="py-1 px-2 text-sm font-bold ml-1"
+          className="py-1 px-2 text-sm font-medium ml-1"
           style={{
             ...textEllipsisStyle,
           }}

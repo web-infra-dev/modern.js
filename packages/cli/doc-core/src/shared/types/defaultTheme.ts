@@ -87,11 +87,16 @@ export interface Config {
  * locale config
  */
 export interface LocaleConfig {
+  /**
+   * Site i18n config, which will recover the locales config in the site level.
+   */
   lang: string;
   title?: string;
   description?: string;
   label: string;
-  selectText?: string;
+  /**
+   * Theme i18n config
+   */
   nav?: NavItem[];
   sidebar?: Sidebar;
   outlineTitle?: string;
@@ -110,6 +115,7 @@ export type NavItemWithLink = {
   text: string;
   link: string;
   activeMatch?: string;
+  position?: 'left' | 'right';
 };
 
 export type NavItemChildren = {
@@ -120,6 +126,7 @@ export type NavItemChildren = {
 export interface NavItemWithChildren {
   text?: string;
   items: (NavItemWithChildren | NavItemWithLink)[];
+  position?: 'left' | 'right';
 }
 
 // image -----------------------------------------------------------------------
@@ -144,9 +151,9 @@ export type SidebarItem = { text: string; link: string };
 
 export interface EditLink {
   /**
-   * Pattern for edit link.
+   * Custom repository url for edit link.
    */
-  pattern: string;
+  docRepoBaseUrl: string;
 
   /**
    * Custom text for edit link.
@@ -179,6 +186,7 @@ export interface SocialLink {
 }
 
 export type SocialLinkIcon =
+  | 'lark'
   | 'discord'
   | 'facebook'
   | 'github'

@@ -2,6 +2,7 @@
 title: Static Site Generation
 sidebar_position: 4
 ---
+
 # Static Site Generation
 
 Static Site Generation is a solution for rendering complete static web pages at build time based on data and templates.
@@ -9,14 +10,14 @@ Static Site Generation is a solution for rendering complete static web pages at 
 First need to execute `pnpm run new` to enable the SSG features:
 
 ```bash
-? Action Enable features
-? Enable features Enable SSG
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable SSG
 ```
 
 After execute script, register SSG plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import ssgPlugin from '@modern-js/plugin-ssg';
+import { ssgPlugin } from '@modern-js/plugin-ssg';
 
 export default defineConfig({
   output: {
@@ -86,11 +87,11 @@ After executing `pnpm run serve` to start the project, visit the page in the Net
 
 ### Self-controlled Routing
 
-**Self-controlled routing** is a custom routing through component code, which requires the application to run to obtain accurate routing information. Therefore, the SSG function cannot be used out of the box. At this time, the user needs to inform the Modern.js framework in advance which routes need to enable the SSG.
+**Self-controlled routing** is a routing through component code, which requires the application to run to obtain accurate routing information. Therefore, the SSG function cannot be used out of the box. At this time, the user needs to inform the Modern.js framework in advance which routes need to enable the SSG.
 
 For example, there is the following code, which contains multiple routes. When setting `output.ssg` to `true`, only the entry route '/' will be rendered by default:
 
-import SelfRouteExample from "@site-docs/components/self-route-example";
+import SelfRouteExample from '@site-docs/components/self-route-example';
 
 <SelfRouteExample />
 

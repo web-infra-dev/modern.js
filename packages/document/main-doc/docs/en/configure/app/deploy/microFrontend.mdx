@@ -15,10 +15,10 @@ interface MicroFrontend {
 }
 ```
 
-Developers can use the `deploy.microFrontend` to configure micro-frontend sub-application information.
+Developers can configure micro-frontend sub-application information using the `deploy.microFrontend` object.
 
 :::caution
-Enable the "Micro Frontend" features through `pnpm run new` first.
+To enable the "Micro Frontend" features, run `pnpm run new` first.
 
 :::
 
@@ -41,13 +41,13 @@ export default defineConfig({
 - **Type:** `boolean`
 - **Default:** `true`
 
-Whether to enable the html entry, the default is `true`, the sub-application is built into the `HTML` mode, Garfish supports the `html` entry, you can turn on the open option, experience the corresponding features, and directly point the sub-application entry to the HTML entry when it is the HTML entry. Just point to the html of the sub-application
+Specifies whether to enable the HTML entry. By default, it is set to `true`, which means the sub-application is built in `HTML` mode. Garfish supports the `html` entry, so you can enable this option to experience the corresponding features. When using the HTML entry, simply point the sub-application entry to the HTML file.
 
-Set it to `false` to indicate that the sub-application is built as `js`. After the sub-application is built as `js`, it cannot run independently. When it is a `JS` entry, point the entry file of the sub-application to the `JS` of the sub-application.
+Set it to `false` to indicate that the sub-application is built as `js`. After building the sub-application as `js`, it cannot run independently. When using the `JS` entry, point the entry file of the sub-application to the `JS` file of the sub-application.
 
 ### externalBasicLibrary
 
 - **Type:** `boolean`
 - **Default:** `false`
 
-Whether the `external` base library, when set to `true`, the current child application will be `external`: `react`, `react-dom`, Modern.js main application will automatically `setExternal` these two base libraries, if other types of frameworks Please add `react`, `react-dom` dependencies through `Garfish.setExternal`.
+Specifies whether to use the external base library. When set to `true`, the current child application will be externalized for `react` and `react-dom`. The main application of Modern.js will automatically `setExternal` these two base libraries. If you are using other frameworks, please add `react` and `react-dom` dependencies through `Garfish.setExternal`.

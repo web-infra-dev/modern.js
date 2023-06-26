@@ -19,7 +19,12 @@ import {
   getPackageManager,
   getModernPluginVersion,
 } from '@modern-js/generator-utils';
-import { alreadyRepo, getGeneratorPath, hasEnabledFunction } from './utils';
+import {
+  alreadyRepo,
+  getGeneratorPath,
+  hasEnabledFunction,
+  usePluginNameExport,
+} from './utils';
 
 interface IModuleNewActionOption {
   locale?: string;
@@ -121,6 +126,12 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     });
   };
 
+  const shouldUsePluginNameExport = await usePluginNameExport(Solution.Module, {
+    registry,
+    distTag,
+    cwd,
+  });
+
   const finalConfig = merge(
     UserConfig,
     ans,
@@ -144,6 +155,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
         : {},
       pluginName: ModuleNewActionPluginName[actionType]![action],
       pluginDependence: ModuleNewActionPluginDependence[actionType]![action],
+      shouldUsePluginNameExport,
     },
   );
 

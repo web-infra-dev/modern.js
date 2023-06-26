@@ -31,7 +31,7 @@ export type InspectConfigOptions = {
   writeToDisk?: boolean;
 };
 
-export type StartDevServerResult = {
+export type StartServerResult = {
   urls: string[];
   port: number;
   server: Server;
@@ -76,7 +76,9 @@ export type ProviderInstance<
 
   startDevServer: (
     options?: StartDevServerOptions,
-  ) => Promise<StartDevServerResult>;
+  ) => Promise<StartServerResult>;
+
+  serve: () => Promise<StartServerResult>;
 
   build: (options?: BuildOptions) => Promise<void>;
 

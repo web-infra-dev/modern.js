@@ -3,7 +3,11 @@
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/server/plugin-polyfill"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -11,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.15.0",
+  "version": "2.24.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -50,11 +54,11 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/utils": "workspace:*",
     "@modern-js/polyfill-lib": "^1.0.0",
     "lru-cache": "^6.0.0",
-    "ua-parser-js": "^0.7.28"
+    "ua-parser-js": "^0.7.28",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
@@ -64,7 +68,7 @@
     "@types/lru-cache": "^5.1.1",
     "@types/node": "^14",
     "@types/ua-parser-js": "^0.7.36",
-    "typescript": "^4",
+    "typescript": "^5",
     "@modern-js/core": "workspace:*",
     "@scripts/build": "workspace:*",
     "jest": "^29",
@@ -74,6 +78,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/types/cli.d.ts"
   }
 }

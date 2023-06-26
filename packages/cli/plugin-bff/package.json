@@ -3,7 +3,11 @@
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-bff"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -11,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.15.0",
+  "version": "2.24.0",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -58,12 +62,12 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.18.0",
-    "@babel/runtime": "^7.18.0",
+    "@babel/core": "^7.21.8",
     "@modern-js/bff-core": "workspace:*",
     "@modern-js/create-request": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/runtime": "workspace:*",
@@ -74,20 +78,21 @@
     "@modern-js/app-tools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
-    "@types/babel__core": "^7.1.15",
+    "@types/babel__core": "^7.20.0",
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",
     "memfs": "^3.3.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^4",
-    "webpack": "^5.76.2",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5",
+    "webpack": "^5.82.1",
     "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/types/cli.d.ts"
   }
 }

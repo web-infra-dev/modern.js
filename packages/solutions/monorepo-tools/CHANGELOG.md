@@ -1,5 +1,262 @@
 # @modern-js/monorepo-tools
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/core@2.24.0
+  - @modern-js/plugin-changeset@2.24.0
+  - @modern-js/plugin-i18n@2.24.0
+  - @modern-js/plugin-lint@2.24.0
+  - @modern-js/new-action@2.24.0
+  - @modern-js/plugin@2.24.0
+  - @modern-js/upgrade@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/core@2.23.1
+  - @modern-js/plugin-changeset@2.23.1
+  - @modern-js/plugin-i18n@2.23.1
+  - @modern-js/plugin-lint@2.23.1
+  - @modern-js/new-action@2.23.1
+  - @modern-js/plugin@2.23.1
+  - @modern-js/upgrade@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [b593040]
+- Updated dependencies [e2245c3]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/plugin-changeset@2.23.0
+  - @modern-js/new-action@2.23.0
+  - @modern-js/plugin-i18n@2.23.0
+  - @modern-js/plugin-lint@2.23.0
+  - @modern-js/upgrade@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a2dd693]
+- Updated dependencies [b904b3a]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+  - @modern-js/utils@2.22.1
+  - @modern-js/plugin-changeset@2.22.1
+  - @modern-js/core@2.22.1
+  - @modern-js/plugin-i18n@2.22.1
+  - @modern-js/plugin-lint@2.22.1
+  - @modern-js/new-action@2.22.1
+  - @modern-js/plugin@2.22.1
+  - @modern-js/upgrade@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- Updated dependencies [3d48836]
+- Updated dependencies [7d1b96e]
+- Updated dependencies [5050e8e]
+- Updated dependencies [27618e4]
+- Updated dependencies [b647c68]
+  - @modern-js/utils@2.22.0
+  - @modern-js/plugin-changeset@2.22.0
+  - @modern-js/core@2.22.0
+  - @modern-js/new-action@2.22.0
+  - @modern-js/upgrade@2.22.0
+  - @modern-js/plugin-i18n@2.22.0
+  - @modern-js/plugin-lint@2.22.0
+  - @modern-js/plugin@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/core@2.21.1
+- @modern-js/plugin-changeset@2.21.1
+- @modern-js/plugin-i18n@2.21.1
+- @modern-js/plugin-lint@2.21.1
+- @modern-js/new-action@2.21.1
+- @modern-js/plugin@2.21.1
+- @modern-js/upgrade@2.21.1
+- @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- df43559: fix(core): toolsType is overridden when install multiple solutions
+
+  fix(core): 修复安装多个 solutions 时 toolsType 被覆盖的问题
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [df43559]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [de8f73f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/core@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/plugin-changeset@2.21.0
+  - @modern-js/new-action@2.21.0
+  - @modern-js/plugin-i18n@2.21.0
+  - @modern-js/plugin-lint@2.21.0
+  - @modern-js/upgrade@2.21.0
+  - @modern-js/plugin@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [4b03d17]
+- Updated dependencies [6289d31]
+  - @modern-js/utils@2.20.0
+  - @modern-js/plugin-changeset@2.20.0
+  - @modern-js/new-action@2.20.0
+  - @modern-js/plugin-i18n@2.20.0
+  - @modern-js/plugin-lint@2.20.0
+  - @modern-js/upgrade@2.20.0
+  - @modern-js/plugin@2.20.0
+  - @modern-js/core@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/core@2.19.1
+- @modern-js/plugin-changeset@2.19.1
+- @modern-js/plugin-i18n@2.19.1
+- @modern-js/plugin-lint@2.19.1
+- @modern-js/new-action@2.19.1
+- @modern-js/plugin@2.19.1
+- @modern-js/upgrade@2.19.1
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/core@2.19.0
+  - @modern-js/plugin-changeset@2.19.0
+  - @modern-js/plugin-i18n@2.19.0
+  - @modern-js/plugin-lint@2.19.0
+  - @modern-js/new-action@2.19.0
+  - @modern-js/plugin@2.19.0
+  - @modern-js/upgrade@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- Updated dependencies [21c87bf]
+- Updated dependencies [bc61dab]
+  - @modern-js/new-action@2.18.1
+  - @modern-js/upgrade@2.18.1
+  - @modern-js/core@2.18.1
+  - @modern-js/plugin-changeset@2.18.1
+  - @modern-js/plugin-i18n@2.18.1
+  - @modern-js/plugin-lint@2.18.1
+  - @modern-js/plugin@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/core@2.18.0
+- @modern-js/plugin-changeset@2.18.0
+- @modern-js/plugin-i18n@2.18.0
+- @modern-js/plugin-lint@2.18.0
+- @modern-js/new-action@2.18.0
+- @modern-js/plugin@2.18.0
+- @modern-js/upgrade@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/core@2.17.1
+- @modern-js/plugin-changeset@2.17.1
+- @modern-js/plugin-i18n@2.17.1
+- @modern-js/plugin-lint@2.17.1
+- @modern-js/new-action@2.17.1
+- @modern-js/plugin@2.17.1
+- @modern-js/upgrade@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/core@2.17.0
+- @modern-js/plugin-changeset@2.17.0
+- @modern-js/plugin-i18n@2.17.0
+- @modern-js/plugin-lint@2.17.0
+- @modern-js/new-action@2.17.0
+- @modern-js/plugin@2.17.0
+- @modern-js/upgrade@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 355d36e: feat: adjust create tools and new command option order
+
+  feat: 调整 create 工具及 new 命令 option 操作顺序
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [6d5219e]
+  - @modern-js/utils@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/plugin-changeset@2.16.0
+  - @modern-js/new-action@2.16.0
+  - @modern-js/plugin-i18n@2.16.0
+  - @modern-js/plugin-lint@2.16.0
+  - @modern-js/upgrade@2.16.0
+  - @modern-js/core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

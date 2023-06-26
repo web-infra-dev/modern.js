@@ -26,8 +26,20 @@ export type DeepReadonly<T> = keyof T extends never
 export type FileFilterUtil = (items: ArrayOrNot<string | RegExp>) => void;
 
 export type SharedCompiledPkgNames =
+  | 'pug'
   | 'sass'
   | 'less'
+  | 'css-loader'
+  | 'postcss-loader'
+  | 'postcss-pxtorem'
+  | 'postcss-flexbugs-fixes'
+  | 'postcss-custom-properties'
+  | 'postcss-initial'
+  | 'postcss-page-break'
+  | 'postcss-font-variant'
+  | 'postcss-media-minmax'
+  | 'postcss-nesting'
+  | 'autoprefixer'
   | 'sass-loader'
   | 'less-loader'
   | 'babel-loader'
@@ -36,3 +48,9 @@ export type SharedCompiledPkgNames =
   | 'toml-loader'
   | 'yaml-loader'
   | 'assetsRetry.js';
+
+export type CompilerTapFn<
+  CallBack extends (...args: any[]) => void = () => void,
+> = {
+  tap: (name: string, cb: CallBack) => void;
+};

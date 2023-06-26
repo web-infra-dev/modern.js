@@ -38,7 +38,7 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
   // libuild:globals:react
   var require_react = __commonJS({
     "libuild:globals:react"(exports, module) {
-      module.exports = Function("return this")()["React"];
+      module.exports = (typeof globalThis !== "undefined" ? globalThis : Function("return this")() || global || self)["React"];
     }
   });
 
@@ -72,9 +72,9 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
   }
   function _async_to_generator(fn) {
     return function() {
-      var self = this, args = arguments;
+      var self2 = this, args = arguments;
       return new Promise(function(resolve, reject) {
-        var gen = fn.apply(self, args);
+        var gen = fn.apply(self2, args);
         function _next(value) {
           asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
         }
@@ -99,12 +99,12 @@ exports[`globals usage globals is { react: 'React' }, format is iife 1`] = `
 `;
 
 exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
-"(function(global, factory) {
+"(function(global1, factory) {
     if (typeof module === "object" && typeof module.exports === "object") factory(exports);
     else if (typeof define === "function" && define.amd) define([
         "exports"
     ], factory);
-    else if (global = typeof globalThis !== "undefined" ? globalThis : global || self) factory(global.index = {});
+    else if (global1 = typeof globalThis !== "undefined" ? globalThis : global1 || self) factory(global1.index = {});
 })(this, function(exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
@@ -112,7 +112,9 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     });
     Object.defineProperty(exports, "debug", {
         enumerable: true,
-        get: ()=>debug
+        get: function() {
+            return debug;
+        }
     });
     function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
         try {
@@ -183,7 +185,7 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     // libuild:globals:react
     var require_react = __commonJS({
         "libuild:globals:react" (exports, module1) {
-            module1.exports = Function("return this")()["React"];
+            module1.exports = (typeof globalThis !== "undefined" ? globalThis : Function("return this")() || global || self)["React"];
         }
     });
     // src/common.js

@@ -20,10 +20,10 @@
 
 Modern.js 是一个 Web 工程体系，包含以下解决方案：
 
-- 🦄 [Modern.js Framework](https://modernjs.dev/): 基于 React 的渐进式 Web 开发框架。
-- 🐧 [Modern.js Module](https://modernjs.dev/module-tools): 简单、高性能的 npm 包开发方案。
-- 🐹 [Modern.js Doc](https://modernjs.dev/doc-tools/zh/): 现代文档站解决方案。
-- 🐈 [Modern.js Builder](https://modernjs.dev/builder/): 面向 Web 开发场景的构建引擎。
+- 🦄 [Modern.js Framework](https://modernjs.dev/)：基于 React 的渐进式 Web 开发框架。
+- 🐧 [Modern.js Module](https://modernjs.dev/module-tools)：简单、高性能的 npm 包开发方案。
+- 🐹 [Modern.js Doc](https://modernjs.dev/doc-tools/zh/)：现代文档站解决方案。
+- 🐈 [Modern.js Builder](https://modernjs.dev/builder/)：面向 Web 开发场景的构建引擎。
 
 ## 快速上手
 
@@ -34,11 +34,16 @@ Modern.js 是一个 Web 工程体系，包含以下解决方案：
 
 ## 生态
 
-Modern.js 生态提供了以下解决方案：
+Modern.js 生态提供了以下解决方案和底层库：
 
-- 🦀 [Rspack](https://github.com/web-infra-dev/rspack): 基于 Rust 的高性能模块打包工具。
-- 🐟 [Garfish](https://github.com/web-infra-dev/garfish): 一站式微前端解决方案。
-- 🦆 [Reduck](https://github.com/web-infra-dev/reduck): 基于 Redux 的状态管理库。
+- 🦀 [Rspack](https://github.com/web-infra-dev/rspack)：基于 Rust 的高性能模块打包工具。
+- 🐟 [Garfish](https://github.com/web-infra-dev/garfish)：一站式微前端解决方案。
+- 🦆 [Reduck](https://github.com/web-infra-dev/reduck)：基于 Redux 的状态管理库。
+- 🐴 [SWC Plugins](https://github.com/web-infra-dev/swc-plugins)：Modern.js 的 SWC 插件。
+
+## Benchmark
+
+我们通过 [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) 来观测核心指标的变化情况，比如 bundle size、compile speed 和 install size。
 
 ## 参与贡献
 
@@ -62,13 +67,12 @@ Modern.js 生态提供了以下解决方案：
 
 Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 [create-react-app](https://github.com/facebook/create-react-app)，[vitepress](https://github.com/vuejs/vitepress)，[remix](https://github.com/vuejs/remix)，[jest](https://github.com/facebook/jest) 和 [bundle-require](https://github.com/egoist/bundle-require) 等，感谢这些项目：
 
-- `@modern-js/bundle-require`: 修改自 [bundle-require](https://github.com/egoist/bundle-require)。
-- `@modern-js/plugin`: hook API 的实现参考了 [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline)。
-- `@modern-js/builder`: moduleScope 和 fileSize 插件参考了 [create-react-app](https://github.com/facebook/create-react-app)，TsConfigPathsPlugin 参考了 [tsconfig-paths-webpack-plugin](https://github.com/dividab/tsconfig-paths-webpack-plugin)。
-- `@modern-js/plugin-testing`: jest runner 参考了 [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21)。
-- `@modern-js/doc-tools`: 部分样式参考了 [vitepress](https://github.com/vuejs/vitepress)。
-- `@modern-js/plugin-data-loader`: 部分实现参考了 [remix](https://github.com/remix-run/remix)。
-- `@modern-js/utils`: generateMetaTags 函数参考了 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)。
+- `@modern-js/bundle-require`：修改自 [bundle-require](https://github.com/egoist/bundle-require)。
+- `@modern-js/plugin`：hook API 的实现参考了 [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline)。
+- `@modern-js/builder`：moduleScope 和 fileSize 插件参考了 [create-react-app](https://github.com/facebook/create-react-app)，TsConfigPathsPlugin 参考了 [tsconfig-paths-webpack-plugin](https://github.com/dividab/tsconfig-paths-webpack-plugin)，generateMetaTags 函数参考了 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin)
+- `@modern-js/plugin-testing`：jest runner 参考了 [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21)。
+- `@modern-js/doc-tools`：部分样式参考了 [vitepress](https://github.com/vuejs/vitepress)。
+- `@modern-js/plugin-data-loader`：部分实现参考了 [remix](https://github.com/remix-run/remix)。
 
 ## License
 

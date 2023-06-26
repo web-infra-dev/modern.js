@@ -1,6 +1,6 @@
 import { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluggableList } from 'unified';
-import { DocConfig, PageIndexInfo } from '.';
+import { DocConfig, PageIndexInfo, RouteMeta } from '.';
 
 /**
  * There are two ways to define what addtion routes represent.
@@ -60,5 +60,16 @@ export interface DocPlugin {
   /**
    * Add custom route
    */
-  addPages?: (config: DocConfig) => AdditionalPage[];
+  addPages?: (
+    config: DocConfig,
+    isProd: boolean,
+    routes: RouteMeta[],
+  ) => AdditionalPage[] | Promise<AdditionalPage[]>;
+  /**
+   * Add addition ssg routes, for dynamic routes.
+   */
+  addSSGRoutes?: (
+    config: DocConfig,
+    isProd: boolean,
+  ) => { path: string }[] | Promise<{ path: string }[]>;
 }

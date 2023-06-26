@@ -1,17 +1,20 @@
-import assert from 'assert';
 import {
   getBrowserslistWithDefault,
+  isUseCssExtract,
   isUseCssSourceMap,
   CSS_REGEX,
-  type BuilderContext,
-  BundlerChain,
-  ModifyBundlerChainUtils,
-  getCssSupport,
-  setConfig,
   CSS_MODULES_REGEX,
-  GLOBAL_CSS_REGEX,
-  NODE_MODULES_REGEX,
+  getCssLoaderOptions,
+  setConfig,
   logger,
+  getCssModulesAutoRule,
+  getPostcssConfig,
+  getCssModuleLocalIdentName,
+  resolvePackage,
+  type BundlerChain,
+  type BuilderContext,
+  type StyleLoaderOptions,
+  type ModifyBundlerChainUtils,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -19,132 +22,115 @@ import type {
   RspackRule,
   RuleSetRule,
 } from '../types';
-import type { AcceptedPlugin } from 'postcss';
-import { isUseCssExtract, getCompiledPath } from '../shared';
+import { getCompiledPath } from '../shared';
 
-type CssNanoOptions = {
-  configFile?: string | undefined;
-  preset?: [string, object] | string | undefined;
-};
+export const enableNativeCss = (config: NormalizedConfig) =>
+  !config.output.disableCssExtract;
 
-export const getCssnanoDefaultOptions = (): CssNanoOptions => ({
-  preset: [
-    'default',
-    {
-      // merge longhand will break safe-area-inset-top, so disable it
-      // https://github.com/cssnano/cssnano/issues/803
-      // https://github.com/cssnano/cssnano/issues/967
-      mergeLonghand: false,
-    },
-  ],
-});
-
-export async function applyBaseCSSRule(
-  rule: ReturnType<BundlerChain['module']['rule']>,
-  config: NormalizedConfig,
-  context: BuilderContext,
-  { target, isProd, isServer, isWebWorker, CHAIN_ID }: ModifyBundlerChainUtils,
-) {
+export async function applyBaseCSSRule({
+  rule,
+  config,
+  context,
+  utils: { target, isProd, isServer, isWebWorker, CHAIN_ID },
+  importLoaders = 1,
+}: {
+  rule: ReturnType<BundlerChain['module']['rule']>;
+  config: NormalizedConfig;
+  context: BuilderContext;
+  utils: ModifyBundlerChainUtils;
+  importLoaders?: number;
+}) {
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
   const enableSourceMap = isUseCssSourceMap(config);
-  // const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
-
+  const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   const { applyOptionsChain } = await import('@modern-js/utils');
+
   const browserslist = await getBrowserslistWithDefault(
     context.rootPath,
     config,
     target,
   );
 
-  const getPostcssConfig = () => {
-    const extraPlugins: AcceptedPlugin[] = [];
-    const utils = {
-      addPlugins(plugins: AcceptedPlugin | AcceptedPlugin[]) {
-        if (Array.isArray(plugins)) {
-          extraPlugins.push(...plugins);
-        } else {
-          extraPlugins.push(plugins);
-        }
-      },
-    };
-    const enableCssMinify = !enableExtractCSS && isProd;
+  const enableCssMinify = !enableExtractCSS && isProd;
 
-    const cssSupport = getCssSupport(browserslist);
+  // when disableExtractCSS, use css-loader + style-loader
+  if (!enableNativeCss(config)) {
+    const localIdentName = getCssModuleLocalIdentName(config, isProd);
 
-    const mergedConfig = applyOptionsChain(
-      {
-        postcssOptions: {
-          plugins: [
-            require(getCompiledPath('postcss-flexbugs-fixes')),
-            !cssSupport.customProperties &&
-              require(getCompiledPath('postcss-custom-properties')),
-            !cssSupport.initial && require(getCompiledPath('postcss-initial')),
-            !cssSupport.pageBreak &&
-              require(getCompiledPath('postcss-page-break')),
-            !cssSupport.fontVariant &&
-              require(getCompiledPath('postcss-font-variant')),
-            !cssSupport.mediaMinmax &&
-              require(getCompiledPath('postcss-media-minmax')),
-            require(getCompiledPath('postcss-nesting')),
-            require(getCompiledPath('autoprefixer'))(
-              applyOptionsChain(
-                {
-                  flexbox: 'no-2009',
-                  overrideBrowserslist: browserslist,
-                },
-                config.tools.autoprefixer,
-              ),
-            ),
-            enableCssMinify
-              ? require('cssnano')(getCssnanoDefaultOptions())
-              : false,
-          ].filter(Boolean),
+    const cssLoaderOptions = await getCssLoaderOptions({
+      config,
+      enableSourceMap,
+      importLoaders,
+      isServer,
+      isWebWorker,
+      localIdentName,
+    });
+
+    if (!isServer && !isWebWorker) {
+      const styleLoaderOptions = applyOptionsChain<StyleLoaderOptions, null>(
+        {
+          // todo: hmr does not work while esModule is true
+          // @ts-expect-error
+          esModule: false,
         },
-        sourceMap: enableSourceMap,
-      },
-      // postcss-loader will modify config
-      config.tools.postcss || {},
-      utils,
-    );
-    if (extraPlugins.length) {
-      assert('postcssOptions' in mergedConfig);
-      assert('plugins' in mergedConfig.postcssOptions!);
-      mergedConfig.postcssOptions.plugins!.push(...extraPlugins);
+        config.tools.styleLoader,
+      );
+      rule
+        .use(CHAIN_ID.USE.STYLE)
+        .loader(require.resolve('style-loader'))
+        .options(styleLoaderOptions)
+        .end();
+
+      // todo: use plugin instead (can be worked in rspack native css)
+      // https://github.com/webpack/webpack/issues/14893#issuecomment-1589561543
+      // use css-modules-typescript-loader
+      if (enableCSSModuleTS && cssLoaderOptions.modules) {
+        rule
+          .use(CHAIN_ID.USE.CSS_MODULES_TS)
+          .loader(
+            resolvePackage(
+              '@modern-js/builder-shared/css-modules-typescript-loader',
+              __dirname,
+            ),
+          )
+          .options({
+            modules: cssLoaderOptions.modules,
+          })
+          .end();
+      }
+    } else {
+      rule
+        .use(CHAIN_ID.USE.IGNORE_CSS)
+        .loader(
+          resolvePackage(
+            '@modern-js/builder-shared/ignore-css-loader',
+            __dirname,
+          ),
+        )
+        .end();
     }
-    return mergedConfig;
-  };
 
-  /**
-   * TODO: support style-loader & ignore css (need Rspack support inline css first)
-   */
-  //   if (isServer || isWebWorker) {
-  //     const { default: ignoreCssLoader } = await import('../loaders/ignoreCssLoader');
-  //     uses.push({
-  //       name: CHAIN_ID.USE.IGNORE_CSS,
-  //       loader: ignoreCssLoader,
-  //     });
-  //   }
-
-  // TODO: use css-modules-typescript-loader
-  // if (enableCSSModuleTS) {
-  //   const { default: cssModulesTypescriptLoader } = await import(
-  //     getCompiledPath('css-modules-typescript-loader')
-  //   );
-
-  //   uses.push({
-  //     name: CHAIN_ID.USE.CSS_MODULES_TS,
-  //     loader: cssModulesTypescriptLoader,
-  //     options: {},
-  //   });
-  // }
+    rule
+      .use(CHAIN_ID.USE.CSS)
+      .loader(getCompiledPath('css-loader'))
+      .options(cssLoaderOptions)
+      .end();
+  } else {
+    rule.type('css');
+  }
 
   if (!isServer && !isWebWorker) {
-    const postcssLoaderOptions = getPostcssConfig();
+    const postcssLoaderOptions = await getPostcssConfig({
+      enableSourceMap,
+      browserslist,
+      config,
+      enableCssMinify,
+    });
 
     rule
       .use(CHAIN_ID.USE.POSTCSS)
-      .loader(require.resolve('@rspack/postcss-loader'))
+      .loader(getCompiledPath('postcss-loader'))
       .options(postcssLoaderOptions)
       .end();
   }
@@ -161,9 +147,9 @@ export async function applyBaseCSSRule(
 export const applyCSSModuleRule = (
   rules: RspackRule[] | undefined,
   ruleTest: RegExp,
-  disableCssModuleExtension: boolean | undefined,
+  config: NormalizedConfig,
 ) => {
-  if (!rules) {
+  if (!rules || !enableNativeCss(config)) {
     return;
   }
 
@@ -173,53 +159,37 @@ export const applyCSSModuleRule = (
     return;
   }
 
+  const cssModulesAuto = getCssModulesAutoRule(
+    config.output.cssModules,
+    config.output.disableCssModuleExtension,
+  );
+
+  if (!cssModulesAuto) {
+    return;
+  }
+
   const rule = rules[ruleIndex] as RuleSetRule;
 
   const { test, type, ...rest } = rule;
 
-  if (disableCssModuleExtension) {
-    // Equivalent to css-loader looseCssModules
-    rules[ruleIndex] = {
-      test: ruleTest,
-      oneOf: [
-        {
-          ...rest,
-          test: CSS_MODULES_REGEX,
-          type: 'css/module',
-        },
-        {
-          ...rest,
-          test: NODE_MODULES_REGEX,
-          type: 'css',
-        },
-        {
-          ...rest,
-          test: GLOBAL_CSS_REGEX,
-          type: 'css',
-        },
-        {
-          ...rest,
-          type: 'css/module',
-        },
-      ],
-    };
-  } else {
-    // Equivalent to css-loader modules.auto: true
-    rules[ruleIndex] = {
-      test: ruleTest,
-      oneOf: [
-        {
-          ...rest,
-          test: CSS_MODULES_REGEX,
-          type: 'css/module',
-        },
-        {
-          ...rest,
-          type: 'css',
-        },
-      ],
-    };
-  }
+  rules[ruleIndex] = {
+    test: ruleTest,
+    oneOf: [
+      {
+        ...rest,
+        test:
+          typeof cssModulesAuto !== 'boolean'
+            ? cssModulesAuto
+            : // auto: true
+              CSS_MODULES_REGEX,
+        type: 'css/module',
+      },
+      {
+        ...rest,
+        type: 'css',
+      },
+    ],
+  };
 };
 
 export const builderPluginCss = (): BuilderPlugin => {
@@ -230,13 +200,23 @@ export const builderPluginCss = (): BuilderPlugin => {
         const config = api.getNormalizedConfig();
 
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
-        rule.test(CSS_REGEX).type('css');
+        rule.test(CSS_REGEX);
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
       });
       api.modifyRspackConfig(
         async (rspackConfig, { isProd, isServer, isWebWorker }) => {
           const config = api.getNormalizedConfig();
+
+          if (!enableNativeCss(config)) {
+            setConfig(rspackConfig, 'experiments.css', false);
+            return;
+          }
 
           let localIdentName =
             config.output.cssModuleLocalIdentName ||
@@ -259,11 +239,7 @@ export const builderPluginCss = (): BuilderPlugin => {
 
           const rules = rspackConfig.module?.rules;
 
-          applyCSSModuleRule(
-            rules,
-            CSS_REGEX,
-            config.output.disableCssModuleExtension,
-          );
+          applyCSSModuleRule(rules, CSS_REGEX, config);
         },
       );
     },

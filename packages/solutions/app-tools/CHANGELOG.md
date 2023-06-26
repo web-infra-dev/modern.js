@@ -1,5 +1,572 @@
 # @modern-js/app-tools
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 36c3982: fix: fix the line number mapping offset between the sourcemap and the source code
+  fix: 修复 sourcemap 到源代码行号映射偏移问题
+- Updated dependencies [c882fbd]
+- Updated dependencies [8c9923f]
+- Updated dependencies [ef041c0]
+- Updated dependencies [4fdd868]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [0424a2d]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server@2.24.0
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-rspack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+  - @modern-js/builder@2.24.0
+  - @modern-js/plugin-data-loader@2.24.0
+  - @modern-js/core@2.24.0
+  - @modern-js/prod-server@2.24.0
+  - @modern-js/builder-plugin-esbuild@2.24.0
+  - @modern-js/builder-plugin-node-polyfill@2.24.0
+  - @modern-js/plugin-i18n@2.24.0
+  - @modern-js/plugin-lint@2.24.0
+  - @modern-js/new-action@2.24.0
+  - @modern-js/node-bundle-require@2.24.0
+  - @modern-js/plugin@2.24.0
+  - @modern-js/upgrade@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [20c85bb]
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4af25d9]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/builder-webpack-provider@2.23.1
+  - @modern-js/builder-rspack-provider@2.23.1
+  - @modern-js/builder@2.23.1
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+  - @modern-js/builder-plugin-esbuild@2.23.1
+  - @modern-js/builder-plugin-node-polyfill@2.23.1
+  - @modern-js/core@2.23.1
+  - @modern-js/plugin-data-loader@2.23.1
+  - @modern-js/plugin-i18n@2.23.1
+  - @modern-js/plugin-lint@2.23.1
+  - @modern-js/new-action@2.23.1
+  - @modern-js/prod-server@2.23.1
+  - @modern-js/server@2.23.1
+  - @modern-js/node-bundle-require@2.23.1
+  - @modern-js/plugin@2.23.1
+  - @modern-js/upgrade@2.23.1
+  - @modern-js/types@2.23.1
+
+## 2.23.0
+
+### Minor Changes
+
+- b185fdf: refactor: merge the swc plugin
+  refactor: 合并 swc 插件
+
+### Patch Changes
+
+- 162fb9d: fix: should only restart when changed file is watched
+  fix: 只有在变化的文件被监听是才重启
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- b593040: fix(app-tools): incorrect tools.tailwindcss schema
+
+  fix(app-tools): 修复 tools.tailwindcss schema 错误
+
+- 6dec7c2: test(utils): reuse the snapshot serializer of vitest config
+
+  test(utils): 复用 vitest 的 snapshot serializer
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+- e5259fb: fix: absoluteEntryDir should support directory entry
+  fix: absoluteEntryDir 应该支持配置目录 entry，这里 document 会使用
+- Updated dependencies [15eac36]
+- Updated dependencies [a912b66]
+- Updated dependencies [9b270b6]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [f212633]
+- Updated dependencies [b593040]
+- Updated dependencies [e2245c3]
+- Updated dependencies [5684381]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [e5259fb]
+- Updated dependencies [f91c557]
+- Updated dependencies [65721f2]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-webpack-provider@2.23.0
+  - @modern-js/builder-rspack-provider@2.23.0
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/builder@2.23.0
+  - @modern-js/builder-plugin-node-polyfill@2.23.0
+  - @modern-js/node-bundle-require@2.23.0
+  - @modern-js/builder-plugin-esbuild@2.23.0
+  - @modern-js/plugin-data-loader@2.23.0
+  - @modern-js/new-action@2.23.0
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/plugin-i18n@2.23.0
+  - @modern-js/plugin-lint@2.23.0
+  - @modern-js/upgrade@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- 664f414: fix(app-tools): should not delete internalDir because we need guarantee the dev, build command correct.
+  fix(app-tools): 不应该在非构建模式下删除 internalDir，因为我们需要保证这些构建模式的入口是正确的
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [c739207]
+- Updated dependencies [c465db6]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-webpack-provider@2.22.1
+  - @modern-js/builder-rspack-provider@2.22.1
+  - @modern-js/builder-shared@2.22.1
+  - @modern-js/builder@2.22.1
+  - @modern-js/server@2.22.1
+  - @modern-js/prod-server@2.22.1
+  - @modern-js/core@2.22.1
+  - @modern-js/plugin-data-loader@2.22.1
+  - @modern-js/builder-plugin-esbuild@2.22.1
+  - @modern-js/builder-plugin-node-polyfill@2.22.1
+  - @modern-js/plugin-i18n@2.22.1
+  - @modern-js/plugin-lint@2.22.1
+  - @modern-js/new-action@2.22.1
+  - @modern-js/node-bundle-require@2.22.1
+  - @modern-js/plugin@2.22.1
+  - @modern-js/upgrade@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- 63cdea1: feat: ssr runtime need webpack.output.chunkLoadingGlobal pass to loadableReady
+  feat: ssr runtime 需要传递 webpack.output.chunnkLoadingGlobal 给 loadableReady
+
+### Patch Changes
+
+- 4a35eb4: fix: templateByEntries should have a higher priority than appContext.htmlTemplates
+  fix: templateByEntries 的优先级需要比 appContext.htmlTemplates 更高
+- 597a0bf: fix(app-tools): the hook `moidfyEntryImports` must run before `htmlPartials`,
+  builder onBeforeCreateCompiler hook would run in build mode, so we no need to run generateIndexCode twice.
+
+  fix(app-tools): 钩子 `moidfyEntryImports` 必须早于钩子 `htmlPartials` 运行,
+  builder onBeforeCreateCompiler 钩子也将在 build 模式运行, 我们不需要运行 generateIndexCode 函数两次.
+
+- 290e9f4: chore: write router manifest to final asset and support user insert some extra msgs.
+  chore: 将 router manifest 写入最终产物，并支持用户插入一些额外信息
+- Updated dependencies [3d48836]
+- Updated dependencies [4161b09]
+- Updated dependencies [9c3c231]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [4991c8a]
+- Updated dependencies [27618e4]
+- Updated dependencies [cb9e1ec]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [27618e4]
+- Updated dependencies [becfd36]
+- Updated dependencies [b647c68]
+- Updated dependencies [ea961e7]
+- Updated dependencies [02238e6]
+  - @modern-js/builder-webpack-provider@2.22.0
+  - @modern-js/builder-rspack-provider@2.22.0
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/plugin-data-loader@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/builder@2.22.0
+  - @modern-js/prod-server@2.22.0
+  - @modern-js/builder-plugin-node-polyfill@2.22.0
+  - @modern-js/builder-plugin-esbuild@2.22.0
+  - @modern-js/core@2.22.0
+  - @modern-js/new-action@2.22.0
+  - @modern-js/upgrade@2.22.0
+  - @modern-js/plugin-i18n@2.22.0
+  - @modern-js/plugin-lint@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/node-bundle-require@2.22.0
+  - @modern-js/plugin@2.22.0
+  - @modern-js/types@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [78e3ac8]
+- Updated dependencies [19b3b64]
+- Updated dependencies [8e9f8c8]
+- Updated dependencies [2728724]
+  - @modern-js/prod-server@2.21.1
+  - @modern-js/builder-shared@2.21.1
+  - @modern-js/builder-plugin-esbuild@2.21.1
+  - @modern-js/server@2.21.1
+  - @modern-js/builder@2.21.1
+  - @modern-js/builder-rspack-provider@2.21.1
+  - @modern-js/builder-webpack-provider@2.21.1
+  - @modern-js/builder-plugin-node-polyfill@2.21.1
+  - @modern-js/core@2.21.1
+  - @modern-js/plugin-data-loader@2.21.1
+  - @modern-js/plugin-i18n@2.21.1
+  - @modern-js/plugin-lint@2.21.1
+  - @modern-js/new-action@2.21.1
+  - @modern-js/node-bundle-require@2.21.1
+  - @modern-js/plugin@2.21.1
+  - @modern-js/types@2.21.1
+  - @modern-js/upgrade@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 5424051: fix: the proxy should not recreated when exists
+  fix: proxy server 不应该被重新创建当存在时
+- cfc5bda: feat: ssr mode support async entry
+  feat: ssr 模式支持异步入口
+- df43559: fix(core): toolsType is overridden when install multiple solutions
+
+  fix(core): 修复安装多个 solutions 时 toolsType 被覆盖的问题
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- d6aed02: feat(app-tools): add isFirstCompile param to afterDev hook
+
+  feat(app-tools): 为 afterDev 钩子增加 isFirstCompile 参数
+
+- 5c56949: fix: should only watch file-based routes changes
+  fix: 只有基于文件的路由（约定式路由）需要被监听变化
+- 4274510: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [cfc5bda]
+- Updated dependencies [7d2972e]
+- Updated dependencies [df43559]
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [55d37e9]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [8a7d4d2]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [441a579]
+- Updated dependencies [056627f]
+- Updated dependencies [de8f73f]
+- Updated dependencies [8fa8566]
+- Updated dependencies [4274510]
+- Updated dependencies [c90ea5a]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/prod-server@2.21.0
+  - @modern-js/builder-rspack-provider@2.21.0
+  - @modern-js/core@2.21.0
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/builder@2.21.0
+  - @modern-js/plugin-data-loader@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/builder-webpack-provider@2.21.0
+  - @modern-js/builder-plugin-node-polyfill@2.21.0
+  - @modern-js/node-bundle-require@2.21.0
+  - @modern-js/builder-plugin-esbuild@2.21.0
+  - @modern-js/new-action@2.21.0
+  - @modern-js/plugin-i18n@2.21.0
+  - @modern-js/plugin-lint@2.21.0
+  - @modern-js/upgrade@2.21.0
+  - @modern-js/plugin@2.21.0
+  - @modern-js/server@2.21.0
+  - @modern-js/types@2.21.0
+
+## 2.20.0
+
+### Minor Changes
+
+- 5f055ab: feat(app-tools): route.json add `isStream` field.
+  feat(app-tools): route.json 添加 `isStream` 字段.
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- 4b03d17: feat: 添加 output.tempDir 配置，支持单项目多配置同时启动
+  feat: add output.tempDir configuration, supports launching project with multiple config at the same time
+- 4425fd6: fix: worker ssr context lack some fields & worker ssr must have routerManifest.json
+  fix: worker ssr 上下文缺少一些字段，worker ssr 必须有 routerManifest.json 文件
+- 361204f: fix(app-tools): SVG default export type
+
+  fix(app-tools): 修复 SVG 默认导出的类型错误
+
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [f0ef868]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [5f055ab]
+- Updated dependencies [4b03d17]
+- Updated dependencies [4425fd6]
+- Updated dependencies [6289d31]
+  - @modern-js/builder-shared@2.20.0
+  - @modern-js/utils@2.20.0
+  - @modern-js/builder-rspack-provider@2.20.0
+  - @modern-js/node-bundle-require@2.20.0
+  - @modern-js/plugin-data-loader@2.20.0
+  - @modern-js/new-action@2.20.0
+  - @modern-js/prod-server@2.20.0
+  - @modern-js/builder@2.20.0
+  - @modern-js/plugin-i18n@2.20.0
+  - @modern-js/plugin-lint@2.20.0
+  - @modern-js/upgrade@2.20.0
+  - @modern-js/plugin@2.20.0
+  - @modern-js/server@2.20.0
+  - @modern-js/types@2.20.0
+  - @modern-js/core@2.20.0
+  - @modern-js/builder-webpack-provider@2.20.0
+  - @modern-js/builder-plugin-esbuild@2.20.0
+  - @modern-js/builder-plugin-node-polyfill@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- Updated dependencies [afb735f]
+  - @modern-js/builder-shared@2.19.1
+  - @modern-js/builder@2.19.1
+  - @modern-js/builder-rspack-provider@2.19.1
+  - @modern-js/builder-webpack-provider@2.19.1
+  - @modern-js/builder-plugin-esbuild@2.19.1
+  - @modern-js/builder-plugin-node-polyfill@2.19.1
+  - @modern-js/core@2.19.1
+  - @modern-js/plugin-data-loader@2.19.1
+  - @modern-js/plugin-i18n@2.19.1
+  - @modern-js/plugin-lint@2.19.1
+  - @modern-js/new-action@2.19.1
+  - @modern-js/prod-server@2.19.1
+  - @modern-js/server@2.19.1
+  - @modern-js/node-bundle-require@2.19.1
+  - @modern-js/plugin@2.19.1
+  - @modern-js/types@2.19.1
+  - @modern-js/upgrade@2.19.1
+  - @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+- Updated dependencies [1134fe2]
+  - @modern-js/builder-webpack-provider@2.19.0
+  - @modern-js/builder-shared@2.19.0
+  - @modern-js/plugin-data-loader@2.19.0
+  - @modern-js/server@2.19.0
+  - @modern-js/utils@2.19.0
+  - @modern-js/core@2.19.0
+  - @modern-js/builder-plugin-esbuild@2.19.0
+  - @modern-js/builder-plugin-node-polyfill@2.19.0
+  - @modern-js/builder@2.19.0
+  - @modern-js/builder-rspack-provider@2.19.0
+  - @modern-js/plugin-i18n@2.19.0
+  - @modern-js/plugin-lint@2.19.0
+  - @modern-js/new-action@2.19.0
+  - @modern-js/prod-server@2.19.0
+  - @modern-js/node-bundle-require@2.19.0
+  - @modern-js/plugin@2.19.0
+  - @modern-js/upgrade@2.19.0
+  - @modern-js/types@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- Updated dependencies [9b0b7ef]
+- Updated dependencies [e9ee8ba]
+- Updated dependencies [21c87bf]
+- Updated dependencies [abf8c6d]
+- Updated dependencies [a6ac01a]
+- Updated dependencies [bc61dab]
+- Updated dependencies [010b67e]
+- Updated dependencies [160a0b3]
+  - @modern-js/builder-webpack-provider@2.18.1
+  - @modern-js/builder-rspack-provider@2.18.1
+  - @modern-js/builder-shared@2.18.1
+  - @modern-js/new-action@2.18.1
+  - @modern-js/upgrade@2.18.1
+  - @modern-js/builder@2.18.1
+  - @modern-js/builder-plugin-esbuild@2.18.1
+  - @modern-js/builder-plugin-node-polyfill@2.18.1
+  - @modern-js/core@2.18.1
+  - @modern-js/plugin-data-loader@2.18.1
+  - @modern-js/plugin-i18n@2.18.1
+  - @modern-js/plugin-lint@2.18.1
+  - @modern-js/prod-server@2.18.1
+  - @modern-js/server@2.18.1
+  - @modern-js/node-bundle-require@2.18.1
+  - @modern-js/plugin@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- Updated dependencies [ea60b58]
+- Updated dependencies [7de6599]
+  - @modern-js/builder-rspack-provider@2.18.0
+  - @modern-js/builder-plugin-node-polyfill@2.18.0
+  - @modern-js/builder@2.18.0
+  - @modern-js/builder-shared@2.18.0
+  - @modern-js/builder-webpack-provider@2.18.0
+  - @modern-js/builder-plugin-esbuild@2.18.0
+  - @modern-js/core@2.18.0
+  - @modern-js/plugin-data-loader@2.18.0
+  - @modern-js/plugin-i18n@2.18.0
+  - @modern-js/plugin-lint@2.18.0
+  - @modern-js/new-action@2.18.0
+  - @modern-js/prod-server@2.18.0
+  - @modern-js/server@2.18.0
+  - @modern-js/node-bundle-require@2.18.0
+  - @modern-js/plugin@2.18.0
+  - @modern-js/types@2.18.0
+  - @modern-js/upgrade@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder@2.17.1
+- @modern-js/builder-rspack-provider@2.17.1
+- @modern-js/builder-shared@2.17.1
+- @modern-js/builder-webpack-provider@2.17.1
+- @modern-js/builder-plugin-esbuild@2.17.1
+- @modern-js/builder-plugin-node-polyfill@2.17.1
+- @modern-js/core@2.17.1
+- @modern-js/plugin-data-loader@2.17.1
+- @modern-js/plugin-i18n@2.17.1
+- @modern-js/plugin-lint@2.17.1
+- @modern-js/new-action@2.17.1
+- @modern-js/prod-server@2.17.1
+- @modern-js/server@2.17.1
+- @modern-js/node-bundle-require@2.17.1
+- @modern-js/plugin@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/upgrade@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder@2.17.0
+- @modern-js/builder-rspack-provider@2.17.0
+- @modern-js/builder-shared@2.17.0
+- @modern-js/builder-webpack-provider@2.17.0
+- @modern-js/builder-plugin-esbuild@2.17.0
+- @modern-js/builder-plugin-node-polyfill@2.17.0
+- @modern-js/core@2.17.0
+- @modern-js/plugin-data-loader@2.17.0
+- @modern-js/plugin-i18n@2.17.0
+- @modern-js/plugin-lint@2.17.0
+- @modern-js/new-action@2.17.0
+- @modern-js/prod-server@2.17.0
+- @modern-js/server@2.17.0
+- @modern-js/node-bundle-require@2.17.0
+- @modern-js/plugin@2.17.0
+- @modern-js/types@2.17.0
+- @modern-js/upgrade@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 355d36e: feat: adjust create tools and new command option order
+
+  feat: 调整 create 工具及 new 命令 option 操作顺序
+
+- 03997c2: chore(app-tools): export AppToolsOptions type
+
+  chore(app-tools): 导出 AppToolsOptions 类型
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [50bc0db]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [6d5219e]
+- Updated dependencies [e4e0e01]
+- Updated dependencies [fb19f48]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/builder-webpack-provider@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/builder-rspack-provider@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/builder-plugin-node-polyfill@2.16.0
+  - @modern-js/node-bundle-require@2.16.0
+  - @modern-js/builder-plugin-esbuild@2.16.0
+  - @modern-js/plugin-data-loader@2.16.0
+  - @modern-js/new-action@2.16.0
+  - @modern-js/prod-server@2.16.0
+  - @modern-js/builder@2.16.0
+  - @modern-js/plugin-i18n@2.16.0
+  - @modern-js/plugin-lint@2.16.0
+  - @modern-js/upgrade@2.16.0
+  - @modern-js/server@2.16.0
+  - @modern-js/types@2.16.0
+  - @modern-js/core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

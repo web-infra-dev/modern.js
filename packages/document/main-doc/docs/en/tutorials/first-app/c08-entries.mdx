@@ -14,9 +14,9 @@ A complete project may require multiple entries, Modern.js supports the automati
 We can also use it to create new project elements and execute `pnpm run new` in the project root directory:
 
 ```bash
-? Action Create project element
-? Create project element New "entry"
-? Entry name (entry) landing-page
+? Please select the operation you want: Create Element
+? Please select the type of element to create: New "entry"
+? Please fill in the entry name: landing-page
 ```
 
 When created, the project will look like this:
@@ -94,8 +94,8 @@ In the Modern.js configuration file, we can write our own code to control the co
 Now, modify the `modern.config.ts` to add something:
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   runtime: {

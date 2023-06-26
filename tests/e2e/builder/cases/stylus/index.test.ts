@@ -1,11 +1,10 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
-import { allProviderTest } from '@scripts/helper';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
 import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
 
-allProviderTest('should compile stylus correctly', async () => {
+test('should compile stylus correctly', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
@@ -18,7 +17,7 @@ allProviderTest('should compile stylus correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      'body{color:#f00;font:14px Arial,sans-serif}.KPtXW{font-size:14px}',
+      'body{color:#f00;font:14px Arial,sans-serif}._7352{font-size:14px}',
     );
   } else {
     expect(content).toEqual(

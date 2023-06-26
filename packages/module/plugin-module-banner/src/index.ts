@@ -1,6 +1,6 @@
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
-export default (options: {
+export const modulePluginBanner = (options: {
   banner: { js?: string; css?: string };
   footer?: { js?: string; css?: string };
 }): CliPlugin<ModuleTools> => ({
@@ -24,3 +24,6 @@ export default (options: {
     },
   }),
 });
+
+// deprecated default export
+export default modulePluginBanner;

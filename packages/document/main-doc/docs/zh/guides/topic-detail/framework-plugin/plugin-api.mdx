@@ -10,7 +10,7 @@ sidebar_position: 6
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup(api) {
@@ -106,7 +106,7 @@ interface IAppContext {
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   async setup(api) {

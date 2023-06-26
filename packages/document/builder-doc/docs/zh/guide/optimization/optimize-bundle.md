@@ -30,15 +30,13 @@ npx yarn-deduplicate && yarn
 
 建议将项目中体积较大的三方库替换为更轻量的库，比如将 [moment](https://momentjs.com/) 替换为 [day.js](https://day.js.org/)。
 
-如果你需要找出项目中体积较大的三方库，可以在执行构建时添加 [BUNDLE_ANALYZE=true](/api/config-performance.html#performancebundleanalyze) 环境变量：
+如果你需要找出项目中体积较大的三方库，可以在执行构建时添加 `BUNDLE_ANALYZE=true` 环境变量：
 
 ```bash
 BUNDLE_ANALYZE=true pnpm build
 ```
 
-添加该参数后，Builder 会生成一个分析构建产物体积的 HTML 文件，手动在浏览器中打开该文件，可以看到打包产物的瓦片图。区块的面积越大，说明该模块的体积越大。
-
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/mwa-build-analyze-8784f762c1ab0cb20935829d5f912c4c.png)
+详见 [performance.bundleAnalyze](/api/config-performance.html#performancebundleanalyze) 配置项。
 
 ## 提升 Browserslist 范围
 

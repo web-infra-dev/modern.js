@@ -103,6 +103,25 @@ const defaultConfig = {
 
 The config of HMR client, which are usually used to set the WebSocket URL of HMR.
 
+#### compress
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+Whether to enable gzip compression for served static resources.
+
+If you want to disable the gzip compression, you can set `compress` to `false`:
+
+```ts
+export default {
+  tools: {
+    devServer: {
+      compress: false,
+    },
+  },
+};
+```
+
 #### devMiddleware
 
 - **Type:**

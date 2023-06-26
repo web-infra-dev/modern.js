@@ -266,6 +266,7 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
         bffPluginName,
         pluginDependence,
         bffPluginDependence,
+        shouldUsePluginNameExport,
       } = context.config;
       console.info(
         chalk.green(`\n[INFO]`),
@@ -274,14 +275,28 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
         ':',
         '\n',
       );
-      console.info(
-        chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
-      );
-      console.info(
-        chalk.yellow.bold(
-          `import ${bffPluginName} from '${bffPluginDependence}';`,
-        ),
-      );
+      if (shouldUsePluginNameExport) {
+        console.info(
+          chalk.yellow.bold(
+            `import { ${pluginName} } from '${pluginDependence}';`,
+          ),
+        );
+        console.info(
+          chalk.yellow.bold(
+            `import { ${bffPluginName} } from '${bffPluginDependence}';`,
+          ),
+        );
+      } else {
+        console.info(
+          chalk.yellow.bold(`import ${pluginName} from '${pluginDependence}';`),
+        );
+        console.info(
+          chalk.yellow.bold(
+            `import ${bffPluginName} from '${bffPluginDependence}';`,
+          ),
+        );
+      }
+
       if (isTS) {
         console.info(`
 export default defineConfig({

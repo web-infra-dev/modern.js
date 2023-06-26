@@ -1,5 +1,6 @@
 import assert from 'assert';
 import {
+  NODE_MODULES_REGEX,
   RUNTIME_CHUNK_NAME,
   getPackageNameFromModulePath,
   type Polyfill,
@@ -98,6 +99,7 @@ async function splitByExperience(
       'history',
     ),
     lodash: createDependenciesRegExp('lodash', 'lodash-es'),
+    axios: createDependenciesRegExp('axios', /axios-.+/),
   };
 
   // Detect if the package is installed in current project
@@ -162,7 +164,7 @@ function splitByModule(ctx: SplitChunksContext): SplitChunks {
       // Core group
       vendors: {
         priority: -10,
-        test: /[\\/]node_modules[\\/]/,
+        test: NODE_MODULES_REGEX,
         // todo: not support in rspack
         name(module: { context: string | null }): string | false {
           return getPackageNameFromModulePath(module.context!);
@@ -214,14 +216,28 @@ function allInOne(_ctx: SplitChunksContext): SplitChunks {
 
 // Ignore user defined cache group to get single vendor chunk.
 function singleVendor(ctx: SplitChunksContext): SplitChunks {
-  const { override, defaultConfig } = ctx;
+  const { override, defaultConfig, userDefinedCacheGroups } = ctx;
   assert(defaultConfig !== false);
   assert(override !== false);
+
+  const singleVendorCacheGroup: CacheGroup = {
+    singleVendor: {
+      test: NODE_MODULES_REGEX,
+      priority: 0,
+      chunks: 'all',
+      name: 'vendor',
+      enforce: true,
+      reuseExistingChunk: true,
+    },
+  };
+
   return {
     ...defaultConfig,
     ...override,
     cacheGroups: {
       ...defaultConfig.cacheGroups,
+      ...singleVendorCacheGroup,
+      ...userDefinedCacheGroups,
       ...override.cacheGroups,
     },
   };
@@ -249,7 +265,7 @@ export function builderPluginSplitChunks(): DefaultBuilderPlugin {
             chain.optimization.splitChunks(false);
 
             // web worker does not support dynamic imports, dynamicImportMode need set to eager
-            if (isWebWorker) {
+            if (isWebWorker || isServiceWorker) {
               // todo: not support in rspack
               // @ts-expect-error
               chain.module.parser.merge({

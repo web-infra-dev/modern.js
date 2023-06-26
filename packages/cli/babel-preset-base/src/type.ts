@@ -18,4 +18,5 @@ export interface IStyledComponentOptions {
   minify?: boolean;
   transpileTemplateLiterals?: boolean;
   namespace?: string;
+  topLevelImportPaths?: string[];
 }

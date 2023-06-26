@@ -1,26 +1,25 @@
 import { join, resolve } from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
 const fixtures = resolve(__dirname, '../');
 
-allProviderTest('externals', async ({ page }) => {
-  const buildOpts = {
+test('externals', async ({ page }) => {
+  const builder = await build({
     cwd: fixtures,
     entry: {
       main: join(fixtures, 'src/index.js'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    output: {
-      externals: {
-        './aaa': 'aa',
+    runServer: true,
+    builderConfig: {
+      output: {
+        externals: {
+          './aaa': 'aa',
+        },
       },
-    },
-    source: {
-      preEntry: './src/ex.js',
+      source: {
+        preEntry: './src/ex.js',
+      },
     },
   });
 
@@ -42,30 +41,23 @@ allProviderTest('externals', async ({ page }) => {
   builder.close();
 });
 
-allProviderTest(
-  'should not external dependencies when target is web worker',
-  async () => {
-    const builder = await build(
-      {
-        cwd: fixtures,
-        target: 'web-worker',
-        entry: { index: resolve(fixtures, './src/index.js') },
-      },
-      {
-        output: {
-          externals: {
-            react: 'MyReact',
-          },
+test('should not external dependencies when target is web worker', async () => {
+  const builder = await build({
+    cwd: fixtures,
+    target: 'web-worker',
+    entry: { index: resolve(fixtures, './src/index.js') },
+    builderConfig: {
+      output: {
+        externals: {
+          react: 'MyReact',
         },
       },
-      false,
-    );
-    const files = await builder.unwrapOutputJSON();
+    },
+  });
+  const files = await builder.unwrapOutputJSON();
 
-    const content =
-      files[Object.keys(files).find(file => file.endsWith('.js'))!];
-    expect(content.includes('MyReact')).toBeFalsy();
+  const content = files[Object.keys(files).find(file => file.endsWith('.js'))!];
+  expect(content.includes('MyReact')).toBeFalsy();
 
-    builder.clean();
-  },
-);
+  builder.clean();
+});

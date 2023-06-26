@@ -1,12 +1,213 @@
 # @modern-js/builder-plugin-swc
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [ef041c0]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/builder-shared@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+
+## 2.23.0
+
+### Minor Changes
+
+- b185fdf: refactor: merge the swc plugin
+  refactor: 合并 swc 插件
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [15eac36]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- e7a5f94: feat(plugin-swc): should reduce lodash bundle size by default
+
+  feat(plugin-swc): 默认优化 lodash 包体积
+
+- 4b7488c: chore(deps): bump libuild v0.12.4 and swc-plugins v0.3.5
+
+  chore(deps): 升级 libuild v0.12.4 和 swc-plugins v0.3.5
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [e7a5f94]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [19b3b64]
+  - @modern-js/builder-shared@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [4274510]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/utils@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/builder-shared@2.20.0
+  - @modern-js/utils@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- Updated dependencies [afb735f]
+  - @modern-js/builder-shared@2.19.1
+  - @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+- Updated dependencies [1134fe2]
+  - @modern-js/builder-shared@2.19.0
+  - @modern-js/utils@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- Updated dependencies [9b0b7ef]
+  - @modern-js/builder-shared@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 50bc0db: feat(builder): update swc-plugins, core-js, swc-helpers
+  feat(builder): 更新 swc-plugins, core-js, swc-helpers
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [50bc0db]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/utils@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes
 
 - Updated dependencies [3e5e790]
   - @modern-js/builder-shared@2.15.0
-  - @modern-js/builder-plugin-swc-base@2.15.0
   - @modern-js/utils@2.15.0
 
 ## 2.14.0
@@ -31,14 +232,12 @@
 - Updated dependencies [16399fd]
   - @modern-js/builder-shared@2.14.0
   - @modern-js/utils@2.14.0
-  - @modern-js/builder-plugin-swc-base@2.14.0
 
 ## 2.13.4
 
 ### Patch Changes
 
 - @modern-js/builder-shared@2.13.4
-- @modern-js/builder-plugin-swc-base@2.13.4
 - @modern-js/utils@2.13.4
 
 ## 2.13.3
@@ -48,7 +247,6 @@
 - Updated dependencies [18cd03f]
 - Updated dependencies [28583e8]
   - @modern-js/builder-shared@2.13.3
-  - @modern-js/builder-plugin-swc-base@2.13.3
   - @modern-js/utils@2.13.3
 
 ## 2.13.2
@@ -56,7 +254,6 @@
 ### Patch Changes
 
 - @modern-js/builder-shared@2.13.2
-- @modern-js/builder-plugin-swc-base@2.13.2
 - @modern-js/utils@2.13.2
 
 ## 2.13.1
@@ -64,7 +261,6 @@
 ### Patch Changes
 
 - @modern-js/builder-shared@2.13.1
-- @modern-js/builder-plugin-swc-base@2.13.1
 - @modern-js/utils@2.13.1
 
 ## 2.13.0
@@ -85,7 +281,6 @@
 - Updated dependencies [9c0572e]
 - Updated dependencies [67a235b]
   - @modern-js/builder-shared@2.13.0
-  - @modern-js/builder-plugin-swc-base@2.13.0
   - @modern-js/utils@2.13.0
 
 ## 2.12.0
@@ -97,7 +292,6 @@
 - Updated dependencies [6d86e34]
 - Updated dependencies [fef3394]
   - @modern-js/utils@2.12.0
-  - @modern-js/builder-plugin-swc-base@2.12.0
   - @modern-js/builder-shared@2.12.0
 
 ## 2.11.0
@@ -138,7 +332,6 @@
 - Updated dependencies [b9e1c54]
   - @modern-js/builder-shared@2.11.0
   - @modern-js/utils@2.11.0
-  - @modern-js/builder-plugin-swc-base@2.11.0
 
 ## 2.10.0
 

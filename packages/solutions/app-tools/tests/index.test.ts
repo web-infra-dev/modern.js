@@ -1,8 +1,12 @@
-import plugin, { mergeConfig } from '../src';
+import appToolsDefault, { appTools, mergeConfig } from '../src';
 
-describe('app-tools', () => {
-  it('default', () => {
-    expect(plugin).toBeDefined();
+describe('app-tools export', () => {
+  it('default export', () => {
+    expect(appToolsDefault).toBeDefined();
+  });
+
+  it('named export', () => {
+    expect(appTools).toBeDefined();
   });
 });
 

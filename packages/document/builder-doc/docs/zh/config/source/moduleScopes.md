@@ -36,7 +36,7 @@ export default {
 };
 ```
 
-#### Array 类型
+### Array 类型
 
 当 `moduleScopes` 的值为 `Array` 类型时，可以直接设置若干个代码路径，比如添加以下配置：
 
@@ -48,7 +48,7 @@ export default {
 };
 ```
 
-#### Function 类型
+### Function 类型
 
 `moduleScopes` 也支持通过函数的形式来进行修改，避免覆盖默认值：
 

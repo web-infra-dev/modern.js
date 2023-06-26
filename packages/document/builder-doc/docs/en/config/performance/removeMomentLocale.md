@@ -1,6 +1,5 @@
 - **Type:** `boolean`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
 Whether to remove the locales of [moment.js](https://momentjs.com/).
 

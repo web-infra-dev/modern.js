@@ -1,5 +1,9 @@
 import { Store } from '@modern-js-reduck/store';
-import type { StaticHandlerContext } from '@modern-js/utils/universal/remix-router';
+import {
+  type StaticHandlerContext,
+  type Router,
+  type RouterState,
+} from '@modern-js/utils/runtime/remix-router';
 import { createContext } from 'react';
 import { createLoaderManager } from './core/loader/loaderManager';
 import { runtime } from './core/plugin';
@@ -33,6 +37,10 @@ export interface BaseTRuntimeContext {
   response?: SSRServerContext['response'];
   // store type
   store?: Store;
+  router?: {
+    navigate: Router['navigate'];
+    location: RouterState['location'];
+  };
 }
 
 export interface TRuntimeContext extends BaseTRuntimeContext {

@@ -2,7 +2,6 @@ import path from 'path';
 import {
   isApiOnly,
   mergeAlias,
-  PLUGIN_SCHEMAS,
   createRuntimeExportsUtils,
 } from '@modern-js/utils';
 import type { CliPlugin } from '@modern-js/core';
@@ -15,7 +14,7 @@ import {
 import { MODERNJS_CONFIG_KEY } from '../constant';
 import type { Hooks } from '../base/hook';
 import type { UserConfig } from '../base/config';
-import testingBffPlugin from './bff';
+import { testingBffPlugin } from './bff';
 import test from './test';
 
 export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
@@ -27,7 +26,7 @@ export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
   }
 };
 
-export default (): CliPlugin<{
+export const testingPlugin = (): CliPlugin<{
   hooks: Hooks;
   userConfig: UserConfig;
   normalizedConfig: Required<UserConfig>;
@@ -58,7 +57,16 @@ export default (): CliPlugin<{
         },
 
         validateSchema() {
-          return PLUGIN_SCHEMAS['@modern-js/plugin-testing'];
+          return [
+            {
+              target: 'testing',
+              schema: { typeof: ['object'] },
+            },
+            {
+              target: 'tools.jest',
+              schema: { typeof: ['object', 'function'] },
+            },
+          ];
         },
 
         config() {
@@ -75,6 +83,9 @@ export default (): CliPlugin<{
                 // The module-tools alias configuration is different and more specific than app-tools.
                 // So for the time being, the @ alias is configured here.
                 '@': path.join(appContext.appDirectory, 'src'),
+                '@modern-js/runtime/testing/bff': require.resolve(
+                  '@modern-js/plugin-testing/bff',
+                ),
                 '@modern-js/runtime/testing': testingExportsUtils.getPath(),
               },
             },
@@ -127,3 +138,5 @@ export default (): CliPlugin<{
     },
   };
 };
+
+export default testingPlugin;

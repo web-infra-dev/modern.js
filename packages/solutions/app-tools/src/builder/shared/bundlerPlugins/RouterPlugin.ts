@@ -1,13 +1,13 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
-import { ROUTE_MANIFEST_FILE } from '@modern-js/utils/constants';
+import { mergeWith } from '@modern-js/utils/lodash';
+import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
-interface RouteAssets {
+export interface RouteAssets {
   [routeId: string]: {
     chunkIds?: (string | number)[];
     assets?: string[];
@@ -70,6 +70,13 @@ export class RouterPlugin {
             return;
           }
 
+          const prevManifestAsset = compilation.getAsset(ROUTE_MANIFEST_FILE);
+          const prevManifestStr = prevManifestAsset
+            ? prevManifestAsset.source.source().toString()
+            : JSON.stringify({ routeAssets: {} });
+          const prevManifest: { routeAssets: RouteAssets } =
+            JSON.parse(prevManifestStr);
+
           for (const [name, chunkGroup] of Object.entries(namedChunkGroups)) {
             type ChunkGroupLike = {
               assets: { name: string; [prop: string]: any }[];
@@ -90,6 +97,19 @@ export class RouterPlugin {
               assets,
               referenceCssAssets,
             };
+
+            if (prevManifest.routeAssets[name]) {
+              mergeWith(
+                routeAssets[name],
+                prevManifest.routeAssets[name],
+                (obj, source) => {
+                  if (Array.isArray(obj)) {
+                    return obj.concat(source);
+                  }
+                  return Object.assign(source, obj);
+                },
+              );
+            }
           }
 
           const manifest = {
@@ -135,7 +155,7 @@ export class RouterPlugin {
             if (!asset) {
               continue;
             }
-            const newContent = `${injectedContent}${asset.source().toString()}`;
+            const newContent = `${asset.source().toString()}${injectedContent}`;
             newAssetsMap.set(path.join(outputPath, file), newContent);
             compilation.updateAsset(
               file,
@@ -145,9 +165,19 @@ export class RouterPlugin {
             );
           }
 
-          const filename = path.join(outputPath, ROUTE_MANIFEST_FILE);
-          await fs.ensureFile(filename);
-          await fs.writeFile(filename, JSON.stringify(manifest, null, 2));
+          if (prevManifestAsset) {
+            compilation.updateAsset(
+              ROUTE_MANIFEST_FILE,
+              new RawSource(JSON.stringify(manifest, null, 2)),
+              // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+              undefined as any,
+            );
+          } else {
+            compilation.emitAsset(
+              ROUTE_MANIFEST_FILE,
+              new RawSource(JSON.stringify(manifest, null, 2)),
+            );
+          }
         },
       );
     });

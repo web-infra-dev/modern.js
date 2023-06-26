@@ -1,0 +1,157 @@
+# Front Matter Config
+
+## title
+
+- Type: `string`
+
+The title of the page. By default, the page's h1 heading will be used as the title of the HTML document. But if you want to use a different title, you can use Front Matter to specify the title of the page. For example:
+
+```yaml
+---
+title: My Home Page
+---
+```
+
+## description
+
+- Type: `string`
+
+A custom description for the page. For example:
+
+```yaml
+---
+description: This is my custom description for this page.
+---
+```
+
+## pageType
+
+- Type: `'home' | 'doc' | 'custom' | 'blank' | '404'`
+- Default: `'doc'`
+
+The type of the page. By default, the page type is `doc`. But if you want to use a different page type, you can use the Front Matter field `pageType` to specify the page type. E.g:
+
+```yaml
+---
+pageType: home
+---
+```
+
+The meaning of each `pageType` config is as follows:
+
+- `home`: **Home page**, including the layout content of the top navigation bar and home page.
+- `doc`: **Doc page**, including top navigation bar, left sidebar, body content, and outline bar on the right.
+- `custom`: **Custom page**, including top navigation bar and custom content.
+- `blank`: Also belongs to **custom page**, but does not include `Top Navigation Bar`.
+- `404`: **Not found page**.
+
+## hero
+
+- Type: `Object`
+
+The hero config for the home page. It has the following types:
+
+```ts
+export interface Hero {
+  name: string;
+  text: string;
+  tagline: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  actions: {
+    text: string;
+    link: string;
+    theme: 'brand' | 'alt';
+  }[];
+}
+```
+
+For example, you can use the following Front Matter to specify a page's hero config:
+
+```yaml
+---
+pageType: home
+
+hero:
+  name: Modern.js Doc
+  text: A documentation solution
+  tagline: A modern documentation development technology stack
+  actions:
+    - theme: brand
+      text: Introduction
+      link: /en/guide/introduction
+    - theme: alt
+      text: Quick Start
+      link: /en/guide/getting-started
+---
+```
+
+## features
+
+- Type: `Array`
+- Default: `[]`
+
+features config of the `home` page. It has the following types:
+
+```ts
+export interface Feature {
+  title: string;
+  details: string;
+  icon: string;
+  // The link of the feature, not required.
+  link?: string;
+}
+
+export type Features = Feature[];
+```
+
+For example, you could use the following to specify the features configuration for the `home` page:
+
+```yaml
+---
+pageType: home
+
+features:
+  - title: 'MDX Support'
+    details: MDX is a powerful way to write content. You can use React components in Markdown.
+    icon: 📦
+  - title: 'Feature Rich'
+    details: Out of box support for i18n, full-text search etc.
+    icon: 🎨
+  - title: 'Customizable'
+    details: You can customize the theme ui and the build process.
+    icon: 🚀
+---
+```
+
+## sidebar
+
+Whether to show the sidebar on the left. By default, the `doc` page will display the sidebar on the left. If you want to hide the sidebar on the left, you can use the following Front Matter config:
+
+```yaml
+---
+sidebar: false
+---
+```
+
+## outline
+
+Whether to display the outline column on the right. By default, the `doc` page displays the outline column on the right. You can hide the outline column with the following config:
+
+```yaml
+---
+outline: false
+---
+```
+
+## footer
+
+Whether to display the components at the bottom of the document (such as previous/next page). By default, the `doc` page will display the footer at the bottom. You can hide the footer with the following config:
+
+```yaml
+---
+footer: false
+---
+```

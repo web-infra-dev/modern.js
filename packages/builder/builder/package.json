@@ -3,7 +3,11 @@
   "description": "Builder of modern.js.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/builder"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -14,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.15.0",
+  "version": "2.24.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -37,19 +41,18 @@
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@svgr/webpack": "6.5.1"
+    "@svgr/webpack": "8.0.1"
   },
   "devDependencies": {
-    "@babel/core": "7.18.0",
     "@scripts/vitest-config": "workspace:*",
-    "@types/babel__core": "^7.1.19",
-    "@types/babel__preset-env": "^7.9.2",
+    "@types/babel__core": "^7.20.0",
     "@types/node": "^14",
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/index.d.ts"
   }
 }

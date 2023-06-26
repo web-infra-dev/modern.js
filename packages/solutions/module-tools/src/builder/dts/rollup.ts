@@ -21,7 +21,8 @@ type Config = {
   externals: BaseBuildConfig['externals'];
   input: Input;
   watch: boolean;
-  abortOnError?: boolean;
+  abortOnError: boolean;
+  respectExternal: boolean;
 };
 
 export const runRollup = async (
@@ -32,7 +33,8 @@ export const runRollup = async (
     externals,
     input,
     watch,
-    abortOnError = true,
+    abortOnError,
+    respectExternal,
   }: Config,
 ) => {
   const ignoreFiles: Plugin = {
@@ -77,10 +79,8 @@ export const runRollup = async (
       jsonPlugin(),
       ignoreFiles,
       dtsPlugin({
-        // use external to prevent them which come from node_modules from be bundled.
-        respectExternal: true,
+        respectExternal,
         compilerOptions: {
-          declarationMap: false,
           skipLibCheck: true,
           // https://github.com/Swatinem/rollup-plugin-dts/issues/143,
           // but it will cause error when bundle ts which import another ts file.
@@ -88,6 +88,8 @@ export const runRollup = async (
           ...options,
           // https://github.com/Swatinem/rollup-plugin-dts/issues/127
           composite: false,
+          // https://github.com/Swatinem/rollup-plugin-dts/issues/113
+          declarationMap: false,
           // isAbsolute
           baseUrl,
           // Ensure ".d.ts" modules are generated

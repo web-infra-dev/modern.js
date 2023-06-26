@@ -2,9 +2,10 @@ import {
   MEDIA_EXTENSIONS,
   FONT_EXTENSIONS,
   IMAGE_EXTENSIONS,
+  Plugins,
 } from '@modern-js/builder-shared';
 
-export const plugins = {
+export const plugins: Plugins = {
   html: () => import('./html').then(m => m.builderPluginHtml()),
   cleanOutput: () =>
     import('./cleanOutput').then(m => m.builderPluginCleanOutput()),
@@ -35,5 +36,13 @@ export const plugins = {
     ),
   assetsRetry: () =>
     import('./assetsRetry').then(m => m.builderPluginAssetsRetry()),
-  antd: () => import('./antd').then(m => m.builderAntdPlugin()),
+  antd: () => import('./antd').then(m => m.builderPluginAntd()),
+  arco: () => import('./arco').then(m => m.builderPluginArco()),
+  tsChecker: () => import('./tsChecker').then(m => m.builderPluginTsChecker()),
+  checkSyntax: () =>
+    import('./checkSyntax').then(m => m.builderPluginCheckSyntax()),
+  rem: () => import('./rem').then(m => m.builderPluginRem()),
+  wasm: () => import('./wasm').then(m => m.builderPluginWasm()),
+  moment: () => import('./moment').then(m => m.builderPluginMoment()),
+  externals: () => import('./externals').then(m => m.builderPluginExternals()),
 };

@@ -14,7 +14,5 @@ export const outputConfigSchema: z.ZodType<OutputConfig> =
   sharedOutputConfigSchema
     .extend({
       copy: z.union([CopyPluginOptionsSchema, CopyPluginPatternsSchema]),
-      convertToRem: z.union([z.boolean(), z.instanceof(Object)]),
-      externals: z.any(),
     })
     .partial();

@@ -1,5 +1,54 @@
 // Vitest Snapshot v1
 
+exports[`plugins/esbuild > should not set format iife when target is not web 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/esbuild-loader/index.js",
+            "options": {
+              "charset": "ascii",
+              "loader": "jsx",
+              "target": "es2015",
+            },
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/compiled/esbuild-loader/index.js",
+            "options": {
+              "charset": "ascii",
+              "loader": "tsx",
+              "target": "es2015",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "optimization": {
+    "minimizer": [
+      ESBuildMinifyPlugin {
+        "options": {
+          "css": true,
+          "format": undefined,
+          "legalComments": "inline",
+          "minify": true,
+          "target": "es2015",
+        },
+        "transform": [Function],
+      },
+    ],
+  },
+}
+`;
+
 exports[`plugins/esbuild > should set esbuild minimizer in production 1`] = `
 {
   "module": {
@@ -37,6 +86,7 @@ exports[`plugins/esbuild > should set esbuild minimizer in production 1`] = `
       ESBuildMinifyPlugin {
         "options": {
           "css": true,
+          "format": "iife",
           "legalComments": "inline",
           "minify": true,
           "target": "es2015",

@@ -1,5 +1,47 @@
 # @modern-js/tsconfig
 
+## 2.24.0
+
+## 2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+## 2.22.1
+
+## 2.22.0
+
+## 2.21.1
+
+## 2.21.0
+
+## 2.20.0
+
+## 2.19.1
+
+## 2.19.0
+
+## 2.18.1
+
+## 2.18.0
+
+## 2.17.1
+
+## 2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 2.15.0
 
 ## 2.14.0

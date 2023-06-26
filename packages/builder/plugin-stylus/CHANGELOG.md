@@ -1,5 +1,223 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [ef041c0]
+- Updated dependencies [4fdd868]
+- Updated dependencies [36f5bdf]
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-rspack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [20c85bb]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4af25d9]
+- Updated dependencies [4d4dca0]
+  - @modern-js/builder-webpack-provider@2.23.1
+  - @modern-js/builder-rspack-provider@2.23.1
+  - @modern-js/builder-shared@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 5684381: fix(builder): incorrect importLoaders option for sass/less files
+
+  fix(builder): 修正 importLoaders 对于 sass/less 文件的值
+
+- Updated dependencies [15eac36]
+- Updated dependencies [a912b66]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [f212633]
+- Updated dependencies [5684381]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-webpack-provider@2.23.0
+  - @modern-js/builder-rspack-provider@2.23.0
+  - @modern-js/builder-shared@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [c739207]
+- Updated dependencies [c465db6]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/builder-webpack-provider@2.22.1
+  - @modern-js/builder-rspack-provider@2.22.1
+  - @modern-js/builder-shared@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 27618e4: chore(deps): remove unused wireit
+
+  chore(deps): 移除未使用的 wireit
+
+- Updated dependencies [3d48836]
+- Updated dependencies [4161b09]
+- Updated dependencies [850cde6]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [becfd36]
+- Updated dependencies [02238e6]
+  - @modern-js/builder-webpack-provider@2.22.0
+  - @modern-js/builder-rspack-provider@2.22.0
+  - @modern-js/builder-shared@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [19b3b64]
+  - @modern-js/builder-shared@2.21.1
+  - @modern-js/builder-rspack-provider@2.21.1
+  - @modern-js/builder-webpack-provider@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [8a7d4d2]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [441a579]
+- Updated dependencies [056627f]
+- Updated dependencies [4274510]
+- Updated dependencies [c90ea5a]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-rspack-provider@2.21.0
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/builder-webpack-provider@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [f0ef868]
+  - @modern-js/builder-shared@2.20.0
+  - @modern-js/builder-rspack-provider@2.20.0
+  - @modern-js/builder-webpack-provider@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- Updated dependencies [afb735f]
+  - @modern-js/builder-shared@2.19.1
+  - @modern-js/builder-rspack-provider@2.19.1
+  - @modern-js/builder-webpack-provider@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- Updated dependencies [1134fe2]
+  - @modern-js/builder-webpack-provider@2.19.0
+  - @modern-js/builder-shared@2.19.0
+  - @modern-js/builder-rspack-provider@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- Updated dependencies [9b0b7ef]
+- Updated dependencies [e9ee8ba]
+- Updated dependencies [abf8c6d]
+- Updated dependencies [a6ac01a]
+- Updated dependencies [010b67e]
+- Updated dependencies [160a0b3]
+  - @modern-js/builder-webpack-provider@2.18.1
+  - @modern-js/builder-rspack-provider@2.18.1
+  - @modern-js/builder-shared@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- Updated dependencies [ea60b58]
+- Updated dependencies [7de6599]
+  - @modern-js/builder-rspack-provider@2.18.0
+  - @modern-js/builder-shared@2.18.0
+  - @modern-js/builder-webpack-provider@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder-rspack-provider@2.17.1
+- @modern-js/builder-shared@2.17.1
+- @modern-js/builder-webpack-provider@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-rspack-provider@2.17.0
+- @modern-js/builder-shared@2.17.0
+- @modern-js/builder-webpack-provider@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- ed0d0d5: feat: support stylus plugin in Rspack build
+
+  feat: stylus 插件支持在 Rspack 构建时使用
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [50bc0db]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/builder-webpack-provider@2.16.0
+  - @modern-js/builder-rspack-provider@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

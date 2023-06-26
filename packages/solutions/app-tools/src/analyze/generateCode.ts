@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import path from 'path';
 import {
   fs,
@@ -6,6 +7,7 @@ import {
   isSSGEntry,
   isUseSSRBundle,
   logger,
+  SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
@@ -21,6 +23,8 @@ import {
   AppTools,
   ImportSpecifier,
   ImportStatement,
+  Rspack,
+  webpack,
 } from '../types';
 import * as templates from './templates';
 import { getClientRoutes, getClientRoutesLegacy } from './getClientRoutes';
@@ -114,13 +118,17 @@ export const generateCode = async (
   const hookRunners = api.useHookRunners();
 
   const isV5 = isRouterV5(config);
-  const { mountId } = config.html;
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
+  const importsStatemets = new Map<string, ImportStatement[]>();
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
+  return {
+    importsStatemets,
+  };
+
   async function generateEntryCode(entrypoint: Entrypoint) {
-    const { entryName, isAutoMount, customBootstrap, fileSystemRoutes } =
+    const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
       entrypoint;
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
@@ -145,6 +153,7 @@ export const generateCode = async (
               basename: srcDirectory,
             },
             entrypoint.entryName,
+            entrypoint.isMainEntry,
           );
           if (nestedRoute) {
             (initialRoutes as Route[]).unshift(nestedRoute);
@@ -159,6 +168,7 @@ export const generateCode = async (
         const config = api.useResolvedConfigContext();
         const ssr = getEntryOptions(
           entryName,
+          isMainEntry,
           config.server.ssr,
           config.server.ssrByEntries,
           packageName,
@@ -235,70 +245,133 @@ export const generateCode = async (
       }
 
       // call modifyEntryImports hook
-      const { imports: importStatements } =
-        await hookRunners.modifyEntryImports({
-          entrypoint,
-          imports: getDefaultImports({
-            entrypoint,
-            srcDirectory,
-            internalSrcAlias,
-            internalDirAlias,
-            internalDirectory,
-          }),
-        });
-
-      // call modifyEntryRuntimePlugins hook
-      const { plugins } = await hookRunners.modifyEntryRuntimePlugins({
+      const { imports } = await hookRunners.modifyEntryImports({
         entrypoint,
-        plugins: [],
-      });
-
-      // call modifyEntryRenderFunction hook
-      const { code: renderFunction } =
-        await hookRunners.modifyEntryRenderFunction({
+        imports: getDefaultImports({
           entrypoint,
-          code: templates.renderFunction({
-            plugins,
-            customBootstrap,
-            fileSystemRoutes,
-          }),
-        });
-
-      // call modifyEntryExport hook
-      const { exportStatement } = await hookRunners.modifyEntryExport({
-        entrypoint,
-        exportStatement: 'export default AppWrapper;',
+          srcDirectory,
+          internalSrcAlias,
+          internalDirAlias,
+          internalDirectory,
+        }),
       });
-
-      const code = templates.index({
-        mountId: mountId as string,
-        imports: createImportStatements(importStatements),
-        renderFunction,
-        exportStatement,
-      });
+      importsStatemets.set(entryName, imports);
 
       const entryFile = path.resolve(
         internalDirectory,
         `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
       );
-      entrypoint.entry = entryFile;
-
-      // generate entry file.
-      if (config.source.enableAsyncEntry) {
-        const { code: asyncEntryCode } = await hookRunners.modifyAsyncEntry({
-          entrypoint,
-          code: `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`,
-        });
-        fs.outputFileSync(entryFile, asyncEntryCode, 'utf8');
-
-        const bootstrapFile = path.resolve(
-          internalDirectory,
-          `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
-        );
-        fs.outputFileSync(bootstrapFile, code, 'utf8');
-      } else {
-        fs.outputFileSync(entryFile, code, 'utf8');
-      }
+      entrypoint.internalEntry = entryFile;
     }
   }
+};
+
+export const generateIndexCode = async ({
+  appContext,
+  api,
+  entrypoints,
+  config,
+  importsStatemets,
+  bundlerConfigs,
+}: {
+  appContext: IAppContext;
+  api: PluginAPI<AppTools<'shared'>>;
+  entrypoints: Entrypoint[];
+  config: AppNormalizedConfig<'shared'>;
+  importsStatemets: Map<string, ImportStatement[]>;
+  bundlerConfigs?: webpack.Configuration[] | Rspack.Configuration[];
+}) => {
+  const hookRunners = api.useHookRunners();
+  const { mountId } = config.html;
+  const { internalDirectory, packageName } = appContext;
+
+  await Promise.all(
+    entrypoints.map(async entrypoint => {
+      const {
+        entryName,
+        isMainEntry,
+        isAutoMount,
+        customBootstrap,
+        fileSystemRoutes,
+      } = entrypoint;
+      if (isAutoMount) {
+        // call modifyEntryRuntimePlugins hook
+        const { plugins } = await hookRunners.modifyEntryRuntimePlugins({
+          entrypoint,
+          plugins: [],
+          bundlerConfigs: bundlerConfigs as any,
+        });
+
+        // call modifyEntryRenderFunction hook
+        const { code: renderFunction } =
+          await hookRunners.modifyEntryRenderFunction({
+            entrypoint,
+            code: templates.renderFunction({
+              plugins,
+              customBootstrap,
+              fileSystemRoutes,
+            }),
+          });
+
+        // call modifyEntryExport hook
+        const { exportStatement } = await hookRunners.modifyEntryExport({
+          entrypoint,
+          exportStatement: 'export default AppWrapper;',
+        });
+
+        const imports = importsStatemets.get(entryName)!;
+
+        const code = templates.index({
+          mountId: mountId as string,
+          imports: createImportStatements(imports),
+          renderFunction,
+          exportStatement,
+        });
+
+        const entryFile = path.resolve(
+          internalDirectory,
+          `./${entryName}/${ENTRY_POINT_FILE_NAME}`,
+        );
+        // generate entry file.
+        if (config.source.enableAsyncEntry) {
+          let rawAsyncEntryCode = `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`;
+          const ssr = getEntryOptions(
+            entryName,
+            isMainEntry,
+            config.server.ssr,
+            config.server.ssrByEntries,
+            packageName,
+          );
+          if (ssr) {
+            rawAsyncEntryCode = `
+        export const ${SERVER_RENDER_FUNCTION_NAME} = async (...args) => {
+          let entry = await ${rawAsyncEntryCode};
+          if (entry.default instanceof Promise){
+            entry = await entry.default;
+            return entry.default.${SERVER_RENDER_FUNCTION_NAME}.apply(null, args);
+          }
+          return entry.${SERVER_RENDER_FUNCTION_NAME}.apply(null, args);
+        };
+        if(typeof window!=='undefined'){
+          ${rawAsyncEntryCode}
+        }
+        `;
+          }
+          const { code: asyncEntryCode } = await hookRunners.modifyAsyncEntry({
+            entrypoint,
+            code: rawAsyncEntryCode,
+          });
+          fs.outputFileSync(entryFile, asyncEntryCode, 'utf8');
+
+          const bootstrapFile = path.resolve(
+            internalDirectory,
+            `./${entryName}/${ENTRY_BOOTSTRAP_FILE_NAME}`,
+          );
+          fs.outputFileSync(bootstrapFile, code, 'utf8');
+        } else {
+          fs.outputFileSync(entryFile, code, 'utf8');
+        }
+      }
+    }),
+  );
 };

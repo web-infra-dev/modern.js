@@ -1,5 +1,196 @@
 # @modern-js/core
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/node-bundle-require@2.24.0
+  - @modern-js/plugin@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/node-bundle-require@2.23.1
+  - @modern-js/plugin@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- b593040: fix(app-tools): incorrect tools.tailwindcss schema
+
+  fix(app-tools): 修复 tools.tailwindcss schema 错误
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/node-bundle-require@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/node-bundle-require@2.22.1
+  - @modern-js/plugin@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 27618e4: chore(deps): remove unused dev dependencies
+
+  chore(deps): 移除未使用的 dev dependencies
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/node-bundle-require@2.22.0
+  - @modern-js/plugin@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.21.1
+- @modern-js/plugin@2.21.1
+- @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- df43559: fix(core): toolsType is overridden when install multiple solutions
+
+  fix(core): 修复安装多个 solutions 时 toolsType 被覆盖的问题
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+  - @modern-js/node-bundle-require@2.21.0
+  - @modern-js/plugin@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 4b03d17: feat: 添加 output.tempDir 配置，支持单项目多配置同时启动
+  feat: add output.tempDir configuration, supports launching project with multiple config at the same time
+- 6289d31: fix: remove duplicate addRuntimeExports hook in @modern-js/core
+  fix: 删除 @modern-js/core 中重复的 addRuntimeExports hook
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/utils@2.20.0
+  - @modern-js/node-bundle-require@2.20.0
+  - @modern-js/plugin@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.19.1
+- @modern-js/plugin@2.19.1
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/node-bundle-require@2.19.0
+  - @modern-js/plugin@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.18.1
+- @modern-js/plugin@2.18.1
+- @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.18.0
+- @modern-js/plugin@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.17.1
+- @modern-js/plugin@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.17.0
+- @modern-js/plugin@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 6d5219e: fix: remove ignore logic in mergeConfig for tools.devServer
+  fix: 移除 tools.devServer 在 mergeConfig 时候的忽略逻辑
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/node-bundle-require@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

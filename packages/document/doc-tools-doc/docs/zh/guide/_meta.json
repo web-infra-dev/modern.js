@@ -1,0 +1,22 @@
+[
+  {
+    "type": "dir",
+    "name": "start",
+    "label": "getting-started"
+  },
+  {
+    "type": "dir",
+    "name": "basic",
+    "label": "features"
+  },
+  {
+    "type": "dir",
+    "name": "default-theme",
+    "label": "default-theme"
+  },
+  {
+    "type": "dir",
+    "name": "advanced",
+    "label": "advanced"
+  }
+]

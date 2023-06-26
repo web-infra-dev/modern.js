@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable node/prefer-global/url */
 import { IncomingMessage, ServerResponse } from 'http';
 import qs from 'querystring';

@@ -1,4 +1,4 @@
-import { applyOptionsChain } from '../src/applyOptionsChain';
+import { applyOptionsChain } from '../src';
 
 describe('apply options chain', () => {
   test(`should return default options`, () => {
@@ -89,9 +89,7 @@ describe('apply options chain', () => {
 
   test(`should log warning about function result`, () => {
     let outputs = '';
-    /* eslint-disable no-console */
     console.log = jest.fn(input => (outputs += input));
-    /* eslint-enable no-console */
     applyOptionsChain({ name: 'a' } as any, [() => 111]);
 
     expect(outputs).toContain(

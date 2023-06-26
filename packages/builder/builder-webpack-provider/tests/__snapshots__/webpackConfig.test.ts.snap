@@ -26,7 +26,6 @@ exports[`webpackConfig > should allow to use tools.webpackChain to modify config
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -50,7 +49,6 @@ exports[`webpackConfig > should allow tools.webpack to be an array 1`] = `
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -74,7 +72,6 @@ exports[`webpackConfig > should allow tools.webpack to be an object 1`] = `
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -98,7 +95,6 @@ exports[`webpackConfig > should allow tools.webpack to modify config object 1`] 
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -122,7 +118,6 @@ exports[`webpackConfig > should allow tools.webpack to return config 1`] = `
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -146,7 +141,6 @@ exports[`webpackConfig > should allow tools.webpackChain to be an array 1`] = `
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -203,7 +197,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.18.6",
+                "version": "7.21.5",
               },
             ],
             [
@@ -249,15 +243,6 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                   "not op_mini all",
                 ],
                 "useBuiltIns": "entry",
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-              {
-                "development": true,
-                "runtime": "automatic",
-                "useBuiltIns": true,
-                "useSpread": false,
               },
             ],
             [
@@ -312,7 +297,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.18.6",
+                "version": "7.21.5",
               },
             ],
             [
@@ -358,15 +343,6 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                   "not op_mini all",
                 ],
                 "useBuiltIns": "entry",
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-              {
-                "development": true,
-                "runtime": "automatic",
-                "useBuiltIns": true,
-                "useSpread": false,
               },
             ],
             [
@@ -440,7 +416,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.18.6",
+                "version": "7.21.5",
               },
             ],
             [
@@ -486,15 +462,6 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                   "not op_mini all",
                 ],
                 "useBuiltIns": "entry",
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-              {
-                "development": true,
-                "runtime": "automatic",
-                "useBuiltIns": true,
-                "useSpread": false,
               },
             ],
             [
@@ -558,7 +525,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.18.6",
+                "version": "7.21.5",
               },
             ],
             [
@@ -607,15 +574,6 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
               },
             ],
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-              {
-                "development": true,
-                "runtime": "automatic",
-                "useBuiltIns": true,
-                "useSpread": false,
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
               {
                 "allExtensions": true,
@@ -644,7 +602,6 @@ exports[`webpackConfig > should provide mergeConfig util in tools.webpack functi
   "module": {
     "parser": {
       "javascript": {
-        "dynamicImportMode": undefined,
         "exportsPresence": "error",
       },
     },
@@ -709,7 +666,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.18.6",
+                "version": "7.21.5",
               },
             ],
             [
@@ -755,15 +712,6 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                   "not op_mini all",
                 ],
                 "useBuiltIns": "entry",
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-              {
-                "development": true,
-                "runtime": "automatic",
-                "useBuiltIns": true,
-                "useSpread": false,
               },
             ],
             [
@@ -826,7 +774,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.18.6",
+                "version": "7.21.5",
               },
             ],
             [
@@ -872,15 +820,6 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                   "not op_mini all",
                 ],
                 "useBuiltIns": "entry",
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-              {
-                "development": true,
-                "runtime": "automatic",
-                "useBuiltIns": true,
-                "useSpread": false,
               },
             ],
             [

@@ -11,12 +11,13 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
   const userConfig = api.useResolvedConfigContext();
   const hookRunners = api.useHookRunners();
 
-  const { appDirectory, port, serverConfigFile } = appContext;
+  const { appDirectory, port, serverConfigFile, metaName } = appContext;
 
   logger.log(chalk.cyan(`Starting the modern server...`));
   const apiOnly = await isApiOnly(
     appContext.appDirectory,
     userConfig?.source?.entriesDir,
+    appContext.apiDirectory,
   );
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
@@ -31,6 +32,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
       },
     },
     appContext: {
+      metaName,
       sharedDirectory: getTargetDir(
         appContext.sharedDirectory,
         appContext.appDirectory,

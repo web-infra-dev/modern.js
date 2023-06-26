@@ -28,8 +28,9 @@ Builder adopts the `split-by-experience` strategy by default, which is a strateg
 - `lib-router.js`: includes `react-router`, `react-router-dom`, `history`, `@remix-run/router`.
 - `lib-lodash.js`: includes `lodash`, `lodash-es`.
 - `lib-antd.js`: includes `antd`.
-- `lib-arco.js`: includes `@arco-design/web-react`.
-- `lib-semi.js`: includes `@douyinfe/semi-ui`.
+- `lib-arco.js`: includes `@arco-design/web-react` and related packages under the `@arco-design` organization.
+- `lib-semi.js`: includes `@douyinfe/semi-ui` and related packages under the `@ies` & `@douyinfe` organization.
+- `lib-axios.js`: includes `axios` and related packages.
 
 This strategy groups commonly used packages and then splits them into separate chunks. Generally, the number of chunks is not large, which is suitable for most applications and is also our recommended strategy.
 

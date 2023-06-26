@@ -1,5 +1,72 @@
 # @modern-js/generator-plugin-plugin
 
+## 3.1.24
+
+## 3.1.23
+
+## 3.1.22
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+## 3.1.21
+
+## 3.1.20
+
+### Patch Changes
+
+- 3c3d1e2: feat: optimize generator plugin English expression.
+
+  feat: 优化生成器插件英文表达。
+
+- 3d33047: docs(main): optimize generator documentation.
+
+  docs(main): 优化生成器文档。
+
+- 3d33047: feat(generator): generator plugin support config chinese name
+
+  feat(generator): 生成器插件支持设置中文名称
+
+## 3.1.19
+
+## 3.1.18
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+## 3.1.17
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+
+## 3.1.16
+
+## 3.1.15
+
+## 3.1.14
+
+## 3.1.13
+
+## 3.1.12
+
+## 3.1.11
+
+## 3.1.10
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 3.1.9
 
 ## 3.1.8

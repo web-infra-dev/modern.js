@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
 import React from 'react';
@@ -24,6 +23,8 @@ import {
   HTML_SEPARATOR,
   DOCUMENT_COMMENT_PLACEHOLDER_START,
   DOCUMENT_COMMENT_PLACEHOLDER_END,
+  DOCUMENT_STYLE_PLACEHOLDER_START,
+  DOCUMENT_STYLE_PLACEHOLDER_END,
 } from '../constants';
 
 const debug = createDebugger('html_genarate');
@@ -53,8 +54,9 @@ export const getDocumenByEntryName = function (
   return docFile || undefined;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export const documentPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-document',
+
   pre: ['@modern-js/plugin-analyze'],
   setup: async api => {
     // get params for document.tsx
@@ -93,8 +95,10 @@ export default (): CliPlugin<AppTools> => ({
       }
 
       return async ({ htmlWebpackPlugin }: { [option: string]: any }) => {
+        const config = api.useResolvedConfigContext();
+
         const documentParams = getDocParams({
-          config: api.useResolvedConfigContext(),
+          config,
           entryName,
           templateParameters,
         });
@@ -202,12 +206,29 @@ export default (): CliPlugin<AppTools> => ({
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_START) &&
           html.includes(DOCUMENT_SCRIPT_PLACEHOLDER_END)
         ) {
+          const { nonce } = config.security;
+          const nonceAttr = nonce ? `nonce=${nonce}` : '';
+
           html = html.replace(
             new RegExp(
               `${DOCUMENT_SCRIPT_PLACEHOLDER_START}(.*?)${DOCUMENT_SCRIPT_PLACEHOLDER_END}`,
               'g',
             ),
-            (_scriptStr, $1) => `<script>${decodeURIComponent($1)}</script>`,
+            (_scriptStr, $1) =>
+              `<script ${nonceAttr}>${decodeURIComponent($1)}</script>`,
+          );
+        }
+        // if the Document.tsx has a style, replace to convert it
+        if (
+          html.includes(DOCUMENT_STYLE_PLACEHOLDER_START) &&
+          html.includes(DOCUMENT_STYLE_PLACEHOLDER_END)
+        ) {
+          html = html.replace(
+            new RegExp(
+              `${DOCUMENT_STYLE_PLACEHOLDER_START}(.*?)${DOCUMENT_STYLE_PLACEHOLDER_END}`,
+              'g',
+            ),
+            (_styleStr, $1) => `<style>${decodeURIComponent($1)}</style>`,
           );
         }
         // if the Document.tsx has a comment component, replace and convert it
@@ -282,3 +303,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default documentPlugin;

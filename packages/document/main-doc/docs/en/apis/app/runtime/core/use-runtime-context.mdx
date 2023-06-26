@@ -3,7 +3,7 @@ title: useRuntimeContext
 ---
 # useRuntimeContext
 
-This function is mainly used to get the runtime context and can only be used in function components.
+Used to get the runtime context and can only be used in function components.
 
 ## Usage
 
@@ -28,6 +28,7 @@ type RuntimeContext = {
     cookie: string;
   };
   store: ReduckStore;
+  router: RemixRouter;
 };
 
 function useRuntimeContext(): RuntimeContext;
@@ -41,7 +42,10 @@ function useRuntimeContext(): RuntimeContext;
   - `query`: the query of the request.
   - `headers`: the header info of the request.
   - `cookie`: the cookie of the request.
-- `store`: when the runtime.state is enabled, this value is the reduck global `store`.
+- `store`: when the `runtime.state` is enabled, this value is the Reduck global `store`.
+- `router`: When the `runtime.router` is enabled, this value exists.
+  - `location`: The current location reflected by the router. The same as [`useLocation`] the return value of (/apis/app/runtime/router/router.html#uselocation).
+  - `navigate`: Navigate to the given path. The same as the return value of [`useNavigate`](/apis/app/runtime/router/router.html#usenavigate).
 
 ## Example
 

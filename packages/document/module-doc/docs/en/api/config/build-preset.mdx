@@ -6,8 +6,8 @@ sidebar_position: 2
 
 A build preset string or preset function. Provides out-of-the-box build configuration
 
-- type: `string | Function`
-- default: `undefined`
+- Type: `string | Function`
+- Default: `undefined`
 
 ## string
 
@@ -21,7 +21,7 @@ export default defineConfig({
 });
 ```
 
-### ``npm-library'`
+### `'npm-library'`
 
 Library generic schema used under class [NPM](https://www.npmjs.com/) package manager, contains `esm` and `cjs` Bundle products, and includes a type file.
 
@@ -68,7 +68,7 @@ export const buildConfig = [
 ];
 ```
 
-### `npm-library-with-umd'`
+### `'npm-library-with-umd'`
 
 Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional `umd` products are provided on top of the pre-defined `npm-library`.
 

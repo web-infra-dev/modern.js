@@ -1,10 +1,9 @@
 import * as path from 'path';
 import type { CliPlugin } from '@modern-js/core';
 import { createRuntimeExportsUtils } from '@modern-js/utils';
-import { getRelativeRuntimePath } from '@modern-js/bff-core';
 import type { AppTools } from '@modern-js/app-tools';
 
-export default (): CliPlugin<AppTools> => ({
+export const expressPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-express',
   setup: api => {
     let bffExportsUtils: any;
@@ -13,38 +12,22 @@ export default (): CliPlugin<AppTools> => ({
     return {
       config() {
         const appContext = useAppContext();
-        const { appDirectory } = appContext;
         bffExportsUtils = createRuntimeExportsUtils(
           appContext.internalDirectory,
           'server',
         );
-
-        const serverRuntimePath = bffExportsUtils.getPath();
-
-        const relativeRuntimePath = getRelativeRuntimePath(
-          appDirectory,
-          serverRuntimePath,
-        );
-
-        if (process.env.NODE_ENV === 'production') {
-          return {
-            source: {
-              alias: {
-                '@modern-js/runtime/server': relativeRuntimePath,
-                '@modern-js/runtime/express': relativeRuntimePath,
-              },
+        const runtimePath =
+          process.env.NODE_ENV === 'development'
+            ? require.resolve('@modern-js/plugin-express/runtime')
+            : '@modern-js/plugin-express/runtime';
+        return {
+          source: {
+            alias: {
+              '@modern-js/runtime/server': runtimePath,
+              '@modern-js/runtime/express': runtimePath,
             },
-          };
-        } else {
-          return {
-            source: {
-              alias: {
-                '@modern-js/runtime/server': serverRuntimePath,
-                '@modern-js/runtime/express': serverRuntimePath,
-              },
-            },
-          };
-        }
+          },
+        };
       },
 
       collectServerPlugins({ plugins }) {
@@ -79,3 +62,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default expressPlugin;

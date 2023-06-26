@@ -1,4 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable consistent-return */
 import 'reflect-metadata';
 import {

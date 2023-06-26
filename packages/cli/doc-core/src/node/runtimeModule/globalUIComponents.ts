@@ -1,24 +1,18 @@
 import { join } from 'path';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
-import { RuntimeModuleID } from '.';
-import { UserConfig } from '@/shared/types';
+import { FactoryContext, RuntimeModuleID } from '.';
 
-export function globalUIComponentsVMPlugin(
-  _scanDir: string,
-  config: UserConfig,
-  _isSSR: boolean,
-  runtimeTempDir: string,
-) {
+export async function globalUIComponentsVMPlugin(context: FactoryContext) {
+  const { runtimeTempDir, config, pluginDriver } = context;
   let index = 0;
   const modulePath = join(
     runtimeTempDir,
     `${RuntimeModuleID.GlobalComponents}.js`,
   );
+  const globalUIComponentsByPlugins = pluginDriver.globalUIComponents();
   const moduleContent = [
     ...(config.doc?.globalUIComponents || []),
-    ...(config.doc?.plugins || [])
-      .map(plugin => plugin.globalUIComponents || [])
-      .flat(),
+    ...globalUIComponentsByPlugins,
   ]
     .map(source => `import Comp_${index++} from '${source}';`)
     .concat(

@@ -1,4 +1,4 @@
-- **Type**
+- **Type:**
 
 ```ts
 type FilenameConfig = {
@@ -11,7 +11,7 @@ type FilenameConfig = {
 };
 ```
 
-- **Default**
+- **Default:**
 
 ```js
 // Development
@@ -37,9 +37,9 @@ const prodDefaultFilename = {
 
 Sets the filename of dist files.
 
-After the production build, there will be a hash in the middle of the filename by default. You can disable this behavior through the `output.disableFilenameHash` config.
+After the production build, there will be a hash in the middle of the filename by default. This behavior can be disabled through the `output.disableFilenameHash` config.
 
-Detail:
+The following are the details of each filename:
 
 - `js`: The name of the JavaScript file.
 - `css`: The name of the CSS style file.
@@ -50,7 +50,7 @@ Detail:
 
 ### Example
 
-Set the name of the JavaScript file to `[name]_script.js`:
+To set the name of the JavaScript file to `[name]_script.js`, use the following configuration:
 
 ```js
 export default {
@@ -64,3 +64,30 @@ export default {
   },
 };
 ```
+
+:::tip Filename hash
+Usually, we only set the filename hash in the production mode (i.e., when `process.env.NODE_ENV === 'production'`).
+
+If you set the filename hash in the development mode, it may cause HMR to fail (especially for CSS files). This is because every time the file content changes, the hash value changes, preventing tools like [mini-css-extract-plugin](https://www.npmjs.com/package/mini-css-extract-plugin) from reading the latest file content.
+:::
+
+### Filename of Async Modules
+
+When you import a module via dynamic import, the module will be bundled into a single file, and its default naming rules are as follows:
+
+- In the development environment, the filename will be generated based on the module path, such as `dist/static/js/async/src_add_ts.js`.
+- In the production environment, it will be a random numeric id, such as `dist/static/js/async/798.27e3083e.js`. This is to avoid leaking the source code path in the production environment, and the number of characters is also less.
+
+```js title="src/index.ts"
+const { add } = await import('./add.ts');
+```
+
+If you want to specify a fixed name for the async module, you can use the [magic comments](https://webpack.js.org/api/module-methods/#magic-comments) provided by the bundler to achieve this, using `webpackChunkName ` to specify the module name:
+
+```js title="src/index.ts"
+const { add } = await import(
+  /* webpackChunkName: "my-chunk-name" */ './add.ts'
+);
+```
+
+After specifying the module name as above, the generated file will be `dist/static/js/async/my-chunk-name.js`.

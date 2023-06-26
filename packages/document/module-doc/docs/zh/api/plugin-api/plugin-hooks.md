@@ -1,6 +1,6 @@
 # Plugin Hooks
 
-本章介绍关于 module-tools 支持的生命周期钩子。
+本章介绍关于 Module Tools 支持的生命周期钩子。
 
 目前主要包含两类生命周期钩子：
 
@@ -22,7 +22,7 @@
 执行整体构建流程之前触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -61,7 +61,7 @@ type Return = BuildConfig;
 根据构建配置，Module Tools 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -83,7 +83,7 @@ export default (): CliPlugin<ModuleTools> => ({
 每一个构建子任务结束之后触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -111,7 +111,7 @@ export interface BuildTaskResult {
 整体构建流程结束之后触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -154,7 +154,7 @@ module-tools 还提供了 `build --platform` 命令来执行特定的构建任�
 获取在执行 `build --platform` 命令时候需要运行的任务信息。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -190,7 +190,7 @@ export interface RegisterBuildPlatformResult {
 当执行 `build --platform` 命令的时候，会触发所有已注册的构建任务。`beforeBuildPlatform` 会在执行整体的构建任务之前触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -220,7 +220,7 @@ export interface RegisterBuildPlatformResult {
 当执行 `build --platform` 命令的时候，会触发所有已注册的构建任务。`buildPlatform` 会在每个构建任务执行之前触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -246,7 +246,7 @@ export interface Options {
 当执行 `build --platform` 命令的时候，会触发所有已注册的构建任务。`afterBuildPlatform` 会在整体 platform 构建任务结束后触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -294,7 +294,7 @@ export interface BuildPlatformResult {
 - 执行调试任务的函数。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -337,7 +337,7 @@ export interface DevToolData {
 }
 ```
 
-<!-- :::tip{title='关于 disableRunBuild 配置'}
+<!-- :::tip 关于 disableRunBuild 配置
 在调试项目的时候，如果仅需要对代码功能进行调试的话，也许可以设置 `disableRunBuild: true` 来关闭对于源码执行（监听模式下的）构建任务。
 
 目前支持的 Storybook 调试支持将源码产物作为调试对象，因此在 Storybook 插件中 `disableRunBuild: false`。
@@ -348,7 +348,7 @@ export interface DevToolData {
 在收集完所有调试工具元数据后，执行 dev 任务之前触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -397,7 +397,7 @@ const question = [
 `afterDevMenu` 选择调试列表/菜单选项后触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -444,7 +444,7 @@ export interface DevToolData {
 执行调试任务之前触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -479,7 +479,7 @@ export interface DevToolData {
 在中断调试任务进程时触发。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {

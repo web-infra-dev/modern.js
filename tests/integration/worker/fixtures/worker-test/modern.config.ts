@@ -1,5 +1,5 @@
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import workPlugin from '@modern-js/plugin-worker';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { workerPlugin } from '@modern-js/plugin-worker';
 
 export default defineConfig({
   runtime: {
@@ -18,5 +18,5 @@ export default defineConfig({
       ssr: true,
     },
   },
-  plugins: [appTools(), workPlugin()],
+  plugins: [appTools(), workerPlugin()],
 });

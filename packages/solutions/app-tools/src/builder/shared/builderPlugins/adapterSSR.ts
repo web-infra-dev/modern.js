@@ -1,10 +1,12 @@
 import * as path from 'path';
 import {
+  isHtmlDisabled,
   BuilderPlugin,
   BundlerChain,
   mergeBuilderConfig,
 } from '@modern-js/builder-shared';
-import { ChainIdentifier, isSSR, fs } from '@modern-js/utils';
+import { isSSR, fs } from '@modern-js/utils';
+import { ChainIdentifier } from '@modern-js/utils/chain-id';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -14,7 +16,6 @@ import type {
 import { HtmlAsyncChunkPlugin, RouterPlugin } from '../bundlerPlugins';
 import type { BuilderOptions, BuilderPluginAPI } from '../types';
 import { getServerCombinedModueFile } from '../../../analyze/utils';
-import { isHtmlEnabled } from './adapterHtml';
 
 export const builderPluginAdapterSSR = <B extends Bundler>(
   options: BuilderOptions<B>,
@@ -56,7 +57,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
           });
         }
 
-        if (isHtmlEnabled(builderConfig, target)) {
+        if (!isHtmlDisabled(builderConfig, target)) {
           applyAsyncChunkHtmlPlugin({
             chain,
             modernConfig: options.normalizedConfig,
@@ -122,9 +123,10 @@ function applyRouterPlugin<B extends Bundler>(
 
   const routerConfig: any = normalizedConfig?.runtime?.router;
   const routerManifest = Boolean(routerConfig?.manifest);
+  const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
   // for ssr mode
-  if (existNestedRoutes || routerManifest) {
+  if (existNestedRoutes || routerManifest || workerSSR) {
     chain.plugin('route-plugin').use(RouterPlugin);
   }
 }

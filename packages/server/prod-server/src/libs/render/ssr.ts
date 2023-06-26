@@ -1,10 +1,11 @@
 import path from 'path';
-import { fs, mime } from '@modern-js/utils';
 import {
+  fs,
+  mime,
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
-} from '@modern-js/utils/constants';
+} from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import cache from './cache';
@@ -22,6 +23,7 @@ export const render = async (
     entryName: string;
     staticGenerate: boolean;
     enableUnsafeCtx?: boolean;
+    nonce?: string;
   },
   runner: ServerHookRunner,
 ): Promise<RenderResult> => {
@@ -33,6 +35,7 @@ export const render = async (
     entryName,
     staticGenerate,
     enableUnsafeCtx = false,
+    nonce,
   } = renderOptions;
   const bundleJS = path.join(distDir, bundle);
   const loadableUri = path.join(distDir, LOADABLE_STATS_FILE);
@@ -72,12 +75,14 @@ export const render = async (
     req: ctx.req,
     res: ctx.res,
     enableUnsafeCtx,
+    nonce,
   };
   context.logger = createLogger(context, ctx.logger);
   context.metrics = createMetrics(context, ctx.metrics);
 
   runner.extendSSRContext(context);
-  const serverRender = require(bundleJS)[SERVER_RENDER_FUNCTION_NAME];
+  const bundleJSContent = await Promise.resolve(require(bundleJS));
+  const serverRender = bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
   const content = await cache(serverRender, ctx)(context);
 
   const { url, status = 302 } = context.redirection;

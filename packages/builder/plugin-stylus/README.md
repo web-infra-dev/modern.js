@@ -19,8 +19,7 @@ This package is the stylus plugin of Modern.js Builder.
 
 ## Getting Started
 
-- [Introduction](https://modernjs.dev/builder/en/guide/introduction.html)
-- [API References](https://modernjs.dev/builder/en/api/)
+- [Documentation](https://modernjs.dev/builder/en/plugins/plugin-stylus.html)
 
 ## Contributing
 

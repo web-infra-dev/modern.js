@@ -2,25 +2,21 @@
 
 ## Bundler
 
-Refers to module bundlers such as `webpack`, `Rspack`.
+import Bundler from '@en/shared/bundler.md';
 
-The main goal of bundlers is to bundle JavaScript, CSS and other files together, and the bundled files can be used in the browser, Node.js or other environments. When bundler processes the Web application, it builds a dependency graph and then combines every module into one or more bundles.
-
-## Rspack
-
-[Rspack](https://www.rspack.dev/) is a high performance Rust-based JavaScript bundler that offers strong interoperability with the webpack ecosystem, enabling faster development cycles and efficient collaboration between the two tools.
+<Bundler />
 
 ## Builder
 
-Build Engine. The goal of Builder is to "reuse the best practices of build tools".
+import Builder from '@en/shared/builder.md';
 
-Bundlers are low-level, if we build a project based on webpack, we need to fully understand the webpack config and many webpack plugins and loaders, then spend a lot of time to combine them.
+<Builder />
 
-Builder is a out-of-box build tools. By using Builder, you can quickly gain the ability to build a web application.
+## Rspack
 
-The layers inside the Builder are as follows:
+import Rspack from '@en/shared/rspack.md';
 
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png)
+<Rspack />
 
 ## Builder Provider
 

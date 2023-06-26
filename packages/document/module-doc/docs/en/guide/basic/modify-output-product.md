@@ -1,16 +1,15 @@
 ---
 sidebar_position: 3
 ---
-# modify-output-product
 
-## Modify the output product
+# Modify the output product
 
 ## Default output products
 
 When the `modern build` command is used in an initialized project, the products are generated according to the default configuration supported by Module Tools. The default supported configurations are specified as follows.
 
 ```ts title="modern.config.ts"
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],
@@ -59,7 +58,7 @@ For example, if the output product is based on the preset string `"npm-library"`
 For example, to achieve the same effect as the preset string ``npm-library-es5"` using the form of a preset function, you can do the following.
 
 ```ts title="modern.config.ts"
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],

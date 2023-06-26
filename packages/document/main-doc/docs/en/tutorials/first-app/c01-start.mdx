@@ -17,7 +17,7 @@ We create a new directory and initialize the project via the command line tool:
 
 ```bash
 mkdir myapp && cd myapp
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 import InitApp from "@site-docs-en/components/init-app"
@@ -82,7 +82,7 @@ The page has no styles at the moment. The next chapter will expand on this secti
 Next, we modify the `modern.config.ts` in the project to enable the SSR capability:
 
 ```ts
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig({
   runtime: {

@@ -4,15 +4,15 @@ sidebar_position: 3
 ---
 # Custom Web Server
 
-As a client side-centric development framework, Modern.js has weak customization capabilities on the server side. In some development scenarios, special server level logic needs to be customized, such as user authentication, request preprocessing, and adding page rendering skeletons.
+As a client-centric development framework, Modern.js has limited customization capabilities on the server side. However, in some development scenarios, special server-level logic needs to be customized, such as user authentication, request preprocessing, and adding page rendering skeletons.
 
-Some developers may be wondering, Modern.js already provides [BFF](/guides/advanced-features/bff/function.html), why do you need **Custom Web Server**.
+Some developers may be wondering, Modern.js already provides [BFF](/guides/advanced-features/bff/function.html), why you need **Custom Web Server**.
 
-Because by default, page routing does not go through BFF, it has no way to provide server-side custom logic for page access. The reason for this design is that we do not want the service that controls the page to be bound to the BFF service, so as to avoid the BFF framework restricting how the page is deployed.
+The reason is that by default, page routing does not go through BFF, it has no way to provide server-side custom logic for page access. The reason for this design is that we do not want the service that controls the page to be bound to the BFF service, this is to avoid the BFF framework restricting how the page is deployed.
 
-For example, hosting pages separately from BFF, deploying page services to non-Node environments, or customizing for deployment platforms, etc.
+For example, hosting pages separately from BFF, deploying page services to non-Node environments, customizing for deployment platforms, etc.
 
-For the above reasons, Modern.js provides three ways that projects can customize server level capabilities progressively according to their needs.
+For the above reasons, Modern.js provides three ways that projects can customize server-level capabilities progressively according to their needs.
 
 :::warning
 The three extension methods cannot work at the same time, and developers need to choose the appropriate method according to the scenario.
@@ -20,21 +20,21 @@ The three extension methods cannot work at the same time, and developers need to
 
 ## Extending Web Server with API
 
-The first way is to customize the server level at a specific life cycle through the server level runtime API provided by Modern.js. The purpose of providing this way is that in some cases, developers do not need to control the full Web Server, but only need to add server level logic.
+The first way is to customize the server-side at a specific lifecycle through the server-side runtime API provided by Modern.js. The purpose of providing this way is that in some cases, developers do not need to control the full Web Server, but only need to add server-level logic.
 
-Because the full web server cannot be controlled this way, and the extension logic **only takes effect when the page is requested**. Therefore, it is relatively simple to apply to server level logic, and you do not want to create additional BFFs or BFFs and pages without common server level logic scenarios.
+Because the full web server cannot be controlled this way, and the extension logic **only takes effect when the page is requested**. Therefore, it is relatively simple to apply server-level logic, and you do not want to create additional BFFs or BFFs and pages without common server-level logic scenarios.
 
-You can execute the'pnpm run new 'command in the project root directory to enable the "Custom Web Serve" function:
+You can run the'pnpm run new 'command in the project root directory to enable the "Custom Web Serve" function:
 
 ```bash
-? Action Create project element
-? New "Custom Web Server" source code directory
+? Please select the operation you want: Create Element
+? Please select the type of element to create: New "Custom Web Server" source code directory
 ```
 
 After executing the command, register the `@modern-js/plugin-server` plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import serverPlugin from '@modern-js/plugin-server';
+import { serverPlugin } from '@modern-js/plugin-server';
 
 export default defineConfig({
   plugins: [..., serverPlugin()],
@@ -47,7 +47,7 @@ After the function is turned on, the `server/index.ts` file will be automaticall
 
 The Hook provided by Modern.js is used to control the built-in logic in the Web Server, and all page requests go through the Hook.
 
-There are currently two Hooks provided, namely `AfterMatch` and `AfterRender`, which can be used to modify the rendering results. It can be written in `server/index.ts` like this:
+Currently, two Hooks are provided: `AfterMatch` and `AfterRender`, which can be used to modify the rendering results. It can be written in `server/index.ts` as follows:
 
 ```ts
 import type { AfterMatchHook, AfterRenderHook } from '@modern-js/runtime/server';
@@ -61,11 +61,11 @@ export const afterRender: AfterRenderHook = (ctx, next) => {
 }
 ```
 
-Projects should have the following best practices when using Hook:
+Projects should follow these best practices when using Hook:
 
-1. Permission verification in afterMatch.
+1. Authentication in afterMatch.
 2. Do Rewrite and Redirect in afterMatch.
-3. Do HTML content injection in afterRender.
+3. Inject HTML content in afterRender.
 
 :::note
 For more detail, see [Hook](/apis/app/runtime/web-server/hook).
@@ -91,10 +91,10 @@ export const middleware: Middlewre = (context, next) => {
 For more detail, see [Middleware] (/apis/app/runtime/web-server/middleware).
 :::
 
-Projects should have the following best practices when using Middleware:
+Projects should follow these best practices when using Middleware:
 
 1. In Middleware, you can directly operate origin request and response objects, do event tracking, and inject Node services (databases, Redis, etc.) that may be used for SSR rendering.
-2. Marking and crawler optimization can be done in Middleware.
+2. Operations such as marking and crawler optimization can be done in Middleware.
 3. In Middleware, you can ignore the default rendering and customize the rendering process.
 
 **In general, in CSR projects, using Hook can basically meet all the needs of simple scenarios. In SSR projects, Middleware can be used for more complex Node extensions.**
@@ -103,9 +103,9 @@ Projects should have the following best practices when using Middleware:
 
 The second way is to use BFF to Managed page rendering. In this way, all requests will first hit the BFF service.
 
-This method can uniformly control the server level logic of all requests through BFF. Therefore, it is suitable for scenarios where the server level logic is complex, and BFF and pages need common server level logic. But it still relies on the Web Server of Modern.js as a whole, and cannot run the logic on existing services.
+This method can uniformly control the server-level logic of all requests through BFF. Therefore, it is suitable for scenarios where the server-level logic is complex, and BFF and pages need common server-level logic. But it still relies on the Web Server of Modern.js as a whole, and cannot run the logic on existing services.
 
-To use this method, we need to first enable the "BFF" function through `pnpm new`. Then add [`bff.enableHandleWeb`](/configure/app/bff/enable-handle-web.html) configuration in the configuration file:
+To use this method, we first need to enable the "BFF" function through `pnpm new`. Then add [`bff.enableHandleWeb`](/configure/app/bff/enable-handle-web.html) configuration in the configuration file:
 
 ```ts
 export default defineConfig({

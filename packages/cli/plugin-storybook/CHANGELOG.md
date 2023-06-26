@@ -1,5 +1,309 @@
 # @modern-js/plugin-storybook
 
+## 2.24.0
+
+### Patch Changes
+
+- 580fcf7: fix(storybook): fix typescript v5 capability issue
+
+  fix(storybook): 修复与 typescript v5 的兼容问题
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [ef041c0]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [56693a3]
+- Updated dependencies [4a82c3b]
+  - @modern-js/plugin-router-v5@2.24.0
+  - @modern-js/runtime@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+  - @modern-js/builder@2.24.0
+  - @modern-js/builder-plugin-node-polyfill@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [20c85bb]
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4af25d9]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/builder-webpack-provider@2.23.1
+  - @modern-js/builder@2.23.1
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+  - @modern-js/builder-plugin-node-polyfill@2.23.1
+  - @modern-js/plugin-router-v5@2.23.1
+  - @modern-js/runtime@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [15eac36]
+- Updated dependencies [9b270b6]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [5684381]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-webpack-provider@2.23.0
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/builder@2.23.0
+  - @modern-js/builder-plugin-node-polyfill@2.23.0
+  - @modern-js/plugin-router-v5@2.23.0
+  - @modern-js/runtime@2.23.0
+  - @modern-js/utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [c739207]
+- Updated dependencies [dd36311]
+- Updated dependencies [9b69987]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/runtime@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-webpack-provider@2.22.1
+  - @modern-js/builder-shared@2.22.1
+  - @modern-js/builder@2.22.1
+  - @modern-js/plugin-router-v5@2.22.1
+  - @modern-js/builder-plugin-node-polyfill@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- Updated dependencies [3d48836]
+- Updated dependencies [63cdea1]
+- Updated dependencies [8f1141c]
+- Updated dependencies [9c3c231]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+- Updated dependencies [27618e4]
+- Updated dependencies [ae3fcc2]
+- Updated dependencies [dc45896]
+- Updated dependencies [79180c2]
+- Updated dependencies [c271c5d]
+  - @modern-js/builder-webpack-provider@2.22.0
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/runtime@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/builder@2.22.0
+  - @modern-js/builder-plugin-node-polyfill@2.22.0
+  - @modern-js/plugin-router-v5@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [19b3b64]
+  - @modern-js/builder-shared@2.21.1
+  - @modern-js/builder@2.21.1
+  - @modern-js/builder-webpack-provider@2.21.1
+  - @modern-js/builder-plugin-node-polyfill@2.21.1
+  - @modern-js/plugin-router-v5@2.21.1
+  - @modern-js/runtime@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [55d37e9]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [0a1aa3b]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [441a579]
+- Updated dependencies [056627f]
+- Updated dependencies [8b7c6d4]
+- Updated dependencies [4274510]
+- Updated dependencies [807f04a]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/builder@2.21.0
+  - @modern-js/runtime@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/builder-webpack-provider@2.21.0
+  - @modern-js/builder-plugin-node-polyfill@2.21.0
+  - @modern-js/plugin-router-v5@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/builder-shared@2.20.0
+  - @modern-js/utils@2.20.0
+  - @modern-js/plugin-router-v5@2.20.0
+  - @modern-js/runtime@2.20.0
+  - @modern-js/builder@2.20.0
+  - @modern-js/builder-webpack-provider@2.20.0
+  - @modern-js/builder-plugin-node-polyfill@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- Updated dependencies [afb735f]
+  - @modern-js/builder-shared@2.19.1
+  - @modern-js/builder@2.19.1
+  - @modern-js/builder-webpack-provider@2.19.1
+  - @modern-js/builder-plugin-node-polyfill@2.19.1
+  - @modern-js/plugin-router-v5@2.19.1
+  - @modern-js/runtime@2.19.1
+  - @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+- Updated dependencies [1134fe2]
+- Updated dependencies [579d3d5]
+- Updated dependencies [8a3a2e5]
+  - @modern-js/builder-webpack-provider@2.19.0
+  - @modern-js/builder-shared@2.19.0
+  - @modern-js/utils@2.19.0
+  - @modern-js/runtime@2.19.0
+  - @modern-js/builder-plugin-node-polyfill@2.19.0
+  - @modern-js/builder@2.19.0
+  - @modern-js/plugin-router-v5@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- Updated dependencies [8fb93d1]
+- Updated dependencies [9b0b7ef]
+- Updated dependencies [e9ee8ba]
+- Updated dependencies [abf8c6d]
+- Updated dependencies [010b67e]
+  - @modern-js/runtime@2.18.1
+  - @modern-js/builder-webpack-provider@2.18.1
+  - @modern-js/builder-shared@2.18.1
+  - @modern-js/builder@2.18.1
+  - @modern-js/plugin-router-v5@2.18.1
+  - @modern-js/builder-plugin-node-polyfill@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- Updated dependencies [ea60b58]
+- Updated dependencies [7de6599]
+  - @modern-js/builder-plugin-node-polyfill@2.18.0
+  - @modern-js/runtime@2.18.0
+  - @modern-js/plugin-router-v5@2.18.0
+  - @modern-js/builder@2.18.0
+  - @modern-js/builder-shared@2.18.0
+  - @modern-js/builder-webpack-provider@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- 8fa2324: fix: fix runtime feature of Storybook
+  fix: 修复 Storybook 的 runtime 功能
+  - @modern-js/builder@2.17.1
+  - @modern-js/builder-shared@2.17.1
+  - @modern-js/builder-webpack-provider@2.17.1
+  - @modern-js/builder-plugin-node-polyfill@2.17.1
+  - @modern-js/plugin-router-v5@2.17.1
+  - @modern-js/runtime@2.17.1
+  - @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- Updated dependencies [3810930]
+  - @modern-js/runtime@2.17.0
+  - @modern-js/plugin-router-v5@2.17.0
+  - @modern-js/builder@2.17.0
+  - @modern-js/builder-shared@2.17.0
+  - @modern-js/builder-webpack-provider@2.17.0
+  - @modern-js/builder-plugin-node-polyfill@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 02e9c5d: fix: fix storybook runtime addon
+  fix: 修复 storybook runtime addon
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [02e9c5d]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+- Updated dependencies [fb19f48]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/runtime@2.16.0
+  - @modern-js/builder-webpack-provider@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/builder-plugin-node-polyfill@2.16.0
+  - @modern-js/plugin-router-v5@2.16.0
+  - @modern-js/builder@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

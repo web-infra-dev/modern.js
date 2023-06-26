@@ -2,7 +2,7 @@ import type { CliPlugin } from '@modern-js/core';
 import { logger } from '@modern-js/utils/logger';
 import lint from './lint';
 
-export default (): CliPlugin => ({
+export const lintPlugin = (): CliPlugin => ({
   name: '@modern-js/plugin-lint',
   setup: () => {
     return {
@@ -30,3 +30,5 @@ export default (): CliPlugin => ({
     };
   },
 });
+
+export default lintPlugin;

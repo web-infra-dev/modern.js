@@ -28,6 +28,7 @@ type RuntimeContext = {
     cookie: string;
   };
   store: ReduckStore;
+  router: RemixRouter;
 };
 
 function useRuntimeContext(): RuntimeContext;
@@ -41,7 +42,10 @@ function useRuntimeContext(): RuntimeContext;
   - `query`：请求的查询字符串对象。
   - `headers`：请求头信息。
   - `cookie`：请求的 cookie 信息。
-- `store`：在开启了 state 插件的时候，该值为 reduck 全局 `store`。
+- `store`：在开启了 state 插件的时候，该值为 Reduck 全局 `store`。
+- `router`：在开启 router 插件的时候存在。
+  - `location`：当前路由对应的位置信息。同 [`useLocation`](/apis/app/runtime/router/router.html#uselocation) 返回值。
+  - `navigate`：导航到给定路径。同 [`useNavigate`](/apis/app/runtime/router/router.html#usenavigate) 返回值。
 
 ## 示例
 

@@ -8,12 +8,12 @@ A Library author don't want to "pollute" the global scope with the polyfills you
 
 ## Usage
 
-```ts
+```ts modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
-import moduleImport from '@modern-js/plugin-module-import';
+import { modulePluginImport } from '@modern-js/plugin-module-import';
 
 export default defineConfig({
-  plugins: [moduleImport({
+  plugins: [modulePluginImport({
     pluginImport: [
       {
           libraryName: 'antd',

@@ -2,6 +2,7 @@
 title: autoLoadPlugins (自动注册插件)
 sidebar_position: 11
 ---
+
 # autoLoadPlugins (自动注册插件)
 
 - **类型：** `boolean`
@@ -14,11 +15,11 @@ sidebar_position: 11
 默认情况下，安装插件后，你需要在 `modern.config.ts` 文件中手动注册插件。
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import i18nPlugin from '@modern-js/plugin-i18n';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { bffPlugin } from '@modern-js/plugin-bff';
 
 export default defineConfig({
-  plugins: [appTools(), i18nPlugin()],
+  plugins: [appTools(), bffPlugin()],
 });
 ```
 

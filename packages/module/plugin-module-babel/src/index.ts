@@ -5,7 +5,7 @@ export type Options = typeof babelPlugin extends (arg1: infer P) => void
   ? P
   : never;
 
-// deprecated export name
+// deprecated named export
 export const ModulePluginBabel = (
   options?: Options,
 ): CliPlugin<ModuleTools> => ({
@@ -18,5 +18,5 @@ export const ModulePluginBabel = (
   }),
 });
 
-// right export name
+// right named export
 export { ModulePluginBabel as modulePluginBabel };

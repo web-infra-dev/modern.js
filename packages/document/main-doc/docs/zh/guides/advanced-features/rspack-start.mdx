@@ -26,27 +26,25 @@ import InitRspackApp from '@site-docs/components/init-rspack-app';
 :::tip
 在使用 Rspack 作为打包工具时，由于部分能力尚在开发中，以下 features 暂时无法使用，我们将在未来提供支持：
 
-- 微前端（Micro Frontend）
 - Storybook 调试
-- 同时使用服务端渲染（SSR）和约定式路由的场景
-- 同时使用静态站点生成（SSG）和约定式路由的场景
+- 客户端渲染（CSR）使用 [useLoader](/guides/basic-features/data-fetch.html)
 
 :::
 
-## 从 webpack 迁移至 Rspack
+## 开启 Rspack 构建
 
 在一个已有的 Modern.js 项目中，你可以通过执行 `pnpm run new` 来启用 Rspack 构建：
 
 ```bash
 $ pnpm run new
-? 请选择你想要的操作：启用可选功能
-? 启用可选功能：启用「Rspack 构建」
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用「Rspack 构建」
 ```
 
 执行以上命令后，在 `modern.config.ts` 中添加 Rspack 相关配置即可：
 
 ```diff title=modern.config.ts
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 + export default defineConfig<'rspack'>({
   plugins: [
@@ -57,6 +55,41 @@ import appTools, { defineConfig } from '@modern-js/app-tools';
 });
 ```
 
-:::tip
-从 webpack 迁移至 Rspack 时，存在一些构建能力和配置上的差异，详情可参考：[配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack)
+## 配置迁移
+
+开启 Rspack 构建能力后，还需要参考 [配置差异](https://modernjs.dev/builder/guide/advanced/rspack-start.html#从-webpack-迁移到-rspack) 进行进一步的配置迁移。
+
+## Rspack 和 Modern.js 的版本关系
+
+通常情况下，Modern.js 内会集成 Rspack 的最新版本，通过 `npx modern upgrade` 即可将当前项目中的 Modern.js 相关依赖以及内置的 Rspack 更新至最新版本。
+
+但 Modern.js 对于 Rspack 的依赖方式为锁版本方式(非自动升级)，由于发版周期不同步等原因，可能会出现 Modern.js 内集成的 Rspack 版本落后于 Rspack 最新版本的情况。
+
+当你执行 dev / build 命令时，Modern.js 会自动打印当前使用的 Rspack 版本：
+
+![rspack_version_log](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/img_v2_dfcf051f-21db-4741-a108-d9f7a82c3abg.png)
+
+#### 修改内置 Rspack 版本
+
+可以使用 pnpm / yarn / npm 等包管理工具自带的依赖升级功能来将 Rspack 强制升级到指定版本。
+
+以 pnpm 为例，可通过 `overrides` 以下依赖更新 Rspack 版本:
+
+```json title=package.json
+{
+  "pnpm": {
+    "overrides": {
+      "@rspack/core": "nightly",
+      "@rspack/dev-client": "nightly",
+      "@rspack/plugin-html": "nightly"
+    }
+  }
+}
+```
+
+:::tip Nightly 版本介绍
+每天，Rspack 会自动构建基于最新代码的 nightly 版本，用于测试和及早发现错误。
+通常情况下，这些版本是可用的。如果发现问题，我们会及时进行修复。但是，如果 Rspack 有一些 break change，需要 Modern.js 同步修改代码，那么我们建议等待下一个 Modern.js 版本再进行更新。
 :::
+
+如果想了解其他包管理工具锁定依赖版本的示例，可以参考：[锁定子依赖](/guides/get-started/upgrade.html#%E9%94%81%E5%AE%9A%E5%AD%90%E4%BE%9D%E8%B5%96)。

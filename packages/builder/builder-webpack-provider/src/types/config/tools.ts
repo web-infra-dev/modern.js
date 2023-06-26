@@ -13,15 +13,9 @@ import type {
 } from '../hooks';
 import type {
   CSSExtractOptions,
-  CSSLoaderOptions,
   CssMinimizerPluginOptions,
-  ForkTSCheckerOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
-  PostCSSLoaderOptions,
-  PostCSSPlugin,
-  PugOptions,
-  StyleLoaderOptions,
   TerserPluginOptions,
   TSLoaderOptions,
   WebpackChain,
@@ -40,22 +34,9 @@ export type ToolsTSLoaderConfig = ChainedConfig<
 
 export type ToolsStyledComponentConfig = ChainedConfig<IStyledComponentOptions>;
 
-export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
-
-export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
-
 export type ToolsCssExtractConfig =
   | CSSExtractOptions
   | ((options: CSSExtractOptions) => CSSExtractOptions | void);
-
-export type ToolsPostCSSLoaderConfig = ChainedConfig<
-  PostCSSLoaderOptions,
-  { addPlugins: (plugins: PostCSSPlugin | PostCSSPlugin[]) => void }
->;
-
-export type ToolsPugConfig = true | ChainedConfig<PugOptions>;
-
-export type ToolsTSCheckerConfig = ChainedConfig<ForkTSCheckerOptions>;
 
 export type ToolsHtmlPluginConfig = ChainedConfig<
   HTMLPluginOptions,
@@ -78,9 +59,6 @@ export type ToolsWebpackChainConfig = ArrayOrNot<
 
 export interface ToolsConfig extends SharedToolsConfig {
   /**
-   * Configure the [Pug](https://pugjs.org/) template engine.
-   */
-  pug?: ToolsPugConfig;
   /**
    * Modify the config of [sass-loader](https://github.com/webpack-contrib/sass-loader).
    */
@@ -99,10 +77,6 @@ export interface ToolsConfig extends SharedToolsConfig {
    */
   tsLoader?: ToolsTSLoaderConfig;
   /**
-   * Modify the options of [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin).
-   */
-  tsChecker?: ToolsTSCheckerConfig;
-  /**
    * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
    */
   minifyCss?: ToolsMinifyCssConfig;
@@ -115,21 +89,9 @@ export interface ToolsConfig extends SharedToolsConfig {
    */
   styledComponents?: ToolsStyledComponentConfig;
   /**
-   * Modify the options of [css-loader](https://github.com/webpack-contrib/css-loader).
-   */
-  cssLoader?: ToolsCSSLoaderConfig;
-  /**
-   * Modify the options of [style-loader](https://github.com/webpack-contrib/style-loader).
-   */
-  styleLoader?: ToolsStyleLoaderConfig;
-  /**
    * Modify the options of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
    */
   cssExtract?: CSSExtractOptions;
-  /**
-   * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).
-   */
-  postcss?: ToolsPostCSSLoaderConfig;
   /**
    * Configure [webpack](https://webpack.js.org/).
    */

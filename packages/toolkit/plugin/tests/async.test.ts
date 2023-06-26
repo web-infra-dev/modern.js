@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
 import {
   createPipeline,
@@ -263,6 +262,7 @@ describe('async manager', () => {
     it('should throw error when attaching rival plugin', async () => {
       const manager = createAsyncManager();
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -272,7 +272,6 @@ describe('async manager', () => {
       );
       const plugin1 = manager.createPlugin(
         () => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           count += 1;
         },
         {
@@ -289,6 +288,7 @@ describe('async manager', () => {
     it('should not throw error without attaching rival plugin', async () => {
       const manager = createAsyncManager();
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -298,7 +298,6 @@ describe('async manager', () => {
       );
       const plugin1 = manager.createPlugin(
         () => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           count += 1;
         },
         {
@@ -331,6 +330,7 @@ describe('async manager', () => {
     it('should not throw error without attaching rival plugin', async () => {
       const manager = createAsyncManager();
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -343,7 +343,6 @@ describe('async manager', () => {
       );
       const plugin1 = manager.createPlugin(
         () => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           count += 1;
         },
         { name: 'plugin1' },

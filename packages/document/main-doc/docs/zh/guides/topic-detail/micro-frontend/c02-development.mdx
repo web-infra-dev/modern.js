@@ -24,7 +24,7 @@ title: 体验微前端
 
 ```bash
 mkdir masterApp && cd masterApp
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 import DefaultMWAGenerate from "@site-docs/components/default-mwa-generate";
@@ -35,7 +35,7 @@ import DefaultMWAGenerate from "@site-docs/components/default-mwa-generate";
 
 ```bash
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? 请选择功能名称 启用「微前端」模式
 ```
 
 接下来，让我们注册微前端插件并添加开启微前端主应用，并增加子应用列表：
@@ -106,7 +106,7 @@ export default Layout;
 
 ```bash
 mkdir masterApp && cd masterApp
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 <DefaultMWAGenerate />
@@ -115,7 +115,7 @@ npx @modern-js/create
 
 ```bash
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? 请选择功能名称 启用「微前端」模式
 ```
 
 接下来，让我们注册微前端插件并添加开启微前端主应用，并增加子应用列表：
@@ -134,7 +134,7 @@ import CustomRouterMicroFrontend from "@site-docs/components/custom-router-micro
 
 ```bash
 mkdir table && cd table
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 按照如下选择，生成项目：
@@ -145,14 +145,14 @@ npx @modern-js/create
 
 ```bash
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? 请选择功能名称 启用「微前端」模式
 ```
 
 接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
 ```js title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import garfishPlugin from '@modern-js/plugin-garfish';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {
@@ -186,7 +186,7 @@ export default Index;
 
 ```bash
 mkdir dashboard && cd dashboard
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 按照如下选择，生成项目：
@@ -197,14 +197,14 @@ npx @modern-js/create
 
 ```bash
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「微前端」模式
+? 请选择功能名称 启用「微前端」模式
 ```
 
 接下来，让我们注册微前端插件并修改 `modern.config.ts`，添加微前端子应用的配置 `deploy.microFrontend`：
 
 ```js title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import garfishPlugin from '@modern-js/plugin-garfish';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {

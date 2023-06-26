@@ -1,5 +1,141 @@
 # @modern-js/utils
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 4a82c3b: fix: export `@remix-run/router` cjs instead of `react-router-dom`
+  fix: 暴露 `@remix-run/router` 的 cjs 导出代替 `react-router-dom`
+
+## 2.23.1
+
+### Patch Changes
+
+- f08bbfc: feat(builder): add basic Vue 3 plugin
+
+  feat(builder): 增加基础的 Vue 3 插件
+
+- a6b313a: fix(builder): can't use new React JSX with parent's package.json
+
+  fix(builder): 修复 package.json 在父级目录时无法使用新版 react jsx 的问题
+
+- 8f2cab0: feat(builder): support using new URL to handle wasm assets
+
+  feat(builder): 支持通过 new URL 来处理 wasm 资源
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- a7a7ad7: chore: move some public code to the utils package
+  chore: 移动一些公共的代码到 utils 包
+- 6dec7c2: test(utils): reuse the snapshot serializer of vitest config
+
+  test(utils): 复用 vitest 的 snapshot serializer
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+## 2.22.1
+
+### Patch Changes
+
+- e2848a2: fix: support nonce in streaming SSR
+  fix: 在 streaming SSR 中支持 nonce
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 5050e8e: fix: browser should get last element that server insert to html for baseUrl
+  fix: 浏览器需要获取最后一个 Server 注入 HTML 的 baseUrl 数据
+
+## 2.21.1
+
+## 2.21.0
+
+### Minor Changes
+
+- 056627f: fix(plugin-sass): pollute the `global.location` object
+  fix(plugin-sass): 污染全局对象 `global.location`
+
+### Patch Changes
+
+- e81eeaf: refactor: guard react-router version consistency
+  refactor: 保证 react-router 相关包的版本一致性
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 0fc15ca: fix: fix `@modern-js/utils` subpath exports
+  fix: 修复 `@modern-js/utils` 子路径导出
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+## 2.20.0
+
+### Patch Changes
+
+- 3c4e0a5: chore(utils): move generateMetaTags method to builder-shared
+
+  chore(utils): 移动 generateMetaTags 方法到 builder-shared
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+
+## 2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+## 2.18.1
+
+## 2.18.0
+
+## 2.17.1
+
+## 2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- 7596520: feat(builder): builder plugin supports specifying relative order via the `pre` / `post` configuration items
+
+  feat(builder): builder 插件支持通过 `pre` / `post` 配置项指定相对顺序
+
+### Patch Changes
+
+- 5954330: fix: route id should not include [ or ]
+  fix: 路由 id 不应该包含 [ 或 ]
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 2.15.0
 
 ## 2.14.0

@@ -9,9 +9,9 @@ sidebar_label: swc
 
 ## Introduction
 
-[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minimizer for JavaScript and TypeScript based on `Rust`. SWC can provide the same abilities with Babel, and it's more than 10x faster than Babel.
+import SWC from '@modern-js/builder-doc/docs/en/shared/swc.md';
 
-Modern.js Builder has a out-of-box plugin for SWC, power your Web application with Polyfill and minification, we also port some common used Babel plugins to SWC.
+<SWC />
 
 :::tip
 When using Rspack as the bundler, SWC will be used for transpiling and compression by default, so you don't need to install or configure the SWC plugin.
@@ -19,23 +19,9 @@ When using Rspack as the bundler, SWC will be used for transpiling and compressi
 
 ## Install
 
-First, you need to execute `pnpm run new` to enable the SWC compile:
+import EnableSWC from '@modern-js/builder-doc/docs/en/shared/enable-swc.md';
 
-```bash
-? Action: Enable features
-? Enable features: Enable SWC Compile
-```
-
-After the installation, please register the SWC plugin in the `modern.config.ts` file, then the SWC compilation and compression will be enabled.
-
-```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import swcPlugin from '@modern-js/plugin-swc';
-
-export default defineConfig({
-  plugins: [appTools(), swcPlugin()],
-});
-```
+<EnableSWC />
 
 ## Config
 

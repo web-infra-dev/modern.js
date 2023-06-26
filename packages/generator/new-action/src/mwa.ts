@@ -23,7 +23,12 @@ import {
   getModernPluginVersion,
   getPackageManager,
 } from '@modern-js/generator-utils';
-import { alreadyRepo, getGeneratorPath, hasEnabledFunction } from './utils';
+import {
+  alreadyRepo,
+  getGeneratorPath,
+  hasEnabledFunction,
+  usePluginNameExport,
+} from './utils';
 
 interface IMWANewActionOption {
   locale?: string;
@@ -128,6 +133,12 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     MWAActionFunctionsDependencies[action as ActionFunction] ||
     MWAActionRefactorDependencies[action as ActionRefactor];
 
+  const shouldUsePluginNameExport = await usePluginNameExport(Solution.MWA, {
+    registry,
+    distTag,
+    cwd,
+  });
+
   const finalConfig = merge(
     UserConfig,
     ans,
@@ -151,6 +162,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
         MWAActionReactorAppendTypeContent[action as ActionRefactor],
       pluginName: MWANewActionPluginName[actionType][action],
       pluginDependence: MWANewActionPluginDependence[actionType][action],
+      shouldUsePluginNameExport,
     },
   );
 

@@ -1,17 +1,21 @@
-import { sharedSecurityConfigSchema, z } from '@modern-js/builder-shared';
+import {
+  sharedSecurityConfigSchema,
+  z,
+  SriOptions,
+} from '@modern-js/builder-shared';
 import type { SecurityConfig } from '../../types';
+
+export const SriOptionsSchema: z.ZodType<SriOptions> = z.partialObj({
+  hashFuncNames: z.array(z.string()).min(1) as unknown as z.ZodType<
+    [string, ...string[]]
+  >,
+  enabled: z.literals(['auto', true, false]),
+  hashLoading: z.literals(['eager', 'lazy']),
+});
 
 export const securityConfigSchema: z.ZodType<SecurityConfig> =
   sharedSecurityConfigSchema
     .extend({
-      checkSyntax: z.union([
-        z.boolean(),
-        z.object({
-          targets: z.array(z.string()),
-          exclude: z.optional(
-            z.union([z.instanceof(RegExp), z.array(z.instanceof(RegExp))]),
-          ),
-        }),
-      ]),
+      sri: z.union([SriOptionsSchema, z.boolean()]),
     })
     .partial();

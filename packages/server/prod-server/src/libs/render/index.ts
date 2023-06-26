@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, mime } from '@modern-js/utils';
+import { cutNameByHyphen, mime } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
@@ -13,10 +13,14 @@ export const createRenderHandler = ({
   distDir,
   staticGenerate,
   forceCSR,
+  nonce,
+  metaName = 'modern-js',
 }: {
   distDir: string;
   staticGenerate: boolean;
   forceCSR?: boolean;
+  nonce?: string;
+  metaName?: string;
 }) =>
   async function render({
     ctx,
@@ -40,18 +44,16 @@ export const createRenderHandler = ({
     }
 
     const templatePath = entry;
-
-    if (!fs.existsSync(templatePath)) {
-      throw new Error(`Could not find template file: ${templatePath}`);
-    }
-
     const content = await readFile(templatePath);
     if (!content) {
       return null;
     }
 
     // handles ssr first
-    const useCSR = forceCSR && ctx.query.csr;
+    const useCSR =
+      forceCSR &&
+      (ctx.query.csr ||
+        ctx.headers[`x-${cutNameByHyphen(metaName)}-ssr-fallback`]);
     if (route.isSSR && !useCSR) {
       try {
         const result = await ssr.render(
@@ -63,6 +65,7 @@ export const createRenderHandler = ({
             bundle: route.bundle,
             template: content.toString(),
             staticGenerate,
+            nonce,
           },
           runner,
         );

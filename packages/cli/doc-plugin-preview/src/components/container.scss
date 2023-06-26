@@ -1,0 +1,57 @@
+.code-wrapper {
+  padding: 16px 0;
+}
+
+.code-operations {
+  display: flex;
+  .ac-btn-expanded {
+    background-color: #1d2129 !important;
+    color: #f7f8fa !important;
+    border-color: #f7f8fa !important;
+  }
+}
+
+.code-operations.web {
+  justify-content: center;
+  position: absolute;
+  top: calc(50% - 14px);
+  right: 16px;
+}
+
+.code-operations.mobile {
+  justify-content: flex-end;
+  position: absolute;
+  width: 360px;
+  border-top: 1px solid #e6e6e6;
+  bottom: 0px;
+  right: 0px;
+  padding: 6px;
+}
+
+.preview-code {
+  position: relative;
+  overflow: hidden;
+  flex: 1 1;
+  max-height: 700px;
+}
+
+.preview-device {
+  position: relative;
+  flex: 0 0;
+  &-iframe {
+    width: 360px;
+    height: 100%;
+    padding-bottom: 40px;
+  }
+}
+
+.code-content {
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+
+.code-content.show-all {
+  margin-top: 16px;
+  display: block;
+}

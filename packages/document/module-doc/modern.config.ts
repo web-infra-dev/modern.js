@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig, NavItem } from '@modern-js/doc-tools';
+import { docTools, defineConfig, NavItem } from '@modern-js/doc-tools';
 import { remarkCodeHike } from '@code-hike/mdx';
 import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 
@@ -42,7 +42,7 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
         },
         {
           text: getText('贡献指南', 'Contributing'),
-          link: 'https://github.com/web-infra-dev/modern.js/tree/main/packages/solutions/module-tools/CHANGELOG.md',
+          link: 'https://modernjs.dev/en/community/contributing-guide.html',
         },
       ],
     },
@@ -113,6 +113,11 @@ export default defineConfig({
           description: 'Module Engineering Solutions',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/module-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
     },
     builderConfig: {
       dev: {

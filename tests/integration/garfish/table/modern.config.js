@@ -1,6 +1,6 @@
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import garfishPlugin from '@modern-js/plugin-garfish';
-import routerPlugin from '@modern-js/plugin-router-v5';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
+import { routerPlugin } from '@modern-js/plugin-router-v5';
 import { getPort } from '../../../utils/testCase';
 
 const port = getPort('@cypress-test/garfish-table');
@@ -27,5 +27,14 @@ module.exports = defineConfig({
       moduleName: 'Dashboard',
     },
   },
-  plugins: [appTools(), garfishPlugin(), routerPlugin()],
+  plugins: [
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
+    garfishPlugin(),
+    routerPlugin(),
+  ],
 });

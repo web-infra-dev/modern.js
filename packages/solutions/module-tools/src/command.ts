@@ -128,7 +128,7 @@ export const newCommand = async (program: Command) => {
     });
 };
 
-export const upgradCommand = async (program: Command) => {
+export const upgradeCommand = async (program: Command) => {
   const { defineCommand } = await import('@modern-js/upgrade');
   defineCommand(program.command('upgrade'));
 };

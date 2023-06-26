@@ -1,6 +1,6 @@
 {
   "name": "@scripts/lint-package-json",
-  "version": "2.15.0",
+  "version": "2.24.0",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",
@@ -15,6 +15,6 @@
     "fast-glob": "^3.2.11"
   },
   "devDependencies": {
-    "tsx": "^3.7.1"
+    "tsx": "^3.12.7"
   }
 }

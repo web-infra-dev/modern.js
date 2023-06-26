@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import {
   DEFAULT_PORT,
   ROOT_DIST_DIR,
@@ -14,16 +15,20 @@ import {
   DEFAULT_MOUNT_ID,
   DEFAULT_DATA_URL_SIZE,
 } from './constants';
+import { generateMetaTags } from './generateMetaTags';
 import type {
   BuilderTarget,
+  BundlerChainRule,
   SharedHtmlConfig,
   InspectConfigOptions,
   CreateBuilderOptions,
   NormalizedSharedDevConfig,
+  NormalizedSharedHtmlConfig,
   NormalizedSharedOutputConfig,
   NormalizedSharedSourceConfig,
-  NormalizedSharedHtmlConfig,
-  BundlerChainRule,
+  NormalizedSharedSecurityConfig,
+  NormalizedSharedPerformanceConfig,
+  NormalizedSharedToolsConfig,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
@@ -42,6 +47,7 @@ export const getDefaultDevConfig = (): NormalizedSharedDevConfig => ({
 });
 
 export const getDefaultSourceConfig = (): NormalizedSharedSourceConfig => ({
+  alias: {},
   preEntry: [],
   globalVars: {},
   compileJsDataURI: true,
@@ -54,6 +60,25 @@ export const getDefaultHtmlConfig = (): NormalizedSharedHtmlConfig => ({
   disableHtmlFolder: false,
   scriptLoading: 'defer',
 });
+
+export const getDefaultSecurityConfig = (): NormalizedSharedSecurityConfig => ({
+  nonce: '',
+  checkSyntax: false,
+});
+
+export const getDefaultToolsConfig = (): NormalizedSharedToolsConfig => ({
+  tsChecker: {},
+});
+
+export const getDefaultPerformanceConfig =
+  (): NormalizedSharedPerformanceConfig => ({
+    buildCache: true,
+    printFileSize: true,
+    removeConsole: false,
+    chunkSplit: {
+      strategy: 'split-by-experience',
+    },
+  });
 
 export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
   distPath: {
@@ -270,7 +295,6 @@ export async function getMetaTags(
   entryName: string,
   config: { html: SharedHtmlConfig; output: NormalizedSharedOutputConfig },
 ) {
-  const { generateMetaTags } = await import('@modern-js/utils');
   const { meta, metaByEntries } = config.html;
 
   const metaOptions = {
@@ -345,4 +369,18 @@ export const chainStaticAssetRule = ({
       filename,
     })
     .set('issuer', issuer);
+};
+
+export const getDefaultStyledComponentsConfig = (
+  isProd: boolean,
+  ssr: boolean,
+) => {
+  return {
+    ssr,
+    // "pure" is used to improve dead code elimination in production.
+    // we don't need to enable it in development because it will slow down the build process.
+    pure: isProd,
+    displayName: true,
+    transpileTemplateLiterals: true,
+  };
 };

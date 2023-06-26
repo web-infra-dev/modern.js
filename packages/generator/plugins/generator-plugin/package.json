@@ -3,7 +3,11 @@
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/generator/plugins/generator-plugin"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -11,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.9",
+  "version": "3.1.24",
   "jsnext:source": "./src/index.ts",
   "main": "./src/index.ts",
   "files": [
@@ -20,7 +24,8 @@
   ],
   "meta": {
     "key": "generator-plugin",
-    "name": "生成器插件",
+    "name": "Generator Plugin",
+    "name_zh": "生成器插件",
     "type": "module"
   },
   "scripts": {
@@ -30,13 +35,12 @@
     "test": "jest --passWithNoTests"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/generator-common": "workspace:*",
     "@modern-js/generator-plugin": "workspace:*",
     "@modern-js/plugin-i18n": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
-    "typescript": "^4",
+    "typescript": "^5",
     "@scripts/build": "workspace:*",
     "jest": "^29",
     "@scripts/jest-config": "workspace:*"
@@ -45,7 +49,8 @@
   "publishConfig": {
     "main": "./dist/index.js",
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "types": "./src/index.ts"
 }

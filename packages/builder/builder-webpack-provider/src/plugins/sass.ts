@@ -1,25 +1,19 @@
-import path from 'path';
-import { pathToFileURL } from 'url';
 import {
   isUseCssSourceMap,
   SASS_REGEX,
   getSassLoaderOptions,
+  patchCompilerGlobalLocation,
 } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
-
-/** fix issue about dart2js: https://github.com/dart-lang/sdk/issues/27979 */
-export function patchGlobalLocation() {
-  const href = `${pathToFileURL(process.cwd()).href}${path.sep}`;
-  // @ts-expect-error
-  global.location ||= {};
-  global.location.href ||= href;
-}
 
 export function builderPluginSass(): BuilderPlugin {
   return {
     name: 'builder-plugin-sass',
-    setup(api) {
-      patchGlobalLocation();
+    async setup(api) {
+      api.onAfterCreateCompiler(({ compiler }) => {
+        patchCompilerGlobalLocation(compiler);
+      });
+
       api.modifyBundlerChain(async (chain, utils) => {
         const config = api.getNormalizedConfig();
         const { applyBaseCSSRule } = await import('./css');
@@ -36,7 +30,13 @@ export function builderPluginSass(): BuilderPlugin {
           rule.exclude.add(item);
         });
 
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+          importLoaders: 2,
+        });
 
         rule
           .use(utils.CHAIN_ID.USE.SASS)

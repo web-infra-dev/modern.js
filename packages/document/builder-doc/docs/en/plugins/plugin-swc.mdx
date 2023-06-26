@@ -1,16 +1,54 @@
 # SWC Plugin
 
-[SWC](https://SWC.rs/) (Speedy Web Compiler) is a transformer and minimizer for JavaScript and TypeScript based on `Rust`. SWC can provide the same abilities with Babel, and it's more than 10x faster than Babel.
+import SWC from '@en/shared/swc.md';
 
-Modern.js Builder has a out-of-box plugin for SWC, power your Web application with Polyfill and minification, we also port some common used Babel plugins to SWC.
+<SWC />
+
+## Usage Scenarios
+
+Before using the SWC plugin, please understand the scenarios and limitations of the SWC plugin to determine whether your project is suitable for using it.
+
+### Rspack Scenario
+
+If you are already using Rspack as the bundler in your project, then you do not need to use the SWC plugin, because Rspack uses SWC for transpiler and minifier by default, and the SWC compilation capabilities are available out of the box.
+
+### Babel Plugins
+
+If your project requires the registration of some custom Babel plugins, you will not be able to register and use Babel plugins after using SWC, since it replaces Babel as the transpiler.
+
+For most common Babel plugins, you can find corresponding replacements in SWC, such as:
+
+- `@babel/preset-env`: use [presetEnv](#presetenv) instead.
+- `@babel/preset-react`: use [presetReact](#presetreact) instead.
+- `babel-plugin-import`: use [source.transformImport](/api/config-source.html#sourcetransformimport) instead.
+- `babel-plugin-lodash`: use [extensions.lodash](#extensionslodash) instead.
+- `@emotion/babel-plugin`: use [extensions.emotion](#extensionsemotion) instead.
+- `babel-plugin-styled-components`: use [extensions.styledComponents](#extensionsstyledcomponents) instead.
+- `@babel/plugin-react-transform-remove-prop-types`: use [reactUtils.removePropTypes](#extensionsreactutils) instead.
+
+If you use Babel plugin capabilities that are not yet supported by SWC, you will no longer be able to use them after switching to SWC compilation. You can give feedback via issues under the [swc-plugins](https://github.com/web-infra-dev/swc-plugins) repository and we will evaluate if built-in support is needed.
+
+### Bundle Size
+
+When using SWC for code minification instead of [terser](https://github.com/terser/terser) and [cssnano](https://github.com/cssnano/cssnano), there may be a small change in the bundle size. SWC outperforms terser for JavaScript code compression and slightly underperforms cssnano for CSS code compression.
+
+For a detailed comparison between minifiers, see [minification-benchmarks](https://github.com/privatenumber/minification-benchmarks).
 
 ## Quick Start
 
-:::tip
-When using Rspack as the bundler, SWC will be used for transpiling and compression by default, so you don't need to install or configure the SWC plugin.
-:::
+### Used in Modern.js framework
 
-### Install
+The Modern.js framework integrates the Builder's SWC plugin, and you can use it in the following ways:
+
+import EnableSWC from '@en/shared/enable-swc.md';
+
+<EnableSWC />
+
+### Use via the Node API
+
+If you use the Builder's Node API, you need to manually install and register the SWC plugin of Builder.
+
+#### Install
 
 You can install the plugin with the following command:
 
@@ -25,19 +63,9 @@ yarn add @modern-js/builder-plugin-swc -D
 pnpm add @modern-js/builder-plugin-swc -D
 ```
 
-### Register
+#### Register
 
-In upper-level frameworks such as Modern.js, you can register SWC plugin through the `builderPlugins` config:
-
-```ts
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-
-export default {
-  builderPlugins: [builderPluginSwc()],
-};
-```
-
-If you are using the Builder's Node API, you can register SWC plugin through the `addPlugins` method:
+Register SWC plugin through the `addPlugins` method:
 
 ```js
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
@@ -46,9 +74,7 @@ import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 builder.addPlugins([builderPluginSwc()]);
 ```
 
-That's it !
-
-Now you can use SWC transformation and minification in your project.
+That's it! Now you can use SWC transformation and minification in your project.
 
 ## Config
 
@@ -158,12 +184,36 @@ Remove `React` runtime type checking. This is ported from [@babel/plugin-react-t
 
 #### extensions.lodash
 
-- **Type:** `{ cwd?: string; ids?: string;}`
-- **Default:** `{ cwd: process.cwd(), ids: [] }`
+- **Type:**
 
-Ported from [@babel/plugin-lodash](https://github.com/lodash/babel-plugin-lodash).
+```ts
+type LodashOptions = {
+  cwd?: string;
+  ids?: string[];
+};
+```
 
-#### extensions.styledComponent
+- **Default:**
+
+```ts
+const defaultOptions = {
+  cwd: process.cwd(),
+  ids: ['lodash', 'lodash-es'],
+};
+```
+
+Ported from [babel-plugin-lodash](https://github.com/lodash/babel-plugin-lodash), it is used to automatically convert references to Lodash into on-demand imports, thereby reducing the bundle size of Lodash code.
+
+```ts
+// Input
+import { get, throttle } from 'lodash';
+
+// Output
+import get from 'lodash/get';
+import throttle from 'lodash/throttle';
+```
+
+#### extensions.styledComponents
 
 - **Type:**
 
@@ -187,7 +237,7 @@ boolean | {
 };
 ```
 
-This is ported by Next.js team from [styled-component](https://github.com/styled-components/babel-plugin-styled-components).
+This is ported by Next.js team from [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components).
 
 #### extensions.emotion
 

@@ -1,5 +1,241 @@
 # @modern-js/runtime
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 56693a3: fix(plugin-ssr): ssr script、link should add some attrs, like ["defer", "crossorigin"]
+  fix(plugin-ssr): ssr script,link 标签应该添加像 ["defer", "crossorigin"] 属性
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/plugin@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/plugin@2.23.1
+  - @modern-js/types@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- a7a7ad7: chore: move some public code to the utils package
+  chore: 移动一些公共的代码到 utils 包
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/plugin@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- e2848a2: fix: support nonce in streaming SSR
+  fix: 在 streaming SSR 中支持 nonce
+- 9b69987: feat: support Style component to use style with some <> special chartset
+  feat: 支持 Style 组件,用于渲染含 <> 等特殊字符
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/plugin@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- 63cdea1: feat: ssr runtime need webpack.output.chunkLoadingGlobal pass to loadableReady
+  feat: ssr runtime 需要传递 webpack.output.chunnkLoadingGlobal 给 loadableReady
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 8f1141c: fix: refactor the mock logic of BFF testing plugin
+  fix: 修改 BFF 测试插件的 mock 逻辑
+- dc45896: fix(runtime): babel-plugin-styled-components not work
+
+  fix(runtime): 修复 babel-plugin-styled-components 不生效的问题
+
+- 79180c2: feat: export only partial common router API for better stability
+  feat: 只导出 Router 实例的常用 API, 保证更好的稳定性
+- c271c5d: feat: export react-router instance
+  feat: 导出 react-router 路由实例
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/plugin@2.22.0
+  - @modern-js/types@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.21.1
+- @modern-js/types@2.21.1
+- @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Minor Changes
+
+- 0a1aa3b: feat: the runtime package export `loadable_bundler_plugin`
+  feat: runtime 包导出 `loadable_bundler_plugin`
+
+### Patch Changes
+
+- e81eeaf: refactor: guard react-router version consistency
+  refactor: 保证 react-router 相关包的版本一致性
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 8b7c6d4: chore: update reduck
+  chore: 更新 reduck
+- 807f04a: fix(plugin-runtime): streaming ssr split chunk so that can't match `SHELL_STREAM_END_MARK`
+  fix(plugin-runtime): streaming ssr chunk 进行分割导致无法匹配 `SHELL_STREAM_END_MARK`
+- 0fc15ca: fix: fix `@modern-js/utils` subpath exports
+  fix: 修复 `@modern-js/utils` 子路径导出
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+  - @modern-js/plugin@2.21.0
+  - @modern-js/types@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [5f055ab]
+  - @modern-js/utils@2.20.0
+  - @modern-js/plugin@2.20.0
+  - @modern-js/types@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.19.1
+- @modern-js/types@2.19.1
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Minor Changes
+
+- 8a3a2e5: feat: support modifyRoutes hook for router v5
+  feat: 为 router v5 支持 modifyRoutes hook
+
+### Patch Changes
+
+- 579d3d5: fix: config hook can't get nomarlized config
+  fix: config hook 不能拿到固定后的 config
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/plugin@2.19.0
+  - @modern-js/types@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- 8fb93d1: fix: replace route id correctly
+  fix: 正确地替换 route id
+  - @modern-js/plugin@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Minor Changes
+
+- 7de6599: feat: rspack-provider support modern.js ssr mode
+  feat: rspack-provider 支持 modern.js ssr 模式
+
+### Patch Changes
+
+- @modern-js/plugin@2.18.0
+- @modern-js/types@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- 3810930: fix: optimize alias for plugin-express & export useBlocker
+  fix: 优化 plugin-express 的 alias 的实现 & 导出 useBlocker
+  - @modern-js/plugin@2.17.0
+  - @modern-js/types@2.17.0
+  - @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 02e9c5d: fix: fix storybook runtime addon
+  fix: 修复 storybook runtime addon
+- 5954330: fix: route id should not include [ or ]
+  fix: 路由 id 不应该包含 [ 或 ]
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/types@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

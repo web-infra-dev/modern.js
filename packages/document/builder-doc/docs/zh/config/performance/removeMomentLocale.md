@@ -1,6 +1,5 @@
 - **类型：** `boolean`
 - **默认值：** `false`
-- **打包工具：** `仅支持 webpack`
 
 是否移除 [moment.js](https://momentjs.com/) 的语言包文件。
 

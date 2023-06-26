@@ -8,7 +8,8 @@ import type {
 } from '@modern-js/builder-rspack-provider';
 import sirv from 'sirv';
 import fs from '@modern-js/utils/fs-extra';
-import { removeTrailingSlash } from '../shared/utils';
+import { isDebugMode, removeTrailingSlash } from '../shared/utils';
+import { tailwindConfig } from '../../tailwind.config';
 import {
   CLIENT_ENTRY,
   SSR_ENTRY,
@@ -17,10 +18,12 @@ import {
   isProduction,
   TEMP_DIR,
 } from './constants';
-import { createMDXOptions } from './mdx';
 import { builderDocVMPlugin, runtimeModuleIDs } from './runtimeModule';
 import { serveSearchIndexMiddleware } from './searchIndex';
-import { checkLinks } from './mdx/remarkPlugins/checkDeadLink';
+import { detectReactVersion, resolveReactAlias } from './utils';
+import { initRouteService } from './route/init';
+import { PluginDriver } from './PluginDriver';
+import { RouteService } from './route/RouteService';
 
 const require = createRequire(import.meta.url);
 
@@ -36,18 +39,22 @@ async function createInternalBuildConfig(
   config: UserConfig,
   isSSR: boolean,
   runtimeTempDir: string,
+  routeService: RouteService,
 ): Promise<BuilderConfig> {
   const cwd = process.cwd();
   const { default: fs } = await import('@modern-js/utils/fs-extra');
   const CUSTOM_THEME_DIR =
     config.doc?.themeDir ?? path.join(process.cwd(), 'theme');
   const outDir = config.doc?.outDir ?? OUTPUT_DIR;
+  // In debug mode, we will not use the bundled theme chunk and skip the build process of module tools, which make the debug process faster
+  const DEFAULT_THEME_DIR = isDebugMode()
+    ? path.join(PACKAGE_ROOT, 'src', 'theme-default')
+    : path.join(PACKAGE_ROOT, 'dist', 'theme');
   const themeDir = (await fs.pathExists(CUSTOM_THEME_DIR))
     ? CUSTOM_THEME_DIR
-    : path.join(PACKAGE_ROOT, 'dist', 'theme');
+    : DEFAULT_THEME_DIR;
   const checkDeadLinks =
     (config.doc?.markdown?.checkDeadLinks && !isSSR) ?? false;
-  const mdxOptions = await createMDXOptions(userRoot, config, checkDeadLinks);
   const base = config.doc?.base ?? '';
 
   const publicDir = path.join(userRoot, 'public');
@@ -59,6 +66,7 @@ async function createInternalBuildConfig(
       )
     : '';
   const enableMdxRs = config.doc?.markdown?.experimentalMdxRs ?? false;
+  const reactVersion = await detectReactVersion();
 
   // Using latest browserslist in development to improve build performance
   const browserslist = {
@@ -88,10 +96,11 @@ async function createInternalBuildConfig(
         // `root` must be a relative path in Builder
         root: path.isAbsolute(outDir) ? path.relative(cwd, outDir) : outDir,
       },
-      polyfill: 'usage',
+      // TODO: switch to 'usage' if Rspack supports it
+      polyfill: 'entry',
       svgDefaultExport: 'component',
       disableTsChecker: true,
-      // disable production source map, it is useless for doc site
+      // Disable production source map, it is useless for doc site
       disableSourceMap: isProduction(),
       overrideBrowserslist: browserslist,
       assetPrefix,
@@ -99,9 +108,6 @@ async function createInternalBuildConfig(
     source: {
       alias: {
         '@mdx-js/react': require.resolve('@mdx-js/react'),
-        'react/jsx-runtime': require.resolve('react/jsx-runtime'),
-        'react/jsx-dev-runtime': require.resolve('react/jsx-dev-runtime'),
-        react: require.resolve('react'),
         '@': path.join(PACKAGE_ROOT, 'src'),
         '@/runtime': path.join(PACKAGE_ROOT, 'src', 'runtime', 'index.ts'),
         '@theme': themeDir,
@@ -111,11 +117,13 @@ async function createInternalBuildConfig(
           acc[cur] = path.join(runtimeTempDir, `${cur}.js`);
           return acc;
         }, {} as Record<string, string>),
+        ...(await resolveReactAlias(reactVersion)),
       },
       include: [PACKAGE_ROOT],
       define: {
         __ASSET_PREFIX__: JSON.stringify(assetPrefix),
         'process.env.__SSR__': JSON.stringify(isSSR),
+        'process.env.__IS_REACT_18__': JSON.stringify(reactVersion === 18),
       },
     },
     tools: {
@@ -127,26 +135,36 @@ async function createInternalBuildConfig(
         ],
         historyApiFallback: true,
       },
+      postcss(config) {
+        // In debug mode, we should use tailwindcss to build the theme source code
+        if (isDebugMode()) {
+          config.postcssOptions.plugins.push(
+            require('tailwindcss')({
+              config: {
+                ...tailwindConfig,
+                content: [
+                  path.join(PACKAGE_ROOT, 'src', 'theme-default', '**/*'),
+                ],
+              },
+            }),
+          );
+        }
+      },
       bundlerChain(chain) {
         chain.module
           .rule('MDX')
+          .type('jsx')
           .test(/\.mdx?$/)
+          .oneOf('MDXCompile')
           .use('mdx-loader')
-          .when(
+          .loader(require.resolve('../loader.cjs'))
+          .options({
+            config,
+            docDirectory: userRoot,
+            checkDeadLinks,
             enableMdxRs,
-            c =>
-              c.loader(require.resolve('../mdx-rs-loader.cjs')).options({
-                callback: (context: MdxRsLoaderCallbackContext) => {
-                  const { links, root, resourcePath } = context;
-                  checkDeadLinks && checkLinks(links, resourcePath, root);
-                },
-                root: userRoot,
-                base,
-                defaultLang: config.doc?.lang || '',
-              }),
-            c =>
-              c.loader(require.resolve('@mdx-js/loader')).options(mdxOptions),
-          )
+            routeService,
+          })
           .end()
           .use('string-replace-loader')
           .loader(require.resolve('string-replace-loader'))
@@ -163,6 +181,7 @@ async function createInternalBuildConfig(
 export async function createModernBuilder(
   rootDir: string,
   config: UserConfig,
+  pluginDriver: PluginDriver,
   isSSR = false,
   extraBuilderConfig?: BuilderConfig,
 ): Promise<BuilderInstance<BuilderRspackProvider>> {
@@ -173,9 +192,13 @@ export async function createModernBuilder(
     TEMP_DIR,
     isSSR ? 'ssr-runtime' : 'client-runtime',
   );
-
   await fs.ensureDir(runtimeTempDir);
-
+  const routeService = await initRouteService({
+    config,
+    runtimeTempDir,
+    scanDir: userRoot,
+    pluginDriver,
+  });
   const { createBuilder } = await import('@modern-js/builder');
   const { builderRspackProvider } = await import(
     '@modern-js/builder-rspack-provider'
@@ -186,6 +209,7 @@ export async function createModernBuilder(
     config,
     isSSR,
     runtimeTempDir,
+    routeService,
   );
 
   const builderProvider = builderRspackProvider({
@@ -205,7 +229,14 @@ export async function createModernBuilder(
   });
 
   builder.addPlugins([
-    builderDocVMPlugin(userRoot, config, isSSR, runtimeTempDir),
+    builderDocVMPlugin({
+      userRoot,
+      config,
+      isSSR,
+      runtimeTempDir,
+      routeService,
+      pluginDriver,
+    }),
   ]);
 
   return builder;

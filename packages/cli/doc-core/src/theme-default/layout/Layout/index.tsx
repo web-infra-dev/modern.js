@@ -9,7 +9,6 @@ import { HomeLayoutProps } from '../HomeLayout';
 import type { NavProps } from '../../components/Nav';
 import { usePageData, Content, removeBase, withBase } from '@/runtime';
 import { useLocaleSiteData } from '@/theme-default/logic';
-import '../../styles/highlight-theme.css';
 
 export type LayoutProps = {
   top?: React.ReactNode;
@@ -72,7 +71,9 @@ export const Layout: React.FC<LayoutProps> = props => {
         return <DocLayout {...docProps} />;
       case '404':
         return <Theme.NotFoundLayout />;
+      // The custom pageType will have navbar while the blank pageType will not.
       case 'custom':
+      case 'blank':
         return <Content />;
       default:
         return <DocLayout {...docProps} />;
@@ -89,19 +90,6 @@ export const Layout: React.FC<LayoutProps> = props => {
     // Normalize current url, to ensure that the home url is always with a trailing slash
     const { pathname } = window.location;
     const cleanPathname = removeBase(pathname);
-    if (!cleanPathname) {
-      window.location.replace(withBase('/'));
-      return;
-    } else if (
-      currentLang !== defaultLang &&
-      // Check if the pathname is a top level path
-      // e.g. /en will split to ['', 'en']
-      // e.g. /en/ will split to ['', 'en', '']
-      cleanPathname.split('/').length === 2
-    ) {
-      window.location.replace(`${pathname}/`);
-      return;
-    }
     // Check if the user is visiting the site for the first time
     const FIRST_VISIT_KEY = 'modern-doc-visited';
     const visited = localStorage.getItem(FIRST_VISIT_KEY);
@@ -127,7 +115,6 @@ export const Layout: React.FC<LayoutProps> = props => {
       }
     }
   }, []);
-
   return (
     <div>
       <Helmet>
@@ -135,11 +122,14 @@ export const Layout: React.FC<LayoutProps> = props => {
         {description ? <meta name="description" content={description} /> : null}
       </Helmet>
       {top}
-      <Nav
-        beforeNavTitle={beforeNavTitle}
-        afterNavTitle={afterNavTitle}
-        beforeNav={beforeNav}
-      />
+      {pageType !== 'blank' && (
+        <Nav
+          beforeNavTitle={beforeNavTitle}
+          afterNavTitle={afterNavTitle}
+          beforeNav={beforeNav}
+        />
+      )}
+
       <section>{getContentLayout()}</section>
       {bottom}
       {

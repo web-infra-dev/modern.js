@@ -20,11 +20,15 @@ on:
   issue_comment:
     types: [created]
 
+permissions:
+  id-token: write
+
 jobs:
   issue_commentd:
     name: Release with commentd
     if: github.event.issue.pull_request && contains(github.event.comment.body, '!canary')
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
@@ -40,6 +44,9 @@ jobs:
         with:
           node-version: "16"
           cache: 'pnpm'
+
+      - name: Install npm v9
+        run: npm install -g npm@9
 
       - name: Turbo Cache
         id: turbo-cache
@@ -87,6 +94,9 @@ jobs:
           node-version: "16"
           cache: 'pnpm'
 
+      - name: Install npm v9
+        run: npm install -g npm@9
+
       - name: Turbo Cache
         id: turbo-cache
         uses: actions/cache@v3
@@ -108,7 +118,7 @@ jobs:
           type: 'release'
           tools: 'modern'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}

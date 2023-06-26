@@ -6,10 +6,6 @@ Builder 支持在代码引用 WebAssembly 资源。
 WebAssembly（缩写为 wasm）是一种可移植、高性能的字节码格式，被设计用来在现代 Web 浏览器中执行 CPU 密集型计算任务，为 Web 平台带来了接近本地编译代码的性能和可靠性。
 :::
 
-:::info
-在使用 Rspack 作为打包工具时，暂时不支持引用 Wasm 资源。
-:::
-
 ## 引用方式
 
 你可以直接在 JavaScript 文件中引用一个 WebAssembly 模块：
@@ -29,6 +25,14 @@ import('./add.wasm').then(({ add }) => {
   console.log(add); // [native code]
   console.log(add(1, 2)); // 3
 });
+```
+
+还可以通过 `new URL` 语法来获取 WebAssembly 模块的路径：
+
+```js title="index.js"
+const wasmURL = new URL('./add.wasm', import.meta.url);
+
+console.log(wasmURL).pathname; // "/static/wasm/[hash].module.wasm"
 ```
 
 ## 输出目录

@@ -1,4 +1,4 @@
-import { createRuntimeExportsUtils, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliHookCallbacks, useConfigContext } from '@modern-js/core';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 import { logger } from '../util';
@@ -38,7 +38,7 @@ export function getDefaultMicroFrontedConfig(
   };
 }
 
-export default ({
+export const garfishPlugin = ({
   pluginName = '@modern-js/plugin-garfish',
   runtimePluginName = '@modern-js/runtime/plugins',
 } = {}): CliPlugin<AppTools> => ({
@@ -47,7 +47,20 @@ export default ({
     let pluginsExportsUtils: ReturnType<typeof createRuntimeExportsUtils>;
     return {
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-garfish'];
+        return [
+          {
+            target: 'runtime.masterApp',
+            schema: { type: ['boolean', 'object'] },
+          },
+          {
+            target: 'dev.withMasterApp',
+            schema: { type: ['object'] },
+          },
+          {
+            target: 'deploy.microFrontend',
+            schema: { type: ['boolean', 'object'] },
+          },
+        ];
       },
       resolvedConfig: async config => {
         const { resolved } = config;
@@ -130,7 +143,36 @@ export default ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            webpackChain: (chain, { webpack, env, CHAIN_ID }) => {
+            webpackChain: (chain, { webpack, CHAIN_ID }) => {
+              // add comments avoid sourcemap abnormal
+              if (webpack.BannerPlugin) {
+                chain
+                  .plugin(CHAIN_ID.PLUGIN.BANNER)
+                  .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
+              }
+            },
+            rspack: (config: any) => {
+              config.builtins ??= {};
+
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const resolveOptions = useResolvedConfigContext();
+              if (
+                resolveOptions?.deploy?.microFrontend &&
+                !config.externalsType
+              ) {
+                config.externalsType = 'commonjs';
+              }
+
+              // todo: so ugly...
+              const banner = config.builtins.banner || [];
+              config.builtins.banner = [
+                ...(Array.isArray(banner) ? banner : [banner]),
+                {
+                  banner: 'Micro front-end',
+                },
+              ];
+            },
+            bundlerChain: (chain, { env, CHAIN_ID }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
@@ -143,13 +185,6 @@ export default ({
                   chain.output.publicPath(
                     `//localhost:${resolveOptions.server.port}/`,
                   );
-                }
-
-                // add comments avoid sourcemap abnormal
-                if (webpack.BannerPlugin) {
-                  chain
-                    .plugin(CHAIN_ID.PLUGIN.BANNER)
-                    .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
                 }
 
                 const { enableHtmlEntry, externalBasicLibrary } =
@@ -170,13 +205,13 @@ export default ({
                   });
                 }
               }
-              const resolveWebpackConfig = chain.toConfig();
-              logger('webpackConfig', {
-                output: resolveWebpackConfig.output,
-                externals: resolveWebpackConfig.externals,
+              const resolveConfig = chain.toConfig();
+              logger('bundlerConfig', {
+                output: resolveConfig.output,
+                externals: resolveConfig.externals,
                 env,
-                alias: resolveWebpackConfig.resolve?.alias,
-                plugins: resolveWebpackConfig.plugins,
+                alias: resolveConfig.resolve?.alias,
+                plugins: resolveConfig.plugins,
               });
             },
           },
@@ -304,3 +339,5 @@ export default ({
     };
   },
 });
+
+export default garfishPlugin;

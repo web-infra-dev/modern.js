@@ -3,16 +3,23 @@ import type { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluginConfig } from '@modern-js/core';
 import _ from '@modern-js/utils/lodash';
 import type { PluggableList } from 'unified';
-import {
+import type {
   Config as DefaultThemeConfig,
   NormalizedConfig as NormalizedDefaultThemeConfig,
 } from './defaultTheme';
-import { DocPlugin, AdditionalPage } from './Plugin';
+import type { DocPlugin, AdditionalPage } from './Plugin';
 
-export { DefaultThemeConfig, NormalizedDefaultThemeConfig };
+export type { DefaultThemeConfig, NormalizedDefaultThemeConfig };
 export * from './defaultTheme';
 
-export { DocPlugin, AdditionalPage };
+export type { DocPlugin, AdditionalPage };
+
+export interface RouteMeta {
+  routePath: string;
+  absolutePath: string;
+  pageName: string;
+  lang: string;
+}
 
 export interface ReplaceRule {
   search: string | RegExp;
@@ -24,6 +31,14 @@ export interface Header {
   text: string;
   depth: number;
   charIndex: number;
+}
+
+// The general i18n config, which is not related to the theme.
+export interface Locale {
+  lang: string;
+  label: string;
+  title?: string;
+  description?: string;
 }
 
 export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
@@ -60,6 +75,14 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    */
   head?: string[];
   /**
+   * I18n config of the site.
+   */
+  locales?: Locale[];
+  /**
+   * The i18n text data source path. Default is `i18n.json` in cwd.
+   */
+  i18nSourcePath?: string;
+  /**
    * Theme config.
    */
   themeConfig?: ThemeConfig;
@@ -80,7 +103,7 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    */
   plugins?: DocPlugin[];
   /**
-   * Replace rule
+   * Replace rule, will replace the content of the page.
    */
   replaceRules?: ReplaceRule[];
   /**
@@ -103,6 +126,14 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
    * Search options
    */
   search?: SearchOptions;
+  /**
+   * Whether to enable medium-zoom, default is true
+   */
+  mediumZoom?:
+    | boolean
+    | {
+        selector?: string;
+      };
 }
 
 export type BaseRuntimePageInfo = Omit<
@@ -121,6 +152,9 @@ export interface SiteData<ThemeConfig = NormalizedDefaultThemeConfig> {
   logo: string | { dark: string; light: string };
   pages: BaseRuntimePageInfo[];
   search: SearchOptions;
+  markdown: {
+    showLineNumbers: boolean;
+  };
 }
 
 export type PageIndexInfo = {
@@ -132,6 +166,8 @@ export type PageIndexInfo = {
   frontmatter: Record<string, unknown>;
   lang: string;
   domain: string;
+  _filepath: string;
+  _relativePath: string;
 };
 
 export type RemotePageInfo = PageIndexInfo & {
@@ -172,7 +208,7 @@ export interface PageModule<T extends ComponentType<unknown>> {
   [key: string]: unknown;
 }
 
-export type PageType = 'home' | 'doc' | 'custom' | '404';
+export type PageType = 'home' | 'doc' | 'custom' | '404' | 'blank';
 
 export interface FrontMatterMeta {
   title?: string;
@@ -193,6 +229,7 @@ export interface PageData {
     lastUpdatedTime?: string;
     description?: string;
     pageType: PageType;
+    _relativePath: string;
   };
 }
 
@@ -246,6 +283,7 @@ export interface MarkdownOptions {
   rehypePlugins?: PluggableList;
   checkDeadLinks?: boolean;
   experimentalMdxRs?: boolean;
+  showLineNumbers?: boolean;
 }
 
 export interface UserConfig {

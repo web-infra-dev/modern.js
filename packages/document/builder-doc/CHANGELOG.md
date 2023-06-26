@@ -1,5 +1,87 @@
 # @modern-js/builder-doc
 
+## 2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 692cc0e: fix(builder): assetsRetry.crossOrigin default to html.crossorigin
+
+  fix(builder): assetsRetry.crossOrigin 默认值与 html.crossorigin 保持一致
+
+## 2.22.1
+
+### Patch Changes
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- 2ede584: docs(main): update start doc
+
+  docs(main): 更新开始文档
+
+## 2.22.0
+
+### Patch Changes
+
+- 850cde6: feat(builder): add arco config to transformImport by default
+
+  feat(builder): 默认增加 arco 的 transformImport 配置
+
+- e7a5f94: feat(plugin-swc): should reduce lodash bundle size by default
+
+  feat(plugin-swc): 默认优化 lodash 包体积
+
+## 2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 1ef03dc: feat(dev-server): enable gzip compression, add devServer.compress config
+
+  feat(dev-server): 默认启用 gzip 压缩，新增 devServer.compress 配置项
+
+## 2.20.0
+
+## 2.19.1
+
+## 2.19.0
+
+## 2.18.1
+
+## 2.18.0
+
+## 2.17.1
+
+## 2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- fe92de6: fix(builder): browserslist config should not affect node bundles
+
+  fix(builder): 修复 browserslist 配置会对 node 产物生效的问题
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
 ## 2.15.0
 
 ## 2.14.0

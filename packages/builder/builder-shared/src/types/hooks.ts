@@ -1,4 +1,4 @@
-import type { ChainIdentifier } from '@modern-js/utils';
+import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 import type { Stats, MultiStats } from './stats';
 import { NodeEnv, PromiseOrNot } from './utils';
 import { BuilderTarget } from './builder';
@@ -54,6 +54,10 @@ export type ModifyChainUtils = {
   getCompiledPath: (name: string) => string;
   // todo: html plugin type declare
   HtmlPlugin: any;
+  /**
+   * @private should only used in builder
+   */
+  webpack: typeof import('webpack');
 };
 
 export type ModifyBundlerChainUtils = ModifyChainUtils;

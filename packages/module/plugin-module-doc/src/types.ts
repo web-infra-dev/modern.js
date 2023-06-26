@@ -4,7 +4,10 @@ export type APIParseTools = 'ts-document' | 'react-docgen-typescript';
 
 export type ModuleDocgenLanguage = 'zh' | 'en';
 
-export type PluginOptions = Pick<Options, 'entries' | 'languages' | 'doc'>;
+export type PluginOptions = Pick<
+  Options,
+  'entries' | 'languages' | 'doc' | 'previewMode' | 'apiParseTool'
+>;
 
 export type Options = {
   /**
@@ -35,4 +38,17 @@ export type Options = {
    * @default process.cwd()
    */
   appDir?: string;
+  /**
+   * previewMode
+   * @zh 预览方式
+   * @default 'web'
+   */
+  previewMode?: 'mobile' | 'web';
+  /**
+   * apiParseTool
+   * @experimental
+   * @zh 解析工具
+   * @default 'react-docgen-typescript'
+   */
+  apiParseTool?: 'react-docgen-typescript' | 'documentation';
 };

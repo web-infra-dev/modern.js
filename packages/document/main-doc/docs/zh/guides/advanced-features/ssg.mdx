@@ -2,6 +2,7 @@
 title: 静态站点生成（SSG）
 sidebar_position: 4
 ---
+
 # 静态站点生成（SSG）
 
 SSG（Static Site Generation）是一种基于数据与模板，在构建时渲染完整静态网页的技术解决方案。
@@ -10,13 +11,13 @@ SSG（Static Site Generation）是一种基于数据与模板，在构建时渲�
 
 ```bash
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 启用「SSG」功能
+? 请选择功能名称 启用「SSG」功能
 ```
 
 执行命令后，在 `modern.config.ts` 中注册 SSG 插件：
 
 ```ts title="modern.config.ts"
-import ssgPlugin from '@modern-js/plugin-ssg';
+import { ssgPlugin } from '@modern-js/plugin-ssg';
 
 export default defineConfig({
   output: {
@@ -86,11 +87,11 @@ export default defineConfig({
 
 ### 在自控式路由中使用
 
-**自控式路由**是通过组件代码自定义路由，需要应用运行起来才能获取准确的路由信息。因此，无法开箱即用的使用 SSG 功能。此时需要用户提前告知 Modern.js 框架，哪些路由需要开启 SSG 功能。
+**自控式路由**是通过组件代码定义路由，需要应用运行起来才能获取准确的路由信息。因此，无法开箱即用的使用 SSG 功能。此时需要用户提前告知 Modern.js 框架，哪些路由需要开启 SSG 功能。
 
 例如有以下代码，包含多条路由，设置 `output.ssg` 为 `true` 时，默认只会渲染入口路由即 `/`：
 
-import SelfRouteExample from "@site-docs/components/self-route-example";
+import SelfRouteExample from '@site-docs/components/self-route-example';
 
 <SelfRouteExample />
 

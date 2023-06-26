@@ -3,7 +3,7 @@ title: bootstrap
 ---
 # bootstrap
 
-Used to start and mount App, usually without manual calls. This API is only required when using [Custom App](/guides/concept/entries#自定义-app).
+Used to start and mount App, usually not manually called. This API is only required when using [Custom Bootstrap](/guides/concept/entries#custom-bootstrap).
 
 ## Usage
 
@@ -32,10 +32,10 @@ type BootStrap<T = unknown> = (
 
 ### Input
 
-- `AppComponent`: reactElement instance created by [`createApp`](./create-app).
-- `rootId`: DOM root element id to mount, like `"root"`.
-- `root`: ReactDOM.create the return value, which is used in the scenario where the root needs to destroy the component outside the bootstrap function.
-- `ReactDOM`: ReactDOM object for distinguishing between React 18 and React 17 APIs.
+- `AppComponent`: The ReactElement instance created by [`createApp`](./create-app).
+- `rootId`: DOM root element id to mount, such as `"root"`.
+- `root`: The return value of ReactDOM.createRoot, used for scenarios where the root needs to be destroyed outside of the bootstrap function.
+- `ReactDOM`: The ReactDOM object, used to differentiate between React 18 and React 17 APIs.
 
 ## Example
 

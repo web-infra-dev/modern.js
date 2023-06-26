@@ -1,5 +1,177 @@
 # @modern-js/prod-server
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/server-core@2.24.0
+  - @modern-js/plugin@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/server-core@2.23.1
+  - @modern-js/plugin@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/plugin@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/server-core@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+  - @modern-js/utils@2.22.1
+  - @modern-js/server-core@2.22.1
+  - @modern-js/plugin@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- 4991c8a: feat: support custom render html
+  feat: 支持自定义渲染 html.
+- cb9e1ec: feat: worker ssr support server hooks
+  feat: worker ssr 支持 server hooks
+
+### Patch Changes
+
+- ea961e7: fix: use path.resolve instead path.join for distPath
+  fix: 使用 path.resolve 代替 path.join 处理产物目录
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/server-core@2.22.0
+  - @modern-js/plugin@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- 78e3ac8: fix(prod-server): worker ssr should pass baseUrl & url by request.
+  fix(prod-server): worker ssr 通过 request 应该传递 baseUrl & url .
+- 2728724: fix(prod-server): the ssr render maybe get invalid url, like `http:///`
+  fix(prod-server): ssr 渲染函数可能获得非法 url, 类似 `http:///`
+  - @modern-js/server-core@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- cfc5bda: feat: ssr mode support async entry
+  feat: ssr 模式支持异步入口
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+  - @modern-js/server-core@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- 4425fd6: fix: worker ssr context lack some fields & worker ssr must have routerManifest.json
+  fix: worker ssr 上下文缺少一些字段，worker ssr 必须有 routerManifest.json 文件
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+  - @modern-js/utils@2.20.0
+  - @modern-js/server-core@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.19.1
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/server-core@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.18.1
+- @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/server-core@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/server-core@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/server-core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

@@ -2,11 +2,34 @@
 title: Hook 列表
 sidebar_position: 8
 ---
+
 # Hook 列表
 
 在 Modern.js 中暴露了三类插件：CLI、Runtime、Server。下面列举下各类中的 Hook：
 
 ## CLI
+
+### `beforeConfig`
+
+- 功能：运行收集配置前的任务
+- 执行阶段：收集配置前
+- Hook 模型：AsyncWorkflow
+- 类型：`AsyncWorkflow<void, void>`
+- 使用示例：
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  setup(api) {
+    return {
+      beforeConfig: () => {
+        // do something
+      },
+    };
+  },
+});
+```
 
 ### `config`
 
@@ -19,7 +42,7 @@ sidebar_position: 8
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       config: () => {
@@ -45,7 +68,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       validateSchema: () => {
@@ -78,7 +101,7 @@ export default (): CliPlugin => ({
 就可以在 `modern.config.ts` 中这样配置：
 
 ```ts title="modern.config.ts"
-export default defineConfig({
+export const myPlugin = defineConfig({
   foo: 'test',
 });
 ```
@@ -86,7 +109,7 @@ export default defineConfig({
 如果是别的类型，校验就不通过会报错，比如这样：
 
 ```ts title="modern.config.ts"
-export default defineConfig({
+export const myPlugin = defineConfig({
   foo: {},
 });
 ```
@@ -111,7 +134,7 @@ $ modern dev
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       prepare: () => {
@@ -133,7 +156,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterPrepare: () => {
@@ -143,7 +166,6 @@ export default (): CliPlugin => ({
   },
 });
 ```
-
 
 ### `commands`
 
@@ -156,7 +178,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       commands: ({ program }) => {
@@ -175,7 +197,7 @@ export default (): CliPlugin => ({
 ```ts title="modern.config.ts"
 import myPlugin from './config/plugin/myPlugin';
 
-export default defineConfig({
+export const myPlugin = defineConfig({
   plugins: [myPlugin()],
 });
 ```
@@ -198,7 +220,7 @@ foo
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeExit: () => {
@@ -224,7 +246,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeDev: () => {
@@ -238,19 +260,37 @@ export default (): CliPlugin => ({
 ### `afterDev`
 
 - 功能：运行 dev 主流程的之后的任务
-- 执行阶段：`dev` 命令运行时，项目启动完成之后执行
+- 执行阶段：运行 `dev` 命令时，每一次编译完成后执行
 - Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, unknown>`
+- 类型：`AsyncWorkflow<{ isFirstCompile: boolean }, unknown>`
 - 使用示例：
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterDev: () => {
         // do something
+      },
+    };
+  },
+});
+```
+
+`afterDev` 会在每一次编译完成后执行，你可以通过 `isFirstCompile` 参数来判断是否为首次编译：
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  setup(api) {
+    return {
+      afterDev: ({ isFirstCompile }) => {
+        if (isFirstCompile) {
+          // do something
+        }
       },
     };
   },
@@ -268,7 +308,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeCreateCompiler: ({ webpackConfigs }) => {
@@ -290,7 +330,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterCreateCompiler: ({ compiler }) => {
@@ -312,7 +352,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforePrintInstructions: ({ instructions }) => {
@@ -337,7 +377,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeBuild: () => {
@@ -359,7 +399,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterBuild: () => {
@@ -381,7 +421,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryImports({ entrypoint, imports }) {
@@ -413,10 +453,10 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      modifyEntryImports({ entrypoint, exportStatement }) {
+      modifyEntryExport({ entrypoint, exportStatement }) {
         return {
           entrypoint,
           exportStatement: [`export const foo = 'test'`, exportStatement].join(
@@ -440,7 +480,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryRuntimePlugins({ entrypoint, plugins }) {
@@ -475,7 +515,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryRenderFunction({ entrypoint, code }) {
@@ -501,7 +541,7 @@ export default (): CliPlugin => ({
 ```tsx
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyFileSystemRoutes({ entrypoint, routes }) {
@@ -535,7 +575,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyServerRoutes({ routes }) {
@@ -568,7 +608,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyAsyncEntry({ entrypoint, code }) {
@@ -594,7 +634,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       async htmlPartials({ entrypoint, partials }) {
@@ -611,7 +651,7 @@ export default (): CliPlugin => ({
 
 这样就为 HTML 模版中新增了一个 Script 标签。
 
-## Server
+{/* ## Server
 
 :::note
 目前 Server 插件还未完全开放，API 不保证稳定，使用需谨慎。
@@ -631,7 +671,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       create: ({ measureOptions, loggerOptions }) => {
@@ -653,7 +693,7 @@ export default (): ServerPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       prepareWebServer: ({ middleware }) => {
@@ -679,7 +719,7 @@ export default (): ServerPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       prepareApiServer: ({ middleware }) => {
@@ -692,7 +732,7 @@ export default (): ServerPlugin => ({
     };
   },
 });
-```
+```*/}
 
 ## Runtime
 
@@ -701,7 +741,7 @@ export default (): ServerPlugin => ({
 
 :::
 
-Runtime 插件主要用于开发者修改需要渲染的组件与 Element 和定制服务器端、客户端的渲染过程。
+Runtime 插件主要用于开发者修改需要渲染的组件。
 
 ### `init`
 
@@ -714,7 +754,7 @@ Runtime 插件主要用于开发者修改需要渲染的组件与 Element 和定
 ```ts
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       init({ context }, next) {
@@ -734,23 +774,29 @@ export default (): Plugin => ({
 - 类型：`Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
 - 使用示例：
 
+:::note
+使用 hoc 钩子时，需要把原来的 App 组件的静态属性拷贝到新的组件上，并透传 props.
+:::
+
 ```ts
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
       hoc({ App }, next) {
+        const AppWrapper = (props: any) => {
+          return (
+            <FooContext.Provider store={'test'}>
+              <App {...props} />
+            </FooContext.Provider>
+          );
+        };
         return next({
-          App: (props: any) => {
-            return (
-              <FooContext.Provider store={'test'}>
-                <App {...props} />
-              </FooContext.Provider>
-            );
-          },
+          App: hoistNonReactStatics(AppWrapper, App),
         });
       },
     };
@@ -758,7 +804,7 @@ export default (): Plugin => ({
 });
 ```
 
-### `provide`
+{/* ### `provide`
 
 - 功能：修改需要渲染的 Element
 - 执行阶段：渲染（SSR/CSR）
@@ -770,7 +816,7 @@ export default (): Plugin => ({
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
 
@@ -793,7 +839,7 @@ export default (): Plugin => ({
 import ReactDOM from 'react-dom';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       client: async ({ App, rootElement }) => {
@@ -819,7 +865,7 @@ export default (): Plugin => ({
 import ReactDomServer from 'react-dom/server';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       server({ App, context }) {
@@ -830,4 +876,4 @@ export default (): Plugin => ({
     };
   },
 });
-```
+```*/}

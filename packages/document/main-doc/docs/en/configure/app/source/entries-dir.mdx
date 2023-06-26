@@ -7,9 +7,9 @@ sidebar_label: entriesDir
 - **Type:** `string`
 - **Default:** `./src`
 
-Modern.js will scan the `src` directory by default to identify the page entries, you can customize the identification directory of the page entries through this option.
+By default, Modern.js scans the `src` directory to identify page entries. You can customize the directory used for identifying page entries with this option.
 
-For example, when the configuration and directory structure are as follows:
+For example, with the following configuration and directory structure:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -29,7 +29,7 @@ export default defineConfig({
             └── App.tsx
 ```
 
-Modern.js will generate the build entry `a` and `b` according to the `./src/pages` directory structure, the result is as follows:
+Modern.js will generate the build entries `a` and `b` based on the `./src/pages` directory structure. The result is as follows:
 
 ```js
 const entry = {

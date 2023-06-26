@@ -43,6 +43,7 @@ type RspackResolve = {
 
 // fork from the @rspack/core
 type RspackOutput = {
+  libraryTarget?: string;
   path?: string;
   publicPath?: string;
   assetModuleFilename?: string;
@@ -53,6 +54,7 @@ type RspackOutput = {
   cssFilename?: string;
   cssChunkFilename?: string;
   library?: string;
+  crossOriginLoading?: false | 'anonymous' | 'use-credentials';
 };
 
 // fork from the @rspack/core
@@ -82,6 +84,8 @@ type InfrastructureLogging = Overlap<
   RspackInfrastructureLogging
 >;
 
+type Externals = Configuration['externals'];
+
 /** The intersection of webpack and Rspack */
 export type BundlerConfig = {
   name?: string;
@@ -91,7 +95,9 @@ export type BundlerConfig = {
   module?: Configuration['module'];
   target?: Configuration['target'];
   mode?: Configuration['mode'];
-  //   externals?: External;
+  externals?: Externals;
+  externalsType?: Configuration['externalsType'];
+  externalsPresets?: Configuration['externalsPresets'];
   output?: Output;
   resolve?: Resolve;
   devtool?: Configuration['devtool'];
@@ -144,16 +150,22 @@ export interface BundlerChain
     | 'merge'
     | 'cache'
     | 'plugin'
+    | 'plugins'
     | 'entryPoints'
     | 'mode'
     | 'context'
+    | 'externalsType'
+    | 'externalsPresets'
     | 'entry'
+    | 'get'
+    | 'experiments'
   > {
   toConfig: () => BundlerConfig;
   optimization: PickAndModifyThis<
     WebpackChain['optimization'],
     'splitChunks' | 'runtimeChunk'
   >;
+  externals: (value: Externals) => BundlerChain;
   resolve: PickAndModifyThis<
     WebpackChain['resolve'],
     | Extract<

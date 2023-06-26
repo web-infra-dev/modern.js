@@ -1,5 +1,114 @@
 # @scripts/prebundle
 
+## 2.24.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.24.0
+- @scripts/build@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.23.1
+- @scripts/build@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- Updated dependencies [7e6fb5f]
+  - @modern-js/tsconfig@2.23.0
+  - @scripts/build@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.22.1
+- @scripts/build@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.22.0
+- @scripts/build@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.21.1
+- @scripts/build@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.21.0
+- @scripts/build@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- Updated dependencies [6b9d90a]
+- Updated dependencies [6b9d90a]
+  - @scripts/build@2.20.0
+  - @modern-js/tsconfig@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.19.1
+- @scripts/build@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.19.0
+- @scripts/build@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.18.1
+- @scripts/build@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.18.0
+- @scripts/build@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.17.1
+- @scripts/build@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/tsconfig@2.17.0
+- @scripts/build@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- Updated dependencies [4e876ab]
+  - @modern-js/tsconfig@2.16.0
+  - @scripts/build@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

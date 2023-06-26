@@ -1,5 +1,144 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [53ba418]
+- Updated dependencies [3b82675]
+- Updated dependencies [7073297]
+  - @modern-js/module-tools@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [21b7f86]
+- Updated dependencies [d1ef55f]
+  - @modern-js/module-tools@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 5cbe8b5: fix: unable parsing within a ts ambient context, and set plugin options optional
+  fix: 关闭在 ts 环境中的解析，并将插件参数设为可选
+- ad49140: chore: adjust output and package.json fields
+  chore: 调整包的产物格式以及 packgae.json 里的字段
+- e2913dd: chore: update module plugin docs and readme
+  chore: 更新模块插件的文档和 readme
+- Updated dependencies [d19dc11]
+- Updated dependencies [c890980]
+- Updated dependencies [4b7488c]
+  - @modern-js/module-tools@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [df43559]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [ad78387]
+  - @modern-js/module-tools@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- Updated dependencies [6b9d90a]
+- Updated dependencies [6b9d90a]
+  - @modern-js/module-tools@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- Updated dependencies [cdc9db1]
+- Updated dependencies [b161968]
+  - @modern-js/module-tools@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- Updated dependencies [f65d3e8]
+  - @modern-js/module-tools@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/module-tools@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [b06f571]
+- Updated dependencies [acc0a00]
+- Updated dependencies [fd4a8a6]
+- Updated dependencies [4e876ab]
+- Updated dependencies [355d36e]
+- Updated dependencies [b06f571]
+  - @modern-js/module-tools@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

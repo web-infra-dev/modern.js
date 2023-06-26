@@ -90,6 +90,7 @@ export default class DevMiddleware extends EventEmitter {
       hmrClientPath: enableHMR
         ? getHMRClientPath(devOptions.client)
         : undefined,
+      serverSideRender: true,
       ...devOptions.devMiddleware,
     });
 

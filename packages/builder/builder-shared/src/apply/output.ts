@@ -80,6 +80,7 @@ function getPublicPath({
   } else if (typeof dev.assetPrefix === 'string') {
     publicPath = dev.assetPrefix;
   } else if (dev.assetPrefix === true) {
+    const protocol = context.devServer?.https ? 'https' : 'http';
     const hostname = context.devServer?.hostname || DEFAULT_DEV_HOST;
     const port = context.devServer?.port || DEFAULT_PORT;
     if (hostname === DEFAULT_DEV_HOST) {
@@ -88,9 +89,9 @@ function getPublicPath({
       // The http://0.0.0.0:port can't visit in windows, so we shouldn't set publicPath as `//0.0.0.0:${port}/`;
       // Relative to docs:
       // - https://github.com/quarkusio/quarkus/issues/12246
-      publicPath = `//${localHostname}:${port}/`;
+      publicPath = `${protocol}://${localHostname}:${port}/`;
     } else {
-      publicPath = `//${hostname}:${port}/`;
+      publicPath = `${protocol}://${hostname}:${port}/`;
     }
   }
 

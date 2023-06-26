@@ -1,5 +1,139 @@
 # @modern-js/module-tools-docs
 
+## 2.24.0
+
+### Patch Changes
+
+- @modern-js/doc-plugin-auto-sidebar@2.24.0
+- @modern-js/doc-tools@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- @modern-js/doc-plugin-auto-sidebar@2.23.1
+- @modern-js/doc-tools@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- Updated dependencies [7e6fb5f]
+  - @modern-js/doc-plugin-auto-sidebar@2.23.0
+  - @modern-js/doc-tools@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [30a8d8d]
+- Updated dependencies [f6b2b3a]
+- Updated dependencies [5a5f164]
+  - @modern-js/doc-tools@2.22.1
+  - @modern-js/doc-plugin-auto-sidebar@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- c890980: feat: add swc transform content and fix build logic when disable swc-transform
+  feat: 添加 swc transform 相关文档内容,并且修复禁用 swc-transform 时候的构建逻辑
+
+### Patch Changes
+
+- 3c3d1e2: docs: update project creation and new command text.
+
+  docs: 更新生成器创建项目和 new 命令文案。
+
+- Updated dependencies [b8553a3]
+  - @modern-js/doc-tools@2.22.0
+  - @modern-js/doc-plugin-auto-sidebar@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.21.1
+- @modern-js/doc-plugin-auto-sidebar@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- Updated dependencies [df43559]
+- Updated dependencies [26dcf3a]
+  - @modern-js/doc-tools@2.21.0
+  - @modern-js/doc-plugin-auto-sidebar@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- Updated dependencies [6b9d90a]
+  - @modern-js/doc-tools@2.20.0
+  - @modern-js/doc-plugin-auto-sidebar@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.19.1
+- @modern-js/doc-plugin-auto-sidebar@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.19.0
+- @modern-js/doc-plugin-auto-sidebar@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.18.1
+- @modern-js/doc-plugin-auto-sidebar@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- Updated dependencies [d1dafb0]
+  - @modern-js/doc-plugin-auto-sidebar@2.18.0
+  - @modern-js/doc-tools@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.17.1
+- @modern-js/doc-plugin-auto-sidebar@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/doc-tools@2.17.0
+- @modern-js/doc-plugin-auto-sidebar@2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- b06f571: docs: 新增 buildConfig api 和更新 plugin-import 内容
+  docs: add buildConfig api content and update plugin-import content
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [628be4b]
+- Updated dependencies [4e876ab]
+  - @modern-js/doc-tools@2.16.0
+  - @modern-js/doc-plugin-auto-sidebar@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

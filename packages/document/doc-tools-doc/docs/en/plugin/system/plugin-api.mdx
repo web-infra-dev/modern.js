@@ -1,0 +1,301 @@
+# Plugin API
+
+In the previous section, we introduced the basic structure of the plugin. In this section, we will introduce the API of the plugin to help you understand the abilities of the plugin in more detail.
+
+### globalStyles
+
+- **Type**：`string`
+
+It is used to add a global style, and the absolute path of a style file is passed in, and the usage is as follows:
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+import path from 'path';
+
+export function pluginForDoc(): DocPlugin {
+  // style path
+  const stylePath = path.join(__dirname, 'some-style.css');
+  return {
+    // plugin name
+    name: 'plugin-name',
+    globalStyles: path.join(__dirname, 'global.css'),
+  };
+}
+```
+
+For example, if you want to modify the theme color, you can do so by adding a global style:
+
+```css title="global.css"
+:root {
+  --modern-c-brand: #ffa500;
+  --modern-c-brand-dark: #ffa500;
+  --modern-c-brand-darker: #c26c1d;
+  --modern-c-brand-light: #f2a65a;
+  --modern-c-brand-lighter: #f2a65a;
+}
+```
+
+### globalUIComponents
+
+- **Type**：`string[]`
+
+It is used to add global components, passing in an array, each item in the array is the absolute path of a component, the usage is as follows:
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  // component path
+  const componentPath = path.join(__dirname, 'xxx.tsx');
+  return {
+    // plugin name
+    name: 'plugin-comp',
+    // Path to global components
+    globalUIComponents: [componentPath],
+  };
+}
+```
+
+When you register global components, the framework will automatically render these React components in the theme without manually importing and using them.
+
+Through global components, you can complete many custom functions, such as:
+
+#### Add global UI components
+
+```tsx title="comp-ui.tsx"
+import React from 'react';
+
+// Need a default export
+export default function PluginUI() {
+  return <div>这是一个全局的布局组件</div>;
+}
+```
+
+In this way, the content of the component will be rendered in the theme page, such as adding **BackToTop** button.
+
+#### Register global side effects
+
+```tsx title="comp-side-effect.tsx"
+import { useEffect } from 'react';
+import { useLocation } from '@modern-js/doc-tools/runtime';
+
+// Need a default export
+export default function PluginSideEffect() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    // Executed when the component renders for the first time
+  }, []);
+
+  useEffect(() => {
+    // Executed when the route changes
+  }, [pathname]);
+  return null;
+}
+```
+
+This way, side effects of components are executed in the theme page. For example, some of the following scenarios require side effects:
+
+- Redirect for certain page routes.
+- Bind click event on the img tag of the page to implement the image zoom function.
+- When the route changes, the PV data of different pages are reported.
+- ......
+
+### builderConfig
+
+- **Type**：`BuilderConfig`
+
+The bottom layer of Modern.js Doc is based on the Rspack mode of [Modern.js Builder](https://modernjs.dev/builder/) for document build process. The Builder can be configured through `builderConfig`. For specific configuration items, please refer to [Modern.js Builder](https://modernjs.dev/builder/api/index.html).
+
+> Of course, if you want to configure Rspack directly, you can also configure it through `buildConfig.tools.rspack`.
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(slug: string): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Global variable definitions for build phase
+    builderConfig: {
+      source: {
+        define: {
+          SLUG: JSON.stringify(slug),
+        },
+      },
+      tools: {
+        rspack(options) {
+          // Modify rspack config
+        },
+      },
+    },
+  };
+}
+```
+
+### config
+
+- **Type**：`(config: DocConfig) => DocConfig | Promise<DocConfig>`
+
+It is used to modify/extend the configuration of Modern.js Doc itself. For example, if you want to modify the title of the document, you can do it through `config`:
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Extend the config of the Modern.js Doc itself
+    config(config) {
+      return {
+        ...config,
+        title: '新的文档标题',
+      };
+    },
+  };
+}
+```
+
+### beforeBuild/afterBuild
+
+- **Type**：`(config: DocConfig, isProd: boolean) => void | Promise<void>`
+
+It is used to perform some operations before/after the document is built. The first parameter is the config of the document, and the second parameter is whether it is currently a production environment. The usage is as follows:
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Hook to execute before build
+    async beforeBuild(config, isProd) {
+      // Do something here
+    },
+    // Hook to execute after build
+    async afterBuild(config, isProd) {
+      // Do something here
+    },
+  };
+}
+```
+
+:::tip
+When the `beforeBuild` hook is executed, the `config` plugins of all plugins have been processed, so the config parameter already represents the final document configuration.
+:::
+
+### markdown
+
+- **Type**：`{ remarkPlugins?: Plugin[]; rehypePlugins?: Plugin[] }`
+
+It is used to extend the compilation ability of Markdown/MDX. If you want to add custom remark/rehype plug-ins, you can use `markdown.remarkPlugins/markdown.rehypePlugins` to achieve:
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    markdown: {
+      remarkPlugins: [
+        // Add custom remark plugin
+      ],
+      rehypePlugins: [
+        // Add custom rehype plugin
+      ],
+    },
+  };
+}
+```
+
+:::warning
+When mdx-rs compilation is enabled (that is, `doc.markdown.experimentalMdxRs` is `true` in the config file), the added remark/rehype plugin will be ignored.
+:::
+
+### extendPageData
+
+- Type: `(pageData: PageData) => void | Promise<void>`
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    name: 'plugin-name',
+    // Extend the page data
+    extendPageData(pageData) {
+      // You can add or modify properties on the pageData object
+      pageData.a = 1;
+    },
+  };
+}
+```
+
+After extending the page data, you can access the page data through the `usePageData` hook in the theme.
+
+```tsx
+import { usePageData } from '@modern-js/doc-tools';
+
+export function MyComponent() {
+  const { page } = usePageData();
+  // page.a === 1
+  return <div>{page.a}</div>;
+}
+```
+
+### addPages
+
+- Type: `(config: UserConfig) => AddtionalPage[] | Promise<AddtionalPage[]>`
+
+The `config` parameter is the `doc` config of `modern.config.ts`, and the `AddtionalPage` type is defined as follows:
+
+```tsx
+interface AddtionalPage {
+  routePath: string;
+  filepath?: string;
+  content?: string;
+}
+```
+
+Used to add additional pages, you can return an array in the `addPages` function, each item in the array is a page config, you can specify the route of the page through `routePath`, through `filepath` or `content` to specify the content of the page. For example:
+
+```tsx
+import path from 'path';
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function docPluginDemo(): DocPlugin {
+  return {
+    name: 'add-pages',
+    addPages() {
+      return [
+        //  Support the absolute path of the real file (filepath), which will read the content of md(x) in the disk
+        {
+          routePath: '/filepath-route',
+          filepath: path.join(__dirname, 'blog', 'index.md'),
+        },
+        //  Support to directly pass in the content of md(x) through the content parameter
+        {
+          routePath: '/content-route',
+          content: '# Demo2',
+        },
+      ];
+    },
+  };
+}
+```
+
+`addPages` accepts three parameters, `config` is the config of the current document site, `isProd` indicates whether it is a production environment, `routes` is an array of conventional routes, and the structure of each routing information is as follows:
+
+```ts
+export interface RouteMeta {
+  routePath: string;
+  // file absolute path
+  absolutePath: string;
+  // The page name, as part of the chunk filename
+  pageName: string;
+  // language of current route
+  lang: string;
+}
+```
+
+:::tip Hint
+The `addPages` hook is executed before the Rspack build tool is started. In addition to returning the custom page, you can also get the routing information in this hook and complete some operations.
+:::

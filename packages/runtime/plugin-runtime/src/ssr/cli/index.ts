@@ -38,9 +38,11 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   return false;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export const ssrPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
+
   required: ['@modern-js/runtime'],
+
   setup: api => {
     const ssrConfigMap = new Map<string, any>();
 
@@ -54,33 +56,52 @@ export default (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
+        const userConfig = api.useConfigContext();
         const { bundlerType = 'webpack' } = api.useAppContext();
-        const babelConfig =
-          bundlerType === 'webpack'
-            ? (config: any) => {
-                // Add id for useLoader method,
-                // The useLoader can be used even if the SSR is not enabled
+        // eslint-disable-next-line consistent-return
+        const babelConfig = (() => {
+          // In webpack build, we should let `useLoader` support CSR & SSR both.
+          if (bundlerType === 'webpack') {
+            return (config: any) => {
+              // Add id for useLoader method,
+              // The useLoader can be used even if the SSR is not enabled
+              config.plugins?.push(
+                path.join(__dirname, './babel-plugin-ssr-loader-id'),
+              );
+
+              if (
+                isUseSSRBundle(userConfig) &&
+                hasStringSSREntry(userConfig as any)
+              ) {
+                config.plugins?.push(require.resolve('@loadable/babel-plugin'));
+              }
+            };
+          } else if (bundlerType === 'rspack') {
+            // In Rspack build, we need transform the babel-loader again.
+            // It would increase performance overhead,
+            // so we only use useLoader in CSR on Rspack build temporarily.
+            if (isUseSSRBundle(userConfig)) {
+              return (config: any) => {
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-
-                const userConfig = api.useResolvedConfigContext();
-                if (
-                  isUseSSRBundle(userConfig) &&
-                  hasStringSSREntry(userConfig)
-                ) {
+                if (hasStringSSREntry(userConfig as any)) {
                   config.plugins?.push(
                     require.resolve('@loadable/babel-plugin'),
                   );
                 }
-              }
-            : undefined;
+              };
+            }
+          }
+        })();
 
         return {
           source: {
             alias: {
-              // ensure that all packages use the same storage in @modern-js/utils/ssr
-              '@modern-js/utils/ssr': require.resolve('@modern-js/utils/ssr'),
+              // ensure that all packages use the same storage in @modern-js/utils/runtime-node
+              '@modern-js/utils/runtime-node$': require.resolve(
+                '@modern-js/utils/runtime-node',
+              ),
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
             },
             globalVars: (values, { target }) => {
@@ -91,7 +112,7 @@ export default (): CliPlugin<AppTools> => ({
             },
           },
           tools: {
-            webpackChain: (chain, { isServer, isServiceWorker, CHAIN_ID }) => {
+            bundlerChain(chain, { isServer, isServiceWorker, CHAIN_ID }) {
               const userConfig = api.useResolvedConfigContext();
 
               if (
@@ -101,10 +122,10 @@ export default (): CliPlugin<AppTools> => ({
                 hasStringSSREntry(userConfig)
               ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-                const LoadableWebpackPlugin = require('@loadable/webpack-plugin');
+                const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
                 chain
                   .plugin(CHAIN_ID.PLUGIN.LOADABLE)
-                  .use(LoadableWebpackPlugin, [
+                  .use(LoadableBundlerPlugin, [
                     { filename: LOADABLE_STATS_FILE },
                   ]);
               }
@@ -114,7 +135,7 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       modifyEntryImports({ entrypoint, imports }) {
-        const { entryName, fileSystemRoutes } = entrypoint;
+        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
         pluginsExportsUtils.addExport(
@@ -124,6 +145,7 @@ export default (): CliPlugin<AppTools> => ({
         // if use ssg then set ssr config to true
         const ssrConfig = getEntryOptions(
           entryName,
+          isMainEntry,
           userConfig.server.ssr,
           userConfig.server.ssrByEntries,
           packageName,
@@ -132,6 +154,7 @@ export default (): CliPlugin<AppTools> => ({
         if (typeof ssrConfig === 'object' && ssrConfig.mode === 'stream') {
           const runtimeConfig = getEntryOptions(
             entryName,
+            isMainEntry,
             userConfig.runtime,
             userConfig.runtimeByEntries,
             packageName,
@@ -165,11 +188,22 @@ export default (): CliPlugin<AppTools> => ({
           imports,
         };
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
+      modifyEntryRuntimePlugins({ entrypoint, plugins, bundlerConfigs }) {
         if (ssrConfigMap.get(entrypoint.entryName)) {
+          const chunkLoadingGlobal = bundlerConfigs?.find(
+            config => config.name === 'client',
+          )?.output?.chunkLoadingGlobal;
+          const config = api.useResolvedConfigContext();
+          const { crossorigin, scriptLoading } = config.html;
+
           plugins.push({
             name: PLUGIN_IDENTIFIER,
-            options: JSON.stringify(ssrConfigMap.get(entrypoint.entryName)),
+            options: JSON.stringify({
+              ...(ssrConfigMap.get(entrypoint.entryName) || {}),
+              crossorigin,
+              scriptLoading,
+              chunkLoadingGlobal,
+            }),
           });
         }
         return {
@@ -194,3 +228,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default ssrPlugin;

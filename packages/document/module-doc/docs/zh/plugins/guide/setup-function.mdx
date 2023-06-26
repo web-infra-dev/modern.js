@@ -11,7 +11,7 @@ sidebar_position: 3
 插件的 `setup` 函数会提供一个 `api` 对象参数，你可以调用该对象上提供的一些方法来获取到配置、项目上下文等信息。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup(api) {
@@ -79,7 +79,7 @@ interface NormalizedConfig {
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   async setup(api) {
@@ -95,7 +95,7 @@ export default (): CliPlugin => ({
 CLI 插件的 setup 可以是一个异步函数，在初始化过程中执行异步逻辑。
 
 ```ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   async setup(api) {
@@ -106,7 +106,7 @@ export default (): CliPlugin<ModuleTools> => ({
 
 ## 生命周期钩子
 
-我们知道 `setup` 函数会返回一个 Hooks 对象，所谓 Hooks 对象也可以理解是具有 module-tools 生命周期钩子的对象。
+我们知道 `setup` 函数会返回一个 Hooks 对象，所谓 Hooks 对象也可以理解是具有 Module Tools 生命周期钩子的对象。
 
 目前主要包含两类钩子：
 

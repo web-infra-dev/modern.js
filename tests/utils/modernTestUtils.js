@@ -1,7 +1,8 @@
 const path = require('path');
 const spawn = require('cross-spawn');
 const treeKill = require('tree-kill');
-const portfinder = require('portfinder');
+const getRandomPort = require('get-port');
+const { launchOptions } = require('./launchOptions');
 
 // const kModernBin = path.join(
 //   __dirname,
@@ -227,8 +228,16 @@ function clearBuildDist(dir) {
   // _clearBuildDist(dir);
 }
 
+const portMap = new Map();
+
 async function getPort() {
-  return await portfinder.getPortPromise({ port: 8080 });
+  while (true) {
+    const port = await getRandomPort();
+    if (!portMap.get(port)) {
+      portMap.set(port, 1);
+      return port;
+    }
+  }
 }
 
 function sleep(t) {
@@ -246,4 +255,5 @@ module.exports = {
   getPort,
   clearBuildDist,
   sleep,
+  launchOptions,
 };

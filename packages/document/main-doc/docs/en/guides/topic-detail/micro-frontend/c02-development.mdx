@@ -27,14 +27,14 @@ Initialize the project with a command line:
 
 ```bash
 mkdir masterApp && cd masterApp
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 After the project is created, we can enable the `micro frontend` through `pnpm run new`:
 
 ```bash
-? Action Enable features
-? Enable features Enable Micro Front-end Feature
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Micro Front-end Feature
 ```
 
 Next, let's register the micro frontend plugin and add the main micro frontend app and add the list of sub-apps:
@@ -109,14 +109,14 @@ Initialize the project with a command line:
 
 ```bash
 mkdir masterApp && cd masterApp
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 After the project is created, we can enable the `micro frontend` function through `pnpm run new`:
 
 ```bash
-? Action Enable features
-? Enable features Enable Micro Front-end Feature
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Micro Front-end Feature
 ```
 
 Next, let's register the micro frontend plugin and add the main micro frontend app and add the list of sub-apps:
@@ -137,21 +137,21 @@ Initialize the project with a command line:
 
 ```bash
 mkdir table && cd table
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 After create sub-app. We execute `pnpm run new` to enable the `micro frontend` function:
 
 ```bash
-? Action Enable features
-? Enable features Enable Micro Front-end Feature
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Micro Front-end Feature
 ```
 
 Next, let's register the micro frontend plugin and modify `modern.config.ts` to add the configuration of the micro frontend sub-app `deploy.microFrontend`:
 
 ```js title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import garfishPlugin from '@modern-js/plugin-garfish';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {
@@ -186,21 +186,21 @@ Initialize the project with a command line:
 
 ```bash
 mkdir table && cd table
-npx @modern-js/create
+npx @modern-js/create@latest
 ```
 
 After create sub-app. We execute `pnpm run new` to enable the `micro frontend` function:
 
 ```bash
-? Action Enable features
-? Enable features Enable Micro Front-end Feature
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Micro Front-end Feature
 ```
 
 Next, let's register the micro frontend plugin and modify `modern.config.ts` to add the configuration of the micro frontend sub-app `deploy.microFrontend`:
 
 ```js title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import garfishPlugin from '@modern-js/plugin-garfish';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {

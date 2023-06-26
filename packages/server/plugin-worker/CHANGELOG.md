@@ -1,5 +1,185 @@
 # @modern-js/plugin-worker
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/server-utils@2.24.0
+  - @modern-js/prod-server@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/prod-server@2.23.1
+  - @modern-js/server-utils@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/server-utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [4be1da5]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+  - @modern-js/utils@2.22.1
+  - @modern-js/server-utils@2.22.1
+  - @modern-js/prod-server@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- cb9e1ec: feat: worker ssr support server hooks
+  feat: worker ssr 支持 server hooks
+
+### Patch Changes
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [4991c8a]
+- Updated dependencies [cb9e1ec]
+- Updated dependencies [ea961e7]
+  - @modern-js/utils@2.22.0
+  - @modern-js/prod-server@2.22.0
+  - @modern-js/server-utils@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [78e3ac8]
+- Updated dependencies [2728724]
+  - @modern-js/prod-server@2.21.1
+  - @modern-js/server-utils@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [cfc5bda]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/prod-server@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/server-utils@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- 4425fd6: fix: worker ssr context lack some fields & worker ssr must have routerManifest.json
+  fix: worker ssr 上下文缺少一些字段，worker ssr 必须有 routerManifest.json 文件
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [4425fd6]
+  - @modern-js/utils@2.20.0
+  - @modern-js/prod-server@2.20.0
+  - @modern-js/server-utils@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.19.1
+- @modern-js/server-utils@2.19.1
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/prod-server@2.19.0
+  - @modern-js/server-utils@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.18.1
+- @modern-js/server-utils@2.18.1
+- @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.18.0
+- @modern-js/server-utils@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.17.1
+- @modern-js/server-utils@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/prod-server@2.17.0
+- @modern-js/server-utils@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/prod-server@2.16.0
+  - @modern-js/server-utils@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

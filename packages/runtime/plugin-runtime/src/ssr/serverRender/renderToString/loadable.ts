@@ -1,6 +1,6 @@
 import { ChunkExtractor } from '@loadable/server';
 import { isCrossOrigin } from '../../utils';
-import { getLoadableScripts } from '../utils';
+import { attributesToString, getLoadableScripts } from '../utils';
 import { RenderHandler } from './type';
 
 const extname = (uri: string): string => {
@@ -16,6 +16,7 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
     result: { chunksMap },
     host,
     config = {},
+    nonce,
   } = renderer;
 
   if (!stats || chunksMap.js) {
@@ -34,20 +35,31 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
 
   for (const v of chunks) {
     const fileType = extname(v.url!).slice(1);
+    const attributes: Record<string, any> = {};
+    const { crossorigin, scriptLoading = 'defer' } = config;
+    if (crossorigin && isCrossOrigin(v.url, host)) {
+      attributes.crossorigin = crossorigin === true ? 'anonymous' : crossorigin;
+    }
+
+    switch (scriptLoading) {
+      case 'defer':
+        attributes.defer = true;
+        break;
+      case 'module':
+        attributes.type = 'module';
+        break;
+      default:
+    }
 
     if (fileType === 'js') {
-      const props = [];
-      const { crossorigin } = config;
-      if (crossorigin && isCrossOrigin(v.url, host)) {
-        props.push(
-          `crossorigin="${crossorigin === true ? 'anonymous' : crossorigin}"`,
-        );
-      }
-      chunksMap[fileType] += `<script src="${v.url}" ${props.join(
-        ' ',
-      )}></script>`;
+      // `nonce` attrs just for script tag
+      attributes.nonce = nonce;
+      const attrsStr = attributesToString(attributes);
+      chunksMap[fileType] += `<script${attrsStr} src="${v.url}"></script>`;
     } else if (fileType === 'css') {
-      chunksMap[fileType] += `<link href="${v.url}" rel="stylesheet" />`;
+      chunksMap[
+        fileType
+      ] += `<link${attributes} href="${v.url}" rel="stylesheet" />`;
     }
   }
 

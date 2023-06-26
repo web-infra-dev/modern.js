@@ -25,27 +25,25 @@ After the project is created, you can experience the project by running `pnpm ru
 :::tip
 When using Rspack as the bundler, the following Features are temporarily unavailable as some of the capabilities are still under development and we will provide support in the future.
 
-- Micro Frontend
 - Storybook Devtool
-- Server Side Rendering + Conventional Routing
-- Static Site Generation + Conventional Routing
+- The usage of [useLoader](/guides/basic-features/data-fetch.html) in Client Side Rendering
 
 :::
 
-## Migrating from webpack to Rspack
+## Enable Rspack build
 
 You can enable Rspack build by running `pnpm run new`:
 
 ```bash
 $ pnpm run new
-? Action: Enable features
-? Enable features: Enable Rspack Build
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Rspack Build
 ```
 
 After executing the command, enable the Rspack build in `modern.config.ts`:
 
 ```diff title=modern.config.ts
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 + export default defineConfig<'rspack'>({
   plugins: [
@@ -56,6 +54,42 @@ import appTools, { defineConfig } from '@modern-js/app-tools';
 });
 ```
 
-:::tip
-When migrating from webpack to Rspack, there may have some differences in build and configuration capabilities. For more details, please refer to [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
+## Migrating configuration
+
+After enabling Rspack building capability, further configuration migration is needed by referring to the [Configuration Differences](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#migrating-from-webpack-to-rspack).
+
+## The relationship between Rspack and Modern.js versions
+
+Usually, the latest version of Rspack will be integrated into Modern.js. You can update the Modern.js-related dependencies and built-in Rspack to the latest version by using `npx modern upgrade` in your project.
+
+However, Modern.js uses a locked version dependency method (non-automatic upgrade) for Rspack. Due to differences in release cycles, the version of Rspack integrated into Modern.js may be behind the latest version of Rspack.
+
+When Rspack is enabled for building through dev / build, the current version of Rspack used in the framework will be printed automatically:
+
+![rspack_version_log](https://lf3-static.bytednsdoc.com/obj/eden-cn/6221eh7uhbfvhn/modern/img_v2_dfcf051f-21db-4741-a108-d9f7a82c3abg.png)
+
+### Override the Built-in Rspack Version
+
+You can override Rspack to a specific version using the capbilities provided by package managers such as pnpm, yarn, npm.
+
+For example, if you are using pnpm, you can update the Rspack version with `overrides` as shown below:
+
+```json title=package.json
+{
+  "pnpm": {
+    "overrides": {
+      "@rspack/core": "nightly",
+      "@rspack/dev-client": "nightly",
+      "@rspack/plugin-html": "nightly"
+    }
+  }
+}
+```
+
+:::tip What is Rspack Nightly Version
+The Rspack nightly build fully replicates the full release build for catching errors early.
+Usually it is available and any errors that arise will fixed promptly.
+However, if there are any break changes that require modern.js to modify the code, we recommend to wait for the next version of modern.js.
 :::
+
+More examples of using package management tools, please refer to: [Lock nested dependency](/guides/get-started/upgrade.html#lock-nested-dependency).

@@ -1,5 +1,120 @@
 # @modern-js/generator-cases
 
+## 3.1.24
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.24
+
+## 3.1.23
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.23
+
+## 3.1.22
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [8433b4f]
+  - @modern-js/generator-common@3.1.22
+
+## 3.1.21
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.21
+
+## 3.1.20
+
+### Patch Changes
+
+- Updated dependencies [b647c68]
+- Updated dependencies [3c3d1e2]
+  - @modern-js/generator-common@3.1.20
+
+## 3.1.19
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.19
+
+## 3.1.18
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [26dcf3a]
+- Updated dependencies [de8f73f]
+  - @modern-js/generator-common@3.1.18
+
+## 3.1.17
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- Updated dependencies [6b9d90a]
+  - @modern-js/generator-common@3.1.17
+
+## 3.1.16
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.16
+
+## 3.1.15
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.15
+
+## 3.1.14
+
+### Patch Changes
+
+- Updated dependencies [21c87bf]
+- Updated dependencies [bc61dab]
+  - @modern-js/generator-common@3.1.14
+
+## 3.1.13
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.13
+
+## 3.1.12
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.12
+
+## 3.1.11
+
+### Patch Changes
+
+- @modern-js/generator-common@3.1.11
+
+## 3.1.10
+
+### Patch Changes
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [84a8008]
+- Updated dependencies [4e876ab]
+  - @modern-js/generator-common@3.1.10
+
 ## 3.1.9
 
 ### Patch Changes

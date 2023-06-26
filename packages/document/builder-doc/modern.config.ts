@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig, Sidebar, NavItem } from '@modern-js/doc-tools';
+import { docTools, defineConfig, Sidebar, NavItem } from '@modern-js/doc-tools';
 
 function getI18nHelper(lang: 'zh' | 'en') {
   const cn = lang === 'zh';
@@ -32,6 +32,7 @@ function getNavbar(lang: 'zh' | 'en'): NavItem[] {
 
 function getSidebar(lang: 'zh' | 'en'): Sidebar {
   const { getLink, getText } = getI18nHelper(lang);
+
   return {
     [getLink('/guide/')]: [
       {
@@ -101,6 +102,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/faq/general'),
           getLink('/guide/faq/features'),
           getLink('/guide/faq/exceptions'),
+          getLink('/guide/faq/hmr'),
         ],
       },
     ],
@@ -149,6 +151,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('列表', 'List'),
         items: [
           getLink('/plugins/list'),
+          getLink('/plugins/plugin-vue'),
           getLink('/plugins/plugin-swc'),
           getLink('/plugins/plugin-stylus'),
           getLink('/plugins/plugin-esbuild'),
@@ -171,6 +174,15 @@ export default defineConfig({
     markdown: {
       checkDeadLinks: true,
       experimentalMdxRs: true,
+    },
+    route: {
+      // exclude document fragments from routes
+      exclude: [
+        '**/zh/config/**',
+        '**/en/config/**',
+        '**/zh/shared/**',
+        '**/en/shared/**',
+      ],
     },
     themeConfig: {
       footer: {
@@ -205,6 +217,11 @@ export default defineConfig({
           description: 'A build engine for web development.',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/builder-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
     },
     replaceRules: [
       {

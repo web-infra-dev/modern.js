@@ -132,8 +132,8 @@ export function setRuntimeConfig(
 
 export const generateAsyncEntry = (code: string) => {
   const transformCode = code.replace(
-    `import('./bootstrap.js');`,
-    `if (!window.__GARFISH__) { import('./bootstrap.js'); }`,
+    `import('./bootstrap.jsx');`,
+    `if (!window.__GARFISH__) { import('./bootstrap.jsx'); }`,
   );
 
   return `

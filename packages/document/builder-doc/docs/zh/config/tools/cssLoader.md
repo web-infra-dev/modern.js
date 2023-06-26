@@ -5,7 +5,6 @@
 
 ```js
 {
-  importLoaders: 1,
   modules: {
     auto: true,
     exportLocalsConvention: 'camelCase',
@@ -16,10 +15,14 @@
   },
   // 默认在开发环境下启用 CSS 的 Source Map
   sourceMap: isDev,
+  // importLoaders 在编译 css 文件时为 `1`，在编译 sass/less 文件时为 `2`
+  importLoaders: 1 || 2,
 }
 ```
 
-- **打包工具：** `仅支持 webpack`
+:::tip
+在使用 Rspack 作为打包工具时，仅支持在 [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) 时使用该配置。
+:::
 
 ### Object 类型
 

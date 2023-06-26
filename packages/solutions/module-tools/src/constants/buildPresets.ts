@@ -173,6 +173,7 @@ export const nodeBuildConfig: PartialBaseBuildConfig[] = [
     format: 'cjs',
     target: 'es2019',
     dts: false,
+    externalHelpers: true,
     outDir: './dist/cjs',
   },
   {
@@ -180,6 +181,7 @@ export const nodeBuildConfig: PartialBaseBuildConfig[] = [
     format: 'esm',
     target: 'es2019',
     dts: false,
+    externalHelpers: true,
     outDir: './dist/esm',
   },
   {
@@ -197,6 +199,7 @@ export const universalBuildConfig: PartialBaseBuildConfig[] = [
     format: 'cjs',
     target: 'es2019',
     dts: false,
+    externalHelpers: true,
     outDir: './dist/cjs',
   },
   {
@@ -204,6 +207,7 @@ export const universalBuildConfig: PartialBaseBuildConfig[] = [
     format: 'esm',
     target: 'es5',
     dts: false,
+    externalHelpers: true,
     outDir: './dist/esm',
   },
   {
@@ -211,6 +215,7 @@ export const universalBuildConfig: PartialBaseBuildConfig[] = [
     format: 'esm',
     target: 'es2019',
     dts: false,
+    externalHelpers: true,
     outDir: './dist/esm-node',
   },
   {

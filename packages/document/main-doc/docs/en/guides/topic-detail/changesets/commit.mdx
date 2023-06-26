@@ -1,0 +1,269 @@
+---
+sidebar_position: 7
+---
+
+# Customizing Commit Messages
+
+Changesets supports configuring `commit` to automatically submit the current changes when running the `change` and `bump` commands.
+
+The default `commit` information is provided by `@changesets/cli/commit`, and the default information format is:
+
+![change commit](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-change-commit-info.png)
+![bump commit](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/changeset-bump-commit-info.png)
+
+When the default commit information cannot meet the requirements, custom commit information is supported.
+
+## Customizing Commit Message Content
+
+Commit information is divided into two types:
+
+- Commit information automatically generated when running the `change` command.
+- Commit information automatically generated when running the `bump` command.
+
+The custom logic mainly implements two functions, `getAddMessage` and `getVersionMessage`, which are used to define the above two types of information, respectively.
+
+### getAddMessage
+
+#### Params
+
+- changeset
+
+The current changeset information created.
+
+```ts
+type Release = {
+  name: string;
+  type: VersionType;
+};
+
+type Changeset = {
+  summary: string;
+  releases: Array<Release>;
+};
+```
+
+- options
+
+Configuration information when committing.
+
+> When the commit configuration is an array, the second parameter supports passing in default configuration information, which will be used to pass this parameter.
+
+#### Returns
+
+Commit message content.
+
+#### Default Implementation
+
+The default processing logic of `@changesets/cli/commit` is to start with `docs(changeset):`, and the commit information is the `summary` of the changeset, and [skip ci] information is added according to the `skipCI` parameter configuration passed in.
+
+```ts
+type SkipCI = boolean | 'add' | 'version';
+
+const getAddMessage = async (
+  changeset: Changeset,
+  options: { skipCI?: SkipCI } | null,
+) => {
+  const skipCI = options?.skipCI === 'add' || options?.skipCI === true;
+  return outdent`docs(changeset): ${changeset.summary}${
+    skipCI ? `\n\n[skip ci]\n` : ''
+  }`;
+};
+```
+
+> [outdent](https://www.npmjs.com/package/outdent) is used to remove the leading whitespace content of the template string to make the commit information more compliant with the specification.
+
+### getVersionMessage
+
+#### Params
+
+- releasePlan
+
+```ts
+type VersionType = 'major' | 'minor' | 'patch' | 'none';
+
+type Release = {
+  name: string;
+  type: VersionType;
+};
+
+type Changeset = {
+  id: string;
+  summary: string;
+  releases: Array<Release>;
+};
+
+type ComprehensiveRelease = {
+  name: string;
+  type: VersionType;
+  oldVersion: string;
+  newVersion: string;
+  changesets: string[];
+};
+
+type PreState = {
+  mode: 'pre' | 'exit'; // Current state of pre mode
+  tag: string; // Type of pre
+  initialVersions: {
+    [pkgName: string]: string; // Package name and version information before version upgrade
+  };
+  changesets: string[]; // List of changeset ids for this upgrade
+};
+
+type ReleasePlan = {
+  changesets: Changeset[]; // List of changesets for this upgrade
+  releases: ComprehensiveRelease[]; // Information of the current upgrade, including package name, current version, upgraded version, and upgrade type
+  preState: PreState | undefined; // If it is a pre-release, provide relevant state information
+};
+```
+
+- options
+
+Configuration information when committing.
+
+> When the commit configuration is an array, the second parameter supports passing in default configuration information, which will be used to pass this parameter.
+
+#### Returns
+
+Commit message content.
+
+#### Default Implementation
+
+The default processing logic of `@changesets/cli/commit` is to first display the number of packages that need to be released, then display the names and new version of the released packages, and [skip ci] information is added according to the `skipCI` parameter configuration passed in.
+
+```ts
+const getVersionMessage = async (
+  releasePlan: ReleasePlan,
+  options: { skipCI?: SkipCI } | null,
+) => {
+  const skipCI = options?.skipCI === 'version' || options?.skipCI === true;
+  const publishableReleases = releasePlan.releases.filter(
+    release => release.type !== 'none',
+  );
+  const numPackagesReleased = publishableReleases.length;
+
+  const releasesLines = publishableReleases
+    .map(release => `  ${release.name}@${release.newVersion}`)
+    .join('\n');
+
+  return outdent`
+    RELEASING: Releasing ${numPackagesReleased} package(s)
+
+    Releases:
+    ${releasesLines}
+    ${skipCI ? `\n[skip ci]\n` : ''}
+`;
+};
+```
+
+## Configuration
+
+The `commit` field in the changesets configuration file is used to mark whether to submit commit information when running the `change` and `bump` commands, and the way to obtain commit information.
+
+This configuration can be a `boolean`. When it is `true`, the default `@changesets/cli/commit` formatting commit information will be used.
+
+This configuration can be a string, directly declaring the module name or path of the commit information acquisition module.
+
+This configuration also supports configuring arrays. The first element in the array is the module name or path of the commit information acquisition module, and the second element is the parameter value passed to the corresponding function, which will be passed as the second parameter of the `getAddMessage` and `getVersionMessage` functions.
+
+### Configuring Relative Paths
+
+If the commit configuration is a relative path, it is a relative path under the `.changesets` directory.
+
+For example, create the `.changeset/my-commit-config.js` file and define the following content:
+
+```js title=".changeset/my-commit-config.js"
+async function getAddMessage(changeset, options) {}
+
+async function getVersionMessage(releasePlan, options) {}
+
+module.exports = {
+  getAddMessage,
+  getVersionMessage,
+};
+```
+
+Configure `commit` as `./my-commit-config.js`:
+
+```json title=".changesets/config.json"
+{
+  "changelog": "./my-commit-config.js",
+   ...
+}
+```
+
+### Using NPM Module
+
+Customizing commit can also be managed using the NPM module project to provide a common solution.
+
+#### Use `npx @modern-js/create@latest` to create a module project
+
+```md
+? Please select the type of project you want to create: Npm Module
+? Please fill in the project name: custom-commit
+? Please select the programming language: TS
+? Please select the package manager: pnpm
+```
+
+#### Implement Custom Content
+
+```ts title="src/index.ts"
+export async function getAddMessage() {}
+
+export async function getVersionMessage() {}
+```
+
+#### Publish the module to NPM
+
+#### Install the corresponding module in the root directory of the target repository, such as `custom-commit`
+
+#### Configure the commit configuration of changesets as the package name
+
+```json title="package.json"
+{
+  "commit": "custom-commit",
+   ...
+}
+```
+
+### Using Monorepo Sub-Project
+
+If your current repository is Monorepo, you can directly manage it using NPM module sub-projects.
+
+#### Run `pnpm run new` to create a module sub-project
+
+```bash
+? Please select the type of project you want to create: Npm Module
+? Please fill in the sub-project name: custom-commit
+? Please fill in the sub-project directory name: custom-commit
+? Please select the programming language: TS
+```
+
+#### Implement Custom Content
+
+```ts title="src/index.ts"
+export async function getAddMessage() {}
+
+export async function getVersionMessage() {}
+```
+
+#### Add the sub-project module dependency, such as `custom-commit`, to the Monorepo root directory
+
+```json title="package.json"
+{
+  "devDependencies": {
+    "custom-commit": "workspace:*",
+    ...
+  }
+}
+```
+
+#### Configure the commit configuration of Changesets as the package name
+
+```json title=".changesets/config.json"
+{
+  "commit": "custom-commit",
+   ...
+}
+```
+
+After the module is published to NPM, it can still be used like a module type for other repositories.

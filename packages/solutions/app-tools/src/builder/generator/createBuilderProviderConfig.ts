@@ -1,15 +1,35 @@
-import type { AppNormalizedConfig, Bundler, IAppContext } from '../../types';
+import type {
+  Bundler,
+  IAppContext,
+  OutputUserConfig,
+  AppNormalizedConfig,
+} from '../../types';
+import { createUploadPattern } from '../builder-webpack/createCopyPattern';
+
+function modifyOutputConfig<B extends Bundler>(
+  config: AppNormalizedConfig<B>,
+  appContext: IAppContext,
+) {
+  const defaultCopyPattern = createUploadPattern(appContext, config);
+  const { copy } = config.output as OutputUserConfig;
+  const copyOptions = Array.isArray(copy) ? copy : copy?.patterns;
+  const builderCopy = [...(copyOptions || []), defaultCopyPattern];
+
+  config.output = {
+    ...config.output,
+    copy: builderCopy,
+  };
+}
 
 export function createBuilderProviderConfig<B extends Bundler>(
   resolveConfig: AppNormalizedConfig<B>,
   appContext: IAppContext,
-  modifyBuilderConfig?: (config: AppNormalizedConfig<B>) => void,
 ): AppNormalizedConfig<B> {
   const htmlConfig = { ...resolveConfig.html };
   if (!htmlConfig.template) {
     htmlConfig.templateByEntries = {
-      ...htmlConfig.templateByEntries,
       ...appContext.htmlTemplates,
+      ...htmlConfig.templateByEntries,
     };
   }
   const config = {
@@ -26,7 +46,7 @@ export function createBuilderProviderConfig<B extends Bundler>(
     },
   };
 
-  modifyBuilderConfig?.(config as AppNormalizedConfig<B>);
+  modifyOutputConfig(config, appContext);
 
   return config as AppNormalizedConfig<B>;
 }

@@ -1,6 +1,6 @@
-# Exceptions
+# Exceptions FAQ
 
-## 'compilation' argument error when webpack compiling?
+### 'compilation' argument error when webpack compiling?
 
 If the following error occurs when compiling, it is usually caused by installing the wrong version of webpack in the project, or installing multiple versions of webpack:
 
@@ -24,13 +24,17 @@ If it is the third case, you can use the two methods mentioned in the second cas
 Deleting the lock file will automatically upgrade the dependency version in the project to the latest version under the specified scope, please test it thoroughly.
 :::
 
-## Find ES6+ code in the compiled files?
+---
+
+### Find ES6+ code in the compiled files?
 
 By default, Builder will not compile files under `node_modules` through `babel-loader` or `ts-loader`. If the npm package introduced by the project contains ES6+ syntax, it will be packaged into the product.
 
 When this happens, you can specify directories or modules that need to be compiled additionally through the [source.include](/en/api/config-source.html#sourceinclude) configuration item.
 
-## Failed import other modules in Monorepo?
+---
+
+### Failed import other modules in Monorepo?
 
 For the sake of compilation performance, by default, Builder will not compile files under `node_modules` through `babel-loader` or `ts-loader`, nor will it compile files outside the current project directory.
 
@@ -38,7 +42,9 @@ Through the `source.include` configuration item, you can specify directories or 
 
 For details, see [source.include usage introduction](/en/api/config-source.html#sourceinclude).
 
-## Compile error `You may need additional loader`?
+---
+
+### Compile error `You may need additional loader`?
 
 If the following error message is encountered during the compilation process, it means that there are individual files that cannot be compiled correctly.
 
@@ -55,16 +61,18 @@ Solution:
 - If the `.ts` file outside the current project is referenced, or the `.ts` file under node_modules, please add the [source.include](/en/api/config-source.html#sourceinclude) configuration Items that specify files that require additional compilation.
 - If you refer to a file format that is not supported by Builder, please configure the corresponding webpack loader for compilation.
 
-## Find `exports is not defined` runtime error?
+---
 
-If the compilation is succeed, but the `exports is not defined` error appears after opening the page, it is usually because a CommonJS module is compiled by babel.
+### Find `exports is not defined` runtime error?
 
-Under normal circumstances, Builder will not use babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#sourceinclude) configuration item is used in the project, or the [tools.babel](/en/api/config-tools.html#tools -babel) `addIncludes` method, some CommonJS modules may be added to the babel compilation.
+If the compilation is succeed, but the `exports is not defined` error appears after opening the page, it is usually because a CommonJS module is compiled by Babel.
+
+Under normal circumstances, Builder will not use Babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#sourceinclude) configuration item is used in the project, or the [tools.babel](/en/api/config-tools.html#tools-babel) `addIncludes` method, some CommonJS modules may be added to the Babel compilation.
 
 There are two workarounds for this problem:
 
-1. Avoid adding CommonJS modules to babel compilation.
-2. Set babel's `sourceType` configuration item to `unambiguous`, for example:
+1. Avoid adding CommonJS modules to Babel compilation.
+2. Set Babel's `sourceType` configuration item to `unambiguous`, for example:
 
 ```js
 export default {
@@ -76,11 +84,13 @@ export default {
 };
 ```
 
-Setting `sourceType` to `unambiguous` may have some other effects, please refer to [babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
+Setting `sourceType` to `unambiguous` may have some other effects, please refer to [Babel official documentation](https://babeljs.io/docs/en/options#sourcetype).
 
-## Compile error "Error: ES Modules may not assign module.exports or exports.\*, Use ESM export syntax"?
+---
 
-If the following error occurs during compilation, it is usually because a CommonJS module is compiled with babel in the project, and the solution is same as the above `exports is not defined` problem.
+### Compile error "Error: ES Modules may not assign module.exports or exports.\*, Use ESM export syntax"?
+
+If the following error occurs during compilation, it is usually because a CommonJS module is compiled with Babel in the project, and the solution is same as the above `exports is not defined` problem.
 
 ```bash
 Error: ES Modules may not assign module.exports or exports.*, Use ESM export syntax, instead: 581
@@ -88,7 +98,9 @@ Error: ES Modules may not assign module.exports or exports.*, Use ESM export syn
 
 For more information, please refer to issue: [babel#12731](https://github.com/babel/babel/issues/12731).
 
-## The compilation progress bar is stuck, but there is no Error log in the terminal?
+---
+
+### The compilation progress bar is stuck, but there is no Error log in the terminal?
 
 When the compilation progress bar is stuck, but there is no Error log on the terminal, it is usually because an exception occurred during the compilation. In some cases, when Error is caught by webpack or other modules, the error log can not be output correctly. The most common scenario is that there is an exception in the Babel config, which is caught by webpack, and webpack swallows the Error in some cases.
 
@@ -154,7 +166,9 @@ export default {
 };
 ```
 
-## The webpack cache does not work?
+---
+
+### The webpack cache does not work?
 
 Builder enables webpack's persistent cache by default.
 
@@ -179,7 +193,9 @@ export default {
 
 After adding the above configuration, webpack will output logs for debugging. Please refer to the logs related to `PackFileCacheStrategy` to understand the cause of cache invalidation.
 
-## Tree shaking does not take effect?
+---
+
+### Tree shaking does not take effect?
 
 Builder will enable the tree shaking function of webpack by default during production construction. Whether tree shaking can take effect depends on whether the business code can meet the tree shaking conditions of webpack.
 
@@ -188,7 +204,9 @@ If you encounter the problem that tree shaking does not take effect, you can che
 - [webpack official documentation - Tree Shaking](https://webpack.docschina.org/guides/tree-shaking/)
 - [Tree Shaking Troubleshooting Guide](https://bytedance.feishu.cn/docs/doccn8E1ldDct5uv1EEDQs8Ycwe)
 
-## JavaScript heap out of memory when compiling?
+---
+
+### JavaScript heap out of memory when compiling?
 
 This error indicates that there is a memory overflow problem during the packaging process. In most cases, it is because the packaged content exceeds the default memory limit of Node.js.
 
@@ -218,7 +236,9 @@ In addition to increasing the memory limit, it is also a solution to improve eff
 
 If the above methods cannot solve your problem, it may be that some abnormal logic in the project has caused memory overflow. You can debug recent code changes and locate the root cause of problems. If it cannot be located, please contact us.
 
-## Can't resolve 'core-js/modules/xxx.js' when compiling?
+---
+
+### Can't resolve 'core-js/modules/xxx.js' when compiling?
 
 If you get an error similar to the following when compiling, it means that [core-js](https://github.com/zloirock/core-js) cannot be resolved properly in the project.
 
@@ -255,39 +275,9 @@ export default {
 2. Some code in the project depends on `core-js` v2. In this case, you usually need to find out the corresponding code and upgrade `core-js` to the v3.
 3. An npm package in `node_modules` imported `core-js`, but does not declare the `core-js` dependency in `dependencies`. In this case, you need to declare the `core-js` dependency in the corresponding npm package, or install a copy of `core-js` in the project root directory.
 
-## HMR not work when updating React components?
+---
 
-Builder uses React's official [Fast Refresh](https://github.com/pmmmwh/react-refresh-webpack-plugin) capability to perform component hot updates.
-
-If there is a problem that the hot update of the React component cannot take effect, or the state of the React component is lost after the hot update, it is usually because your React component uses an anonymous function. In the official practice of React Fast Refresh, it is required that the component cannot be an anonymous function, otherwise the state of the React component cannot be preserved after hot update.
-
-Here are some examples of wrong usage:
-
-```tsx
-// bad
-export default function () {
-  return <div>Hello World</div>;
-}
-
-// bad
-export default () => <div>Hello World</div>;
-```
-
-The correct usage is to declare a name for each component function:
-
-```tsx
-// good
-export default function MyComponent() {
-  return <div>Hello World</div>;
-}
-
-// good
-const MyComponent = () => <div>Hello World</div>;
-
-export default MyComponent;
-```
-
-## Compilation error after referencing a type from lodash
+### Compilation error after referencing a type from lodash
 
 If the `@types/lodash` package is installed in your project, you may import some types from `lodash`, such as the `DebouncedFunc` type:
 
@@ -315,7 +305,9 @@ import type { DebouncedFunc } from 'lodash';
 In any case, it is recommended to use `import type` to import types, this will help the compiler to identify the type.
 :::
 
-## Division in Less file doesn't work?
+---
+
+### Division in Less file doesn't work?
 
 Compared with the v3 version, the Less v4 version has some differences in the way of writing division:
 
@@ -339,7 +331,9 @@ The built-in Less version of Builder is v4, and the writing method of the lower 
 
 The writing of division in Less can also be modified through configuration items, see [Less - Math](https://lesscss.org/usage/#less-options-math).
 
-## Compile error ‘TypeError: Cannot delete property 'xxx' of #\<Object\>’
+---
+
+### Compile error ‘TypeError: Cannot delete property 'xxx' of #\<Object\>’
 
 This error indicates that a read-only configuration item was deleted during the compilation process. Normally, we do not want any operation to directly modify the incoming configuration when compiling, but it is difficult to restrict the behavior of underlying plugins (such as postcss-loader, etc). If this error occurs, please contact the builder developer and we will need to do something special with that configuration.
 

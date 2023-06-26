@@ -8,8 +8,10 @@
     "test:rspack": "PROVIDE_TYPE=rspack playwright test"
   },
   "dependencies": {
+    "lodash": "^4.17.21",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "vue": "^3.3.4"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
@@ -17,15 +19,17 @@
     "@modern-js/builder-plugin-node-polyfill": "workspace:*",
     "@modern-js/builder-plugin-stylus": "workspace:*",
     "@modern-js/builder-plugin-swc": "workspace:*",
+    "@modern-js/builder-plugin-vue": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/e2e": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/node": "^14",
+    "@types/lodash": "^4.14.195",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "playwright": "^1.25.1",
-    "typescript": "^4"
+    "@playwright/test": "1.33.0",
+    "typescript": "^5"
   }
 }

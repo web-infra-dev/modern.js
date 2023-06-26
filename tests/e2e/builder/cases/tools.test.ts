@@ -6,18 +6,18 @@ import { webpackOnlyTest } from '../scripts/helper';
 const fixtures = __dirname;
 
 test('postcss plugins overwrite', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: join(fixtures, 'output/rem'),
     entry: {
       main: join(fixtures, 'output/rem/src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    tools: {
-      postcss: {
-        postcssOptions: {
-          plugins: [],
+    runServer: true,
+    builderConfig: {
+      tools: {
+        postcss: {
+          postcssOptions: {
+            plugins: [],
+          },
         },
       },
     },
@@ -28,24 +28,26 @@ test('postcss plugins overwrite', async ({ page }) => {
   await expect(
     page.evaluate(`document.getElementById('title').innerHTML`),
   ).resolves.toBe('title');
+
+  builder.close();
 });
 
 webpackOnlyTest('webpackChain plugin', async ({ page }) => {
-  const buildOpts = {
+  const builder = await build({
     cwd: join(fixtures, 'source/global-vars'),
     entry: {
       main: join(fixtures, 'source/global-vars/src/index.ts'),
     },
-  };
-
-  const builder = await build(buildOpts, {
-    tools: {
-      webpackChain: (chain, { webpack }) => {
-        chain.plugin('define').use(webpack.DefinePlugin, [
-          {
-            ENABLE_TEST: JSON.stringify(true),
-          },
-        ]);
+    runServer: true,
+    builderConfig: {
+      tools: {
+        webpackChain: (chain, { webpack }) => {
+          chain.plugin('define').use(webpack.DefinePlugin, [
+            {
+              ENABLE_TEST: JSON.stringify(true),
+            },
+          ]);
+        },
       },
     },
   });
@@ -54,4 +56,6 @@ webpackOnlyTest('webpackChain plugin', async ({ page }) => {
   await expect(
     page.evaluate(`document.getElementById('test-el').innerHTML`),
   ).resolves.toBe('aaaaa');
+
+  builder.close();
 });

@@ -1,5 +1,5 @@
 import path from 'path';
-import { logger, PLUGIN_SCHEMAS } from '@modern-js/utils';
+import { logger } from '@modern-js/utils';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { generatePath } from 'react-router-dom';
 import { AgreedRouteMap, SSGConfig, SsgRoute } from './types';
@@ -16,7 +16,7 @@ import { writeHtmlFile } from './libs/output';
 import { replaceRoute } from './libs/replace';
 import { makeRoute } from './libs/make';
 
-export default (): CliPlugin<AppTools> => ({
+export const ssgPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssg',
 
   pre: ['@modern-js/plugin-server', '@modern-js/plugin-bff'],
@@ -26,7 +26,18 @@ export default (): CliPlugin<AppTools> => ({
 
     return {
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-ssg'];
+        return [
+          {
+            target: 'output.ssg',
+            schema: {
+              oneOf: [
+                { type: 'boolean' },
+                { type: 'object' },
+                { instanceof: 'Function' },
+              ],
+            },
+          },
+        ];
       },
       modifyFileSystemRoutes({ entrypoint, routes }) {
         const { entryName } = entrypoint;
@@ -197,3 +208,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default ssgPlugin;

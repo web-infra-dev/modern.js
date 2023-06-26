@@ -132,7 +132,6 @@ function transformer(tree: Root) {
       let title = parseTitle(rawTitle);
       // :::tip{title="xxx"}
       const titleExpressionNode =
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error mdxTextExpression is not defined in mdast
         node.children[1] && node.children[1].type === 'mdxTextExpression'
           ? node.children[1]
@@ -288,7 +287,6 @@ function transformer(tree: Root) {
       i++;
     }
   } catch (e) {
-    // eslint-disable-next-line no-console
     console.log(e);
     throw e;
   }

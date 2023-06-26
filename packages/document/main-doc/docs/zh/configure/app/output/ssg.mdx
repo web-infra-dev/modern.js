@@ -163,7 +163,9 @@ export default defineConfig({
 ```js
 export default defineConfig({
   output: {
-    preventDefault: ['/user'],
+    ssg: {
+      preventDefault: ['/user'],
+    },
   },
 });
 ```

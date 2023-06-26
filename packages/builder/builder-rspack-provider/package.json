@@ -3,7 +3,11 @@
   "description": "Builder provider for Rspack",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/builder-rspack-provider"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -14,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.15.0",
+  "version": "2.24.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -41,48 +45,43 @@
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
     "dev": "tsc --watch",
-    "example": "node __fixture__/execute",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@babel/core": "^7.21.8",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@babel/preset-typescript": "^7.17.12",
-    "@rspack/core": "0.1.7",
-    "@rspack/dev-client": "0.1.7",
-    "@rspack/dev-middleware": "0.1.7",
-    "@rspack/plugin-html": "0.1.7",
-    "@rspack/postcss-loader": "0.1.7",
-    "caniuse-lite": "^1.0.30001451",
+    "@babel/preset-typescript": "^7.21.5",
+    "@rspack/core": "0.2.3",
+    "@rspack/dev-client": "0.2.3",
+    "@rspack/plugin-html": "0.2.3",
+    "rspack-manifest-plugin": "5.0.0-alpha0",
+    "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",
-    "rspack-plugin-virtual-module": "0.1.0"
+    "react-refresh": "0.14.0",
+    "rspack-plugin-virtual-module": "0.1.0",
+    "style-loader": "3.3.1",
+    "webpack": "^5.82.1"
   },
   "devDependencies": {
-    "@modern-js/e2e": "workspace:*",
+    "@arco-design/web-react": "^2.46.0",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "antd": "4",
     "postcss": "8.4.21",
-    "typescript": "^4",
+    "typescript": "^5",
     "react": "^18",
     "react-dom": "^18"
-  },
-  "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.15.0"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/e2e": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/index.d.ts"
   }
 }

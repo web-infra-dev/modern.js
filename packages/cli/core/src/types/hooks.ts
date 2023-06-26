@@ -22,6 +22,7 @@ export type BaseHooks<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
+  beforeConfig: AsyncWorkflow<void, void>;
   config: ParallelWorkflow<void, UserConfig<Extends>>;
   resolvedConfig: AsyncWaterfall<{
     resolved: NormalizedConfig<Extends>;
@@ -29,9 +30,17 @@ export type BaseHooks<
   validateSchema: ParallelWorkflow<void>;
   prepare: AsyncWorkflow<void, void>;
   afterPrepare: AsyncWorkflow<void, void>;
-  watchFiles: ParallelWorkflow<void>;
+  watchFiles: ParallelWorkflow<
+    void,
+    // If the "private" is true, it will not restart cli.
+    string[] | { files: string[]; isPrivate: boolean }
+  >;
   fileChange: AsyncWorkflow<
-    { filename: string; eventType: 'add' | 'change' | 'unlink' },
+    {
+      filename: string;
+      eventType: 'add' | 'change' | 'unlink';
+      isPrivate: boolean;
+    },
     void
   >;
   commands: AsyncWorkflow<{ program: Command }, void>;

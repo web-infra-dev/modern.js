@@ -3,14 +3,18 @@
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-lint"
+  },
   "license": "MIT",
   "keywords": [
     "framework",
     "modern",
     "modern.js"
   ],
-  "version": "2.15.0",
+  "version": "2.24.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -36,13 +40,12 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.0",
     "@modern-js/tsconfig": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "cross-spawn": "^7.0.1",
     "eslint": "^8.28.0",
-    "eslint-formatter-codeframe": "^7.32.1",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/core": "workspace:*",
@@ -52,13 +55,14 @@
     "@types/jest": "^29",
     "@types/node": "^14",
     "jest": "^29",
-    "typescript": "^4"
+    "typescript": "^5"
   },
   "modernConfig": {},
   "sideEffects": false,
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
+    "provenance": true,
     "types": "./dist/types/index.d.ts"
   }
 }

@@ -44,9 +44,7 @@ async function main() {
   const args = process.argv.slice(process.argv.indexOf(__filename) + 1);
 
   if (args.length === 0) {
-    // eslint-disable-next-line no-console
     console.log(process.argv, args);
-    // eslint-disable-next-line no-console
     console.log('no script provided, exiting...');
   }
 
@@ -66,7 +64,6 @@ async function main() {
       cmd.on('error', err => reject(err));
     });
   } else {
-    // eslint-disable-next-line no-console
     console.log('docs only change');
   }
 }

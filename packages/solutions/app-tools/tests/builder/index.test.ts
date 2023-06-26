@@ -1,6 +1,10 @@
+import path from 'path';
 import type { BuilderTarget } from '@modern-js/builder-shared';
+import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { createBuilderProviderConfig } from '../../src/builder/generator/createBuilderProviderConfig';
 import { createBuilderOptions } from '../../src/builder/generator/createBuilderOptions';
+
+initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
 
 describe('create builder Options', () => {
   it('test create builder Options', () => {
@@ -52,7 +56,7 @@ describe('create builder provider config', () => {
       html: {},
     };
     const appContext = {
-      appDirectory: `/fixtrues`,
+      appDirectory: path.join(__dirname, '../fixtures'),
       configDir: './icons',
     };
 
@@ -60,7 +64,6 @@ describe('create builder provider config', () => {
       config as any,
       appContext as any,
     );
-    // delete builderConfig.output?.copy;
 
     expect(builderConfig).toMatchSnapshot();
   });

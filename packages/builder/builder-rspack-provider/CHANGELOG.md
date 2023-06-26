@@ -1,5 +1,397 @@
 # @modern-js/builder-rspack-provider
 
+## 2.24.0
+
+### Patch Changes
+
+- ef041c0: chore(builder): reuse externals plugin
+
+  chore(builder): 复用 externals 插件
+
+- 4fdd868: feat(rspack-provider): update rspack to v0.2.3
+
+  feat(rspack-provider): 升级 rspack 到 v0.2.3
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [8c9923f]
+- Updated dependencies [ef041c0]
+- Updated dependencies [0424a2d]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server@2.24.0
+  - @modern-js/builder-shared@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- 20c85bb: feat(rspack-provider): support performance.removeMomentLocale in rspack
+
+  feat(rspack-provider): 在使用 rspack 构建时支持 performance.removeMomentLocale 配置项
+
+- 5772927: feat(rspack-provider): support import .wasm assets
+
+  feat(rspack-provider): 支持引用 .wasm 资源
+
+- 4af25d9: fix(builder): remove @modern-js/e2e from peerDependencies
+
+  fix(builder): 移除 @modern-js/e2e peerDependencies
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+  - @modern-js/server@2.23.1
+  - @modern-js/types@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 15eac36: chore(builder): move more default config to shared package
+
+  chore(builder): 移动更多默认 config 到 shared 包
+
+- a912b66: fix(builder): support devMiddleware.writeToDisk in rspack and use webpack-dev-middleware instead of @rspack/dev-middleware
+
+  fix(builder): 在 rspack 中支持 devMiddleware.writeToDisk 配置项，并使用 webpack-dev-middleware 代替 @rspack/dev-middleware
+
+- d4e85c1: fix(rspack-provider): should inject polyfill for web-worker target
+
+  fix(rspack-provider): 修复 web-worker target 未注入 polyfill 的问题
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- f212633: feat(rspack-provider): update rspack to [0.2.2](https://github.com/web-infra-dev/rspack/releases/tag/0.2.2)
+
+  feat(rspack-provider): 升级 rspack 到 [0.2.2](https://github.com/web-infra-dev/rspack/releases/tag/0.2.2) 版本
+
+- 5684381: fix(builder): incorrect importLoaders option for sass/less files
+
+  fix(builder): 修正 importLoaders 对于 sass/less 文件的值
+
+- f14f920: feat(rspack-provider): support disableCssExtract in rspack
+
+  feat(rspack-provider): 在 Rspack 构建时支持 disableCssExtract 能力
+
+- 38eccef: chore(builder): move getPostcssConfig and postcss related pkg to builder-shared
+
+  chore(builder): 将 getPostcssConfig 和 postcss 相关的 pkg 移动到 builder-shared 中
+
+- f91c557: fix(builder): failed to minify css when use style-loader in Rspack
+
+  fix(builder): 修复使用 Rspack + style-loader 时未压缩 CSS 的问题
+
+- Updated dependencies [964c41b]
+- Updated dependencies [15eac36]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/e2e@2.23.0
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- a470c04: chore(builder): reuse rem plugin between rspack and webpack provider
+
+  chore(builder): 在 rspack 和 webpack provider 间复用 rem 插件
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- c739207: feat(builder): support enable CSS Modules for the specified style file by output.cssModules configuration
+
+  feat(builder): 支持通过 output.cssModules 配置项为指定的样式文件启用 CSS Modules
+
+- c465db6: fix(builder): update rspack to 0.2.1 and remove useless config format logic
+
+  fix(builder): 将 Rspack 升级到 0.2.1 并移除无用的配置转换逻辑
+
+- 8bd9981: fix(builder): use postcss-loader instead of @rspack/postcss-loader to fix tailwindcss hmr bug
+
+  fix(builder): 使用 postcss-loader 代替 @rspack/postcss-loader, 来修复 tailwindcss hmr 问题
+
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [a470c04]
+- Updated dependencies [95ffa6b]
+- Updated dependencies [12d54ae]
+- Updated dependencies [bd4b150]
+- Updated dependencies [dd36311]
+- Updated dependencies [d4045ed]
+- Updated dependencies [8bd9981]
+- Updated dependencies [1f02cd2]
+- Updated dependencies [cfcf003]
+- Updated dependencies [15181be]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/builder-shared@2.22.1
+  - @modern-js/server@2.22.1
+  - @modern-js/e2e@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 4161b09: fix(builder): rule.loader support undefined in rspack
+
+  fix(builder): 使用 rspack 构建时, rule.loader 允许为空
+
+- becfd36: fix(builder): support array in output.externals when use Rspack
+
+  fix(builder): 在使用 Rspack 构建时，output.externals 支持数组
+
+- 02238e6: feat(builder): 使用 Rspack 0601 nightly 版本 (与 0.2.0 版本功能相同)
+
+  feat(builder): adapt and use Rspack 0601 nightly version (Same features as version 0.2.0.)
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+- Updated dependencies [850cde6]
+  - @modern-js/builder-shared@2.22.0
+  - @modern-js/utils@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/e2e@2.22.0
+  - @modern-js/types@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- Updated dependencies [19b3b64]
+  - @modern-js/builder-shared@2.21.1
+  - @modern-js/server@2.21.1
+  - @modern-js/e2e@2.21.1
+  - @modern-js/types@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 7d2972e: fix(builder): output.copy not work in Rspack
+
+  fix(builder): output.copy 在 Rspack 构建时不生效
+
+- 7d2972e: feat(builder): update rspack to 0.1.12
+
+  feat(builder): 升级 rspack 到 0.1.12 版本
+
+- 863f8df: feat(rspack-provider): support security.checkSyntax in Rspack
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 security.checkSyntax 配置项
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 8a7d4d2: hotfix(rspack-provider): update Rspack and fix upgrade error
+
+  hotfix(rspack-provider): 升级 Rspack 并处理升级问题
+
+- 441a579: feat(builder): support output.disableTsChecker in Rspack
+
+  feat(builder): 在使用 Rspack 构建时支持 output.disableTsChecker 配置项
+
+- 056627f: fix(plugin-sass): pollute the `global.location` object
+  fix(plugin-sass): 污染全局对象 `global.location`
+- 4274510: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- c90ea5a: feat(builder): support output.enableAssetManifest in Rspack
+
+  feat(builder): 在使用 Rspack 构建时支持 output.enableAssetManifest 配置项
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [7d2972e]
+- Updated dependencies [863f8df]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [8fa8566]
+- Updated dependencies [4274510]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/builder-shared@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/server@2.21.0
+  - @modern-js/e2e@2.21.0
+  - @modern-js/types@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- f0ef868: feat(rspack-provider): update rspack to 0.1.11
+
+  feat(rspack-provider): 升级 rspack 相关依赖到 0.1.11
+
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [5f055ab]
+  - @modern-js/builder-shared@2.20.0
+  - @modern-js/utils@2.20.0
+  - @modern-js/server@2.20.0
+  - @modern-js/types@2.20.0
+  - @modern-js/e2e@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- Updated dependencies [afb735f]
+  - @modern-js/builder-shared@2.19.1
+  - @modern-js/server@2.19.1
+  - @modern-js/e2e@2.19.1
+  - @modern-js/types@2.19.1
+  - @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- Updated dependencies [1134fe2]
+  - @modern-js/builder-shared@2.19.0
+  - @modern-js/server@2.19.0
+  - @modern-js/utils@2.19.0
+  - @modern-js/e2e@2.19.0
+  - @modern-js/types@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- 9b0b7ef: feat(rspack-provider): support tools.pug configuration when Rspack build
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 tools.pug 配置项
+
+- abf8c6d: perf(builder): optimize stats.toJson performance
+
+  perf(builder): 优化 stats.toJson 性能
+
+- a6ac01a: feat(rspack-provider): support legalComments `linked` and `none` configuration items when building with Rspack
+
+  feat(rspack-provider): 在使用 Rspack 构建时，支持 legalComments `linked` 和 `none` 配置项
+
+- 160a0b3: feat(rspack-provider): update Rspack to 0.1.10
+
+  feat(rspack-provider): 升级 Rspack 相关依赖到 0.1.10
+
+- Updated dependencies [9b0b7ef]
+  - @modern-js/builder-shared@2.18.1
+  - @modern-js/server@2.18.1
+  - @modern-js/e2e@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Minor Changes
+
+- 7de6599: feat: rspack-provider support modern.js ssr mode
+  feat: rspack-provider 支持 modern.js ssr 模式
+
+### Patch Changes
+
+- ea60b58: refactor(node-polyfill): using Rspack builtins to provide global variables
+
+  refactor(node-polyfill): 通过 Rspack 内置的 provide 注入全局变量
+
+  - @modern-js/builder-shared@2.18.0
+  - @modern-js/server@2.18.0
+  - @modern-js/e2e@2.18.0
+  - @modern-js/types@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.1
+- @modern-js/server@2.17.1
+- @modern-js/e2e@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.17.0
+- @modern-js/server@2.17.0
+- @modern-js/e2e@2.17.0
+- @modern-js/types@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- 7596520: feat(builder): builder plugin supports specifying relative order via the `pre` / `post` configuration items
+
+  feat(builder): builder 插件支持通过 `pre` / `post` 配置项指定相对顺序
+
+### Patch Changes
+
+- 50bc0db: feat(builder): update swc-plugins, core-js, swc-helpers
+  feat(builder): 更新 swc-plugins, core-js, swc-helpers
+- fd4a8a6: chore(deps): bump postcss-custom-properties to v13.1.5
+
+  chore(deps): 升级 postcss-custom-properties 到 v13.1.5
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [091986a]
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [e4e0e01]
+  - @modern-js/builder-shared@2.16.0
+  - @modern-js/utils@2.16.0
+  - @modern-js/server@2.16.0
+  - @modern-js/types@2.16.0
+  - @modern-js/e2e@2.16.0
+
 ## 2.15.0
 
 ### Minor Changes

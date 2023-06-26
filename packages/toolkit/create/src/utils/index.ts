@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs } from '@modern-js/utils';
+import fs from '@modern-js/utils/fs-extra';
 
 export function isEmptyDir(dirname: string) {
   try {

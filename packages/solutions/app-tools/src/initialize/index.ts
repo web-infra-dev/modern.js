@@ -127,10 +127,10 @@ function stabilizeConfig<C extends Record<string, any>>(
 }
 
 async function getServerPort(config: AppToolsNormalizedConfig) {
-  const prodPort = config.server.port || 8080;
+  const prodPort = Number(process.env.PORT) || config.server.port || 8080;
 
   if (isDev() && isDevCommand()) {
-    return getPort(config.dev.port || prodPort);
+    return getPort(Number(process.env.PORT) || config.dev.port || prodPort);
   }
 
   return prodPort;

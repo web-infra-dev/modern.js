@@ -1,35 +1,32 @@
 ---
-title: Compatibility
 sidebar_position: 5
 ---
-# Compatibility
 
-## Browserslist
+# Browser Compatibility
 
-Modern.js supports the `browserslist` field in the `package.json` file, or a `.browserslistrc` file to specify the target browser range covered by the project.
+## Browserslist Configuration
 
-This value is used by ['@babel/preset-env'] (https://babeljs.io/docs/en/babel-preset-env) and ['autoprefixer'] (https://github.com/postcss/autoprefixer) to determine the JavaScript syntax features to be converted and the CSS browser prefix to be added.
+Modern.js supports setting the browserslist for your web applications. You can set the value of [Browserslist](https://browsersl.ist/) in the `.browserslistrc` file.
 
-The default value in Modern.js as follow:
+When you create a new Modern.js project, it will includes a `.browserslistrc` configuration by default, which means that the JavaScript code will be compiled to ES6.
 
-```js
-['> 0.01%', 'not dead', 'not op_mini all'];
+```yaml title=".browserslistrc"
+chrome >= 51
+edge >= 15
+firefox >= 54
+safari >= 10
+ios_saf >= 10
 ```
 
-You can learn how to customize the browserslist [here](https://github.com/browserslist/browserslist).
-
-See Modern.js Builder docs to learn more [Browserslist](https://modernjs.dev/builder/en/guide/advanced/browserslist.html) info.
-
-:::note
-Modern.js also supports configuring [output.override Browserslist](/configure/app/output/override-browserslist) to override the default browserslist value.
-
+:::tip
+Please refer to [Modern.js Builder - Browserslist](https://modernjs.dev/builder/en/guide/advanced/browserslist) for more information.
 :::
 
 ## Polyfill
 
 ### Polyfill At Compile
 
-Modern.js inject the Polyfill code via [core-js] (https://github.com/zloirock/core-js) at compile time by default.
+Modern.js defaults to importing corresponding polyfill code from [core-js] (https://github.com/zloirock/core-js) during compilation.
 
 By default, the required Polyfill code will be introduced according to the settings of the Browserslist, so there is no need to worry about the Polyfill problem of the project source code and third-party dependencies, but because it contains some Polyfill code that is not used, the final bundle size may be increased.
 
@@ -38,42 +35,6 @@ For case where Polyfill is not required for third-party dependencies, you can se
 
 :::
 
-### Polyfill At Runtime
+import UAPolyfill from '@site-docs-en/components/ua-polyfill';
 
-Modern.js also provides a runtime Polyfill solution based on browser [UA](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/User-Agent) information, which has the following advantages over Babel:
-
-- It will not be inserted into the code, reducing the code .
-- The same browser will share a Polyfill code. Therefore, with more and more projects, the UA-based Polyfill code will be delivered faster and faster.
-
-exec `pnpm run new` to enable this features:
-
-```bash
-? Action Enable features
-? Enable features Enable UA-based Polyfill Feature
-```
-
-After executing the command, register the Polyfill plugin in `modern.config.ts`:
-
-```ts title="modern.config.ts"
-import polyfillPlugin from '@modern-js/plugin-polyfill';
-
-export default defineConfig({
-  plugins: [..., polyfillPlugin()],
-});
-```
-
-After configuring `output.polyfill` as `ua` and executing `pnpm run build & & pnpm run serve` to start the server, visiting the page can see that the HTML product contains the following script:
-
-```js
-<script src="/__polyfill__" crossorigin></script>
-```
-
-Visit the page `http://localhost:8080/__polyfill__` on Chrome 51 to see:
-
-![ua-polyfill](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/ua-polyfill.png)
-
-:::caution
-This feature only works when using Modern.js built-in Web Server.
-
-If you need to customize the HTML template, please refer to [HTML Template](/guides/basic-features/html.html). Manually modifying the template through html.template / tools.html will cause this feature not work.
-:::
+<UAPolyfill />

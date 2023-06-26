@@ -1,13 +1,11 @@
 import path from 'path';
-// import type { NodePath } from '../../compiled/@babel/traverse';
-// import type * as tt from '../../compiled/@babel/types';
-// import t from '../../compiled/@babel/types';
 import type {
   ITsconfig,
   BundlelessGeneratorDtsConfig,
   BuildCommandOptions,
   BaseBuildConfig,
   BuildType,
+  TsTarget,
   // AliasOption,
 } from '../types';
 
@@ -180,6 +178,7 @@ export const assignTsConfigPath = async (
       only: false,
       distPath: './',
       abortOnError: true,
+      respectExternal: true,
       ...(config.dts ?? {}),
       tsconfigPath: options.tsconfig,
     };
@@ -215,3 +214,6 @@ export const printOrThrowDtsErrors = async (
     }
   }
 };
+
+export const tsTargetAtOrAboveES2022 = (target: TsTarget) =>
+  target === 'es2022' || target === 'esnext';

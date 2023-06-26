@@ -6,9 +6,8 @@ import {
   type BuilderTarget,
   type ModifyChainUtils,
 } from '@modern-js/builder-shared';
-import { castArray, omitBy, isUndefined } from '@modern-js/utils/lodash';
+import { castArray } from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
-import { formatRule, formatSplitChunks } from './formatConfig';
 import type { Context, RspackConfig, ModifyRspackConfigUtils } from '../types';
 
 async function modifyRspackConfig(
@@ -87,6 +86,7 @@ async function getChainUtils(target: BuilderTarget): Promise<ModifyChainUtils> {
   const nodeEnv = process.env.NODE_ENV as NodeEnv;
   const { CHAIN_ID } = await import('@modern-js/utils');
   const { default: HtmlPlugin } = await import('@rspack/plugin-html');
+  const { default: webpack } = await import('webpack');
 
   return {
     env: nodeEnv,
@@ -98,45 +98,19 @@ async function getChainUtils(target: BuilderTarget): Promise<ModifyChainUtils> {
     getCompiledPath,
     CHAIN_ID,
     HtmlPlugin,
+    webpack,
   };
 }
 
 /**
- * BundlerConfig type is similar to WebpackConfig. need convert
+ * BundlerConfig type is similar to WebpackConfig.
+ *
+ * The type is not strictly compatible with rspack, such as devtool (string or const).
+ *
+ * There is no need to consider it in builder, and it is handed over to rspack for verification
  */
 const convertToRspackConfig = (config: BundlerConfig): RspackConfig => {
-  return omitBy(
-    {
-      ...config,
-      plugins: config.plugins as RspackConfig['plugins'],
-      optimization: config.optimization
-        ? {
-            splitChunks: formatSplitChunks(config.optimization?.splitChunks),
-            runtimeChunk: config.optimization?.runtimeChunk,
-          }
-        : undefined,
-      module: omitBy(
-        {
-          rules: config.module?.rules?.map(formatRule),
-        },
-        isUndefined,
-      ),
-      cache:
-        typeof config.cache === 'object' && config.cache.type === 'filesystem'
-          ? {
-              ...config.cache,
-              /** Rspack buildDependencies type is array */
-              buildDependencies: Object.values(
-                config.cache.buildDependencies || [],
-              ).flat(),
-            }
-          : config.cache,
-      /** value is consistent. one type is string, the other one type is enum */
-      devtool: config.devtool as RspackConfig['devtool'],
-      target: config.target as RspackConfig['target'],
-    },
-    isUndefined,
-  );
+  return config as unknown as RspackConfig;
 };
 
 export async function generateRspackConfig({

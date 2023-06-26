@@ -10,6 +10,7 @@ export type SourceLegacyUserConfig = {
         disableMount?: boolean;
       }
   >;
+  mainEntryName?: string;
   preEntry?: string | string[];
   enableAsyncEntry?: boolean;
   disableDefaultEntries?: boolean;

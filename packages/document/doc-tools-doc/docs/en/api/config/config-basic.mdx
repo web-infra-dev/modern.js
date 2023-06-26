@@ -1,0 +1,195 @@
+# Basic Config
+
+## base
+
+- Type: `string`
+- Default: `/`
+
+Deployment base path. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then you should set `base` to `"/bar/"`:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    base: '/bar/',
+  },
+  plugins: [docTools()],
+});
+```
+
+## title
+
+- Type: `string`
+- Default: `"Island"`
+
+Site title. This parameter will be used as the title of the HTML page. For example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    title: 'My Site',
+  },
+  plugins: [docTools()],
+});
+```
+
+## description
+
+- Type: `string`
+- Default: `""`
+
+Site description. This will be used as the description of the HTML page. For example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    description: 'My Site Description',
+  },
+  plugins: [docTools()],
+});
+```
+
+## icon
+
+- Type: `string`
+- Default: `""`
+
+Site icon. This path will be used as the icon path for the HTML page. For example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    icon: '/favicon.ico',
+  },
+  plugins: [docTools()],
+});
+```
+
+The framework will find your icon in the `public` directory, of course you can also set it to a CDN address.
+
+## logo
+
+- Type: `string | { dark: string; light: string }`
+- Default: `""`
+
+Site logo. This path will be used as the logo path in the upper left corner of the navbar. For example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    logo: '/logo.png',
+  },
+  plugins: [docTools()],
+});
+```
+
+The framework will find your icon in the `public` directory, you can also set it to a CDN address.
+
+Of course you can set different logos for dark/light mode:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    logo: {
+      dark: '/logo-dark.png',
+      light: '/logo-light.png',
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+## outDir
+
+- Type: `string`
+- Default: `doc_build`
+
+Custom output directory for built sites. for example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    outDir: 'doc_build',
+  },
+  plugins: [docTools()],
+});
+```
+
+## locales
+
+- Type: `Locale[]`
+
+```ts
+export interface Locale {
+  lang: string;
+  label: string;
+  title?: string;
+  description?: string;
+}
+```
+
+I18n config of the site. for example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    locales: [
+      {
+        lang: 'en-US',
+        label: 'English',
+        title: 'Doc Tools',
+        description: 'Doc Tools',
+      },
+      {
+        lang: 'zh-CN',
+        label: '简体中文',
+        title: '文档框架',
+        description: '文档框架',
+      },
+    ],
+  },
+  plugins: [docTools()],
+});
+```
+
+## mediumZoom
+
+- Type: `boolean` | `{ selector?: string }`
+- Default: `true`
+
+Whether to enable the image zoom function. It is enabled by default, you can disable it by setting `mediumZoom` to `false`.
+
+> The bottom layer is implemented using the [medium-zoom](https://github.com/francoischalifour/medium-zoom) library.
+
+Example usage:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    // Turn off image zoom
+    mediumZoom: false,
+    // Configure the CSS selector to customize the picture to be zoomed, the default is '.modern-doc img'
+    mediumZoom: {
+      selector: '.modern-doc img',
+    },
+  },
+  plugins: [docTools()],
+});
+```

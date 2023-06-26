@@ -38,6 +38,12 @@ export const ActionTypeText: Record<ActionType, () => string> = {
   [ActionType.Refactor]: () => i18n.t(localeKeys.action.refactor.self),
 };
 
+export const ActionTypeQuestionText: Record<ActionType, () => string> = {
+  [ActionType.Function]: () => i18n.t(localeKeys.action.function.question),
+  [ActionType.Element]: () => i18n.t(localeKeys.action.element.question),
+  [ActionType.Refactor]: () => i18n.t(localeKeys.action.refactor.question),
+};
+
 export const ActionElementText: Record<ActionElement, () => string> = {
   [ActionElement.Entry]: () => i18n.t(localeKeys.action.element.entry),
   [ActionElement.Server]: () => i18n.t(localeKeys.action.element.server),

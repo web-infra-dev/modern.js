@@ -3,7 +3,11 @@
   "description": "Website for @modern-js/doc-tools",
   "homepage": "https://modernjs.dev/doc-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/document/doc-tools-doc"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -16,14 +20,15 @@
     "build:doc": "modern build",
     "preview": "cross-env NODE_ENV=production modern preview"
   },
-  "version": "2.15.0",
+  "version": "2.24.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "devDependencies": {
-    "ts-node": "^10",
-    "typescript": "^4",
+    "ts-node": "^10.9.1",
+    "typescript": "^5",
     "fs-extra": "^10",
     "@types/node": "^16",
     "@types/fs-extra": "^9",

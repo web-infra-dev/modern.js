@@ -1,5 +1,197 @@
 # @modern-js/main-doc
 
+## 2.24.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [4d4dca0]
+  - @modern-js/builder-doc@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 8a93276: docs(main): update basic features alias doc
+
+  docs(main): 更新基础功能 -- 别名文档
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 372b950: docs(main): update plugin config doc
+
+  docs(main): 更新插件配置文档
+
+- f28b485: docs(main): update faq doc
+
+  docs(main): 更新 faq 文档
+
+- f264c4a: docs(main): update html template doc
+
+  docs(main): 更新 HTML 模板文档
+
+- 5cba7c4: docs(main): update bff config doc
+
+  docs(main): 更新 BFF 配置文档
+
+- ef865f2: docs(main): update config server doc
+
+  docs(main): 更新 server 配置文档
+
+- 8bb0e14: chore: review code split docs
+  chore: 审查代码分割文档
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [692cc0e]
+  - @modern-js/builder-doc@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- 411d047: docs: fix reset command
+
+  docs: 修复 reset command 翻译问题
+
+- bce7a12: docs(main): update concept doc
+
+  docs(main): 更新核心概念文档
+
+- 2ede584: docs(main): update start doc
+
+  docs(main): 更新开始文档
+
+- 7267a1a: docs(main): update changeset doc
+
+  docs(main): 更新包版本管理文档
+
+- Updated dependencies [bd4b150]
+- Updated dependencies [2ede584]
+  - @modern-js/builder-doc@2.22.1
+
+## 2.22.0
+
+### Minor Changes
+
+- 7d1b96e: feat(changeset): optimize release note display
+
+  feat(changeset): 优化生成 Release Note 文案
+
+### Patch Changes
+
+- 3c3d1e2: docs: update project creation and new command text.
+
+  docs: 更新生成器创建项目和 new 命令文案。
+
+- Updated dependencies [850cde6]
+- Updated dependencies [e7a5f94]
+  - @modern-js/builder-doc@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- Updated dependencies [1ef03dc]
+  - @modern-js/builder-doc@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 3c4e0a5: chore(utils): move generateMetaTags method to builder-shared
+
+  chore(utils): 移动 generateMetaTags 方法到 builder-shared
+
+- 0ce52ad: docs(main): optimize mobile adaptation
+
+  docs(main): 优化移动端适配
+
+  - @modern-js/builder-doc@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- 21c87bf: feat: bump codesmith packages version
+
+  feat: 升级 codesmith 包版本
+
+  - @modern-js/builder-doc@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- d0a9bf8: chore: improve entry docs, fix ssg docs
+  chore: 优化入口文档，修复 ssg 文档
+  - @modern-js/builder-doc@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- fc76194: chore: comment the doc for runtime and server plugin hooks
+  chore: 注释 runtime 和 server 插件钩子文档
+- 7d899fb: fix: typo isFileExist
+
+  fix: isFileExist 拼写错误
+
+  - @modern-js/builder-doc@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.17.0
+
+## 2.16.0
+
+### Patch Changes
+
+- 63b3538: fix: dev server crashed when prepare api handler failed
+
+  fix: 修复更新 api server 报错导致 dev server 退出的问题
+
+- fe92de6: fix(builder): browserslist config should not affect node bundles
+
+  fix(builder): 修复 browserslist 配置会对 node 产物生效的问题
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- Updated dependencies [fe92de6]
+- Updated dependencies [4e876ab]
+  - @modern-js/builder-doc@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

@@ -55,7 +55,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -101,15 +101,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -164,7 +155,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -210,15 +201,6 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -287,7 +269,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -328,15 +310,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                       "node >= 14",
                     ],
                     "useBuiltIns": false,
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -391,7 +364,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -432,15 +405,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                       "node >= 14",
                     ],
                     "useBuiltIns": false,
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -512,7 +476,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -558,15 +522,6 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -621,7 +576,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -667,15 +622,6 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -752,7 +698,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -796,15 +742,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                       "Chrome 80",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -859,7 +796,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -903,15 +840,6 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                       "Chrome 80",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -980,7 +908,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -1026,15 +954,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -1089,7 +1008,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -1135,15 +1054,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -1216,7 +1126,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -1262,15 +1172,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [
@@ -1325,7 +1226,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.18.6",
+                    "version": "7.21.5",
                   },
                 ],
                 [
@@ -1371,15 +1272,6 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                       "not op_mini all",
                     ],
                     "useBuiltIns": "entry",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
                   },
                 ],
                 [

@@ -7,9 +7,9 @@
 
 该配置项仅用于开发环境。在生产环境下，请使用 `output.assetPrefix` 配置项进行设置。
 
-#### Boolean 类型
+### Boolean 类型
 
-如果设置 `assetPrefix` 为 `true`，Builder 会使用 `//localhost:port/` 作为 URL 前缀：
+如果设置 `assetPrefix` 为 `true`，Builder 会使用 `http://localhost:port/` 作为 URL 前缀：
 
 ```js
 export default {
@@ -22,12 +22,12 @@ export default {
 对应 JS 文件在浏览器中加载的地址如下：
 
 ```js
-<script defer src="//localhost:8080/static/js/main.js"></script>
+<script defer src="http://localhost:8080/static/js/main.js"></script>
 ```
 
 如果设置 `assetPrefix` 为 `false` 或不设置，则默认使用 `/` 作为访问前缀。
 
-#### String 类型
+### String 类型
 
 当 `assetPrefix` 的值为 `string` 类型时，字符串会作为前缀，自动拼接到静态资源访问 URL 上：
 

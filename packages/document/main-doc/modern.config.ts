@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig, type NavItem } from '@modern-js/doc-tools';
+import { docTools, defineConfig, type NavItem } from '@modern-js/doc-tools';
 import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 
 const rootCategories = [
@@ -7,8 +7,7 @@ const rootCategories = [
   'guides',
   'apis/app',
   'configure/app',
-  'blog',
-  'about',
+  'community',
 ];
 
 const { version } = require('./package.json');
@@ -42,14 +41,9 @@ const getNavbar = (lang: string): NavItem[] => {
       activeMatch: '/apis/',
     },
     {
-      text: getText('博客', 'Blog'),
-      link: getLink('/blog/index'),
-      activeMatch: '/blog/',
-    },
-    {
-      text: getText('关于', 'About'),
-      link: getLink('/about/showcase'),
-      activeMatch: '/about/',
+      text: getText('社区', 'Community'),
+      link: getLink('/community/showcase'),
+      activeMatch: '/community/',
     },
     {
       text: `v${version}`,
@@ -122,6 +116,11 @@ export default defineConfig({
           label: 'English',
         },
       ],
+      editLink: {
+        docRepoBaseUrl:
+          'https://github.com/web-infra-dev/modern.js/tree/main/packages/document/main-doc/docs',
+        text: 'Edit this page on GitHub',
+      },
       socialLinks: [
         {
           icon: 'github',
@@ -131,7 +130,8 @@ export default defineConfig({
       ],
     },
     route: {
-      exclude: ['scripts/**', '**/components/**'],
+      // exclude document fragments from routes
+      exclude: ['scripts/**', '**/zh/components/**', '**/en/components/**'],
     },
     builderConfig: {
       output: {

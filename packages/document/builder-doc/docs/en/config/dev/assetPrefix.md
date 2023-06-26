@@ -7,9 +7,9 @@ Set the URL prefix of static assets in the development environment, similar to t
 
 This config is only used in the development environment. In the production environment, please use the `output.assetPrefix` to set the URL prefix.
 
-#### Boolean Type
+### Boolean Type
 
-If `assetPrefix` is set to `true`, the URL prefix will be `//localhost:port/`:
+If `assetPrefix` is set to `true`, the URL prefix will be `http://localhost:port/`:
 
 ```js
 export default {
@@ -22,12 +22,12 @@ export default {
 The script URL will be:
 
 ```js
-<script defer src="//localhost:8080/static/js/main.js"></script>
+<script defer src="http://localhost:8080/static/js/main.js"></script>
 ```
 
 If `assetPrefix` is set to `false` or not set, `/` is used as the default value.
 
-#### String type
+### String type
 
 When the value of `assetPrefix` is `string` type, the string will be used as the URL prefix:
 

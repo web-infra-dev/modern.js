@@ -1,4 +1,5 @@
 import { createDefaultConfig as createDefaultBuilderConfig } from '@modern-js/builder-webpack-provider';
+import { MAIN_ENTRY_NAME } from '@modern-js/utils';
 import { getAutoInjectEnv } from '../utils/env';
 import { IAppContext, AppUserConfig, AppLegacyUserConfig } from '../types';
 
@@ -25,6 +26,7 @@ export function createDefaultConfig(
   } = {
     ...defaultBuilderConfig.source,
     entries: undefined,
+    mainEntryName: MAIN_ENTRY_NAME,
     enableAsyncEntry: false,
     disableDefaultEntries: false,
     entriesDir: './src',
@@ -98,6 +100,7 @@ export function createLegacyDefaultConfig(
 
   const sourceDefaults: AppLegacyUserConfig['source'] = {
     entries: undefined,
+    mainEntryName: MAIN_ENTRY_NAME,
     enableAsyncEntry: false,
     disableDefaultEntries: false,
     entriesDir: './src',

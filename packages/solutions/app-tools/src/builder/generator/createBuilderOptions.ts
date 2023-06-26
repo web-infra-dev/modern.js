@@ -12,15 +12,16 @@ export function createBuilderOptions(
   type Entries = Record<string, string[]>;
   const entries: Entries = {};
   const { entrypoints = [], checkedEntries } = appContext;
-  for (const { entryName, entry } of entrypoints) {
+  for (const { entryName, internalEntry, entry } of entrypoints) {
     if (checkedEntries && !checkedEntries.includes(entryName)) {
       continue;
     }
+    const finalEntry = internalEntry || entry;
 
     if (entryName in entries) {
-      entries[entryName].push(entry);
+      entries[entryName].push(finalEntry);
     } else {
-      entries[entryName] = [entry];
+      entries[entryName] = [finalEntry];
     }
   }
 

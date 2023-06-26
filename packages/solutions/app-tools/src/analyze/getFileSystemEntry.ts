@@ -46,6 +46,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
     if (indexFile && !customBootstrap) {
       return {
         entryName,
+        isMainEntry: false,
         entry: indexFile,
         absoluteEntryDir: path.resolve(dir),
         isAutoMount: false,
@@ -57,6 +58,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
     if (isHasApp) {
       return {
         entryName,
+        isMainEntry: false,
         entry: path.join(dir, APP_FILE_NAME),
         isAutoMount: true,
         absoluteEntryDir: path.resolve(dir),
@@ -70,6 +72,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
     if (isHasNestedRoutes || isHasPages) {
       const entrypoint: Entrypoint = {
         entryName,
+        isMainEntry: false,
         entry: '',
         fileSystemRoutes: {
           globalApp: findExists(
@@ -98,6 +101,7 @@ const scanDir = (dirs: string[]): Entrypoint[] =>
     }
     return {
       entryName,
+      isMainEntry: false,
       entry: indexFile as string,
       absoluteEntryDir: path.resolve(dir),
       isAutoMount: false,

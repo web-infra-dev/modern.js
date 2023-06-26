@@ -1,10 +1,6 @@
-import { useLang, usePageData } from '@modern-js/doc-core/runtime';
 import { Link } from '@modern-js/doc-core/theme';
-import { PageData } from '@modern-js/doc-core';
 import { IconRight } from '@arco-design/web-react/icon';
-import { Divider } from '@arco-design/web-react';
 import '@arco-design/web-react/es/Divider/style';
-import { locales } from '../../locales';
 
 import styles from './index.module.scss';
 
@@ -26,32 +22,11 @@ const getGridClass = (count?: number): string => {
   return 'grid-6';
 };
 
-export default ({ list, ...props }: { list?: List[] }) => {
-  const { siteData } = usePageData() as PageData;
-  const lang = useLang();
+export default ({ list }: { list?: List[] }) => {
   const moduleList = list ?? [];
-
-  if (moduleList.length === 0) {
-    // default list, from sidebar
-    siteData.themeConfig.locales?.forEach(locale => {
-      if (locale.lang === lang) {
-        Object.values(locale.sidebar!)[0].forEach((sidebarItem: any) => {
-          sidebarItem.items.forEach((item: List) => {
-            moduleList.push({
-              text: item.text,
-              link: item.link,
-              arrow: true,
-            });
-          });
-        });
-      }
-    });
-  }
-  const gridClass = getGridClass(moduleList?.length);
+  const gridClass = getGridClass(moduleList.length);
   return (
-    <div {...props}>
-      <h1>{locales[lang as 'zh' | 'en']?.overview}</h1>
-      <Divider />
+    <div>
       <div className="overflow-hidden m-auto flex flex-wrap max-w-6xl">
         {moduleList.map(({ text, link, icon, arrow }) => {
           return (

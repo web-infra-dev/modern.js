@@ -1,10 +1,14 @@
 {
   "name": "@modern-js/eslint-config",
-  "version": "2.15.0",
+  "version": "2.24.0",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
-  "repository": "web-infra-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/review/eslint-config"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -26,7 +30,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "main": "index.js"
 }

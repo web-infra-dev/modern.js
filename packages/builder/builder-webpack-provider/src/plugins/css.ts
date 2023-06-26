@@ -1,79 +1,36 @@
-import path from 'path';
-import assert from 'assert';
 import {
   CSS_REGEX,
-  getCssSupport,
+  resolvePackage,
+  isUseCssExtract,
+  getPostcssConfig,
   ModifyChainUtils,
   isUseCssSourceMap,
-  isLooseCssModules,
+  getCssLoaderOptions,
   getBrowserslistWithDefault,
-  BundlerChainRule,
-  type BuilderTarget,
+  getCssModuleLocalIdentName,
   type BuilderContext,
+  type BundlerChainRule,
+  type StyleLoaderOptions,
 } from '@modern-js/builder-shared';
-import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type {
   BuilderPlugin,
   CSSExtractOptions,
-  CSSLoaderOptions,
   NormalizedConfig,
-  StyleLoaderOptions,
 } from '../types';
-import type { AcceptedPlugin, ProcessOptions } from 'postcss';
-import { getCssnanoDefaultOptions } from './minimize';
 
-export const isUseCssExtract = (
-  config: NormalizedConfig,
-  target: BuilderTarget,
-) =>
-  !config.output.disableCssExtract &&
-  target !== 'node' &&
-  target !== 'web-worker';
-
-// If the target is 'node' or 'web-worker' and the modules option of css-loader is enabled,
-// we must enable exportOnlyLocals to only exports the modules identifier mappings.
-// Otherwise, the compiled CSS code may contain invalid code, such as `new URL`.
-// https://github.com/webpack-contrib/css-loader#exportonlylocals
-export const normalizeCssLoaderOptions = (
-  options: CSSLoaderOptions,
-  exportOnlyLocals: boolean,
-) => {
-  if (options.modules && exportOnlyLocals) {
-    let { modules } = options;
-    if (modules === true) {
-      modules = { exportOnlyLocals: true };
-    } else if (typeof modules === 'string') {
-      modules = { mode: modules, exportOnlyLocals: true };
-    } else {
-      // create a new object to avoid modifying the original options
-      modules = {
-        ...modules,
-        exportOnlyLocals: true,
-      };
-    }
-
-    return {
-      ...options,
-      modules,
-    };
-  }
-
-  return options;
-};
-
-export async function applyBaseCSSRule(
-  rule: BundlerChainRule,
-  config: NormalizedConfig,
-  context: BuilderContext,
-  {
-    target,
-    isProd,
-    isServer,
-    CHAIN_ID,
-    isWebWorker,
-    getCompiledPath,
-  }: ModifyChainUtils,
-) {
+export async function applyBaseCSSRule({
+  rule,
+  config,
+  context,
+  utils: { target, isProd, isServer, CHAIN_ID, isWebWorker, getCompiledPath },
+  importLoaders = 1,
+}: {
+  rule: BundlerChainRule;
+  config: NormalizedConfig;
+  context: BuilderContext;
+  utils: ModifyChainUtils;
+  importLoaders?: number;
+}) {
   const { applyOptionsChain } = await import('@modern-js/utils');
   const browserslist = await getBrowserslistWithDefault(
     context.rootPath,
@@ -81,72 +38,10 @@ export async function applyBaseCSSRule(
     target,
   );
 
-  const getPostcssConfig = () => {
-    const extraPlugins: AcceptedPlugin[] = [];
-
-    const utils = {
-      addPlugins(plugins: AcceptedPlugin | AcceptedPlugin[]) {
-        if (Array.isArray(plugins)) {
-          extraPlugins.push(...plugins);
-        } else {
-          extraPlugins.push(plugins);
-        }
-      },
-    };
-
-    const enableCssMinify = !enableExtractCSS && isProd;
-
-    const cssSupport = getCssSupport(browserslist);
-
-    const mergedConfig = applyOptionsChain(
-      {
-        postcssOptions: {
-          plugins: [
-            require(getCompiledPath('postcss-flexbugs-fixes')),
-            !cssSupport.customProperties &&
-              require(getCompiledPath('postcss-custom-properties')),
-            !cssSupport.initial && require(getCompiledPath('postcss-initial')),
-            !cssSupport.pageBreak &&
-              require(getCompiledPath('postcss-page-break')),
-            !cssSupport.fontVariant &&
-              require(getCompiledPath('postcss-font-variant')),
-            !cssSupport.mediaMinmax &&
-              require(getCompiledPath('postcss-media-minmax')),
-            require(getCompiledPath('postcss-nesting')),
-            require(getCompiledPath('autoprefixer'))(
-              applyOptionsChain(
-                {
-                  flexbox: 'no-2009',
-                  overrideBrowserslist: browserslist,
-                },
-                config.tools.autoprefixer,
-              ),
-            ),
-            enableCssMinify
-              ? require('cssnano')(getCssnanoDefaultOptions())
-              : false,
-          ].filter(Boolean),
-        },
-        sourceMap: enableSourceMap,
-      },
-      config.tools.postcss || {},
-      utils,
-    );
-    if (extraPlugins.length) {
-      assert('postcssOptions' in mergedConfig);
-      assert('plugins' in mergedConfig.postcssOptions!);
-      mergedConfig.postcssOptions.plugins!.push(...extraPlugins);
-    }
-
-    return mergedConfig as ProcessOptions & {
-      postcssOptions: {
-        plugins?: AcceptedPlugin[];
-      };
-    };
-  };
-
   // 1. Check user config
   const enableExtractCSS = isUseCssExtract(config, target);
+  const enableCssMinify = !enableExtractCSS && isProd;
+
   const enableSourceMap = isUseCssSourceMap(config);
   const enableCSSModuleTS = Boolean(config.output.enableCssModuleTSDeclaration);
   // 2. Prepare loader options
@@ -161,6 +56,17 @@ export async function applyBaseCSSRule(
     {},
     config.tools.styleLoader,
   );
+
+  const localIdentName = getCssModuleLocalIdentName(config, isProd);
+
+  const cssLoaderOptions = await getCssLoaderOptions({
+    config,
+    enableSourceMap,
+    importLoaders,
+    isServer,
+    isWebWorker,
+    localIdentName,
+  });
 
   // 3. Create webpack rule
   // Order: style-loader/mini-css-extract -> css-loader -> postcss-loader
@@ -183,44 +89,31 @@ export async function applyBaseCSSRule(
     }
 
     // use css-modules-typescript-loader
-    if (enableCSSModuleTS) {
+    if (enableCSSModuleTS && cssLoaderOptions.modules) {
       rule
         .use(CHAIN_ID.USE.CSS_MODULES_TS)
-        .loader(getCompiledPath('css-modules-typescript-loader'))
+        .loader(
+          resolvePackage(
+            '@modern-js/builder-shared/css-modules-typescript-loader',
+            __dirname,
+          ),
+        )
+        .options({
+          modules: cssLoaderOptions.modules,
+        })
         .end();
     }
   } else {
     rule
       .use(CHAIN_ID.USE.IGNORE_CSS)
-      .loader(path.resolve(__dirname, '../webpackLoaders/ignoreCssLoader'))
+      .loader(
+        resolvePackage(
+          '@modern-js/builder-shared/ignore-css-loader',
+          __dirname,
+        ),
+      )
       .end();
   }
-
-  const localIdentName =
-    config.output.cssModuleLocalIdentName ||
-    // Using shorter classname in production to reduce bundle size
-    (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
-
-  const mergedCssLoaderOptions = applyOptionsChain<CSSLoaderOptions, null>(
-    {
-      importLoaders: 1,
-      modules: {
-        auto: config.output.disableCssModuleExtension
-          ? isLooseCssModules
-          : true,
-        exportLocalsConvention: 'camelCase',
-        localIdentName,
-      },
-      sourceMap: enableSourceMap,
-    },
-    config.tools.cssLoader,
-    undefined,
-    deepMerge,
-  );
-  const cssLoaderOptions = normalizeCssLoaderOptions(
-    mergedCssLoaderOptions,
-    isServer || isWebWorker,
-  );
 
   rule
     .use(CHAIN_ID.USE.CSS)
@@ -229,7 +122,13 @@ export async function applyBaseCSSRule(
     .end();
 
   if (!isServer && !isWebWorker) {
-    const postcssLoaderOptions = getPostcssConfig();
+    const postcssLoaderOptions = await getPostcssConfig({
+      enableSourceMap,
+      browserslist,
+      config,
+      enableCssMinify,
+    });
+
     rule
       .use(CHAIN_ID.USE.POSTCSS)
       .loader(getCompiledPath('postcss-loader'))
@@ -249,7 +148,12 @@ export const builderPluginCss = (): BuilderPlugin => {
         const rule = chain.module.rule(utils.CHAIN_ID.RULE.CSS);
         const config = api.getNormalizedConfig();
         rule.test(CSS_REGEX);
-        await applyBaseCSSRule(rule, config, api.context, utils);
+        await applyBaseCSSRule({
+          rule,
+          utils,
+          config,
+          context: api.context,
+        });
       });
     },
   };

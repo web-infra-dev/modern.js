@@ -7,10 +7,10 @@ sidebar_label: ssrByEntries
 - **Type:** `Object`
 - **Default:** `undefined`
 
-Set the ssr option according to the entry. The attributes in the option are the same as [ssr](./ssr.mdx). The specified value will be replaced and merged with the content of the ssr attribute. For example:
+Set SSR options by entry, and the properties inside the option are the same as [ssr](./ssr.mdx). The specified value will be replaced and merged with the content of the SSR attribute, for example:
 
 :::info
-The "entry name" defaults to the directory name. In a few cases, when the entry is customized by `source.entries`, the entry name `source.entries` the `key` of the object.
+The "entry name" defaults to the directory name. In a few cases, when defining an entry through `source.entries`, the entry name is the `key` of the `source.entries` object.
 
 :::
 
@@ -19,11 +19,11 @@ export default defineConfig({
   server: {
     ssr: true,
     ssrByEntries: {
-      // page-a does not enable ssr
+      // page-a does not enable SSR
       'page-a': false,
     },
   },
 });
 ```
 
-As configured above, the project has ssr enabled as a whole, but the ssr rendering capability is turned off for the entry `page-a`.
+In the above configuration, the project enables SSR as a whole, but the SSR rendering ability is disabled for the `page-a` entry.

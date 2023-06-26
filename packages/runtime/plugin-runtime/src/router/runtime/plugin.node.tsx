@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { createStaticHandler } from '@modern-js/utils/universal/remix-router';
+import { createStaticHandler } from '@modern-js/utils/runtime/remix-router';
 import {
   createStaticRouter,
   StaticRouterProvider,
-} from 'react-router-dom/server';
+} from '@modern-js/utils/runtime-node/router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
-import { createRoutesFromElements } from 'react-router-dom';
+import { createRoutesFromElements } from '@modern-js/utils/runtime/router';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
@@ -82,7 +82,7 @@ export const routerPlugin = ({
             return next({ context });
           }
 
-          const { request, mode: ssrMode } = context.ssrContext!;
+          const { request, mode: ssrMode, nonce } = context.ssrContext!;
           const baseUrl = request.baseUrl as string;
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
@@ -93,6 +93,9 @@ export const routerPlugin = ({
                 renderRoutes({
                   routesConfig,
                   ssrMode,
+                  props: {
+                    nonce,
+                  },
                 }),
               );
 
@@ -109,7 +112,7 @@ export const routerPlugin = ({
           }
 
           const router = createStaticRouter(routes, routerContext);
-          context.router = router;
+          context.remixRouter = router;
           context.routerContext = routerContext;
           context.routes = routes;
           // set routeManifest in context to be consistent with csr context
@@ -130,11 +133,12 @@ export const routerPlugin = ({
 
           const getRouteApp = () => {
             return (props => {
-              const { router, routerContext } = useContext(RuntimeReactContext);
+              const { remixRouter, routerContext } =
+                useContext(RuntimeReactContext);
               return (
                 <App {...props}>
                   <StaticRouterProvider
-                    router={router}
+                    router={remixRouter}
                     context={routerContext!}
                     hydrate={false}
                   />
@@ -153,6 +157,25 @@ export const routerPlugin = ({
 
           return next({
             App: RouteApp,
+          });
+        },
+        pickContext: ({ context, pickedContext }, next) => {
+          const { remixRouter } = context;
+
+          // only export partial common API from remix-router
+          const router = {
+            navigate: remixRouter.navigate,
+            get location() {
+              return remixRouter.state.location;
+            },
+          };
+
+          return next({
+            context,
+            pickedContext: {
+              ...pickedContext,
+              router,
+            },
           });
         },
       };

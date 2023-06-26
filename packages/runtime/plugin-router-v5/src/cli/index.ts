@@ -1,7 +1,6 @@
 import {
   getEntryOptions,
   createRuntimeExportsUtils,
-  PLUGIN_SCHEMAS,
   isRouterV5 as isV5,
 } from '@modern-js/utils';
 import { ServerRoute } from '@modern-js/types';
@@ -12,7 +11,7 @@ const PLUGIN_IDENTIFIER = 'router';
 
 const ROUTES_IDENTIFIER = 'routes';
 
-export default (): CliPlugin<AppTools> => ({
+export const routerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-router-v5',
   required: ['@modern-js/runtime'],
   setup: api => {
@@ -45,15 +44,21 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-router'];
+        return [
+          {
+            target: 'runtime.router',
+            schema: { type: ['boolean', 'object'] },
+          },
+        ];
       },
       modifyEntryImports({ entrypoint, imports }) {
-        const { entryName } = entrypoint;
+        const { entryName, isMainEntry } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName } = api.useAppContext();
 
         const runtimeConfig = getEntryOptions(
           entryName,
+          isMainEntry,
           userConfig.runtime,
           userConfig.runtimeByEntries,
           packageName,
@@ -125,3 +130,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default routerPlugin;

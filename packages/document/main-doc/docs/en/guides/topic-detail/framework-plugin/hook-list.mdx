@@ -9,6 +9,28 @@ Modern.js exposes three types of plugins: CLI, Runtime, and Server.
 
 ## CLI
 
+### `beforeConfig`
+
+- Functionality: Running tasks before the config process
+- Execution phase: Before the config process
+- Hook model: AsyncWorkflow
+- Type: `AsyncWorkflow<void, void>`
+- Example usage:
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  setup(api) {
+    return {
+      beforeConfig: () => {
+        // do something
+      },
+    };
+  },
+});
+```
+
 ### `config`
 
 - Functionality: Collect configuration
@@ -20,7 +42,7 @@ Modern.js exposes three types of plugins: CLI, Runtime, and Server.
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       config: () => {
@@ -46,7 +68,7 @@ The collected configuration information will be collected and processed uniforml
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       validateSchema: () => {
@@ -79,7 +101,7 @@ For example, the following JSON Schema is returned:
 You can configure it in `modern.config.ts` like this:
 
 ```ts title="modern.config.ts"
-export default defineConfig({
+export const myPlugin = defineConfig({
   foo: 'test',
 });
 ```
@@ -87,7 +109,7 @@ export default defineConfig({
 If it is another type, validation will fail and an error will be reported. For example:
 
 ```ts title="modern.config.ts"
-export default defineConfig({
+export const myPlugin = defineConfig({
   foo: {},
 });
 ```
@@ -112,7 +134,7 @@ $ modern dev
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       prepare: () => {
@@ -134,7 +156,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterPrepare: () => {
@@ -156,7 +178,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       commands: ({ program }) => {
@@ -175,7 +197,7 @@ Move the plugin to `modern.config.ts`:
 ```ts title="modern.config.ts"
 import myPlugin from './config/plugin/myPlugin';
 
-export default defineConfig({
+export const myPlugin = defineConfig({
   plugins: [myPlugin()],
 });
 ```
@@ -198,7 +220,7 @@ foo
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeExit: () => {
@@ -224,7 +246,7 @@ Since the callback function when exiting the process in Node.js is synchronous, 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeDev: () => {
@@ -238,19 +260,37 @@ export default (): CliPlugin => ({
 ### `afterDev`
 
 - Function: Tasks to be executed after the main process of `dev` command
-- Execution Stage: Executed after the project is started when running the `dev` command
+- Execution Stage: It is executed after each compilation is completed when running the `dev` command
 - Hook Model: AsyncWorkflow
-- Type: `AsyncWorkflow<void, unknown>`
+- Type: `AsyncWorkflow<{ isFirstCompile: boolean }, unknown>`
 - Usage Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterDev: () => {
         // do something
+      },
+    };
+  },
+});
+```
+
+`afterDev` will be executed after each compilation is completed, you can use the `isFirstCompile` param to determine whether it is the first compilation:
+
+```ts
+import type { CliPlugin } from '@modern-js/core';
+
+export const myPlugin = (): CliPlugin => ({
+  setup(api) {
+    return {
+      afterDev: ({ isFirstCompile }) => {
+        if (isFirstCompile) {
+          // do something
+        }
       },
     };
   },
@@ -268,7 +308,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeCreateCompiler: ({ webpackConfigs }) => {
@@ -290,7 +330,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterCreateCompiler: ({ compiler }) => {
@@ -312,7 +352,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforePrintInstructions: ({ instructions }) => {
@@ -337,7 +377,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeBuild: () => {
@@ -359,7 +399,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterBuild: () => {
@@ -381,7 +421,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryImports({ entrypoint, imports }) {
@@ -413,10 +453,10 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      modifyEntryImports({ entrypoint, exportStatement }) {
+      modifyEntryExport({ entrypoint, exportStatement }) {
         return {
           entrypoint,
           exportStatement: [`export const foo = 'test'`, exportStatement].join(
@@ -440,7 +480,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryRuntimePlugins({ entrypoint, plugins }) {
@@ -475,7 +515,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryRenderFunction({ entrypoint, code }) {
@@ -501,7 +541,7 @@ export default (): CliPlugin => ({
 ```tsx
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyFileSystemRoutes({ entrypoint, routes }) {
@@ -535,7 +575,7 @@ This adds a new page route for the front-end.
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyServerRoutes({ routes }) {
@@ -568,7 +608,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyAsyncEntry({ entrypoint, code }) {
@@ -594,7 +634,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       async htmlPartials({ entrypoint, partials }) {
@@ -611,7 +651,7 @@ export default (): CliPlugin => ({
 
 This adds a new Script tag to the HTML template.
 
-## Server
+{/* ## Server
 
 :::note
 The Server plugin is currently not fully opened, and the API is not guaranteed to be stable. Use with caution.
@@ -630,7 +670,7 @@ Plugins are also supported in the Server section of the application project. The
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       create: ({ measureOptions, loggerOptions }) => {
@@ -652,7 +692,7 @@ export default (): ServerPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       prepareWebServer: ({ middleware }) => {
@@ -678,7 +718,7 @@ export default (): ServerPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       prepareApiServer: ({ middleware }) => {
@@ -691,7 +731,7 @@ export default (): ServerPlugin => ({
     };
   },
 });
-```
+```*/}
 
 ## Runtime
 
@@ -699,7 +739,7 @@ export default (): ServerPlugin => ({
 The Runtime plugin is currently not fully opened, and the API is not guaranteed to be stable. Use with caution.
 :::
 
-The Runtime plugin is mainly used for developers to modify the components and elements that need to be rendered, and customize the rendering process on the server and client side.
+The Runtime plugin is mainly used for developers to modify the component that need to be rendered.
 
 ### `init`
 
@@ -712,7 +752,7 @@ The Runtime plugin is mainly used for developers to modify the components and el
 ```ts
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       init({ context }, next) {
@@ -732,23 +772,29 @@ export default (): Plugin => ({
 - Type: `Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
 - Usage Example:
 
+:::note
+When using the hoc hook, you need to copy the static properties of the original App component to the new component and pass through the props.
+:::
+
 ```ts
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
+import hoistNonReactStatics from 'hoist-non-react-statics';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
       hoc({ App }, next) {
+        const AppWrapper = (props: any) => {
+          return (
+            <FooContext.Provider store={'test'}>
+              <App {...props} />
+            </FooContext.Provider>
+          );
+        };
         return next({
-          App: (props: any) => {
-            return (
-              <FooContext.Provider store={'test'}>
-                <App {...props} />
-              </FooContext.Provider>
-            );
-          },
+          App: hoistNonReactStatics(AppWrapper, App),
         });
       },
     };
@@ -756,7 +802,7 @@ export default (): Plugin => ({
 });
 ```
 
-### `provide`
+{/* ### `provide`
 
 - Function: Modifies the Elements that need to be rendered.
 - Execution Stage: Rendering (SSR/CSR).
@@ -768,7 +814,7 @@ export default (): Plugin => ({
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
 
@@ -791,7 +837,7 @@ export default (): Plugin => ({
 import ReactDOM from 'react-dom';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       client: async ({ App, rootElement }) => {
@@ -817,7 +863,7 @@ export default (): Plugin => ({
 import ReactDomServer from 'react-dom/server';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       server({ App, context }) {
@@ -828,4 +874,4 @@ export default (): Plugin => ({
     };
   },
 });
-```
+``` */}

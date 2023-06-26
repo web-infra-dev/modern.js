@@ -13,13 +13,14 @@ type Entries = Record<
   | {
       entry: string;
       disableMount?: boolean;
+      customBootstrap?: string;
     }
 >;
 ```
 
 - **默认值：** 根据当前项目的目录结构计算出的入口对象。
 
-用于配置自定义的页面入口。
+用于配置自定义页面入口。
 
 :::tip 何时使用
 对于大部分场景，Modern.js 根据目录结构自动生成的入口已经可以满足需求，具体可参考[入口](/guides/concept/entries)。
@@ -83,6 +84,7 @@ export default defineConfig({
 
 - `entry`：`string`，入口文件路径。
 - `disableMount`：`boolean = false`，关闭 Modern.js 自动生成入口代码的行为。
+- `customBootstrap`： `string = ''`，指定[自定义 Bootstrap](/guides/concept/entries#自定义-bootstrap) 的文件路径。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
@@ -154,7 +156,7 @@ export default defineConfig({
 
 例如以下目录结构:
 
-```
+```bash
 .
 ├── src
 │   ├── chat

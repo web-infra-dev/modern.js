@@ -2,25 +2,21 @@
 
 ## Bundler
 
-指 `webpack`、`Rspack` 等模块打包工具。
+import Bundler from '@zh/shared/bundler.md';
 
-打包工具的主要目标是将 JavaScript、CSS 等文件打包在一起，打包后的文件可以在浏览器、Node.js 等环境中使用。当 Bundler 处理 Web 应用时，它会构建一个依赖关系图，其中包含应用需要的各个模块，然后将所有模块打包成一个或多个 bundle。
-
-## Rspack
-
-[Rspack](https://www.rspack.dev/) 是一个基于 Rust 的高性能 Web 构建工具，具备与 Webpack 生态系统的互操作性，可以被 Webpack 项目低成本集成，并提供更好的构建性能。
+<Bundler />
 
 ## Builder
 
-Builder 可以翻译为「构建引擎」，Builder 的目标是「复用构建工具的最佳实践」。
+import Builder from '@zh/shared/builder.md';
 
-因为 webpack 等 Bundler 是比较底层的，如果我们基于 webpack 来构建一个项目，需要充分理解 webpack 的各个配置项和三方插件，并进行大量的配置组装和性能调优等工作。
+<Builder />
 
-Builder 比 Bundler 的封装程度更高，默认集成代码转换、代码压缩等能力。通过接入 Builder，可以快速获得构建 Web 应用的能力。
+## Rspack
 
-Builder 内部的分层如下：
+import Rspack from '@zh/shared/rspack.md';
 
-![](https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-struct-10092.png)
+<Rspack />
 
 ## Builder Provider
 

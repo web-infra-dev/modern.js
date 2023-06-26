@@ -1,4 +1,4 @@
-import { ENTRY_NAME_PATTERN } from '@modern-js/utils/constants';
+import { ENTRY_NAME_PATTERN } from '@modern-js/utils';
 import { Schema } from './Schema';
 
 const source = {
@@ -19,6 +19,7 @@ const source = {
       },
     },
   },
+  mainEntryName: { type: 'string' },
   preEntry: { type: ['string', 'array'] },
   alias: { typeof: ['object', 'function'] },
   enableAsyncEntry: { type: 'boolean' },

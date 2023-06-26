@@ -11,6 +11,7 @@ import {
   createVirtualModule,
   getBrowserslistWithDefault,
   applyScriptCondition,
+  getDefaultStyledComponentsConfig,
 } from '@modern-js/builder-shared';
 
 import type {
@@ -66,14 +67,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
         ) => {
           // 1. Get styled-components options
           const styledComponentsOptions = applyOptionsChain(
-            {
-              // "pure" is used to improve dead code elimination in production.
-              // we don't need to enable it in development because it will slow down the build process.
-              pure: isProd,
-              displayName: true,
-              ssr: isUseSSRBundle(config),
-              transpileTemplateLiterals: true,
-            },
+            getDefaultStyledComponentsConfig(isProd, isUseSSRBundle(config)),
             config.tools.styledComponents,
           );
 
@@ -118,6 +112,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
               userBabelConfigUtils: babelUtils,
               overrideBrowserslist: browserslist,
               importAntd: false,
+              disableReactPreset: true,
             }),
           };
 

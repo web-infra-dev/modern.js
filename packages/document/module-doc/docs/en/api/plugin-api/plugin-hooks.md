@@ -22,7 +22,7 @@ The following Hooks are triggered in order when the `build` command is executed.
 Triggered before the execution of the overall build process.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -59,7 +59,7 @@ type Return = BuildConfig;
 Based on the build configuration, Module Tools will split the overall build into multiple sub-build tasks. The Hook will be triggered before each build subtask.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -81,7 +81,7 @@ Parameters and return value types.
 Triggered after the end of each build subtask.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -109,7 +109,7 @@ export interface BuildTaskResult {
 Triggered after the end of the overall build process.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -152,7 +152,7 @@ Hooks are triggered in the following order after executing `build --platform`.
 Gets information about the tasks that need to be run when executing the `build --platform` command.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -188,7 +188,7 @@ export interface RegisterBuildPlatformResult {
 Triggers all registered build tasks when the `build --platform` command is executed. `beforeBuildPlatform` will be triggered before the execution of the overall build task.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -218,7 +218,7 @@ export interface RegisterBuildPlatformResult {
 When the `build --platform` command is executed, all registered build tasks will be triggered. `buildPlatform` will be triggered before each build task is executed.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -244,7 +244,7 @@ export interface Options {
 When the `build --platform` command is executed, all registered build tasks will be triggered. `afterBuildPlatform` will be triggered after the overall platform build task is finished.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -292,7 +292,7 @@ Register dev tool related data. Mainly contains.
 * The function to execute the dev task.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -335,7 +335,7 @@ export interface DevToolData {
 }
 ```
 
-<!-- :::tip{title='About disableRunBuild configuration'}
+<!-- :::tip About disableRunBuild configuration
 When dev a project, it may be possible to set `disableRunBuild: true` to disable build tasks for source execution (in listening mode) if you only need to dev code functionality.
 
 The currently supported Storybook dev supports using source code products as dev objects, so `disableRunBuild: false` in the Storybook plugin.
@@ -346,7 +346,7 @@ The currently supported Storybook dev supports using source code products as dev
 Triggered before the dev task is executed after all dev tool metadata has been collected.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -395,7 +395,7 @@ const question = [
 `afterDevMenu` Triggered after selecting dev list/menu options.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -442,7 +442,7 @@ export interface DevToolData {
 Triggered before the dev task is executed.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {
@@ -477,7 +477,7 @@ export interface DevToolData {
 Triggered when the dev task process is interrupted.
 
 ``` ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
   setup() {

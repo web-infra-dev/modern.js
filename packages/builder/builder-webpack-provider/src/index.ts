@@ -6,6 +6,9 @@ export { createDefaultConfig } from './config/defaults';
 export type {
   LessLoaderOptions,
   SassLoaderOptions,
+  PostCSSLoaderOptions,
+  CSSLoaderOptions,
+  StyleLoaderOptions,
 } from '@modern-js/builder-shared';
 export type {
   BuilderPlugin,
@@ -33,10 +36,7 @@ export type {
   webpack,
   WebpackChain,
   WebpackConfig,
-  CSSLoaderOptions,
   CSSExtractOptions,
   HTMLPluginOptions,
-  StyleLoaderOptions,
   TerserPluginOptions,
-  PostCSSLoaderOptions,
 } from './types';

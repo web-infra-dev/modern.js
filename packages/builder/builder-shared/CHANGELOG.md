@@ -1,5 +1,325 @@
 # @modern-js/builder-shared
 
+## 2.24.0
+
+### Patch Changes
+
+- ef041c0: chore(builder): reuse externals plugin
+
+  chore(builder): 复用 externals 插件
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [8c9923f]
+- Updated dependencies [0424a2d]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server@2.24.0
+  - @modern-js/prod-server@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- 5772927: feat(rspack-provider): support import .wasm assets
+
+  feat(rspack-provider): 支持引用 .wasm 资源
+
+- 811ccd4: fix: add attributes for inline runtime script
+  fix: 为 inline runtime 脚本添加属性
+- 5a3eeff: fix(builder): assetsRetry cause global variable pollution
+
+  fix(builder): 修复 assetsRetry 污染全局变量的问题
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/prod-server@2.23.1
+  - @modern-js/server@2.23.1
+  - @modern-js/types@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 15eac36: chore(builder): move more default config to shared package
+
+  chore(builder): 移动更多默认 config 到 shared 包
+
+- d4e85c1: fix(rspack-provider): should inject polyfill for web-worker target
+
+  fix(rspack-provider): 修复 web-worker target 未注入 polyfill 的问题
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- f14f920: feat(rspack-provider): support disableCssExtract in rspack
+
+  feat(rspack-provider): 在 Rspack 构建时支持 disableCssExtract 能力
+
+- 692cc0e: fix(builder): assetsRetry.crossOrigin default to html.crossorigin
+
+  fix(builder): assetsRetry.crossOrigin 默认值与 html.crossorigin 保持一致
+
+- 38eccef: chore(builder): move getPostcssConfig and postcss related pkg to builder-shared
+
+  chore(builder): 将 getPostcssConfig 和 postcss 相关的 pkg 移动到 builder-shared 中
+
+- f91c557: fix(builder): failed to minify css when use style-loader in Rspack
+
+  fix(builder): 修复使用 Rspack + style-loader 时未压缩 CSS 的问题
+
+- a82d6f7: fix(builder): single-vendor chunkSplit not work as expected
+
+  fix(builder): single-vendor 拆包规则未按照预期生效
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- a470c04: chore(builder): reuse rem plugin between rspack and webpack provider
+
+  chore(builder): 在 rspack 和 webpack provider 间复用 rem 插件
+
+- 95ffa6b: fix(builder): support filter css modules file by cssLoader.modules.auto Regexp
+
+  fix(builder): 支持过滤 css modules 文件根据 tools.cssLoader.modules.auto 正则配置
+
+- 12d54ae: feat(builder): add new builder-cli npm package
+
+  feat(builder): 新增 builder-cli npm 包
+
+- bd4b150: feat(builder): add builder.serve method
+
+  feat(builder): 新增 builder.serve 方法
+
+- dd36311: fix(builder-shared): the webworker should not check is a client compiler.
+  fix(builder-shared): webworker 不应该被判定为客户端 compiler
+- d4045ed: fix(builder): print https URLs when devServer.https is true
+
+  fix(builder): 当 devServer.https 为 true 时，输出 https 的 URLs
+
+- 8bd9981: fix(builder): use postcss-loader instead of @rspack/postcss-loader to fix tailwindcss hmr bug
+
+  fix(builder): 使用 postcss-loader 代替 @rspack/postcss-loader, 来修复 tailwindcss hmr 问题
+
+- 1f02cd2: chore: fix some eslint issues
+
+  chore: 修复一些 eslint issues
+
+- cfcf003: fix(plugin-swc): styledComponents configuration not work
+
+  fix(plugin-swc): 修复 styledComponents 配置不生效的问题
+
+- 15181be: fix(builder): only generator .d.ts file for css-modules file when enableCssModuleTSDeclaration
+
+  fix(builder): 当开启 enableCssModuleTSDeclaration 时仅为 css modules 文件生成 .d.ts 声明
+
+- Updated dependencies [25b490a]
+- Updated dependencies [e2848a2]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+  - @modern-js/types@2.22.1
+  - @modern-js/utils@2.22.1
+  - @modern-js/server@2.22.1
+  - @modern-js/prod-server@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- 3d48836: chore(deps): fix all missing peer dependencies
+
+  chore(deps): 修复缺少的 peer dependencies
+
+- 850cde6: feat(builder): add arco config to transformImport by default
+
+  feat(builder): 默认增加 arco 的 transformImport 配置
+
+- Updated dependencies [3d48836]
+- Updated dependencies [5050e8e]
+  - @modern-js/utils@2.22.0
+  - @modern-js/server@2.22.0
+  - @modern-js/types@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- 19b3b64: fix(builder): fix the misalignment of the dependencies version that fork-ts-checker-webpack-plugin and autoprefixer depends on
+
+  fix(builder): 修复 fork-ts-checker-webpack-plugin 和 autoprefixer 的依赖版本错位问题
+
+  - @modern-js/server@2.21.1
+  - @modern-js/types@2.21.1
+  - @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- 7d2972e: feat(builder): update rspack to 0.1.12
+
+  feat(builder): 升级 rspack 到 0.1.12 版本
+
+- 863f8df: feat(rspack-provider): support security.checkSyntax in Rspack
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 security.checkSyntax 配置项
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- 1ef03dc: feat(dev-server): enable gzip compression, add devServer.compress config
+
+  feat(dev-server): 默认启用 gzip 压缩，新增 devServer.compress 配置项
+
+- 4274510: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- 43b4e83: feat: support security.nonce for add nonce attribute on script tag
+  feat: 支持 security.nonce 配置，为 script 标签添加 nonce 属性
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [1ef03dc]
+- Updated dependencies [056627f]
+- Updated dependencies [8fa8566]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/utils@2.21.0
+  - @modern-js/server@2.21.0
+  - @modern-js/types@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 3c4e0a5: chore(utils): move generateMetaTags method to builder-shared
+
+  chore(utils): 移动 generateMetaTags 方法到 builder-shared
+
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [5f055ab]
+  - @modern-js/utils@2.20.0
+  - @modern-js/server@2.20.0
+  - @modern-js/types@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- afb735f: fix(builder): failed to print file size in some cases
+
+  fix(builder): 修复部分情况下输出产物体积失败的问题
+
+  - @modern-js/server@2.19.1
+  - @modern-js/types@2.19.1
+  - @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- 1134fe2: chore(deps): bump webpack from 5.76.2 to 5.82.1
+
+  chore(deps): 将 webpack 从 5.76.2 升级至 5.82.1
+
+- Updated dependencies [1134fe2]
+  - @modern-js/server@2.19.0
+  - @modern-js/utils@2.19.0
+  - @modern-js/types@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- 9b0b7ef: feat(rspack-provider): support tools.pug configuration when Rspack build
+
+  feat(rspack-provider): 在使用 Rspack 构建时支持 tools.pug 配置项
+
+  - @modern-js/server@2.18.1
+  - @modern-js/types@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- @modern-js/server@2.18.0
+- @modern-js/types@2.18.0
+- @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/server@2.17.1
+- @modern-js/types@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/server@2.17.0
+- @modern-js/types@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- 7596520: feat(builder): builder plugin supports specifying relative order via the `pre` / `post` configuration items
+
+  feat(builder): builder 插件支持通过 `pre` / `post` 配置项指定相对顺序
+
+### Patch Changes
+
+- fe92de6: fix(builder): browserslist config should not affect node bundles
+
+  fix(builder): 修复 browserslist 配置会对 node 产物生效的问题
+
+- 091986a: hotfix(builder): fix the inaccurate type when bundlerChain chain called
+
+  hotfix(builder):修复 bundlerChain 链式调用后，类型提示不准确问题
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- e4e0e01: fix(builder-shared): add protocol for generated URL when assetPrefix is true
+
+  fix(builder-shared): assetPrefix 为 true 时生成的 URL 添加 protocol
+
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+  - @modern-js/utils@2.16.0
+  - @modern-js/server@2.16.0
+  - @modern-js/types@2.16.0
+
 ## 2.15.0
 
 ### Minor Changes

@@ -413,11 +413,12 @@ export function ssrLoaderCombinedModule(
   config: AppNormalizedConfig<'shared'>,
   appContext: IAppContext,
 ) {
-  const { entryName } = entrypoint;
+  const { entryName, isMainEntry } = entrypoint;
   const { packageName, internalDirectory } = appContext;
 
   const ssr = getEntryOptions(
     entryName,
+    isMainEntry,
     config.server.ssr,
     config.server.ssrByEntries,
     packageName,

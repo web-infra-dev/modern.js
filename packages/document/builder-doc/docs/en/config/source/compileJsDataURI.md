@@ -1,9 +1,9 @@
 - **Type:** `boolean`
 - **Default:** `true`
 
-Whether to compile JavaScript code imported via Data URI.
+This option is used to control whether to compile JavaScript code inside data URIs.
 
-Such as:
+By default, Builder uses Babel or SWC to compile the code inside data URIs. For example, the following code:
 
 ```js
 import x from 'data:text/javascript,export default 1;';

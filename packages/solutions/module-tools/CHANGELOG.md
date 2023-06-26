@@ -1,5 +1,310 @@
 # @modern-js/module-tools
 
+## 2.24.0
+
+### Patch Changes
+
+- 53ba418: chore: upgrade libuild and libuild plugins version to 0.13.1
+  chore: 升级 libuild 和 libuild 插件版本到 0.13.1
+- 3b82675: feat: Auto delete build product by checking if outdir is project root path
+  feat: 根据 outDir 是否是项目根目录决定是否自动删除产物目录
+- 7073297: fix: close declarationMap when bundle dts
+  fix: 打包 dts 时关闭 declarationMap
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/core@2.24.0
+  - @modern-js/plugin-changeset@2.24.0
+  - @modern-js/plugin-i18n@2.24.0
+  - @modern-js/plugin-lint@2.24.0
+  - @modern-js/new-action@2.24.0
+  - @modern-js/plugin@2.24.0
+  - @modern-js/upgrade@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/core@2.23.1
+  - @modern-js/plugin-changeset@2.23.1
+  - @modern-js/plugin-i18n@2.23.1
+  - @modern-js/plugin-lint@2.23.1
+  - @modern-js/new-action@2.23.1
+  - @modern-js/plugin@2.23.1
+  - @modern-js/upgrade@2.23.1
+
+## 2.23.0
+
+### Minor Changes
+
+- 21b7f86: feat: support dts.respectExternal
+  feat: 支持 dts.respectExternal 配置
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- d1ef55f: fix: config useDefineForClassFields by user tsconfig.json
+  fix: 根据用户 tsconfig.json 配置,设置 useDefineForClassFields
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [b593040]
+- Updated dependencies [e2245c3]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/plugin-changeset@2.23.0
+  - @modern-js/new-action@2.23.0
+  - @modern-js/plugin-i18n@2.23.0
+  - @modern-js/plugin-lint@2.23.0
+  - @modern-js/upgrade@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
+## 2.22.1
+
+### Patch Changes
+
+- Updated dependencies [e2848a2]
+- Updated dependencies [a2dd693]
+- Updated dependencies [b904b3a]
+- Updated dependencies [d4045ed]
+- Updated dependencies [1f02cd2]
+  - @modern-js/utils@2.22.1
+  - @modern-js/plugin-changeset@2.22.1
+  - @modern-js/core@2.22.1
+  - @modern-js/plugin-i18n@2.22.1
+  - @modern-js/plugin-lint@2.22.1
+  - @modern-js/new-action@2.22.1
+  - @modern-js/plugin@2.22.1
+  - @modern-js/upgrade@2.22.1
+
+## 2.22.0
+
+### Patch Changes
+
+- d19dc11: chore(module-tools): bump rollup v3
+
+  chore(module-tools): 升级 rollup v3
+
+- c890980: feat: add swc transform content and fix build logic when disable swc-transform
+  feat: 添加 swc transform 相关文档内容,并且修复禁用 swc-transform 时候的构建逻辑
+- 4b7488c: chore(deps): bump libuild v0.12.4 and swc-plugins v0.3.5
+
+  chore(deps): 升级 libuild v0.12.4 和 swc-plugins v0.3.5
+
+- Updated dependencies [3d48836]
+- Updated dependencies [7d1b96e]
+- Updated dependencies [5050e8e]
+- Updated dependencies [27618e4]
+- Updated dependencies [b647c68]
+  - @modern-js/utils@2.22.0
+  - @modern-js/plugin-changeset@2.22.0
+  - @modern-js/core@2.22.0
+  - @modern-js/new-action@2.22.0
+  - @modern-js/upgrade@2.22.0
+  - @modern-js/plugin-i18n@2.22.0
+  - @modern-js/plugin-lint@2.22.0
+  - @modern-js/plugin@2.22.0
+
+## 2.21.1
+
+### Patch Changes
+
+- @modern-js/core@2.21.1
+- @modern-js/plugin-changeset@2.21.1
+- @modern-js/plugin-i18n@2.21.1
+- @modern-js/plugin-lint@2.21.1
+- @modern-js/new-action@2.21.1
+- @modern-js/plugin@2.21.1
+- @modern-js/upgrade@2.21.1
+- @modern-js/utils@2.21.1
+
+## 2.21.0
+
+### Patch Changes
+
+- df43559: fix(core): toolsType is overridden when install multiple solutions
+
+  fix(core): 修复安装多个 solutions 时 toolsType 被覆盖的问题
+
+- 26dcf3a: chore: bump typescript to v5 in devDependencies
+
+  chore: 升级 devDependencies 中的 typescript 版本到 v5
+
+- ad78387: chore(deps): bump babel-related dependencies to latest version
+
+  chore(deps): 升级 babel 相关依赖到最新版本
+
+- Updated dependencies [df43559]
+- Updated dependencies [e81eeaf]
+- Updated dependencies [26dcf3a]
+- Updated dependencies [056627f]
+- Updated dependencies [de8f73f]
+- Updated dependencies [0fc15ca]
+- Updated dependencies [43b4e83]
+- Updated dependencies [ad78387]
+  - @modern-js/core@2.21.0
+  - @modern-js/utils@2.21.0
+  - @modern-js/plugin-changeset@2.21.0
+  - @modern-js/new-action@2.21.0
+  - @modern-js/plugin-i18n@2.21.0
+  - @modern-js/plugin-lint@2.21.0
+  - @modern-js/upgrade@2.21.0
+  - @modern-js/plugin@2.21.0
+
+## 2.20.0
+
+### Patch Changes
+
+- 6b9d90a: chore: remove @babel/runtime. add @swc/helper and enable `externalHelper` config.
+  chore: 移除 @babel/runtime 依赖. 增加 @swc/helpers 依赖并且开启 `externalHelpers` 配置
+- 6b9d90a: feat: update internal build configs
+  feat: 更新内部构建配置
+- Updated dependencies [3c4e0a5]
+- Updated dependencies [6b9d90a]
+- Updated dependencies [4b03d17]
+- Updated dependencies [6289d31]
+  - @modern-js/utils@2.20.0
+  - @modern-js/plugin-changeset@2.20.0
+  - @modern-js/new-action@2.20.0
+  - @modern-js/plugin-i18n@2.20.0
+  - @modern-js/plugin-lint@2.20.0
+  - @modern-js/upgrade@2.20.0
+  - @modern-js/plugin@2.20.0
+  - @modern-js/core@2.20.0
+
+## 2.19.1
+
+### Patch Changes
+
+- @modern-js/core@2.19.1
+- @modern-js/plugin-changeset@2.19.1
+- @modern-js/plugin-i18n@2.19.1
+- @modern-js/plugin-lint@2.19.1
+- @modern-js/new-action@2.19.1
+- @modern-js/plugin@2.19.1
+- @modern-js/upgrade@2.19.1
+- @modern-js/utils@2.19.1
+
+## 2.19.0
+
+### Patch Changes
+
+- Updated dependencies [1134fe2]
+  - @modern-js/utils@2.19.0
+  - @modern-js/core@2.19.0
+  - @modern-js/plugin-changeset@2.19.0
+  - @modern-js/plugin-i18n@2.19.0
+  - @modern-js/plugin-lint@2.19.0
+  - @modern-js/new-action@2.19.0
+  - @modern-js/plugin@2.19.0
+  - @modern-js/upgrade@2.19.0
+
+## 2.18.1
+
+### Patch Changes
+
+- cdc9db1: fix(module-tools, plugin-tailwindcss): fix `style.tailwindcss` config name and merge logic
+  fix(module-tools, plugin-tailwindcss): 修复 `style.tailwindcss` 错误的配置名和合并逻辑
+- b161968: chore: fix libuild version
+  chore: 锁定 libuild 版本号
+- Updated dependencies [21c87bf]
+- Updated dependencies [bc61dab]
+  - @modern-js/new-action@2.18.1
+  - @modern-js/upgrade@2.18.1
+  - @modern-js/core@2.18.1
+  - @modern-js/plugin-changeset@2.18.1
+  - @modern-js/plugin-i18n@2.18.1
+  - @modern-js/plugin-lint@2.18.1
+  - @modern-js/plugin@2.18.1
+  - @modern-js/utils@2.18.1
+
+## 2.18.0
+
+### Patch Changes
+
+- f65d3e8: chore: update libuild version
+  chore: 更新 libuild 版本
+  - @modern-js/core@2.18.0
+  - @modern-js/plugin-changeset@2.18.0
+  - @modern-js/plugin-i18n@2.18.0
+  - @modern-js/plugin-lint@2.18.0
+  - @modern-js/new-action@2.18.0
+  - @modern-js/plugin@2.18.0
+  - @modern-js/upgrade@2.18.0
+  - @modern-js/utils@2.18.0
+
+## 2.17.1
+
+### Patch Changes
+
+- @modern-js/core@2.17.1
+- @modern-js/plugin-changeset@2.17.1
+- @modern-js/plugin-i18n@2.17.1
+- @modern-js/plugin-lint@2.17.1
+- @modern-js/new-action@2.17.1
+- @modern-js/plugin@2.17.1
+- @modern-js/upgrade@2.17.1
+- @modern-js/utils@2.17.1
+
+## 2.17.0
+
+### Patch Changes
+
+- @modern-js/core@2.17.0
+- @modern-js/plugin-changeset@2.17.0
+- @modern-js/plugin-i18n@2.17.0
+- @modern-js/plugin-lint@2.17.0
+- @modern-js/new-action@2.17.0
+- @modern-js/plugin@2.17.0
+- @modern-js/upgrade@2.17.0
+- @modern-js/utils@2.17.0
+
+## 2.16.0
+
+### Minor Changes
+
+- b06f571: feat(module-tools): Replace esbuild-transform with swc-transform for the underlying build, reducing the size of the build product. Added `externalHelpers`, `transformImport` and `disbaleSwcTransform` configurations.
+  feat(module-tools): 底层构建使用 swc-transform 替换 esbuild-transform, 减少构建产物体积.新增 `externalHelpers`、`transformImport` 和 `disbaleSwcTransform` 配置.
+
+### Patch Changes
+
+- acc0a00: fix: upgrade libuild version to support tailwind in watch mode
+  fix: 更新 libuild 版本以支持 tailwindcss 在 watch 模式下生效
+- fd4a8a6: chore(deps): bump postcss-custom-properties to v13.1.5
+
+  chore(deps): 升级 postcss-custom-properties 到 v13.1.5
+
+- 4e876ab: chore: package.json include the monorepo-relative directory
+
+  chore: 在 package.json 中声明 monorepo 的子路径
+
+- 355d36e: feat: adjust create tools and new command option order
+
+  feat: 调整 create 工具及 new 命令 option 操作顺序
+
+- b06f571: chore: update libuild and libuild plugins version to 0.12.0
+  chore: 更新 libuild 和 libuild 插件的版本到 0.12.0
+- Updated dependencies [5954330]
+- Updated dependencies [7596520]
+- Updated dependencies [4e876ab]
+- Updated dependencies [6d5219e]
+  - @modern-js/utils@2.16.0
+  - @modern-js/plugin@2.16.0
+  - @modern-js/plugin-changeset@2.16.0
+  - @modern-js/new-action@2.16.0
+  - @modern-js/plugin-i18n@2.16.0
+  - @modern-js/plugin-lint@2.16.0
+  - @modern-js/upgrade@2.16.0
+  - @modern-js/core@2.16.0
+
 ## 2.15.0
 
 ### Patch Changes

@@ -35,7 +35,21 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": false,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,
@@ -81,7 +95,21 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": false,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,
@@ -130,7 +158,21 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": false,
+                "transpileTemplateLiterals": true,
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -180,7 +222,21 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": false,
+                "transpileTemplateLiterals": true,
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -226,7 +282,21 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": true,
+                "transpileTemplateLiterals": true,
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -274,7 +344,21 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": false,
+                "transpileTemplateLiterals": true,
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -322,7 +406,21 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": false,
+                "transpileTemplateLiterals": true,
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -370,7 +468,21 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
               ],
             },
             "exclude": [],
-            "extensions": {},
+            "extensions": {
+              "lodash": {
+                "cwd": "<ROOT>",
+                "ids": [
+                  "lodash",
+                  "lodash-es",
+                ],
+              },
+              "styledComponents": {
+                "displayName": true,
+                "pure": false,
+                "ssr": false,
+                "transpileTemplateLiterals": true,
+              },
+            },
             "inlineSourcesContent": true,
             "jsc": {
               "externalHelpers": true,
@@ -402,8 +514,6 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
 {
   "minimizer": [
     SwcMinimizerPlugin {
-      "minifyCss": [Function],
-      "minifyJs": [Function],
       "minifyOptions": {
         "cssMinify": {},
         "jsMinify": {
@@ -411,6 +521,7 @@ exports[`plugins/swc > should set swc minimizer in production 1`] = `
           "mangle": true,
         },
       },
+      "name": "swc-minimizer-plugin",
     },
   ],
 }
@@ -447,7 +558,21 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": false,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,
@@ -493,7 +618,21 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 ],
               },
               "exclude": [],
-              "extensions": {},
+              "extensions": {
+                "lodash": {
+                  "cwd": "<ROOT>",
+                  "ids": [
+                    "lodash",
+                    "lodash-es",
+                  ],
+                },
+                "styledComponents": {
+                  "displayName": true,
+                  "pure": false,
+                  "ssr": false,
+                  "transpileTemplateLiterals": true,
+                },
+              },
               "inlineSourcesContent": true,
               "jsc": {
                 "externalHelpers": true,

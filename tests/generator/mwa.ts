@@ -1,9 +1,14 @@
+import os from 'os';
 import path from 'path';
 import { getMWACases, getMWANewCases } from '@modern-js/generator-cases';
-import { fs, nanoid } from '@modern-js/utils';
+import { fs, nanoid, semver } from '@modern-js/utils';
 import { MWANewAction } from '@modern-js/new-action';
 import { prepare } from './utils/prepare';
-import { execaWithStreamLog, usingTempDir } from './utils/tools';
+import {
+  execaWithStreamLog,
+  getPackageManager,
+  usingTempDir,
+} from './utils/tools';
 import {
   runLintProject,
   runCreteCommand,
@@ -63,7 +68,7 @@ async function runNewMWAProject(
       cwd: path.join(tmpDir, project),
     },
   );
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'yarn';
+  const packageManager = getPackageManager(project);
   const cases = getMWANewCases(isSimple ? 5 : undefined);
   let hasMicroFrontend = false;
   let hasSSG = false;
@@ -110,16 +115,17 @@ async function runNewMWAProject(
     if (config.actionType === 'refactor') {
       continue;
     }
-    await runMWANewCommand(isLocal, packageManager, {
+    await runMWANewCommand(isLocal, project, {
       cwd: path.join(tmpDir, project),
       config: JSON.stringify({
+        noNeedInstall: true,
         ...config,
       }),
     });
-    await execaWithStreamLog(packageManager, ['build'], {
+    await execaWithStreamLog(packageManager, ['run', 'build'], {
       cwd: path.join(tmpDir, project),
     });
-    await execaWithStreamLog(packageManager, ['lint'], {
+    await execaWithStreamLog(packageManager, ['run', 'lint'], {
       cwd: path.join(tmpDir, project),
     });
   }
@@ -127,7 +133,7 @@ async function runNewMWAProject(
 
 async function runMWANewCommand(
   isLocal: boolean,
-  packageManager: 'pnpm' | 'yarn',
+  project: string,
   options: {
     config: string;
     cwd: string;
@@ -147,8 +153,17 @@ async function runMWANewCommand(
     });
   } else {
     await execaWithStreamLog(
-      'yarn',
-      ['new', '--dist-tag', 'next', '--config', config, debug ? '--debug' : ''],
+      'npm',
+      [
+        'run',
+        'new',
+        '--',
+        '--dist-tag',
+        'next',
+        '--config',
+        config,
+        debug ? '--debug' : '',
+      ],
       {
         cwd,
         env: {
@@ -156,11 +171,23 @@ async function runMWANewCommand(
         },
       },
     );
-    if (packageManager === 'pnpm') {
-      await execaWithStreamLog('pnpm', ['install'], {
-        cwd,
-      });
+  }
+  const isNode16 = semver.gte(process.versions.node, '16.0.0');
+  const params = ['install', '--ignore-scripts', '--force'];
+  const packageManager = getPackageManager(project);
+  if (isNode16 || project.includes('pnpm')) {
+    if (packageManager === 'yarn') {
+      params.push('--cache-folder');
+      params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
     }
+    await execaWithStreamLog(packageManager, params, {
+      cwd,
+    });
+  } else {
+    params.push('--shamefully-hoist');
+    await execaWithStreamLog(packageManager, params, {
+      cwd,
+    });
   }
 }
 

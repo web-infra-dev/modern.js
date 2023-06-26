@@ -106,12 +106,13 @@ File sizes after production build:
 
 `modern new` 命令用于在已有项目中添加项目元素。
 
-比如添加应用入口、启用启用一些可选功能如 Tailwind CSS、微前端开发模式等。
+比如添加应用入口、启用一些可选功能如 Tailwind CSS、微前端开发模式等。
 
 ```bash
 Usage: modern new [options]
 
 Options:
+  --lang <lang>          设置 new 命令执行语言(zh 或者 en)
   -d, --debug            开启 Debug 模式，打印调试日志信息 (default: false)
   -c, --config <config>  生成器运行默认配置(JSON 字符串)
   --dist-tag <tag>       生成器使用特殊的 npm Tag 版本
@@ -126,7 +127,7 @@ Options:
 ```bash
 $ npx modern new
 ? 请选择你想要的操作 创建工程元素
-? 创建工程元素 新建「应用入口」
+? 请选择创建元素类型 新建「应用入口」
 ? 请填写入口名称 entry
 ```
 
@@ -137,8 +138,8 @@ $ npx modern new
 ```bash
 $ npx modern new
 ? 请选择你想要的操作 启用可选功能
-? 启用可选功能 (Use arrow keys)
-❯ 启用 Tailwind CSS 支持
+? 请选择功能名称 (Use arrow keys)
+❯ 启用 「Tailwind CSS」 支持
   启用「BFF」功能
   启用「微前端」模式
   启用「单元测试 / 集成测试」功能
@@ -162,7 +163,6 @@ Usage: modern serve [options]
 Options:
   -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
   -h, --help            显示命令帮助
-  --web-only            仅启动 Web 服务
   --api-only            仅启动 API 接口服务
 ```
 
@@ -180,7 +180,7 @@ export default defineConfig({
 
 在项目根目录下执行命令 `npx modern upgrade`，会默认将当前执行命令项目的 `package.json` 中的 Modern.js 相关依赖更新至最新版本。
 
-```
+```bash
 Usage: modern upgrade [options]
 
 Options:
@@ -194,7 +194,7 @@ Options:
 
 `modern inspect` 命令用于查看项目的 [Modern.js Builder 配置](https://modernjs.dev/builder/guide/basic/builder-config.html) 以及 webpack 配置。
 
-```
+```bash
 Usage: modern inspect [options]
 
 Options:

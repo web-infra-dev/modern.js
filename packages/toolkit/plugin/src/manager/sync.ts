@@ -258,7 +258,7 @@ export const generateRunner = <Hooks extends Record<string, any>>(
           cloneShape[key].use(hooks[key]);
         }
       });
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
       // @ts-expect-error
       runner[key] = (input: any, options: any) =>
         (cloneShape[key] as any).run(input, { ...options });
@@ -304,7 +304,6 @@ export const cloneHooksMap = <Hooks>(record: Hooks): Hooks => {
   const result: Hooks = {} as any;
 
   for (const key in record) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     result[key] = cloneHook(record[key]);
   }

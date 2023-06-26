@@ -3,7 +3,7 @@ import { manager, CliPlugin } from '@modern-js/core';
 import WebpackChain from 'webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
 import type { AppUserConfig } from '@modern-js/app-tools';
-import garfishPlugin, { externals } from '../src/cli';
+import { garfishPlugin, externals } from '../src/cli';
 import type { UseConfig } from '../src/cli';
 import { getRuntimeConfig, setRuntimeConfig } from '../src/cli/utils';
 
@@ -129,6 +129,12 @@ describe('plugin-garfish cli', () => {
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
 
+    config[0].tools.bundlerChain(webpackConfig, {
+      webpack: jest.fn(),
+      env: 'development',
+      CHAIN_ID,
+    });
+
     config[0].tools.webpackChain(webpackConfig, {
       webpack: jest.fn(),
       env: 'development',
@@ -170,6 +176,11 @@ describe('plugin-garfish cli', () => {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     function HTMLWebpackPlugin() {}
     webpackConfig.plugin('html-main').use(HTMLWebpackPlugin);
+
+    config[0].tools.bundlerChain(webpackConfig, {
+      webpack: jest.fn(),
+      env: 'development',
+    });
 
     config[0].tools.webpackChain(webpackConfig, {
       webpack: jest.fn(),

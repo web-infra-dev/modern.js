@@ -21,7 +21,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -54,7 +54,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -90,6 +90,217 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
 }
 `;
 
+exports[`plugins/css > should use custom cssModules rule when using output.cssModules config 1`] = `
+{
+  "builtins": {
+    "css": {
+      "modules": {
+        "exportsOnly": false,
+        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localsConvention": "camelCase",
+      },
+    },
+  },
+  "module": {
+    "rules": [
+      {
+        "oneOf": [
+          {
+            "sideEffects": true,
+            "test": [Function],
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.css\\$/,
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/css disableCssExtract > should apply ignoreCssLoader when disableCssExtract is true and target is node 1`] = `
+{
+  "experiments": {
+    "css": false,
+  },
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "exportOnlyLocals": true,
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
+exports[`plugins/css disableCssExtract > should use css-loader + style-loader when disableCssExtract is true 1`] = `
+{
+  "experiments": {
+    "css": false,
+  },
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.css\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/style-loader/dist/cjs.js",
+            "options": {
+              "esModule": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
 exports[`plugins/less > should add less-loader 1`] = `
 {
   "module": {
@@ -102,7 +313,7 @@ exports[`plugins/less > should add less-loader 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -153,7 +364,7 @@ exports[`plugins/less > should add less-loader 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -207,6 +418,84 @@ exports[`plugins/less > should add less-loader 1`] = `
 }
 `;
 
+exports[`plugins/less > should add less-loader and css-loader when disableCssExtract 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.less\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/style-loader/dist/cjs.js",
+            "options": {
+              "esModule": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
+            "options": {
+              "importLoaders": 1,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
+            "options": {
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
+              "lessOptions": {
+                "javascriptEnabled": true,
+              },
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
 exports[`plugins/less > should add less-loader with excludes 1`] = `
 {
   "module": {
@@ -222,7 +511,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -276,7 +565,7 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -342,7 +631,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -393,7 +682,7 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -459,7 +748,7 @@ exports[`plugins/sass > should add sass-loader 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -507,7 +796,7 @@ exports[`plugins/sass > should add sass-loader 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -558,6 +847,81 @@ exports[`plugins/sass > should add sass-loader 1`] = `
 }
 `;
 
+exports[`plugins/sass > should add sass-loader and css-loader when disableCssExtract 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "sideEffects": true,
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/style-loader/dist/cjs.js",
+            "options": {
+              "esModule": false,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
+            "options": {
+              "importLoaders": 2,
+              "modules": {
+                "auto": true,
+                "exportLocalsConvention": "camelCase",
+                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+            "options": {
+              "postcssOptions": {
+                "plugins": [
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  [Function],
+                  {
+                    "browsers": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "info": [Function],
+                    "options": {
+                      "flexbox": "no-2009",
+                      "overrideBrowserslist": [
+                        "> 0.01%",
+                        "not dead",
+                        "not op_mini all",
+                      ],
+                    },
+                    "postcssPlugin": "autoprefixer",
+                    "prepare": [Function],
+                  },
+                ],
+              },
+              "sourceMap": true,
+            },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
+            "options": {
+              "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
+              "sourceMap": true,
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;
+
 exports[`plugins/sass > should add sass-loader with excludes 1`] = `
 {
   "module": {
@@ -573,7 +937,7 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
             "type": "css/module",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [
@@ -624,7 +988,7 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
             "type": "css",
             "use": [
               {
-                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/postcss-loader/src/index.js",
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
                 "options": {
                   "postcssOptions": {
                     "plugins": [

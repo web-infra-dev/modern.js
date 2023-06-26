@@ -43,9 +43,9 @@
   },
   "engines": {
     "node": ">=14.17.6",
-    "pnpm": ">=7.12.2 <=7.29.1"
+    "pnpm": ">=8.0.0 <=8.6.1"
   },
-  "packageManager": "pnpm@7.29.1",
+  "packageManager": "pnpm@8.6.1",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -66,10 +66,10 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.18.0",
+    "@babel/core": "^7.21.8",
     "@babel/plugin-transform-modules-commonjs": "^7.17.7",
-    "@commitlint/cli": "^13.2.1",
-    "@commitlint/config-conventional": "^13.2.0",
+    "@commitlint/cli": "^17.6.3",
+    "@commitlint/config-conventional": "^17.6.3",
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/monorepo-tools": "workspace:*",
@@ -85,13 +85,38 @@
     "execa": "^5.1.1",
     "globby": "^11.0.4",
     "husky": "^8.0.0",
-    "turbo": "^1.6.3",
+    "turbo": "^1.10.2",
     "vitest": "0.21.1"
   },
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
       "@types/react-dom": "^18"
+    },
+    "allowedDeprecatedVersions": {
+      "formidable": "1.2.6",
+      "hast": "1.0.0",
+      "sourcemap-codec": "1.4.8",
+      "uuid-browser": "3.1.0",
+      "stable": "0.1.8",
+      "js-polyfills": "0.1.43",
+      "picturefill": "3.0.3",
+      "string-similarity": "4.0.4",
+      "querystring": "0.2.0",
+      "source-map-resolve": "0.6.0 || 0.5.3",
+      "@formatjs/intl-utils": "3.8.4",
+      "debug": "4.1.1",
+      "sane": "4.1.0",
+      "@npmcli/move-file": "1.1.2",
+      "uuid": "3.4.0",
+      "chokidar": "2.1.8",
+      "fsevents": "1.2.13",
+      "source-map-url": "0.4.1",
+      "urix": "0.1.0",
+      "resolve-url": "0.2.1",
+      "devcert": "1.0.0",
+      "superagent": "6.1.0",
+      "@types/sass": "1.45.0"
     }
   }
 }

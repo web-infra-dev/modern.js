@@ -4,51 +4,41 @@ sidebar_position: 1
 ---
 # App.[tj]sx
 
-Entry identifier if App want control route by code.
+The identifier for the entry points when the application uses [Self-controlled Routing](/guides/basic-features/routes.html#self-controlled-routing).
 
-`App.[tj]sx` is not the actual App entry, Modern.js will auto generate the entry file, the content is roughly as follows:
+`App.[tj]sx` is not the actual entry. Modern.js will generate the real entry for application. The content is roughly as follows:
 
 ```js
 import React from 'react';
+import ReactDOM from 'react-dom/client';
 import { createApp, bootstrap } from '@modern-js/runtime';
 // App.[jt]sx
 import App from '@_modern_js_src/App';
-import { state } from '@modern-js/runtime/plugins';
-import {
-  immer,
-  effects,
-  autoActions,
-  devtools,
-} from '@modern-js/runtime/model';
+// runtime plugin
+import { router } from '@modern-js/runtime/plugins';
 
-const createStatePlugins = config => {
-  const plugins = [];
-  plugins.push(immer(config['immer']));
-  plugins.push(effects(config['effects']));
-  plugins.push(autoActions(config['autoActions']));
-  plugins.push(devtools(config['devtools']));
-  return plugins;
-};
+const IS_BROWSER = typeof window !== 'undefined' && window.name !== 'nodejs';
+const MOUNT_ID = 'root';
+
 let AppWrapper = null;
+
 function render() {
   AppWrapper = createApp({
     plugins: [
-      state({
-        ...{ plugins: createStatePlugins(true) },
-        ...App?.config?.state,
-      }),
-    ],
-  })(App);
+     router({...{"serverBase":["/"]}, ...App.config?.router}),
+    ]
+  })(App)
   if (IS_BROWSER) {
-    bootstrap(AppWrapper, MOUNT_ID);
+    bootstrap(AppWrapper, MOUNT_ID, null, ReactDOM);
   }
-  return AppWrapper;
+  return AppWrapper
 }
+
 AppWrapper = render();
 export default AppWrapper;
 ```
 
 :::note
-In multi-entry App, each entry can have a `App.[jt]sx`, for detail, see [Entry](/guides/concept/entries).
+In the multi-entry scenario, each entry can have its own `App.[jt]sx`. See [Entries](/guides/concept/entries) for details.
 
 :::

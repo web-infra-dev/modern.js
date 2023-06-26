@@ -1,4 +1,3 @@
-import React from 'react';
 import { content } from '@/common/test';
 
 if (ENABLE_TEST === true) {

@@ -4,6 +4,7 @@ import {
   isMonorepo,
   fs,
   getPnpmVersion,
+  semver,
 } from '@modern-js/utils';
 import { tag as gitTag } from '@changesets/git';
 import { CHANGESET_PATH, execaWithStreamLog } from '../utils';
@@ -13,6 +14,7 @@ interface ReleaseOptions {
   ignoreScripts: boolean;
   gitChecks: boolean;
   otp: string;
+  provenance: boolean;
 }
 
 export async function release(options: ReleaseOptions) {
@@ -21,7 +23,7 @@ export async function release(options: ReleaseOptions) {
 
   const params = ['publish'];
 
-  const { tag, otp, ignoreScripts, gitChecks } = options;
+  const { tag, otp, ignoreScripts, gitChecks, provenance } = options;
 
   if (tag) {
     params.push('--tag');
@@ -58,6 +60,16 @@ export async function release(options: ReleaseOptions) {
 
   if (!gitChecks) {
     params.push('--no-git-checks');
+  }
+
+  if (provenance) {
+    if (semver.lt(pnpmVersion, '8.4.0')) {
+      console.warn(
+        'current pnpm version not support --provenance, please upgrade pnpm version first.',
+      );
+    } else {
+      params.push('--provenance');
+    }
   }
 
   await execaWithStreamLog(packageManager, params);

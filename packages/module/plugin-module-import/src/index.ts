@@ -2,7 +2,7 @@ import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import type { ImportItem } from '@modern-js/libuild-plugin-swc';
 import { swcTransformPluginName } from '@modern-js/libuild-plugin-swc';
 
-export default (options: {
+export const modulePluginImport = (options: {
   pluginImport?: ImportItem[];
 }): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-import',
@@ -42,3 +42,6 @@ export default (options: {
     },
   }),
 });
+
+// deprecated default export
+export default modulePluginImport;

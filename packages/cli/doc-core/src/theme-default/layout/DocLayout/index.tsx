@@ -1,10 +1,9 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MDXProvider } from '@mdx-js/react';
-import mediumZoom from 'medium-zoom';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
-import { highlightCode, useLocaleSiteData, useSidebarData } from '../../logic';
+import { useLocaleSiteData, useSidebarData } from '../../logic';
 import { SideMenu } from '../../components/LocalSideBar';
 import { Overview } from '../../components/Overview';
 import { TabDataContext } from '../../logic/TabDataContext';
@@ -20,26 +19,16 @@ export interface DocLayoutProps {
   afterOutline?: React.ReactNode;
 }
 
-function DocContent() {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    const images = document.querySelectorAll('.modern-doc img');
-    mediumZoom(images);
-    highlightCode();
-  }, [pathname]);
-  return <Content />;
-}
-
 export function DocLayout(props: DocLayoutProps) {
   const { beforeDocFooter, beforeDoc, afterDoc, beforeOutline, afterOutline } =
     props;
   const { siteData, page } = usePageData();
-  const { toc, frontmatter } = page;
+  const { toc = [], frontmatter } = page;
   const [tabData, setTabData] = useState({});
   const headers = toc;
   const { themeConfig } = siteData;
   const localesData = useLocaleSiteData();
-  const sidebar = localesData.sidebar || [];
+  const sidebar = localesData.sidebar || {};
   const { pathname } = useLocation();
 
   const { items: sidebarData } = useSidebarData();
@@ -53,6 +42,7 @@ export function DocLayout(props: DocLayoutProps) {
   const outlineTitle =
     localesData?.outlineTitle || themeConfig?.outlineTitle || 'ON THIS PAGE';
   const isOverviewPage = frontmatter?.overview ?? false;
+  const hasFooter = frontmatter?.footer ?? true;
 
   const getHasAside = () => {
     // if in iframe, default value is false
@@ -64,9 +54,11 @@ export function DocLayout(props: DocLayoutProps) {
     );
   };
   const [hasAside, setHasAside] = useState(getHasAside());
+
   useEffect(() => {
     setHasAside(getHasAside());
-  }, [pathname]);
+  }, [page, siteData]);
+
   return (
     <div className={`${styles.docLayout} pt-0 md:mt-14`}>
       {beforeDoc}
@@ -85,12 +77,12 @@ export function DocLayout(props: DocLayoutProps) {
             <div className="modern-doc">
               <TabDataContext.Provider value={{ tabData, setTabData }}>
                 <MDXProvider components={getCustomMDXComponent()}>
-                  <DocContent />
+                  <Content />
                 </MDXProvider>
               </TabDataContext.Provider>
               <div>
                 {beforeDocFooter}
-                <DocFooter />
+                {hasFooter && <DocFooter />}
               </div>
             </div>
           )}

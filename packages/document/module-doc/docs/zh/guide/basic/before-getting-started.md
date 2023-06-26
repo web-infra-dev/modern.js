@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## 环境准备
 
-为了使用 Modern.js 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac/linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
+为了使用 Modern.js 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac / Linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
 
 ## 初识 npm
 
@@ -167,7 +167,7 @@ npm install -g pnpm
 默认情况下，生成的配置文件的内容如下：
 
 ```ts title="modern.config.ts"
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],
@@ -178,7 +178,7 @@ export default defineConfig({
 **我们推荐使用 `defineConfig` 函数**，不过并不强制使用它。因此你也可以在配置文件中直接返回一个对象：
 
 ```ts title="modern.config.ts"
-import moduleTools from '@modern-js/module-tools';
+import { moduleTools } from '@modern-js/module-tools';
 
 export default {
   plugins: [moduleTools()],

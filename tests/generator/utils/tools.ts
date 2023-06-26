@@ -1,4 +1,5 @@
-import { fs, execa } from '@modern-js/utils';
+/* eslint-disable consistent-return */
+import { fs, execa, semver } from '@modern-js/utils';
 
 export async function usingTempDir(
   tmpDir: string,
@@ -28,4 +29,17 @@ export async function execaWithStreamLog(
     // eslint-disable-next-line no-process-exit
     process.exit(1);
   }
+}
+
+export function getPackageManager(projectName: string) {
+  const isNode16 = semver.gte(process.versions.node, '16.0.0');
+  if (!isNode16) {
+    return 'pnpm';
+  }
+  // eslint-disable-next-line no-nested-ternary
+  return projectName.includes('pnpm')
+    ? 'pnpm'
+    : projectName.includes('yarn')
+    ? 'yarn'
+    : 'npm';
 }

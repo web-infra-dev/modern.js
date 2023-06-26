@@ -7,6 +7,8 @@ export const normalizeOptions = (options: Options): Required<Options> => {
     isProduction = process.env.NODE_ENV === 'production',
     appDir = process.cwd(),
     entries = {},
+    previewMode = 'web',
+    apiParseTool = 'react-docgen-typescript',
   } = options;
   return {
     languages,
@@ -14,5 +16,7 @@ export const normalizeOptions = (options: Options): Required<Options> => {
     isProduction,
     appDir,
     entries,
+    previewMode,
+    apiParseTool,
   };
 };

@@ -5,7 +5,6 @@ import {
   fs,
   isApiOnly,
   minimist,
-  getCommand,
   isDevCommand,
   getArgv,
 } from '@modern-js/utils';
@@ -18,12 +17,18 @@ import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools, webpack } from '../types';
 import { initialNormalizedConfig } from '../config';
 import { createBuilderGenerator } from '../builder';
-import { isPageComponentFile, parseModule, replaceWithAlias } from './utils';
+import {
+  checkIsBuildCommands,
+  isPageComponentFile,
+  parseModule,
+  replaceWithAlias,
+} from './utils';
 import {
   APP_CONFIG_NAME,
   APP_INIT_EXPORTED,
   APP_INIT_IMPORTED,
 } from './constants';
+import { generateIndexCode } from './generateCode';
 
 const debug = createDebugger('plugin-analyze');
 
@@ -46,7 +51,9 @@ export default ({
         const hookRunners = api.useHookRunners();
 
         try {
-          fs.emptydirSync(appContext.internalDirectory);
+          if (checkIsBuildCommands()) {
+            fs.emptydirSync(appContext.internalDirectory);
+          }
         } catch {
           // FIXME:
         }
@@ -54,6 +61,7 @@ export default ({
         const apiOnly = await isApiOnly(
           appContext.appDirectory,
           resolvedConfig.source?.entriesDir,
+          appContext.apiDirectory,
         );
         await hookRunners.addRuntimeExports();
 
@@ -65,7 +73,7 @@ export default ({
           debug(`server routes: %o`, routes);
 
           appContext = {
-            ...appContext,
+            ...api.useAppContext(),
             apiOnly,
             serverRoutes: routes,
           };
@@ -101,7 +109,7 @@ export default ({
         debug(`server routes: %o`, routes);
 
         appContext = {
-          ...appContext,
+          ...api.useAppContext(),
           entrypoints,
           serverRoutes: routes,
         };
@@ -113,12 +121,18 @@ export default ({
 
         pagesDir = entrypoints
           .map(point => point.entry)
-          .filter(Boolean)
+          // should only watch file-based routes
+          .filter(entry => entry && !path.extname(entry))
           .concat(nestedRouteEntries);
 
         originEntrypoints = cloneDeep(entrypoints);
 
-        await generateCode(appContext, resolvedConfig, entrypoints, api);
+        const { importsStatemets } = await generateCode(
+          appContext,
+          resolvedConfig,
+          entrypoints,
+          api,
+        );
 
         const htmlTemplates = await getHtmlTemplate(entrypoints, api, {
           appContext,
@@ -141,83 +155,90 @@ export default ({
         }
 
         appContext = {
-          ...appContext,
+          ...api.useAppContext(),
           entrypoints,
           checkedEntries,
           apiOnly,
           serverRoutes: routes,
           htmlTemplates,
         };
+
         api.setAppContext(appContext);
 
-        const command = getCommand();
-        const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
-        if (buildCommands.includes(command)) {
+        if (checkIsBuildCommands()) {
           const normalizedConfig = api.useResolvedConfigContext();
           const createBuilderForModern = await createBuilderGenerator(bundler);
           const builder = await createBuilderForModern({
             normalizedConfig: normalizedConfig as any,
             appContext,
-            async onBeforeBuild({ bundlerConfigs }) {
-              const hookRunners = api.useHookRunners();
-              await generateRoutes(appContext);
-              await hookRunners.beforeBuild({
-                bundlerConfigs:
-                  bundlerConfigs as unknown as webpack.Configuration[],
-              });
-            },
+          });
 
-            async onAfterBuild({ stats }) {
-              const hookRunners = api.useHookRunners();
-              await hookRunners.afterBuild({ stats });
-              await emitResolvedConfig(
-                appContext.appDirectory,
-                normalizedConfig,
-              );
-            },
+          builder.onBeforeBuild(async ({ bundlerConfigs }) => {
+            const hookRunners = api.useHookRunners();
+            await generateRoutes(appContext);
+            await hookRunners.beforeBuild({
+              bundlerConfigs:
+                bundlerConfigs as unknown as webpack.Configuration[],
+            });
+          });
 
-            async onDevCompileDone({ isFirstCompile }) {
-              const hookRunners = api.useHookRunners();
-              if (process.stdout.isTTY || isFirstCompile) {
-                hookRunners.afterDev();
+          builder.onAfterBuild(async ({ stats }) => {
+            const hookRunners = api.useHookRunners();
+            await hookRunners.afterBuild({ stats });
+            await emitResolvedConfig(appContext.appDirectory, normalizedConfig);
+          });
 
-                if (isFirstCompile) {
-                  printInstructions(hookRunners, appContext, normalizedConfig);
-                }
+          builder.onDevCompileDone(async ({ isFirstCompile }) => {
+            const hookRunners = api.useHookRunners();
+            if (process.stdout.isTTY || isFirstCompile) {
+              hookRunners.afterDev({ isFirstCompile });
+
+              if (isFirstCompile) {
+                printInstructions(hookRunners, appContext, normalizedConfig);
               }
-            },
+            }
+          });
 
-            async onBeforeCreateCompiler({ bundlerConfigs }) {
-              const hookRunners = api.useHookRunners();
-              // run modernjs framework `beforeCreateCompiler` hook
-              await hookRunners.beforeCreateCompiler({
-                bundlerConfigs:
-                  bundlerConfigs as unknown as webpack.Configuration[],
-              });
-            },
+          builder.onBeforeCreateCompiler(async ({ bundlerConfigs }) => {
+            const hookRunners = api.useHookRunners();
+            await generateIndexCode({
+              appContext,
+              config: resolvedConfig,
+              entrypoints,
+              api,
+              importsStatemets,
+              bundlerConfigs,
+            });
 
-            async onAfterCreateCompiler({ compiler }) {
-              const hookRunners = api.useHookRunners();
-              // run modernjs framework afterCreateCompiler hooks
-              await hookRunners.afterCreateCompiler({
-                compiler: compiler as unknown as
-                  | webpack.Compiler
-                  | webpack.MultiCompiler,
-              });
-            },
+            // run modernjs framework `beforeCreateCompiler` hook
+            await hookRunners.beforeCreateCompiler({
+              bundlerConfigs:
+                bundlerConfigs as unknown as webpack.Configuration[],
+            });
+          });
+
+          builder.onAfterCreateCompiler(async ({ compiler }) => {
+            const hookRunners = api.useHookRunners();
+            // run modernjs framework afterCreateCompiler hooks
+            await hookRunners.afterCreateCompiler({
+              compiler: compiler as unknown as
+                | webpack.Compiler
+                | webpack.MultiCompiler,
+            });
           });
 
           builder.addPlugins(resolvedConfig.builderPlugins);
 
           appContext = {
-            ...appContext,
+            ...api.useAppContext(),
             builder,
           };
           api.setAppContext(appContext);
         }
       },
+
       watchFiles() {
-        return pagesDir;
+        return { files: pagesDir, isPrivate: true };
       },
 
       resolvedConfig({ resolved }) {

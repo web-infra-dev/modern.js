@@ -1,11 +1,13 @@
+import { setConfig } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '@modern-js/builder';
-import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import type { BuilderPluginAPI as RspackBuilderPluginAPI } from '@modern-js/builder-rspack-provider';
 
-const getResolveFallback = (nodeLibsBrowser: any) =>
-  Object.keys(nodeLibsBrowser).reduce<Record<string, string | false>>(
+const getResolveFallback = (nodeLibs: Record<string, any>) =>
+  Object.keys(nodeLibs).reduce<Record<string, string | false>>(
     (previous, name) => {
-      if (nodeLibsBrowser[name]) {
-        previous[name] = nodeLibsBrowser[name];
+      if (nodeLibs[name]) {
+        previous[name] = nodeLibs[name];
       } else {
         previous[name] = false;
       }
@@ -14,6 +16,17 @@ const getResolveFallback = (nodeLibsBrowser: any) =>
     {},
   );
 
+const getProvideLibs = async () => {
+  const { default: nodeLibs } = await import(
+    // @ts-expect-error
+    'node-libs-browser'
+  );
+  return {
+    Buffer: [nodeLibs.buffer, 'Buffer'],
+    process: [nodeLibs.process],
+  };
+};
+
 /**
  * Usage:
  *
@@ -21,77 +34,52 @@ const getResolveFallback = (nodeLibsBrowser: any) =>
  *
  *   builder.addPlugins([ builderPluginNodePolyfill() ]);
  */
-export function builderPluginNodePolyfill(): BuilderPlugin<BuilderPluginAPI> {
+export function builderPluginNodePolyfill(): BuilderPlugin<
+  WebpackBuilderPluginAPI | RspackBuilderPluginAPI
+> {
   return {
     name: 'builder-plugin-node-polyfill',
 
     async setup(api) {
-      if (api.context.bundlerType === 'rspack') {
-        const polyfillFileName = 'rspack-node-global-polyfill';
-
-        api.modifyBundlerChain(async (chain, { isServer }) => {
-          // it had not need `node polyfill`, if the target is 'node'(server runtime).
-          if (isServer) {
-            return;
-          }
-
-          const { default: nodeLibsBrowser } = await import(
-            // @ts-expect-error
-            'node-libs-browser'
-          );
-
-          // TODO: global polyfill workaround, should use ProviderPlugin instead
-          const { default: RspackVirtualModulePlugin } = await import(
-            'rspack-plugin-virtual-module'
-          );
-
-          const { entry } = api.context;
-
-          Object.keys(entry).forEach(entryName => {
-            chain.entry(entryName).prepend(polyfillFileName);
-          });
-
-          chain
-            .plugin('rspack-global-polyfill')
-            .use(RspackVirtualModulePlugin, [
-              {
-                [polyfillFileName]: `
-import { Buffer } from 'buffer';
-import Process from 'process';
-
-window.Buffer = Buffer;
-window.process = Process;`,
-              },
-            ]);
-
-          // module polyfill
-          chain.resolve.fallback.merge(getResolveFallback(nodeLibsBrowser));
-        });
-        return;
-      }
-
-      api.modifyWebpackChain(async (chain, { CHAIN_ID, isServer, webpack }) => {
+      api.modifyBundlerChain(async (chain, { isServer }) => {
         // it had not need `node polyfill`, if the target is 'node'(server runtime).
         if (isServer) {
           return;
         }
 
-        const { default: nodeLibsBrowser } = await import(
+        const { default: nodeLibs } = await import(
           // @ts-expect-error
           'node-libs-browser'
         );
 
-        chain
-          .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)
-          .use(webpack.ProvidePlugin, [
-            {
-              Buffer: [nodeLibsBrowser.buffer, 'Buffer'],
-              process: [nodeLibsBrowser.process],
-            },
-          ]);
-
-        chain.resolve.fallback.merge(getResolveFallback(nodeLibsBrowser));
+        // module polyfill
+        chain.resolve.fallback.merge(getResolveFallback(nodeLibs));
       });
+
+      if (api.context.bundlerType === 'rspack') {
+        (api as RspackBuilderPluginAPI).modifyRspackConfig(
+          async (config, { isServer }) => {
+            if (isServer) {
+              return;
+            }
+            setConfig(config, 'builtins.provide', {
+              ...(config.builtins?.provide ?? {}),
+              ...(await getProvideLibs()),
+            });
+          },
+        );
+      } else {
+        (api as WebpackBuilderPluginAPI).modifyWebpackChain(
+          async (chain, { CHAIN_ID, isServer, webpack }) => {
+            if (isServer) {
+              return;
+            }
+            chain
+              .plugin(CHAIN_ID.PLUGIN.NODE_POLYFILL_PROVIDE)
+              .use(webpack.ProvidePlugin, [await getProvideLibs()]);
+          },
+        );
+      }
     },
   };
 }

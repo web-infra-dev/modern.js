@@ -31,8 +31,6 @@ var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
 
 // src/index.js
 var src_default = (str) => addPrefix("DEBUG:", str);
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {});
 "
 `;
 
@@ -43,7 +41,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "default", {
   enumerable: true,
-  get: () => _default
+  get: function() {
+    return _default;
+  }
 });
 const _utils = require("./utils");
 const _default = (str) => (0, _utils.addPrefix)("DEBUG:", str);
@@ -57,7 +57,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 Object.defineProperty(exports, "addPrefix", {
   enumerable: true,
-  get: () => addPrefix
+  get: function() {
+    return addPrefix;
+  }
 });
 const addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
 "
@@ -185,7 +187,9 @@ exports[`format is umd buildType is bundle 1`] = `
     });
     Object.defineProperty(exports, "default", {
         enumerable: true,
-        get: ()=>_default
+        get: function() {
+            return _default;
+        }
     });
     var __getOwnPropNames = Object.getOwnPropertyNames;
     var __commonJS = (cb, mod)=>function __require() {

@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { fs, getRouteId } from '@modern-js/utils';
+import { fs, normalizeToPosixPath } from '@modern-js/utils';
 import type { NestedRoute } from '@modern-js/types';
 import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
 import { replaceWithAlias } from './utils';
@@ -10,11 +10,37 @@ const replaceDynamicPath = (routePath: string) => {
   return routePath.replace(/\[(.*?)\]/g, ':$1');
 };
 
+const getPathWithoutExt = (filename: string) => {
+  const extname = path.extname(filename);
+  return filename.slice(0, -extname.length);
+};
+
+export const getRouteId = (
+  componentPath: string,
+  routesDir: string,
+  entryName: string,
+  isMainEntry: boolean,
+) => {
+  const relativePath = normalizeToPosixPath(
+    path.relative(routesDir, componentPath),
+  );
+  const pathWithoutExt = getPathWithoutExt(relativePath);
+  let id = ``;
+  if (isMainEntry) {
+    id = pathWithoutExt;
+  } else {
+    id = `${entryName}_${pathWithoutExt}`;
+  }
+
+  return id.replace(/\[(.*?)\]/g, '($1)');
+};
+
 const createIndexRoute = (
   routeInfo: Omit<NestedRoute, 'type'>,
   rootDir: string,
   filename: string,
   entryName: string,
+  isMainEntry: boolean,
 ): NestedRoute => {
   return createRoute(
     {
@@ -25,6 +51,7 @@ const createIndexRoute = (
     rootDir,
     filename,
     entryName,
+    isMainEntry,
   );
 };
 
@@ -33,8 +60,9 @@ const createRoute = (
   rootDir: string,
   filename: string,
   entryName: string,
+  isMainEntry: boolean,
 ): NestedRoute => {
-  const id = getRouteId(filename, rootDir, entryName);
+  const id = getRouteId(filename, rootDir, entryName, isMainEntry);
   return {
     ...routeInfo,
     id,
@@ -51,6 +79,7 @@ export const walk = async (
     basename: string;
   },
   entryName: string,
+  isMainEntry: boolean,
 ): Promise<NestedRoute | null> => {
   if (!(await fs.pathExists(dirname))) {
     return null;
@@ -94,7 +123,13 @@ export const walk = async (
     const isDirectory = (await fs.stat(itemPath)).isDirectory();
 
     if (isDirectory) {
-      const childRoute = await walk(itemPath, rootDir, alias, entryName);
+      const childRoute = await walk(
+        itemPath,
+        rootDir,
+        alias,
+        entryName,
+        isMainEntry,
+      );
       if (childRoute) {
         route.children?.push(childRoute);
       }
@@ -140,6 +175,7 @@ export const walk = async (
         rootDir,
         itemPath,
         entryName,
+        isMainEntry,
       );
 
       if (pageLoaderFile) {
@@ -164,6 +200,7 @@ export const walk = async (
         rootDir,
         itemPath,
         entryName,
+        isMainEntry,
       );
 
       if (splatLoaderFile) {
@@ -186,6 +223,7 @@ export const walk = async (
     rootDir,
     path.join(dirname, `${NESTED_ROUTE.LAYOUT_FILE}.ts`),
     entryName,
+    isMainEntry,
   );
 
   /**

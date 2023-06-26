@@ -1,18 +1,14 @@
 import { join } from 'path';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';
-import { RuntimeModuleID } from '.';
-import { UserConfig } from '@/shared/types';
+import { FactoryContext, RuntimeModuleID } from '.';
 
-export function globalStylesVMPlugin(
-  _scanDir: string,
-  config: UserConfig,
-  _isSSR: boolean,
-  runtimeTempDir: string,
-) {
+export async function globalStylesVMPlugin(context: FactoryContext) {
+  const { runtimeTempDir, config, pluginDriver } = context;
   const modulePath = join(runtimeTempDir, `${RuntimeModuleID.GlobalStyles}.js`);
+  const globalStylesByPlugins = pluginDriver.globalStyles();
   const moduleContent = [
     config.doc?.globalStyles || '',
-    ...(config.doc?.plugins || []).map(plugin => plugin.globalStyles || ''),
+    ...globalStylesByPlugins,
   ]
     .filter(source => source.length > 0)
     .map(source => `import '${source}';`)

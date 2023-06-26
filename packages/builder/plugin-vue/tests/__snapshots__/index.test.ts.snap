@@ -1,0 +1,556 @@
+// Vitest Snapshot v1
+
+exports[`plugins/vue > should add vue-loader and VueLoaderPlugin correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.vue\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/vue-loader/dist/index.js",
+            "options": {
+              "compilerOptions": {
+                "preserveWhitespace": false,
+              },
+              "experimentalInlineMatchResource": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    Plugin {},
+  ],
+  "resolve": {
+    "extensions": [
+      ".vue",
+    ],
+  },
+}
+`;
+
+exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.vue\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/vue-loader/dist/index.js",
+            "options": {
+              "compilerOptions": {
+                "preserveWhitespace": false,
+              },
+              "experimentalInlineMatchResource": false,
+            },
+          },
+        ],
+      },
+      {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": false,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.21.5",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@vue/babel-plugin-jsx/dist/index.js",
+                  {
+                    "transformOn": false,
+                  },
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": false,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.30",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": false,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.21.5",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@vue/babel-plugin-jsx/dist/index.js",
+                  {
+                    "transformOn": false,
+                  },
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": false,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.30",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    Plugin {},
+  ],
+  "resolve": {
+    "extensions": [
+      ".vue",
+    ],
+  },
+}
+`;
+
+exports[`plugins/vue > should allow to configure vueLoader options 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.vue\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/vue-loader/dist/index.js",
+            "options": {
+              "compilerOptions": {
+                "preserveWhitespace": false,
+              },
+              "experimentalInlineMatchResource": false,
+              "hotReload": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    Plugin {},
+  ],
+  "resolve": {
+    "extensions": [
+      ".vue",
+    ],
+  },
+}
+`;
+
+exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.vue\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/vue-loader/dist/index.js",
+            "options": {
+              "compilerOptions": {
+                "preserveWhitespace": false,
+              },
+              "experimentalInlineMatchResource": false,
+            },
+          },
+        ],
+      },
+      {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /node_modules/,
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": false,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.21.5",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@vue/babel-plugin-jsx/dist/index.js",
+                  {},
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": false,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.30",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
+            "options": {
+              "babelrc": false,
+              "compact": false,
+              "configFile": false,
+              "plugins": [
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
+                  {},
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  {
+                    "legacy": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "helpers": false,
+                    "regenerator": true,
+                    "useESModules": true,
+                    "version": "7.21.5",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                ],
+                [
+                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  {
+                    "displayName": true,
+                    "pure": false,
+                    "ssr": false,
+                    "transpileTemplateLiterals": true,
+                  },
+                  "styled-components",
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@vue/babel-plugin-jsx/dist/index.js",
+                  {},
+                ],
+              ],
+              "presets": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
+                  {
+                    "bugfixes": false,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.30",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": false,
+                    "shippedProposals": false,
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
+                    "useBuiltIns": "entry",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    Plugin {},
+  ],
+  "resolve": {
+    "extensions": [
+      ".vue",
+    ],
+  },
+}
+`;

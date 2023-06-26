@@ -1,5 +1,4 @@
 import {
-  debug,
   onExitProcess,
   createPublicContext,
   getHTMLPathByEntry,
@@ -69,26 +68,4 @@ export function getPluginAPI({
     onAfterStartDevServer: hooks.onAfterStartDevServerHook.tap,
     onBeforeStartDevServer: hooks.onBeforeStartDevServerHook.tap,
   };
-}
-
-export async function initPlugins({
-  context,
-  pluginStore,
-}: {
-  context: Context;
-  pluginStore: PluginStore;
-}) {
-  debug('init plugins');
-
-  const { pluginDagSort } = await import(
-    '@modern-js/utils/universal/pluginDagSort'
-  );
-
-  const plugins = pluginDagSort(pluginStore.plugins);
-
-  for (const plugin of plugins) {
-    await plugin.setup(context.pluginAPI);
-  }
-
-  debug('init plugins done');
 }

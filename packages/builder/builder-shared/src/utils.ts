@@ -1,19 +1,9 @@
-import {
-  CSS_MODULES_REGEX,
-  GLOBAL_CSS_REGEX,
-  NODE_MODULES_REGEX,
-} from './constants';
 import type {
   SharedNormalizedConfig,
   BuilderTarget,
   SharedCompiledPkgNames,
 } from './types';
 import { join } from 'path';
-
-export const extendsType =
-  <T>() =>
-  <P extends T>(source: P): P =>
-    source;
 
 export const createVirtualModule = (content: string) =>
   `data:text/javascript,${content}`;
@@ -22,14 +12,6 @@ export const removeLeadingSlash = (s: string): string => s.replace(/^\/+/, '');
 
 export const addTrailingSlash = (s: string): string =>
   s.endsWith('/') ? s : `${s}/`;
-
-/** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
-export const isLooseCssModules = (path: string) => {
-  if (NODE_MODULES_REGEX.test(path)) {
-    return CSS_MODULES_REGEX.test(path);
-  }
-  return !GLOBAL_CSS_REGEX.test(path);
-};
 
 export interface AwaitableGetter<T> extends PromiseLike<T[]> {
   promises: Promise<T>[];
@@ -84,8 +66,15 @@ export const isURL = (str: string) =>
 
 export * as z from './zod';
 
-export function isWebTarget(target: BuilderTarget | BuilderTarget[]): boolean {
-  return ['modern-web', 'web'].some(t =>
+export function isWebTarget(target: BuilderTarget | BuilderTarget[]) {
+  return ['modern-web', 'web', 'web-worker'].some(t =>
     (Array.isArray(target) ? target : [target]).includes(t as BuilderTarget),
   );
+}
+
+export function resolvePackage(loader: string, dirname: string) {
+  // Vitest do not support require.resolve to source file
+  return process.env.VITEST
+    ? loader
+    : require.resolve(loader, { paths: [dirname] });
 }

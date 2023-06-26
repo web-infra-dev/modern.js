@@ -1,20 +1,22 @@
-- **类型**
+- **类型：**
 
 ```ts
 type DistPathConfig = {
   root?: string;
+  html?: string;
   js?: string;
   css?: string;
   svg?: string;
   font?: string;
-  html?: string;
+  wasm?: string;
   image?: string;
   media?: string;
   server?: string;
+  worker?: string;
 };
 ```
 
-- **默认值**
+- **默认值：**
 
 ```js
 const defaultDistPath = {
@@ -24,9 +26,11 @@ const defaultDistPath = {
   css: 'static/css',
   svg: 'static/svg',
   font: 'static/font',
+  wasm: 'static/wasm',
   image: 'static/image',
   media: 'static/media',
   server: 'bundles',
+  worker: 'worker',
 };
 ```
 
@@ -40,9 +44,11 @@ const defaultDistPath = {
 - `css`：表示 CSS 样式文件的输出目录。
 - `svg`：表示 SVG 图片的输出目录。
 - `font`：表示字体文件的输出目录。
+- `wasm`：表示 WebAssembly 文件的输出目录。
 - `image`：表示非 SVG 图片的输出目录。
 - `media`：表示视频等媒体资源的输出目录。
 - `server`: 表示服务端产物的输出目录，仅在 target 为 `node` 时有效。
+- `worker`: 表示 worker 产物的输出目录，仅在 target 为 `service-worker` 时有效。
 
 ### 示例
 

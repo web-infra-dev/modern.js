@@ -1,0 +1,20 @@
+// Vitest Snapshot v1
+
+exports[`plugins/check-syntax > should add check-syntax plugin properly 1`] = `
+{
+  "plugins": [
+    CheckSyntaxPlugin {
+      "ecmaVersion": 5,
+      "errors": [],
+      "exclude": undefined,
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+  ],
+}
+`;
+
+exports[`plugins/check-syntax > should not add check-syntax plugin when target node 1`] = `{}`;

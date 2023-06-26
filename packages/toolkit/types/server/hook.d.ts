@@ -1,4 +1,4 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
 
 export type CookieAPI = {
   /**
@@ -60,10 +60,11 @@ export type AfterRenderContext = HookContext & {
   };
 };
 
-export type MiddlewareContext = HookContext & {
-  response: ModernResponse & { locals: Record<string, any> };
-  source: {
-    req: IncomingMessage;
-    res: ServerResponse;
+export type MiddlewareContext<T extends 'worker' | 'node' = 'node'> =
+  HookContext & {
+    response: ModernResponse & { locals: Record<string, any> };
+    source: {
+      req: T extends 'worker' ? Request : IncomingMessage;
+      res: T extends 'worker' ? ModernResponse : ServerResponse;
+    };
   };
-};

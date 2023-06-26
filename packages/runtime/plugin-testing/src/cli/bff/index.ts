@@ -30,6 +30,7 @@ export const setJestConfigForBFF = async ({
     setupFilesAfterEnv: [require.resolve('./setup')],
     testEnvironment: 'node',
     testMatch: [`**/api/**/*.test.[jt]s`],
+    modulePathIgnorePatterns: ['config.test.ts'],
     globals: {
       [bff_info_key]: {
         appDir: pwd,
@@ -117,7 +118,7 @@ export const setJestConfigForBFF = async ({
   utils.setJestConfig(commonConfig);
 };
 
-export default (): CliPlugin<{
+export const testingBffPlugin = (): CliPlugin<{
   hooks: Hooks;
   userConfig: UserConfig;
   normalizedConfig: Required<UserConfig>;

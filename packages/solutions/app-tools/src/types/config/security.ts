@@ -1,8 +1,16 @@
-import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
+import type {
+  WebpackBuilderConfig,
+  RspackBuilderConfig,
+} from '../../builder/shared';
 import { UnwrapBuilderConfig } from '../utils';
 
 export type BuilderSecurityConfig = UnwrapBuilderConfig<
-  BuilderConfig,
+  WebpackBuilderConfig,
+  'security'
+>;
+
+export type RsSecurityConfig = UnwrapBuilderConfig<
+  RspackBuilderConfig,
   'security'
 >;
 

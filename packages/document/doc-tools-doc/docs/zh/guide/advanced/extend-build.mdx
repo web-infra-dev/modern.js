@@ -1,0 +1,62 @@
+# 构建能力扩展
+
+## Modern.js Builder
+
+Modern.js Doc 底层基于 [Modern.js Builder](https://modernjs.dev/builder/) 的 Rspack 模式来进行文档构建。
+
+Modern.js Builder 提供了丰富的构建配置，你可以使用 [doc.builderConfig](/api/config/config-build.html#builderconfig) 来自定义这些配置项。比如，将产物目录修改为 `doc_dist`：
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    builderConfig: {
+      output: {
+        distPath: {
+          root: 'doc_dist',
+        },
+      },
+      tools: {
+        rspack(options) {
+          // 修改 rspack 的配置
+        },
+      },
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+:::tip
+
+你可以通过 [Modern.js Builder - API](https://modernjs.dev/builder/api/index.html) 的文档来了解更多的配置项。
+
+注意，Modern.js Doc 仅支持 Rspack 打包工具，因此一些与 webpack 相关的配置项将无法生效，比如 `tools.webpack`。当然，你可以通过 `tools.rspack` 来修改 Rspack 的配置。
+
+:::
+
+## MDX 编译插件
+
+在框架中 MDX 的编译基于 [unified](https://github.com/unifiedjs/unified) 完成，你可以通过 `markdown` 配置来添加相关的编译插件。比如
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      remarkPlugins: [
+        [
+          require('remark-autolink-headings'),
+          {
+            behavior: 'wrap',
+          },
+        ],
+      ],
+      rehypePlugins: [require('rehype-slug')],
+    },
+  },
+  plugins: [docTools()],
+});
+```

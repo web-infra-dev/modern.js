@@ -1,5 +1,8 @@
-// TODO
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SecurityConfig {}
+import type {
+  SharedSecurityConfig,
+  NormalizedSharedSecurityConfig,
+} from '@modern-js/builder-shared';
 
-export type NormalizedSecurityConfig = Required<SecurityConfig>;
+export type SecurityConfig = SharedSecurityConfig;
+
+export type NormalizedSecurityConfig = NormalizedSharedSecurityConfig;

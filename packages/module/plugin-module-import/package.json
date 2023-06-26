@@ -3,7 +3,11 @@
   "description": "The import plugin of Modern.js Module Tools.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
-  "repository": "modern-js-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/module/plugin-module-import"
+  },
   "license": "MIT",
   "keywords": [
     "react",
@@ -11,17 +15,15 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.15.0",
+  "version": "2.24.0",
   "types": "./src/index.ts",
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "import": "./dist/esm/index.js",
-        "require": "./dist/cjs/index.js"
-      },
-      "default": "./dist/esm/index.js"
+        "require": "./dist/index.js"
+      }
     }
   },
   "scripts": {
@@ -31,20 +33,21 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-swc": "~0.12.0"
+    "@modern-js/libuild-plugin-swc": "0.13.1",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@types/jest": "^29",
     "@types/node": "^14",
-    "typescript": "^4",
+    "typescript": "^5",
     "@scripts/build": "workspace:*",
     "jest": "^29",
     "@scripts/jest-config": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
-    "@modern-js/libuild": "~0.12.0"
+    "@modern-js/libuild": "0.13.1"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.15.0"
+    "@modern-js/module-tools": "workspace:^2.24.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {
@@ -54,6 +57,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
-    "types": "./dist/types/index.d.ts"
+    "provenance": true,
+    "types": "./dist/index.d.ts"
   }
 }

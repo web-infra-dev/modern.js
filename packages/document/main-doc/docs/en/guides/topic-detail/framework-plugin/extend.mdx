@@ -2,6 +2,7 @@
 title: Extending
 sidebar_position: 5
 ---
+
 # Extending Plugin Hooks
 
 This section describes how to extend plugin Hooks by dynamically registering [Hook models](/guides/topic-detail/framework-plugin/hook).
@@ -13,7 +14,7 @@ Here is a simple example to demonstrate how to extend plugin Hooks by adding Hoo
 First, we initialize an empty project file and add basic dependencies:
 
 ```bash
-$ npx @modern-js/create modern-js-demo
+$ npx @modern-js/create@latest modern-js-demo
 ```
 
 ### Creating Hooks
@@ -31,7 +32,7 @@ then register:
 ```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   registerHook: {
@@ -57,7 +58,7 @@ Create a plugin and add command handling logic through the `commands` Hook funct
 ```ts title=config/plugin/myPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   setup(api) {
@@ -82,7 +83,7 @@ import type { CliPlugin } from '@modern-js/core';
 
 const message = createWaterfall<string[]>();
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   name: 'my-plugin',
 
   registerHook: {
@@ -113,7 +114,7 @@ Then add this plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import myPlugin from './config/plugin/myPlugin';
+import { myPlugin } from './config/plugin/myPlugin';
 
 export default defineConfig({
   plugins: [myPlugin()],
@@ -127,7 +128,7 @@ add:
 ```ts title=config/plugin/otherPlugin.ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const otherPlugin = (): CliPlugin => ({
   name: 'other-plugin',
 
   setup(api) {
@@ -144,8 +145,8 @@ add to config:
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/app-tools';
-import myPlugin from './config/plugin/myPlugin';
-import otherPlugin from './config/plugin/otherPlugin';
+import { myPlugin } from './config/plugin/myPlugin';
+import { otherPlugin } from './config/plugin/otherPlugin';
 
 export default defineConfig({
   plugins: [myPlugin(), otherPlugin()],
@@ -161,4 +162,3 @@ $ modern message
 ```
 
 By using the above approach, you can extend plugin Hooks with various capabilities.
-

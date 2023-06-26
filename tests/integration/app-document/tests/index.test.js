@@ -1,13 +1,13 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-undef */
 const fs = require('fs');
 const path = require('path');
+const puppeteer = require('puppeteer');
 const {
   launchApp,
   killApp,
   getPort,
   modernBuild,
   modernServe,
+  launchOptions,
 } = require('../../../utils/modernTestUtils');
 
 const appDir = path.resolve(__dirname, '../');
@@ -17,18 +17,21 @@ function existsSync(filePath) {
 }
 
 describe('test dev', () => {
-  let app, appPort, errors;
+  let app, appPort, errors, browser, page;
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
     errors = [];
-
+    browser = await puppeteer.launch(launchOptions);
+    page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
     });
   });
   afterAll(async () => {
     await killApp(app);
+    await page.close();
+    await browser.close();
   });
 
   it(`should render page test correctly`, async () => {
@@ -114,5 +117,23 @@ describe('test build', () => {
     expect(htmlWithDoc.includes('<!-- COMMENT BY APP -->')).toBe(true);
     expect(htmlWithDoc.includes('== COMMENT BY APP in inline ==')).toBe(true);
     expect(htmlWithDoc.includes('== COMMENT BY APP but inline ==')).toBe(false);
+  });
+
+  it('should has style in Head', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes('.logo-spin > div:last-child')).toBe(true);
+  });
+
+  it('should has lang property in html', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes(`html lang="cn"`)).toBe(true);
   });
 });

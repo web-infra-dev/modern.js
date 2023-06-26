@@ -1,5 +1,9 @@
 import type { BuilderTarget } from './types';
 
+// PACKAGES
+export const RSPACK_PROVIDER = '@modern-js/builder-rspack-provider';
+export const WEBPACK_PROVIDER = '@modern-js/builder-webpack-provider';
+
 // Defaults
 export const DEFAULT_PORT = 8080;
 export const DEFAULT_DATA_URL_SIZE = 10000;
@@ -67,7 +71,7 @@ export const SASS_REGEX = /\.s(a|c)ss$/;
 export const STYLUS_REGEX = /\.styl$/;
 export const CSS_MODULES_REGEX = /\.module\.\w+$/i;
 export const GLOBAL_CSS_REGEX = /\.global\.\w+$/;
-export const NODE_MODULES_REGEX = /node_modules/;
+export const NODE_MODULES_REGEX = /[\\/]node_modules[\\/]/;
 export const MODULE_PATH_REGEX =
   /[\\/]node_modules[\\/](\.pnpm[\\/])?(?:(@[^[\\/]+)(?:[\\/]))?([^\\/]+)/;
 
