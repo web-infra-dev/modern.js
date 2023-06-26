@@ -186,7 +186,7 @@ When the `beforeBuild` hook is executed, the `config` plugins of all plugins hav
 
 - **Type**：`{ remarkPlugins?: Plugin[]; rehypePlugins?: Plugin[] }`
 
-It is used to extend the compilation ability of Markdown/MDX. If you want to add custom remark/rehype plug-ins, you can use `markdown.remarkPlugins/markdown.rehypePlugins` to achieve:
+It is used to extend the compilation ability of Markdown/MDX. If you want to add custom remark/rehype plugins or MDX globalComponents, you can use `markdown` options to achieve:
 
 ```tsx title="plugin.ts"
 import { DocPlugin } from '@modern-js/doc-tools';
@@ -200,6 +200,9 @@ export function pluginForDoc(): DocPlugin {
       ],
       rehypePlugins: [
         // Add custom rehype plugin
+      ],
+      globalComponents: [
+        // Register global components for MDX
       ],
     },
   };

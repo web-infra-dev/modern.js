@@ -189,9 +189,9 @@ export function pluginForDoc(): DocPlugin {
 
 ### markdown
 
-- **类型**：`{ remarkPlugins?: Plugin[]; rehypePlugins?: Plugin[] }`
+- **类型**：`{ remarkPlugins?: Plugin[]; rehypePlugins?: Plugin[]; globalComponents?: string[] }`
 
-用于扩展 Markdown/MDX 的编译能力，如果你想要添加自定义的 remark/rehype 插件，可以通过 `markdown.remarkPlugins/markdown.rehypePlugins` 来实现：
+用于扩展 Markdown/MDX 的编译能力，如果你想要添加自定义的 remark/rehype 插件以及 MDX 里的全局组件，可以通过 `markdown` 配置来实现：
 
 ```tsx title="plugin.ts"
 import { DocPlugin } from '@modern-js/doc-tools';
@@ -207,6 +207,9 @@ export function pluginForDoc(): DocPlugin {
       ],
       rehypePlugins: [
         // 添加自定义的 rehype 插件
+      ],
+      globalComponents: [
+        // 为 MDX 注册全局组件
       ],
     },
   };
