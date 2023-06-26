@@ -21,7 +21,7 @@ sidebar_position: 4
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 ``` ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools,{ defineConfig } from '@modern-js/module-tools';
 import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
@@ -40,7 +40,7 @@ export default defineConfig({
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 ``` ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 import { storybookPlugin } from '@modern-js/plugin-storybook';
 
 export default defineConfig({
@@ -68,7 +68,7 @@ export default defineConfig({
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 ``` ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
@@ -89,7 +89,7 @@ export default defineConfig({
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
 ``` ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 import runtime from '@modern-js/runtime/cli';
 
 export default defineConfig({

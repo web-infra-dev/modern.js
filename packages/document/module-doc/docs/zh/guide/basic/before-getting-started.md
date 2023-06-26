@@ -167,7 +167,7 @@ npm install -g pnpm
 默认情况下，生成的配置文件的内容如下：
 
 ```ts title="modern.config.ts"
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],

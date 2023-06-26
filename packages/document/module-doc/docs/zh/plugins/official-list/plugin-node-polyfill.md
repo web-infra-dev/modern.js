@@ -26,7 +26,7 @@ pnpm add @modern-js/plugin-module-node-polyfill -D
 在 Module Tools 中，你可以按照如下方式注册插件：
 
 ```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({
@@ -53,7 +53,7 @@ type NodePolyfillOptions = {
 排除要注入的 Node Polyfill。
 
 ``` ts focus=7:9
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({
@@ -71,7 +71,7 @@ export default defineConfig({
 覆盖内置的 Node Polyfill。
 
 ``` ts focus=7:9
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({

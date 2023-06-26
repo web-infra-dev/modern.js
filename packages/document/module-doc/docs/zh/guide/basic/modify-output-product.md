@@ -9,7 +9,7 @@ sidebar_position: 3
 当在初始化的项目里使用 `modern build` 命令的时候，会根据 Module Tools 默认支持的配置生成相应的产物。默认支持的配置具体如下：
 
 ```ts title="modern.config.ts"
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],
@@ -58,7 +58,7 @@ export default defineConfig({
 例如，如果使用预设函数的形式达到预设字符串 `"npm-library-es5"` 同样的效果，可以按照如下的方式：
 
 ```ts title="modern.config.ts"
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import moduleTools, {  defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [moduleTools()],
