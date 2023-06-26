@@ -112,6 +112,7 @@ File sizes after production build:
 Usage: modern new [options]
 
 Options:
+  --config-file <configFile>  指定配置文件路径，可以为相对路径或绝对路径
   --lang <lang>          设置 new 命令执行语言(zh 或者 en)
   -d, --debug            开启 Debug 模式，打印调试日志信息 (default: false)
   -c, --config <config>  生成器运行默认配置(JSON 字符串)
@@ -184,6 +185,7 @@ export default defineConfig({
 Usage: modern upgrade [options]
 
 Options:
+  -c --config <config>  指定配置文件路径，可以为相对路径或绝对路径
   --registry <registry>  定制 npm registry (default: "")
   -d,--debug             开启 Debug 模式，打印调试日志信息 (default: false)
   --cwd <cwd>            项目路径 (default: "")

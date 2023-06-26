@@ -220,6 +220,10 @@ export const appTools = (
           .command('new')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.new.describe))
+          .option(
+            '--config-file <configFile>',
+            i18n.t(localeKeys.command.shared.config),
+          )
           .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
           .option(
             '-c, --config <config>',
@@ -256,7 +260,14 @@ export const appTools = (
             inspect(api, options);
           });
 
-        upgradeModel.defineCommand(program.command('upgrade'));
+        upgradeModel.defineCommand(
+          program
+            .command('upgrade')
+            .option(
+              '-c --config <config>',
+              i18n.t(localeKeys.command.shared.config),
+            ),
+        );
       },
 
       async prepare() {
