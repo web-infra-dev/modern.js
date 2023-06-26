@@ -38,6 +38,7 @@
 .preview-device {
   position: relative;
   flex: 0 0;
+  border-left: 1px solid #e6e6e6;
   &-iframe {
     width: 360px;
     height: 100%;
