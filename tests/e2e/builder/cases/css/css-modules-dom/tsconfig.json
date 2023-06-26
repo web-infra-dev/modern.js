@@ -9,5 +9,5 @@
       "@scripts/*": ["../../../scripts/*"]
     }
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "index.test.ts"]
 }

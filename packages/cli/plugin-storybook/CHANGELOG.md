@@ -1,5 +1,76 @@
 # @modern-js/plugin-storybook
 
+## 2.24.0
+
+### Patch Changes
+
+- 580fcf7: fix(storybook): fix typescript v5 capability issue
+
+  fix(storybook): 修复与 typescript v5 的兼容问题
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [ef041c0]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [56693a3]
+- Updated dependencies [4a82c3b]
+  - @modern-js/plugin-router-v5@2.24.0
+  - @modern-js/runtime@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+  - @modern-js/builder@2.24.0
+  - @modern-js/builder-plugin-node-polyfill@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [20c85bb]
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4af25d9]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/builder-webpack-provider@2.23.1
+  - @modern-js/builder@2.23.1
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+  - @modern-js/builder-plugin-node-polyfill@2.23.1
+  - @modern-js/plugin-router-v5@2.23.1
+  - @modern-js/runtime@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [15eac36]
+- Updated dependencies [9b270b6]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [5684381]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-webpack-provider@2.23.0
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/builder@2.23.0
+  - @modern-js/builder-plugin-node-polyfill@2.23.0
+  - @modern-js/plugin-router-v5@2.23.0
+  - @modern-js/runtime@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

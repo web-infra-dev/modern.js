@@ -24,7 +24,7 @@ pnpm add @modern-js/plugin-module-babel -D
 You can install the plugin with the following command:
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 
 export default defineConfig({
@@ -42,7 +42,7 @@ See [babel options](https://babeljs.io/docs/options).
 Here is an example with `@babel/preset-env` configured
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 
 export default defineConfig({

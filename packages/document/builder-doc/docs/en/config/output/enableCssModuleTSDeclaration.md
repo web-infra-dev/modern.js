@@ -1,8 +1,11 @@
 - **Type:** `boolean`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
 Whether to generate a TypeScript declaration file for CSS modules.
+
+:::tip
+When using Rspack as the bundler, this configuration is only supported when set [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) is true.
+:::
 
 ### Example
 

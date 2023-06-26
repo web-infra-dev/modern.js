@@ -1,5 +1,50 @@
 # @modern-js/utils
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 4a82c3b: fix: export `@remix-run/router` cjs instead of `react-router-dom`
+  fix: 暴露 `@remix-run/router` 的 cjs 导出代替 `react-router-dom`
+
+## 2.23.1
+
+### Patch Changes
+
+- f08bbfc: feat(builder): add basic Vue 3 plugin
+
+  feat(builder): 增加基础的 Vue 3 插件
+
+- a6b313a: fix(builder): can't use new React JSX with parent's package.json
+
+  fix(builder): 修复 package.json 在父级目录时无法使用新版 react jsx 的问题
+
+- 8f2cab0: feat(builder): support using new URL to handle wasm assets
+
+  feat(builder): 支持通过 new URL 来处理 wasm 资源
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- a7a7ad7: chore: move some public code to the utils package
+  chore: 移动一些公共的代码到 utils 包
+- 6dec7c2: test(utils): reuse the snapshot serializer of vitest config
+
+  test(utils): 复用 vitest 的 snapshot serializer
+
+- c3216b5: chore: split the scheme into the plugin
+
+  chore: 拆分 scheme 到插件内部
+
 ## 2.22.1
 
 ### Patch Changes

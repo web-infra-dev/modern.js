@@ -43,7 +43,7 @@ $ pnpm run new
 After executing the command, enable the Rspack build in `modern.config.ts`:
 
 ```diff title=modern.config.ts
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 + export default defineConfig<'rspack'>({
   plugins: [
@@ -80,7 +80,6 @@ For example, if you are using pnpm, you can update the Rspack version with `over
     "overrides": {
       "@rspack/core": "nightly",
       "@rspack/dev-client": "nightly",
-      "@rspack/dev-middleware": "nightly",
       "@rspack/plugin-html": "nightly"
     }
   }

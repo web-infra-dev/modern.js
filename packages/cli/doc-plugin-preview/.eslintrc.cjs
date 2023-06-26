@@ -5,4 +5,8 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-non-null-assertion': 'off',
   },
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ['tsconfig.json'],
+  },
 };

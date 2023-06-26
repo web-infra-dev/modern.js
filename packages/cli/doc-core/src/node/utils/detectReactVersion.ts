@@ -39,7 +39,6 @@ export async function resolveReactAlias(reactVersion: number) {
       try {
         alias[lib] = await resolveDepPath(lib, basedir, {});
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.log(`warning: ${lib} not found`);
       }
     }),

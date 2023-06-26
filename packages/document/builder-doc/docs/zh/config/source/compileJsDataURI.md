@@ -1,9 +1,9 @@
 - **类型：** `boolean`
 - **默认值：** `true`
 
-对于使用 Data URI 引入的 JavaScript 代码，是否采用 babel 进行编译。
+该选项用于控制是否编译 data URI 中的 JavaScript 代码。
 
-比如以下代码：
+默认情况下，Builder 会使用 Babel 或 SWC 对 data URI 中的代码进行编译。比如以下代码：
 
 ```js
 import x from 'data:text/javascript,export default 1;';

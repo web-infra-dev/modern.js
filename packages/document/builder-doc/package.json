@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-doc",
-  "version": "2.22.1",
+  "version": "2.24.0",
   "description": "Shared documentation of modern.js builder",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",

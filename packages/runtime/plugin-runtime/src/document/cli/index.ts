@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable @typescript-eslint/no-require-imports */
 import path from 'path';
 import React from 'react';
@@ -55,8 +54,9 @@ export const getDocumenByEntryName = function (
   return docFile || undefined;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export const documentPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-document',
+
   pre: ['@modern-js/plugin-analyze'],
   setup: async api => {
     // get params for document.tsx
@@ -303,3 +303,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default documentPlugin;

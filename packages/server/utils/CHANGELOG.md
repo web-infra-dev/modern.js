@@ -1,5 +1,55 @@
 # @modern-js/server-utils
 
+## 2.24.0
+
+### Patch Changes
+
+- c882fbd: feat: support config main entry name
+
+  feat: 支持配置主入口名称
+
+- 36f5bdf: fix(plugin-vue): remove react-related babel plugins
+
+  fix(plugin-vue): 移除 react 相关的 babel 插件
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/babel-preset-base@2.24.0
+  - @modern-js/babel-compiler@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/babel-preset-base@2.23.1
+  - @modern-js/babel-compiler@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 6dec7c2: test(utils): reuse the snapshot serializer of vitest config
+
+  test(utils): 复用 vitest 的 snapshot serializer
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/babel-compiler@2.23.0
+  - @modern-js/babel-preset-base@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

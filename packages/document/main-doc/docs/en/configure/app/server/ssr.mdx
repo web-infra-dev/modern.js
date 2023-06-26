@@ -11,7 +11,7 @@ Enalbe SSR configuration.
 
 ### Boolean Type
 
-When the value type is `boolean`, it indicates whether to enable SSR deployment mode, and `false` is not enabled by default.
+When the value type is `boolean`, it indicates whether to enable SSR deployment mode. The default is `false` to disable it.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -23,11 +23,11 @@ export default defineConfig({
 
 ### Object Type
 
-When the value type is `Object`, The following properties can be configured:
+When the value type is `Object`, the following properties can be configured:
 
-- `mode`: `string = 'string'`, use `renderToString` rendering default. onfigure 'stream' to enable streaming rendering.
-- `forceCSR`: `boolean = false`, forced CSR rendering is disable by default. When configured as `true`, add `?csr=true` in URL to force CSR.
-- `inlineScript`：`boolean = true`, by default SSR data will be injected into HTML as inline scripts and directly assigned to global variables. Configure as `false` to inject JSON instead of directly assigning.
+- `mode`: `string = 'string'`, which defaults to using `renderToString` for rendering. Configure `stream` to enable streaming rendering.
+- `forceCSR`: `boolean = false`, which is off by default for forcing CSR rendering. Configure `true` to force CSR by adding `?csr=true` or adding `x-modern-ssr-fallback` header when accessing the page.
+- `inlineScript`: `boolean = true`, by default, SSR data is injected into HTML as inline scripts and assigned directly to global variables. Configure `false` to distribute JSON instead of assigning to global variables.
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -37,4 +37,30 @@ export default defineConfig({
     inlineScript: false,
   },
 });
+```
+
+
+### Active Fallback
+
+In a production environment, there are scenarios where it is necessary to actively fallback an SSR project to CSR. Examples include
+
+1. When the SSR fails, a fallback to the CSR is required to ensure product availability.
+
+2. When the SSR is working normally, but there are rendering failures during csr, debugging is required.
+
+3. When the SSR server is under heavy load, it may be necessary to fallback some traffic directly to the CSR to avoid service downtime.
+
+By configuring `ssr.forCSR` to `true` in the project, you can control this behavior through query strings or request headers.
+
+For example, in a custom Web Server middleware, you can actively fallback when traffic exceeds a certain threshold:
+
+```ts title="server/index.ts"
+export const middleware = (ctx, next) => {
+  const { req, res } = ctx;
+  if (condition) {
+    req.headers['x-modern-ssr-fallback'] = '1';
+  }
+
+  next();
+};
 ```

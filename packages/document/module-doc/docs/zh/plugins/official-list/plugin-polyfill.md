@@ -27,7 +27,7 @@ pnpm add @modern-js/plugin-module-polyfill -D
 在 Module Tools 中，你可以按照如下方式注册插件：
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginPolyfill } from '@modern-js/plugin-module-polyfill';
 
 export default defineConfig({
@@ -50,12 +50,12 @@ type options = {
 
 ### targets
 
-See [babel target](https://babeljs.io/docs/options#targets).
+参考 [Babel target](https://babeljs.io/docs/options#targets).
 
-This is a example.
+下面是一个例子：
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginPolyfill } from '@modern-js/plugin-module-polyfill';
 
 export default defineConfig({

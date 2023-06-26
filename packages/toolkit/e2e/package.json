@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@modern-js/e2e",
-  "version": "2.22.1",
+  "version": "2.24.0",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
@@ -36,9 +36,9 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@playwright/test": "^1.25.1",
+    "@playwright/test": "1.33.0",
     "connect": "^3.7.0",
-    "playwright": "^1.25.1",
+    "playwright": "1.33.0",
     "serve-static": "^1.14.1"
   },
   "devDependencies": {

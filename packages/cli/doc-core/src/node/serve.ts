@@ -11,13 +11,15 @@ export interface CLIServeOption {
   host?: string;
 }
 
+interface ServeOptions {
+  config: UserConfig;
+  port?: number;
+  host?: string;
+}
+
 // Serve ssg site in production
-export async function serve(
-  _rootDir: string,
-  config: UserConfig,
-  userPort?: number,
-  userHost?: string,
-) {
+export async function serve(options: ServeOptions) {
+  const { config, port: userPort, host: userHost } = options;
   const envPort = process.env.PORT;
   const envHost = process.env.HOST;
   const port = envPort || userPort || 4173;
@@ -38,7 +40,6 @@ export async function serve(
         if (err) {
           throw err;
         }
-        // eslint-disable-next-line no-console
         console.log(
           `Preview server running at http://${host}:${port}/${base}/\n`,
         );
@@ -50,7 +51,6 @@ export async function serve(
         if (err) {
           throw err;
         }
-        // eslint-disable-next-line no-console
         console.log(`Preview server running at http://${host}:${port}/\n`);
       });
   }

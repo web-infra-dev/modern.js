@@ -25,7 +25,7 @@ sidebar_position: 2
 一般来说，实现一个什么都不做的调试工具，其实现代码以及相关配置如下：
 
 ``` ts do-nothing.ts
-export default (): CliPlugin<ModuleTools> => ({
+export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'do-nothing',
   setup() {
     return {

@@ -3,7 +3,7 @@
 
 Configure the `<meta>` tag of the HTML.
 
-#### String Type
+### String Type
 
 When the `value` of a `meta` object is a string, the `key` of the object is automatically mapped to `name`, and the `value` is mapped to `content`.
 
@@ -25,7 +25,7 @@ The generated `meta` tag in HTML is:
 <meta name="description" content="a description of the page" />
 ```
 
-#### Object Type
+### Object Type
 
 When the `value` of a `meta` object is an object, the `key: value` of the object is mapped to the attribute of the `meta` tag.
 

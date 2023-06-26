@@ -29,10 +29,14 @@ export const CHAIN_ID = {
     SVG: 'svg',
     /** Rule for pug */
     PUG: 'pug',
+    /** Rule for Vue */
+    VUE: 'vue',
     /** Rule for toml */
     TOML: 'toml',
     /** Rule for yaml */
     YAML: 'yaml',
+    /** Rule for wasm */
+    WASM: 'wasm',
     /** Rule for bff */
     JS_BFF_API: 'js-bff-api',
   },
@@ -59,6 +63,8 @@ export const CHAIN_ID = {
     URL: 'url',
     /** pug-loader */
     PUG: 'pug',
+    /** vue-loader */
+    VUE: 'vue',
     /** file-loader */
     FILE: 'file',
     /** @svgr/webpack */
@@ -128,12 +134,16 @@ export const CHAIN_ID = {
     BUNDLE_ANALYZER: 'bundle-analyze',
     /** BottomTemplatePlugin */
     BOTTOM_TEMPLATE: 'bottom-template',
-    /** HtmlCrossOriginPlugin */
-    HTML_CROSS_ORIGIN: 'html-cross-origin',
+    /** HtmlTagsPlugin */
+    HTML_TAGS: 'html-tags',
     /** HtmlNoncePlugin */
     HTML_NONCE: 'html-nonce',
+    /** HtmlCrossOriginPlugin */
+    HTML_CROSS_ORIGIN: 'html-cross-origin',
     /** MiniCssExtractPlugin */
     MINI_CSS_EXTRACT: 'mini-css-extract',
+    /** VueLoaderPlugin */
+    VUE_LOADER_PLUGIN: 'vue-loader-plugin',
     /** ReactFastRefreshPlugin */
     REACT_FAST_REFRESH: 'react-fast-refresh',
     /** ProvidePlugin for node polyfill */
@@ -148,8 +158,6 @@ export const CHAIN_ID = {
     HTML_ASYNC_CHUNK: 'html-async-chunk',
     /** SWC_POLYFILL_CHECKER */
     SWC_POLYFILL_CHECKER: 'swc-polyfill-checker-plugin',
-    /** HtmlTagsPlugin */
-    HTML_TAGS: 'html-tags',
   },
   /** Predefined minimizers */
   MINIMIZER: {

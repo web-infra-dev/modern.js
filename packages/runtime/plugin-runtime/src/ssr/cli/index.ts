@@ -38,9 +38,11 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   return false;
 };
 
-export default (): CliPlugin<AppTools> => ({
+export const ssrPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
+
   required: ['@modern-js/runtime'],
+
   setup: api => {
     const ssrConfigMap = new Map<string, any>();
 
@@ -133,7 +135,7 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       modifyEntryImports({ entrypoint, imports }) {
-        const { entryName, fileSystemRoutes } = entrypoint;
+        const { entryName, isMainEntry, fileSystemRoutes } = entrypoint;
         const userConfig = api.useResolvedConfigContext();
         const { packageName, entrypoints } = api.useAppContext();
         pluginsExportsUtils.addExport(
@@ -143,6 +145,7 @@ export default (): CliPlugin<AppTools> => ({
         // if use ssg then set ssr config to true
         const ssrConfig = getEntryOptions(
           entryName,
+          isMainEntry,
           userConfig.server.ssr,
           userConfig.server.ssrByEntries,
           packageName,
@@ -151,6 +154,7 @@ export default (): CliPlugin<AppTools> => ({
         if (typeof ssrConfig === 'object' && ssrConfig.mode === 'stream') {
           const runtimeConfig = getEntryOptions(
             entryName,
+            isMainEntry,
             userConfig.runtime,
             userConfig.runtimeByEntries,
             packageName,
@@ -189,10 +193,15 @@ export default (): CliPlugin<AppTools> => ({
           const chunkLoadingGlobal = bundlerConfigs?.find(
             config => config.name === 'client',
           )?.output?.chunkLoadingGlobal;
+          const config = api.useResolvedConfigContext();
+          const { crossorigin, scriptLoading } = config.html;
+
           plugins.push({
             name: PLUGIN_IDENTIFIER,
             options: JSON.stringify({
               ...(ssrConfigMap.get(entrypoint.entryName) || {}),
+              crossorigin,
+              scriptLoading,
               chunkLoadingGlobal,
             }),
           });
@@ -219,3 +228,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default ssrPlugin;

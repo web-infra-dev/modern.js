@@ -33,4 +33,7 @@ export const mockBuilderPlugins: Plugins = {
   tsChecker: genMockPlugin('builder-plugin-ts-checker'),
   checkSyntax: genMockPlugin('builder-plugin-check-syntax'),
   rem: genMockPlugin('builder-plugin-rem'),
+  wasm: genMockPlugin('builder-plugin-wasm'),
+  moment: genMockPlugin('builder-plugin-moment'),
+  externals: genMockPlugin('builder-plugin-externals'),
 };

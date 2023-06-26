@@ -1,5 +1,5 @@
 import * as path from 'path';
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 // import { pluginPreview } from '@modern-js/doc-plugin-preview';
 import { docPluginDemo } from './plugin';
 

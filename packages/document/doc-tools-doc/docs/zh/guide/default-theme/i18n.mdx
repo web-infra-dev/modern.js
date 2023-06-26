@@ -60,7 +60,7 @@ export interface I18n {
 在 `modern.config.ts`中，你可以通过 `doc.lang` 配置文档的默认语言，如下例子所示:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -80,7 +80,7 @@ export default defineConfig({
 - `doc.themeConfig.locales`，用于配置主题的`语言`、`大纲栏标题`、`上一页/下一页文本`等信息，主要进行主题相关的配置。
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -157,7 +157,7 @@ docs
 我们来这样配置侧边栏和导航栏:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 // 工具函数，用于获取类型提示
 const getI18nKey = (key: keyof typeof import('./i18n.json')) => key;

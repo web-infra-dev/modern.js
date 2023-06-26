@@ -1,5 +1,5 @@
 import path from 'path';
-import lintPlugin from '@modern-js/plugin-lint';
+import { lintPlugin } from '@modern-js/plugin-lint';
 import {
   cleanRequireCache,
   emptyDir,
@@ -117,7 +117,7 @@ export type AppToolsOptions = {
   bundler?: 'experimental-rspack' | 'webpack';
 };
 
-export default (
+export const appTools = (
   options: AppToolsOptions = {
     bundler: 'webpack',
   },
@@ -199,10 +199,17 @@ export default (
             '-c --config <config>',
             i18n.t(localeKeys.command.shared.config),
           )
+          .option(
+            '-s --skip-build',
+            i18n.t(localeKeys.command.shared.skipBuild),
+          )
           .description(i18n.t(localeKeys.command.deploy.describe))
           .action(async (options: DeployOptions) => {
-            const { build } = await import('./commands/build');
-            await build(api);
+            if (!options.skipBuild) {
+              const { build } = await import('./commands/build');
+              await build(api);
+            }
+
             const { deploy } = await import('./commands/deploy');
             await deploy(api, options);
             // eslint-disable-next-line no-process-exit
@@ -213,6 +220,10 @@ export default (
           .command('new')
           .usage('[options]')
           .description(i18n.t(localeKeys.command.new.describe))
+          .option(
+            '--config-file <configFile>',
+            i18n.t(localeKeys.command.shared.config),
+          )
           .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
           .option(
             '-c, --config <config>',
@@ -249,7 +260,14 @@ export default (
             inspect(api, options);
           });
 
-        upgradeModel.defineCommand(program.command('upgrade'));
+        upgradeModel.defineCommand(
+          program
+            .command('upgrade')
+            .option(
+              '-c --config <config>',
+              i18n.t(localeKeys.command.shared.config),
+            ),
+        );
       },
 
       async prepare() {
@@ -273,20 +291,18 @@ export default (
       async watchFiles() {
         const appContext = api.useAppContext();
         const config = api.useResolvedConfigContext();
-        return generateWatchFiles(appContext, config.source.configDir);
+        return await generateWatchFiles(appContext, config.source.configDir);
       },
 
       // 这里会被 core/initWatcher 监听的文件变动触发，如果是 src 目录下的文件变动，则不做 restart
-      async fileChange(e: { filename: string; eventType: string }) {
-        const { filename, eventType } = e;
-        const appContext = api.useAppContext();
-        const { appDirectory, srcDirectory } = appContext;
-        const absolutePath = path.resolve(appDirectory, filename);
+      async fileChange(e: {
+        filename: string;
+        eventType: string;
+        isPrivate: boolean;
+      }) {
+        const { filename, eventType, isPrivate } = e;
 
-        if (
-          !absolutePath.includes(srcDirectory) &&
-          (eventType === 'change' || eventType === 'unlink')
-        ) {
+        if (!isPrivate && (eventType === 'change' || eventType === 'unlink')) {
           const { closeServer } = await import('./utils/createServer');
           await closeServer();
           await restart(api.useHookRunners(), filename);
@@ -299,3 +315,5 @@ export default (
     };
   },
 });
+
+export default appTools;

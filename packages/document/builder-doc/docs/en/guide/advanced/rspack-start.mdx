@@ -54,7 +54,7 @@ Unsupported configurations and capabilities include:
 
 - [source.include](/api/config-source.html#sourceinclude) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.exclude](/api/config-source.html#sourceexclude) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
-- [source.moduleScopes](/api/config-source.html#sourcemodulescopes)
+- [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([track issue](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
 
@@ -82,9 +82,8 @@ All configurations and capabilities under dev are available within rspack.
 
 Unsupported configurations and capabilities include:
 
-- [output.disableCssExtract](/api/config-output.html#outputdisablecssextract)
 - [output.disableSourcemap.css](/api/config-output.html#outputdisablesourcemap)
-- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
+- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration) (Only supported when [disableCssExtract](/api/config-output.html#outputdisablecssextract) is true)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
 - [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
 - [output.polyfill.usage](/api/config-output.html#usage) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
@@ -104,7 +103,6 @@ Unsupported configurations and capabilities include:
 Unsupported configurations and capabilities include:
 
 - [performance.profile](/api/config-performance.html#performanceprofile)
-- [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
 - [performance.buildCache](/api/config-performance.html#performancebuildcache)
 - [performance.chunkSplit (split-by-module)](/api/config-performance.html#performancechunksplit)
 
@@ -116,11 +114,9 @@ Unsupported configurations and capabilities include:
 
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
-- [tools.cssLoader](/api/config-tools.html#toolscssloader)
-- [tools.devServer.devMiddleware](/api/config-tools.html#devmiddleware) ([track issue](https://github.com/web-infra-dev/rspack/issues/2391))
+- [tools.cssLoader](/api/config-tools.html#toolscssloader) (Only supported when [disableCssExtract](/api/config-output.html#outputdisablecssextract) is true)
 - [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.minifyCss](/api/config-tools.html#toolsminifycss)
-- [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
 - [tools.webpack](/api/config-tools.html#toolswebpack)：use [tools.rspack](/api/config-tools#toolsrspack) instead.
@@ -181,7 +177,7 @@ More information about Rspack, please refer to the [Rspack website](https://www.
 
 ### 4. Babel Configuration Migration
 
-By default, Rspack uses SWC for transpilation and compression. Therefore, when using Rspack for building, babel-loader is not loaded by default.
+By default, Rspack uses SWC for transpilation and compression. Therefore, when using Rspack as the bundler, `babel-loader` is not loaded by default.
 
 For most common Babel plugins, you can find corresponding alternatives in Rspack, and there are also corresponding compatible configuration options in Builder.
 
@@ -189,11 +185,11 @@ For most common Babel plugins, you can find corresponding alternatives in Rspack
 | ----------------------------------------------- | ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/config/builtins.html#builtinspresetenv)       | [Browserslist](/guide/advanced/browserslist.html)、<br />[Browser Compatibility](/guide/advanced/browser-compatibility.html) |
 | @babel/preset-react                             | [builtins.react](https://www.rspack.dev/config/builtins.html#builtinsreact)               | [Hot Module Replacement](/guide/advanced/hmr.html)                                                                           |
-| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/config/builtins.html#builtinsemotion)           | Not supported                                                                                                                         |
+| @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/config/builtins.html#builtinsemotion)           | Not supported                                                                                                                |
 | babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                                      |
-| babel-plugin-lodash                             | Not supported                                                                                      | Not supported                                                                                                                         |
-| babel-plugin-styled-components                  | Not supported                                                                                      | Not supported                                                                                                                         |
-| @babel/plugin-react-transform-remove-prop-types | Not supported                                                                                      | Not supported                                                                                                                         |
+| babel-plugin-lodash                             | Not supported                                                                             | Not supported                                                                                                                |
+| babel-plugin-styled-components                  | Not supported                                                                             | Not supported                                                                                                                |
+| @babel/plugin-react-transform-remove-prop-types | Not supported                                                                             | Not supported                                                                                                                |
 
 :::Tip
 When using Rspack for building, you can still configure Babel plugins through [tools.babel](/api/config-tools.html#toolsbabel), but this will result in additional compilation overhead, which may slow down the Rspack build to some extent.
@@ -221,6 +217,23 @@ Detailed plugin support can be found at: [Plugin compatibility](https://www.rspa
 
 The plugins not listed can be judged according to [Rspack Plugin API](https://www.rspack.dev/api/plugin-api.html).
 
+## Compare with Rspack CLI
+
+Builder Rspack build mode comparison [Rspack CLI](https://www.rspack.dev/guide/quick-start.html#using-the-rspack-cli) adds a lot of out-of-the-box capabilities. At the same time, these capabilities will bring a certain degree of performance overhead:
+
+| Features                                  | Description                                                                                                                                                                                                                      | Links                                                                                                                                                 |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Browser Compatibility                     | Builder will set different default values of Browserslist according to [build target](/guide/basic/build-target)                                                                                                                 | <ul><li>[browserslist](/guide/advanced/browserslist.html)</li></ul>                                                                                   |
+| SourceMap generation                      | Builder generates different SourceMaps according to the environment by default                                                                                                                                                   | <ul><li>[output.disableSourceMap](/api/config-output.html#outputdisablesourcemap)</li></ul>                                                           |
+| SVG to React component                    | Builder support to import SVG as component by default                                                                                                                                                                            | <ul><li>[Import SVG Assets](/guide/basic/svg-assets.html)</li><li>[output.disableSvgr](/api/config-output.html#outputdisablesvgr)</li></ul>           |
+| Import common component library on demand | When using [Ant Design](https://www.npmjs.com/package/antd) or [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) component library, Builder will automatically enable the on-demand import function by default | <ul><li>[source.transformImport](/api/config-source#sourcetransformimport)</li></ul>                                                                  |
+| Type Checker                              | Builder runs TypeScript type checker by default                                                                                                                                                                                  | <ul><li>[Type checking](/guide/basic/typescript.html#类型检查)</li><li>[output.disableTsChecker](/api/config-output#outputdisabletschecker)</li></ul> |
+| PostCSS compilation                       | PostCSS compilation is enabled by default, built-in autoprefixer and other plugins                                                                                                                                               | <ul><li>[Using PostCSS](/guide/basic/css-usage.html#using-postcss)</li></ul>                                                                          |
+
+All of the above capabilities provide configurable options that can be adjusted as needed based on the actual situation of the project.
+
+For more built-in capabilities, please refer to [Feature Navigation](/guide/features.html).
+
 ## FAQ
 
 ### After enabling Rspack, the performance is not as fast as expected?
@@ -229,17 +242,17 @@ Usually, after enabling Rspack, there will be a 5 to 10 times improvement in com
 
 The following behaviors are currently known to slow down Rspack build performance to some extent:
 
-##### Using configuration options or plugins that rely on babel
+##### Using configuration options or plugins that rely on Babel
 
 When using Rspack to build, babel-loader is not enabled by default.
 
-However, when a project uses configuration options or plugins implemented with babel, an additional babel-loader will be added for file transpilation:
+However, when a project uses configuration options or plugins implemented with Babel, an additional babel-loader will be added for file transpilation:
 
-- Add the babel plugin via [tools.babel](/api/config-tools.html#toolsbabel)
+- Add the Babel plugin via [tools.babel](/api/config-tools.html#toolsbabel)
 - Use [Modern.js SSR feature](https://modernjs.dev/en/guides/advanced-features/ssr.html)
 - ...
 
-You can check whether the babel plugin exists in the final generated Rspack configuration by using [debug mode](/guide/debug/debug-mode.html).
+You can check whether the Babel plugin exists in the final generated Rspack configuration by using [debug mode](/guide/debug/debug-mode.html).
 
 ##### Enable TypeScript type checking
 
@@ -251,8 +264,18 @@ In this case, you can disable type checking using [output.disableTsChecker](/api
 
 Currently, Less files are processed using the `less-loader` based on JavaScript and no Rust version is provided. Therefore, processing a large number of Less files can slow down the build performance.
 
+:::tip
+When using component libraries such as [Arco Design](https://www.npmjs.com/package/@arco-design/web-react), please try to avoid fully introducing Less styles. You can import on-demand instead. or directly import CSS styles.
+:::
+
 ##### Large number of SVG files
 
 By default, builder supports using SVG resources as React components, which incurs some performance overhead.
 
 If you don't need this feature, you can set [output.disableSvgr](/api/config-output.html#outputdisablesvgr) to true to disable this behavior to improve build performance.
+
+##### Not import component library on demand
+
+By default, when using [Ant Design](https://www.npmjs.com/package/antd) or [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) component library, Builder will automatically enable the on-demand import function, and the default configuration can refer to [source.transformImport](/api/config-source.html#sourcetransformimport).
+
+When using other component libraries, if the component library supports on-demand import, we recommend to configure on-demand import through [source.transformImport](/api/config-source.html#sourcetransformimport) first.

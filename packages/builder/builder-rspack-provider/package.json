@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.22.1",
+  "version": "2.24.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -45,7 +45,6 @@
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
     "dev": "tsc --watch",
-    "example": "node __fixture__/execute",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
@@ -57,19 +56,19 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@babel/preset-typescript": "^7.21.5",
-    "@rspack/core": "0.2.1",
-    "@rspack/dev-client": "0.2.1",
-    "@rspack/dev-middleware": "0.2.1",
-    "@rspack/plugin-html": "0.2.1",
+    "@rspack/core": "0.2.3",
+    "@rspack/dev-client": "0.2.3",
+    "@rspack/plugin-html": "0.2.3",
     "rspack-manifest-plugin": "5.0.0-alpha0",
     "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",
     "react-refresh": "0.14.0",
+    "rspack-plugin-virtual-module": "0.1.0",
+    "style-loader": "3.3.1",
     "webpack": "^5.82.1"
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",
-    "@modern-js/e2e": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "antd": "4",
@@ -77,14 +76,6 @@
     "typescript": "^5",
     "react": "^18",
     "react-dom": "^18"
-  },
-  "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.22.1"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/e2e": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "publishConfig": {

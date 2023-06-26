@@ -1,5 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable @babel/no-invalid-this */
 import type { LoaderContext } from 'webpack';
 import { generateClient } from './generateClient';
 

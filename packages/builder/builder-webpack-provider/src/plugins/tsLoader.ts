@@ -1,4 +1,8 @@
-import { TS_REGEX, applyScriptCondition } from '@modern-js/builder-shared';
+import {
+  TS_REGEX,
+  resolvePackage,
+  applyScriptCondition,
+} from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
 import { BuilderPlugin } from '../types';
 import { getUseBuiltIns } from './babel';
@@ -17,17 +21,14 @@ export const builderPluginTsLoader = (): BuilderPlugin => {
         const babelLoaderOptions = {
           presets: [
             [
-              // When running test, using the package name,
-              // Otherwise vitest will failed to resolve the preset
-              process.env.NODE_ENV === 'test'
-                ? '@modern-js/babel-preset-app'
-                : require.resolve('@modern-js/babel-preset-app'),
+              resolvePackage('@modern-js/babel-preset-app', __dirname),
               {
                 appDirectory: rootPath,
                 target: 'client',
                 useTsLoader: true,
                 useBuiltIns: getUseBuiltIns(config),
                 userBabelConfig: config.tools.babel,
+                disableReactPreset: true,
               },
             ],
           ],

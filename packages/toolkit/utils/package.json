@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.22.1",
+  "version": "2.24.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -40,6 +40,7 @@
     },
     "./runtime/remix-router": {
       "jsnext:source": "./src/runtime/remixRouter.ts",
+      "require": "./dist/cjs/runtime/remixRouter.js",
       "default": "./dist/esm/runtime/remixRouter.js"
     },
     "./runtime/nested-routes": {
@@ -52,6 +53,7 @@
     },
     "./runtime-node": {
       "jsnext:source": "./src/runtime-node/index.ts",
+      "require": "./dist/cjs/runtime-node/index.js",
       "default": "./dist/esm/runtime-node/index.js"
     },
     "./runtime-node/router": {
@@ -119,6 +121,7 @@
       },
       "./runtime/remix-router": {
         "types": "./dist/types/runtime/remixRouter.d.ts",
+        "require": "./dist/cjs/runtime/remixRouter.js",
         "default": "./dist/esm/runtime/remixRouter.js"
       },
       "./runtime/nested-routes": {
@@ -131,10 +134,12 @@
       },
       "./runtime-node": {
         "types": "./dist/types/runtime-node/index.d.ts",
+        "require": "./dist/cjs/runtime-node/index.js",
         "default": "./dist/esm/runtime-node/index.js"
       },
       "./runtime-node/router": {
         "types": "./dist/types/runtime-node/router.d.ts",
+        "require": "./dist/cjs/runtime-node/router.js",
         "default": "./dist/esm/runtime-node/router.js"
       },
       "./universal/constants": {

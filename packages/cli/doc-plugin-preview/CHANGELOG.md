@@ -1,5 +1,64 @@
 # @modern-js/doc-plugin-preview
 
+## 2.24.0
+
+### Minor Changes
+
+- 2858c11: feat: support web and mobile meta for code block to change preview mode
+  feat: 支持在代码块添加 web 和 mobile meta 来更改预览模式
+
+### Patch Changes
+
+- af9af0f: fix(doc-core): doc hmr invalid
+
+  fix(doc-core): 文档热更新失效
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [af9af0f]
+- Updated dependencies [4a82c3b]
+- Updated dependencies [cdb88da]
+  - @modern-js/utils@2.24.0
+  - @modern-js/doc-core@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [496ec52]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/doc-core@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 02e8d2e: fix: pure is not valid when preview mode is mobile
+  fix: pure 在移动端预览模式下不生效
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- ee10c09: fix: add origin in iframe src
+  fix: 在 iframe src 添加 origin 前缀
+- 689d223: fix: render demo correctly in prod after normalize demo id
+  fix: 规划化 demo id 后，在生产环境正确渲染 demo 组件
+- Updated dependencies [5d6652c]
+- Updated dependencies [090c9c3]
+- Updated dependencies [074978b]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [12a5bb2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [836da92]
+- Updated dependencies [5eba3a9]
+- Updated dependencies [ad75a6e]
+  - @modern-js/doc-core@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

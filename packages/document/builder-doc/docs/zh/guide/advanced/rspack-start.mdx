@@ -27,7 +27,6 @@ const provider = builderRspackProvider({
 });
 ```
 
-
 ```diff title=package.json
 {
   "devDependencies": {
@@ -55,7 +54,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 - [source.include](/api/config-source.html#sourceinclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.exclude](/api/config-source.html#sourceexclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
-- [source.moduleScopes](/api/config-source.html#sourcemodulescopes)
+- [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
 
@@ -83,9 +82,8 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [output.disableCssExtract](/api/config-output.html#outputdisablecssextract)
 - [output.disableSourcemap.css](/api/config-output.html#outputdisablesourcemap)
-- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration)
+- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration) (仅在 [disableCssExtract](/api/config-output.html#outputdisablecssextract) 时支持)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
 - [output.legalComments.inline](/api/config-output.html#outputlegalcomments)
 - [output.polyfill.usage](/api/config-output.html#usage) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
@@ -105,7 +103,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 不支持的配置项及能力包括：
 
 - [performance.profile](/api/config-performance.html#performanceprofile)
-- [performance.removeMomentLocale](/api/config-performance.html#performanceremovemomentlocale)
 - [performance.buildCache](/api/config-performance.html#performancebuildcache)
 - [performance.chunkSplit (split-by-module)](/api/config-performance.html#performancechunksplit)
 
@@ -117,11 +114,9 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 - [tools.terser](/api/config-tools.html#toolsterser)
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
-- [tools.cssLoader](/api/config-tools.html#toolscssloader)
-- [tools.devServer.devMiddleware](/api/config-tools.html#devmiddleware) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/2391))
+- [tools.cssLoader](/api/config-tools.html#toolscssloader) (仅在 [disableCssExtract](/api/config-output.html#outputdisablecssextract) 时支持)
 - [tools.inspector](/api/config-tools.html#toolsinspector)
 - [tools.minifyCss](/api/config-tools.html#toolsminifycss)
-- [tools.styleLoader](/api/config-tools.html#toolsstyleloader)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
 - [tools.webpack](/api/config-tools.html#toolswebpack)：使用 [tools.rspack](/api/config-tools#toolsrspack) 代替。
@@ -197,7 +192,7 @@ Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构
 | @babel/plugin-react-transform-remove-prop-types | 暂无                                                                                         | 暂无                                                                                                                  |
 
 :::tip
-在使用 Rspack 构建时，仍然**支持通过 [tools.babel](/api/config-tools.html#toolsbabel) 配置 babel 插件**，但会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
+在使用 Rspack 构建时，仍然**支持通过 [tools.babel](/api/config-tools.html#toolsbabel) 配置 Babel 插件**，但会产生额外的编译开销，在一定程度上拖慢 Rspack 构建速度。
 :::
 
 ### 5. SWC 配置支持
@@ -220,6 +215,23 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 
 未列出的插件可根据 [Rspack Plugin API 支持情况](https://www.rspack.dev/zh/api/plugin-api.html) 自行判断。
 
+## 对比 Rspack CLI
+
+Builder Rspack 构建模式对比 [Rspack CLI](https://www.rspack.dev/zh/guide/quick-start.html#%E4%BD%BF%E7%94%A8-rspack-cli) 添加了很多开箱即用的能力，同时，这些能力的封装会带来一定程度上的性能开销:
+
+| 功能                         | 描述                                                                                                                                                                                  | 相关链接                                                                                                                                          |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 浏览器兼容性                 | Builder 会根据[构建产物类型](/guide/basic/build-target)来设置不同的 Browserslist 默认值                                                                                               | <ul><li>[浏览器范围](/guide/advanced/browserslist.html)</li></ul>                                                                                 |
+| SourceMap 生成               | Builder 默认根据环境生成不同的 SourceMap                                                                                                                                              | <ul><li>[output.disableSourceMap](/api/config-output.html#outputdisablesourcemap)</li></ul>                                                       |
+| SVG 转 React 组件            | Builder 默认支持在 React 组件中引用 SVG 作为组件                                                                                                                                      | <ul><li>[引用 SVG 资源](/guide/basic/svg-assets.html)</li><li>[output.disableSvgr](/api/config-output.html#outputdisablesvgr)</li></ul>           |
+| 按需引入常用组件库           | 当项目中安装了 [Ant Design](https://www.npmjs.com/package/antd) 或 [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) 组件库时，Builder 会自动添加对应的按需引入能力 | <ul><li>[source.transformImport](/api/config-source#sourcetransformimport)</li></ul>                                                              |
+| 默认开启 TypeScript 类型检查 | Builder 会默认通过 TS Checker 检查类型问题                                                                                                                                            | <ul><li>[类型检查](/guide/basic/typescript.html#类型检查) </li><li>[output.disableTsChecker](/api/config-output#outputdisabletschecker)</li></ul> |
+| 默认集成 PostCSS             | Builder 内默认开启 PostCSS 编译，并内置 autoprefixer 等多个插件                                                                                                                       | <ul><li>[使用 PostCSS](/guide/basic/css-usage.html#使用-postcss)</li></ul>                                                                        |
+
+以上能力均提供可调整的配置选项，可以根据项目实际情况按需进行调整。
+
+更多内置能力，可参考 [功能导航](/guide/features.html)。
+
 ## 常见问题
 
 ### 启用 Rspack 构建后，性能没有预期的快？
@@ -228,15 +240,15 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 
 目前已知以下行为会在一定程度上拖慢 Rspack 构建性能：
 
-##### 使用依赖 babel 实现的配置项或插件
+##### 使用依赖 Babel 实现的配置项或插件
 
-在使用 Rspack 构建时，Builder 默认不会启用 babel-loader。但当项目中使用到依赖 babel 实现的配置项或插件时，会额外添加 babel-loader 进行文件转译：
+在使用 Rspack 构建时，Builder 默认不会启用 `babel-loader`。但当项目中使用到依赖 Babel 实现的配置项或插件时，会额外添加 `babel-loader` 进行文件转译：
 
-- 通过 [tools.babel](/api/config-tools.html#toolsbabel) 添加 babel plugin
+- 通过 [tools.babel](/api/config-tools.html#toolsbabel) 添加 Babel plugin
 - 使用 [Modern.js SSR 功能](https://modernjs.dev/guides/advanced-features/ssr.html)
 - ...
 
-你可以通过开启[调试模式](/guide/debug/debug-mode.html) 来查看最终生成的 Rspack 配置中是否存在 babel 插件。
+你可以通过开启[调试模式](/guide/debug/debug-mode.html) 来查看最终生成的 Rspack 配置中是否存在 Babel 插件。
 
 ##### 开启 TypeScript 类型检查
 
@@ -248,6 +260,16 @@ Builder 构建时会默认开启 TypeScript 类型检查。在大型项目中，
 
 目前 Less 文件使用基于 JavaScript 实现的 `less-loader` 进行处理，未提供 Rust 版本，因此在处理大量 Less 文件时会拖累构建性能。
 
+:::tip
+在使用 [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) 等组件库时，请尽量避免全量引入 Less 样式。你可以改为按需引入，或直接引入 CSS 样式。
+:::
+
 ##### 大量 SVG 文件
 
 Builder 默认支持将 SVG 资源作为 React 组件使用，这会产生一定的性能开销。如果你不需要此能力，可以将 [output.disableSvgr](/api/config-output.html#outputdisablesvgr) 设置为 `true` 来关闭此行为，以提升构建性能。
+
+##### 组件库未按需引入
+
+默认情况下，在使用 [Ant Design](https://www.npmjs.com/package/antd) 或 [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) 组件库时，Builder 会自动开启按需引入功能，默认配置可参考 [source.transformImport](/api/config-source.html#sourcetransformimport)。
+
+在使用其他组件库时，如果该组件库支持按需引入，我们推荐优先通过 [source.transformImport](/api/config-source.html#sourcetransformimport) 配置按需引入。

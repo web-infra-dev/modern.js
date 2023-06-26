@@ -1,14 +1,9 @@
 import path from 'path';
-import createPlugin, { setJestConfigForBFF } from '../../src/cli/bff';
+import { initSnapshotSerializer } from '@scripts/jest-config/utils';
+import { InternalPlugins } from '@modern-js/core';
+import { testingBffPlugin, setJestConfigForBFF } from '../../src/cli/bff';
 
-const root = path.resolve(__dirname, '../../../../../');
-expect.addSnapshotSerializer({
-  test: val => typeof val === 'string' && val.includes(root),
-  print: val =>
-    typeof val === 'string'
-      ? `"${val.replace(root, '').replace(/\\/g, '/')}"`
-      : (val as string),
-});
+initSnapshotSerializer({ cwd: path.resolve(__dirname, '../..') });
 
 describe('testing-plugin-bff', () => {
   const appDir = path.normalize(path.resolve(__dirname, './fixtures/bff1'));
@@ -26,15 +21,15 @@ describe('testing-plugin-bff', () => {
   };
 
   test('plugin', async () => {
-    expect(createPlugin).toBeDefined();
-    expect(createPlugin).toBeInstanceOf(Function);
+    expect(testingBffPlugin).toBeDefined();
+    expect(testingBffPlugin).toBeInstanceOf(Function);
   });
 
   test('setJestConfigForBFF', async () => {
     await setJestConfigForBFF({
       pwd: appDir,
       userConfig: {},
-      plugins: [],
+      plugins: {} as InternalPlugins,
       routes: [],
       utils: mockUtils,
     });
@@ -49,7 +44,7 @@ describe('testing-plugin-bff', () => {
     await setJestConfigForBFF({
       pwd: appDir,
       userConfig: {},
-      plugins: [],
+      plugins: {} as InternalPlugins,
       routes: [],
       utils: mockUtils,
     });

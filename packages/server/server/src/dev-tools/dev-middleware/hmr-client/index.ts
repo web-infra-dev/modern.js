@@ -4,7 +4,6 @@
  *
  * Tips: this package will be bundled and running in the browser, do not import from the entry of @modern-js/utils.
  */
-/* eslint-disable no-console */
 import stripAnsi from '@modern-js/utils/strip-ansi';
 import { formatWebpackMessages } from '@modern-js/utils/universal/format-webpack';
 import type webpack from 'webpack';
@@ -218,5 +217,3 @@ function tryApplyUpdates() {
     );
   }
 }
-
-/* eslint-enable no-console */

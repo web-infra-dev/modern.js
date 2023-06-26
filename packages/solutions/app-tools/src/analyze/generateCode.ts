@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import path from 'path';
 import {
   fs,
@@ -127,7 +128,8 @@ export const generateCode = async (
   };
 
   async function generateEntryCode(entrypoint: Entrypoint) {
-    const { entryName, isAutoMount, fileSystemRoutes } = entrypoint;
+    const { entryName, isMainEntry, isAutoMount, fileSystemRoutes } =
+      entrypoint;
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
       if (fileSystemRoutes) {
@@ -151,6 +153,7 @@ export const generateCode = async (
               basename: srcDirectory,
             },
             entrypoint.entryName,
+            entrypoint.isMainEntry,
           );
           if (nestedRoute) {
             (initialRoutes as Route[]).unshift(nestedRoute);
@@ -165,6 +168,7 @@ export const generateCode = async (
         const config = api.useResolvedConfigContext();
         const ssr = getEntryOptions(
           entryName,
+          isMainEntry,
           config.server.ssr,
           config.server.ssrByEntries,
           packageName,
@@ -283,8 +287,13 @@ export const generateIndexCode = async ({
 
   await Promise.all(
     entrypoints.map(async entrypoint => {
-      const { entryName, isAutoMount, customBootstrap, fileSystemRoutes } =
-        entrypoint;
+      const {
+        entryName,
+        isMainEntry,
+        isAutoMount,
+        customBootstrap,
+        fileSystemRoutes,
+      } = entrypoint;
       if (isAutoMount) {
         // call modifyEntryRuntimePlugins hook
         const { plugins } = await hookRunners.modifyEntryRuntimePlugins({
@@ -328,6 +337,7 @@ export const generateIndexCode = async ({
           let rawAsyncEntryCode = `import('./${ENTRY_BOOTSTRAP_FILE_NAME}');`;
           const ssr = getEntryOptions(
             entryName,
+            isMainEntry,
             config.server.ssr,
             config.server.ssrByEntries,
             packageName,

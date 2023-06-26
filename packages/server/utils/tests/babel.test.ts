@@ -1,7 +1,10 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
+import { initSnapshotSerializer } from '@scripts/jest-config/utils';
 import { resolveBabelConfig, compile } from '../src';
 import { defaults, join } from './helpers';
+
+initSnapshotSerializer({ cwd: path.resolve(__dirname, '../') });
 
 describe('babel', () => {
   jest.setTimeout(30000);
@@ -15,26 +18,6 @@ describe('babel', () => {
       type: 'commonjs',
       syntax: 'es6+',
       tsconfigPath,
-    });
-
-    const root = path.resolve(__dirname, '../../../../');
-
-    expect.addSnapshotSerializer({
-      test: val =>
-        typeof val === 'string' &&
-        (val.includes('modern.js') ||
-          val.includes('node_modules') ||
-          val.includes(root)),
-      print: val =>
-        // eslint-disable-next-line no-nested-ternary
-        typeof val === 'string'
-          ? // eslint-disable-next-line no-nested-ternary
-            val.includes('node_modules')
-            ? `"${val.replace(/.+node_modules/, '').replace(/\\/g, '/')}"`
-            : val.includes('modern.js')
-            ? `"${val.replace(/.+modern\.js/, '').replace(/\\/g, '/')}"`
-            : `"${val.replace(root, '').replace(/\\/g, '/')}"`
-          : (val as string),
     });
 
     expect(config).toMatchSnapshot();

@@ -1,5 +1,36 @@
 # @modern-js/e2e
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 964c41b: test(e2e): lock playwright version to compat Node 14
+
+  test(e2e): 锁定 playwright 版本以兼容 Node 14
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

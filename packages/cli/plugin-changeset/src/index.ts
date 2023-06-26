@@ -5,7 +5,7 @@ import { i18n, localeKeys } from './locale';
 
 export * from './commands';
 
-export default (): CliPlugin => ({
+export const changesetPlugin = (): CliPlugin => ({
   name: '@modern-js/plugin-changeset',
 
   setup: () => {
@@ -95,3 +95,5 @@ export default (): CliPlugin => ({
     };
   },
 });
+
+export default changesetPlugin;

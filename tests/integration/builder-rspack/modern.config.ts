@@ -1,4 +1,4 @@
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 export default defineConfig<'rspack'>({
   plugins: [appTools({ bundler: 'experimental-rspack' })],
@@ -10,5 +10,8 @@ export default defineConfig<'rspack'>({
     one: {
       router: false,
     },
+  },
+  output: {
+    disableTsChecker: true,
   },
 });

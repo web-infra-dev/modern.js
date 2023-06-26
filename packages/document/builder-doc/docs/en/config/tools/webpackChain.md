@@ -180,8 +180,10 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `RULE.LESS`  | Rule for `less`  |
 | `RULE.SASS`  | Rule for `sass`  |
 | `RULE.PUG`   | Rule for `pug`   |
+| `RULE.VUE`   | Rule for `vue`   |
 | `RULE.TOML`  | Rule for `toml`  |
 | `RULE.YAML`  | Rule for `yaml`  |
+| `RULE.WASM`  | Rule for `WASM`  |
 | `RULE.FONT`  | Rule for `font`  |
 | `RULE.IMAGE` | Rule for `image` |
 | `RULE.MEDIA` | Rule for `media` |
@@ -208,6 +210,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `USE.LESS`             | correspond to `less-loader`                    |
 | `USE.SASS`             | correspond to `sass-loader`                    |
 | `USE.PUG`              | correspond to `pug-loader`                     |
+| `USE.VUE`              | correspond to `vue-loader`                     |
 | `USE.TOML`             | correspond to `toml-loader`                    |
 | `USE.YAML`             | correspond to `yaml-loader`                    |
 | `USE.FILE`             | correspond to `file-loader`                    |
@@ -241,6 +244,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `PLUGIN.BUNDLE_ANALYZER`       | correspond to `WebpackBundleAnalyzer`                                                                          |
 | `PLUGIN.BOTTOM_TEMPLATE`       | correspond to `BottomTemplatePlugin`                                                                           |
 | `PLUGIN.MINI_CSS_EXTRACT`      | correspond to `MiniCssExtractPlugin`                                                                           |
+| `PLUGIN.VUE_LOADER_PLUGIN`     | correspond to `VueLoaderPlugin`                                                                                |
 | `PLUGIN.REACT_FAST_REFRESH`    | correspond to `ReactFastRefreshPlugin`                                                                         |
 | `PLUGIN.NODE_POLYFILL_PROVIDE` | correspond to `ProvidePlugin` for node polyfills                                                               |
 | `PLUGIN.INSPECTOR`             | correspond to `@modern-js/inspector-webpack-plugin`                                                            |

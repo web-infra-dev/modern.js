@@ -220,7 +220,6 @@ describe('test dev server', () => {
         compiler: null as any,
       });
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       expect(devServer.server.watcher).toBeInstanceOf(Watcher);
       await devServer.close();

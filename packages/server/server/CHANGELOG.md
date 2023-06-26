@@ -1,5 +1,50 @@
 # @modern-js/server
 
+## 2.24.0
+
+### Patch Changes
+
+- 8c9923f: fix(dev-server): streaming ssr fail when dev mode, because `http-compression` can't handler stream http
+  fix(dev-server): streaming ssr 在开发模式失败, 因为 `http-compression` 不能处理 stream http
+- 0424a2d: fix: should not invoke onServerChange when `-server-loader.js` file change
+  fix: 不应该在 `-server-loader.js` 变化时触发 onServerChange
+- Updated dependencies [c882fbd]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server-utils@2.24.0
+  - @modern-js/prod-server@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/prod-server@2.23.1
+  - @modern-js/server-utils@2.23.1
+  - @modern-js/types@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/prod-server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/server-utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

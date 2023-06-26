@@ -2,7 +2,6 @@ import { createRequire } from 'module';
 import { tailwindConfig } from './tailwind.config';
 
 const require = createRequire(import.meta.url);
-
 const tailwindPlugin = require('@modern-js/plugin-tailwindcss').default;
 
 // https://modernjs.dev/module-tools/en/api
@@ -19,7 +18,24 @@ export default {
       target: 'es2020',
       outDir: 'dist',
       sourceMap: true,
-      externals: ['@modern-js/mdx-rs-binding', '@rspack/core'],
+      externals: ['@modern-js/mdx-rs-binding'],
+    },
+    {
+      input: {
+        loader: './src/node/mdx/loader.ts',
+      },
+      buildType: 'bundle',
+      format: 'esm',
+      target: 'es2020',
+      outDir: 'dist',
+      sourceMap: true,
+      externals: ['@modern-js/mdx-rs-binding'],
+      esbuildOptions: options => {
+        options.banner = {
+          js: 'import { createRequire } from "module";\nconst { url } = import.meta;\nconst require = createRequire(url);',
+        };
+        return options;
+      },
     },
     {
       input: {

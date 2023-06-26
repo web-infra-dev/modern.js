@@ -1,5 +1,53 @@
 # @modern-js/doc-tools
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [af9af0f]
+- Updated dependencies [4a82c3b]
+- Updated dependencies [cdb88da]
+  - @modern-js/utils@2.24.0
+  - @modern-js/doc-core@2.24.0
+  - @modern-js/core@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [496ec52]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/doc-core@2.23.1
+  - @modern-js/core@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [5d6652c]
+- Updated dependencies [090c9c3]
+- Updated dependencies [074978b]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [b593040]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [12a5bb2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [836da92]
+- Updated dependencies [5eba3a9]
+- Updated dependencies [ad75a6e]
+  - @modern-js/doc-core@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

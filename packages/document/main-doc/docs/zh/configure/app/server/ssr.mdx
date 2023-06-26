@@ -25,8 +25,8 @@ export default defineConfig({
 
 当值类型为 `Object` 时，可以配置如下属性：
 
-- `mode`：`string = 'string'`，默认为使用 `renderToString` 渲染。配置为 'stream' 开启流式渲染。
-- `forceCSR`：`boolean = false`，默认关闭强制 CSR 渲染。配置为 `true` 后，在页面访问时添加 `?csr=true` 即可强制 CSR。
+- `mode`：`string = 'string'`，默认为使用 `renderToString` 渲染。配置为 `stream` 开启流式渲染。
+- `forceCSR`：`boolean = false`，默认关闭强制 CSR 渲染。配置为 `true` 后，在页面访问时添加 `?csr=true` 或添加请求头 `x-modern-ssr-fallback` 即可强制 CSR。
 - `inlineScript`：`boolean = true`，默认情况下，SSR 的数据会以内联脚本的方式注入到 HTML 中，并且直接赋值给全局变量。配置为 `false` 后，会下发 JSON，而不是赋值给全局变量。
 
 
@@ -38,4 +38,29 @@ export default defineConfig({
     inlineScript: false,
   },
 });
+```
+
+### 主动降级
+
+在生产环境，有时需要将 SSR 项目主动降级到 CSR，例如：
+
+1. SSR 出现故障，需要降级到 CSR，保证产品可用性。
+
+2. SSR 正常数据获取时页面渲染正常，但出错降级后渲染失败，需要进行调试。
+
+3. SSR 服务压力过大，需要部分流量直接降级为 CSR，避免服务宕机。
+
+在项目中配置 `ssr.forCSR` 为 `true` 后，我们可以通过请求的查询字符串，或是请求头来控制这一行为。
+
+例如在自定义 Web Server 的中间件中，检测到流量大于某一阈值时，主动降级：
+
+```ts title="server/index.ts"
+export const middleware = (ctx, next) => {
+  const { req, res } = ctx;
+  if (condition) {
+    req.headers['x-modern-ssr-fallback'] = '1';
+  }
+
+  next();
+};
 ```

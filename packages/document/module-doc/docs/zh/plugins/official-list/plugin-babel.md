@@ -24,7 +24,7 @@ pnpm add @modern-js/plugin-module-babel -D
 在 Module Tools 中，你可以按照如下方式注册插件：
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 
 export default defineConfig({
@@ -37,12 +37,12 @@ export default defineConfig({
 
 ## 配置
 
-See [babel options](https://babeljs.io/docs/options)
+See [Babel options](https://babeljs.io/docs/options)
 
 下面是一个配置了`@babel/preset-env`的例子：
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBabel } from '@modern-js/plugin-module-babel';
 
 export default defineConfig({

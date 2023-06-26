@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.22.1",
+  "version": "2.24.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -59,7 +59,7 @@
     "@mdx-js/react": "2.2.1",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/mdx-rs-binding": "^0.2.1",
+    "@modern-js/mdx-rs-binding": "0.2.2",
     "@modern-js/remark-container": "workspace:*",
     "@modern-js/doc-plugin-medium-zoom": "workspace:*",
     "@modern-js/utils": "workspace:*",
@@ -96,11 +96,8 @@
     "rehype-slug": "^5.1.0",
     "rehype-stringify": "^9.0.3",
     "remark": "^14.0.2",
-    "remark-directive": "^2.0.1",
-    "remark-frontmatter": "^4.0.1",
     "remark-gfm": "3.0.1",
     "remark-html": "^15.0.1",
-    "remark-mdx-frontmatter": "^2.1.1",
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "sirv": "^2.0.2",
@@ -113,7 +110,7 @@
     "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.22.1",
+    "@modern-js/core": "workspace:^2.24.0",
     "react": ">=17"
   },
   "devDependencies": {
@@ -142,7 +139,8 @@
     "typescript": "^5",
     "vite": "^4.0.4",
     "vitest": "0.21.1",
-    "webpack": "^5.82.1"
+    "webpack": "^5.82.1",
+    "gray-matter": "4.0.3"
   },
   "sideEffects": [
     "*.css",
@@ -163,7 +161,7 @@
     "runtime.ts",
     "theme.ts",
     "shiki-theme.json",
-    "mdx-rs-loader.cjs"
+    "loader.cjs"
   ],
   "publishConfig": {
     "access": "public",

@@ -1,5 +1,116 @@
 # @modern-js/builder-webpack-provider
 
+## 2.24.0
+
+### Patch Changes
+
+- ef041c0: chore(builder): reuse externals plugin
+
+  chore(builder): 复用 externals 插件
+
+- 36f5bdf: fix(plugin-vue): remove react-related babel plugins
+
+  fix(plugin-vue): 移除 react 相关的 babel 插件
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [8c9923f]
+- Updated dependencies [ef041c0]
+- Updated dependencies [36f5bdf]
+- Updated dependencies [0424a2d]
+- Updated dependencies [4a82c3b]
+  - @modern-js/types@2.24.0
+  - @modern-js/utils@2.24.0
+  - @modern-js/server@2.24.0
+  - @modern-js/builder-shared@2.24.0
+  - @modern-js/babel-preset-base@2.24.0
+  - @modern-js/babel-preset-app@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- 20c85bb: feat(rspack-provider): support performance.removeMomentLocale in rspack
+
+  feat(rspack-provider): 在使用 rspack 构建时支持 performance.removeMomentLocale 配置项
+
+- 5772927: feat(rspack-provider): support import .wasm assets
+
+  feat(rspack-provider): 支持引用 .wasm 资源
+
+- 4af25d9: fix(builder): remove @modern-js/e2e from peerDependencies
+
+  fix(builder): 移除 @modern-js/e2e peerDependencies
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+  - @modern-js/babel-preset-app@2.23.1
+  - @modern-js/babel-preset-base@2.23.1
+  - @modern-js/server@2.23.1
+  - @modern-js/types@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 15eac36: chore(builder): move more default config to shared package
+
+  chore(builder): 移动更多默认 config 到 shared 包
+
+- d4e85c1: fix(rspack-provider): should inject polyfill for web-worker target
+
+  fix(rspack-provider): 修复 web-worker target 未注入 polyfill 的问题
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 5684381: fix(builder): incorrect importLoaders option for sass/less files
+
+  fix(builder): 修正 importLoaders 对于 sass/less 文件的值
+
+- f14f920: feat(rspack-provider): support disableCssExtract in rspack
+
+  feat(rspack-provider): 在 Rspack 构建时支持 disableCssExtract 能力
+
+- 38eccef: chore(builder): move getPostcssConfig and postcss related pkg to builder-shared
+
+  chore(builder): 将 getPostcssConfig 和 postcss 相关的 pkg 移动到 builder-shared 中
+
+- f91c557: fix(builder): failed to minify css when use style-loader in Rspack
+
+  fix(builder): 修复使用 Rspack + style-loader 时未压缩 CSS 的问题
+
+- Updated dependencies [964c41b]
+- Updated dependencies [15eac36]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/e2e@2.23.0
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/babel-preset-base@2.23.0
+  - @modern-js/babel-preset-app@2.23.0
+  - @modern-js/server@2.23.0
+  - @modern-js/types@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

@@ -42,4 +42,7 @@ export const plugins: Plugins = {
   checkSyntax: () =>
     import('./checkSyntax').then(m => m.builderPluginCheckSyntax()),
   rem: () => import('./rem').then(m => m.builderPluginRem()),
+  wasm: () => import('./wasm').then(m => m.builderPluginWasm()),
+  moment: () => import('./moment').then(m => m.builderPluginMoment()),
+  externals: () => import('./externals').then(m => m.builderPluginExternals()),
 };

@@ -8,8 +8,8 @@ export function NotFoundLayout() {
   // In the meanwhile, we will not show the 404 page for the user experience
   if (
     defaultLang &&
-    location.pathname.includes(`/${defaultLang}/`) &&
-    typeof window !== 'undefined'
+    typeof window !== 'undefined' &&
+    location.pathname.includes(`/${defaultLang}/`)
   ) {
     const redirectUrl = location.pathname.replace(`/${defaultLang}/`, '/');
     window.location.replace(redirectUrl);

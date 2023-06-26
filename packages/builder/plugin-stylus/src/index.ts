@@ -50,12 +50,24 @@ export function builderPluginStylus(
           const { applyBaseCSSRule } = await import(
             '@modern-js/builder-rspack-provider/plugins/css'
           );
-          await applyBaseCSSRule(rule, config as any, api.context, utils);
+          await applyBaseCSSRule({
+            rule,
+            config: config as any,
+            context: api.context,
+            utils,
+            importLoaders: 2,
+          });
         } else {
           const { applyBaseCSSRule } = await import(
             '@modern-js/builder-webpack-provider/plugins/css'
           );
-          await applyBaseCSSRule(rule, config, api.context, utils);
+          await applyBaseCSSRule({
+            rule,
+            config,
+            context: api.context,
+            utils,
+            importLoaders: 2,
+          });
         }
 
         rule
@@ -75,12 +87,7 @@ export function builderPluginStylus(
 
           const rules = rspackConfig.module?.rules;
 
-          applyCSSModuleRule(
-            rules,
-            STYLUS_REGEX,
-            config.output.disableCssModuleExtension,
-            config.output.cssModules,
-          );
+          applyCSSModuleRule(rules, STYLUS_REGEX, config as any);
         });
     },
   };

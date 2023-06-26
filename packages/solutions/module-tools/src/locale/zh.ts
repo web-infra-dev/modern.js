@@ -9,6 +9,9 @@ const noDevTools = `暂无可用的 DevTools，你可以通过以下选项以及
 
 export const ZH_LOCALE = {
   command: {
+    shared: {
+      config: '指定配置文件路径，可以为相对路径或绝对路径',
+    },
     build: {
       describe: '构建生产环境产物',
       watch: '使用 Watch 模式构建模块',
@@ -19,7 +22,6 @@ export const ZH_LOCALE = {
       noTsc: '关闭 tsc 编译（废弃）',
       dts: '开启 dts 文件的生成以及类型检查',
       noClear: '不清理产物目录',
-      config: '指定配置文件路径，可以为相对路径或绝对路径',
     },
     dev: {
       describe: '运行和调试模块',
@@ -62,5 +64,7 @@ export const ZH_LOCALE = {
       abortOnError:
         '当前关闭了 `dts.abortOnError` 配置，类型错误不会导致构建失败，但无法保证类型文件正常输出',
     },
+    clearRootPath:
+      '检测到配置中 outDir 与当前项目目录相同，不会自动删除当前产物目录',
   },
 };

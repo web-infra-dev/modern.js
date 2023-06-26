@@ -48,7 +48,7 @@ Configure MDX-related compilation abilities.
 Configure the remark plugins. for example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -74,7 +74,7 @@ export default defineConfig({
 Configure the rehype plugin. for example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -101,7 +101,7 @@ export default defineConfig({
 Whether to check for dead links. for example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -114,10 +114,6 @@ export default defineConfig({
 ```
 
 After enabling this config, the framework will check the links in the document based on the conventional routing table. If there is an unreachable link, the build will throw an error and exit.
-
-:::warning
-However, we do not recommend using this feature during the development environment, because it will disable the physical cache of the build tool webpack, resulting in slower project startup.
-:::
 
 ### markdown.experimentalMdxRs
 
@@ -134,3 +130,10 @@ import MdxRs from '../../fragments/mdx-rs';
 - Type: `boolean`
 
 Whether to display the line number of the code block. Defaults to `false`.
+
+
+### markdown.globalComponents
+
+- Type: `string[]`
+
+Register component to the global scope, which will make it automatically available in every MDX file, without any import statements.

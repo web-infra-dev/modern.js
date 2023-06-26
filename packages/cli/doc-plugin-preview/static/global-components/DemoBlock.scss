@@ -1,0 +1,16 @@
+.demo-block {
+  padding-bottom: 12px;
+  background-color: #f7f8fA;
+  &:last-of-type {
+    padding-bottom: 44px;
+  }
+  &-title {
+    padding: 12px 12px 8px;
+    color: #697b8c;
+    font-size: 14px;
+  }
+  &-main {
+    border-right: none;
+    border-left: none;
+  }
+}

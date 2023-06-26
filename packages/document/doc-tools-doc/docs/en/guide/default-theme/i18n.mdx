@@ -60,7 +60,7 @@ These text data are used in both **config file** and **custom components**, whic
 In `modern.config.ts`, you can configure the default language of the document via `doc.lang`, as shown in the following example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -80,7 +80,7 @@ In `modern.config.ts`, you can configure `locales` data in two places:
 - `doc.themeConfig.locales`, used to configure the theme's `lang`, `outline title`, `previous page/next page text` and other information, mainly for theme-related config.
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -156,7 +156,7 @@ The answer is **no**. In the Modern.js Doc framework, you only need to write a c
 Let's configure the sidebar and navbar like this:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 // Utility function for getting type hints
 const getI18nKey = (key: keyof typeof import('./i18n.json')) => key;

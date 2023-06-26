@@ -9,7 +9,6 @@ import {
 } from '@modern-js/utils';
 
 export const debug: typeof console.log = (...args) => {
-  // eslint-disable-next-line no-console
   process.env.DEBUG_MODERNJS_VITEST && console.log(...args);
 };
 

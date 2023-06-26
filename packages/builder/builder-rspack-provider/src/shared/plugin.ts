@@ -22,6 +22,8 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.svg(),
     plugins.html(),
     plugins.tsChecker(),
+    plugins.wasm(),
+    plugins.moment(),
     // pug plugin should after html plugin
     import('../plugins/pug').then(m => m.builderPluginPug()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
@@ -36,7 +38,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/progress').then(m => m.builderPluginProgress()),
     import('../plugins/react').then(m => m.builderPluginReact()),
     import('../plugins/swc').then(m => m.builderPluginSwc()),
-    import('../plugins/externals').then(m => m.builderPluginExternals()),
+    plugins.externals(),
     plugins.toml(),
     plugins.yaml(),
     plugins.splitChunks(),

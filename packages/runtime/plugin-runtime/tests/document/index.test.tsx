@@ -46,7 +46,6 @@ describe('plugin-document', () => {
 
   it('should runder the script by IIFE ', () => {
     const fn = () => {
-      // eslint-disable-next-line no-console
       console.log('===> script can use script');
     };
     const document = (

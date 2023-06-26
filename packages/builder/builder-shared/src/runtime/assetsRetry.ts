@@ -1,10 +1,14 @@
-import type { AssetsRetryOptions, AssetsRetryHookContext } from '../types';
+import type {
+  CrossOrigin,
+  AssetsRetryOptions,
+  AssetsRetryHookContext,
+} from '../types';
 
 interface ScriptElementAttributes {
   url: string;
   times: number;
   isAsync: boolean;
-  crossOrigin: null | undefined | string | false;
+  crossOrigin?: CrossOrigin | boolean;
 }
 
 const TAG_TYPE: { [propName: string]: new () => HTMLElement } = {
@@ -77,11 +81,19 @@ function createElement(
   origin: HTMLElement,
   attributes: ScriptElementAttributes,
 ): { element: HTMLElement; str: string } | undefined {
+  const crossOrigin =
+    attributes.crossOrigin === true ? 'anonymous' : attributes.crossOrigin;
+  const crossOriginAttr = crossOrigin ? `crossorigin="${crossOrigin}"` : '';
+  const retryTimesAttr = attributes.times
+    ? `data-builder-retry-times="${attributes.times}"`
+    : '';
+  const isAsyncAttr = attributes.isAsync ? 'data-builder-async' : '';
+
   if (origin instanceof HTMLScriptElement) {
     const script = document.createElement('script');
     script.src = attributes.url;
-    if (attributes.crossOrigin) {
-      script.crossOrigin = 'anonymous';
+    if (crossOrigin) {
+      script.crossOrigin = crossOrigin;
     }
     if (attributes.times) {
       script.dataset.builderRetryTimes = String(attributes.times);
@@ -92,26 +104,22 @@ function createElement(
 
     return {
       element: script,
-      str: `<script src="${attributes.url}" type="text/javascript" ${
-        attributes.crossOrigin ? 'crossorigin="anonymous"' : ''
-      } ${
-        attributes.times ? `data-builder-retry-times="${attributes.times}"` : ''
-      } ${attributes.isAsync ? 'data-builder-async' : ''}></script>`,
+      str: `<script src="${attributes.url}" ${crossOriginAttr} ${retryTimesAttr} ${isAsyncAttr}></script>`,
     };
   }
   if (origin instanceof HTMLLinkElement) {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.type = 'text/css';
     link.href = attributes.url;
+    if (crossOrigin) {
+      link.crossOrigin = crossOrigin;
+    }
     if (attributes.times) {
       link.dataset.builderRetryTimes = String(attributes.times);
     }
     return {
       element: link,
-      str: `<link rel="stylesheet" href="${attributes.url}" type="text/css" ${
-        attributes.times ? `data-builder-retry-times="${attributes.times}"` : ''
-      }></link>`,
+      str: `<link rel="stylesheet" href="${attributes.url}" ${crossOriginAttr} ${retryTimesAttr}></link>`,
     };
   }
 }
@@ -139,7 +147,7 @@ function reloadElementResource(
   }
 }
 
-export function retry(config: AssetsRetryOptions, e: Event) {
+function retry(config: AssetsRetryOptions, e: Event) {
   const targetInfo = validateTargetInfo(config, e);
   if (targetInfo === false) {
     return;
@@ -194,8 +202,7 @@ export function retry(config: AssetsRetryOptions, e: Event) {
   const attributes: ScriptElementAttributes = {
     url: url.replace(domain, nextDomain),
     times: existRetryTimes + 1,
-    crossOrigin:
-      config.crossOrigin && (target as HTMLScriptElement).crossOrigin,
+    crossOrigin: config.crossOrigin,
     isAsync,
   };
   const element = createElement(target, attributes)!;

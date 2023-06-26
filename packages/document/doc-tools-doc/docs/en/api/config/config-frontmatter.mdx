@@ -26,16 +26,24 @@ description: This is my custom description for this page.
 
 ## pageType
 
-- Type: `'home' | 'doc' | 'custom' | '404'`
+- Type: `'home' | 'doc' | 'custom' | 'blank' | '404'`
 - Default: `'doc'`
 
-The type of page. By default, the page type is `doc`. But if you want to use a different page type, you can specify the page type with something preceding `pageType`. For example:
+The type of the page. By default, the page type is `doc`. But if you want to use a different page type, you can use the Front Matter field `pageType` to specify the page type. E.g:
 
 ```yaml
 ---
 pageType: home
 ---
 ```
+
+The meaning of each `pageType` config is as follows:
+
+- `home`: **Home page**, including the layout content of the top navigation bar and home page.
+- `doc`: **Doc page**, including top navigation bar, left sidebar, body content, and outline bar on the right.
+- `custom`: **Custom page**, including top navigation bar and custom content.
+- `blank`: Also belongs to **custom page**, but does not include `Top Navigation Bar`.
+- `404`: **Not found page**.
 
 ## hero
 
@@ -115,5 +123,35 @@ features:
   - title: 'Customizable'
     details: You can customize the theme ui and the build process.
     icon: 🚀
+---
+```
+
+## sidebar
+
+Whether to show the sidebar on the left. By default, the `doc` page will display the sidebar on the left. If you want to hide the sidebar on the left, you can use the following Front Matter config:
+
+```yaml
+---
+sidebar: false
+---
+```
+
+## outline
+
+Whether to display the outline column on the right. By default, the `doc` page displays the outline column on the right. You can hide the outline column with the following config:
+
+```yaml
+---
+outline: false
+---
+```
+
+## footer
+
+Whether to display the components at the bottom of the document (such as previous/next page). By default, the `doc` page will display the footer at the bottom. You can hide the footer with the following config:
+
+```yaml
+---
+footer: false
 ---
 ```

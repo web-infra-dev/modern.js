@@ -3,7 +3,6 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   fs,
   isServiceWorker,
-  PLUGIN_SCHEMAS,
   ROUTE_SPEC_FILE,
   SERVER_DIR,
 } from '@modern-js/utils';
@@ -18,7 +17,7 @@ import {
 } from './constants';
 import { worker } from './code';
 
-export default (): CliPlugin<AppTools> => ({
+export const workerPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-worker',
   setup: ctx => {
     return {
@@ -41,7 +40,12 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-worker'];
+        return [
+          {
+            target: 'deploy.worker.ssr',
+            schema: { type: ['boolean'] },
+          },
+        ];
       },
       async afterDev() {
         const { appDirectory, distDirectory } = ctx.useAppContext();
@@ -154,3 +158,5 @@ compatibility_date = "${new Date().toISOString().substring(0, 10)}"
         `,
   );
 };
+
+export default workerPlugin;

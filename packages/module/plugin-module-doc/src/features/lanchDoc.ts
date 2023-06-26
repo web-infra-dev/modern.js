@@ -1,8 +1,8 @@
-import path from 'path';
+import { join, relative, resolve } from 'path';
 import { fs, fastGlob } from '@modern-js/utils';
 import { pluginPreview } from '@modern-js/doc-plugin-preview';
-import type { UserConfig } from '@modern-js/doc-core';
-import { Options, ModuleDocgenLanguage } from '../types';
+import type { UserConfig, Sidebar, SidebarGroup } from '@modern-js/doc-core';
+import type { Options } from '../types';
 import { remarkBuiltIn } from '../mdx/builtin';
 import { mergeModuleDocConfig } from '../utils';
 
@@ -14,55 +14,103 @@ export async function launchDoc({
   previewMode,
 }: Required<Options>) {
   const json = JSON.parse(
-    fs.readFileSync(path.resolve(appDir, './package.json'), 'utf8'),
+    fs.readFileSync(resolve(appDir, './package.json'), 'utf8'),
   );
-  const root = path.join(appDir, 'docs');
+  const root = join(appDir, 'docs');
   const DEFAULT_LANG = languages[0];
   const { dev, build } = await import('@modern-js/doc-core');
-  const getLangPrefixInLink = (language: ModuleDocgenLanguage) =>
-    language === DEFAULT_LANG ? '' : `/${language}`;
-  const getSidebar = (lang: 'zh' | 'en') => {
-    return {
-      [getLangPrefixInLink(lang)]: [
-        {
-          text: lang === 'zh' ? '模块列表' : ' Module List',
-          link: `${getLangPrefixInLink(lang)}/index`,
-          collapsible: false,
-          items: [
-            ...fastGlob
-              .sync('*', {
-                cwd: path.join(root, lang),
+
+  const base = join(root, DEFAULT_LANG);
+  const getAutoSidebar = async (): Promise<Sidebar> => {
+    const traverse = async (cwd: string): Promise<SidebarGroup['items']> => {
+      // FIXME: win32
+      const [files, directories] = await Promise.all([
+        fastGlob(['*'], {
+          cwd,
+          onlyFiles: true,
+          ignore: ['index.*'],
+        }),
+        fastGlob(['*'], {
+          cwd,
+          onlyDirectories: true,
+        }),
+      ]);
+
+      // files --> string[]
+      const fileItems = files.map(file => {
+        const link = `/${relative(base, join(cwd, file)).replace(
+          /\.[^.]+$/,
+          '',
+        )}`;
+        return link;
+      });
+
+      // dir --> SidebarGroup[]
+      const directoryItems = await Promise.all(
+        directories.map(async (directory: string) => {
+          const directoryCwd = join(cwd, directory);
+          const hasIndex =
+            (
+              await fastGlob(['index.*'], {
+                cwd: directoryCwd,
                 onlyFiles: true,
-                ignore: ['index.*'],
               })
-              .map(filename => {
-                const key = path.parse(filename).name;
-                return {
-                  text: key,
-                  link: `${getLangPrefixInLink(lang)}/${key}`,
-                };
-              }),
-          ],
+            ).length > 0;
+          const link = `/${relative(base, directoryCwd)}/`;
+          const items = await traverse(directoryCwd);
+          const text = directory[0].toUpperCase() + directory.slice(1);
+          if (hasIndex) {
+            return {
+              link,
+              collapsible: items.length > 0,
+              items,
+              text,
+            };
+          } else {
+            return {
+              collapsible: items.length > 0,
+              items,
+              text,
+            };
+          }
+        }),
+      );
+
+      return [...fileItems, ...directoryItems];
+    };
+    return {
+      '': [
+        {
+          text: 'Module List',
+          link: `/index`,
+          collapsible: false,
+          items: await traverse(base),
         },
       ],
     };
   };
+
   const modernDocConfig = mergeModuleDocConfig<UserConfig>(
     {
       doc: {
         root,
         title: json.name,
         lang: DEFAULT_LANG,
-        globalStyles: path.join(__dirname, '../static/index.css'),
+        globalStyles: join(__dirname, '../static/index.css'),
         themeConfig: {
           // TODO: support dark mode in code block
           darkMode: false,
-          locales: languages.map(lang => ({
-            lang,
-            label: lang === 'zh' ? '简体中文' : 'English',
-            outlineTitle: lang === 'zh' ? '目录' : 'ON THIS PAGE',
-            sidebar: getSidebar(lang),
-          })),
+          sidebar: await getAutoSidebar(),
+          locales: [
+            {
+              lang: 'zh',
+              label: '简体中文',
+            },
+            {
+              lang: 'en',
+              label: 'English',
+            },
+          ],
         },
         markdown: {
           remarkPlugins: [
@@ -82,15 +130,22 @@ export async function launchDoc({
     {
       doc: {
         ...doc,
-        // TODO: doc base should only be set in production mode
         base: isProduction ? doc.base : '',
       },
     },
   );
 
   if (isProduction) {
-    await build(root, modernDocConfig);
+    await build({
+      appDirectory: appDir,
+      docDirectory: root,
+      config: modernDocConfig,
+    });
   } else {
-    await dev(root, modernDocConfig);
+    await dev({
+      appDirectory: appDir,
+      docDirectory: root,
+      config: modernDocConfig,
+    });
   }
 }

@@ -1,5 +1,57 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.24.0
+
+### Patch Changes
+
+- Updated dependencies [ef041c0]
+- Updated dependencies [4fdd868]
+- Updated dependencies [36f5bdf]
+  - @modern-js/builder-webpack-provider@2.24.0
+  - @modern-js/builder-rspack-provider@2.24.0
+  - @modern-js/builder-shared@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [20c85bb]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4af25d9]
+- Updated dependencies [4d4dca0]
+  - @modern-js/builder-webpack-provider@2.23.1
+  - @modern-js/builder-rspack-provider@2.23.1
+  - @modern-js/builder-shared@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 5684381: fix(builder): incorrect importLoaders option for sass/less files
+
+  fix(builder): 修正 importLoaders 对于 sass/less 文件的值
+
+- Updated dependencies [15eac36]
+- Updated dependencies [a912b66]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [f212633]
+- Updated dependencies [5684381]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-webpack-provider@2.23.0
+  - @modern-js/builder-rspack-provider@2.23.0
+  - @modern-js/builder-shared@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

@@ -8,8 +8,8 @@
 执行完成后，你只需在 `modern.config.ts` 文件中注册 Modern.js 的 SWC 插件，即可启用 SWC 编译和压缩能力。
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import swcPlugin from '@modern-js/plugin-swc';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { swcPlugin } from '@modern-js/plugin-swc';
 
 export default defineConfig({
   plugins: [appTools(), swcPlugin()],

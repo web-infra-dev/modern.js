@@ -155,7 +155,7 @@ export class RouterPlugin {
             if (!asset) {
               continue;
             }
-            const newContent = `${injectedContent}${asset.source().toString()}`;
+            const newContent = `${asset.source().toString()}${injectedContent}`;
             newAssetsMap.set(path.join(outputPath, file), newContent);
             compilation.updateAsset(
               file,

@@ -26,7 +26,7 @@ pnpm add @modern-js/plugin-module-import -D
 In Module Tools, you can register plugins in the following way:
 
 ```ts
-import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig  } from '@modern-js/module-tools';
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 
 export default defineConfig({
@@ -64,7 +64,7 @@ The elements of the array are configuration objects for `babel-plugin-import`, w
 
 ```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
-import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig  } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
@@ -110,7 +110,7 @@ Add the following configuration on the right-hand side:
 
 ```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
-import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig  } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
@@ -159,7 +159,7 @@ The template used here is [handlebars](https://handlebarsjs.com). There are some
 
 ```ts focus=8:8
 import { modulePluginImport } from '@modern-js/plugin-module-import';
-import moduleTools, { defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig  } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [

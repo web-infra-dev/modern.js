@@ -241,6 +241,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -248,7 +256,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -304,9 +312,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -367,9 +375,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -557,15 +565,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -573,6 +572,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -702,15 +710,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": true,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -718,6 +717,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -846,8 +854,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
+      "disableTsChecker": false,
       "handler": [Function],
-      "hasErrors": false,
+      "hasCompileErrors": false,
+      "hasTypeErrors": false,
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -1151,6 +1161,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -1158,7 +1176,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -1214,9 +1232,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -1277,9 +1295,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/mini-css-extract-plugin/dist/loader.js",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -1422,12 +1440,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -1448,6 +1460,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -1473,15 +1491,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -1489,6 +1498,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -1567,12 +1585,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -1593,6 +1605,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -1618,15 +1636,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -1634,6 +1643,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -1813,8 +1831,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
+      "disableTsChecker": false,
       "handler": [Function],
-      "hasErrors": false,
+      "hasCompileErrors": false,
+      "hasTypeErrors": false,
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -2109,14 +2129,22 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -2135,12 +2163,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -2164,12 +2192,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -2281,12 +2309,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -2308,6 +2330,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                   "styled-components",
                 ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -2327,15 +2355,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -2343,6 +2362,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -2424,12 +2452,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -2451,6 +2473,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                   "styled-components",
                 ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
+                ],
               ],
               "presets": [
                 [
@@ -2470,15 +2498,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -2486,6 +2505,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -2589,8 +2617,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
+      "disableTsChecker": false,
       "handler": [Function],
-      "hasErrors": false,
+      "hasCompileErrors": false,
+      "hasTypeErrors": false,
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -2883,14 +2913,22 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
       },
       {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
               "importLoaders": 1,
               "modules": {
@@ -2909,12 +2947,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -2938,12 +2976,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "test": /\\\\\\.less\\$/,
         "use": [
           {
-            "loader": "<ROOT>/src/webpackLoaders/ignoreCssLoader",
+            "loader": "@modern-js/builder-shared/ignore-css-loader",
           },
           {
-            "loader": "<ROOT>/compiled/css-loader",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 1,
+              "importLoaders": 2,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -3052,12 +3090,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -3078,6 +3110,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -3103,15 +3141,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -3119,6 +3148,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -3197,12 +3235,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
-                  {
-                    "removeImport": true,
-                  },
-                ],
-                [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
                 ],
                 [
@@ -3223,6 +3255,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "transpileTemplateLiterals": true,
                   },
                   "styled-components",
+                ],
+                [
+                  "<ROOT>/compiled/babel-plugin-transform-react-remove-prop-types/index.js",
+                  {
+                    "removeImport": true,
+                  },
                 ],
               ],
               "presets": [
@@ -3248,15 +3286,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   },
                 ],
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-                  {
-                    "development": false,
-                    "runtime": "automatic",
-                    "useBuiltIns": true,
-                    "useSpread": false,
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
                   {
                     "allExtensions": true,
@@ -3264,6 +3293,15 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "allowNamespaces": true,
                     "isTSX": true,
                     "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": false,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],
@@ -3366,8 +3404,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
+      "disableTsChecker": false,
       "handler": [Function],
-      "hasErrors": false,
+      "hasCompileErrors": false,
+      "hasTypeErrors": false,
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,

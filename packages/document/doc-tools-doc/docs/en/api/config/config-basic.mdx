@@ -8,7 +8,7 @@
 Deployment base path. For example, if you plan to deploy your site to `https://foo.github.io/bar/`, then you should set `base` to `"/bar/"`:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -26,7 +26,7 @@ export default defineConfig({
 Site title. This parameter will be used as the title of the HTML page. For example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -44,7 +44,7 @@ export default defineConfig({
 Site description. This will be used as the description of the HTML page. For example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -62,7 +62,7 @@ export default defineConfig({
 Site icon. This path will be used as the icon path for the HTML page. For example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -82,7 +82,7 @@ The framework will find your icon in the `public` directory, of course you can a
 Site logo. This path will be used as the logo path in the upper left corner of the navbar. For example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -97,7 +97,7 @@ The framework will find your icon in the `public` directory, you can also set it
 Of course you can set different logos for dark/light mode:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -118,7 +118,7 @@ export default defineConfig({
 Custom output directory for built sites. for example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -144,7 +144,7 @@ export interface Locale {
 I18n config of the site. for example:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -179,7 +179,7 @@ Whether to enable the image zoom function. It is enabled by default, you can dis
 Example usage:
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {

@@ -12,7 +12,7 @@ export const mergeModuleDocConfig = <T>(...configs: T[]): T =>
       }
 
       // always use source override target, if source defined.
-      if (['locales'].includes(key)) {
+      if (['sidebar', 'locales'].includes(key)) {
         return source ?? target;
       }
 

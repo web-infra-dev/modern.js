@@ -236,7 +236,6 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
     ]);
     const { port } = await runStaticServer(context.distPath);
     if (options?.hangOn) {
-      // eslint-disable-next-line no-console
       console.log(
         `Successfully build, and hang on running server: http://localhost:${port}`,
       );

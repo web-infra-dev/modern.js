@@ -25,4 +25,5 @@ export type Options = {
   userBabelConfigUtils?: Partial<BabelConfigUtils>;
   overrideBrowserslist?: string[];
   importAntd?: boolean;
+  disableReactPreset?: boolean;
 };

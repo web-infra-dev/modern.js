@@ -1,5 +1,72 @@
 # @modern-js/module-tools
 
+## 2.24.0
+
+### Patch Changes
+
+- 53ba418: chore: upgrade libuild and libuild plugins version to 0.13.1
+  chore: 升级 libuild 和 libuild 插件版本到 0.13.1
+- 3b82675: feat: Auto delete build product by checking if outdir is project root path
+  feat: 根据 outDir 是否是项目根目录决定是否自动删除产物目录
+- 7073297: fix: close declarationMap when bundle dts
+  fix: 打包 dts 时关闭 declarationMap
+- Updated dependencies [c882fbd]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/core@2.24.0
+  - @modern-js/plugin-changeset@2.24.0
+  - @modern-js/plugin-i18n@2.24.0
+  - @modern-js/plugin-lint@2.24.0
+  - @modern-js/new-action@2.24.0
+  - @modern-js/plugin@2.24.0
+  - @modern-js/upgrade@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/core@2.23.1
+  - @modern-js/plugin-changeset@2.23.1
+  - @modern-js/plugin-i18n@2.23.1
+  - @modern-js/plugin-lint@2.23.1
+  - @modern-js/new-action@2.23.1
+  - @modern-js/plugin@2.23.1
+  - @modern-js/upgrade@2.23.1
+
+## 2.23.0
+
+### Minor Changes
+
+- 21b7f86: feat: support dts.respectExternal
+  feat: 支持 dts.respectExternal 配置
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- d1ef55f: fix: config useDefineForClassFields by user tsconfig.json
+  fix: 根据用户 tsconfig.json 配置,设置 useDefineForClassFields
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [b593040]
+- Updated dependencies [e2245c3]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+  - @modern-js/plugin-changeset@2.23.0
+  - @modern-js/new-action@2.23.0
+  - @modern-js/plugin-i18n@2.23.0
+  - @modern-js/plugin-lint@2.23.0
+  - @modern-js/upgrade@2.23.0
+  - @modern-js/plugin@2.23.0
+  - @modern-js/utils@2.23.0
+  - @modern-js/core@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

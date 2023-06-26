@@ -94,8 +94,8 @@ mv src/myapp src/contacts
 现在，修改 `modern.config.ts`，添加内容：
 
 ```ts title="modern.config.ts"
-import appTools, { defineConfig } from '@modern-js/app-tools';
-import tailwindcssPlugin from '@modern-js/plugin-tailwindcss';
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
   runtime: {

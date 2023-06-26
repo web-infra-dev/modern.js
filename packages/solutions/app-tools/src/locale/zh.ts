@@ -3,6 +3,7 @@ export const ZH_LOCALE = {
     shared: {
       analyze: '分析构建产物体积，查看各个模块打包后的大小',
       config: '指定配置文件路径，可以为相对路径或绝对路径',
+      skipBuild: '跳过构建阶段',
     },
     dev: {
       describe: '启动开发服务器',

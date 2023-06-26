@@ -5,13 +5,12 @@ const { performance } = require('perf_hooks');
 
 async function compileRetryRuntime() {
   const { minify } = await import('terser');
-  const runtimeCode = await readFile(
-    path.join(__dirname, '../dist/runtime/assetsRetry.js'),
-    'utf8',
-  );
+  const source = path.join(__dirname, '../src/runtime/assetsRetry.ts');
+  const runtimeCode = await readFile(source, 'utf8');
   const distPath = path.join(__dirname, '../compiled/assetsRetry.js');
   const { code } = await transformAsync(runtimeCode, {
     presets: [
+      '@babel/preset-typescript',
       [
         '@babel/preset-env',
         {
@@ -20,6 +19,7 @@ async function compileRetryRuntime() {
         },
       ],
     ],
+    filename: source,
   });
   const { code: minifiedRuntimeCode } = await minify(
     {
@@ -35,7 +35,6 @@ async function compileRetryRuntime() {
 async function compile() {
   const startTime = performance.now();
   await compileRetryRuntime();
-  // eslint-disable-next-line no-console
   console.log(
     `Compiled assets retry runtime code. Time cost: ${(
       performance.now() - startTime

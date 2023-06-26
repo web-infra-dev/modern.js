@@ -1,5 +1,5 @@
 import path from 'path';
-import { mime } from '@modern-js/utils';
+import { cutNameByHyphen, mime } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
@@ -14,11 +14,13 @@ export const createRenderHandler = ({
   staticGenerate,
   forceCSR,
   nonce,
+  metaName = 'modern-js',
 }: {
   distDir: string;
   staticGenerate: boolean;
   forceCSR?: boolean;
   nonce?: string;
+  metaName?: string;
 }) =>
   async function render({
     ctx,
@@ -48,7 +50,10 @@ export const createRenderHandler = ({
     }
 
     // handles ssr first
-    const useCSR = forceCSR && ctx.query.csr;
+    const useCSR =
+      forceCSR &&
+      (ctx.query.csr ||
+        ctx.headers[`x-${cutNameByHyphen(metaName)}-ssr-fallback`]);
     if (route.isSSR && !useCSR) {
       try {
         const result = await ssr.render(

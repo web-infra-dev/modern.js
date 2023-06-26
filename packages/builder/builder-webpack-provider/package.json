@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.22.1",
+  "version": "2.24.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -88,6 +88,8 @@
     "test:ui": "vitest --ui"
   },
   "dependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-react": "^7.18.6",
     "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js/babel-preset-base": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
@@ -98,9 +100,7 @@
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
     "caniuse-lite": "^1.0.30001489",
     "css-minimizer-webpack-plugin": "5.0.0",
-    "cssnano": "6.0.0",
     "html-webpack-plugin": "5.5.0",
-    "line-diff": "^2.0.1",
     "mini-css-extract-plugin": "2.7.0",
     "postcss": "8.4.21",
     "react-refresh": "0.14.0",
@@ -119,14 +119,6 @@
     "typescript": "^5",
     "react": "^18",
     "react-dom": "^18"
-  },
-  "peerDependencies": {
-    "@modern-js/e2e": "workspace:^2.22.1"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/e2e": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "publishConfig": {

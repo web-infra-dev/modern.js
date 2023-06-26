@@ -48,7 +48,7 @@ DEBUG=builder modern dev
 配置 remark 插件。比如：
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -74,7 +74,7 @@ export default defineConfig({
 配置 rehype 插件。比如：
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -101,7 +101,7 @@ export default defineConfig({
 是否检查死链。比如：
 
 ```ts title="modern.config.ts"
-import docTools, { defineConfig } from '@modern-js/doc-tools';
+import { docTools, defineConfig } from '@modern-js/doc-tools';
 
 export default defineConfig({
   doc: {
@@ -114,10 +114,6 @@ export default defineConfig({
 ```
 
 开启这个配置后，框架会基于约定式路由表对文档中的链接进行检查，若出现无法访问的链接，构建会抛出错误并退出。
-
-:::warning
-不过我们并不推荐在开发阶段使用这个功能，因为它会禁用底层构建工具 webpack 的物理缓存，导致项目启动速度变慢。
-:::
 
 ### markdown.experimentalMdxRs
 
@@ -134,3 +130,10 @@ import MdxRs from '../../fragments/mdx-rs';
 - Type: `boolean`
 
 是否显示代码块的行号。默认为 `false`。
+
+
+### markdown.globalComponents
+
+- Type: `string[]`
+
+注册全局组件，无需通过导入声明，就允许在每个 MDX 文件中使用

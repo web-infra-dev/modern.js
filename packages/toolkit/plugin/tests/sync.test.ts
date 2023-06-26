@@ -1,4 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
 /* eslint-disable max-lines */
 import {
   createPipeline,
@@ -274,6 +273,7 @@ describe('sync manager', () => {
     it('should not throw error without attaching rival plugin', () => {
       const manager = createManager();
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -283,7 +283,6 @@ describe('sync manager', () => {
       );
       const plugin1 = manager.createPlugin(
         () => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           count += 1;
         },
         {
@@ -316,6 +315,7 @@ describe('sync manager', () => {
     it('should not throw error without attaching rival plugin', () => {
       const manager = createManager();
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       let count = 0;
       const plugin0 = manager.createPlugin(
         () => {
@@ -328,7 +328,6 @@ describe('sync manager', () => {
       );
       const plugin1 = manager.createPlugin(
         () => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           count += 1;
         },
         { name: 'plugin1' },

@@ -199,6 +199,10 @@ export const TASKS: TaskConfig[] = [
       'webpack-5-chain',
       'serialize-javascript',
       {
+        name: 'css-loader',
+        ignoreDts: true,
+      },
+      {
         name: 'webpack-bundle-analyzer',
         externals: {
           chalk: '@modern-js/utils/chalk',
@@ -212,6 +216,49 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'postcss-loader',
         ignoreDts: true,
+      },
+      {
+        name: 'postcss-value-parser',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-custom-properties',
+        ignoreDts: true,
+        externals: {
+          'postcss-value-parser': '../postcss-value-parser',
+        },
+      },
+      {
+        name: 'postcss-flexbugs-fixes',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-font-variant',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-initial',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-media-minmax',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-nesting',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-page-break',
+        ignoreDts: true,
+      },
+      {
+        name: 'autoprefixer',
+        ignoreDts: true,
+        externals: {
+          browserslist: '@modern-js/utils/browserslist',
+          'postcss-value-parser': '../postcss-value-parser',
+        },
       },
       {
         name: 'less',
@@ -339,6 +386,10 @@ export const TASKS: TaskConfig[] = [
         ignoreDts: true,
       },
       {
+        name: 'babel-plugin-transform-react-remove-prop-types',
+        ignoreDts: true,
+      },
+      {
         name: 'copy-webpack-plugin',
         ignoreDts: true,
         externals: {
@@ -346,53 +397,6 @@ export const TASKS: TaskConfig[] = [
           'fast-glob': '@modern-js/utils/fast-glob',
           'schema-utils': '../schema-utils3',
         },
-      },
-      {
-        name: 'postcss-value-parser',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-custom-properties',
-        ignoreDts: true,
-        externals: {
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'postcss-flexbugs-fixes',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-font-variant',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-initial',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-media-minmax',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-nesting',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-page-break',
-        ignoreDts: true,
-      },
-      {
-        name: 'autoprefixer',
-        ignoreDts: true,
-        externals: {
-          browserslist: '@modern-js/utils/browserslist',
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'css-loader',
-        ignoreDts: true,
       },
       {
         name: 'webpack-manifest-plugin',
@@ -428,49 +432,6 @@ export const TASKS: TaskConfig[] = [
         name: 'pretty-time',
         ignoreDts: true,
       },
-      {
-        name: 'postcss-value-parser',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-custom-properties',
-        ignoreDts: true,
-        externals: {
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
-      {
-        name: 'postcss-flexbugs-fixes',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-font-variant',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-initial',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-media-minmax',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-nesting',
-        ignoreDts: true,
-      },
-      {
-        name: 'postcss-page-break',
-        ignoreDts: true,
-      },
-      {
-        name: 'autoprefixer',
-        ignoreDts: true,
-        externals: {
-          browserslist: '@modern-js/utils/browserslist',
-          'postcss-value-parser': '../postcss-value-parser',
-        },
-      },
     ],
   },
   {
@@ -487,10 +448,6 @@ export const TASKS: TaskConfig[] = [
       },
       {
         name: '@babel/helper-module-imports',
-        ignoreDts: true,
-      },
-      {
-        name: 'babel-plugin-transform-react-remove-prop-types',
         ignoreDts: true,
       },
       {

@@ -2,7 +2,9 @@ export const EN_LOCALE = {
   command: {
     shared: {
       analyze: 'analyze bundle size',
-      config: 'specify config file',
+      config:
+        'specify the configuration file, which can be a relative or absolute path',
+      skipBuild: 'skip the build phase',
     },
     dev: {
       describe: 'starting the dev server',

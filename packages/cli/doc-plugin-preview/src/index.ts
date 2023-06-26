@@ -2,11 +2,13 @@ import path, { join } from 'path';
 import { RspackVirtualModulePlugin } from 'rspack-plugin-virtual-module';
 import type { DocPlugin, RouteMeta } from '@modern-js/doc-core';
 import { remarkCodeToDemo } from './codeToDemo';
-import { toValidVarName } from './utils';
+import { injectDemoBlockImport, toValidVarName } from './utils';
+import { demoBlockComponentPath, demoComponentPath } from './constant';
 
 export type Options = {
   /**
    * preview in mobile mode or not
+   * when isMobile is true, 1. aside will hide. 2. default preview component by iframe
    * @default false
    */
   isMobile: boolean;
@@ -25,18 +27,14 @@ export const demoMeta: Record<
  */
 export function pluginPreview(options?: Options): DocPlugin {
   const isMobile = options?.isMobile ?? false;
-  const demoComponentPath = path.join(__dirname, '..', 'dist/demo.js');
   const demoRuntimeModule = new RspackVirtualModulePlugin({});
   const getRouteMeta = () => routeMeta;
-
   return {
     name: '@modern-js/doc-plugin-preview',
     async addPages(_config, _isProd, routes) {
       // init routeMeta
       routeMeta = routes;
-      if (!isMobile) {
-        return [];
-      }
+
       const files = routes.map(route => route.absolutePath);
       // Write the demo code ahead of time
       // Fix: rspack build error because demo file is not exist, probably the demo file was written in rspack build process?
@@ -53,6 +51,18 @@ export function pluginPreview(options?: Options): DocPlugin {
             visit(ast, 'code', (node: any) => {
               if (node.lang === 'jsx' || node.lang === 'tsx') {
                 const { value } = node;
+                const isPure = node?.meta?.includes('pure');
+
+                // do not anything for pure mode
+                if (isPure) {
+                  return;
+                }
+
+                // every code block can change their preview mode by meta
+                const isMobileMode =
+                  node?.meta?.includes('mobile') ||
+                  (!node?.meta?.includes('web') && isMobile);
+
                 const { pageName } = routeMeta.find(
                   meta => meta.absolutePath === filepath,
                 )!;
@@ -66,17 +76,26 @@ export function pluginPreview(options?: Options): DocPlugin {
                 );
 
                 const virtualModulePath = join(demoDir, `${id}.tsx`);
-                demoMeta[filepath] = demoMeta[filepath] ?? [];
-                const isExist = demoMeta[filepath].find(item => item.id === id);
-                if (!isExist) {
-                  demoMeta[filepath].push({
-                    id,
-                    virtualModulePath,
-                  });
+
+                if (isMobileMode) {
+                  // only add demoMeta in mobile mode
+                  demoMeta[filepath] = demoMeta[filepath] ?? [];
+                  const isExist = demoMeta[filepath].find(
+                    item => item.id === id,
+                  );
+                  if (!isExist) {
+                    demoMeta[filepath].push({
+                      id,
+                      virtualModulePath,
+                    });
+                  }
                 }
 
                 fs.ensureDirSync(join(demoDir));
-                fs.writeFileSync(virtualModulePath, value);
+                fs.writeFileSync(
+                  virtualModulePath,
+                  injectDemoBlockImport(value, demoBlockComponentPath),
+                );
               }
             });
           } catch (e) {
@@ -104,19 +123,17 @@ export function pluginPreview(options?: Options): DocPlugin {
           .join(',')}];
         `;
       demoRuntimeModule.writeModule('virtual-meta', virtualMeta);
-      // only addPages in mobile mode
 
       return [
         {
           routePath: '/~demo/:id',
-          content: `
+          content: `---
+pageType: "blank"
+---
 
 import Demo from '${demoComponentPath}'
 
 <Demo />
-
-export const pageType = "blank";
-
           `,
         },
       ];
@@ -144,13 +161,25 @@ export const pageType = "blank";
     },
     markdown: {
       remarkPlugins: [[remarkCodeToDemo, { isMobile, getRouteMeta }]],
+      globalComponents: [
+        path.join(
+          __dirname,
+          '..',
+          'static',
+          'global-components',
+          'Container.tsx',
+        ),
+      ],
     },
     globalStyles: path.join(
       __dirname,
-      `../static/${isMobile ? 'mobile' : 'web'}.css`,
+      '..',
+      'static',
+      'global-styles',
+      `${isMobile ? 'mobile' : 'web'}.css`,
     ),
     addSSGRoutes() {
-      return isMobile ? demoRoutes : [];
+      return demoRoutes;
     },
   };
 }

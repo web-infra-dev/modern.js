@@ -81,7 +81,6 @@ export const runRollup = async (
       dtsPlugin({
         respectExternal,
         compilerOptions: {
-          declarationMap: false,
           skipLibCheck: true,
           // https://github.com/Swatinem/rollup-plugin-dts/issues/143,
           // but it will cause error when bundle ts which import another ts file.
@@ -89,6 +88,8 @@ export const runRollup = async (
           ...options,
           // https://github.com/Swatinem/rollup-plugin-dts/issues/127
           composite: false,
+          // https://github.com/Swatinem/rollup-plugin-dts/issues/113
+          declarationMap: false,
           // isAbsolute
           baseUrl,
           // Ensure ".d.ts" modules are generated

@@ -20,7 +20,7 @@ sidebar_position: 8
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeConfig: () => {
@@ -42,7 +42,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       config: () => {
@@ -68,7 +68,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       validateSchema: () => {
@@ -101,7 +101,7 @@ export default (): CliPlugin => ({
 就可以在 `modern.config.ts` 中这样配置：
 
 ```ts title="modern.config.ts"
-export default defineConfig({
+export const myPlugin = defineConfig({
   foo: 'test',
 });
 ```
@@ -109,7 +109,7 @@ export default defineConfig({
 如果是别的类型，校验就不通过会报错，比如这样：
 
 ```ts title="modern.config.ts"
-export default defineConfig({
+export const myPlugin = defineConfig({
   foo: {},
 });
 ```
@@ -134,7 +134,7 @@ $ modern dev
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       prepare: () => {
@@ -156,7 +156,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterPrepare: () => {
@@ -178,7 +178,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       commands: ({ program }) => {
@@ -197,7 +197,7 @@ export default (): CliPlugin => ({
 ```ts title="modern.config.ts"
 import myPlugin from './config/plugin/myPlugin';
 
-export default defineConfig({
+export const myPlugin = defineConfig({
   plugins: [myPlugin()],
 });
 ```
@@ -220,7 +220,7 @@ foo
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeExit: () => {
@@ -246,7 +246,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeDev: () => {
@@ -268,7 +268,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterDev: () => {
@@ -284,7 +284,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterDev: ({ isFirstCompile }) => {
@@ -308,7 +308,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeCreateCompiler: ({ webpackConfigs }) => {
@@ -330,7 +330,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterCreateCompiler: ({ compiler }) => {
@@ -352,7 +352,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforePrintInstructions: ({ instructions }) => {
@@ -377,7 +377,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       beforeBuild: () => {
@@ -399,7 +399,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterBuild: () => {
@@ -421,7 +421,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryImports({ entrypoint, imports }) {
@@ -453,7 +453,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryExport({ entrypoint, exportStatement }) {
@@ -480,7 +480,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryRuntimePlugins({ entrypoint, plugins }) {
@@ -515,7 +515,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyEntryRenderFunction({ entrypoint, code }) {
@@ -541,7 +541,7 @@ export default (): CliPlugin => ({
 ```tsx
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyFileSystemRoutes({ entrypoint, routes }) {
@@ -575,7 +575,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyServerRoutes({ routes }) {
@@ -608,7 +608,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       modifyAsyncEntry({ entrypoint, code }) {
@@ -634,7 +634,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { CliPlugin } from '@modern-js/core';
 
-export default (): CliPlugin => ({
+export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       async htmlPartials({ entrypoint, partials }) {
@@ -671,7 +671,7 @@ export default (): CliPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       create: ({ measureOptions, loggerOptions }) => {
@@ -693,7 +693,7 @@ export default (): ServerPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       prepareWebServer: ({ middleware }) => {
@@ -719,7 +719,7 @@ export default (): ServerPlugin => ({
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
 
-export default (): ServerPlugin => ({
+export const myPlugin = (): ServerPlugin => ({
   setup(api) {
     return {
       prepareApiServer: ({ middleware }) => {
@@ -754,7 +754,7 @@ Runtime 插件主要用于开发者修改需要渲染的组件。
 ```ts
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       init({ context }, next) {
@@ -783,7 +783,7 @@ import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
     return {
@@ -816,7 +816,7 @@ export default (): Plugin => ({
 import { createContext } from 'react';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     const FooContext = createContext('');
 
@@ -839,7 +839,7 @@ export default (): Plugin => ({
 import ReactDOM from 'react-dom';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       client: async ({ App, rootElement }) => {
@@ -865,7 +865,7 @@ export default (): Plugin => ({
 import ReactDomServer from 'react-dom/server';
 import type { Plugin } from '@modern-js/runtime';
 
-export default (): Plugin => ({
+export const myPlugin = (): Plugin => ({
   setup(api) {
     return {
       server({ App, context }) {

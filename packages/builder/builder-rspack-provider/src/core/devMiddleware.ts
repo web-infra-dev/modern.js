@@ -1,4 +1,5 @@
-import inner from '@rspack/dev-middleware';
+// eslint-disable-next-line @typescript-eslint/no-restricted-imports
+import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import type { ModernDevServerOptions } from '@modern-js/server';
 import { setupServerHooks, isClientCompiler } from '@modern-js/builder-shared';
 
@@ -57,5 +58,5 @@ export const getDevMiddleware: (
   }
 
   // @ts-expect-error
-  return inner(compiler, restOptions);
+  return webpackDevMiddleware(compiler, restOptions);
 };

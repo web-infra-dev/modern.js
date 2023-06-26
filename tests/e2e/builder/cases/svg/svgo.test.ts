@@ -1,10 +1,9 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { allProviderTest } from '@scripts/helper';
 
-allProviderTest('should preserve viewBox after svgo minification', async () => {
+test('should preserve viewBox after svgo minification', async () => {
   const fixture = join(__dirname, 'svgo-minify-view-box');
   const buildOpts = {
     cwd: fixture,
@@ -26,7 +25,7 @@ allProviderTest('should preserve viewBox after svgo minification', async () => {
   ).toBeTruthy();
 });
 
-allProviderTest('should add id prefix after svgo minification', async () => {
+test('should add id prefix after svgo minification', async () => {
   const fixture = join(__dirname, 'svgo-minify-id-prefix');
   const buildOpts = {
     cwd: fixture,

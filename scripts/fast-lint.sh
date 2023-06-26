@@ -16,5 +16,4 @@ env \
   TIMING=1 \
   npx eslint \
   --quiet \
-  --format codeframe \
   $(git diff --diff-filter=ACM ${TARGET_BRANCH}... --name-only | grep -E '\.(js|jsx|ts|tsx|mjs|mjsx|cjs|cjsx)$')

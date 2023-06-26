@@ -13,7 +13,7 @@ export default {
       format: 'esm',
       target: 'es2020',
       dts: false,
-      input: ['./src/components/*.tsx'],
+      input: ['./src/virtual-demo.tsx'],
       externals: [
         'virtual-meta',
         '@modern-js/doc-core/runtime',

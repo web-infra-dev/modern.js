@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.22.1",
+  "version": "2.24.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -67,6 +67,16 @@
       "jsnext:source": "./src/exports/zod.ts",
       "types": "./dist/exports/zod.d.ts",
       "default": "./dist/exports/zod.js"
+    },
+    "./css-modules-typescript-loader": {
+      "jsnext:source": "./src/loaders/css-modules-typescript-loader.ts",
+      "types": "./dist/loaders/css-modules-typescript-loader.d.ts",
+      "default": "./dist/loaders/css-modules-typescript-loader.js"
+    },
+    "./ignore-css-loader": {
+      "jsnext:source": "./src/loaders/ignore-css-loader.ts",
+      "types": "./dist/loaders/ignore-css-loader.d.ts",
+      "default": "./dist/loaders/ignore-css-loader.js"
     }
   },
   "typesVersions": {
@@ -93,6 +103,14 @@
       ],
       "pug": [
         "./compiled/pug/index.d.ts"
+      ],
+      "css-modules-typescript-loader": [
+        "./dist/loaders/css-modules-typescript-loader.d.ts",
+        "./src/loaders/css-modules-typescript-loader.ts"
+      ],
+      "ignore-css-loader": [
+        "./dist/loaders/ignore-css-loader.d.ts",
+        "./src/loaders/ignore-css-loader.ts"
       ]
     }
   },
@@ -108,15 +126,18 @@
     "acorn": "^8.8.1",
     "caniuse-lite": "^1.0.30001489",
     "cheerio": "1.0.0-rc.12",
+    "cssnano": "6.0.0",
+    "line-diff": "^2.0.1",
     "postcss": "8.4.21",
     "source-map": "^0.7.4",
     "webpack": "^5.82.1",
     "webpack-sources": "^3.2.3",
     "zod": "^3.20.2",
-    "zod-validation-error": "^0.3.0"
+    "zod-validation-error": "1.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.21.5",
+    "@babel/preset-typescript": "^7.21.5",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
     "@types/caniuse-lite": "^1.0.1",
@@ -139,7 +160,9 @@
       "./test-stub": "./dist/test-stub/index.js",
       "./zod": "./dist/exports/zod.js",
       "./fork-ts-checker-webpack-plugin": "./dist/exports/fork-ts-checker-webpack-plugin.js",
-      "./pug": "./compiled/pug/index.js"
+      "./pug": "./compiled/pug/index.js",
+      "./css-modules-typescript-loader": "./dist/loaders/css-modules-typescript-loader.js",
+      "./ignore-css-loader": "./dist/loaders/ignore-css-loader.js"
     }
   }
 }

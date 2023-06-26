@@ -1,12 +1,16 @@
 import path from 'path';
-import { PLUGIN_SCHEMAS, cleanRequireCache, isReact18 } from '@modern-js/utils';
+import {
+  isReact18,
+  cleanRequireCache,
+  ENTRY_NAME_PATTERN,
+} from '@modern-js/utils';
 import type { CliPlugin, AppTools } from '@modern-js/app-tools';
-import PluginState from '../state/cli';
-import PluginSSR from '../ssr/cli';
-import PluginRouter from '../router/cli';
-import Document from '../document/cli';
+import { statePlugin } from '../state/cli';
+import { ssrPlugin } from '../ssr/cli';
+import { routerPlugin } from '../router/cli';
+import { documentPlugin } from '../document/cli';
 
-export default (): CliPlugin<AppTools> => ({
+export const runtimePlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/runtime',
   post: [
     '@modern-js/plugin-ssr',
@@ -16,7 +20,7 @@ export default (): CliPlugin<AppTools> => ({
     '@modern-js/plugin-design-token',
   ],
   // the order of runtime plugins is affected by runtime hooks, mainly `init` and `hoc` hooks
-  usePlugins: [PluginSSR(), PluginState(), PluginRouter(), Document()],
+  usePlugins: [ssrPlugin(), statePlugin(), routerPlugin(), documentPlugin()],
   setup: api => {
     return {
       config() {
@@ -47,7 +51,23 @@ export default (): CliPlugin<AppTools> => ({
         };
       },
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/runtime'];
+        return [
+          {
+            target: 'runtime',
+            schema: {
+              type: 'object',
+              additionalProperties: false,
+            },
+          },
+          {
+            target: 'runtimeByEntries',
+            schema: {
+              type: 'object',
+              patternProperties: { [ENTRY_NAME_PATTERN]: { type: 'object' } },
+              additionalProperties: false,
+            },
+          },
+        ];
       },
       async beforeRestart() {
         cleanRequireCache([
@@ -59,3 +79,5 @@ export default (): CliPlugin<AppTools> => ({
     };
   },
 });
+
+export default runtimePlugin;

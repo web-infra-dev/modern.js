@@ -8,17 +8,24 @@ import {
   JS_REGEX,
   TS_REGEX,
   mergeRegex,
+  createVirtualModule,
   getBrowserslistWithDefault,
   applyScriptCondition,
   getDefaultStyledComponentsConfig,
-  addCoreJsEntry,
 } from '@modern-js/builder-shared';
 
 import type {
+  WebpackChain,
   BuilderPlugin,
   NormalizedConfig,
   TransformImport,
 } from '../types';
+
+const enableCoreJsEntry = (
+  config: NormalizedConfig,
+  isServer: boolean,
+  isServiceWorker: boolean,
+) => config.output.polyfill === 'entry' && !isServer && !isServiceWorker;
 
 export const getUseBuiltIns = (config: NormalizedConfig) => {
   const { polyfill } = config.output;
@@ -105,6 +112,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
               userBabelConfigUtils: babelUtils,
               overrideBrowserslist: browserslist,
               importAntd: false,
+              disableReactPreset: true,
             }),
           };
 
@@ -160,11 +168,33 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             .options(babelOptions);
         }
 
-        addCoreJsEntry({ chain, config, target });
+        addCoreJsEntry({ chain, config, isServer, isServiceWorker });
       },
     );
   },
 });
+
+/** Add core-js-entry to every entries. */
+export function addCoreJsEntry({
+  chain,
+  config,
+  isServer,
+  isServiceWorker,
+}: {
+  chain: WebpackChain;
+  config: NormalizedConfig;
+  isServer: boolean;
+  isServiceWorker: boolean;
+}) {
+  if (enableCoreJsEntry(config, isServer, isServiceWorker)) {
+    const entryPoints = Object.keys(chain.entryPoints.entries() || {});
+    const coreJsEntry = createVirtualModule('import "core-js";');
+
+    for (const name of entryPoints) {
+      chain.entry(name).prepend(coreJsEntry);
+    }
+  }
+}
 
 function applyPluginImport(
   chain: BabelChain,

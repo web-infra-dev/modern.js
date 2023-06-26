@@ -1,5 +1,6 @@
 import assert from 'assert';
 import {
+  NODE_MODULES_REGEX,
   RUNTIME_CHUNK_NAME,
   getPackageNameFromModulePath,
   type Polyfill,
@@ -163,7 +164,7 @@ function splitByModule(ctx: SplitChunksContext): SplitChunks {
       // Core group
       vendors: {
         priority: -10,
-        test: /[\\/]node_modules[\\/]/,
+        test: NODE_MODULES_REGEX,
         // todo: not support in rspack
         name(module: { context: string | null }): string | false {
           return getPackageNameFromModulePath(module.context!);
@@ -215,14 +216,28 @@ function allInOne(_ctx: SplitChunksContext): SplitChunks {
 
 // Ignore user defined cache group to get single vendor chunk.
 function singleVendor(ctx: SplitChunksContext): SplitChunks {
-  const { override, defaultConfig } = ctx;
+  const { override, defaultConfig, userDefinedCacheGroups } = ctx;
   assert(defaultConfig !== false);
   assert(override !== false);
+
+  const singleVendorCacheGroup: CacheGroup = {
+    singleVendor: {
+      test: NODE_MODULES_REGEX,
+      priority: 0,
+      chunks: 'all',
+      name: 'vendor',
+      enforce: true,
+      reuseExistingChunk: true,
+    },
+  };
+
   return {
     ...defaultConfig,
     ...override,
     cacheGroups: {
       ...defaultConfig.cacheGroups,
+      ...singleVendorCacheGroup,
+      ...userDefinedCacheGroups,
       ...override.cacheGroups,
     },
   };

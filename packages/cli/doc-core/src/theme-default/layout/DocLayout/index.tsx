@@ -23,12 +23,12 @@ export function DocLayout(props: DocLayoutProps) {
   const { beforeDocFooter, beforeDoc, afterDoc, beforeOutline, afterOutline } =
     props;
   const { siteData, page } = usePageData();
-  const { toc, frontmatter } = page;
+  const { toc = [], frontmatter } = page;
   const [tabData, setTabData] = useState({});
   const headers = toc;
   const { themeConfig } = siteData;
   const localesData = useLocaleSiteData();
-  const sidebar = localesData.sidebar || [];
+  const sidebar = localesData.sidebar || {};
   const { pathname } = useLocation();
 
   const { items: sidebarData } = useSidebarData();
@@ -42,6 +42,7 @@ export function DocLayout(props: DocLayoutProps) {
   const outlineTitle =
     localesData?.outlineTitle || themeConfig?.outlineTitle || 'ON THIS PAGE';
   const isOverviewPage = frontmatter?.overview ?? false;
+  const hasFooter = frontmatter?.footer ?? true;
 
   const getHasAside = () => {
     // if in iframe, default value is false
@@ -81,7 +82,7 @@ export function DocLayout(props: DocLayoutProps) {
               </TabDataContext.Provider>
               <div>
                 {beforeDocFooter}
-                <DocFooter />
+                {hasFooter && <DocFooter />}
               </div>
             </div>
           )}

@@ -1,16 +1,37 @@
 - **Type:** `string | Object`
 - **Default:** `null`
 
-When this option is configured, the development environment will start a global proxy, similar to [Fiddler](https://www.telerik.com/fiddler), [Charles](https://www.charlesproxy.com/) and other web proxy debugging tools, which can be used to view, modify HTTP/HTTPS requests, responses, and can also be used as a proxy server.
+This option is used to configure a global proxy based on [whistle](https://wproxy.org/whistle/) in the development environment, which can be used to view and modify HTTP/HTTPS requests, responses, and can also be used as a proxy server.
 
-:::tip
-Using this option requires advance installation `@modern-js/plugin-proxy`.
+### Register Plugin
 
-:::
+Before using this option, you need to install and register the `@modern-js/plugin-proxy` plugin:
 
-### Object
+```bash
+# npm
+npm add @modern-js/plugin-proxy -D
 
-Using this option requires that the value of `Object` be installed in advance, the `key` of the object corresponds to the matching `pattern`, and the `value` of the object corresponds to the matching `target`.
+# yarn
+yarn add @modern-js/plugin-proxy -D
+
+# pnpm
+pnpm add @modern-js/plugin-proxy -D
+```
+
+After the installation, please register the plugin in the `modern.config.ts` file:
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { proxyPlugin } from '@modern-js/plugin-proxy';
+
+export default defineConfig({
+  plugins: [appTools(), proxyPlugin()],
+});
+```
+
+### Object Type
+
+When the value of `dev.proxy` is object type, the `key` of the object corresponds to the matching `pattern`, and the `value` of the object corresponds to the matching `target`.
 
 Example:
 
@@ -26,9 +47,11 @@ export default defineConfig({
 });
 ```
 
-### String
+Please refer to [whistle - Matching Patterns](https://wproxy.org/whistle/pattern.html) for detailed usage.
 
-When the value is `string`, it can be used to specify a separate proxy file, for example:
+### String Type
+
+When the value of `dev.proxy` is string type, it can be used to specify a separate proxy file, for example:
 
 ```ts title="modern.config.ts"
 export default defineConfig({
@@ -47,10 +70,7 @@ module.exports = {
 };
 ```
 
-:::info
-Modern.js global proxy implementation is based on [whistle](https://wproxy.org/whistle/), for more matching patterns, please refer to: [Matching Patterns](https://wproxy.org/whistle/pattern.html)
-
-:::
+### Start Proxy
 
 Execute `dev`, when the prompt is as follows, the proxy server starts successfully:
 
@@ -68,7 +88,7 @@ Access the `localhost:8899` to view the Network and configure proxy rules on the
 
 ![proxy UI](https://lf3-static.bytednsdoc.com/obj/eden-cn/aphqeh7uhohpquloj/modern-js/docs/dev-proxy.png)
 
-:::caution Caution
+:::info
 The https agent automatically installs the certificate to obtain root privileges. Please enter the password as prompted. ** The password is only used when the certificate is trusted and will not be leaked or used for other links **.
 
 :::

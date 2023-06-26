@@ -20,6 +20,7 @@ import type {
   ModernServerContext,
   RequestHandler,
   ExposeServerApis,
+  ServerRoute,
 } from '@modern-js/types';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { getDefaultDevOptions } from '../constants';
@@ -44,6 +45,7 @@ export class ModernDevServer extends ModernServer {
     super(options);
 
     this.appContext = options.appContext;
+
     // dev server should work in pwd
     this.workDir = this.pwd;
 
@@ -131,9 +133,13 @@ export class ModernDevServer extends ModernServer {
   private async applyDefaultMiddlewares(app: Server) {
     const { pwd, dev, devMiddleware } = this;
 
+    // the http-compression can't handler stream http.
+    // so we disable compress when user use stream ssr temporarily.
+    const isUseStreamingSSR = (routes?: ServerRoute[]) =>
+      routes?.some(r => r.isStream === true);
+
     // compression should be the first middleware
-    if (dev.compress) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    if (!isUseStreamingSSR(this.getRoutes()) && dev.compress) {
       // @ts-expect-error http-compression does not provide a type definition
       const { default: compression } = await import('http-compression');
       this.addHandler((ctx, next) => {
@@ -302,7 +308,7 @@ export class ModernDevServer extends ModernServer {
 
         // onApiChange 钩子被调用，且返回 true，则表示无需重新编译
         // onApiChange 的类型是 WaterFall,WaterFall 钩子的返回值类型目前有问题
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
         // @ts-expect-error
         if (success !== true) {
           await super.onServerChange({ filepath });
@@ -384,8 +390,10 @@ export class ModernDevServer extends ModernServer {
 
     // 监听文件变动，如果有变动则给 client，也就是 start 启动的插件发消息
     watcher.listen(defaultWatchedPaths, watchOptions, (filepath, event) => {
+      // Todo should delte this cache in onRepack
       if (filepath.includes('-server-loaders.js')) {
         delete require.cache[filepath];
+        return;
       } else {
         watcher.updateDepTree();
         watcher.cleanDepCache(filepath);

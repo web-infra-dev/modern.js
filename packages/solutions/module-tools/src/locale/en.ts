@@ -9,6 +9,10 @@ const noDevTools = `There are no DevTools available, you can learn about them an
 
 export const EN_LOCALE = {
   command: {
+    shared: {
+      config:
+        'sspecify the configuration file, which can be a relative or absolute path',
+    },
     build: {
       describe: 'build the module for production',
       watch: 'building module in watch mode',
@@ -19,7 +23,6 @@ export const EN_LOCALE = {
       noTsc: 'close tsc compiler to emit d.ts (Deprecated)',
       dts: 'Turn on dts generation and type checking',
       noClear: 'disable auto clear dist dir',
-      config: 'specify config file',
     },
     dev: {
       describe: 'run and debug the module',
@@ -62,5 +65,7 @@ export const EN_LOCALE = {
       abortOnError:
         'With the `dts.abortOnError` configuration currently turned off, type errors do not cause build failures, but they do not guarantee proper type file output',
     },
+    clearRootPath:
+      'It is detected that the outDir in the configuration is the same as the current project directory, and the current product directory will not be automatically deleted.',
   },
 };

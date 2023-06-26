@@ -4,8 +4,7 @@ import fs from '@modern-js/utils/fs-extra';
 import type { CreateBuilderOptions } from '@modern-js/builder';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
-import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
-import type { StartDevServerOptions } from '@modern-js/builder-shared';
+import { StartDevServerOptions } from '@modern-js/builder-shared';
 
 export const getHrefByEntryName = (entryName: string, port: number) => {
   const baseUrl = new URL(`http://localhost:${port}`);
@@ -58,14 +57,26 @@ export const createBuilder = async (
   return builder;
 };
 
+const portMap = new Map();
+
+function getRandomPort(defaultPort = Math.ceil(Math.random() * 10000) + 10000) {
+  let port = defaultPort;
+  while (true) {
+    if (!portMap.get(port)) {
+      portMap.set(port, 1);
+      return port;
+    } else {
+      port++;
+    }
+  }
+}
+
 const updateConfigForTest = (config: BuilderConfig) => {
   // make devPort random to avoid port conflict
-  if (!config.dev?.port) {
-    config.dev = {
-      ...(config.dev || {}),
-      port: Math.ceil(Math.random() * 10000) + 10000,
-    };
-  }
+  config.dev = {
+    ...(config.dev || {}),
+    port: getRandomPort(config.dev?.port),
+  };
 
   config.dev!.progressBar = config.dev!.progressBar || false;
 
@@ -76,44 +87,62 @@ const updateConfigForTest = (config: BuilderConfig) => {
     };
   }
 
+  // disable ts checker to make the tests faster
   if (config.output?.disableTsChecker !== false) {
     config.output = {
       ...(config.output || {}),
       disableTsChecker: true,
     };
   }
+
+  // disable polyfill to make the tests faster
+  if (config.output?.polyfill === undefined) {
+    config.output = {
+      ...(config.output || {}),
+      polyfill: 'off',
+    };
+  }
 };
 
-export async function dev(
-  builderOptions: CreateBuilderOptions,
-  config: BuilderConfig = {},
-  serverOptions?: StartDevServerOptions['serverOptions'],
-) {
-  updateConfigForTest(config);
+export async function dev({
+  serverOptions,
+  builderConfig = {},
+  ...options
+}: CreateBuilderOptions & {
+  builderConfig?: BuilderConfig;
+  serverOptions?: StartDevServerOptions['serverOptions'];
+}) {
+  process.env.NODE_ENV = 'development';
 
-  const builder = await createBuilder(builderOptions, config);
+  updateConfigForTest(builderConfig);
+
+  const builder = await createBuilder(options, builderConfig);
   return builder.startDevServer({
     printURLs: false,
     serverOptions,
   });
 }
 
-export async function build(
-  builderOptions: CreateBuilderOptions & {
-    builderConfig?: BuilderConfig;
-    plugins?: any[];
-  },
-  config: BuilderConfig = builderOptions.builderConfig || {},
-  runServer = true,
-) {
-  updateConfigForTest(config);
+export async function build({
+  plugins,
+  runServer = false,
+  builderConfig = {},
+  ...options
+}: CreateBuilderOptions & {
+  plugins?: any[];
+  runServer?: boolean;
+  builderConfig?: BuilderConfig;
+}) {
+  process.env.NODE_ENV = 'production';
 
-  const builder = await createBuilder(builderOptions, config);
+  updateConfigForTest(builderConfig);
+
+  const builder = await createBuilder(options, builderConfig);
 
   builder.removePlugins(['builder-plugin-file-size']);
 
-  if (builderOptions.plugins) {
-    builder.addPlugins(builderOptions.plugins);
+  if (plugins) {
+    builder.addPlugins(plugins);
   }
 
   const [{ runStaticServer, globContentJSON }] = await Promise.all([
@@ -125,7 +154,7 @@ export async function build(
 
   const { port, close } = runServer
     ? await runStaticServer(distPath, {
-        port: config.dev!.port,
+        port: builderConfig.dev!.port,
       })
     : { port: 0, close: noop };
 
@@ -148,28 +177,4 @@ export async function build(
     providerType: process.env.PROVIDE_TYPE || 'webpack',
     instance: builder,
   };
-}
-
-export async function stubBuild(
-  builderOptions: CreateBuilderOptions,
-  config: BuilderConfig = {},
-) {
-  const tsConfigPath = join(builderOptions.cwd!, 'tsconfig.json');
-
-  // todo: not yet support switch to rspack-builder
-  const builder = await createStubBuilder({
-    cwd: builderOptions.cwd,
-    webpack: true,
-    plugins: 'default',
-    target: ['web'],
-    builderConfig: config,
-    entry: builderOptions.entry,
-    context: {
-      tsconfigPath: fs.existsSync(tsConfigPath) ? tsConfigPath : undefined,
-    } as any,
-  });
-
-  builder.removePlugins(['builder-plugin-file-size']);
-
-  return builder;
 }

@@ -84,7 +84,16 @@ exports[`plugins/splitChunks > should set single-vendor config 1`] = `
       "name": "builder-runtime",
     },
     "splitChunks": {
-      "cacheGroups": {},
+      "cacheGroups": {
+        "singleVendor": {
+          "chunks": "all",
+          "enforce": true,
+          "name": "vendor",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        },
+      },
       "chunks": "all",
       "enforceSizeThreshold": 50000,
     },

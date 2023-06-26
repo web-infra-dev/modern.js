@@ -6,10 +6,6 @@ Builder supports import WebAssembly assets in code.
 WebAssembly (Wasm) is a portable, high-performance binary format designed to execute CPU-intensive computing tasks in modern web browsers, bringing performance and reliability similar to native compiled code to the web platform.
 :::
 
-:::info
-If you are using Rspack as the bundler, import Wasm assets is not supported yet.
-:::
-
 ## Import
 
 You can import a WebAssembly module directly in a JavaScript file:
@@ -29,6 +25,14 @@ import('./add.wasm').then(({ add }) => {
   console.log(add); // [native code]
   console.log(add(1, 2)); // 3
 });
+```
+
+You can also get the path of a WebAssembly module using the `new URL` syntax:
+
+```js title="index.js"
+const wasmURL = new URL('./add.wasm', import.meta.url);
+
+console.log(wasmURL).pathname; // "/static/wasm/[hash].module.wasm"
 ```
 
 ## Output Directory

@@ -80,7 +80,6 @@ describe('test runtime', () => {
     listenerCbs = [];
 
     ['document', 'window', 'location', 'screen'].forEach(key => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       delete global[key];
     });
@@ -91,7 +90,6 @@ describe('test runtime', () => {
     runRootPixelCode(code);
     expect(listenerCbs.length).toBe(1);
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     expect(window[DEFAULT_OPTIONS.rootFontSizeVariableName]).toBe(
       DEFAULT_OPTIONS.maxRootFontSize,

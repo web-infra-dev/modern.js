@@ -18,7 +18,7 @@ Modern.js Builder is a build engine serving the upper-level front-end frameworks
 
 <img
   src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1117.png"
-  style={{ maxWidth: '80%', marginLeft: '10%' }}
+  style={{ maxWidth: '540px', width: '100%' }}
 />
 
 If you are developing a front-end framework, or developing a scaffolding for a front-end application, Builder can provide most of the build logics for you, which allowing you to focus on implementing other features of the framework.
@@ -40,7 +40,7 @@ import Rspack from '@en/shared/rspack-tip.mdx';
 
 <Rspack />
 
-By default, Builder uses webpack 5 as the bundler. Although the compilation speed of webpack is not ideal, it is still the most mature and ecological bundler in the community. Based on webpack, Builder integrates [babel](https://github.com/babel/babel), [postcss](https://github.com/postcss/postcss), [terser](https://github.com/terser/terser) and other tools to transform or minify codes. Builder also supports replacing some compile tools with native tools to improve compilation speed, such as replacing babel/terser with [swc](https://github.com/swc-project/swc) or [esbuild](https://github.com/evanw/esbuild).
+By default, Builder uses webpack 5 as the bundler. Although the compilation speed of webpack is not ideal, it is still the most mature and ecological bundler in the community. Based on webpack, Builder integrates [Babel](https://github.com/babel/babel), [PostCSS](https://github.com/postcss/postcss), [terser](https://github.com/terser/terser) and other tools to transform or minify codes. Builder also supports replacing some compile tools with native tools to improve compilation speed, such as replacing babel/terser with [swc](https://github.com/swc-project/swc) or [esbuild](https://github.com/evanw/esbuild).
 
 If you have higher build performance requirements, you can easily switch to Rspack build mode, see [Using Rspack](/guide/advanced/rspack-start) for more information.
 
@@ -68,8 +68,10 @@ Below is the npm package published by Builder.
 | Package                                                                                                            | Version                                                                                      | Description                       |
 | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | --------------------------------- |
 | [@modern-js/builder](https://www.npmjs.com/package/@modern-js/builder)                                             | ![](https://img.shields.io/npm/v/@modern-js/builder?style=flat-square)                       | Core package of Builder           |
+| [@modern-js/builder-cli](https://www.npmjs.com/package/@modern-js/builder-cli)                                     | ![](https://img.shields.io/npm/v/@modern-js/builder-cli?style=flat-square)                   | CLI of Builder                    |
 | [@modern-js/builder-webpack-provider](https://www.npmjs.com/package/@modern-js/builder-webpack-provider)           | ![](https://img.shields.io/npm/v/@modern-js/builder-webpack-provider?style=flat-square)      | Provides webpack build ability    |
 | [@modern-js/builder-rspack-provider](https://www.npmjs.com/package/@modern-js/builder-rspack-provider)             | ![](https://img.shields.io/npm/v/@modern-js/builder-rspack-provider?style=flat-square)       | Provides Rspack build ability     |
+| [@modern-js/builder-plugin-vue](https://www.npmjs.com/package/@modern-js/builder-plugin-vue)                       | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-vue?style=flat-square)            | Vue 3 Plugin                      |
 | [@modern-js/builder-plugin-swc](https://www.npmjs.com/package/@modern-js/builder-plugin-swc)                       | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-swc?style=flat-square)            | SWC Plugin                        |
 | [@modern-js/builder-plugin-stylus](https://www.npmjs.com/package/@modern-js/builder-plugin-stylus)                 | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-stylus?style=flat-square)         | Stylus Plugin                     |
 | [@modern-js/builder-plugin-esbuild](https://www.npmjs.com/package/@modern-js/builder-plugin-esbuild)               | ![](https://img.shields.io/npm/v/@modern-js/builder-plugin-esbuild?style=flat-square)        | Esbuild Plugin                    |

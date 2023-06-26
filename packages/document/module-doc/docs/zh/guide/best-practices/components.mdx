@@ -208,7 +208,7 @@ export default {
 
 ### CSS/PostCSS
 
-模块工程支持 PostCSS，并且内置了以下 postcss 插件：
+模块工程支持 PostCSS，并且内置了以下 PostCSS 插件：
 
 - [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
 - [custom-properties](https://github.com/postcss/postcss-custom-properties)
@@ -621,9 +621,9 @@ export default () => {
 
 Bundle 模式下，会将第三方依赖打包进来。
 
-对于样式则会生成一份单独的产物文件，并且在 Js 产物文件中并不会存在导入样式的相关代码。
+对于样式则会生成一份单独的产物文件，并且在 JS 产物文件中并不会存在导入样式的相关代码。
 
-如果需要将样式注入 Js 产物中，可以开启 [`style.inject` API](/api/config/build-config#inject)。
+如果需要将样式注入 JS 产物中，可以开启 [`style.inject`](/api/config/build-config#styleinject) 选项。
 
 <CH.Code>
 ```css ./dist/es/index.css
@@ -730,10 +730,10 @@ export { src_default as default };
 - `.module.scss`
 - `.module.sass`
 
-如果需要对 CSS Modules 进行配置，可以查看一下 API：
+如果需要对 CSS Modules 进行配置，可以查看以下 API：
 
-- [autoModules](/api/config/build-config#automodules)
-- [modules](/api/config/build-config#modules)
+- [style.autoModules](/api/config/build-config#styleautomodules)
+- [style.modules](/api/config/build-config#stylemodules)
 
 下面是一个代码示例：
 

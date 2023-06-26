@@ -1,5 +1,27 @@
 # @modern-js/builder-doc
 
+## 2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- 4d4dca0: feat(builder): add new plugin.remove option
+
+  feat(builder): 新增 plugin.remove 选项
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 692cc0e: fix(builder): assetsRetry.crossOrigin default to html.crossorigin
+
+  fix(builder): assetsRetry.crossOrigin 默认值与 html.crossorigin 保持一致
+
 ## 2.22.1
 
 ### Patch Changes

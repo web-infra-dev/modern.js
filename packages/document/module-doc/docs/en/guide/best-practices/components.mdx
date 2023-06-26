@@ -204,7 +204,7 @@ The following capabilities are currently supported for developing styles.
 
 ### CSS/PostCSS
 
-The module project supports PostCSS and has the following built-in postcss plugins.
+The module project supports PostCSS and has the following built-in PostCSS plugins.
 
 - [flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes)
 - [custom-properties](https://github.com/postcss/postcss-custom-properties)
@@ -617,9 +617,9 @@ export default () => {
 
 In Bundle mode, third-party dependencies are packaged in.
 
-For styles, a separate product file is generated, and there is no code related to importing styles in the Js product file.
+For styles, a separate product file is generated, and there is no code related to importing styles in the JS output files.
 
-If you need to inject styles into Js products, you can enable the [`style.inject` API](/en/api/config/build-config#inject).
+If you need to inject styles into JS products, you can enable the [`style.inject`](/en/api/config/build-config#styleinject) option.
 
 <CH.Code>
 ```css ./dist/es/index.css
@@ -728,8 +728,8 @@ Module projects support the development of styles using CSS Modules. By default,
 
 If you need to configure CSS Modules, you can check out the API at
 
-- [autoModules](en/api/config/build-config#automodules)
-- [modules](/en/api/config/build-config#modules)
+- [style.autoModules](en/api/config/build-config#styleautomodules)
+- [style.modules](/en/api/config/build-config#stylemodules)
 
 The following is a code example.
 

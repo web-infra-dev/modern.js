@@ -22,7 +22,7 @@ pnpm add @modern-js/plugin-module-banner -D
 在 Module Tools 中，你可以按照如下方式注册插件：
 
 ```ts
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginBanner } from '@modern-js/plugin-module-banner';
 
 export default defineConfig({
@@ -48,7 +48,7 @@ export default defineConfig({
 
 ```ts
 import { modulePluginBanner } from '@modern-js/plugin-module-banner';
-import moduleTools, { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 const copyRight = `/*
  © Copyright 2020 xxx.com or one of its affiliates.

@@ -1,12 +1,5 @@
 import path from 'path';
-import {
-  PLUGIN_SCHEMAS,
-  fs,
-  CONFIG_CACHE_DIR,
-  globby,
-  nanoid,
-  slash,
-} from '@modern-js/utils';
+import { fs, CONFIG_CACHE_DIR, globby, nanoid, slash } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import designTokenPlugin from './design-token/cli';
@@ -54,7 +47,7 @@ function getDefaultContent(appDirectory: string) {
   return defaultContent;
 }
 
-export default (
+export const tailwindcssPlugin = (
   { pluginName } = {
     pluginName: '@modern-js/plugin-tailwindcss',
   },
@@ -105,7 +98,12 @@ export default (
       },
 
       validateSchema() {
-        return PLUGIN_SCHEMAS['@modern-js/plugin-tailwindcss'];
+        return [
+          {
+            target: 'tools.tailwindcss',
+            schema: { typeof: ['object', 'function'] },
+          },
+        ];
       },
 
       config() {
@@ -193,3 +191,5 @@ export default (
     };
   },
 });
+
+export default tailwindcssPlugin;

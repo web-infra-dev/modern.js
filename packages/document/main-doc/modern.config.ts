@@ -1,5 +1,5 @@
 import path from 'path';
-import docTools, { defineConfig, type NavItem } from '@modern-js/doc-tools';
+import { docTools, defineConfig, type NavItem } from '@modern-js/doc-tools';
 import { pluginAutoSidebar } from '@modern-js/doc-plugin-auto-sidebar';
 
 const rootCategories = [

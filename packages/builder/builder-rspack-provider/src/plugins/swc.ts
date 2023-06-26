@@ -6,7 +6,6 @@ import {
   logger,
   setConfig,
   isWebTarget,
-  addCoreJsEntry,
 } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
@@ -23,9 +22,27 @@ export const builderPluginSwc = (): BuilderPlugin => ({
   name: 'builder-plugin-swc',
 
   setup(api) {
+    const polyfillEntryFileName = 'rspack-polyfill.js';
+
     api.modifyBundlerChain(async (chain, { target }) => {
       const config = api.getNormalizedConfig();
-      addCoreJsEntry({ chain, config, target });
+      const mode = config?.output?.polyfill ?? 'entry';
+      const { entry } = api.context;
+      if (['modern-web', 'web'].includes(target) && mode === 'entry') {
+        Object.keys(entry).forEach(entryName => {
+          chain.entry(entryName).prepend(polyfillEntryFileName);
+        });
+
+        const { default: RspackVirtualModulePlugin } = await import(
+          'rspack-plugin-virtual-module'
+        );
+
+        chain.plugin('rspack-core-js-entry').use(RspackVirtualModulePlugin, [
+          {
+            [polyfillEntryFileName]: `import 'core-js'`,
+          },
+        ]);
+      }
     });
 
     api.modifyRspackConfig(async (rspackConfig, { target }) => {

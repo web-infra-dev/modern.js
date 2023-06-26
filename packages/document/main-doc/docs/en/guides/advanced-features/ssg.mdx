@@ -2,6 +2,7 @@
 title: Static Site Generation
 sidebar_position: 4
 ---
+
 # Static Site Generation
 
 Static Site Generation is a solution for rendering complete static web pages at build time based on data and templates.
@@ -16,7 +17,7 @@ First need to execute `pnpm run new` to enable the SSG features:
 After execute script, register SSG plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import ssgPlugin from '@modern-js/plugin-ssg';
+import { ssgPlugin } from '@modern-js/plugin-ssg';
 
 export default defineConfig({
   output: {
@@ -90,7 +91,7 @@ After executing `pnpm run serve` to start the project, visit the page in the Net
 
 For example, there is the following code, which contains multiple routes. When setting `output.ssg` to `true`, only the entry route '/' will be rendered by default:
 
-import SelfRouteExample from "@site-docs/components/self-route-example";
+import SelfRouteExample from '@site-docs/components/self-route-example';
 
 <SelfRouteExample />
 

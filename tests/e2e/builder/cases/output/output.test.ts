@@ -2,23 +2,15 @@ import { join, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest, allProviderTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-allProviderTest.describe('output configure multi', () => {
+test.describe('output configure multi', () => {
   const distFilePath = join(fixtures, 'rem/dist-1/test.json');
 
   let builder: Awaited<ReturnType<typeof build>>;
 
   test.beforeAll(async () => {
-    const buildOpts = {
-      cwd: join(fixtures, 'rem'),
-      entry: {
-        main: join(fixtures, 'rem/src/index.ts'),
-      },
-    };
-
     await fs.mkdir(dirname(distFilePath), { recursive: true });
     await fs.writeFile(
       distFilePath,
@@ -27,13 +19,19 @@ allProviderTest.describe('output configure multi', () => {
     }`,
     );
 
-    builder = await build(buildOpts, {
-      output: {
-        distPath: {
-          root: 'dist-1',
-          js: 'aa/js',
+    builder = await build({
+      cwd: join(fixtures, 'rem'),
+      entry: {
+        main: join(fixtures, 'rem/src/index.ts'),
+      },
+      builderConfig: {
+        output: {
+          distPath: {
+            root: 'dist-1',
+            js: 'aa/js',
+          },
+          copy: [{ from: './src/assets', to: '' }],
         },
-        copy: [{ from: './src/assets', to: '' }],
       },
     });
   });
@@ -47,7 +45,7 @@ allProviderTest.describe('output configure multi', () => {
     expect(fs.existsSync(distFilePath)).toBeFalsy();
   });
 
-  webpackOnlyTest('copy', async () => {
+  test('copy', async () => {
     expect(fs.existsSync(join(fixtures, 'rem/dist-1/icon.png'))).toBeTruthy();
   });
 
@@ -60,14 +58,7 @@ allProviderTest.describe('output configure multi', () => {
   });
 });
 
-allProviderTest('cleanDistPath disable', async () => {
-  const buildOpts = {
-    cwd: join(fixtures, 'rem'),
-    entry: {
-      main: join(fixtures, 'rem/src/index.ts'),
-    },
-  };
-
+test('cleanDistPath disable', async () => {
   const distFilePath = join(fixtures, 'rem/dist-2/test.json');
 
   await fs.mkdir(dirname(distFilePath), { recursive: true });
@@ -78,12 +69,18 @@ allProviderTest('cleanDistPath disable', async () => {
   }`,
   );
 
-  const builder = await build(buildOpts, {
-    output: {
-      distPath: {
-        root: 'dist-2',
+  const builder = await build({
+    cwd: join(fixtures, 'rem'),
+    entry: {
+      main: join(fixtures, 'rem/src/index.ts'),
+    },
+    builderConfig: {
+      output: {
+        distPath: {
+          root: 'dist-2',
+        },
+        cleanDistPath: false,
       },
-      cleanDistPath: false,
     },
   });
 

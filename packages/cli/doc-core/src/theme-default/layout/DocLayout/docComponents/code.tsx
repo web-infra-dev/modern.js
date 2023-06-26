@@ -56,8 +56,14 @@ export function Code(props: CodeProps) {
   if (!language) {
     return <code {...props}></code>;
   }
-  const children = props.children.trim();
-
+  let children: string;
+  if (typeof props.children === 'string') {
+    children = props.children.trim();
+  } else if (Array.isArray(props.children)) {
+    children = (props.children[0] as string).trim();
+  } else {
+    children = '';
+  }
   let highlightMeta = '';
   let highlightLines: number[] = [];
   if (meta) {

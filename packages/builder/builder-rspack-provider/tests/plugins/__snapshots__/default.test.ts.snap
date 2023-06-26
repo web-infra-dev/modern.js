@@ -58,6 +58,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -272,6 +275,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
         ],
         "test": /\\\\\\.svg\\$/,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
       },
       {
         "oneOf": [
@@ -655,6 +666,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     ForkTsCheckerWebpackPlugin {
@@ -680,6 +692,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
+    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {
@@ -763,6 +776,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "hot": false,
   },
   "devtool": "hidden-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -977,6 +993,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           },
         ],
         "test": /\\\\\\.svg\\$/,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
       },
       {
         "oneOf": [
@@ -1360,6 +1384,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     ForkTsCheckerWebpackPlugin {
@@ -1385,6 +1410,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
       },
     },
+    RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -1473,6 +1499,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "hot": false,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -1689,6 +1718,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "test": /\\\\\\.svg\\$/,
       },
       {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
         "oneOf": [
           {
             "sideEffects": true,
@@ -1807,6 +1844,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     ForkTsCheckerWebpackPlugin {
@@ -1910,6 +1948,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "hot": true,
   },
   "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
   "infrastructureLogging": {
     "level": "error",
   },
@@ -2132,6 +2173,14 @@ exports[`tools.rspack > should match snapshot 1`] = `
           },
         ],
         "test": /\\\\\\.svg\\$/,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
       },
       {
         "oneOf": [
@@ -2515,6 +2564,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "path": "<ROOT>/dist",
     "pathinfo": false,
     "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
   },
   "plugins": [
     TestPlugin {
@@ -2543,6 +2593,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
+    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {

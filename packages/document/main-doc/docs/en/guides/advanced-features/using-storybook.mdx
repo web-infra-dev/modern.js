@@ -1,0 +1,44 @@
+---
+sidebar_position: 20
+---
+
+# Using Storybook
+
+[Storybook](https://storybook.js.org/) is a tool dedicated to component debugging, providing around component development.
+
+- Develop UIs that are more durable
+- Test UIs with less effort and no flakes
+- Document UI for your team to reuse
+- Share how the UI actually works
+- Automate UI workflows
+
+## Enable Storybook debugging
+
+The Modern.js framework integrates the Builder's Node Polyfill plugin by default.
+
+If you want to debug the component, you can enable Storybook debugging through `pnpm run new`.
+
+```bash
+$ npx modern new
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Visual Testing (Storybook)
+```
+
+After the execution is complete, you only need to register the Modern.js Storybook plugin in the `modern.config.ts` file to enable Storybook debugging capabilities.
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+import { storybookPlugin } from '@modern-js/plugin-storybook';
+
+export default defineConfig({
+  plugins: [appTools(), storybookPlugin()],
+});
+```
+
+## Debugging code
+
+Modern.js recognizes files in the format of [\*.stories.(js|jsx|ts|tsx|mdx)](/apis/app/hooks/src/stories.html) under the project source code directory (src/) by default as Storybook debugging files.
+
+## Configure Storybook
+
+In Modern.js, Storybook configuration files can be added to the [`config/storybook`](/apis/app/hooks/config/storybook.html) directory of the project.

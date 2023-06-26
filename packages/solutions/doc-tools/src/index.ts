@@ -36,7 +36,7 @@ interface DocToolsOptions {
 
 const WATCH_FILE_TYPES = ['.md', '.mdx', '.tsx', '.jsx', '.ts', '.js', '.json'];
 
-export default (options: DocToolsOptions = {}): CliPlugin => ({
+export const docTools = (options: DocToolsOptions = {}): CliPlugin => ({
   name: '@modern-js/doc-tools',
   setup: async api => {
     const appContext = api.useAppContext();
@@ -58,7 +58,9 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           configFile: string;
         };
         // Concern: if the doc root is set by cli, we cannot get the root parms in `watchFiles` hook, so we can only get the root from config file.
-        return [configFile, config.doc?.root, '**/_meta.json'].filter(Boolean);
+        return [configFile, config.doc?.root, '**/_meta.json'].filter(
+          Boolean,
+        ) as string[];
       },
       async fileChange({ filename, eventType }) {
         const isConfigFile = configFiles.some(configFileName =>
@@ -89,7 +91,7 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           .command('dev [root]')
           .description('start the dev server')
           .option('-c --config <config>', 'specify config file')
-          .action(async (root?: string) => {
+          .action(async (docRoot?: string) => {
             startServer = async (isFristStart = false) => {
               if (!isFristStart) {
                 try {
@@ -99,10 +101,16 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
                 }
               }
               const config = api.useConfigContext() as UserConfig;
+              const app = api.useAppContext();
+              const { appDirectory } = app;
               const docConfig = mergeDocConfig(config, {
                 doc: extraDocConfig,
               });
-              server = await dev(root || '', docConfig);
+              server = await dev({
+                appDirectory,
+                docDirectory: docRoot || '',
+                config: docConfig,
+              });
             };
             await startServer(true);
           });
@@ -111,12 +119,18 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
           .command('build [root]')
           .description('build the document site for production')
           .option('-c --config <config>', 'specify config file')
-          .action(async (root?: string) => {
+          .action(async (docRoot?: string) => {
             const config = api.useConfigContext() as UserConfig;
             const docConfig = mergeDocConfig(config, {
               doc: extraDocConfig,
             });
-            await build(root || '', docConfig);
+            const app = api.useAppContext();
+            const { appDirectory } = app;
+            await build({
+              appDirectory,
+              docDirectory: docRoot || '',
+              config: docConfig,
+            });
           });
 
         program
@@ -136,12 +150,18 @@ export default (options: DocToolsOptions = {}): CliPlugin => ({
               const docConfig = mergeDocConfig(config, {
                 doc: extraDocConfig,
               });
-              await serve(root || '', docConfig, port, host);
+              await serve({
+                config: docConfig,
+                host,
+                port,
+              });
             },
           );
       },
     };
   },
 });
+
+export default docTools;
 
 export { defineConfig } from './config/defineConfig';

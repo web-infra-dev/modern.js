@@ -1,6 +1,5 @@
 - **Type:** `boolean`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
 Whether to disable CSS extract and inline CSS files into JS files.
 

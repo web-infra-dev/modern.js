@@ -44,7 +44,7 @@ $ pnpm run new
 执行以上命令后，在 `modern.config.ts` 中添加 Rspack 相关配置即可：
 
 ```diff title=modern.config.ts
-import appTools, { defineConfig } from '@modern-js/app-tools';
+import { appTools, defineConfig } from '@modern-js/app-tools';
 
 + export default defineConfig<'rspack'>({
   plugins: [
@@ -81,7 +81,6 @@ import appTools, { defineConfig } from '@modern-js/app-tools';
     "overrides": {
       "@rspack/core": "nightly",
       "@rspack/dev-client": "nightly",
-      "@rspack/dev-middleware": "nightly",
       "@rspack/plugin-html": "nightly"
     }
   }

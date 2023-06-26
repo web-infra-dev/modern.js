@@ -31,8 +31,6 @@ var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
 
 // src/index.js
 var src_default = (str) => addPrefix("DEBUG:", str);
-// Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {});
 "
 `;
 

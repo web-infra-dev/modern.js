@@ -1,5 +1,77 @@
 # @modern-js/builder
 
+## 2.24.0
+
+### Patch Changes
+
+- ef041c0: chore(builder): reuse externals plugin
+
+  chore(builder): 复用 externals 插件
+
+- Updated dependencies [c882fbd]
+- Updated dependencies [ef041c0]
+- Updated dependencies [4a82c3b]
+  - @modern-js/utils@2.24.0
+  - @modern-js/builder-shared@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- 20c85bb: feat(rspack-provider): support performance.removeMomentLocale in rspack
+
+  feat(rspack-provider): 在使用 rspack 构建时支持 performance.removeMomentLocale 配置项
+
+- 5772927: feat(rspack-provider): support import .wasm assets
+
+  feat(rspack-provider): 支持引用 .wasm 资源
+
+- 8f2cab0: feat(builder): support using new URL to handle wasm assets
+
+  feat(builder): 支持通过 new URL 来处理 wasm 资源
+
+- Updated dependencies [f08bbfc]
+- Updated dependencies [a6b313a]
+- Updated dependencies [5772927]
+- Updated dependencies [811ccd4]
+- Updated dependencies [5a3eeff]
+- Updated dependencies [4d4dca0]
+- Updated dependencies [8f2cab0]
+  - @modern-js/utils@2.23.1
+  - @modern-js/builder-shared@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 9b270b6: feat(builder): extend rules of splitByExperience
+  feat(builder): 拓展 splitByExperience 内部规则
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- 692cc0e: fix(builder): assetsRetry.crossOrigin default to html.crossorigin
+
+  fix(builder): assetsRetry.crossOrigin 默认值与 html.crossorigin 保持一致
+
+- a82d6f7: fix(builder): single-vendor chunkSplit not work as expected
+
+  fix(builder): single-vendor 拆包规则未按照预期生效
+
+- Updated dependencies [15eac36]
+- Updated dependencies [d4e85c1]
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [a7a7ad7]
+- Updated dependencies [6dec7c2]
+- Updated dependencies [c3216b5]
+- Updated dependencies [f14f920]
+- Updated dependencies [692cc0e]
+- Updated dependencies [38eccef]
+- Updated dependencies [f91c557]
+- Updated dependencies [a82d6f7]
+  - @modern-js/builder-shared@2.23.0
+  - @modern-js/utils@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes

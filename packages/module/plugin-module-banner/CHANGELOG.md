@@ -1,5 +1,35 @@
 # @modern-js/plugin-module-banner
 
+## 2.24.0
+
+### Patch Changes
+
+- 53ba418: chore: upgrade libuild and libuild plugins version to 0.13.1
+  chore: 升级 libuild 和 libuild 插件版本到 0.13.1
+- Updated dependencies [53ba418]
+- Updated dependencies [3b82675]
+- Updated dependencies [7073297]
+  - @modern-js/module-tools@2.24.0
+
+## 2.23.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.23.1
+
+## 2.23.0
+
+### Patch Changes
+
+- 7e6fb5f: chore: publishConfig add provenance config
+
+  chore: publishConfig 增加 provenance 配置
+
+- Updated dependencies [7e6fb5f]
+- Updated dependencies [21b7f86]
+- Updated dependencies [d1ef55f]
+  - @modern-js/module-tools@2.23.0
+
 ## 2.22.1
 
 ### Patch Changes
