@@ -1,5 +1,8 @@
 export const EN_LOCALE = {
   command: {
+    shared: {
+      config: 'specify config file',
+    },
     new: {
       describe: 'generator runner for monorepo project',
       debug: 'using debug mode to log something',

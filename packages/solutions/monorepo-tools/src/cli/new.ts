@@ -7,6 +7,10 @@ export const newCli = (program: Command, locale?: string) => {
     .command('new')
     .usage('[options]')
     .description(i18n.t(localeKeys.command.new.describe))
+    .option(
+      '--config-file <configFile>',
+      i18n.t(localeKeys.command.shared.config),
+    )
     .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
     .option('-c, --config <config>', i18n.t(localeKeys.command.new.config))
     .option(

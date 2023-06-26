@@ -28,7 +28,7 @@ export const buildCommand = async (
     .option('--no-clear', local.i18n.t(local.localeKeys.command.build.noClear))
     .option(
       '-c --config <config>',
-      local.i18n.t(local.localeKeys.command.build.config),
+      local.i18n.t(local.localeKeys.command.shared.config),
     )
     .action(async (options: BuildCommandOptions) => {
       const { initModuleContext } = await import('./utils/context');
@@ -101,6 +101,10 @@ export const newCommand = async (program: Command) => {
     .command('new')
     .usage('[options]')
     .description(local.i18n.t(local.localeKeys.command.new.describe))
+    .option(
+      '--config-file <configFile>',
+      local.i18n.t(local.localeKeys.command.shared.config),
+    )
     .option('--lang <lang>', local.i18n.t(local.localeKeys.command.new.lang))
     .option(
       '-c, --config <config>',
@@ -129,6 +133,14 @@ export const newCommand = async (program: Command) => {
 };
 
 export const upgradeCommand = async (program: Command) => {
+  const local = await import('./locale');
   const { defineCommand } = await import('@modern-js/upgrade');
-  defineCommand(program.command('upgrade'));
+  defineCommand(
+    program
+      .command('upgrade')
+      .option(
+        '-c --config <config>',
+        local.i18n.t(local.localeKeys.command.shared.config),
+      ),
+  );
 };

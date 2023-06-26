@@ -1,5 +1,8 @@
 export const ZH_LOCALE = {
   command: {
+    shared: {
+      config: '指定配置文件路径，可以为相对路径或绝对路径',
+    },
     new: {
       describe: 'Monorepo 创建子项目',
       debug: '开启 Debug 模式，打印调试日志信息',

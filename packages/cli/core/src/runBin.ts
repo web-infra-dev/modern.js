@@ -35,7 +35,7 @@ export const run = async (
 
   /**
    * Commands that support specify config files
-   * Some commands can't support this feature, such as `new`
+   * `new` command need to use `--config-file` params,because `--config` is already used
    */
   const SUPPORT_CONFIG_PARAM_COMMANDS = [
     'dev',
@@ -44,11 +44,20 @@ export const run = async (
     'start',
     'serve',
     'inspect',
+    'upgrade',
   ];
 
-  const customConfigFile = cliParams.config || cliParams.c;
+  let customConfigFile;
 
-  if (SUPPORT_CONFIG_PARAM_COMMANDS.includes(command) && customConfigFile) {
+  if (SUPPORT_CONFIG_PARAM_COMMANDS.includes(command)) {
+    customConfigFile = cliParams.config || cliParams.c;
+  }
+
+  if (command === 'new') {
+    customConfigFile = cliParams['config-file'];
+  }
+
+  if (customConfigFile) {
     runOptions.configFile = customConfigFile;
   }
 
