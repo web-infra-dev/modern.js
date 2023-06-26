@@ -1,7 +1,8 @@
 export const EN_LOCALE = {
   command: {
     shared: {
-      config: 'specify config file',
+      config:
+        'specify the configuration file, which can be a relative or absolute path',
     },
     new: {
       describe: 'generator runner for monorepo project',

@@ -17,7 +17,7 @@ Usage: modern dev [options]
 
 Options:
   -e --entry <entry>    compiler by entry
-  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
   -h, --help            show command help
   --analyze             analyze the bundle and view size of each module
   --web-only            only start web service
@@ -77,7 +77,7 @@ The `modern build` command will build a production-ready product in the `dist/` 
 Usage: modern build [options]
 
 Options:
-  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
   -h, --help            show command help
   --analyze             analyze the bundle and view size of each module
 ```
@@ -112,6 +112,7 @@ For example, add application entry, enable some optional features such as Tailwi
 Usage: modern new [options]
 
 Options:
+  --config-file <configFile>  specify the configuration file, which can be a relative or absolute path
   --lang <lang>          set the language (zh or en) for the new command.
   -d, --debug            using debug mode to log something (default: false)
   -c, --config <config>  set default generator config(json string)
@@ -161,7 +162,7 @@ Usually use the `modern serve` command to enable project run in the production e
 Usage: modern serve [options]
 
 Options:
-  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
   -h, --help            show command help
   --api-only            only run API service
 ```
@@ -184,6 +185,7 @@ Execute the command `npx modern upgrade` in the project, by default, dependencie
 Usage: modern upgrade [options]
 
 Options:
+  --config <config> specify the configuration file, which can be a relative or absolute path
   --registry <registry>  specify npm registry (default: "")
   -d,--debug             using debug mode to log something (default: false)
   --cwd <cwd>            app directory (default: "")
@@ -201,7 +203,7 @@ Options:
   --env <env>           view the configuration in the target environment (default: "development")
   --output <output>     Specify the path to output in the dist (default: "/")
   --verbose             Show the full function in the result
-  -c --config <config>  configuration file path, which can be a relative path or an absolute path
+  -c --config <config>  specify the configuration file, which can be a relative or absolute path
   -h, --help            show command help
 ```
 

@@ -10,7 +10,8 @@ const noDevTools = `There are no DevTools available, you can learn about them an
 export const EN_LOCALE = {
   command: {
     shared: {
-      config: 'specify config file',
+      config:
+        'sspecify the configuration file, which can be a relative or absolute path',
     },
     build: {
       describe: 'build the module for production',
