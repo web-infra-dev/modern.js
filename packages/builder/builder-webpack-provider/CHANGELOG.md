@@ -1,5 +1,16 @@
 # @modern-js/builder-webpack-provider
 
+## 2.24.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.24.1
+- @modern-js/babel-preset-app@2.24.1
+- @modern-js/babel-preset-base@2.24.1
+- @modern-js/server@2.24.1
+- @modern-js/types@2.24.1
+- @modern-js/utils@2.24.1
+
 ## 2.24.0
 
 ### Patch Changes

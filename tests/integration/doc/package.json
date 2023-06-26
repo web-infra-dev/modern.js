@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "doc-tools",
-  "version": "2.13.2",
+  "version": "2.24.1",
   "dependencies": {
     "@types/jest": "^29",
     "@types/node": "^14"

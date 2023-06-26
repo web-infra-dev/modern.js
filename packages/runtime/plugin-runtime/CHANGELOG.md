@@ -1,5 +1,15 @@
 # @modern-js/runtime
 
+## 2.24.1
+
+### Patch Changes
+
+- 13354d3356: fix(runtime): ssr link tag add attrs error
+  fix(runtime): ssr link 标签添加错误的属性
+  - @modern-js/plugin@2.24.1
+  - @modern-js/types@2.24.1
+  - @modern-js/utils@2.24.1
+
 ## 2.24.0
 
 ### Patch Changes

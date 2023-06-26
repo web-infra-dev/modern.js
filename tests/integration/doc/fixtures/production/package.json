@@ -1,6 +1,6 @@
 {
   "name": "simple-doc-production",
-  "version": "1.0.0",
+  "version": "2.24.1",
   "private": true,
   "scripts": {
     "dev": "modern dev"

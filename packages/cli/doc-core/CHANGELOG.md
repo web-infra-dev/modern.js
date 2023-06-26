@@ -1,5 +1,16 @@
 # @modern-js/doc-core
 
+## 2.24.1
+
+### Patch Changes
+
+- @modern-js/builder@2.24.1
+- @modern-js/builder-rspack-provider@2.24.1
+- @modern-js/core@2.24.1
+- @modern-js/doc-plugin-medium-zoom@2.24.1
+- @modern-js/remark-container@2.24.1
+- @modern-js/utils@2.24.1
+
 ## 2.24.0
 
 ### Patch Changes
