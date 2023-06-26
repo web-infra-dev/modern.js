@@ -89,10 +89,9 @@ export default async function mdxLoader(
     }
 
     // encode filename to be compatible with Windows
-    const encodedFilepath = encodeURIComponent(filepath);
     const result = `globalThis.__RSPRESS_PAGE_META ||= {};
 globalThis.__RSPRESS_PAGE_META["${encodeURIComponent(
-      encodedFilepath,
+      filepath,
     )}"] = ${JSON.stringify(pageMeta)};
 ${compileResult}`;
     callback(null, result);
