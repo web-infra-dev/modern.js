@@ -25,6 +25,7 @@ export function checkLinks(
   const errorInfos: string[] = [];
   links
     .filter(link => !IGNORE_REGEXP.test(link))
+    .map(link => link.replace(/\\/g, '/'))
     .forEach(link => {
       const relativePath = path.relative(root, filepath);
 
