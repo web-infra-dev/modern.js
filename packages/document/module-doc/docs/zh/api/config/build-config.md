@@ -454,7 +454,7 @@ js 产物输出的格式,其中 `iife` 和 `umd` 只能在 `buildType` 为 `bund
 - 类型： `string[] | Record<string, string>`
 - 默认值： `bundle` 模式下默认为 `['src/index.ts']`，`bundleless` 模式下默认为 `['src']`
 
-**数组使用：**
+**数组用法：**
 
 ```js modern.config.ts
 export default defineConfig({
@@ -464,7 +464,7 @@ export default defineConfig({
 });
 ```
 
-**对象使用：**
+**对象用法：**
 
 当在 bundle 模式下需要修改产物的输出文件名称的时候，可以使用对象形式进行配置。
 

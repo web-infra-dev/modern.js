@@ -769,7 +769,7 @@ export default {
 
 See [PostCSS](https://github.com/postcss/postcss#options) for detailed configuration
 
-**Base usage：**
+**Basic usage：**
 
 ``` js modern.config.ts
 export default defineConfig({
