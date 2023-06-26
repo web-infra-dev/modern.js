@@ -46,7 +46,7 @@ export const mergeTraceHeads = (traces: StackTracey.Entry[][]) => {
   return [...heads, ...tails];
 };
 
-export const flattenErrorCauses: ErrorTransformer = e => {
+export const flattenCausesTransformer: ErrorTransformer = e => {
   const traces = [e.trace, ..._.map(e.causes, 'trace')];
   const merged = mergeTraceHeads(traces);
   if (merged) {

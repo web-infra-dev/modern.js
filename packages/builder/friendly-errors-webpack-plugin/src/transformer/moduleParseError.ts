@@ -1,7 +1,7 @@
 import chalk from '@modern-js/utils/chalk';
 import { ErrorTransformer } from '../shared/types';
 
-export const transformModuleParseError: ErrorTransformer = e => {
+export const moduleParseErrorTransformer: ErrorTransformer = e => {
   if (e.name === 'ModuleParseError') {
     const rawError: Error = (e.raw as any).error;
     const rawStack = rawError?.stack;

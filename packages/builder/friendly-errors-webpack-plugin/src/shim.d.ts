@@ -1,3 +1,10 @@
+import 'ansi-html';
+
+declare module 'ansi-html' {
+  declare function ansiHtml(source: string): string;
+  export default ansiHtml;
+}
+
 interface Error {
   cause?: unknown;
   error?: unknown;

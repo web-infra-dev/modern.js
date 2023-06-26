@@ -1,10 +1,12 @@
-import { describe, expect, test, vi } from 'vitest';
+import fs from 'fs';
+import path from 'path';
+import { SpyInstance, describe, expect, test, vi } from 'vitest';
 import webpack, { WebpackError } from 'webpack';
-import { useFixture, cleanOutput } from '@modern-js/e2e';
+import TerminalRenderer from 'ansi-to-html';
 import _ from '@modern-js/utils/lodash';
-import { transformPathReplacements } from './pathReplacements';
+import webpackConfig from '../example/webpack.config';
 import { FriendlyErrorsWebpackPlugin } from '@/plugin';
-import { outputPrettyError } from '@/shared/utils';
+import { outputPrettyError } from '@/core/output';
 
 export const webpackBuild = async (compiler: webpack.Compiler) => {
   return new Promise((resolve, reject) => {
@@ -26,62 +28,52 @@ export const webpackBuild = async (compiler: webpack.Compiler) => {
   });
 };
 
+const renderer = new TerminalRenderer();
+
+const renderMockedLogs = (mocked: SpyInstance) => {
+  const { calls } = mocked.mock;
+  const logs = [];
+  for (const args of calls) {
+    logs.push(args.join(' '));
+  }
+  const rendered = renderer.toHtml(logs.join('\n'));
+  const distDir = path.resolve(__dirname, `./dist`);
+  try {
+    fs.mkdirSync(distDir, { recursive: true });
+  } catch {}
+  fs.writeFileSync(
+    path.resolve(distDir, `${Date.now()}.html`),
+    `<body style="background-color: black"><pre>${rendered}</pre></body>`,
+    'utf-8',
+  );
+  return rendered;
+};
+
 describe('webpack', () => {
   test('compilation.errors', async () => {
     const mockedError = vi.spyOn(console, 'error').mockImplementation(_.noop);
-    const options = await useFixture('@modern-js/e2e/fixtures/builder/basic', {
-      copy: true,
-    });
     const config: webpack.Configuration = {
-      context: options.cwd,
-      mode: 'production',
-      entry: './index.js',
-      output: {
-        filename: 'main.js',
-        path: options.distPath,
-      },
-      plugins: [
-        new FriendlyErrorsWebpackPlugin({
-          transformers: [transformPathReplacements],
-        }),
-      ],
+      ...webpackConfig,
+      plugins: [new FriendlyErrorsWebpackPlugin()],
     };
     const compiler = webpack(config);
     compiler.hooks.compilation.tap('dev', compilation => {
       compilation.errors.push(new WebpackError('foo'));
     });
     await expect(webpackBuild(compiler)).rejects.toThrow();
-    expect(cleanOutput(mockedError)).toMatchInlineSnapshot(`
-      " ERROR  Error: foo<STACK>
-      "
-    `);
+    expect(renderMockedLogs(mockedError)).toMatchSnapshot();
   });
 
   test('throw new error', async () => {
     const mockedError = vi.spyOn(console, 'error').mockImplementation(_.noop);
-    const options = await useFixture('@modern-js/e2e/fixtures/builder/basic', {
-      copy: true,
-    });
     const config: webpack.Configuration = {
-      context: options.cwd,
-      mode: 'production',
-      entry: './index.js',
-      output: {
-        filename: 'main.js',
-        path: options.distPath,
-      },
+      ...webpackConfig,
     };
     const compiler = webpack(config);
     compiler.hooks.compilation.tap('dev', () => {
       throw new Error('bar');
     });
-    await webpackBuild(compiler).catch(e =>
-      outputPrettyError(e, {
-        transformers: [transformPathReplacements],
-      }),
-    );
-    expect(cleanOutput(mockedError)).toMatchInlineSnapshot(
-      '" ERROR  Error: bar<STACK>"',
-    );
+    await webpackBuild(compiler).catch(e => outputPrettyError(e));
+    expect(renderMockedLogs(mockedError)).toMatchSnapshot();
   });
 });
