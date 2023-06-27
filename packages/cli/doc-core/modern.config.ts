@@ -18,7 +18,7 @@ export default {
       target: 'es2020',
       outDir: 'dist',
       sourceMap: true,
-      externals: ['@modern-js/mdx-rs-binding'],
+      externals: ['@modern-js/mdx-rs-binding', 'jsdom'],
     },
     {
       input: {
