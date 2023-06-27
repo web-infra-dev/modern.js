@@ -106,7 +106,8 @@ describe('webpack', () => {
       compilation.errors.push(new WebpackError('foo'));
     });
     await expect(webpackBuild(compiler)).rejects.toThrow();
-    expect(renderMockedLogs(mockedError)).toMatchSnapshot();
+    renderMockedLogs(mockedError);
+    expect(cleanOutput(mockedError)).toMatchSnapshot();
   }, 30_000);
 
   test('throw new error', async () => {
@@ -119,6 +120,7 @@ describe('webpack', () => {
       throw new Error('bar');
     });
     await webpackBuild(compiler).catch(e => outputPrettyError(e));
-    expect(renderMockedLogs(mockedError)).toMatchSnapshot();
+    renderMockedLogs(mockedError);
+    expect(cleanOutput(mockedError)).toMatchSnapshot();
   }, 30_000);
 });

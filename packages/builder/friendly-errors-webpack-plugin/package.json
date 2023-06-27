@@ -55,7 +55,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
     "dev": "tsc --watch --sourceMap",
-    "test": "vitest run",
+    "test:local": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui",
     "example:build": "webpack -c example/webpack.config.js"
