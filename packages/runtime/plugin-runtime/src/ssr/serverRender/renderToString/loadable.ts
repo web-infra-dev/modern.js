@@ -1,5 +1,4 @@
 import { ChunkExtractor } from '@loadable/server';
-import { isCrossOrigin } from '../../utils';
 import { attributesToString, getLoadableScripts } from '../utils';
 import { RenderHandler } from './type';
 
@@ -14,7 +13,6 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
   const {
     stats,
     result: { chunksMap },
-    host,
     config = {},
     nonce,
   } = renderer;
@@ -37,7 +35,7 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
     const fileType = extname(v.url!).slice(1);
     const attributes: Record<string, any> = {};
     const { crossorigin, scriptLoading = 'defer' } = config;
-    if (crossorigin && isCrossOrigin(v.url, host)) {
+    if (crossorigin) {
       attributes.crossorigin = crossorigin === true ? 'anonymous' : crossorigin;
     }
 
@@ -57,9 +55,10 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
       const attrsStr = attributesToString(attributes);
       chunksMap[fileType] += `<script${attrsStr} src="${v.url}"></script>`;
     } else if (fileType === 'css') {
+      const attrsStr = attributesToString(attributes);
       chunksMap[
         fileType
-      ] += `<link${attributes} href="${v.url}" rel="stylesheet" />`;
+      ] += `<link${attrsStr} href="${v.url}" rel="stylesheet" />`;
     }
   }
 

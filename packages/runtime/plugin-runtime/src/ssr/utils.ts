@@ -66,13 +66,3 @@ export const mockResponse = () => {
     },
   };
 };
-
-export const isCrossOrigin = (url = '', base: string) => {
-  if (url.startsWith('/') || url.startsWith('./')) {
-    return false;
-  } else if (!url.includes(base)) {
-    return true;
-  } else {
-    return false;
-  }
-};
