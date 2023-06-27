@@ -12,3 +12,20 @@ export const toValidVarName = (str: string): string => {
     return str.replace(/[^0-9a-zA-Z_$]/g, '_').replace(/^([0-9])/, '_$1');
   }
 };
+
+/**
+ * remove .html extension and validate
+ * @param routePath id from pathname
+ * @returns normalized id
+ */
+export const normalizeId = (routePath: string) => {
+  const result = routePath.replace(/\.(.*)?$/, '');
+  return toValidVarName(result);
+};
+
+export const injectDemoBlockImport = (str: string, path: string): string => {
+  return `
+    import DemoBlock from '${path}';
+    ${str}
+  `;
+};

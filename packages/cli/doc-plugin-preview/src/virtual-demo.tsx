@@ -1,7 +1,7 @@
 import { demos } from 'virtual-meta';
 import { createElement } from 'react';
 import { NoSSR, useLocation } from '@modern-js/doc-core/runtime';
-import { toValidVarName } from '../utils';
+import { normalizeId } from './utils';
 
 export default function Demo() {
   // get the id from the pathname
@@ -17,13 +17,3 @@ export default function Demo() {
     return null;
   }
 }
-
-/**
- * remove .html extension and validate
- * @param routePath id from pathname
- * @returns normalized id
- */
-const normalizeId = (routePath: string) => {
-  const result = routePath.replace(/\.(.*)?$/, '');
-  return toValidVarName(result);
-};

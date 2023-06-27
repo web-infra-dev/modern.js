@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import { logger } from '@modern-js/utils/logger';
+import ForkTsCheckerWebpackPlugin from '@modern-js/builder-shared/fork-ts-checker-webpack-plugin';
 import { bus, createFriendlyPercentage } from './helpers';
 import prettyTime from '../../../compiled/pretty-time';
 import { createNonTTYLogger } from './helpers/nonTty';
@@ -10,22 +11,28 @@ export interface ProgressOptions
   id?: string;
   clearOnDone?: boolean;
   showRecompileLog?: boolean;
+  disableTsChecker?: boolean;
 }
 
 export class ProgressPlugin extends webpack.ProgressPlugin {
   readonly name: string = 'ProgressPlugin';
 
-  hasErrors: boolean = false;
+  hasTypeErrors: boolean = false;
+
+  hasCompileErrors: boolean = false;
 
   compileTime: string | null = null;
 
   showRecompileLog: boolean;
+
+  disableTsChecker?: boolean;
 
   constructor(options: ProgressOptions) {
     const {
       id = 'Modern',
       clearOnDone = false,
       showRecompileLog = false,
+      disableTsChecker,
     } = options;
 
     const nonTTYLogger = createNonTTYLogger();
@@ -51,7 +58,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
             current: percentage * 100,
             message,
             done,
-            hasErrors: this.hasErrors,
+            hasErrors: this.hasCompileErrors,
             compileTime: this.compileTime,
           });
           bus.render();
@@ -64,7 +71,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
             id,
             done,
             current: percentage * 100,
-            hasErrors: this.hasErrors,
+            hasErrors: this.hasCompileErrors,
             compileTime: this.compileTime,
           });
         }
@@ -72,6 +79,7 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
     });
 
     this.showRecompileLog = showRecompileLog;
+    this.disableTsChecker = disableTsChecker;
   }
 
   apply(compiler: webpack.Compiler): void {
@@ -84,7 +92,11 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
       // If it is a recompile and there are compilation errors,
       // print a recompile log so that users can know that the recompile
       // is triggered and the above error log is outdated.
-      if (isReCompile && this.showRecompileLog && this.hasErrors) {
+      if (
+        isReCompile &&
+        this.showRecompileLog &&
+        (this.hasCompileErrors || this.hasTypeErrors)
+      ) {
         logger.info(`Start recompile...\n`);
       }
 
@@ -95,10 +107,24 @@ export class ProgressPlugin extends webpack.ProgressPlugin {
 
     compiler.hooks.done.tap(this.name, stat => {
       if (startTime) {
-        this.hasErrors = stat.hasErrors();
+        this.hasCompileErrors = stat.hasErrors();
         this.compileTime = prettyTime(process.hrtime(startTime), 2);
         startTime = null;
       }
     });
+
+    if (!this.disableTsChecker) {
+      const hooks = ForkTsCheckerWebpackPlugin.getCompilerHooks(compiler);
+
+      hooks.start.tap(this.name, change => {
+        this.hasTypeErrors = false;
+        return change;
+      });
+
+      hooks.issues.tap(this.name, issues => {
+        this.hasTypeErrors = Boolean(issues.length);
+        return issues;
+      });
+    }
   }
 }

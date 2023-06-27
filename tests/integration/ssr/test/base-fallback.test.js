@@ -14,7 +14,7 @@ const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 async function basicUsage(page, appPort) {
   await page.setExtraHTTPHeaders({
-    'x-modern-js-ssr-fallback': '1',
+    'x-modern-ssr-fallback': '1',
   });
   const response = await page.goto(`http://localhost:${appPort}`, {
     waitUntil: ['networkidle0'],
