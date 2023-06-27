@@ -1,17 +1,14 @@
 [
   {
     "text": "guide",
-    "link": "/guide/start/getting-started",
-    "activeMatch": "/guide/"
+    "link": "/guide/start/getting-started"
   },
   {
     "text": "plugin",
-    "link": "/plugin/system/introduction",
-    "activeMatch": "/plugin/"
+    "link": "/plugin/system/introduction"
   },
   {
     "text": "api",
-    "link": "/api/",
-    "activeMatch": "/api/"
+    "link": "/api/"
   }
 ]
