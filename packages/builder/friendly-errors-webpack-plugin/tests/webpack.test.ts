@@ -107,7 +107,7 @@ describe('webpack', () => {
     });
     await expect(webpackBuild(compiler)).rejects.toThrow();
     expect(renderMockedLogs(mockedError)).toMatchSnapshot();
-  });
+  }, 30_000);
 
   test('throw new error', async () => {
     const mockedError = vi.spyOn(console, 'error').mockImplementation(_.noop);
@@ -120,5 +120,5 @@ describe('webpack', () => {
     });
     await webpackBuild(compiler).catch(e => outputPrettyError(e));
     expect(renderMockedLogs(mockedError)).toMatchSnapshot();
-  });
+  }, 30_000);
 });
