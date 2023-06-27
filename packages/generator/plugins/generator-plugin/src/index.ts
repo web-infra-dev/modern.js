@@ -133,7 +133,6 @@ export default function (context: IPluginContext) {
       'scripts.prepare': `${packageManager as string} build`,
       'devDependencies.@modern-js/generator-plugin': '^2.0.0',
     });
-    api.rmDir('tests');
     api.rmFile('.npmignore');
   });
 }
