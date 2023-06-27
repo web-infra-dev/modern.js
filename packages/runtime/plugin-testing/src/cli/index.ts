@@ -26,6 +26,26 @@ export const mergeUserJestConfig = (testUtils: TestConfigOperator) => {
   }
 };
 
+export const getJestTransformEsModulesRegStr = () => {
+  const esmModulesInPnpm = [
+    '@modern-js\\+runtime@',
+    '@modern-js\\+plugin@',
+    // @modern-js-reduck+store, @modern-js-reduck+effects and so on
+    '@modern-js-reduck',
+    '@babel\\+runtime@',
+  ];
+  // yarn or npm
+  const esmModules = [
+    '@modern-js/runtime',
+    '@modern-js/plugin',
+    '@modern-js-reduck',
+    '@babel/runtime',
+  ];
+  return `node_modules/(?!(\\.pnpm/(${esmModulesInPnpm.join(
+    '|',
+  )}))|(${esmModules.join('|')}))`;
+};
+
 export const testingPlugin = (): CliPlugin<{
   hooks: Hooks;
   userConfig: UserConfig;
@@ -128,6 +148,7 @@ export const testingPlugin = (): CliPlugin<{
               `<rootDir>/src/**/*.test.[jt]s?(x)`,
               `<rootDir>/tests/**/*.test.[jt]s?(x)`,
             ],
+            transformIgnorePatterns: [getJestTransformEsModulesRegStr()],
           });
 
           mergeUserJestConfig(utils);
