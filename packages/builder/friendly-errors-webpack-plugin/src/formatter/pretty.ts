@@ -21,8 +21,8 @@ const SIGN_TEXT = {
 } as const;
 
 const SIGN_COLOR = {
-  error: chalk.bgRed.bold,
-  warning: chalk.bgYellow.bold,
+  error: chalk.bgRed.bold.black,
+  warning: chalk.bgYellow.bold.black,
 } as const;
 
 /**

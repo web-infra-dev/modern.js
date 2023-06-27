@@ -1,5 +1,4 @@
 const path = require('path');
-const { FriendlyErrorsWebpackPlugin } = require('../dist')
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -19,5 +18,4 @@ module.exports = {
     errors: false,
   },
   devtool: 'source-map',
-  plugins: [new FriendlyErrorsWebpackPlugin()]
 };

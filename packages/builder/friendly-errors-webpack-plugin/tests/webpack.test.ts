@@ -1,12 +1,59 @@
-import fs from 'fs';
 import path from 'path';
 import { SpyInstance, describe, expect, test, vi } from 'vitest';
 import webpack, { WebpackError } from 'webpack';
 import TerminalRenderer from 'ansi-to-html';
 import _ from '@modern-js/utils/lodash';
+import fs from '@modern-js/utils/fs-extra';
 import webpackConfig from '../example/webpack.config';
 import { FriendlyErrorsWebpackPlugin } from '@/plugin';
 import { outputPrettyError } from '@/core/output';
+
+const themes = {
+  oneDark: {
+    fg: '#abb2bf',
+    bg: '#282c34',
+    colors: [
+      '#282c34',
+      '#e06c75',
+      '#98c379',
+      '#e5c07b',
+      '#61afef',
+      '#c678dd',
+      '#56b6c2',
+      '#abb2bf',
+      '#5c6370',
+      '#be5046',
+      '#98c379',
+      '#d19a66',
+      '#61afef',
+      '#c678dd',
+      '#56b6c2',
+      '#ffffff',
+    ],
+  },
+  oneLight: {
+    fg: '#383a42',
+    bg: '#fafafa',
+    colors: [
+      '#fafafa',
+      '#e06c75',
+      '#98c379',
+      '#d19a66',
+      '#61afef',
+      '#c678dd',
+      '#56b6c2',
+      '#abb2bf',
+      '#383a42',
+      '#e06c75',
+      '#50a14f',
+      '#d19a66',
+      '#61afef',
+      '#c678dd',
+      '#56b6c2',
+      '#ffffff',
+    ],
+  },
+} satisfies Record<string, ConstructorParameters<typeof TerminalRenderer>[0]>;
 
 export const webpackBuild = async (compiler: webpack.Compiler) => {
   return new Promise((resolve, reject) => {
@@ -28,24 +75,22 @@ export const webpackBuild = async (compiler: webpack.Compiler) => {
   });
 };
 
-const renderer = new TerminalRenderer();
-
 const renderMockedLogs = (mocked: SpyInstance) => {
   const { calls } = mocked.mock;
   const logs = [];
   for (const args of calls) {
     logs.push(args.join(' '));
   }
-  const rendered = renderer.toHtml(logs.join('\n'));
-  const distDir = path.resolve(__dirname, `./dist`);
-  try {
-    fs.mkdirSync(distDir, { recursive: true });
-  } catch {}
-  fs.writeFileSync(
-    path.resolve(distDir, `${Date.now()}.html`),
-    `<body style="background-color: black"><pre>${rendered}</pre></body>`,
-    'utf-8',
-  );
+  let rendered = '';
+  const scope = Date.now();
+  for (const [name, opts] of Object.entries(themes)) {
+    const renderer = new TerminalRenderer(opts);
+    rendered = renderer.toHtml(logs.join('\n'));
+    fs.outputFile(
+      path.resolve(__dirname, `./dist/${scope}/${name}.html`),
+      `<body style="background-color: ${opts.bg}"><pre>${rendered}</pre></body>`,
+    );
+  }
   return rendered;
 };
 
