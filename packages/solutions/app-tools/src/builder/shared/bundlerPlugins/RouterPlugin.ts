@@ -151,35 +151,22 @@ export class RouterPlugin {
             if (!asset) {
               continue;
             }
-            if (asset.sourceAndMap) {
-              const { source, map } = asset.sourceAndMap();
-              const newContent = `${injectedContent}${source.toString()}`;
-              const newSource = new SourceMapSource(
-                newContent,
-                file,
-                map,
-                source.toString(),
-                map,
-              );
+            const { source, map } = asset.sourceAndMap();
+            const newContent = `${injectedContent}${source.toString()}`;
+            const newSource = new SourceMapSource(
+              newContent,
+              file,
+              map,
+              source.toString(),
+              map,
+            );
 
-              compilation.updateAsset(
-                file,
-                newSource,
-                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-                undefined as any,
-              );
-            } else {
-              const newContent = `${injectedContent}${asset
-                .source()
-                .toString()}`;
-
-              compilation.updateAsset(
-                file,
-                new RawSource(newContent),
-                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-                undefined as any,
-              );
-            }
+            compilation.updateAsset(
+              file,
+              newSource,
+              // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+              undefined as any,
+            );
           }
 
           if (prevManifestAsset) {
