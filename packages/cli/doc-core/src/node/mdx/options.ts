@@ -40,7 +40,6 @@ export async function createMDXOptions(
   const defaultLang = config.doc?.lang || '';
   return {
     providerImportSource: '@mdx-js/react',
-    jsx: true,
     format: path.extname(filepath).slice(1) as 'mdx' | 'md',
     remarkPlugins: [
       remarkPluginContainer,

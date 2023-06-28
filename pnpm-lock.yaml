@@ -74,7 +74,7 @@ importers:
         version: 1.10.2
       vitest:
         specifier: 0.21.1
-        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@22.1.0)
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
 
   packages/builder/builder:
     dependencies:
@@ -837,8 +837,8 @@ importers:
         specifier: ^9.0.3
         version: 9.0.3
       jsdom:
-        specifier: 22.1.0
-        version: 22.1.0
+        specifier: 20.0.3
+        version: 20.0.3
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -1007,7 +1007,7 @@ importers:
         version: 4.0.4(@types/node@14.18.35)
       vitest:
         specifier: 0.21.1
-        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@22.1.0)
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
       webpack:
         specifier: ^5.82.1
         version: 5.82.1(esbuild@0.15.7)
@@ -1059,7 +1059,7 @@ importers:
         version: 5.0.4
       vitest:
         specifier: 0.21.1
-        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@22.1.0)
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
       yaml-front-matter:
         specifier: ^4.1.1
         version: 4.1.1
@@ -1114,7 +1114,7 @@ importers:
         version: 5.0.4
       vitest:
         specifier: 0.21.1
-        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@22.1.0)
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
       yaml-front-matter:
         specifier: ^4.1.1
         version: 4.1.1
@@ -1190,7 +1190,7 @@ importers:
         version: 4.1.1
       vitest:
         specifier: 0.21.1
-        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@22.1.0)
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
       yaml-front-matter:
         specifier: ^4.1.1
         version: 4.1.1
@@ -5053,7 +5053,7 @@ importers:
         version: 10.1.2
       vitest:
         specifier: 0.21.1
-        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@22.1.0)
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
 
   packages/toolkit/types:
     devDependencies:
@@ -14269,7 +14269,7 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@babel/types': 7.21.5
-      entities: 4.4.0
+      entities: 4.5.0
     dev: false
 
   /@svgr/plugin-jsx@8.0.1(@svgr/core@8.0.0):
@@ -18640,12 +18640,6 @@ packages:
     dependencies:
       cssom: 0.3.8
 
-  /cssstyle@3.0.0:
-    resolution: {integrity: sha512-N4u2ABATi3Qplzf0hWbVCdjenim8F3ojEXpBDF5hBpjzW182MjNGLqfmQ0SkSPeQ+V86ZXgeH8aXj6kayd4jgg==}
-    engines: {node: '>=14'}
-    dependencies:
-      rrweb-cssom: 0.6.0
-
   /csstype@3.1.0:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==}
     dev: false
@@ -18784,14 +18778,6 @@ packages:
       abab: 2.0.6
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
-
-  /data-urls@4.0.0:
-    resolution: {integrity: sha512-/mMTei/JXPqvFqQtfyTowxmJVwr2PVAeCcDxyFf6LhoOu/09TX2OX3kb2wzi4DMXcfj4OItwDOnhl5oziPnT6g==}
-    engines: {node: '>=14'}
-    dependencies:
-      abab: 2.0.6
-      whatwg-mimetype: 3.0.0
-      whatwg-url: 12.0.1
 
   /date-fns@2.29.3:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
@@ -19268,7 +19254,7 @@ packages:
     dependencies:
       domelementtype: 2.3.0
       domhandler: 5.0.3
-      entities: 4.4.0
+      entities: 4.5.0
 
   /dom-walk@0.1.2:
     resolution: {integrity: sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==}
@@ -19480,8 +19466,8 @@ packages:
   /entities@2.2.0:
     resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
 
-  /entities@4.4.0:
-    resolution: {integrity: sha512-oYp7156SP8LkeGD0GF85ad1X9Ai79WtRsZ2gxJqtBuzH+98YUV6jkHEKlZkMbcrjJjIVJNIDP/3WL9wQkoPbWA==}
+  /entities@4.5.0:
+    resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
     engines: {node: '>=0.12'}
 
   /eol@0.9.1:
@@ -22384,7 +22370,7 @@ packages:
       camel-case: 4.1.2
       clean-css: 5.2.0
       commander: 9.4.1
-      entities: 4.4.0
+      entities: 4.5.0
       param-case: 3.0.4
       relateurl: 0.2.7
       terser: 5.17.3
@@ -22462,7 +22448,7 @@ packages:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       domutils: 3.0.1
-      entities: 4.4.0
+      entities: 4.5.0
     dev: false
 
   /http-assert@1.5.0:
@@ -24166,43 +24152,6 @@ packages:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
-      ws: 8.13.0
-      xml-name-validator: 4.0.0
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  /jsdom@22.1.0:
-    resolution: {integrity: sha512-/9AVW7xNbsBv6GfWho4TTNjEo9fe6Zhf9O7s0Fhhr3u+awPwAJMKwAMXnkk5vBxflqLW9hTHX/0cs+P3gW+cQw==}
-    engines: {node: '>=16'}
-    peerDependencies:
-      canvas: ^2.5.0
-    peerDependenciesMeta:
-      canvas:
-        optional: true
-    dependencies:
-      abab: 2.0.6
-      cssstyle: 3.0.0
-      data-urls: 4.0.0
-      decimal.js: 10.4.3
-      domexception: 4.0.0
-      form-data: 4.0.0
-      html-encoding-sniffer: 3.0.0
-      http-proxy-agent: 5.0.0
-      https-proxy-agent: 5.0.1
-      is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.5
-      parse5: 7.1.2
-      rrweb-cssom: 0.6.0
-      saxes: 6.0.0
-      symbol-tree: 3.2.4
-      tough-cookie: 4.1.2
-      w3c-xmlserializer: 4.0.0
-      webidl-conversions: 7.0.0
-      whatwg-encoding: 2.0.0
-      whatwg-mimetype: 3.0.0
-      whatwg-url: 12.0.1
       ws: 8.13.0
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
@@ -26776,13 +26725,13 @@ packages:
   /parse5@7.1.1:
     resolution: {integrity: sha512-kwpuwzB+px5WUg9pyK0IcK/shltJN5/OVhQagxhCQNtT9Y9QRZqNY2e1cmbu/paRh5LMnz/oVTVLBpjFmMZhSg==}
     dependencies:
-      entities: 4.4.0
+      entities: 4.5.0
     dev: false
 
   /parse5@7.1.2:
     resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
     dependencies:
-      entities: 4.4.0
+      entities: 4.5.0
 
   /parseley@0.11.0:
     resolution: {integrity: sha512-VfcwXlBWgTF+unPcr7yu3HSSA6QUdDaDnrHcytVfj5Z8azAyKBDrYnSIfeSxlrEayndNcLmrXzg+Vxbo6DWRXQ==}
@@ -30044,9 +29993,6 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /rrweb-cssom@0.6.0:
-    resolution: {integrity: sha512-APM0Gt1KoXBz0iIkkdB/kfvGOwC4UuJFeG/c+yV7wSc7q96cG/kJ0HiYCnzivD9SB53cLV1MlHFNfOuPaadYSw==}
-
   /rspack-manifest-plugin@5.0.0-alpha0(webpack@5.82.1):
     resolution: {integrity: sha512-a84H6P/lK0x3kb0I8Qdiwxrnjt1oNW0j+7kwPMWcODJu8eYFBrTXa1t+14n18Jvg9RKIR6llCH16mYxf2d0s8A==}
     engines: {node: '>=14'}
@@ -31796,12 +31742,6 @@ packages:
     dependencies:
       punycode: 2.3.0
 
-  /tr46@4.1.1:
-    resolution: {integrity: sha512-2lv/66T7e5yNyhAAC4NaKe5nVavzuGJQVVtRYLyQ2OI8tsJ61PMLlelehb0wi2Hx6+hT/OJUWZcw8MjlSRnxvw==}
-    engines: {node: '>=14'}
-    dependencies:
-      punycode: 2.3.0
-
   /tree-kill@1.2.2:
     resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
     hasBin: true
@@ -32988,7 +32928,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitest@0.21.1(@vitest/ui@0.21.1)(jsdom@22.1.0):
+  /vitest@0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3):
     resolution: {integrity: sha512-WBIxuFmIDPuK47GO6Lu9eNeRMqHj/FWL3dk73OHH3eyPPWPiu+UB3QHLkLK2PEggCqJW4FaWoWg8R68S7p9+9Q==}
     engines: {node: '>=v14.16.0'}
     hasBin: true
@@ -33019,7 +32959,7 @@ packages:
       '@vitest/ui': 0.21.1
       chai: 4.3.6
       debug: 4.3.4(supports-color@8.1.1)
-      jsdom: 22.1.0
+      jsdom: 20.0.3
       local-pkg: 0.4.2
       tinypool: 0.2.4
       tinyspy: 1.0.0
@@ -33506,13 +33446,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       tr46: 3.0.0
-      webidl-conversions: 7.0.0
-
-  /whatwg-url@12.0.1:
-    resolution: {integrity: sha512-Ed/LrqB8EPlGxjS+TrsXcpUond1mhccS3pchLhzSgPCnTimUCKj3IZE75pAs5m6heB2U2TMerKFUXheyHY+VDQ==}
-    engines: {node: '>=14'}
-    dependencies:
-      tr46: 4.1.1
       webidl-conversions: 7.0.0
 
   /whatwg-url@5.0.0:
