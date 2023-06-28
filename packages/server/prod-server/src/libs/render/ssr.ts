@@ -120,7 +120,7 @@ export const render = async (
  */
 const getRequestBody = (req: IncomingMessage): Promise<string | undefined> =>
   new Promise((resolve, reject) => {
-    if (req.method && req.method.toLowerCase() !== 'get') {
+    if (req?.method && req.method.toLowerCase() !== 'get') {
       let body = '';
       req.on('data', chunk => {
         body += chunk.toString();
