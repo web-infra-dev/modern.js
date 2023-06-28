@@ -1,29 +1,31 @@
-const fs = require('fs');
-const path = require('path');
-const puppeteer = require('puppeteer');
-const {
+import fs from 'fs';
+import path from 'path';
+import puppeteer from 'puppeteer';
+import {
   launchApp,
   killApp,
   getPort,
-  modernBuild,
   launchOptions,
-} = require('../../../utils/modernTestUtils');
+  modernBuild,
+} from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
-function existsSync(filePath) {
+function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 
-describe('test build', () => {
-  it(`should get right alias build!`, async () => {
+describe('alias set build', () => {
+  test(`should get right alias build!`, async () => {
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
     expect(existsSync('html/main/index.html')).toBe(true);
   });
+});
 
-  it(`should render page correctly`, async () => {
+describe('alias set dev', () => {
+  test(`should render page correctly`, async () => {
     const appPort = await getPort();
     const app = await launchApp(
       appDir,
@@ -36,9 +38,9 @@ describe('test build', () => {
     );
     const errors = [];
 
-    const browser = await puppeteer.launch(launchOptions);
+    const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();
-    page.on('pageerror', error => errors.push(error.text));
+    page.on('pageerror', error => errors.push(error.message));
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
