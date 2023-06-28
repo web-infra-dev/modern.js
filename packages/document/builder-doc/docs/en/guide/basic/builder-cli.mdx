@@ -1,0 +1,113 @@
+# Use Builder CLI
+
+Modern.js Builder provides a lightweight CLI tool that includes basic commands such as `dev` and `build`. It is primarily used for building non-React projects.
+
+If your project is not based on the React, for example, if you are developing a Vue project, you can use the Builder CLI tool to build your project.
+
+## Install
+
+You need to install two packages:
+
+- `@modern-js/builder-cli` is the CLI tool for Builder, providing basic CLI commands and automatically loading the installed Provider in the current project.
+- `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`, they are Providers for Builder, offering build capabilities based on webpack or Rspack.
+
+```bash
+# Using webpack for bundling
+pnpm add @modern-js/builder-cli @modern-js/builder-webpack-provider -D
+
+# Using Rspack for bundling
+pnpm add @modern-js/builder-cli @modern-js/builder-rspack-provider -D
+```
+
+## Commands
+
+Builder CLI provides the following commands to help you quickly start a development server, build production-ready code, and more.
+
+### builder dev
+
+The `builder dev` command is used to start a local development server and compile the source code in the development environment.
+
+```bash
+Usage: builder dev [options]
+
+Options:
+  -h, --help            display help for command
+```
+
+### builder build
+
+The `builder build` command will build the outputs for production in the `dist/` directory by default.
+
+```bash
+Usage: builder build [options]
+
+Options:
+  -h, --help            display help for command
+```
+
+### builder serve
+
+The `builder serve` command is used to preview the production build outputs locally. Note that you need to execute the `builder build` command beforehand to generate the corresponding outputs.
+
+```bash
+Usage: builder serve [options]
+
+Options:
+  -h, --help            display help for command
+```
+
+## Configuration
+
+Builder CLI will read the `builder.config.ts` configuration file located in the root directory of your project by default. You can use [all the configuration options](<(/api/index)>) provided by Builder in the configuration file.
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+
+export default defineConfig({
+  output: {
+    disableTsChecker: true,
+  },
+});
+```
+
+When you use Rspack as the bundler, there are some differences in configuration types between webpack and Rspack. Therefore, you need to specify the `'rspack'` generic for `defineConfig`:
+
+```diff title="builder.config.ts"
+- export default defineConfig({
++ export default defineConfig<'rspack'>({
+  // ...
+});
+```
+
+## Build Entry
+
+By default, Builder CLI uses `src/index.(js|ts|jsx|tsx)` as the build entry. You can modify the build entry using the `source.entries` configuration option.
+
+- **Type:**
+
+```ts
+type Entries = Record<string, string>;
+```
+
+- **Default:**
+
+```ts
+const defaultEntry = {
+  index: 'src/index.(js|ts|jsx|tsx)',
+};
+```
+
+- **Example:**
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+
+export default defineConfig({
+  source: {
+    entries: {
+      foo: './src/pages/foo/index.ts',
+      bar: './src/pages/bar/index.ts',
+    },
+  },
+});
+```

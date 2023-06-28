@@ -1,0 +1,113 @@
+# 使用 Builder CLI
+
+Modern.js Builder 提供了一个轻量的 CLI 工具，包含 dev、build 等基础命令，它主要用于构建非 React 项目。
+
+如果你的项目不是基于 React 的，比如开发一个 Vue 项目，那么你可以使用 Builder CLI 工具来构建你的项目。
+
+## 安装
+
+你需要安装两个包，其中：
+
+- `@modern-js/builder-cli` 为 Builder 的 CLI 工具，提供基础的 CLI 命令，并会自动加载当前项目中安装的 Provider。
+- `@modern-js/builder-webpack-provider` 或 `@modern-js/builder-rspack-provider`，它们是 Builder 的 Provider，提供基于 webpack 或 Rspack 的构建能力。
+
+```bash
+# 使用 webpack 打包
+pnpm add @modern-js/builder-cli @modern-js/builder-webpack-provider -D
+
+# 使用 Rspack 打包
+pnpm add @modern-js/builder-cli @modern-js/builder-rspack-provider -D
+```
+
+## 命令
+
+Builder CLI 提供了以下命令，可以帮助你快速启动开发服务器、构建生产环境代码等。
+
+### builder dev
+
+`builder dev` 命令用于启动一个本地开发服务器，对源代码进行开发环境编译。
+
+```bash
+Usage: edenx dev [options]
+
+Options:
+  -h, --help            display help for command
+```
+
+### builder build
+
+`builder build` 命令默认会在 `dist/` 目录下构建出可用于生产环境的产物。
+
+```bash
+Usage: builder build [options]
+
+Options:
+  -h, --help            display help for command
+```
+
+### builder serve
+
+`builder serve` 命令用于在本地预览生产环境构建的产物, 注意你需要提前执行 `builder build` 命令构建出对应产物。
+
+```bash
+Usage: builder serve [options]
+
+Options:
+  -h, --help            display help for command
+```
+
+## 配置
+
+Builder CLI 默认会读取项目根目录下的 `builder.config.ts` 配置文件，你可以在配置文件中使用 Builder 提供的[所有配置项](/api/index)。
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+
+export default defineConfig({
+  output: {
+    disableTsChecker: true,
+  },
+});
+```
+
+当你使用 Rspack 作为打包工具时，由于 webpack 和 Rspack 的配置类型存在一些差异，需要为 defineConfig 指定 `<'rspack'>` 泛型：
+
+```diff title="builder.config.ts"
+- export default defineConfig({
++ export default defineConfig<'rspack'>({
+  // ...
+});
+```
+
+## 构建入口
+
+Builder CLI 默认会使用 `src/index.(js|ts|jsx|tsx)` 作为构建入口，你可以使用 `source.entries` 配置项来修改构建入口。
+
+- **类型：**
+
+```ts
+type Entries = Record<string, string>;
+```
+
+- **默认值：**
+
+```ts
+const defaultEntry = {
+  index: 'src/index.(js|ts|jsx|tsx)',
+};
+```
+
+- **示例：**
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+
+export default defineConfig({
+  source: {
+    entries: {
+      foo: './src/pages/foo/index.ts',
+      bar: './src/pages/bar/index.ts',
+    },
+  },
+});
+```

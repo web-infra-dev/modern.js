@@ -61,6 +61,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/basic/html-template'),
           getLink('/guide/basic/css-modules'),
           getLink('/guide/basic/typescript'),
+          getLink('/guide/basic/builder-cli'),
         ],
       },
       {
