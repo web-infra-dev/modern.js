@@ -666,7 +666,7 @@ export class ModernServer implements ModernServerInterface {
     try {
       context = this.createContext(req, res);
     } catch (e) {
-      this.logger.error(e as Error);
+      req.logger.error(e as Error);
       res.statusCode = 500;
       res.setHeader('content-type', mime.contentType('html') as string);
       return res.end(createErrorDocument(500, ERROR_PAGE_TEXT[500]));
