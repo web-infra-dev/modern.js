@@ -120,7 +120,7 @@ export function normalizeHref(url?: string) {
 
 export function withoutLang(path: string, langs: string[]) {
   const langRegexp = new RegExp(`^\\/(${langs.join('|')})`);
-  return addLeadingSlash(path).replace(langRegexp, '');
+  return addLeadingSlash(path.replace(langRegexp, ''));
 }
 
 export function withoutBase(path: string, base = '') {
