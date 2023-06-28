@@ -26,11 +26,18 @@ function inferLoader(ext: string): Loader {
   return ext.slice(1) as Loader;
 }
 
+// If the package.json contains `type="module"`, and the filepath is
+// not using `.cjs` ext, we will treat the package as a pure esm pkg
 async function isTypeModulePkg(cwd: string) {
   const pkgJsonPath = await pkgUp({ cwd });
   if (pkgJsonPath) {
     const pkgJson = await fs.readJSON(pkgJsonPath);
-    return pkgJson.type === 'module';
+    const ext = path.extname(cwd);
+    return (
+      pkgJson.type === 'module' &&
+      ext !== '.cjs' &&
+      !pkgJson.main?.endsWith('.cjs')
+    );
   }
   return false;
 }
@@ -166,6 +173,17 @@ export async function bundle(filepath: string, options?: Options) {
               const resolvedPath = require.resolve(args.path, {
                 paths: [args.resolveDir],
               });
+              if (resolvedPath.includes('yargs')) {
+                console.log(resolvedPath);
+                console.log(
+                  'BUNDLED_EXT_RE.test(resolvedPath)',
+                  BUNDLED_EXT_RE.test(resolvedPath),
+                );
+                console.log(
+                  'await isTypeModulePkg(resolvedPath)',
+                  await isTypeModulePkg(resolvedPath),
+                );
+              }
               // If it is a typescript or esm package, we should bundle it.
               if (
                 BUNDLED_EXT_RE.test(resolvedPath) ||
