@@ -9,7 +9,7 @@ function existsSync(filePath: string) {
 }
 
 describe('test temp-dir', () => {
-  let buildRes;
+  let buildRes: { code: number };
   beforeAll(async () => {
     buildRes = await modernBuild(appDir);
   });
