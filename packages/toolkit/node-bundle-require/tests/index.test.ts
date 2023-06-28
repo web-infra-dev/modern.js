@@ -4,7 +4,11 @@ import { bundleRequire } from '../src';
 import { EXTERNAL_REGEXP } from '../src/bundle';
 
 describe('bundleRequire', () => {
-  const symlinkPackages = ['test-package-ts', 'test-package-esm'];
+  const symlinkPackages = [
+    'test-package-ts',
+    'test-package-esm',
+    'test-package-esm-with-cjs',
+  ];
 
   beforeAll(() => {
     symlinkPackages.forEach(pkg => {
@@ -49,6 +53,14 @@ describe('bundleRequire', () => {
   test('should bundle esm package correctly', async () => {
     const result = await bundleRequire(
       path.join(__dirname, './fixture/inputImportEsm.ts'),
+    );
+
+    expect(result.default).toEqual({ bar: 1 });
+  });
+
+  test('should bundle esm with cjs package correctly', async () => {
+    const result = await bundleRequire(
+      path.join(__dirname, './fixture/inputImportEsmWithCjs.ts'),
     );
 
     expect(result.default).toEqual({ bar: 1 });
