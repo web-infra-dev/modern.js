@@ -6766,8 +6766,8 @@ importers:
         specifier: ^9.0.13
         version: 9.0.13
       '@types/jest':
-        specifier: 29.5.1
-        version: 29.5.1
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -7268,7 +7268,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/review/tsconfig
       '@types/jest':
-        specifier: ~29.2.4
+        specifier: ^29
         version: 29.2.6
       '@types/node':
         specifier: ~16.11.7
@@ -7577,8 +7577,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7611,8 +7611,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7645,8 +7645,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7679,8 +7679,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7713,8 +7713,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -14837,13 +14837,6 @@ packages:
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
-
-  /@types/jest@29.5.1:
-    resolution: {integrity: sha512-tEuVcHrpaixS36w7hpsfLBLpjtMRJUE09/MHXn923LOVojDwyC14cWcfc0rDs0VEfUyYmt/+iX1kxxp+gZMcaQ==}
-    dependencies:
-      expect: 29.5.0
-      pretty-format: 29.5.0
-    dev: true
 
   /@types/js-yaml@4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
