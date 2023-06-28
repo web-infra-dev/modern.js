@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { modernBuild } from '../../../utils/modernTestUtils';
 
 describe('generate async entry', () => {
-  it(`should generate async entry correctly`, async () => {
+  test(`should generate async entry correctly`, async () => {
     const appDir = path.resolve(__dirname, '..');
 
     await modernBuild(appDir);

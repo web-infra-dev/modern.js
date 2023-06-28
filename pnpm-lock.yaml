@@ -5987,6 +5987,21 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.0.4
 
   tests/integration/api-service-koa:
     dependencies:
@@ -6067,6 +6082,9 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../../packages/review/tsconfig
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6082,15 +6100,6 @@ importers:
 
   tests/integration/asset-prefix:
     dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/asset-prefix/fixtures/dev-asset-prefix:
-    dependencies:
       '@babel/runtime':
         specifier: ^7.18.0
         version: 7.21.5
@@ -6103,7 +6112,13 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/async-entry:
     dependencies:
@@ -6248,15 +6263,6 @@ importers:
 
   tests/integration/builder-plugins:
     dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/builder-plugins/fixtures/register-builder-plugins:
-    dependencies:
       '@babel/runtime':
         specifier: ^7.18.0
         version: 7.21.5
@@ -6269,7 +6275,13 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/builder-rspack:
     dependencies:
@@ -6335,15 +6347,6 @@ importers:
 
   tests/integration/copy-assets:
     dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/copy-assets/fixtures/copy-public-html:
-    dependencies:
       '@babel/runtime':
         specifier: ^7.18.0
         version: 7.21.5
@@ -6356,22 +6359,22 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/css:
     dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/css/fixtures/antd-less-import:
     dependencies:
@@ -6803,8 +6806,8 @@ importers:
         specifier: ^9.0.13
         version: 9.0.13
       '@types/jest':
-        specifier: 29.5.1
-        version: 29.5.1
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -7267,6 +7270,9 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -7302,7 +7308,7 @@ importers:
         specifier: workspace:*
         version: link:../../../packages/review/tsconfig
       '@types/jest':
-        specifier: ~29.2.4
+        specifier: ^29
         version: 29.2.6
       '@types/node':
         specifier: ~16.11.7
@@ -7353,6 +7359,9 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -7381,6 +7390,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -7415,6 +7427,9 @@ importers:
       '@types/fs-extra':
         specifier: ^9.0.13
         version: 9.0.13
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -7602,8 +7617,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7636,8 +7651,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7670,8 +7685,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7704,8 +7719,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7738,8 +7753,8 @@ importers:
         specifier: workspace:*
         version: link:../../../../packages/server/plugin-server
       '@types/jest':
-        specifier: ^26.0.24
-        version: 26.0.24
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^16
         version: 16.11.68
@@ -7777,6 +7792,12 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/ssg:
     devDependencies:
@@ -7844,7 +7865,14 @@ importers:
         specifier: ^18
         version: 18.2.0(react@18.2.0)
 
-  tests/integration/ssr: {}
+  tests/integration/ssr:
+    dependencies:
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/ssr/fixtures/base:
     dependencies:
@@ -8066,52 +8094,12 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
-      '@types/react':
-        specifier: ^18
-        version: 18.0.21
-      '@types/react-dom':
-        specifier: ^18
-        version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.0.4
-
-  tests/integration/worker/fixtures/worker-test:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ~18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: ~18.2.0
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js-app/eslint-config':
-        specifier: workspace:*
-        version: link:../../../../../packages/review/eslint-config-app
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/eslint-config':
-        specifier: workspace:*
-        version: link:../../../../../packages/review/eslint-config
-      '@modern-js/plugin-worker':
-        specifier: workspace:*
-        version: link:../../../../../packages/server/plugin-worker
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../../../../../packages/server/prod-server
-      '@modern-js/tsconfig':
-        specifier: workspace:*
-        version: link:../../../../../packages/review/tsconfig
-      '@types/node':
-        specifier: ~16.11.7
-        version: 16.11.68
       '@types/react':
         specifier: ^18
         version: 18.0.21
@@ -8140,6 +8128,9 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -14886,13 +14877,6 @@ packages:
     dependencies:
       expect: 29.5.0
       pretty-format: 29.5.0
-
-  /@types/jest@29.5.1:
-    resolution: {integrity: sha512-tEuVcHrpaixS36w7hpsfLBLpjtMRJUE09/MHXn923LOVojDwyC14cWcfc0rDs0VEfUyYmt/+iX1kxxp+gZMcaQ==}
-    dependencies:
-      expect: 29.5.0
-      pretty-format: 29.5.0
-    dev: true
 
   /@types/js-yaml@4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}

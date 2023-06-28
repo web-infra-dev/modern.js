@@ -17,7 +17,7 @@ const App = () => {
         id: '1111',
       },
       query: {
-        user: 'jupiter@email.com',
+        user: 'modern@email.com',
       },
       data: {
         message: '3333',

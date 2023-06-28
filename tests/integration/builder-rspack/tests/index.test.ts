@@ -1,12 +1,12 @@
 import path from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
 import {
-  launchApp,
   killApp,
   getPort,
   modernBuild,
   modernServe,
   launchOptions,
+  launchApp,
 } from '../../../utils/modernTestUtils';
 import {
   nestedRouteOverPage,

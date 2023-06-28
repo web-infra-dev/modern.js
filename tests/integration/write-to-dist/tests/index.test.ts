@@ -32,7 +32,7 @@ describe('test dev', () => {
     await browser.close();
   });
 
-  it(`should render csr page with memory correctly`, async () => {
+  test(`should render csr page with memory correctly`, async () => {
     const errors = [];
     page.on('pageerror', error => {
       errors.push(error.message);
@@ -47,7 +47,7 @@ describe('test dev', () => {
     expect(errors.length).toEqual(0);
   });
 
-  it('should not get production in dist', async () => {
+  test('should not get production in dist', async () => {
     expect(existsSync('route.json')).toBeTruthy();
     expect(existsSync('html/main/index.html')).toBeFalsy();
   });
