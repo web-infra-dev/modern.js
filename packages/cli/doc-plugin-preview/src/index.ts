@@ -48,6 +48,49 @@ export function pluginPreview(options?: Options): DocPlugin {
             const source = await fs.readFile(filepath, 'utf-8');
             const ast = processor.parse(source);
             let index = 1;
+            const { pageName } = routeMeta.find(
+              meta => meta.absolutePath === filepath,
+            )!;
+
+            const registerDemo = (
+              demoId: string,
+              demoPath: string,
+              isMobileMode: boolean,
+            ) => {
+              if (isMobileMode) {
+                // only add demoMeta in mobile mode
+                demoMeta[filepath] = demoMeta[filepath] ?? [];
+                const isExist = demoMeta[filepath].find(
+                  item => item.id === demoId,
+                );
+                if (!isExist) {
+                  demoMeta[filepath].push({
+                    id: demoId,
+                    virtualModulePath: demoPath,
+                  });
+                }
+              }
+            };
+
+            visit(ast, 'mdxJsxFlowElement', (node: any) => {
+              if (node.name === 'code') {
+                const src = node.attributes.find(
+                  (attr: { name: string; value: string }) =>
+                    attr.name === 'src',
+                )?.value;
+                const isMobileMode =
+                  node.attributes.find(
+                    (attr: { name: string; value: boolean }) =>
+                      attr.name === 'isMobile',
+                  )?.value ?? isMobile;
+                if (!src) {
+                  return;
+                }
+                const id = `${toValidVarName(pageName)}_${index++}`;
+                registerDemo(id, src, isMobileMode);
+              }
+            });
+
             visit(ast, 'code', (node: any) => {
               if (node.lang === 'jsx' || node.lang === 'tsx') {
                 const { value } = node;
@@ -76,20 +119,7 @@ export function pluginPreview(options?: Options): DocPlugin {
                 );
 
                 const virtualModulePath = join(demoDir, `${id}.tsx`);
-
-                if (isMobileMode) {
-                  // only add demoMeta in mobile mode
-                  demoMeta[filepath] = demoMeta[filepath] ?? [];
-                  const isExist = demoMeta[filepath].find(
-                    item => item.id === id,
-                  );
-                  if (!isExist) {
-                    demoMeta[filepath].push({
-                      id,
-                      virtualModulePath,
-                    });
-                  }
-                }
+                registerDemo(id, virtualModulePath, isMobileMode);
 
                 fs.ensureDirSync(join(demoDir));
                 fs.writeFileSync(
@@ -147,6 +177,9 @@ import Demo from '${demoComponentPath}'
         },
         bundlerChain(chain) {
           chain.module
+            .rule('Raw')
+            .resourceQuery(/raw/)
+            .type('asset/source')
             .rule('MDX')
             .oneOf('MDXMeta')
             .before('MDXCompile')
