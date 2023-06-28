@@ -173,17 +173,6 @@ export async function bundle(filepath: string, options?: Options) {
               const resolvedPath = require.resolve(args.path, {
                 paths: [args.resolveDir],
               });
-              if (resolvedPath.includes('yargs')) {
-                console.log(resolvedPath);
-                console.log(
-                  'BUNDLED_EXT_RE.test(resolvedPath)',
-                  BUNDLED_EXT_RE.test(resolvedPath),
-                );
-                console.log(
-                  'await isTypeModulePkg(resolvedPath)',
-                  await isTypeModulePkg(resolvedPath),
-                );
-              }
               // If it is a typescript or esm package, we should bundle it.
               if (
                 BUNDLED_EXT_RE.test(resolvedPath) ||
