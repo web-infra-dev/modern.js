@@ -8041,52 +8041,12 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
-      '@types/react':
-        specifier: ^18
-        version: 18.0.21
-      '@types/react-dom':
-        specifier: ^18
-        version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.0.4
-
-  tests/integration/worker/fixtures/worker-test:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ~18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: ~18.2.0
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js-app/eslint-config':
-        specifier: workspace:*
-        version: link:../../../../../packages/review/eslint-config-app
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/eslint-config':
-        specifier: workspace:*
-        version: link:../../../../../packages/review/eslint-config
-      '@modern-js/plugin-worker':
-        specifier: workspace:*
-        version: link:../../../../../packages/server/plugin-worker
-      '@modern-js/prod-server':
-        specifier: workspace:*
-        version: link:../../../../../packages/server/prod-server
-      '@modern-js/tsconfig':
-        specifier: workspace:*
-        version: link:../../../../../packages/review/tsconfig
-      '@types/node':
-        specifier: ~16.11.7
-        version: 16.11.68
       '@types/react':
         specifier: ^18
         version: 18.0.21
@@ -8115,6 +8075,9 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35

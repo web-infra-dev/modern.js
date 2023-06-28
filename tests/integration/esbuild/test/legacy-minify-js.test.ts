@@ -4,7 +4,7 @@ import { modernBuild } from '../../../utils/modernTestUtils';
 import { fixtures, getJsFiles } from './utils';
 
 describe('esbuild', () => {
-  it(`should emitted script files correctly when using legacy esbuild minify`, async () => {
+  test(`should emitted script files correctly when using legacy esbuild minify`, async () => {
     const appDir = path.resolve(fixtures, 'legacy-minify-js');
     if (existsSync(path.join(appDir, 'dist'))) {
       rmdirSync(path.join(appDir, 'dist'), { recursive: true });
