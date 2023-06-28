@@ -7,9 +7,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@common/*": ["./src/common/*"]
-    },
-    "types": ["jest"],
-    "strict": false
+    }
   },
-  "include": ["src", "shared", "config", "api"]
+  "include": ["src", "shared", "config", "modern.config.ts"]
 }
