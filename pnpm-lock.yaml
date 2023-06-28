@@ -6042,6 +6042,9 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../../packages/review/tsconfig
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35

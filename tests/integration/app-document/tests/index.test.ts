@@ -1,28 +1,33 @@
-const fs = require('fs');
-const path = require('path');
-const puppeteer = require('puppeteer');
-const {
+import fs from 'fs';
+import path from 'path';
+import puppeteer, { Browser, Page } from 'puppeteer';
+
+import {
   launchApp,
   killApp,
   getPort,
   modernBuild,
   modernServe,
   launchOptions,
-} = require('../../../utils/modernTestUtils');
+} from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
-function existsSync(filePath) {
+function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 
 describe('test dev', () => {
-  let app, appPort, errors, browser, page;
+  let app: any;
+  let appPort: number;
+  let errors;
+  let browser: Browser;
+  let page: Page;
   beforeAll(async () => {
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, {});
     errors = [];
-    browser = await puppeteer.launch(launchOptions);
+    browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
@@ -70,7 +75,8 @@ describe('test dev', () => {
 
 describe('test build', () => {
   let port = 8080;
-  let buildRes, app;
+  let buildRes: any;
+  let app: any;
   beforeAll(async () => {
     port = await getPort();
 
