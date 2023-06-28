@@ -10,7 +10,7 @@ const getJsFiles = (appDir: string) =>
   );
 
 describe('swc js minify', () => {
-  it('should emitted script files correctly', async () => {
+  test('should emitted script files correctly', async () => {
     const appDir = path.resolve(fixtures, 'minify-js');
 
     await modernBuild(appDir);

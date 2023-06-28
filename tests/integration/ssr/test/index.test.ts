@@ -1,31 +1,28 @@
-const { join } = require('path');
-const path = require('path');
-const puppeteer = require('puppeteer');
-const {
+import path, { join } from 'path';
+import puppeteer, { Browser, Page } from 'puppeteer';
+import {
   launchApp,
   getPort,
   killApp,
   launchOptions,
-} = require('../../../utils/modernTestUtils');
+} from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
 jest.setTimeout(1000 * 20);
 
 describe('init with SSR', () => {
-  let app,
-    appPort,
-    /** @type {puppeteer.Page} */
-    page,
-    /** @type {puppeteer.Browser} */
-    browser;
+  let app: any;
+  let appPort: number;
+  let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'init');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch(launchOptions);
+    browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
   });
 

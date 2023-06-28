@@ -10,7 +10,7 @@ const getCssFiles = (appDir: string) =>
   );
 
 describe('swc css minify', () => {
-  it('should minify css', async () => {
+  test('should minify css', async () => {
     const appDir = path.resolve(fixtures, 'minify-css');
 
     await modernBuild(appDir);

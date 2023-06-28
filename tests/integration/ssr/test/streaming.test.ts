@@ -1,21 +1,20 @@
-const { join } = require('path');
-const path = require('path');
-const puppeteer = require('puppeteer');
-const {
+import path, { join } from 'path';
+import puppeteer, { Browser, Page } from 'puppeteer';
+import {
   launchApp,
   getPort,
   killApp,
   launchOptions,
-} = require('../../../utils/modernTestUtils');
+} from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
-async function basicUsage(page, appPort) {
+async function basicUsage(page: Page, appPort: number) {
   const res = await page.goto(`http://localhost:${appPort}/about`, {
     waitUntil: ['networkidle0'],
   });
 
-  const body = await res.text();
+  const body = await res!.text();
   // css chunks inject correctly
   expect(body).toMatch(
     /<link href="\/static\/css\/async\/about\/page.css" rel="stylesheet" \/>/,
@@ -24,46 +23,44 @@ async function basicUsage(page, appPort) {
   expect(body).toMatch(/<div hidden id="S:0">[\s\S]*<div>About content<\/div>/);
 }
 
-async function deferredData(page, appPort) {
+async function deferredData(page: Page, appPort: number) {
   await page.goto(`http://localhost:${appPort}/user/1`, {
     waitUntil: ['networkidle0'],
   });
 
-  await expect(page).toMatchTextContent(/user1-18/);
+  await (expect(page) as any).toMatchTextContent(/user1-18/);
 }
 
-async function deferredDataInNavigation(page, appPort) {
+async function deferredDataInNavigation(page: Page, appPort: number) {
   await page.goto(`http://localhost:${appPort}`, {
     waitUntil: ['networkidle0'],
   });
 
   await page.click('#user-btn');
-  await expect(page).toMatchTextContent(/user1-18/);
+  await (expect(page) as any).toMatchTextContent(/user1-18/);
 }
 
-async function errorThrownInLoader(page, appPort) {
+async function errorThrownInLoader(page: Page, appPort: number) {
   const res = await page.goto(`http://localhost:${appPort}/error`, {
     waitUntil: ['networkidle0'],
   });
 
-  const body = await res.text();
+  const body = await res!.text();
   expect(body).toMatch(/Something went wrong!.*error occurs/);
 }
 
-describe('Streaming SSR', () => {
-  let app,
-    appPort,
-    /** @type {puppeteer.Page} */
-    page,
-    /** @type {puppeteer.Browser} */
-    browser;
+describe('Streaming SSR with webpack', () => {
+  let app: any;
+  let appPort: number;
+  let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'streaming');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
 
-    browser = await puppeteer.launch(launchOptions);
+    browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
   });
 
@@ -76,48 +73,46 @@ describe('Streaming SSR', () => {
     }
   });
 
-  it(`basic usage`, async () => {
+  test(`basic usage`, async () => {
     await basicUsage(page, appPort);
   });
 
-  it(`deferred data`, async () => {
+  test(`deferred data`, async () => {
     await deferredData(page, appPort);
   });
 
-  it(`deferred data in client navigation`, async () => {
+  test(`deferred data in client navigation`, async () => {
     await deferredDataInNavigation(page, appPort);
   });
 
-  it('error thrown in loader', async () => {
+  test('error thrown in loader', async () => {
     await errorThrownInLoader(page, appPort);
   });
 
   // TODO: wait for the next version of react-router to support this case
-  it.skip('redirect in loader', async () => {
+  test.skip('redirect in loader', async () => {
     const res = await page.goto(`http://localhost:${appPort}/redirect`, {
       waitUntil: ['networkidle0'],
     });
 
-    const body = await res.text();
+    const body = await res!.text();
     expect(body).toMatch(/Root layout/);
     expect(body).not.toMatch(/Redirect page/);
   });
 });
 
 describe('Streaming SSR with rspack', () => {
-  let app,
-    appPort,
-    /** @type {puppeteer.Page} */
-    page,
-    /** @type {puppeteer.Browser} */
-    browser;
+  let app: any;
+  let appPort: number;
+  let page: Page;
+  let browser: Browser;
 
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'streaming');
     appPort = await getPort();
     app = await launchApp(appDir, appPort, {}, { BUNDLER: 'rspack' });
 
-    browser = await puppeteer.launch(launchOptions);
+    browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
   });
 
@@ -130,19 +125,19 @@ describe('Streaming SSR with rspack', () => {
     }
   });
 
-  it(`basic usage`, async () => {
+  test(`basic usage`, async () => {
     await basicUsage(page, appPort);
   });
 
-  it(`deferred data`, async () => {
+  test(`deferred data`, async () => {
     await deferredData(page, appPort);
   });
 
-  it(`deferred data in client navigation`, async () => {
+  test(`deferred data in client navigation`, async () => {
     await deferredDataInNavigation(page, appPort);
   });
 
-  it('error thrown in loader', async () => {
+  test('error thrown in loader', async () => {
     await errorThrownInLoader(page, appPort);
   });
 });

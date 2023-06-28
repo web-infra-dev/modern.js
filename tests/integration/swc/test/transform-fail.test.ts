@@ -6,7 +6,7 @@ import { runModernCommandDev } from '../../../utils/modernTestUtils';
 const fixtures = path.resolve(__dirname, '../fixtures');
 
 describe('swc transform failed minify', () => {
-  it('should not exit unexpectly when transform failed', async () => {
+  test('should not exit unexpectly when transform failed', async () => {
     const appDir = path.resolve(fixtures, 'transform-fail');
     const port = await getPort();
     const cp: ChildProcess = await runModernCommandDev(['dev'], false, {
