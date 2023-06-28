@@ -7752,6 +7752,12 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/ssg:
     devDependencies:

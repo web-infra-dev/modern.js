@@ -1,17 +1,17 @@
-const path = require('path');
-const fs = require('fs');
-const axios = require('axios');
-const {
+import path from 'path';
+import fs from 'fs';
+import axios from 'axios';
+import {
   modernBuild,
-  clearBuildDist,
   modernServe,
   getPort,
   killApp,
-} = require('../../../utils/modernTestUtils');
+} from '../../../utils/modernTestUtils';
 
 const appPath = path.resolve(__dirname, '../');
 const successStatus = 200;
-let app, appPort;
+let app: any;
+let appPort: number;
 
 beforeAll(async () => {
   await modernBuild(appPath);
@@ -22,11 +22,10 @@ afterAll(async () => {
   if (app) {
     await killApp(app);
   }
-  clearBuildDist(appPath);
 });
 
 describe('test basic usage', () => {
-  it(`should have favicon and app icon in dist and html`, async () => {
+  test(`should have favicon and app icon in dist and html`, async () => {
     const favicon = path.resolve(appPath, './dist/favicon.ico');
     const favicon1 = path.resolve(appPath, './dist/favicon1.ico');
     const appIcon = path.resolve(appPath, './dist/static/image/icon.png');
@@ -54,7 +53,7 @@ describe('test basic usage', () => {
     );
   });
 
-  it(`should start successfully`, async () => {
+  test(`should start successfully`, async () => {
     app = await modernServe(appPath, appPort);
     expect(app.pid).toBeDefined();
 
@@ -67,9 +66,8 @@ describe('test basic usage', () => {
     expect(aStatus).toBe(successStatus);
   });
 
-  it(`should serve favicon and app icon`, async () => {
-    // eslint-disable-next-line no-unused-vars
-    const { status, headers } = await axios.get(
+  test(`should serve favicon and app icon`, async () => {
+    const { status } = await axios.get(
       `http://localhost:${appPort}/favicon1.ico`,
     );
     expect(status).toBe(successStatus);
@@ -83,7 +81,7 @@ describe('test basic usage', () => {
     expect(aHeaders['content-type']).toBe('image/x-icon');
   });
 
-  it(`should serve app icon`, async () => {
+  test(`should serve app icon`, async () => {
     const { status, headers } = await axios.get(
       `http://localhost:${appPort}/static/image/icon.png`,
     );
