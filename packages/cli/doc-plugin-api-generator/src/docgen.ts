@@ -2,16 +2,16 @@ import path from 'path';
 import { logger } from '@modern-js/utils';
 import type { ComponentDoc } from 'react-docgen-typescript';
 import { parse } from 'react-docgen-typescript';
-import type { ModuleDocgenLanguage, Options } from '../types';
-import { PropsMarkdownMap } from '../constants';
-import { locales } from '../locales';
+import { apiDocMap } from './constants';
+import { locales } from './locales';
+import type { DocGenOptions } from './types';
 
 export const docgen = async ({
   entries,
-  appDir,
   languages,
   apiParseTool,
-}: Required<Options>) => {
+  appDir,
+}: DocGenOptions) => {
   if (Object.keys(entries).length === 0) {
     return;
   }
@@ -19,48 +19,44 @@ export const docgen = async ({
   logger.info('[module-doc-plugin]', 'Start to generate API table...');
 
   Object.entries(entries).map(async ([key, value]) => {
-    const generateDocStr = async (language: ModuleDocgenLanguage) => {
-      const moduleSourceFilePath = path.resolve(appDir, value);
-      const defaultLang = languages[0];
-      let markdown = '';
-      try {
-        if (apiParseTool === 'documentation') {
-          const documentation = await import('documentation');
+    const moduleSourceFilePath = path.resolve(appDir, value);
+    try {
+      if (apiParseTool === 'documentation') {
+        const documentation = await import('documentation');
 
-          const documentationRes = await documentation.build([
-            moduleSourceFilePath,
-          ]);
-          markdown = await documentation.formats.md(documentationRes);
-        } else {
-          const componentDoc = parse(moduleSourceFilePath);
-          if (componentDoc.length === 0) {
-            logger.warn(
-              '[module-doc-plugin]',
-              `Unable to parse API document in ${moduleSourceFilePath}`,
-            );
-          }
-          markdown = generateTable(componentDoc, language);
-        }
-        const suffix = language === defaultLang ? '' : `-${language}`;
-        PropsMarkdownMap.set(`${key}${suffix}`, markdown);
-      } catch (e) {
-        if (e instanceof Error) {
-          logger.error(
+        const documentationRes = await documentation.build([
+          moduleSourceFilePath,
+        ]);
+        const apiDoc = await documentation.formats.md(documentationRes);
+        apiDocMap[key] = apiDoc;
+      } else {
+        const componentDoc = parse(moduleSourceFilePath);
+        if (componentDoc.length === 0) {
+          logger.warn(
             '[module-doc-plugin]',
-            `Generate API table error: ${e.message}`,
+            `Unable to parse API document in ${moduleSourceFilePath}`,
           );
         }
+        languages.forEach(language => {
+          apiDocMap[`${key}-${language}`] = generateTable(
+            componentDoc,
+            language,
+          );
+        });
       }
-    };
-    await Promise.all(languages.map(lang => generateDocStr(lang)));
+    } catch (e) {
+      if (e instanceof Error) {
+        logger.error(
+          '[module-doc-plugin]',
+          `Generate API table error: ${e.message}`,
+        );
+      }
+    }
   });
   logger.success('[module-doc-plugin]', `Generate API table successfully!`);
 };
 
-function generateTable(
-  componentDoc: ComponentDoc[],
-  language: ModuleDocgenLanguage,
-) {
+function generateTable(componentDoc: ComponentDoc[], language: 'zh' | 'en') {
   return componentDoc
     .map(param => {
       const { props } = param;

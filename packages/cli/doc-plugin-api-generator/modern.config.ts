@@ -1,10 +1,12 @@
-module.exports = {
+// https://modernjs.dev/module-tools/en/api
+
+export default {
   buildConfig: [
     {
       buildType: 'bundle',
       format: 'cjs',
-      target: 'es2020',
       sourceMap: true,
+      target: 'es2020',
     },
   ],
 };

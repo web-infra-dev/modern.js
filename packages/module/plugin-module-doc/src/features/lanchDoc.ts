@@ -2,8 +2,8 @@ import { join, relative, resolve } from 'path';
 import { fs, fastGlob } from '@modern-js/utils';
 import { pluginPreview } from '@modern-js/doc-plugin-preview';
 import type { UserConfig, Sidebar, SidebarGroup } from '@modern-js/doc-core';
+import { pluginApiGenerator } from '@modern-js/doc-plugin-api-generator';
 import type { Options } from '../types';
-import { remarkBuiltIn } from '../mdx/builtin';
 import { mergeModuleDocConfig } from '../utils';
 
 export async function launchDoc({
@@ -12,6 +12,8 @@ export async function launchDoc({
   doc,
   isProduction,
   previewMode,
+  entries,
+  apiParseTool,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(resolve(appDir, './package.json'), 'utf8'),
@@ -96,7 +98,13 @@ export async function launchDoc({
         root,
         title: json.name,
         lang: DEFAULT_LANG,
-        globalStyles: join(__dirname, '../static/index.css'),
+        globalStyles: join(
+          __dirname,
+          '..',
+          'static',
+          'global-styles',
+          'index.css',
+        ),
         themeConfig: {
           // TODO: support dark mode in code block
           darkMode: false,
@@ -113,8 +121,14 @@ export async function launchDoc({
           ],
         },
         markdown: {
-          remarkPlugins: [
-            [remarkBuiltIn, { appDir, defaultLang: DEFAULT_LANG }],
+          globalComponents: [
+            join(
+              __dirname,
+              '..',
+              'static',
+              'global-components',
+              'Overview.tsx',
+            ),
           ],
         },
         head: [
@@ -124,7 +138,14 @@ export async function launchDoc({
           </script>
           `,
         ],
-        plugins: [pluginPreview({ isMobile: previewMode === 'mobile' })],
+        plugins: [
+          pluginPreview({ isMobile: previewMode === 'mobile' }),
+          pluginApiGenerator({
+            entries,
+            apiParseTool,
+            appDir,
+          }),
+        ],
       },
     },
     {

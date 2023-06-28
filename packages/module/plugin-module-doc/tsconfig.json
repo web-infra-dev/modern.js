@@ -5,5 +5,5 @@
     "jsx": "preserve",
     "baseUrl": "./"
   },
-  "include": ["src"]
+  "include": ["src", "static"]
 }
