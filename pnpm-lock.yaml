@@ -6329,18 +6329,12 @@ importers:
 
   tests/integration/css:
     dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/css/fixtures/antd-less-import:
     dependencies:
