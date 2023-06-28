@@ -7230,6 +7230,9 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35

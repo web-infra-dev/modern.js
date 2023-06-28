@@ -5,7 +5,7 @@ import { modernBuild } from '../../../utils/modernTestUtils';
 const fixtures = path.resolve(__dirname, '../fixtures');
 
 describe('local config', () => {
-  it(`should allow config file to export an async function`, async () => {
+  test(`should allow config file to export an async function`, async () => {
     const appDir = path.resolve(fixtures, 'async-config-function');
     await modernBuild(appDir);
 

@@ -1,26 +1,26 @@
-const fs = require('fs');
-const path = require('path');
-const puppeteer = require('puppeteer');
-const {
+import fs from 'fs';
+import path from 'path';
+import puppeteer from 'puppeteer';
+import {
   launchApp,
   killApp,
   getPort,
   modernBuild,
   launchOptions,
-} = require('../../../utils/modernTestUtils');
+} from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
-function existsSync(filePath) {
+function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 
 describe('test dev', () => {
-  it(`should render page correctly`, async () => {
+  test(`should render page correctly`, async () => {
     const appPort = await getPort();
     const app = await launchApp(appDir, appPort, {}, {});
     const errors = [];
-    const browser = await puppeteer.launch(launchOptions);
+    const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
@@ -41,12 +41,12 @@ describe('test dev', () => {
 });
 
 describe('test build', () => {
-  let buildRes;
+  let buildRes: { code: number };
   beforeAll(async () => {
     buildRes = await modernBuild(appDir);
   });
 
-  it(`should get right entry name build!`, async () => {
+  test(`should get right entry name build!`, async () => {
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
     expect(existsSync('html/index/index.html')).toBe(true);

@@ -11,7 +11,7 @@ const fixtures = path.resolve(__dirname, '../fixtures');
 const appDir = path.resolve(fixtures, 'config-function-params');
 
 describe('local config', () => {
-  it(`should passing correct config params when running dev command`, async () => {
+  test(`should passing correct config params when running dev command`, async () => {
     const app = await launchApp(appDir);
     const rawParams = readFileSync(
       path.join(appDir, 'dist/params.json'),
@@ -24,7 +24,7 @@ describe('local config', () => {
     await killApp(app);
   });
 
-  it(`should passing correct config params when running build command`, async () => {
+  test(`should passing correct config params when running build command`, async () => {
     await modernBuild(appDir);
     const rawParams = readFileSync(
       path.join(appDir, 'dist/params.json'),

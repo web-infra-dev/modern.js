@@ -11,13 +11,13 @@ describe('basic local config', () => {
     await modernBuild(appDir);
   });
 
-  it(`should load local config when running dev command`, async () => {
+  test(`should load local config when running dev command`, async () => {
     expect(
       existsSync(path.join(appDir, 'dist/bar/html/main/index.html')),
     ).toBeTruthy();
   });
 
-  it(`should not load local config when running build command`, async () => {
+  test(`should not load local config when running build command`, async () => {
     expect(
       existsSync(path.join(appDir, 'dist/foo/html/main/index.html')),
     ).toBeTruthy();
