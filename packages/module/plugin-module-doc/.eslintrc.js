@@ -1,6 +1,7 @@
 module.exports = {
   extends: ['@modern-js'],
   parserOptions: {
-    project: require.resolve('./tsconfig.json'),
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json'],
   },
 };
