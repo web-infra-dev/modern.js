@@ -2,11 +2,10 @@ import path from 'path';
 import { readFileSync } from 'fs';
 import { modernBuild } from '../../../utils/modernTestUtils';
 
-const fixtures = path.resolve(__dirname, '../fixtures');
+const appDir = path.resolve(__dirname, '../');
 
 describe('builder-plugins', () => {
-  it(`should allow to register builder plugins`, async () => {
-    const appDir = path.resolve(fixtures, 'register-builder-plugins');
+  test(`should allow to register builder plugins`, async () => {
     await modernBuild(appDir);
     const log = readFileSync(path.join(appDir, 'dist/log'), 'utf-8');
     expect(log).toEqual(`before create compiler
