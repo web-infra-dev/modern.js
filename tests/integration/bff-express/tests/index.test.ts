@@ -12,13 +12,15 @@ import {
 import 'isomorphic-fetch';
 
 dns.setDefaultResultOrder('ipv4first');
+
+const appDir = path.resolve(__dirname, '../');
+
 describe('bff express in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
   const host = `http://localhost`;
   const prefix = '/bff-api';
-  const appPath = path.resolve(__dirname, '../');
   let app: any;
   let page: Page;
   let browser: Browser;
@@ -26,9 +28,7 @@ describe('bff express in dev', () => {
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
     port = await getPort();
-    app = await launchApp(appPath, port, {
-      cwd: appPath,
-    });
+    app = await launchApp(appDir, port, {});
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
   });
@@ -74,7 +74,6 @@ describe('bff express in prod', () => {
   const BASE_PAGE = 'base';
   const host = `http://localhost`;
   const prefix = '/bff-api';
-  const appPath = path.resolve(__dirname, '../');
   let app: any;
   let page: Page;
   let browser: Browser;
@@ -82,13 +81,9 @@ describe('bff express in prod', () => {
   beforeAll(async () => {
     port = await getPort();
 
-    await modernBuild(appPath, [], {
-      cwd: appPath,
-    });
+    await modernBuild(appDir, [], {});
 
-    app = await modernServe(appPath, port, {
-      cwd: appPath,
-    });
+    app = await modernServe(appDir, port, {});
 
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
