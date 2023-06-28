@@ -26,7 +26,7 @@ describe('custom render', () => {
     await browser.close();
   });
 
-  it(`should add custom div correctly`, async () => {
+  test(`should add custom div correctly`, async () => {
     await page.goto(`http://localhost:${appPort}/test`, {
       waitUntil: ['networkidle0'],
     });

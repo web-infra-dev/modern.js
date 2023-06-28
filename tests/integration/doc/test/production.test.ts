@@ -34,7 +34,7 @@ describe('Check production build', () => {
       browser.close();
     }
   });
-  it('check whether the page can be interacted', async () => {
+  test('check whether the page can be interacted', async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });

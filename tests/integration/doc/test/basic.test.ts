@@ -35,7 +35,7 @@ describe('Check basic render in development', () => {
     }
   });
 
-  it('Index page', async () => {
+  test('Index page', async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -51,7 +51,7 @@ describe('Check basic render in development', () => {
     expect(href).toBe('#hello-world');
   });
 
-  it('Guide page', async () => {
+  test('Guide page', async () => {
     await page.goto(`http://localhost:${appPort}/guide`, {
       waitUntil: ['networkidle0'],
     });
@@ -60,7 +60,7 @@ describe('Check basic render in development', () => {
     expect(text).toContain('Guide');
   });
 
-  it('404 page', async () => {
+  test('404 page', async () => {
     await page.goto(`http://localhost:${appPort}/404`, {
       waitUntil: ['networkidle0'],
     });
@@ -69,7 +69,7 @@ describe('Check basic render in development', () => {
     expect(text).toContain('404');
   });
 
-  it('dark mode', async () => {
+  test('dark mode', async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });

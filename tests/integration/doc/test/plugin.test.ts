@@ -35,7 +35,7 @@ describe('I18n doc render', () => {
     }
   });
 
-  it('Should add routes', async () => {
+  test('Should add routes', async () => {
     await page.goto(`http://localhost:${appPort}/filepath-route`, {
       waitUntil: ['networkidle0'],
     });

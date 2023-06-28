@@ -35,7 +35,7 @@ describe('Check functions when base path exists', () => {
     }
   });
 
-  it('Should render sidebar correctly', async () => {
+  test('Should render sidebar correctly', async () => {
     await page.goto(`http://localhost:${appPort}/base/en/guide/quick-start`, {
       waitUntil: ['networkidle0'],
     });
@@ -47,7 +47,7 @@ describe('Check functions when base path exists', () => {
     // get the section
   });
 
-  it('Should goto correct link', async () => {
+  test('Should goto correct link', async () => {
     await page.goto(`http://localhost:${appPort}/base/en/guide/quick-start`, {
       waitUntil: ['networkidle0'],
     });

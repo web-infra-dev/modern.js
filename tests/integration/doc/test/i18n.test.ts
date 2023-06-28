@@ -36,7 +36,7 @@ describe('I18n doc render', () => {
   });
 
   // check the language switch button
-  it('Language switch button', async () => {
+  test('Language switch button', async () => {
     await page.goto(`http://localhost:${appPort}/en/`, {
       waitUntil: ['networkidle0'],
     });
@@ -61,7 +61,7 @@ describe('I18n doc render', () => {
     await expect(titleText).toContain('首页');
   });
 
-  it('Add language prefix in route automatically', async () => {
+  test('Add language prefix in route automatically', async () => {
     // Chinese
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
@@ -86,7 +86,7 @@ describe('I18n doc render', () => {
     expect(href).toBe('/en/guide/quick-start.html');
   });
 
-  it('Should render sidebar correctly', async () => {
+  test('Should render sidebar correctly', async () => {
     await page.goto(`http://localhost:${appPort}/guide/quick-start`, {
       waitUntil: ['networkidle0'],
     });
@@ -98,7 +98,7 @@ describe('I18n doc render', () => {
     // get the section
   });
 
-  it('Should not render appearance switch button', async () => {
+  test('Should not render appearance switch button', async () => {
     await page.goto(`http://localhost:${appPort}/guide/quick-start`, {
       waitUntil: ['networkidle0'],
     });
