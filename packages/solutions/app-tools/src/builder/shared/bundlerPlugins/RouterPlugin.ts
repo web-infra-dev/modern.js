@@ -1,4 +1,3 @@
-import path from 'path';
 import { mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
@@ -34,11 +33,8 @@ export class RouterPlugin {
 
     const { webpack } = compiler;
     const { Compilation, sources } = webpack;
-    const { RawSource } = sources;
-    const { PROCESS_ASSETS_STAGE_REPORT } = Compilation;
-
-    const outputPath = compiler.options.output.path!;
-    const newAssetsMap = new Map<string, string>();
+    const { RawSource, SourceMapSource } = sources;
+    const { PROCESS_ASSETS_STAGE_ADDITIONS } = Compilation;
 
     const normalizePath = (path: string): string => {
       if (!path.endsWith('/')) {
@@ -52,7 +48,7 @@ export class RouterPlugin {
       compilation.hooks.processAssets.tapPromise(
         {
           name: PLUGIN_NAME,
-          stage: PROCESS_ASSETS_STAGE_REPORT,
+          stage: PROCESS_ASSETS_STAGE_ADDITIONS,
         },
         async () => {
           const stats = compilation.getStats().toJson({
@@ -155,14 +151,35 @@ export class RouterPlugin {
             if (!asset) {
               continue;
             }
-            const newContent = `${asset.source().toString()}${injectedContent}`;
-            newAssetsMap.set(path.join(outputPath, file), newContent);
-            compilation.updateAsset(
-              file,
-              new RawSource(newContent),
-              // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-              undefined as any,
-            );
+            if (asset.sourceAndMap) {
+              const { source, map } = asset.sourceAndMap();
+              const newContent = `${injectedContent}${source.toString()}`;
+              const newSource = new SourceMapSource(
+                newContent,
+                file,
+                map,
+                source.toString(),
+                map,
+              );
+
+              compilation.updateAsset(
+                file,
+                newSource,
+                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+                undefined as any,
+              );
+            } else {
+              const newContent = `${injectedContent}${asset
+                .source()
+                .toString()}`;
+
+              compilation.updateAsset(
+                file,
+                new RawSource(newContent),
+                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+                undefined as any,
+              );
+            }
           }
 
           if (prevManifestAsset) {
