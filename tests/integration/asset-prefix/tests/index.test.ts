@@ -10,8 +10,7 @@ import {
 
 const DEFAULT_DEV_HOST = 'localhost';
 
-const fixtures = path.resolve(__dirname, '../fixtures');
-const appDir = path.resolve(fixtures, 'dev-asset-prefix');
+const appDir = path.resolve(__dirname, '../');
 
 describe('asset prefix', () => {
   let app: any;
@@ -34,7 +33,7 @@ describe('asset prefix', () => {
     await page.close();
     await browser.close();
   });
-  it(`should generate assetPrefix correctly when dev.assetPrefix is true`, async () => {
+  test(`should generate assetPrefix correctly when dev.assetPrefix is true`, async () => {
     const HTML = readFileSync(
       path.join(appDir, 'dist/html/main/index.html'),
       'utf-8',
@@ -44,7 +43,7 @@ describe('asset prefix', () => {
     ).toBeTruthy();
   });
 
-  it(`should inject window.__assetPrefix__ global variable`, async () => {
+  test(`should inject window.__assetPrefix__ global variable`, async () => {
     const expected = `http://${DEFAULT_DEV_HOST}:${appPort}`;
 
     const mainJs = readFileSync(

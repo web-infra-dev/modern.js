@@ -6060,15 +6060,6 @@ importers:
 
   tests/integration/asset-prefix:
     dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/asset-prefix/fixtures/dev-asset-prefix:
-    dependencies:
       '@babel/runtime':
         specifier: ^7.18.0
         version: 7.21.5
@@ -6081,7 +6072,13 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/async-entry:
     dependencies:
