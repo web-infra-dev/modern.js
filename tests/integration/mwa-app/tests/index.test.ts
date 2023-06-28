@@ -1,27 +1,27 @@
-const fs = require('fs');
-const path = require('path');
-const puppeteer = require('puppeteer');
-const {
+import fs from 'fs';
+import path from 'path';
+import puppeteer from 'puppeteer';
+import {
   launchApp,
   killApp,
   getPort,
   modernBuild,
   modernServe,
   launchOptions,
-} = require('../../../utils/modernTestUtils');
+} from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
-function existsSync(filePath) {
+function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 
 describe('test dev', () => {
-  it(`should render page correctly`, async () => {
+  test(`should render page correctly`, async () => {
     const appPort = await getPort();
     const app = await launchApp(appDir, appPort, {}, {});
     const errors = [];
-    const browser = await puppeteer.launch(launchOptions);
+    const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();
     page.on('pageerror', error => {
       errors.push(error.message);
@@ -43,7 +43,8 @@ describe('test dev', () => {
 
 describe('test build', () => {
   let port = 8080;
-  let buildRes, app;
+  let buildRes: { code: number };
+  let app: any;
   beforeAll(async () => {
     port = await getPort();
 
@@ -58,16 +59,16 @@ describe('test build', () => {
     await killApp(app);
   });
 
-  it(`should get right alias build!`, async () => {
+  test(`should get right alias build!`, async () => {
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
     expect(existsSync('html/main/index.html')).toBe(true);
   });
 
-  it('should support enableInlineScripts', async () => {
+  test('should support enableInlineScripts', async () => {
     const host = `http://localhost`;
     expect(buildRes.code === 0).toBe(true);
-    const browser = await puppeteer.launch(launchOptions);
+    const browser = await puppeteer.launch(launchOptions as any);
     const page = await browser.newPage();
     await page.goto(`${host}:${port}`);
 
