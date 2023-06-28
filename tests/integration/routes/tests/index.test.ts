@@ -345,7 +345,7 @@ const supportHandleConfig = async (page: Page, appPort: number) => {
     waitUntil: ['networkidle0'],
   });
 
-  await expect(page).toMatchTextContent(
+  await (expect(page) as any).toMatchTextContent(
     'root/user.profile.name.layout/user.profile.name.page',
   );
 };
@@ -436,7 +436,7 @@ const supportDefineInit = async (
   await page.goto(`http://localhost:${appPort}/four/user`, {
     waitUntil: ['networkidle0'],
   });
-  const isBrowser = await page.evaluate(() => window.__isBrowser);
+  const isBrowser = await page.evaluate(() => (window as any).__isBrowser);
 
   expect(isBrowser).toBeTruthy();
   expect(errors.length).toBe(0);

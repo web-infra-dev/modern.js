@@ -7387,6 +7387,9 @@ importers:
       '@types/fs-extra':
         specifier: ^9.0.13
         version: 9.0.13
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
       '@types/node':
         specifier: ^14
         version: 14.18.35
