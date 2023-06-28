@@ -32,7 +32,7 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  it('should response header work correctly', async () => {
+  test('should response header work correctly', async () => {
     const response = await page.goto(`http://localhost:${port}/header`);
     const headers = response!.headers();
     const text = await response!.text();
@@ -40,12 +40,12 @@ describe('test status code page', () => {
     expect(text).toBe('18yearold');
   });
 
-  it('should response status work correctly', async () => {
+  test('should response status work correctly', async () => {
     const response = await page.goto(`http://localhost:${port}/status`);
     expect(response!.status()).toBe(201);
   });
 
-  it('should response cookies apply work correctly', async () => {
+  test('should response cookies apply work correctly', async () => {
     const response = await page.goto(`http://localhost:${port}/cookies-apply`);
     const headers = response!.headers();
     const cookie = headers['set-cookie'];
@@ -53,14 +53,14 @@ describe('test status code page', () => {
     expect(cookie).toMatch('x-test-city=zhejiang');
   });
 
-  it('should response cookies clear work correctly', async () => {
+  test('should response cookies clear work correctly', async () => {
     const response = await page.goto(`http://localhost:${port}/cookies-clear`);
     const headers = response!.headers();
     const cookie = headers['set-cookie'];
     expect(cookie).toBeUndefined();
   });
 
-  it('should response raw work correctly', async () => {
+  test('should response raw work correctly', async () => {
     const response = await page.goto(`http://localhost:${port}/raw`);
     const text = await response!.text();
     expect(text).toBe('hello world');

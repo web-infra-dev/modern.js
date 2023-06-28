@@ -31,14 +31,15 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  it('should template api work correctly ', async () => {
-    const response = await page.goto(`http://localhost:${port}`);
-    const text = await response!.text();
+  test('should router rewrite correctly ', async () => {
+    await page.goto(`http://localhost:${port}/rewrite`);
+    const text = await page.$eval('#root', el => el?.textContent);
+    expect(text).toMatch('Entry Page');
+  });
 
-    expect(text).toMatch('<meta name="text-append" content="hello modern">');
-    expect(text).toMatch('<meta name="text-prepend" content="hello modern">');
-    expect(text).toMatch('<div id="append">appendBody</div>');
-    expect(text).toMatch('<div id="prepend">prependBody</div>');
-    expect(text).toMatch('set-extra');
+  test.skip('should router redirect correctly ', async () => {
+    const response = await page.goto(`http://localhost:${port}/redirect`);
+    const text = await response!.text();
+    expect(text).toMatch('Modern Web Development');
   });
 });

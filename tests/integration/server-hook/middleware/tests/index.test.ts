@@ -16,11 +16,12 @@ describe('test status code page', () => {
   let browser: Browser;
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
+    await page.deleteCookie();
     port = await getPort();
 
     app = await launchApp(appPath, port);
-    browser = await puppeteer.launch(launchOptions as any);
-    page = await browser.newPage();
   });
 
   afterAll(async () => {
@@ -31,15 +32,12 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  it('should router rewrite correctly ', async () => {
-    await page.goto(`http://localhost:${port}/rewrite`);
-    const text = await page.$eval('#root', el => el?.textContent);
-    expect(text).toMatch('Entry Page');
-  });
-
-  it.skip('should router redirect correctly ', async () => {
-    const response = await page.goto(`http://localhost:${port}/redirect`);
+  test('should get request info correctly', async () => {
+    const response = await page.goto(`http://localhost:${port}`);
+    const header = response!.headers();
     const text = await response!.text();
-    expect(text).toMatch('Modern Web Development');
+    expect(text).toBe('hello modern');
+    expect(header['x-index-middleware']).toMatch('true');
+    expect(header['x-unstable-middleware']).toMatch('true');
   });
 });

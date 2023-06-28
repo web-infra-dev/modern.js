@@ -32,7 +32,7 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  it('should get request info correctly', async () => {
+  test('should get request info correctly', async () => {
     const pathname = '/testpathname';
     await page.deleteCookie();
     await page.setExtraHTTPHeaders({

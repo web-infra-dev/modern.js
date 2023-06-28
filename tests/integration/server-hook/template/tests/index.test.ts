@@ -16,12 +16,11 @@ describe('test status code page', () => {
   let browser: Browser;
   beforeAll(async () => {
     jest.setTimeout(1000 * 60 * 2);
-    browser = await puppeteer.launch(launchOptions as any);
-    page = await browser.newPage();
-    await page.deleteCookie();
     port = await getPort();
 
     app = await launchApp(appPath, port);
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
   });
 
   afterAll(async () => {
@@ -32,12 +31,14 @@ describe('test status code page', () => {
     await browser.close();
   });
 
-  it('should get request info correctly', async () => {
+  test('should template api work correctly ', async () => {
     const response = await page.goto(`http://localhost:${port}`);
-    const header = response!.headers();
     const text = await response!.text();
-    expect(text).toBe('hello modern');
-    expect(header['x-index-middleware']).toMatch('true');
-    expect(header['x-unstable-middleware']).toMatch('true');
+
+    expect(text).toMatch('<meta name="text-append" content="hello modern">');
+    expect(text).toMatch('<meta name="text-prepend" content="hello modern">');
+    expect(text).toMatch('<div id="append">appendBody</div>');
+    expect(text).toMatch('<div id="prepend">prependBody</div>');
+    expect(text).toMatch('set-extra');
   });
 });
