@@ -1012,6 +1012,67 @@ importers:
         specifier: ^5.82.1
         version: 5.82.1(esbuild@0.15.7)
 
+  packages/cli/doc-plugin-api-generator:
+    dependencies:
+      '@modern-js/doc-core':
+        specifier: workspace:*
+        version: link:../doc-core
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
+      documentation:
+        specifier: ^14.0.2
+        version: 14.0.2
+      react-docgen-typescript:
+        specifier: ^2.2.2
+        version: 2.2.2(typescript@5.0.4)
+      react-markdown:
+        specifier: ^8.0.5
+        version: 8.0.6(@types/react@18.0.21)(react@18.2.0)
+      remark-gfm:
+        specifier: 3.0.1
+        version: 3.0.1
+    devDependencies:
+      '@arco-design/web-react':
+        specifier: ^2.46.0
+        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/module-tools':
+        specifier: workspace:*
+        version: link:../../solutions/module-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../review/tsconfig
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
+      '@types/node':
+        specifier: ^18.11.17
+        version: 18.11.17
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      prettier:
+        specifier: ^2.6.2
+        version: 2.8.7
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      react-router-dom:
+        specifier: ^6.8.1
+        version: 6.11.2(react-dom@18.2.0)(react@18.2.0)
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+      vitest:
+        specifier: 0.21.1
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
+
   packages/cli/doc-plugin-auto-sidebar:
     dependencies:
       '@modern-js/doc-tools':
@@ -3047,21 +3108,12 @@ importers:
       '@modern-js/doc-core':
         specifier: workspace:*
         version: link:../../cli/doc-core
+      '@modern-js/doc-plugin-api-generator':
+        specifier: workspace:*
+        version: link:../../cli/doc-plugin-api-generator
       '@modern-js/doc-plugin-preview':
         specifier: workspace:*
         version: link:../../cli/doc-plugin-preview
-      documentation:
-        specifier: ^14.0.2
-        version: 14.0.2
-      react-docgen-typescript:
-        specifier: ^2.2.2
-        version: 2.2.2(typescript@5.0.4)
-      react-markdown:
-        specifier: ^8.0.5
-        version: 8.0.6(@types/react@18.0.21)(react@18.2.0)
-      remark-gfm:
-        specifier: 3.0.1
-        version: 3.0.1
     devDependencies:
       '@arco-design/web-react':
         specifier: ^2.46.0
@@ -3081,9 +3133,6 @@ importers:
       '@types/jest':
         specifier: ^29
         version: 29.2.6
-      '@types/mdast':
-        specifier: ^3.0.10
-        version: 3.0.10
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -3093,9 +3142,6 @@ importers:
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
-      mdast-util-mdxjs-esm:
-        specifier: ^1.3.0
-        version: 1.3.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -3105,12 +3151,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.0.4
-      unified:
-        specifier: ^10.1.2
-        version: 10.1.2
-      unist-util-visit:
-        specifier: ^4.1.1
-        version: 4.1.1
 
   packages/module/plugin-module-import:
     dependencies:
@@ -8257,7 +8297,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-focus-lock: 2.9.1(@types/react@18.0.21)(react@18.2.0)
-      react-transition-group: 4.4.2(react-dom@18.2.0)(react@18.2.0)
+      react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
       resize-observer-polyfill: 1.5.1
       scroll-into-view-if-needed: 2.2.20
       shallowequal: 1.1.0
@@ -19217,7 +19257,7 @@ packages:
       vfile: 5.3.6
       vfile-reporter: 7.0.5
       vfile-sort: 3.0.1
-      yargs: 17.5.1
+      yargs: 17.7.1
     optionalDependencies:
       '@vue/compiler-sfc': 3.3.4
       vue-template-compiler: 2.7.14
@@ -29271,19 +29311,6 @@ packages:
       refractor: 3.6.0
     dev: false
 
-  /react-transition-group@4.4.2(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-/RNYfRAMlZwDSr6z4zNKV6xu53/e2BuaBbGhbyYIXTrmgu/bGHzmqOs7mJSJBHy9Ud+ApHx3QjrkKSp1pxvlFg==}
-    peerDependencies:
-      react: '>=16.6.0'
-      react-dom: '>=16.6.0'
-    dependencies:
-      '@babel/runtime': 7.21.5
-      dom-helpers: 5.2.1
-      loose-envify: 1.4.0
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-
   /react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
     peerDependencies:
@@ -29296,7 +29323,6 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
 
   /react@17.0.2:
     resolution: {integrity: sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==}

@@ -8,6 +8,7 @@ export default (props: { moduleName: string }) => {
   const lang = useLang();
   const { page } = usePageData();
   const { moduleName } = props;
+  // some api doc have two languages.
   const apiDoc =
     page.apiDocMap[moduleName] || page.apiDocMap[`${moduleName}-${lang}`];
   return (
