@@ -56,6 +56,7 @@ export type BaseSSRServerContext = {
     query: Record<string, string>;
     headers: IncomingHttpHeaders;
     host: string;
+    body?: string;
     [propsName: string]: any;
   };
   response: {

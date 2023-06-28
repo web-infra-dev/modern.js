@@ -1,4 +1,5 @@
 import path from 'path';
+import { IncomingMessage } from 'http';
 import {
   fs,
   mime,
@@ -44,6 +45,7 @@ export const render = async (
   const routeManifest = fs.existsSync(routesManifestUri)
     ? require(routesManifestUri)
     : undefined;
+  const body = await getRequestBody(ctx.req);
 
   const context: SSRServerContext = {
     request: {
@@ -54,6 +56,7 @@ export const render = async (
       query: ctx.query as Record<string, string>,
       url: ctx.href,
       headers: ctx.headers,
+      body,
     },
     response: {
       setHeader: (key, value) => {
@@ -109,3 +112,28 @@ export const render = async (
     };
   }
 };
+
+/**
+ * get body from request.
+ * @return body -
+ *  if req.method !== 'GET', it returns a string, otherwise it returns undefined
+ */
+const getRequestBody = (req: IncomingMessage): Promise<string | undefined> =>
+  new Promise((resolve, reject) => {
+    if (req?.method && req.method.toLowerCase() !== 'get') {
+      let body = '';
+      req.on('data', chunk => {
+        body += chunk.toString();
+      });
+
+      req.on('end', () => {
+        resolve(body);
+      });
+
+      req.on('error', err => {
+        reject(err);
+      });
+    } else {
+      resolve(undefined);
+    }
+  });
