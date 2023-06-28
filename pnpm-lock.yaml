@@ -6307,15 +6307,6 @@ importers:
 
   tests/integration/copy-assets:
     dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/copy-assets/fixtures/copy-public-html:
-    dependencies:
       '@babel/runtime':
         specifier: ^7.18.0
         version: 7.21.5
@@ -6328,7 +6319,13 @@ importers:
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
 
   tests/integration/css:
     dependencies:
