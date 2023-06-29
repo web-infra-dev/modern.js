@@ -63,4 +63,36 @@ describe('plugins/check-syntax', () => {
 
     expect(chain.toConfig()).toMatchSnapshot();
   });
+
+  it('should use default browserlist as targets when only set checksyntax.exclude', async () => {
+    let modifyBundlerChainCb: any;
+
+    const api: any = {
+      modifyBundlerChain: (fn: any) => {
+        modifyBundlerChainCb = fn;
+      },
+      getNormalizedConfig: () => ({
+        security: {
+          checkSyntax: {
+            exclude: [/$.html/],
+          },
+        },
+      }),
+      context: {
+        rootPath: __dirname,
+      },
+    };
+
+    builderPluginCheckSyntax().setup(api);
+
+    const chain = await shared.getBundlerChain();
+
+    await modifyBundlerChainCb(chain, {
+      CHAIN_ID,
+      isProd: true,
+      target: 'web',
+    });
+
+    expect(chain.toConfig()).toMatchSnapshot();
+  });
 });
