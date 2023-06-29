@@ -3079,8 +3079,8 @@ importers:
         version: 0.5.1
     devDependencies:
       '@modern-js/libuild':
-        specifier: 0.13.1
-        version: 0.13.1
+        specifier: 0.13.2
+        version: 0.13.2
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
@@ -3155,15 +3155,15 @@ importers:
   packages/module/plugin-module-import:
     dependencies:
       '@modern-js/libuild-plugin-swc':
-        specifier: 0.13.1
-        version: 0.13.1(@swc/helpers@0.5.1)
+        specifier: 0.13.2
+        version: 0.13.2(@swc/helpers@0.5.1)
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
     devDependencies:
       '@modern-js/libuild':
-        specifier: 0.13.1
-        version: 0.13.1
+        specifier: 0.13.2
+        version: 0.13.2
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
@@ -3213,8 +3213,8 @@ importers:
   packages/module/plugin-module-node-polyfill:
     dependencies:
       '@modern-js/libuild-plugin-node-polyfill':
-        specifier: 0.13.1
-        version: 0.13.1
+        specifier: 0.13.2
+        version: 0.13.2
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -11674,8 +11674,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-node-polyfill@0.13.1:
-    resolution: {integrity: sha512-Ak33Vh0MGC/N234vmJU0bx2VSUzX4K13GOPHuMQ33fpPJy4VVFfAt6F+0qwdK6E3nt0Fx2zZpck6N3Ski2dtwQ==}
+  /@modern-js/libuild-plugin-node-polyfill@0.13.2:
+    resolution: {integrity: sha512-ZHCM3yjtISaBJob29xFe/MyXcDp0El6QqtMTOCmD3QbT0KsKw722T/WeHnxDm0DzQcjxfnt5WsLjR5WLx+iu/g==}
     dependencies:
       assert: 2.0.0
       browserify-zlib: 0.2.0
@@ -11714,15 +11714,6 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc@0.13.1(@swc/helpers@0.5.1):
-    resolution: {integrity: sha512-sFtns3ceq45TD2PO5DByaPm4vCIMyxcl/pMCSAmIyoL42eQCQI6AFzIsq/3BpD0MCnkj6/hOS2txHOsEcEkE+Q==}
-    dependencies:
-      '@modern-js/swc-plugins': 0.3.5(@swc/helpers@0.5.1)
-      chalk: 4.1.0
-    transitivePeerDependencies:
-      - '@swc/helpers'
-    dev: false
-
   /@modern-js/libuild-plugin-swc@0.13.2(@swc/helpers@0.5.1):
     resolution: {integrity: sha512-wxwxjMTnrErbjEOqNNVZw/ETAvOxNz1dE0ljp9EYJiGFbU3BQayh3OrV7QlmaIfTeY2x/y/EktNeKEjoG1659g==}
     dependencies:
@@ -11731,20 +11722,6 @@ packages:
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
-
-  /@modern-js/libuild@0.13.1:
-    resolution: {integrity: sha512-Bs7sappo1VhFjN5iZiqmEVzVY21iLK98sEnVPx9iwSFozs+Hk7UeM+ujypnez61tHDK1bKUOAjre8E+r2FleHw==}
-    hasBin: true
-    dependencies:
-      '@ast-grep/napi': 0.1.13
-      esbuild: 0.17.19
-      postcss: 8.4.6
-      source-map: 0.7.4
-      source-map-support: 0.5.20
-      style-inject: 0.3.0
-      sucrase: 3.29.0
-      terser: 5.15.0
-    dev: true
 
   /@modern-js/libuild@0.13.2:
     resolution: {integrity: sha512-5g8G5pjF0R0/HeaRnmnIG7jcL0YXD0QiQbE4e1dh2loJF2TN07YXnSA71fGhPKWAx9W17e1fBr0YiRnbGh//tw==}
@@ -11758,7 +11735,6 @@ packages:
       style-inject: 0.3.0
       sucrase: 3.29.0
       terser: 5.15.0
-    dev: false
 
   /@modern-js/mdx-rs-binding-darwin-arm64@0.2.2:
     resolution: {integrity: sha512-bH14k2lRnXVWK/rCJjOz8jCnGdmTvaU6qtvKLHS0Pw3eh8T32rTmEqgj/ZPD3hL7o5JpkZ1IpWQEKZJe63DuTQ==}
