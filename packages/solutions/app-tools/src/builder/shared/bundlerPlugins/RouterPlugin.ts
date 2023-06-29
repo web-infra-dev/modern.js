@@ -18,12 +18,20 @@ type Compiler = webpack.Compiler | Rspack.Compiler;
 
 export class RouterPlugin {
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
-    return (
+    if (
       target === 'node' ||
-      (Array.isArray(target) && target.includes('node')) ||
+      (Array.isArray(target) && target.includes('node'))
+    ) {
+      return true;
+    }
+
+    if (
       target === 'webworker' ||
       (Array.isArray(target) && target.includes('webworker'))
-    );
+    ) {
+      return true;
+    }
+    return false;
   }
 
   apply(compiler: Compiler) {
@@ -183,6 +191,8 @@ export class RouterPlugin {
           })};
             })();
           `;
+
+          console.log('iiiiiiiii');
 
           const entrypointsArray = Array.from(
             compilation.entrypoints.entries() as IterableIterator<
