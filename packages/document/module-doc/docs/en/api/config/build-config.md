@@ -445,7 +445,7 @@ type External = (string | RegExp)[];
 ```
 
 - **Default**: `[]`
-
+- **Build Type**: `Only supported for buildType: 'bundle'`
 - **Example**:
 
 ```js modern.config.ts

@@ -444,7 +444,7 @@ type Externals = (string | RegExp)[];
 ```
 
 - 默认值： `[]`
-
+- 构建类型：`仅支持 buildType: 'bundle'`
 - 示例：
 
 ```js modern.config.ts
