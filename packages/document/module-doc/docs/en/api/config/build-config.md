@@ -459,31 +459,6 @@ export default defineConfig({
 
 ## format
 
-## externals
-
-Used to exclude certain external dependencies during bundling, avoiding them from being included in the final bundle.
-
-- **Type**:
-
-```ts
-type Externals = (string | RegExp)[];
-```
-
-- **Default**: `[]`
-
-- **Example**:
-
-```js modern.config.ts
-export default defineConfig({
-  buildConfig: {
-    // Exclude React from the bundle
-    externals: ['react'],
-  },
-});
-```
-
-## format
-
 Used to set the output format of JavaScript files. The options `iife` and `umd` only take effect when `buildType` is `bundle`.
 
 - **Type**: `'esm' | 'cjs' | 'iife' | 'umd'`
