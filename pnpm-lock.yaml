@@ -3735,6 +3735,9 @@ importers:
       '@modern-js/babel-compiler':
         specifier: workspace:*
         version: link:../../toolkit/compiler/babel
+      '@modern-js/babel-preset-app':
+        specifier: workspace:*
+        version: link:../../cli/babel-preset-app
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
