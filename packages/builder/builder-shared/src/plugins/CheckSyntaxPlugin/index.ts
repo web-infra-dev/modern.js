@@ -26,7 +26,10 @@ export class CheckSyntaxPlugin {
 
   exclude: CheckSyntaxExclude | undefined;
 
-  constructor(options: CheckSyntaxOptions) {
+  constructor(options: {
+    targets: string[];
+    exclude: CheckSyntaxOptions['exclude'];
+  }) {
     this.targets = options.targets;
     this.exclude = options.exclude;
     this.ecmaVersion = getEcmaVersion(this.targets);
