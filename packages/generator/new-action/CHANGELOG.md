@@ -1,5 +1,18 @@
 # @modern-js/new-action
 
+## 2.25.0
+
+### Patch Changes
+
+- 2edd844: feat: add named exports for solution new command
+
+  feat: 为 solution new 命令添加 named 导出
+
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+  - @modern-js/generator-common@3.1.25
+  - @modern-js/generator-utils@3.1.25
+
 ## 2.24.0
 
 ### Patch Changes

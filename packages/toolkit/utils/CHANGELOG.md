@@ -1,5 +1,12 @@
 # @modern-js/utils
 
+## 2.25.0
+
+### Patch Changes
+
+- 5732c6a: feat: support for fallback SSR using request header fields
+  feat: 支持通过请求头字段来降级 SSR
+
 ## 2.24.0
 
 ### Patch Changes

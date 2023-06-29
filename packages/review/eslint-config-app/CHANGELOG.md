@@ -1,5 +1,15 @@
 # @modern-js-app/eslint-config
 
+## 2.25.0
+
+### Patch Changes
+
+- cecf3b8: chore: simplify some eslint rules
+
+  chore: 简化一些 eslint 规则
+
+  - @modern-js/babel-preset-app@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

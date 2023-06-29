@@ -1,5 +1,19 @@
 # @modern-js/plugin-router-v5
 
+## 2.25.0
+
+### Patch Changes
+
+- 4c4c0ad: feat: add named exports for all CLI plugins
+
+  feat: 为各个 CLI 插件添加 named 导出
+
+- Updated dependencies [2491875]
+- Updated dependencies [5732c6a]
+  - @modern-js/types@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes
