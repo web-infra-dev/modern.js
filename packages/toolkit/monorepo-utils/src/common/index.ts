@@ -6,4 +6,3 @@ export { getProjects as getPnpmMonorepoSubProjects } from './pnpm';
 export { getProjects as getRushMonorepoSubProjects } from './rush';
 
 export type { GetProjectsFunc } from './getProjects';
-export * from './types';
