@@ -4,13 +4,13 @@ import { DocumentContext } from './DocumentContext';
 import { DOCUMENT_SSR_PLACEHOLDER } from './constants';
 
 export function Root(props: { children?: any; rootId?: string }) {
-  const { rootId, children } = props;
+  const { rootId, children, ...rest } = props;
   const {
     templateParams: { mountId = 'root' },
   } = useContext(DocumentContext);
 
   return (
-    <div id={`${rootId || mountId}`}>
+    <div id={`${rootId || mountId}`} {...rest}>
       {`${DOCUMENT_SSR_PLACEHOLDER}`}
       {children}
     </div>

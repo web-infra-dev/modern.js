@@ -142,4 +142,31 @@ describe('test build', () => {
 
     expect(htmlWithDoc.includes(`html lang="cn"`)).toBe(true);
   });
+
+  test('should has dir property in body', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes(`body dir="ltr"`)).toBe(true);
+  });
+
+  test('should has class property in root div', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes(`div id="root" class="root"`)).toBe(true);
+  });
+
+  test('should has class property in root div', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(htmlWithDoc.includes(`head class="head"`)).toBe(true);
+  });
 });

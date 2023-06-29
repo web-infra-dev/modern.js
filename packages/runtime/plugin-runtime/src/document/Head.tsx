@@ -7,10 +7,10 @@ import { DOCUMENT_META_PLACEHOLDER } from './constants';
 
 export function Head(props: { children?: any }) {
   const { hasSetScripts, hasSetLinks } = useContext(DocumentStructureContext);
-  const { children } = props;
+  const { children, ...rest } = props;
   // todo: verify the children
   return (
-    <head>
+    <head {...rest}>
       {/* configuration by config.output.meta */}
       {`${DOCUMENT_META_PLACEHOLDER}`}
       {!hasSetLinks && <Links />}
