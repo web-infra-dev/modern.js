@@ -1,15 +1,11 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import { PackageJsonLookup } from '@rushstack/node-core-library';
-import {
-  getMonorepoBaseData,
-  getMonorepoSubProjects,
-  MonorepoAnalyzer,
-} from '../common';
+import { getMonorepoBaseData, getMonorepoSubProjects } from '../common';
 import { dlog } from '../debug';
 import type { Project } from '../project/project';
-import { defaultFilter } from './filter';
-import type { Filter } from './filter';
+import type { MonorepoAnalyzer } from '../types';
+import { readPackageJson } from '../utils';
+import { defaultFilter, type Filter } from './filter';
 
 export type ExtraMonorepoStrategies = Record<string, MonorepoAnalyzer>;
 
@@ -45,12 +41,10 @@ const getDependentProjects = async (
     projectNameOrRootPath,
     'package.json',
   );
+
   let projectName: string;
   if (await fs.pathExists(currentProjectPkgJsonPath)) {
-    const pkgLp = new PackageJsonLookup({ loadExtraFields: true });
-    ({ name: projectName } = pkgLp.loadNodePackageJson(
-      currentProjectPkgJsonPath,
-    ));
+    ({ name: projectName } = await readPackageJson(currentProjectPkgJsonPath));
   } else {
     projectName = projectNameOrRootPath;
   }

@@ -40,12 +40,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@microsoft/rush-lib": "^5.99.0",
     "@modern-js/utils": "workspace:*",
-    "@pnpm/filter-workspace-packages": "^7.0.7",
-    "@pnpm/logger": "^5.0.0",
-    "@rushstack/node-core-library": "^3.39.1",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.1",
+    "p-map": "^4.0.0"
   },
   "devDependencies": {
     "@scripts/build": "workspace:*",

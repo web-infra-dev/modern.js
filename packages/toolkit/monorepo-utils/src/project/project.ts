@@ -1,26 +1,34 @@
 import path from 'path';
-import type { INodePackageJson } from '@rushstack/node-core-library';
-import { PackageJsonLookup } from '@rushstack/node-core-library';
 import { fs } from '@modern-js/utils';
+import type { INodePackageJson, ExportsConfig } from '../types/packageJson';
 import { dlog } from '../debug';
-import type { ExportsConfig } from './packageJson';
+import { readPackageJson } from '../utils';
+import { PACKAGE_JSON } from '../constants';
 
 export class Project {
   name: string;
 
   dir: string;
 
-  metaData: INodePackageJson;
-
-  #pkgJsonLp: PackageJsonLookup;
+  metaData!: INodePackageJson;
 
   constructor(name: string, dir: string) {
     this.name = name;
     this.dir = dir;
-    this.#pkgJsonLp = new PackageJsonLookup({ loadExtraFields: true });
-    this.metaData = this.#pkgJsonLp.loadNodePackageJson(
-      path.join(dir, 'package.json'),
-    );
+  }
+
+  async init() {
+    this.metaData = await readPackageJson(path.join(this.dir, PACKAGE_JSON));
+  }
+
+  getMetaData() {
+    if (this.metaData === null) {
+      throw new Error(
+        'The Project object needs to be initialized by executing the `init` function',
+      );
+    }
+
+    return this.metaData;
   }
 
   getDependentProjects(
@@ -29,7 +37,6 @@ export class Project {
   ): Project[] {
     const { recursive } = options ?? { recursive: false };
     const allProjectMap = new Map<string, Project>();
-    const computedMap = new Set<string>();
     for (const project of monorepoProjects) {
       allProjectMap.set(project.name, project);
     }
@@ -38,13 +45,22 @@ export class Project {
       return this.getDirectDependentProjects(allProjectMap);
     }
 
-    const queue = this.getDirectDependentProjects(allProjectMap);
-    computedMap.add(this.name);
+    const computedSet = new Set<string>();
+    computedSet.add(this.name);
+
+    const queue = this.getDirectDependentProjects(allProjectMap).filter(
+      p => !computedSet.has(p.name),
+    );
     const result = [];
 
     while (queue.length > 0) {
       const item = queue.shift() as Project;
+      if (computedSet.has(item.name)) {
+        continue;
+      }
+
       result.push(item);
+      computedSet.add(item.name);
       const newDeps = item.getDirectDependentProjects(allProjectMap);
       dlog(item.name, ' deps is: ');
       dlog(newDeps);
@@ -57,7 +73,7 @@ export class Project {
   }
 
   getDirectDependentProjects(allProjectMap: Map<string, Project>): Project[] {
-    const pkgJson = this.metaData;
+    const pkgJson = this.getMetaData();
     const { dependencies = {}, devDependencies = {} } = pkgJson;
     const projects: Project[] = [];
 
@@ -78,9 +94,8 @@ export class Project {
   getSourceEntryPaths(options?: { field?: string; exports: boolean }) {
     const { exports: checkExports = false, field: sourceField = 'source' } =
       options ?? {};
-    const pkgJson = this.metaData as INodePackageJson & {
-      exports?: ExportsConfig;
-    } & Record<string, string>;
+    const pkgJson = this.getMetaData() as INodePackageJson &
+      Record<string, string>;
 
     if (!(sourceField in pkgJson)) {
       throw new Error(`${this.name} 的 package.json 没有 ${sourceField} 字段`);

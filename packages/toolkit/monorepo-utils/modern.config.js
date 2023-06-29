@@ -6,15 +6,6 @@ module.exports = {
       target: 'es2019',
       dts: false,
       outDir: './dist/cjs',
-      copy: {
-        patterns: [
-          {
-            from: './compiled',
-            context: __dirname,
-            to: '../compiled',
-          },
-        ],
-      },
       externalHelpers: true,
     },
     {
