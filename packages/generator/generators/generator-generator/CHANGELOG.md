@@ -1,5 +1,17 @@
 # @modern-js/generator-generator
 
+## 3.1.25
+
+### Patch Changes
+
+- 9aa2c25: feat: add named exports for all solutions
+
+  feat: 为各个 solutions 添加 named 导出
+
+- 9e06b85: fix: generator and generator plugin not exist test dir
+
+  fix: 修复创建微生成器和生成器插件时不存在 test 目录
+
 ## 3.1.24
 
 ## 3.1.23

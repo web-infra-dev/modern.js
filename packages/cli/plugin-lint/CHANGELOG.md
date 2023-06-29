@@ -1,5 +1,17 @@
 # @modern-js/plugin-lint
 
+## 2.25.0
+
+### Patch Changes
+
+- 4c4c0ad: feat: add named exports for all CLI plugins
+
+  feat: 为各个 CLI 插件添加 named 导出
+
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+  - @modern-js/tsconfig@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

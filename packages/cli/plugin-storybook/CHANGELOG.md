@@ -1,5 +1,27 @@
 # @modern-js/plugin-storybook
 
+## 2.25.0
+
+### Patch Changes
+
+- 4c4c0ad: feat: add named exports for all CLI plugins
+
+  feat: 为各个 CLI 插件添加 named 导出
+
+- ba6f5a6: feat: update log content
+  feat: 更新日志内容
+- Updated dependencies [324cf45]
+- Updated dependencies [5732c6a]
+- Updated dependencies [4c4c0ad]
+- Updated dependencies [09521e0]
+  - @modern-js/builder-webpack-provider@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin-router-v5@2.25.0
+  - @modern-js/runtime@2.25.0
+  - @modern-js/builder-plugin-node-polyfill@2.25.0
+  - @modern-js/builder-shared@2.25.0
+  - @modern-js/builder@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes
