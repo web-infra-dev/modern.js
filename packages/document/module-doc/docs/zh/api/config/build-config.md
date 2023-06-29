@@ -435,24 +435,105 @@ export var yourCode = function () {
 
 ## externals
 
-配置外部依赖，不会被打包到最终的 bundle 中。
+用于在打包时排除一些外部依赖，避免将这些依赖打包到最终的 bundle 中。
 
-- 类型： `(string | RegExp)[]`
+- 类型：
+
+```ts
+type Externals = (string | RegExp)[];
+```
+
 - 默认值： `[]`
+
+- 示例：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    // 避免打包 React
+    externals: ['react'],
+  },
+});
+```
 
 ## format
 
-js 产物输出的格式,其中 `iife` 和 `umd` 只能在 `buildType` 为 `bundle` 时生效。
+用于设置 JavaScript 产物输出的格式，其中 `iife` 和 `umd` 只在 `buildType` 为 `bundle` 时生效。
 
-- 类型： `'esm' | 'cjs' | 'iife' | 'umd'`
-- 默认值： `cjs`
+- 类型：`'esm' | 'cjs' | 'iife' | 'umd'`
+- 默认值：`cjs`
+
+### format: 'esm'
+
+esm 代表 "ECMAScript 模块"，它需要运行环境支持 import 和 export 语法。
+
+- 示例：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'esm',
+  },
+});
+```
+
+### format: 'cjs'
+
+cjs 代表 "CommonJS"，它需要运行环境支持 exports、require 和 module 语法，通常为 Node.js 环境。
+
+- 示例：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'cjs',
+  },
+});
+```
+
+### format: 'iife'
+
+iife 代表 "立即调用函数表达式"，它将代码包裹在函数表达式中，确保代码中的任何变量不会意外地与全局范围中的变量冲突，通常在浏览器环境中运行。
+
+- 示例：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'iife',
+  },
+});
+```
+
+### format: 'umd'
+
+umd 代表 "Universal Module Definition"，用于在不同环境（浏览器、Node.js 等）中运行。umd 格式的模块可以在多种环境下使用，既可以作为全局变量访问，也可以通过模块加载器（如 RequireJS）进行模块化加载。
+
+- 示例：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'umd',
+  },
+});
+```
 
 ## input
 
 指定构建的入口文件，数组形式可以指定目录。
 
-- 类型： `string[] | Record<string, string>`
-- 默认值： `bundle` 模式下默认为 `['src/index.ts']`，`bundleless` 模式下默认为 `['src']`
+- 类型：
+
+```ts
+type Input =
+  | string[];
+  | {
+      [name: string]: string;
+    }
+```
+
+- 默认值：`bundle` 模式下默认为 `['src/index.ts']`，`bundleless` 模式下默认为 `['src']`
 
 **数组用法：**
 
@@ -483,22 +564,49 @@ export default defineConfig({
 
 ## jsx
 
-指定 JSX 的编译方式，默认支持 React17 以上，自动注入 JSX 运行时代码。如果需要支持 React16，则设置 `jsx` 为 `transform`。
+指定 JSX 的编译方式，默认支持 React 17 及更高版本，自动注入 JSX 运行时代码。
 
-> 关于 JSX Transform，可以参考以下链接：
->
-> - [React Blog](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)。
-> - [esbuild JSX](https://esbuild.github.io/api/#jsx)
->
 - 类型： `automatic | transform`
 - 默认值： `automatic`
 
+如果你需要支持 React 16，则可以设置 `jsx` 为 `transform`：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    jsx: 'transform',
+  },
+});
+```
+
+:::tip
+关于 JSX Transform 的更多说明，可以参考以下链接：
+
+- [React Blog - Introducing the New JSX Transform](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+- [esbuild - JSX](https://esbuild.github.io/api/#jsx).
+
+:::
+
 ## metafile
 
-esbuild 以 JSON 格式生成有关构建的一些元数据，可以通过例如 [bundle-buddy](https://bundle-buddy.com/esbuild) 的工具可视化
+这个选项用于构建分析，开启该选项后，esbuild 会以 JSON 格式生成有关构建的一些元数据。
 
 - 类型：`boolean`
 - 默认值：`false`
+- 构建类型：`仅支持 buildType: 'bundle'`
+
+开启 `metafile` 生成：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundle',
+    metafile: true,
+  },
+});
+```
+
+在执行 build 构建后，产物目录下会生成 `metafile-[xxx].json` 文件，你可以通过 [esbuild analyze](https://esbuild.github.io/analyze/) 和 [bundle-buddy](https://bundle-buddy.com/esbuild) 等工具进行可视化分析。
 
 ## minify
 
@@ -770,14 +878,12 @@ export default defineConfig({
 
 **基础使用：**
 
-``` js modern.config.ts
+```js modern.config.ts
 export default defineConfig({
   buildConfig: {
     style: {
       postcss: {
-        plugins: [
-          yourPostCSSPlugin,
-        ],
+        plugins: [yourPostCSSPlugin],
       },
     },
   },

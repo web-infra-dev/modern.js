@@ -438,21 +438,127 @@ export var yourCode = function () {
 
 Configure external dependencies that will not be packaged into the final bundle
 
-- **Type**: `(string | RegExp)[]`
+- **Type**:
+
+```ts
+type External = (string | RegExp)[];
+```
+
 - **Default**: `[]`
+
+- **Example**:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    // do not bundle React
+    externals: ['react'],
+  },
+});
+```
 
 ## format
 
-The format of the js product output, where `iife` and `umd` can only take effect when `buildType` is `bundle`
+## externals
+
+Used to exclude certain external dependencies during bundling, avoiding them from being included in the final bundle.
+
+- **Type**:
+
+```ts
+type Externals = (string | RegExp)[];
+```
+
+- **Default**: `[]`
+
+- **Example**:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    // Exclude React from the bundle
+    externals: ['react'],
+  },
+});
+```
+
+## format
+
+Used to set the output format of JavaScript files. The options `iife` and `umd` only take effect when `buildType` is `bundle`.
 
 - **Type**: `'esm' | 'cjs' | 'iife' | 'umd'`
 - **Default**: `cjs`
+
+### format: 'esm'
+
+`esm` stands for "ECMAScript module" and requires the runtime environment to support import and export syntax.
+
+- **Example**:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'esm',
+  },
+});
+```
+
+### format: 'cjs'
+
+`cjs` stands for "CommonJS" and requires the runtime environment to support exports, require, and module syntax. This format is commonly used in Node.js environments.
+
+- **Example**:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'cjs',
+  },
+});
+```
+
+### format: 'iife'
+
+`iife` stands for "immediately-invoked function expression" and wraps the code in a function expression to ensure that any variables in the code do not accidentally conflict with variables in the global scope. This format is commonly used in browser environments.
+
+- **Example**:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'iife',
+  },
+});
+```
+
+### format: 'umd'
+
+`umd` stands for "Universal Module Definition" and is used to run modules in different environments such as browsers and Node.js. Modules in UMD format can be used in various environments, either as global variables or loaded as modules using module loaders like RequireJS.
+
+- **Example**:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    format: 'umd',
+  },
+});
+```
 
 ## input
 
 Specify the entry file for the build, in the form of an array that can specify the directory
 
-- **Type**: `string[] | Record<string, string>`
+- **Type**:
+
+```ts
+type Input =
+  | string[];
+  | {
+      [name: string]: string;
+    }
+```
+
 - **Default**: `['src/index.ts']` in `bundle` mode, `['src']` in `bundleless` mode
 
 **Array usage:**
@@ -484,23 +590,48 @@ export default defineConfig({
 
 ## jsx
 
-Specify the compilation method of JSX, default support React17, automatically inject JSX Runtime code. If you need to support React16, set `jsx` to `transform`.
-
-> For more information about JSX Transform, you can refer to the following links:
->
-> - [React Blog](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html)。
-> - [esbuild JSX](https://esbuild.github.io/api/#jsx)
->
+Specify the compilation method for JSX, which by default supports React 17 and higher versions and automatically injects JSX runtime code.
 
 - **Type**: `automatic | transform`
 - **Default**: `automatic`
 
+If you need to support React 16, you can set `jsx` to `transform`:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    jsx: 'transform',
+  },
+});
+```
+
+:::tip
+For more information about JSX Transform, you can refer to the following links:
+
+- [React Blog - Introducing the New JSX Transform](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
+- [esbuild - JSX](https://esbuild.github.io/api/#jsx).
+  :::
+
 ## metafile
 
-esbuild to produce some metadata about the build in JSON format, which can be visualized by tools such as [bundle-buddy](https://bundle-buddy.com/esbuild)
+This option is used for build analysis. When enabled, esbuild will generate metadata about the build in JSON format.
 
 - **Type**: `boolean`
 - **Default**: `false`
+- **Build Type**: `Only supported for buildType: 'bundle'`
+
+To enable `metafile` generation:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundle',
+    metafile: true,
+  },
+});
+```
+
+After executing the build, a `metafile-[xxx].json` file will be generated in the output directory. You can use tools like [esbuild analyze](https://esbuild.github.io/analyze/) and [bundle-buddy](https://bundle-buddy.com/esbuild) for visual analysis.
 
 ## minify
 
@@ -771,14 +902,12 @@ See [PostCSS](https://github.com/postcss/postcss#options) for detailed configura
 
 **Basic usage：**
 
-``` js modern.config.ts
+```js modern.config.ts
 export default defineConfig({
   buildConfig: {
     style: {
       postcss: {
-        plugins: [
-          yourPostCSSPlugin,
-        ],
+        plugins: [yourPostCSSPlugin],
       },
     },
   },
