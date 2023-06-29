@@ -20,6 +20,14 @@ npx @modern-js/create@latest my-app
 Modern.js 框架文档和 Modern.js Builder 文档部署在两个独立的站点下。如果你在使用 Modern.js 框架的过程中遇到任何构建相关的问题，你可以随时查阅 Modern.js Builder 的文档来寻找相应的解决方案。
 :::
 
+## 使用 Builder CLI 工具
+
+Modern.js Builder 提供了一个轻量的 CLI 工具，包含 dev、build 等基础命令，它主要用于构建非 React 项目。
+
+如果你的项目不是基于 React 的，比如开发一个 Vue 项目，那么你可以使用 Builder CLI 工具来构建你的项目。
+
+请参考 [使用 Builder CLI](/guide/basic/builder-cli) 来了解相关用法。
+
 ## 在前端框架中接入
 
 如果你正在开发一个前端框架，可以通过下面的步骤来接入 Builder:
@@ -29,10 +37,14 @@ Modern.js 框架文档和 Modern.js Builder 文档部署在两个独立的站点
 你需要安装两个包，其中：
 
 - `@modern-js/builder` 为 Builder 的核心包，导出了 Builder 的核心 API。
-- `@modern-js/builder-webpack-provider` 为 Builder 的一个 Provider，提供了基于 webpack 的构建能力。
+- `@modern-js/builder-webpack-provider` 或 `@modern-js/builder-rspack-provider`，它们是 Builder 的 Provider，提供基于 webpack 或 Rspack 的构建能力。
 
 ```bash
+# 使用 webpack 打包
 pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
+
+# 使用 Rspack 打包
+pnpm add @modern-js/builder @modern-js/builder-rspack-provider -D
 ```
 
 > 在进行版本升级时，请确保你安装的 builder 和 provider 为同一个版本。
@@ -42,6 +54,8 @@ pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
 创建 Builder 实例的过程分两步：
 
 首先你需要初始化 Builder Provider，并传入 `builderConfig` 配置对象。Builder 提供了丰富的配置项，允许你对构建行为进行灵活定制。此时你还不需要了解配置项的具体内容，传入一个空对象即可。你可以在 [API - 配置](/api/#配置) 中找到所有可用的配置项。
+
+- 初始化 webpack Provider：
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
@@ -54,7 +68,20 @@ const provider = builderWebpackProvider({
 });
 ```
 
-拿到 provider 对象后，你可以调用 `createBuilder` 方法来创建一个 Builder 实例对象：
+- 初始化 Rspack Provider：
+
+```ts
+import { createBuilder } from '@modern-js/builder';
+import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
+
+const provider = builderRspackProvider({
+  builderConfig: {
+    // some configs
+  },
+});
+```
+
+拿到 provider 实例后，你可以调用 `createBuilder` 方法来创建一个 Builder 实例对象：
 
 ```ts
 const builder = await createBuilder(provider, {

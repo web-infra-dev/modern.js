@@ -29,17 +29,8 @@
     "react-dom": "^18"
   },
   "devDependencies": {
-    "@modern-js/app-tools": "workspace:*"
-  },
-  "modernConfig": {
-    "runtime": {
-      "router": false,
-      "state": false
-    },
-    "output": {
-      "faviconByEntries": {
-        "main": "./src/assets/favicon1.ico"
-      }
-    }
+    "@modern-js/app-tools": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^14"
   }
 }

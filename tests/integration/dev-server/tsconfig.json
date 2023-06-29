@@ -4,10 +4,11 @@
     "declaration": false,
     "jsx": "preserve",
     "baseUrl": "./",
+    "outDir": "dist",
     "paths": {
       "@/*": ["./src/*"],
       "@shared/*": ["./shared/*"]
     }
   },
-  "include": ["src", "tests", "shared", "config"]
+  "include": ["src", "tests", "modern.config.ts"]
 }

@@ -180,6 +180,7 @@ import Demo from '${demoComponentPath}'
             .rule('Raw')
             .resourceQuery(/raw/)
             .type('asset/source')
+            .end()
             .rule('MDX')
             .oneOf('MDXMeta')
             .before('MDXCompile')
