@@ -131,9 +131,28 @@ import MdxRs from '../../fragments/mdx-rs';
 
 Whether to display the line number of the code block. Defaults to `false`.
 
-
 ### markdown.globalComponents
 
 - Type: `string[]`
 
-Register component to the global scope, which will make it automatically available in every MDX file, without any import statements.
+Register component to the global scope, which will make it automatically available in every MDX file, without any import statements.For example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    markdown: {
+      globalComponents: [path.join(__dirname, 'src/src/components/Alert.tsx')],
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+Then you can use the `Alert` component in any MDX file:
+
+```mdx title="test.mdx"
+<Alert type="info">This is a info alert</Alert>
+```
