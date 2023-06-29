@@ -77,6 +77,15 @@ describe('plugins/check-syntax', () => {
             exclude: [/$.html/],
           },
         },
+        output: {
+          overrideBrowserslist: [
+            'iOS 9',
+            'Android 4.4',
+            'last 2 versions',
+            '> 0.2%',
+            'not dead',
+          ],
+        },
       }),
       context: {
         rootPath: __dirname,

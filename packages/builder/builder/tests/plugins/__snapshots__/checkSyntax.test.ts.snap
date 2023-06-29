@@ -29,9 +29,11 @@ exports[`plugins/check-syntax > should use default browserlist as targets when o
         /\\$\\.html/,
       ],
       "targets": [
-        "> 0.01%",
+        "iOS 9",
+        "Android 4.4",
+        "last 2 versions",
+        "> 0.2%",
         "not dead",
-        "not op_mini all",
       ],
     },
   ],
