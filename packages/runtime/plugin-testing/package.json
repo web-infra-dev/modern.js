@@ -118,6 +118,7 @@
   "dependencies": {
     "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.21.5",
+    "@modern-js/babel-preset-app": "workspace:*",
     "@modern-js-reduck/plugin-auto-actions": "^1.1.10",
     "@modern-js-reduck/plugin-effects": "^1.1.10",
     "@modern-js-reduck/plugin-immutable": "^1.1.10",
