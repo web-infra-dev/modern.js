@@ -192,8 +192,6 @@ export class RouterPlugin {
             })();
           `;
 
-          console.log('iiiiiiiii');
-
           const entrypointsArray = Array.from(
             compilation.entrypoints.entries() as IterableIterator<
               [string, unknown]
