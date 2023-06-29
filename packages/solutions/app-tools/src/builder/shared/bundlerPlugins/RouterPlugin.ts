@@ -1,4 +1,3 @@
-import path from 'path';
 import { mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
@@ -15,30 +14,35 @@ export interface RouteAssets {
   };
 }
 
+type Compiler = webpack.Compiler | Rspack.Compiler;
+
 export class RouterPlugin {
-  apply(compiler: Rspack.Compiler | webpack.Compiler) {
-    const { target } = compiler.options;
+  private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
     if (
       target === 'node' ||
       (Array.isArray(target) && target.includes('node'))
     ) {
-      return;
+      return true;
     }
 
     if (
       target === 'webworker' ||
       (Array.isArray(target) && target.includes('webworker'))
     ) {
+      return true;
+    }
+    return false;
+  }
+
+  apply(compiler: Compiler) {
+    const { target } = compiler.options;
+    if (this.isTargetNodeOrWebWorker(target)) {
       return;
     }
 
     const { webpack } = compiler;
     const { Compilation, sources } = webpack;
-    const { RawSource } = sources;
-    const { PROCESS_ASSETS_STAGE_REPORT } = Compilation;
-
-    const outputPath = compiler.options.output.path!;
-    const newAssetsMap = new Map<string, string>();
+    const { RawSource, SourceMapSource } = sources;
 
     const normalizePath = (path: string): string => {
       if (!path.endsWith('/')) {
@@ -48,11 +52,66 @@ export class RouterPlugin {
       return path;
     };
 
+    const chunkToSourceMap = new Map();
+
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
+      /**
+       * We need to get the source-map in PROCESS_ASSETS_STAGE_DEV_TOOLING hook,
+       * because we cant get the source-map in PROCESS_ASSETS_STAGE_REPORT hook,
+       * and we need to get the stable hash in PROCESS_ASSETS_STAGE_REPORT hook.
+       */
       compilation.hooks.processAssets.tapPromise(
         {
           name: PLUGIN_NAME,
-          stage: PROCESS_ASSETS_STAGE_REPORT,
+          stage: Compilation.PROCESS_ASSETS_STAGE_DEV_TOOLING,
+        },
+        async () => {
+          const stats = compilation.getStats().toJson({
+            all: false,
+            chunkGroups: true,
+            chunks: true,
+          });
+          const { chunks = [], namedChunkGroups } = stats;
+
+          if (!namedChunkGroups) {
+            return;
+          }
+
+          const entrypointsArray = Array.from(
+            compilation.entrypoints.entries() as IterableIterator<
+              [string, unknown]
+            >,
+          );
+          const entryChunkIds = entrypointsArray.map(
+            entrypoint => entrypoint[0],
+          );
+          const entryChunks = [...chunks].filter(chunk => {
+            return chunk.names?.some(name => entryChunkIds.includes(name));
+          });
+          const entryChunkFiles = entryChunks.map(
+            chunk =>
+              [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
+          );
+
+          const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
+          for (let i = 0; i <= entryChunkFiles.length - 1; i++) {
+            const file = entryChunkFiles[i];
+            const chunkId = entryChunkFileIds[i];
+            const asset = compilation.assets[file];
+            if (!asset) {
+              continue;
+            }
+
+            const { map } = asset.sourceAndMap();
+            chunkToSourceMap.set(chunkId, map);
+          }
+        },
+      );
+
+      compilation.hooks.processAssets.tapPromise(
+        {
+          name: PLUGIN_NAME,
+          stage: Compilation.PROCESS_ASSETS_STAGE_REPORT,
         },
         async () => {
           const stats = compilation.getStats().toJson({
@@ -149,17 +208,29 @@ export class RouterPlugin {
               [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
           );
 
-          for (const file of entryChunkFiles) {
+          const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
+          for (let i = 0; i <= entryChunkFiles.length - 1; i++) {
+            const file = entryChunkFiles[i];
+            const chunkId = entryChunkFileIds[i];
             const asset = compilation.assets[file];
             // it may be removed by InlineChunkHtmlPlugin
             if (!asset) {
               continue;
             }
-            const newContent = `${asset.source().toString()}${injectedContent}`;
-            newAssetsMap.set(path.join(outputPath, file), newContent);
+            const { source } = asset.sourceAndMap();
+            const map = chunkToSourceMap.get(chunkId);
+            const newContent = `${injectedContent}${source.toString()}`;
+            const newSource = new SourceMapSource(
+              newContent,
+              file,
+              map,
+              source.toString(),
+              map,
+            );
+
             compilation.updateAsset(
               file,
-              new RawSource(newContent),
+              newSource,
               // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
               undefined as any,
             );
