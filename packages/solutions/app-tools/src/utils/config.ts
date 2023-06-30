@@ -17,11 +17,13 @@ export const buildServerConfig = async ({
   distDirectory,
   configFile,
   options,
+  watch,
 }: {
   appDirectory: string;
   distDirectory: string;
   configFile: string;
   options?: Parameters<typeof bundle>[1];
+  watch?: boolean;
 }) => {
   const configFilePath = await getServerConfig(appDirectory, configFile);
 
@@ -46,6 +48,7 @@ export const buildServerConfig = async ({
     await fs.writeFile(configHelperFilePath, helperCode);
     await bundle(configFilePath, {
       ...options,
+      watch,
       getOutputFile,
       esbuildPlugins: [
         {
