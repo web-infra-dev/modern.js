@@ -1,5 +1,13 @@
 # @modern-js/doc-plugin-preview
 
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/doc-core@2.25.1
+
 ## 2.25.0
 
 ### Minor Changes

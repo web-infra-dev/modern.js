@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.25.1
+
+### Patch Changes
+
+- 85366bc: chore(deps): bump esbuild from v15/v16 to v17
+
+  chore(deps): 将 esbuild 从 v15/v16 升级到 v17
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/plugin@2.25.1
+  - @modern-js/types@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/utils
 
+## 2.25.1
+
+### Patch Changes
+
+- 9f78d0c: fix: react-router-dom version
+
+  fix: 修复 react-router-dom 版本
+
 ## 2.25.0
 
 ### Patch Changes

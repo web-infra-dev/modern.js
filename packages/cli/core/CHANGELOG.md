@@ -1,5 +1,15 @@
 # @modern-js/core
 
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+- Updated dependencies [85366bc]
+  - @modern-js/utils@2.25.1
+  - @modern-js/node-bundle-require@2.25.1
+  - @modern-js/plugin@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes

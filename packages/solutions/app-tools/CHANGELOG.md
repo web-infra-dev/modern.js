@@ -1,5 +1,37 @@
 # @modern-js/app-tools
 
+## 2.25.1
+
+### Patch Changes
+
+- 322ac9e: fix: the router-plugin should update source-map
+  fix: router-plugin 应该更新 sourcemap
+- 85366bc: chore(deps): bump esbuild from v15/v16 to v17
+
+  chore(deps): 将 esbuild 从 v15/v16 升级到 v17
+
+- Updated dependencies [b10045f]
+- Updated dependencies [9f78d0c]
+- Updated dependencies [85366bc]
+  - @modern-js/builder@2.25.1
+  - @modern-js/builder-shared@2.25.1
+  - @modern-js/utils@2.25.1
+  - @modern-js/node-bundle-require@2.25.1
+  - @modern-js/builder-plugin-esbuild@2.25.1
+  - @modern-js/builder-plugin-node-polyfill@2.25.1
+  - @modern-js/builder-rspack-provider@2.25.1
+  - @modern-js/builder-webpack-provider@2.25.1
+  - @modern-js/core@2.25.1
+  - @modern-js/plugin-data-loader@2.25.1
+  - @modern-js/plugin-i18n@2.25.1
+  - @modern-js/plugin-lint@2.25.1
+  - @modern-js/new-action@2.25.1
+  - @modern-js/prod-server@2.25.1
+  - @modern-js/server@2.25.1
+  - @modern-js/plugin@2.25.1
+  - @modern-js/upgrade@2.25.1
+  - @modern-js/types@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes

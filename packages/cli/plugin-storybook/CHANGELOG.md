@@ -1,5 +1,24 @@
 # @modern-js/plugin-storybook
 
+## 2.25.1
+
+### Patch Changes
+
+- 85366bc: chore(deps): bump esbuild from v15/v16 to v17
+
+  chore(deps): 将 esbuild 从 v15/v16 升级到 v17
+
+- Updated dependencies [b10045f]
+- Updated dependencies [9f78d0c]
+- Updated dependencies [85366bc]
+  - @modern-js/builder@2.25.1
+  - @modern-js/builder-shared@2.25.1
+  - @modern-js/utils@2.25.1
+  - @modern-js/runtime@2.25.1
+  - @modern-js/builder-plugin-node-polyfill@2.25.1
+  - @modern-js/builder-webpack-provider@2.25.1
+  - @modern-js/plugin-router-v5@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes

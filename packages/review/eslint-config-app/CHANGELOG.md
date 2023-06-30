@@ -1,5 +1,11 @@
 # @modern-js-app/eslint-config
 
+## 2.25.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes
