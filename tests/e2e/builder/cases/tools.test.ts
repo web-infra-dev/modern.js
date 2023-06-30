@@ -43,7 +43,7 @@ test('bundlerChain', async ({ page }) => {
       tools: {
         bundlerChain: chain => {
           chain.resolve.alias.merge({
-            '@common': './src/common',
+            '@common': join(fixtures, 'source/basic/src/common'),
           });
         },
       },

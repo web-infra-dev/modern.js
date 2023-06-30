@@ -25,7 +25,7 @@ webpackOnlyTest('security.sri', async ({ page }) => {
   // at least 1 js file and 1 css file
   expect(matches?.length).toBeGreaterThanOrEqual(2);
 
-  await page.goto(getHrefByEntryName('main', builder.port));
+  await page.goto(getHrefByEntryName('index', builder.port));
 
   await expect(
     page.evaluate(`document.getElementById('test').innerHTML`),
