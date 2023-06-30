@@ -4,15 +4,15 @@ exports[`client generateClient should support operator 1`] = `
 "import { createRequest } from '@modern-js/create-request';
 
 export default createRequest('/normal/origin', 'GET', 3000, 'functionName' );
-      export const DELETE = createRequest('/normal/origin', 'DELETE', 3000, 'functionName' );
-      export const putRepo = createRequest('/put-repo', 'PUT', 3000, 'functionName' );
+      export var DELETE = createRequest('/normal/origin', 'DELETE', 3000, 'functionName' );
+      export var putRepo = createRequest('/put-repo', 'PUT', 3000, 'functionName' );
       "
 `;
 
 exports[`client generateClient should works correctly 1`] = `
 "import { createRequest } from '@modern-js/create-request';
 
-export const get = createRequest('/api/:id/origin/foo', 'GET', 3000, 'functionName' );
-      export const post = createRequest('/api/:id/origin/foo', 'POST', 3000, 'functionName' );
+export var get = createRequest('/api/:id/origin/foo', 'GET', 3000, 'functionName' );
+      export var post = createRequest('/api/:id/origin/foo', 'POST', 3000, 'functionName' );
       "
 `;
