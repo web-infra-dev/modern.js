@@ -18,4 +18,4 @@
 
 feat(builder): bump webpack v5.88, support top level await
 
-feat(builder): 升级 webpack v5.88, 这次会 top level await
+feat(builder): 升级 webpack v5.88, 支持 top level await
