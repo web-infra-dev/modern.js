@@ -61,7 +61,9 @@ export const remarkCodeToDemo: Plugin<
   return (tree, vfile) => {
     const demos: MdxjsEsm[] = [];
     let index = 1;
-    const route = routeMeta.find(meta => meta.absolutePath === vfile.path);
+    const route = routeMeta.find(
+      meta => meta.absolutePath === (vfile.path || vfile.history[0]),
+    );
     if (!route) {
       return;
     }

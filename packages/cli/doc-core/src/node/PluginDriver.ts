@@ -109,17 +109,27 @@ export class PluginDriver {
     );
   }
 
-  async addPages(routes: RouteMeta[]) {
+  async addPages() {
     // addPages hooks
     const result = await Promise.all(
       this.#plugins
         .filter(plugin => typeof plugin.addPages === 'function')
         .map(plugin => {
-          return plugin.addPages(this.#config.doc || {}, this.#isProd, routes);
+          return plugin.addPages(this.#config.doc || {}, this.#isProd);
         }),
     );
 
     return result.flat();
+  }
+
+  async routeGenerated(routes: RouteMeta[]) {
+    await Promise.all(
+      this.#plugins
+        .filter(plugin => typeof plugin.routeGenerated === 'function')
+        .map(plugin => {
+          return plugin.routeGenerated(routes);
+        }),
+    );
   }
 
   async addSSGRoutes() {
