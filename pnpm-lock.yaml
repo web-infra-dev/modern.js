@@ -3105,6 +3105,9 @@ importers:
 
   packages/module/plugin-module-doc:
     dependencies:
+      '@arco-design/web-react':
+        specifier: ^2.46.0
+        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/doc-core':
         specifier: workspace:*
         version: link:../../cli/doc-core
@@ -3115,9 +3118,6 @@ importers:
         specifier: workspace:*
         version: link:../../cli/doc-plugin-preview
     devDependencies:
-      '@arco-design/web-react':
-        specifier: ^2.46.0
-        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
