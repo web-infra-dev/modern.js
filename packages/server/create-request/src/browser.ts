@@ -9,6 +9,8 @@ import type {
 } from './types';
 
 let realRequest: typeof fetch;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+let realAllowedHeaders: string[];
 
 const originFetch = (...params: Parameters<typeof fetch>) => {
   const [url, init] = params;
