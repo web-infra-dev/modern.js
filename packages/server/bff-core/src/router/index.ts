@@ -24,6 +24,8 @@ export * from './constants';
 export class ApiRouter {
   private apiMode: APIMode;
 
+  private appDir?: string;
+
   private apiDir: string;
 
   // lambdaDir is the dir which equal to the apiDir in function mode, and equal to the api/lambda dir in framework mode
@@ -37,27 +39,67 @@ export class ApiRouter {
 
   private apiFiles: string[] = [];
 
+  private isBuild?: boolean;
+
   constructor({
+    appDir,
     apiDir,
     lambdaDir,
     prefix,
+    isBuild,
     httpMethodDecider = 'functionName',
   }: {
+    appDir?: string;
     apiDir: string;
     lambdaDir?: string;
     prefix?: string;
+    isBuild?: boolean;
     httpMethodDecider?: HttpMethodDecider;
   }) {
     this.validateAbsolute(apiDir, 'apiDir');
     this.validateAbsolute(lambdaDir, 'lambdaDir');
 
     this.prefix = this.initPrefix(prefix);
+    this.appDir = appDir;
     this.apiDir = apiDir;
     this.httpMethodDecider = httpMethodDecider;
+    this.isBuild = isBuild;
     this.apiMode = this.getExactApiMode(apiDir, lambdaDir);
     this.lambdaDir = this.getExactLambdaDir(this.apiDir, lambdaDir);
     this.existLambdaDir = fs.existsSync(this.lambdaDir);
     debug(`apiDir:`, this.apiDir, `lambdaDir:`, this.lambdaDir);
+    this.enableRegister();
+  }
+
+  private enableRegister() {
+    // eslint-disable-next-line node/no-deprecated-api
+    const existTsLoader = Boolean(require.extensions['.ts']);
+    if (
+      !existTsLoader &&
+      (process.env.NODE_ENV !== 'production' || this.isBuild === true)
+    ) {
+      try {
+        const projectSearchDir = this.appDir || this.apiDir;
+        const tsNode: typeof import('ts-node') = require('ts-node');
+        tsNode.register({
+          projectSearchDir,
+          compilerOptions: {
+            allowJs: false,
+          },
+          scope: true,
+          transpileOnly: true,
+          ignore: ['(?:^|/)node_modules/'],
+        });
+        const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
+        const loaderRes = tsConfigPaths.loadConfig(projectSearchDir);
+        if (loaderRes.resultType === 'success') {
+          tsConfigPaths.register({
+            baseUrl: loaderRes.absoluteBaseUrl,
+            paths: loaderRes.paths,
+          });
+        }
+      } catch (error) {}
+    }
   }
 
   public isExistLambda() {

@@ -5,6 +5,7 @@ import { logger } from '@modern-js/utils';
 
 export type APILoaderOptions = {
   prefix: string;
+  appDir: string;
   apiDir: string;
   lambdaDir: string;
   existLambda: boolean;
@@ -38,6 +39,7 @@ async function loader(this: LoaderContext<APILoaderOptions>, source: string) {
     prefix: (Array.isArray(draftOptions.prefix)
       ? draftOptions.prefix[0]
       : draftOptions.prefix) as string,
+    appDir: draftOptions.appDir,
     apiDir: draftOptions.apiDir,
     lambdaDir: draftOptions.lambdaDir,
     target: draftOptions.target,
