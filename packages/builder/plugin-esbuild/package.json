@@ -38,7 +38,7 @@
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
-    "esbuild": "0.16.17",
+    "esbuild": "0.17.19",
     "@modern-js/builder-shared": "workspace:*"
   },
   "devDependencies": {
