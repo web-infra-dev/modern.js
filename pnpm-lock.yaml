@@ -1012,7 +1012,7 @@ importers:
         specifier: ^5.82.1
         version: 5.82.1(esbuild@0.15.7)
 
-  packages/cli/doc-plugin-api-generator:
+  packages/cli/doc-plugin-api-docgen:
     dependencies:
       '@modern-js/doc-core':
         specifier: workspace:*
@@ -3108,9 +3108,9 @@ importers:
       '@modern-js/doc-core':
         specifier: workspace:*
         version: link:../../cli/doc-core
-      '@modern-js/doc-plugin-api-generator':
+      '@modern-js/doc-plugin-api-docgen':
         specifier: workspace:*
-        version: link:../../cli/doc-plugin-api-generator
+        version: link:../../cli/doc-plugin-api-docgen
       '@modern-js/doc-plugin-preview':
         specifier: workspace:*
         version: link:../../cli/doc-plugin-preview
