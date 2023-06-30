@@ -2,9 +2,9 @@
 sidebar_position: 2
 ---
 
-# 命令预览
+# CLI 命令
 
-模块工程项目可以使用的命令：
+Module Tools 项目可以使用的 CLI 命令如下：
 
 ## `modern build`
 
@@ -60,7 +60,7 @@ Options:
 - Tailwind CSS 支持
 - Modern.js Runtime API
 
-关于这些功能，可以通过[【使用微生成器】](/guide/basic/use-micro-generator) 章节了解更多。
+关于这些功能，可以通过[「使用微生成器」](/guide/basic/use-micro-generator) 章节了解更多。
 
 ## `modern dev`
 

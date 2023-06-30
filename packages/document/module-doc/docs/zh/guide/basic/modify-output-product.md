@@ -6,20 +6,24 @@ sidebar_position: 3
 
 ## 默认输出产物
 
-当在初始化的项目里使用 `modern build` 命令的时候，会根据 Module Tools 默认支持的配置生成相应的产物。默认支持的配置具体如下：
+当你在初始化的项目里使用 `modern build` 命令的时候，Module Tools 会根据当前配置内容，生成相应的构建产物。
+
+默认的配置内容如下：
 
 ```ts title="modern.config.ts"
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
+  // 注册 Module Tools 的 CLI 工具
   plugins: [moduleTools()],
+  // 指定构建预设配置
   buildPreset: 'npm-library',
 });
 ```
 
 **默认生成产物具有以下特点**：
 
-- 会生成[CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules)和[ESM](https://nodejs.org/api/esm.html#modules-ecmascript-modules)两份产物。
+- 会生成 [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) 和 [ESM](https://nodejs.org/api/esm.html#modules-ecmascript-modules) 两份产物。
 - 代码语法支持到 `ES6` ,更高级的语法将会被转换。
 - 所有的代码经过打包变成了一个文件，即进行了 **bundle** 处理。
 - 产物输出根目录为项目下的 `dist` 目录，类型文件输出的目录为 `dist/types`。
@@ -29,7 +33,7 @@ export default defineConfig({
 1. `buildPreset` 是什么？
 2. 产物的这些特点是由什么决定的？
 
-那么接下来首先解释一下 `buildPreset`。
+接下来，我们首先来了解一下 `buildPreset`。
 
 ## 构建预设
 
@@ -70,10 +74,17 @@ export default defineConfig({
 });
 ```
 
-在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表着 `"npm-library"` 等价的多组构建相关的配置。我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝，并修改了浅拷贝后 `target` 的值，将它指定为 `es5`。
+在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表与 `"npm-library"` 等价的多个构建相关的配置。
 
-> 关于 `preset.NPM_LIBRARY` 具体对应的值，可以通过 [BuildPreset API](/api/config/build-preset) 查看。在 `preset` 对象下不仅包含了 `NPM_LIBRARY`，还包含了其他类似的常量。
-> 我们不仅可以使用 `preset.NPM_LIBRARY` 来获取 `"npm-library"` 对应的构建配置，也可以使用 `preset['npm-library']` 这样的方式。
+我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝，并修改了浅拷贝后 `target` 的值，将它指定为 `es5`。
+
+如果你想了解 `preset.NPM_LIBRARY` 具体包含的内容，可以通过 [BuildPreset API](/api/config/build-preset) 查看。
+
+此外，在 `preset` 对象下，不仅包含了 `NPM_LIBRARY`，也包含了其他类似的常量。
+
+:::tip
+我们不仅可以使用 `preset.NPM_LIBRARY` 来获取 `"npm-library"` 对应的构建配置，也可以使用 `preset['npm-library']` 这样的方式。
+:::
 
 那么这里的 `buildConfig` 对象是什么呢？之前提到的构建产物特点又是根据什么呢？
 
@@ -81,7 +92,7 @@ export default defineConfig({
 
 ## 构建配置（对象）
 
-**`buildConfig` 是一个用来描述如何编译、生成构建产物的配置对象**。在最开始提到的关于“_构建产物的特点_”，其实都是 `buildConfig` 所支持的属性。目前所支持的属性覆盖了大部分模块类型项目在构建产物时的需求，`buildConfig` 不仅包含一些产物所具备的属性，也包含了构建产物所需要的一些特性功能。接下来从分类的角度简单罗列一下：
+**`buildConfig` 是一个用来描述如何编译、生成构建产物的配置项**。在最开始提到的关于“_构建产物的特点_”，其实都是 `buildConfig` 所支持的属性。目前所支持的属性覆盖了大部分模块类型项目在构建产物时的需求，`buildConfig` 不仅包含一些产物所具备的属性，也包含了构建产物所需要的一些特性功能。接下来从分类的角度简单罗列一下：
 
 **构建产物的基本属性包括：**
 

@@ -39,7 +39,7 @@ export default defineConfig({
 ```
 
 :::tip
-Note: CSS comments do not support the `//comment` syntax. Refer to [【CSS Comments】](https://developer.mozilla.org/en-US/docs/Web/CSS/Comments)
+Note: CSS comments do not support the `//comment` syntax. Refer to ["CSS Comments"](https://developer.mozilla.org/en-US/docs/Web/CSS/Comments)
 :::
 
 ## Example

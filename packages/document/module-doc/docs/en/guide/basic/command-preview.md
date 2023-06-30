@@ -2,9 +2,9 @@
 sidebar_position: 2
 ---
 
-# Command Preview
+# CLI Commands
 
-Commands available for module engineering projects.
+CLI Commands available for Module Tools projects are as follows:
 
 ## `modern build`
 

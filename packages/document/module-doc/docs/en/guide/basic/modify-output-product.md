@@ -6,13 +6,17 @@ sidebar_position: 3
 
 ## Default output products
 
-When the `modern build` command is used in an initialized project, the products are generated according to the default configuration supported by Module Tools. The default supported configurations are specified as follows.
+When you use the `modern build` command in an initialized project, Module Tools will generate corresponding build products based on the current configuration.
+
+The default configuration is as follows:
 
 ```ts title="modern.config.ts"
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
+  // Register the CLI tool of Module Tools
   plugins: [moduleTools()],
+  // Specify the build preset configuration
   buildPreset: 'npm-library',
 });
 ```
@@ -70,11 +74,19 @@ export default defineConfig({
 });
 ```
 
-In the above code implementation, `preset.NPM_LIBRARY` corresponds to the preset string `"npm-library"`, which represents the equivalent of `"npm-library"` for multiple sets of build-related configurations. We traverse the `NPM_LIBRARY` array, which contains multiple `buildConfig` objects, using the `map` method. We made a shallow copy of the original `buildConfig` object and modified the value of the `target` after the shallow copy, specifying it as `es5`.
+In the above code implementation, `preset.NPM_LIBRARY` corresponds to the preset string `"npm-library"`, representing multiple build-related configurations equivalent to `"npm-library"`.
 
+We use the `map` method to iterate over the `NPM_LIBRARY` array, which contains multiple `buildConfig` objects. We perform a shallow copy of the original `buildConfig` object and modify the value of the `target` property in the shallow copy to be `es5`.
+
+If you want to know the specific contents included in `preset.NPM_LIBRARY`, you can refer to the [BuildPreset API](/api/config/build-preset).
+
+In addition, under the `preset` object, it not only includes `NPM_LIBRARY`, but also other similar constants.
 
 > NPM_LIBRARY`, you can check it with [BuildPreset API](/api/config/build-preset). The`preset`object contains not only`NPM_LIBRARY`, but also other similar constants.
-> We can not only use `preset.NPM_LIBRARY` to get the build configuration corresponding to `"npm-library"`, but also `preset['npm-library']` in this way.
+
+:::tip
+We can not only use `preset.NPM_LIBRARY`to get the build configuration corresponding to`"npm-library"`, but also `preset['npm-library']` in this way.
+:::
 
 So what is the `buildConfig` object here? What is the basis for the build product feature mentioned before?
 
@@ -82,7 +94,7 @@ Let's explain next.
 
 ## Build configuration (object)
 
-**`buildConfig` is a configuration object that describes how to compile and generate build products**. What was mentioned at the beginning about "_features of build products_" are actually properties supported by `buildConfig`. The currently supported properties cover the needs of most module type projects when building products. `buildConfig` not only contains some properties that products have, but also contains some features needed to build products. The following is a brief list from a classification point of view.
+**`buildConfig` is a configuration option that describes how to compile and generate build products**. What was mentioned at the beginning about "_features of build products_" are actually properties supported by `buildConfig`. The currently supported properties cover the needs of most module type projects when building products. `buildConfig` not only contains some properties that products have, but also contains some features needed to build products. The following is a brief list from a classification point of view.
 
 **The basic attributes of a build product include:**
 

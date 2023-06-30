@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# Testing
+# testing
 
 本章描述了测试相关的配置。
 
@@ -12,10 +12,10 @@ sidebar_position: 5
 
 ## jest
 
-- 类型： `Object | Function`
+- 类型： `object | Function`
 - 默认值：`{}`
 
-对应 [Jest](https://jestjs.io/docs/configuration) 的配置，当为 `Object` 类型时，可以配置 Jest 所支持的所有底层配置 。
+对应 [Jest](https://jestjs.io/docs/configuration) 的配置，当为 `object` 类型时，可以配置 Jest 所支持的所有底层配置 。
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
