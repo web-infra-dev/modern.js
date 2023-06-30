@@ -32,6 +32,30 @@ test('postcss plugins overwrite', async ({ page }) => {
   builder.close();
 });
 
+test('bundlerChain', async ({ page }) => {
+  const builder = await build({
+    cwd: join(fixtures, 'source/basic'),
+    entry: {
+      main: join(fixtures, 'source/basic/src/index.js'),
+    },
+    runServer: true,
+    builderConfig: {
+      tools: {
+        bundlerChain: chain => {
+          chain.resolve.alias.merge({
+            '@common': './src/common',
+          });
+        },
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+  await expect(page.innerHTML('#test')).resolves.toBe('Hello Builder! 1');
+
+  builder.close();
+});
+
 webpackOnlyTest('webpackChain plugin', async ({ page }) => {
   const builder = await build({
     cwd: join(fixtures, 'source/global-vars'),

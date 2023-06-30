@@ -1,6 +1,7 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
+import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -43,8 +44,7 @@ test.describe('source configure multi', () => {
   });
 });
 
-// todo: moduleScopes not work when buildCache is false ???
-test.skip('module-scopes', async ({ page }) => {
+webpackOnlyTest('module-scopes', async ({ page }) => {
   const buildOpts = {
     cwd: join(fixtures, 'module-scopes'),
     entry: {

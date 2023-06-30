@@ -9,7 +9,6 @@ export const getProviderTest = (supportType: string[] = ['webpack']) => {
 
   const testSkip = test.skip;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   testSkip.describe = test.describe.skip;
   return testSkip as typeof test.skip & {
