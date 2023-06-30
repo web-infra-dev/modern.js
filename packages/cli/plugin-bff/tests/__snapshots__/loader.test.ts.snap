@@ -3,6 +3,6 @@
 exports[`bff loader should works well 1`] = `
 "import { createRequest } from '/packages/cli/plugin-bff/tests/fixtures/requestCreator/client';
 
-export const get = createRequest('/api/hello', 'GET', 80, 'functionName' );
+export var get = createRequest('/api/hello', 'GET', 80, 'functionName' );
       "
 `;
