@@ -109,7 +109,7 @@
     "@types/node": "^14",
     "jest": "^29",
     "typescript": "^5",
-    "webpack": "^5.82.1"
+    "webpack": "^5.88.1"
   },
   "peerDependencies": {
     "@modern-js/builder-rspack-provider": "workspace:^2.25.0"
