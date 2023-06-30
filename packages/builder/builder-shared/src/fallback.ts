@@ -25,7 +25,11 @@ export const resourceRuleFallback = (
         rule.mimetype
       )
     ) {
-      rule.oneOf.forEach(r => innerRules.push(r));
+      rule.oneOf.forEach(item => {
+        if (item) {
+          innerRules.push(item);
+        }
+      });
     } else {
       innerRules.push(rule);
     }
