@@ -203,6 +203,7 @@ export async function bundle(filepath: string, options?: Options) {
 
   if (options?.watch) {
     const ctx = await context(esbuildOptions);
+    await ctx.rebuild();
     await ctx.watch();
   } else {
     await build(esbuildOptions);
