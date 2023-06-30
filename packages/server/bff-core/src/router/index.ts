@@ -76,7 +76,7 @@ export class ApiRouter {
     const existTsLoader = Boolean(require.extensions['.ts']);
     if (
       !existTsLoader &&
-      (process.env.NODE_ENV !== 'production' || this.isBuild === true)
+      (process.env.NODE_ENV !== 'production' || this.isBuild)
     ) {
       try {
         const projectSearchDir = this.appDir || this.apiDir;
