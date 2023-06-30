@@ -2,9 +2,20 @@
 sidebar_position: 1
 ---
 
-# BuildConfig
+# buildConfig
 
-This section describes all the configuration of Module Tools for building
+`buildConfig` is a configuration option that describes how to compile and generate build artifacts. It contains all the configurations related to the build process.
+
+- **Type**: `object | object[]`
+- **Default**: `undefined`
+
+:::tip
+Before start using `buildConfig`, please read the following documentation to understand its purpose:
+
+- [Modifying Output Artifacts](/guide/basic/modify-output-product.html)
+- [In-Depth Understanding of the Build Process](/guide/advance/in-depth-about-build.html)
+
+:::
 
 ## alias
 
@@ -110,7 +121,7 @@ At this point, all static resources will be prefixed with `https://xxx/`
 
 Packaged to handle svg as a React component, options reference [svgr](https://react-svgr.com/docs/options/), plus support for two configuration items `include` and `exclude` to match the svg file to be handled
 
-- **Type**: `boolean | Object`
+- **Type**: `boolean | object`
 - **Default**: `false`
 
 When svgr feature is enabled, you can use svg as a component using the default export.
@@ -160,7 +171,7 @@ Set unmatched svg files
 
 Automatically externalize project dependencies and peerDependencies and not package them into the final bundle
 
-- **Type**: `boolean | Object`
+- **Type**: `boolean | object`
 - **Default**: `true`
 
 When we want to turn off the default handling behavior for third-party dependencies, we can do so by:
@@ -212,7 +223,7 @@ The build type, `bundle` will package your code, `bundleless` will only do the c
 
 Copies the specified file or directory into the build output directory
 
-- **Type**: `Array`
+- **Type**: `object[]`
 - **Default**: `[]`
 
 ```js
@@ -295,7 +306,7 @@ The use of SWC Transform can reduce the impact of auxiliary functions on the vol
 
 The dts file generates the relevant configuration, by default it generates.
 
-- **Type**: `false | Object`
+- **Type**: `false | object`
 - **Default**:
 
 ```js
@@ -612,7 +623,7 @@ After executing the build, a `metafile-[xxx].json` file will be generated in the
 
 Use esbuild or terser to compress code, also pass [terserOptions](https://github.com/terser/terser#minify-options)
 
-- **Type**: `'terser' | 'esbuild' | false | Object`
+- **Type**: `'terser' | 'esbuild' | false | object`
 - **Default**: `false`
 
 ```js modern.config.ts
@@ -723,8 +734,8 @@ Whether to generate sourceMap or not
 
 Sets the format of the source code. By default, the source code will be treated as EsModule. When the source code is using CommonJS, you need to set `commonjs`.
 
-- **Type**: `commonjs` | `module`
-- **Default**: `module`
+- **Type**: `'commonjs' | 'module'`
+- **Default**: `'module'`
 
 ## splitting
 
@@ -745,7 +756,7 @@ less-related configuration
 
 Refer to [less](https://less.bootcss.com/usage/#less-options) for detailed configuration
 
-- **Type**: `Object`
+- **Type**: `object`
 - **Default**: `{ javascriptEnabled: true }`
 
 ## style.less.additionalData
@@ -769,12 +780,12 @@ export default {
 
 ## style.less.implementation
 
-Configure the implementation library used by `Less`, if not specified, the built-in version used is `4.1.3`
+Configure the implementation library used by `Less`, if not specified, the built-in version used is `4.1.3`.
 
-- **Type**: `string | Object`
+- **Type**: `string | object`
 - **Default**: `undefined`
 
-Specify the implementation library for `Less` when the `Object` type is specified
+Specify the implementation library for `Less` when the `object` type is specified.
 
 ```js modern.config.ts
 export default {
@@ -808,9 +819,9 @@ sass-related configuration.
 
 ## style.sass.sassOptions
 
-Refer to [node-sass](https://github.com/sass/node-sass#options) for detailed configuration
+Refer to [node-sass](https://github.com/sass/node-sass#options) for detailed configuration.
 
-- **Type**: `Object`
+- **Type**: `object`
 - **Default**: `{}`
 
 ## style.sass.additionalData
@@ -835,12 +846,12 @@ export default {
 
 ## style.sass.implementation
 
-Configure the implementation library used by `Sass`, the built-in version used is `1.5.4` if not specified
+Configure the implementation library used by `Sass`, the built-in version used is `1.5.4` if not specified.
 
-- **Type**: `string | Object`
+- **Type**: `string | object`
 - **Default**: `undefined`
 
-Specify the implementation library for `Sass` when the `Object` type is specified
+Specify the implementation library for `Sass` when the `object` type is specified.
 
 ```js modern.config.ts
 export default {
@@ -952,7 +963,7 @@ Enable CSS Modules automatically based on the filename.
 
 CSS Modules configuration
 
-- **Type**: `Object`
+- **Type**: `object`
 - **Default**: `{}`
 
 A common configuration is `localsConvention`, which changes the class name generation rules for css modules
@@ -985,7 +996,7 @@ For detailed configuration see [postcss-modules](https://github.com/madyankin/po
 
 tailwindcss related configuration
 
-- **Type**: `Object | Function`
+- **Type**: `object | Function`
 - **Default**: `see configuration details below`
 
 <details>
@@ -1006,7 +1017,7 @@ const tailwind = {
 };
 ```
 
-When the value is of type `Object`, it is merged with the default configuration via `Object.assign`.
+When the value is of type `object`, it is merged with the default configuration via `Object.assign`.
 
 When the value is of type `Function`, the object returned by the function is merged with the default configuration via `Object.assign`.
 
@@ -1051,7 +1062,7 @@ export default defineConfig({
 
 Using [SWC](https://swc.rs/) provides the same ability and configuration as [`babel-plugin-import`](https://github.com/umijs/babel-plugin-import).
 
-- **Type**: `Array`
+- **Type**: `object[]`
 - **Default**: `[]`
 
 The elements of the array are configuration objects for `babel-plugin-import`, which can be referred to [options](https://github.com/umijs/babel-plugin-import#options)。
@@ -1100,7 +1111,7 @@ At this point, `react` and `react-dom` will be seen as global variables imported
 
 Specifies the module name of the umd product
 
-- **Type**: `string` | `Function`
+- **Type**: `string | Function`
 - **Default**: `name => name`
 
 ```js

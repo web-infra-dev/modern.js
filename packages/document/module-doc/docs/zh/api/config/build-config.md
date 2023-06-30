@@ -2,9 +2,20 @@
 sidebar_position: 1
 ---
 
-# BuildConfig
+# buildConfig
 
-本章节描述了 Module Tools 关于构建的所有配置
+`buildConfig` 是一个用来描述如何编译、生成构建产物的配置项，它包含了构建的所有配置。
+
+- 类型：`object | object[]`
+- 默认值: `undefined`
+
+:::tip
+在开始使用 `buildConfig` 之前，请先阅读以下文档来了解其作用：
+
+- [修改输出产物](/guide/basic/modify-output-product.html)
+- [深入理解构建](/guide/advance/in-depth-about-build.html)
+
+:::
 
 ## alias
 
@@ -110,7 +121,7 @@ export default defineConfig({
 
 打包时将 SVG 作为一个 React 组件处理，options 参考 [svgr](https://react-svgr.com/docs/options/)，另外还支持了 `include` 和 `exclude` 两个配置项，用于匹配需要处理的 SVG 文件。
 
-- 类型： `boolean | Object`
+- 类型： `boolean | object`
 - 默认值： `false`
 
 开启 svgr 功能后，可以使用默认导出的方式将 SVG 当做组件使用。
@@ -161,7 +172,7 @@ declare module '*.svg' {
 
 自动外置项目的 `"dependencies"` 和 `"peerDependencies"`，不会将其打包到最终的 bundle 产物中。
 
-- 类型： `boolean | Object`
+- 类型： `boolean | object`
 - 默认值： `true`
 
 当我们希望关闭对于第三方依赖的默认处理行为时候，可以通过以下方式来实现：
@@ -213,7 +224,7 @@ export default defineConfig({
 
 将文件或目录拷贝到指定位置。
 
-- 类型： `Object`
+- 类型： `object`
 
 ```js modern.config.ts
 export default defineConfig({
@@ -295,7 +306,7 @@ export default defineConfig({
 
 类型文件生成的相关配置，默认情况会生成。
 
-- 类型： `false | Object`
+- 类型： `false | object`
 - 默认值：
 
 ```js
@@ -612,7 +623,7 @@ export default defineConfig({
 
 使用 esbuild 或者 terser 压缩代码，也可以传入 [terserOptions](https://github.com/terser/terser#minify-options)。
 
-- 类型： `'terser' | 'esbuild' | false | Object`
+- 类型： `'terser' | 'esbuild' | false | object`
 - 默认值： `false`
 
 ```js modern.config.ts
@@ -724,8 +735,8 @@ export default defineConfig({
 
 设置源码的格式。默认情况下，会将源码作为 EsModule 进行处理。当源码使用的是 CommonJS 的时候，需要设置 `commonjs`。
 
-- 类型：`commonjs` | `module`
-- 默认值：`module`
+- 类型：`'commonjs' | 'module'`
+- 默认值：`'module'`
 
 ## splitting
 
@@ -746,7 +757,7 @@ less 相关配置。
 
 详细配置参考 [less](https://less.bootcss.com/usage/#less-options)。
 
-- 类型： `Object`
+- 类型： `object`
 - 默认值： `{ javascriptEnabled: true }`
 
 ## style.less.additionalData
@@ -772,10 +783,10 @@ export default defineConfig({
 
 配置 `Less` 使用的实现库，在不指定的情况下，使用的内置版本是 `4.1.3`。
 
-- 类型： `string | Object`
+- 类型： `string | object`
 - 默认值： `undefined`
 
-`Object` 类型时，指定 `Less` 的实现库
+设置 `object` 类型时，可以指定 `Less` 的实现库。
 
 ```js modern.config.ts
 export default defineConfig({
@@ -811,7 +822,7 @@ Sass 相关配置。
 
 详细配置参考 [node-sass](https://github.com/sass/node-sass#options)
 
-- 类型： `Object`
+- 类型： `object`
 - 默认值： `{}`
 
 ## style.sass.additionalData
@@ -838,10 +849,10 @@ export default defineConfig({
 
 配置 `Sass` 使用的实现库，在不指定的情况下，使用的内置版本是 `1.5.4`。
 
-- 类型： `string | Object`
+- 类型： `string | object`
 - 默认值： `undefined`
 
-`Object` 类型时，指定 `Sass` 的实现库
+设置为 `object` 类型时，可以指定 `Sass` 的实现库。
 
 ```js modern.config.ts
 export default defineConfig({
@@ -953,9 +964,9 @@ style_inject_es_default(css_248z);
 
 ## style.modules
 
-CSS Modules 配置
+CSS Modules 配置。
 
-- 类型： `Object`
+- 类型： `object`
 - 默认值： `{}`
 
 一个常用的配置是 `localsConvention`，它可以改变 CSS Modules 的类名生成规则。
@@ -980,7 +991,7 @@ export default defineConfig({
 }
 ```
 
-你可以使用 `styles.boxTitle` 来访问
+你可以使用 `styles.boxTitle` 来访问。
 
 详细配置查看 [postcss-modules](https://github.com/madyankin/postcss-modules#usage)
 
@@ -988,7 +999,7 @@ export default defineConfig({
 
 Tailwind CSS 相关配置。
 
-- 类型： `Object | Function`
+- 类型： `object | Function`
 - 默认值： `见下方配置详情`
 
 <details>
@@ -1009,7 +1020,7 @@ const tailwind = {
 };
 ```
 
-值为 `Object` 类型时，与默认配置通过 `Object.assign` 合并。
+值为 `object` 类型时，与默认配置通过 `Object.assign` 合并。
 
 值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
 
@@ -1054,7 +1065,7 @@ export default defineConfig({
 
 提供与 babel-plugin-import 等价的能力和配置，基于 SWC 实现。
 
-- 类型：`Array`
+- 类型：`object[]`
 - 默认值：`[]`
 
 数组元素为一个 babel-plugin-import 的配置对象。配置对象可以参考 [options](https://github.com/umijs/babel-plugin-import#options)。
@@ -1077,7 +1088,7 @@ export default defineConfig({
 
 ### 注意事项
 
-参考[【Import 插件——注意事项】](plugins/official-list/plugin-import.html#注意事项)
+参考[「Import 插件——注意事项」](plugins/official-list/plugin-import.html#注意事项)
 
 ## umdGlobals
 
@@ -1103,7 +1114,7 @@ export default defineConfig({
 
 指定 UMD 产物的模块名。
 
-- 类型： `string` | `Function`
+- 类型： `string | Function`
 - 默认值： `name => name`
 
 ```js modern.config.ts

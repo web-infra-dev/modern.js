@@ -2,15 +2,15 @@
 sidebar_position: 3
 ---
 
-# DesignSystem
+# designSystem
 
-This chapter describes the configuration related to designSystem
+This chapter describes the configuration related to designSystem.
 
 :::tip
 The Tailwind CSS feature needs to be enabled first via `pnpm run new`.
 :::
 
-- Type: `Object`
+- Type: `object`
 - Default: `see configuration details below`.
 
 <details>
