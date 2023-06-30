@@ -1,5 +1,12 @@
 # @modern-js/builder-plugin-node-polyfill
 
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [b10045f]
+  - @modern-js/builder-shared@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes
