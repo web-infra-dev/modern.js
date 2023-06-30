@@ -1,5 +1,32 @@
 # @modern-js/monorepo-tools
 
+## 2.25.0
+
+### Patch Changes
+
+- 9aa2c25: feat: add named exports for all solutions
+
+  feat: 为各个 solutions 添加 named 导出
+
+- d287b7f: feat: new and upgrade command support custom config file
+
+  feat: new 和 upgrade 命令支持自定义配置文件路径
+
+- Updated dependencies [af97415]
+- Updated dependencies [10572f3]
+- Updated dependencies [2edd844]
+- Updated dependencies [5732c6a]
+- Updated dependencies [4c4c0ad]
+- Updated dependencies [d287b7f]
+  - @modern-js/core@2.25.0
+  - @modern-js/plugin-changeset@2.25.0
+  - @modern-js/new-action@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin-lint@2.25.0
+  - @modern-js/plugin-i18n@2.25.0
+  - @modern-js/plugin@2.25.0
+  - @modern-js/upgrade@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

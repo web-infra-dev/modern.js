@@ -1,6 +1,6 @@
 {
-  "name": "@modern-js/doc-plugin-api-generator",
-  "version": "2.24.0",
+  "name": "@modern-js/doc-plugin-api-docgen",
+  "version": "2.25.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",

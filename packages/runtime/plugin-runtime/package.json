@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.24.0",
+  "version": "2.25.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -170,7 +170,7 @@
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",
     "@types/styled-components": "^5.1.14",
-    "esbuild": "0.15.7",
+    "esbuild": "0.17.19",
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "react-helmet": "^6.1.0",

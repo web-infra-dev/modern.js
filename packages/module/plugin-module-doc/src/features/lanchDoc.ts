@@ -2,7 +2,7 @@ import { join, relative, resolve } from 'path';
 import { fs, fastGlob } from '@modern-js/utils';
 import { pluginPreview } from '@modern-js/doc-plugin-preview';
 import type { UserConfig, Sidebar, SidebarGroup } from '@modern-js/doc-core';
-import { pluginApiGenerator } from '@modern-js/doc-plugin-api-generator';
+import { pluginApiDocgen } from '@modern-js/doc-plugin-api-docgen';
 import type { Options } from '../types';
 import { mergeModuleDocConfig } from '../utils';
 
@@ -140,7 +140,7 @@ export async function launchDoc({
         ],
         plugins: [
           pluginPreview({ isMobile: previewMode === 'mobile' }),
-          pluginApiGenerator({
+          pluginApiDocgen({
             entries,
             apiParseTool,
             appDir,

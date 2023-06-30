@@ -126,6 +126,10 @@ export default {
 
 相比直接配置 webpack 的 splitChunks，这是一个更加简便的方式。
 
+:::tip
+注意，通过 `forceSplitting` 配置拆分的 chunk 会通过 `<script>` 标签插入到 HTML 文件中，作为首屏请求的资源。因此，请根据实际场景来进行适当地拆分，避免首屏资源体积过大。
+:::
+
 ### chunkSplit.splitChunks
 
 当 `performance.chunkSplit.strategy` 为 `custom` 时，可以通过 `performance.chunkSplit.splitChunks` 配置项来指定自定义的 webpack 拆包配置。此配置会和 webpack 的 splitChunks 配置进行合并（cacheGroups 配置也会合并）。比如:

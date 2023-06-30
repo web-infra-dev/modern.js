@@ -34,10 +34,6 @@ Builder adopts the `split-by-experience` strategy by default, which is a strateg
 
 This strategy groups commonly used packages and then splits them into separate chunks. Generally, the number of chunks is not large, which is suitable for most applications and is also our recommended strategy.
 
-:::tip
-If the above npm packages are not installed or used in the project, the corresponding chunk will not be generated.
-:::
-
 #### Config
 
 ```ts
@@ -49,6 +45,10 @@ export default {
   },
 };
 ```
+
+#### Notes
+
+- If the npm packages mentioned above are not installed or used in the project, the corresponding chunk will not be generated.
 
 ### split-by-module
 
@@ -72,6 +72,12 @@ export default {
 };
 ```
 
+#### Notes
+
+- This configuration will split the node_modules into smaller chunks, resulting in a large number of file requests.
+- When using HTTP/2, resource loading time will be accelerated and cache hit rate will be improved due to multiplexing.
+- When not using HTTP/2, the performance of page loading may be reduced due to HTTP head-of-line blocking. Please use with caution.
+
 ### all-in-one
 
 #### Behavior
@@ -90,6 +96,11 @@ export default {
 };
 ```
 
+#### Notes
+
+- This configuration will bundle all the generated JS code into one file (except for dynamically imported chunks).
+- The size of a single JS file may be very large, leading to a decrease in page loading performance.
+
 ### single-vendor
 
 #### Behavior
@@ -107,6 +118,10 @@ export default {
   },
 };
 ```
+
+#### Notes
+
+- The size of a single vendor file may be very large, leading to a decrease in page loading performance.
 
 ### split-by-size
 
@@ -145,18 +160,22 @@ For example, split the `axios` library under node_modules into `axios.js`:
 
 ```js
 export default {
-   performance: {
-     chunkSplit: {
-       strategy: 'split-by-experience',
-       forceSplitting: {
-         axios: /node_modules\/axios/,
-       },
-     },
-   },
+  performance: {
+    chunkSplit: {
+      strategy: 'split-by-experience',
+      forceSplitting: {
+        axios: /node_modules\/axios/,
+      },
+    },
+  },
 };
 ```
 
 Through `forceSplitting` config, you can easily split some packages into a Chunk.
+
+#### Notes
+
+Chunks split using the `forceSplitting` configuration will be inserted into the HTML file as resources requested for the initial screen using `<script>` tags. Therefore, please split them appropriately based on the actual scenario to avoid excessive size of initial screen resources.
 
 ### Custom Bundler `splitChunks` Config
 

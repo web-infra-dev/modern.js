@@ -1,5 +1,57 @@
 # @modern-js/app-tools
 
+## 2.25.0
+
+### Patch Changes
+
+- af97415: fix: keep original fileChange hook, but add private configuration
+  fix: 保留原有的 fileChange 钩子功能，但新增 private 配置
+- 9aa2c25: feat: add named exports for all solutions
+
+  feat: 为各个 solutions 添加 named 导出
+
+- 361710e: fix: merge with the latest context when calling `setAppContext`
+  fix: 调用 `setAppContext` 时, 获取最新的 App Context 进行合并
+- 2e29d84: feat: support skip build phase when run deploy command
+  feat: 支持在执行 deploy 命令时，跳过构建阶段
+- 5732c6a: feat: support for fallback SSR using request header fields
+  feat: 支持通过请求头字段来降级 SSR
+- b5952a6: refactor(app-tools): reuse copy upload config when using Rspack
+
+  refactor(app-tools): 使用 Rspack 时复用 copy upload 配置
+
+- d287b7f: feat: new and upgrade command support custom config file
+
+  feat: new 和 upgrade 命令支持自定义配置文件路径
+
+- Updated dependencies [af97415]
+- Updated dependencies [bafd4aa]
+- Updated dependencies [2491875]
+- Updated dependencies [2edd844]
+- Updated dependencies [324cf45]
+- Updated dependencies [5732c6a]
+- Updated dependencies [dc81210]
+- Updated dependencies [4c4c0ad]
+- Updated dependencies [d287b7f]
+  - @modern-js/core@2.25.0
+  - @modern-js/builder-rspack-provider@2.25.0
+  - @modern-js/prod-server@2.25.0
+  - @modern-js/types@2.25.0
+  - @modern-js/new-action@2.25.0
+  - @modern-js/builder-webpack-provider@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/node-bundle-require@2.25.0
+  - @modern-js/plugin-lint@2.25.0
+  - @modern-js/plugin-data-loader@2.25.0
+  - @modern-js/builder-plugin-node-polyfill@2.25.0
+  - @modern-js/builder-shared@2.25.0
+  - @modern-js/server@2.25.0
+  - @modern-js/builder-plugin-esbuild@2.25.0
+  - @modern-js/builder@2.25.0
+  - @modern-js/plugin-i18n@2.25.0
+  - @modern-js/plugin@2.25.0
+  - @modern-js/upgrade@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

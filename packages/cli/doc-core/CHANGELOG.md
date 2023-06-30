@@ -1,5 +1,50 @@
 # @modern-js/doc-core
 
+## 2.25.0
+
+### Minor Changes
+
+- c179cbd: feat: support markdown global components
+  feat: 支持在 markdown 作用域下注册全局组件
+
+### Patch Changes
+
+- 9ca6671: fix(module-doc): api table render error
+
+  fix(module-doc): 修复模块文档 api table 渲染错误
+
+- 4d47773: fix(doc-core): normalize windows path in loader
+
+  fix(doc-core): 在 loader 中规范化 windows 路径
+
+- b4d2fa2: fix(doc-core): \_meta.json hmr not work
+- cd1bd19: fix(doc-core): .md comment compile error
+
+  fix(doc-core): .md 文件中的注释导致编译报错
+
+- ec716ea: fix(doc-core): encode filename to be compatible with Windows
+
+  fix(doc-core): encode filename 以修复 Windows 兼容问题
+
+- b4b0f9f: fix(doc-core): mock ssr window
+
+  fix(doc-core): ssr 阶段 mock window
+
+- 7f8c12b: fix(doc-core): checkDeadLink failed in windows
+
+  fix(doc-core): 死链检测在 windows 下失败
+
+- Updated dependencies [af97415]
+- Updated dependencies [bafd4aa]
+- Updated dependencies [5732c6a]
+- Updated dependencies [d287b7f]
+  - @modern-js/core@2.25.0
+  - @modern-js/builder-rspack-provider@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/doc-plugin-medium-zoom@2.25.0
+  - @modern-js/remark-container@2.25.0
+  - @modern-js/builder@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

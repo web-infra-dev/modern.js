@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.24.0",
+  "version": "2.25.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -294,7 +294,7 @@
     "caniuse-lite": "^1.0.30001489",
     "lodash": "^4.17.21",
     "serialize-javascript": "^6.0.0",
-    "react-router-dom": "6.11.2",
+    "react-router-dom": "^6.8.1",
     "@remix-run/router": "1.6.2",
     "@swc/helpers": "0.5.1"
   },

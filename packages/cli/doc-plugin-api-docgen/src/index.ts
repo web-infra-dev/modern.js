@@ -11,14 +11,14 @@ import { apiDocMap } from './constants';
 /**
  * The plugin is used to generate api doc for files..
  */
-export function pluginApiGenerator(options?: PluginOptions): DocPlugin {
+export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
   const {
     entries = {},
     apiParseTool = 'react-docgen-typescript',
     appDir = process.cwd(),
   } = options || {};
   return {
-    name: '@modern-js/doc-plugin-api-generator',
+    name: '@modern-js/doc-plugin-api-docgen',
     async beforeBuild(config) {
       // only support zh and en
       const languages = (

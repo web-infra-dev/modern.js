@@ -1,5 +1,13 @@
 # @modern-js/upgrade
 
+## 2.25.0
+
+### Patch Changes
+
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin-i18n@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

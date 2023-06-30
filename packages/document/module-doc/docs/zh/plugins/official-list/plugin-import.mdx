@@ -3,7 +3,7 @@
 提供与 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 等价的能力和配置，基于 [SWC](https://swc.rs/) 实现。
 
 :::tip
-从 @modern-js/module-tools 2.16.0 版本开始，该插件功能内置在 module-tools 中，由 [`transformImport`](api/config/build-config.html#transformimport)
+从 `@modern-js/module-tools` v2.16.0 版本开始，该插件功能内置在 Module Tools 中，由 [`transformImport`](api/config/build-config.html#transformimport)
 配置提供。
 :::
 
@@ -34,10 +34,12 @@ export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'antd',
-        style: true,
-      }],
+      pluginImport: [
+        {
+          libraryName: 'antd',
+          style: true,
+        },
+      ],
     }),
   ],
 });
@@ -47,17 +49,17 @@ export default defineConfig({
 
 ## 配置
 
-* **类型：**
+- **类型：**
 
 ```ts
 type Options = {
   pluginImport?: ImportItem[];
-}
+};
 ```
 
 ### pluginImport
 
-* 类型：`Array`
+- 类型：`object[]`
 
 其中数组元素为一个 babel-plugin-import 的配置对象。配置对象可以参考 [options](https://github.com/umijs/babel-plugin-import#options)。
 
@@ -76,7 +78,7 @@ export default defineConfig({
         {
           libraryName: 'foo',
           style: true,
-        }
+        },
       ],
     }),
   ],
@@ -117,10 +119,12 @@ export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'foo',
-        customName: 'foo/es/{{ member }}'
-      }],
+      pluginImport: [
+        {
+          libraryName: 'foo',
+          customName: 'foo/es/{{ member }}',
+        },
+      ],
     }),
   ],
 });
@@ -138,16 +142,19 @@ export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'foo',
-        customName: 'foo/es/{{ member }}'
-      }],
+      pluginImport: [
+        {
+          libraryName: 'foo',
+          customName: 'foo/es/{{ member }}',
+        },
+      ],
     }),
   ],
 });
 ```
 
 ---
+
 转换后:
 
 ```ts
@@ -168,10 +175,12 @@ export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'foo',
-        customName: 'foo/es/{{ kebabCase member }}',
-      }],
+      pluginImport: [
+        {
+          libraryName: 'foo',
+          customName: 'foo/es/{{ kebabCase member }}',
+        },
+      ],
     }),
   ],
 });

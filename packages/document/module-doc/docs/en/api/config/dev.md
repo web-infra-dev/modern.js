@@ -2,16 +2,18 @@
 sidebar_position: 3
 ---
 
-# Dev Config
+# dev
 
 This section describes all configuration of Module Tools related to debugging tools.
 
-``` ts
+```ts
 export default {
   dev: {
-    storybook: {/* Storybook Config */},
+    storybook: {
+      /* Storybook Config */
+    },
   },
-}
+};
 ```
 
 ## storybook
@@ -21,36 +23,34 @@ export default {
 - Turn on Storybook debugging or install the `@modern-js/plugin-storybook` plugin.
 - Register the `@modern-js/plugin-storybook` plugin。
 
-> For more information on how to enable Storybook debugging, please refer to：[【Storybook】](guide/basic/use-micro-generator#storybook)
-
-
+> For more information on how to enable Storybook debugging, please refer to：["Storybook"](guide/basic/use-micro-generator#storybook)
 
 ### storybook.webpack
 
-- **Type**: `Object` | `Function` | `undefined`
-
+- **Type**: `object | Function | undefined`
 - **Default**: `undefined`
 
-``` ts
+```ts
 export default {
   dev: {
     storybook: {
       webpack(config) {
         return config;
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
-You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpack`. The usage can be found in the [`tools.webpack`](https://modernjs.dev/builder/api/config-tools.html#tools.webpack) configuration of Modern.js Builder.
+You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpack`. The usage can be found in the [`tools.webpack`](https://modernjs.dev/builder/en/api/config-tools.html#toolswebpack) configuration of Modern.js Builder.
 
 ![Storybook](https://storybook.js.org/71522ac365feaf3338d7c242e53378f6/manager-preview.png)
 
-:::tip
+#### Configure Manager App
+
 For the webpack configuration of the Storybook Manager app section, you can configure it by adding the `./config/storybook/main.js` file to configure it.
 
-``` js
+```js
 // ./config/storybook/main.js
 
 module.exports = {
@@ -61,25 +61,22 @@ module.exports = {
   },
 };
 ```
-:::
 
 ### storybook.webpackChain
 
-- **Type**: `Function` | `undefined`
-
+- **Type**: `Function | undefined`
 - **Default**: `undefined`
 
-``` ts
+```ts
 export default {
   dev: {
     storybook: {
       webpackChain(chain) {
         return chain;
       },
-    }
-  }
-}
+    },
+  },
+};
 ```
 
-You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpackChain`. You can refer to Modern.js Builder's [`tools.webpackChain`](https://modernjs.dev/builder/api/config-tools.html#tools.webpackchain) configuration for how to use it.
-
+You can modify the webpack configuration of the Storybook Preview-iframe via `dev.storybook.webpackChain`. You can refer to Modern.js Builder's [`tools.webpackChain`](https://modernjs.dev/builder/en/api/config-tools.html#toolswebpackchain) configuration for how to use it.

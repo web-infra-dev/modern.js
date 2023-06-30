@@ -2,7 +2,7 @@
 sidebar_position: 5
 ---
 
-# Testing
+# testing
 
 This chapter describes the test-related configuration
 
@@ -12,10 +12,10 @@ You need to enable the unit testing feature with `pnpm run new` first.
 
 ## jest
 
-- Type: `Object | Function`
+- Type: `object | Function`
 - Default: `{}`
 
-The configuration corresponding to [Jest](https://jestjs.io/docs/configuration), when of type `Object`, can be configured with all the underlying configurations supported by Jest .
+The configuration corresponding to [Jest](https://jestjs.io/docs/configuration), when of type `object`, can be configured with all the underlying configurations supported by Jest .
 
 ```js modern.config.ts
 import { defineConfig } from '@modern-js/module-tools';
