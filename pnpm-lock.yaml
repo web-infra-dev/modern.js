@@ -5177,7 +5177,7 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react-router-dom:
-        specifier: 6.11.2
+        specifier: ^6.8.1
         version: 6.11.2(react-dom@18.2.0)(react@18.2.0)
       serialize-javascript:
         specifier: ^6.0.0
