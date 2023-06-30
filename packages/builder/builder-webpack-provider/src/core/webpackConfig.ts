@@ -140,7 +140,7 @@ async function getConfigUtils(
     removePlugin(pluginName: string) {
       if (config.plugins) {
         config.plugins = config.plugins.filter(
-          p => p.constructor.name !== pluginName,
+          item => item?.constructor.name !== pluginName,
         );
       }
     },

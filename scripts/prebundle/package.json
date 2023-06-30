@@ -17,7 +17,7 @@
     "dts-packer": "0.0.3",
     "postcss": "8.4.21",
     "typescript": "^5",
-    "webpack": "^5.82.1"
+    "webpack": "^5.88.1"
   },
   "devDependencies": {
     "@babel/helper-annotate-as-pure": "7.18.6",

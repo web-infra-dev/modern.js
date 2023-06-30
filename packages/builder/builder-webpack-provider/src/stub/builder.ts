@@ -258,7 +258,7 @@ export async function createStubBuilder(options?: StubBuilderOptions) {
   const matchWebpackPlugin = async (pluginName: string) => {
     const config = await unwrapWebpackConfig();
     const result = config.plugins?.filter(
-      item => item.constructor.name === pluginName,
+      item => item?.constructor.name === pluginName,
     );
     if (Array.isArray(result)) {
       assert(result.length <= 1);
