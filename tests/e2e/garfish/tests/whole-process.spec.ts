@@ -7,9 +7,8 @@ let app: unknown;
 let subApp1: unknown;
 let subApp2: unknown;
 
-test.setTimeout(90 * 1000);
-
 test.beforeAll(async () => {
+  test.setTimeout(90 * 1000);
   [app, subApp1, subApp2] = await Promise.all([
     launchApp(join(__dirname, '../fixtures/main')),
     launchApp(join(__dirname, '../fixtures/dashboard')),

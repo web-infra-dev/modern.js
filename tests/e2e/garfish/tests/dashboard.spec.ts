@@ -6,6 +6,7 @@ import { launchApp, killApp } from '../../../utils/modernTestUtils';
 let app: unknown;
 
 test.beforeAll(async () => {
+  test.setTimeout(90 * 1000);
   app = await launchApp(join(__dirname, '../fixtures/dashboard'));
 });
 
