@@ -6,11 +6,6 @@ on:
 
   workflow_dispatch:
 
-  pull_request:
-    branches: [main]
-
-  merge_group:
-
 jobs:
   e2e-test:
     runs-on: ${{ matrix.os }}
