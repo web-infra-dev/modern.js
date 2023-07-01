@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
-import { getPublicPath } from '../testUtils';
+import { getPublicPath, webpackOnlyTest } from '../testUtils';
 import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
 let app: unknown;
@@ -25,7 +25,7 @@ test.afterAll(async () => {
 
 const mainAppName = '@e2e/garfish-main';
 
-test('render sub app', async ({ page }) => {
+webpackOnlyTest('render sub app', async ({ page }) => {
   await page.goto(getPublicPath(mainAppName));
 
   await page.waitForFunction(() => {
@@ -68,7 +68,7 @@ test('render sub app', async ({ page }) => {
   expect(await page.textContent('body')).toContain('Dashboard detail page');
 });
 
-test('render module federation component', async ({ page }) => {
+webpackOnlyTest('render module federation component', async ({ page }) => {
   await page.goto(getPublicPath(mainAppName));
   const link = await page.$('[data-test=link-shared]');
   await link?.click();
@@ -77,9 +77,12 @@ test('render module federation component', async ({ page }) => {
   );
 });
 
-test('dashboard app get basename from masterApp', async ({ page }) => {
-  await page.goto(getPublicPath(mainAppName));
-  const link = await page.$('[data-test=link-dashboard]');
-  await link?.click();
-  expect(await page.textContent('#basename')).toEqual('/test/dashboard');
-});
+webpackOnlyTest(
+  'dashboard app get basename from masterApp',
+  async ({ page }) => {
+    await page.goto(getPublicPath(mainAppName));
+    const link = await page.$('[data-test=link-dashboard]');
+    await link?.click();
+    expect(await page.textContent('#basename')).toEqual('/test/dashboard');
+  },
+);

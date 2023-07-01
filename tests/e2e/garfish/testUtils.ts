@@ -1,5 +1,3 @@
-export const appInfo = {};
-
 export const exampleInfo = {
   '@e2e/garfish-main': {
     port: 3001,
@@ -37,9 +35,4 @@ export const getPort = (appName: AppName) => {
   return exampleInfo[appName].port;
 };
 
-export const getAppInfo = (appName: AppName) => {
-  if (!exampleInfo[appName]) {
-    throw Error(`unexpect appName ${appName}`);
-  }
-  return exampleInfo[appName];
-};
+export { webpackOnlyTest, rspackOnlyTest } from '../builder/scripts/helper';

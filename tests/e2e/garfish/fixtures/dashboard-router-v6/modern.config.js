@@ -20,8 +20,12 @@ module.exports = defineConfig({
     port: getPort('@e2e/garfish-dashboard-router-v6'),
   },
   plugins: [
-    appTools(),
-    // routerPlugin(),
+    appTools({
+      bundler:
+        process.env.PROVIDE_TYPE === 'rspack'
+          ? 'experimental-rspack'
+          : 'webpack',
+    }),
     garfishPlugin(),
   ],
 });

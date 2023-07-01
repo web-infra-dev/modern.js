@@ -12,4 +12,14 @@ This folder contains the e2e test cases of Modern.js framework with Garfish.
 ```bash
 # Run all test cases, including Rspack and Webpack
 pnpm run test
+
+# Run test cases for Rspack
+pnpm run test:rspack
+
+# Run test cases for Webpack
+pnpm run test:webpack
+
+# Run specific test case, such as "dashboard"
+pnpm run test:webpack dashboard
+pnpm run test:rspack dashboard
 ```
