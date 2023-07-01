@@ -22,6 +22,10 @@ module.exports = defineConfig({
       moduleName: 'Dashboard',
     },
   },
+  output: {
+    disableTsChecker: true,
+    polyfill: 'off',
+  },
   server: {
     port: getPort('@e2e/garfish-table'),
   },

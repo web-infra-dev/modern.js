@@ -29,6 +29,10 @@ module.exports = defineConfig({
   source: {
     enableAsyncEntry: true,
   },
+  output: {
+    disableTsChecker: true,
+    polyfill: 'off',
+  },
   server: {
     port,
   },

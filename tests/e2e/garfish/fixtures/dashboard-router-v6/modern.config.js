@@ -16,6 +16,10 @@ module.exports = defineConfig({
   source: {
     enableAsyncEntry: true,
   },
+  output: {
+    disableTsChecker: true,
+    polyfill: 'off',
+  },
   server: {
     port: getPort('@e2e/garfish-dashboard-router-v6'),
   },

@@ -49,6 +49,10 @@ module.exports = defineConfig({
       ]);
     },
   },
+  output: {
+    disableTsChecker: true,
+    polyfill: 'off',
+  },
   server: {
     port: getPort('@e2e/garfish-main'),
   },

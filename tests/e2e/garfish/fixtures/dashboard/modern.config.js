@@ -15,6 +15,10 @@ module.exports = defineConfig({
       externalBasicLibrary: false,
     },
   },
+  output: {
+    disableTsChecker: true,
+    polyfill: 'off',
+  },
   source: {
     enableAsyncEntry: true,
   },
