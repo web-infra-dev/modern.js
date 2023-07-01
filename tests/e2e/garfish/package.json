@@ -3,7 +3,7 @@
   "name": "@e2e/garfish",
   "version": "2.9.0",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test --workers 1"
   },
   "dependencies": {
     "react": "^18",

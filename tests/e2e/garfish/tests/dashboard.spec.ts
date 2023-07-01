@@ -3,7 +3,7 @@ import { expect, test } from '@modern-js/e2e/playwright';
 import { getPublicPath } from '../testUtils';
 import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
-let app: any;
+let app: unknown;
 
 test.beforeAll(async () => {
   app = await launchApp(join(__dirname, '../fixtures/dashboard'));

@@ -2,7 +2,7 @@ import { appTools, defineConfig } from '@modern-js/app-tools';
 import { garfishPlugin } from '@modern-js/plugin-garfish';
 import { routerPlugin } from '@modern-js/plugin-router-v5';
 
-import { getPublicPath } from '../../testUtils';
+import { getPort, getPublicPath } from '../../testUtils';
 
 module.exports = defineConfig({
   runtime: {
@@ -13,12 +13,11 @@ module.exports = defineConfig({
         basename: '/test',
       },
     },
-    // state: true,
     masterApp: {
       apps: [
         {
           name: 'Dashboard',
-          entry: getPublicPath(process.env.PORT),
+          entry: getPublicPath('@e2e/garfish-dashboard'),
         },
         {
           name: 'TableList',
@@ -48,9 +47,10 @@ module.exports = defineConfig({
           },
         }),
       ]);
-      // delete config.optimization?.runtimeChunk;
-      // delete config.optimization?.splitChunks;
     },
+  },
+  server: {
+    port: getPort('@e2e/garfish-main'),
   },
   plugins: [appTools(), routerPlugin(), garfishPlugin()],
 });

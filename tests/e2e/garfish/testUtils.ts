@@ -3,19 +3,12 @@ export const appInfo = {};
 export const exampleInfo = {
   '@e2e/garfish-main': {
     port: 3001,
-    homeTitle: 'Main Home page',
-  },
-  '@e2e/garfish-main-rspack': {
-    port: 5001,
-    homeTitle: 'Main Home page',
   },
   '@e2e/garfish-main-router-v6': {
     port: 4001,
-    homeTitle: 'Main Home page',
   },
   '@e2e/garfish-dashboard-router-v6': {
     port: 4003,
-    homeTitle: 'Main Home page',
   },
   '@e2e/garfish-dashboard': {
     port: 3002,

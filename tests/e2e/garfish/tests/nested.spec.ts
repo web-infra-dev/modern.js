@@ -3,9 +3,9 @@ import { expect, test } from '@modern-js/e2e/playwright';
 import { getPublicPath } from '../testUtils';
 import { launchApp, killApp } from '../../../utils/modernTestUtils';
 
-let app: any;
-let subApp1: any;
-let subApp2: any;
+let app: unknown;
+let subApp1: unknown;
+let subApp2: unknown;
 
 test.setTimeout(90 * 1000);
 

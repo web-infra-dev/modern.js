@@ -1,17 +1,11 @@
 import { useModuleApps } from '@modern-js/runtime/garfish';
 import { Switch, Route, Link } from '@modern-js/runtime/router-v5';
 import DashboardButton from 'dashboardApp/share-button';
-import { getAppInfo } from '../../../testUtils';
-import pkg from '../package.json';
 import './App.css';
-
-const { name } = pkg;
 
 function Home() {
   return (
-    <div style={{ textAlign: 'center', padding: '30px' }}>
-      {getAppInfo(name).homeTitle}
-    </div>
+    <div style={{ textAlign: 'center', padding: '30px' }}>Main Home page</div>
   );
 }
 
