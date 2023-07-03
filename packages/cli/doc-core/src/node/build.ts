@@ -198,6 +198,7 @@ export async function renderPages(
     logger.success(`Pages rendered in ${chalk.yellow(totalTime)} ms.`);
   } catch (e) {
     logger.error(`Pages render error: ${e.stack}`);
+    throw e;
   }
 }
 
