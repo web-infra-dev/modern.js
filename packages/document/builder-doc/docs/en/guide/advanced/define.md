@@ -220,7 +220,7 @@ const App = () => {
 };
 ```
 
-Unused components are not bundled into the product, and their external dependencies can be optimized accordingly, resulting in a destination with better size and performance.
+Unused components are not bundled into the artifacts, and their external dependencies can be optimized accordingly, resulting in a destination with better size and performance.
 
 ## In-source testing
 
