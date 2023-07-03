@@ -1,0 +1,247 @@
+# Build FAQ
+
+## Product FAQ
+
+import BuildProductFAQ from '@site-docs-en/components/faq-build-product';
+
+<BuildProductFAQ/>
+
+### Initialization of Class Fields
+
+TypeSript provides the `useDefineForClassFields` configuration to control the conversion handling for `public class fields`.
+
+If we have a piece of code:
+
+``` ts
+class C {
+  foo = 100;
+  bar: string;
+}
+```
+
+When `useDefineForClassFields` is `false`, then the compiled code will look like:
+
+``` ts
+class C {
+  constructor() {
+    this.foo = 100;
+  }
+}
+```
+
+When `useDefineForClassFields` is `true`, then the compiled code will look like:
+
+``` ts
+class C {
+  constructor() {
+    Object.defineProperty(this, "foo", {
+      enumerable: true,
+      configurable: true,
+      writable: true,
+      value: 100,
+    });
+    Object.defineProperty(this, "bar", {
+      enumerable: true,
+      configurable: true,
+      writable: true,
+      value: void 0,
+    });
+  }
+}
+```
+
+Also the default value of this configuration will change depending on the [`target`](https://www.typescriptlang.org/tsconfig#target) configuration of tsconfig.json: When `target` is ES2022 or higher, then `useDefineForClassFields` is configured to `true` by default, otherwise it defaults to `false`.
+
+For more information on this configuration of TypeScript, you can refer to the following link:
+
+- [The useDefineForClassFields Flag and The declare Property Modifier](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#the-usedefineforclassfields-flag-and-the-declare-property-modifier)
+
+The Modern.js Module will currently process according to the following logic:
+
+1. The first decision to enable this feature inside Modern.js Module is based on the `useDefineForClassFields` configuration in tsconfig.json of the current project. Currently, only the contents of the tsconfig.json file under the current project path will be read, and the final tsconfig configuration based on the [`extends`](https://www.typescriptlang.org/tsconfig#extends) configuration is not supported at this time.
+2. If the `useDefineForClassFields` configuration of tsconfig.json is not detected, the default value is determined based on the `target` configuration of tsconfig.json. If `target` is greater than `ES2022` (including `EsNext`), then `useDefineForClassFields` defaults to `true`, otherwise it is `false`.
+3. If the `target` of tsconfig.json is not detected, it is processed according to the value of `useDefineForClassFields` as `true`.
+
+### babel-plugin-lodash treats the introduced lodash as `undefined`
+
+This problem occurs when using something like the following:
+
+``` ts
+import * as Lodash from 'lodash';
+
+export const libs = {
+  _: Lodash,
+}
+```
+
+Current related issues on the `babel-plugin-lodash` Github:
+
+- [#235](https://github.com/lodash/babel-plugin-lodash/issues/235)
+
+The solution to this problem is to remove `babel-plugin-lodash`, since the plugin is not needed for on-demand referencing at this point and using it would have side effects.
+
+A similar situation occurs with `babel-plugin-import`. If there is code like the following:
+
+``` ts
+import * as Comps from 'components';
+
+export const libs = {
+  comps: Comps,
+};
+```
+
+In this case `babel-plugin-import` may also cause `Comps` to become `undefined`. So you need to remove the corresponding `babel-plugin-import` as well.
+
+## Exceptions FAQ
+
+import BuildExceptionFAQ from '@site-docs-en/components/faq-build-exception';
+
+<BuildExceptionFAQ />
+
+### Dynamic require of "react" is not supported
+
+#### Problem Description
+
+When the product format in the product configuration of the build is ES modules.
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    format: 'esm',
+  },
+});
+```
+
+If you import a cjs product from a third-party npm package, the resulting product may not work properly under webpack.
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/shylnyhaeh7uldvivhn/1280X1280.png)
+
+#### Solution
+
+1. **First you need to find which third-party package is causing the problem**. For example, if the error message points to the `react` package, then look for a third-party package that has code like `require('react')` in it. For example [`react-draggable`](https://web-bnpm.byted.org/package/react-draggable), which only contains `cjs` products, then the problem is localized to the `react-draggable` package.
+2. Then we need to exclude this package with the following configuration, i.e. **not package problematic third-party packages**.
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    externals: ['react-draggable'],
+  }
+});
+```
+
+#### Reference Links
+
+- [When using esbuild with external react I get Dynamic require of "react" is not supported](https://stackoverflow.com/questions/68423950/when-using-esbuild-with-external-react-i-get-dynamic-require-of-react-is-not-s)
+
+### During compilation, an error was reported in the less file of a component library:`'Operation on an invalid type'`
+
+This is probably because the component library depends on Less version v3, while Modern.js Module defaults to v4. v3 and v4 have a Break Change in the `math` configuration, check this [link](https://stackoverflow.com/questions/73298187/less-error-operation-on-an-invalid-type-in-antd-dependency) for details.
+
+Therefore, if a component library like this is used in the source code:
+
+`buildPreset` is used in the build configuration, make the following changes:
+
+``` js
+module.exports = {
+  buildPreset({ extendPreset }) {
+    return extendPreset('your-build-preset', {
+      style: {
+        less: {
+          lessOptions: {
+            math: 'always',
+          },
+        },
+      },
+    });
+  },
+}
+```
+
+Or, if a custom `buildConfig` is used, modify it as follows:
+
+``` js
+module.exports = {
+  buildConfig: {
+    style: {
+      less: {
+        lessOptions: {
+          math: 'always',
+        },
+      },
+    },
+  }
+};
+```
+
+If you are using a component like this in Storybook, you will need to modify the debugging configuration of Storybook:
+
+```js
+module.exports = {
+  dev: {
+    storybook: {
+      webpackChain(chain, { CHAIN_ID }) {
+        chain.module
+          .rule(CHAIN_ID.RULE.LESS)
+          .use(CHAIN_ID.USE.LESS)
+          .tap(options => {
+            options.lessOptions = {
+              ...options.lessOptions,
+              math: 'always',
+            };
+            return options;
+          });
+      },
+    },
+  },
+}
+```
+
+### Bundle DTS failed
+
+Normally, the type file output with `tsc` is loose. Modern.js Module not only supports outputting loose type file products, but also supports packing type files, which allows you to package these loose type files and third-party dependent type files into one file.
+
+However, there is a risk in packaging the type files of third-party dependencies, **because there are cases where the type files of third-party dependencies cannot be packaged**.
+
+So when you encounter a `Bundle DTS failed` error message during the Modern.js Module build, you can observe that the error message comes from a third-party dependency. Try setting [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) to `false` to disable the behavior of packing type files of third-party dependencies.
+
+### Error reported for `defineConfig` function type: `If there is no reference to "..." then the inferred type of "default" cannot be named`
+
+Check if the [`include`](https://www.typescriptlang.org/tsconfig#include)  configuration exists in the project's tsconfig.json file, and if not, try adding the following:
+
+```json
+{
+  "include": ["src"]
+}
+```
+
+## Other FAQ
+
+import BuildOtherFAQ from '@site-docs-en/components/faq-build-other';
+
+<BuildOtherFAQ />
+
+### Add additional compilation feature
+
+The Modern.js Module is based on the esbuild implementation, so if you have special needs or want to add additional compilation capabilities, you can do so by implementing the esbuild plugin.
+
+The Modern.js Module provides [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) configuration to allow modification of Modern.js's internal esbuild configuration, so that custom esbuild plugins can be added via this configuration:
+
+``` js
+export default defineConfig({
+  buildConfig: {
+    esbuildOptions: options => {
+      options.plugins = [
+        ...options.plugins,
+        yourEsbuildPlugin,
+      ];
+      return option;
+    },
+  },
+});
+```
+
+### Support for generating TypeScript declaration files for CSS Modules
+
+- First Solution: [typed-css-modules](https://github.com/Quramy/typed-css-modules)
+- Second Solution: [postcss-modules-dts](https://www.npmjs.com/package/@guanghechen/postcss-modules-dts)
+

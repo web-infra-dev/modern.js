@@ -1,0 +1,247 @@
+# 构建相关问题
+
+## 产物问题
+
+import BuildProductFAQ from '@site-docs/components/faq-build-product';
+
+<BuildProductFAQ/>
+
+### Class Fields 的初始化处理
+
+TypeSript 提供了 `useDefineForClassFields` 配置用于控制对于 `public class fields` 的转换处理。
+
+如果有一段代码：
+
+``` ts
+class C {
+  foo = 100;
+  bar: string;
+}
+```
+
+当 `useDefineForClassFields` 为 `false` 的时候，则编译后的代码会变为：
+
+``` ts
+class C {
+  constructor() {
+    this.foo = 100;
+  }
+}
+```
+
+当 `useDefineForClassFields` 为 `true` 的时候，则编译后的代码会变为：
+
+``` ts
+class C {
+  constructor() {
+    Object.defineProperty(this, "foo", {
+      enumerable: true,
+      configurable: true,
+      writable: true,
+      value: 100,
+    });
+    Object.defineProperty(this, "bar", {
+      enumerable: true,
+      configurable: true,
+      writable: true,
+      value: void 0,
+    });
+  }
+}
+```
+
+同时该配置的默认值会根据 tsconfig.json 的 [`target`](https://www.typescriptlang.org/tsconfig#target) 配置而变化：**当 `target` 是 ES2022 或者更高的时候，则 `useDefineForClassFields` 默认配置为 `true`，否则就是默认为 `false`**。
+
+关于 TypeScript 这个配置的更多信息，可以参考下面的链接：
+
+- [The useDefineForClassFields Flag and The declare Property Modifier](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-7.html#the-usedefineforclassfields-flag-and-the-declare-property-modifier)
+
+Modern.js Module 目前会根据下面的逻辑进行处理：
+
+1. 首先根据当前项目的 tsconfig.json 的 `useDefineForClassFields` 配置确定在 Modern.js Module 内部如何处理。目前只会读取当前项目路径下的 tsconfig.json 文件的内容，暂时不支持根据 [`extends`](https://www.typescriptlang.org/tsconfig#extends) 配置来获取最终的 tsconfig 配置。
+2. 如果没有检测 tsconfig.json 的 `useDefineForClassFields` 配置，则会根据 tsconfig.json 的 `target` 配置来确定默认值。如果 `target` 大于 `ES2022`（包含 `EsNext`），则`useDefineForClassFields`默认为 `true`，否则为 `false`。
+3. 如果没有检测到 tsconfig.json 的 `target`，则按照 `useDefineForClassFields`的值 为 `true` 进行处理。
+
+### babel-plugin-lodash 将引入的 lodash 处理成 `undefined`
+
+当使用类似下面的方式的时候，会出现这个问题：
+
+``` ts
+import * as Lodash from 'lodash';
+
+export const libs = {
+  _: Lodash,
+}
+```
+
+目前在 `babel-plugin-lodash` Github 上的相关 Issue：
+
+- [#235](https://github.com/lodash/babel-plugin-lodash/issues/235)
+
+这个问题的解决办法是移除 `babel-plugin-lodash`，因为此时不需要该插件进行按需引用，使用该插件会产生副作用。
+
+类似的情况在 `babel-plugin-import` 上也可能会出现。比如有类似如下的代码：
+
+``` ts
+import * as Comps from 'components';
+
+export const libs = {
+  comps: Comps,
+};
+```
+
+此时 `babel-plugin-import` 也可能会导致 `Comps` 变为 `undefined`。因此也需要移除对应的 `babel-plugin-import`。
+
+## 异常类问题
+
+import BuildExceptionFAQ from '@site-docs/components/faq-build-exception';
+
+<BuildExceptionFAQ />
+
+### Dynamic require of "react" is not supported
+
+#### 问题描述
+
+当构建的产物配置中产物格式为 ES modules 的时候：
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    format: 'esm',
+  },
+});
+```
+
+如果导入了的第三方 npm 包的 cjs 产物，那么生成的产物可能会在 webpack 下有可能无法正常运行。
+
+![](https://lf3-static.bytednsdoc.com/obj/eden-cn/shylnyhaeh7uldvivhn/1280X1280.png)
+
+#### 解决办法
+
+1. **首先需要找到是哪个第三方包引起的问题**。例如报错信息中指向了 `react` 这个包，那么就要寻找在哪个第三方包里存在 `require('react')` 这样的代码。比如 [`react-draggable`](https://web-bnpm.byted.org/package/react-draggable) ，这个包仅包含 `cjs` 产物，那么问题定位到 `react-draggable` 这个包。
+2. 然后我们需要将这个包通过下面的配置进行排除，即**不打包存在问题的第三方包**。
+
+``` ts
+export default defineConfig({
+  buildConfig: {
+    externals: ['react-draggable'],
+  }
+});
+```
+
+#### 参考链接
+
+- [When using esbuild with external react I get Dynamic require of "react" is not supported](https://stackoverflow.com/questions/68423950/when-using-esbuild-with-external-react-i-get-dynamic-require-of-react-is-not-s)
+
+
+### 编译过程中，因为某个组件库的 less 文件报错：`'Operation on an invalid type'`
+
+可能是因为该组件库依赖的 Less 版本是 v3，而 Modern.js Module 默认是 v4。v3 与 v4 在 `math` 配置上存在有 Break Change，可以查看这个[链接](https://stackoverflow.com/questions/73298187/less-error-operation-on-an-invalid-type-in-antd-dependency) 了解详情。
+
+因此，如果是在源码中使用了类似这样的组件库：
+
+在构建配置中使用了 `buildPreset` 的情况下，按照下面进行修改：
+
+``` js
+module.exports = {
+  buildPreset({ extendPreset }) {
+    return extendPreset('your-build-preset', {
+      style: {
+        less: {
+          lessOptions: {
+            math: 'always',
+          },
+        },
+      },
+    });
+  },
+}
+```
+
+或者使用了自定义的 `buildConfig` 的情况下，按照下面进行修改：
+
+``` js
+module.exports = {
+  buildConfig: {
+    style: {
+      less: {
+        lessOptions: {
+          math: 'always',
+        },
+      },
+    },
+  }
+};
+```
+
+如果是在 Storybook 中使用了类似这样的组件，则需要修改 Storybook 的调试配置：
+
+```js
+module.exports = {
+  dev: {
+    storybook: {
+      webpackChain(chain, { CHAIN_ID }) {
+        chain.module
+          .rule(CHAIN_ID.RULE.LESS)
+          .use(CHAIN_ID.USE.LESS)
+          .tap(options => {
+            options.lessOptions = {
+              ...options.lessOptions,
+              math: 'always',
+            };
+            return options;
+          });
+      },
+    },
+  },
+}
+```
+
+### Bundle DTS failed
+
+正常情况下，使用 `tsc` Modern.js Module 不仅支持输出松散的类型文件产物，同时也支持打包类型文件，可以将这些松散的类型文件以及第三方依赖的类型文件打包成一个文件。
+
+不过，打包第三方依赖的类型文件是存在风险的，**因为存在第三方依赖的类型文件无法打包的情况**。
+
+因此当遇到 Modern.js Module 构建过程中出现 `Bundle DTS failed` 的错误信息标题的时候，可以观察报错信息是来自某个第三方依赖。尝试设置 [`dts.respectExternal`](/api/config/build-config.html#dtsrespectexternal) 为 `false` 来关闭打包第三方依赖的类型文件的行为。
+
+### `defineConfig` 函数类型报错：`如果没有引用 "..."，则无法命名 "default" 的推断类型`
+
+检查项目的 tsconfig.json 文件中是否存在 [`include`](https://www.typescriptlang.org/tsconfig#include) 配置，如果没有，则尝试增加下面的内容：
+
+```json
+{
+  "include": ["src"]
+}
+```
+
+## 其他
+
+import BuildOtherFAQ from '@site-docs/components/faq-build-other';
+
+<BuildOtherFAQ />
+
+### 增加额外的编译能力
+
+Modern.js Module 基于 esbuild 实现，因此如果有特殊需求或者想要增加额外的编译能力，可以通过实现 esbuild 插件来解决。
+
+Modern.js Module 提供了 [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) 配置允许修改 Modern.js Module 内部的 esbuild 配置，因此可以通过该配置来增加自定义的 esbuild 插件：
+
+``` js
+export default defineConfig({
+  buildConfig: {
+    esbuildOptions: options => {
+      options.plugins = [
+        ...options.plugins,
+        yourEsbuildPlugin,
+      ];
+      return option;
+    },
+  },
+});
+```
+
+### 支持生成 CSS Modules 的 TypeScript 声明文件
+
+- 方案一：[typed-css-modules](https://github.com/Quramy/typed-css-modules)
+- 方案二：[postcss-modules-dts](https://www.npmjs.com/package/@guanghechen/postcss-modules-dts)
