@@ -71,7 +71,9 @@ function getRandomPort(defaultPort = Math.ceil(Math.random() * 10000) + 10000) {
   }
 }
 
-const updateConfigForTest = (config: BuilderConfig) => {
+const updateConfigForTest = <BuilderType>(
+  config: BuilderType extends 'webpack' ? BuilderConfig : RspackBuilderConfig,
+) => {
   // make devPort random to avoid port conflict
   config.dev = {
     ...(config.dev || {}),
@@ -104,12 +106,14 @@ const updateConfigForTest = (config: BuilderConfig) => {
   }
 };
 
-export async function dev({
+export async function dev<BuilderType = 'webpack'>({
   serverOptions,
   builderConfig = {},
   ...options
 }: CreateBuilderOptions & {
-  builderConfig?: BuilderConfig;
+  builderConfig?: BuilderType extends 'webpack'
+    ? BuilderConfig
+    : RspackBuilderConfig;
   serverOptions?: StartDevServerOptions['serverOptions'];
 }) {
   process.env.NODE_ENV = 'development';
@@ -123,7 +127,7 @@ export async function dev({
   });
 }
 
-export async function build({
+export async function build<BuilderType = 'webpack'>({
   plugins,
   runServer = false,
   builderConfig = {},
@@ -131,12 +135,15 @@ export async function build({
 }: CreateBuilderOptions & {
   plugins?: any[];
   runServer?: boolean;
-  builderConfig?: BuilderConfig;
+  builderConfig?: BuilderType extends 'webpack'
+    ? BuilderConfig
+    : RspackBuilderConfig;
 }) {
   process.env.NODE_ENV = 'production';
 
   updateConfigForTest(builderConfig);
 
+  // todo: support test swc (add swc plugin) use providerType 'webpack-swc'?
   const builder = await createBuilder(options, builderConfig);
 
   builder.removePlugins(['builder-plugin-file-size']);
