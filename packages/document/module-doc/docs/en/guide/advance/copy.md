@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Use the Copy Tools
 
-The Module Project provides the Copy utility for copying already existing individual files or entire directories into the product directory. Next we learn how to use it.
+The Module Project provides the Copy utility for copying already existing individual files or entire directories into the output directory. Next we learn how to use it.
 
 ## Understanding the Copy API
 

@@ -76,7 +76,7 @@ rm -rf ./node_modules/.cache
 
 When the production environment is built, we can remove the `console` from the code, so as to avoid the log of the development environment being output to the production environment.
 
-Builder provides a configuration item to remove console by default, please see [performance.removeConsole](/en/api/config-performance.html#performanceremoveconsole).
+Builder provides a configuration option to remove console by default, please see [performance.removeConsole](/en/api/config-performance.html#performanceremoveconsole).
 
 ---
 

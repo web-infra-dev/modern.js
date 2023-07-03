@@ -15,7 +15,7 @@ type SRIOptions =
 
 Adding an integrity attribute (`integrity`) to sub-resources introduced by HTML allows the browser to verify the integrity of the introduced resource, thus preventing tampering with the downloaded resource.
 
-Enabling this option will set the webpack [output.crossOriginLoading](https://webpack.js.org/configuration/output/#outputcrossoriginloading) configuration item to `anonymous`.
+Enabling this option will set the webpack [output.crossOriginLoading](https://webpack.js.org/configuration/output/#outputcrossoriginloading) configuration option to `anonymous`.
 
 #### Introduce SRI
 
@@ -37,7 +37,7 @@ By default, `SRI` is not turned on, and when it is, its default configuration is
 }
 ```
 
-You can customize the configuration items according to your own needs:
+You can customize the configuration options according to your own needs:
 
 ```js
 export default {

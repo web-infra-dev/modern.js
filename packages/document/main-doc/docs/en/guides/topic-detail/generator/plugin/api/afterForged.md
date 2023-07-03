@@ -46,4 +46,4 @@ Parameters:
 
 ### install
 
-Installs dependencies in the root directory of the project. The `install` function will use the corresponding package management tool according to the value of `packageManager` to install dependencies.
+Installs dependencies in the root directory of the project. The `install` function will use the corresponding package manager according to the value of `packageManager` to install dependencies.

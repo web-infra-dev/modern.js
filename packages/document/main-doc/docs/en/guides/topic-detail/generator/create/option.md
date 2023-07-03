@@ -65,9 +65,9 @@ By default, `@modern-js/create` will automatically identify the user's system la
 
 Specify the default project configuration.
 
-By default, `@modern-js/create` will prompt for interactive questions such as language selection and package management tools during the execution process. When it is necessary to specify these configuration contents in advance, they can be passed in through this field.
+By default, `@modern-js/create` will prompt for interactive questions such as language selection and package managers during the execution process. When it is necessary to specify these configuration contents in advance, they can be passed in through this field.
 
-This field is a JSON string. For example, when specifying a package management tool:
+This field is a JSON string. For example, when specifying a package manager:
 
 ```bash
 npx @modern-js/create@latest --config '{"packageManager": "pnpm"}'
@@ -122,7 +122,7 @@ npx @modern-js/create@next --dist-tag next
 
 Specify specific package version dependencies when creating a project.
 
-If you need to specify a specific package version when creating a project, you can use this parameter. This parameter will configure `pnpm.overrides` (if the package management tool is pnpm) or `resolutions` to lock the package version number in the `package.json` file in the project root directory.
+If you need to specify a specific package version when creating a project, you can use this parameter. This parameter will configure `pnpm.overrides` (if the package manager is pnpm) or `resolutions` to lock the package version number in the `package.json` file in the project root directory.
 
 The parameter value is a JSON string.
 

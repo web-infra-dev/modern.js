@@ -19,7 +19,7 @@ Options:
                          ". /tsconfig.json")
   --platform [platform] Build products for all or specified platforms
   --no-dts disables DTS type file generation and type checking
-  --no-clear disables automatic clearing of product output directories
+  --no-clear disables automatic clearing of output directories
   -h, --help Show information about the current command
 ```
 
@@ -28,12 +28,12 @@ When you want to start a project build, you can execute the `modern build` comma
 - When wanting to start a build in watch mode, use the `--watch` option.
 - When you want to specify the path to the TypeScript configuration file read by the project build, use `-build --tsconfig . /path/config.json` option. This option overrides all [`buildConfig`](/api/config/build-config) configurations in [`dts.tsconfigPath`](/api/config/build-config).
 - The `-no-dts` option can be used when the DTS type file generation and type checking behavior of the project needs to be turned off. **Note: The generation of type files depends on the results of type checking. If type checking is turned off, then type files will not be generated either**.
-- The `--no-clear` option can be used when the automatic clearing of the product output directory needs to be turned off.
+- The `--no-clear` option can be used when the automatic clearing of the output directory needs to be turned off.
 
-In addition to the above, module projects also support `platform` build mode, which can be used to perform build tasks for other tools. For example, it is currently officially supported to start a Storybook build task to generate Storybook products by executing the `modern build --platform` or `modern build --platform storybook` commands after installing the `@modern-js/plugin-storybook` plugin.
+In addition to the above, module projects also support `platform` build mode, which can be used to perform build tasks for other tools. For example, it is currently officially supported to start a Storybook build task to generate Storybook artifacts by executing the `modern build --platform` or `modern build --platform storybook` commands after installing the `@modern-js/plugin-storybook` plugin.
 
 :::tip
-When executing a Storybook build, if you need to read the build product of the project. Then **don't forget to execute the `modern build` command to ensure the existence of the project's build product before executing the `modern build --platform` command to start the Storybook build**.
+When executing a Storybook build, if you need to read the build artifacts of the project. Then **don't forget to execute the `modern build` command to ensure the existence of the project's build artifacts before executing the `modern build --platform` command to start the Storybook build**.
 :::
 
 ## `modern new`
@@ -76,7 +76,7 @@ Commands:
 [dev-tools-subCommand]
 ```
 
-The module engineering solution provides the ability to use debugging tools, which can be started with the `modern dev` command. Note, however, that no debugging-related plugins are provided by default, so executing `modern dev` will prompt: _"No dev tools found available "_.
+The Module Tools provides the ability to use debugging tools, which can be started with the `modern dev` command. Note, however, that no debugging-related plugins are provided by default, so executing `modern dev` will prompt: _"No dev tools found available "_.
 
 The officially supported debugging tool is [Storybook](https://storybook.js.org/), so you can run `modern dev` or `modern dev storybook` to execute it after you run `modern new` to enable it.
 
