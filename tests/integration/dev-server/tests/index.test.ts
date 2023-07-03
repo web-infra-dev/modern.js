@@ -25,7 +25,7 @@ describe('dev', () => {
     });
   });
 
-  it('should return response header set in before correctly', async () => {
+  test('should return response header set in before correctly', async () => {
     const response = await page.goto(`http://localhost:${appPort}`);
     const headers = response!.headers();
     expect(headers['x-config']).toBe('test-config');

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.24.0",
+  "version": "2.25.1",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -170,7 +170,7 @@
     "@types/react-helmet": "^6.1.2",
     "@types/redux-logger": "^3.0.9",
     "@types/styled-components": "^5.1.14",
-    "esbuild": "0.15.7",
+    "esbuild": "0.17.19",
     "hoist-non-react-statics": "^3.3.2",
     "invariant": "^2.2.4",
     "react-helmet": "^6.1.0",
@@ -203,7 +203,7 @@
     "react-dom": "^18",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.82.1"
+    "webpack": "^5.88.1"
   },
   "sideEffects": false,
   "modernConfig": {},

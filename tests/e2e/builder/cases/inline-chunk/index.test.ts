@@ -1,5 +1,5 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { webpackOnlyTest } from '@scripts/helper';
 import { build, getHrefByEntryName } from '@scripts/shared';
 import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
@@ -19,6 +19,55 @@ const toolsConfig = {
     config.devtool = 'source-map';
   },
 };
+
+test.describe('disableInlineRuntimeChunk', () => {
+  let builder: Awaited<ReturnType<typeof build>>;
+  let files: Record<string, string>;
+
+  test.beforeAll(async () => {
+    builder = await build({
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+      runServer: true,
+      builderConfig: {
+        tools: toolsConfig,
+        output: {
+          disableInlineRuntimeChunk: true,
+        },
+      },
+    });
+
+    files = await builder.unwrapOutputJSON(false);
+  });
+
+  test.afterAll(async () => {
+    builder.close();
+  });
+
+  test('should emit builder runtime', async ({ page }) => {
+    // test runtime
+    await page.goto(getHrefByEntryName('index', builder.port));
+
+    expect(await page.evaluate(`window.test`)).toBe('aaaa');
+
+    // builder-runtime file in output
+    expect(
+      Object.keys(files).some(
+        fileName =>
+          fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js'),
+      ),
+    ).toBe(true);
+  });
+
+  webpackOnlyTest('should emit source map of builder runtime', async () => {
+    expect(
+      Object.keys(files).some(
+        fileName =>
+          fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js.map'),
+      ),
+    ).toBe(true);
+  });
+});
 
 webpackOnlyTest('inline runtime chunk by default', async ({ page }) => {
   const builder = await build({
@@ -166,7 +215,7 @@ webpackOnlyTest('using RegExp to inline scripts', async () => {
   ).toEqual(3);
 });
 
-webpackOnlyTest('using RegExp to inline styles', async () => {
+test('using RegExp to inline styles', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: {

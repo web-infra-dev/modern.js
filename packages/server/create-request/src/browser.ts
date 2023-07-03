@@ -9,9 +9,18 @@ import type {
 } from './types';
 
 let realRequest: typeof fetch;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let realAllowedHeaders: string[];
-const originFetch = (...params: Parameters<typeof fetch>) =>
-  fetch(...params).then(handleRes);
+
+const originFetch = (...params: Parameters<typeof fetch>) => {
+  const [url, init] = params;
+
+  if (init?.method?.toLowerCase() === 'get') {
+    init.body = undefined;
+  }
+
+  return fetch(url, init).then(handleRes);
+};
 
 export const configure = (options: IOptions) => {
   const { request, interceptor, allowedHeaders } = options;
@@ -20,7 +29,6 @@ export const configure = (options: IOptions) => {
     realRequest = interceptor(fetch);
   }
   if (Array.isArray(allowedHeaders)) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     realAllowedHeaders = allowedHeaders;
   }
 };
@@ -100,7 +108,6 @@ export const createRequest: RequestCreator = (
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
         if (
           typeof payload.formUrlencoded === 'object' &&
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           // eslint-disable-next-line node/prefer-global/url-search-params,node/no-unsupported-features/node-builtins
           !(payload.formUrlencoded instanceof URLSearchParams)
@@ -110,10 +117,6 @@ export const createRequest: RequestCreator = (
           body = payload.formUrlencoded;
         }
       }
-    }
-
-    if (method.toLowerCase() === 'get') {
-      body = undefined;
     }
 
     headers.accept = `application/json,*/*;q=0.8`;

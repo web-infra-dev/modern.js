@@ -2,6 +2,7 @@ import { join, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build } from '@scripts/shared';
+import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -56,6 +57,20 @@ test.describe('output configure multi', () => {
 
     expect(fs.existsSync(join(fixtures, 'rem/dist-1/aa/js'))).toBeTruthy();
   });
+
+  // todo: rspack not support disable css sourceMap individually
+  webpackOnlyTest('sourcemap', async () => {
+    const files = await builder.unwrapOutputJSON(false);
+
+    const jsMapFiles = Object.keys(files).filter(files =>
+      files.endsWith('.js.map'),
+    );
+    const cssMapFiles = Object.keys(files).filter(files =>
+      files.endsWith('.css.map'),
+    );
+    expect(jsMapFiles.length).toBeGreaterThanOrEqual(1);
+    expect(cssMapFiles.length).toBe(0);
+  });
 });
 
 test('cleanDistPath disable', async () => {
@@ -88,4 +103,32 @@ test('cleanDistPath disable', async () => {
 
   builder.close();
   builder.clean();
+});
+
+test('disableSourcemap', async () => {
+  const builder = await build({
+    cwd: join(fixtures, 'rem'),
+    entry: {
+      main: join(fixtures, 'rem/src/index.ts'),
+    },
+    builderConfig: {
+      output: {
+        distPath: {
+          root: 'dist-3',
+        },
+        disableSourceMap: true,
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON(false);
+
+  const jsMapFiles = Object.keys(files).filter(files =>
+    files.endsWith('.js.map'),
+  );
+  const cssMapFiles = Object.keys(files).filter(files =>
+    files.endsWith('.css.map'),
+  );
+  expect(jsMapFiles.length).toBe(0);
+  expect(cssMapFiles.length).toBe(0);
 });

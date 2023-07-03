@@ -5,21 +5,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:rspack": "jest -w 1 builder-rspack && pnpm test:builder:rspack",
+    "test:rspack": "jest builder-rspack && pnpm test:builder:rspack",
     "test:builder:rspack": "cd e2e/builder && pnpm test:rspack",
-    "test:doc": "cd integration && jest -w 1 --testMatch **/doc/**/*.test.ts",
+    "test:doc": "cd integration && jest --testMatch **/doc/**/*.test.ts",
     "test": "pnpm test --filter api-service-koa & jest",
     "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
-    "cypress:test": "pnpm --parallel --filter '@cypress-test/*' run dev & cypress open",
     "prepare": "node node_modules/puppeteer/install.js",
     "test:mwa": "ts-node -T generator/mwa.ts",
     "test:module": "ts-node -T generator/module.ts",
     "test:monorepo": "ts-node -T generator/monorepo.ts"
-  },
-  "author": "",
-  "license": "ISC",
-  "engines": {
-    "node": ">=12.13.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",

@@ -1,5 +1,27 @@
 # @modern-js/node-bundle-require
 
+## 2.25.1
+
+### Patch Changes
+
+- 85366bc: chore(deps): bump esbuild from v15/v16 to v17
+
+  chore(deps): 将 esbuild 从 v15/v16 升级到 v17
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- dc81210: fix(bundle-require): bundle esm package with cjs modules
+
+  fix(bundle-require): 支持打包 esm package 包含 cjs 模块的情况
+
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

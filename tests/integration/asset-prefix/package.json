@@ -3,7 +3,13 @@
   "name": "integration-asset-prefix",
   "version": "2.9.0",
   "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@babel/runtime": "^7.18.0"
+  },
+  "devDependencies": {
     "@types/jest": "^29",
-    "@types/node": "^14"
+    "@types/node": "^14",
+    "@modern-js/app-tools": "workspace:*"
   }
 }

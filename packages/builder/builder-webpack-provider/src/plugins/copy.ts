@@ -25,7 +25,7 @@ export const builderPluginCopy = (): BuilderPlugin => ({
 
     api.modifyWebpackConfig(async config => {
       const copyPlugin = config.plugins?.find(
-        item => item.constructor.name === 'CopyPlugin',
+        item => item?.constructor.name === 'CopyPlugin',
       ) as unknown as CopyPluginOptions;
 
       if (copyPlugin) {
@@ -41,7 +41,7 @@ export const builderPluginCopy = (): BuilderPlugin => ({
         );
         if (isContextNotExists) {
           config.plugins = config.plugins?.filter(
-            item => item.constructor.name !== 'CopyPlugin',
+            item => item?.constructor.name !== 'CopyPlugin',
           );
         }
       }

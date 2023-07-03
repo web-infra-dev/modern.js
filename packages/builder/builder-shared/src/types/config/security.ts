@@ -5,7 +5,7 @@ export type SriOptions = {
 };
 
 export interface CheckSyntaxOptions {
-  targets: string[];
+  targets?: string[];
   exclude?: RegExp | Array<RegExp>;
 }
 

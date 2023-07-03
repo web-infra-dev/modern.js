@@ -5,6 +5,7 @@ import {
   getBrowserslistWithDefault,
   DefaultBuilderPlugin,
   SharedNormalizedConfig,
+  CheckSyntaxOptions,
 } from '@modern-js/builder-shared';
 
 export function builderPluginCheckSyntax(): DefaultBuilderPlugin {
@@ -47,16 +48,16 @@ async function getCheckTargets(
   builderContext: BuilderContext,
   builderConfig: SharedNormalizedConfig,
   builderTarget: BuilderTarget,
-  checkSyntax: { targets: string[] } | true,
+  checkSyntax: CheckSyntaxOptions | true,
 ) {
-  if (checkSyntax === true) {
-    const browserslist = await getBrowserslistWithDefault(
+  const browserslist =
+    (await getBrowserslistWithDefault(
       builderContext.rootPath,
       builderConfig,
       builderTarget,
-    );
-
-    return browserslist || DEFAULT_BROWSERSLIST[builderTarget];
+    )) ?? DEFAULT_BROWSERSLIST[builderTarget];
+  if (checkSyntax === true) {
+    return browserslist;
   }
-  return checkSyntax.targets;
+  return checkSyntax.targets ?? browserslist;
 }

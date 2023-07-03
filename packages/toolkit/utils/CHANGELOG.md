@@ -1,5 +1,20 @@
 # @modern-js/utils
 
+## 2.25.1
+
+### Patch Changes
+
+- 9f78d0c: fix: react-router-dom version
+
+  fix: 修复 react-router-dom 版本
+
+## 2.25.0
+
+### Patch Changes
+
+- 5732c6a: feat: support for fallback SSR using request header fields
+  feat: 支持通过请求头字段来降级 SSR
+
 ## 2.24.0
 
 ### Patch Changes

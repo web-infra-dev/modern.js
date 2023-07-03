@@ -30,6 +30,7 @@ type ContainerProps = {
 
 const Container: React.FC<ContainerProps> = props => {
   const { children, isMobile, url } = props;
+
   const [showCode, setShowCode] = useState(false);
   const lang = useLang() || Object.keys(locales)[0];
   const dark = useDark();
@@ -41,6 +42,7 @@ const Container: React.FC<ContainerProps> = props => {
     // Do nothing in ssr
     return '';
   };
+
   const toggleCode = (e: any) => {
     if (!showCode) {
       e.target.blur();

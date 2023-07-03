@@ -20,6 +20,14 @@ Please refer to [Modern.js - Introduction](https://modernjs.dev/en/guides/get-st
 Modern.js framework documentation and Modern.js Builder documentation are deployed under two separate sites. If you encounter any build-related problems while using the Modern.js framework, you can always refer to the documentation of Modern.js Builder to find solutions.
 :::
 
+## Usse the Builder CLI Tool
+
+Modern.js Builder provides a lightweight CLI tool that includes basic commands such as `dev` and `build`. It is primarily used for building non-React projects.
+
+If your project is not based on the React, for example, if you are developing a Vue project, you can use the Builder CLI tool to build your project.
+
+Please refer to [Use Builder CLI](/guide/basic/builder-cli) for more information on how to use it.
+
 ## Use Builder in a Front-end Framework
 
 If you are developing a front-end framework, you can use Builder by following these steps:
@@ -28,20 +36,26 @@ If you are developing a front-end framework, you can use Builder by following th
 
 You need to install two packages:
 
-- `@modern-js/builder` is the core package of Builder and exports the core API.
-- `@modern-js/builder-webpack-provider` is a provider for Builder, providing webpack-based building capabilities.
+- `@modern-js/builder`: This is the core package of Builder, which exports the core API of Builder.
+- `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`: These are the Providers for Builder, which provide the building capabilities based on webpack or Rspack.
 
 ```bash
+# Using webpack for bundling
 pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
+
+# Using Rspack for bundling
+pnpm add @modern-js/builder @modern-js/builder-rspack-provider -D
 ```
 
-> When upgrading the version, please make sure that Builder and Provider you are installing are the same version.
+> When performing a version upgrade, please ensure that the Builder and Provider packages you install are of the same version.
 
 ### 2. Create Builder Instance
 
 There are two steps to creating a Builder instance:
 
 First you need to initialize the Builder Provider and pass in the `builderConfig` config object. Builder provides a lot of configs that allow you to customize the build behavior. At this point, you don't need to know the specific content of the config, just pass in an empty object. You can find all available configs in [API - config](/en/api/#config).
+
+- Initialize the Rspack Provider:
 
 ```ts
 import { createBuilder } from '@modern-js/builder';
@@ -54,7 +68,20 @@ const provider = builderWebpackProvider({
 });
 ```
 
-After getting the provider object, you can call the `createBuilder` method to create a Builder instance object:
+- Initialize the Rspack Provider：
+
+```ts
+import { createBuilder } from '@modern-js/builder';
+import { builderRspackProvider } from '@modern-js/builder-rspack-provider';
+
+const provider = builderRspackProvider({
+  builderConfig: {
+    // some configs
+  },
+});
+```
+
+After getting the provider instance, you can call the `createBuilder` method to create a Builder instance object:
 
 ```ts
 const builder = await createBuilder(provider, {

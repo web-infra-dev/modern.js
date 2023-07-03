@@ -46,3 +46,74 @@ test('should build basic Vue jsx correctly', async ({ page }) => {
 
   builder.close();
 });
+
+test('should build Vue sfc with lang="ts" correctly', async ({ page }) => {
+  const root = join(__dirname, 'sfc-lang-ts');
+
+  const builder = await build({
+    cwd: root,
+    entry: {
+      main: join(root, 'src/index.js'),
+    },
+    runServer: true,
+    plugins: [builderPluginVue()],
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.querySelector('#button').innerHTML`),
+  ).resolves.toBe('count: 0 foo: bar');
+
+  builder.close();
+});
+
+test('should build Vue sfc with lang="jsx" correctly', async ({ page }) => {
+  const root = join(__dirname, 'sfc-lang-jsx');
+
+  const builder = await build({
+    cwd: root,
+    entry: {
+      main: join(root, 'src/index.js'),
+    },
+    runServer: true,
+    plugins: [builderPluginVue()],
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.querySelector('#button').innerHTML`),
+  ).resolves.toBe('0');
+
+  await expect(
+    page.evaluate(`document.querySelector('#foo').innerHTML`),
+  ).resolves.toBe('Foo');
+
+  builder.close();
+});
+
+test('should build Vue sfc with lang="tsx" correctly', async ({ page }) => {
+  const root = join(__dirname, 'sfc-lang-tsx');
+
+  const builder = await build({
+    cwd: root,
+    entry: {
+      main: join(root, 'src/index.js'),
+    },
+    runServer: true,
+    plugins: [builderPluginVue()],
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  await expect(
+    page.evaluate(`document.querySelector('#button').innerHTML`),
+  ).resolves.toBe('0');
+
+  await expect(
+    page.evaluate(`document.querySelector('#foo').innerHTML`),
+  ).resolves.toBe('Foo');
+
+  builder.close();
+});

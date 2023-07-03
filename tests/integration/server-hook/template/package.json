@@ -19,7 +19,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-server": "workspace:*",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^29",
     "@types/node": "^16",
     "@types/react": "^18",
     "@types/react-dom": "^18",

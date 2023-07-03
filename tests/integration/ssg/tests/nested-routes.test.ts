@@ -33,7 +33,7 @@ describe('ssg', () => {
     await browser.close();
   });
 
-  it('should nested-routes ssg access / work correctly', async () => {
+  test('should nested-routes ssg access / work correctly', async () => {
     await page.goto(`http://localhost:${appPort}`, {
       waitUntil: ['networkidle0'],
     });
@@ -42,7 +42,7 @@ describe('ssg', () => {
     expect(targetText).toBe('Hello, Home');
   });
 
-  it('should nested-routes ssg access /user work correctly', async () => {
+  test('should nested-routes ssg access /user work correctly', async () => {
     await page.goto(`http://localhost:${appPort}/user`, {
       waitUntil: ['networkidle0'],
     });

@@ -1,5 +1,15 @@
 # @modern-js/ssg-generator
 
+## 3.1.26
+
+## 3.1.25
+
+### Patch Changes
+
+- 2edd844: feat: add named exports for solution new command
+
+  feat: 为 solution new 命令添加 named 导出
+
 ## 3.1.24
 
 ## 3.1.23

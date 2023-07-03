@@ -18,3 +18,24 @@ exports[`plugins/check-syntax > should add check-syntax plugin properly 1`] = `
 `;
 
 exports[`plugins/check-syntax > should not add check-syntax plugin when target node 1`] = `{}`;
+
+exports[`plugins/check-syntax > should use default browserlist as targets when only set checksyntax.exclude 1`] = `
+{
+  "plugins": [
+    CheckSyntaxPlugin {
+      "ecmaVersion": 5,
+      "errors": [],
+      "exclude": [
+        /\\$\\.html/,
+      ],
+      "targets": [
+        "iOS 9",
+        "Android 4.4",
+        "last 2 versions",
+        "> 0.2%",
+        "not dead",
+      ],
+    },
+  ],
+}
+`;

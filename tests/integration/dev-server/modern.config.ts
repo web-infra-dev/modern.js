@@ -11,7 +11,7 @@ const plugin = () => {
             tools: {
               devServer: {
                 before: [
-                  (req, res, next) => {
+                  (_req: any, res: any, next: any) => {
                     res.setHeader('x-plugin', 'test-plugin');
                     next();
                   },

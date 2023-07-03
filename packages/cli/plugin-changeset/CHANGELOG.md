@@ -1,5 +1,29 @@
 # @modern-js/plugin-changeset
 
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/plugin-i18n@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- 10572f3: chore(module-tools): reduce some sub-dependencies
+
+  chore(module-tools): 优化一些子依赖
+
+- 4c4c0ad: feat: add named exports for all CLI plugins
+
+  feat: 为各个 CLI 插件添加 named 导出
+
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin-i18n@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

@@ -40,11 +40,7 @@ export const dev = async (
     appDirectory,
     distDirectory,
     configFile: serverConfigFile,
-    options: {
-      esbuildOptions: {
-        watch: true,
-      },
-    },
+    watch: true,
   });
 
   await hookRunners.beforeDev();

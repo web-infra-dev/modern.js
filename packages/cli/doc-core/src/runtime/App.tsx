@@ -26,7 +26,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
   if (matched) {
     // Preload route component
     const matchedRoute = matched[0].route;
-    await matchedRoute.preload();
+    const mod = await matchedRoute.preload();
     const pagePath = cleanUrl(matched[0].route.filePath);
     const extractPageInfo = siteData.pages.find(page => {
       const normalize = (p: string) =>
@@ -37,11 +37,19 @@ export async function initPageData(routePath: string): Promise<PageData> {
 
     // FIXME: when sidebar item is configured as link string, the sidebar text won't updated when page title changed
     // Reason: The sidebar item text depends on pageData, which is not updated when page title changed, because the pageData is computed once when build
-
     const encodedPagePath = encodeURIComponent(pagePath);
-    const { toc, title, frontmatter } = (
-      globalThis.__RSPRESS_PAGE_META as RspressPageMeta
-    )[encodedPagePath];
+    let {
+      // eslint-disable-next-line prefer-const
+      toc = [],
+      // eslint-disable-next-line prefer-const
+      title = '',
+      frontmatter,
+    } = (globalThis.__RSPRESS_PAGE_META as RspressPageMeta)?.[
+      encodedPagePath
+    ] || {};
+
+    frontmatter = frontmatter || mod.frontmatter || {};
+
     return {
       siteData,
       page: {
@@ -49,7 +57,7 @@ export async function initPageData(routePath: string): Promise<PageData> {
         ...extractPageInfo,
         pageType: frontmatter?.pageType || 'doc',
         title,
-        frontmatter: frontmatter || {},
+        frontmatter,
         // Trade off:
         // 1. the `extractPageInfo` includes complete toc even if import doc fragments, because we use `flattenMdxContent` function to make all doc fragments' toc included.However, it is only computed once when build
         // 2. the mod.toc is not complete toc, but it is computed every time through loader when doc changed

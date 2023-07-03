@@ -32,7 +32,7 @@ describe('test nonce', () => {
     await browser.close();
   });
 
-  it('should inject nonce correctly', async () => {
+  test('should inject nonce correctly', async () => {
     await page.goto(`http://localhost:${port}`);
 
     const scriptArr = await page.$$eval('head > script', scripts =>

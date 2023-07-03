@@ -45,7 +45,7 @@
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/plugin-module-doc": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
-    "@types/jest": "~29.2.4",
+    "@types/jest": "^29",
     "@types/node": "~16.11.7",
     "@types/react": "~18.0.26",
     "antd": "5.3.0",

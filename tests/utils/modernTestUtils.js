@@ -4,10 +4,6 @@ const treeKill = require('tree-kill');
 const getRandomPort = require('get-port');
 const { launchOptions } = require('./launchOptions');
 
-// const kModernBin = path.join(
-//   __dirname,
-//   '../node_modules/@modern-js/core/dist/bin.js',
-// );
 const kModernAppTools = path.join(
   __dirname,
   '../node_modules/@modern-js/app-tools/bin/modern.js',
@@ -206,28 +202,6 @@ async function killApp(instance) {
   });
 }
 
-// eslint-disable-next-line no-unused-vars
-function clearBuildDist(dir) {
-  // console.log(`Clearing build dist in ${dir}`);
-  // not support nested projects
-  // const _clearBuildDist = _dir => {
-  //   const isProjectRoot = fs.existsSync(path.join(_dir, 'package.json'));
-  //   if (isProjectRoot) {
-  //     rimraf.sync(path.join(_dir, 'dist'));
-  //   } else {
-  //     const files = fs.readdirSync(_dir);
-  //     files.forEach(f => {
-  //       const curPath = path.join(_dir, f);
-  //       const isDir = fs.statSync(curPath).isDirectory();
-  //       if (f !== 'node_modules' && isDir) {
-  //         _clearBuildDist(curPath);
-  //       }
-  //     });
-  //   }
-  // };
-  // _clearBuildDist(dir);
-}
-
 const portMap = new Map();
 
 async function getPort() {
@@ -253,7 +227,6 @@ module.exports = {
   launchApp,
   killApp,
   getPort,
-  clearBuildDist,
   sleep,
   launchOptions,
 };

@@ -1,5 +1,22 @@
 # @modern-js/doc-plugin-medium-zoom
 
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/doc-tools@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- Updated dependencies [9aa2c25]
+- Updated dependencies [5732c6a]
+  - @modern-js/doc-tools@2.25.0
+  - @modern-js/utils@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

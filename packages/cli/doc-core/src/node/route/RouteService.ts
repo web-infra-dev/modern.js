@@ -123,7 +123,7 @@ export class RouteService {
       this.addRoute(routeInfo);
     });
     // 2. external pages added by plugins
-    const externalPages = await this.#pluginDriver.addPages(this.getRoutes());
+    const externalPages = await this.#pluginDriver.addPages();
 
     await Promise.all(
       externalPages.map(async (route, index) => {
@@ -142,6 +142,8 @@ export class RouteService {
         }
       }),
     );
+
+    await this.#pluginDriver.routeGenerated(this.getRoutes());
   }
 
   addRoute(routeInfo: RouteMeta) {

@@ -3,7 +3,7 @@
 Using [SWC](https://swc.rs/) provides the same ability and configuration as [`babel-plugin-import`](https://github.com/umijs/babel-plugin-import).
 
 :::tip
-Since @modern-js/module-tools version >= 2.16.0, this plugin functionality is built into module-tools and is provided by [`transformImport`](api/config/build-config.html#transformimport).
+Since `@modern-js/module-tools` version >= v2.16.0, this plugin functionality is built into Module Tools and is provided by [`transformImport`](api/config/build-config.html#transformimport).
 :::
 
 ## Quick Start
@@ -26,17 +26,19 @@ pnpm add @modern-js/plugin-module-import -D
 In Module Tools, you can register plugins in the following way:
 
 ```ts
-import { moduleTools, defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'antd',
-        style: true,
-      }],
+      pluginImport: [
+        {
+          libraryName: 'antd',
+          style: true,
+        },
+      ],
     }),
   ],
 });
@@ -46,17 +48,17 @@ This way we can use the ability of automatic import in Module Tools.
 
 ## Configurations
 
-* **Type**:
+- **Type**:
 
 ```ts
 type Options = {
   pluginImport?: ImportItem[];
-}
+};
 ```
 
 ### pluginImport
 
-* **Type**: `Array`
+- **Type**: `object[]`
 
 The elements of the array are configuration objects for `babel-plugin-import`, which can be referred to [options](https://github.com/umijs/babel-plugin-import#options)。
 
@@ -64,7 +66,7 @@ The elements of the array are configuration objects for `babel-plugin-import`, w
 
 ```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
-import { moduleTools, defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
@@ -75,7 +77,7 @@ export default defineConfig({
         {
           libraryName: 'foo',
           style: true,
-        }
+        },
       ],
     }),
   ],
@@ -110,16 +112,18 @@ Add the following configuration on the right-hand side:
 
 ```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
-import { moduleTools, defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'foo',
-        customName: 'foo/es/{{ member }}'
-      }],
+      pluginImport: [
+        {
+          libraryName: 'foo',
+          customName: 'foo/es/{{ member }}',
+        },
+      ],
     }),
   ],
 });
@@ -135,16 +139,19 @@ import { modulePluginImport } from '@modern-js/plugin-module-import';
 export default defineConfig({
   plugins: [
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'foo',
-        customName: 'foo/es/{{ member }}'
-      }],
+      pluginImport: [
+        {
+          libraryName: 'foo',
+          customName: 'foo/es/{{ member }}',
+        },
+      ],
     }),
   ],
 });
 ```
 
 ---
+
 After transformation:
 
 ```ts
@@ -159,16 +166,18 @@ The template used here is [handlebars](https://handlebarsjs.com). There are some
 
 ```ts focus=8:8
 import { modulePluginImport } from '@modern-js/plugin-module-import';
-import { moduleTools, defineConfig  } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginImport({
-      pluginImport: [{
-        libraryName: 'foo',
-        customName: 'foo/es/{{ kebabCase member }}',
-      }],
+      pluginImport: [
+        {
+          libraryName: 'foo',
+          customName: 'foo/es/{{ kebabCase member }}',
+        },
+      ],
     }),
   ],
 });

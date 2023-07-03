@@ -6,7 +6,7 @@ import {
   CONFIG_CACHE_DIR,
   createDebugger,
 } from '@modern-js/utils';
-import { build, Loader, Plugin, BuildOptions } from 'esbuild';
+import { build, context, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const debug = createDebugger('node-bundle');
 
@@ -26,11 +26,18 @@ function inferLoader(ext: string): Loader {
   return ext.slice(1) as Loader;
 }
 
+// If the package.json contains `type="module"`, and the filepath is
+// not using `.cjs` ext, we will treat the package as a pure esm pkg
 async function isTypeModulePkg(cwd: string) {
   const pkgJsonPath = await pkgUp({ cwd });
   if (pkgJsonPath) {
     const pkgJson = await fs.readJSON(pkgJsonPath);
-    return pkgJson.type === 'module';
+    const ext = path.extname(cwd);
+    return (
+      pkgJson.type === 'module' &&
+      ext !== '.cjs' &&
+      !pkgJson.main?.endsWith('.cjs')
+    );
   }
   return false;
 }
@@ -60,6 +67,11 @@ export interface Options {
    * auto clear bundle file
    */
   autoClear?: boolean;
+
+  /**
+   * Whether to enable watch mode
+   */
+  watch?: boolean;
 }
 
 export const defaultGetOutputFile = async (filepath: string) =>
@@ -78,7 +90,7 @@ export async function bundle(filepath: string, options?: Options) {
   const getOutputFile = options?.getOutputFile || defaultGetOutputFile;
   const outfile = await getOutputFile(path.basename(filepath));
 
-  await build({
+  const esbuildOptions: BuildOptions = {
     entryPoints: [filepath],
     outfile,
     format: 'cjs',
@@ -187,7 +199,15 @@ export async function bundle(filepath: string, options?: Options) {
         },
       },
     ],
-  });
+  };
+
+  if (options?.watch) {
+    const ctx = await context(esbuildOptions);
+    await ctx.rebuild();
+    await ctx.watch();
+  } else {
+    await build(esbuildOptions);
+  }
 
   return outfile;
 }

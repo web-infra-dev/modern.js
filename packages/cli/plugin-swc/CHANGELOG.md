@@ -1,5 +1,25 @@
 # @modern-js/core
 
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/builder-plugin-swc@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- 4c4c0ad: feat: add named exports for all CLI plugins
+
+  feat: 为各个 CLI 插件添加 named 导出
+
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+  - @modern-js/builder-plugin-swc@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes
