@@ -1,10 +1,9 @@
 import path from 'path';
 import { execSync } from 'child_process';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { globContentJSON } from '@modern-js/e2e';
-import { rspackOnlyTest } from '../../../scripts/helper';
 
-rspackOnlyTest('should run build command correctly', async () => {
+test('should run build command correctly', async () => {
   execSync('npm run build', {
     cwd: __dirname,
   });

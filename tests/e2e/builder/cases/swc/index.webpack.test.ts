@@ -1,12 +1,11 @@
 import assert from 'assert';
 import * as path from 'path';
 import { readFileSync } from 'fs';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
 import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
-import { webpackOnlyTest } from '../../scripts/helper';
 
-webpackOnlyTest('should run SWC compilation correctly', async ({ page }) => {
+test('should run SWC compilation correctly', async ({ page }) => {
   const builder = await build({
     cwd: __dirname,
     entry: {
@@ -27,7 +26,7 @@ webpackOnlyTest('should run SWC compilation correctly', async ({ page }) => {
   builder.close();
 });
 
-webpackOnlyTest('should optimize lodash bundle size', async ({ page }) => {
+test('should optimize lodash bundle size', async ({ page }) => {
   const builder = await build({
     cwd: __dirname,
     entry: {
