@@ -21,7 +21,7 @@ The default configuration is as follows:
 }
 ```
 
-You can override the default configuration via the `tools.tsLoader` configuration item:
+You can override the default configuration via the `tools.tsLoader` configuration option:
 
 ```ts
 export default {

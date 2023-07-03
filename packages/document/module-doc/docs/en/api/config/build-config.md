@@ -119,7 +119,7 @@ At this point, all static resources will be prefixed with `https://xxx/`
 
 ## asset.svgr
 
-Packaged to handle svg as a React component, options reference [svgr](https://react-svgr.com/docs/options/), plus support for two configuration items `include` and `exclude` to match the svg file to be handled
+Packaged to handle svg as a React component, options reference [svgr](https://react-svgr.com/docs/options/), plus support for two configuration options `include` and `exclude` to match the svg file to be handled
 
 - **Type**: `boolean | object`
 - **Default**: `false`
@@ -184,7 +184,7 @@ export default defineConfig({
 });
 ```
 
-This way the dependencies under `"dependencies"` and `"peerDependencies"` will be packaged. If you want to turn off the processing of only one of these dependencies, you can use the
+This way the dependencies under `"dependencies"` and `"peerDependencies"` will be bundled. If you want to turn off the processing of only one of these dependencies, you can use the
 `buildConfig.autoExternal` in the form of an object.
 
 ```js modern.config.ts
@@ -410,7 +410,7 @@ When using SWC Transform for code transformation, you can enable the `externalHe
 - **Type**: `boolean`
 - **Default**: `false`
 
-Below is a comparison of the product changes before and after using this configuration.
+Below is a comparison of the output file changes before and after using this configuration.
 
 Before enable:
 
@@ -447,7 +447,7 @@ export var yourCode = function () {
 
 ## externals
 
-Configure external dependencies that will not be packaged into the final bundle
+Configure external dependencies that will not be bundled into the final bundle.
 
 - **Type**:
 
@@ -700,7 +700,7 @@ At the same time you set [style.inject](#styleinject) to `true` and you will see
 [LIBUILD:ESBUILD_WARN] Ignoring this import because "other-package/dist/index.css" was marked as having no side effects
 ```
 
-At this point, you can use this configuration item to manually configure the module's `"sideEffects"` to support regular and functional forms.
+At this point, you can use this configuration option to manually configure the module's `"sideEffects"` to support regular and functional forms.
 
 ```js modern.config.ts
 export default defineConfig({
@@ -718,7 +718,7 @@ After adding this configuration, the sideEffects field in package.json will no l
 
 ## sourceDir
 
-Specify the source directory of the build, default is `src`, which is used to generate the corresponding product directory based on the source directory structure when building `bundleless`.
+Specify the source directory of the build, default is `src`, which is used to generate the corresponding output directory based on the source directory structure when building `bundleless`.
 
 - **Type**: `string`
 - **Default**: `src`
@@ -1089,7 +1089,7 @@ Reference the [Import Plugin - Notes](plugins/official-list/plugin-import.html#N
 
 ## umdGlobals
 
-Specify global variables for external import of umd products
+Specify global variables for external import of umd artifacts
 
 - **Type**: `Record<string, string>`
 - **Default**: `{}`
@@ -1123,11 +1123,11 @@ export default {
 };
 ```
 
-At this point the umd product will go to mount on `global.myLib`
+At this point the umd artifact will go to mount on `global.myLib`
 
 :::tip
 
-- The module name of the umd product must not conflict with the global variable name.
+- The module name of the umd artifact must not conflict with the global variable name.
 - Module names will be converted to camelCase, e.g. `my-lib` will be converted to `myLib`, refer to [toIdentifier](https://github.com/babel/babel/blob/main/packages/babel-types/src/converters/toIdentifier.ts).
 
 :::

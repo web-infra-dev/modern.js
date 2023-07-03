@@ -14,7 +14,7 @@ The webpack version problem has the following situations:
 2. Multiple npm packages installed in the project all depend on webpack, and the webpack version ranges they depend on are different and cannot match the same version.
 3. Due to the lock mechanism of the package manager, multiple webpack versions are generated in the lock file.
 
-In the first case, it is recommended to remove the webpack dependency from the project's package.json. Because Builder encapsulates webpack-related capabilities by default, and will pass in the webpack object in the [tools.webpack](/en/api/config-tools.html#toolswebpack) configuration item. Therefore, in most cases, it is not recommended to install additional webpack dependencies in the project.
+In the first case, it is recommended to remove the webpack dependency from the project's package.json. Because Builder encapsulates webpack-related capabilities by default, and will pass in the webpack object in the [tools.webpack](/en/api/config-tools.html#toolswebpack) configuration option. Therefore, in most cases, it is not recommended to install additional webpack dependencies in the project.
 
 In the second case, it is recommended to see if you can upgrade an npm package so that its dependent webpack version range is consistent with the Builder. It is also possible to manually unify versions through the ability of the package manager, e.g. using [yarn resolutions](https://classic.yarnpkg.com/lang/en/docs/selective-version-resolutions/) or [pnpm overrides](https ://pnpm.io/package_json#pnpmoverrides).
 
@@ -28,9 +28,9 @@ Deleting the lock file will automatically upgrade the dependency version in the 
 
 ### Find ES6+ code in the compiled files?
 
-By default, Builder will not compile files under `node_modules` through `babel-loader` or `ts-loader`. If the npm package introduced by the project contains ES6+ syntax, it will be packaged into the product.
+By default, Builder will not compile files under `node_modules` through `babel-loader` or `ts-loader`. If the npm package introduced by the project contains ES6+ syntax, it will be bundled into the output files.
 
-When this happens, you can specify directories or modules that need to be compiled additionally through the [source.include](/en/api/config-source.html#sourceinclude) configuration item.
+When this happens, you can specify directories or modules that need to be compiled additionally through the [source.include](/en/api/config-source.html#sourceinclude) configuration option.
 
 ---
 
@@ -38,7 +38,7 @@ When this happens, you can specify directories or modules that need to be compil
 
 For the sake of compilation performance, by default, Builder will not compile files under `node_modules` through `babel-loader` or `ts-loader`, nor will it compile files outside the current project directory.
 
-Through the `source.include` configuration item, you can specify directories or modules that require additional compilation.
+Through the `source.include` configuration option, you can specify directories or modules that require additional compilation.
 
 For details, see [source.include usage introduction](/en/api/config-source.html#sourceinclude).
 
@@ -67,12 +67,12 @@ Solution:
 
 If the compilation is succeed, but the `exports is not defined` error appears after opening the page, it is usually because a CommonJS module is compiled by Babel.
 
-Under normal circumstances, Builder will not use Babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#sourceinclude) configuration item is used in the project, or the [tools.babel](/en/api/config-tools.html#tools-babel) `addIncludes` method, some CommonJS modules may be added to the Babel compilation.
+Under normal circumstances, Builder will not use Babel to compile CommonJS modules. If the [source.include](/en/api/config-source.html#sourceinclude) configuration option is used in the project, or the [tools.babel](/en/api/config-tools.html#tools-babel) `addIncludes` method, some CommonJS modules may be added to the Babel compilation.
 
 There are two workarounds for this problem:
 
 1. Avoid adding CommonJS modules to Babel compilation.
-2. Set Babel's `sourceType` configuration item to `unambiguous`, for example:
+2. Set Babel's `sourceType` configuration option to `unambiguous`, for example:
 
 ```js
 export default {
@@ -208,7 +208,7 @@ If you encounter the problem that tree shaking does not take effect, you can che
 
 ### JavaScript heap out of memory when compiling?
 
-This error indicates that there is a memory overflow problem during the packaging process. In most cases, it is because the packaged content exceeds the default memory limit of Node.js.
+This error indicates that there is a memory overflow problem during the packaging process. In most cases, it is because the bundled content exceeds the default memory limit of Node.js.
 
 In case of OOM issues, the easiest way to fix this is by increasing the memory cap, Node.js provides the `--max-old-space-size` option to set this. You can set this parameter by adding [NODE_OPTIONS](https://nodejs.org/api/cli.html#node_optionsoptions) before the CLI command.
 
@@ -329,13 +329,13 @@ Compared with the v3 version, the Less v4 version has some differences in the wa
 
 The built-in Less version of Builder is v4, and the writing method of the lower version will not take effect. Please pay attention to the distinction.
 
-The writing of division in Less can also be modified through configuration items, see [Less - Math](https://lesscss.org/usage/#less-options-math).
+The writing of division in Less can also be modified through configuration options, see [Less - Math](https://lesscss.org/usage/#less-options-math).
 
 ---
 
 ### Compile error ‘TypeError: Cannot delete property 'xxx' of #\<Object\>’
 
-This error indicates that a read-only configuration item was deleted during the compilation process. Normally, we do not want any operation to directly modify the incoming configuration when compiling, but it is difficult to restrict the behavior of underlying plugins (such as postcss-loader, etc). If this error occurs, please contact the builder developer and we will need to do something special with that configuration.
+This error indicates that a read-only configuration option was deleted during the compilation process. Normally, we do not want any operation to directly modify the incoming configuration when compiling, but it is difficult to restrict the behavior of underlying plugins (such as postcss-loader, etc). If this error occurs, please contact the builder developer and we will need to do something special with that configuration.
 
 The same type of error is also reported:
 
