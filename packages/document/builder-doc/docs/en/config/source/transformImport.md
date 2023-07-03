@@ -150,7 +150,7 @@ import 'foo/lib/button/style';
 - **Type:** `string`
 - **Default:** `undefined`
 
-This configuration is used to splice the import path when importing styles. If this configuration is specified, the `style` configuration item will be ignored. The spliced import path is `${libraryName}/${styleLibraryDirectory}/${member}`.
+This configuration is used to splice the import path when importing styles. If this configuration is specified, the `style` configuration option will be ignored. The spliced import path is `${libraryName}/${styleLibraryDirectory}/${member}`.
 
 When it is set to `styles`:
 

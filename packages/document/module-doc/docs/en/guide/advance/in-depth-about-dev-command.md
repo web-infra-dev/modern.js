@@ -18,7 +18,7 @@ In addition to the `dev` command, you can also start a debugging tool or task di
 
 ## Extending the dev command
 
-If you need to extend the dev command, or rather provide your own Module Tools debugging tool plug-in, then you will need to know the following first.
+If you need to extend the dev command, or rather provide your own Module Tools debugging tool plugin, then you will need to know the following first.
 
 * [Development of plugins](plugins/guide/getting-started)
 * [Debugging Tools Plugin API](/api/plugin-api/plugin-hooks#调试钩子)

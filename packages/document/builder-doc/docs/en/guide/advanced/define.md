@@ -178,7 +178,7 @@ declare const CUSTOM_VAR: string;
 
 `Define` can also be used to mark dead code to assist the Builder with Tree Shaking optimization.
 
-Building products for different regions is achieved by replacing `process.env.REGION` with a specific value, for example.
+Build artifacts for different regions is achieved by replacing `process.env.REGION` with a specific value, for example.
 
 ```js
 export default {
@@ -220,7 +220,7 @@ const App = () => {
 };
 ```
 
-Unused components are not packaged into the product, and their external dependencies can be optimized accordingly, resulting in a destination with better size and performance.
+Unused components are not bundled into the artifacts, and their external dependencies can be optimized accordingly, resulting in a destination with better size and performance.
 
 ## In-source testing
 

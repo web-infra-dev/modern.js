@@ -26,8 +26,8 @@ features:
   - title: "Zero configuration"
     details: No configuration is required to develop your npm package, and the built-in presets cover many scenarios.
     icon: 🛠️
-  - title: "Strong extensibility: Provide powerful plug-in mechanism"
-    details: Through its plug-in extension mechanism, you can easily extend the capabilities of Module tools.
+  - title: "Strong extensibility: Provide powerful plugin mechanism"
+    details: Through its plugin extension mechanism, you can easily extend the capabilities of Module tools.
     icon: 🎨
   - title: "Multiple build modes"
     details: Support multiple build modes to meet different scene requirements.
