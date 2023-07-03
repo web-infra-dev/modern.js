@@ -1,0 +1,40 @@
+```js title="src/App.tsx"
+import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
+
+import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements, BrowserRouter, Link, Outlet } from '@modern-js/runtime/router';
+
+const AppLayout = () => (
+  <>
+    <div><Link to={'/table'}>Loading conventional routed sub-applications</Link></div>
+    <div><Link to={'/dashboard'}>Loading Self-Controlled Routing Sub-Applications</Link></div>
+    <div><Link to={'/'}>Uninstall a sub-application</Link></div>
+    <Outlet />
+  </>
+)
+
+export default () => {
+  const { apps, MApp, Table, Dashboard } = useModuleApps();
+
+  // If you are not using the MApp component, you need to use createBrowserRouter to create the route.
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<AppLayout />}>
+        <Route key={'table'} path={'table/*'} element={<Table />} />
+        <Route key={'dashboard'} path={'dashboard/*'} element={<Dashboard />} />
+      </Route>
+    )
+  );
+
+  return (
+    // Approach 1: Use MApp to automatically load sub-applications based on the configured activeWhen parameter (this project is configured in modern.config.ts)
+    // <BrowserRouter>
+    //   <MApp />
+    // </BrowserRouter>
+
+    // Approach 2: Manually write Route components to load sub-applications, which is convenient for scenarios that require authentication and other pre-requisite operations
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+};
+```
