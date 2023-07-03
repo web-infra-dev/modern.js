@@ -1,0 +1,11 @@
+# 测试相关问题
+
+import TestFAQ from '@site-docs/components/faq-test';
+
+<TestFAQ />
+
+## 执行 `test` 命令报错 `TypeError: Cannot read property 'testEnvironmentOptions' of undefined`
+
+![jest-error](https://lf3-static.bytednsdoc.com/obj/eden-cn/shylnyhaeh7uldvivhn/jest-error-testEnvironmentOptions-of-undefined.jpeg)
+
+问题原因多是存在多个版本的 `jest-environment-jsdom` 依赖，可以检查 Monorepo 中其他项目是否有 `jest-environment-jsdom` 依赖，并通过 Monorepo 提供的 overrides 能力统一依赖版本。
