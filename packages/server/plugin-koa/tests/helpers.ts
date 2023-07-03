@@ -8,6 +8,7 @@ export const APIPlugin = createPlugin(api => ({
     const apiDir = path.resolve(pwd, API_DIR);
     const appContext = api.useAppContext();
     const apiRouter = new ApiRouter({
+      appDir: pwd,
       apiDir,
       prefix,
     });

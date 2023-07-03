@@ -1,13 +1,18 @@
 import { JS_REGEX, TS_REGEX } from './constants';
 import type { RuleSetRule } from 'webpack';
 
+type Rules = (undefined | null | false | '' | 0 | RuleSetRule | '...')[];
+
 export const resourceRuleFallback = (
-  rules: Array<RuleSetRule | '...'> = [],
+  rules: Rules = [],
 ): Array<RuleSetRule | '...'> => {
-  const innerRules: Array<RuleSetRule> = [];
+  const innerRules: RuleSetRule[] = [];
   const outerRules: Array<RuleSetRule | '...'> = [];
 
   for (const rule of rules) {
+    if (!rule) {
+      continue;
+    }
     if (
       // "..." refers to the webpack defaults
       rule === '...' ||
@@ -25,7 +30,11 @@ export const resourceRuleFallback = (
         rule.mimetype
       )
     ) {
-      rule.oneOf.forEach(r => innerRules.push(r));
+      rule.oneOf.forEach(item => {
+        if (item) {
+          innerRules.push(item);
+        }
+      });
     } else {
       innerRules.push(rule);
     }

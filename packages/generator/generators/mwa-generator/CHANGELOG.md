@@ -1,5 +1,7 @@
 # @modern-js/mwa-generator
 
+## 3.1.26
+
 ## 3.1.25
 
 ### Patch Changes

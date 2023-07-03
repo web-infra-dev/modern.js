@@ -1,0 +1,33 @@
+{
+  "name": "@e2e/garfish-main",
+  "private": true,
+  "version": "2.9.0",
+  "scripts": {
+    "dev": "DEBUG=modern-js:plugin-garfish modern dev",
+    "build": "modern build",
+    "serve": "modern serve",
+    "new": "modern new",
+    "lint": "modern lint"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/plugin-garfish": "workspace:*",
+    "@modern-js/plugin-router-v5": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "typescript": "^5",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/node": "^14"
+  }
+}

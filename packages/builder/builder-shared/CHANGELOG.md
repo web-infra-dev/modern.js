@@ -1,5 +1,19 @@
 # @modern-js/builder-shared
 
+## 2.25.1
+
+### Patch Changes
+
+- b10045f: fix(builder): checkSyntax targets should get default browserlist when only set checkSyntax.exclude
+
+  fix(builder): 当只设置 checkSyntax.exclude 时，checkSyntax targets 应该使用默认的 broserlist 值
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/prod-server@2.25.1
+  - @modern-js/server@2.25.1
+  - @modern-js/types@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes

@@ -43,7 +43,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
         return {
           tools: {
             bundlerChain: (chain, { CHAIN_ID, isServer }) => {
-              const { port, apiDirectory, lambdaDirectory } =
+              const { port, appDirectory, apiDirectory, lambdaDirectory } =
                 api.useAppContext();
               const modernConfig = api.useResolvedConfigContext();
               const { bff } = modernConfig || {};
@@ -54,9 +54,11 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
 
               const apiRouter = new ApiRouter({
                 apiDir: apiDirectory,
+                appDir: appDirectory,
                 lambdaDir: lambdaDirectory,
                 prefix,
                 httpMethodDecider,
+                isBuild: true,
               });
 
               const lambdaDir = apiRouter.getLambdaDir();
@@ -75,6 +77,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
                 .loader(require.resolve('./loader').replace(/\\/g, '/'))
                 .options({
                   prefix,
+                  appDir: appDirectory,
                   apiDir: apiDirectory,
                   lambdaDir,
                   existLambda,

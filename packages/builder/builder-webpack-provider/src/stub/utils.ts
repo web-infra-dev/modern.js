@@ -22,6 +22,7 @@ export function matchLoader({
   }
   return config.module.rules.some(rule => {
     if (
+      rule &&
       typeof rule === 'object' &&
       rule.test &&
       rule.test instanceof RegExp &&

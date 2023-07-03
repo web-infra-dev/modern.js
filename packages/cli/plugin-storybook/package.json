@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.25.0",
+  "version": "2.25.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -86,12 +86,12 @@
     "react-dom": "^17.0.2",
     "require-from-string": "^2.0.2",
     "typescript": "^5",
-    "webpack": "^5.82.1",
+    "webpack": "^5.88.1",
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.25.0",
-    "@modern-js/plugin-router-v5": "workspace:^2.25.0",
+    "@modern-js/runtime": "workspace:^2.25.1",
+    "@modern-js/plugin-router-v5": "workspace:^2.25.1",
     "react": ">=17",
     "react-dom": ">=17"
   },

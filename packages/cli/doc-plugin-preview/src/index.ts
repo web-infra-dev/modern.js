@@ -31,7 +31,22 @@ export function pluginPreview(options?: Options): DocPlugin {
   const getRouteMeta = () => routeMeta;
   return {
     name: '@modern-js/doc-plugin-preview',
-    async addPages(_config, _isProd, routes) {
+    addPages(_config, _isProd) {
+      return [
+        {
+          routePath: '/~demo/:id',
+          content: `---
+pageType: "blank"
+---
+
+import Demo from '${demoComponentPath}'
+
+<Demo />
+          `,
+        },
+      ];
+    },
+    async routeGenerated(routes: RouteMeta[]) {
       // init routeMeta
       routeMeta = routes;
 
@@ -153,20 +168,6 @@ export function pluginPreview(options?: Options): DocPlugin {
           .join(',')}];
         `;
       demoRuntimeModule.writeModule('virtual-meta', virtualMeta);
-
-      return [
-        {
-          routePath: '/~demo/:id',
-          content: `---
-pageType: "blank"
----
-
-import Demo from '${demoComponentPath}'
-
-<Demo />
-          `,
-        },
-      ];
     },
     builderConfig: {
       tools: {

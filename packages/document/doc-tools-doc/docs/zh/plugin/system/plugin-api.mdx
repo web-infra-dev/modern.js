@@ -277,7 +277,7 @@ import { DocPlugin } from '@modern-js/doc-tools';
 export function docPluginDemo(): DocPlugin {
   return {
     name: 'add-pages',
-    addPages(config, isProd, routes) {
+    addPages(config, isProd) {
       return [
         //  支持真实文件的绝对路径(filepath)，这样会读取磁盘中的 md(x) 内容
         {
@@ -295,7 +295,13 @@ export function docPluginDemo(): DocPlugin {
 }
 ```
 
-`addPages` 接受三个参数，`config` 为当前文档站的配置，`isProd` 表示是否为生产环境，`routes` 为约定式路由数组，每一项路由信息的结构如下:
+`addPages` 接受两个参数，`config` 为当前文档站的配置，`isProd` 表示是否为生产环境。
+
+### routeGenerated
+
+- **类型**：`(routeMeta: RouteMeta[]) => void | Promise<void>`
+
+这这个钩子中，你可以拿到所有的路由信息，每一项路由信息的结构如下:
 
 ```ts
 export interface RouteMeta {
@@ -310,6 +316,19 @@ export interface RouteMeta {
 }
 ```
 
-:::tip 提示
-`addPages` 钩子执行时机在 Rspack 构建工具启动之前，除了返回自定义的页面之外，你也可以在这个钩子里面拿到路由信息，并完成一些操作。
-:::
+例子:
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // 插件名称
+    name: 'plugin-routes',
+    // 在构建之后执行的钩子
+    async routeGenerated(routes) {
+      // 这里可以拿到 routes 数组，执行一些操作
+    },
+  };
+}
+```

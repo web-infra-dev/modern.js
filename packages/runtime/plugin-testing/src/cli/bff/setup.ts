@@ -27,6 +27,7 @@ const setup = () => {
 
   beforeAll(async () => {
     const apiRouter = new ApiRouter({
+      appDir: bff_info.appDir,
       apiDir: path.join(bff_info.appDir, './api'),
       prefix,
       httpMethodDecider,

@@ -2,8 +2,8 @@ import path from 'path';
 import { rspackOnlyTest, webpackOnlyTest } from '@scripts/helper';
 import { build } from '@scripts/shared';
 import { expect } from '@modern-js/e2e/playwright';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 import { ensureDirSync, copySync } from 'fs-extra';
+import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 import { SharedTransformImport } from '@modern-js/builder-shared';
 import { BuilderConfig } from '@modern-js/builder-webpack-provider';
 
@@ -46,7 +46,7 @@ webpackOnlyTest('should import with function customName', async () => {
             customName: (member: string) => `foo/lib/${member}`,
           },
         ],
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+
         // @ts-expect-error rspack and webpack all support this
         disableDefaultEntries: true,
         entries: {

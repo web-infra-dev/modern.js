@@ -6,6 +6,7 @@ import {
   Import,
   Command,
   getCommand,
+  getArgv,
 } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
@@ -272,6 +273,15 @@ export const appTools = (
 
       async prepare() {
         const command = getCommand();
+        if (command === 'deploy') {
+          const isSkipBuild = ['-s', '--skip-build'].some(tag => {
+            return getArgv().includes(tag);
+          });
+          // if skip build, do not clean dist path
+          if (isSkipBuild) {
+            return;
+          }
+        }
 
         // clean dist path before building
         if (

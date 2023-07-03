@@ -1,5 +1,16 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.25.1
+
+### Patch Changes
+
+- 85366bc: chore(deps): bump esbuild from v15/v16 to v17
+
+  chore(deps): 将 esbuild 从 v15/v16 升级到 v17
+
+- Updated dependencies [b10045f]
+  - @modern-js/builder-shared@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/plugin-module-doc
 
+## 2.25.1
+
+### Patch Changes
+
+- c3d6d66: chore: use doc-plugin-api-docgen instead of doc-plugin-api-generator
+  chore: 使用 doc-plugin-api-docgen 替代 doc-plugin-api-generator
+- 3994b07: fix: move arco to dep from devDep, let global compoennts can resolve it
+  fix: 将 arco 从 devDep 移到 dep 里，使得全局组件能够加载到它
+- Updated dependencies [273e3cd]
+  - @modern-js/module-tools@2.25.1
+  - @modern-js/doc-core@2.25.1
+  - @modern-js/doc-plugin-api-docgen@2.25.1
+  - @modern-js/doc-plugin-preview@2.25.1
+
 ## 2.25.0
 
 ### Patch Changes

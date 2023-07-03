@@ -1,7 +1,12 @@
 import path from 'path';
 import { resolveBabelConfig } from '@modern-js/server-utils';
 import { ModernServerOptions } from '@modern-js/prod-server';
-import { fs, getAliasConfig, createDebugger } from '@modern-js/utils';
+import {
+  fs,
+  getAliasConfig,
+  createDebugger,
+  readTsConfigByFile,
+} from '@modern-js/utils';
 
 const debug = createDebugger('server');
 
@@ -59,6 +64,10 @@ export const enableRegister = (
       baseUrl: absoluteBaseUrl || './',
       paths: tsPaths,
     });
+
+    const tsConfig = readTsConfigByFile(tsconfigPath);
+    const tsNodeOptions = tsConfig['ts-node'];
+
     tsNode.register({
       project: tsconfigPath,
       scope: true,
@@ -66,6 +75,7 @@ export const enableRegister = (
       files: true,
       transpileOnly: true,
       ignore: ['(?:^|/)node_modules/', `(?:^|/)${distPath}/`],
+      ...tsNodeOptions,
     });
   } else {
     debug('use @babel/register');
