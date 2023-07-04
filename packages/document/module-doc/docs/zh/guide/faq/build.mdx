@@ -4,7 +4,7 @@
 
 import BuildProductFAQ from '@site-docs/components/faq-build-product';
 
-<BuildProductFAQ />
+<BuildProductFAQ/>
 
 ### Class Fields 的初始化处理
 
@@ -12,7 +12,7 @@ TypeSript 提供了 `useDefineForClassFields` 配置用于控制对于 `public c
 
 如果有一段代码：
 
-```ts
+``` ts
 class C {
   foo = 100;
   bar: string;
@@ -21,7 +21,7 @@ class C {
 
 当 `useDefineForClassFields` 为 `false` 的时候，则编译后的代码会变为：
 
-```ts
+``` ts
 class C {
   constructor() {
     this.foo = 100;
@@ -31,16 +31,16 @@ class C {
 
 当 `useDefineForClassFields` 为 `true` 的时候，则编译后的代码会变为：
 
-```ts
+``` ts
 class C {
   constructor() {
-    Object.defineProperty(this, 'foo', {
+    Object.defineProperty(this, "foo", {
       enumerable: true,
       configurable: true,
       writable: true,
       value: 100,
     });
-    Object.defineProperty(this, 'bar', {
+    Object.defineProperty(this, "bar", {
       enumerable: true,
       configurable: true,
       writable: true,
@@ -66,12 +66,12 @@ Modern.js Module 目前会根据下面的逻辑进行处理：
 
 当使用类似下面的方式的时候，会出现这个问题：
 
-```ts
+``` ts
 import * as Lodash from 'lodash';
 
 export const libs = {
   _: Lodash,
-};
+}
 ```
 
 目前在 `babel-plugin-lodash` Github 上的相关 Issue：
@@ -82,7 +82,7 @@ export const libs = {
 
 类似的情况在 `babel-plugin-import` 上也可能会出现。比如有类似如下的代码：
 
-```ts
+``` ts
 import * as Comps from 'components';
 
 export const libs = {
@@ -104,7 +104,7 @@ import BuildExceptionFAQ from '@site-docs/components/faq-build-exception';
 
 当构建的产物配置中产物格式为 ES modules 的时候：
 
-```ts
+``` ts
 export default defineConfig({
   buildConfig: {
     format: 'esm',
@@ -121,17 +121,18 @@ export default defineConfig({
 1. **首先需要找到是哪个第三方包引起的问题**。例如报错信息中指向了 `react` 这个包，那么就要寻找在哪个第三方包里存在 `require('react')` 这样的代码。比如 [`react-draggable`](https://www.npmjs.com/package/react-draggable) ，这个包仅包含 `cjs` 产物，那么问题定位到 `react-draggable` 这个包。
 2. 然后我们需要将这个包通过下面的配置进行排除，即**不打包存在问题的第三方包**。
 
-```ts
+``` ts
 export default defineConfig({
   buildConfig: {
     externals: ['react-draggable'],
-  },
+  }
 });
 ```
 
 #### 参考链接
 
 - [When using esbuild with external react I get Dynamic require of "react" is not supported](https://stackoverflow.com/questions/68423950/when-using-esbuild-with-external-react-i-get-dynamic-require-of-react-is-not-s)
+
 
 ### 编译过程中，因为某个组件库的 less 文件报错：`'Operation on an invalid type'`
 
@@ -141,7 +142,7 @@ export default defineConfig({
 
 在构建配置中使用了 `buildPreset` 的情况下，按照下面进行修改：
 
-```js
+``` js
 module.exports = {
   buildPreset({ extendPreset }) {
     return extendPreset('your-build-preset', {
@@ -154,12 +155,12 @@ module.exports = {
       },
     });
   },
-};
+}
 ```
 
 或者使用了自定义的 `buildConfig` 的情况下，按照下面进行修改：
 
-```js
+``` js
 module.exports = {
   buildConfig: {
     style: {
@@ -169,7 +170,7 @@ module.exports = {
         },
       },
     },
-  },
+  }
 };
 ```
 
@@ -193,7 +194,7 @@ module.exports = {
       },
     },
   },
-};
+}
 ```
 
 ### Bundle DTS failed
@@ -226,11 +227,14 @@ Modern.js Module 基于 esbuild 实现，因此如果有特殊需求或者想要
 
 Modern.js Module 提供了 [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) 配置允许修改 Modern.js Module 内部的 esbuild 配置，因此可以通过该配置来增加自定义的 esbuild 插件：
 
-```js
+``` js
 export default defineConfig({
   buildConfig: {
     esbuildOptions: options => {
-      options.plugins = [...options.plugins, yourEsbuildPlugin];
+      options.plugins = [
+        ...options.plugins,
+        yourEsbuildPlugin,
+      ];
       return option;
     },
   },
