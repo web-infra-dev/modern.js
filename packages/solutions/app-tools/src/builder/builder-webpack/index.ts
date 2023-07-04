@@ -14,8 +14,7 @@ export async function createWebpackBuilderForModern(
 
   const { normalizedConfig } = options;
 
-  // NB: `experiments` is undefined by default
-  if (normalizedConfig?.experiments?.sourceBuild !== false) {
+  if (normalizedConfig.experiments.sourceBuild) {
     const { builderPluginSourceBuild } = await import(
       '@modern-js/builder-plugin-source-build'
     );
