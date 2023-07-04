@@ -158,8 +158,8 @@
         "default": "./dist/cjs/universal/pluginDagSort.js"
       },
       "./ajv": "./dist/compiled/ajv/index.js",
-      "./commander": "./compiled/commander/index.js",
-      "./ora": "./compiled/ora/index.js",
+      "./commander": "./dist/compiled/commander/index.js",
+      "./ora": "./dist/compiled/ora/index.js",
       "./glob": "./dist/compiled/glob/index.js",
       "./chalk": "./dist/compiled/chalk/index.js",
       "./execa": "./dist/compiled/execa/index.js",
