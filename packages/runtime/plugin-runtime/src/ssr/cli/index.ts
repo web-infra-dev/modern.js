@@ -169,7 +169,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
 
           if (fileSystemRoutes && !entrypoint.nestedRoutesEntry) {
             throw new Error(
-              `You should switch to file-system based router to support streaming SSR.`,
+              'You should switch to file-system based router to support streaming SSR.',
             );
           }
         }
@@ -211,7 +211,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           plugins,
         };
       },
-      modifyEntryExport({ entrypoint, exportStatement }: any) {
+      modifyEntryExport({ entrypoint, exportStatement }) {
         if (ssrConfigMap.get(entrypoint.entryName)) {
           return {
             entrypoint,
