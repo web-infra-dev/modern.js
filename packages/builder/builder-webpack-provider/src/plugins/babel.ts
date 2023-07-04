@@ -66,10 +66,16 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           config: NormalizedConfig,
         ) => {
           // 1. Get styled-components options
-          const styledComponentsOptions = applyOptionsChain(
-            getDefaultStyledComponentsConfig(isProd, isUseSSRBundle(config)),
-            config.tools.styledComponents,
-          );
+          const styledComponentsOptions =
+            config.tools.styledComponents !== false
+              ? applyOptionsChain(
+                  getDefaultStyledComponentsConfig(
+                    isProd,
+                    isUseSSRBundle(config),
+                  ),
+                  config.tools.styledComponents,
+                )
+              : false;
 
           // 2. Create babel util function about include/exclude
           const includes: Array<string | RegExp> = [];

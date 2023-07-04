@@ -1,9 +1,9 @@
-- **类型：** `Object | Function`
+- **类型：** `Object | Function | false`
 - **默认值：**
 
 ```js
 {
-  displayName: true,
+  displayNam
   // 在 SSR 构建中 isSSR 为 true
   ssr: isSSR,
   // 在生产环境构建时启用 `pure` 来优化包体积
@@ -14,7 +14,7 @@
 
 - **打包工具：** `仅支持 webpack`
 
-对应 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) 的配置。 值为 `Object` 类型时，利用 Object.assign 函数与默认配置合并。比如:
+对应 [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components) 或使用 SWC 时 [@swc/plugin-styled-components](https://github.com/swc-project/plugins/tree/main/packages/styled-components) 的配置。 值为 `Object` 类型时，利用 Object.assign 函数与默认配置合并。比如:
 
 ```js
 export default {
@@ -38,3 +38,5 @@ export default {
   },
 };
 ```
+
+该特性默认启用，可以配置为 `false` 关闭该行为。

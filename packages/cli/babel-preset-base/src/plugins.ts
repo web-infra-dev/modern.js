@@ -117,12 +117,14 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
       require.resolve('../compiled/@babel/plugin-proposal-partial-application'),
     );
 
-  chain
-    .plugin('babel-plugin-styled-components')
-    .use(require.resolve('../compiled/babel-plugin-styled-components'), [
-      styledComponentsOptions || {},
-      'styled-components',
-    ]);
+  if (styledComponentsOptions !== false) {
+    chain
+      .plugin('babel-plugin-styled-components')
+      .use(require.resolve('../compiled/babel-plugin-styled-components'), [
+        styledComponentsOptions || {},
+        'styled-components',
+      ]);
+  }
 
   return chain;
 };

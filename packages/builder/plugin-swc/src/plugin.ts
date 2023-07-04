@@ -98,16 +98,22 @@ export const builderPluginSwc = (
       }
 
       const isSSR = utils.target === 'node';
-      const styledComponentsOptions = applyOptionsChain(
-        getDefaultStyledComponentsConfig(isProd, isSSR),
-        config.tools.styledComponents,
-      );
-      swc.extensions.styledComponents = {
-        ...styledComponentsOptions,
-        ...(typeof swc.extensions.styledComponents === 'object'
-          ? swc.extensions?.styledComponents
-          : {}),
-      };
+
+      if (
+        config.tools.styledComponents !== false &&
+        swc.extensions?.styledComponents !== false
+      ) {
+        const styledComponentsOptions = applyOptionsChain(
+          getDefaultStyledComponentsConfig(isProd, isSSR),
+          config.tools.styledComponents,
+        );
+        swc.extensions.styledComponents = {
+          ...styledComponentsOptions,
+          ...(typeof swc.extensions.styledComponents === 'object'
+            ? swc.extensions?.styledComponents
+            : {}),
+        };
+      }
 
       /**
        * SWC can't use latestDecorator in TypeScript file for now

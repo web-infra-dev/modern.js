@@ -87,7 +87,7 @@ export interface ToolsConfig extends SharedToolsConfig {
   /**
    * Modify the options of [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components).
    */
-  styledComponents?: ToolsStyledComponentConfig;
+  styledComponents?: false | ToolsStyledComponentConfig;
   /**
    * Modify the options of [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin).
    */
