@@ -10,8 +10,8 @@ export const Card = (props: CardProps) => {
   const { title, content = '' } = props;
   return (
     <div className="card-comp">
-      <h2>{title}</h2>
-      <article>{strAdd('content is ', content)}</article>
+      <h2>Card Comp Title: {title}</h2>
+      <article>{strAdd('Card Comp Content:', content)}</article>
     </div>
   );
 };
