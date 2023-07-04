@@ -112,3 +112,18 @@ export default defineConfig({
   },
 });
 ```
+
+## 注册插件
+
+你可以在 `builder.config.ts` 中使用 `builderPlugins` 选项来注册 Builder 插件。
+
+比如注册 Vue 插件：
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+import { builderPluginVue } from '@modern-js/builder-plugin-vue';
+
+export default defineConfig({
+  builderPlugins: [builderPluginVue()],
+});
+```
