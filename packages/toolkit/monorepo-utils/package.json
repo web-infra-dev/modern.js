@@ -21,6 +21,7 @@
   "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
+      "jsnext:source": "./src/index.ts",
       "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.js",
       "default": "./dist/cjs/index.js"
