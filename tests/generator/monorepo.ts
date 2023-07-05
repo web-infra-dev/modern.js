@@ -51,7 +51,8 @@ async function runNewInMonorepoProject(
     return;
   }
   console.info('process', project);
-  const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+  // const packageManager = project.includes('pnpm') ? 'pnpm' : 'npm';
+  const packageManager = 'pnpm'; // use pnpm package manager
   const cases = getMonorepoNewCases(isSimple ? 5 : undefined);
   for (const config of cases) {
     const subProjectPath = path.join(
