@@ -30,7 +30,7 @@ const noStyledConfig = {
   },
 };
 
-webpackOnlyTest('should not include babel plugin', async () => {
+webpackOnlyTest('should allow to disable styled-components when use babel plugin', async () => {
   const builder = await build(noStyledConfig);
   const files = await builder.unwrapOutputJSON();
 
@@ -38,7 +38,7 @@ webpackOnlyTest('should not include babel plugin', async () => {
   expect(content).toContain('div(');
 });
 
-webpackOnlyTest('should not include swc plugin', async () => {
+webpackOnlyTest('should allow to disable styled-components when use swc plugin', async () => {
   const builder = await build({
     ...noStyledConfig,
     plugins: [builderPluginSwc()],
@@ -50,7 +50,7 @@ webpackOnlyTest('should not include swc plugin', async () => {
   expect(content).toContain('div(');
 });
 
-webpackOnlyTest('should include default babel plugin', async () => {
+webpackOnlyTest('should transform styled-components by default when use babel plugin', async () => {
   const builder = await build(commonConfig);
   const files = await builder.unwrapOutputJSON();
 
@@ -59,7 +59,7 @@ webpackOnlyTest('should include default babel plugin', async () => {
   expect(content).toContain('div.withConfig');
 });
 
-webpackOnlyTest('should include default swc plugin', async () => {
+webpackOnlyTest('should transform styled-components by default when use swc plugin', async () => {
   const builder = await build({
     ...commonConfig,
     plugins: [builderPluginSwc()],
