@@ -15,9 +15,19 @@ export async function formatStats(
   const { errors, warnings } = formatWebpackMessages(statsData);
 
   if (errors.length) {
-    const title = chalk.red.bold(`Compile Error: \n`);
+    const errorMsgs = `${errors.join('\n\n')}\n`;
+    const isTerserError = errorMsgs.includes('from Terser');
+    const title = chalk.red.bold(
+      isTerserError ? `Minify Error: ` : `Compile Error: `,
+    );
+    const tip = chalk.yellow(
+      isTerserError
+        ? `Failed to minify the code with terser, please check if there are any syntax errors in the code.`
+        : 'Failed to compile the code, please refer to the following errors for troubleshooting.',
+    );
+
     return {
-      message: `${title}${errors.join('\n\n')}\n`,
+      message: `${title}\n${tip}\n${errorMsgs}`,
       level: 'error',
     };
   }
