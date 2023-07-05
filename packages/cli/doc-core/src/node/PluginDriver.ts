@@ -80,65 +80,50 @@ export class PluginDriver {
   }
 
   async beforeBuild() {
-    return await Promise.all(
-      this.#plugins
-        .filter(plugin => typeof plugin.beforeBuild === 'function')
-        .map(plugin => {
-          return plugin.beforeBuild(this.#config.doc || {}, this.#isProd);
-        }),
+    return this._runParallelAsyncHook(
+      'beforeBuild',
+      this.#config.doc || {},
+      this.#isProd,
     );
   }
 
   async afterBuild() {
-    return await Promise.all(
-      this.#plugins
-        .filter(plugin => typeof plugin.afterBuild === 'function')
-        .map(plugin => {
-          return plugin.afterBuild(this.#config.doc || {}, this.#isProd);
-        }),
+    return this._runParallelAsyncHook(
+      'afterBuild',
+      this.#config.doc || {},
+      this.#isProd,
     );
   }
 
+  async modifySearchIndexData(
+    pages: PageIndexInfo[],
+  ): Promise<PageIndexInfo[]> {
+    return this._runParallelAsyncHook('modifySearchIndexData', pages);
+  }
+
   async extendPageData(pageData: PageIndexInfo) {
-    await Promise.all(
-      this.#plugins
-        .filter(plugin => typeof plugin.extendPageData === 'function')
-        .map(plugin => {
-          return plugin.extendPageData(pageData);
-        }),
-    );
+    return this._runParallelAsyncHook('extendPageData', pageData);
   }
 
   async addPages() {
     // addPages hooks
-    const result = await Promise.all(
-      this.#plugins
-        .filter(plugin => typeof plugin.addPages === 'function')
-        .map(plugin => {
-          return plugin.addPages(this.#config.doc || {}, this.#isProd);
-        }),
+    const result = await this._runParallelAsyncHook(
+      'addPages',
+      this.#config.doc || {},
+      this.#isProd,
     );
-
     return result.flat();
   }
 
   async routeGenerated(routes: RouteMeta[]) {
-    await Promise.all(
-      this.#plugins
-        .filter(plugin => typeof plugin.routeGenerated === 'function')
-        .map(plugin => {
-          return plugin.routeGenerated(routes);
-        }),
-    );
+    return this._runParallelAsyncHook('routeGenerated', routes);
   }
 
   async addSSGRoutes() {
-    const result = await Promise.all(
-      this.#plugins
-        .filter(plugin => typeof plugin.addSSGRoutes === 'function')
-        .map(plugin => {
-          return plugin.addSSGRoutes(this.#config.doc || {}, this.#isProd);
-        }),
+    const result = await this._runParallelAsyncHook(
+      'addSSGRoutes',
+      this.#config.doc || {},
+      this.#isProd,
     );
 
     return result.flat();
@@ -158,5 +143,25 @@ export class PluginDriver {
       .map(plugin => {
         return plugin.globalStyles;
       });
+  }
+
+  _runParallelAsyncHook(hookName: string, ...args: unknown[]) {
+    return Promise.all(
+      this.#plugins
+        .filter(plugin => typeof plugin[hookName] === 'function')
+        .map(plugin => {
+          return plugin[hookName](...args);
+        }),
+    );
+  }
+
+  _runSerialAysncHook(hookName: string, ...args: unknown[]) {
+    return this.#plugins.reduce(async (prev, plugin) => {
+      if (typeof plugin[hookName] === 'function') {
+        await prev;
+        return plugin[hookName](...args);
+      }
+      return prev;
+    }, Promise.resolve());
   }
 }
