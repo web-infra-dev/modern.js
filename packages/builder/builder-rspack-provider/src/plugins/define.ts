@@ -11,12 +11,15 @@ export const builderPluginDefine = (): BuilderPlugin => ({
         '@modern-js/utils'
       );
       const config = api.getNormalizedConfig();
+      const publicPath = rspackConfig.output?.publicPath;
+      const assetPrefix =
+        publicPath && typeof publicPath !== 'function'
+          ? publicPath
+          : config.output.assetPrefix;
 
       const builtinVars: GlobalVars = {
         'process.env.NODE_ENV': getNodeEnv(),
-        'process.env.ASSET_PREFIX': removeTailSlash(
-          rspackConfig.output?.publicPath || '/',
-        ),
+        'process.env.ASSET_PREFIX': removeTailSlash(assetPrefix),
       };
 
       // Serialize global vars. User can customize value of `builtinVars`.

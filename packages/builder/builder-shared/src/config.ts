@@ -94,6 +94,7 @@ export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
     server: SERVER_DIST_DIR,
     worker: SERVER_WORKER_DIST_DIR,
   },
+  assetPrefix: '/',
   filename: {},
   charset: 'ascii',
   polyfill: 'entry',
