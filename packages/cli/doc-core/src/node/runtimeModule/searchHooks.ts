@@ -8,9 +8,9 @@ export async function searchHookVMPlugin(context: FactoryContext) {
   let content = 'export const onSearch = () => {}';
   if (
     typeof doc.search === 'object' &&
-    typeof doc.search.searchHook === 'string'
+    typeof doc.search.searchHooks === 'string'
   ) {
-    content = await fs.readFile(doc.search.searchHook, 'utf-8');
+    content = await fs.readFile(doc.search.searchHooks, 'utf-8');
   }
   const modulePath = join(
     context.runtimeTempDir,

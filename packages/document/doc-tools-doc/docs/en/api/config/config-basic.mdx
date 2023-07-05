@@ -196,9 +196,9 @@ export default defineConfig({
 
 ## search
 
-- Type: `{ searchHook: string }`
+- Type: `{ searchHooks: string }`
 
-You can add search runtime hooks logic through the `searchHook` parameter, for example:
+You can add search runtime hooks logic through the `searchHooks` parameter, for example:
 
 ```ts title="modern.config.ts"
 import { docTools, defineConfig } from '@modern-js/doc-tools';
@@ -207,16 +207,16 @@ import path from 'path';
 export default defineConfig({
   doc: {
     search: {
-      searchHook: path.join(__dirname, 'searchHook.ts'),
+      searchHooks: path.join(__dirname, 'searchHooks.ts'),
     },
   },
   plugins: [docTools()],
 });
 ```
 
-In `searchHook.ts`, you need to export the `onSearch` function, which will be called every time a search is performed. The input parameter is the search keyword, and you can customize the search interception logic here, for example:
+In `searchHooks.ts`, you need to export the `onSearch` function, which will be called every time a search is performed. The input parameter is the search keyword, and you can customize the search interception logic here, for example:
 
-```ts title="searchHook.ts"
+```ts title="searchHooks.ts"
 // Supports async function
 export async function onSearch(query: string) {
   // Execute custom logic, such as logging reporting

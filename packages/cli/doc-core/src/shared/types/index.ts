@@ -257,14 +257,14 @@ export interface RouteOptions {
   exclude?: string[];
 }
 
-export interface SearchHook {
+export interface SearchHooks {
   /**
    * The search hook function path. The corresponding file should export a function named `onSearch`.
    */
-  searchHook: string;
+  searchHooks: string;
 }
 
-export type LocalSearchOptions = SearchHook & {
+export type LocalSearchOptions = SearchHooks & {
   mode: 'local';
 };
 
@@ -275,7 +275,7 @@ export type RemoteSearchIndexInfo =
       label: string;
     };
 
-export type RemoteSearchOptions = SearchHook & {
+export type RemoteSearchOptions = SearchHooks & {
   mode: 'remote';
   apiUrl: string;
   domain?: string;
