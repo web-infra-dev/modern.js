@@ -13,7 +13,7 @@ export const builderPluginDefine = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
       const publicPath = chain.output.get('publicPath');
       const assetPrefix =
-        publicPath && typeof publicPath !== 'function'
+        publicPath && typeof publicPath === 'string'
           ? publicPath
           : config.output.assetPrefix;
 

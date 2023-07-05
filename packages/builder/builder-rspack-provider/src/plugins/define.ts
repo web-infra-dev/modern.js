@@ -13,7 +13,7 @@ export const builderPluginDefine = (): BuilderPlugin => ({
       const config = api.getNormalizedConfig();
       const publicPath = rspackConfig.output?.publicPath;
       const assetPrefix =
-        publicPath && typeof publicPath !== 'function'
+        publicPath && typeof publicPath === 'string'
           ? publicPath
           : config.output.assetPrefix;
 
