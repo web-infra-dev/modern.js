@@ -1,4 +1,4 @@
-- **Type:** `boolean | string`
+- **Type:** `string`
 - **Default:** `'/'`
 
 When using CDN in the production environment, you can use this option to set the URL prefix of static assets, similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.

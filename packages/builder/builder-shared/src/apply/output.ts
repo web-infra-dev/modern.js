@@ -5,7 +5,7 @@ import type {
   SharedNormalizedConfig,
 } from '../types';
 import { getDistPath, getFilename } from '../fs';
-import { DEFAULT_PORT } from '../constants';
+import { DEFAULT_PORT, DEFAULT_ASSET_PREFIX } from '../constants';
 import { addTrailingSlash } from '../utils';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
 
@@ -71,7 +71,7 @@ function getPublicPath({
 }) {
   const { dev, output } = config;
 
-  let publicPath = '/';
+  let publicPath = DEFAULT_ASSET_PREFIX;
 
   if (isProd) {
     if (output.assetPrefix) {
