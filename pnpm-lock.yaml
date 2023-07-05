@@ -406,7 +406,7 @@ importers:
         specifier: ^5
         version: 5.0.4
       webpack:
-        specifier: ^5.88.1
+        specifier: ^5.82.1
         version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
       webpack-cli:
         specifier: ^5.1.4
