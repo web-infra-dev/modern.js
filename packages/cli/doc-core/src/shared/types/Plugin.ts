@@ -53,7 +53,7 @@ export interface DocPlugin {
   /**
    * Extend every page's data
    */
-  extendPageData?: (pageData: PageIndexInfo) => void;
+  extendPageData?: (pageData: PageIndexInfo) => void | Promise<void>;
   /**
    * Add custom route
    */
@@ -72,4 +72,9 @@ export interface DocPlugin {
     config: DocConfig,
     isProd: boolean,
   ) => { path: string }[] | Promise<{ path: string }[]>;
+  /**
+   * @private
+   * Modify search index data.
+   */
+  modifySearchIndexData?: (data: PageIndexInfo[]) => void | Promise<void>;
 }
