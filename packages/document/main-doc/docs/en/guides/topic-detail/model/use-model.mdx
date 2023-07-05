@@ -163,7 +163,7 @@ function ThreeComponent() {
 
 Using React's refs can also achieve similar effects. In fact, `useStaticModel` also uses refs internally. However, using `useStaticModel` directly helps decouple the state management logic from the component and converge it into the Model layer.
 
-The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/static-model).
+The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/runtime-api/static-model).
 
 ### Using as Local State
 
@@ -194,7 +194,7 @@ Click the `add` button of `Counter` and `LocalCounter` respectively, and the sta
 
 ![local-model](https://lf3-static.bytednsdoc.com/obj/eden-cn/eueh7vhojuh/modern/local-model.gif)
 
-The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/local-model).
+The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/runtime-api/local-model).
 
 ## Using outside of components
 
@@ -237,7 +237,7 @@ setInterval(() => {
 }, 1000);
 ```
 
-The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/series/tutorials/runtime-api/model/counter-model-outof-react).
+The complete sample code can be found [here](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/runtime-api/counter-model-outof-react).
 
 :::info
 If the Store object is manually created through [`createStore`](/apis/app/runtime/model/create-store), there is no need to obtain it through `useStore` in the component, and it can be used directly.

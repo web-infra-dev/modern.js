@@ -5912,6 +5912,21 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  tests/e2e/builder/cases/builder-cli/builder-cli-vue:
+    devDependencies:
+      '@modern-js/builder-cli':
+        specifier: workspace:*
+        version: link:../../../../../../packages/builder/builder-cli
+      '@modern-js/builder-rspack-provider':
+        specifier: workspace:*
+        version: link:../../../../../../packages/builder/builder-rspack-provider
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   tests/e2e/builder/cases/builder-cli/builder-cli-webpack:
     devDependencies:
       '@modern-js/builder-cli':
