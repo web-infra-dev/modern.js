@@ -46,9 +46,9 @@ For details, see [source.include usage introduction](/en/api/config-source.html#
 
 ### Compile error `Error: [object Object] is not a PostCSS plugin` ?
 
-If you encounter the `Error: [object Object] is not a PostCSS plugin` error during the compilation process, it is usually caused by referencing the wrong version of postcss, for example, the version of `postcss` (peerDependencies) in `cssnano` does not meet expectations.
+Currently, Modern.js is using PostCSS v8. If you encounter the `Error: [object Object] is not a PostCSS plugin` error during the compilation process, it is usually caused by referencing the wrong version of PostCSS, for example, the version of `postcss` (peerDependencies) in `cssnano` does not meet expectations.
 
-You can find the dependencies of `UNMET PEER DEPENDENCY` through `npm ls postcss`, and then install the correct version of dependencies by specifying the postcss version in package.json.
+You can find the dependencies of `UNMET PEER DEPENDENCY` through `npm ls postcss`, and then install the correct version of dependencies by specifying the PostCSS version in package.json.
 
 ```
 npm ls postcss

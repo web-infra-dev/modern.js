@@ -65,9 +65,9 @@ You may need an additional loader to handle the result of these loaders.
 
 ### 编译时报错 `Error: [object Object] is not a PostCSS plugin` ?
 
-如果编译过程中遇到了 `Error: [object Object] is not a PostCSS plugin` 报错提示，通常是由于引用到了错误的 postcss 版本导致，常见的如 `cssnano` 中 `postcss` (peerDependencies) 版本不符合预期。
+目前，Modern.js 使用的是 v8 版本的 PostCSS。如果编译过程中遇到了 `Error: [object Object] is not a PostCSS plugin` 报错提示，通常是由于引用到了错误的 PostCSS 版本导致，常见的如 `cssnano` 中 `postcss` (peerDependencies) 版本不符合预期。
 
-可以通过 `npm ls postcss` 查找 `UNMET PEER DEPENDENCY` 的依赖，然后在 package.json 中通过指定 postcss 版本等方式安装正确的依赖版本即可。
+可以通过 `npm ls postcss` 查找 `UNMET PEER DEPENDENCY` 的依赖，然后在 package.json 中通过指定 PostCSS 版本等方式安装正确的依赖版本即可。
 
 ```
 npm ls postcss
