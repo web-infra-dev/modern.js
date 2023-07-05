@@ -3,11 +3,7 @@
   "description": "Recognizes certain classes of webpack errors and cleans, aggregates and prioritizes them to provide a better Developer Experience",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/web-infra-dev/modern.js",
-    "directory": "packages/builder/friendly-errors-webpack-plugin"
-  },
+  "repository": "modern-js-dev/modern.js",
   "license": "MIT",
   "keywords": [
     "friendly",
