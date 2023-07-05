@@ -27,8 +27,6 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
         config.locales?.map(locale => locale.lang) ||
         []
       ).filter(lang => lang === 'zh' || lang === 'en') as SupportLanguages[];
-      // Problem: the document will be generated but we cannot search it.
-      // Because we can not decide the route of the module doc, while the user decide where the module doc is located.In other words, we can not take the search index of the module doc in the lack of route path.
       await docgen({
         entries,
         apiParseTool,
