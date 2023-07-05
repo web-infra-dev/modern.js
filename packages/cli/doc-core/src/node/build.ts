@@ -102,14 +102,6 @@ export async function renderPages(
   const startTime = Date.now();
   const outputPath = config.doc?.outDir ?? join(appDirectory, OUTPUT_DIR);
   const ssrBundlePath = join(outputPath, 'ssr', 'bundles', 'main.js');
-  const { JSDOM } = await import('jsdom');
-  // Avoid window is not defined in ssr bundle
-  const { window } = new JSDOM('');
-  // Mock RAF in ssr environment
-  global.requestAnimationFrame = () => 0;
-  global.window = window;
-  global.document = window.document;
-  global.navigator = window.navigator;
   try {
     const { default: fs } = await import('@modern-js/utils/fs-extra');
     const { default: ssrExports } = await import(
@@ -139,12 +131,14 @@ export async function renderPages(
           try {
             ({ appHtml } = await render(routePath, helmetContext.context));
           } catch (e) {
-            logger.error(`page "${route.path}" render error: ${e.stack}`);
-            return;
+            logger.warn(
+              `page "${route.path}" ssr error: ${e.message}, fallback to csr.`,
+            );
+            // fallback to csr
+            appHtml = '';
           }
 
           const { helmet } = helmetContext.context;
-
           let html = htmlTemplate
             // Don't use `string` as second param
             // To avoid some special characters transformed to the marker, such as `$&`, etc.
