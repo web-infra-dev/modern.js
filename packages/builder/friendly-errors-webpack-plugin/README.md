@@ -24,6 +24,6 @@ module.exports = {
 };
 ```
 
-Now you will get output like belong.
+Now you will get an output like the one below.
 
 ![screenshot](https://lf3-static.bytednsdoc.com/obj/eden-cn/hrbzheh7lpqulduloj/c6f14fbfb6c8fe734df7979f079d18c36e11be9f.png)

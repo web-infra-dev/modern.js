@@ -3,7 +3,11 @@
   "description": "Recognizes certain classes of webpack errors and cleans, aggregates and prioritizes them to provide a better Developer Experience",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
-  "repository": "modern-js-dev/modern.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/friendly-errors-webpack-plugin"
+  },
   "license": "MIT",
   "keywords": [
     "friendly",
@@ -14,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.24.0",
+  "version": "2.25.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -51,7 +55,6 @@
     }
   },
   "scripts": {
-    "prepare": "pnpm build",
     "prepublishOnly": "only-allow-pnpm",
     "build": "tsc",
     "dev": "tsc --watch --sourceMap",
@@ -71,7 +74,7 @@
     "@types/node": "^14",
     "ansi-to-html": "^0.7.2",
     "typescript": "^5",
-    "webpack": "^5.82.1",
+    "webpack": "^5.88.1",
     "webpack-cli": "^5.1.4"
   },
   "peerDependencies": {
