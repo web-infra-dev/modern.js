@@ -5202,10 +5202,10 @@ importers:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
       react:
-        specifier: '>=17.0.0'
+        specifier: ^18.2.0
         version: 18.2.0
       react-dom:
-        specifier: '>=17.0.0'
+        specifier: ^18.2.0
         version: 18.2.0(react@18.2.0)
       typescript:
         specifier: ^5
