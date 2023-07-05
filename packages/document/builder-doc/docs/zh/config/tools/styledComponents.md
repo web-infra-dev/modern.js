@@ -3,7 +3,7 @@
 
 ```js
 {
-  displayNam
+  displayName: true,
   // 在 SSR 构建中 isSSR 为 true
   ssr: isSSR,
   // 在生产环境构建时启用 `pure` 来优化包体积
