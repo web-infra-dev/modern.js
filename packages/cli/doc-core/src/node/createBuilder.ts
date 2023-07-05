@@ -114,7 +114,7 @@ async function createInternalBuildConfig(
         '@modern-js/doc-core': PACKAGE_ROOT,
         'react-lazy-with-preload': require.resolve('react-lazy-with-preload'),
         ...runtimeModuleIDs.reduce((acc, cur) => {
-          acc[cur] = path.join(runtimeTempDir, `${cur}.js`);
+          acc[cur] = path.join(runtimeTempDir, cur);
           return acc;
         }, {} as Record<string, string>),
         ...(await resolveReactAlias(reactVersion)),

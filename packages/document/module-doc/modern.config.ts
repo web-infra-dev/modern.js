@@ -123,6 +123,13 @@ export default defineConfig({
       dev: {
         startUrl: 'http://localhost:<port>/module-tools/',
       },
+      source: {
+        alias: {
+          '@site-docs': path.join(__dirname, './docs/zh'),
+          '@site-docs-en': path.join(__dirname, './docs/en'),
+          '@site': require('path').resolve(__dirname),
+        },
+      }
     },
   },
 });

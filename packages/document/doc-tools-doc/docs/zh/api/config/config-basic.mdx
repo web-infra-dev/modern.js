@@ -193,3 +193,33 @@ export default defineConfig({
   plugins: [docTools()],
 });
 ```
+
+## search
+
+- Type: `{ searchHooks: string }`
+
+你可以通过 `searchHooks` 参数来增加搜索运行时钩子逻辑，比如：
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    search: {
+      searchHooks: path.join(__dirname, 'searchHooks.ts'),
+    },
+  },
+  plugins: [docTools()],
+});
+```
+
+`searchHooks.ts` 中，你需要导出 `onSearch` 函数，这个函数将会在每次搜索时被调用，入参为搜索关键词，你可以在这里自定义搜索拦截逻辑，比如：
+
+```ts title="searchHooks.ts"
+// 支持 async 函数
+export async function onSearch(query: string) {
+  // 执行自定义逻辑，比如打点上报
+  console.log(query);
+}
+```

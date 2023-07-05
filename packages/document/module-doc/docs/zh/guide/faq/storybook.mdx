@@ -1,0 +1,101 @@
+# Storybook 相关问题
+
+import BuildStorybookFAQ from '@site-docs/components/faq-storybook';
+
+<BuildStorybookFAQ />
+
+## 支持 Storybook v7
+
+Storybook v7 目前还没支持，目前计划在 Storybook v7 中支持 Rspack 构建，因此进度会慢一些。
+相关 Issue：[#3376](https://github.com/web-infra-dev/modern.js/issues/3376)。
+
+## 使用 Storybook Addon 或者其他配置不生效
+
+Modern.js Module 目前使用的 Storybook 版本是 v6，如果使用了 v7 版本的 Addon 可能会出现插件不生效的情况。
+
+除了 Addon 以外，其他配置也可能会有区别。比如修改 `preview.js` 配置文件的话，Storybook v6 与 v7 的写法也不相同：
+
+- v6：[文档链接](https://storybook.js.org/docs/6.5/react/writing-stories/decorators#global-decorators)
+- v7：[文档链接](https://storybook.js.org/docs/react/writing-stories/decorators#global-decorators)
+
+## Cannot find module 'react-dom/package.json
+
+在执行 Storybook 调试的时候，出现下面的报错提示：
+
+```bash
+ERR! Error: Cannot find module 'react-dom/package.json'
+```
+
+解决办法：在项目中安装 `react-dom` 依赖。
+
+``` json
+{
+    "devDependencies": {
+        "react-dom": "^17"
+    }
+}
+```
+
+## 报错后，看不到具体报错信息
+
+解决办法：
+
+1. 找到 `@storybook/core-server/dist/cjs/dev-server.js`
+2. 找到 `var _await$Promise$all = await Promise.all([preview, manager` 这附近的代码。
+3. 修改成：
+
+``` js
+var _await$Promise$all = await Promise.all([
+    preview.catch(e => console.info(e)),
+    manager // TODO #13083 Restore this when compiling the preview is fast enough
+  // .then((result) => {
+  //   if (!options.ci && !options.smokeTest) openInBrowser(address);
+  //   return result;
+  // })
+  .catch(previewBuilder.bail)]),
+      _await$Promise$all2 = _slicedToArray(_await$Promise$all, 2),
+      previewResult = _await$Promise$all2[0],
+      managerResult = _await$Promise$all2[1]; // TODO #13083 Remove this when compiling the preview is fast enough
+```
+
+## Couldn't find any stories is your Storybook
+
+![storybook-error](https://lf3-static.bytednsdoc.com/obj/eden-cn/shylnyhaeh7uldvivhn/screenshot-20230703-162111.png)
+
+当在预览区域看到类似这样的报错提示的时候，首先可以打开一下浏览器的控制台，应该会有些报错信息。可以先根据报错信息来推断是不是编写代码里出现的问题导致 Storybook 无法正常运行。修复后，再次刷新查看是否正常。
+
+## Storybook 添加 Proxy 功能
+
+Storybook 没有提供相关方案，不过 Storybook Issue 中有找到相关的解决办法。在 Modern.js Module 中，你可以：
+
+1. 添加 `config/storybook/middleware.js` 文件，并初始化下面的内容：
+
+``` js
+/* eslint-disable filenames/match-exported */
+module.exports = function expressMiddleware(router) {
+    // router is express router
+    // import { Router } from 'express'
+    // router = new Router();
+};
+```
+
+2. 添加 http-proxy-middleware 依赖
+3. 添加代理路由相关配置
+
+``` js
+/* eslint-disable filenames/match-exported */
+const { createProxyMiddleware } = require("http-proxy-middleware");
+
+module.exports = function expressMiddleware (router) {
+  router.use('/api', createProxyMiddleware({
+    target: "http://localhost:8000",
+    changeOrigin: true
+  }))
+}
+```
+
+相关 issue 链接：[#11551](https://github.com/storybookjs/storybook/issues/11551)。
+
+## 修改存在 Story 文件的目录
+
+目前暂时无法修改存放 Story 文件的目录，仅对 `your-project/stories` 目录下的 `*.stories.(t|j)s(x)`、`*.stories.md(x)` 文件识别为 Story 文件。

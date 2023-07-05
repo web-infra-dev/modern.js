@@ -1,0 +1,102 @@
+# Storybook FAQ
+
+import BuildStorybookFAQ from '@site-docs-en/components/faq-storybook';
+
+<BuildStorybookFAQ />
+
+## Storybook v7 Support
+
+Storybook v7 does not support it yet. Rspack builds are currently planned to be supported in Storybook v7, so progress will be slower.
+
+Related Issue: [#3376](https://github.com/web-infra-dev/modern.js/issues/3376).
+
+## Using Storybook Addon or other configurations does not work
+
+Modern.js Module is currently using Storybook version v6, if you are using Addon version v7 you may not be able to get the addon to work.
+
+In addition to the Addon, other configurations may also have differences. For example, if you modify the `preview.js` configuration file, Storybook v6 is written differently than v7:
+
+- v6：[Document](https://storybook.js.org/docs/6.5/react/writing-stories/decorators#global-decorators)
+- v7：[Document](https://storybook.js.org/docs/react/writing-stories/decorators#global-decorators)
+
+## Cannot find module 'react-dom/package.json
+
+When debug Storybook, the following problem occurs:
+
+```bash
+ERR! Error: Cannot find module 'react-dom/package.json'
+```
+
+You can install the react-dom dependency in the project.
+
+``` json
+{
+    "devDependencies": {
+        "react-dom": "^17"
+    }
+}
+```
+
+## Unable to locate the specific error message
+
+Solutions:
+
+1. Find `@storybook/core-server/dist/cjs/dev-server.js`
+2. Find this code: `var _await$Promise$all = await Promise.all([preview, manager,`.
+3. Modify it：
+
+``` js
+var _await$Promise$all = await Promise.all([
+    preview.catch(e => console.info(e)),
+    manager // TODO #13083 Restore this when compiling the preview is fast enough
+  // .then((result) => {
+  //   if (!options.ci && !options.smokeTest) openInBrowser(address);
+  //   return result;
+  // })
+  .catch(previewBuilder.bail)]),
+      _await$Promise$all2 = _slicedToArray(_await$Promise$all, 2),
+      previewResult = _await$Promise$all2[0],
+      managerResult = _await$Promise$all2[1]; // TODO #13083 Remove this when compiling the preview is fast enough
+```
+
+## Can`t find any stories is your Storybook
+
+![storybook-error](https://lf3-static.bytednsdoc.com/obj/eden-cn/shylnyhaeh7uldvivhn/01719a11-1939-4009-9317-5e2b491ae52f.png)
+
+When you get a problem like this, you can first open the browser console and there should be some error messages. You can use the error messages to deduce if there is a problem in the code you are writing that is causing Storybook to not work properly.
+
+## Storybook Adds Proxy Functionality
+
+Storybook does not provide a solution for this, but there is one in the Storybook Issue. In the Modern.js Module, you can:
+
+1. Add the `config/storybook/middleware.js` file and initialize the following:
+
+``` js
+/* eslint-disable filenames/match-exported */
+module.exports = function expressMiddleware(router) {
+    // router is express router
+    // import { Router } from 'express'
+    // router = new Router();
+};
+```
+
+2. add `http-proxy-middleware` dependency
+3. Add proxy routing-related configuration
+
+``` js
+/* eslint-disable filenames/match-exported */
+const { createProxyMiddleware } = require("http-proxy-middleware");
+
+module.exports = function expressMiddleware (router) {
+  router.use('/api', createProxyMiddleware({
+    target: "http://localhost:8000",
+    changeOrigin: true
+  }))
+}
+```
+
+Link：https://github.com/storybookjs/storybook/issues/11551
+
+## Modify the directory where the Story file exists
+
+The directory where Story files are stored cannot be modified at the moment, only the `*.stories.(t|j)s(x)` and `*.stories.md(x)` files in the `your-project/stories` directory are recognized as Story files.
