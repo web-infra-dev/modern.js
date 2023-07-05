@@ -23,7 +23,7 @@ export async function formatStats(
     const tip = chalk.yellow(
       isTerserError
         ? `Failed to minify the code with terser, please check if there are any syntax errors in the code.`
-        : 'Failed to compile the code, please refer to the following errors to check your code.',
+        : 'Failed to compile the code, please refer to the following errors for troubleshooting.',
     );
 
     return {
