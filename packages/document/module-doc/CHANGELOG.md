@@ -1,5 +1,14 @@
 # @modern-js/module-tools-docs
 
+## 2.25.2
+
+### Patch Changes
+
+- 63d8247: docs(module-tools): add faq content and slots components
+  docs(module-tools): 添加 FAQ 内容以及插槽插件
+  - @modern-js/doc-plugin-auto-sidebar@2.25.2
+  - @modern-js/doc-tools@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes

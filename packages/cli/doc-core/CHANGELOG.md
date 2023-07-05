@@ -1,5 +1,54 @@
 # @modern-js/doc-core
 
+## 2.25.2
+
+### Patch Changes
+
+- 0b3bba7: feat(doc-core): support for custom search runtime interception logic
+
+  feat(doc-core): 支持自定义搜索运行时拦截逻辑
+
+- 2c82d4a: feat(doc-core): optimize runtime temp file structure
+
+  feat(doc-core): 优化运行时临时文件结构
+
+- a44aac7: fix(doc-core): support conventional route for tsx file
+
+  fix(doc-core): 支持 tsx 文件的约定式路由
+
+- 3973a72: feat(doc-core): support module doc search
+
+  feat(doc-plugin-api-docgen): 支持模块文档的搜索
+
+- 0499ff8: fix(doc-core): throw error when ssr failed
+
+  fix(doc-core): ssr 失败时抛出错误
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- a44aac7: feat(doc-core): support preview for pages added in `addPages` hook
+
+  feat(doc-core): 支持为 `addPages` 钩子新增的页面添加预览功能
+
+- 5e2908c: fix(doc-core): ssg fallback
+
+  fix(doc-core): ssg 阶段报错时的兜底处理
+
+- Updated dependencies [63d8247]
+- Updated dependencies [f54bb68]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-rspack-provider@2.25.2
+  - @modern-js/doc-plugin-medium-zoom@2.25.2
+  - @modern-js/remark-container@2.25.2
+  - @modern-js/builder@2.25.2
+  - @modern-js/core@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.25.2
+
+### Patch Changes
+
+- Updated dependencies [a2a5bcd]
+  - @modern-js/module-tools@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes

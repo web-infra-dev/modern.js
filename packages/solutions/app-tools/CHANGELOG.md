@@ -1,5 +1,44 @@
 # @modern-js/app-tools
 
+## 2.25.2
+
+### Patch Changes
+
+- 6651684: fix(app-tools): failed to print error stack
+
+  fix(app-tools): 修复 build 报错时未打印错误堆栈的问题
+
+- ae723ab: fix: should not clean dist path if run deploy command but skip build
+  fix: 如果运行 deploy 命令，但是跳过构建阶段，不应该清理产物目录
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- Updated dependencies [63d8247]
+- Updated dependencies [f54bb68]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-rspack-provider@2.25.2
+  - @modern-js/builder-webpack-provider@2.25.2
+  - @modern-js/builder-shared@2.25.2
+  - @modern-js/plugin-data-loader@2.25.2
+  - @modern-js/server@2.25.2
+  - @modern-js/builder@2.25.2
+  - @modern-js/builder-plugin-esbuild@2.25.2
+  - @modern-js/builder-plugin-node-polyfill@2.25.2
+  - @modern-js/core@2.25.2
+  - @modern-js/plugin-i18n@2.25.2
+  - @modern-js/plugin-lint@2.25.2
+  - @modern-js/new-action@2.25.2
+  - @modern-js/prod-server@2.25.2
+  - @modern-js/node-bundle-require@2.25.2
+  - @modern-js/plugin@2.25.2
+  - @modern-js/upgrade@2.25.2
+  - @modern-js/types@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes
