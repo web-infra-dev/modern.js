@@ -191,7 +191,7 @@ export async function renderPages(
         }),
     );
     // Remove ssr bundle
-    // await fs.remove(join(outputPath, 'ssr'));
+    await fs.remove(join(outputPath, 'ssr'));
     await fs.remove(join(outputPath, 'html', 'main', 'index.html'));
 
     const totalTime = Date.now() - startTime;

@@ -34,6 +34,10 @@ declare module 'virtual-global-styles';
 
 declare module 'virtual-i18n-text';
 
+declare module 'virtual-search-hooks' {
+  export const onSearch: (query: string) => void | Promise<void>;
+}
+
 declare module '*.module.scss' {
   const classes: { [key: string]: string };
   export default classes;
