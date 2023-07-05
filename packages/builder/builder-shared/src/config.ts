@@ -14,6 +14,7 @@ import {
   SERVER_WORKER_DIST_DIR,
   DEFAULT_MOUNT_ID,
   DEFAULT_DATA_URL_SIZE,
+  DEFAULT_ASSET_PREFIX,
 } from './constants';
 import { generateMetaTags } from './generateMetaTags';
 import type {
@@ -40,7 +41,7 @@ export const getDefaultDevConfig = (): NormalizedSharedDevConfig => ({
   hmr: true,
   https: false,
   port: DEFAULT_PORT,
-  assetPrefix: '/',
+  assetPrefix: DEFAULT_ASSET_PREFIX,
   startUrl: false,
   progressBar: true,
   host: DEFAULT_DEV_HOST,
@@ -94,7 +95,7 @@ export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
     server: SERVER_DIST_DIR,
     worker: SERVER_WORKER_DIST_DIR,
   },
-  assetPrefix: '/',
+  assetPrefix: DEFAULT_ASSET_PREFIX,
   filename: {},
   charset: 'ascii',
   polyfill: 'entry',

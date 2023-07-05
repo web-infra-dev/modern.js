@@ -60,6 +60,7 @@ export const MEDIA_EXTENSIONS = [
   'aac',
   'mov',
 ];
+export const DEFAULT_ASSET_PREFIX = '/';
 
 // RegExp
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
