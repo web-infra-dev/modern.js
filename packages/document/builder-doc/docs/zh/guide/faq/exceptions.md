@@ -63,6 +63,23 @@ You may need an additional loader to handle the result of these loaders.
 
 ---
 
+### 编译时报错 `Error: [object Object] is not a PostCSS plugin` ?
+
+如果编译过程中遇到了 `Error: [object Object] is not a PostCSS plugin` 报错提示，通常是由于引用到了错误的 postcss 版本导致，常见的如 `cssnano` 中 `postcss` (peerDependencies) 版本不符合预期。
+
+可以通过 `npm ls postcss` 查找 `UNMET PEER DEPENDENCY` 的依赖，然后在 package.json 中通过指定 postcss 版本等方式安装正确的依赖版本即可。
+
+```
+npm ls postcss
+
+ ├─┬ css-loader@6.3.0
+ │ └── UNMET PEER DEPENDENCY postcss@8.3.9
+ ├─┬ css-minimizer-webpack-plugin@3.0.0
+ │ └── UNMET PEER DEPENDENCY postcss@8.3.9
+```
+
+---
+
 ### 打开页面后报错，提示 exports is not defined？
 
 如果编译正常，但是打开页面后出现 `exports is not defined` 报错，通常是因为在项目中使用 Babel 编译了一个 CommonJS 模块，导致 Babel 出现异常。

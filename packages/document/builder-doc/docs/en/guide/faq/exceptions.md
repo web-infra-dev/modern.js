@@ -44,6 +44,23 @@ For details, see [source.include usage introduction](/en/api/config-source.html#
 
 ---
 
+### Compile error `Error: [object Object] is not a PostCSS plugin` ?
+
+If you encounter the `Error: [object Object] is not a PostCSS plugin` error during the compilation process, it is usually caused by referencing the wrong version of postcss, for example, the version of `postcss` (peerDependencies) in `cssnano` does not meet expectations.
+
+You can find the dependencies of `UNMET PEER DEPENDENCY` through `npm ls postcss`, and then install the correct version of dependencies by specifying the postcss version in package.json.
+
+```
+npm ls postcss
+
+ ├─┬ css-loader@6.3.0
+ │ └── UNMET PEER DEPENDENCY postcss@8.3.9
+ ├─┬ css-minimizer-webpack-plugin@3.0.0
+ │ └── UNMET PEER DEPENDENCY postcss@8.3.9
+```
+
+---
+
 ### Compile error `You may need additional loader`?
 
 If the following error message is encountered during the compilation process, it means that there are individual files that cannot be compiled correctly.
