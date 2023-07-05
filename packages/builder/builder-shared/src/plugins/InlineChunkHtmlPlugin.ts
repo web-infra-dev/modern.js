@@ -12,6 +12,7 @@ import type { Compiler, Compilation } from 'webpack';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { HtmlTagObject } from 'html-webpack-plugin';
 import { COMPILATION_PROCESS_STAGE } from './util';
+import { DEFAULT_ASSET_PREFIX } from '../constants';
 
 export type InlineChunkHtmlPluginOptions = {
   tests: RegExp[];
@@ -195,7 +196,7 @@ export class InlineChunkHtmlPlugin {
       const publicPath =
         typeof compiler.options.output.publicPath === 'string'
           ? addTrailingSlash(compiler.options.output.publicPath)
-          : '/';
+          : DEFAULT_ASSET_PREFIX;
 
       const tagFunction = (tag: HtmlTagObject) =>
         this.getInlinedTag(publicPath, tag, compilation);
