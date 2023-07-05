@@ -80,6 +80,13 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
       },
       {
         collapsible: false,
+        text: getText('框架', 'Framework'),
+        items: [
+          getLink('/guide/framework/vue3'),
+        ],
+      },
+      {
+        collapsible: false,
         text: getText('优化', 'Optimization'),
         items: [
           getLink('/guide/optimization/optimize-bundle'),
