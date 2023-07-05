@@ -279,7 +279,7 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   filename: FilenameConfig;
   distPath: DistPathConfig;
   polyfill: Polyfill;
-  assetsRetry?: AssetsRetryOptions;
+  assetPrefix: string;
   dataUriLimit: NormalizedDataUriLimit;
   cleanDistPath: boolean;
   disableCssExtract: boolean;

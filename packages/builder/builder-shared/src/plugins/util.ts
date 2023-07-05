@@ -1,6 +1,7 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
 import type { Compiler } from 'webpack';
+import { DEFAULT_ASSET_PREFIX } from '../constants';
 
 /** The intersection of webpack and Rspack */
 export const COMPILATION_PROCESS_STAGE = {
@@ -24,7 +25,7 @@ export const getPublicPathFromCompiler = (compiler: Compiler) =>
   typeof compiler.options.output.publicPath === 'string'
     ? compiler.options.output.publicPath
     : // publicPath function is not supported yet
-      '/';
+      DEFAULT_ASSET_PREFIX;
 
 export const getBuilderVersion = async (): Promise<string> => {
   const pkgJson = await fs.readJSON(path.join(__dirname, '../../package.json'));

@@ -4,7 +4,7 @@ import { build, getHrefByEntryName } from '../scripts/shared';
 
 const fixtures = __dirname;
 
-test('webpackChain plugin', async ({ page }) => {
+test('webpackChain - register plugin', async ({ page }) => {
   const builder = await build({
     cwd: join(fixtures, 'source/global-vars'),
     entry: {
