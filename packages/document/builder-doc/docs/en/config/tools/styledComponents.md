@@ -14,7 +14,7 @@
 
 - **Bundler:** `only support webpack`
 
-`tools.styledComponents` config is corresponding to [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components).
+`tools.styledComponents` config is corresponding to [babel-plugin-styled-components](https://github.com/styled-components/babel-plugin-styled-components), or [@swc/plugin-styled-components](https://github.com/swc-project/plugins/tree/main/packages/styled-components) when using SWC plugin.
 
 When the value is an Object, use the Object.assign function to merge with the default config. For example:
 
@@ -39,3 +39,5 @@ export default {
   },
 };
 ```
+
+This feature is enabled by default, configuring it to `false` can disable this behaviour.

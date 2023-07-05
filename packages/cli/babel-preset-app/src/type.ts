@@ -18,7 +18,7 @@ export type Options = {
   useLegacyDecorators?: boolean;
   useTsLoader?: boolean;
   lodash?: Record<string, any>;
-  styledComponents?: IStyledComponentOptions;
+  styledComponents?: IStyledComponentOptions | false;
   appDirectory: string;
   chain?: BabelChain;
   userBabelConfig?: BabelConfig | BabelConfig[];

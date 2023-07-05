@@ -21,7 +21,7 @@ export interface IBaseBabelConfigOption {
           }
         | false;
     };
-    styledComponentsOptions?: IStyledComponentOptions;
+    styledComponentsOptions?: false | IStyledComponentOptions;
     lodashOptions?: any;
   };
   useLegacyDecorators?: boolean;
