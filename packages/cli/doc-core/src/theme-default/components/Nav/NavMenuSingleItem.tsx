@@ -2,7 +2,7 @@ import { NavItemWithLink } from 'shared/types';
 import { Link } from '../Link';
 import styles from './index.module.scss';
 import { normalizeHref } from '@/runtime';
-import { withoutBase, withoutLang } from '@/shared/utils';
+import { withoutBase } from '@/shared/utils';
 
 interface Props {
   pathname: string;
@@ -11,10 +11,11 @@ interface Props {
 }
 
 export function NavMenuSingleItem(item: NavItemWithLink & Props) {
-  const { pathname, base, langs } = item;
+  const { pathname, base } = item;
   const isActive = new RegExp(item.activeMatch || item.link).test(
-    withoutLang(withoutBase(pathname, base), langs),
+    withoutBase(pathname, base),
   );
+
   return (
     <Link href={normalizeHref(item.link)}>
       <div

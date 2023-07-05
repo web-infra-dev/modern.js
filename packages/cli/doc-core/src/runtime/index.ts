@@ -11,6 +11,6 @@ export {
   normalizeRoutePath,
   isEqualPath,
 } from './utils';
-export { useLocation } from 'react-router-dom';
+export { useLocation, useNavigate } from 'react-router-dom';
 export { Helmet } from 'react-helmet-async';
 export { NoSSR } from './NoSSR';

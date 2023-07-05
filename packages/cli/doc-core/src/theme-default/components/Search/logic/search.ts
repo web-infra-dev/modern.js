@@ -131,7 +131,7 @@ export class PageSearcher {
     query: string,
     matchedResult: MatchResultItem[],
   ): boolean {
-    const { title } = item;
+    const { title = '' } = item;
     const normalizedTitle = normalizeTextCase(title);
     if (normalizedTitle.includes(query)) {
       matchedResult.push({
@@ -158,7 +158,7 @@ export class PageSearcher {
     query: string,
     matchedResult: MatchResultItem[],
   ): boolean {
-    const { toc, domain = '', title } = item;
+    const { toc = [], domain = '', title = '' } = item;
     for (const [index, header] of toc.entries()) {
       const normalizedHeader = normalizeTextCase(header.text);
       if (normalizedHeader.includes(query)) {
