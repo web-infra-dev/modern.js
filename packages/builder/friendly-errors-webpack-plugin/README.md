@@ -26,4 +26,4 @@ module.exports = {
 
 Now you will get output like belong.
 
-![screenshot](assets/c6f14fbfb6c8fe734df7979f079d18c36e11be9f.png)
+![screenshot](https://lf3-static.bytednsdoc.com/obj/eden-cn/hrbzheh7lpqulduloj/c6f14fbfb6c8fe734df7979f079d18c36e11be9f.png)
