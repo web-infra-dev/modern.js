@@ -1,4 +1,3 @@
-import os from 'os';
 import path from 'path';
 import { getMWACases, getMWANewCases } from '@modern-js/generator-cases';
 import { fs, nanoid, semver } from '@modern-js/utils';
@@ -174,12 +173,13 @@ async function runMWANewCommand(
   }
   const isNode16 = semver.gte(process.versions.node, '16.0.0');
   const params = ['install', '--ignore-scripts', '--force'];
-  const packageManager = getPackageManager(project);
+  // const packageManager = getPackageManager(project);
+  const packageManager = 'pnpm'; // use pnpm package manager
   if (isNode16 || project.includes('pnpm')) {
-    if (packageManager === 'yarn') {
-      params.push('--cache-folder');
-      params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
-    }
+    // if (packageManager === 'yarn') {
+    //   params.push('--cache-folder');
+    //   params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
+    // }
     await execaWithStreamLog(packageManager, params, {
       cwd,
     });
