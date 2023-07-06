@@ -1,17 +1,12 @@
 import chalk from '@modern-js/utils/chalk';
 import type { Stats, MultiStats } from './types';
+import { formatWebpackMessages } from '@modern-js/utils/universal/format-webpack';
 
-export async function formatStats(
-  stats: Stats | MultiStats,
-  showWarnings = true,
-) {
+export function formatStats(stats: Stats | MultiStats, showWarnings = true) {
   const statsData = stats.toJson({
     preset: 'errors-warnings',
   });
 
-  const { formatWebpackMessages } = await import(
-    '@modern-js/utils/universal/format-webpack'
-  );
   const { errors, warnings } = formatWebpackMessages(statsData);
 
   if (errors.length) {

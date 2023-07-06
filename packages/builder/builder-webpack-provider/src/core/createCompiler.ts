@@ -29,7 +29,7 @@ export async function createCompiler({
   let isFirstCompile = true;
 
   compiler.hooks.done.tap('done', async (stats: unknown) => {
-    const { message, level } = await formatStats(stats as Stats);
+    const { message, level } = formatStats(stats as Stats);
 
     if (level === 'error') {
       logger.log(message);
