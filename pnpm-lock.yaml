@@ -4643,6 +4643,9 @@ importers:
       '@modern-js/server':
         specifier: workspace:*
         version: link:../../server/server
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -4671,9 +4674,6 @@ importers:
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
         version: link:../../builder/builder-rspack-provider
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../server/core
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
