@@ -194,3 +194,43 @@ Here is a complete example using the three types above:
   }
 ]
 ```
+
+### No Config Usage
+
+[Comment Translate] Google
+
+In some directories, you don't need to configure `_meta.json` and let the framework automatically generate the sidebar. This requires ensuring that the directory contains only documents, not subdirectories, and you have no requirements for the order of documents. For example, there is now the following document structure:
+
+```bash
+docs
+├── _meta.json
+└── guides
+  ├── _meta.json
+  └── basic
+    ├── introduction.mdx
+    ├── install.mdx
+    └── plugin-development.md
+```
+
+In the guides directory you can configure `_meta.json` as follows:
+
+```json
+[
+  {
+    "type": "dir",
+    "name": "basic",
+    "label": "Basic",
+    "collapsible": true,
+    "collapsed": false
+  }
+]
+```
+
+In `basic` directory, you may not configure `_meta.json`, and then the framework will automatically generate a sidebar for you, the default is sorted alphabetically according to the file name. If you want to customize the order, you can prefix the file name with a number, such as:
+
+```bash
+basic
+  ├── 1-introduction.mdx
+  ├── 2-install.mdx
+  └── 3-plugin-development.md
+```
