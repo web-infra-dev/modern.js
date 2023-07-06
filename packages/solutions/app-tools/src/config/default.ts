@@ -83,9 +83,6 @@ export function createDefaultConfig(
     builderPlugins: [],
     runtime: {},
     runtimeByEntries: {},
-    experiments: {
-      sourceBuild: true,
-    },
   };
 }
 

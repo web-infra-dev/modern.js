@@ -45,4 +45,6 @@ export const plugins: Plugins = {
   wasm: () => import('./wasm').then(m => m.builderPluginWasm()),
   moment: () => import('./moment').then(m => m.builderPluginMoment()),
   externals: () => import('./externals').then(m => m.builderPluginExternals()),
+  sourceBuild: () =>
+    import('./sourceBuild').then(m => m.builderPluginSourceBuild()),
 };

@@ -78,6 +78,9 @@ importers:
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../builder-shared
+      '@modern-js/monorepo-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/monorepo-utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -85,6 +88,12 @@ importers:
         specifier: 8.0.1
         version: 8.0.1
     devDependencies:
+      '@modern-js/builder-rspack-provider':
+        specifier: workspace:*
+        version: link:../builder-rspack-provider
+      '@modern-js/builder-webpack-provider':
+        specifier: workspace:*
+        version: link:../builder-webpack-provider
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -5043,6 +5052,37 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  packages/toolkit/monorepo-utils:
+    dependencies:
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
+      p-map:
+        specifier: ^4.0.0
+        version: 4.0.0
+    devDependencies:
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      jest:
+        specifier: ^29
+        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   packages/toolkit/node-bundle-require:
     dependencies:
       '@modern-js/utils':
@@ -7841,6 +7881,52 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+
+  tests/integration/source-code-build/app:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      '@source-code-build/components':
+        specifier: workspace:*
+        version: link:../components
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../packages/cli/plugin-swc
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
+  tests/integration/source-code-build/components:
+    dependencies:
+      '@source-code-build/utils':
+        specifier: workspace:*
+        version: link:../utils
+
+  tests/integration/source-code-build/utils:
+    devDependencies:
+      typescript:
+        specifier: ^5
+        version: 5.0.4
 
   tests/integration/ssg:
     devDependencies:

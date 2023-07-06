@@ -60,6 +60,7 @@ export type Plugins = {
   wasm: PluginsFn;
   moment: PluginsFn;
   externals: PluginsFn;
+  sourceBuild: PluginsFn;
 };
 
 /**

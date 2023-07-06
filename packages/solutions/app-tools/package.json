@@ -79,7 +79,6 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
     "@modern-js/builder-plugin-node-polyfill": "workspace:*",
-    "@modern-js/builder-plugin-source-build": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/core": "workspace:*",
