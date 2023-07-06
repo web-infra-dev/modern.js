@@ -29,7 +29,7 @@ Modern.js is a web engineering system, including multiple solutions:
 
 - Use [Modern.js Framework](https://modernjs.dev/en/guides/get-started/quick-start) to develop a web application.
 - Use [Modern.js Module](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) to develop an npm package.
-- Use [Modern.js Doc](https://modernjs.dev/doc-tools/guide/getting-started.html) to develop a documentation site.
+- Use [Modern.js Doc](https://modernjs.dev/doc-tools/guide/start/getting-started.html) to develop a documentation site.
 - Use [Modern.js Builder](https://modernjs.dev/builder/en/guide/quick-start.html) to provide build capabilities for your own web framework.
 
 ## Ecosystem
