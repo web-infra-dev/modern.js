@@ -14,7 +14,7 @@ The following are the formats supported by Builder by default:
 - **Fonts**: woff, woff2, eot, ttf, otf, ttc.
 - **Media**: mp4, webm, ogg, mp3, wav, flac, aac, mov.
 
-If you need to import static resources in other formats, please provide feedback through [GitHub Issues](https://github.com/web-infra-dev/modern.js/issues).
+If you need to import assets in other formats, please refer to [Extend Asset Types](#extend-asset-types).
 
 :::tip SVG images
 SVG image is a special case. Builder support convert SVG to React components, so SVG is processed separately. For details, see [Import SVG Assets](/guide/basic/svg-assets.html).
@@ -116,6 +116,38 @@ declare module '*.png' {
 ```
 
 After adding the type declaration, if the type error still exists, you can try to restart the current IDE, or adjust the directory where `global.d.ts` is located, making sure the TypeScript can correctly identify the type definition.
+
+## Extend Asset Types
+
+If the built-in asset types in Builder cannot meet your requirements, you can modify the built-in webpack/Rspack configuration and extend the asset types you need using [tools.bundlerChain](/api/config-tools.html#toolsbundlerchain).
+
+For example, if you want to treat `*.pdf` files as assets and directly output them to the dist directory, you can add the following configuration:
+
+```ts
+export default {
+  tools: {
+    bundlerChain(chain) {
+      chain.module
+        .rule('pdf')
+        .test(/\.pdf$/)
+        .type('asset/resource');
+    },
+  },
+};
+```
+
+After adding the above configuration, you can import `*.pdf` files in your code, for example:
+
+```js
+import myFile from './static/myFile.pdf';
+
+console.log(myFile); // "/static/myFile.6c12aba3.pdf"
+```
+
+For more information about asset modules, please refer to:
+
+- [Rspack Documentation - Asset modules](https://www.rspack.dev/guide/asset-module.html#asset-modules)
+- [webpack Documentation - Asset modules](https://webpack.js.org/guides/asset-modules/)
 
 ## Image Format
 

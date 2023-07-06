@@ -41,6 +41,8 @@ export const EN_LOCALE = {
     dev: {
       noDevtools: noDevTools,
     },
+    buildConfigTip:
+      'The configuration file of the current project has both `buildConfig` and `buildPreset` options. However, only the `buildConfig` configuration will take effect. If you need to override the content of `buildPreset`, please use the function type of `buildPreset` (refer to the API documentation for details).',
   },
   errors: {
     externalHelpers: `The 'externalHelpers' configuration is currently enabled, but the "@swc/helpers" dependency declaration was not found. This will cause issues with the build output.Use the following for installation:
