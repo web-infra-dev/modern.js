@@ -1,4 +1,3 @@
-import os from 'os';
 import path from 'path';
 import { fs, semver } from '@modern-js/utils';
 import { execaWithStreamLog, getPackageManager } from './tools';
@@ -85,14 +84,15 @@ export async function runInstallAndBuildProject(type: string, tmpDir: string) {
       .filter(project => project.includes(type))
       .map(async project => {
         console.info('install and build process', project);
-        const packageManager = getPackageManager(project);
+        // const packageManager = getPackageManager(project);
+        const packageManager = 'pnpm';
         const isNode16 = semver.gte(process.versions.node, '16.0.0');
         const params = ['install', '--ignore-scripts', '--force'];
         if (isNode16 || project.includes('pnpm')) {
-          if (packageManager === 'yarn') {
-            params.push('--cache-folder');
-            params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
-          }
+          // if (packageManager === 'yarn') {
+          //   params.push('--cache-folder');
+          //   params.push(path.join(os.tmpdir(), project, 'yarn-cache'));
+          // }
           await execaWithStreamLog(packageManager, params, {
             cwd: path.join(tmpDir, project),
           });
