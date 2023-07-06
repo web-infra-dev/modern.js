@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.25.1",
+  "version": "2.25.2",
   "description": "SWC plugin for builder in Modern.js",
   "repository": {
     "type": "git",

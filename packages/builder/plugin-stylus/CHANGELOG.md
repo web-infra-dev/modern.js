@@ -1,5 +1,20 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.25.2
+
+### Patch Changes
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- Updated dependencies [f54bb68]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+  - @modern-js/builder-rspack-provider@2.25.2
+  - @modern-js/builder-webpack-provider@2.25.2
+  - @modern-js/builder-shared@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes

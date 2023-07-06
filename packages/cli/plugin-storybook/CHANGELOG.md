@@ -1,5 +1,27 @@
 # @modern-js/plugin-storybook
 
+## 2.25.2
+
+### Patch Changes
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+- Updated dependencies [e8a90f3]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-webpack-provider@2.25.2
+  - @modern-js/builder-shared@2.25.2
+  - @modern-js/runtime@2.25.2
+  - @modern-js/builder@2.25.2
+  - @modern-js/builder-plugin-node-polyfill@2.25.2
+  - @modern-js/plugin-router-v5@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes

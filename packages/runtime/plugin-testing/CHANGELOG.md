@@ -1,5 +1,23 @@
 # @modern-js/plugin-testing
 
+## 2.25.2
+
+### Patch Changes
+
+- 358ed24: fix: support configuration ts-node and avoid to register ts-node unnecessarily
+  fix: 支持配置 ts-node，避免对 ts-node 不必要的注册
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+- Updated dependencies [e8a90f3]
+  - @modern-js/utils@2.25.2
+  - @modern-js/runtime@2.25.2
+  - @modern-js/babel-preset-app@2.25.2
+  - @modern-js/prod-server@2.25.2
+  - @modern-js/babel-compiler@2.25.2
+  - @modern-js/plugin@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes

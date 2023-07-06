@@ -1,5 +1,15 @@
 # @modern-js-app/eslint-config
 
+## 2.25.2
+
+### Patch Changes
+
+- 0990154: fix(eslint-config): allow $ in filenames
+
+  fix(eslint-config): 允许文件名包含 $ 符号
+
+  - @modern-js/babel-preset-app@2.25.2
+
 ## 2.25.1
 
 ### Patch Changes
