@@ -15,6 +15,7 @@ import {
   ModernServer,
   AGGRED_DIR,
   BuildOptions,
+  createRenderHandler,
 } from '@modern-js/prod-server';
 import type {
   ModernServerContext,
@@ -29,11 +30,14 @@ import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
 import type { DevServerOptions, ModernDevServerOptions } from '../types';
 import DevMiddleware from '../dev-tools/dev-middleware';
+import { workerSSRRender } from './workerSSRRender';
 
 export class ModernDevServer extends ModernServer {
   private mockHandler: ReturnType<typeof createMockHandler> = null;
 
   private readonly dev: DevServerOptions;
+
+  private readonly useWorkerSSR: boolean;
 
   private readonly appContext: ModernDevServerOptions['appContext'];
 
@@ -48,6 +52,8 @@ export class ModernDevServer extends ModernServer {
 
     // dev server should work in pwd
     this.workDir = this.pwd;
+
+    this.useWorkerSSR = Boolean(options.useWorkerSSR);
 
     // set dev server options, like webpack-dev-server
     this.dev = this.getDevOptions(options);
@@ -120,6 +126,21 @@ export class ModernDevServer extends ModernServer {
     this.addMiddlewareHandler([...afters, ...afterHandlers]);
 
     await super.onInit(runner, app);
+
+    if (this.useWorkerSSR) {
+      const { distDir, staticGenerate, conf, metaName } = this;
+      const ssrConfig = this.conf.server?.ssr;
+      const forceCSR =
+        typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+      this.routeRenderHandler = createRenderHandler({
+        ssrRender: workerSSRRender,
+        distDir,
+        staticGenerate,
+        forceCSR,
+        nonce: conf.security?.nonce,
+        metaName,
+      });
+    }
 
     // watch mock/ server/ api/ dir file change
     if (dev.watch) {

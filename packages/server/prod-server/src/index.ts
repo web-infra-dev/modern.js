@@ -7,6 +7,7 @@ export { ModernServer } from './server/modernServer';
 export { createProxyHandler } from './libs/proxy';
 export * from './type';
 export * from './constants';
+export { createRenderHandler } from './libs/render';
 
 export default (options: ModernServerOptions): Promise<Server> => {
   if (options == null) {

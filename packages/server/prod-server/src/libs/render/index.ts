@@ -14,10 +14,12 @@ export const createRenderHandler = ({
   staticGenerate,
   forceCSR,
   nonce,
+  ssrRender,
   metaName = 'modern-js',
 }: {
   distDir: string;
   staticGenerate: boolean;
+  ssrRender?: typeof ssr.render;
   forceCSR?: boolean;
   nonce?: string;
   metaName?: string;
@@ -56,19 +58,30 @@ export const createRenderHandler = ({
         ctx.headers[`x-${cutNameByHyphen(metaName)}-ssr-fallback`]);
     if (route.isSSR && !useCSR) {
       try {
-        const result = await ssr.render(
-          ctx,
-          {
-            distDir,
-            entryName: route.entryName,
-            urlPath: route.urlPath,
-            bundle: route.bundle,
-            template: content.toString(),
-            staticGenerate,
-            nonce,
-          },
-          runner,
-        );
+        const ssrRenderOptions = {
+          distDir,
+          entryName: route.entryName,
+          urlPath: route.urlPath,
+          bundle: route.bundle,
+          template: content.toString(),
+          staticGenerate,
+          nonce,
+        };
+        const result = await (ssrRender
+          ? ssrRender(ctx, ssrRenderOptions, runner)
+          : ssr.render(
+              ctx,
+              {
+                distDir,
+                entryName: route.entryName,
+                urlPath: route.urlPath,
+                bundle: route.bundle,
+                template: content.toString(),
+                staticGenerate,
+                nonce,
+              },
+              runner,
+            ));
         return result;
       } catch (err) {
         ctx.error(

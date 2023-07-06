@@ -52,6 +52,7 @@ export const dev = async (
   }
 
   await generateRoutes(appContext);
+  const useWorkerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const serverOptions = {
@@ -72,6 +73,7 @@ export const dev = async (
     config: normalizedConfig,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
+    useWorkerSSR,
   };
 
   if (apiOnly) {

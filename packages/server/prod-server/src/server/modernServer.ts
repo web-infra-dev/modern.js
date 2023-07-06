@@ -99,7 +99,11 @@ export class ModernServer implements ModernServerInterface {
 
   protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
-  private routeRenderHandler!: ReturnType<typeof createRenderHandler>;
+  protected routeRenderHandler!: ReturnType<typeof createRenderHandler>;
+
+  protected readonly staticGenerate: boolean;
+
+  protected readonly metaName?: string;
 
   private loaderHandler: LoaderHandler | null = null;
 
@@ -110,10 +114,6 @@ export class ModernServer implements ModernServerInterface {
   private proxyHandler: ReturnType<typeof createProxyHandler> = null;
 
   private _handler!: (context: ModernServerContext, next: NextFunction) => void;
-
-  private readonly staticGenerate: boolean;
-
-  private readonly metaName?: string;
 
   constructor({
     pwd,
