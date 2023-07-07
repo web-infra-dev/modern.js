@@ -23,8 +23,6 @@ const defaultHtmlPluginOptions = {
 
 通过 `tools.htmlPlugin` 可以修改 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 或 [@rspack/plugin-html](https://github.com/web-infra-dev/rspack/tree/main/packages/rspack-plugin-html) 的配置项。
 
-你可以通过将 `tools.htmlPlugin` 设置为 `false` 来关闭 html 生成功能。
-
 ### Object 类型
 
 当 `tools.htmlPlugin` 的值为 `Object` 类型时，会与默认配置通过 `Object.assign` 合并。
