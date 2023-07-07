@@ -36,7 +36,7 @@ export default defineConfig({
 });
 ```
 
-以上配置完成后，如果在代码中引用 `@common/Foo.tsx`, 则会映射到 `<root>/src/common/Foo.tsx` 路径上。
+以上配置完成后，如果在代码中引用 `@common/Foo.tsx`, 则会映射到 `<project>/src/common/Foo.tsx` 路径上。
 
 `alias` 的值定义为函数时，可以接受预设的 alias 对象，并对其进行修改。
 

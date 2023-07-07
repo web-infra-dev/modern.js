@@ -7,6 +7,10 @@ Create aliases to import or require certain modules, same as the [resolve.alias]
 For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Builder will automatically recognize the aliases in `tsconfig.json`, so the `alias` config is unnecessary.
 :::
 
+:::tip
+For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in the `tsconfig.json` file. The Builder will automatically recognize it, so there is no need to configure the `source.alias` option separately. For more details, please refer to [Path Aliases](https://modernjs.dev/builder/en/guide/advanced/alias.html).
+:::
+
 ### Object Type
 
 The `alias` can be an Object, and the relative path will be automatically converted to absolute path.
@@ -21,7 +25,7 @@ export default {
 };
 ```
 
-With above configuration, if `@common/Foo.tsx` is import in the code, it will be mapped to the `<root>/src/common/Foo.tsx` path.
+With above configuration, if `@common/Foo.tsx` is import in the code, it will be mapped to the `<project>/src/common/Foo.tsx` path.
 
 ### Function Type
 

@@ -36,7 +36,7 @@ export default {
 };
 ```
 
-After the above configuration is done, if `@common/Foo.tsx` is referenced in the code, it will map to the `<root>/src/common/Foo.tsx` path.
+After the above configuration is done, if `@common/Foo.tsx` is referenced in the code, it will map to the `<project>/src/common/Foo.tsx` path.
 
 When the value of `alias` is defined as a function, you can accept the pre-defined alias object and modify it.
 
