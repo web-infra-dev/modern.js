@@ -76,3 +76,9 @@ export default {
 #### 使用代理
 
 Lazy Compilation 依赖 webpack 在本地启动的开发服务器，当你将某个域名代理到 localhost 进行开发时，Lazy Compilation 将无法正常工作。因此，如果你需要使用代理时，请禁用 Lazy Compilation。
+
+#### 其他潜在的问题
+
+考虑到 Lazy Compilation 仍然是 webpack 的实验性功能，因此你在使用过程中，可能会遇到一些潜在的问题，比如编译产物的行为变化，或是编译出现异常。
+
+当你遇到这些问题时，可以参考 [webpack 的 Issues](https://github.com/webpack/webpack/issues) 寻找解决方案，也可以关闭 `lazyCompilation` 配置项。
