@@ -36,7 +36,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
     },
     async modifySearchIndexData(pages) {
       // Update the search index of module doc which includes `<API moduleName="xxx" />`
-      const apiCompRegExp = /<API\s+moduleName="(\S+)"\s*(.*)?\/>/g;
+      const apiCompRegExp = /<API\s+moduleName=['"](\S+)['"]\s*(.*)?\/>/g;
       await Promise.all(
         pages.map(async page => {
           const { _filepath, lang } = page;

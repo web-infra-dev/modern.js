@@ -30,7 +30,7 @@
     }
   },
   "scripts": {
-    "dev": "modern-lib dev",
+    "dev": "modern-lib build --no-dts -w",
     "build": "modern-lib build",
     "reset": "rimraf ./**/node_modules",
     "lint": "modern-lib lint",

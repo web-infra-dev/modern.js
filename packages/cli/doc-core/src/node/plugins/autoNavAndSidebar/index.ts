@@ -182,7 +182,7 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
     // Don't use require to avoid require cache, which make hmr not work.
     sideMeta = (await fs.readJSON(metaFile, 'utf8')) as SideMeta;
   } catch (e) {
-    sideMeta = [];
+    sideMeta = await fs.readdir(workDir);
   }
 
   const sidebarFromMeta: (SidebarGroup | SidebarItem)[] = await Promise.all(
