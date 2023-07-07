@@ -2,19 +2,20 @@
 title: 快速上手
 sidebar_position: 2
 ---
+
 # 快速上手
 
 ## 环境准备
 
-import Prerequisites from "@site-docs/components/prerequisites"
+import Prerequisites from '@site-docs/components/prerequisites';
 
 <Prerequisites />
 
 ## 安装
 
-Modern.js 提供了 `@modern-js/create` 工具来创建项目，不要全局安装，使用 `npx` 按需运行。
+Modern.js 提供了 `@modern-js/create` 工具来创建项目，不需要全局安装，直接使用 `npx` 按需运行即可。
 
-可以在已有的空目录来创建项目：
+你可以在已有的空目录来创建项目：
 
 ```bash
 mkdir myapp && cd myapp
@@ -29,13 +30,13 @@ npx @modern-js/create@latest myapp
 
 ## 初始化项目
 
-import InitApp from "@site-docs/components/init-app"
+import InitApp from '@site-docs/components/init-app';
 
 <InitApp />
 
 ## 启动项目
 
-import DebugApp from "@site-docs/components/debug-app"
+import DebugApp from '@site-docs/components/debug-app';
 
 <DebugApp />
 
@@ -43,7 +44,7 @@ import DebugApp from "@site-docs/components/debug-app"
 
 通过 `@modern-js/create` 创建的 Modern.js 项目中，会默认生成 `modern.config.ts` 文件。
 
-可以通过该配置文件修改配置，覆盖 Modern.js 的默认行为。例如添加如下配置，开启 SSR：
+你可以通过该配置文件修改配置，覆盖 Modern.js 的默认行为。例如添加如下配置，开启 SSR：
 
 ```ts title="modern.config.ts"
 import { appTools, defineConfig } from '@modern-js/app-tools';
@@ -60,6 +61,26 @@ export default defineConfig({
 ```
 
 重新执行 `pnpm run dev`，在浏览器 Network 菜单中，可以发现项目已经在服务端完成了页面渲染。
+
+## 核心 npm 包
+
+在新创建的工程中，默认会安装 `@modern-js/app-tools` npm 包，它是 Modern.js 框架的核心包，主要提供以下能力：
+
+- 提供 `modern dev`, `modern build` 等常用的 CLI 命令。
+- 集成 Modern.js Core，提供配置解析、插件加载等能力。
+- 集成 Modern.js Builder，提供构建能力。
+- 集成 Modern.js Server，提供开发和生产服务器相关能力。
+- 集成一些最为常用的插件，比如 `plugin-lint`、`plugin-data-loader` 等。
+
+`@modern-js/app-tools` 是基于 Modern.js 的插件体系实现的，本质上是一个插件，因此你需要在配置文件的 `plugins` 字段中注册 `appTools`：
+
+```ts title="modern.config.ts"
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  plugins: [appTools()],
+});
+```
 
 ## 构建项目
 
@@ -125,6 +146,6 @@ info    App running at:
 
 ## 部署
 
-import Deploy from "@site-docs/components/deploy"
+import Deploy from '@site-docs/components/deploy';
 
 <Deploy />
