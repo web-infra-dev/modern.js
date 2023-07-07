@@ -4,7 +4,7 @@
 设置文件引用的别名，对应 webpack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置。
 
 :::tip
-对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) 即可，Builder 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
+对于 TypeScript 项目，你只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) 即可，Builder 会自动识别它，不需要额外配置 `source.alias` 字段，详见 [「路径别名」](https://modernjs.dev/builder/guide/advanced/alias.html)。
 :::
 
 ### Object 类型
@@ -21,7 +21,7 @@ export default {
 };
 ```
 
-以上配置完成后，如果在代码中引用 `@common/Foo.tsx`, 则会映射到 `<root>/src/common/Foo.tsx` 路径上。
+以上配置完成后，如果你在代码中引用 `@common/Foo.tsx`, 则会映射到 `<project>/src/common/Foo.tsx` 路径上。
 
 ### Function 类型
 
