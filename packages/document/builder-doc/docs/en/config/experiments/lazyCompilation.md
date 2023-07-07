@@ -76,3 +76,9 @@ When you enable lazy compilation, in order to ensure the compilation results, Bu
 #### Use proxy
 
 Lazy Compilation relies on the local development server of webpack. When you proxy a domain name to localhost, Lazy Compilation will not work properly. Therefore, if you need to develop with proxy, please disable Lazy Compilation.
+
+#### Other Potential Issues
+
+Considering that Lazy Compilation is still an experimental feature of webpack, you may encounter some potential issues while using it, such as changes in the behavior of compiled artifacts or compilation errors.
+
+When you encounter these issues, you can refer to [webpack Issues](https://github.com/webpack/webpack/issues) to find solutions or disable the `lazyCompilation` configuration option.
