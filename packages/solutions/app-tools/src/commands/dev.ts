@@ -12,9 +12,14 @@ import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
+export interface ExtraServerOptions {
+  useSSRWorker?: boolean;
+}
+
 export const dev = async (
   api: PluginAPI<AppTools<'shared'>>,
   options: DevOptions,
+  devServerOptions: ExtraServerOptions = {},
 ) => {
   if (options.analyze) {
     // Builder will read this env var to enable bundle analyzer
@@ -52,7 +57,6 @@ export const dev = async (
   }
 
   await generateRoutes(appContext);
-  const useWorkerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
   const serverInternalPlugins = await getServerInternalPlugins(api);
 
   const serverOptions = {
@@ -73,7 +77,7 @@ export const dev = async (
     config: normalizedConfig,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
-    useWorkerSSR,
+    ...devServerOptions,
   };
 
   if (apiOnly) {

@@ -14,10 +14,14 @@ async function sleep(time: number) {
 
 export async function workerSSRRender(
   _ctx: any,
-  _renderOptions: any,
+  renderOptions: {
+    urlPath: string;
+    [props: string]: any;
+  },
   _runner: ServerHookRunner,
 ) {
-  const url = `http://0.0.0.0:${PORT}`;
+  const { urlPath } = renderOptions;
+  const url = `http://0.0.0.0:${PORT}/${urlPath}`;
   await sleep(1000);
   const resposne = await axios.get(url, {
     timeout: 5000,
