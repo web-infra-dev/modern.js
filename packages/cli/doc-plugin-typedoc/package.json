@@ -1,0 +1,76 @@
+{
+  "name": "@modern-js/doc-plugin-typedoc",
+  "version": "2.25.2",
+  "description": "The Documentation Framework of Modern.js.",
+  "homepage": "https://modernjs.dev/doc-tools/",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/doc-plugin-typedoc"
+  },
+  "license": "MIT",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/node/index.js",
+  "scripts": {
+    "dev": "modern-lib dev",
+    "build": "modern-lib build",
+    "reset": "rimraf ./**/node_modules",
+    "lint": "modern-lib lint",
+    "change": "modern-lib change",
+    "bump": "modern-lib bump",
+    "pre": "modern-lib pre",
+    "change-status": "modern-lib change-status",
+    "gen-release-note": "modern-lib gen-release-note",
+    "release": "modern-lib release",
+    "new": "modern-lib new",
+    "test": "vitest run --passWithNoTests",
+    "upgrade": "modern-lib upgrade"
+  },
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ],
+  "peerDependencies": {
+    "@modern-js/doc-tools": "workspace:^2.25.2",
+    "react": ">=17"
+  },
+  "devDependencies": {
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/doc-core": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@types/node": "^18.11.17",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "husky": "^8",
+    "lint-staged": "~13.1.0",
+    "prettier": "^2.6.2",
+    "typescript": "^5",
+    "vitest": "0.21.1"
+  },
+  "sideEffects": [
+    "*.css",
+    "*.less",
+    "*.sass",
+    "*.scss"
+  ],
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*",
+    "typedoc": "0.23.24",
+    "typedoc-plugin-markdown": "3.14.0"
+  }
+}
