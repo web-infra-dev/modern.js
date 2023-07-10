@@ -23,7 +23,7 @@ export function factory(
       },
       prepare() {
         const context = api.useAppContext();
-        if (!context.builder) {
+        if (!context.builder || context.bundlerType === 'rspack') {
           return;
         }
 
