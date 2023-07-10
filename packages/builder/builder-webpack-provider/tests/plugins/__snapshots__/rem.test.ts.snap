@@ -5,6 +5,9 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -76,6 +79,9 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -141,6 +147,9 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -206,6 +215,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -268,6 +280,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
@@ -340,6 +355,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
@@ -439,6 +457,9 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -536,6 +557,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -598,6 +622,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
@@ -670,6 +697,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [

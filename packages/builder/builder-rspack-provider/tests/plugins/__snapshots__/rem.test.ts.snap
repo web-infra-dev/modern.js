@@ -16,6 +16,9 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -64,6 +67,9 @@ exports[`plugins/rem > should not run htmlPlugin with enableRuntime is false 1`]
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -134,6 +140,9 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -176,6 +185,9 @@ exports[`plugins/rem > should not run rem plugin when false 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -240,6 +252,9 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -282,6 +297,9 @@ exports[`plugins/rem > should not run rem plugin without config 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -346,6 +364,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -394,6 +415,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -446,6 +470,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -504,6 +531,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -566,6 +596,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -621,6 +654,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -719,6 +755,9 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -767,6 +806,9 @@ exports[`plugins/rem > should run rem plugin with custom config 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -863,6 +905,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -911,6 +956,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -963,6 +1011,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1021,6 +1072,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1083,6 +1137,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1138,6 +1195,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
