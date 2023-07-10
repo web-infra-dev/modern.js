@@ -110,6 +110,7 @@ export function Code(props: CodeProps) {
         style={style}
         wrapLines={true}
         className="code"
+        customStyle={{ backgroundColor: 'inherit' }}
         // Notice: if the highlight line is specified, the line number must be displayed
         showLineNumbers={showLineNumbers || highlightLines.length > 0}
         lineProps={lineNumber => {
