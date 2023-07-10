@@ -5,12 +5,19 @@ export interface Options {
   debug?: boolean;
   distTag?: string;
   registry?: string;
+  needInstall?: boolean;
 }
 
 const UPGRADE_GENERATOR = '@modern-js/upgrade-generator';
 
 export async function upgradeAction(options: Options) {
-  const { cwd = process.cwd(), debug = false, distTag, registry } = options;
+  const {
+    cwd = process.cwd(),
+    debug = false,
+    distTag,
+    registry,
+    needInstall,
+  } = options;
   const projectDir = cwd;
 
   const smith = new CodeSmith({
@@ -32,7 +39,12 @@ export async function upgradeAction(options: Options) {
       tasks: [
         {
           generator,
-          config: { debug, distTag, registry },
+          config: {
+            debug,
+            distTag,
+            registry,
+            noNeedInstall: !needInstall,
+          },
         },
       ],
       pwd: cwd,
