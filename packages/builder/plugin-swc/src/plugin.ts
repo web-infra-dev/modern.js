@@ -32,6 +32,10 @@ export const builderPluginSwc = (
   name: PLUGIN_NAME,
 
   setup(api: BuilderPluginAPI) {
+    if (api.context.bundlerType === 'rspack') {
+      return;
+    }
+
     api.modifyBuilderConfig(config => {
       const extensions: PluginSwcOptions['extensions'] =
         // eslint-disable-next-line no-multi-assign

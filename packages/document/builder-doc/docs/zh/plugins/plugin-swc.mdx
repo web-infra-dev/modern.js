@@ -12,6 +12,8 @@ import SWC from '@zh/shared/swc.md';
 
 如果你的项目中已经使用了 Rspack 作为打包工具，那么你不需要接入 SWC 插件，因为 Rspack 默认会使用 SWC 进行转译和压缩，各个 SWC 编译能力可以开箱即用。
 
+如果你使用 Rspack 时配置了当前的 SWC 插件，它将不会产生任何效果。
+
 ### Babel 插件
 
 如果你的项目需要注册一些自定义的 Babel 插件，由于 SWC 替代了 Babel 作为转译工具，因此使用 SWC 后，你将无法注册和使用 Babel 插件。
