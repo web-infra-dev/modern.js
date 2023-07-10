@@ -299,10 +299,21 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `beforeCreateCompiler`
 
-- Function: Provides access to the Webpack configuration used to create the Webpack Compiler within middleware functions.
-- Execution Stage: Executed before creating the Webpack Compiler.
-- Hook Model: AsyncWorkflow.
-- Type: `AsyncWorkflow<{ webpackConfigs: Configuration[];}, unknown>`.
+- Function: A callback function triggered before creating the underlying Compiler instance, and you can get the final configuration array of the underlying bundler through the `bundlerConfigs` parameter:
+  - If the current bundler is webpack, you will get the webpack Compiler object.
+  - If the current bundler is Rspack, you will get the Rspack Compiler object.
+  - The configuration array may contain one or multiple configurations, depending on whether you have enabled features such as SSR.
+- Execution Stage: Executed before creating the Compiler instance when running the `dev` or `build` command.
+- Hook Model: `AsyncWorkflow`.
+- Type:
+
+```ts
+type BeforeCreateCompiler = AsyncWorkflow<
+  { bundlerConfigs: Configuration[] },
+  unknown
+>;
+```
+
 - Usage Example:
 
 ```ts
@@ -311,8 +322,9 @@ import type { CliPlugin } from '@modern-js/core';
 export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      beforeCreateCompiler: ({ webpackConfigs }) => {
-        // do something
+      beforeCreateCompiler: ({ bundlerConfigs }) => {
+        console.log('Before create compiler.');
+        console.log(bundlerConfigs);
       },
     };
   },
@@ -321,10 +333,20 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `afterCreateCompiler`
 
-- Function: Provides access to the created Webpack Compiler within middleware functions.
-- Execution Stage: Executed after creating the Webpack Compiler.
-- Hook Model: AsyncWorkflow.
-- Type: `AsyncWorkflow<{ compiler: Compiler | MultiCompiler | undefined; }, unknown>`.
+- Function: A callback function triggered after creating a Compiler instance and before executing the build. You can access the Compiler instance object through the `compiler` parameter:
+  - If the current bundler is webpack, you will get the webpack Compiler object.
+  - If the current bundler is Rspack, you will get the Rspack Compiler object.
+- Execution Stage: Executed after creating the Compiler object.
+- Hook Model: `AsyncWorkflow`.
+- Type:
+
+```ts
+type AfterCreateCompiler = AsyncWorkflow<
+  { compiler: Compiler | MultiCompiler | undefined },
+  unknown
+>;
+```
+
 - Usage Example:
 
 ```ts
@@ -334,7 +356,8 @@ export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterCreateCompiler: ({ compiler }) => {
-        // do something
+        console.log('After create compiler.');
+        console.log(compiler);
       },
     };
   },
@@ -368,10 +391,20 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `beforeBuild`
 
-- Function: Tasks to be executed before the main process of the `build` command, provides access to the Webpack configuration used for building.
-- Execution Stage: Executed before starting the project build when running the `build` command.
-- Hook Model: AsyncWorkflow.
-- Type: `AsyncWorkflow<{ webpackConfigs: Configuration[]; }>`.
+- Function: A callback function triggered before executing production environment builds. You can access the final configuration array of the underlying bundler through the `bundlerConfigs` parameter.
+  - If the current bundler is webpack, you will get the webpack Compiler object.
+  - If the current bundler is Rspack, you will get the Rspack Compiler object.
+  - The configuration array may contain one or multiple configurations, depending on whether you have enabled features such as SSR.
+- Execution Stage: Executed after running the `build` command and before the actual build process begins.
+- Hook Model: `AsyncWorkflow`.
+- Type:
+
+```ts
+type BeforeBuild = AsyncWorkflow<{
+  bundlerConfigs: WebpackConfig[] | RspackConfig[];
+}>;
+```
+
 - Usage Example:
 
 ```ts
@@ -380,8 +413,9 @@ import type { CliPlugin } from '@modern-js/core';
 export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      beforeBuild: () => {
-        // do something
+      beforeBuild: ({ bundlerConfigs }) => {
+        console.log('Before build.');
+        console.log(bundlerConfigs);
       },
     };
   },
@@ -390,10 +424,19 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `afterBuild`
 
-- Function: Tasks to be executed after the main process of the `build` command.
-- Execution Stage: Executed after the project build is completed when running the `build` command.
-- Hook Model: AsyncWorkflow.
-- Type: `AsyncWorkflow<void, unknown>`.
+- Function: A callback function triggered after running the production build. You can access the build result information through the `stats` parameter.
+  - If the current bundler is webpack, you will get webpack Stats.
+  - If the current bundler is Rspack, you will get Rspack Stats.
+- Execution Stage: It is executed after running the `build` command and completing the build.
+- Hook Model: `AsyncWorkflow`.
+- Type:
+
+```ts
+type AfterBuild = AsyncWorkflow<{
+  stats?: Stats | MultiStats;
+}>;
+```
+
 - Usage Example:
 
 ```ts
@@ -402,8 +445,9 @@ import type { CliPlugin } from '@modern-js/core';
 export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      afterBuild: () => {
-        // do something
+      afterBuild: ({ stats }) => {
+        console.log('After build.');
+        console.log(stats);
       },
     };
   },
