@@ -199,7 +199,7 @@ export const MWANewActionPluginName: Record<
     [ActionElement.Server]: 'serverPlugin',
   },
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: 'tailwindCSSPlugin',
+    [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.BFF]: 'bffPlugin',
     [ActionFunction.MicroFrontend]: 'garfishPlugin',
     [ActionFunction.Test]: 'testPlugin',
