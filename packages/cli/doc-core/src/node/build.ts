@@ -116,7 +116,7 @@ export async function renderPages(
       ({ render } = ssrExports as SSRBundleExports);
     } catch (e) {
       logger.warn(
-        `Failed to load ssr bundle: ${ssrBundlePath}, fallback to csr.`,
+        `Failed to load SSR bundle: ${ssrBundlePath}, fallback to CSR.`,
       );
       // fallback to csr
     }
