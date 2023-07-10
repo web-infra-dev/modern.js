@@ -129,7 +129,7 @@ type NormalizedConfig = {
 The return value type of `getNormalizedConfig()` is slightly different from that of `BuilderConfig` and is narrowed compared to the types described elsewhere in the documentation.
 You don't need to fill in the defaults when you use it.
 
-Therefore, the best way to use configuration items is to
+Therefore, the best way to use configuration options is to
 
 - **Modify the config** with `api.modifyBuilderConfig(config => {})`
 - Read `api.getNormalizedConfig()` as the **actual config used by the plugin** in the further lifetime.

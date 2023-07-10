@@ -1,5 +1,39 @@
 # @modern-js/utils
 
+## 2.25.2
+
+### Patch Changes
+
+- 63d8247: fix(utils): incorrect ora & commander exports path
+
+  fix(utils): 修复错误的 ora & commander 导出路径
+
+- 6651684: fix(app-tools): failed to print error stack
+
+  fix(app-tools): 修复 build 报错时未打印错误堆栈的问题
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- 358ed24: fix: support configuration ts-node and avoid to register ts-node unnecessarily
+  fix: 支持配置 ts-node，避免对 ts-node 不必要的注册
+
+## 2.25.1
+
+### Patch Changes
+
+- 9f78d0c: fix: react-router-dom version
+
+  fix: 修复 react-router-dom 版本
+
+## 2.25.0
+
+### Patch Changes
+
+- 5732c6a: feat: support for fallback SSR using request header fields
+  feat: 支持通过请求头字段来降级 SSR
+
 ## 2.24.0
 
 ### Patch Changes

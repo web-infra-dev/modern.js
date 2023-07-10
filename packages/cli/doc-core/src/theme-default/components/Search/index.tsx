@@ -1,6 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import { groupBy, debounce } from 'lodash-es';
+import { onSearch } from 'virtual-search-hooks';
 import { getSidebarGroupData } from '../../logic/useSidebarData';
 import { useLocaleSiteData } from '../../logic/useLocaleSiteData';
 import { Tabs, Tab } from '../Tabs';
@@ -147,6 +148,7 @@ export function Search() {
     const newQuery = e.target.value;
     setQuery(newQuery);
     if (newQuery) {
+      await onSearch(newQuery);
       const matched = await pageSearcherRef.current?.match(newQuery);
       setSearchResult(matched || { current: [], others: [] });
     }
@@ -299,10 +301,15 @@ export function Search() {
                   <label>
                     <CloseSvg
                       className={styles.close}
-                      onClick={() => {
+                      onClick={e => {
                         if (searchInputRef.current) {
-                          searchInputRef.current.value = '';
-                          setQuery('');
+                          e.stopPropagation();
+                          if (!query) {
+                            setFocused(false);
+                          } else {
+                            searchInputRef.current.value = '';
+                            setQuery('');
+                          }
                         }
                       }}
                     />

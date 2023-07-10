@@ -2,15 +2,15 @@
 sidebar_position: 3
 ---
 
-# DesignSystem
+# designSystem
 
-本章描述了有关 designSystem 相关的配置
+本章描述了有关 designSystem 相关的配置。
 
 :::tip
 需要先通过 `pnpm run new` 启用 Tailwind CSS 功能。
 :::
 
-- 类型：`Object`
+- 类型：`object`
 - 默认值: `见下方配置详情`。
 
 <details>

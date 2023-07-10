@@ -40,6 +40,8 @@ export const ZH_LOCALE = {
     dev: {
       noDevtools: noDevTools,
     },
+    buildConfigTip:
+      '当前项目的配置文件中同时设置了 `buildConfig` 和 `buildPreset`，因此仅有 `buildConfig` 配置能够生效。如果你需要覆盖 `buildPreset` 的内容，请使用 `buildPreset` 的函数配置方式（详见 API 文档）。',
   },
   errors: {
     externalHelpers: `当前开启了 'externalHelpers' 配置，未找到 "@swc/helpers" 依赖声明，构建产物会存在问题。使用下面的方式进行安装：

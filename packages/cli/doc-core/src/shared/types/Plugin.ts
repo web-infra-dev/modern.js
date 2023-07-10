@@ -35,10 +35,6 @@ export interface DocPlugin {
    */
   builderConfig?: BuilderConfig;
   /**
-   * To ensure hmr works properly, we need to watch some files.
-   */
-  watchFiles?: string[];
-  /**
    * Inject global components.
    */
   globalUIComponents?: string[];
@@ -57,15 +53,18 @@ export interface DocPlugin {
   /**
    * Extend every page's data
    */
-  extendPageData?: (pageData: PageIndexInfo) => void;
+  extendPageData?: (pageData: PageIndexInfo) => void | Promise<void>;
   /**
    * Add custom route
    */
   addPages?: (
     config: DocConfig,
     isProd: boolean,
-    routes: RouteMeta[],
   ) => AdditionalPage[] | Promise<AdditionalPage[]>;
+  /**
+   * Callback after route generated
+   */
+  routeGenerated?: (routes: RouteMeta[]) => Promise<void> | void;
   /**
    * Add addition ssg routes, for dynamic routes.
    */
@@ -73,4 +72,9 @@ export interface DocPlugin {
     config: DocConfig,
     isProd: boolean,
   ) => { path: string }[] | Promise<{ path: string }[]>;
+  /**
+   * @private
+   * Modify search index data.
+   */
+  modifySearchIndexData?: (data: PageIndexInfo[]) => void | Promise<void>;
 }

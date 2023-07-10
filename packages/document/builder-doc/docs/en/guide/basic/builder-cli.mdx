@@ -112,3 +112,18 @@ export default defineConfig({
   },
 });
 ```
+
+## Registering Plugins
+
+You can register Builder plugins using the `builderPlugins` option in `builder.config.ts`.
+
+For example, to register a Vue plugin:
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+import { builderPluginVue } from '@modern-js/builder-plugin-vue';
+
+export default defineConfig({
+  builderPlugins: [builderPluginVue()],
+});
+```

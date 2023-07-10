@@ -224,7 +224,7 @@ Please read the [Pug](https://pugjs.org/) documentation for details.
 The `html.tags` option can be configured to insert any tags into the final generated HTML product.
 
 :::warning Usage Cases
-The products of the web application will eventually be referenced directly or indirectly by HTML entries, but most of the time injecting tags directly into HTML is not preferred.
+The artifacts of the web application will eventually be referenced directly or indirectly by HTML entries, but most of the time injecting tags directly into HTML is not preferred.
 :::
 
 All tags that need to be injected into HTML can be accessed in the template file via the variable `htmlWebpackPlugin.tags`.

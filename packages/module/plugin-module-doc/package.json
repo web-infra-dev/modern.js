@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.24.0",
+  "version": "2.25.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -38,10 +38,10 @@
   "dependencies": {
     "@modern-js/doc-core": "workspace:*",
     "@modern-js/doc-plugin-preview": "workspace:*",
-    "@modern-js/doc-plugin-api-generator": "workspace:*"
+    "@modern-js/doc-plugin-api-docgen": "workspace:*",
+    "@arco-design/web-react": "^2.46.0"
   },
   "devDependencies": {
-    "@arco-design/web-react": "^2.46.0",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
@@ -55,7 +55,7 @@
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.24.0",
+    "@modern-js/module-tools": "workspace:^2.25.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

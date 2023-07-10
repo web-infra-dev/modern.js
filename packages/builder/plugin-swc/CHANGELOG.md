@@ -1,5 +1,42 @@
 # @modern-js/builder-plugin-swc
 
+## 2.25.2
+
+### Patch Changes
+
+- 74449be: fix(builder-plugin-swc): allow disabling styled-components
+
+  fix(builder-plugin-swc): 允许用户关闭 styled-components
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-shared@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [b10045f]
+- Updated dependencies [9f78d0c]
+  - @modern-js/builder-shared@2.25.1
+  - @modern-js/utils@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+  - @modern-js/builder-shared@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

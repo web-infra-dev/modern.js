@@ -1,5 +1,66 @@
 # @modern-js/doc-plugin-preview
 
+## 2.25.2
+
+### Patch Changes
+
+- a44aac7: feat(doc-core): support preview for pages added in `addPages` hook
+
+  feat(doc-core): 支持为 `addPages` 钩子新增的页面添加预览功能
+
+- Updated dependencies [0b3bba7]
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [2c82d4a]
+- Updated dependencies [a44aac7]
+- Updated dependencies [3973a72]
+- Updated dependencies [0499ff8]
+- Updated dependencies [272646c]
+- Updated dependencies [a44aac7]
+- Updated dependencies [358ed24]
+- Updated dependencies [5e2908c]
+  - @modern-js/doc-core@2.25.2
+  - @modern-js/utils@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/doc-core@2.25.1
+
+## 2.25.0
+
+### Minor Changes
+
+- a71a394: feat: add DemoBlock for preview in mobile mode
+  feat: 提供 DemoBlock 组件给移动端预览模式
+
+### Patch Changes
+
+- b40280c: feat(module-doc): support external demo
+
+  feat(module-doc): 支持外部 demo
+
+- 1e35251: refactor: separate api generator from module doc and refactor with global components
+  refactor: 将 api 生成功能从模块文档插件中分离出来，并以全局组件的形式重构
+- 62c2cda: fix(module-doc): demo not show in mobile
+
+  fix(module-doc): 修复移动端 demo 不显示问题
+
+- Updated dependencies [9ca6671]
+- Updated dependencies [4d47773]
+- Updated dependencies [b4d2fa2]
+- Updated dependencies [cd1bd19]
+- Updated dependencies [ec716ea]
+- Updated dependencies [b4b0f9f]
+- Updated dependencies [5732c6a]
+- Updated dependencies [7f8c12b]
+- Updated dependencies [c179cbd]
+  - @modern-js/doc-core@2.25.0
+  - @modern-js/utils@2.25.0
+
 ## 2.24.0
 
 ### Minor Changes

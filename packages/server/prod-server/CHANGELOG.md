@@ -1,5 +1,42 @@
 # @modern-js/prod-server
 
+## 2.25.2
+
+### Patch Changes
+
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/server-core@2.25.2
+  - @modern-js/plugin@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/server-core@2.25.1
+  - @modern-js/plugin@2.25.1
+
+## 2.25.0
+
+### Minor Changes
+
+- 2491875: feat(prod-server): get body from request when ssr mode
+  feat(prod-server): 开启 ssr 时从 request 获取 body
+
+### Patch Changes
+
+- 5732c6a: feat: support for fallback SSR using request header fields
+  feat: 支持通过请求头字段来降级 SSR
+- Updated dependencies [5732c6a]
+  - @modern-js/utils@2.25.0
+  - @modern-js/server-core@2.25.0
+  - @modern-js/plugin@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

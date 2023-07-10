@@ -6,7 +6,7 @@ import {
   CONFIG_CACHE_DIR,
   createDebugger,
 } from '@modern-js/utils';
-import { build, Loader, Plugin, BuildOptions } from 'esbuild';
+import { build, context, Loader, Plugin, BuildOptions } from 'esbuild';
 
 const debug = createDebugger('node-bundle');
 
@@ -67,6 +67,11 @@ export interface Options {
    * auto clear bundle file
    */
   autoClear?: boolean;
+
+  /**
+   * Whether to enable watch mode
+   */
+  watch?: boolean;
 }
 
 export const defaultGetOutputFile = async (filepath: string) =>
@@ -85,7 +90,7 @@ export async function bundle(filepath: string, options?: Options) {
   const getOutputFile = options?.getOutputFile || defaultGetOutputFile;
   const outfile = await getOutputFile(path.basename(filepath));
 
-  await build({
+  const esbuildOptions: BuildOptions = {
     entryPoints: [filepath],
     outfile,
     format: 'cjs',
@@ -194,7 +199,15 @@ export async function bundle(filepath: string, options?: Options) {
         },
       },
     ],
-  });
+  };
+
+  if (options?.watch) {
+    const ctx = await context(esbuildOptions);
+    await ctx.rebuild();
+    await ctx.watch();
+  } else {
+    await build(esbuildOptions);
+  }
 
   return outfile;
 }

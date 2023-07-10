@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/node-bundle-require",
-  "version": "2.24.0",
+  "version": "2.25.2",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "esbuild": "0.15.7",
+    "esbuild": "0.17.19",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {

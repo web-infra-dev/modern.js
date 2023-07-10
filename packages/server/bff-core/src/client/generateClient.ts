@@ -8,6 +8,7 @@ export type GenClientResult = Result<string>;
 export type GenClientOptions = {
   resourcePath: string;
   source: string;
+  appDir: string;
   apiDir: string;
   lambdaDir: string;
   prefix: string;
@@ -22,6 +23,7 @@ export type GenClientOptions = {
 export const DEFAULT_CLIENT_REQUEST_CREATOR = '@modern-js/create-request';
 
 export const generateClient = async ({
+  appDir,
   resourcePath,
   apiDir,
   lambdaDir,
@@ -52,6 +54,7 @@ export const generateClient = async ({
   }
 
   const apiRouter = new ApiRouter({
+    appDir,
     apiDir,
     lambdaDir,
     prefix,
@@ -66,7 +69,7 @@ export const generateClient = async ({
   let handlersCode = '';
   for (const handlerInfo of handlerInfos) {
     const { name, httpMethod, routePath } = handlerInfo;
-    let exportStatement = `const ${name} =`;
+    let exportStatement = `var ${name} =`;
     if (name.toLowerCase() === 'default') {
       exportStatement = 'default';
     }

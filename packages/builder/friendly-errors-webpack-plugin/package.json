@@ -1,0 +1,87 @@
+{
+  "name": "@modern-js/friendly-errors-webpack-plugin",
+  "description": "Recognizes certain classes of webpack errors and cleans, aggregates and prioritizes them to provide a better Developer Experience",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/modern-js-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/builder/friendly-errors-webpack-plugin"
+  },
+  "license": "MIT",
+  "keywords": [
+    "friendly",
+    "errors",
+    "webpack",
+    "plugin"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "version": "2.25.2",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./formatter": {
+      "jsnext:source": "./src/formatter/index.ts",
+      "default": "./dist/formatter/index.ts"
+    },
+    "./transformer": {
+      "jsnext:source": "./src/transformer/index.ts",
+      "default": "./dist/transformer/index.ts"
+    },
+    "./shared/*": {
+      "jsnext:source": "./src/shared/*.ts",
+      "default": "./dist/shared/*.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "formatter": [
+        "./dist/formatter/index.d.ts"
+      ],
+      "transformer": [
+        "./dist/transformer/index.d.ts"
+      ],
+      "shared/*": [
+        "./dist/shared/*.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "build": "tsc",
+    "dev": "tsc --watch --sourceMap",
+    "test": "echo foo",
+    "test:local": "vitest run",
+    "test:watch": "vitest dev --no-coverage",
+    "test:ui": "vitest --ui",
+    "example:build": "webpack -c example/webpack.config.js"
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/e2e": "workspace:*",
+    "@scripts/vitest-config": "workspace:*",
+    "@types/node": "^14",
+    "ansi-to-html": "^0.7.2",
+    "typescript": "^5",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "peerDependencies": {
+    "webpack": "^5.0.0"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ]
+}

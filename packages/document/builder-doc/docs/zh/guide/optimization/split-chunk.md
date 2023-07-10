@@ -34,11 +34,6 @@ Builder 默认采用 `split-by-experience` 策略，这是我们根据经验制�
 
 这种拆包策略将常用的包进行分组，然后拆分为单独的 chunk，一般 chunk 的数量不会很多，适合绝大部分应用，同时也是我们推荐的拆包策略。
 
-
-:::tip
-如果项目中没有安装或引用以上 npm 包，则不会生成相应的 chunk。
-:::
-
 #### 配置
 
 ```ts
@@ -51,15 +46,15 @@ export default {
 };
 ```
 
+#### 注意事项
+
+- 如果项目中没有安装或引用以上 npm 包，则不会生成相应的 chunk。
+
 ### split-by-module
 
 #### 分包策略
 
-将每一个 NPM 包拆分为一个 chunk。
-
-::: warning 注意
-这样会最细化地拆分 node_modules，同时在 HTTP/2 下因为多路复用会加快资源的加载时间，不过在非 HTTP/2 的环境下因为 HTTP 队头阻塞问题需要慎用。
-:::
+将每一个 NPM 包拆分为一个单独的 chunk。
 
 #### 配置
 
@@ -72,6 +67,12 @@ export default {
   },
 };
 ```
+
+#### 注意事项
+
+- 这个配置会最细化地拆分 node_modules，产生大量的文件请求。
+- 在使用 HTTP/2 时，由于存在多路复用，会加快资源的加载时间，并提高缓存命中率。
+- 在未使用 HTTP/2 时，由于 HTTP 队头阻塞问题，会导致页面加载性能下降，请谨慎使用。
 
 ### all-in-one
 
@@ -91,6 +92,11 @@ export default {
 };
 ```
 
+#### 注意事项
+
+- 这个配置会将构建生成的 JS 代码全部打包到一个文件里（除了 dynamic import 拆分的 chunk）
+- 单个 JS 文件的体积可能会非常大，使页面加载性能下降。
+
 ### single-vendor
 
 #### 分包策略
@@ -108,6 +114,10 @@ export default {
   },
 };
 ```
+
+#### 注意事项
+
+- 单个 vendor 文件的体积可能会非常大，使页面加载性能下降。
 
 ### split-by-size
 
@@ -159,6 +169,10 @@ export default {
 
 通过 `forceSplitting` 配置，你可以很方便把某些模块拆分为一个 chunk。
 
+#### 注意事项
+
+通过 `forceSplitting` 配置拆分的 chunk 会通过 `<script>` 标签插入到 HTML 文件中，作为首屏请求的资源。因此，请根据实际场景来进行适当地拆分，避免首屏资源体积过大。
+
 ### 自定义 bundler 拆包配置
 
 除了使用自定义分组外，你还可以通过 `override` 配置项来自定义底层 bundler 的拆包配置，比如:
@@ -178,3 +192,24 @@ export default {
 ```
 
 其中 `override` 中的配置会和 bundler 的配置进行合并，具体配置项请参考 [webpack - splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks) 或 [Rspack - splitChunks](https://rspack.dev/zh/config/optimization.html#optimization-splitchunks)。
+
+## 使用 Dynamic Import 拆包
+
+除了 `chunkSplit` 配置，使用 dynamic import 拆包也是一项重要的优化手段，它可以有效减少首屏的包体积。
+
+:::tip 关于 dynamic import
+Dynamic import 是 ECMAScript 2020 引入的一个新特性，它允许你动态地加载一些 JavaScript 模块。Builder 底层的 Rspack / webpack 默认支持 dynamic import，所以你可以直接在代码中使用它。
+:::
+
+当打包工具遇到 `import()` 语法时，它会自动将相关的代码分割成一个新的 chunk，并在运行时按需加载。
+
+例如，项目中有一个大的模块 `bigModule.ts`（也可以是一个第三方依赖），你可以使用 dynamic import 来按需加载它：
+
+```js
+// 在某个需要使用 bigModule 的地方
+import('./bigModule.ts').then(bigModule => {
+  // 使用 bigModule
+});
+```
+
+当你运行构建命令时，`bigModule.ts` 就会被自动分割成一个新的 chunk，并在运行时按需加载。

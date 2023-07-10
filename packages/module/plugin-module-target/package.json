@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.24.0",
+  "version": "2.25.2",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.24.0"
+    "@modern-js/module-tools": "workspace:^2.25.2"
   },
   "sideEffects": false,
   "publishConfig": {

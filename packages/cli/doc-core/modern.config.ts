@@ -61,6 +61,7 @@ export default {
         'virtual-site-data',
         'virtual-global-styles',
         'virtual-global-components',
+        'virtual-search-hooks',
         '@/runtime',
         '@runtime',
       ],

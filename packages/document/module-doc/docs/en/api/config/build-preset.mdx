@@ -2,12 +2,12 @@
 sidebar_position: 2
 ---
 
-# BuildPreset
+# buildPreset
 
 A build preset string or preset function. Provides out-of-the-box build configuration
 
-- Type: `string | Function`
-- Default: `undefined`
+- **Type**: `string | Function`
+- **Default**: `undefined`
 
 ## string
 
@@ -70,7 +70,7 @@ export const buildConfig = [
 
 ### `'npm-library-with-umd'`
 
-Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional `umd` products are provided on top of the pre-defined `npm-library`.
+Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional `umd` artifacts are provided on top of the pre-defined `npm-library`.
 
 ```json package.json
 {
@@ -115,9 +115,9 @@ export const buildConfig = [
 
 ### `'npm-component'`
 
-A generic pattern for components (libraries) used under the class [NPM](https://www.npmjs.com/) package manager. Contains both `esm` and `cjs` Bundleless products (for easy _[Tree shaking](https://developer.mozilla.org/zh-CN/docs/Glossary/Tree_shaking)_ optimization), as well as including a copy of the type file.
+A generic pattern for components (libraries) used under the class [NPM](https://www.npmjs.com/) package manager. Contains both `esm` and `cjs` Bundleless artifacts (for easy _[Tree shaking](https://developer.mozilla.org/zh-CN/docs/Glossary/Tree_shaking)_ optimization), as well as including a copy of the type file.
 
-For style files included in the source code, the products provide the compiled product of the style and the source file of the style.
+For style files included in the source code, the artifacts provide the compiled files of the style and the source file of the style.
 
 ```json package.json
 {
@@ -155,7 +155,7 @@ export const buildConfig = [
 
 ### `'npm-component-with-umd'`
 
-Component (library) used under class [NPM](https://www.npmjs.com/) package manager, with support for class [unpkg](https://unpkg.com/) schema. Additional `umd` products are provided on top of the pre-defined `npm-component`.
+Component (library) used under class [NPM](https://www.npmjs.com/) package manager, with support for class [unpkg](https://unpkg.com/) schema. Additional `umd` artifacts are provided on top of the pre-defined `npm-component`.
 
 ```json package.json
 {

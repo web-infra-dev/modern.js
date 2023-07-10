@@ -1,5 +1,45 @@
 # @modern-js/server
 
+## 2.25.2
+
+### Patch Changes
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- 358ed24: fix: support configuration ts-node and avoid to register ts-node unnecessarily
+  fix: 支持配置 ts-node，避免对 ts-node 不必要的注册
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/prod-server@2.25.2
+  - @modern-js/server-utils@2.25.2
+  - @modern-js/types@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/prod-server@2.25.1
+  - @modern-js/server-utils@2.25.1
+  - @modern-js/types@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- Updated dependencies [2491875]
+- Updated dependencies [5732c6a]
+  - @modern-js/prod-server@2.25.0
+  - @modern-js/types@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/server-utils@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

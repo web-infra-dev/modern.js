@@ -15,7 +15,6 @@ export * from './path';
 export * from './pathSerializer';
 export * from './port';
 export * from './prettyInstructions';
-export * from './print';
 export * from './require';
 export * from './runtimeExports';
 export * from './watch';

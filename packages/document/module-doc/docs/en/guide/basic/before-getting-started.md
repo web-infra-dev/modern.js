@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## Environment preparation
 
-In order to use the Modern.js module engineering solution, you first need [NodeJS](https://nodejs.org/zh/) engine, we recommend the latest [LTS version](https://github.com/nodejs/Release), and make sure the Node version is **>=14.18.0**. because non-stable NodeJS releases frequently have bugs. You might consider installing via [nvm-windows](https://github.com/coreybutler/nvm-windows) and [nvm](https://github.com/nvm-sh/nvm) (Mac / Linux), so you can easily switch to different NodeJS versions that might be required for different projects that you work on.
+In order to use the Modern.js Module Tools, you first need [NodeJS](https://nodejs.org/zh/) engine, we recommend the latest [LTS version](https://github.com/nodejs/Release), and make sure the Node version is **>=14.18.0**. because non-stable NodeJS releases frequently have bugs. You might consider installing via [nvm-windows](https://github.com/coreybutler/nvm-windows) and [nvm](https://github.com/nvm-sh/nvm) (Mac / Linux), so you can easily switch to different NodeJS versions that might be required for different projects that you work on.
 
 ## Getting Started with npm
 

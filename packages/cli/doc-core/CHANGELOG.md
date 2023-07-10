@@ -1,5 +1,112 @@
 # @modern-js/doc-core
 
+## 2.25.2
+
+### Patch Changes
+
+- 0b3bba7: feat(doc-core): support for custom search runtime interception logic
+
+  feat(doc-core): 支持自定义搜索运行时拦截逻辑
+
+- 2c82d4a: feat(doc-core): optimize runtime temp file structure
+
+  feat(doc-core): 优化运行时临时文件结构
+
+- a44aac7: fix(doc-core): support conventional route for tsx file
+
+  fix(doc-core): 支持 tsx 文件的约定式路由
+
+- 3973a72: feat(doc-core): support module doc search
+
+  feat(doc-plugin-api-docgen): 支持模块文档的搜索
+
+- 0499ff8: fix(doc-core): throw error when ssr failed
+
+  fix(doc-core): ssr 失败时抛出错误
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- a44aac7: feat(doc-core): support preview for pages added in `addPages` hook
+
+  feat(doc-core): 支持为 `addPages` 钩子新增的页面添加预览功能
+
+- 5e2908c: fix(doc-core): ssg fallback
+
+  fix(doc-core): ssg 阶段报错时的兜底处理
+
+- Updated dependencies [63d8247]
+- Updated dependencies [f54bb68]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-rspack-provider@2.25.2
+  - @modern-js/doc-plugin-medium-zoom@2.25.2
+  - @modern-js/remark-container@2.25.2
+  - @modern-js/builder@2.25.2
+  - @modern-js/core@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [b10045f]
+- Updated dependencies [9f78d0c]
+  - @modern-js/builder@2.25.1
+  - @modern-js/utils@2.25.1
+  - @modern-js/builder-rspack-provider@2.25.1
+  - @modern-js/core@2.25.1
+  - @modern-js/doc-plugin-medium-zoom@2.25.1
+  - @modern-js/remark-container@2.25.1
+
+## 2.25.0
+
+### Minor Changes
+
+- c179cbd: feat: support markdown global components
+  feat: 支持在 markdown 作用域下注册全局组件
+
+### Patch Changes
+
+- 9ca6671: fix(module-doc): api table render error
+
+  fix(module-doc): 修复模块文档 api table 渲染错误
+
+- 4d47773: fix(doc-core): normalize windows path in loader
+
+  fix(doc-core): 在 loader 中规范化 windows 路径
+
+- b4d2fa2: fix(doc-core): \_meta.json hmr not work
+- cd1bd19: fix(doc-core): .md comment compile error
+
+  fix(doc-core): .md 文件中的注释导致编译报错
+
+- ec716ea: fix(doc-core): encode filename to be compatible with Windows
+
+  fix(doc-core): encode filename 以修复 Windows 兼容问题
+
+- b4b0f9f: fix(doc-core): mock ssr window
+
+  fix(doc-core): ssr 阶段 mock window
+
+- 7f8c12b: fix(doc-core): checkDeadLink failed in windows
+
+  fix(doc-core): 死链检测在 windows 下失败
+
+- Updated dependencies [af97415]
+- Updated dependencies [bafd4aa]
+- Updated dependencies [5732c6a]
+- Updated dependencies [d287b7f]
+  - @modern-js/core@2.25.0
+  - @modern-js/builder-rspack-provider@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/doc-plugin-medium-zoom@2.25.0
+  - @modern-js/remark-container@2.25.0
+  - @modern-js/builder@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

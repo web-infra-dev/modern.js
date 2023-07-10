@@ -17,5 +17,9 @@ export async function run() {
     },
   );
 
+  if (config.builderPlugins) {
+    builder.addPlugins(config.builderPlugins);
+  }
+
   setupProgram(builder);
 }

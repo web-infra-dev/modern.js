@@ -19,7 +19,7 @@ In addition to `"dependencies"`, [`"peerDependencies"`](/en/guide/basic/before-g
 
 ## Default handling of third-party dependencies
 
-By default, third-party dependencies under `"dependencies"` and `"peerDependencies"` are not packaged in the module project\*\*.
+By default, third-party dependencies under `"dependencies"` and `"peerDependencies"` are not bundled in the module project\*\*.
 
 This is because when the npm package is installed, its `"dependencies"` will also be installed. By not packaging `"dependencies"`, you can reduce the size of the package product.
 
@@ -66,7 +66,7 @@ console.info(React);
 
 ---
 
-The `react` code is not packaged into the product at this point.
+The `react` code is not bundled into the artifact at this point.
 
 ```js dist/index.js
 import React from 'react';

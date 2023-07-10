@@ -114,6 +114,8 @@ export const resolveAlias = async (
     fs.writeFileSync(r.path, r.content);
   }
 
+  // why use `ensureDir` before copy? look this: https://github.com/jprichardson/node-fs-extra/issues/957
+  await fs.ensureDir(distAbsPath);
   await fs.copy(tempDistAbsSrcPath, distAbsPath);
 };
 

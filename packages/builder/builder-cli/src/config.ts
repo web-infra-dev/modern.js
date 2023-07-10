@@ -2,7 +2,7 @@ import { join } from 'path';
 import { findExists } from '@modern-js/utils';
 import { existsSync } from '@modern-js/utils/fs-extra';
 import { bundleRequire } from '@modern-js/node-bundle-require';
-import type { BuilderEntry } from '@modern-js/builder-shared';
+import type { BuilderEntry, BuilderPlugin } from '@modern-js/builder-shared';
 import type { BuilderConfig as WebpackBuilderConfig } from '@modern-js/builder-webpack-provider';
 import type { BuilderConfig as RspackBuilderConfig } from '@modern-js/builder-rspack-provider';
 
@@ -11,6 +11,7 @@ export type BuilderConfig<Bundler extends 'rspack' | 'webpack' = 'webpack'> =
     source?: {
       entries?: BuilderEntry;
     };
+    builderPlugins?: BuilderPlugin[];
   };
 
 export const defineConfig = <Bundler extends 'rspack' | 'webpack' = 'webpack'>(

@@ -1,5 +1,68 @@
 # @modern-js/plugin-storybook
 
+## 2.25.2
+
+### Patch Changes
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+- Updated dependencies [e8a90f3]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-webpack-provider@2.25.2
+  - @modern-js/builder-shared@2.25.2
+  - @modern-js/runtime@2.25.2
+  - @modern-js/builder@2.25.2
+  - @modern-js/builder-plugin-node-polyfill@2.25.2
+  - @modern-js/plugin-router-v5@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- 85366bc: chore(deps): bump esbuild from v15/v16 to v17
+
+  chore(deps): 将 esbuild 从 v15/v16 升级到 v17
+
+- Updated dependencies [b10045f]
+- Updated dependencies [9f78d0c]
+- Updated dependencies [85366bc]
+  - @modern-js/builder@2.25.1
+  - @modern-js/builder-shared@2.25.1
+  - @modern-js/utils@2.25.1
+  - @modern-js/runtime@2.25.1
+  - @modern-js/builder-plugin-node-polyfill@2.25.1
+  - @modern-js/builder-webpack-provider@2.25.1
+  - @modern-js/plugin-router-v5@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- 4c4c0ad: feat: add named exports for all CLI plugins
+
+  feat: 为各个 CLI 插件添加 named 导出
+
+- ba6f5a6: feat: update log content
+  feat: 更新日志内容
+- Updated dependencies [324cf45]
+- Updated dependencies [5732c6a]
+- Updated dependencies [4c4c0ad]
+- Updated dependencies [09521e0]
+  - @modern-js/builder-webpack-provider@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin-router-v5@2.25.0
+  - @modern-js/runtime@2.25.0
+  - @modern-js/builder-plugin-node-polyfill@2.25.0
+  - @modern-js/builder-shared@2.25.0
+  - @modern-js/builder@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

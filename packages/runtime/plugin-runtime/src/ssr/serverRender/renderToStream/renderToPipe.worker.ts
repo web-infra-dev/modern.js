@@ -39,11 +39,11 @@ function renderToPipe(
           ...options,
           nonce: ssrContext?.nonce,
           onError(error: unknown) {
-            ssrContext!.logger.error(
+            ssrContext?.logger.error(
               'An error occurs during streaming SSR',
               error as Error,
             );
-            ssrContext!.metrics.emitCounter('app.render.streaming.error', 1);
+            ssrContext?.metrics.emitCounter('app.render.streaming.error', 1);
             options?.onError?.(error);
           },
         });
@@ -76,7 +76,6 @@ function renderToPipe(
                   ),
                 );
               }
-              controller.enqueue(encodeForWebStream(concatedChunk));
             } else {
               controller.enqueue(value);
             }
@@ -88,7 +87,7 @@ function renderToPipe(
       return injectableStream;
     } catch (err) {
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
-      ssrContext!.metrics.emitCounter('app.render.streaming.shell.error', 1);
+      ssrContext?.metrics.emitCounter('app.render.streaming.shell.error', 1);
       const { shellAfter, shellBefore } = getTemplates(
         context,
         RenderLevel.CLIENT_RENDER,

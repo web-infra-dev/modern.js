@@ -104,7 +104,7 @@ This way, side effects of components are executed in the theme page. For example
 
 - **Type**：`BuilderConfig`
 
-The bottom layer of Modern.js Doc is based on the Rspack mode of [Modern.js Builder](https://modernjs.dev/builder/) for document build process. The Builder can be configured through `builderConfig`. For specific configuration items, please refer to [Modern.js Builder](https://modernjs.dev/builder/api/index.html).
+The bottom layer of Modern.js Doc is based on the Rspack mode of [Modern.js Builder](https://modernjs.dev/builder/) for document build process. The Builder can be configured through `builderConfig`. For specific configuration options, please refer to [Modern.js Builder](https://modernjs.dev/builder/api/index.html).
 
 > Of course, if you want to configure Rspack directly, you can also configure it through `buildConfig.tools.rspack`.
 
@@ -267,7 +267,7 @@ import { DocPlugin } from '@modern-js/doc-tools';
 export function docPluginDemo(): DocPlugin {
   return {
     name: 'add-pages',
-    addPages() {
+    addPages(config, isProd) {
       return [
         //  Support the absolute path of the real file (filepath), which will read the content of md(x) in the disk
         {
@@ -285,10 +285,17 @@ export function docPluginDemo(): DocPlugin {
 }
 ```
 
-`addPages` accepts three parameters, `config` is the config of the current document site, `isProd` indicates whether it is a production environment, `routes` is an array of conventional routes, and the structure of each routing information is as follows:
+`addPages` accepts two parameters, `config` is the config of the current document site, `isProd` indicates whether it is a production environment.
+
+### routeGenerated
+
+- **Type**：`(routeMeta: RouteMeta[]) => void | Promise<void>`
+
+In this hook, you can get all the route meta information. The structure of each route meta information is as follows
 
 ```ts
 export interface RouteMeta {
+  // route path
   routePath: string;
   // file absolute path
   absolutePath: string;
@@ -299,6 +306,19 @@ export interface RouteMeta {
 }
 ```
 
-:::tip Hint
-The `addPages` hook is executed before the Rspack build tool is started. In addition to returning the custom page, you can also get the routing information in this hook and complete some operations.
-:::
+例子:
+
+```tsx title="plugin.ts"
+import { DocPlugin } from '@modern-js/doc-tools';
+
+export function pluginForDoc(): DocPlugin {
+  return {
+    // plugin name
+    name: 'plugin-routes',
+    // Hook to execute after route generated
+    async routeGenerated(routes) {
+      // Do something here
+    },
+  };
+}
+```

@@ -14,7 +14,7 @@ Builder 支持在代码中引用图片、字体、媒体类型的静态资源。
 - **字体**：woff、woff2、eot、ttf、otf、ttc。
 - **媒体**：mp4、webm、ogg、mp3、wav、flac、aac、mov。
 
-如果你需要引用其他格式的静态资源，请通过 [GitHub Issues](https://github.com/web-infra-dev/modern.js/issues) 进行反馈。
+如果你需要引用其他格式的静态资源，请参考 [扩展静态资源类型](#扩展静态资源类型)。
 
 :::tip SVG 图片
 SVG 图片是一种特殊情况，Builder 提供了 SVG 转 React 组件的能力，对 SVG 进行单独处理，详见 [引用 SVG 资源](/guide/basic/svg-assets.html)。
@@ -116,6 +116,38 @@ declare module '*.png' {
 ```
 
 添加类型声明后，如果依然存在上述错误提示，请尝试重启当前 IDE，或者调整 `global.d.ts` 所在的目录，使 TypeScript 能够正确识别类型定义。
+
+## 扩展静态资源类型
+
+如果 Builder 内置的静态资源类型不能满足你的需求，那么你可以通过 [tools.bundlerChain](/api/config-tools.html#toolsbundlerchain) 来修改内置的 webpack / Rspack 配置，并扩展你需要的静态资源类型。
+
+比如，你需要把 `*.pdf` 文件当做静态资源直接输出到产物目录，可以添加以下配置：
+
+```ts
+export default {
+  tools: {
+    bundlerChain(chain) {
+      chain.module
+        .rule('pdf')
+        .test(/\.pdf$/)
+        .type('asset/resource');
+    },
+  },
+};
+```
+
+添加以上配置后，你就可以在代码里引用 `*.pdf` 文件了，比如：
+
+```js
+import myFile from './static/myFile.pdf';
+
+console.log(myFile); // "/static/myFile.6c12aba3.pdf"
+```
+
+关于以上配置的更多介绍，请参考：
+
+- [Rspack 文档 - Asset modules](https://www.rspack.dev/guide/asset-module.html#asset-modules)
+- [webpack 文档 - Asset modules](https://webpack.js.org/guides/asset-modules/)
 
 ## 图片格式
 

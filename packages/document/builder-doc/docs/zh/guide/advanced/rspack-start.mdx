@@ -68,7 +68,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [source.sri](/api/config-security.html#securitysri) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/2669))
+- [security.sri](/api/config-security.html#securitysri) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/2669))
 
 #### Dev Config
 
@@ -222,11 +222,12 @@ Builder Rspack 构建模式对比 [Rspack CLI](https://www.rspack.dev/zh/guide/q
 | 功能                         | 描述                                                                                                                                                                                  | 相关链接                                                                                                                                          |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 浏览器兼容性                 | Builder 会根据[构建产物类型](/guide/basic/build-target)来设置不同的 Browserslist 默认值                                                                                               | <ul><li>[浏览器范围](/guide/advanced/browserslist.html)</li></ul>                                                                                 |
-| SourceMap 生成               | Builder 默认根据环境生成不同的 SourceMap                                                                                                                                              | <ul><li>[output.disableSourceMap](/api/config-output.html#outputdisablesourcemap)</li></ul>                                                       |
+| SourceMap 生成               | Builder 默认根据环境生成不同的 SourceMap (Rspack CLI 中默认是 false)                                                                                                                  | <ul><li>[output.disableSourceMap](/api/config-output.html#outputdisablesourcemap)</li></ul>                                                       |
 | SVG 转 React 组件            | Builder 默认支持在 React 组件中引用 SVG 作为组件                                                                                                                                      | <ul><li>[引用 SVG 资源](/guide/basic/svg-assets.html)</li><li>[output.disableSvgr](/api/config-output.html#outputdisablesvgr)</li></ul>           |
 | 按需引入常用组件库           | 当项目中安装了 [Ant Design](https://www.npmjs.com/package/antd) 或 [Arco Design](https://www.npmjs.com/package/@arco-design/web-react) 组件库时，Builder 会自动添加对应的按需引入能力 | <ul><li>[source.transformImport](/api/config-source#sourcetransformimport)</li></ul>                                                              |
 | 默认开启 TypeScript 类型检查 | Builder 会默认通过 TS Checker 检查类型问题                                                                                                                                            | <ul><li>[类型检查](/guide/basic/typescript.html#类型检查) </li><li>[output.disableTsChecker](/api/config-output#outputdisabletschecker)</li></ul> |
 | 默认集成 PostCSS             | Builder 内默认开启 PostCSS 编译，并内置 autoprefixer 等多个插件                                                                                                                       | <ul><li>[使用 PostCSS](/guide/basic/css-usage.html#使用-postcss)</li></ul>                                                                        |
+| 使用 @rspack/html-plugin     | Builder 内默认集成 @rspack/html-plugin 以支持更多 HTML 模版功能 (Rspack CLI 中默认使用 builtins.html)                                                                                 | <ul><li>[tools.htmlPlugin](/api/config-tools.html#toolshtmlplugin)</li></ul>                                                                      |
 
 以上能力均提供可调整的配置选项，可以根据项目实际情况按需进行调整。
 

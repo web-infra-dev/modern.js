@@ -1,0 +1,16 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "declaration": false,
+    "jsx": "react-jsx",
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "module": "ES2022",
+    "target": "ES2017",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@scripts/*": ["../../scripts/*"]
+    }
+  },
+  "include": ["src", "*.test.ts"]
+}

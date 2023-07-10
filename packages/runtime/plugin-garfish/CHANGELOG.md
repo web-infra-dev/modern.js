@@ -1,5 +1,39 @@
 # @modern-js/plugin-garfish
 
+## 2.25.2
+
+### Patch Changes
+
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+- Updated dependencies [e8a90f3]
+  - @modern-js/utils@2.25.2
+  - @modern-js/runtime@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+- Updated dependencies [85366bc]
+  - @modern-js/utils@2.25.1
+  - @modern-js/runtime@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- 4c4c0ad: feat: add named exports for all CLI plugins
+
+  feat: 为各个 CLI 插件添加 named 导出
+
+- Updated dependencies [5732c6a]
+- Updated dependencies [09521e0]
+  - @modern-js/utils@2.25.0
+  - @modern-js/runtime@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

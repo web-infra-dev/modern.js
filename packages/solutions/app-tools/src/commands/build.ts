@@ -1,5 +1,5 @@
 import { PluginAPI, ResolvedConfigContext } from '@modern-js/core';
-import { logger, printBuildError } from '@modern-js/utils';
+import { logger } from '@modern-js/utils';
 import { generateRoutes } from '../utils/routes';
 import { buildServerConfig } from '../utils/config';
 import type { BuildOptions } from '../utils/types';
@@ -53,17 +53,11 @@ export const build = async (
     configFile: serverConfigFile,
   });
 
-  try {
-    logger.info('Create a production build...\n');
-    if (!appContext.builder) {
-      throw new Error(
-        'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
-      );
-    }
-    await appContext.builder.build();
-  } catch (error) {
-    printBuildError(error as Error);
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
+  logger.info('Create a production build...\n');
+  if (!appContext.builder) {
+    throw new Error(
+      'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',
+    );
   }
+  await appContext.builder.build();
 };

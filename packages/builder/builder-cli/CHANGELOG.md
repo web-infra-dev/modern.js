@@ -1,5 +1,55 @@
 # @modern-js/builder-cli
 
+## 2.25.2
+
+### Patch Changes
+
+- 8f192fa: feat(builder-cli): support register builder plugins
+
+  feat(builder-cli): 支持注册 builder 插件
+
+- Updated dependencies [63d8247]
+- Updated dependencies [f54bb68]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-rspack-provider@2.25.2
+  - @modern-js/builder-webpack-provider@2.25.2
+  - @modern-js/builder-shared@2.25.2
+  - @modern-js/builder@2.25.2
+  - @modern-js/node-bundle-require@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [b10045f]
+- Updated dependencies [9f78d0c]
+- Updated dependencies [85366bc]
+  - @modern-js/builder@2.25.1
+  - @modern-js/builder-shared@2.25.1
+  - @modern-js/utils@2.25.1
+  - @modern-js/node-bundle-require@2.25.1
+  - @modern-js/builder-rspack-provider@2.25.1
+  - @modern-js/builder-webpack-provider@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- Updated dependencies [bafd4aa]
+- Updated dependencies [324cf45]
+- Updated dependencies [5732c6a]
+- Updated dependencies [dc81210]
+  - @modern-js/builder-rspack-provider@2.25.0
+  - @modern-js/builder-webpack-provider@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/node-bundle-require@2.25.0
+  - @modern-js/builder-shared@2.25.0
+  - @modern-js/builder@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

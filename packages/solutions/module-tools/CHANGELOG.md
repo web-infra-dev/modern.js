@@ -1,12 +1,74 @@
 # @modern-js/module-tools
 
+## 2.25.2
+
+### Patch Changes
+
+- a2a5bcd: fix(module-tools): fix error in concurrent copy when generate dts files.
+  fix(module-tools): 修复在生成类型文件的时候并发复制产生的错误
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/core@2.25.2
+  - @modern-js/plugin-changeset@2.25.2
+  - @modern-js/plugin-i18n@2.25.2
+  - @modern-js/plugin-lint@2.25.2
+  - @modern-js/new-action@2.25.2
+  - @modern-js/plugin@2.25.2
+  - @modern-js/upgrade@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- 273e3cd: chore: update libuild version to 0.13.2
+  chore: 升级 libuild 版本至 0.13.2
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/core@2.25.1
+  - @modern-js/plugin-changeset@2.25.1
+  - @modern-js/plugin-i18n@2.25.1
+  - @modern-js/plugin-lint@2.25.1
+  - @modern-js/new-action@2.25.1
+  - @modern-js/plugin@2.25.1
+  - @modern-js/upgrade@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- 9aa2c25: feat: add named exports for all solutions
+
+  feat: 为各个 solutions 添加 named 导出
+
+- d287b7f: feat: new and upgrade command support custom config file
+
+  feat: new 和 upgrade 命令支持自定义配置文件路径
+
+- Updated dependencies [af97415]
+- Updated dependencies [10572f3]
+- Updated dependencies [2edd844]
+- Updated dependencies [5732c6a]
+- Updated dependencies [4c4c0ad]
+- Updated dependencies [d287b7f]
+  - @modern-js/core@2.25.0
+  - @modern-js/plugin-changeset@2.25.0
+  - @modern-js/new-action@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin-lint@2.25.0
+  - @modern-js/plugin-i18n@2.25.0
+  - @modern-js/plugin@2.25.0
+  - @modern-js/upgrade@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes
 
 - 53ba418: chore: upgrade libuild and libuild plugins version to 0.13.1
   chore: 升级 libuild 和 libuild 插件版本到 0.13.1
-- 3b82675: feat: Auto delete build product by checking if outdir is project root path
+- 3b82675: feat: Auto delete build artifacts by checking if outdir is project root path
   feat: 根据 outDir 是否是项目根目录决定是否自动删除产物目录
 - 7073297: fix: close declarationMap when bundle dts
   fix: 打包 dts 时关闭 declarationMap

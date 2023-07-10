@@ -1,7 +1,7 @@
 import path from 'path';
 import { globby } from '@modern-js/utils';
 import { INDEX_SUFFIX } from './constants';
-import { APIHandlerInfo, HandlerModule } from './types';
+import { APIHandlerInfo } from './types';
 
 type MaybeAsync<I> = I | Promise<I>;
 export type NormalHandler = (...args: any[]) => any;
@@ -61,52 +61,11 @@ const clearRouteName = (routeName: string): string => {
 export const isHandler = (input: any): input is Handler<any, any> =>
   input && typeof input === 'function';
 
-const enableRegister = (requireFn: (modulePath: string) => HandlerModule) => {
-  // esbuild-register 做 unRegister 时，不会删除 register 添加的 require.extensions，导致第二次调用时 require.extensions['.ts'] 是 nodejs 默认 loader
-  // 所以这里根据第一次调用时，require.extensions 有没有，来判断是否需要使用 esbuild-register
-  let existTsLoader = false;
-  let firstCall = true;
-  return (modulePath: string) => {
-    if (firstCall) {
-      // eslint-disable-next-line node/no-deprecated-api
-      existTsLoader = Boolean(require.extensions['.ts']);
-      firstCall = false;
-    }
-    if (!existTsLoader) {
-      try {
-        const projectSearchDir = path.dirname(modulePath);
-        const tsNode: typeof import('ts-node') = require('ts-node');
-        tsNode.register({
-          projectSearchDir,
-          compilerOptions: {
-            allowJs: false,
-          },
-          scope: true,
-          transpileOnly: true,
-          ignore: ['(?:^|/)node_modules/'],
-        });
-        existTsLoader = true;
-
-        const tsConfigPaths: typeof import('tsconfig-paths') = require('tsconfig-paths');
-        const loaderRes = tsConfigPaths.loadConfig(projectSearchDir);
-        if (loaderRes.resultType === 'success') {
-          tsConfigPaths.register({
-            baseUrl: loaderRes.absoluteBaseUrl,
-            paths: loaderRes.paths,
-          });
-        }
-      } catch (e) {}
-    }
-    const requiredModule = requireFn(modulePath);
-    return requiredModule;
-  };
-};
-
 const isFunction = (input: any): input is (...args: any) => any =>
   input && {}.toString.call(input) === '[object Function]';
 
-export const requireHandlerModule = enableRegister((modulePath: string) => {
-  // 测试环境不走缓存，因为缓存的 h andler 文件，会被 mockAPI 函数进行 mock，升级 jest28，setupFilesAfterEnv 能做异步操作的话，可解此问题
+export const requireHandlerModule = (modulePath: string) => {
+  // 测试环境不走缓存，因为缓存的 handler 文件，会被 mockAPI 函数进行 mock，升级 jest28，setupFilesAfterEnv 能做异步操作的话，可解此问题
   const originRequire =
     process.env.NODE_ENV === 'test' ? jest.requireActual : require;
 
@@ -115,7 +74,7 @@ export const requireHandlerModule = enableRegister((modulePath: string) => {
     return { default: module };
   }
   return module;
-});
+};
 
 const routeValue = (routePath: string) => {
   if (routePath.includes(':')) {

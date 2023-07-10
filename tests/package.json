@@ -10,7 +10,6 @@
     "test:doc": "cd integration && jest --testMatch **/doc/**/*.test.ts",
     "test": "pnpm test --filter api-service-koa & jest",
     "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
-    "cypress:test": "pnpm --parallel --filter '@cypress-test/*' run dev & cypress open",
     "prepare": "node node_modules/puppeteer/install.js",
     "test:mwa": "ts-node -T generator/mwa.ts",
     "test:module": "ts-node -T generator/module.ts",

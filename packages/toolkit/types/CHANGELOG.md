@@ -1,5 +1,16 @@
 # @modern-js/types
 
+## 2.25.2
+
+## 2.25.1
+
+## 2.25.0
+
+### Minor Changes
+
+- 2491875: feat(prod-server): get body from request when ssr mode
+  feat(prod-server): 开启 ssr 时从 request 获取 body
+
 ## 2.24.0
 
 ### Patch Changes

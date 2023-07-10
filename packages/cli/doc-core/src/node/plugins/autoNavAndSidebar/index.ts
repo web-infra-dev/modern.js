@@ -1,10 +1,7 @@
 import path from 'path';
-import { createRequire } from 'module';
 import fs from '@modern-js/utils/fs-extra';
 import { NavMeta, SideMeta } from './type';
 import { DocPlugin, Sidebar, SidebarGroup, SidebarItem } from '@/shared/types';
-
-const require = createRequire(import.meta.url);
 
 // Scan all the directories and files in the work directory(such as `docs`), and then generate the nav and sidebar configuration according to the directory structure.
 // We will do as follows:
@@ -185,7 +182,7 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
     // Don't use require to avoid require cache, which make hmr not work.
     sideMeta = (await fs.readJSON(metaFile, 'utf8')) as SideMeta;
   } catch (e) {
-    sideMeta = [];
+    sideMeta = await fs.readdir(workDir);
   }
 
   const sidebarFromMeta: (SidebarGroup | SidebarItem)[] = await Promise.all(
@@ -243,8 +240,7 @@ export async function walk(workDir: string) {
   let navConfig: NavMeta | undefined;
   // Get the nav config from the `_meta.json` file
   try {
-    // eslint-disable-next-line import/no-dynamic-require
-    navConfig = require(rootMetaFile) as NavMeta;
+    navConfig = (await fs.readJSON(rootMetaFile, 'utf8')) as NavMeta;
   } catch (e) {
     navConfig = [];
   }

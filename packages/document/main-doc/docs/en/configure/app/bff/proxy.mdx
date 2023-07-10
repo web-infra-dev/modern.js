@@ -28,13 +28,13 @@ export default defineConfig({
 
 Assuming the address of Modern.js BFF server is `localhost:8080`, all requests starting with `api` will be proxied to `https://cnodejs.org`, for example, the request to `localhost:8080/api/v1/topics` will be proxied to `https://cnodejs.org/api/v1/topics`.
 
-import BFFProxyPathRewrite from "@site-docs/components/bff-proxy-path-rewrite";
+import BFFProxyPathRewrite from "@site-docs-en/components/bff-proxy-path-rewrite";
 
 <BFFProxyPathRewrite />
 
 Unlike [dev.proxy](/configure/app/dev/proxy), the proxy here only applies to requests entering the BFF/API service; at the same time, this configuration can not only be used in the development environment, but also proxies corresponding requests in the production environment.
 
-import BFFProxyPrinciple from "@site-docs/components/bff-proxy-principle";
+import BFFProxyPrinciple from "@site-docs-en/components/bff-proxy-principle";
 
 <BFFProxyPrinciple />
 

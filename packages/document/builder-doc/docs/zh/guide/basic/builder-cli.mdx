@@ -29,7 +29,7 @@ Builder CLI 提供了以下命令，可以帮助你快速启动开发服务器�
 `builder dev` 命令用于启动一个本地开发服务器，对源代码进行开发环境编译。
 
 ```bash
-Usage: edenx dev [options]
+Usage: builder dev [options]
 
 Options:
   -h, --help            display help for command
@@ -110,5 +110,20 @@ export default defineConfig({
       bar: './src/pages/bar/index.ts',
     },
   },
+});
+```
+
+## 注册插件
+
+你可以在 `builder.config.ts` 中使用 `builderPlugins` 选项来注册 Builder 插件。
+
+比如注册 Vue 插件：
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+import { builderPluginVue } from '@modern-js/builder-plugin-vue';
+
+export default defineConfig({
+  builderPlugins: [builderPluginVue()],
 });
 ```

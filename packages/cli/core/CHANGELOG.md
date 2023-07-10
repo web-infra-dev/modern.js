@@ -1,5 +1,43 @@
 # @modern-js/core
 
+## 2.25.2
+
+### Patch Changes
+
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/node-bundle-require@2.25.2
+  - @modern-js/plugin@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [9f78d0c]
+- Updated dependencies [85366bc]
+  - @modern-js/utils@2.25.1
+  - @modern-js/node-bundle-require@2.25.1
+  - @modern-js/plugin@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- af97415: fix: keep original fileChange hook, but add private configuration
+  fix: 保留原有的 fileChange 钩子功能，但新增 private 配置
+- d287b7f: feat: new and upgrade command support custom config file
+
+  feat: new 和 upgrade 命令支持自定义配置文件路径
+
+- Updated dependencies [5732c6a]
+- Updated dependencies [dc81210]
+  - @modern-js/utils@2.25.0
+  - @modern-js/node-bundle-require@2.25.0
+  - @modern-js/plugin@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

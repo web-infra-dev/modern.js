@@ -16,7 +16,7 @@ export const getBuilderPlugins = async () => {
 /** Match plugin by constructor name. */
 export const matchPlugin = (config: RspackConfig, pluginName: string) => {
   const result = config.plugins?.filter(
-    item => item.constructor.name === pluginName,
+    item => item?.constructor.name === pluginName,
   );
 
   if (Array.isArray(result)) {

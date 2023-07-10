@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.24.0",
+  "version": "2.25.2",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -83,7 +83,7 @@
     "supertest": "^6.1.6",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.82.1",
+    "webpack": "^5.88.1",
     "webpack-chain": "^6.5.1",
     "react": "^18",
     "react-dom": "^18"

@@ -14,7 +14,7 @@ export const isDebugMode = () => Boolean(process.env.DOC_DEBUG);
 export const cleanUrl = (url: string): string =>
   url.replace(HASH_REGEXP, '').replace(QUERY_REGEXP, '');
 
-export const inBrowser = () => typeof window !== 'undefined';
+export const inBrowser = () => !process.env.__SSR__;
 
 export function addLeadingSlash(url: string) {
   return url.charAt(0) === '/' || url.startsWith('https') ? url : `/${url}`;

@@ -360,6 +360,8 @@ export async function siteDataVMPlugin(context: FactoryContext) {
     pages = (
       await extractPageData(replaceRules, alias, domain, userRoot, routeService)
     ).filter(Boolean);
+    // modify page index by plugins
+    await pluginDriver.modifySearchIndexData(pages);
   }
 
   // Categorize pages, sorted by language, and write search index to file

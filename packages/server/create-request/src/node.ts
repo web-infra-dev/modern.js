@@ -14,8 +14,15 @@ type Fetch = typeof nodeFetch;
 
 let realRequest: Fetch;
 let realAllowedHeaders: string[] = [];
-const originFetch = (...params: Parameters<typeof nodeFetch>) =>
-  nodeFetch(...params).then(handleRes);
+const originFetch = (...params: Parameters<typeof nodeFetch>) => {
+  const [, init] = params;
+
+  if (init?.method?.toLowerCase() === 'get') {
+    init.body = undefined;
+  }
+
+  return nodeFetch(...params).then(handleRes);
+};
 
 export const configure = (options: IOptions<typeof nodeFetch>) => {
   const { request, interceptor, allowedHeaders } = options;
@@ -107,10 +114,6 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
       }
 
       url = `http://localhost:${port}${finalPath}`;
-    }
-
-    if (method.toLowerCase() === 'get') {
-      body = undefined;
     }
 
     const fetcher = realRequest || originFetch;

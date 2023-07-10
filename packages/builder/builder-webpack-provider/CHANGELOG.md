@@ -1,5 +1,59 @@
 # @modern-js/builder-webpack-provider
 
+## 2.25.2
+
+### Patch Changes
+
+- 15a8276: fix(builder): failed to set publicPath function
+
+  fix(builder): 修复设置 publicPath 函数时报错的问题
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [15a8276]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/builder-shared@2.25.2
+  - @modern-js/server@2.25.2
+  - @modern-js/babel-preset-app@2.25.2
+  - @modern-js/babel-preset-base@2.25.2
+  - @modern-js/types@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- Updated dependencies [b10045f]
+- Updated dependencies [9f78d0c]
+  - @modern-js/builder-shared@2.25.1
+  - @modern-js/utils@2.25.1
+  - @modern-js/babel-preset-app@2.25.1
+  - @modern-js/babel-preset-base@2.25.1
+  - @modern-js/server@2.25.1
+  - @modern-js/types@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- 324cf45: fix(builder): should print recompile log if have type errors
+
+  fix(builder): 如果存在类型错误，则打印 recompile 日志
+
+- Updated dependencies [2491875]
+- Updated dependencies [5732c6a]
+  - @modern-js/types@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/builder-shared@2.25.0
+  - @modern-js/server@2.25.0
+  - @modern-js/babel-preset-base@2.25.0
+  - @modern-js/babel-preset-app@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

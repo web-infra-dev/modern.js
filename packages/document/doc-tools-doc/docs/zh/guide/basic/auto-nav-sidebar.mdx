@@ -194,3 +194,41 @@ export type SideMetaItem =
   }
 ]
 ```
+
+### 无配置用法
+
+某些目录下你可以不配置 `_meta.json`，让框架自动帮你生成侧边栏。这需要保证目录下**仅包含文档，而不包含子目录**，并且你对**文档的顺序**没有要求。比如现在有如下的文档结构:
+
+```bash
+docs
+├── _meta.json
+└── guides
+  ├── _meta.json
+  └── basic
+    ├── introduction.mdx
+    ├── install.mdx
+    └── plugin-development.md
+```
+
+在 `guides` 目录中你可以配置 `_meta.json` 内容如下:
+
+```json
+[
+  {
+    "type": "dir",
+    "name": "basic",
+    "label": "Basic",
+    "collapsible": true,
+    "collapsed": false
+  }
+]
+```
+
+而在 `basic` 目录中，你可以不配置 `_meta.json`，框架会自动帮你生成侧边栏，默认按照文件名的字母顺序排序。如果你想要自定义顺序，可以在文件名前加上数字前缀，比如:
+
+```bash
+basic
+  ├── 1-introduction.mdx
+  ├── 2-install.mdx
+  └── 3-plugin-development.md
+```

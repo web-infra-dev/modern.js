@@ -1,5 +1,25 @@
 # @modern-js/main-doc
 
+## 2.25.2
+
+### Patch Changes
+
+- 4a83fcd: docs(main-doc): fix wrong links and add missing files
+  docs(main-doc): 修复错误的链接，补充缺失的文件
+  - @modern-js/builder-doc@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

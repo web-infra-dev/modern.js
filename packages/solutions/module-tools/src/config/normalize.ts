@@ -151,9 +151,8 @@ export const checkConfig = async (config: ModuleUserConfig) => {
   const { buildConfig, buildPreset } = config;
   if (buildConfig && buildPreset) {
     const { logger } = await import('@modern-js/utils');
-    logger.warn(
-      `因为同时出现 'buildConfig' 和 'buildPreset' 配置，因此仅 'buildConfig' 配置生效`,
-    );
+    const local = await import('../locale');
+    logger.warn(local.i18n.t(local.localeKeys.log.buildConfigTip));
   }
 };
 

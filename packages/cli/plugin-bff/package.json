@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.24.0",
+  "version": "2.25.2",
   "jsnext:source": "./src/cli.ts",
   "types": "./src/cli.ts",
   "main": "./dist/cjs/cli.js",
@@ -85,7 +85,7 @@
     "memfs": "^3.3.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.82.1",
+    "webpack": "^5.88.1",
     "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,

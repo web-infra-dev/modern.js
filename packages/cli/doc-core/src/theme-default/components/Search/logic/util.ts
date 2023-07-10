@@ -47,6 +47,16 @@ export function removeDomain(url: string) {
   return url.replace(/https?:\/\/[^/]+/, '');
 }
 
+function getCharByteCount(char: string) {
+  const charCode = char.charCodeAt(0);
+  if (charCode > 255) {
+    // Chinese character
+    return 3;
+  } else {
+    return 1;
+  }
+}
+
 export const normalizeSearchIndexes = (
   items: RemoteSearchIndexInfo[],
 ): { value: string; label: string }[] => {
@@ -65,13 +75,7 @@ export function substrByBytes(str: string, start: number, len: number): string {
   let bytesCount = 0;
   const strLength = str.length;
   for (let i = 0; i < strLength; i++) {
-    const charCode = str.charCodeAt(i);
-    if (charCode > 255) {
-      // Chinese character
-      bytesCount += 3;
-    } else {
-      bytesCount++;
-    }
+    bytesCount += getCharByteCount(str.charAt(i));
     if (bytesCount > start + len) {
       break;
     } else if (bytesCount > start) {
@@ -90,12 +94,7 @@ export function byteToCharIndex(str: string, byteIndex: number): number {
       break;
     }
 
-    if (str.charCodeAt(i) > 255) {
-      // Chinese character
-      byteCount += 3;
-    } else {
-      byteCount += 1;
-    }
+    byteCount += getCharByteCount(str.charAt(i));
 
     charIndex++;
   }
@@ -117,4 +116,12 @@ export function getSlicedStrByByteLength(
 ): string {
   const slicedStr = str.slice(start);
   return substrByBytes(slicedStr, 0, length);
+}
+
+export function getStrByteLength(str: string): number {
+  let byteLength = 0;
+  for (let i = 0; i < str.length; i++) {
+    byteLength += getCharByteCount(str.charAt(i));
+  }
+  return byteLength;
 }

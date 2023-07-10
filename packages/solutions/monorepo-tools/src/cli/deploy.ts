@@ -10,7 +10,7 @@ export const deployCli = (program: Command, api: PluginAPI<MonorepoTools>) => {
     .usage('[options]')
     .option(
       '-p, --path [path]',
-      'Specify the path of the product output',
+      'Specify the path of the output files',
       'output',
     )
     .description('deploy project')

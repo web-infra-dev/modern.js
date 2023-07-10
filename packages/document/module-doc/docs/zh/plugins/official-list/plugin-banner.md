@@ -39,7 +39,7 @@ export default defineConfig({
 ```
 
 :::tip
-注意：CSS 的注释不支持 `//comment` 这样的写法。详见[【CSS 注释】](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Comments)
+注意：CSS 的注释不支持 `//comment` 这样的写法。详见[「CSS 注释」](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Comments)
 :::
 
 ## 示例

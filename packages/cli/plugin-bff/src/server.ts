@@ -55,6 +55,7 @@ export default (): ServerPlugin => ({
         const appContext = api.useAppContext();
         const { apiDirectory, lambdaDirectory } = appContext;
         const apiRouter = new ApiRouter({
+          appDir: pwd,
           apiDir: (apiDirectory as string) || apiDir,
           lambdaDir: lambdaDirectory as string,
           prefix,

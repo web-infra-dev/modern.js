@@ -1,5 +1,48 @@
 # @modern-js/runtime
 
+## 2.25.2
+
+### Patch Changes
+
+- 272646c: feat(builder): bump webpack v5.88, support top level await
+
+  feat(builder): 升级 webpack v5.88, 支持 top level await
+
+- e8a90f3: fix(ssr-plugin): worker streaming ssr douable enqueue the value so that ssr error
+  fix(ssr-plugin): worker streaming ssr 重复 enqueue chunk 值导致 ssr 错误
+- Updated dependencies [63d8247]
+- Updated dependencies [6651684]
+- Updated dependencies [272646c]
+- Updated dependencies [358ed24]
+  - @modern-js/utils@2.25.2
+  - @modern-js/plugin@2.25.2
+  - @modern-js/types@2.25.2
+
+## 2.25.1
+
+### Patch Changes
+
+- 85366bc: chore(deps): bump esbuild from v15/v16 to v17
+
+  chore(deps): 将 esbuild 从 v15/v16 升级到 v17
+
+- Updated dependencies [9f78d0c]
+  - @modern-js/utils@2.25.1
+  - @modern-js/plugin@2.25.1
+  - @modern-js/types@2.25.1
+
+## 2.25.0
+
+### Patch Changes
+
+- 09521e0: fix(runtime): ssr link tag add attrs error
+  fix(runtime): ssr link 标签添加错误的属性
+- Updated dependencies [2491875]
+- Updated dependencies [5732c6a]
+  - @modern-js/types@2.25.0
+  - @modern-js/utils@2.25.0
+  - @modern-js/plugin@2.25.0
+
 ## 2.24.0
 
 ### Patch Changes

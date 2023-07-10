@@ -1,6 +1,6 @@
 # Developing Components
 
-This chapter will describe how to develop component projects using the module engineering solution.
+This chapter will describe how to develop component projects using the Module Tools.
 
 ## Initialize the project
 
@@ -176,7 +176,7 @@ While importing source code for debugging is also supported, debugging using pro
 
 Debugging with source code has a limitation: some configurations are not equivalent in Storybook and in the original build support.
 
-**This is why debugging with the product is recommended**.
+**This is why debugging with the output code is recommended**.
 
 ```tsx ./stories/index.stories.tsx
 import Component from '../src';
@@ -605,7 +605,7 @@ When adding styles using HTML class names, by default Tailwind will not only add
 
 For the following code, there is a big difference between the bundle and bundleless modes of building products.
 
-> The so-called bundle and bundleless can be found in [[Bundle and Bundleless]](/en/guide/advance/in-depth-about-build#bundle- and-bundleless)
+> The so-called bundle and bundleless can be found in ["Bundle and Bundleless"](/en/guide/advance/in-depth-about-build#bundle- and-bundleless)
 
 ```tsx ./src/index.tsx
 import 'tailwindcss/utilities.css';
@@ -615,11 +615,11 @@ export default () => {
 };
 ```
 
-In Bundle mode, third-party dependencies are packaged in.
+In Bundle mode, third-party dependencies are bundled in.
 
-For styles, a separate product file is generated, and there is no code related to importing styles in the JS output files.
+For styles, a separate output file is generated, and there is no code related to importing styles in the JS output files.
 
-If you need to inject styles into JS products, you can enable the [`style.inject`](/en/api/config/build-config#styleinject) option.
+If you need to inject styles into JS output files, you can enable the [`style.inject`](/en/api/config/build-config#styleinject) option.
 
 <CH.Code>
 ```css ./dist/es/index.css
@@ -703,7 +703,7 @@ export {
 ```
 </CH.Code>
 
-In Bundleless mode, no third-party dependencies are packaged in, and no style products are generated at this time.
+In Bundleless mode, no third-party dependencies are bundled, and no style artifacts are generated at this time.
 
 ```js ./dist/es/index.js
 import { jsx } from 'react/jsx-runtime';
@@ -753,7 +753,7 @@ export default () => {
 
 ## Configuring build products
 
-Based on most scenarios of component project usage, **it is recommended to use the `npm-component` build preset**. This preset yields a product directory structure of
+Based on most scenarios of component project usage, **it is recommended to use the `npm-component` build preset**. This preset yields a output directory structure of
 
 ```bash
 .
@@ -763,8 +763,8 @@ Based on most scenarios of component project usage, **it is recommended to use t
 │   └── types
 ```
 
-- `. /dist/es`: Contains bundleless products in ES modules format that support the es6 syntax.
-- `. /dist/lib`: Contains bundleless products in CommonJS format with support for es6 syntax.
+- `. /dist/es`: Contains bundleless artifacts in ES modules format that support the es6 syntax.
+- `. /dist/lib`: Contains bundleless artifacts in CommonJS format with support for es6 syntax.
 - `. /dist/types`: Contains the types file.
 
 The [`buildPreset`](/en/api/config/build-preset) can be configured manually if there is a requirement to use syntax support, and supports modifying the supported syntax by adding a suffix to `npm-component`.
@@ -775,15 +775,15 @@ export default defineConfig({
 });
 ```
 
-If you have special needs for the build product directory structure, you can use the [`buildConfig` API](/en/api/config/build-config), which can be used by the following documentation.
+If you have special needs for the build artifacts directory structure, you can use the [`buildConfig` API](/en/api/config/build-config), which can be used by the following documentation.
 
 - [modify-output-product](/en/guide/basic/modify-output-product#build-configuration-object)
 - [in-depth-about-build](/en/guide/advance/in-depth-about-build)
 
 ## Testing components
 
-For more information on how to test components, please refer to [[Test project]](/en/guide/basic/test-your-project).
+For more information on how to test components, please refer to ["Test project"](/en/guide/basic/test-your-project).
 
 ## Releasing components
 
-It is recommended to use module project to provide version publishing function, you can refer to [[Versioning and publishing]](/en/guide/basic/publish-your-project).
+It is recommended to use module project to provide version publishing function, you can refer to ["Versioning and publishing"](/en/guide/basic/publish-your-project).

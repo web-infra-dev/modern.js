@@ -8,7 +8,7 @@ In the previous [Experience micro frontend](/guides/topic-detail/micro-frontend/
 
 After creating an application project through the `@modern-js/create` command, you can execute `pnpm run new` in the project (the `modern new` command is actually executed). After selecting the 「micro frontend」 mode, the micro frontend will be installed. Dependencies, just register the plugin manually.
 
-import EnableMicroFrontend from "@site-docs/components/enable-micro-frontend";
+import EnableMicroFrontend from "@site-docs-en/components/enable-micro-frontend";
 
 <EnableMicroFrontend />
 
@@ -23,10 +23,10 @@ You can register the sub-application information directly through the configurat
 :::tip
 It can be configured at runtime via the API [defineConfig](/apis/app/runtime/app/define-config).
 
-When the parameter is a function, it cannot be serialized to the product code, so please configure it through defineConfig when it comes to configuration such as functions
+When the parameter is a function, it cannot be serialized to the output code, so please configure it through defineConfig when it comes to configuration such as functions
 :::
 
-import MicroRuntimeConfig from "@site-docs/components/micro-runtime-config";
+import MicroRuntimeConfig from "@site-docs-en/components/micro-runtime-config";
 
 <MicroRuntimeConfig />
 
