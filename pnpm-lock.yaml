@@ -6196,9 +6196,6 @@ importers:
 
   tests/e2e/garfish/fixtures/table:
     dependencies:
-      '@arco-design/web-react':
-        specifier: ^2.46.0
-        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/plugin-garfish':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-garfish
