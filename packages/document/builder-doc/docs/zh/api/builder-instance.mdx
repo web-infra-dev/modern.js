@@ -427,7 +427,7 @@ builder.isPluginExists(builderPluginFoo().name); // true
 :::tip
 `inspectConfig` 方法不支持与 `startDevServer` / `build` 方法同时使用。
 
-当你需要在构建过程中查看完整的 builder 和 bundler 配置时，可以使用 [调试模式](/guide/debug/debug-mode.html)。
+当你需要在构建过程中查看完整的 builder 和 bundler 配置时，可以使用 [调试模式](/guide/debug/debug-mode.html)，也可以通过 `onBeforeBuild`、`onBeforeCreateCompile` 等钩子函数来获取。
 :::
 
 - **类型**

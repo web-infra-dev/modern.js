@@ -1,4 +1,9 @@
-Called after creating a compiler instance, before executing a build, when you execute `builder.startDevServer`, `builder.build` or `builder.createCompiler`, this hook will be called. You can get the compiler instance through the `compiler` parameter.
+`onAfterCreateCompiler` is a callback function that is triggered after the compiler instance has been created, but before the build process. This hook is called when you run `builder.startDevServer`, `builder.build`, or `builder.createCompiler`.
+
+You can access the Compiler instance object through the `compiler` parameter:
+
+- If the current bundler is webpack, you will get the webpack Compiler object.
+- If the current bundler is Rspack, you will get the Rspack Compiler object.
 
 - **Type**
 
