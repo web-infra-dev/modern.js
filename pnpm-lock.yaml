@@ -3595,14 +3595,14 @@ importers:
         specifier: ^7.21.5
         version: 7.21.5
       '@loadable/babel-plugin':
-        specifier: ^5.13.2
-        version: 5.13.2(@babel/core@7.21.8)
+        specifier: 5.15.3
+        version: 5.15.3(@babel/core@7.21.8)
       '@loadable/component':
-        specifier: ^5.15.0
-        version: 5.15.2(react@18.2.0)
+        specifier: 5.15.3
+        version: 5.15.3(react@18.2.0)
       '@loadable/server':
-        specifier: ^5.15.1
-        version: 5.15.2(@loadable/component@5.15.2)(react@18.2.0)
+        specifier: 5.15.3
+        version: 5.15.3(@loadable/component@5.15.3)(react@18.2.0)
       '@loadable/webpack-plugin':
         specifier: 5.15.2
         version: 5.15.2(webpack@5.88.1)
@@ -11330,8 +11330,8 @@ packages:
     resolution: {integrity: sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==}
     dev: false
 
-  /@loadable/babel-plugin@5.13.2(@babel/core@7.21.8):
-    resolution: {integrity: sha512-vSZUVeTH1S1sDbk8Tzft0plZSkN7W4zmVR5w/Bmy4UmvBiu9lin7ztrDpoUTUzxpoups+OJbTc/OosvN0aMXWg==}
+  /@loadable/babel-plugin@5.15.3(@babel/core@7.21.8):
+    resolution: {integrity: sha512-kwEsPxCk8vnwbTfbA4lHqT5t0u0czCQTnCcmOaTjxT5lCn7yZCBTBa9D7lHs+MLM2WyPsZlee3Qh0TTkMMi5jg==}
     engines: {node: '>=8'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -11352,14 +11352,26 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /@loadable/server@5.15.2(@loadable/component@5.15.2)(react@18.2.0):
-    resolution: {integrity: sha512-Nk/6Plz8qTn+A+u2qg/vrbYZwTmzzjy5bw4Ts80pM/rqW8H37IooKU/HVWSje63RZ4vTqEsHsrdiX97RB9dMjw==}
+  /@loadable/component@5.15.3(react@18.2.0):
+    resolution: {integrity: sha512-VOgYgCABn6+/7aGIpg7m0Ruj34tGetaJzt4bQ345FwEovDQZ+dua+NWLmuJKv8rWZyxOUSfoJkmGnzyDXH2BAQ==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.21.5
+      hoist-non-react-statics: 3.3.2
+      react: 18.2.0
+      react-is: 16.13.1
+    dev: false
+
+  /@loadable/server@5.15.3(@loadable/component@5.15.3)(react@18.2.0):
+    resolution: {integrity: sha512-Bm/BGe+RlChuHDKNNXpQOi4AJ0cKVuSLI+J8U0Q06zTIfT0S1RLoy85qs5RXm3cLIfefygL8+9bcYFgeWcoM8A==}
     engines: {node: '>=8'}
     peerDependencies:
       '@loadable/component': ^5.0.1
-      react: '>=16.3.0'
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@loadable/component': 5.15.2(react@18.2.0)
+      '@loadable/component': 5.15.3(react@18.2.0)
       lodash: 4.17.21
       react: 18.2.0
     dev: false
