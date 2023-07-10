@@ -33,7 +33,7 @@ import {
   ModernRouteInterface,
   ModernRoute,
 } from '../libs/route';
-import { createRenderHandler } from '../libs/render';
+import { RenderHandler, createRenderHandler } from '../libs/render';
 import {
   createStaticFileHandler,
   faviconFallbackHandler,
@@ -99,7 +99,7 @@ export class ModernServer implements ModernServerInterface {
 
   protected readonly proxyTarget: ModernServerOptions['proxyTarget'];
 
-  protected routeRenderHandler!: ReturnType<typeof createRenderHandler>;
+  protected routeRenderHandler!: RenderHandler;
 
   protected readonly staticGenerate: boolean;
 

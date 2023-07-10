@@ -9,7 +9,22 @@ import { readFile } from './reader';
 import * as ssr from './ssr';
 import { injectServerData } from './utils';
 
-export const createRenderHandler = ({
+export type RenderHandler = (options: {
+  ctx: ModernServerContext;
+  route: ModernRoute;
+  runner: ServerHookRunner;
+}) => Promise<RenderResult | null>;
+
+type CreateRenderHandler = (ctx: {
+  distDir: string;
+  staticGenerate: boolean;
+  ssrRender?: typeof ssr.render;
+  forceCSR?: boolean;
+  nonce?: string;
+  metaName?: string;
+}) => RenderHandler;
+
+export const createRenderHandler: CreateRenderHandler = ({
   distDir,
   staticGenerate,
   forceCSR,
@@ -23,7 +38,7 @@ export const createRenderHandler = ({
   forceCSR?: boolean;
   nonce?: string;
   metaName?: string;
-}) =>
+}): RenderHandler =>
   async function render({
     ctx,
     route,
