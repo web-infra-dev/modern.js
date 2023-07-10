@@ -1,16 +1,16 @@
 import path from 'path';
 import { logger, getAliasConfig, fs } from '@modern-js/utils';
-import type { Program } from 'typescript';
-import ts from 'typescript';
+import type { Program, ParseConfigFileHost } from 'typescript';
+import type ts from 'typescript';
 import type { CompileFunc } from '../../common';
 import { TypescriptLoader } from './typescriptLoader';
 import { tsconfigPathsBeforeHookFactory } from './tsconfigPathsPlugin';
 
-const readTsConfigByFile = (tsConfigFile: string) => {
-  const parsedCmd = ts.getParsedCommandLineOfConfigFile(
+const readTsConfigByFile = (tsConfigFile: string, tsInstance: typeof ts) => {
+  const parsedCmd = tsInstance.getParsedCommandLineOfConfigFile(
     tsConfigFile,
     undefined,
-    ts.sys as unknown as ts.ParseConfigFileHost,
+    tsInstance.sys as unknown as ParseConfigFileHost,
   );
   const { options, fileNames, projectReferences } = parsedCmd!;
   return { options, fileNames, projectReferences };
@@ -56,8 +56,10 @@ export const compileByTs: CompileFunc = async (
     tsconfigPath,
   });
   const { paths = {}, absoluteBaseUrl = './' } = aliasOption;
-  const { options, fileNames, projectReferences } =
-    readTsConfigByFile(tsconfigPath);
+  const { options, fileNames, projectReferences } = readTsConfigByFile(
+    tsconfigPath,
+    ts,
+  );
 
   const sourcePosixPaths = sourceDirs.map(sourceDir =>
     sourceDir.split(path.sep).join(path.posix.sep),

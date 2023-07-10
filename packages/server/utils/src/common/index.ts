@@ -4,8 +4,6 @@ import type {
   ToolsNormalizedConfig,
 } from '@modern-js/server-core';
 import { fs } from '@modern-js/utils';
-import { compileByTs } from '../compilers/typescript';
-import { compileByBabel } from '../compilers/babel';
 
 export interface Pattern {
   from: string;
@@ -66,8 +64,10 @@ export const compile: CompileFunc = async (
 
   const isTsProject = tsconfigPath && (await fs.pathExists(tsconfigPath));
   if (!isTsProject || compiler === 'babel') {
+    const { compileByBabel } = await import('../compilers/babel');
     await compileByBabel(appDirectory, modernConfig, compileOptions);
   } else {
+    const { compileByTs } = await import('../compilers/typescript');
     await compileByTs(appDirectory, modernConfig, compileOptions);
   }
 };
