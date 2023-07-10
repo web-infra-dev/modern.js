@@ -99,7 +99,7 @@ export const ModuleNewActionPluginName: Partial<
   Record<ActionType, Record<string, string>>
 > = {
   [ActionType.Function]: {
-    [ActionFunction.TailwindCSS]: 'tailwindCSSPlugin',
+    [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.Storybook]: 'storybookPlugin',
     [ActionFunction.Test]: 'testPlugin',
   },
