@@ -287,6 +287,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -329,6 +332,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -375,6 +381,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -427,6 +436,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -483,6 +495,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -532,6 +547,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1005,6 +1023,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1047,6 +1068,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1093,6 +1117,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1145,6 +1172,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1201,6 +1231,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1250,6 +1283,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1728,11 +1764,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
           },
@@ -1742,6 +1784,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1759,6 +1804,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1780,6 +1828,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1794,6 +1845,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -2185,6 +2239,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -2227,6 +2284,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -2273,6 +2333,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -2325,6 +2388,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -2381,6 +2447,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -2430,6 +2499,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [

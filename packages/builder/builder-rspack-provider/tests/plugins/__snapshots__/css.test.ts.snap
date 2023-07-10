@@ -16,6 +16,9 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -50,6 +53,9 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -106,6 +112,9 @@ exports[`plugins/css > should use custom cssModules rule when using output.cssMo
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": [Function],
             "type": "css/module",
@@ -148,6 +157,9 @@ exports[`plugins/css > should use custom cssModules rule when using output.cssMo
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -204,6 +216,9 @@ exports[`plugins/css disableCssExtract > should apply ignoreCssLoader when disab
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -238,6 +253,9 @@ exports[`plugins/css disableCssExtract > should use css-loader + style-loader wh
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -308,6 +326,9 @@ exports[`plugins/less > should add less-loader 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -360,6 +381,9 @@ exports[`plugins/less > should add less-loader 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -423,6 +447,9 @@ exports[`plugins/less > should add less-loader and css-loader when disableCssExt
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
@@ -506,6 +533,9 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             "exclude": [
               /node_modules/,
             ],
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -561,6 +591,9 @@ exports[`plugins/less > should add less-loader with excludes 1`] = `
             "exclude": [
               /node_modules/,
             ],
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -626,6 +659,9 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -678,6 +714,9 @@ exports[`plugins/less > should add less-loader with tools.less 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -743,6 +782,9 @@ exports[`plugins/sass > should add sass-loader 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -792,6 +834,9 @@ exports[`plugins/sass > should add sass-loader 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -852,6 +897,9 @@ exports[`plugins/sass > should add sass-loader and css-loader when disableCssExt
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
@@ -932,6 +980,9 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
             "exclude": [
               /node_modules/,
             ],
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -984,6 +1035,9 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
             "exclude": [
               /node_modules/,
             ],
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [

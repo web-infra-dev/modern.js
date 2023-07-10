@@ -249,6 +249,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "type": "asset/resource",
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -305,6 +308,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
@@ -368,6 +374,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
@@ -1169,6 +1178,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         "type": "asset/resource",
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -1225,6 +1237,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
@@ -1288,6 +1303,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
@@ -2137,6 +2155,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "asset/resource",
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -2159,6 +2180,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
@@ -2188,6 +2212,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
@@ -2921,6 +2948,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "asset/resource",
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -2943,6 +2973,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
         "use": [
@@ -2972,6 +3005,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         ],
       },
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.less\\$/,
         "use": [
