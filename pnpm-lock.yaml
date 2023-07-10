@@ -6067,6 +6067,9 @@ importers:
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-router-v5
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6101,6 +6104,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6135,6 +6141,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6169,6 +6178,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6184,9 +6196,6 @@ importers:
 
   tests/e2e/garfish/fixtures/table:
     dependencies:
-      '@arco-design/web-react':
-        specifier: ^2.46.0
-        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/plugin-garfish':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-garfish
@@ -6206,6 +6215,9 @@ importers:
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-router-v5
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
