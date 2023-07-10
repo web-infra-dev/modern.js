@@ -196,3 +196,24 @@ export default {
 ```
 
 The config in `override` will be merged with the bundler config. For specific config details, please refer to [webpack - splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks) or [Rspack - splitChunks](https://rspack.dev/config/optimization.html#optimization-splitchunks).
+
+## Using Dynamic Import for Code Splitting
+
+In addition to the `chunkSplit` configurations, using dynamic import for code splitting is also an important optimization technique that can effectively reduce the initial bundle size.
+
+:::tip About dynamic import
+Dynamic import is a new feature introduced in ECMAScript 2020 that allows you to dynamically load JavaScript modules. The underlying Rspack/webpack used by the Builder supports dynamic import by default, so you can use it directly in your code.
+:::
+
+When the bundler encounters the `import()` syntax, it automatically splits the relevant code into a new chunk and loads it on-demand at runtime.
+
+For example, if your project has a large module called `bigModule.ts` (which can also be a third-party dependency), you can use dynamic import to load it on-demand:
+
+```js
+// Somewhere in your code where you need to use bigModule
+import('./bigModule.ts').then(bigModule => {
+  // Use bigModule here
+});
+```
+
+When you run the build command, `bigModule.ts` will be automatically split into a new chunk and loaded on-demand at runtime.

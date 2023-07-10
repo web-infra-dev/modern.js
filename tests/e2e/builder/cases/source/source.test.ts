@@ -87,7 +87,7 @@ test.skip('module-scopes', async ({ page }) => {
   builder.close();
 });
 
-test('global-vars & tsConfigPath', async ({ page }) => {
+test('global-vars', async ({ page }) => {
   const builder = await build({
     cwd: join(fixtures, 'global-vars'),
     entry: {
@@ -107,10 +107,6 @@ test('global-vars & tsConfigPath', async ({ page }) => {
   await expect(
     page.evaluate(`document.getElementById('test-el').innerHTML`),
   ).resolves.toBe('aaaaa');
-
-  await expect(
-    page.evaluate(`document.getElementById('test-alias-el').innerHTML`),
-  ).resolves.toBe('alias work correctly');
 
   builder.close();
 });
@@ -135,6 +131,33 @@ test('define', async ({ page }) => {
   await expect(
     page.evaluate(`document.getElementById('test-el').innerHTML`),
   ).resolves.toBe('aaaaa');
+
+  builder.close();
+});
+
+test('tsconfig paths should work and override the alias config', async ({
+  page,
+}) => {
+  const cwd = join(fixtures, 'tsconfig-paths');
+  const builder = await build({
+    cwd,
+    entry: {
+      main: join(cwd, 'src/index.ts'),
+    },
+    runServer: true,
+    builderConfig: {
+      source: {
+        alias: {
+          '@common': './src/common2',
+        },
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+  await expect(
+    page.evaluate(`document.getElementById('foo').innerHTML`),
+  ).resolves.toBe('tsconfig paths worked');
 
   builder.close();
 });
