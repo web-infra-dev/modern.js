@@ -16,6 +16,7 @@ export function defineCommand(program: Command) {
     .option('--registry <registry>', i18n.t(localeKeys.command.registry), '')
     .option('-d,--debug', i18n.t(localeKeys.command.debug), false)
     .option('--cwd <cwd>', i18n.t(localeKeys.command.cwd), '')
+    .option('--no-need-install', i18n.t(localeKeys.command.noNeedInstall))
     .action(upgradeAction);
 }
 
