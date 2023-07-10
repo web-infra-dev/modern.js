@@ -10,7 +10,7 @@ interface InitOptions {
 }
 
 // eslint-disable-next-line import/no-mutable-exports
-export let routeService = null;
+export let routeService: RouteService | null = null;
 
 // The factory to create route serveice instance
 export async function initRouteService(options: InitOptions) {
