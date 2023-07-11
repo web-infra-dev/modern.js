@@ -1,6 +1,6 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { garfishPlugin } from '@modern-js/plugin-garfish';
-
+import { swcPlugin } from '@modern-js/plugin-swc';
 import { getPort, getPublicPath } from '../../testUtils';
 
 const port = getPort('@e2e/garfish-main-router-v6');
@@ -44,5 +44,6 @@ module.exports = defineConfig({
           : 'webpack',
     }),
     garfishPlugin(),
+    swcPlugin(),
   ],
 });

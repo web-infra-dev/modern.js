@@ -299,10 +299,21 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `beforeCreateCompiler`
 
-- 功能：在中间件函数中可以拿到创建 Webpack Compiler 的 Webpack 配置
-- 执行阶段：创建 Webpack Compiler 之前执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<{ webpackConfigs: Configuration[];}, unknown>`
+- 功能：在创建底层 Compiler 实例前触发的回调函数，并且你可以通过 `bundlerConfigs` 参数获取到底层打包工具的最终配置数组：
+  - 如果当前打包工具为 webpack，则获取到的是 webpack 配置数组。
+  - 如果当前打包工具为 Rspack，则获取到的是 Rspack 配置数组。
+  - 配置数组中可能包含一份或多份配置，这取决于你是否开启了 SSR 等功能。
+- 执行阶段：在执行 dev 或 build 命令时，创建 Compiler 实例之前执行
+- Hook 模型：`AsyncWorkflow`
+- 类型：
+
+```ts
+type BeforeCreateCompiler = AsyncWorkflow<
+  { bundlerConfigs: Configuration[] },
+  unknown
+>;
+```
+
 - 使用示例：
 
 ```ts
@@ -311,8 +322,9 @@ import type { CliPlugin } from '@modern-js/core';
 export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      beforeCreateCompiler: ({ webpackConfigs }) => {
-        // do something
+      beforeCreateCompiler: ({ bundlerConfigs }) => {
+        console.log('Before create compiler.');
+        console.log(bundlerConfigs);
       },
     };
   },
@@ -321,10 +333,20 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `afterCreateCompiler`
 
-- 功能：在中间件函数中可以拿到创建的 Webpack Compiler
-- 执行阶段：创建 Webpack Compiler 之后执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<{ compiler: Compiler | MultiCompiler | undefined; }, unknown>`
+- 功能：在创建 Compiler 实例后、执行构建前触发的回调函数，并且你可以通过 `compiler` 参数获取到 Compiler 实例对象：
+  - 如果当前打包工具为 webpack，则获取到的是 webpack Compiler 对象。
+  - 如果当前打包工具为 Rspack，则获取到的是 Rspack Compiler 对象。
+- 执行阶段：创建 Compiler 对象之后执行
+- Hook 模型：`AsyncWorkflow`
+- 类型：
+
+```ts
+type AfterCreateCompiler = AsyncWorkflow<
+  { compiler: Compiler | MultiCompiler | undefined },
+  unknown
+>;
+```
+
 - 使用示例：
 
 ```ts
@@ -334,7 +356,8 @@ export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
       afterCreateCompiler: ({ compiler }) => {
-        // do something
+        console.log('After create compiler.');
+        console.log(compiler);
       },
     };
   },
@@ -368,10 +391,20 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `beforeBuild`
 
-- 功能：运行 build 主流程的之前的任务，可以拿到构建的 Webpack 配置
-- 执行阶段：`build` 命令运行时，项目构建启动前执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<{ webpackConfigs: Configuration[]; }>`
+- 功能：在执行生产环境构建前触发的回调函数，你可以通过 `bundlerConfigs` 参数获取到底层打包工具的最终配置数组。
+  - 如果当前打包工具为 webpack，则获取到的是 webpack 配置数组。
+  - 如果当前打包工具为 Rspack，则获取到的是 Rspack 配置数组。
+  - 配置数组中可能包含一份或多份配置，这取决于你是否开启了 SSR 等功能。
+- 执行阶段：运行 `build` 命令后，在开始构建前执行
+- Hook 模型：`AsyncWorkflow`
+- 类型：
+
+```ts
+type BeforeBuild = AsyncWorkflow<{
+  bundlerConfigs: WebpackConfig[] | RspackConfig[];
+}>;
+```
+
 - 使用示例：
 
 ```ts
@@ -380,8 +413,9 @@ import type { CliPlugin } from '@modern-js/core';
 export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      beforeBuild: () => {
-        // do something
+      beforeBuild: ({ bundlerConfigs }) => {
+        console.log('Before build.');
+        console.log(bundlerConfigs);
       },
     };
   },
@@ -390,10 +424,19 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `afterBuild`
 
-- 功能：运行 build 主流程的之后的任务
-- 执行阶段：`build` 命令运行时，项目构建完成之后执行
-- Hook 模型：AsyncWorkflow
-- 类型：`AsyncWorkflow<void, unknown>`
+- 功能：在执行生产环境构建后触发的回调函数，你可以通过 `stats` 参数获取到构建结果信息。
+  - 如果当前打包工具为 webpack，则获取到的是 webpack Stats。
+  - 如果当前打包工具为 Rspack，则获取到的是 Rspack Stats。
+- 执行阶段：运行 `build` 命令运行后，在项目构建完成之后执行
+- Hook 模型：`AsyncWorkflow`
+- 类型：
+
+```ts
+type AfterBuild = AsyncWorkflow<{
+  stats?: Stats | MultiStats;
+}>;
+```
+
 - 使用示例：
 
 ```ts
@@ -402,8 +445,9 @@ import type { CliPlugin } from '@modern-js/core';
 export const myPlugin = (): CliPlugin => ({
   setup(api) {
     return {
-      afterBuild: () => {
-        // do something
+      afterBuild: ({ stats }) => {
+        console.log('After build.');
+        console.log(stats);
       },
     };
   },
