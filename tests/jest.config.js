@@ -11,6 +11,7 @@ module.exports = {
     '/api-service-koa/api/',
     '/api-service-koa/dist',
     '/api/tests',
+    '/module-doc/',
   ],
   transform: {
     '^.+.tsx?$': 'ts-jest',
