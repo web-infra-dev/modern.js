@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from '@modern-js/utils/fs-extra';
+import type { SidebarGroup } from '@modern-js/doc-core/src/shared/types/index';
 import {
   getClassPath,
   getModulePath,
@@ -7,8 +8,8 @@ import {
   getFunctionPath,
 } from './utils';
 
-export async function resolveSidebar(jsonDir: string): Promise<any[]> {
-  const result: any[] = [];
+export async function resolveSidebar(jsonDir: string): Promise<SidebarGroup[]> {
+  const result: SidebarGroup[] = [];
   const data = JSON.parse(await fs.readFile(jsonDir, 'utf-8'));
   if (!data.children || data.children.length <= 0) {
     return result;
@@ -54,7 +55,7 @@ export async function resolveSidebar(jsonDir: string): Promise<any[]> {
             break;
         }
       });
-      result.push(moduleConfig as any);
+      result.push(moduleConfig);
     },
   );
   // Patch /api/README.md

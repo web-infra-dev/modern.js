@@ -150,7 +150,7 @@ import { DocPlugin, Sidebar, SidebarGroup, SidebarItem } from '@/shared/types';
 // ]
 // ```
 export async function detectFilePath(rawPath: string) {
-  const extensions = ['.mdx', '.md'];
+  const extensions = ['.mdx', '.md', '.tsx', '.jsx', '.ts', '.js'];
   // The params doesn't have extension name, so we need to try to find the file with the extension name.
   let realPath = rawPath;
   const filename = path.basename(rawPath);
@@ -161,15 +161,25 @@ export async function detectFilePath(rawPath: string) {
     );
     realPath = pathWithExtension.find((_, i) => pathExistInfo[i]);
   }
+
   return realPath;
 }
 
 export async function extractH1Title(filePath: string): Promise<string> {
   const realPath = await detectFilePath(filePath);
-  const content = await fs.readFile(realPath, 'utf-8');
-  const h1RegExp = /^#\s+(.*)$/m;
-  const match = content.match(h1RegExp);
-  return match ? match[1] : '';
+  try {
+    const content = await fs.readFile(realPath, 'utf-8');
+    const h1RegExp = /^#\s+(.*)$/m;
+    const match = content.match(h1RegExp);
+    return match ? match[1] : '';
+  } catch (e) {
+    throw new Error(
+      `Can't find the file: ${filePath}, please check it in "${path.join(
+        path.dirname(filePath),
+        '_meta.json',
+      )}".`,
+    );
+  }
 }
 
 export async function scanSideMeta(workDir: string, rootDir: string) {

@@ -1,5 +1,6 @@
 import path from 'path';
 import { Application, TSConfigReader } from 'typedoc';
+import type { DocPlugin } from '@modern-js/doc-core/src/shared/types/Plugin';
 import { API_DIR } from './constants';
 import { resolveSidebar } from './sidebar';
 
@@ -16,7 +17,7 @@ export interface PluginTypeDocOptions {
   outDir?: string;
 }
 
-export function pluginTypeDoc(options: PluginTypeDocOptions) {
+export function pluginTypeDoc(options: PluginTypeDocOptions): DocPlugin {
   let docRoot: string | undefined;
   const { entryPoints = [], outDir = API_DIR } = options;
   return {
@@ -29,9 +30,7 @@ export function pluginTypeDoc(options: PluginTypeDocOptions) {
         },
       ];
     },
-    // The module tools will build error when use the types of doc-core
-    // So we use any type here
-    async config(config: any) {
+    async config(config) {
       const app = new Application();
       docRoot = config.root;
       app.options.addReader(new TSConfigReader());
