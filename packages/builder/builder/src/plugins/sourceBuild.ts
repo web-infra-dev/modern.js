@@ -30,7 +30,7 @@ export const getSourceInclude = async (options: {
 
   const includes = [];
   for (const project of projects) {
-    includes.push(...project.getSourceEntryPaths());
+    includes.push(...project.getSourceEntryPaths({ field: sourceField }));
   }
 
   return includes;

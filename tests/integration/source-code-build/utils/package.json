@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.9.0",
   "main": "./dist/index.js",
-  "source": "./src/index.ts",
+  "monorepo:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "typesVersions": {
     "*": {
