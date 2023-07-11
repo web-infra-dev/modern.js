@@ -32,13 +32,14 @@ When the value type is `Object`, the following properties can be configured:
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
-    forceCSR: true,
-    mode: 'stream',
-    inlineScript: false,
+    ssr: {
+      forceCSR: true,
+      mode: 'stream',
+      inlineScript: false,
+    },
   },
 });
 ```
-
 
 ### Active Fallback
 
@@ -50,7 +51,7 @@ In a production environment, there are scenarios where it is necessary to active
 
 3. When the SSR server is under heavy load, it may be necessary to fallback some traffic directly to the CSR to avoid service downtime.
 
-By configuring `ssr.forCSR` to `true` in the project, you can control this behavior through query strings or request headers.
+By configuring `server.ssr.forCSR` to `true` in the project, you can control this behavior through query strings or request headers.
 
 For example, in a custom Web Server middleware, you can actively fallback when traffic exceeds a certain threshold:
 
