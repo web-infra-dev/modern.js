@@ -39,7 +39,7 @@ export function pluginPreview(options?: Options): DocPlugin {
 pageType: "blank"
 ---
 
-import Demo from '${demoComponentPath}'
+import Demo from ${JSON.stringify(demoComponentPath)}
 
 <Demo />
           `,

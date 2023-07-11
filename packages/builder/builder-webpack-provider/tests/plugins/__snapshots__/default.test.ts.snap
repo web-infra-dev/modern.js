@@ -888,6 +888,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     },
   ],
   "resolve": {
+    "conditionNames": [
+      "...",
+      "source",
+    ],
     "extensions": [
       ".ts",
       ".tsx",
@@ -895,6 +899,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       ".jsx",
       ".mjs",
       ".json",
+    ],
+    "mainFields": [
+      "source",
+      "...",
     ],
     "plugins": [
       TsConfigPathsPlugin {
@@ -1865,6 +1873,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     },
   ],
   "resolve": {
+    "conditionNames": [
+      "...",
+      "source",
+    ],
     "extensions": [
       ".ts",
       ".tsx",
@@ -1872,6 +1884,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       ".jsx",
       ".mjs",
       ".json",
+    ],
+    "mainFields": [
+      "source",
+      "...",
     ],
     "plugins": [
       TsConfigPathsPlugin {
@@ -2660,6 +2676,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     },
   ],
   "resolve": {
+    "conditionNames": [
+      "...",
+      "source",
+    ],
     "extensions": [
       ".ts",
       ".tsx",
@@ -2667,6 +2687,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".jsx",
       ".mjs",
       ".json",
+    ],
+    "mainFields": [
+      "source",
+      "...",
     ],
     "plugins": [
       TsConfigPathsPlugin {
@@ -3456,6 +3480,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     },
   ],
   "resolve": {
+    "conditionNames": [
+      "...",
+      "source",
+    ],
     "extensions": [
       ".ts",
       ".tsx",
@@ -3463,6 +3491,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".jsx",
       ".mjs",
       ".json",
+    ],
+    "mainFields": [
+      "source",
+      "...",
     ],
     "plugins": [
       TsConfigPathsPlugin {

@@ -199,7 +199,7 @@ export const remarkCodeToDemo: Plugin<
 const getASTNodeImport = (name: string, from: string) =>
   ({
     type: 'mdxjsEsm',
-    value: `import ${name} from "${from}"`,
+    value: `import ${name} from ${JSON.stringify(from)}`,
     data: {
       estree: {
         type: 'Program',
@@ -216,7 +216,7 @@ const getASTNodeImport = (name: string, from: string) =>
             source: {
               type: 'Literal',
               value: from,
-              raw: `"${from}"`,
+              raw: `${JSON.stringify(from)}`,
             },
           },
         ],

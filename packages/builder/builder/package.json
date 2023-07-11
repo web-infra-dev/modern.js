@@ -40,10 +40,13 @@
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/monorepo-utils": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@svgr/webpack": "8.0.1"
   },
   "devDependencies": {
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
     "@types/node": "^14",

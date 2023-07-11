@@ -261,10 +261,6 @@
       "path": "scripts/vitest-config"
     },
     {
-      "name": "@scripts/codemod",
-      "path": "scripts/codemod"
-    },
-    {
       "name": "Integration Tests",
       "path": "tests"
     }
