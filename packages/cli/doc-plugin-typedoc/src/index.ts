@@ -1,6 +1,7 @@
 import path from 'path';
 import { Application, TSConfigReader } from 'typedoc';
 import type { DocPlugin } from '@modern-js/doc-core/src/shared/types/Plugin';
+import { load } from 'typedoc-plugin-markdown';
 import { API_DIR } from './constants';
 import { resolveSidebar } from './sidebar';
 
@@ -34,21 +35,23 @@ export function pluginTypeDoc(options: PluginTypeDocOptions): DocPlugin {
       const app = new Application();
       docRoot = config.root;
       app.options.addReader(new TSConfigReader());
+      load(app);
       app.bootstrap({
         name: config.title,
         entryPoints,
-        plugin: ['typedoc-plugin-markdown'],
         theme: 'markdown',
         disableSources: true,
         readme: 'none',
         githubPages: false,
-        // @ts-expect-error hide bread crumbs and members symbol
+        requiredToBeDocumented: ['Class', 'Function', 'Interface'],
+        plugin: ['typedoc-plugin-markdown'],
+        // @ts-expect-error MarkdownTheme has no export
         hideBreadcrumbs: true,
         hideMembersSymbol: true,
         allReflectionsHaveOwnDocument: true,
       });
-
       const project = app.convert();
+
       if (project) {
         // 1. Generate module doc by typedoc
         const absoluteOutputdir = path.join(docRoot!, outDir);
