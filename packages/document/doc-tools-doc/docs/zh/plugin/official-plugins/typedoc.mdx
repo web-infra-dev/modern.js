@@ -1,0 +1,111 @@
+# typedoc
+
+集成 [TypeDoc](https://github.com/TypeStrong/typedoc) 的 Modern.js Doc 插件，用于自动生成 TS 模块的 API 文档。
+
+## 安装
+
+```bash
+# npm
+npm install @modern-js/doc-plugin-typedoc
+# yarn
+yarn add @modern-js/doc-plugin-typedoc
+# pnpm
+pnpm install @modern-js/doc-plugin-typedoc
+```
+
+## 使用
+
+```ts
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+import { pluginTypeDoc } from '@edenx/doc-plugin-typedoc';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    plugins: [
+      pluginTypeDoc({
+        entryPoints: [
+          path.join(__dirname, 'src', 'foo.ts'),
+          path.join(__dirname, 'src', 'bar.ts'),
+        ],
+      }),
+    ],
+  },
+  plugins: [docTools()],
+});
+```
+
+```ts title="src/foo.ts"
+/**
+ * 这是一个add函数
+ */
+export function add(
+  /**
+   * This is param1
+   */
+  param1: string,
+  /**
+   * This is param2
+   */
+  param2: number,
+) {
+  return 1;
+}
+```
+
+```ts title="src/bar.ts"
+/**
+ * This is multi function
+ */
+export function multi(
+  /**
+   * This is param1
+   */
+  param1?: string,
+  /**
+   * This is param2
+   */
+  param2?: number,
+) {
+  return 1;
+}
+```
+
+当你启动项目后，插件会在你的文档根目录下自动生成 `api` 目录，目录结构如下：
+
+```bash
+api
+├── README.md
+├── documentation.json
+├── functions
+│   ├── bar.multi.md
+│   └── foo.add.md
+├── interfaces
+│   ├── foo.RunTestsOptions.md
+│   └── foo.TestMessage.md
+└── modules
+    ├── bar.md
+    └── foo.md
+```
+
+也就是说，插件内部会调用 TypeDoc 帮你自动生成模块的 API 文档，包含模块列表、`Interface` 详情、函数详情(入参、返回值、描述信息) 等信息，同时也会生成 `documentation.json` 文件，用于后续的侧边栏渲染。
+
+注意，每次启动项目时都会根据最新的模块内容重新生成文档。因此，我们建议将 `api` 目录加入 `.gitignore` 中，如果你通过下面的`outDir`参数自定义了输出目录，也应该将其加入 `.gitignore` 中。
+
+同时，我们也不建议在 api 目录下修改或新增文档，因为随着模块内容的变化，这些文档在每次项目启动时会被覆盖。
+
+## 参数说明
+
+### entryPoints
+
+- 类型：`string[]`
+- 默认值：`[]`
+
+指定需要生成文档的 TS 模块路径，你需要传入模块的绝对路径。
+
+### outDir
+
+- 类型：`string`
+- 默认值：`api`
+
+自定义文档输出目录，你需要传入一个相对路径，比如 `api/custom`。

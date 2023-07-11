@@ -1,4 +1,4 @@
-import { BuilderConfig } from '@modern-js/builder-rspack-provider';
+import type { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluggableList } from 'unified';
 import { DocConfig, PageIndexInfo, RouteMeta } from '.';
 
