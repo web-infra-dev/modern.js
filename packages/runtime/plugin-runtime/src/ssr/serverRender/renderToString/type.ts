@@ -21,6 +21,7 @@ export interface RenderEntry {
   result: RenderResult;
   stats: Record<string, any>;
   config: SSRPluginConfig;
+  template: string;
   nonce?: string;
 }
 
