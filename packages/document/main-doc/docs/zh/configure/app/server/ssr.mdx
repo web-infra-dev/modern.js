@@ -51,7 +51,7 @@ export default defineConfig({
 
 3. SSR 服务压力过大，需要部分流量直接降级为 CSR，避免服务宕机。
 
-在项目中配置 `server.ssr.forCSR` 为 `true` 后，我们可以通过请求的查询字符串，或是请求头来控制这一行为。
+在项目中配置 `server.ssr.forceCSR` 为 `true` 后，我们可以通过请求的查询字符串，或是请求头来控制这一行为。
 
 例如在自定义 Web Server 的中间件中，检测到流量大于某一阈值时，主动降级：
 
