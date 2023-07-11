@@ -5368,30 +5368,6 @@ importers:
         specifier: ^3.12.7
         version: 3.12.7
 
-  scripts/codemod:
-    devDependencies:
-      '@modern-js/tsconfig':
-        specifier: workspace:*
-        version: link:../../packages/review/tsconfig
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../build
-      '@types/glob':
-        specifier: ^7.1.4
-        version: 7.2.0
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      glob:
-        specifier: ^7.2.0
-        version: 7.2.0
-      tsx:
-        specifier: ^3.12.7
-        version: 3.12.7
-      typescript:
-        specifier: ^5
-        version: 5.0.4
-
   scripts/jest-config:
     devDependencies:
       '@swc/core':
