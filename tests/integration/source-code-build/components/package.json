@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.9.0",
   "main": "./dist/index.js",
-  "source": "./src/index.tsx",
+  "monorepo:source": "./src/index.tsx",
   "exports": {
     ".": "./src/index.tsx",
     "./card": "./src/card/index.tsx"
