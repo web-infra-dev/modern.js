@@ -34,9 +34,7 @@ export function pluginTypeDoc(options: PluginTypeDocOptions) {
     async config(config: any) {
       const app = new Application();
       docRoot = config.root;
-
       app.options.addReader(new TSConfigReader());
-      console.log('entryPoints', entryPoints);
       app.bootstrap({
         name: config.title,
         entryPoints,
