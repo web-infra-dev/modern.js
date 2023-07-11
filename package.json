@@ -85,7 +85,7 @@
     "globby": "^11.0.4",
     "husky": "^8.0.0",
     "turbo": "^1.10.2",
-    "vitest": "0.21.1"
+    "vitest": "0.33.0"
   },
   "pnpm": {
     "overrides": {

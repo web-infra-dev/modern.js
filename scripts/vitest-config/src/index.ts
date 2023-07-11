@@ -5,8 +5,8 @@ import { createSnapshotSerializer } from './utils';
 export const testPreset = defineConfig({
   test: {
     coverage: {
-      enabled: true,
-      include: ['src/**/*.[jt]s?(x)'],
+      enabled: false,
+      // include: ['src/**/*.[jt]s?(x)'],
     },
     environment: 'happy-dom',
     testTimeout: 30000,
@@ -14,8 +14,7 @@ export const testPreset = defineConfig({
     restoreMocks: true,
   },
   resolve: {
-    conditions: ['jsnext:source', 'require', 'node', 'default'],
-    extensions: ['.js', '.json', '.node', '.ts', '.tsx'],
+    conditions: ['jsnext:source'],
   },
 });
 

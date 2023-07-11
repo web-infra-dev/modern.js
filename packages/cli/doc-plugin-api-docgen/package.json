@@ -56,7 +56,7 @@
     "react-dom": "^18",
     "react-router-dom": "^6.8.1",
     "typescript": "^5",
-    "vitest": "0.21.1"
+    "vitest": "0.33.0"
   },
   "peerDependencies": {
     "react": ">=17",

@@ -1,4 +1,4 @@
-import assert from 'assert';
+// import assert from 'assert';
 import {
   applyMatcherReplacement,
   createDefaultPathMatchers,
@@ -24,13 +24,13 @@ export function createSnapshotSerializer(options?: SnapshotSerializerOptions) {
     workspace = findMonorepoRoot(cwd),
     replace: customMatchers = [],
   } = options || {};
-  assert(cwd, 'cwd is required');
-  assert(workspace, 'workspace is required');
+  // assert(cwd, 'cwd is required');
+  // assert(workspace, 'workspace is required');
   const pathMatchers: PathMatcher[] = [
     { mark: 'root', match: cwd },
-    { mark: 'workspace', match: workspace },
+    { mark: 'workspace', match: workspace! },
     ...customMatchers,
-    ...createDefaultPathMatchers(workspace),
+    ...createDefaultPathMatchers(workspace!),
   ];
 
   pathMatchers

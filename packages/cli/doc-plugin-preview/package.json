@@ -60,7 +60,7 @@
     "typescript": "^5",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.1",
-    "vitest": "0.21.1",
+    "vitest": "0.33.0",
     "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {
