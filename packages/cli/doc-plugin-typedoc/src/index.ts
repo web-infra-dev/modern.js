@@ -36,7 +36,7 @@ export function pluginTypeDoc(options: PluginTypeDocOptions) {
       docRoot = config.root;
 
       app.options.addReader(new TSConfigReader());
-      console.log('entryPoints', entryPoints);
+
       app.bootstrap({
         name: config.title,
         entryPoints,
