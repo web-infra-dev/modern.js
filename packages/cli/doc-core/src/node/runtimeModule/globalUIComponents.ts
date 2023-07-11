@@ -14,7 +14,7 @@ export async function globalUIComponentsVMPlugin(context: FactoryContext) {
     ...(config.doc?.globalUIComponents || []),
     ...globalUIComponentsByPlugins,
   ]
-    .map(source => `import Comp_${index++} from '${source}';`)
+    .map(source => `import Comp_${index++} from ${JSON.stringify(source)};`)
     .concat(
       `export default [${Array.from(
         { length: index },
