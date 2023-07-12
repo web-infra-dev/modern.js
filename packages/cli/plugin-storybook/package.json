@@ -96,7 +96,6 @@
     "react-dom": ">=17"
   },
   "sideEffects": false,
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
