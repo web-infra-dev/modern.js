@@ -31,7 +31,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
   },
   experiments: {
     lazyCompilation: false,
-    sourceBuild: true,
+    sourceBuild: false,
   },
   performance: {
     ...getDefaultPerformanceConfig(),

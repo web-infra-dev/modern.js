@@ -36,12 +36,6 @@ export const getSourceInclude = async (options: {
   return includes;
 };
 
-export interface PluginSourceBuildOptions {
-  projectName?: string;
-  sourceField?: string;
-  extraMonorepoStrategies?: ExtraMonorepoStrategies;
-}
-
 export const sourceBuildInWebpack = (
   api: WebpackBuilderPluginAPI,
   options: {
@@ -108,6 +102,12 @@ export const sourceBuildInWebpack = (
   });
 };
 
+export interface PluginSourceBuildOptions {
+  projectName?: string;
+  sourceField?: string;
+  extraMonorepoStrategies?: ExtraMonorepoStrategies;
+}
+
 export function builderPluginSourceBuild(
   options?: PluginSourceBuildOptions,
 ): BuilderPlugin<WebpackBuilderPluginAPI | RspackBuilderPluginAPI> {
@@ -123,22 +123,53 @@ export function builderPluginSourceBuild(
       const projectRootPath = api.context.rootPath;
 
       // TODO: when rspack support tsconfig paths functionality, this comment will remove
-      //   if (api.context.bundlerType === 'rspack') {
-      //     (api as RspackBuilderPluginAPI).modifyRspackConfig(async config => {
-      // // when support chain.resolve.conditionNames API, remove this logic
-      //       setConfig(config, 'resolve.conditionNames', [
-      //         '...', // Special syntax: retain the original value
-      //         sourceField,
-      //         ...(config.resolve?.conditionNames ?? []),
-      //       ]);
-      //     });
-      //   }
+      // if (api.context.bundlerType === 'rspack') {
+      //   (api as RspackBuilderPluginAPI).modifyRspackConfig(async config => {
+      //     // when support chain.resolve.conditionNames API, remove this logic
+      //     setConfig(config, 'resolve.conditionNames', [
+      //       '...', // Special syntax: retain the original value
+      //       sourceField,
+      //       ...(config.resolve?.conditionNames ?? []),
+      //     ]);
+      //   });
+      // }
       if (api.context.bundlerType === 'webpack') {
-        sourceBuildInWebpack(api as WebpackBuilderPluginAPI, {
-          projectRootPath,
-          sourceField,
-          projectName,
-          extraMonorepoStrategies,
+        (api as WebpackBuilderPluginAPI).modifyBuilderConfig(async config => {
+          const { sourceBuild = true } = config.experiments ?? {};
+
+          if (!sourceBuild) {
+            return;
+          }
+          const includes = await getSourceInclude({
+            projectNameOrRootPath: projectName || projectRootPath,
+            sourceField,
+            findMonorepoStartPath: projectRootPath,
+            extraMonorepoStrategies,
+          });
+          config.source = config.source ?? {};
+          config.source.include = [
+            ...(config.source.include ?? []),
+            ...includes,
+          ];
+        });
+
+        api.modifyBundlerChain((chain, { CHAIN_ID }) => {
+          const {
+            experiments: { sourceBuild },
+          } = (api as WebpackBuilderPluginAPI).getNormalizedConfig();
+
+          if (!sourceBuild) {
+            return;
+          }
+          // webpack.js.org/configuration/module/#ruleresolve
+          chain.module
+            .rule(CHAIN_ID.RULE.JS)
+            .resolve.mainFields.merge(['...', sourceField]);
+
+          // webpack chain not support resolve.conditionNames
+          chain.module.rule(CHAIN_ID.RULE.JS).resolve.merge({
+            conditionNames: ['...', sourceField],
+          });
         });
       }
     },

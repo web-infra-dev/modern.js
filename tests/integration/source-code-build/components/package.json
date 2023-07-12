@@ -3,10 +3,16 @@
   "private": true,
   "version": "2.9.0",
   "main": "./dist/index.js",
-  "monorepo:source": "./src/index.tsx",
+  "source": "./src/index.tsx",
   "exports": {
-    ".": "./src/index.tsx",
-    "./card": "./src/card/index.tsx"
+    ".": {
+      "source": "./src/index.tsx",
+      "default": "./dist/index.js"
+    },
+    "./card": {
+      "source": "./src/card/index.tsx",
+      "default": "./dist/card/index.js"
+    }
   },
   "types": "./dist/types/index.d.ts",
   "typesVersions": {
