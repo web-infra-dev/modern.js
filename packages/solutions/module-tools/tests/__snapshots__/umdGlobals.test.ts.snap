@@ -203,7 +203,7 @@ exports[`globals usage globals is { react: 'React' }, format is umd 1`] = `
     var import_react = __toESM(require_react());
     var debug = function() {
         var _ref = _async_to_generator(function*(str) {
-            const { addPrefix: addPrefix2  } = yield Promise.resolve().then(()=>(init_common(), common_exports));
+            const { addPrefix: addPrefix2 } = yield Promise.resolve().then(()=>(init_common(), common_exports));
             addPrefix2("DEBUG:", \`\${import_react.default.version}/\${str}\`);
         });
         return function debug(str) {
