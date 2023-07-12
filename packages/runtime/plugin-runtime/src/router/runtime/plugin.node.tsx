@@ -138,7 +138,7 @@ export const routerPlugin = ({
               return (
                 <App {...props}>
                   <StaticRouterProvider
-                    router={remixRouter}
+                    router={remixRouter!}
                     context={routerContext!}
                     hydrate={false}
                   />
@@ -164,9 +164,9 @@ export const routerPlugin = ({
 
           // only export partial common API from remix-router
           const router = {
-            navigate: remixRouter.navigate,
+            navigate: remixRouter!.navigate,
             get location() {
-              return remixRouter.state.location;
+              return remixRouter!.state.location;
             },
           };
 

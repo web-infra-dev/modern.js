@@ -5288,8 +5288,8 @@ importers:
   packages/toolkit/utils:
     dependencies:
       '@remix-run/router':
-        specifier: 1.6.2
-        version: 1.6.2
+        specifier: 1.6.1
+        version: 1.6.1
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -5300,8 +5300,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react-router-dom:
-        specifier: ^6.8.1
-        version: 6.11.2(react-dom@18.2.0)(react@18.2.0)
+        specifier: 6.11.1
+        version: 6.11.1(react-dom@18.2.0)(react@18.2.0)
       serialize-javascript:
         specifier: ^6.0.0
         version: 6.0.1
@@ -12247,7 +12247,7 @@ packages:
       react-router-dom:
         optional: true
     dependencies:
-      '@remix-run/router': 1.6.2
+      '@remix-run/router': 1.6.1
       caniuse-lite: 1.0.30001489
       lodash: 4.17.21
       serialize-javascript: 6.0.1
@@ -12691,6 +12691,10 @@ packages:
     resolution: {integrity: sha512-t54ONhl/h75X94SWsHGQ4G/ZrCEguKSRQr7DrjTciJXW0YU1QhlwYeycvK5JgkzlxmvrK7wq1NB/PLtHxoiDcA==}
     engines: {node: '>=14'}
     dev: false
+
+  /@remix-run/router@1.6.1:
+    resolution: {integrity: sha512-YUkWj+xs0oOzBe74OgErsuR3wVn+efrFhXBWrit50kOiED+pvQe2r6MWY0iJMQU/mSVKxvNzL4ZaYvjdX+G7ZA==}
+    engines: {node: '>=14'}
 
   /@remix-run/router@1.6.2:
     resolution: {integrity: sha512-LzqpSrMK/3JBAVBI9u3NWtOhWNw5AMQfrUFYB0+bDHTSw17z++WJLsPsxAuK+oSddsxk4d7F/JcdDPM1M5YAhA==}
@@ -29138,6 +29142,19 @@ packages:
       tiny-warning: 1.0.3
     dev: false
 
+  /react-router-dom@6.11.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-dPC2MhoPeTQ1YUOt5uIK376SMNWbwUxYRWk2ZmTT4fZfwlOvabF8uduRKKJIyfkCZvMgiF0GSCQckmkGGijIrg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.6.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router: 6.11.1(react@18.2.0)
+    dev: false
+
   /react-router-dom@6.11.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-JNbKtAeh1VSJQnH6RvBDNhxNwemRj7KxCzc5jb7zvDSKRnPWIFj9pO+eXqjM69gQJ0r46hSz1x4l9y0651DKWw==}
     engines: {node: '>=14'}
@@ -29165,6 +29182,16 @@ packages:
       react-is: 16.13.1
       tiny-invariant: 1.2.0
       tiny-warning: 1.0.3
+    dev: false
+
+  /react-router@6.11.1(react@18.2.0):
+    resolution: {integrity: sha512-OZINSdjJ2WgvAi7hgNLazrEV8SGn6xrKA+MkJe9wVDMZ3zQ6fdJocUjpCUCI0cNrelWjcvon0S/QK/j0NzL3KA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.6.1
+      react: 18.2.0
     dev: false
 
   /react-router@6.11.2(react@18.2.0):

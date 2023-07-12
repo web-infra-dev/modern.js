@@ -10,6 +10,7 @@ import {
 } from '@modern-js/utils/runtime/router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { parsedJSONFromElement } from '@modern-js/utils/runtime-browser';
+import type { RouterSubscriber } from '@modern-js/utils/runtime/remix-router';
 import { Plugin, RuntimeReactContext } from '../../core';
 import { modifyRoutes as modifyRoutesHook } from './hooks';
 import { deserializeErrors, renderRoutes, urlJoin } from './utils';
@@ -115,7 +116,31 @@ export const routerPlugin = ({
                   });
 
               const runtimeContext = useContext(RuntimeReactContext);
-              runtimeContext.remixRouter = router;
+              Object.defineProperty(runtimeContext, 'remixRouter', {
+                get() {
+                  return router;
+                },
+              });
+
+              const originSubscribe = router.subscribe;
+
+              router.subscribe = (listener: RouterSubscriber) => {
+                const wrapedListener: RouterSubscriber = (...args) => {
+                  const getBlockNavState =
+                    runtimeContext.unstable_getBlockNavState;
+
+                  const blockRoute = getBlockNavState
+                    ? getBlockNavState()
+                    : false;
+
+                  if (blockRoute) {
+                    return;
+                  }
+                  // eslint-disable-next-line consistent-return
+                  return listener(...args);
+                };
+                return originSubscribe(wrapedListener);
+              };
 
               return (
                 <App {...props}>
@@ -145,9 +170,9 @@ export const routerPlugin = ({
 
           // only export partial common API from remix-router
           const router = {
-            navigate: remixRouter.navigate,
+            navigate: remixRouter!.navigate,
             get location() {
-              return remixRouter.state.location;
+              return remixRouter!.state.location;
             },
           };
 
