@@ -40,7 +40,7 @@
     "jest": "^29",
     "@scripts/jest-config": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
-    "@modern-js/libuild": "0.14.0"
+    "@modern-js/libuild": "0.13.2"
   },
   "peerDependencies": {
     "@modern-js/module-tools": "workspace:^2.25.2"
