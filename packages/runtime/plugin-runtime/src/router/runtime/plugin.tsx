@@ -116,11 +116,13 @@ export const routerPlugin = ({
                   });
 
               const runtimeContext = useContext(RuntimeReactContext);
-              Object.defineProperty(runtimeContext, 'remixRouter', {
-                get() {
-                  return router;
-                },
-              });
+              if (!runtimeContext.remixRouter) {
+                Object.defineProperty(runtimeContext, 'remixRouter', {
+                  get() {
+                    return router;
+                  },
+                });
+              }
 
               const originSubscribe = router.subscribe;
 
