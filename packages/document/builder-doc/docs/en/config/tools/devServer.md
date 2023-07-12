@@ -3,6 +3,10 @@
 
 The config of DevServer can be modified through `tools.devServer`.
 
+:::tip
+Modern.js does not directly use [webpack-dev-server](https://webpack.js.org/api/webpack-dev-server/) or [@rspack/dev-server](https://www.rspack.dev/guide/dev-server.html), but implement DevServer based on [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware).
+:::
+
 ### Options
 
 #### after
