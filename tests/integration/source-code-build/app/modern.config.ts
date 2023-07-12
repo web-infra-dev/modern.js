@@ -15,4 +15,7 @@ export default defineConfig({
           : 'webpack',
     }),
   ],
+  experiments: {
+    sourceBuild: true,
+  },
 });

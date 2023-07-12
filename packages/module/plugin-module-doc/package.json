@@ -62,6 +62,7 @@
   "sideEffects": [
     "**/*.scss"
   ],
+  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
