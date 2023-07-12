@@ -4,8 +4,8 @@
   "version": "2.25.2",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
@@ -37,11 +37,13 @@
   "dependencies": {
     "@modern-js/utils": "workspace:*",
     "@playwright/test": "1.33.0",
+    "@swc/helpers": "0.5.1",
     "connect": "^3.7.0",
     "playwright": "1.33.0",
     "serve-static": "^1.14.1"
   },
   "devDependencies": {
+    "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/connect": "^3.4.35",
     "@types/got": "^9.6.12",
