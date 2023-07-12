@@ -66,6 +66,7 @@
     "@scripts/jest-config": "workspace:*"
   },
   "sideEffects": false,
+  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

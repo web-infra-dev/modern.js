@@ -81,8 +81,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "tsc",
+    "dev": "tsc --watch --sourceMap",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
@@ -98,7 +98,6 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.9",
-    "@swc/helpers": "0.5.1",
     "caniuse-lite": "^1.0.30001489",
     "css-minimizer-webpack-plugin": "5.0.0",
     "html-webpack-plugin": "5.5.0",
@@ -113,7 +112,6 @@
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",
     "@modern-js/e2e": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/caniuse-lite": "^1.0.1",
     "@types/node": "^14",
