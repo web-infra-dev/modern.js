@@ -65,6 +65,8 @@ export default class Entry {
 
   public logger: SSRServerContext['logger'];
 
+  private readonly template: string;
+
   private readonly App: ModernSSRReactComponent;
 
   private readonly fragments: Fragment[];
@@ -85,6 +87,7 @@ export default class Entry {
     } = ctx;
 
     this.fragments = toFragments(template, entryName);
+    this.template = template;
     this.entryName = entryName;
     this.host = host;
     this.App = options.App;
@@ -187,6 +190,7 @@ export default class Entry {
         entryName: this.entryName,
         config: this.pluginConfig,
         nonce: this.nonce,
+        template: this.template,
       };
       html = reduce(App, renderContext, [
         styledComponentRenderer.toHtml,
