@@ -71,15 +71,14 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "jest"
   },
   "dependencies": {
     "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/plugin": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.1"
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/builder-shared": "workspace:*",

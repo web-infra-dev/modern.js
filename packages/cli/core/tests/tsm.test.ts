@@ -1,13 +1,15 @@
 import path from 'path';
 import { spawnSync } from 'child_process';
 
+const kPackageDir = path.resolve(__dirname, '..');
+
 describe('jsnext:source', () => {
   test('process exit status is 0', () => {
     const { status, stdout, stderr } = spawnSync(
       process.execPath,
-      ['--conditions=jsnext:source', '-r', 'tsm', '../../../../src/bin.ts'],
+      ['--conditions=jsnext:source', '-r', 'tsm', 'src/bin.ts'],
       {
-        cwd: path.resolve(__dirname, 'fixtures/config/no-config'),
+        cwd: kPackageDir,
         encoding: 'utf-8',
       },
     );

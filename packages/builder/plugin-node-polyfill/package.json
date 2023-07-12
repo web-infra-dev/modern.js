@@ -32,14 +32,13 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@swc/helpers": "0.5.1",
     "node-libs-browser": "2.2.1"
   },
   "devDependencies": {
@@ -47,7 +46,6 @@
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "^5"
   },

@@ -32,14 +32,13 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "modern-lib build",
-    "dev": "modern-lib build --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "test": "jest"
   },
   "dependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",
-    "@modern-js/utils": "workspace:*",
-    "@swc/helpers": "0.5.1"
+    "@modern-js/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29",
