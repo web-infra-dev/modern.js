@@ -53,7 +53,7 @@ describe('source build', () => {
   });
 
   test('update component project code', async () => {
-    const newContent = card.original.replaceAll('Card Comp', 'Card-Comp');
+    const newContent = card.original.replace(/Card Comp/g, 'Card-Comp');
     await fs.writeFile(card.codeDir, newContent);
     await sleep(2000);
     const page = await browser.newPage();
