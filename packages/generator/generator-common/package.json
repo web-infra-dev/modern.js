@@ -53,7 +53,6 @@
     "typescript": "^5"
   },
   "sideEffects": false,
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
