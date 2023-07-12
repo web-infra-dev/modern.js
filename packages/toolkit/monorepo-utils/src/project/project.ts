@@ -91,7 +91,7 @@ export class Project {
     return projects;
   }
 
-  getSourceEntryPaths(options?: { field?: string; exports: boolean }) {
+  getSourceEntryPaths(options?: { field?: string; exports?: boolean }) {
     const { exports: checkExports = false, field: sourceField = 'source' } =
       options ?? {};
     const pkgJson = this.getMetaData() as INodePackageJson &

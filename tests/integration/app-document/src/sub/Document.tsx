@@ -19,7 +19,7 @@ export default function Document(): React.ReactElement {
 
   return (
     <Html {...{ fromUserDoc: true, lang: 'cn' }}>
-      <Head>
+      <Head {...{ class: 'head' }}>
         <Style>
           {`
             .logo-spin > div:last-child {
@@ -45,8 +45,8 @@ export default function Document(): React.ReactElement {
           }}
         ></script>
       </Head>
-      <Body>
-        <Root>
+      <Body {...{ dir: 'ltr' }}>
+        <Root {...{ class: 'root' }}>
           <h1 style={{ color: 'red' }}>以下为构建时传过来的参数：</h1>
           <h2> entryName：{entryName}</h2>
           <h2> title：{htmlConfig.title}</h2>

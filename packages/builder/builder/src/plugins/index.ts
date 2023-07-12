@@ -46,5 +46,7 @@ export const plugins: Plugins = {
   moment: () => import('./moment').then(m => m.builderPluginMoment()),
   externals: () => import('./externals').then(m => m.builderPluginExternals()),
   sourceBuild: () =>
-    import('./sourceBuild').then(m => m.builderPluginSourceBuild()),
+    import('./sourceBuild').then(m =>
+      m.builderPluginSourceBuild({ sourceField: 'monorepo:source' }),
+    ),
 };

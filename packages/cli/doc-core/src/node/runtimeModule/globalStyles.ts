@@ -11,7 +11,7 @@ export async function globalStylesVMPlugin(context: FactoryContext) {
     ...globalStylesByPlugins,
   ]
     .filter(source => source.length > 0)
-    .map(source => `import '${source}';`)
+    .map(source => `import ${JSON.stringify(source)};`)
     .join('');
 
   return new RuntimeModulesPlugin({
