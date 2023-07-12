@@ -61,7 +61,8 @@ const getDependentProjects = async (
   const currentProject = projects.find(project => project.name === projectName);
 
   if (!currentProject) {
-    throw new Error(`Not found "${projectName}" project.`);
+    dlog(`Not found "${projectName}" project.`);
+    return [];
   }
 
   let dependentProjects = currentProject.getDependentProjects(projects, {

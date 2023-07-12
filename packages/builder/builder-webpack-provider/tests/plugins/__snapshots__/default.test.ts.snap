@@ -890,7 +890,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   "resolve": {
     "conditionNames": [
       "...",
-      "source",
+      "monorepo:source",
     ],
     "extensions": [
       ".ts",
@@ -901,7 +901,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       ".json",
     ],
     "mainFields": [
-      "source",
+      "monorepo:source",
       "...",
     ],
     "plugins": [
@@ -1875,7 +1875,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
   "resolve": {
     "conditionNames": [
       "...",
-      "source",
+      "monorepo:source",
     ],
     "extensions": [
       ".ts",
@@ -1886,7 +1886,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       ".json",
     ],
     "mainFields": [
-      "source",
+      "monorepo:source",
       "...",
     ],
     "plugins": [
@@ -2678,7 +2678,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   "resolve": {
     "conditionNames": [
       "...",
-      "source",
+      "monorepo:source",
     ],
     "extensions": [
       ".ts",
@@ -2689,7 +2689,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".json",
     ],
     "mainFields": [
-      "source",
+      "monorepo:source",
       "...",
     ],
     "plugins": [
@@ -3482,7 +3482,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
   "resolve": {
     "conditionNames": [
       "...",
-      "source",
+      "monorepo:source",
     ],
     "extensions": [
       ".ts",
@@ -3493,7 +3493,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".json",
     ],
     "mainFields": [
-      "source",
+      "monorepo:source",
       "...",
     ],
     "plugins": [
