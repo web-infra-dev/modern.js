@@ -1,5 +1,28 @@
 # @modern-js/module-tools
 
+## 2.26.0
+
+### Patch Changes
+
+- 54c484c: fix(module-tools): support i18n for checkConfig warning message
+
+  fix(module-tools): checkConfig 的 warning 日志支持 i18n
+
+- cc2e3b7: feat(module-tools): apply PostCSS plugins according to the target
+
+  feat(module-tools): 基于 target 启用 PostCSS 插件
+
+- Updated dependencies [ad7139b]
+- Updated dependencies [fbcac63]
+  - @modern-js/upgrade@2.26.0
+  - @modern-js/core@2.26.0
+  - @modern-js/new-action@2.26.0
+  - @modern-js/plugin-changeset@2.26.0
+  - @modern-js/plugin-i18n@2.26.0
+  - @modern-js/plugin-lint@2.26.0
+  - @modern-js/plugin@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

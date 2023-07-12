@@ -1,5 +1,20 @@
 # @modern-js/upgrade
 
+## 2.26.0
+
+### Patch Changes
+
+- ad7139b: feat: upgrade commander support `--no-need-install` params
+
+  feat: upgrade 命令支持 `--no-need-install` 参数
+
+- fbcac63: perf(cli): improve upgrade command load performance
+
+  perf(cli): 优化 upgrade 命令加载性能
+
+  - @modern-js/plugin-i18n@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

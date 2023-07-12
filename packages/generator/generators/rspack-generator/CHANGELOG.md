@@ -1,5 +1,7 @@
 # @modern-js/rspack-generator
 
+## 3.1.28
+
 ## 3.1.27
 
 ## 3.1.26
