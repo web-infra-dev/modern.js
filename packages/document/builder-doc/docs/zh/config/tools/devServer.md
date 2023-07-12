@@ -3,6 +3,10 @@
 
 通过 `tools.devServer` 可以修改开发环境服务器的配置。
 
+:::tip
+Modern.js 中并没有直接使用 [webpack-dev-server](https://webpack.js.org/api/webpack-dev-server/) 或 [@rspack/dev-server](https://www.rspack.dev/guide/dev-server.html), 而是基于 [webpack-dev-middleware](https://github.com/webpack/webpack-dev-middleware) 实现 DevServer。
+:::
+
 ### 选项
 
 #### after
