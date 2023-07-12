@@ -5369,8 +5369,8 @@ importers:
   packages/toolkit/utils:
     dependencies:
       '@remix-run/router':
-        specifier: 1.6.2
-        version: 1.6.2
+        specifier: 1.6.1
+        version: 1.6.1
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -12328,7 +12328,7 @@ packages:
       react-router-dom:
         optional: true
     dependencies:
-      '@remix-run/router': 1.6.2
+      '@remix-run/router': 1.6.1
       caniuse-lite: 1.0.30001489
       lodash: 4.17.21
       serialize-javascript: 6.0.1
@@ -12776,7 +12776,6 @@ packages:
   /@remix-run/router@1.6.1:
     resolution: {integrity: sha512-YUkWj+xs0oOzBe74OgErsuR3wVn+efrFhXBWrit50kOiED+pvQe2r6MWY0iJMQU/mSVKxvNzL4ZaYvjdX+G7ZA==}
     engines: {node: '>=14'}
-    dev: false
 
   /@remix-run/router@1.6.2:
     resolution: {integrity: sha512-LzqpSrMK/3JBAVBI9u3NWtOhWNw5AMQfrUFYB0+bDHTSw17z++WJLsPsxAuK+oSddsxk4d7F/JcdDPM1M5YAhA==}
