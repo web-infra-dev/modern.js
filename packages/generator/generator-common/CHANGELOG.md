@@ -1,5 +1,12 @@
 # @modern-js/generator-common
 
+## 3.1.28
+
+### Patch Changes
+
+- cd601f6: Currently when enabling tailwind via the CLI, it says to import `{tailwindCSSPlugin}` but the named export is `{tailwindcssPlugin}`
+  - @modern-js/plugin-i18n@2.26.0
+
 ## 3.1.27
 
 ### Patch Changes

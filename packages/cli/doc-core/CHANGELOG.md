@@ -1,5 +1,48 @@
 # @modern-js/doc-core
 
+## 2.26.0
+
+### Patch Changes
+
+- 39f3c83: feat(doc-core): optimize error log while \_meta.json is not correct
+
+  feat(doc-core): 当 \_meta.json 不正确时优化错误日志
+
+- ce6d481: feat(doc-core): display aside bar in 14 inch MacBook by default
+
+  feat(doc-core): 在 14 英寸 MacBook 上默认展示 aside 栏
+
+- b2cf922: fix(doc-core): search result highlight not accurate
+
+  fix(doc-core): 搜索结果高亮不准确
+
+- 757485e: fix: can not find path only in windows bacause of the escape char
+  fix: 在 windows 系统下因为转义字符而无法找到路径
+- a0a207d: feat(doc-core): support no config usage in auto sidebar
+
+  feat(doc-core): 支持自动侧边栏的无配置模式
+
+- ee5a6f3: fix(doc-core): fallback to csr when ssr bundle load failed
+
+  fix(doc-core): ssr bundle 加载失败时兜底为 CSR 渲染
+
+- 6387971: fix(doc-core): fix codeblock background style in dark mode
+
+  fix(doc-core): 修复代码块在暗色模式下的背景样式问题
+
+- Updated dependencies [150ddb1]
+- Updated dependencies [b36ece4]
+- Updated dependencies [e26b05e]
+- Updated dependencies [fac4ee0]
+- Updated dependencies [786c195]
+- Updated dependencies [cdf5b6b]
+  - @modern-js/builder-rspack-provider@2.26.0
+  - @modern-js/builder@2.26.0
+  - @modern-js/core@2.26.0
+  - @modern-js/doc-plugin-medium-zoom@2.26.0
+  - @modern-js/remark-container@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

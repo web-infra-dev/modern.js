@@ -1,5 +1,22 @@
 # @modern-js/builder-shared
 
+## 2.26.0
+
+### Patch Changes
+
+- 150ddb1: fix(builder-shared): set formatStats fn as sync-fn so that info can print quikly
+  fix(builder-shared): 将 formatStats 设置成同步函数使构建信息能够尽快的打印出来
+- 15ad760: fix(builder): incorrect CSS rules when enable asset fallback
+
+  fix(builder): 修复开启 asset fallback 时 CSS 规则错误的问题
+
+- 786c195: feat(builder-shared): add sourceBuild type definition
+  feat(builder-shared): 新增 sourceBuild 类型定义
+  - @modern-js/server@2.26.0
+  - @modern-js/prod-server@2.26.0
+  - @modern-js/types@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes
