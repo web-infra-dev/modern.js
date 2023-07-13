@@ -200,7 +200,7 @@ export async function renderPages(
     );
     // Remove ssr bundle
     await fs.remove(join(outputPath, 'ssr'));
-    await fs.remove(join(outputPath, 'html', 'main', 'index.html'));
+    await fs.remove(join(outputPath, 'html'));
 
     const totalTime = Date.now() - startTime;
     logger.success(`Pages rendered in ${chalk.yellow(totalTime)} ms.`);
