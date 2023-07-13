@@ -1,4 +1,5 @@
 import type { DocConfig } from '@modern-js/doc-core';
+import type { PluginOptions as DocGenOptions } from '@modern-js/doc-plugin-api-docgen';
 
 export type APIParseTools = 'ts-document' | 'react-docgen-typescript';
 
@@ -10,11 +11,6 @@ export type PluginOptions = Pick<
 >;
 
 export type Options = {
-  /**
-   * Module entries
-   * @zh 传入自动生成文档的模块名称及相对路径
-   */
-  entries?: Record<string, string>;
   /**
    * Target language
    * @zh 文档站的目标语言
@@ -33,22 +29,9 @@ export type Options = {
    */
   isProduction?: boolean;
   /**
-   * appDirectory
-   * @zh 项目根目录
-   * @default process.cwd()
-   */
-  appDir?: string;
-  /**
    * previewMode
    * @zh 预览方式
    * @default 'web'
    */
   previewMode?: 'mobile' | 'web';
-  /**
-   * apiParseTool
-   * @experimental
-   * @zh 解析工具
-   * @default 'react-docgen-typescript'
-   */
-  apiParseTool?: 'react-docgen-typescript' | 'documentation';
-};
+} & DocGenOptions;
