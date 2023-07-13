@@ -22,11 +22,9 @@ describe('validateBuilderConfig', () => {
       dev: { hmr: false },
       html: { faviconByEntries: [] },
     };
-    await expect(
-      validateBuilderConfig(config),
-    ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `
-      "Builder config validation error:
+    await expect(validateBuilderConfig(config)).rejects
+      .toThrowErrorMatchingInlineSnapshot(`
+      "[31mBuilder config validation error[39m:
       * Expected object, received array at \\"html.faviconByEntries\\"
       Error detail:
       [
@@ -41,8 +39,7 @@ describe('validateBuilderConfig', () => {
           \\"message\\": \\"Expected object, received array\\"
         }
       ]"
-    `,
-    );
+    `);
   });
   it('should accept correct chained config', async () => {
     const config: BuilderConfig = {

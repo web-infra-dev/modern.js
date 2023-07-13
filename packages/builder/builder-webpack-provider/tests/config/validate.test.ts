@@ -26,7 +26,7 @@ describe('validateBuilderConfig', () => {
       validateBuilderConfig(config),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `
-      "Builder config validation error:
+      "[31mBuilder config validation error[39m:
       * Expected object, received array at \\"html.faviconByEntries\\"
       Error detail:
       [

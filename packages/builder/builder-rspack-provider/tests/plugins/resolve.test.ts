@@ -1,14 +1,21 @@
-import { expect, describe, it, vi } from 'vitest';
-import * as builderShared from '@modern-js/builder-shared';
+import { expect, describe, it, vi, SpyInstance } from 'vitest';
+import { isFileExists } from '@modern-js/builder-shared';
 import { builderPluginResolve } from '../../src/plugins/resolve';
 import { createBuilder } from '../helper';
 
+vi.mock('@modern-js/builder-shared', async importOriginal => {
+  const mod = await importOriginal<any>();
+  return {
+    ...mod,
+    isFileExists: vi.fn(),
+  };
+});
+
 describe('plugins/resolve', () => {
   it('should apply default extensions correctly', async () => {
-    const spy = vi
-      .spyOn(builderShared, 'isFileExists')
-      .mockImplementation(() => Promise.resolve(false));
-
+    (isFileExists as unknown as SpyInstance).mockImplementationOnce(() =>
+      Promise.resolve(false),
+    );
     const builder = await createBuilder({
       plugins: [builderPluginResolve()],
     });
@@ -24,14 +31,12 @@ describe('plugins/resolve', () => {
       '.json',
     ]);
     expect(bundlerConfigs[0].resolve?.tsConfigPath).toBeUndefined();
-
-    spy.mockRestore();
   });
 
   it('should apply default extensions correctly and tsConfigPath with ts', async () => {
-    const spy = vi
-      .spyOn(builderShared, 'isFileExists')
-      .mockImplementation(() => Promise.resolve(true));
+    (isFileExists as unknown as SpyInstance).mockImplementationOnce(() =>
+      Promise.resolve(true),
+    );
 
     const builder = await createBuilder({
       plugins: [builderPluginResolve()],
@@ -50,8 +55,6 @@ describe('plugins/resolve', () => {
       '.json',
     ]);
     expect(bundlerConfigs[0].resolve?.tsConfigPath).toBeDefined();
-
-    spy.mockRestore();
   });
 
   it('should allow to use source.alias to config alias', async () => {
