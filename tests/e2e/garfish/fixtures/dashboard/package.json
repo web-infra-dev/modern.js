@@ -25,6 +25,7 @@
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/plugin-router-v5": "workspace:*",
+    "@modern-js/plugin-swc": "workspace:*",
     "@types/node": "^14",
     "@types/react": "^18",
     "@types/react-dom": "^18",

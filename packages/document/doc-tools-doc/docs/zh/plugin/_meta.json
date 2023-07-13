@@ -3,5 +3,10 @@
     "type": "dir",
     "name": "system",
     "label": "plugin-system"
+  },
+  {
+    "type": "dir",
+    "name": "official-plugins",
+    "label": "官方插件"
   }
 ]

@@ -1,5 +1,26 @@
 # @modern-js/runtime
 
+## 2.26.0
+
+### Minor Changes
+
+- 22acfda: feat: support unstable_getBlockNavState
+  feat: 支持 unstable_getBlockNavState
+
+### Patch Changes
+
+- 64a51c4: fix(plugin-runtime): we should not repeatly registe the script, if template has it.
+  fix(plugin-runtime): 如果模版中已经有了,我们不应该重复添加 script 链接
+- 1586774: feat: add support for origin properties in document
+  feat: 为 document 增加原始属性透传
+- 73c592d: fix: should define remixRouter property when the property does not exist
+  fix: 应该仅当属性不存在时，定义 remixRouter
+- 5c2dbb3: refactor: use import syntax for reduck plugin types
+  refactor: 使用 import 语法加载 reduck 插件的类型文件
+  - @modern-js/plugin@2.26.0
+  - @modern-js/types@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

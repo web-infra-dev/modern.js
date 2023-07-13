@@ -5,6 +5,9 @@ exports[`plugins/css > should not apply postcss-loader when target is node 1`] =
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -36,6 +39,9 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [
@@ -93,6 +99,9 @@ exports[`plugins/css > should remove some postcss plugins based on browserslist 
   "module": {
     "rules": [
       {
+        "resolve": {
+          "preferRelative": true,
+        },
         "sideEffects": true,
         "test": /\\\\\\.css\\$/,
         "use": [

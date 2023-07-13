@@ -1,5 +1,25 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.26.0
+
+### Patch Changes
+
+- fac4ee0: fix(builder): enable preferRelative for CSS files by default
+
+  fix(builder): 默认开启 CSS files 的 preferRelative 配置
+
+- Updated dependencies [150ddb1]
+- Updated dependencies [786c195]
+- Updated dependencies [e26b05e]
+- Updated dependencies [b36ece4]
+- Updated dependencies [15ad760]
+- Updated dependencies [fac4ee0]
+- Updated dependencies [cdf5b6b]
+- Updated dependencies [786c195]
+  - @modern-js/builder-webpack-provider@2.26.0
+  - @modern-js/builder-rspack-provider@2.26.0
+  - @modern-js/builder-shared@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

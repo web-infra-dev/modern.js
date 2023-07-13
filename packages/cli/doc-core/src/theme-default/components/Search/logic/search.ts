@@ -1,5 +1,10 @@
 import { LOCAL_INDEX, NormalizedSearchResultItem, Provider } from './Provider';
-import { backTrackHeaders, byteToCharIndex, normalizeTextCase } from './util';
+import {
+  backTrackHeaders,
+  byteToCharIndex,
+  getStrByteLength,
+  normalizeTextCase,
+} from './util';
 import { LocalProvider } from './providers/LocalProvider';
 import { RemoteProvider } from './providers/RemoteProvider';
 import { normalizeHref } from '@/runtime';
@@ -143,7 +148,7 @@ export class PageSearcher {
         highlightInfoList: [
           {
             start: normalizedTitle.indexOf(query),
-            length: query.length,
+            length: getStrByteLength(query),
           },
         ],
         group: this.#options.extractGroupName(item.routePath),
@@ -177,7 +182,7 @@ export class PageSearcher {
           highlightInfoList: [
             {
               start: headerMatchIndex + titlePrefix.length,
-              length: query.length,
+              length: getStrByteLength(query),
             },
           ],
           link: `${domain}${normalizeHref(item.routePath)}#${header.id}`,
@@ -283,7 +288,7 @@ export class PageSearcher {
       const highlightInfoList = [
         {
           start: highlightIndex,
-          length: query.length,
+          length: getStrByteLength(query),
         },
       ];
       matchedResult.push({
@@ -307,7 +312,9 @@ export class PageSearcher {
 
   #normalizeStatement(statement: string, query: string) {
     // If statement is too long, we will only show 120 characters
-    const queryIndex = statement.indexOf(query);
+    const queryIndex = normalizeTextCase(statement).indexOf(
+      normalizeTextCase(query),
+    );
     const maxPrefixOrSuffix = Math.floor(
       (THRESHOLD_CONTENT_LENGTH - query.length) / 2,
     );

@@ -1,0 +1,111 @@
+# typedoc
+
+Integration of [TypeDoc](https://github.com/TypeStrong/typedoc)'s Modern.js Doc Plugin for Automatically Generating API Documentation for TS Modules.
+
+## Installation
+
+```bash
+# npm
+npm install @modern-js/doc-plugin-typedoc
+# yarn
+yarn add @modern-js/doc-plugin-typedoc
+# pnpm
+pnpm install @modern-js/doc-plugin-typedoc
+```
+
+## Usage
+
+```ts
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+import { pluginTypeDoc } from '@modern-js/doc-plugin-typedoc';
+import path from 'path';
+
+export default defineConfig({
+  doc: {
+    plugins: [
+      pluginTypeDoc({
+        entryPoints: [
+          path.join(__dirname, 'src', 'foo.ts'),
+          path.join(__dirname, 'src', 'bar.ts'),
+        ],
+      }),
+    ],
+  },
+  plugins: [docTools()],
+});
+```
+
+```ts title="src/foo.ts"
+/**
+ * This is an add function.
+ */
+export function add(
+  /**
+   * This is param1.
+   */
+  param1: string,
+  /**
+   * This is param2.
+   */
+  param2: number,
+) {
+  return 1;
+}
+```
+
+```ts title="src/bar.ts"
+/**
+ * This is a multi function.
+ */
+export function multi(
+  /**
+   * This is param1.
+   */
+  param1?: string,
+  /**
+   * This is param2.
+   */
+  param2?: number,
+) {
+  return 1;
+}
+```
+
+When you start/build the project, the plugin will automatically generate an `api` directory in your document root directory. The directory structure is as follows:
+
+```bash
+api
+├── README.md
+├── documentation.json
+├── functions
+│   ├── bar.multi.md
+│   └── foo.add.md
+├── interfaces
+│   ├── foo.RunTestsOptions.md
+│   └── foo.TestMessage.md
+└── modules
+    ├── bar.md
+    └── foo.md
+```
+
+This means that the plugin will internally call TypeDoc to automatically generate API documentation for your modules, including module lists, `Interface` details, function details (parameters, return values, description), etc. It will also generate a `documentation.json` file for subsequent sidebar rendering.
+
+Note that the documentation is regenerated every time you start the project to reflect the latest module content. Therefore, we recommend adding the `api` directory to `.gitignore`. If you customize the output directory with the `outDir` parameter below, you should also add it to `.gitignore`.
+
+Also, we do not recommend modifying or adding documents in the `api` directory because these documents will be overwritten each time the project is started due to changes in module content.
+
+## Parameter Description
+
+### entryPoints
+
+- Type: `string[]`
+- Default: `[]`
+
+Specifies the absolute path of the TS modules for which documentation should be generated.
+
+### outDir
+
+- Type: `string`
+- Default: `api`
+
+Customize the output directory for the documentation. You need to provide a relative path, such as `api/custom`.

@@ -12,6 +12,8 @@ Before using the SWC plugin, please understand the scenarios and limitations of 
 
 If you are already using Rspack as the bundler in your project, then you do not need to use the SWC plugin, because Rspack uses SWC for transpiler and minifier by default, and the SWC compilation capabilities are available out of the box.
 
+If you have configured the current SWC plugin when using Rspack, it will not have any effect.
+
 ### Babel Plugins
 
 If your project requires the registration of some custom Babel plugins, you will not be able to register and use Babel plugins after using SWC, since it replaces Babel as the transpiler.

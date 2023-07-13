@@ -50,10 +50,14 @@ export const toHtml: RenderHandler = (jsx, renderer, next) => {
     }
 
     if (fileType === 'js') {
-      // `nonce` attrs just for script tag
-      attributes.nonce = nonce;
-      const attrsStr = attributesToString(attributes);
-      chunksMap[fileType] += `<script${attrsStr} src="${v.url}"></script>`;
+      const jsChunkReg = new RegExp(`<script .*src="${v.url}".*>`);
+      // we should't repeatly registe the script, if template already has it.
+      if (!jsChunkReg.test(renderer.template)) {
+        // `nonce` attrs just for script tag
+        attributes.nonce = nonce;
+        const attrsStr = attributesToString(attributes);
+        chunksMap[fileType] += `<script${attrsStr} src="${v.url}"></script>`;
+      }
     } else if (fileType === 'css') {
       const attrsStr = attributesToString(attributes);
       chunksMap[

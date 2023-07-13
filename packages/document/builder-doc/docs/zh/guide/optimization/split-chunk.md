@@ -192,3 +192,24 @@ export default {
 ```
 
 其中 `override` 中的配置会和 bundler 的配置进行合并，具体配置项请参考 [webpack - splitChunks](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunkschunks) 或 [Rspack - splitChunks](https://rspack.dev/zh/config/optimization.html#optimization-splitchunks)。
+
+## 使用 Dynamic Import 拆包
+
+除了 `chunkSplit` 配置，使用 dynamic import 拆包也是一项重要的优化手段，它可以有效减少首屏的包体积。
+
+:::tip 关于 dynamic import
+Dynamic import 是 ECMAScript 2020 引入的一个新特性，它允许你动态地加载一些 JavaScript 模块。Builder 底层的 Rspack / webpack 默认支持 dynamic import，所以你可以直接在代码中使用它。
+:::
+
+当打包工具遇到 `import()` 语法时，它会自动将相关的代码分割成一个新的 chunk，并在运行时按需加载。
+
+例如，项目中有一个大的模块 `bigModule.ts`（也可以是一个第三方依赖），你可以使用 dynamic import 来按需加载它：
+
+```js
+// 在某个需要使用 bigModule 的地方
+import('./bigModule.ts').then(bigModule => {
+  // 使用 bigModule
+});
+```
+
+当你运行构建命令时，`bigModule.ts` 就会被自动分割成一个新的 chunk，并在运行时按需加载。

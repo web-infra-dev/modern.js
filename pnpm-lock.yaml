@@ -78,13 +78,28 @@ importers:
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../builder-shared
+      '@modern-js/monorepo-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/monorepo-utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@svgr/webpack':
         specifier: 8.0.1
         version: 8.0.1
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
+      '@modern-js/builder-rspack-provider':
+        specifier: workspace:*
+        version: link:../builder-rspack-provider
+      '@modern-js/builder-webpack-provider':
+        specifier: workspace:*
+        version: link:../builder-webpack-provider
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -112,6 +127,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
@@ -119,6 +137,9 @@ importers:
       '@modern-js/builder-webpack-provider':
         specifier: workspace:*
         version: link:../builder-webpack-provider
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -147,14 +168,17 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rspack/core':
-        specifier: 0.2.5
-        version: 0.2.5(webpack@5.88.1)
+        specifier: 0.2.7
+        version: 0.2.7(webpack@5.88.1)
       '@rspack/dev-client':
-        specifier: 0.2.5
-        version: 0.2.5(react-refresh@0.14.0)(webpack@5.88.1)
+        specifier: 0.2.7
+        version: 0.2.7(react-refresh@0.14.0)(webpack@5.88.1)
       '@rspack/plugin-html':
-        specifier: 0.2.5
-        version: 0.2.5(@rspack/core@0.2.5)
+        specifier: 0.2.7
+        version: 0.2.7(@rspack/core@0.2.7)
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       caniuse-lite:
         specifier: ^1.0.30001489
         version: 1.0.30001489
@@ -180,6 +204,9 @@ importers:
       '@arco-design/web-react':
         specifier: ^2.46.0
         version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -225,6 +252,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       acorn:
         specifier: ^8.8.1
         version: 8.8.1
@@ -322,6 +352,9 @@ importers:
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.9
         version: 0.5.9(react-refresh@0.14.0)(webpack@5.88.1)
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       caniuse-lite:
         specifier: ^1.0.30001489
         version: 1.0.30001489
@@ -359,6 +392,9 @@ importers:
       '@modern-js/e2e':
         specifier: workspace:*
         version: link:../../toolkit/e2e
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -386,6 +422,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
       '@modern-js/builder-shared':
         specifier: workspace:*
@@ -393,6 +432,9 @@ importers:
       '@modern-js/e2e':
         specifier: workspace:*
         version: link:../../toolkit/e2e
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -417,6 +459,9 @@ importers:
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../builder-shared
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
@@ -430,6 +475,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -445,6 +493,9 @@ importers:
       '@napi-rs/image':
         specifier: ^1.3.0
         version: 1.4.1
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       svgo:
         specifier: ^3.0.2
         version: 3.0.2
@@ -455,6 +506,9 @@ importers:
       '@modern-js/e2e':
         specifier: workspace:*
         version: link:../../toolkit/e2e
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -473,6 +527,9 @@ importers:
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../builder-shared
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       node-libs-browser:
         specifier: 2.2.1
         version: 2.2.1
@@ -489,6 +546,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -504,6 +564,9 @@ importers:
       '@modern-js/builder-webpack-provider':
         specifier: workspace:*
         version: link:../builder-webpack-provider
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       stylus:
         specifier: 0.59.0
         version: 0.59.0
@@ -520,6 +583,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -563,6 +629,9 @@ importers:
       '@modern-js/builder-webpack-provider':
         specifier: workspace:*
         version: link:../builder-webpack-provider
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -602,6 +671,9 @@ importers:
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../builder-shared
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       '@vue/babel-plugin-jsx':
         specifier: 1.1.1
         version: 1.1.1(@babel/core@7.21.8)
@@ -624,6 +696,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -715,6 +790,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       '@types/babel__core':
         specifier: ^7.20.0
         version: 7.20.0
@@ -755,6 +833,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
       '@modern-js/builder-shared':
         specifier: workspace:*
@@ -1104,7 +1185,7 @@ importers:
   packages/cli/doc-plugin-auto-sidebar:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.25.2
+        specifier: workspace:^2.26.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1156,7 +1237,7 @@ importers:
   packages/cli/doc-plugin-medium-zoom:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.25.2
+        specifier: workspace:^2.26.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1283,6 +1364,61 @@ importers:
       yaml-front-matter:
         specifier: ^4.1.1
         version: 4.1.1
+
+  packages/cli/doc-plugin-typedoc:
+    dependencies:
+      '@modern-js/doc-tools':
+        specifier: workspace:^2.26.0
+        version: link:../../solutions/doc-tools
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
+      react:
+        specifier: '>=17'
+        version: 17.0.2
+      typedoc:
+        specifier: 0.24.8
+        version: 0.24.8(typescript@5.0.4)
+      typedoc-plugin-markdown:
+        specifier: 3.15.3
+        version: 3.15.3(typedoc@0.24.8)
+    devDependencies:
+      '@modern-js/doc-core':
+        specifier: workspace:*
+        version: link:../doc-core
+      '@modern-js/module-tools':
+        specifier: workspace:*
+        version: link:../../solutions/module-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../review/tsconfig
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
+      '@types/node':
+        specifier: ^18.11.17
+        version: 18.11.17
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      husky:
+        specifier: ^8
+        version: 8.0.1
+      lint-staged:
+        specifier: ~13.1.0
+        version: 13.1.4
+      prettier:
+        specifier: ^2.6.2
+        version: 2.8.7
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+      vitest:
+        specifier: 0.21.1
+        version: 0.21.1(@vitest/ui@0.21.1)(jsdom@20.0.3)
 
   packages/cli/plugin-bff:
     dependencies:
@@ -1660,7 +1796,7 @@ importers:
         specifier: workspace:*
         version: link:../../builder/builder-webpack-provider
       '@modern-js/plugin-router-v5':
-        specifier: workspace:^2.25.2
+        specifier: workspace:^2.26.0
         version: link:../../runtime/plugin-router-v5
       '@modern-js/utils':
         specifier: workspace:*
@@ -1777,6 +1913,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -3595,14 +3734,14 @@ importers:
         specifier: ^7.21.5
         version: 7.21.5
       '@loadable/babel-plugin':
-        specifier: ^5.13.2
-        version: 5.13.2(@babel/core@7.21.8)
+        specifier: 5.15.3
+        version: 5.15.3(@babel/core@7.21.8)
       '@loadable/component':
-        specifier: ^5.15.0
-        version: 5.15.2(react@18.2.0)
+        specifier: 5.15.3
+        version: 5.15.3(react@18.2.0)
       '@loadable/server':
-        specifier: ^5.15.1
-        version: 5.15.2(@loadable/component@5.15.2)(react@18.2.0)
+        specifier: 5.15.3
+        version: 5.15.3(@loadable/component@5.15.3)(react@18.2.0)
       '@loadable/webpack-plugin':
         specifier: 5.15.2
         version: 5.15.2(webpack@5.88.1)
@@ -4643,6 +4782,9 @@ importers:
       '@modern-js/server':
         specifier: workspace:*
         version: link:../../server/server
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -4671,9 +4813,6 @@ importers:
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
         version: link:../../builder/builder-rspack-provider
-      '@modern-js/server-core':
-        specifier: workspace:*
-        version: link:../../server/core
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -5011,6 +5150,9 @@ importers:
       '@playwright/test':
         specifier: 1.33.0
         version: 1.33.0
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       connect:
         specifier: ^3.7.0
         version: 3.7.0
@@ -5021,6 +5163,9 @@ importers:
         specifier: ^1.14.1
         version: 1.15.0
     devDependencies:
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/vitest-config':
         specifier: workspace:*
         version: link:../../../scripts/vitest-config
@@ -5039,6 +5184,37 @@ importers:
       got:
         specifier: ^11.8.3
         version: 11.8.5
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
+  packages/toolkit/monorepo-utils:
+    dependencies:
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
+      p-map:
+        specifier: ^4.0.0
+        version: 4.0.0
+    devDependencies:
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      jest:
+        specifier: ^29
+        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -5193,8 +5369,8 @@ importers:
   packages/toolkit/utils:
     dependencies:
       '@remix-run/router':
-        specifier: 1.6.2
-        version: 1.6.2
+        specifier: 1.6.1
+        version: 1.6.1
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -5205,8 +5381,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react-router-dom:
-        specifier: ^6.8.1
-        version: 6.11.2(react-dom@18.2.0)(react@18.2.0)
+        specifier: 6.11.1
+        version: 6.11.1(react-dom@18.2.0)(react@18.2.0)
       serialize-javascript:
         specifier: ^6.0.0
         version: 6.0.1
@@ -5272,30 +5448,6 @@ importers:
       tsx:
         specifier: ^3.12.7
         version: 3.12.7
-
-  scripts/codemod:
-    devDependencies:
-      '@modern-js/tsconfig':
-        specifier: workspace:*
-        version: link:../../packages/review/tsconfig
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../build
-      '@types/glob':
-        specifier: ^7.1.4
-        version: 7.2.0
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      glob:
-        specifier: ^7.2.0
-        version: 7.2.0
-      tsx:
-        specifier: ^3.12.7
-        version: 3.12.7
-      typescript:
-        specifier: ^5
-        version: 5.0.4
 
   scripts/jest-config:
     devDependencies:
@@ -6067,6 +6219,9 @@ importers:
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-router-v5
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6101,6 +6256,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6135,6 +6293,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6169,6 +6330,9 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6184,9 +6348,6 @@ importers:
 
   tests/e2e/garfish/fixtures/table:
     dependencies:
-      '@arco-design/web-react':
-        specifier: ^2.46.0
-        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/plugin-garfish':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-garfish
@@ -6206,6 +6367,9 @@ importers:
       '@modern-js/plugin-router-v5':
         specifier: workspace:*
         version: link:../../../../../packages/runtime/plugin-router-v5
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-swc
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -7841,6 +8005,55 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+
+  tests/integration/source-code-build/app:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../packages/runtime/plugin-runtime
+      '@source-code-build/components':
+        specifier: workspace:*
+        version: link:../components
+      antd:
+        specifier: ^5
+        version: 5.3.0(react-dom@18.2.0)(react@18.2.0)
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../../packages/cli/plugin-swc
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
+  tests/integration/source-code-build/components:
+    dependencies:
+      '@source-code-build/utils':
+        specifier: workspace:*
+        version: link:../utils
+
+  tests/integration/source-code-build/utils:
+    devDependencies:
+      typescript:
+        specifier: ^5
+        version: 5.0.4
 
   tests/integration/ssg:
     devDependencies:
@@ -11330,8 +11543,8 @@ packages:
     resolution: {integrity: sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==}
     dev: false
 
-  /@loadable/babel-plugin@5.13.2(@babel/core@7.21.8):
-    resolution: {integrity: sha512-vSZUVeTH1S1sDbk8Tzft0plZSkN7W4zmVR5w/Bmy4UmvBiu9lin7ztrDpoUTUzxpoups+OJbTc/OosvN0aMXWg==}
+  /@loadable/babel-plugin@5.15.3(@babel/core@7.21.8):
+    resolution: {integrity: sha512-kwEsPxCk8vnwbTfbA4lHqT5t0u0czCQTnCcmOaTjxT5lCn7yZCBTBa9D7lHs+MLM2WyPsZlee3Qh0TTkMMi5jg==}
     engines: {node: '>=8'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -11352,14 +11565,26 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /@loadable/server@5.15.2(@loadable/component@5.15.2)(react@18.2.0):
-    resolution: {integrity: sha512-Nk/6Plz8qTn+A+u2qg/vrbYZwTmzzjy5bw4Ts80pM/rqW8H37IooKU/HVWSje63RZ4vTqEsHsrdiX97RB9dMjw==}
+  /@loadable/component@5.15.3(react@18.2.0):
+    resolution: {integrity: sha512-VOgYgCABn6+/7aGIpg7m0Ruj34tGetaJzt4bQ345FwEovDQZ+dua+NWLmuJKv8rWZyxOUSfoJkmGnzyDXH2BAQ==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.21.5
+      hoist-non-react-statics: 3.3.2
+      react: 18.2.0
+      react-is: 16.13.1
+    dev: false
+
+  /@loadable/server@5.15.3(@loadable/component@5.15.3)(react@18.2.0):
+    resolution: {integrity: sha512-Bm/BGe+RlChuHDKNNXpQOi4AJ0cKVuSLI+J8U0Q06zTIfT0S1RLoy85qs5RXm3cLIfefygL8+9bcYFgeWcoM8A==}
     engines: {node: '>=8'}
     peerDependencies:
       '@loadable/component': ^5.0.1
-      react: '>=16.3.0'
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@loadable/component': 5.15.2(react@18.2.0)
+      '@loadable/component': 5.15.3(react@18.2.0)
       lodash: 4.17.21
       react: 18.2.0
     dev: false
@@ -12103,7 +12328,7 @@ packages:
       react-router-dom:
         optional: true
     dependencies:
-      '@remix-run/router': 1.6.2
+      '@remix-run/router': 1.6.1
       caniuse-lite: 1.0.30001489
       lodash: 4.17.21
       serialize-javascript: 6.0.1
@@ -12548,6 +12773,10 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
+  /@remix-run/router@1.6.1:
+    resolution: {integrity: sha512-YUkWj+xs0oOzBe74OgErsuR3wVn+efrFhXBWrit50kOiED+pvQe2r6MWY0iJMQU/mSVKxvNzL4ZaYvjdX+G7ZA==}
+    engines: {node: '>=14'}
+
   /@remix-run/router@1.6.2:
     resolution: {integrity: sha512-LzqpSrMK/3JBAVBI9u3NWtOhWNw5AMQfrUFYB0+bDHTSw17z++WJLsPsxAuK+oSddsxk4d7F/JcdDPM1M5YAhA==}
     engines: {node: '>=14'}
@@ -12627,97 +12856,97 @@ packages:
       rollup: 3.23.0
     dev: true
 
-  /@rspack/binding-darwin-arm64@0.2.5:
-    resolution: {integrity: sha512-8JfrzDqokCqHhHWzwERA0m5riF/ZsFOCbsmC2KmnFnI5NSdZOu4ZlxyJ9miD9qsU/YaWzKMNZZc+DZppcMSKNQ==}
+  /@rspack/binding-darwin-arm64@0.2.7:
+    resolution: {integrity: sha512-RAxzXxVtM9PgAVeXPEErG5gdaQwolQH+qIllSr3EFuaivenJTD5gU2+CK97dUn1IXY1NHJKHefHwzvzOT8Xg2A==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-darwin-x64@0.2.5:
-    resolution: {integrity: sha512-YMzCG9rC1cKnDjXXQzAejT6Y1mVKoQqMt//qDD8/ognG1wVwQaddpCgwQniF3HBODAib/xrPhOLEk1nkPe8a5w==}
+  /@rspack/binding-darwin-x64@0.2.7:
+    resolution: {integrity: sha512-YbcFINKBNKe01rqbJtk0TtZS2gNpbjkncIa3xI3RO3kieYd5yJ4I+KKO3kNi+bCAtMTGt86OQaDPCjkfQT1f9A==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-arm64-gnu@0.2.5:
-    resolution: {integrity: sha512-6thA5rs4euQUXSlCkq+0TnVnWA2Or1oFGbmIpRGf2VDZjDYZ8VtqMIgAg08ZE9qJT8tSCuGBliAE9ccxUQ009A==}
+  /@rspack/binding-linux-arm64-gnu@0.2.7:
+    resolution: {integrity: sha512-iSr/3SECX2qOVM/YF8VSdN4d3ICMtGD5fjI7ByPzUrch4BX6AZkLv7YgKcsMjArsPwIXHNSYlf5Wz3TcjCF0xQ==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-arm64-musl@0.2.5:
-    resolution: {integrity: sha512-sXTg+tvt0x5hEULvxi3alXAazbXh2KHubzT8hEjT9px5mPpHdhwnBTETt7+q4bbigwePT+ZDgS4Gkp2Rnqc4wg==}
+  /@rspack/binding-linux-arm64-musl@0.2.7:
+    resolution: {integrity: sha512-dXVDcLbN7MAZCDPUMBnboXh9pUpu+O0RoOI3zUSbvtL0Qv2xt2SSCLGpXTknenxpWMtgoWTrgxO1NA16y2+cLA==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-x64-gnu@0.2.5:
-    resolution: {integrity: sha512-wB5ST0PubSto2dVGbzS+/MItJAtmj+a5L0OoavMBsxKCfhAdKC4L7TB27LSCpZx8ltm66nNzBnv+FOep6DFV4w==}
+  /@rspack/binding-linux-x64-gnu@0.2.7:
+    resolution: {integrity: sha512-Hh2NqklGHJZUs1lwvQSj1ZGcMwa7Xjo+CycXu2mCI1DkXSgRvel32qbJGNXZKavSjczO77gMGjcrIBdQy0VkHw==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-x64-musl@0.2.5:
-    resolution: {integrity: sha512-Ia8V9f1PDKroXq12NstdjPazMa2TZjJNowz2T6KkGcvwVtBlzFHjg/fbwkmGHHsAtJTKmV/L7KdOyYC59P8wyw==}
+  /@rspack/binding-linux-x64-musl@0.2.7:
+    resolution: {integrity: sha512-9NwozkHDAkDLvwq1jhNH+iv9G9y3wPpu/oSGH7ZkLXFdBhIcVwcWAYyCyeYE8+gNkQRsOmKUC2gO/DvglZfa5g==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-win32-arm64-msvc@0.2.5:
-    resolution: {integrity: sha512-erbwqRKw4/5JPhHHPkViDuOs7FwL9I/bvvowXIdyXTvCtiC1aC8GIO9bNHADgurY4ELOUF53rzWHdHBv+iN0vA==}
+  /@rspack/binding-win32-arm64-msvc@0.2.7:
+    resolution: {integrity: sha512-yPeVnGviLQBVYJUhqexZXkPxKdm4JWRPlqlNjYVAavqIHhy7aBCkm3IVVHnhglS45gkbWc/lpjruTSRpWxBgdA==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-win32-ia32-msvc@0.2.5:
-    resolution: {integrity: sha512-JRceIg3S6IR/OvsSjzIMnmAAqxWkvaV9GwB+psd8La2DJQnxUJ8a4Y7tbvehROLL1zlm4M2uynX96MAWDoZ0XA==}
+  /@rspack/binding-win32-ia32-msvc@0.2.7:
+    resolution: {integrity: sha512-i0lLNud5S5ZPKW8moIlln/D4q5Qokk4+9Xa/zO9NQ5vrm8TG+w41Vto1EIJkxzzGpCfKTS2S0p1O6xTHX6fq1g==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-win32-x64-msvc@0.2.5:
-    resolution: {integrity: sha512-xUt0d9CVMHdQUj+SAN8DYe6uufgQi0I4r17KCyWlWBtIF5DBGGYv5DeHAfHGkacEIde3IiiWiGQ84DaPdKSqsg==}
+  /@rspack/binding-win32-x64-msvc@0.2.7:
+    resolution: {integrity: sha512-x3h40B24zDIYV4EyVqP8KNjcKesfCrC1amv1z/cXN5srxBQ1++HkKzdosqJnGd49d7iYdyhh/a10ABO9cYm/EQ==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding@0.2.5:
-    resolution: {integrity: sha512-ZkI/NdTzAExSPrV3M0rt8UTyji7KPE24JvncqB/lyjTGfpJcXmNNaOZKidyMK5C3eriUiR99zl1OiNbEbLqONA==}
+  /@rspack/binding@0.2.7:
+    resolution: {integrity: sha512-8iT4I1jQkLJqm9Tf102Wi1o1xc7iTnpxMpst5wFr7r3atWORWyAdFlraVo5bppngnmxgtcHkwbOO6EXTPjU+4Q==}
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': 0.2.5
-      '@rspack/binding-darwin-x64': 0.2.5
-      '@rspack/binding-linux-arm64-gnu': 0.2.5
-      '@rspack/binding-linux-arm64-musl': 0.2.5
-      '@rspack/binding-linux-x64-gnu': 0.2.5
-      '@rspack/binding-linux-x64-musl': 0.2.5
-      '@rspack/binding-win32-arm64-msvc': 0.2.5
-      '@rspack/binding-win32-ia32-msvc': 0.2.5
-      '@rspack/binding-win32-x64-msvc': 0.2.5
+      '@rspack/binding-darwin-arm64': 0.2.7
+      '@rspack/binding-darwin-x64': 0.2.7
+      '@rspack/binding-linux-arm64-gnu': 0.2.7
+      '@rspack/binding-linux-arm64-musl': 0.2.7
+      '@rspack/binding-linux-x64-gnu': 0.2.7
+      '@rspack/binding-linux-x64-musl': 0.2.7
+      '@rspack/binding-win32-arm64-msvc': 0.2.7
+      '@rspack/binding-win32-ia32-msvc': 0.2.7
+      '@rspack/binding-win32-x64-msvc': 0.2.7
     dev: false
 
-  /@rspack/core@0.2.5(webpack@5.88.1):
-    resolution: {integrity: sha512-JkWXIw3gPXKHHlYI5S/+W6PcbkSh5xxTqq+hbssGEVPOuEAhMoRpL/+2nVEOYdr+JW19QqZF9mnYOYtlEsE2nw==}
+  /@rspack/core@0.2.7(webpack@5.88.1):
+    resolution: {integrity: sha512-KNwcSh6TX57vOawtGGHgqH2q0bbiTVm3NsC/jxUQhcHNyCXqKN4s/9VHaBftRXrU71j6M+RxzN7hD/WJySEtyg==}
     dependencies:
-      '@rspack/binding': 0.2.5
-      '@rspack/dev-client': 0.2.5(react-refresh@0.14.0)(webpack@5.88.1)
+      '@rspack/binding': 0.2.7
+      '@rspack/dev-client': 0.2.7(react-refresh@0.14.0)(webpack@5.88.1)
       '@swc/helpers': 0.5.1
       browserslist: 4.21.4
       compare-versions: 6.0.0-rc.1
@@ -12742,8 +12971,8 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/dev-client@0.2.5(react-refresh@0.14.0)(webpack@5.88.1):
-    resolution: {integrity: sha512-eMjPdIXZkBDO3+ZVVqGpu5stokIWfBw9fZPEFSBBen1LEPpw72VoemEuCuU2gXwryhu519kwV3T7qJB2/i4txg==}
+  /@rspack/dev-client@0.2.7(react-refresh@0.14.0)(webpack@5.88.1):
+    resolution: {integrity: sha512-INBL9g4ANmJ7/g2gr+GzBSc8xRu8KkTDVpKkq/oOjEIa5gs/ecJE9hfvVAxX1RTZQlEd0b/mWbJfKzaJFPX7Og==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
@@ -12762,15 +12991,15 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/plugin-html@0.2.5(@rspack/core@0.2.5):
-    resolution: {integrity: sha512-02hpGronedrgv39lfpHHz4dK3nL4r2A6D1OPipLGBJYrR7ulo90kSaXjQs1xaopoaO6Gik8X/5i14OxIA9fAGw==}
+  /@rspack/plugin-html@0.2.7(@rspack/core@0.2.7):
+    resolution: {integrity: sha512-qEQGCgzCtk62v6AVBHJtpcUGMmRSNqUBFYfjymDZ+ZOp5HAi4ZiBLhHzrNi9UMVN8MixnoQqjWOipw4Xh8Rcgg==}
     peerDependencies:
-      '@rspack/core': 0.2.5
+      '@rspack/core': 0.2.7
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
     dependencies:
-      '@rspack/core': 0.2.5(webpack@5.88.1)
+      '@rspack/core': 0.2.7(webpack@5.88.1)
       '@types/html-minifier-terser': 7.0.0
       html-minifier-terser: 7.0.0
       lodash.template: 4.5.0
@@ -16137,6 +16366,10 @@ packages:
   /ansi-regex@6.0.1:
     resolution: {integrity: sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==}
     engines: {node: '>=12'}
+
+  /ansi-sequence-parser@1.1.0:
+    resolution: {integrity: sha512-lEm8mt52to2fT8GhciPCGeCXACSz2UwIN4X2e2LJSnZ5uAbn2/dsYdOmUXq0AtWS5cpAupysIneExOgH0Vd2TQ==}
+    dev: false
 
   /ansi-styles@3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
@@ -20877,7 +21110,7 @@ packages:
   /filelist@1.0.4:
     resolution: {integrity: sha512-w1cEuf3S+DrLCQL7ET6kz+gmlJdbq9J7yXCSjK/OZCPA+qEN1WyF4ZAf0YYJa4/shHJra2t/d/r8SV4Ji+x+8Q==}
     dependencies:
-      minimatch: 5.1.0
+      minimatch: 5.1.6
 
   /filesize@8.0.7:
     resolution: {integrity: sha512-pjmC+bkIF8XI7fWaH8KxHcZL3DPybs1roSKP4rKDvy20tAWwIObE4+JIseG2byfGKhud5ZnM4YSGKBz7Sh0ndQ==}
@@ -21638,7 +21871,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 5.1.0
+      minimatch: 5.1.6
       once: 1.4.0
     dev: false
 
@@ -24053,6 +24286,10 @@ packages:
     resolution: {integrity: sha512-fQzRfAbIBnR0IQvftw9FJveWiHp72Fg20giDrHz6TdfB12UH/uue0D3hm57UB5KgAVuniLMCaS8P1IMj9NR7cA==}
     dev: false
 
+  /jsonc-parser@3.2.0:
+    resolution: {integrity: sha512-gfFQZrcTc8CnKXp6Y4/CBT3fTc0OVuDofpre4aEeEpSBPV5X5v4+Vmx+8snU7RLPrNHPKSgLxGo9YuQzz20o+w==}
+    dev: false
+
   /jsonfile@2.4.0:
     resolution: {integrity: sha512-PKllAqbgLgxHaj8TElYymKCAgrASebJrWpTnEkOaTowt23VKXXN0sUeriJ+eh7y6ufb/CC5ap11pz71/cM0hUw==}
     optionalDependencies:
@@ -24627,6 +24864,10 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /lunr@2.3.9:
+    resolution: {integrity: sha512-zTU3DaZaF3Rt9rhN3uBMGQD3dD2/vFQqnvZCDv4dl5iOzq2IZQqTxu90r4E5J+nP70J3ilqVCrbho2eWaeW8Ow==}
+    dev: false
+
   /lz-string@1.4.4:
     resolution: {integrity: sha512-0ckx7ZHRPqb0oUm8zNr+90mtf9DQB60H1wMCjBtfi62Kl3a7JbHob6gA2bC+xRvZoOL+1hzUK8jeuEIQE8svEQ==}
     hasBin: true
@@ -24713,6 +24954,12 @@ packages:
 
   /markdown-table@3.0.2:
     resolution: {integrity: sha512-y8j3a5/DkJCmS5x4dMCQL+OR0+2EAq3DOtio1COSHsmW2BGXnNCK3v12hJt1LrUz5iZH5g0LmuYOjDdI+czghA==}
+    dev: false
+
+  /marked@4.3.0:
+    resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
+    engines: {node: '>= 12'}
+    hasBin: true
     dev: false
 
   /matchit@1.1.0:
@@ -25550,11 +25797,18 @@ packages:
     dependencies:
       brace-expansion: 1.1.11
 
-  /minimatch@5.1.0:
-    resolution: {integrity: sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==}
+  /minimatch@5.1.6:
+    resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
+
+  /minimatch@9.0.3:
+    resolution: {integrity: sha512-RHiac9mvaRw0x3AYRgDC1CxAP7HTcNrrECeA8YYJeWnpo+2Q5CegtZjaotWTWxDG3UeGA1coE05iH1mPjT/2mg==}
+    engines: {node: '>=16 || 14 >=14.17'}
+    dependencies:
+      brace-expansion: 2.0.1
+    dev: false
 
   /minimist-options@4.1.0:
     resolution: {integrity: sha512-Q4r8ghd80yhO/0j1O3B2BjweX3fiHg9cdOwjJd2J76Q135c+NDxGCqdYKQ1SKBuFfgWbAUzBfvYjPUEeNgqN1A==}
@@ -28969,6 +29223,19 @@ packages:
       tiny-warning: 1.0.3
     dev: false
 
+  /react-router-dom@6.11.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-dPC2MhoPeTQ1YUOt5uIK376SMNWbwUxYRWk2ZmTT4fZfwlOvabF8uduRKKJIyfkCZvMgiF0GSCQckmkGGijIrg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.6.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router: 6.11.1(react@18.2.0)
+    dev: false
+
   /react-router-dom@6.11.2(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-JNbKtAeh1VSJQnH6RvBDNhxNwemRj7KxCzc5jb7zvDSKRnPWIFj9pO+eXqjM69gQJ0r46hSz1x4l9y0651DKWw==}
     engines: {node: '>=14'}
@@ -28996,6 +29263,16 @@ packages:
       react-is: 16.13.1
       tiny-invariant: 1.2.0
       tiny-warning: 1.0.3
+    dev: false
+
+  /react-router@6.11.1(react@18.2.0):
+    resolution: {integrity: sha512-OZINSdjJ2WgvAi7hgNLazrEV8SGn6xrKA+MkJe9wVDMZ3zQ6fdJocUjpCUCI0cNrelWjcvon0S/QK/j0NzL3KA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.6.1
+      react: 18.2.0
     dev: false
 
   /react-router@6.11.2(react@18.2.0):
@@ -30169,8 +30446,8 @@ packages:
   /shiki@0.10.1:
     resolution: {integrity: sha512-VsY7QJVzU51j5o1+DguUd+6vmCmZ5v/6gYu4vyYAhzjuNQU6P/vmSy4uQaOhvje031qQMiW0d2BwgMH52vqMng==}
     dependencies:
-      jsonc-parser: 3.0.0
-      vscode-oniguruma: 1.6.2
+      jsonc-parser: 3.2.0
+      vscode-oniguruma: 1.7.0
       vscode-textmate: 5.2.0
     dev: false
 
@@ -30180,6 +30457,15 @@ packages:
       jsonc-parser: 3.0.0
       vscode-oniguruma: 1.6.2
       vscode-textmate: 6.0.0
+    dev: false
+
+  /shiki@0.14.3:
+    resolution: {integrity: sha512-U3S/a+b0KS+UkTyMjoNojvTgrBHjgp7L6ovhFVZsXmBGnVdQ4K4U9oK0z63w538S91ATngv1vXigHCSWOwnr+g==}
+    dependencies:
+      ansi-sequence-parser: 1.1.0
+      jsonc-parser: 3.2.0
+      vscode-oniguruma: 1.7.0
+      vscode-textmate: 8.0.0
     dev: false
 
   /side-channel@1.0.4:
@@ -31978,6 +32264,29 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: false
 
+  /typedoc-plugin-markdown@3.15.3(typedoc@0.24.8):
+    resolution: {integrity: sha512-idntFYu3vfaY3eaD+w9DeRd0PmNGqGuNLKihPU9poxFGnATJYGn9dPtEhn2QrTdishFMg7jPXAhos+2T6YCWRQ==}
+    peerDependencies:
+      typedoc: '>=0.24.0'
+    dependencies:
+      handlebars: 4.7.7
+      typedoc: 0.24.8(typescript@5.0.4)
+    dev: false
+
+  /typedoc@0.24.8(typescript@5.0.4):
+    resolution: {integrity: sha512-ahJ6Cpcvxwaxfu4KtjA8qZNqS43wYt6JL27wYiIgl1vd38WW/KWX11YuAeZhuz9v+ttrutSsgK+XO1CjL1kA3w==}
+    engines: {node: '>= 14.14'}
+    hasBin: true
+    peerDependencies:
+      typescript: 4.6.x || 4.7.x || 4.8.x || 4.9.x || 5.0.x || 5.1.x
+    dependencies:
+      lunr: 2.3.9
+      marked: 4.3.0
+      minimatch: 9.0.3
+      shiki: 0.14.3
+      typescript: 5.0.4
+    dev: false
+
   /typescript@5.0.4:
     resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
     engines: {node: '>=12.20'}
@@ -32693,12 +33002,20 @@ packages:
     resolution: {integrity: sha512-KH8+KKov5eS/9WhofZR8M8dMHWN2gTxjMsG4jd04YhpbPR91fUj7rYQ2/XjeHCJWbg7X++ApRIU9NUwM2vTvLA==}
     dev: false
 
+  /vscode-oniguruma@1.7.0:
+    resolution: {integrity: sha512-L9WMGRfrjOhgHSdOYgCt/yRMsXzLDJSL7BPrOZt73gU0iWO4mpqzqQzOz5srxqTvMBaR0XZTSrVWo4j55Rc6cA==}
+    dev: false
+
   /vscode-textmate@5.2.0:
     resolution: {integrity: sha512-Uw5ooOQxRASHgu6C7GVvUxisKXfSgW4oFlO+aa+PAkgmH89O3CXxEEzNRNtHSqtXFTl0nAC1uYj0GMSH27uwtQ==}
     dev: false
 
   /vscode-textmate@6.0.0:
     resolution: {integrity: sha512-gu73tuZfJgu+mvCSy4UZwd2JXykjK9zAZsfmDeut5dx/1a7FeTk0XwJsSuqQn+cuMCGVbIBfl+s53X4T19DnzQ==}
+    dev: false
+
+  /vscode-textmate@8.0.0:
+    resolution: {integrity: sha512-AFbieoL7a5LMqcnOF04ji+rpXadgOXnZsxQr//r83kLPr7biP7am3g9zbaZIaBGwBRWeSvoMD4mgPdX3e4NWBg==}
     dev: false
 
   /vue-loader@17.2.2(webpack@5.88.1):

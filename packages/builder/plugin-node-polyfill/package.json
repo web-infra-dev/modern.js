@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.25.2",
+  "version": "2.26.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -32,13 +32,14 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
+    "@swc/helpers": "0.5.1",
     "node-libs-browser": "2.2.1"
   },
   "devDependencies": {
@@ -46,6 +47,7 @@
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "^5"
   },

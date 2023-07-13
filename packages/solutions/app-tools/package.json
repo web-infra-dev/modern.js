@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.25.2",
+  "version": "2.26.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -96,12 +96,12 @@
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.17.19",
     "rspack-plugin-virtual-module": "0.1.0",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.1",
+    "@modern-js/server-core": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__traverse": "^7.14.2",
@@ -112,7 +112,7 @@
     "webpack": "^5.88.1"
   },
   "peerDependencies": {
-    "@modern-js/builder-rspack-provider": "workspace:^2.25.2"
+    "@modern-js/builder-rspack-provider": "workspace:^2.26.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/builder-rspack-provider": {

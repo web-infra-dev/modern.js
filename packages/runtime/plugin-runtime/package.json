@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.25.2",
+  "version": "2.26.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -152,9 +152,9 @@
     "@babel/core": "^7.21.8",
     "@babel/types": "^7.21.5",
     "cookie": "0.5.0",
-    "@loadable/babel-plugin": "^5.13.2",
-    "@loadable/component": "^5.15.0",
-    "@loadable/server": "^5.15.1",
+    "@loadable/babel-plugin": "5.15.3",
+    "@loadable/component": "5.15.3",
+    "@loadable/server": "5.15.3",
     "@loadable/webpack-plugin": "5.15.2",
     "@modern-js-reduck/plugin-auto-actions": "^1.1.10",
     "@modern-js-reduck/plugin-devtools": "^1.1.10",
@@ -206,7 +206,6 @@
     "webpack": "^5.88.1"
   },
   "sideEffects": false,
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

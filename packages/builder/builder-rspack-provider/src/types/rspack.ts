@@ -16,6 +16,10 @@ export interface RspackConfig extends RspackOptions {
   entry?: Record<string, string | string[]>;
   // can't use htmlPlugin & builtins.html at the same time.
   builtins?: RspackBuiltinsConfig;
+  /** rspack-dev-server is not used in modern.js */
+  devServer?: {
+    hot?: boolean;
+  };
 }
 
 /** T[] => T */

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.25.2",
+  "version": "2.26.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -30,7 +30,7 @@
     }
   },
   "scripts": {
-    "dev": "modern-lib dev",
+    "dev": "modern-lib build --no-dts -w",
     "build": "modern-lib build",
     "reset": "rimraf ./**/node_modules",
     "lint": "modern-lib lint",
@@ -111,7 +111,7 @@
     "jsdom": "20.0.3"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.25.2",
+    "@modern-js/core": "workspace:^2.26.0",
     "react": ">=17"
   },
   "devDependencies": {

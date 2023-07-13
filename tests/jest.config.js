@@ -11,6 +11,8 @@ module.exports = {
     '/api-service-koa/api/',
     '/api-service-koa/dist',
     '/api/tests',
+    // TODO fix Windows issue
+    '/module-doc/',
   ],
   transform: {
     '^.+.tsx?$': 'ts-jest',

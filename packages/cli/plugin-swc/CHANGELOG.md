@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 2.26.0
+
+### Patch Changes
+
+- 60ce599: fix(plugin-swc): skip SWC plugin when using Rspack
+
+  fix(plugin-swc): 使用 Rspack 时跳过 SWC 插件
+
+- Updated dependencies [60ce599]
+  - @modern-js/builder-plugin-swc@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

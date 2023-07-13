@@ -47,6 +47,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "progress": {
       "prefix": "Client",
     },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
+    },
     "react": {
       "development": true,
       "refresh": true,
@@ -287,6 +292,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -329,6 +337,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -375,6 +386,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -427,6 +441,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -483,6 +500,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -532,6 +552,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -764,6 +787,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     },
     "progress": {
       "prefix": "Client",
+    },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
     },
     "react": {
       "development": false,
@@ -1005,6 +1033,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1047,6 +1078,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1093,6 +1127,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1145,6 +1182,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1201,6 +1241,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1250,6 +1293,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1487,6 +1533,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     },
     "progress": {
       "prefix": "Server",
+    },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
     },
     "react": {
       "development": true,
@@ -1728,11 +1779,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
           },
@@ -1742,6 +1799,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1759,6 +1819,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1780,6 +1843,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -1794,6 +1860,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -1936,6 +2005,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
     },
     "progress": {
       "prefix": "Client",
+    },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
     },
     "react": {
       "development": true,
@@ -2185,6 +2259,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -2227,6 +2304,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -2273,6 +2353,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -2325,6 +2408,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [
@@ -2381,6 +2467,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "oneOf": [
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
             "type": "css/module",
@@ -2430,6 +2519,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
             ],
           },
           {
+            "resolve": {
+              "preferRelative": true,
+            },
             "sideEffects": true,
             "type": "css",
             "use": [

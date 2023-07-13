@@ -15,7 +15,7 @@
 .dark {
   --modern-code-block-color: rgb(229, 231, 235);
   --modern-code-block-bg: #242424;
-  --modern-code-title-bg: #000;
+  --modern-code-title-bg: rgba(255, 255, 255, 0.04);
   --modern-code-line-highlight-color: rgba(255, 255, 255, 0.1);
   --modern-code-line-number-color: rgba(60, 60, 60, 0.33);
 }

@@ -3,7 +3,6 @@ import { lintPlugin } from '@modern-js/plugin-lint';
 import {
   cleanRequireCache,
   emptyDir,
-  Import,
   Command,
   getCommand,
   getArgv,
@@ -32,11 +31,6 @@ export * from './types';
 
 // eslint-disable-next-line import/export
 export type { RuntimeUserConfig } from './types/config';
-
-const upgradeModel: typeof import('@modern-js/upgrade') = Import.lazy(
-  '@modern-js/upgrade',
-  require,
-);
 
 export const devCommand = async (
   program: Command,
@@ -261,7 +255,8 @@ export const appTools = (
             inspect(api, options);
           });
 
-        upgradeModel.defineCommand(
+        const { defineCommand } = await import('@modern-js/upgrade');
+        defineCommand(
           program
             .command('upgrade')
             .option(

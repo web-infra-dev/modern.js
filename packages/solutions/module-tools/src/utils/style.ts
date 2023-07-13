@@ -51,6 +51,14 @@ export const getPostcssConfig = async (config: PartialBaseBuildConfig) => {
     },
   };
 
+  const targetLegacyBrowsers = config.target === 'es5';
+  const getLegacyPostCSSPlugins = async () => [
+    require(await getCompiledPath('postcss-custom-properties')),
+    require(await getCompiledPath('postcss-initial')),
+    require(await getCompiledPath('postcss-page-break')),
+    require(await getCompiledPath('postcss-font-variant')),
+  ];
+
   const mergedConfig = applyOptionsChain<
     PostcssOptions & { $$tools?: string },
     PostCSSConfigUtils
@@ -59,11 +67,8 @@ export const getPostcssConfig = async (config: PartialBaseBuildConfig) => {
       // TODO: when schema support redefine
       // $$tools: 'module-tools',
       plugins: [
+        ...(targetLegacyBrowsers ? await getLegacyPostCSSPlugins() : []),
         require(await getCompiledPath('postcss-flexbugs-fixes')),
-        require(await getCompiledPath('postcss-custom-properties')),
-        require(await getCompiledPath('postcss-initial')),
-        require(await getCompiledPath('postcss-page-break')),
-        require(await getCompiledPath('postcss-font-variant')),
         require(await getCompiledPath('postcss-media-minmax')),
         require(await getCompiledPath('postcss-nesting')),
       ].filter(Boolean),

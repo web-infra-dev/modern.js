@@ -24,8 +24,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
       // only support zh and en
       const languages = (
         config.themeConfig?.locales?.map(locale => locale.lang) ||
-        config.locales?.map(locale => locale.lang) ||
-        []
+        config.locales?.map(locale => locale.lang) || [config.lang]
       ).filter(lang => lang === 'zh' || lang === 'en') as SupportLanguages[];
       await docgen({
         entries,
@@ -36,7 +35,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
     },
     async modifySearchIndexData(pages) {
       // Update the search index of module doc which includes `<API moduleName="xxx" />`
-      const apiCompRegExp = /<API\s+moduleName="(\S+)"\s*(.*)?\/>/g;
+      const apiCompRegExp = /<API\s+moduleName=['"](\S+)['"]\s*(.*)?\/>/g;
       await Promise.all(
         pages.map(async page => {
           const { _filepath, lang } = page;
@@ -47,9 +46,9 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
           }
           while (matchResult !== null) {
             const [matchContent, moduleName] = matchResult;
-            console.log(moduleName);
-            const moduleKey = `${moduleName}-${lang}`;
-            content = content.replace(matchContent, apiDocMap[moduleKey]);
+            const apiDoc =
+              apiDocMap[moduleName] || apiDocMap[`${moduleName}-${lang}`];
+            content = content.replace(matchContent, apiDoc);
             matchResult = apiCompRegExp.exec(content);
           }
           page.content = content;
@@ -66,3 +65,5 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
     },
   };
 }
+
+export type { PluginOptions };

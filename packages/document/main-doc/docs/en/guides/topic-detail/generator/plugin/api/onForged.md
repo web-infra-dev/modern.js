@@ -215,7 +215,7 @@ Parameter types:
 updateInfo: Record<string, any>
 ```
 
-- `updateInfo`: Update content information. `updateModernConfig` is a package based on `updateJSONFile`, which will automatically update under the `edenxConfig` field. Only the configuration fields under `modernConfig` need to be filled in `updateInfo`.
+- `updateInfo`: Update content information. `updateModernConfig` is a package based on `updateJSONFile`, which will automatically update under the `modernConfig` field. Only the configuration fields under `modernConfig` need to be filled in `updateInfo`.
 
 For example, enable SSR:
 

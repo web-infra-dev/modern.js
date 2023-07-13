@@ -20,6 +20,15 @@ export interface BaseRuntimeContext {
   store?: Store;
   routeManifest: RouteManifest;
   routerContext?: StaticHandlerContext;
+  /**
+   * private method
+   */
+  remixRouter?: Router;
+  /**
+   * private
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  unstable_getBlockNavState?: () => boolean;
 }
 
 export interface RuntimeContext extends BaseRuntimeContext {

@@ -29,13 +29,14 @@ export default defineConfig({
 - `forceCSR`：`boolean = false`，默认关闭强制 CSR 渲染。配置为 `true` 后，在页面访问时添加 `?csr=true` 或添加请求头 `x-modern-ssr-fallback` 即可强制 CSR。
 - `inlineScript`：`boolean = true`，默认情况下，SSR 的数据会以内联脚本的方式注入到 HTML 中，并且直接赋值给全局变量。配置为 `false` 后，会下发 JSON，而不是赋值给全局变量。
 
-
 ```ts title="modern.config.ts"
 export default defineConfig({
   server: {
-    forceCSR: true,
-    mode: 'stream',
-    inlineScript: false,
+    ssr: {
+      forceCSR: true,
+      mode: 'stream',
+      inlineScript: false,
+    },
   },
 });
 ```
@@ -50,7 +51,7 @@ export default defineConfig({
 
 3. SSR 服务压力过大，需要部分流量直接降级为 CSR，避免服务宕机。
 
-在项目中配置 `ssr.forCSR` 为 `true` 后，我们可以通过请求的查询字符串，或是请求头来控制这一行为。
+在项目中配置 `server.ssr.forceCSR` 为 `true` 后，我们可以通过请求的查询字符串，或是请求头来控制这一行为。
 
 例如在自定义 Web Server 的中间件中，检测到流量大于某一阈值时，主动降级：
 

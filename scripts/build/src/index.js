@@ -136,8 +136,19 @@ const extendUniversalBuildConfig = extendConfig => {
   });
 };
 
+const tscLikeBuildConfig = [
+  {
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'es2019',
+    outDir: './dist',
+    externalHelpers,
+  },
+];
+
 module.exports = {
   nodeBuildConfig,
+  tscLikeBuildConfig,
   extendNodeBuildConfig,
   universalBuildConfig,
   extendUniversalBuildConfig,
