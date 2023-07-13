@@ -1,5 +1,4 @@
 - **类型：** `boolean`
-
 - **默认值：** `false`
 - **打包工具：** `仅支持 webpack`
 
@@ -12,3 +11,5 @@ export default {
   },
 };
 ```
+
+更多信息可参考[【进阶-源码构建模式】](/guide/advanced/source-build.md)。

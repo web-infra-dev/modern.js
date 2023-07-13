@@ -4,7 +4,7 @@ The source-code build mode allows developers to use dependent subproject source 
 
 ## Enable source-code build
 
-In Builder, you can enable this feature by setting [`experiments.sourceBuild`](/api/config-experiments.html#experimentssourcebuild) to `true`.
+You can enable this feature by setting [`experiments.sourceBuild`](/api/config-experiments.html#experimentssourcebuild) to `true`.
 
 ```ts
 export default {
@@ -21,9 +21,9 @@ When you need to read the source code of a subproject, you need to make sure tha
 
 ```json title="package.json"
 {
-    "name": "lib",
-    "main": "./dist/index.js",
-    "source": "./src/index.ts"
+  "name": "lib",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts"
 }
 ```
 
@@ -31,19 +31,19 @@ If the [`exports`](https://nodejs.org/api/packages.html#package-entry-points) co
 
 ```json title="package.json"
 {
-    "name": "lib",
-    "main": "./dist/index.js",
-    "source": "./src/index.ts",
-    "exports": {
-        ".": {
-            "source": "./src/index.ts",
-            "default": "./dist/index.js"
-        },
-        "./features": {
-            "source": "./src/features/index.ts",
-            "default": "./dist/features/index.js"
-        }
+  "name": "lib",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./features": {
+      "source": "./src/features/index.ts",
+      "default": "./dist/features/index.js"
     }
+  }
 }
 ```
 

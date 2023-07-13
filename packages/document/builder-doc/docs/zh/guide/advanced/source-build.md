@@ -1,10 +1,10 @@
-# 源码构建
+# 源码构建模式
 
 源码构建模式允许开发者在 Monorepo 场景下使用依赖的子项目源码进行开发。这样可以在不启动子项目构建任务的情况下进行 HMR (Hot Module Replacement)。
 
 ## 开启特性
 
-在 Builder 中，你可以通过设置 [`experiments.sourceBuild`](/api/config-experiments.html#experimentssourcebuild) 为 `true` 来开启该功能。
+你可以通过设置 [`experiments.sourceBuild`](/api/config-experiments.html#experimentssourcebuild) 为 `true` 来开启该功能。
 
 ## 指定需要读取源码的子项目
 
@@ -13,9 +13,9 @@
 
 ```json title="package.json"
 {
-    "name": "lib",
-    "main": "./dist/index.js",
-    "source": "./src/index.ts"
+  "name": "lib",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts"
 }
 ```
 
@@ -23,19 +23,19 @@
 
 ```json title="package.json"
 {
-    "name": "lib",
-    "main": "./dist/index.js",
-    "source": "./src/index.ts",
-    "exports": {
-        ".": {
-            "source": "./src/index.ts",
-            "default": "./dist/index.js"
-        },
-        "./features": {
-            "source": "./src/features/index.ts",
-            "default": "./dist/features/index.js"
-        }
+  "name": "lib",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./features": {
+      "source": "./src/features/index.ts",
+      "default": "./dist/features/index.js"
     }
+  }
 }
 ```
 
