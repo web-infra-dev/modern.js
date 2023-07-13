@@ -1,5 +1,15 @@
 # @modern-js/server-utils
 
+## 2.26.0
+
+### Patch Changes
+
+- 1fb5804: fix: should load typescript from direct dependencies on demand
+  fix: 按需从直接依赖中加载 typescript
+  - @modern-js/babel-preset-base@2.26.0
+  - @modern-js/babel-compiler@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

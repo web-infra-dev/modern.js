@@ -24,8 +24,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
       // only support zh and en
       const languages = (
         config.themeConfig?.locales?.map(locale => locale.lang) ||
-        config.locales?.map(locale => locale.lang) ||
-        []
+        config.locales?.map(locale => locale.lang) || [config.lang]
       ).filter(lang => lang === 'zh' || lang === 'en') as SupportLanguages[];
       await docgen({
         entries,
@@ -47,9 +46,9 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
           }
           while (matchResult !== null) {
             const [matchContent, moduleName] = matchResult;
-            console.log(moduleName);
-            const moduleKey = `${moduleName}-${lang}`;
-            content = content.replace(matchContent, apiDocMap[moduleKey]);
+            const apiDoc =
+              apiDocMap[moduleName] || apiDocMap[`${moduleName}-${lang}`];
+            content = content.replace(matchContent, apiDoc);
             matchResult = apiCompRegExp.exec(content);
           }
           page.content = content;

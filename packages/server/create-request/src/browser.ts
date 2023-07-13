@@ -1,5 +1,5 @@
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
-import qs from 'query-string';
+import { stringify } from 'query-string';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
@@ -80,7 +80,7 @@ export const createRequest: RequestCreator = (
       const finalPath = getFinalPath(payload.params);
 
       finalURL = payload.query
-        ? `${finalPath}?${qs.stringify(payload.query)}`
+        ? `${finalPath}?${stringify(payload.query)}`
         : finalPath;
       headers = payload.headers || {};
       body =
@@ -112,7 +112,7 @@ export const createRequest: RequestCreator = (
           // eslint-disable-next-line node/prefer-global/url-search-params,node/no-unsupported-features/node-builtins
           !(payload.formUrlencoded instanceof URLSearchParams)
         ) {
-          body = qs.stringify(payload.formUrlencoded);
+          body = stringify(payload.formUrlencoded);
         } else {
           body = payload.formUrlencoded;
         }

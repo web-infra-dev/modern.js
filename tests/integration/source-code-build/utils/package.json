@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.9.0",
   "main": "./dist/index.js",
-  "monorepo:source": "./src/index.ts",
+  "source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "typesVersions": {
     "*": {
@@ -22,8 +22,14 @@
     "typescript": "^5"
   },
   "exports": {
-    ".": "./src/index.ts",
-    "./common": "./src/common/index.ts"
+    ".": {
+      "source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./common": {
+      "source": "./src/common/index.ts",
+      "default": "./dist/common/index.js"
+    }
   },
   "engines": {
     "node": ">=14.17.6"

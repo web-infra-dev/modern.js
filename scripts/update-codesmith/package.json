@@ -1,6 +1,6 @@
 {
   "name": "@scripts/update-codesmith",
-  "version": "2.25.2",
+  "version": "2.26.0",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",

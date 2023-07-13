@@ -1,5 +1,16 @@
 # @modern-js/create-request
 
+## 2.26.0
+
+### Minor Changes
+
+- 22acfda: feat: support unstable_getBlockNavState
+  feat: 支持 unstable_getBlockNavState
+
+### Patch Changes
+
+- @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "3.1.27",
+  "version": "3.1.28",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -53,6 +53,7 @@
     "typescript": "^5"
   },
   "sideEffects": false,
+  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
