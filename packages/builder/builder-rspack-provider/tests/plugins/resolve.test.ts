@@ -5,9 +5,9 @@ import { createBuilder } from '../helper';
 
 describe('plugins/resolve', () => {
   it('should apply default extensions correctly', async () => {
-    vi.spyOn(builderShared, 'isFileExists').mockImplementation(() =>
-      Promise.resolve(false),
-    );
+    const spy = vi
+      .spyOn(builderShared, 'isFileExists')
+      .mockImplementation(() => Promise.resolve(false));
 
     const builder = await createBuilder({
       plugins: [builderPluginResolve()],
@@ -24,12 +24,14 @@ describe('plugins/resolve', () => {
       '.json',
     ]);
     expect(bundlerConfigs[0].resolve?.tsConfigPath).toBeUndefined();
+
+    spy.mockRestore();
   });
 
   it('should apply default extensions correctly and tsConfigPath with ts', async () => {
-    vi.spyOn(builderShared, 'isFileExists').mockImplementation(() =>
-      Promise.resolve(true),
-    );
+    const spy = vi
+      .spyOn(builderShared, 'isFileExists')
+      .mockImplementation(() => Promise.resolve(true));
 
     const builder = await createBuilder({
       plugins: [builderPluginResolve()],
@@ -48,6 +50,8 @@ describe('plugins/resolve', () => {
       '.json',
     ]);
     expect(bundlerConfigs[0].resolve?.tsConfigPath).toBeDefined();
+
+    spy.mockRestore();
   });
 
   it('should allow to use source.alias to config alias', async () => {

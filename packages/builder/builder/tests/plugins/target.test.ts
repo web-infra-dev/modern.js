@@ -1,6 +1,14 @@
-import { vi, expect, describe, it } from 'vitest';
-import * as shared from '@modern-js/builder-shared';
+import { vi, test, expect, describe, SpyInstance } from 'vitest';
+import { getBrowserslist, getBundlerChain } from '@modern-js/builder-shared';
 import { builderPluginTarget } from '@/plugins/target';
+
+vi.mock('@modern-js/builder-shared', async importOriginal => {
+  const mod = await importOriginal<any>();
+  return {
+    ...mod,
+    getBrowserslist: vi.fn(),
+  };
+});
 
 describe('plugins/target', () => {
   const cases = [
@@ -31,10 +39,10 @@ describe('plugins/target', () => {
     },
   ];
 
-  it.each(cases)('%j', async item => {
-    const $getBrowserslist = vi
-      .spyOn(shared, 'getBrowserslist')
-      .mockResolvedValueOnce(item.browserslist);
+  test.each(cases)('%j', async item => {
+    (getBrowserslist as unknown as SpyInstance).mockResolvedValueOnce(
+      item.browserslist,
+    );
 
     let modifyBundlerChainCb: any;
 
@@ -47,11 +55,10 @@ describe('plugins/target', () => {
 
     builderPluginTarget().setup(api);
 
-    const chain = await shared.getBundlerChain();
+    const chain = await getBundlerChain();
 
     await modifyBundlerChainCb(chain, { target: item.target });
 
     expect(chain.toConfig()).toEqual(item.expected);
-    $getBrowserslist.mockRestore();
   });
 });
