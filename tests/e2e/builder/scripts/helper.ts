@@ -1,6 +1,6 @@
 import { test } from '@modern-js/e2e/playwright';
 
-const providerType = process.env.PROVIDE_TYPE || 'webpack';
+export const providerType = process.env.PROVIDE_TYPE || 'webpack';
 
 export const getProviderTest = (supportType: string[] = ['webpack']) => {
   if (supportType.includes(providerType)) {

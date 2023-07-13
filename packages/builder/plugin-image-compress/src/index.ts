@@ -41,7 +41,7 @@ export const builderPluginImageCompress: IPluginImageCompress = (
   setup(api) {
     const opts = normalizeOptions(castOptions(args));
 
-    api.modifyWebpackChain((chain, { env }) => {
+    api.modifyBundlerChain((chain, { env }) => {
       if (env !== 'production') {
         return;
       }
