@@ -48,9 +48,6 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.0.6
-      '@vitest/coverage-v8':
-        specifier: ^0.33.0
-        version: 0.33.0(vitest@0.33.0)
       '@vitest/ui':
         specifier: ^0.33.0
         version: 0.33.0(vitest@0.33.0)
@@ -8416,14 +8413,6 @@ packages:
       '@jridgewell/gen-mapping': 0.1.1
       '@jridgewell/trace-mapping': 0.3.17
 
-  /@ampproject/remapping@2.2.1:
-    resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      '@jridgewell/gen-mapping': 0.3.2
-      '@jridgewell/trace-mapping': 0.3.17
-    dev: true
-
   /@ant-design/colors@6.0.0:
     resolution: {integrity: sha512-qAZRvPzfdWHtfameEGP2Qvuf838NhergR35o+EuVyB5XvSA98xod5r4utvi4TJ3ywmevm290g9nsCG5MryrdWQ==}
     dependencies:
@@ -15761,27 +15750,6 @@ packages:
     resolution: {integrity: sha512-JGZ11QV+/ZcfudW2Cz2JVp54/pJNXbsuWRgSh2ZmmZdQBKXqBtIGrwI1Wyx8nlbzAiEFe7FHi4K1zX4//jxTnQ==}
     hasBin: true
     dev: false
-
-  /@vitest/coverage-v8@0.33.0(vitest@0.33.0):
-    resolution: {integrity: sha512-Rj5IzoLF7FLj6yR7TmqsfRDSeaFki6NAJ/cQexqhbWkHEV2htlVGrmuOde3xzvFsCbLCagf4omhcIaVmfU8Okg==}
-    peerDependencies:
-      vitest: '>=0.32.0 <1'
-    dependencies:
-      '@ampproject/remapping': 2.2.1
-      '@bcoe/v8-coverage': 0.2.3
-      istanbul-lib-coverage: 3.2.0
-      istanbul-lib-report: 3.0.0
-      istanbul-lib-source-maps: 4.0.1
-      istanbul-reports: 3.1.5
-      magic-string: 0.30.1
-      picocolors: 1.0.0
-      std-env: 3.3.3
-      test-exclude: 6.0.0
-      v8-to-istanbul: 9.1.0
-      vitest: 0.33.0(@vitest/ui@0.33.0)(jsdom@20.0.3)
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /@vitest/expect@0.33.0:
     resolution: {integrity: sha512-sVNf+Gla3mhTCxNJx+wJLDPp/WcstOe0Ksqz4Vec51MmgMth/ia0MGFEkIZmVGeTL5HtjYR4Wl/ZxBxBXZJTzQ==}
