@@ -41,11 +41,11 @@ export * from '@modern-js/doc-tools/theme';
 值得注意的是，Layout 组件设计了一系列的 props 支持插槽元素，你可以通过这些 props 来扩展默认主题的布局，比如将上面的 Layout 组件改成如下的形式:
 
 ```tsx
-import { Layout as DefaultLayout } from '@modern-js/doc-tools/theme';
+import Theme from '@modern-js/doc-tools/theme';
 
 // 以下展示所有的 Props
 const Layout = () => (
-  <DefaultLayout
+  <Theme.Layout
     /* Home 页 Hero 部分之前 */
     beforeHero={<div>beforeHero</div>}
     /* Home 页 Hero 部分之后 */
