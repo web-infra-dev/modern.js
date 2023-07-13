@@ -1,7 +1,7 @@
 import nodeFetch from 'node-fetch';
 import { compile, pathToRegexp, Key } from 'path-to-regexp';
 import { useHeaders } from '@modern-js/utils/runtime-node';
-import qs from 'query-string';
+import { stringify } from 'query-string';
 import { handleRes } from './handleRes';
 import type {
   BFFRequestPayload,
@@ -80,7 +80,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
 
       const plainPath = getFinalPath(payload.params);
       const finalPath = payload.query
-        ? `${plainPath}?${qs.stringify(payload.query)}`
+        ? `${plainPath}?${stringify(payload.query)}`
         : plainPath;
       headers = payload.headers || {};
       for (const key of realAllowedHeaders) {
@@ -107,7 +107,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
       } else if (payload.formUrlencoded) {
         headers['Content-Type'] = 'application/x-www-form-urlencoded';
         if (typeof payload.formUrlencoded === 'object') {
-          body = qs.stringify(payload.formUrlencoded);
+          body = stringify(payload.formUrlencoded);
         } else {
           body = payload.formUrlencoded;
         }

@@ -1,5 +1,21 @@
 # @modern-js/doc-plugin-preview
 
+## 2.26.0
+
+### Patch Changes
+
+- 757485e: fix: can not find path only in windows bacause of the escape char
+  fix: 在 windows 系统下因为转义字符而无法找到路径
+- Updated dependencies [39f3c83]
+- Updated dependencies [ce6d481]
+- Updated dependencies [b2cf922]
+- Updated dependencies [757485e]
+- Updated dependencies [a0a207d]
+- Updated dependencies [ee5a6f3]
+- Updated dependencies [6387971]
+  - @modern-js/doc-core@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

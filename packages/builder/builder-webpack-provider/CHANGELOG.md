@@ -1,5 +1,42 @@
 # @modern-js/builder-webpack-provider
 
+## 2.26.0
+
+### Minor Changes
+
+- 786c195: feat(builder-webpack-provider): add some features
+
+  1. TsConfigPathsPlugin support read closest tsconfig for each of the files.
+  2. Add new configuration: experiments.sourceBuild
+
+  feat(builder-webpack-provider): 新增一些功能
+
+  1. TsConfigPathsPlugin 插件支持读取每个文件最近的 tsconfig.json.
+  2. 新增配置: experiments.sourceBuild
+
+- e26b05e: feat(builder-webpack-provider): set sourceBuild default value is false
+  feat(builder-webpack-provider): 设置 sourceBuild 默认值为 false
+
+### Patch Changes
+
+- 150ddb1: fix(builder-shared): set formatStats fn as sync-fn so that info can print quikly
+  fix(builder-shared): 将 formatStats 设置成同步函数使构建信息能够尽快的打印出来
+- b36ece4: fix: rename source field name
+  fix: 重新命名源码字段
+- fac4ee0: fix(builder): enable preferRelative for CSS files by default
+
+  fix(builder): 默认开启 CSS files 的 preferRelative 配置
+
+- Updated dependencies [150ddb1]
+- Updated dependencies [15ad760]
+- Updated dependencies [786c195]
+  - @modern-js/builder-shared@2.26.0
+  - @modern-js/server@2.26.0
+  - @modern-js/babel-preset-app@2.26.0
+  - @modern-js/babel-preset-base@2.26.0
+  - @modern-js/types@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

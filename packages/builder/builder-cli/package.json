@@ -21,7 +21,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.25.2",
+  "version": "2.26.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -35,8 +35,8 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern new",
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage"
   },
@@ -44,17 +44,19 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/node-bundle-require": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
+    "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/builder-webpack-provider": "workspace:^2.25.2",
-    "@modern-js/builder-rspack-provider": "workspace:^2.25.2"
+    "@modern-js/builder-webpack-provider": "workspace:^2.26.0",
+    "@modern-js/builder-rspack-provider": "workspace:^2.26.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/builder-webpack-provider": {

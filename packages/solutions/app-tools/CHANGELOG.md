@@ -1,5 +1,47 @@
 # @modern-js/app-tools
 
+## 2.26.0
+
+### Patch Changes
+
+- 05480f1: fix: @modern-js/server-core should be a dependencies of @modern-js/app-tools
+  fix: @modern-js/server-core 应该是 @modern-js/app-tools 的 dependencies
+- fbcac63: perf(cli): improve upgrade command load performance
+
+  perf(cli): 优化 upgrade 命令加载性能
+
+- Updated dependencies [150ddb1]
+- Updated dependencies [786c195]
+- Updated dependencies [e26b05e]
+- Updated dependencies [b36ece4]
+- Updated dependencies [e26b05e]
+- Updated dependencies [15ad760]
+- Updated dependencies [fac4ee0]
+- Updated dependencies [786c195]
+- Updated dependencies [ad7139b]
+- Updated dependencies [cdf5b6b]
+- Updated dependencies [786c195]
+- Updated dependencies [fbcac63]
+  - @modern-js/builder-webpack-provider@2.26.0
+  - @modern-js/builder-rspack-provider@2.26.0
+  - @modern-js/builder-shared@2.26.0
+  - @modern-js/builder@2.26.0
+  - @modern-js/upgrade@2.26.0
+  - @modern-js/builder-plugin-esbuild@2.26.0
+  - @modern-js/builder-plugin-node-polyfill@2.26.0
+  - @modern-js/core@2.26.0
+  - @modern-js/server@2.26.0
+  - @modern-js/new-action@2.26.0
+  - @modern-js/plugin-data-loader@2.26.0
+  - @modern-js/plugin-i18n@2.26.0
+  - @modern-js/plugin-lint@2.26.0
+  - @modern-js/server-core@2.26.0
+  - @modern-js/prod-server@2.26.0
+  - @modern-js/node-bundle-require@2.26.0
+  - @modern-js/plugin@2.26.0
+  - @modern-js/types@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

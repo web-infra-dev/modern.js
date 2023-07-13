@@ -1,5 +1,27 @@
 # @modern-js/builder
 
+## 2.26.0
+
+### Minor Changes
+
+- e26b05e: feat(builder): rename source field and add rule.resolve.mainFields and rule.resolve.conditionNames configuration
+  feat(builder): 重命名 source 字段,增加 rule.resolve.mainFields 和 rule.resolve.conditionName 配置
+- 786c195: feat(builder): New builder plug-in to support source code building
+  feat(builder): 新增支持源码构建的 builder 插件
+
+### Patch Changes
+
+- b36ece4: fix: rename source field name
+  fix: 重新命名源码字段
+- Updated dependencies [150ddb1]
+- Updated dependencies [786c195]
+- Updated dependencies [b36ece4]
+- Updated dependencies [15ad760]
+- Updated dependencies [786c195]
+  - @modern-js/builder-shared@2.26.0
+  - @modern-js/monorepo-utils@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.25.2",
+  "version": "2.26.0",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
@@ -145,7 +145,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.25.2"
+    "@modern-js/runtime": "workspace:^2.26.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
@@ -168,7 +168,6 @@
     "typescript": "^5"
   },
   "sideEffects": false,
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
