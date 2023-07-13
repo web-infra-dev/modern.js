@@ -1,7 +1,7 @@
 import path from 'path';
 import { createRequire } from 'module';
 import { UserConfig } from 'shared/types';
-import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
+import type { BuilderInstance } from '@modern-js/builder';
 import type {
   BuilderConfig,
   BuilderRspackProvider,
@@ -196,10 +196,14 @@ export async function createModernBuilder(
     scanDir: userRoot,
     pluginDriver,
   });
-  const { createBuilder } = await import('@modern-js/builder');
-  const { builderRspackProvider } = await import(
-    '@modern-js/builder-rspack-provider'
-  );
+  const {
+    // @ts-expect-error esm/cjs interop issue
+    default: { createBuilder, mergeBuilderConfig },
+  } = await import('@modern-js/builder');
+  const {
+    // @ts-expect-error esm/cjs interop issue
+    default: { builderRspackProvider },
+  } = await import('@modern-js/builder-rspack-provider');
 
   const internalBuilderConfig = await createInternalBuildConfig(
     userRoot,

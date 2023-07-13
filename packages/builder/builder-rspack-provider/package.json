@@ -43,8 +43,8 @@
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:ui": "vitest --ui"
@@ -59,6 +59,7 @@
     "@rspack/core": "0.2.5",
     "@rspack/dev-client": "0.2.5",
     "@rspack/plugin-html": "0.2.5",
+    "@swc/helpers": "0.5.1",
     "rspack-manifest-plugin": "5.0.0-alpha0",
     "caniuse-lite": "^1.0.30001489",
     "core-js": "~3.30.0",
@@ -69,6 +70,7 @@
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",
+    "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/node": "^14",
     "antd": "4",

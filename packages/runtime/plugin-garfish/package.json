@@ -107,7 +107,6 @@
     "webpack-chain": "^6.5.1"
   },
   "sideEffects": false,
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",
