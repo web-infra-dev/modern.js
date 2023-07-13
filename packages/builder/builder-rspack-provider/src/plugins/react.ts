@@ -18,6 +18,7 @@ export const builderPluginReact = (): BuilderPlugin => ({
       });
 
       setConfig(rspackConfig, 'builtins.provide', {
+        ...(rspackConfig.builtins?.provide || {}),
         $ReactRefreshRuntime$: [
           require.resolve('@rspack/dev-client/react-refresh'),
         ],
