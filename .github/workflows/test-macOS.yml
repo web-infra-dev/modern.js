@@ -1,4 +1,4 @@
-name: Unit Test(macOS)
+name: Unit Test (jest - macOS)
 
 concurrency:
   group: macos-test-${{ github.head_ref }}
