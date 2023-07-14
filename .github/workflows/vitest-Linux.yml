@@ -1,7 +1,7 @@
 name: Unit Test (vitest - Ubuntu)
 
 concurrency:
-  group: linux-test-${{ github.head_ref }}
+  group: linux-vitest-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.

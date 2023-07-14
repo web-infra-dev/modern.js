@@ -1,7 +1,7 @@
 name: Unit Test (vitest - Windows)
 
 concurrency:
-  group: windows-test-${{ github.head_ref }}
+  group: windows-vitest-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.
