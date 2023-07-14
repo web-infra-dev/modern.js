@@ -65,3 +65,5 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
     },
   };
 }
+
+export type { PluginOptions };

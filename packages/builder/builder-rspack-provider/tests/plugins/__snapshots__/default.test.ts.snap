@@ -47,6 +47,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "progress": {
       "prefix": "Client",
     },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
+    },
     "react": {
       "development": true,
       "refresh": true,
@@ -782,6 +787,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     },
     "progress": {
       "prefix": "Client",
+    },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
     },
     "react": {
       "development": false,
@@ -1524,6 +1534,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "progress": {
       "prefix": "Server",
     },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
+    },
     "react": {
       "development": true,
       "refresh": false,
@@ -1990,6 +2005,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
     },
     "progress": {
       "prefix": "Client",
+    },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
     },
     "react": {
       "development": true,

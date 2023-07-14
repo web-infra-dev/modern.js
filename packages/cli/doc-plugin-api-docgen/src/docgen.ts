@@ -4,7 +4,16 @@ import type { ComponentDoc } from 'react-docgen-typescript';
 import { parse } from 'react-docgen-typescript';
 import { apiDocMap } from './constants';
 import { locales } from './locales';
-import type { DocGenOptions } from './types';
+import type {
+  DocGenOptions,
+  Entries,
+  ToolEntries,
+  ApiParseTool,
+} from './types';
+
+const isToolEntries = (obj: Record<string, any>): obj is ToolEntries => {
+  return obj.documentation || obj['react-docgen-typescript'];
+};
 
 export const docgen = async ({
   entries,
@@ -12,47 +21,61 @@ export const docgen = async ({
   apiParseTool,
   appDir,
 }: DocGenOptions) => {
-  if (Object.keys(entries).length === 0) {
-    return;
-  }
+  const genApiDoc = async (entry: Entries, tool: ApiParseTool) => {
+    if (Object.keys(entry).length === 0) {
+      return;
+    }
+    await Promise.all(
+      Object.entries(entry).map(async ([key, value]) => {
+        const moduleSourceFilePath = path.resolve(appDir, value);
+        try {
+          if (tool === 'documentation') {
+            const documentation = await import('documentation');
 
+            const documentationRes = await documentation.build([
+              moduleSourceFilePath,
+            ]);
+            const apiDoc = await documentation.formats.md(documentationRes);
+            apiDocMap[key] = apiDoc;
+          } else {
+            const componentDoc = parse(moduleSourceFilePath);
+            if (componentDoc.length === 0) {
+              logger.warn(
+                '[module-doc-plugin]',
+                `Unable to parse API document in ${moduleSourceFilePath}`,
+              );
+            }
+            languages.forEach(language => {
+              apiDocMap[`${key}-${language}`] = generateTable(
+                componentDoc,
+                language,
+              );
+            });
+          }
+        } catch (e) {
+          if (e instanceof Error) {
+            logger.error(
+              '[module-doc-plugin]',
+              `Generate API table error: ${e.message}`,
+            );
+          }
+        }
+      }),
+    );
+  };
   logger.info('[module-doc-plugin]', 'Start to generate API table...');
 
-  Object.entries(entries).map(async ([key, value]) => {
-    const moduleSourceFilePath = path.resolve(appDir, value);
-    try {
-      if (apiParseTool === 'documentation') {
-        const documentation = await import('documentation');
+  if (isToolEntries(entries)) {
+    const reactEntries = entries['react-docgen-typescript'];
+    const documentationEntries = entries.documentation;
+    await Promise.all([
+      genApiDoc(reactEntries, 'react-docgen-typescript'),
+      genApiDoc(documentationEntries, 'documentation'),
+    ]);
+  } else {
+    await genApiDoc(entries, apiParseTool);
+  }
 
-        const documentationRes = await documentation.build([
-          moduleSourceFilePath,
-        ]);
-        const apiDoc = await documentation.formats.md(documentationRes);
-        apiDocMap[key] = apiDoc;
-      } else {
-        const componentDoc = parse(moduleSourceFilePath);
-        if (componentDoc.length === 0) {
-          logger.warn(
-            '[module-doc-plugin]',
-            `Unable to parse API document in ${moduleSourceFilePath}`,
-          );
-        }
-        languages.forEach(language => {
-          apiDocMap[`${key}-${language}`] = generateTable(
-            componentDoc,
-            language,
-          );
-        });
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        logger.error(
-          '[module-doc-plugin]',
-          `Generate API table error: ${e.message}`,
-        );
-      }
-    }
-  });
   logger.success('[module-doc-plugin]', `Generate API table successfully!`);
 };
 
