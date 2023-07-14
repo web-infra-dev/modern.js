@@ -1,21 +1,31 @@
-name: Type Check
+name: Unit Test (vitest - Ubuntu)
 
+concurrency:
+  group: linux-test-${{ github.head_ref }}
+  cancel-in-progress: true
+
+# Controls when the action will run.
 on:
+  # Triggers the workflow on pull request events but only for the main branch
   pull_request:
     branches: [main]
 
   merge_group:
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  type-check:
+  ut-mac:
+    # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         node-version: [16.x]
-        os: [ubuntu-latest]
+        os: [ubuntu-latest] # ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -26,10 +36,10 @@ jobs:
         run: corepack enable
 
       - name: Check docs only change
-        run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')
+        run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')"
         id: docs-change
 
-      - run: echo ${{steps.docs-change.outputs.DOCS_CHANGE}}
+      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
 
       - name: Setup Node.js ${{ matrix.node-version }}
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
@@ -38,22 +48,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Turbo Cache
-        id: turbo-cache
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        uses: actions/cache@v3
-        with:
-          path: .turbo
-          key: turbo-${{ github.base_ref }}-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ github.base_ref }}-${{ github.ref_name }}-
-            turbo-${{ github.base_ref }}-
-            turbo-
-
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm install --ignore-scripts --frozen-lockfile
+        run: pnpm install
 
-      - name: Type Check
+      - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run prepare
+        run: pnpm run test:vitest
