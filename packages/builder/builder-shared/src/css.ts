@@ -21,7 +21,9 @@ export const getCssModuleLocalIdentName = (
 ) =>
   config.output.cssModuleLocalIdentName ||
   // Using shorter classname in production to reduce bundle size
-  (isProd ? '[hash:base64:5]' : '[path][name]__[local]--[hash:base64:5]');
+  (isProd
+    ? '[local]-[hash:base64:6]'
+    : '[path][name]__[local]-[hash:base64:6]');
 
 /** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
 export const isLooseCssModules = (path: string) => {

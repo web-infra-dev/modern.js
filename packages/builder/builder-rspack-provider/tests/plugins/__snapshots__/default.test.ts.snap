@@ -6,7 +6,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "css": {
       "modules": {
         "exportsOnly": false,
-        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localIdentName": "[path][name]__[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
     },
@@ -744,7 +744,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "css": {
       "modules": {
         "exportsOnly": false,
-        "localIdentName": "[hash:5]",
+        "localIdentName": "[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
     },
@@ -1497,7 +1497,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     "css": {
       "modules": {
         "exportsOnly": true,
-        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localIdentName": "[path][name]__[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
     },
@@ -1965,7 +1965,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     "css": {
       "modules": {
         "exportsOnly": false,
-        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localIdentName": "[path][name]__[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
     },
