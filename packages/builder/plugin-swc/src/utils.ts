@@ -3,11 +3,11 @@ import {
   getCoreJsVersion,
   isBeyondReact17,
   logger,
+  lodash as _,
 } from '@modern-js/utils';
 import { NormalizedConfig } from '@modern-js/builder-webpack-provider';
-import { merge } from '@modern-js/utils/compiled/lodash';
 import {
-  BuilderTarget,
+  ModifyChainUtils,
   getBrowserslistWithDefault,
   getDefaultStyledComponentsConfig,
   isUsingHMR,
@@ -47,10 +47,7 @@ export function checkUseMinify(
   return (
     isProd &&
     !config.output.disableMinimize &&
-    (options.jsMinify !== false ||
-      options.cssMinify !== false ||
-      options.minify ||
-      options.jsc?.minify)
+    (options.jsMinify !== false || options.cssMinify !== false)
   );
 }
 
@@ -59,7 +56,18 @@ const PLUGIN_ONLY_OPTIONS: (keyof ObjPluginSwcOptions)[] = [
   'presetEnv',
   'jsMinify',
   'cssMinify',
+  'overrides',
+  'test',
+  'exclude',
+  'include' as unknown as keyof ObjPluginSwcOptions, // include is not in SWC config, but we need it as loader condition
 ];
+
+export interface FinalizedConfig {
+  test?: RegExp;
+  include?: RegExp[];
+  exclude?: RegExp[];
+  swcConfig: ObjPluginSwcOptions;
+}
 
 export function removeUselessOptions(
   obj: ObjPluginSwcOptions,
@@ -75,16 +83,18 @@ export function removeUselessOptions(
 
 export async function finalizeConfig(
   userConfig: PluginSwcOptions,
-  pluginConfig: TransformConfig,
-): Promise<ObjPluginSwcOptions> {
+  builderSetConfig: TransformConfig,
+): Promise<FinalizedConfig[]> {
   const isUsingFnOptions = typeof userConfig === 'function';
 
   const objConfig = isUsingFnOptions ? {} : userConfig;
+  const defaultConfig = getDefaultSwcConfig();
 
   // apply swc default config
-  let swcConfig: TransformConfig = merge(
-    getDefaultSwcConfig(),
-    pluginConfig,
+  let swcConfig: ObjPluginSwcOptions = _.merge(
+    {},
+    defaultConfig,
+    builderSetConfig,
     objConfig,
   );
 
@@ -100,17 +110,31 @@ export async function finalizeConfig(
     }
   }
 
-  return swcConfig;
+  // apply overrides
+  const overrides = swcConfig.overrides || [];
+
+  const finalized: FinalizedConfig[] = [{ swcConfig }];
+
+  for (const override of overrides) {
+    finalized.push({
+      test: override.test,
+      include: override.include,
+      exclude: override.exclude,
+      swcConfig: _.merge({}, swcConfig, override),
+    });
+  }
+
+  return finalized;
 }
 
 export async function applyPluginConfig(
   rawOptions: PluginSwcOptions,
-  target: BuilderTarget,
-  isProd: boolean,
+  utils: ModifyChainUtils,
   builderConfig: NormalizedConfig,
   rootPath: string,
-): Promise<ObjPluginSwcOptions> {
+): Promise<FinalizedConfig[]> {
   const isUsingFnOptions = typeof rawOptions === 'function';
+  const { target, isProd } = utils;
 
   // if using function type config, create an empty config
   // and then invoke function with this config
@@ -122,7 +146,7 @@ export async function applyPluginConfig(
     jsc: {
       transform: {
         react: {
-          refresh: isUsingHMR(builderConfig, isProd, target),
+          refresh: isUsingHMR(builderConfig, utils),
         },
       },
     },
@@ -192,17 +216,4 @@ export async function applyPluginConfig(
   }
 
   return await finalizeConfig(rawOptions, swc);
-}
-
-if (import.meta.vitest) {
-  const { it, expect } = import.meta.vitest;
-  it('finalize options', async () => {
-    const pluginConfig: ObjPluginSwcOptions = {
-      cssMinify: true,
-    };
-
-    const output = removeUselessOptions(await finalizeConfig(pluginConfig, {}));
-    expect(pluginConfig).toHaveProperty('cssMinify');
-    expect(Reflect.ownKeys(output).includes('cssMinify')).toBeFalsy();
-  });
 }

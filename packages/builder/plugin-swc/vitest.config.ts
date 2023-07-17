@@ -6,7 +6,6 @@ const config = defineConfig({
     root: __dirname,
     environment: 'node',
     setupFiles: ['./tests/setup.ts'],
-    include: ['src/utils.ts'],
   },
 });
 

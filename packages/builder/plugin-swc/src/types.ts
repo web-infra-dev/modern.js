@@ -33,7 +33,18 @@ export interface ObjPluginSwcOptions<T extends 'inner' | 'outer' = 'inner'>
   cssMinify?: boolean | CssMinifyOptions;
 
   extensions?: T extends 'inner' ? Extensions : OuterExtensions;
+
+  overrides?: Override<T>[];
 }
+
+export type Override<T extends 'inner' | 'outer'> = Omit<
+  ObjPluginSwcOptions<T>,
+  'test' | 'include' | 'exclude'
+> & {
+  test?: RegExp;
+  include?: RegExp[];
+  exclude?: RegExp[];
+};
 
 export type FnPluginSwcOptions = (
   config: TransformConfig,

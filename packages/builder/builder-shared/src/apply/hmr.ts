@@ -1,9 +1,8 @@
-import { BuilderTarget, SharedNormalizedConfig } from '../types';
+import { ModifyChainUtils, SharedNormalizedConfig } from '../types';
 
 export function isUsingHMR(
   config: SharedNormalizedConfig,
-  isProd: boolean,
-  target: BuilderTarget,
+  { isProd, target }: ModifyChainUtils,
 ) {
   return (
     !isProd &&

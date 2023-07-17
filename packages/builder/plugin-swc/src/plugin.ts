@@ -33,31 +33,50 @@ export const builderPluginSwc = (
     }
 
     api.modifyWebpackChain(async (chain, utils) => {
-      const { CHAIN_ID, isProd, target } = utils;
+      const { CHAIN_ID, isProd } = utils;
       const builderConfig = api.getNormalizedConfig();
       const { rootPath } = api.context;
 
-      const swcConfig = await applyPluginConfig(
+      const swcConfigs = await applyPluginConfig(
         options,
-        target,
-        isProd,
+        utils,
         builderConfig,
         rootPath,
       );
 
-      // loader don't need keys like `presetEnv`, `presetReact`, etc
-      const loaderOpt = removeUselessOptions(swcConfig);
-
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
       chain.module.delete(CHAIN_ID.RULE.TS);
-      const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-      // Insert swc loader and plugin
-      rule
-        .test(mergeRegex(JS_REGEX, TS_REGEX))
-        .use(CHAIN_ID.USE.SWC)
-        .loader(path.resolve(__dirname, './loader'))
-        .options(loaderOpt);
+      const TJS_REGEX = mergeRegex(JS_REGEX, TS_REGEX);
+      for (let i = 0; i < swcConfigs.length; i++) {
+        const { test, include, exclude, swcConfig } = swcConfigs[i];
+
+        const ruleId =
+          i > 0 ? CHAIN_ID.RULE.JS + i.toString() : CHAIN_ID.RULE.JS;
+        const rule = chain.module.rule(ruleId);
+
+        // Insert swc loader and plugin
+        rule
+          .test(test || TJS_REGEX)
+          .use(CHAIN_ID.USE.SWC)
+          .loader(path.resolve(__dirname, './loader'))
+          .options(removeUselessOptions(swcConfig) satisfies TransformConfig);
+
+        if (include) {
+          for (const extra of include) {
+            rule.include.add(extra);
+          }
+        }
+
+        if (exclude) {
+          for (const extra of exclude) {
+            rule.exclude.add(extra);
+          }
+        }
+      }
+
+      // first config is the main config
+      const mainConfig = swcConfigs[0].swcConfig;
 
       if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
         chain.module
@@ -66,7 +85,7 @@ export const builderPluginSwc = (
           .end()
           .use(CHAIN_ID.USE.SWC)
           .loader(path.resolve(__dirname, './loader'))
-          .options(loaderOpt);
+          .options(removeUselessOptions(mainConfig) satisfies TransformConfig);
       }
 
       if (isDebugMode()) {
@@ -74,19 +93,19 @@ export const builderPluginSwc = (
 
         chain
           .plugin(CHAIN_ID.PLUGIN.SWC_POLYFILL_CHECKER)
-          .use(new CheckPolyfillPlugin(swcConfig));
+          .use(new CheckPolyfillPlugin(mainConfig));
       }
 
-      if (checkUseMinify(swcConfig, builderConfig, isProd)) {
+      if (checkUseMinify(mainConfig, builderConfig, isProd)) {
         // Insert swc minify plugin
         // @ts-expect-error webpack-chain missing minimizers type
         const minimizersChain = chain.optimization.minimizers;
 
-        if (swcConfig.jsMinify !== false) {
+        if (mainConfig.jsMinify !== false) {
           minimizersChain.delete(CHAIN_ID.MINIMIZER.JS).end();
         }
 
-        if (swcConfig.cssMinify !== false) {
+        if (mainConfig.cssMinify !== false) {
           minimizersChain.delete(CHAIN_ID.MINIMIZER.CSS).end();
         }
 
@@ -95,8 +114,8 @@ export const builderPluginSwc = (
           .minimizer(CHAIN_ID.MINIMIZER.SWC)
           .use(SwcMinimizerPlugin, [
             {
-              jsMinify: swcConfig.jsMinify ?? swcConfig.jsc?.minify,
-              cssMinify: swcConfig.cssMinify,
+              jsMinify: mainConfig.jsMinify ?? mainConfig.jsc?.minify,
+              cssMinify: mainConfig.cssMinify,
             },
           ]);
       }
