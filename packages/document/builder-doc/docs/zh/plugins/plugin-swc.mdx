@@ -83,18 +83,30 @@ That's it! 现在你可以在项目中无缝使用 SWC 的转译和压缩能力�
 - **类型：**
 
 ```ts
-type PluginConfig = {
+type PluginConfig =
+  | ObjPluginConfig
+  | ((
+      config: ObjPluginConfig,
+      utils: { mergeConfig: typeof lodash.merge; setConfig: typeof lodash.set },
+    ) => ObjPluginConfig | void);
+
+// SwcOptions 为 swc 配置项 https://swc.rs/docs/configuration/compilation
+interface ObjPluginConfig extends SwcOptions {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
   jsMinify?: boolean | JsMinifyOptions;
   cssMinify?: boolean | CssMinifyOptions;
-  extensions?: Extensions;
-};
+  overrides?: Overrides;
+}
 ```
+
+插件配置在 SWC 配置的基础上，为了简化部分深层配置和为提高开发体验，进行了部分拓展，例如当使用对象形式配置时，可以使用 `presetReact` 以及 `presetEnv` 快速配置 react 以及语法降级相关功能，另外不属于插件特有的配置也会直接透传给 swc。
+
+当使用函数形式配置时，则会传入插件内部产出的默认配置，可以对其进行修改或返回新的配置。
 
 ### presetReact
 
-- **类型：** SWC 中的 [presetReact](https://swc.rs/docs/configuration/compilation#jsctransformreact)。
+- **类型：** SWC 中的 [react](https://swc.rs/docs/configuration/compilation#jsctransformreact) 配置。
 
 对标 `@babel/preset-react`。传入的值会与默认配置进行合并。
 
@@ -127,6 +139,31 @@ type PluginConfig = {
 - **默认值：** `true`
 
 是否启用 SWC 对 CSS 文件进行压缩，若启用会使得 CSS 压缩性能提高，但压缩率会略微降低。
+
+### overrides
+
+- **类型：**
+
+```ts
+interface Overrides extends SwcOptions {
+  test: RegExp;
+  include: RegExp[];
+  exclude: RegExp[];
+}
+```
+
+- **默认值：** `undefined`
+
+对指定文件运用另外的配置。例如需要对 `foo.ts` 的语法降级成 ie 11，则可以如下配置：
+
+```ts
+{
+  test: /foo.ts/,
+  env: { targets: 'ie 11' }
+}
+```
+
+该配置会与默认配置进行合并，并且不会影响到其他文件。
 
 ### extensions
 
