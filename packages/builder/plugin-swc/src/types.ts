@@ -1,9 +1,11 @@
-import {
+import type {
   EnvConfig,
   Extensions,
   JsMinifyOptions,
   ReactConfig,
+  TransformConfig,
 } from '@modern-js/swc-plugins';
+import type { lodash as _ } from '@modern-js/utils';
 
 export type {
   TransformConfig,
@@ -11,14 +13,19 @@ export type {
   JsMinifyOptions,
 } from '@modern-js/swc-plugins';
 
-type OuterExtensions = Omit<Extensions, 'ssrLoaderId' | 'configRoutes'> & {
+export type OuterExtensions = Omit<
+  Extensions,
+  'ssrLoaderId' | 'configRoutes'
+> & {
   /**
    * @deprecated
    */
   // for backwards compatibility
   modernjsSsrLoaderId?: boolean;
 };
-export interface PluginSwcOptions<T extends 'inner' | 'outer' = 'inner'> {
+
+export interface ObjPluginSwcOptions<T extends 'inner' | 'outer' = 'inner'>
+  extends TransformConfig {
   presetReact?: ReactConfig;
   presetEnv?: EnvConfig;
 
@@ -26,6 +33,20 @@ export interface PluginSwcOptions<T extends 'inner' | 'outer' = 'inner'> {
   cssMinify?: boolean | CssMinifyOptions;
 
   extensions?: T extends 'inner' ? Extensions : OuterExtensions;
+}
+
+export type FnPluginSwcOptions = (
+  config: TransformConfig,
+  utilities: Utilities,
+) => void | TransformConfig;
+
+export type PluginSwcOptions<T extends 'inner' | 'outer' = 'inner'> =
+  | ObjPluginSwcOptions<T>
+  | FnPluginSwcOptions;
+
+interface Utilities {
+  mergeConfig: typeof _.merge;
+  setConfig: typeof _.set;
 }
 
 export interface CssMinifyOptions {

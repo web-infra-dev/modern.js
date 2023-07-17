@@ -4,10 +4,12 @@
     "target": "ES2019",
     "declaration": true,
     "outDir": "dist",
+    "module": "ESNext",
     "isolatedModules": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "types": ["vitest/importMeta"]
   },
   "include": ["./src"],
   "exclude": ["./tests/fixtures"]
