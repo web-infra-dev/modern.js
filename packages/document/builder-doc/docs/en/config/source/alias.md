@@ -1,7 +1,7 @@
 - **Type:** `Record<string, string | string[]> | Function`
 - **Default:** `undefined`
 
-Create aliases to import or require certain modules, same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
+Create aliases to import or require certain modules, same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack and Rspack.
 
 :::tip
 For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in the `tsconfig.json` file. The Builder will automatically recognize it, so there is no need to configure the `source.alias` option separately. For more details, please refer to [Path Aliases](https://modernjs.dev/builder/en/guide/advanced/alias.html).
