@@ -225,7 +225,7 @@ export const builderPluginCss = (): BuilderPlugin => {
           let localIdentName =
             config.output.cssModuleLocalIdentName ||
             // Using shorter classname in production to reduce bundle size
-            (isProd ? '[hash:5]' : '[path][name]__[local]--[hash:5]');
+            (isProd ? '[local]-[hash:6]' : '[path][name]__[local]-[hash:6]');
 
           if (localIdentName.includes(':base64')) {
             logger.warn(

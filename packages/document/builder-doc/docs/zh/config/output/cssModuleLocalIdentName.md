@@ -4,8 +4,8 @@
 ```ts
 // isProd 表示生产环境构建
 const localIdentName = isProd
-  ? '[hash:base64:5]'
-  : '[path][name]__[local]--[hash:base64:5]';
+  ? '[local]-[hash:base64:6]'
+  : '[path][name]__[local]-[hash:base64:6]';
 ```
 
 设置 CSS Modules 编译后生成的 className 格式。
