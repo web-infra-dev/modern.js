@@ -23,7 +23,8 @@ export interface SharedSourceConfig {
    */
   alias?: ChainedConfig<Alias>;
   /**
-   * Set the alias strategy
+   * Used to control the priority between the `paths` option in `tsconfig.json`
+   * and the `alias` option in the bundler.
    */
   aliasStrategy?: AliasStrategy;
   /**
