@@ -1,4 +1,4 @@
-import { describe } from 'vitest';
+import { test } from 'vitest';
 import { LoaderContext, LoaderDefinitionFunction } from 'webpack';
 import { createLoader } from '../src/loader';
 
@@ -24,7 +24,7 @@ const mockSwcLoaderRunner = (): [
   ];
 };
 
-describe('should handle loader interface correctly', async done => {
+test('should handle loader interface correctly', async () => {
   const loader = createLoader();
 
   const [finish, runner] = mockSwcLoaderRunner();
@@ -39,5 +39,4 @@ describe('should handle loader interface correctly', async done => {
   });
 
   await finish;
-  done();
 });
