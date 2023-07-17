@@ -12,4 +12,4 @@ export default {
 };
 ```
 
-More detail can see [[Advanced-Source-code Build Mode]](en/guide/advanced/source-build.md)。
+More detail can see ["Advanced - Source-code Build Mode"](en/guide/advanced/source-build.md)。
