@@ -6,7 +6,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
     "css": {
       "modules": {
         "exportsOnly": false,
-        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localIdentName": "[path][name]__[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
     },
@@ -102,7 +102,7 @@ exports[`plugins/css > should use custom cssModules rule when using output.cssMo
     "css": {
       "modules": {
         "exportsOnly": false,
-        "localIdentName": "[path][name]__[local]--[hash:5]",
+        "localIdentName": "[path][name]__[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
     },
@@ -233,7 +233,7 @@ exports[`plugins/css disableCssExtract > should apply ignoreCssLoader when disab
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -272,7 +272,7 @@ exports[`plugins/css disableCssExtract > should use css-loader + style-loader wh
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -466,7 +466,7 @@ exports[`plugins/less > should add less-loader and css-loader when disableCssExt
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -916,7 +916,7 @@ exports[`plugins/sass > should add sass-loader and css-loader when disableCssExt
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },

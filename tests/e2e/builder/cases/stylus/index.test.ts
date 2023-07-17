@@ -17,11 +17,11 @@ test('should compile stylus correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      'body{color:#f00;font:14px Arial,sans-serif}._7352{font-size:14px}',
+      'body{color:#f00;font:14px Arial,sans-serif}.title-class-_7352f{font-size:14px}',
     );
   } else {
     expect(content).toEqual(
-      'body{color:red;font:14px Arial,sans-serif}.XQprm{font-size:14px}',
+      'body{color:red;font:14px Arial,sans-serif}.title-class-XQprme{font-size:14px}',
     );
   }
 });
