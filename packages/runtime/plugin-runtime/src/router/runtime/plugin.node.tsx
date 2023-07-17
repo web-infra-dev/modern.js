@@ -87,7 +87,7 @@ export const routerPlugin = ({
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
-          const routes = createRoutes
+          let routes = createRoutes
             ? createRoutes()
             : createRoutesFromElements(
                 renderRoutes({
@@ -98,6 +98,9 @@ export const routerPlugin = ({
                   },
                 }),
               );
+
+          const runner = (api as any).useHookRunners();
+          routes = runner.modifyRoutes(routes);
 
           const { query } = createStaticHandler(routes, {
             basename: _basename,
@@ -118,9 +121,6 @@ export const routerPlugin = ({
           // set routeManifest in context to be consistent with csr context
           context.routeManifest = context.ssrContext!
             .routeManifest as RouteManifest;
-
-          const runner = (api as any).useHookRunners();
-          runner.modifyRoutes(routes);
 
           return next({ context });
         },
