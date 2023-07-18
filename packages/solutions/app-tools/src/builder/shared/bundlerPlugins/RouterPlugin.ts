@@ -245,7 +245,6 @@ export class RouterPlugin {
 
             const result = await transform(newContent, {
               loader: path.extname(file).slice(1) as Loader,
-              format: 'esm',
               sourcemap: true,
             });
 
