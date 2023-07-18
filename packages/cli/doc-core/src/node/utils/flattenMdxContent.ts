@@ -101,11 +101,12 @@ export async function flattenMdxContent(
     if (MDX_REGEXP.test(absoluteImportPath)) {
       // replace import statement with the content of the imported file
       const importedContent = fs.readFileSync(absoluteImportPath, 'utf-8');
-
-      result = result.replace(
-        new RegExp(`<${id}\\s*/>`),
-        await flattenMdxContent(importedContent, absoluteImportPath, alias),
+      const replacedValue = await flattenMdxContent(
+        importedContent,
+        absoluteImportPath,
+        alias,
       );
+      result = result.replace(new RegExp(`<${id}\\s*/>`), () => replacedValue);
     }
   }
 
