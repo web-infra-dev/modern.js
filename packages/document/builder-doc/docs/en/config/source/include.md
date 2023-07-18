@@ -19,7 +19,7 @@ export default {
 ```
 
 :::tip
-When using Rspack as the bundler,  **all files** will be compiled by default, and at the same time, exclusion through `source.exclude` is not supported.
+When using Rspack as the bundler, **all files** will be compiled by default, and at the same time, exclusion through `source.exclude` is not supported.
 :::
 
 ### Compile Npm Packages
@@ -40,14 +40,14 @@ export default {
       path.dirname(require.resolve('query-string')),
       // Method 2:
       // Match by regular expression
-      // All paths containing `/query-string/` will be matched
-      /\/query-string\//,
+      // All paths containing `/node_modules/query-string/` will be matched
+      /\/node_modules\/query-string\//,
     ],
   },
 };
 ```
 
-> Note that this config will only compile the code of `query-string` itself, not the **sub-dependencies** of `query-string`. If you need to compile a sub-dependency of `query-string`, you need to add the corresponding npm package to `source.include`.
+The above two methods match the absolute paths of files using "path prefixes" and "regular expressions" respectively. It is worth noting that all referenced modules in the project will be matched. Therefore, you should avoid using overly loose values for matching to prevent compilation performance issues or compilation errors.
 
 ### Compile Sub Dependencies
 
@@ -58,7 +58,10 @@ Take `query-string` for example, it depends on the `decode-uri-component` packag
 ```ts
 export default {
   source: {
-    include: [/\/query-string\//, /\/decode-uri-component\//],
+    include: [
+      /\/node_modules\/query-string\//,
+      /\/node_modules\/decode-uri-component\//,
+    ],
   },
 };
 ```
