@@ -293,14 +293,14 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 :::
 
-<!-- ## disableSwcTransform
+{/* ## disableSwcTransform
 
 Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only esbuild Transform is used in this case.
 
 The use of SWC Transform can reduce the impact of auxiliary functions on the volume of the constructed product.
 
 * **Type**: `boolean`
-* **Default**: `false` -->
+* **Default**: `false` */}
 
 ## dts
 
@@ -374,7 +374,7 @@ Path to the tsconfig file
 
 ## esbuildOptions
 
-Directly modify [esbuild configuration](https://esbuild.github.io/api/)
+Used to modify the [esbuild configuration](https://esbuild.github.io/api/).
 
 - **Type**: `Function`
 - **Default**: `c => c`
@@ -394,20 +394,9 @@ export default defineConfig({
 
 For example, register an esbuild plugin:
 
-```js modern.config.ts
-import { myEsbuildPlugin } from './myEsbuildPlugin';
+import RegisterEsbuildPlugin from '@site-docs-en/components/register-esbuild-plugin';
 
-export default defineConfig({
-  buildConfig: {
-    esbuildOptions: options => {
-      options.plugins = [myEsbuildPlugin, ...options.plugins];
-      return option;
-    },
-  },
-});
-```
-
-When adding an esbuild plugin, please note that you need to add the plugin at the beginning of the plugins array. This is because the Modern.js Module is also integrated into the entire build process through an esbuild plugin. Therefore, custom plugins need to be registered with higher priority.
+<RegisterEsbuildPlugin />
 
 :::tip
 We have done many extensions based on the original esbuild build. Therefore, when using this configuration, pay attention to the following:
@@ -1032,6 +1021,7 @@ const tailwind = {
   ],
 };
 ```
+</details>
 
 When the value is of type `object`, it is merged with the default configuration via `Object.assign`.
 

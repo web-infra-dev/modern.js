@@ -226,20 +226,9 @@ The Modern.js Module is based on the esbuild implementation, so if you have spec
 
 The Modern.js Module provides [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) configuration to allow modification of Modern.js's internal esbuild configuration, so that custom esbuild plugins can be added via this configuration:
 
-```js
-import { myEsbuildPlugin } from './myEsbuildPlugin';
+import RegisterEsbuildPlugin from '@site-docs-en/components/register-esbuild-plugin';
 
-export default defineConfig({
-  buildConfig: {
-    esbuildOptions: options => {
-      options.plugins = [myEsbuildPlugin, ...options.plugins];
-      return option;
-    },
-  },
-});
-```
-
-When adding an esbuild plugin, please note that you need to add the plugin at the beginning of the plugins array. This is because the Modern.js Module is also integrated into the entire build process through an esbuild plugin. Therefore, custom plugins need to be registered with higher priority.
+<RegisterEsbuildPlugin />
 
 ### Support for generating TypeScript declaration files for CSS Modules
 

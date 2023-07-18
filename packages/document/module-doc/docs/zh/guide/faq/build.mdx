@@ -226,20 +226,9 @@ Modern.js Module 基于 esbuild 实现，因此如果有特殊需求或者想要
 
 Modern.js Module 提供了 [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) 配置允许修改 Modern.js Module 内部的 esbuild 配置，因此可以通过该配置来增加自定义的 esbuild 插件：
 
-```js
-import { myEsbuildPlugin } from './myEsbuildPlugin';
+import RegisterEsbuildPlugin from '@site-docs/components/register-esbuild-plugin';
 
-export default defineConfig({
-  buildConfig: {
-    esbuildOptions: options => {
-      options.plugins = [myEsbuildPlugin, ...options.plugins];
-      return option;
-    },
-  },
-});
-```
-
-在增加 esbuild 插件时，请注意你需要将插件加在 plugins 数组的头部，因为 Modern.js Module 内部也是通过一个 esbuild 插件介入到整个构建流程中去的，因此需要将自定义插件优先注册。
+<RegisterEsbuildPlugin />
 
 ### 支持生成 CSS Modules 的 TypeScript 声明文件
 
