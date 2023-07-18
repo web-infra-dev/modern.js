@@ -50,6 +50,27 @@ describe('plugins/resolve', () => {
     expect(bundlerConfigs[0].resolve?.tsConfigPath).toBeDefined();
   });
 
+  it('should not apply tsConfigPath when aliasStrategy is "prefer-alias"', async () => {
+    vi.spyOn(builderShared, 'isFileExists').mockImplementation(() =>
+      Promise.resolve(true),
+    );
+
+    const builder = await createBuilder({
+      plugins: [builderPluginResolve()],
+      builderConfig: {
+        source: {
+          aliasStrategy: 'prefer-alias',
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0].resolve?.tsConfigPath).toBeUndefined();
+  });
+
   it('should allow to use source.alias to config alias', async () => {
     const builder = await createBuilder({
       plugins: [builderPluginResolve()],
