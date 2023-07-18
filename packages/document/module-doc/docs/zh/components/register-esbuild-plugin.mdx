@@ -1,0 +1,14 @@
+```js modern.config.ts
+import { myEsbuildPlugin } from './myEsbuildPlugin';
+
+export default defineConfig({
+  buildConfig: {
+    esbuildOptions: options => {
+      options.plugins = [myEsbuildPlugin, ...options.plugins];
+      return option;
+    },
+  },
+});
+```
+
+在增加 esbuild 插件时，请注意你需要将插件加在 plugins 数组的头部，因为 Modern.js Module 内部也是通过一个 esbuild 插件介入到整个构建流程中去的，因此需要将自定义插件优先注册。
