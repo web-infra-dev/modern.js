@@ -79,3 +79,5 @@ export default {
 ### 优先级
 
 `tsconfig.json` 的 `paths` 配置的优先级高于 `source.alias`，当一个路径同时匹配到这两者定义的规则时，会优先使用 `tsconfig.json` 的 `paths` 定义的值。
+
+你可以通过 [source.aliasStrategy](/api/config-source.html#sourcealiasstrategy) 来调整这两个选项的优先级。
