@@ -7,6 +7,7 @@
     "url": "https://github.com/web-infra-dev/modern.js",
     "directory": "packages/builder/plugin-swc"
   },
+  "jsnext:source": "./src/index.ts",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
   "scripts": {
@@ -18,16 +19,22 @@
     "prepublishOnly": "only-allow-pnpm"
   },
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
     "./loader": {
+      "jsnext:source": "./src/loader.ts",
       "types": "./dist/loader.d.ts",
       "default": "./dist/loader.js"
     },
     "./plugin": {
+      "jsnext:source": "./src/plugin.ts",
       "types": "./dist/plugin.d.ts",
       "default": "./dist/plugin.js"
     },
     "./binding": {
+      "jsnext:source": "./src/binding.ts",
       "types": "./dist/binding.d.ts",
       "default": "./dist/binding.js"
     }
