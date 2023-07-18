@@ -1,6 +1,6 @@
 import path from 'path';
 import { logger } from '@modern-js/utils';
-import type { ComponentDoc } from 'react-docgen-typescript';
+import type { ComponentDoc, PropItem } from 'react-docgen-typescript';
 import { parse } from 'react-docgen-typescript';
 import { apiDocMap } from './constants';
 import { locales } from './locales';
@@ -20,6 +20,7 @@ export const docgen = async ({
   languages,
   apiParseTool,
   appDir,
+  parseToolOptions,
 }: DocGenOptions) => {
   const genApiDoc = async (entry: Entries, tool: ApiParseTool) => {
     if (Object.keys(entry).length === 0) {
@@ -32,13 +33,38 @@ export const docgen = async ({
           if (tool === 'documentation') {
             const documentation = await import('documentation');
 
-            const documentationRes = await documentation.build([
-              moduleSourceFilePath,
-            ]);
-            const apiDoc = await documentation.formats.md(documentationRes);
+            const documentationRes = await documentation.build(
+              [moduleSourceFilePath],
+              {
+                ...parseToolOptions.documentation,
+              },
+            );
+            const apiDoc = await documentation.formats.md(documentationRes, {
+              noReferenceLinks:
+                parseToolOptions.documentation?.noReferenceLinks ?? true,
+            });
             apiDocMap[key] = apiDoc;
           } else {
-            const componentDoc = parse(moduleSourceFilePath);
+            const componentDoc = parse(moduleSourceFilePath, {
+              // https://github.com/styleguidist/react-docgen-typescript/blob/master/README.md?plain=1#L111
+              propFilter: (prop: PropItem) => {
+                if (
+                  prop.declarations !== undefined &&
+                  prop.declarations.length > 0
+                ) {
+                  const hasPropAdditionalDescription = prop.declarations.find(
+                    declaration => {
+                      return !declaration.fileName.includes('node_modules');
+                    },
+                  );
+
+                  return Boolean(hasPropAdditionalDescription);
+                }
+
+                return true;
+              },
+              ...parseToolOptions['react-docgen-typescript'],
+            });
             if (componentDoc.length === 0) {
               logger.warn(
                 '[module-doc-plugin]',

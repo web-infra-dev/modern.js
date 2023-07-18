@@ -7,7 +7,12 @@ export type ModuleDocgenLanguage = 'zh' | 'en';
 
 export type PluginOptions = Pick<
   Options,
-  'entries' | 'languages' | 'doc' | 'previewMode' | 'apiParseTool'
+  | 'entries'
+  | 'languages'
+  | 'doc'
+  | 'previewMode'
+  | 'apiParseTool'
+  | 'parseToolOptions'
 >;
 
 export type Options = {
