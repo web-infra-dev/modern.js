@@ -17,6 +17,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
     entries = {},
     apiParseTool = 'react-docgen-typescript',
     appDir = process.cwd(),
+    parseToolOptions = {},
   } = options || {};
   return {
     name: '@modern-js/doc-plugin-api-docgen',
@@ -31,6 +32,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
         apiParseTool,
         languages,
         appDir,
+        parseToolOptions,
       });
     },
     async modifySearchIndexData(pages) {

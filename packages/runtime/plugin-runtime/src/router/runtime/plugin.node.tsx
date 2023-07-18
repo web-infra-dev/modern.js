@@ -162,11 +162,16 @@ export const routerPlugin = ({
         pickContext: ({ context, pickedContext }, next) => {
           const { remixRouter } = context;
 
+          // remixRouter is not existed in conventional routes
+          if (!remixRouter) {
+            return next({ context, pickedContext });
+          }
+
           // only export partial common API from remix-router
           const router = {
-            navigate: remixRouter!.navigate,
+            navigate: remixRouter.navigate,
             get location() {
-              return remixRouter!.state.location;
+              return remixRouter.state.location;
             },
           };
 

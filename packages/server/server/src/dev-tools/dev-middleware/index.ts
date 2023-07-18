@@ -1,3 +1,4 @@
+import { sep } from 'path';
 import { Server } from 'http';
 import { EventEmitter } from 'events';
 import {
@@ -26,7 +27,11 @@ function getHMRClientPath(client: DevServerOptions['client']) {
     '@modern-js/server/hmr-client',
   )}?${host}${path}${port}${protocol}`;
 
-  return clientEntry;
+  // replace cjs with esm because we want to use the es5 version
+  return clientEntry.replace(
+    `${sep}cjs${sep}dev-tools`,
+    `${sep}esm${sep}dev-tools`,
+  );
 }
 
 export default class DevMiddleware extends EventEmitter {
