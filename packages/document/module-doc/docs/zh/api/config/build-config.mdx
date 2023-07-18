@@ -293,14 +293,14 @@ export default defineConfig({
 
 :::
 
-<!-- ## disableSwcTransform
+{/* ## disableSwcTransform
 
 从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 esbuild Transform。
 
 使用 SWC Transform 可以减小辅助函数对构建产物体积的影响。
 
 * 类型：`boolean`
-* 默认值：`false` -->
+* 默认值：`false` */}
 
 ## dts
 
@@ -373,12 +373,12 @@ TypeScript 配置文件的路径。
 
 ## esbuildOptions
 
-直接修改[esbuild 配置](https://esbuild.github.io/api/)
+用于修改底层的 [esbuild 配置](https://esbuild.github.io/api/)。
 
 - 类型: `Function`
 - 默认值: `c => c`
 
-例如我们需要修改生成文件的后缀：
+例如，我们需要修改生成文件的后缀：
 
 ```js modern.config.ts
 export default defineConfig({
@@ -391,12 +391,17 @@ export default defineConfig({
 });
 ```
 
+例如，注册一个 esbuild 插件：
+
+import RegisterEsbuildPlugin from '@site-docs/components/register-esbuild-plugin';
+
+<RegisterEsbuildPlugin />
+
 :::tip
 我们在原本 esbuild 构建的基础上做了许多扩展，因此使用此配置需要注意以下几点：
 
-1. 优先使用我们提供的配置，例如 esbuild 并不支持`target: 'es5'`，但我们内部使用 swc 支持了此场景，此时通过`esbuildOptions`设置`target: 'es5'`会报错。
-2. 目前我们内部使用`enhanced-resolve`替代了 esbuild 的 resolve 解析算法，所以修改 esbuild resolve 相关配置无效，计划在未来会切换回来。
-3. 使用 esbuild 插件时需要将插件加在 plugins 数组的头部，因为我们内部也是通过一个 esbuild 插件介入到整个构建流程中去的，因此需要将自定义插件优先注册。
+1. 优先使用 Modern.js Module 提供的配置，例如 esbuild 并不支持 `target: 'es5'`，但我们内部使用 SWC 支持了此场景，此时通过 `esbuildOptions` 设置`target: 'es5'`会报错。
+2. 目前我们内部使用 `enhanced-resolve` 替代了 esbuild 的 resolve 解析算法，所以修改 esbuild resolve 相关配置无效，计划在未来会切换回来。
 
 :::
 
@@ -1019,6 +1024,7 @@ const tailwind = {
   ],
 };
 ```
+</details>
 
 值为 `object` 类型时，与默认配置通过 `Object.assign` 合并。
 

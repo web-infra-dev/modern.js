@@ -4,7 +4,7 @@
 
 import BuildProductFAQ from '@site-docs-en/components/faq-build-product';
 
-<BuildProductFAQ/>
+<BuildProductFAQ />
 
 ### Initialization of Class Fields
 
@@ -12,7 +12,7 @@ TypeSript provides the `useDefineForClassFields` configuration to control the co
 
 If we have a piece of code:
 
-``` ts
+```ts
 class C {
   foo = 100;
   bar: string;
@@ -21,7 +21,7 @@ class C {
 
 When `useDefineForClassFields` is `false`, then the compiled code will look like:
 
-``` ts
+```ts
 class C {
   constructor() {
     this.foo = 100;
@@ -31,16 +31,16 @@ class C {
 
 When `useDefineForClassFields` is `true`, then the compiled code will look like:
 
-``` ts
+```ts
 class C {
   constructor() {
-    Object.defineProperty(this, "foo", {
+    Object.defineProperty(this, 'foo', {
       enumerable: true,
       configurable: true,
       writable: true,
       value: 100,
     });
-    Object.defineProperty(this, "bar", {
+    Object.defineProperty(this, 'bar', {
       enumerable: true,
       configurable: true,
       writable: true,
@@ -66,12 +66,12 @@ The Modern.js Module will currently process according to the following logic:
 
 This problem occurs when using something like the following:
 
-``` ts
+```ts
 import * as Lodash from 'lodash';
 
 export const libs = {
   _: Lodash,
-}
+};
 ```
 
 Current related issues on the `babel-plugin-lodash` Github:
@@ -82,7 +82,7 @@ The solution to this problem is to remove `babel-plugin-lodash`, since the plugi
 
 A similar situation occurs with `babel-plugin-import`. If there is code like the following:
 
-``` ts
+```ts
 import * as Comps from 'components';
 
 export const libs = {
@@ -104,7 +104,7 @@ import BuildExceptionFAQ from '@site-docs-en/components/faq-build-exception';
 
 When the product format in the product configuration of the build is ES modules.
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     format: 'esm',
@@ -121,11 +121,11 @@ If you import a cjs product from a third-party npm package, the resulting produc
 1. **First you need to find which third-party package is causing the problem**. For example, if the error message points to the `react` package, then look for a third-party package that has code like `require('react')` in it. For example [`react-draggable`](https://www.npmjs.com/package/react-draggable), which only contains `cjs` products, then the problem is localized to the `react-draggable` package.
 2. Then we need to exclude this package with the following configuration, i.e. **not package problematic third-party packages**.
 
-``` ts
+```ts
 export default defineConfig({
   buildConfig: {
     externals: ['react-draggable'],
-  }
+  },
 });
 ```
 
@@ -141,7 +141,7 @@ Therefore, if a component library like this is used in the source code:
 
 `buildPreset` is used in the build configuration, make the following changes:
 
-``` js
+```js
 module.exports = {
   buildPreset({ extendPreset }) {
     return extendPreset('your-build-preset', {
@@ -154,12 +154,12 @@ module.exports = {
       },
     });
   },
-}
+};
 ```
 
 Or, if a custom `buildConfig` is used, modify it as follows:
 
-``` js
+```js
 module.exports = {
   buildConfig: {
     style: {
@@ -169,7 +169,7 @@ module.exports = {
         },
       },
     },
-  }
+  },
 };
 ```
 
@@ -193,7 +193,7 @@ module.exports = {
       },
     },
   },
-}
+};
 ```
 
 ### Bundle DTS failed
@@ -206,7 +206,7 @@ So when you encounter a `Bundle DTS failed` error message during the Modern.js M
 
 ### Error reported for `defineConfig` function type: `If there is no reference to "..." then the inferred type of "default" cannot be named`
 
-Check if the [`include`](https://www.typescriptlang.org/tsconfig#include)  configuration exists in the project's tsconfig.json file, and if not, try adding the following:
+Check if the [`include`](https://www.typescriptlang.org/tsconfig#include) configuration exists in the project's tsconfig.json file, and if not, try adding the following:
 
 ```json
 {
@@ -226,22 +226,11 @@ The Modern.js Module is based on the esbuild implementation, so if you have spec
 
 The Modern.js Module provides [`esbuildOptions`](/api/config/build-config.html#esbuildoptions) configuration to allow modification of Modern.js's internal esbuild configuration, so that custom esbuild plugins can be added via this configuration:
 
-``` js
-export default defineConfig({
-  buildConfig: {
-    esbuildOptions: options => {
-      options.plugins = [
-        ...options.plugins,
-        yourEsbuildPlugin,
-      ];
-      return option;
-    },
-  },
-});
-```
+import RegisterEsbuildPlugin from '@site-docs-en/components/register-esbuild-plugin';
+
+<RegisterEsbuildPlugin />
 
 ### Support for generating TypeScript declaration files for CSS Modules
 
 - First Solution: [typed-css-modules](https://github.com/Quramy/typed-css-modules)
 - Second Solution: [postcss-modules-dts](https://www.npmjs.com/package/@guanghechen/postcss-modules-dts)
-
