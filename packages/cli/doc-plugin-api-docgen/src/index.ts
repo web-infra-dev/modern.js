@@ -21,7 +21,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
   } = options || {};
   return {
     name: '@modern-js/doc-plugin-api-docgen',
-    async beforeBuild(config) {
+    async beforeBuild(config, isProd) {
       // only support zh and en
       const languages = (
         config.themeConfig?.locales?.map(locale => locale.lang) ||
@@ -33,6 +33,7 @@ export function pluginApiDocgen(options?: PluginOptions): DocPlugin {
         languages,
         appDir,
         parseToolOptions,
+        isProd,
       });
     },
     async modifySearchIndexData(pages) {
