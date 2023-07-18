@@ -14,6 +14,7 @@ export async function launchDoc({
   previewMode,
   entries,
   apiParseTool,
+  parseToolOptions,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(resolve(appDir, './package.json'), 'utf8'),
@@ -147,6 +148,7 @@ export async function launchDoc({
             entries,
             apiParseTool,
             appDir,
+            parseToolOptions,
           }),
         ],
       },
