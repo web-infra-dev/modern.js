@@ -22,6 +22,7 @@ export const isHtmlDisabled = (
   };
   return (
     htmlPlugin === false ||
+    (Array.isArray(htmlPlugin) && htmlPlugin.includes(false)) ||
     target === 'node' ||
     target === 'web-worker' ||
     target === 'service-worker'
