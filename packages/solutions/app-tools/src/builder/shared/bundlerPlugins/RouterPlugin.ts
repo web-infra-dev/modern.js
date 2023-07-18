@@ -1,7 +1,10 @@
+import path from 'path';
+import type Buffer from 'buffer';
 import { mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
+import { Loader, transform } from 'esbuild';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
@@ -52,7 +55,13 @@ export class RouterPlugin {
       return path;
     };
 
-    const chunkToSourceMap = new Map();
+    const chunkToSourceAndMap: Map<
+      string | number,
+      {
+        source: string | Buffer;
+        map: unknown;
+      }
+    > = new Map();
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       /**
@@ -63,13 +72,14 @@ export class RouterPlugin {
       compilation.hooks.processAssets.tapPromise(
         {
           name: PLUGIN_NAME,
-          stage: Compilation.PROCESS_ASSETS_STAGE_DEV_TOOLING,
+          stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_COMPATIBILITY,
         },
         async () => {
           const stats = compilation.getStats().toJson({
             all: false,
             chunkGroups: true,
             chunks: true,
+            ids: true,
           });
           const { chunks = [], namedChunkGroups } = stats;
 
@@ -102,8 +112,11 @@ export class RouterPlugin {
               continue;
             }
 
-            const { map } = asset.sourceAndMap();
-            chunkToSourceMap.set(chunkId, map);
+            const { source, map } = asset.sourceAndMap();
+            chunkToSourceAndMap.set(chunkId!, {
+              source,
+              map,
+            });
           }
         },
       );
@@ -214,16 +227,23 @@ export class RouterPlugin {
             const chunkId = entryChunkFileIds[i];
             const asset = compilation.assets[file];
             // it may be removed by InlineChunkHtmlPlugin
-            if (!asset) {
+            if (!asset || !chunkId) {
               continue;
             }
-            const { source } = asset.sourceAndMap();
-            const map = chunkToSourceMap.get(chunkId);
+
+            const { source, map } = chunkToSourceAndMap.get(chunkId)!;
             const newContent = `${injectedContent}${source.toString()}`;
+
+            const result = await transform(newContent, {
+              loader: path.extname(file).slice(1) as Loader,
+              format: 'esm',
+              sourcemap: true,
+            });
+
             const newSource = new SourceMapSource(
-              newContent,
+              result.code,
               file,
-              map,
+              result.map,
               source.toString(),
               map,
             );
