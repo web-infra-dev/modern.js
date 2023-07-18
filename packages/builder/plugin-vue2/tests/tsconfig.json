@@ -1,0 +1,13 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "noEmit": true,
+    "declaration": false,
+    "jsx": "preserve",
+    "baseUrl": "./",
+    "isolatedModules": true,
+    "paths": {
+      "@rspack-builder/tests/*": ["../../builder-rspack-provider/tests/*"]
+    }
+  }
+}
