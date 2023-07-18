@@ -2,7 +2,7 @@ import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { webpackOnlyTest } from '@scripts/helper';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
+import { BundlerChain, RUNTIME_CHUNK_NAME } from '@modern-js/builder-shared';
 
 // todo: Rspack not output RUNTIME_CHUNK_NAME.js.map
 const isRuntimeChunkInHtml = (html: string): boolean =>
@@ -12,11 +12,8 @@ const isRuntimeChunkInHtml = (html: string): boolean =>
 
 // use source-map for easy to test. By default, builder use hidden-source-map
 const toolsConfig = {
-  webpack: (config: any) => {
-    config.devtool = 'source-map';
-  },
-  rspack: (config: any) => {
-    config.devtool = 'source-map';
+  bundlerChain: (chain: BundlerChain) => {
+    chain.devtool('source-map');
   },
 };
 
@@ -110,6 +107,33 @@ webpackOnlyTest('inline runtime chunk by default', async ({ page }) => {
 
   builder.close();
 });
+
+webpackOnlyTest(
+  'inline runtime chunk and remove source map when devtool is "hidden-source-map"',
+  async () => {
+    const builder = await build({
+      cwd: __dirname,
+      entry: { index: path.resolve(__dirname, './src/index.js') },
+      builderConfig: {
+        tools: {
+          bundlerChain(chain) {
+            chain.devtool('hidden-source-map');
+          },
+        },
+      },
+    });
+
+    const files = await builder.unwrapOutputJSON(false);
+
+    // should not emit source map of builder runtime
+    expect(
+      Object.keys(files).some(
+        fileName =>
+          fileName.includes(RUNTIME_CHUNK_NAME) && fileName.endsWith('.js.map'),
+      ),
+    ).toBe(false);
+  },
+);
 
 webpackOnlyTest(
   'inline runtime chunk by default with multiple entries',

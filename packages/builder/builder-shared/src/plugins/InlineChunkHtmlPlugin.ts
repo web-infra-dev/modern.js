@@ -219,10 +219,18 @@ export class InlineChunkHtmlPlugin {
           stage: COMPILATION_PROCESS_STAGE.PROCESS_ASSETS_STAGE_SUMMARIZE,
         },
         () => {
+          const { devtool } = compiler.options;
+
           this.inlinedAssets.forEach(name => {
-            // use delete instead of compilation.deleteAsset
-            // because we want to preserve the related files such as source map
-            delete compilation.assets[name];
+            // If the source map reference is removed,
+            // we do not need to preserve the source map of inlined files
+            if (devtool === 'hidden-source-map') {
+              compilation.deleteAsset(name);
+            } else {
+              // use delete instead of compilation.deleteAsset
+              // because we want to preserve the related files such as source map
+              delete compilation.assets[name];
+            }
           });
           this.inlinedAssets.clear();
         },
