@@ -392,12 +392,28 @@ export default defineConfig({
 });
 ```
 
+For example, register an esbuild plugin:
+
+```js modern.config.ts
+import { myEsbuildPlugin } from './myEsbuildPlugin';
+
+export default defineConfig({
+  buildConfig: {
+    esbuildOptions: options => {
+      options.plugins = [myEsbuildPlugin, ...options.plugins];
+      return option;
+    },
+  },
+});
+```
+
+When adding an esbuild plugin, please note that you need to add the plugin at the beginning of the plugins array. This is because the Modern.js Module is also integrated into the entire build process through an esbuild plugin. Therefore, custom plugins need to be registered with higher priority.
+
 :::tip
 We have done many extensions based on the original esbuild build. Therefore, when using this configuration, pay attention to the following:
 
-1. Prefer to use the configuration we provide. For example, esbuild does not support target: 'es5', but we support this scenario internally using swc. Setting target: 'es5' through esbuildOptions will result in an error.
+1. Prefer to use the configuration that Modern.js Module provides. For example, esbuild does not support `target: 'es5'`, but we support this scenario internally using SWC. Setting `target: 'es5'` through esbuildOptions will result in an error.
 2. Currently, we use enhanced-resolve internally to replace esbuild's resolve algorithm, so modifying esbuild resolve-related configurations is invalid. We plan to switch back in the future.
-3. When using esbuild plugins, you need to add the plugins to the beginning of the plugins array because we also intervene in the entire build process through an esbuild plugin internally. Therefore, custom plugins need to be registered first.
 
 :::
 

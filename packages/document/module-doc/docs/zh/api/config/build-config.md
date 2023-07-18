@@ -391,12 +391,28 @@ export default defineConfig({
 });
 ```
 
+例如注册一个 esbuild 插件：
+
+```js modern.config.ts
+import { myEsbuildPlugin } from './myEsbuildPlugin';
+
+export default defineConfig({
+  buildConfig: {
+    esbuildOptions: options => {
+      options.plugins = [myEsbuildPlugin, ...options.plugins];
+      return option;
+    },
+  },
+});
+```
+
+在增加 esbuild 插件时，请注意你需要将插件加在 plugins 数组的头部，因为 Modern.js Module 内部也是通过一个 esbuild 插件介入到整个构建流程中去的，因此需要将自定义插件优先注册。
+
 :::tip
 我们在原本 esbuild 构建的基础上做了许多扩展，因此使用此配置需要注意以下几点：
 
-1. 优先使用我们提供的配置，例如 esbuild 并不支持`target: 'es5'`，但我们内部使用 swc 支持了此场景，此时通过`esbuildOptions`设置`target: 'es5'`会报错。
-2. 目前我们内部使用`enhanced-resolve`替代了 esbuild 的 resolve 解析算法，所以修改 esbuild resolve 相关配置无效，计划在未来会切换回来。
-3. 使用 esbuild 插件时需要将插件加在 plugins 数组的头部，因为我们内部也是通过一个 esbuild 插件介入到整个构建流程中去的，因此需要将自定义插件优先注册。
+1. 优先使用 Modern.js Module 提供的配置，例如 esbuild 并不支持 `target: 'es5'`，但我们内部使用 SWC 支持了此场景，此时通过 `esbuildOptions` 设置`target: 'es5'`会报错。
+2. 目前我们内部使用 `enhanced-resolve` 替代了 esbuild 的 resolve 解析算法，所以修改 esbuild resolve 相关配置无效，计划在未来会切换回来。
 
 :::
 
