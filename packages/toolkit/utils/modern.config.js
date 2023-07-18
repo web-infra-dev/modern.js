@@ -1,12 +1,9 @@
+const { universalBuildConfig } = require('@scripts/build');
+
 module.exports = {
-  buildConfig: [
-    {
-      buildType: 'bundleless',
-      format: 'cjs',
-      target: 'es2019',
-      dts: false,
-      outDir: './dist/cjs',
-      copy: {
+  buildConfig: universalBuildConfig.map((item, index) => {
+    if (index === 0) {
+      item.copy = {
         patterns: [
           {
             from: './compiled',
@@ -14,24 +11,8 @@ module.exports = {
             to: '../compiled',
           },
         ],
-      },
-      externalHelpers: true,
-    },
-    {
-      buildType: 'bundleless',
-      format: 'esm',
-      target: 'es2019',
-      dts: false,
-      outDir: './dist/esm',
-      externalHelpers: true,
-    },
-    {
-      buildType: 'bundleless',
-      dts: {
-        only: true,
-      },
-      outDir: './dist/types',
-      externalHelpers: true,
-    },
-  ],
+      };
+    }
+    return item;
+  }),
 };
