@@ -146,7 +146,7 @@ export async function renderPages(
               ({ appHtml } = await render(routePath, helmetContext.context));
             } catch (e) {
               logger.warn(
-                `page "${routePath}" render error: ${e.message}, fallback to CSR. ${e.stack}`,
+                `page "${routePath}" render error: ${e.message}, fallback to CSR.`,
               );
               // fallback to csr
             }
