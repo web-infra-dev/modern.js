@@ -2,8 +2,15 @@ import path from 'path';
 import { transform } from '@babel/core';
 import plugin from '../src';
 
+const cwd = path.resolve(__dirname, '../');
+let originalCwd = process.cwd();
 beforeAll(() => {
-  process.chdir(path.resolve(__dirname, '../'));
+  originalCwd = process.cwd();
+  process.chdir(cwd);
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
 
 // all calls take a path as the first argument
@@ -26,6 +33,7 @@ const calls = [
 describe('function and method calls', () => {
   const transformerOpts = {
     babelrc: false,
+    cwd,
     plugins: [
       [
         plugin,

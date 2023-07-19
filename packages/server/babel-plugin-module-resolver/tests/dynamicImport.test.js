@@ -5,13 +5,21 @@ import plugin from '../src';
 
 // According to https://github.com/tc39/proposal-dynamic-import
 
+const cwd = path.resolve(__dirname, '../');
+let originalCwd = process.cwd();
 beforeAll(() => {
+  originalCwd = process.cwd();
   process.chdir(path.resolve(__dirname, '../'));
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
 
 describe('import()', () => {
   const transformerOpts = {
     babelrc: false,
+    cwd,
     plugins: [
       // We need to add the corresponding syntax plugin
       // in order to parse the `import()`-calls

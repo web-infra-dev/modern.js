@@ -4,8 +4,14 @@ import plugin from '../src';
 
 const calls = ['customMethod.something'];
 
+let originalCwd = process.cwd();
 beforeAll(() => {
+  originalCwd = process.cwd();
   process.chdir(path.resolve(__dirname, '../'));
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
 
 describe('custom calls', () => {

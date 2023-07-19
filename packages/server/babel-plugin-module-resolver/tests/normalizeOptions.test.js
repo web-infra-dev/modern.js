@@ -1,8 +1,14 @@
 import path from 'path';
 import normalizeOptions from '../src/normalizeOptions';
 
+let originalCwd = process.cwd();
 beforeAll(() => {
+  originalCwd = process.cwd();
   process.chdir(path.resolve(__dirname, '../'));
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
 
 describe('normalizeOptions', () => {

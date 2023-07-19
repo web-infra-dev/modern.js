@@ -3,8 +3,15 @@ import path from 'path';
 import { transform } from '@babel/core';
 import plugin, { resolvePath } from '../src';
 
+const cwd = path.resolve(__dirname, '../');
+let originalCwd = process.cwd();
 beforeAll(() => {
+  originalCwd = process.cwd();
   process.chdir(path.resolve(__dirname, '../'));
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
 
 describe('module-resolver', () => {
@@ -36,6 +43,7 @@ describe('module-resolver', () => {
     describe('simple root', () => {
       const rootTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -160,6 +168,7 @@ describe('module-resolver', () => {
     describe('glob root', () => {
       const globRootTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -206,6 +215,7 @@ describe('module-resolver', () => {
     describe('non-standard extensions', () => {
       const rootTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -233,6 +243,7 @@ describe('module-resolver', () => {
     describe('non-standard double extensions', () => {
       const rootTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -264,6 +275,7 @@ describe('module-resolver', () => {
     describe('non-standard double extensions with strip extensions', () => {
       const rootTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -292,6 +304,7 @@ describe('module-resolver', () => {
     describe('root and alias', () => {
       const aliasTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -318,6 +331,7 @@ describe('module-resolver', () => {
   describe('alias', () => {
     const aliasTransformerOpts = {
       babelrc: false,
+      cwd,
       plugins: [
         [
           plugin,
@@ -514,6 +528,7 @@ describe('module-resolver', () => {
       const mockSubstitute = jest.fn();
       const regExpSubsituteOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -577,6 +592,7 @@ describe('module-resolver', () => {
     describe('with the plugin applied twice', () => {
       const doubleAliasTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [plugin, { root: '.' }],
           [
@@ -611,6 +627,7 @@ describe('module-resolver', () => {
 
       const missingAliasTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             pluginWithMock,
@@ -673,6 +690,7 @@ describe('module-resolver', () => {
 
       const silentLoggingOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             pluginWithMock,
@@ -698,6 +716,7 @@ describe('module-resolver', () => {
         const fileName = path.resolve('test/testproject/src/app.js');
         const cycleAliasTransformerOpts = {
           babelrc: false,
+          cwd,
           plugins: [
             [
               plugin,
@@ -729,6 +748,7 @@ describe('module-resolver', () => {
         const fileName = path.resolve('test/testproject/src/app.js');
         const cycleAliasTransformerOpts = {
           babelrc: false,
+          cwd,
           plugins: [
             [
               plugin,
@@ -762,6 +782,7 @@ describe('module-resolver', () => {
     describe('correct alias order application', () => {
       const arrayAliasTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -794,6 +815,7 @@ describe('module-resolver', () => {
     describe('dot files', () => {
       const dotFileAliasTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -834,6 +856,7 @@ describe('module-resolver', () => {
     describe('custom value', () => {
       const transformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -877,6 +900,7 @@ describe('module-resolver', () => {
     describe('with root', () => {
       const transformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -900,6 +924,7 @@ describe('module-resolver', () => {
     describe('with glob root', () => {
       const transformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -924,6 +949,7 @@ describe('module-resolver', () => {
   describe('babelrc', () => {
     const transformerOpts = {
       babelrc: false,
+      cwd,
       plugins: [
         [
           plugin,
@@ -950,6 +976,7 @@ describe('module-resolver', () => {
     describe('unknown filename', () => {
       const unknownFileTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -986,6 +1013,7 @@ describe('module-resolver', () => {
 
       const missingBabelConfigTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             pluginWithMock,
@@ -1011,6 +1039,7 @@ describe('module-resolver', () => {
   describe('packagejson', () => {
     const transformerOpts = {
       babelrc: false,
+      cwd,
       plugins: [
         [
           plugin,
@@ -1038,6 +1067,7 @@ describe('module-resolver', () => {
     it('Alias with array of paths', () => {
       testWithImport('testArr/tools', '../tests/tools', {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -1057,6 +1087,7 @@ describe('module-resolver', () => {
     describe('unknown filename', () => {
       const unknownFileTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -1099,6 +1130,7 @@ describe('module-resolver', () => {
 
       const missingPkgJsonConfigTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             pluginWithMock,
@@ -1125,6 +1157,7 @@ describe('module-resolver', () => {
     it('should work with a custom function', () => {
       const rootTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,
@@ -1144,6 +1177,7 @@ describe('module-resolver', () => {
     it('should work with the original function', () => {
       const rootTransformerOpts = {
         babelrc: false,
+        cwd,
         plugins: [
           [
             plugin,

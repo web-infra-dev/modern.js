@@ -4,8 +4,15 @@ import transformToCommonJsPlugin from '@babel/plugin-transform-modules-commonjs'
 import { stripIndent } from 'common-tags';
 import plugin from '../src';
 
+const cwd = path.resolve(__dirname, '../');
+let originalCwd = process.cwd();
 beforeAll(() => {
-  process.chdir(path.resolve(__dirname, '../'));
+  originalCwd = process.cwd();
+  process.chdir(cwd);
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
 
 describe('import and export statement', () => {
@@ -35,6 +42,7 @@ describe('import and export statement', () => {
   function testImportWithCommonJSTransform(source, output, transformerOpts) {
     const transformerOptsWithCommonJs = {
       babelrc: false,
+      cwd,
       plugins: [
         ...transformerOpts.plugins,
         [transformToCommonJsPlugin, { noInterop: true }],
@@ -91,6 +99,7 @@ describe('import and export statement', () => {
         plugin,
         {
           root: './tests/testproject/src',
+          cwd,
           alias: {
             test: './tests/testproject/test',
             '@babel/core': '@babel/core/lib',

@@ -2,8 +2,14 @@ import path from 'path';
 
 import mapToRelative from '../src/mapToRelative';
 
+let originalCwd = process.cwd();
 beforeAll(() => {
+  originalCwd = process.cwd();
   process.chdir(path.resolve(__dirname, '../'));
+});
+
+afterAll(() => {
+  process.chdir(originalCwd);
 });
 
 describe('mapToRelative', () => {
