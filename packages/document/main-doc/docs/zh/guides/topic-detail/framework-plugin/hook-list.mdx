@@ -5,15 +5,19 @@ sidebar_position: 8
 
 # Hook 列表
 
-在 Modern.js 中暴露了三类插件：CLI、Runtime、Server。下面列举下各类中的 Hook：
+Modern.js 工程体系中包含三类插件：CLI、Runtime、Server，每一类插件可以使用不同的 Hooks。
 
-## CLI
+在本章节中，罗列了所有可用的 Hooks，你可以根据自己的需求来使用对应的 Hook。
+
+## CLI Common Hooks
+
+以下是通用的 CLI Hooks，可以在 Modern.js Framework 以及 Modern.js Module 中使用。
 
 ### `beforeConfig`
 
 - 功能：运行收集配置前的任务
 - 执行阶段：收集配置前
-- Hook 模型：AsyncWorkflow
+- Hook 模型：`AsyncWorkflow`
 - 类型：`AsyncWorkflow<void, void>`
 - 使用示例：
 
@@ -35,7 +39,7 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：收集配置
 - 执行阶段：解析完 `modern.config.ts` 中的配置之后
-- Hook 模型：ParallelWorkflow
+- Hook 模型：`ParallelWorkflow`
 - 类型：`ParallelWorkflow<void, unknown>`
 - 使用示例：
 
@@ -55,13 +59,37 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
-这里返回的配置信息，会被收集和统一处理合并。
+如果你需要设置 Modern.js Framework 的配置，请使用 `@modern-js/app-tools` 导出的 `CliPlugin<AppTools>` 类型：
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin => ({
+  setup(api) {
+    return {
+      config: () => {
+        return {
+          output: {
+            polyfill: 'usage',
+          },
+        };
+      },
+    };
+  },
+});
+```
+
+插件在 `config` hook 中返回的配置信息，会被 Modern.js 统一收集与合并，最终生成一份 `NormalizedConfig`。在进行配置合并时，优先级由高到低依次为：
+
+1. 用户在 `modern.config.*` 文件里定义的配置
+2. 插件通过 `config` hook 定义的配置
+3. Modern.js 默认配置。
 
 ### `validateSchema`
 
 - 功能：收集各个插件中配置的用来校验用户配置的 [JSON Schema](https://json-schema.org/)
-- 执行阶段：`config` Hook 运行完之后。
-- Hook 模型：ParallelWorkflow
+- 执行阶段：`config` Hook 运行完成之后。
+- Hook 模型：`ParallelWorkflow`
 - 类型：`ParallelWorkflow<void, unknown>`
 - 使用示例：
 
@@ -116,7 +144,7 @@ export const myPlugin = defineConfig({
 
 就会报错：
 
-```sh
+```
 $ modern dev
   1 | {
 > 2 |   "foo": {},
@@ -127,7 +155,7 @@ $ modern dev
 
 - 功能：运行主流程的前置准备流程
 - 执行阶段：校验完配置之后
-- Hook 模型：AsyncWorkflow
+- Hook 模型：`AsyncWorkflow`
 - 类型：`AsyncWorkflow<void, void>`
 - 使用示例：
 
@@ -149,7 +177,7 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：运行前置准备流程的之后的任务
 - 执行阶段：前置准备流程之后
-- Hook 模型：AsyncWorkflow
+- Hook 模型：`AsyncWorkflow`
 - 类型：`AsyncWorkflow<void, void>`
 - 使用示例：
 
@@ -169,9 +197,9 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `commands`
 
-- 功能：为 command 添加新的命令
-- 执行阶段：`prepare` Hook 运行完之后
-- Hook 模型：AsyncWorkflow
+- 功能：为 commander 添加新的 CLI 命令
+- 执行阶段：`prepare` Hook 运行完成之后
+- Hook 模型：`AsyncWorkflow`
 - 类型：`AsyncWorkflow<{ program: Command; }, void>`
 - 使用示例：
 
@@ -213,7 +241,7 @@ foo
 
 - 功能：在退出进程前，重置一些文件状态
 - 执行阶段：进程退出之前
-- Hook 模型：Workflow
+- Hook 模型：`Workflow`
 - 类型：`Workflow<void, void>`
 - 使用示例：
 
@@ -235,18 +263,24 @@ export const myPlugin = (): CliPlugin => ({
 由于 Node.js 中退出进程时的回调函数是同步的，所以 `beforeExit` Hook 的类型是 `Workflow`，不能执行异步操作。
 :::
 
+## CLI Framework Hooks
+
+以下是框架的 CLI Hooks，只能在 Modern.js Framework 中使用，不能在 Modern.js Module 中使用。
+
+你需要从 `@modern-js/app-tools` 中导入 `CliPlugin` 和 `AppTools` 类型，以获得准确的 Hooks 类型提示。
+
 ### `beforeDev`
 
 - 功能：运行 dev 主流程的之前的任务
 - 执行阶段：`dev` 命令运行时，项目开始启动前执行
-- Hook 模型：AsyncWorkflow
+- Hook 模型：`AsyncWorkflow`
 - 类型：`AsyncWorkflow<void, unknown>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       beforeDev: () => {
@@ -261,14 +295,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：运行 dev 主流程的之后的任务
 - 执行阶段：运行 `dev` 命令时，每一次编译完成后执行
-- Hook 模型：AsyncWorkflow
+- Hook 模型：`AsyncWorkflow`
 - 类型：`AsyncWorkflow<{ isFirstCompile: boolean }, unknown>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       afterDev: () => {
@@ -282,15 +316,80 @@ export const myPlugin = (): CliPlugin => ({
 `afterDev` 会在每一次编译完成后执行，你可以通过 `isFirstCompile` 参数来判断是否为首次编译：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       afterDev: ({ isFirstCompile }) => {
         if (isFirstCompile) {
           // do something
         }
+      },
+    };
+  },
+});
+```
+
+### `beforeBuild`
+
+- 功能：在执行生产环境构建前触发的回调函数，你可以通过 `bundlerConfigs` 参数获取到底层打包工具的最终配置数组。
+  - 如果当前打包工具为 webpack，则获取到的是 webpack 配置数组。
+  - 如果当前打包工具为 Rspack，则获取到的是 Rspack 配置数组。
+  - 配置数组中可能包含一份或多份配置，这取决于你是否开启了 SSR 等功能。
+- 执行阶段：运行 `build` 命令后，在开始构建前执行
+- Hook 模型：`AsyncWorkflow`
+- 类型：
+
+```ts
+type BeforeBuild = AsyncWorkflow<{
+  bundlerConfigs: WebpackConfig[] | RspackConfig[];
+}>;
+```
+
+- 使用示例：
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin<AppTools> => ({
+  setup(api) {
+    return {
+      beforeBuild: ({ bundlerConfigs }) => {
+        console.log('Before build.');
+        console.log(bundlerConfigs);
+      },
+    };
+  },
+});
+```
+
+### `afterBuild`
+
+- 功能：在执行生产环境构建后触发的回调函数，你可以通过 `stats` 参数获取到构建结果信息。
+  - 如果当前打包工具为 webpack，则获取到的是 webpack Stats。
+  - 如果当前打包工具为 Rspack，则获取到的是 Rspack Stats。
+- 执行阶段：运行 `build` 命令运行后，在项目构建完成之后执行
+- Hook 模型：`AsyncWorkflow`
+- 类型：
+
+```ts
+type AfterBuild = AsyncWorkflow<{
+  stats?: Stats | MultiStats;
+}>;
+```
+
+- 使用示例：
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin<AppTools> => ({
+  setup(api) {
+    return {
+      afterBuild: ({ stats }) => {
+        console.log('After build.');
+        console.log(stats);
       },
     };
   },
@@ -317,9 +416,9 @@ type BeforeCreateCompiler = AsyncWorkflow<
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       beforeCreateCompiler: ({ bundlerConfigs }) => {
@@ -350,9 +449,9 @@ type AfterCreateCompiler = AsyncWorkflow<
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       afterCreateCompiler: ({ compiler }) => {
@@ -368,14 +467,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：在中间件函数中可以拿到即将打印的日志信息，并对其进行修改
 - 执行阶段：打印日志信息之前执行
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ instructions: string }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       beforePrintInstructions: ({ instructions }) => {
@@ -389,83 +488,18 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
-### `beforeBuild`
-
-- 功能：在执行生产环境构建前触发的回调函数，你可以通过 `bundlerConfigs` 参数获取到底层打包工具的最终配置数组。
-  - 如果当前打包工具为 webpack，则获取到的是 webpack 配置数组。
-  - 如果当前打包工具为 Rspack，则获取到的是 Rspack 配置数组。
-  - 配置数组中可能包含一份或多份配置，这取决于你是否开启了 SSR 等功能。
-- 执行阶段：运行 `build` 命令后，在开始构建前执行
-- Hook 模型：`AsyncWorkflow`
-- 类型：
-
-```ts
-type BeforeBuild = AsyncWorkflow<{
-  bundlerConfigs: WebpackConfig[] | RspackConfig[];
-}>;
-```
-
-- 使用示例：
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export const myPlugin = (): CliPlugin => ({
-  setup(api) {
-    return {
-      beforeBuild: ({ bundlerConfigs }) => {
-        console.log('Before build.');
-        console.log(bundlerConfigs);
-      },
-    };
-  },
-});
-```
-
-### `afterBuild`
-
-- 功能：在执行生产环境构建后触发的回调函数，你可以通过 `stats` 参数获取到构建结果信息。
-  - 如果当前打包工具为 webpack，则获取到的是 webpack Stats。
-  - 如果当前打包工具为 Rspack，则获取到的是 Rspack Stats。
-- 执行阶段：运行 `build` 命令运行后，在项目构建完成之后执行
-- Hook 模型：`AsyncWorkflow`
-- 类型：
-
-```ts
-type AfterBuild = AsyncWorkflow<{
-  stats?: Stats | MultiStats;
-}>;
-```
-
-- 使用示例：
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export const myPlugin = (): CliPlugin => ({
-  setup(api) {
-    return {
-      afterBuild: ({ stats }) => {
-        console.log('After build.');
-        console.log(stats);
-      },
-    };
-  },
-});
-```
-
 ### `modifyEntryImports`
 
 - 功能：用于修改、添加生成入口文件中的 `import` 语句
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ imports: ImportStatement[]; entrypoint: Entrypoint; }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryImports({ entrypoint, imports }) {
@@ -490,14 +524,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：用于修改生成入口文件中的 `export` 语句
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; exportStatement: string; }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryExport({ entrypoint, exportStatement }) {
@@ -517,14 +551,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：用于添加、修改生成入口文件中的 [Runtime 插件](#Runtime)
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; plugins: RuntimePlugin[]; }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryRuntimePlugins({ entrypoint, plugins }) {
@@ -552,14 +586,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：用于修改生成入口文件中 `render` 函数
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryRenderFunction({ entrypoint, code }) {
@@ -578,14 +612,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：用于修改生成前端页面路由文件中的内容，内容都是需要可序列化的
 - 执行阶段：生成前端路由文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; routes: Route[]; }>`
 - 使用示例：
 
 ```tsx
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyFileSystemRoutes({ entrypoint, routes }) {
@@ -612,14 +646,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：用于修改生成服务器路由中的内容
 - 执行阶段：生成 Server 路由文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ routes: ServerRoute[]; }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyServerRoutes({ routes }) {
@@ -645,14 +679,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：用于修改包裹入口文件的异步模块，参见 [source.enableAsyncEntry](/configure/app/source/enable-async-entry)
 - 执行阶段：生成入口文件之前，[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyAsyncEntry({ entrypoint, code }) {
@@ -671,14 +705,14 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：用于定制生成的 HTML 页面模版
 - 执行阶段：[`prepare`](#prepare) 阶段触发
-- Hook 模型：AsyncWaterfall
+- Hook 模型：`AsyncWaterfall`
 - 类型：`AsyncWaterfall<{ entrypoint: Entrypoint; partials: HtmlPartials; }>`
 - 使用示例：
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       async htmlPartials({ entrypoint, partials }) {
@@ -708,7 +742,7 @@ export const myPlugin = (): CliPlugin => ({
 
 - 功能：在中间件函数中会拿到 Server 初始化用到的指标测量工具配置 `measureOptions` 和日志工具配置 `loggerOptions`，并返回自定义的指标测量工具 `measure` 和日志工具配置 `logger`
 - 执行阶段：Server 初始化
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<ServerInitInput, InitExtension>`
 - 使用示例：
 
@@ -730,7 +764,7 @@ export const myPlugin = (): ServerPlugin => ({
 
 - 功能：设置 Web 路由的处理函数，在中间件函数中可以拿到 Web Server 的前置中间件
 - 执行阶段：在请求到达的时候
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<WebServerStartInput, Adapter>`
 - 使用示例：
 
@@ -756,7 +790,7 @@ export const myPlugin = (): ServerPlugin => ({
 
 - 功能：设置 API 路由的处理函数，在中间件函数中可以拿到 API Server 的前置中间件
 - 执行阶段：请求到达并且 match bff basename 之后执行
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<APIServerStartInput, Adapter>`
 - 使用示例：
 
@@ -791,7 +825,7 @@ Runtime 插件主要用于开发者修改需要渲染的组件。
 
 - 功能：执行 `App.init`
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<{ context: RuntimeContext; }, unknown>`
 - 使用示例：
 
@@ -814,7 +848,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：修改需要渲染的组件
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：Pipeline
+- Hook 模型：`Pipeline`
 - 类型：`Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
 - 使用示例：
 
@@ -852,7 +886,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：修改需要渲染的 Element
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：Pipeline
+- Hook 模型：`Pipeline`
 - 类型：`Pipeline<{ element: JSX.Element; props: AppProps; context: RuntimeContext }, JSX.Element>`
 - 使用示例：
 
@@ -875,7 +909,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：定制客户端渲染流程
 - 执行阶段：在浏览器客户端渲染
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
 - 使用示例：
 
@@ -901,7 +935,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：定制服务器端渲染流程
 - 执行阶段：SSR
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
 - 使用示例：
 
