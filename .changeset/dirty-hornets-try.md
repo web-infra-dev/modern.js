@@ -1,5 +1,6 @@
 ---
 '@modern-js/types': patch
+'@modern-js/app-tools': patch
 ---
 
 fix: fix type for NestedRoute

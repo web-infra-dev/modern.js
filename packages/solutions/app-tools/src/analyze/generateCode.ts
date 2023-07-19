@@ -13,10 +13,10 @@ import { IAppContext, PluginAPI } from '@modern-js/core';
 import type {
   Entrypoint,
   Route,
-  NestedRoute,
   RouteLegacy,
   PageRoute,
   SSRMode,
+  NestedRouteForCli,
 } from '@modern-js/types';
 import {
   AppNormalizedConfig,
@@ -133,8 +133,9 @@ export const generateCode = async (
     if (isAutoMount) {
       // generate routes file for file system routes entrypoint.
       if (fileSystemRoutes) {
-        let initialRoutes: (NestedRoute | PageRoute)[] | RouteLegacy[] = [];
-        let nestedRoute: NestedRoute | null = null;
+        let initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
+          [];
+        let nestedRoute: NestedRouteForCli | null = null;
         if (entrypoint.entry) {
           initialRoutes = getRoutes({
             entrypoint,
@@ -212,7 +213,7 @@ export const generateCode = async (
           );
 
           const code = templates.routesForServer({
-            routes: routes as (NestedRoute | PageRoute)[],
+            routes: routes as (NestedRouteForCli | PageRoute)[],
           });
 
           await fs.ensureFile(routesServerFile);
