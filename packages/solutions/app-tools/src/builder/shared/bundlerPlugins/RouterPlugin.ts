@@ -246,6 +246,7 @@ export class RouterPlugin {
             const result = await transform(newContent, {
               loader: path.extname(file).slice(1) as Loader,
               sourcemap: true,
+              minify: process.env.NODE_ENV === 'production',
             });
 
             const newSource = new SourceMapSource(
