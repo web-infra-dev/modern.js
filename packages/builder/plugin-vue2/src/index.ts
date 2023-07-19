@@ -2,6 +2,7 @@ import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { VueLoaderPlugin } from 'vue-loader';
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import type { SharedBuilderConfig } from '@modern-js/builder-shared';
 import type { VueLoaderOptions } from 'vue-loader';
 
 type VueJSXPresetOptions = {
@@ -33,7 +34,7 @@ export function builderPluginVue2(
 
     async setup(api) {
       api.modifyBuilderConfig((config, { mergeBuilderConfig }) => {
-        return mergeBuilderConfig(config, {
+        const builderConfig: SharedBuilderConfig = {
           output: {
             disableSvgr: true,
           },
@@ -50,7 +51,16 @@ export function builderPluginVue2(
               ]);
             },
           },
-        });
+        };
+
+        // When using Rspack with Vue2, css extract is not supported,
+        // so we need to use style-loader to handle styles
+        // ref: https://www.rspack.dev/guide/vue.html#vue2
+        if (api.context.bundlerType === 'rspack') {
+          builderConfig.output!.disableCssExtract = true;
+        }
+
+        return mergeBuilderConfig(config, builderConfig);
       });
 
       api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
