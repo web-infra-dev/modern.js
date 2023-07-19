@@ -188,23 +188,6 @@ export class RouterPlugin {
             routeAssets,
           };
 
-          const injectedContent = `
-            ;(function(){
-              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
-            if (
-              (k === 'assets' || k === 'referenceCssAssets') &&
-              Array.isArray(v)
-            ) {
-              // should hide publicPath in browser
-              return v.map(item => {
-                return item.replace(publicPath, '');
-              });
-            }
-            return v;
-          })};
-            })();
-          `;
-
           const entrypointsArray = Array.from(
             compilation.entrypoints.entries() as IterableIterator<
               [string, unknown]
@@ -231,12 +214,37 @@ export class RouterPlugin {
               continue;
             }
 
+            const relatedAssets: typeof routeAssets = {};
+            Object.keys(routeAssets).forEach(routeId => {
+              if (routeId.startsWith(`${chunkId}`)) {
+                relatedAssets[routeId] = routeAssets[routeId];
+              }
+            });
+
+            const manifest = { routeAssets: relatedAssets };
+
+            const injectedContent = `
+            ;(function(){
+              window.${ROUTE_MANIFEST} = ${JSON.stringify(manifest, (k, v) => {
+              if (
+                (k === 'assets' || k === 'referenceCssAssets') &&
+                Array.isArray(v)
+              ) {
+                // should hide publicPath in browser
+                return v.map(item => {
+                  return item.replace(publicPath, '');
+                });
+              }
+              return v;
+            })};
+            })();
+          `;
+
             const { source, map } = chunkToSourceAndMap.get(chunkId)!;
             const newContent = `${injectedContent}${source.toString()}`;
 
             const result = await transform(newContent, {
               loader: path.extname(file).slice(1) as Loader,
-              format: 'esm',
               sourcemap: true,
             });
 
