@@ -1,4 +1,9 @@
+import path from 'path';
 import normalizeOptions from '../src/normalizeOptions';
+
+beforeAll(() => {
+  process.chdir(path.resolve(__dirname, '../'));
+});
 
 describe('normalizeOptions', () => {
   beforeEach(() => {

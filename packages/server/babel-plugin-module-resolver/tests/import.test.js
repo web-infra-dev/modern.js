@@ -1,7 +1,12 @@
+import path from 'path';
 import { transform } from '@babel/core';
 import transformToCommonJsPlugin from '@babel/plugin-transform-modules-commonjs';
 import { stripIndent } from 'common-tags';
 import plugin from '../src';
+
+beforeAll(() => {
+  process.chdir(path.resolve(__dirname, '../'));
+});
 
 describe('import and export statement', () => {
   function testImport(source, output, transformerOpts) {
@@ -85,9 +90,9 @@ describe('import and export statement', () => {
       [
         plugin,
         {
-          root: './test/testproject/src',
+          root: './tests/testproject/src',
           alias: {
-            test: './test/testproject/test',
+            test: './tests/testproject/test',
             '@babel/core': '@babel/core/lib',
           },
         },
@@ -98,13 +103,13 @@ describe('import and export statement', () => {
   describe('should resolve the path based on the root config', () => {
     testImports(
       'components/Header/SubHeader',
-      './test/testproject/src/components/Header/SubHeader',
+      './tests/testproject/src/components/Header/SubHeader',
       transformerOpts,
     );
   });
 
   describe('should alias the path', () => {
-    testImports('test', './test/testproject/test', transformerOpts);
+    testImports('test', './tests/testproject/test', transformerOpts);
   });
 
   describe('should not change a relative path', () => {

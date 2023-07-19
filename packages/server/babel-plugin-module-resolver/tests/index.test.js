@@ -3,6 +3,10 @@ import path from 'path';
 import { transform } from '@babel/core';
 import plugin, { resolvePath } from '../src';
 
+beforeAll(() => {
+  process.chdir(path.resolve(__dirname, '../'));
+});
+
 describe('module-resolver', () => {
   function testWithImport(source, output, transformerOpts) {
     const code = `import something from "${source}";`;
@@ -19,9 +23,9 @@ describe('module-resolver', () => {
 
       it('should resolve the file path', () => {
         const opts = {
-          root: ['./test/testproject/src'],
+          root: ['./tests/testproject/src'],
         };
-        const result = resolvePath('app', './test/testproject/src/app', opts);
+        const result = resolvePath('app', './tests/testproject/src/app', opts);
 
         expect(result).toBe('./app');
       });
@@ -36,7 +40,7 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/testproject/src',
+              root: './tests/testproject/src',
             },
           ],
         ],
@@ -45,7 +49,7 @@ describe('module-resolver', () => {
       it.only('should resolve the file path', () => {
         testWithImport(
           'app',
-          './test/testproject/src/app',
+          './tests/testproject/src/app',
           rootTransformerOpts,
         );
       });
@@ -53,7 +57,7 @@ describe('module-resolver', () => {
       it('should resolve the sub file path', () => {
         testWithImport(
           'components/Root',
-          './test/testproject/src/components/Root',
+          './tests/testproject/src/components/Root',
           rootTransformerOpts,
         );
       });
@@ -61,7 +65,7 @@ describe('module-resolver', () => {
       it('should resolve a sub file path without /index', () => {
         testWithImport(
           'components/Header',
-          './test/testproject/src/components/Header',
+          './tests/testproject/src/components/Header',
           rootTransformerOpts,
         );
       });
@@ -69,7 +73,7 @@ describe('module-resolver', () => {
       it('should resolve the file path while keeping the extension', () => {
         testWithImport(
           'components/Header/header.css',
-          './test/testproject/src/components/Header/header.css',
+          './tests/testproject/src/components/Header/header.css',
           rootTransformerOpts,
         );
       });
@@ -77,7 +81,7 @@ describe('module-resolver', () => {
       it('should resolve the file path with an extension that is non-standard in node', () => {
         testWithImport(
           'es6module',
-          './test/testproject/src/es6module',
+          './tests/testproject/src/es6module',
           rootTransformerOpts,
         );
       });
@@ -85,7 +89,7 @@ describe('module-resolver', () => {
       it('should resolve the file path with the node module extension', () => {
         testWithImport(
           'nodemodule',
-          './test/testproject/src/nodemodule',
+          './tests/testproject/src/nodemodule',
           rootTransformerOpts,
         );
       });
@@ -97,7 +101,7 @@ describe('module-resolver', () => {
       it('should resolve the file path with a filename containing a dot', () => {
         testWithImport(
           'libs/custom.modernizr3',
-          './test/testproject/src/libs/custom.modernizr3',
+          './tests/testproject/src/libs/custom.modernizr3',
           rootTransformerOpts,
         );
       });
@@ -107,7 +111,7 @@ describe('module-resolver', () => {
         // the file has priority according to the Node require mechanism
         testWithImport('constants', '../constants', {
           ...rootTransformerOpts,
-          filename: './test/testproject/src/constants/actions.js',
+          filename: './tests/testproject/src/constants/actions.js',
         });
       });
 
@@ -128,8 +132,8 @@ describe('module-resolver', () => {
             plugin,
             {
               root: [
-                './test/testproject/src/actions',
-                './test/testproject/src/components',
+                './tests/testproject/src/actions',
+                './tests/testproject/src/components',
               ],
             },
           ],
@@ -139,7 +143,7 @@ describe('module-resolver', () => {
       it('should resolve the file sub path in root 1', () => {
         testWithImport(
           'something',
-          './test/testproject/src/actions/something',
+          './tests/testproject/src/actions/something',
           rootTransformerOpts,
         );
       });
@@ -147,7 +151,7 @@ describe('module-resolver', () => {
       it('should resolve the file sub path in root 2', () => {
         testWithImport(
           'Root',
-          './test/testproject/src/components/Root',
+          './tests/testproject/src/components/Root',
           rootTransformerOpts,
         );
       });
@@ -160,7 +164,7 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/testproject/src/**',
+              root: './tests/testproject/src/**',
             },
           ],
         ],
@@ -169,7 +173,7 @@ describe('module-resolver', () => {
       it('should resolve the file path right inside the glob', () => {
         testWithImport(
           'app',
-          './test/testproject/src/app',
+          './tests/testproject/src/app',
           globRootTransformerOpts,
         );
       });
@@ -177,7 +181,7 @@ describe('module-resolver', () => {
       it('should resolve the sub file path', () => {
         testWithImport(
           'actions/something',
-          './test/testproject/src/actions/something',
+          './tests/testproject/src/actions/something',
           globRootTransformerOpts,
         );
       });
@@ -185,7 +189,7 @@ describe('module-resolver', () => {
       it('should resolve the sub file path without specifying the directory', () => {
         testWithImport(
           'something',
-          './test/testproject/src/actions/something',
+          './tests/testproject/src/actions/something',
           globRootTransformerOpts,
         );
       });
@@ -193,7 +197,7 @@ describe('module-resolver', () => {
       it('should resolve the deep file', () => {
         testWithImport(
           'SidebarFooterButton',
-          './test/testproject/src/components/Sidebar/Footer/SidebarFooterButton',
+          './tests/testproject/src/components/Sidebar/Footer/SidebarFooterButton',
           globRootTransformerOpts,
         );
       });
@@ -206,7 +210,7 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/testproject/src',
+              root: './tests/testproject/src',
               extensions: ['.txt'],
             },
           ],
@@ -220,7 +224,7 @@ describe('module-resolver', () => {
       it('should resolve the file path with a known defined extension', () => {
         testWithImport(
           'text',
-          './test/testproject/src/text',
+          './tests/testproject/src/text',
           rootTransformerOpts,
         );
       });
@@ -233,7 +237,7 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/testproject/src',
+              root: './tests/testproject/src',
               extensions: ['.ios.js', '.android.js', '.js'],
             },
           ],
@@ -245,13 +249,13 @@ describe('module-resolver', () => {
       });
 
       it('should resolve the file path with a known defined extension & strip the extension', () => {
-        testWithImport('rn', './test/testproject/src/rn', rootTransformerOpts);
+        testWithImport('rn', './tests/testproject/src/rn', rootTransformerOpts);
       });
 
       it('should resolve the file path with an explicit extension and not strip the extension', () => {
         testWithImport(
           'rn/index.ios.js',
-          './test/testproject/src/rn/index.ios.js',
+          './tests/testproject/src/rn/index.ios.js',
           rootTransformerOpts,
         );
       });
@@ -264,7 +268,7 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/testproject/src',
+              root: './tests/testproject/src',
               extensions: ['.js', '.ios.js', '.android.js'],
               stripExtensions: [],
             },
@@ -279,7 +283,7 @@ describe('module-resolver', () => {
       it('should resolve the file path with a known defined extension', () => {
         testWithImport(
           'rn',
-          './test/testproject/src/rn/index.ios.js',
+          './tests/testproject/src/rn/index.ios.js',
           rootTransformerOpts,
         );
       });
@@ -292,9 +296,9 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/fakepath/',
+              root: './tests/fakepath/',
               alias: {
-                constants: './test/testproject/src/constants',
+                constants: './tests/testproject/src/constants',
               },
             },
           ],
@@ -304,7 +308,7 @@ describe('module-resolver', () => {
       it('should resolve the path using alias first and root otherwise', () => {
         testWithImport(
           'constants',
-          './test/testproject/src/constants',
+          './tests/testproject/src/constants',
           aliasTransformerOpts,
         );
       });
@@ -319,11 +323,11 @@ describe('module-resolver', () => {
           plugin,
           {
             alias: {
-              test: './test/testproject/test',
-              libs: './test/testproject/src/libs',
-              components: './test/testproject/src/components',
-              '~': './test/testproject/src',
-              'awesome/components': './test/testproject/src/components',
+              test: './tests/testproject/test',
+              libs: './tests/testproject/src/libs',
+              components: './tests/testproject/src/components',
+              '~': './tests/testproject/src',
+              'awesome/components': './tests/testproject/src/components',
               'babel-kernel': '@babel/core/lib',
               '^@namespace/foo-(.+)': './packages/\\1',
               'styles/.+\\.(css|less|scss)$': './style-proxy.\\1',
@@ -332,7 +336,7 @@ describe('module-resolver', () => {
               '^regexp-priority': './hit',
               'regexp-priority$': './miss',
               'regexp-priority': './miss',
-              $src: './test/testproject/src/',
+              $src: './tests/testproject/src/',
             },
           },
         ],
@@ -343,7 +347,7 @@ describe('module-resolver', () => {
       it('should alias the file path', () => {
         testWithImport(
           'components',
-          './test/testproject/src/components',
+          './tests/testproject/src/components',
           aliasTransformerOpts,
         );
       });
@@ -359,7 +363,7 @@ describe('module-resolver', () => {
       it('should alias the sub file path', () => {
         testWithImport(
           'test/tools',
-          './test/testproject/test/tools',
+          './tests/testproject/test/tools',
           aliasTransformerOpts,
         );
       });
@@ -369,12 +373,12 @@ describe('module-resolver', () => {
       it('should alias the file path sharing a directory', () => {
         testWithImport('test', './testproject/test', {
           ...aliasTransformerOpts,
-          filename: './test/foo.js',
+          filename: './tests/foo.js',
         });
       });
 
       it('should alias the file path in another directory', () => {
-        testWithImport('test', '../test/testproject/test', {
+        testWithImport('test', '../tests/testproject/test', {
           ...aliasTransformerOpts,
           filename: './lib/bar.js',
         });
@@ -385,7 +389,7 @@ describe('module-resolver', () => {
       it('should alias the file path', () => {
         testWithImport(
           'awesome/components',
-          './test/testproject/src/components',
+          './tests/testproject/src/components',
           aliasTransformerOpts,
         );
       });
@@ -401,7 +405,7 @@ describe('module-resolver', () => {
       it('should alias the sub file path', () => {
         testWithImport(
           'awesome/components/Header',
-          './test/testproject/src/components/Header',
+          './tests/testproject/src/components/Header',
           aliasTransformerOpts,
         );
       });
@@ -410,7 +414,7 @@ describe('module-resolver', () => {
     it('should alias a path containing a dot in the filename', () => {
       testWithImport(
         'libs/custom.modernizr3',
-        './test/testproject/src/libs/custom.modernizr3',
+        './tests/testproject/src/libs/custom.modernizr3',
         aliasTransformerOpts,
       );
     });
@@ -418,7 +422,7 @@ describe('module-resolver', () => {
     it('should alias the path with its extension', () => {
       testWithImport(
         'components/Header/header.css',
-        './test/testproject/src/components/Header/header.css',
+        './tests/testproject/src/components/Header/header.css',
         aliasTransformerOpts,
       );
     });
@@ -446,7 +450,7 @@ describe('module-resolver', () => {
       // See https://github.com/tleunen/babel-plugin-module-resolver/issues/312
       testWithImport(
         '$src/app',
-        './test/testproject/src/app',
+        './tests/testproject/src/app',
         aliasTransformerOpts,
       );
     });
@@ -528,11 +532,11 @@ describe('module-resolver', () => {
       });
 
       it('should call the substitute with the right arguments (basic)', () => {
-        mockSubstitute.mockReturnValue('./test/testproject/test');
+        mockSubstitute.mockReturnValue('./tests/testproject/test');
 
         testWithImport(
           'basic-function/something',
-          './test/testproject/test',
+          './tests/testproject/test',
           regExpSubsituteOpts,
         );
 
@@ -549,11 +553,11 @@ describe('module-resolver', () => {
       });
 
       it('should call the substitute with the right arguments (regexp)', () => {
-        mockSubstitute.mockReturnValue('./test/testproject/test');
+        mockSubstitute.mockReturnValue('./tests/testproject/test');
 
         testWithImport(
           '@regexp-function/something',
-          './test/testproject/test',
+          './tests/testproject/test',
           regExpSubsituteOpts,
         );
 
@@ -848,7 +852,7 @@ describe('module-resolver', () => {
       it('should resolve the file path', () => {
         testWithImport(
           'components/Root',
-          './test/testproject/src/components/Root',
+          './tests/testproject/src/components/Root',
           transformerOpts,
         );
       });
@@ -856,7 +860,7 @@ describe('module-resolver', () => {
       it('should alias the relative path while honoring cwd', () => {
         testWithImport(
           'constantsAlias/actions',
-          './test/constants/actions',
+          './tests/constants/actions',
           transformerOpts,
         );
       });
@@ -864,7 +868,7 @@ describe('module-resolver', () => {
       it('should alias the relative path while honoring cwd', () => {
         testWithImport(
           'constantsRegExp/actions',
-          './test/constants/actions',
+          './tests/constants/actions',
           transformerOpts,
         );
       });
@@ -887,7 +891,7 @@ describe('module-resolver', () => {
       it('should resolve the sub file path', () => {
         testWithImport(
           'components/Root',
-          './test/testproject/src/components/Root',
+          './tests/testproject/src/components/Root',
           transformerOpts,
         );
       });
@@ -910,7 +914,7 @@ describe('module-resolver', () => {
       it('should resolve the sub file path', () => {
         testWithImport(
           'components/Root',
-          './test/testproject/src/components/Root',
+          './tests/testproject/src/components/Root',
           transformerOpts,
         );
       });
@@ -932,7 +936,7 @@ describe('module-resolver', () => {
           },
         ],
       ],
-      filename: './test/testproject/src/app.js',
+      filename: './tests/testproject/src/app.js',
     };
 
     it('should resolve the sub file path', () => {
@@ -940,7 +944,7 @@ describe('module-resolver', () => {
     });
 
     it('should alias the sub file path', () => {
-      testWithImport('test/tools', '../test/tools', transformerOpts);
+      testWithImport('test/tools', '../tests/tools', transformerOpts);
     });
 
     describe('unknown filename', () => {
@@ -991,7 +995,7 @@ describe('module-resolver', () => {
             },
           ],
         ],
-        filename: './test/testproject/src/app.js',
+        filename: './tests/testproject/src/app.js',
       };
 
       it('should resolve the sub file path', () => {
@@ -1019,7 +1023,7 @@ describe('module-resolver', () => {
           },
         ],
       ],
-      filename: './test/testproject/src/app.js',
+      filename: './tests/testproject/src/app.js',
     };
 
     it('should resolve the sub file path', () => {
@@ -1027,12 +1031,12 @@ describe('module-resolver', () => {
     });
 
     it('should alias the sub file path', () => {
-      testWithImport('test/tools', '../test/tools', transformerOpts);
+      testWithImport('test/tools', '../tests/tools', transformerOpts);
     });
 
     // fix: https://github.com/tleunen/babel-plugin-module-resolver/issues/261
     it('Alias with array of paths', () => {
-      testWithImport('testArr/tools', '../test/tools', {
+      testWithImport('testArr/tools', '../tests/tools', {
         babelrc: false,
         plugins: [
           [
@@ -1046,7 +1050,7 @@ describe('module-resolver', () => {
             },
           ],
         ],
-        filename: './test/testproject/src/app.js',
+        filename: './tests/testproject/src/app.js',
       });
     });
 
@@ -1104,7 +1108,7 @@ describe('module-resolver', () => {
             },
           ],
         ],
-        filename: './test/testproject/src/app.js',
+        filename: './tests/testproject/src/app.js',
       };
 
       it('should resolve the sub file path', () => {
@@ -1125,7 +1129,7 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/testproject/src',
+              root: './tests/testproject/src',
               resolvePath() {
                 return 'real path';
               },
@@ -1144,14 +1148,14 @@ describe('module-resolver', () => {
           [
             plugin,
             {
-              root: './test/testproject/src',
+              root: './tests/testproject/src',
               resolvePath,
             },
           ],
         ],
       };
 
-      testWithImport('app', './test/testproject/src/app', rootTransformerOpts);
+      testWithImport('app', './tests/testproject/src/app', rootTransformerOpts);
     });
   });
 });

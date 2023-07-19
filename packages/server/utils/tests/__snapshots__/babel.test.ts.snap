@@ -49,7 +49,7 @@ exports[`babel resolveBabelConfig 1`] = `
       "styled-components",
     ],
     [
-      "<ROOT>/src/compilers/babel/plugins/babel-plugin-module-resolver/src/index.js",
+      "<WORKSPACE>/packages/server/babel-plugin-module-resolver/src/index.js",
       {
         "alias": {
           "@/*": [

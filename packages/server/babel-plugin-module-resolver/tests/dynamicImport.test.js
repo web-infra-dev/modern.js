@@ -1,8 +1,13 @@
 /* eslint-env jest */
+import path from 'path';
 import { transform } from '@babel/core';
 import plugin from '../src';
 
 // According to https://github.com/tc39/proposal-dynamic-import
+
+beforeAll(() => {
+  process.chdir(path.resolve(__dirname, '../'));
+});
 
 describe('import()', () => {
   const transformerOpts = {
@@ -15,9 +20,9 @@ describe('import()', () => {
         plugin,
         {
           // root: [path.resolve(__dirname, './testproject/src')],
-          root: ['./test/testproject/src'],
+          root: ['./tests/testproject/src'],
           alias: {
-            test: './test/testproject/test',
+            test: './tests/testproject/test',
           },
         },
       ],
@@ -30,7 +35,7 @@ describe('import()', () => {
     const result = transform(code, transformerOpts);
 
     expect(result.code).toBe(
-      'import("./test/testproject/src/components/Header/SubHeader").then(() => {}).catch(() => {});',
+      'import("./tests/testproject/src/components/Header/SubHeader").then(() => {}).catch(() => {});',
     );
   });
 
@@ -39,7 +44,7 @@ describe('import()', () => {
     const result = transform(code, transformerOpts);
 
     expect(result.code).toBe(
-      'import("./test/testproject/test").then(() => {}).catch(() => {});',
+      'import("./tests/testproject/test").then(() => {}).catch(() => {});',
     );
   });
 
@@ -86,7 +91,7 @@ describe('import()', () => {
     const result = transform(code, options);
 
     expect(result.code).toBe(
-      'import("./test/testproject/src/components/Header/SubHeader");',
+      'import("./tests/testproject/src/components/Header/SubHeader");',
     );
   });
 });

@@ -1,20 +1,39 @@
-import { transform } from 'babel-core';
+import path from 'path';
+import { transform } from '@babel/core';
 import plugin from '../src';
 
-const calls = ['customMethod.something'];
+beforeAll(() => {
+  process.chdir(path.resolve(__dirname, '../'));
+});
 
-describe('custom calls', () => {
+// all calls take a path as the first argument
+const calls = [
+  'require',
+  'require.resolve',
+  'System.import',
+  'jest.genMockFromModule',
+  'jest.mock',
+  'jest.unmock',
+  'jest.doMock',
+  'jest.dontMock',
+  'jest.setMock',
+  'jest.requireActual',
+  'jest.requireMock',
+  'require.requireActual',
+  'require.requireMock',
+];
+
+describe('function and method calls', () => {
   const transformerOpts = {
     babelrc: false,
     plugins: [
       [
         plugin,
         {
-          root: './test/testproject/src',
+          root: './tests/testproject/src',
           alias: {
-            test: './test/testproject/test',
+            test: './tests/testproject/test',
           },
-          transformFunctions: ['customMethod.something'],
         },
       ],
     ],
@@ -27,7 +46,7 @@ describe('custom calls', () => {
         const result = transform(code, transformerOpts);
 
         expect(result.code).toBe(
-          `${name}("./test/testproject/src/components/Header/SubHeader", ...args);`,
+          `${name}("./tests/testproject/src/components/Header/SubHeader", ...args);`,
         );
       });
 
@@ -36,7 +55,7 @@ describe('custom calls', () => {
         const result = transform(code, transformerOpts);
 
         expect(result.code).toBe(
-          `${name}("./test/testproject/test", ...args);`,
+          `${name}("./tests/testproject/test", ...args);`,
         );
       });
 
@@ -86,5 +105,21 @@ describe('custom calls', () => {
         );
       });
     });
+  });
+
+  it('should resolve the path if the method name is a string literal', () => {
+    const code = 'require["resolve"]("components/Sidebar/Footer", ...args);';
+    const result = transform(code, transformerOpts);
+
+    expect(result.code).toBe(
+      'require["resolve"]("./tests/testproject/src/components/Sidebar/Footer", ...args);',
+    );
+  });
+
+  it('should ignore the call if the method name is unknown', () => {
+    const code = 'unknown("components/Sidebar/Footer", ...args);';
+    const result = transform(code, transformerOpts);
+
+    expect(result.code).toBe('unknown("components/Sidebar/Footer", ...args);');
   });
 });

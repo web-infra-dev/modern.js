@@ -2,6 +2,10 @@ import path from 'path';
 
 import mapToRelative from '../src/mapToRelative';
 
+beforeAll(() => {
+  process.chdir(path.resolve(__dirname, '../'));
+});
+
 describe('mapToRelative', () => {
   describe('should map to relative path with a custom cwd', () => {
     it('with a relative filename', () => {
