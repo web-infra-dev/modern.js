@@ -72,7 +72,7 @@ export class RouterPlugin {
       compilation.hooks.processAssets.tapPromise(
         {
           name: PLUGIN_NAME,
-          stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_COMPATIBILITY,
+          stage: Compilation.PROCESS_ASSETS_STAGE_DEV_TOOLING,
         },
         async () => {
           const stats = compilation.getStats().toJson({
@@ -246,6 +246,7 @@ export class RouterPlugin {
             const result = await transform(newContent, {
               loader: path.extname(file).slice(1) as Loader,
               sourcemap: true,
+              minify: process.env.NODE_ENV === 'production',
             });
 
             const newSource = new SourceMapSource(
