@@ -6,15 +6,13 @@ In this document, you will learn how to build a Vue 3 application using Modern.j
 
 ## Example Project
 
-We have created a example project based on Vue 3 and Modern.js Builder. You can refer to or directly clone this project and follow the guides in this document for more details.
+We have created an example project based on Vue 3 and Modern.js Builder. You can build your own project by referring this project, or just cloning it as a template. The following documentation will provide more detailed instructions.
 
 - [modern-js-examples - builder-vue3](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/builder-vue3)
 
-## CLI Tool
+import CliToolVue from '@en/shared/cliToolVue.md';
 
-Before you start building a Vue project, you need a CLI tool to provide basic commands.
-
-You can use the [CLI tool](/guide/basic/builder-cli) provided by Builder, or you can build your own CLI tool based on Builder's [Node API](/api/builder-core).
+<CliToolVue />
 
 ## Using Vue Plugin
 
@@ -47,10 +45,6 @@ declare module '*.vue' {
 }
 ```
 
-## Deploy the Application
+import DeployApp from '@en/shared/deployApp.md';
 
-After executing `builder build` to build the application, you will get a set of static assets in the `dist` directory. These assets can be deployed to any platform or server.
-
-Please note that the default output structure of Builder may not be suitable for all platforms because different platforms have different requirements for the directory structure. You can refer to the [Output Files](/guide/basic/output-files) section to modify the directory structure to meet the requirements of your deployment platform.
-
-Additionally, if you need to preview the deployment artifacts locally, you can use the [builder serve](/guide/basic/builder-cli#builder-serve) command provided by Builder CLI.
+<DeployApp />
