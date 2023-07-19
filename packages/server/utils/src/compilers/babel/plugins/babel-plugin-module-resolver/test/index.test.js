@@ -977,12 +977,6 @@ describe('module-resolver', () => {
     });
 
     describe('missing babelrc in path (uses cwd)', () => {
-      jest.mock('find-babel-config', () => ({
-        // eslint-disable-next-line func-name-matching
-        sync: function findBabelConfigSync() {
-          return { file: null, config: null };
-        },
-      }));
       jest.resetModules();
       const pluginWithMock = jest.requireActual('../src').default;
 

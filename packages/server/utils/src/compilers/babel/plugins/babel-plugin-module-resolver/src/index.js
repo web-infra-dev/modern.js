@@ -1,3 +1,4 @@
+// fork from https://github.com/tleunen/babel-plugin-module-resolver/tree/master
 import normalizeOptions from './normalizeOptions';
 import resolvePath from './resolvePath';
 import transformCall from './transformers/call';
