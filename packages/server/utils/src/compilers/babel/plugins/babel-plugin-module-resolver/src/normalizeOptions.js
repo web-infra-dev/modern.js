@@ -1,8 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import { createSelector } from 'reselect';
-
-import findBabelConfig from 'find-babel-config';
 import glob from 'glob';
 import pkgUp from 'pkg-up';
 
@@ -34,7 +32,7 @@ function isRegExp(string) {
 }
 
 const specialCwd = {
-  babelrc: startPath => findBabelConfig.sync(startPath).file,
+  babelrc: () => null,
   packagejson: startPath => pkgUp.sync({ cwd: startPath }),
 };
 
