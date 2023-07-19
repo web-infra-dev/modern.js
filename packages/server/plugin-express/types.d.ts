@@ -53,4 +53,5 @@ declare module '@modern-js/runtime/server' {
   export type { RequestHandler };
 
   export * from '@modern-js/bff-core';
+  export * from '@modern-js/bff-runtime';
 }

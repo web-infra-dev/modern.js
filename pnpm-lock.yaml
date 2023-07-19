@@ -4039,9 +4039,6 @@ importers:
 
   packages/server/bff-core:
     dependencies:
-      '@modern-js/bff-runtime':
-        specifier: workspace:*
-        version: link:../bff-runtime
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils

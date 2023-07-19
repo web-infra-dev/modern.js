@@ -42,4 +42,5 @@ declare module '@modern-js/runtime/server' {
   export function hook(attacher: KoaAttacher): KoaAttacher;
 
   export * from '@modern-js/bff-core';
+  export * from '@modern-js/bff-runtime';
 }
