@@ -110,7 +110,6 @@ export const INTERNAL_APP_TOOLS_RUNTIME_PLUGINS: InternalPlugins = {
  */
 export const INTERNAL_MODULE_TOOLS_PLUGINS: InternalPlugins = {
   '@modern-js/module-tools': '@modern-js/module-tools',
-  '@modern-js/doc-tools': '@modern-js/doc-tools',
   '@modern-js/runtime': '@modern-js/runtime/cli',
   '@modern-js/plugin-testing': '@modern-js/plugin-testing/cli',
   '@modern-js/plugin-storybook': '@modern-js/plugin-storybook/cli',

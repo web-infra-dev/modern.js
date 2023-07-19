@@ -23,8 +23,14 @@
   "types": "./src/index.ts",
   "main": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./defineConfig": "./src/config/defineConfig.ts"
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./defineConfig": {
+      "jsnext:source": "./src/config/defineConfig.ts",
+      "default": "./dist/config/defineConfig.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -42,11 +48,10 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "build": "modern-lib build",
-    "dev": "npm run debug-mode && modern-lib build --watch",
-    "test": "npm run debug-mode off && jest",
-    "test:update": "npm run debug-mode off && jest --updateSnapshot",
-    "new": "modern-lib new",
-    "debug-mode": "node ./scripts/debug-mode.js"
+    "dev": "modern-lib build --watch",
+    "test": "jest",
+    "test:update": "jest --updateSnapshot",
+    "new": "modern-lib new"
   },
   "dependencies": {
     "@babel/parser": "^7.21.8",
@@ -91,10 +96,6 @@
     "provenance": true,
     "types": "./dist/index.d.ts",
     "main": "./dist/index.js",
-    "exports": {
-      ".": "./dist/index.js",
-      "./defineConfig": "./dist/config/defineConfig.js"
-    },
     "typesVersions": {
       "*": {
         "types": [
