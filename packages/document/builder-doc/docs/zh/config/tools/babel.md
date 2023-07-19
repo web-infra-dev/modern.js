@@ -152,14 +152,17 @@ export default {
 export default {
   tools: {
     babel(config, { addIncludes }) {
-      addIncludes(/\/query-string\//);
+      addIncludes(/\/node_modules\/query-string\//);
     },
   },
 };
 ```
 
 :::tip
-`addIncludes` 函数的用法与 `source.include` 配置项基本一致，请查看 [source.include 文档](https://modernjs.dev/builder/api/config-source.html#sourceinclude) 来查看更详细的用法说明。也可以直接使用 `source.include` 来代替 `addIncludes` 函数。
+`addIncludes` 函数的用法与 `source.include` 配置项完全一致，我们建议直接使用 `source.include` 来代替它，因为 `source.include` 的使用场景更广。比如，当你从 Babel 迁移切换到 SWC 编译时，`source.include` 仍然可以生效，而 `addIncludes` 函数则无法生效。
+
+请查看 [「source.include 文档」](https://modernjs.dev/builder/api/config-source.html#sourceinclude) 来查看更详细的用法说明。
+
 :::
 
 #### addExcludes

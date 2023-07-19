@@ -20,6 +20,7 @@
     "@modern-js/builder-plugin-stylus": "workspace:*",
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-plugin-vue": "workspace:*",
+    "@modern-js/builder-plugin-vue2": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",

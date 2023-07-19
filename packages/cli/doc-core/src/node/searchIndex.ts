@@ -6,7 +6,7 @@ import fetch from 'node-fetch';
 import { logger } from './utils';
 import { isProduction, OUTPUT_DIR, TEMP_DIR } from './constants';
 import { UserConfig } from '@/shared/types';
-import { isSCM, addLeadingSlash, SEARCH_INDEX_NAME } from '@/shared/utils';
+import { isSCM, SEARCH_INDEX_NAME } from '@/shared/utils';
 
 export function getSearchIndexFilename(indexHash: string) {
   return `${SEARCH_INDEX_NAME}.${indexHash}.json`;
@@ -70,16 +70,18 @@ export async function writeSearchIndex(config: UserConfig) {
 
 export function serveSearchIndexMiddleware(config: UserConfig): RequestHandler {
   return (req, res, next) => {
-    const searchIndexRequestPath = addLeadingSlash(
-      path.join(config.doc?.base || '', SEARCH_INDEX_NAME),
-    );
-
-    if (req.url?.includes(searchIndexRequestPath)) {
+    const searchIndexRequestMatch = `/${SEARCH_INDEX_NAME}.`;
+    if (req.url?.includes(searchIndexRequestMatch)) {
       res.setHeader('Content-Type', 'application/json');
       // Get search index name from request url
       const searchIndexFile = req.url?.split('/').pop();
       const searchIndex = fs.readFileSync(
-        path.join(process.cwd(), OUTPUT_DIR, 'static', searchIndexFile),
+        path.join(
+          process.cwd(),
+          config.doc?.outDir || OUTPUT_DIR,
+          'static',
+          searchIndexFile,
+        ),
         'utf-8',
       );
       res.end(searchIndex);

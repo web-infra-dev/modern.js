@@ -40,23 +40,28 @@ export default {
       path.dirname(require.resolve('query-string')),
       // 方法二:
       // 通过正则表达式进行匹配
-      // 所有包含 `/query-string/` 的路径都会被匹配到
-      /\/query-string\//,
+      // 所有包含 `/node_modules/query-string/` 的路径都会被匹配到
+      /\/node_modules\/query-string\//,
     ],
   },
 };
 ```
 
+上述两种方法分别通过 "路径前缀" 和 "正则表达式" 来匹配文件的绝对路径，值得留意的是，项目中所有被引用的模块都会经过匹配，因此你不能使用过于松散的值进行匹配，避免造成编译性能问题或编译异常。
+
 ### 编译 npm 包的子依赖
 
 当你通过 `source.include` 编译一个 npm 包时，Builder 默认只会编译匹配到的模块，不会编译对应模块的**子依赖**。
 
-以 `query-string` 为例，它依赖的 `decode-uri-component` 包中同样存在 ES6+ 代码，因此需要将 `decode-uri-component` 也加入到 `source.include` 中：
+以 `query-string` 为例，它依赖的 `decode-uri-component` 包中同样存在 ES6+ 代码，因此你需要将 `decode-uri-component` 也加入到 `source.include` 中：
 
 ```ts
 export default {
   source: {
-    include: [/\/query-string\//, /\/decode-uri-component\//],
+    include: [
+      /\/node_modules\/query-string\//,
+      /\/node_modules\/decode-uri-component\//,
+    ],
   },
 };
 ```
