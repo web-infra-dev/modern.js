@@ -72,7 +72,7 @@ export class RouterPlugin {
       compilation.hooks.processAssets.tapPromise(
         {
           name: PLUGIN_NAME,
-          stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_COMPATIBILITY,
+          stage: Compilation.PROCESS_ASSETS_STAGE_DEV_TOOLING,
         },
         async () => {
           const stats = compilation.getStats().toJson({
