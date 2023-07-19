@@ -132,6 +132,8 @@ export class ModernDevServer extends ModernServer {
       const ssrConfig = this.conf.server?.ssr;
       const forceCSR =
         typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+
+      // if we use worker ssr, we need override the routeRenderHandler
       this.routeRenderHandler = createRenderHandler({
         ssrRender: workerSSRRender,
         distDir,
