@@ -26,6 +26,7 @@
 @media (min-width: 960px) {
   .docLayout {
     width: 100%;
+    margin-top: var(--modern-nav-height);
   }
 
   .content {

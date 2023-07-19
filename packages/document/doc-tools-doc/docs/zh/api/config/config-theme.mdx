@@ -461,3 +461,23 @@ export default defineConfig({
   plugins: [docTools()],
 });
 ```
+
+## hideNavbar
+
+- Type: `boolean`
+- Default: `false`
+
+用来隐藏导航栏。比如：
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      hideNavbar: true,
+    },
+  },
+  plugins: [docTools()],
+});
+```

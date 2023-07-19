@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { NormalizedSidebarGroup, SidebarItem } from 'shared/types';
-import { SideBar } from '../Siderbar';
+import { SideBar } from '../Sidebar';
 import MenuIcon from '../../assets/menu.svg';
 import styles from './index.module.scss';
 

@@ -78,9 +78,9 @@ export interface Config {
    */
   backTop?: boolean;
   /**
-   * Default language
+   * Whether to hide the navbar
    */
-  defaultLang?: string;
+  hideNavbar?: boolean;
 }
 
 /**
