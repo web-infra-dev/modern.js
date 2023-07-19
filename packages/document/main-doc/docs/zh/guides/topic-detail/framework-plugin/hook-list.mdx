@@ -742,7 +742,7 @@ export const myPlugin = (): CliPlugin<AppTools> => ({
 
 - 功能：在中间件函数中会拿到 Server 初始化用到的指标测量工具配置 `measureOptions` 和日志工具配置 `loggerOptions`，并返回自定义的指标测量工具 `measure` 和日志工具配置 `logger`
 - 执行阶段：Server 初始化
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<ServerInitInput, InitExtension>`
 - 使用示例：
 
@@ -764,7 +764,7 @@ export const myPlugin = (): ServerPlugin => ({
 
 - 功能：设置 Web 路由的处理函数，在中间件函数中可以拿到 Web Server 的前置中间件
 - 执行阶段：在请求到达的时候
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<WebServerStartInput, Adapter>`
 - 使用示例：
 
@@ -790,7 +790,7 @@ export const myPlugin = (): ServerPlugin => ({
 
 - 功能：设置 API 路由的处理函数，在中间件函数中可以拿到 API Server 的前置中间件
 - 执行阶段：请求到达并且 match bff basename 之后执行
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<APIServerStartInput, Adapter>`
 - 使用示例：
 
@@ -825,7 +825,7 @@ Runtime 插件主要用于开发者修改需要渲染的组件。
 
 - 功能：执行 `App.init`
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<{ context: RuntimeContext; }, unknown>`
 - 使用示例：
 
@@ -848,7 +848,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：修改需要渲染的组件
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：Pipeline
+- Hook 模型：`Pipeline`
 - 类型：`Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
 - 使用示例：
 
@@ -886,7 +886,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：修改需要渲染的 Element
 - 执行阶段：渲染（SSR/CSR）
-- Hook 模型：Pipeline
+- Hook 模型：`Pipeline`
 - 类型：`Pipeline<{ element: JSX.Element; props: AppProps; context: RuntimeContext }, JSX.Element>`
 - 使用示例：
 
@@ -909,7 +909,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：定制客户端渲染流程
 - 执行阶段：在浏览器客户端渲染
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
 - 使用示例：
 
@@ -935,7 +935,7 @@ export const myPlugin = (): Plugin => ({
 
 - 功能：定制服务器端渲染流程
 - 执行阶段：SSR
-- Hook 模型：AsyncPipeline
+- Hook 模型：`AsyncPipeline`
 - 类型：`AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
 - 使用示例：
 
