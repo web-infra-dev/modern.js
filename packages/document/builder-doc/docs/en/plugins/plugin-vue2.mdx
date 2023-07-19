@@ -1,0 +1,95 @@
+# Vue 2 Plugin
+
+The Vue 2 plugin provides support for building Vue 2 applications. The plugin internally integrates [vue-loader](https://vue-loader.vuejs.org/) and [@vue/babel-preset-jsx](https://github.com/vuejs/jsx-vue2).
+
+## Quick Start
+
+### Install
+
+You can install the plugin with the following command:
+
+```bash
+# npm
+npm install @modern-js/builder-plugin-vue2 -D
+
+# yarn
+yarn add @modern-js/builder-plugin-vue2 -D
+
+# pnpm
+pnpm install @modern-js/builder-plugin-vue2 -D
+```
+
+### Register
+
+You can register Vue 2 plugin with the `addPlugins` method:
+
+```js
+import { builderPluginVue2 } from '@modern-js/builder-plugin-vue2';
+
+builder.addPlugins([builderPluginVue2()]);
+```
+
+After installing the plugin, you can directly import `*.vue` files in your code or use Vue's [JSX syntax](https://github.com/vuejs/jsx-vue2) without the need for additional configuration.
+
+## Config
+
+If you need to customize the compilation behavior of Vue, you can use the following configs.
+
+### vueLoaderOptions
+
+- **Type:** `VueLoaderOptions`
+- **Default:**
+
+```js
+const defaultOptions = {
+  compilerOptions: {
+    preserveWhitespace: false,
+  },
+};
+```
+
+Options passed to `vue-loader`, please refer to the [vue-loader documentation](https://vue-loader.vuejs.org/) for detailed usage.
+
+```ts
+builderPluginVue2({
+  vueLoaderOptions: {
+    hotReload: false,
+  },
+});
+```
+
+:::tip
+The Vue 2 plugin is using the `vue-loader` v15. Please be aware that there may be configuration differences between v15 and the latest version.
+:::
+
+### vueJsxOptions
+
+- **Type:**
+
+```ts
+type VueJSXPresetOptions = {
+  compositionAPI?: boolean | string;
+  functional?: boolean;
+  injectH?: boolean;
+  vModel?: boolean;
+  vOn?: boolean;
+};
+```
+
+- **Default:**
+
+```ts
+const defaultOptions = {
+  injectH: true,
+};
+```
+
+Options passed to `@vue/babel-preset-jsx`, please refer to the [@vue/babel-preset-jsx documentation](https://github.com/vuejs/jsx-vue2) for detailed usage.
+
+```ts
+builderPluginVue2({
+  vueJsxOptions: {
+    injectH: false,
+  },
+});
+```

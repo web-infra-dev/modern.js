@@ -84,6 +84,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         text: getText('框架', 'Framework'),
         items: [
           getLink('/guide/framework/vue3'),
+          getLink('/guide/framework/vue2'),
         ],
       },
       {
@@ -161,6 +162,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
         items: [
           getLink('/plugins/list'),
           getLink('/plugins/plugin-vue'),
+          getLink('/plugins/plugin-vue2'),
           getLink('/plugins/plugin-swc'),
           getLink('/plugins/plugin-stylus'),
           getLink('/plugins/plugin-esbuild'),
