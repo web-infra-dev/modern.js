@@ -58,7 +58,7 @@
     "minimatch": "^3.0.4",
     "path-to-regexp": "^6.2.0",
     "ws": "^8.2.0",
-    "axios": "0.27.2"
+    "axios": "^1.2.1"
   },
   "devDependencies": {
     "@modern-js/server-core": "workspace:*",
