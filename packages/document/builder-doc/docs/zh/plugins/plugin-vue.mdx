@@ -1,6 +1,6 @@
 # Vue 插件
 
-Vue 插件提供了对 Vue 3 应用构建的支持。
+Vue 插件提供了对 Vue 3 应用构建的支持，插件内部集成了 [vue-loader](https://vue-loader.vuejs.org/) 和 [@vue/babel-plugin-jsx](https://github.com/vuejs/babel-plugin-jsx)。
 
 ## 快速开始
 
@@ -29,7 +29,7 @@ import { builderPluginVue } from '@modern-js/builder-plugin-vue';
 builder.addPlugins([builderPluginVue()]);
 ```
 
-安装完插件后，你可以直接在代码中引入 `*.vue` 文件，无须添加其他配置。
+安装完插件后，你可以直接在代码中引入 `*.vue` 文件，也可以使用 Vue 的 [JSX 语法](https://github.com/vuejs/babel-plugin-jsx)，无须添加其他配置。
 
 ## 配置
 

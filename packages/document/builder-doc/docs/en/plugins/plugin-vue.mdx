@@ -1,6 +1,6 @@
 # Vue Plugin
 
-The Vue plugin provides support for Vue 3 application builds.
+The Vue plugin provides support for building Vue 3 applications. The plugin internally integrates [vue-loader](https://vue-loader.vuejs.org/) and [@vue/babel-plugin-jsx](https://github.com/vuejs/babel-plugin-jsx).
 
 ## Quick Start
 
@@ -29,7 +29,7 @@ import { builderPluginVue } from '@modern-js/builder-plugin-vue';
 builder.addPlugins([builderPluginVue()]);
 ```
 
-After installing the plugin, you can directly import `*.vue` files into the code without adding other configs.
+After installing the plugin, you can directly import `*.vue` files in your code or use Vue's [JSX syntax](https://github.com/vuejs/babel-plugin-jsx) without the need for additional configuration.
 
 ## Config
 
@@ -82,7 +82,7 @@ type VueJSXPluginOptions = {
 
 - **Default:** `{}`
 
-Options passed to `@vue/babel-plugin-jsx`, please refer to the [@vue/babel-plugin-jsx documentation](https://github.com/vuejs/babel-plugin-jsx) for specific usage.
+Options passed to `@vue/babel-plugin-jsx`, please refer to the [@vue/babel-plugin-jsx documentation](https://github.com/vuejs/babel-plugin-jsx) for detailed usage.
 
 ```ts
 builderPluginVue({
