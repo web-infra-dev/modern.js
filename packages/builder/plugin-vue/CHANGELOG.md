@@ -1,5 +1,23 @@
 # @modern-js/builder-plugin-vue
 
+## 2.27.0
+
+### Patch Changes
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- Updated dependencies [645e111]
+- Updated dependencies [8322a51]
+- Updated dependencies [5376a22]
+- Updated dependencies [d9080ed]
+- Updated dependencies [67d0b0c]
+- Updated dependencies [3f79dd7]
+  - @modern-js/builder-webpack-provider@2.27.0
+  - @modern-js/builder-rspack-provider@2.27.0
+  - @modern-js/builder-shared@2.27.0
+
 ## 2.26.0
 
 ### Patch Changes

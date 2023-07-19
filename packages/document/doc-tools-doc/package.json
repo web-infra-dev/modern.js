@@ -20,7 +20,7 @@
     "build:doc": "modern build",
     "preview": "cross-env NODE_ENV=production modern preview"
   },
-  "version": "2.26.0",
+  "version": "2.27.0",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

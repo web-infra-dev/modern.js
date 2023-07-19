@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@modern-js/e2e",
-  "version": "2.26.0",
+  "version": "2.27.0",
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "build": "modern-lib build",

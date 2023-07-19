@@ -1,5 +1,16 @@
 # @modern-js/generator-common
 
+## 3.1.29
+
+### Patch Changes
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- Updated dependencies [8322a51]
+  - @modern-js/plugin-i18n@2.27.0
+
 ## 3.1.28
 
 ### Patch Changes

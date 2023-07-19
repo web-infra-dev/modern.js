@@ -1,5 +1,12 @@
 # @modern-js/builder-doc
 
+## 2.27.0
+
+### Patch Changes
+
+- 86274f5: docs: add source code build documentation
+  docs: 添加源码构建文档
+
 ## 2.26.0
 
 ## 2.25.2

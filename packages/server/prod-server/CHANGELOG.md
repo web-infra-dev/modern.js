@@ -1,5 +1,15 @@
 # @modern-js/prod-server
 
+## 2.27.0
+
+### Patch Changes
+
+- Updated dependencies [91d14b8]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/server-core@2.27.0
+  - @modern-js/plugin@2.27.0
+
 ## 2.26.0
 
 ### Patch Changes
