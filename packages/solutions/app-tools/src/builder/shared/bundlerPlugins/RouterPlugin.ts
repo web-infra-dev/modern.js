@@ -216,7 +216,7 @@ export class RouterPlugin {
 
             const relatedAssets: typeof routeAssets = {};
             Object.keys(routeAssets).forEach(routeId => {
-              if (routeId.startsWith(`${chunkId}_`)) {
+              if (routeId.startsWith(`${chunkId}`)) {
                 relatedAssets[routeId] = routeAssets[routeId];
               }
             });
