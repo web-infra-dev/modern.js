@@ -26,6 +26,31 @@ test('should build basic Vue sfc correctly', async ({ page }) => {
   builder.close();
 });
 
+test('should build Vue sfc style correctly', async ({ page }) => {
+  const root = join(__dirname, 'sfc-style');
+
+  const builder = await build({
+    cwd: root,
+    entry: {
+      main: join(root, 'src/index.js'),
+    },
+    runServer: true,
+    plugins: [builderPluginVue2()],
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+  await expect(
+    page.evaluate(
+      `window.getComputedStyle(document.getElementById('button')).color`,
+    ),
+  ).resolves.toBe('rgb(255, 0, 0)');
+  await expect(
+    page.evaluate(`window.getComputedStyle(document.body).backgroundColor`),
+  ).resolves.toBe('rgb(0, 0, 255)');
+
+  builder.close();
+});
+
 test('should build basic Vue jsx correctly', async ({ page }) => {
   const root = join(__dirname, 'jsx-basic');
 
