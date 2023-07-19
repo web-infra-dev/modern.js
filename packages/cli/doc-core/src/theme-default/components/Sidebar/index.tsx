@@ -6,7 +6,7 @@ import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
 import styles from './index.module.scss';
-import { removeBase, normalizeHref, withBase } from '@/runtime';
+import { removeBase, normalizeHref, withBase, usePageData } from '@/runtime';
 
 interface Props {
   isSidebarOpen?: boolean;
@@ -256,6 +256,12 @@ export function SideBar(props: Props) {
     pathname: rawPathname,
     sidebarData: rawSidebarData,
   } = props;
+  const {
+    siteData: { themeConfig },
+    page: { frontmatter },
+  } = usePageData();
+  const hideNavbar =
+    frontmatter?.hideNavbar ?? themeConfig?.hideNavbar ?? false;
   const [sidebarData, setSidebarData] = useState<
     (SidebarItem | NormalizedSidebarGroup)[]
   >(rawSidebarData.filter(Boolean).flat());
@@ -319,6 +325,9 @@ export function SideBar(props: Props) {
       className={`${styles.sidebar} modern-sidebar ${
         isSidebarOpen ? styles.open : ''
       }`}
+      style={{
+        ...(hideNavbar ? { marginTop: 0 } : {}),
+      }}
     >
       <div className={`mt-1 ${styles.sidebarContent}`}>
         <div
