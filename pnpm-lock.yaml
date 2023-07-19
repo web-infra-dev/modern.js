@@ -7821,6 +7821,8 @@ importers:
 
   tests/integration/module/src/fixtures/globalVars/ts: {}
 
+  tests/integration/module/src/fixtures/inputFilter: {}
+
   tests/integration/module/src/fixtures/jsx: {}
 
   tests/integration/module/src/fixtures/metafile: {}
