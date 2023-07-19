@@ -1,0 +1,141 @@
+import { transform } from '@babel/core';
+import transformToCommonJsPlugin from '@babel/plugin-transform-modules-commonjs';
+import { stripIndent } from 'common-tags';
+import plugin from '../src';
+
+describe('import and export statement', () => {
+  function testImport(source, output, transformerOpts) {
+    it('with an import statement', () => {
+      const code = `import something from "${source}";`;
+      const result = transform(code, transformerOpts);
+
+      expect(result.code).toBe(`import something from "${output}";`);
+    });
+
+    it('with an "export from" statement', () => {
+      const code = `export { something } from "${source}";`;
+      const result = transform(code, transformerOpts);
+
+      expect(result.code).toBe(`export { something } from "${output}";`);
+    });
+
+    it('with an export statement', () => {
+      const code = 'let something; export { something }';
+      const result = transform(code, transformerOpts);
+
+      expect(result.code).toBe('let something;\nexport { something };');
+    });
+  }
+
+  function testImportWithCommonJSTransform(source, output, transformerOpts) {
+    const transformerOptsWithCommonJs = {
+      babelrc: false,
+      plugins: [
+        ...transformerOpts.plugins,
+        [transformToCommonJsPlugin, { noInterop: true }],
+      ],
+    };
+
+    it('with a transformed require statement', () => {
+      const code = `var something = require("${source}");`;
+      const result = transform(code, transformerOptsWithCommonJs);
+
+      expect(result.code).toContain(`require("${output}");`);
+    });
+
+    it('with a transformed import statement', () => {
+      const code = `import something from "${source}";`;
+      const result = transform(code, transformerOptsWithCommonJs);
+
+      expect(result.code).toContain(`require("${output}");`);
+    });
+
+    it('with a transformed "export from" statement', () => {
+      const code = `export { something } from "${source}";`;
+      const result = transform(code, transformerOptsWithCommonJs);
+
+      expect(result.code).toContain(`require("${output}");`);
+    });
+
+    it('with a transformed export statement', () => {
+      const code = 'let something; export { something };';
+      const result = transform(code, transformerOptsWithCommonJs);
+
+      expect(result.code).toBe(stripIndent`
+        "use strict";
+
+        Object.defineProperty(exports, "__esModule", {
+          value: true
+        });
+        exports.something = void 0;
+        let something;
+        exports.something = something;
+      `);
+    });
+  }
+
+  function testImports(source, output, transformerOpts) {
+    testImport(source, output, transformerOpts);
+    testImportWithCommonJSTransform(source, output, transformerOpts);
+  }
+
+  const transformerOpts = {
+    babelrc: false,
+    plugins: [
+      [
+        plugin,
+        {
+          root: './test/testproject/src',
+          alias: {
+            test: './test/testproject/test',
+            '@babel/core': '@babel/core/lib',
+          },
+        },
+      ],
+    ],
+  };
+
+  describe('should resolve the path based on the root config', () => {
+    testImports(
+      'components/Header/SubHeader',
+      './test/testproject/src/components/Header/SubHeader',
+      transformerOpts,
+    );
+  });
+
+  describe('should alias the path', () => {
+    testImports('test', './test/testproject/test', transformerOpts);
+  });
+
+  describe('should not change a relative path', () => {
+    testImports('./utils', './utils', transformerOpts);
+  });
+
+  describe('should handle an empty path', () => {
+    testImports('', '', transformerOpts);
+  });
+
+  describe('should only apply the alias once', () => {
+    // If this test breaks, consider selecting another package used by the plugin
+    testImports(
+      '@babel/core/transform',
+      '@babel/core/lib/transform',
+      transformerOpts,
+    );
+  });
+
+  describe('should ignore the call if a non-import statement is used', () => {
+    const code = stripIndent`
+      function test() {
+        return "components/Sidebar/Footer";
+      }
+    `;
+    const result = transform(code, transformerOpts);
+
+    expect(result.code).toBe(stripIndent`
+      function test() {
+        return "components/Sidebar/Footer";
+      }
+    `);
+  });
+});

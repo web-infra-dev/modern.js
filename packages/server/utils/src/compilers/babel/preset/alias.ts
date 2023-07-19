@@ -4,7 +4,7 @@ import { PluginOptions } from '@babel/core';
 import { getUserAlias } from '@modern-js/utils';
 import type { AliasOption } from './types';
 
-const { resolvePath } = require('babel-plugin-module-resolver');
+const { resolvePath } = require('../plugins/babel-plugin-module-resolver/src');
 
 const defaultPaths = { '@': ['./src'] };
 
@@ -76,7 +76,7 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
   };
   const typescriptExts = ['.ts', '.tsx', '.js', '.jsx', '.es', '.es6', '.mjs'];
   return [
-    'babel-plugin-module-resolver',
+    '../plugins/babel-plugin-module-resolver/src',
     {
       root: absoluteBaseUrl,
       alias: mergedPaths,
