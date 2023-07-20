@@ -1,0 +1,48 @@
+# 构建 Vue 2 应用
+
+尽管 Modern.js 框架是基于 React 实现的，但底层的 Modern.js Builder 并不与 React 耦合。因此，你可以使用 Modern.js Builder 来构建你的 Vue 应用，并使用 Modern.js Builder 提供的绝大多数能力。
+
+在这篇文档中，你可以了解到如何基于 Modern.js Builder 来构建一个 Vue 2 应用。
+
+## 示例项目
+
+我们搭建了一个基于 Modern.js Builder 的 Vue 2 示例项目，你可以参考或直接克隆这个项目，并对照下文的指南来了解更多细节。
+
+- [modern-js-examples - builder-vue2](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/builder-vue2)
+
+import CliToolVue from '@zh/shared/cliToolVue.md';
+
+<CliToolVue />
+
+## 使用 Vue 插件
+
+为了能够编译 Vue 的 SFC（单文件组件）和 JSX 语法，你需要注册 Builder 的 [Vue 2 插件](/plugins/plugin-vue2)，插件会自动添加 Vue 构建所需的配置，并移除内置的 React 相关配置。
+
+例如，在 `builder.config.ts` 中注册：
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+import { builderPluginVue2 } from '@modern-js/builder-plugin-vue2';
+
+export default defineConfig({
+  builderPlugins: [builderPluginVue2()],
+});
+```
+
+## 类型定义
+
+在 TypeScript 项目中，你需要为 `*.vue` 文件添加类型定义，使 TypeScript 能够正确识别它。
+
+请在 `src` 目录下创建 `env.d.ts`，并添加以下内容：
+
+```ts title="src/env.d.ts"
+declare module '*.vue' {
+  import Vue from 'vue';
+
+  export default Vue;
+}
+```
+
+import DeployApp from '@zh/shared/deployApp.md';
+
+<DeployApp />

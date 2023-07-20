@@ -13,7 +13,7 @@ export function getHotRuntimeEntries(compiler: Compiler) {
 
   if (hot && refresh) {
     const reactRefreshEntryPath = require.resolve(
-      '@rspack/dev-client/react-refresh',
+      '@rspack/dev-client/react-refresh-entry',
     );
     return [reactRefreshEntryPath];
   }

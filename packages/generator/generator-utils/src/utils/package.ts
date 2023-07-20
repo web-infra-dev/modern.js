@@ -3,12 +3,16 @@ import { canUseNpm, execa, logger, semver, stripAnsi } from '@modern-js/utils';
 // 判断包是否存在
 export async function isPackageExist(packageName: string, registry?: string) {
   if (await canUseNpm()) {
-    const args = ['view', packageName, 'version'];
-    if (registry) {
-      args.push(`--registry=${registry}`);
+    try {
+      const args = ['view', packageName, 'version'];
+      if (registry) {
+        args.push(`--registry=${registry}`);
+      }
+      const result = await execa('npm', args);
+      return stripAnsi(result.stdout);
+    } catch (e) {
+      return false;
     }
-    const result = await execa('npm', args);
-    return stripAnsi(result.stdout);
   }
   throw new Error('not found npm, please install npm before');
 }

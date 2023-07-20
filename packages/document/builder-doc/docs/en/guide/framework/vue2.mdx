@@ -1,0 +1,48 @@
+# Build Vue 2 App
+
+Although the Modern.js framework is built on React, the underlying Modern.js Builder is not coupled with React. Therefore, you can use Modern.js Builder to build your Vue applications and leverage most of the capabilities provided by Modern.js Builder.
+
+In this document, you will learn how to build a Vue 2 application using Modern.js Builder.
+
+## Example Project
+
+We have created an example project based on Vue 2 and Modern.js Builder. You can build your own project by referring this project, or just cloning it as a template. The following documentation will provide more detailed instructions.
+
+- [modern-js-examples - builder-vue2](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/builder-vue2)
+
+import CliToolVue from '@en/shared/cliToolVue.md';
+
+<CliToolVue />
+
+## Using Vue Plugin
+
+To compile Vue SFC (Single File Components) and JSX syntax, you need to register the Builder [Vue 2 plugin](/plugins/plugin-vue2). The plugin will automatically add the necessary configuration for Vue builds and remove the built-in React-related configurations.
+
+For example, register in `builder.config.ts`:
+
+```ts title="builder.config.ts"
+import { defineConfig } from '@modern-js/builder-cli';
+import { builderPluginVue2 } from '@modern-js/builder-plugin-vue2';
+
+export default defineConfig({
+  builderPlugins: [builderPluginVue2()],
+});
+```
+
+## Type Definitions
+
+In a TypeScript project, you need to add type definitions for `*.vue` files so that TypeScript can recognize them correctly.
+
+Create `env.d.ts` in the `src` directory and add the following content:
+
+```ts title="src/env.d.ts"
+declare module '*.vue' {
+  import Vue from 'vue';
+
+  export default Vue;
+}
+```
+
+import DeployApp from '@en/shared/deployApp.md';
+
+<DeployApp />

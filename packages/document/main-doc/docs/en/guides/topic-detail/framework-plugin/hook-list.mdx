@@ -5,17 +5,21 @@ sidebar_position: 8
 
 # Hook List
 
-Modern.js exposes three types of plugins: CLI, Runtime, and Server.
+In the Modern.js engineering system, there are three types of plugins: CLI, Runtime, and Server. Each type of plugin can utilize different Hooks.
 
-## CLI
+In this chapter, all available Hooks are listed, and you can use the corresponding Hook based on your needs.
+
+## CLI Common Hooks
+
+The following are the common CLI Hooks that can be used in both Modern.js Framework and Modern.js Module.
 
 ### `beforeConfig`
 
 - Functionality: Running tasks before the config process
 - Execution phase: Before the config process
-- Hook model: AsyncWorkflow
+- Hook model: `AsyncWorkflow`
 - Type: `AsyncWorkflow<void, void>`
-- Example usage:
+- Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -35,9 +39,9 @@ export const myPlugin = (): CliPlugin => ({
 
 - Functionality: Collect configuration
 - Execution phase: After parsing the configuration in `modern.config.ts`
-- Hook model: ParallelWorkflow
+- Hook model: `ParallelWorkflow`
 - Type: `ParallelWorkflow<void, unknown>`
-- Example usage:
+- Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -55,15 +59,39 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
-The collected configuration information will be collected and processed uniformly.
+If you need to set the configuration of the Modern.js Framework, please use the `CliPlugin<AppTools>` type exported by `@modern-js/app-tools`:
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin => ({
+  setup(api) {
+    return {
+      config: () => {
+        return {
+          output: {
+            polyfill: 'usage',
+          },
+        };
+      },
+    };
+  },
+});
+```
+
+The configuration returned by the `config` hook will be collected and merged by Modern.js, resulting in a `NormalizedConfig`. When merging configurations, the priority is as follows, from high to low:
+
+1. Configuration defined by the user in the `modern.config.*` file.
+2. Configuration defined by the plugin through the `config` hook.
+3. Default configuration of Modern.js.
 
 ### `validateSchema`
 
 - Functionality: Collect the JSON schema used to validate user configurations in various plugins.
 - Execution phase: After the `config` Hook has run.
-- Hook model: ParallelWorkflow
+- Hook model: `ParallelWorkflow`
 - Type: `ParallelWorkflow<void, unknown>`
-- Example usage:
+- Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -116,7 +144,7 @@ export const myPlugin = defineConfig({
 
 then throw error:
 
-```sh
+```
 $ modern dev
   1 | {
 > 2 |   "foo": {},
@@ -127,9 +155,9 @@ $ modern dev
 
 - Functionality: Preparatory process for running the main process.
 - Execution phase: After configuration validation.
-- Hook model: AsyncWorkflow
+- Hook model: `AsyncWorkflow`
 - Type: `AsyncWorkflow<void, void>`
-- Example usage:
+- Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -149,7 +177,7 @@ export const myPlugin = (): CliPlugin => ({
 
 - function: Running tasks after the prepare process
 - Execution Phase: After the prepare process
-- Hook model: AsyncWorkflow
+- Hook model: `AsyncWorkflow`
 - type: `AsyncWorkflow<void, void>`
 - Usage:
 
@@ -169,11 +197,11 @@ export const myPlugin = (): CliPlugin => ({
 
 ### `commands`
 
-- Functionality: Add new commands for the command.
+- Functionality: Add new CLI commands for the commander.
 - Execution phase: After the `prepare` Hook has run.
-- Hook model: AsyncWorkflow
+- Hook model: `AsyncWorkflow`
 - Type: `AsyncWorkflow<{ program: Command; }, void>`
-- Example usage:
+- Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -213,9 +241,9 @@ foo
 
 - Functionality: Reset some file states before exiting the process.
 - Execution phase: Before the process exits.
-- Hook model: Workflow
+- Hook model: `Workflow`
 - Type: `Workflow<void, void>`
-- Example usage:
+- Example:
 
 ```ts
 import type { CliPlugin } from '@modern-js/core';
@@ -235,18 +263,24 @@ export const myPlugin = (): CliPlugin => ({
 Since the callback function when exiting the process in Node.js is synchronous, the type of `beforeExit` Hook is `Workflow` and cannot perform asynchronous operations.
 :::
 
+## CLI Framework Hooks
+
+The following are the CLI Hooks of the framework, which can only be used in Modern.js Framework and cannot be used in Modern.js Module.
+
+You need to import the `CliPlugin` and `AppTools` types from `@modern-js/app-tools` to get accurate type hints for Hooks.
+
 ### `beforeDev`
 
 - Functionality: Tasks before running the main dev process.
 - Execution phase: Before the project starts when the `dev` command is run.
-- Hook model: AsyncWorkflow
+- Hook model: `AsyncWorkflow`
 - Type: `AsyncWorkflow<void, unknown>`
-- Example usage:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       beforeDev: () => {
@@ -260,15 +294,15 @@ export const myPlugin = (): CliPlugin => ({
 ### `afterDev`
 
 - Function: Tasks to be executed after the main process of `dev` command
-- Execution Stage: It is executed after each compilation is completed when running the `dev` command
-- Hook Model: AsyncWorkflow
+- Execution stage: It is executed after each compilation is completed when running the `dev` command
+- Hook model: `AsyncWorkflow`
 - Type: `AsyncWorkflow<{ isFirstCompile: boolean }, unknown>`
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       afterDev: () => {
@@ -282,9 +316,9 @@ export const myPlugin = (): CliPlugin => ({
 `afterDev` will be executed after each compilation is completed, you can use the `isFirstCompile` param to determine whether it is the first compilation:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       afterDev: ({ isFirstCompile }) => {
@@ -297,106 +331,14 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
-### `beforeCreateCompiler`
-
-- Function: A callback function triggered before creating the underlying Compiler instance, and you can get the final configuration array of the underlying bundler through the `bundlerConfigs` parameter:
-  - If the current bundler is webpack, you will get the webpack Compiler object.
-  - If the current bundler is Rspack, you will get the Rspack Compiler object.
-  - The configuration array may contain one or multiple configurations, depending on whether you have enabled features such as SSR.
-- Execution Stage: Executed before creating the Compiler instance when running the `dev` or `build` command.
-- Hook Model: `AsyncWorkflow`.
-- Type:
-
-```ts
-type BeforeCreateCompiler = AsyncWorkflow<
-  { bundlerConfigs: Configuration[] },
-  unknown
->;
-```
-
-- Usage Example:
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export const myPlugin = (): CliPlugin => ({
-  setup(api) {
-    return {
-      beforeCreateCompiler: ({ bundlerConfigs }) => {
-        console.log('Before create compiler.');
-        console.log(bundlerConfigs);
-      },
-    };
-  },
-});
-```
-
-### `afterCreateCompiler`
-
-- Function: A callback function triggered after creating a Compiler instance and before executing the build. You can access the Compiler instance object through the `compiler` parameter:
-  - If the current bundler is webpack, you will get the webpack Compiler object.
-  - If the current bundler is Rspack, you will get the Rspack Compiler object.
-- Execution Stage: Executed after creating the Compiler object.
-- Hook Model: `AsyncWorkflow`.
-- Type:
-
-```ts
-type AfterCreateCompiler = AsyncWorkflow<
-  { compiler: Compiler | MultiCompiler | undefined },
-  unknown
->;
-```
-
-- Usage Example:
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export const myPlugin = (): CliPlugin => ({
-  setup(api) {
-    return {
-      afterCreateCompiler: ({ compiler }) => {
-        console.log('After create compiler.');
-        console.log(compiler);
-      },
-    };
-  },
-});
-```
-
-### `beforePrintInstructions`
-
-- Function: Provides access to the log information that will be printed within middleware functions and allows modification of the log information.
-- Execution Stage: Executed before printing the log information.
-- Hook Model: AsyncWaterfall.
-- Type: `AsyncWaterfall<{ instructions: string }>`
-- Usage Example:
-
-```ts
-import type { CliPlugin } from '@modern-js/core';
-
-export const myPlugin = (): CliPlugin => ({
-  setup(api) {
-    return {
-      beforePrintInstructions: ({ instructions }) => {
-        // do something
-        return {
-          instructions: [...instructions, 'some new message'],
-        };
-      },
-    };
-  },
-});
-```
-
 ### `beforeBuild`
 
 - Function: A callback function triggered before executing production environment builds. You can access the final configuration array of the underlying bundler through the `bundlerConfigs` parameter.
   - If the current bundler is webpack, you will get the webpack Compiler object.
   - If the current bundler is Rspack, you will get the Rspack Compiler object.
   - The configuration array may contain one or multiple configurations, depending on whether you have enabled features such as SSR.
-- Execution Stage: Executed after running the `build` command and before the actual build process begins.
-- Hook Model: `AsyncWorkflow`.
+- Execution stage: Executed after running the `build` command and before the actual build process begins.
+- Hook model: `AsyncWorkflow`.
 - Type:
 
 ```ts
@@ -405,12 +347,12 @@ type BeforeBuild = AsyncWorkflow<{
 }>;
 ```
 
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       beforeBuild: ({ bundlerConfigs }) => {
@@ -427,8 +369,8 @@ export const myPlugin = (): CliPlugin => ({
 - Function: A callback function triggered after running the production build. You can access the build result information through the `stats` parameter.
   - If the current bundler is webpack, you will get webpack Stats.
   - If the current bundler is Rspack, you will get Rspack Stats.
-- Execution Stage: It is executed after running the `build` command and completing the build.
-- Hook Model: `AsyncWorkflow`.
+- Execution stage: It is executed after running the `build` command and completing the build.
+- Hook model: `AsyncWorkflow`.
 - Type:
 
 ```ts
@@ -437,12 +379,12 @@ type AfterBuild = AsyncWorkflow<{
 }>;
 ```
 
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       afterBuild: ({ stats }) => {
@@ -454,18 +396,110 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
+### `beforeCreateCompiler`
+
+- Function: A callback function triggered before creating the underlying Compiler instance, and you can get the final configuration array of the underlying bundler through the `bundlerConfigs` parameter:
+  - If the current bundler is webpack, you will get the webpack Compiler object.
+  - If the current bundler is Rspack, you will get the Rspack Compiler object.
+  - The configuration array may contain one or multiple configurations, depending on whether you have enabled features such as SSR.
+- Execution stage: Executed before creating the Compiler instance when running the `dev` or `build` command.
+- Hook model: `AsyncWorkflow`.
+- Type:
+
+```ts
+type BeforeCreateCompiler = AsyncWorkflow<
+  { bundlerConfigs: Configuration[] },
+  unknown
+>;
+```
+
+- Example:
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin<AppTools> => ({
+  setup(api) {
+    return {
+      beforeCreateCompiler: ({ bundlerConfigs }) => {
+        console.log('Before create compiler.');
+        console.log(bundlerConfigs);
+      },
+    };
+  },
+});
+```
+
+### `afterCreateCompiler`
+
+- Function: A callback function triggered after creating a Compiler instance and before executing the build. You can access the Compiler instance object through the `compiler` parameter:
+  - If the current bundler is webpack, you will get the webpack Compiler object.
+  - If the current bundler is Rspack, you will get the Rspack Compiler object.
+- Execution stage: Executed after creating the Compiler object.
+- Hook model: `AsyncWorkflow`.
+- Type:
+
+```ts
+type AfterCreateCompiler = AsyncWorkflow<
+  { compiler: Compiler | MultiCompiler | undefined },
+  unknown
+>;
+```
+
+- Example:
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin<AppTools> => ({
+  setup(api) {
+    return {
+      afterCreateCompiler: ({ compiler }) => {
+        console.log('After create compiler.');
+        console.log(compiler);
+      },
+    };
+  },
+});
+```
+
+### `beforePrintInstructions`
+
+- Function: Provides access to the log information that will be printed within middleware functions and allows modification of the log information.
+- Execution stage: Executed before printing the log information.
+- Hook model: `AsyncWaterfall`
+- Type: `AsyncWaterfall<{ instructions: string }>`
+- Example:
+
+```ts
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
+
+export const myPlugin = (): CliPlugin<AppTools> => ({
+  setup(api) {
+    return {
+      beforePrintInstructions: ({ instructions }) => {
+        // do something
+        return {
+          instructions: [...instructions, 'some new message'],
+        };
+      },
+    };
+  },
+});
+```
+
 ### `modifyEntryImports`
 
 - Function: Used for modifying or adding `import` statements in the generated entry files.
-- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
-- Hook Model: AsyncWaterfall.
+- Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ imports: ImportStatement[]; entrypoint: Entrypoint; }>`
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryImports({ entrypoint, imports }) {
@@ -489,15 +523,15 @@ export const myPlugin = (): CliPlugin => ({
 ### `modifyEntryExport`
 
 - Function: used to modify the `export` statement in the generated entry file
-- Execution Stage: Before the entry file is generated, the [`prepare`](#prepare) phase triggers
-- Hook Model: AsyncWaterfall
+- Execution stage: Before the entry file is generated, the [`prepare`](#prepare) phase triggers
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ entrypoint: Entrypoint; exportStatement: string; }>`
-- Example of use:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryExport({ entrypoint, exportStatement }) {
@@ -516,15 +550,15 @@ export const myPlugin = (): CliPlugin => ({
 ### `modifyEntryRuntimePlugins`
 
 - Function: Used for adding or modifying [Runtime plugins](#Runtime) in the generated entry files.
-- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
-- Hook Model: AsyncWaterfall.
+- Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ entrypoint: Entrypoint; plugins: RuntimePlugin[]; }>`
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryRuntimePlugins({ entrypoint, plugins }) {
@@ -551,15 +585,15 @@ export const myPlugin = (): CliPlugin => ({
 ### `modifyEntryRenderFunction`
 
 - Function: Used for modifying the `render` function in the generated entry files.
-- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
-- Hook Model: AsyncWaterfall.
+- Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyEntryRenderFunction({ entrypoint, code }) {
@@ -577,15 +611,15 @@ export const myPlugin = (): CliPlugin => ({
 ### `modifyFileSystemRoutes`
 
 - Function: Used for modifying the content of the generated front-end page routing files, which must be serializable.
-- Execution Stage: Executed before generating the front-end routing files, triggered during the [`prepare`](#prepare) stage.
-- Hook Model: AsyncWaterfall.
+- Execution stage: Executed before generating the front-end routing files, triggered during the [`prepare`](#prepare) stage.
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ entrypoint: Entrypoint; routes: Route[]; }>`
-- Usage Example:
+- Example:
 
 ```tsx
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyFileSystemRoutes({ entrypoint, routes }) {
@@ -611,15 +645,15 @@ This adds a new page route for the front-end.
 ### `modifyServerRoutes`
 
 - Function: Used for modifying the content of the generated server routes.
-- Execution Stage: Executed before generating the server routing files, triggered during the [`prepare`](#prepare) stage.
-- Hook Model: AsyncWaterfall.
+- Execution stage: Executed before generating the server routing files, triggered during the [`prepare`](#prepare) stage.
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ routes: ServerRoute[]; }>`
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyServerRoutes({ routes }) {
@@ -644,15 +678,15 @@ export const myPlugin = (): CliPlugin => ({
 ### `modifyAsyncEntry`
 
 - Function: Used for modifying the asynchronous module that wraps the entry file, see [source.enableAsyncEntry](/configure/app/source/enable-async-entry).
-- Execution Stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
-- Hook Model: AsyncWaterfall.
+- Execution stage: Executed before generating the entry files, triggered during the [`prepare`](#prepare) stage.
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ entrypoint: Entrypoint; code: string; }>`
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       modifyAsyncEntry({ entrypoint, code }) {
@@ -670,15 +704,15 @@ export const myPlugin = (): CliPlugin => ({
 ### `htmlPartials`
 
 - Function: Used for customizing the generated HTML page template.
-- Execution Stage: Triggered during the [`prepare`](#prepare) stage.
-- Hook Model: AsyncWaterfall.
+- Execution stage: Triggered during the [`prepare`](#prepare) stage.
+- Hook model: `AsyncWaterfall`
 - Type: `AsyncWaterfall<{ entrypoint: Entrypoint; partials: HtmlPartials; }>`
-- Usage Example:
+- Example:
 
 ```ts
-import type { CliPlugin } from '@modern-js/core';
+import type { CliPlugin, AppTools } from '@modern-js/app-tools';
 
-export const myPlugin = (): CliPlugin => ({
+export const myPlugin = (): CliPlugin<AppTools> => ({
   setup(api) {
     return {
       async htmlPartials({ entrypoint, partials }) {
@@ -706,10 +740,10 @@ Plugins are also supported in the Server section of the application project. The
 ### `create`
 
 - Function: In the middleware function, you will get the measurement tool configuration `measureOptions` and log tool configuration `loggerOptions` used for Server initialization, and return a custom measurement tool `measure` and log tool configuration `logger`.
-- Execution Stage: Server initialization.
-- Hook Model: AsyncPipeline.
+- Execution stage: Server initialization.
+- Hook model: `AsyncPipeline`
 - Type: `AsyncPipeline<ServerInitInput, InitExtension>`
-- Usage Example:
+- Example:
 
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
@@ -728,10 +762,10 @@ export const myPlugin = (): ServerPlugin => ({
 ### `prepareWebServer`
 
 - Function: Sets the handling function for the Web route. In the middleware function, you can get the front-end middleware of the Web server.
-- Execution Stage: When the request arrives.
-- Hook Model: AsyncPipeline.
+- Execution stage: When the request arrives.
+- Hook model: `AsyncPipeline`
 - Type: `AsyncPipeline<WebServerStartInput, Adapter>`
-- Usage Example:
+- Example:
 
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
@@ -754,10 +788,10 @@ export const myPlugin = (): ServerPlugin => ({
 ### `prepareApiServer`
 
 - Function: Sets the handling function for the API route. In the middleware function, you can get the front-end middleware of the API server.
-- Execution Stage: When the request arrives and matches the BFF basename.
-- Hook Model: AsyncPipeline.
+- Execution stage: When the request arrives and matches the BFF basename.
+- Hook model: `AsyncPipeline`
 - Type: `AsyncPipeline<APIServerStartInput, Adapter>`
-- Usage Example:
+- Example:
 
 ```ts
 import type { ServerPlugin } from '@modern-js/server-core';
@@ -788,10 +822,10 @@ The Runtime plugin is mainly used for developers to modify the component that ne
 ### `init`
 
 - Function: Executes `App.init`.
-- Execution Stage: Rendering (SSR/CSR).
-- Hook Model: AsyncPipeline.
+- Execution stage: Rendering (SSR/CSR).
+- Hook model: `AsyncPipeline`
 - Type: `AsyncPipeline<{ context: RuntimeContext; }, unknown>`
-- Usage Example:
+- Example:
 
 ```ts
 import type { Plugin } from '@modern-js/runtime';
@@ -811,10 +845,10 @@ export const myPlugin = (): Plugin => ({
 ### `hoc`
 
 - Function: Modifies the components that need to be rendered.
-- Execution Stage: Rendering (SSR/CSR).
-- Hook Model: Pipeline.
+- Execution stage: Rendering (SSR/CSR).
+- Hook model: `Pipeline`
 - Type: `Pipeline<{ App: React.ComponentType<any>; }, React.ComponentType<any>>`
-- Usage Example:
+- Example:
 
 :::note
 When using the hoc hook, you need to copy the static properties of the original App component to the new component and pass through the props.
@@ -849,10 +883,10 @@ export const myPlugin = (): Plugin => ({
 {/* ### `provide`
 
 - Function: Modifies the Elements that need to be rendered.
-- Execution Stage: Rendering (SSR/CSR).
-- Hook Model: Pipeline.
+- Execution stage: Rendering (SSR/CSR).
+- Hook model: `Pipeline`
 - Type: `Pipeline<{ element: JSX.Element; props: AppProps; context: RuntimeContext }, JSX.Element>`
-- Usage Example:
+- Example:
 
 ```ts
 import { createContext } from 'react';
@@ -872,10 +906,10 @@ export const myPlugin = (): Plugin => ({
 ### `client`
 
 - Function: Customizes the client-side rendering process.
-- Execution Stage: Client-side rendering in the browser.
-- Hook Model: AsyncPipeline.
+- Execution stage: Client-side rendering in the browser.
+- Hook model: `AsyncPipeline`
 - Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; rootElement: HTMLElement; }, void>`
-- Usage Example:
+- Example:
 
 ```ts
 import ReactDOM from 'react-dom';
@@ -899,9 +933,9 @@ export const myPlugin = (): Plugin => ({
 
 - Function: Customize the server-side rendering process.
 - Execution Phase: SSR
-- Hook Model: AsyncPipeline
+- Hook model: `AsyncPipeline`
 - Type: `AsyncPipeline<{ App: React.ComponentType<any>; context?: RuntimeContext; }, string>`
-- Usage Example:
+- Example:
 
 ```ts
 import ReactDomServer from 'react-dom/server';

@@ -1,9 +1,10 @@
 ---
 title: Add Style
 ---
+
 # Add Style
 
-import { Tabs, Tab as TabItem } from "@theme";
+import { Tabs, Tab as TabItem } from '@theme';
 
 In the previous chapter, we learned how to use components from the third-party library.
 
@@ -15,7 +16,7 @@ First of all, we want to control the display of contact avatars by ourselves, an
 
 ![design](https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvjhpqnuvr/modern-website/tutorials/c03-css-expect.jpg)
 
-Hypothesis has no ready-made components to implement, so you need to write some CSS yourself. Here we use [styled-components] (https://styled-components.com/) to implement similar requirements. Modern.js out of the box supports styled-components, which requires neither dependency nor configuration.
+Hypothesis has no ready-made components to implement, so you need to write some CSS yourself. Here we use [styled-components](https://styled-components.com/) to implement similar requirements. Modern.js out of the box supports styled-components, which requires neither dependency nor configuration.
 
 Style-components avoids many problems of traditional CSS writing through modularization. For example, writing styles directly on the style attribute of elements, the visual details of UI will also be mixed with the details of UI structure and business logic. Or classname needs to avoid global space renaming, which requires the use of naming conventions.
 

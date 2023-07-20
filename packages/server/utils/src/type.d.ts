@@ -1,1 +1,1 @@
-declare module 'babel-plugin-module-resolver';
+declare module '@modern-js/babel-plugin-module-resolver';

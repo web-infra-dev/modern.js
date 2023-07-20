@@ -1,5 +1,30 @@
 # @modern-js/new-action
 
+## 2.27.0
+
+### Patch Changes
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- Updated dependencies [91d14b8]
+- Updated dependencies [8322a51]
+- Updated dependencies [bd2c1ff]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/generator-common@3.1.29
+  - @modern-js/generator-utils@3.1.29
+
+## 2.26.0
+
+### Patch Changes
+
+- Updated dependencies [cd601f6]
+  - @modern-js/generator-common@3.1.28
+  - @modern-js/generator-utils@3.1.28
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

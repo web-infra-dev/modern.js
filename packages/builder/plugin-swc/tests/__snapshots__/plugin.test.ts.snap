@@ -34,7 +34,6 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                   "not op_mini all",
                 ],
               },
-              "exclude": [],
               "extensions": {
                 "lodash": {
                   "cwd": "<ROOT>",
@@ -94,7 +93,6 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                   "not op_mini all",
                 ],
               },
-              "exclude": [],
               "extensions": {
                 "lodash": {
                   "cwd": "<ROOT>",
@@ -157,7 +155,6 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
                 "not op_mini all",
               ],
             },
-            "exclude": [],
             "extensions": {
               "lodash": {
                 "cwd": "<ROOT>",
@@ -221,7 +218,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
                 "ios_saf >= 11",
               ],
             },
-            "exclude": [],
             "extensions": {
               "lodash": {
                 "cwd": "<ROOT>",
@@ -281,7 +277,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
                 "node >= 14",
               ],
             },
-            "exclude": [],
             "extensions": {
               "lodash": {
                 "cwd": "<ROOT>",
@@ -343,7 +338,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
                 "not op_mini all",
               ],
             },
-            "exclude": [],
             "extensions": {
               "lodash": {
                 "cwd": "<ROOT>",
@@ -405,7 +399,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
                 "not op_mini all",
               ],
             },
-            "exclude": [],
             "extensions": {
               "lodash": {
                 "cwd": "<ROOT>",
@@ -467,7 +460,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
                 "not op_mini all",
               ],
             },
-            "exclude": [],
             "extensions": {
               "lodash": {
                 "cwd": "<ROOT>",
@@ -508,6 +500,225 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
     },
   ],
 }
+`;
+
+exports[`plugins/swc > should set correct swc minimizer options in production 1`] = `
+{
+  "minimizer": [
+    SwcMinimizerPlugin {
+      "minifyOptions": {
+        "cssMinify": {},
+        "jsMinify": {
+          "compress": false,
+          "mangle": false,
+        },
+      },
+      "name": "swc-minimizer-plugin",
+    },
+  ],
+}
+`;
+
+exports[`plugins/swc > should set correct swc minimizer options using raw swc config 1`] = `
+{
+  "minimizer": [
+    SwcMinimizerPlugin {
+      "minifyOptions": {
+        "cssMinify": {},
+        "jsMinify": {
+          "compress": false,
+          "mangle": false,
+        },
+      },
+      "name": "swc-minimizer-plugin",
+    },
+  ],
+}
+`;
+
+exports[`plugins/swc > should set multiple swc-loader 1`] = `
+[
+  {
+    "include": [
+      {
+        "and": [
+          "<ROOT>",
+          {
+            "not": /node_modules/,
+          },
+        ],
+      },
+    ],
+    "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+    "use": [
+      {
+        "loader": "<ROOT>/src/loader",
+        "options": {
+          "cwd": "<ROOT>",
+          "env": {
+            "coreJs": "3.30",
+            "mode": "entry",
+            "targets": [
+              "> 0.01%",
+              "not dead",
+              "not op_mini all",
+            ],
+          },
+          "extensions": {
+            "lodash": {
+              "cwd": "<ROOT>",
+              "ids": [
+                "lodash",
+                "lodash-es",
+              ],
+            },
+            "styledComponents": {
+              "displayName": true,
+              "pure": false,
+              "ssr": false,
+              "transpileTemplateLiterals": true,
+            },
+          },
+          "inlineSourcesContent": true,
+          "jsc": {
+            "externalHelpers": true,
+            "parser": {
+              "decorators": true,
+              "syntax": "typescript",
+              "tsx": true,
+            },
+            "preserveAllComments": true,
+            "target": "es5",
+            "transform": {
+              "react": {
+                "refresh": true,
+                "runtime": "automatic",
+              },
+              "useDefineForClassFields": true,
+            },
+          },
+          "minify": false,
+          "sourceMaps": true,
+        },
+      },
+    ],
+  },
+  {
+    "mimetype": {
+      "or": [
+        "text/javascript",
+        "application/javascript",
+      ],
+    },
+    "use": [
+      {
+        "loader": "<ROOT>/src/loader",
+        "options": {
+          "cwd": "<ROOT>",
+          "env": {
+            "coreJs": "3.30",
+            "mode": "entry",
+            "targets": [
+              "> 0.01%",
+              "not dead",
+              "not op_mini all",
+            ],
+          },
+          "extensions": {
+            "lodash": {
+              "cwd": "<ROOT>",
+              "ids": [
+                "lodash",
+                "lodash-es",
+              ],
+            },
+            "styledComponents": {
+              "displayName": true,
+              "pure": false,
+              "ssr": false,
+              "transpileTemplateLiterals": true,
+            },
+          },
+          "inlineSourcesContent": true,
+          "jsc": {
+            "externalHelpers": true,
+            "parser": {
+              "decorators": true,
+              "syntax": "typescript",
+              "tsx": true,
+            },
+            "preserveAllComments": true,
+            "target": "es5",
+            "transform": {
+              "react": {
+                "refresh": true,
+                "runtime": "automatic",
+              },
+              "useDefineForClassFields": true,
+            },
+          },
+          "minify": false,
+          "sourceMaps": true,
+        },
+      },
+    ],
+  },
+  {
+    "test": /override\\.ts/,
+    "use": [
+      {
+        "loader": "<ROOT>/src/loader",
+        "options": {
+          "cwd": "<ROOT>",
+          "env": {
+            "coreJs": "3.30",
+            "mode": "entry",
+            "targets": [
+              "> 0.01%",
+              "not dead",
+              "not op_mini all",
+            ],
+          },
+          "extensions": {
+            "lodash": {
+              "cwd": "<ROOT>",
+              "ids": [
+                "lodash",
+                "lodash-es",
+              ],
+            },
+            "styledComponents": {
+              "displayName": true,
+              "pure": false,
+              "ssr": false,
+              "transpileTemplateLiterals": true,
+            },
+          },
+          "inlineSourcesContent": true,
+          "jsc": {
+            "externalHelpers": true,
+            "parser": {
+              "decorators": true,
+              "syntax": "typescript",
+              "tsx": true,
+            },
+            "preserveAllComments": true,
+            "target": "es5",
+            "transform": {
+              "react": {
+                "refresh": true,
+                "runtime": "automatic",
+              },
+              "useDefineForClassFields": false,
+            },
+          },
+          "minify": false,
+          "sourceMaps": true,
+        },
+      },
+    ],
+  },
+]
 `;
 
 exports[`plugins/swc > should set swc minimizer in production 1`] = `
@@ -557,7 +768,6 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                   "not op_mini all",
                 ],
               },
-              "exclude": [],
               "extensions": {
                 "lodash": {
                   "cwd": "<ROOT>",
@@ -617,7 +827,6 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                   "not op_mini all",
                 ],
               },
-              "exclude": [],
               "extensions": {
                 "lodash": {
                   "cwd": "<ROOT>",

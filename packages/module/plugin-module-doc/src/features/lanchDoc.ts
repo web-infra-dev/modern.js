@@ -14,6 +14,7 @@ export async function launchDoc({
   previewMode,
   entries,
   apiParseTool,
+  parseToolOptions,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(resolve(appDir, './package.json'), 'utf8'),
@@ -91,7 +92,19 @@ export async function launchDoc({
       ],
     };
   };
-
+  const locales =
+    languages.length === 2
+      ? [
+          {
+            lang: 'zh',
+            label: '简体中文',
+          },
+          {
+            lang: 'en',
+            label: 'English',
+          },
+        ]
+      : undefined;
   const modernDocConfig = mergeModuleDocConfig<UserConfig>(
     {
       doc: {
@@ -109,16 +122,7 @@ export async function launchDoc({
           // TODO: support dark mode in code block
           darkMode: false,
           sidebar: await getAutoSidebar(),
-          locales: [
-            {
-              lang: 'zh',
-              label: '简体中文',
-            },
-            {
-              lang: 'en',
-              label: 'English',
-            },
-          ],
+          locales,
         },
         markdown: {
           globalComponents: [
@@ -144,6 +148,7 @@ export async function launchDoc({
             entries,
             apiParseTool,
             appDir,
+            parseToolOptions,
           }),
         ],
       },

@@ -1,5 +1,33 @@
 # @modern-js/generator-utils
 
+## 3.1.29
+
+### Patch Changes
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- bd2c1ff: fix: get package available version error
+
+  fix: 修复获取包可用版本时报错
+
+- Updated dependencies [91d14b8]
+- Updated dependencies [8322a51]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/generator-common@3.1.29
+  - @modern-js/plugin-i18n@2.27.0
+
+## 3.1.28
+
+### Patch Changes
+
+- Updated dependencies [cd601f6]
+  - @modern-js/generator-common@3.1.28
+  - @modern-js/plugin-i18n@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 3.1.27
 
 ### Patch Changes

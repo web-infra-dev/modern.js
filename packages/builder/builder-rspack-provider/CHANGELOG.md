@@ -1,5 +1,65 @@
 # @modern-js/builder-rspack-provider
 
+## 2.27.0
+
+### Minor Changes
+
+- 3f79dd7: feat(builder): add `source.aliasStrategy` option
+
+  feat(builder): 新增 `source.aliasStrategy` 选项
+
+### Patch Changes
+
+- 645e111: fix(builder): CSS Modules name has a probability of conflict in prod
+
+  fix(builder): 修复 CSS Modules name 在生产环境有极小概率冲突的问题
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- 5376a22: chore(builder): update rspack to 0.2.8 and compatible [dev-client change](https://github.com/web-infra-dev/rspack/pull/3731/files)
+
+  chore(builder): 升级 rspack 到 0.2.8 并兼容 [dev-client 变更](https://github.com/web-infra-dev/rspack/pull/3731/files)
+
+- 67d0b0c: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- Updated dependencies [645e111]
+- Updated dependencies [91d14b8]
+- Updated dependencies [8322a51]
+- Updated dependencies [d9080ed]
+- Updated dependencies [67d0b0c]
+- Updated dependencies [3f79dd7]
+- Updated dependencies [6d7104d]
+  - @modern-js/builder-shared@2.27.0
+  - @modern-js/utils@2.27.0
+  - @modern-js/server@2.27.0
+  - @modern-js/types@2.27.0
+
+## 2.26.0
+
+### Patch Changes
+
+- 150ddb1: fix(builder-shared): set formatStats fn as sync-fn so that info can print quikly
+  fix(builder-shared): 将 formatStats 设置成同步函数使构建信息能够尽快的打印出来
+- fac4ee0: fix(builder): enable preferRelative for CSS files by default
+
+  fix(builder): 默认开启 CSS files 的 preferRelative 配置
+
+- cdf5b6b: chore(builder): override rspack.devServer type declare and update doc
+
+  chore(builder): 覆盖 rspack.devServer 类型定义并更新文档
+
+- Updated dependencies [150ddb1]
+- Updated dependencies [15ad760]
+- Updated dependencies [786c195]
+  - @modern-js/builder-shared@2.26.0
+  - @modern-js/server@2.26.0
+  - @modern-js/types@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

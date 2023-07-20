@@ -25,8 +25,9 @@ export const builderPluginResolve = (): BuilderPlugin => ({
 
     api.modifyRspackConfig(async (rspackConfig, { isServer }) => {
       const isTsProject = Boolean(api.context.tsconfigPath);
+      const config = api.getNormalizedConfig();
 
-      if (isTsProject) {
+      if (isTsProject && config.source.aliasStrategy === 'prefer-tsconfig') {
         setConfig(
           rspackConfig,
           'resolve.tsConfigPath',

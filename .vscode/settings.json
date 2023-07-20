@@ -20,6 +20,7 @@
     "**/*.pid": true,
     "**/.git": true,
     "**/compiled": true,
+    "**/doc_build": true,
     "**/coverage": true,
     "**/node_modules": true,
     "**/bower_components": true

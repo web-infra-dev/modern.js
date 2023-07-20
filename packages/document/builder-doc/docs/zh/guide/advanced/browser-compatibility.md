@@ -145,7 +145,7 @@ import path from 'path';
 
 export default {
   source: {
-    include: [/\/query-string\//],
+    include: [/\/node_modules\/query-string\//],
   },
 };
 ```

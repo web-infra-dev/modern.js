@@ -16,6 +16,13 @@ export const builderPluginReact = (): BuilderPlugin => ({
         // https://swc.rs/docs/configuration/compilation#jsctransformreactruntime
         runtime: 'automatic',
       });
+
+      setConfig(rspackConfig, 'builtins.provide', {
+        ...(rspackConfig.builtins?.provide || {}),
+        $ReactRefreshRuntime$: [
+          require.resolve('@rspack/dev-client/react-refresh'),
+        ],
+      });
     });
   },
 });

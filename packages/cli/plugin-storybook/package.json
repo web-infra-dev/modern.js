@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.25.2",
+  "version": "2.27.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -90,13 +90,12 @@
     "webpack-chain": "^6.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.25.2",
-    "@modern-js/plugin-router-v5": "workspace:^2.25.2",
+    "@modern-js/runtime": "workspace:^2.27.0",
+    "@modern-js/plugin-router-v5": "workspace:^2.27.0",
     "react": ">=17",
     "react-dom": ">=17"
   },
   "sideEffects": false,
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

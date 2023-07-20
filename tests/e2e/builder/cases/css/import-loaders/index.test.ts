@@ -21,7 +21,7 @@ webpackOnlyTest(
       files[Object.keys(files).find(file => file.endsWith('.css'))!];
 
     expect(content).toEqual(
-      '.yQ8Tl+.hello-class-foo{background-color:red}.TVH2T .hello-class-bar{background-color:blue}',
+      '.class-foo-yQ8Tl7+.hello-class-foo{background-color:red}.class-bar-TVH2T6 .hello-class-bar{background-color:blue}',
     );
   },
 );

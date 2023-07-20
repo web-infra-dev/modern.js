@@ -33,6 +33,8 @@ export function DocLayout(props: DocLayoutProps) {
 
   const { items: sidebarData } = useSidebarData();
   const langRoutePrefix = normalizeSlash(localesData.langRoutePrefix || '');
+  const hideNavbar =
+    frontmatter?.hideNavbar ?? themeConfig?.hideNavbar ?? false;
   // siderbar Priority
   // 1. frontmatter.sidebar
   // 2. themeConfig.locales.sidebar
@@ -60,7 +62,12 @@ export function DocLayout(props: DocLayoutProps) {
   }, [page, siteData]);
 
   return (
-    <div className={`${styles.docLayout} pt-0 md:mt-14`}>
+    <div
+      className={`${styles.docLayout} pt-0`}
+      style={{
+        ...(hideNavbar ? { marginTop: 0 } : {}),
+      }}
+    >
       {beforeDoc}
       {hasSidebar ? (
         <SideMenu
@@ -94,6 +101,12 @@ export function DocLayout(props: DocLayoutProps) {
             style={{
               maxHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
               overflow: 'scroll',
+              ...(hideNavbar
+                ? {
+                    marginTop: 0,
+                    paddingTop: '32px',
+                  }
+                : {}),
             }}
           >
             <div>

@@ -1,6 +1,10 @@
 import path from 'path';
 import { fs } from '@modern-js/utils';
-import type { Entrypoint, NestedRoute, PageRoute } from '@modern-js/types';
+import type {
+  Entrypoint,
+  NestedRouteForCli,
+  PageRoute,
+} from '@modern-js/types';
 import { makeLegalIdentifier } from '../makeLegalIdentifier';
 import {
   FILE_SYSTEM_ROUTES_COMPONENTS_DIR,
@@ -213,7 +217,7 @@ export const getClientRoutes = ({
   srcAlias: string;
   internalDirectory: string;
   internalDirAlias: string;
-}): (NestedRoute | PageRoute)[] => {
+}): (NestedRouteForCli | PageRoute)[] => {
   const { entryName, pageRoutesEntry } = entrypoint;
   if (!pageRoutesEntry) {
     return [];
