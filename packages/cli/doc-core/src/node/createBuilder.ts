@@ -188,6 +188,8 @@ export async function createModernBuilder(
   const cwd = process.cwd();
   const userRoot = path.resolve(rootDir || config.doc?.root || cwd);
   // We use a temp dir to store runtime files, so we can separate client and server build
+  // and we should empty temp dir before build
+  await fs.emptyDir(TEMP_DIR);
   const runtimeTempDir = path.join(TEMP_DIR, 'runtime');
   await fs.ensureDir(runtimeTempDir);
   const routeService = await initRouteService({
