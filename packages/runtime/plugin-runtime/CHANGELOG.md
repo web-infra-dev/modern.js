@@ -1,5 +1,25 @@
 # @modern-js/runtime
 
+## 2.27.0
+
+### Patch Changes
+
+- 21be212: fix: add support for nodenext moduleResolution
+  fix: TS 类型支持 moduleResolution 为 nodenext
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- fb51b98: fix: fix remixRouter not existed in conventional routes
+  fix: 修复 remixRouter 在约定式路由下不存在问题
+- b591092: fix: fix `modifyRoutes` in SSR
+  fix: 修复 SSR 时, `modifyRoutes` 执行时机
+- Updated dependencies [91d14b8]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/plugin@2.27.0
+  - @modern-js/types@2.27.0
+
 ## 2.26.0
 
 ### Minor Changes

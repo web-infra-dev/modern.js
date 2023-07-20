@@ -1,5 +1,19 @@
 # @modern-js/plugin-express
 
+## 2.27.0
+
+### Patch Changes
+
+- 7d94d03: fix: should export bff-runtime from the plugins
+  fix: 应该从插件中导出 bff-runtime
+- Updated dependencies [7d94d03]
+- Updated dependencies [91d14b8]
+- Updated dependencies [6d7104d]
+  - @modern-js/bff-core@2.27.0
+  - @modern-js/utils@2.27.0
+  - @modern-js/bff-runtime@2.27.0
+  - @modern-js/types@2.27.0
+
 ## 2.26.0
 
 ### Patch Changes

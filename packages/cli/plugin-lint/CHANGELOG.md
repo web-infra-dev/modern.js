@@ -1,5 +1,18 @@
 # @modern-js/plugin-lint
 
+## 2.27.0
+
+### Patch Changes
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- Updated dependencies [91d14b8]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/tsconfig@2.27.0
+
 ## 2.26.0
 
 ### Patch Changes
