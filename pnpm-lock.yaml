@@ -3542,9 +3542,6 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config-app
     devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       eslint:
         specifier: ^8.28.0
         version: 8.28.0
@@ -3609,9 +3606,6 @@ importers:
         specifier: ^2.3.2
         version: 2.8.7
     devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       eslint-find-rules:
         specifier: ^4.1.0
         version: 4.1.0(eslint@8.28.0)
@@ -3619,11 +3613,7 @@ importers:
         specifier: ^5
         version: 5.0.4
 
-  packages/review/tsconfig:
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
+  packages/review/tsconfig: {}
 
   packages/runtime/plugin-garfish:
     dependencies:
