@@ -1,5 +1,6 @@
-// https://modernjs.dev/module-tools/en/api
+import { dtsConfig } from '@scripts/build';
 
+// https://modernjs.dev/module-tools/en/api
 export default {
   buildConfig: [
     {
@@ -7,6 +8,7 @@ export default {
       format: 'cjs',
       sourceMap: true,
       target: 'es2020',
+      dts: dtsConfig,
     },
     {
       buildType: 'bundle',

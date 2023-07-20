@@ -31,6 +31,7 @@
     "@scripts/build": "workspace:*",
     "jest": "^29",
     "@scripts/jest-config": "workspace:*",
+    "@swc/helpers": "0.5.1",
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {

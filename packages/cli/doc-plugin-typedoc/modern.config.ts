@@ -1,3 +1,5 @@
+import { skipDts } from '@scripts/build';
+
 // https://modernjs.dev/module-tools/en/api
 // TODO: Add `defineConfig` after @modern-js/module-tools restore the function
 export default {
@@ -12,8 +14,10 @@ export default {
       '@modern-js/doc-core/src/shared/types/Plugin',
       '@modern-js/doc-core/src/shared/types/index',
     ],
-    dts: {
-      respectExternal: true,
-    },
+    dts: skipDts
+      ? false
+      : {
+          respectExternal: true,
+        },
   },
 };
