@@ -11,6 +11,7 @@ import {
   HTML_START_TAG,
   BODY_START_TAG,
   PUBLIC_DIR,
+  TEMP_DIR,
 } from './constants';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
@@ -216,6 +217,10 @@ export async function build(options: BuildOptions) {
   await pluginDriver.init();
   const modifiedConfig = await pluginDriver.modifyConfig();
   await pluginDriver.beforeBuild();
+
+  // empty temp dir before build
+  await fs.emptyDir(TEMP_DIR);
+
   await bundle(appDirectory, docDirectory, modifiedConfig, pluginDriver);
   await renderPages(appDirectory, modifiedConfig, pluginDriver);
   await pluginDriver.afterBuild();
