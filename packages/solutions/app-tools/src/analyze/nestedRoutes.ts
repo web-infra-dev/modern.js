@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { fs, normalizeToPosixPath } from '@modern-js/utils';
-import type { NestedRoute } from '@modern-js/types';
+import type { NestedRouteForCli } from '@modern-js/types';
 import { JS_EXTENSIONS, NESTED_ROUTE } from './constants';
 import { replaceWithAlias } from './utils';
 
@@ -36,12 +36,12 @@ export const getRouteId = (
 };
 
 const createIndexRoute = (
-  routeInfo: Omit<NestedRoute, 'type'>,
+  routeInfo: Omit<NestedRouteForCli, 'type'>,
   rootDir: string,
   filename: string,
   entryName: string,
   isMainEntry: boolean,
-): NestedRoute => {
+): NestedRouteForCli => {
   return createRoute(
     {
       ...routeInfo,
@@ -56,12 +56,12 @@ const createIndexRoute = (
 };
 
 const createRoute = (
-  routeInfo: Omit<NestedRoute, 'type'>,
+  routeInfo: Omit<NestedRouteForCli, 'type'>,
   rootDir: string,
   filename: string,
   entryName: string,
   isMainEntry: boolean,
-): NestedRoute => {
+): NestedRouteForCli => {
   const id = getRouteId(filename, rootDir, entryName, isMainEntry);
   return {
     ...routeInfo,
@@ -80,7 +80,7 @@ export const walk = async (
   },
   entryName: string,
   isMainEntry: boolean,
-): Promise<NestedRoute | null> => {
+): Promise<NestedRouteForCli | null> => {
   if (!(await fs.pathExists(dirname))) {
     return null;
   }
@@ -101,7 +101,7 @@ export const walk = async (
   }
   routePath = replaceDynamicPath(routePath);
 
-  const route: Partial<NestedRoute> = {
+  const route: Partial<NestedRouteForCli> = {
     path: routePath?.replace(/\$$/, '?'),
     children: [],
     isRoot,
@@ -171,7 +171,7 @@ export const walk = async (
       pageRoute = createIndexRoute(
         {
           _component: replaceWithAlias(alias.basename, itemPath, alias.name),
-        } as NestedRoute,
+        } as NestedRouteForCli,
         rootDir,
         itemPath,
         entryName,

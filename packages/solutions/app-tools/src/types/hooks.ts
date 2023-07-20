@@ -7,7 +7,7 @@ import type {
 import type {
   Entrypoint,
   HtmlPartials,
-  NestedRoute,
+  NestedRouteForCli,
   PageRoute,
   RouteLegacy,
   ServerRoute,
@@ -59,7 +59,7 @@ export type AppToolsHooks<B extends Bundler = 'webpack'> = {
   }>;
   modifyFileSystemRoutes: AsyncWaterfall<{
     entrypoint: Entrypoint;
-    routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
+    routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
   }>;
   modifyServerRoutes: AsyncWaterfall<{
     routes: ServerRoute[];

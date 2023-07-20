@@ -2,7 +2,7 @@
 import path from 'path';
 import type {
   Entrypoint,
-  NestedRoute,
+  NestedRouteForCli,
   PageRoute,
   Route,
   RouteLegacy,
@@ -123,10 +123,10 @@ export const html = (partials: {
 export const routesForServer = ({
   routes,
 }: {
-  routes: (NestedRoute | PageRoute)[];
+  routes: (NestedRouteForCli | PageRoute)[];
 }) => {
   const loaders: string[] = [];
-  const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
+  const traverseRouteTree = (route: NestedRouteForCli | PageRoute): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
       children = route?.children?.map(traverseRouteTree);
@@ -189,7 +189,7 @@ export const fileSystemRoutes = async ({
   internalDirectory,
   splitRouteChunks = true,
 }: {
-  routes: RouteLegacy[] | (NestedRoute | PageRoute)[];
+  routes: RouteLegacy[] | (NestedRouteForCli | PageRoute)[];
   ssrMode?: SSRMode;
   nestedRoutesEntry?: string;
   entryName: string;
@@ -235,7 +235,7 @@ export const fileSystemRoutes = async ({
     return '';
   };
 
-  const traverseRouteTree = (route: NestedRoute | PageRoute): Route => {
+  const traverseRouteTree = (route: NestedRouteForCli | PageRoute): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
       children = route?.children?.map(traverseRouteTree);
