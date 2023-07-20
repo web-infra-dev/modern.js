@@ -1,7 +1,7 @@
-name: Unit Test (vitest - Ubuntu)
+name: Unit Test (vitest - macOS)
 
 concurrency:
-  group: linux-vitest-${{ github.head_ref }}
+  group: macos-vitest-${{ github.head_ref }}
   cancel-in-progress: true
 
 # Controls when the action will run.
@@ -17,13 +17,13 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  ut-linux:
+  ut-mac:
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         node-version: [16.x]
-        os: [ubuntu-latest] # ubuntu-latest
+        os: [macos-latest] # macos-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
