@@ -10,7 +10,6 @@
     "only-allow-pnpm": "./bin/onlyAllowPnpm.js"
   },
   "devDependencies": {
-    "@modern-js/tsconfig": "workspace:*",
     "@types/jest": "^29",
     "@types/node": "^14",
     "tsm": "2.3.0",
