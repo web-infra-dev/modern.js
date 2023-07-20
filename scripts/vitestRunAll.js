@@ -15,6 +15,12 @@ const restArgv = process.argv.slice(2);
   const directories = configs.map(config => path.dirname(config));
 
   try {
+    const buildCmd = `pnpm --filter "@scripts/vitest-config" run build`;
+    await execa(buildCmd, {
+      shell: SHELL,
+      stdio: 'inherit',
+    });
+
     for (const cwd of directories) {
       const args = ['run', 'test', ...restArgv];
       await execa('pnpm', args, { shell: SHELL, stdio: 'inherit', cwd });
