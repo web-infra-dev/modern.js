@@ -259,7 +259,7 @@ ${this.getRoutes()
     return {
       routePath: normalizeRoutePath(routePath, this.#defaultLang, this.#base),
       absolutePath: normalizePath(filepath),
-      pageName: getPageKey(path.basename(filepath)),
+      pageName: getPageKey(routePath),
       lang: this.#getLang(filepath),
     };
   }
