@@ -16,7 +16,7 @@ importers:
         specifier: ^7.21.8
         version: 7.21.8
       '@babel/plugin-transform-modules-commonjs':
-        specifier: ^7.17.7
+        specifier: ^7.20.11
         version: 7.21.5(@babel/core@7.21.8)
       '@commitlint/cli':
         specifier: ^17.6.3
@@ -4071,7 +4071,7 @@ importers:
         specifier: ^7.20.11
         version: 7.21.5(@babel/core@7.21.8)
       '@babel/preset-env':
-        specifier: ^7.20.2
+        specifier: ^7.21.5
         version: 7.21.5(@babel/core@7.21.8)
       '@scripts/jest-config':
         specifier: workspace:*
