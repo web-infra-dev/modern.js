@@ -4,7 +4,7 @@ sidebar_label: swc
 
 # tools.swc
 
-- **Type:** `Object`
+- **Type:** `Object | Function`
 - **Default:** `undefined`
 
 ## Introduction
@@ -39,6 +39,21 @@ export default defineConfig({
         compress: {},
         mangle: true,
       },
+    },
+  },
+});
+```
+
+Or using function to have more customize config, or to modify the default config.
+
+```js title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  tools: {
+    swc(config, { setConfig }) {
+      // Used for transpiling decorator of mobx correctly
+      setConfig(config, 'jsc.transform.useDefineForClassFields', true);
     },
   },
 });

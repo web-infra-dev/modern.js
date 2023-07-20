@@ -1,4 +1,4 @@
-import { test } from 'vitest';
+import { describe, it } from 'vitest';
 import { LoaderContext, LoaderDefinitionFunction } from 'webpack';
 import { createLoader } from '../src/loader';
 
@@ -24,20 +24,21 @@ const mockSwcLoaderRunner = (): [
   ];
 };
 
-// TODO Segmentation fault (core dumped) in ubuntu CI
-test.skip('should handle loader interface correctly', async () => {
-  const loader = createLoader();
+describe('loader test', () => {
+  it('should handle loader interface correctly', async () => {
+    const loader = createLoader();
 
-  const [finish, runner] = mockSwcLoaderRunner();
+    const [finish, runner] = mockSwcLoaderRunner();
 
-  loader.call(runner, '', {
-    version: 3,
-    file: 'app.js',
-    sources: [],
-    sourceRoot: '',
-    names: [],
-    mappings: '',
+    loader.call(runner, '', {
+      version: 3,
+      file: 'app.js',
+      sources: [],
+      sourceRoot: '',
+      names: [],
+      mappings: '',
+    });
+
+    await finish;
   });
-
-  await finish;
 });
