@@ -4,6 +4,7 @@
  */
 
 const externalHelpers = true;
+const skipDts = process.env.SKIP_DTS === 'true';
 
 /**
  * @type {PartialBaseBuildConfig[]}
@@ -25,14 +26,16 @@ const nodeBuildConfig = [
     outDir: './dist/esm',
     externalHelpers,
   },
-  {
-    buildType: 'bundleless',
-    dts: {
-      only: true,
-    },
-    outDir: './dist/types',
-  },
-];
+  skipDts
+    ? null
+    : {
+        buildType: 'bundleless',
+        dts: {
+          only: true,
+        },
+        outDir: './dist/types',
+      },
+].filter(Boolean);
 
 /**
  * @param {PartialBaseBuildConfig} extendConfig
@@ -75,14 +78,16 @@ const universalBuildConfig = [
     outDir: './dist/esm-node',
     externalHelpers,
   },
-  {
-    buildType: 'bundleless',
-    dts: {
-      only: true,
-    },
-    outDir: './dist/types',
-  },
-];
+  skipDts
+    ? null
+    : {
+        buildType: 'bundleless',
+        dts: {
+          only: true,
+        },
+        outDir: './dist/types',
+      },
+].filter(Boolean);
 
 /**
  * @type {PartialBaseBuildConfig[]}
@@ -112,15 +117,17 @@ const universalBuildConfigWithBundle = [
     outDir: './dist/esm-node',
     externalHelpers,
   },
-  {
-    buildType: 'bundleless',
-    dts: {
-      only: true,
-    },
-    outDir: './dist/types',
-    externalHelpers,
-  },
-];
+  skipDts
+    ? null
+    : {
+        buildType: 'bundleless',
+        dts: {
+          only: true,
+        },
+        outDir: './dist/types',
+        externalHelpers,
+      },
+].filter(Boolean);
 
 /**
  *
@@ -143,10 +150,12 @@ const tscLikeBuildConfig = [
     target: 'es2019',
     outDir: './dist',
     externalHelpers,
+    dts: skipDts ? false : {},
   },
 ];
 
 module.exports = {
+  skipDts,
   nodeBuildConfig,
   tscLikeBuildConfig,
   extendNodeBuildConfig,

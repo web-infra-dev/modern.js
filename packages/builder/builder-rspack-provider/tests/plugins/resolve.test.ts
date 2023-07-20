@@ -58,7 +58,7 @@ describe('plugins/resolve', () => {
   });
 
   it('should not apply tsConfigPath when aliasStrategy is "prefer-alias"', async () => {
-    vi.spyOn(builderShared, 'isFileExists').mockImplementation(() =>
+    (isFileExists as unknown as SpyInstance).mockImplementationOnce(() =>
       Promise.resolve(true),
     );
 

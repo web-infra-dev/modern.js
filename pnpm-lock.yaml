@@ -54,6 +54,9 @@ importers:
       babel-plugin-module-resolver:
         specifier: ^4.1.0
         version: 4.1.0
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
@@ -12788,7 +12791,7 @@ packages:
       html-entities: 2.3.3
       loader-utils: 2.0.4
       react-refresh: 0.11.0
-      schema-utils: 3.3.0
+      schema-utils: 3.1.2
       source-map: 0.7.4
       webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
     dev: false

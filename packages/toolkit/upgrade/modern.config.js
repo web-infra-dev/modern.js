@@ -1,3 +1,5 @@
+const { skipDts } = require('@scripts/build');
+
 module.exports = {
   buildConfig: [
     {
@@ -6,12 +8,14 @@ module.exports = {
       autoExternal: true,
       dts: false,
     },
-    {
-      buildType: 'bundleless',
-      outDir: './dist',
-      dts: {
-        only: true,
-      },
-    },
-  ],
+    skipDts
+      ? null
+      : {
+          buildType: 'bundleless',
+          outDir: './dist',
+          dts: {
+            only: true,
+          },
+        },
+  ].filter(Boolean),
 };

@@ -1,3 +1,5 @@
+import { skipDts } from '@scripts/build';
+
 // https://modernjs.dev/module-tools/en/api
 // TODO: Add `defineConfig` after @modern-js/module-tools restore the function
 export default {
@@ -6,6 +8,6 @@ export default {
       buildType: 'bundle',
       dts: false,
     },
-    { buildType: 'bundleless', dts: { only: true } },
-  ],
+    skipDts ? null : { buildType: 'bundleless', dts: { only: true } },
+  ].filter(Boolean),
 };

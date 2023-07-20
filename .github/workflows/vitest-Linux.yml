@@ -60,7 +60,11 @@ jobs:
 
       - name: Install Dependencies
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm install
+        run: pnpm install --ignore-scripts
+
+      - name: Build packages
+        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        run: pnpm build:skip-dts
 
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
