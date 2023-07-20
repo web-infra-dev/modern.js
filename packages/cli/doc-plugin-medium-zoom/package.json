@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-plugin-medium-zoom",
-  "version": "2.26.0",
+  "version": "2.27.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -38,7 +38,7 @@
     "dist/"
   ],
   "peerDependencies": {
-    "@modern-js/doc-tools": "workspace:^2.26.0",
+    "@modern-js/doc-tools": "workspace:^2.27.0",
     "react": ">=17"
   },
   "devDependencies": {

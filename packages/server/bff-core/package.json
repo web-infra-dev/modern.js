@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.26.0",
+  "version": "2.27.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
@@ -35,7 +35,6 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/bff-runtime": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "koa-compose": "^4.1.0",
     "reflect-metadata": "^0.1.13",

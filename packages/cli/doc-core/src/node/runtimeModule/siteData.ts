@@ -341,7 +341,7 @@ export async function siteDataVMPlugin(context: FactoryContext) {
     routeService,
     pluginDriver,
   } = context;
-  const entryPath = join(runtimeTempDir, `${RuntimeModuleID.SiteData}.js`);
+  const entryPath = join(runtimeTempDir, `${RuntimeModuleID.SiteData}.mjs`);
   const searchIndexHashPath = join(
     runtimeTempDir,
     `${RuntimeModuleID.SearchIndexHash}.js`,

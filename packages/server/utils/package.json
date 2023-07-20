@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.26.0",
+  "version": "2.27.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -46,7 +46,7 @@
     "@modern-js/babel-compiler": "workspace:*",
     "@modern-js/babel-preset-base": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "babel-plugin-module-resolver": "^4.1.0",
+    "@modern-js/babel-plugin-module-resolver": "workspace:*",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "@swc/helpers": "0.5.1"
   },

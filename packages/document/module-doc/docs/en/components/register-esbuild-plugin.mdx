@@ -1,0 +1,14 @@
+```js modern.config.ts
+import { myEsbuildPlugin } from './myEsbuildPlugin';
+
+export default defineConfig({
+  buildConfig: {
+    esbuildOptions: options => {
+      options.plugins = [myEsbuildPlugin, ...options.plugins];
+      return option;
+    },
+  },
+});
+```
+
+When adding an esbuild plugin, please note that you need to add the plugin at the beginning of the plugins array. This is because the Modern.js Module is also integrated into the entire build process through an esbuild plugin. Therefore, custom plugins need to be registered with higher priority.

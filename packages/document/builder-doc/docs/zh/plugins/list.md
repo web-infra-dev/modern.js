@@ -3,6 +3,7 @@
 ## 官方插件
 
 - [@modern-js/builder-plugin-vue](/plugins/plugin-vue.html)：用于构建 Vue 3 应用。
+- [@modern-js/builder-plugin-vue2](/plugins/plugin-vue2.html)：用于构建 Vue 2 应用。
 - [@modern-js/builder-plugin-swc](/plugins/plugin-swc.html)：使用 SWC 进行代码编译和压缩以提升构建性能。
 - [@modern-js/builder-plugin-stylus](/plugins/plugin-stylus.html)：使用 Stylus 作为 CSS 预处理器。
 - [@modern-js/builder-plugin-esbuild](/plugins/plugin-esbuild.html)：使用 esbuild 进行代码编译和压缩以提升构建性能。

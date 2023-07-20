@@ -161,3 +161,31 @@ test('tsconfig paths should work and override the alias config', async ({
 
   builder.close();
 });
+
+test('tsconfig paths should not work when aliasStrategy is "prefer-alias"', async ({
+  page,
+}) => {
+  const cwd = join(fixtures, 'tsconfig-paths');
+  const builder = await build({
+    cwd,
+    entry: {
+      main: join(cwd, 'src/index.ts'),
+    },
+    runServer: true,
+    builderConfig: {
+      source: {
+        alias: {
+          '@/common': './src/common2',
+        },
+        aliasStrategy: 'prefer-alias',
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+  await expect(
+    page.evaluate(`document.getElementById('foo').innerHTML`),
+  ).resolves.toBe('source.alias worked');
+
+  builder.close();
+});

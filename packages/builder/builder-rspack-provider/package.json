@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.26.0",
+  "version": "2.27.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -56,9 +56,9 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@babel/preset-typescript": "^7.21.5",
-    "@rspack/core": "0.2.7",
-    "@rspack/dev-client": "0.2.7",
-    "@rspack/plugin-html": "0.2.7",
+    "@rspack/core": "0.2.8",
+    "@rspack/dev-client": "0.2.8",
+    "@rspack/plugin-html": "0.2.8",
     "@swc/helpers": "0.5.1",
     "rspack-manifest-plugin": "5.0.0-alpha0",
     "caniuse-lite": "^1.0.30001489",

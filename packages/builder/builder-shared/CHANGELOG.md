@@ -1,5 +1,38 @@
 # @modern-js/builder-shared
 
+## 2.27.0
+
+### Minor Changes
+
+- 3f79dd7: feat(builder): add `source.aliasStrategy` option
+
+  feat(builder): 新增 `source.aliasStrategy` 选项
+
+### Patch Changes
+
+- 645e111: fix(builder): CSS Modules name has a probability of conflict in prod
+
+  fix(builder): 修复 CSS Modules name 在生产环境有极小概率冲突的问题
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- d9080ed: fix(builder): remove unused source map of inlined files
+
+  fix(builder): 移除内联文件多余的 source map
+
+- 67d0b0c: fix(builder): failed to disable html via htmlPlugin: false
+
+  fix(builder): 修复通过 htmlPlugin: false 无法禁用 html 的问题
+
+- Updated dependencies [91d14b8]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/prod-server@2.27.0
+  - @modern-js/server@2.27.0
+  - @modern-js/types@2.27.0
+
 ## 2.26.0
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.27.0
+
+### Patch Changes
+
+- 86274f5: docs: add source code build documentation
+  docs: 添加源码构建文档
+- ebdc4da: Fixed markdown error for link to styled-components website
+- Updated dependencies [86274f5]
+  - @modern-js/builder-doc@2.27.0
+
 ## 2.26.0
 
 ### Patch Changes

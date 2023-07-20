@@ -1,4 +1,5 @@
 import type { PageIndexInfo } from '@modern-js/doc-core';
+import type { ParserOptions } from 'react-docgen-typescript';
 
 export type Entries = Record<string, string>;
 
@@ -8,6 +9,26 @@ export type ToolEntries = {
 };
 
 export type ApiParseTool = 'documentation' | 'react-docgen-typescript';
+
+export type DocumentationArgs = {
+  // https://github.com/documentationjs/documentation/blob/master/docs/NODE_API.md#parameters-1
+  external?: Array<string>;
+  shallow?: boolean;
+  order?: Array<unknown>;
+  access?: Array<string>;
+  hljs?: {
+    highlightAuto?: boolean;
+    languages?: string;
+  };
+  inferPrivate?: string;
+  extension?: string | Array<string>;
+  noReferenceLinks?: boolean;
+};
+
+export type ParseToolOptions = {
+  'react-docgen-typescript'?: ParserOptions;
+  documentation?: DocumentationArgs;
+};
 
 export type PluginOptions = {
   /**
@@ -23,6 +44,12 @@ export type PluginOptions = {
    */
   apiParseTool?: ApiParseTool;
   /**
+   * parserToolOptions
+   * @experimental
+   * @zh 解析器参数
+   */
+  parseToolOptions?: ParseToolOptions;
+  /**
    * appDirectory
    * @zh 项目根目录
    * @default process.cwd()
@@ -32,10 +59,16 @@ export type PluginOptions = {
 
 export type DocGenOptions = Required<PluginOptions> & {
   languages: ('zh' | 'en')[];
+  isProd: boolean;
 };
 
 export type SupportLanguages = 'zh' | 'en';
 
 export type ExtendedPageData = PageIndexInfo & {
   apiDocMap: Record<string, string>;
+};
+
+export type WatchFileInfo = {
+  apiParseTool: ApiParseTool;
+  moduleName: string;
 };

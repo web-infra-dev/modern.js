@@ -1,5 +1,36 @@
 # @modern-js/doc-core
 
+## 2.27.0
+
+### Patch Changes
+
+- 5dabe04: fix(doc-core): flatten error when meeting `# @modern-js/doc-core in mdx file
+
+  fix(doc-core): 当出现 `# @modern-js/doc-core 字符时，mdx 内容扁平化结果异常
+
+- 1895198: fix(doc-core): support hiding nav
+
+  fix(doc-core): 支持隐藏导航栏
+
+- 6af7fe0: fix(doc-core): search failed with base path
+
+  fix(doc-core): base 路径存在时搜索失败
+
+- 0221d29: fix(doc-core): delete empty `html` dir
+- Updated dependencies [645e111]
+- Updated dependencies [91d14b8]
+- Updated dependencies [8322a51]
+- Updated dependencies [5376a22]
+- Updated dependencies [67d0b0c]
+- Updated dependencies [3f79dd7]
+- Updated dependencies [6d7104d]
+  - @modern-js/builder-rspack-provider@2.27.0
+  - @modern-js/utils@2.27.0
+  - @modern-js/builder@2.27.0
+  - @modern-js/core@2.27.0
+  - @modern-js/doc-plugin-medium-zoom@2.27.0
+  - @modern-js/remark-container@2.27.0
+
 ## 2.26.0
 
 ### Patch Changes

@@ -79,3 +79,5 @@ export default {
 ### Priority
 
 The `paths` configuration in `tsconfig.json` takes precedence over the `source.alias` configuration. When a path matches the rules defined in both `paths` and `source.alias`, the value defined in `paths` will be used.
+
+You can adjust the priority of these two options using [source.aliasStrategy](/api/config-source.html#sourcealiasstrategy).

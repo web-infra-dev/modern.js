@@ -1,7 +1,7 @@
 - **类型：** `Record<string, string | string[]> | Function`
 - **默认值：** `undefined`
 
-设置文件引用的别名，对应 webpack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置。
+设置文件引用的别名，对应 webpack 和 Rspack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) 配置。
 
 :::tip
 对于 TypeScript 项目，你只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) 即可，Builder 会自动识别它，不需要额外配置 `source.alias` 字段，详见 [「路径别名」](https://modernjs.dev/builder/guide/advanced/alias.html)。

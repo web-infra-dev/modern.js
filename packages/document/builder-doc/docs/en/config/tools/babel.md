@@ -154,14 +154,16 @@ By default, Babel will only compile the application code in the src directory. W
 export default {
   tools: {
     babel(config, { addIncludes }) {
-      addIncludes(/\/query-string\//);
+      addIncludes(/\/node_modules\/query-string\//);
     },
   },
 };
 ```
 
 :::tip
-The usage of the `addIncludes` function is basically the same as the `source.include` config, please see the [source.include documentation](https://modernjs.dev/builder/api/config-source.html#sourceinclude) for a more detailed usage. You can also use `source.include` directly instead of the `addIncludes` function.
+The usage of the `addIncludes` function is identical to the `source.include` configuration option. We recommend using `source.include` instead of `addIncludes` because `source.include` has a wider range of use cases. For example, when migrating from Babel to SWC compilation, `source.include` can still work, while the `addIncludes` function will not be effective.
+
+Please refer to the [source.include documentation](https://modernjs.dev/builder/en/api/config-source.html#sourceinclude) for more detailed usage.
 :::
 
 #### addExcludes
