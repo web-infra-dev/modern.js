@@ -26,6 +26,7 @@
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./scripts/fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
+    "build:skip-dts": "cross-env SKIP_DTS=true pnpm --filter {packages/**} run build",
     "prepare": "turbo run build --filter {packages/**} --cache-dir=.turbo --no-daemon && husky install",
     "lint": "npm run fast-lint",
     "change": "modern change",
@@ -78,14 +79,16 @@
     "@scripts/build": "workspace:*",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@vitest/ui": "^0.21.1",
+    "@vitest/ui": "^0.33.0",
+    "@vitest/coverage-v8": "^0.33.0",
     "babel-plugin-module-resolver": "^4.1.0",
+    "cross-env": "^7.0.3",
     "esbuild": "0.17.19",
     "execa": "^5.1.1",
     "globby": "^11.0.4",
     "husky": "^8.0.0",
     "turbo": "^1.10.2",
-    "vitest": "0.21.1"
+    "vitest": "0.33.0"
   },
   "pnpm": {
     "overrides": {

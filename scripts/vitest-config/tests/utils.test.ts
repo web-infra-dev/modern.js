@@ -28,8 +28,8 @@ describe('createSnapshotSerializer', () => {
   ])('should handle with windows path %s', (value, expected) => {
     if (process.platform !== 'win32') {
       // will take the error `Maximum call stack size exceeded` in windows & node 16
-      vi.spyOn(path, 'resolve').mockImplementation(path.win32.resolve);
-      vi.spyOn(path, 'normalize').mockImplementation(path.win32.normalize);
+      vi.spyOn(path, 'resolve').mockImplementationOnce(path.win32.resolve);
+      vi.spyOn(path, 'normalize').mockImplementationOnce(path.win32.normalize);
     }
     const serializer = createSnapshotSerializer({
       cwd: 'A:\\b\\c',

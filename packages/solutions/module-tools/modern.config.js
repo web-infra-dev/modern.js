@@ -1,3 +1,5 @@
+const { skipDts } = require('@scripts/build');
+
 module.exports = {
   buildConfig: [
     {
@@ -13,7 +15,7 @@ module.exports = {
       sourceMap: true,
       externalHelpers: true,
       // disableSwcTransform: true,
-      // dts: false,
+      dts: skipDts ? false : {},
     },
   ],
 };

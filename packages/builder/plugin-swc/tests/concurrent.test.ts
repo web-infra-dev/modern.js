@@ -1,8 +1,9 @@
-import { assert, describe, it } from 'vitest';
+import { assert, describe, test } from 'vitest';
 import { Compiler } from '../src/binding';
+import type { TransformConfig } from '@modern-js/swc-plugins';
 
 describe('concurrent compile', async () => {
-  it('transform and transformSync', async () => {
+  test('transform and transformSync', async () => {
     const COUNT = 1;
     const exampleA = new Array(COUNT)
       .fill('')
@@ -55,7 +56,7 @@ describe('concurrent compile', async () => {
           },
         ],
       },
-    });
+    } as Required<TransformConfig>);
 
     const [{ code: resA }, { code: resB }, { code: resC }] = await Promise.all([
       compiler.transform('', exampleA),

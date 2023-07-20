@@ -52,7 +52,7 @@
     "lint-staged": "~13.1.0",
     "prettier": "^2.6.2",
     "typescript": "^5",
-    "vitest": "0.21.1",
+    "vitest": "0.33.0",
     "yaml-front-matter": "^4.1.1"
   },
   "sideEffects": [
