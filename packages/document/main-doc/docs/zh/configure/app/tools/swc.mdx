@@ -4,7 +4,7 @@ sidebar_label: swc
 
 # tools.swc
 
-- **类型：** `Object`
+- **类型：** `Object | Function`
 - **默认值：** `undefined`
 
 ## 介绍
@@ -39,6 +39,21 @@ export default defineConfig({
         compress: {},
         mangle: true,
       },
+    },
+  },
+});
+```
+
+当然也可以使用函数进行更灵活的配置，或者修改某些默认配置。
+
+```js title="modern.config.ts"
+import { defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig({
+  tools: {
+    swc(config, { setConfig }) {
+      // 用于 mobx 中 decorator 编译
+      setConfig(config, 'jsc.transform.useDefineForClassFields', true);
     },
   },
 });
