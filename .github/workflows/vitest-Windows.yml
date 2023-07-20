@@ -30,17 +30,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 25
-
-      - name: Turbo Cache
-        id: turbo-cache
-        uses: actions/cache@v2
-        with:
-          path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
-          restore-keys: |
-            turbo-${{ github.ref_name }}-
-            turbo-
+          fetch-depth: 1
 
       - name: Install Pnpm
         run: corepack enable
