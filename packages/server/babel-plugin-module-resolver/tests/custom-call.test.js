@@ -1,5 +1,5 @@
 import path from 'path';
-import { transform } from 'babel-core';
+import { transform } from '@babel/core';
 import plugin from '../src';
 
 const calls = ['customMethod.something'];
