@@ -9,9 +9,7 @@ export {
   minifyCssSync,
 } from '@modern-js/swc-plugins';
 
-export function applyExtensionsConfig(
-  opt: Required<TransformConfig>,
-): Required<TransformConfig> {
+export function applyExtensionsConfig(opt: TransformConfig): TransformConfig {
   // set lockCoreVersion config
   const config = {
     ...opt,
@@ -31,7 +29,7 @@ export function applyExtensionsConfig(
 export class Compiler extends RawCompiler {
   config: TransformConfig;
 
-  constructor(config: Required<TransformConfig>) {
+  constructor(config: TransformConfig) {
     const finalConfig = applyExtensionsConfig(config);
     super(finalConfig);
     this.config = finalConfig;

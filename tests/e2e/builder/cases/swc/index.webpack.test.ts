@@ -19,11 +19,12 @@ test('should run SWC compilation correctly', async ({ page }) => {
 
   expect(await page.evaluate('window.student')).toEqual({
     name: 'xxx',
+    id: 1,
     age: 10,
     school: 'yyy',
   });
 
-  builder.close();
+  await builder.close();
 });
 
 test('should optimize lodash bundle size', async ({ page }) => {
@@ -54,5 +55,59 @@ test('should optimize lodash bundle size', async ({ page }) => {
 
   expect(bundleSize < 10).toBeTruthy();
 
-  builder.close();
+  await builder.close();
+});
+
+test('should use define for class', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/main.ts'),
+    },
+    plugins: [
+      builderPluginSwc({
+        overrides: [
+          {
+            test: /override.ts/,
+            jsc: {
+              transform: {
+                useDefineForClassFields: false,
+              },
+            },
+          },
+        ],
+        jsc: {
+          transform: {
+            useDefineForClassFields: true,
+          },
+        },
+      }),
+    ],
+    builderConfig: {
+      output: {
+        disableMinimize: true,
+      },
+    },
+    runServer: true,
+  });
+
+  const files = await builder.unwrapOutputJSON(true);
+  const file =
+    files[
+      Reflect.ownKeys(files).find(
+        fileName =>
+          (fileName as string).includes('index') &&
+          (fileName as string).endsWith('.js'),
+      ) as string
+    ];
+
+  // this is because setting useDefineForClassFields to false
+  expect(file.includes('this.bar = 1')).toBe(true);
+
+  // should not affect normal modules
+  expect(
+    file.includes('_define_property(_assert_this_initialized(_this), "id", 1)'),
+  ).toBe(true);
+
+  await builder.close();
 });
