@@ -17,6 +17,6 @@
 '@modern-js/doc-core': patch
 ---
 
- c
+chore(CI): update build config to improve vitest CI perf
 
 chore(CI):  更新构建配置来提升 vitest CI 性能
