@@ -24,6 +24,7 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
+import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
@@ -127,6 +128,17 @@ export class ModernDevServer extends ModernServer {
 
     await super.onInit(runner, app);
 
+    // watch mock/ server/ api/ dir file change
+    if (dev.watch) {
+      this.startWatcher();
+      app.on('close', async () => {
+        await this.watcher?.close();
+      });
+    }
+  }
+
+  // override the ModernServer renderHandler logic
+  public getRenderHandler(): RenderHandler {
     if (this.useWorkerSSR) {
       const { distDir, staticGenerate, conf, metaName } = this;
       const ssrConfig = this.conf.server?.ssr;
@@ -134,7 +146,7 @@ export class ModernDevServer extends ModernServer {
         typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
 
       // if we use worker ssr, we need override the routeRenderHandler
-      this.routeRenderHandler = createRenderHandler({
+      return createRenderHandler({
         ssrRender: workerSSRRender,
         distDir,
         staticGenerate,
@@ -143,14 +155,7 @@ export class ModernDevServer extends ModernServer {
         metaName,
       });
     }
-
-    // watch mock/ server/ api/ dir file change
-    if (dev.watch) {
-      this.startWatcher();
-      app.on('close', async () => {
-        await this.watcher?.close();
-      });
-    }
+    return super.getRenderHandler();
   }
 
   private async applyDefaultMiddlewares(app: Server) {

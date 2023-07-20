@@ -148,7 +148,7 @@ export class ModernServer implements ModernServerInterface {
   public async onInit(runner: ServerHookRunner, app: Server) {
     this.runner = runner;
 
-    const { distDir, staticGenerate, conf, metaName } = this;
+    const { distDir, conf } = this;
 
     this.initReader();
 
@@ -176,16 +176,7 @@ export class ModernServer implements ModernServerInterface {
     await this.prepareFrameHandler();
     await this.prepareLoaderHandler(usageRoutes, distDir);
 
-    const ssrConfig = this.conf.server?.ssr;
-    const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
-    this.routeRenderHandler = createRenderHandler({
-      distDir,
-      staticGenerate,
-      forceCSR,
-      nonce: conf.security?.nonce,
-      metaName,
-    });
-
+    this.routeRenderHandler = this.getRenderHandler();
     await this.setupBeforeProdMiddleware();
 
     // Only work when without setting `assetPrefix`.
@@ -199,6 +190,20 @@ export class ModernServer implements ModernServerInterface {
 
     // compose middlewares to http handler
     this.compose();
+  }
+
+  public getRenderHandler() {
+    const { distDir, staticGenerate, conf, metaName } = this;
+    const ssrConfig = this.conf.server?.ssr;
+    const forceCSR = typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+
+    return createRenderHandler({
+      distDir,
+      staticGenerate,
+      forceCSR,
+      nonce: conf.security?.nonce,
+      metaName,
+    });
   }
 
   // server ready
