@@ -68,7 +68,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
-    "@babel/plugin-transform-modules-commonjs": "^7.17.7",
+    "@babel/plugin-transform-modules-commonjs": "^7.20.11",
     "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "@modern-js-app/eslint-config": "workspace:*",
