@@ -12,7 +12,7 @@
   "scripts": {
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
-    "test": "echo 'foo'",
+    "test": "vitest run",
     "test:watch": "vitest dev --no-coverage",
     "test:update": "SNAPSHOT_UPDATE=1 vitest watch",
     "prepublishOnly": "only-allow-pnpm"
