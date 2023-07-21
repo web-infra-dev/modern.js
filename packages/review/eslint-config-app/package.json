@@ -42,7 +42,6 @@
     "prettier": "^2.3.2"
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*",
     "eslint-find-rules": "^4.1.0",
     "typescript": "^5"
   },

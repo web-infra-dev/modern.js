@@ -112,6 +112,7 @@
       "@npmcli/move-file": "1.1.2",
       "uuid": "3.4.0",
       "chokidar": "2.1.8",
+      "consolidate": "0.15.1",
       "fsevents": "1.2.13",
       "source-map-url": "0.4.1",
       "urix": "0.1.0",

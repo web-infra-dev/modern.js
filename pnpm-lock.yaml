@@ -3265,6 +3265,9 @@ importers:
       '@modern-js/libuild-plugin-babel':
         specifier: 0.7.1
         version: 0.7.1
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -3413,6 +3416,9 @@ importers:
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -3441,6 +3447,9 @@ importers:
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -3484,6 +3493,9 @@ importers:
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -3508,6 +3520,9 @@ importers:
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
       '@types/jest':
         specifier: ^29
         version: 29.2.6
@@ -3527,9 +3542,6 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config-app
     devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       eslint:
         specifier: ^8.28.0
         version: 8.28.0
@@ -3594,9 +3606,6 @@ importers:
         specifier: ^2.3.2
         version: 2.8.7
     devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
       eslint-find-rules:
         specifier: ^4.1.0
         version: 4.1.0(eslint@8.28.0)
@@ -3604,11 +3613,7 @@ importers:
         specifier: ^5
         version: 5.0.4
 
-  packages/review/tsconfig:
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
+  packages/review/tsconfig: {}
 
   packages/runtime/plugin-garfish:
     dependencies:
@@ -5429,6 +5434,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../utils
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
     devDependencies:
       '@modern-js/upgrade-generator':
         specifier: workspace:*
@@ -5521,6 +5529,9 @@ importers:
       tsm:
         specifier: 2.3.0
         version: 2.3.0
+      typescript:
+        specifier: ^5
+        version: 5.0.4
 
   scripts/check-changeset:
     dependencies:
@@ -14848,7 +14859,6 @@ packages:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
       tslib: 2.4.0
-    dev: false
 
   /@swc/jest@0.2.22(@swc/core@1.3.42):
     resolution: {integrity: sha512-PIUIk9IdB1oAVfF9zNIfYoMBoEhahrrSvyryFANas7swC1cF0L5HR0f9X4qfet46oyCHCBtNcSpN0XJEOFIKlw==}

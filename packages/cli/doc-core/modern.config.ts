@@ -1,4 +1,5 @@
 import { createRequire } from 'module';
+import { dtsConfig } from '@scripts/build';
 import { tailwindConfig } from './tailwind.config';
 
 const require = createRequire(import.meta.url);
@@ -18,6 +19,7 @@ export default {
       target: 'es2020',
       outDir: 'dist',
       sourceMap: true,
+      dts: dtsConfig,
       externals: ['@modern-js/mdx-rs-binding', 'jsdom'],
     },
     {
@@ -29,6 +31,7 @@ export default {
       target: 'es2020',
       outDir: 'dist',
       sourceMap: true,
+      dts: dtsConfig,
       externals: ['@modern-js/mdx-rs-binding'],
       esbuildOptions: options => {
         options.banner = {
@@ -53,6 +56,7 @@ export default {
       outDir: 'dist/theme',
       sourceMap: true,
       format: 'esm',
+      dts: dtsConfig,
       externals: [
         'virtual-routes-ssr',
         'virtual-routes',

@@ -5,6 +5,7 @@
 
 const externalHelpers = true;
 const skipDts = process.env.SKIP_DTS === 'true';
+const dtsConfig = skipDts ? false : {};
 
 /**
  * @type {PartialBaseBuildConfig[]}
@@ -150,12 +151,13 @@ const tscLikeBuildConfig = [
     target: 'es2019',
     outDir: './dist',
     externalHelpers,
-    dts: skipDts ? false : {},
+    dts: dtsConfig,
   },
 ];
 
 module.exports = {
   skipDts,
+  dtsConfig,
   nodeBuildConfig,
   tscLikeBuildConfig,
   extendNodeBuildConfig,
