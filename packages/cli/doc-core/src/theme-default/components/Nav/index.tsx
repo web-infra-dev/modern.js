@@ -74,7 +74,7 @@ export function Nav(props: NavProps) {
   const [isMobile, setIsMobile] = useState(false);
   const localeLanguages = Object.values(siteData.themeConfig.locales || {});
   const hasMultiLanguage = localeLanguages.length > 1;
-  const socialLinks = siteData?.themeConfig?.socialLinks || [];
+  const socialLinks = siteData.themeConfig.socialLinks || [];
   const hasSocialLinks = socialLinks.length > 0;
   const defaultLang = siteData.lang || 'zh';
   const { lang } = page;
