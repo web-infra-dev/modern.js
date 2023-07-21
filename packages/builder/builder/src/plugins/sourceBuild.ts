@@ -6,6 +6,9 @@ import {
   getDependentProjects,
   filterByField,
 } from '@modern-js/monorepo-utils';
+import { debug } from '@modern-js/utils';
+
+const log = debug('BUILDER_PLUGIN_SOURCE_BUILD');
 
 export const pluginName = 'builder-plugin-source-build';
 
@@ -33,73 +36,8 @@ export const getSourceInclude = async (options: {
     includes.push(...project.getSourceEntryPaths({ field: sourceField }));
   }
 
+  log(`get include projects: ${includes}`);
   return includes;
-};
-
-export const sourceBuildInWebpack = (
-  api: WebpackBuilderPluginAPI,
-  options: {
-    sourceField: string;
-    projectRootPath: string;
-    projectName?: string;
-    extraMonorepoStrategies?: ExtraMonorepoStrategies;
-  },
-) => {
-  const { sourceField, projectRootPath, projectName, extraMonorepoStrategies } =
-    options;
-  api.modifyBuilderConfig(async config => {
-    const { sourceBuild = true } = config.experiments ?? {};
-
-    if (!sourceBuild) {
-      return;
-    }
-
-    const includes = await getSourceInclude({
-      projectNameOrRootPath: projectName || projectRootPath,
-      sourceField,
-      findMonorepoStartPath: projectRootPath,
-      extraMonorepoStrategies,
-    });
-    config.source = config.source ?? {};
-    config.source.include = [...(config.source.include ?? []), ...includes];
-  });
-
-  api.modifyBundlerChain(chain => {
-    const {
-      experiments: { sourceBuild },
-    } = api.getNormalizedConfig();
-
-    if (!sourceBuild) {
-      return;
-    }
-
-    // Now not support chain.resolve.conditionNames API
-    // chain.resolve.conditionNames.prepend(sourcePkgField);
-
-    // when user not config source.resolveMainFields, mainFields is empty array
-    if (chain.resolve.mainFields.values().length === 0) {
-      // "..." is special syntax,it will retain the original value
-      chain.resolve.mainFields.prepend('...');
-      chain.resolve.mainFields.prepend(sourceField);
-    }
-  });
-
-  api.modifyWebpackConfig(async config => {
-    const {
-      experiments: { sourceBuild },
-    } = api.getNormalizedConfig();
-
-    if (!sourceBuild) {
-      return;
-    }
-
-    config.resolve = config.resolve ?? {};
-    config.resolve.conditionNames = [
-      '...', // Special syntax: retain the original value
-      sourceField,
-      ...(config.resolve.conditionNames ?? []),
-    ];
-  });
 };
 
 export interface PluginSourceBuildOptions {
@@ -156,20 +94,25 @@ export function builderPluginSourceBuild(
         api.modifyBundlerChain((chain, { CHAIN_ID }) => {
           const {
             experiments: { sourceBuild },
+            tools: { tsLoader },
           } = (api as WebpackBuilderPluginAPI).getNormalizedConfig();
 
           if (!sourceBuild) {
             return;
           }
+
+          const useTsLoader = Boolean(tsLoader);
           // webpack.js.org/configuration/module/#ruleresolve
           chain.module
-            .rule(CHAIN_ID.RULE.JS)
+            .rule(useTsLoader ? CHAIN_ID.RULE.TS : CHAIN_ID.RULE.JS)
             .resolve.mainFields.merge(['...', sourceField]);
 
           // webpack chain not support resolve.conditionNames
-          chain.module.rule(CHAIN_ID.RULE.JS).resolve.merge({
-            conditionNames: ['...', sourceField],
-          });
+          chain.module
+            .rule(useTsLoader ? CHAIN_ID.RULE.TS : CHAIN_ID.RULE.JS)
+            .resolve.merge({
+              conditionNames: ['...', sourceField],
+            });
         });
       }
     },
