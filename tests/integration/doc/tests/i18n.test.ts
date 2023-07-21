@@ -95,7 +95,6 @@ describe('I18n doc render', () => {
       '.modern-sidebar .modern-scrollbar > nav > section',
     );
     expect(sidebar?.length).toBe(1);
-    // get the section
   });
 
   test('Should not render appearance switch button', async () => {
@@ -105,5 +104,33 @@ describe('I18n doc render', () => {
     // take the appearance switch button
     const button = await page.$('.modern-nav-appearance');
     expect(button).toBeFalsy();
+  });
+
+  test('Should not 404 after redirecting in first visit', async () => {
+    const changeNavigatorLanguage = async (language: string) => {
+      await page.evaluateOnNewDocument(() => {
+        Object.defineProperty(window, 'navigator', {
+          value: new Proxy(navigator, {
+            get(target, key) {
+              switch (key) {
+                case 'language':
+                  return language;
+                default:
+                  return target[key as keyof Navigator];
+              }
+            },
+          }),
+        });
+      });
+      await page.evaluate(() => {
+        localStorage.clear();
+      });
+    };
+    await changeNavigatorLanguage('nl-NL');
+    await page.goto(`http://localhost:${appPort}`, {
+      waitUntil: ['networkidle0'],
+    });
+    const content = await page.evaluate(() => document.body.textContent);
+    expect(content?.includes('PAGE NOT FOUND')).toBe(false);
   });
 });
