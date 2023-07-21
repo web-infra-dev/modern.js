@@ -25,9 +25,8 @@ test('postcss plugins overwrite', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('title').innerHTML`),
-  ).resolves.toBe('title');
+  const title = page.locator('#title');
+  await expect(title).toHaveText('title');
 
   builder.close();
 });

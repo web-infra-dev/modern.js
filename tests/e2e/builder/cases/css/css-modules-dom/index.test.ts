@@ -70,18 +70,12 @@ test('disableCssExtract', async ({ page }) => {
   expect(cssFiles.length).toBe(0);
 
   // scss worked
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('header')).fontSize`,
-    ),
-  ).resolves.toBe('20px');
+  const header = page.locator('#header');
+  await expect(header).toHaveCSS('font-size', '20px');
 
   // less worked
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('title')).fontSize`,
-    ),
-  ).resolves.toBe('20px');
+  const title = page.locator('#title');
+  await expect(title).toHaveCSS('font-size', '20px');
 
   builder.close();
 });
