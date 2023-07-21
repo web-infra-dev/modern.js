@@ -169,7 +169,14 @@ export const getServerCombinedModueFile = (
 };
 
 export const checkIsBuildCommands = () => {
-  const buildCommands = ['dev', 'start', 'build', 'inspect', 'deploy'];
+  const buildCommands = [
+    'dev',
+    'start',
+    'build',
+    'inspect',
+    'deploy',
+    'dev-worker',
+  ];
   const command = getCommand();
 
   return buildCommands.includes(command);

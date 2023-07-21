@@ -15,6 +15,7 @@ import {
   ModernServer,
   AGGRED_DIR,
   BuildOptions,
+  createRenderHandler,
 } from '@modern-js/prod-server';
 import type {
   ModernServerContext,
@@ -23,17 +24,21 @@ import type {
   ServerRoute,
 } from '@modern-js/types';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
+import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
 import { getDefaultDevOptions } from '../constants';
 import { createMockHandler } from '../dev-tools/mock';
 import { enableRegister } from '../dev-tools/register';
 import Watcher, { mergeWatchOptions, WatchEvent } from '../dev-tools/watcher';
 import type { DevServerOptions, ModernDevServerOptions } from '../types';
 import DevMiddleware from '../dev-tools/dev-middleware';
+import { workerSSRRender } from './workerSSRRender';
 
 export class ModernDevServer extends ModernServer {
   private mockHandler: ReturnType<typeof createMockHandler> = null;
 
   private readonly dev: DevServerOptions;
+
+  private readonly useWorkerSSR: boolean;
 
   private readonly appContext: ModernDevServerOptions['appContext'];
 
@@ -48,6 +53,8 @@ export class ModernDevServer extends ModernServer {
 
     // dev server should work in pwd
     this.workDir = this.pwd;
+
+    this.useWorkerSSR = Boolean(options.useWorkerSSR);
 
     // set dev server options, like webpack-dev-server
     this.dev = this.getDevOptions(options);
@@ -128,6 +135,27 @@ export class ModernDevServer extends ModernServer {
         await this.watcher?.close();
       });
     }
+  }
+
+  // override the ModernServer renderHandler logic
+  public getRenderHandler(): RenderHandler {
+    if (this.useWorkerSSR) {
+      const { distDir, staticGenerate, conf, metaName } = this;
+      const ssrConfig = this.conf.server?.ssr;
+      const forceCSR =
+        typeof ssrConfig === 'object' ? ssrConfig.forceCSR : false;
+
+      // if we use worker ssr, we need override the routeRenderHandler
+      return createRenderHandler({
+        ssrRender: workerSSRRender,
+        distDir,
+        staticGenerate,
+        forceCSR,
+        nonce: conf.security?.nonce,
+        metaName,
+      });
+    }
+    return super.getRenderHandler();
   }
 
   private async applyDefaultMiddlewares(app: Server) {
