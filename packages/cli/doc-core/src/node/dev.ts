@@ -1,8 +1,10 @@
 import { UserConfig } from 'shared/types';
+import fs from '@modern-js/utils/fs-extra';
 import { removeLeadingSlash } from '../shared/utils';
 import { createModernBuilder } from './createBuilder';
 import { writeSearchIndex } from './searchIndex';
 import { PluginDriver } from './PluginDriver';
+import { TEMP_DIR } from './constants';
 
 interface ServerInstance {
   close: () => Promise<void>;
@@ -24,6 +26,8 @@ export async function dev(options: DevOptions): Promise<ServerInstance> {
   try {
     const modifiedConfig = await pluginDriver.modifyConfig();
     await pluginDriver.beforeBuild();
+    // empty temp dir before build
+    await fs.emptyDir(TEMP_DIR);
     const builder = await createModernBuilder(
       docDirectory,
       modifiedConfig,
