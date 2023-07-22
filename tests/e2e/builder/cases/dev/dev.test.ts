@@ -102,9 +102,8 @@ test.skip('dev.port & output.distPath', async ({ page }) => {
 
   expect(fs.existsSync(join(fixtures, 'basic/dist-1/aa/js'))).toBeTruthy();
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const locator = page.locator('#test');
+  await expect(locator).toHaveText('Hello Builder!');
 
   await builder.server.close();
 
@@ -140,9 +139,8 @@ test.skip('hmr should work when setting dev.port & serverOptions.dev.client', as
 
   const appPath = join(fixtures, 'hmr', 'test-src-1/App.tsx');
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const locator = page.locator('#test');
+  await expect(locator).toHaveText('Hello Builder!');
 
   await fs.writeFile(
     appPath,
@@ -151,10 +149,7 @@ test.skip('hmr should work when setting dev.port & serverOptions.dev.client', as
 
   // wait for hmr take effect
   await new Promise(resolve => setTimeout(resolve, 2000));
-
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Test!');
+  await expect(locator).toHaveText('Hello Test!');
 
   // restore
   await fs.writeFile(
@@ -216,9 +211,8 @@ test.skip('tools.devServer', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const locator = page.locator('#test');
+  await expect(locator).toHaveText('Hello Builder!');
 
   expect(i).toBeGreaterThanOrEqual(1);
   expect(reloadFn).toBeDefined();
