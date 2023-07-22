@@ -14,17 +14,11 @@ test('rem default (disable)', async ({ page }) => {
   });
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('title')).fontSize`,
-    ),
-  ).resolves.toBe('20px');
+  const title = page.locator('#title');
+  await expect(title).toHaveCSS('font-size', '20px');
 
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('description')).fontSize`,
-    ),
-  ).resolves.toBe('16px');
+  const description = page.locator('#description');
+  await expect(description).toHaveCSS('font-size', '16px');
 
   builder.close();
 });
@@ -46,30 +40,20 @@ test('rem enable', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate('document.documentElement.style.fontSize'),
-  ).resolves.toBe('64px');
+  const root = page.locator('html');
+  await expect(root).toHaveCSS('font-size', '64px');
 
   // less convert pxToRem
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('title')).fontSize`,
-    ),
-  ).resolves.toBe('25.6px');
+  const title = page.locator('#title');
+  await expect(title).toHaveCSS('font-size', '25.6px');
 
   // scss convert pxToRem
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('header')).fontSize`,
-    ),
-  ).resolves.toBe('25.6px');
+  const header = page.locator('#header');
+  await expect(header).toHaveCSS('font-size', '25.6px');
 
   // css convert pxToRem
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('description')).fontSize`,
-    ),
-  ).resolves.toBe('20.48px');
+  const description = page.locator('#description');
+  await expect(description).toHaveCSS('font-size', '20.48px');
 
   builder.close();
 });

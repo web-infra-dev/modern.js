@@ -27,13 +27,9 @@ test.skip('default & hmr (default true)', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
-
-  await expect(
-    page.evaluate(`getComputedStyle(document.getElementById('test')).color`),
-  ).resolves.toBe('rgb(255, 0, 0)');
+  const locator = page.locator('#test');
+  await expect(locator).toHaveText('Hello Builder!');
+  await expect(locator).toHaveCSS('color', 'rgb(255, 0, 0)');
 
   const appPath = join(fixtures, 'hmr', 'test-src/App.tsx');
 
@@ -45,9 +41,7 @@ test.skip('default & hmr (default true)', async ({ page }) => {
   // wait for hmr take effect
   await new Promise(resolve => setTimeout(resolve, 2000));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Test!');
+  await expect(locator).toHaveText('Hello Test!');
 
   const cssPath = join(fixtures, 'hmr', 'test-src/App.css');
 
@@ -61,9 +55,7 @@ test.skip('default & hmr (default true)', async ({ page }) => {
   // wait for hmr take effect
   await new Promise(resolve => setTimeout(resolve, 2000));
 
-  await expect(
-    page.evaluate(`getComputedStyle(document.getElementById('test')).color`),
-  ).resolves.toBe('rgb(0, 0, 255)');
+  await expect(locator).toHaveCSS('color', 'rgb(0, 0, 255)');
 
   // restore
   await fs.writeFile(

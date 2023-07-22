@@ -39,14 +39,12 @@ test('should build Vue sfc style correctly', async ({ page }) => {
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(
-    page.evaluate(
-      `window.getComputedStyle(document.getElementById('button')).color`,
-    ),
-  ).resolves.toBe('rgb(255, 0, 0)');
-  await expect(
-    page.evaluate(`window.getComputedStyle(document.body).backgroundColor`),
-  ).resolves.toBe('rgb(0, 0, 255)');
+
+  const button = page.locator('#button');
+  await expect(button).toHaveCSS('color', 'rgb(255, 0, 0)');
+
+  const body = page.locator('body');
+  await expect(body).toHaveCSS('background-color', 'rgb(0, 0, 255)');
 
   builder.close();
 });
