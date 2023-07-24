@@ -8197,9 +8197,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../../../packages/runtime/plugin-runtime
-      '@source-code-build/components':
+      '@source-code-build/common':
         specifier: workspace:*
-        version: link:../components
+        version: link:../common
       antd:
         specifier: ^5
         version: 5.3.0(react-dom@18.2.0)(react@18.2.0)
@@ -8228,6 +8228,8 @@ importers:
       typescript:
         specifier: ^5
         version: 5.0.4
+
+  tests/integration/source-code-build/common: {}
 
   tests/integration/source-code-build/components:
     dependencies:
@@ -32673,7 +32675,7 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
       '@types/node': 16.11.68
-      acorn: 8.8.1
+      acorn: 8.10.0
       acorn-walk: 8.2.0
       arg: 4.1.3
       create-require: 1.1.1

@@ -12,7 +12,7 @@
   "include": ["src", "shared", "config"],
   "references": [
     {
-      "path": "../components/tsconfig.json"
+      "path": "../common/tsconfig.json"
     }
   ]
 }

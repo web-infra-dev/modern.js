@@ -1,11 +1,13 @@
-import { Card } from '@source-code-build/components';
+import { VERSION, type Plugin } from '@source-code-build/common';
 import { Button } from 'antd';
 import './App.css';
+
+export const plugin = { some: true } as Plugin;
 
 const App = () => (
   <div className="container">
     <main>
-      <Card title="App" content="hello world"></Card>
+      {VERSION}
       <Button>click</Button>
     </main>
   </div>
