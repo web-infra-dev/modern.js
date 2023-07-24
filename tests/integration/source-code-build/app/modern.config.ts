@@ -4,9 +4,6 @@ export default defineConfig({
   runtime: {
     state: true,
   },
-  output: {
-    disableTsChecker: true,
-  },
   plugins: [
     appTools({
       bundler:

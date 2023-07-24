@@ -1,4 +1,5 @@
 import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
+import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
 export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
   return {
@@ -44,6 +45,11 @@ export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
           return;
         }
 
+        const { experiments } = (
+          api as WebpackBuilderPluginAPI
+        ).getNormalizedConfig();
+        const enableSourceBuild = experiments?.sourceBuild ?? false;
+
         const tsCheckerOptions = applyOptionsChain(
           {
             typescript: {
@@ -52,6 +58,14 @@ export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
               // use tsconfig of user project
               configFile: api.context.tsconfigPath,
               typescriptPath,
+              // In source build mode, using the project reference generates a TS2307 error,
+              // so additional configuration of the tsChecker is required
+              ...(enableSourceBuild
+                ? {
+                    build: true,
+                    mode: 'readonly',
+                  }
+                : {}),
             },
             issue: {
               exclude: [
