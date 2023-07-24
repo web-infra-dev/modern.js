@@ -15,6 +15,7 @@ export async function launchDoc({
   entries,
   apiParseTool,
   parseToolOptions,
+  useModuleSidebar,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(resolve(appDir, './package.json'), 'utf8'),
@@ -121,7 +122,7 @@ export async function launchDoc({
         themeConfig: {
           // TODO: support dark mode in code block
           darkMode: false,
-          sidebar: await getAutoSidebar(),
+          sidebar: useModuleSidebar ? await getAutoSidebar() : undefined,
           locales,
         },
         markdown: {

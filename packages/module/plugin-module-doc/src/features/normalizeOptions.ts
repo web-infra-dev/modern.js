@@ -10,6 +10,7 @@ export const normalizeOptions = (options: Options): Required<Options> => {
     previewMode = 'web',
     apiParseTool = 'react-docgen-typescript',
     parseToolOptions = {},
+    useModuleSidebar = true,
   } = options;
   return {
     languages,
@@ -20,5 +21,6 @@ export const normalizeOptions = (options: Options): Required<Options> => {
     previewMode,
     apiParseTool,
     parseToolOptions,
+    useModuleSidebar,
   };
 };
