@@ -117,6 +117,7 @@ export class RouteService {
       const routeInfo = {
         routePath,
         absolutePath: normalizePath(absolutePath),
+        relativePath: fileRelativePath,
         pageName: getPageKey(fileRelativePath),
         lang,
       };
@@ -236,7 +237,7 @@ ${this.getRoutes()
      *   filePath: '/Users/xxx/xxx/index.md'
      * }
      */
-    return `{ path: '${route.routePath}', element: React.createElement(${component}), filePath: '${route.absolutePath}', preload: ${preload}, lang: '${route.lang}' }`;
+    return `{ path: '${route.routePath}', element: React.createElement(${component}), filePath: '${route.relativePath}', preload: ${preload}, lang: '${route.lang}' }`;
   })
   .join(',\n')}
 ];
@@ -259,6 +260,7 @@ ${this.getRoutes()
     return {
       routePath: normalizeRoutePath(routePath, this.#defaultLang, this.#base),
       absolutePath: normalizePath(filepath),
+      relativePath: normalizePath(path.relative(this.#scanDir, filepath)),
       pageName: getPageKey(routePath),
       lang: this.#getLang(filepath),
     };
