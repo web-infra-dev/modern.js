@@ -39,4 +39,10 @@ export type Options = {
    * @default 'web'
    */
   previewMode?: 'mobile' | 'web';
+  /**
+   * set it true to use module default sidebar, or customize the sidebar with false value
+   * @zh 使用模块列表侧边栏
+   * @default true
+   */
+  useModuleSidebar?: boolean;
 } & DocGenOptions;

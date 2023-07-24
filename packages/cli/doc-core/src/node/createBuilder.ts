@@ -172,7 +172,7 @@ async function createInternalBuildConfig(
             multiple: config.doc?.replaceRules || [],
           });
 
-        chain.resolve.extensions.prepend('.md').prepend('.mdx');
+        chain.resolve.extensions.prepend('.md').prepend('.mdx').prepend('.mjs');
       },
     },
   };

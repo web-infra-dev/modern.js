@@ -40,7 +40,8 @@
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
-    "update-codesmith": "cd ./scripts/update-codesmith && pnpm start"
+    "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
+    "update-turbo-cache": "turbo run build --force --filter {packages/**}"
   },
   "engines": {
     "node": ">=14.17.6",
