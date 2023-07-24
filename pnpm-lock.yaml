@@ -832,7 +832,7 @@ importers:
         version: 7.20.7
       '@babel/traverse':
         specifier: ^7.21.5
-        version: 7.21.5
+        version: 7.21.5(supports-color@5.5.0)
       '@babel/types':
         specifier: ^7.21.5
         version: 7.21.5
@@ -941,8 +941,8 @@ importers:
         specifier: workspace:*
         version: link:../doc-plugin-medium-zoom
       '@modern-js/mdx-rs-binding':
-        specifier: 0.2.2
-        version: 0.2.2
+        specifier: 0.2.3
+        version: 0.2.3
       '@modern-js/remark-container':
         specifier: workspace:*
         version: link:../../toolkit/remark-container
@@ -3631,7 +3631,7 @@ importers:
         version: 5.5.6
       debug:
         specifier: ^4.3.2
-        version: 4.3.4(supports-color@9.3.1)
+        version: 4.3.4(supports-color@5.5.0)
       garfish:
         specifier: ^1.8.1
         version: 1.8.1
@@ -4830,7 +4830,7 @@ importers:
         version: 7.21.8
       '@babel/traverse':
         specifier: ^7.21.5
-        version: 7.21.5
+        version: 7.21.5(supports-color@5.5.0)
       '@babel/types':
         specifier: ^7.21.5
         version: 7.21.5
@@ -4994,7 +4994,7 @@ importers:
         version: 7.21.8
       '@babel/traverse':
         specifier: ^7.21.5
-        version: 7.21.5
+        version: 7.21.5(supports-color@5.5.0)
       '@babel/types':
         specifier: ^7.21.5
         version: 7.21.5
@@ -5774,7 +5774,7 @@ importers:
         version: 6.0.0(postcss@8.4.21)
       debug:
         specifier: 4.3.4
-        version: 4.3.4(supports-color@9.3.1)
+        version: 4.3.4(supports-color@5.5.0)
       dotenv:
         specifier: 10.0.0
         version: 10.0.0
@@ -8829,10 +8829,10 @@ packages:
       '@babel/helpers': 7.21.5
       '@babel/parser': 7.21.8
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       convert-source-map: 1.8.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       lodash: 4.17.21
@@ -8854,10 +8854,10 @@ packages:
       '@babel/helpers': 7.21.5
       '@babel/parser': 7.21.8
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       convert-source-map: 1.8.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.0
@@ -8878,10 +8878,10 @@ packages:
       '@babel/helpers': 7.21.5
       '@babel/parser': 7.21.8
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       convert-source-map: 1.8.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.0
@@ -9002,8 +9002,8 @@ packages:
       '@babel/helper-compilation-targets': 7.21.5(@babel/core@7.21.8)
       '@babel/helper-module-imports': 7.21.4
       '@babel/helper-plugin-utils': 7.21.5
-      '@babel/traverse': 7.21.5
-      debug: 4.3.4(supports-color@9.3.1)
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
+      debug: 4.3.4(supports-color@5.5.0)
       lodash.debounce: 4.0.8
       resolve: 1.22.1
       semver: 6.3.0
@@ -9019,7 +9019,7 @@ packages:
       '@babel/core': 7.21.8
       '@babel/helper-compilation-targets': 7.21.5(@babel/core@7.21.8)
       '@babel/helper-plugin-utils': 7.21.5
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       lodash.debounce: 4.0.8
       resolve: 1.22.1
       semver: 6.3.0
@@ -9071,7 +9071,7 @@ packages:
       '@babel/helper-split-export-declaration': 7.18.6
       '@babel/helper-validator-identifier': 7.19.1
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
     transitivePeerDependencies:
       - supports-color
@@ -9112,7 +9112,7 @@ packages:
       '@babel/helper-member-expression-to-functions': 7.21.5
       '@babel/helper-optimise-call-expression': 7.18.6
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
     transitivePeerDependencies:
       - supports-color
@@ -9153,7 +9153,7 @@ packages:
     dependencies:
       '@babel/helper-function-name': 7.21.0
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
     transitivePeerDependencies:
       - supports-color
@@ -9163,7 +9163,7 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
     transitivePeerDependencies:
       - supports-color
@@ -10261,23 +10261,6 @@ packages:
       '@babel/parser': 7.21.8
       '@babel/types': 7.21.5
 
-  /@babel/traverse@7.21.5:
-    resolution: {integrity: sha512-AhQoI3YjWi6u/y/ntv7k48mcrCXmus0t79J9qPNlk/lAsFlCiJ047RmbfMOawySTHtywXhbXgpx/8nXMYd+oFw==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/code-frame': 7.21.4
-      '@babel/generator': 7.21.5
-      '@babel/helper-environment-visitor': 7.21.5
-      '@babel/helper-function-name': 7.21.0
-      '@babel/helper-hoist-variables': 7.18.6
-      '@babel/helper-split-export-declaration': 7.18.6
-      '@babel/parser': 7.21.8
-      '@babel/types': 7.21.5
-      debug: 4.3.4(supports-color@9.3.1)
-      globals: 11.12.0
-    transitivePeerDependencies:
-      - supports-color
-
   /@babel/traverse@7.21.5(supports-color@5.5.0):
     resolution: {integrity: sha512-AhQoI3YjWi6u/y/ntv7k48mcrCXmus0t79J9qPNlk/lAsFlCiJ047RmbfMOawySTHtywXhbXgpx/8nXMYd+oFw==}
     engines: {node: '>=6.9.0'}
@@ -11185,7 +11168,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       espree: 9.4.1
       globals: 13.17.0
       ignore: 5.2.0
@@ -11376,7 +11359,7 @@ packages:
   /@garfish/utils@1.8.1:
     resolution: {integrity: sha512-nscgX0+e1Lu1pvaLbQjzNWDBju0xA/3okorvgqtA6yguxLfjOKTTZP1YBLPFQSvUmHrbwZ1gfZOn2Vr3wqAy2g==}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -11408,7 +11391,7 @@ packages:
     engines: {node: '>=10.10.0'}
     dependencies:
       '@humanwhocodes/object-schema': 1.2.1
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -12173,8 +12156,8 @@ packages:
       sucrase: 3.29.0
       terser: 5.15.0
 
-  /@modern-js/mdx-rs-binding-darwin-arm64@0.2.2:
-    resolution: {integrity: sha512-bH14k2lRnXVWK/rCJjOz8jCnGdmTvaU6qtvKLHS0Pw3eh8T32rTmEqgj/ZPD3hL7o5JpkZ1IpWQEKZJe63DuTQ==}
+  /@modern-js/mdx-rs-binding-darwin-arm64@0.2.3:
+    resolution: {integrity: sha512-fzdkz0RYZXh8IVFRjpNsUIW9SgpCuzxWo9ATANWeI/dbyepWVijqCyw9eQ2ViLRgnetcEU2uNl5ZAVtkwg611A==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [darwin]
@@ -12182,8 +12165,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-darwin-x64@0.2.2:
-    resolution: {integrity: sha512-uOvitHr+mvRO7PhdJrzuTuUCmKz3E74Bm15NDf6QuEwRo2Tp5YUUH/PXMlBLGe/IFGc+CgrVjlAxZEk6af4yPQ==}
+  /@modern-js/mdx-rs-binding-darwin-x64@0.2.3:
+    resolution: {integrity: sha512-wjdQ9+X6YZocg6LwX6vZlxqnnl6xUkE/OCS0vllfZtddRNQBr39+9SiyhhUyAvSTam0jNnT7kUX2H72b9Lvr1w==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [darwin]
@@ -12191,8 +12174,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm-gnueabihf@0.2.2:
-    resolution: {integrity: sha512-nIsCU5NbDlrGjjot80IB+dKZsyuIi4D0vhK2d95h9NIQg7hwCtqblVmCCnssWbHHhR6NvM4mURGFxeRsZhesuw==}
+  /@modern-js/mdx-rs-binding-linux-arm-gnueabihf@0.2.3:
+    resolution: {integrity: sha512-OQuqLYjcWL/aJMJxGTGBuV1dodCz/1BiL6Z0tLmf0LyR8zoZSN/HGFrKHmsLrT/O1RuSejY7WQf04NCRNurYJA==}
     engines: {node: '>=14.12'}
     cpu: [arm]
     os: [linux]
@@ -12200,8 +12183,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm64-gnu@0.2.2:
-    resolution: {integrity: sha512-22nuSjj1Bbs/sTZhXlSOYqmUXyFqPNwdbZmn/vAoPHetx63P7BgVqeodNtYewto1F29+o6byLbe1/T46EulDuA==}
+  /@modern-js/mdx-rs-binding-linux-arm64-gnu@0.2.3:
+    resolution: {integrity: sha512-79VevysyLteLRMgZLtxQAP7wlN/JXR+1Evj45n1NUe9FI6H+me+Q4C6HkT1ehjnM2TooWH301sjrVSHY2m7C4g==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -12209,8 +12192,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-arm64-musl@0.2.2:
-    resolution: {integrity: sha512-9liXn2/wA/LBVDkdylvZADXLqtIFgz4qNznQsO73MULlMZgpf+6j6EgTeryKPt8Av4a71P2LQyGG1br5RDhJRA==}
+  /@modern-js/mdx-rs-binding-linux-arm64-musl@0.2.3:
+    resolution: {integrity: sha512-ra9B6RezPZBHNMpFnnIku3kUisrSkEAvvJwVT/eCkvF4ZZ7eRxoJFuODYF98QKXKyxjV3d/gyCFGzmzeSRy/NQ==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -12218,8 +12201,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-x64-gnu@0.2.2:
-    resolution: {integrity: sha512-J9nIJSpPN7oczfygOrmq8GoDKj8Wys4NZHGBbcfHgD3UR8RFbpGOak64B7P0EUNk5xk7S7697dj+5T1foDcyNA==}
+  /@modern-js/mdx-rs-binding-linux-x64-gnu@0.2.3:
+    resolution: {integrity: sha512-kiuMVhjzfOObjg1pfIFTy5pQrgD5A5gzz270s6Q07FAdOuj5jzno5GN4EFZiQZjiJvoaS5P6HStUmvxgkZSIPQ==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -12227,8 +12210,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-linux-x64-musl@0.2.2:
-    resolution: {integrity: sha512-q1/jTNvWu4qJ1y5zMegv624mAibEeLea8LlIsCQkYwf+CPYWW8xloIba3vfXqd6sO/c4d88XVyc84mM/1w0CDw==}
+  /@modern-js/mdx-rs-binding-linux-x64-musl@0.2.3:
+    resolution: {integrity: sha512-WwGSnBBnJTn5j+JyOzcTpzp+w3+WGjbwL6hUu+8zM8Xm0kEsAVmxcfm0sx2lANXqQdfWMaKctGjR0FgGRvjTZg==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -12236,8 +12219,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-win32-arm64-msvc@0.2.2:
-    resolution: {integrity: sha512-7I71bAznCrEj0I4IZHp1mK1RsHQjFfDjUI4dddk0ClDrerpyRSR8CVrjXUqoepO8seEoVdXoEWeXUmXlra5GtQ==}
+  /@modern-js/mdx-rs-binding-win32-arm64-msvc@0.2.3:
+    resolution: {integrity: sha512-PQ7UUHSLWibzR4T5HdqI8Kj31vYqHzulezEdpbCDPc1iIpyT+Ox9bS9qzFX7bCvlhdsFPUCrbTOuTlRlJC2JJw==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [win32]
@@ -12245,8 +12228,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding-win32-x64-msvc@0.2.2:
-    resolution: {integrity: sha512-YyR96jZX+ai223sY5GkDBs30WyxVU4wgNwnucSYPANry+9QjwlERfE0j0EuB3gtaE0WmK7aMY3tgwEI1yHW1Bg==}
+  /@modern-js/mdx-rs-binding-win32-x64-msvc@0.2.3:
+    resolution: {integrity: sha512-82L2lY9WqChNHOfT3b7gUbCCktXUGZG1xuqOdJeUHxMGSdRzJ6QM6rMcNEX5er48FQD+4BUFEIBuGDRJpHO0Hw==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [win32]
@@ -12254,19 +12237,19 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/mdx-rs-binding@0.2.2:
-    resolution: {integrity: sha512-eaStEui4DJT/DTGkTxgttDc6zqitfRmcmWugLlI/mypuxZvVI7UqoNTn4rUQ1Y/0QXvAze5rT/rsh4YoD7K91A==}
+  /@modern-js/mdx-rs-binding@0.2.3:
+    resolution: {integrity: sha512-xakeP0lYiMvYbCkWlB6RwULwp1c4LIQ0G22aStge0QxEOsbqFDS2+ZAuRiIZZPFSDd7C2N1MGItuR/zKTOp03g==}
     engines: {node: '>= 10'}
     optionalDependencies:
-      '@modern-js/mdx-rs-binding-darwin-arm64': 0.2.2
-      '@modern-js/mdx-rs-binding-darwin-x64': 0.2.2
-      '@modern-js/mdx-rs-binding-linux-arm-gnueabihf': 0.2.2
-      '@modern-js/mdx-rs-binding-linux-arm64-gnu': 0.2.2
-      '@modern-js/mdx-rs-binding-linux-arm64-musl': 0.2.2
-      '@modern-js/mdx-rs-binding-linux-x64-gnu': 0.2.2
-      '@modern-js/mdx-rs-binding-linux-x64-musl': 0.2.2
-      '@modern-js/mdx-rs-binding-win32-arm64-msvc': 0.2.2
-      '@modern-js/mdx-rs-binding-win32-x64-msvc': 0.2.2
+      '@modern-js/mdx-rs-binding-darwin-arm64': 0.2.3
+      '@modern-js/mdx-rs-binding-darwin-x64': 0.2.3
+      '@modern-js/mdx-rs-binding-linux-arm-gnueabihf': 0.2.3
+      '@modern-js/mdx-rs-binding-linux-arm64-gnu': 0.2.3
+      '@modern-js/mdx-rs-binding-linux-arm64-musl': 0.2.3
+      '@modern-js/mdx-rs-binding-linux-x64-gnu': 0.2.3
+      '@modern-js/mdx-rs-binding-linux-x64-musl': 0.2.3
+      '@modern-js/mdx-rs-binding-win32-arm64-msvc': 0.2.3
+      '@modern-js/mdx-rs-binding-win32-x64-msvc': 0.2.3
     dev: false
 
   /@modern-js/plugin-i18n@2.18.0:
@@ -12853,7 +12836,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       extract-zip: 2.0.1
       https-proxy-agent: 5.0.1
       progress: 2.0.3
@@ -14191,7 +14174,7 @@ packages:
       '@babel/parser': 7.21.8
       '@babel/plugin-transform-react-jsx': 7.19.0(@babel/core@7.21.8)
       '@babel/preset-env': 7.21.5(@babel/core@7.21.8)
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       '@storybook/csf': 0.0.2--canary.4566f4d.1
       '@storybook/mdx1-csf': 0.0.1(@babel/core@7.21.8)
@@ -14407,7 +14390,7 @@ packages:
       typescript: '>= 3.x'
       webpack: '>= 4'
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       endent: 2.1.0
       find-cache-dir: 3.3.2
       flat-cache: 3.0.4
@@ -15825,7 +15808,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.59.6
       '@typescript-eslint/type-utils': 5.59.6(eslint@8.28.0)(typescript@5.0.4)
       '@typescript-eslint/utils': 5.59.6(eslint@8.28.0)(typescript@5.0.4)
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       eslint: 8.28.0
       grapheme-splitter: 1.0.4
       ignore: 5.2.0
@@ -15850,7 +15833,7 @@ packages:
       '@typescript-eslint/scope-manager': 5.59.6
       '@typescript-eslint/types': 5.59.6
       '@typescript-eslint/typescript-estree': 5.59.6(typescript@5.0.4)
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       eslint: 8.28.0
       typescript: 5.0.4
     transitivePeerDependencies:
@@ -15877,7 +15860,7 @@ packages:
     dependencies:
       '@typescript-eslint/typescript-estree': 5.59.6(typescript@5.0.4)
       '@typescript-eslint/utils': 5.59.6(eslint@8.28.0)(typescript@5.0.4)
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       eslint: 8.28.0
       tsutils: 3.21.0(typescript@5.0.4)
       typescript: 5.0.4
@@ -15901,7 +15884,7 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.59.6
       '@typescript-eslint/visitor-keys': 5.59.6
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.3.7
@@ -16032,7 +16015,7 @@ packages:
       '@babel/helper-module-imports': 7.21.4
       '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.21.8)
       '@babel/template': 7.20.7
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       '@vue/babel-helper-vue-transform-on': 1.0.2
       camelcase: 6.3.0
@@ -16666,7 +16649,7 @@ packages:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
     engines: {node: '>= 6.0.0'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -19671,6 +19654,7 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 9.3.1
+    dev: true
 
   /decamelize-keys@1.1.0:
     resolution: {integrity: sha512-ocLWuYzRPoS9bfiSdDd3cxvrzovVMZnRDVEzAs+hWIVXGDbHxWMECij2OBuyB/An0FFW/nLuq6Kv1i/YC5Qfzg==}
@@ -19689,7 +19673,7 @@ packages:
   /declaration-update@0.0.2:
     resolution: {integrity: sha512-17sJsx/tcy/JPRgUy76xBwXT5iSlZHgDlmytwWk358OoUN+/O2q5WqfaQcrrRTm86iVLXJ/BFjw5MCKZsoHuBQ==}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -19995,7 +19979,7 @@ packages:
       '@babel/core': 7.21.8
       '@babel/generator': 7.21.5
       '@babel/parser': 7.21.8
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       chalk: 5.2.0
       chokidar: 3.5.3
@@ -21179,7 +21163,7 @@ packages:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.1.1
@@ -21251,7 +21235,7 @@ packages:
     resolution: {integrity: sha512-YNF+mZ/Wu2FU/gvmzuWtYc8rloubL7wfXCTgouFrnjGVXPA/EeYYA7pupXWrb3Iv1cTBeSSxxJIbK23l4MRNqg==}
     engines: {node: '>=8.3.0'}
     dependencies:
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       c8: 7.11.3
     transitivePeerDependencies:
@@ -21536,7 +21520,7 @@ packages:
     engines: {node: '>= 10.17.0'}
     hasBin: true
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       get-stream: 5.2.0
       yauzl: 2.10.0
     optionalDependencies:
@@ -21847,7 +21831,7 @@ packages:
     dependencies:
       chalk: 4.1.2
       commander: 5.1.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -23229,7 +23213,7 @@ packages:
     dependencies:
       '@tootallnate/once': 2.0.0
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -23276,7 +23260,7 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -24154,7 +24138,7 @@ packages:
     resolution: {integrity: sha512-n3s8EwkdFIJCG3BPKBYvskgXGoy88ARzvegkitk60NxRdwltLOTaH7CUiMRXvwYorl0Q712iEjcWB+fK/MrWVw==}
     engines: {node: '>=10'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       istanbul-lib-coverage: 3.2.0
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -24684,7 +24668,7 @@ packages:
       '@babel/generator': 7.21.5
       '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.21.8)
       '@babel/plugin-syntax-typescript': 7.21.4(@babel/core@7.21.8)
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
       '@babel/types': 7.21.5
       '@jest/expect-utils': 29.5.0
       '@jest/transform': 29.5.0
@@ -25110,7 +25094,7 @@ packages:
     resolution: {integrity: sha512-z/OzxVjf5NyuNO3t9nJpx7e1oR3FSBAauiwXtMQu4ppcnuNZzTaQ4p21P8A6r2Es8uJJM339oc4oVW+qX7SqnQ==}
     engines: {node: '>= 8.0.0'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       http-errors: 1.8.1
       koa-compose: 4.1.0
       methods: 1.1.2
@@ -25128,7 +25112,7 @@ packages:
       content-disposition: 0.5.4
       content-type: 1.0.4
       cookies: 0.8.0
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       delegates: 1.0.0
       depd: 2.0.0
       destroy: 1.2.0
@@ -25153,7 +25137,7 @@ packages:
     resolution: {integrity: sha512-7ZhYV84UzJ0PR/RJnnsMZcAbn+kLasJhVNWsu8ZyVEJYRpGA5XESQ9d/7zOa08U0Ou4cmB++hMNY/3OSV9KIbg==}
     dependencies:
       '@babel/parser': 7.21.8
-      '@babel/traverse': 7.21.5
+      '@babel/traverse': 7.21.5(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -26352,7 +26336,7 @@ packages:
   /micromark@2.11.4:
     resolution: {integrity: sha512-+WoovN/ppKolQOFIAajxi7Lu9kInbPxFuTBVEavFcL8eAfVstoc5MocPmqBeAdBOJV00uaVjegzH4+MA0DN/uA==}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       parse-entities: 2.0.0
     transitivePeerDependencies:
       - supports-color
@@ -26362,7 +26346,7 @@ packages:
     resolution: {integrity: sha512-6Mj0yHLdUZjHnOPgr5xfWIMqMWS12zDN6iws9SLuSz76W8jTtAv24MN4/CL7gJrl5vtxGInkkqDv/JIoRsQOvA==}
     dependencies:
       '@types/debug': 4.1.7
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       decode-named-character-reference: 1.0.2
       micromark-core-commonmark: 1.0.6
       micromark-factory-space: 1.0.0
@@ -26788,7 +26772,7 @@ packages:
     resolution: {integrity: sha512-R6NUw7RIPtKwgK7jskuKoEi4VFMqIHtV2Uu9K/Uegc4TA5cqe+oNMYslZcUmnVNQCTG6wcSqUBaGTDd7sq5srg==}
     engines: {node: '>= 10.13'}
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       json-stringify-safe: 5.0.1
       lodash: 4.17.21
       propagate: 2.0.1
@@ -28726,7 +28710,7 @@ packages:
       '@puppeteer/browsers': 0.5.0(typescript@5.0.4)
       chromium-bidi: 0.4.7(devtools-protocol@0.0.1107588)
       cross-fetch: 3.1.5
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       devtools-protocol: 0.0.1107588
       extract-zip: 2.0.1
       https-proxy-agent: 5.0.1
@@ -29737,7 +29721,7 @@ packages:
       typescript: '>= 4.x'
       webpack: '>= 4'
     dependencies:
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       endent: 2.1.0
       find-cache-dir: 3.3.2
       flat-cache: 3.0.4
@@ -31928,7 +31912,7 @@ packages:
     hasBin: true
     dependencies:
       '@adobe/css-tools': 4.0.1
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       glob: 7.2.0
       sax: 1.2.4
       source-map: 0.7.4
@@ -31958,7 +31942,7 @@ packages:
     dependencies:
       component-emitter: 1.3.0
       cookiejar: 2.1.3
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       fast-safe-stringify: 2.1.1
       form-data: 4.0.0
       formidable: 2.0.1
@@ -33638,7 +33622,7 @@ packages:
     hasBin: true
     dependencies:
       cac: 6.7.14
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       mlly: 1.4.0
       pathe: 1.1.1
       picocolors: 1.0.0
@@ -33765,7 +33749,7 @@ packages:
       acorn-walk: 8.2.0
       cac: 6.7.14
       chai: 4.3.7
-      debug: 4.3.4(supports-color@9.3.1)
+      debug: 4.3.4(supports-color@5.5.0)
       jsdom: 20.0.3
       local-pkg: 0.4.3
       magic-string: 0.30.1
