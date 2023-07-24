@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addErrorTips Should format "You may need an appropriate loader" for TypeScript files 1`] = `
+[
+  "File: ./node_modules/foo/index.ts
+Module parse failed: Unexpected token (1:14)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+> export const a: string = 1;
+
+
+If it is a TypeScript file, you can use "source.include" config to compile it. see https://modernjs.dev/builder/en/api/config-source.html#sourceinclude
+
+// config file
+export default {
+  source: {
+    include: [
+      // add some include rules
+    ]
+  }
+}
+        ",
+]
+`;
+
+exports[`addErrorTips Should not format "You may need an appropriate loader" for non-TypeScript files 1`] = `
+[
+  "File: ./node_modules/foo/index.foo
+Module parse failed: Unexpected token (1:14)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders
+> export const a: string = 1;
+",
+]
+`;
