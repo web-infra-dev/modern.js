@@ -1,5 +1,10 @@
-const { tscLikeBuildConfig } = require('@scripts/build');
-
 module.exports = {
-  buildConfig: tscLikeBuildConfig,
+  buildConfig: {
+    autoExternal: false,
+    alias: {
+      chalk: '@modern-js/utils/chalk',
+    },
+    dts: false,
+    sideEffects: false,
+  },
 };
