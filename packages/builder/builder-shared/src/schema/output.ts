@@ -89,6 +89,7 @@ export const sharedOutputConfigSchema = z.partialObj({
   cleanDistPath: z.boolean(),
   convertToRem: z.union([z.boolean(), z.instanceof(Object)]),
   cssModuleLocalIdentName: z.string(),
+  disablePrettyErrors: z.boolean(),
   disableCssExtract: z.boolean(),
   disableMinimize: z.boolean(),
   disableSourceMap: DisableSourceMapOptionSchema,

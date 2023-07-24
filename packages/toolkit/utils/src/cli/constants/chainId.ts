@@ -158,6 +158,8 @@ export const CHAIN_ID = {
     HTML_ASYNC_CHUNK: 'html-async-chunk',
     /** SWC_POLYFILL_CHECKER */
     SWC_POLYFILL_CHECKER: 'swc-polyfill-checker-plugin',
+    /** FriendlyErrorsPlugin */
+    FRIENDLY_ERRORS: 'friendly-errors-plugin',
   },
   /** Predefined minimizers */
   MINIMIZER: {

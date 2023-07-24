@@ -273,6 +273,10 @@ export interface SharedOutputConfig {
    * Whether to transform SVGs into React components. If true, will treat all .svg files as assets.
    */
   disableSvgr?: boolean;
+  /**
+   * Whether to enable the friendly errors plugin.
+   */
+  disablePrettyErrors?: boolean;
 }
 
 export interface NormalizedSharedOutputConfig extends SharedOutputConfig {

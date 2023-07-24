@@ -1,10 +1,7 @@
+import _ from '@modern-js/utils/lodash';
 import { createCompiler } from './createCompiler';
 import { initConfigs, InitConfigsOptions } from './initConfigs';
-import {
-  logger,
-  type Stats,
-  type BuildOptions,
-} from '@modern-js/builder-shared';
+import { type Stats, type BuildOptions } from '@modern-js/builder-shared';
 import type {
   MultiStats,
   Compiler,
@@ -39,9 +36,7 @@ export const webpackBuild: BuildExecuter = async compiler => {
       else {
         // When using run or watch, call close and wait for it to finish before calling run or watch again.
         // Concurrent compilations will corrupt the output files.
-        compiler.close(closeErr => {
-          closeErr && logger.error(closeErr);
-
+        compiler.close(() => {
           // Assert type of stats must align to compiler.
           resolve({ stats: stats as any });
         });
@@ -82,11 +77,7 @@ export const build = async (
   });
 
   if (watch) {
-    compiler.watch({}, err => {
-      if (err) {
-        logger.error(err);
-      }
-    });
+    compiler.watch({}, _.noop);
   } else {
     const executeResult = await executer?.(compiler);
     await context.hooks.onAfterBuildHook.call({

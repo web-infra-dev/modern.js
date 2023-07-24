@@ -47,6 +47,9 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.moment(),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
+    import('../plugins/prettyErrors').then(m =>
+      m.builderPluginFriendlyErrors(),
+    ),
     import('../plugins/minimize').then(m => m.builderPluginMinimize()),
     import('../plugins/manifest').then(m => m.builderPluginManifest()),
     import('../plugins/moduleScopes').then(m => m.builderPluginModuleScopes()),

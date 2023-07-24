@@ -343,6 +343,9 @@ importers:
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../builder-shared
+      '@modern-js/friendly-errors-webpack-plugin':
+        specifier: workspace:*
+        version: link:../friendly-errors-webpack-plugin
       '@modern-js/inspector-webpack-plugin':
         specifier: 1.0.5
         version: 1.0.5
