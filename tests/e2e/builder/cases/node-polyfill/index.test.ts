@@ -14,17 +14,14 @@ test('should add node-polyfill when add node-polyfill plugin', async ({
   });
   await page.goto(getHrefByEntryName('index', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const test = page.locator('#test');
+  await expect(test).toHaveText('Hello Builder!');
 
-  await expect(
-    page.evaluate(`document.getElementById('test-buffer').innerHTML`),
-  ).resolves.toBe('120120120120');
+  const testBuffer = page.locator('#test-buffer');
+  await expect(testBuffer).toHaveText('120120120120');
 
-  await expect(
-    page.evaluate(`document.getElementById('test-querystring').innerHTML`),
-  ).resolves.toBe('foo=bar');
+  const testQueryString = page.locator('#test-querystring');
+  await expect(testQueryString).toHaveText('foo=bar');
 
   builder.close();
 });

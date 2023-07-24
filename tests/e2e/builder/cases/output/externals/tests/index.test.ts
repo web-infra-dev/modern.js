@@ -25,13 +25,11 @@ test('externals', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const test = page.locator('#test');
+  await expect(test).toHaveText('Hello Builder!');
 
-  await expect(
-    page.evaluate(`document.getElementById('test-external').innerHTML`),
-  ).resolves.toBe('1');
+  const testExternal = page.locator('#test-external');
+  await expect(testExternal).toHaveText('1');
 
   const externalVar = await page.evaluate(`window.aa`);
 

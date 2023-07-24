@@ -25,9 +25,9 @@ test('webpackChain - register plugin', async ({ page }) => {
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(
-    page.evaluate(`document.getElementById('test-el').innerHTML`),
-  ).resolves.toBe('aaaaa');
+
+  const testEl = page.locator('#test-el');
+  await expect(testEl).toHaveText('aaaaa');
 
   builder.close();
 });
