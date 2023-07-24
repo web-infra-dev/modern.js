@@ -60,7 +60,6 @@ describe('source build', () => {
     await page.goto(`http://localhost:${port}`);
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
-    // console.info('component', targetText);
 
     expect(targetText).toMatch('Card-Comp');
     expect(targetText).toMatch('CARD-COMP');
@@ -78,7 +77,6 @@ describe('source build', () => {
     await page.goto(`http://localhost:${port}`);
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
-    // console.info('utils', targetText);
     expect(targetText).toMatch('this is utils');
   });
 
