@@ -1,9 +1,4 @@
-import {
-  logger,
-  debug,
-  formatStats,
-  type Stats,
-} from '@modern-js/builder-shared';
+import { debug } from '@modern-js/builder-shared';
 import type { Context, WebpackConfig } from '../types';
 
 export async function createCompiler({
@@ -28,16 +23,7 @@ export async function createCompiler({
 
   let isFirstCompile = true;
 
-  compiler.hooks.done.tap('done', async (stats: unknown) => {
-    const { message, level } = formatStats(stats as Stats);
-
-    if (level === 'error') {
-      logger.log(message);
-    }
-    if (level === 'warning') {
-      logger.log(message);
-    }
-
+  compiler.hooks.done.tap('done', async () => {
     if (isDev()) {
       await context.hooks.onDevCompileDoneHook.call({
         isFirstCompile,
