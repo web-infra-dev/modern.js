@@ -1,3 +1,4 @@
+import os from 'os';
 import type { PluginAPI } from '@modern-js/core';
 import { logger } from '@modern-js/utils/logger';
 import type { ModuleContext } from '../types/context';
@@ -39,19 +40,23 @@ export const run = async (
     }
 
     try {
-      await pMap(resolvedBuildConfig, async config => {
-        const buildConfig = await runner.beforeBuildTask(config);
+      await pMap(
+        resolvedBuildConfig,
+        async config => {
+          const buildConfig = await runner.beforeBuildTask(config);
 
-        await runBuildTask(
-          {
-            buildConfig,
-            buildCmdOptions: cmdOptions,
-            context,
-          },
-          api,
-        );
-        await runner.afterBuildTask({ status: 'success', config });
-      });
+          await runBuildTask(
+            {
+              buildConfig,
+              buildCmdOptions: cmdOptions,
+              context,
+            },
+            api,
+          );
+          await runner.afterBuildTask({ status: 'success', config });
+        },
+        { concurrency: os.cpus().length },
+      );
     } catch (e) {
       const { isInternalError, ModuleBuildError } = await import('../error');
       if (isInternalError(e)) {
