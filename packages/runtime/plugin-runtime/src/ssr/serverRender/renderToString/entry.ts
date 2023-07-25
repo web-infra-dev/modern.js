@@ -18,6 +18,7 @@ import {
   SSR_DATA_JSON_ID,
   attributesToString,
 } from '../utils';
+import { SSRReporter, createSSRReporter } from '../reporter';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -34,6 +35,7 @@ const buildTemplateData = (
   context: SSRServerContext,
   data: Record<string, any>,
   renderLevel: RenderLevel,
+  reporter: SSRReporter,
 ) => {
   const { request, enableUnsafeCtx } = context;
   const unsafeContext = {
@@ -51,6 +53,10 @@ const buildTemplateData = (
         url: request.url,
         ...(enableUnsafeCtx ? unsafeContext : {}),
       },
+      reporter: {
+        sessionId: reporter.sessionId,
+        userId: reporter.userId,
+      },
     },
     renderLevel,
   };
@@ -64,6 +70,8 @@ export default class Entry {
   public metrics: SSRServerContext['metrics'];
 
   public logger: SSRServerContext['logger'];
+
+  public reporter: SSRReporter;
 
   private readonly template: string;
 
@@ -93,6 +101,7 @@ export default class Entry {
     this.App = options.App;
     this.pluginConfig = config;
 
+    this.reporter = createSSRReporter(ctx.reporter);
     this.metrics = ctx.metrics;
     this.logger = ctx.logger;
     this.nonce = nonce;
@@ -139,6 +148,7 @@ export default class Entry {
       ssrContext,
       prefetchData,
       this.result.renderLevel,
+      this.reporter,
     );
     const SSRData = this.getSSRDataScript(templateData, routerData);
     for (const fragment of this.fragments) {
@@ -164,9 +174,16 @@ export default class Entry {
       const prefetchCost = end();
       this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
       this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
+      this.reporter.reportEvent({
+        name: 'app.prefetch.cost',
+        metrics: {
+          cost: prefetchCost,
+        },
+      });
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
       this.logger.error('App Prefetch Render', e as Error);
+      this.reporter.reportError('App Prefetch Render', e as Error);
       this.metrics.emitCounter('app.prefetch.render.error', 1);
     }
 
@@ -201,9 +218,11 @@ export default class Entry {
       const cost = end();
       this.logger.debug('App Render To HTML cost = %d ms', cost);
       this.metrics.emitTimer('app.render.html.cost', cost);
+      this.reporter.reportTime('app.render.html.cost', cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.logger.error('App Render To HTML', e as Error);
+      this.reporter.reportError('App Render To HTML', e as Error);
       this.metrics.emitCounter('app.render.html.error', 1);
     }
 

@@ -2,15 +2,20 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
 import qs from 'querystring';
 import { Buffer } from 'buffer';
-import type { ModernServerContext as ModernServerContextInterface } from '@modern-js/types';
+import type {
+  ModernServerContext as ModernServerContextInterface,
+  Reporter as ModernSererReporter,
+} from '@modern-js/types';
 import createEtag from 'etag';
 import fresh from 'fresh';
+import { defaultReporter } from '../reporter';
 import { headersWithoutCookie } from '../../utils';
 
 const MOCK_URL_BASE = 'https://modernjs.dev/';
 
 export type ContextOptions = {
   etag?: boolean;
+  reporter?: ModernSererReporter;
 };
 
 type ResponseBody = string | Buffer;
@@ -30,6 +35,8 @@ export class ModernServerContext implements ModernServerContextInterface {
    * url params
    */
   public params: Record<string, string> = {};
+
+  public reporter: ModernSererReporter;
 
   get logger() {
     return this.req.logger;
@@ -51,6 +58,7 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.req = req;
     this.res = res;
     this.options = options || {};
+    this.reporter = options?.reporter || defaultReporter;
     this.serverData = {};
 
     this.bind();

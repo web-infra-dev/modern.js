@@ -15,6 +15,7 @@ import {
 import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
+import { defaultReporter } from './libs/reporter';
 
 export type Context = Record<string, any>;
 
@@ -194,6 +195,7 @@ export const createHandler = (manifest: Manifest) => {
           template: page.template,
           entryName: page.entryName,
           logger,
+          reporter: defaultReporter,
           metrics,
           // FIXME: pass correctly req & res
           req: request as any,

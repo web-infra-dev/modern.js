@@ -73,6 +73,7 @@ export const render = async (
     staticGenerate,
     logger: undefined!,
     metrics: undefined!,
+    reporter: ctx.reporter,
     req: ctx.req,
     res: ctx.res,
     enableUnsafeCtx,

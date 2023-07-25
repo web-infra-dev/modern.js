@@ -19,6 +19,35 @@ export type Logger = {
   log: LoggerFunction;
 };
 
+export interface ReportEventPayload {
+  name: string;
+
+  // metrics is some speficy value
+  metrics?: Record<string, number>;
+
+  categories?: Record<string, string>;
+}
+
+export interface ReportLogPayload {
+  content: string;
+
+  extra?: Record<string, string | number>;
+
+  level?: 'debug' | 'info' | 'warn' | 'error';
+}
+
+export type Reporter = {
+  sessionId?: string;
+  userId?: string;
+
+  reportLog: (payload: ReportLogPayload) => void;
+  reportEvent: (payload: ReportEventPayload) => void;
+  reportError: (content: string, type: string, e: Error) => void;
+  reportTime: (name: string, type: string, cost: number) => void;
+  reportInfo: (content: string, type: string) => void;
+  reportWarn: (content: string, type: string) => void;
+};
+
 export type NextFunction = () => void;
 
 export type ProxyDetail = ProxyOptions & {
