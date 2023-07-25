@@ -8,7 +8,4 @@ module.exports = {
   testMatch: ['<rootDir>/tests/**/*.test.[jt]s?(x)'],
   testPathIgnorePatterns: ['buildWatch.test.ts'],
   coveragePathIgnorePatterns: ['onExit.ts', './src/constants/*'],
-  moduleNameMapper: {
-    '@modern-js/self': '@modern-js/module-tools',
-  },
 };

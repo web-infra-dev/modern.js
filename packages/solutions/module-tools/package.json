@@ -50,7 +50,6 @@
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "jest",
-    "test:update": "jest --updateSnapshot",
     "new": "modern-lib new"
   },
   "dependencies": {
