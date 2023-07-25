@@ -54,7 +54,7 @@ jobs:
 
       - name: Build packages
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm build:skip-dts
+        run: pnpm build:vitest
 
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}

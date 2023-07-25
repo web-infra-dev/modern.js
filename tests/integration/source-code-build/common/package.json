@@ -1,0 +1,30 @@
+{
+  "name": "@source-code-build/common",
+  "private": true,
+  "version": "2.9.0",
+  "types": "./src/index.ts",
+  "source": "./src/index.ts",
+  "main": "./dist/lib/index.js",
+  "module": "./dist/es/index.js",
+  "exports": {
+    ".": {
+      "source": "./src/index.ts",
+      "default": "./dist/es/index.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./src/index.ts"
+      ]
+    }
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.17.6"
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "dist/"
+  ]
+}

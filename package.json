@@ -26,7 +26,7 @@
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./scripts/fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "build:skip-dts": "cross-env SKIP_DTS=true pnpm --filter {packages/**} run build",
+    "build:vitest": "cross-env SKIP_DTS=true pnpm --filter \"./packages/!(generator)/**\" run build",
     "prepare": "turbo run build --filter {packages/**} --cache-dir=.turbo --no-daemon && husky install",
     "lint": "npm run fast-lint",
     "change": "modern change",
@@ -40,7 +40,8 @@
     "fix:lockfile": "pnpm install --fix-lockfile",
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
-    "update-codesmith": "cd ./scripts/update-codesmith && pnpm start"
+    "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
+    "update-turbo-cache": "turbo run build --force --filter {packages/**}"
   },
   "engines": {
     "node": ">=14.17.6",
