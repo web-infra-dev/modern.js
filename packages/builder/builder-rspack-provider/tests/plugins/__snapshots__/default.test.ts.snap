@@ -1777,6 +1777,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "type": "asset/resource",
       },
       {
+        "test": /\\\\\\.node\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/node-loader",
+            "options": {
+              "name": [Function],
+            },
+          },
+        ],
+      },
+      {
         "oneOf": [
           {
             "resolve": {

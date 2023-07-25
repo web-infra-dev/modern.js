@@ -24,6 +24,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.tsChecker(),
     plugins.wasm(),
     plugins.moment(),
+    plugins.nodeAddons(),
     // pug plugin should after html plugin
     import('../plugins/pug').then(m => m.builderPluginPug()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
