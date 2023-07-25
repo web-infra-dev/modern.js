@@ -79,21 +79,23 @@ export function DocLayout(props: DocLayoutProps) {
       <div
         className={`${styles.content} modern-doc-container flex flex-shrink-0`}
       >
-        {isOverviewPage ? (
-          <Overview />
-        ) : (
-          <div className="modern-doc">
-            <TabDataContext.Provider value={{ tabData, setTabData }}>
-              <MDXProvider components={getCustomMDXComponent()}>
-                <Content />
-              </MDXProvider>
-            </TabDataContext.Provider>
-            <div>
-              {beforeDocFooter}
-              {hasFooter && <DocFooter />}
+        <div className="w-full">
+          {isOverviewPage ? (
+            <Overview />
+          ) : (
+            <div className="modern-doc">
+              <TabDataContext.Provider value={{ tabData, setTabData }}>
+                <MDXProvider components={getCustomMDXComponent()}>
+                  <Content />
+                </MDXProvider>
+              </TabDataContext.Provider>
+              <div>
+                {beforeDocFooter}
+                {hasFooter && <DocFooter />}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {hasAside ? (
           <div
