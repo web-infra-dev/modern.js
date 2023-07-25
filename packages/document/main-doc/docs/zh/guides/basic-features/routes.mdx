@@ -150,6 +150,31 @@ export default () => {
 
 所有的路由，理论上都应该由 `<Page>` 组件结束。在 `page.tsx` 文件内，如果开发者引入 `<Outlet>` 组件，不会有任何效果。
 
+#### Config
+
+每个 `Layout` 或 `Page` 文件都可以定义一个自己的 `config` 文件，如 `page.config.ts`，该文件中我们约定了一个具名导出 `handle`，
+这个字段中你可以定义任意属性：
+
+```ts title="routes/page.config.ts"
+export const handle = {
+  breadcrumbName: 'profile'
+}
+```
+
+定义的这些属性可以通过 [`useMatches`](https://reactrouter.com/en/main/hooks/use-matches) hook 获取：
+
+```ts title="routes/layout.ts"
+export default () => {
+  const matches = useMatches;
+  const breadcrumbs = matches.map(matchedRoute => matchedRoute?.handle?.breadcrumbName);
+  return (
+    <Breadcrumb names={breadcrumbs}>
+    </Breadcrumb>
+  )
+}
+```
+
+
 ### 动态路由
 
 通过 `[]` 命名的文件目录，生成的路由会作为动态路由。例如以下文件目录：
@@ -201,13 +226,25 @@ export default () => {
 
 ```bash
 └── routes
-    ├── $.tsx
     ├── blog
-    │   └── page.tsx
+    │   ├── $.tsx
+    │   └── layout.tsx
+    └── layout.tsx
     └── page.tsx
 ```
 
-当访问任何匹配不到的路径时，都会渲染 `routes/$.tsx` 组件，同样，`$.tsx` 中可以使用 [useParams](/apis/app/runtime/router/router#useparams) 捕获 url 的剩余部分。
+当访问任何匹配不到的路径时(如 `/blog/a`)，都会渲染 `routes/$.tsx` 组件，因为这里有 `layout.tsx`，渲染的 UI 如下：
+```tsx
+<RootLayout>
+  <BlogLayout>
+    <$></$>
+  </BlogLayout>
+</RootLayout>
+```
+
+如果希望访问 `/blog` 时，也匹配到 `blog/$.tsx` 文件，需要删除同目录下的 `blog/layout.tsx` 文件，同时保证 `blog` 下面没有其他子路由。
+
+同样，`$.tsx` 中可以使用 [useParams](/apis/app/runtime/router/router#useparams) 捕获 url 的剩余部分。
 
 ```ts title="$.tsx"
 import { useParams } from '@modern-js/runtime/router';
@@ -216,7 +253,8 @@ const params = useParams();
 params['*']; // => 'aaa/bbb'
 ```
 
-`$.tsx` 可以加入到 `routes` 目录下的任意目录中，一个常见的使用示例是添加 `routes/$.tsx` 文件去定制任意层级的 404 页面。
+`$.tsx` 可以加入到 `routes` 目录下的任意目录中，一个常见的使用示例是添加 `routes/$.tsx` 文件去定制任意层级的 404 内容。
+
 
 ### 无路径布局
 

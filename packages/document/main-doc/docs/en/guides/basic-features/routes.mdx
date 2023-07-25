@@ -147,6 +147,29 @@ In summary, if there is a `layout.tsx` file under the sub-route's file directory
 
 All routes should end with the `<Page>` component. If the developer introduces the `<Outlet>` component in the `page.tsx` file, there will be no effect.
 
+#### Config
+
+Each `Layout` or `Page` file can define its own `config` file, such as `page.config.ts`. In this file, we have an conventinal on a named export called `handle`, which you can define any properties:
+
+```ts title="routes/blog/page.config.ts"
+export const handle = {
+  breadcrumbName: 'profile'
+}
+```
+
+These properties as defined are available via the [`useMatches`](https://reactrouter.com/en/main/hooks/use-matches) hook:
+
+```ts title="routes/layout.ts"
+export default () => {
+  const matches = useMatches;
+  const breadcrumbs = matches.map(matchedRoute => matchedRoute?.handle?.breadcrumbName);
+  return (
+    <Breadcrumb names={breadcrumbs}>
+    </Breadcrumb>
+  )
+}
+```
+
 ### Dynamic Routing
 
 Routes generated from file directories named with `[]` will be handled as dynamic routes. For example, the following file directory:
@@ -204,7 +227,18 @@ For example, the following directory structure:
     └── page.tsx
 ```
 
-When accessing any path that does not match, the `routes/$.tsx` component will be rendered. Similarly, you can use [useParams](/apis/app/runtime/router/router#useparams) in `$.tsx` to capture the remaining parts of the URL.
+When accessing any path that does not match(For example `/blog/a`), the `routes/$.tsx` component will be rendered, because there is `layout.tsx` here, the rendered UI is as follows.
+```tsx
+<RootLayout>
+  <BlogLayout>
+    <$></$>
+  </BlogLayout>
+</RootLayout>
+```
+
+If you want access to `/blog` to also match the `blog/$.tsx` file, you need to delete the `blog/layout.tsx` file in the same directory and make sure that there are no other subroutes under `blog`.
+
+As same, you can use [useParams](/apis/app/runtime/router/router#useparams) in `$.tsx` to capture the remaining parts of the URL.
 
 ```ts title="$.tsx"
 import { useParams } from '@modern-js/runtime/router';
