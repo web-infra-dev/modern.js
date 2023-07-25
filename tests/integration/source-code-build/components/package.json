@@ -21,7 +21,7 @@
         "./dist/types/index.d.ts"
       ],
       "card": [
-        "./dist/types/card/index.ts"
+        "./dist/types/card/index.d.ts"
       ]
     }
   },
