@@ -63,7 +63,7 @@ export function DocLayout(props: DocLayoutProps) {
 
   return (
     <div
-      className={`${styles.docLayout} modern-doc-container pt-0`}
+      className={`${styles.docLayout} pt-0`}
       style={{
         ...(hideNavbar ? { marginTop: 0 } : {}),
       }}
@@ -76,24 +76,24 @@ export function DocLayout(props: DocLayoutProps) {
           sidebarData={sidebarData}
         />
       ) : null}
-      <div className={`${styles.content} flex flex-shrink-0`}>
-        <div className="w-full">
-          {isOverviewPage ? (
-            <Overview />
-          ) : (
-            <div className="modern-doc">
-              <TabDataContext.Provider value={{ tabData, setTabData }}>
-                <MDXProvider components={getCustomMDXComponent()}>
-                  <Content />
-                </MDXProvider>
-              </TabDataContext.Provider>
-              <div>
-                {beforeDocFooter}
-                {hasFooter && <DocFooter />}
-              </div>
+      <div
+        className={`${styles.content} modern-doc-container flex flex-shrink-0`}
+      >
+        {isOverviewPage ? (
+          <Overview />
+        ) : (
+          <div className="modern-doc">
+            <TabDataContext.Provider value={{ tabData, setTabData }}>
+              <MDXProvider components={getCustomMDXComponent()}>
+                <Content />
+              </MDXProvider>
+            </TabDataContext.Provider>
+            <div>
+              {beforeDocFooter}
+              {hasFooter && <DocFooter />}
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {hasAside ? (
           <div
