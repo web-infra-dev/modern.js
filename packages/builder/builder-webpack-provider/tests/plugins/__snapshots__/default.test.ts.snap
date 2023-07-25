@@ -813,6 +813,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "maxEntrypointSize": 3000000,
   },
   "plugins": [
+    FriendlyErrorsWebpackPlugin {
+      "name": "FriendlyErrorsWebpackPlugin",
+      "options": {},
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -1790,6 +1794,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "maxEntrypointSize": 3000000,
   },
   "plugins": [
+    FriendlyErrorsWebpackPlugin {
+      "name": "FriendlyErrorsWebpackPlugin",
+      "options": {},
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -2612,6 +2620,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "maxEntrypointSize": 30000000,
   },
   "plugins": [
+    FriendlyErrorsWebpackPlugin {
+      "name": "FriendlyErrorsWebpackPlugin",
+      "options": {},
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -3408,6 +3420,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "maxEntrypointSize": 30000000,
   },
   "plugins": [
+    FriendlyErrorsWebpackPlugin {
+      "name": "FriendlyErrorsWebpackPlugin",
+      "options": {},
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
