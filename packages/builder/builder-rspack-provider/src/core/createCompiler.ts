@@ -16,7 +16,9 @@ export async function createCompiler({
   const { rspack } = await import('@rspack/core');
   const { isDev } = await import('@modern-js/utils');
 
-  const compiler = rspack(rspackConfigs);
+  // always return compiler when no second parameter(callback)
+  // https://github.com/web-infra-dev/rspack/blob/37ad034eec06d711eb59b181a0b6232589387e13/packages/rspack/src/rspack.ts#L155
+  const compiler = rspack(rspackConfigs)!;
 
   let isFirstCompile = true;
 
