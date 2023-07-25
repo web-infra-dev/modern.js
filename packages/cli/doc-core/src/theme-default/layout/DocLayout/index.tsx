@@ -63,7 +63,7 @@ export function DocLayout(props: DocLayoutProps) {
 
   return (
     <div
-      className={`${styles.docLayout} pt-0`}
+      className={`${styles.docLayout} modern-doc-container pt-0`}
       style={{
         ...(hideNavbar ? { marginTop: 0 } : {}),
       }}
