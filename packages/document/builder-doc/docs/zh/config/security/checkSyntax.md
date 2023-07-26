@@ -75,7 +75,7 @@ export default {
 };
 ```
 
-Builder 会推导出 `chrome >= 53` 可以使用的 ECMAScript 语法版本为 `ES6`，当项目的构建产物中包含 `es2016` 或更高的语法时，就会触发语法错误提示。
+Builder 会推导出 `chrome >= 53` 可以使用的 ECMAScript 语法版本为 `ES6`，当构建产物中包含 `es2016` 或更高的语法时，就会触发语法错误提示。
 
 :::tip
 请留意，Builder 不支持基于 `targets` 来自动分析 ES6 以上的语法版本，如果你的构建产物兼容的语法版本超过 ES6，请通过 `checkSyntax.ecmaVersion` 进行设置。
@@ -86,7 +86,7 @@ Builder 会推导出 `chrome >= 53` 可以使用的 ECMAScript 语法版本为 `
 - **类型：** `3 | 5 | 6 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 'latest'`
 - **默认值：** `基于 targets 自动分析`
 
-`ecmaVersion` 表示项目中可以使用的最低 ECMAScript 语法版本，`ecmaVersion` 的优先级高于 `targets`。
+`ecmaVersion` 表示构建产物中可以使用的最低 ECMAScript 语法版本，`ecmaVersion` 的优先级高于 `targets`。
 
 - **示例：**
 

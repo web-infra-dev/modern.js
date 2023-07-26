@@ -75,7 +75,7 @@ export default {
 };
 ```
 
-Builder will deduce that the ECMAScript syntax version that can be used with `chrome >= 53` is `ES6`. When the build artifacts of the project contain `ES2016` or higher syntax, it triggers syntax error prompts.
+Builder will deduce that the ECMAScript syntax version that can be used with `chrome >= 53` is `ES6`. When the build artifacts contain `ES2016` or higher syntax, it triggers syntax error prompts.
 
 :::tip
 Please note that Builder does not support automatic analysis of syntax versions above ES6 based on `targets`. If the syntax version compatible with your build artifacts exceeds ES6, please use `checkSyntax.ecmaVersion` to set it.
@@ -86,7 +86,7 @@ Please note that Builder does not support automatic analysis of syntax versions 
 - **Type:** `3 | 5 | 6 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 'latest'`
 - **Default:** `Automatically analyzed based on targets`
 
-`ecmaVersion` represents the minimum ECMAScript syntax version that can be used in the project. The priority of `ecmaVersion` is higher than `targets`.
+`ecmaVersion` represents the minimum ECMAScript syntax version that can be used in the build artifact. The priority of `ecmaVersion` is higher than `targets`.
 
 - **Example:**
 
