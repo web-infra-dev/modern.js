@@ -37,7 +37,7 @@ export async function launchDoc({
       label: 'English',
     },
   ];
-  const base = (await fs.readdir(defaultBase)).length > 0 ? defaultBase : root;
+  const base = (await fs.pathExists(defaultBase)) ? defaultBase : root;
   const locales = languages.length === 2 ? defaultLocales : undefined;
 
   const getAutoSidebar = async (): Promise<Sidebar> => {
