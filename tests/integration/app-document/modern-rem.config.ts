@@ -30,5 +30,8 @@ export default defineConfig({
       inlineRuntime: false,
     },
   },
+  performance: {
+    buildCache: false,
+  },
   plugins: [appTools(), routerPlugin()],
 });
