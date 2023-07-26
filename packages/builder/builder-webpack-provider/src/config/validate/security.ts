@@ -10,7 +10,7 @@ export const SriOptionsSchema: z.ZodType<SriOptions> = z.partialObj({
     [string, ...string[]]
   >,
   enabled: z.literals(['auto', true, false]),
-  hashLoading: z.literals(['eager', 'lazy']),
+  hashLoading: z.enum(['eager', 'lazy']),
 });
 
 export const securityConfigSchema: z.ZodType<SecurityConfig> =

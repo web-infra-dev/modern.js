@@ -49,10 +49,17 @@ export type Literal = string | number | boolean | null | undefined;
 
 export const unionLiterals = <T extends Literal[]>(
   literals: [...T],
-): z.ZodType<T[number]> => {
-  const wraps = literals.map(value => z.literal(value));
-  return z.union(wraps as any);
-};
+): z.ZodType<T[number]> =>
+  z.custom(
+    val => literals.includes(val as any),
+    val => {
+      return {
+        message: `Invalid value. Expected ${literals.join(
+          ' | ',
+        )}, received ${JSON.stringify(val)}`,
+      };
+    },
+  );
 
 export const literals = unionLiterals;
 

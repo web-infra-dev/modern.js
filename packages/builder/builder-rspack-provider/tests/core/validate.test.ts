@@ -1,5 +1,6 @@
 import { performance } from 'perf_hooks';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { logger } from '@modern-js/builder-shared';
 import { createDefaultConfig } from '@/config/defaults';
 import { validateBuilderConfig } from '@/config/validate';
 import { BuilderConfig } from '@/types';
@@ -11,29 +12,50 @@ describe('validateBuilderConfig', () => {
   it('should remove unknown properties', async () => {
     await expect(validateBuilderConfig({ foo: 123 })).resolves.toEqual({});
   });
+
+  it('should log warning when joint validation exception', async () => {
+    vi.mock('@modern-js/builder-shared', async importOriginal => {
+      const mod = await importOriginal<any>();
+      return {
+        ...mod,
+        logger: {
+          ...mod.logger,
+          warn: vi.fn(),
+        },
+      };
+    });
+
+    await validateBuilderConfig({
+      output: {
+        enableCssModuleTSDeclaration: true,
+      },
+    });
+
+    expect(logger.warn).toBeCalledWith(
+      'enableCssModuleTSDeclaration only takes effect when output.disableCssExtract is set to true',
+    );
+  });
+
   it('should throw error when shape wrong', async () => {
     const config = {
       dev: { hmr: false },
       html: { faviconByEntries: [] },
     };
+    await expect(
+      validateBuilderConfig({
+        output: {
+          polyfill: 'usage',
+        },
+      }),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(`
+      "Builder config validation error:
+      * Invalid enum value. Expected 'entry' | 'ua' | 'off', received 'usage' at \\"output.polyfill\\""
+    `);
 
     await expect(validateBuilderConfig(config)).rejects
       .toThrowErrorMatchingInlineSnapshot(`
       "Builder config validation error:
-      * Expected object, received array at \\"html.faviconByEntries\\"
-      Error detail:
-      [
-        {
-          \\"code\\": \\"invalid_type\\",
-          \\"expected\\": \\"object\\",
-          \\"received\\": \\"array\\",
-          \\"path\\": [
-            \\"html\\",
-            \\"faviconByEntries\\"
-          ],
-          \\"message\\": \\"Expected object, received array\\"
-        }
-      ]"
+      * Expected object, received array at \\"html.faviconByEntries\\""
     `);
   });
   it('should accept correct chained config', async () => {
