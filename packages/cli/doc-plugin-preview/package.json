@@ -39,7 +39,8 @@
     "@mdx-js/mdx": "2.2.1",
     "@modern-js/doc-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "qrcode.react": "^3.1.0"
+    "qrcode.react": "^3.1.0",
+    "remark-gfm": "3.0.1"
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",

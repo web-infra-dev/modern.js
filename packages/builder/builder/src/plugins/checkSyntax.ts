@@ -32,11 +32,11 @@ export function builderPluginCheckSyntax(): DefaultBuilderPlugin {
           checkSyntax,
         );
         const { CheckSyntaxPlugin } = await import('@modern-js/builder-shared');
+
         chain.plugin(CheckSyntaxPlugin.name).use(CheckSyntaxPlugin, [
           {
             targets,
-            exclude:
-              typeof checkSyntax === 'object' ? checkSyntax.exclude : undefined,
+            ...(typeof checkSyntax === 'object' ? checkSyntax : {}),
           },
         ]);
       });
