@@ -117,6 +117,75 @@ Error: ES Modules may not assign module.exports or exports.*, Use ESM export syn
 
 ---
 
+### 编译时报错 "export 'foo' (imported as 'foo') was not found in './utils'"？
+
+如果编译的过程中出现此报错，说明代码中引用了一个不存在的导出。
+
+比如以下例子，`index.ts` 中引用了 `utils.ts` 中的 `foo` 变量， 但 `utils.ts` 实际上只导出了 `bar` 变量。
+
+```ts
+// utils.ts
+export const bar = 'bar';
+
+// index.ts
+import { foo } from './utils';
+```
+
+在这种情况下，Builder 会抛出以下错误：
+
+```bash
+Compile Error:
+File: ./src/index.ts
+export 'foo' (imported as 'foo') was not found in './utils' (possible exports: bar)
+```
+
+当你遇到该问题时，首先需要检查相关代码里 import / export 的内容是否正确，并修正相关错误。
+
+常见的错误写法有：
+
+- 引入了不存在的变量：
+
+```ts
+// utils.ts
+export const bar = 'bar';
+
+// index.ts
+import { foo } from './utils';
+```
+
+- re-export 了一个类型，但是没有添加 `type` 修饰符，导致 babel 等编译工具无法识别到类型导出，导致编译异常。
+
+```ts
+// utils.ts
+export type Foo = 'bar';
+
+// index.ts
+export { Foo } from './utils'; // 错误写法
+export type { Foo } from './utils'; // 正确写法
+```
+
+在个别情况下，以上报错是由第三方依赖引入的，你无法直接修改它。此时，如果你确定该问题不影响你的应用，那么可以添加以下配置，将 `error` 日志修改为 `warn` 级别：
+
+```ts
+export default {
+  tools: {
+    webpackChain(chain) {
+      chain.module.parser.merge({
+        javascript: {
+          exportsPresence: 'warn',
+        },
+      });
+    },
+  },
+};
+```
+
+同时，你需要尽快联系第三方依赖的开发者来修复相应的问题。
+
+> 你可以查看 webpack 的文档来了解 [module.parser.javascript.exportsPresence](https://webpack.js.org/configuration/module/#moduleparserjavascriptexportspresence) 的更多细节。
+
+---
+
 ### 编译进度条卡死，但终端无 Error 日志？
 
 当编译进度条卡死，但终端无 Error 日志时，通常是因为编译过程中出现了异常。在某些情况下，当 Error 被 webpack 或其他模块捕获后，错误日志不会被正确输出。最为常见的场景是 Babel 配置出现异常，抛出 Error 后被 webpack 捕获，而 webpack 在个别情况下吞掉了 Error。
