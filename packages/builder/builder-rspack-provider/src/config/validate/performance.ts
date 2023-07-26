@@ -12,11 +12,7 @@ import type { PerformanceConfig } from '../../types';
 
 const BaseChunkSplitSchema: z.ZodType<BaseChunkSplit> =
   BaseSplitRulesSchema.extend({
-    strategy: z.literals([
-      'split-by-experience',
-      'all-in-one',
-      'single-vendor',
-    ]),
+    strategy: z.enum(['split-by-experience', 'all-in-one', 'single-vendor']),
     forceSplitting: ForceSplittingSchema,
     override: z.any().optional(),
   });

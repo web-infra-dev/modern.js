@@ -2,7 +2,7 @@ import { BuilderTarget, MainFields, SharedSourceConfig } from '../types';
 import { z } from '../utils';
 import { ZodType } from '../zod';
 
-export const BuilderTargetSchema: ZodType<BuilderTarget> = z.literals([
+export const BuilderTargetSchema: ZodType<BuilderTarget> = z.enum([
   'web',
   'node',
   'modern-web',
@@ -15,7 +15,7 @@ export const MainFieldsSchema: ZodType<MainFields> = z.array(
 
 export const sharedSourceConfigSchema = z.partialObj({
   alias: z.chained(z.record(z.arrayOrNot(z.string()))),
-  aliasStrategy: z.literals(['prefer-tsconfig', 'prefer-alias']),
+  aliasStrategy: z.enum(['prefer-tsconfig', 'prefer-alias']),
   include: z.array(z.union([z.string(), z.instanceof(RegExp)])),
   exclude: z.array(z.union([z.string(), z.instanceof(RegExp)])),
   preEntry: z.arrayOrNot(z.string()),

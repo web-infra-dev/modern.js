@@ -21,20 +21,7 @@ describe('validateBuilderConfig', () => {
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `
       "Builder config validation error:
-      * Expected object, received array at \\"html.faviconByEntries\\"
-      Error detail:
-      [
-        {
-          \\"code\\": \\"invalid_type\\",
-          \\"expected\\": \\"object\\",
-          \\"received\\": \\"array\\",
-          \\"path\\": [
-            \\"html\\",
-            \\"faviconByEntries\\"
-          ],
-          \\"message\\": \\"Expected object, received array\\"
-        }
-      ]"
+      * Expected object, received array at \\"html.faviconByEntries\\""
     `,
     );
   });

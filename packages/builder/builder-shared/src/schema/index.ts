@@ -1,4 +1,4 @@
-import { fromZodError, z, ZodError } from '../zod';
+import { fromZodError, z, ZodError, ZodIssueCode } from '../zod';
 import chalk from '@modern-js/utils/chalk';
 
 export * from './source';
@@ -25,12 +25,23 @@ export const validateBuilderConfig = async (
   const parsed = await configSchema.safeParseAsync(data);
   if (!parsed.success) {
     const err = formatZodError(parsed.error);
+
+    // some errorCode's error message is clear enough, no need to print detail
+    const clearlyErrorCodes = [
+      ZodIssueCode.invalid_enum_value,
+      ZodIssueCode.invalid_type,
+    ] as string[];
+
     // only print message & details, error stack is useless
-    const message = `${err.message}\nError detail:\n${JSON.stringify(
-      err.details,
-      null,
-      2,
-    )}`;
+    const message =
+      err.details.length === 1 &&
+      clearlyErrorCodes.includes(err.details[0].code)
+        ? err.message
+        : `${err.message}\nError detail:\n${JSON.stringify(
+            err.details,
+            null,
+            2,
+          )}`;
 
     throw new Error(message);
   }

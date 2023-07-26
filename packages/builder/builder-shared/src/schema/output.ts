@@ -35,9 +35,9 @@ export const FilenameConfigSchema: ZodType<FilenameConfig> = z.partialObj({
   media: z.string(),
 });
 
-export const CharsetSchema: ZodType<Charset> = z.literals(['ascii', 'utf8']);
+export const CharsetSchema: ZodType<Charset> = z.enum(['ascii', 'utf8']);
 
-export const PolyfillSchema: ZodType<Polyfill> = z.literals([
+export const PolyfillSchema: ZodType<Polyfill> = z.enum([
   'usage',
   'entry',
   'ua',
@@ -63,7 +63,7 @@ export const DataUriLimitSchema: ZodType<DataUriLimit> = z.partialObj({
   media: z.number(),
 });
 
-export const LegalCommentsSchema: ZodType<LegalComments> = z.literals([
+export const LegalCommentsSchema: ZodType<LegalComments> = z.enum([
   'none',
   'inline',
   'linked',
@@ -72,7 +72,7 @@ export const LegalCommentsSchema: ZodType<LegalComments> = z.literals([
 export const DisableSourceMapOptionSchema: ZodType<DisableSourceMapOption> =
   z.union([z.boolean(), z.partialObj({ js: z.boolean(), css: z.boolean() })]);
 
-export const SvgDefaultExportSchema: ZodType<SvgDefaultExport> = z.literals([
+export const SvgDefaultExportSchema: ZodType<SvgDefaultExport> = z.enum([
   'component',
   'url',
 ]);
