@@ -14,7 +14,7 @@ export const joinPathWithPrefix =
   (flag: string) => (p1: string, globPath: string) => {
     const haveFlag = globPath.trim().startsWith(flag);
     if (haveFlag) {
-      return path.join(flag, p1, globPath.replace(flag, ''));
+      return `${flag}${path.join(p1, globPath.replace(flag, ''))}`;
     }
 
     return path.join(p1, globPath);
