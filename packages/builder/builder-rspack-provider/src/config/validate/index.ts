@@ -12,12 +12,14 @@ import { outputConfigSchema } from './output';
 import { performanceConfigSchema } from './performance';
 import { sourceConfigSchema } from './source';
 import { toolsConfigSchema } from './tools';
+import { securityConfigSchema } from './security';
 
 export const configSchema: z.ZodType<BuilderConfig> = z.partialObj({
   source: sourceConfigSchema,
   dev: devConfigSchema,
   html: htmlConfigSchema,
   output: outputConfigSchema,
+  security: securityConfigSchema,
   performance: performanceConfigSchema,
   tools: toolsConfigSchema,
 });
