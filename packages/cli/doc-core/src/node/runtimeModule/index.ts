@@ -1,5 +1,5 @@
 import type { UserConfig } from 'shared/types/index';
-import { BuilderPlugin } from '@modern-js/builder';
+import type { BuilderPlugin } from '@modern-js/builder';
 import { RouteService } from '../route/RouteService';
 import { PluginDriver } from '../PluginDriver';
 import RuntimeModulesPlugin from './RuntimeModulePlugin';

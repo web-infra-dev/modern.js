@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/tsconfig",
-  "version": "2.25.2",
+  "version": "2.27.0",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -23,9 +23,6 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true
-  },
-  "devDependencies": {
-    "@scripts/build": "workspace:*"
   },
   "main": "./base.json"
 }

@@ -16,12 +16,35 @@ test('should build basic Vue sfc correctly', async ({ page }) => {
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(
-    page.evaluate(`document.querySelector('#button1').innerHTML`),
-  ).resolves.toBe('A: 0');
-  await expect(
-    page.evaluate(`document.querySelector('#button2').innerHTML`),
-  ).resolves.toBe('B: 0');
+
+  const button1 = page.locator('#button1');
+  const button2 = page.locator('#button2');
+
+  await expect(button1).toHaveText('A: 0');
+  await expect(button2).toHaveText('B: 0');
+
+  builder.close();
+});
+
+test('should build Vue sfc style correctly', async ({ page }) => {
+  const root = join(__dirname, 'sfc-style');
+
+  const builder = await build({
+    cwd: root,
+    entry: {
+      main: join(root, 'src/index.js'),
+    },
+    runServer: true,
+    plugins: [builderPluginVue()],
+  });
+
+  await page.goto(getHrefByEntryName('main', builder.port));
+
+  const button = page.locator('#button');
+  await expect(button).toHaveCSS('color', 'rgb(255, 0, 0)');
+
+  const body = page.locator('body');
+  await expect(body).toHaveCSS('background-color', 'rgb(0, 0, 255)');
 
   builder.close();
 });
@@ -40,9 +63,8 @@ test('should build basic Vue jsx correctly', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.querySelector('#button1').innerHTML`),
-  ).resolves.toBe('A: 0');
+  const button1 = page.locator('#button1');
+  await expect(button1).toHaveText('A: 0');
 
   builder.close();
 });
@@ -61,9 +83,8 @@ test('should build Vue sfc with lang="ts" correctly', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.querySelector('#button').innerHTML`),
-  ).resolves.toBe('count: 0 foo: bar');
+  const button = page.locator('#button');
+  await expect(button).toHaveText('count: 0 foo: bar');
 
   builder.close();
 });
@@ -82,13 +103,11 @@ test('should build Vue sfc with lang="jsx" correctly', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.querySelector('#button').innerHTML`),
-  ).resolves.toBe('0');
+  const button = page.locator('#button');
+  await expect(button).toHaveText('0');
 
-  await expect(
-    page.evaluate(`document.querySelector('#foo').innerHTML`),
-  ).resolves.toBe('Foo');
+  const foo = page.locator('#foo');
+  await expect(foo).toHaveText('Foo');
 
   builder.close();
 });
@@ -107,13 +126,11 @@ test('should build Vue sfc with lang="tsx" correctly', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.querySelector('#button').innerHTML`),
-  ).resolves.toBe('0');
+  const button = page.locator('#button');
+  await expect(button).toHaveText('0');
 
-  await expect(
-    page.evaluate(`document.querySelector('#foo').innerHTML`),
-  ).resolves.toBe('Foo');
+  const foo = page.locator('#foo');
+  await expect(foo).toHaveText('Foo');
 
   builder.close();
 });

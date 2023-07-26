@@ -59,6 +59,7 @@ export type Plugins = {
   rem: PluginsFn;
   wasm: PluginsFn;
   moment: PluginsFn;
+  nodeAddons: PluginsFn;
   externals: PluginsFn;
   sourceBuild: PluginsFn;
 };

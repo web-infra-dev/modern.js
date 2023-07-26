@@ -1,5 +1,19 @@
 # @modern-js/utils
 
+## 2.27.0
+
+### Patch Changes
+
+- 91d14b8: fix(utils): using universal build config and fix compatibility issue
+
+  fix(utils): 使用 universal 构建配置，修复兼容性问题
+
+- 6d7104d: fix(builder): should not strip error stacks
+
+  fix(builder): 不应该移除错误堆栈
+
+## 2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

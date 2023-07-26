@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { MDXProvider } from '@mdx-js/react';
+import { getCustomMDXComponent } from '@theme';
 import { Aside } from '../../components/Aside';
 import { DocFooter } from '../../components/DocFooter';
 import { useLocaleSiteData, useSidebarData } from '../../logic';
@@ -8,7 +9,6 @@ import { SideMenu } from '../../components/LocalSideBar';
 import { Overview } from '../../components/Overview';
 import { TabDataContext } from '../../logic/TabDataContext';
 import styles from './index.module.scss';
-import { getCustomMDXComponent } from './docComponents';
 import { Content, usePageData, normalizeSlash } from '@/runtime';
 
 export interface DocLayoutProps {
@@ -33,6 +33,8 @@ export function DocLayout(props: DocLayoutProps) {
 
   const { items: sidebarData } = useSidebarData();
   const langRoutePrefix = normalizeSlash(localesData.langRoutePrefix || '');
+  const hideNavbar =
+    frontmatter?.hideNavbar ?? themeConfig?.hideNavbar ?? false;
   // siderbar Priority
   // 1. frontmatter.sidebar
   // 2. themeConfig.locales.sidebar
@@ -60,7 +62,12 @@ export function DocLayout(props: DocLayoutProps) {
   }, [page, siteData]);
 
   return (
-    <div className={`${styles.docLayout} pt-0 md:mt-14`}>
+    <div
+      className={`${styles.docLayout} pt-0`}
+      style={{
+        ...(hideNavbar ? { marginTop: 0 } : {}),
+      }}
+    >
       {beforeDoc}
       {hasSidebar ? (
         <SideMenu
@@ -69,7 +76,9 @@ export function DocLayout(props: DocLayoutProps) {
           sidebarData={sidebarData}
         />
       ) : null}
-      <div className={`${styles.content} flex flex-shrink-0`}>
+      <div
+        className={`${styles.content} modern-doc-container flex flex-shrink-0`}
+      >
         <div className="w-full">
           {isOverviewPage ? (
             <Overview />
@@ -94,6 +103,12 @@ export function DocLayout(props: DocLayoutProps) {
             style={{
               maxHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
               overflow: 'scroll',
+              ...(hideNavbar
+                ? {
+                    marginTop: 0,
+                    paddingTop: '32px',
+                  }
+                : {}),
             }}
           >
             <div>

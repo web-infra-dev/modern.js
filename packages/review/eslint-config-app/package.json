@@ -1,6 +1,6 @@
 {
   "name": "@modern-js-app/eslint-config",
-  "version": "2.25.2",
+  "version": "2.27.0",
   "description": "A Progressive React Framework for modern web development.",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -42,7 +42,6 @@
     "prettier": "^2.3.2"
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*",
     "eslint-find-rules": "^4.1.0",
     "typescript": "^5"
   },

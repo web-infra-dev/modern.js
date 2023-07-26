@@ -43,12 +43,13 @@ function deletePriviteKey<T>(obj: T): T {
   if (typeof obj !== 'object' || obj === null) {
     return obj;
   }
-  Object.keys(obj).forEach(key => {
+  const newObj = { ...obj };
+  Object.keys(newObj).forEach(key => {
     if (key.startsWith('_')) {
-      delete obj[key];
+      delete newObj[key];
     }
   });
-  return obj;
+  return newObj;
 }
 
 export function normalizeThemeConfig(
@@ -341,7 +342,7 @@ export async function siteDataVMPlugin(context: FactoryContext) {
     routeService,
     pluginDriver,
   } = context;
-  const entryPath = join(runtimeTempDir, `${RuntimeModuleID.SiteData}.js`);
+  const entryPath = join(runtimeTempDir, `${RuntimeModuleID.SiteData}.mjs`);
   const searchIndexHashPath = join(
     runtimeTempDir,
     `${RuntimeModuleID.SearchIndexHash}.js`,
@@ -365,26 +366,26 @@ export async function siteDataVMPlugin(context: FactoryContext) {
   }
 
   // Categorize pages, sorted by language, and write search index to file
-  const pagesByLang = deletePriviteKey<PageIndexInfo[]>(pages).reduce(
-    (acc, page) => {
-      if (!acc[page.lang]) {
-        acc[page.lang] = [];
-      }
-      if (page.frontmatter?.pageType === 'home') {
-        return acc;
-      }
-      acc[page.lang].push(page);
+  const pagesByLang = pages.reduce((acc, page) => {
+    if (!acc[page.lang]) {
+      acc[page.lang] = [];
+    }
+    if (page.frontmatter?.pageType === 'home') {
       return acc;
-    },
-    {} as Record<string, PageIndexInfo[]>,
-  );
+    }
+    acc[page.lang].push(page);
+    return acc;
+  }, {} as Record<string, PageIndexInfo[]>);
 
   const indexHashByLang = {} as Record<string, string>;
 
   // Generate search index by different languages, file name is {SEARCH_INDEX_NAME}.{lang}.{hash}.json
   await Promise.all(
     Object.keys(pagesByLang).map(async lang => {
-      const stringfiedIndex = JSON.stringify(pagesByLang[lang]);
+      // Avoid writing filepath in compile-time
+      const stringfiedIndex = JSON.stringify(
+        pagesByLang[lang].map(deletePriviteKey),
+      );
       const indexHash = createHash(stringfiedIndex);
       indexHashByLang[lang] = indexHash;
       await fs.ensureDir(TEMP_DIR);
@@ -406,12 +407,11 @@ export async function siteDataVMPlugin(context: FactoryContext) {
     icon: userConfig?.icon || '',
     themeConfig: normalizeThemeConfig(userConfig, pages),
     base: userConfig?.base || '/',
-    root: userRoot,
     lang: userConfig?.lang || '',
     logo: userConfig?.logo || '',
     search: userConfig?.search ?? { mode: 'local' },
     pages: pages.map(page => {
-      const { content, id, domain, ...rest } = page;
+      const { content, id, domain, _filepath, ...rest } = page;
       return rest;
     }),
     markdown: {

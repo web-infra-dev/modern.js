@@ -14,7 +14,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.25.2",
+  "version": "2.27.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -32,22 +32,23 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "jest"
   },
   "dependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
-    "@types/jest": "^29",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/node": "^14",
+    "@types/jest": "^29",
     "typescript": "^5"
   },
   "publishConfig": {

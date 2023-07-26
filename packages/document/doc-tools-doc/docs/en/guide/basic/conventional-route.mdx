@@ -28,6 +28,28 @@ The specific mapping rules are as follows:
 | `/foo/bar.md`   | `/foo/bar` |
 | `/zoo/index.md` | `/zoo`     |
 
+## Component Routing
+
+In conventional routing, in addition to `.md(x)` files, you can also use `.tsx` files as route components. By default, a component is exported in `.tsx`, and this component will be automatically registered in the route. For example:
+
+```tsx title="foo.tsx"
+export default () => {
+  return <div>foo</div>;
+};
+```
+
+Of course, if you want to customize the layout, you can add an export to declare the layout type. For example:
+
+```tsx title="foo.tsx"
+export const frontmatter = {
+  // Declare layout type
+  // The custom layout here will not have a sidebar
+  pageType: 'custom',
+};
+```
+
+For detailed meanings of each `pageType`, please refer to the [API documentation](/api/config/config-frontmatter#pagetype).
+
 ## Custom Behavior
 
 If you want to customize the routing behavior, you can use the `route` field in the configuration file. For example:
@@ -38,7 +60,7 @@ import { defineConfig } from '@modern-js/doc-tools';
 export default defineConfig({
   route: {
     // These files will be excluded from the routing (support glob pattern)
-    exclude: ['custom.tsx', 'component/**/*']
+    exclude: ['component/**/*']
     // These files will be included in the routing (support glob pattern)
     include: ['other-dir/**/*'],
   }

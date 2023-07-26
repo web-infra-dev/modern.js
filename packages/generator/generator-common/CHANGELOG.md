@@ -1,5 +1,23 @@
 # @modern-js/generator-common
 
+## 3.1.29
+
+### Patch Changes
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- Updated dependencies [8322a51]
+  - @modern-js/plugin-i18n@2.27.0
+
+## 3.1.28
+
+### Patch Changes
+
+- cd601f6: Currently when enabling tailwind via the CLI, it says to import `{tailwindCSSPlugin}` but the named export is `{tailwindcssPlugin}`
+  - @modern-js/plugin-i18n@2.26.0
+
 ## 3.1.27
 
 ### Patch Changes

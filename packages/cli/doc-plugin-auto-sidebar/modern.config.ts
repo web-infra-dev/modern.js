@@ -1,3 +1,5 @@
+import { dtsConfig } from '@scripts/build';
+
 // https://modernjs.dev/module-tools/en/api
 // TODO: Add `defineConfig` after @modern-js/module-tools restore the function
 export default {
@@ -8,5 +10,6 @@ export default {
     buildType: 'bundle',
     format: 'cjs',
     sourceMap: true,
+    dts: dtsConfig,
   },
 };

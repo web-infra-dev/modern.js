@@ -1,5 +1,55 @@
 # @modern-js/plugin-module-doc
 
+## 2.27.0
+
+### Minor Changes
+
+- e23a84c: feat: support parseToolOptions for api docgen
+  feat: 给 API 文档生成器提供解析器参数
+- d00abe7: feat: improve entries that can support indicate parse tool
+  feat： 支持在 entries 里面指定解析工具
+
+### Patch Changes
+
+- 1ce4882: feat: support update api doc in dev mode
+  feat: 支持 dev 模式下更新 API 文档
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- 954d48e: fix: set locales undefined by default
+  fix: 默认情况下设置 locales 为空
+- Updated dependencies [1ce4882]
+- Updated dependencies [787ed4b]
+- Updated dependencies [5dabe04]
+- Updated dependencies [e23a84c]
+- Updated dependencies [1895198]
+- Updated dependencies [6af7fe0]
+- Updated dependencies [0221d29]
+- Updated dependencies [d00abe7]
+  - @modern-js/doc-plugin-api-docgen@2.27.0
+  - @modern-js/doc-core@2.27.0
+  - @modern-js/module-tools@2.27.0
+  - @modern-js/doc-plugin-preview@2.27.0
+
+## 2.26.0
+
+### Patch Changes
+
+- Updated dependencies [39f3c83]
+- Updated dependencies [ce6d481]
+- Updated dependencies [54c484c]
+- Updated dependencies [b2cf922]
+- Updated dependencies [cc2e3b7]
+- Updated dependencies [757485e]
+- Updated dependencies [a0a207d]
+- Updated dependencies [ee5a6f3]
+- Updated dependencies [6387971]
+  - @modern-js/doc-core@2.26.0
+  - @modern-js/module-tools@2.26.0
+  - @modern-js/doc-plugin-preview@2.26.0
+  - @modern-js/doc-plugin-api-docgen@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

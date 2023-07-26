@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-plugin-preview",
-  "version": "2.25.2",
+  "version": "2.27.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -39,7 +39,8 @@
     "@mdx-js/mdx": "2.2.1",
     "@modern-js/doc-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "qrcode.react": "^3.1.0"
+    "qrcode.react": "^3.1.0",
+    "remark-gfm": "3.0.1"
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",
@@ -60,7 +61,7 @@
     "typescript": "^5",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.1",
-    "vitest": "0.21.1",
+    "vitest": "0.33.0",
     "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {

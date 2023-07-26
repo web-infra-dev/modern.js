@@ -25,6 +25,7 @@ import { restart } from './utils/restart';
 import { generateWatchFiles } from './utils/generateWatchFiles';
 
 export { mergeConfig } from '@modern-js/core';
+export { dev } from './commands';
 export * from './defineConfig';
 // eslint-disable-next-line import/export
 export * from './types';

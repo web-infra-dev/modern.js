@@ -50,18 +50,20 @@ export type Route = Partial<{
   type: string;
 };
 
-export type NestedRoute = Merge<
+export type NestedRouteForCli = NestedRoute<string>;
+
+export type NestedRoute<T = string | (() => JSX.Element)> = Merge<
   Route,
   {
     type: 'nested';
     parentId?: string;
-    children?: NestedRoute[];
+    children?: NestedRoute<T>[];
     filename?: string;
     _component?: string;
-    component?: string;
+    component?: T;
     lazyImport?: () => Promise<any>;
-    loading?: string;
-    error?: string;
+    loading?: T;
+    error?: T;
     isRoot?: boolean;
     config?: string | Record<string, any>;
   }

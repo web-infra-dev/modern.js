@@ -1,5 +1,31 @@
 # @modern-js/core
 
+## 2.27.0
+
+### Patch Changes
+
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- Updated dependencies [91d14b8]
+- Updated dependencies [8322a51]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/builder-plugin-swc@2.27.0
+
+## 2.26.0
+
+### Patch Changes
+
+- 60ce599: fix(plugin-swc): skip SWC plugin when using Rspack
+
+  fix(plugin-swc): 使用 Rspack 时跳过 SWC 插件
+
+- Updated dependencies [60ce599]
+  - @modern-js/builder-plugin-swc@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

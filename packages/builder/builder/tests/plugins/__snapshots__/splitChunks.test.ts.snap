@@ -1,6 +1,6 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`plugins/splitChunks > should allow forceSplitting to be an object 1`] = `
+exports[`plugins/splitChunks > 'should allow forceSplitting to be an object' 1`] = `
 {
   "optimization": {
     "runtimeChunk": {
@@ -22,7 +22,7 @@ exports[`plugins/splitChunks > should allow forceSplitting to be an object 1`] =
 }
 `;
 
-exports[`plugins/splitChunks > should not split chunks when target is not 1`] = `
+exports[`plugins/splitChunks > 'should not split chunks when target is not' 1`] = `
 {
   "optimization": {
     "splitChunks": false,
@@ -30,7 +30,7 @@ exports[`plugins/splitChunks > should not split chunks when target is not 1`] = 
 }
 `;
 
-exports[`plugins/splitChunks > should set all-in-one config 1`] = `
+exports[`plugins/splitChunks > 'should set all-in-one config' 1`] = `
 {
   "optimization": {
     "splitChunks": false,
@@ -38,7 +38,7 @@ exports[`plugins/splitChunks > should set all-in-one config 1`] = `
 }
 `;
 
-exports[`plugins/splitChunks > should set custom config 1`] = `
+exports[`plugins/splitChunks > 'should set custom config' 1`] = `
 {
   "optimization": {
     "runtimeChunk": {
@@ -60,7 +60,7 @@ exports[`plugins/splitChunks > should set custom config 1`] = `
 }
 `;
 
-exports[`plugins/splitChunks > should set single-size config 1`] = `
+exports[`plugins/splitChunks > 'should set single-size config' 1`] = `
 {
   "optimization": {
     "runtimeChunk": {
@@ -77,7 +77,7 @@ exports[`plugins/splitChunks > should set single-size config 1`] = `
 }
 `;
 
-exports[`plugins/splitChunks > should set single-vendor config 1`] = `
+exports[`plugins/splitChunks > 'should set single-vendor config' 1`] = `
 {
   "optimization": {
     "runtimeChunk": {
@@ -101,7 +101,59 @@ exports[`plugins/splitChunks > should set single-vendor config 1`] = `
 }
 `;
 
-exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
+exports[`plugins/splitChunks > 'should set split-by-experience config correctly when polyfill is off' 1`] = `
+{
+  "optimization": {
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+}
+`;
+
+exports[`plugins/splitChunks > 'should set split-by-experience config' 1`] = `
 {
   "optimization": {
     "runtimeChunk": {
@@ -159,59 +211,7 @@ exports[`plugins/splitChunks > should set split-by-experience config 1`] = `
 }
 `;
 
-exports[`plugins/splitChunks > should set split-by-experience config correctly when polyfill is off 1`] = `
-{
-  "optimization": {
-    "runtimeChunk": {
-      "name": "builder-runtime",
-    },
-    "splitChunks": {
-      "cacheGroups": {
-        "lib-antd": {
-          "name": "lib-antd",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-arco": {
-          "name": "lib-arco",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-axios": {
-          "name": "lib-axios",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-lodash": {
-          "name": "lib-lodash",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-react": {
-          "name": "lib-react",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
-        },
-        "lib-router": {
-          "name": "lib-router",
-          "priority": 0,
-          "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
-        },
-      },
-      "chunks": "all",
-      "enforceSizeThreshold": 50000,
-    },
-  },
-}
-`;
-
-exports[`plugins/splitChunks > should set split-by-module config 1`] = `
+exports[`plugins/splitChunks > 'should set split-by-module config' 1`] = `
 {
   "optimization": {
     "runtimeChunk": {

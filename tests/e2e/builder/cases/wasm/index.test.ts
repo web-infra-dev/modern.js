@@ -24,9 +24,8 @@ test('should allow to import wasm file', async ({ page }) => {
     return Boolean(document.querySelector('#root')?.innerHTML);
   });
 
-  await expect(
-    page.evaluate(`document.querySelector('#root').innerHTML`),
-  ).resolves.toBe('6');
+  const locator = page.locator('#root');
+  await expect(locator).toHaveText('6');
 
   builder.close();
 });

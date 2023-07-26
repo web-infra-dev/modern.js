@@ -2,7 +2,7 @@
 
 这篇文档会向你介绍如何在 Builder 中开启 Rspack 构建模式。
 
-import Rspack from '@zh/shared/rspack-tip.mdx';
+import Rspack from '@zh/shared/rspackTip.mdx';
 
 <Rspack />
 
@@ -35,6 +35,10 @@ const provider = builderRspackProvider({
   }
 }
 ```
+
+import RspackPrecautions from '@zh/shared/rspackPrecautions.md';
+
+<RspackPrecautions />
 
 ## 从 webpack 迁移到 Rspack
 
@@ -184,7 +188,7 @@ Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构
 | Babel 插件                                      | Rspack 配置项                                                                                | Builder 配置项                                                                                                        |
 | ----------------------------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | @babel/preset-env                               | [builtins.presetEnv](https://www.rspack.dev/zh/config/builtins.html#builtinspresetenv)       | [设置浏览器范围](/guide/advanced/browserslist.html)、<br />[浏览器兼容性](/guide/advanced/browser-compatibility.html) |
-| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/zh/config/builtins.html#builtinsreact)               | [模块热替换](/guide/advanced/hmr.html)                                                                                |
+| @babel/preset-react                             | [builtins.react](https://www.rspack.dev/zh/config/builtins.html#builtinsreact)               | [模块热更新](/guide/advanced/hmr.html)                                                                                |
 | @emotion/babel-plugin                           | [builtins.emotion](https://www.rspack.dev/zh/config/builtins.html#builtinsemotion)           | 暂无                                                                                                                  |
 | babel-plugin-import                             | [builtins.pluginImport](https://www.rspack.dev/zh/config/builtins.html#builtinspluginimport) | [source.transformImport](/api/config-source.html#sourcetransformimport)                                               |
 | babel-plugin-lodash                             | 暂无                                                                                         | 暂无                                                                                                                  |

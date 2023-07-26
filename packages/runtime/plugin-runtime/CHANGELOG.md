@@ -1,5 +1,46 @@
 # @modern-js/runtime
 
+## 2.27.0
+
+### Patch Changes
+
+- 21be212: fix: add support for nodenext moduleResolution
+  fix: TS 类型支持 moduleResolution 为 nodenext
+- 8322a51: chore: migrate packages from tsc to module-lib build
+
+  chore: 将使用 tsc 的包迁移到 module-lib 构建
+
+- fb51b98: fix: fix remixRouter not existed in conventional routes
+  fix: 修复 remixRouter 在约定式路由下不存在问题
+- b591092: fix: fix `modifyRoutes` in SSR
+  fix: 修复 SSR 时, `modifyRoutes` 执行时机
+- Updated dependencies [91d14b8]
+- Updated dependencies [6d7104d]
+  - @modern-js/utils@2.27.0
+  - @modern-js/plugin@2.27.0
+  - @modern-js/types@2.27.0
+
+## 2.26.0
+
+### Minor Changes
+
+- 22acfda: feat: support unstable_getBlockNavState
+  feat: 支持 unstable_getBlockNavState
+
+### Patch Changes
+
+- 64a51c4: fix(plugin-runtime): we should not repeatly registe the script, if template has it.
+  fix(plugin-runtime): 如果模版中已经有了,我们不应该重复添加 script 链接
+- 1586774: feat: add support for origin properties in document
+  feat: 为 document 增加原始属性透传
+- 73c592d: fix: should define remixRouter property when the property does not exist
+  fix: 应该仅当属性不存在时，定义 remixRouter
+- 5c2dbb3: refactor: use import syntax for reduck plugin types
+  refactor: 使用 import 语法加载 reduck 插件的类型文件
+  - @modern-js/plugin@2.26.0
+  - @modern-js/types@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

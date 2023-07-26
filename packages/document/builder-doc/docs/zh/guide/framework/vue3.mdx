@@ -10,11 +10,9 @@
 
 - [modern-js-examples - builder-vue3](https://github.com/web-infra-dev/modern-js-examples/tree/main/examples/builder-vue3)
 
-## CLI 工具
+import CliToolVue from '@zh/shared/cliToolVue.md';
 
-在开始构建 Vue 项目之前，你需要一个 CLI 工具来提供基本的命令。
-
-你可以直接使用 Builder 提供的 [CLI 工具](/guide/basic/builder-cli)，也可以基于 Builder 的 [Node API](/api/builder-core) 搭建属于你自己的 CLI 工具。
+<CliToolVue />
 
 ## 使用 Vue 插件
 
@@ -47,11 +45,6 @@ declare module '*.vue' {
 }
 ```
 
-## 部署应用
+import DeployApp from '@zh/shared/deployApp.md';
 
-当你执行 `builder build` 构建应用后，你会在 `dist` 目录下得到一份静态资源产物，这份产物可以被部署到任意平台或服务器上。
-
-请留意 Builder 默认的产物结构并不适用于所有的平台，因为不同的平台对产物目录结构有不同的要求。你可以参考 [构建产物目录](/guide/basic/output-files) 章节对目录结构进行修改，以满足部署平台的要求。
-
-此外，如果你需要在本地预览待部署的产物，可以使用 Builder CLI 提供的 [builder serve](/guide/basic/builder-cli#builder-serve) 命令。
-
+<DeployApp />

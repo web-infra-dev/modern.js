@@ -17,9 +17,8 @@ test('should serve dist files correctly', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', port));
 
-  await expect(
-    page.evaluate(`document.getElementById('root').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const rootEl = page.locator('#root');
+  await expect(rootEl).toHaveText('Hello Builder!');
 
   await server.close();
 

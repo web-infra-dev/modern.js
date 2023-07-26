@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-plugin-api-docgen",
-  "version": "2.25.2",
+  "version": "2.27.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -56,7 +56,7 @@
     "react-dom": "^18",
     "react-router-dom": "^6.8.1",
     "typescript": "^5",
-    "vitest": "0.21.1"
+    "vitest": "0.33.0"
   },
   "peerDependencies": {
     "react": ">=17",

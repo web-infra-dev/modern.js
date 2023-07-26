@@ -14,6 +14,8 @@ export async function launchDoc({
   previewMode,
   entries,
   apiParseTool,
+  parseToolOptions,
+  useModuleSidebar,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(resolve(appDir, './package.json'), 'utf8'),
@@ -22,7 +24,22 @@ export async function launchDoc({
   const DEFAULT_LANG = languages[0];
   const { dev, build } = await import('@modern-js/doc-core');
 
-  const base = join(root, DEFAULT_LANG);
+  // Compatible with older, poorer designs.
+  // If user don't have 'zh' or 'en' dir, we will use root instead.
+  const defaultBase = join(root, DEFAULT_LANG);
+  const defaultLocales = [
+    {
+      lang: 'zh',
+      label: '简体中文',
+    },
+    {
+      lang: 'en',
+      label: 'English',
+    },
+  ];
+  const base = (await fs.readdir(defaultBase)).length > 0 ? defaultBase : root;
+  const locales = languages.length === 2 ? defaultLocales : undefined;
+
   const getAutoSidebar = async (): Promise<Sidebar> => {
     const traverse = async (cwd: string): Promise<SidebarGroup['items']> => {
       // FIXME: win32
@@ -108,17 +125,8 @@ export async function launchDoc({
         themeConfig: {
           // TODO: support dark mode in code block
           darkMode: false,
-          sidebar: await getAutoSidebar(),
-          locales: [
-            {
-              lang: 'zh',
-              label: '简体中文',
-            },
-            {
-              lang: 'en',
-              label: 'English',
-            },
-          ],
+          sidebar: useModuleSidebar ? await getAutoSidebar() : undefined,
+          locales,
         },
         markdown: {
           globalComponents: [
@@ -144,6 +152,7 @@ export async function launchDoc({
             entries,
             apiParseTool,
             appDir,
+            parseToolOptions,
           }),
         ],
       },

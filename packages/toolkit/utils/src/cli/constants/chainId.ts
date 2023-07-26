@@ -37,6 +37,8 @@ export const CHAIN_ID = {
     YAML: 'yaml',
     /** Rule for wasm */
     WASM: 'wasm',
+    /** Rule for node */
+    NODE: 'node',
     /** Rule for bff */
     JS_BFF_API: 'js-bff-api',
   },
@@ -75,6 +77,8 @@ export const CHAIN_ID = {
     TOML: 'toml',
     /** html-loader */
     HTML: 'html',
+    /** node-loader */
+    NODE: 'html',
     /** babel-loader */
     BABEL: 'babel',
     /** esbuild-loader */

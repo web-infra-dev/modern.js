@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.25.2",
+  "version": "2.27.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -29,6 +29,10 @@
       "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     },
+    "./types": "./types/index.d.ts",
+    "./types/index": "./types/index.d.ts",
+    "./types/router": "./types/router.d.ts",
+    "./types/model": "./types/model.d.ts",
     "./loadable": {
       "jsnext:source": "./src/exports/loadable.ts",
       "types": "./dist/types/exports/loadable.d.ts",
@@ -206,7 +210,6 @@
     "webpack": "^5.88.1"
   },
   "sideEffects": false,
-  "modernConfig": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

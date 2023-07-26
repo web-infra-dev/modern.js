@@ -3,18 +3,14 @@ import type {
   BuilderPluginAPI,
   BuilderPlugin,
 } from '@modern-js/builder-webpack-provider';
+import { JS_REGEX, TS_REGEX, mergeRegex } from '@modern-js/builder-shared';
+import type { PluginSwcOptions, TransformConfig } from './types';
 import {
-  JS_REGEX,
-  TS_REGEX,
-  getBrowserslistWithDefault,
-  getDefaultStyledComponentsConfig,
-  isUsingHMR,
-  mergeRegex,
-} from '@modern-js/builder-shared';
-import { applyOptionsChain, getCoreJsVersion, logger } from '@modern-js/utils';
-import { merge } from '@modern-js/utils/lodash';
-import { PluginSwcOptions, TransformConfig } from './types';
-import { checkUseMinify, determinePresetReact, isDebugMode } from './utils';
+  applyPluginConfig,
+  checkUseMinify,
+  isDebugMode,
+  removeUselessOptions,
+} from './utils';
 import { SwcMinimizerPlugin } from './minizer';
 
 const PLUGIN_NAME = 'builder-plugin-swc';
@@ -27,7 +23,7 @@ const PLUGIN_NAME = 'builder-plugin-swc';
  * - Add swc minifier plugin
  */
 export const builderPluginSwc = (
-  pluginOptions: PluginSwcOptions = {},
+  options: PluginSwcOptions = {},
 ): BuilderPlugin => ({
   name: PLUGIN_NAME,
 
@@ -36,110 +32,51 @@ export const builderPluginSwc = (
       return;
     }
 
-    api.modifyBuilderConfig(config => {
-      const extensions: PluginSwcOptions['extensions'] =
-        // eslint-disable-next-line no-multi-assign
-        (pluginOptions.extensions ??= {});
-
-      if (config.source?.transformImport) {
-        extensions.pluginImport ??= [];
-        extensions.pluginImport.push(...config.source.transformImport);
-      }
-    });
-
     api.modifyWebpackChain(async (chain, utils) => {
-      const { target, CHAIN_ID, isProd } = utils;
-      const config = api.getNormalizedConfig();
+      const { CHAIN_ID, isProd } = utils;
+      const builderConfig = api.getNormalizedConfig();
       const { rootPath } = api.context;
+
+      const swcConfigs = await applyPluginConfig(
+        options,
+        utils,
+        builderConfig,
+        rootPath,
+      );
 
       chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
       chain.module.delete(CHAIN_ID.RULE.TS);
 
-      const builderConfig = api.getNormalizedConfig();
+      const TJS_REGEX = mergeRegex(JS_REGEX, TS_REGEX);
+      for (let i = 0; i < swcConfigs.length; i++) {
+        const { test, include, exclude, swcConfig } = swcConfigs[i];
 
-      determinePresetReact(rootPath, pluginOptions);
-      const swc = {
-        jsc: {
-          transform: {
-            react: {
-              refresh: isUsingHMR(config, utils),
-            },
-          },
-        },
-        env: pluginOptions.presetEnv || {},
-        extensions: { ...pluginOptions.extensions },
-        cwd: rootPath,
-      } satisfies TransformConfig;
+        const ruleId =
+          i > 0 ? CHAIN_ID.RULE.JS + i.toString() : CHAIN_ID.RULE.JS;
+        const rule = chain.module.rule(ruleId);
 
-      if (pluginOptions.presetReact) {
-        swc.jsc.transform.react = {
-          ...swc.jsc.transform.react,
-          ...pluginOptions.presetReact,
-        };
+        // Insert swc loader and plugin
+        rule
+          .test(test || TJS_REGEX)
+          .use(CHAIN_ID.USE.SWC)
+          .loader(path.resolve(__dirname, './loader'))
+          .options(removeUselessOptions(swcConfig) satisfies TransformConfig);
+
+        if (include) {
+          for (const extra of include) {
+            rule.include.add(extra);
+          }
+        }
+
+        if (exclude) {
+          for (const extra of exclude) {
+            rule.exclude.add(extra);
+          }
+        }
       }
 
-      const { polyfill } = builderConfig.output;
-      if (
-        swc.env.mode === undefined &&
-        polyfill !== 'ua' &&
-        polyfill !== 'off'
-      ) {
-        swc.env.mode = polyfill;
-      }
-
-      if (!swc.env.coreJs) {
-        const CORE_JS_PATH = require.resolve('core-js/package.json');
-        swc.env.coreJs = getCoreJsVersion(CORE_JS_PATH);
-      }
-
-      // If `targets` is not specified manually, we get `browserslist` from project.
-      if (!swc.env.targets) {
-        swc.env.targets = await getBrowserslistWithDefault(
-          api.context.rootPath,
-          builderConfig,
-          target,
-        );
-      }
-
-      const isSSR = utils.target === 'node';
-
-      if (
-        config.tools.styledComponents !== false &&
-        swc.extensions?.styledComponents !== false
-      ) {
-        const styledComponentsOptions = applyOptionsChain(
-          getDefaultStyledComponentsConfig(isProd, isSSR),
-          config.tools.styledComponents,
-        );
-        swc.extensions.styledComponents = {
-          ...styledComponentsOptions,
-          ...(typeof swc.extensions.styledComponents === 'object'
-            ? swc.extensions?.styledComponents
-            : {}),
-        };
-      }
-
-      /**
-       * SWC can't use latestDecorator in TypeScript file for now
-       */
-      if (builderConfig.output.enableLatestDecorators) {
-        logger.warn('Cannot use latestDecorator in SWC compiler.');
-      }
-
-      const rule = chain.module.rule(CHAIN_ID.RULE.JS);
-
-      // apply swc default config
-      const swcConfig: Required<TransformConfig> = merge(
-        getDefaultSwcConfig(),
-        swc,
-      ) as unknown as Required<TransformConfig>;
-
-      // Insert swc loader and plugin
-      rule
-        .test(mergeRegex(JS_REGEX, TS_REGEX))
-        .use(CHAIN_ID.USE.SWC)
-        .loader(path.resolve(__dirname, './loader'))
-        .options(swcConfig);
+      // first config is the main config
+      const mainConfig = swcConfigs[0].swcConfig;
 
       if (chain.module.rules.get(CHAIN_ID.RULE.JS_DATA_URI)) {
         chain.module
@@ -148,7 +85,7 @@ export const builderPluginSwc = (
           .end()
           .use(CHAIN_ID.USE.SWC)
           .loader(path.resolve(__dirname, './loader'))
-          .options(swcConfig);
+          .options(removeUselessOptions(mainConfig) satisfies TransformConfig);
       }
 
       if (isDebugMode()) {
@@ -156,19 +93,19 @@ export const builderPluginSwc = (
 
         chain
           .plugin(CHAIN_ID.PLUGIN.SWC_POLYFILL_CHECKER)
-          .use(new CheckPolyfillPlugin(swcConfig));
+          .use(new CheckPolyfillPlugin(mainConfig));
       }
 
-      if (checkUseMinify(pluginOptions, builderConfig, isProd)) {
+      if (checkUseMinify(mainConfig, builderConfig, isProd)) {
         // Insert swc minify plugin
         // @ts-expect-error webpack-chain missing minimizers type
         const minimizersChain = chain.optimization.minimizers;
 
-        if (pluginOptions.jsMinify !== false) {
+        if (mainConfig.jsMinify !== false) {
           minimizersChain.delete(CHAIN_ID.MINIMIZER.JS).end();
         }
 
-        if (pluginOptions.cssMinify !== false) {
+        if (mainConfig.cssMinify !== false) {
           minimizersChain.delete(CHAIN_ID.MINIMIZER.CSS).end();
         }
 
@@ -177,8 +114,8 @@ export const builderPluginSwc = (
           .minimizer(CHAIN_ID.MINIMIZER.SWC)
           .use(SwcMinimizerPlugin, [
             {
-              jsMinify: pluginOptions.jsMinify,
-              cssMinify: pluginOptions.cssMinify,
+              jsMinify: mainConfig.jsMinify ?? mainConfig.jsc?.minify,
+              cssMinify: mainConfig.cssMinify,
             },
           ]);
       }

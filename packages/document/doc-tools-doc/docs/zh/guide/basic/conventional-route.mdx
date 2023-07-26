@@ -28,6 +28,28 @@ docs
 | `/foo/bar.md`   | `/foo/bar` |
 | `/zoo/index.md` | `/zoo`     |
 
+## 组件路由
+
+在约定式路由中，除了`.md(x)`文件，还可以使用 `.tsx` 文件作为路由组件，在 `.tsx` 中默认导出一个组件，该组件会被自动注册到路由中。例如：
+
+```tsx title="foo.tsx"
+export default () => {
+  return <div>foo</div>;
+};
+```
+
+当然，如果你想要定制布局，可以添加一个导出，声明布局类型，例如：
+
+```tsx title="foo.tsx"
+export const frontmatter = {
+  // 声明布局类型
+  // 这里的 custom 布局中不会出现侧边栏
+  pageType: 'custom',
+};
+```
+
+各个 pageType 的含义详情请参考[API 文档](/api/config/config-frontmatter#pagetype)。
+
 ## 自定义行为
 
 如果要自定义路由行为，可以使用配置文件中的 `route` 字段。例如：
@@ -38,7 +60,7 @@ import { defineConfig } from '@modern-js/doc-tools';
 export default defineConfig({
   route: {
     // These files will be excluded from the routing (support glob pattern)
-    exclude: ['custom.tsx', 'component/**/*']
+    exclude: ['component/**/*']
     // These files will be included in the routing (support glob pattern)
     include: ['other-dir/**/*'],
   }

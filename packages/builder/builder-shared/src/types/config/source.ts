@@ -14,12 +14,19 @@ export type ChainedGlobalVars = ChainedConfig<
   Pick<ModifyChainUtils, 'env' | 'target'>
 >;
 
+export type AliasStrategy = 'prefer-tsconfig' | 'prefer-alias';
+
 export interface SharedSourceConfig {
   /**
    * Create aliases to import or require certain modules,
    * same as the [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) config of webpack.
    */
   alias?: ChainedConfig<Alias>;
+  /**
+   * Used to control the priority between the `paths` option in `tsconfig.json`
+   * and the `alias` option in the bundler.
+   */
+  aliasStrategy?: AliasStrategy;
   /**
    * Specify directories or modules that need additional compilation.
    * In order to maintain faster compilation speed, Builder will not compile files under node_modules through
@@ -70,6 +77,7 @@ export type SharedTransformImport = {
 
 export interface NormalizedSharedSourceConfig extends SharedSourceConfig {
   alias: ChainedConfig<Alias>;
+  aliasStrategy: AliasStrategy;
   preEntry: string[];
   globalVars: ChainedGlobalVars;
   compileJsDataURI: boolean;

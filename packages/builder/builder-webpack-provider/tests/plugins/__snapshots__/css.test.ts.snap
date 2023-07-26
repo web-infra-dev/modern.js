@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`plugins/css > should not apply postcss-loader when target is node 1`] = `
 {
@@ -22,7 +22,7 @@ exports[`plugins/css > should not apply postcss-loader when target is node 1`] =
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -55,7 +55,7 @@ exports[`plugins/css > should override browserslist of autoprefixer when using o
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -115,7 +115,7 @@ exports[`plugins/css > should remove some postcss plugins based on browserslist 
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },

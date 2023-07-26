@@ -7,7 +7,7 @@
     "isolatedModules": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
   },
   "include": ["./src"],
   "exclude": ["./tests/fixtures"]

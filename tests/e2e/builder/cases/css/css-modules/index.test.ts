@@ -19,11 +19,11 @@ test('should compile CSS modules correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.the-a-class{color:red}._6773{color:blue}.c855f{color:yellow}.the-d-class{color:green}',
+      '.the-a-class{color:red}.the-b-class-_6773e{color:blue}.the-c-class-c855fd{color:yellow}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(
-      '.the-a-class{color:red}._HnKp{color:blue}.e94QZ{color:#ff0}.the-d-class{color:green}',
+      '.the-a-class{color:red}.the-b-class-_HnKpz{color:blue}.the-c-class-e94QZl{color:#ff0}.the-d-class{color:green}',
     );
   }
 });
@@ -46,11 +46,11 @@ test('should treat normal CSS as CSS modules when disableCssModuleExtension is t
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '._932a{color:red}._6773{color:blue}.c855f{color:yellow}.the-d-class{color:green}',
+      '.the-a-class-_932a3{color:red}.the-b-class-_6773e{color:blue}.the-c-class-c855fd{color:yellow}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(
-      '.azoWc{color:red}._HnKp{color:blue}.e94QZ{color:#ff0}.the-d-class{color:green}',
+      '.the-a-class-azoWcU{color:red}.the-b-class-_HnKpz{color:blue}.the-c-class-e94QZl{color:#ff0}.the-d-class{color:green}',
     );
   }
 });
@@ -77,11 +77,11 @@ test('should compile CSS modules follow by output.cssModules', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.the-a-class{color:red}._6773{color:blue}.the-c-class{color:yellow}.the-d-class{color:green}',
+      '.the-a-class{color:red}.the-b-class-_6773e{color:blue}.the-c-class{color:yellow}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(
-      '.the-a-class{color:red}._HnKp{color:blue}.the-c-class{color:#ff0}.the-d-class{color:green}',
+      '.the-a-class{color:red}.the-b-class-_HnKpz{color:blue}.the-c-class{color:#ff0}.the-d-class{color:green}',
     );
   }
 });

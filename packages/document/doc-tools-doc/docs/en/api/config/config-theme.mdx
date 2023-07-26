@@ -475,3 +475,23 @@ export default defineConfig({
   plugins: [docTools()],
 });
 ```
+
+## hideNavbar
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to hide the navigation bar. For example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+
+export default defineConfig({
+  doc: {
+    themeConfig: {
+      hideNavbar: true,
+    },
+  },
+  plugins: [docTools()],
+});
+```

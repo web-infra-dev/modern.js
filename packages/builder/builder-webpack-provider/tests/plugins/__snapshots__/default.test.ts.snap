@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
 {
@@ -265,7 +265,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -324,7 +324,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -390,7 +390,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[path][name]__[local]--[hash:base64:5]",
+                "localIdentName": "[path][name]__[local]-[hash:base64:6]",
               },
               "sourceMap": true,
             },
@@ -507,7 +507,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -646,7 +646,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1194,7 +1194,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -1253,7 +1253,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -1319,7 +1319,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -1436,7 +1436,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1581,7 +1581,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2155,6 +2155,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "asset/resource",
       },
       {
+        "test": /\\\\\\.node\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/node-loader",
+            "options": {
+              "name": [Function],
+            },
+          },
+        ],
+      },
+      {
         "resolve": {
           "preferRelative": true,
         },
@@ -2172,7 +2183,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -2197,7 +2208,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -2229,7 +2240,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -2311,7 +2322,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -2454,7 +2465,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -2965,7 +2976,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -2990,7 +3001,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -3022,7 +3033,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
                 "exportOnlyLocals": true,
-                "localIdentName": "[hash:base64:5]",
+                "localIdentName": "[local]-[hash:base64:6]",
               },
               "sourceMap": false,
             },
@@ -3104,7 +3115,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -3249,7 +3260,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",

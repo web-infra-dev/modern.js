@@ -1,3 +1,5 @@
+const { dtsConfig } = require('@scripts/build');
+
 module.exports = {
   buildConfig: [
     {
@@ -5,6 +7,7 @@ module.exports = {
       format: 'cjs',
       target: 'es2020',
       sourceMap: true,
+      dts: dtsConfig,
     },
   ],
 };

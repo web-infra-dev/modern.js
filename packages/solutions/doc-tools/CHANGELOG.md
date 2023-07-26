@@ -1,5 +1,35 @@
 # @modern-js/doc-tools
 
+## 2.27.0
+
+### Patch Changes
+
+- Updated dependencies [5dabe04]
+- Updated dependencies [91d14b8]
+- Updated dependencies [8322a51]
+- Updated dependencies [1895198]
+- Updated dependencies [6af7fe0]
+- Updated dependencies [0221d29]
+- Updated dependencies [6d7104d]
+  - @modern-js/doc-core@2.27.0
+  - @modern-js/utils@2.27.0
+  - @modern-js/core@2.27.0
+
+## 2.26.0
+
+### Patch Changes
+
+- Updated dependencies [39f3c83]
+- Updated dependencies [ce6d481]
+- Updated dependencies [b2cf922]
+- Updated dependencies [757485e]
+- Updated dependencies [a0a207d]
+- Updated dependencies [ee5a6f3]
+- Updated dependencies [6387971]
+  - @modern-js/doc-core@2.26.0
+  - @modern-js/core@2.26.0
+  - @modern-js/utils@2.26.0
+
 ## 2.25.2
 
 ### Patch Changes

@@ -87,7 +87,7 @@ export const routerPlugin = ({
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
-          const routes = createRoutes
+          let routes = createRoutes
             ? createRoutes()
             : createRoutesFromElements(
                 renderRoutes({
@@ -98,6 +98,9 @@ export const routerPlugin = ({
                   },
                 }),
               );
+
+          const runner = (api as any).useHookRunners();
+          routes = runner.modifyRoutes(routes);
 
           const { query } = createStaticHandler(routes, {
             basename: _basename,
@@ -118,9 +121,6 @@ export const routerPlugin = ({
           // set routeManifest in context to be consistent with csr context
           context.routeManifest = context.ssrContext!
             .routeManifest as RouteManifest;
-
-          const runner = (api as any).useHookRunners();
-          runner.modifyRoutes(routes);
 
           return next({ context });
         },
@@ -162,11 +162,16 @@ export const routerPlugin = ({
         pickContext: ({ context, pickedContext }, next) => {
           const { remixRouter } = context;
 
+          // remixRouter is not existed in conventional routes
+          if (!remixRouter) {
+            return next({ context, pickedContext });
+          }
+
           // only export partial common API from remix-router
           const router = {
-            navigate: remixRouter!.navigate,
+            navigate: remixRouter.navigate,
             get location() {
-              return remixRouter!.state.location;
+              return remixRouter.state.location;
             },
           };
 

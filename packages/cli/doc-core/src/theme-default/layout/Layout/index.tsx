@@ -38,6 +38,7 @@ export const Layout: React.FC<LayoutProps> = props => {
     afterOutline,
   };
   const { siteData, page } = usePageData();
+  const { themeConfig } = siteData;
   const {
     pageType,
     lang: currentLang,
@@ -47,10 +48,14 @@ export const Layout: React.FC<LayoutProps> = props => {
   } = page;
   const localesData = useLocaleSiteData();
   const defaultLang = siteData.lang || '';
+  const hideNavbar =
+    frontmatter?.hideNavbar ?? themeConfig?.hideNavbar ?? false;
 
   // Priority: front matter title > h1 title
   let title = (frontmatter?.title as string) ?? articleTitle;
   const mainTitle = siteData.title || localesData.title;
+  const localeLanguages = Object.values(siteData.themeConfig.locales || {});
+  const langs = localeLanguages.map(item => item.lang) || [];
 
   if (title && pageType === 'doc') {
     // append main title as a suffix
@@ -99,7 +104,9 @@ export const Layout: React.FC<LayoutProps> = props => {
       localStorage.setItem(FIRST_VISIT_KEY, '1');
     }
     const targetLang = window.navigator.language.split('-')[0];
-
+    if (!langs.includes(targetLang)) {
+      return;
+    }
     if (targetLang !== currentLang) {
       if (targetLang === defaultLang) {
         // Redirect to the default language
@@ -122,7 +129,7 @@ export const Layout: React.FC<LayoutProps> = props => {
         {description ? <meta name="description" content={description} /> : null}
       </Helmet>
       {top}
-      {pageType !== 'blank' && (
+      {pageType !== 'blank' && !hideNavbar && (
         <Nav
           beforeNavTitle={beforeNavTitle}
           afterNavTitle={afterNavTitle}

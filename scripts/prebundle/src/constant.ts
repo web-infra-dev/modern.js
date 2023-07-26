@@ -320,6 +320,13 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
+        name: 'node-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
+      },
+      {
         name: 'schema-utils3',
         ignoreDts: true,
       },

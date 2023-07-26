@@ -13,10 +13,6 @@ export const testPreset = defineConfig({
     include: ['src/**/*.test.[jt]s?(x)', 'tests/**/*.test.[jt]s?(x)'],
     restoreMocks: true,
   },
-  resolve: {
-    conditions: ['jsnext:source', 'require', 'node', 'default'],
-    extensions: ['.js', '.json', '.node', '.ts', '.tsx'],
-  },
 });
 
 export const withTestPreset = (config: UserConfigExport) =>

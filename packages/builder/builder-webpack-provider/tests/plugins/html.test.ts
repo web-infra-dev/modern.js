@@ -209,6 +209,22 @@ describe('plugins/html', () => {
     expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
   });
 
+  it('should disable html plugin when htmlPlugin is an array and contains false', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginEntry(), builderPluginHtml()],
+      entry: {
+        main: './src/main.ts',
+      },
+      builderConfig: {
+        tools: {
+          htmlPlugin: [{}, false],
+        },
+      },
+    });
+
+    expect(await builder.matchWebpackPlugin('HtmlWebpackPlugin')).toBeFalsy();
+  });
+
   it('should support multi entry', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginEntry(), builderPluginHtml()],

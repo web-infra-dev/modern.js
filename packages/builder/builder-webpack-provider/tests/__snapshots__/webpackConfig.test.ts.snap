@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`webpackConfig > should allow to append and prepend plugins 1`] = `
 [
@@ -176,7 +176,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+              "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -276,7 +276,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+              "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -395,7 +395,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
               "antd",
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+              "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -504,7 +504,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
               "antd",
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+              "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -645,7 +645,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               "foo",
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+              "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -753,7 +753,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               "foo",
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+              "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",

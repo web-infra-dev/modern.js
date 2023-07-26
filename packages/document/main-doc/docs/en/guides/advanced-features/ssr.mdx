@@ -159,10 +159,10 @@ Using SPR in Modern.js is very simple. Just add the PreRender component to your 
 
 Here is a simulated component that uses the useLoaderData API. The request in the Data Loader takes 2 seconds to consume.
 
-```jsx
+```tsx title="page.loader.ts"
 import { useLoaderData } from '@modern-js/runtime/router';
 
-export const loader = async () => {
+export default async () => {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(null);
@@ -173,6 +173,10 @@ export const loader = async () => {
     message: 'Hello Modern.js',
   };
 };
+```
+
+```tsx title="page.tsx"
+import { useLoaderData } from '@modern-js/runtime/router';
 
 export default () => {
   const data = useLoaderData();

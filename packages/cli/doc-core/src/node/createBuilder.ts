@@ -1,7 +1,7 @@
 import path from 'path';
 import { createRequire } from 'module';
 import { UserConfig } from 'shared/types';
-import { BuilderInstance, mergeBuilderConfig } from '@modern-js/builder';
+import type { BuilderInstance } from '@modern-js/builder';
 import type {
   BuilderConfig,
   BuilderRspackProvider,
@@ -172,7 +172,7 @@ async function createInternalBuildConfig(
             multiple: config.doc?.replaceRules || [],
           });
 
-        chain.resolve.extensions.prepend('.md').prepend('.mdx');
+        chain.resolve.extensions.prepend('.md').prepend('.mdx').prepend('.mjs');
       },
     },
   };
@@ -188,6 +188,8 @@ export async function createModernBuilder(
   const cwd = process.cwd();
   const userRoot = path.resolve(rootDir || config.doc?.root || cwd);
   // We use a temp dir to store runtime files, so we can separate client and server build
+  // and we should empty temp dir before build
+  await fs.emptyDir(TEMP_DIR);
   const runtimeTempDir = path.join(TEMP_DIR, 'runtime');
   await fs.ensureDir(runtimeTempDir);
   const routeService = await initRouteService({
@@ -196,10 +198,14 @@ export async function createModernBuilder(
     scanDir: userRoot,
     pluginDriver,
   });
-  const { createBuilder } = await import('@modern-js/builder');
-  const { builderRspackProvider } = await import(
-    '@modern-js/builder-rspack-provider'
-  );
+  const {
+    // @ts-expect-error esm/cjs interop issue
+    default: { createBuilder, mergeBuilderConfig },
+  } = await import('@modern-js/builder');
+  const {
+    // @ts-expect-error esm/cjs interop issue
+    default: { builderRspackProvider },
+  } = await import('@modern-js/builder-rspack-provider');
 
   const internalBuilderConfig = await createInternalBuildConfig(
     userRoot,
