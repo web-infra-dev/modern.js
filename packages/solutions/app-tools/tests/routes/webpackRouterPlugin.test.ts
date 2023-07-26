@@ -22,11 +22,7 @@ describe('webpack-router-plugin', () => {
         filename: '[name].js',
         chunkFilename: '[name].js',
       },
-      plugins: [
-        new RouterPlugin({
-          minimize: false,
-        }),
-      ],
+      plugins: [new RouterPlugin()],
     });
 
     const res = stats?.toJson();
@@ -127,12 +123,7 @@ describe('webpack-router-plugin', () => {
         filename: '[name].js',
         chunkFilename: '[name].js',
       },
-      plugins: [
-        new RouterPlugin({
-          minimize: false,
-        }),
-        new PatchRouterManifestWebpackPlugin(),
-      ],
+      plugins: [new RouterPlugin(), new PatchRouterManifestWebpackPlugin()],
     });
 
     const res = stats?.toJson();

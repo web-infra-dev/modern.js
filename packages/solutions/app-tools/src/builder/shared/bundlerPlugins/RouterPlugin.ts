@@ -21,17 +21,7 @@ type Compiler = webpack.Compiler | Rspack.Compiler;
 type Compilation = webpack.Compilation | Rspack.Compilation;
 type Chunks = webpack.StatsChunk[];
 
-type Options = {
-  minimize: boolean;
-};
-
 export class RouterPlugin {
-  private minimize: boolean = false;
-
-  constructor(options: Options) {
-    this.minimize = options.minimize;
-  }
-
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
     if (
       target === 'node' ||
@@ -86,6 +76,7 @@ export class RouterPlugin {
 
     const chunkToSource: Map<string | number, string | Buffer> = new Map();
     const chunkToMap: Map<string | number, unknown> = new Map();
+    const { minimize } = compiler.options.optimization;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       compilation.hooks.processAssets.tapPromise(
@@ -292,7 +283,7 @@ export class RouterPlugin {
             const result = await transform(newContent, {
               loader: path.extname(file).slice(1) as Loader,
               sourcemap: true,
-              minify: this.minimize,
+              minify: minimize,
             });
 
             const newSource = new SourceMapSource(
