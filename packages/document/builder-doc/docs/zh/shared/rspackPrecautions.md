@@ -3,7 +3,7 @@
 在使用 Rspack 之前，请留意 Rspack 仍然是一个早期项目，当前还处于快速迭代阶段。因此，你需要预先了解以下事项：
 
 - Rspack 的 API 和配置项还不稳定，同时 Modern.js 对 Rspack 的支持属于实验性的，因此在后续的非 major 版本中，可能会引入不兼容更新。
-- Rspack 的拆包能力仍在完善中，迁移到 Rspack 后，你可能会发现产物的包体积相较 webpack 有一定程度的增加。
+- Rspack 并未实现完整的 webpack 优化能力（如 tree shaking、bundle splitting、scope hoist 等能力，我们将在 6 ～ 12 月持续补齐相关优化能力），迁移到 Rspack 后，你可能会发现产物的包体积相较 webpack 有一定程度的增加。
 - Rspack 目前基于 SWC 进行代码编译和压缩，由于 SWC 的成熟度不及 babel 和 terser，因此你可能会遇到 SWC 的 bug。
 - Rspack 模式兼容了大部分 webpack 生态的插件和 loaders，但仍有部分插件和 loaders 暂时无法使用。
 
