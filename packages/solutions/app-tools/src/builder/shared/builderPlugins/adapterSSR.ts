@@ -124,10 +124,17 @@ function applyRouterPlugin<B extends Bundler>(
   const routerConfig: any = normalizedConfig?.runtime?.router;
   const routerManifest = Boolean(routerConfig?.manifest);
   const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
+  const minimize =
+    !normalizedConfig.output.disableMinimize &&
+    process.env.NODE_ENV === 'production';
 
   // for ssr mode
   if (existNestedRoutes || routerManifest || workerSSR) {
-    chain.plugin('route-plugin').use(RouterPlugin);
+    chain.plugin('route-plugin').use(RouterPlugin, [
+      {
+        minimize,
+      },
+    ]);
   }
 }
 
