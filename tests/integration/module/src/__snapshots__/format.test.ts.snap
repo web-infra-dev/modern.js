@@ -143,8 +143,7 @@ export default require_utils();
 `;
 
 exports[`format is iife buildType is bundle 1`] = `
-""use strict";
-(() => {
+"(() => {
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
@@ -153,7 +152,6 @@ exports[`format is iife buildType is bundle 1`] = `
   // src/utils.js
   var require_utils = __commonJS({
     "src/utils.js"(exports, module) {
-      "use strict";
       var addPrefix = (prefix, str) => \`\${prefix}\${str}\`;
       module.exports = {
         addPrefix
@@ -209,7 +207,7 @@ exports[`format is umd buildType is bundle 1`] = `
     // src/index.js
     var require_src = __commonJS({
         "src/index.js" (exports, module1) {
-            var { addPrefix  } = require_utils();
+            var { addPrefix } = require_utils();
             module1.exports = (str)=>addPrefix("DEBUG:", str);
         }
     });
