@@ -20,7 +20,7 @@
     "test:rspack": "cd tests && pnpm run test:rspack",
     "test:doc": "cd tests && pnpm run test:doc",
     "test:jest": "cd tests && pnpm run test:ut",
-    "test:vitest": "node scripts/vitestRunAll.js",
+    "test:vitest": "node scripts/vitest-config/vitestRunAll.js",
     "test:ut": "pnpm run test:jest && pnpm run test:vitest",
     "test:ut:update": "pnpm run test:jest -u && pnpm run test:vitest -u",
     "test:e2e": "cd tests && npm run test",
@@ -85,8 +85,6 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "cross-env": "^7.0.3",
     "esbuild": "0.17.19",
-    "execa": "^5.1.1",
-    "globby": "^11.0.4",
     "husky": "^8.0.0",
     "turbo": "^1.10.2",
     "vitest": "0.33.0"

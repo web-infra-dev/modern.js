@@ -63,12 +63,6 @@ importers:
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
-      execa:
-        specifier: ^5.1.1
-        version: 5.1.1
-      globby:
-        specifier: ^11.0.4
-        version: 11.1.0
       husky:
         specifier: ^8.0.0
         version: 8.0.1
@@ -6037,6 +6031,15 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+      execa:
+        specifier: ^5.1.1
+        version: 5.1.1
+      globby:
+        specifier: ^11.0.4
+        version: 11.1.0
+      p-map:
+        specifier: ^4.0.0
+        version: 4.0.0
       typescript:
         specifier: ^5
         version: 5.0.4
