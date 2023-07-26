@@ -1,4 +1,5 @@
 import { z } from '@modern-js/builder-shared/zod';
+import chalk from '@modern-js/utils/chalk';
 import {
   validateBuilderConfig as validateConfig,
   logger,
@@ -27,12 +28,20 @@ export const validateBuilderConfig = async (data: unknown) => {
     if (!config.output?.disableCssExtract) {
       if (config.output?.enableCssModuleTSDeclaration) {
         logger.warn(
-          'enableCssModuleTSDeclaration only takes effect when output.disableCssExtract is set to true',
+          `${chalk.yellow(
+            'enableCssModuleTSDeclaration',
+          )} only takes effect when ${chalk.yellow(
+            'output.disableCssExtract',
+          )} is set to true`,
         );
       }
       if (config.tools?.styleLoader) {
         logger.warn(
-          'tools.styleLoader only takes effect when output.disableCssExtract is set to true',
+          `${chalk.yellow(
+            'tools.styleLoader',
+          )} only takes effect when ${chalk.yellow(
+            'output.disableCssExtract',
+          )} is set to true`,
         );
       }
     }

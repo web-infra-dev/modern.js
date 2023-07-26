@@ -14,6 +14,12 @@ describe('validateBuilderConfig', () => {
   });
 
   it('should log warning when joint validation exception', async () => {
+    vi.mock('@modern-js/utils/chalk', async importOriginal => {
+      const mod = await importOriginal<any>();
+      mod.yellow = (str: string) => str;
+      return mod;
+    });
+
     vi.mock('@modern-js/builder-shared', async importOriginal => {
       const mod = await importOriginal<any>();
       return {
