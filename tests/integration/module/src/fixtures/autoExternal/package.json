@@ -1,5 +1,6 @@
 {
   "name": "auto-external-test",
+  "version": "1.0.0",
   "dependencies": {
     "path-browserify": "^1"
   },
