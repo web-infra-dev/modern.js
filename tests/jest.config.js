@@ -11,6 +11,7 @@ module.exports = {
     '/api-service-koa/api/',
     '/api-service-koa/dist',
     '/api/tests',
+    '/module/src/fixtures/inputFilter/src/index.spec.ts',
   ],
   transform: {
     '^.+.tsx?$': 'ts-jest',
