@@ -1,16 +1,23 @@
+import type { ecmaVersion as EcmaVersion } from 'acorn';
+
 export type SriOptions = {
   hashFuncNames?: [string, ...string[]];
   enabled?: 'auto' | true | false;
   hashLoading?: 'eager' | 'lazy';
 };
 
+export type { EcmaVersion };
+
 export interface CheckSyntaxOptions {
   targets?: string[];
-  exclude?: RegExp | Array<RegExp>;
+  exclude?: RegExp | RegExp[];
+  ecmaVersion?: EcmaVersion;
 }
 
 export interface SharedSecurityConfig {
-  /** Analyze the product for the presence of high-level syntax that is not compatible in the specified environment */
+  /**
+   * Analyze the build artifacts to identify advanced syntax that is incompatible with the current browser scope.
+   */
   checkSyntax?: boolean | CheckSyntaxOptions;
 
   /**
