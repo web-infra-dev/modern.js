@@ -33,7 +33,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-swc": "0.13.2",
+    "@modern-js/libuild-plugin-swc": "0.14.1",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
@@ -45,7 +45,7 @@
     "@scripts/jest-config": "workspace:*",
     "@swc/helpers": "0.5.1",
     "@modern-js/module-tools": "workspace:*",
-    "@modern-js/libuild": "0.13.2"
+    "@modern-js/libuild": "0.14.1"
   },
   "peerDependencies": {
     "@modern-js/module-tools": "workspace:^2.27.0"
