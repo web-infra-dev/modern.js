@@ -1352,6 +1352,9 @@ importers:
       qrcode.react:
         specifier: ^3.1.0
         version: 3.1.0(react@18.2.0)
+      remark-gfm:
+        specifier: 3.0.1
+        version: 3.0.1
     devDependencies:
       '@arco-design/web-react':
         specifier: ^2.46.0
