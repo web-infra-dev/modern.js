@@ -42,6 +42,7 @@ export type SharedCompiledPkgNames =
   | 'autoprefixer'
   | 'sass-loader'
   | 'less-loader'
+  | 'node-loader'
   | 'babel-loader'
   | 'file-loader'
   | 'url-loader'

@@ -1,9 +1,5 @@
+const { tscLikeBuildConfig } = require('@scripts/build');
+
 module.exports = {
-  buildConfig: [
-    {
-      format: 'cjs',
-      target: 'es6',
-      sourceMap: true,
-    },
-  ],
+  buildConfig: tscLikeBuildConfig,
 };

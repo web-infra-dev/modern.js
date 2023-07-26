@@ -50,7 +50,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           getCompiledPath,
         },
       ) => {
-        const { applyOptionsChain, isUseSSRBundle } = await import(
+        const { lodash, applyOptionsChain, isUseSSRBundle } = await import(
           '@modern-js/utils'
         );
 
@@ -171,7 +171,8 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             })
             .use(CHAIN_ID.USE.BABEL)
             .loader(getCompiledPath('babel-loader'))
-            .options(babelOptions);
+            // Using cloned options to keep options separate from each other
+            .options(lodash.cloneDeep(babelOptions));
         }
 
         addCoreJsEntry({ chain, config, isServer, isServiceWorker });

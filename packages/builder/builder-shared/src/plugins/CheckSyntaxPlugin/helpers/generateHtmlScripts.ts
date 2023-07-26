@@ -1,27 +1,44 @@
 import { fs } from '@modern-js/utils';
-import * as cheerio from 'cheerio';
+import { Parser } from 'htmlparser2';
 
 export async function generateHtmlScripts(filepath: string) {
   const html = await fs.readFile(filepath, 'utf-8');
   return getHtmlScripts(html);
 }
 
-function getHtmlScripts(html: string) {
-  const scripts: string[] = [];
-  cheerio
-    .load(html)('script')
-    .each((_, val) => {
-      const { children, attribs } = val;
+export function getHtmlScripts(html: string) {
+  const inlineScripts: string[] = [];
+  let currentScript: string | null = '';
+
+  const parser = new Parser({
+    onopentag(name, attrs) {
       if (
-        !attribs.type ||
-        attribs.type === 'application/javascript' ||
-        attribs.type === 'text/javascript'
+        name === 'script' &&
+        !attrs.src &&
+        (!attrs.type ||
+          attrs.type === 'application/javascript' ||
+          attrs.type === 'text/javascript')
       ) {
-        const _scripts = (children as { data?: string }[])
-          .map(child => child.data)
-          .filter(Boolean) as string[];
-        scripts.push(..._scripts);
+        currentScript = '';
       }
-    });
-  return scripts;
+    },
+
+    ontext(text) {
+      if (currentScript !== null) {
+        currentScript += text;
+      }
+    },
+
+    onclosetag(tagname) {
+      if (tagname === 'script' && currentScript) {
+        inlineScripts.push(currentScript.trim());
+      }
+      currentScript = null;
+    },
+  });
+
+  parser.write(html);
+  parser.end();
+
+  return inlineScripts;
 }

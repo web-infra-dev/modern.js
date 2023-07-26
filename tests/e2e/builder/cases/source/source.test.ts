@@ -104,9 +104,9 @@ test('global-vars', async ({ page }) => {
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(
-    page.evaluate(`document.getElementById('test-el').innerHTML`),
-  ).resolves.toBe('aaaaa');
+
+  const testEl = page.locator('#test-el');
+  await expect(testEl).toHaveText('aaaaa');
 
   builder.close();
 });
@@ -128,9 +128,9 @@ test('define', async ({ page }) => {
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(
-    page.evaluate(`document.getElementById('test-el').innerHTML`),
-  ).resolves.toBe('aaaaa');
+
+  const testEl = page.locator('#test-el');
+  await expect(testEl).toHaveText('aaaaa');
 
   builder.close();
 });
@@ -155,9 +155,9 @@ test('tsconfig paths should work and override the alias config', async ({
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(
-    page.evaluate(`document.getElementById('foo').innerHTML`),
-  ).resolves.toBe('tsconfig paths worked');
+
+  const foo = page.locator('#foo');
+  await expect(foo).toHaveText('tsconfig paths worked');
 
   builder.close();
 });
@@ -183,9 +183,9 @@ test('tsconfig paths should not work when aliasStrategy is "prefer-alias"', asyn
   });
 
   await page.goto(getHrefByEntryName('main', builder.port));
-  await expect(
-    page.evaluate(`document.getElementById('foo').innerHTML`),
-  ).resolves.toBe('source.alias worked');
+
+  const foo = page.locator('#foo');
+  await expect(foo).toHaveText('source.alias worked');
 
   builder.close();
 });

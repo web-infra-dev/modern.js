@@ -1,5 +1,5 @@
 import { getLocaleLanguage } from '@modern-js/plugin-i18n/language-detector';
-import type { Command } from '@modern-js/utils/commander';
+import { Command } from '@modern-js/utils/commander';
 import type { Options } from './upgrade';
 import { i18n, localeKeys } from './locale';
 
@@ -20,3 +20,9 @@ export function defineCommand(program: Command) {
       return upgradeAction(params);
     });
 }
+
+export default () => {
+  const program = new Command();
+  defineCommand(program);
+  program.parse(process.argv);
+};

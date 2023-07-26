@@ -50,6 +50,7 @@ export type DevMiddleware = (options: DevMiddlewareOptions) => DevMiddlewareAPI;
 export type ExtraOptions = {
   dev: boolean | Partial<DevServerOptions>;
   devMiddleware?: DevMiddleware;
+  useWorkerSSR?: boolean;
 };
 
 export type ModernDevServerOptions = ModernServerOptions & ExtraOptions;

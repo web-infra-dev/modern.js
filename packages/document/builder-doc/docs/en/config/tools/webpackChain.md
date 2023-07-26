@@ -184,6 +184,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `RULE.TOML`  | Rule for `toml`  |
 | `RULE.YAML`  | Rule for `yaml`  |
 | `RULE.WASM`  | Rule for `WASM`  |
+| `RULE.NODE`  | Rule for `node`  |
 | `RULE.FONT`  | Rule for `font`  |
 | `RULE.IMAGE` | Rule for `image` |
 | `RULE.MEDIA` | Rule for `media` |
@@ -213,6 +214,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `USE.VUE`              | correspond to `vue-loader`                     |
 | `USE.TOML`             | correspond to `toml-loader`                    |
 | `USE.YAML`             | correspond to `yaml-loader`                    |
+| `USE.NODE`             | correspond to `node-loader`                    |
 | `USE.FILE`             | correspond to `file-loader`                    |
 | `USE.URL`              | correspond to `url-loader`                     |
 | `USE.SVGR`             | correspond to `@svgr/webpack`                  |

@@ -1,4 +1,3 @@
-"use strict";
 var _async_to_generator = require("<SWC_HELPER>/_/_async_to_generator");
 var _object_spread = require("<SWC_HELPER>/_/_object_spread");
 var _ts_generator = require("<SWC_HELPER>/_/_ts_generator");

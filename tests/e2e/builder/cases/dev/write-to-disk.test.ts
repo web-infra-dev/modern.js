@@ -24,9 +24,8 @@ test('writeToDisk default', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const locator = page.locator('#test');
+  await expect(locator).toHaveText('Hello Builder!');
 
   await builder.server.close();
 });
@@ -50,9 +49,8 @@ test('writeToDisk false', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const locator = page.locator('#test');
+  await expect(locator).toHaveText('Hello Builder!');
 
   await builder.server.close();
 });
@@ -76,9 +74,8 @@ test('writeToDisk true', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const test = page.locator('#test');
+  await expect(test).toHaveText('Hello Builder!');
 
   await builder.server.close();
 });

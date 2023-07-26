@@ -27,9 +27,8 @@ webpackOnlyTest('security.sri', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('index', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const test = page.locator('#test');
+  await expect(test).toHaveText('Hello Builder!');
 
   builder.close();
 });

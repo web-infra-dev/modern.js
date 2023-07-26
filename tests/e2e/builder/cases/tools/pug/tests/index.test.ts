@@ -23,13 +23,11 @@ test('pug', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('main', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test-pug').innerHTML`),
-  ).resolves.toBe('Pug source code!');
+  const testPug = page.locator('#test-pug');
+  await expect(testPug).toHaveText('Pug source code!');
 
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const testEl = page.locator('#test');
+  await expect(testEl).toHaveText('Hello Builder!');
 
   builder.close();
 });

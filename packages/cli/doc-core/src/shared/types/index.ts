@@ -17,6 +17,7 @@ export type { DocPlugin, AdditionalPage };
 export interface RouteMeta {
   routePath: string;
   absolutePath: string;
+  relativePath: string;
   pageName: string;
   lang: string;
 }

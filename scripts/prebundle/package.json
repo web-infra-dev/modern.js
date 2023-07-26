@@ -93,6 +93,7 @@
     "minimist": "1.2.6",
     "nanoid": "3.3.4",
     "normalize-path": "3.0.0",
+    "node-loader": "2.0.0",
     "open": "^8.4.0",
     "ora": "5.4.1",
     "p-map": "4.0.0",

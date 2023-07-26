@@ -1,4 +1,4 @@
-name: Unit Test(Windows)
+name: Unit Test (jest - Windows)
 
 concurrency:
   group: windows-test-${{ github.head_ref }}
@@ -59,4 +59,4 @@ jobs:
 
       - name: Test
         if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
-        run: pnpm run test:ut
+        run: pnpm run test:jest

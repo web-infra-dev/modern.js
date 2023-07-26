@@ -12,9 +12,14 @@ import { buildServerConfig } from '../utils/config';
 import type { AppTools } from '../types';
 import { getServerInternalPlugins } from '../utils/getServerInternalPlugins';
 
+export interface ExtraServerOptions {
+  useSSRWorker?: boolean;
+}
+
 export const dev = async (
   api: PluginAPI<AppTools<'shared'>>,
   options: DevOptions,
+  devServerOptions: ExtraServerOptions = {},
 ) => {
   if (options.analyze) {
     // Builder will read this env var to enable bundle analyzer
@@ -72,6 +77,7 @@ export const dev = async (
     config: normalizedConfig,
     serverConfigFile,
     internalPlugins: injectDataLoaderPlugin(serverInternalPlugins),
+    ...devServerOptions,
   };
 
   if (apiOnly) {

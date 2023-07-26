@@ -14,13 +14,8 @@ const restArgv = process.argv.slice(2);
   });
   const directories = configs.map(config => path.dirname(config));
 
-  const pnpmFilters = ['@scripts/vitest-config', '@modern-js/e2e']
-    .map(dir => `--filter "${dir}..."`)
-    .join(' ');
-  const buildCmd = `pnpm ${pnpmFilters} run build`;
-  console.log('>', buildCmd);
-
   try {
+    const buildCmd = `pnpm --filter "@scripts/vitest-config" run build`;
     await execa(buildCmd, {
       shell: SHELL,
       stdio: 'inherit',

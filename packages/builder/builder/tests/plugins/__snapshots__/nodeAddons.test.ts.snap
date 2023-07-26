@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugins/nodeAddons > should add node addons rule properly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.node\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>-shared/compiled/node-loader",
+            "options": {
+              "name": [Function],
+            },
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

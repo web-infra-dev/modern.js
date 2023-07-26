@@ -24,8 +24,5 @@
     "access": "public",
     "provenance": true
   },
-  "devDependencies": {
-    "@scripts/build": "workspace:*"
-  },
   "main": "./base.json"
 }

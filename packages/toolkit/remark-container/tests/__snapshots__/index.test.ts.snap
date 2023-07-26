@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`remark-container > Has space before ::: 1`] = `
 "<div class=\\"modern-directive tip\\"><div class=\\"modern-directive-title\\">title</div><div class=\\"modern-directive-content\\"><p>

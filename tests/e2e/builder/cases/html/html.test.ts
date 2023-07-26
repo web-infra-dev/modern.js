@@ -30,9 +30,8 @@ test.describe('html configure multi', () => {
   test('mountId', async ({ page }) => {
     await page.goto(getHrefByEntryName('main', builder.port));
 
-    await expect(
-      page.evaluate(`document.getElementById('test').innerHTML`),
-    ).resolves.toBe('Hello Builder!');
+    const test = page.locator('#test');
+    await expect(test).toHaveText('Hello Builder!');
   });
 
   test('title default', async ({ page }) => {
@@ -192,12 +191,11 @@ test('template & templateParameters', async ({ page }) => {
     'custom template',
   );
 
-  await expect(
-    page.evaluate(`document.getElementById('test-template').innerHTML`),
-  ).resolves.toBe('xxx');
-  await expect(
-    page.evaluate(`document.getElementById('test').innerHTML`),
-  ).resolves.toBe('Hello Builder!');
+  const testTemplate = page.locator('#test-template');
+  await expect(testTemplate).toHaveText('xxx');
+
+  const testEl = page.locator('#test');
+  await expect(testEl).toHaveText('Hello Builder!');
 
   await expect(page.evaluate(`window.foo`)).resolves.toBe('bar');
 
@@ -233,18 +231,13 @@ test('templateByEntries & templateParametersByEntries', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('foo', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test-template').innerHTML`),
-  ).resolves.toBe('foo');
-
+  const testTemplate = page.locator('#test-template');
+  await expect(testTemplate).toHaveText('foo');
   await expect(page.evaluate(`window.type`)).resolves.toBe('foo');
 
   await page.goto(getHrefByEntryName('bar', builder.port));
 
-  await expect(
-    page.evaluate(`document.getElementById('test-template').innerHTML`),
-  ).resolves.toBe('bar');
-
+  await expect(testTemplate).toHaveText('bar');
   await expect(page.evaluate(`window.type`)).resolves.toBe('bar');
 
   builder.close();

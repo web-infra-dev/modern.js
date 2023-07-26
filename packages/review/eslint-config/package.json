@@ -24,7 +24,6 @@
     "@modern-js-app/eslint-config": "workspace:*"
   },
   "devDependencies": {
-    "@scripts/build": "workspace:*",
     "eslint": "^8.28.0",
     "eslint-find-rules": "^4.1.0"
   },
