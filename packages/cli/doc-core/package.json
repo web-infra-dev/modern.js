@@ -60,7 +60,7 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/doc-plugin-medium-zoom": "workspace:*",
-    "@modern-js/mdx-rs-binding": "0.2.3",
+    "@modern-js/mdx-rs-binding": "0.2.4",
     "@modern-js/remark-container": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/compression": "^1.7.2",
