@@ -141,6 +141,29 @@ export 'foo' (imported as 'foo') was not found in './utils' (possible exports: b
 
 If you encounter this issue, the first step is to check the import/export statements in your code and correct any invalid code.
 
+There are some common mistakes:
+
+- Importing a non-existent variable:
+
+```ts
+// utils.ts
+export const bar = 'bar';
+
+// index.ts
+import { foo } from './utils';
+```
+
+- Re-exporting a type without adding the `type` modifier, causing compilers like Babel to fail in recognizing the type export, resulting in compilation errors.
+
+```ts
+// utils.ts
+export type Foo = 'bar';
+
+// index.ts
+export { Foo } from './utils'; // Incorrect
+export type { Foo } from './utils'; // Correct
+```
+
 In some cases, the error may be caused by a third-party dependency that you cannot modify directly. In this situation, if you are sure that the issue does not affect your application, you can add the following configuration to change the log level from `error` to `warn`:
 
 ```ts

@@ -141,6 +141,29 @@ export 'foo' (imported as 'foo') was not found in './utils' (possible exports: b
 
 当你遇到该问题时，首先需要检查相关代码里 import / export 的内容是否正确，并修正相关错误。
 
+常见的错误写法有：
+
+- 引入了不存在的变量：
+
+```ts
+// utils.ts
+export const bar = 'bar';
+
+// index.ts
+import { foo } from './utils';
+```
+
+- re-export 了一个类型，但是没有添加 `type` 修饰符，导致 babel 等编译工具无法识别到类型导出，导致编译异常。
+
+```ts
+// utils.ts
+export type Foo = 'bar';
+
+// index.ts
+export { Foo } from './utils'; // 错误写法
+export type { Foo } from './utils'; // 正确写法
+```
+
 在个别情况下，以上报错是由第三方依赖引入的，你无法直接修改它。此时，如果你确定该问题不影响你的应用，那么可以添加以下配置，将 `error` 日志修改为 `warn` 级别：
 
 ```ts
