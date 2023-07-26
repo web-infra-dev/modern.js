@@ -1,5 +1,5 @@
 import { resolve } from 'path';
-import { parse, Options as AcornParseOption } from 'acorn';
+import { parse } from 'acorn';
 import { fs } from '@modern-js/utils';
 import {
   AcornParseError,
@@ -11,7 +11,7 @@ import {
   checkIsExcludeSource,
   CheckSyntaxExclude,
 } from './helpers';
-import { CheckSyntaxOptions } from '../../types';
+import { EcmaVersion, CheckSyntaxOptions } from '../../types';
 import type { Compiler, Compilation } from 'webpack';
 
 const HTML_REGEX = /\.html$/;
@@ -20,19 +20,19 @@ const JS_REGEX = /\.js$/;
 export class CheckSyntaxPlugin {
   errors: SyntaxError[] = [];
 
-  ecmaVersion: number;
+  ecmaVersion: EcmaVersion;
 
   targets: string[];
 
   exclude: CheckSyntaxExclude | undefined;
 
-  constructor(options: {
-    targets: string[];
-    exclude: CheckSyntaxOptions['exclude'];
-  }) {
+  constructor(
+    options: CheckSyntaxOptions &
+      Required<Pick<CheckSyntaxOptions, 'targets' | 'exclude'>>,
+  ) {
     this.targets = options.targets;
     this.exclude = options.exclude;
-    this.ecmaVersion = getEcmaVersion(this.targets);
+    this.ecmaVersion = options.ecmaVersion || getEcmaVersion(this.targets);
   }
 
   apply(complier: Compiler) {
@@ -81,7 +81,7 @@ export class CheckSyntaxPlugin {
 
   private async tryParse(filepath: string, code: string) {
     try {
-      parse(code, { ecmaVersion: this.ecmaVersion } as AcornParseOption);
+      parse(code, { ecmaVersion: this.ecmaVersion });
     } catch (_: unknown) {
       const err = _ as AcornParseError;
 
