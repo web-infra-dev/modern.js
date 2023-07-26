@@ -1,5 +1,15 @@
 # @modern-js/runtime
 
+## 2.28.0
+
+### Patch Changes
+
+- Updated dependencies [4e3ce96]
+- Updated dependencies [00b58a7]
+  - @modern-js/types@2.28.0
+  - @modern-js/utils@2.28.0
+  - @modern-js/plugin@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

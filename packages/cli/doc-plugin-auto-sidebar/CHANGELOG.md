@@ -1,5 +1,17 @@
 # @modern-js/doc-plugin-auto-sidebar
 
+## 2.28.0
+
+### Patch Changes
+
+- d3e52e4: chore(CI): update build config to improve vitest CI perf
+
+  chore(CI): 更新构建配置来提升 vitest CI 性能
+
+- Updated dependencies [00b58a7]
+  - @modern-js/utils@2.28.0
+  - @modern-js/doc-tools@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

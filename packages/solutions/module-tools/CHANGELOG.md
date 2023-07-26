@@ -1,5 +1,33 @@
 # @modern-js/module-tools
 
+## 2.28.0
+
+### Minor Changes
+
+- 118c1c0: chore: upgrade libuild and libuild plugin version to 0.14.1
+  chore: 升级 libuild 和 libuild 插件的版本到 0.14.1
+
+### Patch Changes
+
+- 3092f1f: fix(module-tools): limit concurrency count
+  fix(module-tools): 限制并行的数量
+- b7a8c43: fix(module-tools): fix input filter files
+  fix(module-tools): 修复 input 过滤文件的问题
+- d3e52e4: chore(CI): update build config to improve vitest CI perf
+
+  chore(CI): 更新构建配置来提升 vitest CI 性能
+
+- Updated dependencies [00b58a7]
+- Updated dependencies [d3e52e4]
+  - @modern-js/utils@2.28.0
+  - @modern-js/upgrade@2.28.0
+  - @modern-js/core@2.28.0
+  - @modern-js/plugin-changeset@2.28.0
+  - @modern-js/plugin-i18n@2.28.0
+  - @modern-js/plugin-lint@2.28.0
+  - @modern-js/new-action@2.28.0
+  - @modern-js/plugin@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

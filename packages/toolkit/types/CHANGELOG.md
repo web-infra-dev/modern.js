@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.28.0
+
+### Patch Changes
+
+- 4e3ce96: fix: fix type for NestedRoute
+  fix: 修复 NestedRoute 的类型
+
 ## 2.27.0
 
 ## 2.26.0
