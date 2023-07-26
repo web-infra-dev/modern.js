@@ -13,23 +13,15 @@ export function createSSRReporter(reporter: SSRServerContext['reporter']) {
     },
 
     reportError(content: string, e: Error) {
-      reporter.reportError(`SSR Error - ${content}`, 'SSR', e);
+      reporter.reportError(`SSR Error - ${content}`, e);
     },
     reportTime(name: string, cost: number) {
-      reporter.reportTime(`ssr.${name}`, 'SSR', cost);
+      reporter.reportTime(`ssr_${name}`, cost);
     },
     reportLog(payload: ReportLogPayload) {
-      payload.extra = {
-        ...(payload.extra || {}),
-        type: 'SSR',
-      };
       reporter.reportLog(payload);
     },
     reportEvent(payload: ReportEventPayload) {
-      payload.categories = {
-        ...(payload.categories || {}),
-        type: 'SSR',
-      };
       reporter.reportEvent(payload);
     },
   };

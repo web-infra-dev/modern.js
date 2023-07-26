@@ -25,7 +25,7 @@ export const render = ({
 
     entry.logger.info('App Render Total cost = %d ms', cost);
     entry.metrics.emitTimer('app.render.cost', cost);
-    entry.reporter.reportTime('app.render.cost', cost);
+    entry.reporter.reportTime('app_render_cost', cost);
 
     const cacheConfig = PreRender.config();
     if (cacheConfig) {

@@ -43,10 +43,24 @@ export type Reporter = {
   init: () => void;
   reportLog: (payload: ReportLogPayload) => void;
   reportEvent: (payload: ReportEventPayload) => void;
-  reportError: (content: string, type: string, e: Error) => void;
-  reportTime: (name: string, type: string, cost: number) => void;
-  reportInfo: (content: string, type: string) => void;
-  reportWarn: (content: string, type: string) => void;
+  reportError: (
+    content: string,
+    e: Error,
+    extra?: Record<string, string | number>,
+  ) => void;
+  reportTime: (
+    name: string,
+    value: number,
+    extra?: Record<string, string>,
+  ) => void;
+  reportInfo: (
+    content: string,
+    extra?: Record<string, string | number>,
+  ) => void;
+  reportWarn: (
+    content: string,
+    extra?: Record<string, string | number>,
+  ) => void;
 };
 
 export type NextFunction = () => void;

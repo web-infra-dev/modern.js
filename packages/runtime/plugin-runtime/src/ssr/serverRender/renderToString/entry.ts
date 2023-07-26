@@ -174,7 +174,7 @@ export default class Entry {
       const prefetchCost = end();
       this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
       this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
-      this.reporter.reportTime('app.prefetch.cost', prefetchCost);
+      this.reporter.reportTime('app_prefetch_cost', prefetchCost);
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
       this.logger.error('App Prefetch Render', e as Error);
@@ -213,7 +213,7 @@ export default class Entry {
       const cost = end();
       this.logger.debug('App Render To HTML cost = %d ms', cost);
       this.metrics.emitTimer('app.render.html.cost', cost);
-      this.reporter.reportTime('app.render.html.cost', cost);
+      this.reporter.reportTime('app_render_html_cost', cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.logger.error('App Render To HTML', e as Error);
