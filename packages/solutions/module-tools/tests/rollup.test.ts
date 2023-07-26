@@ -2,10 +2,6 @@ import path from 'path';
 import { fs } from '@modern-js/utils';
 import { runRollup, RollupWatcher } from '../src/builder/dts/rollup';
 
-import { initBeforeTest } from './utils';
-
-initBeforeTest();
-
 describe('rollup', () => {
   beforeEach(() => {
     jest.mock('../src/utils/log.ts');

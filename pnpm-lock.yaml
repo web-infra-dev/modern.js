@@ -7648,6 +7648,57 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  tests/integration/module:
+    devDependencies:
+      '@modern-js-app/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/review/eslint-config-app
+      '@modern-js/eslint-config':
+        specifier: workspace:*
+        version: link:../../../packages/review/eslint-config
+      '@modern-js/module-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/module-tools
+      '@modern-js/tsconfig':
+        specifier: workspace:*
+        version: link:../../../packages/review/tsconfig
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ~16.11.7
+        version: 16.11.68
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      husky:
+        specifier: ~8.0.1
+        version: 8.0.1
+      lint-staged:
+        specifier: ~13.1.0
+        version: 13.1.4
+      path-browserify:
+        specifier: 1.0.1
+        version: 1.0.1
+      prettier:
+        specifier: ~2.8.1
+        version: 2.8.7
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      rimraf:
+        specifier: ~3.0.2
+        version: 3.0.2
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   tests/integration/module-doc:
     dependencies:
       '@arco-design/web-react':
@@ -7702,6 +7753,105 @@ importers:
       typescript:
         specifier: ^5
         version: 5.0.4
+
+  tests/integration/module/src/fixtures/alias/js: {}
+
+  tests/integration/module/src/fixtures/alias/ts: {}
+
+  tests/integration/module/src/fixtures/asset/path:
+    dependencies:
+      react:
+        specifier: ^17
+        version: 17.0.2
+
+  tests/integration/module/src/fixtures/autoExternal:
+    dependencies:
+      path-browserify:
+        specifier: ^1
+        version: 1.0.1
+      postcss:
+        specifier: 8.4.21
+        version: 8.4.21
+    devDependencies:
+      react:
+        specifier: ^17
+        version: 17.0.2
+
+  tests/integration/module/src/fixtures/buildPlatform: {}
+
+  tests/integration/module/src/fixtures/buildPreset: {}
+
+  tests/integration/module/src/fixtures/buildPreset/error: {}
+
+  tests/integration/module/src/fixtures/buildPreset/function:
+    dependencies:
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
+
+  tests/integration/module/src/fixtures/buildPreset/string: {}
+
+  tests/integration/module/src/fixtures/buildType: {}
+
+  tests/integration/module/src/fixtures/copy: {}
+
+  tests/integration/module/src/fixtures/decorator: {}
+
+  tests/integration/module/src/fixtures/designSystem: {}
+
+  tests/integration/module/src/fixtures/dev: {}
+
+  tests/integration/module/src/fixtures/dts: {}
+
+  tests/integration/module/src/fixtures/entry: {}
+
+  tests/integration/module/src/fixtures/esbuildOptions: {}
+
+  tests/integration/module/src/fixtures/externals: {}
+
+  tests/integration/module/src/fixtures/format/cjs: {}
+
+  tests/integration/module/src/fixtures/format/esm: {}
+
+  tests/integration/module/src/fixtures/format/iife: {}
+
+  tests/integration/module/src/fixtures/format/umd: {}
+
+  tests/integration/module/src/fixtures/globalVars/js: {}
+
+  tests/integration/module/src/fixtures/globalVars/ts: {}
+
+  tests/integration/module/src/fixtures/jsx: {}
+
+  tests/integration/module/src/fixtures/metafile: {}
+
+  tests/integration/module/src/fixtures/minify: {}
+
+  tests/integration/module/src/fixtures/platform: {}
+
+  tests/integration/module/src/fixtures/redirect: {}
+
+  tests/integration/module/src/fixtures/sideEffects: {}
+
+  tests/integration/module/src/fixtures/sourceDir: {}
+
+  tests/integration/module/src/fixtures/sourcemap: {}
+
+  tests/integration/module/src/fixtures/splitting: {}
+
+  tests/integration/module/src/fixtures/svgr: {}
+
+  tests/integration/module/src/fixtures/target: {}
+
+  tests/integration/module/src/fixtures/tools: {}
+
+  tests/integration/module/src/fixtures/umdGlobals: {}
+
+  tests/integration/module/src/fixtures/umdModuleName: {}
+
+  tests/integration/module/src/fixtures/utils/builder: {}
+
+  tests/integration/module/src/fixtures/watch: {}
 
   tests/integration/mwa-app:
     dependencies:
