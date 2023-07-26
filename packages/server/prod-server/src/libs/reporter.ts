@@ -1,10 +1,13 @@
 import { Reporter } from '@modern-js/types/server';
 
 export const defaultReporter: Reporter = {
-  reportEvent(_) {
+  init() {
     // noImpl
   },
-  reportLog(_) {
+  reportEvent() {
+    // noImpl
+  },
+  reportLog() {
     // noImpl
   },
   reportError() {
@@ -13,10 +16,10 @@ export const defaultReporter: Reporter = {
   reportTime() {
     // noImpl
   },
-  reportInfo(): void {
+  reportInfo() {
     // noImpl
   },
-  reportWarn(): void {
+  reportWarn() {
     // noImpl
   },
 };

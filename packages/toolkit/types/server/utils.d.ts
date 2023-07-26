@@ -40,6 +40,7 @@ export type Reporter = {
   sessionId?: string;
   userId?: string;
 
+  init: () => void;
   reportLog: (payload: ReportLogPayload) => void;
   reportEvent: (payload: ReportEventPayload) => void;
   reportError: (content: string, type: string, e: Error) => void;
