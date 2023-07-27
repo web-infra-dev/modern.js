@@ -6,14 +6,6 @@ test('should resolve relative asset correctly in SCSS file', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
-    builderConfig: {
-      output: {
-        disableSourceMap: {
-          js: false,
-          css: true,
-        },
-      },
-    },
   });
   const files = await builder.unwrapOutputJSON();
 
