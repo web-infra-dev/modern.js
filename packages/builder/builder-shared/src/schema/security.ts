@@ -7,7 +7,7 @@ export const SriOptionsSchema: ZodType<SriOptions> = z.partialObj({
     [string, ...string[]]
   >,
   enabled: z.literals(['auto', true, false]),
-  hashLoading: z.literals(['eager', 'lazy']),
+  hashLoading: z.enum(['eager', 'lazy']),
 });
 
 export const sharedSecurityConfigSchema = z.partialObj({
@@ -15,9 +15,32 @@ export const sharedSecurityConfigSchema = z.partialObj({
   checkSyntax: z.union([
     z.boolean(),
     z.object({
-      targets: z.array(z.string()),
+      targets: z.optional(z.array(z.string())),
       exclude: z.optional(
         z.union([z.instanceof(RegExp), z.array(z.instanceof(RegExp))]),
+      ),
+      ecmaVersion: z.optional(
+        z.literals([
+          3,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019,
+          2020,
+          2021,
+          2022,
+          'latest',
+        ]),
       ),
     }),
   ]),

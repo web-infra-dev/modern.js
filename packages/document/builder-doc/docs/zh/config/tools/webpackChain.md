@@ -187,6 +187,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `RULE.TOML`  | 处理 `toml` 的规则 |
 | `RULE.YAML`  | 处理 `yaml` 的规则 |
 | `RULE.WASM`  | 处理 `wasm` 的规则 |
+| `RULE.NODE`  | 处理 `node` 的规则 |
 | `RULE.FONT`  | 处理字体的规则     |
 | `RULE.IMAGE` | 处理图片的规则     |
 | `RULE.MEDIA` | 处理媒体资源的规则 |
@@ -216,6 +217,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `USE.VUE`              | 对应 `vue-loader`                     |
 | `USE.TOML`             | 对应 `toml-loader`                    |
 | `USE.YAML`             | 对应 `yaml-loader`                    |
+| `USE.NODE`             | 对应 `node-loader`                    |
 | `USE.FILE`             | 对应 `file-loader`                    |
 | `USE.URL`              | 对应 `url-loader`                     |
 | `USE.SVGR`             | 对应 `@svgr/webpack`                  |

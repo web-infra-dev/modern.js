@@ -2163,6 +2163,17 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
         "type": "asset/resource",
       },
       {
+        "test": /\\\\\\.node\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/node-loader",
+            "options": {
+              "name": [Function],
+            },
+          },
+        ],
+      },
+      {
         "resolve": {
           "preferRelative": true,
         },

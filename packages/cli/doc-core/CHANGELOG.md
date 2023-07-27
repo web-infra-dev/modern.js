@@ -1,5 +1,55 @@
 # @modern-js/doc-core
 
+## 2.28.0
+
+### Patch Changes
+
+- a497fdc: feat(doc-core): add modern-doc-container class
+
+  feat(doc-core): 添加 modern-doc-container 类
+
+- 90ce6d6: chore(doc-core): bump mdx-rs-binding to 0.2.3
+- 7412f09: fix(doc-core): prefer mjs
+- d5beb73: fix(doc-core): use routePath for page key
+
+  fix(doc-core): 使用 routePath 作为页面 key
+
+- be4b5e7: fix: empty temp dir before build
+  fix: 在构建之前清空 temp 目录
+- 2a3f537: fix(doc-core): redirect to incorrect language page
+
+  fix(doc-core): 重定向不存在的语言页面
+
+- 7813d17: fix(doc-core): clear the compile-time path in output bundle to avoid internal path exposure
+
+  fix(doc-core): 在输出的 bundle 中清除编译时的路径以避免暴露内网路径
+
+- b0caaf6: feat(doc-core): support user custom mdx components
+
+  feat(doc-core): 支持用户自定义 mdx 组件
+
+- d3e52e4: chore(CI): update build config to improve vitest CI perf
+
+  chore(CI): 更新构建配置来提升 vitest CI 性能
+
+- 9fc3a6e: fix(doc-core): support link in header when using mdx-rs
+
+  fix(doc-core): 当使用 mdx-rs 时支持在 header 中使用 link
+
+- Updated dependencies [213089e]
+- Updated dependencies [fb93353]
+- Updated dependencies [362416f]
+- Updated dependencies [9301e46]
+- Updated dependencies [00b58a7]
+- Updated dependencies [820bfe9]
+- Updated dependencies [7d966a1]
+  - @modern-js/builder-rspack-provider@2.28.0
+  - @modern-js/builder@2.28.0
+  - @modern-js/utils@2.28.0
+  - @modern-js/doc-plugin-medium-zoom@2.28.0
+  - @modern-js/remark-container@2.28.0
+  - @modern-js/core@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

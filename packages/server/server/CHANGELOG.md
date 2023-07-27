@@ -1,5 +1,22 @@
 # @modern-js/server
 
+## 2.28.0
+
+### Minor Changes
+
+- 6eae1e7: feat: support worker hmr using dev-server
+  feat: 借用 dev-server 支持 wokrer hmr
+
+### Patch Changes
+
+- Updated dependencies [4e3ce96]
+- Updated dependencies [6eae1e7]
+- Updated dependencies [00b58a7]
+  - @modern-js/types@2.28.0
+  - @modern-js/prod-server@2.28.0
+  - @modern-js/utils@2.28.0
+  - @modern-js/server-utils@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

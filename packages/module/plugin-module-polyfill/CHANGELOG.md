@@ -1,5 +1,19 @@
 # @modern-js/plugin-module-polyfill
 
+## 2.28.0
+
+### Patch Changes
+
+- d3e52e4: chore(CI): update build config to improve vitest CI perf
+
+  chore(CI): 更新构建配置来提升 vitest CI 性能
+
+- Updated dependencies [3092f1f]
+- Updated dependencies [118c1c0]
+- Updated dependencies [b7a8c43]
+- Updated dependencies [d3e52e4]
+  - @modern-js/module-tools@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

@@ -120,7 +120,7 @@ export class AutoSetRootFontSizePlugin implements WebpackPluginInstance {
     }
 
     compiler.hooks.compilation.tap(this.name, compilation => {
-      this.HtmlPlugin.getHooks(compilation).afterTemplateExecution.tapPromise(
+      this.HtmlPlugin.getHooks(compilation).alterAssetTagGroups.tapPromise(
         this.name,
         async data => {
           const isExclude = this.options.excludeEntries.find((item: string) => {

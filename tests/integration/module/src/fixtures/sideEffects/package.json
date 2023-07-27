@@ -1,0 +1,5 @@
+{
+  "name": "module-tools-side-effects-test",
+  "version": "1.0.0",
+  "sideEffects": true
+}

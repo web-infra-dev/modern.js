@@ -45,6 +45,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.html(),
     plugins.wasm(),
     plugins.moment(),
+    plugins.nodeAddons(),
     import('../plugins/define').then(m => m.builderPluginDefine()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
     import('../plugins/prettyErrors').then(m =>

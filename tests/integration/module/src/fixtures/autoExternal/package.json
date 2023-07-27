@@ -1,0 +1,13 @@
+{
+  "name": "auto-external-test",
+  "version": "1.0.0",
+  "dependencies": {
+    "path-browserify": "^1"
+  },
+  "devDependencies": {
+    "react": "^17"
+  },
+  "peerDependencies": {
+    "postcss": "8.4.21"
+  }
+}

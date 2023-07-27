@@ -18,10 +18,10 @@ export const MetaOptionsSchema: ZodType<MetaOptions> = z.record(
   z.union([z.string(), z.literal('false'), MetaAttributesSchema]),
 );
 
-export const ScriptLoadingSchema: ZodType<ScriptLoading> = z.union([
-  z.literal('defer'),
-  z.literal('module'),
-  z.literal('blocking'),
+export const ScriptLoadingSchema: ZodType<ScriptLoading> = z.enum([
+  'defer',
+  'module',
+  'blocking',
 ]);
 
 export const ScriptInjectSchema: ZodType<ScriptInject> = z.union([
@@ -30,7 +30,7 @@ export const ScriptInjectSchema: ZodType<ScriptInject> = z.union([
   z.literal('head'),
 ]);
 
-export const CrossOriginSchema: ZodType<CrossOrigin> = z.literals([
+export const CrossOriginSchema: ZodType<CrossOrigin> = z.enum([
   'anonymous',
   'use-credentials',
 ]);

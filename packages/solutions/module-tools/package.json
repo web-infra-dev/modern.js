@@ -15,7 +15,7 @@
     "module-tools",
     "lib-tools"
   ],
-  "version": "2.27.0",
+  "version": "2.28.0",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"
@@ -23,8 +23,14 @@
   "types": "./src/index.ts",
   "main": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./defineConfig": "./src/config/defineConfig.ts"
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./defineConfig": {
+      "jsnext:source": "./src/config/defineConfig.ts",
+      "default": "./dist/config/defineConfig.js"
+    }
   },
   "typesVersions": {
     "*": {
@@ -42,11 +48,9 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "build": "modern-lib build",
-    "dev": "npm run debug-mode && modern-lib build --watch",
-    "test": "npm run debug-mode off && jest",
-    "test:update": "npm run debug-mode off && jest --updateSnapshot",
-    "new": "modern-lib new",
-    "debug-mode": "node ./scripts/debug-mode.js"
+    "dev": "modern-lib build --watch",
+    "test": "jest",
+    "new": "modern-lib new"
   },
   "dependencies": {
     "@babel/parser": "^7.21.8",
@@ -54,9 +58,9 @@
     "@babel/types": "^7.21.5",
     "@babel/traverse": "^7.21.5",
     "@modern-js/core": "workspace:*",
-    "@modern-js/libuild": "0.13.2",
-    "@modern-js/libuild-plugin-svgr": "0.13.2",
-    "@modern-js/libuild-plugin-swc": "0.13.2",
+    "@modern-js/libuild": "0.14.1",
+    "@modern-js/libuild-plugin-svgr": "0.14.1",
+    "@modern-js/libuild-plugin-swc": "0.14.1",
     "@modern-js/new-action": "workspace:*",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/plugin-changeset": "workspace:*",
@@ -91,10 +95,6 @@
     "provenance": true,
     "types": "./dist/index.d.ts",
     "main": "./dist/index.js",
-    "exports": {
-      ".": "./dist/index.js",
-      "./defineConfig": "./dist/config/defineConfig.js"
-    },
     "typesVersions": {
       "*": {
         "types": [

@@ -1,5 +1,36 @@
 # @modern-js/builder-webpack-provider
 
+## 2.28.0
+
+### Patch Changes
+
+- d870acd: fix(builder): clone babel options to maintain isolation
+
+  fix(builder): 保持 babel 选项的相互隔离
+
+- 362416f: feat(builder): support import Node.js addons when target is node
+
+  feat(builder): 支持在 target 为 node 时引用 Node.js addons
+
+- 9301e46: chore(builder): optimize some error format of zod validation and add joint verification of rspack css related configuration
+
+  chore(builder): 优化 builder schema 校验的部分错误输出格式，并为 rspack 添加 css 相关配置的联合校验
+
+- Updated dependencies [4e3ce96]
+- Updated dependencies [6400d98]
+- Updated dependencies [6eae1e7]
+- Updated dependencies [362416f]
+- Updated dependencies [aa0c0c3]
+- Updated dependencies [9301e46]
+- Updated dependencies [00b58a7]
+- Updated dependencies [820bfe9]
+  - @modern-js/types@2.28.0
+  - @modern-js/builder-shared@2.28.0
+  - @modern-js/server@2.28.0
+  - @modern-js/utils@2.28.0
+  - @modern-js/babel-preset-base@2.28.0
+  - @modern-js/babel-preset-app@2.28.0
+
 ## 2.27.0
 
 ### Minor Changes

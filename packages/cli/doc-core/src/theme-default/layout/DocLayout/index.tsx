@@ -76,7 +76,9 @@ export function DocLayout(props: DocLayoutProps) {
           sidebarData={sidebarData}
         />
       ) : null}
-      <div className={`${styles.content} flex flex-shrink-0`}>
+      <div
+        className={`${styles.content} modern-doc-container flex flex-shrink-0`}
+      >
         <div className="w-full">
           {isOverviewPage ? (
             <Overview />

@@ -1,5 +1,21 @@
 # @modern-js/builder-plugin-stylus
 
+## 2.28.0
+
+### Patch Changes
+
+- Updated dependencies [213089e]
+- Updated dependencies [d870acd]
+- Updated dependencies [6400d98]
+- Updated dependencies [362416f]
+- Updated dependencies [aa0c0c3]
+- Updated dependencies [9301e46]
+- Updated dependencies [00b58a7]
+- Updated dependencies [820bfe9]
+  - @modern-js/builder-rspack-provider@2.28.0
+  - @modern-js/builder-webpack-provider@2.28.0
+  - @modern-js/builder-shared@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

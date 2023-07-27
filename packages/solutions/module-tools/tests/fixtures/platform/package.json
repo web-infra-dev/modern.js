@@ -1,6 +1,0 @@
-{
-  "name": "platform-test",
-  "browser": {
-    "path": "path-browserify"
-  }
-}

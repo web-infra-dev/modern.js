@@ -1,5 +1,41 @@
 # @modern-js/builder-shared
 
+## 2.28.0
+
+### Patch Changes
+
+- 6400d98: chore(builder): using htmlparser2 to replace cheerio
+
+  chore(builder): 使用 htmlparser2 代替 cheerio
+
+- 362416f: feat(builder): support import Node.js addons when target is node
+
+  feat(builder): 支持在 target 为 node 时引用 Node.js addons
+
+- aa0c0c3: fix(builder): rem code not injected when using modern.js custom HTML Template
+
+  fix(builder): 修复在使用 modern.js 自定义 HTML 模版时 rem 脚本不注入的问题
+
+- 9301e46: chore(builder): optimize some error format of zod validation and add joint verification of rspack css related configuration
+
+  chore(builder): 优化 builder schema 校验的部分错误输出格式，并为 rspack 添加 css 相关配置的联合校验
+
+- 00b58a7: feat(builder): add an error tip for source.include
+
+  feat(builder): 增加 source.include 常见问题的提示日志
+
+- 820bfe9: feat(builder): add checkSyntax.ecmaVersion option
+
+  feat(builder): 新增 checkSyntax.ecmaVersion 选项
+
+- Updated dependencies [4e3ce96]
+- Updated dependencies [6eae1e7]
+- Updated dependencies [00b58a7]
+  - @modern-js/types@2.28.0
+  - @modern-js/prod-server@2.28.0
+  - @modern-js/server@2.28.0
+  - @modern-js/utils@2.28.0
+
 ## 2.27.0
 
 ### Minor Changes

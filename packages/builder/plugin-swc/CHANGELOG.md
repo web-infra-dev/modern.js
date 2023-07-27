@@ -1,5 +1,28 @@
 # @modern-js/builder-plugin-swc
 
+## 2.28.0
+
+### Minor Changes
+
+- ac0e99c: feat(builder-plugin-swc): allow function type parameters, pass through raw swc options, add overrides feature
+
+  feat(builder-plugin-swc): 允许传入函数形式的参数，允许透传配置给 swc，增加 overrides 功能
+
+### Patch Changes
+
+- b7b4d84: chore(builder-plugin-swc): upgrade swc, enable wasm
+
+  chore(builder-plugin-swc): 升级 swc, 启用 wasm
+
+- Updated dependencies [6400d98]
+- Updated dependencies [362416f]
+- Updated dependencies [aa0c0c3]
+- Updated dependencies [9301e46]
+- Updated dependencies [00b58a7]
+- Updated dependencies [820bfe9]
+  - @modern-js/builder-shared@2.28.0
+  - @modern-js/utils@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

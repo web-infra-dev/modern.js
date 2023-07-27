@@ -117,6 +117,75 @@ For more information, please refer to issue: [babel#12731](https://github.com/ba
 
 ---
 
+### Compilation error "export 'foo' (imported as 'foo') was not found in './utils'"?
+
+If you encounter this error during the compilation process, it means that your code is referencing an export that does not exist.
+
+For example, in the following code, `index.ts` is importing the `foo` variable from `utils.ts`, but `utils.ts` only exports the `bar` variable.
+
+```ts
+// utils.ts
+export const bar = 'bar';
+
+// index.ts
+import { foo } from './utils';
+```
+
+In this case, Builder will throw the following error:
+
+```bash
+Compile Error:
+File: ./src/index.ts
+export 'foo' (imported as 'foo') was not found in './utils' (possible exports: bar)
+```
+
+If you encounter this issue, the first step is to check the import/export statements in your code and correct any invalid code.
+
+There are some common mistakes:
+
+- Importing a non-existent variable:
+
+```ts
+// utils.ts
+export const bar = 'bar';
+
+// index.ts
+import { foo } from './utils';
+```
+
+- Re-exporting a type without adding the `type` modifier, causing compilers like Babel to fail in recognizing the type export, resulting in compilation errors.
+
+```ts
+// utils.ts
+export type Foo = 'bar';
+
+// index.ts
+export { Foo } from './utils'; // Incorrect
+export type { Foo } from './utils'; // Correct
+```
+
+In some cases, the error may be caused by a third-party dependency that you cannot modify directly. In this situation, if you are sure that the issue does not affect your application, you can add the following configuration to change the log level from `error` to `warn`:
+
+```ts
+export default {
+  tools: {
+    webpackChain(chain) {
+      chain.module.parser.merge({
+        javascript: {
+          exportsPresence: 'warn',
+        },
+      });
+    },
+  },
+};
+```
+
+However, it is important to contact the developer of the third-party dependency immediately to fix the issue.
+
+> You can refer to the webpack documentation for more details on [module.parser.javascript.exportsPresence](https://webpack.js.org/configuration/module/#moduleparserjavascriptexportspresence).
+
+---
+
 ### The compilation progress bar is stuck, but there is no Error log in the terminal?
 
 When the compilation progress bar is stuck, but there is no Error log on the terminal, it is usually because an exception occurred during the compilation. In some cases, when Error is caught by webpack or other modules, the error log can not be output correctly. The most common scenario is that there is an exception in the Babel config, which is caught by webpack, and webpack swallows the Error in some cases.

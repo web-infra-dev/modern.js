@@ -108,3 +108,16 @@ In most cases, peer dependencies warnings will not affect the project operation 
 - If you are still using React 16, you will not be able to use Modern.js's runtime or server-side capabilities. You can consider using the build mode of Modern.js, that is, only using Modern.js's build capabilities. In this case, React 16 can still be used.
 
 In future major versions of Modern.js, we will gradually remove support for React 16 and React 17. Therefore, please upgrade to React 18 or higher as soon as possible.
+
+---
+
+### Type error in Modern.js configuration file?
+
+```bash
+Type 'CliPlugin<{}, {}, {}, {}>' is not assignable to type 'CliPlugin<any, {}, {}, {}>'.
+  Types of property 'setup' are incompatible.
+```
+
+When you use the Modern.js framework, the above error occurs in the configuration file, it may be due to the inconsistent versions of Modern.js related packages。You can upgrade and unify the version of modern.js related packages through `npx modern upgrade` command.
+
+In the monorepo, the above error may also occur due to inconsistent versions of the Modern.js framework used by different sub-projects.

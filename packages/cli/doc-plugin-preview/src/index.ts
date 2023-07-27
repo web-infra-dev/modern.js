@@ -58,8 +58,12 @@ import Demo from ${JSON.stringify(demoComponentPath)}
           const { createProcessor } = await import('@mdx-js/mdx');
           const { visit } = await import('unist-util-visit');
           const { default: fs } = await import('@modern-js/utils/fs-extra');
+          const { default: remarkGFM } = await import('remark-gfm');
           try {
-            const processor = createProcessor();
+            const processor = createProcessor({
+              format: path.extname(filepath).slice(1) as 'mdx' | 'md',
+              remarkPlugins: [remarkGFM],
+            });
             const source = await fs.readFile(filepath, 'utf-8');
             const ast = processor.parse(source);
             let index = 1;

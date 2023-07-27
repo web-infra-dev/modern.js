@@ -1,5 +1,35 @@
 # @modern-js/builder
 
+## 2.28.0
+
+### Minor Changes
+
+- 7d966a1: feat(builder): source code build feature support project reference by adding tsCheck configuration
+  feat(builder): 源码构建增加 tsCheck 配置支持 project reference 的情况
+
+### Patch Changes
+
+- fb93353: fix(builder): support source code build when ts-loader enable
+  fix(builder): 在 ts-loader 开启的时候支持源码构建
+- 362416f: feat(builder): support import Node.js addons when target is node
+
+  feat(builder): 支持在 target 为 node 时引用 Node.js addons
+
+- 820bfe9: feat(builder): add checkSyntax.ecmaVersion option
+
+  feat(builder): 新增 checkSyntax.ecmaVersion 选项
+
+- Updated dependencies [6400d98]
+- Updated dependencies [362416f]
+- Updated dependencies [aa0c0c3]
+- Updated dependencies [9301e46]
+- Updated dependencies [00b58a7]
+- Updated dependencies [820bfe9]
+- Updated dependencies [d3e52e4]
+  - @modern-js/builder-shared@2.28.0
+  - @modern-js/utils@2.28.0
+  - @modern-js/monorepo-utils@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

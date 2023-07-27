@@ -1,0 +1,7 @@
+{
+  "name": "asset-path-test",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^17"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-core",
-  "version": "2.27.0",
+  "version": "2.28.0",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/doc-tools/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -60,7 +60,7 @@
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/doc-plugin-medium-zoom": "workspace:*",
-    "@modern-js/mdx-rs-binding": "0.2.3",
+    "@modern-js/mdx-rs-binding": "0.2.4",
     "@modern-js/remark-container": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@types/compression": "^1.7.2",
@@ -111,7 +111,7 @@
     "yaml-front-matter": "^4.1.1"
   },
   "peerDependencies": {
-    "@modern-js/core": "workspace:^2.27.0",
+    "@modern-js/core": "workspace:^2.28.0",
     "react": ">=17"
   },
   "devDependencies": {
