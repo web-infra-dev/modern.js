@@ -17,7 +17,7 @@ describe('input filter', () => {
     expect(ret.success).toBeTruthy();
   });
 
-  it('filter *.spec.ts:pattern 1', async () => {
+  it('filter *.a.ts:pattern 1', async () => {
     const distPath = path.join(fixtureDir, './dist/pattern-1');
     const distPattern = path.join(distPath, '*');
     const files = await globby(slash(distPattern));
@@ -26,7 +26,7 @@ describe('input filter', () => {
     expect(files[0]).toMatch(/index.js/);
   });
 
-  it('filter *.spec.ts:pattern 2', async () => {
+  it('filter *.a.ts:pattern 2', async () => {
     const distPath = path.posix.join(fixtureDir, './dist/pattern-2');
     const distPattern = path.posix.join(distPath, '*');
     const files = await globby(slash(distPattern));
