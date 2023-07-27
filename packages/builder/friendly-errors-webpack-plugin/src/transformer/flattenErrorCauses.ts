@@ -51,7 +51,7 @@ export const flattenCausesTransformer: ErrorTransformer = e => {
   const merged = mergeTraceHeads(traces);
   if (merged) {
     e.trace = merged;
-    e.causes = [];
+    delete e.cause;
   }
   return e;
 };
