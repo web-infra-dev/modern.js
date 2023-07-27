@@ -454,6 +454,12 @@ importers:
         specifier: ^5.1.4
         version: 5.1.4(webpack@5.88.1)
 
+  packages/builder/friendly-errors-webpack-plugin/example:
+    devDependencies:
+      webpack:
+        specifier: '*'
+        version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
+
   packages/builder/plugin-esbuild:
     dependencies:
       '@modern-js/builder-shared':

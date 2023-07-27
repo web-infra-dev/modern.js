@@ -6,6 +6,7 @@ packages:
  - 'packages/generator/*'
  - 'packages/generator/generators/*'
  - 'packages/generator/plugins/*'
+ - 'packages/builder/friendly-errors-webpack-plugin/example'
  - 'packages/review/*'
  - 'packages/server/*'
  - 'packages/builder/*'

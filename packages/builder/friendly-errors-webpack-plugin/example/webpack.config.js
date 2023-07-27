@@ -1,13 +1,12 @@
 const path = require('path');
-// const { FriendlyErrorsWebpackPlugin } = require('@modern-js/friendly-errors-webpack-plugin');
+const { FriendlyErrorsWebpackPlugin } = require('../dist');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
   mode: 'development',
-  entry: [
-    './src/index.js',
-    './src/moduleParseError.js'
-  ].map(f => path.resolve(__dirname, f)),
+  entry: ['./src/index.js', './src/moduleParseError.js'].map(f =>
+    path.resolve(__dirname, f),
+  ),
   output: {
     path: path.resolve(__dirname, 'dist'),
   },
@@ -19,5 +18,5 @@ module.exports = {
     errors: false,
   },
   devtool: 'source-map',
-  // plugins: [new FriendlyErrorsWebpackPlugin()],
+  plugins: [new FriendlyErrorsWebpackPlugin()],
 };

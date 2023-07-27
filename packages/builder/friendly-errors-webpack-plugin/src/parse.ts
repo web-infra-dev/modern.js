@@ -1,6 +1,6 @@
 import { inspect } from 'util';
 import { JSONValue } from '@modern-js/builder-shared';
-import StackTracey from '../compiled/stacktracey/stacktracey';
+import StackTracey from '../compiled/stacktracey';
 import { baseFormatter } from './formatter';
 import {
   ErrorFormatter,
@@ -28,11 +28,11 @@ export class ParsedError<E extends Error = Error> {
 
   parent?: ParsedError;
 
-  raw: E;
-
   name: string;
 
   message: string;
+
+  readonly raw: E;
 
   constructor(error: E, options: ParseOptions = {}) {
     this.raw = error;
