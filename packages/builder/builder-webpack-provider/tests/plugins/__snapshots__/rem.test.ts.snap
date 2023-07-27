@@ -367,7 +367,7 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 3,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -416,6 +416,9 @@ exports[`plugins/rem > should order plugins and run rem plugin with default conf
               },
               "sourceMap": true,
             },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -709,7 +712,7 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 3,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -758,6 +761,9 @@ exports[`plugins/rem > should run rem plugin with default config 1`] = `
               },
               "sourceMap": true,
             },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",

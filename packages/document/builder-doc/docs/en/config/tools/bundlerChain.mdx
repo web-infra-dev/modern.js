@@ -127,16 +127,16 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 ##### CHAIN_ID.RULE
 
-| ID           | Description      |
-| ------------ | ---------------- |
-| `RULE.MJS`   | Rule for `mjs`   |
-| `RULE.CSS`   | Rule for `css`   |
-| `RULE.LESS`  | Rule for `less`  |
-| `RULE.SASS`  | Rule for `sass`  |
-| `RULE.TOML`  | Rule for `toml`  |
-| `RULE.YAML`  | Rule for `yaml`  |
-| `RULE.WASM`  | Rule for `WASM`  |
-| `RULE.NODE`  | Rule for `node`  |
+| ID          | Description     |
+| ----------- | --------------- |
+| `RULE.MJS`  | Rule for `mjs`  |
+| `RULE.CSS`  | Rule for `css`  |
+| `RULE.LESS` | Rule for `less` |
+| `RULE.SASS` | Rule for `sass` |
+| `RULE.TOML` | Rule for `toml` |
+| `RULE.YAML` | Rule for `yaml` |
+| `RULE.WASM` | Rule for `WASM` |
+| `RULE.NODE` | Rule for `node` |
 
 ### CHAIN_ID.ONE_OF
 
@@ -153,28 +153,29 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 `USE.XXX` can match a certain loader.
 
-| ID                     | Description                                    |
-| ---------------------- | ---------------------------------------------- |
-| `USE.LESS`             | correspond to `less-loader`                    |
-| `USE.SASS`             | correspond to `sass-loader`                    |
-| `USE.TOML`             | correspond to `toml-loader`                    |
-| `USE.YAML`             | correspond to `yaml-loader`                    |
-| `USE.NODE`             | correspond to `node-loader`                    |
-| `USE.SVGR`             | correspond to `@svgr/webpack`                  |
-| `USE.POSTCSS`          | correspond to `postcss-loader`                 |
+| ID                                | Description                        |
+| --------------------------------- | ---------------------------------- |
+| `USE.LESS`                        | correspond to `less-loader`        |
+| `USE.SASS`                        | correspond to `sass-loader`        |
+| `USE.TOML`                        | correspond to `toml-loader`        |
+| `USE.YAML`                        | correspond to `yaml-loader`        |
+| `USE.NODE`                        | correspond to `node-loader`        |
+| `USE.SVGR`                        | correspond to `@svgr/webpack`      |
+| `USE.POSTCSS`                     | correspond to `postcss-loader`     |
+| `USE.RESOLVE_URL_LOADER_FOR_SASS` | correspond to `resolve-url-loader` |
 
 ### CHAIN_ID.PLUGIN
 
 `PLUGIN.XXX` can match a certain webpack plugin.
 
-| ID                             | Description                                                                                                    |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `PLUGIN.HTML`                  | correspond to `HtmlPlugin`, you need to splice the entry name when using: `${PLUGIN.HTML}-${entryName}` |
-| `PLUGIN.APP_ICON`              | correspond to `AppIconPlugin`                                                                                  |
-| `PLUGIN.INLINE_HTML`           | correspond to `InlineChunkHtmlPlugin`                                                                          |
-| `PLUGIN.BUNDLE_ANALYZER`       | correspond to `WebpackBundleAnalyzer`                                                                          |
-| `PLUGIN.BOTTOM_TEMPLATE`       | correspond to `BottomTemplatePlugin`                                                                           |
-| `PLUGIN.AUTO_SET_ROOT_SIZE`    | correspond to automatically set root font size plugin in Builder                                               |
+| ID                          | Description                                                                                             |
+| --------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `PLUGIN.HTML`               | correspond to `HtmlPlugin`, you need to splice the entry name when using: `${PLUGIN.HTML}-${entryName}` |
+| `PLUGIN.APP_ICON`           | correspond to `AppIconPlugin`                                                                           |
+| `PLUGIN.INLINE_HTML`        | correspond to `InlineChunkHtmlPlugin`                                                                   |
+| `PLUGIN.BUNDLE_ANALYZER`    | correspond to `WebpackBundleAnalyzer`                                                                   |
+| `PLUGIN.BOTTOM_TEMPLATE`    | correspond to `BottomTemplatePlugin`                                                                    |
+| `PLUGIN.AUTO_SET_ROOT_SIZE` | correspond to automatically set root font size plugin in Builder                                        |
 
 ### Examples
 

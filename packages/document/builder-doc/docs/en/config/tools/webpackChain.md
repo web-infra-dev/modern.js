@@ -204,26 +204,27 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 `USE.XXX` can match a certain loader.
 
-| ID                     | Description                                    |
-| ---------------------- | ---------------------------------------------- |
-| `USE.TS`               | correspond to `ts-loader`                      |
-| `USE.CSS`              | correspond to `css-loader`                     |
-| `USE.LESS`             | correspond to `less-loader`                    |
-| `USE.SASS`             | correspond to `sass-loader`                    |
-| `USE.PUG`              | correspond to `pug-loader`                     |
-| `USE.VUE`              | correspond to `vue-loader`                     |
-| `USE.TOML`             | correspond to `toml-loader`                    |
-| `USE.YAML`             | correspond to `yaml-loader`                    |
-| `USE.NODE`             | correspond to `node-loader`                    |
-| `USE.FILE`             | correspond to `file-loader`                    |
-| `USE.URL`              | correspond to `url-loader`                     |
-| `USE.SVGR`             | correspond to `@svgr/webpack`                  |
-| `USE.BABEL`            | correspond to `babel-loader`                   |
-| `USE.STYLE`            | correspond to `style-loader`                   |
-| `USE.POSTCSS`          | correspond to `postcss-loader`                 |
-| `USE.MARKDOWN`         | correspond to `markdown-loader`                |
-| `USE.CSS_MODULES_TS`   | correspond to `css-modules-typescript-loader`  |
-| `USE.MINI_CSS_EXTRACT` | correspond to `mini-css-extract-plugin.loader` |
+| ID                                | Description                                    |
+| --------------------------------- | ---------------------------------------------- |
+| `USE.TS`                          | correspond to `ts-loader`                      |
+| `USE.CSS`                         | correspond to `css-loader`                     |
+| `USE.LESS`                        | correspond to `less-loader`                    |
+| `USE.SASS`                        | correspond to `sass-loader`                    |
+| `USE.PUG`                         | correspond to `pug-loader`                     |
+| `USE.VUE`                         | correspond to `vue-loader`                     |
+| `USE.TOML`                        | correspond to `toml-loader`                    |
+| `USE.YAML`                        | correspond to `yaml-loader`                    |
+| `USE.NODE`                        | correspond to `node-loader`                    |
+| `USE.FILE`                        | correspond to `file-loader`                    |
+| `USE.URL`                         | correspond to `url-loader`                     |
+| `USE.SVGR`                        | correspond to `@svgr/webpack`                  |
+| `USE.BABEL`                       | correspond to `babel-loader`                   |
+| `USE.STYLE`                       | correspond to `style-loader`                   |
+| `USE.POSTCSS`                     | correspond to `postcss-loader`                 |
+| `USE.MARKDOWN`                    | correspond to `markdown-loader`                |
+| `USE.CSS_MODULES_TS`              | correspond to `css-modules-typescript-loader`  |
+| `USE.MINI_CSS_EXTRACT`            | correspond to `mini-css-extract-plugin.loader` |
+| `USE.RESOLVE_URL_LOADER_FOR_SASS` | correspond to `resolve-url-loader`             |
 
 ### CHAIN_ID.PLUGIN
 

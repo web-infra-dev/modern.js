@@ -298,6 +298,13 @@ export const TASKS: TaskConfig[] = [
         },
       },
       {
+        name: 'resolve-url-loader',
+        ignoreDts: true,
+        externals: {
+          'loader-utils': '../loader-utils2',
+        },
+      },
+      {
         name: 'toml-loader',
         ignoreDts: true,
       },
