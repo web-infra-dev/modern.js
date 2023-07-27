@@ -30,12 +30,13 @@ const restArgv = process.argv.slice(2);
     const filterCmd = filters
       .map(item => `--filter-prod "${item}"...`)
       .join(' ');
-    const buildCmd = `SKIP_DTS=true pnpm ${filterCmd} run build`;
+    const buildCmd = `pnpm ${filterCmd} run build`;
 
     console.log('>', buildCmd);
     await execa(buildCmd, {
       shell: SHELL,
       stdio: 'inherit',
+      env: { SKIP_DTS: 'true' },
     });
 
     await pMap(
