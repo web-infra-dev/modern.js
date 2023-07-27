@@ -71,6 +71,8 @@ export default class Entry {
 
   public logger: SSRServerContext['logger'];
 
+  public severTiming: SSRServerContext['serverTiming'];
+
   public reporter: SSRReporter;
 
   private readonly template: string;
@@ -102,6 +104,7 @@ export default class Entry {
     this.pluginConfig = config;
 
     this.reporter = createSSRReporter(ctx.reporter);
+    this.severTiming = ctx.serverTiming;
     this.metrics = ctx.metrics;
     this.logger = ctx.logger;
     this.nonce = nonce;
@@ -175,6 +178,7 @@ export default class Entry {
       this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
       this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
       this.reporter.reportTime('app_prefetch_cost', prefetchCost);
+      this.severTiming.addServeTiming('ssr-pretch', prefetchCost);
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
       this.logger.error('App Prefetch Render', e as Error);
@@ -214,6 +218,7 @@ export default class Entry {
       this.logger.debug('App Render To HTML cost = %d ms', cost);
       this.metrics.emitTimer('app.render.html.cost', cost);
       this.reporter.reportTime('app_render_html_cost', cost);
+      this.severTiming.addServeTiming('ssr-render-html', cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.logger.error('App Render To HTML', e as Error);

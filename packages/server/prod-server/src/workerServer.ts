@@ -199,6 +199,12 @@ export const createHandler = (manifest: Manifest) => {
           metrics,
           // FIXME: pass correctly req & res
           req: request as any,
+          serverTiming: {
+            addServeTiming() {
+              // noImpl
+              return this;
+            },
+          },
           res: responseLike as any,
         };
 

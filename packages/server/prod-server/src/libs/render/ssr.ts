@@ -74,6 +74,7 @@ export const render = async (
     logger: undefined!,
     metrics: undefined!,
     reporter: ctx.reporter,
+    serverTiming: ctx.serverTiming,
     req: ctx.req,
     res: ctx.res,
     enableUnsafeCtx,

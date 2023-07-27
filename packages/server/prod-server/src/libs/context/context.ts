@@ -4,18 +4,22 @@ import qs from 'querystring';
 import { Buffer } from 'buffer';
 import type {
   ModernServerContext as ModernServerContextInterface,
-  Reporter as ModernSererReporter,
+  Reporter as ModernServerReporter,
+  ServerTiming as ModernServerTiming,
 } from '@modern-js/types';
 import createEtag from 'etag';
 import fresh from 'fresh';
+import { cutNameByHyphen } from '@modern-js/utils';
+import { ServerTiming } from '../serverTiming';
 import { defaultReporter } from '../reporter';
 import { headersWithoutCookie } from '../../utils';
 
 const MOCK_URL_BASE = 'https://modernjs.dev/';
 
 export type ContextOptions = {
+  meta?: string;
   etag?: boolean;
-  reporter?: ModernSererReporter;
+  reporter?: ModernServerReporter;
 };
 
 type ResponseBody = string | Buffer;
@@ -36,7 +40,9 @@ export class ModernServerContext implements ModernServerContextInterface {
    */
   public params: Record<string, string> = {};
 
-  public reporter: ModernSererReporter;
+  public reporter: ModernServerReporter;
+
+  public serverTiming: ModernServerTiming;
 
   get logger() {
     return this.req.logger;
@@ -59,6 +65,10 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.res = res;
     this.options = options || {};
     this.reporter = options?.reporter || defaultReporter;
+    this.serverTiming = new ServerTiming(
+      res,
+      cutNameByHyphen(options?.meta || 'modern-js'),
+    );
     this.serverData = {};
 
     this.bind();

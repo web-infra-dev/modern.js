@@ -36,19 +36,21 @@ export interface ReportLogPayload {
   level?: 'debug' | 'info' | 'warn' | 'error';
 }
 
+export interface ServerTiming {
+  addServeTiming: (name: string, dur: number, decs?: string) => this;
+}
+
 export type Reporter = {
   sessionId?: string;
   userId?: string;
 
   init: () => void;
-  reportLog: (payload: ReportLogPayload) => void;
-  reportEvent: (payload: ReportEventPayload) => void;
   reportError: (
     content: string,
     e: Error,
     extra?: Record<string, string | number>,
   ) => void;
-  reportTime: (
+  reportTiming: (
     name: string,
     value: number,
     extra?: Record<string, string>,

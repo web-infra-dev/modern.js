@@ -15,7 +15,8 @@ import {
   ServerOptions,
   LoaderHandler,
 } from '@modern-js/server-core';
-import type { ModernServerContext, ServerRoute } from '@modern-js/types';
+import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
+import { time } from '@modern-js/utils/universal/time';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -220,7 +221,7 @@ export class ModernServer implements ModernServerInterface {
   public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
     req.logger = req.logger || this.logger;
     req.metrics = req.metrics || this.metrics;
-    const context = createContext(req, res);
+    const context = createContext(req, res, { meta: this.metaName });
     const matched = this.router.match(url || context.path);
     if (!matched) {
       return null;
@@ -512,6 +513,13 @@ export class ModernServer implements ModernServerInterface {
     // TODO: move suitable location
     // initial for every route handle
     reporter.init();
+
+    const end = time();
+
+    res.on('finish', () => {
+      const cost = end();
+      reporter.reportTiming('server_handle_request', cost);
+    });
 
     // match routes in the route spec
     const matched = this.router.match(context.path);

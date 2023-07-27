@@ -4,16 +4,10 @@ export const defaultReporter: Reporter = {
   init() {
     // noImpl
   },
-  reportEvent() {
-    // noImpl
-  },
-  reportLog() {
-    // noImpl
-  },
   reportError() {
     // noImpl
   },
-  reportTime() {
+  reportTiming() {
     // noImpl
   },
   reportInfo() {
