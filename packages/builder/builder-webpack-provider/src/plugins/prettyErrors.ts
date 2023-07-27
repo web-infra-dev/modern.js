@@ -1,4 +1,5 @@
 import type { BuilderPlugin } from '../types';
+import type { ErrorFormatter } from '@modern-js/friendly-errors-webpack-plugin';
 
 export function builderPluginPrettyErrors(): BuilderPlugin {
   return {
@@ -12,9 +13,16 @@ export function builderPluginPrettyErrors(): BuilderPlugin {
         const { FriendlyErrorsWebpackPlugin } = await import(
           '@modern-js/friendly-errors-webpack-plugin'
         );
+
+        const formatters: ErrorFormatter[] = [];
+        const builtinFormatters = await import(
+          '@modern-js/friendly-errors-webpack-plugin/formatter'
+        );
+        formatters.push(builtinFormatters.prettyFormatter);
+
         chain
           .plugin(CHAIN_ID.PLUGIN.FRIENDLY_ERRORS)
-          .use(FriendlyErrorsWebpackPlugin);
+          .use(FriendlyErrorsWebpackPlugin, [{ formatters }]);
       });
     },
   };
