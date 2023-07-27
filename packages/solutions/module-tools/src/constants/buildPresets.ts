@@ -64,6 +64,7 @@ export const npmLibraryWithUmdPresetConfig: PartialBaseBuildConfig[] = [
   {
     format: 'umd',
     target: 'es6',
+    platform: 'browser',
     buildType: 'bundle',
     outDir: './dist/umd',
     dts: false,
@@ -112,6 +113,7 @@ export const npmComponentWithUmdPresetConfig: PartialBaseBuildConfig[] = [
   {
     format: 'umd',
     target: 'es6',
+    platform: 'browser',
     buildType: 'bundle',
     outDir: './dist/umd',
     dts: false,
