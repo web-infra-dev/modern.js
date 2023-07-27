@@ -108,3 +108,16 @@ Type '{}' is not assignable to type 'ReactNode'.
 - 如果你仍然在使用 React 16，那么将无法使用 Modern.js 的运行时或服务端能力。你可以考虑使用 Modern.js 的构建模式，即只使用 Modern.js 的构建能力，这种情况可以继续使用 React 16。
 
 在 Modern.js 未来的 major 版本中，我们会逐步移除对 React 16 和 React 17 的支持。因此，请尽快升级到 React 18 以上版本。
+
+---
+
+### Modern.js 配置出现类型错误？
+
+```bash
+Type 'CliPlugin<{}, {}, {}, {}>' is not assignable to type 'CliPlugin<any, {}, {}, {}>'.
+  Types of property 'setup' are incompatible.
+```
+
+当你在使用 Modern.js 框架时配置文件出现以上报错，可能是由于 Modern.js 相关包的版本号未统一导致。可以通过 `npx modern upgrade` 命令对 modern.js 依赖进行升级和版本统一。
+
+在 monorepo 中由于不同子项目所用的 Modern.js 框架版本不一致也可能出现以上问题。

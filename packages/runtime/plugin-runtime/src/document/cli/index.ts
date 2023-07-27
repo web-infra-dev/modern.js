@@ -288,6 +288,7 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
               const documentHtmlOptions = templateContent
                 ? {
                     templateContent,
+                    // Note: the behavior of inject/modify tags in afterTemplateExecution hook will not take effect
                     inject: false,
                   }
                 : {};
