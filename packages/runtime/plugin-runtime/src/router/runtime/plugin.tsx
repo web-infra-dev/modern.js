@@ -170,11 +170,17 @@ export const routerPlugin = ({
         pickContext: ({ context, pickedContext }, next) => {
           const { remixRouter } = context;
 
+          // two scenarios: 1. remixRouter is not existed in conventional routes;
+          // 2. useRuntimeContext can be called by users before hoc hooks execute
+          if (!remixRouter) {
+            return next({ context, pickedContext });
+          }
+
           // only export partial common API from remix-router
           const router = {
-            navigate: remixRouter!.navigate,
+            navigate: remixRouter.navigate,
             get location() {
-              return remixRouter!.state.location;
+              return remixRouter.state.location;
             },
           };
 
