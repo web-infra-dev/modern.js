@@ -1,8 +1,8 @@
-const os = require('os');
 const path = require('path');
 const pMap = require('p-map');
 const execa = require('execa');
 const globby = require('globby');
+const { fs } = require('@modern-js/utils');
 
 const SHELL = process.env.SHELL || true;
 const restArgv = process.argv.slice(2);
@@ -17,7 +17,22 @@ const restArgv = process.argv.slice(2);
   const directories = configs.map(config => path.dirname(config));
 
   try {
-    const buildCmd = `pnpm --filter "@scripts/vitest-config" run build`;
+    const filters = ['@scripts/vitest-config'];
+
+    directories.forEach(dir => {
+      const pkgJson = path.join(dir, 'package.json');
+      if (fs.existsSync(pkgJson)) {
+        const { name } = fs.readJSONSync(pkgJson);
+        filters.push(name);
+      }
+    });
+
+    const filterCmd = filters
+      .map(item => `--filter-prod "${item}"...`)
+      .join(' ');
+    const buildCmd = `SKIP_DTS=true pnpm ${filterCmd} run build`;
+
+    console.log('>', buildCmd);
     await execa(buildCmd, {
       shell: SHELL,
       stdio: 'inherit',
@@ -29,7 +44,7 @@ const restArgv = process.argv.slice(2);
         const args = ['run', 'test', ...restArgv];
         await execa('pnpm', args, { shell: SHELL, stdio: 'inherit', cwd });
       },
-      { concurrency: os.cpus().length },
+      { concurrency: 2 },
     );
   } catch (err) {
     console.error(err);
