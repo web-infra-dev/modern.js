@@ -5,9 +5,9 @@ import { ParsedError } from './parse';
 
 export const outputPrettyError = (
   error: Error,
-  options: ContextInitiationOptions = {},
+  options: ContextInitiationOptions | Context = {},
 ) => {
-  const ctx = new Context(options);
+  const ctx = options instanceof Context ? options : new Context(options);
   const parsed = new ParsedError(error, ctx);
   // TODO: transform recursively.
   const transformed = transformError(ctx.transformers, parsed);

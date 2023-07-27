@@ -54,16 +54,14 @@ export class Context {
 
     if (Array.isArray(options.formatters)) {
       this.formatters.push(...options.formatters);
-    }
-    if (options.formatters !== false) {
+    } else if (options.formatters !== false) {
       this.formatters.push(prettyFormatter);
     }
-    const transformers: ErrorTransformer[] = [];
-    if (options.transformers !== false) {
-      transformers.push(...builtinTransformers);
-    }
+
     if (Array.isArray(options.transformers)) {
-      transformers.push(...options.transformers);
+      this.transformers.push(...options.transformers);
+    } else if (options.transformers !== false) {
+      this.transformers.push(...builtinTransformers);
     }
   }
 }
