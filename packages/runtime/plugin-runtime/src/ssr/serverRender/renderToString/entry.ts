@@ -218,7 +218,7 @@ export default class Entry {
       this.logger.debug('App Render To HTML cost = %d ms', cost);
       this.metrics.emitTimer('app.render.html.cost', cost);
       this.reporter.reportTime('app_render_html_cost', cost);
-      this.severTiming.addServeTiming('ssr-render-html', cost);
+      this.severTiming.addServeTiming('ssr-render', cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.logger.error('App Render To HTML', e as Error);
