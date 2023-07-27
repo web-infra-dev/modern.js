@@ -348,7 +348,10 @@ export class ModernDevServer extends ModernServer {
   }
 
   protected createContext(req: IncomingMessage, res: ServerResponse) {
-    return super.createContext(req, res, { etag: true });
+    return super.createContext(req, res, {
+      etag: true,
+      metaName: this.metaName,
+    });
   }
 
   protected setupStaticMiddleware(_: string) {

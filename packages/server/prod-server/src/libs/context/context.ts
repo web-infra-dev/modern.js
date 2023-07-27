@@ -17,7 +17,7 @@ import { headersWithoutCookie } from '../../utils';
 const MOCK_URL_BASE = 'https://modernjs.dev/';
 
 export type ContextOptions = {
-  meta?: string;
+  metaName?: string;
   etag?: boolean;
   reporter?: ModernServerReporter;
 };
@@ -67,7 +67,7 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.reporter = options?.reporter || defaultReporter;
     this.serverTiming = new ServerTiming(
       res,
-      cutNameByHyphen(options?.meta || 'modern-js'),
+      cutNameByHyphen(options?.metaName || 'modern-js'),
     );
     this.serverData = {};
 

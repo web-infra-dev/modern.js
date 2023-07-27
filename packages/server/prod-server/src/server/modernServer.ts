@@ -221,7 +221,7 @@ export class ModernServer implements ModernServerInterface {
   public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
     req.logger = req.logger || this.logger;
     req.metrics = req.metrics || this.metrics;
-    const context = createContext(req, res, { meta: this.metaName });
+    const context = createContext(req, res, { metaName: this.metaName });
     const matched = this.router.match(url || context.path);
     if (!matched) {
       return null;
