@@ -1,8 +1,14 @@
 import type * as webpack from 'webpack';
-import { outputPrettyError } from './core/output';
-import { Context, ContextInitiationOptions } from './core/context';
+import { Context } from './context';
+import { ParseOptions, ParsedError } from './parse';
+import type { ErrorFormatter, ErrorTransformer } from './shared/types';
 
-export type Options = Omit<ContextInitiationOptions, 'type'>;
+export interface Options {
+  withSources?: boolean;
+  formatters?: ErrorFormatter[];
+  transformers?: ErrorTransformer[];
+  output?: Context['output'];
+}
 
 export class FriendlyErrorsWebpackPlugin {
   // eslint-disable-next-line @typescript-eslint/typedef
@@ -16,25 +22,25 @@ export class FriendlyErrorsWebpackPlugin {
 
   apply(compiler: webpack.Compiler): void {
     compiler.hooks.done.tapPromise(this.name, async stats => {
-      {
-        const ctx = new Context({
-          ...this.options,
-          type: 'warning',
-        });
-        const warnings = stats.compilation.getWarnings();
-        for (const warning of warnings) {
-          outputPrettyError(warning, ctx);
-        }
+      const ctx = new Context(this.options);
+      const parseOpts: ParseOptions = { withSources: ctx.withSources };
+
+      parseOpts.type = 'warning';
+      const warnings = stats.compilation.getWarnings();
+      for (const warning of warnings) {
+        const prettied = new ParsedError(warning, parseOpts)
+          .transform(...ctx.transformers)
+          .inspect(...ctx.formatters);
+        prettied && ctx.output(prettied, 'warning');
       }
-      {
-        const ctx = new Context({
-          ...this.options,
-          type: 'error',
-        });
-        const errors = stats.compilation.getErrors();
-        for (const error of errors) {
-          outputPrettyError(error, ctx);
-        }
+
+      parseOpts.type = 'error';
+      const errors = stats.compilation.getErrors();
+      for (const error of errors) {
+        const prettied = new ParsedError(error, parseOpts)
+          .transform(...ctx.transformers)
+          .inspect(...ctx.formatters);
+        prettied && ctx.output(prettied, 'error');
       }
     });
   }

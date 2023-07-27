@@ -1,4 +1,4 @@
-import { ParsedError } from '../core/parse';
+import { ParsedError } from '../parse';
 import StackTracey from '../../compiled/stacktracey';
 
 export type TracingFrame = StackTracey.Entry;
