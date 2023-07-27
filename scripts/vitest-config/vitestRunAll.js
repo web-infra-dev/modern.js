@@ -1,8 +1,8 @@
 const path = require('path');
+const fs = require('fs-extra');
 const pMap = require('p-map');
 const execa = require('execa');
 const globby = require('globby');
-const { fs } = require('@modern-js/utils');
 
 const SHELL = process.env.SHELL || true;
 const restArgv = process.argv.slice(2);
