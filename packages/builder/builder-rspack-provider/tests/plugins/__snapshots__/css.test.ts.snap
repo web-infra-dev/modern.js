@@ -825,6 +825,9 @@ exports[`plugins/sass > should add sass-loader 1`] = `
                 },
               },
               {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
+              },
+              {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
                   "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
@@ -876,6 +879,9 @@ exports[`plugins/sass > should add sass-loader 1`] = `
                 },
               },
               {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
+              },
+              {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
                   "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
@@ -912,7 +918,7 @@ exports[`plugins/sass > should add sass-loader and css-loader when disableCssExt
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 3,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -955,6 +961,9 @@ exports[`plugins/sass > should add sass-loader and css-loader when disableCssExt
               },
               "sourceMap": true,
             },
+          },
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1023,6 +1032,9 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
                 },
               },
               {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
+              },
+              {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
                 "options": {
                   "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
@@ -1075,6 +1087,9 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
                   },
                   "sourceMap": true,
                 },
+              },
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",

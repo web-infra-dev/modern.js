@@ -207,26 +207,27 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 
 通过 `USE.XXX` 可以匹配到对应的 loader。
 
-| ID                     | 描述                                  |
-| ---------------------- | ------------------------------------- |
-| `USE.TS`               | 对应 `ts-loader`                      |
-| `USE.CSS`              | 对应 `css-loader`                     |
-| `USE.LESS`             | 对应 `less-loader`                    |
-| `USE.SASS`             | 对应 `sass-loader`                    |
-| `USE.PUG`              | 对应 `pug-loader`                     |
-| `USE.VUE`              | 对应 `vue-loader`                     |
-| `USE.TOML`             | 对应 `toml-loader`                    |
-| `USE.YAML`             | 对应 `yaml-loader`                    |
-| `USE.NODE`             | 对应 `node-loader`                    |
-| `USE.FILE`             | 对应 `file-loader`                    |
-| `USE.URL`              | 对应 `url-loader`                     |
-| `USE.SVGR`             | 对应 `@svgr/webpack`                  |
-| `USE.BABEL`            | 对应 `babel-loader`                   |
-| `USE.STYLE`            | 对应 `style-loader`                   |
-| `USE.POSTCSS`          | 对应 `postcss-loader`                 |
-| `USE.MARKDOWN`         | 对应 `markdown-loader`                |
-| `USE.CSS_MODULES_TS`   | 对应 `css-modules-typescript-loader`  |
-| `USE.MINI_CSS_EXTRACT` | 对应 `mini-css-extract-plugin.loader` |
+| ID                                | 描述                                  |
+| --------------------------------- | ------------------------------------- |
+| `USE.TS`                          | 对应 `ts-loader`                      |
+| `USE.CSS`                         | 对应 `css-loader`                     |
+| `USE.LESS`                        | 对应 `less-loader`                    |
+| `USE.SASS`                        | 对应 `sass-loader`                    |
+| `USE.PUG`                         | 对应 `pug-loader`                     |
+| `USE.VUE`                         | 对应 `vue-loader`                     |
+| `USE.TOML`                        | 对应 `toml-loader`                    |
+| `USE.YAML`                        | 对应 `yaml-loader`                    |
+| `USE.NODE`                        | 对应 `node-loader`                    |
+| `USE.FILE`                        | 对应 `file-loader`                    |
+| `USE.URL`                         | 对应 `url-loader`                     |
+| `USE.SVGR`                        | 对应 `@svgr/webpack`                  |
+| `USE.BABEL`                       | 对应 `babel-loader`                   |
+| `USE.STYLE`                       | 对应 `style-loader`                   |
+| `USE.POSTCSS`                     | 对应 `postcss-loader`                 |
+| `USE.MARKDOWN`                    | 对应 `markdown-loader`                |
+| `USE.CSS_MODULES_TS`              | 对应 `css-modules-typescript-loader`  |
+| `USE.MINI_CSS_EXTRACT`            | 对应 `mini-css-extract-plugin.loader` |
+| `USE.RESOLVE_URL_LOADER_FOR_SASS` | 对应 `resolve-url-loader`             |
 
 ### CHAIN_ID.PLUGIN
 

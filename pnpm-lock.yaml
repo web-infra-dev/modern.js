@@ -185,6 +185,9 @@ importers:
       react-refresh:
         specifier: 0.14.0
         version: 0.14.0
+      resolve-url-loader:
+        specifier: 5.0.0
+        version: 5.0.0
       rspack-manifest-plugin:
         specifier: 5.0.0-alpha0
         version: 5.0.0-alpha0(webpack@5.88.1)
@@ -370,6 +373,9 @@ importers:
       react-refresh:
         specifier: 0.14.0
         version: 0.14.0
+      resolve-url-loader:
+        specifier: 5.0.0
+        version: 5.0.0
       style-loader:
         specifier: 3.3.1
         version: 3.3.1(webpack@5.88.1)
@@ -16730,6 +16736,14 @@ packages:
     resolution: {integrity: sha512-aT6camzM4xEA54YVJYSqxz1kv4IHnQZRtThJJHhUMRExaU5spC7jX5ugSwTaTgJliIgs4VhZOk7htClvQ/LmRA==}
     engines: {node: '>= 0.12.0'}
 
+  /adjust-sourcemap-loader@4.0.0:
+    resolution: {integrity: sha512-OXwN5b9pCUXNQHJpwwD2qP40byEmSgzj8B4ydSN0uMNYWiFmJ6x6KwUllMmfk8Rwu/HJDFR7U8ubsWBoN0Xp0A==}
+    engines: {node: '>=8.9'}
+    dependencies:
+      loader-utils: 2.0.4
+      regex-parser: 2.2.11
+    dev: false
+
   /adm-zip@0.5.9:
     resolution: {integrity: sha512-s+3fXLkeeLjZ2kLjCBwQufpI5fuN+kIGBxu6530nVQZGVol0d7Y/M88/xw9HGGUcJjKf8LutN3VPRUBq6N7Ajg==}
     engines: {node: '>=6.0'}
@@ -30335,6 +30349,10 @@ packages:
       safe-regex: 1.1.0
     dev: false
 
+  /regex-parser@2.2.11:
+    resolution: {integrity: sha512-jbD/FT0+9MBU2XAZluI7w2OBs1RBi6p9M83nkoZayQXXU9e8Robt69FcZc7wU4eJD/YFTjn1JdCk3rbMJajz8Q==}
+    dev: false
+
   /regexp.prototype.flags@1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}
     engines: {node: '>= 0.4'}
@@ -30670,6 +30688,17 @@ packages:
 
   /resolve-pathname@3.0.0:
     resolution: {integrity: sha512-C7rARubxI8bXFNB/hqcp/4iUeIXJhJZvFPFPiSPRnhU5UPxzMFIl+2E6yY6c4k9giDJAhtV+enfA+G89N6Csng==}
+    dev: false
+
+  /resolve-url-loader@5.0.0:
+    resolution: {integrity: sha512-uZtduh8/8srhBoMx//5bwqjQ+rfYOUq8zC9NrMUGtjBiGTtFJM42s58/36+hTqeqINcnYe08Nj3LkK9lW4N8Xg==}
+    engines: {node: '>=12'}
+    dependencies:
+      adjust-sourcemap-loader: 4.0.0
+      convert-source-map: 1.8.0
+      loader-utils: 2.0.4
+      postcss: 8.4.21
+      source-map: 0.6.1
     dev: false
 
   /resolve-url@0.2.1:

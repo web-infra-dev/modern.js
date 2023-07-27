@@ -97,6 +97,8 @@ export const CHAIN_ID = {
     CSS_MODULES_TS: 'css-modules-typescript',
     /** mini-css-extract-plugin.loader */
     MINI_CSS_EXTRACT: 'mini-css-extract',
+    /** resolve-url-loader */
+    RESOLVE_URL_LOADER_FOR_SASS: 'resolve-url-loader',
     /** builder-plugin-image-compress.loader */
     IMAGE_COMPRESS: 'image-compress',
     /** builder-plugin-image-compress svgo-loader */

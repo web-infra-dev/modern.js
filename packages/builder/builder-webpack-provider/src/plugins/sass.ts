@@ -1,5 +1,4 @@
 import {
-  isUseCssSourceMap,
   SASS_REGEX,
   getSassLoaderOptions,
   patchCompilerGlobalLocation,
@@ -20,7 +19,8 @@ export function builderPluginSass(): BuilderPlugin {
 
         const { options, excludes } = await getSassLoaderOptions(
           config.tools.sass,
-          isUseCssSourceMap(config),
+          // source-maps required for loaders preceding resolve-url-loader
+          true,
         );
         const rule = chain.module
           .rule(utils.CHAIN_ID.RULE.SASS)
@@ -35,10 +35,14 @@ export function builderPluginSass(): BuilderPlugin {
           utils,
           config,
           context: api.context,
-          importLoaders: 2,
+          // postcss-loader, resolve-url-loader, sass-loader
+          importLoaders: 3,
         });
 
         rule
+          .use(utils.CHAIN_ID.USE.RESOLVE_URL_LOADER_FOR_SASS)
+          .loader(require.resolve('resolve-url-loader'))
+          .end()
           .use(utils.CHAIN_ID.USE.SASS)
           .loader(utils.getCompiledPath('sass-loader'))
           .options(options);
