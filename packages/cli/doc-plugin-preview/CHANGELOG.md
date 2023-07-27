@@ -1,5 +1,29 @@
 # @modern-js/doc-plugin-preview
 
+## 2.28.0
+
+### Patch Changes
+
+- 35ab8e9: fix: add remark-gfm to support backquote in md
+  fix: 添加 remark-gfm 插件来支持 markdown 中的反引号
+- d3e52e4: chore(CI): update build config to improve vitest CI perf
+
+  chore(CI): 更新构建配置来提升 vitest CI 性能
+
+- Updated dependencies [a497fdc]
+- Updated dependencies [90ce6d6]
+- Updated dependencies [7412f09]
+- Updated dependencies [d5beb73]
+- Updated dependencies [be4b5e7]
+- Updated dependencies [2a3f537]
+- Updated dependencies [7813d17]
+- Updated dependencies [00b58a7]
+- Updated dependencies [b0caaf6]
+- Updated dependencies [d3e52e4]
+- Updated dependencies [9fc3a6e]
+  - @modern-js/doc-core@2.28.0
+  - @modern-js/utils@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes

@@ -1,5 +1,41 @@
 # @modern-js/plugin-module-doc
 
+## 2.28.0
+
+### Minor Changes
+
+- b58b1e9: feat(plugin-module-doc): control the need to provide a default value for sidebar by useModuleSidebar
+  feat(plugin-module-doc): 通过 useModuleSidebar 来控制是否需要提供 sidebar 的默认值
+
+### Patch Changes
+
+- 9172b5a: fix: change logic about auto sidebar, traverse lang dir when it exists
+  fix: 更改自动侧边栏的逻辑,当 lang 目录存在时遍历它
+- fc5269e: fix: support module sidebar when user don't have zh or en dir in root
+  fix: 当用户没有 zh 或者 en 目录时，仍然支持 module sidebar
+- d3e52e4: chore(CI): update build config to improve vitest CI perf
+
+  chore(CI): 更新构建配置来提升 vitest CI 性能
+
+- Updated dependencies [3092f1f]
+- Updated dependencies [35ab8e9]
+- Updated dependencies [118c1c0]
+- Updated dependencies [a497fdc]
+- Updated dependencies [90ce6d6]
+- Updated dependencies [7412f09]
+- Updated dependencies [d5beb73]
+- Updated dependencies [be4b5e7]
+- Updated dependencies [2a3f537]
+- Updated dependencies [7813d17]
+- Updated dependencies [b7a8c43]
+- Updated dependencies [b0caaf6]
+- Updated dependencies [d3e52e4]
+- Updated dependencies [9fc3a6e]
+  - @modern-js/module-tools@2.28.0
+  - @modern-js/doc-plugin-preview@2.28.0
+  - @modern-js/doc-core@2.28.0
+  - @modern-js/doc-plugin-api-docgen@2.28.0
+
 ## 2.27.0
 
 ### Minor Changes

@@ -1,5 +1,49 @@
 # @modern-js/app-tools
 
+## 2.28.0
+
+### Minor Changes
+
+- 6eae1e7: feat: support worker hmr using dev-server
+  feat: 借用 dev-server 支持 wokrer hmr
+
+### Patch Changes
+
+- 4e3ce96: fix: fix type for NestedRoute
+  fix: 修复 NestedRoute 的类型
+- Updated dependencies [213089e]
+- Updated dependencies [fb93353]
+- Updated dependencies [4e3ce96]
+- Updated dependencies [d870acd]
+- Updated dependencies [6400d98]
+- Updated dependencies [6eae1e7]
+- Updated dependencies [362416f]
+- Updated dependencies [aa0c0c3]
+- Updated dependencies [9301e46]
+- Updated dependencies [00b58a7]
+- Updated dependencies [820bfe9]
+- Updated dependencies [d3e52e4]
+- Updated dependencies [7d966a1]
+  - @modern-js/builder-rspack-provider@2.28.0
+  - @modern-js/builder@2.28.0
+  - @modern-js/types@2.28.0
+  - @modern-js/builder-webpack-provider@2.28.0
+  - @modern-js/builder-shared@2.28.0
+  - @modern-js/prod-server@2.28.0
+  - @modern-js/server@2.28.0
+  - @modern-js/utils@2.28.0
+  - @modern-js/upgrade@2.28.0
+  - @modern-js/builder-plugin-node-polyfill@2.28.0
+  - @modern-js/builder-plugin-esbuild@2.28.0
+  - @modern-js/core@2.28.0
+  - @modern-js/plugin-data-loader@2.28.0
+  - @modern-js/server-core@2.28.0
+  - @modern-js/plugin-i18n@2.28.0
+  - @modern-js/plugin-lint@2.28.0
+  - @modern-js/new-action@2.28.0
+  - @modern-js/node-bundle-require@2.28.0
+  - @modern-js/plugin@2.28.0
+
 ## 2.27.0
 
 ### Patch Changes
