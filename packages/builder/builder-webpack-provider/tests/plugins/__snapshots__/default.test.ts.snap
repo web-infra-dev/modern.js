@@ -365,7 +365,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1297,7 +1297,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -2220,7 +2220,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -3016,7 +3016,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
-            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/resolve-url-loader/index.js",
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",

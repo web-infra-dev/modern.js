@@ -185,9 +185,6 @@ importers:
       react-refresh:
         specifier: 0.14.0
         version: 0.14.0
-      resolve-url-loader:
-        specifier: 5.0.0
-        version: 5.0.0
       rspack-manifest-plugin:
         specifier: 5.0.0-alpha0
         version: 5.0.0-alpha0(webpack@5.88.1)
@@ -373,9 +370,6 @@ importers:
       react-refresh:
         specifier: 0.14.0
         version: 0.14.0
-      resolve-url-loader:
-        specifier: 5.0.0
-        version: 5.0.0
       style-loader:
         specifier: 3.3.1
         version: 3.3.1(webpack@5.88.1)
@@ -5910,6 +5904,9 @@ importers:
       recursive-readdir:
         specifier: 2.2.2
         version: 2.2.2
+      resolve-url-loader:
+        specifier: 5.0.0
+        version: 5.0.0
       rollup:
         specifier: 3.23.0
         version: 3.23.0
@@ -16742,7 +16739,7 @@ packages:
     dependencies:
       loader-utils: 2.0.4
       regex-parser: 2.2.11
-    dev: false
+    dev: true
 
   /adm-zip@0.5.9:
     resolution: {integrity: sha512-s+3fXLkeeLjZ2kLjCBwQufpI5fuN+kIGBxu6530nVQZGVol0d7Y/M88/xw9HGGUcJjKf8LutN3VPRUBq6N7Ajg==}
@@ -30351,7 +30348,7 @@ packages:
 
   /regex-parser@2.2.11:
     resolution: {integrity: sha512-jbD/FT0+9MBU2XAZluI7w2OBs1RBi6p9M83nkoZayQXXU9e8Robt69FcZc7wU4eJD/YFTjn1JdCk3rbMJajz8Q==}
-    dev: false
+    dev: true
 
   /regexp.prototype.flags@1.4.3:
     resolution: {integrity: sha512-fjggEOO3slI6Wvgjwflkc4NFRCTZAu5CnNfBd5qOMYhWdn67nJBBu34/TkD++eeFmd8C9r9jfXJ27+nSiRkSUA==}
@@ -30699,7 +30696,7 @@ packages:
       loader-utils: 2.0.4
       postcss: 8.4.21
       source-map: 0.6.1
-    dev: false
+    dev: true
 
   /resolve-url@0.2.1:
     resolution: {integrity: sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==}

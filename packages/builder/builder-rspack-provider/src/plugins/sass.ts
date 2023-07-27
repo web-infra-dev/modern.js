@@ -42,7 +42,7 @@ export function builderPluginSass(): BuilderPlugin {
 
         rule
           .use(utils.CHAIN_ID.USE.RESOLVE_URL_LOADER_FOR_SASS)
-          .loader(require.resolve('resolve-url-loader'))
+          .loader(utils.getCompiledPath('resolve-url-loader'))
           .end()
           .use(utils.CHAIN_ID.USE.SASS)
           .loader(utils.getCompiledPath('sass-loader'))

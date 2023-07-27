@@ -48,7 +48,8 @@ export type SharedCompiledPkgNames =
   | 'url-loader'
   | 'toml-loader'
   | 'yaml-loader'
-  | 'assetsRetry.js';
+  | 'assetsRetry.js'
+  | 'resolve-url-loader';
 
 export type CompilerTapFn<
   CallBack extends (...args: any[]) => void = () => void,
