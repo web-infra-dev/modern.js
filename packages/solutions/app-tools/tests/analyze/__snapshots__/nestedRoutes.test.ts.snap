@@ -56,13 +56,6 @@ exports[`nested routes walk 1`] = `
       "_component": "@_modern_js_src/user/layout.tsx",
       "children": [
         {
-          "_component": "@_modern_js_src/user/$.tsx",
-          "id": "user/$",
-          "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
-          "path": "*",
-          "type": "nested",
-        },
-        {
           "children": [
             {
               "_component": "@_modern_js_src/user/[id]/page.tsx",
@@ -101,6 +94,13 @@ exports[`nested routes walk 1`] = `
           "id": "user/profile/layout",
           "isRoot": false,
           "path": "profile",
+          "type": "nested",
+        },
+        {
+          "_component": "@_modern_js_src/user/$.tsx",
+          "id": "user/$",
+          "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
+          "path": "*",
           "type": "nested",
         },
       ],
