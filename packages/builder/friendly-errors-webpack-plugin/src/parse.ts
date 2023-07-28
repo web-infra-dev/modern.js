@@ -1,7 +1,13 @@
 import { inspect } from 'util';
 import { JSONValue } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/compiled/lodash';
-import type { Chunk, Compiler, Module, StatsModuleTraceItem } from 'webpack';
+import type {
+  Chunk,
+  Compiler,
+  Module,
+  StatsModuleTraceItem,
+  WebpackError,
+} from 'webpack';
 import StackTracey from '../compiled/stacktracey';
 import { baseFormatter } from './formatter';
 import type {
@@ -59,19 +65,37 @@ export class ParsedError<E extends ErrorShape = ErrorShape> {
 
   compiler: Compiler;
 
+  hideStack: boolean = false;
+
   chunk?: Chunk | SerializedChunk;
 
   module?: Module | SerializedModule;
+
+  file?: string;
+
+  loc?: string | WebpackError['loc'];
 
   private raw: E;
 
   constructor(error: E, options: ParseOptions) {
     this.raw = error;
-    if ('name' in this.raw && typeof this.raw.name === 'string') {
+    if ('name' in this.raw && _.isString(this.raw.name)) {
       this.name = this.raw.name;
     }
-    if ('message' in this.raw && typeof this.raw.message === 'string') {
+    if ('message' in this.raw && _.isString(this.raw.message)) {
       this.message = this.raw.message;
+    }
+    if ('file' in this.raw && _.isString(this.raw.file)) {
+      this.file = this.raw.file;
+    }
+    if (
+      'loc' in this.raw &&
+      (_.isString(this.raw.loc) || _.isObject(this.raw.loc))
+    ) {
+      this.loc = this.raw.loc as any;
+    }
+    if ('hideStack' in this.raw && this.raw.hideStack === true) {
+      this.hideStack = this.raw.hideStack;
     }
     if (typeof options.type === 'string') {
       this.type = options.type;
