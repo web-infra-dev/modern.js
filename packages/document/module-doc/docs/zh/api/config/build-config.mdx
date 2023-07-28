@@ -218,7 +218,7 @@ export default defineConfig({
 构建类型，`bundle` 会打包你的代码，`bundleless` 只做代码的转换。
 
 - 类型： `'bundle' | 'bundleless'`
-- 默认值： `bundle`
+- 默认值： `'bundle'`
 
 ## copy
 
@@ -345,15 +345,37 @@ export default defineConfig({
 
 类型文件的输出路径，基于 [outDir](/api/config/build-config#outDir) 进行输出。
 
-- 类型: `string`
-- 默认值: `./types`
+- 类型： `string`
+- 默认值： `./`
+
+比如输出到 `outDir` 下面的 `types` 目录：
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      distPath: './types',
+    },
+  },
+});
+```
 
 ## dts.only
 
-只生成类型文件，不生成 js 文件。
+是否在构建时只生成类型文件，不生成 JavaScript 产物文件。
 
 - 类型： `boolean`
 - 默认值： `false`
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      only: true,
+    },
+  },
+});
+```
 
 ## dts.respectExternal
 
@@ -364,6 +386,16 @@ export default defineConfig({
 - 类型： `boolean`
 - 默认值： `true`
 
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      respectExternal: false,
+    },
+  },
+});
+```
+
 ## dts.tsconfigPath
 
 TypeScript 配置文件的路径。
@@ -371,12 +403,23 @@ TypeScript 配置文件的路径。
 - 类型： `string`
 - 默认值： `./tsconfig.json`
 
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      tsconfigPath: './other-tsconfig.json',
+    },
+  },
+});
+```
+
 ## esbuildOptions
 
 用于修改底层的 [esbuild 配置](https://esbuild.github.io/api/)。
 
-- 类型: `Function`
-- 默认值: `c => c`
+- 类型： `Function`
+- 构建类型：`仅支持 buildType: 'bundle'`
+- 默认值： `c => c`
 
 例如，我们需要修改生成文件的后缀：
 
@@ -645,17 +688,33 @@ export default defineConfig({
 
 ## outDir
 
-指定构建的输出目录
+指定构建的输出目录。
 
-- 类型: `string`
-- 默认值: `dist`
+- 类型： `string`
+- 默认值： `./dist`
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    outDir: './dist/esm',
+  },
+});
+```
 
 ## platform
 
 默认生成用于 Node.js 环境下的代码，你也可以指定为 `browser`，会生成用于浏览器环境的代码。
 
 - 类型： `'browser' | 'node'`
-- 默认值： `node`
+- 默认值： `'node'`
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    platform: 'browser',
+  },
+});
+```
 
 ## redirect
 
