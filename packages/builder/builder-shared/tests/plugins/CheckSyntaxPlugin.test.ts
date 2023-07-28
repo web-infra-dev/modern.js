@@ -40,7 +40,7 @@ describe('getHtmlScripts', () => {
     `);
   });
 
-  test('should not extract external scripts', async () => {
+  test('should not extract external scripts and JSON scripts', async () => {
     expect(
       getHtmlScripts(`<html>
     <head>
