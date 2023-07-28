@@ -510,9 +510,17 @@ export class ModernServer implements ModernServerInterface {
     // parse request body from readable stream to assgin it to req
     await bodyParser(req);
 
+    // match routes in the route spec
+    const matched = this.router.match(context.path);
+
+    if (!matched) {
+      this.render404(context);
+      return;
+    }
+
     // TODO: move suitable location
     // initial for every route handle
-    reporter.init();
+    await reporter.init({ match: matched });
 
     const end = time();
 
@@ -520,13 +528,6 @@ export class ModernServer implements ModernServerInterface {
       const cost = end();
       reporter.reportTiming('server_handle_request', cost);
     });
-
-    // match routes in the route spec
-    const matched = this.router.match(context.path);
-    if (!matched) {
-      this.render404(context);
-      return;
-    }
 
     // route is api service
     let route = matched.generate(context.url);

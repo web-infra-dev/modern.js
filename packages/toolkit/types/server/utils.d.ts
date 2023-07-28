@@ -44,7 +44,7 @@ export type Reporter = {
   sessionId?: string;
   userId?: string;
 
-  init: () => void;
+  init: (payload: { match: any }) => void | Promise<void>;
   reportError: (
     content: string,
     e: Error,
