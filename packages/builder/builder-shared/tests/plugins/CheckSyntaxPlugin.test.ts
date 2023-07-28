@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 import { getHtmlScripts } from '../../src/plugins/CheckSyntaxPlugin/helpers/generateHtmlScripts';
 
 describe('getHtmlScripts', () => {
-  test('should extract single inline script correctly', async () => {
+  test('should extract inline scripts correctly', async () => {
     expect(
       getHtmlScripts(`<html>
     <head>
@@ -38,5 +38,20 @@ describe('getHtmlScripts', () => {
       It has a line break.\\");",
       ]
     `);
+  });
+
+  test('should not extract external scripts', async () => {
+    expect(
+      getHtmlScripts(`<html>
+    <head>
+      <title>Title</title>
+    </head>
+    <body>
+      <h1>Hello, World!</h1>
+      <script type="application/json">{"foo":"bar"}</script>
+      <script src="external.js"></script>
+    </body>
+  </html>`),
+    ).toEqual([]);
   });
 });
