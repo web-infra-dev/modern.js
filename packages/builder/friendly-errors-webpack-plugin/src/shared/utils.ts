@@ -14,7 +14,7 @@ export const cloneErrorObject = <T extends Error>(error: T): T => {
   return cloned;
 };
 
-export const getErrorCause = (error: Error) => {
+export const getErrorCause = (error: unknown) => {
   assert(typeof error === 'object', 'Error must be an object');
   const err = error as any;
   return [err.cause, err.error, err.originalError].find(_.isError);
