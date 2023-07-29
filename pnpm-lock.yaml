@@ -6025,9 +6025,6 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../packages/review/tsconfig
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../packages/toolkit/utils
       '@types/lodash':
         specifier: ^4.14.195
         version: 4.14.195
