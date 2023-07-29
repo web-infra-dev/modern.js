@@ -1,4 +1,4 @@
-import { applyMatcherReplacement } from '@modern-js/utils';
+import { applyMatcherReplacement } from '@scripts/vitest-config';
 import { snapshotSerializer } from './setup';
 import { ErrorTransformer } from '@/shared/types';
 

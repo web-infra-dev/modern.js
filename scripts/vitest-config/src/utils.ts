@@ -1,12 +1,11 @@
 import assert from 'assert';
+import path from 'path';
 import {
   applyMatcherReplacement,
   createDefaultPathMatchers,
-  isPathString,
-  normalizeToPosixPath,
   PathMatcher,
-  findMonorepoRoot,
-} from '@modern-js/utils';
+} from './pathSerializer';
+import { isPathString, normalizeToPosixPath } from './path';
 
 export const debug: typeof console.log = (...args) => {
   process.env.DEBUG_MODERNJS_VITEST && console.log(...args);
@@ -21,7 +20,7 @@ export interface SnapshotSerializerOptions {
 export function createSnapshotSerializer(options?: SnapshotSerializerOptions) {
   const {
     cwd = process.cwd(),
-    workspace = findMonorepoRoot(cwd),
+    workspace = path.join(__dirname, '../../..'),
     replace: customMatchers = [],
   } = options || {};
   assert(cwd, 'cwd is required');
@@ -41,6 +40,7 @@ export function createSnapshotSerializer(options?: SnapshotSerializerOptions) {
     );
 
   return {
+    pathMatchers,
     // match path-format string
     test: (val: unknown) => typeof val === 'string' && isPathString(val),
     print: (val: unknown) => {
