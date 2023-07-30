@@ -1,5 +1,4 @@
 const path = require('path');
-const pMap = require('p-map');
 const execa = require('execa');
 const globby = require('globby');
 
@@ -28,14 +27,14 @@ const restArgv = process.argv.slice(2);
       stdio: 'inherit',
     });
 
-    await pMap(
-      directories,
-      async cwd => {
-        const args = ['run', 'test', ...restArgv];
-        await execa('pnpm', args, { shell: SHELL, stdio: 'inherit', cwd });
-      },
-      { concurrency: 2 },
-    );
+    for (let i = 0; i < directories.length; i++) {
+      const args = ['run', 'test', ...restArgv];
+      await execa('pnpm', args, {
+        shell: SHELL,
+        stdio: 'inherit',
+        cwd: directories[i],
+      });
+    }
   } catch (err) {
     console.error(err);
     // eslint-disable-next-line no-process-exit
