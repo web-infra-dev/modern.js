@@ -94,3 +94,65 @@ test('should generate vendor chunk when chunkSplit is "single-vendor"', async ()
 
   expect(vendorFile).toBeTruthy();
 });
+
+test('should generate preconnect link when preconnect is defined', async () => {
+  const builder = await build({
+    cwd: join(fixtures, 'basic'),
+    entry: {
+      main: join(fixtures, 'basic/src/index.ts'),
+    },
+    builderConfig: {
+      performance: {
+        preconnect: [
+          {
+            href: 'http://aaaa.com',
+          },
+          {
+            href: 'http://bbbb.com',
+            crossorigin: true,
+          },
+        ],
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('index.html'),
+  )!;
+
+  expect(
+    content.includes('<link rel="preconnect" href="http://aaaa.com">'),
+  ).toBeTruthy();
+
+  expect(
+    content.includes(
+      '<link rel="preconnect" href="http://bbbb.com" crossorigin>',
+    ),
+  ).toBeTruthy();
+});
+
+test('should generate dnsPrefetch link when dnsPrefetch is defined', async () => {
+  const builder = await build({
+    cwd: join(fixtures, 'basic'),
+    entry: {
+      main: join(fixtures, 'basic/src/index.ts'),
+    },
+    builderConfig: {
+      performance: {
+        dnsPrefetch: ['http://aaaa.com'],
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('index.html'),
+  )!;
+
+  expect(
+    content.includes('<link rel="dns-prefetch" href="http://aaaa.com">'),
+  ).toBeTruthy();
+});
