@@ -108,7 +108,7 @@ export const prettyInstructions = (appContext: any, config: any) => {
     const maxNameLength = Math.max(...routes.map(r => r.entryName.length));
 
     urls.forEach(({ label, url }) => {
-      message += `  ${chalk.bold(`> ${label}`)}\n`;
+      message += `  ${chalk.bold(`> ${label}`)}${chalk.cyanBright(url)}\n`;
       routes.forEach(({ entryName, urlPath, isSSR }) => {
         if (!checkedEntries.includes(entryName)) {
           return;

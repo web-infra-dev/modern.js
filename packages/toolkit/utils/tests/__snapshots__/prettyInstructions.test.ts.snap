@@ -18,6 +18,18 @@ exports[`prettyInstructions basic usage 1`] = `
 "
 `;
 
+exports[`prettyInstructions custom entry 1`] = `
+"App running at:
+
+  > Local:  http://localhost:8080
+  > Network:  http://11.11.111.11:8080
+  > Network:  http://10.100.100.100:8080
+
+  λ (Server) server-side renders at runtime
+  ○ (Static) client-side renders as static HTML
+"
+`;
+
 exports[`prettyInstructions should print host correctly 1`] = `
 "App running at:
 
