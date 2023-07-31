@@ -12,6 +12,7 @@ export type SideMetaItem =
       label?: string;
       collapsible?: boolean;
       collapsed?: boolean;
+      tag?: string;
     };
 
 export type SideMeta = SideMetaItem[];

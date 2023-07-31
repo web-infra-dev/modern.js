@@ -5,6 +5,7 @@ import { routes } from 'virtual-routes';
 import { Link } from '../Link';
 import { isActive } from '../../logic';
 import ArrowRight from '../../assets/arrow-right.svg';
+import { Tag } from '../Tag';
 import styles from './index.module.scss';
 import { removeBase, normalizeHref, withBase, usePageData } from '@/runtime';
 
@@ -69,7 +70,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
-          } mt-1 py-1.5 px-3 block rounded-xl font-medium`}
+          } mt-1 py-1.5 px-3 rounded-xl font-medium flex`}
           style={{
             ...textEllipsisStyle,
             // The first level menu item will have the same font size as the sidebar group
@@ -77,6 +78,7 @@ export function SidebarItemComp(props: SidebarItemProps) {
             marginLeft: depth === 0 ? 0 : '12px',
           }}
         >
+          <Tag tag={item.tag} />
           {text}
         </div>
       </Link>
@@ -200,11 +202,12 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         }}
       >
         <h2
-          className="py-1 px-2 text-sm font-medium ml-1"
+          className="py-1 px-2 text-sm font-medium ml-1 flex"
           style={{
             ...textEllipsisStyle,
           }}
         >
+          <Tag tag={item.tag} />
           {item.text}
         </h2>
         {collapsible && (

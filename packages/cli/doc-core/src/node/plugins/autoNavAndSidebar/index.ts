@@ -212,6 +212,7 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
         collapsible,
         collapsed,
         link,
+        tag,
       } = metaItem;
       if (type === 'file') {
         const title =
@@ -219,6 +220,7 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
         return {
           text: title,
           link: `/${relativePath}/${name.replace(/\.mdx?$/, '')}`,
+          tag,
         };
       } else if (type === 'dir') {
         const subDir = path.resolve(workDir, name);
@@ -231,11 +233,13 @@ export async function scanSideMeta(workDir: string, rootDir: string) {
           collapsed,
           items: subSidebar,
           link: isExsit ? `/${relativePath}/${name}` : undefined,
+          tag,
         };
       } else {
         return {
           text: label,
           link,
+          tag,
         };
       }
     }),
