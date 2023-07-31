@@ -95,7 +95,7 @@ export const prettyInstructions = (appContext: any, config: any) => {
 
   let message = 'App running at:\n\n';
 
-  if (isSingleEntry(entrypoints) || apiOnly) {
+  if (isSingleEntry(entrypoints, config.source?.mainEntryName) || apiOnly) {
     message += urls
       .map(
         ({ label, url }) =>

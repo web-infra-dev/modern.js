@@ -1,4 +1,5 @@
 import type { SSGMultiEntryOptions } from '@modern-js/types';
+import { MAIN_ENTRY_NAME } from '../constants';
 import { isEmpty } from './type';
 
 interface EntryPoint {
@@ -66,7 +67,7 @@ export const isSSGEntry = (
   entrypoints: EntryPoint[],
 ) => {
   const ssgConfig = config.output.ssg;
-  const useSSG = isSingleEntry(entrypoints)
+  const useSSG = isSingleEntry(entrypoints, config.source?.mainEntryName)
     ? Boolean(ssgConfig)
     : ssgConfig === true ||
       typeof (ssgConfig as Array<unknown>)?.[0] === 'function' ||
@@ -75,6 +76,7 @@ export const isSSGEntry = (
   return useSSG;
 };
 
-// TODO: remove hard code 'main'
-export const isSingleEntry = (entrypoints: EntryPoint[]) =>
-  entrypoints.length === 1 && entrypoints[0].entryName === 'main';
+export const isSingleEntry = (
+  entrypoints: EntryPoint[],
+  mainEntryName = MAIN_ENTRY_NAME,
+) => entrypoints.length === 1 && entrypoints[0].entryName === mainEntryName;
