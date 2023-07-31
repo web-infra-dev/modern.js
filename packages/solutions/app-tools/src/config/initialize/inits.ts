@@ -138,18 +138,7 @@ export function initSourceConfig(
 }
 
 export function initToolsConfig(config: AppNormalizedConfig<'webpack'>) {
-  const defaultTsChecker = {
-    issue: {
-      include: [{ file: '**/src/**/*' }],
-      exclude: [
-        { file: '**/*.(spec|test).ts' },
-        { file: '**/node_modules/**/*' },
-      ],
-    },
-  };
-
-  const { tsChecker, tsLoader } = config.tools;
-  config.tools.tsChecker = applyOptionsChain(defaultTsChecker, tsChecker);
+  const { tsLoader } = config.tools;
   tsLoader &&
     (config.tools.tsLoader = (tsLoaderConfig, utils) => {
       applyOptionsChain(

@@ -33,8 +33,32 @@ const defaultOptions = {
 
 ### Object 类型
 
-当此值为 Object 类型时，与默认配置通过 Object.assign 合并。
+当 `tsChecker` 的值为 Object 类型时，会与默认配置进行深层合并。
+
+```ts
+export default {
+  tools: {
+    tsChecker: {
+      issue: {
+        exclude: [{ file: '**/some-folder/**/*.ts' }],
+      },
+    },
+  },
+};
+```
 
 ### Function 类型
 
-当此值为 Function 类型时，默认配置作为第一个参数传入，你可以直接修改配置对象，也可以返回一个对象作为最终配置。
+当 `tsChecker` 的值为 Function 类型时，默认配置会作为第一个参数传入，你可以直接修改配置对象，也可以返回一个对象作为最终配置。
+
+```ts
+export default {
+  tools: {
+    tsChecker(options) {
+      (options?.issue?.exclude as unknown[]).push({
+        file: '**/some-folder/**/*.ts',
+      });
+    },
+  },
+};
+```
