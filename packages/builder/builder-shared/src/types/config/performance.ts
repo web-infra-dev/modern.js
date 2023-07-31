@@ -14,13 +14,13 @@ export interface PreconnectOption {
   crossorigin?: boolean;
 }
 
-export type Preconnect = string | PreconnectOption | PreconnectOption[];
+export type Preconnect = Array<string | PreconnectOption>;
 
 export interface DnsPrefetchOption {
   href: string;
 }
 
-export type DnsPrefetch = string | DnsPrefetchOption | DnsPrefetchOption[];
+export type DnsPrefetch = string[];
 
 export interface SharedPerformanceConfig {
   /**

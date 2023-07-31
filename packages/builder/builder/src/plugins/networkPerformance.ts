@@ -8,7 +8,10 @@ export const builderPluginNetworkPerformance = (): DefaultBuilderPlugin => ({
 
   setup(api) {
     api.modifyBundlerChain(
-      async (chain, { CHAIN_ID, isServer, isWebWorker, HtmlPlugin }) => {
+      async (
+        chain,
+        { CHAIN_ID, isServer, isWebWorker, isServiceWorker, HtmlPlugin },
+      ) => {
         const config = api.getNormalizedConfig();
         const {
           performance: { dnsPrefetch, preconnect },

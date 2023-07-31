@@ -103,7 +103,15 @@ test('should generate preconnect link when preconnect is defined', async () => {
     },
     builderConfig: {
       performance: {
-        preconnect: 'http://aaaa.com',
+        preconnect: [
+          {
+            href: 'http://aaaa.com',
+          },
+          {
+            href: 'http://bbbb.com',
+            crossorigin: true,
+          },
+        ],
       },
     },
   });
@@ -117,6 +125,12 @@ test('should generate preconnect link when preconnect is defined', async () => {
   expect(
     content.includes('<link rel="preconnect" href="http://aaaa.com">'),
   ).toBeTruthy();
+
+  expect(
+    content.includes(
+      '<link rel="preconnect" href="http://bbbb.com" crossorigin>',
+    ),
+  ).toBeTruthy();
 });
 
 test('should generate dnsPrefetch link when dnsPrefetch is defined', async () => {
@@ -127,7 +141,7 @@ test('should generate dnsPrefetch link when dnsPrefetch is defined', async () =>
     },
     builderConfig: {
       performance: {
-        dnsPrefetch: 'http://aaaa.com',
+        dnsPrefetch: ['http://aaaa.com'],
       },
     },
   });

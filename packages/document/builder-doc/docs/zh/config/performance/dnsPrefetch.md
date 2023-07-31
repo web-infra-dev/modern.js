@@ -1,9 +1,5 @@
-- **类型：** `undefined | string | DnsPrefetchOption | Array<DnsPrefetchOption>`
-```ts
-interface DnsPrefetchOption {
-  href: string;
-}
-```
+- **类型：** `undefined | string[]`
+
 - **默认值：** `undefined`
 
 为哪些资源配置 [dns-prefetch](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/dns-prefetch) 属性。
@@ -17,7 +13,7 @@ interface DnsPrefetchOption {
 ```js
 export default {
   performance: {
-    dnsPrefetch: 'http://xxx.com',
+    dnsPrefetch: ['http://xxx.com'],
   },
 };
 ```

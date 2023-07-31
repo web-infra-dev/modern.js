@@ -1,4 +1,4 @@
-- **Type:** `undefined | string | PreconnectOption | Array<PreconnectOption>`
+- **Type:** `undefined | Array<string | PreconnectOption>`
 ```ts
 interface PreconnectOption {
   href: string;
@@ -16,7 +16,7 @@ Configuring this property will establish a connection with the server. If the si
 ```js
 export default {
   performance: {
-    preconnect: 'http://xxx.com',
+    preconnect: ['http://xxx.com'],
   },
 };
 ```

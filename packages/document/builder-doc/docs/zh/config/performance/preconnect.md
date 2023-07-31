@@ -1,4 +1,4 @@
-- **类型：** `undefined | string | PreconnectOption | Array<PreconnectOption>`
+- **类型：** `undefined | Array<string | PreconnectOption>`
 ```ts
 interface PreconnectOption {
   href: string;
@@ -16,7 +16,7 @@ interface PreconnectOption {
 ```js
 export default {
   performance: {
-    preconnect: 'http://xxx.com',
+    preconnect: ['http://xxx.com'],
   },
 };
 ```

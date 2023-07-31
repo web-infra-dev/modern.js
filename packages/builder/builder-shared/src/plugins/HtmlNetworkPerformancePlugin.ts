@@ -51,17 +51,14 @@ export class HtmlNetworkPerformancePlugin implements WebpackPluginInstance {
           async htmlPluginData => {
             const { headTags } = htmlPluginData;
 
-            const options: Array<PreconnectOption | DnsPrefetchOption> = [];
-
-            if (Array.isArray(this.options)) {
-              options.push(...this.options);
-            } else if (typeof this.options === 'string') {
-              options.push({
-                href: this.options,
-              });
-            } else {
-              options.push(this.options);
-            }
+            const options: PreconnectOption[] | DnsPrefetchOption[] =
+              this.options.map(option =>
+                typeof option === 'string'
+                  ? {
+                      href: option,
+                    }
+                  : option,
+              );
 
             if (options.length) {
               headTags.unshift(...generateLinks(options, this.type));

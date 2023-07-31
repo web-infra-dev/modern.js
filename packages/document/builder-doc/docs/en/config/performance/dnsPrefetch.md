@@ -1,10 +1,5 @@
-- **Type:** `undefined | string | DnsPrefetchOption | Array<DnsPrefetchOption>`
+- **Type:** `undefined | string[]`
 
-```ts
-interface DnsPrefetchOption {
-  href: string;
-}
-```
 - **Default:** `undefined`
 
 Specifies that the user agent should preemptively perform DNS resolution for the target resource's origin, refer to [dns-prefetch](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/dns-prefetch).
@@ -18,7 +13,7 @@ See [Using dns-prefetch](https://developer.mozilla.org/en-US/docs/Web/Performanc
 ```js
 export default {
   performance: {
-    dnsPrefetch: 'http://xxx.com',
+    dnsPrefetch: ['http://xxx.com'],
   },
 };
 ```
