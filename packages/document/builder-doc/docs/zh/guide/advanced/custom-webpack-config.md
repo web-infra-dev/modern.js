@@ -83,7 +83,7 @@ export default {
 | `CHAIN_ID.RULE`           | `module.rules[i]`        | 对应 webpack 配置中的一个 Rule             |
 | `CHAIN_ID.USE`            | `module.rules[i].loader` | 对应 webpack 配置中的一个 Loader           |
 | `CHAIN_ID.MINIMIZER`      | `optimization.minimizer` | 对应 webpack 配置中的一个压缩工具          |
-| `CHAIN_ID.RESOLVE_PLUGIN` | `resolve.plugins[i]`     | 对应 webpack 配置中的中的一个 Resolve 插件 |
+| `CHAIN_ID.RESOLVE_PLUGIN` | `resolve.plugins[i]`     | 对应 webpack 配置中的一个 Resolve 插件 |
 
 ## webpack-chain 示例
 

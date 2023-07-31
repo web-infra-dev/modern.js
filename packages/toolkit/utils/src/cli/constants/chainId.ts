@@ -146,6 +146,10 @@ export const CHAIN_ID = {
     HTML_NONCE: 'html-nonce',
     /** HtmlCrossOriginPlugin */
     HTML_CROSS_ORIGIN: 'html-cross-origin',
+    /** htmlPreconnectPlugin */
+    HTML_PRECONNECT: 'html-preconnect-plugin',
+    /** htmlDnsPrefetchPlugin */
+    HTML_DNS_PREFETCH: 'html-dns-prefetch-plugin',
     /** MiniCssExtractPlugin */
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** VueLoaderPlugin */

@@ -9,6 +9,19 @@ export type BuildCacheOptions = {
   cacheDirectory?: string;
 };
 
+export interface PreconnectOption {
+  href: string;
+  crossorigin?: boolean;
+}
+
+export type Preconnect = string | PreconnectOption | PreconnectOption[];
+
+export interface DnsPrefetchOption {
+  href: string;
+}
+
+export type DnsPrefetch = string | DnsPrefetchOption | DnsPrefetchOption[];
+
 export interface SharedPerformanceConfig {
   /**
    * Whether to remove `console.xx` in production build.
@@ -35,6 +48,20 @@ export interface SharedPerformanceConfig {
    * Analyze the size of output files.
    */
   bundleAnalyze?: BundleAnalyzerPlugin.Options;
+
+  /**
+   * Used to control resource `Preconnect`.
+   *
+   * Specifies that the user agent should preemptively connect to the target resource's origin.
+   */
+  preconnect?: Preconnect;
+
+  /**
+   * Used to control resource `DnsPrefetch`.
+   *
+   * Specifies that the user agent should preemptively perform DNS resolution for the target resource's origin.
+   */
+  dnsPrefetch?: DnsPrefetch;
 }
 
 export interface NormalizedSharedPerformanceConfig
