@@ -16,6 +16,7 @@ describe('test render function', () => {
         url: 'localhost:8080/foo',
         cookieMap: {},
         headers: {},
+        req: {},
       } as any,
       {
         urlPath: '/foo',
@@ -116,6 +117,7 @@ describe('test render function', () => {
         url: 'localhost:8080/foo',
         cookieMap: {},
         headers: {},
+        req: {},
         resHasHandled: () => false,
       } as any,
       route: {
