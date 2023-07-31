@@ -8355,6 +8355,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.0.6
+      tsconfig-paths-webpack-plugin:
+        specifier: 4.1.0
+        version: 4.1.0
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -32824,6 +32827,15 @@ packages:
       enhanced-resolve: 5.12.0
       tsconfig-paths: 4.1.2
     dev: false
+
+  /tsconfig-paths-webpack-plugin@4.1.0:
+    resolution: {integrity: sha512-xWFISjviPydmtmgeUAuXp4N1fky+VCtfhOkDUFIv5ea7p4wuTomI4QTrXvFBX2S4jZsmyTSrStQl+E+4w+RzxA==}
+    engines: {node: '>=10.13.0'}
+    dependencies:
+      chalk: 4.1.2
+      enhanced-resolve: 5.12.0
+      tsconfig-paths: 4.1.2
+    dev: true
 
   /tsconfig-paths@3.14.1:
     resolution: {integrity: sha512-fxDhWnFSLt3VuTwtvJt5fpwxBHg5AdKWMsgcPOOIilyjymcYVZoCQF8fvFRezCNfblEXmi+PcM1eYHeOAgXCOQ==}

@@ -2,7 +2,7 @@ import { applyBuilderResolvePlugin } from '@modern-js/builder-shared';
 import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 import type { BuilderPlugin, WebpackChain } from '../types';
 
-async function applyTsConfigPathsPlugin({
+export async function applyTsConfigPathsPlugin({
   chain,
   CHAIN_ID,
   cwd,
@@ -48,13 +48,13 @@ export const builderPluginResolve = (): BuilderPlugin => ({
       }
 
       if (isTsProject && config.source.aliasStrategy === 'prefer-tsconfig') {
-        await applyTsConfigPathsPlugin({
-          chain,
-          CHAIN_ID,
-          cwd: api.context.rootPath,
-          extensions: chain.resolve.extensions.values(),
-          sourceBuild: config.experiments.sourceBuild,
-        });
+        // await applyTsConfigPathsPlugin({
+        //   chain,
+        //   CHAIN_ID,
+        //   cwd: api.context.rootPath,
+        //   extensions: chain.resolve.extensions.values(),
+        //   sourceBuild: config.experiments.sourceBuild,
+        // });
       }
     });
   },
