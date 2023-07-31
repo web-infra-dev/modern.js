@@ -1,6 +1,7 @@
+import _ from 'lodash';
 import { defineConfig, UserConfigExport } from 'vitest/config';
-import _ from '@modern-js/utils/lodash';
 import { createSnapshotSerializer } from './utils';
+import { applyMatcherReplacement } from './pathSerializer';
 
 export const testPreset = defineConfig({
   test: {
@@ -13,9 +14,12 @@ export const testPreset = defineConfig({
     include: ['src/**/*.test.[jt]s?(x)', 'tests/**/*.test.[jt]s?(x)'],
     restoreMocks: true,
   },
+  resolve: {
+    conditions: ['jsnext:source'],
+  },
 });
 
 export const withTestPreset = (config: UserConfigExport) =>
   _.merge(testPreset, config);
 
-export { defineConfig, createSnapshotSerializer };
+export { defineConfig, createSnapshotSerializer, applyMatcherReplacement };
