@@ -232,3 +232,18 @@ basic
   ├── 2-install.mdx
   └── 3-plugin-development.md
 ```
+
+### Add SVG Icons Before Titles
+
+In addition, you can add icons before the title through the `tag` confing, like this:
+
+```json title="_meta.json"
+{
+  "type": "file",
+  "name": "introduction",
+  "label": "Introduction",
+  "tag": "<svg width=\"1em\" height=\"1em\" viewBox=\"0 0 32 32\"><path fill=\"currentColor\" d=\"M4 6h24v2H4zm0 18h24v2H4zm0-12h24v2H4zm0 6h24v2H4z\"/></svg>"
+}
+```
+
+The value of `tag` is a svg tag string or image url, which you can configure in the **navbar** or **sidebar**.
