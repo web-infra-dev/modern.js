@@ -19,23 +19,6 @@ export type Logger = {
   log: LoggerFunction;
 };
 
-export interface ReportEventPayload {
-  name: string;
-
-  // metrics is some speficy value
-  metrics?: Record<string, number>;
-
-  categories?: Record<string, string>;
-}
-
-export interface ReportLogPayload {
-  content: string;
-
-  extra?: Record<string, string | number>;
-
-  level?: 'debug' | 'info' | 'warn' | 'error';
-}
-
 export interface ServerTiming {
   addServeTiming: (name: string, dur: number, decs?: string) => this;
 }
@@ -43,22 +26,27 @@ export interface ServerTiming {
 export type Reporter = {
   sessionId?: string;
   userId?: string;
+  client?: any;
 
   init: (payload: { match: any }) => void | Promise<void>;
+
   reportError: (
     content: string,
     e: Error,
     extra?: Record<string, string | number>,
   ) => void;
+
   reportTiming: (
     name: string,
     value: number,
     extra?: Record<string, string>,
   ) => void;
+
   reportInfo: (
     content: string,
     extra?: Record<string, string | number>,
   ) => void;
+
   reportWarn: (
     content: string,
     extra?: Record<string, string | number>,

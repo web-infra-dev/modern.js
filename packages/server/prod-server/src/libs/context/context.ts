@@ -19,7 +19,6 @@ const MOCK_URL_BASE = 'https://modernjs.dev/';
 export type ContextOptions = {
   metaName?: string;
   etag?: boolean;
-  reporter?: ModernServerReporter;
 };
 
 type ResponseBody = string | Buffer;
@@ -40,7 +39,7 @@ export class ModernServerContext implements ModernServerContextInterface {
    */
   public params: Record<string, string> = {};
 
-  public reporter: ModernServerReporter;
+  public reporter: ModernServerReporter = defaultReporter;
 
   public serverTiming: ModernServerTiming;
 
@@ -52,7 +51,7 @@ export class ModernServerContext implements ModernServerContextInterface {
     return this.req.metrics;
   }
 
-  public serverData: Record<string, any>;
+  public serverData: Record<string, any> = {};
 
   private options: ContextOptions = {};
 
@@ -64,12 +63,10 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.req = req;
     this.res = res;
     this.options = options || {};
-    this.reporter = options?.reporter || defaultReporter;
     this.serverTiming = new ServerTiming(
       res,
       cutNameByHyphen(options?.metaName || 'modern-js'),
     );
-    this.serverData = {};
 
     this.bind();
   }
