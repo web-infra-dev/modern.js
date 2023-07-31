@@ -418,7 +418,6 @@ export default defineConfig({
 用于修改底层的 [esbuild 配置](https://esbuild.github.io/api/)。
 
 - 类型： `Function`
-- 构建类型：`仅支持 buildType: 'bundle'`
 - 默认值： `c => c`
 
 例如，我们需要修改生成文件的后缀：
@@ -445,6 +444,7 @@ import RegisterEsbuildPlugin from '@site-docs/components/register-esbuild-plugin
 
 1. 优先使用 Modern.js Module 提供的配置，例如 esbuild 并不支持 `target: 'es5'`，但我们内部使用 SWC 支持了此场景，此时通过 `esbuildOptions` 设置`target: 'es5'`会报错。
 2. 目前我们内部使用 `enhanced-resolve` 替代了 esbuild 的 resolve 解析算法，所以修改 esbuild resolve 相关配置无效，计划在未来会切换回来。
+3. 在 `buildType` 为 `'bundleless'` 时，只有部分 esbuild 选项能够生效。
 
 :::
 
