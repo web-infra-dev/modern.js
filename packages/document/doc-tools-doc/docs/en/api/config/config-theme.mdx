@@ -30,6 +30,8 @@ interface NavItem {
   link: '/';
   // Activation rules for navbar links
   activeMatch: '^/$|^/';
+  // svg tag string(optional)
+  tag?: string;
 }
 ```
 
@@ -63,10 +65,11 @@ export default defineConfig({
 
 ```ts
 interface NavGroup {
-  // 导航栏文本
   text: string;
-  // 子菜单
+  // submenu
   items: NavItem[];
+  // svg tag string(optional)
+  tag?: string;
 }
 ```
 
@@ -136,6 +139,8 @@ interface SidebarGroup {
   collapsible?: boolean;
   // Whether to be collapsed by default
   collapsed?: boolean;
+  // svg tag string(optional)
+  tag?: string;
 }
 
 // An object can be filled in, or a string can be filled in
@@ -146,6 +151,8 @@ type SidebarItem =
       text: string;
       // sidebar link
       link: string;
+      // svg tag string(optional)
+      tag?: string;
     }
   | string;
 ```

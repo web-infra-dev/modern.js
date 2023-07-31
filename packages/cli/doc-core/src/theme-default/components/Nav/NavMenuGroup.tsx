@@ -3,10 +3,12 @@ import { NavItemWithChildren, NavItemWithLink } from 'shared/types';
 import { Link } from '../Link';
 import Translator from '../../assets/translator.svg';
 import Down from '../../assets/down.svg';
+import { Tag } from '../Tag';
 
 export interface NavMenuGroupItem {
   text?: string | React.ReactElement;
   items: (NavItemWithLink | NavItemWithChildren)[];
+  tag?: string;
   activeValue?: string;
   // When the item is transition, we need to give a react element instead of a string.
   isTranslation?: boolean;
@@ -16,11 +18,12 @@ function ActiveGroupItem({ item }: { item: NavItemWithLink }) {
   return (
     <div
       key={item.link}
-      className="rounded-2xl my-1"
+      className="rounded-2xl my-1 flex"
       style={{
         padding: '0.4rem 1.5rem 0.4rem 0.75rem',
       }}
     >
+      {item.tag && <Tag tag={item.tag} />}
       <span className="text-brand">{item.text}</span>
     </div>
   );
@@ -37,6 +40,7 @@ function NormalGroupItem({ item }: { item: NavItemWithLink }) {
           }}
         >
           <div className="flex">
+            {item.tag && <Tag tag={item.tag} />}
             <span>{item.text}</span>
           </div>
         </div>
@@ -74,11 +78,12 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
         className="nav-menu-group-button flex-center items-center font-medium text-sm text-text-1 hover:text-text-2 transition-colors duration-200"
       >
         <span
-          className="text-sm font-medium"
+          className="text-sm font-medium flex"
           style={{
             marginRight: '2px',
           }}
         >
+          <Tag tag={item.tag} />
           {isTranslation ? (
             <Translator
               style={{
