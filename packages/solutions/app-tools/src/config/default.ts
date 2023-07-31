@@ -65,12 +65,21 @@ export function createDefaultConfig(
     port: 8080,
   };
 
+  const defaultTsCheckerConfig = {
+    tsChecker: {
+      issue: {
+        include: [{ file: '**/src/**/*' }],
+      },
+    },
+  };
+
   const tools =
     bundler === 'webpack'
       ? {
           ...defaultBuilderConfig.tools,
+          ...defaultTsCheckerConfig,
         }
-      : undefined;
+      : defaultTsCheckerConfig;
 
   return {
     source,

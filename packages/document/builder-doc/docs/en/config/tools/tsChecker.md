@@ -33,8 +33,32 @@ By default, the [fork-ts-checker-webpack-plugin](https://github.com/TypeStrong/f
 
 ### Object Type
 
-When this value is an Object, it is merged with the default config via Object.assign.
+When the value of `tsChecker` is of type Object, it will be deeply merged with the default configuration.
+
+```ts
+export default {
+  tools: {
+    tsChecker: {
+      issue: {
+        exclude: [{ file: '**/some-folder/**/*.ts' }],
+      },
+    },
+  },
+};
+```
 
 ### Function Type
 
-When the value is a Function, the default config is passed in as the first parameter. You can modify the config object directly, or return an object as the final config.
+When the value of `tsChecker` is of type Function, the default configuration will be passed as the first argument. You can directly modify the configuration object or return an object as the final configuration.
+
+```ts
+export default {
+  tools: {
+    tsChecker(options) {
+      (options?.issue?.exclude as unknown[]).push({
+        file: '**/some-folder/**/*.ts',
+      });
+    },
+  },
+};
+```
