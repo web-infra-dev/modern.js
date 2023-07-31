@@ -1,7 +1,7 @@
 import { run } from '@modern-js/utils/runtime-node';
+import { time } from '@modern-js/utils/universal/time';
 import { ServerRenderOptions } from '../types';
 import { PreRender } from '../../react/prerender';
-import { time } from '../time';
 import SSREntry from './entry';
 
 export const render = ({

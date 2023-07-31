@@ -3,6 +3,7 @@ import ReactDomServer from 'react-dom/server';
 import { serializeJson } from '@modern-js/utils/runtime-node';
 import ReactHelmet, { HelmetData } from 'react-helmet';
 // Todo: This import will introduce router code, like remix, even if router config is false
+import { time } from '@modern-js/utils/universal/time';
 import { serializeErrors } from '../../../router/runtime/utils';
 import helmetReplace from '../helmet';
 import {
@@ -11,7 +12,6 @@ import {
   ModernSSRReactComponent,
   SSRPluginConfig,
 } from '../types';
-import { time } from '../time';
 import prefetch from '../../prefetch';
 import {
   ROUTER_DATA_JSON_ID,
