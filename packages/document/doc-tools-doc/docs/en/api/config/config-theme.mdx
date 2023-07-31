@@ -30,7 +30,7 @@ interface NavItem {
   link: '/';
   // Activation rules for navbar links
   activeMatch: '^/$|^/';
-  // svg tag string(optional)
+  // svg tag string or image URL(optional)
   tag?: string;
 }
 ```
@@ -68,7 +68,7 @@ interface NavGroup {
   text: string;
   // submenu
   items: NavItem[];
-  // svg tag string(optional)
+  // svg tag string or image URL(optional)
   tag?: string;
 }
 ```
@@ -139,7 +139,7 @@ interface SidebarGroup {
   collapsible?: boolean;
   // Whether to be collapsed by default
   collapsed?: boolean;
-  // svg tag string(optional)
+  // svg tag string or image URL(optional)
   tag?: string;
 }
 
@@ -151,7 +151,7 @@ type SidebarItem =
       text: string;
       // sidebar link
       link: string;
-      // svg tag string(optional)
+      // svg tag string or image URL(optional)
       tag?: string;
     }
   | string;

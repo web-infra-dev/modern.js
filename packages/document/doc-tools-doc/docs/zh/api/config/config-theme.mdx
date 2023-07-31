@@ -30,7 +30,7 @@ interface NavItem {
   link: '/';
   // 导航栏链接的激活规则
   activeMatch: '^/$|^/';
-  // 图标配置(可选)，填入 svg 标签内容
+  // 图标配置(可选)，填入 svg 标签内容或者图片 URL
   tag?: string;
 }
 ```
@@ -69,7 +69,7 @@ interface NavGroup {
   text: string;
   // 子菜单
   items: NavItem[];
-  // 图标配置(可选)，填入 svg 标签内容
+  // 图标配置(可选)，填入 svg 标签内容或者图片 URL
   tag?: string;
 }
 ```
@@ -126,7 +126,7 @@ interface SidebarGroup {
   collapsible?: boolean;
   // 是否默认折叠
   collapsed?: boolean;
-  // 图标配置(可选)，填入 svg 标签内容
+  // 图标配置(可选)，填入 svg 标签内容或者图片 URL
   tag?: string;
 }
 
@@ -138,7 +138,7 @@ type SidebarItem =
       text: string;
       // 侧边栏链接
       link: string;
-      // 图标配置(可选)，填入 svg 标签内容
+      // 图标配置(可选)，填入 svg 标签内容或者图片 URL
       tag?: string;
     }
   | string;
