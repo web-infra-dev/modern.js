@@ -16,6 +16,7 @@ declare module 'http' {
   interface IncomingMessage {
     logger: Logger;
     metrics: Metrics;
+    body?: string;
   }
 }
 

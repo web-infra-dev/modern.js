@@ -133,3 +133,32 @@ export const headersWithoutCookie = (headers: IncomingMessage['headers']) => {
 export const isRedirect = (code: number) => {
   return [301, 302, 307, 308].includes(code);
 };
+
+/**
+ * get body from request.
+ * @return body -
+ *  if req.method !== 'GET', it returns a string, otherwise it returns undefined
+ */
+const getRequestBody = (req: IncomingMessage): Promise<string | undefined> =>
+  new Promise((resolve, reject) => {
+    if (req?.method && req.method.toLowerCase() !== 'get') {
+      let body = '';
+      req.on('data', chunk => {
+        body += chunk.toString();
+      });
+
+      req.on('end', () => {
+        resolve(body);
+      });
+
+      req.on('error', err => {
+        reject(err);
+      });
+    } else {
+      resolve(undefined);
+    }
+  });
+
+export const bodyParser = async (req: IncomingMessage) => {
+  req.body = await getRequestBody(req);
+};

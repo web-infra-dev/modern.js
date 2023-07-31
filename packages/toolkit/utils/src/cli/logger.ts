@@ -65,6 +65,11 @@ const DEFAULT_CONFIG = {
   uppercaseLabel: false,
 };
 
+const errorStackRegExp = /^\s*at\s.*:\d+:\d+[\s)]*(\n|$)/m;
+
+export const isErrorStackMessage = (message: string) =>
+  errorStackRegExp.test(message);
+
 class Logger {
   private readonly level: string;
 
@@ -119,6 +124,13 @@ class Logger {
       } else {
         text = message.message;
       }
+    }
+    // change the color of error stacks to gray
+    else if (logType.level === 'error' && typeof message === 'string') {
+      const lines = message.split('\n');
+      text = lines
+        .map(line => (isErrorStackMessage(line) ? chalk.gray(line) : line))
+        .join('\n');
     } else {
       text = `${message}`;
     }

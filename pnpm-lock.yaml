@@ -6025,9 +6025,9 @@ importers:
       '@modern-js/tsconfig':
         specifier: workspace:*
         version: link:../../packages/review/tsconfig
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../packages/toolkit/utils
+      '@types/lodash':
+        specifier: ^4.14.195
+        version: 4.14.195
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -6040,12 +6040,15 @@ importers:
       globby:
         specifier: ^11.0.4
         version: 11.1.0
-      p-map:
-        specifier: ^4.0.0
-        version: 4.0.0
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       typescript:
         specifier: ^5
         version: 5.0.4
+      upath:
+        specifier: 2.0.1
+        version: 2.0.1
 
   tests:
     devDependencies:
@@ -33423,7 +33426,6 @@ packages:
   /upath@2.0.1:
     resolution: {integrity: sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==}
     engines: {node: '>=4'}
-    dev: true
 
   /update-browserslist-db@1.0.10(browserslist@4.21.4):
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}

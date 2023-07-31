@@ -1,8 +1,9 @@
+import { describe, expect, it } from 'vitest';
 import {
   applyMatcherReplacement,
   applyPathMatcher,
   matchUpwardPathsAsUnknown,
-} from '../src';
+} from '../src/pathSerializer';
 
 describe('matchUpwardPathsAsUnknown', () => {
   it('should match upward paths', () => {
