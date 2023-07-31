@@ -80,19 +80,18 @@ export const optimizeRoute = (
   const { children } = routeTree;
   if (!routeTree._component) {
     const newRoutes = children.map(child => {
-      const routePath = `${routeTree.path ?? ''}${
+      const routePath = `${routeTree.path}${
         child.path ? `/${child.path}` : ''
       }`;
-      return { ...child, path: routePath };
+
+      const newRoute = { ...child, path: routePath.replace(/\/\//g, '/') };
+      return newRoute;
     });
 
-    if (newRoutes.length > 1) {
-      return newRoutes.flatMap(newRoute => optimizeRoute(newRoute));
-    }
-    return newRoutes;
+    return Array.from(new Set(newRoutes)).flatMap(optimizeRoute);
   } else {
-    routeTree.children = children.flatMap(optimizeRoute);
-    return [routeTree];
+    const optimizedChildren = routeTree.children.flatMap(optimizeRoute);
+    return [{ ...routeTree, children: optimizedChildren }];
   }
 };
 
@@ -289,17 +288,6 @@ export const walk = async (
         ...childRoute,
         path,
       };
-    }
-  }
-
-  // Splat routes should be last
-  if (splatRoute) {
-    const slatRouteIndex = childRoutes?.findIndex(
-      childRoute => childRoute === splatRoute,
-    );
-    if (typeof slatRouteIndex === 'number' && slatRouteIndex !== -1) {
-      childRoutes?.splice(slatRouteIndex, 1);
-      childRoutes?.push(splatRoute);
     }
   }
 
