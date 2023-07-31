@@ -14,7 +14,7 @@ export const builderPluginNetworkPerformance = (): DefaultBuilderPlugin => ({
           performance: { dnsPrefetch, preconnect },
         } = config;
 
-        if (isServer || isWebWorker) {
+        if (isServer || isWebWorker || isServiceWorker) {
           return;
         }
 
