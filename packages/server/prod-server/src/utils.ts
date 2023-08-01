@@ -134,6 +134,15 @@ export const isRedirect = (code: number) => {
   return [301, 302, 307, 308].includes(code);
 };
 
+function parseBodyTypes(headers: IncomingMessage['headers'], body: string) {
+  switch (headers['content-type']) {
+    case 'application/json':
+      return JSON.parse(body);
+    default:
+      return body;
+  }
+}
+
 /**
  * get body from request.
  * @return  body -
@@ -148,15 +157,7 @@ const getRequestBody = (req: IncomingMessage): Promise<any | undefined> =>
       });
 
       req.on('end', () => {
-        switch (req.headers['content-type']) {
-          case 'application/json': {
-            resolve(JSON.parse(body));
-            break;
-          }
-          default:
-            resolve(body);
-        }
-        resolve(body);
+        resolve(parseBodyTypes(req.headers, body));
       });
 
       req.on('error', err => {
