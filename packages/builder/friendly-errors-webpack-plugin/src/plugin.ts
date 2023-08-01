@@ -23,7 +23,10 @@ export class FriendlyErrorsWebpackPlugin {
   apply(compiler: webpack.Compiler): void {
     compiler.hooks.done.tapPromise(this.name, async stats => {
       const ctx = new Context(this.options);
-      const parseOpts: ParseOptions = { withSources: ctx.withSources };
+      const parseOpts: ParseOptions = {
+        withSources: ctx.withSources,
+        compiler,
+      };
 
       parseOpts.type = 'warning';
       const warnings = stats.compilation.getWarnings();
