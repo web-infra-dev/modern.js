@@ -75,7 +75,11 @@ export class ParsedError<E extends ErrorShape = ErrorShape> {
 
   loc?: string | WebpackError['loc'];
 
-  private raw: E;
+  details?: string;
+
+  stack?: string;
+
+  readonly raw: E;
 
   constructor(error: E, options: ParseOptions) {
     this.raw = error;
@@ -96,6 +100,12 @@ export class ParsedError<E extends ErrorShape = ErrorShape> {
     }
     if ('hideStack' in this.raw && this.raw.hideStack === true) {
       this.hideStack = this.raw.hideStack;
+    }
+    if ('details' in this.raw && _.isString(this.raw.details)) {
+      this.details = this.raw.details;
+    }
+    if ('stack' in this.raw && _.isString(this.raw.stack)) {
+      this.stack = this.raw.stack;
     }
     if (typeof options.type === 'string') {
       this.type = options.type;
