@@ -156,3 +156,105 @@ test('should generate dnsPrefetch link when dnsPrefetch is defined', async () =>
     content.includes('<link rel="dns-prefetch" href="http://aaaa.com">'),
   ).toBeTruthy();
 });
+
+test('should generate prefetch link when prefetch is defined', async () => {
+  const builder = await build({
+    cwd: join(fixtures, 'load-resource'),
+    entry: {
+      main: join(fixtures, 'load-resource/src/index.ts'),
+    },
+    builderConfig: {
+      performance: {
+        prefetch: true,
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const asyncFileName = Object.keys(files).find(file =>
+    file.includes('/static/js/async/'),
+  )!;
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('index.html'),
+  )!;
+
+  expect(content.match(/rel="prefetch"/g)?.length).toBe(1);
+
+  expect(
+    content.includes(
+      `<link href="${asyncFileName.slice(
+        asyncFileName.indexOf('/static/js/async/'),
+      )}" rel="prefetch">`,
+    ),
+  ).toBeTruthy();
+});
+
+test('should generate prefetch link by config', async () => {
+  const builder = await build({
+    cwd: join(fixtures, 'load-resource'),
+    entry: {
+      main: join(fixtures, 'load-resource/src/index.ts'),
+    },
+    builderConfig: {
+      performance: {
+        prefetch: {
+          type: 'all-assets',
+        },
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('index.html'),
+  )!;
+
+  expect(content.match(/rel="prefetch"/g)?.length).toBe(2);
+
+  const assetFileName = Object.keys(files).find(file =>
+    file.includes('/static/image/'),
+  )!;
+
+  expect(
+    content.includes(
+      `<link href="${assetFileName.slice(
+        assetFileName.indexOf('/static/image/'),
+      )}" rel="prefetch">`,
+    ),
+  ).toBeTruthy();
+});
+
+test('should generate preload link when preload is defined', async () => {
+  const builder = await build({
+    cwd: join(fixtures, 'load-resource'),
+    entry: {
+      main: join(fixtures, 'load-resource/src/index.ts'),
+    },
+    builderConfig: {
+      performance: {
+        preload: true,
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const asyncFileName = Object.keys(files).find(file =>
+    file.includes('/static/js/async/'),
+  )!;
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('index.html'),
+  )!;
+
+  expect(content.match(/rel="preload"/g)?.length).toBe(1);
+
+  expect(
+    content.includes(
+      `<link href="${asyncFileName.slice(
+        asyncFileName.indexOf('/static/js/async/'),
+      )}" rel="preload" as="script">`,
+    ),
+  ).toBeTruthy();
+});
