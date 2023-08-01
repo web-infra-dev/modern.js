@@ -120,6 +120,10 @@ export const generateCode = async (
   const isV5 = isRouterV5(config);
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
   const importsStatemets = new Map<string, ImportStatement[]>();
+  const oldVersion =
+    typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
+      ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
+      : false;
 
   await Promise.all(entrypoints.map(generateEntryCode));
 
@@ -135,7 +139,7 @@ export const generateCode = async (
       if (fileSystemRoutes) {
         let initialRoutes: (NestedRouteForCli | PageRoute)[] | RouteLegacy[] =
           [];
-        let nestedRoute: NestedRouteForCli | null = null;
+        let nestedRoutes: NestedRouteForCli | NestedRouteForCli[] | null = null;
         if (entrypoint.entry) {
           initialRoutes = getRoutes({
             entrypoint,
@@ -146,7 +150,7 @@ export const generateCode = async (
           });
         }
         if (!isV5 && entrypoint.nestedRoutesEntry) {
-          nestedRoute = await walk(
+          nestedRoutes = await walk(
             entrypoint.nestedRoutesEntry,
             entrypoint.nestedRoutesEntry,
             {
@@ -155,9 +159,15 @@ export const generateCode = async (
             },
             entrypoint.entryName,
             entrypoint.isMainEntry,
+            oldVersion,
           );
-          if (nestedRoute) {
-            (initialRoutes as Route[]).unshift(nestedRoute);
+          if (nestedRoutes) {
+            if (!Array.isArray(nestedRoutes)) {
+              nestedRoutes = [nestedRoutes];
+            }
+            for (const route of nestedRoutes) {
+              (initialRoutes as Route[]).unshift(route);
+            }
           }
         }
 

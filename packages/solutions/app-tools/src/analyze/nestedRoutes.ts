@@ -70,6 +70,31 @@ const createRoute = (
   };
 };
 
+export const optimizeRoute = (
+  routeTree: NestedRouteForCli,
+): NestedRouteForCli[] => {
+  if (!routeTree.children || routeTree.children.length === 0) {
+    return [routeTree];
+  }
+
+  const { children } = routeTree;
+  if (!routeTree._component) {
+    const newRoutes = children.map(child => {
+      const routePath = `${routeTree.path}${
+        child.path ? `/${child.path}` : ''
+      }`;
+
+      const newRoute = { ...child, path: routePath.replace(/\/\//g, '/') };
+      return newRoute;
+    });
+
+    return Array.from(new Set(newRoutes)).flatMap(optimizeRoute);
+  } else {
+    const optimizedChildren = routeTree.children.flatMap(optimizeRoute);
+    return [{ ...routeTree, children: optimizedChildren }];
+  }
+};
+
 // eslint-disable-next-line complexity
 export const walk = async (
   dirname: string,
@@ -80,7 +105,8 @@ export const walk = async (
   },
   entryName: string,
   isMainEntry: boolean,
-): Promise<NestedRouteForCli | null> => {
+  oldVersion: boolean,
+): Promise<NestedRouteForCli | NestedRouteForCli[] | null> => {
   if (!(await fs.pathExists(dirname))) {
     return null;
   }
@@ -110,7 +136,7 @@ export const walk = async (
   let pageLoaderFile = '';
   let pageRoute = null;
   let splatLoaderFile = '';
-  let splatRoute = null;
+  let splatRoute: NestedRouteForCli | null = null;
   let pageConfigFile = '';
 
   const items = await fs.readdir(dirname);
@@ -129,8 +155,9 @@ export const walk = async (
         alias,
         entryName,
         isMainEntry,
+        oldVersion,
       );
-      if (childRoute) {
+      if (childRoute && !Array.isArray(childRoute)) {
         route.children?.push(childRoute);
       }
     }
@@ -237,9 +264,12 @@ export const walk = async (
     delete finalRoute.path;
   }
 
-  route.children = route.children?.filter(childRoute => childRoute);
+  // eslint-disable-next-line no-multi-assign
+  const childRoutes = (finalRoute.children = finalRoute.children?.filter(
+    childRoute => childRoute,
+  ));
 
-  if (route.children && route.children.length === 0 && !route.index) {
+  if (childRoutes && childRoutes.length === 0 && !finalRoute.index) {
     return null;
   }
 
@@ -250,12 +280,8 @@ export const walk = async (
    *    - $.tsx
    *  - layout.tsx
    */
-  if (
-    finalRoute.children &&
-    finalRoute.children.length === 1 &&
-    !finalRoute._component
-  ) {
-    const childRoute = finalRoute.children[0];
+  if (childRoutes && childRoutes.length === 1 && !finalRoute._component) {
+    const childRoute = childRoutes[0];
     if (childRoute.path === '*') {
       const path = `${finalRoute.path || ''}/${childRoute.path || ''}`;
       finalRoute = {
@@ -263,6 +289,11 @@ export const walk = async (
         path,
       };
     }
+  }
+
+  if (isRoot && !oldVersion) {
+    const optimizedRoutes = optimizeRoute(finalRoute);
+    return optimizedRoutes;
   }
 
   return finalRoute;
