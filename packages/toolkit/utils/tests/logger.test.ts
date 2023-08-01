@@ -52,16 +52,25 @@ describe('isErrorStackMessage', () => {
     expect(
       isErrorStackMessage('    at /modern.js/packages/foo/bar.js:29:251'),
     ).toBeTruthy();
+
     expect(
       isErrorStackMessage(
         '    at Object.call (/modern.js/packages/foo/bar.js:19:28)',
       ),
     ).toBeTruthy();
+
     expect(
       isErrorStackMessage(
         '    at async Command.<anonymous> (modern.js/packages/foo/dist/cjs/index.js:55:5)',
       ),
     ).toBeTruthy();
+
+    expect(
+      isErrorStackMessage('    at transform.next (<anonymous>)'),
+    ).toBeTruthy();
+
+    expect(isErrorStackMessage('    at Array.map (<anonymous>)')).toBeTruthy();
+
     expect(
       isErrorStackMessage('    error   TypeError: foo.some is not a function'),
     ).toBeFalsy();
