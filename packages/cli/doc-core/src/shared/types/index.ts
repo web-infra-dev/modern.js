@@ -3,6 +3,7 @@ import type { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluginConfig } from '@modern-js/core';
 import _ from '@modern-js/utils/lodash';
 import type { PluggableList } from 'unified';
+import type { BuilderPlugin } from '@modern-js/builder';
 import type {
   Config as DefaultThemeConfig,
   NormalizedConfig as NormalizedDefaultThemeConfig,
@@ -135,6 +136,10 @@ export interface DocConfig<ThemeConfig = DefaultThemeConfig> {
     | {
         selector?: string;
       };
+  /**
+   * Add some extra builder plugins
+   */
+  builderPlugins?: BuilderPlugin[];
 }
 
 export type BaseRuntimePageInfo = Omit<

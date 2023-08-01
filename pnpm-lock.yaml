@@ -4442,8 +4442,8 @@ importers:
         specifier: ^6.0.0
         version: 6.0.0
       ua-parser-js:
-        specifier: ^0.7.28
-        version: 0.7.31
+        specifier: ^0.7.33
+        version: 0.7.33
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -33126,8 +33126,8 @@ packages:
     engines: {node: '>=12.20'}
     hasBin: true
 
-  /ua-parser-js@0.7.31:
-    resolution: {integrity: sha512-qLK/Xe9E2uzmYI3qLeOmI0tEOt+TBBQyUIAh4aAgU05FVYzeZrKUdkAZfBNVGRaHVgV0TDkdEngJSw/SyQchkQ==}
+  /ua-parser-js@0.7.33:
+    resolution: {integrity: sha512-s8ax/CeZdK9R/56Sui0WM6y9OFREJarMRHqLB2EwkovemBxNQ+Bqu8GAsUnVcXKgphb++ghr/B2BZx4mahujPw==}
     dev: false
 
   /ufo@1.1.2:

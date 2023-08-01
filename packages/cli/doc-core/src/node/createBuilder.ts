@@ -187,6 +187,7 @@ export async function createModernBuilder(
 ): Promise<BuilderInstance<BuilderRspackProvider>> {
   const cwd = process.cwd();
   const userRoot = path.resolve(rootDir || config.doc?.root || cwd);
+  const builderPlugins = config.doc.builderPlugins ?? [];
   // We use a temp dir to store runtime files, so we can separate client and server build
   // and we should empty temp dir before build
   await fs.emptyDir(TEMP_DIR);
@@ -240,6 +241,7 @@ export async function createModernBuilder(
       routeService,
       pluginDriver,
     }),
+    ...builderPlugins,
   ]);
 
   return builder;

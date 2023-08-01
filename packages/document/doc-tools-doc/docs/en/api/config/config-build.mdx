@@ -22,6 +22,24 @@ export default defineConfig({
 });
 ```
 
+## builderPlugins
+
+- Type: `BuilderPlugin[]`
+
+Used to customize the [plugins of Modern.js Builder](https://modernjs.dev/builder/en/plugins/introduction.html). For example:
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
+
+export default defineConfig({
+  doc: {
+    builderPlugins: [builderPluginStylus()],
+  },
+  plugins: [docTools()],
+});
+```
+
 ### Default Config
 
 If you need to see the default `builderConfig`, you can add the `DEBUG=builder` parameter when running the `modern dev` or `modern build` command:
