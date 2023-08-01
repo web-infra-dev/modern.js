@@ -1,6 +1,6 @@
 import { inspect } from 'util';
 import { JSONValue } from '@modern-js/builder-shared';
-import _ from '@modern-js/utils/compiled/lodash';
+import _ from '@modern-js/utils/lodash';
 import type {
   Chunk,
   Compiler,
