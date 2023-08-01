@@ -2,14 +2,14 @@ import path from 'path';
 import { test, expect } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 
-test('should exclude specified less file', async () => {
+test('should exclude specified scss file', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
     builderConfig: {
       tools: {
-        less: (opts, { addExcludes }) => {
-          addExcludes([/b\.less$/]);
+        sass: (opts, { addExcludes }) => {
+          addExcludes([/b\.scss$/]);
         },
       },
       output: {
@@ -20,8 +20,8 @@ test('should exclude specified less file', async () => {
 
   const files = await builder.unwrapOutputJSON();
   const cssFiles = Object.keys(files).filter(file => file.endsWith('.css'));
-  const lessFiles = Object.keys(files).filter(file => file.endsWith('.less'));
+  const scssFiles = Object.keys(files).filter(file => file.endsWith('.scss'));
 
-  expect(lessFiles.length).toBe(1);
+  expect(scssFiles.length).toBe(1);
   expect(cssFiles.length).toBe(1);
 });
