@@ -4,6 +4,7 @@ import {
   BaseSSRServerContext,
   MiddlewareContext,
   NextFunction,
+  Reporter,
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
 import {
@@ -15,6 +16,7 @@ import {
 import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
+import { defaultReporter } from './libs/reporter';
 
 export type Context = Record<string, any>;
 
@@ -141,8 +143,14 @@ export const createHandler = (manifest: Manifest) => {
       level: 'warn',
     }) as Logger & LoggerInterface;
     const metrics = defaultMetrics as any;
+    const reporter = defaultReporter;
 
-    const hookContext = createWorkerHookContext(request.url, logger, metrics);
+    const hookContext = createWorkerHookContext(
+      request.url,
+      logger,
+      metrics,
+      reporter,
+    );
 
     const afterMatchHookContext = createAfterMatchContext(
       hookContext,
@@ -194,9 +202,16 @@ export const createHandler = (manifest: Manifest) => {
           template: page.template,
           entryName: page.entryName,
           logger,
+          reporter: defaultReporter,
           metrics,
           // FIXME: pass correctly req & res
           req: request as any,
+          serverTiming: {
+            addServeTiming() {
+              // noImpl
+              return this;
+            },
+          },
           res: responseLike as any,
         };
 
@@ -279,6 +294,7 @@ function createWorkerHookContext(
   url: string,
   logger: any,
   metrics: any,
+  reporter: Reporter,
 ): WorkerServerContext {
   const [res, req] = [
     { headers: new Headers(), body: '', status: 200, isSent: false },
@@ -290,6 +306,7 @@ function createWorkerHookContext(
     req,
     logger,
     metrics,
+    reporter,
   };
 }
 

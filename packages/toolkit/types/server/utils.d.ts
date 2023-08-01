@@ -19,6 +19,40 @@ export type Logger = {
   log: LoggerFunction;
 };
 
+export interface ServerTiming {
+  addServeTiming: (name: string, dur: number, decs?: string) => this;
+}
+
+export type Reporter = {
+  sessionId?: string;
+  userId?: string;
+  client?: any;
+
+  init: (payload: { match: any }) => void | Promise<void>;
+
+  reportError: (
+    content: string,
+    e: Error,
+    extra?: Record<string, string | number>,
+  ) => void;
+
+  reportTiming: (
+    name: string,
+    value: number,
+    extra?: Record<string, string>,
+  ) => void;
+
+  reportInfo: (
+    content: string,
+    extra?: Record<string, string | number>,
+  ) => void;
+
+  reportWarn: (
+    content: string,
+    extra?: Record<string, string | number>,
+  ) => void;
+};
+
 export type NextFunction = () => void;
 
 export type ProxyDetail = ProxyOptions & {
