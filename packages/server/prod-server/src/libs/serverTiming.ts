@@ -18,7 +18,7 @@ export class ServerTiming implements IServerTiming {
   }
 
   addServeTiming(name: string, dur: number, desc?: string) {
-    // TODO: Modern.js should't export any about bytedance.
+    // TODO: Modern.js should't export anything about bytedance.
     const _name = `bd-${this.meta}-${name}`;
     const serverTiming =
       this.res.getHeader(SERVER_TIMING) ||
