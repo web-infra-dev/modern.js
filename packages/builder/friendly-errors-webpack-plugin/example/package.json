@@ -1,7 +1,6 @@
 {
   "name": "@friendly-errors/example",
   "scripts": {
-    "build": "webpack"
   },
   "devDependencies": {
     "webpack": "*"
