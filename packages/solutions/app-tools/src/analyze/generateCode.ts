@@ -121,8 +121,8 @@ export const generateCode = async (
   const getRoutes = isV5 ? getClientRoutesLegacy : getClientRoutes;
   const importsStatemets = new Map<string, ImportStatement[]>();
   const oldVersion =
-    typeof config?.runtime.router === 'object'
-      ? Boolean(config?.runtime?.router?.oldVersion)
+    typeof (config?.runtime.router as { oldVersion: boolean }) === 'object'
+      ? Boolean((config?.runtime.router as { oldVersion: boolean }).oldVersion)
       : false;
 
   await Promise.all(entrypoints.map(generateEntryCode));
