@@ -1,5 +1,5 @@
 import type { AppNormalizedConfig, IAppContext } from '../../types';
-import { initHtmlConfig, initSourceConfig, initToolsConfig } from './inits';
+import { initHtmlConfig, initSourceConfig } from './inits';
 
 export function initialNormalizedConfig(
   config: AppNormalizedConfig<'shared'>,
@@ -8,9 +8,6 @@ export function initialNormalizedConfig(
 ): AppNormalizedConfig<'shared'> {
   initHtmlConfig(config, appContext);
   initSourceConfig(config, appContext, bundler);
-  if (bundler === 'webpack') {
-    initToolsConfig(config as AppNormalizedConfig<'webpack'>);
-  }
 
   return config;
 }
