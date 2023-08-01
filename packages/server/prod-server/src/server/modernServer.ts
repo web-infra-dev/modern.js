@@ -507,9 +507,6 @@ export class ModernServer implements ModernServerInterface {
   private async routeHandler(context: ModernServerContext) {
     const { res, req, reporter } = context;
 
-    // parse request body from readable stream to assgin it to req
-    await bodyParser(req);
-
     // match routes in the route spec
     const matched = this.router.match(context.path);
 
@@ -535,6 +532,10 @@ export class ModernServer implements ModernServerInterface {
       await this.handleAPI(context);
       return;
     }
+
+    // parse request body from readable stream to assgin it to req
+    // if route is a bff, we should't add parser repeattly.
+    await bodyParser(req);
 
     if (route.entryName) {
       const afterMatchContext = createAfterMatchContext(
