@@ -1,7 +1,7 @@
+import { time } from '@modern-js/utils/universal/time';
 import plugin from '../../src/ssr';
 import cliPlugin from '../../src/ssr/cli';
 import { formatClient, formatServer } from '../../src/ssr/utils';
-import { time } from '../../src/ssr/serverRender/time';
 
 describe('plugin-ssr', () => {
   it('default', () => {
