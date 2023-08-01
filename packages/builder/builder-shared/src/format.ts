@@ -13,12 +13,12 @@ export function formatStats(stats: Stats | MultiStats, showWarnings = true) {
     const errorMsgs = `${errors.join('\n\n')}\n`;
     const isTerserError = errorMsgs.includes('from Terser');
     const title = chalk.red.bold(
-      isTerserError ? `Minify Error: ` : `Compile Error: `,
+      isTerserError ? `Minify error: ` : `Compile error: `,
     );
     const tip = chalk.yellow(
       isTerserError
-        ? `Failed to minify the code with terser, please check if there are any syntax errors in the code.`
-        : 'Failed to compile the code, please refer to the following errors for troubleshooting.',
+        ? `Failed to minify with terser, check for syntax errors.`
+        : 'Failed to compile, check the errors for troubleshooting.',
     );
 
     return {

@@ -35,8 +35,11 @@ export async function createCompiler({
 
     const { message, level } = formatStats(stats);
 
-    if (level === 'error' || level === 'warning') {
-      logger.log(message);
+    if (level === 'error') {
+      logger.error(message);
+    }
+    if (level === 'warning') {
+      logger.warn(message);
     }
 
     if (isDev()) {

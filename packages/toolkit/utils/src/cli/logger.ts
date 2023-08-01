@@ -65,10 +65,11 @@ const DEFAULT_CONFIG = {
   uppercaseLabel: false,
 };
 
-const errorStackRegExp = /^\s*at\s.*:\d+:\d+[\s)]*(\n|$)/m;
+const errorStackRegExp = /^\s*at\s.*:\d+:\d+[\s)]*$/;
+const anonymousErrorStackRegExp = /^\s*at\s.*\(<anonymous>\)$/;
 
 export const isErrorStackMessage = (message: string) =>
-  errorStackRegExp.test(message);
+  errorStackRegExp.test(message) || anonymousErrorStackRegExp.test(message);
 
 class Logger {
   private readonly level: string;
