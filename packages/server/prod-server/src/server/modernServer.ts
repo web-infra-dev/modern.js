@@ -544,7 +544,10 @@ export class ModernServer implements ModernServerInterface {
 
       // only full mode run server hook
       if (this.runMode === RUN_MODE.FULL) {
+        const end = time();
         await this.runner.afterMatch(afterMatchContext, { onLast: noop });
+        const cost = end();
+        reporter.reportTiming('server_hook_after_render', cost);
       }
 
       if (this.isSend(res)) {
@@ -572,7 +575,10 @@ export class ModernServer implements ModernServerInterface {
     if (this.frameWebHandler) {
       res.locals = res.locals || {};
       const middlewareContext = createMiddlewareContext(context);
+      const end = time();
       await this.frameWebHandler(middlewareContext);
+      const cost = end();
+      reporter.reportTiming('server_middleware', cost);
       res.locals = {
         ...res.locals,
         ...middlewareContext.response.locals,
@@ -605,7 +611,10 @@ export class ModernServer implements ModernServerInterface {
       // only full mode run server hook
       // FIXME: how to run server hook in streaming
       if (this.runMode === RUN_MODE.FULL) {
+        const end = time();
         await this.runner.afterRender(afterRenderContext, { onLast: noop });
+        const cost = end();
+        reporter.reportTiming('server_hook_after_render', cost);
       }
 
       if (this.isSend(res)) {
