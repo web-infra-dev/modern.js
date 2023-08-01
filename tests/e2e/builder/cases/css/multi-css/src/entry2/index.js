@@ -1,1 +1,1 @@
-import './b.css';
+import './b.less';
