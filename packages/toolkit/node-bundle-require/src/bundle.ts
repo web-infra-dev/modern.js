@@ -77,7 +77,7 @@ export interface Options {
 export const defaultGetOutputFile = async (filepath: string) =>
   path.resolve(
     CONFIG_CACHE_DIR,
-    `${filepath}-${Date.now()}.${nanoid()}.bundled.cjs`,
+    `${filepath.replace(/\.(js|ts)/, '')}.${nanoid(8)}.cjs`,
   );
 
 export async function bundle(filepath: string, options?: Options) {

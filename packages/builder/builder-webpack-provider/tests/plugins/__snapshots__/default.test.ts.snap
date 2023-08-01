@@ -320,7 +320,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 3,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -363,6 +363,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               },
               "sourceMap": true,
             },
+          },
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -507,7 +510,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -646,7 +649,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1253,7 +1256,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 3,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -1298,10 +1301,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             },
           },
           {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+          },
+          {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
             "options": {
               "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
         ],
@@ -1440,7 +1446,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -1585,7 +1591,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -2211,7 +2217,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 3,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -2222,10 +2228,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+          },
+          {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
             "options": {
               "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
         ],
@@ -2330,7 +2339,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -2473,7 +2482,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -3008,7 +3017,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/css-loader",
             "options": {
-              "importLoaders": 2,
+              "importLoaders": 3,
               "modules": {
                 "auto": true,
                 "exportLocalsConvention": "camelCase",
@@ -3019,10 +3028,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             },
           },
           {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+          },
+          {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
             "options": {
               "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
-              "sourceMap": false,
+              "sourceMap": true,
             },
           },
         ],
@@ -3127,7 +3139,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
@@ -3272,7 +3284,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/esm-node/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",

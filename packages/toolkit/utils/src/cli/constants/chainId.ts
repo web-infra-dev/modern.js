@@ -97,6 +97,8 @@ export const CHAIN_ID = {
     CSS_MODULES_TS: 'css-modules-typescript',
     /** mini-css-extract-plugin.loader */
     MINI_CSS_EXTRACT: 'mini-css-extract',
+    /** resolve-url-loader */
+    RESOLVE_URL_LOADER_FOR_SASS: 'resolve-url-loader',
     /** builder-plugin-image-compress.loader */
     IMAGE_COMPRESS: 'image-compress',
     /** builder-plugin-image-compress svgo-loader */
@@ -144,6 +146,10 @@ export const CHAIN_ID = {
     HTML_NONCE: 'html-nonce',
     /** HtmlCrossOriginPlugin */
     HTML_CROSS_ORIGIN: 'html-cross-origin',
+    /** htmlPreconnectPlugin */
+    HTML_PRECONNECT: 'html-preconnect-plugin',
+    /** htmlDnsPrefetchPlugin */
+    HTML_DNS_PREFETCH: 'html-dns-prefetch-plugin',
     /** MiniCssExtractPlugin */
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** VueLoaderPlugin */

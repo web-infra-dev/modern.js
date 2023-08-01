@@ -70,7 +70,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/cjs/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -176,7 +176,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/cjs/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -350,7 +350,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/cjs/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
@@ -454,7 +454,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/dist/cjs/babelPluginLockCorejsVersion",
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",

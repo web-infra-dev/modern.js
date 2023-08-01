@@ -172,4 +172,16 @@ describe('prettyInstructions', () => {
 
     expect(message).toMatchSnapshot();
   });
+
+  test('custom entry', () => {
+    const mockAppContext = {
+      entrypoints: [],
+      serverRoutes: [],
+      port: 8080,
+      apiOnly: false,
+    };
+
+    const message = prettyInstructions(mockAppContext, {});
+    expect(message).toMatchSnapshot();
+  });
 });

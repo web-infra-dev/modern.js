@@ -1,6 +1,5 @@
 import path, { dirname, isAbsolute, posix, sep } from 'path';
 import {
-  applyOptionsChain,
   findExists,
   findMonorepoRoot,
   globby,
@@ -135,31 +134,4 @@ export function initSourceConfig(
       );
     }
   }
-}
-
-export function initToolsConfig(config: AppNormalizedConfig<'webpack'>) {
-  const defaultTsChecker = {
-    issue: {
-      include: [{ file: '**/src/**/*' }],
-      exclude: [
-        { file: '**/*.(spec|test).ts' },
-        { file: '**/node_modules/**/*' },
-      ],
-    },
-  };
-
-  const { tsChecker, tsLoader } = config.tools;
-  config.tools.tsChecker = applyOptionsChain(defaultTsChecker, tsChecker);
-  tsLoader &&
-    (config.tools.tsLoader = (tsLoaderConfig, utils) => {
-      applyOptionsChain(
-        {
-          ...tsLoaderConfig,
-          transpileOnly: false,
-          allowTsInNodeModules: true,
-        },
-        tsLoader || {},
-        utils,
-      );
-    });
 }

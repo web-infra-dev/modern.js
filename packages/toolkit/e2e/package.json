@@ -18,9 +18,11 @@
   "module": "./dist/index.js",
   "exports": {
     ".": {
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
     "./playwright": {
+      "jsnext:source": "./src/exports/playwright.ts",
       "default": "./dist/exports/playwright.js"
     },
     "./fixtures/*": {

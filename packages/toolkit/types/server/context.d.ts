@@ -1,7 +1,7 @@
 import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
 import qs from 'querystring';
 import type { SSRMode } from 'common';
-import { Metrics, Logger } from './utils';
+import { Metrics, Logger, Reporter, ServerTiming } from './utils';
 
 export interface ModernServerContext {
   req: IncomingMessage;
@@ -13,6 +13,10 @@ export interface ModernServerContext {
   logger: Logger;
 
   metrics: Metrics;
+
+  reporter: Reporter;
+
+  serverTiming: ServerTiming;
 
   setParams: (params: Record<string, string>) => void;
 
@@ -86,6 +90,8 @@ export type BaseSSRServerContext = {
       tags: Record<string, unknown> = {},
     ) => void;
   };
+  reporter: Reporter;
+  serverTiming: ServerTiming;
   cacheConfig?: any;
 
   enableUnsafeCtx?: boolean;

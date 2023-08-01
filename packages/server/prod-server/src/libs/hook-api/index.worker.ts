@@ -5,6 +5,7 @@ import {
   Logger,
   Metrics,
   MiddlewareContext,
+  Reporter,
 } from '@modern-js/types/server';
 import { BaseRequest, BaseResponse, ServerResponseLike } from './base';
 import { RouteAPI } from './route';
@@ -22,6 +23,7 @@ export interface WorkerServerContext {
   res: WorkerResponse;
   req: Request;
   logger: Logger;
+  reporter: Reporter;
   metrics: Metrics;
 }
 
@@ -62,7 +64,7 @@ class ServerResponse implements ServerResponseLike {
 }
 
 export const base = (context: WorkerServerContext): HookContext => {
-  const { req, res, logger, metrics } = context;
+  const { req, res, logger, metrics, reporter } = context;
   const serverResponse = new ServerResponse(res);
 
   // eslint-disable-next-line node/no-unsupported-features/node-builtins, node/prefer-global/url
@@ -75,6 +77,7 @@ export const base = (context: WorkerServerContext): HookContext => {
 
   return {
     response: new BaseResponse(serverResponse),
+    reporter,
     request: new BaseRequest({
       url: req.url,
       host,

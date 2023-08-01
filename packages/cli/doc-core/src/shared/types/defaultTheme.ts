@@ -114,17 +114,14 @@ export type NavItem = NavItemWithLink | NavItemWithChildren;
 export type NavItemWithLink = {
   text: string;
   link: string;
+  tag?: string;
   activeMatch?: string;
   position?: 'left' | 'right';
 };
 
-export type NavItemChildren = {
-  text: string;
-  items: NavItemWithLink[];
-};
-
 export interface NavItemWithChildren {
   text?: string;
+  tag?: string;
   items: (NavItemWithChildren | NavItemWithLink)[];
   position?: 'left' | 'right';
 }
@@ -140,12 +137,13 @@ export interface Sidebar {
 export interface SidebarGroup {
   text: string;
   link?: string;
+  tag?: string;
   items: (SidebarItem | SidebarGroup | string)[];
   collapsible?: boolean;
   collapsed?: boolean;
 }
 
-export type SidebarItem = { text: string; link: string };
+export type SidebarItem = { text: string; link: string; tag?: string };
 
 // edit link -----------------------------------------------------------------
 

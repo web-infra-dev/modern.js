@@ -1,6 +1,4 @@
 const path = require('path');
-const fs = require('fs-extra');
-const pMap = require('p-map');
 const execa = require('execa');
 const globby = require('globby');
 
@@ -18,15 +16,6 @@ const restArgv = process.argv.slice(2);
 
   try {
     const filters = ['@scripts/vitest-config'];
-
-    directories.forEach(dir => {
-      const pkgJson = path.join(dir, 'package.json');
-      if (fs.existsSync(pkgJson)) {
-        const { name } = fs.readJSONSync(pkgJson);
-        filters.push(name);
-      }
-    });
-
     const filterCmd = filters
       .map(item => `--filter-prod "${item}"...`)
       .join(' ');
@@ -36,17 +25,16 @@ const restArgv = process.argv.slice(2);
     await execa(buildCmd, {
       shell: SHELL,
       stdio: 'inherit',
-      env: { SKIP_DTS: 'true' },
     });
 
-    await pMap(
-      directories,
-      async cwd => {
-        const args = ['run', 'test', ...restArgv];
-        await execa('pnpm', args, { shell: SHELL, stdio: 'inherit', cwd });
-      },
-      { concurrency: 2 },
-    );
+    for (let i = 0; i < directories.length; i++) {
+      const args = ['run', 'test', ...restArgv];
+      await execa('pnpm', args, {
+        shell: SHELL,
+        stdio: 'inherit',
+        cwd: directories[i],
+      });
+    }
   } catch (err) {
     console.error(err);
     // eslint-disable-next-line no-process-exit

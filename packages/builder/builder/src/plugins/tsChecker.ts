@@ -1,4 +1,5 @@
 import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
+import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
 export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
@@ -83,10 +84,11 @@ export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
               },
             },
           },
-          typeof config.tools.tsChecker === 'object'
-            ? config.tools.tsChecker
-            : {},
+          config.tools.tsChecker,
+          undefined,
+          deepMerge,
         );
+
         if (
           api.context.bundlerType === 'rspack' &&
           chain.get('mode') === 'production'

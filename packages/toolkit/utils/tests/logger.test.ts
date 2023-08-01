@@ -1,4 +1,4 @@
-import { logger } from '../src';
+import { logger, isErrorStackMessage } from '../src';
 
 describe('logger', () => {
   test('should log', () => {
@@ -44,5 +44,35 @@ describe('logger', () => {
     expect((console.log as jest.Mock).mock.calls[0][0]).toMatch(reg);
 
     expect(console.log as jest.Mock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('isErrorStackMessage', () => {
+  test('should test error stack message correctly', () => {
+    expect(
+      isErrorStackMessage('    at /modern.js/packages/foo/bar.js:29:251'),
+    ).toBeTruthy();
+
+    expect(
+      isErrorStackMessage(
+        '    at Object.call (/modern.js/packages/foo/bar.js:19:28)',
+      ),
+    ).toBeTruthy();
+
+    expect(
+      isErrorStackMessage(
+        '    at async Command.<anonymous> (modern.js/packages/foo/dist/cjs/index.js:55:5)',
+      ),
+    ).toBeTruthy();
+
+    expect(
+      isErrorStackMessage('    at transform.next (<anonymous>)'),
+    ).toBeTruthy();
+
+    expect(isErrorStackMessage('    at Array.map (<anonymous>)')).toBeTruthy();
+
+    expect(
+      isErrorStackMessage('    error   TypeError: foo.some is not a function'),
+    ).toBeFalsy();
   });
 });

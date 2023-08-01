@@ -16,13 +16,13 @@ export const moduleParseErrorTransformer: ErrorTransformer = e => {
     // e.trace = e.trace.slice(e.trace.length - e.cause.trace.length);
 
     // add more description about builder.
-    e.message += ' You can try to fix it by:\n';
+    e.message += '\nYou can try to fix it by:\n';
     const tips = [
       'Check if the file is valid.',
       'Enable relational config of `tools`: https://modernjs.dev/builder/en/api/config-tools.html',
       'Install builder plugins: https://modernjs.dev/builder/en/plugin',
     ];
-    e.message += tips.map(tip => ` ${chalk.gray(`*`)} ${tip}`).join('\n');
+    e.message += tips.map(tip => `    ${chalk.gray(`*`)} ${tip}`).join('\n');
     e.message += '\n';
     e.message += 'Or you can try to configure bundler loaders manually.';
   }

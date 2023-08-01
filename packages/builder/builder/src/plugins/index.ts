@@ -51,4 +51,8 @@ export const plugins: Plugins = {
     import('./sourceBuild').then(m =>
       m.builderPluginSourceBuild({ sourceField: 'source' }),
     ),
+  networkPerformance: () =>
+    import('./networkPerformance').then(m =>
+      m.builderPluginNetworkPerformance(),
+    ),
 };

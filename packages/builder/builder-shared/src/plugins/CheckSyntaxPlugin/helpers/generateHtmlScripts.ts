@@ -8,7 +8,7 @@ export async function generateHtmlScripts(filepath: string) {
 
 export function getHtmlScripts(html: string) {
   const inlineScripts: string[] = [];
-  let currentScript: string | null = '';
+  let currentScript: string | null = null;
 
   const parser = new Parser({
     onopentag(name, attrs) {

@@ -96,6 +96,7 @@
     "node-loader": "2.0.0",
     "open": "^8.4.0",
     "ora": "5.4.1",
+    "resolve-url-loader": "5.0.0",
     "p-map": "4.0.0",
     "patch-console": "1.0.0",
     "pkg-up": "3.1.0",

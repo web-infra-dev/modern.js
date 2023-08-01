@@ -75,6 +75,11 @@
       "import": "./dist/esm/universal/pluginDagSort.js",
       "default": "./dist/cjs/universal/pluginDagSort.js"
     },
+    "./universal/time": {
+      "jsnext:source": "./src/universal/time.ts",
+      "import": "./dist/esm/universal/time.js",
+      "default": "./dist/cjs/universal/time.js"
+    },
     "./ajv": "./compiled/ajv/index.js",
     "./commander": "./compiled/commander/index.js",
     "./ora": "./compiled/ora/index.js",
@@ -157,6 +162,11 @@
         "import": "./dist/esm/universal/pluginDagSort.js",
         "default": "./dist/cjs/universal/pluginDagSort.js"
       },
+      "./universal/time": {
+        "types": "./dist/types/universal/time.d.ts",
+        "import": "./dist/esm/universal/time.js",
+        "default": "./dist/cjs/universal/time.js"
+      },
       "./ajv": "./dist/compiled/ajv/index.js",
       "./commander": "./dist/compiled/commander/index.js",
       "./ora": "./dist/compiled/ora/index.js",
@@ -214,6 +224,9 @@
       ],
       "universal/plugin-dag-sort": [
         "./dist/types/universal/pluginDagSort.d.ts"
+      ],
+      "universal/time": [
+        "./dist/types/universal/time.d.ts"
       ],
       "ajv": [
         "./dist/compiled/ajv/types/ajv.d.ts"

@@ -38,4 +38,5 @@ export const mockBuilderPlugins: Plugins = {
   nodeAddons: genMockPlugin('builder-plugin-node-addons'),
   externals: genMockPlugin('builder-plugin-externals'),
   sourceBuild: genMockPlugin('builder-plugin-source-build'),
+  networkPerformance: genMockPlugin('builder-plugin-network-performance'),
 };

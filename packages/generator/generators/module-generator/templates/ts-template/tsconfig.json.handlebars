@@ -1,5 +1,6 @@
 {
   "extends": "@modern-js/tsconfig/base",
+  "declaration": true,
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
@@ -7,5 +8,6 @@
     },
     "isolatedModules": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["**/node_modules"]
 }

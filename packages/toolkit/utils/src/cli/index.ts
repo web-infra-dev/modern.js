@@ -12,7 +12,6 @@ export * from './logger';
 export * from './monorepo';
 export * from './package';
 export * from './path';
-export * from './pathSerializer';
 export * from './port';
 export * from './prettyInstructions';
 export * from './require';

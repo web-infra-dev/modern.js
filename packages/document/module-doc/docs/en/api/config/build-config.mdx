@@ -217,7 +217,7 @@ Whether to require peerDep dependencies for external projects
 The build type, `bundle` will package your code, `bundleless` will only do the code conversion
 
 - **Type**: `'bundle' | 'bundleless'`
-- **Default**: `bundle`
+- **Default**: `'bundle'`
 
 ## copy
 
@@ -346,14 +346,36 @@ When this configuration is disabled, there is no guarantee that the type files w
 The output path of the dts file, based on [outDir](/api/config/build-config#outDir)
 
 - **Type**: `string`
-- **Default**: `. /types`
+- **Default**: `./`
+
+For example, output to the `types` directory under the `outDir`:
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      distPath: './types',
+    },
+  },
+});
+```
 
 ## dts.only
 
-Generate only dts files, not js files
+Whether to generate only type files during the build process without generating JavaScript output files.
 
 - **Type**: `boolean`
 - **Default**: `false`
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      only: true,
+    },
+  },
+});
+```
 
 ## dts.respectExternal
 
@@ -365,6 +387,16 @@ So we can avoid it with this configuration.
 - **Type**: `boolean`
 - **Default**: `true`
 
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      respectExternal: false,
+    },
+  },
+});
+```
+
 ## dts.tsconfigPath
 
 Path to the tsconfig file
@@ -372,11 +404,22 @@ Path to the tsconfig file
 - **Type**: `string`
 - **Default**: `. /tsconfig.json`
 
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      tsconfigPath: './other-tsconfig.json',
+    },
+  },
+});
+```
+
 ## esbuildOptions
 
 Used to modify the [esbuild configuration](https://esbuild.github.io/api/).
 
 - **Type**: `Function`
+- **Build Type**: `Only supported for buildType: 'bundle'`
 - **Default**: `c => c`
 
 For example, if we need to modify the file extension of the generated files:
@@ -645,17 +688,33 @@ export default {
 
 ## outDir
 
-Specifies the output directory of the build
+Specifies the output directory of the build.
 
 - **Type**: `string`
-- **Default**: `dist`
+- **Default**: `./dist`
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    outDir: './dist/esm',
+  },
+});
+```
 
 ## platform
 
 Generates code for the node environment by default, you can also specify `browser` which will generate code for the browser environment
 
 - **Type**: `'browser' | 'node'`
-- **Default**: `node`
+- **Default**: `'node'`
+
+```js modern.config.ts
+export default defineConfig({
+  buildConfig: {
+    platform: 'browser',
+  },
+});
+```
 
 ## redirect
 
