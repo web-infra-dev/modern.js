@@ -4,6 +4,7 @@ import {
   BaseSSRServerContext,
   MiddlewareContext,
   NextFunction,
+  Reporter,
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
 import {
@@ -142,8 +143,14 @@ export const createHandler = (manifest: Manifest) => {
       level: 'warn',
     }) as Logger & LoggerInterface;
     const metrics = defaultMetrics as any;
+    const reporter = defaultReporter;
 
-    const hookContext = createWorkerHookContext(request.url, logger, metrics);
+    const hookContext = createWorkerHookContext(
+      request.url,
+      logger,
+      metrics,
+      reporter,
+    );
 
     const afterMatchHookContext = createAfterMatchContext(
       hookContext,
@@ -287,6 +294,7 @@ function createWorkerHookContext(
   url: string,
   logger: any,
   metrics: any,
+  reporter: Reporter,
 ): WorkerServerContext {
   const [res, req] = [
     { headers: new Headers(), body: '', status: 200, isSent: false },
@@ -298,6 +306,7 @@ function createWorkerHookContext(
     req,
     logger,
     metrics,
+    reporter,
   };
 }
 

@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
+import { Reporter } from './utils';
 
 export type CookieAPI = {
   /**
@@ -35,6 +36,7 @@ export type HookContext = {
   response: ModernResponse;
   request: ModernRequest;
   logger: Logger;
+  reporter?: Reporter;
   metrics?: Metrics;
 };
 
