@@ -108,6 +108,7 @@ export function normalizeThemeConfig(
           link: normalizeLangPrefix(item.link, currentLang),
           collapsed: item.collapsed ?? false,
           collapsible: item.collapsible ?? true,
+          tag: item.tag,
           items: item.items.map(subItem => {
             return normalizeSidebarItem(subItem);
           }),
@@ -131,6 +132,7 @@ export function normalizeThemeConfig(
           replaceRules,
         ),
         link: normalizeLangPrefix(item.link, currentLang),
+        tag: item.tag,
       };
     };
     Object.keys(sidebar).forEach(key => {

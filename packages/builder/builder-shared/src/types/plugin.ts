@@ -62,6 +62,7 @@ export type Plugins = {
   nodeAddons: PluginsFn;
   externals: PluginsFn;
   sourceBuild: PluginsFn;
+  networkPerformance: PluginsFn;
 };
 
 /**

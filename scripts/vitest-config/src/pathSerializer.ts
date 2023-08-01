@@ -1,6 +1,6 @@
 // Todo: only @scripts/vitest-config used
 import os from 'os';
-import _ from '../../compiled/lodash';
+import _ from 'lodash';
 import {
   compilePathMatcherRegExp,
   normalizeToPosixPath,

@@ -1,4 +1,9 @@
-import { compilePathMatcherRegExp, upwardPaths, _joinPathParts } from '../src';
+import { describe, expect, it } from 'vitest';
+import {
+  compilePathMatcherRegExp,
+  upwardPaths,
+  _joinPathParts,
+} from '../src/path';
 
 describe('upwardPaths', () => {
   it('should get upward paths', () => {

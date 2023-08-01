@@ -95,7 +95,7 @@ export const prettyInstructions = (appContext: any, config: any) => {
 
   let message = 'App running at:\n\n';
 
-  if (isSingleEntry(entrypoints) || apiOnly) {
+  if (isSingleEntry(entrypoints, config.source?.mainEntryName) || apiOnly) {
     message += urls
       .map(
         ({ label, url }) =>
@@ -108,7 +108,9 @@ export const prettyInstructions = (appContext: any, config: any) => {
     const maxNameLength = Math.max(...routes.map(r => r.entryName.length));
 
     urls.forEach(({ label, url }) => {
-      message += `  ${chalk.bold(`> ${label}`)}\n`;
+      message += `  ${chalk.bold(`> ${label}`)}${
+        routes.length === 0 ? chalk.cyanBright(url) : ''
+      }\n`;
       routes.forEach(({ entryName, urlPath, isSSR }) => {
         if (!checkedEntries.includes(entryName)) {
           return;

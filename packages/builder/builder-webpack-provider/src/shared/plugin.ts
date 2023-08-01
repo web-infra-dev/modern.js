@@ -74,5 +74,6 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/lazyCompilation').then(m =>
       m.builderPluginLazyCompilation(),
     ),
+    plugins.networkPerformance(),
     import('../plugins/fallback').then(m => m.builderPluginFallback()), // fallback should be the last plugin
   ]);

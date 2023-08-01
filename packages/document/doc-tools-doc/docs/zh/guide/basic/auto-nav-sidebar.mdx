@@ -232,3 +232,18 @@ basic
   ├── 2-install.mdx
   └── 3-plugin-development.md
 ```
+
+### 标题前添加 svg 图标
+
+此外，你还可以通过 `tag` 配置在标题前添加图标，比如:
+
+```json title="_meta.json"
+{
+  "type": "file",
+  "name": "introduction",
+  "label": "Introduction",
+  "tag": "<svg width=\"1em\" height=\"1em\" viewBox=\"0 0 32 32\"><path fill=\"currentColor\" d=\"M4 6h24v2H4zm0 18h24v2H4zm0-12h24v2H4zm0 6h24v2H4z\"/></svg>"
+}
+```
+
+`tag` 的值为 svg 标签字符串或者图片 URL，你可以将其配置到**导航栏**或者**侧边栏**中。

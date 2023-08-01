@@ -12,12 +12,13 @@
   },
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@types/node": "^14",
+    "@types/lodash": "^4.14.195",
     "execa": "^5.1.1",
+    "lodash": "^4.17.21",
     "fs-extra": "^10",
     "globby": "^11.0.4",
-    "p-map": "^4.0.0",
+    "upath": "2.0.1",
     "typescript": "^5"
   }
 }
