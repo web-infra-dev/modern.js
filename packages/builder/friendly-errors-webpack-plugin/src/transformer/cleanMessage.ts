@@ -1,9 +1,8 @@
 import { ErrorTransformer } from '../shared/types';
 
 export const cleanMessageTransformer: ErrorTransformer = error => {
-  const { raw } = error;
-  if (raw.stack) {
-    error.message = error.message.replace(raw.stack, '');
+  if (error.stack) {
+    error.message = error.message.replace(error.stack, '');
   }
   return error;
 };
