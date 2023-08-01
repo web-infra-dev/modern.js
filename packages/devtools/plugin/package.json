@@ -1,0 +1,76 @@
+{
+  "name": "@modern-js/plugin-devtools",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-tailwind"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.28.0",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/cli.ts",
+      "default": "./dist/cjs/cli.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern-lib new",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/core": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@types/node": "^14",
+    "typescript": "^5",
+    "type-fest": "^4.1.0"
+  },
+  "peerDependencies": {
+    "@modern-js/runtime": "workspace:^2.28.0"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/runtime": {
+      "optional": true
+    }
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/types/index.d.ts"
+  }
+}
