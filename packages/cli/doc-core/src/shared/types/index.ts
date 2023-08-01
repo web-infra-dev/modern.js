@@ -3,7 +3,7 @@ import type { BuilderConfig } from '@modern-js/builder-rspack-provider';
 import type { PluginConfig } from '@modern-js/core';
 import _ from '@modern-js/utils/lodash';
 import type { PluggableList } from 'unified';
-import { BuilderPlugin } from '@modern-js/builder';
+import type { BuilderPlugin } from '@modern-js/builder';
 import type {
   Config as DefaultThemeConfig,
   NormalizedConfig as NormalizedDefaultThemeConfig,
