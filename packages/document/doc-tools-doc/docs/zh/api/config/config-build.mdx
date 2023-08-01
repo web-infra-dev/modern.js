@@ -22,6 +22,24 @@ export default defineConfig({
 });
 ```
 
+## builderPlugins
+
+- Type: `BuilderPlugin[]`
+
+用于加入 [Modern.js Builder 的插件](https://modernjs.dev/builder/plugins/introduction.html)，比如：
+
+```ts title="modern.config.ts"
+import { docTools, defineConfig } from '@modern-js/doc-tools';
+import { builderPluginStylus } from '@modern-js/builder-plugin-stylus';
+
+export default defineConfig({
+  doc: {
+    builderPlugins: [builderPluginStylus()],
+  },
+  plugins: [docTools()],
+});
+```
+
 ### 默认配置
 
 如果你需要查看默认的 `builderConfig`，可以在执行 `modern dev` 或 `modern build` 命令时，添加 `DEBUG=builder` 参数：
