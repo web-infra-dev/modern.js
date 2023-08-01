@@ -1,1 +1,1 @@
-import './app.less';
+import './index.less';
