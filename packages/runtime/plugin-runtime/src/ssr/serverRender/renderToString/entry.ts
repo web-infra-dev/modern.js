@@ -19,6 +19,7 @@ import {
   attributesToString,
 } from '../utils';
 import { SSRReporter, createSSRReporter } from '../reporter';
+import { ServerTimingNames } from '../constants';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -55,7 +56,6 @@ const buildTemplateData = (
       },
       reporter: {
         sessionId: reporter.sessionId,
-        userId: reporter.userId,
       },
     },
     renderLevel,
@@ -178,7 +178,10 @@ export default class Entry {
       this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
       this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
       this.reporter.reportTime('app_prefetch_cost', prefetchCost);
-      this.severTiming.addServeTiming('ssr-pretch', prefetchCost);
+      this.severTiming.addServeTiming(
+        ServerTimingNames.SSR_PREFETCH,
+        prefetchCost,
+      );
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
       this.logger.error('App Prefetch Render', e as Error);
@@ -218,7 +221,7 @@ export default class Entry {
       this.logger.debug('App Render To HTML cost = %d ms', cost);
       this.metrics.emitTimer('app.render.html.cost', cost);
       this.reporter.reportTime('app_render_html_cost', cost);
-      this.severTiming.addServeTiming('ssr-render-html', cost);
+      this.severTiming.addServeTiming(ServerTimingNames.SSR_RENDER_HTML, cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
       this.logger.error('App Render To HTML', e as Error);
