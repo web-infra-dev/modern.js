@@ -14,9 +14,5 @@ function checkIsSupportBrowser(feature: string, targets: string[]) {
 
   return browserslist(targets, { ignoreUnknownVersions: true })
     .map(browser => browser.split(' '))
-    .every(
-      browser =>
-        data.stats[browser[0]]?.[browser[1]]?.includes('y') ||
-        data.stats[browser[0]]?.[browser[1]]?.includes('a'),
-    );
+    .every(browser => data.stats[browser[0]]?.[browser[1]]?.startsWith('y'));
 }
