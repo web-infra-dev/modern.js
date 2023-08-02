@@ -18,6 +18,8 @@ export interface RouteAssets {
 }
 
 type Compiler = webpack.Compiler | Rspack.Compiler;
+type Compilation = webpack.Compilation | Rspack.Compilation;
+type Chunks = webpack.StatsChunk[];
 
 export class RouterPlugin {
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -35,6 +37,23 @@ export class RouterPlugin {
       return true;
     }
     return false;
+  }
+
+  private getEntryChunks(compilation: Compilation, chunks: Chunks) {
+    const entrypointsArray = Array.from(
+      compilation.entrypoints.entries() as IterableIterator<[string, unknown]>,
+    );
+    const entryChunkIds = entrypointsArray.map(entrypoint => entrypoint[0]);
+    const entryChunks = [...chunks].filter(chunk => {
+      return chunk.names?.some(name => entryChunkIds.includes(name));
+    });
+    return entryChunks;
+  }
+
+  private getEntryChunkFiles(entryChunks: Chunks) {
+    return entryChunks.map(
+      chunk => [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
+    );
   }
 
   apply(compiler: Compiler) {
@@ -55,20 +74,11 @@ export class RouterPlugin {
       return path;
     };
 
-    const chunkToSourceAndMap: Map<
-      string | number,
-      {
-        source: string | Buffer;
-        map: unknown;
-      }
-    > = new Map();
+    const chunkToSource: Map<string | number, string | Buffer> = new Map();
+    const chunkToMap: Map<string | number, unknown> = new Map();
+    const { minimize } = compiler.options.optimization;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
-      /**
-       * We need to get the source-map in PROCESS_ASSETS_STAGE_DEV_TOOLING hook,
-       * because we cant get the source-map in PROCESS_ASSETS_STAGE_REPORT hook,
-       * and we need to get the stable hash in PROCESS_ASSETS_STAGE_REPORT hook.
-       */
       compilation.hooks.processAssets.tapPromise(
         {
           name: PLUGIN_NAME,
@@ -81,23 +91,14 @@ export class RouterPlugin {
             chunks: true,
             ids: true,
           });
-          const { chunks = [], namedChunkGroups } = stats;
+          const { chunks = [], namedChunkGroups } =
+            stats as webpack.StatsCompilation;
 
           if (!namedChunkGroups) {
             return;
           }
 
-          const entrypointsArray = Array.from(
-            compilation.entrypoints.entries() as IterableIterator<
-              [string, unknown]
-            >,
-          );
-          const entryChunkIds = entrypointsArray.map(
-            entrypoint => entrypoint[0],
-          );
-          const entryChunks = [...chunks].filter(chunk => {
-            return chunk.names?.some(name => entryChunkIds.includes(name));
-          });
+          const entryChunks = this.getEntryChunks(compilation, chunks);
           const entryChunkFiles = entryChunks.map(
             chunk =>
               [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
@@ -112,11 +113,48 @@ export class RouterPlugin {
               continue;
             }
 
-            const { source, map } = asset.sourceAndMap();
-            chunkToSourceAndMap.set(chunkId!, {
-              source,
-              map,
-            });
+            const { map } = asset.sourceAndMap();
+            chunkToMap.set(chunkId!, map);
+          }
+        },
+      );
+
+      compilation.hooks.processAssets.tapPromise(
+        {
+          name: PLUGIN_NAME,
+          stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_TRANSFER,
+        },
+        async () => {
+          const stats = compilation.getStats().toJson({
+            all: false,
+            chunkGroups: true,
+            chunks: true,
+            ids: true,
+          });
+          const { chunks = [], namedChunkGroups } =
+            stats as webpack.StatsCompilation;
+
+          if (!namedChunkGroups) {
+            return;
+          }
+
+          const entryChunks = this.getEntryChunks(compilation, chunks);
+          const entryChunkFiles = entryChunks.map(
+            chunk =>
+              [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
+          );
+
+          const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
+          for (let i = 0; i <= entryChunkFiles.length - 1; i++) {
+            const file = entryChunkFiles[i];
+            const chunkId = entryChunkFileIds[i];
+            const asset = compilation.assets[file];
+            if (!asset) {
+              continue;
+            }
+
+            const { source } = asset.sourceAndMap();
+            chunkToSource.set(chunkId!, source);
           }
         },
       );
@@ -135,7 +173,11 @@ export class RouterPlugin {
             chunks: true,
             ids: true,
           });
-          const { publicPath, chunks = [], namedChunkGroups } = stats;
+          const {
+            publicPath,
+            chunks = [],
+            namedChunkGroups,
+          } = stats as webpack.StatsCompilation;
           const routeAssets: RouteAssets = {};
 
           if (!namedChunkGroups) {
@@ -188,25 +230,13 @@ export class RouterPlugin {
             routeAssets,
           };
 
-          const entrypointsArray = Array.from(
-            compilation.entrypoints.entries() as IterableIterator<
-              [string, unknown]
-            >,
-          );
-          const entryChunkIds = entrypointsArray.map(
-            entrypoint => entrypoint[0],
-          );
-          const entryChunks = [...chunks].filter(chunk => {
-            return chunk.names?.some(name => entryChunkIds.includes(name));
-          });
-          const entryChunkFiles = entryChunks.map(
-            chunk =>
-              [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
-          );
+          const entryChunks = this.getEntryChunks(compilation, chunks);
+          const entryChunkFiles = this.getEntryChunkFiles(entryChunks);
 
           const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
-          for (let i = 0; i <= entryChunkFiles.length - 1; i++) {
+          for (let i = 0; i < entryChunkFiles.length; i++) {
             const file = entryChunkFiles[i];
+            const chunkNames = entryChunks[i].names;
             const chunkId = entryChunkFileIds[i];
             const asset = compilation.assets[file];
             // it may be removed by InlineChunkHtmlPlugin
@@ -214,12 +244,18 @@ export class RouterPlugin {
               continue;
             }
 
-            const relatedAssets: typeof routeAssets = {};
-            Object.keys(routeAssets).forEach(routeId => {
-              if (routeId.startsWith(`${chunkId}`)) {
-                relatedAssets[routeId] = routeAssets[routeId];
-              }
-            });
+            let relatedAssets: typeof routeAssets = {};
+            if (entryChunkFiles.length > 1) {
+              Object.keys(routeAssets).forEach(routeId => {
+                const segments = routeId.split('_');
+                const chunkName = segments[0];
+                if (chunkNames?.includes(chunkName)) {
+                  relatedAssets[routeId] = routeAssets[routeId];
+                }
+              });
+            } else {
+              relatedAssets = routeAssets;
+            }
 
             const manifest = { routeAssets: relatedAssets };
 
@@ -240,20 +276,21 @@ export class RouterPlugin {
             })();
           `;
 
-            const { source, map } = chunkToSourceAndMap.get(chunkId)!;
-            const newContent = `${injectedContent}${source.toString()}`;
+            const source = chunkToSource.get(chunkId);
+            const map = chunkToMap.get(chunkId);
+            const newContent = `${injectedContent}${source?.toString()}`;
 
             const result = await transform(newContent, {
               loader: path.extname(file).slice(1) as Loader,
               sourcemap: true,
-              minify: process.env.NODE_ENV === 'production',
+              minify: minimize,
             });
 
             const newSource = new SourceMapSource(
               result.code,
               file,
               result.map,
-              source.toString(),
+              source?.toString(),
               map,
             );
 

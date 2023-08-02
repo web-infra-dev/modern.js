@@ -1,140 +1,121 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`nested routes walk 1`] = `
-{
-  "_component": "@_modern_js_src/layout.tsx",
-  "children": [
-    {
-      "_component": "@_modern_js_src/__auth/layout.tsx",
-      "children": [
-        {
-          "_component": "@_modern_js_src/__auth/__shop/layout.tsx",
-          "children": [
-            {
-              "children": [
-                {
-                  "_component": "@_modern_js_src/__auth/__shop/item/page.tsx",
-                  "children": undefined,
-                  "id": "__auth/__shop/item/page",
-                  "index": true,
-                  "type": "nested",
-                },
-              ],
-              "id": "__auth/__shop/item/layout",
-              "isRoot": false,
-              "path": "item",
-              "type": "nested",
-            },
-          ],
-          "id": "__auth/__shop/layout",
-          "isRoot": false,
-          "type": "nested",
-        },
-        {
-          "children": [
-            {
-              "_component": "@_modern_js_src/__auth/login/page.tsx",
-              "children": undefined,
-              "id": "__auth/login/page",
-              "index": true,
-              "type": "nested",
-            },
-          ],
-          "id": "__auth/login/layout",
-          "isRoot": false,
-          "path": "login",
-          "type": "nested",
-        },
-      ],
-      "config": "<ROOT>/tests/analyze/fixtures/nested-routes/__auth/layout.config.ts",
-      "id": "__auth/layout",
-      "isRoot": false,
-      "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/__auth/layout.loader.tsx",
-      "type": "nested",
-    },
-    {
-      "_component": "@_modern_js_src/user/layout.tsx",
-      "children": [
-        {
-          "_component": "@_modern_js_src/user/$.tsx",
-          "id": "user/$",
-          "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
-          "path": "*",
-          "type": "nested",
-        },
-        {
-          "children": [
-            {
-              "_component": "@_modern_js_src/user/[id]/page.tsx",
-              "children": undefined,
-              "id": "user/(id)/page",
-              "index": true,
-              "type": "nested",
-            },
-          ],
-          "id": "user/(id)/layout",
-          "isRoot": false,
-          "path": ":id",
-          "type": "nested",
-        },
-        {
-          "_component": "@_modern_js_src/user/page.tsx",
-          "children": undefined,
-          "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user/page.config.ts",
-          "id": "user/page",
-          "index": true,
-          "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/page.loader.ts",
-          "type": "nested",
-        },
-        {
-          "_component": "@_modern_js_src/user/profile/layout.tsx",
-          "children": [
-            {
-              "_component": "@_modern_js_src/user/profile/page.tsx",
-              "children": undefined,
-              "id": "user/profile/page",
-              "index": true,
-              "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/profile/page.loader.ts",
-              "type": "nested",
-            },
-          ],
-          "id": "user/profile/layout",
-          "isRoot": false,
-          "path": "profile",
-          "type": "nested",
-        },
-      ],
-      "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user/layout.config.ts",
-      "id": "user/layout",
-      "isRoot": false,
-      "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/layout.loader.ts",
-      "path": "user",
-      "type": "nested",
-    },
-    {
-      "_component": "@_modern_js_src/user.profile.name/layout.tsx",
-      "children": [
-        {
-          "_component": "@_modern_js_src/user.profile.name/page.tsx",
-          "children": undefined,
-          "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user.profile.name/page.config.ts",
-          "id": "user.profile.name/page",
-          "index": true,
-          "type": "nested",
-        },
-      ],
-      "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user.profile.name/layout.config.ts",
-      "id": "user.profile.name/layout",
-      "isRoot": false,
-      "path": "user/profile/name",
-      "type": "nested",
-    },
-  ],
-  "config": "<ROOT>/tests/analyze/fixtures/nested-routes/layout.config.ts",
-  "id": "layout",
-  "isRoot": true,
-  "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/layout.loader.ts",
-  "path": "/",
-  "type": "nested",
-}
+[
+  {
+    "_component": "@_modern_js_src/layout.tsx",
+    "children": [
+      {
+        "_component": "@_modern_js_src/__auth/layout.tsx",
+        "children": [
+          {
+            "_component": "@_modern_js_src/__auth/__shop/layout.tsx",
+            "children": [
+              {
+                "_component": "@_modern_js_src/__auth/__shop/item/page.tsx",
+                "children": undefined,
+                "id": "__auth/__shop/item/page",
+                "index": true,
+                "path": "item",
+                "type": "nested",
+              },
+            ],
+            "id": "__auth/__shop/layout",
+            "isRoot": false,
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/__auth/login/page.tsx",
+            "children": undefined,
+            "id": "__auth/login/page",
+            "index": true,
+            "path": "login",
+            "type": "nested",
+          },
+        ],
+        "config": "<ROOT>/tests/analyze/fixtures/nested-routes/__auth/layout.config.ts",
+        "id": "__auth/layout",
+        "isRoot": false,
+        "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/__auth/layout.loader.tsx",
+        "type": "nested",
+      },
+      {
+        "_component": "@_modern_js_src/user/layout.tsx",
+        "children": [
+          {
+            "_component": "@_modern_js_src/user/$.tsx",
+            "id": "user/$",
+            "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
+            "path": "*",
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/user/[id]/page.tsx",
+            "children": undefined,
+            "id": "user/(id)/page",
+            "index": true,
+            "path": ":id",
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/user/page.tsx",
+            "children": undefined,
+            "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user/page.config.ts",
+            "id": "user/page",
+            "index": true,
+            "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/page.loader.ts",
+            "type": "nested",
+          },
+          {
+            "_component": "@_modern_js_src/user/profile/layout.tsx",
+            "children": [
+              {
+                "_component": "@_modern_js_src/user/profile/page.tsx",
+                "children": undefined,
+                "id": "user/profile/page",
+                "index": true,
+                "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/profile/page.loader.ts",
+                "type": "nested",
+              },
+            ],
+            "id": "user/profile/layout",
+            "isRoot": false,
+            "path": "profile",
+            "type": "nested",
+          },
+        ],
+        "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user/layout.config.ts",
+        "id": "user/layout",
+        "isRoot": false,
+        "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/layout.loader.ts",
+        "path": "user",
+        "type": "nested",
+      },
+      {
+        "_component": "@_modern_js_src/user.profile.name/layout.tsx",
+        "children": [
+          {
+            "_component": "@_modern_js_src/user.profile.name/page.tsx",
+            "children": undefined,
+            "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user.profile.name/page.config.ts",
+            "id": "user.profile.name/page",
+            "index": true,
+            "type": "nested",
+          },
+        ],
+        "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user.profile.name/layout.config.ts",
+        "id": "user.profile.name/layout",
+        "isRoot": false,
+        "path": "user/profile/name",
+        "type": "nested",
+      },
+    ],
+    "config": "<ROOT>/tests/analyze/fixtures/nested-routes/layout.config.ts",
+    "id": "layout",
+    "isRoot": true,
+    "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/layout.loader.ts",
+    "path": "/",
+    "type": "nested",
+  },
+]
 `;

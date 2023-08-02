@@ -15,7 +15,8 @@ import {
   ServerOptions,
   LoaderHandler,
 } from '@modern-js/server-core';
-import type { ModernServerContext, ServerRoute } from '@modern-js/types';
+import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
+import { time } from '@modern-js/utils/universal/time';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -220,7 +221,7 @@ export class ModernServer implements ModernServerInterface {
   public async render(req: IncomingMessage, res: ServerResponse, url?: string) {
     req.logger = req.logger || this.logger;
     req.metrics = req.metrics || this.metrics;
-    const context = createContext(req, res);
+    const context = createContext(req, res, { metaName: this.metaName });
     const matched = this.router.match(url || context.path);
     if (!matched) {
       return null;
@@ -504,17 +505,26 @@ export class ModernServer implements ModernServerInterface {
   /* —————————————————————— private function —————————————————————— */
   // handler route.json, include api / csr / ssr
   private async routeHandler(context: ModernServerContext) {
-    const { res, req } = context;
-
-    // parse request body from readable stream to assgin it to req
-    await bodyParser(req);
+    const { res, req, reporter } = context;
 
     // match routes in the route spec
     const matched = this.router.match(context.path);
+
     if (!matched) {
       this.render404(context);
       return;
     }
+
+    // TODO: move suitable location
+    // initial for every route handle
+    await reporter.init({ match: matched });
+
+    const end = time();
+
+    res.on('finish', () => {
+      const cost = end();
+      reporter.reportTiming('server_handle_request', cost);
+    });
 
     // route is api service
     let route = matched.generate(context.url);
@@ -522,6 +532,10 @@ export class ModernServer implements ModernServerInterface {
       await this.handleAPI(context);
       return;
     }
+
+    // parse request body from readable stream to assgin it to req
+    // if route is a bff, we should't add parser repeattly.
+    await bodyParser(req);
 
     if (route.entryName) {
       const afterMatchContext = createAfterMatchContext(
@@ -531,7 +545,10 @@ export class ModernServer implements ModernServerInterface {
 
       // only full mode run server hook
       if (this.runMode === RUN_MODE.FULL) {
+        const end = time();
         await this.runner.afterMatch(afterMatchContext, { onLast: noop });
+        const cost = end();
+        reporter.reportTiming('server_hook_after_render', cost);
       }
 
       if (this.isSend(res)) {
@@ -559,7 +576,10 @@ export class ModernServer implements ModernServerInterface {
     if (this.frameWebHandler) {
       res.locals = res.locals || {};
       const middlewareContext = createMiddlewareContext(context);
+      const end = time();
       await this.frameWebHandler(middlewareContext);
+      const cost = end();
+      reporter.reportTiming('server_middleware', cost);
       res.locals = {
         ...res.locals,
         ...middlewareContext.response.locals,
@@ -592,7 +612,10 @@ export class ModernServer implements ModernServerInterface {
       // only full mode run server hook
       // FIXME: how to run server hook in streaming
       if (this.runMode === RUN_MODE.FULL) {
+        const end = time();
         await this.runner.afterRender(afterRenderContext, { onLast: noop });
+        const cost = end();
+        reporter.reportTiming('server_hook_after_render', cost);
       }
 
       if (this.isSend(res)) {

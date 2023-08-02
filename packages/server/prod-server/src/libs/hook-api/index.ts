@@ -10,11 +10,12 @@ import { TemplateAPI } from './template';
 import { BaseRequest, BaseResponse } from './base';
 
 export const base = (context: ModernServerContext): HookContext => {
-  const { res } = context;
+  const { res, reporter } = context;
 
   return {
     response: new BaseResponse(res),
     request: new BaseRequest(context),
+    reporter,
     logger: context.logger,
     metrics: context.metrics,
   };
