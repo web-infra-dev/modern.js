@@ -34,7 +34,7 @@ export default {
 
 ### 打开指定浏览器
 
-在 MacOS 上，通过设置环境变量`BROWSER`，你可以指定 Dev Server 在启动时打开的浏览器，支持如下的值：
+在 MacOS 上，通过设置环境变量 `BROWSER`，你可以指定 Dev Server 在启动时打开的浏览器，支持如下的值：
 
 - Google Chrome Canary
 - Google Chrome Dev
