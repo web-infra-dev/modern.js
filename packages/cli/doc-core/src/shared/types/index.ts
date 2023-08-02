@@ -267,7 +267,7 @@ export interface SearchHooks {
   /**
    * The search hook function path. The corresponding file should export a function named `onSearch`.
    */
-  searchHooks: string;
+  searchHooks?: string;
 }
 
 export type LocalSearchOptions = SearchHooks & {

@@ -43,7 +43,7 @@
     }
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-node-polyfill": "0.14.1"
+    "@modern-js/libuild-plugin-node-polyfill": "0.14.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

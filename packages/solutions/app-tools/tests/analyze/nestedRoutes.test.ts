@@ -167,7 +167,6 @@ describe('nested routes', () => {
               path: 'c',
               _component: 'pageD',
               type: 'nested',
-              index: true,
             },
           ],
         },
