@@ -162,12 +162,12 @@ describe('nested routes', () => {
           type: 'nested',
           _component: 'layoutB',
           children: [
+            // The index is removed because the route path exists.
             {
               id: 'd',
               path: 'c',
               _component: 'pageD',
               type: 'nested',
-              index: true,
             },
           ],
         },

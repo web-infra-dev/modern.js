@@ -89,7 +89,12 @@ export const optimizeRoute = (
         child.path ? `/${child.path}` : ''
       }`;
 
-      const newRoute = { ...child, path: routePath.replace(/\/\//g, '/') };
+      const newRoute = {
+        ...child,
+        path: routePath.replace(/\/\//g, '/'),
+      };
+
+      delete newRoute.index;
       return newRoute;
     });
 
