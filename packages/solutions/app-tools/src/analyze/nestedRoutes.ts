@@ -78,13 +78,28 @@ export const optimizeRoute = (
   }
 
   const { children } = routeTree;
-  if (!routeTree._component && !routeTree.error && !routeTree.loading) {
+  if (
+    !routeTree._component &&
+    !routeTree.error &&
+    !routeTree.loading &&
+    !routeTree.config
+  ) {
     const newRoutes = children.map(child => {
-      const routePath = `${routeTree.path}${
+      const routePath = `${routeTree.path ? routeTree.path : ''}${
         child.path ? `/${child.path}` : ''
       }`;
 
-      const newRoute = { ...child, path: routePath.replace(/\/\//g, '/') };
+      const newRoute: NestedRouteForCli = {
+        ...child,
+        path: routePath.replace(/\/\//g, '/'),
+      };
+
+      // the index is removed when the route path exists
+      if (routePath.length > 0) {
+        delete newRoute.index;
+      } else {
+        delete newRoute.path;
+      }
       return newRoute;
     });
 
