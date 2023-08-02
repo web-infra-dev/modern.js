@@ -6892,6 +6892,37 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  tests/integration/compatibility:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   tests/integration/copy-assets:
     dependencies:
       '@babel/runtime':
