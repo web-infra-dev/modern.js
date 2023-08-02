@@ -161,7 +161,7 @@ test('should generate prefetch link when prefetch is defined', async () => {
   const builder = await build({
     cwd: join(fixtures, 'load-resource'),
     entry: {
-      main: join(fixtures, 'load-resource/src/index.ts'),
+      main: join(fixtures, 'load-resource/src/page1/index.ts'),
     },
     builderConfig: {
       performance: {
@@ -190,16 +190,17 @@ test('should generate prefetch link when prefetch is defined', async () => {
   ).toBeTruthy();
 });
 
-test('should generate prefetch link by config', async () => {
+test('should generate prefetch link by config (distinguish html)', async () => {
   const builder = await build({
     cwd: join(fixtures, 'load-resource'),
     entry: {
-      main: join(fixtures, 'load-resource/src/index.ts'),
+      page1: join(fixtures, 'load-resource/src/page1/index.ts'),
+      page2: join(fixtures, 'load-resource/src/page2/index.ts'),
     },
     builderConfig: {
       performance: {
         prefetch: {
-          type: 'all-assets',
+          type: 'all-chunks',
         },
       },
     },
@@ -208,7 +209,7 @@ test('should generate prefetch link by config', async () => {
   const files = await builder.unwrapOutputJSON();
 
   const [, content] = Object.entries(files).find(([name]) =>
-    name.endsWith('index.html'),
+    name.endsWith('page1/index.html'),
   )!;
 
   expect(content.match(/rel="prefetch"/g)?.length).toBe(2);
@@ -224,13 +225,20 @@ test('should generate prefetch link by config', async () => {
       )}" rel="prefetch">`,
     ),
   ).toBeTruthy();
+
+  const [, content2] = Object.entries(files).find(([name]) =>
+    name.endsWith('page2/index.html'),
+  )!;
+
+  // todo: need fix
+  expect(content2.match(/rel="prefetch"/g)?.length).toBe(1);
 });
 
 test('should generate preload link when preload is defined', async () => {
   const builder = await build({
     cwd: join(fixtures, 'load-resource'),
     entry: {
-      main: join(fixtures, 'load-resource/src/index.ts'),
+      main: join(fixtures, 'load-resource/src/page1/index.ts'),
     },
     builderConfig: {
       performance: {
