@@ -22,6 +22,10 @@ export const readRushJson = async (rushJsonFilePath: string) => {
 };
 
 export const readJson = async <T>(jsonFileAbsPath: string) => {
+  if (!(await fs.pathExists(jsonFileAbsPath))) {
+    return {} as T;
+  }
+
   const content = await fs.readFile(jsonFileAbsPath, 'utf-8');
   const json: T = json5.parse(content);
   return json;
