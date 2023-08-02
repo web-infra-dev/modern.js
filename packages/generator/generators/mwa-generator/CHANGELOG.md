@@ -1,5 +1,13 @@
 # @modern-js/mwa-generator
 
+## 3.1.31
+
+### Patch Changes
+
+- c9a6cce: feat(generator): exclude node_modules by default in tsconfig.json
+
+  feat(generator): 默认在 tsconfig.json 中排除 node_modules
+
 ## 3.1.30
 
 ## 3.1.29
