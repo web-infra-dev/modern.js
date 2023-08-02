@@ -89,7 +89,7 @@ export const optimizeRoute = (
         child.path ? `/${child.path}` : ''
       }`;
 
-      const newRoute = {
+      const newRoute: NestedRouteForCli = {
         ...child,
         path: routePath.replace(/\/\//g, '/'),
       };
@@ -97,6 +97,8 @@ export const optimizeRoute = (
       // the index is removed when the route path exists
       if (routePath.length > 0) {
         delete newRoute.index;
+      } else {
+        delete newRoute.path;
       }
       return newRoute;
     });
