@@ -85,7 +85,7 @@ export const optimizeRoute = (
     !routeTree.config
   ) {
     const newRoutes = children.map(child => {
-      const routePath = `${routeTree.path}${
+      const routePath = `${routeTree.path ? routeTree.path : ''}${
         child.path ? `/${child.path}` : ''
       }`;
 
@@ -94,7 +94,10 @@ export const optimizeRoute = (
         path: routePath.replace(/\/\//g, '/'),
       };
 
-      delete newRoute.index;
+      // the index is removed when the route path exists
+      if (routePath.length > 0) {
+        delete newRoute.index;
+      }
       return newRoute;
     });
 
