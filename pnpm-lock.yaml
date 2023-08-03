@@ -4546,6 +4546,9 @@ importers:
       '@babel/preset-env':
         specifier: ^7.21.5
         version: 7.21.5(@babel/core@7.21.8)
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
       '@scripts/jest-config':
         specifier: workspace:*
         version: link:../../../scripts/jest-config
