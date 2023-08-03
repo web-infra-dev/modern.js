@@ -165,14 +165,14 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rspack/core':
-        specifier: 0.2.9
-        version: 0.2.9(type-fest@4.1.0)(webpack@5.88.1)
+        specifier: 0.2.10
+        version: 0.2.10(webpack@5.88.1)
       '@rspack/dev-client':
-        specifier: 0.2.9
-        version: 0.2.9(react-refresh@0.14.0)(type-fest@4.1.0)(webpack@5.88.1)
+        specifier: 0.2.10
+        version: 0.2.10(react-refresh@0.14.0)(webpack@5.88.1)
       '@rspack/plugin-html':
-        specifier: 0.2.9
-        version: 0.2.9(@rspack/core@0.2.9)
+        specifier: 0.2.10
+        version: 0.2.10(@rspack/core@0.2.10)
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -348,7 +348,7 @@ importers:
         version: link:../../toolkit/utils
       '@pmmmwh/react-refresh-webpack-plugin':
         specifier: 0.5.9
-        version: 0.5.9(react-refresh@0.14.0)(type-fest@4.1.0)(webpack@5.88.1)
+        version: 0.5.9(react-refresh@0.14.0)(webpack@5.88.1)
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -382,6 +382,9 @@ importers:
       webpack:
         specifier: ^5.88.1
         version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
+      webpack-subresource-integrity:
+        specifier: 5.1.0
+        version: 5.1.0(html-webpack-plugin@5.5.0)(webpack@5.88.1)
     devDependencies:
       '@arco-design/web-react':
         specifier: ^2.46.0
@@ -611,8 +614,8 @@ importers:
         specifier: workspace:*
         version: link:../builder-shared
       '@modern-js/swc-plugins':
-        specifier: 0.5.2
-        version: 0.5.2(@swc/helpers@0.5.1)
+        specifier: 0.5.5
+        version: 0.5.5(@swc/helpers@0.5.1)
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -1225,7 +1228,7 @@ importers:
   packages/cli/doc-plugin-auto-sidebar:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.28.0
+        specifier: workspace:^2.29.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1277,7 +1280,7 @@ importers:
   packages/cli/doc-plugin-medium-zoom:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.28.0
+        specifier: workspace:^2.29.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1411,7 +1414,7 @@ importers:
   packages/cli/doc-plugin-typedoc:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.28.0
+        specifier: workspace:^2.29.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1839,7 +1842,7 @@ importers:
         specifier: workspace:*
         version: link:../../builder/builder-webpack-provider
       '@modern-js/plugin-router-v5':
-        specifier: workspace:^2.28.0
+        specifier: workspace:^2.29.0
         version: link:../../runtime/plugin-router-v5
       '@modern-js/utils':
         specifier: workspace:*
@@ -3469,8 +3472,8 @@ importers:
         version: 0.5.1
     devDependencies:
       '@modern-js/libuild':
-        specifier: 0.14.1
-        version: 0.14.1
+        specifier: 0.14.3
+        version: 0.14.3
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
@@ -3545,15 +3548,15 @@ importers:
   packages/module/plugin-module-import:
     dependencies:
       '@modern-js/libuild-plugin-swc':
-        specifier: 0.14.1
-        version: 0.14.1(@swc/helpers@0.5.1)
+        specifier: 0.14.3
+        version: 0.14.3(@swc/helpers@0.5.1)
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
     devDependencies:
       '@modern-js/libuild':
-        specifier: 0.14.1
-        version: 0.14.1
+        specifier: 0.14.3
+        version: 0.14.3
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
@@ -3606,8 +3609,8 @@ importers:
   packages/module/plugin-module-node-polyfill:
     dependencies:
       '@modern-js/libuild-plugin-node-polyfill':
-        specifier: 0.14.1
-        version: 0.14.1
+        specifier: 0.14.3
+        version: 0.14.3
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -5173,14 +5176,14 @@ importers:
         specifier: workspace:*
         version: link:../../cli/core
       '@modern-js/libuild':
-        specifier: 0.14.1
-        version: 0.14.1
+        specifier: 0.14.3
+        version: 0.14.3
       '@modern-js/libuild-plugin-svgr':
-        specifier: 0.14.1
-        version: 0.14.1
+        specifier: 0.14.3
+        version: 0.14.3
       '@modern-js/libuild-plugin-swc':
-        specifier: 0.14.1
-        version: 0.14.1(@swc/helpers@0.5.1)
+        specifier: 0.14.3
+        version: 0.14.3(@swc/helpers@0.5.1)
       '@modern-js/new-action':
         specifier: workspace:*
         version: link:../../generator/new-action
@@ -6168,9 +6171,6 @@ importers:
       webpack-sources:
         specifier: 3.2.3
         version: 3.2.3
-      webpack-subresource-integrity:
-        specifier: 5.1.0
-        version: 5.1.0(webpack@5.88.1)
       yaml-loader:
         specifier: 0.8.0
         version: 0.8.0
@@ -6464,6 +6464,16 @@ importers:
       moment:
         specifier: ^2
         version: 2.29.3
+
+  tests/e2e/builder/cases/react/remove-prop-types:
+    dependencies:
+      prop-types:
+        specifier: ^15
+        version: 15.8.1
+    devDependencies:
+      '@types/prop-types':
+        specifier: ^15
+        version: 15.7.5
 
   tests/e2e/builder/cases/vue:
     dependencies:
@@ -7069,6 +7079,37 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  tests/integration/compatibility:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   tests/integration/copy-assets:
     dependencies:
       '@babel/runtime':
@@ -7099,250 +7140,6 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
-
-  tests/integration/css/fixtures/antd-less-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      antd:
-        specifier: ^4.16.13
-        version: 4.21.4(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/bad-nested-npm-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/bad-npm-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/base-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/disable-source-map:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/exclude-less:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/exclude-sass:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/import-common-css:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/less-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/less-inline-js:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/less-npm-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/multi-css:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-
-  tests/integration/css/fixtures/multi-less:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/multi-sass:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/nested-npm-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  tests/integration/css/fixtures/npm-import:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
 
   tests/integration/css/fixtures/tailwindcss-v2:
     dependencies:
@@ -12957,8 +12754,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-node-polyfill@0.14.1:
-    resolution: {integrity: sha512-GbMT8wl+EH64xX57Xkg1y9Z15kRvVJywYPCDfT7Jq28GPrkkW68/ASuDtnBWiAKSJAZtCVWJPGh77NjVwmVoLA==}
+  /@modern-js/libuild-plugin-node-polyfill@0.14.3:
+    resolution: {integrity: sha512-mVzPJ8j4oIXvyjDRnV7EFIjJpP0WoXpbvpdqEDReKBy7Q4VHU6Wm+tgtSNZjnyL5IiYCgccmy6hoK3CnaK8KxQ==}
     dependencies:
       assert: 2.0.0
       browserify-zlib: 0.2.0
@@ -12986,8 +12783,8 @@ packages:
       vm-browserify: 1.1.2
     dev: false
 
-  /@modern-js/libuild-plugin-svgr@0.14.1:
-    resolution: {integrity: sha512-DCUzU+Y1MPUGCoPMoCL4alWqxU2K0vCb5hjBlZulpYzkn0kwGGtNFAw3uedrP+JUgbJeVMs+YtEBVwIePAyzpA==}
+  /@modern-js/libuild-plugin-svgr@0.14.3:
+    resolution: {integrity: sha512-E90mMvyLN4hxfUME2nB/fZoWVsGgBTuUsECqaxnxh/DGO8s4oCzizCKLgxPu71tl/o+V4g1hJsAlB72ctvQjZw==}
     dependencies:
       '@svgr/core': 8.0.0
       '@svgr/plugin-jsx': 8.0.1(@svgr/core@8.0.0)
@@ -12997,17 +12794,17 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/libuild-plugin-swc@0.14.1(@swc/helpers@0.5.1):
-    resolution: {integrity: sha512-jjeRnovxX1fuXP8LfAnLYCplj8eTOS6DqtqOdKcGpGjRsbXYNK4MIP4Q82ueS7lUf/mMF41WThkFMw2eUPqiZg==}
+  /@modern-js/libuild-plugin-swc@0.14.3(@swc/helpers@0.5.1):
+    resolution: {integrity: sha512-qpM9rjT4ThIzPnw5O6v2Qh660KqkelocfhZpnbx9Sy5+RUnTAkcGqiIWs8wFEgowsZtWBZpDLXaQWygWSf5fnA==}
     dependencies:
-      '@modern-js/swc-plugins': 0.5.2(@swc/helpers@0.5.1)
+      '@modern-js/swc-plugins': 0.5.5(@swc/helpers@0.5.1)
       chalk: 4.1.0
     transitivePeerDependencies:
       - '@swc/helpers'
     dev: false
 
-  /@modern-js/libuild@0.14.1:
-    resolution: {integrity: sha512-4REFNGXgTkKjRQUKLPYjR8xs29oEwk2OxC74nlxd7W3XIy1nBBoCFg3Iwd+qlPlHaVkjO06WDEclm8rfGSuKhQ==}
+  /@modern-js/libuild@0.14.3:
+    resolution: {integrity: sha512-2PBg+6BlZVBehXYyBQQteWEOZbDpNtNwXy7AFfhmpwnHr+d+X7UTzU1wdfS9OiKXcaWUqEbmc4wUgAzlgDnvIQ==}
     hasBin: true
     dependencies:
       '@ast-grep/napi': 0.1.13
@@ -13461,8 +13258,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@modern-js/swc-plugins-darwin-arm64@0.5.2:
-    resolution: {integrity: sha512-7iHcChJcb0/74U1Zo/tjC39xiA8K/PmQfRDyGTcTyUqni9hS0JNB68Uuyg4y05XGUPH0AHZb1gQU84i4KaCVow==}
+  /@modern-js/swc-plugins-darwin-arm64@0.5.5:
+    resolution: {integrity: sha512-pqvuRRQLlNr+e+3S39feNVRVTqb7GK6LoXam+fztWJKBfvtz4sAVgsxLjpo4f9cWXQIHUQCEKw6Elwuv8Sx1ew==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [darwin]
@@ -13470,8 +13267,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-x64@0.5.2:
-    resolution: {integrity: sha512-5jHJU7Ix7+MrbQF20eM+Y29GgHU5PPh8PD/v/PNCJQFO/GA6kIQB4pwTJt7/0Snh6u3ZwGyD6GDkdgIyBk+ILg==}
+  /@modern-js/swc-plugins-darwin-x64@0.5.5:
+    resolution: {integrity: sha512-Us2IwZbrc0xfOkBu457XwY77QE46RhYCcffyl76vyn4iFF4hdUmO4BuorvPHVW9ZuxXxz+wChagR6EBT8/3j5g==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [darwin]
@@ -13479,8 +13276,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-gnu@0.5.2:
-    resolution: {integrity: sha512-AF+DitndWg06StmzBq5RNTwSGTQzz0Gfs8Ab5r/ykT53lbIcGw1R6j/DRpifKANfP2TBqEG62gmkTglRk/4t7g==}
+  /@modern-js/swc-plugins-linux-arm64-gnu@0.5.5:
+    resolution: {integrity: sha512-HXNMJ5zf90DQ51ZcHnDYa8JRsBLXQslGbYlR9QXd3D2JkXsYj8rwHPHpDu3HS5aP3hV97QeetNS/pzsSo/ewRQ==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -13488,8 +13285,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-musl@0.5.2:
-    resolution: {integrity: sha512-6+icZOK+mmUL1vVHmk5ZY4UsK7NzmTY6q6BoLtCvynTCvcUHyThRmJEXBk3ESWRmDoer/m2YKTYSDmAg0EdI7g==}
+  /@modern-js/swc-plugins-linux-arm64-musl@0.5.5:
+    resolution: {integrity: sha512-bOanczCTij6Kcx7yjmuT4JhtkAclVAHXnh8lDAe1mlW502QbN5IvznLi8llY9RFM4x+o2EajI3Qo5KVflkdGXA==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -13497,8 +13294,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-gnu@0.5.2:
-    resolution: {integrity: sha512-xs5ZomE7eAvG2fa+l+n2ZBflT1YO0M/yziCwa281XzHFa4iYfJ5u5EFHY+Gt7IOz7cvFuS9IjnIbD00IJQUqFg==}
+  /@modern-js/swc-plugins-linux-x64-gnu@0.5.5:
+    resolution: {integrity: sha512-UR8ISEw4U6gS+98SJCXu0QrWbT79Ipt6nECZTXOFnt9WgvVWPyW3Wq72W534+48Y2ARXTrTjilpx9xYAuxUojg==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -13506,8 +13303,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-musl@0.5.2:
-    resolution: {integrity: sha512-NmwaC+Zh/vWi8uXB2+2x1XL5UaA+ATbO/8V9YKgmyESaF3tt8Reat/EPuXjCZgMo0JohCgBo/+e/hwPCnHRnhw==}
+  /@modern-js/swc-plugins-linux-x64-musl@0.5.5:
+    resolution: {integrity: sha512-vRjIK7klHkbwZPP4J+1HxS3tLuLzKsan9Z+gF893QSuJYMDHHXMiQaSlPUZ1db0hioBwVYix5chR7GtY3I+Aiw==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -13515,8 +13312,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-arm64-msvc@0.5.2:
-    resolution: {integrity: sha512-gFKOGlpBdhfdO+09dWYHEl9J3p+SQIVt7oTcLqI1kiCq1bkHz+/hcXeoZTT2Pq6/fr7LXQpP1rcU2pfkaQncJQ==}
+  /@modern-js/swc-plugins-win32-arm64-msvc@0.5.5:
+    resolution: {integrity: sha512-66nvtzHd7XK6zyRUbOuZcMCWHqAUNOTy7/MhC4pVucZuEfC7YBlfgY6fzKiepvY7WOOowpWJZZoLm1C6CzKe9w==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [win32]
@@ -13524,8 +13321,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-x64-msvc@0.5.2:
-    resolution: {integrity: sha512-nU2CcRuT6CRoTDkqAK/Dy73GsJDieH4WNT9HOpWp3yY75Ed7G4QNhoz5gGI1H7QBTOK5Vewp5R0fLOTybtH7xQ==}
+  /@modern-js/swc-plugins-win32-x64-msvc@0.5.5:
+    resolution: {integrity: sha512-F1zNf3DsgXXocZY9dBlT2rOQgpcg6ieTBbLQrpL+D47M4DJk3PaqXIZjACbk9A1Y78S7AdcKeD81MYi+uwpW9Q==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [win32]
@@ -13533,22 +13330,22 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins@0.5.2(@swc/helpers@0.5.1):
-    resolution: {integrity: sha512-rLO0NlZgtkOd2CpGmKWAIqBfXJ8O0/wSJGWe9lrYGVDeyfnhmgfnGy63L1UNPmOQsmHqoe2NaOAR3ruN+KP1Ow==}
-    engines: {node: '>=14.17.6', pnpm: '>=8.0.0 <=8.6.1'}
+  /@modern-js/swc-plugins@0.5.5(@swc/helpers@0.5.1):
+    resolution: {integrity: sha512-NdWHegNQ6jP0+TcbvvryaLoP8E7n75U7KjwYJhL6LBTe3KjR8S625XCK+2UuuFqYw5LAzQRgqJcdWfyubbKl/A==}
+    engines: {node: '>=14.17.6'}
     peerDependencies:
       '@swc/helpers': 0.5.1
     dependencies:
       '@swc/helpers': 0.5.1
     optionalDependencies:
-      '@modern-js/swc-plugins-darwin-arm64': 0.5.2
-      '@modern-js/swc-plugins-darwin-x64': 0.5.2
-      '@modern-js/swc-plugins-linux-arm64-gnu': 0.5.2
-      '@modern-js/swc-plugins-linux-arm64-musl': 0.5.2
-      '@modern-js/swc-plugins-linux-x64-gnu': 0.5.2
-      '@modern-js/swc-plugins-linux-x64-musl': 0.5.2
-      '@modern-js/swc-plugins-win32-arm64-msvc': 0.5.2
-      '@modern-js/swc-plugins-win32-x64-msvc': 0.5.2
+      '@modern-js/swc-plugins-darwin-arm64': 0.5.5
+      '@modern-js/swc-plugins-darwin-x64': 0.5.5
+      '@modern-js/swc-plugins-linux-arm64-gnu': 0.5.5
+      '@modern-js/swc-plugins-linux-arm64-musl': 0.5.5
+      '@modern-js/swc-plugins-linux-x64-gnu': 0.5.5
+      '@modern-js/swc-plugins-linux-x64-musl': 0.5.5
+      '@modern-js/swc-plugins-win32-arm64-msvc': 0.5.5
+      '@modern-js/swc-plugins-win32-x64-msvc': 0.5.5
     dev: false
 
   /@modern-js/tsconfig@2.28.0:
@@ -13895,7 +13692,7 @@ packages:
       html-entities: 2.3.3
       loader-utils: 2.0.4
       react-refresh: 0.11.0
-      schema-utils: 3.1.2
+      schema-utils: 3.3.0
       source-map: 0.7.4
       webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
     dev: false
@@ -13934,10 +13731,50 @@ packages:
       html-entities: 2.3.3
       loader-utils: 2.0.4
       react-refresh: 0.14.0
-      schema-utils: 3.1.2
+      schema-utils: 3.3.0
       source-map: 0.7.4
       type-fest: 4.1.0
       webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
+    dev: true
+
+  /@pmmmwh/react-refresh-webpack-plugin@0.5.9(react-refresh@0.14.0)(webpack@5.88.1):
+    resolution: {integrity: sha512-7QV4cqUwhkDIHpMAZ9mestSJ2DMIotVTbOUwbiudhjCRTAWWKIaBecELiEM2LT3AHFeOAaHIcFu4dbXjX+9GBA==}
+    engines: {node: '>= 10.13'}
+    peerDependencies:
+      '@types/webpack': 4.x || 5.x
+      react-refresh: '>=0.10.0 <1.0.0'
+      sockjs-client: ^1.4.0
+      type-fest: '>=0.17.0 <4.0.0'
+      webpack: '>=4.43.0 <6.0.0'
+      webpack-dev-server: 3.x || 4.x
+      webpack-hot-middleware: 2.x
+      webpack-plugin-serve: 0.x || 1.x
+    peerDependenciesMeta:
+      '@types/webpack':
+        optional: true
+      sockjs-client:
+        optional: true
+      type-fest:
+        optional: true
+      webpack-dev-server:
+        optional: true
+      webpack-hot-middleware:
+        optional: true
+      webpack-plugin-serve:
+        optional: true
+    dependencies:
+      ansi-html-community: 0.0.8
+      common-path-prefix: 3.0.0
+      core-js-pure: 3.26.0
+      error-stack-parser: 2.1.4
+      find-up: 5.0.0
+      html-entities: 2.3.3
+      loader-utils: 2.0.4
+      react-refresh: 0.14.0
+      schema-utils: 3.1.2
+      source-map: 0.7.4
+      webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
+    dev: false
 
   /@polka/url@0.5.0:
     resolution: {integrity: sha512-oZLYFEAzUKyi3SKnXvj32ZCEGH6RDnao7COuCVhDydMS9NrCSVXhM79VaKyP5+Zc33m0QXEd2DN3UkU7OsHcfw==}
@@ -14152,11 +13989,28 @@ packages:
       rollup: 3.23.0
     dev: true
 
+  /@rspack/binding-darwin-arm64@0.2.10:
+    resolution: {integrity: sha512-8EnCjBgYSOA7F2PsqePPWtxqP8oGTwgAC/jd/M3EFmN7OZW8kZyXX4RHLZYTqrGJbHq+o8e5iHa1km12LLQiAw==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /@rspack/binding-darwin-arm64@0.2.9:
     resolution: {integrity: sha512-ZsZGfrLreuEHLBX8tuxER5GXwFo18yqzTiNvaa4vwlpN/0vwq6ubOFXKLkyESKMaGUp46hPKbnBhQdLJqsDU5w==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-darwin-x64@0.2.10:
+    resolution: {integrity: sha512-+UV/SiWFSWyLiYTtXvtG7Dcdf+Z4KG0Fc6EdPzUu+9c5exjoytY8d8r0qifIkpQQa3pJPpcKKoqIC6GEWgcetw==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-darwin-x64@0.2.9:
@@ -14164,6 +14018,15 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-linux-arm64-gnu@0.2.10:
+    resolution: {integrity: sha512-SbCJN4/o314Ix0yC+Kk8qO3bEloASDJf/r0dAM1iOHrBSO5Mpl+AVmL8OD6SYjKfTezeq2gQFdmO5Et2Rwh3LQ==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-linux-arm64-gnu@0.2.9:
@@ -14171,6 +14034,15 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-linux-arm64-musl@0.2.10:
+    resolution: {integrity: sha512-aoUgIZBGlUUtmgvLzo0CYHs8Ml/z35WL6IUS6DhrrIwHoWUPIWPfO1BjPNQGr3o5rgDRYhWxND7lTO/MCRZ+Gw==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-linux-arm64-musl@0.2.9:
@@ -14178,6 +14050,15 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-linux-x64-gnu@0.2.10:
+    resolution: {integrity: sha512-1mrUlhdyq3EJaIzwExZQRt3jDySzmHl96EdTZ+xNFiI4Oc9I4W6ZlwePmFMmadp8xVI4vj2hObTROXRD0BCUvQ==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-linux-x64-gnu@0.2.9:
@@ -14185,6 +14066,15 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-linux-x64-musl@0.2.10:
+    resolution: {integrity: sha512-Xq/CRLPP3FQsLuC3omOuF9in0OlqIqJkoKGGhf1fS+qOr8pE51cKaza14gE9ZSZ/07Nvg/XU6rFbynI2qSm4Ww==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-linux-x64-musl@0.2.9:
@@ -14192,6 +14082,15 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-win32-arm64-msvc@0.2.10:
+    resolution: {integrity: sha512-Kd9FVHuT3QvVj5z9IUf3KlfuA0PrGRx3Llh0VFlGBMWQKtSDCH9Olfty4ZcEpgurVWQolMGbFge8xRUJJRNQtA==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-win32-arm64-msvc@0.2.9:
@@ -14199,6 +14098,15 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-win32-ia32-msvc@0.2.10:
+    resolution: {integrity: sha512-6nmUrJl2YowGIISF89IUNcqUkFJ+I9XMqc9Ot9NWJH08MrpitPL+mZ8QsJhq9TKZDUrObd3q8mqTUIFdz0dq6w==}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-win32-ia32-msvc@0.2.9:
@@ -14206,6 +14114,15 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: true
+    optional: true
+
+  /@rspack/binding-win32-x64-msvc@0.2.10:
+    resolution: {integrity: sha512-yd7bZA4b2z8gCeEyWh7Vg6vub9XrUXs3mny0zFE/16yWRWQowkmz6esCCdg97jPXU2azfOxdQj39pSNMkRbr6A==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: false
     optional: true
 
   /@rspack/binding-win32-x64-msvc@0.2.9:
@@ -14213,7 +14130,22 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: true
     optional: true
+
+  /@rspack/binding@0.2.10:
+    resolution: {integrity: sha512-iHndN8t5FmzPgvDo+ttSDYIvB5XLp3LSn18UZ8H2HaFA7AqrwSrTrcMFDB6YFsy0CFZ1WT1RY7WnV7gs6UJzRw==}
+    optionalDependencies:
+      '@rspack/binding-darwin-arm64': 0.2.10
+      '@rspack/binding-darwin-x64': 0.2.10
+      '@rspack/binding-linux-arm64-gnu': 0.2.10
+      '@rspack/binding-linux-arm64-musl': 0.2.10
+      '@rspack/binding-linux-x64-gnu': 0.2.10
+      '@rspack/binding-linux-x64-musl': 0.2.10
+      '@rspack/binding-win32-arm64-msvc': 0.2.10
+      '@rspack/binding-win32-ia32-msvc': 0.2.10
+      '@rspack/binding-win32-x64-msvc': 0.2.10
+    dev: false
 
   /@rspack/binding@0.2.9:
     resolution: {integrity: sha512-91NHa28AvuXRNBd7z0BiIPz7Dk1FAKgGhJ7fSXvGhG2pccTSjYe2eRRbsHs6NTMRicxJk0iren3k0JtYTS8bng==}
@@ -14227,6 +14159,36 @@ packages:
       '@rspack/binding-win32-arm64-msvc': 0.2.9
       '@rspack/binding-win32-ia32-msvc': 0.2.9
       '@rspack/binding-win32-x64-msvc': 0.2.9
+    dev: true
+
+  /@rspack/core@0.2.10(webpack@5.88.1):
+    resolution: {integrity: sha512-vX05biues8ZTN7EfMSR8WwSOrlNSIyYoBIvOKtcF4MFzmlCqDlTERJRIVu58ADKODpJvPRCX6eICmeh4dCog0g==}
+    dependencies:
+      '@rspack/binding': 0.2.10
+      '@rspack/dev-client': 0.2.10(react-refresh@0.14.0)(webpack@5.88.1)
+      '@swc/helpers': 0.5.1
+      browserslist: 4.21.4
+      compare-versions: 6.0.0-rc.1
+      enhanced-resolve: 5.12.0
+      graceful-fs: 4.2.10
+      neo-async: 2.6.2
+      react-refresh: 0.14.0
+      schema-utils: 4.0.0
+      tapable: 2.2.1
+      util: 0.12.5
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+      zod: 3.21.4
+      zod-validation-error: 1.2.0(zod@3.21.4)
+    transitivePeerDependencies:
+      - '@types/webpack'
+      - sockjs-client
+      - type-fest
+      - webpack
+      - webpack-dev-server
+      - webpack-hot-middleware
+      - webpack-plugin-serve
+    dev: false
 
   /@rspack/core@0.2.9(type-fest@4.1.0)(webpack@5.88.1):
     resolution: {integrity: sha512-7dtS2iiaWGEt+ZS4QkZJNXlkonLJj9Z9LIi642M5IlVwLDNeRFUZobc+eKuJR7tWEyKrVdzwyU5IidDGjkEwfQ==}
@@ -14255,6 +14217,27 @@ packages:
       - webpack-dev-server
       - webpack-hot-middleware
       - webpack-plugin-serve
+    dev: true
+
+  /@rspack/dev-client@0.2.10(react-refresh@0.14.0)(webpack@5.88.1):
+    resolution: {integrity: sha512-Yyl7Ytu4/VW4pO8i1FydZdzXTxAN+fztev8bGLRCKc++aOFm6F0fSGAqf5Nmi5qj4VY/SaBVUB7ii4NB7CiObg==}
+    peerDependencies:
+      react-refresh: '>=0.10.0 <1.0.0'
+    peerDependenciesMeta:
+      react-refresh:
+        optional: true
+    dependencies:
+      '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(type-fest@4.1.0)(webpack@5.88.1)
+      react-refresh: 0.14.0
+    transitivePeerDependencies:
+      - '@types/webpack'
+      - sockjs-client
+      - type-fest
+      - webpack
+      - webpack-dev-server
+      - webpack-hot-middleware
+      - webpack-plugin-serve
+    dev: false
 
   /@rspack/dev-client@0.2.9(react-refresh@0.14.0)(type-fest@4.1.0)(webpack@5.88.1):
     resolution: {integrity: sha512-a3LbTlUzusGfXMuckiRgKlTL0+WkxHQSP/ov47ogocPq1syybLTBv9yqhwnuFTJCzIF359jvePaI4VofcacPsg==}
@@ -14274,6 +14257,23 @@ packages:
       - webpack-dev-server
       - webpack-hot-middleware
       - webpack-plugin-serve
+    dev: true
+
+  /@rspack/plugin-html@0.2.10(@rspack/core@0.2.10):
+    resolution: {integrity: sha512-kfdDddC8KojycPEmgUrOEm14nwZ1VaVMKtAgzz7uQfnFT0nr/BT2tyCS/EsDnjaYeigqTfTCqbaPQw1KCBLQ6Q==}
+    peerDependencies:
+      '@rspack/core': 0.2.10
+    peerDependenciesMeta:
+      '@rspack/core':
+        optional: true
+    dependencies:
+      '@rspack/core': 0.2.10(webpack@5.88.1)
+      '@types/html-minifier-terser': 7.0.0
+      html-minifier-terser: 7.0.0
+      lodash.template: 4.5.0
+      parse5: 7.1.1
+      tapable: 2.2.1
+    dev: false
 
   /@rspack/plugin-html@0.2.9(@rspack/core@0.2.9):
     resolution: {integrity: sha512-mdcu/nrtceJJgtbNsG/4EDmFN5TnKYQwNhoZVdq5AxHLimyZ0ldJwMiLNe+dp/FTPgyl4QEHn9H9c2z+e9RiuA==}
@@ -14289,6 +14289,7 @@ packages:
       lodash.template: 4.5.0
       parse5: 7.1.1
       tapable: 2.2.1
+    dev: true
 
   /@rushstack/node-core-library@3.48.0:
     resolution: {integrity: sha512-vgkG5gfYGiomnv3Lx4fxFhw0ytTBiAgMAT/6gkiYYracyv6g/Id7BYN+NtTFsHwSA8hSHvK42MOqQXqx04jYoA==}
@@ -34034,7 +34035,7 @@ packages:
 
   /typed-assert@1.0.9:
     resolution: {integrity: sha512-KNNZtayBCtmnNmbo5mG47p1XsCyrx6iVqomjcZnec/1Y5GGARaxPs6r49RnSPeUP3YjNYiU9sQHAtY4BBvnZwg==}
-    dev: true
+    dev: false
 
   /typedarray-to-buffer@3.1.5:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
@@ -35240,7 +35241,7 @@ packages:
     resolution: {integrity: sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==}
     engines: {node: '>=10.13.0'}
 
-  /webpack-subresource-integrity@5.1.0(webpack@5.88.1):
+  /webpack-subresource-integrity@5.1.0(html-webpack-plugin@5.5.0)(webpack@5.88.1):
     resolution: {integrity: sha512-sacXoX+xd8r4WKsy9MvH/q/vBtEHr86cpImXwyg74pFIpERKt6FmB8cXpeuh0ZLgclOlHI4Wcll7+R5L02xk9Q==}
     engines: {node: '>= 12'}
     peerDependencies:
@@ -35250,9 +35251,10 @@ packages:
       html-webpack-plugin:
         optional: true
     dependencies:
+      html-webpack-plugin: 5.5.0(webpack@5.88.1)
       typed-assert: 1.0.9
       webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
-    dev: true
+    dev: false
 
   /webpack-virtual-modules@0.2.2:
     resolution: {integrity: sha512-kDUmfm3BZrei0y+1NTHJInejzxfhtU8eDj2M7OKb2IWrPFAeO1SOH2KuQ68MSZu9IGEHcxbkKKR1v18FrUSOmA==}
