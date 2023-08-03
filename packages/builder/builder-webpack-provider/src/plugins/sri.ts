@@ -1,5 +1,5 @@
 import type { BuilderPlugin } from '../types';
-import { SubresourceIntegrityPlugin } from '../../compiled/webpack-subresource-integrity';
+import { SubresourceIntegrityPlugin } from 'webpack-subresource-integrity';
 
 export const builderPluginSRI = (): BuilderPlugin => ({
   name: 'builder-plugin-sri',
