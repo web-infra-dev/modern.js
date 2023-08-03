@@ -6288,6 +6288,16 @@ importers:
         specifier: ^2
         version: 2.29.3
 
+  tests/e2e/builder/cases/react/remove-prop-types:
+    dependencies:
+      prop-types:
+        specifier: ^15
+        version: 15.8.1
+    devDependencies:
+      '@types/prop-types':
+        specifier: ^15
+        version: 15.7.5
+
   tests/e2e/builder/cases/vue:
     dependencies:
       vue:
