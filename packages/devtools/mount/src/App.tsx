@@ -11,7 +11,7 @@ const App: React.FC<AppProps> = ({ client, dataSource, version }) => {
   const [showDevtools, toggleDevtools] = useToggle(false);
 
   let query = '';
-  query += `src=${encodeURIComponent(dataSource)}`;
+  query += `src=${encodeURIComponent(dataSource)}&`;
   query += `ver=${encodeURIComponent(version)}`;
   const src = `${client}?${query}`;
 
