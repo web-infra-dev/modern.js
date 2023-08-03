@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:minify when \`minify\` is \`false\` 1`] = `
+"// index.ts
+var this_is_a_long_function_name2 = () => {
+};
+console.log(this_is_a_long_function_name2);
+"
+`;

@@ -1,0 +1,10 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

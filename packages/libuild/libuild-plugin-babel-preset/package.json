@@ -1,0 +1,41 @@
+{
+  "name": "@modern-js/libuild-plugin-babel-preset",
+  "version": "0.14.3",
+  "description": "A plugin for libuild to transform your code with @babel/preset-react, @babel/preset-typescript and babel-plugin-import",
+  "keywords": [
+    "libuild",
+    "babel",
+    "preset",
+    "react",
+    "typescript",
+    "import"
+  ],
+  "repository": "modern-js-dev/libuild",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "watch": "libuild -w",
+    "build": "tsc && libuild"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "@modern-js/eslint-config": "workspace:*",
+    "@modern-js/libuild": "workspace:*",
+    "@modern-js/libuild-utils": "workspace:*",
+    "typescript": "4.4.4",
+    "@types/babel__core": "7.1.16"
+  },
+  "dependencies": {
+    "babel-plugin-import": "1.13.3",
+    "@babel/preset-react": "7.14.5",
+    "@babel/preset-typescript": "7.16.7",
+    "@babel/core": "7.15.8"
+  },
+  "files": [
+    "dist",
+    "!dist/*.map"
+  ]
+}

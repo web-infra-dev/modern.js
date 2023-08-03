@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:treeshaking shaking:resolve 1`] = `
+"// mylib/src/lib.ts
+var answer = 42;
+
+// index.ts
+console.log(\\"a:\\", answer);
+"
+`;

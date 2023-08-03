@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:resolve resolve_with_virtual 1`] = `
+"// ../../../../../node_modules/.pnpm/the-answer@1.0.0/node_modules/the-answer/dist/the-answer.es.js
+var index = 42;
+var the_answer_es_default = index;
+
+// VirtualPathProxyNamespace:~virtual/a/b/c/test.png
+var test_default = the_answer_es_default;
+
+// other.ts
+console.log(\\"virtual:\\", test_default);
+"
+`;
+
+exports[`fixture:resolve this.resolve 1`] = `
+"// index.ts
+import { Button } from \\"antd\\";
+
+// alias/secret.ts
+var secret = 43;
+
+// index.ts
+console.log(\\"answer:\\", secret);
+console.log(Button);
+"
+`;

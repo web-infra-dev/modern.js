@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:enhanced-resolve-tsconfig-alias index 1`] = `
+"// index.ts
+import { Button } from \\"antd\\";
+
+// alias/secret.ts
+var secret = 21;
+
+// index.ts
+console.log(\\"answer:\\", secret);
+console.log(Button);
+"
+`;

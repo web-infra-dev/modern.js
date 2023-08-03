@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "secret": ["alias/secret"]
+    }
+  }
+}

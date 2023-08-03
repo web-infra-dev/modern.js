@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:postcss:config-file should load config from external config file 1`] = `
+"/* index.css */
+.foo:after {
+  content: \\"₸\\";
+}
+.bar:after {
+  content: \\"normal text\\";
+}
+"
+`;
