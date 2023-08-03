@@ -134,12 +134,21 @@ export const isRedirect = (code: number) => {
   return [301, 302, 307, 308].includes(code);
 };
 
+function parseBodyTypes(headers: IncomingMessage['headers'], body: string) {
+  switch (headers['content-type']) {
+    case 'application/json':
+      return JSON.parse(body);
+    default:
+      return body;
+  }
+}
+
 /**
  * get body from request.
- * @return body -
+ * @return  body -
  *  if req.method !== 'GET', it returns a string, otherwise it returns undefined
  */
-const getRequestBody = (req: IncomingMessage): Promise<string | undefined> =>
+const getRequestBody = (req: IncomingMessage): Promise<any | undefined> =>
   new Promise((resolve, reject) => {
     if (req?.method && req.method.toLowerCase() !== 'get') {
       let body = '';
@@ -148,7 +157,7 @@ const getRequestBody = (req: IncomingMessage): Promise<string | undefined> =>
       });
 
       req.on('end', () => {
-        resolve(body);
+        resolve(parseBodyTypes(req.headers, body));
       });
 
       req.on('error', err => {
@@ -160,5 +169,8 @@ const getRequestBody = (req: IncomingMessage): Promise<string | undefined> =>
   });
 
 export const bodyParser = async (req: IncomingMessage) => {
-  req.body = await getRequestBody(req);
+  if (!req.body) {
+    // we parser body only when req.body equal undefined
+    req.body = await getRequestBody(req);
+  }
 };

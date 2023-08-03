@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.28.0",
+  "version": "2.29.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.28.0"
+    "@modern-js/module-tools": "workspace:^2.29.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {
@@ -43,7 +43,7 @@
     }
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-node-polyfill": "0.14.1"
+    "@modern-js/libuild-plugin-node-polyfill": "0.14.3"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

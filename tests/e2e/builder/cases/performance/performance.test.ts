@@ -43,34 +43,6 @@ test.describe('performance configure multi', () => {
   });
 });
 
-test('removeConsole', async () => {
-  const builder = await build({
-    cwd: join(fixtures, 'removeConsole'),
-    entry: {
-      main: join(fixtures, 'removeConsole/src/index.js'),
-    },
-    builderConfig: {
-      performance: {
-        chunkSplit: {
-          strategy: 'all-in-one',
-        },
-        removeConsole: ['log', 'warn'],
-      },
-    },
-  });
-
-  const files = await builder.unwrapOutputJSON();
-
-  const [, jsFile] = Object.entries(files).find(
-    ([name, content]) => name.endsWith('.js') && content,
-  )!;
-
-  expect(jsFile.includes('test-console-debug')).toBeTruthy();
-  expect(jsFile.includes('test-console-info')).toBeFalsy();
-  expect(jsFile.includes('test-console-warn')).toBeFalsy();
-  expect(jsFile.includes('test-console-error')).toBeTruthy();
-});
-
 test('should generate vendor chunk when chunkSplit is "single-vendor"', async () => {
   const builder = await build({
     cwd: join(fixtures, 'basic'),

@@ -1,5 +1,58 @@
 # @modern-js/app-tools
 
+## 2.29.0
+
+### Patch Changes
+
+- 1171338: fix(app-tools): tools.tsChecker default value mismatch with doc
+
+  fix(app-tools): tools.tsChecker 默认值与文档不匹配
+
+- 354b823: chore(app-tools): remove unused tsLoader config
+
+  chore(app-tools): 移除多余的 tsLoader 配置
+
+- da31406: fix: should not flat routes when has a route config file
+  fix: 当有一个路由配置文件时，不应该打平 routes
+- fd3e71c: fix: if a route dont has component, should be as a no-layout route
+  fix: 如果路由对象没有组件属性，应该被看做无布局路由
+- ea0f2df: fix: should get the correct hash in source
+  fix: 应该在 source 中获取正确的 hash
+- 7017a60: fix: should not flat routes when the layout has loading or error
+  fix: 当 layout 中存在 loading 或者 error 时，不应该 flat routes
+- Updated dependencies [e6b5355]
+- Updated dependencies [16e5195]
+- Updated dependencies [93db783]
+- Updated dependencies [1d420ae]
+- Updated dependencies [1171338]
+- Updated dependencies [bd4c354]
+- Updated dependencies [3e0e1b2]
+- Updated dependencies [cba7675]
+- Updated dependencies [76ace5d]
+- Updated dependencies [99052ea]
+- Updated dependencies [d198779]
+- Updated dependencies [2ad31da]
+- Updated dependencies [1d71d2e]
+  - @modern-js/utils@2.29.0
+  - @modern-js/prod-server@2.29.0
+  - @modern-js/builder-webpack-provider@2.29.0
+  - @modern-js/builder-rspack-provider@2.29.0
+  - @modern-js/builder@2.29.0
+  - @modern-js/builder-shared@2.29.0
+  - @modern-js/server@2.29.0
+  - @modern-js/types@2.29.0
+  - @modern-js/node-bundle-require@2.29.0
+  - @modern-js/builder-plugin-esbuild@2.29.0
+  - @modern-js/builder-plugin-node-polyfill@2.29.0
+  - @modern-js/core@2.29.0
+  - @modern-js/plugin-data-loader@2.29.0
+  - @modern-js/plugin-i18n@2.29.0
+  - @modern-js/plugin-lint@2.29.0
+  - @modern-js/new-action@2.29.0
+  - @modern-js/server-core@2.29.0
+  - @modern-js/plugin@2.29.0
+  - @modern-js/upgrade@2.29.0
+
 ## 2.28.0
 
 ### Minor Changes

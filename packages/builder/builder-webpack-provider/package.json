@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.28.0",
+  "version": "2.29.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -108,7 +108,8 @@
     "style-loader": "3.3.1",
     "terser-webpack-plugin": "5.3.6",
     "ts-loader": "9.4.1",
-    "webpack": "^5.88.1"
+    "webpack": "^5.88.1",
+    "webpack-subresource-integrity": "5.1.0"
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.46.0",

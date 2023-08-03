@@ -1,5 +1,29 @@
 # @modern-js/utils
 
+## 2.29.0
+
+### Minor Changes
+
+- cba7675: feat: add a server reporter that report server cost, logger about error, info etc.
+  feat: 添加一个 server 端 reporter，来报告 server 端耗时，报错等
+
+### Patch Changes
+
+- e6b5355: feat(utils): change the color of error stacks to gray
+
+  feat(utils): 将 error stack 的颜色改为灰色
+
+- 93db783: fix(utils): remove hard code 'main'
+
+  fix(utils): 移除 'main' 硬编码
+
+- 99052ea: feat(builder): improve error stacks if dev compilation failed
+
+  feat(builder): 优化 dev 编译失败时的错误堆栈格式
+
+- 1d71d2e: fix(@modern-js/utils): add missing url in devServer console
+  fix(@modern-js/utils): 修复 devServer console 中丢失的 url
+
 ## 2.28.0
 
 ### Patch Changes
