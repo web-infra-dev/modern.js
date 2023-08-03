@@ -1,5 +1,29 @@
 # @modern-js/builder
 
+## 2.29.0
+
+### Patch Changes
+
+- 1171338: fix(app-tools): tools.tsChecker default value mismatch with doc
+
+  fix(app-tools): tools.tsChecker 默认值与文档不匹配
+
+- 2ad31da: feat(builder): support performance preconnect/dnsPrefetch configurations
+
+  feat(builder): 支持 performance preconnect/dnsPrefetch 配置项
+
+- Updated dependencies [e6b5355]
+- Updated dependencies [93db783]
+- Updated dependencies [bd4c354]
+- Updated dependencies [ee59d06]
+- Updated dependencies [cba7675]
+- Updated dependencies [99052ea]
+- Updated dependencies [d198779]
+- Updated dependencies [1d71d2e]
+  - @modern-js/utils@2.29.0
+  - @modern-js/builder-shared@2.29.0
+  - @modern-js/monorepo-utils@2.29.0
+
 ## 2.28.0
 
 ### Minor Changes

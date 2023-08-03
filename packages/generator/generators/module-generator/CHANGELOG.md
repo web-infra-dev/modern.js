@@ -1,5 +1,16 @@
 # @modern-js/module-generator
 
+## 3.1.31
+
+### Patch Changes
+
+- c9a6cce: feat(generator): exclude node_modules by default in tsconfig.json
+
+  feat(generator): 默认在 tsconfig.json 中排除 node_modules
+
+- cf71fc6: feat(module-generator): remove jsnext:source and add `declaration:true`
+  feat(module-generator): 移除 jsnext:source 并且增加 `declaration:true`
+
 ## 3.1.30
 
 ## 3.1.29

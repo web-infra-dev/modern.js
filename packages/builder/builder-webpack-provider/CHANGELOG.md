@@ -1,5 +1,35 @@
 # @modern-js/builder-webpack-provider
 
+## 2.29.0
+
+### Patch Changes
+
+- 1d420ae: feat(builder): support resolve relative asset in SASS files
+
+  feat(builder): 支持处理 SASS 文件的相对资源
+
+- 99052ea: feat(builder): improve error stacks if dev compilation failed
+
+  feat(builder): 优化 dev 编译失败时的错误堆栈格式
+
+- 2ad31da: feat(builder): support performance preconnect/dnsPrefetch configurations
+
+  feat(builder): 支持 performance preconnect/dnsPrefetch 配置项
+
+- Updated dependencies [e6b5355]
+- Updated dependencies [93db783]
+- Updated dependencies [bd4c354]
+- Updated dependencies [cba7675]
+- Updated dependencies [99052ea]
+- Updated dependencies [d198779]
+- Updated dependencies [1d71d2e]
+  - @modern-js/utils@2.29.0
+  - @modern-js/builder-shared@2.29.0
+  - @modern-js/server@2.29.0
+  - @modern-js/types@2.29.0
+  - @modern-js/babel-preset-app@2.29.0
+  - @modern-js/babel-preset-base@2.29.0
+
 ## 2.28.0
 
 ### Patch Changes
