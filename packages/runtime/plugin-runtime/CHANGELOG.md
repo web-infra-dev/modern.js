@@ -1,5 +1,29 @@
 # @modern-js/runtime
 
+## 2.29.0
+
+### Minor Changes
+
+- cba7675: feat: add a server reporter that report server cost, logger about error, info etc.
+  feat: 添加一个 server 端 reporter，来报告 server 端耗时，报错等
+
+### Patch Changes
+
+- 600bb0a: fix: fix remixRouter not existed in conventional routes
+  fix: 修复 remixRouter 在约定式路由下不存在问题
+- fd3e71c: fix: if a route dont has component, should be as a no-layout route
+  fix: 如果路由对象没有组件属性，应该被看做无布局路由
+- 9a81e31: fix(plugin-runtime): ssr reporter some problems
+  fix(plugin-runtime): ssr reporter 小问题
+- Updated dependencies [e6b5355]
+- Updated dependencies [93db783]
+- Updated dependencies [cba7675]
+- Updated dependencies [99052ea]
+- Updated dependencies [1d71d2e]
+  - @modern-js/utils@2.29.0
+  - @modern-js/types@2.29.0
+  - @modern-js/plugin@2.29.0
+
 ## 2.28.0
 
 ### Patch Changes

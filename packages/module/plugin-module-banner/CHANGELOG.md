@@ -1,5 +1,17 @@
 # @modern-js/plugin-module-banner
 
+## 2.29.0
+
+### Patch Changes
+
+- 0f680ec: chore(deps): bump swc-plugins 0.5.5 and libuild 0.14.3
+
+  chore(deps): 升级 swc-plugins 0.5.5 和 libuild 0.14.3
+
+- Updated dependencies [6993eb6]
+- Updated dependencies [0f680ec]
+  - @modern-js/module-tools@2.29.0
+
 ## 2.28.0
 
 ### Minor Changes

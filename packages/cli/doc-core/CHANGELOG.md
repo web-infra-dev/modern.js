@@ -1,5 +1,37 @@
 # @modern-js/doc-core
 
+## 2.29.0
+
+### Patch Changes
+
+- 3701a1a: feat(doc-core): support builder plugins
+
+  feat(doc-core): 支持 builder plugins 配置
+
+- b4f2f01: fix(doc-core): search type
+
+  fix(doc-core): 修复 search 类型
+
+- 2bec7fd: feat(doc-core): support tag config in navbar and sidebar
+
+  feat(doc-core): 支持 navbar 和 sidebar 中的 tag 配置
+
+- Updated dependencies [e6b5355]
+- Updated dependencies [93db783]
+- Updated dependencies [1d420ae]
+- Updated dependencies [1171338]
+- Updated dependencies [3e0e1b2]
+- Updated dependencies [cba7675]
+- Updated dependencies [99052ea]
+- Updated dependencies [2ad31da]
+- Updated dependencies [1d71d2e]
+  - @modern-js/utils@2.29.0
+  - @modern-js/builder-rspack-provider@2.29.0
+  - @modern-js/builder@2.29.0
+  - @modern-js/core@2.29.0
+  - @modern-js/doc-plugin-medium-zoom@2.29.0
+  - @modern-js/remark-container@2.29.0
+
 ## 2.28.0
 
 ### Patch Changes
