@@ -22,6 +22,17 @@ const supportedChromiumBrowsers = [
   'Chromium',
 ];
 
+const getTargetBrowser = () => {
+  // Use user setting first
+  let targetBrowser = process.env.BROWSER;
+  // If user setting not found or not support, use opening browser first
+  if (!targetBrowser || !supportedChromiumBrowsers.includes(targetBrowser)) {
+    const ps = execSync('ps cax').toString();
+    targetBrowser = supportedChromiumBrowsers.find(b => ps.includes(b));
+  }
+  return targetBrowser;
+};
+
 export async function openBrowser(url: string): Promise<boolean> {
   // If we're on OS X, the user hasn't specifically
   // requested a different browser, we can try opening
@@ -31,15 +42,13 @@ export async function openBrowser(url: string): Promise<boolean> {
 
   if (shouldTryOpenChromeWithAppleScript) {
     try {
-      const ps = execSync('ps cax').toString();
-      const openedBrowser = supportedChromiumBrowsers.find(b => ps.includes(b));
-
-      if (openedBrowser) {
+      const targetBrowser = getTargetBrowser();
+      if (targetBrowser) {
         // Try to reuse existing tab with AppleScript
         execSync(
           `osascript openChrome.applescript "${encodeURI(
             url,
-          )}" "${openedBrowser}"`,
+          )}" "${targetBrowser}"`,
           {
             stdio: 'ignore',
             cwd: join(__dirname, '../static'),
@@ -47,6 +56,7 @@ export async function openBrowser(url: string): Promise<boolean> {
         );
         return true;
       }
+      return false;
     } catch (err) {
       logger.error(
         'Failed to open start URL with apple script:',
