@@ -54,7 +54,6 @@ export const render = async (
       query: ctx.query as Record<string, string>,
       url: ctx.href,
       headers: ctx.headers,
-      body: ctx.req.body,
     },
     response: {
       setHeader: (key, value) => {
