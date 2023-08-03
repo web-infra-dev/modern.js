@@ -10,14 +10,14 @@ export default defineConfig<'rspack'>({
     port: 8780,
     assetPrefix: '/devtools',
     proxy: {
-      'https://modernjs.dev/devtools': 'https://localhost:8780/devtools',
+      'https://modernjs.dev/devtools': 'http://localhost:8780/devtools',
     },
-    https: true,
   },
   tools: {
     devServer: {
       client: {
         host: 'localhost',
+        protocol: 'ws',
       },
     },
   },
