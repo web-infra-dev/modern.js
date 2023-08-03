@@ -457,6 +457,51 @@ const supportCatchAll = async (
   expect(errors.length).toEqual(0);
 };
 
+const getStaticJSDir = (appDir: string) =>
+  path.join(appDir, './dist/static/js');
+
+const getEntryFile = async (staticJSDir: string) => {
+  const files = await fs.readdir(staticJSDir);
+  return files.find(file => /^three(\.\w+)?\.js$/.test(file));
+};
+
+const getEntryContent = async (staticJSDir: string, entryFile: string) => {
+  const entryContent = (
+    await fs.readFile(path.join(staticJSDir, entryFile))
+  ).toString();
+  return entryContent;
+};
+
+const testRouterPlugin = async (appDir: string) => {
+  const staticJSDir = getStaticJSDir(appDir);
+  const entryFile = await getEntryFile(staticJSDir);
+  expect(entryFile).toBeDefined();
+
+  const entryContent = await getEntryContent(staticJSDir, entryFile!);
+  expect(entryContent.includes(entryFile!)).toBe(true);
+  expect(!entryContent.includes('four.')).toBe(true);
+};
+
+const hasHashCorrectly = async (appDir: string) => {
+  const staticJSDir = getStaticJSDir(appDir);
+  const entryFile = await getEntryFile(staticJSDir);
+  expect(entryFile).toBeDefined();
+
+  const entryContent = await getEntryContent(staticJSDir, entryFile!);
+
+  const threeUserFiles = await fs.readdir(
+    path.join(staticJSDir, 'async/three_user'),
+  );
+  const testFile = threeUserFiles.find(
+    file => file.startsWith('page') && file.endsWith('.js'),
+  );
+
+  const matched = testFile!.match(/page\.(\w+)\.js$/);
+  expect(matched).toBeDefined();
+  const hash = matched![1];
+  expect(entryContent.includes(`"${hash}"`)).toBe(true);
+};
+
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -544,6 +589,12 @@ describe('dev', () => {
   describe('global configuration', () => {
     test('support app init', async () =>
       supportDefineInit(page, errors, appPort));
+  });
+
+  describe('router plugin', () => {
+    test('basic usage', () => {
+      testRouterPlugin(appDir);
+    });
   });
 
   afterAll(async () => {
@@ -641,6 +692,14 @@ describe('build', () => {
   describe('global configuration', () => {
     test('support app init', async () =>
       supportDefineInit(page, errors, appPort));
+  });
+
+  describe('router plugin', () => {
+    test('basic usage', () => {
+      testRouterPlugin(appDir);
+    });
+    test('the correct hash should be included in the bundler-runtime chunk', () =>
+      hasHashCorrectly(appDir));
   });
 
   afterAll(async () => {

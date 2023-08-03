@@ -38,6 +38,7 @@ test('should add polyfill when set polyfill entry (default)', async () => {
   expect(content.includes('es.array.flat.js')).toBeTruthy();
 });
 
+// TODO: needs builtin:swc-loader
 webpackOnlyTest('should add polyfill when set polyfill usage', async () => {
   const builder = await build({
     cwd: __dirname,

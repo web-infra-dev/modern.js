@@ -3,6 +3,7 @@ import { expect } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
 import { webpackOnlyTest } from '@scripts/helper';
 
+// TODO: needs builtin:swc-loader
 webpackOnlyTest(
   'should not compile specified file when source.exclude',
   async () => {

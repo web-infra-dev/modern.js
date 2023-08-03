@@ -34,6 +34,10 @@ export type RouterConfig = {
     globalApp?: React.ComponentType<any>;
     routes: (NestedRoute | PageRoute)[];
   };
+  /**
+   * You should not use it
+   */
+  oldVersion?: boolean;
   serverBase?: string[];
   supportHtml5History?: boolean;
   basename?: string;

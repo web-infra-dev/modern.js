@@ -64,7 +64,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.21.5",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.5.2",
+    "@modern-js/swc-plugins": "0.5.5",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.1",
     "core-js": "~3.30.0"
