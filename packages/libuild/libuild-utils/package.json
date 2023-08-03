@@ -14,7 +14,6 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "devDependencies": {
-    "@modern-js/eslint-config": "workspace:*",
     "@types/chai": "4.2.22",
     "@types/node": "12.20.42",
     "@types/sinon": "10.0.6",

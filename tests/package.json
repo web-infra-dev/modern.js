@@ -9,7 +9,7 @@
     "test:builder:rspack": "cd e2e/builder && pnpm test:rspack",
     "test:doc": "cd integration && jest --testMatch **/doc/**/*.test.ts",
     "test:module-tools": "cd integration && jest --testMatch **/module/**/*.test.ts",
-    "test": "pnpm test --filter api-service-koa libuild-test & jest",
+    "test": "pnpm test --filter libuild-test --filter api-service-koa & jest",
     "test:ut": "node --conditions=jsnext:source -r tsm ./node_modules/jest/bin/jest.js -c jest-ut.config.js --maxWorkers=2",
     "prepare": "node node_modules/puppeteer/install.js",
     "test:mwa": "ts-node -T generator/mwa.ts",

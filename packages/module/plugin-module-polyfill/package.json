@@ -42,7 +42,7 @@
     "@babel/core": "^7.21.8",
     "@babel/plugin-syntax-typescript": "7.21.4",
     "@babel/plugin-syntax-jsx": "7.21.4",
-    "@modern-js/libuild-plugin-babel": "0.7.1",
+    "@modern-js/libuild-plugin-babel": "workspace:*",
     "babel-plugin-polyfill-corejs3": "0.5.2"
   },
   "sideEffects": false,
