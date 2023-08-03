@@ -19,7 +19,7 @@ export function factory(
         return [
           {
             target: 'tools.swc',
-            schema: { typeof: ['object'] },
+            schema: { typeof: ['object', 'function'] },
           },
         ];
       },
