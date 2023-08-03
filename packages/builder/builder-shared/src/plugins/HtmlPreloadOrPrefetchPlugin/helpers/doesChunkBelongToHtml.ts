@@ -39,6 +39,7 @@ function recursiveChunkGroup(chunkGroup: ChunkGroup): string | undefined {
 }
 
 function recursiveChunkEntryName(chunk: Chunk): string | undefined {
+  // todo: should get every chunkGroup
   const [chunkGroup] = chunk.groupsIterable;
   return recursiveChunkGroup(chunkGroup);
 }

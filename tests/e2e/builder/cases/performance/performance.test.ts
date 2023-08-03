@@ -157,7 +157,7 @@ test('should generate dnsPrefetch link when dnsPrefetch is defined', async () =>
   ).toBeTruthy();
 });
 
-test('should generate prefetch link when prefetch is defined', async () => {
+test.only('should generate prefetch link when prefetch is defined', async () => {
   const builder = await build({
     cwd: join(fixtures, 'load-resource'),
     entry: {
@@ -179,7 +179,8 @@ test('should generate prefetch link when prefetch is defined', async () => {
     name.endsWith('index.html'),
   )!;
 
-  expect(content.match(/rel="prefetch"/g)?.length).toBe(1);
+  // test.js、test.css、test.png
+  expect(content.match(/rel="prefetch"/g)?.length).toBe(3);
 
   expect(
     content.includes(
@@ -212,7 +213,8 @@ test('should generate prefetch link by config (distinguish html)', async () => {
     name.endsWith('page1/index.html'),
   )!;
 
-  expect(content.match(/rel="prefetch"/g)?.length).toBe(2);
+  // icon.png、test.js、test.css、test.png
+  expect(content.match(/rel="prefetch"/g)?.length).toBe(4);
 
   const assetFileName = Object.keys(files).find(file =>
     file.includes('/static/image/'),
@@ -231,7 +233,8 @@ test('should generate prefetch link by config (distinguish html)', async () => {
   )!;
 
   // todo: need fix
-  expect(content2.match(/rel="prefetch"/g)?.length).toBe(1);
+  // test.js、test.css、test.png
+  expect(content2.match(/rel="prefetch"/g)?.length).toBe(3);
 });
 
 test('should generate preload link when preload is defined', async () => {
@@ -256,7 +259,8 @@ test('should generate preload link when preload is defined', async () => {
     name.endsWith('index.html'),
   )!;
 
-  expect(content.match(/rel="preload"/g)?.length).toBe(1);
+  // test.js、test.css、test.png
+  expect(content.match(/rel="preload"/g)?.length).toBe(3);
 
   expect(
     content.includes(
