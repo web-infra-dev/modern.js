@@ -116,6 +116,7 @@ export const builderPluginSwc = (
             {
               jsMinify: mainConfig.jsMinify ?? mainConfig.jsc?.minify,
               cssMinify: mainConfig.cssMinify,
+              builderConfig,
             },
           ]);
       }

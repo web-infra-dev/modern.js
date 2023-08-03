@@ -1,14 +1,14 @@
-import { webpack } from '@modern-js/builder-webpack-provider';
+import { BuilderConfig, webpack } from '@modern-js/builder-webpack-provider';
 import { merge } from '@modern-js/utils/lodash';
 import { chalk, logger } from '@modern-js/utils';
-import { CssMinifyOptions, JsMinifyOptions, Output } from './types';
+import {
+  Output,
+  JsMinifyOptions,
+  CssMinifyOptions,
+  TerserCompressOptions,
+} from './types';
 import { minify, minifyCss } from './binding';
 import { CSS_REGEX, JS_REGEX } from './constants';
-
-const defaultMinifyOptions: JsMinifyOptions = {
-  compress: {},
-  mangle: true,
-};
 
 export interface NormalizedSwcMinifyOption {
   jsMinify?: JsMinifyOptions;
@@ -37,11 +37,32 @@ export class SwcMinimizerPlugin {
     options: {
       jsMinify?: boolean | JsMinifyOptions;
       cssMinify?: boolean | CssMinifyOptions;
+      builderConfig?: BuilderConfig;
     } = {},
   ) {
     this.minifyOptions = {
-      jsMinify: merge(defaultMinifyOptions, normalize(options.jsMinify, {})),
+      jsMinify: merge(
+        this.getDefaultJsMinifyOptions(options.builderConfig),
+        normalize(options.jsMinify, {}),
+      ),
       cssMinify: normalize(options.cssMinify, {}),
+    };
+  }
+
+  getDefaultJsMinifyOptions(builderConfig?: BuilderConfig): JsMinifyOptions {
+    const compressOptions: TerserCompressOptions = {};
+    const { removeConsole } = builderConfig?.performance || {};
+
+    if (removeConsole === true) {
+      compressOptions.drop_console = true;
+    } else if (Array.isArray(removeConsole)) {
+      const pureFuncs = removeConsole.map(method => `console.${method}`);
+      compressOptions.pure_funcs = pureFuncs;
+    }
+
+    return {
+      compress: compressOptions,
+      mangle: true,
     };
   }
 

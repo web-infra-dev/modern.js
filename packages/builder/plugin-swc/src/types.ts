@@ -8,9 +8,10 @@ import type {
 import type { lodash as _ } from '@modern-js/utils';
 
 export type {
-  TransformConfig,
   Output,
+  TransformConfig,
   JsMinifyOptions,
+  TerserCompressOptions,
 } from '@modern-js/swc-plugins';
 
 export type OuterExtensions = Omit<
