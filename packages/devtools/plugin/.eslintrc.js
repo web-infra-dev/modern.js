@@ -7,7 +7,7 @@ module.exports = {
     // the relative path to sub-package's `tsconfig.json`
     project: [
       require.resolve('./tsconfig.json'),
-      require.resolve('./tests/tsconfig.json'),
+      // require.resolve('./tests/tsconfig.json'),
     ],
   },
 };

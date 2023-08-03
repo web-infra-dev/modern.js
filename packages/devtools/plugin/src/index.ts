@@ -1,4 +1,4 @@
-import { tailwindcssPlugin } from './cli';
+import { devtoolsPlugin } from './cli';
 
-export { tailwindcssPlugin };
-export default tailwindcssPlugin;
+export { devtoolsPlugin };
+export default devtoolsPlugin;
