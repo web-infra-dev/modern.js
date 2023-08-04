@@ -15,7 +15,6 @@
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/libuild": "workspace:*",
     "@modern-js/libuild-plugin-babel": "workspace:*",
-    "@modern-js/libuild-plugin-babel-preset": "workspace:*",
     "@modern-js/libuild-plugin-node-polyfill": "workspace:*",
     "@modern-js/libuild-plugin-svgr": "workspace:*",
     "@modern-js/libuild-plugin-swc": "workspace:*",
