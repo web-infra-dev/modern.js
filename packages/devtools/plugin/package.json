@@ -1,0 +1,78 @@
+{
+  "name": "@modern-js/plugin-devtools",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-tailwind"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.29.0",
+  "jsnext:source": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "node": {
+        "jsnext:source": "./src/index.ts",
+        "require": "./dist/cjs/index.js"
+      },
+      "default": "./dist/cjs/index.js"
+    },
+    "./cli": {
+      "jsnext:source": "./src/cli.ts",
+      "default": "./dist/cjs/cli.js"
+    }
+  },
+  "typesVersions": {
+    "*": {}
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern-lib new",
+    "dev": "modern-lib build --watch --no-dts",
+    "build": "modern-lib build",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@modern-js/devtools-client": "workspace:*",
+    "@modern-js/devtools-mount": "workspace:*",
+    "@modern-js/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@swc/helpers": "0.5.1",
+    "@types/node": "^14",
+    "type-fest": "^4.1.0",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "@modern-js/runtime": "workspace:^2.29.0"
+  },
+  "peerDependenciesMeta": {
+    "@modern-js/runtime": {
+      "optional": true
+    }
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/types/index.d.ts"
+  }
+}
