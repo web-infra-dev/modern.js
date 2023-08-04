@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`data-url import 1`] = `
+"// <data:text/javascript,export default 42>
+var javascript_export_default_42_default = 42;
+
+// index.ts
+console.log(\\"x:\\", javascript_export_default_42_default);
+"
+`;

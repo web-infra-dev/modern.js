@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:sass sass-url 1`] = `
+"/* index.scss */
+body {
+  background: url(./assets/logo.5d5d9eef.svg);
+}
+.url-variable {
+  background: url(./assets/logo.5d5d9eef.svg);
+}
+"
+`;

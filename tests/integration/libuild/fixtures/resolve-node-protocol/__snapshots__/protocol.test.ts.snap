@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:resolve-node-protocol default 1`] = `
+"// index.ts
+import path from \\"path\\";
+var { join } = path;
+export {
+  join
+};
+"
+`;

@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:sass basic example should bundle 1`] = `
+"/* basic.scss */
+.alert {
+  border: 1px solid rgba(198, 83, 140, 0.88);
+}
+"
+`;

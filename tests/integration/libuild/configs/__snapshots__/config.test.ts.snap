@@ -1,0 +1,440 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config:configFile:snapshot argv 1`] = `
+Object {
+  "asset": Object {
+    "limit": 0,
+    "name": "[name].[hash].[ext]",
+    "outdir": "assets",
+    "publicPath": "",
+    "rebase": true,
+  },
+  "autoExternal": true,
+  "bundle": true,
+  "chunkNames": undefined,
+  "clean": false,
+  "configFile": "configFile/argv/libuild.config.ts",
+  "css_resolve": [Function],
+  "define": Object {
+    "import.meta.env.LIBUILD_ENV_DEBUG": "\\"false\\"",
+  },
+  "entryNames": "[name]",
+  "esbuildOptions": [Function],
+  "external": Array [],
+  "format": "esm",
+  "globals": Object {},
+  "inject": Array [],
+  "input": Object {
+    "main": "configFile/argv/index.ts",
+  },
+  "jsx": "automatic",
+  "loader": Object {},
+  "logLevel": "info",
+  "logger": Logger {
+    "opts": Object {
+      "level": "info",
+    },
+    "times": Map {},
+    "timesLog": Map {},
+  },
+  "metafile": false,
+  "minify": false,
+  "node_resolve": [Function],
+  "outbase": "configFile/argv/src",
+  "outdir": "configFile/argv/dist",
+  "platform": "node",
+  "plugins": Array [],
+  "redirect": Object {
+    "alias": true,
+    "asset": true,
+    "style": true,
+  },
+  "resolve": Object {
+    "alias": Object {},
+    "mainFields": Array [
+      "module",
+      "main",
+    ],
+    "mainFiles": Array [
+      "index",
+    ],
+    "preferRelative": false,
+  },
+  "root": "configFile/argv",
+  "sideEffects": undefined,
+  "sourceDir": "configFile/argv/src",
+  "sourceMap": false,
+  "splitting": false,
+  "style": Object {},
+  "target": "es2015",
+  "transformCache": true,
+  "watch": false,
+}
+`;
+
+exports[`config:ignore-dts-files:snapshot index.test.ts 1`] = `
+Object {
+  "asset": Object {
+    "limit": 0,
+    "name": "[name].[hash].[ext]",
+    "outdir": "assets",
+    "publicPath": "",
+    "rebase": true,
+  },
+  "autoExternal": true,
+  "bundle": true,
+  "chunkNames": undefined,
+  "clean": false,
+  "configFile": "ignore-dts-files/index.test.ts/libuild.config.ts",
+  "css_resolve": [Function],
+  "define": Object {
+    "import.meta.env.LIBUILD_ENV_DEBUG": "\\"false\\"",
+  },
+  "entryNames": "[name]",
+  "esbuildOptions": [Function],
+  "external": Array [],
+  "format": "esm",
+  "globals": Object {},
+  "inject": Array [],
+  "input": Object {
+    "main": "ignore-dts-files/index.test.ts/index.ts",
+  },
+  "jsx": "automatic",
+  "loader": Object {},
+  "logLevel": "info",
+  "logger": Logger {
+    "opts": Object {
+      "level": "info",
+    },
+    "times": Map {},
+    "timesLog": Map {},
+  },
+  "metafile": false,
+  "minify": false,
+  "node_resolve": [Function],
+  "outbase": "ignore-dts-files/index.test.ts/src",
+  "outdir": "ignore-dts-files/index.test.ts/dist",
+  "platform": "node",
+  "plugins": Array [],
+  "redirect": Object {
+    "alias": true,
+    "asset": true,
+    "style": true,
+  },
+  "resolve": Object {
+    "alias": Object {},
+    "mainFields": Array [
+      "module",
+      "main",
+    ],
+    "mainFiles": Array [
+      "index",
+    ],
+    "preferRelative": false,
+  },
+  "root": "ignore-dts-files/index.test.ts",
+  "sideEffects": undefined,
+  "sourceDir": "ignore-dts-files/index.test.ts/src",
+  "sourceMap": false,
+  "splitting": false,
+  "style": Object {},
+  "target": "es2015",
+  "transformCache": true,
+  "watch": false,
+}
+`;
+
+exports[`config:ignore-dts-files:snapshot src 1`] = `
+Object {
+  "asset": Object {
+    "limit": 0,
+    "name": "[name].[hash].[ext]",
+    "outdir": "assets",
+    "publicPath": "",
+    "rebase": true,
+  },
+  "autoExternal": true,
+  "bundle": true,
+  "chunkNames": undefined,
+  "clean": false,
+  "configFile": "ignore-dts-files/src/libuild.config.ts",
+  "css_resolve": [Function],
+  "define": Object {
+    "import.meta.env.LIBUILD_ENV_DEBUG": "\\"false\\"",
+  },
+  "entryNames": "[name]",
+  "esbuildOptions": [Function],
+  "external": Array [],
+  "format": "esm",
+  "globals": Object {},
+  "inject": Array [],
+  "input": Object {
+    "main": "ignore-dts-files/src/index.ts",
+  },
+  "jsx": "automatic",
+  "loader": Object {},
+  "logLevel": "info",
+  "logger": Logger {
+    "opts": Object {
+      "level": "info",
+    },
+    "times": Map {},
+    "timesLog": Map {},
+  },
+  "metafile": false,
+  "minify": false,
+  "node_resolve": [Function],
+  "outbase": "ignore-dts-files/src/src",
+  "outdir": "ignore-dts-files/src/dist",
+  "platform": "node",
+  "plugins": Array [],
+  "redirect": Object {
+    "alias": true,
+    "asset": true,
+    "style": true,
+  },
+  "resolve": Object {
+    "alias": Object {},
+    "mainFields": Array [
+      "module",
+      "main",
+    ],
+    "mainFiles": Array [
+      "index",
+    ],
+    "preferRelative": false,
+  },
+  "root": "ignore-dts-files/src",
+  "sideEffects": undefined,
+  "sourceDir": "ignore-dts-files/src/src",
+  "sourceMap": false,
+  "splitting": false,
+  "style": Object {},
+  "target": "es2015",
+  "transformCache": true,
+  "watch": false,
+}
+`;
+
+exports[`config:merge:snapshot input 1`] = `
+Object {
+  "asset": Object {
+    "limit": 0,
+    "name": "[name].[hash].[ext]",
+    "outdir": "assets",
+    "publicPath": "",
+    "rebase": true,
+  },
+  "autoExternal": true,
+  "bundle": true,
+  "chunkNames": undefined,
+  "clean": false,
+  "configFile": "merge/input/libuild.config.ts",
+  "css_resolve": [Function],
+  "define": Object {
+    "import.meta.env.LIBUILD_ENV_DEBUG": "\\"false\\"",
+  },
+  "entryNames": "config-filename",
+  "esbuildOptions": [Function],
+  "external": Array [],
+  "format": "esm",
+  "globals": Object {},
+  "inject": Array [],
+  "input": Object {
+    "a": "merge/input/a.js",
+    "b": "merge/input/b.js",
+    "main": "merge/input/index.ts",
+  },
+  "jsx": "automatic",
+  "loader": Object {},
+  "logLevel": "info",
+  "logger": Logger {
+    "opts": Object {
+      "level": "info",
+    },
+    "times": Map {},
+    "timesLog": Map {},
+  },
+  "metafile": false,
+  "minify": false,
+  "node_resolve": [Function],
+  "outbase": "merge/input/src",
+  "outdir": "merge/input/config-path",
+  "platform": "node",
+  "plugins": Array [],
+  "redirect": Object {
+    "alias": true,
+    "asset": true,
+    "style": true,
+  },
+  "resolve": Object {
+    "alias": Object {},
+    "mainFields": Array [
+      "module",
+      "main",
+    ],
+    "mainFiles": Array [
+      "index",
+    ],
+    "preferRelative": false,
+  },
+  "root": "merge/input",
+  "sideEffects": undefined,
+  "sourceDir": "merge/input/src",
+  "sourceMap": false,
+  "splitting": false,
+  "style": Object {},
+  "target": "es2015",
+  "transformCache": true,
+  "watch": false,
+}
+`;
+
+exports[`config:minify-terser:snapshot custom 1`] = `
+Object {
+  "asset": Object {
+    "limit": 0,
+    "name": "[name].[hash].[ext]",
+    "outdir": "assets",
+    "publicPath": "",
+    "rebase": true,
+  },
+  "autoExternal": true,
+  "bundle": true,
+  "chunkNames": undefined,
+  "clean": false,
+  "configFile": "minify-terser/custom/libuild.config.ts",
+  "css_resolve": [Function],
+  "define": Object {
+    "import.meta.env.LIBUILD_ENV_DEBUG": "\\"false\\"",
+  },
+  "entryNames": "[name]",
+  "esbuildOptions": [Function],
+  "external": Array [],
+  "format": "esm",
+  "globals": Object {},
+  "inject": Array [],
+  "input": Object {
+    "main": "minify-terser/custom/index.ts",
+  },
+  "jsx": "automatic",
+  "loader": Object {},
+  "logLevel": "info",
+  "logger": Logger {
+    "opts": Object {
+      "level": "info",
+    },
+    "times": Map {},
+    "timesLog": Map {},
+  },
+  "metafile": false,
+  "minify": Object {
+    "compress": Object {
+      "hoist_funs": false,
+      "inline": 1000000,
+    },
+  },
+  "node_resolve": [Function],
+  "outbase": "minify-terser/custom/src",
+  "outdir": "minify-terser/custom/dist",
+  "platform": "node",
+  "plugins": Array [],
+  "redirect": Object {
+    "alias": true,
+    "asset": true,
+    "style": true,
+  },
+  "resolve": Object {
+    "alias": Object {},
+    "mainFields": Array [
+      "module",
+      "main",
+    ],
+    "mainFiles": Array [
+      "index",
+    ],
+    "preferRelative": false,
+  },
+  "root": "minify-terser/custom",
+  "sideEffects": undefined,
+  "sourceDir": "minify-terser/custom/src",
+  "sourceMap": false,
+  "splitting": false,
+  "style": Object {},
+  "target": "es2015",
+  "transformCache": true,
+  "watch": false,
+}
+`;
+
+exports[`config:minify-terser:snapshot default 1`] = `
+Object {
+  "asset": Object {
+    "limit": 0,
+    "name": "[name].[hash].[ext]",
+    "outdir": "assets",
+    "publicPath": "",
+    "rebase": true,
+  },
+  "autoExternal": true,
+  "bundle": true,
+  "chunkNames": undefined,
+  "clean": false,
+  "configFile": "minify-terser/default/libuild.config.ts",
+  "css_resolve": [Function],
+  "define": Object {
+    "import.meta.env.LIBUILD_ENV_DEBUG": "\\"false\\"",
+  },
+  "entryNames": "[name]",
+  "esbuildOptions": [Function],
+  "external": Array [],
+  "format": "esm",
+  "globals": Object {},
+  "inject": Array [],
+  "input": Object {
+    "main": "minify-terser/default/index.ts",
+  },
+  "jsx": "automatic",
+  "loader": Object {},
+  "logLevel": "info",
+  "logger": Logger {
+    "opts": Object {
+      "level": "info",
+    },
+    "times": Map {},
+    "timesLog": Map {},
+  },
+  "metafile": false,
+  "minify": "terser",
+  "node_resolve": [Function],
+  "outbase": "minify-terser/default/src",
+  "outdir": "minify-terser/default/dist",
+  "platform": "node",
+  "plugins": Array [],
+  "redirect": Object {
+    "alias": true,
+    "asset": true,
+    "style": true,
+  },
+  "resolve": Object {
+    "alias": Object {},
+    "mainFields": Array [
+      "module",
+      "main",
+    ],
+    "mainFiles": Array [
+      "index",
+    ],
+    "preferRelative": false,
+  },
+  "root": "minify-terser/default",
+  "sideEffects": undefined,
+  "sourceDir": "minify-terser/default/src",
+  "sourceMap": false,
+  "splitting": false,
+  "style": Object {},
+  "target": "es2015",
+  "transformCache": true,
+  "watch": false,
+}
+`;

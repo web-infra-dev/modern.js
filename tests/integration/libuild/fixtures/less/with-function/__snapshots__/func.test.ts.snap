@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:less:function work fine with less function 1`] = `
+"/* each.less */
+.alert {
+  border: 1px solid rgba(198, 83, 140, 0.88);
+}
+.test-rule {
+  color: primary;
+  color: secondary;
+}
+.sel-blue {
+  a: b;
+}
+.sel-green {
+  a: b;
+}
+.sel-red {
+  a: b;
+}
+.set {
+  one-1: blue;
+  two-2: green;
+  three-3: red;
+}
+.set-2 {
+  one-1: blue;
+  two-2: green;
+  three-3: red;
+}
+"
+`;
+
+exports[`fixture:less:function work fine with less function 2`] = `
+"/* range.less */
+.col-1 {
+  height: 50px;
+}
+.col-2 {
+  height: 100px;
+}
+.col-3 {
+  height: 150px;
+}
+.col-4 {
+  height: 200px;
+}
+"
+`;

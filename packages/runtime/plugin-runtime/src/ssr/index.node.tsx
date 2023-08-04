@@ -1,6 +1,5 @@
 import type { Plugin } from '../core';
-import {
-  SSRServerContext,
+import type {
   SSRPluginConfig,
   ModernSSRReactComponent,
 } from './serverRender/types';
@@ -20,8 +19,7 @@ export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
         return html;
       },
       init({ context }, next) {
-        const { request }: { request: SSRServerContext['request'] } =
-          context.ssrContext!;
+        const { request } = context.ssrContext!;
 
         context.ssrContext!.request = formatServer(request);
         context.ssrContext!.mode = config.mode;

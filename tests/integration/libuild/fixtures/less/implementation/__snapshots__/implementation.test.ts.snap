@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:less implemention object 1`] = `
+"/* basic.less */
+.alert {
+  border: 1px solid rgba(198, 83, 140, 0.88);
+}
+"
+`;
+
+exports[`fixture:less implemention string 1`] = `
+"/* basic.less */
+.alert {
+  border: 1px solid rgba(198, 83, 140, 0.88);
+}
+"
+`;

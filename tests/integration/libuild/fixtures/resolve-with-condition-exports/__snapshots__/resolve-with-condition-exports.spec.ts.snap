@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`resolve:condition exports basic:browser 1`] = `
+"// node_modules/lib1/src/index.mjs
+var value = \\"lib1 mjs\\";
+
+// entry1.ts
+console.log(value);
+"
+`;
+
+exports[`resolve:condition exports basic:browser 2`] = `
+"// node_modules/lib2/src/module.js
+var value = \\"lib2 module\\";
+
+// entry2.ts
+console.log(value);
+"
+`;
+
+exports[`resolve:condition exports basic:browser 3`] = `
+"var __getOwnPropNames = Object.getOwnPropertyNames;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+
+// node_modules/lib1/src/index.cjs
+var require_src = __commonJS({
+  \\"node_modules/lib1/src/index.cjs\\"(exports, module) {
+    module.exports.value = \\"lib1 cjs\\";
+  }
+});
+
+// entry3.ts
+console.log(require_src().value);
+"
+`;
+
+exports[`resolve:condition exports basic:browser 4`] = `
+"// node_modules/lib3/src/browser.js
+var value = \\"browser\\";
+
+// entry4.ts
+console.log(\\"value:\\", value);
+"
+`;
+
+exports[`resolve:condition exports basic:node 1`] = `
+"// node_modules/lib1/src/index.mjs
+var value = \\"lib1 mjs\\";
+
+// entry1.ts
+console.log(value);
+"
+`;
+
+exports[`resolve:condition exports basic:node 2`] = `
+"// node_modules/lib2/src/module.js
+var value = \\"lib2 module\\";
+
+// entry2.ts
+console.log(value);
+"
+`;
+
+exports[`resolve:condition exports basic:node 3`] = `
+"var __getOwnPropNames = Object.getOwnPropertyNames;
+var __commonJS = (cb, mod) => function __require() {
+  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+};
+
+// node_modules/lib1/src/index.cjs
+var require_src = __commonJS({
+  \\"node_modules/lib1/src/index.cjs\\"(exports, module) {
+    module.exports.value = \\"lib1 cjs\\";
+  }
+});
+
+// entry3.ts
+console.log(require_src().value);
+"
+`;
+
+exports[`resolve:condition exports basic:node 4`] = `
+"// node_modules/lib3/src/node.js
+var value = \\"node\\";
+
+// entry4.ts
+console.log(\\"value:\\", value);
+"
+`;

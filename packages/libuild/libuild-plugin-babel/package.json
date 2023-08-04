@@ -1,0 +1,30 @@
+{
+  "name": "@modern-js/libuild-plugin-babel",
+  "version": "0.14.3",
+  "description": "A plugin for libuild to transform your code with babel",
+  "keywords": [
+    "libuild",
+    "babel"
+  ],
+  "repository": "modern-js-dev/libuild",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "watch": "libuild -w",
+    "build": "tsc && libuild"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "7.32.0",
+    "@modern-js/eslint-config": "workspace:*",
+    "@modern-js/libuild": "workspace:*",
+    "@modern-js/libuild-utils": "workspace:*",
+    "typescript": "4.4.4",
+    "@types/node": "12.20.42",
+    "@types/babel__core": "7.1.16"
+  },
+  "dependencies": {
+    "@babel/core": "7.15.8"
+  }
+}

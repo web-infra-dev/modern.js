@@ -1,0 +1,28 @@
+import { Loader } from 'esbuild';
+
+export const loaderMap: Record<string, Loader> = {
+  '.aac': 'file',
+  '.css': 'file',
+  '.eot': 'file',
+  '.flac': 'file',
+  '.gif': 'file',
+  '.jpeg': 'file',
+  '.jpg': 'file',
+  '.mp3': 'file',
+  '.mp4': 'file',
+  '.ogg': 'file',
+  '.otf': 'file',
+  '.png': 'file',
+  '.svg': 'file',
+  '.ttf': 'file',
+  '.wav': 'file',
+  '.webm': 'file',
+  '.webp': 'file',
+  '.woff': 'file',
+  '.woff2': 'file',
+  '.jsx': 'jsx',
+  '.tsx': 'tsx',
+  '.ts': 'ts',
+  '.js': 'js',
+  '.json': 'json',
+};

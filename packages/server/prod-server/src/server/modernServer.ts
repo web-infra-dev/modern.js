@@ -47,7 +47,6 @@ import {
   noop,
   debug,
   isRedirect,
-  bodyParser,
 } from '../utils';
 import * as reader from '../libs/render/reader';
 import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
@@ -505,7 +504,7 @@ export class ModernServer implements ModernServerInterface {
   /* —————————————————————— private function —————————————————————— */
   // handler route.json, include api / csr / ssr
   private async routeHandler(context: ModernServerContext) {
-    const { res, req, reporter } = context;
+    const { res, reporter } = context;
 
     // match routes in the route spec
     const matched = this.router.match(context.path);
@@ -532,10 +531,6 @@ export class ModernServer implements ModernServerInterface {
       await this.handleAPI(context);
       return;
     }
-
-    // parse request body from readable stream to assgin it to req
-    // if route is a bff, we should't add parser repeattly.
-    await bodyParser(req);
 
     if (route.entryName) {
       const afterMatchContext = createAfterMatchContext(

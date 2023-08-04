@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:css import:enhanced 1`] = `
+"@import \\"https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.css\\";
+
+/* lib1.css */
+.lib1 {
+  color: red;
+}
+
+/* import.css */
+.import {
+  color: darkcyan;
+}
+@import \\"lib2.css\\";
+@font-face {
+  font-family: \\"DIN Pro\\";
+  src: url(https://lf3-static.bytednsdoc.com/obj/eden-cn/jpahaz_lm_kltvo/ljhwZthlaukjlkulzlp/fonts/DINPro/DIN_Pro_Bold.ttf);
+}
+"
+`;

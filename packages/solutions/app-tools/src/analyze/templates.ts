@@ -107,9 +107,6 @@ export const html = (partials: {
 </head>
 
 <body>
-  <noscript>
-    We're sorry but react app doesn't work properly without JavaScript enabled. Please enable it to continue.
-  </noscript>
   <div id="<%= mountId %>"><!--<?- html ?>--></div>
   ${partials.body.join('\n')}
   <!--<?- chunksMap.js ?>-->

@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:plugin:babel plugin:babel 1`] = `
+"// index.ts
+var value = 1;
+console.log(value);
+"
+`;

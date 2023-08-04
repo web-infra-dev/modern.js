@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:less_import_css_duplicate import css in less duplicate test 1`] = `
+"/* index.css */
+.div {
+  background-color: red;
+}
+
+/* index.less */
+.div {
+  background-size: auto;
+}
+"
+`;
+
+exports[`fixture:less_import_css_duplicate import css in less duplicate test 2`] = `".div{background-color:red;background-size:auto}"`;
