@@ -2,7 +2,7 @@ import { run } from '@modern-js/utils/runtime-node';
 import { time } from '@modern-js/utils/universal/time';
 import { ServerRenderOptions } from '../types';
 import { PreRender } from '../../react/prerender';
-import { ServerTimingNames } from '../constants';
+import { SSRTimings } from '../tracker';
 import SSREntry from './entry';
 
 export const render = ({
@@ -24,10 +24,7 @@ export const render = ({
     const html = await entry.renderToHtml(context);
     const cost = end();
 
-    entry.logger.info('App Render Total cost = %d ms', cost);
-    entry.metrics.emitTimer('app.render.cost', cost);
-    entry.reporter.reportTime('app_render_cost', cost);
-    entry.severTiming.addServeTiming(ServerTimingNames.SSR_RENDER_TOTAL, cost);
+    entry.tracker.trackTiming(SSRTimings.SSR_RENDER_TOTAL, cost);
 
     const cacheConfig = PreRender.config();
     if (cacheConfig) {

@@ -18,8 +18,12 @@ import {
   SSR_DATA_JSON_ID,
   attributesToString,
 } from '../utils';
-import { SSRReporter, createSSRReporter } from '../reporter';
-import { ServerTimingNames } from '../constants';
+import {
+  SSRErrors,
+  SSRTimings,
+  SSRTracker,
+  createSSRTracker,
+} from '../tracker';
 import { SSRServerContext, RenderResult } from './type';
 import { Fragment, toFragments } from './template';
 import { reduce } from './reduce';
@@ -36,7 +40,7 @@ const buildTemplateData = (
   context: SSRServerContext,
   data: Record<string, any>,
   renderLevel: RenderLevel,
-  reporter: SSRReporter,
+  tracker: SSRTracker,
 ) => {
   const { request, enableUnsafeCtx } = context;
   const unsafeContext = {
@@ -55,7 +59,7 @@ const buildTemplateData = (
         ...(enableUnsafeCtx ? unsafeContext : {}),
       },
       reporter: {
-        sessionId: reporter.sessionId,
+        sessionId: tracker.sessionId,
       },
     },
     renderLevel,
@@ -69,11 +73,7 @@ export default class Entry {
 
   public metrics: SSRServerContext['metrics'];
 
-  public logger: SSRServerContext['logger'];
-
-  public severTiming: SSRServerContext['serverTiming'];
-
-  public reporter: SSRReporter;
+  public tracker: SSRTracker;
 
   private readonly template: string;
 
@@ -103,10 +103,8 @@ export default class Entry {
     this.App = options.App;
     this.pluginConfig = config;
 
-    this.reporter = createSSRReporter(ctx.reporter);
-    this.severTiming = ctx.serverTiming;
+    this.tracker = createSSRTracker(ctx);
     this.metrics = ctx.metrics;
-    this.logger = ctx.logger;
     this.nonce = nonce;
 
     this.result = {
@@ -151,7 +149,7 @@ export default class Entry {
       ssrContext,
       prefetchData,
       this.result.renderLevel,
-      this.reporter,
+      this.tracker,
     );
     const SSRData = this.getSSRDataScript(templateData, routerData);
     for (const fragment of this.fragments) {
@@ -175,18 +173,11 @@ export default class Entry {
       prefetchData = await prefetch(this.App, context);
       this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
       const prefetchCost = end();
-      this.logger.debug(`App Prefetch cost = %d ms`, prefetchCost);
-      this.metrics.emitTimer('app.prefetch.cost', prefetchCost);
-      this.reporter.reportTime('app_prefetch_cost', prefetchCost);
-      this.severTiming.addServeTiming(
-        ServerTimingNames.SSR_PREFETCH,
-        prefetchCost,
-      );
+
+      this.tracker.trackTiming(SSRTimings.SSR_PREFETCH, prefetchCost);
     } catch (e) {
       this.result.renderLevel = RenderLevel.CLIENT_RENDER;
-      this.logger.error('App Prefetch Render', e as Error);
-      this.reporter.reportError('App Prefetch Render', e as Error);
-      this.metrics.emitCounter('app.prefetch.render.error', 1);
+      this.tracker.trackError(SSRErrors.PREFETCH, e as Error);
     }
 
     return prefetchData || {};
@@ -218,15 +209,10 @@ export default class Entry {
       ]);
 
       const cost = end();
-      this.logger.debug('App Render To HTML cost = %d ms', cost);
-      this.metrics.emitTimer('app.render.html.cost', cost);
-      this.reporter.reportTime('app_render_html_cost', cost);
-      this.severTiming.addServeTiming(ServerTimingNames.SSR_RENDER_HTML, cost);
+      this.tracker.trackTiming(SSRTimings.SSR_RENDER_HTML, cost);
       this.result.renderLevel = RenderLevel.SERVER_RENDER;
     } catch (e) {
-      this.logger.error('App Render To HTML', e as Error);
-      this.reporter.reportError('App Render To HTML', e as Error);
-      this.metrics.emitCounter('app.render.html.error', 1);
+      this.tracker.trackError(SSRErrors.RENDER_HTML, e as Error);
     }
 
     return html;
