@@ -1,1 +1,7 @@
-{}
+{
+  "extensions": {
+    "lodash": {
+      "ids": ["lodash", "lodash-es"]
+    }
+  }
+}

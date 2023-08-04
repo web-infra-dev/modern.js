@@ -13,6 +13,7 @@ import {
   applyScriptCondition,
   getDefaultStyledComponentsConfig,
 } from '@modern-js/builder-shared';
+import { getCompiledPath } from '../shared';
 
 import type {
   WebpackChain,
@@ -100,6 +101,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
 
           const chain = createBabelChain();
           applyPluginImport(chain, config.source.transformImport);
+          applyPluginLodash(chain, config.performance.transformLodash);
 
           // 3. Compute final babel config by @modern-js/babel-preset-app
           const babelOptions: BabelOptions = {
@@ -200,6 +202,14 @@ export function addCoreJsEntry({
     for (const name of entryPoints) {
       chain.entry(name).prepend(coreJsEntry);
     }
+  }
+}
+
+function applyPluginLodash(chain: BabelChain, transformLodash?: boolean) {
+  if (transformLodash) {
+    chain
+      .plugin('babel-plugin-lodash')
+      .use(getCompiledPath('babel-plugin-lodash'), [{}]);
   }
 }
 

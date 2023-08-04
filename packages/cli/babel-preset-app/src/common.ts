@@ -38,7 +38,6 @@ const prepareEnvOptions = (options: Options): PresetEnvOptions => {
 
 export const genCommon = (options: Options): BabelChain => {
   const {
-    lodash: lodashOptions,
     target,
     appDirectory,
     useLegacyDecorators,
@@ -84,7 +83,6 @@ export const genCommon = (options: Options): BabelChain => {
           },
     },
     plugins: {
-      lodashOptions,
       import: {
         antd: importAntd
           ? {

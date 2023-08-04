@@ -32,6 +32,11 @@ export interface SharedPerformanceConfig {
    */
   removeMomentLocale?: boolean;
   /**
+   * Specifies whether to modularize the import of [lodash](https://www.npmjs.com/package/lodash)
+   * and remove unused lodash modules to reduce the code size of lodash.
+   */
+  transformLodash?: boolean;
+  /**
    * Controls the Builder's caching behavior during the build process.
    */
   buildCache?: BuildCacheOptions | boolean;
