@@ -19,8 +19,7 @@
   "devDependencies": {
     "typescript": "4.4.4",
     "@modern-js/libuild": "workspace:*",
-    "@modern-js/libuild-utils": "workspace:*",
-    "eslint": "7.32.0"
+    "@modern-js/libuild-utils": "workspace:*"
   },
   "dependencies": {
     "@modern-js/swc-plugins": "0.5.5",
