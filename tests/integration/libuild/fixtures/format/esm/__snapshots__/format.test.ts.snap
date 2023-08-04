@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:format:esm format esm 1`] = `
+"// index.ts
+function a() {
+  console.log(1);
+}
+export {
+  a
+};
+"
+`;
+
+exports[`fixture:format:esm format esm 2`] = `
+"// index.ts
+function a() {
+  console.log(1);
+}
+export {
+  a
+};
+"
+`;

@@ -1,0 +1,43 @@
+@base-color: #c6538c;
+@border-dark: rgba(@base-color, 0.88);
+
+.alert {
+  border: 1px solid @border-dark;
+}
+
+.test-rule {
+  each(primary secondary, .(@color-name) {
+    color: @color-name;
+  });
+}
+
+@selectors: blue, green, red;
+
+each(@selectors, {
+  .sel-@{value} {
+    a: b;
+  }
+});
+
+@set: {
+  one: blue;
+  two: green;
+  three: red;
+};
+.set {
+  each(@set, {
+      @{key}-@{index}: @value;
+  });
+}
+
+.set-2() {
+  one: blue;
+  two: green;
+  three: red;
+}
+.set-2 {
+  // Call mixin and iterate each rule
+  each(.set-2(), .(@v, @k, @i) {
+      @{k}-@{i}: @v;
+  });
+}

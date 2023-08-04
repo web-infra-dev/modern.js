@@ -1,0 +1,16 @@
+{
+  "name": "browser-test",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo success"
+  },
+  "browser": {
+    "./http.js": "./xhr.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

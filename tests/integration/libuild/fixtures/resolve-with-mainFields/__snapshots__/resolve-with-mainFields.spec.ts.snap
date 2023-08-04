@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`resolve:condition mainFields basic 1`] = `
+"// node_modules/lib1/src/index.ts
+var value = 1;
+
+// index.ts
+console.log(value);
+"
+`;

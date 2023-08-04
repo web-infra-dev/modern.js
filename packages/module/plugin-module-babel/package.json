@@ -25,7 +25,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-babel": "0.7.1",
+    "@modern-js/libuild-plugin-babel": "workspace:*",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {

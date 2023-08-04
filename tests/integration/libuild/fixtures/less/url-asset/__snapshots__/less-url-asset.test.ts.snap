@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:less should work with url assets 1`] = `
+"/* index.less */
+.div {
+  font-family: url(./assets/normal.f72ea305.ttf);
+}
+.url-variable {
+  font-family: url(./assets/normal.f72ea305.ttf);
+}
+"
+`;

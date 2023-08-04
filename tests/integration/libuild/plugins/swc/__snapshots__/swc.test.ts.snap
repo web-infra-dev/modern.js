@@ -1,0 +1,237 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:plugin:swc plugin:swc-transform 1`] = `
+"// index.tsx
+import { jsx as _jsx } from \\"react/jsx-runtime\\";
+import { Button } from \\"antd\\";
+function _define_property(obj, key, value2) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value2,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value2;
+  }
+  return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === \\"object\\" && typeof Reflect.decorate === \\"function\\")
+    r = Reflect.decorate(decorators, target, key, desc);
+  else
+    for (var i = decorators.length - 1; i >= 0; i--)
+      if (d = decorators[i])
+        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+function classDecorator(constructor) {
+  return class extends constructor {
+    constructor(...args) {
+      super(...args);
+      _define_property(this, \\"newProperty\\", \\"new property\\");
+      _define_property(this, \\"hello\\", \\"override\\");
+    }
+  };
+}
+var Greeter = class Greeter2 {
+  constructor(m) {
+    _define_property(this, \\"property\\", \\"property\\");
+    _define_property(this, \\"hello\\", void 0);
+    this.hello = m;
+  }
+};
+Greeter = _ts_decorate([
+  classDecorator
+], Greeter);
+var value = /* @__PURE__ */ _jsx(\\"h1\\", {
+  children: /* @__PURE__ */ _jsx(Button, {})
+});
+export {
+  Greeter,
+  value
+};
+"
+`;
+
+exports[`fixture:plugin:swc plugin:swc-transform:emitDecoratorMetadata 1`] = `
+"// index.tsx
+import { jsx as _jsx } from \\"react/jsx-runtime\\";
+import { Button } from \\"antd\\";
+function _define_property(obj, key, value2) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value2,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value2;
+  }
+  return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === \\"object\\" && typeof Reflect.decorate === \\"function\\")
+    r = Reflect.decorate(decorators, target, key, desc);
+  else
+    for (var i = decorators.length - 1; i >= 0; i--)
+      if (d = decorators[i])
+        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+function _ts_metadata(k, v) {
+  if (typeof Reflect === \\"object\\" && typeof Reflect.metadata === \\"function\\")
+    return Reflect.metadata(k, v);
+}
+function classDecorator(constructor) {
+  return class extends constructor {
+    constructor(...args) {
+      super(...args);
+      _define_property(this, \\"newProperty\\", \\"new property\\");
+      _define_property(this, \\"hello\\", \\"override\\");
+    }
+  };
+}
+var Greeter = class Greeter2 {
+  constructor(m) {
+    _define_property(this, \\"property\\", \\"property\\");
+    _define_property(this, \\"hello\\", void 0);
+    this.hello = m;
+  }
+};
+Greeter = _ts_decorate([
+  classDecorator,
+  _ts_metadata(\\"design:type\\", Function),
+  _ts_metadata(\\"design:paramtypes\\", [
+    String
+  ])
+], Greeter);
+var value = /* @__PURE__ */ _jsx(\\"h1\\", {
+  children: /* @__PURE__ */ _jsx(Button, {})
+});
+export {
+  Greeter,
+  value
+};
+"
+`;
+
+exports[`fixture:plugin:swc plugin:swc-transform:externalHelpers 1`] = `
+"// ../../../../../node_modules/.pnpm/@swc+helpers@0.5.1/node_modules/@swc/helpers/esm/_define_property.js
+function _define_property(obj, key, value2) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value2,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else
+    obj[key] = value2;
+  return obj;
+}
+
+// ../../../../../node_modules/.pnpm/tslib@2.4.0/node_modules/tslib/tslib.es6.js
+function __decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === \\"object\\" && typeof Reflect.decorate === \\"function\\")
+    r = Reflect.decorate(decorators, target, key, desc);
+  else
+    for (var i = decorators.length - 1; i >= 0; i--)
+      if (d = decorators[i])
+        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+
+// index.tsx
+import { jsx as _jsx } from \\"react/jsx-runtime\\";
+import { Button } from \\"antd\\";
+function classDecorator(constructor) {
+  return class extends constructor {
+    constructor(...args) {
+      super(...args);
+      _define_property(this, \\"newProperty\\", \\"new property\\");
+      _define_property(this, \\"hello\\", \\"override\\");
+    }
+  };
+}
+var Greeter = class Greeter2 {
+  constructor(m) {
+    _define_property(this, \\"property\\", \\"property\\");
+    _define_property(this, \\"hello\\", void 0);
+    this.hello = m;
+  }
+};
+Greeter = __decorate([
+  classDecorator
+], Greeter);
+var value = /* @__PURE__ */ _jsx(\\"h1\\", {
+  children: /* @__PURE__ */ _jsx(Button, {})
+});
+export {
+  Greeter,
+  value
+};
+"
+`;
+
+exports[`fixture:plugin:swc plugin:swc-transform:pluginImport 1`] = `
+"// index.tsx
+import { jsx as _jsx } from \\"react/jsx-runtime\\";
+import \\"antd/es/button/style\\";
+import Button from \\"antd/es/button\\";
+function _define_property(obj, key, value2) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value2,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value2;
+  }
+  return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+  var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+  if (typeof Reflect === \\"object\\" && typeof Reflect.decorate === \\"function\\")
+    r = Reflect.decorate(decorators, target, key, desc);
+  else
+    for (var i = decorators.length - 1; i >= 0; i--)
+      if (d = decorators[i])
+        r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+  return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+function classDecorator(constructor) {
+  return class extends constructor {
+    constructor(...args) {
+      super(...args);
+      _define_property(this, \\"newProperty\\", \\"new property\\");
+      _define_property(this, \\"hello\\", \\"override\\");
+    }
+  };
+}
+var Greeter = class Greeter2 {
+  constructor(m) {
+    _define_property(this, \\"property\\", \\"property\\");
+    _define_property(this, \\"hello\\", void 0);
+    this.hello = m;
+  }
+};
+Greeter = _ts_decorate([
+  classDecorator
+], Greeter);
+var value = /* @__PURE__ */ _jsx(\\"h1\\", {
+  children: /* @__PURE__ */ _jsx(Button, {})
+});
+export {
+  Greeter,
+  value
+};
+"
+`;
