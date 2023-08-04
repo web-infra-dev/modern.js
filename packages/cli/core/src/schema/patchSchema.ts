@@ -1,7 +1,7 @@
 import { createDebugger, isObject } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { PluginValidateSchema } from '../types';
-import { testing } from './testing';
+import { testing, plugins } from './defaultSchema';
 
 const debug = createDebugger('validate-schema');
 
@@ -10,8 +10,10 @@ export const patchSchema = (
 ) => {
   const finalSchema = cloneDeep({
     type: 'object',
+    additionalProperties: false,
     properties: {
       testing,
+      plugins,
     },
   });
 

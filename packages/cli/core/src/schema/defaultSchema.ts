@@ -6,3 +6,7 @@ export const testing = {
     jest: { typeof: ['object', 'function'] },
   },
 };
+
+export const plugins = {
+  type: 'array',
+};
