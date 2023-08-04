@@ -107,6 +107,8 @@ export function Nav(props: NavProps) {
             <div key={item.text} className="mx-3 last:mr-0">
               <NavMenuGroup
                 {...item}
+                base={base}
+                pathname={pathname}
                 items={'items' in item ? item.items : item}
               />
             </div>

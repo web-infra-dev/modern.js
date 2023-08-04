@@ -945,12 +945,38 @@ export default {
 
 ## style.postcss
 
-- plugins
-- processOptions
+Used to configure options for PostCSS. The provided values will be merged with the default configuration using `Object.assign`. Note that `Object.assign` performs a shallow copy, so it will completely override the built-in `plugins` array.
 
-See [PostCSS](https://github.com/postcss/postcss#options) for detailed configuration
+For detailed configuration, please refer to [PostCSS](https://github.com/postcss/postcss#options).
 
-**Basic usage：**
+- **Type**:
+
+```ts
+type PostcssOptions = {
+  processOptions?: ProcessOptions;
+  plugins?: AcceptedPlugin[];
+};
+```
+
+- **Default**:
+
+```ts
+const defaultConfig = {
+  plugins: [
+    // The following plugins are enabled by default
+    require('postcss-flexbugs-fixes'),
+    require('postcss-media-minmax'),
+    require('postcss-nesting'),
+    // The following plugins are only enabled when the target is `es5`
+    require('postcss-custom-properties'),
+    require('postcss-initial'),
+    require('postcss-page-break'),
+    require('postcss-font-variant'),
+  ],
+};
+```
+
+- **Example**:
 
 ```js modern.config.ts
 export default defineConfig({
@@ -1080,6 +1106,7 @@ const tailwind = {
   ],
 };
 ```
+
 </details>
 
 When the value is of type `object`, it is merged with the default configuration via `Object.assign`.

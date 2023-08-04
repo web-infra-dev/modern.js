@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fixture:splitting cjs 1`] = `
+"\\"use strict\\";// index.ts
+Promise.resolve().then(() => require(\\"./dynamic-2A63DP2P.js\\")).then((value) => {
+  console.log(value);
+});
+"
+`;
+
+exports[`fixture:splitting cjs 2`] = `
+"\\"use strict\\";Object.defineProperty(exports, \\"__esModule\\", {value: true});// dynamic.ts
+function foo() {
+  console.log(1);
+}
+
+
+exports.foo = foo;
+"
+`;

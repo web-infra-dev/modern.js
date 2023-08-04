@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.28.0",
+  "version": "2.29.0",
   "jsnext:source": "./src/index.js",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -49,6 +49,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-transform-modules-commonjs": "^7.20.11",
     "@babel/preset-env": "^7.21.5",
+    "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "common-tags": "^1.8.2",
     "jest": "^29.3.1"

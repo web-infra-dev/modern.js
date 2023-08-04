@@ -1,4 +1,3 @@
-import React from 'react';
 import { useI18n, useUrl } from '../../i18n';
 import styles from './styles.module.scss';
 
@@ -35,11 +34,11 @@ export default function Footer() {
         },
         {
           label: t('basicFeatures'),
-          to: useUrl('/guides/basic-features/'),
+          to: useUrl('/guides/basic-features/routes'),
         },
         {
           label: t('advancedFeatures'),
-          to: useUrl('/guides/advanced-features/'),
+          to: useUrl('/guides/advanced-features/rspack-start'),
         },
       ],
     },

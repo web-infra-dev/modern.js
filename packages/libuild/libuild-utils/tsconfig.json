@@ -1,0 +1,12 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "lib",
+    "rootDir": ".",
+    "module": "CommonJS",
+    "types": ["mocha", "node"],
+    "declaration": true
+  },
+  "include": ["src", "test"]
+}

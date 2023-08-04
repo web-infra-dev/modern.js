@@ -1,0 +1,5 @@
+.nps-entry-wrapper {
+  bottom: calc(-1 * calc(100% + 40px));
+  bottom: calc(-1 * calc(100% + 40px + 20px));
+  bottom: calc(-1 * calc(100% + 40px + 60px));
+}

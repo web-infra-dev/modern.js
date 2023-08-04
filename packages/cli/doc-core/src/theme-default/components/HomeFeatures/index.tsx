@@ -45,10 +45,14 @@ export function HomeFeature({ frontmatter }: { frontmatter: FrontMatterMeta }) {
                 }}
               >
                 <div className="flex-center">
-                  <div className="w-12 h-12 text-3xl text-center">{icon}</div>
+                  <div className="modern-doc-home-feature-icon w-12 h-12 text-3xl text-center">
+                    {icon}
+                  </div>
                 </div>
-                <h2 className="font-bold text-center">{title}</h2>
-                <p className="leading-6 pt-2 text-sm text-text-2 font-medium">
+                <h2 className="modern-doc-home-feature-title font-bold text-center">
+                  {title}
+                </h2>
+                <p className="modern-doc-home-feature-detail leading-6 pt-2 text-sm text-text-2 font-medium">
                   {details}
                 </p>
               </article>

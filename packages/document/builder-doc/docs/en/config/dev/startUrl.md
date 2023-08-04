@@ -31,3 +31,16 @@ export default {
   },
 };
 ```
+
+### Open the specified browser
+
+On MacOS, you can open the specified browser when Dev Server starts, by set environment variable `BROWSER`, support values:
+
+- Google Chrome Canary
+- Google Chrome Dev
+- Google Chrome Beta
+- Google Chrome
+- Microsoft Edge
+- Brave Browser
+- Vivaldi
+- Chromium

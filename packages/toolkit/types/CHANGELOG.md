@@ -1,5 +1,12 @@
 # @modern-js/types
 
+## 2.29.0
+
+### Minor Changes
+
+- cba7675: feat: add a server reporter that report server cost, logger about error, info etc.
+  feat: 添加一个 server 端 reporter，来报告 server 端耗时，报错等
+
 ## 2.28.0
 
 ### Patch Changes

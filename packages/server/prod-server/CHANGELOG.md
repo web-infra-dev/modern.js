@@ -1,5 +1,27 @@
 # @modern-js/prod-server
 
+## 2.29.0
+
+### Minor Changes
+
+- 16e5195: feat(prod-server): add body parser
+  feat(prod-server): 增加 body 解析器
+- cba7675: feat: add a server reporter that report server cost, logger about error, info etc.
+  feat: 添加一个 server 端 reporter，来报告 server 端耗时，报错等
+
+### Patch Changes
+
+- 76ace5d: fix(prod-server): bff may run bodyParser by themself, so we need't to run
+  fix(prod-server): bff 可能会在内部运行, 所以我们不需要运行
+- Updated dependencies [e6b5355]
+- Updated dependencies [93db783]
+- Updated dependencies [cba7675]
+- Updated dependencies [99052ea]
+- Updated dependencies [1d71d2e]
+  - @modern-js/utils@2.29.0
+  - @modern-js/server-core@2.29.0
+  - @modern-js/plugin@2.29.0
+
 ## 2.28.0
 
 ### Minor Changes

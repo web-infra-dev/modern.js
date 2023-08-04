@@ -1,0 +1,7 @@
+@import './common/index.scss';
+
+$url: './common/logo.svg';
+
+.url-variable {
+  background: url($url);
+}

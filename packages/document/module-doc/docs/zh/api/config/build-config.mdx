@@ -945,12 +945,38 @@ export default defineConfig({
 
 ## style.postcss
 
-- plugins
-- processOptions
+用于配置 PostCSS 的选项，传入的值会与默认配置通过 `Object.assign` 合并。注意 `Object.assign` 是浅拷贝，因此会完全覆盖内置的 plugins 数组。
 
-详细配置查看 [PostCSS](https://github.com/postcss/postcss#options)。
+详细配置请查看 [PostCSS](https://github.com/postcss/postcss#options)。
 
-**基础使用：**
+- 类型：
+
+```ts
+type PostcssOptions = {
+  processOptions?: ProcessOptions;
+  plugins?: AcceptedPlugin[];
+};
+```
+
+- 默认值：
+
+```ts
+const defaultConfig = {
+  plugins: [
+    // 以下插件默认启用
+    require('postcss-flexbugs-fixes'),
+    require('postcss-media-minmax'),
+    require('postcss-nesting'),
+    // 以下插件仅在 target 为 `es5` 时启用
+    require('postcss-custom-properties'),
+    require('postcss-initial'),
+    require('postcss-page-break'),
+    require('postcss-font-variant'),
+  ],
+};
+```
+
+- 示例：
 
 ```js modern.config.ts
 export default defineConfig({
@@ -1082,6 +1108,7 @@ const tailwind = {
   ],
 };
 ```
+
 </details>
 
 值为 `object` 类型时，与默认配置通过 `Object.assign` 合并。

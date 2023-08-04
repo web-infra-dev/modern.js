@@ -70,6 +70,25 @@ export default defineConfig({
 
 如果你的项目存在 `src/index.(js|jsx)` 文件或者同时存在 `src/index.(ts|tsx)` 和 `tsconfig.json` 文件，那么恭喜你可以运行直接运行 `npm run build` 来使用 Module Tools 构建你的项目了。
 
+### 核心 npm 包
+
+`@modern-js/module-tools` 是 Module Tools 的核心 npm 包，主要提供以下能力：
+
+- 提供 `modern dev`, `modern build` 等常用的 CLI 命令。
+- 集成 Modern.js Core，提供配置解析、插件加载等能力。
+- 集成 esbuild 和 SWC，提供构建能力。
+- 集成一些最为常用的插件，比如 `plugin-lint`、`plugin-changeset` 等。
+
+`@modern-js/module-tools` 是基于 Modern.js 的插件体系实现的，本质上是一个插件，因此你需要在配置文件的 `plugins` 字段中注册 `moduleTools`：
+
+```ts modern.config.ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [moduleTools()],
+});
+```
+
 ### 查看官方示例
 
 **如果你想要看看使用了模块工程方案的完整项目，可以执行以下命令**：

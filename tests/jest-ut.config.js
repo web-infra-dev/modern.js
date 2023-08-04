@@ -51,6 +51,7 @@ module.exports = {
     '<rootDir>/packages/toolkit/remark-container',
     '<rootDir>/packages/solutions/module-tools/compiled/',
     '<rootDir>/packages/toolkit/utils/compiled/',
+    '<rootDir>/packages/libuild/',
   ],
   testPathIgnorePatterns: [
     '<rootDir>/packages/builder/',

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.28.0",
+  "version": "2.29.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "exports": {
@@ -33,7 +33,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-swc": "0.14.3",
+    "@modern-js/libuild-plugin-swc": "workspace:*",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
@@ -45,10 +45,10 @@
     "@scripts/jest-config": "workspace:*",
     "@swc/helpers": "0.5.1",
     "@modern-js/module-tools": "workspace:*",
-    "@modern-js/libuild": "0.14.3"
+    "@modern-js/libuild": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.28.0"
+    "@modern-js/module-tools": "workspace:^2.29.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {

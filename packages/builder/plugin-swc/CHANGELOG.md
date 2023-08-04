@@ -1,5 +1,23 @@
 # @modern-js/builder-plugin-swc
 
+## 2.29.0
+
+### Patch Changes
+
+- 0f680ec: chore(deps): bump swc-plugins 0.5.5 and libuild 0.14.3
+
+  chore(deps): 升级 swc-plugins 0.5.5 和 libuild 0.14.3
+
+- Updated dependencies [e6b5355]
+- Updated dependencies [93db783]
+- Updated dependencies [bd4c354]
+- Updated dependencies [cba7675]
+- Updated dependencies [99052ea]
+- Updated dependencies [d198779]
+- Updated dependencies [1d71d2e]
+  - @modern-js/utils@2.29.0
+  - @modern-js/builder-shared@2.29.0
+
 ## 2.28.0
 
 ### Minor Changes
