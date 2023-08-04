@@ -68,7 +68,7 @@ export function NavMenuGroup(item: NavMenuGroupItem) {
     const isLinkActive = new RegExp(item.activeMatch || item.link).test(
       withoutBase(pathname, base),
     );
-    if (activeValue === item.text || (!activeValue && isLinkActive)) {
+    if (activeValue === item.text || isLinkActive) {
       return <ActiveGroupItem key={item.link} item={item} />;
     }
     return <NormalGroupItem key={item.link} item={item} />;

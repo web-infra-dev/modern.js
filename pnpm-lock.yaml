@@ -382,6 +382,9 @@ importers:
       webpack:
         specifier: ^5.88.1
         version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
+      webpack-subresource-integrity:
+        specifier: 5.1.0
+        version: 5.1.0(html-webpack-plugin@5.5.0)(webpack@5.88.1)
     devDependencies:
       '@arco-design/web-react':
         specifier: ^2.46.0
@@ -5991,9 +5994,6 @@ importers:
       webpack-sources:
         specifier: 3.2.3
         version: 3.2.3
-      webpack-subresource-integrity:
-        specifier: 5.1.0
-        version: 5.1.0(webpack@5.88.1)
       yaml-loader:
         specifier: 0.8.0
         version: 0.8.0
@@ -32884,7 +32884,7 @@ packages:
 
   /typed-assert@1.0.9:
     resolution: {integrity: sha512-KNNZtayBCtmnNmbo5mG47p1XsCyrx6iVqomjcZnec/1Y5GGARaxPs6r49RnSPeUP3YjNYiU9sQHAtY4BBvnZwg==}
-    dev: true
+    dev: false
 
   /typedarray-to-buffer@3.1.5:
     resolution: {integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==}
@@ -34098,7 +34098,7 @@ packages:
     resolution: {integrity: sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==}
     engines: {node: '>=10.13.0'}
 
-  /webpack-subresource-integrity@5.1.0(webpack@5.88.1):
+  /webpack-subresource-integrity@5.1.0(html-webpack-plugin@5.5.0)(webpack@5.88.1):
     resolution: {integrity: sha512-sacXoX+xd8r4WKsy9MvH/q/vBtEHr86cpImXwyg74pFIpERKt6FmB8cXpeuh0ZLgclOlHI4Wcll7+R5L02xk9Q==}
     engines: {node: '>= 12'}
     peerDependencies:
@@ -34108,9 +34108,10 @@ packages:
       html-webpack-plugin:
         optional: true
     dependencies:
+      html-webpack-plugin: 5.5.0(webpack@5.88.1)
       typed-assert: 1.0.9
       webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
-    dev: true
+    dev: false
 
   /webpack-virtual-modules@0.2.2:
     resolution: {integrity: sha512-kDUmfm3BZrei0y+1NTHJInejzxfhtU8eDj2M7OKb2IWrPFAeO1SOH2KuQ68MSZu9IGEHcxbkKKR1v18FrUSOmA==}
