@@ -73,6 +73,25 @@ Finally, add the command `"build": "modern build"` to the project's `package.jso
 
 If your project has a `src/index.(js|jsx)` file or both `src/index.(ts|tsx)` and `tsconfig.json` files, then congratulations you can run the `npm run build` command directly to build your project with Module Tools.
 
+### Core npm Package
+
+`@modern-js/module-tools` is the core npm package of Module Tools, providing the following capabilities:
+
+- It offers commonly used CLI commands such as `modern dev`, `modern build`, and more.
+- It integrates Modern.js Core, providing capabilities for configuration parsing, plugin loading, and more.
+- It integrates esbuild and SWC, providing build capabilities.
+- It integrates some commonly used plugins, such as `plugin-lint`, `plugin-changeset`, and others.
+
+`@modern-js/module-tools` is implemented based on the plugin system of Modern.js. Essentially, it is a plugin. Therefore, you need to register `moduleTools` in the `plugins` field of the configuration file:
+
+```ts modern.config.ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  plugins: [moduleTools()],
+});
+```
+
 ### View official example
 
 **If you want to see the complete project using the modular engineering scheme, you can execute the following command**.
