@@ -27,8 +27,8 @@ export const EN_US = {
   solutions: 'Solutions',
   solutionsDesc1: 'A progressive React framework for web development.',
   solutionsDesc2: 'A powerful solution for npm package development.',
-  solutionsDesc3: 'A documentation site solution with modern tech stack.',
-  solutionsDesc4: 'A Build Engine for web development.',
+  solutionsDesc3: 'A Rspack based documentation site solution.',
+  solutionsDesc4: 'A build engine for web development.',
 
   // Footer
   guide: 'Guide',

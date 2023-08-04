@@ -27,7 +27,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   solutions: '解决方案',
   solutionsDesc1: '基于 React 的渐进式 Web 开发框架。',
   solutionsDesc2: '简单、高性能的 npm 包开发方案。',
-  solutionsDesc3: '现代文档站解决方案。',
+  solutionsDesc3: '基于 Rspack 的文档站解决方案。',
   solutionsDesc4: '面向 Web 开发场景的构建引擎。',
 
   // Footer
