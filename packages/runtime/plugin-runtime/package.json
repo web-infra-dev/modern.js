@@ -207,7 +207,7 @@
     "react-dom": "^18",
     "ts-jest": "^29.1.0",
     "typescript": "^5",
-    "webpack": "^5.88.1"
+    "webpack": "^5.76.0"
   },
   "sideEffects": false,
   "publishConfig": {

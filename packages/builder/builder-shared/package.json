@@ -131,7 +131,7 @@
     "line-diff": "^2.0.1",
     "postcss": "8.4.21",
     "source-map": "^0.7.4",
-    "webpack": "^5.88.1",
+    "webpack": "^5.76.0",
     "webpack-sources": "^3.2.3",
     "zod": "^3.20.2",
     "zod-validation-error": "1.2.0"

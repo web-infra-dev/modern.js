@@ -52,7 +52,7 @@
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "^5",
-    "webpack": "^5.88.1"
+    "webpack": "^5.76.0"
   },
   "peerDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:^2.29.0",
