@@ -33,7 +33,7 @@ function isAsync(chunk: Chunk | ChunkGroup): boolean {
   }
   // compat rspack
   // @ts-expect-error
-  return chunk.initial;
+  return !chunk.initial;
 }
 
 export function extractChunks({

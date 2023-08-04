@@ -18,9 +18,8 @@
 import { ChunkGroup } from './extractChunks';
 import { Chunk, Compilation } from 'webpack';
 import { PreloadOrPreFetchOption } from '../../../types';
-// @ts-expect-error
-import EntryPoint from 'webpack/lib/Entrypoint';
 import { BeforeAssetTagGenerationHtmlPluginData } from './type';
+import { uniq } from '@modern-js/utils/lodash';
 
 interface DoesChunkBelongToHtmlOptions {
   chunk: Chunk;
@@ -29,19 +28,29 @@ interface DoesChunkBelongToHtmlOptions {
   pluginOptions?: PreloadOrPreFetchOption;
 }
 
-function recursiveChunkGroup(chunkGroup: ChunkGroup): string | undefined {
-  if (chunkGroup instanceof EntryPoint) {
-    return chunkGroup.name;
+function recursiveChunkGroup(
+  chunkGroup: ChunkGroup,
+): Array<string | undefined> {
+  const parents = chunkGroup.getParents();
+  if (!parents.length) {
+    // EntryPoint
+    return [chunkGroup.name];
   } else {
-    const [chunkParent] = chunkGroup.getParents();
-    return recursiveChunkGroup(chunkParent);
+    return parents.map(chunkParent => recursiveChunkGroup(chunkParent)).flat();
   }
 }
 
-function recursiveChunkEntryName(chunk: Chunk): string | undefined {
-  // todo: should get every chunkGroup
-  const [chunkGroup] = chunk.groupsIterable;
-  return recursiveChunkGroup(chunkGroup);
+function recursiveChunkEntryNames(chunk: Chunk): string[] {
+  const isChunkName = (name: string | undefined): name is string =>
+    Boolean(name);
+
+  const [...chunkGroups] = chunk.groupsIterable;
+  return uniq(
+    chunkGroups
+      .map(chunkGroup => recursiveChunkGroup(chunkGroup))
+      .flat()
+      .filter(isChunkName),
+  );
 }
 
 // modify from html-webpack-plugin/index.js `filterChunks`
@@ -66,10 +75,12 @@ export function doesChunkBelongToHtml({
   chunk,
   htmlPluginData,
 }: DoesChunkBelongToHtmlOptions): boolean {
-  // find the chunk belongs
-  const chunkName = recursiveChunkEntryName(chunk) as string;
-
   const { options } = htmlPluginData.plugin;
 
-  return isChunksFiltered(chunkName, options?.chunks, options?.excludeChunks);
+  // find the chunk belongs
+  const chunkNames = recursiveChunkEntryNames(chunk);
+
+  return chunkNames.some(chunkName =>
+    isChunksFiltered(chunkName, options?.chunks, options?.excludeChunks),
+  );
 }
