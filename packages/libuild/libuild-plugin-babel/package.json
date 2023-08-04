@@ -16,7 +16,6 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "eslint": "7.32.0",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/libuild": "workspace:*",
     "@modern-js/libuild-utils": "workspace:*",
