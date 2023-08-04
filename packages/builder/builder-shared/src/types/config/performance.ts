@@ -82,14 +82,14 @@ export interface SharedPerformanceConfig {
    *
    * Specifies that the user agent must preemptively fetch and cache the target resource for current navigation.
    */
-  preload?: boolean | PreloadOrPreFetchOption;
+  preload?: true | PreloadOrPreFetchOption;
 
   /**
    * Used to control resource `Prefetch`.
    *
    * Specifies that the user agent should preemptively fetch and cache the target resource as it is likely to be required for a followup navigation.
    */
-  prefetch?: boolean | PreloadOrPreFetchOption;
+  prefetch?: true | PreloadOrPreFetchOption;
 }
 
 export interface NormalizedSharedPerformanceConfig

@@ -39,6 +39,42 @@ test('should generate prefetch link when prefetch is defined', async () => {
   ).toBeTruthy();
 });
 
+test('should generate prefetch link with filter', async () => {
+  const builder = await build({
+    cwd: fixtures,
+    entry: {
+      main: join(fixtures, 'src/page1/index.ts'),
+    },
+    builderConfig: {
+      performance: {
+        prefetch: {
+          include: [/.*\.png$/],
+        },
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const asyncFileName = Object.keys(files).find(file =>
+    file.includes('/static/image/test'),
+  )!;
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('index.html'),
+  )!;
+
+  // test.js、test.css、test.png
+  expect(content.match(/rel="prefetch"/g)?.length).toBe(1);
+
+  expect(
+    content.includes(
+      `<link href="${asyncFileName.slice(
+        asyncFileName.indexOf('/static/image/test'),
+      )}" rel="prefetch">`,
+    ),
+  ).toBeTruthy();
+});
+
 webpackOnlyTest(
   'should generate prefetch link by config (distinguish html)',
   async () => {

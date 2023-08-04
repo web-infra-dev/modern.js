@@ -53,7 +53,7 @@ const filterSchema = z.union([
 ]);
 
 const preloadSchema = z.union([
-  z.boolean(),
+  z.literal(true),
   z.object({
     type: z
       .enum(['async-chunks', 'initial', 'all-assets', 'all-chunks'])
