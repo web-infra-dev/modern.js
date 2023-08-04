@@ -1,0 +1,40 @@
+{
+  "name": "@modern-js/devtools-client",
+  "version": "2.29.0",
+  "main": "./index.js",
+  "scripts": {
+    "reset": "npx rimraf ./**/node_modules",
+    "dev": "modern dev",
+    "build": "modern build",
+    "start": "modern start",
+    "serve": "modern serve",
+    "new": "modern new",
+    "lint": "modern lint",
+    "upgrade": "modern upgrade"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "@modern-js/runtime": "workspace:*",
+    "lodash": "^4.17.21",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0"
+  },
+  "devDependencies": {
+    "@modern-js-app/eslint-config": "workspace:*",
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/eslint-config": "workspace:*",
+    "@modern-js/plugin-proxy": "workspace:*",
+    "@modern-js/tsconfig": "workspace:*",
+    "@types/jest": "~29.2.4",
+    "@types/lodash": "^4.14.196",
+    "@types/node": "~16.11.7",
+    "@types/react": "~18.0.26",
+    "@types/react-dom": "~18.0.10",
+    "rimraf": "~3.0.2",
+    "type-fest": "^4.1.0",
+    "typescript": "~5.0.4"
+  }
+}

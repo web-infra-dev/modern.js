@@ -2,6 +2,7 @@ packages:
  - 'packages/*'
  - 'packages/cli/*'
  - 'packages/document/*'
+ - 'packages/devtools/*'
  - 'packages/runtime/*'
  - 'packages/generator/*'
  - 'packages/generator/generators/*'
