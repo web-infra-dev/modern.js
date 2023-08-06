@@ -8,4 +8,4 @@
 
 feat(CLI): print solution name and version to terminal
 
-feat(CLI): 在控制台输入 solution 的名称和版本
+feat(CLI): 在控制台输出 solution 的名称和版本
