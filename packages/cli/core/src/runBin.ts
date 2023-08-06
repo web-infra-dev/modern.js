@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { minimist, lodash } from '@modern-js/utils';
+import { minimist, lodash, logger, chalk } from '@modern-js/utils';
 import { cli, CoreOptions } from '.';
 
 export const run = async (
@@ -10,6 +10,10 @@ export const run = async (
       | ((coreOptions: CoreOptions) => Promise<CoreOptions> | CoreOptions);
   } = {},
 ) => {
+  if (otherCoreOptions.initialLog) {
+    logger.info(`${chalk.green.bold(otherCoreOptions.initialLog)}`);
+  }
+
   const command = process.argv[2];
 
   if (!process.env.NODE_ENV) {
