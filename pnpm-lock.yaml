@@ -3497,9 +3497,6 @@ importers:
       '@types/sass':
         specifier: 1.43.1
         version: 1.43.1
-      '@types/semver':
-        specifier: 7.3.9
-        version: 7.3.9
       '@types/source-map-support':
         specifier: 0.5.4
         version: 0.5.4
@@ -3551,9 +3548,6 @@ importers:
       es-module-lexer:
         specifier: 0.9.3
         version: 0.9.3
-      esbuild-plugin-license:
-        specifier: 1.2.2
-        version: 1.2.2(esbuild@0.17.19)
       fs-extra:
         specifier: 10.0.0
         version: 10.0.0
@@ -3596,9 +3590,6 @@ importers:
       safe-identifier:
         specifier: 0.4.2
         version: 0.4.2
-      semver:
-        specifier: 7.3.5
-        version: 7.3.5
       stack-trace:
         specifier: 1.0.0-pre1
         version: 1.0.0-pre1
@@ -3623,9 +3614,6 @@ importers:
       typescript:
         specifier: 4.4.4
         version: 4.4.4
-      utility-types:
-        specifier: 3.10.0
-        version: 3.10.0
       yargs:
         specifier: 17.2.1
         version: 17.2.1
@@ -8060,9 +8048,6 @@ importers:
       react-dom:
         specifier: 17.0.2
         version: 17.0.2(react@17.0.2)
-      regenerator-runtime:
-        specifier: 0.13.9
-        version: 0.13.9
       sass:
         specifier: 1.54.5
         version: 1.54.5
@@ -21818,14 +21803,6 @@ packages:
     dev: true
     optional: true
 
-  /esbuild-plugin-license@1.2.2(esbuild@0.17.19):
-    resolution: {integrity: sha512-sqa8V1pB6wr6L8lPQ+lD73ARTfi824H/smyUd4eBwvc+yGK0ZvfupXDqgmrFpP5zu6aTj8pMlnoowuDOjKGX5A==}
-    peerDependencies:
-      esbuild: '*'
-    dependencies:
-      esbuild: 0.17.19
-    dev: true
-
   /esbuild-sunos-64@0.13.15:
     resolution: {integrity: sha512-lbivT9Bx3t1iWWrSnGyBP9ODriEvWDRiweAs69vI+miJoeKwHWOComSRukttbuzjZ8r1q0mQJ8Z7yUsDJ3hKdw==}
     cpu: [x64]
@@ -33106,14 +33083,6 @@ packages:
   /semver@6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
     hasBin: true
-
-  /semver@7.3.5:
-    resolution: {integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      lru-cache: 6.0.0
-    dev: true
 
   /semver@7.3.7:
     resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
