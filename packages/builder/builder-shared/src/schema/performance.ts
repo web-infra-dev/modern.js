@@ -51,6 +51,7 @@ export const sharedPerformanceConfigSchema = z.partialObj({
   removeConsole: z.union([z.boolean(), z.array(ConsoleTypeSchema)]),
   removeMomentLocale: z.boolean(),
   buildCache: z.union([BuildCacheOptionsSchema, z.boolean()]),
+  transformLodash: z.boolean(),
   profile: z.boolean(),
   printFileSize: z.boolean(),
 });

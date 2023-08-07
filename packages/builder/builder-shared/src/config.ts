@@ -77,6 +77,7 @@ export const getDefaultPerformanceConfig =
     buildCache: true,
     printFileSize: true,
     removeConsole: false,
+    transformLodash: true,
     chunkSplit: {
       strategy: 'split-by-experience',
     },

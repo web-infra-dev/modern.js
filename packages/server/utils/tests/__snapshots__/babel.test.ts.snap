@@ -12,10 +12,6 @@ exports[`babel resolveBabelConfig 1`] = `
 {
   "plugins": [
     [
-      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-      {},
-    ],
-    [
       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
       {
         "legacy": true,
