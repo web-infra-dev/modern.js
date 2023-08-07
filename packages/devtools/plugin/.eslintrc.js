@@ -1,3 +1,4 @@
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
   extends: ['@modern-js'],
@@ -9,5 +10,8 @@ module.exports = {
       require.resolve('./tsconfig.json'),
       // require.resolve('./tests/tsconfig.json'),
     ],
+  },
+  rules: {
+    curly: 'off',
   },
 };

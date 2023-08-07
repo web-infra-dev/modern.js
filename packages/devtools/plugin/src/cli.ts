@@ -19,6 +19,12 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
           },
         ];
       },
+      collectServerPlugins: ({ plugins }) => ({
+        plugins: [
+          ...plugins,
+          { '@modern-js/plugin-devtools': '@modern-js/plugin-devtools/server' },
+        ],
+      }),
       config() {
         const setupDevtoolsScript = require.resolve(
           '@modern-js/devtools-mount',
