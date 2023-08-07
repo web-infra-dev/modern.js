@@ -510,11 +510,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -649,11 +649,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -1442,11 +1442,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -1587,11 +1587,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -2331,14 +2331,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -2474,14 +2474,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
+                ],
+                [
                   "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -3127,11 +3127,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -3272,11 +3272,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                   "@arco-design/web-react/icon",
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-                  {},
+                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
                 ],
                 [
                   "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
