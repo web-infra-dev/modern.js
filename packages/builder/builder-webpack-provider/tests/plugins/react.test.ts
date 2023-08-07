@@ -9,8 +9,8 @@ describe('plugins/react', () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginBabel(), builderPluginReact()],
       builderConfig: {
-        tools: {
-          tsChecker: false,
+        output: {
+          disableTsChecker: true,
         },
       },
     });

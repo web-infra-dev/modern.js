@@ -153,12 +153,6 @@ export function getDefaultSwcConfig(): TransformConfig {
     },
     exclude: [],
     inlineSourcesContent: true,
-    extensions: {
-      lodash: {
-        cwd,
-        ids: ['lodash', 'lodash-es'],
-      },
-    },
   };
 }
 
