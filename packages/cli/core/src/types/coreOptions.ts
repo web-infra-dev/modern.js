@@ -6,6 +6,10 @@ export interface CoreOptions {
   cwd?: string;
   version?: string;
   configFile?: string;
+  /**
+   * The initial log message when CLI started
+   */
+  initialLog?: string;
   serverConfigFile?: string;
   packageJsonConfig?: string;
   internalPlugins?: {
