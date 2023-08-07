@@ -9,7 +9,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
       import: babelPluginImport,
       transformRuntime,
       styledComponentsOptions,
-      lodashOptions,
     } = {},
     useLegacyDecorators = true,
     type = 'module',
@@ -45,12 +44,6 @@ export const getPluginsChain = (option: IBaseBabelConfigOption) => {
         ]);
     }
   }
-
-  chain
-    .plugin('babel-plugin-lodash')
-    .use(require.resolve('../compiled/babel-plugin-lodash'), [
-      lodashOptions || {},
-    ]);
 
   if (useTsLoader) {
     return chain;

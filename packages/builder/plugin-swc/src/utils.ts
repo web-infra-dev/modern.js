@@ -208,6 +208,13 @@ export async function applyPluginConfig(
     extensions.pluginImport.push(...builderConfig.source.transformImport);
   }
 
+  if (builderConfig.performance?.transformLodash) {
+    extensions.lodash = {
+      cwd: rootPath,
+      ids: ['lodash', 'lodash-es'],
+    };
+  }
+
   /**
    * SWC can't use latestDecorator in TypeScript file for now
    */
