@@ -22,7 +22,6 @@ export interface IBaseBabelConfigOption {
         | false;
     };
     styledComponentsOptions?: false | IStyledComponentOptions;
-    lodashOptions?: any;
   };
   useLegacyDecorators?: boolean;
   syntax?: 'es5' | 'es6+';

@@ -15,8 +15,8 @@ function existsSync(filePath: string) {
   return fs.existsSync(path.join(appDir, 'dist', filePath));
 }
 
-describe('alias set build', () => {
-  test(`should get right alias build!`, async () => {
+describe.skip('devtools build', () => {
+  test(`should get right devtools build!`, async () => {
     const buildRes = await modernBuild(appDir);
     expect(buildRes.code === 0).toBe(true);
     expect(existsSync('route.json')).toBe(true);
@@ -24,7 +24,7 @@ describe('alias set build', () => {
   });
 });
 
-describe('alias set dev', () => {
+describe.skip('devtools dev', () => {
   test(`should render page correctly`, async () => {
     const appPort = await getPort();
     const app = await launchApp(

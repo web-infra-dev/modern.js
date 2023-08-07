@@ -104,6 +104,11 @@ export type BaseSSRServerContext = {
   mode?: SSRMode; // ssr type
 };
 
+export interface ServerInitHookContext {
+  app?: httpServer;
+  server: ModernServerInterface;
+}
+
 export interface ISAppContext {
   appDirectory: string;
   distDirectory: string;

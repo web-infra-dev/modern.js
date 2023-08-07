@@ -176,14 +176,14 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
+            ],
+            [
               "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -276,14 +276,14 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
+            ],
+            [
               "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -395,14 +395,14 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
               "antd",
             ],
             [
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
+            ],
+            [
               "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -504,14 +504,14 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
               "antd",
             ],
             [
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
+            ],
+            [
               "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -645,14 +645,14 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               "foo",
             ],
             [
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
+            ],
+            [
               "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
@@ -753,14 +753,14 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               "foo",
             ],
             [
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
+            ],
+            [
               "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-lodash/index.js",
-              {},
             ],
             [
               "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",

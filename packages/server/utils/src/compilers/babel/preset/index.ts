@@ -11,7 +11,6 @@ export const getBabelChain = (
     jsxTransformRuntime,
     enableReactPreset,
     enableTypescriptPreset,
-    lodashOptions,
     styledComponentsOptions,
   } = libPresetOption;
   const { syntax, type } = syntaxOption;
@@ -32,7 +31,6 @@ export const getBabelChain = (
         // for es5 code need helper functions
         helpers: syntaxOption.syntax === 'es5',
       },
-      lodashOptions,
       styledComponentsOptions,
     },
     jsxTransformRuntime,
