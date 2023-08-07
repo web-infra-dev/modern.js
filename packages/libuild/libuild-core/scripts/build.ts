@@ -86,7 +86,7 @@ async function run() {
 
           let realPath = require.resolve('enhanced-resolve', { paths: [baseName] });
           if (subPath) {
-            realPath = realPath.replace(/(\/lib\/.*)$/, `${subPath}.js`);
+            realPath = realPath.replace(/([\\\/]lib[\\\/].*)$/, `${subPath}.js`);
           }
           return {
             path: realPath,

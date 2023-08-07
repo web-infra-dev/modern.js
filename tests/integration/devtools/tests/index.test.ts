@@ -47,10 +47,10 @@ describe('alias set dev', () => {
 
     const root = await page.$('#root');
     const targetText = await page.evaluate(el => el?.textContent, root);
-    expect(targetText?.trim()).toEqual('Hello Modern.js! 1');
+    expect(targetText?.trim()).toEqual('Hello Modern.js!');
     expect(errors.length).toEqual(0);
 
-    browser.close();
+    await browser.close();
     await killApp(app);
   });
 });
