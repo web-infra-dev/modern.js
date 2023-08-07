@@ -1,3 +1,4 @@
 dist
 lib
+temp
 *.cpuprofile
