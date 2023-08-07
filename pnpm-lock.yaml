@@ -2170,6 +2170,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      ws:
+        specifier: 8.13.0
+        version: 8.13.0
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -2183,6 +2186,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
+      '@modern-js/server-core':
+        specifier: workspace:*
+        version: link:../../server/core
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -2195,6 +2201,9 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+      '@types/ws':
+        specifier: ^8.5.5
+        version: 8.5.5
       type-fest:
         specifier: ^4.1.0
         version: 4.1.0
@@ -16679,6 +16688,12 @@ packages:
 
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
+    dependencies:
+      '@types/node': 18.11.17
+    dev: true
+
+  /@types/ws@8.5.5:
+    resolution: {integrity: sha512-lwhs8hktwxSjf9UaZ9tG5M03PGogvFaH8gUgLNbN9HKIg0dvv6q+gkSuJ8HN4/VbyxkuLzCjlN7GquQ0gUJfIg==}
     dependencies:
       '@types/node': 18.11.17
     dev: true

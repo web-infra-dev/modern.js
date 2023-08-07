@@ -31,6 +31,15 @@
     "./cli": {
       "jsnext:source": "./src/cli.ts",
       "default": "./dist/cjs/cli.js"
+    },
+    "./server": {
+      "node": {
+        "jsnext:source": "./src/server.ts",
+        "import": "./dist/esm-node/server.js",
+        "require": "./dist/cjs/server.js"
+      },
+      "types": "./dist/types/server.d.ts",
+      "default": "./dist/esm/server.js"
     }
   },
   "typesVersions": {
@@ -46,19 +55,22 @@
   "dependencies": {
     "@modern-js/devtools-client": "workspace:*",
     "@modern-js/devtools-mount": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "ws": "8.13.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@swc/helpers": "0.5.1",
     "@types/node": "^14",
     "type-fest": "^4.1.0",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@types/ws": "^8.5.5"
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^2.29.0"

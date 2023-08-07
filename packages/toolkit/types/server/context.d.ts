@@ -1,4 +1,9 @@
-import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
+import {
+  IncomingMessage,
+  ServerResponse,
+  IncomingHttpHeaders,
+  Server as HttpServer,
+} from 'http';
 import qs from 'querystring';
 import type { SSRMode } from 'common';
 import { Metrics, Logger, Reporter, ServerTiming } from './utils';
@@ -105,7 +110,7 @@ export type BaseSSRServerContext = {
 };
 
 export interface ServerInitHookContext {
-  app?: httpServer;
+  app?: HttpServer;
   server: ModernServerInterface;
 }
 
