@@ -106,7 +106,18 @@ export class Server {
     }
 
     // runner can only be used after server init
+    ({ app: this.app, server: this.server } =
+      await this.runner.beforeServerInit({
+        app: this.app,
+        server: this.server,
+      }));
     await this.server.onInit(this.runner, this.app);
+    ({ app: this.app, server: this.server } = await this.runner.afterServerInit(
+      {
+        app: this.app,
+        server: this.server,
+      },
+    ));
 
     return this;
   }

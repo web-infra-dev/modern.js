@@ -22,6 +22,7 @@ import type {
   ISAppContext,
   ServerRoute,
   HttpMethodDecider,
+  ServerInitHookContext,
 } from '@modern-js/types';
 
 import type { BffUserConfig, ServerOptions, UserConfig } from './types/config';
@@ -85,6 +86,10 @@ const prepareApiServer = createAsyncPipeline<APIServerStartInput, Adapter>();
 const onApiChange = createWaterfall<Change[]>();
 
 const repack = createWaterfall();
+
+const beforeServerInit = createAsyncWaterfall<ServerInitHookContext>();
+
+const afterServerInit = createAsyncWaterfall<ServerInitHookContext>();
 
 const beforeDevServer = createParallelWorkflow<ServerOptions, any>();
 
@@ -191,6 +196,8 @@ const serverHooks = {
   prepareApiServer,
   repack,
   onApiChange,
+  beforeServerInit,
+  afterServerInit,
   beforeDevServer,
   setupCompiler,
   afterDevServer,
