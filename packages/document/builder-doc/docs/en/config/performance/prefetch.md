@@ -14,6 +14,10 @@ interface PrefetchOption {
 
 Specifies that the user agent should preemptively fetch and cache the target resource as it is likely to be required for a followup navigation. Refer to [prefetch](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/prefetch).
 
+:::tip
+When using Rspack as the bundler, the Prefetch capability is not currently supported in the MPA scenario.
+:::
+
 ### Boolean Type
 
 When setting `performance.prefetch` to `true`, resources will be prefetched according to the following configuration:

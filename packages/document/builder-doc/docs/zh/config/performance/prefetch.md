@@ -16,6 +16,10 @@ interface PrefetchOption {
 
 该属性用于配置在**将来**某些导航下可能需要的资源，此时，浏览器通常在空闲状态时获取此资源。
 
+:::tip
+在使用 Rspack 作为打包工具时，MPA 场景下暂不支持使用 Prefetch 能力。
+:::
+
 ### Boolean 类型
 
 当设置 `performance.prefetch` 为 `true`，将根据如下配置对资源进行预获取:

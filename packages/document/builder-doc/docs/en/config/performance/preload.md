@@ -14,6 +14,10 @@ interface PreloadOption {
 
 Specifies that the user agent must preemptively fetch and cache the target resource for current navigation according to the potential destination given by the as attribute (and the priority associated with the corresponding destination). Refer to [preload](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel/preload).
 
+:::tip
+When using Rspack as the bundler, the Preload capability is not currently supported in the MPA scenario.
+:::
+
 ### Boolean Type
 
 When setting `performance.preload` to `true`, resources will be preloaded according to the following configuration:

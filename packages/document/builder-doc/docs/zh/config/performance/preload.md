@@ -16,6 +16,10 @@ interface PreloadOption {
 
 该属性通常用于配置当前导航下可能需要的资源，此时，浏览器通常以中等优先级（不是布局阻塞）获取此资源。
 
+:::tip
+在使用 Rspack 作为打包工具时，MPA 场景下暂不支持使用 Preload 能力。
+:::
+
 ### Boolean 类型
 
 当设置 `performance.preload` 为 `true`，将根据如下配置对资源进行预加载:
