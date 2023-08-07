@@ -5,11 +5,6 @@ function readPackage(pkg, _context) {
     pkg.dependencies.resolve = '1.20.0';
   }
 
-  // esbuild >= 0.15.8 generates the logical or assignment operator and breaks in Node 14
-  if (pkg.dependencies['esbuild']?.startsWith('0.15')) {
-    pkg.dependencies['esbuild'] = '0.15.7';
-  }
-
   if (pkg.name === 'hast-util-from-html' && pkg.version.startsWith('1.')) {
     pkg.dependencies = {
       ...pkg.dependencies,
