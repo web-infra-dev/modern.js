@@ -235,13 +235,11 @@ export default defineConfig({
       },
     },
     replaceRules: [
+       // Using "#MODERNJS" to display "Modern.js"
+       // and it will not be replaced in EdenX in the in-house document
       {
-        search: /{MODERN_JS}/g,
+        search: /#MODERNJS/g,
         replace: 'Modern.js',
-      },
-      {
-        search: /{MODERN_JS_CONFIG}/g,
-        replace: 'modern.config.ts',
       },
     ],
     builderConfig: {
