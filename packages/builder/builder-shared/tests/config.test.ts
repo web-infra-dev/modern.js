@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 import webpack from 'webpack';
-import { getExtensions, stringifyConfig } from '../src/config';
+import { getExtensions, stringifyConfig, getMetaTags } from '../src/config';
 
 it('should get default extensions correctly', async () => {
   expect(getExtensions()).toEqual(['.js', '.jsx', '.mjs', '.json']);
@@ -91,5 +91,25 @@ describe('stringifyConfig', () => {
     };
 
     expect(await stringifyConfig(builderConfig)).toMatchSnapshot();
+  });
+
+  it('shold meta generate correctly', async () => {
+    const builderConfig = {
+      html: {
+        meta: { description: 'This is basic meta', bar: 'bar', foo: 'foo' },
+        metaByEntries: {
+          entry1: {
+            description: 'This is about page',
+          },
+        },
+      },
+      output: {} as any,
+    };
+
+    const defaultEntry = await getMetaTags('', builderConfig);
+    expect(defaultEntry).toMatchSnapshot();
+
+    const entry1 = await getMetaTags('entry1', builderConfig);
+    expect(entry1).toMatchSnapshot();
   });
 });

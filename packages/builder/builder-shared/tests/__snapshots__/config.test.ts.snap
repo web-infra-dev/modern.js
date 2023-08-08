@@ -1,5 +1,19 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`stringifyConfig > shold meta generate correctly 1`] = `
+"
+<meta name=\\"description\\" content=\\"This is basic meta\\">
+<meta name=\\"bar\\" content=\\"bar\\">
+<meta name=\\"foo\\" content=\\"foo\\">"
+`;
+
+exports[`stringifyConfig > shold meta generate correctly 2`] = `
+"
+<meta name=\\"description\\" content=\\"This is about page\\">
+<meta name=\\"bar\\" content=\\"bar\\">
+<meta name=\\"foo\\" content=\\"foo\\">"
+`;
+
 exports[`stringifyConfig > should stringify builder config correctly 1`] = `
 "{
   tools: {
