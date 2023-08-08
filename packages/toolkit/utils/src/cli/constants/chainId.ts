@@ -150,6 +150,10 @@ export const CHAIN_ID = {
     HTML_PRECONNECT: 'html-preconnect-plugin',
     /** htmlDnsPrefetchPlugin */
     HTML_DNS_PREFETCH: 'html-dns-prefetch-plugin',
+    /** htmlPrefetchPlugin */
+    HTML_PREFETCH: 'html-prefetch-plugin',
+    /** htmlPreloadPlugin */
+    HTML_PRELOAD: 'html-preload-plugin',
     /** MiniCssExtractPlugin */
     MINI_CSS_EXTRACT: 'mini-css-extract',
     /** VueLoaderPlugin */
