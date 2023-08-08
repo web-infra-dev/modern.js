@@ -3,7 +3,10 @@ import { Application, TSConfigReader } from 'typedoc';
 import type { DocPlugin } from '@modern-js/doc-core/src/shared/types/Plugin';
 import { load } from 'typedoc-plugin-markdown';
 import { API_DIR } from './constants';
-import { resolveSidebar } from './sidebar';
+import {
+  resolveSidebarForMultiEntry,
+  resolveSidebarForSingleEntry,
+} from './sidebar';
 
 export interface PluginTypeDocOptions {
   /**
@@ -67,9 +70,10 @@ export function pluginTypeDoc(options: PluginTypeDocOptions): DocPlugin {
           link: apiIndexLink,
         });
         config.themeConfig.sidebar = config.themeConfig.sidebar || {};
-        config.themeConfig.sidebar[apiIndexLink] = await resolveSidebar(
-          jsonDir,
-        );
+        config.themeConfig.sidebar[apiIndexLink] =
+          entryPoints.length > 1
+            ? await resolveSidebarForMultiEntry(jsonDir)
+            : await resolveSidebarForSingleEntry(jsonDir);
         config.themeConfig.sidebar[apiIndexLink].unshift({
           text: 'Overview',
           link: `${apiIndexLink}README`,
