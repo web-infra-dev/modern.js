@@ -35,13 +35,13 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
           },
           tools: {
             devServer: {
-              proxy: [
-                {
+              proxy: {
+                '/_modern_js/devtools/rpc': {
                   target: rpcEndpoint,
                   autoRewrite: true,
                   ws: true,
                 },
-              ],
+              },
             },
           },
         };
