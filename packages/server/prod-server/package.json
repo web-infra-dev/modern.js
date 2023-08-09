@@ -102,7 +102,9 @@
     "node-mocks-http": "^1.11.0",
     "portfinder": "^1.0.28",
     "typescript": "^5",
-    "memfs": "^3.5.1"
+    "memfs": "^3.5.1",
+    "ws": "^8.13.0",
+    "@types/ws": "^8.5.5"
   },
   "sideEffects": false,
   "publishConfig": {
