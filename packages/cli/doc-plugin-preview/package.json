@@ -36,6 +36,7 @@
     "dist/"
   ],
   "dependencies": {
+    "@arco-design/web-react": "^2.46.0",
     "@mdx-js/mdx": "2.2.1",
     "@modern-js/doc-core": "workspace:*",
     "@modern-js/utils": "workspace:*",
@@ -43,7 +44,6 @@
     "remark-gfm": "3.0.1"
   },
   "devDependencies": {
-    "@arco-design/web-react": "^2.46.0",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/build": "workspace:*",
