@@ -37,7 +37,6 @@ export class SocketServer<
     const interval = setInterval(() => {
       this.clients.forEach(ws => {
         const mark = aliveMapping.get(ws);
-        console.log('ws: ', mark);
         if (mark) {
           aliveMapping.delete(ws);
           ws.ping();

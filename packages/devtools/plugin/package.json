@@ -52,7 +52,11 @@
   "dependencies": {
     "@modern-js/devtools-client": "workspace:*",
     "@modern-js/devtools-mount": "workspace:*",
+    "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "get-port": "^5.1.1",
+    "birpc": "^0.2.12",
+    "socket.io": "4.7.2",
     "ws": "8.13.0"
   },
   "devDependencies": {

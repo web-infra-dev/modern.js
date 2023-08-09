@@ -22,7 +22,7 @@ export const setupClientConnection = async (api: CliPluginAPI) => {
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
     getServerRoutes() {
-      return ctx.serverRoutes;
+      return [{ entryPath: 'foo', urlPath: 'bar' }, ...ctx.serverRoutes];
     },
     echo(content) {
       return content;
