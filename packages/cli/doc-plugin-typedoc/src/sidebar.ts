@@ -1,12 +1,8 @@
 import path from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import type { SidebarGroup } from '@modern-js/doc-core/src/shared/types/index';
-import {
-  getClassPath,
-  getModulePath,
-  getInterfacePath,
-  getFunctionPath,
-} from './utils';
+import { transformModuleName } from './utils';
+import { ROUTE_PREFIX } from './constants';
 
 interface ModuleItem {
   id: number;
@@ -21,12 +17,121 @@ interface ModuleItem {
   }[];
 }
 
-export async function resolveSidebar(jsonDir: string): Promise<SidebarGroup[]> {
+async function patchLinks(outputDir: string) {
+  // Patch links in markdown files
+  // Scan all the markdown files in the output directory
+  // replace [xxx](yyy) -> [xxx](./yyy)
+  const normlizeLinksInFile = async (filePath: string) => {
+    const content = await fs.readFile(filePath, 'utf-8');
+    // replace: [xxx](yyy) -> [xxx](./yyy)
+    const newContent = content.replace(
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      (_match, p1, p2) => {
+        return `[${p1}](./${p2})`;
+      },
+    );
+    await fs.writeFile(filePath, newContent);
+  };
+
+  const traverse = async (dir: string) => {
+    const files = await fs.readdir(dir);
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const stat = await fs.stat(filePath);
+      if (stat.isDirectory()) {
+        await traverse(filePath);
+      } else if (stat.isFile() && /\.mdx?/.test(file)) {
+        await normlizeLinksInFile(filePath);
+      }
+    }
+  };
+  await traverse(outputDir);
+}
+
+export async function resolveSidebarForSingleEntry(
+  jsonFile: string,
+): Promise<SidebarGroup[]> {
   const result: SidebarGroup[] = [];
-  const data = JSON.parse(await fs.readFile(jsonDir, 'utf-8'));
+  const data = JSON.parse(await fs.readFile(jsonFile, 'utf-8'));
+  if (!data.children || data.children.length <= 0) {
+    return [];
+  }
+  const symbolMap = new Map<string, number>();
+  data.groups.forEach((group: { title: string; children: number[] }) => {
+    const groupItem: SidebarGroup = {
+      text: group.title,
+      items: [],
+    };
+    group.children.forEach((id: number) => {
+      const dataItem = data.children.find((item: ModuleItem) => item.id === id);
+      if (dataItem) {
+        // Note: we should handle the case that classes and interfaces have the same name
+        // Such as class `Env` and variable `env`
+        // The final output file name should be `classes/Env.md` and `variables/env-1.md`
+        let fileName = dataItem.name;
+        if (symbolMap.has(dataItem.name)) {
+          const count = symbolMap.get(dataItem.name)! + 1;
+          symbolMap.set(dataItem.name, count);
+          fileName = `${dataItem.name}-${count}`;
+        } else {
+          symbolMap.set(dataItem.name.toLocaleLowerCase(), 0);
+        }
+        groupItem.items.push({
+          text: dataItem.name,
+          link: `${ROUTE_PREFIX}/${group.title.toLocaleLowerCase()}/${fileName}`,
+        });
+      }
+    });
+    result.push(groupItem);
+  });
+
+  await patchLinks(path.dirname(jsonFile));
+
+  return result;
+}
+
+export async function resolveSidebarForMultiEntry(
+  jsonFile: string,
+): Promise<SidebarGroup[]> {
+  const result: SidebarGroup[] = [];
+  const data = JSON.parse(await fs.readFile(jsonFile, 'utf-8'));
   if (!data.children || data.children.length <= 0) {
     return result;
   }
+
+  function getModulePath(name: string) {
+    return path
+      .join(`${ROUTE_PREFIX}/modules`, `${transformModuleName(name)}`)
+      .replace(/\\/g, '/');
+  }
+
+  function getClassPath(moduleName: string, className: string) {
+    return path
+      .join(
+        `${ROUTE_PREFIX}/classes`,
+        `${transformModuleName(moduleName)}.${className}`,
+      )
+      .replace(/\\/g, '/');
+  }
+
+  function getInterfacePath(moduleName: string, interfaceName: string) {
+    return path
+      .join(
+        `${ROUTE_PREFIX}/interfaces`,
+        `${transformModuleName(moduleName)}.${interfaceName}`,
+      )
+      .replace(/\\/g, '/');
+  }
+
+  function getFunctionPath(moduleName: string, functionName: string) {
+    return path
+      .join(
+        `${ROUTE_PREFIX}/functions`,
+        `${transformModuleName(moduleName)}.${functionName}`,
+      )
+      .replace(/\\/g, '/');
+  }
+
   data.children.forEach((module: ModuleItem) => {
     const moduleNames = module.name.split('/');
     const name = moduleNames[moduleNames.length - 1];
@@ -69,18 +174,6 @@ export async function resolveSidebar(jsonDir: string): Promise<SidebarGroup[]> {
     });
     result.push(moduleConfig);
   });
-  // Patch /api/README.md
-  const readmeFile = path.join(path.dirname(jsonDir), 'README.md');
-  const readme = await fs.readFile(readmeFile, 'utf-8');
-  // replace: [xxx](yyy) -> [xxx](./yyy)
-  const newReadme = readme.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    (_match, p1, p2) => {
-      return `[${p1}](./${p2})`;
-    },
-  );
-
-  await fs.writeFile(readmeFile, newReadme);
-
+  await patchLinks(path.dirname(jsonFile));
   return result;
 }

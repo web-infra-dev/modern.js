@@ -6,7 +6,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/web-infra-dev/modern.js",
-    "directory": "packages/cli/plugin-tailwind"
+    "directory": "packages/devtools/plugin"
   },
   "license": "MIT",
   "keywords": [
@@ -41,9 +41,6 @@
       "types": "./dist/types/server.d.ts",
       "default": "./dist/esm/server.js"
     }
-  },
-  "typesVersions": {
-    "*": {}
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
