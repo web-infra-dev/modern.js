@@ -130,7 +130,6 @@ export function getDefaultSwcConfig(): TransformConfig {
   return {
     cwd,
     jsc: {
-      target: 'es5',
       externalHelpers: true,
       parser: {
         tsx: true,
