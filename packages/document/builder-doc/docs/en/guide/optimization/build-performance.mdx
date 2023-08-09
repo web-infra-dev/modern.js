@@ -16,21 +16,21 @@ The following are some general optimization strategies, which can speed up the d
 
 In general, updating Node.js to the latest [LTS release](https://github.com/nodejs/release#release-schedule) will help improve build performance.
 
-Especially for devices with Apple M1/M2 chips, it is recommended to use Node 16 or Node 18.
+Especially for devices with Apple M1/M2 chips, it is recommended to use Node 18.
 
-Node 16 provides Apple Silicon binaries by default, so the performance on M1/M2 models will be greatly improved than Node 14. According to our tests, **After switching from Node 14 to Node 16, the compilation speed can be improved by more than 100%**.
+Node >= 16 provides Apple Silicon binaries by default, so the performance on M1/M2 models will be greatly improved than Node 14. According to our tests, **After switching from Node 14 to Node >= 16, the compilation speed can be improved by more than 100%**.
 
-You can switch to Node 16 by following steps:
+You can switch to Node 18 by following steps:
 
 ```bash
-# Install Node.js v16
-nvm install 16
+# Install Node v18
+nvm install 18
 
-# switch to Node 16
-nvm use 16
+# switch to Node 18
+nvm use 18
 
-# Set Node 16 as the default version
-nvm default 16
+# Set Node 18 as the default version
+nvm default 18
 
 # View Node version
 node -v

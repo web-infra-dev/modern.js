@@ -5826,9 +5826,6 @@ importers:
       '@types/connect':
         specifier: ^3.4.35
         version: 3.4.35
-      '@types/got':
-        specifier: ^9.6.12
-        version: 9.6.12
       '@types/node':
         specifier: ^14
         version: 14.18.35
@@ -16074,14 +16071,6 @@ packages:
       '@types/node': 18.11.17
     dev: true
 
-  /@types/got@9.6.12:
-    resolution: {integrity: sha512-X4pj/HGHbXVLqTpKjA2ahI4rV/nNBc9mGO2I/0CgAra+F2dKgMXnENv2SRpemScBzBAI4vMelIVYViQxlSE6xA==}
-    dependencies:
-      '@types/node': 18.11.17
-      '@types/tough-cookie': 4.0.2
-      form-data: 2.5.1
-    dev: true
-
   /@types/graceful-fs@4.1.5:
     resolution: {integrity: sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==}
     dependencies:
@@ -19067,7 +19056,7 @@ packages:
       keyv: 4.3.2
       lowercase-keys: 2.0.0
       normalize-url: 6.1.0
-      responselike: 2.0.0
+      responselike: 2.0.1
 
   /call-bind@1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
@@ -23249,15 +23238,6 @@ packages:
       webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
     dev: false
 
-  /form-data@2.5.1:
-    resolution: {integrity: sha512-m21N3WOmEEURgk6B9GLOE4RuWOFf28Lhh9qGYeNlGq4VDXUlJy2th2slBNU8Gp8EzloYZOibZJ7t5ecIrFSjVA==}
-    engines: {node: '>= 0.12'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-    dev: true
-
   /form-data@3.0.1:
     resolution: {integrity: sha512-RHkBKtLWUVwd7SqRIvCZMEvAMoGUp0XU+seQiZejj0COz3RI3hWP4sCv3gZWWLjJTd7rGwcsF5eKZGii0r/hbg==}
     engines: {node: '>= 6'}
@@ -23824,7 +23804,7 @@ packages:
       http2-wrapper: 1.0.3
       lowercase-keys: 2.0.0
       p-cancelable: 2.1.1
-      responselike: 2.0.0
+      responselike: 2.0.1
 
   /graceful-fs@4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
@@ -32714,8 +32694,8 @@ packages:
       supports-preserve-symlinks-flag: 1.0.0
     dev: false
 
-  /responselike@2.0.0:
-    resolution: {integrity: sha512-xH48u3FTB9VsZw7R+vvgaKeLKzT6jOogbQhEe/jewwnZgzPcnyWui2Av6JpoYZF/91uueC+lqhWqeURw5/qhCw==}
+  /responselike@2.0.1:
+    resolution: {integrity: sha512-4gl03wn3hj1HP3yzgdI7d3lCkF95F21Pz4BPGvKHinyQzALR5CapwC8yIi0Rh58DEMQ/SguC03wFj2k0M/mHhw==}
     dependencies:
       lowercase-keys: 2.0.0
 
