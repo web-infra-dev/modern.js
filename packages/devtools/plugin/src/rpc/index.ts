@@ -32,7 +32,7 @@ export const setupClientConnection = async (api: CliPluginAPI) => {
     post: data => wss.clients.forEach(ws => ws.send(data)),
     on: cb => (handleMessage = cb),
     serialize: v => JSON.stringify(v),
-    deserialize: v => JSON.parse(v),
+    deserialize: v => JSON.parse(v.toString()),
   };
 
   const clientConn = createBirpc<ClientFunctions, ServerFunctions>(
