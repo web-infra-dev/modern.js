@@ -21,9 +21,10 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   const isStreaming = (ssr: ServerUserConfig['ssr']) =>
     ssr && typeof ssr === 'object' && ssr.mode === 'stream';
 
-  const { server } = userConfig;
+  const { server, output } = userConfig;
 
-  if (server?.ssr && !isStreaming(server.ssr)) {
+  // ssg need use stringSSR.
+  if ((server?.ssr || output.ssg) && !isStreaming(server.ssr)) {
     return true;
   }
 
