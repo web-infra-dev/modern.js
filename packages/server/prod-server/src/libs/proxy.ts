@@ -1,4 +1,3 @@
-import {} from 'http';
 import { RequestHandler, createProxyMiddleware } from 'http-proxy-middleware';
 import {
   ProxyDetail,
