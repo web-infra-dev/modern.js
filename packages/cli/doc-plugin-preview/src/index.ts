@@ -55,6 +55,10 @@ import Demo from ${JSON.stringify(demoComponentPath)}
       // Fix: rspack build error because demo file is not exist, probably the demo file was written in rspack build process?
       await Promise.all(
         files.map(async (filepath, _index) => {
+          const isMdxFile = /\.mdx?$/.test(filepath);
+          if (!isMdxFile) {
+            return;
+          }
           const { createProcessor } = await import('@mdx-js/mdx');
           const { visit } = await import('unist-util-visit');
           const { default: fs } = await import('@modern-js/utils/fs-extra');
