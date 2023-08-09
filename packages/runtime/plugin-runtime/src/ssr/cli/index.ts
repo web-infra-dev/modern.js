@@ -65,20 +65,20 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
-        const config = api.useResolvedConfigContext();
         const { bundlerType = 'webpack' } = api.useAppContext();
         // eslint-disable-next-line consistent-return
-        const babelConfig = (() => {
+        const babelHandler = (() => {
           // In webpack build, we should let `useLoader` support CSR & SSR both.
           if (bundlerType === 'webpack') {
             return (config: any) => {
+              const userConfig = api.useResolvedConfigContext();
               // Add id for useLoader method,
               // The useLoader can be used even if the SSR is not enabled
               config.plugins?.push(
                 path.join(__dirname, './babel-plugin-ssr-loader-id'),
               );
 
-              if (isUseSSRBundle(config) && checkUseStringSSR(config)) {
+              if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
                 config.plugins?.push(require.resolve('@loadable/babel-plugin'));
               }
             };
@@ -86,18 +86,19 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             // In Rspack build, we need transform the babel-loader again.
             // It would increase performance overhead,
             // so we only use useLoader in CSR on Rspack build temporarily.
-            if (isUseSSRBundle(config)) {
-              return (config: any) => {
+            return (config: any) => {
+              const userConfig = api.useResolvedConfigContext();
+              if (isUseSSRBundle(userConfig)) {
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-                if (hasStringSSREntry(config)) {
+                if (checkUseStringSSR(userConfig)) {
                   config.plugins?.push(
                     require.resolve('@loadable/babel-plugin'),
                   );
                 }
-              };
-            }
+              }
+            };
           }
         })();
 
@@ -136,7 +137,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                   ]);
               }
             },
-            babel: babelConfig,
+            babel: babelHandler,
           },
         };
       },
