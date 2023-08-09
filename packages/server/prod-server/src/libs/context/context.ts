@@ -72,9 +72,16 @@ export class ModernServerContext implements ModernServerContextInterface {
   }
 
   private get parsedURL() {
-    // only for parse url, use mock
-    const url = new URL(this.req.url!, MOCK_URL_BASE);
-    return url;
+    try {
+      // only for parse url, use mock
+      return new URL(this.req.url!, MOCK_URL_BASE);
+    } catch (e) {
+      this.logger.error(
+        'Parse URL error',
+        (e as Error).stack || (e as Error).message,
+      );
+      return new URL('/_modern_mock_path', MOCK_URL_BASE);
+    }
   }
 
   private bind() {
