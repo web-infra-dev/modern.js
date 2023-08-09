@@ -302,7 +302,8 @@ export async function getMetaTags(
   const { meta, metaByEntries } = config.html;
 
   const metaOptions = {
-    ...(metaByEntries?.[entryName] || meta || {}),
+    ...(meta ?? {}),
+    ...(metaByEntries?.[entryName] ?? {}),
   };
 
   if (config.output.charset === 'utf8') {

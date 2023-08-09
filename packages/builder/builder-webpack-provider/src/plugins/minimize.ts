@@ -45,6 +45,8 @@ async function applyJSMinimizer(chain: WebpackChain, config: NormalizedConfig) {
   const DEFAULT_OPTIONS: TerserPluginOptions = {
     terserOptions: {
       mangle: {
+        // not need in rspack(swc)
+        // https://github.com/swc-project/swc/discussions/3373
         safari10: true,
       },
       format: {

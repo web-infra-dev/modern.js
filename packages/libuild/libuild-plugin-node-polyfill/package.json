@@ -45,6 +45,6 @@
   "devDependencies": {
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/libuild": "workspace:*",
-    "typescript": "4.4.4"
+    "typescript": "^5"
   }
 }

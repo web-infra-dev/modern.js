@@ -5,6 +5,7 @@ import { createServer, Server } from 'http';
 import httpMocks from 'node-mocks-http';
 import portfinder from 'portfinder';
 import axios from 'axios';
+import { WebSocket, WebSocketServer } from 'ws';
 import { createContext } from '../src/libs/context';
 import { createStaticFileHandler } from '../src/libs/serveFile';
 import { createProxyHandler } from '../src/libs/proxy';
@@ -58,36 +59,40 @@ describe('test middleware create factory', () => {
 
   jest.setTimeout(1000 * 10);
   describe('should create proxy handler correctly', () => {
-    test('should return null if no options', () => {
-      expect(createProxyHandler(null as any)).toBeNull();
-    });
-
     let sourceServerPort = 8080;
     let sourceServer: Server | null = null;
+    let wss: WebSocketServer | null = null;
     beforeAll(async () => {
       let done: any;
       const promise = new Promise(resolve => (done = resolve));
+
       sourceServerPort = await portfinder.getPortPromise();
       sourceServer = createServer((req, res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.write(req.url?.slice(1));
         res.end();
-      }).listen(sourceServerPort, done);
+      });
+
+      wss = new WebSocketServer({ server: sourceServer, path: '/ws' });
+      wss.on('connection', ws => {
+        ws.on('message', data => ws.send(data.toString()));
+      });
+
+      sourceServer.listen(sourceServerPort, done);
       return promise;
     });
 
     afterAll(() => {
-      if (sourceServer) {
-        sourceServer.close();
-      }
+      sourceServer?.close();
+      wss?.close();
     });
 
     test('should proxy correctly use simply options', async () => {
       const port = await portfinder.getPortPromise();
-      const middlewares = createProxyHandler({
+      const proxy = createProxyHandler({
         '/simple': `http://localhost:${sourceServerPort}`,
       });
-      const proxyHandler = middlewares![0];
+      const proxyHandler = proxy.handlers[0];
 
       const server = createServer((req, res) => {
         const context = createContext(req, res);
@@ -106,12 +111,12 @@ describe('test middleware create factory', () => {
 
     test('should proxy correctly use simply obj options', async () => {
       const port = await portfinder.getPortPromise();
-      const middlewares = createProxyHandler({
+      const proxy = createProxyHandler({
         '/simple-obj': {
           target: `http://localhost:${sourceServerPort}`,
         },
       });
-      const proxyHandler = middlewares![0];
+      const proxyHandler = proxy.handlers[0];
 
       const server = createServer((req, res) => {
         const context = createContext(req, res);
@@ -130,11 +135,11 @@ describe('test middleware create factory', () => {
 
     test('should proxy correctly use context options', async () => {
       const port = await portfinder.getPortPromise();
-      const middlewares = createProxyHandler({
+      const proxy = createProxyHandler({
         context: '/context',
         target: `http://localhost:${sourceServerPort}`,
       });
-      const proxyHandler = middlewares![0];
+      const proxyHandler = proxy.handlers[0];
 
       const server = createServer((req, res) => {
         const context = createContext(req, res);
@@ -153,13 +158,13 @@ describe('test middleware create factory', () => {
 
     test('should proxy correctly use array options', async () => {
       const port = await portfinder.getPortPromise();
-      const middlewares = createProxyHandler([
+      const proxy = createProxyHandler([
         {
           context: '/array',
           target: `http://localhost:${sourceServerPort}`,
         },
       ]);
-      const proxyHandler = middlewares![0];
+      const proxyHandler = proxy.handlers[0];
 
       const server = createServer((req, res) => {
         const context = createContext(req, res);
@@ -172,6 +177,41 @@ describe('test middleware create factory', () => {
         const { data } = await axios.get(`http://localhost:${port}/array`);
         expect(data).toBe('array');
       } finally {
+        server.close();
+      }
+    });
+
+    test('should proxy WebSocket without the initial http request', async () => {
+      const port = await portfinder.getPortPromise();
+      const proxy = createProxyHandler({
+        '/ws': {
+          target: `http://localhost:${sourceServerPort}`,
+          ws: true,
+        },
+      });
+      const proxyHandler = proxy.handlers[0];
+
+      const server = createServer((req, res) => {
+        const context = createContext(req, res);
+        proxyHandler(context, () => {
+          throw new Error('should not happened');
+        });
+      });
+      server.on('upgrade', proxy.handleUpgrade);
+      server.listen(port);
+
+      const ws = new WebSocket(`ws://localhost:${port}/ws`);
+
+      try {
+        const echo = new Promise(resolve => {
+          ws.once('open', () => {
+            ws.send('foobar');
+            ws.once('message', data => resolve(data.toString()));
+          });
+        });
+        await expect(echo).resolves.toBe('foobar');
+      } finally {
+        ws.close();
         server.close();
       }
     });

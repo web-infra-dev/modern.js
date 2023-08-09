@@ -46,7 +46,7 @@ The engine "node" is incompatible with this module.
 Expected version ">=14.17.6". Got "12.20.1"
 ```
 
-使用 Modern.js 时，建议使用 [Node.js 14.x](https://nodejs.org/download/release/latest-v14.x/) 或 [Node.js 16.x](https://nodejs.org/download/release/latest-v16.x/) 的最新版本。
+使用 Modern.js 时，建议使用 [Node.js 18.x](https://nodejs.org/download/release/latest-v18.x/) 的最新版本。
 
 如果当前环境的 Node.js 版本低于上述要求的版本，则可以使用 [nvm](https://github.com/nvm-sh/nvm) 或 [fnm](https://github.com/Schniz/fnm) 等工具进行版本切换。
 
@@ -104,7 +104,7 @@ Type '{}' is not assignable to type 'ReactNode'.
 
 **Modern.js 框架推荐使用的 React 版本为 >= 18.0.0**，并且不同功能对 React 版本的要求有所不同。
 
-- 如果你在使用 React 17，那么部分框架功能将无法使用，比如 Steaming SSR，因为它依赖 React 18 提供的新特性。
+- 如果你在使用 React 17，那么部分框架功能将无法使用，比如 Streaming SSR，因为它依赖 React 18 提供的新特性。
 - 如果你仍然在使用 React 16，那么将无法使用 Modern.js 的运行时或服务端能力。你可以考虑使用 Modern.js 的构建模式，即只使用 Modern.js 的构建能力，这种情况可以继续使用 React 16。
 
 在 Modern.js 未来的 major 版本中，我们会逐步移除对 React 16 和 React 17 的支持。因此，请尽快升级到 React 18 以上版本。
