@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "4.4.4",
+    "typescript": "^5",
     "@modern-js/libuild": "workspace:*",
     "@modern-js/libuild-utils": "workspace:*"
   },
