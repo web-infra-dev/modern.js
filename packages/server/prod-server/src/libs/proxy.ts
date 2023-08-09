@@ -1,4 +1,4 @@
-import { createProxyMiddleware } from 'http-proxy-middleware';
+import { RequestHandler, createProxyMiddleware } from 'http-proxy-middleware';
 import {
   ProxyDetail,
   NextFunction,
@@ -6,6 +6,7 @@ import {
   ModernServerContext,
 } from '@modern-js/types';
 import { debug } from '../utils';
+import type { ModernServerHandler } from '../type';
 
 export type { BffProxyOptions };
 
@@ -44,39 +45,52 @@ export function formatProxyOptions(proxyOptions: BffProxyOptions) {
   return formattedProxy;
 }
 
+export type HttpUpgradeHandler = NonNullable<RequestHandler['upgrade']>;
+
 export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
   debug('createProxyHandler', proxyOptions);
+  const middlewares: RequestHandler[] = [];
+  const handlers: ModernServerHandler[] = [];
+
+  const handleUpgrade: HttpUpgradeHandler = (req, socket, head) => {
+    for (const middleware of middlewares) {
+      if (typeof middleware.upgrade === 'function') {
+        middleware.upgrade(req, socket, head);
+      }
+    }
+  };
+
   if (!proxyOptions) {
-    return null;
+    return { handlers, handleUpgrade };
   }
 
   // If it is not an array, it may be an object that uses the context attribute
   // or an object in the form of { source: ProxyDetail }
-  const formattedProxy = formatProxyOptions(proxyOptions);
+  const formattedOptionsList = formatProxyOptions(proxyOptions);
 
-  const middlewares = formattedProxy.map(option => {
-    const middleware = createProxyMiddleware(option.context!, option);
-
-    // eslint-disable-next-line consistent-return
-    return async (ctx: ModernServerContext, next: NextFunction) => {
+  for (const options of formattedOptionsList) {
+    const middleware = createProxyMiddleware(options.context!, options);
+    const handler = async (ctx: ModernServerContext, next: NextFunction) => {
       const { req, res } = ctx;
       const bypassUrl =
-        typeof option.bypass === 'function'
-          ? option.bypass(req, res, option)
+        typeof options.bypass === 'function'
+          ? options.bypass(req, res, options)
           : null;
 
       // only false, no true
       if (typeof bypassUrl === 'boolean') {
         ctx.status = 404;
-        return next();
+        next();
       } else if (typeof bypassUrl === 'string') {
         ctx.url = bypassUrl;
-        return next();
+        next();
+      } else {
+        middleware(req as any, res as any, next);
       }
-
-      (middleware as any)(req, res, next);
     };
-  });
+    middlewares.push(middleware);
+    handlers.push(handler);
+  }
 
-  return middlewares;
+  return { handlers, handleUpgrade };
 };
