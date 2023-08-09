@@ -48,7 +48,6 @@
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "@types/connect": "^3.4.35",
-    "@types/got": "^9.6.12",
     "@types/node": "^14",
     "@types/serve-static": "^1.13.10",
     "got": "^11.8.3",

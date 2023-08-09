@@ -47,12 +47,41 @@ export const SplitCustomSchema: z.ZodType<SplitCustom> =
     splitChunks: z.any().optional(),
   });
 
+const filterSchema = z.union([
+  z.array(z.union([z.string(), z.instanceof(RegExp)])),
+  z.function(z.tuple([z.string()]), z.boolean()),
+]);
+
+const preloadSchema = z.union([
+  z.literal(true),
+  z.object({
+    type: z
+      .enum(['async-chunks', 'initial', 'all-assets', 'all-chunks'])
+      .optional(),
+    include: filterSchema.optional(),
+    exclude: filterSchema.optional(),
+  }),
+]);
+
 export const sharedPerformanceConfigSchema = z.partialObj({
   removeConsole: z.union([z.boolean(), z.array(ConsoleTypeSchema)]),
   removeMomentLocale: z.boolean(),
   buildCache: z.union([BuildCacheOptionsSchema, z.boolean()]),
+  transformLodash: z.boolean(),
   profile: z.boolean(),
   printFileSize: z.boolean(),
+  dnsPrefetch: z.array(z.string()),
+  preconnect: z.array(
+    z.union([
+      z.string(),
+      z.object({
+        href: z.string(),
+        crossorigin: z.boolean().optional(),
+      }),
+    ]),
+  ),
+  preload: preloadSchema,
+  prefetch: preloadSchema,
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

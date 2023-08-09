@@ -7,5 +7,5 @@
     "module": "CommonJS",
     "types": ["mocha", "less"]
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "scripts"]
 }

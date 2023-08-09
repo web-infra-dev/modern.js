@@ -16,7 +16,6 @@ export interface ILibPresetOption {
   appDirectory: string;
   enableTypescriptPreset?: boolean;
   enableReactPreset?: boolean;
-  lodashOptions?: any;
   alias?: AliasOption;
   jsxTransformRuntime?: JsxTransformRuntimeType;
   styledComponentsOptions?: IStyledComponentOptions;

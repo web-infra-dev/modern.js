@@ -63,6 +63,7 @@ export type Plugins = {
   externals: PluginsFn;
   sourceBuild: PluginsFn;
   networkPerformance: PluginsFn;
+  preloadOrPrefetch: PluginsFn;
 };
 
 /**

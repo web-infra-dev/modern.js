@@ -9,3 +9,4 @@ export { InlineChunkHtmlPlugin } from './InlineChunkHtmlPlugin';
 export { AssetsRetryPlugin } from './AssetsRetryPlugin';
 export { CheckSyntaxPlugin } from './CheckSyntaxPlugin';
 export { HtmlNetworkPerformancePlugin } from './HtmlNetworkPerformancePlugin';
+export { HTMLPreloadOrPrefetchPlugin } from './HtmlPreloadOrPrefetchPlugin';

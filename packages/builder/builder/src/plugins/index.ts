@@ -55,4 +55,6 @@ export const plugins: Plugins = {
     import('./networkPerformance').then(m =>
       m.builderPluginNetworkPerformance(),
     ),
+  preloadOrPrefetch: () =>
+    import('./preloadOrPrefetch').then(m => m.builderPluginPreloadOrPrefetch()),
 };

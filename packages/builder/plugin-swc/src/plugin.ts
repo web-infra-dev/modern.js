@@ -130,7 +130,6 @@ export function getDefaultSwcConfig(): TransformConfig {
   return {
     cwd,
     jsc: {
-      target: 'es5',
       externalHelpers: true,
       parser: {
         tsx: true,
@@ -153,12 +152,6 @@ export function getDefaultSwcConfig(): TransformConfig {
     },
     exclude: [],
     inlineSourcesContent: true,
-    extensions: {
-      lodash: {
-        cwd,
-        ids: ['lodash', 'lodash-es'],
-      },
-    },
   };
 }
 
