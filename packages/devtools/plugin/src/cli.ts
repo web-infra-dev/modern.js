@@ -1,4 +1,5 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { setupClientConnection } from './rpc';
 
 export interface Options {
   dataSource?: string;
@@ -8,9 +9,9 @@ export interface Options {
 export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
-  setup: async _api => {
+  setup: async api => {
+    const { url: rpcEndpoint } = await setupClientConnection(api);
     return {
-      // prepare() {},
       validateSchema() {
         return [
           {
@@ -19,12 +20,6 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
           },
         ];
       },
-      collectServerPlugins: ({ plugins }) => ({
-        plugins: [
-          ...plugins,
-          { '@modern-js/plugin-devtools': '@modern-js/plugin-devtools/server' },
-        ],
-      }),
       config() {
         const setupDevtoolsScript = require.resolve(
           '@modern-js/devtools-mount',
@@ -37,6 +32,17 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
                 mountDevTools();
               `.replace(/\n */g, ''),
             ],
+          },
+          tools: {
+            devServer: {
+              proxy: [
+                {
+                  target: rpcEndpoint,
+                  autoRewrite: true,
+                  ws: true,
+                },
+              ],
+            },
           },
         };
       },
