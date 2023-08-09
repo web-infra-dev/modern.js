@@ -1,4 +1,3 @@
-import {} from 'http';
 import { RequestHandler, createProxyMiddleware } from 'http-proxy-middleware';
 import {
   ProxyDetail,
@@ -7,7 +6,7 @@ import {
   ModernServerContext,
 } from '@modern-js/types';
 import { debug } from '../utils';
-import { ModernServerHandler } from '../type';
+import type { ModernServerHandler } from '../type';
 
 export type { BffProxyOptions };
 

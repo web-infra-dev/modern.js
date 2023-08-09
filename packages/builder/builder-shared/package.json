@@ -144,7 +144,7 @@
     "@types/caniuse-lite": "^1.0.1",
     "@types/node": "^14",
     "html-webpack-plugin": "5.5.0",
-    "terser": "^5.14.1",
+    "terser": "5.19.2",
     "typescript": "^5"
   },
   "publishConfig": {

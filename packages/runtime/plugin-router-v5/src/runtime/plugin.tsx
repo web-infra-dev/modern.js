@@ -82,6 +82,8 @@ export const routerPlugin = ({
   const select = (pathname: string) =>
     serverBase.find(baseUrl => pathname.search(baseUrl) === 0) || '/';
 
+  let routes: SingleRouteConfig[] = [];
+
   if (isBrow) {
     window._SERVER_DATA = parsedJSONFromElement('__MODERN_SERVER_DATA__');
   }
@@ -98,6 +100,13 @@ export const routerPlugin = ({
             useRouteMatch,
             useLocation,
           };
+
+          Object.defineProperty(context, 'routes', {
+            get() {
+              return routes;
+            },
+          });
+
           return next({ context });
         },
         hoc: ({ App }, next) => {
@@ -118,7 +127,7 @@ export const routerPlugin = ({
                   : createHashHistory(historyOptions));
               return (props: any) => {
                 const runner = (api as any).useHookRunners();
-                const routes = runner.modifyRoutes(originRoutes);
+                routes = runner.modifyRoutes(originRoutes);
                 routesConfig && (routesConfig.routes = routes);
                 return (
                   <Router history={history}>

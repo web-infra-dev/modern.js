@@ -16,21 +16,21 @@ Modern.js Builder 默认对构建性能进行了充分优化，但是随着业�
 
 通常来说，将 Node.js 更新到最新的 [LTS 版本](https://github.com/nodejs/release#release-schedule)，有助于提升构建性能。
 
-尤其是对于 Apple M1/M2 芯片的机型，推荐使用 Node 16 或 Node 18 进行构建。
+尤其是对于 Apple M1/M2 芯片的机型，推荐使用 Node 18 进行构建。
 
-Node 16 默认提供了 Apple Silicon binaries，因此在 M1/M2 机型上性能会比 Node 14 有大幅度提升。根据我们的测试，**从 Node 14 切换到 Node 16 后，编译速度可以提升 100% 以上**。
+Node >= 16 默认提供了 Apple Silicon binaries，因此在 M1/M2 机型上性能会比 Node 14 有大幅度提升。根据我们的测试，**从 Node 14 切换到 Node >= 16 后，编译速度可以提升 100% 以上**。
 
-你可以通过以下步骤来切换到 Node 16：
+你可以通过以下步骤来切换到 Node 18：
 
 ```bash
-# 安装 Node.js v16
-nvm install 16
+# 安装 Node v18
+nvm install 18
 
-# 切换到 Node 16
-nvm use 16
+# 切换到 Node 18
+nvm use 18
 
-# 将 Node 16 设置为默认版本
-nvm default 16
+# 将 Node 18 设置为默认版本
+nvm default 18
 
 # 查看 Node 版本
 node -v
