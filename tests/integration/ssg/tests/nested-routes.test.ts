@@ -1,5 +1,6 @@
 import path, { join } from 'path';
 import puppeteer, { Browser, Page } from 'puppeteer';
+import { fs } from '@modern-js/utils';
 import {
   modernServe,
   launchOptions,
@@ -15,11 +16,14 @@ jest.setTimeout(1000 * 60 * 2);
 describe('ssg', () => {
   let app: any;
   let appDir: string;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let appPort: number;
   let page: Page;
   let browser: Browser;
+  let distDir: string;
   beforeAll(async () => {
     appDir = join(fixtureDir, 'nested-routes');
+    distDir = join(appDir, './dist');
     await modernBuild(appDir);
     app = await modernServe(appDir, (appPort = await getPort()), {
       cwd: appDir,
@@ -34,20 +38,14 @@ describe('ssg', () => {
   });
 
   test('should nested-routes ssg access / work correctly', async () => {
-    await page.goto(`http://localhost:${appPort}`, {
-      waitUntil: ['networkidle0'],
-    });
-    const element = await page.$('#data');
-    const targetText = await page.evaluate(el => el?.textContent, element);
-    expect(targetText).toBe('Hello, Home');
+    const htmlPath = path.join(distDir, 'html/main/index.html');
+    const html = (await fs.readFile(htmlPath)).toString();
+    expect(html.includes('Hello, Home')).toBe(true);
   });
 
   test('should nested-routes ssg access /user work correctly', async () => {
-    await page.goto(`http://localhost:${appPort}/user`, {
-      waitUntil: ['networkidle0'],
-    });
-    const element = await page.$('#data');
-    const targetText = await page.evaluate(el => el?.textContent, element);
-    expect(targetText).toBe('Hello, User');
+    const htmlPath = path.join(distDir, 'html/main/user/index.html');
+    const html = (await fs.readFile(htmlPath)).toString();
+    expect(html.includes('Hello, User')).toBe(true);
   });
 });

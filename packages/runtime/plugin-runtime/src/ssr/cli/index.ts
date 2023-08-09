@@ -39,6 +39,14 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   return false;
 };
 
+const chekcUseStringSSR = (config: AppNormalizedConfig): boolean => {
+  const { output } = config;
+
+  // ssg is not support streaming ssr.
+  // so we assumes use String SSR when using ssg.
+  return Boolean(output.ssg) || hasStringSSREntry(config);
+};
+
 export const ssrPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-ssr',
 
@@ -72,7 +80,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
 
               if (
                 isUseSSRBundle(userConfig) &&
-                hasStringSSREntry(userConfig as any)
+                chekcUseStringSSR(userConfig as any)
               ) {
                 config.plugins?.push(require.resolve('@loadable/babel-plugin'));
               }
@@ -120,7 +128,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 isUseSSRBundle(userConfig) &&
                 !isServer &&
                 !isServiceWorker &&
-                hasStringSSREntry(userConfig)
+                chekcUseStringSSR(userConfig)
               ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
                 const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
