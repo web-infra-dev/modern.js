@@ -19,11 +19,11 @@
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/libuild": "workspace:*",
     "@modern-js/libuild-utils": "workspace:*",
-    "typescript": "4.4.4",
+    "typescript": "^5",
     "@types/node": "12.20.42",
     "@types/babel__core": "7.1.16"
   },
   "dependencies": {
-    "@babel/core": "7.15.8"
+    "@babel/core": "^7.21.8"
   }
 }
