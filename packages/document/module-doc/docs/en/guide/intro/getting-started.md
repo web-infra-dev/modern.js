@@ -6,7 +6,7 @@ sidebar_position: 3
 
 ## 3 minute demo
 
-Want to experience Module Tools in action? The only prerequisite you need is [Node.js LTS](https://github.com/nodejs/Release) and make sure your Node version is **>= 14.18.0**.We recommend using the LTS version of Node.js 16.
+Want to experience Module Tools in action? The only prerequisite you need is [Node.js LTS](https://github.com/nodejs/Release) and make sure your Node version is **>= 14.18.0**.We recommend using the LTS version of Node.js 18.
 
 ### Create new project
 
