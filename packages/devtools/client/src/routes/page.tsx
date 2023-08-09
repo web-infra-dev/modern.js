@@ -1,5 +1,7 @@
-import { Helmet } from '@modern-js/runtime/head';
 import './index.css';
+import { Helmet } from '@modern-js/runtime/head';
+import { Suspense } from 'react';
+import { Foo } from './foo';
 
 const Index = () => (
   <div className="container-box">
@@ -12,6 +14,9 @@ const Index = () => (
     </Helmet>
     <main>
       <div className="title">Hello DevTools!</div>
+      <Suspense fallback={<div>loading...</div>}>
+        <Foo />
+      </Suspense>
     </main>
   </div>
 );

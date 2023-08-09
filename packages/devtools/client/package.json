@@ -16,11 +16,15 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
     "@modern-js/devtools-kit": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
+    "birpc": "^0.2.12",
     "lodash": "^4.17.21",
+    "query-string": "^7.1.1",
     "react": "~18.2.0",
-    "react-dom": "~18.2.0"
+    "react-dom": "~18.2.0",
+    "react-use": "^17.4.0",
+    "valtio": "^1.11.1"
   },
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
