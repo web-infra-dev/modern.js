@@ -1,5 +1,18 @@
 # @modern-js/core
 
+## 2.30.0
+
+### Patch Changes
+
+- 4f373be: fix(plugin-swc): correct scheme validation
+
+  fix(plugin-swc): 更正 scheme 校验
+
+- Updated dependencies [4320805]
+- Updated dependencies [cc5f49e]
+  - @modern-js/builder-plugin-swc@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

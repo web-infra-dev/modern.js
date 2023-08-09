@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.30.0
+
+### Patch Changes
+
+- cc5f49e: feat(builder): add performance.transformLodash config
+
+  feat(builder): 新增 performance.transformLodash 配置
+
 ## 2.29.0
 
 ## 2.28.0

@@ -1,5 +1,38 @@
 # @modern-js/builder-shared
 
+## 2.30.0
+
+### Minor Changes
+
+- e94ad94: feat(builder-shared): supports opening specified browser through environment variable
+
+  feat(builder-shared): 增加通过环境变量打开指定浏览器能力
+
+### Patch Changes
+
+- cc5f49e: feat(builder): add performance.transformLodash config
+
+  feat(builder): 新增 performance.transformLodash 配置
+
+- f74064c: fix(@modern-js/builder-shared): metaByEntries override default value
+  fix(@modern-js/builder-shared): metaByEntries 完全覆盖了 meta 默认值
+- e6ae836: feat(builder): support performance preload & prefetch configurations
+
+  feat(builder): 支持 performance preload 和 prefetch 配置项
+
+- 7cb7b24: chore(libuild): bump typescript v5 and some other devDependencies
+
+  chore(libuild): 升级 typescript v5 和其他 devDependencies
+
+- Updated dependencies [9f21f28]
+- Updated dependencies [a5ee81a]
+- Updated dependencies [883692c]
+- Updated dependencies [b6ab299]
+  - @modern-js/prod-server@2.30.0
+  - @modern-js/types@2.30.0
+  - @modern-js/server@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

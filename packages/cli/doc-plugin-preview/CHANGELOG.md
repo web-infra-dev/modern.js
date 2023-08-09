@@ -1,5 +1,18 @@
 # @modern-js/doc-plugin-preview
 
+## 2.30.0
+
+### Patch Changes
+
+- 0bc2f66: fix(doc-plugin-preview): parse error when meeting tsx
+
+  fix(doc-plugin-preview): 遇到 tsx 时解析错误
+
+- Updated dependencies [ddb78ab]
+- Updated dependencies [cb7961b]
+  - @modern-js/doc-core@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

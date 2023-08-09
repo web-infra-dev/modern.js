@@ -1,5 +1,12 @@
 # @modern-js/plugin-module-main-fields
 
+## 2.30.0
+
+### Patch Changes
+
+- Updated dependencies [c03be09]
+  - @modern-js/module-tools@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

@@ -1,5 +1,25 @@
 # @modern-js/prod-server
 
+## 2.30.0
+
+### Minor Changes
+
+- a5ee81a: feat(server): add new server hooks `beforeServerInit` & `afterServerInit`
+  feat(server): 添加新的服务端钩子 `beforeServerInit` & `afterServerInit`
+
+### Patch Changes
+
+- 9f21f28: fix(server): add catch and imporve url parse logic in modern server
+  fix(server): 在 modern server 中优化 url 解析逻辑并添加错误捕获并
+- 883692c: fix: can't proxy WebSocket without the initial http request
+  fix: WebSocket 代理只能在首次 http 请求后生效
+- b6ab299: fix(prod-server): remove req bodyParser, let uesr parses body by themself.
+  fix(prod-server): 移除 req bodyParser, 让用户自行解析 body
+- Updated dependencies [a5ee81a]
+  - @modern-js/server-core@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/plugin@2.30.0
+
 ## 2.29.0
 
 ### Minor Changes

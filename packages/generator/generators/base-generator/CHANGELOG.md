@@ -1,5 +1,13 @@
 # @modern-js/base-generator
 
+## 3.1.32
+
+### Patch Changes
+
+- 2dde6a2: feat(generator): using Node.js v18 LTS by default
+
+  feat(generator): 默认使用 Node.js v18 LTS
+
 ## 3.1.31
 
 ## 3.1.30

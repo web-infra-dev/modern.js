@@ -1,5 +1,22 @@
 # @modern-js/builder
 
+## 2.30.0
+
+### Patch Changes
+
+- e6ae836: feat(builder): support performance preload & prefetch configurations
+
+  feat(builder): 支持 performance preload 和 prefetch 配置项
+
+- Updated dependencies [cc5f49e]
+- Updated dependencies [f74064c]
+- Updated dependencies [e6ae836]
+- Updated dependencies [7cb7b24]
+- Updated dependencies [e94ad94]
+  - @modern-js/builder-shared@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/monorepo-utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

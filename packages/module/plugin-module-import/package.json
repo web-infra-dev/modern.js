@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.29.0",
+  "version": "2.30.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "exports": {
@@ -48,7 +48,7 @@
     "@modern-js/libuild": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.29.0"
+    "@modern-js/module-tools": "workspace:^2.30.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/module-tools": {

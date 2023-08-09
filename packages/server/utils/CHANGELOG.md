@@ -1,5 +1,19 @@
 # @modern-js/server-utils
 
+## 2.30.0
+
+### Patch Changes
+
+- cc5f49e: feat(builder): add performance.transformLodash config
+
+  feat(builder): 新增 performance.transformLodash 配置
+
+- Updated dependencies [cc5f49e]
+  - @modern-js/babel-preset-base@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/babel-plugin-module-resolver@2.30.0
+  - @modern-js/babel-compiler@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes
