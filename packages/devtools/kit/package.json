@@ -44,8 +44,6 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/devtools-client": "workspace:*",
-    "@modern-js/devtools-mount": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "birpc": "^0.2.12",
