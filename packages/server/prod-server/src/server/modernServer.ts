@@ -112,8 +112,6 @@ export class ModernServer implements ModernServerInterface {
 
   private frameAPIHandler: Adapter | null = null;
 
-  private proxyHandler: ReturnType<typeof createProxyHandler> = null;
-
   private _handler!: (context: ModernServerContext, next: NextFunction) => void;
 
   constructor({
@@ -155,12 +153,13 @@ export class ModernServer implements ModernServerInterface {
 
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
-    this.proxyHandler = createProxyHandler(conf.bff?.proxy as BffProxyOptions);
-    if (this.proxyHandler) {
-      this.proxyHandler.forEach(handler => {
-        this.addHandler(handler);
-      });
-    }
+    const proxyHandlers = createProxyHandler(
+      conf.bff?.proxy as BffProxyOptions,
+    );
+    app.on('upgrade', proxyHandlers.handleUpgrade);
+    proxyHandlers.handlers.forEach(handler => {
+      this.addHandler(handler);
+    });
 
     // the app server maybe a `undefined`;
     app?.on('close', () => {
