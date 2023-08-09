@@ -16,8 +16,6 @@ jest.setTimeout(1000 * 60 * 2);
 describe('ssg', () => {
   let app: any;
   let appDir: string;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let appPort: number;
   let page: Page;
   let browser: Browser;
   let distDir: string;
@@ -25,7 +23,7 @@ describe('ssg', () => {
     appDir = join(fixtureDir, 'nested-routes');
     distDir = join(appDir, './dist');
     await modernBuild(appDir);
-    app = await modernServe(appDir, (appPort = await getPort()), {
+    app = await modernServe(appDir, await getPort(), {
       cwd: appDir,
     });
     browser = await puppeteer.launch(launchOptions as any);
