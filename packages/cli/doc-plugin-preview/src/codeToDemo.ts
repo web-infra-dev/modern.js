@@ -9,58 +9,23 @@ import { injectDemoBlockImport, toValidVarName } from './utils';
 import { demoBlockComponentPath } from './constant';
 import { demoRoutes } from '.';
 
-const getExternalDemoContent = (tempVar: string) => ({
-  type: 'mdxJsxFlowElement',
-  name: 'pre',
-  children: [
-    {
-      type: 'mdxJsxFlowElement',
-      name: 'code',
-      attributes: [
-        {
-          type: 'mdxJsxAttribute',
-          name: 'className',
-          value: 'language-tsx',
-        },
-        {
-          type: 'mdxJsxAttribute',
-          name: 'children',
-          value: {
-            type: 'mdxJsxExpressionAttribute',
-            value: tempVar,
-            data: {
-              estree: {
-                type: 'Program',
-                body: [
-                  {
-                    type: 'ExpressionStatement',
-                    expression: {
-                      type: 'Identifier',
-                      name: tempVar,
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        },
-      ],
-    },
-  ],
-});
-
 /**
  * remark plugin to transform code to demo
  */
 export const remarkCodeToDemo: Plugin<
-  [{ isMobile: boolean; getRouteMeta: () => RouteMeta[] }],
+  [
+    {
+      isMobile: boolean;
+      getRouteMeta: () => RouteMeta[];
+      iframePosition: 'fixed' | 'follow';
+    },
+  ],
   Root
-> = ({ isMobile, getRouteMeta }) => {
+> = ({ isMobile, getRouteMeta, iframePosition }) => {
   const routeMeta = getRouteMeta();
 
   return (tree, vfile) => {
     const demos: MdxjsEsm[] = [];
-    let index = 1;
     const route = routeMeta.find(
       meta => meta.absolutePath === (vfile.path || vfile.history[0]),
     );
@@ -68,6 +33,8 @@ export const remarkCodeToDemo: Plugin<
       return;
     }
     const { pageName } = route;
+    let index = 1;
+    let externalDemoIndex = 0;
 
     function constructDemoNode(
       demoId: string,
@@ -86,51 +53,55 @@ export const remarkCodeToDemo: Plugin<
       } else {
         demos.push(getASTNodeImport(`Demo${demoId}`, demoPath));
       }
-      const tempVar = `externalDemoContent${externalDemoIndex}`;
 
+      // get external demo content
+      const tempVar = `externalDemoContent${externalDemoIndex}`;
       if (externalDemoIndex !== undefined) {
         demos.push(getASTNodeImport(tempVar, `${demoPath}?raw`));
       }
-      Object.assign(currentNode, {
-        type: 'mdxJsxFlowElement',
-        name: 'Container',
-        attributes: [
-          {
-            type: 'mdxJsxAttribute',
-            name: 'isMobile',
-            value: isMobileMode,
-          },
-          {
-            type: 'mdxJsxAttribute',
-            name: 'url',
-            value: demoRoute,
-          },
-          {
-            type: 'mdxJsxAttribute',
-            name: 'isExternal',
-            value: externalDemoIndex !== undefined,
-          },
-        ],
-        children: [
-          externalDemoIndex === undefined
-            ? {
-                ...currentNode,
-                hasVisited: true,
-              }
-            : getExternalDemoContent(tempVar),
-          isMobileMode
-            ? {
-                type: 'mdxJsxFlowElement',
-                name: null,
-              }
-            : {
-                type: 'mdxJsxFlowElement',
-                name: `Demo${demoId}`,
-              },
-        ],
-      });
+
+      if (isMobileMode && iframePosition === 'fixed') {
+        // Only show the code block
+        externalDemoIndex !== undefined &&
+          Object.assign(currentNode, getExternalDemoContent(tempVar));
+      } else {
+        // Use container to show the code and view
+        Object.assign(currentNode, {
+          type: 'mdxJsxFlowElement',
+          name: 'Container',
+          attributes: [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'isMobile',
+              value: isMobileMode,
+            },
+            {
+              type: 'mdxJsxAttribute',
+              name: 'url',
+              value: demoRoute,
+            },
+          ],
+          children: [
+            externalDemoIndex === undefined
+              ? {
+                  ...currentNode,
+                  hasVisited: true,
+                }
+              : getExternalDemoContent(tempVar),
+            isMobileMode
+              ? {
+                  type: 'mdxJsxFlowElement',
+                  name: null,
+                }
+              : {
+                  type: 'mdxJsxFlowElement',
+                  name: `Demo${demoId}`,
+                },
+          ],
+        });
+      }
     }
-    let externalDemoIndex = 0;
+
     // 1. External demo , use <code src="xxx" /> to declare demo
     tree.children.forEach((node: any) => {
       if (node.type === 'mdxJsxFlowElement' && node.name === 'code') {
@@ -192,6 +163,7 @@ export const remarkCodeToDemo: Plugin<
         constructDemoNode(id, virtualModulePath, node, isMobileMode);
       }
     });
+
     tree.children.unshift(...demos);
   };
 };
@@ -223,3 +195,43 @@ const getASTNodeImport = (name: string, from: string) =>
       },
     },
   } as MdxjsEsm);
+
+const getExternalDemoContent = (tempVar: string) => ({
+  type: 'mdxJsxFlowElement',
+  name: 'pre',
+  children: [
+    {
+      type: 'mdxJsxFlowElement',
+      name: 'code',
+      attributes: [
+        {
+          type: 'mdxJsxAttribute',
+          name: 'className',
+          value: 'language-tsx',
+        },
+        {
+          type: 'mdxJsxAttribute',
+          name: 'children',
+          value: {
+            type: 'mdxJsxExpressionAttribute',
+            value: tempVar,
+            data: {
+              estree: {
+                type: 'Program',
+                body: [
+                  {
+                    type: 'ExpressionStatement',
+                    expression: {
+                      type: 'Identifier',
+                      name: tempVar,
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      ],
+    },
+  ],
+});

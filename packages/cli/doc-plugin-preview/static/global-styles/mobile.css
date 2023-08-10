@@ -1,9 +1,31 @@
-:root div {
-  --modern-sidebar-width: 210px;
-  --modern-aside-width: 0;
-}
 :root .preview-code div[class*='language-'] {
   margin: 0;
   border-radius: 0;
   height: 100%
+}
+
+@media (min-width: 1280px) {
+  .modern-doc-layout {
+    width: calc(100% - var(--modern-device-padding));
+    margin-left: var(--modern-device-padding);
+  }
+
+  .modern-sidebar {
+    margin-left: var(--modern-device-padding);
+  }
+
+  .modern-doc-nav-container {
+    max-width: 100%;
+    margin-left: var(--modern-device-padding);
+  }
+
+  .modern-doc-container {
+    padding-right: var(--modern-device-padding);
+    padding-left: var(--modern-device-padding);
+  }
+
+  .modern-doc {
+    width: 100%;
+    padding-right: 0;
+  }
 }
