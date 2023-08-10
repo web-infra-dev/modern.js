@@ -8,7 +8,7 @@ import { useLocaleSiteData, useSidebarData } from '../../logic';
 import { SideMenu } from '../../components/LocalSideBar';
 import { Overview } from '../../components/Overview';
 import { TabDataContext } from '../../logic/TabDataContext';
-import styles from './index.module.scss';
+import './index.scss';
 import { Content, usePageData, normalizeSlash } from '@/runtime';
 
 export interface DocLayoutProps {
@@ -63,7 +63,7 @@ export function DocLayout(props: DocLayoutProps) {
 
   return (
     <div
-      className={`${styles.docLayout} pt-0`}
+      className={`modern-doc-layout pt-0`}
       style={{
         ...(hideNavbar ? { marginTop: 0 } : {}),
       }}
@@ -76,9 +76,7 @@ export function DocLayout(props: DocLayoutProps) {
           sidebarData={sidebarData}
         />
       ) : null}
-      <div
-        className={`${styles.content} modern-doc-container flex flex-shrink-0`}
-      >
+      <div className={`modern-doc-container flex flex-shrink-0`}>
         <div className="w-full">
           {isOverviewPage ? (
             <Overview />
@@ -99,7 +97,7 @@ export function DocLayout(props: DocLayoutProps) {
 
         {hasAside ? (
           <div
-            className={styles.asideContainer}
+            className={`modern-aside-container`}
             style={{
               maxHeight: 'calc(100vh - (var(--modern-nav-height) + 32px))',
               overflow: 'scroll',

@@ -182,7 +182,7 @@ export function Nav(props: NavProps) {
       {beforeNav}
       <div className={`${styles.navContainer} modern-doc-nav px-6`}>
         <div
-          className={`${styles.container} flex justify-between items-center h-full`}
+          className={`${styles.container} modern-doc-nav-container flex justify-between items-center h-full`}
         >
           {beforeNavTitle}
           <NavBarTitle
