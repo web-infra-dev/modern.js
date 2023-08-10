@@ -30,6 +30,13 @@ export function builderPluginVue(
           output: {
             disableSvgr: true,
           },
+          source: {
+            define: {
+              // https://link.vuejs.org/feature-flags
+              __VUE_OPTIONS_API__: true,
+              __VUE_PROD_DEVTOOLS__: false,
+            },
+          },
           tools: {
             babel(_, { addPlugins }) {
               addPlugins([

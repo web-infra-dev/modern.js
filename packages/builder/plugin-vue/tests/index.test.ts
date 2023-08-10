@@ -1,6 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { builderPluginBabel } from '@modern-js/builder-webpack-provider/plugins/babel';
+import { builderPluginDefine } from '@modern-js/builder-webpack-provider/plugins/define';
 import { builderPluginVue } from '../src';
 
 describe('plugins/vue', () => {
@@ -50,6 +51,14 @@ describe('plugins/vue', () => {
     });
     const config = await builder.unwrapWebpackConfig();
 
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should define feature flags correctly', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginVue(), builderPluginDefine()],
+    });
+    const config = await builder.unwrapWebpackConfig();
     expect(config).toMatchSnapshot();
   });
 });
