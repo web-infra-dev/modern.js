@@ -39,4 +39,10 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   );
 };
 
-export const useStore = () => useContext(StoreContext) as StoreContextValue;
+export const useStore = () => {
+  const ctx = useContext(StoreContext);
+  if (!ctx) {
+    throw new Error("Can't resolve the context of global store.");
+  }
+  return ctx as StoreContextValue;
+};
