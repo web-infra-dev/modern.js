@@ -1228,7 +1228,7 @@ importers:
   packages/cli/doc-plugin-auto-sidebar:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.29.0
+        specifier: workspace:^2.30.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1280,7 +1280,7 @@ importers:
   packages/cli/doc-plugin-medium-zoom:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.29.0
+        specifier: workspace:^2.30.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1334,6 +1334,9 @@ importers:
 
   packages/cli/doc-plugin-preview:
     dependencies:
+      '@arco-design/web-react':
+        specifier: ^2.46.0
+        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@mdx-js/mdx':
         specifier: 2.2.1
         version: 2.2.1
@@ -1350,9 +1353,6 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
     devDependencies:
-      '@arco-design/web-react':
-        specifier: ^2.46.0
-        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/module-tools':
         specifier: workspace:*
         version: link:../../solutions/module-tools
@@ -1414,7 +1414,7 @@ importers:
   packages/cli/doc-plugin-typedoc:
     dependencies:
       '@modern-js/doc-tools':
-        specifier: workspace:^2.29.0
+        specifier: workspace:^2.30.0
         version: link:../../solutions/doc-tools
       '@modern-js/utils':
         specifier: workspace:*
@@ -1842,7 +1842,7 @@ importers:
         specifier: workspace:*
         version: link:../../builder/builder-webpack-provider
       '@modern-js/plugin-router-v5':
-        specifier: workspace:^2.29.0
+        specifier: workspace:^2.30.0
         version: link:../../runtime/plugin-router-v5
       '@modern-js/utils':
         specifier: workspace:*
