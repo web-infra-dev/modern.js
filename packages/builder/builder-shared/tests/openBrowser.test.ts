@@ -7,6 +7,11 @@ describe('openBrowser', () => {
       default: () => Promise.resolve(),
     };
   });
+  vi.mock('child_process', () => {
+    return {
+      execSync: () => '',
+    };
+  });
   it('should open an Microsoft Edge browser if you have', async () => {
     vi.stubEnv('BROWSER', 'Microsoft Edge');
     expect(await openBrowser('https://modernjs.dev/')).toBeTypeOf('boolean');
