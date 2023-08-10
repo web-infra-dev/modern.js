@@ -1,35 +1,57 @@
+import { URL } from 'url';
 import type { ClientFunctions, ServerFunctions } from '@modern-js/devtools-kit';
-import getPort from 'get-port';
 import { createBirpc, BirpcOptions } from 'birpc';
+import createDeferPromise, { DeferredPromise } from 'p-defer';
 import { RawData } from 'ws';
+import { ToThreads } from '@modern-js/server-core';
+import getPort from 'get-port';
 import { CliPluginAPI } from '../types';
 import { SocketServer } from '../utils/socket';
+import { Hooks } from '../cli';
 
-export const setupClientConnection = async (api: CliPluginAPI) => {
-  const ctx = api.useAppContext();
+export interface SetupClientConnectionOptions {
+  api: CliPluginAPI;
+}
 
-  // setup socket server.
+export const setupClientConnection = async (
+  options: SetupClientConnectionOptions,
+) => {
+  const { api } = options;
+
+  // generate url.
   const port = await getPort();
-  const wss = new SocketServer({ port });
-  const url = `ws://localhost:${port}`;
+  const server = new SocketServer({ port });
+  const url = new URL(`ws://localhost:${port}`);
 
   // register events.
   let handleMessage: null | ((data: RawData, isBinary: boolean) => void) = null;
-  wss.on('connection', ws => {
+  server.on('connection', ws => {
     ws.on('message', (data, isBinary) => handleMessage?.(data, isBinary));
   });
 
+  // define deferred promises.
+  const deferred = {
+    prepare: createDeferPromise<void>(),
+  } satisfies Record<string, DeferredPromise<any>>;
+
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
-    getServerRoutes() {
-      return [{ entryPath: 'foo', urlPath: 'bar' }, ...ctx.serverRoutes];
+    async getServerRoutes() {
+      await deferred.prepare.promise;
+      const ctx = api.useAppContext();
+      return [...ctx.serverRoutes];
+    },
+    async getAppConfig() {
+      await deferred.prepare.promise;
+      const config = api.useResolvedConfigContext();
+      return config;
     },
     echo(content) {
       return content;
     },
   };
   const clientRpcOptions: BirpcOptions<ClientFunctions> = {
-    post: data => wss.clients.forEach(ws => ws.send(data)),
+    post: data => server.clients.forEach(ws => ws.send(data)),
     on: cb => (handleMessage = cb),
     serialize: v => JSON.stringify(v),
     deserialize: v => JSON.parse(v.toString()),
@@ -40,5 +62,11 @@ export const setupClientConnection = async (api: CliPluginAPI) => {
     clientRpcOptions,
   );
 
-  return { client: clientConn, url };
+  const hooks = {
+    prepare() {
+      deferred.prepare.resolve();
+    },
+  } satisfies Partial<ToThreads<Hooks>>;
+
+  return { client: clientConn, hooks, url };
 };

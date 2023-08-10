@@ -14,3 +14,7 @@ const $server = proxy({
 export const $router = proxy({
   routes: $server.server.then(({ server }) => server.getServerRoutes()),
 });
+
+export const $config = proxy({
+  config: $server.server.then(({ server }) => server.getAppConfig()),
+});

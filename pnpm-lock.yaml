@@ -2246,6 +2246,9 @@ importers:
       get-port:
         specifier: ^5.1.1
         version: 5.1.1
+      p-defer:
+        specifier: ^3.0.0
+        version: 3.0.0
       socket.io:
         specifier: 4.7.2
         version: 4.7.2
@@ -28754,6 +28757,11 @@ packages:
   /p-defer@1.0.0:
     resolution: {integrity: sha512-wB3wfAxZpk2AzOfUMJNL+d36xothRSyj8EXOa4f6GMqYDN9BJaaSISbsk+wS9abmnebVw95C2Kb5t85UmpCxuw==}
     engines: {node: '>=4'}
+    dev: false
+
+  /p-defer@3.0.0:
+    resolution: {integrity: sha512-ugZxsxmtTln604yeYd29EGrNhazN2lywetzpKhfmQjW/VJmhpDmWbiX+h0zL8V91R0UXkhb3KtPmyq9PZw3aYw==}
+    engines: {node: '>=8'}
     dev: false
 
   /p-event@4.2.0:

@@ -1,4 +1,5 @@
-import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { BaseHooks } from '@modern-js/core';
+import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
 import { setupClientConnection } from './rpc';
 
 export interface Options {
@@ -6,12 +7,17 @@ export interface Options {
   version?: string;
 }
 
+export type Hooks = BaseHooks<any> & AppToolsHooks<any>;
+
 export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
-    const { url: rpcEndpoint } = await setupClientConnection(api);
+    // setup socket server.
+    const { hooks, url } = await setupClientConnection({ api });
+
     return {
+      prepare: hooks.prepare,
       validateSchema() {
         return [
           {
@@ -37,7 +43,7 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
             devServer: {
               proxy: {
                 '/_modern_js/devtools/rpc': {
-                  target: rpcEndpoint,
+                  target: url.href,
                   autoRewrite: true,
                   ws: true,
                 },

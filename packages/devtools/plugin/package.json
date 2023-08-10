@@ -51,11 +51,12 @@
   },
   "dependencies": {
     "@modern-js/devtools-client": "workspace:*",
-    "@modern-js/devtools-mount": "workspace:*",
     "@modern-js/devtools-kit": "workspace:*",
+    "@modern-js/devtools-mount": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "get-port": "^5.1.1",
     "birpc": "^0.2.12",
+    "get-port": "^5.1.1",
+    "p-defer": "^3.0.0",
     "socket.io": "4.7.2",
     "ws": "8.13.0"
   },
@@ -69,9 +70,9 @@
     "@scripts/build": "workspace:*",
     "@swc/helpers": "0.5.1",
     "@types/node": "^14",
+    "@types/ws": "^8.5.5",
     "type-fest": "^4.1.0",
-    "typescript": "^5",
-    "@types/ws": "^8.5.5"
+    "typescript": "^5"
   },
   "peerDependencies": {
     "@modern-js/runtime": "workspace:^2.29.0"
