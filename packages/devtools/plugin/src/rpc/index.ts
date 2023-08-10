@@ -41,7 +41,7 @@ export const setupClientConnection = async (
       const ctx = api.useAppContext();
       return [...ctx.serverRoutes];
     },
-    async getAppConfig() {
+    async getFrameworkConfig() {
       await deferred.prepare.promise;
       const config = api.useResolvedConfigContext();
       return config;

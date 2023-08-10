@@ -4,6 +4,6 @@ import { ServerRoute } from '@modern-js/types';
 
 export interface ServerFunctions {
   getServerRoutes: () => Promise<ServerRoute[]>;
-  getAppConfig: () => Promise<NormalizedConfig<AppTools>>;
+  getFrameworkConfig: () => Promise<NormalizedConfig<AppTools>>;
   echo: (content: string) => string;
 }
