@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
         os: [ubuntu-latest] # ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
