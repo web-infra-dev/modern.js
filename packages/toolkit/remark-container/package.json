@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/remark-container",
-  "version": "2.29.0",
+  "version": "2.30.0",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",

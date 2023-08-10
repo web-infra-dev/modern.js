@@ -1,5 +1,21 @@
 # @modern-js/server
 
+## 2.30.0
+
+### Patch Changes
+
+- 883692c: fix: can't proxy WebSocket without the initial http request
+  fix: WebSocket 代理只能在首次 http 请求后生效
+- Updated dependencies [9f21f28]
+- Updated dependencies [a5ee81a]
+- Updated dependencies [883692c]
+- Updated dependencies [cc5f49e]
+- Updated dependencies [b6ab299]
+  - @modern-js/prod-server@2.30.0
+  - @modern-js/types@2.30.0
+  - @modern-js/server-utils@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Minor Changes

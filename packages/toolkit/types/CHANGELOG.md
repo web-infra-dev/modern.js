@@ -1,5 +1,17 @@
 # @modern-js/types
 
+## 2.30.0
+
+### Minor Changes
+
+- a5ee81a: feat(server): add new server hooks `beforeServerInit` & `afterServerInit`
+  feat(server): 添加新的服务端钩子 `beforeServerInit` & `afterServerInit`
+
+### Patch Changes
+
+- b6ab299: fix(prod-server): remove req bodyParser, let uesr parses body by themself.
+  fix(prod-server): 移除 req bodyParser, 让用户自行解析 body
+
 ## 2.29.0
 
 ### Minor Changes

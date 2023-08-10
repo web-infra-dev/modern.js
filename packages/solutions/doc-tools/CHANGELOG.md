@@ -1,5 +1,20 @@
 # @modern-js/doc-tools
 
+## 2.30.0
+
+### Patch Changes
+
+- c03be09: feat(CLI): print solution name and version to terminal
+
+  feat(CLI): 在控制台输出 solution 的名称和版本
+
+- Updated dependencies [ddb78ab]
+- Updated dependencies [c03be09]
+- Updated dependencies [cb7961b]
+  - @modern-js/doc-core@2.30.0
+  - @modern-js/core@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @modern-js/doc-core
 
+## 2.30.0
+
+### Patch Changes
+
+- ddb78ab: feat(doc-core): support sub nav menu highlight
+
+  feat(doc-core): 支持 nav 子菜单高亮
+
+- cb7961b: fix(doc-core): ci error
+
+  fix(doc-core): 修复 ci 报错
+
+- Updated dependencies [0ea763e]
+- Updated dependencies [e6ae836]
+- Updated dependencies [c03be09]
+  - @modern-js/builder-rspack-provider@2.30.0
+  - @modern-js/builder@2.30.0
+  - @modern-js/core@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/doc-plugin-medium-zoom@2.30.0
+  - @modern-js/remark-container@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

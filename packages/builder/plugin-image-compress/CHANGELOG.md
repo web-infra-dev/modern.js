@@ -1,5 +1,11 @@
 # @modern-js/builder-plugin-image-compress
 
+## 2.30.0
+
+### Patch Changes
+
+- @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

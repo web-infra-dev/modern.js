@@ -1,5 +1,36 @@
 # @modern-js/builder-webpack-provider
 
+## 2.30.0
+
+### Patch Changes
+
+- cc5f49e: feat(builder): add performance.transformLodash config
+
+  feat(builder): 新增 performance.transformLodash 配置
+
+- e6ae836: feat(builder): support performance preload & prefetch configurations
+
+  feat(builder): 支持 performance preload 和 prefetch 配置项
+
+- 0e0b6e3: fix(builder): security.sri may inject invalid code
+
+  fix(builder): 修复 security.sri 可能注入错误代码的问题
+
+- Updated dependencies [a5ee81a]
+- Updated dependencies [883692c]
+- Updated dependencies [cc5f49e]
+- Updated dependencies [f74064c]
+- Updated dependencies [b6ab299]
+- Updated dependencies [e6ae836]
+- Updated dependencies [7cb7b24]
+- Updated dependencies [e94ad94]
+  - @modern-js/types@2.30.0
+  - @modern-js/server@2.30.0
+  - @modern-js/builder-shared@2.30.0
+  - @modern-js/babel-preset-base@2.30.0
+  - @modern-js/babel-preset-app@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

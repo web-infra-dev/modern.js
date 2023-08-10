@@ -1,5 +1,28 @@
 # @modern-js/runtime
 
+## 2.30.0
+
+### Minor Changes
+
+- 855a61e: feat(plugin-runtime): add ssr tracker
+  feat(plugin-runtime): 新增 ssr tracker
+
+### Patch Changes
+
+- a8a4fd3: fix: ssr plugin use wrong config params
+  fix: ssr 插件使用了错误的 config 参数
+- 276ace3: chore: remove noscript tag in html template
+  chore: 移除 HTML 模板中的 noscript 标签
+- c731bf3: fix(plugin-runtime): the output maybe undefined;
+  fix(plugin-runtime): output 可能是个 undefined
+- 8219d55: fix(plugin-runtime): ssg need use String SSR, so we should inject loadable-component babel plugin when enable ssg
+  fix(plugin-runtime): ssg 需要使用 String SSR, 我们需要在开启 SSG 得时候注入 loadbale-compnent babel 插件
+- Updated dependencies [a5ee81a]
+- Updated dependencies [b6ab299]
+  - @modern-js/types@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/plugin@2.30.0
+
 ## 2.29.0
 
 ### Minor Changes

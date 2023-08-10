@@ -1,5 +1,7 @@
 # @modern-js/module-test-generator
 
+## 3.1.32
+
 ## 3.1.31
 
 ### Patch Changes

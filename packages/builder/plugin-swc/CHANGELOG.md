@@ -1,5 +1,25 @@
 # @modern-js/builder-plugin-swc
 
+## 2.30.0
+
+### Patch Changes
+
+- 4320805: fix(swc): removeConsole not work when using SWC plugin
+
+  fix(swc): 修复使用 SWC 插件时 removeConsole 不生效的问题
+
+- cc5f49e: feat(builder): add performance.transformLodash config
+
+  feat(builder): 新增 performance.transformLodash 配置
+
+- Updated dependencies [cc5f49e]
+- Updated dependencies [f74064c]
+- Updated dependencies [e6ae836]
+- Updated dependencies [7cb7b24]
+- Updated dependencies [e94ad94]
+  - @modern-js/builder-shared@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

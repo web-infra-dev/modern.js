@@ -1,5 +1,7 @@
 # @modern-js/module-generator
 
+## 3.1.32
+
 ## 3.1.31
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/libuild",
-  "version": "0.14.3",
+  "version": "2.30.0",
   "description": "A tool for building modern JavaScript libraries",
   "keywords": [
     "modern",

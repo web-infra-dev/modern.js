@@ -1,5 +1,30 @@
 # @modern-js/builder-rspack-provider
 
+## 2.30.0
+
+### Patch Changes
+
+- 0ea763e: chore(builder): update rspack to 0.2.11
+
+  chore(builder): 升级 rspack 到 0.2.11
+
+- e6ae836: feat(builder): support performance preload & prefetch configurations
+
+  feat(builder): 支持 performance preload 和 prefetch 配置项
+
+- Updated dependencies [a5ee81a]
+- Updated dependencies [883692c]
+- Updated dependencies [cc5f49e]
+- Updated dependencies [f74064c]
+- Updated dependencies [b6ab299]
+- Updated dependencies [e6ae836]
+- Updated dependencies [7cb7b24]
+- Updated dependencies [e94ad94]
+  - @modern-js/types@2.30.0
+  - @modern-js/server@2.30.0
+  - @modern-js/builder-shared@2.30.0
+  - @modern-js/utils@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes
