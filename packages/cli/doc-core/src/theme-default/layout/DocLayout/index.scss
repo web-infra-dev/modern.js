@@ -1,4 +1,4 @@
-.aside-container {
+.modern-aside-container {
   position: sticky;
   display: none;
   top: 0;
@@ -10,78 +10,73 @@
   width: 0;
 }
 
-.aside-container::-webkit-scrollbar {
+.modern-aside-container::-webkit-scrollbar {
   display: none;
 }
 
 @media (max-width: 960px) {
-  .docLayout {
+  .modern-doc-layout {
     position: relative;
   }
-  .content {
+  .modern-doc-container {
     padding: 36px 24px 72px 24px;
   }
 }
 
 @media (min-width: 960px) {
-  .docLayout {
+  .modern-doc-layout {
     width: 100%;
     margin-top: var(--modern-nav-height);
   }
 
-  .content {
+  .modern-doc-container {
     margin-left: var(--modern-sidebar-width);
     width: calc(100% - var(--modern-sidebar-width));
     padding: 48px 48px 72px 48px;
-
-    :global(.modern-doc) {
-      width: 100%;
-    }
   }
 
-  .aside-container {
+  .modern-doc {
+    width: 100%;
+  }
+
+  .modern-aside-container {
     width: var(--modern-aside-width);
   }
 }
 
 @media (min-width: 1280px) {
-  .docLayout {
+  .modern-doc-layout {
     width: calc(1280px - 100vw + 100%);
     margin-left: calc((100vw - 1280px) / 2);
   }
 
-  .aside-container {
+  .modern-aside-container {
     display: block;
     width: var(--modern-aside-width);
   }
 
-  .content {
+  .modern-doc-container {
     margin-left: var(--modern-sidebar-width);
     width: calc(100% - var(--modern-sidebar-width));
     padding: 48px 0 72px 0;
+  }
 
-    :global(.modern-doc) {
-      width: calc(
-        1280px - var(--modern-sidebar-width) - var(--modern-aside-width)
-      );
-    }
+  .modern-doc {
+    padding-right: 32px;
   }
 }
 
 @media (min-width: 1440px) {
-  .docLayout {
+  .modern-doc-layout {
     width: calc(1440px - 100vw + 100%);
     margin-left: calc((100vw - 1440px) / 2);
   }
 
-  .content {
+  .modern-doc-container {
     padding: 48px 0 72px 64px;
+  }
 
-    :global(.modern-doc) {
-      padding-right: 64px;
-      width: calc(
-        1440px - var(--modern-sidebar-width) - var(--modern-aside-width) - 64px
-      );
-    }
+  .modern-doc {
+    padding-right: 64px;
   }
 }
