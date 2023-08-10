@@ -1,5 +1,17 @@
 # @modern-js/server-plugin
 
+## 2.30.0
+
+### Minor Changes
+
+- a5ee81a: feat(server): add new server hooks `beforeServerInit` & `afterServerInit`
+  feat(server): 添加新的服务端钩子 `beforeServerInit` & `afterServerInit`
+
+### Patch Changes
+
+- @modern-js/utils@2.30.0
+- @modern-js/plugin@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

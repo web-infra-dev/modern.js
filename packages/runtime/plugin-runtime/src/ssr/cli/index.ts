@@ -39,12 +39,12 @@ const hasStringSSREntry = (userConfig: AppNormalizedConfig): boolean => {
   return false;
 };
 
-const chekcUseStringSSR = (config: AppNormalizedConfig): boolean => {
+const checkUseStringSSR = (config: AppNormalizedConfig): boolean => {
   const { output } = config;
 
   // ssg is not support streaming ssr.
   // so we assumes use String SSR when using ssg.
-  return Boolean(output.ssg) || hasStringSSREntry(config);
+  return Boolean(output?.ssg) || hasStringSSREntry(config);
 };
 
 export const ssrPlugin = (): CliPlugin<AppTools> => ({
@@ -65,23 +65,20 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           'plugins',
         );
 
-        const userConfig = api.useConfigContext();
         const { bundlerType = 'webpack' } = api.useAppContext();
         // eslint-disable-next-line consistent-return
-        const babelConfig = (() => {
+        const babelHandler = (() => {
           // In webpack build, we should let `useLoader` support CSR & SSR both.
           if (bundlerType === 'webpack') {
             return (config: any) => {
+              const userConfig = api.useResolvedConfigContext();
               // Add id for useLoader method,
               // The useLoader can be used even if the SSR is not enabled
               config.plugins?.push(
                 path.join(__dirname, './babel-plugin-ssr-loader-id'),
               );
 
-              if (
-                isUseSSRBundle(userConfig) &&
-                chekcUseStringSSR(userConfig as any)
-              ) {
+              if (isUseSSRBundle(userConfig) && checkUseStringSSR(userConfig)) {
                 config.plugins?.push(require.resolve('@loadable/babel-plugin'));
               }
             };
@@ -89,18 +86,19 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
             // In Rspack build, we need transform the babel-loader again.
             // It would increase performance overhead,
             // so we only use useLoader in CSR on Rspack build temporarily.
-            if (isUseSSRBundle(userConfig)) {
-              return (config: any) => {
+            return (config: any) => {
+              const userConfig = api.useResolvedConfigContext();
+              if (isUseSSRBundle(userConfig)) {
                 config.plugins?.push(
                   path.join(__dirname, './babel-plugin-ssr-loader-id'),
                 );
-                if (hasStringSSREntry(userConfig as any)) {
+                if (checkUseStringSSR(userConfig)) {
                   config.plugins?.push(
                     require.resolve('@loadable/babel-plugin'),
                   );
                 }
-              };
-            }
+              }
+            };
           }
         })();
 
@@ -128,7 +126,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                 isUseSSRBundle(userConfig) &&
                 !isServer &&
                 !isServiceWorker &&
-                chekcUseStringSSR(userConfig)
+                checkUseStringSSR(userConfig)
               ) {
                 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
                 const LoadableBundlerPlugin = require('./loadable-bundler-plugin.js');
@@ -139,7 +137,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
                   ]);
               }
             },
-            babel: babelConfig,
+            babel: babelHandler,
           },
         };
       },

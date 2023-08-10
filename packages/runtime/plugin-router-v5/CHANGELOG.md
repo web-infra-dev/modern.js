@@ -1,5 +1,17 @@
 # @modern-js/plugin-router-v5
 
+## 2.30.0
+
+### Patch Changes
+
+- b835d37: fix: inject routes to context in the router v5
+  fix: 在 router v5 中，注入路由信息到 context 上
+- Updated dependencies [a5ee81a]
+- Updated dependencies [b6ab299]
+  - @modern-js/types@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/plugin@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

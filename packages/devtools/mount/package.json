@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-mount",
-  "version": "2.29.0",
+  "version": "2.30.0",
   "main": "dist/main.js",
   "scripts": {
     "reset": "npx rimraf ./**/node_modules",

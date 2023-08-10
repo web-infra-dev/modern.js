@@ -1,5 +1,29 @@
 # @modern-js/plugin-storybook
 
+## 2.30.0
+
+### Patch Changes
+
+- Updated dependencies [a8a4fd3]
+- Updated dependencies [276ace3]
+- Updated dependencies [855a61e]
+- Updated dependencies [cc5f49e]
+- Updated dependencies [c731bf3]
+- Updated dependencies [8219d55]
+- Updated dependencies [f74064c]
+- Updated dependencies [e6ae836]
+- Updated dependencies [7cb7b24]
+- Updated dependencies [b835d37]
+- Updated dependencies [e94ad94]
+- Updated dependencies [0e0b6e3]
+  - @modern-js/runtime@2.30.0
+  - @modern-js/builder-webpack-provider@2.30.0
+  - @modern-js/builder-shared@2.30.0
+  - @modern-js/builder@2.30.0
+  - @modern-js/plugin-router-v5@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/builder-plugin-node-polyfill@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @modern-js/builder-plugin-vue2
 
+## 2.30.0
+
+### Patch Changes
+
+- Updated dependencies [cc5f49e]
+- Updated dependencies [f74064c]
+- Updated dependencies [0ea763e]
+- Updated dependencies [e6ae836]
+- Updated dependencies [7cb7b24]
+- Updated dependencies [e94ad94]
+- Updated dependencies [0e0b6e3]
+  - @modern-js/builder-webpack-provider@2.30.0
+  - @modern-js/builder-shared@2.30.0
+  - @modern-js/builder-rspack-provider@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes

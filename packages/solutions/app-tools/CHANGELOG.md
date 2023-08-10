@@ -1,5 +1,47 @@
 # @modern-js/app-tools
 
+## 2.30.0
+
+### Patch Changes
+
+- 276ace3: chore: remove noscript tag in html template
+  chore: 移除 HTML 模板中的 noscript 标签
+- c03be09: feat(CLI): print solution name and version to terminal
+
+  feat(CLI): 在控制台输出 solution 的名称和版本
+
+- Updated dependencies [9f21f28]
+- Updated dependencies [a5ee81a]
+- Updated dependencies [883692c]
+- Updated dependencies [cc5f49e]
+- Updated dependencies [f74064c]
+- Updated dependencies [b6ab299]
+- Updated dependencies [0ea763e]
+- Updated dependencies [e6ae836]
+- Updated dependencies [c03be09]
+- Updated dependencies [7cb7b24]
+- Updated dependencies [e94ad94]
+- Updated dependencies [0e0b6e3]
+  - @modern-js/prod-server@2.30.0
+  - @modern-js/types@2.30.0
+  - @modern-js/server-core@2.30.0
+  - @modern-js/server@2.30.0
+  - @modern-js/builder-webpack-provider@2.30.0
+  - @modern-js/builder-shared@2.30.0
+  - @modern-js/builder-rspack-provider@2.30.0
+  - @modern-js/builder@2.30.0
+  - @modern-js/core@2.30.0
+  - @modern-js/plugin-data-loader@2.30.0
+  - @modern-js/utils@2.30.0
+  - @modern-js/builder-plugin-esbuild@2.30.0
+  - @modern-js/builder-plugin-node-polyfill@2.30.0
+  - @modern-js/plugin-lint@2.30.0
+  - @modern-js/plugin-i18n@2.30.0
+  - @modern-js/new-action@2.30.0
+  - @modern-js/node-bundle-require@2.30.0
+  - @modern-js/plugin@2.30.0
+  - @modern-js/upgrade@2.30.0
+
 ## 2.29.0
 
 ### Patch Changes
