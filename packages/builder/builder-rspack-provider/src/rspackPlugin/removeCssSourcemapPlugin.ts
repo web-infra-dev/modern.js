@@ -20,9 +20,9 @@ export class RemoveCssSourcemapPlugin {
           stage: COMPILATION_PROCESS_STAGE.PROCESS_ASSETS_STAGE_SUMMARIZE,
         },
         () => {
-          compilation.getAssets().forEach(asset => {
-            if (asset.name.endsWith('.css.map')) {
-              compilation.deleteAsset(asset.name);
+          Object.keys(compilation.assets).forEach(name => {
+            if (name.endsWith('.css.map')) {
+              compilation.deleteAsset(name);
             }
           });
         },
