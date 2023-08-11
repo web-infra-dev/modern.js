@@ -27,18 +27,20 @@ export const builderPluginPerformance = (): DefaultBuilderPlugin => ({
 
   setup(api) {
     api.modifyBuilderConfig(builderConfig => {
-      // generate stats.json
-      if (!builderConfig.performance?.bundleAnalyze) {
-        builderConfig.performance ??= {};
-        builderConfig.performance.bundleAnalyze = {
-          analyzerMode: 'disabled',
-          generateStatsFile: true,
-        };
-      } else {
-        builderConfig.performance.bundleAnalyze = {
-          generateStatsFile: true,
-          ...(builderConfig.performance.bundleAnalyze || {}),
-        };
+      if (builderConfig.performance?.profile) {
+        // generate stats.json
+        if (!builderConfig.performance?.bundleAnalyze) {
+          builderConfig.performance ??= {};
+          builderConfig.performance.bundleAnalyze = {
+            analyzerMode: 'disabled',
+            generateStatsFile: true,
+          };
+        } else {
+          builderConfig.performance.bundleAnalyze = {
+            generateStatsFile: true,
+            ...(builderConfig.performance.bundleAnalyze || {}),
+          };
+        }
       }
     });
     api.modifyBundlerChain(chain => {
