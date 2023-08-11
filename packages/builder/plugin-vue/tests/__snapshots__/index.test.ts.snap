@@ -554,3 +554,42 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
   },
 }
 `;
+
+exports[`plugins/vue > should define feature flags correctly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.vue\\$/,
+        "use": [
+          {
+            "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/vue-loader/dist/index.js",
+            "options": {
+              "compilerOptions": {
+                "preserveWhitespace": false,
+              },
+              "experimentalInlineMatchResource": false,
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    Plugin {},
+    DefinePlugin {
+      "definitions": {
+        "__VUE_OPTIONS_API__": true,
+        "__VUE_PROD_DEVTOOLS__": false,
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"test\\"",
+      },
+    },
+  ],
+  "resolve": {
+    "extensions": [
+      ".vue",
+    ],
+  },
+}
+`;

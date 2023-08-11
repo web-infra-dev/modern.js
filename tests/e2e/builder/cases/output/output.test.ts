@@ -2,7 +2,6 @@ import { join, dirname } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { fs } from '@modern-js/utils';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -58,8 +57,7 @@ test.describe('output configure multi', () => {
     expect(fs.existsSync(join(fixtures, 'rem/dist-1/aa/js'))).toBeTruthy();
   });
 
-  // todo: rspack not support disable css sourceMap individually
-  webpackOnlyTest('sourcemap', async () => {
+  test('sourcemap', async () => {
     const files = await builder.unwrapOutputJSON(false);
 
     const jsMapFiles = Object.keys(files).filter(files =>

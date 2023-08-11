@@ -212,6 +212,19 @@ export const builderPluginCss = (): BuilderPlugin => {
           config,
           context: api.context,
         });
+
+        const enableSourceMap = isUseCssSourceMap(config);
+        const enableExtractCSS = isUseCssExtract(config, utils.target);
+
+        // TODO: there is no switch to turn off experiments.css sourcemap in rspack, so we manually remove css sourcemap in builder
+        if (!enableSourceMap && enableExtractCSS) {
+          const { RemoveCssSourcemapPlugin } = await import(
+            '../rspackPlugin/removeCssSourcemapPlugin'
+          );
+          chain
+            .plugin('remove-css-sourcemap')
+            .use(RemoveCssSourcemapPlugin, [utils.HtmlPlugin]);
+        }
       });
       api.modifyRspackConfig(
         async (rspackConfig, { isProd, isServer, isWebWorker }) => {

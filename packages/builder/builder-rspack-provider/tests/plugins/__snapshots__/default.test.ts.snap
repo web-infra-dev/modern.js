@@ -1468,6 +1468,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
       },
     },
+    RemoveCssSourcemapPlugin {
+      "htmlPlugin": [Function],
+      "name": "RemoveCssSourcemapPlugin",
+    },
     RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
