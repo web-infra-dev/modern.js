@@ -1,0 +1,41 @@
+当你注册了全局组件之后，框架会自动将这些 React 组件在主题中进行渲染，而不用你手动引入。
+
+通过全局组件，你可以完成诸多自定义的功能，比如:
+
+```tsx title="comp-ui.tsx"
+import React from 'react';
+
+// 需要默认导出一个组件
+export default function PluginUI() {
+  return <div>这是一个全局的布局组件</div>;
+}
+```
+
+这样，在主题页面中会渲染组件的内容，比如添加**回到顶部按钮**。
+
+同时，你也可以通过全局组件来注册全局副作用。比如：
+
+```tsx title="comp-side-effect.tsx"
+import { useEffect } from 'react';
+import { useLocation } from '@modern-js/doc-tools/runtime';
+
+// 需要默认导出一个组件
+export default function PluginSideEffect() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    // 组件初次渲染时执行
+  }, []);
+
+  useEffect(() => {
+    // 路由变化时执行
+  }, [pathname]);
+  return null;
+}
+```
+
+这样，在主题页面中会执行组件的副作用。比如以下的一些需要副作用的场景:
+
+- 针对某些页面路由进行重定向操作。
+- 对页面的 img 标签进行事件监听，实现图片放大功能。
+- 路由变化时，上报不同页面的 PV 数据。
+- ......
