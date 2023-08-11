@@ -139,14 +139,13 @@ export const Layout: React.FC<LayoutProps> = props => {
 
       <section>{getContentLayout()}</section>
       {bottom}
-      {
+      {pageType !== 'blank' &&
         // Global UI
         globalComponents.map((Component, index) => (
           // The component order is stable
           // eslint-disable-next-line react/no-array-index-key
           <Component key={index} />
-        ))
-      }
+        ))}
     </div>
   );
 };
