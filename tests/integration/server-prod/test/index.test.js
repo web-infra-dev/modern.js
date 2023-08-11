@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const axios = require('axios');
 const {
   modernBuild,
   clearBuildDist,
@@ -8,6 +7,7 @@ const {
   getPort,
   killApp,
 } = require('../../../utils/modernTestUtils');
+require('isomorphic-fetch');
 
 const appPath = path.resolve(__dirname, '../');
 const successStatus = 200;
@@ -57,34 +57,35 @@ describe('test basic usage', () => {
     app = await modernStart(appPath, appPort);
     expect(app.pid).toBeDefined();
 
-    const { status } = await axios.get(`http://localhost:${appPort}`);
+    const { status } = await fetch(`http://localhost:${appPort}`);
     expect(status).toBe(successStatus);
 
-    const { status: aStatus } = await axios.get(
+    const { status: aStatus } = await fetch(
       `http://localhost:${appPort}/activity`,
     );
     expect(aStatus).toBe(successStatus);
   });
 
   it(`should serve favicon and app icon`, async () => {
-    const { status, headers } = await axios.get(
+    const { status, headers } = await fetch(
       `http://localhost:${appPort}/favicon1.ico`,
     );
-    expect(status).toBe(successStatus);
-    expect(headers['content-type']).toBe('image/x-icon');
 
-    const { status: aStatus, headers: aHeaders } = await axios.get(
+    expect(status).toBe(successStatus);
+    expect(headers.get(['content-type'])).toBe('image/x-icon');
+
+    const { status: aStatus, headers: aHeaders } = await fetch(
       `http://localhost:${appPort}/favicon.ico`,
     );
     expect(aStatus).toBe(successStatus);
-    expect(aHeaders['content-type']).toBe('image/x-icon');
+    expect(aHeaders.get(['content-type'])).toBe('image/x-icon');
   });
 
   it(`should serve app icon`, async () => {
-    const { status, headers } = await axios.get(
+    const { status, headers } = await fetch(
       `http://localhost:${appPort}/icon.png`,
     );
     expect(status).toBe(successStatus);
-    expect(headers['content-type']).toBe('image/png');
+    expect(headers.get(['content-type'])).toBe('image/png');
   });
 });
