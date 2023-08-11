@@ -762,6 +762,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "process.env.NODE_ENV": "\\"production\\"",
     },
     "minifyOptions": {
+      "asciiOnly": true,
       "extractComments": true,
     },
     "pluginImport": [
