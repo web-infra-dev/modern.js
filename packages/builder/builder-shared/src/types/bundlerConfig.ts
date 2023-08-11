@@ -159,6 +159,7 @@ export interface BundlerChain
     | 'entry'
     | 'get'
     | 'experiments'
+    | 'profile'
   > {
   toConfig: () => BundlerConfig;
   optimization: PickAndModifyThis<
