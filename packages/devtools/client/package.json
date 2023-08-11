@@ -41,6 +41,7 @@
     "@types/react-dom": "~18.0.10",
     "rimraf": "~3.0.2",
     "type-fest": "^4.1.0",
-    "typescript": "~5.0.4"
+    "typescript": "~5.0.4",
+    "ufo": "^1.2.0"
   }
 }
