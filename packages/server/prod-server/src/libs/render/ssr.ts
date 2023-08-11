@@ -4,14 +4,16 @@ import {
   mime,
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
-  SERVER_RENDER_FUNCTION_NAME,
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
-import cache from './cache';
 import { SSRServerContext } from './type';
 import { createLogger, createMetrics } from './measure';
-import { injectServerDataStream, injectServerData } from './utils';
+import {
+  injectServerDataStream,
+  injectServerData,
+  runServerRender,
+} from './utils';
 
 export const render = async (
   ctx: ModernServerContext,
@@ -83,9 +85,12 @@ export const render = async (
   context.metrics = createMetrics(context, ctx.metrics);
 
   runner.extendSSRContext(context);
-  const bundleJSContent = await Promise.resolve(require(bundleJS));
-  const serverRender = bundleJSContent[SERVER_RENDER_FUNCTION_NAME];
-  const content = await cache(serverRender, ctx)(context);
+  const content = await runServerRender({
+    enableVM: Boolean(process.env.__VM__),
+    serverContext: context,
+    ctx,
+    bundleJS,
+  });
 
   const { url, status = 302 } = context.redirection;
 
