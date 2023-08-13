@@ -31,7 +31,7 @@ jobs:
 
       - name: Check skip CI
         run: |
-          echo "RESULT=$(node ./scripts/skipCI.js)" >> $GITHUB_OUTPUT
+          echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
           echo "${{steps.skip-ci.outputs.RESULT}}"
         id: skip-ci
 
