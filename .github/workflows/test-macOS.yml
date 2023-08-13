@@ -36,10 +36,11 @@ jobs:
         run: corepack enable
 
       - name: Check skip CI
-        run: |
-          echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
-          echo "${{steps.skip-ci.outputs.RESULT}}"
+        run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
         id: skip-ci
+
+      - name: Log skip CI result
+        run: echo "${{steps.skip-ci.outputs.RESULT}}"
 
       - name: Setup Node.js ${{ matrix.node-version }}
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
