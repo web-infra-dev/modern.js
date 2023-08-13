@@ -41,6 +41,7 @@ jobs:
         run: corepack enable
 
       - name: Check skip CI
+        shell: bash
         run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
         id: skip-ci
 
