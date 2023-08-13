@@ -30,7 +30,7 @@ jobs:
         run: corepack enable
 
       - name: Check docs only change
-        run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')
+        run: echo "DOCS_CHANGE=$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')" >> $GITHUB_OUTPUT
         id: docs-change
 
       - run: echo ${{steps.docs-change.outputs.DOCS_CHANGE}}
