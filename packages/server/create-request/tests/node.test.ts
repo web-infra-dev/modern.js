@@ -9,7 +9,7 @@ import { Response } from 'node-fetch';
 import { configure, createRequest } from '../src/node';
 
 describe('configure', () => {
-  const url = 'http://localhost:8080';
+  const url = 'http://127.0.0.1:8080';
   const path = '/api';
   const method = 'GET';
   const response = {
@@ -28,7 +28,7 @@ describe('configure', () => {
   // });
 
   test('should support custom request', done => {
-    const url = 'http://localhost:9090';
+    const url = 'http://127.0.0.1:9090';
     const port = 9090;
 
     run(
@@ -54,7 +54,7 @@ describe('configure', () => {
   });
 
   test('query should support array', done => {
-    const url = 'http://localhost:9090';
+    const url = 'http://127.0.0.1:9090';
     const port = 9090;
 
     run(
