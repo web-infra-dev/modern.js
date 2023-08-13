@@ -12,7 +12,6 @@ test('should handle unknown modules with fallback rule', async () => {
       },
     },
   });
-
   const files = await builder.unwrapOutputJSON();
 
   const result = Object.keys(files).find(file => file.endsWith('.xxx'));
