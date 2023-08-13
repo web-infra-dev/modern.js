@@ -6,6 +6,7 @@ const SKIP_FOLDERS = [
   '.vscode',
   'packages/document',
   'scripts/skipCI.js',
+  'scripts/skipDocsChange.js',
 ];
 
 async function main() {
