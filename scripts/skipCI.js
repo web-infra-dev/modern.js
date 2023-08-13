@@ -11,9 +11,9 @@ const SKIP_FOLDERS = [
 async function main() {
   execSync('git fetch origin main');
 
-  const { stdout: changedFilesOutput } = execSync(
-    'git diff origin/main... --name-only',
-  );
+  const changedFilesOutput = execSync('git diff origin/main... --name-only', {
+    stdio: 'pipe',
+  }).toString();
   const changedFiles = changedFilesOutput
     .split('\n')
     .map(file => file && file.trim())
