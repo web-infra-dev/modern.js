@@ -40,23 +40,23 @@ jobs:
       - name: Install Pnpm
         run: corepack enable
 
-      - name: Check docs only change
-        run: echo "DOCS_CHANGE=$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')" >> $GITHUB_OUTPUT
-        id: docs-change
-
-      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+      - name: Check skip CI
+        run: |
+          echo "RESULT=$(node ./scripts/skipCI.js)" >> $GITHUB_OUTPUT
+          echo "${{steps.skip-ci.outputs.RESULT}}"
+        id: skip-ci
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
       - name: Install Dependencies
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm install --ignore-scripts
 
       - name: Test
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm run test:jest
