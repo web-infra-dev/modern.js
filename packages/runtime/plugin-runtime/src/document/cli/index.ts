@@ -25,6 +25,9 @@ import {
   DOCUMENT_COMMENT_PLACEHOLDER_END,
   DOCUMENT_STYLE_PLACEHOLDER_START,
   DOCUMENT_STYLE_PLACEHOLDER_END,
+  TOP_PARTICALS_SEPARATOR,
+  HEAD_PARTICALS_SEPARATOR,
+  BODY_PARTICALS_SEPARATOR,
 } from '../constants';
 
 const debug = createDebugger('html_genarate');
@@ -186,6 +189,16 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
             .join(''),
           htmlWebpackPlugin.tags.bodyTags.toString(),
         ].join('');
+        // support partials html
+        if (partialsByEntrypoint?.[entryName]) {
+          const partialsTop = partialsByEntrypoint[entryName].top.join('\n');
+          const partialsHead = partialsByEntrypoint[entryName].head.join('\n');
+          const partialsBody = partialsByEntrypoint[entryName].body.join('\n');
+          html = html
+            .replace(TOP_PARTICALS_SEPARATOR, partialsTop)
+            .replace(HEAD_PARTICALS_SEPARATOR, partialsHead)
+            .replace(BODY_PARTICALS_SEPARATOR, partialsBody);
+        }
 
         const links = [
           htmlWebpackPlugin.tags.headTags
