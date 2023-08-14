@@ -25,33 +25,19 @@ export default defineConfig({
 In the ["How to handle third-party dependencies"](/en/guide/advance/external-dependency) chapter, we know that we can control whether or not the project packages third-party dependencies via the [`autoExternals`](/en/api/config/build-config#autoexternal) and [`externals`](/en/api/config/build-config#externals) APIs.
 So when building umd artifacts, we can also use it like this:
 
-<CH.Spotlight>
+### Example
+
+- If the project depends on `react`:
 
 ```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
-    //...other dependencies
   }
 }
 ```
 
----
-
-If the project depends on `react`.
-
-```json title="package.json"
-{
-  "dependencies": {
-    "react": "^17"
-    //...other dependencies
-  }
-}
-```
-
----
-
-`modern.config.ts`.
+- `modern.config.ts`:
 
 ```ts
 export default defineConfig({
@@ -63,18 +49,14 @@ export default defineConfig({
 });
 ```
 
----
-
-When a `react` dependency is used in the source code.
+- When a `react` dependency is used in the source code:
 
 ```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
 
----
-
-The `react` code is not bundled into the artifact at this point.
+- The `react` code is not bundled into the artifact at this point:
 
 ```js title="dist/index.js"
 (function (global, factory) {
@@ -103,42 +85,18 @@ The `react` code is not bundled into the artifact at this point.
 });
 ```
 
-</CH.Spotlight>
-
 We know from the above example that when using the `autoExternal` and `externals` APIs.
 
 - In a Node.js environment, you can get the react dependency with `require('react')`.
 - In a browser environment, you can get the react dependency via `global.react`.
 
+### Global variable names of third-party dependencies
+
 However, in the browser environment, when getting third-party dependencies, **global variable names are not necessarily identical to the dependency names**, so you have to use the [`buildConfig.umdGlobals`](/en/api/config/build-config#umdglobals) API.
 
 Again using the previous example, when the `react` dependency exists in the browser environment as a `windows.React` or `global.React` global variable, then:
 
-<CH.Spotlight>
-
-```json title="package.json"
-{
-  "devDependencies": {
-    "react": "^17"
-  }
-}
-```
-
----
-
-If the project depends on `react`.
-
-```json title="package.json"
-{
-  "devDependencies": {
-    "react": "^17"
-  }
-}
-```
-
----
-
-`modern.config.ts` config file。
+- `modern.config.ts` config file:
 
 ```ts
 export default defineConfig({
@@ -151,18 +109,14 @@ export default defineConfig({
 });
 ```
 
----
-
-When a `react` dependency is used in the source code.
+When a `react` dependency is used in the source code:
 
 ```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
 
----
-
-At this point we will see the output code like this.
+At this point we will see the output code like this:
 
 ```js title="dist/index.js"
 (function (global, factory) {
@@ -186,8 +140,6 @@ At this point we will see the output code like this.
   console.info(import_react.default);
 });
 ```
-
-</CH.Spotlight>
 
 The project can then run in the browser and use the `React` variables that exist on the global object.
 

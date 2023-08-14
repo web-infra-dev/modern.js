@@ -25,35 +25,21 @@ export default defineConfig({
 在 [「如何处理第三方依赖」](/guide/advance/external-dependency) 章节中，我们知道可以通过 [`autoExternals`](/api/config/build-config#autoexternal) 和 [`externals`](/api/config/build-config#externals) API 来控制项目是否对第三方依赖打包。
 因此在构建 umd 产物的过程中，我们也可以这样使用：
 
-<CH.Spotlight>
+### 示例
+
+- 如果项目依赖了 `react`：
 
 ```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
-    //...other dependencies
   }
 }
 ```
 
----
+- `modern.config.ts` 配置：
 
-如果项目依赖了 `react`。
-
-```json title="package.json"
-{
-  "dependencies": {
-    "react": "^17"
-    //...other dependencies
-  }
-}
-```
-
----
-
-`modern.config.ts` 配置。
-
-```ts
+```ts title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     format: 'umd',
@@ -63,18 +49,14 @@ export default defineConfig({
 });
 ```
 
----
-
-当源码中使用了 `react` 依赖。
+- 当源码中使用了 `react` 依赖：
 
 ```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
 
----
-
-此时产物中不会将 `react` 代码打包到产物中。
+- 此时产物中不会将 `react` 代码打包到产物中：
 
 ```js title="dist/index.js"
 (function (global, factory) {
@@ -103,42 +85,18 @@ console.info(React);
 });
 ```
 
-</CH.Spotlight>
-
 通过上面的例子我们知道，当使用 `autoExternal` 和 `externals` API 后：
 
 - 在 Node.js 环境下，可以通过 `require('react')` 获取 react 依赖。
 - 在 浏览器环境下，可以通过 `global.react` 获取 react 依赖。
 
+### 三方依赖的全局变量名称
+
 然而在浏览器环境下，获取第三方依赖的时候，**全局变量名称不一定与依赖名称完全相同**，此时就要使用 [`buildConfig.umdGlobals`](/api/config/build-config#umdglobals) API。
 
 还是使用之前的例子，当 `react` 依赖以 `windows.React` 或者 `global.React` 全局变量的形式存在于浏览器环境下，那么此时：
 
-<CH.Spotlight>
-
-```json title="package.json"
-{
-  "devDependencies": {
-    "react": "^17"
-  }
-}
-```
-
----
-
-如果项目依赖了 `react`。
-
-```json title="package.json"
-{
-  "devDependencies": {
-    "react": "^17"
-  }
-}
-```
-
----
-
-`modern.config.ts` 配置。
+- `modern.config.ts` 配置：
 
 ```ts
 export default defineConfig({
@@ -151,18 +109,14 @@ export default defineConfig({
 });
 ```
 
----
-
-当源码中使用了 `react` 依赖。
+- 当源码中使用了 `react` 依赖：
 
 ```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
 
----
-
-此时我们会看到这样的产物代码。
+- 此时我们会看到这样的产物代码：
 
 ```js title="dist/index.js"
 (function (global, factory) {
@@ -186,8 +140,6 @@ console.info(React);
   console.info(import_react.default);
 });
 ```
-
-</CH.Spotlight>
 
 此时项目就可以运行在浏览器中，并使用存在于全局对象上的 `React` 变量了。
 

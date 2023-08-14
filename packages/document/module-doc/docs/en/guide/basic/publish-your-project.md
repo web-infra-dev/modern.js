@@ -93,16 +93,17 @@ When a pre-release is needed before the official release, the following command 
 
 First `modern pre enter <tag>` to enter pre-release mode, `<tag>` can be the same as the `tag` specified with the `modern release --tag` command when releasing the project.
 
-````bash
+```bash
 $ npx modern pre enter next
 🦋 success Entered pre mode with tag next
 🦋 info Run `changeset version` to version packages with prerelease versions
 ✨ Done in 5.30s.
-Done in 5.30s. ```
+Done in 5.30s.
+```
 
-Then you can update the specific version number with the `modern bump` command, **which doesn't actually "consume" the Markdown file that records the changes**: ``` bash
+Then you can update the specific version number with the `modern bump` command, **which doesn't actually "consume" the Markdown file that records the changes**:
 
-``` bash
+```bash
 $ npx modern bump
 🦋 warn ===============================IMPORTANT!===============================
 🦋 warn You are in prerelease mode
@@ -110,7 +111,7 @@ $ npx modern bump
 🦋 warn You can then run `changeset version` again to do a normal release
 🦋 warn ----------------------------------------------------------------------
 🦋 All files have been updated. review them and commit at your leisure
-````
+```
 
 Then you can see that the updated version number in `package.json` will look like this: `0.1.2-next.0`.
 

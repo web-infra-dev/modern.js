@@ -248,21 +248,7 @@ export default defineConfig({
 
 包含了所有可用的构建预设对应的构建配置。可以通过 `buildPreset` 所支持的字符串来使用构建配置，也可以使用这些字符串的下划线命令的方式。下面是两种方式的使用示例：
 
-
-<CH.Spotlight>
-
-```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  buildPreset({ preset }) {
-    return preset['npm-library'];
-  },
-});
-```
----
-
-使用 `buildPreset` 所支持的字符串。
+- 使用 `buildPreset` 所支持的字符串。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
@@ -274,9 +260,7 @@ export default defineConfig({
 });
 ```
 
----
-
-使用 `buildPreset` 所支持的字符串的下划线命名方式。
+- 使用 `buildPreset` 所支持的字符串的下划线命名方式。
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
@@ -287,8 +271,6 @@ export default defineConfig({
   },
 });
 ```
-
-</CH.Spotlight>
 
 #### `extendPreset`
 

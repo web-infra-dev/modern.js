@@ -34,9 +34,7 @@ Module Tools 集成了 Storybook，因此你几乎可以按照 Storybook 官方�
 
 ### 引用组件产物
 
-假如存在 TypeScript 项目 `foo`：
-
-<CH.Spotlight>
+假如存在 TypeScript 项目 `foo`，首先要确保 `package.json` 的 `main` 和 `types` 的值为正确的产物路径。
 
 ```json title="package.json"
 {
@@ -46,31 +44,13 @@ Module Tools 集成了 Storybook，因此你几乎可以按照 Storybook 官方�
 }
 ```
 
----
-
-确保 `package.json` 的 `main` 和 `types`
-的值为正确的产物路径。
-
-```json title="package.json"
-{
-  "name": "foo",
-  "main": "./dist/index.js",
-  "types": "./dist/types/index.d.ts"
-}
-```
-
----
-
-`foo` 项目的源码。
+`foo` 项目的源码：
 
 ```ts title="src/index.ts"
 export const content = 'hello world';
 ```
 
----
-
-确保在 `stories/tsconfig.json` 中设置了指向项目根目录的 `paths` 配置。
-`paths` 的 `key` 与项目名称相同，这样在编译过程中以及在代码中不会出现问题。
+请确保在 `stories/tsconfig.json` 中设置了指向项目根目录的 `paths` 配置。`paths` 的 `key` 与项目名称相同，这样在编译过程中以及在代码中不会出现问题。
 
 ```json title="stories/tsconfig.json"
 {
@@ -88,9 +68,7 @@ export const content = 'hello world';
 }
 ```
 
----
-
-在 Story 代码中直接以项目名称的方式引用。
+在 Story 代码中直接以项目名称的方式引用：
 
 ```tsx title="stories/index.stories.tsx"
 import { content } from 'foo';
@@ -104,27 +82,17 @@ export default {
 };
 ```
 
----
+最后在执行命令的时候，先启动监听模式的源码构建，然后启动 Storybook 调试即可：
 
-最后在执行命令的时候，先启动监听模式的源码构建，然后启动 Storybook 调试。
-
-<CH.Code>
-
-``` bash terminal-1
+```bash title="terminal-1"
 ## 源码构建
 modern build --watch
 ```
 
----
-
-``` bash terminal-2
+```bash title="terminal-2"
 ## Storybook 调试
 modern dev storybook
 ```
-
-</CH.Code>
-
-</CH.Spotlight>
 
 :::info
 在开发过程中，可能会遇到无法实时获得类型定义的情况。因为只有当保存代码后，产物目录下的类型文件才会更新。此时：

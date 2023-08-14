@@ -815,25 +815,24 @@ The `raw` option may be particularly useful if you need to apply different style
 
 All that needs to be done is to add a `print` under `designSystem.extend.screens`.
 
-``js
+```js
 const designSystem = {
-extend: {
-screens: {
-print: { raw: 'print' },
-// => @media print { ... }
-},
-},
+  extend: {
+    screens: {
+      print: { raw: 'print' },
+      // => @media print { ... }
+    },
+  },
 };
+```
 
-````
-
-Then, a class such as ``print:text-black`` can be used to specify a style that is applied only when someone tries to print a page: ``
+Then, a class such as `print:text-black` can be used to specify a style that is applied only when someone tries to print a page: ``
 
 ```html
 <div class="text-gray-700 print:text-black">
   <! -- ... -->
 </div>
-````
+```
 
 ### Dark Mode
 
@@ -925,29 +924,38 @@ The rest of the theme section is used to configure the values available for each
 
 For example, the `borderRadius` property allows you to customize the ``utilities` that will generate the rounded corners.
 
-``js
+```js
 const designSystem = {
-borderRadius: {
-none: '0',
-sm: '.125rem',
-default: '.25rem',
-lg: '.5rem',
-full: '9999px',
-},
+  borderRadius: {
+    none: '0',
+    sm: '.125rem',
+    default: '.25rem',
+    lg: '.5rem',
+    full: '9999px',
+  },
 };
-
-````
+```
 
 ** The attribute name determines the suffix of the generated class, and the value determines the value of the actual CSS declaration. **
-The example ``borderRadius`` configuration above will generate the following CSS classes.
+The example `borderRadius` configuration above will generate the following CSS classes.
 
 ```css
-.rounded-none { border-radius: 0 }
-.rounded-sm { border-radius: .125rem }
-.rounded { border-radius: .25rem }
-.rounded-lg { border-radius: .5rem }
-.rounded-full { border-radius: 9999px }
-````
+.rounded-none {
+  border-radius: 0;
+}
+.rounded-sm {
+  border-radius: 0.125rem;
+}
+.rounded {
+  border-radius: 0.25rem;
+}
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+```
 
 You will notice that the `rounded` class is created without the suffix in the theme configuration using the `default` attribute. This is a common convention in Tailwind CSS supported by many (though not all) of the core plugins.
 

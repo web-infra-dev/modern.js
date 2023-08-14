@@ -202,7 +202,7 @@ export const buildConfig = [
 
 When you want to use a `buildPreset` preset that supports other ECMAScript versions, you can directly add the supported versions to the `'npm-library'`, `'npm-library-with-umd'`, `'npm-component'`, `'npm-component-with-umd'` presets.
 
-For example, if you want the `'npm-library'` preset to support  `'es2017'`, you can configure it as follows.
+For example, if you want the `'npm-library'` preset to support `'es2017'`, you can configure it as follows.
 
 ```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
@@ -240,8 +240,8 @@ export default defineConfig({
 
 The function form of `buildPreset` contains a function parameter in the form of an object. The object contains the following fields.
 
-* `preset`
-* `extendPreset`
+- `preset`
+- `extendPreset`
 
 #### `preset`
 
@@ -249,20 +249,7 @@ Type: **Object**
 
 Contains the build configurations corresponding to all available build presets. Build configurations can be used by means of the strings supported by `buildPreset` or by means of underscore commands for those strings. The following are examples of the use of both approaches.
 
-<CH.Spotlight>
-
-```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  buildPreset({ preset }) {
-    return preset['npm-library'];
-  },
-});
-```
----
-
-Use the strings supported by `buildPreset`.
+- Use the strings supported by `buildPreset`.
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
@@ -274,9 +261,7 @@ export default defineConfig({
 });
 ```
 
----
-
-Use the underscore naming convention for strings supported by `buildPreset`.
+- Use the underscore naming convention for strings supported by `buildPreset`.
 
 ```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
@@ -287,8 +272,6 @@ export default defineConfig({
   },
 });
 ```
-
-</CH.Spotlight>
 
 #### `extendPreset`
 
@@ -313,4 +296,3 @@ export default defineConfig({
   },
 });
 ```
-

@@ -19,44 +19,30 @@ sidebar_position: 7
 - 设置静态资源路径为 `./assets`。
 - 对于不超过 **10kb** 的文件会内联到代码中。
 
+### 示例
+
 让我们看下面的例子：
 
-<CH.Spotlight>
+- 项目源代码：
 
 ```ts title="./src/asset.ts"
 import img from './bg.png';
 console.log(img);
 ```
 
----
-
-项目源代码。
-
----
-
-如果 `bg.png` 的大小小于 10 kb，则此时产物目录结构和产物内容为。
-
-<CH.Code>
+- 如果 `bg.png` 的大小小于 10 kb，则此时产物目录结构和产物内容为：
 
 ```bash
 ./dist
 └── asset.js
 ```
 
----
-
 ```js title="./dist/asset.js"
 var img_default = 'data:image/png;base64,';
 console.info(img_default);
 ```
 
-</CH.Code>
-
----
-
-如果 `bg.png` 的大小大于 10 kb，则此时产物目录结构和产物内容为。
-
-<CH.Code>
+- 如果 `bg.png` 的大小大于 10 kb，则此时产物目录结构和产物内容为：
 
 ```bash
 ./dist
@@ -65,19 +51,12 @@ console.info(img_default);
     └── bg.13e2aba2.png
 ```
 
----
-
 ```js title="./dist/asset.js"
 import img from './assets/bg.13e2aba2.png';
 console.info(img);
 ```
 
-</CH.Code>
-
-</CH.Spotlight>
-
-当想要修改默认行为的时候，可以使用以下 API：
+当你想要修改默认行为的时候，可以使用以下 API：
 
 - `asset.path`：修改静态资源文件输出路径。
 - `asset.limit`：修改内联静态资源文件的阈值。
-
