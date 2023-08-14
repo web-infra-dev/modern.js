@@ -10,7 +10,7 @@ We can quickly see how to write a Module Tools plugin by using the following exa
 
 <CH.Spotlight>
 
-```md . /project
+```md title=". /project"
 . /project .
 ├── plugins
 │ └── example.ts
@@ -22,7 +22,7 @@ We can quickly see how to write a Module Tools plugin by using the following exa
 
 First we create `. /plugins/example.ts` file under the initialized project.
 
-```md . /project
+```md title=". /project"
 
 ```
 
@@ -53,7 +53,7 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
 
 Then we register the plugin we just wrote via the [`plugins`](/en/api/config/plugins) API.
 
-```ts . /modern.config.ts
+```ts title=". /modern.config.ts"
 import { examplePlugin } from '. /plugins/example';
 export default defineConfig({
   plugins: [examplePlugin()],
@@ -64,7 +64,7 @@ export default defineConfig({
 
 Finally, run `modern build` and you will see.
 
-```bash terminal
+```bash title="terminal"
 This is example plugin
 Build succeed: 510.684ms
 build over

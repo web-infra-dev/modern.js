@@ -10,7 +10,7 @@ sidebar_position: 6
 
 想要使用项目的测试功能，需要确保项目中包含依赖：`"@modern-js/plugin-testing"`，以及按照类似下面的内容进行配置：
 
-``` ts
+```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { testingPlugin } from '@modern-js/plugin-testing';
 
@@ -61,7 +61,7 @@ modern test --updateSnapshot
 
 <CH.Spotlight>
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default function () {
   return 'hello world';
 }
@@ -71,7 +71,7 @@ export default function () {
 
 首先是模块的代码。
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default function () {
   return 'hello world';
 }
@@ -83,7 +83,7 @@ export default function () {
 
 其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
 
-```ts ./tests/index.test.ts
+```ts title="./tests/index.test.ts"
 import main from '@/index';
 
 describe('默认值 cases', () => {
@@ -121,7 +121,7 @@ npm run test
 
 <CH.Spotlight>
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -133,7 +133,7 @@ export const default () {
 
 首先是组件的代码。
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -147,7 +147,7 @@ export const default () {
 
 其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
 
-```tsx ./tests/index.test.tsx
+```tsx title="./tests/index.test.tsx"
 import { render, screen } from '@modern-js/runtime/testing';
 
 import Component from '@/index';

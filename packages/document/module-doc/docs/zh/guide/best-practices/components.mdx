@@ -10,7 +10,7 @@ sidebar_position: 1
 
 <CH.Spotlight>
 
-```bash 交互式问题
+```bash title="交互式问题"
 npx @modern-js/create@latest components-project
 
 ? 请选择你想创建的工程类型：Npm 模块
@@ -23,7 +23,7 @@ npx @modern-js/create@latest components-project
 
 推荐使用 `@modern-js/create` 命令来初始化一个 npm 项目。
 
-```bash 交互式问题
+```bash title="交互式问题"
 npx @modern-js/create@latest components-project
 
 ? 请选择你想创建的工程类型：Npm 模块
@@ -36,7 +36,7 @@ npx @modern-js/create@latest components-project
 
 初始化的目录结构。
 
-```bash 初始化的目录结构。
+```bash title="初始化的目录结构。"
 .
 ├── README.md
 ├── node_modules/
@@ -56,7 +56,7 @@ npx @modern-js/create@latest components-project
 
 此时就初始化了一个组件项目。
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export default () => {
   return <div>hello world</div>;
 };
@@ -68,7 +68,7 @@ export default () => {
 
 <CH.Spotlight>
 
-```bash 终端
+```bash title="终端"
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
@@ -79,7 +79,7 @@ pnpm run new
 
 在项目根目录下执行 `new` 命令，可以开启 Storybook 功能。
 
-```bash 终端
+```bash title="终端"
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
@@ -92,7 +92,7 @@ pnpm run new
 
 <CH.Code>
 
-```json ./package.json focus=4:7
+```json title="./package.json"
 {
   "name": "components-demo",
   "devDependencies": {
@@ -104,7 +104,7 @@ pnpm run new
 }
 ```
 
-```bash 目录结构
+```bash title="目录结构"
 .
 ├── src
 │   ├── index.ts
@@ -121,7 +121,7 @@ pnpm run new
 
 初始化后，在 `./stories` 目录下的 `tsconfig.json` 文件中默认设置了与项目同名的 `paths` 配置。
 
-```json ./stories/tsconfig.json focus=5:7
+```json title="./stories/tsconfig.json"
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
@@ -141,7 +141,7 @@ pnpm run new
 
 <CH.Code>
 
-```tsx ./stories/index.stories.tsx
+```tsx title="./stories/index.stories.tsx"
 import Component from 'components-demo';
 
 export const YourStory = () => <Component />;
@@ -153,7 +153,7 @@ export default {
 
 ---
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export default () => {
   return <div>hello world</div>;
 };
@@ -166,7 +166,7 @@ export default () => {
 此时 Storybook 会根据项目的 `package.json` 文件中的 `main`、`exports` 这样的字段确认导入代码的入口；
 根据 `types` 字段确定类型文件的位置。
 
-```json package.json
+```json title="package.json"
 {
   "name": "components-demo",
   "main": "./dist/esm/index.js",
@@ -182,7 +182,7 @@ export default () => {
 
 **因此更推荐使用产物进行调试**。
 
-```tsx ./stories/index.stories.tsx
+```tsx title="./stories/index.stories.tsx"
 import Component from '../src';
 
 export const YourStory = () => <Component />;
@@ -222,7 +222,7 @@ export default {
 
 <CH.Spotlight>
 
-```css ./src/index.css
+```css title="./src/index.css"
 a,
 b {
   color: red;
@@ -244,7 +244,7 @@ b {
 
 源代码。
 
-```css ./src/index.css
+```css title="./src/index.css"
 
 ```
 
@@ -252,7 +252,7 @@ b {
 
 css 产物。
 
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 a,
 b {
   color: red;
@@ -279,7 +279,7 @@ e b {
 
 <CH.Spotlight>
 
-```less ./src/common.less
+```less title="./src/common.less"
 @bg: black;
 @bg-light: boolean(luma(@bg) > 50%);
 
@@ -293,7 +293,7 @@ div {
 
 源代码。
 
-```less ./src/common.less
+```less title="./src/common.less"
 
 ```
 
@@ -301,7 +301,7 @@ div {
 
 Less 产物。
 
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 div {
   background: black;
   color: white;
@@ -318,7 +318,7 @@ div {
 
 <CH.Spotlight>
 
-```sass ./src/common.sass
+```sass title="./src/common.sass"
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 
@@ -332,7 +332,7 @@ body {
 
 源代码。
 
-```sass ./src/common.sass
+```sass title="./src/common.sass"
 
 ```
 
@@ -340,7 +340,7 @@ body {
 
 Less 产物。
 
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 body {
   font: 100% Helvetica, sans-serif;
   color: #333;
@@ -357,7 +357,7 @@ body {
 
 <CH.Spotlight>
 
-```bash 终端
+```bash title="终端"
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
@@ -368,7 +368,7 @@ pnpm run new
 
 在项目根目录下执行 `new` 命令，可以开启 Tailwind CSS 功能。
 
-```bash 终端
+```bash title="终端"
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
@@ -379,7 +379,7 @@ pnpm run new
 
 成功开启后，会看到 `package.json` 中新增了依赖。
 
-```json ./package.json
+```json title="./package.json"
 {
   "devDependencies": {
     "@modern-js/plugin-tailwindcss": "x.y.z"
@@ -395,7 +395,7 @@ Tailwind CSS 提供了两种使用方式：
 
 <CH.Spotlight>
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -407,7 +407,7 @@ export default () => {
 
 Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
 
-```tsx ./src/index.tsx focus=5:5
+```tsx title="./src/index.tsx"
 
 ```
 
@@ -415,7 +415,7 @@ Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
 
 **当使用 HTML 类名的时候，一定要注意导入 Tailwind CSS 相应的 css 文件。**
 
-```tsx ./src/index.tsx focus=1:1
+```tsx title="./src/index.tsx"
 
 ```
 
@@ -425,7 +425,7 @@ Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
 
 > 此时是 bundle 构建。
 
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 /* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
@@ -571,7 +571,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 <CH.Code>
 
-```less 方法一
+```less title="方法一"
 // Use a regular media query and theme()
 .card {
   @apply rounded-none;
@@ -584,7 +584,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 ---
 
-```less 方法二
+```less title="方法二"
 // Use the @screen directive at the top-level
 .card {
   @apply rounded-none;
@@ -611,7 +611,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 > 所谓 bundle 和 bundleless 可以查看 [「Bundle 和 Bundleless」](/guide/advance/in-depth-about-build#bundle-和-bundleless)
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -626,7 +626,7 @@ Bundle 模式下，会将第三方依赖打包进来。
 如果需要将样式注入 JS 产物中，可以开启 [`style.inject`](/api/config/build-config#styleinject) 选项。
 
 <CH.Code>
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 /* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
@@ -709,7 +709,7 @@ export {
 
 Bundleless 模式下，并不会将第三方依赖打包进来，此时不会有样式产物生成。
 
-```js ./dist/es/index.js
+```js title="./dist/es/index.js"
 import { jsx } from 'react/jsx-runtime';
 import 'tailwindcss/utilities.css';
 var src_default = () => {
@@ -739,7 +739,7 @@ export { src_default as default };
 
 <CH.Code>
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import style from './index.module.css';
 
 export default () => {
@@ -747,7 +747,7 @@ export default () => {
 };
 ```
 
-```css ./src/index.module.css
+```css title="./src/index.module.css"
 .btn {
   color: blue;
 }

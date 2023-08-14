@@ -31,7 +31,7 @@ When using tailwindcss, its [`theme`](https://v2.tailwindcss.com/docs/theme#exte
 
 For example, the following configuration extends the original color configuration:
 
-```ts ./modern.config.ts
+```ts title="./modern.config.ts"
 export default {
   designSystem: {
     extend: {
@@ -47,7 +47,7 @@ We can have two ways of using tailwindcss in our code.
 
 #### HTML Class
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -63,7 +63,7 @@ About [`@apply`](https://tailwindcss.com/docs/functions-and-directives#apply)。
 
 <CH.Code>
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import './index.css';
 
 export default () => {
@@ -71,7 +71,7 @@ export default () => {
 };
 ```
 
-```css ./src/index.css
+```css title="./src/index.css"
 .btn-primary {
   @apply bg-primary;
 }

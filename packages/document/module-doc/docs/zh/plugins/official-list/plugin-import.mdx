@@ -134,7 +134,7 @@ export default defineConfig({
 
 其中的 `{{ member }}` 会被替换为相应的引入成员
 
-```ts focus=8:8
+```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
@@ -167,7 +167,7 @@ import Btn from 'foo/es/MyButton';
 
 这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 
-```ts focus=8:8
+```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 

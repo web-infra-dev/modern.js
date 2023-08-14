@@ -27,7 +27,7 @@ export default defineConfig({
 
 <CH.Spotlight>
 
-```json package.json
+```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
@@ -40,7 +40,7 @@ export default defineConfig({
 
 如果项目依赖了 `react`。
 
-```json package.json
+```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
@@ -67,7 +67,7 @@ export default defineConfig({
 
 当源码中使用了 `react` 依赖。
 
-```tsx src/index.ts
+```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
@@ -76,7 +76,7 @@ console.info(React);
 
 此时产物中不会将 `react` 代码打包到产物中。
 
-```js dist/index.js focus=1:7
+```js title="dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports, require('react'));
@@ -116,7 +116,7 @@ console.info(React);
 
 <CH.Spotlight>
 
-```json package.json
+```json title="package.json"
 {
   "devDependencies": {
     "react": "^17"
@@ -128,7 +128,7 @@ console.info(React);
 
 如果项目依赖了 `react`。
 
-```json package.json
+```json title="package.json"
 {
   "devDependencies": {
     "react": "^17"
@@ -155,7 +155,7 @@ export default defineConfig({
 
 当源码中使用了 `react` 依赖。
 
-```tsx src/index.ts
+```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
@@ -164,7 +164,7 @@ console.info(React);
 
 此时我们会看到这样的产物代码。
 
-```js dist/index.js focus=12:18
+```js title="dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory();
@@ -195,7 +195,7 @@ console.info(React);
 
 当我们将下面的代码打包成 umd 产物并运行在浏览器的时候，我们可以通过 `window.index` 来使用该模块。
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default () => {
   console.info('hello world');
 };
@@ -203,7 +203,7 @@ export default () => {
 
 **默认情况下，以源码文件名称作为该模块在浏览器里全局变量的名称**。对于上面的例子，其产物内容如下：
 
-```js ./dist/index.js focus=9:9
+```js title="./dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);
@@ -233,7 +233,7 @@ export default defineConfig({
 
 此时构建产物的内容为：
 
-```js ./dist/index.js focus=9:9
+```js title="./dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);

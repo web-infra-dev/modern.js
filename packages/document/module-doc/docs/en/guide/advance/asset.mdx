@@ -23,7 +23,7 @@ Let us look at the following example:
 
 <CH.Spotlight>
 
-```ts ./src/asset.ts
+```ts title="./src/asset.ts"
 import img from './bg.png';
 //...
 ```
@@ -46,7 +46,7 @@ If the size of `bg.png` is less than 10 kb, then the output directory structure 
 
 ---
 
-```js ./dist/asset.js
+```js title="./dist/asset.js"
 var bg_default = 'data:image/png;base64,';
 console.info(bg_default);
 ```
@@ -66,7 +66,7 @@ If the size of `bg.png` is larger than 10 kb, then the output directory structur
 
 ---
 
-```js ./dist/asset.js
+```js title="./dist/asset.js"
 import img from './assets/bg.13e2aba2.png';
 console.info(img);
 ```

@@ -6,7 +6,7 @@ This chapter will describe how to develop component projects using the Module To
 
 <CH.Spotlight>
 
-```bash Interactive questions
+```bash title="Interactive questions"
 npx @modern-js/create@latest components-project
 
 ? Please select the type of project you want to create: Npm Module
@@ -19,7 +19,7 @@ npx @modern-js/create@latest components-project
 
 It is recommended to use the `@modern-js/create` command to initialize an npm project.
 
-```bash Interactive questions
+```bash title="Interactive questions"
 npx @modern-js/create@latest components-project
 
 ? Please select the type of project you want to create: Npm Module
@@ -32,7 +32,7 @@ npx @modern-js/create@latest components-project
 
 The initialized directory structure.
 
-```bash The initialized directory structure
+```bash title="The initialized directory structure"
 .
 ├── README.md
 ├── node_modules/
@@ -52,7 +52,7 @@ Modify the `. /src/index.ts` file suffix and content.
 
 At this point, a component project is initialized.
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export default () => {
   return <div>hello world</div>;
 };
@@ -64,7 +64,7 @@ export default () => {
 
 <CH.Spotlight>
 
-```bash Terminal
+```bash title="Terminal"
 pnpm run new
 
 ? Please select the operation you want: Enable features
@@ -75,7 +75,7 @@ pnpm run new
 
 Execute the `new` command in the project root directory to enable the Storybook feature.
 
-```bash Terminal
+```bash title="Terminal"
 pnpm run new
 
 ? Please select the operation you want: Enable features
@@ -88,7 +88,7 @@ Once successfully opened, you will see that a new dependency has been added to `
 
 <CH.Code>
 
-```json ./package.json focus=4:7
+```json title="./package.json"
 {
   "name": "components-demo",
   "devDependencies": {
@@ -100,7 +100,7 @@ Once successfully opened, you will see that a new dependency has been added to `
 }
 ```
 
-```bash Directory Structure
+```bash title="Directory Structure"
 .
 ├── src
 │   ├── index.ts
@@ -117,7 +117,7 @@ Once successfully opened, you will see that a new dependency has been added to `
 
 After initialization, the `tsconfig.json` file in the `. /stories` directory, the `tsconfig.json` file is set by default with the `paths` configuration of the same name as the project.
 
-```json ./stories/tsconfig.json focus=5:7
+```json title="./stories/tsconfig.json"
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
@@ -137,7 +137,7 @@ Such a configuration allows you to introduce code in Story code directly using t
 
 <CH.Code>
 
-```tsx ./stories/index.stories.tsx
+```tsx title="./stories/index.stories.tsx"
 import Component from 'components-demo';
 
 export const YourStory = () => <Component />;
@@ -149,7 +149,7 @@ export default {
 
 ---
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export default () => {
   return <div>hello world</div>;
 };
@@ -162,7 +162,7 @@ export default () => {
 At this point Storybook identifies the entry point for the imported code based on fields like `main`, `exports` in the project's `package.json` file.
 The location of the type file is determined by the `types` field.
 
-```json package.json
+```json title="package.json"
 {
   "name": "components-demo",
   "main": "./dist/esm/index.js",
@@ -178,7 +178,7 @@ Debugging with source code has a limitation: some configurations are not equival
 
 **This is why debugging with the output code is recommended**.
 
-```tsx ./stories/index.stories.tsx
+```tsx title="./stories/index.stories.tsx"
 import Component from '../src';
 
 export const YourStory = () => <Component />;
@@ -218,7 +218,7 @@ So we can create `.css` files in our projects and use the syntax support and cap
 
 <CH.Spotlight>
 
-```css ./src/index.css
+```css title="./src/index.css"
 a,
 b {
   color: red;
@@ -240,7 +240,7 @@ b {
 
 Source Code.
 
-```css ./src/index.css
+```css title="./src/index.css"
 
 ```
 
@@ -248,7 +248,7 @@ Source Code.
 
 css product.
 
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 a,
 b {
   color: red;
@@ -275,7 +275,7 @@ Module projects support development styles using Less.
 
 <CH.Spotlight>
 
-```less ./src/common.less
+```less title="./src/common.less"
 @bg: black;
 @bg-light: boolean(luma(@bg) > 50%);
 
@@ -289,7 +289,7 @@ div {
 
 Source Code.
 
-```less ./src/common.less
+```less title="./src/common.less"
 
 ```
 
@@ -297,7 +297,7 @@ Source Code.
 
 Less product.
 
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 div {
   background: black;
   color: white;
@@ -314,7 +314,7 @@ Module projects support developing styles using Scss/Sass.
 
 <CH.Spotlight>
 
-```sass ./src/common.sass
+```sass title="./src/common.sass"
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 
@@ -328,7 +328,7 @@ body {
 
 源代码。
 
-```sass ./src/common.sass
+```sass title="./src/common.sass"
 
 ```
 
@@ -336,7 +336,7 @@ body {
 
 Less product.
 
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 body {
   font: 100% Helvetica, sans-serif;
   color: #333;
@@ -353,7 +353,7 @@ By default, this feature is not enabled in the module project, you need to enabl
 
 <CH.Spotlight>
 
-```bash Terminal
+```bash title="Terminal"
 pnpm run new
 
 ? Please select the operation you want: Enable features
@@ -364,7 +364,7 @@ pnpm run new
 
 The Tailwind CSS feature can be enabled by executing the `new` command in the project root directory.
 
-```bash Terminal
+```bash title="Terminal"
 pnpm run new
 
 ? Please select the operation you want: Enable features
@@ -375,7 +375,7 @@ pnpm run new
 
 Once successfully opened, you will see that a new dependency has been added to `package.json`.
 
-```json ./package.json
+```json title="./package.json"
 {
   "devDependencies": {
     "@modern-js/plugin-tailwindcss": "x.y.z"
@@ -391,7 +391,7 @@ Tailwind CSS offers two ways to use it.
 
 <CH.Spotlight>
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -403,7 +403,7 @@ export default () => {
 
 Tailwind CSS supports adding styles to HTML tags by using class names.
 
-```tsx ./src/index.tsx focus=5:5
+```tsx title="./src/index.tsx"
 
 ```
 
@@ -411,7 +411,7 @@ Tailwind CSS supports adding styles to HTML tags by using class names.
 
 **When using HTML class names, be sure to import the Tailwind CSS equivalent css file. **
 
-```tsx ./src/index.tsx focus=1:1
+```tsx title="./src/index.tsx"
 
 ```
 
@@ -421,7 +421,7 @@ Style product.
 
 > This is a bundle build.
 
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 /* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
@@ -567,7 +567,7 @@ Instead, use regular media queries and the `theme()` function to reference your 
 
 <CH.Code>
 
-```less Method One
+```less title="Method One"
 // Use a regular media query and theme()
 .card {
   @apply rounded-none;
@@ -580,7 +580,7 @@ Instead, use regular media queries and the `theme()` function to reference your 
 
 ---
 
-```less Method Two
+```less title="Method Two"
 // Use the @screen directive at the top-level
 .card {
   @apply rounded-none;
@@ -607,7 +607,7 @@ For the following code, there is a big difference between the bundle and bundlel
 
 > The so-called bundle and bundleless can be found in ["Bundle and Bundleless"](/en/guide/advance/in-depth-about-build#bundle- and-bundleless)
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -622,7 +622,7 @@ For styles, a separate output file is generated, and there is no code related to
 If you need to inject styles into JS output files, you can enable the [`style.inject`](/en/api/config/build-config#styleinject) option.
 
 <CH.Code>
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 /* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
@@ -705,7 +705,7 @@ export {
 
 In Bundleless mode, no third-party dependencies are bundled, and no style artifacts are generated at this time.
 
-```js ./dist/es/index.js
+```js title="./dist/es/index.js"
 import { jsx } from 'react/jsx-runtime';
 import 'tailwindcss/utilities.css';
 var src_default = () => {
@@ -735,7 +735,7 @@ The following is a code example.
 
 <CH.Code>
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import style from './index.module.css';
 
 export default () => {
@@ -743,7 +743,7 @@ export default () => {
 };
 ```
 
-```css ./src/index.module.css
+```css title="./src/index.module.css"
 .btn {
   color: blue;
 }

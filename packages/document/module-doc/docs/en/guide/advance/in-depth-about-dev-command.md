@@ -25,7 +25,7 @@ If you need to extend the dev command, or rather provide your own Module Tools d
 
 In general, the code to implement a debugging tool that does nothing and the associated configuration is as follows.
 
-``` ts do-nothing.ts
+```ts do-nothing.ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'do-nothing',
   setup() {
@@ -54,7 +54,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 If this debugging tool plugin is required, it needs to be added to the configuration file.
 
-``` ts
+```ts
 import doNothingPlugin from './plugins/do-nothing';
 
 export default defineConfig({

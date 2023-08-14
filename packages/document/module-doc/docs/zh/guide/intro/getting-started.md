@@ -81,7 +81,7 @@ export default defineConfig({
 
 `@modern-js/module-tools` 是基于 Modern.js 的插件体系实现的，本质上是一个插件，因此你需要在配置文件的 `plugins` 字段中注册 `moduleTools`：
 
-```ts modern.config.ts
+```ts title="modern.config.ts"
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({

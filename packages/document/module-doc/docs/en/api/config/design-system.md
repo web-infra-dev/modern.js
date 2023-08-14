@@ -961,7 +961,7 @@ Out of the box, your project will automatically inherit values from the default 
 
 To override the options in the default configuration, add the properties to be overridden to `designSystem` at
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 const designSystem = {
@@ -991,7 +991,7 @@ If you want to keep the default values of the theme options but add new values, 
 
 For example, if you want to add an additional breakpoint but keep the existing one, you can extend the `screens` property with.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 const designSystem = {
@@ -1010,7 +1010,7 @@ export default defineConfig({
 
 You can certainly override some parts of the default theme and extend other parts of the default theme in the same configuration: the
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 const designSystem = {
@@ -1040,7 +1040,7 @@ If you need to reference another value in the configuration, you can do so by pr
 
 For example, you can generate `fill` utilities for each color in the palette by referring to `theme('colors')` on the `fill` configuration.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 const designSystem = {
@@ -1061,7 +1061,7 @@ The `theme()` function tries to find the value you are looking for from an alrea
 
 If for any reason you want to reference a value in the default configuration, you can import it from `tailwindcss/defaultTheme`. A useful example would be to add one of the fonts provided by the default configuration to.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 const defaultTheme = require('tailwindcss/defaultTheme');
@@ -1126,7 +1126,7 @@ const designSystem = {
 
 Another example is to add a new property to a custom plugin for referencing. For example, if you write a gradient plugin for your project, you can add a gradient property to the theme object referenced by that plugin.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 const designSystem = {

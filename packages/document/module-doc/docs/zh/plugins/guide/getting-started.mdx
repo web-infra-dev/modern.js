@@ -8,9 +8,8 @@ sidebar_position: 1
 
 我们可以通过下面的例子来快速了解如何编写一个 Module Tools 插件：
 
-<CH.Spotlight>
 
-```md ./project
+```md title="./project"
 ./
 ├── plugins
 │ └── example.ts
@@ -22,7 +21,7 @@ sidebar_position: 1
 
 首先我们在初始化的项目下创建 `./plugins/example.ts` 文件。
 
-```md ./project
+```md title="./project"
 
 ```
 
@@ -53,7 +52,7 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
 
 然后我们通过 [`plugins`](/api/config/plugins) API，将刚刚写好的插件进行注册。
 
-```ts ./modern.config.ts
+```ts title="./modern.config.ts"
 import { examplePlugin } from './plugins/example';
 export default defineConfig({
   plugins: [examplePlugin()],
@@ -64,13 +63,12 @@ export default defineConfig({
 
 最后运行 `modern build`，就可以看到。
 
-```bash terminal
+```bash title="terminal"
 this is example plugin
 Build succeed: 510.684ms
 build over
 ```
 
-</CH.Spotlight>
 
 通过上面这个例子，我们了解到了下面几件事：
 

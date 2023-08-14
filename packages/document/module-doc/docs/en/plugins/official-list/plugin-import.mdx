@@ -133,7 +133,7 @@ export default defineConfig({
 
 The `{{ member }}` in it will be replaced with the corresponding import member.
 
-```ts focus=8:8
+```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 
 export default defineConfig({
@@ -164,7 +164,7 @@ Template `customName: 'foo/es/{{ member }}'` is the same as `` customName: (memb
 
 The template used here is [handlebars](https://handlebarsjs.com). There are some useful builtin tools, Take the above import statement as an example:
 
-```ts focus=8:8
+```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 

@@ -41,7 +41,7 @@ $ npx modern change
 
 When executed successfully, the resulting Markdown file containing the change log is saved in the project's `.changeset` directory. The contents will look like the following.
 
-```markdown .changeset/brave-dryers-agree.md
+```markdown title=".changeset/brave-dryers-agree.md"
 ---
 "``module-example'': patch
 ---
@@ -57,7 +57,7 @@ When the project version needs to be updated, execute the following command.
 
 Executing `modern bump` will modify the version number in `package.json` based on the contents of the Markdown file in the `.changeset/` directory where the changes were recorded, and generate the `CHANGELOG.md` file. **These Markdown files are also deleted when the version update is complete, so they are "consumed "**.
 
-```markdown CHANGELOG.md
+```markdown title="CHANGELOG.md"
 # module
 
 ## 0.1.1

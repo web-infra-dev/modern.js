@@ -27,7 +27,7 @@ So when building umd artifacts, we can also use it like this:
 
 <CH.Spotlight>
 
-```json package.json
+```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
@@ -40,7 +40,7 @@ So when building umd artifacts, we can also use it like this:
 
 If the project depends on `react`.
 
-```json package.json
+```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
@@ -67,7 +67,7 @@ export default defineConfig({
 
 When a `react` dependency is used in the source code.
 
-```tsx src/index.ts
+```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
@@ -76,7 +76,7 @@ console.info(React);
 
 The `react` code is not bundled into the artifact at this point.
 
-```js dist/index.js focus=1:7
+```js title="dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports, require('react'));
@@ -116,7 +116,7 @@ Again using the previous example, when the `react` dependency exists in the brow
 
 <CH.Spotlight>
 
-```json package.json
+```json title="package.json"
 {
   "devDependencies": {
     "react": "^17"
@@ -128,7 +128,7 @@ Again using the previous example, when the `react` dependency exists in the brow
 
 If the project depends on `react`.
 
-```json package.json
+```json title="package.json"
 {
   "devDependencies": {
     "react": "^17"
@@ -155,7 +155,7 @@ export default defineConfig({
 
 When a `react` dependency is used in the source code.
 
-```tsx src/index.ts
+```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
@@ -164,7 +164,7 @@ console.info(React);
 
 At this point we will see the output code like this.
 
-```js dist/index.js focus=12:18
+```js title="dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory();
@@ -195,7 +195,7 @@ The project can then run in the browser and use the `React` variables that exist
 
 When we package the following code into an umd artifact and run it in the browser, we can use the module via `window.index`.
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default () => {
   console.info('hello world');
 };
@@ -203,7 +203,7 @@ export default () => {
 
 ** By default, the name of the source file is used as the name of the module's global variable in the browser. **For the above example, the artifact would read as follows:
 
-```js ./dist/index.js focus=9:9
+```js title="./dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);
@@ -233,7 +233,7 @@ export default defineConfig({
 
 The build artifact at this point are:
 
-```js ./dist/index.js focus=9:9
+```js title="./dist/index.js"
 (function (global, factory) {
   if (typeof module === 'object' && typeof module.exports === 'object')
     factory(exports);

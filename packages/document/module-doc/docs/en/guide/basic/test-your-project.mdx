@@ -47,7 +47,7 @@ For common modules, we can use the test function as follows:
 
 <CH.Spotlight>
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default function () {
   return 'hello world';
 }
@@ -57,7 +57,7 @@ export default function () {
 
 First is the code of the module.
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default function () {
   return 'hello world';
 }
@@ -69,7 +69,7 @@ Then in the test file, we can do this.
 
 Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
 
-```ts ./tests/index.test.ts
+```ts title="./tests/index.test.ts"
 import main from '@/index';
 
 describe('default cases', () => {
@@ -107,7 +107,7 @@ If you need to use the Runtime API, then you can turn it on via [microgenerator]
 
 <CH.Spotlight>
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -119,7 +119,7 @@ export const default () {
 
 First is the code of the component.
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -133,7 +133,7 @@ Then in the test file, we can do this.
 
 Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
 
-```tsx ./tests/index.test.tsx
+```tsx title="./tests/index.test.tsx"
 import { render, screen } from '@modern-js/runtime/testing';
 
 import Component from '@/index';
