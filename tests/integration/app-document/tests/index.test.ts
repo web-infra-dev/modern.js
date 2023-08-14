@@ -169,4 +169,25 @@ describe('test build', () => {
 
     expect(htmlWithDoc.includes(`head class="head"`)).toBe(true);
   });
+
+  test('should injected partial html content to html', async () => {
+    const htmlWithDoc = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/sub/index.html'),
+      'utf-8',
+    );
+
+    expect(
+      /<head class="head"><script>window.abc = "hjk"<\/script>/.test(
+        htmlWithDoc,
+      ),
+    ).toBe(true);
+    expect(
+      /<head.*<script>console.log\("abc"\)<\/script>.*<\/head>/.test(
+        htmlWithDoc,
+      ),
+    ).toBe(true);
+    expect(
+      /<body.*<script>console.log\(abc\)<\/script>.*<\/body>/.test(htmlWithDoc),
+    ).toBe(true);
+  });
 });
