@@ -35,12 +35,12 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
             preEntry: [
               `data:application/javascript,
                 import { mountDevTools } from "${setupDevtoolsScript}";
-                const dataSource = "${url}";
+                const dataSource = "/_modern_js/devtools/rpc";
                 if (dataSource.startsWith('/')) {
                   const url = new URL(location);
                   url.protocol = 'ws:';
                   url.pathname = dataSource;
-                  mountDevTools({ dataSource: url });
+                  mountDevTools({ dataSource: url.href });
                 } else {
                   throw new Error('Unimplemented.');
                 }
