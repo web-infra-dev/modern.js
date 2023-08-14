@@ -259,13 +259,17 @@ export function getMinify(
   }
 
   return {
-    removeComments: false,
+    removeComments: true,
     useShortDoctype: true,
     keepClosingSlash: true,
     collapseWhitespace: true,
     removeRedundantAttributes: true,
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
+    removeEmptyAttributes: true,
+    minifyJS: true,
+    minifyCSS: true,
+    minifyURLs: true,
   };
 }
 

@@ -10,13 +10,17 @@ const defaultHtmlPluginOptions = {
   templateParameters, // corresponding to the html.templateParameters config
   chunks: [entryName],
   minify: {
-    removeComments: false,
+    removeComments: true,
     useShortDoctype: true,
     keepClosingSlash: true,
     collapseWhitespace: true,
     removeRedundantAttributes: true,
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
+    removeEmptyAttributes: true,
+    minifyJS: true,
+    minifyCSS: true,
+    minifyURLs: true,
   },
 };
 ```
@@ -65,6 +69,25 @@ The built-in `html-webpack-plugin` plugins can be disabled by set `tools.htmlPlu
 export default {
   tools: {
     htmlPlugin: false,
+  },
+};
+```
+
+### Disable JS/CSS minify
+
+By default, Builder will compresses JavaScript/CSS code inside HTML to optimize product size. This ability is often helpful when using custom templates or inserting custom scripts.
+
+However, when `output.enableInlineScripts` or `output.enableInlineStyles` is turned on, inline JavaScript/CSS code will be repeatedly compressed, which will have a certain impact on build performance. You can modify the default minify behavior by modifying the `tools.htmlPlugin.minify` configuration.
+
+```js
+export default {
+  tools: {
+    htmlPlugin: config => {
+      if (typeof config.minify === 'object') {
+        config.minify.minifyJS = false;
+        config.minify.minifyCSS = false;
+      }
+    },
   },
 };
 ```

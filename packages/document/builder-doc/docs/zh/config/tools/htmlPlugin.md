@@ -10,13 +10,17 @@ const defaultHtmlPluginOptions = {
   templateParameters, // 对应 html.templateParameters 配置项
   chunks: [entryName],
   minify: {
-    removeComments: false,
+    removeComments: true,
     useShortDoctype: true,
     keepClosingSlash: true,
     collapseWhitespace: true,
     removeRedundantAttributes: true,
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
+    removeEmptyAttributes: true,
+    minifyJS: true,
+    minifyCSS: true,
+    minifyURLs: true,
   },
 };
 ```
@@ -65,6 +69,23 @@ export default {
 export default {
   tools: {
     htmlPlugin: false,
+  },
+};
+```
+
+### 禁用 JS / CSS 压缩
+
+默认情况下，Builder 会压缩 HTML 内的 JavaScript / CSS 代码，以优化产物体积。此能力通常在使用自定义模版或插入自定义脚本时会有帮助。然而，当开启 `output.enableInlineScripts` 或 `output.enableInlineStyles` 时，会出现对 inline JavaScript / CSS 代码重复压缩的情况，对构建性能会有一定影响。你可以通过修改 `tools.htmlPlugin.minify` 配置项来修改默认的压缩行为。
+
+```js
+export default {
+  tools: {
+    htmlPlugin: config => {
+      if (typeof config.minify === 'object') {
+        config.minify.minifyJS = false;
+        config.minify.minifyCSS = false;
+      }
+    },
   },
 };
 ```
