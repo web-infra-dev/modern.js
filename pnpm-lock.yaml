@@ -1334,9 +1334,6 @@ importers:
 
   packages/cli/doc-plugin-preview:
     dependencies:
-      '@arco-design/web-react':
-        specifier: ^2.46.0
-        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@mdx-js/mdx':
         specifier: 2.2.1
         version: 2.2.1
@@ -3972,9 +3969,6 @@ importers:
 
   packages/module/plugin-module-doc:
     dependencies:
-      '@arco-design/web-react':
-        specifier: ^2.46.0
-        version: 2.46.1(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/doc-core':
         specifier: workspace:*
         version: link:../../cli/doc-core
