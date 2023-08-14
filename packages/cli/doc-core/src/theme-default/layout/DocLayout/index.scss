@@ -62,7 +62,9 @@
   }
 
   .modern-doc {
-    padding-right: 32px;
+    width: calc(
+      1280px - var(--modern-sidebar-width) - var(--modern-aside-width)
+    );
   }
 }
 
@@ -78,5 +80,8 @@
 
   .modern-doc {
     padding-right: 64px;
+    width: calc(
+      1440px - var(--modern-sidebar-width) - var(--modern-aside-width) - 64px
+    );
   }
 }

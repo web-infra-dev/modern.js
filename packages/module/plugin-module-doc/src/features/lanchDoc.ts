@@ -16,6 +16,7 @@ export async function launchDoc({
   apiParseTool,
   parseToolOptions,
   useModuleSidebar,
+  iframePosition,
 }: Required<Options>) {
   const json = JSON.parse(
     fs.readFileSync(resolve(appDir, './package.json'), 'utf8'),
@@ -147,7 +148,7 @@ export async function launchDoc({
           `,
         ],
         plugins: [
-          pluginPreview({ isMobile: previewMode === 'mobile' }),
+          pluginPreview({ isMobile: previewMode === 'mobile', iframePosition }),
           pluginApiDocgen({
             entries,
             apiParseTool,

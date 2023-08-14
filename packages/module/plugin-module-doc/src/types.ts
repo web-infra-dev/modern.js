@@ -13,6 +13,7 @@ export type PluginOptions = Pick<
   | 'previewMode'
   | 'apiParseTool'
   | 'parseToolOptions'
+  | 'iframePosition'
 >;
 
 export type Options = {
@@ -45,4 +46,8 @@ export type Options = {
    * @default true
    */
   useModuleSidebar?: boolean;
+  /**
+   * iframePosition
+   */
+  iframePosition?: 'fixed' | 'follow';
 } & DocGenOptions;

@@ -113,7 +113,7 @@ export const createRequest: RequestCreator<typeof nodeFetch> = (
         }
       }
 
-      url = `http://localhost:${port}${finalPath}`;
+      url = `http://127.0.0.1:${port}${finalPath}`;
     }
 
     const fetcher = realRequest || originFetch;

@@ -16,7 +16,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
         os: [windows-latest] # windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
@@ -34,14 +34,15 @@ jobs:
       - name: Install Pnpm
         run: corepack enable
 
-      - name: Check docs only change
-        run: echo "::set-output name=DOCS_CHANGE::$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')"
-        id: docs-change
+      - name: Check skip CI
+        run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
+        id: skip-ci
 
-      - run: echo "${{steps.docs-change.outputs.DOCS_CHANGE}}"
+      - name: Log skip CI result
+        run: echo "${{steps.skip-ci.outputs.RESULT}}"
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -59,17 +60,17 @@ jobs:
 
 
       - name: Install Dependencies
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Prepare
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm run prepare
 
       - name: Install Puppeteer
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: cd ./tests/node_modules/puppeteer && npm run postinstall && cd ../..
 
       - name: Test
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: cd ./tests && pnpm run test
