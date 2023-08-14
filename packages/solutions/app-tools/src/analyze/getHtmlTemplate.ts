@@ -67,6 +67,7 @@ export const getHtmlTemplate = async (
   );
 
   const htmlTemplates: HtmlTemplates = {};
+  const partialsByEntrypoint: Record<string, HtmlPartials> = {};
 
   for (const entrypoint of entrypoints) {
     const { entryName, isMainEntry } = entrypoint;
@@ -77,7 +78,6 @@ export const getHtmlTemplate = async (
       name,
       PartialPosition.INDEX,
     );
-
     if (customIndexTemplate) {
       htmlTemplates[entryName] = customIndexTemplate.file;
     } else {
@@ -113,6 +113,7 @@ export const getHtmlTemplate = async (
       fs.outputFileSync(templatePath, templates.html(partials), 'utf8');
 
       htmlTemplates[entryName] = templatePath;
+      partialsByEntrypoint[entryName] = partials;
 
       const bottomTemplate = findPartials(
         htmlDir,
@@ -124,6 +125,10 @@ export const getHtmlTemplate = async (
       }
     }
   }
-
+  // sync partialsByEntrypoint to context
+  api.setAppContext({
+    ...api.useAppContext(),
+    partialsByEntrypoint,
+  });
   return htmlTemplates;
 };
