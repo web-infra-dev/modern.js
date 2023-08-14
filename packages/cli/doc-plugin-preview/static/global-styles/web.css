@@ -1,6 +1,7 @@
 :root {
   --modern-sidebar-width: 210px;
   --modern-aside-width: 192px;
+  --modern-preview-padding: 32px
 }
 
 :root .preview-code div[class*='language-'] {

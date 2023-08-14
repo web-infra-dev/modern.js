@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Button, Tooltip, Card } from '@arco-design/web-react';
-import { IconCode, IconLaunch, IconQrcode } from '@arco-design/web-react/icon';
-import '@arco-design/web-react/es/Button/style';
-import '@arco-design/web-react/es/Tooltip/style';
-import '@arco-design/web-react/es/Card/style';
-
-import './Container.scss';
-import { useDark, withBase, useLang, NoSSR } from '@modern-js/doc-core/runtime';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import { withBase, useLang, NoSSR } from '@modern-js/doc-core/runtime';
+import IconCode from './svg/code.svg';
+import IconLaunch from './svg/launch.svg';
+import IconQrcode from './svg/qrcode.svg';
+import './Container.scss';
 
 const locales = {
   zh: {
@@ -30,11 +27,12 @@ type ContainerProps = {
 
 const Container: React.FC<ContainerProps> = props => {
   const { children, isMobile, url } = props;
-
   const [showCode, setShowCode] = useState(false);
-  const lang = useLang() || Object.keys(locales)[0];
-  const dark = useDark();
-  const t = locales[lang as keyof typeof locales];
+  const [showQRCode, setShowQRCode] = useState(false);
+  const lang = useLang();
+  const triggerRef = useRef(null);
+  const t = lang === 'zh' ? locales.zh : locales.en;
+
   const getPageUrl = () => {
     if (typeof window !== 'undefined') {
       return window.location.origin + withBase(url);
@@ -42,12 +40,17 @@ const Container: React.FC<ContainerProps> = props => {
     // Do nothing in ssr
     return '';
   };
-
   const toggleCode = (e: any) => {
     if (!showCode) {
       e.target.blur();
     }
     setShowCode(!showCode);
+  };
+  const toggleQRCode = (e: any) => {
+    if (!showQRCode) {
+      e.target.blur();
+    }
+    setShowQRCode(!showQRCode);
   };
   const openNewPage = (e: any) => {
     if (!showCode) {
@@ -55,81 +58,78 @@ const Container: React.FC<ContainerProps> = props => {
     }
     window.open(getPageUrl());
   };
-  // support dark theme in container
-  useEffect(() => {
-    if (dark) {
-      document.body.setAttribute('arco-theme', 'dark');
-    } else {
-      document.body.removeAttribute('arco-theme');
+
+  const contains = function (root: HTMLElement | null, ele: any) {
+    if (!root) {
+      return false;
     }
-  }, [dark]);
-  const renderWebOperations = () => {
-    return (
-      <div className="code-operations web">
-        <Tooltip content={showCode ? t.collapse : t.expand}>
-          <Button
-            size="small"
-            shape="circle"
-            onClick={toggleCode}
-            type="secondary"
-            aria-label={t.collapse}
-            className={showCode ? 'ac-btn-expanded' : ''}
-          >
-            <IconCode />
-          </Button>
-        </Tooltip>
-      </div>
-    );
+    if (root.contains) {
+      return root.contains(ele);
+    }
+    let node = ele;
+    while (node) {
+      if (node === root) {
+        return true;
+      }
+      node = node.parentNode;
+    }
+    return false;
   };
-  const renderMobileOperations = () => {
-    return (
-      <div className="code-operations mobile">
-        <Tooltip
-          content={<QRCodeSVG value={getPageUrl()} size={96} />}
-          color="#f7f8fa"
-          trigger={'click'}
-        >
-          <Button
-            size="small"
-            shape="circle"
-            type="secondary"
-            style={{ marginLeft: '8px' }}
-          >
-            <IconQrcode />
-          </Button>
-        </Tooltip>
-        <Button
-          size="small"
-          shape="circle"
-          onClick={openNewPage}
-          type="secondary"
-          aria-label={t.open}
-          style={{ marginLeft: '8px' }}
-        >
-          <IconLaunch />
-        </Button>
-      </div>
-    );
-  };
+
+  const onClickOutside = useCallback(
+    (e: MouseEvent) => {
+      console.log(
+        !contains(triggerRef.current, e.target),
+        triggerRef.current,
+        e.target,
+      );
+      if (!contains(triggerRef.current, e.target)) {
+        setShowQRCode(false);
+      }
+    },
+    [triggerRef],
+  );
+
+  useEffect(() => {
+    if (showQRCode) {
+      document.addEventListener('mousedown', onClickOutside, false);
+    } else {
+      document.removeEventListener('mousedown', onClickOutside, false);
+    }
+  }, [showQRCode]);
+
   return (
     <NoSSR>
-      <div className="code-wrapper">
+      <div className="modern-preview">
         {isMobile === 'true' ? (
-          <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: '8px' }}>
-            <div className="flex">
-              <div className="preview-code">{children?.[0]}</div>
-              <div className="preview-device">
-                <iframe
-                  src={getPageUrl()}
-                  className="preview-device-iframe"
-                ></iframe>
-                {renderMobileOperations()}
+          <div className="modern-preview-wrapper flex">
+            <div className="modern-preview-code">{children?.[0]}</div>
+            <div className="modern-preview-device">
+              <iframe src={getPageUrl()}></iframe>
+              <div className="modern-preview-operations mobile">
+                <div className="relative" ref={triggerRef}>
+                  {showQRCode && (
+                    <div className="modern-preview-qrcode">
+                      <QRCodeSVG value={getPageUrl()} size={96} />
+                    </div>
+                  )}
+                  <button style={{ marginLeft: '8px' }} onClick={toggleQRCode}>
+                    <IconQrcode />
+                  </button>
+                </div>
+                <button
+                  onClick={openNewPage}
+                  aria-label={t.open}
+                  style={{ marginLeft: '8px' }}
+                >
+                  <IconLaunch />
+                </button>
               </div>
             </div>
-          </Card>
+          </div>
         ) : (
-          <>
-            <Card>
+          <div>
+            <div className="modern-preview-card">
               <div
                 style={{
                   overflow: 'auto',
@@ -138,12 +138,26 @@ const Container: React.FC<ContainerProps> = props => {
               >
                 {children?.[1]}
               </div>
-              {renderWebOperations()}
-            </Card>
-            <div className={`code-content ${showCode ? 'show-all' : ''}`}>
+              <div className="modern-preview-operations web">
+                <button
+                  onClick={toggleCode}
+                  aria-label={t.collapse}
+                  className={showCode ? 'button-expanded' : ''}
+                >
+                  <IconCode />
+                </button>
+              </div>
+            </div>
+            <div
+              className={`${
+                showCode
+                  ? 'modern-preview-code-show'
+                  : 'modern-preview-code-hide'
+              }`}
+            >
               {children?.[0]}
             </div>
-          </>
+          </div>
         )}
       </div>
     </NoSSR>
