@@ -14,6 +14,7 @@ module.exports = async function () {
         .map(item => {
           return `{
             "id": "${item.id}",
+            "title": "${item.title}",
             "component": Demo_${item.id}
           }`;
         })
