@@ -1,13 +1,13 @@
 .fixed-device {
   display: none;
   position: fixed;
-  top: calc(var(--modern-nav-height) + var(--modern-device-padding));
+  top: calc(var(--modern-nav-height) + var(--modern-preview-padding));
   overflow: hidden;
 }
 
 .fixed-iframe {
   height: var(--modern-device-height);
-  max-height: calc(100vh - var(--modern-device-padding) * 2 - var(--modern-nav-height));
+  max-height: calc(100vh - var(--modern-preview-padding) * 2 - var(--modern-nav-height));
   width: 360px;
   pointer-events: auto;
   border-radius: var(--modern-device-border-radius);
@@ -15,7 +15,6 @@
 }
 
 :root {
-  --modern-device-padding: 32px;
   --modern-device-width: 360px;
   --modern-device-height: 640px;
   --modern-device-border-radius: 20px;
@@ -26,7 +25,7 @@
 @media (min-width: 960px){
   .fixed-device {
     display: inline;
-    left: calc(1280px - var(--modern-device-width) - var(--modern-device-padding));
+    left: calc(1280px - var(--modern-device-width) - var(--modern-preview-padding));
     right: auto;
   }
 }
@@ -34,7 +33,7 @@
 @media (min-width: 1280px){
   .fixed-device {
     display: inline;
-    right: var(--modern-device-padding);
+    right: var(--modern-preview-padding);
     left: auto;
   }
 }

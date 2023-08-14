@@ -52,14 +52,14 @@ export default () => {
       if (innerWidth > 1280) {
         node?.setAttribute(
           'style',
-          'padding-right: calc(var(--modern-device-width) + var(--modern-device-padding) * 2)',
+          'padding-right: calc(var(--modern-device-width) + var(--modern-preview-padding) * 2)',
         );
       } else if (innerWidth > 960) {
         node?.setAttribute(
           'style',
           `padding-right: calc(${
             innerWidth - 1280
-          }px + var(--modern-device-width) + var(--modern-device-padding) * 2)`,
+          }px + var(--modern-device-width) + var(--modern-preview-padding) * 2)`,
         );
       } else {
         node?.removeAttribute('style');

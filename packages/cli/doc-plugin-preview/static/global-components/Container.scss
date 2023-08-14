@@ -1,58 +1,102 @@
-.code-wrapper {
+:root {
+  --modern-preview-button-hover-bg: #e5e6eb;
+  --modern-preview-button-bg: #e5e6eb
+
+}
+
+.dark {
+  --modern-preview-button-hover-bg: #c5c5c5;
+  --modern-preview-button-bg: #c5c5c5;
+}
+
+.modern-preview {
   padding: 16px 0;
-}
 
-.code-operations {
-  display: flex;
-  .ac-btn-expanded {
-    background-color: #1d2129 !important;
-    color: #f7f8fa !important;
-    border-color: #f7f8fa !important;
+  &-operations {
+    button {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      text-align: center;
+      border-radius: 50%;
+      border: 1px solid transparent;
+      background-color: var(--modern-c-bg-soft);
+
+      &:hover {
+        background-color: var(--modern-preview-button-hover-bg);
+      }
+    }
+
+    svg {
+      display: inline-block;
+      vertical-align: -2px;
+    }
+
+    &.mobile {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      border-top: 1px solid #e6e6e6;
+      padding: 6px;
+    }
+
+    &.web {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      top: calc(50% - 14px);
+      right: 16px;
+    }
   }
-}
 
-.code-operations.web {
-  justify-content: center;
-  position: absolute;
-  top: calc(50% - 14px);
-  right: 16px;
-}
-
-.code-operations.mobile {
-  justify-content: flex-end;
-  position: absolute;
-  width: 360px;
-  border-top: 1px solid #e6e6e6;
-  bottom: 0px;
-  right: 0px;
-  padding: 6px;
-}
-
-.preview-code {
-  position: relative;
-  overflow: hidden;
-  flex: 1 1;
-  max-height: 700px;
-}
-
-.preview-device {
-  position: relative;
-  flex: 0 0;
-  border-left: 1px solid #e6e6e6;
-  &-iframe {
-    width: 360px;
-    height: 100%;
-    padding-bottom: 40px;
+  &-wrapper {
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
   }
-}
 
-.code-content {
-  position: relative;
-  overflow: hidden;
-  display: none;
-}
+  &-card {
+    padding: 16px;
+    position: relative;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+  }
 
-.code-content.show-all {
-  margin-top: 16px;
-  display: block;
+  &-qrcode {
+    background-color: #f7f8fa;
+    position: absolute;
+    top: -132px;
+    right: -46px;
+    padding: 12px;
+  }
+
+  &-code {
+    position: relative;
+    overflow: hidden;
+    flex: 1 1;
+    max-height: 700px;
+  }
+
+  &-code-hide {
+    position: relative;
+    overflow: hidden;
+    display: none;
+  }
+
+  &-code-show {
+    margin-top: 16px;
+    display: block;
+  }
+
+  &-device {
+    position: relative;
+    flex: 0 0;
+    border-left: 1px solid #e6e6e6;
+    display: flex;
+    flex-direction: column;
+    iframe {
+      width: 360px;
+      height: 100%;
+      flex: auto;
+    }
+  }
 }

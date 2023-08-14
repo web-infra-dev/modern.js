@@ -1,7 +1,5 @@
 import { Link } from '@modern-js/doc-core/theme';
-import { IconRight } from '@arco-design/web-react/icon';
-import '@arco-design/web-react/es/Divider/style';
-
+import IconRight from './IconRight.svg';
 import styles from './Overview.module.scss';
 
 type List = {
