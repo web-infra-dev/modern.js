@@ -2179,6 +2179,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../../runtime/plugin-runtime
+      nanoid:
+        specifier: 3.3.4
+        version: 3.3.4
       react:
         specifier: ~18.2.0
         version: 18.2.0
