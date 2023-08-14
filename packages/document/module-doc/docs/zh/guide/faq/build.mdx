@@ -234,3 +234,19 @@ import RegisterEsbuildPlugin from '@site-docs/components/register-esbuild-plugin
 
 - 方案一：[typed-css-modules](https://github.com/Quramy/typed-css-modules)
 - 方案二：[postcss-modules-dts](https://www.npmjs.com/package/@guanghechen/postcss-modules-dts)
+
+```ts modern.config.ts
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig(async () => {
+  const { dts } =  await import("@guanghechen/postcss-modules-dts");
+  return {
+    buildConfig: {
+      style: {
+        modules: { ...dts },
+      },
+    },
+    // 你的自定义配置
+  }
+});
+```
