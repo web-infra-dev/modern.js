@@ -75,7 +75,7 @@ export default {
 
 ### Disable JS/CSS minify
 
-By default, Builder will compresses JavaScript/CSS code inside HTML to optimize product size. This ability is often helpful when using custom templates or inserting custom scripts.
+By default, Builder will compresses JavaScript/CSS code inside HTML during the production build to improve the page performance. This ability is often helpful when using custom templates or inserting custom scripts.
 
 However, when `output.enableInlineScripts` or `output.enableInlineStyles` is turned on, inline JavaScript/CSS code will be repeatedly compressed, which will have a certain impact on build performance. You can modify the default minify behavior by modifying the `tools.htmlPlugin.minify` configuration.
 

@@ -75,7 +75,7 @@ export default {
 
 ### 禁用 JS / CSS 压缩
 
-默认情况下，Builder 会压缩 HTML 内的 JavaScript / CSS 代码，以优化产物体积。此能力通常在使用自定义模版或插入自定义脚本时会有帮助。然而，当开启 `output.enableInlineScripts` 或 `output.enableInlineStyles` 时，会出现对 inline JavaScript / CSS 代码重复压缩的情况，对构建性能会有一定影响。你可以通过修改 `tools.htmlPlugin.minify` 配置项来修改默认的压缩行为。
+默认情况下，Builder 会在生产环境构建时压缩 HTML 内的 JavaScript / CSS 代码，从而提升页面性能。此能力通常在使用自定义模版或插入自定义脚本时会有帮助。然而，当开启 `output.enableInlineScripts` 或 `output.enableInlineStyles` 时，会出现对 inline JavaScript / CSS 代码重复压缩的情况，对构建性能会有一定影响。你可以通过修改 `tools.htmlPlugin.minify` 配置项来修改默认的压缩行为。
 
 ```js
 export default {
