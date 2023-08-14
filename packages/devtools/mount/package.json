@@ -16,11 +16,12 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
-    "@modern-js/runtime": "workspace:*",
     "@modern-js/devtools-kit": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
-    "react-use": "^17.4.0"
+    "react-use": "^17.4.0",
+    "ufo": "^1.2.0"
   },
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
