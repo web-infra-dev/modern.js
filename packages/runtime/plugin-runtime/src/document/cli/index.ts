@@ -182,7 +182,6 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
         debug("entry %s's document jsx rendered html: %o", entryName, html);
         // htmlWebpackPlugin.tags
         const { partialsByEntrypoint } = api.useAppContext();
-        console.log('===> partialsByEntrypoint: ', partialsByEntrypoint);
         const scripts = [
           htmlWebpackPlugin.tags.headTags
             .filter((item: any) => item.tagName === 'script')
