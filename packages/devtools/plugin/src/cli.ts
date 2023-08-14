@@ -35,7 +35,15 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
             preEntry: [
               `data:application/javascript,
                 import { mountDevTools } from "${setupDevtoolsScript}";
-                mountDevTools();
+                const dataSource = "${url}";
+                if (dataSource.startsWith('/')) {
+                  const url = new URL(location);
+                  url.protocol = 'ws:';
+                  url.pathname = dataSource;
+                  mountDevTools({ dataSource: url });
+                } else {
+                  throw new Error('Unimplemented.');
+                }
               `.replace(/\n */g, ''),
             ],
           },
