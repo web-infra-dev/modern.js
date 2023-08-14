@@ -1,15 +1,17 @@
 import { Outlet } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
+import SidePanel from './SidePanel';
 import { StoreContextProvider } from '@/stores';
 
 export default function Layout() {
   return (
-    <div>
-      <Suspense fallback={<div>loading...</div>}>
-        <StoreContextProvider>
+    <StoreContextProvider>
+      <div>
+        <SidePanel />
+        <Suspense fallback={<div>loading...</div>}>
           <Outlet />
-        </StoreContextProvider>
-      </Suspense>
-    </div>
+        </Suspense>
+      </div>
+    </StoreContextProvider>
   );
 }

@@ -5,6 +5,7 @@ import { suspend } from 'suspend-react';
 import { setupServerConnection } from '@/rpc';
 import { useProxyFrom } from '@/utils/hooks';
 import { StoreContextValue } from '@/types';
+import { getDefaultTabs } from '@/constants';
 
 const StoreContext = createContext<unknown>(null);
 
@@ -12,26 +13,29 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   children,
 }) => {
   const [query] = useSearchParams();
-  const dataSource = query.get('src');
-  if (!_.isString(dataSource)) {
-    throw new TypeError(
-      `Can't connection to data source: ${dataSource || '<EMPTY>'}`,
+
+  const createStore = (): StoreContextValue => {
+    const dataSource = query.get('src');
+    if (!_.isString(dataSource)) {
+      throw new TypeError(
+        `Can't connection to data source: ${dataSource || '<EMPTY>'}`,
+      );
+    }
+    const { server } = suspend(
+      () => setupServerConnection(dataSource),
+      [dataSource],
     );
-  }
-
-  const { server } = suspend(
-    () => setupServerConnection(dataSource),
-    [dataSource],
-  );
-
-  const createStore = (): StoreContextValue => ({
-    router: {
-      serverRoutes: server.getServerRoutes(),
-    },
-    config: {
-      frameworkConfig: server.getFrameworkConfig(),
-    },
-  });
+    return {
+      dataSource,
+      router: {
+        serverRoutes: server.getServerRoutes(),
+      },
+      config: {
+        frameworkConfig: server.getFrameworkConfig(),
+      },
+      tabs: getDefaultTabs(),
+    };
+  };
   const store = useProxyFrom(createStore);
 
   return (
