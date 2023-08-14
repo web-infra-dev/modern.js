@@ -2,12 +2,12 @@ When you register global components, the framework will automatically render the
 
 Through global components, you can complete many custom functions, such as:
 
-```tsx title="comp-ui.tsx"
+```tsx title="compUi.tsx"
 import React from 'react';
 
 // Need a default export
 export default function PluginUI() {
-  return <div>这是一个全局的布局组件</div>;
+  return <div>This is a global layout component</div>;
 }
 ```
 
@@ -15,7 +15,7 @@ In this way, the content of the component will be rendered in the theme page, su
 
 In the meanwhile, you can also use the global component to register some side effects, such as:
 
-```tsx title="comp-side-effect.tsx"
+```tsx title="compSideEffect.tsx"
 import { useEffect } from 'react';
 import { useLocation } from '@modern-js/doc-tools/runtime';
 
