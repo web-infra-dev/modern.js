@@ -10,8 +10,14 @@
   max-height: calc(100vh - var(--modern-preview-padding) * 2 - var(--modern-nav-height));
   width: 360px;
   pointer-events: auto;
-  border-radius: var(--modern-device-border-radius);
-  border: var(--modern-device-border)
+  border-radius: var(--modern-device-border-radius) var(--modern-device-border-radius) 0 0;
+  border: var(--modern-device-border);
+}
+
+.fixed-operation {
+  border: var(--modern-device-border);
+  border-top: 0;
+  border-radius: 0 0 var(--modern-device-border-radius) var(--modern-device-border-radius);
 }
 
 :root {
