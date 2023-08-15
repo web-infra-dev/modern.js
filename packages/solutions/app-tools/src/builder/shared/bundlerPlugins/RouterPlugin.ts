@@ -1,11 +1,9 @@
-import path from 'path';
-import type Buffer from 'buffer';
 import { mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
-import { Loader, transform } from 'esbuild';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
+import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
@@ -64,7 +62,7 @@ export class RouterPlugin {
 
     const { webpack } = compiler;
     const { Compilation, sources } = webpack;
-    const { RawSource, SourceMapSource } = sources;
+    const { RawSource } = sources;
 
     const normalizePath = (path: string): string => {
       if (!path.endsWith('/')) {
@@ -74,90 +72,24 @@ export class RouterPlugin {
       return path;
     };
 
-    const chunkToSource: Map<string | number, string | Buffer> = new Map();
-    const chunkToMap: Map<string | number, unknown> = new Map();
-    const { minimize } = compiler.options.optimization;
+    const placeHolder = '<!--<?- route-manifest ?>-->';
+    const chunksToHtmlName = new Map();
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
-      compilation.hooks.processAssets.tapPromise(
-        {
-          name: PLUGIN_NAME,
-          stage: Compilation.PROCESS_ASSETS_STAGE_DEV_TOOLING,
-        },
-        async () => {
-          const stats = compilation.getStats().toJson({
-            all: false,
-            chunkGroups: true,
-            chunks: true,
-            ids: true,
-          });
-          const { chunks = [], namedChunkGroups } =
-            stats as webpack.StatsCompilation;
+      HtmlWebpackPlugin.getHooks(
+        compilation as webpack.Compilation,
+      ).beforeEmit.tapAsync('RouterManifestPlugin', (data, callback) => {
+        const { outputName } = data;
+        const { chunks } = data.plugin.options!;
+        chunksToHtmlName.set(chunks, outputName);
 
-          if (!namedChunkGroups) {
-            return;
-          }
+        data.html = data.html.replace(
+          '</script>',
+          `</script><script>${placeHolder}</script>`,
+        );
 
-          const entryChunks = this.getEntryChunks(compilation, chunks);
-          const entryChunkFiles = entryChunks.map(
-            chunk =>
-              [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
-          );
-
-          const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
-          for (let i = 0; i <= entryChunkFiles.length - 1; i++) {
-            const file = entryChunkFiles[i];
-            const chunkId = entryChunkFileIds[i];
-            const asset = compilation.assets[file];
-            if (!asset) {
-              continue;
-            }
-
-            const { map } = asset.sourceAndMap();
-            chunkToMap.set(chunkId!, map);
-          }
-        },
-      );
-
-      compilation.hooks.processAssets.tapPromise(
-        {
-          name: PLUGIN_NAME,
-          stage: Compilation.PROCESS_ASSETS_STAGE_OPTIMIZE_TRANSFER,
-        },
-        async () => {
-          const stats = compilation.getStats().toJson({
-            all: false,
-            chunkGroups: true,
-            chunks: true,
-            ids: true,
-          });
-          const { chunks = [], namedChunkGroups } =
-            stats as webpack.StatsCompilation;
-
-          if (!namedChunkGroups) {
-            return;
-          }
-
-          const entryChunks = this.getEntryChunks(compilation, chunks);
-          const entryChunkFiles = entryChunks.map(
-            chunk =>
-              [...(chunk.files || [])].find(fname => fname.includes('.js'))!,
-          );
-
-          const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
-          for (let i = 0; i <= entryChunkFiles.length - 1; i++) {
-            const file = entryChunkFiles[i];
-            const chunkId = entryChunkFileIds[i];
-            const asset = compilation.assets[file];
-            if (!asset) {
-              continue;
-            }
-
-            const { source } = asset.sourceAndMap();
-            chunkToSource.set(chunkId!, source);
-          }
-        },
-      );
+        callback(null, data);
+      });
 
       compilation.hooks.processAssets.tapPromise(
         {
@@ -266,7 +198,6 @@ export class RouterPlugin {
                 (k === 'assets' || k === 'referenceCssAssets') &&
                 Array.isArray(v)
               ) {
-                // should hide publicPath in browser
                 return v.map(item => {
                   return item.replace(publicPath, '');
                 });
@@ -276,30 +207,32 @@ export class RouterPlugin {
             })();
           `;
 
-            const source = chunkToSource.get(chunkId);
-            const map = chunkToMap.get(chunkId);
-            const newContent = `${injectedContent}${source?.toString()}`;
+            let htmlName;
+            for (const [chunks, name] of chunksToHtmlName.entries()) {
+              if (
+                Array.isArray(chunkNames) &&
+                Array.isArray(chunks) &&
+                chunkNames.every((value, index) => value === chunks[index])
+              ) {
+                htmlName = name;
+                break;
+              }
+            }
 
-            const result = await transform(newContent, {
-              loader: path.extname(file).slice(1) as Loader,
-              sourcemap: true,
-              minify: minimize,
-            });
-
-            const newSource = new SourceMapSource(
-              result.code,
-              file,
-              result.map,
-              source?.toString(),
-              map,
-            );
-
-            compilation.updateAsset(
-              file,
-              newSource,
-              // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-              undefined as any,
-            );
+            if (htmlName) {
+              const oldHtml = compilation.assets[htmlName];
+              compilation.updateAsset(
+                htmlName,
+                new RawSource(
+                  oldHtml
+                    .source()
+                    .toString()
+                    .replace(placeHolder, injectedContent),
+                ),
+                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+                undefined as any,
+              );
+            }
           }
 
           if (prevManifestAsset) {

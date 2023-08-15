@@ -1,6 +1,7 @@
 import path from 'path';
 import { Compilation, Compiler } from 'webpack';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
+import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import {
   RouterPlugin,
   RouteAssets,
@@ -22,14 +23,19 @@ describe('webpack-router-plugin', () => {
         filename: '[name].js',
         chunkFilename: '[name].js',
       },
-      plugins: [new RouterPlugin()],
+      plugins: [
+        new RouterPlugin(),
+        new HtmlWebpackPlugin({
+          chunks: ['main'],
+        }),
+      ],
     });
 
     const res = stats?.toJson();
     const { outputPath } = res!;
-    const mainBundle = path.join(outputPath!, 'main.js');
-    const bundleContent = await fs.readFile(mainBundle);
-    expect(bundleContent.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(true);
+    const indexHtml = path.join(outputPath!, 'index.html');
+    const htmlContent = await fs.readFile(indexHtml);
+    expect(htmlContent.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(true);
     const manifestFile = path.join(distDir, ROUTE_MANIFEST_FILE);
     const manifest = await import(manifestFile);
     expect(manifest.routeAssets).toHaveProperty('main');
@@ -123,15 +129,21 @@ describe('webpack-router-plugin', () => {
         filename: '[name].js',
         chunkFilename: '[name].js',
       },
-      plugins: [new RouterPlugin(), new PatchRouterManifestWebpackPlugin()],
+      plugins: [
+        new RouterPlugin(),
+        new HtmlWebpackPlugin({
+          chunks: ['main'],
+        }),
+        new PatchRouterManifestWebpackPlugin(),
+      ],
     });
 
     const res = stats?.toJson();
     const { outputPath } = res!;
-    const mainBundle = path.join(outputPath!, 'main.js');
-    const bundleContent = await fs.readFile(mainBundle);
+    const indexHtml = path.join(outputPath!, 'index.html');
+    const htmlContent = await fs.readFile(indexHtml);
     // test basic usage
-    expect(bundleContent.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(true);
+    expect(htmlContent.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(true);
     const manifestFile = path.join(distDir, ROUTE_MANIFEST_FILE);
     const manifest = await import(manifestFile);
     expect(manifest.routeAssets).toHaveProperty('main');
@@ -139,14 +151,14 @@ describe('webpack-router-plugin', () => {
 
     // test merge
     customRouterManifest.routeAssets.main.assets?.forEach(asset => {
-      expect(bundleContent.includes(asset)).toBe(true);
+      expect(htmlContent.includes(asset)).toBe(true);
     });
     customRouterManifest.routeAssets.main.chunkIds?.forEach(chunkId => {
-      expect(bundleContent.includes(chunkId)).toBe(true);
+      expect(htmlContent.includes(chunkId)).toBe(true);
     });
     customRouterManifest.routeAssets.main.referenceCssAssets?.forEach(
       referenceCssAsset => {
-        expect(bundleContent.includes(referenceCssAsset)).toBe(true);
+        expect(htmlContent.includes(referenceCssAsset)).toBe(true);
       },
     );
 
