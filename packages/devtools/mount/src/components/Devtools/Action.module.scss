@@ -5,3 +5,12 @@
   bottom: 10px;
   right: 10px;
 }
+
+.iframe-view {
+  border: solid 1px blue;
+  box-shadow: 0 0 3px #888e;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  width: 40rem;
+  height: 30rem;
+}

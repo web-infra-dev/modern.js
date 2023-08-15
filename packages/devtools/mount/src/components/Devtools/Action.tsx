@@ -26,8 +26,8 @@ const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
       <button className={styles.fab} onClick={toggleDevtools}>
         Toggle DevTools
       </button>
-      <Visible when={showDevtools}>
-        <iframe src={src}></iframe>
+      <Visible when={showDevtools} keepAlive={true}>
+        <iframe className={styles.iframeView} src={src}></iframe>
       </Visible>
     </Modal>
   );
