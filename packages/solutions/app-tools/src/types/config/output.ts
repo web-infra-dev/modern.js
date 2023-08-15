@@ -19,6 +19,7 @@ export interface SharedOutputConfig extends BuilderSharedOutputConfig {
   ssg?: SSGConfig;
   splitRouteChunks?: boolean;
   disableNodePolyfill?: boolean;
+  enableInlineRouteManifests?: boolean;
   tempDir?: string;
 }
 

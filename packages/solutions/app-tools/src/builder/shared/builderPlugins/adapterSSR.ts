@@ -7,6 +7,7 @@ import {
 } from '@modern-js/builder-shared';
 import { isSSR, fs } from '@modern-js/utils';
 import { ChainIdentifier } from '@modern-js/utils/chain-id';
+import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 import type {
   AppNormalizedConfig,
   Bundler,
@@ -43,7 +44,7 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         const builderConfig = api.getNormalizedConfig();
         const { normalizedConfig } = options;
 
-        applyRouterPlugin(chain, options);
+        applyRouterPlugin(chain, options, HtmlBundlerPlugin);
         if (isSSR(normalizedConfig)) {
           await applySSRLoaderEntry(chain, options, isServer);
           applySSRDataLoader(chain, options);
@@ -114,6 +115,7 @@ function applyAsyncChunkHtmlPlugin({
 function applyRouterPlugin<B extends Bundler>(
   chain: BundlerChain,
   options: Readonly<BuilderOptions<B>>,
+  HtmlBundlerPlugin: typeof HtmlWebpackPlugin,
 ) {
   const { appContext, normalizedConfig } = options;
   const { entrypoints } = appContext;
@@ -125,9 +127,17 @@ function applyRouterPlugin<B extends Bundler>(
   const routerManifest = Boolean(routerConfig?.manifest);
   const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
-  // for ssr mode
   if (existNestedRoutes || routerManifest || workerSSR) {
-    chain.plugin('route-plugin').use(RouterPlugin);
+    chain.plugin('route-plugin').use(RouterPlugin, [
+      {
+        HtmlBundlerPlugin,
+        enableInlineRouteManifests:
+          normalizedConfig.output.enableInlineRouteManifests,
+        staticJsDir: normalizedConfig.output?.distPath?.js,
+        disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
+        scriptLoading: normalizedConfig.html.scriptLoading,
+      },
+    ]);
   }
 }
 

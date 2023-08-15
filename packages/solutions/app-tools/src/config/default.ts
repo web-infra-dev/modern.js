@@ -19,6 +19,7 @@ export function createDefaultConfig(
   const output: AppUserConfig['output'] = {
     ...defaultBuilderConfig.output,
     disableNodePolyfill: true,
+    enableInlineRouteManifests: true,
   };
 
   const source: AppUserConfig['source'] & {

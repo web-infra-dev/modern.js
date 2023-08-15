@@ -46,6 +46,7 @@ const bff = {
 const output = {
   ssg: { typeof: ['boolean', 'object', 'function'] },
   disableNodePolyfill: { type: 'boolean' },
+  enableInlineRouteManifests: { type: 'boolean' },
 };
 const dev = {};
 const server = {

@@ -335,9 +335,9 @@ const supportLoadChunksParallelly = async () => {
   const distDir = path.join(appDir, './dist');
   const manifestFile = path.join(distDir, ROUTE_MANIFEST_FILE);
   expect(await fs.pathExists(manifestFile)).toBeTruthy();
-  const threeBundleFile = path.join(distDir, 'static/js/three.js');
-  const thressBundleContent = await fs.readFile(threeBundleFile);
-  expect(thressBundleContent.includes(ROUTE_MANIFEST)).toBeTruthy();
+  const threeHtmlPath = path.join(distDir, 'html/three/index.html');
+  const threeHtml = await fs.readFile(threeHtmlPath);
+  expect(threeHtml.includes(ROUTE_MANIFEST)).toBeTruthy();
 };
 
 const supportHandleConfig = async (page: Page, appPort: number) => {
@@ -460,26 +460,19 @@ const supportCatchAll = async (
 const getStaticJSDir = (appDir: string) =>
   path.join(appDir, './dist/static/js');
 
+const getHtmlDir = (appDir: string) => path.join(appDir, './dist/html');
+
 const getEntryFile = async (staticJSDir: string) => {
   const files = await fs.readdir(staticJSDir);
   return files.find(file => /^three(\.\w+)?\.js$/.test(file));
 };
 
-const getEntryContent = async (staticJSDir: string, entryFile: string) => {
-  const entryContent = (
-    await fs.readFile(path.join(staticJSDir, entryFile))
-  ).toString();
-  return entryContent;
-};
-
 const testRouterPlugin = async (appDir: string) => {
-  const staticJSDir = getStaticJSDir(appDir);
-  const entryFile = await getEntryFile(staticJSDir);
-  expect(entryFile).toBeDefined();
-
-  const entryContent = await getEntryContent(staticJSDir, entryFile!);
-  expect(entryContent.includes(entryFile!)).toBe(true);
-  expect(!entryContent.includes('four.')).toBe(true);
+  const htmlDir = getHtmlDir(appDir);
+  const threeHtmlPath = path.join(htmlDir, 'three', 'index.html');
+  const threeHtml = await fs.readFile(threeHtmlPath);
+  expect(threeHtml.includes('three.')).toBe(true);
+  expect(!threeHtml.includes('four.')).toBe(true);
 };
 
 const hasHashCorrectly = async (appDir: string) => {
@@ -487,7 +480,9 @@ const hasHashCorrectly = async (appDir: string) => {
   const entryFile = await getEntryFile(staticJSDir);
   expect(entryFile).toBeDefined();
 
-  const entryContent = await getEntryContent(staticJSDir, entryFile!);
+  const htmlDir = getHtmlDir(appDir);
+  const threeHtmlPath = path.join(htmlDir, 'three', 'index.html');
+  const threeHtml = (await fs.readFile(threeHtmlPath)).toString();
 
   const threeUserFiles = await fs.readdir(
     path.join(staticJSDir, 'async/three_user'),
@@ -499,7 +494,7 @@ const hasHashCorrectly = async (appDir: string) => {
   const matched = testFile!.match(/page\.(\w+)\.js$/);
   expect(matched).toBeDefined();
   const hash = matched![1];
-  expect(entryContent.includes(`"${hash}"`)).toBe(true);
+  expect(threeHtml.includes(hash)).toBe(true);
 };
 
 describe('dev', () => {
