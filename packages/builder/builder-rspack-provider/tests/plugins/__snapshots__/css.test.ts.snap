@@ -826,6 +826,9 @@ exports[`plugins/sass > should add sass-loader 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -880,6 +883,9 @@ exports[`plugins/sass > should add sass-loader 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -964,6 +970,9 @@ exports[`plugins/sass > should add sass-loader and css-loader when disableCssExt
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+            "options": {
+              "join": [Function],
+            },
           },
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1033,6 +1042,9 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1090,6 +1102,9 @@ exports[`plugins/sass > should add sass-loader with excludes 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
