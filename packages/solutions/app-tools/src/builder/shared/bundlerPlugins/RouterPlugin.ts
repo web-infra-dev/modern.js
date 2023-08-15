@@ -1,4 +1,4 @@
-import { randomBytes } from 'crypto';
+import { createHash } from 'crypto';
 import { mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
@@ -24,13 +24,11 @@ type Options = {
   HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
   staticJsDir: string;
   enableInlineRouteManifests: boolean;
+  disableFilenameHash: boolean;
 };
 
-const getRandomUUID = () => {
-  const bytes = randomBytes(16);
-  const hex = bytes.toString('hex');
-  const uuid = hex.slice(0, 8);
-  return uuid;
+const generateContentHash = (content: string) => {
+  return createHash('md5').update(content).digest('hex').slice(0, 8);
 };
 
 export class RouterPlugin {
@@ -40,14 +38,18 @@ export class RouterPlugin {
 
   private staticJsDir: string;
 
+  private disableFilenameHash?: boolean;
+
   constructor({
     staticJsDir = 'static/js',
     HtmlBundlerPlugin,
     enableInlineRouteManifests,
+    disableFilenameHash = false,
   }: Options) {
     this.HtmlBundlerPlugin = HtmlBundlerPlugin;
     this.enableInlineRouteManifests = enableInlineRouteManifests;
     this.staticJsDir = staticJsDir;
+    this.disableFilenameHash = disableFilenameHash;
   }
 
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -189,11 +191,13 @@ export class RouterPlugin {
             routeAssets,
           };
 
+          const entryNames = Array.from(compilation.entrypoints.keys());
           const entryChunks = this.getEntryChunks(compilation, chunks);
           const entryChunkFiles = this.getEntryChunkFiles(entryChunks);
 
           const entryChunkFileIds = entryChunks.map(chunk => chunk.id);
           for (let i = 0; i < entryChunkFiles.length; i++) {
+            const entryName = entryNames[i];
             const file = entryChunkFiles[i];
             const chunkNames = entryChunks[i].names;
             const chunkId = entryChunkFileIds[i];
@@ -265,7 +269,12 @@ export class RouterPlugin {
             } else {
               const scriptPath = `${
                 this.staticJsDir
-              }/${ROUTE_MANIFEST_HOLDER}.${getRandomUUID()}.js`;
+              }/${ROUTE_MANIFEST_HOLDER}-${entryName}${
+                this.disableFilenameHash
+                  ? '.js'
+                  : `.${generateContentHash(injectedContent)}.js`
+              }`;
+
               const scriptUrl = `${publicPath}${scriptPath}`;
               const script = `<script defer src="${scriptUrl}"></script>`;
               compilation.updateAsset(
