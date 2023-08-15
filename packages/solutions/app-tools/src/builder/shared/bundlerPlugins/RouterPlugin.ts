@@ -286,10 +286,16 @@ export class RouterPlugin {
               }`;
 
               const scriptUrl = `${publicPath}${scriptPath}`;
-              const script =
-                scriptLoading === 'defer' || this.scriptLoading === 'module'
-                  ? `<script ${scriptLoading} src="${scriptUrl}"></script>`
-                  : `<script src="${scriptUrl}"></script>`;
+
+              const script = `<script ${
+                // eslint-disable-next-line no-nested-ternary
+                scriptLoading === 'defer'
+                  ? scriptLoading
+                  : scriptLoading === 'module'
+                  ? `type="module"`
+                  : ''
+              } src="${scriptUrl}"></script>`;
+
               compilation.updateAsset(
                 htmlName,
                 new RawSource(
