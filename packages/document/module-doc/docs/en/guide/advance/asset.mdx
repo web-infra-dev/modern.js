@@ -19,43 +19,30 @@ For the handling of static files, the module project currently supports the foll
 - Set the static resource path to `. /assets`.
 - Files less than **10kb** will be inlined into the code.
 
+### Example
+
 Let us look at the following example:
 
-<CH.Spotlight>
+- Project source code:
 
-```ts ./src/asset.ts
+```ts title="./src/asset.ts"
 import img from './bg.png';
 //...
 ```
 
----
-
-Project source code.
-
-
----
-
-If the size of `bg.png` is less than 10 kb, then the output directory structure and file content are.
-
-<CH.Code>
+- If the size of `bg.png` is less than 10 kb, then the output directory structure and file content are.
 
 ```bash
 ./dist
 └── asset.js
 ```
 
----
-
-```js ./dist/asset.js
+```js title="./dist/asset.js"
 var bg_default = 'data:image/png;base64,';
 console.info(bg_default);
 ```
 
-</CH.Code>
-
-If the size of `bg.png` is larger than 10 kb, then the output directory structure and file content are.
-
-<CH.Code>
+- If the size of `bg.png` is larger than 10 kb, then the output directory structure and file content are.
 
 ```bash
 ./dist
@@ -64,16 +51,10 @@ If the size of `bg.png` is larger than 10 kb, then the output directory structur
     └── bg.13e2aba2.png
 ```
 
----
-
-```js ./dist/asset.js
+```js title="./dist/asset.js"
 import img from './assets/bg.13e2aba2.png';
 console.info(img);
 ```
-
-</CH.Code>
-
-</CH.Spotlight>
 
 When wanting to modify the default behavior, the following API can be used:
 

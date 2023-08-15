@@ -1,6 +1,11 @@
 import { expect, it, describe } from 'vitest';
 import webpack from 'webpack';
-import { getExtensions, stringifyConfig, getMetaTags } from '../src/config';
+import {
+  getExtensions,
+  stringifyConfig,
+  getMetaTags,
+  pickBuilderConfig,
+} from '../src/config';
 
 it('should get default extensions correctly', async () => {
   expect(getExtensions()).toEqual(['.js', '.jsx', '.mjs', '.json']);
@@ -111,5 +116,40 @@ describe('stringifyConfig', () => {
 
     const entry1 = await getMetaTags('entry1', builderConfig);
     expect(entry1).toMatchSnapshot();
+  });
+});
+
+describe('pickBuilderConfig', () => {
+  it('should pick correct keys from builder config', () => {
+    const builderConfig = {
+      dev: {},
+      html: {},
+      tools: {},
+      source: {},
+      output: {},
+      security: {},
+      performance: {},
+      experiments: {},
+      extraKey: 'extraValue',
+    };
+
+    const result = pickBuilderConfig(builderConfig);
+
+    expect(result).toEqual({
+      dev: {},
+      html: {},
+      tools: {},
+      source: {},
+      output: {},
+      security: {},
+      performance: {},
+      experiments: {},
+    });
+  });
+
+  it('should return empty object when builder config is empty', () => {
+    const builderConfig = {};
+    const result = pickBuilderConfig(builderConfig);
+    expect(result).toEqual({});
   });
 });

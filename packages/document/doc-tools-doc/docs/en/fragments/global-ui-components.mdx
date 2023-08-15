@@ -1,0 +1,41 @@
+When you register global components, the framework will automatically render these React components in the theme without manually importing and using them.
+
+Through global components, you can complete many custom functions, such as:
+
+```tsx title="compUi.tsx"
+import React from 'react';
+
+// Need a default export
+export default function PluginUI() {
+  return <div>This is a global layout component</div>;
+}
+```
+
+In this way, the content of the component will be rendered in the theme page, such as adding **BackToTop** button.
+
+In the meanwhile, you can also use the global component to register some side effects, such as:
+
+```tsx title="compSideEffect.tsx"
+import { useEffect } from 'react';
+import { useLocation } from '@modern-js/doc-tools/runtime';
+
+// Need a default export
+export default function PluginSideEffect() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    // Executed when the component renders for the first time
+  }, []);
+
+  useEffect(() => {
+    // Executed when the route changes
+  }, [pathname]);
+  return null;
+}
+```
+
+This way, side effects of components are executed in the theme page. For example, some of the following scenarios require side effects:
+
+- Redirect for certain page routes.
+- Bind click event on the img tag of the page to implement the image zoom function.
+- When the route changes, the PV data of different pages are reported.
+- ......

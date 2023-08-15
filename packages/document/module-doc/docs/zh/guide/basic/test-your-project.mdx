@@ -10,7 +10,7 @@ sidebar_position: 6
 
 想要使用项目的测试功能，需要确保项目中包含依赖：`"@modern-js/plugin-testing"`，以及按照类似下面的内容进行配置：
 
-``` ts
+```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { testingPlugin } from '@modern-js/plugin-testing';
 
@@ -59,31 +59,17 @@ modern test --updateSnapshot
 
 对于普通的模块，我们可以按照如下方式使用测试功能：
 
-<CH.Spotlight>
+- 首先是模块的代码：
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default function () {
   return 'hello world';
 }
 ```
 
----
+- 然后在测试文件中，我们可以按以下方式引用，其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
 
-首先是模块的代码。
-
-```ts ./src/index.ts
-export default function () {
-  return 'hello world';
-}
-```
-
----
-
-然后在测试文件中，我们可以这样。
-
-其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
-
-```ts ./tests/index.test.ts
+```ts title="./tests/index.test.ts"
 import main from '@/index';
 
 describe('默认值 cases', () => {
@@ -95,9 +81,7 @@ describe('默认值 cases', () => {
 });
 ```
 
----
-
-最后我们可以执行 `modern test`。
+- 最后我们可以执行 `modern test`：
 
 ```bash
 pnpm test
@@ -106,8 +90,6 @@ yarn test
 ## or
 npm run test
 ```
-
-</CH.Spotlight>
 
 ### 组件
 
@@ -119,9 +101,9 @@ npm run test
 如果需要使用 Runtime API，那么可以通过 [微生成器](/guide/basic/command-preview) 开启。
 :::
 
-<CH.Spotlight>
+- 首先是组件的代码：
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -129,25 +111,9 @@ export const default () {
 }
 ```
 
----
+- 然后在测试文件中，我们可以按以下方式引用，其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
 
-首先是组件的代码。
-
-```tsx ./src/index.tsx
-export const default () {
-  return (
-    <div>This is a UI Component</div>
-  );
-}
-```
-
----
-
-然后在测试文件中，我们可以这样。
-
-其中 `@` 指向了源码目录，在初始化项目的 `tests/tsconfig.json` 的 `paths` 中定义了。
-
-```tsx ./tests/index.test.tsx
+```tsx title="./tests/index.test.tsx"
 import { render, screen } from '@modern-js/runtime/testing';
 
 import Component from '@/index';
@@ -160,9 +126,7 @@ describe('默认值 cases', () => {
 });
 ```
 
----
-
-最后我们可以执行 `modern test`。
+- 最后我们可以执行 `modern test`。
 
 ```bash
 pnpm test
@@ -171,5 +135,3 @@ yarn test
 ## or
 npm run test
 ```
-
-</CH.Spotlight>

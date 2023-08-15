@@ -34,11 +34,9 @@ Module Tools 集成了 Storybook，因此你几乎可以按照 Storybook 官方�
 
 ### 引用组件产物
 
-假如存在 TypeScript 项目 `foo`：
+假如存在 TypeScript 项目 `foo`，首先要确保 `package.json` 的 `main` 和 `types` 的值为正确的产物路径。
 
-<CH.Spotlight>
-
-```json package.json
+```json title="package.json"
 {
   "name": "foo",
   "main": "./dist/index.js",
@@ -46,33 +44,15 @@ Module Tools 集成了 Storybook，因此你几乎可以按照 Storybook 官方�
 }
 ```
 
----
+`foo` 项目的源码：
 
-确保 `package.json` 的 `main` 和 `types`
-的值为正确的产物路径。
-
-```json package.json
-{
-  "name": "foo",
-  "main": "./dist/index.js",
-  "types": "./dist/types/index.d.ts"
-}
-```
-
----
-
-`foo` 项目的源码。
-
-```ts src/index.ts
+```ts title="src/index.ts"
 export const content = 'hello world';
 ```
 
----
+请确保在 `stories/tsconfig.json` 中设置了指向项目根目录的 `paths` 配置。`paths` 的 `key` 与项目名称相同，这样在编译过程中以及在代码中不会出现问题。
 
-确保在 `stories/tsconfig.json` 中设置了指向项目根目录的 `paths` 配置。
-`paths` 的 `key` 与项目名称相同，这样在编译过程中以及在代码中不会出现问题。
-
-```json stories/tsconfig.json focus=5:7
+```json title="stories/tsconfig.json"
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
@@ -88,11 +68,9 @@ export const content = 'hello world';
 }
 ```
 
----
+在 Story 代码中直接以项目名称的方式引用：
 
-在 Story 代码中直接以项目名称的方式引用。
-
-```tsx stories/index.stories.tsx focus=1:1
+```tsx title="stories/index.stories.tsx"
 import { content } from 'foo';
 
 const Component = () => <div>this is a Story Component {content}</div>;
@@ -104,34 +82,24 @@ export default {
 };
 ```
 
----
+最后在执行命令的时候，先启动监听模式的源码构建，然后启动 Storybook 调试即可：
 
-最后在执行命令的时候，先启动监听模式的源码构建，然后启动 Storybook 调试。
-
-<CH.Code>
-
-``` bash terminal-1
+```bash title="terminal-1"
 ## 源码构建
 modern build --watch
 ```
 
----
-
-``` bash terminal-2
+```bash title="terminal-2"
 ## Storybook 调试
 modern dev storybook
 ```
-
-</CH.Code>
-
-</CH.Spotlight>
 
 :::info
 在开发过程中，可能会遇到无法实时获得类型定义的情况。因为只有当保存代码后，产物目录下的类型文件才会更新。此时：
 
 对于 `pnpm` 的项目，可以按照下面的内容对 `package.json` 进行修改：
 
-```ts focus=4:7
+```ts
 {
     "name": "foo",
     "main": "./dist/index.js",
@@ -156,7 +124,7 @@ modern dev storybook
 
 引用组件的源码可以通过相对路径的方式：
 
-```ts ./stories/index.tsx
+```ts title="./stories/index.tsx"
 import { content } from '../src';
 
 const Component = () => <div>this is a Story Component {content}</div>;

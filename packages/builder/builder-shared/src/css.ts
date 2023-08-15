@@ -246,3 +246,29 @@ export const isUseCssExtract = (
   !config.output.disableCssExtract &&
   target !== 'node' &&
   target !== 'web-worker';
+
+/**
+ * fix resolve-url-loader can't deal with resolve.alias config (such as @xxx、xxx)
+ *
+ * reference: https://github.com/bholloway/resolve-url-loader/blob/e2695cde68f325f617825e168173df92236efb93/packages/resolve-url-loader/docs/advanced-features.md
+ */
+export const getResolveUrlJoinFn = async () => {
+  const {
+    createJoinFunction,
+    asGenerator,
+    createJoinImplementation,
+    defaultJoinGenerator,
+  } = await import('../compiled/resolve-url-loader');
+
+  const builderGenerator = asGenerator((item: any, ...rest: any[]) => {
+    // only handle relative path (not absolutely accurate, but can meet common scenarios)
+    if (!item.uri.startsWith('.')) {
+      return [null];
+    }
+    return defaultJoinGenerator(item, ...rest);
+  });
+  return createJoinFunction(
+    'builder-resolve-join-fn',
+    createJoinImplementation(builderGenerator),
+  );
+};

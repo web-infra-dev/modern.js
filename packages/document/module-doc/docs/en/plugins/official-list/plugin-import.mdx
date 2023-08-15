@@ -92,79 +92,36 @@ Some configurations can accept functions, such as `customName`, `customStyleName
 
 Simple function logic can be replaced by template language. Therefore, for configurations such as `customName`, `customStyleName`, etc., instead of passing functions, you can also pass a string as a template to replace the function, improving performance.
 
-<CH.Spotlight>
+We will use the following code as example:
 
 ```ts
 import { MyButton as Btn } from 'foo';
 ```
-
----
-
-We will use this piece of code for illustration.
-
-```ts
-import { MyButton as Btn } from 'foo';
-```
-
----
 
 Add the following configuration on the right-hand side:
 
 ```ts
-import { modulePluginImport } from '@modern-js/plugin-module-import';
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  plugins: [
-    moduleTools(),
-    modulePluginImport({
-      pluginImport: [
-        {
-          libraryName: 'foo',
-          customName: 'foo/es/{{ member }}',
-        },
-      ],
-    }),
+modulePluginImport({
+  pluginImport: [
+    {
+      libraryName: 'foo',
+      customName: 'foo/es/{{ member }}',
+    },
   ],
 });
 ```
 
----
-
-The `{{ member }}` in it will be replaced with the corresponding import member.
-
-```ts focus=8:8
-import { modulePluginImport } from '@modern-js/plugin-module-import';
-
-export default defineConfig({
-  plugins: [
-    modulePluginImport({
-      pluginImport: [
-        {
-          libraryName: 'foo',
-          customName: 'foo/es/{{ member }}',
-        },
-      ],
-    }),
-  ],
-});
-```
-
----
-
-After transformation:
+The `{{ member }}` in it will be replaced with the corresponding import member. After transformation:
 
 ```ts
 import Btn from 'foo/es/MyButton';
 ```
 
-</CH.Spotlight>
-
 Template `customName: 'foo/es/{{ member }}'` is the same as `` customName: (member) => `foo/es/${member}` ``, but template value has no performance overhead of Node-API.
 
 The template used here is [handlebars](https://handlebarsjs.com). There are some useful builtin tools, Take the above import statement as an example:
 
-```ts focus=8:8
+```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 

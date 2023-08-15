@@ -1,11 +1,11 @@
-```js modern.config.ts
+```js title="modern.config.ts"
 import { myEsbuildPlugin } from './myEsbuildPlugin';
 
 export default defineConfig({
   buildConfig: {
     esbuildOptions: options => {
       options.plugins = [myEsbuildPlugin, ...options.plugins];
-      return option;
+      return options;
     },
   },
 });

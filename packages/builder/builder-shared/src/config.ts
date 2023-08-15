@@ -21,6 +21,7 @@ import type {
   BuilderTarget,
   BundlerChainRule,
   SharedHtmlConfig,
+  SharedBuilderConfig,
   InspectConfigOptions,
   CreateBuilderOptions,
   NormalizedSharedDevConfig,
@@ -31,6 +32,7 @@ import type {
   NormalizedSharedPerformanceConfig,
   NormalizedSharedToolsConfig,
 } from './types';
+import { pick } from './pick';
 import { logger } from './logger';
 import { join } from 'path';
 
@@ -388,4 +390,23 @@ export const getDefaultStyledComponentsConfig = (
     displayName: true,
     transpileTemplateLiterals: true,
   };
+};
+
+/**
+ * Omit unused keys from builder config passed by user
+ */
+export const pickBuilderConfig = (
+  builderConfig: SharedBuilderConfig,
+): SharedBuilderConfig => {
+  const keys: Array<keyof SharedBuilderConfig> = [
+    'dev',
+    'html',
+    'tools',
+    'source',
+    'output',
+    'security',
+    'performance',
+    'experiments',
+  ];
+  return pick(builderConfig, keys);
 };
