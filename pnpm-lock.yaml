@@ -4504,6 +4504,9 @@ importers:
       '@modern-js/prod-server':
         specifier: workspace:*
         version: link:../../server/prod-server
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../../toolkit/types
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -4556,9 +4559,6 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../plugin-runtime
-      '@modern-js/types':
-        specifier: workspace:*
-        version: link:../../toolkit/types
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
