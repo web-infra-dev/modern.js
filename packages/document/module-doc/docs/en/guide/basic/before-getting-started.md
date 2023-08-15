@@ -177,7 +177,7 @@ export default defineConfig({
 
 **We recommend using the `defineConfig` function**, but it is not mandatory to use it. So you can also return an object directly in the config file: the
 
-``` ts title="modern.config.ts"
+```ts title="modern.config.ts"
 import { moduleTools } from '@modern-js/module-tools';
 
 export default {

@@ -6,7 +6,7 @@ sidebar_position: 4
 
 一般来说，项目所需要的第三方依赖可以通过包管理器的 `install` 命令安装，在安装第三方依赖成功后，这些第三方依赖一般会出现在项目 `package.json` 的 `dependencies` 和 `devDependencies` 下。
 
-```json pacakge.json
+```json title="pacakge.json"
 {
   "dependencies": {},
   "devDependencies": {}
@@ -25,9 +25,11 @@ sidebar_position: 4
 
 如果需要打包某些依赖，建议将它们从 `"dependencies"` 挪到 `"devDependencies"` ，这相当于对依赖进行 **prebundle** ，可以减小依赖安装的体积。
 
-<CH.Spotlight>
+### 示例
 
-```json ./v1/package.json
+如果项目依赖了 `react`:
+
+```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
@@ -39,41 +41,19 @@ sidebar_position: 4
 }
 ```
 
----
+当源码中使用了 `react` 依赖:
 
-如果项目依赖了 `react`。
-
-```json ./v1/package.json
-{
-  "dependencies": {
-    "react": "^17"
-  },
-  // or
-  "peerDependencies": {
-    "react": "^17"
-  }
-}
-```
-
----
-
-当源码中使用了 `react` 依赖。
-
-```tsx src/index.ts
+```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
 
----
+此时产物中不会包含 `react` 的代码:
 
-此时产物中不会将 `react` 代码打包到产物中。
-
-```js dist/index.js
+```js title="dist/index.js"
 import React from 'react';
 console.info(React);
 ```
-
-</CH.Spotlight>
 
 如果想要修改默认的处理方式，可以通过下面的 API 进行修改：
 

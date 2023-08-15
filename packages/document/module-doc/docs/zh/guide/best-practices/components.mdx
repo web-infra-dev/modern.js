@@ -8,9 +8,9 @@ sidebar_position: 1
 
 ## 初始化项目
 
-<CH.Spotlight>
+1. 推荐使用 `@modern-js/create` 命令来初始化一个 npm 项目。
 
-```bash 交互式问题
+```text title="交互式问题"
 npx @modern-js/create@latest components-project
 
 ? 请选择你想创建的工程类型：Npm 模块
@@ -19,24 +19,9 @@ npx @modern-js/create@latest components-project
 ? 请选择包管理工具：pnpm
 ```
 
----
+2. 初始化的目录结构如下：
 
-推荐使用 `@modern-js/create` 命令来初始化一个 npm 项目。
-
-```bash 交互式问题
-npx @modern-js/create@latest components-project
-
-? 请选择你想创建的工程类型：Npm 模块
-? 请填写项目名称：components-demo
-? 请选择开发语言：TS
-? 请选择包管理工具：pnpm
-```
-
----
-
-初始化的目录结构。
-
-```bash 初始化的目录结构。
+```bash
 .
 ├── README.md
 ├── node_modules/
@@ -50,149 +35,17 @@ npx @modern-js/create@latest components-project
 └── tsconfig.json
 ```
 
----
+3. 最后修改 `./src/index.ts` 文件后缀和内容如下，就完成了组件项目的初始化。
 
-修改 `./src/index.ts` 文件后缀和内容。
-
-此时就初始化了一个组件项目。
-
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export default () => {
   return <div>hello world</div>;
 };
 ```
-
-</CH.Spotlight>
 
 ## 使用 Storybook 调试代码
 
-<CH.Spotlight>
-
-```bash 终端
-pnpm run new
-
-? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用「Storybook」
-```
-
----
-
-在项目根目录下执行 `new` 命令，可以开启 Storybook 功能。
-
-```bash 终端
-pnpm run new
-
-? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用「Storybook」
-```
-
----
-
-成功开启后，会看到 `package.json` 中新增了依赖。同时创建了 `stories` 目录和相关的初始化文件。
-
-<CH.Code>
-
-```json ./package.json focus=4:7
-{
-  "name": "components-demo",
-  "devDependencies": {
-    "@modern-js/plugin-storybook": "x.y.z",
-    "@modern-js/runtime": "x.y.z",
-    "react": "^17",
-    "react-dom": "^17"
-  }
-}
-```
-
-```bash 目录结构
-.
-├── src
-│   ├── index.ts
-│   └── modern-app-env.d.ts
-├── stories
-│   ├── .eslintrc.js
-│   ├── index.stories.tsx
-│   └── tsconfig.json
-```
-
-</CH.Code>
-
----
-
-初始化后，在 `./stories` 目录下的 `tsconfig.json` 文件中默认设置了与项目同名的 `paths` 配置。
-
-```json ./stories/tsconfig.json focus=5:7
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "../",
-    "paths": {
-      "components-demo": ["./"],
-      "components-demo/*": ["./*"]
-    }
-  },
-  "include": ["**/*"]
-}
-```
-
----
-
-这样的配置可以让你在 Story 代码中直接使用项目的名称引入代码。
-
-<CH.Code>
-
-```tsx ./stories/index.stories.tsx
-import Component from 'components-demo';
-
-export const YourStory = () => <Component />;
-
-export default {
-  title: 'Your Stories',
-};
-```
-
----
-
-```tsx ./src/index.tsx
-export default () => {
-  return <div>hello world</div>;
-};
-```
-
-</CH.Code>
-
----
-
-此时 Storybook 会根据项目的 `package.json` 文件中的 `main`、`exports` 这样的字段确认导入代码的入口；
-根据 `types` 字段确定类型文件的位置。
-
-```json package.json
-{
-  "name": "components-demo",
-  "main": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts"
-}
-```
-
----
-
-虽然也支持导入源代码进行调试，不过使用项目产物调试更加可靠。
-
-使用源代码调试存在局限性：某些配置无法在 Storybook 和原本构建支持的配置等价使用。
-
-**因此更推荐使用产物进行调试**。
-
-```tsx ./stories/index.stories.tsx
-import Component from '../src';
-
-export const YourStory = () => <Component />;
-
-export default {
-  title: 'Your Stories',
-};
-```
-
-</CH.Spotlight>
+请参考 [「使用 Storybook」](/guide/basic/using-storybook.html) 来使用 Storybook 调试代码。
 
 ## 开发样式
 
@@ -220,9 +73,9 @@ export default {
 
 因此我们可以在项目中创建 `.css` 文件，并且可以直接在 css 文件中使用这些插件提供的语法支持和能力。
 
-<CH.Spotlight>
+- 源代码：
 
-```css ./src/index.css
+```less title="./src/index.css"
 a,
 b {
   color: red;
@@ -240,19 +93,9 @@ b {
 }
 ```
 
----
+- CSS 产物：
 
-源代码。
-
-```css ./src/index.css
-
-```
-
----
-
-css 产物。
-
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 a,
 b {
   color: red;
@@ -269,17 +112,15 @@ e b {
 }
 ```
 
-</CH.Spotlight>
-
 ### Less
 
 模块工程支持使用 Less 开发样式。
 
 > 目前内置的 Less 版本为 v4.1.3
 
-<CH.Spotlight>
+- 源代码：
 
-```less ./src/common.less
+```less title="./src/common.less"
 @bg: black;
 @bg-light: boolean(luma(@bg) > 50%);
 
@@ -289,26 +130,14 @@ div {
 }
 ```
 
----
+- Less 产物：
 
-源代码。
-
-```less ./src/common.less
-
-```
-
----
-
-Less 产物。
-
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 div {
   background: black;
   color: white;
 }
 ```
-
-</CH.Spotlight>
 
 ### Sass/Scss
 
@@ -316,9 +145,9 @@ div {
 
 > 目前内置的 Sass 版本为 v1.54.4
 
-<CH.Spotlight>
+- 源代码：
 
-```sass ./src/common.sass
+```scss title="./src/common.sass"
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 
@@ -328,26 +157,14 @@ body {
 }
 ```
 
----
+- Sass 产物：
 
-源代码。
-
-```sass ./src/common.sass
-
-```
-
----
-
-Less 产物。
-
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 body {
   font: 100% Helvetica, sans-serif;
   color: #333;
 }
 ```
-
-</CH.Spotlight>
 
 ### Tailwind CSS
 
@@ -355,31 +172,18 @@ body {
 
 默认情况下，模块工程没有开启该功能，需要按照下面的方式开启它。
 
-<CH.Spotlight>
+1. 在项目根目录下执行 `new` 命令，可以开启 Tailwind CSS 功能。
 
-```bash 终端
-pnpm run new
-
-? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用「Storybook」
-```
-
----
-
-在项目根目录下执行 `new` 命令，可以开启 Tailwind CSS 功能。
-
-```bash 终端
+```text title="终端"
 pnpm run new
 
 ? 请选择你想要的操作 启用可选功能
 ? 请选择功能名称 启用 「Tailwind CSS」 支持
 ```
 
----
+2. 成功开启后，会看到 `package.json` 中新增了依赖。
 
-成功开启后，会看到 `package.json` 中新增了依赖。
-
-```json ./package.json
+```json title="./package.json"
 {
   "devDependencies": {
     "@modern-js/plugin-tailwindcss": "x.y.z"
@@ -387,15 +191,13 @@ pnpm run new
 }
 ```
 
-</CH.Spotlight>
-
-Tailwind CSS 提供了两种使用方式：
+3. Tailwind CSS 提供了两种使用方式：
 
 #### HTML 类名
 
-<CH.Spotlight>
+Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。**当使用 HTML 类名的时候，一定要注意导入 Tailwind CSS 相应的 css 文件。**
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -403,60 +205,12 @@ export default () => {
 };
 ```
 
----
+样式产物（此时是 bundle 构建）：
 
-Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
-
-```tsx ./src/index.tsx focus=5:5
-
-```
-
----
-
-**当使用 HTML 类名的时候，一定要注意导入 Tailwind CSS 相应的 css 文件。**
-
-```tsx ./src/index.tsx focus=1:1
-
-```
-
----
-
-样式产物。
-
-> 此时是 bundle 构建。
-
-```css ./dist/es/index.css
-/* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-@keyframes pulse {
-  50% {
-    opacity: 0.5;
-  }
-}
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  }
 }
 .bg-black {
   --tw-bg-opacity: 1;
@@ -466,34 +220,8 @@ Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
-*,
-::before,
-::after {
-  --tw-shadow: 0 0 #0000;
-}
-*,
-::before,
-::after {
-  --tw-ring-inset: var(--tw-empty);
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgba(59, 130, 246, 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-}
-@media (min-width: 640px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 1024px) {
-}
-@media (min-width: 1280px) {
-}
-@media (min-width: 1536px) {
-}
+/** some more... */
 ```
-
-</CH.Spotlight>
 
 #### `@apply`
 
@@ -513,7 +241,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 当将 Tailwind 与 Sass 一起使用时，`@apply` 后面存在 `!important` 的时候，需要使用插值来让 Sass 正确编译。
 
-<CH.Spotlight>
+- 不能正常工作：
 
 ```sass
 .alert {
@@ -521,17 +249,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 }
 ```
 
----
-
-不能正常工作。
-
-```sass
-
-```
-
----
-
-能够正常工作。
+- 能够正常工作：
 
 ```sass
 .alert {
@@ -539,13 +257,11 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 }
 ```
 
-</CH.Spotlight>
-
 ##### Less
 
 在与 Less 一起使用 Tailwind 时，你不能嵌套 Tailwind 的 `@screen` 指令。
 
-<CH.Spotlight>
+- 不能正常工作：
 
 ```less
 .card {
@@ -557,21 +273,9 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 }
 ```
 
----
+- 相反，使用常规的媒体查询和 `theme()` 函数来引用你的屏幕尺寸，或者干脆不要嵌套你的 `@screen` 指令。
 
-不能正常工作。
-
-```less
-
-```
-
----
-
-相反，使用常规的媒体查询和 `theme()` 函数来引用你的屏幕尺寸，或者干脆不要嵌套你的 `@screen` 指令。
-
-<CH.Code>
-
-```less 方法一
+```less title="方法一"
 // Use a regular media query and theme()
 .card {
   @apply rounded-none;
@@ -582,9 +286,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 }
 ```
 
----
-
-```less 方法二
+```less title="方法二"
 // Use the @screen directive at the top-level
 .card {
   @apply rounded-none;
@@ -594,10 +296,6 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
   }
 }
 ```
-
-</CH.Code>
-
-</CH.Spotlight>
 
 #### 推荐方式
 
@@ -611,7 +309,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 
 > 所谓 bundle 和 bundleless 可以查看 [「Bundle 和 Bundleless」](/guide/advance/in-depth-about-build#bundle-和-bundleless)
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -625,37 +323,10 @@ Bundle 模式下，会将第三方依赖打包进来。
 
 如果需要将样式注入 JS 产物中，可以开启 [`style.inject`](/api/config/build-config#styleinject) 选项。
 
-<CH.Code>
-```css ./dist/es/index.css
-/* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes ping {
-  75%, 100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-@keyframes pulse {
-  50% {
-    opacity: .5;
-  }
-}
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  }
 }
 .bg-black {
   --tw-bg-opacity: 1;
@@ -665,51 +336,24 @@ Bundle 模式下，会将第三方依赖打包进来。
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
-*,
-::before,
-::after {
-  --tw-shadow: 0 0 #0000 ;
-}
-*,
-::before,
-::after {
-  --tw-ring-inset: var(--tw-empty, );
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgba(59, 130, 246, 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000 ;
-}
-@media (min-width: 640px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 1024px) {
-}
-@media (min-width: 1280px) {
-}
-@media (min-width: 1536px) {
-}
+/** some more... */
 ```
----
-``` js ./dist/es/index.js
+
+```js title="./dist/es/index.js"
 // src/index.tsx
-import { jsx } from "react/jsx-runtime";
+import { jsx } from 'react/jsx-runtime';
 var src_default = () => {
-  return /* @__PURE__ */ jsx("div", {
-    className: "bg-black text-white",
-    children: "hello world11"
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black text-white',
+    children: 'hello world11',
   });
 };
-export {
-  src_default as default
-};
+export { src_default as default };
 ```
-</CH.Code>
 
 Bundleless 模式下，并不会将第三方依赖打包进来，此时不会有样式产物生成。
 
-```js ./dist/es/index.js
+```js title="./dist/es/index.js"
 import { jsx } from 'react/jsx-runtime';
 import 'tailwindcss/utilities.css';
 var src_default = () => {
@@ -737,9 +381,7 @@ export { src_default as default };
 
 下面是一个代码示例：
 
-<CH.Code>
-
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import style from './index.module.css';
 
 export default () => {
@@ -747,13 +389,11 @@ export default () => {
 };
 ```
 
-```css ./src/index.module.css
+```css title="./src/index.module.css"
 .btn {
   color: blue;
 }
 ```
-
-</CH.Code>
 
 ## 配置构建产物
 

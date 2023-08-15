@@ -13,7 +13,7 @@ A build preset string or preset function. Provides out-of-the-box build configur
 
 The string form allows you to use the built-in presets directly
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -34,7 +34,7 @@ About the class [NPM](https://www.npmjs.com/) Package Manager
 
 :::
 
-```json package.json
+```json title="package.json"
 {
   "main": ". /dist/lib/index.js",
   "module": ". /dist/es/index.js",
@@ -72,7 +72,7 @@ export const buildConfig = [
 
 Used under class [NPM](https://www.npmjs.com/) package manager, and Library supports a similar pattern to [unpkg](https://unpkg.com/). Additional `umd` artifacts are provided on top of the pre-defined `npm-library`.
 
-```json package.json
+```json title="package.json"
 {
     "main": ". /dist/lib/index.js",
     "module": ". /dist/es/index.js",
@@ -120,7 +120,7 @@ A generic pattern for components (libraries) used under the class [NPM](https://
 
 For style files included in the source code, the artifacts provide the compiled files of the style and the source file of the style.
 
-```json package.json
+```json title="package.json"
 {
     "main": ". /dist/lib/index.js", // bundleless type
     "module": ". /dist/es/index.js", // bundleless type
@@ -158,7 +158,7 @@ export const buildConfig = [
 
 Component (library) used under class [NPM](https://www.npmjs.com/) package manager, with support for class [unpkg](https://unpkg.com/) schema. Additional `umd` artifacts are provided on top of the pre-defined `npm-component`.
 
-```json package.json
+```json title="package.json"
 {
     "main": ". /dist/lib/index.js", // bundleless type
     "module": ". /dist/es/index.js", // bundleless type
@@ -202,9 +202,9 @@ export const buildConfig = [
 
 When you want to use a `buildPreset` preset that supports other ECMAScript versions, you can directly add the supported versions to the `'npm-library'`, `'npm-library-with-umd'`, `'npm-component'`, `'npm-component-with-umd'` presets.
 
-For example, if you want the `'npm-library'` preset to support  `'es2017'`, you can configure it as follows.
+For example, if you want the `'npm-library'` preset to support `'es2017'`, you can configure it as follows.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -218,7 +218,7 @@ The way the function is configured, you can get the preset value from the `prese
 
 The following is an example of how a function can be configured to compress a build product.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -240,8 +240,8 @@ export default defineConfig({
 
 The function form of `buildPreset` contains a function parameter in the form of an object. The object contains the following fields.
 
-* `preset`
-* `extendPreset`
+- `preset`
+- `extendPreset`
 
 #### `preset`
 
@@ -249,22 +249,9 @@ Type: **Object**
 
 Contains the build configurations corresponding to all available build presets. Build configurations can be used by means of the strings supported by `buildPreset` or by means of underscore commands for those strings. The following are examples of the use of both approaches.
 
-<CH.Spotlight>
+- Use the strings supported by `buildPreset`.
 
-```ts modern.config.ts
-import { defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  buildPreset({ preset }) {
-    return preset['npm-library'];
-  },
-});
-```
----
-
-Use the strings supported by `buildPreset`.
-
-```ts modern.config.ts
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -274,11 +261,9 @@ export default defineConfig({
 });
 ```
 
----
+- Use the underscore naming convention for strings supported by `buildPreset`.
 
-Use the underscore naming convention for strings supported by `buildPreset`.
-
-```ts modern.config.ts
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -287,8 +272,6 @@ export default defineConfig({
   },
 });
 ```
-
-</CH.Spotlight>
 
 #### `extendPreset`
 
@@ -300,7 +283,7 @@ Tool function for extending a `buildPreset` to modify the build configuration co
 
 For example, adding the `define` configuration to the `'npm-library'` build preset.
 
-```ts modern.config.ts
+```ts title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -313,4 +296,3 @@ export default defineConfig({
   },
 });
 ```
-

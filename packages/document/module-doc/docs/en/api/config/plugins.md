@@ -25,7 +25,7 @@ To learn how to write plugins, please refer to the [Plugin Writing Guide](/plugi
 
 To use plugins from npm, you need to install them using a package manager and import them in your configuration file.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { myPlugin } from 'my-plugin';
 
 export default defineConfig({
@@ -37,7 +37,7 @@ export default defineConfig({
 
 To use plugins from a local code repository, you can directly import them using a relative path.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { myPlugin } from './plugins/myPlugin';
 
 export default defineConfig({
@@ -49,7 +49,7 @@ export default defineConfig({
 
 If a plugin provides custom configuration options, you can pass the configuration through the plugin function's parameters.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { myPlugin } from 'my-plugin';
 
 export default defineConfig({
