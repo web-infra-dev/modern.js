@@ -5573,6 +5573,9 @@ importers:
       '@modern-js/plugin-lint':
         specifier: workspace:*
         version: link:../../cli/plugin-lint
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../../toolkit/types
       '@modern-js/upgrade':
         specifier: workspace:*
         version: link:../../toolkit/upgrade

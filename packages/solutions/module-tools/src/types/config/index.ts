@@ -6,6 +6,7 @@ import type {
 import type { Options } from '@modern-js/libuild-plugin-svgr';
 import type { ImportItem } from '@modern-js/libuild-plugin-swc';
 import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
+import type { JestConfigTypes } from '@modern-js/types';
 import { BuildInPreset, presetList } from '../../constants/buildPresets';
 import type { CopyConfig } from '../copy';
 import type {
@@ -164,6 +165,24 @@ export interface RuntimeUserConfig {
   [name: string]: any;
 }
 
+export interface TestingUserConfig {
+  /**
+   * Decide which transformer will be used to compile file
+   * Default: babel-jest
+   */
+  transformer?: 'babel-jest' | 'ts-jest';
+
+  /**
+   * Original jest config
+   * Doc: https://jestjs.io/docs/configuration
+   */
+  jest?:
+    | JestConfigTypes.InitialOptions
+    | ((
+        jestConfig: JestConfigTypes.InitialOptions,
+      ) => JestConfigTypes.InitialOptions);
+}
+
 export interface ModuleExtraConfig {
   designSystem?: Record<string, any>;
 
@@ -172,6 +191,8 @@ export interface ModuleExtraConfig {
   buildPreset?: BuildPreset;
 
   dev?: Dev;
+
+  testing?: TestingUserConfig;
 
   runtime?: RuntimeUserConfig;
 }

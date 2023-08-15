@@ -10,6 +10,7 @@ import type {
   SharedSourceConfig,
   SourceUserConfig,
 } from './source';
+import type { TestingUserConfig } from './testing';
 import type { DevUserConfig } from './dev';
 import type {
   RsToolsUserConfig,
@@ -55,6 +56,7 @@ export type SharedUserConfig = {
   runtimeByEntries?: RuntimeByEntriesUserConfig;
   html?: SharedHtmlConfig;
   tools?: SharedToolsConfig;
+  testing?: TestingUserConfig;
   builderPlugins?: BuilderPlugin[];
   performance?: SharedPerformanceConfig;
 };
