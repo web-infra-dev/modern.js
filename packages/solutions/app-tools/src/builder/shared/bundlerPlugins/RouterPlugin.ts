@@ -3,7 +3,7 @@ import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
-import HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
+import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
@@ -19,7 +19,17 @@ type Compiler = webpack.Compiler | Rspack.Compiler;
 type Compilation = webpack.Compilation | Rspack.Compilation;
 type Chunks = webpack.StatsChunk[];
 
+type Options = {
+  HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
+};
+
 export class RouterPlugin {
+  private HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
+
+  constructor(options: Options) {
+    this.HtmlBundlerPlugin = options.HtmlBundlerPlugin;
+  }
+
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
     if (
       target === 'node' ||
@@ -76,7 +86,7 @@ export class RouterPlugin {
     const chunksToHtmlName = new Map();
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
-      HtmlWebpackPlugin.getHooks(
+      this.HtmlBundlerPlugin.getHooks(
         compilation as webpack.Compilation,
       ).beforeEmit.tapAsync('RouterManifestPlugin', (data, callback) => {
         const { outputName } = data;
