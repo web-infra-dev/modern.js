@@ -1,7 +1,6 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
@@ -94,7 +93,7 @@ test('legalComments none', async ({ page }) => {
   builder.close();
 });
 
-webpackOnlyTest('legalComments inline', async ({ page }) => {
+test('legalComments inline', async ({ page }) => {
   const builder = await build({
     cwd: fixtures,
     entry: {
