@@ -42,13 +42,16 @@ export class BaseResponse implements ModernResponse {
   }
 
   private setCookie(key: string, value: string, options?: any) {
-    const cookieValue = String(this.res.getHeader('set-cookie') || '');
+    const cookieValue = this.res.getHeader('set-cookie') || '';
     const fmt = Array.isArray(cookieValue)
       ? cookieValue
       : [cookieValue].filter(Boolean);
     fmt.push(cookie.serialize(key, value, options));
 
-    this.res.setHeader('set-cookie', fmt.length === 1 ? fmt[0] : fmt);
+    this.res.setHeader(
+      'set-cookie',
+      fmt.length === 1 ? fmt[0] : (fmt as string | string[]),
+    );
   }
 
   private clearCookie() {
