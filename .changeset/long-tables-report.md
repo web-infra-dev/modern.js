@@ -1,6 +1,5 @@
 ---
 '@modern-js/runtime': patch
-'app-docmuent': patch
 '@modern-js/app-tools': patch
 '@modern-js/core': patch
 ---
