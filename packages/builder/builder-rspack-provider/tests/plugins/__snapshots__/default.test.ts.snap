@@ -544,6 +544,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -598,6 +601,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1291,6 +1297,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1345,6 +1354,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1879,6 +1891,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             "use": [
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -1898,6 +1913,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             "use": [
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -2544,6 +2562,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
@@ -2598,6 +2619,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                },
               },
               {
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
