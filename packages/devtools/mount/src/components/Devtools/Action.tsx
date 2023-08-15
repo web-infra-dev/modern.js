@@ -2,6 +2,8 @@ import React from 'react';
 import { useToggle } from 'react-use';
 import { withQuery } from 'ufo';
 import Modal from '../Modal';
+import Visible from '../Visible';
+import styles from './Action.module.scss';
 
 export interface DevtoolsActionProps {
   client: string;
@@ -21,8 +23,12 @@ const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
 
   return (
     <Modal show={true} root={rootElement}>
-      <button onClick={toggleDevtools}>Toggle DevTools</button>
-      {showDevtools && <iframe src={src}></iframe>}
+      <button className={styles.fab} onClick={toggleDevtools}>
+        Toggle DevTools
+      </button>
+      <Visible when={showDevtools}>
+        <iframe src={src}></iframe>
+      </Visible>
     </Modal>
   );
 };
