@@ -26,6 +26,7 @@ export type OutputLegacyUserConfig = {
   disableCssExtract?: boolean;
   enableCssModuleTSDeclaration?: boolean;
   disableMinimize?: boolean;
+  disableInlineRouteManifests?: boolean;
   enableInlineStyles?: boolean;
   enableInlineScripts?: boolean;
   disableSourceMap?: boolean;

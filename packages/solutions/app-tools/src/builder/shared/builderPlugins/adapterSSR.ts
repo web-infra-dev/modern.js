@@ -132,6 +132,9 @@ function applyRouterPlugin<B extends Bundler>(
     chain.plugin('route-plugin').use(RouterPlugin, [
       {
         HtmlBundlerPlugin,
+        enableInlineRouteManifests:
+          normalizedConfig.output.enableInlineRouteManifests,
+        staticJsDir: normalizedConfig.output?.distPath?.js,
       },
     ]);
   }

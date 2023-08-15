@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import { mergeWith } from '@modern-js/utils/lodash';
 import { ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
@@ -21,13 +22,32 @@ type Chunks = webpack.StatsChunk[];
 
 type Options = {
   HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
+  staticJsDir: string;
+  enableInlineRouteManifests: boolean;
+};
+
+const getRandomUUID = () => {
+  const bytes = randomBytes(16);
+  const hex = bytes.toString('hex');
+  const uuid = hex.slice(0, 8);
+  return uuid;
 };
 
 export class RouterPlugin {
   private HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
 
-  constructor(options: Options) {
-    this.HtmlBundlerPlugin = options.HtmlBundlerPlugin;
+  private enableInlineRouteManifests: boolean;
+
+  private staticJsDir: string;
+
+  constructor({
+    staticJsDir = 'static/js',
+    HtmlBundlerPlugin,
+    enableInlineRouteManifests,
+  }: Options) {
+    this.HtmlBundlerPlugin = HtmlBundlerPlugin;
+    this.enableInlineRouteManifests = enableInlineRouteManifests;
+    this.staticJsDir = staticJsDir;
   }
 
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -82,8 +102,9 @@ export class RouterPlugin {
       return path;
     };
 
-    const placeHolder = '<!--<?- route-manifest ?>-->';
     const chunksToHtmlName = new Map();
+    const ROUTE_MANIFEST_HOLDER = `route-manifest`;
+    const placeholder = `<!--<?- ${ROUTE_MANIFEST_HOLDER} ?>-->`;
 
     compiler.hooks.thisCompilation.tap(PLUGIN_NAME, compilation => {
       this.HtmlBundlerPlugin.getHooks(
@@ -93,11 +114,7 @@ export class RouterPlugin {
         const { chunks } = data.plugin.options!;
         chunksToHtmlName.set(chunks, outputName);
 
-        data.html = data.html.replace(
-          '</script>',
-          `</script><script>${placeHolder}</script>`,
-        );
-
+        data.html = data.html.replace('</script>', `</script>${placeholder}`);
         callback(null, data);
       });
 
@@ -229,19 +246,37 @@ export class RouterPlugin {
               }
             }
 
-            if (htmlName) {
-              const oldHtml = compilation.assets[htmlName];
+            const oldHtml = compilation.assets[htmlName];
+            if (this.enableInlineRouteManifests) {
               compilation.updateAsset(
                 htmlName,
                 new RawSource(
                   oldHtml
                     .source()
                     .toString()
-                    .replace(placeHolder, injectedContent),
+                    .replace(
+                      placeholder,
+                      `<script>${injectedContent}</script>`,
+                    ),
                 ),
                 // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
                 undefined as any,
               );
+            } else {
+              const scriptPath = `${
+                this.staticJsDir
+              }/${ROUTE_MANIFEST_HOLDER}.${getRandomUUID()}.js`;
+              const scriptUrl = `${publicPath}${scriptPath}`;
+              const script = `<script defer src="${scriptUrl}"></script>`;
+              compilation.updateAsset(
+                htmlName,
+                new RawSource(
+                  oldHtml.source().toString().replace(placeholder, script),
+                ),
+                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+                undefined as any,
+              );
+              compilation.emitAsset(scriptPath, new RawSource(injectedContent));
             }
           }
 

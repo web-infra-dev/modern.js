@@ -24,7 +24,11 @@ describe('webpack-router-plugin', () => {
         chunkFilename: '[name].js',
       },
       plugins: [
-        new RouterPlugin(),
+        new RouterPlugin({
+          staticJsDir: 'static/js',
+          HtmlBundlerPlugin: HtmlWebpackPlugin,
+          enableInlineRouteManifests: true,
+        }),
         new HtmlWebpackPlugin({
           chunks: ['main'],
         }),
@@ -40,6 +44,51 @@ describe('webpack-router-plugin', () => {
     const manifest = await import(manifestFile);
     expect(manifest.routeAssets).toHaveProperty('main');
     expect(manifest.routeAssets).toHaveProperty('bar');
+
+    await fs.remove(distDir);
+  });
+
+  test('support enableInlineRouteManifests is false', async () => {
+    const app = path.join(__dirname, './fixtures/router-plugin1');
+    const distDir = path.join(app, 'dist');
+    const entryFile = path.join(app, 'index.js');
+    const stats = await compiler({
+      entry: entryFile,
+      context: app,
+      mode: 'production',
+      target: 'web',
+      output: {
+        path: distDir,
+        filename: '[name].js',
+        chunkFilename: '[name].js',
+      },
+      plugins: [
+        new RouterPlugin({
+          staticJsDir: '/',
+          HtmlBundlerPlugin: HtmlWebpackPlugin,
+          enableInlineRouteManifests: false,
+        }),
+        new HtmlWebpackPlugin({
+          chunks: ['main'],
+        }),
+      ],
+    });
+
+    const res = stats?.toJson();
+    const { outputPath } = res!;
+    const indexHtml = path.join(outputPath!, 'index.html');
+    expect(!indexHtml.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(true);
+
+    const outputFiles = await fs.readdir(path.join(outputPath!));
+    const routeManifestFile = outputFiles.find(file =>
+      file.startsWith('route-manifest'),
+    );
+    const routeManifestContent = await fs.readFile(
+      path.join(distDir, routeManifestFile!),
+    );
+    expect(routeManifestContent.includes('_MODERNJS_ROUTE_MANIFEST')).toBe(
+      true,
+    );
 
     await fs.remove(distDir);
   });
@@ -130,7 +179,11 @@ describe('webpack-router-plugin', () => {
         chunkFilename: '[name].js',
       },
       plugins: [
-        new RouterPlugin(),
+        new RouterPlugin({
+          staticJsDir: 'static/js',
+          HtmlBundlerPlugin: HtmlWebpackPlugin,
+          enableInlineRouteManifests: true,
+        }),
         new HtmlWebpackPlugin({
           chunks: ['main'],
         }),

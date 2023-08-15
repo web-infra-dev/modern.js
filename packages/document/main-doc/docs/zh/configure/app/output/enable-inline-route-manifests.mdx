@@ -1,0 +1,21 @@
+---
+sidebar_label: enableInlineRouteManifests
+---
+
+# output.enableInlineRouteManifests
+
+- **Type:** `boolean`
+- **Default:** `true`
+
+当使用约定式路由时，框架为了做一些优化，会向客户端中注入路由信息，默认情况下路由信息会注入到 html 中，
+当该配置为 `false` 时，路由信息会注入到一个单独的 JS 文件中。
+
+Example:
+
+```ts
+export default {
+  output: {
+    enableInlineRouteManifests: false,
+  },
+}
+```
