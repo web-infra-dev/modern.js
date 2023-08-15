@@ -127,7 +127,6 @@ function applyRouterPlugin<B extends Bundler>(
   const routerManifest = Boolean(routerConfig?.manifest);
   const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
-  // for ssr mode
   if (existNestedRoutes || routerManifest || workerSSR) {
     chain.plugin('route-plugin').use(RouterPlugin, [
       {
@@ -136,6 +135,7 @@ function applyRouterPlugin<B extends Bundler>(
           normalizedConfig.output.enableInlineRouteManifests,
         staticJsDir: normalizedConfig.output?.distPath?.js,
         disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
+        scriptLoading: normalizedConfig.html.scriptLoading,
       },
     ]);
   }

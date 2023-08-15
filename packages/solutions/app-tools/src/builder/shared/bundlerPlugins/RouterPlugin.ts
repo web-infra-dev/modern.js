@@ -5,6 +5,7 @@ import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
 import type { webpack } from '@modern-js/builder-webpack-provider';
 import type { Rspack } from '@modern-js/builder-rspack-provider';
 import type HtmlWebpackPlugin from '@modern-js/builder-webpack-provider/html-webpack-plugin';
+import type { ScriptLoading } from '@modern-js/builder-shared';
 
 const PLUGIN_NAME = 'ModernjsRoutePlugin';
 
@@ -24,7 +25,8 @@ type Options = {
   HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
   staticJsDir: string;
   enableInlineRouteManifests: boolean;
-  disableFilenameHash: boolean;
+  disableFilenameHash?: boolean;
+  scriptLoading?: ScriptLoading;
 };
 
 const generateContentHash = (content: string) => {
@@ -40,16 +42,20 @@ export class RouterPlugin {
 
   private disableFilenameHash?: boolean;
 
+  private scriptLoading?: ScriptLoading;
+
   constructor({
     staticJsDir = 'static/js',
     HtmlBundlerPlugin,
     enableInlineRouteManifests,
     disableFilenameHash = false,
+    scriptLoading = 'defer',
   }: Options) {
     this.HtmlBundlerPlugin = HtmlBundlerPlugin;
     this.enableInlineRouteManifests = enableInlineRouteManifests;
     this.staticJsDir = staticJsDir;
     this.disableFilenameHash = disableFilenameHash;
+    this.scriptLoading = scriptLoading;
   }
 
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -251,7 +257,13 @@ export class RouterPlugin {
             }
 
             const oldHtml = compilation.assets[htmlName];
-            if (this.enableInlineRouteManifests) {
+            const {
+              enableInlineRouteManifests,
+              disableFilenameHash,
+              staticJsDir,
+              scriptLoading,
+            } = this;
+            if (enableInlineRouteManifests) {
               compilation.updateAsset(
                 htmlName,
                 new RawSource(
@@ -267,16 +279,17 @@ export class RouterPlugin {
                 undefined as any,
               );
             } else {
-              const scriptPath = `${
-                this.staticJsDir
-              }/${ROUTE_MANIFEST_HOLDER}-${entryName}${
-                this.disableFilenameHash
+              const scriptPath = `${staticJsDir}/${ROUTE_MANIFEST_HOLDER}-${entryName}${
+                disableFilenameHash
                   ? '.js'
                   : `.${generateContentHash(injectedContent)}.js`
               }`;
 
               const scriptUrl = `${publicPath}${scriptPath}`;
-              const script = `<script defer src="${scriptUrl}"></script>`;
+              const script =
+                scriptLoading === 'defer' || this.scriptLoading === 'module'
+                  ? `<script ${scriptLoading} src="${scriptUrl}"></script>`
+                  : `<script src="${scriptUrl}"></script>`;
               compilation.updateAsset(
                 htmlName,
                 new RawSource(
