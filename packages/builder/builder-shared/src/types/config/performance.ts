@@ -95,6 +95,12 @@ export interface SharedPerformanceConfig {
    * Specifies that the user agent should preemptively fetch and cache the target resource as it is likely to be required for a followup navigation.
    */
   prefetch?: true | PreloadOrPreFetchOption;
+
+  /**
+   * Whether capture timing information for each module,
+   * same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack.
+   */
+  profile?: boolean;
 }
 
 export interface NormalizedSharedPerformanceConfig

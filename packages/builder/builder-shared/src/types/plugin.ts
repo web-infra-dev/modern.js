@@ -64,6 +64,7 @@ export type Plugins = {
   sourceBuild: PluginsFn;
   networkPerformance: PluginsFn;
   preloadOrPrefetch: PluginsFn;
+  performance: PluginsFn;
 };
 
 /**

@@ -57,4 +57,6 @@ export const plugins: Plugins = {
     ),
   preloadOrPrefetch: () =>
     import('./preloadOrPrefetch').then(m => m.builderPluginPreloadOrPrefetch()),
+  performance: () =>
+    import('./performance').then(m => m.builderPluginPerformance()),
 };
