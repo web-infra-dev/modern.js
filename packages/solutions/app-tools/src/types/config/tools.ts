@@ -1,4 +1,4 @@
-import type { JestConfig } from '@modern-js/core';
+import type { JestConfig } from '@modern-js/types';
 import type { PluginSwcOptions } from '@modern-js/builder-plugin-swc';
 import type { PluginEsbuildOptions } from '@modern-js/builder-plugin-esbuild';
 import type { SharedToolsConfig as BuilderSharedToolsConfig } from '@modern-js/builder-shared';

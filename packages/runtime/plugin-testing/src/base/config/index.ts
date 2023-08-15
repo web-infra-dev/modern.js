@@ -1,5 +1,5 @@
 import { AliasOption } from '@modern-js/utils';
-import { JestConfig } from '@modern-js/core';
+import { JestConfig } from '@modern-js/types';
 import { TestConfig } from '../types';
 import { applyPatches } from './patches';
 import { TestConfigOperator } from './testConfigOperator';
@@ -25,6 +25,7 @@ export type UserConfig = {
   source?: {
     alias?: AliasOption;
   };
+  testing?: TestConfig;
   tools?: {
     jest: JestConfig | ((config: JestConfig) => JestConfig);
   };

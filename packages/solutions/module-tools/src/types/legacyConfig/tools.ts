@@ -1,4 +1,4 @@
-import type { JestConfig } from '@modern-js/core';
+import type { JestConfig } from '@modern-js/types';
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 import type { LessConfig, SassConfig } from '../config';
 

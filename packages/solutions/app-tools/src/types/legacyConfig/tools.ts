@@ -1,6 +1,5 @@
-import type { DevServerOptions } from '@modern-js/types';
+import type { JestConfig, DevServerOptions } from '@modern-js/types';
 import type { BuilderConfig } from '@modern-js/builder-webpack-provider';
-import type { JestConfig } from '@modern-js/core';
 
 // FIXME: need definition by itself.
 type BuilderToolsConfig = Required<BuilderConfig>['tools'];
