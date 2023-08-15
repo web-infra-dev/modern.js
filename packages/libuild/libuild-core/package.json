@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "esbuild": "0.17.19",
-    "postcss": "8.4.6",
+    "postcss": "8.4.27",
     "source-map": "0.7.4",
     "source-map-support": "0.5.20",
     "style-inject": "0.3.0",
