@@ -68,7 +68,7 @@
     "@modern-js/plugin-lint": "workspace:*",
     "@modern-js/upgrade": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "postcss": "8.4.6",
+    "postcss": "8.4.27",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {

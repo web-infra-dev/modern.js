@@ -25,14 +25,15 @@ jobs:
       - name: Install Pnpm
         run: corepack enable
 
-      - name: Check docs only change
-        run: echo ::set-output name=DOCS_CHANGE::$(node ./scripts/skipDocsChange.js echo 'not-docs-only-change')
-        id: docs-change
+      - name: Check skip CI
+        run: echo "RESULT=$(node ./scripts/skipCI.js)" >> "$GITHUB_OUTPUT"
+        id: skip-ci
 
-      - run: echo ${{steps.docs-change.outputs.DOCS_CHANGE}}
+      - name: Log skip CI result
+        run: echo "${{steps.skip-ci.outputs.RESULT}}"
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -40,7 +41,7 @@ jobs:
 
       - name: Turbo Cache
         id: turbo-cache
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         uses: actions/cache@v3
         with:
           path: .turbo
@@ -51,9 +52,9 @@ jobs:
             turbo-
 
       - name: Install Dependencies
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm install --ignore-scripts --frozen-lockfile
 
       - name: Type Check
-        if: ${{steps.docs-change.outputs.DOCS_CHANGE != 'docs only change'}}
+        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm run prepare

@@ -1,0 +1,19 @@
+:root {
+  --modern-iframe-bg: var(--modern-code-block-bg);
+}
+
+body {
+  background-color: var(--modern-iframe-bg);
+}
+
+.preview-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 56px;
+  background-color: var(--modern-c-bg);
+  font-weight: 600;
+  font-size: 17px;
+}
+

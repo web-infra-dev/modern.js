@@ -11,8 +11,10 @@ export const normalizeOptions = (options: Options): Required<Options> => {
     apiParseTool = 'react-docgen-typescript',
     parseToolOptions = {},
     useModuleSidebar = true,
+    iframePosition = 'follow',
   } = options;
   return {
+    iframePosition,
     languages,
     doc,
     isProduction,

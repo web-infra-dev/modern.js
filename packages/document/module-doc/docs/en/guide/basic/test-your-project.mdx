@@ -45,31 +45,17 @@ You can add it in `modern.config.(j|t)s`.
 
 For common modules, we can use the test function as follows:
 
-<CH.Spotlight>
+- First is the code of the module:
 
-```ts ./src/index.ts
+```ts title="./src/index.ts"
 export default function () {
   return 'hello world';
 }
 ```
 
----
+- Then in the test file, we can import source code as the following way. Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
 
-First is the code of the module.
-
-```ts ./src/index.ts
-export default function () {
-  return 'hello world';
-}
-```
-
----
-
-Then in the test file, we can do this.
-
-Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
-
-```ts ./tests/index.test.ts
+```ts title="./tests/index.test.ts"
 import main from '@/index';
 
 describe('default cases', () => {
@@ -81,9 +67,7 @@ describe('default cases', () => {
 });
 ```
 
----
-
-Finally we can execute `modern test`.
+- Finally we can execute `modern test`.
 
 ```bash
 pnpm test
@@ -92,8 +76,6 @@ yarn test
 ## or
 npm run test
 ```
-
-</CH.Spotlight>
 
 ### Components
 
@@ -105,9 +87,9 @@ For components, Modern.js's Runtime API provides functionality for testing UI co
 If you need to use the Runtime API, then you can turn it on via [microgenerator](/guide/basic/command-preview).
 :::
 
-<CH.Spotlight>
+- First is the code of the component:
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export const default () {
   return (
     <div>This is a UI Component</div>
@@ -115,25 +97,10 @@ export const default () {
 }
 ```
 
----
 
-First is the code of the component.
+- Then in the test file, we can import source code as the following way. Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
 
-```tsx ./src/index.tsx
-export const default () {
-  return (
-    <div>This is a UI Component</div>
-  );
-}
-```
-
----
-
-Then in the test file, we can do this.
-
-Where `@` points to the source directory, defined in `tests/tsconfig.json` in the initialization project.
-
-```tsx ./tests/index.test.tsx
+```tsx title="./tests/index.test.tsx"
 import { render, screen } from '@modern-js/runtime/testing';
 
 import Component from '@/index';
@@ -146,9 +113,7 @@ describe('default cases', () => {
 });
 ```
 
----
-
-Finally we can execute `modern test`.
+- Finally we can execute `modern test`.
 
 ```bash
 pnpm test
@@ -157,5 +122,3 @@ yarn test
 ## or
 npm run test
 ```
-
-</CH.Spotlight>

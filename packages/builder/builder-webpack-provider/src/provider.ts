@@ -1,5 +1,6 @@
 import {
   startProdServer,
+  pickBuilderConfig,
   createPublicContext,
   type BuilderProvider,
 } from '@modern-js/builder-shared';
@@ -18,10 +19,12 @@ export type BuilderWebpackProvider = BuilderProvider<
 >;
 
 export function builderWebpackProvider({
-  builderConfig,
+  builderConfig: originalBuilderConfig,
 }: {
   builderConfig: BuilderConfig;
 }): BuilderWebpackProvider {
+  const builderConfig = pickBuilderConfig(originalBuilderConfig);
+
   return async ({ pluginStore, builderOptions, plugins }) => {
     const context = await createContext(builderOptions, builderConfig);
     const pluginAPI = getPluginAPI({ context, pluginStore });

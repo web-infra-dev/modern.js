@@ -52,7 +52,7 @@ type NodePolyfillOptions = {
 
 Exclude the Node Polyfill to be injected.
 
-``` ts focus=7:9
+```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
@@ -70,7 +70,7 @@ export default defineConfig({
 
 Override the built-in Node Polyfill.
 
-``` ts focus=7:9
+```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 

@@ -26,7 +26,7 @@ Before start using `buildConfig`, please read the following documentation to und
 For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module Tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
 :::
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     alias: {
@@ -40,7 +40,7 @@ After the above configuration is done, if `@common/Foo.tsx` is referenced in the
 
 When the value of `alias` is defined as a function, you can accept the pre-defined alias object and modify it.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     alias: alias => {
@@ -52,7 +52,7 @@ export default {
 
 It is also possible to return a new object as the final result in the function, which will override the pre-defined alias object.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     alias: alias => {
@@ -88,7 +88,7 @@ You can adjust this threshold by modifying the `limit` config.
 
 For example, set `limit` to `0` to avoid assets inlining:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     asset: {
@@ -105,7 +105,7 @@ The CDN prefix given to unlinked resources when packaging
 - **Type**: `string`
 - **Default**: `undefined`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     asset: {
@@ -126,7 +126,7 @@ Packaged to handle svg as a React component, options reference [svgr](https://re
 
 When svgr feature is enabled, you can use svg as a component using the default export.
 
-```js index.ts
+```js title="index.ts"
 // true
 import Logo from './logo.svg';
 
@@ -136,7 +136,7 @@ export default () => <Logo />;
 :::warning
 The following usage is not currently supported:
 
-```js index.ts
+```js title="index.ts"
 import { ReactComponent } from './logo.svg';
 ```
 
@@ -144,7 +144,7 @@ import { ReactComponent } from './logo.svg';
 
 When enabled, the type of svg used can be modified by adding a type definition to the `modern-app-env.d.ts` file:
 
-```ts modern-app-env.d.ts focus=1:3
+```ts title="modern-app-env.d.ts"
 declare module '*.svg' {
   const src: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
   export default src;
@@ -176,7 +176,7 @@ Automatically externalize project dependencies and peerDependencies and not pack
 
 When we want to turn off the default handling behavior for third-party dependencies, we can do so by:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     autoExternal: false,
@@ -187,7 +187,7 @@ export default defineConfig({
 This way the dependencies under `"dependencies"` and `"peerDependencies"` will be bundled. If you want to turn off the processing of only one of these dependencies, you can use the
 `buildConfig.autoExternal` in the form of an object.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     autoExternal: {
@@ -275,7 +275,7 @@ Define global variables that will be injected into the code
 
 Since the `define` function is implemented by global text replacement, you need to ensure that the global variable values are strings. A safer approach is to convert the value of each global variable to a string, using `JSON.stringify`, as follows.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     define: {
@@ -327,7 +327,7 @@ Whether to allow the build to succeed if a type error occurs.
 
 **By default, type errors will cause the build to fail**. When `abortOnError` is set to `false`, the build will still succeed even if there are type issues in the code:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     dts: {
@@ -350,7 +350,7 @@ The output path of the dts file, based on [outDir](/api/config/build-config#outD
 
 For example, output to the `types` directory under the `outDir`:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     dts: {
@@ -367,7 +367,7 @@ Whether to generate only type files during the build process without generating 
 - **Type**: `boolean`
 - **Default**: `false`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     dts: {
@@ -387,7 +387,7 @@ So we can avoid it with this configuration.
 - **Type**: `boolean`
 - **Default**: `true`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     dts: {
@@ -404,7 +404,7 @@ Path to the tsconfig file
 - **Type**: `string`
 - **Default**: `. /tsconfig.json`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     dts: {
@@ -424,7 +424,7 @@ Used to modify the [esbuild configuration](https://esbuild.github.io/api/).
 
 For example, if we need to modify the file extension of the generated files:
 
-```ts modern.config.ts
+```ts title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     esbuildOptions: options => {
@@ -462,7 +462,7 @@ Below is a comparison of the output file changes before and after using this con
 
 Before enable:
 
-```js ./dist/index.js
+```js title="./dist/index.js"
 // helper function
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   // ...
@@ -483,7 +483,7 @@ export var yourCode = function () {
 
 After enabled:
 
-```js ./dist/index.js
+```js title="./dist/index.js"
 // helper functions imported from @swc/helpers
 import { _ as _async_to_generator } from '@swc/helpers/_/_async_to_generator';
 
@@ -507,7 +507,7 @@ type External = (string | RegExp)[];
 - **Build Type**: `Only supported for buildType: 'bundle'`
 - **Example**:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     // do not bundle React
@@ -529,7 +529,7 @@ Used to set the output format of JavaScript files. The options `iife` and `umd` 
 
 - **Example**:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     format: 'esm',
@@ -543,7 +543,7 @@ export default defineConfig({
 
 - **Example**:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     format: 'cjs',
@@ -557,7 +557,7 @@ export default defineConfig({
 
 - **Example**:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     format: 'iife',
@@ -571,7 +571,7 @@ export default defineConfig({
 
 - **Example**:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     format: 'umd',
@@ -597,7 +597,7 @@ type Input =
 
 **Array usage:**
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     input: ['src/index.ts', 'src/index2.ts'],
@@ -611,7 +611,7 @@ When you need to modify the output file name in bundle mode, you can use an obje
 
 **The key of the object is the file name of the output, and the value is the file path of the source code.**
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     format: 'esm',
@@ -631,7 +631,7 @@ Specify the compilation method for JSX, which by default supports React 17 and h
 
 If you need to support React 16, you can set `jsx` to `transform`:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     jsx: 'transform',
@@ -656,7 +656,7 @@ This option is used for build analysis. When enabled, esbuild will generate meta
 
 To enable `metafile` generation:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     buildType: 'bundle',
@@ -674,7 +674,7 @@ Use esbuild or terser to compress code, also pass [terserOptions](https://github
 - **Type**: `'terser' | 'esbuild' | false | object`
 - **Default**: `false`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     minify: {
@@ -693,7 +693,7 @@ Specifies the output directory of the build.
 - **Type**: `string`
 - **Default**: `./dist`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     outDir: './dist/esm',
@@ -708,7 +708,7 @@ Generates code for the node environment by default, you can also specify `browse
 - **Type**: `'browser' | 'node'`
 - **Default**: `'node'`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     platform: 'browser',
@@ -725,7 +725,7 @@ In `buildType: 'bundleless'` build mode, the reference path is redirected to ens
 
 In some scenarios, you may not need these functions, then you can turn it off with this configuration, and its reference path will not be changed after turning it off.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     redirect: {
@@ -752,7 +752,7 @@ import 'other-package/dist/index.css';
 
 But the package.json of this third-party package does not have the style file configured in the sideEffects
 
-```json other-package/package.json
+```json title="other-package/package.json"
 {
   "sideEffects": ["dist/index.js"]
 }
@@ -766,7 +766,7 @@ At the same time you set [style.inject](#styleinject) to `true` and you will see
 
 At this point, you can use this configuration option to manually configure the module's `"sideEffects"` to support regular and functional forms.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     sideEffects: [/\.css$/],
@@ -830,7 +830,7 @@ Add `Less` code to the beginning of the entry file.
 - **Type**: `string`
 - **Default**: `undefined`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     style: {
@@ -851,7 +851,7 @@ Configure the implementation library used by `Less`, if not specified, the built
 
 Specify the implementation library for `Less` when the `object` type is specified.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     style: {
@@ -865,7 +865,7 @@ export default {
 
 For the `string` type, specify the path to the implementation library for `Less`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     style: {
@@ -895,7 +895,7 @@ Add `Sass` code to the beginning of the entry file.
 - **Type**: `string | Function`
 - **Default**: `undefined`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     style: {
@@ -917,7 +917,7 @@ Configure the implementation library used by `Sass`, the built-in version used i
 
 Specify the implementation library for `Sass` when the `object` type is specified.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     style: {
@@ -931,7 +931,7 @@ export default {
 
 For the `string` type, specify the path to the `Sass` implementation library
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     style: {
@@ -978,7 +978,7 @@ const defaultConfig = {
 
 - **Example**:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     style: {
@@ -999,7 +999,7 @@ Configure whether to insert CSS styles into JavaScript code in bundle mode.
 
 Set `inject` to `true` to enable this feature:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     inject: true,
@@ -1011,7 +1011,7 @@ Once enabled, you will see the CSS code referenced in the source code included i
 
 For example, if you write `import './index.scss'` in the source code, you will see the following code in the output:
 
-```js dist/index.js
+```js title="dist/index.js"
 // node_modules/style-inject/dist/style-inject.es.js
 function styleInject(css, ref) {
   // ...
@@ -1058,7 +1058,7 @@ CSS Modules configuration
 
 A common configuration is `localsConvention`, which changes the class name generation rules for css modules
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     style: {
@@ -1092,7 +1092,7 @@ tailwindcss related configuration
 <details>
   <summary>Tailwind CSS configuration details</summary>
 
-```js modern.config.ts
+```js title="modern.config.ts"
 const tailwind = {
   content: [
     './config/html/**/*.html',
@@ -1142,7 +1142,7 @@ type Target =
 
 For example, compile the code to `es5` syntax:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     target: 'es5',
@@ -1161,7 +1161,7 @@ The elements of the array are configuration objects for `babel-plugin-import`, w
 
 **Example:**
 
-```ts modern.config.ts
+```ts title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     transformImport: [
@@ -1186,7 +1186,7 @@ Specify global variables for external import of umd artifacts
 - **Type**: `Record<string, string>`
 - **Default**: `{}`
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     umdGlobals: {
@@ -1226,7 +1226,7 @@ At this point the umd artifact will go to mount on `global.myLib`
 
 Also the function form can take one parameter, which is the output path of the current package file
 
-```js modern.config.ts
+```js title="modern.config.ts"
 export default {
   buildConfig: {
     format: 'umd',

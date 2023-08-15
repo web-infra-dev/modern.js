@@ -6,7 +6,7 @@ sidebar_position: 4
 
 Generally, third-party dependencies required by a project can be installed via the `install` command in the package manager. After the third-party dependencies are successfully installed, they will generally appear under `dependencies` and `devDependencies` in the project `package.json`.
 
-```json pacakge.json
+```json title="pacakge.json"
 {
   "dependencies": {},
   "devDependencies": {}
@@ -25,25 +25,11 @@ This is because when the npm package is installed, its `"dependencies"` will als
 
 If you need to package some dependencies, it is recommended to move them from `"dependencies"` to `"devDependencies"`, which is equivalent to **prebundle** the dependencies and reduces the size of the dependency installation.
 
-<CH.Spotlight>
-
-```json ./v1/package.json
-{
-  "dependencies": {
-    "react": "^17"
-  },
-  // or
-  "peerDependencies": {
-    "react": "^17"
-  }
-}
-```
-
----
+### Example
 
 If the project has a dependency on `react`.
 
-```json ./v1/package.json
+```json title="package.json"
 {
   "dependencies": {
     "react": "^17"
@@ -55,25 +41,19 @@ If the project has a dependency on `react`.
 }
 ```
 
----
+When a `react` dependency is used in the source code:
 
-When a `react` dependency is used in the source code.
-
-```tsx src/index.ts
+```tsx title="src/index.ts"
 import React from 'react';
 console.info(React);
 ```
 
----
+The `react` code is not bundled into the artifact:
 
-The `react` code is not bundled into the artifact at this point.
-
-```js dist/index.js
+```js title="dist/index.js"
 import React from 'react';
 console.info(React);
 ```
-
-</CH.Spotlight>
 
 If you want to modify the default processing, you can use the following API.
 

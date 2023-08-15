@@ -50,7 +50,7 @@ Bundleless 是单文件编译模式，因此对于类型的引用和导出你需
 
 在 Bundle 构建过程中，除了将 `input` 设置为一个数组，也可以将它设置为一个对象。**通过使用对象的形式，我们可以修改构建产物输出的文件名称**。那么对于下面的例子，`./src/index.ts` 对应的构建产物文件路径为 `./dist/main.js`。
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -85,7 +85,7 @@ export default defineConfig({
 
 默认情况下类型生成功能是开启的，如果需要关闭的话，可以按照如下配置：
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -112,7 +112,7 @@ export default defineConfig({
 
 在 Bundleless 构建过程中，如果源代码中出现了别名，例如：
 
-```js ./src/index.ts
+```js title="./src/index.ts"
 import utils from '@common/utils';
 ```
 
@@ -231,7 +231,7 @@ console.log('1.0.0');
 
 > 如果不存在 `d.ts` 文件，则可以手动创建。
 
-```ts env.d.ts
+```ts title="env.d.ts"
 declare const YOUR_ADD_GLOBAL_VAR;
 ```
 
