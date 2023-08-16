@@ -16,6 +16,9 @@ test('should minify template js & css', async ({ page }) => {
       html: {
         template: './static/index.html',
       },
+      performance: {
+        removeConsole: ['log', 'warn'],
+      },
     },
   });
 
@@ -40,6 +43,8 @@ test('should minify template js & css', async ({ page }) => {
     content.includes('#a{text-align:center;line-height:1.5;font-size:1.5rem}'),
   ).toBeTruthy();
   expect(content.includes('window.a=1,window.b=2')).toBeTruthy();
+  expect(content.includes('console.info(111111)')).toBeTruthy();
+  expect(content.includes('console.warn(111111)')).toBeFalsy();
 
   builder.close();
 });

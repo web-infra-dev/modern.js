@@ -30,12 +30,15 @@ import type {
   NormalizedSharedSecurityConfig,
   NormalizedSharedPerformanceConfig,
   NormalizedSharedToolsConfig,
+  SharedNormalizedConfig,
 } from './types';
 import { logger } from './logger';
 import { join } from 'path';
+import type { minify } from 'terser';
 
 import _ from '@modern-js/utils/lodash';
 import { DEFAULT_DEV_HOST } from '@modern-js/utils';
+import { getJSMinifyOptions } from './minimize';
 
 export const getDefaultDevConfig = (): NormalizedSharedDevConfig => ({
   hmr: true,
@@ -248,15 +251,17 @@ export function getExtensions({
   return extensions;
 }
 
-export function getMinify(
+type MinifyOptions = NonNullable<Parameters<typeof minify>[1]>;
+
+export async function getMinify(
   isProd: boolean,
-  config: {
-    output: NormalizedSharedOutputConfig;
-  },
+  config: SharedNormalizedConfig,
 ) {
   if (config.output.disableMinimize || !isProd) {
     return false;
   }
+  const minifyJS: MinifyOptions = (await getJSMinifyOptions(config))
+    .terserOptions!;
 
   return {
     removeComments: true,
@@ -267,7 +272,7 @@ export function getMinify(
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
     removeEmptyAttributes: true,
-    minifyJS: true,
+    minifyJS,
     minifyCSS: true,
     minifyURLs: true,
   };
