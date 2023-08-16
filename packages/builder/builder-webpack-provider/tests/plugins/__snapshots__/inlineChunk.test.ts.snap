@@ -19,7 +19,14 @@ exports[`plugins/inlineChunk > should add InlineChunkHtmlPlugin properly by defa
           "collapseWhitespace": true,
           "keepClosingSlash": true,
           "minifyCSS": true,
-          "minifyJS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
           "minifyURLs": true,
           "removeComments": true,
           "removeEmptyAttributes": true,
@@ -69,7 +76,14 @@ exports[`plugins/inlineChunk > should use proper plugin options when disableInli
           "collapseWhitespace": true,
           "keepClosingSlash": true,
           "minifyCSS": true,
-          "minifyJS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
           "minifyURLs": true,
           "removeComments": true,
           "removeEmptyAttributes": true,
@@ -117,7 +131,14 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
           "collapseWhitespace": true,
           "keepClosingSlash": true,
           "minifyCSS": true,
-          "minifyJS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
           "minifyURLs": true,
           "removeComments": true,
           "removeEmptyAttributes": true,
@@ -168,7 +189,14 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
           "collapseWhitespace": true,
           "keepClosingSlash": true,
           "minifyCSS": true,
-          "minifyJS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
           "minifyURLs": true,
           "removeComments": true,
           "removeEmptyAttributes": true,

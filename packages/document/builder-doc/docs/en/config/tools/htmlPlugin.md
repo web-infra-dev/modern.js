@@ -9,7 +9,7 @@ const defaultHtmlPluginOptions = {
   template, // defaults to the built-in HTML template path
   templateParameters, // corresponding to the html.templateParameters config
   chunks: [entryName],
-  minify: {
+  minify: { // generated based on output.disableMinimize
     removeComments: true,
     useShortDoctype: true,
     keepClosingSlash: true,
@@ -18,7 +18,7 @@ const defaultHtmlPluginOptions = {
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
     removeEmptyAttributes: true,
-    minifyJS: true,
+    minifyJS, // generated based on output.charset and tools.terser.terserOptions
     minifyCSS: true,
     minifyURLs: true,
   },

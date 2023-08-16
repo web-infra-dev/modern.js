@@ -9,7 +9,7 @@ const defaultHtmlPluginOptions = {
   template, // 默认为内置的 HTML 模板路径
   templateParameters, // 对应 html.templateParameters 配置项
   chunks: [entryName],
-  minify: {
+  minify: { // 基于 output.disableMinimize 生成
     removeComments: true,
     useShortDoctype: true,
     keepClosingSlash: true,
@@ -18,7 +18,7 @@ const defaultHtmlPluginOptions = {
     removeScriptTypeAttributes: true,
     removeStyleLinkTypeAttributes: true,
     removeEmptyAttributes: true,
-    minifyJS: true,
+    minifyJS, // 基于 output.charset 和 tools.terser.terserOptions 生成
     minifyCSS: true,
     minifyURLs: true,
   },
