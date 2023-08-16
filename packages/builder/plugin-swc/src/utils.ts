@@ -20,6 +20,7 @@ import {
   PluginSwcOptions,
   TransformConfig,
 } from './types';
+import { CORE_JS_DIR_PATH, SWC_HELPERS_DIR_PATH } from './constants';
 
 /**
  * Determin react runtime mode based on react version
@@ -214,6 +215,11 @@ export async function applyPluginConfig(
       ids: ['lodash', 'lodash-es'],
     };
   }
+
+  extensions.lockCorejsVersion ??= {
+    corejs: CORE_JS_DIR_PATH,
+    swcHelpers: SWC_HELPERS_DIR_PATH,
+  };
 
   /**
    * SWC can't use latestDecorator in TypeScript file for now

@@ -35,6 +35,10 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 ],
               },
               "extensions": {
+                "lockCorejsVersion": {
+                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+                },
                 "lodash": {
                   "cwd": "<ROOT>",
                   "ids": [
@@ -94,6 +98,10 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                 ],
               },
               "extensions": {
+                "lockCorejsVersion": {
+                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+                },
                 "lodash": {
                   "cwd": "<ROOT>",
                   "ids": [
@@ -156,6 +164,10 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
               ],
             },
             "extensions": {
+              "lockCorejsVersion": {
+                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+              },
               "lodash": {
                 "cwd": "<ROOT>",
                 "ids": [
@@ -219,6 +231,10 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
               ],
             },
             "extensions": {
+              "lockCorejsVersion": {
+                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+              },
               "lodash": {
                 "cwd": "<ROOT>",
                 "ids": [
@@ -278,6 +294,10 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
               ],
             },
             "extensions": {
+              "lockCorejsVersion": {
+                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+              },
               "lodash": {
                 "cwd": "<ROOT>",
                 "ids": [
@@ -339,6 +359,10 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
               ],
             },
             "extensions": {
+              "lockCorejsVersion": {
+                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+              },
               "lodash": {
                 "cwd": "<ROOT>",
                 "ids": [
@@ -400,6 +424,10 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
               ],
             },
             "extensions": {
+              "lockCorejsVersion": {
+                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+              },
               "lodash": {
                 "cwd": "<ROOT>",
                 "ids": [
@@ -461,6 +489,10 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
               ],
             },
             "extensions": {
+              "lockCorejsVersion": {
+                "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+              },
               "lodash": {
                 "cwd": "<ROOT>",
                 "ids": [
@@ -565,6 +597,10 @@ exports[`plugins/swc > should set multiple swc-loader 1`] = `
             ],
           },
           "extensions": {
+            "lockCorejsVersion": {
+              "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+              "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+            },
             "lodash": {
               "cwd": "<ROOT>",
               "ids": [
@@ -625,6 +661,10 @@ exports[`plugins/swc > should set multiple swc-loader 1`] = `
             ],
           },
           "extensions": {
+            "lockCorejsVersion": {
+              "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+              "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+            },
             "lodash": {
               "cwd": "<ROOT>",
               "ids": [
@@ -680,6 +720,10 @@ exports[`plugins/swc > should set multiple swc-loader 1`] = `
             ],
           },
           "extensions": {
+            "lockCorejsVersion": {
+              "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+              "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+            },
             "lodash": {
               "cwd": "<ROOT>",
               "ids": [
@@ -769,6 +813,10 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 ],
               },
               "extensions": {
+                "lockCorejsVersion": {
+                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+                },
                 "lodash": {
                   "cwd": "<ROOT>",
                   "ids": [
@@ -828,6 +876,10 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                 ],
               },
               "extensions": {
+                "lockCorejsVersion": {
+                  "corejs": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+                  "swcHelpers": "<WORKSPACE>/node_modules/<PNPM_INNER>/@swc/helpers",
+                },
                 "lodash": {
                   "cwd": "<ROOT>",
                   "ids": [
