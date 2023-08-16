@@ -3,6 +3,7 @@ import {
   InternalPlugins,
   ServerRoute,
   HtmlTemplates,
+  HtmlPartials,
 } from '@modern-js/types';
 import { BuilderInstance } from '@modern-js/builder-shared';
 
@@ -39,4 +40,5 @@ export interface IAppContext {
   internalSrcAlias: string;
   builder?: BuilderInstance;
   bundlerType?: 'webpack' | 'rspack' | 'esbuild';
+  partialsByEntrypoint?: Record<string, HtmlPartials>;
 }

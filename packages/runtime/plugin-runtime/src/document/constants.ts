@@ -3,6 +3,15 @@ import { HTML_CHUNKSMAP_SEPARATOR } from '@modern-js/utils/universal/constants';
 export const DOC_EXT = ['jsx', 'tsx', 'ts', 'js'];
 export const DOCUMENT_META_PLACEHOLDER = encodeURIComponent('<%= meta %>');
 export const HTML_SEPARATOR = '<!--<?- html ?>-->';
+export const HEAD_PARTICALS_SEPARATOR = encodeURIComponent(
+  '<!--<?- partials.head ?>-->',
+);
+export const BODY_PARTICALS_SEPARATOR = encodeURIComponent(
+  '<!--<?- partials.body ?>-->',
+);
+export const TOP_PARTICALS_SEPARATOR = encodeURIComponent(
+  '<!--<?- partials.top ?>-->',
+);
 
 export const HTML_SSRDATASCRIPT_SEPARATOR = '<!--<?- SSRDataScript ?>-->';
 // export const HTML_BOTTOMTPL_SEPARATOR = '<!--<?- bottomTemplate ?>-->'; // document jsx not need bottom
