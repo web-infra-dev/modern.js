@@ -304,7 +304,7 @@ export class RouterPlugin {
                   ? `type="module"`
                   : '';
 
-              const script = `<script ${scriptLoadingAttr} ${nonceAttr} src="${scriptUrl}"${nonceAttr}></script>`;
+              const script = `<script ${scriptLoadingAttr} ${nonceAttr} src="${scriptUrl}"></script>`;
 
               compilation.updateAsset(
                 htmlName,
