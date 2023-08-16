@@ -31,7 +31,7 @@ sidebar_position: 6
 
 例如在下面的配置中扩展了原有的颜色配置:
 
-```ts ./modern.config.ts
+```ts title="modern.config.ts"
 export default {
   designSystem: {
     extend: {
@@ -47,7 +47,7 @@ export default {
 
 #### HTML 类名
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -59,9 +59,7 @@ export default () => {
 
 关于 [`@apply`](https://tailwindcss.com/docs/functions-and-directives#apply)。
 
-<CH.Code>
-
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import './index.css';
 
 export default () => {
@@ -69,10 +67,8 @@ export default () => {
 };
 ```
 
-```css ./src/index.css
+```css title="./src/index.css"
 .btn-primary {
   @apply bg-primary;
 }
 ```
-
-</CH.Code>

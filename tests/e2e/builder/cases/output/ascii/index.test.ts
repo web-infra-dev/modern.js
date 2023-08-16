@@ -1,10 +1,8 @@
 import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
-// TODO: needs rspack minifyOptions.asciiOnly
-webpackOnlyTest('output.charset default (ascii)', async ({ page }) => {
+test('output.charset default (ascii)', async ({ page }) => {
   const builder = await build({
     cwd: __dirname,
     entry: {
@@ -22,7 +20,10 @@ webpackOnlyTest('output.charset default (ascii)', async ({ page }) => {
     ([name]) => name.endsWith('.js') && name.includes('static/js/index'),
   )!;
 
-  expect(content.includes('\\u4f60\\u597d world!')).toBeTruthy();
+  // in rspack is: \\u4f60\\u597D world!
+  expect(
+    content.toLocaleLowerCase().includes('\\u4f60\\u597d world!'),
+  ).toBeTruthy();
 
   builder.close();
 });

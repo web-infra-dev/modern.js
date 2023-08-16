@@ -3,7 +3,11 @@ import { RspackVirtualModulePlugin } from 'rspack-plugin-virtual-module';
 import type { DocPlugin, RouteMeta } from '@modern-js/doc-core';
 import { remarkCodeToDemo } from './codeToDemo';
 import { injectDemoBlockImport, toValidVarName } from './utils';
-import { demoBlockComponentPath, demoComponentPath } from './constant';
+import {
+  demoBlockComponentPath,
+  demoComponentPath,
+  staticPath,
+} from './constant';
 
 export type Options = {
   /**
@@ -12,14 +16,31 @@ export type Options = {
    * @default false
    */
   isMobile: boolean;
+  /**
+   * position of the iframe
+   * @default 'follow'
+   */
+  iframePosition: 'fixed' | 'follow';
 };
+
+interface Heading {
+  type: string;
+  depth?: number;
+  children?: ChildNode[];
+}
+
+interface ChildNode {
+  type: 'link' | 'text' | 'inlineCode';
+  value: string;
+  children?: ChildNode[];
+}
 
 // eslint-disable-next-line import/no-mutable-exports
 export let routeMeta: RouteMeta[];
 export const demoRoutes: { path: string }[] = [];
 export const demoMeta: Record<
   string,
-  { id: string; virtualModulePath: string }[]
+  { id: string; virtualModulePath: string; title: string }[]
 > = {};
 
 /**
@@ -27,7 +48,12 @@ export const demoMeta: Record<
  */
 export function pluginPreview(options?: Options): DocPlugin {
   const isMobile = options?.isMobile ?? false;
+  const iframePosition = options?.iframePosition ?? 'follow';
   const demoRuntimeModule = new RspackVirtualModulePlugin({});
+  const globalUIComponents =
+    iframePosition === 'fixed'
+      ? [path.join(staticPath, 'global-components', 'Device.tsx')]
+      : [];
   const getRouteMeta = () => routeMeta;
   return {
     name: '@modern-js/doc-plugin-preview',
@@ -41,7 +67,7 @@ pageType: "blank"
 
 import Demo from ${JSON.stringify(demoComponentPath)}
 
-<Demo />
+<Demo iframePosition="${iframePosition}"/>
           `,
         },
       ];
@@ -63,6 +89,7 @@ import Demo from ${JSON.stringify(demoComponentPath)}
           const { visit } = await import('unist-util-visit');
           const { default: fs } = await import('@modern-js/utils/fs-extra');
           const { default: remarkGFM } = await import('remark-gfm');
+          let title = path.parse(filepath).name;
           try {
             const processor = createProcessor({
               format: path.extname(filepath).slice(1) as 'mdx' | 'md',
@@ -89,11 +116,19 @@ import Demo from ${JSON.stringify(demoComponentPath)}
                 if (!isExist) {
                   demoMeta[filepath].push({
                     id: demoId,
+                    title,
                     virtualModulePath: demoPath,
                   });
                 }
               }
             };
+            visit(ast, 'heading', (node: Heading) => {
+              if (node.depth === 1) {
+                if (node.children) {
+                  title = node.children[0].value;
+                }
+              }
+            });
 
             visit(ast, 'mdxJsxFlowElement', (node: any) => {
               if (node.name === 'code') {
@@ -203,21 +238,16 @@ import Demo from ${JSON.stringify(demoComponentPath)}
       },
     },
     markdown: {
-      remarkPlugins: [[remarkCodeToDemo, { isMobile, getRouteMeta }]],
+      remarkPlugins: [
+        [remarkCodeToDemo, { isMobile, getRouteMeta, iframePosition }],
+      ],
       globalComponents: [
-        path.join(
-          __dirname,
-          '..',
-          'static',
-          'global-components',
-          'Container.tsx',
-        ),
+        path.join(staticPath, 'global-components', 'Container.tsx'),
       ],
     },
+    globalUIComponents,
     globalStyles: path.join(
-      __dirname,
-      '..',
-      'static',
+      staticPath,
       'global-styles',
       `${isMobile ? 'mobile' : 'web'}.css`,
     ),

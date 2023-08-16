@@ -1,3 +1,4 @@
+import type { SharedSecurityConfig } from '@modern-js/builder-shared';
 import type {
   WebpackBuilderConfig,
   RspackBuilderConfig,
@@ -15,3 +16,5 @@ export type RsSecurityConfig = UnwrapBuilderConfig<
 >;
 
 export type SecurityUserConfig = BuilderSecurityConfig;
+
+export type { SharedSecurityConfig };

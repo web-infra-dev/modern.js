@@ -1,19 +1,16 @@
 import { createDebugger, isObject } from '@modern-js/utils';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import { PluginValidateSchema } from '../types';
-import { testing } from './testing';
 
 const debug = createDebugger('validate-schema');
 
 export const patchSchema = (
   pluginSchemas: Array<PluginValidateSchema | PluginValidateSchema[]>,
 ) => {
-  const finalSchema = cloneDeep({
+  const finalSchema = {
     type: 'object',
-    properties: {
-      testing,
-    },
-  });
+    properties: {},
+  };
 
   const findTargetNode = (props: string[]) => {
     let node: any = finalSchema.properties;

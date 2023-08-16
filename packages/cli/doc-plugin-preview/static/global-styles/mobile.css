@@ -1,9 +1,35 @@
-:root div {
-  --modern-sidebar-width: 210px;
-  --modern-aside-width: 0;
-}
-:root .preview-code div[class*='language-'] {
+:root .modern-preview div[class*='language-'] {
   margin: 0;
   border-radius: 0;
-  height: 100%
+  height: 100%;
+}
+
+:root {
+  --modern-preview-padding: 32px
+}
+
+@media (min-width: 1280px) {
+  .modern-doc-layout {
+    width: calc(100% - var(--modern-preview-padding));
+    margin-left: var(--modern-preview-padding);
+  }
+
+  .modern-sidebar {
+    margin-left: var(--modern-preview-padding);
+  }
+
+  .modern-doc-nav-container {
+    max-width: 100%;
+    margin-left: var(--modern-preview-padding);
+  }
+
+  .modern-doc-container {
+    padding-right: var(--modern-preview-padding);
+    padding-left: var(--modern-preview-padding);
+  }
+
+  .modern-doc {
+    width: 100%;
+    padding-right: var(--modern-preview-padding);
+  }
 }

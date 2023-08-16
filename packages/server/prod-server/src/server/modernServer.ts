@@ -140,7 +140,6 @@ export class ModernServer implements ModernServerInterface {
     this.staticGenerate = staticGenerate || false;
     this.runMode = runMode || RUN_MODE.FULL;
     this.metaName = appContext?.metaName;
-    // process.env.BUILD_TYPE = `${this.staticGenerate ? 'ssg' : 'ssr'}`;
   }
 
   // server prepare
@@ -156,7 +155,7 @@ export class ModernServer implements ModernServerInterface {
     const proxyHandlers = createProxyHandler(
       conf.bff?.proxy as BffProxyOptions,
     );
-    app.on('upgrade', proxyHandlers.handleUpgrade);
+    app?.on('upgrade', proxyHandlers.handleUpgrade);
     proxyHandlers.handlers.forEach(handler => {
       this.addHandler(handler);
     });

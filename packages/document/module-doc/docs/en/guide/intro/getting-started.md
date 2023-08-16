@@ -53,7 +53,7 @@ npm install -D @modern-js/module-tools typescript
 
 Next, create the `modern.config.(t|j)s` file in the root of the project.
 
-``` ts
+```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -84,7 +84,7 @@ If your project has a `src/index.(js|jsx)` file or both `src/index.(ts|tsx)` and
 
 `@modern-js/module-tools` is implemented based on the plugin system of Modern.js. Essentially, it is a plugin. Therefore, you need to register `moduleTools` in the `plugins` field of the configuration file:
 
-```ts modern.config.ts
+```ts title="modern.config.ts"
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({

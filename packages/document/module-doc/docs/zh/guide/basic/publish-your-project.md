@@ -41,7 +41,7 @@ $ npx modern change
 
 当执行成功后，生成的包含变更记录的 Markdown 文件会保存在项目的 `.changeset` 目录下面。其内容类似下面这样：
 
-```markdown .changeset/brave-dryers-agree.md
+```markdown title=".changeset/brave-dryers-agree.md"
 ---
 'module-example': patch
 ---
@@ -57,7 +57,7 @@ publish test
 
 执行 `modern bump` 将会基于 `.changeset/` 目录下记录了变更的 Markdown 文件内容来修改 `package.json` 中的版本号，同时生成 `CHANGELOG.md` 文件。**而当版本更新完成后，这些记录变更的 Markdown 文件也会被删除，也可说这些 Markdown 文件被“消耗”掉了**。
 
-```markdown CHANGELOG.md
+```markdown title="CHANGELOG.md"
 # module
 
 ## 0.1.1

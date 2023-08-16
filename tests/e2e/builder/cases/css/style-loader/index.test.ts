@@ -31,7 +31,7 @@ test('should inline style when disableCssExtract is false', async ({
   const mainJsFile = Object.keys(files).find(file => file.includes('main.'))!;
   expect(
     files[mainJsFile].includes(
-      'body,html{margin:0;padding:0}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-moz-box-sizing:border-box;box-sizing:border-box}',
+      'body,html{margin:0;padding:0}*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box}',
     ),
   ).toBeTruthy();
 

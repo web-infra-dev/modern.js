@@ -1,8 +1,7 @@
 - **类型：** `boolean`
 - **默认值：** `false`
-- **打包工具：** `仅支持 webpack`
 
-是否捕获每个模块的耗时信息，对应 webpack 的 [profile](https://webpack.js.org/configuration/other-options/#profile) 配置。
+是否捕获每个模块的耗时信息，对应 webpack / Rspack 的 [profile](https://webpack.js.org/configuration/other-options/#profile) 配置。
 
 ### 示例
 
@@ -14,4 +13,4 @@ export default {
 };
 ```
 
-开启后，Webpack 生成一些有关模块的统计数据的 JSON 文件会将模块构建的耗时信息也包含进去。
+开启后，Webpack / Rspack 生成一些有关模块的统计数据的 JSON 文件会将模块构建的耗时信息也包含进去。

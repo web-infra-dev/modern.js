@@ -1,9 +1,14 @@
-.demo-block {
+:root {
+  --modern-demo-block-bg: #f7f8fA;
+}
+
+.dark {
+  --modern-demo-block-bg: #1a1a1a
+}
+
+.modern-demo-block {
   padding-bottom: 12px;
-  background-color: #f7f8fA;
-  &:last-of-type {
-    padding-bottom: 44px;
-  }
+  background-color: var(--modern-demo-block-bg);
   &-title {
     padding: 12px 12px 8px;
     color: #697b8c;

@@ -95,7 +95,7 @@
     "@modern-js/utils": "workspace:*",
     "es-module-lexer": "^1.1.0",
     "esbuild": "0.17.19",
-    "rspack-plugin-virtual-module": "0.1.0",
+    "rspack-plugin-virtual-module": "0.1.7",
     "@swc/helpers": "0.5.1",
     "@modern-js/server-core": "workspace:*"
   },

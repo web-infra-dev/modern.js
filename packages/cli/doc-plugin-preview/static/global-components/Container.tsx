@@ -1,26 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Button, Tooltip, Card } from '@arco-design/web-react';
-import { IconCode, IconLaunch, IconQrcode } from '@arco-design/web-react/icon';
-import '@arco-design/web-react/es/Button/style';
-import '@arco-design/web-react/es/Tooltip/style';
-import '@arco-design/web-react/es/Card/style';
-
+import { useCallback, useState } from 'react';
+import { withBase, useLang, NoSSR } from '@modern-js/doc-core/runtime';
+import MobileOperation from './common/mobile-operation';
+import IconCode from './svg/code.svg';
 import './Container.scss';
-import { useDark, withBase, useLang, NoSSR } from '@modern-js/doc-core/runtime';
-import { QRCodeSVG } from 'qrcode.react';
-
-const locales = {
-  zh: {
-    expand: '展开代码',
-    collapse: '收起代码',
-    open: '在新页面打开',
-  },
-  en: {
-    expand: 'Expand Code',
-    collapse: 'Collapse Code',
-    open: 'Open in new page',
-  },
-};
 
 type ContainerProps = {
   children: React.ReactNode[];
@@ -30,11 +12,9 @@ type ContainerProps = {
 
 const Container: React.FC<ContainerProps> = props => {
   const { children, isMobile, url } = props;
-
   const [showCode, setShowCode] = useState(false);
-  const lang = useLang() || Object.keys(locales)[0];
-  const dark = useDark();
-  const t = locales[lang as keyof typeof locales];
+  const lang = useLang();
+
   const getPageUrl = () => {
     if (typeof window !== 'undefined') {
       return window.location.origin + withBase(url);
@@ -42,94 +22,32 @@ const Container: React.FC<ContainerProps> = props => {
     // Do nothing in ssr
     return '';
   };
-
   const toggleCode = (e: any) => {
     if (!showCode) {
       e.target.blur();
     }
     setShowCode(!showCode);
   };
-  const openNewPage = (e: any) => {
-    if (!showCode) {
-      e.target.blur();
-    }
-    window.open(getPageUrl());
-  };
-  // support dark theme in container
-  useEffect(() => {
-    if (dark) {
-      document.body.setAttribute('arco-theme', 'dark');
-    } else {
-      document.body.removeAttribute('arco-theme');
-    }
-  }, [dark]);
-  const renderWebOperations = () => {
-    return (
-      <div className="code-operations web">
-        <Tooltip content={showCode ? t.collapse : t.expand}>
-          <Button
-            size="small"
-            shape="circle"
-            onClick={toggleCode}
-            type="secondary"
-            aria-label={t.collapse}
-            className={showCode ? 'ac-btn-expanded' : ''}
-          >
-            <IconCode />
-          </Button>
-        </Tooltip>
-      </div>
-    );
-  };
-  const renderMobileOperations = () => {
-    return (
-      <div className="code-operations mobile">
-        <Tooltip
-          content={<QRCodeSVG value={getPageUrl()} size={96} />}
-          color="#f7f8fa"
-          trigger={'click'}
-        >
-          <Button
-            size="small"
-            shape="circle"
-            type="secondary"
-            style={{ marginLeft: '8px' }}
-          >
-            <IconQrcode />
-          </Button>
-        </Tooltip>
-        <Button
-          size="small"
-          shape="circle"
-          onClick={openNewPage}
-          type="secondary"
-          aria-label={t.open}
-          style={{ marginLeft: '8px' }}
-        >
-          <IconLaunch />
-        </Button>
-      </div>
-    );
-  };
+
+  const [iframeKey, setIframeKey] = useState(0);
+  const refresh = useCallback(() => {
+    setIframeKey(Math.random());
+  }, []);
+
   return (
     <NoSSR>
-      <div className="code-wrapper">
+      <div className="modern-preview">
         {isMobile === 'true' ? (
-          <Card bodyStyle={{ padding: 0 }} style={{ borderRadius: '8px' }}>
-            <div className="flex">
-              <div className="preview-code">{children?.[0]}</div>
-              <div className="preview-device">
-                <iframe
-                  src={getPageUrl()}
-                  className="preview-device-iframe"
-                ></iframe>
-                {renderMobileOperations()}
-              </div>
+          <div className="modern-preview-wrapper flex">
+            <div className="modern-preview-code">{children?.[0]}</div>
+            <div className="modern-preview-device">
+              <iframe src={getPageUrl()} key={iframeKey}></iframe>
+              <MobileOperation url={url} refresh={refresh} />
             </div>
-          </Card>
+          </div>
         ) : (
-          <>
-            <Card>
+          <div>
+            <div className="modern-preview-card">
               <div
                 style={{
                   overflow: 'auto',
@@ -138,12 +56,26 @@ const Container: React.FC<ContainerProps> = props => {
               >
                 {children?.[1]}
               </div>
-              {renderWebOperations()}
-            </Card>
-            <div className={`code-content ${showCode ? 'show-all' : ''}`}>
+              <div className="modern-preview-operations web">
+                <button
+                  onClick={toggleCode}
+                  aria-label={lang === 'zh' ? '收起代码' : ''}
+                  className={showCode ? 'button-expanded' : 'Collapse Code'}
+                >
+                  <IconCode />
+                </button>
+              </div>
+            </div>
+            <div
+              className={`${
+                showCode
+                  ? 'modern-preview-code-show'
+                  : 'modern-preview-code-hide'
+              }`}
+            >
               {children?.[0]}
             </div>
-          </>
+          </div>
         )}
       </div>
     </NoSSR>

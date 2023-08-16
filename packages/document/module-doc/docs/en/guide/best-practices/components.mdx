@@ -4,9 +4,9 @@ This chapter will describe how to develop component projects using the Module To
 
 ## Initialize the project
 
-<CH.Spotlight>
+1. It is recommended to use the `@modern-js/create` command to initialize an npm project.
 
-```bash Interactive questions
+```text title="Interactive questions"
 npx @modern-js/create@latest components-project
 
 ? Please select the type of project you want to create: Npm Module
@@ -15,24 +15,9 @@ npx @modern-js/create@latest components-project
 ? Please select the package manager: pnpm
 ```
 
----
+2. The initialized directory structure:
 
-It is recommended to use the `@modern-js/create` command to initialize an npm project.
-
-```bash Interactive questions
-npx @modern-js/create@latest components-project
-
-? Please select the type of project you want to create: Npm Module
-? Please fill in the project name: components-demo
-? Please select the programming language: TS
-? Please select the package manager: pnpm
-```
-
----
-
-The initialized directory structure.
-
-```bash The initialized directory structure
+```bash
 .
 ├── README.md
 ├── node_modules/
@@ -46,149 +31,17 @@ The initialized directory structure.
 └── tsconfig.json
 ```
 
----
+3. Finally, modify the file suffix and content of `./src/index.ts` as follows, and the initialization of the component project is completed.
 
-Modify the `. /src/index.ts` file suffix and content.
-
-At this point, a component project is initialized.
-
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 export default () => {
   return <div>hello world</div>;
 };
 ```
-
-</CH.Spotlight>
 
 ## Debugging code with Storybook
 
-<CH.Spotlight>
-
-```bash Terminal
-pnpm run new
-
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable Visual Testing (Storybook)
-```
-
----
-
-Execute the `new` command in the project root directory to enable the Storybook feature.
-
-```bash Terminal
-pnpm run new
-
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable Visual Testing (Storybook)
-```
-
----
-
-Once successfully opened, you will see that a new dependency has been added to `package.json`. The `stories` directory and related initialization files are also created.
-
-<CH.Code>
-
-```json ./package.json focus=4:7
-{
-  "name": "components-demo",
-  "devDependencies": {
-    "@modern-js/plugin-storybook": "x.y.z",
-    "@modern-js/runtime": "x.y.z",
-    "react": "^17",
-    "react-dom": "^17"
-  }
-}
-```
-
-```bash Directory Structure
-.
-├── src
-│   ├── index.ts
-│   └── modern-app-env.d.ts
-├── stories
-│   ├── .eslintrc.js
-│   ├── index.stories.tsx
-│   └── tsconfig.json
-```
-
-</CH.Code>
-
----
-
-After initialization, the `tsconfig.json` file in the `. /stories` directory, the `tsconfig.json` file is set by default with the `paths` configuration of the same name as the project.
-
-```json ./stories/tsconfig.json focus=5:7
-{
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    "baseUrl": "../",
-    "paths": {
-      "components-demo": ["./"],
-      "components-demo/*": ["./*"]
-    }
-  },
-  "include": ["**/*"]
-}
-```
-
----
-
-Such a configuration allows you to introduce code in Story code directly using the name of the project.
-
-<CH.Code>
-
-```tsx ./stories/index.stories.tsx
-import Component from 'components-demo';
-
-export const YourStory = () => <Component />;
-
-export default {
-  title: 'Your Stories',
-};
-```
-
----
-
-```tsx ./src/index.tsx
-export default () => {
-  return <div>hello world</div>;
-};
-```
-
-</CH.Code>
-
----
-
-At this point Storybook identifies the entry point for the imported code based on fields like `main`, `exports` in the project's `package.json` file.
-The location of the type file is determined by the `types` field.
-
-```json package.json
-{
-  "name": "components-demo",
-  "main": "./dist/esm/index.js",
-  "types": "./dist/types/index.d.ts"
-}
-```
-
----
-
-While importing source code for debugging is also supported, debugging using project artifacts is more reliable.
-
-Debugging with source code has a limitation: some configurations are not equivalent in Storybook and in the original build support.
-
-**This is why debugging with the output code is recommended**.
-
-```tsx ./stories/index.stories.tsx
-import Component from '../src';
-
-export const YourStory = () => <Component />;
-
-export default {
-  title: 'Your Stories',
-};
-```
-
-</CH.Spotlight>
+Please refer to ["Using Storybook"](/guide/basic/using-storybook.html) to debug code using Storybook.
 
 ## Developing Styles
 
@@ -216,9 +69,9 @@ The module project supports PostCSS and has the following built-in PostCSS plugi
 
 So we can create `.css` files in our projects and use the syntax support and capabilities provided by these plugins directly in our css files.
 
-<CH.Spotlight>
+- Source Code:
 
-```css ./src/index.css
+```less title="./src/index.css"
 a,
 b {
   color: red;
@@ -236,19 +89,9 @@ b {
 }
 ```
 
----
+- CSS artifact:
 
-Source Code.
-
-```css ./src/index.css
-
-```
-
----
-
-css product.
-
-```css ./dist/es/index.css
+```css title="./dist/es/index.css"
 a,
 b {
   color: red;
@@ -265,17 +108,15 @@ e b {
 }
 ```
 
-</CH.Spotlight>
-
 ### Less
 
 Module projects support development styles using Less.
 
 > The current built-in Less version is v4.1.3
 
-<CH.Spotlight>
+- Source Code:
 
-```less ./src/common.less
+```less title="./src/common.less"
 @bg: black;
 @bg-light: boolean(luma(@bg) > 50%);
 
@@ -285,26 +126,14 @@ div {
 }
 ```
 
----
+- Less artifact:
 
-Source Code.
-
-```less ./src/common.less
-
-```
-
----
-
-Less product.
-
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 div {
   background: black;
   color: white;
 }
 ```
-
-</CH.Spotlight>
 
 ### Sass/Scss
 
@@ -312,9 +141,9 @@ Module projects support developing styles using Scss/Sass.
 
 > The current built-in Sass version is v1.54.4
 
-<CH.Spotlight>
+- Source code:
 
-```sass ./src/common.sass
+```sass title="./src/common.sass"
 $font-stack: Helvetica, sans-serif;
 $primary-color: #333;
 
@@ -324,26 +153,14 @@ body {
 }
 ```
 
----
+- Less artifact:
 
-源代码。
-
-```sass ./src/common.sass
-
-```
-
----
-
-Less product.
-
-```css ./dist/es/common.css
+```css title="./dist/es/common.css"
 body {
   font: 100% Helvetica, sans-serif;
   color: #333;
 }
 ```
-
-</CH.Spotlight>
 
 ### Tailwind CSS
 
@@ -351,31 +168,18 @@ The module project supports the development of component styles using Tailwind C
 
 By default, this feature is not enabled in the module project, you need to enable it as follows.
 
-<CH.Spotlight>
+1. The Tailwind CSS feature can be enabled by executing the `new` command in the project root directory.
 
-```bash Terminal
-pnpm run new
-
-? Please select the operation you want: Enable features
-? Please select the feature name: Enable Visual Testing (Storybook)
-```
-
----
-
-The Tailwind CSS feature can be enabled by executing the `new` command in the project root directory.
-
-```bash Terminal
+```text title="Terminal"
 pnpm run new
 
 ? Please select the operation you want: Enable features
 ? Please select the feature name: Enable Tailwind CSS
 ```
 
----
+2. Once successfully enabled, you will see that a new dependency has been added to `package.json`.
 
-Once successfully opened, you will see that a new dependency has been added to `package.json`.
-
-```json ./package.json
+```json title="./package.json"
 {
   "devDependencies": {
     "@modern-js/plugin-tailwindcss": "x.y.z"
@@ -383,15 +187,13 @@ Once successfully opened, you will see that a new dependency has been added to `
 }
 ```
 
-</CH.Spotlight>
-
-Tailwind CSS offers two ways to use it.
+3. Tailwind CSS offers two ways to use it.
 
 #### HTML class
 
-<CH.Spotlight>
+Tailwind CSS supports adding styles to HTML tags by using class names. **When using HTML class names, be sure to import the Tailwind CSS equivalent css file. **
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -399,60 +201,12 @@ export default () => {
 };
 ```
 
----
+Style product (This is a bundle build):
 
-Tailwind CSS supports adding styles to HTML tags by using class names.
-
-```tsx ./src/index.tsx focus=5:5
-
-```
-
----
-
-**When using HTML class names, be sure to import the Tailwind CSS equivalent css file. **
-
-```tsx ./src/index.tsx focus=1:1
-
-```
-
----
-
-Style product.
-
-> This is a bundle build.
-
-```css ./dist/es/index.css
-/* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes ping {
-  75%,
-  100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-@keyframes pulse {
-  50% {
-    opacity: 0.5;
-  }
-}
-@keyframes bounce {
-  0%,
-  100% {
-    transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  }
 }
 .bg-black {
   --tw-bg-opacity: 1;
@@ -462,34 +216,8 @@ Style product.
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
-*,
-::before,
-::after {
-  --tw-shadow: 0 0 #0000;
-}
-*,
-::before,
-::after {
-  --tw-ring-inset: var(--tw-empty);
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgba(59, 130, 246, 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000;
-}
-@media (min-width: 640px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 1024px) {
-}
-@media (min-width: 1280px) {
-}
-@media (min-width: 1536px) {
-}
+/** some more... */
 ```
-
-</CH.Spotlight>
 
 #### `@apply`
 
@@ -509,7 +237,7 @@ However, there are some things to keep in mind when using Less and Sass.
 
 When using Tailwind with Sass, the presence of `!important` after `@apply` requires interpolation to get Sass to compile correctly.
 
-<CH.Spotlight>
+- It does not work properly:
 
 ```sass
 .alert {
@@ -517,17 +245,7 @@ When using Tailwind with Sass, the presence of `!important` after `@apply` requi
 }
 ```
 
----
-
-It does not work properly.
-
-```sass
-
-```
-
----
-
-Can work properly.
+- Can work properly:
 
 ```sass
 .alert {
@@ -535,13 +253,11 @@ Can work properly.
 }
 ```
 
-</CH.Spotlight>
-
 ##### Less
 
 When using Tailwind with Less, you cannot nest Tailwind's `@screen` directive.
 
-<CH.Spotlight>
+- It does not work properly:
 
 ```less
 .card {
@@ -553,21 +269,9 @@ When using Tailwind with Less, you cannot nest Tailwind's `@screen` directive.
 }
 ```
 
----
+- Instead, use regular media queries and the `theme()` function to reference your screen size, or simply don't nest your `@screen` directive.
 
-It does not work properly.
-
-```less
-
-```
-
----
-
-Instead, use regular media queries and the `theme()` function to reference your screen size, or simply don't nest your `@screen` directive.
-
-<CH.Code>
-
-```less Method One
+```less title="Method One"
 // Use a regular media query and theme()
 .card {
   @apply rounded-none;
@@ -578,9 +282,7 @@ Instead, use regular media queries and the `theme()` function to reference your 
 }
 ```
 
----
-
-```less Method Two
+```less title="Method Two"
 // Use the @screen directive at the top-level
 .card {
   @apply rounded-none;
@@ -590,10 +292,6 @@ Instead, use regular media queries and the `theme()` function to reference your 
   }
 }
 ```
-
-</CH.Code>
-
-</CH.Spotlight>
 
 #### Recommended method
 
@@ -607,7 +305,7 @@ For the following code, there is a big difference between the bundle and bundlel
 
 > The so-called bundle and bundleless can be found in ["Bundle and Bundleless"](/en/guide/advance/in-depth-about-build#bundle- and-bundleless)
 
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import 'tailwindcss/utilities.css';
 
 export default () => {
@@ -621,37 +319,10 @@ For styles, a separate output file is generated, and there is no code related to
 
 If you need to inject styles into JS output files, you can enable the [`style.inject`](/en/api/config/build-config#styleinject) option.
 
-<CH.Code>
-```css ./dist/es/index.css
-/* ../../node_modules/.pnpm/tailwindcss@2.2.19/node_modules/tailwindcss/utilities.css */
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
 .table {
   display: table;
-}
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes ping {
-  75%, 100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
-@keyframes pulse {
-  50% {
-    opacity: .5;
-  }
-}
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(-25%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: none;
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-  }
 }
 .bg-black {
   --tw-bg-opacity: 1;
@@ -661,33 +332,9 @@ If you need to inject styles into JS output files, you can enable the [`style.in
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
-*,
-::before,
-::after {
-  --tw-shadow: 0 0 #0000 ;
-}
-*,
-::before,
-::after {
-  --tw-ring-inset: var(--tw-empty, );
-  --tw-ring-offset-width: 0px;
-  --tw-ring-offset-color: #fff;
-  --tw-ring-color: rgba(59, 130, 246, 0.5);
-  --tw-ring-offset-shadow: 0 0 #0000;
-  --tw-ring-shadow: 0 0 #0000 ;
-}
-@media (min-width: 640px) {
-}
-@media (min-width: 768px) {
-}
-@media (min-width: 1024px) {
-}
-@media (min-width: 1280px) {
-}
-@media (min-width: 1536px) {
-}
+/** some more... */
 ```
----
+
 ``` js ./dist/es/index.js
 // src/index.tsx
 import { jsx } from "react/jsx-runtime";
@@ -701,11 +348,10 @@ export {
   src_default as default
 };
 ```
-</CH.Code>
 
 In Bundleless mode, no third-party dependencies are bundled, and no style artifacts are generated at this time.
 
-```js ./dist/es/index.js
+```js title="./dist/es/index.js"
 import { jsx } from 'react/jsx-runtime';
 import 'tailwindcss/utilities.css';
 var src_default = () => {
@@ -733,9 +379,7 @@ If you need to configure CSS Modules, you can check out the API at
 
 The following is a code example.
 
-<CH.Code>
-
-```tsx ./src/index.tsx
+```tsx title="./src/index.tsx"
 import style from './index.module.css';
 
 export default () => {
@@ -743,13 +387,11 @@ export default () => {
 };
 ```
 
-```css ./src/index.module.css
+```css title="./src/index.module.css"
 .btn {
   color: blue;
 }
 ```
-
-</CH.Code>
 
 ## Configuring build products
 

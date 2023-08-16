@@ -10,7 +10,7 @@ export default defineConfig({
         Button: './src/button.tsx',
       },
       languages: ['zh', 'en'],
-      previewMode: 'web',
+      previewMode: 'mobile',
       apiParseTool: 'react-docgen-typescript',
     }),
   ],

@@ -1,7 +1,5 @@
 import { Link } from '@modern-js/doc-core/theme';
-import { IconRight } from '@arco-design/web-react/icon';
-import '@arco-design/web-react/es/Divider/style';
-
+import IconRight from './right.svg';
 import styles from './Overview.module.scss';
 
 type List = {
@@ -27,7 +25,7 @@ export default ({ list }: { list?: List[] }) => {
   const gridClass = getGridClass(moduleList.length);
   return (
     <div>
-      <div className="overflow-hidden m-auto flex flex-wrap max-w-6xl">
+      <div className="overflow-hidden flex flex-wrap max-w-6xl">
         {moduleList.map(({ text, link, icon, arrow }) => {
           return (
             <div

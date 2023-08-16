@@ -1,8 +1,7 @@
 - **Type:** `boolean`
 - **Default:** `false`
-- **Bundler:** `only support webpack`
 
-Whether capture timing information for each module, same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack.
+Whether capture timing information for each module, same as the [profile](https://webpack.js.org/configuration/other-options/#profile) config of webpack / Rspack.
 
 ### Example
 
@@ -14,4 +13,4 @@ export default {
 };
 ```
 
-When turned on, webpack generates a JSON file with some statistics about the module that includes information about timing information for each module.
+When turned on, webpack / Rspack generates a JSON file with some statistics about the module that includes information about timing information for each module.

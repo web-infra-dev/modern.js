@@ -38,8 +38,7 @@
   "dependencies": {
     "@modern-js/doc-core": "workspace:*",
     "@modern-js/doc-plugin-preview": "workspace:*",
-    "@modern-js/doc-plugin-api-docgen": "workspace:*",
-    "@arco-design/web-react": "^2.46.0"
+    "@modern-js/doc-plugin-api-docgen": "workspace:*"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",

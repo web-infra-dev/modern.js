@@ -11,10 +11,6 @@ This behavior can be configured by using one of the following options:
 - `inline`: Preserve all legal comments in original position.
 - `none`: Remove all legal comments.
 
-:::tip
-When using Rspack as the bundler, `inline` is not currently supported.
-:::
-
 ### Example
 
 Remove all legal comments:

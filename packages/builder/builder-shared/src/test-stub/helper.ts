@@ -40,4 +40,5 @@ export const mockBuilderPlugins: Plugins = {
   sourceBuild: genMockPlugin('builder-plugin-source-build'),
   networkPerformance: genMockPlugin('builder-plugin-network-performance'),
   preloadOrPrefetch: genMockPlugin('builder-plugin-preload-or-prefetch'),
+  performance: genMockPlugin('builder-plugin-performance'),
 };

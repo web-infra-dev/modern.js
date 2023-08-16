@@ -11,10 +11,6 @@ legal comment 是 JS 或 CSS 文件中的一些特殊注释，这些注释包含
 - `inline`：保留所有 legal comments。
 - `none`：移除所有 legal comments。
 
-:::tip
-在使用 Rspack 作为打包工具时，暂不支持 `inline` 配置项。
-:::
-
 ### 示例
 
 移除所有 legal comments。

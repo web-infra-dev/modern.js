@@ -8,9 +8,9 @@ Module engineering solution not only provides a rich set of features, but also s
 
 We can quickly see how to write a Module Tools plugin by using the following example.
 
-<CH.Spotlight>
+1. First we create `. /plugins/example.ts` file under the initialized project.
 
-```md . /project
+```md title=". /project"
 . /project .
 ├── plugins
 │ └── example.ts
@@ -18,17 +18,7 @@ We can quickly see how to write a Module Tools plugin by using the following exa
 └── modern.config.ts
 ```
 
----
-
-First we create `. /plugins/example.ts` file under the initialized project.
-
-```md . /project
-
-```
-
----
-
-Next add the code for the plugin to the `example.ts` file.
+2. Next add the code for the plugin to the `example.ts` file.
 
 ```ts
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
@@ -42,35 +32,29 @@ export const ExamplePlugin = (): CliPlugin<ModuleTools> => {
         // use hooks
         afterBuild() {
           console.info('build over');
-        }
+        },
       };
     },
   };
 };
 ```
 
----
+3. Then we register the plugin we just wrote via the [`plugins`](/en/api/config/plugins) API.
 
-Then we register the plugin we just wrote via the [`plugins`](/en/api/config/plugins) API.
-
-```ts . /modern.config.ts
+```ts title=". /modern.config.ts"
 import { examplePlugin } from '. /plugins/example';
 export default defineConfig({
   plugins: [examplePlugin()],
 });
 ```
 
----
+4. Finally, run `modern build` and you will see:
 
-Finally, run `modern build` and you will see.
-
-```bash terminal
+```bash title="terminal"
 This is example plugin
 Build succeed: 510.684ms
 build over
 ```
-
-</CH.Spotlight>
 
 With the above example, we learned the following things.
 

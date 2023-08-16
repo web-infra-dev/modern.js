@@ -70,7 +70,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.assetsRetry(),
     plugins.externals(),
     plugins.sourceBuild(),
-    import('../plugins/performance').then(m => m.builderPluginPerformance()),
+    plugins.performance(),
     import('../plugins/lazyCompilation').then(m =>
       m.builderPluginLazyCompilation(),
     ),
