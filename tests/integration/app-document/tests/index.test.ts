@@ -182,12 +182,15 @@ describe('test build', () => {
       ),
     ).toBe(true);
     expect(
-      /<head.*<script>console.log\("abc"\)<\/script>.*<\/head>/.test(
+      /<head[\s\S]*<script>console.log\("abc"\)<\/script>[\s\S]*<\/head>/.test(
         htmlWithDoc,
       ),
     ).toBe(true);
+
     expect(
-      /<body.*<script>console.log\(abc\)<\/script>.*<\/body>/.test(htmlWithDoc),
+      /<body[\s\S]*<script>console.log\(abc\)<\/script>[\s\S]*<\/body>/.test(
+        htmlWithDoc,
+      ),
     ).toBe(true);
   });
 });
