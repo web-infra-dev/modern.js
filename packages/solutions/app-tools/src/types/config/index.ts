@@ -22,7 +22,11 @@ import type {
   RsHtmlUserConfig,
   SharedHtmlConfig,
 } from './html';
-import type { RsSecurityConfig, SecurityUserConfig } from './security';
+import type {
+  RsSecurityConfig,
+  SecurityUserConfig,
+  SharedSecurityConfig,
+} from './security';
 import type { DeployUserConfig } from './deploy';
 import type { ExperimentsUserConfig } from './experiments';
 import type {
@@ -56,6 +60,7 @@ export type SharedUserConfig = {
   runtimeByEntries?: RuntimeByEntriesUserConfig;
   html?: SharedHtmlConfig;
   tools?: SharedToolsConfig;
+  security?: SharedSecurityConfig;
   testing?: TestingUserConfig;
   builderPlugins?: BuilderPlugin[];
   performance?: SharedPerformanceConfig;

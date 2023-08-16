@@ -27,6 +27,7 @@ type Options = {
   enableInlineRouteManifests: boolean;
   disableFilenameHash?: boolean;
   scriptLoading?: ScriptLoading;
+  nonce?: string;
 };
 
 const generateContentHash = (content: string) => {
@@ -44,18 +45,22 @@ export class RouterPlugin {
 
   private scriptLoading?: ScriptLoading;
 
+  private nonce?: string;
+
   constructor({
     staticJsDir = 'static/js',
     HtmlBundlerPlugin,
     enableInlineRouteManifests,
     disableFilenameHash = false,
     scriptLoading = 'defer',
+    nonce,
   }: Options) {
     this.HtmlBundlerPlugin = HtmlBundlerPlugin;
     this.enableInlineRouteManifests = enableInlineRouteManifests;
     this.staticJsDir = staticJsDir;
     this.disableFilenameHash = disableFilenameHash;
     this.scriptLoading = scriptLoading;
+    this.nonce = nonce;
   }
 
   private isTargetNodeOrWebWorker(target: Compiler['options']['target']) {
@@ -262,7 +267,11 @@ export class RouterPlugin {
               disableFilenameHash,
               staticJsDir,
               scriptLoading,
+              nonce,
             } = this;
+
+            const nonceAttr = nonce ? `nonce="${nonce}"` : '';
+
             if (enableInlineRouteManifests) {
               compilation.updateAsset(
                 htmlName,
@@ -272,7 +281,7 @@ export class RouterPlugin {
                     .toString()
                     .replace(
                       placeholder,
-                      `<script>${injectedContent}</script>`,
+                      `<script ${nonceAttr}>${injectedContent}</script>`,
                     ),
                 ),
                 // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
@@ -287,14 +296,15 @@ export class RouterPlugin {
 
               const scriptUrl = `${publicPath}${scriptPath}`;
 
-              const script = `<script ${
+              const scriptLoadingAttr =
                 // eslint-disable-next-line no-nested-ternary
                 scriptLoading === 'defer'
                   ? scriptLoading
                   : scriptLoading === 'module'
                   ? `type="module"`
-                  : ''
-              } src="${scriptUrl}"></script>`;
+                  : '';
+
+              const script = `<script ${scriptLoadingAttr} ${nonceAttr} src="${scriptUrl}"></script>`;
 
               compilation.updateAsset(
                 htmlName,

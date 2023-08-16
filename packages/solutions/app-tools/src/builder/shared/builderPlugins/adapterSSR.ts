@@ -135,7 +135,8 @@ function applyRouterPlugin<B extends Bundler>(
           normalizedConfig.output.enableInlineRouteManifests,
         staticJsDir: normalizedConfig.output?.distPath?.js,
         disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
-        scriptLoading: normalizedConfig.html.scriptLoading,
+        scriptLoading: normalizedConfig.html?.scriptLoading,
+        nonce: normalizedConfig.security?.nonce,
       },
     ]);
   }
