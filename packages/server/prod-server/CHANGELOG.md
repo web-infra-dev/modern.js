@@ -1,5 +1,18 @@
 # @modern-js/prod-server
 
+## 2.31.0
+
+### Patch Changes
+
+- 56eaa0b: fix(prod-server): the app maybe undefined, when use renderHtml
+  fix(prod-server): 当使用 renderHtml 时，app 可能是个 undefined
+- d9cc4d8: fix: the issue when set more than two cookie
+  fix: 修复设置多余两个 cookie 时的问题
+- Updated dependencies [1882366]
+  - @modern-js/utils@2.31.0
+  - @modern-js/server-core@2.31.0
+  - @modern-js/plugin@2.31.0
+
 ## 2.30.0
 
 ### Minor Changes

@@ -1,5 +1,20 @@
 # @modern-js/runtime
 
+## 2.31.0
+
+### Patch Changes
+
+- 4a87c07: feat: memo creating router
+  feat: 缓存 router 创建
+- 2361ce8: feat: support partials html in Document
+  feat: 支持 partials html 在 Document 中也生效
+- cd39c6f: fix: use [\s\S]_ to replace ._ for \n\r char regex
+  fix: 使用 [\s\X]_ 替换 ._ 匹配 \n\r 字符
+- Updated dependencies [1882366]
+  - @modern-js/utils@2.31.0
+  - @modern-js/plugin@2.31.0
+  - @modern-js/types@2.31.0
+
 ## 2.30.0
 
 ### Minor Changes

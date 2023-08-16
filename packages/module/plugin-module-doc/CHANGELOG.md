@@ -1,5 +1,28 @@
 # @modern-js/plugin-module-doc
 
+## 2.31.0
+
+### Minor Changes
+
+- 6e17cf9: feat: add support for changing iframe position and refactor the layout when preview mode is mobile
+  feat: 支持修改 iframe 位置并优化移动端预览模式布局
+
+### Patch Changes
+
+- d6a8db9: fix: remove auto margin for overview to adaper new layout
+  fix: 移除概述组件的自动边距,以适应新的布局
+- Updated dependencies [c8f74cd]
+- Updated dependencies [c49b9d6]
+- Updated dependencies [464ffe6]
+- Updated dependencies [e920974]
+- Updated dependencies [6e17cf9]
+- Updated dependencies [4c03d9a]
+- Updated dependencies [1882366]
+  - @modern-js/doc-core@2.31.0
+  - @modern-js/doc-plugin-preview@2.31.0
+  - @modern-js/module-tools@2.31.0
+  - @modern-js/doc-plugin-api-docgen@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

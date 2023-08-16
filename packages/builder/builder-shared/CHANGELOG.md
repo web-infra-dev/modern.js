@@ -1,5 +1,33 @@
 # @modern-js/builder-shared
 
+## 2.31.0
+
+### Patch Changes
+
+- bfdf7b4: fix(builder): omit unused keys from builder config passed by user
+
+  fix(builder): 移除用户传入的 builder config 中多余的 key
+
+- 8ab3e2a: hotfix(builder): fix sass resolve-url-loader can't deal with alias
+
+  hotfix(builder): 修复 sass resolve-url-loader 错误处理 alias 的问题
+
+- fa8e948: feat(builder): support disable rspack css sourcemap
+
+  feat(builder): 支持禁用 rspack css sourcemap 输出
+
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
+- Updated dependencies [56eaa0b]
+- Updated dependencies [d9cc4d8]
+- Updated dependencies [1882366]
+  - @modern-js/prod-server@2.31.0
+  - @modern-js/utils@2.31.0
+  - @modern-js/server@2.31.0
+  - @modern-js/types@2.31.0
+
 ## 2.30.0
 
 ### Minor Changes

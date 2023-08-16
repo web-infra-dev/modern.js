@@ -1,5 +1,27 @@
 # @modern-js/doc-plugin-preview
 
+## 2.31.0
+
+### Minor Changes
+
+- 6e17cf9: feat: add support for changing iframe position and refactor the layout when preview mode is mobile
+  feat: 支持修改 iframe 位置并优化移动端预览模式布局
+
+### Patch Changes
+
+- e920974: feat: support refresh iframe and refactor DemoBlock to support dark mode
+  feat: 支持刷新 iframe 并且重构 DemoBlock 组件支持暗黑模式
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
+- Updated dependencies [c8f74cd]
+- Updated dependencies [c49b9d6]
+- Updated dependencies [464ffe6]
+- Updated dependencies [1882366]
+  - @modern-js/doc-core@2.31.0
+  - @modern-js/utils@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes
