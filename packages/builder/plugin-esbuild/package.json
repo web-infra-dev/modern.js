@@ -40,7 +40,7 @@
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
     "@swc/helpers": "0.5.1",
-    "esbuild": "0.17.19"
+    "esbuild": "0.19.2"
   },
   "devDependencies": {
     "@modern-js/builder": "workspace:*",
