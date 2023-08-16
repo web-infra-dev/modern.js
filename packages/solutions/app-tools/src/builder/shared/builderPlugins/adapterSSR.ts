@@ -136,6 +136,7 @@ function applyRouterPlugin<B extends Bundler>(
         staticJsDir: normalizedConfig.output?.distPath?.js,
         disableFilenameHash: normalizedConfig.output?.disableFilenameHash,
         scriptLoading: normalizedConfig.html.scriptLoading,
+        nonce: normalizedConfig.security.nonce,
       },
     ]);
   }

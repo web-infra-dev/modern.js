@@ -43,6 +43,8 @@ describe('test nonce', () => {
         }),
     );
 
+    console.log('scriptArr', scriptArr);
+
     const nonceArr = scriptArr.filter(nonce => nonce === 'test-nonce');
     expect(nonceArr.length).toBe(scriptArr.length);
   });
