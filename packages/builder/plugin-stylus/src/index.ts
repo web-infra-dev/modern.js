@@ -46,29 +46,16 @@ export function builderPluginStylus(
           .rule(utils.CHAIN_ID.RULE.STYLUS)
           .test(STYLUS_REGEX);
 
-        if (bundlerType === 'rspack') {
-          const { applyBaseCSSRule } = await import(
-            '@modern-js/builder-rspack-provider/plugins/css'
-          );
-          await applyBaseCSSRule({
-            rule,
-            config: config as any,
-            context: api.context,
-            utils,
-            importLoaders: 2,
-          });
-        } else {
-          const { applyBaseCSSRule } = await import(
-            '@modern-js/builder-webpack-provider/plugins/css'
-          );
-          await applyBaseCSSRule({
-            rule,
-            config,
-            context: api.context,
-            utils,
-            importLoaders: 2,
-          });
-        }
+        const { applyBaseCSSRule } = await import(
+          `@modern-js/builder-${bundlerType}-provider/plugins/css`
+        );
+        await applyBaseCSSRule({
+          rule,
+          config: config as any,
+          context: api.context,
+          utils,
+          importLoaders: 2,
+        });
 
         rule
           .use(utils.CHAIN_ID.USE.STYLUS)
