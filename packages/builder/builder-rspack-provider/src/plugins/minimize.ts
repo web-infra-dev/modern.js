@@ -37,7 +37,8 @@ export async function applyJSMinimizer(
       break;
   }
 
-  options.asciiOnly = config.output.charset === 'ascii';
+  // TODO: need fix
+  // options.asciiOnly = config.output.charset === 'ascii';
 
   setConfig(rspackConfig, 'builtins.minifyOptions', options);
 }
