@@ -138,7 +138,7 @@ export const builderPluginHtml = (): DefaultBuilderPlugin => ({
           '@modern-js/utils'
         );
 
-        const minify = await getMinify(isProd, config);
+        const minify = getMinify(isProd, config);
         const assetPrefix = removeTailSlash(
           chain.output.get('publicPath') || '',
         );

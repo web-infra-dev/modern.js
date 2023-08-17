@@ -38,4 +38,5 @@ export type {
   WebpackConfig,
   CSSExtractOptions,
   HTMLPluginOptions,
+  TerserPluginOptions,
 } from './types';
