@@ -3,7 +3,11 @@ import React, { useContext } from 'react';
 import { DocumentStructureContext } from './DocumentStructureContext';
 import { Scripts } from './Scripts';
 import { Links } from './Links';
-import { DOCUMENT_META_PLACEHOLDER } from './constants';
+import {
+  DOCUMENT_META_PLACEHOLDER,
+  HEAD_PARTICALS_SEPARATOR,
+  TOP_PARTICALS_SEPARATOR,
+} from './constants';
 
 export function Head(props: { children?: any }) {
   const { hasSetScripts, hasSetLinks } = useContext(DocumentStructureContext);
@@ -12,10 +16,12 @@ export function Head(props: { children?: any }) {
   return (
     <head {...rest}>
       {/* configuration by config.output.meta */}
+      {`${TOP_PARTICALS_SEPARATOR}`}
       {`${DOCUMENT_META_PLACEHOLDER}`}
       {!hasSetLinks && <Links />}
       {/* Scripts must have as default. If not, place in Head */}
       {!hasSetScripts && <Scripts />}
+      {`${HEAD_PARTICALS_SEPARATOR}`}
       {children}
     </head>
   );

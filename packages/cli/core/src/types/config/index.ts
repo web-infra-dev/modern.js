@@ -1,15 +1,4 @@
 import { PluginConfig } from '../plugin';
-import type {
-  BaseTestingNormalizedConfig,
-  BaseTestingUserConfig,
-} from './testing';
-
-export type {
-  Jest as JestConfig,
-  BaseTestingUserConfig as TestConfig,
-} from './testing';
-
-type DropUndefined<T> = T extends undefined ? never : T;
 
 export type UserConfig<
   Extends extends {
@@ -21,16 +10,12 @@ export type UserConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendHooks extends Record<string, any> = {},
   ExtendUserConfig extends {
-    testing?: Record<string, any>;
     [property: string]: any;
     // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
-  testing?: BaseTestingUserConfig<
-    DropUndefined<Extends['userConfig']>['testing']
-  >;
   plugins?: PluginConfig<any>;
 
   /**
@@ -39,7 +24,7 @@ export type UserConfig<
    * **default: `false`**
    */
   autoLoadPlugins?: boolean;
-} & Omit<Extends['userConfig'], 'plugins' | 'testing'>;
+} & Omit<Extends['userConfig'], 'plugins'>;
 
 export type NormalizedConfig<
   Extends extends {
@@ -53,15 +38,11 @@ export type NormalizedConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendUserConfig extends Record<string, any> = {},
   ExtendNormalizedConfig extends {
-    testing?: Record<string, any>;
     [property: string]: any;
     // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
 > = {
   plugins: PluginConfig<any>;
-  testing: BaseTestingNormalizedConfig<
-    DropUndefined<Extends['normalizedConfig']>['testing']
-  >;
 
   /**
    * Auto load plugin that exist in the package.json
@@ -69,7 +50,7 @@ export type NormalizedConfig<
    * **default: `false`**
    */
   autoLoadPlugins: boolean;
-} & Omit<Extends['normalizedConfig'], 'plugins' | 'testing'>;
+} & Omit<Extends['normalizedConfig'], 'plugins'>;
 
 export type LoadedConfig<
   Extends extends {

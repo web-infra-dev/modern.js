@@ -38,6 +38,12 @@ describe('test hook api', () => {
     expect(res.getHeader('set-cookie')).toMatch('name=modern');
     response.cookies.set('age', '18');
     expect(res.getHeader('set-cookie')).toEqual(['name=modern', 'age=18']);
+    response.cookies.set('foo', 'bar');
+    expect(res.getHeader('set-cookie')).toEqual([
+      'name=modern',
+      'age=18',
+      'foo=bar',
+    ]);
 
     response.cookies.clear();
     expect(res.getHeader('set-cookie')).toBeUndefined();

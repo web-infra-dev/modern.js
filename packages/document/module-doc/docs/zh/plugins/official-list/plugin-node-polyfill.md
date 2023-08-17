@@ -52,7 +52,7 @@ type NodePolyfillOptions = {
 
 排除要注入的 Node Polyfill。
 
-``` ts focus=7:9
+```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
@@ -70,7 +70,7 @@ export default defineConfig({
 
 覆盖内置的 Node Polyfill。
 
-``` ts focus=7:9
+```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 

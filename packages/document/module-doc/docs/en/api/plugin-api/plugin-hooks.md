@@ -21,7 +21,7 @@ The following Hooks are triggered in order when the `build` command is executed.
 
 Triggered before the execution of the overall build process.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -37,7 +37,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Parameters and return value types.
 
-``` ts
+```ts
 type Options = { options: { config: BuildConfig; cliOptions: BuildCommandOptions } }
 
 export interface BuildCommandOptions {
@@ -58,7 +58,7 @@ type Return = BuildConfig;
 
 Based on the build configuration, Module Tools will split the overall build into multiple sub-build tasks. The Hook will be triggered before each build subtask.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -80,7 +80,7 @@ Parameters and return value types.
 
 Triggered after the end of each build subtask.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -96,7 +96,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Parameters and return value types.
 
-``` ts
+```ts
 export interface BuildTaskResult {
   status: 'success' | 'fail';
   message?: string;
@@ -108,7 +108,7 @@ export interface BuildTaskResult {
 
 Triggered after the end of the overall build process.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -124,7 +124,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Parameters and return value types.
 
-``` ts
+```ts
 export interface BuildResult {
   status: 'success' | 'fail';
   message?: string;
@@ -151,7 +151,7 @@ Hooks are triggered in the following order after executing `build --platform`.
 
 Gets information about the tasks that need to be run when executing the `build --platform` command.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -173,7 +173,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Types of parameters entered and returned.
 
-``` ts
+```ts
 export interface RegisterBuildPlatformResult {
   platform: string | string[];
   build: (
@@ -187,7 +187,7 @@ export interface RegisterBuildPlatformResult {
 
 Triggers all registered build tasks when the `build --platform` command is executed. `beforeBuildPlatform` will be triggered before the execution of the overall build task.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -203,7 +203,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Types of parameters entered and returned.
 
-``` ts
+```ts
 export interface RegisterBuildPlatformResult {
   platform: string | string[];
   build: (
@@ -217,7 +217,7 @@ export interface RegisterBuildPlatformResult {
 
 When the `build --platform` command is executed, all registered build tasks will be triggered. `buildPlatform` will be triggered before each build task is executed.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -233,7 +233,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Types of parameters entered and returned.
 
-``` ts
+```ts
 export interface Options {
   platform: string;
 }
@@ -243,7 +243,7 @@ export interface Options {
 
 When the `build --platform` command is executed, all registered build tasks will be triggered. `afterBuildPlatform` will be triggered after the overall platform build task is finished.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -291,7 +291,7 @@ Register dev tool related data. Mainly contains.
 * Whether to execute the source code build before running the dev task
 * The function to execute the dev task.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -320,7 +320,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Types of parameters entered and returned.
 
-``` ts
+```ts
 export interface DevToolData {
   name: string;
   subCommands?: string[];
@@ -345,7 +345,7 @@ The currently supported Storybook dev supports using source code products as dev
 
 Triggered before the dev task is executed after all dev tool metadata has been collected.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -361,7 +361,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Types of parameters entered and returned.
 
-``` ts
+```ts
 export interface DevToolData {
   name: string;
   subCommands?: string[];
@@ -380,7 +380,7 @@ export interface DevToolData {
 
 `beforeDevMenu` is triggered before the dev list/menu appears. Receives [inquirer question](https://github.com/SBoudrias/Inquirer.js#question) as argument. Default value is.
 
-``` ts
+```ts
 const question = [
   {
     name: 'choiceDevTool',
@@ -394,7 +394,7 @@ const question = [
 
 `afterDevMenu` Triggered after selecting dev list/menu options.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -414,7 +414,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Types of parameters entered and returned.
 
-``` ts
+```ts
 export type { QuestionCollection } from 'inquirer';
 
 export interface Options {
@@ -441,7 +441,7 @@ export interface DevToolData {
 
 Triggered before the dev task is executed.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 
@@ -457,7 +457,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Types of parameters entered and returned.
 
-``` ts
+```ts
 export interface DevToolData {
   name: string;
   subCommands?: string[];
@@ -476,7 +476,7 @@ export interface DevToolData {
 
 Triggered when the dev task process is interrupted.
 
-``` ts
+```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({
   name: 'my-plugin',
 

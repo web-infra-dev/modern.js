@@ -34,11 +34,9 @@ Next, we will talk about how to use each of these two methods.
 
 ### Referencing component products
 
-If the TypeScript project `foo` exists.
+If the TypeScript project `foo` exists. Make sure the `main` and `types` of `package.json` values are real paths.
 
-<CH.Spotlight>
-
-```json package.json
+```json title="package.json"
 {
   "name": "foo",
   "main": "./dist/index.js",
@@ -46,33 +44,15 @@ If the TypeScript project `foo` exists.
 }
 ```
 
----
+The source code of the `foo` project:
 
-Make sure the `main` and `types` of `package.json`
-values are real paths.
-
-```json package.json
-{
-  "name": "foo",
-  "main": "./dist/index.js",
-  "types": "./dist/types/index.d.ts"
-}
-```
-
----
-
-The source code of the `foo` project.
-
-```ts src/index.ts
+```ts title="src/index.ts"
 export const content = 'hello world';
 ```
 
----
+Make sure that the `paths` configuration pointing to the project root is set in `stories/tsconfig.json`. The `key` of `paths` is the same as the project name.
 
-Make sure that the `paths` configuration pointing to the project root is set in `stories/tsconfig.json`.
-The `key` of `paths` is the same as the project name.
-
-```json stories/tsconfig.json focus=7:9
+```json title="stories/tsconfig.json"
 {
   "extends": "../tsconfig.json",
   "include": ["./"],
@@ -86,11 +66,9 @@ The `key` of `paths` is the same as the project name.
 }
 ```
 
----
+Referenced directly in Story code by the project name:
 
-Referenced directly in Story code by the project name.
-
-```tsx stories/index.stories.tsx focus=1:1
+```tsx title="stories/index.stories.tsx"
 import { content } from 'foo';
 
 const Component = () => <div>this is a Story Component {content}</div>;
@@ -102,33 +80,23 @@ export default {
 };
 ```
 
----
-
 Finally, when executing the command, first start the source build in listening mode and then start Storybook debugging.
 
-<CH.Code>
-
-``` bash terminal-1
+```bash title="terminal-1"
 ## Source Code Build
 modern build --watch
 ```
 
----
-
-``` bash terminal-2
+```bash title="terminal-2"
 ## Storybook Debug
 modern dev storybook
 ```
-
-</CH.Code>
-
-</CH.Spotlight>
 
 If, during development, you encounter a situation where the type definition is not available in real time, at that point.
 
 For `pnpm` projects, `package.json` can be modified as follows.
 
-```ts focus=4:7
+```ts
 {
     "name": "foo",
     "main": "./dist/index.js",
@@ -152,7 +120,7 @@ So why is it possible to reference the product directly?
 
 Referencing component source code can be done by means of relative paths to:
 
-```ts ./stories/index.tsx
+```ts title="./stories/index.tsx"
 import { content } from '../src';
 
 const Component = () => <div>this is a Story Component {content}</div>;

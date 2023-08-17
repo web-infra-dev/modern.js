@@ -1,6 +1,5 @@
 import { Compiler as RawCompiler, Output } from '@modern-js/swc-plugins';
 import { TransformConfig } from './types';
-import { CORE_JS_DIR_PATH, SWC_HELPERS_DIR_PATH } from './constants';
 
 export {
   minify,
@@ -9,28 +8,10 @@ export {
   minifyCssSync,
 } from '@modern-js/swc-plugins';
 
-export function applyExtensionsConfig(opt: TransformConfig): TransformConfig {
-  // set lockCoreVersion config
-  const config = {
-    ...opt,
-    extensions: {
-      ...opt.extensions,
-      lockCorejsVersion: {
-        ...(opt.extensions?.lockCorejsVersion || {}),
-        corejs: CORE_JS_DIR_PATH,
-        swcHelpers: SWC_HELPERS_DIR_PATH,
-      },
-    },
-  };
-
-  return config;
-}
-
 export class Compiler extends RawCompiler {
   config: TransformConfig;
 
-  constructor(config: TransformConfig) {
-    const finalConfig = applyExtensionsConfig(config);
+  constructor(finalConfig: TransformConfig) {
     super(finalConfig);
     this.config = finalConfig;
   }

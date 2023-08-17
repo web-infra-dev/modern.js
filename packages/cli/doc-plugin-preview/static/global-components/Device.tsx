@@ -1,7 +1,7 @@
 import { usePageData, withBase } from '@modern-js/doc-core/runtime';
 import { demos } from 'virtual-meta';
-import { useEffect, useState } from 'react';
-
+import { useCallback, useEffect, useState } from 'react';
+import MobileOperation from './common/mobile-operation';
 import './Device.scss';
 
 export default () => {
@@ -22,11 +22,16 @@ export default () => {
   };
   const { page } = usePageData();
   const pageName = getPageKey(page._relativePath);
+  const url = `~demo/${pageName}`;
   const haveDemos =
     demos.flat().filter(item => new RegExp(`${pageName}_\\d+`).test(item.id))
       .length > 0;
   const [asideWidth, setAsideWidth] = useState('0px');
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [iframeKey, setIframeKey] = useState(0);
+  const refresh = useCallback(() => {
+    setIframeKey(Math.random());
+  }, []);
 
   // get default value from root
   // listen resize and re-render
@@ -74,9 +79,15 @@ export default () => {
   return haveDemos ? (
     <div className="fixed-device">
       <iframe
-        src={getPageUrl(`~demo/${pageName}`)}
+        src={getPageUrl(url)}
         className="fixed-iframe"
+        key={iframeKey}
       ></iframe>
+      <MobileOperation
+        url={url}
+        className="fixed-operation"
+        refresh={refresh}
+      />
     </div>
   ) : null;
 };

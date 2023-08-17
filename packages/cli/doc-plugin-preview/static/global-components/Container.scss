@@ -21,6 +21,7 @@
       border-radius: 50%;
       border: 1px solid transparent;
       background-color: var(--modern-c-bg-soft);
+      margin-left: 14px;
 
       &:hover {
         background-color: var(--modern-preview-button-hover-bg);
@@ -36,7 +37,6 @@
       display: flex;
       justify-content: flex-end;
       width: 100%;
-      border-top: 1px solid #e6e6e6;
       padding: 6px;
     }
 
@@ -62,7 +62,9 @@
   }
 
   &-qrcode {
-    background-color: #f7f8fa;
+    background-color: #fff;
+    width: 120px;
+    height: 120px;
     position: absolute;
     top: -132px;
     right: -46px;
@@ -94,6 +96,7 @@
     display: flex;
     flex-direction: column;
     iframe {
+      border-bottom: 1px solid #e6e6e6;
       width: 360px;
       height: 100%;
       flex: auto;

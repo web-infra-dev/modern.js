@@ -50,7 +50,7 @@ We know from the defaults: **Bundle builds can generally specify a file path as 
 
 In addition to setting `input` to an array, you can also set it to an object during the Bundle build process. **By using the object form, we can modify the name of the file that the build artifacts outputs**. So for the following example, `. /src/index.ts` corresponds to the path of the build artifacts file as `. /dist/main.js`.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -85,7 +85,7 @@ The [`buildConfig.dts`](/en/api/config/build-config#dts) configuration is mainly
 
 Type generation is turned on by default, if you need to turn it off, you can configure it as follows:
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -112,7 +112,7 @@ The **Module Tools also supports bundling of type files**, although care needs t
 
 During the Bundleless build process, if an alias appears in the source code, e.g.
 
-```js ./src/index.ts
+```js title="./src/index.ts"
 import utils from '@common/utils';
 ```
 
@@ -231,7 +231,7 @@ Note, however: If the project is a TypeScript project, then you may need to add 
 
 > If the `.d.ts` file does not exist, then you can create it manually.
 
-```ts env.d.ts
+```ts title="env.d.ts"
 declare const YOUR_ADD_GLOBAL_VAR;
 ```
 

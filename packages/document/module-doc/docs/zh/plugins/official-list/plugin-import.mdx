@@ -93,81 +93,36 @@ export default defineConfig({
 
 简单的函数逻辑其实可以通过模版语言来代替，因此 `customName`，`customStyleName` 等这些配置除了可以传入函数，也可以传入字符串作为模版来代替函数，提高性能。
 
-<CH.Spotlight>
+我们以这段代码作为示例：
 
 ```ts
 import { MyButton as Btn } from 'foo';
 ```
 
----
-
-我们以这段代码进行说明。
+添加以下配置：
 
 ```ts
-import { MyButton as Btn } from 'foo';
-```
-
----
-
-添加右侧的配置：
-
-```ts
-import { modulePluginImport } from '@modern-js/plugin-module-import';
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  plugins: [
-    moduleTools(),
-    modulePluginImport({
-      pluginImport: [
-        {
-          libraryName: 'foo',
-          customName: 'foo/es/{{ member }}',
-        },
-      ],
-    }),
+modulePluginImport({
+  pluginImport: [
+    {
+      libraryName: 'foo',
+      customName: 'foo/es/{{ member }}',
+    },
   ],
 });
 ```
 
----
-
-其中的 `{{ member }}` 会被替换为相应的引入成员
-
-```ts focus=8:8
-import { modulePluginImport } from '@modern-js/plugin-module-import';
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  plugins: [
-    moduleTools(),
-    modulePluginImport({
-      pluginImport: [
-        {
-          libraryName: 'foo',
-          customName: 'foo/es/{{ member }}',
-        },
-      ],
-    }),
-  ],
-});
-```
-
----
-
-转换后:
+其中的 `{{ member }}` 会被替换为相应的引入成员，转换后:
 
 ```ts
 import Btn from 'foo/es/MyButton';
 ```
 
-</CH.Spotlight>
-
 可以看出配置 `customName: "foo/es/{{ member }}"` 的效果等同于配置 `` customName: (member) => `foo/es/${member}`  `` ，但是不会有 Node-API 的调用开销。
 
 这里使用到的模版是 [handlebars](https://handlebarsjs.com)，模版配置中还内置了一些有用的辅助工具，还是以上面的导入语句为例，配置成：
 
-```ts focus=8:8
+```ts
 import { modulePluginImport } from '@modern-js/plugin-module-import';
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 

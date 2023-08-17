@@ -1,5 +1,5 @@
 import { merge } from '@modern-js/utils/lodash';
-import { JestConfig, TestConfig } from '../types';
+import type { JestConfig, TestConfig } from '@modern-js/types';
 
 class TestConfigOperator {
   private _testConfig: TestConfig;

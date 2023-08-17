@@ -30,7 +30,7 @@ export interface SharedBuilderConfig {
   source?: SharedSourceConfig;
   output?: SharedOutputConfig;
   security?: SharedSecurityConfig;
-  performance?: Pick<SharedPerformanceConfig, 'printFileSize' | 'buildCache'>;
+  performance?: SharedPerformanceConfig;
   experiments?: SharedExperimentsConfig;
   tools?: SharedToolsConfig;
 }

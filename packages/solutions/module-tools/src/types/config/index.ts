@@ -6,6 +6,7 @@ import type {
 import type { Options } from '@modern-js/libuild-plugin-svgr';
 import type { ImportItem } from '@modern-js/libuild-plugin-swc';
 import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
+import type { TestConfig } from '@modern-js/types';
 import { BuildInPreset, presetList } from '../../constants/buildPresets';
 import type { CopyConfig } from '../copy';
 import type {
@@ -172,6 +173,8 @@ export interface ModuleExtraConfig {
   buildPreset?: BuildPreset;
 
   dev?: Dev;
+
+  testing?: TestConfig;
 
   runtime?: RuntimeUserConfig;
 }

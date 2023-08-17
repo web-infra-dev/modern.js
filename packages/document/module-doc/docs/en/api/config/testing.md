@@ -17,7 +17,7 @@ You need to enable the unit testing feature with `pnpm run new` first.
 
 The configuration corresponding to [Jest](https://jestjs.io/docs/configuration), when of type `object`, can be configured with all the underlying configurations supported by Jest .
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
@@ -31,7 +31,7 @@ export default defineConfig({
 
 When the value is of type `Function`, the default configuration is passed as the first parameter and a new Jest configuration object needs to be returned.
 
-```js modern.config.ts
+```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({

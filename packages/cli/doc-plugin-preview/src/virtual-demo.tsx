@@ -17,13 +17,16 @@ export default function Demo(props: { iframePosition: string }) {
     const renderDemos = demos
       .flat()
       .filter(item => new RegExp(`${normalizedId}_\\d+`).test(item.id));
-    const componentList = renderDemos.map(demo => demo.component);
-    return componentList.length > 0 ? (
+    return renderDemos.length > 0 ? (
       <NoSSR>
         <div className="preview-container">
           <div className="preview-nav">{renderDemos[0].title}</div>
-          {componentList.map(component => {
-            return <div>{createElement(component)}</div>;
+          {renderDemos.map(renderDemo => {
+            return (
+              <div key={renderDemo.id}>
+                {createElement(renderDemo.component)}
+              </div>
+            );
           })}
         </div>
       </NoSSR>

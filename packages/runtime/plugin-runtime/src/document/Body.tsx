@@ -1,6 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useContext } from 'react';
 import {
+  BODY_PARTICALS_SEPARATOR,
   DOCUMENT_CHUNKSMAP_PLACEHOLDER,
   DOCUMENT_SSRDATASCRIPT_PLACEHOLDER,
 } from './constants';
@@ -14,6 +15,7 @@ export function Body(props: { children?: any }) {
     <body {...rest}>
       {hasSetRoot ? null : <DefaultRoot />}
       {children}
+      {`${BODY_PARTICALS_SEPARATOR}`}
       {`${DOCUMENT_CHUNKSMAP_PLACEHOLDER}`}
       {`${DOCUMENT_SSRDATASCRIPT_PLACEHOLDER}`}
     </body>
