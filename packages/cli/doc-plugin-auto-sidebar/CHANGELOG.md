@@ -1,5 +1,13 @@
 # @modern-js/doc-plugin-auto-sidebar
 
+## 2.31.0
+
+### Patch Changes
+
+- Updated dependencies [1882366]
+  - @modern-js/utils@2.31.0
+  - @modern-js/doc-tools@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

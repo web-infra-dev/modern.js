@@ -1,5 +1,7 @@
 # @modern-js/entry-generator
 
+## 3.1.33
+
 ## 3.1.32
 
 ## 3.1.31

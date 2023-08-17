@@ -1,5 +1,16 @@
 # @modern-js/create-request
 
+## 2.31.0
+
+### Patch Changes
+
+- 0a85bae: fix: create request error when use node 18
+
+  fix: 修复在 Node 18 中请求失败
+
+- Updated dependencies [1882366]
+  - @modern-js/utils@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes
