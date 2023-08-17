@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import { FC, ReactElement, createContext, useContext } from 'react';
-import { useSearchParams } from '@modern-js/runtime/router';
-import { suspend } from 'suspend-react';
+import createDeferPromise from 'p-defer';
+import { getQuery } from 'ufo';
+import { AppContext, FrameworkConfig } from '@modern-js/devtools-kit';
 import { setupServerConnection } from '@/rpc';
 import { useProxyFrom } from '@/utils/hooks';
 import { StoreContextValue } from '@/types';
@@ -12,34 +13,43 @@ const StoreContext = createContext<unknown>(null);
 export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   children,
 }) => {
-  const [query] = useSearchParams();
-
-  const createStore = (): StoreContextValue => {
-    const dataSource = query.get('src');
-    if (!_.isString(dataSource)) {
-      throw new TypeError(
-        `Can't connection to data source: ${dataSource || '<EMPTY>'}`,
-      );
-    }
-    const { server } = suspend(
-      () => setupServerConnection(dataSource),
-      [dataSource],
+  const dataSource = getQuery(location.href).src;
+  if (!_.isString(dataSource)) {
+    throw new TypeError(
+      `Can't connection to data source: ${dataSource || '<EMPTY>'}`,
     );
-    return {
-      dataSource,
-      router: {
-        serverRoutes: server.getServerRoutes(),
-      },
-      config: {
-        frameworkConfig: server.getFrameworkConfig(),
-      },
-      tabs: getDefaultTabs(),
-    };
+  }
+
+  const deferred = {
+    framework: {
+      context: createDeferPromise<AppContext>(),
+      config: createDeferPromise<FrameworkConfig>(),
+    },
   };
-  const store = useProxyFrom(createStore);
+  const $store = useProxyFrom<StoreContextValue>(() => ({
+    dataSource,
+    framework: {
+      context: deferred.framework.context.promise,
+      config: deferred.framework.config.promise,
+      fileSystemRoutes: {},
+    },
+    tabs: getDefaultTabs(),
+  }));
+
+  const setupTask = setupServerConnection({ url: dataSource, $store });
+
+  setupTask.then(async ({ server }) => {
+    deferred.framework.context.resolve(server.getAppContext());
+    deferred.framework.config.resolve(server.getFrameworkConfig());
+    const ctx = await $store.framework.context;
+    for (const { entryName } of ctx.entrypoints) {
+      $store.framework.fileSystemRoutes[entryName] =
+        server.getFileSystemRoutes(entryName);
+    }
+  });
 
   return (
-    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
+    <StoreContext.Provider value={$store}>{children}</StoreContext.Provider>
   );
 };
 

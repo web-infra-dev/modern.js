@@ -18,6 +18,7 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
 
     return {
       prepare: hooks.prepare,
+      modifyFileSystemRoutes: hooks.modifyFileSystemRoutes,
       validateSchema() {
         return [
           {

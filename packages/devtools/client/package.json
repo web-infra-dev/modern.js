@@ -18,8 +18,10 @@
   "dependencies": {
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/types": "workspace:*",
     "birpc": "^0.2.12",
     "lodash": "^4.17.21",
+    "p-defer": "3.0.0",
     "query-string": "^7.1.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",

@@ -1,13 +1,17 @@
-import { ServerFunctions } from '@modern-js/devtools-kit';
-import type { CustomTabView } from '@modern-js/devtools-kit';
+import type {
+  AppContext,
+  CustomTabView,
+  FileSystemRoutes,
+} from '@modern-js/devtools-kit';
+import { FrameworkConfig } from '@modern-js/devtools-kit';
+import { Promisable } from 'type-fest';
 
 export interface StoreContextValue {
   dataSource: string;
-  router: {
-    serverRoutes: ReturnType<ServerFunctions['getServerRoutes']>;
-  };
-  config: {
-    frameworkConfig: ReturnType<ServerFunctions['getFrameworkConfig']>;
+  framework: {
+    config: Promise<FrameworkConfig>;
+    context: Promise<AppContext>;
+    fileSystemRoutes: Record<string, Promisable<FileSystemRoutes>>;
   };
   tabs: InternalTab[];
 }
