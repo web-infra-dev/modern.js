@@ -1,19 +1,78 @@
 import { CHAIN_ID } from '@modern-js/utils/chain-id';
-import {
-  getCssnanoDefaultOptions,
-  getJSMinifyOptions,
-} from '@modern-js/builder-shared';
+import { getCssnanoDefaultOptions } from '@modern-js/builder-shared';
 import type {
   WebpackChain,
   BuilderPlugin,
+  TerserPluginOptions,
   CssMinimizerPluginOptions,
   NormalizedConfig,
 } from '../types';
 
+function applyRemoveConsole(
+  options: TerserPluginOptions,
+  config: NormalizedConfig,
+) {
+  if (!options.terserOptions) {
+    options.terserOptions = {};
+  }
+
+  const { removeConsole } = config.performance;
+  const compressOptions =
+    typeof options.terserOptions.compress === 'boolean'
+      ? {}
+      : options.terserOptions.compress || {};
+
+  if (removeConsole === true) {
+    options.terserOptions.compress = {
+      ...compressOptions,
+      drop_console: true,
+    };
+  } else if (Array.isArray(removeConsole)) {
+    const pureFuncs = removeConsole.map(method => `console.${method}`);
+    options.terserOptions.compress = {
+      ...compressOptions,
+      pure_funcs: pureFuncs,
+    };
+  }
+
+  return options;
+}
+
 async function applyJSMinimizer(chain: WebpackChain, config: NormalizedConfig) {
+  const { applyOptionsChain } = await import('@modern-js/utils');
   const { default: TerserPlugin } = await import('terser-webpack-plugin');
 
-  const finalOptions = await getJSMinifyOptions(config);
+  const DEFAULT_OPTIONS: TerserPluginOptions = {
+    terserOptions: {
+      mangle: {
+        // not need in rspack(swc)
+        // https://github.com/swc-project/swc/discussions/3373
+        safari10: true,
+      },
+      format: {
+        ascii_only: config.output.charset === 'ascii',
+      },
+    },
+  };
+
+  switch (config.output.legalComments) {
+    case 'inline':
+      DEFAULT_OPTIONS.extractComments = false;
+      break;
+    case 'linked':
+      DEFAULT_OPTIONS.extractComments = true;
+      break;
+    case 'none':
+      DEFAULT_OPTIONS.terserOptions!.format!.comments = false;
+      DEFAULT_OPTIONS.extractComments = false;
+      break;
+    default:
+      break;
+  }
+
+  const mergedOptions = applyOptionsChain(DEFAULT_OPTIONS, config.tools.terser);
+
+  const finalOptions = applyRemoveConsole(mergedOptions, config);
 
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.JS)

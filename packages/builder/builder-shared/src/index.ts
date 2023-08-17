@@ -29,4 +29,3 @@ export * from './svgo';
 export * from './patch';
 export * from './manifest';
 export * from './css';
-export * from './minimize';
