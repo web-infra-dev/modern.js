@@ -49,6 +49,7 @@ export const EN_US = {
   changelog: 'Changelog',
 
   // Showcases
+  doubao: 'Doubao',
   writingo: 'Writingo',
   volctrans: 'Volctrans',
   shidianbaike: 'Shidian Baike',
