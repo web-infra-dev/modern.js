@@ -141,6 +141,7 @@ export const routerPlugin = ({
                   get() {
                     return router;
                   },
+                  configurable: true,
                 });
 
                 return router;
