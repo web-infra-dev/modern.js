@@ -2,7 +2,11 @@ import _ from 'lodash';
 import { FC, ReactElement, createContext, useContext } from 'react';
 import createDeferPromise from 'p-defer';
 import { getQuery } from 'ufo';
-import { AppContext, FrameworkConfig } from '@modern-js/devtools-kit';
+import {
+  AppContext,
+  BuilderContext,
+  FrameworkConfig,
+} from '@modern-js/devtools-kit';
 import { setupServerConnection } from '@/rpc';
 import { useProxyFrom } from '@/utils/hooks';
 import { StoreContextValue } from '@/types';
@@ -25,6 +29,10 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       context: createDeferPromise<AppContext>(),
       config: createDeferPromise<FrameworkConfig>(),
     },
+    builder: {
+      config: createDeferPromise<Record<string, unknown>>(),
+      context: createDeferPromise<BuilderContext>(),
+    },
   };
   const $store = useProxyFrom<StoreContextValue>(() => ({
     dataSource,
@@ -32,6 +40,10 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       context: deferred.framework.context.promise,
       config: deferred.framework.config.promise,
       fileSystemRoutes: {},
+    },
+    builder: {
+      config: deferred.builder.config.promise,
+      context: deferred.builder.context.promise,
     },
     tabs: getDefaultTabs(),
   }));
@@ -41,6 +53,8 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   setupTask.then(async ({ server }) => {
     deferred.framework.context.resolve(server.getAppContext());
     deferred.framework.config.resolve(server.getFrameworkConfig());
+    deferred.builder.config.resolve(server.getBuilderConfig());
+    deferred.builder.context.resolve(server.getBuilderContext());
     const ctx = await $store.framework.context;
     for (const { entryName } of ctx.entrypoints) {
       $store.framework.fileSystemRoutes[entryName] =

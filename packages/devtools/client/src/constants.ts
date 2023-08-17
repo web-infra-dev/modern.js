@@ -7,8 +7,13 @@ export const getDefaultTabs = (): InternalTab[] => [
     view: { type: 'builtin', url: '/overview' },
   },
   {
+    name: 'config',
+    title: 'Config',
+    view: { type: 'builtin', url: '/config' },
+  },
+  {
     name: 'pages',
     title: 'Pages',
-    view: { type: 'builtin', url: '/page' },
+    view: { type: 'builtin', url: '/pages' },
   },
 ];

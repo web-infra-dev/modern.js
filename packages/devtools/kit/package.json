@@ -50,6 +50,9 @@
     "ws": "8.13.0"
   },
   "devDependencies": {
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",

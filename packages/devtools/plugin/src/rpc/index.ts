@@ -4,16 +4,15 @@ import type { ClientFunctions, ServerFunctions } from '@modern-js/devtools-kit';
 import { createBirpc, BirpcOptions } from 'birpc';
 import createDeferPromise, { DeferredPromise } from 'p-defer';
 import { RawData } from 'ws';
-import { ToThreads } from '@modern-js/server-core';
 import getPort from 'get-port';
 import {
   RouteLegacy,
   NestedRouteForCli,
   PageRoute,
 } from '@modern-js/types/cli';
-import { CliPluginAPI } from '../types';
+import type { BuilderContext, BuilderPlugin } from '@modern-js/builder-shared';
+import { CliPluginAPI, BuilderPluginAPI, InjectedHooks } from '../types';
 import { SocketServer } from '../utils/socket';
-import { Hooks } from '../cli';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
@@ -48,6 +47,8 @@ export const setupClientConnection = async (
    */
   const deferred = {
     prepare: createDeferPromise<void>(),
+    builderContext: createDeferPromise<BuilderContext>(),
+    builderConfig: createDeferPromise<Record<string, unknown>>(),
   } satisfies Record<string, DeferredPromise<any>>;
 
   // setup rpc instance (server <-> client).
@@ -64,6 +65,13 @@ export const setupClientConnection = async (
     },
     async getFileSystemRoutes(entryName) {
       return _fileSystemRoutesMap[entryName] ?? [];
+    },
+    async getBuilderContext() {
+      const ctx = await deferred.builderContext.promise;
+      return ctx;
+    },
+    async getBuilderConfig() {
+      return deferred.builderConfig.promise;
     },
     echo(content) {
       return content;
@@ -82,7 +90,7 @@ export const setupClientConnection = async (
     clientRpcOptions,
   );
 
-  const hooks = {
+  const hooks: InjectedHooks = {
     prepare() {
       deferred.prepare.resolve();
     },
@@ -94,7 +102,17 @@ export const setupClientConnection = async (
 
       return { entrypoint, routes };
     },
-  } satisfies Partial<ToThreads<Hooks>>;
+  };
 
-  return { client: clientConn, hooks, url };
+  const builderPlugin: BuilderPlugin<BuilderPluginAPI> = {
+    name: 'builder-plugin-devtools',
+    setup(api) {
+      deferred.builderContext.resolve(api.context);
+      api.modifyBundlerChain(() => {
+        deferred.builderConfig.resolve(api.getBuilderConfig());
+      });
+    },
+  };
+
+  return { client: clientConn, hooks, builderPlugin, url };
 };

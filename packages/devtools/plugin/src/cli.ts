@@ -1,5 +1,4 @@
-import { BaseHooks } from '@modern-js/core';
-import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { setupClientConnection } from './rpc';
 
 export interface Options {
@@ -7,14 +6,12 @@ export interface Options {
   version?: string;
 }
 
-export type Hooks = BaseHooks<any> & AppToolsHooks<any>;
-
 export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
     // setup socket server.
-    const { hooks, url } = await setupClientConnection({ api });
+    const { hooks, builderPlugin, url } = await setupClientConnection({ api });
 
     return {
       prepare: hooks.prepare,
@@ -32,6 +29,7 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
           '@modern-js/devtools-mount',
         );
         return {
+          builderPlugins: [builderPlugin],
           source: {
             preEntry: [
               `data:application/javascript,

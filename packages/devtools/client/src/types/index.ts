@@ -1,5 +1,6 @@
 import type {
   AppContext,
+  BuilderContext,
   CustomTabView,
   FileSystemRoutes,
 } from '@modern-js/devtools-kit';
@@ -12,6 +13,10 @@ export interface StoreContextValue {
     config: Promise<FrameworkConfig>;
     context: Promise<AppContext>;
     fileSystemRoutes: Record<string, Promisable<FileSystemRoutes>>;
+  };
+  builder: {
+    config: Promise<Record<string, unknown>>;
+    context: Promise<BuilderContext>;
   };
   tabs: InternalTab[];
 }
