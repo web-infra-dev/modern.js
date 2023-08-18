@@ -1,5 +1,23 @@
 # @modern-js/plugin-module-doc
 
+## 2.31.2
+
+### Patch Changes
+
+- @modern-js/doc-core@2.31.2
+- @modern-js/doc-plugin-api-docgen@2.31.2
+- @modern-js/doc-plugin-preview@2.31.2
+- @modern-js/module-tools@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/doc-core@2.31.1
+- @modern-js/doc-plugin-api-docgen@2.31.1
+- @modern-js/doc-plugin-preview@2.31.1
+- @modern-js/module-tools@2.31.1
+
 ## 2.31.0
 
 ### Minor Changes
