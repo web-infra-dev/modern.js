@@ -14,6 +14,34 @@ export const useShowcases = (): ShowcaseItem[] => {
 
   return [
     {
+      name: 'Tiktok Seller',
+      url: 'https://seller-us-accounts.tiktok.com/',
+      preview:
+        'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/showcase/tiktok-seller-showcase-08172.png',
+      type: 'framework',
+    },
+    {
+      name: 'Tiktok Streamer',
+      url: 'https://shop.tiktok.com/streamer/welcome',
+      preview:
+        'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/showcase/tiktok-steamer-showcase-08172.png',
+      type: 'framework',
+    },
+    {
+      name: 'Tiktok Shop Partner',
+      url: 'https://partner-us.tiktok.com/',
+      preview:
+        'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/showcase/tiktok-shop-partner-0817.png',
+      type: 'framework',
+    },
+    {
+      name: t('doubao'),
+      url: 'https://www.doubao.com/',
+      preview:
+        'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/showcase/doubao-showcase-0817.png',
+      type: 'framework',
+    },
+    {
       name: t('volctrans'),
       url: 'https://translate.volcengine.com/',
       preview:

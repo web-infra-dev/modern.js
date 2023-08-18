@@ -8,7 +8,7 @@ The content wrapped by NoSSR will not be rendered at the server, nor will it be 
 ## Usage
 
 ```tsx
-import { NoSSR } from '@modern-js/runtime';
+import { NoSSR } from '@modern-js/runtime/ssr';
 
 export default () => <NoSSR>...</NoSSR>;
 ```
@@ -18,7 +18,7 @@ export default () => <NoSSR>...</NoSSR>;
 In the following code, the `Time` component is used to display the current time. Since the time obtained by server-side rendering and client side hydrate are diff, React will throw an exception. For this case, you can use `NoSSR` to optimize:
 
 ```tsx
-import { NoSSR } from '@modern-js/runtime';
+import { NoSSR } from '@modern-js/runtime/ssr';
 
 function Time() {
   return (

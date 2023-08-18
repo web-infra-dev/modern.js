@@ -8,7 +8,7 @@ title: NoSSR
 ## 使用姿势
 
 ```tsx
-import { NoSSR } from '@modern-js/runtime';
+import { NoSSR } from '@modern-js/runtime/ssr';
 
 export default () => <NoSSR>...</NoSSR>;
 ```
@@ -18,7 +18,7 @@ export default () => <NoSSR>...</NoSSR>;
 下列代码中，`Time` 组件用于展示当前的时间，由于服务端渲染和客户端 hydrate 时获取到的时间是不一致的，React 就会抛出异常。针对这种情况可以使用 `NoSSR` 进行优化：
 
 ```tsx
-import { NoSSR } from '@modern-js/runtime';
+import { NoSSR } from '@modern-js/runtime/ssr';
 
 function Time() {
   return (

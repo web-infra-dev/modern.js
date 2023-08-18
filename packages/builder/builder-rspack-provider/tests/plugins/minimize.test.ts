@@ -33,10 +33,11 @@ describe('plugins/minimize', () => {
 
     expect(bundlerConfigs[0].optimization?.minimize).toEqual(true);
 
-    expect(bundlerConfigs[0].builtins?.minifyOptions).toEqual({
-      asciiOnly: true,
-      extractComments: true,
-    });
+    expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
+      {
+        "extractComments": true,
+      }
+    `);
 
     process.env.NODE_ENV = 'test';
   });
@@ -78,11 +79,12 @@ describe('plugins/minimize', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(bundlerConfigs[0].builtins?.minifyOptions).toEqual({
-      asciiOnly: true,
-      extractComments: true,
-      dropConsole: true,
-    });
+    expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
+      {
+        "dropConsole": true,
+        "extractComments": true,
+      }
+    `);
 
     process.env.NODE_ENV = 'test';
   });
@@ -103,11 +105,15 @@ describe('plugins/minimize', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(bundlerConfigs[0].builtins?.minifyOptions).toEqual({
-      asciiOnly: true,
-      pureFuncs: ['console.log', 'console.warn'],
-      extractComments: true,
-    });
+    expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
+      {
+        "extractComments": true,
+        "pureFuncs": [
+          "console.log",
+          "console.warn",
+        ],
+      }
+    `);
 
     process.env.NODE_ENV = 'test';
   });

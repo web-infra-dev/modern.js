@@ -76,10 +76,12 @@ export const getDefaultToolsConfig = (): NormalizedSharedToolsConfig => ({
 
 export const getDefaultPerformanceConfig =
   (): NormalizedSharedPerformanceConfig => ({
+    profile: false,
     buildCache: true,
     printFileSize: true,
     removeConsole: false,
     transformLodash: true,
+    removeMomentLocale: false,
     chunkSplit: {
       strategy: 'split-by-experience',
     },

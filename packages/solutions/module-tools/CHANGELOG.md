@@ -1,5 +1,68 @@
 # @modern-js/module-tools
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/core@2.31.2
+  - @modern-js/plugin-changeset@2.31.2
+  - @modern-js/plugin-i18n@2.31.2
+  - @modern-js/plugin-lint@2.31.2
+  - @modern-js/new-action@2.31.2
+  - @modern-js/plugin@2.31.2
+  - @modern-js/upgrade@2.31.2
+  - @modern-js/libuild-plugin-svgr@2.31.2
+  - @modern-js/libuild@2.31.2
+  - @modern-js/libuild-plugin-swc@2.31.2
+  - @modern-js/types@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/core@2.31.1
+- @modern-js/plugin-changeset@2.31.1
+- @modern-js/plugin-i18n@2.31.1
+- @modern-js/plugin-lint@2.31.1
+- @modern-js/new-action@2.31.1
+- @modern-js/libuild@2.31.1
+- @modern-js/libuild-plugin-svgr@2.31.1
+- @modern-js/libuild-plugin-swc@2.31.1
+- @modern-js/plugin@2.31.1
+- @modern-js/types@2.31.1
+- @modern-js/upgrade@2.31.1
+- @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 4c03d9a: fix(core): remove testing config type and schema
+
+  fix(core): 移除 testing 配置类型和 schema
+
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
+- Updated dependencies [2361ce8]
+- Updated dependencies [4c03d9a]
+- Updated dependencies [1882366]
+  - @modern-js/core@2.31.0
+  - @modern-js/libuild@2.31.0
+  - @modern-js/utils@2.31.0
+  - @modern-js/plugin-changeset@2.31.0
+  - @modern-js/plugin-lint@2.31.0
+  - @modern-js/libuild-plugin-svgr@2.31.0
+  - @modern-js/libuild-plugin-swc@2.31.0
+  - @modern-js/plugin-i18n@2.31.0
+  - @modern-js/new-action@2.31.0
+  - @modern-js/plugin@2.31.0
+  - @modern-js/upgrade@2.31.0
+  - @modern-js/types@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

@@ -1,5 +1,23 @@
 # @modern-js/utils
 
+## 2.31.2
+
+### Patch Changes
+
+- 15d30abdc66: fix: @modern-js/utils npm sync error
+
+  fix: 修复 @modern-js/utils 包 npm 同步失败
+
+## 2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
 ## 2.30.0
 
 ## 2.29.0

@@ -49,6 +49,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   changelog: '更新日志',
 
   // Showcase
+  doubao: '豆包',
   writingo: '火山写作',
   volctrans: '火山翻译',
   shidianbaike: '识典百科',

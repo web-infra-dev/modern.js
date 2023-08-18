@@ -1,5 +1,38 @@
 # @modern-js/builder
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/builder-shared@2.31.2
+  - @modern-js/monorepo-utils@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.31.1
+- @modern-js/monorepo-utils@2.31.1
+- @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 1eece3e: feat(builder): support performance.profile when use rspack-provider
+
+  feat(builder): 在使用 rspack-provider 时支持 performance.profile 配置项
+
+- Updated dependencies [bfdf7b4]
+- Updated dependencies [8ab3e2a]
+- Updated dependencies [fa8e948]
+- Updated dependencies [1882366]
+  - @modern-js/builder-shared@2.31.0
+  - @modern-js/utils@2.31.0
+  - @modern-js/monorepo-utils@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes
