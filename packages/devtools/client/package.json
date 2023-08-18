@@ -25,6 +25,7 @@
     "query-string": "^7.1.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
+    "react-json-view": "^1.21.3",
     "react-use": "^17.4.0",
     "suspend-react": "^0.1.3",
     "valtio": "^1.11.1"

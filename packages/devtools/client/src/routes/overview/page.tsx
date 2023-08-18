@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSnapshot } from 'valtio';
+import JsonViewer from 'react-json-view';
 import { useStore } from '@/stores';
 
 const Page: React.FC = () => {
@@ -12,7 +13,7 @@ const Page: React.FC = () => {
   return (
     <div>
       <h3>Modern.js DevTools</h3>
-      <pre>{JSON.stringify(display, null, 2)}</pre>
+      <JsonViewer src={display} sortKeys={true} />
     </div>
   );
 };

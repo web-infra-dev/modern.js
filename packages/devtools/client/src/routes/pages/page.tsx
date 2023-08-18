@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSnapshot } from 'valtio';
+import JsonViewer from 'react-json-view';
 import { useStore } from '@/stores';
 
 const Page: React.FC = () => {
@@ -9,9 +10,9 @@ const Page: React.FC = () => {
   const { fileSystemRoutes } = store.framework;
   return (
     <div>
-      <pre>{JSON.stringify(entrypoints, null, 2)}</pre>
-      <pre>{JSON.stringify(serverRoutes, null, 2)}</pre>
-      <pre>{JSON.stringify(fileSystemRoutes, null, 2)}</pre>
+      <JsonViewer src={entrypoints} sortKeys={true} />
+      <JsonViewer src={serverRoutes} sortKeys={true} />
+      <JsonViewer src={fileSystemRoutes} sortKeys={true} />
     </div>
   );
 };
