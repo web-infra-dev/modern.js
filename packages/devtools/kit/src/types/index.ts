@@ -11,3 +11,7 @@ export interface CustomTab {
   view: CustomTabView;
   icon?: string;
 }
+
+export type * from './server';
+export type * from './client';
+export type * from './mount-point';

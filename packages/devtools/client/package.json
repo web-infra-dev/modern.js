@@ -19,16 +19,15 @@
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "@modern-js/types": "workspace:*",
-    "birpc": "^0.2.12",
     "lodash": "^4.17.21",
     "p-defer": "3.0.0",
-    "query-string": "^7.1.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "react-json-view": "^1.21.3",
     "react-use": "^17.4.0",
     "suspend-react": "^0.1.3",
-    "valtio": "^1.11.1"
+    "valtio": "^1.11.1",
+    "ufo": "^1.2.0"
   },
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
@@ -44,7 +43,6 @@
     "@types/react-dom": "~18.0.10",
     "rimraf": "~3.0.2",
     "type-fest": "^4.1.0",
-    "typescript": "~5.0.4",
-    "ufo": "^1.2.0"
+    "typescript": "~5.0.4"
   }
 }

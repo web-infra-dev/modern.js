@@ -1,15 +1,14 @@
 import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
-import type { ClientFunctions, ServerFunctions } from '@modern-js/devtools-kit';
-import { createBirpc, BirpcOptions } from 'birpc';
+import type {
+  ClientFunctions,
+  FileSystemRoutes,
+  ServerFunctions,
+} from '@modern-js/devtools-kit';
+import { createBirpc, BirpcOptions } from '@modern-js/devtools-kit/birpc';
 import createDeferPromise, { DeferredPromise } from 'p-defer';
 import { RawData } from 'ws';
-import getPort from 'get-port';
-import {
-  RouteLegacy,
-  NestedRouteForCli,
-  PageRoute,
-} from '@modern-js/types/cli';
+import { getPort } from '@modern-js/utils';
 import type { BuilderContext, BuilderPlugin } from '@modern-js/builder-shared';
 import { CliPluginAPI, BuilderPluginAPI, InjectedHooks } from '../types';
 import { SocketServer } from '../utils/socket';
@@ -24,13 +23,10 @@ export const setupClientConnection = async (
   const { api } = options;
 
   // generate url.
-  const port = await getPort();
+  const port = await getPort(8782);
   const server = new SocketServer({ port });
   const url = new URL(`ws://localhost:${port}`);
-  const _fileSystemRoutesMap: Record<
-    string,
-    RouteLegacy[] | (NestedRouteForCli | PageRoute)[]
-  > = {};
+  const _fileSystemRoutesMap: Record<string, FileSystemRoutes> = {};
 
   // register events.
   let handleMessage: null | ((data: RawData, isBinary: boolean) => void) = null;

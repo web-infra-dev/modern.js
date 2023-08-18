@@ -31,15 +31,6 @@
     "./cli": {
       "jsnext:source": "./src/cli.ts",
       "default": "./dist/cjs/cli.js"
-    },
-    "./server": {
-      "node": {
-        "jsnext:source": "./src/server.ts",
-        "import": "./dist/esm-node/server.js",
-        "require": "./dist/cjs/server.js"
-      },
-      "types": "./dist/types/server.d.ts",
-      "default": "./dist/esm/server.js"
     }
   },
   "scripts": {
@@ -50,14 +41,10 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/devtools-client": "workspace:*",
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/devtools-mount": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "birpc": "^0.2.12",
-    "get-port": "^5.1.1",
     "p-defer": "^3.0.0",
-    "socket.io": "4.7.2",
     "ws": "8.13.0"
   },
   "devDependencies": {

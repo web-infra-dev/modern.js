@@ -22,24 +22,26 @@
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
-      "node": {
-        "jsnext:source": "./src/index.ts",
-        "require": "./dist/cjs/index.js"
-      },
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     },
-    "./rpc": {
-      "jsnext:source": "./src/rpc/index.ts",
-      "default": "./dist/cjs/rpc/index.js"
+    "./birpc": {
+      "jsnext:source": "./src/exports/birpc.ts",
+      "types": "./dist/types/exports/birpc.d.ts",
+      "default": "./dist/cjs/exports/birpc.js"
     }
   },
   "typesVersions": {
-    "*": {}
+    "*": {
+      "birpc": [
+        "./dist/types/exports/birpc.d.ts"
+      ]
+    }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch --no-dts",
+    "dev": "modern-lib build --watch",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
@@ -50,14 +52,10 @@
     "ws": "8.13.0"
   },
   "devDependencies": {
-    "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
-    "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@swc/helpers": "0.5.1",
@@ -65,14 +63,6 @@
     "@types/ws": "^8.5.5",
     "type-fest": "^4.1.0",
     "typescript": "^5"
-  },
-  "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.29.0"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/runtime": {
-      "optional": true
-    }
   },
   "sideEffects": false,
   "publishConfig": {

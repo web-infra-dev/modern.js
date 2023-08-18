@@ -16,15 +16,15 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
+  },
+  "devDependencies": {
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "nanoid": "3.3.4",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "react-use": "^17.4.0",
-    "ufo": "^1.2.0"
-  },
-  "devDependencies": {
+    "ufo": "^1.2.0",
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
