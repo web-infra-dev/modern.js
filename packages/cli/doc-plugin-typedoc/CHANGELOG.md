@@ -1,5 +1,13 @@
 # @modern-js/doc-plugin-typedoc
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/doc-tools@2.31.2
+
 ## 2.31.1
 
 ### Patch Changes
