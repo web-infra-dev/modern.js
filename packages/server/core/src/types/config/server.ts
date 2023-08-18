@@ -11,11 +11,26 @@ type Route =
     };
 export type Routes = Record<string, Route>;
 
+type PreloadInclude = Array<string | { url: string; type: string }>;
+interface PreloadAttributes {
+  script?: Record<string, boolean | string>;
+  style?: Record<string, boolean | string>;
+  image?: Record<string, boolean | string>;
+  font?: Record<string, boolean | string>;
+}
+export type SSRPreload = {
+  include?: PreloadInclude;
+  exclude?: RegExp | string;
+  userAgentFilter?: RegExp | string;
+  attributes?: PreloadAttributes;
+};
+
 export type SSR =
   | boolean
   | {
       forceCSR?: boolean;
       mode?: SSRMode;
+      preload?: boolean | SSRPreload;
       inlineScript?: boolean;
     };
 
