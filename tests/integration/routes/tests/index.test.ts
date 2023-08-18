@@ -433,12 +433,34 @@ const supportDefineInit = async (
   errors: string[],
   appPort: number,
 ) => {
-  await page.goto(`http://localhost:${appPort}/four/user`, {
+  await page.goto(`http://127.0.0.1:${appPort}/four/user`, {
     waitUntil: ['networkidle0'],
   });
   const isBrowser = await page.evaluate(() => (window as any).__isBrowser);
 
   expect(isBrowser).toBeTruthy();
+  expect(errors.length).toBe(0);
+};
+
+const supportClientLoader = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/three`, {
+    waitUntil: ['networkidle0'],
+  });
+  await Promise.all([
+    page.click('.client-loader-btn'),
+    page.waitForSelector('.client-loader-layout'),
+  ]);
+  const clientLoaderLayout = await page.$('.client-loader-layout');
+  const text = await page.evaluate(el => el?.textContent, clientLoaderLayout);
+  expect(text?.includes('layout from client loader')).toBeTruthy();
+
+  const clientLoaderPage = await page.$('.client-loader-page');
+  const text1 = await page.evaluate(el => el?.textContent, clientLoaderPage);
+  expect(text1?.includes('page from client loader')).toBeTruthy();
   expect(errors.length).toBe(0);
 };
 
@@ -583,12 +605,20 @@ describe('dev', () => {
 
   describe('global configuration', () => {
     test('support app init', async () =>
-      supportDefineInit(page, errors, appPort));
+      await supportDefineInit(page, errors, appPort));
   });
 
   describe('router plugin', () => {
-    test('basic usage', () => {
-      testRouterPlugin(appDir);
+    test('basic usage', async () => {
+      await testRouterPlugin(appDir);
+    });
+  });
+
+  describe('client data', () => {
+    test('support client data', async () => {
+      const page1 = await browser.newPage();
+      await supportClientLoader(page1, errors, appPort);
+      await page1.close();
     });
   });
 
@@ -686,15 +716,137 @@ describe('build', () => {
 
   describe('global configuration', () => {
     test('support app init', async () =>
-      supportDefineInit(page, errors, appPort));
+      await supportDefineInit(page, errors, appPort));
   });
 
   describe('router plugin', () => {
-    test('basic usage', () => {
-      testRouterPlugin(appDir);
+    test('basic usage', async () => {
+      await testRouterPlugin(appDir);
     });
-    test('the correct hash should be included in the bundler-runtime chunk', () =>
+    test('the correct hash should be included in the bundler-runtime chunk', async () =>
       hasHashCorrectly(appDir));
+  });
+
+  describe('client data', () => {
+    test('support client data', async () => {
+      await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  afterAll(async () => {
+    await killApp(app);
+    await page.close();
+    await browser.close();
+  });
+});
+
+describe('dev with rspack', () => {
+  let app: unknown;
+  let appPort: number;
+  let page: Page;
+  let browser: Browser;
+  const errors: string[] = [];
+  beforeAll(async () => {
+    appPort = await getPort();
+    await modernBuild(appDir, [], {
+      env: {
+        BUNDLER: 'rspack',
+      },
+    });
+    app = await modernServe(appDir, appPort, {
+      cwd: appDir,
+    });
+    browser = await puppeteer.launch(launchOptions as any);
+    page = await browser.newPage();
+    page.on('pageerror', error => {
+      errors.push(error.message);
+    });
+  });
+
+  describe('self control route', () => {
+    test('should render correctly', async () =>
+      renderSelfRoute(page, errors, appPort));
+  });
+
+  describe('pages routes', () => {
+    test('render pages route correctly', async () =>
+      renderPageRoute(page, errors, appPort));
+
+    test('render dynamic pages route correctly', async () =>
+      renderDynamicRoute(page, errors, appPort));
+
+    test('support global layout', async () =>
+      supportGlobalLayout(page, errors, appPort));
+
+    test('support _layout', async () => supportLayout(page, errors, appPort));
+  });
+
+  describe('nested routes', () => {
+    test('basic usage', async () => supportNestedRoutes(page, errors, appPort));
+
+    test('dynamic path', async () =>
+      supportDynamaicPaths(page, errors, appPort));
+
+    test('support catch all', async () =>
+      supportCatchAll(page, errors, appPort));
+
+    test('no layout dir', async () =>
+      supportNoLayoutDir(page, errors, appPort));
+
+    test('pathless layout', async () =>
+      supportPathLessLayout(page, errors, appPort));
+
+    test('path without layout', async () =>
+      supportPathWithoutLayout(page, errors, appPort));
+
+    test('support load chunks Parallelly', supportLoadChunksParallelly);
+
+    test('support handle config', async () =>
+      supportHandleConfig(page, appPort));
+
+    // FIXME: skip the test
+    test.skip('support handle loader error', async () =>
+      supportHandleLoaderError(page, errors, appPort));
+  });
+
+  describe('support both page route and nested route', () => {
+    test('nested route has higher priority', async () =>
+      nestedRouteOverPage(page, errors, appPort));
+
+    test('support works together', async () =>
+      supportNestedRouteAndPage(page, errors, appPort));
+  });
+
+  describe('loader', () => {
+    test('support loader', async () => supportLoader(page, errors, appPort));
+    test.skip('support loader for ssr and csr', async () =>
+      supportLoaderForSSRAndCSR(page, errors, appPort));
+
+    test('support loader for csr', () =>
+      supportLoaderForCSR(page, errors, appPort));
+    test('support redirect for ssr', () =>
+      supportRedirectForSSR(page, errors, appPort));
+    test('support redirect for csr', () =>
+      supportRedirectForCSR(page, errors, appPort));
+  });
+
+  describe('global configuration', () => {
+    test('support app init', async () =>
+      await supportDefineInit(page, errors, appPort));
+  });
+
+  describe('router plugin', () => {
+    test('basic usage', async () => {
+      await testRouterPlugin(appDir);
+    });
+  });
+
+  describe('client data', () => {
+    test('support client data', async () => {
+      const page1 = await browser.newPage();
+      await supportClientLoader(page1, errors, appPort);
+      await page1.close();
+    });
   });
 
   afterAll(async () => {

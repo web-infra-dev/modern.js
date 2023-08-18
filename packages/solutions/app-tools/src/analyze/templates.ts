@@ -202,6 +202,7 @@ export const fileSystemRoutes = async ({
     {
       routeId: string;
       filePath: string;
+      clientData?: string;
       inline: boolean;
     }
   > = {};
@@ -221,13 +222,17 @@ export const fileSystemRoutes = async ({
   `;
 
   let rootLayoutCode = ``;
-  const getDataLoaderPath = (loaderId: string) => {
+  const getDataLoaderPath = (loaderId: string, clientData?: string) => {
     if (!ssrMode) {
       return '';
     }
 
+    const clientDataStr = clientData ? `&clientData=${slash(clientData)}` : '';
+
     if (nestedRoutesEntry) {
-      return `?mapFile=${slash(loadersMapFile)}&loaderId=${loaderId}`;
+      return `?mapFile=${slash(
+        loadersMapFile,
+      )}&loaderId=${loaderId}${clientDataStr}`;
     }
     return '';
   };
@@ -260,6 +265,7 @@ export const fileSystemRoutes = async ({
         loadersMap[loader] = {
           routeId: route.id!,
           filePath: route.loader,
+          clientData: route.clientData,
           inline: false,
         };
       }
@@ -375,11 +381,11 @@ export const fileSystemRoutes = async ({
     if (loaderInfo.inline) {
       importLoadersCode += `import { loader as ${key} } from "${slash(
         loaderInfo.filePath,
-      )}${getDataLoaderPath(key)}";\n`;
+      )}${getDataLoaderPath(key, loaderInfo.clientData)}";\n`;
     } else {
       importLoadersCode += `import ${key} from "${slash(
         loaderInfo.filePath,
-      )}${getDataLoaderPath(key)}";\n`;
+      )}${getDataLoaderPath(key, loaderInfo.clientData)}";\n`;
     }
   }
 

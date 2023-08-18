@@ -38,8 +38,10 @@ export const FILE_SYSTEM_ROUTES_COMPONENTS_DIR = 'internal_components';
 export const NESTED_ROUTE = {
   LAYOUT_FILE: 'layout',
   LAYOUT_LOADER_FILE: 'layout.loader',
+  LAYOUT_CLIENT_LOADER: 'layout.data.client',
   PAGE_FILE: 'page',
   PAGE_LOADER_FILE: 'page.loader',
+  PAGE_CLIENT_LOADER: 'page.data.client',
   LOADING_FILE: 'loading',
   ERROR_FILE: 'error',
   LOADER_FILE: 'loader',
