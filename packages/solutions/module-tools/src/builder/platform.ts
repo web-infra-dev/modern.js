@@ -1,15 +1,14 @@
 import { PluginAPI } from '@modern-js/core';
-import { logger } from '@modern-js/utils/logger';
+import { chalk, logger } from '@modern-js/utils';
 import { ModuleContext } from '../types/context';
 import { BuildCommandOptions, ModuleTools } from '../types';
+import { blue, gray } from '../constants/color';
 
 export const buildPlatform = async (
   options: BuildCommandOptions,
   api: PluginAPI<ModuleTools>,
   context: ModuleContext,
 ) => {
-  const { chalk } = await import('@modern-js/utils');
-  const { blue, gray } = await import('../constants/colors');
   const runner = api.useHookRunners();
   const platformBuilders = await runner.registerBuildPlatform();
   if (platformBuilders.length === 0) {
