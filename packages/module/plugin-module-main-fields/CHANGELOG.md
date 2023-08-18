@@ -1,5 +1,11 @@
 # @modern-js/plugin-module-main-fields
 
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.31.1
+
 ## 2.31.0
 
 ### Patch Changes

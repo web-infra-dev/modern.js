@@ -1,5 +1,14 @@
 # @modern-js/builder-plugin-vue
 
+## 2.31.1
+
+### Patch Changes
+
+- Updated dependencies [fe70fdf]
+  - @modern-js/builder-rspack-provider@2.31.1
+  - @modern-js/builder-shared@2.31.1
+  - @modern-js/builder-webpack-provider@2.31.1
+
 ## 2.31.0
 
 ### Patch Changes

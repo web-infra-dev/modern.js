@@ -1,5 +1,15 @@
 # @modern-js/runtime
 
+## 2.31.1
+
+### Patch Changes
+
+- 99ffd10: fix: fix redefining the remixRouter issue
+  fix: 修复 remixRouter 重定义问题
+  - @modern-js/plugin@2.31.1
+  - @modern-js/types@2.31.1
+  - @modern-js/utils@2.31.1
+
 ## 2.31.0
 
 ### Patch Changes
