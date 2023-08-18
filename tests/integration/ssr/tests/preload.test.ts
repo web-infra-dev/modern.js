@@ -51,7 +51,7 @@ describe('SSR preload', () => {
   });
 
   test(`should add Links to response headers`, async () => {
-    const url = `http://localhost:${appPort}`;
+    const url = `http://0.0.0.0:${appPort}`;
     const { headers, body } = await request(url);
 
     expect(headers.link).toMatchSnapshot();
