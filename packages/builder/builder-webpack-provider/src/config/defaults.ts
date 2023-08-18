@@ -33,11 +33,7 @@ export const createDefaultConfig = (): BuilderConfig => ({
     lazyCompilation: false,
     sourceBuild: false,
   },
-  performance: {
-    ...getDefaultPerformanceConfig(),
-    profile: false,
-    removeMomentLocale: false,
-  },
+  performance: getDefaultPerformanceConfig(),
 });
 
 export const withDefaultConfig = (config: BuilderConfig) =>
