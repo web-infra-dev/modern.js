@@ -46,14 +46,18 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "framer-motion": "^10.16.0",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "birpc": "^0.2.12",
     "ws": "8.13.0"
   },
   "devDependencies": {
-    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
