@@ -1,3 +1,3 @@
 export default () => {
-  return 'page from client loader';
+  return 'page from server loader';
 };

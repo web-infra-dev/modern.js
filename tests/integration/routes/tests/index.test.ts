@@ -460,7 +460,7 @@ const supportClientLoader = async (
 
   const clientLoaderPage = await page.$('.client-loader-page');
   const text1 = await page.evaluate(el => el?.textContent, clientLoaderPage);
-  expect(text1?.includes('page from client loader')).toBeTruthy();
+  expect(text1?.includes('page from server loader')).toBeTruthy();
   expect(errors.length).toBe(0);
 };
 
@@ -748,14 +748,14 @@ describe('dev with rspack', () => {
   const errors: string[] = [];
   beforeAll(async () => {
     appPort = await getPort();
-    await modernBuild(appDir, [], {
-      env: {
+    app = await launchApp(
+      appDir,
+      appPort,
+      {},
+      {
         BUNDLER: 'rspack',
       },
-    });
-    app = await modernServe(appDir, appPort, {
-      cwd: appDir,
-    });
+    );
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
     page.on('pageerror', error => {

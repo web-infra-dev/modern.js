@@ -17,11 +17,6 @@ export default defineConfig({
       router: false,
     },
   },
-  tools: {
-    webpackChain(chain) {
-      chain.optimization.runtimeChunk(false);
-    },
-  },
   server: {
     ssr: {
       mode: 'stream',
