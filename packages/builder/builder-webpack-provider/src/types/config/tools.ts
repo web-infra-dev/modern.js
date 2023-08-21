@@ -6,6 +6,7 @@ import type {
   SharedToolsConfig,
   ToolsLessConfig,
   ToolsSassConfig,
+  TerserPluginOptions,
 } from '@modern-js/builder-shared';
 import type {
   ModifyWebpackChainUtils,
@@ -16,7 +17,6 @@ import type {
   CssMinimizerPluginOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
-  TerserPluginOptions,
   TSLoaderOptions,
   WebpackChain,
   WebpackConfig,

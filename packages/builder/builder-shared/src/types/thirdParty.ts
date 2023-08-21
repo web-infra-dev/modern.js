@@ -5,6 +5,7 @@ import type {
 import type * as SassLoader from '../../compiled/sass-loader';
 import type Less from '../../compiled/less';
 import type { LoaderContext } from 'webpack';
+import type TerserPlugin from 'terser-webpack-plugin';
 import type ForkTSCheckerPlugin from 'fork-ts-checker-webpack-plugin';
 import type {
   Syntax,
@@ -13,6 +14,9 @@ import type {
   AcceptedPlugin,
   SourceMapOptions,
 } from 'postcss';
+
+export type TerserPluginOptions = TerserPlugin.BasePluginOptions &
+  TerserPlugin.DefinedDefaultMinimizerAndOptions<TerserPlugin.TerserOptions>;
 
 export type { Options as PugOptions } from '../../compiled/pug';
 

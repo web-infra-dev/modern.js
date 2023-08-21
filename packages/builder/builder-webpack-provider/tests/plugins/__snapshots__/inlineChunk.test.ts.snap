@@ -18,7 +18,18 @@ exports[`plugins/inlineChunk > should add InlineChunkHtmlPlugin properly by defa
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
+          "minifyCSS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
+          "minifyURLs": true,
           "removeComments": false,
+          "removeEmptyAttributes": true,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,
@@ -64,7 +75,18 @@ exports[`plugins/inlineChunk > should use proper plugin options when disableInli
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
+          "minifyCSS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
+          "minifyURLs": true,
           "removeComments": false,
+          "removeEmptyAttributes": true,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,
@@ -108,7 +130,18 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
+          "minifyCSS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
+          "minifyURLs": true,
           "removeComments": false,
+          "removeEmptyAttributes": true,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,
@@ -155,7 +188,18 @@ exports[`plugins/inlineChunk > should use proper plugin options when enableInlin
         "minify": {
           "collapseWhitespace": true,
           "keepClosingSlash": true,
+          "minifyCSS": true,
+          "minifyJS": {
+            "format": {
+              "ascii_only": true,
+            },
+            "mangle": {
+              "safari10": true,
+            },
+          },
+          "minifyURLs": true,
           "removeComments": false,
+          "removeEmptyAttributes": true,
           "removeRedundantAttributes": true,
           "removeScriptTypeAttributes": true,
           "removeStyleLinkTypeAttributes": true,

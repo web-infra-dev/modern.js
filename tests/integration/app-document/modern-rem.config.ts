@@ -14,11 +14,6 @@ export default defineConfig({
       test: './src/test/App.tsx',
     },
   },
-  server: {
-    ssrByEntries: {
-      test: true,
-    },
-  },
   html: {
     favicon: './static/a.icon',
   },

@@ -131,7 +131,7 @@ describe('test build', () => {
       'utf-8',
     );
 
-    expect(htmlWithDoc.includes('.logo-spin > div:last-child')).toBe(true);
+    expect(htmlWithDoc.includes('.logo-spin>div:last-child')).toBe(true);
   });
 
   test('should has lang property in html', async () => {
@@ -177,9 +177,7 @@ describe('test build', () => {
     );
 
     expect(
-      /<head class="head"><script>window.abc = "hjk"<\/script>/.test(
-        htmlWithDoc,
-      ),
+      /<head class="head"><script>window.abc="hjk"<\/script>/.test(htmlWithDoc),
     ).toBe(true);
     expect(
       /<head[\s\S]*<script>console.log\("abc"\)<\/script>[\s\S]*<\/head>/.test(
