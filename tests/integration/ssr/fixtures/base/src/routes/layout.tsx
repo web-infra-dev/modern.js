@@ -14,6 +14,9 @@ export default function Layout() {
         <Link to="/redirect" id="redirect-btn">
           Go Redirect
         </Link>
+        <Link to="/context" id="context-btn">
+          Go Context
+        </Link>
       </div>
       <Outlet />
     </div>
