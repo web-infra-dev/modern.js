@@ -6,7 +6,7 @@ import { generateClient } from './generateClient';
 type Context = {
   mapFile: string;
   loaderId?: string;
-  clientData?: string;
+  clientData?: boolean;
 };
 
 export default async function loader(
@@ -47,11 +47,17 @@ export default async function loader(
   if (options.clientData) {
     const readFile = promisify(this.fs.readFile);
     try {
-      const clientDataContent = await readFile(options.clientData);
+      const clientDataPath = this.resourcePath.includes('.loader.')
+        ? this.resourcePath.replace('.loader.', '.data.client.')
+        : this.resourcePath.replace('.data.', '.data.client.');
+
+      const clientDataContent = await readFile(clientDataPath);
       return clientDataContent;
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
-        logger.error(`Failed to read the clientData of ${options.clientData}`);
+        logger.error(
+          `Failed to read the clientData file ${options.clientData}`,
+        );
       }
     }
   }

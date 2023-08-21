@@ -202,7 +202,7 @@ export const fileSystemRoutes = async ({
     {
       routeId: string;
       filePath: string;
-      clientData?: string;
+      clientData?: boolean;
       inline: boolean;
     }
   > = {};
@@ -222,12 +222,12 @@ export const fileSystemRoutes = async ({
   `;
 
   let rootLayoutCode = ``;
-  const getDataLoaderPath = (loaderId: string, clientData?: string) => {
+  const getDataLoaderPath = (loaderId: string, clientData?: boolean) => {
     if (!ssrMode) {
       return '';
     }
 
-    const clientDataStr = clientData ? `&clientData=${slash(clientData)}` : '';
+    const clientDataStr = clientData ? `&clientData=${clientData}` : '';
 
     if (nestedRoutesEntry) {
       return `?mapFile=${slash(
@@ -258,16 +258,17 @@ export const fileSystemRoutes = async ({
         errors.push(route.error);
         error = `error_${errors.length - 1}`;
       }
-      if (route.loader) {
+      if (route.loader || route.data) {
         loaders.push(route.loader);
         const loaderId = loaders.length - 1;
         loader = `loader_${loaderId}`;
         loadersMap[loader] = {
           routeId: route.id!,
-          filePath: route.loader,
-          clientData: route.clientData,
-          inline: false,
+          filePath: route.data || route.loader,
+          clientData: Boolean(route.clientData),
+          inline: Boolean(route.data),
         };
+        loader = `loader_${loaderId}`;
       }
       if (typeof route.config === 'string') {
         configs.push(route.config);

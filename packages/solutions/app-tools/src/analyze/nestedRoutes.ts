@@ -196,6 +196,10 @@ export const walk = async (
       route.clientData = itemPath;
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.LAYOUT_DATA_FILE) {
+      route.data = itemPath;
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CONFIG_FILE) {
       if (!route.config) {
         route.config = itemPath;
@@ -212,6 +216,10 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CLIENT_LOADER) {
       route.clientData = itemPath;
+    }
+
+    if (itemWithoutExt === NESTED_ROUTE.PAGE_DATA_FILE) {
+      route.data = itemPath;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {
