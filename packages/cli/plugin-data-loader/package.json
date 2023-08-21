@@ -19,24 +19,24 @@
   "engines": {
     "node": ">=14.17.6"
   },
-  "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "jsnext:source": "./src/runtime/index.ts",
+  "types": "./src/runtime/index.ts",
+  "main": "./dist/cjs/runtime/index.js",
+  "module": "./dist/esm/runtime/index.js",
   "exports": {
     "./loader": {
-      "jsnext:source": "./src/cli/loader.ts",
       "types": "./dist/types/cli/loader.d.ts",
+      "jsnext:source": "./src/cli/loader.ts",
       "default": "./dist/cjs/cli/loader.js"
     },
     "./server": {
-      "jsnext:source": "./src/server/index.ts",
       "types": "./dist/types/server/index.d.ts",
+      "jsnext:source": "./src/server/index.ts",
       "default": "./dist/cjs/server/index.js"
     },
     "./runtime": {
-      "jsnext:source": "./src/runtime/index.ts",
       "types": "./dist/types/runtime/index.d.ts",
+      "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/esm/runtime/index.js"
     }
   },
@@ -96,6 +96,6 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true,
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/runtime/index.d.ts"
   }
 }

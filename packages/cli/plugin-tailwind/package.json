@@ -33,7 +33,7 @@
       "default": "./dist/cjs/cli.js"
     },
     "./runtime-design-token": {
-      "jsnext:source": "./src/design-token/index.js",
+      "jsnext:source": "./src/design-token/index.ts",
       "node": "./dist/cjs/design-token/index.js",
       "default": "./dist/esm/design-token/index.js"
     }

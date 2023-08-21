@@ -21,12 +21,12 @@
   "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/esm/index.js",
         "require": "./dist/cjs/index.js"
       },
-      "types": "./dist/types/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
     "./bundle": {

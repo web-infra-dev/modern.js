@@ -21,13 +21,13 @@
   "main": "./dist/cjs/index.js",
   "exports": {
     ".": {
-      "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     },
     "./cli": {
-      "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     }
   },

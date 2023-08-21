@@ -29,8 +29,8 @@
       "default": "./dist/index.js"
     },
     "./plugins/*": {
-      "jsnext:source": "./src/plugins/*.ts",
       "types": "./dist/plugins/*.d.ts",
+      "jsnext:source": "./src/plugins/*.ts",
       "default": "./dist/plugins/*.js"
     }
   },

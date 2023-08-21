@@ -23,8 +23,8 @@
       "default": "./index.d.ts"
     },
     "./server": {
-      "jsnext:source": "./server/index.d.ts",
       "types": "./server/index.d.ts",
+      "jsnext:source": "./server/index.d.ts",
       "default": "./server/index.d.ts"
     }
   },

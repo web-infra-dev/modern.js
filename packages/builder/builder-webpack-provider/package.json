@@ -25,13 +25,13 @@
   "module": "./dist/index.js",
   "exports": {
     ".": {
-      "jsnext:source": "./src/index.ts",
       "types": "./dist/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
     },
     "./html-webpack-plugin": {
-      "jsnext:source": "./src/exports/HtmlWebpackPlugin.ts",
       "types": "./dist/exports/HtmlWebpackPlugin.d.ts",
+      "jsnext:source": "./src/exports/HtmlWebpackPlugin.ts",
       "default": "./dist/exports/HtmlWebpackPlugin.js"
     },
     "./webpack": {
@@ -39,13 +39,13 @@
       "default": "./dist/exports/webpack.js"
     },
     "./stub": {
-      "jsnext:source": "./src/stub/index.ts",
       "types": "./dist/stub/index.d.ts",
+      "jsnext:source": "./src/stub/index.ts",
       "default": "./dist/stub/index.js"
     },
     "./plugins/*": {
-      "jsnext:source": "./src/plugins/*.ts",
       "types": "./dist/plugins/*.d.ts",
+      "jsnext:source": "./src/plugins/*.ts",
       "default": "./dist/plugins/*.js"
     },
     "./webpack/lib/ModuleFilenameHelpers.js": {

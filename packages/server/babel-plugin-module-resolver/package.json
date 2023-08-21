@@ -23,7 +23,7 @@
   "exports": {
     ".": {
       "node": {
-        "jsnext:source": "./src/index.js",
+        "jsnext:source": "./src/index.ts",
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
