@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.31.0",
+  "version": "2.31.2",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
@@ -30,50 +30,50 @@
       "default": "./types/index.d.ts"
     },
     ".": {
-      "jsnext:source": "./src/cli/index.ts",
       "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
+      "types": "./dist/types/runtime-testing/index.d.ts",
       "jsnext:source": "./src/runtime-testing/index.ts",
       "node": {
         "import": "./dist/esm-node/runtime-testing/index.js",
         "require": "./dist/cjs/runtime-testing/index.js"
       },
-      "types": "./dist/types/runtime-testing/index.d.ts",
       "default": "./dist/esm/runtime-testing/index.js"
     },
     "./runtime-base": {
+      "types": "./dist/types/runtime-testing/base.d.ts",
       "jsnext:source": "./src/runtime-testing/base.ts",
       "node": {
         "import": "./dist/esm-node/runtime-testing/base.js",
         "require": "./dist/cjs/runtime-testing/base.js"
       },
-      "types": "./dist/types/runtime-testing/base.d.ts",
       "default": "./dist/esm/runtime-testing/base.js"
     },
     "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
       "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./bff-cli": {
-      "jsnext:source": "./src/cli/bff/index.ts",
       "types": "./dist/types/cli/bff/index.d.ts",
+      "jsnext:source": "./src/cli/bff/index.ts",
       "default": "./dist/cjs/cli/bff/index.js"
     },
     "./base": {
-      "jsnext:source": "./src/base/index.ts",
       "types": "./dist/types/base/index.d.ts",
+      "jsnext:source": "./src/base/index.ts",
       "default": "./dist/cjs/base/index.js"
     },
     "./bff": {
+      "types": "./dist/types/runtime-testing/bff.d.ts",
       "jsnext:source": "./src/runtime-testing/bff.ts",
       "node": {
         "import": "./dist/esm-node/runtime-testing/bff.js",
         "require": "./dist/cjs/runtime-testing/bff.js"
       },
-      "types": "./dist/types/runtime-testing/bff.d.ts",
       "default": "./dist/esm/runtime-testing/bff.js"
     }
   },
@@ -146,7 +146,7 @@
   "peerDependencies": {
     "react": ">=17",
     "react-dom": ">=17",
-    "@modern-js/runtime": "workspace:^2.31.0"
+    "@modern-js/runtime": "workspace:^2.31.2"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

@@ -1,5 +1,21 @@
 # @modern-js/main-doc
 
+## 2.31.2
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- 7c4698f: fix(main-doc): modify the correct NoSSR import mode
+
+  fix(main-doc): 修复 NoSSR 组件引入找不到
+
+  - @modern-js/builder-doc@2.31.1
+
 ## 2.31.0
 
 ### Patch Changes

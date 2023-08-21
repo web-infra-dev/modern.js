@@ -1,5 +1,28 @@
 # @modern-js/builder-rspack-provider
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/builder-shared@2.31.2
+  - @modern-js/server@2.31.2
+  - @modern-js/types@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- fe70fdf: hotfix(builder): temporarily disable asciiOnly in rspack
+
+  hotfix(builder): rspack 场景下临时关闭 asciiOnly 能力
+
+  - @modern-js/builder-shared@2.31.1
+  - @modern-js/server@2.31.1
+  - @modern-js/types@2.31.1
+  - @modern-js/utils@2.31.1
+
 ## 2.31.0
 
 ### Patch Changes

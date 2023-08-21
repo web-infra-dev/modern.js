@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.31.0",
+  "version": "2.31.2",
   "description": "SWC plugin for builder in Modern.js",
   "repository": {
     "type": "git",
@@ -24,18 +24,18 @@
       "default": "./dist/index.js"
     },
     "./loader": {
-      "jsnext:source": "./src/loader.ts",
       "types": "./dist/loader.d.ts",
+      "jsnext:source": "./src/loader.ts",
       "default": "./dist/loader.js"
     },
     "./plugin": {
-      "jsnext:source": "./src/plugin.ts",
       "types": "./dist/plugin.d.ts",
+      "jsnext:source": "./src/plugin.ts",
       "default": "./dist/plugin.js"
     },
     "./binding": {
-      "jsnext:source": "./src/binding.ts",
       "types": "./dist/binding.d.ts",
+      "jsnext:source": "./src/binding.ts",
       "default": "./dist/binding.js"
     }
   },
