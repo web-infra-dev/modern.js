@@ -79,7 +79,12 @@ export const createRenderHandler: CreateRenderHandler = ({
     if (route.isSSR && !useCSR) {
       try {
         const userAgent = ctx.getReqHeader('User-Agent') as string | undefined;
-        if (shouldFlushServerHeader(conf.server, userAgent)) {
+        // get disablePreload symbol from
+        // the header is `x-modern-disable-preload`
+        const disablePreload = Boolean(
+          ctx.headers[`x-${cutNameByHyphen(metaName)}-disable-preload`],
+        );
+        if (shouldFlushServerHeader(conf.server, userAgent, disablePreload)) {
           flushServerHeader({
             serverConf: conf.server,
             ctx,

@@ -14,8 +14,14 @@ export function transformToRegExp(input: string | RegExp): RegExp {
 export function shouldFlushServerHeader(
   serverConf: ServerOptions['server'],
   userAgent?: string,
+  disablePreload?: boolean,
 ) {
   const { ssr: ssrConf } = serverConf || {};
+
+  if (disablePreload) {
+    return false;
+  }
+
   if (typeof ssrConf === 'object' && ssrConf.preload) {
     // ssr.preload: 'object'
     if (typeof ssrConf.preload === 'object') {

@@ -69,6 +69,16 @@ describe('test preload', () => {
         ),
       ).toBeTruthy();
     });
+
+    it('test case06', () => {
+      const serverConf: ServerConf = {
+        ssr: {
+          preload: true,
+        },
+      };
+
+      expect(shouldFlushServerHeader(serverConf, undefined, true)).toBeFalsy();
+    });
   });
 
   describe('test parseLinks', () => {
