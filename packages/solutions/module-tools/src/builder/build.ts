@@ -209,7 +209,7 @@ export const buildLib = async (
     plugins.push(
       swcTransformPlugin({
         pluginImport: transformImport,
-        lodash: transformLodash,
+        transformLodash,
         externalHelpers: Boolean(externalHelpers),
         emitDecoratorMetadata:
           userTsconfig?.compilerOptions?.emitDecoratorMetadata,

@@ -18,7 +18,7 @@ export interface SwcTransformOptions {
   useDefineForClassFields?: boolean;
   externalHelpers?: boolean;
   pluginImport?: ImportItem[];
-  lodash?: boolean;
+  transformLodash?: boolean;
 }
 
 export const swcTransformPlugin = (
@@ -36,7 +36,7 @@ export const swcTransformPlugin = (
             emitDecoratorMetadata = false,
             externalHelpers = false,
             pluginImport = [],
-            lodash: enableLodash = false,
+            transformLodash = false,
             useDefineForClassFields,
           } = options;
           // Todo: emitDecoratorMetadata default value
@@ -86,7 +86,7 @@ export const swcTransformPlugin = (
               module,
               extensions: {
                 pluginImport,
-                lodash: enableLodash
+                lodash: transformLodash
                   ? {
                       cwd: appDirectory,
                       ids: ['lodash', 'lodash-es'],
