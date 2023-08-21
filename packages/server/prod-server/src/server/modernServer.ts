@@ -200,6 +200,7 @@ export class ModernServer implements ModernServerInterface {
       distDir,
       staticGenerate,
       forceCSR,
+      conf: this.conf,
       nonce: conf.security?.nonce,
       metaName,
     });
@@ -470,7 +471,7 @@ export class ModernServer implements ModernServerInterface {
       return null;
     }
 
-    res.setHeader('content-type', renderResult.contentType);
+    res.set('content-type', renderResult.contentType);
     return renderResult;
   }
 
@@ -585,6 +586,7 @@ export class ModernServer implements ModernServerInterface {
     }
 
     const renderResult = await this.handleWeb(context, route);
+
     if (!renderResult) {
       return;
     }
@@ -622,7 +624,8 @@ export class ModernServer implements ModernServerInterface {
   }
 
   private isSend(res: ServerResponse) {
-    if (res.headersSent) {
+    /// Is true after response.end() has been called.
+    if (res.writableEnded) {
       return true;
     }
 
@@ -705,7 +708,7 @@ export class ModernServer implements ModernServerInterface {
   }
 
   private redirect(res: ServerResponse, url: string, status = 302) {
-    res.setHeader('Location', url);
+    res.set('Location', url);
     res.statusCode = status;
     res.end();
   }
@@ -718,7 +721,7 @@ export class ModernServer implements ModernServerInterface {
   private async renderErrorPage(context: ModernServerContext, status: number) {
     const { res } = context;
     context.status = status;
-    res.setHeader('content-type', mime.contentType('html') as string);
+    res.set('content-type', mime.contentType('html') as string);
 
     const statusPage = `/${status}`;
     const customErrorPage = `/_error`;

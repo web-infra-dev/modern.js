@@ -1,6 +1,5 @@
 import path from 'path';
 import { EventEmitter, Readable } from 'stream';
-// import { getDefaultConfig } from '@modern-js/core';
 import { ModernServerContext, NextFunction } from '@modern-js/types';
 import httpMocks from 'node-mocks-http';
 import portfinder from 'portfinder';

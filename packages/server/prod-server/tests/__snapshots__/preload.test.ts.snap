@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test preload test flushServerHeader 1`] = `
+[
+  {
+    "key": "link",
+    "value": "</static/js/async/three_user/layout.js>; rel=preload; as=script, </static/js/async/three_user/(id)/page.js>; rel=preload; as=script, </static/js/lib-react.js>; rel=preload; as=script, </static/js/lib-polyfill.js>; rel=preload; as=script, </static/js/lib-router.js>; rel=preload; as=script, </static/js/vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a.js>; rel=preload; as=script, </static/js/vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38.js>; rel=preload; as=script, </static/js/vendors-node_modules_pnpm_path-to-regexp_6_2_1_node_modules_path-to-regexp_dist_es2015_index_-89b787.js>; rel=preload; as=script, </static/js/packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6.js>; rel=preload; as=script, </static/js/packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2.js>; rel=preload; as=script, </static/js/three.js>; rel=preload; as=script",
+  },
+  {
+    "key": "Content-Type",
+    "value": "html",
+  },
+]
+`;
+
+exports[`test preload test parseLinks parse from routes 1`] = `
+[
+  {
+    "as": "script",
+    "uri": "/static/js/async/three_user/layout.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/async/three_user/(id)/page.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/lib-react.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/lib-polyfill.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/lib-router.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/vendors-node_modules_pnpm_path-to-regexp_6_2_1_node_modules_path-to-regexp_dist_es2015_index_-89b787.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2.js",
+  },
+  {
+    "as": "script",
+    "uri": "/static/js/three.js",
+  },
+]
+`;
+
+exports[`test preload test parseLinks parse from template 1`] = `
+[
+  {
+    "as": "script",
+    "uri": "/example1/index.js",
+  },
+  {
+    "as": "script",
+    "uri": "/example2/index.js",
+  },
+  {
+    "as": "style",
+    "uri": "style1.css",
+  },
+  {
+    "as": "style",
+    "uri": "style2.css",
+  },
+]
+`;
