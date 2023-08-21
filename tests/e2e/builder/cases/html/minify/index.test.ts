@@ -46,6 +46,9 @@ test('should minify template js & css', async ({ page }) => {
   expect(content.includes('console.info(111111)')).toBeTruthy();
   expect(content.includes('console.warn(111111)')).toBeFalsy();
 
+  // keep html comments
+  expect(content.includes('<!-- HTML COMMENT-->')).toBeTruthy();
+
   builder.close();
 });
 

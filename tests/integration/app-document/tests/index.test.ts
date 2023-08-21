@@ -177,9 +177,7 @@ describe('test build', () => {
     );
 
     expect(
-      /<head class="head"><script>window.abc = "hjk"<\/script>/.test(
-        htmlWithDoc,
-      ),
+      /<head class="head"><script>window.abc="hjk"<\/script>/.test(htmlWithDoc),
     ).toBe(true);
     expect(
       /<head[\s\S]*<script>console.log\("abc"\)<\/script>[\s\S]*<\/head>/.test(

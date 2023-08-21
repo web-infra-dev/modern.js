@@ -266,7 +266,7 @@ export async function getMinify(
     .terserOptions!;
 
   return {
-    removeComments: true,
+    removeComments: false,
     useShortDoctype: true,
     keepClosingSlash: true,
     collapseWhitespace: true,
