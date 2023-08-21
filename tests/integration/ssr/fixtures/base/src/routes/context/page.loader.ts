@@ -8,6 +8,6 @@ export default function ({ context }: LoaderFunctionArgs) {
   const reporter = context?.get(reporterCtx);
 
   return {
-    reporter: typeof reporter,
+    reporter: `context.reporter:${typeof reporter}`,
   };
 }
