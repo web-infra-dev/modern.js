@@ -29,22 +29,23 @@
       "default": "./dist/index.js"
     },
     "./node": {
-      "jsnext:source": "./src/nodeApi.ts",
       "types": "./dist/nodeApi.d.ts",
+      "jsnext:source": "./src/nodeApi.ts",
       "default": "./dist/nodeApi.js"
     },
     "./bin": {
+      "types": "./dist/bin.d.ts",
       "jsnext:source": "./src/bin.ts",
       "default": "./dist/bin.js"
     },
     "./config": {
+      "types": "./dist/config/index.d.ts",
       "jsnext:source": "./src/config.ts",
-      "types": "./dist/config/types/index.d.ts",
       "default": "./dist/config/index.js"
     },
     "./runBin": {
-      "jsnext:source": "./src/runBin.ts",
       "types": "./dist/runBin.d.ts",
+      "jsnext:source": "./src/runBin.ts",
       "default": "./dist/runBin.js"
     },
     "./types": {

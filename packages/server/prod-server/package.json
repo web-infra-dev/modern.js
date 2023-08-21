@@ -22,30 +22,30 @@
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
       "node": {
         "jsnext:source": "./src/index.ts",
         "import": "./dist/esm-node/index.js",
         "require": "./dist/cjs/index.js"
       },
-      "types": "./dist/types/index.d.ts",
       "default": "./dist/esm/index.js"
     },
     "./worker": {
+      "types": "./dist/types/workerServer.d.ts",
       "node": {
         "jsnext:source": "./src/workerServer.ts",
         "import": "./dist/esm-node/workerServer.js",
         "require": "./dist/cjs/workerServer.js"
       },
-      "types": "./dist/types/workerServer.d.ts",
       "default": "./dist/esm/workerServer.js"
     },
     "./renderHtml": {
+      "types": "./dist/types/renderHtml.d.ts",
       "node": {
         "jsnext:source": "./src/renderHtml.ts",
         "import": "./dist/esm-node/renderHtml.js",
         "require": "./dist/cjs/renderHtml.js"
       },
-      "types": "./dist/types/renderHtml.d.ts",
       "default": "./dist/esm/renderHtml.js"
     }
   },

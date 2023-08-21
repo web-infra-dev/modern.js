@@ -34,18 +34,6 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "default": "./dist/index.js"
-    },
-    "./loader": {
-      "jsnext:source": "./src/loader.ts",
-      "types": "./dist/loader.d.ts",
-      "default": "./dist/loader.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "loader": [
-        "./dist/loader.d.ts"
-      ]
     }
   },
   "dependencies": {
