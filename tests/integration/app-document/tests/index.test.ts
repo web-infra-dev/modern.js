@@ -131,7 +131,7 @@ describe('test build', () => {
       'utf-8',
     );
 
-    expect(htmlWithDoc.includes('.logo-spin > div:last-child')).toBe(true);
+    expect(htmlWithDoc.includes('.logo-spin>div:last-child')).toBe(true);
   });
 
   test('should has lang property in html', async () => {
