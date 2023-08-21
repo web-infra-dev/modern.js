@@ -56,6 +56,7 @@ import {
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
   RUN_MODE,
+  ServerReportTimings,
 } from '../constants';
 import {
   createAfterMatchContext,
@@ -542,7 +543,11 @@ export class ModernServer implements ModernServerInterface {
         const end = time();
         await this.runner.afterMatch(afterMatchContext, { onLast: noop });
         const cost = end();
-        reporter.reportTiming('server_hook_after_render', cost);
+        cost &&
+          reporter.reportTiming(
+            ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
+            cost,
+          );
       }
 
       if (this.isSend(res)) {
@@ -573,7 +578,8 @@ export class ModernServer implements ModernServerInterface {
       const end = time();
       await this.frameWebHandler(middlewareContext);
       const cost = end();
-      reporter.reportTiming('server_middleware', cost);
+      cost &&
+        reporter.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
       res.locals = {
         ...res.locals,
         ...middlewareContext.response.locals,
@@ -610,7 +616,12 @@ export class ModernServer implements ModernServerInterface {
         const end = time();
         await this.runner.afterRender(afterRenderContext, { onLast: noop });
         const cost = end();
-        reporter.reportTiming('server_hook_after_render', cost);
+        // we shouldn't reporter unable run after-render.
+        cost &&
+          reporter.reportTiming(
+            ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
+            cost,
+          );
       }
 
       if (this.isSend(res)) {
