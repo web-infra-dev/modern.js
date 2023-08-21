@@ -127,6 +127,7 @@ export const mergeDefaultBaseConfig = async (
     esbuildOptions,
     externalHelpers: pConfig.externalHelpers ?? defaultConfig.externalHelpers,
     transformImport: pConfig.transformImport ?? defaultConfig.transformImport,
+    transformLodash: pConfig.transformLodash ?? defaultConfig.transformLodash,
     sourceType: pConfig.sourceType ?? defaultConfig.sourceType,
     disableSwcTransform:
       pConfig.disableSwcTransform ?? defaultConfig.disableSwcTransform,

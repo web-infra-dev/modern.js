@@ -150,6 +150,7 @@ export const buildLib = async (
     esbuildOptions,
     externalHelpers,
     transformImport,
+    transformLodash,
     sourceType,
     disableSwcTransform,
   } = config;
@@ -208,6 +209,7 @@ export const buildLib = async (
     plugins.push(
       swcTransformPlugin({
         pluginImport: transformImport,
+        lodash: transformLodash,
         externalHelpers: Boolean(externalHelpers),
         emitDecoratorMetadata:
           userTsconfig?.compilerOptions?.emitDecoratorMetadata,
