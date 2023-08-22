@@ -175,7 +175,6 @@ export const garfishPlugin = ({
             bundlerChain: (chain, { env, CHAIN_ID }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
-              const preConfig = chain.toConfig();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
                 if (
@@ -206,7 +205,8 @@ export const garfishPlugin = ({
                   });
                 }
               }
-              if (!preConfig.output!.uniqueName) {
+              const uniqueName = chain.output.get('uniqueName');
+              if (!uniqueName) {
                 chain.output.uniqueName(config.packageName);
               }
               const resolveConfig = chain.toConfig();
