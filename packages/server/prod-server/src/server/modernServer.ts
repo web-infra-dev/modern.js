@@ -49,7 +49,7 @@ import {
   isRedirect,
 } from '../utils';
 import * as reader from '../libs/render/reader';
-import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
+import { createProxyHandler } from '../libs/proxy';
 import { createContext } from '../libs/context';
 import {
   AGGRED_DIR,
@@ -152,13 +152,13 @@ export class ModernServer implements ModernServerInterface {
 
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
-    const proxyHandlers = createProxyHandler(
-      conf.bff?.proxy as BffProxyOptions,
-    );
-    app?.on('upgrade', proxyHandlers.handleUpgrade);
-    proxyHandlers.handlers.forEach(handler => {
-      this.addHandler(handler);
-    });
+    if (conf.bff?.proxy) {
+      const { handlers, handleUpgrade } = createProxyHandler(conf.bff.proxy);
+      app?.on('upgrade', handleUpgrade);
+      handlers.forEach(handler => {
+        this.addHandler(handler);
+      });
+    }
 
     // the app server maybe a `undefined`;
     app?.on('close', () => {

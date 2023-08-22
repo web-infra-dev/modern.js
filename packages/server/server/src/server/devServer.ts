@@ -206,11 +206,13 @@ export class ModernDevServer extends ModernServer {
     });
 
     // dev proxy handler, each proxy has own handler
-    const proxyHandlers = createProxyHandler(dev.proxy);
-    app.on('upgrade', proxyHandlers.handleUpgrade);
-    proxyHandlers.handlers.forEach(handler => {
-      this.addHandler(handler);
-    });
+    if (dev.proxy) {
+      const { handlers, handleUpgrade } = createProxyHandler(dev.proxy);
+      app.on('upgrade', handleUpgrade);
+      handlers.forEach(handler => {
+        this.addHandler(handler);
+      });
+    }
 
     // do webpack build / plugin apply / socket server when pass compiler instance
     devMiddleware.init(app);
