@@ -18,8 +18,6 @@ export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
   return useRouteData(realRouteId);
 };
 
-export * from './loaderContext';
-
 export type { LoaderFunction, LoaderFunctionArgs } from './types';
 
 // Note: Keep in sync with react-router-dom exports!
