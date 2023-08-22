@@ -78,12 +78,14 @@ export const optimizeRoute = (
   }
 
   const { children } = routeTree;
+  const hasPage = children.some(child => child.index);
   if (
     !routeTree._component &&
     !routeTree.error &&
     !routeTree.loading &&
     !routeTree.config &&
-    !routeTree.clientData
+    !routeTree.clientData &&
+    !hasPage
   ) {
     const newRoutes = children.map(child => {
       const routePath = `${routeTree.path ? routeTree.path : ''}${
@@ -103,7 +105,6 @@ export const optimizeRoute = (
       }
       return newRoute;
     });
-
     return Array.from(new Set(newRoutes)).flatMap(optimizeRoute);
   } else {
     const optimizedChildren = routeTree.children.flatMap(optimizeRoute);
