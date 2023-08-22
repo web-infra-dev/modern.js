@@ -151,6 +151,11 @@ export const garfishPlugin = ({
                   .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
               }
             },
+            webpack: webpackConfig => {
+              if (!webpackConfig.output?.uniqueName) {
+                webpackConfig.output!.uniqueName = config.packageName;
+              }
+            },
             rspack: (config: any) => {
               config.builtins ??= {};
 
