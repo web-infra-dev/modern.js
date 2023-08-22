@@ -13,7 +13,7 @@ test('should provide history api fallback correctly', async ({ page }) => {
     builderConfig: {
       tools: {
         devServer: {
-          historyApiFallback: false,
+          historyApiFallback: true,
         },
       },
     },
