@@ -1,16 +1,28 @@
 import type { ChildProcess } from 'child_process';
-import { logger } from '@modern-js/utils';
+import { execa, fs, json5, logger } from '@modern-js/utils';
+import { addDtsFiles } from '../../utils/print';
 import type {
   BundlelessGeneratorDtsConfig,
   ITsconfig,
   PluginAPI,
   ModuleTools,
 } from '../../types';
+import {
+  generatorTsConfig,
+  getTscBinPath,
+  printOrThrowDtsErrors,
+  resolveAlias,
+} from '../../utils/dts';
+import { watchSectionTitle } from '../../utils/log';
+import {
+  BundlelessDtsLogPrefix,
+  SectionTitleStatus,
+} from '../../constants/log';
+import { watchDoneText } from '../../constants/dts';
 
 export const getProjectTsconfig = async (
   tsconfigPath: string,
 ): Promise<ITsconfig> => {
-  const { json5, fs } = await import('@modern-js/utils');
   if (!fs.existsSync(tsconfigPath)) {
     return {};
   }
@@ -26,11 +38,6 @@ const resolveLog = async (
   },
 ) => {
   const { watch = false, watchFn = async () => undefined } = options;
-  const { SectionTitleStatus, BundlelessDtsLogPrefix } = await import(
-    '../../constants/log'
-  );
-  const { watchSectionTitle } = await import('../../utils/log');
-  const { watchDoneText } = await import('../../constants/dts');
 
   /**
    * tsc 所有的log信息都是从stdout data 事件中获取
@@ -61,11 +68,6 @@ const generatorDts = async (
   api: PluginAPI<ModuleTools>,
   config: BundlelessGeneratorDtsConfig,
 ) => {
-  const { execa } = await import('@modern-js/utils');
-  const { generatorTsConfig, printOrThrowDtsErrors } = await import(
-    '../../utils/dts'
-  );
-  const { getTscBinPath } = await import('../../utils/dts');
   const {
     tsconfigPath,
     appDirectory,
@@ -99,7 +101,6 @@ const generatorDts = async (
   resolveLog(childProgress, {
     watch,
     watchFn: async () => {
-      const { resolveAlias } = await import('../../utils/dts');
       await resolveAlias(config, { ...result, userTsconfig });
       runner.buildWatchDts({ buildType: 'bundleless' });
     },
@@ -118,8 +119,6 @@ export const runTsc = async (
   api: PluginAPI<ModuleTools>,
   config: BundlelessGeneratorDtsConfig,
 ) => {
-  const { resolveAlias } = await import('../../utils/dts');
-  const { addDtsFiles } = await import('../../utils/print');
   const result = await generatorDts(api, config);
   await resolveAlias(config, result);
   await addDtsFiles(config.distAbsPath, config.appDirectory);

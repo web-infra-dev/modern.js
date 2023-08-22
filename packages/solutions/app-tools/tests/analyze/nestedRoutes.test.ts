@@ -163,10 +163,17 @@ describe('nested routes', () => {
           _component: 'layoutB',
           children: [
             {
-              id: 'd',
-              path: 'c',
-              _component: 'pageD',
+              id: 'c',
               type: 'nested',
+              path: 'c',
+              children: [
+                {
+                  id: 'd',
+                  type: 'nested',
+                  _component: 'pageD',
+                  index: true,
+                },
+              ],
             },
           ],
         },

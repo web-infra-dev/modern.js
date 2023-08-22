@@ -1,24 +1,32 @@
-import { Tapable } from 'tapable';
-import * as webpack from 'webpack';
+import {
+  Configuration,
+  Compiler,
+  WebpackPluginInstance,
+  RuleSetRule,
+  ResolveOptions,
+} from 'webpack';
 import * as https from 'https';
 
 export = Config;
 
 declare namespace __Config {
   class Chained<Parent> {
+    batch(handler: (chained: this) => void): this;
     end(): Parent;
   }
-
-  class TypedChainedMap<Parent, Value> extends Chained<Parent> {
+  class TypedChainedMap<Parent, OptionsType> extends Chained<Parent> {
     clear(): this;
     delete(key: string): this;
     has(key: string): boolean;
-    get(key: string): Value;
-    getOrCompute(key: string, compute: () => Value): Value;
-    set(key: string, value: Value): this;
-    merge(obj: { [key: string]: Value }): this;
-    entries(): { [key: string]: Value };
-    values(): Value[];
+    get<T extends keyof OptionsType>(key: T): OptionsType[T];
+    getOrCompute<T extends keyof OptionsType>(
+      key: T,
+      compute: () => OptionsType[T],
+    ): OptionsType[T];
+    set<T extends keyof OptionsType>(key: T, value: OptionsType[T]): this;
+    merge(obj: Partial<OptionsType>): this;
+    entries(): OptionsType;
+    values<T extends keyof OptionsType>(): [OptionsType[T]][];
     when(
       condition: boolean,
       trueBrancher: (obj: this) => void,
@@ -27,7 +35,6 @@ declare namespace __Config {
   }
 
   class ChainedMap<Parent> extends TypedChainedMap<Parent, any> {}
-
   class TypedChainedSet<Parent, Value> extends Chained<Parent> {
     add(value: Value): this;
     prepend(value: Value): this;
@@ -46,48 +53,59 @@ declare namespace __Config {
   class ChainedSet<Parent> extends TypedChainedSet<Parent, any> {}
 }
 
+type WebpackConfig = Required<Configuration>;
 declare class Config extends __Config.ChainedMap<void> {
-  devServer: Config.DevServer;
-  entryPoints: Config.TypedChainedMap<Config, Config.EntryPoint>;
-  module: Config.Module;
-  node: Config.ChainedMap<this>;
+  entryPoints: Config.TypedChainedMap<
+    Config,
+    { [key: string]: Config.EntryPoint }
+  >;
   output: Config.Output;
+  module: Config.Module;
+  node: Config.ChainedMap<this> & ((value: boolean) => this);
   optimization: Config.Optimization;
-  performance: Config.Performance;
-  plugins: Config.Plugins<this, webpack.Plugin>;
+  performance: Config.Performance & ((value: boolean) => this);
+  plugins: Config.Plugins<this, WebpackPluginInstance>;
   resolve: Config.Resolve;
   resolveLoader: Config.ResolveLoader;
+  devServer: Config.DevServer;
 
-  amd(value: { [moduleName: string]: boolean }): this;
-  bail(value: boolean): this;
-  cache(value: boolean | any): this;
+  context(value: WebpackConfig['context']): this;
+  mode(value: WebpackConfig['mode']): this;
   devtool(value: Config.DevTool): this;
-  context(value: string): this;
-  externals(value: webpack.ExternalsElement | webpack.ExternalsElement[]): this;
-  loader(value: any): this;
-  name(value: string): this;
-  mode(value: 'none' | 'development' | 'production'): this;
-  parallelism(value: number): this;
-  profile(value: boolean): this;
-  recordsPath(value: string): this;
-  recordsInputPath(value: string): this;
-  recordsOutputPath(value: string): this;
-  stats(value: webpack.Options.Stats): this;
-  target(value: string): this;
-  watch(value: boolean): this;
-  watchOptions(value: webpack.Options.WatchOptions): this;
+  target(value: WebpackConfig['target']): this;
+  watch(value: WebpackConfig['watch']): this;
+  watchOptions(value: WebpackConfig['watchOptions']): this;
+  externals(value: WebpackConfig['externals']): this;
+  externalsType(value: WebpackConfig['externalsType']): this;
+  externalsPresets(value: WebpackConfig['externalsPresets']): this;
+  stats(value: WebpackConfig['stats']): this;
+  experiments(value: WebpackConfig['experiments']): this;
+  amd(value: WebpackConfig['amd']): this;
+  bail(value: WebpackConfig['bail']): this;
+  cache(value: WebpackConfig['cache']): this;
+  dependencies(value: WebpackConfig['dependencies']): this;
+  ignoreWarnings(value: WebpackConfig['ignoreWarnings']): this;
+  loader(value: WebpackConfig['loader']): this;
+  parallelism(value: WebpackConfig['parallelism']): this;
+  profile(value: WebpackConfig['profile']): this;
+  recordsPath(value: WebpackConfig['recordsPath']): this;
+  recordsInputPath(value: WebpackConfig['recordsInputPath']): this;
+  recordsOutputPath(value: WebpackConfig['recordsOutputPath']): this;
+  name(value: WebpackConfig['name']): this;
+  infrastructureLogging(value: WebpackConfig['infrastructureLogging']): this;
+  snapshot(value: WebpackConfig['snapshot']): this;
 
   entry(name: string): Config.EntryPoint;
-  plugin(name: string): Config.Plugin<this, webpack.Plugin>;
+  plugin(name: string): Config.Plugin<this, WebpackPluginInstance>;
 
-  toConfig(): webpack.Configuration;
+  toConfig(): Configuration;
 }
 
 declare namespace Config {
   class Chained<Parent> extends __Config.Chained<Parent> {}
-  class TypedChainedMap<Parent, Value> extends __Config.TypedChainedMap<
+  class TypedChainedMap<Parent, OptionsType> extends __Config.TypedChainedMap<
     Parent,
-    Value
+    OptionsType
   > {}
   class ChainedMap<Parent> extends __Config.TypedChainedMap<Parent, any> {}
   class TypedChainedSet<Parent, Value> extends __Config.TypedChainedSet<
@@ -98,21 +116,29 @@ declare namespace Config {
 
   class Plugins<
     Parent,
-    PluginType extends Tapable.Plugin = webpack.Plugin
-  > extends TypedChainedMap<Parent, Plugin<Parent, PluginType>> {}
+    PluginType extends WebpackPluginInstance,
+  > extends TypedChainedMap<
+    Parent,
+    { [key: string]: Plugin<Parent, PluginType> }
+  > {}
 
-  class Plugin<Parent, PluginType extends Tapable.Plugin = webpack.Plugin>
+  class Plugin<Parent, PluginType extends WebpackPluginInstance | ResolvePlugin>
     extends ChainedMap<Parent>
-    implements Orderable {
+    implements Orderable
+  {
     init<P extends PluginType | PluginClass<PluginType>>(
       value: (
         plugin: P,
-        args: P extends PluginClass ? ConstructorParameters<P> : any[],
+        args: P extends PluginClass<PluginType>
+          ? ConstructorParameters<P>
+          : any[],
       ) => PluginType,
     ): this;
     use<P extends string | PluginType | PluginClass<PluginType>>(
       plugin: P,
-      args?: P extends PluginClass ? ConstructorParameters<P> : any[],
+      args?: P extends PluginClass<PluginType>
+        ? ConstructorParameters<P>
+        : any[],
     ): this;
     tap<P extends PluginClass<PluginType>>(
       f: (args: ConstructorParameters<P>) => ConstructorParameters<P>,
@@ -123,61 +149,119 @@ declare namespace Config {
     after(name: string): this;
   }
 
+  type WebpackEntry = NonNullable<Configuration['entry']>;
+
+  type WepackEntryObject = Exclude<
+    WebpackEntry,
+    string | string[] | Function
+  >[string];
+
+  class EntryPoint extends TypedChainedSet<Config, WepackEntryObject> {}
+
+  type WebpackModule = Required<NonNullable<Configuration['module']>>;
+
   class Module extends ChainedMap<Config> {
-    rules: TypedChainedMap<this, Rule>;
+    rules: TypedChainedMap<this, { [key: string]: Rule }>;
+    generator: ChainedMap<this>;
+    parser: ChainedMap<this>;
     rule(name: string): Rule;
-    noParse(
-      noParse: RegExp | RegExp[] | ((contentPath: string) => boolean),
+    noParse(value: WebpackModule['noParse']): this;
+    unsafeCache(value: WebpackModule['unsafeCache']): this;
+    wrappedContextCritical(
+      value: WebpackModule['wrappedContextCritical'],
     ): this;
-    strictExportPresence(value: boolean): this;
+    exprContextRegExp(value: WebpackModule['exprContextRegExp']): this;
+    wrappedContextRecursive(
+      value: WebpackModule['wrappedContextRecursive'],
+    ): this;
+    strictExportPresence(value: WebpackModule['strictExportPresence']): this;
+    wrappedContextRegExp(value: WebpackModule['wrappedContextRegExp']): this;
   }
+
+  type WebpackOutput = Required<NonNullable<Configuration['output']>>;
 
   class Output extends ChainedMap<Config> {
-    auxiliaryComment(value: string | { [comment: string]: string }): this;
-    chunkFilename(value: string): this;
-    chunkLoadTimeout(value: number): this;
-    crossOriginLoading(value: boolean | string): this;
-    filename(value: string): this;
-    library(value: string): this;
-    libraryExport(value: string | string[]): this;
-    libraryTarget(value: string): this;
-    devtoolFallbackModuleFilenameTemplate(value: any): this;
-    devtoolLineToLine(value: any): this;
-    devtoolModuleFilenameTemplate(value: any): this;
-    devtoolNamespace(value: string): this;
-    globalObject(value: string): this;
-    hashFunction(value: string): this;
-    hashDigest(value: string): this;
-    hashDigestLength(value: number): this;
-    hashSalt(value: any): this;
-    hotUpdateChunkFilename(value: string): this;
-    hotUpdateFunction(value: any): this;
-    hotUpdateMainFilename(value: string): this;
-    jsonpFunction(value: string): this;
-    path(value: string): this;
-    pathinfo(value: boolean): this;
-    publicPath(value: string): this;
-    sourceMapFilename(value: string): this;
-    sourcePrefix(value: string): this;
-    strictModuleExceptionHandling(value: boolean): this;
-    umdNamedDefine(value: boolean): this;
-    futureEmitAssets(value: boolean): this;
+    auxiliaryComment(value: WebpackOutput['auxiliaryComment']): this;
+    charset(value: WebpackOutput['charset']): this;
+    chunkFilename(value: WebpackOutput['chunkFilename']): this;
+    chunkLoadTimeout(value: WebpackOutput['chunkLoadTimeout']): this;
+    chunkLoadingGlobal(value: WebpackOutput['chunkLoadingGlobal']): this;
+    chunkLoading(value: WebpackOutput['chunkLoading']): this;
+    chunkFormat(value: WebpackOutput['chunkFormat']): this;
+    enabledChunkLoadingTypes(
+      value: WebpackOutput['enabledChunkLoadingTypes'],
+    ): this;
+    crossOriginLoading(value: WebpackOutput['crossOriginLoading']): this;
+    devtoolFallbackModuleFilenameTemplate(
+      value: WebpackOutput['devtoolFallbackModuleFilenameTemplate'],
+    ): this;
+    devtoolModuleFilenameTemplate(
+      value: WebpackOutput['devtoolModuleFilenameTemplate'],
+    ): this;
+    devtoolNamespace(value: WebpackOutput['devtoolNamespace']): this;
+    filename(value: WebpackOutput['filename']): this;
+    assetModuleFilenamet(value: WebpackOutput['assetModuleFilename']): this;
+    globalObject(value: WebpackOutput['globalObject']): this;
+    uniqueName(value: WebpackOutput['uniqueName']): this;
+    hashDigest(value: WebpackOutput['hashDigest']): this;
+    hashDigestLength(value: WebpackOutput['hashDigestLength']): this;
+    hashFunction(value: WebpackOutput['hashFunction']): this;
+    hashSalt(value: WebpackOutput['hashSalt']): this;
+    hotUpdateChunkFilename(
+      value: WebpackOutput['hotUpdateChunkFilename'],
+    ): this;
+    hotUpdateGlobal(value: WebpackOutput['hotUpdateGlobal']): this;
+    hotUpdateMainFilename(value: WebpackOutput['hotUpdateMainFilename']): this;
+    library(value: WebpackOutput['library']): this;
+    libraryExport(value: WebpackOutput['libraryExport']): this;
+    libraryTarget(value: WebpackOutput['libraryTarget']): this;
+    importFunctionName(value: WebpackOutput['importFunctionName']): this;
+    path(value: WebpackOutput['path']): this;
+    pathinfo(value: WebpackOutput['pathinfo']): this;
+    publicPath(value: WebpackOutput['publicPath']): this;
+    scriptType(value: WebpackOutput['scriptType']): this;
+    sourceMapFilename(value: WebpackOutput['sourceMapFilename']): this;
+    sourcePrefix(value: WebpackOutput['sourcePrefix']): this;
+    strictModuleErrorHandling(
+      value: WebpackOutput['strictModuleErrorHandling'],
+    ): this;
+    strictModuleExceptionHandling(
+      value: WebpackOutput['strictModuleExceptionHandling'],
+    ): this;
+    umdNamedDefine(value: WebpackOutput['umdNamedDefine']): this;
+    workerChunkLoading(value: WebpackOutput['workerChunkLoading']): this;
+    enabledLibraryTypes(value: WebpackOutput['enabledLibraryTypes']): this;
+    environment(value: WebpackOutput['environment']): this;
+    compareBeforeEmit(value: WebpackOutput['compareBeforeEmit']): this;
+    wasmLoading(value: WebpackOutput['wasmLoading']): this;
+    enabledWasmLoadingTypes(
+      value: WebpackOutput['enabledWasmLoadingTypes'],
+    ): this;
+    iife(value: WebpackOutput['iife']): this;
+    module(value: WebpackOutput['module']): this;
+    clean(value: WebpackOutput['clean']): this;
   }
 
+  // await for @types/webpack-dev-server update do v4 to remove all any
   class DevServer extends ChainedMap<Config> {
     allowedHosts: TypedChainedSet<this, string>;
-
-    after(
-      value: (app: any, server: any, compiler: webpack.Compiler) => void,
-    ): this;
-    before(
-      value: (app: any, server: any, compiler: webpack.Compiler) => void,
-    ): this;
+    after(value: (app: any, server: any, compiler: Compiler) => void): this;
+    before(value: (app: any, server: any, compiler: Compiler) => void): this;
     bonjour(value: boolean): this;
-    clientLogLevel(value: 'none' | 'error' | 'warning' | 'info'): this;
-    color(value: boolean): this;
+    clientLogLevel(
+      value:
+        | 'silent'
+        | 'trace'
+        | 'debug'
+        | 'info'
+        | 'warn'
+        | 'error'
+        | 'none'
+        | 'warning',
+    ): this;
     compress(value: boolean): this;
     contentBase(value: boolean | string | string[]): this;
+    contentBasePublicPath(value: string): this;
     disableHostCheck(value: boolean): this;
     filename(value: string): this;
     headers(value: { [header: string]: string }): this;
@@ -188,11 +272,14 @@ declare namespace Config {
     http2(value: boolean): this;
     https(value: boolean | https.ServerOptions): this;
     index(value: string): this;
-    info(value: boolean): this;
+    injectClient(value: boolean | ((compiler: Compiler) => boolean)): this;
+    injectHot(value: boolean | ((compiler: Compiler) => boolean)): this;
     inline(value: boolean): this;
     lazy(value: boolean): this;
+    liveReload(value: boolean): this;
     mimeTypes(value: Object): this;
     noInfo(value: boolean): this;
+    onListening(value: (server: any) => void): this;
     open(value: boolean): this;
     openPage(value: string | string[]): this;
     overlay(value: boolean | { warnings?: boolean; errors?: boolean }): this;
@@ -204,75 +291,129 @@ declare namespace Config {
     public(value: string): this;
     publicPath(publicPath: string): this;
     quiet(value: boolean): this;
+    serveIndex(value: boolean): this;
     setup(value: (expressApp: any) => void): this;
     socket(value: string): this;
     sockHost(value: string): this;
     sockPath(value: string): this;
     sockPort(value: number): this;
     staticOptions(value: any): this;
-    stats(value: webpack.Options.Stats): this;
+    stats(value: Configuration['stats']): this;
     stdin(value: boolean): this;
+    transportMode(
+      value:
+        | 'sockjs'
+        | 'ws'
+        | {
+            server: 'ws';
+            client: object;
+          }
+        | {
+            client: 'sockjs';
+            server: object;
+          }
+        | {
+            client: object;
+            server: object;
+          },
+    ): this;
     useLocalIp(value: boolean): this;
     watchContentBase(value: boolean): this;
-    watchOptions(value: any): this;
+    watchOptions(value: Configuration['watchOptions']): this;
     writeToDisk(value: boolean): this;
   }
 
+  type WebpackPerformance = Exclude<
+    Required<NonNullable<Configuration['performance']>>,
+    false
+  >;
   class Performance extends ChainedMap<Config> {
-    hints(value: boolean | 'error' | 'warning'): this;
-    maxEntrypointSize(value: number): this;
-    maxAssetSize(value: number): this;
-    assetFilter(value: (assetFilename: string) => boolean): this;
+    hints(value: WebpackPerformance['hints']): this;
+    maxEntrypointSize(value: WebpackPerformance['maxEntrypointSize']): this;
+    maxAssetSize(value: WebpackPerformance['maxAssetSize']): this;
+    assetFilter(value: WebpackPerformance['assetFilter']): this;
   }
 
-  class EntryPoint extends TypedChainedSet<Config, string> {}
+  type WebpackResolve = Required<NonNullable<Configuration['resolve']>>;
+  type ResolvePlugin = Exclude<
+    NonNullable<ResolveOptions['plugins']>[number],
+    '...'
+  >;
 
   class Resolve<T = Config> extends ChainedMap<T> {
-    alias: TypedChainedMap<this, string>;
-    aliasFields: TypedChainedSet<this, string>;
-    descriptionFiles: TypedChainedSet<this, string>;
-    extensions: TypedChainedSet<this, string>;
-    mainFields: TypedChainedSet<this, string>;
-    mainFiles: TypedChainedSet<this, string>;
-    modules: TypedChainedSet<this, string>;
-    plugins: TypedChainedMap<this, Plugin<this, webpack.ResolvePlugin>>;
+    alias: TypedChainedMap<this, { [key: string]: string | false | string[] }>;
+    aliasFields: TypedChainedSet<this, WebpackResolve['aliasFields'][number]>;
+    descriptionFiles: TypedChainedSet<
+      this,
+      WebpackResolve['descriptionFiles'][number]
+    >;
+    extensions: TypedChainedSet<this, WebpackResolve['extensions'][number]>;
+    mainFields: TypedChainedSet<this, WebpackResolve['mainFields'][number]>;
+    mainFiles: TypedChainedSet<this, WebpackResolve['mainFiles'][number]>;
+    exportsFields: TypedChainedSet<
+      this,
+      WebpackResolve['exportsFields'][number]
+    >;
+    importsFields: TypedChainedSet<
+      this,
+      WebpackResolve['importsFields'][number]
+    >;
+    restrictions: TypedChainedSet<this, WebpackResolve['restrictions'][number]>;
+    roots: TypedChainedSet<this, WebpackResolve['roots'][number]>;
+    modules: TypedChainedSet<this, WebpackResolve['modules'][number]>;
+    plugins: TypedChainedMap<
+      this,
+      { [key: string]: Plugin<Resolve, ResolvePlugin> }
+    >;
+    fallback: TypedChainedMap<
+      this,
+      { [key: string]: string | false | string[] }
+    >;
+    byDependency: TypedChainedMap<this, WebpackResolve['byDependency']>;
 
-    enforceExtension(value: boolean): this;
-    enforceModuleExtension(value: boolean): this;
-    unsafeCache(value: boolean | RegExp | RegExp[]): this;
-    symlinks(value: boolean): this;
-    cachePredicate(
-      value: (data: { path: string; request: string }) => boolean,
-    ): this;
-    cacheWithContext(value: boolean): this;
+    cachePredicate(value: WebpackResolve['cachePredicate']): this;
+    cacheWithContext(value: WebpackResolve['cacheWithContext']): this;
+    enforceExtension(value: WebpackResolve['enforceExtension']): this;
+    symlinks(value: WebpackResolve['symlinks']): this;
+    unsafeCache(value: WebpackResolve['unsafeCache']): this;
+    preferRelative(value: WebpackResolve['preferRelative']): this;
+    preferAbsolute(value: WebpackResolve['preferAbsolute']): this;
 
-    plugin(name: string): Plugin<this, webpack.ResolvePlugin>;
+    plugin(name: string): Plugin<this, ResolvePlugin>;
+  }
+
+  class RuleResolve<T = Config> extends Resolve<T> {
+    fullySpecified(value: boolean): this;
   }
 
   class ResolveLoader extends Resolve {
+    modules: ChainedSet<this>;
     moduleExtensions: ChainedSet<this>;
     packageMains: ChainedSet<this>;
   }
 
-  class Rule<T = Module> extends ChainedMap<T> implements Orderable {
-    rules: TypedChainedMap<this, Rule<Rule>>;
-    oneOfs: TypedChainedMap<this, Rule<Rule>>;
-    uses: TypedChainedMap<this, Use>;
-    include: TypedChainedSet<this, webpack.Condition>;
-    exclude: TypedChainedSet<this, webpack.Condition>;
-    resolve: Resolve<Rule<T>>;
+  type WebpackRuleSet = Required<RuleSetRule>;
 
-    parser(value: { [optName: string]: any }): this;
-    test(value: webpack.Condition | webpack.Condition[]): this;
-    type(
-      value:
-        | 'javascript/auto'
-        | 'javascript/dynamic'
-        | 'javascript/esm'
-        | 'json'
-        | 'webassembly/experimental',
-    ): this;
-    enforce(value: 'pre' | 'post'): this;
+  class Rule<T = Module> extends ChainedMap<T> implements Orderable {
+    uses: TypedChainedMap<this, { [key: string]: Use }>;
+    include: TypedChainedSet<this, WebpackRuleSet['include']>;
+    exclude: TypedChainedSet<this, WebpackRuleSet['exclude']>;
+    rules: TypedChainedMap<this, { [key: string]: Rule<Rule> }>;
+    oneOfs: TypedChainedMap<this, { [key: string]: Rule<Rule> }>;
+    resolve: RuleResolve<Rule<T>>;
+
+    enforce(value: WebpackRuleSet['enforce']): this;
+    issuer(value: WebpackRuleSet['issuer']): this;
+    issuerLayer(value: WebpackRuleSet['issuerLayer']): this;
+    layer(value: WebpackRuleSet['layer']): this;
+    mimetype(value: WebpackRuleSet['mimetype']): this;
+    parser(value: WebpackRuleSet['parser']): this;
+    generator(value: WebpackRuleSet['generator']): this;
+    resource(value: WebpackRuleSet['resource']): this;
+    resourceQuery(value: WebpackRuleSet['resourceQuery']): this;
+    sideEffects(value: WebpackRuleSet['sideEffects']): this;
+    test(value: WebpackRuleSet['test']): this;
+    type(value: WebpackRuleSet['type']): this;
 
     use(name: string): Use<this>;
     rule(name: string): Rule<Rule>;
@@ -281,28 +422,40 @@ declare namespace Config {
     post(): this;
     before(name: string): this;
     after(name: string): this;
-    resourceQuery(value: webpack.Condition | webpack.Condition[]): this;
   }
 
+  type WebpackOptimization = Required<
+    NonNullable<Configuration['optimization']>
+  >;
+  type SplitChunksObject = Exclude<WebpackOptimization['splitChunks'], false>;
   class Optimization extends ChainedMap<Config> {
-    concatenateModules(value: boolean): this;
-    flagIncludedChunks(value: boolean): this;
-    mergeDuplicateChunks(value: boolean): this;
-    minimize(value: boolean): this;
-    minimizer(name: string): Config.Plugin<this, webpack.Plugin>;
-    namedChunks(value: boolean): this;
-    namedModules(value: boolean): this;
-    nodeEnv(value: boolean | string): this;
-    noEmitOnErrors(value: boolean): this;
-    occurrenceOrder(value: boolean): this;
-    portableRecords(value: boolean): this;
-    providedExports(value: boolean): this;
-    removeAvailableModules(value: boolean): this;
-    removeEmptyChunks(value: boolean): this;
-    runtimeChunk(value: boolean | 'single' | 'multiple' | RuntimeChunk): this;
-    sideEffects(value: boolean): this;
-    splitChunks(value: SplitChunksOptions): this;
-    usedExports(value: boolean): this;
+    minimizer(name: string): Config.Plugin<this, WebpackPluginInstance>;
+    splitChunks: TypedChainedMap<this, SplitChunksObject> &
+      ((value: SplitChunksObject | false) => this);
+
+    minimize(value: WebpackOptimization['minimize']): this;
+    runtimeChunk(value: WebpackOptimization['runtimeChunk']): this;
+    emitOnErrors(value: WebpackOptimization['emitOnErrors']): this;
+    moduleIds(value: WebpackOptimization['moduleIds']): this;
+    chunkIds(value: WebpackOptimization['chunkIds']): this;
+    nodeEnv(value: WebpackOptimization['nodeEnv']): this;
+    mangleWasmImports(value: WebpackOptimization['mangleWasmImports']): this;
+    removeAvailableModules(
+      value: WebpackOptimization['removeAvailableModules'],
+    ): this;
+    removeEmptyChunks(value: WebpackOptimization['removeEmptyChunks']): this;
+    mergeDuplicateChunks(
+      value: WebpackOptimization['mergeDuplicateChunks'],
+    ): this;
+    flagIncludedChunks(value: WebpackOptimization['flagIncludedChunks']): this;
+    providedExports(value: WebpackOptimization['providedExports']): this;
+    usedExports(value: WebpackOptimization['usedExports']): this;
+    concatenateModules(value: WebpackOptimization['concatenateModules']): this;
+    sideEffects(value: WebpackOptimization['sideEffects']): this;
+    portableRecords(value: WebpackOptimization['portableRecords']): this;
+    mangleExports(value: WebpackOptimization['mangleExports']): this;
+    innerGraph(value: WebpackOptimization['innerGraph']): this;
+    realContentHash(value: WebpackOptimization['realContentHash']): this;
   }
 
   interface RuntimeChunk {
@@ -332,52 +485,110 @@ declare namespace Config {
 
   type DevTool =
     | 'eval'
-    | 'inline-source-map'
-    | 'cheap-eval-source-map'
-    | 'cheap-source-map'
-    | 'cheap-module-eval-source-map'
-    | 'cheap-module-source-map'
+    | 'eval-cheap-source-map'
+    | 'eval-cheap-module-source-map'
     | 'eval-source-map'
+    | 'cheap-source-map'
+    | 'cheap-module-source-map'
     | 'source-map'
+    | 'inline-cheap-source-map'
+    | 'inline-cheap-module-source-map'
+    | 'inline-source-map'
+    | 'eval-nosources-cheap-source-map'
+    | 'eval-nosources-cheap-module-source-map'
+    | 'eval-nosources-source-map'
+    | 'inline-nosources-cheap-source-map'
+    | 'inline-nosources-cheap-module-source-map'
+    | 'inline-nosources-source-map'
+    | 'nosources-cheap-source-map'
+    | 'nosources-cheap-module-source-map'
     | 'nosources-source-map'
+    | 'hidden-nosources-cheap-source-map'
+    | 'hidden-nosources-cheap-module-source-map'
+    | 'hidden-nosources-source-map'
+    | 'hidden-cheap-source-map'
+    | 'hidden-cheap-module-source-map'
     | 'hidden-source-map'
-    | 'nosources-source-map'
     | '@eval'
-    | '@inline-source-map'
-    | '@cheap-eval-source-map'
-    | '@cheap-source-map'
-    | '@cheap-module-eval-source-map'
-    | '@cheap-module-source-map'
+    | '@eval-cheap-source-map'
+    | '@eval-cheap-module-source-map'
     | '@eval-source-map'
+    | '@cheap-source-map'
+    | '@cheap-module-source-map'
     | '@source-map'
+    | '@inline-cheap-source-map'
+    | '@inline-cheap-module-source-map'
+    | '@inline-source-map'
+    | '@eval-nosources-cheap-source-map'
+    | '@eval-nosources-cheap-module-source-map'
+    | '@eval-nosources-source-map'
+    | '@inline-nosources-cheap-source-map'
+    | '@inline-nosources-cheap-module-source-map'
+    | '@inline-nosources-source-map'
+    | '@nosources-cheap-source-map'
+    | '@nosources-cheap-module-source-map'
     | '@nosources-source-map'
+    | '@hidden-nosources-cheap-source-map'
+    | '@hidden-nosources-cheap-module-source-map'
+    | '@hidden-nosources-source-map'
+    | '@hidden-cheap-source-map'
+    | '@hidden-cheap-module-source-map'
     | '@hidden-source-map'
-    | '@nosources-source-map'
     | '#eval'
-    | '#inline-source-map'
-    | '#cheap-eval-source-map'
-    | '#cheap-source-map'
-    | '#cheap-module-eval-source-map'
-    | '#cheap-module-source-map'
+    | '#eval-cheap-source-map'
+    | '#eval-cheap-module-source-map'
     | '#eval-source-map'
+    | '#cheap-source-map'
+    | '#cheap-module-source-map'
     | '#source-map'
+    | '#inline-cheap-source-map'
+    | '#inline-cheap-module-source-map'
+    | '#inline-source-map'
+    | '#eval-nosources-cheap-source-map'
+    | '#eval-nosources-cheap-module-source-map'
+    | '#eval-nosources-source-map'
+    | '#inline-nosources-cheap-source-map'
+    | '#inline-nosources-cheap-module-source-map'
+    | '#inline-nosources-source-map'
+    | '#nosources-cheap-source-map'
+    | '#nosources-cheap-module-source-map'
     | '#nosources-source-map'
+    | '#hidden-nosources-cheap-source-map'
+    | '#hidden-nosources-cheap-module-source-map'
+    | '#hidden-nosources-source-map'
+    | '#hidden-cheap-source-map'
+    | '#hidden-cheap-module-source-map'
     | '#hidden-source-map'
-    | '#nosources-source-map'
     | '#@eval'
-    | '#@inline-source-map'
-    | '#@cheap-eval-source-map'
-    | '#@cheap-source-map'
-    | '#@cheap-module-eval-source-map'
-    | '#@cheap-module-source-map'
+    | '#@eval-cheap-source-map'
+    | '#@eval-cheap-module-source-map'
     | '#@eval-source-map'
+    | '#@cheap-source-map'
+    | '#@cheap-module-source-map'
     | '#@source-map'
+    | '#@inline-cheap-source-map'
+    | '#@inline-cheap-module-source-map'
+    | '#@inline-source-map'
+    | '#@eval-nosources-cheap-source-map'
+    | '#@eval-nosources-cheap-module-source-map'
+    | '#@eval-nosources-source-map'
+    | '#@inline-nosources-cheap-source-map'
+    | '#@inline-nosources-cheap-module-source-map'
+    | '#@inline-nosources-source-map'
+    | '#@nosources-cheap-source-map'
+    | '#@nosources-cheap-module-source-map'
     | '#@nosources-source-map'
+    | '#@hidden-nosources-cheap-source-map'
+    | '#@hidden-nosources-cheap-module-source-map'
+    | '#@hidden-nosources-source-map'
+    | '#@hidden-cheap-source-map'
+    | '#@hidden-cheap-module-source-map'
     | '#@hidden-source-map'
-    | '#@nosources-source-map'
     | boolean;
 
-  interface PluginClass<PluginType extends Tapable.Plugin = webpack.Plugin> {
+  interface PluginClass<
+    PluginType extends WebpackPluginInstance | ResolvePlugin,
+  > {
     new (...opts: any[]): PluginType;
   }
 

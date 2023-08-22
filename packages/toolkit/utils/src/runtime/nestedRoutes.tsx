@@ -7,6 +7,7 @@ import {
   createRoutesFromElements,
   LoaderFunction,
   LoaderFunctionArgs,
+  Outlet,
   Route,
   RouteProps,
 } from 'react-router-dom';
@@ -99,6 +100,8 @@ export const renderNestedRoute = (
     // and it should inherit the loading of the parent component to make the loading of the parent layout component take effect.
     // It also means when layout component is undefined, loading component in then same dir should not working.
     nestedRoute.loading = parent?.loading;
+    // If the component is undefined, it must be a layout component.
+    routeProps.element = <Outlet />;
   }
 
   if (element) {

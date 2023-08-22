@@ -18,6 +18,5 @@ export const defaultTransformedFunctions = [
   'require.requireMock',
 ];
 
-export const defaultTsConfigPath = './tsconfig.json';
 export const watchDoneText = 'Watching for file changes';
 export const dtsTempDirectory = 'node_modules/.dts-temp';

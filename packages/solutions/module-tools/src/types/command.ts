@@ -1,6 +1,6 @@
 export interface DevCommandOptions {
   port?: string;
-  tsconfig: string;
+  tsconfig?: string;
 }
 
 export interface BuildCommandOptions {
@@ -8,6 +8,6 @@ export interface BuildCommandOptions {
   clear?: boolean;
   dts?: boolean;
   platform?: boolean | string[];
-  tsconfig: string;
+  tsconfig?: string;
   watch?: boolean;
 }
