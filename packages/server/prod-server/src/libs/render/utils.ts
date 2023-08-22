@@ -57,6 +57,7 @@ export const runServerRender = async ({
   serverContext: SSRServerContext;
 }) => {
   if (enableVM) {
+    const vmStart = Date.now();
     const global: Partial<typeof globalThis> & {
       __SERVER_RENDER__: (ctx: SSRServerContext) => Promise<string>;
     } = {
@@ -124,14 +125,19 @@ export const runServerRender = async ({
       global.Response = globalThis.Response;
       global.Headers = globalThis.Headers;
     }
-
-    if (!vmCache.has(bundleJS)) {
+    const cached = vmCache.has(bundleJS);
+    if (!cached) {
       vmCache.set(
         bundleJS,
         new vm.Script(await fs.readFile(bundleJS, 'utf-8')),
       );
     }
     const script = vmCache.get(bundleJS)!;
+    const vmEnd = Date.now();
+    serverContext.serverTiming.addServeTiming(
+      `vm-${cached ? 'cached' : 'new'}`,
+      vmEnd - vmStart,
+    );
     script.runInNewContext(global);
     return global.__SERVER_RENDER__(serverContext);
   }
