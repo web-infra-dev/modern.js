@@ -1,4 +1,4 @@
-import type { WebpackChain } from '@modern-js/utils';
+import type WebpackChain from '@modern-js/utils/webpack-chain';
 import type webpack from 'webpack';
 import type { Configuration as WebpackConfig } from 'webpack';
 import type CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
