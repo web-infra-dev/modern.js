@@ -205,6 +205,10 @@ export const garfishPlugin = ({
                   });
                 }
               }
+              const uniqueName = chain.output.get('uniqueName');
+              if (!uniqueName) {
+                chain.output.uniqueName(config.packageName);
+              }
               const resolveConfig = chain.toConfig();
               logger('bundlerConfig', {
                 output: resolveConfig.output,
