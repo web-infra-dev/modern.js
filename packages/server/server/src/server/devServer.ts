@@ -228,7 +228,7 @@ export class ModernDevServer extends ModernServer {
     // dev proxy handler, each proxy has own handler
     if (dev.proxy) {
       const { handlers, handleUpgrade } = createProxyHandler(dev.proxy);
-      app.on('upgrade', handleUpgrade);
+      app && handleUpgrade(app);
       handlers.forEach(handler => {
         this.addHandler(handler);
       });

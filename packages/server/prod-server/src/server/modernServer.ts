@@ -155,7 +155,7 @@ export class ModernServer implements ModernServerInterface {
     // proxy handler, each proxy has own handler
     if (conf.bff?.proxy) {
       const { handlers, handleUpgrade } = createProxyHandler(conf.bff.proxy);
-      app?.on('upgrade', handleUpgrade);
+      app && handleUpgrade(app);
       handlers.forEach(handler => {
         this.addHandler(handler);
       });

@@ -197,7 +197,7 @@ describe('test middleware create factory', () => {
           throw new Error('should not happened');
         });
       });
-      server.on('upgrade', proxy.handleUpgrade);
+      proxy.handleUpgrade(server);
       server.listen(port);
 
       const ws = new WebSocket(`ws://localhost:${port}/ws`);
