@@ -182,6 +182,8 @@ module.exports = {
     //     ],
     //   },
     // ],
+    // https://eslint.org/docs/rules/complexity
+    complexity: ['warn', { max: 30 }],
     // https://eslint.org/docs/rules/consistent-return
     'consistent-return': 'error',
     // https://eslint.org/docs/rules/curly
