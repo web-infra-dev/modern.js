@@ -8373,6 +8373,12 @@ importers:
 
   tests/integration/module/src/fixtures/tools: {}
 
+  tests/integration/module/src/fixtures/transformLodash:
+    dependencies:
+      lodash:
+        specifier: ^4
+        version: 4.17.21
+
   tests/integration/module/src/fixtures/umdGlobals: {}
 
   tests/integration/module/src/fixtures/umdModuleName: {}
