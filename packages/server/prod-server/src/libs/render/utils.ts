@@ -133,12 +133,12 @@ export const runServerRender = async ({
       );
     }
     const script = vmCache.get(bundleJS)!;
+    script.runInNewContext(global);
     const vmEnd = Date.now();
     serverContext.serverTiming.addServeTiming(
       `vm-${cached ? 'cached' : 'new'}`,
       vmEnd - vmStart,
     );
-    script.runInNewContext(global);
     return global.__SERVER_RENDER__(serverContext);
   }
   const bundleJSContent = await Promise.resolve(require(bundleJS));
