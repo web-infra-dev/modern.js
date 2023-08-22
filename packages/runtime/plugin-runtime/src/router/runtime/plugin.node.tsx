@@ -6,6 +6,10 @@ import {
 } from '@modern-js/utils/runtime-node/router';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { createRoutesFromElements } from '@modern-js/utils/runtime/router';
+import {
+  createRequestContext,
+  reporterCtx,
+} from '@modern-js/utils/runtime-node';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
@@ -105,8 +109,16 @@ export const routerPlugin = ({
           const { query } = createStaticHandler(routes, {
             basename: _basename,
           });
+
           const remixRequest = createFetchRequest(request);
-          const routerContext = await query(remixRequest);
+          const requestContext = createRequestContext();
+          // initial requestContext
+          const { reporter } = context.ssrContext!;
+          requestContext.set(reporterCtx, reporter);
+
+          const routerContext = await query(remixRequest, {
+            requestContext,
+          });
 
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.

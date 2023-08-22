@@ -254,7 +254,9 @@ function applySSRDataLoader<B extends Bundler>(
     .split(path.sep)
     .join('(\\\\|/)');
 
-  const reg = new RegExp(`${absolutePath}.*\\.loader\\.[t|j]s$`);
+  const reg = new RegExp(
+    `${absolutePath}.*\\.(loader|data|data.client)\\.[t|j]sx?$`,
+  );
 
   chain.module
     .rule('ssr-data-loader')

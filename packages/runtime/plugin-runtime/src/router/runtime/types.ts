@@ -1,5 +1,10 @@
-import type { RouteProps, RouteObject } from '@modern-js/utils/runtime/router';
+import type {
+  RouteProps,
+  RouteObject,
+  Params,
+} from '@modern-js/utils/runtime/router';
 import { PageRoute, NestedRoute } from '@modern-js/types';
+import type { RequestContext } from '@modern-js/utils/runtime-node';
 
 declare global {
   interface Window {
@@ -56,3 +61,19 @@ export interface RouteAssets {
     assets?: string[];
   };
 }
+
+// fork from react-router
+// due to the context is any in react-router.
+interface DataFunctionArgs<D = any> {
+  request: Request;
+  params: Params;
+  context?: D;
+}
+
+export type LoaderFunctionArgs = DataFunctionArgs<RequestContext>;
+
+declare type DataFunctionValue = Response | NonNullable<unknown> | null;
+
+export type LoaderFunction = (
+  args: LoaderFunctionArgs,
+) => Promise<DataFunctionValue> | DataFunctionValue;

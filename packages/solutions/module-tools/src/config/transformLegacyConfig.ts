@@ -1,5 +1,6 @@
 /* eslint-disable max-lines */
 import path from 'path';
+import { logger } from '@modern-js/utils';
 import type {
   ModuleUserConfig,
   ModuleToolsLegacyUserConfig,
@@ -10,6 +11,7 @@ import {
   PostCSSFunction,
   PostCSSLoaderOptions,
 } from '../types/legacyConfig/tools';
+import { legacyPresets } from '../constants/legacy-preset';
 
 /**
  * transform `tools` to buildConfig
@@ -102,7 +104,6 @@ export const transformOutputToBuildConfig = (
 export const commonTransformAndLog = async (
   legacyUserConfig: Readonly<ModuleToolsLegacyUserConfig>,
 ) => {
-  const { logger } = await import('@modern-js/utils');
   const finalConfig: ModuleUserConfig = {};
   // source.designSystem
   finalConfig.designSystem = legacyUserConfig.source?.designSystem;
@@ -144,7 +145,6 @@ export const commonTransformAndLog = async (
 export const createConfigByBuildConfig = async (
   legacyUserConfig: Readonly<ModuleToolsLegacyUserConfig>,
 ): Promise<ModuleUserConfig> => {
-  const { logger } = await import('@modern-js/utils');
   const legacyBuildConfig = legacyUserConfig.output!.buildConfig!;
 
   const createBuildConfig = (config: LegacyBaseBuildConfig) => {
@@ -391,7 +391,6 @@ export const createConfigByPackageMode = async (
 ): Promise<ModuleUserConfig> => {
   const finalConfig = await commonTransformAndLog(legacyUserConfig);
 
-  const { legacyPresets } = await import('../constants/legacyBuildPresets');
   const packageMode = legacyUserConfig.output!.packageMode!;
   const buildConfigs = legacyPresets[packageMode];
 
@@ -421,7 +420,6 @@ export const createConfigByDefault = async (
 ): Promise<ModuleUserConfig> => {
   const finalConfig = await commonTransformAndLog(legacyUserConfig);
 
-  const { legacyPresets } = await import('../constants/legacyBuildPresets');
   const buildConfigs = legacyPresets['universal-js'];
 
   for (const buildConfig of buildConfigs) {

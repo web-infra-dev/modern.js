@@ -1,6 +1,6 @@
-import { join } from 'path';
-import { logger } from '@modern-js/utils/logger';
+import { resolve } from 'path';
 import type { CLIConfig } from '@modern-js/libuild';
+import { slash, logger } from '@modern-js/utils';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -10,6 +10,8 @@ import type {
   ModuleContext,
   TsTarget,
 } from '../types';
+import pMap from '../../compiled/p-map';
+import { copyTask } from './copy';
 
 export const runBuildTask = async (
   options: {
@@ -22,7 +24,6 @@ export const runBuildTask = async (
   const { buildConfig, context, buildCmdOptions } = options;
   const { appDirectory, isTsProject } = context;
 
-  const { copyTask } = await import('./copy');
   await copyTask(buildConfig, { appDirectory, watch: buildCmdOptions.watch });
 
   if (isTsProject) {
@@ -50,7 +51,6 @@ export const buildInTsProject = async (
     !skipBuildLib && (await buildLib(buildConfig, api, { watch }));
   } else {
     const tasks = dts.only ? [generatorDts] : [buildLib, generatorDts];
-    const { default: pMap } = await import('../../compiled/p-map');
     await pMap(tasks, async task => {
       await task(buildConfig, api as any, { watch, dts });
     });
@@ -86,17 +86,14 @@ export const generatorDts = async (
 ) => {
   const { runRollup, runTsc } = await import('./dts');
   const { watch, dts } = options;
-  const { buildType, input, sourceDir, alias } = config;
+  const { buildType, input, sourceDir, alias, externals } = config;
   const { appDirectory } = api.useAppContext();
   const { tsconfigPath, distPath, abortOnError, respectExternal } = dts;
   if (buildType === 'bundle') {
-    const { getFinalExternals } = await import('../utils/builder');
-    const finalExternals = await getFinalExternals(config, { appDirectory });
-
     await runRollup(api, {
       distDir: distPath,
       watch,
-      externals: finalExternals,
+      externals,
       input,
       tsconfigPath,
       abortOnError,
@@ -150,11 +147,11 @@ export const buildLib = async (
     esbuildOptions,
     externalHelpers,
     transformImport,
+    transformLodash,
     sourceType,
     disableSwcTransform,
   } = config;
   const { appDirectory } = api.useAppContext();
-  const { slash } = await import('@modern-js/utils');
   const root = slash(appDirectory);
   const outdir = slash(distPath);
   const assetOutDir = asset.path ? slash(asset.path) : asset.path;
@@ -176,7 +173,7 @@ export const buildLib = async (
   const { getProjectTsconfig } = await import('./dts/tsc');
   const tsconfigPath = dts
     ? dts.tsconfigPath
-    : join(appDirectory, './tsconfig.json');
+    : resolve(appDirectory, './tsconfig.json');
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
 
   const plugins = [];
@@ -208,6 +205,7 @@ export const buildLib = async (
     plugins.push(
       swcTransformPlugin({
         pluginImport: transformImport,
+        transformLodash,
         externalHelpers: Boolean(externalHelpers),
         emitDecoratorMetadata:
           userTsconfig?.compilerOptions?.emitDecoratorMetadata,
@@ -255,11 +253,8 @@ export const buildLib = async (
   }
 
   // adapt module tools
-  const { watchPlugin, externalPlugin } = await import(
-    '../utils/libuildPlugins'
-  );
+  const { watchPlugin } = await import('../utils/libuild-plugin');
   plugins.push(watchPlugin(api, config));
-  plugins.push(externalPlugin(config, { appDirectory }));
 
   const buildConfig: CLIConfig = {
     root,

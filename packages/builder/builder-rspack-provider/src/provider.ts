@@ -4,10 +4,15 @@ import {
   createPublicContext,
   type BuilderProvider,
 } from '@modern-js/builder-shared';
+import chalk from '@modern-js/utils/chalk';
 import { createContext } from './core/createContext';
 import { initConfigs } from './core/initConfigs';
 import { getPluginAPI } from './core/initPlugins';
 import { applyDefaultPlugins } from './shared/plugin';
+import {
+  isSatisfyRspackMinimumVersion,
+  supportedRspackMinimumVersion,
+} from './shared/rspackVersion';
 import type {
   Compiler,
   RspackConfig,
@@ -31,6 +36,14 @@ export function builderRspackProvider({
   const builderConfig = pickBuilderConfig(originalBuilderConfig);
 
   return async ({ pluginStore, builderOptions, plugins }) => {
+    if (!(await isSatisfyRspackMinimumVersion())) {
+      throw new Error(
+        `The current Rspack version does not meet the requirements, the minimum supported version of Rspack is ${chalk.green(
+          supportedRspackMinimumVersion,
+        )}`,
+      );
+    }
+
     const context = await createContext(builderOptions, builderConfig);
     const pluginAPI = getPluginAPI({ context, pluginStore });
 

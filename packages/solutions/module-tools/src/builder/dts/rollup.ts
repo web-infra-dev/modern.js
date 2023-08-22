@@ -1,5 +1,6 @@
 import path from 'path';
 import { logger } from '@modern-js/utils/logger';
+import ts from 'typescript';
 import type {
   InputOptions,
   OutputOptions,
@@ -12,6 +13,9 @@ import type {
   PluginAPI,
   ModuleTools,
 } from '../../types';
+import jsonPlugin from '../../../compiled/@rollup/plugin-json';
+import dtsPlugin from '../../../compiled/rollup-plugin-dts';
+import { transformUndefineObject } from '../../utils/common';
 
 export type { RollupWatcher };
 
@@ -46,21 +50,12 @@ export const runRollup = async (
       return null;
     },
   };
-  const ts = await import('typescript');
   const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
   const { options } = ts.parseJsonConfigFileContent(
     configFile.config,
     ts.sys,
     './',
   );
-
-  const { default: jsonPlugin } = await import(
-    '../../../compiled/@rollup/plugin-json'
-  );
-  const { default: dtsPlugin } = await import(
-    '../../../compiled/rollup-plugin-dts'
-  );
-  const { transformUndefineObject } = await import('../../utils/common');
 
   const baseUrl = path.isAbsolute(options.baseUrl || '.')
     ? options.baseUrl

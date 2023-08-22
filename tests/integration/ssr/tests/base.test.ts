@@ -55,6 +55,25 @@ async function checkIsPassChunkLoadingGlobal() {
   expect(content).toMatch(/chunkLoadingGlobal/);
 }
 
+async function contextLoader(page: Page, port: number) {
+  const res = await page.goto(`http://localhost:${port}/context`, {
+    waitUntil: ['networkidle0'],
+  });
+
+  const body = await res!.text();
+
+  expect(body).toMatch('context.reporter:object');
+}
+
+async function clientNavigationContextLoader(page: Page, port: number) {
+  await page.goto(`http://localhost:${port}`, {
+    waitUntil: ['networkidle0'],
+  });
+  await page.click('#context-btn');
+
+  await (expect(page) as any).toMatchTextContent('context.reporter:object');
+}
+
 describe('Traditional SSR with webpack', () => {
   let app: any;
   let appPort: number;
@@ -106,6 +125,14 @@ describe('Traditional SSR with webpack', () => {
   test('redirect in loader', async () => {
     await redirectInLoader(page, appPort);
   });
+
+  test('context loader', async () => {
+    await contextLoader(page, appPort);
+  });
+
+  test('client navigation context loader', async () => {
+    await clientNavigationContextLoader(page, appPort);
+  });
 });
 
 describe('Traditional SSR with rspack', () => {
@@ -154,5 +181,13 @@ describe('Traditional SSR with rspack', () => {
 
   test('redirect in loader', async () => {
     await redirectInLoader(page, appPort);
+  });
+
+  test('context loader', async () => {
+    await contextLoader(page, appPort);
+  });
+
+  test('client navigation context loader', async () => {
+    await clientNavigationContextLoader(page, appPort);
   });
 });

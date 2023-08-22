@@ -4,6 +4,7 @@ export type ServerContext = Pick<
   ModernServerContext,
   | 'logger'
   | 'req'
+  | 'reporter'
   | 'res'
   | 'params'
   | 'headers'

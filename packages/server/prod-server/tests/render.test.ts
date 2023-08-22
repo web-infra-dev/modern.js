@@ -107,6 +107,9 @@ describe('test render function', () => {
     const render = createRenderHandler({
       distDir: path.join(__dirname, 'fixtures', 'ssr'),
       staticGenerate: false,
+      conf: {
+        server: {},
+      } as any,
     });
     const renderResult = await render({
       ctx: {
@@ -118,7 +121,16 @@ describe('test render function', () => {
         cookieMap: {},
         headers: {},
         req: {},
+        res: {
+          set: () => {
+            // ignore
+          },
+        },
+        getReqHeader: () => undefined,
         resHasHandled: () => false,
+        error: () => {
+          // ignore
+        },
       } as any,
       route: {
         urlPath: '/foo',
@@ -143,6 +155,9 @@ describe('test render function', () => {
       distDir: path.join(__dirname, 'fixtures', 'ssr'),
       staticGenerate: false,
       forceCSR: true,
+      conf: {
+        server: {},
+      } as any,
     });
     const renderResult = await render({
       ctx: {
@@ -155,7 +170,10 @@ describe('test render function', () => {
         headers: {},
         res: {
           setHeader: () => false,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          set: () => {},
         },
+        getReqHeader: () => undefined,
         error: () => false,
         resHasHandled: () => false,
       } as any,
@@ -181,6 +199,9 @@ describe('test render function', () => {
     const render = createRenderHandler({
       distDir: path.join(__dirname, 'fixtures', 'ssr'),
       staticGenerate: false,
+      conf: {
+        server: {},
+      } as any,
     });
     const renderResult = await render({
       ctx: {
@@ -193,7 +214,9 @@ describe('test render function', () => {
         headers: {},
         res: {
           setHeader: () => false,
+          set: () => false,
         },
+        getReqHeader: () => undefined,
         error: () => false,
         resHasHandled: () => false,
       } as any,

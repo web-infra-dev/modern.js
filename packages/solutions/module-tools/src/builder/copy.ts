@@ -1,7 +1,15 @@
 import path from 'path';
-import { logger } from '@modern-js/utils/logger';
-import type { CopyOptions, CopyPattern } from '../types/copy';
+import {
+  watch,
+  fs,
+  logger,
+  createDebugger,
+  globby,
+  fastGlob,
+} from '@modern-js/utils';
+import type { CopyOptions, CopyPattern } from '../types/config/copy';
 import type { BaseBuildConfig } from '../types/config';
+import pMap from '../../compiled/p-map';
 
 const watchMap = new Map<string, string>();
 
@@ -15,7 +23,6 @@ export const runPatterns = async (
     watch?: boolean;
   },
 ) => {
-  const { fs, fastGlob, globby } = await import('@modern-js/utils');
   const { default: normalizePath } = await import(
     '../../compiled/normalize-path'
   );
@@ -105,7 +112,7 @@ export const runPatterns = async (
     cwd: targetPattern.context,
     objectMode: true,
   });
-  const { default: pMap } = await import('../../compiled/p-map');
+
   pMap(globEntries, async globEntry => {
     if (!globEntry.dirent.isFile()) {
       return;
@@ -148,9 +155,6 @@ export const watchCopyFiles = async (
   },
   copyConfig: CopyOptions,
 ) => {
-  const { watch, fs, logger, createDebugger } = await import(
-    '@modern-js/utils'
-  );
   const debug = createDebugger('module-tools:copy-watch');
 
   debug('watchMap', watchMap);
@@ -212,7 +216,6 @@ export const copyTask = async (
     return;
   }
 
-  const { default: pMap } = await import('../../compiled/p-map');
   const concurrency = copyConfig?.options?.concurrency || 100;
   try {
     await pMap(

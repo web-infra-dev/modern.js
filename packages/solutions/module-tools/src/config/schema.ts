@@ -182,6 +182,9 @@ const buildConfigProperties = {
   transformImport: {
     type: 'array',
   },
+  transformLodash: {
+    type: 'boolean',
+  },
   sourceType: {
     enum: ['commonjs', 'module'],
   },

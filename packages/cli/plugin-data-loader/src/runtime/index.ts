@@ -13,7 +13,12 @@ import {
 } from '@modern-js/utils/runtime/remix-router';
 import { transformNestedRoutes } from '@modern-js/utils/runtime/nested-routes';
 import { isPlainObject } from '@modern-js/utils/lodash';
-import { matchEntry, ServerContext } from '@modern-js/utils/runtime-node';
+import {
+  matchEntry,
+  ServerContext,
+  createRequestContext,
+  reporterCtx,
+} from '@modern-js/utils/runtime-node';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
 
@@ -134,14 +139,20 @@ export const handleRequest = async ({
     basename,
   });
 
-  const { res, logger } = context;
+  const { res, logger, reporter } = context;
 
   const request = createLoaderRequest(context);
+  const requestContext = createRequestContext();
+  // initial requestContext
+  // 1. inject reporter
+  requestContext.set(reporterCtx, reporter);
+
   let response;
 
   try {
     response = await queryRoute(request, {
       routeId,
+      requestContext,
     });
 
     if (isResponse(response) && isRedirectResponse(response.status)) {

@@ -82,7 +82,8 @@ export const optimizeRoute = (
     !routeTree._component &&
     !routeTree.error &&
     !routeTree.loading &&
-    !routeTree.config
+    !routeTree.config &&
+    !routeTree.clientData
   ) {
     const newRoutes = children.map(child => {
       const routePath = `${routeTree.path ? routeTree.path : ''}${
@@ -191,6 +192,14 @@ export const walk = async (
       }
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CLIENT_LOADER) {
+      route.clientData = itemPath;
+    }
+
+    if (itemWithoutExt === NESTED_ROUTE.LAYOUT_DATA_FILE) {
+      route.data = itemPath;
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.LAYOUT_CONFIG_FILE) {
       if (!route.config) {
         route.config = itemPath;
@@ -203,6 +212,14 @@ export const walk = async (
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_LOADER_FILE) {
       pageLoaderFile = itemPath;
+    }
+
+    if (itemWithoutExt === NESTED_ROUTE.PAGE_CLIENT_LOADER) {
+      route.clientData = itemPath;
+    }
+
+    if (itemWithoutExt === NESTED_ROUTE.PAGE_DATA_FILE) {
+      route.data = itemPath;
     }
 
     if (itemWithoutExt === NESTED_ROUTE.PAGE_CONFIG_FILE) {

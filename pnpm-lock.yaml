@@ -5157,6 +5157,9 @@ importers:
       merge-deep:
         specifier: ^3.0.3
         version: 3.0.3
+      node-html-parser:
+        specifier: ^6.1.5
+        version: 6.1.5
       path-to-regexp:
         specifier: ^6.2.0
         version: 6.2.1
@@ -8370,6 +8373,12 @@ importers:
 
   tests/integration/module/src/fixtures/tools: {}
 
+  tests/integration/module/src/fixtures/transformLodash:
+    dependencies:
+      lodash:
+        specifier: ^4
+        version: 4.17.21
+
   tests/integration/module/src/fixtures/umdGlobals: {}
 
   tests/integration/module/src/fixtures/umdModuleName: {}
@@ -9084,6 +9093,21 @@ importers:
         version: 5.0.4
 
   tests/integration/ssr/fixtures/init:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+
+  tests/integration/ssr/fixtures/preload:
     dependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -28107,6 +28131,13 @@ packages:
     resolution: {integrity: sha512-amJnQCcgtRVw9SvoebO3BKGESClrfXGCUTX9hSn1OuGQTQBOZmVd0Z0OlecpuRksKvbsUqALE8jls/ErClAPuQ==}
     hasBin: true
     dev: true
+
+  /node-html-parser@6.1.5:
+    resolution: {integrity: sha512-fAaM511feX++/Chnhe475a0NHD8M7AxDInsqQpz6x63GRF7xYNdS8Vo5dKsIVPgsOvG7eioRRTZQnWBrhDHBSg==}
+    dependencies:
+      css-select: 5.1.0
+      he: 1.2.0
+    dev: false
 
   /node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
