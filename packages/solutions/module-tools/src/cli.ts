@@ -1,19 +1,7 @@
 import type { CliPlugin } from '@modern-js/core';
-import { dotenv, fs } from '@modern-js/utils';
 import type { ModuleTools } from './types';
 import { registerHook } from './hooks';
 import { getPlugins } from './plugins';
-import {
-  buildCommand,
-  devCommand,
-  newCommand,
-  upgradeCommand,
-} from './command';
-import { initLocalLanguage } from './utils/language';
-import { addExitListener } from './utils/onExit';
-import { isLegacyUserConfig } from './config/merge';
-import { legacySchema } from './config/legacySchema';
-import { schema } from './config/schema';
 
 export const moduleTools = (): CliPlugin<ModuleTools> => ({
   name: '@modern-js/module-tools',
@@ -30,9 +18,11 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
   });
 
   const prepare = async () => {
+    const { initLocalLanguage } = await import('./utils/language');
     await initLocalLanguage();
 
     const appContext = api.useAppContext();
+    const { fs, dotenv } = await import('@modern-js/utils');
     dotenv.config();
     // remove '/node_modules/.modern-js'
     await fs.emptydir(appContext.internalDirectory);
@@ -40,12 +30,15 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
     const hookRunners = api.useHookRunners();
     await hookRunners.addRuntimeExports();
 
+    const { addExitListener } = await import('./utils/onExit');
     await addExitListener(async () => {
       await hookRunners.afterDev();
     });
   };
 
   const validateSchema = async () => {
+    const { schema, legacySchema } = await import('./config/schema');
+    const { isLegacyUserConfig } = await import('./utils/config');
     const userConfig = api.useConfigContext();
     return isLegacyUserConfig(userConfig as { legacy?: boolean })
       ? legacySchema
@@ -56,6 +49,8 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
     prepare,
     validateSchema,
     async commands({ program }) {
+      const { buildCommand, devCommand, newCommand, upgradeCommand } =
+        await import('./command');
       await buildCommand(program, api);
       await devCommand(program, api);
       await newCommand(program);

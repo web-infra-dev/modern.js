@@ -24,3 +24,19 @@ export const watchPlugin = (
     },
   };
 };
+
+export const externalPlugin = (
+  config: BaseBuildConfig,
+  options: { appDirectory: string },
+): LibuildPlugin => {
+  return {
+    name: 'external-plugin',
+    apply(compiler) {
+      compiler.hooks.initialize.tapPromise('external-plugin', async () => {
+        const { getFinalExternals } = await import('./builder');
+        const finalExternals = await getFinalExternals(config, options);
+        compiler.config.external = finalExternals;
+      });
+    },
+  };
+};

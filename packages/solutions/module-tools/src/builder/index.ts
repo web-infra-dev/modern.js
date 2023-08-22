@@ -1,15 +1,12 @@
 import os from 'os';
 import type { PluginAPI } from '@modern-js/core';
-import { chalk, logger } from '@modern-js/utils';
+import { logger } from '@modern-js/utils/logger';
 import type { ModuleContext } from '../types/context';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
   ModuleTools,
 } from '../types';
-import pMap from '../../compiled/p-map';
-import { runBuildTask } from './build';
-import { clearBuildConfigPaths, clearDtsTemp } from './clear';
 
 export const run = async (
   options: {
@@ -19,8 +16,8 @@ export const run = async (
   },
   api: PluginAPI<ModuleTools>,
 ) => {
+  const { chalk } = await import('@modern-js/utils');
   const { resolvedBuildConfig, context, cmdOptions } = options;
-  const { watch, clear } = cmdOptions;
   const runner = api.useHookRunners();
 
   let totalDuration = 0;
@@ -28,13 +25,17 @@ export const run = async (
   if (resolvedBuildConfig.length !== 0) {
     totalDuration = Date.now();
 
+    const { runBuildTask } = await import('./build');
+    const { default: pMap } = await import('../../compiled/p-map');
+
+    const { clearBuildConfigPaths, clearDtsTemp } = await import('./clear');
     await clearBuildConfigPaths(resolvedBuildConfig, {
-      noClear: !clear,
+      noClear: !cmdOptions.clear,
       projectAbsRootPath: context.appDirectory,
     });
     await clearDtsTemp();
 
-    if (watch) {
+    if (cmdOptions.watch) {
       logger.info('Start build in watch mode...\n');
     }
 
@@ -65,7 +66,7 @@ export const run = async (
       }
     }
     totalDuration = Date.now() - totalDuration;
-    if (!watch) {
+    if (!cmdOptions.watch) {
       const { printFileSize, printSucceed } = await import('../utils/print');
       printSucceed(totalDuration);
       printFileSize();

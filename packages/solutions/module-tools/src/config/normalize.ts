@@ -1,7 +1,5 @@
 import path from 'path';
 import type { PluginAPI } from '@modern-js/core';
-import _ from '@modern-js/utils/lodash';
-import { ensureArray, slash } from '@modern-js/utils';
 import type {
   ModuleUserConfig,
   ModuleLegacyUserConfig,
@@ -13,27 +11,43 @@ import type {
   BuildCommandOptions,
   ModuleTools,
 } from '../types';
-import { internalPreset, presetList } from '../constants/preset';
-import { isLegacyUserConfig, mergeDefaultBaseConfig } from './merge';
-import { validPartialBuildConfig } from './valid';
 
-export const presetToConfig = async (preset?: BuildPreset) => {
+export const transformBuildPresetToBaseConfigs = async (
+  options: {
+    context: ModuleContext;
+    buildCmdOptions: BuildCommandOptions;
+  },
+  preset?: BuildPreset,
+): Promise<BaseBuildConfig[]> => {
+  const { BuildInPreset, presetList } = await import(
+    '../constants/buildPresets'
+  );
+  const { addInputToPreset } = await import('../utils/input');
+
   if (typeof preset === 'function') {
     const extendPreset = (
-      presetName: keyof typeof internalPreset,
+      presetName: keyof typeof BuildInPreset,
       extendConfig: PartialBaseBuildConfig,
     ) => {
-      const originalBuildConfig = internalPreset[presetName];
-      if (!originalBuildConfig) {
-        throw new Error(`**${presetName}** is not internal buildPreset`);
+      const originalBuildConfig = BuildInPreset[presetName];
+      if (Array.isArray(originalBuildConfig)) {
+        return originalBuildConfig.map(config => {
+          return {
+            ...config,
+            ...extendConfig,
+          };
+        });
+      } else if (originalBuildConfig) {
+        return {
+          ...originalBuildConfig,
+          ...extendConfig,
+        };
       }
-      return originalBuildConfig.map(config => {
-        return _.merge(config, extendConfig);
-      });
-    };
 
+      return extendConfig;
+    };
     const partialBuildConfig = await preset({
-      preset: internalPreset,
+      preset: BuildInPreset,
       extendPreset,
     });
 
@@ -43,27 +57,103 @@ export const presetToConfig = async (preset?: BuildPreset) => {
       );
     }
 
-    return partialBuildConfig;
+    return transformBuildConfigToBaseConfigs(partialBuildConfig, options);
   }
 
   const inPresetList = (p: string): p is keyof typeof presetList =>
     p in presetList;
 
-  return preset && inPresetList(preset) ? presetList[preset] : undefined;
+  if (preset && inPresetList(preset)) {
+    return transformBuildConfigToBaseConfigs(
+      await addInputToPreset(presetList[preset], options.context),
+      options,
+    );
+  }
+
+  // buildConfig and buildPreset is undefined
+  return transformBuildConfigToBaseConfigs({}, options);
 };
 
-export const mergeConfig = (
-  low?: PartialBaseBuildConfig[],
-  high = {} as PartialBuildConfig,
-): PartialBaseBuildConfig[] => {
-  if (!low) {
-    return ensureArray(high);
+export const transformBuildConfigToBaseConfigs = async (
+  config: PartialBuildConfig,
+  options: {
+    buildCmdOptions: BuildCommandOptions;
+    context: ModuleContext;
+  },
+): Promise<BaseBuildConfig[]> => {
+  const { validPartialBuildConfig } = await import('../utils/config');
+  validPartialBuildConfig(config);
+  const { buildCmdOptions } = options;
+  const { ensureArray } = await import('@modern-js/utils');
+  const { assignTsConfigPath } = await import('../utils/dts');
+  const partialConfigs = ensureArray(config);
+  const configs = await Promise.all(
+    partialConfigs.map(async config => {
+      let newConfig = await requiredBuildConfig(config, options.context);
+      newConfig = await assignTsConfigPath(newConfig, buildCmdOptions);
+      newConfig = await transformToAbsPath(newConfig, options);
+      return newConfig;
+    }),
+  );
+  return configs;
+};
+
+export const requiredBuildConfig = async (
+  partialBuildConfig: PartialBaseBuildConfig,
+  context: ModuleContext,
+): Promise<BaseBuildConfig> => {
+  const { mergeDefaultBaseConfig } = await import('../utils/config');
+  const mergedConfig = await mergeDefaultBaseConfig(
+    partialBuildConfig,
+    context,
+  );
+  return mergedConfig;
+};
+
+export const transformToAbsPath = async (
+  baseConfig: BaseBuildConfig,
+  options: { context: ModuleContext; buildCmdOptions: BuildCommandOptions },
+) => {
+  const { slash } = await import('@modern-js/utils');
+  const newConfig = baseConfig;
+  const { normalizeInput } = await import('../utils/input');
+  const { context } = options;
+
+  newConfig.outDir = path.isAbsolute(newConfig.outDir)
+    ? newConfig.outDir
+    : path.join(context.appDirectory, newConfig.outDir);
+
+  newConfig.sourceDir = slash(
+    path.resolve(context.appDirectory, baseConfig.sourceDir),
+  );
+  newConfig.input = await normalizeInput(newConfig, {
+    appDirectory: context.appDirectory,
+  });
+
+  // dts path
+  if (newConfig.dts) {
+    newConfig.dts.distPath = path.join(
+      newConfig.outDir,
+      newConfig.dts.distPath,
+    );
+    newConfig.dts.tsconfigPath = path.join(
+      context.appDirectory,
+      newConfig.dts.tsconfigPath,
+    );
   }
-  return Array.isArray(high)
-    ? [...low, ...high]
-    : low.map(config => {
-        return _.merge(config, high);
-      });
+
+  // Maybe need transform 'config.copy'
+
+  return newConfig;
+};
+
+export const checkConfig = async (config: ModuleUserConfig) => {
+  const { buildConfig, buildPreset } = config;
+  if (buildConfig && buildPreset) {
+    const { logger } = await import('@modern-js/utils');
+    const local = await import('../locale');
+    logger.warn(local.i18n.t(local.localeKeys.log.buildConfigTip));
+  }
 };
 
 export const normalizeBuildConfig = async (
@@ -71,6 +161,7 @@ export const normalizeBuildConfig = async (
   context: ModuleContext,
   buildCmdOptions: BuildCommandOptions,
 ): Promise<BaseBuildConfig[]> => {
+  const { isLegacyUserConfig } = await import('../utils/config');
   let config = api.useConfigContext() as unknown as ModuleUserConfig;
 
   if (isLegacyUserConfig(config as { legacy?: boolean })) {
@@ -82,53 +173,25 @@ export const normalizeBuildConfig = async (
 
   const { buildConfig, buildPreset } = config;
 
-  const configFromPreset = await presetToConfig(buildPreset);
+  await checkConfig(config);
 
-  const mergedConfig = mergeConfig(configFromPreset, buildConfig ?? {});
+  let baseConfigs: BaseBuildConfig[];
 
-  validPartialBuildConfig(mergedConfig);
-
-  const normalizedConfig = await Promise.all(
-    mergedConfig.map(async config => {
-      let newConfig = await mergeDefaultBaseConfig(config, {
+  // buildConfig High priority
+  if (buildConfig) {
+    baseConfigs = await transformBuildConfigToBaseConfigs(buildConfig, {
+      buildCmdOptions,
+      context,
+    });
+  } else {
+    baseConfigs = await transformBuildPresetToBaseConfigs(
+      {
         context,
         buildCmdOptions,
-      });
-      newConfig = await transformToAbsPath(newConfig, {
-        context,
-        buildCmdOptions,
-      });
-      return newConfig;
-    }),
-  );
-
-  return normalizedConfig;
-};
-
-export const transformToAbsPath = async (
-  baseConfig: BaseBuildConfig,
-  options: { context: ModuleContext; buildCmdOptions: BuildCommandOptions },
-) => {
-  const newConfig = baseConfig;
-  const { context } = options;
-
-  newConfig.outDir = path.resolve(context.appDirectory, newConfig.outDir);
-
-  newConfig.sourceDir = slash(
-    path.resolve(context.appDirectory, baseConfig.sourceDir),
-  );
-
-  // dts path
-  if (newConfig.dts) {
-    newConfig.dts.distPath = path.resolve(
-      newConfig.outDir,
-      newConfig.dts.distPath,
-    );
-    newConfig.dts.tsconfigPath = path.resolve(
-      context.appDirectory,
-      newConfig.dts.tsconfigPath,
+      },
+      buildPreset,
     );
   }
 
-  return newConfig;
+  return baseConfigs;
 };
