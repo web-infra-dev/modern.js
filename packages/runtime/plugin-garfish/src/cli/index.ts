@@ -151,11 +151,6 @@ export const garfishPlugin = ({
                   .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
               }
             },
-            webpack: webpackConfig => {
-              if (!webpackConfig.output?.uniqueName) {
-                webpackConfig.output!.uniqueName = config.packageName;
-              }
-            },
             rspack: (config: any) => {
               config.builtins ??= {};
 
@@ -180,6 +175,7 @@ export const garfishPlugin = ({
             bundlerChain: (chain, { env, CHAIN_ID }) => {
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
+              const preConfig = chain.toConfig();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
                 if (
@@ -209,6 +205,9 @@ export const garfishPlugin = ({
                     chunks: 'async',
                   });
                 }
+              }
+              if (!preConfig.output!.uniqueName) {
+                chain.output.uniqueName(config.packageName);
               }
               const resolveConfig = chain.toConfig();
               logger('bundlerConfig', {
