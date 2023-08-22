@@ -1,7 +1,7 @@
 import React from 'react';
 import { useToggle } from 'react-use';
 import { withQuery } from 'ufo';
-import Modal from '../Modal';
+import Portal from '../Portal';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
 
@@ -22,14 +22,16 @@ const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
   const src = withQuery(client, { src: dataSource, ver: version });
 
   return (
-    <Modal show={true} root={rootElement}>
+    <Portal show={true} root={rootElement}>
       <button className={styles.fab} onClick={toggleDevtools}>
         Toggle DevTools
       </button>
       <Visible when={showDevtools} keepAlive={true}>
-        <iframe className={styles.iframeView} src={src}></iframe>
+        <div className={styles.container}>
+          <iframe className={styles.iframeView} src={src}></iframe>
+        </div>
       </Visible>
-    </Modal>
+    </Portal>
   );
 };
 
