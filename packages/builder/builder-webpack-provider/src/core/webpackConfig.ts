@@ -7,7 +7,7 @@ import {
 import { castArray } from '@modern-js/utils/lodash';
 import { getCompiledPath } from '../shared';
 import type { RuleSetRule, WebpackPluginInstance } from 'webpack';
-import type WebpackChain from '@modern-js/builder-shared/webpack-5-chain';
+import type { WebpackChain } from '@modern-js/utils';
 
 import type {
   Context,

@@ -1,5 +1,5 @@
 import { Configuration } from 'webpack';
-import type WebpackChain from '../../compiled/webpack-5-chain';
+import type { WebpackChain } from '@modern-js/utils';
 
 interface BundlerPluginInstance {
   [index: string]: any;

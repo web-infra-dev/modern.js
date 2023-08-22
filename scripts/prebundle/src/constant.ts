@@ -82,6 +82,7 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       'glob',
       'chalk',
+      'webpack-chain',
       {
         name: 'signale',
         externals: {
@@ -128,12 +129,6 @@ export const TASKS: TaskConfig[] = [
           dtsFiles.forEach(file => {
             copyFileSync(file, file.replace(task.depPath, task.distPath));
           });
-        },
-      },
-      {
-        name: 'webpack-chain',
-        externals: {
-          tapable: 'tapable',
         },
       },
       {
@@ -196,7 +191,6 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/builder-shared',
     dependencies: [
       'open',
-      'webpack-5-chain',
       'serialize-javascript',
       {
         name: 'css-loader',
