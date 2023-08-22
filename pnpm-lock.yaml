@@ -1541,9 +1541,6 @@ importers:
       webpack:
         specifier: ^5.88.1
         version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
-      webpack-chain:
-        specifier: ^6.5.1
-        version: 6.5.1
 
   packages/cli/plugin-changeset:
     dependencies:
@@ -1666,9 +1663,6 @@ importers:
       webpack:
         specifier: ^5.88.1
         version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
-      webpack-chain:
-        specifier: ^6.5.1
-        version: 6.5.1
 
   packages/cli/plugin-i18n:
     dependencies:
@@ -1953,9 +1947,6 @@ importers:
       webpack:
         specifier: ^5.88.1
         version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
-      webpack-chain:
-        specifier: ^6.5.1
-        version: 6.5.1
 
   packages/cli/plugin-swc:
     dependencies:
@@ -4250,9 +4241,6 @@ importers:
       typescript:
         specifier: ^5
         version: 5.0.4
-      webpack-chain:
-        specifier: ^6.5.1
-        version: 6.5.1
 
   packages/runtime/plugin-router-v5:
     dependencies:
@@ -6533,15 +6521,12 @@ importers:
       v8-compile-cache:
         specifier: 2.3.0
         version: 2.3.0
-      webpack-5-chain:
-        specifier: 8.0.1
-        version: 8.0.1
       webpack-bundle-analyzer:
         specifier: 4.5.0
         version: 4.5.0
       webpack-chain:
-        specifier: 6.5.1
-        version: 6.5.1
+        specifier: npm:webpack-5-chain@8.0.1
+        version: /webpack-5-chain@8.0.1
       webpack-dev-middleware:
         specifier: 6.0.1
         version: 6.0.1(webpack@5.88.1)
@@ -36155,14 +36140,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: true
-
-  /webpack-chain@6.5.1:
-    resolution: {integrity: sha512-7doO/SRtLu8q5WM0s7vPKPWX580qhi0/yBHkOxNkv50f6qB76Zy9o2wRTrrPULqYTvQlVHuvbA8v+G5ayuUDsA==}
-    engines: {node: '>=8'}
-    dependencies:
-      deepmerge: 1.5.2
-      javascript-stringify: 2.1.0
     dev: true
 
   /webpack-cli@5.1.4(webpack@5.88.1):
