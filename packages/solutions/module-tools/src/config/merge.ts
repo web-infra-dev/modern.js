@@ -9,15 +9,14 @@ import type {
 } from '../types';
 import { getAllDeps } from '../utils/builder';
 import { normalizeInput } from '../utils/input';
+import { getDefaultBuildConfig } from '../constants/build';
 
 export const mergeDefaultBaseConfig = async (
   pConfig: PartialBaseBuildConfig,
   options: { context: ModuleContext; buildCmdOptions: BuildCommandOptions },
 ): Promise<BaseBuildConfig> => {
+  const defaultConfig = getDefaultBuildConfig();
   const { context, buildCmdOptions } = options;
-  const { defaultBuildConfig: defaultConfig } = await import(
-    '../constants/build'
-  );
   const { applyOptionsChain, ensureAbsolutePath, slash } = await import(
     '@modern-js/utils'
   );
