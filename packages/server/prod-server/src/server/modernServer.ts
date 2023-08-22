@@ -703,7 +703,7 @@ export class ModernServer implements ModernServerInterface {
     req.metrics = req.metrics || this.metrics;
     let context: ModernServerContext;
     try {
-      context = this.createContext(req, res);
+      context = this.createContext(req, res, { metaName: this.metaName });
     } catch (e) {
       this.logger.error(e as Error);
       res.statusCode = 500;
