@@ -1,15 +1,16 @@
 import type { AcceptedPlugin } from 'postcss';
 import type { PostcssOptions } from '@modern-js/libuild';
-import { applyOptionsChain } from '@modern-js/utils';
 import type {
   PartialBaseBuildConfig,
   PostCSSConfigUtils,
   LessOptions,
   SassOptions,
 } from '../types';
-import { getCompiledPath } from './path';
 
 export const getLessConfig = async (config: PartialBaseBuildConfig) => {
+  const { applyOptionsChain } = await import('@modern-js/utils');
+  const { getCompiledPath } = await import('./path');
+
   const mergedOptions = applyOptionsChain<LessOptions, never>(
     {
       lessOptions: { javascriptEnabled: true },
@@ -22,6 +23,9 @@ export const getLessConfig = async (config: PartialBaseBuildConfig) => {
 };
 
 export const getSassConfig = async (config: PartialBaseBuildConfig) => {
+  const { applyOptionsChain } = await import('@modern-js/utils');
+  const { getCompiledPath } = await import('./path');
+
   const mergedOptions = applyOptionsChain<SassOptions, never>(
     {
       implementation: await getCompiledPath('sass'),
@@ -33,6 +37,8 @@ export const getSassConfig = async (config: PartialBaseBuildConfig) => {
 };
 
 export const getPostcssConfig = async (config: PartialBaseBuildConfig) => {
+  const { applyOptionsChain } = await import('@modern-js/utils');
+  const { getCompiledPath } = await import('./path');
   const extraPlugins: AcceptedPlugin[] = [];
 
   const utils = {

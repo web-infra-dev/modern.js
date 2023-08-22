@@ -1,15 +1,18 @@
 import path from 'path';
-import { chalk, fs, globby, logger, nanoid } from '@modern-js/utils';
 import type {
   ITsconfig,
   BundlelessGeneratorDtsConfig,
+  BuildCommandOptions,
+  BaseBuildConfig,
   BuildType,
   TsTarget,
+  // AliasOption,
 } from '../types';
 
 export const generatorTsConfig = async (
   config: BundlelessGeneratorDtsConfig,
 ) => {
+  const { fs, nanoid } = await import('@modern-js/utils');
   const { dtsTempDirectory } = await import('../constants/dts');
 
   const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
@@ -58,6 +61,7 @@ export const generatorTsConfig = async (
 };
 
 export const getTscBinPath = async (appDirectory: string) => {
+  const { fs } = await import('@modern-js/utils');
   const { default: findUp, exists: pathExists } = await import(
     '../../compiled/find-up'
   );
@@ -93,6 +97,7 @@ export const resolveAlias = async (
   watchFilenames: string[] = [],
 ) => {
   const { userTsconfig, tempDistAbsSrcPath, tempDistAbsRootPath } = options;
+  const { globby, fs } = await import('@modern-js/utils');
   const { transformDtsAlias } = await import('./tspathsTransform');
   const { distAbsPath } = config;
   const dtsDistPath = `${tempDistAbsSrcPath}/**/*.d.ts`;
@@ -160,10 +165,35 @@ export const resolveAlias = async (
 //   });
 // };
 
+export const assignTsConfigPath = async (
+  config: BaseBuildConfig,
+  options: BuildCommandOptions,
+) => {
+  const { defaultTsConfigPath } = await import('../constants/dts');
+
+  // user run `build --tsconfig './tsconfig.build.json'`
+  if (
+    typeof options.tsconfig === 'string' &&
+    options.tsconfig !== defaultTsConfigPath
+  ) {
+    config.dts = {
+      only: false,
+      distPath: './',
+      abortOnError: true,
+      respectExternal: true,
+      ...(config.dts ?? {}),
+      tsconfigPath: options.tsconfig,
+    };
+  }
+
+  return config;
+};
+
 export const printOrThrowDtsErrors = async (
   error: unknown,
   options: { abortOnError?: boolean; buildType: BuildType },
 ) => {
+  const { logger, chalk } = await import('@modern-js/utils');
   const { InternalDTSError } = await import('../error');
   const local = await import('../locale');
   const { abortOnError, buildType } = options ?? {};
