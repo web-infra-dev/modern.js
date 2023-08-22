@@ -51,10 +51,13 @@ describe('SSR preload', () => {
   });
 
   test(`should add Links to response headers`, async () => {
-    const url = `http://0.0.0.0:${appPort}`;
+    const url = `http://127.0.0.1:${appPort}`;
     const { headers, body } = await request(url);
 
-    expect(headers.link).toMatchSnapshot();
+    const links = (headers.link as string).split(', ');
+    // the vendors chunk include hash, would fail in CI
+    // so filtration the vendors chunk,
+    expect(links.filter(link => !link.includes('vendors'))).toMatchSnapshot();
     expect(body).toMatch('"renderLevel":2');
   });
 });
