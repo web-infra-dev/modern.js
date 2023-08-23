@@ -100,17 +100,18 @@ export const remarkPluginNormalizeLink: Plugin<
     );
 
     const normalizeImageUrl = (imageUrl: string): string => {
+      if (isExternalUrl(imageUrl)) {
+        return '';
+      }
       if (imageUrl.startsWith('/')) {
         const publicDir = path.join(root, PUBLIC_DIR);
         const imagePath = path.join(publicDir, imageUrl);
         if (!fs.existsSync(imagePath)) {
           console.error(`Image not found: ${imagePath}`);
-          return;
+          return '';
         }
-        // eslint-disable-next-line consistent-return
         return imagePath;
       } else {
-        // eslint-disable-next-line consistent-return
         return imageUrl;
       }
     };
