@@ -65,7 +65,7 @@ Modern.js 内部集成了 Babel 的 [babel-plugin-styled-components](https://git
 
 按照如下进行选择：
 
-```bash
+```text
 ? 请选择你想要的操作 启用可选功能
 ? 请选择功能名称 启用 「Tailwind CSS」 支持
 ```
@@ -102,6 +102,48 @@ const App = () => (
 根据需求不同，你可以选择性的导入 Tailwind CSS 提供的 CSS 文件。由于使用 `@tailwind` 与直接导入 CSS 文件的作用等价，因此关于 Tailwind CSS 提供的 CSS 文件的用途，可以参考 [`@tailwind` 的使用](https://tailwindcss.com/docs/functions-and-directives#tailwind) 文档中注释里的内容。
 
 :::
+
+### Tailwind CSS 自动补全
+
+Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件，用于在 VS Code 中自动补全 Tailwind CSS 的 class names、CSS functions 和 directives。
+
+你可以参考以下步骤来启动自动补全功能：
+
+1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
+2. 在项目的根目录创建 `tailwind.config.ts` 文件，并写入你需要的 Tailwind CSS 配置。
+
+```ts title="tailwind.config.ts"
+export default {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './config/html/**/*.{html,ejs,hbs}',
+    './storybook/**/*',
+  ],
+  // 主题配置（可选）
+  theme: {},
+};
+```
+
+3. 在 `modern.config.ts` 中引用你创建的 `tailwind.config.ts` 文件，使 Modern.js 可以正确识别 Tailwind CSS 配置内容。
+
+```ts title="modern.config.ts"
+import tailwindConfig from './tailwind.config';
+
+export default defineConfig({
+  tools: {
+    tailwindcss: tailwindConfig,
+  },
+  // 主题配置（可选）
+  source: {
+    designSystem: tailwindConfig.theme,
+  },
+});
+```
+
+请阅读相关配置项的文档来了解其作用：
+
+- [tools.tailwindcss](/configure/app/tools/tailwindcss)。
+- [source.designSystem](/configure/app/source/design-system)。
 
 ### Tailwind CSS 版本
 

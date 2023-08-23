@@ -1097,13 +1097,8 @@ Tailwind CSS 相关配置。
 ```js title="modern.config.ts"
 const tailwind = {
   content: [
-    './config/html/**/*.html',
-    './config/html/**/*.ejs',
-    './config/html/**/*.hbs',
-    './src/**/*.js',
-    './src/**/*.jsx',
-    './src/**/*.ts',
-    './src/**/*.tsx',
+    './src/**/*.{js,jsx,ts,tsx}',
+    './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
 };
