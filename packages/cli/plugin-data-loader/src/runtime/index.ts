@@ -19,6 +19,8 @@ import {
   createRequestContext,
   reporterCtx,
 } from '@modern-js/utils/runtime-node';
+import { time } from '@modern-js/utils/universal/time';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
 
@@ -134,13 +136,12 @@ export const handleRequest = async ({
   }
 
   const basename = entry.urlPath;
-  const routes = transformNestedRoutes(routesConfig);
+  const end = time();
+  const { res, logger, reporter } = context;
+  const routes = transformNestedRoutes(routesConfig, reporter);
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
-
-  const { res, logger, reporter } = context;
-
   const request = createLoaderRequest(context);
   const requestContext = createRequestContext();
   // initial requestContext
@@ -194,6 +195,9 @@ export const handleRequest = async ({
       },
     });
   }
+
+  const cost = end();
+  reporter.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
 
   await sendLoaderResponse(res, response);
 };

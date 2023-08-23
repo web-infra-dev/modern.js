@@ -12,3 +12,8 @@ export const HMR_SOCK_PATH = '/webpack-hmr';
  * html placeholder
  */
 export const HTML_CHUNKSMAP_SEPARATOR = '<!--<?- chunksMap.js ?>-->';
+
+/**
+ * reporter name for server loader
+ */
+export const LOADER_REPORTER_NAME = `server-loader`;
