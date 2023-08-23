@@ -1,0 +1,59 @@
+{
+  "name": "@modern-js/storybook-builder",
+  "version": "2.31.2",
+  "description": "modern.js support for storybook",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/storybook/builder"
+  },
+  "jsnext:source": "./src/index.ts",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run"
+  },
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "default": "./dist/preset.js",
+      "jsnext:source": "./src/preset.ts",
+      "types": "./dist/preset.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modern-js/builder": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@types/webpack-hot-middleware": "^2.25.6",
+    "glob-promise": "^6.0.3",
+    "@storybook/core-common": "7.3.2",
+    "webpack-dev-middleware": "6.0.1",
+    "webpack-hot-middleware": "^2.25.4"
+  },
+  "devDependencies": {
+    "@storybook/types": "^7.3.2"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/index.d.ts"
+  }
+}

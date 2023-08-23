@@ -16,4 +16,6 @@ export type {
   // Rspack
   Rspack,
   RspackConfig,
+  Compiler as RspackCompiler,
+  MultiCompiler as RspackMultiCompiler,
 } from './types';

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Storybook</title>
+
+  <% if (htmlWebpackPlugin.files.favicon) { %>
+  <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>" />
+  <% } %>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="prefetch" href="./sb-common-assets/nunito-sans-regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="prefetch" href="./sb-common-assets/nunito-sans-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="prefetch" href="./sb-common-assets/nunito-sans-bold.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="prefetch" href="./sb-common-assets/nunito-sans-bold-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="./sb-common-assets/fonts.css" />
+
+  <% if (typeof headHtmlSnippet !== 'undefined') { %> <%= headHtmlSnippet %> <% } %> <%
+    htmlWebpackPlugin.files.css.forEach(file => { %>
+  <link href="<%= file %>" rel="stylesheet" />
+  <% }); %>
+
+  <style>
+    #storybook-root[hidden],
+    #storybook-docs[hidden] {
+      display: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <% if (typeof bodyHtmlSnippet !== 'undefined') { %> <%= bodyHtmlSnippet %> <% } %>
+
+  <div id="storybook-root"></div>
+  <div id="storybook-docs"></div>
+
+  <% if (typeof globals !== 'undefined' && Object.keys(globals).length) { %>
+  <script>
+    <% for (var varName in globals) { %>
+    <% if (globals[varName] != undefined) { %>
+    window['<%=varName%>'] = <%= JSON.stringify(globals[varName]) %>;
+    <% } %>
+    <% } %>
+  </script>
+  <% } %>
+  <script type="module">
+    import './sb-preview/runtime.mjs';
+
+    <% htmlWebpackPlugin.files.js.forEach(file => { %>
+    import './<%= file %>';
+    <% }); %>
+  </script>
+</body>
+
+</html>
