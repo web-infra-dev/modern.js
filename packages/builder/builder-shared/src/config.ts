@@ -327,7 +327,9 @@ export async function getMetaTags(
 }
 
 export async function stringifyConfig(config: unknown, verbose?: boolean) {
-  const { default: WebpackChain } = await import('../compiled/webpack-5-chain');
+  const { default: WebpackChain } = await import(
+    '@modern-js/utils/webpack-chain'
+  );
 
   // webpackChain.toString can be used as a common stringify method
   const stringify = WebpackChain.toString as (

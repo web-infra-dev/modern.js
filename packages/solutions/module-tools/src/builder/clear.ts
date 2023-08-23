@@ -1,9 +1,8 @@
-import { fs, logger, chalk } from '@modern-js/utils';
 import type { BaseBuildConfig } from '../types';
-import { i18n, localeKeys } from '../locale';
-import { dtsTempDirectory } from '../constants/dts';
 
 export const clearDtsTemp = async () => {
+  const { fs } = await import('@modern-js/utils');
+  const { dtsTempDirectory } = await import('../constants/dts');
   await fs.remove(dtsTempDirectory);
 };
 
@@ -15,6 +14,7 @@ export const clearBuildConfigPaths = async (
   },
 ) => {
   const { noClear = false, projectAbsRootPath = process.cwd() } = options ?? {};
+  const { fs } = await import('@modern-js/utils');
 
   if (noClear) {
     return;
@@ -22,7 +22,13 @@ export const clearBuildConfigPaths = async (
 
   for (const config of configs) {
     if (projectAbsRootPath === config.outDir) {
-      logger.warn(chalk.bgYellowBright(i18n.t(localeKeys.warns.clearRootPath)));
+      const { logger, chalk } = await import('@modern-js/utils');
+      const local = await import('../locale');
+      logger.warn(
+        chalk.bgYellowBright(
+          local.i18n.t(local.localeKeys.warns.clearRootPath),
+        ),
+      );
     } else {
       await fs.remove(config.outDir);
     }

@@ -333,10 +333,8 @@ export const appTools = (
 
       async beforeGenerateRoutes({ entrypoint, code }) {
         const { distDirectory } = api.useAppContext();
-        if (!fs.existsSync(distDirectory)) {
-          await fs.mkdir(distDirectory);
-        }
-        await fs.writeJSON(
+
+        await fs.outputJSON(
           path.resolve(distDirectory, NESTED_ROUTE_SPEC_FILE),
           nestedRoutes,
         );
