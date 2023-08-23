@@ -92,7 +92,7 @@ export const setupClientConnection = async (
     },
     modifyFileSystemRoutes({ entrypoint, routes }) {
       // update remote records.
-      clientConn.updateFileSystemRoutes({ entrypoint, routes });
+      // clientConn.updateFileSystemRoutes({ entrypoint, routes });
       // update local records.
       _fileSystemRoutesMap[entrypoint.entryName] = routes;
 

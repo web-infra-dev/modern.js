@@ -46,16 +46,14 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.8.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "framer-motion": "^10.16.0",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@geist-ui/core": "^2.3.8",
     "birpc": "^0.2.12",
     "ws": "8.13.0"
   },
   "devDependencies": {
+    "react": "~18.2.0",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/core": "workspace:*",
@@ -67,6 +65,9 @@
     "@types/ws": "^8.5.5",
     "type-fest": "^4.1.0",
     "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": "~18.2.0"
   },
   "sideEffects": false,
   "publishConfig": {

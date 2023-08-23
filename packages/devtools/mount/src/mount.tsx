@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client';
+import { GeistProvider, CssBaseline } from '@geist-ui/core';
 import DevtoolsAction, {
   DevtoolsActionProps,
 } from './components/Devtools/Action';
@@ -16,6 +17,7 @@ export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
   container.id = process.env.DEVTOOLS_MARK!;
   document.body.appendChild(container);
 
+  /*
   const shadow = container.attachShadow({ mode: 'closed' });
 
   const styleTagsField = `__DEVTOOLS_STYLE_${process.env.DEVTOOLS_MARK}`;
@@ -36,8 +38,14 @@ export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
 
   const app = document.createElement('div');
   shadow.appendChild(app);
+  */
 
-  const root = createRoot(app);
+  const root = createRoot(container);
 
-  root.render(<DevtoolsAction {...props} rootElement={shadow} />);
+  root.render(
+    <GeistProvider>
+      <CssBaseline />
+      <DevtoolsAction {...props} />
+    </GeistProvider>,
+  );
 };

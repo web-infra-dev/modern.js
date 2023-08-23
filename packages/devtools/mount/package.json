@@ -18,10 +18,7 @@
   "dependencies": {
   },
   "devDependencies": {
-    "@chakra-ui/react": "^2.8.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "framer-motion": "^10.16.0",
+    "@geist-ui/core": "^2.3.8",
     "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/runtime": "workspace:*",
     "nanoid": "3.3.4",
