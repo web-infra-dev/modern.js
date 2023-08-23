@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom';
 import { manager, CliPlugin } from '@modern-js/core';
-import WebpackChain from 'webpack-chain';
+import WebpackChain from '@modern-js/utils/webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
 import type { AppUserConfig } from '@modern-js/app-tools';
 import { garfishPlugin, externals } from '../src/cli';

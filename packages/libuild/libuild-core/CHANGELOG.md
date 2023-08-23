@@ -1,5 +1,17 @@
 # @modern-js/libuild
 
+## 2.31.2
+
+## 2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
 ## 2.30.0
 
 ### Patch Changes

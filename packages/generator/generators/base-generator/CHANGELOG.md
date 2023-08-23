@@ -1,5 +1,11 @@
 # @modern-js/base-generator
 
+## 3.1.35
+
+## 3.1.34
+
+## 3.1.33
+
 ## 3.1.32
 
 ### Patch Changes

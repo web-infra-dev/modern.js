@@ -14,6 +14,10 @@ const commonConfig = {
     },
     output: {
       disableMinimize: true,
+      // avoid unwrapOutputJSON conflict
+      distPath: {
+        root: 'dist-swc',
+      },
     },
   },
 };

@@ -20,6 +20,9 @@ export default function Layout() {
       <Link to="redirect" className="redirect-btn" prefetch="intent">
         /redirect
       </Link>
+      <Link to="client-loader" className="client-loader-btn" prefetch="intent">
+        /client-loader
+      </Link>
       <Outlet />
     </div>
   );

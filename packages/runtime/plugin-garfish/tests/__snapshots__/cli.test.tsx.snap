@@ -46,6 +46,7 @@ exports[`plugin-garfish cli webpack config close external and use js entry 1`] =
     "filename": "index.js",
     "libraryTarget": "umd",
     "publicPath": "//localhost:8080/",
+    "uniqueName": undefined,
   },
 }
 `;
@@ -55,6 +56,7 @@ exports[`plugin-garfish cli webpack config default micro config 1`] = `
   "output": {
     "libraryTarget": "umd",
     "publicPath": "//localhost:8080/",
+    "uniqueName": undefined,
   },
   "plugins": [
     HTMLWebpackPlugin {},

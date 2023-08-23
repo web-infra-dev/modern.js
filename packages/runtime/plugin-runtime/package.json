@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.30.0",
+  "version": "2.31.2",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -25,8 +25,8 @@
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
-      "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/esm/index.js"
     },
     "./types": "./types/index.d.ts",
@@ -34,68 +34,68 @@
     "./types/router": "./types/router.d.ts",
     "./types/model": "./types/model.d.ts",
     "./loadable": {
-      "jsnext:source": "./src/exports/loadable.ts",
       "types": "./dist/types/exports/loadable.d.ts",
+      "jsnext:source": "./src/exports/loadable.ts",
       "default": "./dist/esm/exports/loadable.js"
     },
     "./head": {
-      "jsnext:source": "./src/exports/head.ts",
       "types": "./dist/types/exports/head.d.ts",
+      "jsnext:source": "./src/exports/head.ts",
       "default": "./dist/esm/exports/head.js"
     },
     "./styled": {
-      "jsnext:source": "./src/exports/styled.ts",
       "types": "./dist/types/exports/styled.d.ts",
+      "jsnext:source": "./src/exports/styled.ts",
       "default": "./dist/esm/exports/styled.js"
     },
     "./server": {
+      "types": "./dist/types/exports/server.d.ts",
       "jsnext:source": "./src/exports/server.ts",
       "node": "./dist/cjs/exports/server.js",
-      "types": "./dist/types/exports/server.d.ts",
       "default": "./dist/esm/exports/server.js"
     },
     "./document": {
+      "types": "./dist/types/document/index.d.ts",
       "jsnext:source": "./src/document/index.ts",
       "node": "./dist/cjs/document/index.js",
-      "types": "./dist/types/document/index.d.ts",
       "default": "./dist/esm/document/index.js"
     },
     "./document/cli": {
+      "types": "./dist/types/document/index.d.ts",
       "jsnext:source": "./src/document/cli/index.ts",
       "node": "./dist/cjs/document/cli/index.js",
-      "types": "./dist/types/document/index.d.ts",
       "default": "./dist/esm/document/cli/index.js"
     },
     "./ssr": {
+      "types": "./dist/types/ssr/index.d.ts",
       "jsnext:source": "./src/ssr/index.ts",
       "node": "./dist/esm/ssr/index.node.js",
       "worker": "./dist/esm/ssr/index.node.js",
-      "types": "./dist/types/ssr/index.d.ts",
       "default": "./dist/esm/ssr/index.js"
     },
     "./model": {
-      "jsnext:source": "./src/state/index.ts",
       "types": "./types/model.d.ts",
+      "jsnext:source": "./src/state/index.ts",
       "default": "./dist/esm/state/index.js"
     },
     "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
       "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./router": {
-      "jsnext:source": "./src/router/index.ts",
       "types": "./dist/types/router/index.d.ts",
+      "jsnext:source": "./src/router/index.ts",
       "default": "./dist/esm/router/index.js"
     },
     "./router/server": {
-      "jsnext:source": "./src/router/runtime/server.ts",
       "types": "./dist/types/router/runtime/server.d.ts",
+      "jsnext:source": "./src/router/runtime/server.ts",
       "default": "./dist/esm/router/runtime/server.js"
     },
     "./loadable-bundler-plugin": {
-      "jsnext:source": "./src/ssr/cli/loadable-bundler-plugin.ts",
       "types": "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts",
+      "jsnext:source": "./src/ssr/cli/loadable-bundler-plugin.ts",
       "default": "./dist/cjs/ssr/cli/loadable-bundler-plugin.js"
     }
   },

@@ -1,82 +1,67 @@
-import { RequestHandler, createProxyMiddleware } from 'http-proxy-middleware';
+import http from 'http';
+import { RequestHandler } from 'http-proxy-middleware';
+import { HttpProxyMiddleware } from 'http-proxy-middleware/dist/http-proxy-middleware';
 import {
   ProxyDetail,
   NextFunction,
   BffProxyOptions,
   ModernServerContext,
 } from '@modern-js/types';
+import type { OnErrorCallback } from 'http-proxy-middleware/dist/types';
 import { debug } from '../utils';
 import type { ModernServerHandler } from '../type';
 
 export type { BffProxyOptions };
 
 export function formatProxyOptions(proxyOptions: BffProxyOptions) {
-  const formattedProxy: ProxyDetail[] = [];
+  const ret: ProxyDetail[] = [];
 
-  if (!Array.isArray(proxyOptions)) {
-    if ('target' in proxyOptions) {
-      formattedProxy.push(proxyOptions);
-    } else {
-      Array.prototype.push.apply(
-        formattedProxy,
-        Object.keys(proxyOptions).reduce(
-          (total: ProxyDetail[], source: string) => {
-            const option = (
-              proxyOptions as
-                | Record<string, string>
-                | Record<string, ProxyDetail>
-            )[source];
-
-            total.push({
-              context: source,
-              changeOrigin: true,
-              logLevel: 'warn',
-              ...(typeof option === 'string' ? { target: option } : option),
-            });
-            return total;
-          },
-          [],
-        ),
-      );
-    }
+  if (Array.isArray(proxyOptions)) {
+    ret.push(...proxyOptions);
+  } else if ('target' in proxyOptions) {
+    ret.push(proxyOptions);
   } else {
-    formattedProxy.push(...proxyOptions);
+    for (const [context, options] of Object.entries(proxyOptions)) {
+      const opts: ProxyDetail = {
+        context,
+        changeOrigin: true,
+        logLevel: 'warn',
+      };
+      if (typeof options === 'string') {
+        opts.target = options;
+      } else {
+        Object.assign(opts, options);
+      }
+      ret.push(opts);
+    }
   }
-  return formattedProxy;
+
+  const handleError: OnErrorCallback = (err, _req, _res, _target) => {
+    console.error(err);
+  };
+  for (const opts of ret) {
+    opts.onError ??= handleError;
+  }
+
+  return ret;
 }
 
 export type HttpUpgradeHandler = NonNullable<RequestHandler['upgrade']>;
 
-export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
+export const createProxyHandler = (proxyOptions: BffProxyOptions) => {
   debug('createProxyHandler', proxyOptions);
-  const middlewares: RequestHandler[] = [];
-  const handlers: ModernServerHandler[] = [];
-
-  const handleUpgrade: HttpUpgradeHandler = (req, socket, head) => {
-    for (const middleware of middlewares) {
-      if (typeof middleware.upgrade === 'function') {
-        middleware.upgrade(req, socket, head);
-      }
-    }
-  };
-
-  if (!proxyOptions) {
-    return { handlers, handleUpgrade };
-  }
-
   // If it is not an array, it may be an object that uses the context attribute
   // or an object in the form of { source: ProxyDetail }
   const formattedOptionsList = formatProxyOptions(proxyOptions);
+  const proxies: HttpProxyMiddleware[] = [];
+  const handlers: ModernServerHandler[] = [];
 
-  for (const options of formattedOptionsList) {
-    const middleware = createProxyMiddleware(options.context!, options);
+  for (const opts of formattedOptionsList) {
+    const proxy = new HttpProxyMiddleware(opts.context!, opts);
     const handler = async (ctx: ModernServerContext, next: NextFunction) => {
       const { req, res } = ctx;
       const bypassUrl =
-        typeof options.bypass === 'function'
-          ? options.bypass(req, res, options)
-          : null;
-
+        typeof opts.bypass === 'function' ? opts.bypass(req, res, opts) : null;
       // only false, no true
       if (typeof bypassUrl === 'boolean') {
         ctx.status = 404;
@@ -85,12 +70,23 @@ export const createProxyHandler = (proxyOptions?: BffProxyOptions) => {
         ctx.url = bypassUrl;
         next();
       } else {
-        middleware(req as any, res as any, next);
+        proxy.middleware(req as any, res as any, next);
       }
     };
-    middlewares.push(middleware);
+    proxies.push(proxy);
     handlers.push(handler);
   }
+
+  const handleUpgrade = (server: http.Server) => {
+    for (const proxy of proxies) {
+      const raw = proxy as any;
+      /** {@link https://github.com/chimurai/http-proxy-middleware/blob/d7aa01de280d598537735733070ad06d9ea608dd/src/http-proxy-middleware.ts#L73-L76} */
+      if (raw.proxyOptions.ws === true && !raw.wsInternalSubscribed) {
+        server.on('upgrade', raw.handleUpgrade);
+        raw.wsInternalSubscribed = true;
+      }
+    }
+  };
 
   return { handlers, handleUpgrade };
 };

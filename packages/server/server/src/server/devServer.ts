@@ -23,6 +23,7 @@ import type {
   ExposeServerApis,
   ServerRoute,
 } from '@modern-js/types';
+import type { SSR } from '@modern-js/server-core';
 import { merge as deepMerge } from '@modern-js/utils/lodash';
 import { RenderHandler } from '@modern-js/prod-server/src/libs/render';
 import { getDefaultDevOptions } from '../constants';
@@ -150,6 +151,7 @@ export class ModernDevServer extends ModernServer {
         ssrRender: workerSSRRender,
         distDir,
         staticGenerate,
+        conf,
         forceCSR,
         nonce: conf.security?.nonce,
         metaName,
@@ -159,15 +161,33 @@ export class ModernDevServer extends ModernServer {
   }
 
   private async applyDefaultMiddlewares(app: Server) {
-    const { pwd, dev, devMiddleware } = this;
+    const { pwd, dev, devMiddleware, conf } = this;
 
     // the http-compression can't handler stream http.
     // so we disable compress when user use stream ssr temporarily.
     const isUseStreamingSSR = (routes?: ServerRoute[]) =>
       routes?.some(r => r.isStream === true);
 
+    const isUseSSRPreload = () => {
+      const {
+        server: { ssr, ssrByEntries },
+      } = conf;
+
+      const checkUsePreload = (ssr?: SSR) =>
+        typeof ssr === 'object' && Boolean(ssr.preload);
+
+      return (
+        checkUsePreload(ssr) ||
+        Object.values(ssrByEntries || {}).some(ssr => checkUsePreload(ssr))
+      );
+    };
+
     // compression should be the first middleware
-    if (!isUseStreamingSSR(this.getRoutes()) && dev.compress) {
+    if (
+      !isUseStreamingSSR(this.getRoutes()) &&
+      !isUseSSRPreload() &&
+      dev.compress
+    ) {
       // @ts-expect-error http-compression does not provide a type definition
       const { default: compression } = await import('http-compression');
       this.addHandler((ctx, next) => {
@@ -206,11 +226,13 @@ export class ModernDevServer extends ModernServer {
     });
 
     // dev proxy handler, each proxy has own handler
-    const proxyHandlers = createProxyHandler(dev.proxy);
-    app.on('upgrade', proxyHandlers.handleUpgrade);
-    proxyHandlers.handlers.forEach(handler => {
-      this.addHandler(handler);
-    });
+    if (dev.proxy) {
+      const { handlers, handleUpgrade } = createProxyHandler(dev.proxy);
+      app && handleUpgrade(app);
+      handlers.forEach(handler => {
+        this.addHandler(handler);
+      });
+    }
 
     // do webpack build / plugin apply / socket server when pass compiler instance
     devMiddleware.init(app);

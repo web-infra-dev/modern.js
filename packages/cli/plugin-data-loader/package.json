@@ -15,28 +15,28 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.30.0",
+  "version": "2.31.2",
   "engines": {
     "node": ">=14.17.6"
   },
-  "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "jsnext:source": "./src/runtime/index.ts",
+  "types": "./src/runtime/index.ts",
+  "main": "./dist/cjs/runtime/index.js",
+  "module": "./dist/esm/runtime/index.js",
   "exports": {
     "./loader": {
-      "jsnext:source": "./src/cli/loader.ts",
       "types": "./dist/types/cli/loader.d.ts",
+      "jsnext:source": "./src/cli/loader.ts",
       "default": "./dist/cjs/cli/loader.js"
     },
     "./server": {
-      "jsnext:source": "./src/server/index.ts",
       "types": "./dist/types/server/index.d.ts",
+      "jsnext:source": "./src/server/index.ts",
       "default": "./dist/cjs/server/index.js"
     },
     "./runtime": {
-      "jsnext:source": "./src/runtime/index.ts",
       "types": "./dist/types/runtime/index.d.ts",
+      "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/esm/runtime/index.js"
     }
   },
@@ -84,7 +84,6 @@
     "ts-jest": "^29.1.0",
     "typescript": "^5",
     "webpack": "^5.88.1",
-    "webpack-chain": "^6.5.1",
     "react": "^18",
     "react-dom": "^18"
   },
@@ -96,6 +95,6 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true,
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/types/runtime/index.d.ts"
   }
 }
