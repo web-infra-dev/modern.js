@@ -2,6 +2,7 @@ import path from 'path';
 import { fs } from '@modern-js/utils';
 import type { Compiler } from 'webpack';
 import { DEFAULT_ASSET_PREFIX } from '../constants';
+import { addTrailingSlash } from '../utils';
 
 /** The intersection of webpack and Rspack */
 export const COMPILATION_PROCESS_STAGE = {
@@ -21,11 +22,14 @@ export const generateScriptTag = () => ({
   meta: {},
 });
 
-export const getPublicPathFromCompiler = (compiler: Compiler) =>
-  typeof compiler.options.output.publicPath === 'string'
-    ? compiler.options.output.publicPath
-    : // publicPath function is not supported yet
-      DEFAULT_ASSET_PREFIX;
+export const getPublicPathFromCompiler = (compiler: Compiler) => {
+  const { publicPath } = compiler.options.output;
+  if (typeof publicPath === 'string' && publicPath !== 'auto') {
+    return addTrailingSlash(publicPath);
+  }
+  // publicPath function is not supported yet
+  return DEFAULT_ASSET_PREFIX;
+};
 
 export const getBuilderVersion = async (): Promise<string> => {
   const pkgJson = await fs.readJSON(path.join(__dirname, '../../package.json'));

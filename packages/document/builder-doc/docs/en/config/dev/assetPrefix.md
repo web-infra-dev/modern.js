@@ -1,7 +1,7 @@
 - **Type:** `boolean | string`
 - **Default:** `'/'`
 
-Set the URL prefix of static assets in the development environment, similar to the [output.publicPath](https://webpack.js.org/guides/public-path/) config of webpack.
+Set the URL prefix of static assets in the development environment.
 
 `assetPrefix` will affect the URLs of most of the static assets, including JavaScript files, CSS files, images, videos, etc. If an incorrect value is specified, you'll receive 404 errors while loading these resources.
 
@@ -44,3 +44,16 @@ The script URL will be:
 ```js
 <script defer src="http://example.com/assets/static/js/main.js"></script>
 ```
+
+### Differences from Native Configuration
+
+`dev.assetPrefix` corresponds to the following native configurations:
+
+- [output.publicPath](https://webpack.js.org/guides/public-path/) configuration in webpack.
+- [output.publicPath](https://www.rspack.dev/config/output.html#outputpublicpath) configuration in Rspack.
+
+The differences from the native configuration are as follows:
+
+- `dev.assetPrefix` only takes effect in the development environment.
+- `dev.assetPrefix` automatically appends a trailing `/` by default.
+- The value of `dev.assetPrefix` is written to the `process.env.ASSET_PREFIX` environment variable.

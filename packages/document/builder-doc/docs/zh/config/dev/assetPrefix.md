@@ -1,7 +1,7 @@
 - **类型：** `boolean | string`
 - **默认值：** `'/'`
 
-设置开发环境下的静态资源 URL 前缀，对应 webpack 的 [output.publicPath](https://webpack.js.org/guides/public-path/) 配置。
+设置开发环境下的静态资源 URL 前缀。
 
 `assetPrefix` 会影响构建产物中绝大部分静态资源的 URL，包括 JavaScript 文件、CSS 文件、图片、视频等。如果指定了一个错误的值，则在加载这些资源时可能会出现 404 错误。
 
@@ -44,3 +44,16 @@ export default {
 ```js
 <script defer src="http://example.com/assets/static/js/main.js"></script>
 ```
+
+### 与原生配置的区别
+
+`dev.assetPrefix` 对应以下原生配置：
+
+- webpack 的 [output.publicPath](https://webpack.js.org/guides/public-path/) 配置。
+- Rspack 的 [output.publicPath](https://www.rspack.dev/zh/config/output.html#outputpublicpath) 配置。
+
+它与原生配置的区别在于：
+
+- `dev.assetPrefix` 仅在开发环境下生效。
+- `dev.assetPrefix` 默认会自动补全尾部的 `/`。
+- `dev.assetPrefix` 的值会写入 `process.env.ASSET_PREFIX` 环境变量。
