@@ -15,7 +15,7 @@ import type {
 } from '../../types';
 import jsonPlugin from '../../../compiled/@rollup/plugin-json';
 import dtsPlugin from '../../../compiled/rollup-plugin-dts';
-import { transformUndefineObject } from '../../utils/common';
+import { mapValue, transformUndefineObject } from '../../utils/common';
 
 export type { RollupWatcher };
 
@@ -27,6 +27,7 @@ type Config = {
   watch: boolean;
   abortOnError: boolean;
   respectExternal: boolean;
+  appDirectory: string;
 };
 
 export const runRollup = async (
@@ -39,6 +40,7 @@ export const runRollup = async (
     watch,
     abortOnError,
     respectExternal,
+    appDirectory,
   }: Config,
 ) => {
   const ignoreFiles: Plugin = {
@@ -66,9 +68,16 @@ export const runRollup = async (
     'sourceMap',
     'inlineSources',
   ];
+  const resolveRelative = (p: string) => path.resolve(appDirectory, p);
+
+  // rollup don't have working directory option like esbuild,
+  // so we need to resolve relative path.
+  const dtsInput = Array.isArray(input)
+    ? input.map(resolveRelative)
+    : mapValue(input, resolveRelative);
 
   const inputConfig: InputOptions = {
-    input,
+    input: dtsInput,
     external: externals,
     plugins: [
       jsonPlugin(),
@@ -144,7 +153,6 @@ export const runRollup = async (
       const { addRollupChunk } = await import('../../utils/print');
       const bundle = await rollup(inputConfig);
       const rollupOutput = await bundle.write(outputConfig);
-      const { appDirectory } = api.useAppContext();
       addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {

@@ -1,8 +1,4 @@
-import type {
-  PartialBuildConfig,
-  PartialBaseBuildConfig,
-  Target,
-} from '../types';
+import type { PartialBaseBuildConfig, Target } from '../types';
 
 export const targets: Target[] = [
   'es5',
@@ -16,16 +12,6 @@ export const targets: Target[] = [
   'es2021',
   'es2022',
   'esnext',
-];
-
-export const basePresetConfig: PartialBuildConfig = [
-  {
-    format: 'esm',
-    target: 'es6',
-    buildType: 'bundle',
-    outDir: './dist',
-    dts: { distPath: './types' },
-  },
 ];
 
 export const npmLibraryPresetConfig: PartialBaseBuildConfig[] = [
@@ -245,8 +231,6 @@ export const presetList: Record<string, PartialBaseBuildConfig[]> = {
 };
 
 export const internalPreset: Record<string, PartialBaseBuildConfig[]> = {
-  BASE_CONFIG: basePresetConfig,
-  'base-config': basePresetConfig,
   NPM_LIBRARY: npmLibraryPresetConfig,
   'npm-library': npmLibraryPresetConfig,
   NPM_LIBRARY_WITH_UMD: npmLibraryWithUmdPresetConfig,

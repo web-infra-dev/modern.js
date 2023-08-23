@@ -98,6 +98,7 @@ export const generatorDts = async (
       tsconfigPath,
       abortOnError,
       respectExternal,
+      appDirectory,
     });
   } else {
     await runTsc(api, {
