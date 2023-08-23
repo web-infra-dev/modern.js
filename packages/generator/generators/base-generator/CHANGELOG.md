@@ -1,5 +1,17 @@
 # @modern-js/base-generator
 
+## 3.1.36
+
+### Patch Changes
+
+- 133600d: feat(generators): simplify .gitignore and .npmignore template
+
+  feat(generators): 简化 .gitignore 和 .npmignore 模板
+
+- f1de744: chore(generators): adjust build target to es2019
+
+  chore(generators): 调整构建的 target 为 es2019
+
 ## 3.1.35
 
 ## 3.1.34

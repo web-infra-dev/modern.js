@@ -1,5 +1,17 @@
 # @modern-js/module-tools-docs
 
+## 2.32.0
+
+### Minor Changes
+
+- 8d22b87: docs: add content about transformLodash and fix a error about english content
+  docs: 添加关于 transformLodash 的内容,并且修复一个英文内容的错误
+
+### Patch Changes
+
+- @modern-js/doc-plugin-auto-sidebar@2.32.0
+- @modern-js/doc-tools@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 # @modern-js/libuild-plugin-node-polyfill
 
+## 2.32.0
+
 ## 2.31.2
 
 ## 2.31.1
