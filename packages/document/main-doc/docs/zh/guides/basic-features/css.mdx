@@ -103,6 +103,43 @@ const App = () => (
 
 :::
 
+### Tailwind CSS 自动补全
+
+Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件，用于在 VS Code 中自动补全 Tailwind CSS 的 class names、CSS functions 和 directives。
+
+你可以参考以下步骤来启动自动补全功能：
+
+1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
+2. 在项目的根目录创建 `tailwind.config.ts` 文件，并写入你需要的 Tailwind CSS 配置。
+
+```ts title="tailwind.config.ts"
+export default {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
+    './config/html/**/*.{html,ejs,hbs}',
+    './storybook/**/*',
+  ],
+  // 主题配置（可选）
+  theme: {},
+};
+```
+
+3. 在 `modern.config.ts` 中引用你创建的 `tailwind.config.ts` 文件，使 Modern.js 可以正确识别 Tailwind CSS 配置内容。
+
+```ts title="modern.config.ts"
+import tailwindConfig from './tailwind.config';
+
+export default defineConfig({
+  tools: {
+    tailwindcss: tailwindConfig,
+  },
+  // 主题配置（可选）
+  source: {
+    designSystem: tailwindConfig.theme,
+  },
+});
+```
+
 ### Tailwind CSS 版本
 
 Modern.js 同时支持 Tailwind CSS v2 和 v3 版本，框架会识别项目 `package.json` 中的 `tailwindcss` 依赖版本，并启用相应的配置。默认情况下，我们会为你安装 Tailwind CSS v3 版本。

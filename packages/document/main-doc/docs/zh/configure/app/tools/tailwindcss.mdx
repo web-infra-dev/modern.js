@@ -10,13 +10,8 @@ sidebar_label: tailwindcss
 ```js
 const tailwind = {
   content: [
-    './config/html/**/*.html',
-    './config/html/**/*.ejs',
-    './config/html/**/*.hbs',
-    './src/**/*.js',
-    './src/**/*.jsx',
-    './src/**/*.ts',
-    './src/**/*.tsx',
+    './src/**/*.{js,jsx,ts,tsx}',
+    './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
   // 使用 source.designSystem 配置作为 Tailwind CSS Theme 配置
