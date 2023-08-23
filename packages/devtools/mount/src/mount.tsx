@@ -1,8 +1,9 @@
 import { createRoot } from 'react-dom/client';
-import { GeistProvider, CssBaseline } from '@geist-ui/core';
+import { CssBaseline } from '@geist-ui/core';
 import DevtoolsAction, {
   DevtoolsActionProps,
 } from './components/Devtools/Action';
+import AutoGeistProvider from './components/AutoGeistProvider';
 
 export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
   const props: DevtoolsActionProps = {
@@ -43,9 +44,9 @@ export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
   const root = createRoot(container);
 
   root.render(
-    <GeistProvider>
+    <AutoGeistProvider>
       <CssBaseline />
       <DevtoolsAction {...props} />
-    </GeistProvider>,
+    </AutoGeistProvider>,
   );
 };
