@@ -1,15 +1,11 @@
 .DS_Store
 
 *.log*
-*.pid
-*.pid.*
-*.report
 
 node_modules/
 .nyc_output
 *.tsbuildinfo
 .eslintcache
-.sonarlint
 
 coverage/
 tests/

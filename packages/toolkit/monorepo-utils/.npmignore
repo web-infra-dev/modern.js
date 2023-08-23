@@ -4,27 +4,13 @@
 .pnp.js
 .env.local
 .env.*.local
-.history
-.rts*
 *.log*
-*.pid
-*.pid.*
-*.report
-*.lcov
-lib-cov
 
 node_modules/
-.npm
-.lock-wscript
-.yarn-integrity
-.node_repl_history
-.nyc_output
 *.tsbuildinfo
 .eslintcache
-.sonarlint
 
 coverage/
-release/
 output/
 output_resource/
 tests/
@@ -34,7 +20,6 @@ tests/
 !.vscode/extensions.json
 .idea/
 
-**/*/api/typings/auto-generated
 src/
 compiled/
 
