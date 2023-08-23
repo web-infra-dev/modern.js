@@ -26,6 +26,8 @@ import {
   type BeforeAssetTagGenerationHtmlPluginData,
   type As,
 } from './helpers';
+import { getPublicPathFromCompiler } from '../util';
+import { withPublicPath } from '../../url';
 
 const defaultOptions = {
   type: 'async-chunks' as const,
@@ -113,17 +115,10 @@ function generateLinks(
   // Sort to ensure the output is predictable.
   const sortedFilteredFiles = filteredFiles.sort();
   const links: HtmlWebpackPlugin.HtmlTagObject[] = [];
-  const webpackPublicPath = (compilation.outputOptions.publicPath ||
-    '') as string;
-  // webpack 5 set publicPath default value 'auto'
-  const publicPath =
-    webpackPublicPath.trim() !== '' && webpackPublicPath !== 'auto'
-      ? webpackPublicPath
-      : '';
+  const publicPath = getPublicPathFromCompiler(compilation.compiler);
 
   for (const file of sortedFilteredFiles) {
-    const href = `${publicPath}${file}`;
-
+    const href = withPublicPath(file, publicPath);
     const attributes: Attributes = {
       href,
       rel: type,

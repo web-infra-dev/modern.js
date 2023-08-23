@@ -12,6 +12,9 @@ test('should generate prefetch link when prefetch is defined', async () => {
       main: join(fixtures, 'src/page1/index.ts'),
     },
     builderConfig: {
+      output: {
+        assetPrefix: 'https://www.foo.com',
+      },
       performance: {
         prefetch: true,
       },
@@ -32,7 +35,7 @@ test('should generate prefetch link when prefetch is defined', async () => {
 
   expect(
     content.includes(
-      `<link href="${asyncFileName.slice(
+      `<link href="https://www.foo.com${asyncFileName.slice(
         asyncFileName.indexOf('/static/js/async/'),
       )}" rel="prefetch">`,
     ),
