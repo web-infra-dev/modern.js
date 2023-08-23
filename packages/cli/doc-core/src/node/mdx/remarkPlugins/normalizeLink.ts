@@ -99,7 +99,7 @@ export const remarkPluginNormalizeLink: Plugin<
       },
     );
 
-    const normalizeImageUrl = (imageUrl: string): string | undefined => {
+    const normalizeImageUrl = (imageUrl: string): string => {
       if (imageUrl.startsWith('/')) {
         const publicDir = path.join(root, PUBLIC_DIR);
         const imagePath = path.join(publicDir, imageUrl);
@@ -109,6 +109,9 @@ export const remarkPluginNormalizeLink: Plugin<
         }
         // eslint-disable-next-line consistent-return
         return imagePath;
+      } else {
+        // eslint-disable-next-line consistent-return
+        return imageUrl;
       }
     };
 
