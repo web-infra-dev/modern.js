@@ -1,5 +1,6 @@
 import http, { OutgoingHttpHeaders } from 'http';
 import path from 'path';
+import { fs } from '@modern-js/utils';
 import { launchApp, getPort, killApp } from '../../../utils/modernTestUtils';
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
@@ -37,9 +38,9 @@ async function request(
 describe('SSR preload', () => {
   let app: any;
   let appPort: number;
+  const appDir = path.join(fixtureDir, 'preload');
 
   beforeAll(async () => {
-    const appDir = path.join(fixtureDir, 'preload');
     appPort = await getPort();
     app = await launchApp(appDir, appPort);
   });
@@ -59,5 +60,13 @@ describe('SSR preload', () => {
     // so filtration the vendors chunk,
     expect(links.filter(link => !link.includes('vendors'))).toMatchSnapshot();
     expect(body).toMatch('"renderLevel":2');
+  });
+
+  test('should set routes.stream is true', async () => {
+    const routePath = path.resolve(appDir, 'dist', 'route.json');
+
+    const content = JSON.parse(fs.readFileSync(routePath, 'utf-8'));
+
+    expect(content.routes[0].isStream).toBeTruthy();
   });
 });
