@@ -10,6 +10,8 @@ import {
   createRequestContext,
   reporterCtx,
 } from '@modern-js/utils/runtime-node';
+import { time } from '@modern-js/utils/universal/time';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';
@@ -90,6 +92,9 @@ export const routerPlugin = ({
           const baseUrl = request.baseUrl as string;
           const _basename =
             baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
+          const { reporter, serverTiming } = context.ssrContext!;
+          const requestContext = createRequestContext();
+          requestContext.set(reporterCtx, reporter);
 
           let routes = createRoutes
             ? createRoutes()
@@ -100,6 +105,7 @@ export const routerPlugin = ({
                   props: {
                     nonce,
                   },
+                  reporter,
                 }),
               );
 
@@ -111,14 +117,14 @@ export const routerPlugin = ({
           });
 
           const remixRequest = createFetchRequest(request);
-          const requestContext = createRequestContext();
-          // initial requestContext
-          const { reporter } = context.ssrContext!;
-          requestContext.set(reporterCtx, reporter);
 
+          const end = time();
           const routerContext = await query(remixRequest, {
             requestContext,
           });
+          const cost = end();
+          reporter.reportTiming(LOADER_REPORTER_NAME, cost);
+          serverTiming.addServeTiming(LOADER_REPORTER_NAME, cost);
 
           if (routerContext instanceof Response) {
             // React Router would return a Response when redirects occur in loader.

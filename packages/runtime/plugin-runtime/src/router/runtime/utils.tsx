@@ -1,9 +1,10 @@
 import React from 'react';
 import { Route, isRouteErrorResponse } from '@modern-js/utils/runtime/router';
-import {
-  type NestedRoute,
-  type PageRoute,
-  type SSRMode,
+import type {
+  Reporter,
+  NestedRoute,
+  PageRoute,
+  SSRMode,
 } from '@modern-js/types';
 import {
   ErrorResponse,
@@ -21,10 +22,12 @@ export function getRouteComponents(
     globalApp,
     ssrMode,
     props,
+    reporter,
   }: {
     globalApp?: React.ComponentType<any>;
     ssrMode?: SSRMode;
     props?: Record<string, any>;
+    reporter: Reporter;
   },
 ) {
   const Layout = ({ Component, ...props }: any) => {
@@ -42,6 +45,7 @@ export function getRouteComponents(
         DeferredDataComponent:
           ssrMode === 'stream' ? DeferredDataScripts : undefined,
         props,
+        reporter,
       });
       routeElements.push(routeElement);
     } else {
@@ -63,10 +67,12 @@ export function renderRoutes({
   routesConfig,
   props,
   ssrMode,
+  reporter,
 }: {
   routesConfig: RouterConfig['routesConfig'];
   props?: Record<string, any>;
   ssrMode?: SSRMode;
+  reporter: Reporter;
 }) {
   if (!routesConfig) {
     return null;
@@ -79,6 +85,7 @@ export function renderRoutes({
     globalApp,
     ssrMode,
     props,
+    reporter,
   });
   return routeElements;
 }

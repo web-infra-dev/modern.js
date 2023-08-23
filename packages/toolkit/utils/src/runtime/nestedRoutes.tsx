@@ -2,7 +2,7 @@
  * runtime utils for nested routes generating
  */
 import React, { Suspense } from 'react';
-import type { NestedRoute } from '@modern-js/types';
+import type { NestedRoute, Reporter } from '@modern-js/types';
 import {
   createRoutesFromElements,
   LoaderFunction,
@@ -11,11 +11,18 @@ import {
   Route,
   RouteProps,
 } from 'react-router-dom';
+import { LOADER_REPORTER_NAME } from '../universal/constants';
+import { time } from '../universal/time';
 
-export const transformNestedRoutes = (routes: NestedRoute[]) => {
+export const transformNestedRoutes = (
+  routes: NestedRoute[],
+  reporter: Reporter,
+) => {
   const routeElements = [];
   for (const route of routes) {
-    const routeElement = renderNestedRoute(route);
+    const routeElement = renderNestedRoute(route, {
+      reporter,
+    });
     routeElements.push(routeElement);
   }
 
@@ -32,18 +39,19 @@ export const renderNestedRoute = (
     parent?: NestedRoute;
     DeferredDataComponent?: DeferredDataComponentType;
     props?: Record<string, any>;
+    reporter?: Reporter;
   } = {},
 ) => {
   const { children, index, id, component, isRoot, lazyImport, config, handle } =
     nestedRoute;
   const Component = component as unknown as React.ComponentType<any>;
-  const { parent, DeferredDataComponent, props = {} } = options;
+  const { parent, DeferredDataComponent, props = {}, reporter } = options;
 
   const routeProps: Omit<RouteProps, 'children'> = {
     caseSensitive: nestedRoute.caseSensitive,
     path: nestedRoute.path,
     id: nestedRoute.id,
-    loader: createLoader(nestedRoute),
+    loader: createLoader(nestedRoute, reporter),
     action: nestedRoute.action,
     hasErrorBoundary: nestedRoute.hasErrorBoundary,
     shouldRevalidate: nestedRoute.shouldRevalidate,
@@ -123,14 +131,20 @@ export const renderNestedRoute = (
   return routeElement;
 };
 
-function createLoader(route: NestedRoute): LoaderFunction {
+function createLoader(route: NestedRoute, reporter?: Reporter): LoaderFunction {
   const { loader } = route;
   if (loader) {
-    return (args: LoaderFunctionArgs) => {
+    return async (args: LoaderFunctionArgs) => {
       if (typeof route.lazyImport === 'function') {
         route.lazyImport();
       }
-      return loader(args);
+      const end = time();
+      const res = await loader(args);
+      const cost = end();
+      if (!document && reporter) {
+        reporter?.reportTiming(`${LOADER_REPORTER_NAME}-${route.id}`, cost);
+      }
+      return res;
     };
   } else {
     return () => {
