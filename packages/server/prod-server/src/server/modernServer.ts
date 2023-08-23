@@ -522,7 +522,7 @@ export class ModernServer implements ModernServerInterface {
 
     res.on('finish', () => {
       const cost = end();
-      reporter.reportTiming('server_handle_request', cost);
+      reporter.reportTiming(ServerReportTimings.SERVER_HANDLE_REQUEST, cost);
     });
 
     // route is api service
