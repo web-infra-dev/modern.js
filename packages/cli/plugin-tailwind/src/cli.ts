@@ -24,12 +24,7 @@ export const getRandomTwConfigFileName = (internalDirectory: string) => {
 };
 
 function getDefaultContent(appDirectory: string) {
-  const defaultContent = [
-    './src/**/*.js',
-    './src/**/*.jsx',
-    './src/**/*.ts',
-    './src/**/*.tsx',
-  ];
+  const defaultContent = ['./src/**/*.{js,jsx,ts,tsx}'];
 
   // Only add storybook and html config when they exist
   // Otherwise, it will cause an unnecessary rebuild
@@ -37,11 +32,7 @@ function getDefaultContent(appDirectory: string) {
     defaultContent.push('./storybook/**/*');
   }
   if (fs.existsSync(path.join(appDirectory, 'config/html'))) {
-    defaultContent.push(
-      './config/html/**/*.html',
-      './config/html/**/*.ejs',
-      './config/html/**/*.hbs',
-    );
+    defaultContent.push('./config/html/**/*.{html,ejs,hbs}');
   }
 
   return defaultContent;
