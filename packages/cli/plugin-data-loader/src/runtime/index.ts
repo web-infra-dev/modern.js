@@ -197,7 +197,7 @@ export const handleRequest = async ({
   }
 
   const cost = end();
-  reporter.reportTiming(LOADER_REPORTER_NAME, cost);
+  reporter.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
 
   await sendLoaderResponse(res, response);
 };

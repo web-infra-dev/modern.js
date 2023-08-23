@@ -117,7 +117,10 @@ export const renderNestedRoute = (
   }
 
   const childElements = children?.map(childRoute => {
-    return renderNestedRoute(childRoute, { parent: nestedRoute });
+    return renderNestedRoute(childRoute, {
+      parent: nestedRoute,
+      reporter,
+    });
   });
 
   const routeElement = index ? (
@@ -141,7 +144,7 @@ function createLoader(route: NestedRoute, reporter?: Reporter): LoaderFunction {
       const end = time();
       const res = await loader(args);
       const cost = end();
-      if (!document && reporter) {
+      if (typeof document === 'undefined' && reporter) {
         reporter?.reportTiming(`${LOADER_REPORTER_NAME}-${route.id}`, cost);
       }
       return res;
