@@ -27,7 +27,7 @@ export function getRouteComponents(
     globalApp?: React.ComponentType<any>;
     ssrMode?: SSRMode;
     props?: Record<string, any>;
-    reporter: Reporter;
+    reporter?: Reporter;
   },
 ) {
   const Layout = ({ Component, ...props }: any) => {
@@ -72,7 +72,7 @@ export function renderRoutes({
   routesConfig: RouterConfig['routesConfig'];
   props?: Record<string, any>;
   ssrMode?: SSRMode;
-  reporter: Reporter;
+  reporter?: Reporter;
 }) {
   if (!routesConfig) {
     return null;
