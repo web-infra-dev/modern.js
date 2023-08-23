@@ -16,6 +16,11 @@ interface Props {
   sidebarData: (NormalizedSidebarGroup | SidebarItem)[];
 }
 
+const highlightTitleStyle = {
+  color: 'var(--modern-c-text-1)',
+  fontSize: '14px',
+};
+
 const textEllipsisStyle = {
   whiteSpace: 'nowrap',
   overflow: 'hidden',
@@ -70,12 +75,13 @@ export function SidebarItemComp(props: SidebarItemProps) {
           onMouseEnter={() => props.preloadLink(item.link)}
           className={`${
             active ? styles.menuItemActive : styles.menuItem
-          } mt-1 py-1.5 px-3 rounded-xl font-medium flex`}
+          } mt-1 py-1.5 px-2 rounded-xl font-medium flex`}
           style={{
             ...textEllipsisStyle,
             // The first level menu item will have the same font size as the sidebar group
             fontSize: depth === 0 ? '14px' : '13px',
-            marginLeft: depth === 0 ? 0 : '12px',
+            marginLeft: depth === 0 ? 0 : '20px',
+            ...(depth === 0 ? highlightTitleStyle : {}),
           }}
         >
           <Tag tag={item.tag} />
@@ -176,7 +182,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       key={id}
       className="mt-1 block"
       style={{
-        marginLeft: depth === 0 ? 0 : '12px',
+        marginLeft: depth === 0 ? 0 : '20px',
       }}
     >
       <div
@@ -202,9 +208,10 @@ export function SidebarGroupComp(props: SidebarItemProps) {
         }}
       >
         <h2
-          className="py-1 px-2 text-sm font-medium ml-1 flex"
+          className="py-1 px-2 text-sm font-medium flex"
           style={{
             ...textEllipsisStyle,
+            ...(depth === 0 ? highlightTitleStyle : {}),
           }}
         >
           <Tag tag={item.tag} />
@@ -229,7 +236,7 @@ export function SidebarGroupComp(props: SidebarItemProps) {
       >
         <div
           ref={innerRef}
-          className="transition-opacity duration-500 ease-in-out"
+          className="modern-sidebar-group transition-opacity duration-500 ease-in-out"
           style={{
             opacity: initialState.current ? 0 : 1,
           }}
