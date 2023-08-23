@@ -142,8 +142,6 @@ export const handleRequest = async ({
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
-  const cost = end();
-  reporter.reportTiming(LOADER_REPORTER_NAME, cost);
   const request = createLoaderRequest(context);
   const requestContext = createRequestContext();
   // initial requestContext
@@ -197,6 +195,9 @@ export const handleRequest = async ({
       },
     });
   }
+
+  const cost = end();
+  reporter.reportTiming(LOADER_REPORTER_NAME, cost);
 
   await sendLoaderResponse(res, response);
 };
