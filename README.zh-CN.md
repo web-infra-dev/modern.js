@@ -11,7 +11,7 @@
 <p align="center">
   <img src="https://img.shields.io/npm/v/@modern-js/core?style=flat-square&color=00a8f0" alt="npm version" />
   <img src="https://img.shields.io/npm/dm/@modern-js/core.svg?style=flat-square&color=00a8f0" alt="downloads" />
-  <img src="https://img.shields.io/npm/l/@modern-js/core?style=flat-square&color=00a8f0" alt="License" />
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square&color=00a8f0" alt="License" />
 </p>
 
 [English](./README.md) | 简体中文
@@ -77,3 +77,5 @@ Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 
 ## License
 
 Modern.js 项目基于 [MIT 协议](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE)，请自由地享受和参与开源。
+
+第三方 licenses 列举于 [THIRD-PARTY-LICENSE](./THIRD-PARTY-LICENSE) 中。

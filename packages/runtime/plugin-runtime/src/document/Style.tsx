@@ -8,11 +8,11 @@ import {
 export function Style(props: { children?: string; content?: string }) {
   const { content, children } = props;
   const contentStr = children || content;
-  const contentIIFE = encodeURIComponent(`(${contentStr})()`);
+  const styleContent = encodeURIComponent(`${contentStr}`);
   return (
     <>
       {`${DOCUMENT_STYLE_PLACEHOLDER_START}`}
-      {`${contentIIFE}`}
+      {`${styleContent}`}
       {`${DOCUMENT_STYLE_PLACEHOLDER_END}`}
     </>
   );

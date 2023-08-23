@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.30.0",
+  "version": "2.31.2",
   "jsnext:source": "./src/cli/index.ts",
   "types": "./src/cli/index.ts",
   "typesVersions": {
@@ -42,23 +42,23 @@
   "exports": {
     "./types": "./type.d.ts",
     ".": {
-      "jsnext:source": "./src/cli/index.ts",
       "types": "./dist/types/runtime/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
       "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./deps": {
-      "jsnext:source": "./src/deps/index.ts",
       "types": "./dist/types/deps/index.d.ts",
+      "jsnext:source": "./src/deps/index.ts",
       "default": "./dist/esm/deps/index.js"
     },
     "./runtime": {
-      "jsnext:source": "./src/index.ts",
       "types": "./dist/types/runtime/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/esm/runtime/index.js"
     }
   },
@@ -81,7 +81,7 @@
     "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.30.0"
+    "@modern-js/runtime": "workspace:^2.31.2"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
@@ -103,8 +103,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-router-dom": "^6.8.1",
-    "typescript": "^5",
-    "webpack-chain": "^6.5.1"
+    "typescript": "^5"
   },
   "sideEffects": false,
   "publishConfig": {

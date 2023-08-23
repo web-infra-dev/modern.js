@@ -15,6 +15,13 @@ const toolsConfig = {
   bundlerChain: (chain: BundlerChain) => {
     chain.devtool('source-map');
   },
+  htmlPlugin: (config: any) => {
+    // minify will remove sourcemap comment
+    if (typeof config.minify === 'object') {
+      config.minify.minifyJS = false;
+      config.minify.minifyCSS = false;
+    }
+  },
 };
 
 test.describe('disableInlineRuntimeChunk', () => {

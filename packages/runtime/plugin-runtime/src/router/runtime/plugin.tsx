@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import {
   createBrowserRouter,
   createHashRouter,
@@ -77,20 +77,7 @@ export const routerPlugin = ({
           }
 
           const getRouteApp = () => {
-            return (props => {
-              beforeCreateRouter = false;
-              routes = createRoutes
-                ? createRoutes()
-                : createRoutesFromElements(
-                    renderRoutes({
-                      routesConfig: finalRouteConfig,
-                      props,
-                    }),
-                  );
-
-              const runner = (api as any).useHookRunners();
-              routes = runner.modifyRoutes(routes);
-
+            const useCreateRouter = (props: any) => {
               const baseUrl =
                 window._SERVER_DATA?.router.baseUrl ||
                 select(location.pathname);
@@ -98,51 +85,78 @@ export const routerPlugin = ({
                 baseUrl === '/' ? urlJoin(baseUrl, basename) : baseUrl;
 
               let hydrationData = window._ROUTER_DATA;
-              if (hydrationData?.errors) {
-                hydrationData = {
-                  ...hydrationData,
-                  errors: deserializeErrors(hydrationData.errors),
-                };
-              }
-
-              const router = supportHtml5History
-                ? createBrowserRouter(routes, {
-                    basename: _basename,
-                    hydrationData,
-                  })
-                : createHashRouter(routes, {
-                    basename: _basename,
-                    hydrationData,
-                  });
-
               const runtimeContext = useContext(RuntimeReactContext);
-              if (!runtimeContext.remixRouter) {
+
+              const { unstable_getBlockNavState: getBlockNavState } =
+                runtimeContext;
+
+              return useMemo(() => {
+                if (hydrationData?.errors) {
+                  hydrationData = {
+                    ...hydrationData,
+                    errors: deserializeErrors(hydrationData.errors),
+                  };
+                }
+
+                routes = createRoutes
+                  ? createRoutes()
+                  : createRoutesFromElements(
+                      renderRoutes({
+                        routesConfig: finalRouteConfig,
+                        props,
+                      }),
+                    );
+
+                const runner = (api as any).useHookRunners();
+                routes = runner.modifyRoutes(routes);
+
+                const router = supportHtml5History
+                  ? createBrowserRouter(routes, {
+                      basename: _basename,
+                      hydrationData,
+                    })
+                  : createHashRouter(routes, {
+                      basename: _basename,
+                      hydrationData,
+                    });
+
+                const originSubscribe = router.subscribe;
+
+                router.subscribe = (listener: RouterSubscriber) => {
+                  const wrapedListener: RouterSubscriber = (...args) => {
+                    const blockRoute = getBlockNavState
+                      ? getBlockNavState()
+                      : false;
+
+                    if (blockRoute) {
+                      return;
+                    }
+                    // eslint-disable-next-line consistent-return
+                    return listener(...args);
+                  };
+                  return originSubscribe(wrapedListener);
+                };
+
                 Object.defineProperty(runtimeContext, 'remixRouter', {
                   get() {
                     return router;
                   },
+                  configurable: true,
                 });
-              }
 
-              const originSubscribe = router.subscribe;
+                return router;
+              }, [
+                finalRouteConfig,
+                props,
+                _basename,
+                hydrationData,
+                getBlockNavState,
+              ]);
+            };
 
-              router.subscribe = (listener: RouterSubscriber) => {
-                const wrapedListener: RouterSubscriber = (...args) => {
-                  const getBlockNavState =
-                    runtimeContext.unstable_getBlockNavState;
-
-                  const blockRoute = getBlockNavState
-                    ? getBlockNavState()
-                    : false;
-
-                  if (blockRoute) {
-                    return;
-                  }
-                  // eslint-disable-next-line consistent-return
-                  return listener(...args);
-                };
-                return originSubscribe(wrapedListener);
-              };
+            return (props => {
+              beforeCreateRouter = false;
+              const router = useCreateRouter(props);
 
               return (
                 <App {...props}>

@@ -1,5 +1,37 @@
 # @modern-js/core
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/node-bundle-require@2.31.2
+  - @modern-js/plugin@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.31.1
+- @modern-js/plugin@2.31.1
+- @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 2361ce8: feat: support partials html in Document
+  feat: 支持 partials html 在 Document 中也生效
+- 4c03d9a: fix(core): remove testing config type and schema
+
+  fix(core): 移除 testing 配置类型和 schema
+
+- Updated dependencies [1882366]
+  - @modern-js/utils@2.31.0
+  - @modern-js/node-bundle-require@2.31.0
+  - @modern-js/plugin@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

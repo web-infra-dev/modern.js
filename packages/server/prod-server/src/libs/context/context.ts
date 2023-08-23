@@ -63,12 +63,11 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.req = req;
     this.res = res;
     this.options = options || {};
+    this.bind();
     this.serverTiming = new ServerTiming(
-      res,
+      this.res,
       cutNameByHyphen(options?.metaName || 'modern-js'),
     );
-
-    this.bind();
   }
 
   private get parsedURL() {
@@ -87,7 +86,12 @@ export class ModernServerContext implements ModernServerContextInterface {
   private bind() {
     const { req, res } = this as any;
     req.get = (key: string) => this.getReqHeader(key);
-    res.set = (key: string, value: any) => this.res.setHeader(key, value);
+    res.set = (key: string, value: any) => {
+      if (!(res as ServerResponse).headersSent) {
+        res.setHeader(key, value);
+      }
+      return res;
+    };
     res.send = (body: ResponseBody) => {
       this.send(body);
     };

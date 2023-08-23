@@ -26,6 +26,16 @@ export function Link(props: LinkProps) {
   const handleNavigate = async (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
   ) => {
+    // early return to allow "open in new tab"
+    if (
+      e.ctrlKey ||
+      e.shiftKey ||
+      e.metaKey || // apple
+      e.button === 1 // middle click
+    ) {
+      return;
+    }
+
     e.preventDefault();
     if (!process.env.__SSR__) {
       const matchedRoutes = matchRoutes(

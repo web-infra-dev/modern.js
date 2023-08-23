@@ -11,7 +11,7 @@
 <p align="center">
   <img src="https://img.shields.io/npm/v/@modern-js/core?style=flat-square&color=00a8f0" alt="npm version" />
   <img src="https://img.shields.io/npm/dm/@modern-js/core.svg?style=flat-square&color=00a8f0" alt="downloads" />
-  <img src="https://img.shields.io/npm/l/@modern-js/core?style=flat-square&color=00a8f0" alt="License" />
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square&color=00a8f0" alt="License" />
 </p>
 
 English | [简体中文](./README.zh-CN.md)
@@ -78,3 +78,5 @@ Some implementations of Modern.js are modified from existing projects, such as [
 ## License
 
 Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).
+
+Third party licenses are listed in [THIRD-PARTY-LICENSE](./THIRD-PARTY-LICENSE).

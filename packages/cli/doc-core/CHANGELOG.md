@@ -1,5 +1,59 @@
 # @modern-js/doc-core
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/builder@2.31.2
+  - @modern-js/builder-rspack-provider@2.31.2
+  - @modern-js/core@2.31.2
+  - @modern-js/doc-plugin-medium-zoom@2.31.2
+  - @modern-js/remark-container@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- Updated dependencies [fe70fdf]
+  - @modern-js/builder-rspack-provider@2.31.1
+  - @modern-js/builder@2.31.1
+  - @modern-js/core@2.31.1
+  - @modern-js/doc-plugin-medium-zoom@2.31.1
+  - @modern-js/remark-container@2.31.1
+  - @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- c8f74cd: chore: remove css module for doc layout and adjust layout
+  chore: 移除文档布局组件的 css module 并且调整布局
+- c49b9d6: fix: change modern-doc back to the original width
+  fix: 将 modern doc 宽度改回原来的宽度
+- 464ffe6: fix: not render global UI in blank page
+  fix: 空白页面不渲染全局 UI 组件
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
+- Updated dependencies [0f09d7c]
+- Updated dependencies [bfdf7b4]
+- Updated dependencies [2361ce8]
+- Updated dependencies [8ab3e2a]
+- Updated dependencies [4c03d9a]
+- Updated dependencies [1eece3e]
+- Updated dependencies [fa8e948]
+- Updated dependencies [83bf560]
+- Updated dependencies [1882366]
+  - @modern-js/builder-rspack-provider@2.31.0
+  - @modern-js/core@2.31.0
+  - @modern-js/builder@2.31.0
+  - @modern-js/utils@2.31.0
+  - @modern-js/doc-plugin-medium-zoom@2.31.0
+  - @modern-js/remark-container@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

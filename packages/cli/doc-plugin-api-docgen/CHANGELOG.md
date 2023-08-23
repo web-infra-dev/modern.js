@@ -1,5 +1,31 @@
 # @modern-js/doc-plugin-api-docgen
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/doc-core@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/doc-core@2.31.1
+- @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- Updated dependencies [c8f74cd]
+- Updated dependencies [c49b9d6]
+- Updated dependencies [464ffe6]
+- Updated dependencies [1882366]
+  - @modern-js/doc-core@2.31.0
+  - @modern-js/utils@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

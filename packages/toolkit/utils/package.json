@@ -15,11 +15,11 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.30.0",
+  "version": "2.31.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/esm/index.js",
   "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
   "exports": {
     ".": {
@@ -153,7 +153,7 @@
         "default": "./dist/cjs/universal/constants.js"
       },
       "./universal/format-webpack": {
-        "types": "./dist/types/universal/format-webpack.d.ts",
+        "types": "./dist/types/universal/formatWebpack.d.ts",
         "import": "./dist/esm/universal/formatWebpack.js",
         "default": "./dist/cjs/universal/formatWebpack.js"
       },

@@ -10,6 +10,15 @@ test('should inline assets retry runtime code to html by default', async () => {
       output: {
         assetsRetry: {},
       },
+      tools: {
+        htmlPlugin: (config: any) => {
+          // minifyJS will minify function name
+          if (typeof config.minify === 'object') {
+            config.minify.minifyJS = false;
+            config.minify.minifyCSS = false;
+          }
+        },
+      },
     },
   });
   const files = await builder.unwrapOutputJSON();

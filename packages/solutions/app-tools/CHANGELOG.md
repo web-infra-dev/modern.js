@@ -1,5 +1,106 @@
 # @modern-js/app-tools
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/builder@2.31.2
+  - @modern-js/builder-rspack-provider@2.31.2
+  - @modern-js/builder-shared@2.31.2
+  - @modern-js/builder-webpack-provider@2.31.2
+  - @modern-js/builder-plugin-esbuild@2.31.2
+  - @modern-js/builder-plugin-node-polyfill@2.31.2
+  - @modern-js/core@2.31.2
+  - @modern-js/plugin-data-loader@2.31.2
+  - @modern-js/plugin-i18n@2.31.2
+  - @modern-js/plugin-lint@2.31.2
+  - @modern-js/new-action@2.31.2
+  - @modern-js/server-core@2.31.2
+  - @modern-js/prod-server@2.31.2
+  - @modern-js/server@2.31.2
+  - @modern-js/node-bundle-require@2.31.2
+  - @modern-js/plugin@2.31.2
+  - @modern-js/upgrade@2.31.2
+  - @modern-js/types@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- Updated dependencies [fe70fdf]
+  - @modern-js/builder-rspack-provider@2.31.1
+  - @modern-js/builder@2.31.1
+  - @modern-js/builder-plugin-node-polyfill@2.31.1
+  - @modern-js/builder-shared@2.31.1
+  - @modern-js/builder-webpack-provider@2.31.1
+  - @modern-js/builder-plugin-esbuild@2.31.1
+  - @modern-js/core@2.31.1
+  - @modern-js/plugin-data-loader@2.31.1
+  - @modern-js/plugin-i18n@2.31.1
+  - @modern-js/plugin-lint@2.31.1
+  - @modern-js/new-action@2.31.1
+  - @modern-js/server-core@2.31.1
+  - @modern-js/prod-server@2.31.1
+  - @modern-js/server@2.31.1
+  - @modern-js/node-bundle-require@2.31.1
+  - @modern-js/plugin@2.31.1
+  - @modern-js/types@2.31.1
+  - @modern-js/upgrade@2.31.1
+  - @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 71bcc55: fix: inline the route manifests into the html
+  fix: 内联路由信息到 html 中
+- 2361ce8: feat: support partials html in Document
+  feat: 支持 partials html 在 Document 中也生效
+- 30be1ad: fix(app-tools): inject nonce attr to route manifest script
+
+  fix(app-tools): 向 route manifest 脚本注入 nonce 属性
+
+- 4c03d9a: fix(core): remove testing config type and schema
+
+  fix(core): 移除 testing 配置类型和 schema
+
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
+- Updated dependencies [0f09d7c]
+- Updated dependencies [bfdf7b4]
+- Updated dependencies [56eaa0b]
+- Updated dependencies [2361ce8]
+- Updated dependencies [8ab3e2a]
+- Updated dependencies [4c03d9a]
+- Updated dependencies [1eece3e]
+- Updated dependencies [fa8e948]
+- Updated dependencies [83bf560]
+- Updated dependencies [d9cc4d8]
+- Updated dependencies [1882366]
+  - @modern-js/builder-rspack-provider@2.31.0
+  - @modern-js/builder-webpack-provider@2.31.0
+  - @modern-js/builder-shared@2.31.0
+  - @modern-js/prod-server@2.31.0
+  - @modern-js/core@2.31.0
+  - @modern-js/builder@2.31.0
+  - @modern-js/utils@2.31.0
+  - @modern-js/builder-plugin-node-polyfill@2.31.0
+  - @modern-js/builder-plugin-esbuild@2.31.0
+  - @modern-js/server@2.31.0
+  - @modern-js/plugin-data-loader@2.31.0
+  - @modern-js/plugin-lint@2.31.0
+  - @modern-js/plugin-i18n@2.31.0
+  - @modern-js/new-action@2.31.0
+  - @modern-js/server-core@2.31.0
+  - @modern-js/node-bundle-require@2.31.0
+  - @modern-js/plugin@2.31.0
+  - @modern-js/upgrade@2.31.0
+  - @modern-js/types@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

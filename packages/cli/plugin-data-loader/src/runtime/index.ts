@@ -13,7 +13,14 @@ import {
 } from '@modern-js/utils/runtime/remix-router';
 import { transformNestedRoutes } from '@modern-js/utils/runtime/nested-routes';
 import { isPlainObject } from '@modern-js/utils/lodash';
-import { matchEntry, ServerContext } from '@modern-js/utils/runtime-node';
+import {
+  matchEntry,
+  ServerContext,
+  createRequestContext,
+  reporterCtx,
+} from '@modern-js/utils/runtime-node';
+import { time } from '@modern-js/utils/universal/time';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
 
@@ -129,19 +136,24 @@ export const handleRequest = async ({
   }
 
   const basename = entry.urlPath;
-  const routes = transformNestedRoutes(routesConfig);
+  const end = time();
+  const { res, logger, reporter } = context;
+  const routes = transformNestedRoutes(routesConfig, reporter);
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
-
-  const { res, logger } = context;
-
   const request = createLoaderRequest(context);
+  const requestContext = createRequestContext();
+  // initial requestContext
+  // 1. inject reporter
+  requestContext.set(reporterCtx, reporter);
+
   let response;
 
   try {
     response = await queryRoute(request, {
       routeId,
+      requestContext,
     });
 
     if (isResponse(response) && isRedirectResponse(response.status)) {
@@ -183,6 +195,9 @@ export const handleRequest = async ({
       },
     });
   }
+
+  const cost = end();
+  reporter.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
 
   await sendLoaderResponse(res, response);
 };

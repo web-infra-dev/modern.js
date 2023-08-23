@@ -1,5 +1,59 @@
 # @modern-js/builder-webpack-provider
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/builder-shared@2.31.2
+  - @modern-js/babel-preset-app@2.31.2
+  - @modern-js/babel-preset-base@2.31.2
+  - @modern-js/server@2.31.2
+  - @modern-js/types@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.31.1
+- @modern-js/babel-preset-app@2.31.1
+- @modern-js/babel-preset-base@2.31.1
+- @modern-js/server@2.31.1
+- @modern-js/types@2.31.1
+- @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- bfdf7b4: fix(builder): omit unused keys from builder config passed by user
+
+  fix(builder): 移除用户传入的 builder config 中多余的 key
+
+- 8ab3e2a: hotfix(builder): fix sass resolve-url-loader can't deal with alias
+
+  hotfix(builder): 修复 sass resolve-url-loader 错误处理 alias 的问题
+
+- 1eece3e: feat(builder): support performance.profile when use rspack-provider
+
+  feat(builder): 在使用 rspack-provider 时支持 performance.profile 配置项
+
+- 1882366: chore(deps): bump build dependencies
+
+  chore(deps): 升级构建相关依赖
+
+- Updated dependencies [bfdf7b4]
+- Updated dependencies [8ab3e2a]
+- Updated dependencies [fa8e948]
+- Updated dependencies [1882366]
+  - @modern-js/builder-shared@2.31.0
+  - @modern-js/utils@2.31.0
+  - @modern-js/server@2.31.0
+  - @modern-js/babel-preset-app@2.31.0
+  - @modern-js/babel-preset-base@2.31.0
+  - @modern-js/types@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

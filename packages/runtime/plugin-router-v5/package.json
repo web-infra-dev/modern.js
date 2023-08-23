@@ -15,25 +15,25 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.30.0",
+  "version": "2.31.2",
   "jsnext:source": "./src/index.ts",
   "types": "./src/cli/index.ts",
   "main": "./dist/cjs/cli/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
-      "jsnext:source": "./src/cli/index.ts",
       "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     },
     "./runtime": {
-      "jsnext:source": "./src/runtime/index.ts",
       "types": "./dist/types/runtime/index.d.ts",
+      "jsnext:source": "./src/runtime/index.ts",
       "default": "./dist/esm/runtime/index.js"
     },
     "./cli": {
-      "jsnext:source": "./src/cli/index.ts",
       "types": "./dist/types/cli/index.d.ts",
+      "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cjs/cli/index.js"
     }
   },

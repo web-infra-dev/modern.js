@@ -1,5 +1,53 @@
 # @modern-js/plugin-testing
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/babel-preset-app@2.31.2
+  - @modern-js/runtime@2.31.2
+  - @modern-js/prod-server@2.31.2
+  - @modern-js/babel-compiler@2.31.2
+  - @modern-js/plugin@2.31.2
+  - @modern-js/types@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- Updated dependencies [99ffd10]
+  - @modern-js/runtime@2.31.1
+  - @modern-js/babel-preset-app@2.31.1
+  - @modern-js/prod-server@2.31.1
+  - @modern-js/babel-compiler@2.31.1
+  - @modern-js/plugin@2.31.1
+  - @modern-js/types@2.31.1
+  - @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 4c03d9a: fix(core): remove testing config type and schema
+
+  fix(core): 移除 testing 配置类型和 schema
+
+- Updated dependencies [56eaa0b]
+- Updated dependencies [4a87c07]
+- Updated dependencies [2361ce8]
+- Updated dependencies [d9cc4d8]
+- Updated dependencies [1882366]
+- Updated dependencies [cd39c6f]
+  - @modern-js/prod-server@2.31.0
+  - @modern-js/runtime@2.31.0
+  - @modern-js/utils@2.31.0
+  - @modern-js/babel-preset-app@2.31.0
+  - @modern-js/babel-compiler@2.31.0
+  - @modern-js/plugin@2.31.0
+  - @modern-js/types@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

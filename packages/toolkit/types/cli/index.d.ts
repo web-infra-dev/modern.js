@@ -73,6 +73,8 @@ export type NestedRoute<T = string | (() => JSX.Element)> = Merge<
   {
     type: 'nested';
     parentId?: string;
+    data?: string;
+    clientData?: string;
     children?: NestedRoute<T>[];
     filename?: string;
     _component?: string;

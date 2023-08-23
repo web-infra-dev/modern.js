@@ -15,15 +15,15 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.30.0",
+  "version": "2.31.2",
   "jsnext:source": "./src/index.ts",
   "types": "./dist/types/index.d.ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
-      "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
+      "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
     }
   },

@@ -3,6 +3,7 @@ import { ServerTiming as IServerTiming } from '@modern-js/types';
 interface Res {
   getHeader: (name: string) => number | string | string[] | undefined;
   setHeader: (name: string, value: string) => void;
+  set: (name: string, value: any) => this;
 }
 
 const SERVER_TIMING = 'Server-Timing';
@@ -25,7 +26,7 @@ export class ServerTiming implements IServerTiming {
       this.res.getHeader(SERVER_TIMING.toLocaleLowerCase());
     const value = `${_name};${desc ? `decs="${desc}";` : ''} dur=${dur}`;
 
-    this.res.setHeader(
+    this.res.set(
       SERVER_TIMING,
       serverTiming ? `${serverTiming}, ${value}` : value,
     );

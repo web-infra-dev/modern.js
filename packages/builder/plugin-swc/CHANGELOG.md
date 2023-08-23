@@ -1,5 +1,35 @@
 # @modern-js/builder-plugin-swc
 
+## 2.31.2
+
+### Patch Changes
+
+- Updated dependencies [15d30abdc66]
+  - @modern-js/utils@2.31.2
+  - @modern-js/builder-shared@2.31.2
+
+## 2.31.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.31.1
+- @modern-js/utils@2.31.1
+
+## 2.31.0
+
+### Patch Changes
+
+- 96feda3: refactor(builder-plugin-swc): move lockCorejsVersion to plugin option, no affecting binding
+
+  refactor(builder-plugin-swc): 移动 lockCorejsVersion 配置到 plugin 配置中，不影响 binding
+
+- Updated dependencies [bfdf7b4]
+- Updated dependencies [8ab3e2a]
+- Updated dependencies [fa8e948]
+- Updated dependencies [1882366]
+  - @modern-js/builder-shared@2.31.0
+  - @modern-js/utils@2.31.0
+
 ## 2.30.0
 
 ### Patch Changes

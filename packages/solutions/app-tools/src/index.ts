@@ -6,6 +6,8 @@ import {
   Command,
   getCommand,
   getArgv,
+  fs,
+  NESTED_ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
@@ -151,6 +153,7 @@ export const appTools = (
       ...appContext,
       toolsType: 'app-tools',
     });
+    const nestedRoutes: Record<string, unknown> = {};
 
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
@@ -317,6 +320,29 @@ export const appTools = (
 
       async beforeRestart() {
         cleanRequireCache([require.resolve('./analyze')]);
+      },
+
+      async modifyFileSystemRoutes({ entrypoint, routes }) {
+        nestedRoutes[entrypoint.entryName] = routes;
+
+        return {
+          entrypoint,
+          routes,
+        };
+      },
+
+      async beforeGenerateRoutes({ entrypoint, code }) {
+        const { distDirectory } = api.useAppContext();
+
+        await fs.outputJSON(
+          path.resolve(distDirectory, NESTED_ROUTE_SPEC_FILE),
+          nestedRoutes,
+        );
+
+        return {
+          entrypoint,
+          code,
+        };
       },
     };
   },
