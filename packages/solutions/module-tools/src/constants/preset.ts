@@ -1,8 +1,4 @@
-import type {
-  PartialBuildConfig,
-  PartialBaseBuildConfig,
-  Target,
-} from '../types';
+import type { PartialBaseBuildConfig, Target } from '../types';
 
 export const targets: Target[] = [
   'es5',
@@ -17,14 +13,6 @@ export const targets: Target[] = [
   'es2022',
   'esnext',
 ];
-
-export const basePresetConfig: PartialBuildConfig = {
-  format: 'esm',
-  target: 'es6',
-  buildType: 'bundle',
-  outDir: './dist',
-  dts: { distPath: './types' },
-};
 
 export const npmLibraryPresetConfig: PartialBaseBuildConfig[] = [
   {
@@ -131,7 +119,7 @@ export const libraryPresetWithTarget = targets.reduce((ret, target) => {
     return { ...config, target };
   });
   return ret;
-}, {} as Record<`npm-library-${Target}`, PartialBuildConfig>);
+}, {} as Record<`npm-library-${Target}`, PartialBaseBuildConfig[]>);
 
 export const libraryUmdPreset = {
   'npm-library-with-umd': npmLibraryWithUmdPresetConfig,
@@ -143,7 +131,7 @@ export const libraryUmdPresetWithTarget = targets.reduce((ret, target) => {
     return { ...config, target };
   });
   return ret;
-}, {} as Record<`npm-library-with-umd-${Target}`, PartialBuildConfig>);
+}, {} as Record<`npm-library-with-umd-${Target}`, PartialBaseBuildConfig[]>);
 
 export const componentPreset = {
   'npm-component': npmComponentPresetConfig,
@@ -155,7 +143,7 @@ export const componentPresetWithTarget = targets.reduce((ret, target) => {
     },
   );
   return ret;
-}, {} as Record<`npm-component-${Target}`, PartialBuildConfig>);
+}, {} as Record<`npm-component-${Target}`, PartialBaseBuildConfig[]>);
 
 export const componentUmdPreset = {
   'npm-component-with-umd': npmComponentWithUmdPresetConfig,
@@ -167,7 +155,7 @@ export const componentUmdPresetWithTarget = targets.reduce((ret, target) => {
     return { ...config, target };
   });
   return ret;
-}, {} as Record<`npm-component-with-umd-${Target}`, PartialBuildConfig>);
+}, {} as Record<`npm-component-with-umd-${Target}`, PartialBaseBuildConfig[]>);
 
 export const nodeBuildConfig: PartialBaseBuildConfig[] = [
   {
@@ -229,7 +217,7 @@ export const universalBuildConfig: PartialBaseBuildConfig[] = [
   },
 ];
 
-export const presetList = {
+export const presetList: Record<string, PartialBaseBuildConfig[]> = {
   ...libraryPreset,
   ...libraryPresetWithTarget,
   ...libraryUmdPreset,
@@ -242,9 +230,7 @@ export const presetList = {
   'modern-js-universal': universalBuildConfig,
 };
 
-export const BuildInPreset = {
-  BASE_CONFIG: basePresetConfig,
-  'base-config': basePresetConfig,
+export const internalPreset: Record<string, PartialBaseBuildConfig[]> = {
   NPM_LIBRARY: npmLibraryPresetConfig,
   'npm-library': npmLibraryPresetConfig,
   NPM_LIBRARY_WITH_UMD: npmLibraryWithUmdPresetConfig,

@@ -3,6 +3,19 @@ import { runCli, initBeforeTest } from './utils';
 
 initBeforeTest();
 
+jest.mock('@modern-js/utils', () => {
+  const originalModule = jest.requireActual('@modern-js/utils');
+  return {
+    __esModule: true,
+    ...originalModule,
+    inquirer: {
+      prompt: () => {
+        return { choiceDevTool: 'dev-1' };
+      },
+    },
+  };
+});
+
 const fixtureDir = path.join(__dirname, './fixtures/dev');
 describe('`dev` case', () => {
   afterEach(() => {
@@ -36,19 +49,6 @@ describe('`dev` case', () => {
 
   it('more plugins', async () => {
     const configFile = path.join(fixtureDir, './config-with-plugins.ts');
-    jest.mock('@modern-js/utils', () => {
-      const originalModule = jest.requireActual('@modern-js/utils');
-
-      return {
-        __esModule: true,
-        ...originalModule,
-        inquirer: {
-          prompt: () => {
-            return { choiceDevTool: 'dev-1' };
-          },
-        },
-      };
-    });
 
     const ret = await runCli({
       argv: ['dev'],

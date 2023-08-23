@@ -45,6 +45,9 @@
       ]
     }
   },
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "build": "modern-lib build",

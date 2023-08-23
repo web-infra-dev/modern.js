@@ -7,8 +7,8 @@ import type { Options } from '@modern-js/libuild-plugin-svgr';
 import type { ImportItem } from '@modern-js/libuild-plugin-swc';
 import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
 import type { TestConfig } from '@modern-js/types';
-import { BuildInPreset, presetList } from '../../constants/buildPresets';
-import type { CopyConfig } from '../copy';
+import { internalPreset, presetList } from '../../constants/preset';
+import type { CopyConfig } from './copy';
 import type {
   LessConfig,
   SassConfig,
@@ -132,12 +132,12 @@ export type PartialBuildConfig =
 export type BuildPreset =
   | keyof typeof presetList
   | ((options: {
-      preset: typeof BuildInPreset;
+      preset: typeof internalPreset;
       extendPreset: (
-        extendPresetName: keyof typeof BuildInPreset,
+        extendPresetName: keyof typeof internalPreset,
         extendBuildConfig: PartialBaseBuildConfig,
-      ) => PartialBuildConfig;
-    }) => PartialBuildConfig | Promise<PartialBuildConfig>);
+      ) => PartialBaseBuildConfig[];
+    }) => PartialBaseBuildConfig[] | Promise<PartialBaseBuildConfig[]>);
 
 export interface StyleConfig {
   less?: LessConfig;
