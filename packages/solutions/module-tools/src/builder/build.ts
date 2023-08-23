@@ -174,7 +174,7 @@ export const buildLib = async (
   const { getProjectTsconfig } = await import('./dts/tsc');
   const tsconfigPath = dts
     ? dts.tsconfigPath
-    : resolve(appDirectory, './tsconfig.json');
+    : resolve(appDirectory, 'tsconfig.json');
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
 
   const plugins = [];

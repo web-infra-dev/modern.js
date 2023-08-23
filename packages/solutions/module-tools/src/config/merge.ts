@@ -54,7 +54,10 @@ export const mergeDefaultBaseConfig = async (
   const metafile = pConfig.metafile ?? defaultConfig.metafile;
   const defaultIndexEntry =
     buildType === 'bundle' ? await getDefaultIndexEntry(context) : [sourceDir];
-  const input = await normalizeInput(defaultIndexEntry, context.appDirectory);
+  const input = await normalizeInput(
+    pConfig.input ?? defaultIndexEntry,
+    context.appDirectory,
+  );
   const userDefine = pConfig.define ?? {};
   const define = {
     ...defaultConfig.define,
@@ -114,7 +117,7 @@ export const mergeDefaultBaseConfig = async (
     outDir: pConfig.outDir ?? defaultConfig.outDir,
     dts,
     jsx: pConfig.jsx ?? defaultConfig.jsx,
-    input: pConfig.input ?? input,
+    input,
     platform: pConfig.platform ?? defaultConfig.platform,
     splitting: pConfig.splitting ?? defaultConfig.splitting,
     minify: pConfig.minify ?? defaultConfig.minify,

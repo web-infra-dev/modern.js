@@ -72,7 +72,7 @@ export const runRollup = async (
 
   // rollup don't have working directory option like esbuild,
   // so we need to resolve relative path.
-  const dtsInput = Array.isArray(input)
+  const dtsInput: Input = Array.isArray(input)
     ? input.map(resolveRelative)
     : mapValue(input, resolveRelative);
 

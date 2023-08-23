@@ -1,5 +1,5 @@
 import path from 'path';
-import { fs, globby, isArray } from '@modern-js/utils';
+import { fs, globby, isArray, slash } from '@modern-js/utils';
 import { Input } from '../types';
 
 export const getDefaultIndexEntry = async ({
@@ -9,18 +9,14 @@ export const getDefaultIndexEntry = async ({
   isTsProject: boolean;
   appDirectory: string;
 }) => {
-  let entry = isTsProject
-    ? path.resolve(appDirectory, 'src/index.ts')
-    : path.resolve(appDirectory, 'src/index.js');
-  if (fs.existsSync(entry)) {
-    return [path.relative(appDirectory, entry)];
+  let entry = isTsProject ? 'src/index.ts' : 'src/index.js';
+  if (fs.existsSync(path.resolve(appDirectory, entry))) {
+    return [entry];
   }
 
-  entry = isTsProject
-    ? path.resolve(appDirectory, 'src/index.tsx')
-    : path.resolve(appDirectory, 'src/index.jsx');
-  if (fs.existsSync(entry)) {
-    return [path.relative(appDirectory, entry)];
+  entry = isTsProject ? 'src/index.tsx' : 'src/index.jsx';
+  if (fs.existsSync(path.resolve(appDirectory, entry))) {
+    return [entry];
   }
 
   return [];
@@ -44,7 +40,7 @@ export const normalizeInput = async (input: Input, appDirectory: string) => {
   ];
 
   if (isArray(input)) {
-    const normalizedInput = await globby(input, {
+    const normalizedInput = await globby(input.map(slash), {
       expandDirectories: {
         extensions,
       },
