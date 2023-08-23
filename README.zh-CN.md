@@ -77,3 +77,5 @@ Modern.js 中的部分代码是参考社区中的其他项目实现的，比如 
 ## License
 
 Modern.js 项目基于 [MIT 协议](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE)，请自由地享受和参与开源。
+
+第三方 licenses 列举于 [THIRD-PARTY-LICENSE](./THIRD-PARTY-LICENSE) 中。

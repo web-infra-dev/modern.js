@@ -78,3 +78,5 @@ Some implementations of Modern.js are modified from existing projects, such as [
 ## License
 
 Modern.js is [MIT licensed](https://github.com/web-infra-dev/modern.js/blob/main/LICENSE).
+
+Third party licenses are listed in [THIRD-PARTY-LICENSE](./THIRD-PARTY-LICENSE).
