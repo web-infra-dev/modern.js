@@ -95,3 +95,16 @@
   color: var(--modern-c-brand);
   font-weight: bolder;
 }
+
+:global(.modern-sidebar-group) {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 12px;
+    width: 1px;
+    height: 100%;
+    background-color: var(--modern-c-gray-light-4);
+  }
+}
