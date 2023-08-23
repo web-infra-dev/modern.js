@@ -4,6 +4,7 @@ import { Button } from '@geist-ui/core';
 import { withQuery } from 'ufo';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
+import FrameBox from './FrameBox';
 
 export interface DevtoolsActionProps {
   client: string;
@@ -28,7 +29,7 @@ const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
       </div>
       <Visible when={showDevtools} keepAlive={true}>
         <div className={styles.container}>
-          <iframe className={styles.iframeView} src={src}></iframe>
+          <FrameBox src={src} />
         </div>
       </Visible>
     </>

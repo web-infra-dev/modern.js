@@ -1,0 +1,15 @@
+.container {
+  border: rgba(30,64,175,.25);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  width: 40rem;
+  height: 30rem;
+  background-color: white;
+
+  @media (prefers-color-scheme: dark) {
+    border: none;
+    box-shadow:
+      rgba(30, 64, 175, 0.25) 0px 10px 15px -3px,
+      rgba(30, 64, 175, 0.25) 0px 4px 6px -4px;
+  }
+}
