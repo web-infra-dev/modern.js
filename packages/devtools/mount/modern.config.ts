@@ -22,6 +22,7 @@ export default defineConfig<'rspack'>({
     legalComments: 'linked',
     disableCssExtract: true,
     disableFilenameHash: true,
+    enableCssModuleTSDeclaration: true,
     distPath: {
       js: './',
     },
@@ -31,17 +32,23 @@ export default defineConfig<'rspack'>({
   },
   tools: {
     htmlPlugin: process.env.NODE_ENV === 'production' ? false : {},
-    // styleLoader: {
-    //   insert: function insert(element) {
-    //     const key = `__DEVTOOLS_STYLE_${process.env.DEVTOOLS_MARK}`;
-    //     // @ts-expect-error
-    //     window[key] ||= [];
-    //     // @ts-expect-error
-    //     window[key].push(element);
-    //   },
-    // },
+    styleLoader: {
+      insert: function insert(element) {
+        const key = `__DEVTOOLS_STYLE_${process.env.DEVTOOLS_MARK}`;
+        // @ts-expect-error
+        window[key] ||= [];
+        // @ts-expect-error
+        window[key].push(element);
+      },
+    },
     bundlerChain(chain) {
       chain.output.libraryTarget('commonjs');
+      chain.module
+        .rule('RADIX_TOKEN')
+        .test(/\/@radix-ui\/themes\/styles.css/)
+        .use('RADIX_TOKEN')
+        .loader('./plugin/radix-token-transformer.js')
+        .options({ root: '._modern_js_devtools_mountpoint' });
     },
   },
   performance: {

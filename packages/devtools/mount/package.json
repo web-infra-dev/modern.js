@@ -15,29 +15,29 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@geist-ui/core": "^2.3.8",
-    "@modern-js/devtools-kit": "workspace:*",
-    "@modern-js/runtime": "workspace:*",
-    "nanoid": "3.3.4",
-    "react": "~18.2.0",
-    "react-dom": "~18.2.0",
-    "react-use": "^17.4.0",
-    "ufo": "^1.2.0",
+    "@stitches/react": "^1.2.8",
+    "@radix-ui/themes": "^1.1.2",
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
+    "@modern-js/runtime": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@types/jest": "~29.2.4",
     "@types/node": "~16.11.7",
     "@types/react": "~18.0.26",
     "@types/react-dom": "~18.0.10",
+    "nanoid": "3.3.4",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "react-use": "^17.4.0",
     "rimraf": "~3.0.2",
     "type-fest": "^4.1.0",
     "typescript": "~5.0.4",
+    "ufo": "^1.2.0",
     "webpack": "^5.88.1"
   }
 }

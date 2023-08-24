@@ -1,6 +1,6 @@
 import React from 'react';
 import { useToggle } from 'react-use';
-import { Button } from '@geist-ui/core';
+import { Button } from '@radix-ui/themes';
 import { withQuery } from 'ufo';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
@@ -23,7 +23,7 @@ const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
   return (
     <>
       <div className={styles.fab}>
-        <Button shadow onClick={toggleDevtools}>
+        <Button variant="solid" onClick={toggleDevtools}>
           Toggle DevTools
         </Button>
       </div>

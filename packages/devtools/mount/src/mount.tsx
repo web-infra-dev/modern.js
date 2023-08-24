@@ -1,9 +1,9 @@
+import '@radix-ui/themes/styles.css';
 import { createRoot } from 'react-dom/client';
-import { CssBaseline } from '@geist-ui/core';
+import { Theme } from '@radix-ui/themes';
 import DevtoolsAction, {
   DevtoolsActionProps,
 } from './components/Devtools/Action';
-import AutoGeistProvider from './components/AutoGeistProvider';
 
 export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
   const props: DevtoolsActionProps = {
@@ -18,7 +18,6 @@ export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
   container.id = process.env.DEVTOOLS_MARK!;
   document.body.appendChild(container);
 
-  /*
   const shadow = container.attachShadow({ mode: 'closed' });
 
   const styleTagsField = `__DEVTOOLS_STYLE_${process.env.DEVTOOLS_MARK}`;
@@ -38,15 +37,15 @@ export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
   }
 
   const app = document.createElement('div');
+  app.className = '_modern_js_devtools_mountpoint';
+  app.id = process.env.DEVTOOLS_MARK!;
   shadow.appendChild(app);
-  */
 
-  const root = createRoot(container);
+  const root = createRoot(app);
 
   root.render(
-    <AutoGeistProvider>
-      <CssBaseline />
+    <Theme panelBackground="solid">
       <DevtoolsAction {...props} />
-    </AutoGeistProvider>,
+    </Theme>,
   );
 };
