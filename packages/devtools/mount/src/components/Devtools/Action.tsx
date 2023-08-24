@@ -1,6 +1,5 @@
 import React from 'react';
 import { useToggle } from 'react-use';
-import { Button } from '@radix-ui/themes';
 import { withQuery } from 'ufo';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
@@ -23,9 +22,7 @@ const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
   return (
     <>
       <div className={styles.fab}>
-        <Button variant="solid" onClick={toggleDevtools}>
-          Toggle DevTools
-        </Button>
+        <button onClick={toggleDevtools}>Toggle DevTools</button>
       </div>
       <Visible when={showDevtools} keepAlive={true}>
         <div className={styles.container}>

@@ -1,6 +1,4 @@
-import '@radix-ui/themes/styles.css';
 import { createRoot } from 'react-dom/client';
-import { Theme } from '@radix-ui/themes';
 import DevtoolsAction, {
   DevtoolsActionProps,
 } from './components/Devtools/Action';
@@ -43,9 +41,5 @@ export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
 
   const root = createRoot(app);
 
-  root.render(
-    <Theme panelBackground="solid">
-      <DevtoolsAction {...props} />
-    </Theme>,
-  );
+  root.render(<DevtoolsAction {...props} />);
 };
