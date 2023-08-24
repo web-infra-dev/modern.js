@@ -119,12 +119,10 @@ export default {
     './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
-  // Theme configuration (optional)
-  theme: {},
 };
 ```
 
-3. In the `modern.config.ts` file, import the `tailwind.config.ts` file you created, so that Modern.js can recognize the Tailwind CSS configuration correctly.
+3. In the `modern.config.ts` file, import the `tailwind.config.ts` file you created and pass it to [tools.tailwindcss](/configure/app/tools/tailwindcss), so that Modern.js can recognize the Tailwind CSS configuration correctly.
 
 ```ts title="modern.config.ts"
 import tailwindConfig from './tailwind.config';
@@ -133,17 +131,8 @@ export default defineConfig({
   tools: {
     tailwindcss: tailwindConfig,
   },
-  // Theme configuration (optional)
-  source: {
-    designSystem: tailwindConfig.theme,
-  },
 });
 ```
-
-Please read the documentation for the following configuration options to understand their functions:
-
-- [tools.tailwindcss](/configure/app/tools/tailwindcss).
-- [source.designSystem](/configure/app/source/design-system).
 
 ### Tailwind CSS Version
 
@@ -162,39 +151,3 @@ Tailwind CSS v2 and v3 do not support the IE 11 browser, please refer to:
 - [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
 
 If you use Tailwind CSS on IE 11 browser, some styles may not be available, please use it with caution.
-
-### Theme Configuration
-
-When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the [`source.designSystem`](/configure/app/source/design-system) configuration. For example, adding a `primary` color theme:
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  source: {
-    designSystem: {
-      extend: {
-        colors: {
-          primary: '#5c6ac4',
-        },
-      },
-    },
-  },
-});
-```
-
-When you need to make other special configurations to Tailwind CSS besides [theme](https://tailwindcss.com/docs/theme), you can configure them in [`tools.tailwindcss`](/configure/app/tools/tailwindcss), such as setting `variants`:
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  tools: {
-    tailwindcss: {
-      variants: {
-        extend: {
-          backgroundColor: ['active'],
-        },
-      },
-    },
-  },
-});
-```
-
-> When you configure Tailwind CSS for your project, the combination of [source.designSystem](/configure/app/source/design-system) and [tools.tailwindcss](/configure/app/tools/tailwindcss) configurations is equivalent to configuring a `tailwindcss.config.js` file separately. [source.designSystem](/configure/app/source/design-system) is equivalent to the Tailwind CSS [theme](https://v2.tailwindcss.com/docs/configuration#theme) configuration.

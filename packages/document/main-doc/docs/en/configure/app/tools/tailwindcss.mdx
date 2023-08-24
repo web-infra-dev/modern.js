@@ -14,8 +14,6 @@ const tailwind = {
     './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
-  // Use source.design System config as Tailwind CSS theme config
-  theme: source.designSystem,
 };
 ```
 
@@ -51,8 +49,8 @@ export default {
 };
 ```
 
-### Limitations
+### Notes
 
-The `theme` attribute is not allowed, otherwise the build will fail. Modern.js use [source.designSystem](/configure/app/source/design-system) as the Tailwind CSS Theme configuration.
+Please note that if you are using the [source.designSystem](/configure/app/source/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `source.designSystem`.
 
-Other uses are consistent with [Tailwind CSS](https://tailwindcss.com/docs/configuration).
+The usage of other configurations follows the same approach as the official usage of Tailwind CSS. Please refer to [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration) for more details.

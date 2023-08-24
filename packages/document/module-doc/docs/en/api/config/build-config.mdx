@@ -1110,9 +1110,13 @@ When the value is of type `object`, it is merged with the default configuration 
 
 When the value is of type `Function`, the object returned by the function is merged with the default configuration via `Object.assign`.
 
-The `theme` property is not allowed, otherwise the build will fail, using [`designSystem`](/api/config/design-system) as the `Tailwind CSS Theme` configuration.
-
 The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwindcss.com/docs/configuration).
+
+### Notes
+
+Please note that if you are using the [designSystem](/api/config/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `designSystem`.
+
+The usage of other configurations follows the same approach as the official usage of Tailwind CSS. Please refer to [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration) for more details.
 
 ## target
 

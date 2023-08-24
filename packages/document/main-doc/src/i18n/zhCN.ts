@@ -19,7 +19,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   feature4: '多渲染模式',
   featureDesc4: 'SSR、SSG、SPR 等多种渲染模式，通通开箱即用。',
   feature5: 'CSS 方案',
-  featureDesc5: 'CSS Modules、CSS-in-JS、TailwindCSS，任你挑选。',
+  featureDesc5: 'CSS Modules、CSS-in-JS、Tailwind CSS，任你挑选。',
   feature6: '易于配置',
   featureDesc6: '以零配置启动，然后一切皆可配置。',
 
