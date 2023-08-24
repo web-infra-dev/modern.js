@@ -1,7 +1,7 @@
 import { ServerStyleSheet } from 'styled-components';
 import { ReactElement } from 'react';
 import type { RenderResult } from './type';
-import type { Collector } from './renderToString';
+import type { Collector } from './render';
 
 class StyledCollector implements Collector {
   sheet: ServerStyleSheet = new ServerStyleSheet();

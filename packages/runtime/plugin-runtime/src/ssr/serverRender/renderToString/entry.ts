@@ -25,7 +25,7 @@ import {
 } from '../tracker';
 import { SSRServerContext, RenderResult } from './type';
 import { createLoadableCollector } from './loadable';
-import { createRender } from './renderToString';
+import { createRender } from './render';
 import { createStyledCollector } from './styledComponent';
 import {
   buildHtml,

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test render should render styledComponent correctly 1`] = `"<div><h1>Hello Modern.js</h1><div class="sc-bczRLJ dgihId">Hello Modern.js-----</div></div>"`;
+
+exports[`test render should render styledComponent correctly 2`] = `
+{
+  "chunksMap": {
+    "css": "<style data-styled="true" data-styled-version="5.3.5">.dgihId{color:red;}/*!sc*/
+data-styled.g1[id="sc-bczRLJ"]{content:"dgihId,"}/*!sc*/
+</style>",
+    "js": "",
+  },
+  "renderLevel": 2,
+}
+`;
