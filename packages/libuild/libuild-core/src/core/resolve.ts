@@ -1,8 +1,8 @@
+import fs from 'fs';
+import path from 'path';
 import { CachedInputFileSystem, create } from 'enhanced-resolve';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { ImportKind } from 'esbuild';
-import fs from 'fs';
-import path from 'path';
 import { LibuildError } from '../error';
 import { UserConfig } from '../types';
 import { ErrorCode } from '../constants/error';
@@ -14,8 +14,12 @@ export const jsExtensions = ['.jsx', '.tsx', '.js', '.ts', '.json'];
 export const cssExtensions = ['.less', '.css', '.sass', '.scss', '.js'];
 
 function createEnhancedResolve(options: ResolverOptions): {
-  resolveSync: { resolve: (dir: string, id: string) => string /** TODO: string | false  */ };
-  esmResolveSync: { resolve: (dir: string, id: string) => string /** TODO: string | false  */ };
+  resolveSync: {
+    resolve: (dir: string, id: string) => string /** TODO: string | false  */;
+  };
+  esmResolveSync: {
+    resolve: (dir: string, id: string) => string /** TODO: string | false  */;
+  };
 } {
   const plugins = [];
   const tsconfigPath = path.join(options.root, './tsconfig.json');
@@ -25,7 +29,7 @@ function createEnhancedResolve(options: ResolverOptions): {
       new TsconfigPathsPlugin({
         baseUrl: options.root,
         configFile: tsconfigPath,
-      })
+      }),
     );
   }
   const resolveOptions = {
@@ -56,9 +60,9 @@ function createEnhancedResolve(options: ResolverOptions): {
       })(dir, id),
   };
   return {
-    // @ts-ignored
+    // @ts-expect-errord
     resolveSync,
-    // @ts-ignored
+    // @ts-expect-errord
     esmResolveSync,
   };
 }
@@ -83,7 +87,7 @@ export const createResolver = (options: ResolverOptions) => {
     const cacheResult = resolveCache.get(cacheKey);
 
     if (cacheResult) {
-      return cacheResult as string;
+      return cacheResult;
     }
     let result: string;
     try {

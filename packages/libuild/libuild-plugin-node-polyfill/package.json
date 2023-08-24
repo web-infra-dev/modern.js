@@ -9,14 +9,14 @@
   ],
   "repository": "modern-js-dev/libuild",
   "license": "MIT",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc && libuild",
-    "watch": "libuild -w"
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch"
   },
   "dependencies": {
+    "@swc/helpers": "0.5.1",
     "assert": "2.0.0",
     "browserify-zlib": "0.2.0",
     "buffer": "6.0.3",
@@ -45,6 +45,7 @@
   "devDependencies": {
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/libuild": "workspace:*",
+    "@scripts/build": "workspace: *",
     "typescript": "^5"
   }
 }

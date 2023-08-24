@@ -18,7 +18,10 @@ export default class LessAliasesPlugin {
 
   install(less: any, pluginManager: any) {
     const getResolve = (filename: string, currentDirectory: string) => {
-      return this.config.css_resolve(filename, currentDirectory || this.stdinDir);
+      return this.config.css_resolve(
+        filename,
+        currentDirectory || this.stdinDir,
+      );
     };
     class AliasPlugin extends less.FileManager {
       config: any;
@@ -31,8 +34,14 @@ export default class LessAliasesPlugin {
 
       async loadFile(filename: string, currentDirectory: string) {
         const resolved = getResolve(filename, currentDirectory);
-        const rebasedContents = await rebaseUrls(resolved, this.stdinDir, this.config.css_resolve);
-        const contents = rebasedContents.contents ? rebasedContents.contents : fs.readFileSync(resolved, 'utf8');
+        const rebasedContents = await rebaseUrls(
+          resolved,
+          this.stdinDir,
+          this.config.css_resolve,
+        );
+        const contents = rebasedContents.contents
+          ? rebasedContents.contents
+          : fs.readFileSync(resolved, 'utf8');
 
         return {
           filename: resolved,
@@ -40,6 +49,8 @@ export default class LessAliasesPlugin {
         };
       }
     }
-    pluginManager.addFileManager(new AliasPlugin({ config: this.config, stdinDir: this.stdinDir }));
+    pluginManager.addFileManager(
+      new AliasPlugin({ config: this.config, stdinDir: this.stdinDir }),
+    );
   }
 }

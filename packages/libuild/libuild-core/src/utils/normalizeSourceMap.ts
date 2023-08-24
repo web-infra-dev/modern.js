@@ -5,7 +5,10 @@ interface Options {
   needSourceMap: boolean;
 }
 
-export function normalizeSourceMap(map: string | RawSourceMap | undefined, opts?: Options): SourceMap | undefined {
+export function normalizeSourceMap(
+  map: string | RawSourceMap | undefined,
+  opts?: Options,
+): SourceMap | undefined {
   if (opts?.needSourceMap === false || !map) {
     return undefined;
   }

@@ -1,6 +1,6 @@
 import type { Stats } from 'fs';
-import chokidar, { FSWatcher } from 'chokidar';
 import path from 'path';
+import chokidar, { FSWatcher } from 'chokidar';
 import micromatch from 'micromatch';
 import { glob } from 'glob';
 import chalk from 'chalk';
@@ -15,10 +15,15 @@ export const watchPlugin = (): LibuildPlugin => {
       compiler.hooks.initialize.tap(pluginName, () => {
         watch = chokidar.watch([compiler.config.root], {
           useFsEvents: false, // disable fsevents due to fsevents hoist problem
-          ignored: ['**/node_modules', '**/.gitignore', '**/.git', compiler.config.outdir],
+          ignored: [
+            '**/node_modules',
+            '**/.gitignore',
+            '**/.git',
+            compiler.config.outdir,
+          ],
           cwd: compiler.config.root,
         });
-        compiler.watcher = watch as FSWatcher;
+        compiler.watcher = watch;
         let running = false;
         let needReRun = false;
 
@@ -29,10 +34,11 @@ export const watchPlugin = (): LibuildPlugin => {
           const absFilePath = path.resolve(root, filePath);
           let shouldRebuild = false;
           if (Array.isArray(userInput) && !bundle) {
-            userInput.forEach(async (i) => {
+            userInput.forEach(async i => {
               const absGlob = path.resolve(root, i);
               if (glob.hasMagic(absGlob)) {
-                micromatch.isMatch(absFilePath, absGlob) && (shouldRebuild = true);
+                micromatch.isMatch(absFilePath, absGlob) &&
+                  (shouldRebuild = true);
               } else if (absFilePath.startsWith(absGlob)) {
                 shouldRebuild = true;
               }
@@ -42,7 +48,10 @@ export const watchPlugin = (): LibuildPlugin => {
             const text = type === 'add' ? 'added' : 'unlinked';
             compiler.config.logger.info(`${chalk.underline(filePath)} ${text}`);
             if (type === 'unlink') {
-              (input as string[]).splice((input as string[]).indexOf(filePath), 1);
+              (input as string[]).splice(
+                (input as string[]).indexOf(filePath),
+                1,
+              );
             } else {
               (input as string[]).push(filePath);
             }
@@ -66,7 +75,11 @@ export const watchPlugin = (): LibuildPlugin => {
           return handleLink(filePath, 'unlink');
         };
 
-        const handleChange = async (filePath: string, events: Stats, ...args: any[]) => {
+        const handleChange = async (
+          filePath: string,
+          events: Stats,
+          ...args: any[]
+        ) => {
           const {
             config: { root },
             watchedFiles,

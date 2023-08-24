@@ -20,25 +20,53 @@ import {
   ILibuilderHooks,
   IBuilderBase,
   LibuildErrorParams,
+  LibuildErrorInstance,
 } from '../types';
-import { normalizeConfig } from '../config/normalize';
+import { normalizeConfig } from '../utils/normalizeConfig';
 import { getInternalPlugin } from '../plugins/getInternalPlugin';
-import { validateUserConfig, loadConfig } from '../config';
 import { ErrorCode } from '../constants/error';
+import { EsbuildBuilder } from '../bundler';
 import { createTransformHook, createProcessAssetHook } from './utils';
 import { TransformContext } from './transform';
 import { SourcemapContext } from './sourcemap';
-import { EsbuildBuilder } from '../bundler';
-import { loadEnv } from '../utils';
 
 export class Libuilder implements ILibuilder {
+  static async run(
+    config: CLIConfig = {},
+    name?: string,
+  ): Promise<Libuilder | Libuilder[]> {
+    const compiler = await Libuilder.create(config, name);
+    await compiler.build();
+    return compiler;
+  }
+
+  static async create(
+    config: CLIConfig = {},
+    name?: string,
+  ): Promise<Libuilder> {
+    const builder = new Libuilder();
+
+    builder.name = name;
+    builder.version = require('../../package.json').version;
+
+    try {
+      await builder.init(config);
+      await builder.hooks.initialize.promise();
+    } catch (e: unknown) {
+      builder.report(e);
+      throw builder.getErrors();
+    }
+
+    return builder;
+  }
+
   compilation!: IBuilderBase;
 
   version!: string;
 
   watchedFiles: Set<string> = new Set();
 
-  // @ts-ignore
+  // @ts-expect-error
   hooks: ILibuilderHooks;
 
   STAGE: ILibuilderStage = {
@@ -68,41 +96,9 @@ export class Libuilder implements ILibuilder {
 
   private watcher?: FSWatcher;
 
-  static async run(config: CLIConfig = {}, name?: string): Promise<Libuilder | Libuilder[]> {
-    loadEnv();
-    const userConfig = await loadConfig(config);
-    if (Array.isArray(userConfig)) {
-      return Promise.all(
-        userConfig.map(async (c) => {
-          validateUserConfig(c);
-          const compiler = await Libuilder.create(c);
-          await compiler.build();
-          return compiler;
-        })
-      );
-    }
-    validateUserConfig(userConfig);
-    const compiler = await Libuilder.create(userConfig, name);
-    await compiler.build();
-    return compiler;
-  }
+  private transformContextMap: Map<string, TransformContext> = new Map();
 
-  static async create(config: CLIConfig = {}, name?: string): Promise<Libuilder> {
-    const builder = new Libuilder();
-
-    builder.name = name;
-    builder.version = require('../../package.json').version;
-
-    try {
-      await builder.init(config);
-      await builder.hooks.initialize.promise();
-    } catch (e: unknown) {
-      builder.report(e);
-      throw builder.getErrors();
-    }
-
-    return builder;
-  }
+  private sourcemapContextMap: Map<string, SourcemapContext> = new Map();
 
   async init(config: CLIConfig) {
     this.userConfig = config;
@@ -110,11 +106,19 @@ export class Libuilder implements ILibuilder {
     this.hooks = Object.freeze({
       initialize: new tapable.AsyncSeriesHook<[], void>(),
       startCompilation: new tapable.AsyncSeriesHook<[]>([]),
-      resolve: new tapable.AsyncSeriesBailHook<[ResolveArgs], ResolveResult | undefined>(['resolveArgs']),
-      load: new tapable.AsyncSeriesBailHook<[LoadArgs], LoadResult | undefined | void>(['loadArgs']),
+      resolve: new tapable.AsyncSeriesBailHook<
+        [ResolveArgs],
+        ResolveResult | undefined
+      >(['resolveArgs']),
+      load: new tapable.AsyncSeriesBailHook<
+        [LoadArgs],
+        LoadResult | undefined | void
+      >(['loadArgs']),
       transform: createTransformHook(this),
       processAsset: createProcessAssetHook(this),
-      processAssets: new tapable.AsyncSeriesHook<[Map<string, Chunk>, LibuildManifest]>(['chunks', 'manifest']),
+      processAssets: new tapable.AsyncSeriesHook<
+        [Map<string, Chunk>, LibuildManifest]
+      >(['chunks', 'manifest']),
       endCompilation: new tapable.AsyncSeriesHook<[LibuildFailure]>(['errors']),
       watchChange: new tapable.SyncHook<[string[]]>(['id']),
       done: new tapable.AsyncSeriesHook<[]>([]),
@@ -126,9 +130,6 @@ export class Libuilder implements ILibuilder {
     this.plugins = [...userPlugin, ...internalPlugin];
     for (const plugin of this.plugins) {
       plugin.apply(this);
-    }
-    if (this.config.format === 'umd' && this.plugins.every((plugin) => plugin.name !== 'libuild:swc-umd')) {
-      throw new Error('@modern-js/libuild-plugin-swc is required for umd format. Please install it`');
     }
   }
 
@@ -175,37 +176,44 @@ export class Libuilder implements ILibuilder {
     }
   }
 
-  resolve(source: string, opt: BuilderResolveOptions): Promise<BuilderResolveResult> {
-    throw new LibuildError(ErrorCode.RESOLVE_OUT_OF_PLUGIN, 'resolve is not allowed to called out of plugin');
+  resolve(
+    _source: string,
+    _opt?: BuilderResolveOptions,
+  ): Promise<BuilderResolveResult> {
+    throw new LibuildError(
+      ErrorCode.RESOLVE_OUT_OF_PLUGIN,
+      'resolve is not allowed to called out of plugin',
+    );
   }
 
-  async loadSvgr(path: string) {}
-
-  private transformContextMap = new Map<string, TransformContext>();
+  async loadSvgr(_path: string) {}
 
   getTransformContext(path: string): TransformContext {
     if (this.transformContextMap.has(path)) {
       return this.transformContextMap.get(path)!;
     }
-    const context: TransformContext = new TransformContext(true, !!this.config.sourceMap);
+    const context: TransformContext = new TransformContext(
+      true,
+      Boolean(this.config.sourceMap),
+    );
     this.transformContextMap.set(path, context);
     return context;
   }
-
-  private sourcemapContextMap = new Map<string, SourcemapContext>();
 
   getSourcemapContext(path: string): SourcemapContext {
     if (this.sourcemapContextMap.has(path)) {
       return this.sourcemapContextMap.get(path)!;
     }
-    const context: SourcemapContext = new SourcemapContext(!!this.config.sourceMap);
+    const context: SourcemapContext = new SourcemapContext(
+      Boolean(this.config.sourceMap),
+    );
     this.sourcemapContextMap.set(path, context);
     return context;
   }
 
   report(err: any) {
     if (Array.isArray(err)) {
-      this.errors.push(...err.map((item) => LibuildError.from(item)));
+      this.errors.push(...err.map(item => LibuildError.from(item)));
     } else {
       this.errors.push(LibuildError.from(err));
     }
@@ -242,9 +250,9 @@ export class Libuilder implements ILibuilder {
     this.errors.length = 0;
   }
 
-  removeError(...errors: LibuildError[]): void {
+  removeError(...errors: LibuildErrorInstance[]): void {
     for (const err of errors) {
-      const index = this.errors.findIndex((item) => item === err);
+      const index = this.errors.findIndex(item => item === err);
 
       if (index > -1) {
         this.errors.splice(index, 1);

@@ -1,13 +1,13 @@
-import fs from 'fs-extra';
 import path from 'path';
+import fs from 'fs-extra';
 import pm from 'picomatch';
 import { Loader, Plugin, BuildResult } from 'esbuild';
 import { resolvePathAndQuery } from '@modern-js/libuild-utils';
 import { ILibuilder, BuildConfig } from '../types';
-import { installResolve } from './resolve';
 import { normalizeSourceMap } from '../utils';
 import { DATAURL_JAVASCRIPT_PATTERNS } from '../constants/regExp';
 import { loaderMap } from '../constants/loader';
+import { installResolve } from './resolve';
 
 type IEntry = {
   /**
@@ -94,7 +94,7 @@ export const adapterPlugin = (compiler: ILibuilder): Plugin => {
         compiler.outputChunk = new Map();
         await compiler.hooks.startCompilation.promise();
       });
-      build.onResolve({ filter: /.*/ }, async (args) => {
+      build.onResolve({ filter: /.*/ }, async args => {
         compiler.config.logger.debug('onResolve', args.path);
 
         const { query } = resolvePathAndQuery(args.path);
@@ -165,14 +165,14 @@ export const adapterPlugin = (compiler: ILibuilder): Plugin => {
           return result;
         }
       });
-      build.onLoad({ filter: /.*/ }, async (args) => {
+      build.onLoad({ filter: /.*/ }, async args => {
         compiler.config.logger.debug('onLoad', args.path);
 
         if (args.namespace === LibuildGlobalNamespace) {
           const value = compiler.config.globals[args.path];
           return {
             contents: `module.exports = (typeof globalThis !== "undefined" ? globalThis : Function('return this')() || global || self)[${JSON.stringify(
-              value
+              value,
             )}]`,
           };
         }
@@ -219,7 +219,9 @@ export const adapterPlugin = (compiler: ILibuilder): Plugin => {
           loader: result.loader,
         });
         const ext = path.extname(args.path);
-        const loader = (transformResult.loader ?? compiler.config.loader[ext] ?? loaderMap[ext]) as Loader;
+        const loader = (transformResult.loader ??
+          compiler.config.loader[ext] ??
+          loaderMap[ext]) as Loader;
         const inlineSourceMap = context.getInlineSourceMap();
 
         return {
@@ -227,10 +229,12 @@ export const adapterPlugin = (compiler: ILibuilder): Plugin => {
           loader,
           resolveDir:
             result.resolveDir ??
-            (args.namespace === VirtualPathProxyNamespace ? compiler.config.root : path.dirname(args.path)),
+            (args.namespace === VirtualPathProxyNamespace
+              ? compiler.config.root
+              : path.dirname(args.path)),
         };
       });
-      build.onEnd(async (result) => {
+      build.onEnd(async result => {
         compiler.config.logger.debug('onEnd');
         if (result.errors.length) {
           return;
@@ -238,9 +242,9 @@ export const adapterPlugin = (compiler: ILibuilder): Plugin => {
 
         addCssEntryPoint(result);
 
-        const entryPoints = Object.values(build.initialOptions.entryPoints!).map((i) =>
-          normalizeEntryPoint(i, compiler.config.root)
-        );
+        const entryPoints = Object.values(
+          build.initialOptions.entryPoints!,
+        ).map(i => normalizeEntryPoint(i, compiler.config.root));
 
         await normalizeOutput(compiler, result, entryPoints);
 
@@ -249,7 +253,9 @@ export const adapterPlugin = (compiler: ILibuilder): Plugin => {
           if (value.type === 'chunk' && compiler.config.sourceMap) {
             context.addSourceMap(context.genPluginId('adapter'), value.map);
           }
-          const processedResult = await compiler.hooks.processAsset.promise(value);
+          const processedResult = await compiler.hooks.processAsset.promise(
+            value,
+          );
           if (processedResult.type === 'chunk' && compiler.config.sourceMap) {
             processedResult.map = context.getSourceMap();
           }
@@ -262,7 +268,10 @@ export const adapterPlugin = (compiler: ILibuilder): Plugin => {
           config: build.initialOptions,
         };
 
-        await compiler.hooks.processAssets.promise(compiler.outputChunk, manifest);
+        await compiler.hooks.processAssets.promise(
+          compiler.outputChunk,
+          manifest,
+        );
         await compiler.hooks.endCompilation.promise(compiler.getErrors());
       });
     },
@@ -287,7 +296,11 @@ export function findEntry(paths: string[], otherPaths: string) {
   return value;
 }
 
-async function normalizeOutput(compiler: ILibuilder, result: BuildResult, entryPoints: string[]) {
+async function normalizeOutput(
+  compiler: ILibuilder,
+  result: BuildResult,
+  entryPoints: string[],
+) {
   const { outputs } = result.metafile!;
   const { root } = compiler.config;
   const needSourceMap = Boolean(compiler.config.sourceMap);
@@ -297,9 +310,9 @@ async function normalizeOutput(compiler: ILibuilder, result: BuildResult, entryP
       continue;
     }
     const absPath = path.resolve(root, key);
-    const item = result.outputFiles?.find((x) => x.path === absPath);
+    const item = result.outputFiles?.find(x => x.path === absPath);
     const mapping = result.outputFiles?.find(
-      (x) => x.path.endsWith('.map') && x.path.replace(/\.map$/, '') === absPath
+      x => x.path.endsWith('.map') && x.path.replace(/\.map$/, '') === absPath,
     );
     if (!item) {
       throw new Error(`no contents for ${absPath}`);
@@ -311,7 +324,9 @@ async function normalizeOutput(compiler: ILibuilder, result: BuildResult, entryP
         type: 'chunk',
         contents: item.text,
         map: normalizeSourceMap(mapping?.text, { needSourceMap }),
-        entryPoint: entryPoint ? normalizeEntryPoint(entryPoint, root) : undefined,
+        entryPoint: entryPoint
+          ? normalizeEntryPoint(entryPoint, root)
+          : undefined,
         fileName: absPath,
         isEntry,
       });
@@ -327,7 +342,9 @@ async function normalizeOutput(compiler: ILibuilder, result: BuildResult, entryP
       compiler.emitAsset(absPath, {
         type: 'asset',
         contents: Buffer.from(item.contents),
-        entryPoint: entryPoint ? normalizeEntryPoint(entryPoint, root) : undefined,
+        entryPoint: entryPoint
+          ? normalizeEntryPoint(entryPoint, root)
+          : undefined,
         fileName: absPath,
       });
     }
@@ -351,14 +368,20 @@ function normalizeEntryPoint(entryPoint: string, root: string) {
   return path.join(root, entryPoint);
 }
 
-function isEntryPoint(entryPoints: string[], root: string, entryPoint?: string): boolean {
-  return !!(entryPoint && entryPoints.includes(normalizeEntryPoint(entryPoint, root)));
+function isEntryPoint(
+  entryPoints: string[],
+  root: string,
+  entryPoint?: string,
+): boolean {
+  return Boolean(
+    entryPoint && entryPoints.includes(normalizeEntryPoint(entryPoint, root)),
+  );
 }
 
 // fix css has no entryPoints
 function addCssEntryPoint(result: BuildResult) {
   const { outputs } = result.metafile!;
-  const outputJsPaths = Object.keys(outputs).filter((x) => x.endsWith('.js'));
+  const outputJsPaths = Object.keys(outputs).filter(x => x.endsWith('.js'));
   for (const [key, value] of Object.entries(outputs)) {
     if (key.endsWith('.css') && !value.entryPoint) {
       const jsPath = findEntry(outputJsPaths, key);
@@ -368,7 +391,10 @@ function addCssEntryPoint(result: BuildResult) {
   }
 }
 
-function normalizeEntryName(entryPath: string, inputs: BuildConfig['input']): string {
+function normalizeEntryName(
+  entryPath: string,
+  inputs: BuildConfig['input'],
+): string {
   const { query } = resolvePathAndQuery(entryPath);
   for (const [entryName, entry] of Object.entries(inputs)) {
     if (typeof entry === 'string' && entry === entryPath) {

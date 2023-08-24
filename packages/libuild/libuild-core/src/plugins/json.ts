@@ -13,7 +13,7 @@ export const jsonPlugin = (): LibuildPlugin => {
   return {
     name: pluginName,
     apply(compiler) {
-      compiler.hooks.load.tapPromise(pluginName, async (args) => {
+      compiler.hooks.load.tapPromise(pluginName, async args => {
         if (isJsonExt(args.path)) {
           return {
             contents: readFileSync(args.path),

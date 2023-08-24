@@ -1,17 +1,27 @@
-import type CleanCss from 'clean-css';
 import type { AcceptedPlugin, ProcessOptions, Plugin } from 'postcss';
 import type { Options as sassOptions } from 'sass';
 
-type LocalsConventionFunction = (originalClassName: string, generatedClassName: string, inputFile: string) => string;
+type LocalsConventionFunction = (
+  originalClassName: string,
+  generatedClassName: string,
+  inputFile: string,
+) => string;
 
-type GenerateScopedNameFunction = (name: string, filename: string, css: string) => string;
+type GenerateScopedNameFunction = (
+  name: string,
+  filename: string,
+  css: string,
+) => string;
 
 declare class Loader {
+  finalSource?: string | undefined;
   constructor(root: string, plugins: Plugin[]);
 
-  fetch(file: string, relativeTo: string, depTrace: string): Promise<{ [key: string]: string }>;
-
-  finalSource?: string | undefined;
+  fetch(
+    file: string,
+    relativeTo: string,
+    depTrace: string,
+  ): Promise<{ [key: string]: string }>;
 }
 
 export type PostcssOptions = {
@@ -38,7 +48,12 @@ export interface Style {
   postcss?: PostcssOptions;
   autoModules?: boolean | RegExp;
   modules?: {
-    localsConvention?: 'camelCase' | 'camelCaseOnly' | 'dashes' | 'dashesOnly' | LocalsConventionFunction;
+    localsConvention?:
+      | 'camelCase'
+      | 'camelCaseOnly'
+      | 'dashes'
+      | 'dashesOnly'
+      | LocalsConventionFunction;
     scopeBehaviour?: 'global' | 'local';
     globalModulePaths?: RegExp[];
     generateScopedName?: string | GenerateScopedNameFunction;
@@ -47,7 +62,10 @@ export interface Style {
     root?: string;
     resolve?: (file: string) => string | Promise<string>;
     Loader?: typeof Loader;
-    getJSON?(cssFilename: string, json: { [name: string]: string }, outputFilename?: string): void;
+    getJSON?: (
+      cssFilename: string,
+      json: { [name: string]: string },
+      outputFilename?: string,
+    ) => void;
   };
-  cleanCss?: CleanCss.OptionsOutput | boolean;
 }

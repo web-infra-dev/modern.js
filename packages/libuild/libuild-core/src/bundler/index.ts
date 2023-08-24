@@ -1,13 +1,31 @@
-import { LogLevel as esbuildLogLevel, BuildResult, BuildOptions, BuildContext, context, build } from 'esbuild';
+import {
+  LogLevel as esbuildLogLevel,
+  BuildResult,
+  BuildOptions,
+  BuildContext,
+  context,
+  build,
+} from 'esbuild';
 import chalk from 'chalk';
 import { getLogLevel } from '../logger';
 import { LibuildError } from '../error';
-import { Callback, ILibuilder, BuildConfig, IBuilderBase, EsbuildResultInfo, EsbuildError } from '../types';
-import { adapterPlugin } from './adapter';
+import {
+  Callback,
+  ILibuilder,
+  BuildConfig,
+  IBuilderBase,
+  EsbuildResultInfo,
+  EsbuildError,
+} from '../types';
 import { jsExtensions } from '../core/resolve';
 import { ErrorCode } from '../constants/error';
 import type { Format } from '../types/config';
-import { swcTransformPluginName, es5PluginName, umdPluginName } from '../constants/plugins';
+import {
+  swcTransformPluginName,
+  es5PluginName,
+  umdPluginName,
+} from '../constants/plugins';
+import { adapterPlugin } from './adapter';
 
 function convertLogLevel(level: BuildConfig['logLevel']): esbuildLogLevel {
   if (getLogLevel(level) < getLogLevel('debug')) {
@@ -23,7 +41,8 @@ function getEsbuildTarget(options: {
   target: string;
   format: Format;
 }) {
-  const { enableSwcTransform, haveUmdPlugin, haveEs5Plugin, target, format } = options;
+  const { enableSwcTransform, haveUmdPlugin, haveEs5Plugin, target, format } =
+    options;
   if (format === 'umd' && haveUmdPlugin) {
     // umd-plugin will transform syntax by user-target.
     return undefined;
@@ -141,7 +160,7 @@ export class EsbuildBuilder implements IBuilderBase {
               })
             );
           })
-          .reduce((acc: any[], val: any) => acc.concat(val), [])
+          .reduce((acc: any[], val: any) => acc.concat(val), []),
       );
     }
 
@@ -157,7 +176,7 @@ export class EsbuildBuilder implements IBuilderBase {
               })
             );
           })
-          .reduce((acc: any[], val: any) => acc.concat(val), [])
+          .reduce((acc: any[], val: any) => acc.concat(val), []),
       );
     }
 
@@ -204,11 +223,22 @@ export class EsbuildBuilder implements IBuilderBase {
     } = compiler.config;
 
     // if have libuild:swc-transform, so enable swc-transform
-    const enableSwcTransform = !!compiler.plugins.find((plugin) => plugin.name === swcTransformPluginName);
-    const haveUmdPlugin = !!compiler.plugins.find((plugin) => plugin.name === umdPluginName);
-    const haveEs5Plugin = !!compiler.plugins.find((plugin) => plugin.name === es5PluginName);
+    const enableSwcTransform = Boolean(
+      compiler.plugins.find(plugin => plugin.name === swcTransformPluginName),
+    );
+    const haveUmdPlugin = Boolean(
+      compiler.plugins.find(plugin => plugin.name === umdPluginName),
+    );
+    const haveEs5Plugin = Boolean(
+      compiler.plugins.find(plugin => plugin.name === es5PluginName),
+    );
 
-    const esbuildFormat = getEsbuildFormat({ enableSwcTransform, bundle, format, splitting });
+    const esbuildFormat = getEsbuildFormat({
+      enableSwcTransform,
+      bundle,
+      format,
+      splitting,
+    });
     const esbuildTarget = getEsbuildTarget({
       enableSwcTransform,
       haveUmdPlugin,
@@ -239,7 +269,7 @@ export class EsbuildBuilder implements IBuilderBase {
       entryNames,
       chunkNames,
       plugins: [adapterPlugin(this.compiler)],
-      minifyIdentifiers: !!minify,
+      minifyIdentifiers: Boolean(minify),
       minify: minify === 'esbuild',
       inject,
       jsx,
@@ -280,7 +310,7 @@ export class EsbuildBuilder implements IBuilderBase {
       }
       compiler.config.logger.info(
         chalk.green`Rebuild Successfully in ${Date.now() - start}ms`,
-        chalk.yellow`Rebuild Count: ${++this.reBuildCount}`
+        chalk.yellow`Rebuild Count: ${++this.reBuildCount}`,
       );
     } catch (error: any) {
       this.report(error);
