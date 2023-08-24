@@ -1,5 +1,35 @@
 # @modern-js/doc-core
 
+## 2.32.0
+
+### Patch Changes
+
+- 97c9927: fix(doc-core): reletive link error in runtime
+
+  fix(doc-core): 相对路径运行时错误
+
+- da9f65f: fix(doc-core): links cannot be opened in a new tab
+- 92a4347: fix(doc-core): avoid external image compile error
+
+  fix(doc-core): 避免外部图片编译错误
+
+- 0f288cf: chore(doc-core): optimize sidebar style
+
+  chore(doc-core): 优化侧边栏样式
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [83c1cf7]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/builder-rspack-provider@2.32.0
+  - @modern-js/remark-container@2.32.0
+  - @modern-js/core@2.32.0
+  - @modern-js/builder@2.32.0
+  - @modern-js/doc-plugin-medium-zoom@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

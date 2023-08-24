@@ -1,5 +1,41 @@
 # @modern-js/builder-shared
 
+## 2.32.0
+
+### Patch Changes
+
+- 6517032: chore(builder): move performance config default value to shared
+
+  chore(builder): 移动 performance 默认配置到 shared 中
+
+- 0cc3981: chore(builder): use standard utils to get and make up publicPath
+
+  chore(builder): 使用标准的 utils 来读取和组装 publicPath
+
+- ddcdef2: feat(builder): enable minifyJS/minifyCSS of HTML plugin by default
+
+  feat(builder): 默认开启 htmlPlugin minifyJS/minifyCSS 等能力
+
+- 3c91100: chore(builder): using unified version of webpack-chain
+
+  chore(builder): 使用统一的 webpack-chain 版本
+
+- Updated dependencies [e6c7d33]
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [5f7c714]
+- Updated dependencies [a030aff]
+- Updated dependencies [6d73519]
+- Updated dependencies [79658a0]
+- Updated dependencies [4323e68]
+- Updated dependencies [3c91100]
+- Updated dependencies [2447d64]
+- Updated dependencies [5255eba]
+  - @modern-js/prod-server@2.32.0
+  - @modern-js/utils@2.32.0
+  - @modern-js/types@2.32.0
+  - @modern-js/server@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

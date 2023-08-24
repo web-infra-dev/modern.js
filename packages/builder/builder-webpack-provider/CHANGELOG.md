@@ -1,5 +1,39 @@
 # @modern-js/builder-webpack-provider
 
+## 2.32.0
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- 6517032: chore(builder): move performance config default value to shared
+
+  chore(builder): 移动 performance 默认配置到 shared 中
+
+- 3c91100: chore(builder): using unified version of webpack-chain
+
+  chore(builder): 使用统一的 webpack-chain 版本
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [5f7c714]
+- Updated dependencies [6517032]
+- Updated dependencies [a030aff]
+- Updated dependencies [0cc3981]
+- Updated dependencies [ddcdef2]
+- Updated dependencies [4323e68]
+- Updated dependencies [3c91100]
+- Updated dependencies [2447d64]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/types@2.32.0
+  - @modern-js/server@2.32.0
+  - @modern-js/builder-shared@2.32.0
+  - @modern-js/babel-preset-app@2.32.0
+  - @modern-js/babel-preset-base@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes
