@@ -60,9 +60,9 @@ function createEnhancedResolve(options: ResolverOptions): {
       })(dir, id),
   };
   return {
-    // @ts-expect-errord
+    // @ts-expect-error
     resolveSync,
-    // @ts-expect-errord
+    // @ts-expect-error
     esmResolveSync,
   };
 }
@@ -83,6 +83,7 @@ export const createResolver = (options: ResolverOptions) => {
   const resolveCache = new Map<string, string>();
   const { resolveSync, esmResolveSync } = createEnhancedResolve(options);
   const resolver = (id: string, dir: string, kind?: ImportKind) => {
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     const cacheKey = id + dir + kind;
     const cacheResult = resolveCache.get(cacheKey);
 

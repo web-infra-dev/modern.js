@@ -9,5 +9,6 @@ module.exports = {
   rules: {
     // https://eslint.org/docs/rules/complexity
     complexity: ['warn', { max: 50 }],
-    treatUndefinedAsUnspecified: true,
+    treatUndefinedAsUnspecified: 0,
+  },
 };
