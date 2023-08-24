@@ -33,7 +33,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
                 },
                 fetcher: { type: 'string' },
                 proxy: { type: 'object' },
-                requestCreator: { type: 'string' },
               },
             },
           },
@@ -83,7 +82,8 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
                   existLambda,
                   port,
                   target: name,
-                  requestCreator: bff?.requestCreator,
+                  // Internal field
+                  requestCreator: (bff as any)?.requestCreator,
                   httpMethodDecider,
                 });
             },

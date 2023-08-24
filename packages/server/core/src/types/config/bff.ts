@@ -6,7 +6,6 @@ export interface BffUserConfig {
   proxy?: Record<string, Options>;
   httpMethodDecider?: HttpMethodDecider;
   enableHandleWeb?: boolean;
-  requestCreator?: string;
 }
 
 export type BffNormalizedConfig = BffUserConfig;
