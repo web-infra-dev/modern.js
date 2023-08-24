@@ -1,4 +1,5 @@
 import React from 'react';
+import { Heading } from '@radix-ui/themes';
 import { useSnapshot } from 'valtio';
 import JsonViewer from 'react-json-view';
 import { useStore } from '@/stores';
@@ -12,7 +13,7 @@ const Page: React.FC = () => {
   };
   return (
     <div>
-      <h3>Modern.js DevTools</h3>
+      <Heading as="h3">Modern.js DevTools</Heading>
       <JsonViewer src={display} sortKeys={true} />
     </div>
   );

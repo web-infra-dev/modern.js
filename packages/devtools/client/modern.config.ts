@@ -20,6 +20,12 @@ export default defineConfig<'rspack'>({
       [`^${ONLINE_URL}/**`]: 'http://localhost:8780/devtools/$1',
     },
   },
+  source: {
+    preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
+  },
+  output: {
+    enableCssModuleTSDeclaration: true,
+  },
   tools: {
     devServer: {
       client: {

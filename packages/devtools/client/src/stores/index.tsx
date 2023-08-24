@@ -7,6 +7,7 @@ import {
   BuilderContext,
   FrameworkConfig,
 } from '@modern-js/devtools-kit';
+import { ref } from 'valtio';
 import { setupServerConnection } from '@/rpc';
 import { useProxyFrom } from '@/utils/hooks';
 import { StoreContextValue } from '@/types';
@@ -45,7 +46,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       config: deferred.builder.config.promise,
       context: deferred.builder.context.promise,
     },
-    tabs: getDefaultTabs(),
+    tabs: getDefaultTabs().map(tab => ref(tab)),
   }));
 
   const setupTask = setupServerConnection({ url: dataSource, $store });

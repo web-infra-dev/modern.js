@@ -5,6 +5,7 @@ import type {
   FileSystemRoutes,
 } from '@modern-js/devtools-kit';
 import { FrameworkConfig } from '@modern-js/devtools-kit';
+import { ReactElement } from 'react';
 import { Promisable } from 'type-fest';
 
 export interface StoreContextValue {
@@ -32,5 +33,5 @@ export interface InternalTab {
   name: string;
   title: string;
   view: InternalTabView;
-  icon?: string;
+  icon?: ReactElement;
 }
