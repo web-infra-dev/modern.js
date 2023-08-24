@@ -119,12 +119,10 @@ export default {
     './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
-  // 主题配置（可选）
-  theme: {},
 };
 ```
 
-3. 在 `modern.config.ts` 中引用你创建的 `tailwind.config.ts` 文件，使 Modern.js 可以正确识别 Tailwind CSS 配置内容。
+3. 在 `modern.config.ts` 中通过 [tools.tailwindcss](/configure/app/tools/tailwindcss) 引用你创建的 `tailwind.config.ts` 文件，使 Modern.js 可以正确识别 Tailwind CSS 配置内容。
 
 ```ts title="modern.config.ts"
 import tailwindConfig from './tailwind.config';
@@ -133,17 +131,9 @@ export default defineConfig({
   tools: {
     tailwindcss: tailwindConfig,
   },
-  // 主题配置（可选）
-  source: {
-    designSystem: tailwindConfig.theme,
-  },
 });
 ```
 
-请阅读相关配置项的文档来了解其作用：
-
-- [tools.tailwindcss](/configure/app/tools/tailwindcss)。
-- [source.designSystem](/configure/app/source/design-system)。
 
 ### Tailwind CSS 版本
 
@@ -162,39 +152,3 @@ Tailwind CSS v2 和 v3 均不支持 IE 11 浏览器，相关背景请参考：
 - [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
 
 如果你在 IE 11 浏览器上使用 Tailwind CSS，可能会出现部分样式不可用的现象，请谨慎使用。
-
-### Theme 配置
-
-当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/configure/app/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  source: {
-    designSystem: {
-      extend: {
-        colors: {
-          primary: '#5c6ac4',
-        },
-      },
-    },
-  },
-});
-```
-
-当需要对 Tailwind CSS 做 [theme](https://tailwindcss.com/docs/theme) 以外的其他特殊配置时，可以在 [`tools.tailwindcss`](/configure/app/tools/tailwindcss) 中配置，例如设置 `variants`：
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  tools: {
-    tailwindcss: {
-      variants: {
-        extend: {
-          backgroundColor: ['active'],
-        },
-      },
-    },
-  },
-});
-```
-
-> 当你为项目配置 Tailwind CSS 的时候，[source.designSystem](/configure/app/source/design-system) 和 [tools.tailwindcss](/configure/app/tools/tailwindcss) 这两个配置的组合等价于单独配置了一个 `tailwindcss.config.js` 文件。其中 [source.designSystem](/configure/app/source/design-system) 等效于 Tailwind CSS 的 [theme](https://v2.tailwindcss.com/docs/configuration#theme) 配置。

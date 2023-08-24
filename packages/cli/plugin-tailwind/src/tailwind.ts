@@ -1,24 +1,11 @@
-import { applyOptionsChain, logger } from '@modern-js/utils';
+import { applyOptionsChain } from '@modern-js/utils';
 import { merge, cloneDeep } from '@modern-js/utils/lodash';
 import { DesignSystem, Tailwind } from './types';
 
-const checkIfExistNotAllowKeys = (
-  tailwindConfig: Record<string, any>,
-): [boolean, string] => {
-  const notAllowExistKeys = ['theme'];
-  let notAllowKey = '';
-
-  const ret = Object.keys(tailwindConfig).some(
-    key => notAllowExistKeys.includes(key) && (notAllowKey = key),
-  );
-
-  return [ret, notAllowKey];
-};
-
-const getPureDesignSystemConfig = (designSystemConfig: DesignSystem) => {
-  const pureDesignSystemConfig = cloneDeep(designSystemConfig);
-  delete pureDesignSystemConfig.supportStyledComponents;
-  return pureDesignSystemConfig;
+const getPureDesignSystemConfig = (config: DesignSystem) => {
+  const pureConfig = cloneDeep(config);
+  delete pureConfig.supportStyledComponents;
+  return pureConfig;
 };
 
 const getTailwindConfig = (
@@ -52,18 +39,10 @@ const getTailwindConfig = (
 
   const designSystemConfig = getPureDesignSystemConfig(designSystem ?? {});
 
-  const [exist, key] = checkIfExistNotAllowKeys(tailwindConfig);
-
-  if (exist) {
-    logger.error(
-      `should not exist '${key}' on tools.tailwindcss, please remove it`,
-    );
-    // eslint-disable-next-line no-process-exit
-    process.exit(0);
+  // if designSystem config is used, it will override the theme config of tailwind
+  if (designSystemConfig && Object.keys(designSystemConfig).length > 0) {
+    tailwindConfig.theme = designSystemConfig;
   }
-
-  // Because there is no default theme configuration
-  tailwindConfig.theme = designSystemConfig || {};
 
   return tailwindConfig;
 };

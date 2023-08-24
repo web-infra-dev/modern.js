@@ -45,12 +45,6 @@ export default (
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
             },
           },
-          tools: {
-            // TODO: support less、scss、css vars
-            // less: https://github.com/web-infra-dev/modern.js/pull/398/files#diff-f77c749e403fbf1fb676d5687bef3d7138a230331c849298d8afaff9b6afbc3dR166
-            // sass: https://github.com/web-infra-dev/modern.js/pull/398/files#diff-f77c749e403fbf1fb676d5687bef3d7138a230331c849298d8afaff9b6afbc3dR229
-            // postcss: https://github.com/web-infra-dev/modern.js/pull/398/files#diff-f77c749e403fbf1fb676d5687bef3d7138a230331c849298d8afaff9b6afbc3dR281
-          },
         };
       },
 

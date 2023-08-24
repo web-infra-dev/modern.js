@@ -647,7 +647,7 @@ const designSystem = {
 ```
 
 :::tip
-更多关于[TailwindCSS 配置](https://tailwindcss.com/docs/configuration#theme)
+更多关于[Tailwind CSS 配置](https://tailwindcss.com/docs/configuration#theme)
 :::
 
 </details>
