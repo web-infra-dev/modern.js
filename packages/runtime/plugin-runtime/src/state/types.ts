@@ -10,8 +10,8 @@ export type PluginOptions = Parameters<typeof createStore>[0] & {
   // todo: archive effects params
   effects?: any;
   /**
-   * Default: false
    * When it's true, will remove immer plugin
+   * @default false
    */
   disableImmer?: boolean;
   // todo: archive devtools params
