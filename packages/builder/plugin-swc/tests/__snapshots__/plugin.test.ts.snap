@@ -62,7 +62,6 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                   "tsx": true,
                 },
                 "preserveAllComments": true,
-                "target": "es5",
                 "transform": {
                   "react": {
                     "refresh": true,
@@ -125,7 +124,6 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
                   "tsx": true,
                 },
                 "preserveAllComments": true,
-                "target": "es5",
                 "transform": {
                   "react": {
                     "refresh": true,
@@ -191,7 +189,6 @@ exports[`plugins/swc > should disable react refresh when dev.hmr is false 1`] = 
                 "tsx": true,
               },
               "preserveAllComments": true,
-              "target": "es5",
               "transform": {
                 "react": {
                   "refresh": false,
@@ -258,7 +255,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 1`] =
                 "tsx": true,
               },
               "preserveAllComments": true,
-              "target": "es5",
               "transform": {
                 "react": {
                   "refresh": true,
@@ -321,7 +317,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 2`] =
                 "tsx": true,
               },
               "preserveAllComments": true,
-              "target": "es5",
               "transform": {
                 "react": {
                   "refresh": false,
@@ -386,7 +381,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 3`] =
                 "tsx": true,
               },
               "preserveAllComments": true,
-              "target": "es5",
               "transform": {
                 "react": {
                   "refresh": false,
@@ -451,7 +445,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 4`] =
                 "tsx": true,
               },
               "preserveAllComments": true,
-              "target": "es5",
               "transform": {
                 "react": {
                   "refresh": true,
@@ -516,7 +509,6 @@ exports[`plugins/swc > should disable react refresh when target is not web 5`] =
                 "tsx": true,
               },
               "preserveAllComments": true,
-              "target": "es5",
               "transform": {
                 "react": {
                   "refresh": false,
@@ -624,7 +616,6 @@ exports[`plugins/swc > should set multiple swc-loader 1`] = `
               "tsx": true,
             },
             "preserveAllComments": true,
-            "target": "es5",
             "transform": {
               "react": {
                 "refresh": true,
@@ -688,7 +679,6 @@ exports[`plugins/swc > should set multiple swc-loader 1`] = `
               "tsx": true,
             },
             "preserveAllComments": true,
-            "target": "es5",
             "transform": {
               "react": {
                 "refresh": true,
@@ -747,7 +737,6 @@ exports[`plugins/swc > should set multiple swc-loader 1`] = `
               "tsx": true,
             },
             "preserveAllComments": true,
-            "target": "es5",
             "transform": {
               "react": {
                 "refresh": true,
@@ -840,7 +829,6 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                   "tsx": true,
                 },
                 "preserveAllComments": true,
-                "target": "es5",
                 "transform": {
                   "react": {
                     "refresh": true,
@@ -903,7 +891,6 @@ exports[`plugins/swc > should set swc-loader 1`] = `
                   "tsx": true,
                 },
                 "preserveAllComments": true,
-                "target": "es5",
                 "transform": {
                   "react": {
                     "refresh": true,
