@@ -111,10 +111,16 @@ export const buildCommand = async (
 };
 
 export type AppToolsOptions = {
-  /** Specify the use what kind of bundler to compiler, default: `webpack` */
+  /**
+   * Specify which bundler to use for the build.
+   * @default `webpack`
+   * */
   bundler?: 'experimental-rspack' | 'webpack';
 };
 
+/**
+ * The core package of the framework, providing CLI commands, build capabilities, configuration parsing and more.
+ */
 export const appTools = (
   options: AppToolsOptions = {
     bundler: 'webpack',

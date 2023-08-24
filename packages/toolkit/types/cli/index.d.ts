@@ -7,7 +7,7 @@ export type JestConfig = JestConfigTypes.Config;
 export interface TestConfig {
   /**
    * Decide which transformer will be used to compile file
-   * Default: babel-jest
+   * @default 'babel-jest'
    */
   transformer?: 'babel-jest' | 'ts-jest';
 
