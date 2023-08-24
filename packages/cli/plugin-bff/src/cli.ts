@@ -83,6 +83,7 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
                   existLambda,
                   port,
                   target: name,
+                  requestCreator: bff?.requestCreator,
                   httpMethodDecider,
                 });
             },
