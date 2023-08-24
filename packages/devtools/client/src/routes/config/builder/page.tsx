@@ -1,14 +1,12 @@
 import React from 'react';
 import { useSnapshot } from 'valtio';
-import JsonViewer from 'react-json-view';
 import { useStore } from '@/stores';
+import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {
   const $store = useStore();
   const store = useSnapshot($store);
-  return (
-    <JsonViewer src={store.builder.config} sortKeys={true} collapsed={1} />
-  );
+  return <ObjectInspector data={store.builder.config} sortObjectKeys={true} />;
 };
 
 export default Page;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Heading } from '@radix-ui/themes';
 import { useSnapshot } from 'valtio';
-import JsonViewer from 'react-json-view';
 import { useStore } from '@/stores';
+import { ObjectInspector } from '@/components/ObjectInspector';
 
 const Page: React.FC = () => {
   const $store = useStore();
@@ -14,7 +14,7 @@ const Page: React.FC = () => {
   return (
     <div>
       <Heading as="h3">Modern.js DevTools</Heading>
-      <JsonViewer src={display} sortKeys={true} />
+      <ObjectInspector data={display} sortObjectKeys={true} />
     </div>
   );
 };
