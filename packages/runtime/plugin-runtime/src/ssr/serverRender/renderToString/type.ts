@@ -1,5 +1,4 @@
 import type { BaseSSRServerContext } from '@modern-js/types';
-import type { SSRPluginConfig } from '../types';
 
 export enum RenderLevel {
   CLIENT_RENDER,
@@ -14,22 +13,6 @@ export type SSRServerContext = BaseSSRServerContext & {
     cookieMap: Record<string, string>;
   };
 };
-
-export interface RenderEntry {
-  entryName: string;
-  host: string;
-  result: RenderResult;
-  stats: Record<string, any>;
-  config: SSRPluginConfig;
-  template: string;
-  nonce?: string;
-}
-
-export type RenderHandler = (
-  jsx: React.ReactElement,
-  renderer: RenderEntry,
-  next: (jsx: React.ReactElement) => string,
-) => string;
 
 export type RenderResult = {
   renderLevel: RenderLevel;

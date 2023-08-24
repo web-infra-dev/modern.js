@@ -1,14 +1,28 @@
 import { ServerStyleSheet } from 'styled-components';
-import { RenderHandler } from './type';
+import { ReactElement } from 'react';
+import type { RenderResult } from './type';
+import type { Collector } from './render';
 
-export const toHtml: RenderHandler = (jsx, renderer, next) => {
-  const sheet = new ServerStyleSheet();
+class StyledCollector implements Collector {
+  sheet: ServerStyleSheet = new ServerStyleSheet();
 
-  const html = next(sheet.collectStyles(jsx));
+  result: RenderResult;
 
-  const css = sheet.getStyleTags();
+  constructor(result: RenderResult) {
+    this.result = result;
+  }
 
-  renderer.result.chunksMap.css += css;
+  collect(comopnent: ReactElement) {
+    return this.sheet.collectStyles(comopnent);
+  }
 
-  return html;
-};
+  effect() {
+    const css = this.sheet.getStyleTags();
+
+    this.result.chunksMap.css += css;
+  }
+}
+
+export function createStyledCollector(result: RenderResult) {
+  return new StyledCollector(result);
+}
