@@ -1,17 +1,13 @@
+import { BuildConfig } from '../types';
 import { formatCjsPlugin } from './format-cjs';
 import { resolvePlugin } from './resolve';
 import { writeFilePlugin } from './write-file';
-import { cssPlugin, minifyCssPlugin } from './style';
+import { cssPlugin } from './style';
 import { minifyPlugin } from './minify';
 import { assetsPlugin } from './asset';
-import { BuildConfig } from '../types';
 
 export async function getInternalPlugin(config: BuildConfig) {
   const internalPlugin = [];
-  if (config.clean) {
-    const { cleanPlugin } = await import('./clean');
-    internalPlugin.push(cleanPlugin());
-  }
 
   if (config.watch) {
     const { watchPlugin } = await import('./watch');
@@ -30,7 +26,7 @@ export async function getInternalPlugin(config: BuildConfig) {
     internalPlugin.push(formatCjsPlugin());
   }
 
-  internalPlugin.push(minifyPlugin(), minifyCssPlugin(), writeFilePlugin());
+  internalPlugin.push(minifyPlugin(),  writeFilePlugin());
 
   if (config.metafile) {
     const { metaFilePlugin } = await import('./metafile');

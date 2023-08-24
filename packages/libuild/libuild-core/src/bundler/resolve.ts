@@ -1,15 +1,17 @@
-import { createFilter } from '@rollup/pluginutils';
-import { resolvePathAndQuery } from '@modern-js/libuild-utils';
 import path from 'path';
 import fs from 'fs';
 import module from 'module';
+import { resolvePathAndQuery } from '@modern-js/libuild-utils';
+import { createFilter } from '@rollup/pluginutils';
 import type { BuilderResolveOptions, ILibuilder, SideEffects } from '../types';
 
 const HTTP_PATTERNS = /^(https?:)?\/\//;
 const DATAURL_PATTERNS = /^data:/;
 const HASH_PATTERNS = /#[^#]+$/;
 export const isUrl = (source: string) =>
-  HTTP_PATTERNS.test(source) || DATAURL_PATTERNS.test(source) || HASH_PATTERNS.test(source);
+  HTTP_PATTERNS.test(source) ||
+  DATAURL_PATTERNS.test(source) ||
+  HASH_PATTERNS.test(source);
 
 function isString(str: unknown): str is string {
   return typeof str === 'string';
@@ -17,7 +19,9 @@ function isString(str: unknown): str is string {
 
 export function installResolve(compiler: ILibuilder): ILibuilder['resolve'] {
   const { external, sideEffects: userSideEffects } = compiler.config;
-  const regExternal = external.filter((item): item is RegExp => !isString(item));
+  const regExternal = external.filter(
+    (item): item is RegExp => !isString(item),
+  );
   const externalList = external
     .filter(isString)
     .concat(Object.keys(compiler.config.globals))
@@ -29,15 +33,24 @@ export function installResolve(compiler: ILibuilder): ILibuilder['resolve'] {
   }, new Map<string, boolean>());
 
   function getResolverDir(importer?: string, resolveDir?: string) {
-    return resolveDir ?? (importer ? path.dirname(importer) : compiler.config.root);
+    return (
+      resolveDir ?? (importer ? path.dirname(importer) : compiler.config.root)
+    );
   }
 
   function getResolveResult(source: string, opt: BuilderResolveOptions) {
     if (source.endsWith('.css')) {
-      return compiler.config.css_resolve(source, getResolverDir(opt.importer, opt.resolveDir));
+      return compiler.config.css_resolve(
+        source,
+        getResolverDir(opt.importer, opt.resolveDir),
+      );
     }
 
-    return compiler.config.node_resolve(source, getResolverDir(opt.importer, opt.resolveDir), opt.kind);
+    return compiler.config.node_resolve(
+      source,
+      getResolverDir(opt.importer, opt.resolveDir),
+      opt.kind,
+    );
   }
 
   function getIsExternal(name: string) {
@@ -45,7 +58,7 @@ export function installResolve(compiler: ILibuilder): ILibuilder['resolve'] {
       return true;
     }
 
-    if (regExternal.some((reg) => reg.test(name))) {
+    if (regExternal.some(reg => reg.test(name))) {
       return true;
     }
 
@@ -59,7 +72,10 @@ export function installResolve(compiler: ILibuilder): ILibuilder['resolve'] {
    * @param isExternal
    * @returns
    */
-  async function getSideEffects(filePath: string | boolean, isExternal: boolean) {
+  async function getSideEffects(
+    filePath: string | boolean,
+    isExternal: boolean,
+  ) {
     if (typeof filePath === 'boolean') {
       return false;
     }
@@ -88,7 +104,7 @@ export function installResolve(compiler: ILibuilder): ILibuilder['resolve'] {
       moduleSideEffects = sideEffects;
     } else if (Array.isArray(sideEffects)) {
       moduleSideEffects = createFilter(
-        sideEffects.map((glob) => {
+        sideEffects.map(glob => {
           if (typeof glob === 'string') {
             if (!glob.includes('/')) {
               return `**/${glob}`;
@@ -101,7 +117,7 @@ export function installResolve(compiler: ILibuilder): ILibuilder['resolve'] {
           ? {
               resolve: path.dirname(pkgPath),
             }
-          : undefined
+          : undefined,
       )(filePath);
     } else if (typeof sideEffects === 'function') {
       moduleSideEffects = sideEffects(filePath, isExternal);
@@ -120,12 +136,16 @@ export function installResolve(compiler: ILibuilder): ILibuilder['resolve'] {
     const { originalFilePath, rawQuery } = resolvePathAndQuery(source);
     const suffix = (rawQuery ?? '').length > 0 ? `?${rawQuery}` : '';
     const isExternal = getIsExternal(originalFilePath);
-    const resultPath = isExternal ? originalFilePath : getResolveResult(originalFilePath, options);
+    const resultPath = isExternal
+      ? originalFilePath
+      : getResolveResult(originalFilePath, options);
 
     return {
       external: isExternal,
       namespace: isExternal ? undefined : 'file',
-      sideEffects: options.skipSideEffects ? false : await getSideEffects(resultPath, isExternal),
+      sideEffects: options.skipSideEffects
+        ? false
+        : await getSideEffects(resultPath, isExternal),
       path: resultPath,
       suffix,
     };

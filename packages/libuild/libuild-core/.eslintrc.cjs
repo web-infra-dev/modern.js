@@ -6,4 +6,9 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  rules: {
+    // https://eslint.org/docs/rules/complexity
+    complexity: ['warn', { max: 50 }],
+    treatUndefinedAsUnspecified: 0,
+  },
 };

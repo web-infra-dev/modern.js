@@ -39,7 +39,10 @@ export interface CodeFrameLineOption {
   length?: number;
 }
 
-export type CodeFrameOption = CodeFrameFileOption | CodeFrameNormalOption | CodeFrameLineOption;
+export type CodeFrameOption =
+  | CodeFrameFileOption
+  | CodeFrameNormalOption
+  | CodeFrameLineOption;
 
 export interface ControllerOption {
   /**
@@ -67,13 +70,18 @@ export interface LibuildErrorInstance {
   level?: keyof typeof ErrorLevel;
   hint?: string;
   referenceUrl?: string;
-  setControllerOption(opt: ControllerOption): void;
-  setCodeFrame(opt: CodeFrameOption): void;
+  setControllerOption: (opt: ControllerOption) => void;
+  setCodeFrame: (opt: CodeFrameOption) => void;
 }
 
 export type LibuildErrorParams = Omit<
   LibuildErrorInstance,
-  'code' | 'message' | 'path' | 'setControllerOption' | 'setCodeFrame' | 'toOverlayPayload'
+  | 'code'
+  | 'message'
+  | 'path'
+  | 'setControllerOption'
+  | 'setCodeFrame'
+  | 'toOverlayPayload'
 > & {
   code?: string;
   controller?: ControllerOption;

@@ -1,8 +1,14 @@
 import { ITransformContext, CacheValue } from '../types';
 import { SourcemapContext } from './sourcemap';
 
-export class TransformContext extends SourcemapContext implements ITransformContext {
-  private cachedTransformResult: Map<number, CacheValue> = new Map<number, CacheValue>();
+export class TransformContext
+  extends SourcemapContext
+  implements ITransformContext
+{
+  private cachedTransformResult: Map<number, CacheValue> = new Map<
+    number,
+    CacheValue
+  >();
 
   constructor(private enableCache?: boolean, enableSourceMap?: boolean) {
     super(enableSourceMap);
@@ -21,9 +27,6 @@ export class TransformContext extends SourcemapContext implements ITransformCont
       if (cache && cache.originCode === code) {
         return cache;
       }
-      // else {
-      //   console.log('miss cache')
-      // }
     }
   }
 }

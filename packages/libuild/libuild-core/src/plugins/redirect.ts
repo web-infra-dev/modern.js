@@ -2,7 +2,16 @@
  * This plugin is used to redirectImport only in unbundle mode
  * Taking from https://github.com/ice-lab/icepkg/blob/main/packages/pkg/src/plugins/transform/alias.ts
  */
-import { isAbsolute, resolve, relative, join, dirname, win32, basename, extname } from 'path';
+import {
+  isAbsolute,
+  resolve,
+  relative,
+  join,
+  dirname,
+  win32,
+  basename,
+  extname,
+} from 'path';
 import { init, parse } from 'es-module-lexer';
 import type { ImportSpecifier } from 'es-module-lexer';
 import { js } from '@ast-grep/napi';
@@ -30,12 +39,12 @@ async function redirectImport(
   aliasRecord: Record<string, string>,
   filePath: string,
   outputDir: string,
-  matchPath?: MatchPath
+  matchPath?: MatchPath,
 ): Promise<MagicString> {
   const str: MagicString = new MagicString(code);
   const extensions = ['.ts', '.tsx', '.js', '.jsx'];
   await Promise.all(
-    modules.map(async (module) => {
+    modules.map(async module => {
       if (!module.name) {
         return;
       }
@@ -46,11 +55,16 @@ async function redirectImport(
 
       if (alias) {
         // redirect alias
-        let absoluteImportPath = matchPath ? matchPath(name, undefined, undefined, extensions) : undefined;
+        let absoluteImportPath = matchPath
+          ? matchPath(name, undefined, undefined, extensions)
+          : undefined;
         for (const alias of Object.keys(aliasRecord)) {
           // prefix
           if (name.startsWith(`${alias}/`)) {
-            absoluteImportPath = join(aliasRecord[alias], name.slice(alias.length + 1));
+            absoluteImportPath = join(
+              aliasRecord[alias],
+              name.slice(alias.length + 1),
+            );
             break;
           }
           // full path
@@ -63,7 +77,7 @@ async function redirectImport(
         if (absoluteImportPath) {
           const relativePath = relative(dirname(filePath), absoluteImportPath);
           const relativeImportPath = normalizeSlashes(
-            relativePath.startsWith('..') ? relativePath : `./${relativePath}`
+            relativePath.startsWith('..') ? relativePath : `./${relativePath}`,
           );
           str.overwrite(start, end, relativeImportPath);
           name = relativeImportPath;
@@ -77,7 +91,10 @@ async function redirectImport(
 
         if (query.css_virtual) {
           // css module
-          const replacedName = basename(originalFilePath, extname(originalFilePath)).replace('.', '_');
+          const replacedName = basename(
+            originalFilePath,
+            extname(originalFilePath),
+          ).replace('.', '_');
           const base = `${replacedName}.css`;
           const contents = compiler.virtualModule.get(originalFilePath)!;
           const fileName = join(outputDir, base);
@@ -96,9 +113,14 @@ async function redirectImport(
           return;
         }
 
-        if (ext === '.less' || ext === '.sass' || ext === '.scss' || ext === '.css') {
+        if (
+          ext === '.less' ||
+          ext === '.sass' ||
+          ext === '.scss' ||
+          ext === '.css'
+        ) {
           // less sass
-          if (isCssModule(name!, compiler.config.style.autoModules ?? true)) {
+          if (isCssModule(name, compiler.config.style.autoModules ?? true)) {
             str.overwrite(start, end, `${name.slice(0, -ext.length)}`);
           } else {
             str.overwrite(start, end, `${name.slice(0, -ext.length)}.css`);
@@ -108,7 +130,7 @@ async function redirectImport(
       }
 
       if (asset) {
-        if (assetExt.filter((ext) => name.endsWith(ext)).length) {
+        if (assetExt.filter(ext => name.endsWith(ext)).length) {
           // asset
           const absPath = resolve(dirname(filePath), name);
           const svgrResult = await compiler.loadSvgr(absPath);
@@ -119,12 +141,13 @@ async function redirectImport(
             str.overwrite(start, end, outputName);
           } else {
             // other assets
-            const { contents: relativeImportPath } = await getAssetContents.apply(compiler, [absPath, outputDir]);
+            const { contents: relativeImportPath } =
+              await getAssetContents.apply(compiler, [absPath, outputDir]);
             str.overwrite(start, end, `${relativeImportPath}`);
           }
         }
       }
-    })
+    }),
   );
   return str;
 }
@@ -135,8 +158,10 @@ export const redirectPlugin = (): LibuildPlugin => {
   return {
     name: pluginName,
     apply(compiler) {
-      compiler.hooks.processAsset.tapPromise(pluginName, async (args) => {
-        if (args.type === 'asset') return args;
+      compiler.hooks.processAsset.tapPromise(pluginName, async args => {
+        if (args.type === 'asset') {
+          return args;
+        }
         const { contents: code, fileName, entryPoint: id } = args;
         const {
           format,
@@ -148,21 +173,29 @@ export const redirectPlugin = (): LibuildPlugin => {
         }
 
         // transform alias to absolute path
-        const absoluteAlias = Object.entries(alias).reduce<typeof alias>((result, [name, target]) => {
-          if (!isAbsolute(target)) {
-            result[name] = resolve(compiler.config.root, target);
-          } else {
-            result[name] = target;
-          }
-          return result;
-        }, {});
+        const absoluteAlias = Object.entries(alias).reduce<typeof alias>(
+          (result, [name, target]) => {
+            if (!isAbsolute(target)) {
+              result[name] = resolve(compiler.config.root, target);
+            } else {
+              result[name] = target;
+            }
+            return result;
+          },
+          {},
+        );
 
         // get matchPath func to support tsconfig paths
         const result = loadConfig(compiler.config.root);
         let matchPath: MatchPath | undefined;
         if (result.resultType === 'success') {
           const { absoluteBaseUrl, paths, mainFields, addMatchAll } = result;
-          matchPath = createMatchPath(absoluteBaseUrl, paths, mainFields, addMatchAll);
+          matchPath = createMatchPath(
+            absoluteBaseUrl,
+            paths,
+            mainFields,
+            addMatchAll,
+          );
         }
 
         let matchModule: MatchModule = [];
@@ -174,7 +207,7 @@ export const redirectPlugin = (): LibuildPlugin => {
           } catch (e) {
             console.error('[parse error]', e);
           }
-          matchModule = imports.map((targetImport) => {
+          matchModule = imports.map(targetImport => {
             return {
               name: targetImport.n,
               start: targetImport.s,
@@ -185,7 +218,7 @@ export const redirectPlugin = (): LibuildPlugin => {
         if (format === 'cjs') {
           try {
             const sgNode = js.parse(code).root();
-            matchModule = sgNode.findAll('require($MATCH)').map((node) => {
+            matchModule = sgNode.findAll('require($MATCH)').map(node => {
               const matchNode = node.getMatch('MATCH')!;
               return {
                 name: matchNode.text().slice(1, -1),
@@ -200,7 +233,15 @@ export const redirectPlugin = (): LibuildPlugin => {
         if (!matchModule.length) {
           return args;
         }
-        const str = await redirectImport(compiler, code, matchModule, absoluteAlias, id!, dirname(fileName), matchPath);
+        const str = await redirectImport(
+          compiler,
+          code,
+          matchModule,
+          absoluteAlias,
+          id!,
+          dirname(fileName),
+          matchPath,
+        );
         return {
           ...args,
           contents: str.toString(),

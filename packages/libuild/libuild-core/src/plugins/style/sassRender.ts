@@ -11,7 +11,7 @@ export const sassRender: PreprocessRender = async function (
   stdinDir: string,
   options: Style['sass'],
   resolvePathMap: Map<string, string>,
-  implementation?: object | string
+  implementation?: object | string,
 ) {
   const sass = await loadProcessor('sass', this.config.root, implementation);
   return new Promise((resolve, reject) => {
@@ -32,20 +32,31 @@ export const sassRender: PreprocessRender = async function (
             const prependUnderScoreBaseUrl = `_${removeUnderScoreBaseUrl}`;
             try {
               const id = path.join(dirUrl, prependUnderScoreBaseUrl);
-              filePath = this.config.css_resolve(id, dir === 'stdin' ? stdinDir : resolvePathMap.get(dir)!);
+              filePath = this.config.css_resolve(
+                id,
+                dir === 'stdin' ? stdinDir : resolvePathMap.get(dir)!,
+              );
             } catch (err) {
               const id = path.join(dirUrl, removeUnderScoreBaseUrl);
-              filePath = this.config.css_resolve(id, dir === 'stdin' ? stdinDir : resolvePathMap.get(dir)!);
+              filePath = this.config.css_resolve(
+                id,
+                dir === 'stdin' ? stdinDir : resolvePathMap.get(dir)!,
+              );
             }
             resolvePathMap.set(url, path.dirname(filePath));
             if (url.startsWith('./')) {
-              resolvePathMap.set(url.replace(/^\.\//, ''), path.dirname(filePath));
+              resolvePathMap.set(
+                url.replace(/^\.\//, ''),
+                path.dirname(filePath),
+              );
             }
-            rebaseUrls(filePath, stdinDir, this.config.css_resolve).then((value) => {
-              done({
-                contents: value.contents || readFileSync(value.file, 'utf-8'),
-              });
-            });
+            rebaseUrls(filePath, stdinDir, this.config.css_resolve).then(
+              value => {
+                done({
+                  contents: value.contents || readFileSync(value.file, 'utf-8'),
+                });
+              },
+            );
           },
         ],
         ...options,
@@ -56,7 +67,7 @@ export const sassRender: PreprocessRender = async function (
         } else {
           resolve(res);
         }
-      }
+      },
     );
   });
 };

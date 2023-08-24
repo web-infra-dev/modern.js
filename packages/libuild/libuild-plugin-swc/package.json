@@ -7,17 +7,16 @@
     "swc"
   ],
   "repository": "modern-js-dev/libuild",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "dev": "libuild -w",
-    "build": "tsc && libuild"
+    "build": "tsc && node -r tsm scripts/build.ts"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^5",
+    "tsm": "2.3.0",
     "@modern-js/libuild": "workspace:*",
     "@modern-js/libuild-utils": "workspace:*"
   },
