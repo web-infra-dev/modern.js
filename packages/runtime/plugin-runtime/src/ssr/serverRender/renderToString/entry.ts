@@ -25,7 +25,7 @@ import {
 } from '../tracker';
 import { SSRServerContext, RenderResult } from './type';
 import { createLoadableCollector } from './loadable';
-import { createRender } from './render';
+import { createRender } from './renderToString';
 import { createStyledCollector } from './styledComponent';
 import {
   buildHtml,
@@ -152,13 +152,13 @@ export default class Entry {
       this.result.renderLevel,
       this.tracker,
     );
-    const SSRData = this.getSSRDataScript(templateData, routerData);
+    const ssrDataScripts = this.getSSRDataScript(templateData, routerData);
 
     const html = buildHtml(this.template, [
       createReplaceChunkCss(this.result.chunksMap.css),
       createReplaceChunkJs(this.result.chunksMap.js),
       createReplaceHtml(this.result.html || ''),
-      createReplaceSSRDataScript(SSRData.SSRDataScript),
+      createReplaceSSRDataScript(ssrDataScripts),
     ]);
     const helmetData: HelmetData = ReactHelmet.renderStatic();
 
@@ -235,8 +235,6 @@ export default class Entry {
         ? `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`
         : `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`;
     }
-    return {
-      SSRDataScript: ssrDataScripts,
-    };
+    return ssrDataScripts;
   }
 }

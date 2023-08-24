@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import { attributesToString, getLoadableScripts } from '../utils';
 import { SSRPluginConfig } from '../types';
 import { RenderResult } from './type';
-import type { Collector } from './render';
+import type { Collector } from './renderToString';
 
 const extname = (uri: string): string => {
   if (typeof uri !== 'string' || !uri.includes('.')) {
