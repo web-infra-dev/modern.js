@@ -1,7 +1,5 @@
 # @modern-js/libuild-plugin-babel
 
-## 2.32.0
-
 ## 2.31.2
 
 ## 2.31.1

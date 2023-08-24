@@ -1,26 +1,5 @@
 # @modern-js/plugin-tailwindcss
 
-## 2.32.0
-
-### Patch Changes
-
-- 6076166: fix: packaging errors found by publint
-
-  fix: 修复 publint 检测到的 packaging 问题
-
-- b31e9dd: chore(plugin-tailwindcss): use glob shorthand in the default config
-
-  chore(plugin-tailwindcss): 在默认配置中使用 glob 缩写
-
-- Updated dependencies [e5a3fb4]
-- Updated dependencies [6076166]
-- Updated dependencies [a030aff]
-- Updated dependencies [92591c6]
-- Updated dependencies [3c91100]
-- Updated dependencies [5255eba]
-  - @modern-js/runtime@2.32.0
-  - @modern-js/utils@2.32.0
-
 ## 2.31.2
 
 ### Patch Changes

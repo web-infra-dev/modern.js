@@ -1,12 +1,5 @@
 # @modern-js/main-doc
 
-## 2.32.0
-
-### Patch Changes
-
-- Updated dependencies [0cc3981]
-  - @modern-js/builder-doc@2.32.0
-
 ## 2.31.2
 
 ### Patch Changes

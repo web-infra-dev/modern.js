@@ -1,21 +1,5 @@
 # @modern-js/builder
 
-## 2.32.0
-
-### Patch Changes
-
-- Updated dependencies [e5a3fb4]
-- Updated dependencies [6076166]
-- Updated dependencies [6517032]
-- Updated dependencies [a030aff]
-- Updated dependencies [0cc3981]
-- Updated dependencies [ddcdef2]
-- Updated dependencies [3c91100]
-- Updated dependencies [5255eba]
-  - @modern-js/utils@2.32.0
-  - @modern-js/builder-shared@2.32.0
-  - @modern-js/monorepo-utils@2.32.0
-
 ## 2.31.2
 
 ### Patch Changes
