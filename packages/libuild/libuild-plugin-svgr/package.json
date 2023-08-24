@@ -26,6 +26,6 @@
     "typescript": "^5",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/libuild": "workspace:*",
-    "@scripts/build": "workspace: *"
+    "@scripts/build": "workspace:*"
   }
 }

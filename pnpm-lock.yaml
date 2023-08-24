@@ -3695,7 +3695,7 @@ importers:
         specifier: workspace:*
         version: link:../libuild-core
       '@scripts/build':
-        specifier: 'workspace: *'
+        specifier: workspace:*
         version: link:../../../scripts/build
       typescript:
         specifier: ^5
@@ -3726,7 +3726,7 @@ importers:
         specifier: workspace:*
         version: link:../libuild-core
       '@scripts/build':
-        specifier: 'workspace: *'
+        specifier: workspace:*
         version: link:../../../scripts/build
       '@types/node':
         specifier: 12.20.42
