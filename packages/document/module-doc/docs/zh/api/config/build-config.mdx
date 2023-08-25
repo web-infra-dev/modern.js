@@ -1111,7 +1111,7 @@ const tailwind = {
 注意：
 
 - 如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
-- 如果你同时使用了 [designSystem](/api/config/design-system) 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `designSystem` 的值所覆盖。
+- 如果你同时使用了 `designSystem` 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `designSystem` 的值所覆盖。
 
 其他配置的使用方式与 Tailwind CSS 官方用法一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。
 
@@ -1186,7 +1186,7 @@ export default defineConfig({
 
 比如：
 
-``` ts title="input.js"
+```ts title="input.js"
 import _ from 'lodash';
 import { add } from 'lodash/fp';
 

@@ -1111,7 +1111,7 @@ The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwi
 Please note that:
 
 - If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
-- If you are using the [designSystem](/api/config/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `designSystem`.
+- If you are using the `designSystem` configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `designSystem`.
 
 The usage of other configurations follows the same approach as the official usage of Tailwind CSS. Please refer to [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration) for more details.
 
@@ -1260,7 +1260,7 @@ At this point the umd artifact will go to mount on `global.myLib`
 
 - The module name of the umd artifact must not conflict with the global variable name.
 - Module names will be converted to camelCase, e.g. `my-lib` will be converted to `myLib`, refer to [toIdentifier](https://github.com/babel/babel/blob/main/packages/babel-types/src/converters/toIdentifier.ts).
-:::
+  :::
 
 Also the function form can take one parameter, which is the output path of the current package file
 
