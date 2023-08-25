@@ -1,5 +1,12 @@
 # @modern-js/devtools-mount
 
+## 2.32.1
+
+### Patch Changes
+
+- Updated dependencies [90e053a]
+  - @modern-js/runtime@2.32.1
+
 ## 2.32.0
 
 ### Patch Changes
