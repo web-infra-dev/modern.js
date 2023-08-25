@@ -110,30 +110,13 @@ Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tail
 你可以参考以下步骤来启动自动补全功能：
 
 1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
-2. 在项目的根目录创建 `tailwind.config.ts` 文件，并写入你需要的 Tailwind CSS 配置。
+2. 如果项目的根目录没有 `tailwind.config.{ts,js}` 文件，那么你需要创建该文件，并写入当前项目的 Tailwind CSS 配置，否则 IDE 插件将无法正确生效。
 
 ```ts title="tailwind.config.ts"
 export default {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './config/html/**/*.{html,ejs,hbs}',
-    './storybook/**/*',
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
 };
 ```
-
-3. 在 `modern.config.ts` 中通过 [tools.tailwindcss](/configure/app/tools/tailwindcss) 引用你创建的 `tailwind.config.ts` 文件，使 Modern.js 可以正确识别 Tailwind CSS 配置内容。
-
-```ts title="modern.config.ts"
-import tailwindConfig from './tailwind.config';
-
-export default defineConfig({
-  tools: {
-    tailwindcss: tailwindConfig,
-  },
-});
-```
-
 
 ### Tailwind CSS 版本
 

@@ -107,31 +107,15 @@ Depending on your needs, you can selectively import the CSS files provided by Ta
 
 Tailwind CSS provides an official extension called [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) for autocompletion of Tailwind CSS class names, CSS functions, and directives in VS Code.
 
-You can follow the steps below to enable the autocompletion feature:
+You can follow the steps below to enable the autocomplete feature:
 
 1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
-2. Create a `tailwind.config.ts` file in the root directory of your project and write the desired Tailwind CSS configuration.
+2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
 
 ```ts title="tailwind.config.ts"
 export default {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    './config/html/**/*.{html,ejs,hbs}',
-    './storybook/**/*',
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
 };
-```
-
-3. In the `modern.config.ts` file, import the `tailwind.config.ts` file you created and pass it to [tools.tailwindcss](/configure/app/tools/tailwindcss), so that Modern.js can recognize the Tailwind CSS configuration correctly.
-
-```ts title="modern.config.ts"
-import tailwindConfig from './tailwind.config';
-
-export default defineConfig({
-  tools: {
-    tailwindcss: tailwindConfig,
-  },
-});
 ```
 
 ### Tailwind CSS Version
