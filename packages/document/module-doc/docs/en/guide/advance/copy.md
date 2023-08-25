@@ -13,8 +13,6 @@ We can use the Copy tool via the [`buildConfig.copy`](/en/api/config/build-confi
 - [`patterns`](/en/api/config/build-config#copypatterns)
 - [`options`](/en/api/config/build-config#copyoptions)
 
-It is recommended to spend some time getting to know them before you start learning.
-
 ## API Description
 
 `copy.patterns` 用于寻找复制的文件以及配置输出的路径。

@@ -13,8 +13,6 @@ sidebar_position: 3
 - [`patterns`](/api/config/build-config#copypatterns)
 - [`options`](/api/config/build-config#copyoptions)
 
-在开始学习之前可以先花一些时间了解它们。
-
 ## API 详解
 
 `copy.patterns` 用于寻找复制的文件以及配置输出的路径。

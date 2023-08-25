@@ -10,62 +10,41 @@ sidebar_position: 1
 如果你还不了解 `buildConfig` 的作用，请先阅读 [修改输出产物](/guide/basic/modify-output-product)。
 :::
 
-而在本章里我们将要深入理解某些构建配置的使用以及了解执行 `modern build` 命令的时候发生了什么。
+而在本章里我们将要深入理解某些构建配置的作用以及了解执行 `modern build` 命令的时候发生了什么。
 
-## 深入理解 `buildConfig`
+## buildConfig
 
-### Bundle 和 Bundleless
+### `bundle` / `bundleless`
 
-那么首先我们来了解一下 Bundle 和 Bundleless。
+那么首先我们来了解一下 bundle 和 bundleless。
 
-所谓 Bundle 是指对构建产物进行打包，构建产物可能是一个文件，也有可能是基于一定的[代码拆分策略](https://esbuild.github.io/api/#splitting)得到的多个文件。
+所谓 bundle 是指对构建产物进行打包，构建产物可能是一个文件，也有可能是基于一定的[代码拆分策略](https://esbuild.github.io/api/#splitting)得到的多个文件。
 
-而 Bundleless 则是指对每个源文件单独进行编译构建，但是并不将它们打包在一起。每一个产物文件都可以找到与之相对应的源码文件。**Bundleless 构建的过程，也可以理解为仅对源文件进行代码转换的过程**。
+而 bundleless 则是指对每个源文件单独进行编译构建，但是并不将它们打包在一起。每一个产物文件都可以找到与之相对应的源码文件。**bundleless 构建的过程，也可以理解为仅对源文件进行代码转换的过程**。
 
 它们有各自的好处：
 
-- Bundle 可以减少构建产物的体积，也可以对依赖预打包，减小安装依赖的体积。提前对库进行打包，可以加快应用项目构建的速度。
-- Bundleless 则是可以保持原有的文件结构，更有利于调试和 tree shaking。
+- bundle 可以减少构建产物的体积，也可以对依赖预打包，减小安装依赖的体积。提前对库进行打包，可以加快应用项目构建的速度。
+- bundleless 则是可以保持原有的文件结构，更有利于调试和 tree shaking。
 
 :::warning
-Bundleless 是单文件编译模式，因此对于类型的引用和导出你需要加上 `type` 字段， 例如 `import type { A } from './types`
+bundleless 是单文件编译模式，因此对于类型的引用和导出你需要加上 `type` 字段， 例如 `import type { A } from './types`
 :::
 
-在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 Bundle 还是 Bundleless。
+在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 bundle 还是 bundleless。
 
-### `input` 与 `sourceDir` 的关系
+### `input` / `sourceDir`
 
-[`buildConfig.input`](/api/config/build-config#input) 用于指定读取源码的文件路径或者目录路径，其默认值在 Bundle 和 Bundleless 构建过程中有所不同：
+[`buildConfig.input`](/api/config/build-config#input) 用于指定读取源码的文件路径或者目录路径，其默认值在 bundle 和 bundleless 构建过程中有所不同：
 
 - 当 `buildType: 'bundle'` 的时候，`input` 默认值为 `src/index.(j|t)sx?`
 - 当 `buildType: 'bundleless'` 的时候，`input` 默认值为 `['src']`
 
 :::warning
-建议不要在 Bundleless 构建过程中指定多个源码文件目录，这可能会导致产物里的相对路径不正确。
+建议不要在 bundleless 构建过程中指定多个源码文件目录，这可能会导致产物里的相对路径不正确。
 :::
 
-从默认值上我们可以知道：**Bundle 构建一般可以指定文件路径作为构建的入口，而 Bundleless 构建则更期望使用目录路径寻找源文件**。
-
-#### `input` 的对象模式
-
-在 Bundle 构建过程中，除了将 `input` 设置为一个数组，也可以将它设置为一个对象。**通过使用对象的形式，我们可以修改构建产物输出的文件名称**。那么对于下面的例子，`./src/index.ts` 对应的构建产物文件路径为 `./dist/main.js`。
-
-```js title="modern.config.ts"
-import { defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  buildConfig: {
-    input: {
-      main: ['./src/index.ts'],
-    },
-    outDir: './dist',
-  },
-});
-```
-
-而在 Bundleless 构建过程中，虽然同样支持这样的使用方式，但是并不推荐。
-
-#### `sourceDir`
+从默认值上我们可以知道：**bundle 构建一般可以指定文件路径作为构建的入口，而 bundleless 构建则更期望使用目录路径寻找源文件**。
 
 [`sourceDir`](/api/config/build-config#sourcedir) 用于指定源码目录，它主要与以下两个内容有关系：
 
@@ -74,10 +53,10 @@ export default defineConfig({
 
 一般来说：
 
-- **在 Bundleless 构建过程中，`sourceDir` 与 `input` 的值要保持一致，它们的默认值都是 `src`**。
-- 在 Bundle 构建过程中，无需使用 `sourceDir`。
+- **在 bundleless 构建过程中，`sourceDir` 与 `input` 的值要保持一致，它们的默认值都是 `src`**。
+- 在 bundle 构建过程中，无需使用 `sourceDir`。
 
-### 类型文件
+### dts
 
 [`buildConfig.dts`](/api/config/build-config#dts) 配置主要用于类型文件的生成。
 
@@ -110,7 +89,7 @@ export default defineConfig({
 
 #### 别名转换
 
-在 Bundleless 构建过程中，如果源代码中出现了别名，例如：
+在 bundleless 构建过程中，如果源代码中出现了别名，例如：
 
 ```js title="./src/index.ts"
 import utils from '@common/utils';
@@ -121,19 +100,16 @@ import utils from '@common/utils';
 - 对于类似 `import '@common/utils'` 或者 `import utils from '@common/utils'` 这样形式的代码可以进行别名转换。
 - 对于类似 `export { utils } from '@common/utils'` 这样形式的代码可以进行别名转换。
 
-然而也存在一些情况，目前还无法处理：
+然而也存在一些情况，目前还无法处理，例如 `Promise<import('@common/utils')>` 这样形式的输出类型目前无法进行转换。
+对于这种情况的解决办法，可以参与[讨论](https://github.com/web-infra-dev/modern.js/discussions/4511)。
 
-- 对于类似 `Promise<import('@common/utils')>` 这样形式的输出类型目前无法进行转换。
-
-#### 一些 `dts` 的使用示例
-
-一般使用方式：
+#### 一些示例
 
 ```js
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  // 此时打包的类型文件输出路径为 `./dist/types`
+  // 此时打包的类型文件输出路径为 `./dist/types`，并且将会读取项目下的 other-tsconfig.json 文件
   buildConfig: {
     buildType: 'bundle',
     dts: {
@@ -144,8 +120,6 @@ export default defineConfig({
   },
 });
 ```
-
-使用 `dts.only` 的情况：
 
 ```js
 import { defineConfig } from '@modern-js/module-tools';
@@ -169,7 +143,7 @@ export default defineConfig({
 });
 ```
 
-### `buildConfig.define` 不同场景的使用方式
+### `define`
 
 [`buildConfig.define`](/api/config/build-config#define) 功能有些类似 [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/)。这里介绍几个使用场景：
 
@@ -240,9 +214,9 @@ declare const YOUR_ADD_GLOBAL_VAR;
 当执行 `modern build` 命令的时候，会发生
 
 - 根据 `buildConfig.outDir` 清理产物目录。
-- 编译 `js/ts` 源代码生成 Bundle/Bundleless 的 JS 构建产物。
-- 使用 `tsc` 生成 Bundle/Bundleless 的类型文件。
-- 处理 Copy 任务。
+- 编译 `js/ts` 源代码生成 bundle / bundleless 的 JS 构建产物。
+- 使用 `tsc` 生成 bundle / bundleless 的类型文件。
+- 处理 `copy` 任务。
 
 ## 构建报错
 
@@ -272,7 +246,7 @@ bundle DTS failed:
 
 对于 `js/ts` 构建错误，我们可以从报错信息中知道：
 
-- 通过 `'bundle failed:'` 来判断报错的是 Bundle 构建还是 Bundleless 构建？
-- 构建过程的 `format` 是什么？
-- 构建过程的 `target` 是什么？
-- 具体的报错信息。
+- 报错的 `buildType`
+- 报错的 `format`
+- 报错的 `target`
+- 其他具体报错信息

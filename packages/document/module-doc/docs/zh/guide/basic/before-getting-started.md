@@ -90,7 +90,7 @@ npm Registry 是一个 [npm 包存储的地方](https://docs.npmjs.com/about-the
 
 > 想要了解关于 webpack 如何做这件事，可以查看这个[链接](https://webpack.js.org/configuration/resolve/#resolvemainfields)。
 
-### `"scripts"`
+### "scripts"
 
 `package.json` 文件的 `"scripts"` 属性支持一些内置的脚本和 npm 预设的生命周期事件，以及任意的脚本。
 
