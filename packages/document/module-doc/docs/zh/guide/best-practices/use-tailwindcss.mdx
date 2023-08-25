@@ -49,9 +49,11 @@ export default defineConfig({
 1. 使用 `tailwind.config.{ts,js}` 文件，该用法与 Tailwind CSS 的官方用法一致，请参考 ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) 来了解更多用法。
 
 ```ts title="tailwind.config.ts"
+import type { Config } from 'tailwindcss';
+
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
-};
+} as Config;
 ```
 
 :::tip
