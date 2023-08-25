@@ -1,6 +1,6 @@
 import path from 'path';
 import { CONFIG_CACHE_DIR, fs } from '@modern-js/utils';
-import { template, checkTwinMacroExist } from '../src/utils';
+import { template, checkTwinMacroExist } from '../src/macro';
 
 describe('template utils function', () => {
   it('generate tailwindcss.config.js template', () => {

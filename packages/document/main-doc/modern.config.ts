@@ -133,6 +133,14 @@ export default defineConfig({
       // exclude document fragments from routes
       exclude: ['scripts/**', '**/zh/components/**', '**/en/components/**'],
     },
+    replaceRules: [
+      {
+        // The major version is different inside the ByteDance,
+        // so we use a flag to define it.
+        search: /MAJOR_VERSION/g,
+        replace: '2',
+      },
+    ],
     builderConfig: {
       output: {
         disableTsChecker: true,

@@ -17,6 +17,8 @@ const tailwind = {
 };
 ```
 
+Used to modify the configuration of [Tailwind CSS](https://tailwindcss.com/docs/configuration).
+
 ### Function Type
 
 When `tools.tailwindcss`'s type is Function, the default tailwindcss config will be passed in as the first parameter, the config object can be modified directly, or a value can be returned as the final result.
@@ -51,6 +53,9 @@ export default {
 
 ### Notes
 
-Please note that if you are using the [source.designSystem](/configure/app/source/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `source.designSystem`.
+Please note:
+
+- If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+- If you are using the [source.designSystem](/configure/app/source/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `source.designSystem`.
 
 The usage of other configurations follows the same approach as the official usage of Tailwind CSS. Please refer to [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration) for more details.

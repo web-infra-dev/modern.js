@@ -1086,13 +1086,10 @@ export default defineConfig({
 
 ## style.tailwindcss
 
-Tailwind CSS 相关配置。
+用于修改 [Tailwind CSS](https://tailwindcss.com/docs/configuration) 的配置项。
 
 - 类型： `object | Function`
-- 默认值： `见下方配置详情`
-
-<details>
-  <summary>Tailwind CSS 配置详情</summary>
+- 默认值：
 
 ```js title="modern.config.ts"
 const tailwind = {
@@ -1104,8 +1101,6 @@ const tailwind = {
 };
 ```
 
-</details>
-
 值为 `object` 类型时，与默认配置通过 `Object.assign` 合并。
 
 值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
@@ -1114,7 +1109,10 @@ const tailwind = {
 
 ### 注意事项
 
-注意，如果你同时使用了 [designSystem](/api/config/design-system) 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `designSystem` 的值所覆盖。
+注意：
+
+- 如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+- 如果你同时使用了 [designSystem](/api/config/design-system) 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `designSystem` 的值所覆盖。
 
 其他配置的使用方式与 Tailwind CSS 官方用法一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。
 

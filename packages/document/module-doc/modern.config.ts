@@ -108,6 +108,14 @@ export default defineConfig({
         text: 'Edit this page on GitHub',
       },
     },
+    replaceRules: [
+      {
+        // The major version is different inside the ByteDance,
+        // so we use a flag to define it.
+        search: /MAJOR_VERSION/g,
+        replace: '2',
+      },
+    ],
     builderConfig: {
       dev: {
         startUrl: 'http://localhost:<port>/module-tools/',

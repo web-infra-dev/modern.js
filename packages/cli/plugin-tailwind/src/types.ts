@@ -1,7 +1,9 @@
-export type DesignSystem = Record<string, any> & {
+export type DesignSystem = TailwindConfig & {
   supportStyledComponents?: boolean;
 };
 
-export type Tailwind =
-  | Record<string, any>
-  | ((options: Record<string, any>) => Record<string, any> | void);
+export type TailwindConfig = Record<string, any>;
+
+export type ExtraTailwindConfig =
+  | TailwindConfig
+  | ((options: TailwindConfig) => TailwindConfig | void);
