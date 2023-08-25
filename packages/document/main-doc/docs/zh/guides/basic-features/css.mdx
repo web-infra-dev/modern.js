@@ -103,6 +103,36 @@ const App = () => (
 
 :::
 
+### 配置 Tailwind CSS
+
+在 Modern.js 中，你有两种方式来配置 Tailwind CSS：
+
+1. 使用 `tailwind.config.{ts,js}` 文件，该用法与 Tailwind CSS 的官方用法一致，请参考 ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) 来了解更多用法。
+
+```ts title="tailwind.config.ts"
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+};
+```
+
+:::tip
+请升级 Modern.js 到 >= MAJOR_VERSION.33.0 版本，以支持自动读取 `tailwind.config.{ts,js}` 文件。
+:::
+
+2. 使用 [tools.tailwindcss](/configure/app/tools/tailwindcss.html) 配置项，这是旧版本的用法，我们更推荐使用 `tailwind.config.{ts,js}` 文件进行配置。
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    },
+  },
+};
+```
+
+如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+
 ### Tailwind CSS 自动补全
 
 Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件，用于在 VS Code 中自动补全 Tailwind CSS 的 class names、CSS functions 和 directives。
@@ -111,12 +141,6 @@ Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tail
 
 1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
 2. 如果项目的根目录没有 `tailwind.config.{ts,js}` 文件，那么你需要创建该文件，并写入当前项目的 Tailwind CSS 配置，否则 IDE 插件将无法正确生效。
-
-```ts title="tailwind.config.ts"
-export default {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-};
-```
 
 ### Tailwind CSS 版本
 

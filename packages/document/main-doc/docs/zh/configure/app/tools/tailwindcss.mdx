@@ -17,7 +17,7 @@ const tailwind = {
 };
 ```
 
-对应 [Tailwind CSS](https://tailwindcss.com/docs/configuration) 的配置。
+用于修改 [Tailwind CSS](https://tailwindcss.com/docs/configuration) 的配置项。
 
 ### Function 类型
 
@@ -53,6 +53,9 @@ export default {
 
 ### 注意事项
 
-注意，如果你同时使用了 [source.designSystem](/configure/app/source/design-system) 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `source.designSystem` 的值所覆盖。
+注意：
+
+- 如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+- 如果你同时使用了 [source.designSystem](/configure/app/source/design-system) 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `source.designSystem` 的值所覆盖。
 
 其他配置的使用方式与 Tailwind CSS 官方用法一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。

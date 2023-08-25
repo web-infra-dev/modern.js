@@ -133,6 +133,12 @@ export default defineConfig({
       // exclude document fragments from routes
       exclude: ['scripts/**', '**/zh/components/**', '**/en/components/**'],
     },
+    replaceRules: [
+      {
+        search: /MAJOR_VERSION/g,
+        replace: '2',
+      },
+    ],
     builderConfig: {
       output: {
         disableTsChecker: true,

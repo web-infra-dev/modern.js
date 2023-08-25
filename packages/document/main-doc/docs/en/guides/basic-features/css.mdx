@@ -103,6 +103,36 @@ Depending on your needs, you can selectively import the CSS files provided by Ta
 
 :::
 
+### Configuring Tailwind CSS
+
+In Modern.js, you have two ways to configure Tailwind CSS:
+
+1. Using the `tailwind.config.{ts,js}` file, which follows the official usage of Tailwind CSS. Please refer to ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) for more details.
+
+```ts title="tailwind.config.ts"
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+};
+```
+
+:::tip
+Please upgrade Modern.js to version >= MAJOR_VERSION.33.0 to support automatic reading of `tailwind.config.{ts,js}` files.
+:::
+
+2. Using the [tools.tailwindcss](/configure/app/tools/tailwindcss.html) configuration option. This is the old way of configuring Tailwind CSS, and we recommend using the `tailwind.config.{ts,js}` file for configuration.
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    },
+  },
+};
+```
+
+If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+
 ### Tailwind CSS Autocomplete
 
 Tailwind CSS provides an official extension called [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) for autocompletion of Tailwind CSS class names, CSS functions, and directives in VS Code.
@@ -111,12 +141,6 @@ You can follow the steps below to enable the autocomplete feature:
 
 1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
 2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
-
-```ts title="tailwind.config.ts"
-export default {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
-};
-```
 
 ### Tailwind CSS Version
 
