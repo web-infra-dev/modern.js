@@ -49,9 +49,11 @@ In Module Tools, you have two ways to configure Tailwind CSS:
 1. Using the `tailwind.config.{ts,js}` file, which follows the official usage of Tailwind CSS. Please refer to ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) for more details.
 
 ```ts title="tailwind.config.ts"
+import type { Config } from 'tailwindcss';
+
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
-};
+} as Config;
 ```
 
 :::tip

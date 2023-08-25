@@ -1,7 +1,20 @@
 import { join } from 'path';
-import { expect, describe, it } from 'vitest';
+import { vi, expect, describe, it } from 'vitest';
 import * as shared from '@modern-js/builder-shared';
 import { builderPluginCache } from '@/plugins/cache';
+
+vi.mock('@modern-js/utils', async importOriginal => {
+  const mod = await importOriginal<any>();
+  return {
+    ...mod,
+    findExists: (files: string[]) => {
+      if (files.some(file => file.includes('tailwind'))) {
+        return '/root/tailwind.config.ts';
+      }
+      return mod.findExists(files);
+    },
+  };
+});
 
 describe('plugins/cache', () => {
   const cases = [
