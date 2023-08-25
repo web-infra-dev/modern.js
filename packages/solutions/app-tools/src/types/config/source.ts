@@ -62,10 +62,8 @@ export interface SharedSourceConfig extends BuilderSharedSourceConfig {
    */
   configDir?: string;
   /**
-   * Used to define the project's theme configuration such as color palette.
-   * @requires `tailwindcss` plugin.
-   * The configuration of `source.designSystem` is provided by `tailwindcss` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
+   * @deprecated designSystem is no longer required.
+   * If you are using Tailwind CSS, you can now use the `theme` option of Tailwind CSS, they are the same.
    */
   designSystem?: Record<string, any>;
 }

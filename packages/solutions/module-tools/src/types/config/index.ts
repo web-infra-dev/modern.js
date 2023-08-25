@@ -167,6 +167,10 @@ export interface RuntimeUserConfig {
 }
 
 export interface ModuleExtraConfig {
+  /**
+   * @deprecated designSystem is no longer required.
+   * If you are using Tailwind CSS, you can now use the `theme` option of Tailwind CSS, they are the same.
+   */
   designSystem?: Record<string, any>;
 
   buildConfig?: PartialBuildConfig;

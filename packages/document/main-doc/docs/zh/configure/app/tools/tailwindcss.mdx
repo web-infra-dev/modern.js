@@ -56,6 +56,37 @@ export default {
 注意：
 
 - 如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
-- 如果你同时使用了 [source.designSystem](/configure/app/source/design-system) 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `source.designSystem` 的值所覆盖。
+- 如果你同时使用了 `source.designSystem` 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `source.designSystem` 的值所覆盖。
 
 其他配置的使用方式与 Tailwind CSS 官方用法一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。
+
+### 关于 source.designSystem
+
+`source.designSystem` 是 Modern.js 中废弃的配置项。
+
+从 Modern.js vMAJOR_VERSION.33.0 版本开始，你可以使用 Tailwind CSS 的 `theme` 配置项来代替 `source.designSystem`，不再需要将 `theme` 配置拆分并设置到 `designSystem` 上。
+
+- 旧版本用法：
+
+```ts title="modern.config.ts"
+const { theme, ...rest } = tailwindConfig;
+
+export default {
+  tools: {
+    tailwindcss: rest,
+  },
+  source: {
+    designSystem: theme,
+  },
+};
+```
+
+- 当前版本用法：
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: tailwindConfig,
+  },
+};
+```

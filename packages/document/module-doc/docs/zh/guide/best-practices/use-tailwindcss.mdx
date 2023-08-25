@@ -258,3 +258,32 @@ var src_default = () => {
 };
 export { src_default as default };
 ```
+
+### 关于 `designSystem` 配置
+
+`designSystem` 是 Module Tools 中废弃的配置项。
+
+从 Module Tools vMAJOR_VERSION.33.0 版本开始，你可以使用 Tailwind CSS 的 `theme` 配置项来代替 `designSystem`，不再需要将 `theme` 配置拆分并设置到 `designSystem` 上。
+
+- 旧版本用法：
+
+```ts title="modern.config.ts"
+const { theme, ...rest } = tailwindConfig;
+
+export default {
+  style: {
+    tailwindcss: rest,
+  },
+  designSystem: theme,
+};
+```
+
+- 当前版本用法：
+
+```ts title="modern.config.ts"
+export default {
+  style: {
+    tailwindcss: tailwindConfig,
+  },
+};
+```

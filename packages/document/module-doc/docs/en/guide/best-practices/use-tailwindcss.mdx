@@ -258,3 +258,32 @@ var src_default = () => {
 };
 export { src_default as default };
 ```
+
+### About `designSystem` config
+
+`designSystem` is a deprecated configuration option in Module Tools.
+
+Starting from Module Tools vMAJOR_VERSION.33.0, you can use the `theme` configuration option of Tailwind CSS as a replacement for `designSystem`. It is no longer necessary to split the `theme` configuration and set it on `designSystem`.
+
+- Previous usage:
+
+```ts title="modern.config.ts"
+const { theme, ...rest } = tailwindConfig;
+
+export default {
+  style: {
+    tailwindcss: rest,
+  },
+  designSystem: theme,
+};
+```
+
+- Current usage:
+
+```ts title="modern.config.ts"
+export default {
+  style: {
+    tailwindcss: tailwindConfig,
+  },
+};
+```

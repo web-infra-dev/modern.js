@@ -56,6 +56,37 @@ export default {
 Please note:
 
 - If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
-- If you are using the [source.designSystem](/configure/app/source/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `source.designSystem`.
+- If you are using the `source.designSystem` configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `source.designSystem`.
 
 The usage of other configurations follows the same approach as the official usage of Tailwind CSS. Please refer to [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration) for more details.
+
+### About source.designSystem
+
+`source.designSystem` is a deprecated configuration option in Modern.js.
+
+Starting from Modern.js vMAJOR_VERSION.33.0, you can use the `theme` configuration option of Tailwind CSS as a replacement for `source.designSystem`. It is no longer necessary to split the `theme` configuration and set it on `designSystem`.
+
+- Previous usage:
+
+```ts title="modern.config.ts"
+const { theme, ...rest } = tailwindConfig;
+
+export default {
+  tools: {
+    tailwindcss: rest,
+  },
+  source: {
+    designSystem: theme,
+  },
+};
+```
+
+- Current usage:
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: tailwindConfig,
+  },
+};
+```
