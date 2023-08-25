@@ -58,30 +58,11 @@ For more information on how to start Storybook and how to use it, check out the 
 - [`modern dev`](/en/guide/basic/command-preview#modern-dev)
 - [`using Storybook`](/en/guide/basic/using-storybook)
 
-## Tailwind CSS support
+## Tailwind CSS Support
 
-This can be enabled when we want to add [Tailwind CSS](https://v2.tailwindcss.com/) support to our project. Tailwind CSS is a CSS library that provides out-of-the-box styling.
+[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
 
-For more information on how to use Tailwind CSS in your module projects, check out.
-
-<!-- 链接待补充 -->
-
-- Using Tailwind CSS
-
-:::tip
-After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
-
-export default defineConfig({
-  plugins: [
-    moduleTools(),
-    tailwindPlugin(),
-  ],
-});
-```
-:::
+If you want to use Tailwind CSS for a project, you can refer to ["Using Tailwind CSS"](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css).
 
 ## Modern.js Runtime API
 

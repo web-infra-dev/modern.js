@@ -135,9 +135,9 @@ export default defineConfig({
     },
     replaceRules: [
       {
-        // The framework major version is different inside the ByteDance,
+        // The major version is different inside the ByteDance,
         // so we use a flag to define it.
-        search: /FRAMEWORK_MAJOR_VERSION/g,
+        search: /MAJOR_VERSION/g,
         replace: '2',
       },
     ],

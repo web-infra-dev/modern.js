@@ -7482,117 +7482,6 @@ importers:
         specifier: ^14
         version: 14.18.35
 
-  tests/integration/css:
-    dependencies:
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-
-  tests/integration/css/fixtures/tailwindcss-v2:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-tailwindcss':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-tailwind
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      autoprefixer:
-        specifier: 10.4.13
-        version: 10.4.13(postcss@8.4.27)
-      postcss:
-        specifier: 8.4.27
-        version: 8.4.27
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-      tailwindcss:
-        specifier: ^2
-        version: 2.2.19(autoprefixer@10.4.13)(postcss@8.4.27)(ts-node@10.9.1)
-
-  tests/integration/css/fixtures/tailwindcss-v3:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-tailwindcss':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-tailwind
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      postcss:
-        specifier: 8.4.27
-        version: 8.4.27
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-      tailwindcss:
-        specifier: ^3.3.3
-        version: 3.3.3(ts-node@10.9.1)
-
-  tests/integration/css/fixtures/twin.macro-v2:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-tailwindcss':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-tailwind
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      postcss:
-        specifier: 8.4.27
-        version: 8.4.27
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-      twin.macro:
-        specifier: ^2
-        version: 2.8.2(ts-node@10.9.1)
-
-  tests/integration/css/fixtures/twin.macro-v3:
-    dependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
-      '@modern-js/plugin-tailwindcss':
-        specifier: workspace:*
-        version: link:../../../../../packages/cli/plugin-tailwind
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      postcss:
-        specifier: 8.4.27
-        version: 8.4.27
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-      tailwindcss:
-        specifier: ^3.3.3
-        version: 3.3.3(ts-node@10.9.1)
-      twin.macro:
-        specifier: ^3
-        version: 3.1.0(tailwindcss@3.3.3)
-
   tests/integration/custom-render:
     dependencies:
       '@modern-js/runtime':
@@ -9194,6 +9083,189 @@ importers:
       '@modern-js/plugin-swc':
         specifier: workspace:*
         version: link:../../../../../packages/cli/plugin-swc
+
+  tests/integration/tailwindcss:
+    dependencies:
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+
+  tests/integration/tailwindcss/fixtures/tailwindcss-v2:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-tailwindcss':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-tailwind
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      autoprefixer:
+        specifier: 10.4.13
+        version: 10.4.13(postcss@8.4.27)
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      tailwindcss:
+        specifier: ^2
+        version: 2.2.19(autoprefixer@10.4.13)(postcss@8.4.27)(ts-node@10.9.1)
+
+  tests/integration/tailwindcss/fixtures/tailwindcss-v3:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-tailwindcss':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-tailwind
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+
+  tests/integration/tailwindcss/fixtures/tailwindcss-v3-js-config:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-tailwindcss':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-tailwind
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+
+  tests/integration/tailwindcss/fixtures/tailwindcss-v3-merge-config:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-tailwindcss':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-tailwind
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+
+  tests/integration/tailwindcss/fixtures/tailwindcss-v3-ts-config:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-tailwindcss':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-tailwind
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+
+  tests/integration/tailwindcss/fixtures/twin.macro-v2:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-tailwindcss':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-tailwind
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      twin.macro:
+        specifier: ^2
+        version: 2.8.2(ts-node@10.9.1)
+
+  tests/integration/tailwindcss/fixtures/twin.macro-v3:
+    dependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../../../packages/solutions/app-tools
+      '@modern-js/plugin-tailwindcss':
+        specifier: workspace:*
+        version: link:../../../../../packages/cli/plugin-tailwind
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../../../packages/runtime/plugin-runtime
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+      tailwindcss:
+        specifier: ^3.3.3
+        version: 3.3.3(ts-node@10.9.1)
+      twin.macro:
+        specifier: ^3
+        version: 3.1.0(tailwindcss@3.3.3)
 
   tests/integration/temp-dir:
     dependencies:
@@ -19623,7 +19695,7 @@ packages:
     resolution: {integrity: sha512-y/ZA3BGnxoM/QHHQ2Uy49CLtnWPbt4tTPpEEZiEmmiWBFKjej7nEyH8Ryz54jH0MLXflUYA3Er2zUxPSJu5R+g==}
 
   /concat-map@0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
 
   /concat-stream@1.6.2:
     resolution: {integrity: sha512-27HBghJxjiZtIk3Ycvn/4kbJk/1uZuJFfuPEns6LaEvpvG1f0hTea8lilrouyo9mVc2GWdcEZ8OLoGmSADlrCw==}
@@ -34078,7 +34150,7 @@ packages:
       purgecss: 4.1.3
       quick-lru: 5.1.1
       reduce-css-calc: 2.1.8
-      resolve: 1.22.1
+      resolve: 1.22.4
       tmp: 0.2.1
     transitivePeerDependencies:
       - ts-node

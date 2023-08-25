@@ -59,26 +59,9 @@ export default defineConfig({
 
 ## Tailwind CSS 支持
 
-当我们想要为项目增加 [Tailwind CSS](https://v2.tailwindcss.com/) 支持的时候，可以启动这个功能。Tailwind CSS 是一个 CSS 库，提供开箱即用的样式。
+[Tailwind CSS](https://tailwindcss.com/) 是一个以 Utility Class 为基础的 CSS 框架和设计系统，可以快速地为组件添加常用样式，同时支持主题样式的灵活扩展。
 
-关于如何在模块工程里使用 Tailwind CSS，可以查看：
-
-- [使用 Tailwind CSS](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css)
-
-:::tip
-在成功开启后，会提示需要手动在配置中增加如下类似的代码。
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
-
-export default defineConfig({
-  plugins: [
-    moduleTools(),
-    tailwindPlugin(),
-  ],
-});
-```
-:::
+如果你想要在项目使用 [Tailwind CSS](https://tailwindcss.com/)，可以参考 [「使用 Tailwind CSS」](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css)。
 
 ## 启动 Modern.js Runtime API
 

@@ -1086,13 +1086,10 @@ For detailed configuration see [postcss-modules](https://github.com/madyankin/po
 
 ## style.tailwindcss
 
-tailwindcss related configuration
+Used to modify the configuration of [Tailwind CSS](https://tailwindcss.com/docs/configuration).
 
 - **Type**: `object | Function`
-- **Default**: `see configuration details below`
-
-<details>
-  <summary>Tailwind CSS configuration details</summary>
+- **Default**:
 
 ```js title="modern.config.ts"
 const tailwind = {
@@ -1104,8 +1101,6 @@ const tailwind = {
 };
 ```
 
-</details>
-
 When the value is of type `object`, it is merged with the default configuration via `Object.assign`.
 
 When the value is of type `Function`, the object returned by the function is merged with the default configuration via `Object.assign`.
@@ -1114,7 +1109,10 @@ The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwi
 
 ### Notes
 
-Please note that if you are using the [designSystem](/api/config/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `designSystem`.
+Please note that:
+
+- If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+- If you are using the [designSystem](/api/config/design-system) configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `designSystem`.
 
 The usage of other configurations follows the same approach as the official usage of Tailwind CSS. Please refer to [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration) for more details.
 

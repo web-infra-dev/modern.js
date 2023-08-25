@@ -1,0 +1,258 @@
+---
+sidebar_position: 2
+---
+
+# Using Tailwind CSS
+
+[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
+
+Module Tools supports developing component styles using Tailwind CSS.
+
+## Enabling Tailwind CSS
+
+By default, Module Tools does not have this feature enabled. You can enable it by following the steps below.
+
+1. Execute the `new` command in the project root directory to enable Tailwind CSS.
+
+```text title="Terminal"
+pnpm run new
+
+? Please select the operation you want: Enable features
+? Please select the feature name: Enable Tailwind CSS
+```
+
+2. After successful enabling, you will see a new dependency added to `package.json`.
+
+```json title="./package.json"
+{
+  "devDependencies": {
+    "@modern-js/plugin-tailwindcss": "x.y.z"
+  }
+}
+```
+
+3. Finally, you need to manually register the `tailwindcssPlugin` in the configuration file:
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
+
+export default defineConfig({
+  plugins: [moduleTools(), tailwindPlugin()],
+});
+```
+
+## Configuring Tailwind CSS
+
+In Module Tools, you have two ways to configure Tailwind CSS:
+
+1. Using the `tailwind.config.{ts,js}` file, which follows the official usage of Tailwind CSS. Please refer to ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) for more details.
+
+```ts title="tailwind.config.ts"
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+};
+```
+
+:::tip
+Please upgrade Modern.js to version >= MAJOR_VERSION.33.0 to support automatic reading of `tailwind.config.{ts,js}` files.
+:::
+
+2. Using the [style.tailwindcss](/api/config/build-config.html#styletailwindcss) configuration option. This is the old way of configuring Tailwind CSS, and we recommend using the `tailwind.config.{ts,js}` file for configuration.
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    },
+  },
+};
+```
+
+If you are using both the `tailwind.config.{ts,js}` file and `style.tailwindcss` option, the configuration defined in `style.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+
+### Tailwind CSS Autocomplete
+
+Tailwind CSS provides an official extension called [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) for autocompletion of Tailwind CSS class names, CSS functions, and directives in VS Code.
+
+You can follow the steps below to enable the autocomplete feature:
+
+1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
+2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
+
+## Usage Introduction
+
+Tailwind CSS provides two ways of usage:
+
+### HTML Class Names
+
+Tailwind CSS supports adding styles by using class names on HTML tags. **When using HTML class names, make sure to import the corresponding CSS file of Tailwind CSS.**
+
+```tsx title="./src/index.tsx"
+import 'tailwindcss/utilities.css';
+
+export default () => {
+  return <div className="bg-black text-white">hello world</div>;
+};
+```
+
+Generated styles (after bundling):
+
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
+.table {
+  display: table;
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+/** some more... */
+```
+
+### `@apply`
+
+Tailwind CSS provides the [`@apply`](https://v2.tailwindcss.com/docs/functions-and-directives#apply) directive, which allows us to inline the styles provided by Tailwind CSS into our own styles.
+
+`@apply` can be used in CSS, Less, and Sass.
+
+```css
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+```
+
+However, there are some considerations when using it with Less and Sass:
+
+#### Sass
+
+When using Tailwind with Sass and there is an `!important` after `@apply`, interpolation should be used to ensure Sass compiles correctly.
+
+- Won't work as expected:
+
+```sass
+.alert {
+  @apply bg-red-500 !important;
+}
+```
+
+- Will work as expected:
+
+```sass
+.alert {
+  @apply bg-red-500 #{!important};
+}
+```
+
+#### Less
+
+When using Tailwind with Less, you cannot nest Tailwind's `@screen` directive.
+
+- Won't work as expected:
+
+```less
+.card {
+  @apply rounded-none;
+
+  @screen sm {
+    @apply rounded-lg;
+  }
+}
+```
+
+- Instead, use regular media queries and the `theme()` function to reference your screen sizes or simply avoid nesting your `@screen` directive.
+
+```less title="Method 1"
+// Use a regular media query and theme()
+.card {
+  @apply rounded-none;
+
+  @media (min-width: theme('screens.sm')) {
+    @apply rounded-lg;
+  }
+}
+```
+
+```less title="Method 2"
+// Use the @screen directive at the top-level
+.card {
+  @apply rounded-none;
+
+  @media (min-width: theme('screens.sm')) {
+    @apply rounded-lg;
+  }
+}
+```
+
+### Recommended Approach
+
+**It is recommended to develop styles using the `@apply` directive so that the resulting styles only include the inline styles specified by the directive.**
+
+When adding styles using HTML class names, by default, Tailwind includes not only the styles corresponding to the class names but also additional style code. Although these additional code may not affect the styles themselves.
+
+### Difference between Bundle and Bundleless Builds
+
+For the following code, there is a significant difference in the build output between bundle and bundleless modes.
+
+> For more information about bundle and bundleless, refer to [Bundle and Bundleless](/guide/advance/in-depth-about-build#bundle-和-bundleless)
+
+```tsx title="./src/index.tsx"
+import 'tailwindcss/utilities.css';
+
+export default () => {
+  return <div className="bg-black text-white">hello world11</div>;
+};
+```
+
+In the Bundle mode, third-party dependencies are bundled together.
+
+For styles, a separate output file is generated, and there is no import code related to styles in the JS output file.
+
+To inject styles into the JS output, you can enable the [`style.inject`](/api/config/build-config#styleinject) option.
+
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
+.table {
+  display: table;
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+/** some more... */
+```
+
+```js title="./dist/es/index.js"
+// src/index.tsx
+import { jsx } from 'react/jsx-runtime';
+var src_default = () => {
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black text-white',
+    children: 'hello world11',
+  });
+};
+export { src_default as default };
+```
+
+In Bundleless mode, third-party dependencies are not bundled together, and no style artifacts will be generated.
+
+```js title="./dist/es/index.js"
+import { jsx } from 'react/jsx-runtime';
+import 'tailwindcss/utilities.css';
+var src_default = () => {
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black text-white',
+    children: 'hello world11',
+  });
+};
+export { src_default as default };
+```
