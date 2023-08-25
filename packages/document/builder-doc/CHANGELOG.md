@@ -1,5 +1,7 @@
 # @modern-js/builder-doc
 
+## 2.32.1
+
 ## 2.32.0
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @modern-js/doc-plugin-api-docgen
 
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/doc-core@2.32.1
+- @modern-js/utils@2.32.1
+
 ## 2.32.0
 
 ### Patch Changes
