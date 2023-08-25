@@ -1,5 +1,17 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.32.1
+
+### Patch Changes
+
+- 5e04e3e: refactor(tailwindcss): allow to use tailwind theme config
+
+  refactor(tailwindcss): 支持使用 tailwind theme 配置
+
+- Updated dependencies [90e053a]
+  - @modern-js/runtime@2.32.1
+  - @modern-js/utils@2.32.1
+
 ## 2.32.0
 
 ### Patch Changes
