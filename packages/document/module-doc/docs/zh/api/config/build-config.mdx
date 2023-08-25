@@ -7,7 +7,6 @@ sidebar_position: 1
 `buildConfig` 是一个用来描述如何编译、生成构建产物的配置项，它包含了构建的所有配置。
 
 - 类型：`object | object[]`
-- 默认值: `undefined`
 
 :::tip
 在开始使用 `buildConfig` 之前，请先阅读以下文档来了解其作用：
@@ -521,7 +520,7 @@ export default defineConfig({
 - 类型：`'esm' | 'cjs' | 'iife' | 'umd'`
 - 默认值：`cjs`
 
-### format: 'esm'
+### format: esm
 
 esm 代表 "ECMAScript 模块"，它需要运行环境支持 import 和 export 语法。
 
@@ -535,7 +534,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'cjs'
+### format: cjs
 
 cjs 代表 "CommonJS"，它需要运行环境支持 exports、require 和 module 语法，通常为 Node.js 环境。
 
@@ -549,7 +548,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'iife'
+### format: iife
 
 iife 代表 "立即调用函数表达式"，它将代码包裹在函数表达式中，确保代码中的任何变量不会意外地与全局范围中的变量冲突，通常在浏览器环境中运行。
 
@@ -563,7 +562,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'umd'
+### format: umd
 
 umd 代表 "Universal Module Definition"，用于在不同环境（浏览器、Node.js 等）中运行。umd 格式的模块可以在多种环境下使用，既可以作为全局变量访问，也可以通过模块加载器（如 RequireJS）进行模块化加载。
 
@@ -1174,8 +1173,6 @@ export default defineConfig({
 });
 ```
 
-### 注意事项
-
 参考[「Import 插件——注意事项」](plugins/official-list/plugin-import.html#注意事项)
 
 ## transformLodash
@@ -1184,8 +1181,6 @@ export default defineConfig({
 
 - 类型：`boolean`
 - 默认值：`true`
-
-### 示例
 
 该选项默认开启，Module Tools 会自动将 lodash 的代码引用指向子路径。
 
@@ -1209,9 +1204,7 @@ const addOne = _add(1);
 _map([1, 2, 3], addOne);
 ```
 
-### 关闭转换
-
-在个别情况下，lodash 的 import 转换可能会生成不符合预期的代码，此时你可以手动关闭这项优化：
+然而有时候 lodash 的 import 转换可能会生成不符合预期的代码，此时你可以手动关闭这项优化：
 
 ```js title="modern.config.ts"
 export default defineConfig({

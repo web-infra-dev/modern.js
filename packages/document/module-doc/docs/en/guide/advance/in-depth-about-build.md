@@ -12,43 +12,43 @@ If you are not familiar with `buildConfig`, please read [modify-output-product](
 
 In this chapter we'll dive into the use of certain build configurations and understand what happens when the `modern build` command is executed.
 
-## In-depth understanding of `buildConfig`
+## buildConfig
 
-### Bundle and Bundleless
+### `bundle` / `bundleless`
 
-So first let's understand Bundle and Bundleless.
+So first let's understand bundle and bundleless.
 
-A Bundle is a package of build products, which may be a single file or multiple files based on a certain [code splitting strategy](https://esbuild.github.io/api/#splitting).
+A bundle is a package of build products, which may be a single file or multiple files based on a certain [code splitting strategy](https://esbuild.github.io/api/#splitting).
 
-Bundleless, on the other hand, means that each source file is compiled and built separately, but not bundled together. Each output file can be found with its corresponding source code file. The process of **Bundleless build can also be understood as the process of code conversion of source files only**.
+bundleless, on the other hand, means that each source file is compiled and built separately, but not bundled together. Each output file can be found with its corresponding source code file. The process of **bundleless build can also be understood as the process of code conversion of source files only**.
 
 They have their own benefits.
 
-- Bundle can reduce the size of build artifacts and also pre-package dependencies to reduce the size of installed dependencies. Packaging libraries in advance can speed up application project builds.
-- Bundleless maintains the original file structure and is more conducive to debugging and tree shaking.
+- bundle can reduce the size of build artifacts and also pre-package dependencies to reduce the size of installed dependencies. Packaging libraries in advance can speed up application project builds.
+- bundleless maintains the original file structure and is more conducive to debugging and tree shaking.
 
 :::warning
-Bundleless is a single file compilation mode, so for type references and exports you need to add the `type` field, e.g. `import type { A } from '. /types`
+bundleless is a single file compilation mode, so for type references and exports you need to add the `type` field, e.g. `import type { A } from '. /types`
 :::
 
-In `buildConfig` you can specify whether the current build task is Bundle or Bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
+In `buildConfig` you can specify whether the current build task is bundle or bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
 
-### Relationship between `input` and `sourceDir`
+### `input` / `sourceDir`
 
-[`buildConfig.input`](/en/api/config/build-config#input) is used to specify the file path or directory path where the source code is read, and its default value differs between Bundle and Bundleless builds.
+[`buildConfig.input`](/en/api/config/build-config#input) is used to specify the file path or directory path where the source code is read, and its default value differs between bundle and bundleless builds.
 
 - When `buildType: 'bundle'`, `input` defaults to `src/index.(j|t)sx?`
 - When `buildType: 'bundleless'`, `input` defaults to `['src']`
 
 :::warning
-It is recommended that you do not specify multiple source file directories during a Bundleless build, as unintended results may occur. Bundleless builds with multiple source directories are currently in an unstable stage.
+It is recommended that you do not specify multiple source file directories during a bundleless build, as unintended results may occur. bundleless builds with multiple source directories are currently in an unstable stage.
 :::
 
-We know from the defaults: **Bundle builds can generally specify a file path as the entry point to the build, while Bundleless builds are more expected to use directory paths to find source files**.
+We know from the defaults: **bundle builds can generally specify a file path as the entry point to the build, while bundleless builds are more expected to use directory paths to find source files**.
 
 #### Object type of `input`
 
-In addition to setting `input` to an array, you can also set it to an object during the Bundle build process. **By using the object form, we can modify the name of the file that the build artifacts outputs**. So for the following example, `. /src/index.ts` corresponds to the path of the build artifacts file as `. /dist/main.js`.
+In addition to setting `input` to an array, you can also set it to an object during the bundle build process. **By using the object form, we can modify the name of the file that the build artifacts outputs**. So for the following example, `. /src/index.ts` corresponds to the path of the build artifacts file as `. /dist/main.js`.
 
 ```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
@@ -63,7 +63,7 @@ export default defineConfig({
 });
 ```
 
-The Bundleless build process also supports such use, but it is not recommended.
+The bundleless build process also supports such use, but it is not recommended.
 
 #### `sourceDir`
 
@@ -74,10 +74,10 @@ The Bundleless build process also supports such use, but it is not recommended.
 
 In general:
 
-- **During the Bundleless build process, the values of `sourceDir` and `input` should be the same, and their default values are both `src`**.
-- It is rarely necessary to use `sourceDir` during the Bundle build process.
+- **During the bundleless build process, the values of `sourceDir` and `input` should be the same, and their default values are both `src`**.
+- It is rarely necessary to use `sourceDir` during the bundle build process.
 
-### Declaration Type Files
+### dts
 
 The [`buildConfig.dts`](/en/api/config/build-config#dts) configuration is mainly used for type file generation.
 
@@ -110,7 +110,7 @@ The **Module Tools also supports bundling of type files**, although care needs t
 
 #### Alias Conversion
 
-During the Bundleless build process, if an alias appears in the source code, e.g.
+During the bundleless build process, if an alias appears in the source code, e.g.
 
 ```js title="./src/index.ts"
 import utils from '@common/utils';
@@ -121,9 +121,8 @@ Normally, the type files generated with `tsc` will also contain these aliases. H
 - Alias conversion is possible for code of the form `import '@common/utils'` or `import utils from '@common/utils'`.
 - Aliasing is possible for code of the form `export { utils } from '@common/utils'`.
 
-However, there are some cases that cannot be handled at this time.
-
-- Output types of the form `Promise<import('@common/utils')>` cannot be converted at this time.
+However, there are some cases that cannot be handled at this time.Output types of the form `Promise<import('@common/utils')>` cannot be converted at this time.
+You can discuss it [here](https://github.com/web-infra-dev/modern.js/discussions/4511)
 
 #### Some examples of the use of `dts`
 
@@ -240,8 +239,8 @@ declare const YOUR_ADD_GLOBAL_VAR;
 When the `modern build` command is executed, the
 
 - Clear the output directory according to `buildConfig.outDir`.
-- Compile `js/ts` source code to generate the JS build artifacts for Bundle/Bundleless.
-- Generate Bundle/Bundleless type files using `tsc`.
+- Compile `js/ts` source code to generate the JS build artifacts for bundle/bundleless.
+- Generate bundle/bundleless type files using `tsc`.
 - Handle Copy tasks.
 
 ## Build errors
@@ -272,7 +271,7 @@ bundle DTS failed:
 
 For `js/ts` build errors, we can tell from the error message.
 
-- By `'bundle failed:'` to determine if the error is reported for a Bundle build or a Bundleless build?
-- What is the `format` of the build process?
-- What is the `target` of the build process?
-- The specific error message.
+- By `'bundle failed:'` to determine if the error is reported for a bundle build or a bundleless build
+- What is the `format` of the build process
+- What is the `target` of the build process
+- The specific error message

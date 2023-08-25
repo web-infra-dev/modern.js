@@ -18,20 +18,18 @@ The microgenerator can be started via [`modern new`](/guide/basic/command-previe
 
 When we want to test some modules, we can enable the test feature. When this feature is enabled, **a `tests` directory and related files will be created in the project directory, and a new `"@modern-js/plugin-testing"` dependency will be added to package.json**.
 
-
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    testingPlugin(),
-  ],
+  plugins: [moduleTools(), testingPlugin()],
 });
 ```
+
 :::
 
 ## Storybook
@@ -40,17 +38,16 @@ The **Storybook feature** can be enabled when we want to debug a component or a 
 
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { storybookPlugin } from '@modern-js/plugin-storybook';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    storybookPlugin(),
-  ],
+  plugins: [moduleTools(), storybookPlugin()],
 });
 ```
+
 :::
 
 For more information on how to start Storybook and how to use it, check out the following link.
@@ -74,15 +71,14 @@ Also, the Storybook debugging tool will determine if the project needs to use th
 
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import runtime from '@modern-js/runtime/cli';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    runtime(),
-  ],
+  plugins: [moduleTools(), runtime()],
 });
 ```
+
 :::

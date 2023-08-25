@@ -2,7 +2,7 @@
 sidebar_position: 7
 ---
 
-# 处理静态资源文件
+# 处理静态资源
 
 模块工程会对代码中使用的静态资源进行处理。如果需要配置，则可以使用 [`buildConfig.asset`](/api/config/build-config#asset) API。
 
@@ -16,10 +16,10 @@ sidebar_position: 7
 
 对于静态文件的处理，模块工程目前默认支持的功能有：
 
-- 设置静态资源路径为 `./assets`。
+- 输出静态资源至 `./assets`。
 - 对于不超过 **10kb** 的文件会内联到代码中。
 
-### 示例
+## 示例
 
 让我们看下面的例子：
 
@@ -27,7 +27,6 @@ sidebar_position: 7
 
 ```ts title="./src/asset.ts"
 import img from './bg.png';
-console.log(img);
 ```
 
 - 如果 `bg.png` 的大小小于 10 kb，则此时产物目录结构和产物内容为：
@@ -39,7 +38,6 @@ console.log(img);
 
 ```js title="./dist/asset.js"
 var img_default = 'data:image/png;base64,';
-console.info(img_default);
 ```
 
 - 如果 `bg.png` 的大小大于 10 kb，则此时产物目录结构和产物内容为：
@@ -53,7 +51,6 @@ console.info(img_default);
 
 ```js title="./dist/asset.js"
 import img from './assets/bg.13e2aba2.png';
-console.info(img);
 ```
 
 当你想要修改默认行为的时候，可以使用以下 API：
