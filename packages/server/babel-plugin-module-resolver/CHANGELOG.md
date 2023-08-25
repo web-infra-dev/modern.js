@@ -1,7 +1,5 @@
 # @modern-js/babel-plugin-module-resolver
 
-## 2.32.1
-
 ## 2.32.0
 
 ### Patch Changes

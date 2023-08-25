@@ -1,13 +1,5 @@
 # @modern-js/types
 
-## 2.32.1
-
-### Patch Changes
-
-- 90e053a: feat(app-tools): add comments for configurations and functions
-
-  feat(app-tools): 为配置和函数添加 comments 说明
-
 ## 2.32.0
 
 ### Minor Changes

@@ -1,13 +1,5 @@
 # @modern-js/builder
 
-## 2.32.1
-
-### Patch Changes
-
-- @modern-js/builder-shared@2.32.1
-- @modern-js/utils@2.32.1
-- @modern-js/monorepo-utils@2.32.1
-
 ## 2.32.0
 
 ### Patch Changes

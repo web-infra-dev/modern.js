@@ -1,7 +1,5 @@
 # @modern-js/libuild-plugin-svgr
 
-## 2.32.1
-
 ## 2.32.0
 
 ## 2.31.2

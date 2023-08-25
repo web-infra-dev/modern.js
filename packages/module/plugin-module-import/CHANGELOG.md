@@ -1,13 +1,5 @@
 # @modern-js/plugin-module-import
 
-## 2.32.1
-
-### Patch Changes
-
-- Updated dependencies [6fc113b]
-  - @modern-js/libuild-plugin-swc@2.32.1
-  - @modern-js/module-tools@2.32.1
-
 ## 2.32.0
 
 ### Patch Changes

@@ -1,24 +1,5 @@
 # @modern-js/module-tools
 
-## 2.32.1
-
-### Patch Changes
-
-- Updated dependencies [6fc113b]
-- Updated dependencies [90e053a]
-  - @modern-js/libuild-plugin-swc@2.32.1
-  - @modern-js/types@2.32.1
-  - @modern-js/core@2.32.1
-  - @modern-js/utils@2.32.1
-  - @modern-js/plugin-changeset@2.32.1
-  - @modern-js/plugin-i18n@2.32.1
-  - @modern-js/plugin-lint@2.32.1
-  - @modern-js/new-action@2.32.1
-  - @modern-js/libuild@2.32.1
-  - @modern-js/libuild-plugin-svgr@2.32.1
-  - @modern-js/plugin@2.32.1
-  - @modern-js/upgrade@2.32.1
-
 ## 2.32.0
 
 ### Minor Changes
