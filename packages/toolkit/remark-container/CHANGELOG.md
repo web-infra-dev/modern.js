@@ -1,5 +1,7 @@
 # @modern-js/remark-container
 
+## 2.32.1
+
 ## 2.32.0
 
 ### Patch Changes

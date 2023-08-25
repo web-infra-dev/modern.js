@@ -1,5 +1,13 @@
 # @modern-js/libuild-plugin-swc
 
+## 2.32.1
+
+### Patch Changes
+
+- 6fc113b: chore(plugin-swc): bump swc-plugins
+
+  chore(plugin-swc): 升级 swc-plugins
+
 ## 2.32.0
 
 ### Minor Changes

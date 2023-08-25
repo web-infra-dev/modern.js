@@ -1,5 +1,7 @@
 # @modern-js/utils
 
+## 2.32.1
+
 ## 2.32.0
 
 ### Minor Changes
