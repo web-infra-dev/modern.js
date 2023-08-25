@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "css-test",
+  "name": "tailwindcss-integration-test",
   "version": "2.9.0",
   "dependencies": {
     "@types/jest": "^29",

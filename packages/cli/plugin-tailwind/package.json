@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "@modern-js/node-bundle-require": "workspace:*",
     "babel-plugin-macros": "3.1.0",
     "hoist-non-react-statics": "^3.3.2",
     "@swc/helpers": "0.5.1"

@@ -2,7 +2,7 @@ import { lazyImport, createRuntimeExportsUtils } from '@modern-js/utils';
 import type { CliPlugin, LegacyAppTools } from '@modern-js/app-tools';
 import { DesignSystem } from '../../types';
 
-export default (
+export const designTokenPlugin = (
   { pluginName } = { pluginName: '@modern-js/plugin-tailwindcss' },
 ): CliPlugin<LegacyAppTools> => ({
   name: '@modern-js/plugin-design-token',

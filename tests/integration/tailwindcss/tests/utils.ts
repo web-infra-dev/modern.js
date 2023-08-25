@@ -1,5 +1,12 @@
 import path from 'path';
 import { fs, glob } from '@modern-js/utils';
+import puppeteer from 'puppeteer';
+import {
+  getPort,
+  killApp,
+  launchApp,
+  launchOptions,
+} from '../../../utils/modernTestUtils';
 
 export const fixtures = path.resolve(__dirname, '../fixtures');
 
@@ -29,3 +36,22 @@ export const getPreCssFiles = (appDir: string, ext: string) =>
   glob
     .sync(path.resolve(appDir, 'dist/**/*'))
     .filter(filepath => new RegExp(`\\.${ext}$`).test(filepath));
+
+export async function launchAppWithPage(appDir: string) {
+  const port = await getPort();
+  const app = await launchApp(appDir, port);
+  const browser = await puppeteer.launch(launchOptions as any);
+  const page = await browser.newPage();
+
+  await page.goto(`http://localhost:${port}`);
+
+  return {
+    app,
+    page,
+    async clear() {
+      await killApp(app);
+      await page.close();
+      await browser.close();
+    },
+  };
+}
