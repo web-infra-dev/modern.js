@@ -2,7 +2,7 @@ import prodServer, {
   Logger,
   type ModernServerOptions,
 } from '@modern-js/prod-server';
-import { logger } from './logger';
+import { logger as defaultLogger } from './logger';
 import { DEFAULT_PORT } from './constants';
 import type {
   BuilderContext,
@@ -35,7 +35,7 @@ export const getServerOptions = (
 export async function printServerURLs(
   urls: Array<{ url: string; label: string }>,
   name = 'Server',
-  printLogger: Logger = logger,
+  logger: Logger = defaultLogger,
 ) {
   const { chalk } = await import('@modern-js/utils');
   let message = `${name} running at:\n\n`;
@@ -47,7 +47,7 @@ export async function printServerURLs(
     )
     .join('');
 
-  printLogger.info(message);
+  logger.info(message);
 }
 
 export async function startProdServer(
