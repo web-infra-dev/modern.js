@@ -15,9 +15,11 @@ export const getPort = async (
   {
     tryLimits = 20,
     strictPort = false,
+    slient = false,
   }: {
     tryLimits?: number;
     strictPort?: boolean;
+    slient?: boolean;
   } = {},
 ): Promise<number> => {
   if (typeof port === 'string') {
@@ -63,7 +65,7 @@ export const getPort = async (
       throw new Error(
         `Port "${original}" is occupied, please choose another one.`,
       );
-    } else {
+    } else if (!slient) {
       logger.info(
         `Something is already running on port ${original}. ${chalk.yellow(
           `Use port ${port} instead.`,

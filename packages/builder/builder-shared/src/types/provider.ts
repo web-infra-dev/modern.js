@@ -4,6 +4,7 @@ import type { Compiler, MultiCompiler } from 'webpack';
 import type { BuilderMode, CreateBuilderOptions } from './builder';
 import type { Server, ModernDevServerOptions } from '@modern-js/server';
 import type { AddressUrl } from '@modern-js/utils';
+import { Logger } from '@modern-js/prod-server';
 
 export type Bundler = 'webpack' | 'rspack';
 
@@ -12,7 +13,9 @@ export type CreateCompilerOptions = { watch?: boolean };
 export type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
   printURLs?: boolean | ((urls: AddressUrl[]) => AddressUrl[]);
+  logger?: Logger;
   strictPort?: boolean;
+  getPortSilently?: boolean;
   serverOptions?: Partial<Omit<ModernDevServerOptions, 'config'>> & {
     config?: Partial<ModernDevServerOptions['config']>;
   };
