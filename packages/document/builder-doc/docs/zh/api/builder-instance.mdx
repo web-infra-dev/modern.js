@@ -199,6 +199,10 @@ type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
   // 透传与构建无关的 dev server 配置
   serverOptions?: Partial<ModernDevServerOptions>;
+  // 是否在启动时静默获取端口号，默认为 false
+  getPortSliently?: boolean;
+  // 自定义日志输出对象
+  logger?: Logger;
 };
 
 type StartServerResult = {
@@ -293,6 +297,52 @@ await builder.startDevServer({
 });
 ```
 
+### 静默获取端口号
+
+某些情况下，默认启动的端口号已经被占用，此时 Builder 会自动递增端口号，直至找到一个可用端口。这个过程会输出提示日志，如果你不希望这段日志，可以将 `getPortSliently` 设置为 `true`。
+
+```ts
+await builder.startDevServer({
+  getPortSliently: true,
+});
+```
+
+### 自定义日志输出对象
+
+默认情况下，Builder 会使用 `@modern-js/utils/logger` 来输出日志，你可以通过 `logger` 参数来自定义日志输出对象。
+
+```ts
+const customLogger = {
+  // 你需要定义以下的方法
+  info(msg: string) {
+    console.log(msg);
+  },
+  error(msg: string) {
+    console.error(msg);
+  },
+  warn(msg: string) {
+    console.warn(msg);
+  },
+  success(msg: string) {
+    console.log(`✅ msg`);
+  },
+  debug(msg: string) {
+    if (process.env.DEBUG) {
+      console.log(msg);
+    }
+  },
+  log(msg: string) {
+    console.log(msg);
+  };
+}
+
+await builder.startDevServer({
+  logger: customLogger,
+});
+```
+
+这样，Builder 会使用你自定义的日志输出对象来输出日志。
+
 ## builder.serve
 
 在本地启动 Server 来预览生产环境构建的产物，需要在 `builder.build` 方法之后执行。
@@ -317,7 +367,6 @@ function server(): Promise<StartServerResult>;
 await builder.serve();
 ```
 
-
 `serve` 会返回以下参数：
 
 - `urls`：访问 Server 的 URLs
@@ -332,7 +381,6 @@ console.log(port); // 8080
 // 关闭 Server
 await server.close();
 ```
-
 
 ## builder.createCompiler
 

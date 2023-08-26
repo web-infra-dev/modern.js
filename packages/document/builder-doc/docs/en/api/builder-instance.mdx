@@ -199,6 +199,10 @@ type StartDevServerOptions = {
   compiler?: Compiler | MultiCompiler;
   // passing through the build-independent dev server configuration
   serverOptions?: Partial<ModernDevServerOptions>;
+  // Whether to get the port silently, the default is false
+  getPortSliently?: boolean;
+  // custom logger
+  logger?: Logger;
 };
 
 type StartServerResult = {
@@ -293,6 +297,52 @@ await builder.startDevServer({
 });
 ```
 
+### Get Port Silently
+
+In some cases, the default startup port number is already occupied. In this situation, Builder will automatically increment the port number until it finds an available one. This process will output a prompt log. If you do not want this log, you can set `getPortSliently` to `true`.
+
+```ts
+await builder.startDevServer({
+  getPortSliently: true,
+});
+```
+
+### Custom Logger
+
+By default, Builder uses `@modern-js/utils/logger` to output logs. You can customize the log output object through the `logger` parameter.
+
+```ts
+const customLogger = {
+  // You need to define the following methods
+  info(msg: string) {
+    console.log(msg);
+  },
+  error(msg: string) {
+    console.error(msg);
+  },
+  warn(msg: string) {
+    console.warn(msg);
+  },
+  success(msg: string) {
+    console.log(`✅ msg`);
+  },
+  debug(msg: string) {
+    if (process.env.DEBUG) {
+      console.log(msg);
+    }
+  },
+  log(msg: string) {
+    console.log(msg);
+  };
+}
+
+await builder.startDevServer({
+  logger: customLogger,
+});
+```
+
+Then Builder will use the custom logger to output logs.
+
 ## builder.serve
 
 Start a server to preview the production build locally. This method should be executed after `builder.build`.
@@ -331,7 +381,6 @@ console.log(port); // 8080
 // Close the server
 await server.close();
 ```
-
 
 ## builder.createCompiler
 
