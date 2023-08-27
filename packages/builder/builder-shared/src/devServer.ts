@@ -9,7 +9,7 @@ import type {
 } from './types';
 import type { ModernDevServerOptions, Server } from '@modern-js/server';
 import { merge } from '@modern-js/utils/lodash';
-import { logger, debug } from './logger';
+import { logger as defaultLogger, debug } from './logger';
 import { DEFAULT_PORT } from './constants';
 import { createAsyncHook } from './createHook';
 import { getServerOptions, printServerURLs } from './prodServer';
@@ -95,10 +95,14 @@ export async function startDevServer<
     printURLs = true,
     strictPort = false,
     serverOptions = {},
+    logger: customLogger,
+    getPortSilently,
   }: StartDevServerOptions & {
     defaultPort?: number;
   } = {},
 ) {
+  const logger = customLogger ?? defaultLogger;
+
   logger.info('Starting dev server...');
 
   if (!process.env.NODE_ENV) {
@@ -112,6 +116,7 @@ export async function startDevServer<
 
   const port = await getPort(builderConfig.dev?.port || DEFAULT_PORT, {
     strictPort,
+    slient: getPortSilently,
   });
 
   const host =
@@ -165,7 +170,7 @@ export async function startDevServer<
             }
           }
 
-          await printServerURLs(urls, 'Dev server');
+          await printServerURLs(urls, 'Dev server', logger);
         }
 
         await options.context.hooks.onAfterStartDevServerHook.call({ port });
