@@ -11,7 +11,6 @@ export const tmpTest = (): CliPlugin<AppTools> => ({
   setup: () => {
     return {
       htmlPartials({ entrypoint, partials }) {
-        console.log('===> e.name: ', entrypoint.entryName);
         if (entrypoint.entryName === 'sub') {
           partials.top.push('<script>window.abc = "hjk"</script>');
           partials.head.push('<script>console.log("abc")</script>');
