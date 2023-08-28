@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import styled from '@emotion/styled';
 import { useSnapshot } from 'valtio';
 import { Outlet, useNavigate, useLocation } from '@modern-js/runtime/router';
-import { Box, ScrollArea, Text, Button } from '@radix-ui/themes';
+import { Box, Text, Button } from '@radix-ui/themes';
 import _ from 'lodash';
 import { GearIcon, HomeIcon } from '@radix-ui/react-icons';
 import { useStore } from '@/stores';
@@ -54,17 +54,19 @@ export const RootTabs: React.FC = () => {
         </SettingButton>
       </TabNavigator>
       <TabContent>
-        <Breadcrumbs>
-          <Breadcrumbs.Button onClick={() => navigate('overview')}>
-            <HomeIcon />
-          </Breadcrumbs.Button>
-          <Breadcrumbs.Button>{currentTab?.title}</Breadcrumbs.Button>
-        </Breadcrumbs>
-        <Suspense fallback={<div>loading...</div>}>
-          <ScrollArea>
+        <Box grow="0">
+          <Breadcrumbs>
+            <Breadcrumbs.Button onClick={() => navigate('overview')}>
+              <HomeIcon />
+            </Breadcrumbs.Button>
+            <Breadcrumbs.Button>{currentTab?.title}</Breadcrumbs.Button>
+          </Breadcrumbs>
+        </Box>
+        <Box grow="1" style={{ overflow: 'hidden' }}>
+          <Suspense fallback={<div>loading...</div>}>
             <Outlet />
-          </ScrollArea>
-        </Suspense>
+          </Suspense>
+        </Box>
       </TabContent>
     </TabRoot>
   );
@@ -135,6 +137,11 @@ const TabBrand = styled(TabTrigger)({
 
 const TabContent = styled(Box)({
   flex: 1,
+  flexDirection: 'column',
+  alignItems: 'stretch',
+  display: 'flex',
+  gap: 'var(--space-3)',
+  overflow: 'hidden',
   backgroundColor: 'var(--block-color)',
   borderRadius: 'var(--radius-4)',
   padding: '1rem',

@@ -1,11 +1,10 @@
 /* eslint-disable node/no-unsupported-features/es-builtins */
 import type { Buffer } from 'buffer';
 import { BaseHooks } from '@modern-js/core';
-// import type { BuilderPluginAPI as WebpackBuilderAPI } from '@modern-js/builder-webpack-provider';
-// import type { BuilderPluginAPI as RspackBuilderAPI } from '@modern-js/builder-rspack-provider';
+import type { BuilderPluginAPI as WebpackBuilderAPI } from '@modern-js/builder-webpack-provider';
+import type { BuilderPluginAPI as RspackBuilderAPI } from '@modern-js/builder-rspack-provider';
 import type { AppTools, AppToolsHooks, CliPlugin } from '@modern-js/app-tools';
 import type { ServerPlugin, ToThreads } from '@modern-js/server-core';
-import { DefaultBuilderPluginAPI } from '@modern-js/builder-shared';
 
 export type CliPluginAPI = Parameters<
   NonNullable<CliPlugin<AppTools>['setup']>
@@ -13,8 +12,8 @@ export type CliPluginAPI = Parameters<
 
 export type ServerPluginAPI = Parameters<NonNullable<ServerPlugin['setup']>>[0];
 
-// export type BuilderPluginAPI = WebpackBuilderAPI | RspackBuilderAPI;
-export type BuilderPluginAPI = DefaultBuilderPluginAPI;
+export type BuilderPluginAPI = WebpackBuilderAPI | RspackBuilderAPI;
+// export type BuilderPluginAPI = DefaultBuilderPluginAPI;
 
 export type BufferLike =
   | string

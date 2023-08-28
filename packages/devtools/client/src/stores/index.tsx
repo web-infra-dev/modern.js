@@ -5,9 +5,11 @@ import { getQuery } from 'ufo';
 import {
   AppContext,
   BuilderContext,
+  FinalFrameworkConfig,
   FrameworkConfig,
 } from '@modern-js/devtools-kit';
 import { ref } from 'valtio';
+import type { JsonValue } from 'type-fest';
 import { setupServerConnection } from '@/rpc';
 import { useProxyFrom } from '@/utils/hooks';
 import { StoreContextValue } from '@/types';
@@ -29,22 +31,34 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     framework: {
       context: createDeferPromise<AppContext>(),
       config: createDeferPromise<FrameworkConfig>(),
+      finalConfig: createDeferPromise<FinalFrameworkConfig>(),
     },
     builder: {
-      config: createDeferPromise<Record<string, unknown>>(),
       context: createDeferPromise<BuilderContext>(),
+      config: createDeferPromise<JsonValue>(),
+      finalConfig: createDeferPromise<JsonValue>(),
+    },
+    bundler: {
+      configs: createDeferPromise<JsonValue[]>(),
+      finalConfigs: createDeferPromise<JsonValue[]>(),
     },
   };
   const $store = useProxyFrom<StoreContextValue>(() => ({
     dataSource,
     framework: {
-      context: deferred.framework.context.promise,
       config: deferred.framework.config.promise,
+      finalConfig: deferred.framework.finalConfig.promise,
+      context: deferred.framework.context.promise,
       fileSystemRoutes: {},
     },
     builder: {
-      config: deferred.builder.config.promise,
       context: deferred.builder.context.promise,
+      config: deferred.builder.config.promise,
+      finalConfig: deferred.builder.finalConfig.promise,
+    },
+    bundler: {
+      configs: deferred.bundler.configs.promise,
+      finalConfigs: deferred.bundler.finalConfigs.promise,
     },
     tabs: getDefaultTabs().map(tab => ref(tab)),
   }));
@@ -54,8 +68,12 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   setupTask.then(async ({ server }) => {
     deferred.framework.context.resolve(server.getAppContext());
     deferred.framework.config.resolve(server.getFrameworkConfig());
-    deferred.builder.config.resolve(server.getBuilderConfig());
+    deferred.framework.finalConfig.resolve(server.getFinalFrameworkConfig());
     deferred.builder.context.resolve(server.getBuilderContext());
+    deferred.builder.config.resolve(server.getBuilderConfig());
+    deferred.builder.finalConfig.resolve(server.getFinalBuilderConfig());
+    deferred.bundler.configs.resolve(server.getBundlerConfigs());
+    deferred.bundler.finalConfigs.resolve(server.getFinalBundlerConfigs());
     const ctx = await $store.framework.context;
     for (const { entryName } of ctx.entrypoints) {
       $store.framework.fileSystemRoutes[entryName] =

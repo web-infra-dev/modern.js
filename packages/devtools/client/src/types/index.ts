@@ -3,21 +3,28 @@ import type {
   BuilderContext,
   CustomTabView,
   FileSystemRoutes,
+  FinalFrameworkConfig,
 } from '@modern-js/devtools-kit';
 import { FrameworkConfig } from '@modern-js/devtools-kit';
 import { ReactElement } from 'react';
-import { Promisable } from 'type-fest';
+import { JsonValue, Promisable } from 'type-fest';
 
 export interface StoreContextValue {
   dataSource: string;
   framework: {
-    config: Promise<FrameworkConfig>;
     context: Promise<AppContext>;
     fileSystemRoutes: Record<string, Promisable<FileSystemRoutes>>;
+    config: Promise<FrameworkConfig>;
+    finalConfig: Promise<FinalFrameworkConfig>;
   };
   builder: {
-    config: Promise<Record<string, unknown>>;
     context: Promise<BuilderContext>;
+    config: Promise<JsonValue>;
+    finalConfig: Promise<JsonValue>;
+  };
+  bundler: {
+    configs: Promise<JsonValue[]>;
+    finalConfigs: Promise<JsonValue[]>;
   };
   tabs: InternalTab[];
 }

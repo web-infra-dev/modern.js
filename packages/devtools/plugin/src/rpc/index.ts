@@ -5,6 +5,7 @@ import type {
   FileSystemRoutes,
   ServerFunctions,
 } from '@modern-js/devtools-kit';
+import type { JsonValue } from 'type-fest';
 import { createBirpc, BirpcOptions } from '@modern-js/devtools-kit/birpc';
 import createDeferPromise, { DeferredPromise } from 'p-defer';
 import { RawData } from 'ws';
@@ -44,20 +45,38 @@ export const setupClientConnection = async (
   const deferred = {
     prepare: createDeferPromise<void>(),
     builderContext: createDeferPromise<BuilderContext>(),
-    builderConfig: createDeferPromise<Record<string, unknown>>(),
+    builderConfig: createDeferPromise<JsonValue>(),
+    finalBuilderConfig: createDeferPromise<JsonValue>(),
+    bundlerConfigs: createDeferPromise<JsonValue[]>(),
+    finalBundlerConfigs: createDeferPromise<JsonValue[]>(),
   } satisfies Record<string, DeferredPromise<any>>;
 
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
+    async getFrameworkConfig() {
+      await deferred.prepare.promise;
+      return api.useConfigContext();
+    },
+    async getFinalFrameworkConfig() {
+      await deferred.prepare.promise;
+      return api.useResolvedConfigContext();
+    },
+    async getBuilderConfig() {
+      return deferred.builderConfig.promise;
+    },
+    async getFinalBuilderConfig() {
+      return deferred.finalBuilderConfig.promise;
+    },
+    async getBundlerConfigs() {
+      return deferred.bundlerConfigs.promise;
+    },
+    async getFinalBundlerConfigs() {
+      return deferred.finalBundlerConfigs.promise;
+    },
     async getAppContext() {
       await deferred.prepare.promise;
       const ctx = { ...api.useAppContext() };
       return _.omit(ctx, ['builder', 'plugins', 'serverInternalPlugins']);
-    },
-    async getFrameworkConfig() {
-      await deferred.prepare.promise;
-      const config = api.useResolvedConfigContext();
-      return config;
     },
     async getFileSystemRoutes(entryName) {
       return _fileSystemRoutesMap[entryName] ?? [];
@@ -65,9 +84,6 @@ export const setupClientConnection = async (
     async getBuilderContext() {
       const ctx = await deferred.builderContext.promise;
       return ctx;
-    },
-    async getBuilderConfig() {
-      return deferred.builderConfig.promise;
     },
     echo(content) {
       return content;
@@ -105,7 +121,25 @@ export const setupClientConnection = async (
     setup(api) {
       deferred.builderContext.resolve(api.context);
       api.modifyBundlerChain(() => {
-        deferred.builderConfig.resolve(api.getBuilderConfig());
+        deferred.builderConfig.resolve(api.getBuilderConfig() as any);
+        deferred.finalBuilderConfig.resolve(api.getNormalizedConfig() as any);
+      });
+
+      const modifyBundlerConfig =
+        'modifyWebpackConfig' in api
+          ? api.modifyWebpackConfig
+          : api.modifyRspackConfig;
+      const expectBundlerNum = _.castArray(api.context.target).length;
+      const bundlerConfigs: JsonValue[] = [];
+      modifyBundlerConfig(config => {
+        bundlerConfigs.push(config as any);
+        if (bundlerConfigs.length >= expectBundlerNum) {
+          deferred.bundlerConfigs.resolve(bundlerConfigs);
+        }
+      });
+
+      api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
+        deferred.finalBundlerConfigs.resolve(bundlerConfigs as any);
       });
     },
   };
