@@ -68,7 +68,6 @@ export const TASKS: TaskConfig[] = [
       'strip-ansi',
       'gzip-size',
       'pkg-up',
-      'recursive-readdir',
       {
         name: 'json5',
         externals: {
