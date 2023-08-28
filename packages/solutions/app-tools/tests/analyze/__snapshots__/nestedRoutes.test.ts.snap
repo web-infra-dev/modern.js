@@ -58,8 +58,9 @@ exports[`nested routes walk 1`] = `
         "children": [
           {
             "_component": "@_modern_js_src/user/$.tsx",
+            "clientData": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.client.ts",
+            "data": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.ts",
             "id": "user/$",
-            "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
             "path": "*",
             "type": "nested",
           },
@@ -91,14 +92,6 @@ exports[`nested routes walk 1`] = `
             "_component": "@_modern_js_src/user/profile/layout.tsx",
             "children": [
               {
-                "_component": "@_modern_js_src/user/profile/$.tsx",
-                "clientData": "<ROOT>/tests/analyze/fixtures/nested-routes/user/profile/$.data.client.ts",
-                "data": "<ROOT>/tests/analyze/fixtures/nested-routes/user/profile/$.data.ts",
-                "id": "user/profile/$",
-                "path": "*",
-                "type": "nested",
-              },
-              {
                 "_component": "@_modern_js_src/user/profile/page.tsx",
                 "children": undefined,
                 "id": "user/profile/page",
@@ -107,7 +100,6 @@ exports[`nested routes walk 1`] = `
                 "type": "nested",
               },
             ],
-            "data": "<ROOT>/tests/analyze/fixtures/nested-routes/user/profile/page.data.ts",
             "id": "user/profile/layout",
             "isRoot": false,
             "path": "profile",
