@@ -62,9 +62,7 @@ export const content = 'hello world';
       "foo/*": ["./*"]
     }
   },
-  "include": [
-    "**/*"
-  ]
+  "include": ["**/*"]
 }
 ```
 
@@ -136,7 +134,6 @@ export default {
 };
 ```
 
-
 :::tip 为什么不推荐使用源码的方式?
 不仅仅是因为使用组件源码无法验证组件产物是否正确，**同时模块工程对于构建产物支持的一些配置无法完全转换为 Storybook
 内部的配置**。如果某些配置无法进行相互转换的话，就会在 Storybook 调试过程中出现不符合预期的结果。
@@ -159,7 +156,6 @@ Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配�
 
 在未来我们会考虑这些配置是否可以允许修改，不过目前为了减少不可预知的问题暂时限制使用这些配置。
 
-
 ## 构建 Storybook 产物
 
 除了可以对组件或者普通的模块进行 Storybook 调试，还可以通过下面的命令来执行 Storybook 的构建任务。
@@ -173,3 +169,18 @@ modern build --platform storybook
 - [`modern build`](/guide/basic/command-preview#modern-build)
 
 构建完成后，可以在 `dist/storybook-static` 目录看到构建产物文件。
+
+## 结合 Tailwind CSS 使用
+
+如果你需要在 `stories` 目录下使用 Tailwind CSS，请确保当前项目的 Tailwind CSS 配置中包含了 `stories` 目录。
+
+以 `tailwind.config.ts` 文件为例，你需要配置以下内容：
+
+```diff title="tailwind.config.ts"
+export default {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx}',
++   './stories/**/*.{js,jsx,ts,tsx}',
+  ],
+};
+```
