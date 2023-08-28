@@ -13,7 +13,7 @@ export default function Layout() {
       <Box grow="0">
         <Select.Root
           onValueChange={handleSelect}
-          defaultValue="builder/final-config"
+          defaultValue="builder/transformed"
         >
           <Select.Trigger />
           <Select.Content position="popper">
