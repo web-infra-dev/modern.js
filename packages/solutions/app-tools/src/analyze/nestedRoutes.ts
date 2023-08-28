@@ -153,6 +153,8 @@ export const walk = async (
   let pageLoaderFile = '';
   let pageRoute = null;
   let splatLoaderFile = '';
+  let splatClientData = '';
+  let splatData = '';
   let splatRoute: NestedRouteForCli | null = null;
   let pageConfigFile = '';
 
@@ -251,6 +253,14 @@ export const walk = async (
       splatLoaderFile = itemPath;
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.SPLATE_CLIENT_DATA) {
+      splatClientData = itemPath;
+    }
+
+    if (itemWithoutExt === NESTED_ROUTE.SPLATE_DATA_FILE) {
+      splatData = itemPath;
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_FILE) {
       splatRoute = createRoute(
         {
@@ -265,6 +275,12 @@ export const walk = async (
 
       if (splatLoaderFile) {
         splatRoute.loader = splatLoaderFile;
+      }
+      if (splatClientData) {
+        splatRoute.clientData = splatClientData;
+      }
+      if (splatData) {
+        splatRoute.data = splatData;
       }
       route.children?.push(splatRoute);
     }

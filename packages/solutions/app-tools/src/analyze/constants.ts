@@ -37,20 +37,22 @@ export const FILE_SYSTEM_ROUTES_COMPONENTS_DIR = 'internal_components';
 
 export const NESTED_ROUTE = {
   LAYOUT_FILE: 'layout',
+  LAYOUT_CONFIG_FILE: 'layout.config',
   LAYOUT_LOADER_FILE: 'layout.loader',
   LAYOUT_DATA_FILE: 'layout.data',
   LAYOUT_CLIENT_LOADER: 'layout.data.client',
   PAGE_FILE: 'page',
+  PAGE_CONFIG_FILE: 'page.config',
   PAGE_LOADER_FILE: 'page.loader',
-  PAGE_DATA_FILE: 'layout.data',
+  PAGE_DATA_FILE: 'page.data',
   PAGE_CLIENT_LOADER: 'page.data.client',
+  SPLATE_FILE: '$',
+  SPLATE_LOADER_FILE: '$.loader',
+  SPLATE_DATA_FILE: '$.data',
+  SPLATE_CLIENT_DATA: '$.data.client',
   LOADING_FILE: 'loading',
   ERROR_FILE: 'error',
   LOADER_FILE: 'loader',
-  SPLATE_FILE: '$',
-  SPLATE_LOADER_FILE: '$.loader',
-  LAYOUT_CONFIG_FILE: 'layout.config',
-  PAGE_CONFIG_FILE: 'page.config',
 };
 
 export const APP_CONFIG_NAME = 'config';
