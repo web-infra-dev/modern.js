@@ -6221,9 +6221,6 @@ importers:
       '@types/pug':
         specifier: 2.0.6
         version: 2.0.6
-      '@types/recursive-readdir':
-        specifier: 2.2.0
-        version: 2.2.0
       '@types/sass-loader':
         specifier: 8.0.3
         version: 8.0.3
@@ -6437,9 +6434,6 @@ importers:
       react-is:
         specifier: ^18
         version: 18.2.0
-      recursive-readdir:
-        specifier: 2.2.2
-        version: 2.2.2
       resolve-url-loader:
         specifier: 5.0.0
         version: 5.0.0
@@ -16415,12 +16409,6 @@ packages:
       '@types/prop-types': 15.7.5
       '@types/scheduler': 0.16.2
       csstype: 3.1.2
-
-  /@types/recursive-readdir@2.2.0:
-    resolution: {integrity: sha512-HGk753KRu2N4mWduovY4BLjYq4jTOL29gV2OfGdGxHcPSWGFkC5RRIdk+VTs5XmYd7MVAD+JwKrcb5+5Y7FOCg==}
-    dependencies:
-      '@types/node': 18.11.17
-    dev: true
 
   /@types/redux-logger@3.0.9:
     resolution: {integrity: sha512-cwYhVbYNgH01aepeMwhd0ABX6fhVB2rcQ9m80u8Fl50ZODhsZ8RhQArnLTkE7/Zrfq4Sz/taNoF7DQy9pCZSKg==}
@@ -32134,13 +32122,6 @@ packages:
     engines: {node: '>= 10.13.0'}
     dependencies:
       resolve: 1.22.1
-
-  /recursive-readdir@2.2.2:
-    resolution: {integrity: sha512-nRCcW9Sj7NuZwa2XvH9co8NPeXUBhZP7CRKJtU+cS6PW9FpCIFoI5ib0NT1ZrbNuPoRy0ylyCaUL8Gih4LSyFg==}
-    engines: {node: '>=0.10.0'}
-    dependencies:
-      minimatch: 3.0.4
-    dev: true
 
   /redent@1.0.0:
     resolution: {integrity: sha512-qtW5hKzGQZqKoh6JNSD+4lfitfPKGz42e6QwiRmPM5mmKtR0N41AbJRYu0xJi7nhOJ4WDgRkKvAk6tw4WIwR4g==}
