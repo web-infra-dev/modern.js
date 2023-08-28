@@ -56,9 +56,6 @@ exports[`bff cli plugin schema 1`] = `
           "proxy": {
             "type": "object",
           },
-          "requestCreator": {
-            "type": "string",
-          },
         },
         "type": "object",
       },
