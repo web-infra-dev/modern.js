@@ -21,7 +21,9 @@ The config of [css-loader](https://github.com/webpack-contrib/css-loader) can be
 ```
 
 :::tip
-When using Rspack as the bundler, this configuration is only supported when set [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) is true.
+When using Rspack as the bundler, this configuration is only supported when set [disableCssExtract](https://modernjs.dev/builder/en/api/config-output.html#outputdisablecssextract) is true.
+
+To modify CSS Modules configuration, it is recommended to use the [output.cssModules](https://modernjs.dev/builder/en/api/config-output.html#outputcssmodules) configuration.
 :::
 
 ### Object Type

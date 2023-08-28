@@ -25,6 +25,8 @@ export const getCssModuleLocalIdentName = (
     ? '[local]-[hash:base64:6]'
     : '[path][name]__[local]-[hash:base64:6]');
 
+export const isInNodeModules = (path: string) => NODE_MODULES_REGEX.test(path);
+
 /** Determine if a file path is a CSS module when disableCssModuleExtension is enabled. */
 export const isLooseCssModules = (path: string) => {
   if (NODE_MODULES_REGEX.test(path)) {
@@ -195,6 +197,9 @@ export const normalizeCssLoaderOptions = (
   return options;
 };
 
+export const getCssModuleLocalsConvention = (config: SharedNormalizedConfig) =>
+  config.output.cssModules?.exportLocalsConvention || 'camelCase';
+
 export const getCssLoaderOptions = async ({
   config,
   enableSourceMap,
@@ -222,7 +227,7 @@ export const getCssLoaderOptions = async ({
           cssModules,
           config.output.disableCssModuleExtension,
         ),
-        exportLocalsConvention: 'camelCase',
+        exportLocalsConvention: getCssModuleLocalsConvention(config),
         localIdentName,
       },
       sourceMap: enableSourceMap,

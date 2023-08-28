@@ -86,7 +86,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration) (仅在 [disableCssExtract](/api/config-output.html#outputdisablecssextract) 时支持)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
 - [output.polyfill.usage](/api/config-output.html#usage) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 
@@ -215,6 +214,31 @@ Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，�
 具体插件支持情况可参考：[Plugin 兼容情况](https://www.rspack.dev/zh/guide/plugin-compat.html)。
 
 未列出的插件可根据 [Rspack Plugin API 支持情况](https://www.rspack.dev/zh/api/plugin-api.html) 自行判断。
+
+### 7. CSS Modules 配置迁移
+
+Rspack 模式下不支持通过 `tools.cssLoader` 修改 CSS Modules 配置，Builder 提供了 [output.cssModules](/api/config-output.html#outputcssmodules) 配置项，用来抹平 Rspack 模式和 webpack 模式下的实现差异。
+
+```diff
+export default {
++  output: {
++    cssModules: {
++      auto: resource => {
++        return resource.includes('.module.') || resource.includes('shared/');
++      },
++    },
++  },
+-  tools: {
+-    cssLoader: {
+-      modules: {
+-        auto: path => {
+-          return resource.includes('.module.') || resource.includes('shared/');
+-        },
+-      },
+-    },
+-  }
+};
+```
 
 ## 对比 Rspack CLI
 

@@ -134,7 +134,15 @@ export type RemOptions = {
   pxtorem?: PxToRemOptions;
 };
 
+export type CssModuleLocalsConvention =
+  | 'asIs'
+  | 'camelCase'
+  | 'camelCaseOnly'
+  | 'dashes'
+  | 'dashesOnly';
+
 export type CssModules = {
+  exportLocalsConvention?: CssModuleLocalsConvention;
   auto?: boolean | RegExp | ((resourcePath: string) => boolean);
 };
 
