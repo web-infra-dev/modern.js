@@ -61,7 +61,6 @@ const fooModel = model('foo').define({
 - `context`: Reduck Context, can get underlying `store` object. `store` support all Redux Store [API](https://redux.js.org/api/store), also mounts the `use` method for consuming the Model, and the `unmount` method for unmounting the Model.
 - utils: commonly used tool like `use`、`onMount`. `use` is the same as `store.use`, `onMount` is the hook function after the Model is mounted.
 
-{/* TODO: @anchao 调整类型  */}
 ```ts
 interface Utils {
   use: UseModel;

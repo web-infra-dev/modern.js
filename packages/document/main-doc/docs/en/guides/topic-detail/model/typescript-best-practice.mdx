@@ -30,7 +30,7 @@ export const foo = model<State>('foo').define({
 });
 ```
 
-When you declare type information for the State of a Model, the `computed` and `actions` of the Model can get the correct type information. In fact, even if we don't define State type information in the example code above, the type information of State can be automatically inferred based on the initial value information of `state`. However, we still recommend that you declare the type information of State when defining a Model because the type information of State inferred based on the initial value information of `state` may be incomplete (missing fields or field type information), and the type information of State cannot be automatically inferred based on the initial value information of `state` when using [Function Type](/apis/app/runtime/model/model_#函数类型) to define the Model.
+When you declare type information for the State of a Model, the `computed` and `actions` of the Model can get the correct type information. In fact, even if we don't define State type information in the example code above, the type information of State can be automatically inferred based on the initial value information of `state`. However, we still recommend that you declare the type information of State when defining a Model because the type information of State inferred based on the initial value information of `state` may be incomplete (missing fields or field type information), and the type information of State cannot be automatically inferred based on the initial value information of `state` when using [Function Type](/apis/app/runtime/model/model_#function-type) to define the Model.
 
 ## Dependent types of Derived State
 

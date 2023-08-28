@@ -84,7 +84,8 @@ const fooModel = model('foo').define({
 });
 
 function ComponentA() {
-  // 通过传入 selector 函数，只返回 a 状态给组件
+  // By passing in the selector function
+  // only the a state is returned to the component
   const [stateA] = useModel(fooModel, state => state.a);
 
   return <div>{stateA}</div>;

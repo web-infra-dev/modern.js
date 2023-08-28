@@ -63,8 +63,6 @@ If you want to use Tailwind CSS for a project, you can refer to ["Using Tailwind
 
 ## Modern.js Runtime API
 
-<!-- 链接待补充 -->
-
 **Modern.js provides Runtime API capabilities that can only be used in the Modern.js application project environment**. If you need to develop a component for use in a Modern.js application environment, then you can turn on this feature and the microgenerator will add the `"@modern-js/runtime"` dependency.
 
 Also, the Storybook debugging tool will determine if the project needs to use the Runtime API by checking the project's dependencies and providing the same Runtime API runtime environment as the Modern.js application project.

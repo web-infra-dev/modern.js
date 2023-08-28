@@ -37,7 +37,7 @@ function App() {
   const [state] = useStaticModel(userModel);
 
   useEffect(() => {
-    // 统计 UV 数据
+    // Statistical UV Data
     send('pageview', { user: state.user });
   }, [state]);
 
