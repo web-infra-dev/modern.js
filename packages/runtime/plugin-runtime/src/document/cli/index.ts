@@ -189,15 +189,24 @@ export const documentPlugin = (): CliPlugin<AppTools> => ({
           htmlWebpackPlugin.tags.bodyTags.toString(),
         ].join('');
         // support partials html
+        const partialsContent = {
+          partialsTop: '',
+          partialsHead: '',
+          partialsBody: '',
+        };
         if (partialsByEntrypoint?.[entryName]) {
-          const partialsTop = partialsByEntrypoint[entryName].top.join('\n');
-          const partialsHead = partialsByEntrypoint[entryName].head.join('\n');
-          const partialsBody = partialsByEntrypoint[entryName].body.join('\n');
-          html = html
-            .replace(TOP_PARTICALS_SEPARATOR, partialsTop)
-            .replace(HEAD_PARTICALS_SEPARATOR, partialsHead)
-            .replace(BODY_PARTICALS_SEPARATOR, partialsBody);
+          partialsContent.partialsTop =
+            partialsByEntrypoint[entryName].top.join('\n');
+          partialsContent.partialsHead =
+            partialsByEntrypoint[entryName].head.join('\n');
+          partialsContent.partialsBody =
+            partialsByEntrypoint[entryName].body.join('\n');
         }
+
+        html = html
+          .replace(TOP_PARTICALS_SEPARATOR, partialsContent.partialsTop)
+          .replace(HEAD_PARTICALS_SEPARATOR, partialsContent.partialsHead)
+          .replace(BODY_PARTICALS_SEPARATOR, partialsContent.partialsBody);
 
         const links = [
           htmlWebpackPlugin.tags.headTags

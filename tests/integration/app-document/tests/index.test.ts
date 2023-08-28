@@ -170,6 +170,15 @@ describe('test build', () => {
     expect(htmlWithDoc.includes(`head class="head"`)).toBe(true);
   });
 
+  test('when not set partial html should normal', async () => {
+    const normalHtml = fs.readFileSync(
+      path.join(appDir, 'dist', 'html/differentProperities/index.html'),
+      'utf-8',
+    );
+    const partialPlaceholder = encodeURIComponent('<!--<?- partials.top ?>-->');
+    expect(new RegExp(partialPlaceholder).test(normalHtml)).toBe(false);
+  });
+
   test('should injected partial html content to html', async () => {
     const htmlWithDoc = fs.readFileSync(
       path.join(appDir, 'dist', 'html/sub/index.html'),
