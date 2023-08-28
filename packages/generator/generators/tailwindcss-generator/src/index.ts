@@ -1,7 +1,12 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { DependenceGenerator, i18n } from '@modern-js/generator-common';
+import {
+  i18n,
+  Language,
+  DependenceGenerator,
+} from '@modern-js/generator-common';
+import { isTsProject } from '@modern-js/generator-utils';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -17,6 +22,21 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
+  const appDir = context.materials.default.basePath;
+  const language = isTsProject(appDir) ? Language.TS : Language.JS;
+
+  if (language === Language.TS) {
+    await appApi.forgeTemplate(
+      'templates/ts-template/**/*',
+      undefined,
+      resourceKey => resourceKey.replace('templates/ts-template/', ''),
+    );
+  } else {
+    appApi.forgeTemplate('templates/js-template/**/*', undefined, resourceKey =>
+      resourceKey.replace('templates/js-template/', ''),
+    );
+  }
+
   const { dependencies, peerDependencies, devDependencies } = context.config;
   const tailwindVersion = '~3.2.4';
   if (dependencies?.tailwindcss) {
