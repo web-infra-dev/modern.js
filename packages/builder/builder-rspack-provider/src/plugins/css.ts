@@ -17,6 +17,7 @@ import {
   type StyleLoaderOptions,
   type ModifyBundlerChainUtils,
 } from '@modern-js/builder-shared';
+import path from 'path';
 import type {
   BuilderPlugin,
   NormalizedConfig,
@@ -126,7 +127,10 @@ export async function applyBaseCSSRule({
       rule
         .use(CHAIN_ID.USE.CSS_MODULES_TS)
         .loader(
-          require.resolve('../rspackLoader/css-modules-typescript-pre-loader'),
+          path.resolve(
+            __dirname,
+            '../rspackLoader/css-modules-typescript-pre-loader',
+          ),
         )
         .options({
           modules: {
