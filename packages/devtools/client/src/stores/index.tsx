@@ -5,7 +5,7 @@ import { getQuery } from 'ufo';
 import {
   AppContext,
   BuilderContext,
-  FinalFrameworkConfig,
+  TransformedFrameworkConfig,
   FrameworkConfig,
 } from '@modern-js/devtools-kit';
 import { ref } from 'valtio';
@@ -30,35 +30,47 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   const deferred = {
     framework: {
       context: createDeferPromise<AppContext>(),
-      config: createDeferPromise<FrameworkConfig>(),
-      finalConfig: createDeferPromise<FinalFrameworkConfig>(),
+      config: {
+        resolved: createDeferPromise<FrameworkConfig>(),
+        transformed: createDeferPromise<TransformedFrameworkConfig>(),
+      },
     },
     builder: {
       context: createDeferPromise<BuilderContext>(),
-      config: createDeferPromise<JsonValue>(),
-      finalConfig: createDeferPromise<JsonValue>(),
+      config: {
+        resolved: createDeferPromise<JsonValue>(),
+        transformed: createDeferPromise<JsonValue>(),
+      },
     },
     bundler: {
-      configs: createDeferPromise<JsonValue[]>(),
-      finalConfigs: createDeferPromise<JsonValue[]>(),
+      config: {
+        resolved: createDeferPromise<JsonValue[]>(),
+        transformed: createDeferPromise<JsonValue[]>(),
+      },
     },
   };
   const $store = useProxyFrom<StoreContextValue>(() => ({
     dataSource,
     framework: {
-      config: deferred.framework.config.promise,
-      finalConfig: deferred.framework.finalConfig.promise,
       context: deferred.framework.context.promise,
       fileSystemRoutes: {},
+      config: {
+        resolved: deferred.framework.config.resolved.promise,
+        transformed: deferred.framework.config.transformed.promise,
+      },
     },
     builder: {
       context: deferred.builder.context.promise,
-      config: deferred.builder.config.promise,
-      finalConfig: deferred.builder.finalConfig.promise,
+      config: {
+        resolved: deferred.builder.config.resolved.promise,
+        transformed: deferred.builder.config.transformed.promise,
+      },
     },
     bundler: {
-      configs: deferred.bundler.configs.promise,
-      finalConfigs: deferred.bundler.finalConfigs.promise,
+      config: {
+        resolved: deferred.bundler.config.resolved.promise,
+        transformed: deferred.bundler.config.transformed.promise,
+      },
     },
     tabs: getDefaultTabs().map(tab => ref(tab)),
   }));
@@ -67,13 +79,19 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
 
   setupTask.then(async ({ server }) => {
     deferred.framework.context.resolve(server.getAppContext());
-    deferred.framework.config.resolve(server.getFrameworkConfig());
-    deferred.framework.finalConfig.resolve(server.getFinalFrameworkConfig());
+    deferred.framework.config.resolved.resolve(server.getFrameworkConfig());
+    deferred.framework.config.transformed.resolve(
+      server.getTransformedFrameworkConfig(),
+    );
     deferred.builder.context.resolve(server.getBuilderContext());
-    deferred.builder.config.resolve(server.getBuilderConfig());
-    deferred.builder.finalConfig.resolve(server.getFinalBuilderConfig());
-    deferred.bundler.configs.resolve(server.getBundlerConfigs());
-    deferred.bundler.finalConfigs.resolve(server.getFinalBundlerConfigs());
+    deferred.builder.config.resolved.resolve(server.getBuilderConfig());
+    deferred.builder.config.transformed.resolve(
+      server.getTransformedBuilderConfig(),
+    );
+    deferred.bundler.config.resolved.resolve(server.getBundlerConfigs());
+    deferred.bundler.config.transformed.resolve(
+      server.getTransformedBundlerConfigs(),
+    );
     const ctx = await $store.framework.context;
     for (const { entryName } of ctx.entrypoints) {
       $store.framework.fileSystemRoutes[entryName] =

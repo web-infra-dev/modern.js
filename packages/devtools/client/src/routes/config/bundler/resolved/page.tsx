@@ -6,7 +6,12 @@ import { ObjectInspector } from '@/components/ObjectInspector';
 const Page: React.FC = () => {
   const $store = useStore();
   const store = useSnapshot($store);
-  return <ObjectInspector data={store.bundler.configs} sortObjectKeys={true} />;
+  return (
+    <ObjectInspector
+      data={store.bundler.config.resolved}
+      sortObjectKeys={true}
+    />
+  );
 };
 
 export default Page;

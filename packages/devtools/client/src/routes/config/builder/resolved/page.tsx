@@ -6,7 +6,12 @@ import { ObjectInspector } from '@/components/ObjectInspector';
 const Page: React.FC = () => {
   const $store = useStore();
   const store = useSnapshot($store);
-  return <ObjectInspector data={store.builder.config} sortObjectKeys={true} />;
+  return (
+    <ObjectInspector
+      data={store.builder.config.resolved}
+      sortObjectKeys={true}
+    />
+  );
 };
 
 export default Page;

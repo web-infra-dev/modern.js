@@ -12,7 +12,7 @@ export type { BuilderContext };
 
 export type FrameworkConfig = UserConfig<AppTools>;
 
-export type FinalFrameworkConfig = NormalizedConfig<AppTools>;
+export type TransformedFrameworkConfig = NormalizedConfig<AppTools>;
 
 export type AppContext = Omit<
   IAppContext,
@@ -25,11 +25,11 @@ export type FileSystemRoutes =
 
 export interface ServerFunctions {
   getFrameworkConfig: () => Promise<FrameworkConfig>;
-  getFinalFrameworkConfig: () => Promise<FinalFrameworkConfig>;
+  getTransformedFrameworkConfig: () => Promise<TransformedFrameworkConfig>;
   getBuilderConfig: () => Promise<JsonValue>;
-  getFinalBuilderConfig: () => Promise<JsonValue>;
+  getTransformedBuilderConfig: () => Promise<JsonValue>;
   getBundlerConfigs: () => Promise<JsonValue[]>;
-  getFinalBundlerConfigs: () => Promise<JsonValue[]>;
+  getTransformedBundlerConfigs: () => Promise<JsonValue[]>;
   getAppContext: () => Promise<AppContext>;
   getFileSystemRoutes: (entryName: string) => Promise<FileSystemRoutes>;
   getBuilderContext: () => Promise<BuilderContext>;

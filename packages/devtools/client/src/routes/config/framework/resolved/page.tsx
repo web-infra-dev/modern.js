@@ -7,7 +7,10 @@ const Page: React.FC = () => {
   const $store = useStore();
   const store = useSnapshot($store);
   return (
-    <ObjectInspector data={store.framework.config} sortObjectKeys={true} />
+    <ObjectInspector
+      data={store.framework.config.resolved}
+      sortObjectKeys={true}
+    />
   );
 };
 

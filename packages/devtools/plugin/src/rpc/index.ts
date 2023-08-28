@@ -57,20 +57,20 @@ export const setupClientConnection = async (
       await deferred.prepare.promise;
       return api.useConfigContext();
     },
-    async getFinalFrameworkConfig() {
+    async getTransformedFrameworkConfig() {
       await deferred.prepare.promise;
       return api.useResolvedConfigContext();
     },
     async getBuilderConfig() {
       return deferred.builderConfig.promise;
     },
-    async getFinalBuilderConfig() {
+    async getTransformedBuilderConfig() {
       return deferred.finalBuilderConfig.promise;
     },
     async getBundlerConfigs() {
       return deferred.bundlerConfigs.promise;
     },
-    async getFinalBundlerConfigs() {
+    async getTransformedBundlerConfigs() {
       return deferred.finalBundlerConfigs.promise;
     },
     async getAppContext() {
