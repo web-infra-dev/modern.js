@@ -7,7 +7,7 @@ import type {
 } from '@modern-js/devtools-kit';
 import type { JsonValue } from 'type-fest';
 import { createBirpc, BirpcOptions } from '@modern-js/devtools-kit/birpc';
-import createDeferPromise, { DeferredPromise } from 'p-defer';
+import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
 import { getPort } from '@modern-js/utils';
 import type { BuilderContext, BuilderPlugin } from '@modern-js/builder-shared';
@@ -44,12 +44,20 @@ export const setupClientConnection = async (
    */
   const deferred = {
     prepare: createDeferPromise<void>(),
-    builderContext: createDeferPromise<BuilderContext>(),
-    builderConfig: createDeferPromise<JsonValue>(),
-    finalBuilderConfig: createDeferPromise<JsonValue>(),
-    bundlerConfigs: createDeferPromise<JsonValue[]>(),
-    finalBundlerConfigs: createDeferPromise<JsonValue[]>(),
-  } satisfies Record<string, DeferredPromise<any>>;
+    builder: {
+      context: createDeferPromise<BuilderContext>(),
+      config: {
+        resolved: createDeferPromise<JsonValue>(),
+        transformed: createDeferPromise<JsonValue>(),
+      },
+    },
+    bundler: {
+      config: {
+        resolved: createDeferPromise<JsonValue[]>(),
+        transformed: createDeferPromise<JsonValue[]>(),
+      },
+    },
+  } as const;
 
   // setup rpc instance (server <-> client).
   const serverFunctions: ServerFunctions = {
@@ -62,16 +70,16 @@ export const setupClientConnection = async (
       return api.useResolvedConfigContext();
     },
     async getBuilderConfig() {
-      return deferred.builderConfig.promise;
+      return deferred.builder.config.resolved.promise;
     },
     async getTransformedBuilderConfig() {
-      return deferred.finalBuilderConfig.promise;
+      return deferred.builder.config.transformed.promise;
     },
     async getBundlerConfigs() {
-      return deferred.bundlerConfigs.promise;
+      return deferred.bundler.config.resolved.promise;
     },
     async getTransformedBundlerConfigs() {
-      return deferred.finalBundlerConfigs.promise;
+      return deferred.bundler.config.transformed.promise;
     },
     async getAppContext() {
       await deferred.prepare.promise;
@@ -82,7 +90,7 @@ export const setupClientConnection = async (
       return _fileSystemRoutesMap[entryName] ?? [];
     },
     async getBuilderContext() {
-      const ctx = await deferred.builderContext.promise;
+      const ctx = await deferred.builder.context.promise;
       return ctx;
     },
     echo(content) {
@@ -119,10 +127,12 @@ export const setupClientConnection = async (
   const builderPlugin: BuilderPlugin<BuilderPluginAPI> = {
     name: 'builder-plugin-devtools',
     setup(api) {
-      deferred.builderContext.resolve(api.context);
+      deferred.builder.context.resolve(api.context);
       api.modifyBundlerChain(() => {
-        deferred.builderConfig.resolve(api.getBuilderConfig() as any);
-        deferred.finalBuilderConfig.resolve(api.getNormalizedConfig() as any);
+        deferred.builder.config.resolved.resolve(api.getBuilderConfig() as any);
+        deferred.builder.config.transformed.resolve(
+          api.getNormalizedConfig() as any,
+        );
       });
 
       const modifyBundlerConfig =
@@ -134,12 +144,12 @@ export const setupClientConnection = async (
       modifyBundlerConfig(config => {
         bundlerConfigs.push(config as any);
         if (bundlerConfigs.length >= expectBundlerNum) {
-          deferred.bundlerConfigs.resolve(bundlerConfigs);
+          deferred.bundler.config.resolved.resolve(bundlerConfigs);
         }
       });
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-        deferred.finalBundlerConfigs.resolve(bundlerConfigs as any);
+        deferred.bundler.config.transformed.resolve(bundlerConfigs as any);
       });
     },
   };
