@@ -8,11 +8,16 @@ const Page: React.FC = () => {
   const store = useSnapshot($store);
   const { entrypoints, serverRoutes } = store.framework.context;
   const { fileSystemRoutes } = store.framework;
+
+  const routes = serverRoutes.map(route => ({
+    ...route,
+    entry: entrypoints.find(entry => entry.entryName === route.entryName),
+    fileSystemRoutes: route.entryName && fileSystemRoutes[route.entryName],
+  }));
+
   return (
     <div>
-      <ObjectInspector data={entrypoints} sortObjectKeys={true} />
-      <ObjectInspector data={serverRoutes} sortObjectKeys={true} />
-      <ObjectInspector data={fileSystemRoutes} sortObjectKeys={true} />
+      <ObjectInspector data={routes} sortObjectKeys={true} />
     </div>
   );
 };
