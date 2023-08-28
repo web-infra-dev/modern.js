@@ -86,27 +86,22 @@ export default class Entry {
 
   private readonly pluginConfig: SSRPluginConfig;
 
-  private readonly host: string;
+  private readonly htmlModifiers: SSRServerContext['htmlModifiers'];
 
   private readonly nonce?: string;
 
   constructor(options: EntryOptions) {
     const { ctx, config } = options;
-    const {
-      entryName,
-      template,
-      request: { host },
-      nonce,
-    } = ctx;
+    const { entryName, template, nonce } = ctx;
 
     this.template = template;
     this.entryName = entryName;
-    this.host = host;
     this.App = options.App;
     this.pluginConfig = config;
 
     this.tracker = createSSRTracker(ctx);
     this.metrics = ctx.metrics;
+    this.htmlModifiers = ctx.htmlModifiers;
     this.nonce = nonce;
 
     this.result = {
@@ -159,6 +154,7 @@ export default class Entry {
       createReplaceChunkJs(this.result.chunksMap.js),
       createReplaceHtml(this.result.html || ''),
       createReplaceSSRDataScript(ssrDataScripts),
+      ...this.htmlModifiers,
     ]);
     const helmetData: HelmetData = ReactHelmet.renderStatic();
 

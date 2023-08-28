@@ -23,6 +23,11 @@ export const ssr = (config: SSRPluginConfig = {}): Plugin => ({
 
         context.ssrContext!.request = formatServer(request);
         context.ssrContext!.mode = config.mode;
+
+        if (context.ssrContext!.htmlModifiers) {
+          context.ssrContext!.htmlModifiers = [];
+        }
+
         return next({ context });
       },
       pickContext: ({ context, pickedContext }, next) => {
