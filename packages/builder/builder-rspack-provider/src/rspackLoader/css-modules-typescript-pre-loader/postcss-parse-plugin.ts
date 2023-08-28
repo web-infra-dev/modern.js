@@ -1,5 +1,5 @@
 // @ts-expect-error
-import { extractICSS } from 'icss-utils';
+import { extractICSS } from '@modern-js/builder-shared/icss-utils';
 import { camelCase } from '@modern-js/utils/lodash';
 import type { CssModuleLocalsConvention } from '@modern-js/builder-shared';
 
@@ -44,7 +44,7 @@ const getExportLocalsConvention = (
 const plugin = (options: PostcssParsePluginOptions): PostCSSPlugin => {
   return {
     postcssPlugin: 'postcss-icss-parser',
-    async OnceExit(root) {
+    OnceExit(root) {
       const { icssExports } = extractICSS(root);
 
       const cssModuleKeys = Object.keys(icssExports).reduce<string[]>(

@@ -19,25 +19,23 @@ async function processCss(
   const { default: postcss } = await import('postcss');
 
   const { default: localByDefault } = await import(
-    // @ts-expect-error
-    'postcss-modules-local-by-default'
+    '@modern-js/builder-shared/postcss-modules-local-by-default'
   );
 
-  // @ts-expect-error
-  const { default: modulesScope } = await import('postcss-modules-scope');
+  const { default: modulesScope } = await import(
+    '@modern-js/builder-shared/postcss-modules-scope'
+  );
 
   const { default: cssModuleKeysParserPlugin } = await import(
     './postcss-parse-plugin'
   );
 
   const { default: extractImports } = await import(
-    // @ts-expect-error
-    'postcss-modules-extract-imports'
+    '@modern-js/builder-shared/postcss-modules-extract-imports'
   );
 
   const { default: modulesValues } = await import(
-    // @ts-expect-error
-    'postcss-modules-values'
+    '@modern-js/builder-shared/postcss-modules-values'
   );
 
   const parserOptions = {

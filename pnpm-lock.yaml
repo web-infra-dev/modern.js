@@ -188,6 +188,9 @@ importers:
       core-js:
         specifier: ~3.30.0
         version: 3.30.0
+      postcss:
+        specifier: 8.4.27
+        version: 8.4.27
       react-refresh:
         specifier: 0.14.0
         version: 0.14.0
@@ -219,9 +222,6 @@ importers:
       antd:
         specifier: '4'
         version: 4.21.4(react-dom@18.2.0)(react@18.2.0)
-      postcss:
-        specifier: 8.4.27
-        version: 8.4.27
       react:
         specifier: ^18
         version: 18.2.0
@@ -6362,6 +6362,9 @@ importers:
       gzip-size:
         specifier: 6.0.0
         version: 6.0.0
+      icss-utils:
+        specifier: 5.1.0
+        version: 5.1.0(postcss@8.4.27)
       import-lazy:
         specifier: 4.0.0
         version: 4.0.0
@@ -6431,6 +6434,18 @@ importers:
       postcss-media-minmax:
         specifier: 5.0.0
         version: 5.0.0(postcss@8.4.27)
+      postcss-modules-extract-imports:
+        specifier: 3.0.0
+        version: 3.0.0(postcss@8.4.27)
+      postcss-modules-local-by-default:
+        specifier: 4.0.3
+        version: 4.0.3(postcss@8.4.27)
+      postcss-modules-scope:
+        specifier: 3.0.0
+        version: 3.0.0(postcss@8.4.27)
+      postcss-modules-values:
+        specifier: 4.0.0
+        version: 4.0.0(postcss@8.4.27)
       postcss-nesting:
         specifier: 10.1.4
         version: 10.1.4(postcss@8.4.27)
@@ -20285,7 +20300,7 @@ packages:
       loader-utils: 2.0.4
       postcss: 8.4.27
       postcss-modules-extract-imports: 3.0.0(postcss@8.4.27)
-      postcss-modules-local-by-default: 4.0.0(postcss@8.4.27)
+      postcss-modules-local-by-default: 4.0.3(postcss@8.4.27)
       postcss-modules-scope: 3.0.0(postcss@8.4.27)
       postcss-modules-values: 4.0.0(postcss@8.4.27)
       postcss-value-parser: 4.2.0
@@ -20303,7 +20318,7 @@ packages:
       icss-utils: 5.1.0(postcss@8.4.27)
       postcss: 8.4.27
       postcss-modules-extract-imports: 3.0.0(postcss@8.4.27)
-      postcss-modules-local-by-default: 4.0.0(postcss@8.4.27)
+      postcss-modules-local-by-default: 4.0.3(postcss@8.4.27)
       postcss-modules-scope: 3.0.0(postcss@8.4.27)
       postcss-modules-values: 4.0.0(postcss@8.4.27)
       postcss-value-parser: 4.2.0
@@ -29449,6 +29464,18 @@ packages:
 
   /postcss-modules-local-by-default@4.0.0(postcss@8.4.27):
     resolution: {integrity: sha512-sT7ihtmGSF9yhm6ggikHdV0hlziDTX7oFoXtuVWeDd3hHObNkcHRo9V3yg7vCAY7cONyxJC/XXCmmiHHcvX7bQ==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.4.27)
+      postcss: 8.4.27
+      postcss-selector-parser: 6.0.11
+      postcss-value-parser: 4.2.0
+    dev: true
+
+  /postcss-modules-local-by-default@4.0.3(postcss@8.4.27):
+    resolution: {integrity: sha512-2/u2zraspoACtrbFRnTijMiQtb4GW4BvatjaG/bCjYQo8kLTdevCUlwuBHx2sCnSyrI3x3qj4ZK1j5LQBgzmwA==}
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0

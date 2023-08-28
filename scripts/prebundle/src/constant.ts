@@ -195,6 +195,35 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'css-loader',
         ignoreDts: true,
+        externals: {
+          'postcss-modules-local-by-default':
+            '../postcss-modules-local-by-default',
+          'postcss-modules-extract-imports':
+            '../postcss-modules-extract-imports',
+          'postcss-modules-scope': '../postcss-modules-scope',
+          'postcss-modules-values': '../postcss-modules-values',
+          'icss-utils': '../icss-utils',
+        },
+      },
+      {
+        name: 'postcss-modules-local-by-default',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-modules-extract-imports',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-modules-scope',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-modules-values',
+        ignoreDts: true,
+      },
+      {
+        name: 'icss-utils',
+        ignoreDts: true,
       },
       {
         name: 'webpack-bundle-analyzer',
