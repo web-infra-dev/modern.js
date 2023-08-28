@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDomServer from 'react-dom/server';
 import { serializeJson } from '@modern-js/utils/runtime-node';
 import ReactHelmet, { HelmetData } from 'react-helmet';
 // Todo: This import will introduce router code, like remix, even if router config is false
@@ -25,10 +24,16 @@ import {
   createSSRTracker,
 } from '../tracker';
 import { SSRServerContext, RenderResult } from './type';
-import { Fragment, toFragments } from './template';
-import { reduce } from './reduce';
-import * as loadableRenderer from './loadable';
-import * as styledComponentRenderer from './styledComponent';
+import { createLoadableCollector } from './loadable';
+import { createRender } from './render';
+import { createStyledCollector } from './styledComponent';
+import {
+  buildHtml,
+  createReplaceChunkCss,
+  createReplaceChunkJs,
+  createReplaceHtml,
+  createReplaceSSRDataScript,
+} from './buildHtml';
 
 type EntryOptions = {
   ctx: SSRServerContext;
@@ -79,8 +84,6 @@ export default class Entry {
 
   private readonly App: ModernSSRReactComponent;
 
-  private readonly fragments: Fragment[];
-
   private readonly pluginConfig: SSRPluginConfig;
 
   private readonly host: string;
@@ -96,7 +99,6 @@ export default class Entry {
       nonce,
     } = ctx;
 
-    this.fragments = toFragments(template, entryName);
     this.template = template;
     this.entryName = entryName;
     this.host = host;
@@ -144,22 +146,20 @@ export default class Entry {
         }
       : undefined;
 
-    let html = '';
     const templateData = buildTemplateData(
       ssrContext,
       prefetchData,
       this.result.renderLevel,
       this.tracker,
     );
-    const SSRData = this.getSSRDataScript(templateData, routerData);
-    for (const fragment of this.fragments) {
-      if (fragment.isVariable && fragment.content === 'SSRDataScript') {
-        html += fragment.getValue(SSRData);
-      } else {
-        html += fragment.getValue(this.result);
-      }
-    }
+    const ssrDataScripts = this.getSSRDataScript(templateData, routerData);
 
+    const html = buildHtml(this.template, [
+      createReplaceChunkCss(this.result.chunksMap.css),
+      createReplaceChunkJs(this.result.chunksMap.js),
+      createReplaceHtml(this.result.html || ''),
+      createReplaceSSRDataScript(ssrDataScripts),
+    ]);
     const helmetData: HelmetData = ReactHelmet.renderStatic();
 
     return helmetData ? helmetReplace(html, helmetData) : html;
@@ -193,20 +193,19 @@ export default class Entry {
         context: Object.assign(context, { ssr: true }),
       });
 
-      const renderContext = {
-        stats: ssrContext!.loadableStats,
-        host: this.host,
-        result: this.result,
-        entryName: this.entryName,
-        config: this.pluginConfig,
-        nonce: this.nonce,
-        template: this.template,
-      };
-      html = reduce(App, renderContext, [
-        styledComponentRenderer.toHtml,
-        loadableRenderer.toHtml,
-        (jsx: React.ReactElement) => ReactDomServer.renderToString(jsx),
-      ]);
+      html = createRender(App)
+        .addCollector(createStyledCollector(this.result))
+        .addCollector(
+          createLoadableCollector({
+            stats: ssrContext!.loadableStats,
+            result: this.result,
+            entryName: this.entryName,
+            config: this.pluginConfig,
+            nonce: this.nonce,
+            template: this.template,
+          }),
+        )
+        .finish();
 
       const cost = end();
       this.tracker.trackTiming(SSRTimings.SSR_RENDER_HTML, cost);
@@ -236,8 +235,6 @@ export default class Entry {
         ? `\n<script${attrsStr}>window._ROUTER_DATA = ${serializedRouterData}</script>`
         : `\n<script type="application/json" id="${ROUTER_DATA_JSON_ID}">${serializedRouterData}</script>`;
     }
-    return {
-      SSRDataScript: ssrDataScripts,
-    };
+    return ssrDataScripts;
   }
 }

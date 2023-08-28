@@ -1,7 +1,11 @@
 import { RenderLevel, RuntimeContext } from '../types';
 import { buildShellAfterTemplate } from './buildTemplate.after';
 import { buildShellBeforeTemplate } from './bulidTemplate.before';
-import { InjectTemplate } from './type';
+
+export type InjectTemplate = {
+  shellBefore: string;
+  shellAfter: string;
+};
 
 const HTML_SEPARATOR = '<!--<?- html ?>-->';
 

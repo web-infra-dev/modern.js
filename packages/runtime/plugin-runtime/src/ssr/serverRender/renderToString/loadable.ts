@@ -1,6 +1,9 @@
 import { ChunkExtractor } from '@loadable/server';
+import { ReactElement } from 'react';
 import { attributesToString, getLoadableScripts } from '../utils';
-import { RenderHandler } from './type';
+import { SSRPluginConfig } from '../types';
+import { RenderResult } from './type';
+import type { Collector } from './render';
 
 const extname = (uri: string): string => {
   if (typeof uri !== 'string' || !uri.includes('.')) {
@@ -9,62 +12,90 @@ const extname = (uri: string): string => {
   return `.${uri?.split('.').pop()}` || '';
 };
 
-export const toHtml: RenderHandler = (jsx, renderer, next) => {
-  const {
-    stats,
-    result: { chunksMap },
-    config = {},
-    nonce,
-  } = renderer;
+class LoadableCollector implements Collector {
+  private options: LoadableCollectorOptions;
 
-  if (!stats || chunksMap.js) {
-    return next(jsx);
+  private extractor?: ChunkExtractor;
+
+  constructor(options: LoadableCollectorOptions) {
+    this.options = options;
   }
 
-  const extractor = new ChunkExtractor({
-    stats,
-    entrypoints: [renderer.entryName],
-  });
+  collect(comopnent: ReactElement): ReactElement {
+    const { stats, entryName } = this.options;
 
-  const html = next(extractor.collectChunks(jsx));
-  const chunks = extractor.getChunkAssets(extractor.chunks);
-
-  chunksMap.js = (chunksMap.js || '') + getLoadableScripts(extractor);
-
-  for (const v of chunks) {
-    const fileType = extname(v.url!).slice(1);
-    const attributes: Record<string, any> = {};
-    const { crossorigin, scriptLoading = 'defer' } = config;
-    if (crossorigin) {
-      attributes.crossorigin = crossorigin === true ? 'anonymous' : crossorigin;
+    if (!stats) {
+      return comopnent;
     }
 
-    switch (scriptLoading) {
-      case 'defer':
-        attributes.defer = true;
-        break;
-      case 'module':
-        attributes.type = 'module';
-        break;
-      default:
-    }
+    this.extractor = new ChunkExtractor({
+      stats,
+      entrypoints: [entryName],
+    });
 
-    if (fileType === 'js') {
-      const jsChunkReg = new RegExp(`<script .*src="${v.url}".*>`);
-      // we should't repeatly registe the script, if template already has it.
-      if (!jsChunkReg.test(renderer.template)) {
-        // `nonce` attrs just for script tag
-        attributes.nonce = nonce;
-        const attrsStr = attributesToString(attributes);
-        chunksMap[fileType] += `<script${attrsStr} src="${v.url}"></script>`;
+    return this.extractor.collectChunks(comopnent);
+  }
+
+  effect() {
+    if (!this.extractor) {
+      return;
+    }
+    const {
+      result: { chunksMap },
+      config,
+      template,
+      nonce,
+    } = this.options;
+    const { extractor } = this;
+    const chunks = extractor.getChunkAssets(extractor.chunks);
+
+    chunksMap.js = (chunksMap.js || '') + getLoadableScripts(extractor);
+
+    for (const v of chunks) {
+      const fileType = extname(v.url!).slice(1);
+      const attributes: Record<string, any> = {};
+      const { crossorigin, scriptLoading = 'defer' } = config;
+      if (crossorigin) {
+        attributes.crossorigin =
+          crossorigin === true ? 'anonymous' : crossorigin;
       }
-    } else if (fileType === 'css') {
-      const attrsStr = attributesToString(attributes);
-      chunksMap[
-        fileType
-      ] += `<link${attrsStr} href="${v.url}" rel="stylesheet" />`;
+
+      switch (scriptLoading) {
+        case 'defer':
+          attributes.defer = true;
+          break;
+        case 'module':
+          attributes.type = 'module';
+          break;
+        default:
+      }
+
+      if (fileType === 'js') {
+        const jsChunkReg = new RegExp(`<script .*src="${v.url}".*>`);
+        // we should't repeatly registe the script, if template already has it.
+        if (!jsChunkReg.test(template)) {
+          // `nonce` attrs just for script tag
+          attributes.nonce = nonce;
+          const attrsStr = attributesToString(attributes);
+          chunksMap[fileType] += `<script${attrsStr} src="${v.url}"></script>`;
+        }
+      } else if (fileType === 'css') {
+        const attrsStr = attributesToString(attributes);
+        chunksMap[
+          fileType
+        ] += `<link${attrsStr} href="${v.url}" rel="stylesheet" />`;
+      }
     }
   }
-
-  return html;
-};
+}
+export interface LoadableCollectorOptions {
+  nonce?: string;
+  stats?: Record<string, any>;
+  template: string;
+  config: SSRPluginConfig;
+  entryName: string;
+  result: RenderResult;
+}
+export function createLoadableCollector(options: LoadableCollectorOptions) {
+  return new LoadableCollector(options);
+}
