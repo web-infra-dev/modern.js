@@ -100,13 +100,13 @@ export default function Home() {
       desc: t('solutionsDesc2'),
     },
     {
-      title: 'Modern.js Doc',
-      href: `https://modernjs.dev/doc-tools${lang === 'en' ? '' : '/zh'}`,
+      title: 'Modern.js Builder',
+      href: `https://modernjs.dev/builder${lang === 'en' ? '/en' : ''}`,
       desc: t('solutionsDesc3'),
     },
     {
-      title: 'Modern.js Builder',
-      href: `https://modernjs.dev/builder${lang === 'en' ? '/en' : ''}`,
+      title: 'Rspress',
+      href: `https://rspress.dev${lang === 'en' ? '' : '/zh'}`,
       desc: t('solutionsDesc4'),
     },
   ];
