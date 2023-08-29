@@ -5,11 +5,8 @@ import type { CssModuleLocalsConvention } from '@modern-js/builder-shared';
 
 import type { AcceptedPlugin as PostCSSPlugin } from 'postcss';
 
-function dashesCamelCase(str: string) {
-  return str.replace(/-+(\w)/g, (_match, firstLetter) =>
-    firstLetter.toUpperCase(),
-  );
-}
+const dashesCamelCase = (str: string) =>
+  str.replace(/-+(\w)/g, (_match, firstLetter) => firstLetter.toUpperCase());
 
 export type PostcssParsePluginOptions = {
   exportLocalsConvention: CssModuleLocalsConvention;

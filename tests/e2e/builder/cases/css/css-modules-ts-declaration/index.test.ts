@@ -97,3 +97,34 @@ test('should generator ts declaration correctly for css modules auto Regexp', as
 
   await clear();
 });
+
+test('should generator ts declaration correctly for custom exportLocalsConvention', async () => {
+  const testDir = join(fixtures, 'test-src-4');
+  const clear = await generatorTempDir(testDir);
+
+  await build({
+    cwd: __dirname,
+    entry: { index: resolve(testDir, 'index.js') },
+    builderConfig: {
+      output: {
+        disableSourceMap: true,
+        enableCssModuleTSDeclaration: true,
+        cssModules: {
+          auto: /\.module\./i,
+          exportLocalsConvention: 'asIs',
+        },
+      },
+    },
+  });
+
+  expect(fs.existsSync(join(testDir, './b.module.scss.d.ts'))).toBeTruthy();
+
+  const content = fs.readFileSync(join(testDir, './b.module.scss.d.ts'), {
+    encoding: 'utf-8',
+  });
+
+  expect(content).toMatch(/'the-b-class': string;/);
+  expect(content).not.toMatch(/'theBClass': string;/);
+
+  await clear();
+});

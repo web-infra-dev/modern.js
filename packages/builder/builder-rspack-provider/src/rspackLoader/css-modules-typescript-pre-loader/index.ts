@@ -96,6 +96,7 @@ export default async function (
   // @ts-expect-error
   this.cssModuleKeys = cssModuleKeys;
 
+  // rspack loader type is not exactly the same as webpack loader type
   // @ts-expect-error
   return cssModulesTypescriptLoader.call(this, content, ...input);
 }
