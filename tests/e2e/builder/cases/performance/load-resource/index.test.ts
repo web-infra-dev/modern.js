@@ -42,7 +42,7 @@ test('should generate prefetch link when prefetch is defined', async () => {
   ).toBeTruthy();
 });
 
-test.only('should generate prefetch link correctly when assetPrefix do not have a protocol', async () => {
+test('should generate prefetch link correctly when assetPrefix do not have a protocol', async () => {
   const builder = await build({
     cwd: fixtures,
     entry: {
