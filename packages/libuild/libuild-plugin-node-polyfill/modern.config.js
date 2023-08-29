@@ -3,13 +3,26 @@ module.exports = {
     {
       format: 'cjs',
       target: 'es2019',
-      dts: false
-    }, {
+      dts: false,
+    },
+    {
       buildType: 'bundleless',
       dts: {
-        only: true
-      }
-    }
-  ]
+        only: true,
+      },
+    },
+    {
+      target: 'esnext',
+      format: 'esm',
+      input: ['./src/mock/*'],
+      outDir: 'dist/mock',
+      dts: false,
+    },
+    {
+      target: 'esnext',
+      format: 'esm',
+      input: ['./src/globals.js'],
+      dts: false,
+    },
+  ],
 };
-

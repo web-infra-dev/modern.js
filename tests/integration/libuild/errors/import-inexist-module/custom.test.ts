@@ -5,7 +5,7 @@ import { getLibuilderTest } from '@/toolkit';
 describe('errors', () => {
   it('custom error should be LibuildError', async () => {
     const bundler = await getLibuilderTest({
-      root: path.resolve(__dirname, '../'),
+      root: __dirname,
     });
     try {
       await bundler.build();
@@ -17,7 +17,7 @@ describe('errors', () => {
   });
   it('LibuildError toString', async () => {
     const bundler = await getLibuilderTest({
-      root: path.resolve(__dirname, '../'),
+      root: __dirname,
     });
     try {
       await bundler.build();
