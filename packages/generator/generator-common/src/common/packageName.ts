@@ -14,9 +14,7 @@ export const getPackageNameSchema = (
         dependencies: [],
         fulfill: {
           state: {
-            visible:
-              Boolean(extra?.isMonorepoSubProject) ||
-              (!extra?.isMwa && !extra?.isDoc),
+            visible: Boolean(extra?.isMonorepoSubProject) || !extra?.isMwa,
           },
         },
       },
