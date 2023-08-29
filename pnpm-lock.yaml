@@ -2096,45 +2096,6 @@ importers:
         specifier: ^5
         version: 5.0.4
 
-  packages/generator/generators/doc-generator:
-    devDependencies:
-      '@modern-js/base-generator':
-        specifier: workspace:*
-        version: link:../base-generator
-      '@modern-js/codesmith':
-        specifier: 2.2.5
-        version: 2.2.5(react-dom@18.2.0)(react@18.2.0)
-      '@modern-js/codesmith-api-app':
-        specifier: 2.2.5
-        version: 2.2.5(@modern-js/codesmith@2.2.5)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
-      '@modern-js/generator-common':
-        specifier: workspace:*
-        version: link:../../generator-common
-      '@modern-js/generator-utils':
-        specifier: workspace:*
-        version: link:../../generator-utils
-      '@modern-js/plugin-i18n':
-        specifier: workspace:*
-        version: link:../../../cli/plugin-i18n
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
-      typescript:
-        specifier: ^5
-        version: 5.0.4
-
   packages/generator/generators/entry-generator:
     devDependencies:
       '@modern-js/codesmith':
@@ -2461,9 +2422,6 @@ importers:
       '@modern-js/codesmith-api-app':
         specifier: 2.2.5
         version: 2.2.5(@modern-js/codesmith@2.2.5)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
-      '@modern-js/doc-generator':
-        specifier: workspace:*
-        version: link:../doc-generator
       '@modern-js/generator-common':
         specifier: workspace:*
         version: link:../../generator-common
