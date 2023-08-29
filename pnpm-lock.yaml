@@ -2167,9 +2167,15 @@ importers:
       '@modern-js/app-tools':
         specifier: workspace:*
         version: link:../../solutions/app-tools
+      '@modern-js/builder-rspack-provider':
+        specifier: workspace:*
+        version: link:../../builder/builder-rspack-provider
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../../builder/builder-shared
+      '@modern-js/builder-webpack-provider':
+        specifier: workspace:*
+        version: link:../../builder/builder-webpack-provider
       '@modern-js/core':
         specifier: workspace:*
         version: link:../../cli/core

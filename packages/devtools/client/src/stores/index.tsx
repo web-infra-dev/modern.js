@@ -7,6 +7,8 @@ import {
   BuilderContext,
   TransformedFrameworkConfig,
   FrameworkConfig,
+  BuilderConfig,
+  NormalizedBuilderConfig,
 } from '@modern-js/devtools-kit';
 import { ref } from 'valtio';
 import type { JsonValue } from 'type-fest';
@@ -38,8 +40,8 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     builder: {
       context: createDeferPromise<BuilderContext>(),
       config: {
-        resolved: createDeferPromise<JsonValue>(),
-        transformed: createDeferPromise<JsonValue>(),
+        resolved: createDeferPromise<BuilderConfig>(),
+        transformed: createDeferPromise<NormalizedBuilderConfig>(),
       },
     },
     bundler: {
@@ -51,6 +53,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   };
   const $store = useProxyFrom<StoreContextValue>(() => ({
     dataSource,
+    location: '/',
     framework: {
       context: deferred.framework.context.promise,
       fileSystemRoutes: {},

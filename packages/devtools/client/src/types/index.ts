@@ -1,13 +1,15 @@
 import type {
   AppContext,
+  BuilderConfig,
   BuilderContext,
   CustomTabView,
   FileSystemRoutes,
+  NormalizedBuilderConfig,
   TransformedFrameworkConfig,
 } from '@modern-js/devtools-kit';
 import { FrameworkConfig } from '@modern-js/devtools-kit';
 import { ReactElement } from 'react';
-import { JsonArray, JsonValue, Promisable } from 'type-fest';
+import { JsonArray, Promisable } from 'type-fest';
 
 export interface StoreContextValue {
   dataSource: string;
@@ -22,8 +24,8 @@ export interface StoreContextValue {
   builder: {
     context: Promise<BuilderContext>;
     config: {
-      resolved: Promise<JsonValue>;
-      transformed: Promise<JsonValue>;
+      resolved: Promise<BuilderConfig>;
+      transformed: Promise<NormalizedBuilderConfig>;
     };
   };
   bundler: {

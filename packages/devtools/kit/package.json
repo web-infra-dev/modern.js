@@ -55,6 +55,8 @@
   "devDependencies": {
     "react": "~18.2.0",
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",

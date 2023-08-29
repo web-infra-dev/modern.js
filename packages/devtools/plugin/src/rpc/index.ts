@@ -1,8 +1,10 @@
 import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
 import type {
+  BuilderConfig,
   ClientFunctions,
   FileSystemRoutes,
+  NormalizedBuilderConfig,
   ServerFunctions,
 } from '@modern-js/devtools-kit';
 import type { JsonValue } from 'type-fest';
@@ -47,8 +49,8 @@ export const setupClientConnection = async (
     builder: {
       context: createDeferPromise<BuilderContext>(),
       config: {
-        resolved: createDeferPromise<JsonValue>(),
-        transformed: createDeferPromise<JsonValue>(),
+        resolved: createDeferPromise<BuilderConfig>(),
+        transformed: createDeferPromise<NormalizedBuilderConfig>(),
       },
     },
     bundler: {
