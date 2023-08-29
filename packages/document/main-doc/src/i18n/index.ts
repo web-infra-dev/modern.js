@@ -1,4 +1,4 @@
-import { withBase, useLang } from '@modern-js/doc-tools/runtime';
+import { withBase, useLang } from 'rspress/runtime';
 import { EN_US } from './enUS';
 import { ZH_CN } from './zhCN';
 

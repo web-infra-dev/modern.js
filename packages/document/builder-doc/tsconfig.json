@@ -3,5 +3,5 @@
   "compilerOptions": {
     "jsx": "preserve"
   },
-  "include": ["docs", "modern.config.ts", "src"]
+  "include": ["docs", "rspress.config.ts", "src"]
 }

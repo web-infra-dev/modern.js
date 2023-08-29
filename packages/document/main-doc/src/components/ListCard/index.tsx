@@ -1,5 +1,5 @@
 import React from 'react';
-import { withBase } from '@modern-js/doc-tools/runtime';
+import { withBase } from 'rspress/runtime';
 import styles from './index.module.css';
 
 export interface ICardProps {

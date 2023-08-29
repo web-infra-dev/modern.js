@@ -1,4 +1,4 @@
-import { useLang, withBase } from '@modern-js/doc-tools/runtime';
+import { useLang, withBase } from 'rspress/runtime';
 
 export function useUrl(url: string) {
   const lang = useLang();

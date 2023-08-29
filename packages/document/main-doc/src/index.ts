@@ -1,4 +1,4 @@
-import Theme from '@modern-js/doc-tools/theme';
+import Theme from 'rspress/theme';
 import HomeLayout from './pages';
 
 export default {
@@ -6,4 +6,5 @@ export default {
   HomeLayout,
 };
 
-export * from '@modern-js/doc-tools/theme';
+// eslint-disable-next-line import/export
+export * from 'rspress/theme';
