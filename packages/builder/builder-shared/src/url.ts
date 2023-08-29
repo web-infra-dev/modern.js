@@ -1,5 +1,4 @@
 import { URL } from 'url';
-import path from 'path';
 import { urlJoin } from '@modern-js/utils';
 
 export const withPublicPath = (str: string, base: string) => {
@@ -11,28 +10,11 @@ export const withPublicPath = (str: string, base: string) => {
     return str;
   }
 
-  if (base.startsWith('//')) {
-    return urlJoin(base, str);
-  }
-
   // Only absolute url with hostname & protocol can be parsed into URL instance.
   // e.g. str is https://example.com/foo.js
   try {
     return new URL(str).toString();
   } catch {}
 
-  // Or it should be a relative path.
-  // Let's join the publicPath.
-  // e.g. str is ./foo.js
-  try {
-    // `base` is a url with hostname & protocol.
-    // e.g. base is https://example.com/static
-    const url = new URL(base);
-    url.pathname = path.posix.resolve(url.pathname, str);
-    return url.toString();
-  } catch {
-    // without hostname & protocol.
-    // e.g. base is /
-    return path.posix.resolve(base, str);
-  }
+  return urlJoin(base, str);
 };

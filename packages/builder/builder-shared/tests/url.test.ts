@@ -9,15 +9,15 @@ describe('withPublicPath', () => {
       'https://www.example.com/static/foo/bar.js',
     );
     expect(withPublicPath('foo/bar.js', '/')).toBe('/foo/bar.js');
-    expect(withPublicPath('./foo/bar.js', PUBLIC_PATH)).toBe(
+    expect(withPublicPath('/foo/bar.js', PUBLIC_PATH)).toBe(
       'https://www.example.com/static/foo/bar.js',
     );
-    expect(withPublicPath('./foo/bar.js', '/')).toBe('/foo/bar.js');
+    expect(withPublicPath('/foo/bar.js', '/')).toBe('/foo/bar.js');
   });
 
   it('should handle absolute url', () => {
     expect(withPublicPath('/foo/bar.js', PUBLIC_PATH)).toBe(
-      'https://www.example.com/foo/bar.js',
+      'https://www.example.com/static/foo/bar.js',
     );
     expect(withPublicPath('/foo/bar.js', '/')).toBe('/foo/bar.js');
   });
