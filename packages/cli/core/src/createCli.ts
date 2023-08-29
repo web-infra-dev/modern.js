@@ -200,6 +200,5 @@ export const createCli = () => {
     test,
     runCommand,
     getPrevInitOptions: () => initOptions,
-    getRunner: () => hooksRunner,
   };
 };

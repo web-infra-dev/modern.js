@@ -12,7 +12,7 @@
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
+    "dev": "tsc --watch --incremental",
     "test": "vitest run"
   },
   "exports": {
@@ -36,9 +36,14 @@
   "license": "MIT",
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/storybook-builder": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@storybook/react": "^7.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@storybook/types": "^7.4.0",
+    "@types/node": "^20.5.6"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

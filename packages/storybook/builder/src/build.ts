@@ -1,37 +1,30 @@
 import { dirname, join, parse } from 'path';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-
+import express from 'express';
 import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
 import { fs } from '@modern-js/utils';
-import { createCompiler } from './provider';
-import type { BuilderOptions } from './types';
+import type { FrameworkOptions } from './types';
+import { getCompiler } from './core';
 
-export type StorybookBuilder = RawStorybookBuilder<BuilderOptions, Stats>;
+export type StorybookBuilder = RawStorybookBuilder<FrameworkOptions, Stats>;
 
 export const getConfig: StorybookBuilder['getConfig'] = async options => {
   const { presets } = options;
 
-  const frameworkOptions = await presets.apply('frameworkOptions');
+  const frameworkOptions: {
+    name: string;
+    options: FrameworkOptions;
+  } = await presets.apply('frameworkOptions');
 
-  return presets.apply(
-    'modern',
-    {},
-    {
-      ...options,
-      frameworkOptions,
-    },
-  ) as any;
+  return frameworkOptions?.options || {};
 };
 
 // export `build` is used by storybook core
 export const build: StorybookBuilder['build'] = async ({ options }) => {
   const config = await getConfig(options);
 
-  const compiler = await createCompiler(
-    config.bundler || 'webpack',
-    config.builderConfig,
-  );
+  const compiler = await getCompiler(process.cwd(), config, options);
 
   const previewResolvedDir = dirname(
     require.resolve('@storybook/preview/package.json'),
@@ -70,17 +63,30 @@ export const start: StorybookBuilder['start'] = async ({
   router,
   startTime,
 }) => {
-  const { bundler, builderConfig } = await getConfig(options);
+  const config = await getConfig(options);
 
-  const compiler = await createCompiler(bundler || 'webpack', builderConfig);
+  const compiler = await getCompiler(process.cwd(), config, options);
 
   const middleware = webpackDevMiddleware(compiler, {
     writeToDisk:
       // @ts-expect-error
-      builderConfig.tools?.devServer?.devMiddleware?.writeToDisk || true,
+      config.builderConfig?.tools?.devServer?.devMiddleware?.writeToDisk ||
+      true,
   });
-  router.use(middleware);
+
+  const previewResolvedDir = dirname(
+    require.resolve('@storybook/preview/package.json'),
+  );
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+
+  router.use(
+    `/sb-preview`,
+    express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }),
+  );
+
   router.use(webpackHotMiddleware(compiler, { log: false }));
+
+  router.use(middleware);
 
   const stats: Stats = await new Promise(resolve => {
     // @ts-expect-error
@@ -104,7 +110,5 @@ export const start: StorybookBuilder['start'] = async ({
   };
 };
 
-export const bail = async () => {
-  // TODO
-  console.log('todo');
-};
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const bail = async () => {};

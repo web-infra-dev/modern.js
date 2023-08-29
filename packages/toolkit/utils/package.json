@@ -24,6 +24,7 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "default": "./dist/cjs/index.js"
     },
     "./logger": {

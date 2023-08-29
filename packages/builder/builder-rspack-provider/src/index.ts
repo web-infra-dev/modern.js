@@ -9,6 +9,7 @@ export type {
 
   // Hook Callback Types
   ModifyRspackConfigFn,
+  ModifyRspackConfigUtils,
 
   // Plugin Types
   BuilderPluginAPI,
@@ -18,4 +19,5 @@ export type {
   RspackConfig,
   Compiler as RspackCompiler,
   MultiCompiler as RspackMultiCompiler,
+  RspackConfig,
 } from './types';

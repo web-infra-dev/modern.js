@@ -27,6 +27,7 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
+      "node": "./dist/cjs/index.js",
       "default": "./dist/esm/index.js"
     },
     "./types": "./types/index.d.ts",
@@ -36,16 +37,19 @@
     "./loadable": {
       "types": "./dist/types/exports/loadable.d.ts",
       "jsnext:source": "./src/exports/loadable.ts",
+      "node": "./dist/cjs/exports/loadable.js",
       "default": "./dist/esm/exports/loadable.js"
     },
     "./head": {
       "types": "./dist/types/exports/head.d.ts",
       "jsnext:source": "./src/exports/head.ts",
+      "node": "./dist/cjs/exports/head.js",
       "default": "./dist/esm/exports/head.js"
     },
     "./styled": {
       "types": "./dist/types/exports/styled.d.ts",
       "jsnext:source": "./src/exports/styled.ts",
+      "node": "./dist/cjs/exports/styled.js",
       "default": "./dist/esm/exports/styled.js"
     },
     "./server": {
@@ -69,34 +73,39 @@
     "./ssr": {
       "types": "./dist/types/ssr/index.d.ts",
       "jsnext:source": "./src/ssr/index.ts",
-      "node": "./dist/esm/ssr/index.node.js",
+      "node": "./dist/cjs/ssr/index.node.js",
       "worker": "./dist/esm/ssr/index.node.js",
       "default": "./dist/esm/ssr/index.js"
     },
     "./model": {
       "types": "./types/model.d.ts",
       "jsnext:source": "./src/state/index.ts",
+      "node": "./dist/cjs/state/index.js",
       "default": "./dist/esm/state/index.js"
     },
     "./cli": {
       "types": "./dist/types/cli/index.d.ts",
       "jsnext:source": "./src/cli/index.ts",
-      "default": "./dist/cjs/cli/index.js"
+      "node": "./dist/cjs/cli/index.js",
+      "default": "./dist/esm/cli/index.js"
     },
     "./router": {
       "types": "./dist/types/router/index.d.ts",
       "jsnext:source": "./src/router/index.ts",
+      "node": "./dist/cjs/router/index.js",
       "default": "./dist/esm/router/index.js"
     },
     "./router/server": {
       "types": "./dist/types/router/runtime/server.d.ts",
       "jsnext:source": "./src/router/runtime/server.ts",
+      "node": "./dist/cjs/router/runtime/server.js",
       "default": "./dist/esm/router/runtime/server.js"
     },
     "./loadable-bundler-plugin": {
       "types": "./dist/types/ssr/cli/loadable-bundler-plugin.d.ts",
       "jsnext:source": "./src/ssr/cli/loadable-bundler-plugin.ts",
-      "default": "./dist/cjs/ssr/cli/loadable-bundler-plugin.js"
+      "node": "./dist/cjs/ssr/cli/loadable-bundler-plugin.js",
+      "default": "./dist/esm/ssr/cli/loadable-bundler-plugin.js"
     }
   },
   "typesVersions": {
