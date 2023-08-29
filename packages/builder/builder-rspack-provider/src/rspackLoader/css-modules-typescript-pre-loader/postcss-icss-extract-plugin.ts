@@ -40,7 +40,7 @@ const getExportLocalsConvention = (
 
 const plugin = (options: PostcssParsePluginOptions): PostCSSPlugin => {
   return {
-    postcssPlugin: 'postcss-icss-parser',
+    postcssPlugin: 'postcss-icss-extract',
     OnceExit(root) {
       const { icssExports } = extractICSS(root);
 

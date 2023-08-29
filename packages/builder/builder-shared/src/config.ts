@@ -134,6 +134,9 @@ export const getDefaultOutputConfig = (): NormalizedSharedOutputConfig => ({
   enableCssModuleTSDeclaration: false,
   enableInlineScripts: false,
   enableInlineStyles: false,
+  cssModules: {
+    exportLocalsConvention: 'camelCase',
+  },
 });
 
 export async function outputInspectConfigFiles({

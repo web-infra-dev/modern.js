@@ -14,7 +14,13 @@ type CssModules = {
 };
 ```
 
-- **Default:** `undefined`
+- **Default:**
+
+```ts
+const defaultCssModules = {
+  exportLocalsConvention: 'camelCase',
+};
+```
 
 Setup css modules configuration.
 
@@ -66,7 +72,7 @@ Type description:
 export default {
   output: {
     cssModules: {
-      exportLocalsConvention: 'camelCaseOnly'
+      exportLocalsConvention: 'camelCaseOnly',
     },
   },
 };

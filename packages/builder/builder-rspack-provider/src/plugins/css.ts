@@ -10,7 +10,6 @@ import {
   getCssModulesAutoRule,
   getPostcssConfig,
   getCssModuleLocalIdentName,
-  getCssModuleLocalsConvention,
   resolvePackage,
   type BundlerChain,
   type BuilderContext,
@@ -119,9 +118,11 @@ export async function applyBaseCSSRule({
   } else {
     // can not get experiment.css result, so we fake a css-modules-typescript-pre-loader
     if (!isServer && !isWebWorker && enableCSSModuleTS) {
+      const { cssModules, disableCssModuleExtension } = config.output;
+
       const cssModulesAuto = getCssModulesAutoRule(
-        config.output.cssModules,
-        config.output.disableCssModuleExtension,
+        cssModules,
+        disableCssModuleExtension,
       );
 
       rule
@@ -134,7 +135,7 @@ export async function applyBaseCSSRule({
         )
         .options({
           modules: {
-            exportLocalsConvention: getCssModuleLocalsConvention(config),
+            exportLocalsConvention: cssModules.exportLocalsConvention,
             auto: cssModulesAuto,
           },
         })
@@ -273,7 +274,7 @@ export const builderPluginCss = (): BuilderPlugin => {
 
           // need use type: "css/module" rule instead of modules.auto config
           setConfig(rspackConfig, 'builtins.css.modules', {
-            localsConvention: getCssModuleLocalsConvention(config),
+            localsConvention: config.output.cssModules.exportLocalsConvention,
             localIdentName,
             exportsOnly: isServer || isWebWorker,
           });

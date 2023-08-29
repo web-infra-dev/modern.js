@@ -5,7 +5,7 @@ import {
   CssModules,
 } from '@modern-js/builder-shared';
 import type { LoaderContext } from '@rspack/core';
-import type { PostcssParsePluginOptions } from './postcss-parse-plugin';
+import type { PostcssParsePluginOptions } from './postcss-icss-extract-plugin';
 import type { CssModuleLocalsConvention } from '@modern-js/builder-shared';
 
 async function processCss(
@@ -26,8 +26,8 @@ async function processCss(
     '@modern-js/builder-shared/postcss-modules-scope'
   );
 
-  const { default: cssModuleKeysParserPlugin } = await import(
-    './postcss-parse-plugin'
+  const { default: postcssICSSExtractPlugin } = await import(
+    './postcss-icss-extract-plugin'
   );
 
   const { default: extractImports } = await import(
@@ -54,7 +54,7 @@ async function processCss(
       generateScopedName: (exportName: string) => exportName,
       exportGlobals: false,
     }),
-    cssModuleKeysParserPlugin(parserOptions),
+    postcssICSSExtractPlugin(parserOptions),
   ]);
 
   await pipeline.process(inputSource, {

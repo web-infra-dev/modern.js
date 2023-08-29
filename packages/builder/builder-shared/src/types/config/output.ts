@@ -303,6 +303,10 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   enableInlineScripts: boolean | RegExp;
   enableInlineStyles: boolean | RegExp;
   svgDefaultExport: SvgDefaultExport;
+  cssModules: {
+    exportLocalsConvention: CssModuleLocalsConvention;
+    auto?: CssModules['auto'];
+  };
   disableSvgr: boolean;
   externals?: Externals;
 }

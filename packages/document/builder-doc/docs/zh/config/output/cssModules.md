@@ -14,7 +14,13 @@ type CssModules = {
 };
 ```
 
-- **默认值：** `undefined`
+- **默认值：**
+
+```ts
+const defaultCssModules = {
+  exportLocalsConvention: 'camelCase',
+};
+```
 
 自定义 CSS 模块配置。
 
@@ -55,6 +61,7 @@ export default {
 - **默认值：** `'camelCase'`
 
 类型说明：
+
 - `asIs` 类名将按原样导出。
 - `camelCase` 类名将被驼峰化，原始类名仍然可用。
 - `camelCaseOnly` 类名将被驼峰化，原始类名不可用。
@@ -65,7 +72,7 @@ export default {
 export default {
   output: {
     cssModules: {
-      exportLocalsConvention: 'camelCaseOnly'
+      exportLocalsConvention: 'camelCaseOnly',
     },
   },
 };
