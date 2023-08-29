@@ -36,5 +36,6 @@ describe('withPublicPath', () => {
       '//foo.com/bar.js',
     );
     expect(withPublicPath('//foo.com/bar.js', '/')).toBe('//foo.com/bar.js');
+    expect(withPublicPath('/bar.js', '//foo.com')).toBe('//foo.com/bar.js');
   });
 });
