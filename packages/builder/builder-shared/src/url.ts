@@ -1,5 +1,6 @@
 import { URL } from 'url';
 import path from 'path';
+import { urlJoin } from '@modern-js/utils';
 
 export const withPublicPath = (str: string, base: string) => {
   // The use of an absolute URL without a protocol is technically legal,
@@ -8,6 +9,10 @@ export const withPublicPath = (str: string, base: string) => {
   // e.g. str is //example.com/foo.js
   if (str.startsWith('//')) {
     return str;
+  }
+
+  if (base.startsWith('//')) {
+    return urlJoin(base, str);
   }
 
   // Only absolute url with hostname & protocol can be parsed into URL instance.
