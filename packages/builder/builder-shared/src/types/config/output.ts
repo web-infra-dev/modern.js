@@ -134,7 +134,15 @@ export type RemOptions = {
   pxtorem?: PxToRemOptions;
 };
 
+export type CssModuleLocalsConvention =
+  | 'asIs'
+  | 'camelCase'
+  | 'camelCaseOnly'
+  | 'dashes'
+  | 'dashesOnly';
+
 export type CssModules = {
+  exportLocalsConvention?: CssModuleLocalsConvention;
   auto?: boolean | RegExp | ((resourcePath: string) => boolean);
 };
 
@@ -295,6 +303,10 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   enableInlineScripts: boolean | RegExp;
   enableInlineStyles: boolean | RegExp;
   svgDefaultExport: SvgDefaultExport;
+  cssModules: {
+    exportLocalsConvention: CssModuleLocalsConvention;
+    auto?: CssModules['auto'];
+  };
   disableSvgr: boolean;
   externals?: Externals;
 }

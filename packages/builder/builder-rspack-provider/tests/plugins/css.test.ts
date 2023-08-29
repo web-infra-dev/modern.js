@@ -127,6 +127,21 @@ describe('plugins/css', () => {
     } = await builder.inspectConfig();
     expect(bundlerConfigs[0]).toMatchSnapshot();
   });
+
+  it('should apply custom css-modules-typescript-loader when enableCssModuleTSDeclarationg', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginCss()],
+      builderConfig: {
+        output: {
+          enableCssModuleTSDeclaration: true,
+        },
+      },
+    });
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
 });
 
 describe('plugins/css disableCssExtract', () => {

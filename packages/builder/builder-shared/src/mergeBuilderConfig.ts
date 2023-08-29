@@ -12,7 +12,7 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
       }
 
       // always use source override target, if target defined.
-      if (['cssModules', 'removeConsole'].includes(key)) {
+      if (['removeConsole'].includes(key)) {
         return source ?? target;
       }
 
