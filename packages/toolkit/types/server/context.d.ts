@@ -70,6 +70,10 @@ export type BaseSSRServerContext = {
   redirection: { url?: string; status?: number };
   loadableStats: Record<string, any>;
   routeManifest?: Record<string, any>;
+  routeSpec?: {
+    routes: Record<string, any>;
+    hasUseLoader?: boolean;
+  };
   template: string;
   entryName: string;
   logger: {
@@ -89,6 +93,7 @@ export type BaseSSRServerContext = {
       tags: Record<string, unknown> = {},
     ) => void;
   };
+
   reporter: Reporter;
   serverTiming: ServerTiming;
   cacheConfig?: any;

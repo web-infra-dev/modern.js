@@ -6,6 +6,9 @@ import { get } from '@modern-js/utils/lodash';
 const RUNTIME_PACKAGE_NAMES = ['@modern-js/runtime'];
 const FUNCTION_USE_LOADER_NAME = 'useLoader';
 
+// eslint-disable-next-line import/no-mutable-exports
+export let hasUseLoader = false;
+
 function getHash(filepath: string) {
   const cwd = process.cwd();
   const point = filepath.indexOf(cwd);
@@ -73,6 +76,7 @@ function getSelfRunLoaderExpression(
   loaderExpression: t.Expression,
   id: string,
 ) {
+  hasUseLoader = true;
   return t.callExpression(
     t.functionExpression(
       null,
@@ -95,8 +99,7 @@ function getSelfRunLoaderExpression(
   );
 }
 
-// eslint-disable-next-line import/no-commonjs
-module.exports = function () {
+export default function () {
   let useLoader: string | null = null;
   let hash = '';
   let index = 0;
@@ -108,6 +111,7 @@ module.exports = function () {
   return {
     name: 'babel-plugin-ssr-loader-id',
     pre() {
+      hasUseLoader = false;
       index = 0;
       useLoader = null;
       hash = '';
@@ -156,4 +160,4 @@ module.exports = function () {
       },
     },
   };
-};
+}

@@ -5,6 +5,7 @@ import {
   LOADABLE_STATS_FILE,
   ROUTE_MANIFEST_FILE,
   SERVER_RENDER_FUNCTION_NAME,
+  ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import type { ModernServerContext } from '@modern-js/types';
 import { RenderResult, ServerHookRunner } from '../../type';
@@ -44,6 +45,10 @@ export const render = async (
   const routeManifest = fs.existsSync(routesManifestUri)
     ? require(routesManifestUri)
     : undefined;
+  const routeSpecUri = path.join(distDir, ROUTE_SPEC_FILE);
+  const routeSpec = fs.existsSync(routeSpecUri)
+    ? require(routeSpecUri)
+    : undefined;
 
   const context: SSRServerContext = {
     request: {
@@ -66,6 +71,7 @@ export const render = async (
     },
     redirection: {},
     template,
+    routeSpec,
     loadableStats,
     routeManifest, // for streaming ssr
     entryName,

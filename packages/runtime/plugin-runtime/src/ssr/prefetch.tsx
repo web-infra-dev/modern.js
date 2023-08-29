@@ -3,6 +3,11 @@ import { run } from '@modern-js/utils/runtime-node';
 import { ChunkExtractor } from '@loadable/server';
 import { RuntimeContext } from '../core';
 
+function checkHasUseLoader(serverContext: RuntimeContext['ssrContext']) {
+  const routeSpec = serverContext?.routeSpec;
+  return Boolean(routeSpec?.hasUseLoader);
+}
+
 // todo: SSRContext
 const prefetch = async (
   App: React.ComponentType<any>,
@@ -12,14 +17,18 @@ const prefetch = async (
     const { ssrContext } = context;
     const { loadableStats } = ssrContext!;
 
-    if (loadableStats) {
-      const extractor = new ChunkExtractor({
-        stats: loadableStats,
-        entrypoints: [ssrContext!.entryName].filter(Boolean),
-      });
-      renderToStaticMarkup(extractor.collectChunks(<App context={context} />));
-    } else {
-      renderToStaticMarkup(<App context={context} />);
+    if (checkHasUseLoader(ssrContext)) {
+      if (loadableStats) {
+        const extractor = new ChunkExtractor({
+          stats: loadableStats,
+          entrypoints: [ssrContext!.entryName].filter(Boolean),
+        });
+        renderToStaticMarkup(
+          extractor.collectChunks(<App context={context} />),
+        );
+      } else {
+        renderToStaticMarkup(<App context={context} />);
+      }
     }
 
     if (!context.loaderManager.hasPendingLoaders()) {

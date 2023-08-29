@@ -6,6 +6,8 @@ import {
   isUseSSRBundle,
   createRuntimeExportsUtils,
   isSSGEntry,
+  ROUTE_SPEC_FILE,
+  fs,
 } from '@modern-js/utils';
 import type {
   AppNormalizedConfig,
@@ -57,7 +59,22 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
 
     let pluginsExportsUtils: any;
 
+    const afterDevOrBuild = async () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
+      const { hasUseLoader } = require('./babel-plugin-ssr-loader-id');
+      const { distDirectory } = api.useAppContext();
+
+      const routesSpecPath = path.join(distDirectory, ROUTE_SPEC_FILE);
+      const routesSpec = JSON.parse(await fs.readFile(routesSpecPath, 'utf-8'));
+      await fs.outputFile(
+        routesSpecPath,
+        JSON.stringify({ ...routesSpec, hasUseLoader }, null, 2),
+      );
+    };
+
     return {
+      afterDev: afterDevOrBuild,
+      afterBuild: afterDevOrBuild,
       config() {
         const appContext = api.useAppContext();
         pluginsExportsUtils = createRuntimeExportsUtils(
