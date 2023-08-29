@@ -2,20 +2,11 @@
   <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
 </p>
 
-<h1 align="center">Modern.js Doc</h1>
-
-<p align="center">
- The Documentation Framework of Modern.js.
-</p>
+<h1 align="center">doc-plugin-auto-sidebar</h1>
 
 ## Getting Started
 
-Please follow [Quick Start](https://modernjs.dev/doc-tools/guide/getting-started.html) to get started with Modern.js Doc.
-
-## Documentation
-
-- [English Documentation](https://modernjs.dev/doc-tools/)
-- [中文文档](https://modernjs.dev/doc-tools/zh/)
+This package is used to provide the auto sidebar capability for Rspress websites.
 
 ## Contributing
 

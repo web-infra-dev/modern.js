@@ -54,10 +54,6 @@ const getNavbar = (lang: string): NavItem[] => {
           link: 'https://modernjs.dev/module-tools/en/',
         },
         {
-          text: 'Modern.js Doc',
-          link: 'https://modernjs.dev/doc-tools/',
-        },
-        {
           text: 'Modern.js Builder',
           link: 'https://modernjs.dev/builder/en/',
         },
