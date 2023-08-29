@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
-  ignorePatterns: ['modern.config.ts'],
+  ignorePatterns: ['rspress.config.ts'],
   rules: {
     'babel/no-unused-expressions': 0,
     'react/jsx-filename-extension': 0,

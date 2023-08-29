@@ -1,2 +1,3 @@
-export * from '@modern-js/doc-tools/theme';
-export { default } from '@modern-js/doc-tools/theme';
+// eslint-disable-next-line import/export
+export * from 'rspress/theme';
+export { default } from 'rspress/theme';

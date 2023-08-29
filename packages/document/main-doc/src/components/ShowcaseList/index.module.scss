@@ -18,10 +18,10 @@
   border-radius: 20px;
   overflow: hidden;
   transition: 0.15s ease-in;
-  border: 1px solid var(--modern-c-divider-light);
+  border: 1px solid var(--rp-c-divider-light);
 
   &:hover {
-    border-color: var(--modern-c-brand);
+    border-color: var(--rp-c-brand);
   }
 }
 
@@ -33,7 +33,7 @@
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   pointer-events: none;
-  background-color: var(--modern-c-bg-soft);
+  background-color: var(--rp-c-bg-soft);
 }
 
 .bottom {
@@ -46,7 +46,7 @@
   font-weight: 600;
   font-size: 17px;
   line-height: 28px;
-  color: var(--modern-c-text-1);
+  color: var(--rp-c-text-1);
 }
 
 .type {
@@ -76,5 +76,5 @@
 .domain {
   font-size: 13px;
   line-height: 24px;
-  color: var(--modern-c-text-2);
+  color: var(--rp-c-text-2);
 }

@@ -1,4 +1,4 @@
-import { NoSSR } from '@modern-js/doc-tools/runtime';
+import { NoSSR } from 'rspress/runtime';
 import style from './index.module.scss';
 
 interface Member {

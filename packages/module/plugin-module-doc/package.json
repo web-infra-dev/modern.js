@@ -36,9 +36,9 @@
     "dev": "modern-lib build --watch"
   },
   "dependencies": {
-    "@modern-js/doc-core": "workspace:*",
-    "@modern-js/doc-plugin-preview": "workspace:*",
-    "@modern-js/doc-plugin-api-docgen": "workspace:*"
+    "@modern-js/doc-core": "2.31.2",
+    "@modern-js/doc-plugin-preview": "2.31.2",
+    "@modern-js/doc-plugin-api-docgen": "2.31.2"
   },
   "devDependencies": {
     "@modern-js/module-tools": "workspace:*",

@@ -16,10 +16,10 @@
     "modern.js"
   ],
   "scripts": {
-    "dev": "modern dev",
+    "dev": "rspress dev",
     "build": "npx ts-node ./scripts/sync.ts",
-    "build:doc": "modern build",
-    "preview": "modern preview"
+    "build:doc": "rspress build",
+    "preview": "rspress preview"
   },
   "version": "2.32.1",
   "publishConfig": {
@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "@modern-js/builder-doc": "workspace:*",
-    "@modern-js/doc-tools": "workspace:*",
     "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
     "classnames": "^2",
     "clsx": "^1.2.1",
@@ -41,6 +40,8 @@
     "ts-node": "^10.9.1",
     "typescript": "^5",
     "fs-extra": "^10",
+    "rspress": "0.0.6",
+    "@rspress/shared": "0.0.6",
     "@types/node": "^16",
     "@types/fs-extra": "^9"
   }
