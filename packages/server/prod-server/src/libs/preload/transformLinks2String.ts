@@ -7,7 +7,7 @@ export function transformLinks2String(
   preload: SSRPreload | boolean,
 ): string {
   if (typeof preload === 'boolean') {
-    return links
+    return dedup(links)
       .map(({ uri, as }) =>
         as ? `<${uri}>; rel=preload; as=${as}` : `<${uri}>; rel=preload`,
       )
@@ -16,7 +16,7 @@ export function transformLinks2String(
   const { include, exclude, attributes } = preload;
 
   const resolveLinks = addAttributes(
-    removeExclude(addInclude(links, include), exclude),
+    dedup(removeExclude(addInclude(links, include), exclude)),
     attributes,
   );
 
@@ -115,6 +115,17 @@ export function transformLinks2String(
         return `<${uri}>; rel=preload; as=${as}${attributesStr}`;
       }
       return `<${uri}>; rel=preload`;
+    });
+  }
+
+  function dedup(links: Link[]) {
+    const set = new Set<string>();
+    return links.filter(({ uri }) => {
+      if (set.has(uri)) {
+        return false;
+      }
+      set.add(uri);
+      return true;
     });
   }
 }

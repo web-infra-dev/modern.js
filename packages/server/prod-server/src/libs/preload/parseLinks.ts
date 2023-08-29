@@ -29,7 +29,9 @@ export async function parseLinks({
   // if we can't parse links from routes, we parse links from html.
   const links = await parseLinksFromRoutes(pathname, distDir);
 
-  return links.length > 0 ? links : parseLinksFromHtml(template);
+  // User may add links by html-webpack-plugin, Document, eg.
+  // So we need also parse links from html
+  return links.concat(parseLinksFromHtml(template));
 }
 
 function parseLinksFromHtml(html: string): Link[] {

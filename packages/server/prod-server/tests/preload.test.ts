@@ -98,13 +98,13 @@ describe('test preload', () => {
   });
 
   it('test flushServerHeader', async () => {
-    const links: any[] = [];
+    const headers: any[] = [];
     let flushed = false;
     const optinos: FlushServerHeaderOptions = {
       ctx: {
         res: {
           set(key: string, value: any) {
-            links.push({
+            headers.push({
               key,
               value,
             });
@@ -119,7 +119,13 @@ describe('test preload', () => {
       template,
       serverConf: {
         ssr: {
-          preload: true,
+          preload: {
+            include: [
+              { url: 'http://example.com', type: 'script' },
+              { url: 'http://example.com', type: 'script' },
+              '/static/js/async/three_user/layout.js',
+            ],
+          },
         },
       },
       headers: {
@@ -129,6 +135,8 @@ describe('test preload', () => {
 
     await flushServerHeader(optinos);
     expect(flushed).toBeTruthy();
-    expect(links).toMatchSnapshot();
+    expect(
+      headers.map(({ key, value }) => ({ key, value: value.split(', ') })),
+    ).toMatchSnapshot();
   });
 });
