@@ -1,4 +1,8 @@
-import { JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
+import {
+  JS_REGEX,
+  TS_REGEX,
+  applyScriptCondition,
+} from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '@modern-js/builder';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type {
@@ -55,8 +59,9 @@ export function builderPluginEsbuild(
               loader: 'jsx',
               ...options?.loader,
             });
-          chain.module
-            .rule(CHAIN_ID.RULE.TS)
+
+          const rule = chain.module.rule(CHAIN_ID.RULE.TS);
+          rule
             .test(TS_REGEX)
             .use(CHAIN_ID.USE.ESBUILD)
             .loader(compiledEsbuildLoaderPath)
@@ -64,6 +69,13 @@ export function builderPluginEsbuild(
               loader: 'tsx',
               ...options?.loader,
             });
+          applyScriptCondition({
+            rule,
+            config: builderConfig,
+            context: api.context,
+            includes: [],
+            excludes: [],
+          });
         }
 
         if (isProd && options.minimize !== false) {
