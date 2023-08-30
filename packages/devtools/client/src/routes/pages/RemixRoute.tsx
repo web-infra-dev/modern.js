@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { RouteObject } from '@modern-js/runtime/router';
 import { Box, Flex, Link, Code } from '@radix-ui/themes';
 import styled from '@emotion/styled';
 import _ from 'lodash';
 import { withoutTrailingSlash } from 'ufo';
+import { useHoverDirty } from 'react-use';
 
 export interface RemixRouteProps {
   route: RouteObject | RouteObject[];
@@ -12,6 +13,10 @@ export interface RemixRouteProps {
 export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
   const routes = _.castArray(route);
   const curr = _.last(routes)!;
+  const componentFile =
+    '_component' in curr && _.isString(curr._component)
+      ? curr._component
+      : null;
   const displayPath = routes
     .map(r => r.path && withoutTrailingSlash(r.path))
     .filter(_.isString)
@@ -19,8 +24,11 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
   const isIndex = curr.index ?? false;
   const isRoot = displayPath === '/';
 
+  const ref = useRef<HTMLDivElement>(null);
+  const hovered = useHoverDirty(ref);
+
   return (
-    <Box>
+    <Box ref={ref}>
       <Flex gap="2" align="center" mb={curr.children && '1'}>
         <Flex>
           {!isRoot && (
@@ -34,9 +42,9 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
             </EndpointTag>
           )}
         </Flex>
-        <ShyLink size="1" color="gray">
-          {(curr as any)._component.replace('@_modern_js_src/', '@/')}
-        </ShyLink>
+        {hovered && componentFile && (
+          <ShyLink>{componentFile.replace('@_modern_js_src/', '@/')}</ShyLink>
+        )}
       </Flex>
       <Flex direction="column" gap="1">
         {curr.children?.map(route => (
@@ -62,8 +70,6 @@ const EndpointTag = styled(Code)({
 });
 
 const ShyLink = styled(Link)({
-  color: 'transparent',
-  ':hover': {
-    color: 'var(--gray-9)',
-  },
+  color: 'var(--gray-9)',
+  fontSize: 'var(--font-size-1)',
 });

@@ -23,5 +23,6 @@ export const ServerRouteDetail: React.FC<ServerRouteDetailProps> = ({
 };
 
 const Container = styled(Box)({
-  padding: 'var(--space-2) 0',
+  padding: '0 var(--space-2)',
+  marginTop: 'var(--space-3)',
 });
