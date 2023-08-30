@@ -134,7 +134,7 @@ If you need to modify the SVGR configuration, you can do the following:
 
 ```js
 export default {
- tools: {
+  tools: {
     bundlerChain: (chain, { CHAIN_ID }) => {
       chain.module
         .rule(CHAIN_ID.RULE.SVG)
@@ -142,8 +142,7 @@ export default {
         .use(CHAIN_ID.USE.SVGR)
         .tap(options => {
           // modify svgoConfig
-          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs =
-            false;
+          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs = false;
           return options;
         });
     },
