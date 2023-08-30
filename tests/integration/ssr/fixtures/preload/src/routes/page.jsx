@@ -17,7 +17,7 @@ const Index = (): JSX.Element => (
       </p>
       <div className="grid">
         <a
-          href="https://edenx.bytedance.net/guides/get-started/quick-start.html"
+          href="https://modernjs.dev/guides/get-started/quick-start.html"
           target="_blank"
           rel="noopener noreferrer"
           className="card"
@@ -32,7 +32,7 @@ const Index = (): JSX.Element => (
           <p>Follow the guides to use all features of EdenX.</p>
         </a>
         <a
-          href="https://edenx.bytedance.net/tutorials/foundations/introduction"
+          href="https://modernjs.dev/tutorials/foundations/introduction"
           target="_blank"
           className="card"
           rel="noreferrer"
@@ -47,7 +47,7 @@ const Index = (): JSX.Element => (
           <p>Learn to use EdenX to create your first application.</p>
         </a>
         <a
-          href="https://edenx.bytedance.net/configure/app/usage"
+          href="https://modernjs.dev/configure/app/usage"
           target="_blank"
           className="card"
           rel="noreferrer"
