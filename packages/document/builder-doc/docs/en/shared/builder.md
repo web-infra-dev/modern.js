@@ -1,4 +1,4 @@
-Refers to the build engine. The goal of Builder is to "reuse the best practices of build tools".
+Refers to the build tool of Modern.js. The goal of Builder is to "reuse the best practices of build tools".
 
 Bundlers are low-level, when we build a project based on webpack, we need to fully understand the webpack config and many webpack plugins and loaders, then spend a lot of time to combine them.
 

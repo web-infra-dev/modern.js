@@ -22,7 +22,7 @@ Modern.js is a web engineering system, including multiple solutions:
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
-- 🐈 [Modern.js Builder](https://modernjs.dev/builder/en/): A build engine for web development.
+- 🐈 [Modern.js Builder](https://modernjs.dev/builder/en/): An Rspack-based build tool for web development.
 
 ## Getting Started
 
