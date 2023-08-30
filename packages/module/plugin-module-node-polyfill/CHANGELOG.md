@@ -1,5 +1,13 @@
 # @modern-js/plugin-module-node-polyfill
 
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [af1ad38]
+  - @modern-js/libuild-plugin-node-polyfill@2.33.0
+  - @modern-js/module-tools@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

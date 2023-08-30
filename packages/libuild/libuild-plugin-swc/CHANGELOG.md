@@ -1,5 +1,7 @@
 # @modern-js/libuild-plugin-swc
 
+## 2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

@@ -1,5 +1,19 @@
 # @modern-js/core
 
+## 2.33.0
+
+### Patch Changes
+
+- ecb9276: fix(core): make the plugins type looser to avoid type mismatch
+
+  fix(core): 使用更松散的 plugins 类型来避免 type 不匹配的问题
+
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/node-bundle-require@2.33.0
+  - @modern-js/plugin@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

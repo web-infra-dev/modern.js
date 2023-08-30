@@ -1,5 +1,16 @@
 # @modern-js/module-tools-docs
 
+## 2.33.0
+
+### Patch Changes
+
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
+- Updated dependencies [db9a700]
+  - @modern-js/doc-plugin-auto-sidebar@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

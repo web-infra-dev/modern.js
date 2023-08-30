@@ -1,5 +1,26 @@
 # @modern-js/runtime
 
+## 2.33.0
+
+### Minor Changes
+
+- 2bcff4f: feat(plugin-runtime): support ssr html modifiers
+  feat(plugin-runtime): 支持 ssr html 修改者
+
+### Patch Changes
+
+- 6ea89ab: fix: html has placeholder when not set partials
+  fix: html 在没有设置 partials 的时候,会多出占位符
+- ae35c65: fix: ssr htmlModifiers
+  fix: ssr htmlModifiers 赋值问题
+- 44da57b: refactor: runtime server ssr
+  refactor: 重构 runtime server ssr
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/plugin@2.33.0
+  - @modern-js/types@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

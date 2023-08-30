@@ -1,5 +1,22 @@
 # @modern-js/builder-webpack-provider
 
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [fd82137]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+  - @modern-js/builder-shared@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/babel-preset-app@2.33.0
+  - @modern-js/babel-preset-base@2.33.0
+  - @modern-js/server@2.33.0
+  - @modern-js/types@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

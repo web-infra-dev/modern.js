@@ -1,5 +1,12 @@
 # @modern-js/libuild-plugin-node-polyfill
 
+## 2.33.0
+
+### Patch Changes
+
+- af1ad38: fix: incorrect output
+  fix: 修复错误的产物
+
 ## 2.32.1
 
 ## 2.32.0

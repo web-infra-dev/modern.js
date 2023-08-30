@@ -1,5 +1,19 @@
 # @modern-js/prod-server
 
+## 2.33.0
+
+### Patch Changes
+
+- 1042583: fix(prod-server): set res.statusCode = 200 when routes matches success
+  fix(prod-server): 路由匹配成功后 设置 res.statusCode = 200
+- 3ba1682: fix(prod-server): optimize ssr preload
+  fix(prod-server): 优化 ssr preload
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/server-core@2.33.0
+  - @modern-js/plugin@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

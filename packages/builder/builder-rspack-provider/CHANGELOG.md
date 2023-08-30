@@ -1,5 +1,28 @@
 # @modern-js/builder-rspack-provider
 
+## 2.33.0
+
+### Patch Changes
+
+- 1c812c2: chore(builder): update rspack to 0.3.1 & overrides rspress's modern.js deps in workspace
+
+  chore(builder): 升级 rspack 到 0.3.1，并将 rspress 内 modern.js 的依赖指向当前 workspace
+
+- 64df945: feat(builder): support enableCssModuleTSDeclaration and cssModules.exportLocalsConvention when use rspack mode
+
+  feat(builder): 在使用 Rspack 构建时，支持 enableCssModuleTSDeclaration 和 cssModules.exportLocalsConvention 配置项
+
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [fd82137]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+  - @modern-js/builder-shared@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/server@2.33.0
+  - @modern-js/types@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

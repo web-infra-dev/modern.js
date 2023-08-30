@@ -1,5 +1,43 @@
 # @modern-js/app-tools
 
+## 2.33.0
+
+### Patch Changes
+
+- f13ce4f: fix: should support data file for splat routes
+  fix 对于通配路由，应该支持 data 文件
+- Updated dependencies [1c812c2]
+- Updated dependencies [ecb9276]
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [1c6c029]
+- Updated dependencies [f96d565]
+- Updated dependencies [fd82137]
+- Updated dependencies [1042583]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+- Updated dependencies [3ba1682]
+  - @modern-js/builder-rspack-provider@2.33.0
+  - @modern-js/core@2.33.0
+  - @modern-js/builder-shared@2.33.0
+  - @modern-js/builder-plugin-esbuild@2.33.0
+  - @modern-js/builder@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/prod-server@2.33.0
+  - @modern-js/builder-plugin-node-polyfill@2.33.0
+  - @modern-js/plugin-data-loader@2.33.0
+  - @modern-js/plugin-lint@2.33.0
+  - @modern-js/builder-webpack-provider@2.33.0
+  - @modern-js/new-action@2.33.0
+  - @modern-js/plugin-i18n@2.33.0
+  - @modern-js/server-core@2.33.0
+  - @modern-js/server@2.33.0
+  - @modern-js/node-bundle-require@2.33.0
+  - @modern-js/plugin@2.33.0
+  - @modern-js/upgrade@2.33.0
+  - @modern-js/types@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

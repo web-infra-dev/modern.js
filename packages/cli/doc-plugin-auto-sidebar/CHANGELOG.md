@@ -1,5 +1,19 @@
 # @modern-js/doc-plugin-auto-sidebar
 
+## 2.33.0
+
+### Minor Changes
+
+- db9a700: feat(doc-tools): remove modernjs doc
+
+  feat(doc-tools): 移除 modernjs doc 相关包
+
+### Patch Changes
+
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

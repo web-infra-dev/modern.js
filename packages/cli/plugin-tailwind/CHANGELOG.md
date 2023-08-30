@@ -1,5 +1,27 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.33.0
+
+### Patch Changes
+
+- fd2ca58: feat(plugin-tailwind): automatically read tailwind config file
+
+  feat(plugin-tailwind): 自动读取 tailwind config 文件
+
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
+- Updated dependencies [6ea89ab]
+- Updated dependencies [ae35c65]
+- Updated dependencies [2bcff4f]
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [44da57b]
+  - @modern-js/runtime@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/node-bundle-require@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes
