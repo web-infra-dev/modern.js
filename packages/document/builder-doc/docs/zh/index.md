@@ -3,7 +3,7 @@ pageType: home
 
 hero:
   name: Modern.js Builder
-  tagline: 面向 Web 开发场景的构建引擎
+  tagline: 基于 Rspack 的 Web 构建工具
   actions:
     - theme: brand
       text: 介绍
