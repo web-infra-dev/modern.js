@@ -6,8 +6,11 @@ import { get } from '@modern-js/utils/lodash';
 const RUNTIME_PACKAGE_NAMES = ['@modern-js/runtime'];
 const FUNCTION_USE_LOADER_NAME = 'useLoader';
 
-// eslint-disable-next-line import/no-mutable-exports
-export let hasUseLoader = false;
+let hasUseLoader = false;
+
+export function getHasUseLoader(): boolean {
+  return hasUseLoader;
+}
 
 function getHash(filepath: string) {
   const cwd = process.cwd();
