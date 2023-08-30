@@ -22,12 +22,15 @@ const StoreContext = createContext<unknown>(null);
 export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   children,
 }) => {
-  const dataSource = getQuery(location.href).src;
+  const dataSource =
+    getQuery(location.href).src ||
+    sessionStorage.getItem('devtools-data-source');
   if (!_.isString(dataSource)) {
     throw new TypeError(
       `Can't connection to data source: ${dataSource || '<EMPTY>'}`,
     );
   }
+  sessionStorage.setItem('devtools-data-source', dataSource);
 
   const deferred = {
     framework: {
