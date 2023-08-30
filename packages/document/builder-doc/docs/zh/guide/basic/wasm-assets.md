@@ -17,7 +17,7 @@ console.log(add); // [native code]
 console.log(add(1, 2)); // 3
 ```
 
-也可以通过 Dynamic Import 来引用 WebAssembly 模块：
+也可以通过 dynamic import 来引用 WebAssembly 模块：
 
 ```js title="index.js"
 import('./add.wasm').then(({ add }) => {

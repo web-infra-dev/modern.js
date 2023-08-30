@@ -17,7 +17,7 @@ console.log(add); // [native code]
 console.log(add(1, 2)); // 3
 ```
 
-WebAssembly modules can also be imported via Dynamic Import:
+WebAssembly modules can also be imported via dynamic import:
 
 ```js title="index.js"
 import('./add.wasm').then(({ add }) => {
