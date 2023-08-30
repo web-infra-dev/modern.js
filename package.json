@@ -91,7 +91,10 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react-dom": "^18",
+      "@modern-js/builder-rspack-provider": "workspace:*",
+      "@modern-js/builder": "workspace:*",
+      "@modern-js/utils":  "workspace:*"
     },
     "allowedDeprecatedVersions": {
       "formidable": "1.2.6",
