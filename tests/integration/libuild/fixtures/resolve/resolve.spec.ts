@@ -1,9 +1,34 @@
 import { getLibuilderTest } from '@/toolkit';
-import path from 'path';
+
 describe('fixture:resolve', () => {
   it('this.resolve', async () => {
     const bundler = await getLibuilderTest({
       root: __dirname,
+      input: {
+        main: './index.ts',
+      },
+      plugins: [
+        {
+          name: 'external',
+          apply(compiler) {
+            compiler.hooks.resolve.tapPromise('external', async args => {
+              // esbuild doesn't supports skipSelf now, so we need an hack to tackle this
+              if (!args.path.includes('?skipSelf')) {
+                const result = await compiler.resolve(
+                  `${args.path}?skipSelf`,
+                  args,
+                );
+                if (result.path.includes('node_modules')) {
+                  return {
+                    path: args.path,
+                    external: true,
+                  };
+                }
+              }
+            });
+          },
+        },
+      ],
     });
     await bundler.build();
     bundler.expectJSOutputMatchSnapshot();
@@ -14,7 +39,26 @@ describe('fixture:resolve', () => {
       input: {
         main: './other.ts',
       },
-      configFile: path.resolve(__dirname, './libuild.config.resolve.ts'),
+      plugins: [
+        {
+          name: 'external',
+          apply(compiler) {
+            compiler.hooks.resolve.tapPromise('external', async args => {
+              if (args.path.startsWith('~virtual')) {
+                return { path: args.path };
+              }
+            });
+            compiler.hooks.load.tapPromise('external', async args => {
+              if (args.path.startsWith('~virtual')) {
+                return {
+                  contents: `import answer from "the-answer"; export default answer;`,
+                  loader: 'js',
+                };
+              }
+            });
+          },
+        },
+      ],
     });
     await bundler.build();
     bundler.expectJSOutputMatchSnapshot();

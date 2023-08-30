@@ -1,5 +1,5 @@
 import fse from 'fs-extra';
-import { Libuilder, loadConfig } from '@modern-js/libuild';
+import { Libuilder } from '@modern-js/libuild';
 import type { ILibuilder, Chunk, CLIConfig } from '@modern-js/libuild';
 import { expect } from './expect';
 import { waitForEqual } from './waitForEqual';
@@ -28,12 +28,8 @@ export const getLibuilderTest = async (
       main: './index.ts',
     };
   }
-  const userConfig = await loadConfig(params);
-  if (Array.isArray(userConfig)) {
-    throw new Error('Detect multiply config.');
-  }
   const bundler = (await Libuilder.create(
-    userConfig,
+    params,
     name,
   )) as unknown as ILibuilderTest;
 

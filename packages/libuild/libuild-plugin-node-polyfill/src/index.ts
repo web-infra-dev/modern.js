@@ -105,7 +105,7 @@ export const nodePolyfillPlugin = (options: NodePolyfillPluginOptions): LibuildP
 
       // globals
       if (typeof compiler.config === 'object') {
-        compiler.config.inject = [...(compiler.config.inject ?? []), path.join(__dirname, '../globals.js')];
+        compiler.config.inject = [...(compiler.config.inject ?? []), path.join(__dirname, 'globals.js')];
       }
     },
   };

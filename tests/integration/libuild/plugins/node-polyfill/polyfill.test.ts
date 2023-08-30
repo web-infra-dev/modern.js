@@ -1,12 +1,11 @@
 import { expect, getLibuilderTest } from '@/toolkit';
 import { nodePolyfillPlugin } from '@modern-js/libuild-plugin-node-polyfill';
-import path from 'path';
 
 describe('polyfill', function main() {
   this.timeout(20000);
   it('api', async () => {
     const bundler = await getLibuilderTest({
-      root: path.resolve(__dirname, ''),
+      root: __dirname,
       platform: 'browser',
       plugins: [nodePolyfillPlugin({})],
     });

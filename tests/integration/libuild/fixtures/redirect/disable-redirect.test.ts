@@ -1,7 +1,7 @@
 import { getLibuilderTest, expect } from '@/toolkit';
 
 describe('fixture:redirect', () => {
-  it('redirect', async () => {
+  it('disable', async () => {
     const bundler = await getLibuilderTest({
       root: __dirname,
       resolve: {
@@ -16,7 +16,7 @@ describe('fixture:redirect', () => {
       },
       outdir: 'dist/disable',
       bundle: false,
-      input: ['./src/*.ts'],
+      input: ['src/style.ts'],
     });
     await bundler.build();
     const jsOutput = bundler.getJSOutput();
