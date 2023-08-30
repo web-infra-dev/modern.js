@@ -17,3 +17,4 @@ modern.config.ts
 vitest.config.ts
 .eslintrc.js
 tsconfig.json
+CHANGELOG.md
