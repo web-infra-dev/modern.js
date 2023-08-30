@@ -225,6 +225,9 @@ export class ModernServer implements ModernServerInterface {
     if (!matched) {
       return null;
     }
+    // the routes matchs success
+    // we assain the 200 to res.statusCode
+    res.statusCode = 200;
 
     const route = matched.generate(context.url);
     const result = await this.handleWeb(context, route);
