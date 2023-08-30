@@ -107,3 +107,47 @@ declare module '*.svg' {
 ```
 
 添加类型声明后，如果依然存在上述错误提示，请尝试重启当前 IDE，或者调整 `global.d.ts` 所在的目录，使 TypeScript 能够正确识别类型定义。
+
+## 修改 SVGR 配置
+
+当启用 SVGR 时，其默认配置如下：
+
+```js
+{
+  svgo: true,
+  svgoConfig: {
+    plugins: [
+      {
+        name: 'preset-default',
+        params: {
+          overrides: {
+            removeViewBox: false,
+          },
+        },
+      },
+      'prefixIds',
+    ],
+  },
+}
+```
+
+如果需要修改 SVGR 配置，可通过如下方式：
+
+```js
+export default {
+ tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.SVG)
+        .oneOf(CHAIN_ID.ONE_OF.SVG)
+        .use(CHAIN_ID.USE.SVGR)
+        .tap(options => {
+          // modify svgoConfig
+          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs =
+            false;
+          return options;
+        });
+    },
+  },
+};
+```

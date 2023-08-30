@@ -106,3 +106,47 @@ declare module '*.svg' {
 ```
 
 After adding the type declaration, if the type error still exists, you can try to restart the current IDE, or adjust the directory where `global.d.ts` is located, making sure the TypeScript can correctly identify the type definition.
+
+## Modify the SVGR configuration
+
+When SVGR is enabled, its default configuration is as follows:
+
+```js
+{
+  svgo: true,
+  svgoConfig: {
+    plugins: [
+      {
+        name: 'preset-default',
+        params: {
+          overrides: {
+            removeViewBox: false,
+          },
+        },
+      },
+      'prefixIds',
+    ],
+  },
+}
+```
+
+If you need to modify the SVGR configuration, you can do the following:
+
+```js
+export default {
+ tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.SVG)
+        .oneOf(CHAIN_ID.ONE_OF.SVG)
+        .use(CHAIN_ID.USE.SVGR)
+        .tap(options => {
+          // modify svgoConfig
+          options.svgoConfig.plugins[0].params.overrides.removeUselessDefs =
+            false;
+          return options;
+        });
+    },
+  },
+};
+```
