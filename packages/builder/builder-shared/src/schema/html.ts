@@ -15,7 +15,7 @@ export const MetaAttributesSchema: ZodType<MetaAttributes> = z.record(
 );
 
 export const MetaOptionsSchema: ZodType<MetaOptions> = z.record(
-  z.union([z.string(), z.literal('false'), MetaAttributesSchema]),
+  z.union([z.string(), z.literal(false), MetaAttributesSchema]),
 );
 
 export const ScriptLoadingSchema: ZodType<ScriptLoading> = z.enum([
