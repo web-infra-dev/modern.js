@@ -20,8 +20,7 @@ tests/
 
 src/
 
-modern.config.js
-modern.config.ts
+modern.config.*
 jest.config.js
 .eslintrc.js
 .eslintrc
