@@ -5,7 +5,8 @@ import { RuntimeContext } from '../core';
 
 function checkHasUseLoader(serverContext: RuntimeContext['ssrContext']) {
   const routeSpec = serverContext?.routeSpec;
-  return Boolean(routeSpec?.hasUseLoader);
+  // We think it need pre-render if routeSpect.hasUseLoader === True or undefined.
+  return routeSpec?.hasUseLoader !== false;
 }
 
 // todo: SSRContext
