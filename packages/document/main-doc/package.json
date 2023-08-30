@@ -27,6 +27,9 @@
     "access": "public",
     "provenance": true
   },
+  "dependencies": {
+    "@modern-js/sandpack-react": "workspace:*"
+  },
   "peerDependencies": {
     "@modern-js/builder-doc": "workspace:^2.33.1"
   },

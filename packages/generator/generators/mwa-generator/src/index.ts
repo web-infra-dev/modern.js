@@ -145,7 +145,7 @@ export const handleTemplateFile = async (
       isMonorepoSubProject,
       modernVersion,
       packageManager,
-      isTsProject: language === Language.TS,
+      isTs: language === Language.TS,
     },
   );
 

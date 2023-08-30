@@ -6,6 +6,7 @@ import {
   OpenInCodeSandboxButton,
   SandpackSetup,
   SandpackFiles,
+  SandpackThemeProp,
 } from '@codesandbox/sandpack-react';
 import { ModernTemplates } from './templates';
 
@@ -13,9 +14,10 @@ export type ModernSandpackProps = {
   template: 'web-app' | 'npm-module';
   customSetup?: SandpackSetup;
   files?: SandpackFiles;
-  removeFiles: string[];
+  removeFiles?: string[];
   options?: Record<string, any>;
   initialCollapsedFolder?: string[];
+  theme?: SandpackThemeProp;
 };
 
 function fileterFiles(files: SandpackFiles, removeFiles: string[]) {
@@ -39,6 +41,7 @@ export default function ModernSandpack(props: ModernSandpackProps) {
     removeFiles = [],
     options = {},
     initialCollapsedFolder = [],
+    theme = 'light',
   } = props;
   const initFiles = ModernTemplates[template];
   const files = {
@@ -47,15 +50,11 @@ export default function ModernSandpack(props: ModernSandpackProps) {
   };
   return (
     <SandpackProvider
+      theme={theme}
       customSetup={{ environment: 'node', ...customSetup }}
       files={files}
       options={{
         activeFile: 'src/routes/page.tsx',
-        visibleFiles: [
-          'src/routes/page.tsx',
-          'src/routes/layout.tsx',
-          'src/routes/index.css',
-        ],
         ...options,
       }}
     >
@@ -69,7 +68,7 @@ export default function ModernSandpack(props: ModernSandpackProps) {
           ]}
         />
         <SandpackCodeEditor showLineNumbers showInlineErrors showTabs={false} />
-        <div style={{ position: 'absolute', right: 0, bottom: 0 }}>
+        <div style={{ position: 'absolute', right: '5px', bottom: '5px' }}>
           <OpenInCodeSandboxButton />
         </div>
       </SandpackLayout>

@@ -5,6 +5,18 @@ import { renderString } from '@modern-js/codesmith-api-handlebars';
 import { getModernVersion } from '@modern-js/generator-utils';
 import { Solution } from '@modern-js/generator-common';
 
+const IgnoreFiles = [
+  '.nvmrc',
+  '.eslintrc.js.handlebars',
+  'src/.eslintrc.js.handlebars',
+  '.prettierrc',
+  '.vscode/extensions.json',
+  '.vscode/settings.json',
+  '.husky/pre-commit',
+  'README.md',
+  '.gitignore.handlebars',
+];
+
 async function handleTemplate(
   templatePath: string,
   data: Record<string, any> = {},
@@ -17,6 +29,9 @@ async function handleTemplate(
   const templateFiles = await recursive(templatePath);
   templateFiles.forEach(filePath => {
     const file = filePath.replace(`${templatePath}/`, '');
+    if (IgnoreFiles.includes(file)) {
+      return;
+    }
     if (fs.statSync(filePath).isFile()) {
       if (file.endsWith('.handlebars')) {
         files[
