@@ -216,7 +216,7 @@ export default defineConfig({
         outlineTitle: '目录',
         prevPageText: '上一页',
         nextPageText: '下一页',
-        description: '一个面向 Web 开发场景的构建引擎',
+        description: '基于 Rspack 的 Web 构建工具',
       },
       {
         lang: 'en',
@@ -224,7 +224,7 @@ export default defineConfig({
         nav: getNavbar('en'),
         sidebar: getSidebar('en'),
         title: 'Modern.js Builder',
-        description: 'A build engine for web development.',
+        description: 'An Rspack-based build tool for web development.',
       },
     ],
     editLink: {
