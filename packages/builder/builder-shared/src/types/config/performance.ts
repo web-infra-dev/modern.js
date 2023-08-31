@@ -7,6 +7,7 @@ export type ConsoleType = 'log' | 'info' | 'warn' | 'error' | 'table' | 'group';
 export type BuildCacheOptions = {
   /** Base directory for the filesystem cache. */
   cacheDirectory?: string;
+  cacheDigest?: Array<string | undefined>;
 };
 
 export interface PreconnectOption {

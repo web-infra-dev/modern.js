@@ -1,3 +1,4 @@
+import crypto from 'crypto';
 import { isAbsolute, join } from 'path';
 import {
   BuildCacheOptions,
@@ -33,6 +34,12 @@ async function validateCache(
   await fs.outputJSON(configFile, buildDependencies);
 }
 
+function getDigestHash(digest: Array<string | undefined>) {
+  const fsHash = crypto.createHash('md5');
+  const md5 = fsHash.update(JSON.stringify(digest)).digest('hex');
+  return md5;
+}
+
 function getCacheDirectory(
   { cacheDirectory }: BuildCacheOptions,
   context: BuilderContext,
@@ -54,9 +61,11 @@ async function getBuildDependencies(context: Readonly<BuilderContext>) {
   const rootPackageJson = join(context.rootPath, 'package.json');
   const browserslistConfig = join(context.rootPath, '.browserslistrc');
 
-  const buildDependencies: Record<string, string[]> = {
-    packageJson: [rootPackageJson],
-  };
+  const buildDependencies: Record<string, string[]> = {};
+
+  if (await isFileExists(rootPackageJson)) {
+    buildDependencies.packageJson = [rootPackageJson];
+  }
 
   if (context.configPath) {
     buildDependencies.config = [context.configPath];
@@ -105,7 +114,9 @@ export const builderPluginCache = (): DefaultBuilderPlugin => ({
       chain.cache({
         // The default cache name of webpack is '${name}-${env}', and the `name` is `default` by default.
         // We set cache name to avoid cache conflicts of different targets.
-        name: `${target}-${env}`,
+        name: cacheConfig.cacheDigest
+          ? `${target}-${env}-${getDigestHash(cacheConfig.cacheDigest)}`
+          : `${target}-${env}`,
         type: 'filesystem',
         cacheDirectory,
         buildDependencies,

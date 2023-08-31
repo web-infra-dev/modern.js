@@ -7,6 +7,10 @@ type BuildCacheConfig =
        * webpack 文件缓存系统的缓存目录
        */
       cacheDirectory?: string;
+      /**
+       * 影响构建结果的变量
+       */
+      cacheDigest?: Array<string | undefined>;
     }
   | boolean;
 ```
@@ -43,6 +47,24 @@ export default {
 export default {
   performance: {
     buildCache: false,
+  },
+};
+```
+
+如果当前项目存在一些环境变量会对构建结果产生影响，可添加到 cacheDigest 中：
+
+```js
+export default {
+  tools: {
+    bundlerChain: chain => {
+      if (process.env.APP_ID === 'xxx') {
+        chain.resolve.extensions.prepend('.ttp.ts');
+      }
+  },
+  performance: {
+    buildCache: {
+      cacheDigest: [process.env.APP_ID]
+    },
   },
 };
 ```

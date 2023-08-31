@@ -7,6 +7,10 @@ type BuildCacheConfig =
        * Base directory for the filesystem cache.
        */
       cacheDirectory?: string;
+      /**
+       * Environment variables that affect build results
+       */
+      cacheDigest?: Array<string | undefined>;
     }
   | boolean;
 ```
@@ -43,6 +47,24 @@ You can also disable the build cache by setting it to `false`:
 export default {
   performance: {
     buildCache: false,
+  },
+};
+```
+
+If there are some environment variables in the current project that will affect the build results, they can be added to cacheDigest:
+
+```js
+export default {
+  tools: {
+    bundlerChain: (chain: any) => {
+      if (process.env.APP_ID === 'xxx') {
+        chain.resolve.extensions.prepend('.ttp.ts');
+      }
+  },
+  performance: {
+    buildCache: {
+      cacheDigest: [process.env.APP_ID]
+    },
   },
 };
 ```

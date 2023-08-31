@@ -4,9 +4,6 @@ exports[`plugins/cache > 'should add cache config correctly' 1`] = `
 {
   "cache": {
     "buildDependencies": {
-      "packageJson": [
-        "<ROOT>/tests/plugins/package.json",
-      ],
       "tailwindcss": [
         "/root/tailwind.config.ts",
       ],
@@ -18,13 +15,25 @@ exports[`plugins/cache > 'should add cache config correctly' 1`] = `
 }
 `;
 
+exports[`plugins/cache > 'should apply cacheDigest' 1`] = `
+{
+  "cache": {
+    "buildDependencies": {
+      "tailwindcss": [
+        "/root/tailwind.config.ts",
+      ],
+    },
+    "cacheDirectory": "<ROOT>/tests/plugins/node_modules/.cache/webpack",
+    "name": "web-development-c29a5747d698b2f95cdfd5ed6502f19d",
+    "type": "filesystem",
+  },
+}
+`;
+
 exports[`plugins/cache > 'should custom cache directory by user' 1`] = `
 {
   "cache": {
     "buildDependencies": {
-      "packageJson": [
-        "<ROOT>/tests/plugins/package.json",
-      ],
       "tailwindcss": [
         "/root/tailwind.config.ts",
       ],
@@ -49,9 +58,6 @@ exports[`plugins/cache > 'should watch framework config change' 1`] = `
       "config": [
         "/path/to/config.js",
       ],
-      "packageJson": [
-        "<ROOT>/tests/plugins/package.json",
-      ],
       "tailwindcss": [
         "/root/tailwind.config.ts",
       ],
@@ -67,9 +73,6 @@ exports[`plugins/cache > 'should watch tsconfig change' 1`] = `
 {
   "cache": {
     "buildDependencies": {
-      "packageJson": [
-        "<ROOT>/tests/plugins/package.json",
-      ],
       "tailwindcss": [
         "/root/tailwind.config.ts",
       ],
