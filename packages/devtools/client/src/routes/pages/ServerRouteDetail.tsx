@@ -1,7 +1,7 @@
 import React from 'react';
 import { ServerRoute } from '@modern-js/types';
 import styled from '@emotion/styled';
-import { Box } from '@radix-ui/themes';
+import { Box, Text } from '@radix-ui/themes';
 import EntryView from './EntryView';
 
 export interface ServerRouteDetailProps {
@@ -18,7 +18,7 @@ export const ServerRouteDetail: React.FC<ServerRouteDetailProps> = ({
       </Container>
     );
   } else {
-    throw new Error('Unimplemented.');
+    return <Text>Unknown route type.</Text>;
   }
 };
 
