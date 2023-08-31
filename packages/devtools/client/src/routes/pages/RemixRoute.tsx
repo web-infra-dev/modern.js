@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { RouteObject } from '@modern-js/runtime/router';
 import { Box, Flex, Link, Code } from '@radix-ui/themes';
 import styled from '@emotion/styled';
 import _ from 'lodash';
 import { withoutTrailingSlash } from 'ufo';
 import { useHoverDirty } from 'react-use';
+import { MatchUrlContext } from './MatchUrl';
 
 export interface RemixRouteProps {
   route: RouteObject | RouteObject[];
@@ -23,6 +24,9 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
     .join('/');
   const isIndex = curr.index ?? false;
   const isRoot = displayPath === '/';
+  const matched = useContext(MatchUrlContext);
+  const isMatching = matched.client !== null;
+  const isMatched = _.find(matched.client, { route: { id: curr.id } });
 
   const ref = useRef<HTMLDivElement>(null);
   const hovered = useHoverDirty(ref);
@@ -30,7 +34,7 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
   return (
     <Box ref={ref}>
       <Flex gap="2" align="center" mb={curr.children && '1'}>
-        <Flex>
+        <EndpointContainer data-miss-matched={isMatching && !isMatched}>
           {!isRoot && (
             <EndpointTag data-compose={isIndex && 'head'}>
               {displayPath}
@@ -41,7 +45,7 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
               /(index)
             </EndpointTag>
           )}
-        </Flex>
+        </EndpointContainer>
         {hovered && componentFile && (
           <ShyLink>{componentFile.replace('@_modern_js_src/', '@/')}</ShyLink>
         )}
@@ -72,4 +76,12 @@ const EndpointTag = styled(Code)({
 const ShyLink = styled(Link)({
   color: 'var(--gray-9)',
   fontSize: 'var(--font-size-1)',
+});
+
+const EndpointContainer = styled(Box)({
+  display: 'flex',
+  transition: 'opacity 200ms',
+  '&[data-miss-matched="true"]': {
+    opacity: '0.5',
+  },
 });

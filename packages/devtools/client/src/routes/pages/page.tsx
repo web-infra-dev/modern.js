@@ -11,6 +11,7 @@ import * as ufo from 'ufo';
 import { Box, Text, TextField } from '@radix-ui/themes';
 import type { FileSystemRoutes } from '@modern-js/devtools-kit';
 import { ServerRoute } from './ServerRoute';
+import { MatchUrlContext } from './MatchUrl';
 import { useStore } from '@/stores';
 
 const isLegacyRoutes = (routes: FileSystemRoutes): routes is RouteLegacy[] =>
@@ -26,7 +27,7 @@ export const matchRoutes = (
   location: string,
 ) => matchRemixRoutes(routes as any, location);
 
-const Page: React.FC = () => {
+const useMatchUrl = (url: string) => {
   const $store = useStore();
   const store = useSnapshot($store);
   const { serverRoutes } = store.framework.context;
@@ -34,19 +35,14 @@ const Page: React.FC = () => {
     string,
     FileSystemRoutes
   >;
-
-  const [testingUrl, setTestingUrl] = useState<ufo.ParsedURL>();
-
-  const serverRoute = useMemo(
-    () =>
-      testingUrl &&
-      serverRoutes.find(
-        route =>
-          testingUrl.pathname === route.urlPath ||
-          testingUrl.pathname.startsWith(`${route.urlPath}/`),
-      ),
-    [testingUrl],
-  );
+  const serverRoute = useMemo(() => {
+    if (!url) return null;
+    const { pathname } = ufo.parseURL(url);
+    return serverRoutes.find(
+      route =>
+        pathname === route.urlPath || pathname.startsWith(`${route.urlPath}/`),
+    );
+  }, [url]);
   const fileSystemRoute =
     (serverRoute?.entryName &&
       serverRoute.entryName in fileSystemRoutes &&
@@ -55,38 +51,50 @@ const Page: React.FC = () => {
 
   const matchedRoutes = useMemo(() => {
     const routes = fileSystemRoute;
-    if (!testingUrl || !routes) {
+    if (!url || !routes) {
       return null;
     }
-    const _url = ufo
-      .stringifyParsedURL(testingUrl)
-      .replace(`${serverRoute!.entryName!}/`, '');
+    const _url = url.replace(serverRoute!.urlPath, '');
     if (isLegacyRoutes(routes)) {
       return matchLegacyRoutes(routes, _url);
     } else {
       return matchRoutes(routes as any, _url);
     }
-  }, [fileSystemRoute, testingUrl]);
-  console.log('matchedRoutes: ', matchedRoutes);
+  }, [fileSystemRoute, url]);
+
+  return { server: serverRoute ?? null, client: matchedRoutes ?? null };
+};
+
+const Page: React.FC = () => {
+  const $store = useStore();
+  const store = useSnapshot($store);
+  const { serverRoutes } = store.framework.context;
+
+  const [testingUrl, setTestingUrl] = useState<string>('');
+  const matchedRoute = useMatchUrl(testingUrl);
 
   return (
-    <Container>
-      <TextField.Root>
-        <TextField.Slot>
-          <Text size="2">test:</Text>
-        </TextField.Slot>
-        <TextField.Input
-          placeholder="/foo?bar#baz"
-          onChange={e => setTestingUrl(ufo.parseURL(e.target.value))}
-        />
-      </TextField.Root>
-      <Box height="2" />
-      <RoutesContainer>
-        {serverRoutes.map(route => (
-          <ServerRoute key={route.entryPath} route={route} />
-        ))}
-      </RoutesContainer>
-    </Container>
+    <MatchUrlContext.Provider value={matchedRoute}>
+      <Container>
+        <Box>
+          <TextField.Root>
+            <TextField.Slot>
+              <Text size="2">test:</Text>
+            </TextField.Slot>
+            <TextField.Input
+              placeholder="/foo?bar#baz"
+              onChange={e => setTestingUrl(e.target.value)}
+            />
+          </TextField.Root>
+        </Box>
+        <Box height="2" />
+        <RoutesContainer>
+          {serverRoutes.map(route => (
+            <ServerRoute key={route.entryPath} route={route} />
+          ))}
+        </RoutesContainer>
+      </Container>
+    </MatchUrlContext.Provider>
   );
 };
 
