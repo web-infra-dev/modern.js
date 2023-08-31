@@ -25,26 +25,10 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
         ];
       },
       config() {
-        const setupDevtoolsScript = require.resolve(
-          '@modern-js/devtools-mount',
-        );
         return {
           builderPlugins: [builderPlugin],
           source: {
-            preEntry: [
-              `data:application/javascript,
-                import { mountDevTools } from "${setupDevtoolsScript}";
-                const dataSource = "/_modern_js/devtools/rpc";
-                if (dataSource.startsWith('/')) {
-                  const url = new URL(location);
-                  url.protocol = 'ws:';
-                  url.pathname = dataSource;
-                  mountDevTools({ dataSource: url.href });
-                } else {
-                  throw new Error('Unimplemented.');
-                }
-              `.replace(/\n */g, ''),
-            ],
+            preEntry: [require.resolve('@modern-js/plugin-devtools/runtime')],
           },
           tools: {
             devServer: {

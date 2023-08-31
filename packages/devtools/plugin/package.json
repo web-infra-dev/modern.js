@@ -31,6 +31,9 @@
     "./cli": {
       "jsnext:source": "./src/cli.ts",
       "default": "./dist/cjs/cli.js"
+    },
+    "./runtime": {
+      "default": "./runtime.mjs"
     }
   },
   "scripts": {
