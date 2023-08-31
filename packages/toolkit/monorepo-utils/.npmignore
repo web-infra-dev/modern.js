@@ -23,10 +23,10 @@ tests/
 src/
 compiled/
 
-modern.config.js
-modern.config.ts
+modern.config.*
 jest.config.js
 .eslintrc.js
 .eslintrc
 tsconfig.json
+CHANGELOG.md
 

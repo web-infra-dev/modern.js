@@ -12,8 +12,8 @@ tests/
 
 src/
 
-modern.config.js
-modern.config.ts
+modern.config.*
 vitest.config.ts
 .eslintrc.js
 tsconfig.json
+CHANGELOG.md
