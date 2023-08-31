@@ -1,5 +1,11 @@
 # @modern-js/main-doc
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.33.1
+
 ## 2.33.0
 
 ### Patch Changes

@@ -1339,7 +1339,7 @@ importers:
         specifier: workspace:*
         version: link:../../builder/builder-webpack-provider
       '@modern-js/plugin-router-v5':
-        specifier: workspace:^2.33.0
+        specifier: workspace:^2.33.1
         version: link:../../runtime/plugin-router-v5
       '@modern-js/utils':
         specifier: workspace:*

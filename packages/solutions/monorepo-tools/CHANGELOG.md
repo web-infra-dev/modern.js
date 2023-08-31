@@ -1,5 +1,19 @@
 # @modern-js/monorepo-tools
 
+## 2.33.1
+
+### Patch Changes
+
+- c38570e: feat: new and upgrade command support --no-need-install params
+  - @modern-js/core@2.33.1
+  - @modern-js/plugin-changeset@2.33.1
+  - @modern-js/plugin-i18n@2.33.1
+  - @modern-js/plugin-lint@2.33.1
+  - @modern-js/new-action@2.33.1
+  - @modern-js/plugin@2.33.1
+  - @modern-js/upgrade@2.33.1
+  - @modern-js/utils@2.33.1
+
 ## 2.33.0
 
 ### Patch Changes

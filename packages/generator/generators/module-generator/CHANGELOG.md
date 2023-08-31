@@ -1,5 +1,13 @@
 # @modern-js/module-generator
 
+## 3.1.39
+
+### Patch Changes
+
+- 7f4ecba: chore: avoid publish CHANGELOG to npm to reduce install size
+
+  chore: 避免将 CHANGELOG 发布到 npm 以减少安装大小
+
 ## 3.1.38
 
 ## 3.1.37
