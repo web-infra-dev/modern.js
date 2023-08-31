@@ -67,7 +67,7 @@
     "@modern-js/swc-plugins": "0.6.0",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.1",
-    "core-js": "~3.30.0"
+    "core-js": "~3.32.1"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",

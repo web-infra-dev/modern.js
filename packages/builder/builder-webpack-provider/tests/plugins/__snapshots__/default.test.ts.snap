@@ -564,7 +564,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -709,7 +709,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1505,7 +1505,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1650,7 +1650,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3196,7 +3196,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3341,7 +3341,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

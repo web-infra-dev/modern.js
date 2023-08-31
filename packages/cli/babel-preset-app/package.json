@@ -42,7 +42,7 @@
     "@babel/types": "^7.21.5",
     "@modern-js/babel-preset-base": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "core-js": "~3.30.0",
+    "core-js": "~3.32.1",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
