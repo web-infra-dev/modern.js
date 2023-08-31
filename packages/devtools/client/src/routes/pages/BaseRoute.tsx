@@ -26,7 +26,6 @@ export const BaseRoute: React.FC<BaseRouteProps> = ({
   const url = useContext(MatchUrlContext);
   const [_open, _setOpen] = useState(false);
   const isMatching = Boolean(url);
-  console.log('url: ', url);
   const { pathname } = parseURL(url);
   const isMatched =
     pathname === route.urlPath || pathname.startsWith(`${route.urlPath}/`);

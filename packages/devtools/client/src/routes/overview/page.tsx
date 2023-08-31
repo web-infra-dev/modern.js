@@ -8,8 +8,13 @@ const Page: React.FC = () => {
   const $store = useStore();
   const store = useSnapshot($store);
   const { bundlerType } = store.builder.context;
+
   const display = {
     bundlerType,
+    serverRoute: store.framework.context.serverRoutes.length,
+    toolsType: store.framework.context.toolsType,
+    frameworkPlugin: store.framework.config.transformed.plugins.length,
+    builderPlugin: store.framework.config.transformed.builderPlugins.length,
   };
   return (
     <div>
