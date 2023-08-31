@@ -40,6 +40,10 @@ export const monorepoTools = (): CliPlugin<MonorepoTools> => ({
             .option(
               '-c --config <config>',
               i18n.t(localeKeys.command.shared.config),
+            )
+            .option(
+              '--no-need-install',
+              i18n.t(localeKeys.command.shared.noNeedInstall),
             ),
         );
       },

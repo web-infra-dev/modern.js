@@ -11,6 +11,7 @@ export const ZH_LOCALE = {
   command: {
     shared: {
       config: '指定配置文件路径，可以为相对路径或绝对路径',
+      noNeedInstall: '无需安装依赖',
     },
     build: {
       describe: '构建生产环境产物',

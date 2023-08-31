@@ -91,6 +91,10 @@ export const newCommand = async (program: Command) => {
     .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
     .option('--dist-tag <tag>', i18n.t(localeKeys.command.new.distTag))
     .option('--registry', i18n.t(localeKeys.command.new.registry))
+    .option(
+      '--no-need-install',
+      i18n.t(localeKeys.command.shared.noNeedInstall),
+    )
     .action(async options => {
       const { ModuleNewAction } = await import('@modern-js/new-action');
       const { getLocaleLanguage } = await import(
@@ -108,6 +112,10 @@ export const upgradeCommand = async (program: Command) => {
   defineCommand(
     program
       .command('upgrade')
-      .option('-c --config <config>', i18n.t(localeKeys.command.shared.config)),
+      .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
+      .option(
+        '--no-need-install',
+        i18n.t(localeKeys.command.shared.noNeedInstall),
+      ),
   );
 };

@@ -37,6 +37,7 @@ interface IMWANewActionOption {
   registry?: string;
   config?: string;
   cwd?: string;
+  needInstall?: boolean;
 }
 
 export const MWANewAction = async (options: IMWANewActionOption) => {
@@ -47,6 +48,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
     registry = '',
     config = '{}',
     cwd = process.cwd(),
+    needInstall = true,
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -141,6 +143,7 @@ export const MWANewAction = async (options: IMWANewActionOption) => {
 
   const finalConfig = merge(
     UserConfig,
+    { noNeedInstall: !needInstall },
     ans,
     {
       locale: (UserConfig.locale as string) || locale,
