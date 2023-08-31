@@ -14,7 +14,7 @@ const Page: React.FC = () => {
     serverRoute: store.framework.context.serverRoutes.length,
     toolsType: store.framework.context.toolsType,
     frameworkPlugin: store.framework.config.transformed.plugins.length,
-    builderPlugin: store.framework.config.transformed.builderPlugins.length,
+    builderPlugin: store.framework.context.plugins.length,
   };
   return (
     <div>

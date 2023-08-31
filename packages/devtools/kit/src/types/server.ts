@@ -28,10 +28,7 @@ export type NormalizedBuilderConfig =
   | NormalizedWebpackBuilderConfig
   | NormalizedRspackBuilderConfig;
 
-export type AppContext = Omit<
-  IAppContext,
-  'builder' | 'plugins' | 'serverInternalPlugins'
->;
+export type AppContext = Omit<IAppContext, 'builder' | 'serverInternalPlugins'>;
 
 export type FileSystemRoutes =
   | RouteLegacy[]

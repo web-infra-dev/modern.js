@@ -86,7 +86,7 @@ export const setupClientConnection = async (
     async getAppContext() {
       await deferred.prepare.promise;
       const ctx = { ...api.useAppContext() };
-      return _.omit(ctx, ['builder', 'plugins', 'serverInternalPlugins']);
+      return _.omit(ctx, ['builder', 'serverInternalPlugins']);
     },
     async getFileSystemRoutes(entryName) {
       return _fileSystemRoutesMap[entryName] ?? [];
@@ -129,11 +129,13 @@ export const setupClientConnection = async (
   const builderPlugin: BuilderPlugin<BuilderPluginAPI> = {
     name: 'builder-plugin-devtools',
     setup(api) {
-      deferred.builder.context.resolve(api.context);
+      deferred.builder.context.resolve(_.cloneDeep(api.context));
       api.modifyBundlerChain(() => {
-        deferred.builder.config.resolved.resolve(api.getBuilderConfig() as any);
+        deferred.builder.config.resolved.resolve(
+          _.cloneDeep(api.getBuilderConfig()),
+        );
         deferred.builder.config.transformed.resolve(
-          api.getNormalizedConfig() as any,
+          _.cloneDeep(api.getNormalizedConfig()),
         );
       });
 
@@ -146,12 +148,16 @@ export const setupClientConnection = async (
       modifyBundlerConfig(config => {
         bundlerConfigs.push(config as any);
         if (bundlerConfigs.length >= expectBundlerNum) {
-          deferred.bundler.config.resolved.resolve(bundlerConfigs);
+          deferred.bundler.config.resolved.resolve(
+            _.cloneDeep(bundlerConfigs) as any,
+          );
         }
       });
 
       api.onBeforeCreateCompiler(({ bundlerConfigs }) => {
-        deferred.bundler.config.transformed.resolve(bundlerConfigs as any);
+        deferred.bundler.config.transformed.resolve(
+          _.cloneDeep(bundlerConfigs) as any,
+        );
       });
     },
   };
