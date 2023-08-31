@@ -52,11 +52,16 @@ export const mergeDefaultBaseConfig = async (
   const buildType = pConfig.buildType ?? defaultConfig.buildType;
   const sourceDir = pConfig.sourceDir ?? defaultConfig.sourceDir;
   const metafile = pConfig.metafile ?? defaultConfig.metafile;
+  const asset = {
+    ...defaultConfig.asset,
+    ...pConfig.asset,
+  };
   const defaultIndexEntry =
     buildType === 'bundle' ? await getDefaultIndexEntry(context) : [sourceDir];
   const input = await normalizeInput(
     pConfig.input ?? defaultIndexEntry,
     context.appDirectory,
+    Boolean(asset?.svgr),
   );
   const userDefine = pConfig.define ?? {};
   const define = {
@@ -105,10 +110,7 @@ export const mergeDefaultBaseConfig = async (
 
   const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
   return {
-    asset: {
-      ...defaultConfig.asset,
-      ...pConfig.asset,
-    },
+    asset,
     buildType,
     format: pConfig.format ?? defaultConfig.format,
     target: pConfig.target ?? defaultConfig.target,
