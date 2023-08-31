@@ -15,7 +15,7 @@ import { MatchUrlContext } from './MatchUrl';
 import { useStore } from '@/stores';
 
 const isLegacyRoutes = (routes: FileSystemRoutes): routes is RouteLegacy[] =>
-  !('type' in routes[0]);
+  routes[0] && !('type' in routes[0]);
 
 const matchLegacyRoutes = (_routes: RouteLegacy[], _location: string) => {
   // TODO: implement

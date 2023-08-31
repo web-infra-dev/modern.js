@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { useSnapshot } from 'valtio';
 import type { ServerRoute } from '@modern-js/types';
 import { RouteObject } from '@modern-js/runtime/router';
-import { Box } from '@radix-ui/themes';
+import { Box, Card, Flex, Strong, Text } from '@radix-ui/themes';
+import styled from '@emotion/styled';
 import { RemixRoute } from './RemixRoute';
 import { useStore } from '@/stores';
 
@@ -12,6 +13,7 @@ export interface EntryViewProps {
 }
 
 const EntryView: React.FC<EntryViewProps> = ({ route }) => {
+  console.log('route: ', route);
   const $store = useStore();
   const store = useSnapshot($store);
   const { entrypoints } = store.framework.context;
@@ -30,15 +32,31 @@ const EntryView: React.FC<EntryViewProps> = ({ route }) => {
   ] as unknown as RouteObject[];
 
   return (
-    <Box>
+    <Flex gap="2" direction="column">
+      <Stats>
+        <Box>
+          <Flex gap="1">
+            <Strong>Directory: </Strong>
+            <Text>{entrypoint.absoluteEntryDir}</Text>
+          </Flex>
+          <Flex gap="1">
+            <Strong>Entry:</Strong>
+            <Text>{entrypoint.entry}</Text>
+          </Flex>
+        </Box>
+      </Stats>
       {fileSystemRoute.map(r => (
         <RemixRoute
           key={r.id}
           route={{ ...r, path: route.urlPath + (r.path ?? '') }}
         />
       ))}
-    </Box>
+    </Flex>
   );
 };
 
 export default EntryView;
+
+const Stats = styled(Card)({
+  fontSize: 'var(--font-size-1)',
+});
