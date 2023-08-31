@@ -111,3 +111,53 @@ test('should use define for class', async () => {
 
   await builder.close();
 });
+
+test('core-js-entry', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/core-js-entry.ts'),
+    },
+    plugins: [
+      builderPluginSwc({
+        env: {
+          targets: 'ie 9',
+          mode: 'entry',
+        },
+      }),
+    ],
+    builderConfig: {
+      output: {
+        disableMinimize: true,
+      },
+    },
+    runServer: true,
+  });
+
+  await builder.close();
+});
+
+test('core-js-usage', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/core-js-usage.ts'),
+    },
+    plugins: [
+      builderPluginSwc({
+        env: {
+          targets: 'ie 9',
+          mode: 'usage',
+        },
+      }),
+    ],
+    builderConfig: {
+      output: {
+        disableMinimize: true,
+      },
+    },
+    runServer: true,
+  });
+
+  await builder.close();
+});

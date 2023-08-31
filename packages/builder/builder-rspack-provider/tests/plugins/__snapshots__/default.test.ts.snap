@@ -36,7 +36,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     ],
     "presetEnv": {
-      "coreJs": "3.30",
+      "coreJs": "3.32",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -789,7 +789,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
     ],
     "presetEnv": {
-      "coreJs": "3.30",
+      "coreJs": "3.32",
       "mode": "entry",
       "targets": [
         "> 0.01%",
@@ -2046,7 +2046,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
     ],
     "presetEnv": {
-      "coreJs": "3.30",
+      "coreJs": "3.32",
       "mode": "entry",
       "targets": [
         "> 0.01%",
