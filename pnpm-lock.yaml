@@ -2075,6 +2075,9 @@ importers:
       '@radix-ui/themes':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.0.6)(@types/react@18.0.21)(react-dom@18.2.0)(react@18.2.0)
+      birpc:
+        specifier: 0.2.13
+        version: 0.2.13
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -2163,9 +2166,6 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
-      birpc:
-        specifier: ^0.2.12
-        version: 0.2.12
       ws:
         specifier: 8.13.0
         version: 8.13.0
@@ -2290,6 +2290,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      birpc:
+        specifier: 0.2.13
+        version: 0.2.13
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
@@ -19986,8 +19989,8 @@ packages:
     dev: false
     optional: true
 
-  /birpc@0.2.12:
-    resolution: {integrity: sha512-6Wz9FXuJ/FE4gDH+IGQhrYdalAvAQU1Yrtcu1UlMk3+9mMXxIRXiL+MxUcGokso42s+Fy+YoUXGLOdOs0siV3A==}
+  /birpc@0.2.13:
+    resolution: {integrity: sha512-30rz9OBSJoGfiWox7dpyqoSVo6664PBEYSTfmmG1GBridUxnMysyovNpnwhaPMvjtKn3Y1UfII+HMTU0kqJFjA==}
     dev: false
 
   /bl@4.1.0:

@@ -16,6 +16,7 @@
     "node": ">=14.0.0"
   },
   "dependencies": {
+    "birpc": "0.2.13",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@modern-js/devtools-kit": "workspace:*",

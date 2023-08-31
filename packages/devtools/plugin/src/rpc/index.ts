@@ -8,7 +8,7 @@ import type {
   ServerFunctions,
 } from '@modern-js/devtools-kit';
 import type { JsonValue } from 'type-fest';
-import { createBirpc, BirpcOptions } from '@modern-js/devtools-kit/birpc';
+import { createBirpc, BirpcOptions } from 'birpc';
 import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
 import { getPort } from '@modern-js/utils';

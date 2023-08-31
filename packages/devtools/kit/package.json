@@ -24,18 +24,6 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "default": "./dist/cjs/index.js"
-    },
-    "./birpc": {
-      "jsnext:source": "./src/exports/birpc.ts",
-      "types": "./dist/types/exports/birpc.d.ts",
-      "default": "./dist/cjs/exports/birpc.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "birpc": [
-        "./dist/types/exports/birpc.d.ts"
-      ]
     }
   },
   "scripts": {
@@ -49,7 +37,6 @@
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@geist-ui/core": "^2.3.8",
-    "birpc": "^0.2.12",
     "ws": "8.13.0"
   },
   "devDependencies": {

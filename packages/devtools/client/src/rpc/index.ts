@@ -1,5 +1,5 @@
 import { ClientFunctions, ServerFunctions } from '@modern-js/devtools-kit';
-import { createBirpc } from '@modern-js/devtools-kit/birpc';
+import { createBirpc } from 'birpc';
 import { StoreContextValue } from '@/types';
 
 export interface SetupOptions {
