@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import _ from 'lodash';
 import { withoutTrailingSlash } from 'ufo';
 import { useHoverDirty } from 'react-use';
-import { MatchUrlContext } from './MatchUrl';
+import { MatchUrlContext } from '../MatchUrl';
 
 export interface RemixRouteProps {
   route: RouteObject | RouteObject[];
