@@ -60,10 +60,11 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
     let pluginsExportsUtils: any;
 
     const afterDevOrBuild = async () => {
-      const { getHasUseLoader } = await import('./babel-plugin-ssr-loader-id');
+      const { loaderState } = await import('./babel-plugin-ssr-loader-id');
+
       const { distDirectory } = api.useAppContext();
 
-      const hasUseLoader = getHasUseLoader();
+      const hasUseLoader = loaderState.get();
       const routesSpecPath = path.join(distDirectory, ROUTE_SPEC_FILE);
       const routesSpec = JSON.parse(await fs.readFile(routesSpecPath, 'utf-8'));
       await fs.outputFile(

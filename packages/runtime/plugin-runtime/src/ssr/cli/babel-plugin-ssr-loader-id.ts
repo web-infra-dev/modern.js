@@ -6,11 +6,15 @@ import { get } from '@modern-js/utils/lodash';
 const RUNTIME_PACKAGE_NAMES = ['@modern-js/runtime'];
 const FUNCTION_USE_LOADER_NAME = 'useLoader';
 
-let hasUseLoader = false;
-
-export function getHasUseLoader(): boolean {
-  return hasUseLoader;
-}
+export const loaderState = {
+  _hasLoader: false,
+  get() {
+    return this._hasLoader;
+  },
+  set(value: boolean) {
+    this._hasLoader = value;
+  },
+};
 
 function getHash(filepath: string) {
   const cwd = process.cwd();
@@ -79,7 +83,7 @@ function getSelfRunLoaderExpression(
   loaderExpression: t.Expression,
   id: string,
 ) {
-  hasUseLoader = true;
+  loaderState.set(true);
   return t.callExpression(
     t.functionExpression(
       null,
@@ -114,7 +118,6 @@ export default function () {
   return {
     name: 'babel-plugin-ssr-loader-id',
     pre() {
-      hasUseLoader = false;
       index = 0;
       useLoader = null;
       hash = '';
