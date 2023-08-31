@@ -1,5 +1,7 @@
 # @modern-js/monorepo-generator
 
+## 3.1.38
+
 ## 3.1.37
 
 ## 3.1.36

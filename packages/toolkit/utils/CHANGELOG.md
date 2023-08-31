@@ -1,5 +1,17 @@
 # @modern-js/utils
 
+## 2.33.0
+
+### Patch Changes
+
+- fd82137: chore(utils): remove no longer used recursive-readdir
+
+  chore(utils): 移除不再使用的 recursive-readdir 方法
+
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
 ## 2.32.1
 
 ## 2.32.0

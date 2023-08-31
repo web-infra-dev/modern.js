@@ -1,5 +1,17 @@
 # @modern-js/plugin-module-doc
 
+## 2.33.0
+
+### Minor Changes
+
+- db9a700: feat(doc-tools): remove modernjs doc
+
+  feat(doc-tools): 移除 modernjs doc 相关包
+
+### Patch Changes
+
+- @modern-js/module-tools@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @modern-js/repo-generator
 
+## 3.1.38
+
+### Patch Changes
+
+- 6727586: chore: remove doc-generator and related code
+
+  chore: 移除 doc-generator 和相关代码
+
 ## 3.1.37
 
 ## 3.1.36

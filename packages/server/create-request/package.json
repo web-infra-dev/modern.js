@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.32.1",
+  "version": "2.33.0",
   "jsnext:source": "./src/node.ts",
   "types": "./src/node.ts",
   "main": "./dist/cjs/node.js",

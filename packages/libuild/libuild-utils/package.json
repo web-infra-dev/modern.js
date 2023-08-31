@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/libuild-utils",
-  "version": "2.32.1",
+  "version": "2.33.0",
   "description": "utils for libuild",
   "license": "MIT",
   "main": "dist/index.js",

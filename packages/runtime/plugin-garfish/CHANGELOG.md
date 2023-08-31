@@ -1,5 +1,22 @@
 # @modern-js/plugin-garfish
 
+## 2.33.0
+
+### Patch Changes
+
+- 8532641: fix(plugin-garfish): add react and react-dom as peerDependencies to prevent phantom dependencies
+
+  fix(plugin-garfish): 增加 react 和 react-dom 为 peerDependencies 来防止幻影依赖
+
+- Updated dependencies [6ea89ab]
+- Updated dependencies [ae35c65]
+- Updated dependencies [2bcff4f]
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [44da57b]
+  - @modern-js/runtime@2.33.0
+  - @modern-js/utils@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

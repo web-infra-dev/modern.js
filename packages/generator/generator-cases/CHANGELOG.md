@@ -1,5 +1,12 @@
 # @modern-js/generator-cases
 
+## 3.1.38
+
+### Patch Changes
+
+- Updated dependencies [6727586]
+  - @modern-js/generator-common@3.1.38
+
 ## 3.1.37
 
 ### Patch Changes

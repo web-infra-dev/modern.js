@@ -1,5 +1,15 @@
 # @modern-js/main-doc
 
+## 2.33.0
+
+### Patch Changes
+
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
+  - @modern-js/builder-doc@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes

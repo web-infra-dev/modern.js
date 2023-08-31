@@ -1,5 +1,36 @@
 # @modern-js/builder-shared
 
+## 2.33.0
+
+### Patch Changes
+
+- c9ffc4d: fix(builder): fix withPublicPath may missing subpath
+
+  fix(builder): 修复 withPublicPath 方法可能会丢失子路径的问题
+
+- 915636b: fix(builder): incorrect prefetch domain when assetPrefix has no protocol
+
+  fix(builder): 修复 assetPrefix 不包含 protocol 时 prefetch 域名错误的问题
+
+- d55caa9: fix(builder): `html.meta.referrer` can't accept literal false value
+  fix(builder): `html.meta.referrer` 配置无法接受 false 字面量作为值
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
+- 64df945: feat(builder): support enableCssModuleTSDeclaration and cssModules.exportLocalsConvention when use rspack mode
+
+  feat(builder): 在使用 Rspack 构建时，支持 enableCssModuleTSDeclaration 和 cssModules.exportLocalsConvention 配置项
+
+- Updated dependencies [fd82137]
+- Updated dependencies [1042583]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [3ba1682]
+  - @modern-js/utils@2.33.0
+  - @modern-js/prod-server@2.33.0
+  - @modern-js/server@2.33.0
+  - @modern-js/types@2.33.0
+
 ## 2.32.1
 
 ### Patch Changes
