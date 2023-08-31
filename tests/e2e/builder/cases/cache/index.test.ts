@@ -60,14 +60,14 @@ webpackOnlyTest(
 
     process.env.TEST_ENV = 'a';
 
-    // hit cache, and unfortunately, extension '.a.js' not work
+    // hit cache => unfortunately, extension '.a.js' not work
     builder = await build(buildConfig);
 
     expect((await getIndexFile(builder)).includes('222222')).toBeTruthy();
   },
 );
 
-webpackOnlyTest('custom buildDependencies should work', async () => {
+webpackOnlyTest('cacheDigest should work', async () => {
   const cacheDirectory = path.resolve(
     __dirname,
     './node_modules/.cache/webpack-1',
@@ -89,7 +89,7 @@ webpackOnlyTest('custom buildDependencies should work', async () => {
       performance: {
         buildCache: {
           cacheDirectory,
-          buildDependenciesEnv: [process.env.TEST_ENV],
+          cacheDigest: [process.env.TEST_ENV],
         },
       },
     },
