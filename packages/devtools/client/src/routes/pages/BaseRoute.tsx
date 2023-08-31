@@ -3,6 +3,7 @@ import type { ServerRoute as IServerRoute } from '@modern-js/types';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { Box, Card, Text } from '@radix-ui/themes';
 import { CaretSortIcon } from '@radix-ui/react-icons';
+import { parseURL } from 'ufo';
 import styled from '@emotion/styled';
 import { MatchUrlContext } from './MatchUrl';
 
@@ -22,10 +23,13 @@ export const BaseRoute: React.FC<BaseRouteProps> = ({
   open,
   onOpenChange,
 }) => {
-  const matched = useContext(MatchUrlContext);
+  const url = useContext(MatchUrlContext);
   const [_open, _setOpen] = useState(false);
-  const isMatching = matched.server !== null;
-  const isMatched = matched.server?.urlPath === route.urlPath;
+  const isMatching = Boolean(url);
+  console.log('url: ', url);
+  const { pathname } = parseURL(url);
+  const isMatched =
+    pathname === route.urlPath || pathname.startsWith(`${route.urlPath}/`);
   const isOpen = isMatched || (open ?? _open);
 
   return (

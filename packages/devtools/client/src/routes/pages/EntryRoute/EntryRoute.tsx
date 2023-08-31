@@ -3,7 +3,7 @@ import { Badge, Flex } from '@radix-ui/themes';
 import { ServerRoute } from '@modern-js/types';
 import { BaseRoute } from '../BaseRoute';
 import { EntryStats } from './EntryStats';
-import RemixRouteStats from './RemixRouteStats';
+import { ClientRouteStats } from './ClientRouteStats';
 
 export interface EntryRouteProps {
   route: ServerRoute;
@@ -14,7 +14,7 @@ const EntryRoute: React.FC<EntryRouteProps> = ({ route }) => {
     <BaseRoute badge={badge} route={route} title={route.urlPath}>
       <Flex direction="column" gap="2">
         <EntryStats route={route} />
-        <RemixRouteStats route={route} />
+        <ClientRouteStats route={route} />
       </Flex>
     </BaseRoute>
   );

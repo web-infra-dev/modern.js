@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import _ from 'lodash';
 import { withoutTrailingSlash } from 'ufo';
 import { useHoverDirty } from 'react-use';
-import { MatchUrlContext } from '../MatchUrl';
+import { MatchRemixRouteContext } from '../MatchRemixRouteContext';
 
 export interface RemixRouteProps {
   route: RouteObject | RouteObject[];
@@ -24,9 +24,9 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
     .join('/');
   const isIndex = curr.index ?? false;
   const isRoot = displayPath === '/';
-  const matched = useContext(MatchUrlContext);
-  const isMatching = matched.client !== null;
-  const isMatched = _.find(matched.client, { route: { id: curr.id } });
+  const matched = useContext(MatchRemixRouteContext);
+  const isMatching = matched.length > 0;
+  const isMatched = _.find(matched, { route: { id: curr.id } });
 
   const ref = useRef<HTMLDivElement>(null);
   const hovered = useHoverDirty(ref);
