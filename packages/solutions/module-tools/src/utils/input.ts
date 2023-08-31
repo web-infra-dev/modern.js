@@ -22,7 +22,11 @@ export const getDefaultIndexEntry = async ({
   return [];
 };
 
-export const normalizeInput = async (input: Input, appDirectory: string) => {
+export const normalizeInput = async (
+  input: Input,
+  appDirectory: string,
+  enableSvgr: boolean,
+) => {
   const extensions = [
     'js',
     'ts',
@@ -38,6 +42,10 @@ export const normalizeInput = async (input: Input, appDirectory: string) => {
     'less',
     'json',
   ];
+
+  if (enableSvgr) {
+    extensions.push('svg');
+  }
 
   if (isArray(input)) {
     const normalizedInput = await globby(input.map(slash), {
