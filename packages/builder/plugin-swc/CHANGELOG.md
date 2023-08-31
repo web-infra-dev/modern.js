@@ -1,5 +1,16 @@
 # @modern-js/builder-plugin-swc
 
+## 2.33.1
+
+### Patch Changes
+
+- fb1589a: fix(plugin-swc): update core-js
+
+  fix(plugin-swc): 升级 core-js
+
+  - @modern-js/builder-shared@2.33.1
+  - @modern-js/utils@2.33.1
+
 ## 2.33.0
 
 ### Patch Changes
