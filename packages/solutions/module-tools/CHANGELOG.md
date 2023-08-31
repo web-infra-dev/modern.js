@@ -1,5 +1,25 @@
 # @modern-js/module-tools
 
+## 2.33.1
+
+### Patch Changes
+
+- c38570e: feat: new and upgrade command support --no-need-install params
+- 7ad82bd: fix: add svg files to input when enable svgr
+  fix: 当启用 svgr 时添加 svg 文件到输入
+  - @modern-js/core@2.33.1
+  - @modern-js/plugin-changeset@2.33.1
+  - @modern-js/plugin-i18n@2.33.1
+  - @modern-js/plugin-lint@2.33.1
+  - @modern-js/new-action@2.33.1
+  - @modern-js/libuild@2.33.1
+  - @modern-js/libuild-plugin-svgr@2.33.1
+  - @modern-js/libuild-plugin-swc@2.33.1
+  - @modern-js/plugin@2.33.1
+  - @modern-js/types@2.33.1
+  - @modern-js/upgrade@2.33.1
+  - @modern-js/utils@2.33.1
+
 ## 2.33.0
 
 ### Patch Changes
