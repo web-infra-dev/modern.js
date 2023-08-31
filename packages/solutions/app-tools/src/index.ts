@@ -237,6 +237,10 @@ export const appTools = (
           .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
           .option('--dist-tag <tag>', i18n.t(localeKeys.command.new.distTag))
           .option('--registry', i18n.t(localeKeys.command.new.registry))
+          .option(
+            '--no-need-install',
+            i18n.t(localeKeys.command.shared.noNeedInstall),
+          )
           .action(async (options: any) => {
             const { MWANewAction } = await import('@modern-js/new-action');
             await MWANewAction({ ...options, locale: options.lang || locale });
@@ -272,6 +276,10 @@ export const appTools = (
             .option(
               '-c --config <config>',
               i18n.t(localeKeys.command.shared.config),
+            )
+            .option(
+              '--no-need-install',
+              i18n.t(localeKeys.command.shared.noNeedInstall),
             ),
         );
       },

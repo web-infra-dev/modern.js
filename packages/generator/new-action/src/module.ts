@@ -33,6 +33,7 @@ interface IModuleNewActionOption {
   registry?: string;
   config?: string;
   cwd?: string;
+  needInstall?: boolean;
 }
 
 export const ModuleNewAction = async (options: IModuleNewActionOption) => {
@@ -43,6 +44,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
     registry = '',
     config = '{}',
     cwd = process.cwd(),
+    needInstall = true,
   } = options;
 
   let UserConfig: Record<string, unknown> = {};
@@ -134,6 +136,7 @@ export const ModuleNewAction = async (options: IModuleNewActionOption) => {
 
   const finalConfig = merge(
     UserConfig,
+    { noNeedInstall: !needInstall },
     ans,
     {
       locale: (UserConfig.locale as string) || locale,

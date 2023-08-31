@@ -12,6 +12,7 @@ export const EN_LOCALE = {
     shared: {
       config:
         'sspecify the configuration file, which can be a relative or absolute path',
+      noNeedInstall: 'not run install command',
     },
     build: {
       describe: 'build the module for production',
