@@ -36,7 +36,6 @@ export type HookContext = {
   response: ModernResponse;
   request: ModernRequest;
   logger: Logger;
-  reporter?: Reporter;
   metrics?: Metrics;
 };
 
@@ -64,6 +63,7 @@ export type AfterRenderContext = HookContext & {
 
 export type MiddlewareContext<T extends 'worker' | 'node' = 'node'> =
   HookContext & {
+    reporter?: Reporter;
     response: ModernResponse & { locals: Record<string, any> };
     source: {
       req: T extends 'worker' ? Request : IncomingMessage;
