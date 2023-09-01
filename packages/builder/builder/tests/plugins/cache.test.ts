@@ -54,6 +54,16 @@ describe('plugins/cache', () => {
       },
     },
     {
+      name: 'should not apply cacheDigest',
+      builderConfig: {
+        performance: {
+          buildCache: {
+            cacheDigest: [],
+          },
+        },
+      },
+    },
+    {
       name: 'should disable cache',
       builderConfig: {
         performance: {

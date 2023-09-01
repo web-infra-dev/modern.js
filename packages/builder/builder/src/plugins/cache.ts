@@ -36,7 +36,7 @@ async function validateCache(
 
 function getDigestHash(digest: Array<string | undefined>) {
   const fsHash = crypto.createHash('md5');
-  const md5 = fsHash.update(JSON.stringify(digest)).digest('hex');
+  const md5 = fsHash.update(JSON.stringify(digest)).digest('hex').slice(0, 8);
   return md5;
 }
 
@@ -111,11 +111,15 @@ export const builderPluginCache = (): DefaultBuilderPlugin => ({
 
       await validateCache(cacheDirectory, buildDependencies);
 
+      const useDigest =
+        Array.isArray(cacheConfig.cacheDigest) &&
+        cacheConfig.cacheDigest.length;
+
       chain.cache({
         // The default cache name of webpack is '${name}-${env}', and the `name` is `default` by default.
         // We set cache name to avoid cache conflicts of different targets.
-        name: cacheConfig.cacheDigest
-          ? `${target}-${env}-${getDigestHash(cacheConfig.cacheDigest)}`
+        name: useDigest
+          ? `${target}-${env}-${getDigestHash(cacheConfig.cacheDigest!)}`
           : `${target}-${env}`,
         type: 'filesystem',
         cacheDirectory,

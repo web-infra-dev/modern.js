@@ -8,7 +8,7 @@ type BuildCacheConfig =
        */
       cacheDirectory?: string;
       /**
-       * 影响构建结果的变量
+       * 根据 cacheDigest 内容设置不同的缓存名称
        */
       cacheDigest?: Array<string | undefined>;
     }
@@ -51,7 +51,14 @@ export default {
 };
 ```
 
-如果当前项目存在一些环境变量会对构建结果产生影响，可添加到 cacheDigest 中：
+### cacheDigest
+
+`cacheDigest` 用来添加一些会对构建结果产生影响的环境变量。Builder 将根据 `cacheDigest` 内容和当前构建模式来设置缓存名称，来确保不同的 `cacheDigest` 可以命中不同的缓存。
+
+#### 示例
+
+当前项目需要根据不同的 `APP_ID` 来设置不同的 extensions。默认情况下，由于当前项目的代码 & 配置 & 依赖未发生变化，会命中之前的缓存。
+通过将 `APP_ID` 添加到 `cacheDigest` 中，在 `APP_ID` 变化时会去查找不同的缓存结果，从而避免命中不符合预期的缓存结果。
 
 ```js
 export default {

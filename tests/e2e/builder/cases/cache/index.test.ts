@@ -4,19 +4,6 @@ import { webpackOnlyTest } from '@scripts/helper';
 import { build } from '@scripts/shared';
 import { fs } from '@modern-js/utils';
 
-type UnwrapPromise<T> = T extends Promise<infer U> ? U : T;
-
-const getIndexFile = async (
-  builder: UnwrapPromise<ReturnType<typeof build>>,
-) => {
-  const files = await builder.unwrapOutputJSON();
-  const mainJs = Object.keys(files).find(
-    file => file.includes('/index.') && file.endsWith('.js'),
-  )!;
-
-  return files[mainJs];
-};
-
 webpackOnlyTest(
   'should save the buildDependencies to cache directory and hit cache',
   async () => {
@@ -53,7 +40,9 @@ webpackOnlyTest(
     // first build no cache
     let builder = await build(buildConfig);
 
-    expect((await getIndexFile(builder)).includes('222222')).toBeTruthy();
+    expect(
+      (await builder.getIndexFile()).content.includes('222222'),
+    ).toBeTruthy();
 
     const buildDependencies = await fs.readJSON(configFile);
     expect(Object.keys(buildDependencies)).toEqual(['tsconfig']);
@@ -63,7 +52,9 @@ webpackOnlyTest(
     // hit cache => unfortunately, extension '.a.js' not work
     builder = await build(buildConfig);
 
-    expect((await getIndexFile(builder)).includes('222222')).toBeTruthy();
+    expect(
+      (await builder.getIndexFile()).content.includes('222222'),
+    ).toBeTruthy();
   },
 );
 
@@ -102,7 +93,9 @@ webpackOnlyTest('cacheDigest should work', async () => {
   // first build no cache
   let builder = await build(getBuildConfig());
 
-  expect((await getIndexFile(builder)).includes('222222')).toBeTruthy();
+  expect(
+    (await builder.getIndexFile()).content.includes('222222'),
+  ).toBeTruthy();
 
   const buildDependencies = await fs.readJSON(configFile);
   expect(Object.keys(buildDependencies)).toEqual(['tsconfig']);
@@ -112,5 +105,7 @@ webpackOnlyTest('cacheDigest should work', async () => {
   builder = await build(getBuildConfig());
 
   // extension '.a.js' should work
-  expect((await getIndexFile(builder)).includes('111111')).toBeTruthy();
+  expect(
+    (await builder.getIndexFile()).content.includes('111111'),
+  ).toBeTruthy();
 });
