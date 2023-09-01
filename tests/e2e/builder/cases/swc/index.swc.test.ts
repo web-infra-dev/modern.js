@@ -91,15 +91,7 @@ test('should use define for class', async () => {
     runServer: true,
   });
 
-  const files = await builder.unwrapOutputJSON(true);
-  const file =
-    files[
-      Reflect.ownKeys(files).find(
-        fileName =>
-          (fileName as string).includes('index') &&
-          (fileName as string).endsWith('.js'),
-      ) as string
-    ];
+  const { content: file } = await builder.getIndexFile();
 
   // this is because setting useDefineForClassFields to false
   expect(file.includes('this.bar = 1')).toBe(true);
