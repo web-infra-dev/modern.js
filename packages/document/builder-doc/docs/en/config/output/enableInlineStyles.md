@@ -1,4 +1,12 @@
-- **Type:** `boolean`
+- **Type:**
+
+```ts
+type EnableInlineStyles =
+  | boolean
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+```
+
 - **Default:** `false`
 
 Whether to inline output style files (.css files) into HTML with `<style>` tags in production mode.
@@ -64,5 +72,24 @@ export default {
 ```
 
 :::tip
-The production filename will contains a hash by default, such as `/main.18a568e5.css`.
+The production filename includes a hash value by default, such as `static/css/main.18a568e5.css`. Therefore, in regular expressions, `\w+` is used to match the hash.
 :::
+
+### Using Function
+
+You can also set `output.enableInlineStyles` to a function that accepts the following parameters:
+
+- `name`: The filename, such as `static/css/main.18a568e5.css`.
+- `size`: The file size in bytes.
+
+For example, if we want to inline assets that are smaller than 10KB, we can add the following configuration:
+
+```js
+export default {
+  output: {
+    enableInlineStyles({ size }) {
+      return size < 10 * 1000;
+    },
+  },
+};
+```

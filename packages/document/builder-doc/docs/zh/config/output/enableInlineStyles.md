@@ -1,4 +1,12 @@
-- **类型：** `boolean | RegExp`
+- **类型：**
+
+```ts
+type EnableInlineStyles =
+  | boolean
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+```
+
 - **默认值：** `false`
 
 用来控制生产环境中是否用 `<style>` 标签将产物中的 style 文件（.css 文件）inline 到 HTML 中。
@@ -64,5 +72,24 @@ export default {
 ```
 
 :::tip
-生产环境的文件名中默认包含了一个 hash 值，比如 `/main.18a568e5.css`。
+生产环境的文件名中默认包含了一个 hash 值，比如 `static/css/main.18a568e5.css`。因此，在正则表达式中需要通过 `\w+` 来匹配 hash。
 :::
+
+### 通过函数匹配
+
+你也可以将 `output.enableInlineStyles` 设置为一个函数，函数接收以下参数：
+
+- `name`: 文件名，比如 `static/css/main.18a568e5.css`。
+- `size`: 资源大小，单位为 byte。
+
+比如，我们希望内联小于 10KB 的资源，可以添加如下配置：
+
+```js
+export default {
+  output: {
+    enableInlineStyles({ size }) {
+      return size < 10 * 1000;
+    },
+  },
+};
+```

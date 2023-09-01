@@ -6,15 +6,22 @@
  * modified from https://github.com/facebook/create-react-app/blob/master/packages/react-dev-utils/InlineChunkHtmlPlugin.js
  */
 import { join } from 'path';
-import { isString } from '@modern-js/utils';
+import { isFunction, isString } from '@modern-js/utils';
 import { addTrailingSlash } from '../utils';
 import type { Compiler, Compilation } from 'webpack';
 import type HtmlWebpackPlugin from 'html-webpack-plugin';
 import type { HtmlTagObject } from 'html-webpack-plugin';
 import { COMPILATION_PROCESS_STAGE, getPublicPathFromCompiler } from './util';
 
+export type InlineChunkTestFunction = (params: {
+  size: number;
+  name: string;
+}) => boolean;
+export type InlineChunkTest = RegExp | InlineChunkTestFunction;
+
 export type InlineChunkHtmlPluginOptions = {
-  tests: RegExp[];
+  styleTests: InlineChunkTest[];
+  scriptTests: InlineChunkTest[];
   distPath: {
     js?: string;
     css?: string;
@@ -24,7 +31,9 @@ export type InlineChunkHtmlPluginOptions = {
 export class InlineChunkHtmlPlugin {
   name: string;
 
-  tests: RegExp[];
+  styleTests: InlineChunkTest[];
+
+  scriptTests: InlineChunkTest[];
 
   distPath: InlineChunkHtmlPluginOptions['distPath'];
 
@@ -34,10 +43,11 @@ export class InlineChunkHtmlPlugin {
 
   constructor(
     htmlPlugin: typeof HtmlWebpackPlugin,
-    { tests, distPath }: InlineChunkHtmlPluginOptions,
+    { styleTests, scriptTests, distPath }: InlineChunkHtmlPluginOptions,
   ) {
     this.name = 'InlineChunkHtmlPlugin';
-    this.tests = tests;
+    this.styleTests = styleTests;
+    this.scriptTests = scriptTests;
     this.distPath = distPath;
     this.inlinedAssets = new Set();
     this.htmlPlugin = htmlPlugin;
@@ -80,6 +90,16 @@ export class InlineChunkHtmlPlugin {
     return source;
   }
 
+  matchTests(name: string, source: string, tests: InlineChunkTest[]) {
+    return tests.some(test => {
+      if (isFunction(test)) {
+        const size = source.length;
+        return test({ name, size });
+      }
+      return test.exec(name);
+    });
+  }
+
   getInlinedScriptTag(
     publicPath: string,
     tag: HtmlTagObject,
@@ -87,21 +107,25 @@ export class InlineChunkHtmlPlugin {
   ) {
     const { assets } = compilation;
 
+    // No need to inline scripts with src attribute
     if (!(tag?.attributes.src && isString(tag.attributes.src))) {
       return tag;
     }
+
     const { src, ...otherAttrs } = tag.attributes;
     const scriptName = publicPath ? src.replace(publicPath, '') : src;
 
-    if (!this.tests.some(test => test.exec(scriptName))) {
-      return tag;
-    }
+    // If asset is not found, skip it
     const asset = assets[scriptName];
     if (asset == null) {
       return tag;
     }
 
     const source = asset.source().toString();
+    const shouldInline = this.matchTests(scriptName, source, this.scriptTests);
+    if (!shouldInline) {
+      return tag;
+    }
 
     const ret = {
       tagName: 'script',
@@ -130,6 +154,7 @@ export class InlineChunkHtmlPlugin {
   ) {
     const { assets } = compilation;
 
+    // No need to inline styles with href attribute
     if (!(tag.attributes.href && isString(tag.attributes.href))) {
       return tag;
     }
@@ -138,13 +163,18 @@ export class InlineChunkHtmlPlugin {
       ? tag.attributes.href.replace(publicPath, '')
       : tag.attributes.href;
 
-    if (!this.tests.some(test => test.exec(linkName))) {
+    // If asset is not found, skip it
+    const asset = assets[linkName];
+    if (asset == null) {
       return tag;
     }
 
-    const asset = assets[linkName];
-
     const source = asset.source().toString();
+    const shouldInline = this.matchTests(linkName, source, this.styleTests);
+    if (!shouldInline) {
+      return tag;
+    }
+
     const ret = {
       tagName: 'style',
       innerHTML: this.updateSourceMappingURL({

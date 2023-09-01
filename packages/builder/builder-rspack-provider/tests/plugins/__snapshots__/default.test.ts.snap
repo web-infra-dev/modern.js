@@ -1493,9 +1493,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "htmlPlugin": [Function],
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
-      "tests": [
+      "scriptTests": [
         /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
+      "styleTests": [],
     },
   ],
   "resolve": {

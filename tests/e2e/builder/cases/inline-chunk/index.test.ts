@@ -226,17 +226,47 @@ webpackOnlyTest('using RegExp to inline scripts', async () => {
     },
     builderConfig: {
       output: {
-        enableInlineScripts: /\/main\.\w+\.js$/,
+        enableInlineScripts: /\/index\.\w+\.js$/,
       },
       tools: toolsConfig,
     },
   });
   const files = await builder.unwrapOutputJSON(false);
 
-  // no main.js in output
+  // no index.js in output
   expect(
     Object.keys(files).filter(
-      fileName => fileName.endsWith('.js') && fileName.includes('/main.'),
+      fileName => fileName.endsWith('.js') && fileName.includes('/index.'),
+    ).length,
+  ).toEqual(0);
+
+  // all source maps in output
+  expect(
+    Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
+  ).toEqual(3);
+});
+
+webpackOnlyTest('inline scripts by filename and file size', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/index.js'),
+    },
+    builderConfig: {
+      output: {
+        enableInlineScripts({ size, name }) {
+          return name.includes('index') && size < 1000;
+        },
+      },
+      tools: toolsConfig,
+    },
+  });
+  const files = await builder.unwrapOutputJSON(false);
+
+  // no index.js in output
+  expect(
+    Object.keys(files).filter(
+      fileName => fileName.endsWith('.js') && fileName.includes('/index.'),
     ).length,
   ).toEqual(0);
 
@@ -254,17 +284,42 @@ test('using RegExp to inline styles', async () => {
     },
     builderConfig: {
       output: {
-        enableInlineStyles: /\/main\.\w+\.css$/,
+        enableInlineStyles: /\/index\.\w+\.css$/,
       },
       tools: toolsConfig,
     },
   });
   const files = await builder.unwrapOutputJSON(false);
 
-  // no main.css in output
+  // no index.css in output
   expect(
     Object.keys(files).filter(
-      fileName => fileName.endsWith('.css') && fileName.includes('/main.'),
+      fileName => fileName.endsWith('.css') && fileName.includes('/index.'),
+    ).length,
+  ).toEqual(0);
+});
+
+test('inline styles by filename and file size', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/index.js'),
+    },
+    builderConfig: {
+      output: {
+        enableInlineStyles({ size, name }) {
+          return name.includes('index') && size < 1000;
+        },
+      },
+      tools: toolsConfig,
+    },
+  });
+  const files = await builder.unwrapOutputJSON(false);
+
+  // no index.css in output
+  expect(
+    Object.keys(files).filter(
+      fileName => fileName.endsWith('.css') && fileName.includes('/index.'),
     ).length,
   ).toEqual(0);
 });
