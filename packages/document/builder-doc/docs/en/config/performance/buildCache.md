@@ -68,10 +68,11 @@ export default {
       if (process.env.APP_ID === 'xxx') {
         chain.resolve.extensions.prepend('.ttp.ts');
       }
+    },
   },
   performance: {
     buildCache: {
-      cacheDigest: [process.env.APP_ID]
+      cacheDigest: [process.env.APP_ID],
     },
   },
 };
