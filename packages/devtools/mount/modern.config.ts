@@ -19,6 +19,7 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
+    copy: [{ from: './src/types.d.ts', to: './' }],
     legalComments: 'linked',
     disableCssExtract: true,
     disableFilenameHash: true,

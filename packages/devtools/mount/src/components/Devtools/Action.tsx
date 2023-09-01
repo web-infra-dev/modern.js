@@ -4,12 +4,9 @@ import { withQuery } from 'ufo';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
 import FrameBox from './FrameBox';
+import { Options } from '@/types';
 
-export interface DevtoolsActionProps {
-  client: string;
-  dataSource: string;
-  version: string;
-}
+export type DevtoolsActionProps = Options;
 
 const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
   client,

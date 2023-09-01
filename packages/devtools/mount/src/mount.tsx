@@ -1,10 +1,11 @@
 import { createRoot } from 'react-dom/client';
-import DevtoolsAction, {
-  DevtoolsActionProps,
-} from './components/Devtools/Action';
+import DevtoolsAction from './components/Devtools/Action';
+import type { MountDevTools, Options } from '@/types';
 
-export const mountDevTools = (options: Partial<DevtoolsActionProps>) => {
-  const props: DevtoolsActionProps = {
+export { Options };
+
+export const mountDevTools: MountDevTools = options => {
+  const props: Options = {
     client: 'https://modernjs.dev/devtools',
     dataSource: '/_modern_js/devtools/rpc',
     version: `~${process.env.VERSION}`,

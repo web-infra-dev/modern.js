@@ -1,1 +1,1 @@
-export { mountDevTools } from './mount';
+export { Options, mountDevTools } from './mount';
