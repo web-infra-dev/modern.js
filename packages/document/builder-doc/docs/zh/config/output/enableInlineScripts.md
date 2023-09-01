@@ -79,8 +79,8 @@ export default {
 
 你也可以将 `output.enableInlineScripts` 设置为一个函数，函数接收以下参数：
 
-- `name`: 文件名，比如 `static/js/main.18a568e5.js`。
-- `size`: 资源大小，单位为 byte。
+- `name`：文件名，比如 `static/js/main.18a568e5.js`。
+- `size`：文件大小，单位为 byte。
 
 比如，我们希望内联小于 10KB 的资源，可以添加如下配置：
 
