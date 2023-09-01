@@ -1,4 +1,5 @@
 import { URL } from 'url';
+import assert from 'assert';
 import { join } from 'path';
 import fs from '@modern-js/utils/fs-extra';
 import type { CreateBuilderOptions } from '@modern-js/builder';
@@ -175,12 +176,28 @@ export async function build<BuilderType = 'webpack'>({
     });
   };
 
+  const getIndexFile = async () => {
+    const files = await unwrapOutputJSON();
+    const [name, content] =
+      Object.entries(files).find(
+        ([file]) => file.includes('index') && file.endsWith('.js'),
+      ) || [];
+
+    assert(name);
+
+    return {
+      content: content!,
+      size: content!.length / 1024,
+    };
+  };
+
   return {
     distPath,
     port,
     clean,
     close,
     unwrapOutputJSON,
+    getIndexFile,
     providerType: process.env.PROVIDE_TYPE || 'webpack',
     instance: builder,
   };
