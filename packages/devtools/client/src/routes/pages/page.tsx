@@ -24,6 +24,10 @@ const Page: React.FC = () => {
             <TextField.Input
               placeholder="/foo?bar#baz"
               onChange={e => setTestingUrl(e.target.value)}
+              type="search"
+              autoComplete="false"
+              autoCapitalize="false"
+              autoCorrect="false"
             />
           </TextField.Root>
         </Box>
