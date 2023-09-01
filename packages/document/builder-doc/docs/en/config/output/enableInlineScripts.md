@@ -1,4 +1,12 @@
-- **Type:** `boolean`
+- **Type:**
+
+```ts
+type EnableInlineScripts =
+  | boolean
+  | RegExp
+  | ((params: { size: number; name: string }) => boolean);
+```
+
 - **Default:** `false`
 - **Bundler:** `only support webpack`
 
@@ -64,5 +72,24 @@ export default {
 ```
 
 :::tip
-The production filename will contains a hash by default, such as `/main.18a568e5.js`.
+The production filename includes a hash value by default, such as `static/js/main.18a568e5.js`. Therefore, in regular expressions, `\w+` is used to match the hash.
 :::
+
+### Using Function
+
+You can also set `output.enableInlineScripts` to a function that accepts the following parameters:
+
+- `name`: The filename, such as `static/js/main.18a568e5.js`.
+- `size`: The file size in bytes.
+
+For example, if we want to inline assets that are smaller than 10KB, we can add the following configuration:
+
+```js
+export default {
+  output: {
+    enableInlineScripts({ size }) {
+      return size < 10 * 1000;
+    },
+  },
+};
+```

@@ -1,8 +1,11 @@
 import {
   pick,
+  JS_REGEX,
+  CSS_REGEX,
   RUNTIME_CHUNK_NAME,
   isHtmlDisabled,
   DefaultBuilderPlugin,
+  type InlineChunkTest,
 } from '@modern-js/builder-shared';
 
 export const builderPluginInlineChunk = (): DefaultBuilderPlugin => ({
@@ -28,22 +31,23 @@ export const builderPluginInlineChunk = (): DefaultBuilderPlugin => ({
           enableInlineScripts,
         } = config.output;
 
-        const tests: RegExp[] = [];
+        const scriptTests: InlineChunkTest[] = [];
+        const styleTests: InlineChunkTest[] = [];
 
         if (enableInlineScripts) {
-          tests.push(
-            enableInlineScripts === true ? /\.js$/ : enableInlineScripts,
+          scriptTests.push(
+            enableInlineScripts === true ? JS_REGEX : enableInlineScripts,
           );
         }
 
         if (enableInlineStyles) {
-          tests.push(
-            enableInlineStyles === true ? /\.css$/ : enableInlineStyles,
+          styleTests.push(
+            enableInlineStyles === true ? CSS_REGEX : enableInlineStyles,
           );
         }
 
         if (!disableInlineRuntimeChunk) {
-          tests.push(
+          scriptTests.push(
             // RegExp like /builder-runtime([.].+)?\.js$/
             // matches builder-runtime.js and builder-runtime.123456.js
             new RegExp(`${RUNTIME_CHUNK_NAME}([.].+)?\\.js$`),
@@ -53,7 +57,8 @@ export const builderPluginInlineChunk = (): DefaultBuilderPlugin => ({
         chain.plugin(CHAIN_ID.PLUGIN.INLINE_HTML).use(InlineChunkHtmlPlugin, [
           HtmlPlugin,
           {
-            tests,
+            styleTests,
+            scriptTests,
             distPath: pick(config.output.distPath, ['js', 'css']),
           },
         ]);

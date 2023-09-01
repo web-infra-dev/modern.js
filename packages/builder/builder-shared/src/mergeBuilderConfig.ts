@@ -1,4 +1,5 @@
 import _ from '@modern-js/utils/lodash';
+import { isOverriddenConfigKey } from '@modern-js/utils';
 
 export const mergeBuilderConfig = <T>(...configs: T[]): T =>
   _.mergeWith(
@@ -11,8 +12,8 @@ export const mergeBuilderConfig = <T>(...configs: T[]): T =>
         return undefined;
       }
 
-      // always use source override target, if target defined.
-      if (['removeConsole'].includes(key)) {
+      // Some keys should use source to override target
+      if (isOverriddenConfigKey(key)) {
         return source ?? target;
       }
 
