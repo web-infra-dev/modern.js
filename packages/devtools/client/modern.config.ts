@@ -22,6 +22,9 @@ export default defineConfig<'rspack'>({
   },
   source: {
     preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
+    globalVars: {
+      'process.env.PKG_VERSION': require('./package.json').version,
+    },
   },
   output: {
     enableCssModuleTSDeclaration: true,

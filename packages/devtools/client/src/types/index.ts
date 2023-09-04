@@ -40,6 +40,7 @@ export interface StoreContextValue {
   tabs: InternalTab[];
   name: NameDefinition;
   aliases: ShortenAlias[];
+  version: string;
 }
 
 export interface BuiltinTabView {

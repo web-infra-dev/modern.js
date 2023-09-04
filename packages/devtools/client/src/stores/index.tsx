@@ -82,6 +82,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     tabs: getDefaultTabs().map(tab => ref(tab)),
     name: new NameDefinition(),
     aliases: [],
+    version: process.env.PKG_VERSION!,
   }));
 
   const setupTask = setupServerConnection({ url: dataSource, $store });
