@@ -47,7 +47,10 @@ export const formatClient = (
     cookie: document.cookie || '',
     userAgent: request.headers?.['user-agent'] || navigator.userAgent,
     referer: request.referer || document.referrer,
-    query: request.query || getQuery(),
+    query: {
+      ...getQuery(),
+      ...request.query,
+    },
     url: location.href,
   };
 };
