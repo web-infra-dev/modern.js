@@ -84,6 +84,9 @@ importers:
       '@modern-js/monorepo-utils':
         specifier: workspace:*
         version: link:../../toolkit/monorepo-utils
+      '@modern-js/node-bundle-require':
+        specifier: workspace:*
+        version: link:../../toolkit/node-bundle-require
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -121,25 +124,16 @@ importers:
       '@modern-js/builder':
         specifier: workspace:*
         version: link:../builder
-      '@modern-js/builder-shared':
-        specifier: workspace:*
-        version: link:../builder-shared
-      '@modern-js/node-bundle-require':
-        specifier: workspace:*
-        version: link:../../toolkit/node-bundle-require
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
+      '@modern-js/builder-rspack-provider':
+        specifier: workspace:^2.33.1
+        version: link:../builder-rspack-provider
+      '@modern-js/builder-webpack-provider':
+        specifier: workspace:^2.33.1
+        version: link:../builder-webpack-provider
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
     devDependencies:
-      '@modern-js/builder-rspack-provider':
-        specifier: workspace:*
-        version: link:../builder-rspack-provider
-      '@modern-js/builder-webpack-provider':
-        specifier: workspace:*
-        version: link:../builder-webpack-provider
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
