@@ -17,7 +17,7 @@ const IgnoreFiles = [
   '.gitignore.handlebars',
 ];
 
-async function handleTemplate(
+export async function handleTemplate(
   templatePath: string,
   data: Record<string, any> = {},
   { fileExtra, routerPrefix }: { fileExtra: string; routerPrefix: string } = {
@@ -93,7 +93,7 @@ async function handleMWATemplate() {
       name: 'modern-app',
       isMonorepoSubProject: false,
       modernVersion,
-      isTsProject: true,
+      isTs: true,
     })),
     ...(await handleTemplate(tsTemplate)),
     ...(await handleTemplate(
