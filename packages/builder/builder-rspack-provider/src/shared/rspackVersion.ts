@@ -13,9 +13,8 @@ export const getRspackVersion = async (): Promise<string> => {
   }
 };
 
-// react refresh change breaking modern.js
-// https://github.com/web-infra-dev/rspack/pull/3731/files
-export const supportedRspackMinimumVersion = '0.2.8';
+// depend on rspack xxxPlugin and some other new features
+export const supportedRspackMinimumVersion = '0.3.2';
 
 export const isSatisfyRspackMinimumVersion = async (customVersion?: string) => {
   let version = customVersion || (await getRspackVersion());
