@@ -1,9 +1,7 @@
-export interface Options {
-  client: string;
-  dataSource: string;
-  version: string;
-}
+import { SetupClientOptions } from '@modern-js/devtools-kit';
 
-export type MountDevTools = (options: Partial<Options>) => void;
+export type Options = SetupClientOptions;
+
+export type MountDevTools = (options?: Options) => void;
 
 export declare const mountDevTools: MountDevTools;

@@ -1,15 +1,20 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
+import { SetupClientOptions } from '@modern-js/devtools-kit';
 import { setupClientConnection } from './rpc';
 
-export interface Options {
-  dataSource?: string;
-  version?: string;
+export interface Options extends Partial<SetupClientOptions> {
+  rpcPath?: string;
 }
 
-export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
+export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
+    const opts: Required<Options> = {
+      ...new SetupClientOptions(),
+      rpcPath: '/_modern_js/devtools/rpc',
+      ...options,
+    };
     // setup socket server.
     const { hooks, builderPlugin, url } = await setupClientConnection({ api });
 
@@ -33,7 +38,7 @@ export const devtoolsPlugin = (): CliPlugin<AppTools> => ({
           tools: {
             devServer: {
               proxy: {
-                '/_modern_js/devtools/rpc': {
+                [opts.rpcPath]: {
                   target: url.href,
                   autoRewrite: true,
                   ws: true,

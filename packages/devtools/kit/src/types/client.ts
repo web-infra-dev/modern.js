@@ -8,3 +8,16 @@ export interface ClientFunctions {
     routes: FileSystemRoutes;
   }) => void;
 }
+
+export class NameDefinition {
+  formalName: string = 'Modern.js';
+
+  casualName: string = 'modern.js';
+
+  prefixName: string = '_modern_js';
+}
+
+export interface ShortenAlias {
+  replace: string | RegExp;
+  to: string;
+}

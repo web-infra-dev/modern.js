@@ -9,12 +9,12 @@ import { Options } from '@/types';
 export type DevtoolsActionProps = Options;
 
 const DevtoolsAction: React.FC<DevtoolsActionProps> = ({
-  client,
+  endpoint,
   dataSource,
   version,
 }) => {
   const [showDevtools, toggleDevtools] = useToggle(false);
-  const src = withQuery(client, { src: dataSource, ver: version });
+  const src = withQuery(endpoint, { src: dataSource, ver: version });
 
   return (
     <>

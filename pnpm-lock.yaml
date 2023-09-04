@@ -2242,6 +2242,9 @@ importers:
       '@types/jest':
         specifier: ~29.2.4
         version: 29.2.6
+      '@types/lodash-es':
+        specifier: ^4.17.9
+        version: 4.17.9
       '@types/node':
         specifier: ~16.11.7
         version: 16.11.68
@@ -2251,6 +2254,9 @@ importers:
       '@types/react-dom':
         specifier: ^18
         version: 18.0.6
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
       nanoid:
         specifier: 3.3.4
         version: 3.3.4
@@ -17537,6 +17543,12 @@ packages:
 
   /@types/lodash-es@4.17.6:
     resolution: {integrity: sha512-R+zTeVUKDdfoRxpAryaQNRKk3105Rrgx2CFRClIgRGaqDTdjsm8h6IYA8ir584W3ePzkZfst5xIgDwYrlh9HLg==}
+    dependencies:
+      '@types/lodash': 4.14.196
+    dev: true
+
+  /@types/lodash-es@4.17.9:
+    resolution: {integrity: sha512-ZTcmhiI3NNU7dEvWLZJkzG6ao49zOIjEgIE0RgV7wbPxU0f2xT3VSAHw2gmst8swH6V0YkLRGp4qPlX/6I90MQ==}
     dependencies:
       '@types/lodash': 4.14.196
     dev: true

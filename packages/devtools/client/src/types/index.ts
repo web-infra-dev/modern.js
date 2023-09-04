@@ -5,7 +5,9 @@ import type {
   BundlerConfig,
   CustomTabView,
   FileSystemRoutes,
+  NameDefinition,
   NormalizedBuilderConfig,
+  ShortenAlias,
   TransformedFrameworkConfig,
 } from '@modern-js/devtools-kit';
 import { FrameworkConfig } from '@modern-js/devtools-kit';
@@ -36,6 +38,8 @@ export interface StoreContextValue {
     };
   };
   tabs: InternalTab[];
+  name: NameDefinition;
+  aliases: ShortenAlias[];
 }
 
 export interface BuiltinTabView {

@@ -9,6 +9,7 @@ import {
   FrameworkConfig,
   BuilderConfig,
   NormalizedBuilderConfig,
+  NameDefinition,
   BundlerConfig,
 } from '@modern-js/devtools-kit';
 import { ref, useSnapshot } from 'valtio';
@@ -79,6 +80,8 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       },
     },
     tabs: getDefaultTabs().map(tab => ref(tab)),
+    name: new NameDefinition(),
+    aliases: [],
   }));
 
   const setupTask = setupServerConnection({ url: dataSource, $store });

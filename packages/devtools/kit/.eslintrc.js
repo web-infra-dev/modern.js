@@ -11,6 +11,7 @@ module.exports = {
       // require.resolve('./tests/tsconfig.json'),
     ],
   },
+  ignorePatterns: ['modern.config.ts'],
   rules: {
     curly: 'off',
   },

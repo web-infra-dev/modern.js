@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client';
+import { SetupClientOptions } from '@modern-js/devtools-kit';
 import DevtoolsAction from './components/Devtools/Action';
 import type { MountDevTools, Options } from '@/types';
 
@@ -6,9 +7,7 @@ export { Options };
 
 export const mountDevTools: MountDevTools = options => {
   const props: Options = {
-    client: 'https://modernjs.dev/devtools',
-    dataSource: '/_modern_js/devtools/rpc',
-    version: `~${process.env.VERSION}`,
+    ...new SetupClientOptions(),
     ...options,
   };
 

@@ -18,7 +18,7 @@ const Page: React.FC = () => {
   };
   return (
     <div>
-      <Heading as="h3">Modern.js DevTools</Heading>
+      <Heading as="h3">{store.name.formalName} DevTools</Heading>
       <ObjectInspector data={display} sortObjectKeys={true} />
     </div>
   );
