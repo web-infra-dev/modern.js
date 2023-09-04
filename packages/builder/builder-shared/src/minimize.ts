@@ -1,4 +1,10 @@
-import { SharedNormalizedConfig, TerserPluginOptions } from './types';
+import {
+  SharedNormalizedConfig,
+  TerserPluginOptions,
+  BundlerChain,
+  CssMinimizerPluginOptions,
+} from './types';
+import { getCssnanoDefaultOptions } from './css';
 
 function applyRemoveConsole(
   options: TerserPluginOptions,
@@ -70,4 +76,30 @@ export async function getJSMinifyOptions(config: SharedNormalizedConfig) {
   const finalOptions = applyRemoveConsole(mergedOptions, config);
 
   return finalOptions;
+}
+
+export async function applyCSSMinimizer(
+  chain: BundlerChain,
+  config: SharedNormalizedConfig,
+) {
+  const { CHAIN_ID, applyOptionsChain } = await import('@modern-js/utils');
+  const { default: CssMinimizerPlugin } = await import(
+    'css-minimizer-webpack-plugin'
+  );
+
+  const mergedOptions: CssMinimizerPluginOptions = applyOptionsChain(
+    {
+      minimizerOptions: getCssnanoDefaultOptions(),
+    },
+    config.tools.minifyCss,
+  );
+
+  chain.optimization
+    .minimizer(CHAIN_ID.MINIMIZER.CSS)
+    .use(CssMinimizerPlugin, [
+      // Due to css-minimizer-webpack-plugin has changed the type of class, which using a generic type in
+      // constructor, leading auto inference of parameters of plugin constructor is not possible, using any instead
+      mergedOptions,
+    ])
+    .end();
 }
