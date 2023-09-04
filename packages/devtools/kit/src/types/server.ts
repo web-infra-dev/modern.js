@@ -3,12 +3,13 @@ import type { BuilderContext } from '@modern-js/builder-shared';
 import type {
   BuilderConfig as WebpackBuilderConfig,
   NormalizedConfig as NormalizedWebpackBuilderConfig,
+  WebpackConfig,
 } from '@modern-js/builder-webpack-provider';
 import type {
   BuilderConfig as RspackBuilderConfig,
   NormalizedConfig as NormalizedRspackBuilderConfig,
+  RspackConfig,
 } from '@modern-js/builder-rspack-provider';
-import type { JsonValue } from 'type-fest';
 import { NormalizedConfig } from '@modern-js/core';
 import {
   RouteLegacy,
@@ -23,6 +24,14 @@ export type FrameworkConfig = UserConfig<AppTools>;
 export type TransformedFrameworkConfig = NormalizedConfig<AppTools>;
 
 export type BuilderConfig = WebpackBuilderConfig | RspackBuilderConfig;
+
+export type { WebpackConfig, RspackConfig };
+
+export type Aliases = NonNullable<
+  NonNullable<WebpackConfig['resolve']>['alias']
+>;
+
+export type BundlerConfig = WebpackConfig | RspackConfig;
 
 export type NormalizedBuilderConfig =
   | NormalizedWebpackBuilderConfig
@@ -39,8 +48,8 @@ export interface ServerFunctions {
   getTransformedFrameworkConfig: () => Promise<TransformedFrameworkConfig>;
   getBuilderConfig: () => Promise<BuilderConfig>;
   getTransformedBuilderConfig: () => Promise<NormalizedBuilderConfig>;
-  getBundlerConfigs: () => Promise<JsonValue[]>;
-  getTransformedBundlerConfigs: () => Promise<JsonValue[]>;
+  getBundlerConfigs: () => Promise<BundlerConfig[]>;
+  getTransformedBundlerConfigs: () => Promise<BundlerConfig[]>;
   getAppContext: () => Promise<AppContext>;
   getFileSystemRoutes: (entryName: string) => Promise<FileSystemRoutes>;
   getBuilderContext: () => Promise<BuilderContext>;

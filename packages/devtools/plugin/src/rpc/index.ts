@@ -2,6 +2,7 @@ import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
 import type {
   BuilderConfig,
+  BundlerConfig,
   ClientFunctions,
   FileSystemRoutes,
   NormalizedBuilderConfig,
@@ -55,8 +56,8 @@ export const setupClientConnection = async (
     },
     bundler: {
       config: {
-        resolved: createDeferPromise<JsonValue[]>(),
-        transformed: createDeferPromise<JsonValue[]>(),
+        resolved: createDeferPromise<BundlerConfig[]>(),
+        transformed: createDeferPromise<BundlerConfig[]>(),
       },
     },
   } as const;

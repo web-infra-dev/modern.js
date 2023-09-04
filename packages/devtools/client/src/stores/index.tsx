@@ -9,9 +9,9 @@ import {
   FrameworkConfig,
   BuilderConfig,
   NormalizedBuilderConfig,
+  BundlerConfig,
 } from '@modern-js/devtools-kit';
 import { ref } from 'valtio';
-import type { JsonValue } from 'type-fest';
 import { setupServerConnection } from '@/rpc';
 import { useProxyFrom } from '@/utils/hooks';
 import { StoreContextValue } from '@/types';
@@ -49,8 +49,8 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     },
     bundler: {
       config: {
-        resolved: createDeferPromise<JsonValue[]>(),
-        transformed: createDeferPromise<JsonValue[]>(),
+        resolved: createDeferPromise<BundlerConfig[]>(),
+        transformed: createDeferPromise<BundlerConfig[]>(),
       },
     },
   };

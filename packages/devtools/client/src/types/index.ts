@@ -2,6 +2,7 @@ import type {
   AppContext,
   BuilderConfig,
   BuilderContext,
+  BundlerConfig,
   CustomTabView,
   FileSystemRoutes,
   NormalizedBuilderConfig,
@@ -9,7 +10,7 @@ import type {
 } from '@modern-js/devtools-kit';
 import { FrameworkConfig } from '@modern-js/devtools-kit';
 import { ReactElement } from 'react';
-import { JsonArray, Promisable } from 'type-fest';
+import { Promisable } from 'type-fest';
 
 export interface StoreContextValue {
   dataSource: string;
@@ -30,8 +31,8 @@ export interface StoreContextValue {
   };
   bundler: {
     config: {
-      resolved: Promise<JsonArray>;
-      transformed: Promise<JsonArray>;
+      resolved: Promise<BundlerConfig[]>;
+      transformed: Promise<BundlerConfig[]>;
     };
   };
   tabs: InternalTab[];
