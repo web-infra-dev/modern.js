@@ -123,8 +123,22 @@ describe('test preload', () => {
             include: [
               { url: 'http://example.com', type: 'script' },
               { url: 'http://example.com', type: 'script' },
+              {
+                url: 'http://example3.com',
+                type: 'script',
+                rel: 'dns-prefetch',
+              },
               '/static/js/async/three_user/layout.js',
             ],
+            attributes: {
+              script: {
+                crossorigin: true,
+                id: 'script_id',
+              },
+              style: {
+                id: 'css_link_id',
+              },
+            },
           },
         },
       },
