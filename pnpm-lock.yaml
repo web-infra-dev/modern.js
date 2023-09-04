@@ -5357,8 +5357,8 @@ importers:
   packages/toolkit/utils:
     dependencies:
       '@remix-run/router':
-        specifier: 1.6.1
-        version: 1.6.1
+        specifier: 1.8.0
+        version: 1.8.0
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -13787,7 +13787,7 @@ packages:
       react-router-dom:
         optional: true
     dependencies:
-      '@remix-run/router': 1.6.1
+      '@remix-run/router': 1.8.0
       caniuse-lite: 1.0.30001520
       lodash: 4.17.21
       react: 18.2.0
