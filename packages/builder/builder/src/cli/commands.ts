@@ -1,10 +1,10 @@
 import { join } from 'path';
 import { fs } from '@modern-js/utils';
 import { program } from '@modern-js/utils/commander';
-import type { BuilderInstance } from '@modern-js/builder';
+import type { BuilderInstance } from '..';
 
 export function setupProgram(builder: BuilderInstance) {
-  const pkgJson = join(__dirname, '../package.json');
+  const pkgJson = join(__dirname, '../../package.json');
   const { version } = fs.readJSONSync(pkgJson);
 
   program.name('builder').usage('<command> [options]').version(version);

@@ -42,14 +42,9 @@
   },
   "dependencies": {
     "@modern-js/builder": "workspace:*",
-    "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/node-bundle-require": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
-    "@modern-js/builder-webpack-provider": "workspace:*",
-    "@modern-js/builder-rspack-provider": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/vitest-config": "workspace:*",
     "typescript": "^5"
