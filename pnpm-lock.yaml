@@ -3290,10 +3290,10 @@ importers:
         version: 2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(esbuild@0.17.19)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1)
       '@modern-js/doc-plugin-api-docgen':
         specifier: 2.31.2
-        version: 2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(@types/react@18.0.21)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.11.1)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1)
+        version: 2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(@types/react@18.0.21)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.15.0)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1)
       '@modern-js/doc-plugin-preview':
         specifier: 2.31.2
-        version: 2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.11.1)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1)
+        version: 2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.15.0)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1)
     devDependencies:
       '@modern-js/module-tools':
         specifier: workspace:*
@@ -5369,8 +5369,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react-router-dom:
-        specifier: 6.11.1
-        version: 6.11.1(react-dom@18.2.0)(react@18.2.0)
+        specifier: 6.15.0
+        version: 6.15.0(react-dom@18.2.0)(react@18.2.0)
       serialize-javascript:
         specifier: ^6.0.0
         version: 6.0.1
@@ -12852,7 +12852,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-helmet-async: 1.3.0(react-dom@18.2.0)(react@18.2.0)
       react-lazy-with-preload: 2.2.1
-      react-router-dom: 6.11.1(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.15.0(react-dom@18.2.0)(react@18.2.0)
       react-syntax-highlighter: 15.5.0(react@18.2.0)
       rehype-autolink-headings: 6.1.1
       rehype-external-links: 2.0.1
@@ -12897,7 +12897,7 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@modern-js/doc-plugin-api-docgen@2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(@types/react@18.0.21)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.11.1)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1):
+  /@modern-js/doc-plugin-api-docgen@2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(@types/react@18.0.21)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.15.0)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1):
     resolution: {integrity: sha512-zNhoNC9l0yOpyiodo9fcBuJ44TWB06U8LgthwDeEO2i2dsdm+eepynkiij/LCQs4qrKDp3IpaFncmvOE4K2J4g==}
     engines: {node: '>=14.17.6'}
     peerDependencies:
@@ -12910,7 +12910,7 @@ packages:
       react: 18.2.0
       react-docgen-typescript: 2.2.2(typescript@5.0.4)
       react-markdown: 8.0.6(@types/react@18.0.21)(react@18.2.0)
-      react-router-dom: 6.11.1(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.15.0(react-dom@18.2.0)(react@18.2.0)
       remark-gfm: 3.0.1
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -12971,7 +12971,7 @@ packages:
       - react-dom
     dev: false
 
-  /@modern-js/doc-plugin-preview@2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.11.1)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1):
+  /@modern-js/doc-plugin-preview@2.31.2(@modern-js/core@2.32.1)(@modern-js/doc-tools@2.32.1)(esbuild@0.17.19)(react-dom@18.2.0)(react-router-dom@6.15.0)(react@18.2.0)(ts-node@10.9.1)(typescript@5.0.4)(webpack@5.88.1):
     resolution: {integrity: sha512-f7AAS9rc/OQIIRrTxEaAjvP0LcBZkiQbbOI/d5BVQWMEoTAN4dgKq15IKoi2T73CmRhmvCk2Rf0nnf6F3quOFA==}
     engines: {node: '>=14.17.6'}
     peerDependencies:
@@ -12983,7 +12983,7 @@ packages:
       '@modern-js/utils': 2.31.2(react-dom@18.2.0)(react@18.2.0)
       qrcode.react: 3.1.0(react@18.2.0)
       react: 18.2.0
-      react-router-dom: 6.11.1(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.15.0(react-dom@18.2.0)(react@18.2.0)
       remark-gfm: 3.0.1
     transitivePeerDependencies:
       - '@babel/traverse'
@@ -14284,6 +14284,10 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
+  /@remix-run/router@1.8.0:
+    resolution: {integrity: sha512-mrfKqIHnSZRyIzBcanNJmVQELTnX+qagEDlcKO90RgRBVOZGSGvZKeDihTRfWcqoDn5N/NkUcwWTccnpN18Tfg==}
+    engines: {node: '>=14.0.0'}
+
   /@remix-run/server-runtime@1.13.0:
     resolution: {integrity: sha512-gjIW3XCeIlOt3rrOZMD6HixQydRgs1SwYjP99ZAVruG2+gNq/tL2OusMFYTLvtWrybt215tPROyF/6iTLsaO3g==}
     engines: {node: '>=14'}
@@ -14703,7 +14707,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-helmet-async: 1.3.0(react-dom@18.2.0)(react@18.2.0)
       react-lazy-with-preload: 2.2.1
-      react-router-dom: 6.11.1(react-dom@18.2.0)(react@18.2.0)
+      react-router-dom: 6.15.0(react-dom@18.2.0)(react@18.2.0)
       react-syntax-highlighter: 15.5.0(react@18.2.0)
       rehype-autolink-headings: 6.1.1
       rehype-external-links: 2.0.1
@@ -32931,6 +32935,18 @@ packages:
       react-router: 6.11.2(react@18.2.0)
     dev: true
 
+  /react-router-dom@6.15.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-aR42t0fs7brintwBGAv2+mGlCtgtFQeOzK0BM1/OiqEzRejOZtpMZepvgkscpMUnKb8YO84G7s3LsHnnDNonbQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.8.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-router: 6.15.0(react@18.2.0)
+
   /react-router@5.3.4(react@18.2.0):
     resolution: {integrity: sha512-Ys9K+ppnJah3QuaRiLxk+jDWOR1MekYQrlytiXxC1RyfbdsZkS5pvKAzCCr031xHixZwpnsYNT5xysdFHQaYsA==}
     peerDependencies:
@@ -32966,6 +32982,15 @@ packages:
       '@remix-run/router': 1.6.2
       react: 18.2.0
     dev: true
+
+  /react-router@6.15.0(react@18.2.0):
+    resolution: {integrity: sha512-NIytlzvzLwJkCQj2HLefmeakxxWHWAP+02EGqWEZy+DgfHHKQMUoBBjUQLOtFInBMhWtb3hiUy6MfFgwLjXhqg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      '@remix-run/router': 1.8.0
+      react: 18.2.0
 
   /react-side-effect@2.1.2(react@18.2.0):
     resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
