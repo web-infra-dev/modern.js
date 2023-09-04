@@ -13,13 +13,7 @@ test('should minimize CSS correctly', async () => {
   const content =
     files[Object.keys(files).find(file => file.endsWith('.css'))!];
 
-  if (builder.providerType === 'rspack') {
-    expect(content).toEqual(
-      '.a{text-align:center;line-height:1.5;font-size:1.5rem}.b{text-align:center;line-height:1.5;font-size:1.5rem;background:#fafafa}',
-    );
-  } else {
-    expect(content).toEqual(
-      '.a,.b{font-size:1.5rem;line-height:1.5;text-align:center}.b{background:#fafafa}',
-    );
-  }
+  expect(content).toEqual(
+    '.a,.b{font-size:1.5rem;line-height:1.5;text-align:center}.b{background:#fafafa}',
+  );
 });
