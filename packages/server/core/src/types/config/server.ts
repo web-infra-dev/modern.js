@@ -41,6 +41,7 @@ export type SSR =
       mode?: SSRMode;
       preload?: boolean | SSRPreload;
       inlineScript?: boolean;
+      disablePrerender?: boolean;
     };
 
 export type SSRByEntries = Record<string, SSR>;
