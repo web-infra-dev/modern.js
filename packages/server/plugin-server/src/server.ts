@@ -4,6 +4,7 @@ import { isProd, logger } from '@modern-js/utils';
 import { Hook, Middleware, loadMiddleware, loadServerMod } from './utils';
 
 export { loadMiddleware, loadServerMod };
+export type { Hook, Middleware };
 
 enum HOOKS {
   AFTER_MATCH = 'afterMatch',
@@ -39,7 +40,7 @@ const createTransformAPI = (storage: Storage) =>
     },
   );
 
-const compose = (middlewares: Middleware[]) => {
+export const compose = (middlewares: Middleware[]) => {
   return (
     ctx: MiddlewareContext,
     resolve: (value: void | PromiseLike<void>) => void,
