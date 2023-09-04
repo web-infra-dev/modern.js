@@ -11,7 +11,9 @@ type Route =
     };
 export type Routes = Record<string, Route>;
 
-type PreloadInclude = Array<string | { url: string; type: string }>;
+type PreloadInclude = Array<
+  string | { url: string; type: string; rel?: string }
+>;
 interface PreloadAttributes {
   script?: Record<string, boolean | string>;
   style?: Record<string, boolean | string>;
