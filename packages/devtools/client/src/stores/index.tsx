@@ -11,7 +11,7 @@ import {
   NormalizedBuilderConfig,
   BundlerConfig,
 } from '@modern-js/devtools-kit';
-import { ref } from 'valtio';
+import { ref, useSnapshot } from 'valtio';
 import { setupServerConnection } from '@/rpc';
 import { useProxyFrom } from '@/utils/hooks';
 import { StoreContextValue } from '@/types';
@@ -117,3 +117,5 @@ export const useStore = () => {
   }
   return ctx as StoreContextValue;
 };
+
+export const useStoreSnapshot = () => useSnapshot(useStore());
