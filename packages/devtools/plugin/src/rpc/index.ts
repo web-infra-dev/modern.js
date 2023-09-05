@@ -1,4 +1,5 @@
 import { URL } from 'url';
+import path from 'path';
 import _ from '@modern-js/utils/lodash';
 import type {
   BuilderConfig,
@@ -16,6 +17,7 @@ import { getPort } from '@modern-js/utils';
 import type { BuilderContext, BuilderPlugin } from '@modern-js/builder-shared';
 import { CliPluginAPI, BuilderPluginAPI, InjectedHooks } from '../types';
 import { SocketServer } from '../utils/socket';
+import { requireModule } from '../utils/module';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
@@ -96,6 +98,36 @@ export const setupClientConnection = async (
       const ctx = await deferred.builder.context.promise;
       return ctx;
     },
+    async getDependencies() {
+      const ctx = await deferred.builder.context.promise;
+      const accepted = ['react', '@modern-js/app-tools'];
+      const ret: Record<string, string> = {};
+      for (const dep of accepted) {
+        const filename = path.resolve(
+          ctx.rootPath,
+          'node_modules',
+          dep,
+          'package.json',
+        );
+        ret[dep] = require(filename).version;
+      }
+      const webpackMeta = requireModule([
+        ctx.rootPath,
+        '@modern-js/app-tools',
+        '@modern-js/builder-webpack-provider',
+        'webpack/package.json',
+      ]);
+      ret.webpack = webpackMeta.version;
+      try {
+        const rspackMeta = requireModule([
+          ctx.rootPath,
+          '@modern-js/builder-rspack-provider',
+          '@rspack/core/package.json',
+        ]);
+        ret['@rspack/core'] = rspackMeta.version;
+      } catch {}
+      return ret;
+    },
     echo(content) {
       return content;
     },
@@ -121,7 +153,7 @@ export const setupClientConnection = async (
       // update remote records.
       // clientConn.updateFileSystemRoutes({ entrypoint, routes });
       // update local records.
-      _fileSystemRoutesMap[entrypoint.entryName] = routes;
+      _fileSystemRoutesMap[entrypoint.entryName] = _.cloneDeep(routes);
 
       return { entrypoint, routes };
     },

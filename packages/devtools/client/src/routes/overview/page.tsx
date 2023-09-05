@@ -6,17 +6,31 @@ import {
   CubeIcon,
   MixIcon,
   GlobeIcon,
+  ReaderIcon,
 } from '@radix-ui/react-icons';
 import { useSnapshot } from 'valtio';
 import styled from '@emotion/styled';
 import srcLogo from './logo.svg';
 import { useStore } from '@/stores';
 
+const BUNDLER_PACKAGE_NAMES = {
+  webpack: 'webpack',
+  rspack: '@rspack/core',
+} as const;
+
 const Page: React.FC = () => {
   const $store = useStore();
   const store = useSnapshot($store);
   const { toolsType } = store.framework.context;
+  if (toolsType !== 'app-tools') {
+    throw Error();
+  }
+  const toolsPackage = `@modern-js/app-tools`;
+  const toolsPackageVer = store.dependencies[toolsPackage]!;
+
   const { bundlerType } = store.builder.context;
+  const bundlerVer = store.dependencies[BUNDLER_PACKAGE_NAMES[bundlerType]];
+
   const numFrameworkPlugin = store.framework.config.transformed.plugins.length;
 
   return (
@@ -30,15 +44,20 @@ const Page: React.FC = () => {
       <Description>
         {store.name.formalName} DevTools v{store.version}
       </Description>
-      <Flex wrap="wrap" gap="3" mt="4" width="100%" justify="center">
+      <Flex wrap="wrap" gap="3" mt="7" width="100%" justify="center">
         <Box>
           <Indicator icon={<CubeIcon width="36" height="36" color="gray" />}>
-            {toolsType}
+            {toolsType}@{toolsPackageVer}
           </Indicator>
         </Box>
         <Box>
           <Indicator icon={<ArchiveIcon width="36" height="36" color="gray" />}>
-            {bundlerType}
+            {bundlerType}@{bundlerVer}
+          </Indicator>
+        </Box>
+        <Box>
+          <Indicator icon={<ReaderIcon width="36" height="36" color="gray" />}>
+            react@{store.dependencies.react}
           </Indicator>
         </Box>
         <Box>
@@ -82,7 +101,7 @@ const Indicator: React.FC<IndicatorProps> = ({ title, icon, children }) => {
         <Flex align="center" direction="column" gap="1">
           {icon}
           <Text size="1" color="gray">
-            {title ? title : children}
+            {title ?? children}
           </Text>
         </Flex>
         {title && <Box>{children}</Box>}
@@ -94,7 +113,7 @@ const Indicator: React.FC<IndicatorProps> = ({ title, icon, children }) => {
 const LogoText = styled(Text)({
   fontFamily: 'Open Sans, cursive',
   fontWeight: 800,
-  color: 'white',
+  color: 'hsl(220, 7.0%, 85.0%)',
 });
 
 const Description = styled(Text)({

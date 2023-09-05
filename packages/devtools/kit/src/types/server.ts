@@ -4,11 +4,13 @@ import type {
   BuilderConfig as WebpackBuilderConfig,
   NormalizedConfig as NormalizedWebpackBuilderConfig,
   WebpackConfig,
+  webpack,
 } from '@modern-js/builder-webpack-provider';
 import type {
   BuilderConfig as RspackBuilderConfig,
   NormalizedConfig as NormalizedRspackBuilderConfig,
   RspackConfig,
+  Rspack,
 } from '@modern-js/builder-rspack-provider';
 import { NormalizedConfig } from '@modern-js/core';
 import {
@@ -33,6 +35,12 @@ export type Aliases = NonNullable<
 
 export type BundlerConfig = WebpackConfig | RspackConfig;
 
+export type Compiler =
+  | webpack.Compiler
+  | Rspack.Compiler
+  | webpack.MultiCompiler
+  | Rspack.MultiCompiler;
+
 export type NormalizedBuilderConfig =
   | NormalizedWebpackBuilderConfig
   | NormalizedRspackBuilderConfig;
@@ -53,5 +61,6 @@ export interface ServerFunctions {
   getAppContext: () => Promise<AppContext>;
   getFileSystemRoutes: (entryName: string) => Promise<FileSystemRoutes>;
   getBuilderContext: () => Promise<BuilderContext>;
+  getDependencies: () => Promise<Record<string, string>>;
   echo: (content: string) => string;
 }
