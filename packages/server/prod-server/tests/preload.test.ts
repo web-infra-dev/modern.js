@@ -125,7 +125,6 @@ describe('test preload', () => {
               { url: 'http://example.com', type: 'script' },
               {
                 url: 'http://example3.com',
-                type: 'script',
                 rel: 'dns-prefetch',
               },
               '/static/js/async/three_user/layout.js',

@@ -21,7 +21,7 @@ exports[`test preload test flushServerHeader 1`] = `
       "<style1.css>; rel=preload; as=style; id=css_link_id",
       "<style2.css>; rel=preload; as=style; id=css_link_id",
       "<http://example.com>; rel=preload; as=script; crossorigin; id=script_id",
-      "<http://example3.com>; rel=dns-prefetch; as=script; crossorigin; id=script_id",
+      "<http://example3.com>; rel=dns-prefetch",
     ],
   },
   {
