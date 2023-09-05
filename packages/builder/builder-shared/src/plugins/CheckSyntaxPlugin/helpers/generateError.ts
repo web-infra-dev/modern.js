@@ -42,13 +42,13 @@ export async function generateError({
   return error;
 }
 
-function makeCodeFrame(lines: string[], highlightLine: number) {
-  const startLine = Math.max(highlightLine - 3, 0);
-  const endLine = Math.min(highlightLine + 4, lines.length - 1);
+export function makeCodeFrame(lines: string[], highlightIndex: number) {
+  const startLine = Math.max(highlightIndex - 3, 0);
+  const endLine = Math.min(highlightIndex + 4, lines.length - 1);
   const ret: string[] = [];
 
   for (let i = startLine; i < endLine; i++) {
-    if (i === highlightLine) {
+    if (i === highlightIndex) {
       const lineNumber = `> ${i + 1}`.padStart(6, ' ');
       ret.push(chalk.yellow(`${lineNumber} | ${lines[i]}`));
     } else {
@@ -96,7 +96,6 @@ async function tryGenerateErrorFromSourceMap({
 
     const path = sm.source.replace(/webpack:\/\/(tmp)?/g, '');
     const relativeFilepath = filepath.replace(rootPath, '');
-
     const rawLines = smContent.split(/\r?\n/g);
     const highlightLine = (sm.line ?? 1) - 1;
 
