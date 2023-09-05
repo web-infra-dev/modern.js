@@ -4,8 +4,7 @@
   "version": "2.9.0",
   "dependencies": {
     "react": "^18",
-    "react-dom": "^18",
-    "@babel/runtime": "^7.18.0"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "@types/jest": "^29",

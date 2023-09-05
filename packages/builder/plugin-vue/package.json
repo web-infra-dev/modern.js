@@ -44,7 +44,7 @@
     "vue-loader": "^17.2.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.15",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
