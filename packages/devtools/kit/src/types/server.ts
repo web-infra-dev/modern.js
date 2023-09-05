@@ -62,5 +62,6 @@ export interface ServerFunctions {
   getFileSystemRoutes: (entryName: string) => Promise<FileSystemRoutes>;
   getBuilderContext: () => Promise<BuilderContext>;
   getDependencies: () => Promise<Record<string, string>>;
+  getCompileTimeCost: () => Promise<number>;
   echo: (content: string) => string;
 }

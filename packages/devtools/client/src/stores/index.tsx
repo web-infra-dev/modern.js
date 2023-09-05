@@ -55,6 +55,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       },
     },
     dependencies: createDeferPromise<Record<string, string>>(),
+    compileTimeCost: createDeferPromise<number>(),
   };
   const $store = useProxyFrom<StoreContextValue>(() => ({
     dataSource,
@@ -85,6 +86,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     aliases: [],
     version: process.env.PKG_VERSION!,
     dependencies: deferred.dependencies.promise,
+    compileTimeCost: deferred.compileTimeCost.promise,
   }));
 
   const setupTask = setupServerConnection({ url: dataSource, $store });
@@ -105,6 +107,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       server.getTransformedBundlerConfigs(),
     );
     deferred.dependencies.resolve(server.getDependencies());
+    deferred.compileTimeCost.resolve(server.getCompileTimeCost());
     const ctx = await $store.framework.context;
     for (const { entryName } of ctx.entrypoints) {
       $store.framework.fileSystemRoutes[entryName] =

@@ -42,6 +42,7 @@ export interface StoreContextValue {
   aliases: ShortenAlias[];
   version: string;
   dependencies: Promise<Record<string, string>>;
+  compileTimeCost: Promise<number>;
 }
 
 export interface BuiltinTabView {

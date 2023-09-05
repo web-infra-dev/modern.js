@@ -62,6 +62,7 @@ export const setupClientConnection = async (
         transformed: createDeferPromise<BundlerConfig[]>(),
       },
     },
+    compileTimeCost: createDeferPromise<number>(),
   } as const;
 
   // setup rpc instance (server <-> client).
@@ -128,6 +129,9 @@ export const setupClientConnection = async (
       } catch {}
       return ret;
     },
+    async getCompileTimeCost() {
+      return deferred.compileTimeCost.promise;
+    },
     echo(content) {
       return content;
     },
@@ -191,6 +195,17 @@ export const setupClientConnection = async (
         deferred.bundler.config.transformed.resolve(
           _.cloneDeep(bundlerConfigs) as any,
         );
+      });
+
+      let buildStartedAt = NaN;
+      api.onAfterCreateCompiler(() => {
+        buildStartedAt = Date.now();
+      });
+      api.onDevCompileDone(() => {
+        deferred.compileTimeCost.resolve(Date.now() - buildStartedAt);
+      });
+      api.onAfterBuild(() => {
+        deferred.compileTimeCost.resolve(Date.now() - buildStartedAt);
       });
     },
   };

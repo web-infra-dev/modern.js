@@ -6,7 +6,6 @@ import {
   CubeIcon,
   MixIcon,
   GlobeIcon,
-  ReaderIcon,
 } from '@radix-ui/react-icons';
 import { useSnapshot } from 'valtio';
 import styled from '@emotion/styled';
@@ -46,18 +45,24 @@ const Page: React.FC = () => {
       </Description>
       <Flex wrap="wrap" gap="3" mt="7" width="100%" justify="center">
         <Box>
-          <Indicator icon={<CubeIcon width="36" height="36" color="gray" />}>
-            {toolsType}@{toolsPackageVer}
-          </Indicator>
-        </Box>
-        <Box>
           <Indicator icon={<ArchiveIcon width="36" height="36" color="gray" />}>
-            {bundlerType}@{bundlerVer}
+            Compiled with {(store.compileTimeCost / 1000).toFixed(2)}s
           </Indicator>
         </Box>
         <Box>
-          <Indicator icon={<ReaderIcon width="36" height="36" color="gray" />}>
-            react@{store.dependencies.react}
+          <Indicator
+            title="Tools"
+            icon={<CubeIcon width="36" height="36" color="gray" />}
+          >
+            <Text color="gray" size="2">
+              <Box>
+                {toolsType}@{toolsPackageVer}
+              </Box>
+              <Box>
+                {bundlerType}@{bundlerVer}
+              </Box>
+              <Box>react@{store.dependencies.react}</Box>
+            </Text>
           </Indicator>
         </Box>
         <Box>
