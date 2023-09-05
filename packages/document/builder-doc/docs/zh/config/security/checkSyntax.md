@@ -38,7 +38,7 @@ error   [Syntax Checker] Find some syntax errors after production build:
   Error 1
   source:  /node_modules/foo/index.js:1:0
   output:  /dist/static/js/main.3f7a4d7e.js:2:39400
-  reason:  The keyword 'const' is reserved (2:39400)
+  reason:  Unexpected token (1:178)
   code:
      9 |
     10 | var b = 2;

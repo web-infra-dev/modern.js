@@ -38,7 +38,7 @@ error   [Syntax Checker] Find some syntax errors after production build:
   Error 1
   source:  /node_modules/foo/index.js:1:0
   output:  /dist/static/js/main.3f7a4d7e.js:2:39400
-  reason:  The keyword 'const' is reserved (2:39400)
+  reason:  Unexpected token (1:178)
   code:
      9 |
     10 | var b = 2;
@@ -50,7 +50,7 @@ error   [Syntax Checker] Find some syntax errors after production build:
 ```
 
 :::tip
-Currently, syntax checking is implemented based on AST parser. Each time it performs a check, it can only identify the first incompatible syntax found in the file. If there are multiple incompatible syntaxes in one file, you need to fix the detected syntax and re-run the check.
+Currently, syntax checking is implemented based on AST parser. Each time it performs a check, it can only identify the first incompatible syntax found in the file. If there are multiple incompatible syntaxes in the file, you need to fix the detected syntax and re-run the check.
 :::
 
 ### Solutions
