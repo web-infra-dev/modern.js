@@ -41,9 +41,6 @@ const handleTemplateFile = async (
         .replace('templates/base-template/', '')
         .replace('.handlebars', ''),
   );
-  await appApi.forgeTemplate('templates/idea/**/*', undefined, resourceKey =>
-    resourceKey.replace('templates/idea/', '.idea/'),
-  );
 
   if (packageManager === PackageManager.Pnpm) {
     await appApi.forgeTemplate(
