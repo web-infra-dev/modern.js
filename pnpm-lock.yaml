@@ -5791,8 +5791,8 @@ importers:
         specifier: 3.0.0
         version: 3.0.0(postcss@8.4.27)
       postcss-modules-local-by-default:
-        specifier: 4.0.3
-        version: 4.0.3(postcss@8.4.27)
+        specifier: 4.0.0
+        version: 4.0.0(postcss@8.4.27)
       postcss-modules-scope:
         specifier: 3.0.0
         version: 3.0.0(postcss@8.4.27)
@@ -19694,7 +19694,7 @@ packages:
       loader-utils: 2.0.4
       postcss: 8.4.27
       postcss-modules-extract-imports: 3.0.0(postcss@8.4.27)
-      postcss-modules-local-by-default: 4.0.3(postcss@8.4.27)
+      postcss-modules-local-by-default: 4.0.0(postcss@8.4.27)
       postcss-modules-scope: 3.0.0(postcss@8.4.27)
       postcss-modules-values: 4.0.0(postcss@8.4.27)
       postcss-value-parser: 4.2.0
@@ -19712,7 +19712,7 @@ packages:
       icss-utils: 5.1.0(postcss@8.4.27)
       postcss: 8.4.27
       postcss-modules-extract-imports: 3.0.0(postcss@8.4.27)
-      postcss-modules-local-by-default: 4.0.3(postcss@8.4.27)
+      postcss-modules-local-by-default: 4.0.0(postcss@8.4.27)
       postcss-modules-scope: 3.0.0(postcss@8.4.27)
       postcss-modules-values: 4.0.0(postcss@8.4.27)
       postcss-value-parser: 4.2.0
@@ -28420,6 +28420,17 @@ packages:
       postcss-value-parser: 4.2.0
     dev: false
 
+  /postcss-modules-local-by-default@4.0.0(postcss@8.4.27):
+    resolution: {integrity: sha512-sT7ihtmGSF9yhm6ggikHdV0hlziDTX7oFoXtuVWeDd3hHObNkcHRo9V3yg7vCAY7cONyxJC/XXCmmiHHcvX7bQ==}
+    engines: {node: ^10 || ^12 || >= 14}
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      icss-utils: 5.1.0(postcss@8.4.27)
+      postcss: 8.4.27
+      postcss-selector-parser: 6.0.11
+      postcss-value-parser: 4.2.0
+
   /postcss-modules-local-by-default@4.0.3(postcss@8.4.27):
     resolution: {integrity: sha512-2/u2zraspoACtrbFRnTijMiQtb4GW4BvatjaG/bCjYQo8kLTdevCUlwuBHx2sCnSyrI3x3qj4ZK1j5LQBgzmwA==}
     engines: {node: ^10 || ^12 || >= 14}
@@ -28430,6 +28441,7 @@ packages:
       postcss: 8.4.27
       postcss-selector-parser: 6.0.11
       postcss-value-parser: 4.2.0
+    dev: true
 
   /postcss-modules-scope@2.2.0:
     resolution: {integrity: sha512-YyEgsTMRpNd+HmyC7H/mh3y+MeFWevy7V1evVhJWewmMbjDHIbZbOXICC2y+m1xI1UVfIT1HMW/O04Hxyu9oXQ==}
