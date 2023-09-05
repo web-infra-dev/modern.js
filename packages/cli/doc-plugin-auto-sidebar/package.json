@@ -37,7 +37,6 @@
     "dist/"
   ],
   "peerDependencies": {
-    "@modern-js/doc-tools": "2.32.1",
     "react": ">=17"
   },
   "devDependencies": {
