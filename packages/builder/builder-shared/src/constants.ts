@@ -63,6 +63,8 @@ export const MEDIA_EXTENSIONS = [
 export const DEFAULT_ASSET_PREFIX = '/';
 
 // RegExp
+export const HTML_REGEX = /\.html$/;
+export const JSON_REGEX = /\.json$/;
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
 export const SVG_REGEX = /\.svg$/;

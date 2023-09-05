@@ -30,7 +30,7 @@ export function printErrors(errors: SyntaxError[]) {
   );
 
   errs.forEach((err, index) => {
-    console.info(`${chalk.red(`  ERROR#${index + 1}`)}:`);
+    console.info(chalk.red.bold(`  ERROR ${index + 1}`));
     printMain(err, longest);
   });
 
@@ -54,8 +54,8 @@ function printMain(error: Error, logest: number) {
     if (!content) {
       return;
     }
-    const title = chalk.red(fillWhiteSpace(key, logest));
-    console.info(`  ${title} - ${content}`);
+    const title = chalk.magenta(`${fillWhiteSpace(`${key}:`, logest)}`);
+    console.info(`  ${title}  ${content}`);
   });
   console.info('');
 }

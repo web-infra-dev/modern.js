@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { getHtmlScripts } from '../../src/plugins/CheckSyntaxPlugin/helpers/generateHtmlScripts';
 import { getEcmaVersion } from '../../src/plugins/CheckSyntaxPlugin/helpers/getEcmaVersion';
+import { makeCodeFrame } from '../../src/plugins/CheckSyntaxPlugin/helpers';
 
 describe('getHtmlScripts', () => {
   test('should extract inline scripts correctly', async () => {
@@ -69,5 +70,39 @@ describe('checkIsSupportBrowser', () => {
   test('should get ecma version of multiple browsers correctly', async () => {
     expect(getEcmaVersion(['ie >= 11', 'Chrome >= 53'])).toEqual(5);
     expect(getEcmaVersion(['Edge >= 15', 'Chrome >= 53'])).toEqual(6);
+  });
+});
+
+describe('makeCodeFrame', () => {
+  test('should make code frame correctly', () => {
+    const lines = [
+      'const a = 1;',
+      '',
+      'var b = 2;',
+      '',
+      'console.log(() => {',
+      '  return a + b;',
+      '});',
+      '',
+      'var c = 3;',
+    ];
+
+    expect(makeCodeFrame(lines, 0)).toMatchInlineSnapshot(`
+      "
+         > 1 | const a = 1;
+           2 | 
+           3 | var b = 2;
+           4 | "
+    `);
+    expect(makeCodeFrame(lines, 4)).toMatchInlineSnapshot(`
+      "
+           2 | 
+           3 | var b = 2;
+           4 | 
+         > 5 | console.log(() => {
+           6 |   return a + b;
+           7 | });
+           8 | "
+    `);
   });
 });

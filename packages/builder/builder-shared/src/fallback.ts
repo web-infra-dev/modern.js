@@ -1,4 +1,4 @@
-import { JS_REGEX, TS_REGEX } from './constants';
+import { JS_REGEX, TS_REGEX, HTML_REGEX, JSON_REGEX } from './constants';
 import type { RuleSetRule } from 'webpack';
 
 type Rules = (undefined | null | false | '' | 0 | RuleSetRule | '...')[];
@@ -45,8 +45,8 @@ export const resourceRuleFallback = (
       JS_REGEX,
       TS_REGEX,
       // exclude `html` and `json`, they get processed by webpack internal loaders.
-      /\.html$/,
-      /\.json$/,
+      HTML_REGEX,
+      JSON_REGEX,
     ],
     type: 'asset/resource',
   };
