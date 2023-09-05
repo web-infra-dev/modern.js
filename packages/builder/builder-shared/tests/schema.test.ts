@@ -11,7 +11,7 @@ describe('validateBuilderConfig', () => {
       }),
     ).rejects.toThrowErrorMatchingInlineSnapshot(`
       "Builder config validation error:
-      * Invalid value. Expected 3 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | latest, received 2 at \\"checkSyntax.ecmaVersion\\""
+      * Expected boolean, received object at \\"checkSyntax\\", or Invalid value. Expected 3 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | latest, received 2 at \\"checkSyntax.ecmaVersion\\""
     `);
   });
 
