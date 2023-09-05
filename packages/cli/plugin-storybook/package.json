@@ -69,7 +69,7 @@
     "tsconfig-paths-webpack-plugin": "4.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.15",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/runtime": "workspace:*",

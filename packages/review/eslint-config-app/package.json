@@ -22,9 +22,9 @@
     "check": "eslint-find-rules --unused index.js"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/eslint-parser": "^7.21.8",
-    "@babel/eslint-plugin": "^7.19.1",
+    "@babel/core": "^7.22.15",
+    "@babel/eslint-parser": "^7.22.15",
+    "@babel/eslint-plugin": "^7.22.10",
     "@modern-js/babel-preset-app": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",

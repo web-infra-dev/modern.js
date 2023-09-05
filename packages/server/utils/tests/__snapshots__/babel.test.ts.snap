@@ -24,7 +24,7 @@ exports[`babel resolveBabelConfig 1`] = `
         "helpers": false,
         "regenerator": true,
         "useESModules": false,
-        "version": "7.21.5",
+        "version": "7.22.15",
       },
     ],
     [
@@ -67,12 +67,6 @@ exports[`babel resolveBabelConfig 1`] = `
     ],
     [
       "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-typescript-metadata/lib/plugin.js",
-    ],
-    [
-      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-class-properties/lib/index.js",
-      {
-        "loose": true,
-      },
     ],
   ],
   "presets": [

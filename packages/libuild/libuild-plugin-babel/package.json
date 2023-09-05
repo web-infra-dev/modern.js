@@ -24,7 +24,7 @@
     "@types/babel__core": "7.1.16"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.15",
     "@swc/helpers": "0.5.1"
   }
 }

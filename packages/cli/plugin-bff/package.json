@@ -62,7 +62,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.15",
     "@modern-js/bff-core": "workspace:*",
     "@modern-js/create-request": "workspace:*",
     "@modern-js/server-utils": "workspace:*",
