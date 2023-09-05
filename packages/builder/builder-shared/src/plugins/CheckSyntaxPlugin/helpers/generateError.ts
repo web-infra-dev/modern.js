@@ -1,20 +1,26 @@
 import { AcornParseError, CheckSyntaxExclude, SyntaxError } from './type';
 import { SourceMapConsumer } from 'source-map';
-import { fs } from '@modern-js/utils';
+import { chalk, fs } from '@modern-js/utils';
 import { checkIsExcludeSource } from './utils';
 
 export async function generateError({
   err,
-  filepath,
   code,
+  filepath,
+  rootPath,
   exclude,
 }: {
   err: AcornParseError;
-  filepath: string;
-  exclude?: CheckSyntaxExclude;
   code: string;
+  filepath: string;
+  rootPath: string;
+  exclude?: CheckSyntaxExclude;
 }) {
-  let error = await tryGenerateErrorFromSourceMap(err, filepath);
+  let error = await tryGenerateErrorFromSourceMap({
+    err,
+    filepath,
+    rootPath,
+  });
 
   if (!error) {
     const SUB_LEN = 25;
@@ -36,10 +42,33 @@ export async function generateError({
   return error;
 }
 
-async function tryGenerateErrorFromSourceMap(
-  err: AcornParseError,
-  filepath: string,
-): Promise<SyntaxError | null> {
+function makeCodeFrame(lines: string[], highlightLine: number) {
+  const startLine = Math.max(highlightLine - 3, 0);
+  const endLine = Math.min(highlightLine + 4, lines.length - 1);
+  const ret: string[] = [];
+
+  for (let i = startLine; i < endLine; i++) {
+    if (i === highlightLine) {
+      const lineNumber = `> ${i + 1}`.padStart(6, ' ');
+      ret.push(chalk.yellow(`${lineNumber} | ${lines[i]}`));
+    } else {
+      const lineNumber = ` ${i + 1}`.padStart(6, ' ');
+      ret.push(chalk.gray(`${lineNumber} | ${lines[i]}`));
+    }
+  }
+
+  return `\n${ret.join('\n')}`;
+}
+
+async function tryGenerateErrorFromSourceMap({
+  err,
+  filepath,
+  rootPath,
+}: {
+  err: AcornParseError;
+  filepath: string;
+  rootPath: string;
+}): Promise<SyntaxError | null> {
   const sourceMapPath = `${filepath}.map`;
   if (!fs.existsSync(sourceMapPath)) {
     return null;
@@ -65,18 +94,21 @@ async function tryGenerateErrorFromSourceMap(
       return null;
     }
 
-    const path = sm.source.replace('webpack://', '');
+    const path = sm.source.replace(/webpack:\/\/(tmp)?/g, '');
+    const relativeFilepath = filepath.replace(rootPath, '');
+
     const rawLines = smContent.split(/\r?\n/g);
+    const highlightLine = (sm.line ?? 1) - 1;
 
     return new SyntaxError(err.message, {
       source: {
         path,
         line: sm.line ?? 0,
         column: sm.column ?? 0,
-        code: rawLines[(sm.line ?? 0) - 1].trim(),
+        code: makeCodeFrame(rawLines, highlightLine),
       },
       output: {
-        path: filepath,
+        path: relativeFilepath,
         line: err.loc.line,
         column: err.loc.column,
       },
