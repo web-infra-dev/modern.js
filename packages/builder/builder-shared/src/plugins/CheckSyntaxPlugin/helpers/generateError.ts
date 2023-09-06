@@ -3,6 +3,15 @@ import { SourceMapConsumer } from 'source-map';
 import { chalk, fs } from '@modern-js/utils';
 import { checkIsExcludeSource } from './utils';
 
+export function displayCodePointer(code: string, pos: number) {
+  const SUB_LEN = 80;
+  const start = Math.max(pos - SUB_LEN / 2, 0);
+  const subCode = code.slice(start, start + SUB_LEN);
+  const arrowPos = pos - start;
+  const arrowLine = chalk.yellow('^'.padStart(arrowPos + 11, ' '));
+  return `${subCode}\n${arrowLine}`;
+}
+
 export async function generateError({
   err,
   code,
@@ -23,14 +32,13 @@ export async function generateError({
   });
 
   if (!error) {
-    const SUB_LEN = 25;
-    const path = filepath.replace(process.cwd(), '');
+    const path = filepath.replace(rootPath, '');
     error = new SyntaxError(err.message, {
       source: {
         path,
         line: err.loc.line,
         column: err.loc.column,
-        code: code.substring(err.pos - SUB_LEN, err.pos + SUB_LEN).trim(),
+        code: displayCodePointer(code, err.pos),
       },
     });
   }
