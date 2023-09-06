@@ -594,7 +594,7 @@ type Input =
 
 **数组用法：**
 
-在 `bundle` 模式下，下面的配置会以 `src/index.ts` 和 `src/index2.ts` 为入口分别进行构建。不支持使用目录。
+在 `bundle` 模式下，下面的配置会以 `src/index.ts` 和 `src/index2.ts` 为入口分别进行构建。`bundle` 模式不支持配置 `input` 为目录。
 
 ```js title="modern.config.ts"
 export default defineConfig({
