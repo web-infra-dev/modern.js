@@ -47,5 +47,8 @@ jobs:
           repository-name: web-infra-dev/web-infra-dev.github.io
           branch: main
           folder: packages/document/builder-doc/doc_build
-          target-folder: builder
+          token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
+          target-folder: modern-js/builder
+          git-config-name: gh-pages-bot
+          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
           clean: true

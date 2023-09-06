@@ -47,5 +47,8 @@ jobs:
           repository-name: web-infra-dev/web-infra-dev.github.io
           branch: main
           folder: packages/devtools/client/dist
+          token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
           target-folder: devtools/${{ github.sha }}
+          git-config-name: gh-pages-bot
+          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
           clean: true
