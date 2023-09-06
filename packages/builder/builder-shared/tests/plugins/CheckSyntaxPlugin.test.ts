@@ -117,8 +117,8 @@ describe('displayCodePointer', () => {
     expect(`\n  code:    ${displayCodePointer(code, 66)}`)
       .toMatchInlineSnapshot(`
         "
-          code:    =self.webpackChunktmp||[]).push([[179],{530:()=>{console.log(1);let e=1;e=\\"2\\"}},e=>{var l;
-                                                               ^"
+          code:    .webpackChunktmp||[]).push([[179],{530:()=>{console.log(1);let e=1;e=\\"2\\"}},e=>{v
+                                                          ^"
       `);
   });
 });
