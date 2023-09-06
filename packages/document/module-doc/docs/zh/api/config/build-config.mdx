@@ -594,13 +594,41 @@ type Input =
 
 **数组用法：**
 
+在 `bundle` 模式下，下面的配置会以 `src/index.ts` 和 `src/index2.ts` 为入口分别进行构建。`bundle` 模式不支持配置 `input` 为目录。
+
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
+    buildType: 'bundle',
     input: ['src/index.ts', 'src/index2.ts'],
   },
 });
 ```
+
+在 `bundleless` 模式下，下面的配置会同时处理 `src/a` 目录下的文件和 `src/index.ts` 文件。
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src/a', 'src/index.ts'],
+  },
+});
+```
+
+在 `bundleless` 模式下，数组模式还支持使用 `!` 来过滤部分文件：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/*.spec.ts'],
+  },
+});
+```
+
+上面的配置将打包 `src` 目录下的文件，同时会过滤以 `spec.ts` 为后缀的文件。这在测试文件与源码文件在同一个根目录下的情况会很有用。
+
 
 **对象用法：**
 
