@@ -47,5 +47,6 @@ jobs:
           repository-name: web-infra-dev/web-infra-dev.github.io
           branch: main
           folder: packages/document/builder-doc/doc_build
+          token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
           target-folder: builder
           clean: true

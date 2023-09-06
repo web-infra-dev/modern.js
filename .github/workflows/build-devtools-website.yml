@@ -47,5 +47,6 @@ jobs:
           repository-name: web-infra-dev/web-infra-dev.github.io
           branch: main
           folder: packages/devtools/client/dist
+          token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
           target-folder: devtools/${{ github.sha }}
           clean: true
