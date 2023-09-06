@@ -39,6 +39,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/progress').then(m => m.builderPluginProgress()),
     import('../plugins/react').then(m => m.builderPluginReact()),
     import('../plugins/swc').then(m => m.builderPluginSwc()),
+    // import('../plugins/swc-loader').then(m => m.builderPluginSwcLoader()),
     plugins.externals(),
     plugins.toml(),
     plugins.yaml(),
