@@ -596,13 +596,40 @@ type Input =
 
 **Array usage:**
 
+In `bundle` mode, the following configurations will be built using `src/index.ts` and `src/index2.ts` as entry points. The usage of catalogs is not supported.
+
 ```js title="modern.config.ts"
 export default {
   buildConfig: {
+    buildType: 'bundle',
     input: ['src/index.ts', 'src/index2.ts'],
   },
 };
 ```
+
+In `bundleless` mode, the following configuration compiles both files in the `src/a` directory and `src/index.ts` file.
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src/a', 'src/index.ts'],
+  },
+});
+```
+
+In `bundleless` mode, **Array usage** also supports the usage of `!` to filter partial files:
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/*.spec.ts'],
+  },
+});
+```
+
+The above configuration will build the files in the `src` directory, and will also filter files with the `spec.ts` suffix.This is useful in cases where the test files are in the same root directory as the source files.
 
 **Object usage:**
 
