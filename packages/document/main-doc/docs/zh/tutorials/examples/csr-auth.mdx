@@ -1,0 +1,214 @@
+---
+title: 路由鉴权
+---
+
+# 路由鉴权
+
+Modern.js 默认提供的路由方式是基于 React Router 6 的约定式路由，具体可查看[路由方案](/guides/basic-features/routes.html#路由方案)。
+
+在一个 Web 应用中如果存在多个路由，我们可能需要对部分路由进行鉴权后才能访问。例如下面这个案例：
+
+- 访问 `/` 路由，无需鉴权，可直接访问。
+- 访问 `/protected` 路由，需要鉴权，如果无，自动跳转到 `/login` 路由，登录成功后返回 `/protected`。
+
+import Sandpack from '@site/src/components/Sandpack';
+
+<Sandpack template="web-app">
+```tsx title="src/routes/page.tsx"
+import { Helmet } from '@modern-js/runtime/head';
+import './index.css';
+
+const PublicPage = (): JSX.Element => (
+  <div className="container-box">
+    <Helmet>
+      <link
+        rel="icon"
+        type="image/x-icon"
+        href="https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/favicon.ico"
+      />
+    </Helmet>
+    <h3>Public</h3>
+  </div>
+);
+
+export default PublicPage;
+
+```
+```tsx title="src/routes/layout.tsx"
+import { Link, Outlet } from '@modern-js/runtime/router';
+import { AuthProvider, AuthStatus } from './Auth';
+
+export default function Layout() {
+  return (
+    <AuthProvider>
+      <AuthStatus />
+
+      <ul>
+        <li>
+          <Link to="/">Public Page</Link>
+        </li>
+        <li>
+          <Link to="/protected">Protected Page</Link>
+        </li>
+      </ul>
+
+      <Outlet />
+    </AuthProvider>
+  );
+}
+
+```
+```ts title="src/routes/fakeAuth.ts"
+/**
+ * This represents some generic auth provider API, like Firebase.
+ */
+const fakeAuthProvider = {
+  isAuthenticated: false,
+  signin(callback: VoidFunction) {
+    fakeAuthProvider.isAuthenticated = true;
+    setTimeout(callback, 100); // fake async
+  },
+  signout(callback: VoidFunction) {
+    fakeAuthProvider.isAuthenticated = false;
+    setTimeout(callback, 100);
+  },
+};
+
+export { fakeAuthProvider };
+
+```
+```ts title="src/routes/Auth.tsx"
+import React from 'react';
+import { useNavigate, Navigate, useLocation } from '@modern-js/runtime/router';
+import { fakeAuthProvider } from './fakeAuth';
+
+interface AuthContextType {
+  user: any;
+  signin: (user: string, callback: VoidFunction) => void;
+  signout: (callback: VoidFunction) => void;
+}
+
+const AuthContext = React.createContext<AuthContextType>(null!);
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = React.useState<any>(null);
+
+  const signin = (newUser: string, callback: VoidFunction) =>
+    fakeAuthProvider.signin(() => {
+      setUser(newUser);
+      callback();
+    });
+
+  const signout = (callback: VoidFunction) =>
+    fakeAuthProvider.signout(() => {
+      setUser(null);
+      callback();
+    });
+
+  const value = { user, signin, signout };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  return React.useContext(AuthContext);
+}
+
+export function AuthStatus() {
+  const auth = useAuth();
+  console.log('auth', auth);
+  const navigate = useNavigate();
+
+  if (!auth.user) {
+    return <p>You are not logged in.</p>;
+  }
+
+  return (
+    <p>
+      Welcome {auth.user}!{' '}
+      <button
+        type="button"
+        onClick={() => {
+          auth.signout(() => navigate('/'));
+        }}
+      >
+        Sign out
+      </button>
+    </p>
+  );
+}
+
+export function RequireAuth({ children }: { children: JSX.Element }) {
+  const auth = useAuth();
+  const location = useLocation();
+
+  if (!auth.user) {
+    // Redirect them to the /login page, but save the current location they were
+    // trying to go to when they were redirected. This allows us to send them
+    // along to that page after they login, which is a nicer user experience
+    // than dropping them off on the home page.
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
+
+```
+```ts title="src/routes/protected/page.tsx"
+import { RequireAuth } from '../Auth';
+
+export default function ProtectedPage() {
+  return (
+    <div className="container-box">
+      <RequireAuth>
+        <h3>Protected</h3>
+      </RequireAuth>
+    </div>
+  );
+}
+
+```
+```ts title="src/routes/login/page.tsx"
+import { useLocation, useNavigate } from '@modern-js/runtime/router';
+import { useAuth } from '../Auth';
+
+export default function Login() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useAuth();
+
+  const from = location.state?.from?.pathname || '/';
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const formData = new FormData(event.currentTarget);
+    const username = formData.get('username') as string;
+
+    auth.signin(username, () => {
+      // Send them back to the page they tried to visit when they were
+      // redirected to the login page. Use { replace: true } so we don't create
+      // another entry in the history stack for the login page.  This means that
+      // when they get to the protected page and click the back button, they
+      // won't end up back on the login page, which is also really nice for the
+      // user experience.
+      navigate(from, { replace: true });
+    });
+  }
+
+  return (
+    <div>
+      <p>You must log in to view the page at {from}</p>
+
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username: <input name="username" type="text" />
+        </label>{' '}
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+}
+
+```
+</Sandpack>

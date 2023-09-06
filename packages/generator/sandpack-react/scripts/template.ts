@@ -14,7 +14,6 @@ const IgnoreFiles = [
   '.vscode/settings.json',
   '.husky/pre-commit',
   'README.md',
-  '.gitignore.handlebars',
 ];
 
 export async function handleTemplate(
@@ -94,6 +93,7 @@ async function handleMWATemplate() {
       isMonorepoSubProject: false,
       modernVersion,
       isTs: true,
+      packageManager: 'pnpm',
     })),
     ...(await handleTemplate(tsTemplate)),
     ...(await handleTemplate(
@@ -122,6 +122,7 @@ async function handleModuleTemplate() {
       isTs: true,
       isPublic: true,
       language: 'ts',
+      packageManager: 'pnpm',
     })),
     ...(await handleTemplate(tsTemplate)),
   };
