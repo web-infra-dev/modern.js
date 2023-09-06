@@ -48,5 +48,5 @@ jobs:
           branch: main
           folder: packages/document/builder-doc/doc_build
           token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
-          target-folder: builder
+          target-folder: modern-js/builder
           clean: true

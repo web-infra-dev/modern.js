@@ -52,6 +52,7 @@ jobs:
           branch: main
           folder: packages/document/main-doc/doc_build
           token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
+          target-folder: modern-js
           clean: true
           clean-exclude: |
             v1/*
@@ -62,5 +63,3 @@ jobs:
             doc-tools/**/*
             module-tools/*
             module-tools/**/*
-            devtools/*
-            devtools/**/*
