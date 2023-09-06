@@ -1,5 +1,13 @@
 # @modern-js/monorepo-generator
 
+## 3.2.0
+
+### Patch Changes
+
+- acb82ef: chore(generator): simplify the default lint-staged config
+
+  chore(generator): 简化默认的 lint-staged 配置
+
 ## 3.1.39
 
 ## 3.1.38

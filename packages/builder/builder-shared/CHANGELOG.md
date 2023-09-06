@@ -1,5 +1,35 @@
 # @modern-js/builder-shared
 
+## 2.34.0
+
+### Patch Changes
+
+- 09b176a: hotfix(builder): revert postcss-modules-local-by-default version to avoid 'Missed semicolon' bug
+
+  hotfix(builder): 将 postcss-modules-local-by-default 版本降级回 4.0.0 来避免 'Missed semicolon' 问题
+
+- c8b448b: feat(builder): support inline assets by file size
+
+  feat(builder): 支持基于文件体积来内联资源
+
+- c9626e7: feat(builder): improve the logs of checkSyntax, add code frame
+
+  feat(builder): 优化 checkSyntax 的日志, 增加 code frame
+
+- e538169: feat(builder): add code pointer for check syntax results
+
+  feat(builder): 增加 check syntax 结果的指针提示
+
+- Updated dependencies [f851fa9]
+- Updated dependencies [7d70738]
+- Updated dependencies [5240e5d]
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/prod-server@2.34.0
+  - @modern-js/utils@2.34.0
+  - @modern-js/server@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

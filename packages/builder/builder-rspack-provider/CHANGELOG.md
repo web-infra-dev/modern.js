@@ -1,5 +1,19 @@
 # @modern-js/builder-rspack-provider
 
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/utils@2.34.0
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/server@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes
