@@ -30,10 +30,11 @@ function applyHMREntry(compiler: Compiler, clientPath: string) {
 
   const entires = [...hotRuntimeEntires, clientPath];
 
-  for (const additionalEntry of entires) {
-    new compiler.webpack.EntryPlugin(compiler.context, additionalEntry).apply(
-      compiler,
-    );
+  for (const key in compiler.options.entry) {
+    compiler.options.entry[key].import = [
+      ...entires,
+      ...(compiler.options.entry[key].import || []),
+    ];
   }
 }
 
