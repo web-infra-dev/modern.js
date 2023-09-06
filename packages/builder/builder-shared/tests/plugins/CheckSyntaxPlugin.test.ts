@@ -1,7 +1,10 @@
 import { describe, expect, test } from 'vitest';
 import { getHtmlScripts } from '../../src/plugins/CheckSyntaxPlugin/helpers/generateHtmlScripts';
 import { getEcmaVersion } from '../../src/plugins/CheckSyntaxPlugin/helpers/getEcmaVersion';
-import { makeCodeFrame } from '../../src/plugins/CheckSyntaxPlugin/helpers';
+import {
+  makeCodeFrame,
+  displayCodePointer,
+} from '../../src/plugins/CheckSyntaxPlugin/helpers';
 
 describe('getHtmlScripts', () => {
   test('should extract inline scripts correctly', async () => {
@@ -104,5 +107,18 @@ describe('makeCodeFrame', () => {
            7 | });
            8 | "
     `);
+  });
+});
+
+describe('displayCodePointer', () => {
+  test('should display code pointer correctly', () => {
+    const code =
+      '(self.webpackChunktmp=self.webpackChunktmp||[]).push([[179],{530:()=>{console.log(1);let e=1;e="2"}},e=>{var l;l=530,e(e.s=l)}]);';
+    expect(`\n  code:    ${displayCodePointer(code, 66)}`)
+      .toMatchInlineSnapshot(`
+        "
+          code:    =self.webpackChunktmp||[]).push([[179],{530:()=>{console.log(1);let e=1;e=\\"2\\"}},e=>{var l;
+                                                               ^"
+      `);
   });
 });

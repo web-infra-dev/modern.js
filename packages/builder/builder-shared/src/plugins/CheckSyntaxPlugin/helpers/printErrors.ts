@@ -54,7 +54,7 @@ function printMain(error: Error, logest: number) {
     if (!content) {
       return;
     }
-    const title = chalk.magenta(`${fillWhiteSpace(`${key}:`, logest)}`);
+    const title = chalk.magenta(`${fillWhiteSpace(`${key}:`, logest + 1)}`);
     console.info(`  ${title}  ${content}`);
   });
   console.info('');
