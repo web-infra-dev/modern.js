@@ -1,9 +1,8 @@
 ---
-title: 路由
 sidebar_position: 1
 ---
 
-# 路由
+# 路由方案
 
 Modern.js 的路由基于 [React Router 6](https://reactrouter.com/en/main)，并提供了多种类型的路由模式。根据不同 [入口](/guides/concept/entries) 类型，将路由分为三种模式，分别是**约定式路由**，**自控式路由**和**其他路由方案**。
 
@@ -208,7 +207,7 @@ export default () => {
     └── page.tsx
 ```
 
-`routes/user/[id$]/page.tsx` 文件会转为 `/user/:id?` 路由。`/user` 下的所有路由都会匹配到该路由，并且 `id` 参数可选存在。通常在区分**创建**于**编辑**时，可以使用该路由。
+`routes/user/[id$]/page.tsx` 文件会转为 `/user/:id?` 路由。`/user` 下的所有路由都会匹配到该路由，并且 `id` 参数可选存在。通常在区分**创建**与**编辑**时，可以使用该路由。
 
 在组件中，可以通过 [useParams](/apis/app/runtime/router/router#useparams) 获取对应命名的参数。
 

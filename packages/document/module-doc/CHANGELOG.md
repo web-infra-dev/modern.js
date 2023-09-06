@@ -1,5 +1,41 @@
 # @modern-js/module-tools-docs
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/doc-plugin-auto-sidebar@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
+- Updated dependencies [db9a700]
+  - @modern-js/doc-plugin-auto-sidebar@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/doc-plugin-auto-sidebar@2.32.1
+- @modern-js/doc-tools@2.32.1
+
+## 2.32.0
+
+### Minor Changes
+
+- 8d22b87: docs: add content about transformLodash and fix a error about english content
+  docs: 添加关于 transformLodash 的内容,并且修复一个英文内容的错误
+
+### Patch Changes
+
+- @modern-js/doc-plugin-auto-sidebar@2.32.0
+- @modern-js/doc-tools@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

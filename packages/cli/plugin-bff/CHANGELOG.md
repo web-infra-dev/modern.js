@@ -1,5 +1,60 @@
 # @modern-js/plugin-bff
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.33.1
+- @modern-js/create-request@2.33.1
+- @modern-js/server-utils@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- 01f3ca4: fix: should passthrough the requestCreator
+  fix: 应该传 requestCreator
+- 01f3ca4: fix: should passthrough the requestCreator
+  fix: 应该透传 requestCreator
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/bff-core@2.33.0
+  - @modern-js/create-request@2.33.0
+  - @modern-js/server-utils@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/bff-core@2.32.1
+- @modern-js/create-request@2.32.1
+- @modern-js/utils@2.32.1
+- @modern-js/server-utils@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- 3c91100: chore(builder): using unified version of webpack-chain
+
+  chore(builder): 使用统一的 webpack-chain 版本
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/create-request@2.32.0
+  - @modern-js/bff-core@2.32.0
+  - @modern-js/server-utils@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

@@ -1,3 +1,3 @@
 import assert from 'assert';
 
-assert(1 === 2, ' should equal');
+assert(0 === undefined, ' should equal');

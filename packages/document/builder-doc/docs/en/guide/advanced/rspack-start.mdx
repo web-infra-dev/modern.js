@@ -86,7 +86,6 @@ All configurations and capabilities under dev are available within rspack.
 
 Unsupported configurations and capabilities include:
 
-- [output.enableCssModuleTSDeclaration](/api/config-output.html#outputenablecssmoduletsdeclaration) (Only supported when [disableCssExtract](/api/config-output.html#outputdisablecssextract) is true)
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
 - [output.polyfill.usage](/api/config-output.html#usage) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
 
@@ -217,6 +216,31 @@ If you are using the following plugins (or indirect dependencies) in your projec
 Detailed plugin support can be found at: [Plugin compatibility](https://www.rspack.dev/guide/plugin-compat.html).
 
 The plugins not listed can be judged according to [Rspack Plugin API](https://www.rspack.dev/api/plugin-api.html).
+
+### 7. CSS Modules Configuration Migration
+
+Rspack mode does not support modifying CSS Modules configuration through `tools.cssLoader`, however, Builder provides [output.cssModules](/api/config-output.html#outputcssmodules) configuration, it used to smooth Rspack mode and webpack mode difference.
+
+```diff
+export default {
++  output: {
++    cssModules: {
++      auto: resource => {
++        return resource.includes('.module.') || resource.includes('shared/');
++      },
++    },
++  },
+-  tools: {
+-    cssLoader: {
+-      modules: {
+-        auto: path => {
+-          return resource.includes('.module.') || resource.includes('shared/');
+-        },
+-      },
+-    },
+-  }
+};
+```
 
 ## Compare with Rspack CLI
 

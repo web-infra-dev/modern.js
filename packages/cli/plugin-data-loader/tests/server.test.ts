@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable node/prefer-global/url */
 import { IncomingMessage, ServerResponse } from 'http';
 import qs from 'querystring';
@@ -58,6 +59,20 @@ describe('handleRequest', () => {
       get query() {
         const str = this.querystring;
         return qs.parse(str);
+      },
+      logger: {
+        info() {},
+        warn() {},
+        error() {},
+        debug() {},
+        log() {},
+      },
+      reporter: {
+        init() {},
+        reportTiming() {},
+        reportError() {},
+        reportInfo() {},
+        reportWarn() {},
       },
     };
     return context;

@@ -10,7 +10,7 @@ export const lessRender: PreprocessRender = async function (
   stdinDir: string,
   options: Less.Options,
   _: Map<string, string>,
-  implementation?: object | string
+  implementation?: object | string,
 ) {
   const less = await loadProcessor('less', this.config.root, implementation);
   const result = {
@@ -18,7 +18,11 @@ export const lessRender: PreprocessRender = async function (
       relativeUrls: true,
       filename: originPath,
       ...options,
-      paths: [...(options?.paths || ['node_modules']), this.config.root, stdinDir],
+      paths: [
+        ...(options?.paths || ['node_modules']),
+        this.config.root,
+        stdinDir,
+      ],
       plugins: [
         new LessAliasesPlugin({
           config: this.config,

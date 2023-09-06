@@ -1,5 +1,66 @@
 # @modern-js/builder-cli
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/builder@2.33.1
+- @modern-js/builder-rspack-provider@2.33.1
+- @modern-js/builder-shared@2.33.1
+- @modern-js/builder-webpack-provider@2.33.1
+- @modern-js/node-bundle-require@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [1c812c2]
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [f96d565]
+- Updated dependencies [fd82137]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+  - @modern-js/builder-rspack-provider@2.33.0
+  - @modern-js/builder-shared@2.33.0
+  - @modern-js/builder@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/builder-webpack-provider@2.33.0
+  - @modern-js/node-bundle-require@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/builder-rspack-provider@2.32.1
+- @modern-js/builder-shared@2.32.1
+- @modern-js/builder-webpack-provider@2.32.1
+- @modern-js/utils@2.32.1
+- @modern-js/builder@2.32.1
+- @modern-js/node-bundle-require@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [6517032]
+- Updated dependencies [a030aff]
+- Updated dependencies [83c1cf7]
+- Updated dependencies [0cc3981]
+- Updated dependencies [ddcdef2]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/builder-webpack-provider@2.32.0
+  - @modern-js/builder-rspack-provider@2.32.0
+  - @modern-js/node-bundle-require@2.32.0
+  - @modern-js/builder-shared@2.32.0
+  - @modern-js/builder@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

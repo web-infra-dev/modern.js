@@ -1,51 +1,16 @@
 import path from 'path';
-import { fs, CONFIG_CACHE_DIR, globby, nanoid, slash } from '@modern-js/utils';
+import { fs, CONFIG_CACHE_DIR, globby, slash } from '@modern-js/utils';
 import type { LegacyAppTools, NormalizedConfig } from '@modern-js/app-tools';
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import designTokenPlugin from './design-token/cli';
-import { getTailwindConfig } from './tailwind';
+import { designTokenPlugin } from './design-token/cli';
+import { getTailwindConfig, loadConfigFile } from './config';
+import { getTailwindPath, getTailwindVersion } from './utils';
 import {
   template,
   checkTwinMacroExist,
-  getTailwindPath,
-  getTailwindVersion,
   getTwinMacroMajorVersion,
-} from './utils';
-
-const supportCssInJsLibrary = 'styled-components';
-
-export const getRandomTwConfigFileName = (internalDirectory: string) => {
-  return slash(
-    path.join(
-      internalDirectory,
-      `tailwind.config.${Date.now()}.${nanoid()}.js`,
-    ),
-  );
-};
-
-function getDefaultContent(appDirectory: string) {
-  const defaultContent = [
-    './src/**/*.js',
-    './src/**/*.jsx',
-    './src/**/*.ts',
-    './src/**/*.tsx',
-  ];
-
-  // Only add storybook and html config when they exist
-  // Otherwise, it will cause an unnecessary rebuild
-  if (fs.existsSync(path.join(appDirectory, 'storybook'))) {
-    defaultContent.push('./storybook/**/*');
-  }
-  if (fs.existsSync(path.join(appDirectory, 'config/html'))) {
-    defaultContent.push(
-      './config/html/**/*.html',
-      './config/html/**/*.ejs',
-      './config/html/**/*.hbs',
-    );
-  }
-
-  return defaultContent;
-}
+  getRandomTwConfigFileName,
+} from './macro';
 
 export const tailwindcssPlugin = (
   { pluginName } = {
@@ -60,6 +25,7 @@ export const tailwindcssPlugin = (
       pluginName,
     }),
   ],
+
   setup: async api => {
     const { appDirectory, internalDirectory } = api.useAppContext();
     let internalTwConfigPath = '';
@@ -67,7 +33,7 @@ export const tailwindcssPlugin = (
     const haveTwinMacro = await checkTwinMacroExist(appDirectory);
     const tailwindPath = getTailwindPath(appDirectory);
     const tailwindVersion = getTailwindVersion(appDirectory);
-    const defaultContent = getDefaultContent(appDirectory);
+    const userTailwindConfig = await loadConfigFile(appDirectory);
 
     return {
       prepare() {
@@ -112,16 +78,13 @@ export const tailwindcssPlugin = (
         const initTailwindConfig = () => {
           if (!tailwindConfig) {
             const modernConfig = api.useResolvedConfigContext();
-            tailwindConfig = getTailwindConfig(
+            tailwindConfig = getTailwindConfig({
+              appDirectory,
               tailwindVersion,
-              modernConfig?.tools?.tailwindcss,
-              modernConfig?.source?.designSystem,
-              {
-                pureConfig: {
-                  content: defaultContent,
-                },
-              },
-            );
+              userConfig: userTailwindConfig,
+              extraConfig: modernConfig?.tools?.tailwindcss,
+              designSystem: modernConfig?.source?.designSystem,
+            });
           }
         };
 
@@ -142,6 +105,7 @@ export const tailwindcssPlugin = (
 
             babel: haveTwinMacro
               ? (_, { addPlugins }) => {
+                  const supportCssInJsLibrary = 'styled-components';
                   initTailwindConfig();
                   addPlugins([
                     [
@@ -163,17 +127,13 @@ export const tailwindcssPlugin = (
       beforeBuildTask(config) {
         const modernConfig =
           api.useResolvedConfigContext() as NormalizedConfig<ModuleTools>;
-        const { designSystem } = modernConfig;
-        const tailwindConfig = getTailwindConfig(
+        const tailwindConfig = getTailwindConfig({
+          appDirectory,
           tailwindVersion,
-          config.style.tailwindcss,
-          designSystem,
-          {
-            pureConfig: {
-              content: defaultContent,
-            },
-          },
-        );
+          userConfig: userTailwindConfig,
+          extraConfig: config.style.tailwindcss,
+          designSystem: modernConfig.designSystem,
+        });
 
         const tailwindPlugin = require(tailwindPath)(tailwindConfig);
         if (Array.isArray(config.style.postcss.plugins)) {
@@ -184,6 +144,7 @@ export const tailwindcssPlugin = (
 
         return config;
       },
+
       modifyLibuild(config, next) {
         config.transformCache = false;
         return next(config);

@@ -1,5 +1,8 @@
 import { isObject, deepMerge } from '@modern-js/libuild-utils';
-import { minify as terserMinify, MinifyOptions as TerserMinifyOptions } from 'terser';
+import {
+  minify as terserMinify,
+  MinifyOptions as TerserMinifyOptions,
+} from 'terser';
 import { ChunkType, LibuildPlugin, CLIConfig } from '../types';
 import { normalizeSourceMap } from '../utils';
 
@@ -8,7 +11,7 @@ export const minifyPlugin = (): LibuildPlugin => {
   return {
     name: pluginName,
     apply(compiler) {
-      compiler.hooks.processAsset.tapPromise(pluginName, async (chunk) => {
+      compiler.hooks.processAsset.tapPromise(pluginName, async chunk => {
         const { sourceMap, minify, target } = compiler.config;
         if (chunk.type === ChunkType.chunk && minify !== 'esbuild') {
           const code = chunk.contents.toString();
@@ -37,7 +40,7 @@ export const minifyPlugin = (): LibuildPlugin => {
 
 function resolveTerserOptions(
   terserOptions: TerserMinifyOptions | 'terser',
-  { sourceMap, target }: { sourceMap: boolean; target: CLIConfig['target'] }
+  { sourceMap, target }: { sourceMap: boolean; target: CLIConfig['target'] },
 ): TerserMinifyOptions {
   // cra: https://github.com/facebook/create-react-app/blob/main/packages/react-scripts/config/webpack.config.js#L237
   return deepMerge(
@@ -60,6 +63,6 @@ function resolveTerserOptions(
       safari10: true,
       toplevel: true,
     },
-    isObject(terserOptions) ? terserOptions : {}
+    isObject(terserOptions) ? terserOptions : {},
   );
 }

@@ -1,6 +1,13 @@
 import type { LibuildPlugin } from '@modern-js/libuild';
 import { Compiler, TransformConfig } from '@modern-js/swc-plugins';
-import { isJsExt, resolvePathAndQuery, isJsLoader, deepMerge, isTsExt, isTsLoader } from '@modern-js/libuild-utils';
+import {
+  isJsExt,
+  resolvePathAndQuery,
+  isJsLoader,
+  deepMerge,
+  isTsExt,
+  isTsLoader,
+} from '@modern-js/libuild-utils';
 
 /** @deprecated  */
 export const transformPlugin = (options?: TransformConfig): LibuildPlugin => {
@@ -8,7 +15,7 @@ export const transformPlugin = (options?: TransformConfig): LibuildPlugin => {
   return {
     name: pluginName,
     apply(compiler) {
-      compiler.hooks.transform.tapPromise({ name: pluginName }, async (args) => {
+      compiler.hooks.transform.tapPromise({ name: pluginName }, async args => {
         const { originalFilePath } = resolvePathAndQuery(args.path);
         const isTs = isTsExt(originalFilePath) || isTsLoader(args.loader);
         if (isJsExt(originalFilePath) || isJsLoader(args.loader)) {
@@ -36,14 +43,20 @@ export const transformPlugin = (options?: TransformConfig): LibuildPlugin => {
               isModule: 'unknown',
               extensions: {},
             },
-            options || {}
+            options || {},
           );
           const swcCompiler = new Compiler(mergeOptions);
-          const result = await swcCompiler.transformSync(originalFilePath, args.code);
+          const result = await swcCompiler.transformSync(
+            originalFilePath,
+            args.code,
+          );
           return {
             ...args,
             code: result.code,
-            map: typeof result.map === 'string' ? JSON.parse(result.map) : result.map,
+            map:
+              typeof result.map === 'string'
+                ? JSON.parse(result.map)
+                : result.map,
           };
         }
         return args;

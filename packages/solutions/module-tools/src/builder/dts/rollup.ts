@@ -1,5 +1,6 @@
 import path from 'path';
 import { logger } from '@modern-js/utils/logger';
+import ts from 'typescript';
 import type {
   InputOptions,
   OutputOptions,
@@ -12,6 +13,9 @@ import type {
   PluginAPI,
   ModuleTools,
 } from '../../types';
+import jsonPlugin from '../../../compiled/@rollup/plugin-json';
+import dtsPlugin from '../../../compiled/rollup-plugin-dts';
+import { mapValue, transformUndefineObject } from '../../utils/common';
 
 export type { RollupWatcher };
 
@@ -23,6 +27,7 @@ type Config = {
   watch: boolean;
   abortOnError: boolean;
   respectExternal: boolean;
+  appDirectory: string;
 };
 
 export const runRollup = async (
@@ -35,6 +40,7 @@ export const runRollup = async (
     watch,
     abortOnError,
     respectExternal,
+    appDirectory,
   }: Config,
 ) => {
   const ignoreFiles: Plugin = {
@@ -46,21 +52,12 @@ export const runRollup = async (
       return null;
     },
   };
-  const ts = await import('typescript');
   const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
   const { options } = ts.parseJsonConfigFileContent(
     configFile.config,
     ts.sys,
     './',
   );
-
-  const { default: jsonPlugin } = await import(
-    '../../../compiled/@rollup/plugin-json'
-  );
-  const { default: dtsPlugin } = await import(
-    '../../../compiled/rollup-plugin-dts'
-  );
-  const { transformUndefineObject } = await import('../../utils/common');
 
   const baseUrl = path.isAbsolute(options.baseUrl || '.')
     ? options.baseUrl
@@ -71,9 +68,16 @@ export const runRollup = async (
     'sourceMap',
     'inlineSources',
   ];
+  const resolveRelative = (p: string) => path.resolve(appDirectory, p);
+
+  // rollup don't have working directory option like esbuild,
+  // so we need to resolve relative path.
+  const dtsInput: Input = Array.isArray(input)
+    ? input.map(resolveRelative)
+    : mapValue(input, resolveRelative);
 
   const inputConfig: InputOptions = {
-    input,
+    input: dtsInput,
     external: externals,
     plugins: [
       jsonPlugin(),
@@ -149,7 +153,6 @@ export const runRollup = async (
       const { addRollupChunk } = await import('../../utils/print');
       const bundle = await rollup(inputConfig);
       const rollupOutput = await bundle.write(outputConfig);
-      const { appDirectory } = api.useAppContext();
       addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {

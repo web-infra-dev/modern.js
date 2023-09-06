@@ -6,6 +6,8 @@ import {
   Command,
   getCommand,
   getArgv,
+  fs,
+  NESTED_ROUTE_SPEC_FILE,
 } from '@modern-js/utils';
 import { castArray } from '@modern-js/utils/lodash';
 import { CliPlugin, PluginAPI } from '@modern-js/core';
@@ -109,10 +111,16 @@ export const buildCommand = async (
 };
 
 export type AppToolsOptions = {
-  /** Specify the use what kind of bundler to compiler, default: `webpack` */
+  /**
+   * Specify which bundler to use for the build.
+   * @default `webpack`
+   * */
   bundler?: 'experimental-rspack' | 'webpack';
 };
 
+/**
+ * The core package of the framework, providing CLI commands, build capabilities, configuration parsing and more.
+ */
 export const appTools = (
   options: AppToolsOptions = {
     bundler: 'webpack',
@@ -151,6 +159,7 @@ export const appTools = (
       ...appContext,
       toolsType: 'app-tools',
     });
+    const nestedRoutes: Record<string, unknown> = {};
 
     const locale = getLocaleLanguage();
     i18n.changeLanguage({ locale });
@@ -228,6 +237,10 @@ export const appTools = (
           .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
           .option('--dist-tag <tag>', i18n.t(localeKeys.command.new.distTag))
           .option('--registry', i18n.t(localeKeys.command.new.registry))
+          .option(
+            '--no-need-install',
+            i18n.t(localeKeys.command.shared.noNeedInstall),
+          )
           .action(async (options: any) => {
             const { MWANewAction } = await import('@modern-js/new-action');
             await MWANewAction({ ...options, locale: options.lang || locale });
@@ -263,6 +276,10 @@ export const appTools = (
             .option(
               '-c --config <config>',
               i18n.t(localeKeys.command.shared.config),
+            )
+            .option(
+              '--no-need-install',
+              i18n.t(localeKeys.command.shared.noNeedInstall),
             ),
         );
       },
@@ -317,6 +334,29 @@ export const appTools = (
 
       async beforeRestart() {
         cleanRequireCache([require.resolve('./analyze')]);
+      },
+
+      async modifyFileSystemRoutes({ entrypoint, routes }) {
+        nestedRoutes[entrypoint.entryName] = routes;
+
+        return {
+          entrypoint,
+          routes,
+        };
+      },
+
+      async beforeGenerateRoutes({ entrypoint, code }) {
+        const { distDirectory } = api.useAppContext();
+
+        await fs.outputJSON(
+          path.resolve(distDirectory, NESTED_ROUTE_SPEC_FILE),
+          nestedRoutes,
+        );
+
+        return {
+          entrypoint,
+          code,
+        };
       },
     };
   },

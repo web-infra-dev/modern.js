@@ -18,6 +18,10 @@ declare module 'http' {
     metrics: Metrics;
     body?: any;
   }
+
+  interface OutgoingMessage {
+    set: (key: string, value: any) => this;
+  }
 }
 
 export type ModernServerOptions = {

@@ -7,7 +7,7 @@ sidebar_position: 4
 模块工程解决方案提供了微生成器工具，它可以为当前项目：
 
 - 新增目录和文件
-- 修改 `package.json` 文件内容
+- 修改 `package.json`
 - 执行命令
 
 因此通过这些能力，**微生成器可以为项目开启额外的特性功能**。
@@ -20,17 +20,16 @@ sidebar_position: 4
 
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    testingPlugin(),
-  ],
+  plugins: [moduleTools(), testingPlugin()],
 });
 ```
+
 :::
 
 ## Storybook 调试
@@ -39,17 +38,16 @@ export default defineConfig({
 
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { storybookPlugin } from '@modern-js/plugin-storybook';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    storybookPlugin(),
-  ],
+  plugins: [moduleTools(), storybookPlugin()],
 });
 ```
+
 :::
 
 关于如何启动 Storybook 以及如何使用 Storybook，可以查看下面的链接：
@@ -59,28 +57,11 @@ export default defineConfig({
 
 ## Tailwind CSS 支持
 
-当我们想要为项目增加 [Tailwind CSS](https://v2.tailwindcss.com/) 支持的时候，可以启动这个功能。Tailwind CSS 是一个 CSS 库，提供开箱即用的样式。
+[Tailwind CSS](https://tailwindcss.com/) 是一个以 Utility Class 为基础的 CSS 框架和设计系统，可以快速地为组件添加常用样式，同时支持主题样式的灵活扩展。
 
-关于如何在模块工程里使用 Tailwind CSS，可以查看：
+如果你想要在项目使用 [Tailwind CSS](https://tailwindcss.com/)，可以参考 [「使用 Tailwind CSS」](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css)。
 
-- [使用 Tailwind CSS](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css)
-
-:::tip
-在成功开启后，会提示需要手动在配置中增加如下类似的代码。
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
-
-export default defineConfig({
-  plugins: [
-    moduleTools(),
-    tailwindPlugin(),
-  ],
-});
-```
-:::
-
-## 启动 Modern.js Runtime API
+## Modern.js Runtime API 支持
 
 **Modern.js 提供了 [Runtime API](https://modernjs.dev/configure/app/runtime/intro) 能力，这些 API 只能在 Modern.js 的应用项目环境中使用**。如果你需要开发一个 Modern.js 应用环境中使用的组件，那么你可以开启该特性，微生成器会增加 `"@modern-js/runtime"`依赖。
 
@@ -88,15 +69,14 @@ export default defineConfig({
 
 :::tip
 在成功开启后，会提示需要手动在配置中增加如下类似的代码。
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import runtime from '@modern-js/runtime/cli';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    runtime(),
-  ],
+  plugins: [moduleTools(), runtime()],
 });
 ```
+
 :::

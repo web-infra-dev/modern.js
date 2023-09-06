@@ -1,4 +1,4 @@
-import { getRandomTwConfigFileName } from '../src/cli';
+import { getRandomTwConfigFileName } from '../src/macro';
 
 describe('getRandomTwConfigFileName', () => {
   it('should return a string', () => {

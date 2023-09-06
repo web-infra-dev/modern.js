@@ -1,5 +1,59 @@
 # @modern-js/builder-plugin-swc
 
+## 2.33.1
+
+### Patch Changes
+
+- fb1589a: fix(plugin-swc): update core-js
+
+  fix(plugin-swc): 升级 core-js
+
+  - @modern-js/builder-shared@2.33.1
+  - @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [fd82137]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+  - @modern-js/builder-shared@2.33.0
+  - @modern-js/utils@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- 6fc113b: chore(plugin-swc): bump swc-plugins
+
+  chore(plugin-swc): 升级 swc-plugins
+
+  - @modern-js/builder-shared@2.32.1
+  - @modern-js/utils@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [6517032]
+- Updated dependencies [a030aff]
+- Updated dependencies [0cc3981]
+- Updated dependencies [ddcdef2]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/builder-shared@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

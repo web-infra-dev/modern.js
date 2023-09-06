@@ -1,5 +1,19 @@
 # @modern-js/builder-doc
 
+## 2.33.1
+
+## 2.33.0
+
+## 2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 0cc3981: chore(builder): use standard utils to get and make up publicPath
+
+  chore(builder): 使用标准的 utils 来读取和组装 publicPath
+
 ## 2.31.2
 
 ## 2.31.1

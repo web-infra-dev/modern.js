@@ -20,7 +20,7 @@ type LazyCompilationOptions =
 
 ### 延迟编译异步模块
 
-延迟编译 [Dynamic Import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) 引入的异步模块：
+延迟编译 [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import) 引入的异步模块：
 
 ```ts
 export default {
@@ -33,7 +33,7 @@ export default {
 };
 ```
 
-开启 `imports` 选项后，所有的异步模块只有在被请求时才触发编译。如果你的项目是一个单页应用（SPA），并通过 Dynamic Import 进行了路由拆分，那么会有明显的编译提速效果。
+开启 `imports` 选项后，所有的异步模块只有在被请求时才触发编译。如果你的项目是一个单页应用（SPA），并通过 dynamic import 进行了路由拆分，那么会有明显的编译提速效果。
 
 ### 延迟编译入口模块
 

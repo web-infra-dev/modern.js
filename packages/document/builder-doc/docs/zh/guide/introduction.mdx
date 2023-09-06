@@ -1,23 +1,23 @@
 # 介绍
 
-Modern.js Builder 是**一个面向 Web 开发场景的构建引擎**。
+Modern.js Builder 是**一个基于 Rspack 的 Web 构建工具**。
 
 随着前端生态的发展，社区中出现了多样化的编译工具和插件。对于大部分开发者来说，构建一个 Web 应用所需的配置和依赖已变得十分复杂。在追求最佳实践的过程中，开发者需要付出的成本也在不断上升。
 
-为了减少构建的复杂性，降低上手门槛，我们基于 Modern.js 在 Web 应用构建方面的实践经验，抽象其中的构建能力，打造出 Modern.js Builder 这个开源工具。
+为了减少构建的复杂性，降低上手门槛，我们基于 Modern.js 在 Web 应用构建方面的实践经验，抽象其中的构建能力，打造出 Modern.js Builder 这个构建工具。
 
 ## Rust 化
 
-近年来，前端工具链的发展趋势是使用 Rust 等编程语言重新实现 —— 以获得更好的性能表现。社区中出现 [SWC](https://swc.rs/)、[Rspack](/guide/glossary.html#rspack) 等高性能工具，并且应用领域在逐步扩宽。但这些 Rust 工具与 JavaScript 工具之间存在较多差异，包括功能不完整、配置不一致等，导致使用者需要承担一定的迁移成本。
+近年来，前端工具链的发展趋势是使用 Rust 等编程语言重新实现 —— 以获得更好的性能表现。社区中出现 [Rspack](https://www.rspack.dev/)、[SWC](https://swc.rs/) 等高性能工具，并且应用领域在逐步扩宽。但这些 Rust 工具与 JavaScript 工具之间存在较多差异，包括功能不完整、配置不一致等，导致使用者需要承担一定的迁移成本。
 
 前端工具链 Rust 化的进程还会持续较长一段时间，**Modern.js Builder 期望能帮助开发者更好地过渡到 Rust 工具**。不管是 JavaScript 工具，还是 Rust 工具，甚至是 webpack 等底层 bundler，在 Modern.js Builder 中都是可替换的零部件。你可以通过开启配置或启用插件的方式，对这些零部件进行渐进式替换，Modern.js Builder 会抹平其中的主要差异，帮助使用者进行低成本迁移。
 
 ## 定位
 
-Modern.js Builder (简称 Builder) 的定位是**服务于上层框架的构建引擎**，它专注于解决 Web 应用构建面临的各类问题，期望能为前端框架提供开箱即用的构建能力。
+Modern.js Builder (简称 Builder) 的定位是**服务于上层框架的构建工具**，它专注于解决 Web 应用构建面临的各类问题，期望能为前端框架提供开箱即用的构建能力。
 
 <img
-  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-1117.png"
+  src="https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/builder-layers-0824.png"
   style={{ maxWidth: '540px', width: '100%' }}
 />
 

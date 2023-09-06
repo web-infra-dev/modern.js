@@ -6,8 +6,8 @@ describe('fixture:lodash', () => {
     const bundler = await getLibuilderTest({
       root: __dirname,
       bundle: false,
-      plugins: [swcTransformPlugin({ externalHelpers: true })],
-      input: ['./src'],
+      plugins: [swcTransformPlugin({ externalHelpers: true, transformLodash: true })],
+      input: ['src/index.ts'],
     });
     await bundler.build();
     const jsOutput = bundler.getJSOutput();

@@ -68,7 +68,6 @@ export const TASKS: TaskConfig[] = [
       'strip-ansi',
       'gzip-size',
       'pkg-up',
-      'recursive-readdir',
       {
         name: 'json5',
         externals: {
@@ -82,6 +81,7 @@ export const TASKS: TaskConfig[] = [
       // some dependencies
       'glob',
       'chalk',
+      'webpack-chain',
       {
         name: 'signale',
         externals: {
@@ -128,12 +128,6 @@ export const TASKS: TaskConfig[] = [
           dtsFiles.forEach(file => {
             copyFileSync(file, file.replace(task.depPath, task.distPath));
           });
-        },
-      },
-      {
-        name: 'webpack-chain',
-        externals: {
-          tapable: 'tapable',
         },
       },
       {
@@ -196,11 +190,39 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/builder-shared',
     dependencies: [
       'open',
-      'webpack-5-chain',
       'serialize-javascript',
+      {
+        name: 'postcss-modules-local-by-default',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-modules-extract-imports',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-modules-scope',
+        ignoreDts: true,
+      },
+      {
+        name: 'postcss-modules-values',
+        ignoreDts: true,
+      },
+      {
+        name: 'icss-utils',
+        ignoreDts: true,
+      },
       {
         name: 'css-loader',
         ignoreDts: true,
+        externals: {
+          'postcss-modules-local-by-default':
+            '../postcss-modules-local-by-default',
+          'postcss-modules-extract-imports':
+            '../postcss-modules-extract-imports',
+          'postcss-modules-scope': '../postcss-modules-scope',
+          'postcss-modules-values': '../postcss-modules-values',
+          'icss-utils': '../icss-utils',
+        },
       },
       {
         name: 'webpack-bundle-analyzer',

@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# CSS Solutions
+# Styling
 
 Modern.js has built-in a variety of commonly used CSS solutions, including Less / Sass / Stylus preprocessors, PostCSS, CSS Modules, CSS-in-JS, and Tailwind CSS.
 
@@ -65,7 +65,7 @@ If you need to use other CSS-in-JS libraries such as [styled-jsx](https://www.np
 
 Follow the steps below to make a selection:
 
-```bash
+```text
 ? Please select the operation you want: Enable features
 ? Please select the feature name: Enable Tailwind CSS
 ```
@@ -103,6 +103,47 @@ Depending on your needs, you can selectively import the CSS files provided by Ta
 
 :::
 
+### Configuring Tailwind CSS
+
+In Modern.js, you have two ways to configure Tailwind CSS:
+
+1. Using the `tailwind.config.{ts,js}` file, which follows the official usage of Tailwind CSS. Please refer to ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) for more details.
+
+```ts title="tailwind.config.ts"
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+} as Config;
+```
+
+:::tip
+Please upgrade Modern.js to version >= MAJOR_VERSION.33.0 to support automatic reading of `tailwind.config.{ts,js}` files.
+:::
+
+2. Using the [tools.tailwindcss](/configure/app/tools/tailwindcss.html) configuration option. This is the old way of configuring Tailwind CSS, and we recommend using the `tailwind.config.{ts,js}` file for configuration.
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    },
+  },
+};
+```
+
+If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+
+### Tailwind CSS Autocomplete
+
+Tailwind CSS provides an official extension called [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) for autocompletion of Tailwind CSS class names, CSS functions, and directives in VS Code.
+
+You can follow the steps below to enable the autocomplete feature:
+
+1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
+2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
+
 ### Tailwind CSS Version
 
 Modern.js supports both Tailwind CSS v2 and v3 versions, and the framework will recognize the version of the `tailwindcss` dependency in the project `package.json` file and enable the corresponding configuration. By default, we will install Tailwind CSS v3 version for you.
@@ -120,39 +161,3 @@ Tailwind CSS v2 and v3 do not support the IE 11 browser, please refer to:
 - [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
 
 If you use Tailwind CSS on IE 11 browser, some styles may not be available, please use it with caution.
-
-### Theme Configuration
-
-When you need to customize the [theme](https://tailwindcss.com/docs/theme) configuration of Tailwind CSS, you can modify it in the [`source.designSystem`](/configure/app/source/design-system) configuration. For example, adding a `primary` color theme:
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  source: {
-    designSystem: {
-      extend: {
-        colors: {
-          primary: '#5c6ac4',
-        },
-      },
-    },
-  },
-});
-```
-
-When you need to make other special configurations to Tailwind CSS besides [theme](https://tailwindcss.com/docs/theme), you can configure them in [`tools.tailwindcss`](/configure/app/tools/tailwindcss), such as setting `variants`:
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  tools: {
-    tailwindcss: {
-      variants: {
-        extend: {
-          backgroundColor: ['active'],
-        },
-      },
-    },
-  },
-});
-```
-
-> When you configure Tailwind CSS for your project, the combination of [source.designSystem](/configure/app/source/design-system) and [tools.tailwindcss](/configure/app/tools/tailwindcss) configurations is equivalent to configuring a `tailwindcss.config.js` file separately. [source.designSystem](/configure/app/source/design-system) is equivalent to the Tailwind CSS [theme](https://v2.tailwindcss.com/docs/configuration#theme) configuration.

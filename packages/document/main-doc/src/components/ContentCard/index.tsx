@@ -1,12 +1,11 @@
-import React, { ComponentType, SVGProps } from 'react';
+import React from 'react';
 import cl from 'classnames';
-import { withBase } from '@modern-js/doc-tools/runtime';
+import { withBase } from 'rspress/runtime';
 import styles from './index.module.scss';
 
 export interface ContentCardProps {
   title: string;
   desc?: string;
-  img?: string | ComponentType<SVGProps<SVGSVGElement>>;
   href: string;
 }
 

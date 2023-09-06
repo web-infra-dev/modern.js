@@ -5,6 +5,8 @@ import { modernBuild } from '../../../utils/modernTestUtils';
 
 const appDir = path.resolve(__dirname, '../');
 
+jest.setTimeout(1000 * 60 * 3);
+
 describe('test build', () => {
   beforeAll(async () => {
     await modernBuild(appDir, ['-c', 'modern-rem.config.ts']);

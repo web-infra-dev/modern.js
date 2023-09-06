@@ -2,8 +2,14 @@ import { Instance, Chalk } from 'chalk';
 import { codeFrameColumns } from '@babel/code-frame';
 import deepEql from 'deep-eql';
 import { isDef } from '@modern-js/libuild-utils';
+import {
+  LibuildErrorInstance,
+  LibuildErrorParams,
+  CodeFrameOption,
+  ControllerOption,
+  ErrorLevel,
+} from '../types';
 import { transform, toLevel, insertSpace } from './utils';
-import { LibuildErrorInstance, LibuildErrorParams, CodeFrameOption, ControllerOption, ErrorLevel } from '../types';
 
 export class LibuildError extends Error implements LibuildErrorInstance {
   static from(err: unknown, opt?: LibuildErrorParams): LibuildError {
@@ -84,9 +90,9 @@ export class LibuildError extends Error implements LibuildErrorInstance {
 
       // Print file path and starting point coordinates
       msgs.push(
-        `\n ${print.red(print.bold('File: '))}${print.bold(filePath)}:${start.line}${
-          start.column ? `:${start.column}` : ''
-        }`
+        `\n ${print.red(print.bold('File: '))}${print.bold(filePath)}:${
+          start.line
+        }${start.column ? `:${start.column}` : ''}`,
       );
 
       if ('fileContent' in codeFrameOpt) {
@@ -101,8 +107,8 @@ export class LibuildError extends Error implements LibuildErrorInstance {
             },
             {
               highlightCode: !controller.noColor,
-            }
-          )
+            },
+          ),
         );
       } else {
         const { length, lineText } = codeFrameOpt;
@@ -115,19 +121,26 @@ export class LibuildError extends Error implements LibuildErrorInstance {
             },
             end: {
               line: 1,
-              column: isDef(start.column) && isDef(length) ? start.column + length : undefined,
+              column:
+                isDef(start.column) && isDef(length)
+                  ? start.column + length
+                  : undefined,
             },
           },
           {
             highlightCode: !controller.noColor,
-          }
+          },
         );
 
         if (start.line > 1) {
           lineCodeFrame = lineCodeFrame.replace(' 1 |', ` ${start.line} |`);
 
           if (start.line >= 10) {
-            lineCodeFrame = insertSpace(lineCodeFrame, 2, String(start.line).length - 1);
+            lineCodeFrame = insertSpace(
+              lineCodeFrame,
+              2,
+              String(start.line).length - 1,
+            );
           }
         }
 
@@ -136,7 +149,11 @@ export class LibuildError extends Error implements LibuildErrorInstance {
     }
     // If the starting location does not exist, only the file path is printed
     else {
-      msgs.push(`\n ${print.red(print.bold('File: '))}${print.bold(codeFrameOpt.filePath)}\n`);
+      msgs.push(
+        `\n ${print.red(print.bold('File: '))}${print.bold(
+          codeFrameOpt.filePath,
+        )}\n`,
+      );
     }
 
     return msgs;
@@ -144,12 +161,29 @@ export class LibuildError extends Error implements LibuildErrorInstance {
 
   toString() {
     const msgs: string[] = [];
-    const { code, reason, prefixCode, message, hint, referenceUrl, _controller: controller } = this;
-    const print = controller.noColor ? new Instance({ level: 0 }) : new Instance({ level: 3 });
-    const mainColorPrint = this._level === ErrorLevel.Error ? print.red : print.yellow;
+    const {
+      code,
+      reason,
+      prefixCode,
+      message,
+      hint,
+      referenceUrl,
+      _controller: controller,
+    } = this;
+    const print = controller.noColor
+      ? new Instance({ level: 0 })
+      : new Instance({ level: 3 });
+    const mainColorPrint =
+      this._level === ErrorLevel.Error ? print.red : print.yellow;
     const reasonCode = reason ? `${mainColorPrint.blue(reason)}: ` : '';
 
-    msgs.push(mainColorPrint.bold(`[${prefixCode.toUpperCase()}:${code.toUpperCase()}] `) + reasonCode + message);
+    msgs.push(
+      mainColorPrint.bold(
+        `[${prefixCode.toUpperCase()}:${code.toUpperCase()}] `,
+      ) +
+        reasonCode +
+        message,
+    );
     msgs.push(...this.printCodeFrame(print));
 
     if (hint) {

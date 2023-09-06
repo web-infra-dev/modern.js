@@ -1,13 +1,12 @@
 import type { ImportKind, Loader, BuildOptions } from 'esbuild';
 import type { MinifyOptions as TerserMinifyOptions } from 'terser';
-import type { Resolve, ResolveNormalized } from './resolve';
 import type { LogLevel, ILogger } from '../logger';
 import type { LibuildPlugin } from '../builder';
+import type { Resolve, ResolveNormalized } from './resolve';
 import type { Style } from './style';
 import type { Asset, AssetNormalized } from './asset';
 
 export * from './resolve';
-export * from './config-loader';
 export * from './style';
 export * from './asset';
 
@@ -31,7 +30,10 @@ type External = (string | RegExp)[];
 
 type Platform = 'node' | 'browser';
 
-export type SideEffects = RegExp[] | boolean | ((id: string, external: boolean) => boolean);
+export type SideEffects =
+  | RegExp[]
+  | boolean
+  | ((id: string, external: boolean) => boolean);
 
 /**
  * @experimental
@@ -103,11 +105,6 @@ export interface UserConfig {
    * @default false
    */
   splitting?: boolean;
-  /**
-   * Clean output directory before build
-   * @default false
-   */
-  clean?: boolean;
   /**
    * Minify JS
    * @default false
@@ -208,13 +205,10 @@ export interface CLIConfig extends UserConfig {
    * project root dir
    */
   root?: string;
-  /**
-   * The path of config file, default by `libuild.config.ts`.
-   */
-  configFile?: string;
 }
 
-export interface BuildConfig extends Required<Omit<CLIConfig, 'sideEffects' | 'chunkNames'>> {
+export interface BuildConfig
+  extends Required<Omit<CLIConfig, 'sideEffects' | 'chunkNames'>> {
   chunkNames?: string;
   sideEffects?: SideEffects;
   logger: ILogger;

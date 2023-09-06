@@ -1,5 +1,5 @@
-import fsExtra from 'fs-extra';
 import path from 'path';
+import fsExtra from 'fs-extra';
 import convertSourceMap from 'convert-source-map';
 import { Chunk, LibuildPlugin } from '../types';
 
@@ -38,7 +38,10 @@ export const writeFilePlugin = (): LibuildPlugin => {
           const absPath = path.resolve(compiler.config.outdir, key);
           fsExtra.ensureDirSync(path.dirname(absPath));
           if (value.type === 'chunk' && value.map) {
-            if (compiler.config.sourceMap === false || compiler.config.sourceMap === 'external') {
+            if (
+              compiler.config.sourceMap === false ||
+              compiler.config.sourceMap === 'external'
+            ) {
               await fsExtra.writeFile(absPath, value.contents);
             } else if (compiler.config.sourceMap === true) {
               await fsExtra.writeFile(
@@ -46,7 +49,7 @@ export const writeFilePlugin = (): LibuildPlugin => {
                 appendSourceMapURLLink({
                   code: value.contents,
                   filename: path.basename(absPath),
-                })
+                }),
               );
             } else if (compiler.config.sourceMap === 'inline') {
               await fsExtra.writeFile(
@@ -54,12 +57,18 @@ export const writeFilePlugin = (): LibuildPlugin => {
                 appendSourceMapInline({
                   code: value.contents,
                   map: convertSourceMap.fromObject(value.map).toBase64(),
-                })
+                }),
               );
             }
 
-            if (compiler.config.sourceMap === true || compiler.config.sourceMap === 'external') {
-              await fsExtra.writeFile(`${absPath}.map`, JSON.stringify(value.map));
+            if (
+              compiler.config.sourceMap === true ||
+              compiler.config.sourceMap === 'external'
+            ) {
+              await fsExtra.writeFile(
+                `${absPath}.map`,
+                JSON.stringify(value.map),
+              );
             }
           } else {
             await fsExtra.writeFile(absPath, value.contents);

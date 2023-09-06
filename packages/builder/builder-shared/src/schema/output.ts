@@ -77,6 +77,12 @@ export const SvgDefaultExportSchema: ZodType<SvgDefaultExport> = z.enum([
   'url',
 ]);
 
+const inlineSchema = z.union([
+  z.boolean(),
+  z.instanceof(RegExp),
+  z.anyFunction(),
+]);
+
 export const sharedOutputConfigSchema = z.partialObj({
   distPath: DistPathConfigSchema,
   filename: FilenameConfigSchema,
@@ -100,8 +106,8 @@ export const sharedOutputConfigSchema = z.partialObj({
   enableAssetFallback: z.boolean(),
   enableLatestDecorators: z.boolean(),
   enableCssModuleTSDeclaration: z.boolean(),
-  enableInlineScripts: z.union([z.boolean(), z.instanceof(RegExp)]),
-  enableInlineStyles: z.union([z.boolean(), z.instanceof(RegExp)]),
+  enableInlineScripts: inlineSchema,
+  enableInlineStyles: inlineSchema,
   externals: z.any(),
   overrideBrowserslist: z.union([
     z.array(z.string()),

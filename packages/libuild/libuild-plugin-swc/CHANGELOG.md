@@ -1,5 +1,24 @@
 # @modern-js/libuild-plugin-swc
 
+## 2.33.1
+
+## 2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- 6fc113b: chore(plugin-swc): bump swc-plugins
+
+  chore(plugin-swc): 升级 swc-plugins
+
+## 2.32.0
+
+### Minor Changes
+
+- 8d22b87: feat: add lodash option to enable or disbale lodash feature
+  feat: 添加 lodash 配置来打开或关闭 lodash 功能
+
 ## 2.31.2
 
 ## 2.31.1

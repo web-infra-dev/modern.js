@@ -19,7 +19,7 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   feature4: '多渲染模式',
   featureDesc4: 'SSR、SSG、SPR 等多种渲染模式，通通开箱即用。',
   feature5: 'CSS 方案',
-  featureDesc5: 'CSS Modules、CSS-in-JS、TailwindCSS，任你挑选。',
+  featureDesc5: 'CSS Modules、CSS-in-JS、Tailwind CSS，任你挑选。',
   feature6: '易于配置',
   featureDesc6: '以零配置启动，然后一切皆可配置。',
 
@@ -27,8 +27,8 @@ export const ZH_CN: Record<keyof typeof EN_US, string> = {
   solutions: '解决方案',
   solutionsDesc1: '基于 React 的渐进式 Web 开发框架。',
   solutionsDesc2: '简单、高性能的 npm 包开发方案。',
-  solutionsDesc3: '基于 Rspack 的文档站解决方案。',
-  solutionsDesc4: '面向 Web 开发场景的构建引擎。',
+  solutionsDesc3: '基于 Rspack 的 Web 构建工具。',
+  solutionsDesc4: '基于 Rspack 的静态站点生成器。',
 
   // Footer
   guide: '指南',

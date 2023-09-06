@@ -1,5 +1,25 @@
 # @modern-js/module-generator
 
+## 3.1.39
+
+### Patch Changes
+
+- 7f4ecba: chore: avoid publish CHANGELOG to npm to reduce install size
+
+  chore: 避免将 CHANGELOG 发布到 npm 以减少安装大小
+
+## 3.1.38
+
+## 3.1.37
+
+## 3.1.36
+
+### Patch Changes
+
+- f1de744: chore(generators): adjust build target to es2019
+
+  chore(generators): 调整构建的 target 为 es2019
+
 ## 3.1.35
 
 ## 3.1.34

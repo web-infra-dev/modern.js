@@ -6,9 +6,8 @@ export type SourceLegacyUserConfig = {
   globalVars?: Record<string, string>;
   jsxTransformRuntime?: 'automatic' | 'classic';
   /**
-   * The configuration of `source.designSystem` is provided by `tailwindcss` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `tailwindcss` plugin
+   * @deprecated designSystem is no longer required.
+   * If you are using Tailwind CSS, you can now use the `theme` option of Tailwind CSS, they are the same.
    */
   designSystem?: Record<string, any>;
 };

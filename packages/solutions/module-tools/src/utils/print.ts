@@ -1,6 +1,6 @@
 import { relative, resolve } from 'path';
 import type { ILibuilder } from '@modern-js/libuild';
-import { chalk, logger } from '@modern-js/utils';
+import { chalk, logger, fastGlob, slash } from '@modern-js/utils';
 import type {
   RollupOutput,
   OutputChunk,
@@ -57,8 +57,7 @@ export const addRollupChunk = (
 };
 
 export const addDtsFiles = async (distDir: string, appDirectory: string) => {
-  const { fastGlob, slash } = await import('@modern-js/utils');
-  const files = await fastGlob(`${slash(distDir)}**/*.d.ts`, {
+  const files = await fastGlob(`${slash(distDir)}/**/*.d.ts`, {
     stats: true,
   });
   bundlelessFiles.push(

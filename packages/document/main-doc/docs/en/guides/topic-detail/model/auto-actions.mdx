@@ -23,7 +23,7 @@ function Counter() {
   const [state, actions] = useModel(countModel);
 
   useEffect(() => {
-    // 增加 1
+    // Add 1
     actions.setState(state + 1);
   }, []);
 }

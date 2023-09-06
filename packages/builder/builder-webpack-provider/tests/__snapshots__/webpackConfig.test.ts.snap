@@ -197,7 +197,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.21.5",
+                "version": "7.22.15",
               },
             ],
             [
@@ -230,7 +230,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": false,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.30",
+                  "version": "3.32",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -297,7 +297,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.21.5",
+                "version": "7.22.15",
               },
             ],
             [
@@ -330,7 +330,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "bugfixes": false,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.30",
+                  "version": "3.32",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -416,7 +416,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.21.5",
+                "version": "7.22.15",
               },
             ],
             [
@@ -449,7 +449,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": false,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.30",
+                  "version": "3.32",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -525,7 +525,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.21.5",
+                "version": "7.22.15",
               },
             ],
             [
@@ -558,7 +558,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "bugfixes": false,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.30",
+                  "version": "3.32",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -666,7 +666,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.21.5",
+                "version": "7.22.15",
               },
             ],
             [
@@ -699,7 +699,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": false,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.30",
+                  "version": "3.32",
                 },
                 "exclude": [
                   "transform-typeof-symbol",
@@ -774,7 +774,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "helpers": false,
                 "regenerator": true,
                 "useESModules": true,
-                "version": "7.21.5",
+                "version": "7.22.15",
               },
             ],
             [
@@ -807,7 +807,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "bugfixes": false,
                 "corejs": {
                   "proposals": true,
-                  "version": "3.30",
+                  "version": "3.32",
                 },
                 "exclude": [
                   "transform-typeof-symbol",

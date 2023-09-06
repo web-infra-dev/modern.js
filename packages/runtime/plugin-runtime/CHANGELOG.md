@@ -1,5 +1,76 @@
 # @modern-js/runtime
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.33.1
+- @modern-js/types@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Minor Changes
+
+- 2bcff4f: feat(plugin-runtime): support ssr html modifiers
+  feat(plugin-runtime): 支持 ssr html 修改者
+
+### Patch Changes
+
+- 6ea89ab: fix: html has placeholder when not set partials
+  fix: html 在没有设置 partials 的时候,会多出占位符
+- ae35c65: fix: ssr htmlModifiers
+  fix: ssr htmlModifiers 赋值问题
+- 44da57b: refactor: runtime server ssr
+  refactor: 重构 runtime server ssr
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/plugin@2.33.0
+  - @modern-js/types@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- 90e053a: feat(app-tools): add comments for configurations and functions
+
+  feat(app-tools): 为配置和函数添加 comments 说明
+
+- Updated dependencies [90e053a]
+  - @modern-js/types@2.32.1
+  - @modern-js/utils@2.32.1
+  - @modern-js/plugin@2.32.1
+
+## 2.32.0
+
+### Minor Changes
+
+- a030aff: feat: support loader context
+  feat: 支持 loader context
+
+### Patch Changes
+
+- e5a3fb4: fix: integration test, and export LoaderContext from utils
+  fix: 集成测试，然后导出 LoaderContext
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- 92591c6: fix: component Style render error content
+  fix: component Style 渲染了错误的内容
+- 5255eba: feat: report time for server loader
+  feat: 上报 server loader 执行的时间
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [4323e68]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/plugin@2.32.0
+  - @modern-js/types@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

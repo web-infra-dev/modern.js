@@ -7,7 +7,7 @@ export type JestConfig = JestConfigTypes.Config;
 export interface TestConfig {
   /**
    * Decide which transformer will be used to compile file
-   * Default: babel-jest
+   * @default 'babel-jest'
    */
   transformer?: 'babel-jest' | 'ts-jest';
 
@@ -73,6 +73,8 @@ export type NestedRoute<T = string | (() => JSX.Element)> = Merge<
   {
     type: 'nested';
     parentId?: string;
+    data?: string;
+    clientData?: string;
     children?: NestedRoute<T>[];
     filename?: string;
     _component?: string;

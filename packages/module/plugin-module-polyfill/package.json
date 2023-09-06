@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.31.2",
+  "version": "2.33.1",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
@@ -35,13 +35,13 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.31.2",
+    "@modern-js/module-tools": "workspace:^2.33.1",
     "core-js-pure": "^3.25.0"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/plugin-syntax-typescript": "7.21.4",
-    "@babel/plugin-syntax-jsx": "7.21.4",
+    "@babel/core": "^7.22.15",
+    "@babel/plugin-syntax-typescript": "^7.22.5",
+    "@babel/plugin-syntax-jsx": "^7.22.5",
     "@modern-js/libuild-plugin-babel": "workspace:*",
     "babel-plugin-polyfill-corejs3": "0.5.2"
   },

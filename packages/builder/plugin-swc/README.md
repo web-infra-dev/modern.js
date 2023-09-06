@@ -10,7 +10,7 @@
   </a>
 </p>
 <p align="center">
-  A build engine for web development.
+  An Rspack-based build tool for web development.
 </p>
 
 # @modern-js/builder-plugin-swc

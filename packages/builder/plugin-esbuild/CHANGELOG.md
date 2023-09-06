@@ -1,5 +1,40 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- 1c6c029: fix(builder-plugin-esbuild): support source.include and source.exclude
+  fix(builder-plugin-esbuild): 支持 source.include 和 source.exclude 配置
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+  - @modern-js/builder-shared@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- Updated dependencies [6517032]
+- Updated dependencies [0cc3981]
+- Updated dependencies [ddcdef2]
+- Updated dependencies [3c91100]
+  - @modern-js/builder-shared@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

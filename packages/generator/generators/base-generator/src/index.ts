@@ -34,24 +34,21 @@ const handleTemplateFile = async (
   const { packageManager } = ans;
 
   await appApi.forgeTemplate(
-    'templates/base-templates/**/*',
+    'templates/base-template/**/*',
     undefined,
     resourceKey =>
       resourceKey
-        .replace('templates/base-templates/', '')
+        .replace('templates/base-template/', '')
         .replace('.handlebars', ''),
-  );
-  await appApi.forgeTemplate('templates/idea/**/*', undefined, resourceKey =>
-    resourceKey.replace('templates/idea/', '.idea/'),
   );
 
   if (packageManager === PackageManager.Pnpm) {
     await appApi.forgeTemplate(
-      'templates/pnpm-templates/**/*',
+      'templates/pnpm-template/**/*',
       undefined,
       resourceKey =>
         resourceKey
-          .replace('templates/pnpm-templates/npmrc', '.npmrc')
+          .replace('templates/pnpm-template/npmrc', '.npmrc')
           .replace('.handlebars', ''),
     );
   }

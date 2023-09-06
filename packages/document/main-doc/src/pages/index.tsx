@@ -1,5 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
 import clsx from 'clsx';
-import { useLang, Helmet, useLocation } from '@modern-js/doc-tools/runtime';
+import { useLang, Helmet, useLocation } from 'rspress/runtime';
 import { useEffect } from 'react';
 import ContentCard from '../components/ContentCard';
 import SecondaryTitle from '../components/SecondaryTitle';
@@ -99,13 +100,13 @@ export default function Home() {
       desc: t('solutionsDesc2'),
     },
     {
-      title: 'Modern.js Doc',
-      href: `https://modernjs.dev/doc-tools${lang === 'en' ? '' : '/zh'}`,
+      title: 'Modern.js Builder',
+      href: `https://modernjs.dev/builder${lang === 'en' ? '/en' : ''}`,
       desc: t('solutionsDesc3'),
     },
     {
-      title: 'Modern.js Builder',
-      href: `https://modernjs.dev/builder${lang === 'en' ? '/en' : ''}`,
+      title: 'Rspress',
+      href: `https://rspress.dev${lang === 'en' ? '' : '/zh'}`,
       desc: t('solutionsDesc4'),
     },
   ];
@@ -116,7 +117,7 @@ export default function Home() {
         <html className="dark"></html>
         <script>window.MODERN_THEME = 'dark';</script>
         <style type="text/css">{`
-          .modern-doc-appearance {
+          .rspress-doc-appearance {
             display: none!important;
           }
         `}</style>

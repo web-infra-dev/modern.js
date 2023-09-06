@@ -1,5 +1,33 @@
 # @modern-js/generator-common
 
+## 3.1.39
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.33.1
+
+## 3.1.38
+
+### Patch Changes
+
+- 6727586: chore: remove doc-generator and related code
+
+  chore: 移除 doc-generator 和相关代码
+
+  - @modern-js/plugin-i18n@2.33.0
+
+## 3.1.37
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.32.1
+
+## 3.1.36
+
+### Patch Changes
+
+- @modern-js/plugin-i18n@2.32.0
+
 ## 3.1.35
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-doc",
-  "version": "2.31.2",
+  "version": "2.33.1",
   "description": "Shared documentation of modern.js builder",
   "homepage": "https://modernjs.dev",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -17,9 +17,9 @@
     "modern.js"
   ],
   "scripts": {
-    "dev": "modern dev",
-    "build:doc": "modern build",
-    "preview": "modern preview"
+    "dev": "rspress dev",
+    "build:doc": "rspress build",
+    "preview": "rspress preview"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -28,9 +28,10 @@
   },
   "devDependencies": {
     "@modern-js/tsconfig": "workspace:*",
-    "@modern-js/doc-tools": "workspace:*",
+    "rspress": "0.0.6",
     "@types/node": "^14",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@rspress/shared": "0.0.6"
   }
 }

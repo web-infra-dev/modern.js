@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# CSS 开发方案
+# 样式开发
 
 Modern.js 内置多种常用的 CSS 开发方案，包括 Less / Sass / Stylus 预处理器、PostCSS、CSS Modules、CSS-in-JS 和 Tailwind CSS。
 
@@ -65,7 +65,7 @@ Modern.js 内部集成了 Babel 的 [babel-plugin-styled-components](https://git
 
 按照如下进行选择：
 
-```bash
+```text
 ? 请选择你想要的操作 启用可选功能
 ? 请选择功能名称 启用 「Tailwind CSS」 支持
 ```
@@ -103,6 +103,47 @@ const App = () => (
 
 :::
 
+### 配置 Tailwind CSS
+
+在 Modern.js 中，你有两种方式来配置 Tailwind CSS：
+
+1. 使用 `tailwind.config.{ts,js}` 文件，该用法与 Tailwind CSS 的官方用法一致，请参考 ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) 来了解更多用法。
+
+```ts title="tailwind.config.ts"
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+} as Config;
+```
+
+:::tip
+请升级 Modern.js 到 >= MAJOR_VERSION.33.0 版本，以支持自动读取 `tailwind.config.{ts,js}` 文件。
+:::
+
+2. 使用 [tools.tailwindcss](/configure/app/tools/tailwindcss.html) 配置项，这是旧版本的用法，我们更推荐使用 `tailwind.config.{ts,js}` 文件进行配置。
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: {
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    },
+  },
+};
+```
+
+如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+
+### Tailwind CSS 自动补全
+
+Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件，用于在 VS Code 中自动补全 Tailwind CSS 的 class names、CSS functions 和 directives。
+
+你可以参考以下步骤来启动自动补全功能：
+
+1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
+2. 如果项目的根目录没有 `tailwind.config.{ts,js}` 文件，那么你需要创建该文件，并写入当前项目的 Tailwind CSS 配置，否则 IDE 插件将无法正确生效。
+
 ### Tailwind CSS 版本
 
 Modern.js 同时支持 Tailwind CSS v2 和 v3 版本，框架会识别项目 `package.json` 中的 `tailwindcss` 依赖版本，并启用相应的配置。默认情况下，我们会为你安装 Tailwind CSS v3 版本。
@@ -120,39 +161,3 @@ Tailwind CSS v2 和 v3 均不支持 IE 11 浏览器，相关背景请参考：
 - [Tailwind CSS v2 - Browser Support](https://v2.tailwindcss.com/docs/browser-support)
 
 如果你在 IE 11 浏览器上使用 Tailwind CSS，可能会出现部分样式不可用的现象，请谨慎使用。
-
-### Theme 配置
-
-当需要自定义 Tailwind CSS 的 [theme](https://tailwindcss.com/docs/theme) 配置的时候，可以在配置 [`source.designSystem`](/configure/app/source/design-system) 中修改，例如，颜色主题中增加一个 `primary`：
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  source: {
-    designSystem: {
-      extend: {
-        colors: {
-          primary: '#5c6ac4',
-        },
-      },
-    },
-  },
-});
-```
-
-当需要对 Tailwind CSS 做 [theme](https://tailwindcss.com/docs/theme) 以外的其他特殊配置时，可以在 [`tools.tailwindcss`](/configure/app/tools/tailwindcss) 中配置，例如设置 `variants`：
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  tools: {
-    tailwindcss: {
-      variants: {
-        extend: {
-          backgroundColor: ['active'],
-        },
-      },
-    },
-  },
-});
-```
-
-> 当你为项目配置 Tailwind CSS 的时候，[source.designSystem](/configure/app/source/design-system) 和 [tools.tailwindcss](/configure/app/tools/tailwindcss) 这两个配置的组合等价于单独配置了一个 `tailwindcss.config.js` 文件。其中 [source.designSystem](/configure/app/source/design-system) 等效于 Tailwind CSS 的 [theme](https://v2.tailwindcss.com/docs/configuration#theme) 配置。

@@ -26,7 +26,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install
 
       - name: Turbo Cache
         id: turbo-cache
@@ -37,10 +37,6 @@ jobs:
           restore-keys: |
             turbo-${{ github.ref_name }}-
             turbo-
-
-
-      - name: Build Dependencies
-        run: pnpm turbo run build --filter="@modern-js/builder-doc"
 
       - name: Build Website
         run: pnpm --filter @modern-js/builder-doc run build:doc

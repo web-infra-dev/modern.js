@@ -12,9 +12,17 @@ exports[`nested routes walk 1`] = `
             "_component": "@_modern_js_src/__auth/__shop/layout.tsx",
             "children": [
               {
-                "_component": "@_modern_js_src/__auth/__shop/item/page.tsx",
-                "children": undefined,
-                "id": "__auth/__shop/item/page",
+                "children": [
+                  {
+                    "_component": "@_modern_js_src/__auth/__shop/item/page.tsx",
+                    "children": undefined,
+                    "id": "__auth/__shop/item/page",
+                    "index": true,
+                    "type": "nested",
+                  },
+                ],
+                "id": "__auth/__shop/item/layout",
+                "isRoot": false,
                 "path": "item",
                 "type": "nested",
               },
@@ -24,9 +32,17 @@ exports[`nested routes walk 1`] = `
             "type": "nested",
           },
           {
-            "_component": "@_modern_js_src/__auth/login/page.tsx",
-            "children": undefined,
-            "id": "__auth/login/page",
+            "children": [
+              {
+                "_component": "@_modern_js_src/__auth/login/page.tsx",
+                "children": undefined,
+                "id": "__auth/login/page",
+                "index": true,
+                "type": "nested",
+              },
+            ],
+            "id": "__auth/login/layout",
+            "isRoot": false,
             "path": "login",
             "type": "nested",
           },
@@ -42,15 +58,24 @@ exports[`nested routes walk 1`] = `
         "children": [
           {
             "_component": "@_modern_js_src/user/$.tsx",
+            "clientData": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.client.ts",
+            "data": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.ts",
             "id": "user/$",
-            "loader": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.loader.ts",
             "path": "*",
             "type": "nested",
           },
           {
-            "_component": "@_modern_js_src/user/[id]/page.tsx",
-            "children": undefined,
-            "id": "user/(id)/page",
+            "children": [
+              {
+                "_component": "@_modern_js_src/user/[id]/page.tsx",
+                "children": undefined,
+                "id": "user/(id)/page",
+                "index": true,
+                "type": "nested",
+              },
+            ],
+            "id": "user/(id)/layout",
+            "isRoot": false,
             "path": ":id",
             "type": "nested",
           },

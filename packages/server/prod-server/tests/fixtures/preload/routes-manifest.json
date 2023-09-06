@@ -1,0 +1,343 @@
+{
+  "routeAssets": {
+    "four": {
+      "chunkIds": [
+        "lib-react",
+        "lib-polyfill",
+        "lib-router",
+        "vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a",
+        "vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38",
+        "packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6",
+        "packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2",
+        "four"
+      ],
+      "assets": [
+        "/static/js/lib-react.js",
+        "/static/js/lib-polyfill.js",
+        "/static/js/lib-router.js",
+        "/static/js/vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a.js",
+        "/static/js/vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38.js",
+        "/static/js/packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6.js",
+        "/static/js/packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2.js",
+        "/static/js/four.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "one": {
+      "chunkIds": [
+        "lib-react",
+        "lib-polyfill",
+        "vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a",
+        "packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6",
+        "one"
+      ],
+      "assets": [
+        "/static/js/lib-react.js",
+        "/static/js/lib-polyfill.js",
+        "/static/js/vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a.js",
+        "/static/js/packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6.js",
+        "/static/css/one.css",
+        "/static/js/one.js"
+      ],
+      "referenceCssAssets": [
+        "/static/css/one.css"
+      ]
+    },
+    "three": {
+      "chunkIds": [
+        "lib-react",
+        "lib-polyfill",
+        "lib-router",
+        "vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a",
+        "vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38",
+        "vendors-node_modules_pnpm_path-to-regexp_6_2_1_node_modules_path-to-regexp_dist_es2015_index_-89b787",
+        "packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6",
+        "packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2",
+        "three"
+      ],
+      "assets": [
+        "/static/js/lib-react.js",
+        "/static/js/lib-polyfill.js",
+        "/static/js/lib-router.js",
+        "/static/js/vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a.js",
+        "/static/js/vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38.js",
+        "/static/js/vendors-node_modules_pnpm_path-to-regexp_6_2_1_node_modules_path-to-regexp_dist_es2015_index_-89b787.js",
+        "/static/js/packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6.js",
+        "/static/js/packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2.js",
+        "/static/js/three.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "two": {
+      "chunkIds": [
+        "lib-react",
+        "lib-polyfill",
+        "lib-router",
+        "vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a",
+        "vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38",
+        "vendors-node_modules_modern-js_two_index_jsx",
+        "packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6",
+        "packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2",
+        "two"
+      ],
+      "assets": [
+        "/static/js/lib-react.js",
+        "/static/js/lib-polyfill.js",
+        "/static/js/lib-router.js",
+        "/static/js/vendors-node_modules_pnpm_pmmmwh_react-refresh-webpack-plugin_0_5_10_react-refresh_0_14_0_web-ec966a.js",
+        "/static/js/vendors-node_modules_pnpm_loadable_component_5_15_3_react_18_2_0_node_modules_loadable_compon-a67b38.js",
+        "/static/js/vendors-node_modules_modern-js_two_index_jsx.js",
+        "/static/js/packages_runtime_plugin-runtime_dist_esm_core_compatible_js-packages_server_server_dist_esm_d-a68cc6.js",
+        "/static/js/packages_runtime_plugin-runtime_dist_esm_router_runtime_index_js-packages_runtime_plugin-runt-1b02a2.js",
+        "/static/js/two.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "four_$": {
+      "chunkIds": [
+        "four_$"
+      ],
+      "assets": [
+        "/static/js/async/four_$.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "four_act/(bid$)/page": {
+      "chunkIds": [
+        "four_act/(bid$)/page"
+      ],
+      "assets": [
+        "/static/js/async/four_act/(bid$)/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "four_user/(id)/page": {
+      "chunkIds": [
+        "four_user/(id)/page"
+      ],
+      "assets": [
+        "/static/js/async/four_user/(id)/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "four_user/layout": {
+      "chunkIds": [
+        "four_user/layout"
+      ],
+      "assets": [
+        "/static/js/async/four_user/layout.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-four-pages-index-tsx": {
+      "chunkIds": [
+        "_modern_js_src-four-pages-index-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-four-pages-index-tsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-four-pages-item-id-index-tsx": {
+      "chunkIds": [
+        "_modern_js_src-four-pages-item-id-index-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-four-pages-item-id-index-tsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three___auth/__shop/item/page": {
+      "chunkIds": [
+        "three___auth/__shop/item/page"
+      ],
+      "assets": [
+        "/static/js/async/three___auth/__shop/item/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three___auth/__shop/layout": {
+      "chunkIds": [
+        "three___auth/__shop/layout"
+      ],
+      "assets": [
+        "/static/js/async/three___auth/__shop/layout.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three___auth/login/page": {
+      "chunkIds": [
+        "three___auth/login/page"
+      ],
+      "assets": [
+        "/static/js/async/three___auth/login/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three___auth/layout": {
+      "chunkIds": [
+        "three___auth/layout"
+      ],
+      "assets": [
+        "/static/js/async/three___auth/layout.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_error/loader/page": {
+      "chunkIds": [
+        "three_error/loader/page"
+      ],
+      "assets": [
+        "/static/js/async/three_error/loader/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_redirect/page": {
+      "chunkIds": [
+        "three_redirect/page"
+      ],
+      "assets": [
+        "/static/js/async/three_redirect/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_user/(id)/page": {
+      "chunkIds": [
+        "three_user/(id)/page"
+      ],
+      "assets": [
+        "/static/js/async/three_user/(id)/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_user/(id)/profile/page": {
+      "chunkIds": [
+        "three_user/(id)/profile/page"
+      ],
+      "assets": [
+        "/static/js/async/three_user/(id)/profile/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_user/page": {
+      "chunkIds": [
+        "three_user/page"
+      ],
+      "assets": [
+        "/static/css/async/three_user/page.css",
+        "/static/js/async/three_user/page.js"
+      ],
+      "referenceCssAssets": [
+        "/static/css/async/three_user/page.css"
+      ]
+    },
+    "three_user/profile/page": {
+      "chunkIds": [
+        "three_user/profile/page"
+      ],
+      "assets": [
+        "/static/js/async/three_user/profile/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_user/profile/layout": {
+      "chunkIds": [
+        "three_user/profile/layout"
+      ],
+      "assets": [
+        "/static/js/async/three_user/profile/layout.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_user/layout": {
+      "chunkIds": [
+        "three_user/layout"
+      ],
+      "assets": [
+        "/static/js/async/three_user/layout.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_user.profile.name/page": {
+      "chunkIds": [
+        "three_user.profile.name/page"
+      ],
+      "assets": [
+        "/static/js/async/three_user.profile.name/page.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "three_user.profile.name/layout": {
+      "chunkIds": [
+        "three_user.profile.name/layout"
+      ],
+      "assets": [
+        "/static/js/async/three_user.profile.name/layout.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-two-pages-index-tsx": {
+      "chunkIds": [
+        "_modern_js_src-two-pages-index-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-two-pages-index-tsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_internal-two-internal_components-L_shop_Comp_two_pages_shop_index_tsx-jsx": {
+      "chunkIds": [
+        "_modern_js_internal-two-internal_components-L_shop_Comp_two_pages_shop_index_tsx-jsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_internal-two-internal_components-L_shop_Comp_two_pages_shop_index_tsx-jsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-two-pages-user-index-tsx": {
+      "chunkIds": [
+        "_modern_js_src-two-pages-user-index-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-two-pages-user-index-tsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-two-pages-item-id-index-tsx": {
+      "chunkIds": [
+        "_modern_js_src-two-pages-item-id-index-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-two-pages-item-id-index-tsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-two-pages-act-bar-bid$-index-tsx": {
+      "chunkIds": [
+        "_modern_js_src-two-pages-act-bar-bid$-index-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-two-pages-act-bar-bid$-index-tsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-two-pages-act-foo-uid$-tsx": {
+      "chunkIds": [
+        "_modern_js_src-two-pages-act-foo-uid$-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-two-pages-act-foo-uid$-tsx.js"
+      ],
+      "referenceCssAssets": []
+    },
+    "_modern_js_src-two-pages-act-bar-bid$-detail-tsx": {
+      "chunkIds": [
+        "_modern_js_src-two-pages-act-bar-bid$-detail-tsx"
+      ],
+      "assets": [
+        "/static/js/async/_modern_js_src-two-pages-act-bar-bid$-detail-tsx.js"
+      ],
+      "referenceCssAssets": []
+    }
+  }
+}

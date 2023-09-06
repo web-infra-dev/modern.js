@@ -7,10 +7,11 @@ export const resolvePlugin = (): LibuildPlugin => {
   return {
     name: pluginName,
     apply(compiler) {
-      compiler.hooks.resolve.tapPromise(pluginName, async (args) => {
+      compiler.hooks.resolve.tapPromise(pluginName, async args => {
         if (isUrl(args.path)) {
           // we only need to handle import| dynamic import and no need to handle require
-          const isImport = args.kind === 'dynamic-import' || args.kind === 'import-statement';
+          const isImport =
+            args.kind === 'dynamic-import' || args.kind === 'import-statement';
           const isJavascript = DATAURL_JAVASCRIPT_PATTERNS.test(args.path);
           return {
             path: args.path,
@@ -33,7 +34,7 @@ export const resolvePlugin = (): LibuildPlugin => {
           return result;
         }
       });
-      compiler.hooks.load.tapPromise('libuild:resolve', async (args) => {
+      compiler.hooks.load.tapPromise('libuild:resolve', async args => {
         if (args.path === '/empty-stub') {
           return {
             contents: 'module.exports = {}',

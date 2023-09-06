@@ -7,7 +7,7 @@ import {
   createAsyncWaterfall,
   ResolvedConfigContext,
 } from '@modern-js/core';
-import Chain from 'webpack-chain';
+import Chain from '@modern-js/utils/webpack-chain';
 import { CHAIN_ID } from '@modern-js/utils';
 import type { AppToolsHooks } from '@modern-js/app-tools';
 import plugin from '../src/cli';

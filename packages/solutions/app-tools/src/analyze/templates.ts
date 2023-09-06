@@ -202,6 +202,7 @@ export const fileSystemRoutes = async ({
     {
       routeId: string;
       filePath: string;
+      clientData?: boolean;
       inline: boolean;
     }
   > = {};
@@ -221,13 +222,17 @@ export const fileSystemRoutes = async ({
   `;
 
   let rootLayoutCode = ``;
-  const getDataLoaderPath = (loaderId: string) => {
+  const getDataLoaderPath = (loaderId: string, clientData?: boolean) => {
     if (!ssrMode) {
       return '';
     }
 
+    const clientDataStr = clientData ? `&clientData=${clientData}` : '';
+
     if (nestedRoutesEntry) {
-      return `?mapFile=${slash(loadersMapFile)}&loaderId=${loaderId}`;
+      return `?mapFile=${slash(
+        loadersMapFile,
+      )}&loaderId=${loaderId}${clientDataStr}`;
     }
     return '';
   };
@@ -253,15 +258,17 @@ export const fileSystemRoutes = async ({
         errors.push(route.error);
         error = `error_${errors.length - 1}`;
       }
-      if (route.loader) {
+      if (route.loader || route.data) {
         loaders.push(route.loader);
         const loaderId = loaders.length - 1;
         loader = `loader_${loaderId}`;
         loadersMap[loader] = {
           routeId: route.id!,
-          filePath: route.loader,
-          inline: false,
+          filePath: route.data || route.loader,
+          clientData: Boolean(route.clientData),
+          inline: Boolean(route.data),
         };
+        loader = `loader_${loaderId}`;
       }
       if (typeof route.config === 'string') {
         configs.push(route.config);
@@ -375,11 +382,11 @@ export const fileSystemRoutes = async ({
     if (loaderInfo.inline) {
       importLoadersCode += `import { loader as ${key} } from "${slash(
         loaderInfo.filePath,
-      )}${getDataLoaderPath(key)}";\n`;
+      )}${getDataLoaderPath(key, loaderInfo.clientData)}";\n`;
     } else {
       importLoadersCode += `import ${key} from "${slash(
         loaderInfo.filePath,
-      )}${getDataLoaderPath(key)}";\n`;
+      )}${getDataLoaderPath(key, loaderInfo.clientData)}";\n`;
     }
   }
 

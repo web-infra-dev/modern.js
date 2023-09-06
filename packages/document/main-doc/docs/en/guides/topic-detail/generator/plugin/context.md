@@ -37,7 +37,7 @@ context.addInputBefore('packageManager', {
   properties: {
     'username': {
       type: 'string',
-      title: '用户名',
+      title: 'Username',
     },
   },
 });

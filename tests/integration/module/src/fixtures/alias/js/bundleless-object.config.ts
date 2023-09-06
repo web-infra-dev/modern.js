@@ -2,14 +2,11 @@
 import { defineConfig } from '@modern-js/module-tools/defineConfig';
 
 export default defineConfig({
-  buildPreset({ preset }) {
-    return {
-      alias: {
-        '@src': './src',
-      },
-      ...preset.BASE_CONFIG,
-      buildType: 'bundleless',
-      outDir: './dist/bundleless/object',
-    };
+  buildConfig: {
+    alias: {
+      '@src': './src',
+    },
+    buildType: 'bundleless',
+    outDir: './dist/bundleless/object',
   },
 });

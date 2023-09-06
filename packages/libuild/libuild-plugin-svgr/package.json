@@ -1,21 +1,21 @@
 {
   "name": "@modern-js/libuild-plugin-svgr",
-  "version": "2.31.2",
+  "version": "2.33.1",
   "description": "A plugin for libuild to transform your svg to react component",
   "keywords": [
     "libuild",
     "svgr"
   ],
   "repository": "modern-js-dev/libuild",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "watch": "libuild -w",
-    "build": "tsc && libuild"
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch"
   },
   "license": "MIT",
   "dependencies": {
+    "@swc/helpers": "0.5.1",
     "@svgr/core": "8.0.0",
     "@svgr/plugin-jsx": "8.0.1",
     "@svgr/plugin-svgo": "8.0.1",
@@ -25,6 +25,7 @@
     "@types/node": "12.20.42",
     "typescript": "^5",
     "@modern-js/eslint-config": "workspace:*",
-    "@modern-js/libuild": "workspace:*"
+    "@modern-js/libuild": "workspace:*",
+    "@scripts/build": "workspace:*"
   }
 }

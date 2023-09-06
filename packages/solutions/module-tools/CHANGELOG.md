@@ -1,5 +1,93 @@
 # @modern-js/module-tools
 
+## 2.33.1
+
+### Patch Changes
+
+- c38570e: feat: new and upgrade command support --no-need-install params
+- 7ad82bd: fix: add svg files to input when enable svgr
+  fix: 当启用 svgr 时添加 svg 文件到输入
+  - @modern-js/core@2.33.1
+  - @modern-js/plugin-changeset@2.33.1
+  - @modern-js/plugin-i18n@2.33.1
+  - @modern-js/plugin-lint@2.33.1
+  - @modern-js/new-action@2.33.1
+  - @modern-js/libuild@2.33.1
+  - @modern-js/libuild-plugin-svgr@2.33.1
+  - @modern-js/libuild-plugin-swc@2.33.1
+  - @modern-js/plugin@2.33.1
+  - @modern-js/types@2.33.1
+  - @modern-js/upgrade@2.33.1
+  - @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [ecb9276]
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/core@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/plugin-changeset@2.33.0
+  - @modern-js/plugin-lint@2.33.0
+  - @modern-js/new-action@2.33.0
+  - @modern-js/plugin-i18n@2.33.0
+  - @modern-js/plugin@2.33.0
+  - @modern-js/upgrade@2.33.0
+  - @modern-js/libuild-plugin-svgr@2.33.0
+  - @modern-js/libuild@2.33.0
+  - @modern-js/libuild-plugin-swc@2.33.0
+  - @modern-js/types@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- Updated dependencies [6fc113b]
+- Updated dependencies [90e053a]
+  - @modern-js/libuild-plugin-swc@2.32.1
+  - @modern-js/types@2.32.1
+  - @modern-js/core@2.32.1
+  - @modern-js/utils@2.32.1
+  - @modern-js/plugin-changeset@2.32.1
+  - @modern-js/plugin-i18n@2.32.1
+  - @modern-js/plugin-lint@2.32.1
+  - @modern-js/new-action@2.32.1
+  - @modern-js/libuild@2.32.1
+  - @modern-js/libuild-plugin-svgr@2.32.1
+  - @modern-js/plugin@2.32.1
+  - @modern-js/upgrade@2.32.1
+
+## 2.32.0
+
+### Minor Changes
+
+- 8d22b87: feat: add transformLodash option to enable or disable lodash feature
+  feat: 添加 transformLodash 选项控制 lodash 功能的开启或关闭
+
+### Patch Changes
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [8d22b87]
+- Updated dependencies [4323e68]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/plugin@2.32.0
+  - @modern-js/types@2.32.0
+  - @modern-js/core@2.32.0
+  - @modern-js/libuild-plugin-swc@2.32.0
+  - @modern-js/plugin-changeset@2.32.0
+  - @modern-js/plugin-i18n@2.32.0
+  - @modern-js/plugin-lint@2.32.0
+  - @modern-js/new-action@2.32.0
+  - @modern-js/upgrade@2.32.0
+  - @modern-js/libuild-plugin-svgr@2.32.0
+  - @modern-js/libuild@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

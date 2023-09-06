@@ -1,7 +1,13 @@
 /**
  * Options for log level.
  */
-export type LogLevel = 'silent' | 'error' | 'warning' | 'info' | 'debug' | 'verbose';
+export type LogLevel =
+  | 'silent'
+  | 'error'
+  | 'warning'
+  | 'info'
+  | 'debug'
+  | 'verbose';
 
 export interface ILoggerOptions {
   /**

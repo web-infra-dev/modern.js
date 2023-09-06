@@ -66,7 +66,7 @@ pipeline.use((count, next) => {
   return count * 2;
 });
 
-// 3. 执行
+// 3. Run
 pipeline.run(1); // 2
 pipeline.run(5); // 6
 ```
@@ -155,7 +155,7 @@ workflow.use(count => {
   return count * 2;
 });
 
-// 3. 执行
+// 3. Run
 workflow.run(1); // [2, 2]
 workflow.run(5); // [6, 10]
 ```

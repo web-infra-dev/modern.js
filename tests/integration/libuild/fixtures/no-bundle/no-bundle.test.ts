@@ -4,7 +4,7 @@ describe('fixture:no bundle', () => {
   it('no bundle', async () => {
     const bundler = await getLibuilderTest({
       root: __dirname,
-      input: ['src'],
+      input: ['src/index.less', 'src/index.module.less', 'src/index.ts'],
       resolve: {
         alias: {
           '@': '../../src',

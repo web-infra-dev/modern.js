@@ -46,7 +46,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -85,7 +85,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -161,7 +161,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -194,7 +194,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

@@ -1,5 +1,52 @@
 # @modern-js/core
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.33.1
+- @modern-js/plugin@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- ecb9276: fix(core): make the plugins type looser to avoid type mismatch
+
+  fix(core): 使用更松散的 plugins 类型来避免 type 不匹配的问题
+
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/node-bundle-require@2.33.0
+  - @modern-js/plugin@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/utils@2.32.1
+- @modern-js/node-bundle-require@2.32.1
+- @modern-js/plugin@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/node-bundle-require@2.32.0
+  - @modern-js/plugin@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

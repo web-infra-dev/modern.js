@@ -2,36 +2,27 @@ import type { Command } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import type { ModuleTools } from './types';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
+import { i18n, localeKeys } from './locale';
+import { initModuleContext } from './utils/context';
 
 export const buildCommand = async (
   program: Command,
   api: PluginAPI<ModuleTools>,
 ) => {
-  const local = await import('./locale');
-  const { defaultTsConfigPath } = await import('./constants/dts');
-
   program
     .command('build')
     .usage('[options]')
-    .description(local.i18n.t(local.localeKeys.command.build.describe))
-    .option('-w, --watch', local.i18n.t(local.localeKeys.command.build.watch))
-    .option(
-      '--tsconfig [tsconfig]',
-      local.i18n.t(local.localeKeys.command.build.tsconfig),
-      defaultTsConfigPath,
-    )
+    .description(i18n.t(localeKeys.command.build.describe))
+    .option('-w, --watch', i18n.t(localeKeys.command.build.watch))
+    .option('--tsconfig [tsconfig]', i18n.t(localeKeys.command.build.tsconfig))
     .option(
       '-p, --platform [platform...]',
-      local.i18n.t(local.localeKeys.command.build.platform),
+      i18n.t(localeKeys.command.build.platform),
     )
-    .option('--no-dts', local.i18n.t(local.localeKeys.command.build.dts))
-    .option('--no-clear', local.i18n.t(local.localeKeys.command.build.noClear))
-    .option(
-      '-c --config <config>',
-      local.i18n.t(local.localeKeys.command.shared.config),
-    )
+    .option('--no-dts', i18n.t(localeKeys.command.build.dts))
+    .option('--no-clear', i18n.t(localeKeys.command.build.noClear))
+    .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
     .action(async (options: BuildCommandOptions) => {
-      const { initModuleContext } = await import('./utils/context');
       const context = await initModuleContext(api);
       const { build } = await import('./build');
       await build(api, options, context);
@@ -42,8 +33,6 @@ export const devCommand = async (
   program: Command,
   api: PluginAPI<ModuleTools>,
 ) => {
-  const local = await import('./locale');
-  const { defaultTsConfigPath } = await import('./constants/dts');
   const runner = api.useHookRunners();
   const devToolMetas = await runner.registerDev();
 
@@ -52,14 +41,9 @@ export const devCommand = async (
   const devProgram = program
     .command('dev')
     .usage('[options]')
-    .description(local.i18n.t(local.localeKeys.command.dev.describe))
-    .option(
-      '--tsconfig [tsconfig]',
-      local.i18n.t(local.localeKeys.command.dev.tsconfig),
-      defaultTsConfigPath,
-    )
+    .description(i18n.t(localeKeys.command.dev.describe))
+    .option('--tsconfig [tsconfig]', i18n.t(localeKeys.command.dev.tsconfig))
     .action(async (options: DevCommandOptions) => {
-      const { initModuleContext } = await import('./utils/context');
       const context = await initModuleContext(api);
       const { dev } = await import('./dev');
       await dev(options, devToolMetas, api, context);
@@ -72,7 +56,6 @@ export const devCommand = async (
 
     for (const subCmd of meta.subCommands) {
       devProgram.command(subCmd).action(async (options: DevCommandOptions) => {
-        const { initModuleContext } = await import('./utils/context');
         const context = await initModuleContext(api);
 
         // TODO: watch build
@@ -95,31 +78,23 @@ export const devCommand = async (
 };
 
 export const newCommand = async (program: Command) => {
-  const local = await import('./locale');
-
   program
     .command('new')
     .usage('[options]')
-    .description(local.i18n.t(local.localeKeys.command.new.describe))
+    .description(i18n.t(localeKeys.command.new.describe))
     .option(
       '--config-file <configFile>',
-      local.i18n.t(local.localeKeys.command.shared.config),
+      i18n.t(localeKeys.command.shared.config),
     )
-    .option('--lang <lang>', local.i18n.t(local.localeKeys.command.new.lang))
+    .option('--lang <lang>', i18n.t(localeKeys.command.new.lang))
+    .option('-c, --config <config>', i18n.t(localeKeys.command.new.config))
+    .option('-d, --debug', i18n.t(localeKeys.command.new.debug), false)
+    .option('--dist-tag <tag>', i18n.t(localeKeys.command.new.distTag))
+    .option('--registry', i18n.t(localeKeys.command.new.registry))
     .option(
-      '-c, --config <config>',
-      local.i18n.t(local.localeKeys.command.new.config),
+      '--no-need-install',
+      i18n.t(localeKeys.command.shared.noNeedInstall),
     )
-    .option(
-      '-d, --debug',
-      local.i18n.t(local.localeKeys.command.new.debug),
-      false,
-    )
-    .option(
-      '--dist-tag <tag>',
-      local.i18n.t(local.localeKeys.command.new.distTag),
-    )
-    .option('--registry', local.i18n.t(local.localeKeys.command.new.registry))
     .action(async options => {
       const { ModuleNewAction } = await import('@modern-js/new-action');
       const { getLocaleLanguage } = await import(
@@ -133,14 +108,14 @@ export const newCommand = async (program: Command) => {
 };
 
 export const upgradeCommand = async (program: Command) => {
-  const local = await import('./locale');
   const { defineCommand } = await import('@modern-js/upgrade');
   defineCommand(
     program
       .command('upgrade')
+      .option('-c --config <config>', i18n.t(localeKeys.command.shared.config))
       .option(
-        '-c --config <config>',
-        local.i18n.t(local.localeKeys.command.shared.config),
+        '--no-need-install',
+        i18n.t(localeKeys.command.shared.noNeedInstall),
       ),
   );
 };

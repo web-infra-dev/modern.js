@@ -49,13 +49,14 @@ import {
   isRedirect,
 } from '../utils';
 import * as reader from '../libs/render/reader';
-import { createProxyHandler, BffProxyOptions } from '../libs/proxy';
+import { createProxyHandler } from '../libs/proxy';
 import { createContext } from '../libs/context';
 import {
   AGGRED_DIR,
   ERROR_DIGEST,
   ERROR_PAGE_TEXT,
   RUN_MODE,
+  ServerReportTimings,
 } from '../constants';
 import {
   createAfterMatchContext,
@@ -152,13 +153,13 @@ export class ModernServer implements ModernServerInterface {
 
     debug('final server conf', this.conf);
     // proxy handler, each proxy has own handler
-    const proxyHandlers = createProxyHandler(
-      conf.bff?.proxy as BffProxyOptions,
-    );
-    app?.on('upgrade', proxyHandlers.handleUpgrade);
-    proxyHandlers.handlers.forEach(handler => {
-      this.addHandler(handler);
-    });
+    if (conf.bff?.proxy) {
+      const { handlers, handleUpgrade } = createProxyHandler(conf.bff.proxy);
+      app && handleUpgrade(app);
+      handlers.forEach(handler => {
+        this.addHandler(handler);
+      });
+    }
 
     // the app server maybe a `undefined`;
     app?.on('close', () => {
@@ -200,6 +201,7 @@ export class ModernServer implements ModernServerInterface {
       distDir,
       staticGenerate,
       forceCSR,
+      conf: this.conf,
       nonce: conf.security?.nonce,
       metaName,
     });
@@ -223,6 +225,9 @@ export class ModernServer implements ModernServerInterface {
     if (!matched) {
       return null;
     }
+    // the routes matchs success
+    // we assain the 200 to res.statusCode
+    res.statusCode = 200;
 
     const route = matched.generate(context.url);
     const result = await this.handleWeb(context, route);
@@ -470,7 +475,7 @@ export class ModernServer implements ModernServerInterface {
       return null;
     }
 
-    res.setHeader('content-type', renderResult.contentType);
+    res.set('content-type', renderResult.contentType);
     return renderResult;
   }
 
@@ -520,7 +525,7 @@ export class ModernServer implements ModernServerInterface {
 
     res.on('finish', () => {
       const cost = end();
-      reporter.reportTiming('server_handle_request', cost);
+      reporter.reportTiming(ServerReportTimings.SERVER_HANDLE_REQUEST, cost);
     });
 
     // route is api service
@@ -541,7 +546,11 @@ export class ModernServer implements ModernServerInterface {
         const end = time();
         await this.runner.afterMatch(afterMatchContext, { onLast: noop });
         const cost = end();
-        reporter.reportTiming('server_hook_after_render', cost);
+        cost &&
+          reporter.reportTiming(
+            ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
+            cost,
+          );
       }
 
       if (this.isSend(res)) {
@@ -572,7 +581,8 @@ export class ModernServer implements ModernServerInterface {
       const end = time();
       await this.frameWebHandler(middlewareContext);
       const cost = end();
-      reporter.reportTiming('server_middleware', cost);
+      cost &&
+        reporter.reportTiming(ServerReportTimings.SERVER_MIDDLEWARE, cost);
       res.locals = {
         ...res.locals,
         ...middlewareContext.response.locals,
@@ -585,6 +595,7 @@ export class ModernServer implements ModernServerInterface {
     }
 
     const renderResult = await this.handleWeb(context, route);
+
     if (!renderResult) {
       return;
     }
@@ -608,7 +619,12 @@ export class ModernServer implements ModernServerInterface {
         const end = time();
         await this.runner.afterRender(afterRenderContext, { onLast: noop });
         const cost = end();
-        reporter.reportTiming('server_hook_after_render', cost);
+        // we shouldn't reporter unable run after-render.
+        cost &&
+          reporter.reportTiming(
+            ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
+            cost,
+          );
       }
 
       if (this.isSend(res)) {
@@ -622,7 +638,8 @@ export class ModernServer implements ModernServerInterface {
   }
 
   private isSend(res: ServerResponse) {
-    if (res.headersSent) {
+    /// Is true after response.end() has been called.
+    if (res.writableEnded) {
       return true;
     }
 
@@ -689,7 +706,7 @@ export class ModernServer implements ModernServerInterface {
     req.metrics = req.metrics || this.metrics;
     let context: ModernServerContext;
     try {
-      context = this.createContext(req, res);
+      context = this.createContext(req, res, { metaName: this.metaName });
     } catch (e) {
       this.logger.error(e as Error);
       res.statusCode = 500;
@@ -705,7 +722,7 @@ export class ModernServer implements ModernServerInterface {
   }
 
   private redirect(res: ServerResponse, url: string, status = 302) {
-    res.setHeader('Location', url);
+    res.set('Location', url);
     res.statusCode = status;
     res.end();
   }
@@ -718,7 +735,7 @@ export class ModernServer implements ModernServerInterface {
   private async renderErrorPage(context: ModernServerContext, status: number) {
     const { res } = context;
     context.status = status;
-    res.setHeader('content-type', mime.contentType('html') as string);
+    res.set('content-type', mime.contentType('html') as string);
 
     const statusPage = `/${status}`;
     const customErrorPage = `/_error`;

@@ -6,9 +6,12 @@ export type DevProxyOptions = string | Record<string, string>;
 
 export interface DevUserConfig extends BuilderDevConfig {
   /**
-   * The configuration of `dev.proxy` is provided by `proxy` plugin.
+   * Used to configure a global proxy based on whistle in the development environment,
+   * which can be used to view and modify HTTP/HTTPS requests, responses, and can also be used as a proxy server.
+   *
+   * @requires `proxy` plugin.
+   * This configuration is provided by `proxy` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `proxy` plugin
    */
   proxy?: string | Record<string, string>;
 }

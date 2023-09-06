@@ -12,6 +12,16 @@ function readPackage(pkg, _context) {
     };
   }
 
+  const outsideModernPkgList = ['@modern-js/mdx-rs-binding'];
+
+  if ((pkg.name.startsWith('@rspress/') || pkg.name.startsWith('rspress')) && pkg.dependencies) {
+    pkg.dependencies = Object.fromEntries(
+      Object.entries(pkg.dependencies).map(([key, value]) =>
+        key.startsWith('@modern-js/') && !outsideModernPkgList.includes(key) ? [key, 'workspace:*'] : [key, value],
+      ),
+    );
+  }
+
   return pkg;
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.31.2",
+  "version": "2.33.1",
   "description": "SWC plugin for builder in Modern.js",
   "repository": {
     "type": "git",
@@ -24,18 +24,18 @@
       "default": "./dist/index.js"
     },
     "./loader": {
-      "jsnext:source": "./src/loader.ts",
       "types": "./dist/loader.d.ts",
+      "jsnext:source": "./src/loader.ts",
       "default": "./dist/loader.js"
     },
     "./plugin": {
-      "jsnext:source": "./src/plugin.ts",
       "types": "./dist/plugin.d.ts",
+      "jsnext:source": "./src/plugin.ts",
       "default": "./dist/plugin.js"
     },
     "./binding": {
-      "jsnext:source": "./src/binding.ts",
       "types": "./dist/binding.d.ts",
+      "jsnext:source": "./src/binding.ts",
       "default": "./dist/binding.js"
     }
   },
@@ -59,15 +59,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.21.5",
+    "@babel/core": "^7.22.15",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-react": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.5.5",
+    "@modern-js/swc-plugins": "0.6.0",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.1",
-    "core-js": "~3.30.0"
+    "core-js": "~3.32.1"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",

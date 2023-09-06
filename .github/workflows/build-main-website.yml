@@ -27,7 +27,7 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install
 
       - name: Turbo Cache
         id: turbo-cache
@@ -41,9 +41,6 @@ jobs:
 
       - name: Build Main Doc
         run: cd packages/document/main-doc && npm run build && cd ../../../
-
-      - name: Build Dependencies
-        run: pnpm turbo run build --filter="@modern-js/main-doc"
 
       - name: Build Website
         run: pnpm --filter @modern-js/main-doc run build:doc

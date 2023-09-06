@@ -1,5 +1,82 @@
 # @modern-js/plugin-storybook
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/plugin-router-v5@2.33.1
+- @modern-js/runtime@2.33.1
+- @modern-js/builder@2.33.1
+- @modern-js/builder-shared@2.33.1
+- @modern-js/builder-webpack-provider@2.33.1
+- @modern-js/builder-plugin-node-polyfill@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [6ea89ab]
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [ae35c65]
+- Updated dependencies [2bcff4f]
+- Updated dependencies [f96d565]
+- Updated dependencies [fd82137]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+- Updated dependencies [44da57b]
+  - @modern-js/runtime@2.33.0
+  - @modern-js/builder-shared@2.33.0
+  - @modern-js/builder@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/plugin-router-v5@2.33.0
+  - @modern-js/builder-plugin-node-polyfill@2.33.0
+  - @modern-js/builder-webpack-provider@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- Updated dependencies [90e053a]
+  - @modern-js/runtime@2.32.1
+  - @modern-js/plugin-router-v5@2.32.1
+  - @modern-js/builder-shared@2.32.1
+  - @modern-js/builder-webpack-provider@2.32.1
+  - @modern-js/utils@2.32.1
+  - @modern-js/builder@2.32.1
+  - @modern-js/builder-plugin-node-polyfill@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- 3c91100: chore(builder): using unified version of webpack-chain
+
+  chore(builder): 使用统一的 webpack-chain 版本
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [6517032]
+- Updated dependencies [a030aff]
+- Updated dependencies [0cc3981]
+- Updated dependencies [ddcdef2]
+- Updated dependencies [92591c6]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/runtime@2.32.0
+  - @modern-js/utils@2.32.0
+  - @modern-js/builder-webpack-provider@2.32.0
+  - @modern-js/plugin-router-v5@2.32.0
+  - @modern-js/builder-shared@2.32.0
+  - @modern-js/builder@2.32.0
+  - @modern-js/builder-plugin-node-polyfill@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

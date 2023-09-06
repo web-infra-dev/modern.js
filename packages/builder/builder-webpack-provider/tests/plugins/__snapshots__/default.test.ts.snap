@@ -531,7 +531,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -564,7 +564,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -670,7 +670,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -709,7 +709,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1466,7 +1466,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -1505,7 +1505,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1611,7 +1611,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -1650,7 +1650,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1833,9 +1833,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       "htmlPlugin": [Function],
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
-      "tests": [
+      "scriptTests": [
         /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
+      "styleTests": [],
     },
     MiniCssExtractPlugin {
       "_sortedModulesCache": WeakMap {},
@@ -2361,7 +2362,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -2504,7 +2505,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -3157,7 +3158,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -3196,7 +3197,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -3302,7 +3303,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "helpers": true,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -3341,7 +3342,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "bugfixes": true,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

@@ -91,7 +91,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -130,7 +130,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -197,7 +197,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -236,7 +236,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -371,7 +371,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -408,7 +408,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -475,7 +475,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -512,7 +512,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

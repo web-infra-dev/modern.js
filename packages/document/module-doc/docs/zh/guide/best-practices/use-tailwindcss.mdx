@@ -1,0 +1,289 @@
+---
+sidebar_position: 2
+---
+
+# 使用 Tailwind CSS
+
+[Tailwind CSS](https://tailwindcss.com/) 是一个以 Utility Class 为基础的 CSS 框架和设计系统，可以快速地为组件添加常用样式，同时支持主题样式的灵活扩展。
+
+Module Tools 支持使用 Tailwind CSS 开发组件样式。
+
+## 启用 Tailwind CSS
+
+默认情况下，Module Tools 没有开启该功能，需要按照下面的方式开启它。
+
+1. 在项目根目录下执行 `new` 命令，可以开启 Tailwind CSS 功能。
+
+```text title="终端"
+pnpm run new
+
+? 请选择你想要的操作：启用可选功能
+? 请选择功能名称：启用 「Tailwind CSS」 支持
+```
+
+2. 成功开启后，会看到 `package.json` 中新增了依赖。
+
+```json title="./package.json"
+{
+  "devDependencies": {
+    "@modern-js/plugin-tailwindcss": "x.y.z"
+  }
+}
+```
+
+3. 最后，需要手动在配置文件中注册 `tailwindcssPlugin`:
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
+
+export default defineConfig({
+  plugins: [moduleTools(), tailwindPlugin()],
+});
+```
+
+## 配置 Tailwind CSS
+
+在 Module Tools 中，你有两种方式来配置 Tailwind CSS：
+
+1. 使用 `tailwind.config.{ts,js}` 文件，该用法与 Tailwind CSS 的官方用法一致，请参考 ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) 来了解更多用法。
+
+```ts title="tailwind.config.ts"
+import type { Config } from 'tailwindcss';
+
+export default {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+} as Config;
+```
+
+:::tip
+请升级 Module Tools 到 >= MAJOR_VERSION.33.0 版本，以支持自动读取 `tailwind.config.{ts,js}` 文件。
+:::
+
+2. 使用 [style.tailwindcss](/api/config/build-config.html#styletailwindcss) 配置项，这是旧版本的用法，我们更推荐使用 `tailwind.config.{ts,js}` 文件进行配置。
+
+```ts title="modern.config.ts"
+export default {
+  style: {
+    tailwindcss: {
+      content: ['./src/**/*.{js,jsx,ts,tsx}'],
+    },
+  },
+};
+```
+
+如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `style.tailwindcss` 选项，那么 `style.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+
+## Tailwind CSS 自动补全
+
+Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件，用于在 VS Code 中自动补全 Tailwind CSS 的 class names、CSS functions 和 directives。
+
+你可以参考以下步骤来启动自动补全功能：
+
+1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
+2. 如果项目的根目录没有 `tailwind.config.{ts,js}` 文件，那么你需要创建该文件，并写入当前项目的 Tailwind CSS 配置，否则 IDE 插件将无法正确生效。
+
+## 用法介绍
+
+Tailwind CSS 提供了两种使用方式：
+
+### HTML 类名
+
+Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。**当使用 HTML 类名的时候，一定要注意导入 Tailwind CSS 相应的 css 文件。**
+
+```tsx title="./src/index.tsx"
+import 'tailwindcss/utilities.css';
+
+export default () => {
+  return <div className="bg-black text-white">hello world</div>;
+};
+```
+
+样式产物（此时是 bundle 构建）：
+
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
+.table {
+  display: table;
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+/** some more... */
+```
+
+### `@apply`
+
+Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-directives#apply) 指令，可以通过它将 Tailwind CSS 提供的样式内联到我们编写的样式中。
+
+`@apply` 可以用于 CSS、Less、Sass 中。
+
+```css
+.btn {
+  @apply font-bold py-2 px-4 rounded;
+}
+```
+
+但是使用过程中，对于 Less 和 Sass 有些情况需要注意：
+
+#### Sass
+
+当将 Tailwind 与 Sass 一起使用时，`@apply` 后面存在 `!important` 的时候，需要使用插值来让 Sass 正确编译。
+
+- 不能正常工作：
+
+```sass
+.alert {
+  @apply bg-red-500 !important;
+}
+```
+
+- 能够正常工作：
+
+```sass
+.alert {
+  @apply bg-red-500 #{!important};
+}
+```
+
+#### Less
+
+在与 Less 一起使用 Tailwind 时，你不能嵌套 Tailwind 的 `@screen` 指令。
+
+- 不能正常工作：
+
+```less
+.card {
+  @apply rounded-none;
+
+  @screen sm {
+    @apply rounded-lg;
+  }
+}
+```
+
+- 相反，使用常规的媒体查询和 `theme()` 函数来引用你的屏幕尺寸，或者干脆不要嵌套你的 `@screen` 指令。
+
+```less title="方法一"
+// Use a regular media query and theme()
+.card {
+  @apply rounded-none;
+
+  @media (min-width: theme('screens.sm')) {
+    @apply rounded-lg;
+  }
+}
+```
+
+```less title="方法二"
+// Use the @screen directive at the top-level
+.card {
+  @apply rounded-none;
+
+  @media (min-width: theme('screens.sm')) {
+    @apply rounded-lg;
+  }
+}
+```
+
+### 推荐方式
+
+**推荐使用 `@apply` 指定的方式开发样式，这样在样式产物中仅包含通过指令内联的样式。**
+
+当使用 HTML 类名的方式添加样式的时候，默认情况下 Tailwind 不仅会将本身类名对应的样式加入产物中，同时还会有额外的样式代码存在，虽然这些代码可能不会对本身的样式产生影响。
+
+### bundle 和 bundleless 构建产物区别
+
+对于以下代码，在 bundle 和 bundleless 两种模式下，构建产物会有很大区别。
+
+> 所谓 bundle 和 bundleless 可以查看 [「Bundle 和 Bundleless」](/guide/advance/in-depth-about-build#bundle-和-bundleless)
+
+```tsx title="./src/index.tsx"
+import 'tailwindcss/utilities.css';
+
+export default () => {
+  return <div className="bg-black text-white">hello world11</div>;
+};
+```
+
+Bundle 模式下，会将第三方依赖打包进来。
+
+对于样式则会生成一份单独的产物文件，并且在 JS 产物文件中并不会存在导入样式的相关代码。
+
+如果需要将样式注入 JS 产物中，可以开启 [`style.inject`](/api/config/build-config#styleinject) 选项。
+
+```css title="./dist/es/index.css"
+/* node_modules/tailwindcss/utilities.css */
+.table {
+  display: table;
+}
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+/** some more... */
+```
+
+```js title="./dist/es/index.js"
+// src/index.tsx
+import { jsx } from 'react/jsx-runtime';
+var src_default = () => {
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black text-white',
+    children: 'hello world11',
+  });
+};
+export { src_default as default };
+```
+
+Bundleless 模式下，并不会将第三方依赖打包进来，此时不会有样式产物生成。
+
+```js title="./dist/es/index.js"
+import { jsx } from 'react/jsx-runtime';
+import 'tailwindcss/utilities.css';
+var src_default = () => {
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black text-white',
+    children: 'hello world11',
+  });
+};
+export { src_default as default };
+```
+
+### 关于 `designSystem` 配置
+
+`designSystem` 是 Module Tools 中废弃的配置项。
+
+从 Module Tools vMAJOR_VERSION.33.0 版本开始，你可以使用 Tailwind CSS 的 `theme` 配置项来代替 `designSystem`，不再需要将 `theme` 配置拆分并设置到 `designSystem` 上。
+
+- 旧版本用法：
+
+```ts title="modern.config.ts"
+const { theme, ...rest } = tailwindConfig;
+
+export default {
+  style: {
+    tailwindcss: rest,
+  },
+  designSystem: theme,
+};
+```
+
+- 当前版本用法：
+
+```ts title="modern.config.ts"
+export default {
+  style: {
+    tailwindcss: tailwindConfig,
+  },
+};
+```

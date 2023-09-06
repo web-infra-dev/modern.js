@@ -20,7 +20,7 @@ Lazy compilation only takes effect in the development.
 
 ### Lazy Compilation for Dynamic Imports
 
-Lazy compile async modules introduced by [Dynamic Import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import):
+Lazy compile async modules introduced by [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import):
 
 ```ts
 export default {
@@ -33,7 +33,7 @@ export default {
 };
 ```
 
-When `imports` option is enabled, all async modules will only be compiled when requested. If your project is a single-page application, and routing is split through Dynamic Import, there will be a significant effect of speeding up compilation.
+When `imports` option is enabled, all async modules will only be compiled when requested. If your project is a single-page application, and routing is split through dynamic import, there will be a significant effect of speeding up compilation.
 
 ### Lazy Compilation for Entires
 

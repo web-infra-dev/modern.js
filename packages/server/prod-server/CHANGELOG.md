@@ -1,5 +1,65 @@
 # @modern-js/prod-server
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.33.1
+- @modern-js/plugin@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- 1042583: fix(prod-server): set res.statusCode = 200 when routes matches success
+  fix(prod-server): 路由匹配成功后 设置 res.statusCode = 200
+- 3ba1682: fix(prod-server): optimize ssr preload
+  fix(prod-server): 优化 ssr preload
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/server-core@2.33.0
+  - @modern-js/plugin@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.32.1
+- @modern-js/utils@2.32.1
+- @modern-js/plugin@2.32.1
+
+## 2.32.0
+
+### Minor Changes
+
+- 2447d64: feat: support ssr resources preload
+  feat: 支持 ssr 资源预加载
+
+### Patch Changes
+
+- e6c7d33: fix about server timing not use metaName at some case
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- 5f7c714: fix: WebSocket upgrade handler cause HMR connection issue
+  fix: WebSocket upgrade handler 导致 HMR 连接错误
+- 6d73519: fix: update server reportTimings name
+  fix: 更新 server reportTimings 名称
+- 79658a0: fix: collects ServerReportTiming Names, and then reports it only when cost != 0
+  fix: 收集 ServerReportTiming Names, 然后只有在 cost !=0 时才报告它
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [3c91100]
+- Updated dependencies [2447d64]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/plugin@2.32.0
+  - @modern-js/server-core@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

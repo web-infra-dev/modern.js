@@ -12,6 +12,9 @@ test('should generate prefetch link when prefetch is defined', async () => {
       main: join(fixtures, 'src/page1/index.ts'),
     },
     builderConfig: {
+      output: {
+        assetPrefix: 'https://www.foo.com',
+      },
       performance: {
         prefetch: true,
       },
@@ -32,7 +35,41 @@ test('should generate prefetch link when prefetch is defined', async () => {
 
   expect(
     content.includes(
-      `<link href="${asyncFileName.slice(
+      `<link href="https://www.foo.com${asyncFileName.slice(
+        asyncFileName.indexOf('/static/js/async/'),
+      )}" rel="prefetch">`,
+    ),
+  ).toBeTruthy();
+});
+
+test('should generate prefetch link correctly when assetPrefix do not have a protocol', async () => {
+  const builder = await build({
+    cwd: fixtures,
+    entry: {
+      main: join(fixtures, 'src/page1/index.ts'),
+    },
+    builderConfig: {
+      output: {
+        assetPrefix: '//www.foo.com',
+      },
+      performance: {
+        prefetch: true,
+      },
+    },
+  });
+
+  const files = await builder.unwrapOutputJSON();
+
+  const asyncFileName = Object.keys(files).find(file =>
+    file.includes('/static/js/async/'),
+  )!;
+  const [, content] = Object.entries(files).find(([name]) =>
+    name.endsWith('index.html'),
+  )!;
+
+  expect(
+    content.includes(
+      `<link href="//www.foo.com${asyncFileName.slice(
         asyncFileName.indexOf('/static/js/async/'),
       )}" rel="prefetch">`,
     ),

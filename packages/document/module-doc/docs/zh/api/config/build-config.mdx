@@ -7,7 +7,6 @@ sidebar_position: 1
 `buildConfig` 是一个用来描述如何编译、生成构建产物的配置项，它包含了构建的所有配置。
 
 - 类型：`object | object[]`
-- 默认值: `undefined`
 
 :::tip
 在开始使用 `buildConfig` 之前，请先阅读以下文档来了解其作用：
@@ -521,7 +520,7 @@ export default defineConfig({
 - 类型：`'esm' | 'cjs' | 'iife' | 'umd'`
 - 默认值：`cjs`
 
-### format: 'esm'
+### format: esm
 
 esm 代表 "ECMAScript 模块"，它需要运行环境支持 import 和 export 语法。
 
@@ -535,7 +534,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'cjs'
+### format: cjs
 
 cjs 代表 "CommonJS"，它需要运行环境支持 exports、require 和 module 语法，通常为 Node.js 环境。
 
@@ -549,7 +548,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'iife'
+### format: iife
 
 iife 代表 "立即调用函数表达式"，它将代码包裹在函数表达式中，确保代码中的任何变量不会意外地与全局范围中的变量冲突，通常在浏览器环境中运行。
 
@@ -563,7 +562,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'umd'
+### format: umd
 
 umd 代表 "Universal Module Definition"，用于在不同环境（浏览器、Node.js 等）中运行。umd 格式的模块可以在多种环境下使用，既可以作为全局变量访问，也可以通过模块加载器（如 RequireJS）进行模块化加载。
 
@@ -595,13 +594,41 @@ type Input =
 
 **数组用法：**
 
+在 `bundle` 模式下，下面的配置会以 `src/index.ts` 和 `src/index2.ts` 为入口分别进行构建。`bundle` 模式不支持配置 `input` 为目录。
+
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
+    buildType: 'bundle',
     input: ['src/index.ts', 'src/index2.ts'],
   },
 });
 ```
+
+在 `bundleless` 模式下，下面的配置会同时处理 `src/a` 目录下的文件和 `src/index.ts` 文件。
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src/a', 'src/index.ts'],
+  },
+});
+```
+
+在 `bundleless` 模式下，数组模式还支持使用 `!` 来过滤部分文件：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/*.spec.ts'],
+  },
+});
+```
+
+上面的配置将打包 `src` 目录下的文件，同时会过滤以 `spec.ts` 为后缀的文件。这在测试文件与源码文件在同一个根目录下的情况会很有用。
+
 
 **对象用法：**
 
@@ -1086,38 +1113,43 @@ export default defineConfig({
 
 ## style.tailwindcss
 
-Tailwind CSS 相关配置。
+用于修改 [Tailwind CSS](https://tailwindcss.com/docs/configuration) 的配置项。
 
 - 类型： `object | Function`
-- 默认值： `见下方配置详情`
-
-<details>
-  <summary>Tailwind CSS 配置详情</summary>
+- 默认值：
 
 ```js title="modern.config.ts"
 const tailwind = {
   content: [
-    './config/html/**/*.html',
-    './config/html/**/*.ejs',
-    './config/html/**/*.hbs',
-    './src/**/*.js',
-    './src/**/*.jsx',
-    './src/**/*.ts',
-    './src/**/*.tsx',
+    './src/**/*.{js,jsx,ts,tsx}',
+    './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
 };
 ```
 
-</details>
+### 启用 Tailwind CSS
+
+在使用 `style.tailwindcss` 之前，你需要启用 Module Tools 的 Tailwind CSS 插件。
+
+请阅读[「使用 Tailwind CSS」](/guide/best-practices/use-tailwindcss.html) 章节来了解开启方式。
+
+### 类型
 
 值为 `object` 类型时，与默认配置通过 `Object.assign` 合并。
 
 值为 `Function` 类型时，函数返回的对象与默认配置通过 `Object.assign` 合并。
 
-不允许出现 `theme` 属性，否则会构建失败, 使用 [`designSystem`](/api/config/design-system) 作为 `Tailwind CSS Theme` 配置。
-
 其他的使用方式和 Tailwind CSS 一致: [快速传送门](https://tailwindcss.com/docs/configuration)。
+
+### 注意事项
+
+注意：
+
+- 如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+- 如果你同时使用了 `designSystem` 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `designSystem` 的值所覆盖。
+
+其他配置的使用方式与 Tailwind CSS 官方用法一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。
 
 ## target
 
@@ -1177,9 +1209,46 @@ export default defineConfig({
 });
 ```
 
-### 注意事项
-
 参考[「Import 插件——注意事项」](plugins/official-list/plugin-import.html#注意事项)
+
+## transformLodash
+
+是否模块化 [lodash](https://www.npmjs.com/package/lodash) 的导入，删除未使用的 lodash 模块，从而减少 lodash 代码体积。这项优化基于 [babel-plugin-lodash](https://www.npmjs.com/package/babel-plugin-lodash) 和 [swc-plugin-lodash](https://github.com/web-infra-dev/swc-plugins/tree/main/crates/plugin_lodash) 实现。
+
+- 类型：`boolean`
+- 默认值：`true`
+
+该选项默认开启，Module Tools 会自动将 lodash 的代码引用指向子路径。
+
+比如：
+
+```ts title="input.js"
+import _ from 'lodash';
+import { add } from 'lodash/fp';
+
+const addOne = add(1);
+_.map([1, 2, 3], addOne);
+```
+
+转换后的代码：
+
+```ts title="output.js"
+import _add from 'lodash/fp/add';
+import _map from 'lodash/map';
+
+const addOne = _add(1);
+_map([1, 2, 3], addOne);
+```
+
+然而有时候 lodash 的 import 转换可能会生成不符合预期的代码，此时你可以手动关闭这项优化：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    transformLodash: false,
+  },
+});
+```
 
 ## umdGlobals
 

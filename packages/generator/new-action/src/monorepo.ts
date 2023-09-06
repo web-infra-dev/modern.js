@@ -13,6 +13,7 @@ interface IMonorepoNewActionOption {
   config?: string;
   plugin?: string[];
   cwd?: string;
+  needInstall?: boolean;
 }
 
 const REPO_GENERATOR = '@modern-js/repo-generator';
@@ -26,6 +27,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     config = '{}',
     plugin = [],
     cwd = process.cwd(),
+    needInstall = true,
   } = options;
   let UserConfig: Record<string, unknown> = {};
 
@@ -66,6 +68,7 @@ export const MonorepoNewAction = async (options: IMonorepoNewActionOption) => {
     isMonorepo: true,
     distTag,
     plugins,
+    noNeedInstall: !needInstall,
   });
 
   let generator = REPO_GENERATOR;

@@ -1,5 +1,155 @@
 # @modern-js/app-tools
 
+## 2.33.1
+
+### Patch Changes
+
+- c38570e: feat: new and upgrade command support --no-need-install params
+  - @modern-js/builder@2.33.1
+  - @modern-js/builder-rspack-provider@2.33.1
+  - @modern-js/builder-shared@2.33.1
+  - @modern-js/builder-webpack-provider@2.33.1
+  - @modern-js/builder-plugin-esbuild@2.33.1
+  - @modern-js/builder-plugin-node-polyfill@2.33.1
+  - @modern-js/core@2.33.1
+  - @modern-js/plugin-data-loader@2.33.1
+  - @modern-js/plugin-i18n@2.33.1
+  - @modern-js/plugin-lint@2.33.1
+  - @modern-js/new-action@2.33.1
+  - @modern-js/server-core@2.33.1
+  - @modern-js/prod-server@2.33.1
+  - @modern-js/server@2.33.1
+  - @modern-js/node-bundle-require@2.33.1
+  - @modern-js/plugin@2.33.1
+  - @modern-js/types@2.33.1
+  - @modern-js/upgrade@2.33.1
+  - @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- f13ce4f: fix: should support data file for splat routes
+  fix 对于通配路由，应该支持 data 文件
+- Updated dependencies [1c812c2]
+- Updated dependencies [ecb9276]
+- Updated dependencies [c9ffc4d]
+- Updated dependencies [915636b]
+- Updated dependencies [1c6c029]
+- Updated dependencies [f96d565]
+- Updated dependencies [fd82137]
+- Updated dependencies [1042583]
+- Updated dependencies [d55caa9]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [64df945]
+- Updated dependencies [3ba1682]
+  - @modern-js/builder-rspack-provider@2.33.0
+  - @modern-js/core@2.33.0
+  - @modern-js/builder-shared@2.33.0
+  - @modern-js/builder-plugin-esbuild@2.33.0
+  - @modern-js/builder@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/prod-server@2.33.0
+  - @modern-js/builder-plugin-node-polyfill@2.33.0
+  - @modern-js/plugin-data-loader@2.33.0
+  - @modern-js/plugin-lint@2.33.0
+  - @modern-js/builder-webpack-provider@2.33.0
+  - @modern-js/new-action@2.33.0
+  - @modern-js/plugin-i18n@2.33.0
+  - @modern-js/server-core@2.33.0
+  - @modern-js/server@2.33.0
+  - @modern-js/node-bundle-require@2.33.0
+  - @modern-js/plugin@2.33.0
+  - @modern-js/upgrade@2.33.0
+  - @modern-js/types@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- 90e053a: feat(app-tools): add comments for configurations and functions
+
+  feat(app-tools): 为配置和函数添加 comments 说明
+
+- Updated dependencies [90e053a]
+  - @modern-js/types@2.32.1
+  - @modern-js/builder-rspack-provider@2.32.1
+  - @modern-js/builder-shared@2.32.1
+  - @modern-js/builder-webpack-provider@2.32.1
+  - @modern-js/core@2.32.1
+  - @modern-js/plugin-data-loader@2.32.1
+  - @modern-js/server-core@2.32.1
+  - @modern-js/prod-server@2.32.1
+  - @modern-js/server@2.32.1
+  - @modern-js/utils@2.32.1
+  - @modern-js/builder@2.32.1
+  - @modern-js/builder-plugin-node-polyfill@2.32.1
+  - @modern-js/builder-plugin-esbuild@2.32.1
+  - @modern-js/plugin-i18n@2.32.1
+  - @modern-js/plugin-lint@2.32.1
+  - @modern-js/new-action@2.32.1
+  - @modern-js/node-bundle-require@2.32.1
+  - @modern-js/plugin@2.32.1
+  - @modern-js/upgrade@2.32.1
+
+## 2.32.0
+
+### Minor Changes
+
+- 4323e68: feat: support client-data file
+  feat: 支持 client-data 文件
+- 2447d64: feat: support ssr resources preload
+  feat: 支持 ssr 资源预加载
+
+### Patch Changes
+
+- e5a3fb4: fix: integration test, and export LoaderContext from utils
+  fix: 集成测试，然后导出 LoaderContext
+- 3910eb8: fix: route.json fit ssr.preload
+  fix: route.json 适配 ssr.preload
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- c72980d: chore: When the page component exists, keep the layout component
+  chore: 当 page 组件存在时，保留 layout 组件
+- 3149ccd: fix: should update asset when only html exists
+  fix: 只有当 html 存在时，才更新资源
+- Updated dependencies [e6c7d33]
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [5f7c714]
+- Updated dependencies [6517032]
+- Updated dependencies [a030aff]
+- Updated dependencies [6d73519]
+- Updated dependencies [83c1cf7]
+- Updated dependencies [79658a0]
+- Updated dependencies [0cc3981]
+- Updated dependencies [ddcdef2]
+- Updated dependencies [4323e68]
+- Updated dependencies [3c91100]
+- Updated dependencies [2447d64]
+- Updated dependencies [5255eba]
+  - @modern-js/prod-server@2.32.0
+  - @modern-js/utils@2.32.0
+  - @modern-js/builder-webpack-provider@2.32.0
+  - @modern-js/builder-rspack-provider@2.32.0
+  - @modern-js/node-bundle-require@2.32.0
+  - @modern-js/plugin-data-loader@2.32.0
+  - @modern-js/plugin@2.32.0
+  - @modern-js/types@2.32.0
+  - @modern-js/server-core@2.32.0
+  - @modern-js/core@2.32.0
+  - @modern-js/server@2.32.0
+  - @modern-js/builder-shared@2.32.0
+  - @modern-js/builder@2.32.0
+  - @modern-js/builder-plugin-esbuild@2.32.0
+  - @modern-js/builder-plugin-node-polyfill@2.32.0
+  - @modern-js/plugin-i18n@2.32.0
+  - @modern-js/plugin-lint@2.32.0
+  - @modern-js/new-action@2.32.0
+  - @modern-js/upgrade@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

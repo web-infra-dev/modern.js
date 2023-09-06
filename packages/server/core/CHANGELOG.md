@@ -1,5 +1,49 @@
 # @modern-js/server-plugin
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+  - @modern-js/utils@2.33.0
+  - @modern-js/plugin@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- @modern-js/utils@2.32.1
+- @modern-js/plugin@2.32.1
+
+## 2.32.0
+
+### Minor Changes
+
+- 2447d64: feat: support ssr resources preload
+  feat: 支持 ssr 资源预加载
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/utils@2.32.0
+  - @modern-js/plugin@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

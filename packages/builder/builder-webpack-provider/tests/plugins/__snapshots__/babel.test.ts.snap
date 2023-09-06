@@ -55,7 +55,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -88,7 +88,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -155,7 +155,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -188,7 +188,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -269,7 +269,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -364,7 +364,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -476,7 +476,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -509,7 +509,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -576,7 +576,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -609,7 +609,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -698,7 +698,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -731,7 +731,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -796,7 +796,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -829,7 +829,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -908,7 +908,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -941,7 +941,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1008,7 +1008,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -1041,7 +1041,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1126,7 +1126,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -1159,7 +1159,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",
@@ -1226,7 +1226,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -1259,7 +1259,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "bugfixes": false,
                     "corejs": {
                       "proposals": true,
-                      "version": "3.30",
+                      "version": "3.32",
                     },
                     "exclude": [
                       "transform-typeof-symbol",

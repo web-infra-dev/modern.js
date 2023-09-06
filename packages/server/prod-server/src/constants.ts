@@ -29,3 +29,10 @@ export const RUN_MODE = {
   FULL: 'full',
   TYPE: 'type',
 };
+
+export enum ServerReportTimings {
+  SERVER_HANDLE_REQUEST = 'server-handle-request',
+  SERVER_MIDDLEWARE = 'server-middleware',
+  SERVER_HOOK_AFTER_RENDER = 'server-hook-after-render',
+  SERVER_HOOK_AFTER_MATCH = 'server-hook-after-match',
+}

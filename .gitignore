@@ -5,25 +5,15 @@
 .env.local
 .env.*.local
 .history
-.rts*
 *.log*
-*.pid
-*.pid.*
-*.report
-*.lcov
-lib-cov
 
 node_modules/
-.npm
-.lock-wscript
 .yarn-integrity
-.node_repl_history
-.nyc_output
 *.tsbuildinfo
 .eslintcache
-.sonarlint
 
 dist/
+doc_build/
 !**/compiled/**/dist
 coverage/
 release/
@@ -33,6 +23,7 @@ examples/
 local-test-project/*/
 local-test-project/*
 
+# IDE
 .vscode/**/*
 !.vscode/settings.json
 !.vscode/extensions.json
@@ -57,4 +48,3 @@ website/**/.temp
 .wireit/
 .turbo/
 playground/
-doc_build/

@@ -272,49 +272,54 @@ export class RouterPlugin {
 
             const nonceAttr = nonce ? `nonce="${nonce}"` : '';
 
-            if (enableInlineRouteManifests) {
-              compilation.updateAsset(
-                htmlName,
-                new RawSource(
-                  oldHtml
-                    .source()
-                    .toString()
-                    .replace(
-                      placeholder,
-                      `<script ${nonceAttr}>${injectedContent}</script>`,
-                    ),
-                ),
-                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-                undefined as any,
-              );
-            } else {
-              const scriptPath = `${staticJsDir}/${ROUTE_MANIFEST_HOLDER}-${entryName}${
-                disableFilenameHash
-                  ? '.js'
-                  : `.${generateContentHash(injectedContent)}.js`
-              }`;
+            if (oldHtml) {
+              if (enableInlineRouteManifests) {
+                compilation.updateAsset(
+                  htmlName,
+                  new RawSource(
+                    oldHtml
+                      .source()
+                      .toString()
+                      .replace(
+                        placeholder,
+                        `<script ${nonceAttr}>${injectedContent}</script>`,
+                      ),
+                  ),
+                  // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+                  undefined as any,
+                );
+              } else {
+                const scriptPath = `${staticJsDir}/${ROUTE_MANIFEST_HOLDER}-${entryName}${
+                  disableFilenameHash
+                    ? '.js'
+                    : `.${generateContentHash(injectedContent)}.js`
+                }`;
 
-              const scriptUrl = `${publicPath}${scriptPath}`;
+                const scriptUrl = `${publicPath}${scriptPath}`;
 
-              const scriptLoadingAttr =
-                // eslint-disable-next-line no-nested-ternary
-                scriptLoading === 'defer'
-                  ? scriptLoading
-                  : scriptLoading === 'module'
-                  ? `type="module"`
-                  : '';
+                const scriptLoadingAttr =
+                  // eslint-disable-next-line no-nested-ternary
+                  scriptLoading === 'defer'
+                    ? scriptLoading
+                    : scriptLoading === 'module'
+                    ? `type="module"`
+                    : '';
 
-              const script = `<script ${scriptLoadingAttr} ${nonceAttr} src="${scriptUrl}"></script>`;
+                const script = `<script ${scriptLoadingAttr} ${nonceAttr} src="${scriptUrl}"></script>`;
 
-              compilation.updateAsset(
-                htmlName,
-                new RawSource(
-                  oldHtml.source().toString().replace(placeholder, script),
-                ),
-                // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
-                undefined as any,
-              );
-              compilation.emitAsset(scriptPath, new RawSource(injectedContent));
+                compilation.updateAsset(
+                  htmlName,
+                  new RawSource(
+                    oldHtml.source().toString().replace(placeholder, script),
+                  ),
+                  // FIXME: The arguments third of updatgeAsset is a optional function in webpack.
+                  undefined as any,
+                );
+                compilation.emitAsset(
+                  scriptPath,
+                  new RawSource(injectedContent),
+                );
+              }
             }
           }
 

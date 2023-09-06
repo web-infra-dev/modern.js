@@ -1,5 +1,91 @@
 # @modern-js/builder-shared
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.33.1
+- @modern-js/server@2.33.1
+- @modern-js/types@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- c9ffc4d: fix(builder): fix withPublicPath may missing subpath
+
+  fix(builder): 修复 withPublicPath 方法可能会丢失子路径的问题
+
+- 915636b: fix(builder): incorrect prefetch domain when assetPrefix has no protocol
+
+  fix(builder): 修复 assetPrefix 不包含 protocol 时 prefetch 域名错误的问题
+
+- d55caa9: fix(builder): `html.meta.referrer` can't accept literal false value
+  fix(builder): `html.meta.referrer` 配置无法接受 false 字面量作为值
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
+- 64df945: feat(builder): support enableCssModuleTSDeclaration and cssModules.exportLocalsConvention when use rspack mode
+
+  feat(builder): 在使用 Rspack 构建时，支持 enableCssModuleTSDeclaration 和 cssModules.exportLocalsConvention 配置项
+
+- Updated dependencies [fd82137]
+- Updated dependencies [1042583]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [3ba1682]
+  - @modern-js/utils@2.33.0
+  - @modern-js/prod-server@2.33.0
+  - @modern-js/server@2.33.0
+  - @modern-js/types@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- Updated dependencies [90e053a]
+  - @modern-js/types@2.32.1
+  - @modern-js/prod-server@2.32.1
+  - @modern-js/server@2.32.1
+  - @modern-js/utils@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 6517032: chore(builder): move performance config default value to shared
+
+  chore(builder): 移动 performance 默认配置到 shared 中
+
+- 0cc3981: chore(builder): use standard utils to get and make up publicPath
+
+  chore(builder): 使用标准的 utils 来读取和组装 publicPath
+
+- ddcdef2: feat(builder): enable minifyJS/minifyCSS of HTML plugin by default
+
+  feat(builder): 默认开启 htmlPlugin minifyJS/minifyCSS 等能力
+
+- 3c91100: chore(builder): using unified version of webpack-chain
+
+  chore(builder): 使用统一的 webpack-chain 版本
+
+- Updated dependencies [e6c7d33]
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [5f7c714]
+- Updated dependencies [a030aff]
+- Updated dependencies [6d73519]
+- Updated dependencies [79658a0]
+- Updated dependencies [4323e68]
+- Updated dependencies [3c91100]
+- Updated dependencies [2447d64]
+- Updated dependencies [5255eba]
+  - @modern-js/prod-server@2.32.0
+  - @modern-js/utils@2.32.0
+  - @modern-js/types@2.32.0
+  - @modern-js/server@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

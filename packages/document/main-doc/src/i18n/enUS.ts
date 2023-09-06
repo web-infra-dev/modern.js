@@ -18,7 +18,7 @@ export const EN_US = {
   feature4: 'Multi-Rendering Mode',
   featureDesc4: 'SSR, SSG, SPR, all out of the box for you.',
   feature5: 'CSS Solutions',
-  featureDesc5: 'CSS Modules, CSS-in-JS, TailwindCSS, take your pick.',
+  featureDesc5: 'CSS Modules, CSS-in-JS, Tailwind CSS, take your pick.',
   feature6: 'Easy to Configure',
   featureDesc6:
     'Launch with zero configuration, then everything is configurable.',
@@ -27,8 +27,8 @@ export const EN_US = {
   solutions: 'Solutions',
   solutionsDesc1: 'A progressive React framework for web development.',
   solutionsDesc2: 'A powerful solution for npm package development.',
-  solutionsDesc3: 'A Rspack based documentation site solution.',
-  solutionsDesc4: 'A build engine for web development.',
+  solutionsDesc3: 'An Rspack-based build tool for web development.',
+  solutionsDesc4: 'A fast Rspack-based static site generator',
 
   // Footer
   guide: 'Guide',

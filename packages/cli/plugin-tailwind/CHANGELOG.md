@@ -1,5 +1,68 @@
 # @modern-js/plugin-tailwindcss
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.33.1
+- @modern-js/node-bundle-require@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- fd2ca58: feat(plugin-tailwind): automatically read tailwind config file
+
+  feat(plugin-tailwind): 自动读取 tailwind config 文件
+
+- bc1f8da: feat(builder): support custom logger in dev server
+
+  feat(builder): 支持自定义 logger
+
+- Updated dependencies [6ea89ab]
+- Updated dependencies [ae35c65]
+- Updated dependencies [2bcff4f]
+- Updated dependencies [fd82137]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [44da57b]
+  - @modern-js/runtime@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/node-bundle-require@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- 5e04e3e: refactor(tailwindcss): allow to use tailwind theme config
+
+  refactor(tailwindcss): 支持使用 tailwind theme 配置
+
+- Updated dependencies [90e053a]
+  - @modern-js/runtime@2.32.1
+  - @modern-js/utils@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- b31e9dd: chore(plugin-tailwindcss): use glob shorthand in the default config
+
+  chore(plugin-tailwindcss): 在默认配置中使用 glob 缩写
+
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [a030aff]
+- Updated dependencies [92591c6]
+- Updated dependencies [3c91100]
+- Updated dependencies [5255eba]
+  - @modern-js/runtime@2.32.0
+  - @modern-js/utils@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

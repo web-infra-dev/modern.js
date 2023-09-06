@@ -22,6 +22,8 @@
 
 :::tip
 在使用 Rspack 作为打包工具时，仅支持在 [disableCssExtract](https://modernjs.dev/builder/api/config-output.html#outputdisablecssextract) 时使用该配置。
+
+修改 CSS Modules 相关配置，推荐使用 [output.cssModules](https://modernjs.dev/builder/api/config-output.html#outputcssmodules) 配置项。
 :::
 
 ### Object 类型

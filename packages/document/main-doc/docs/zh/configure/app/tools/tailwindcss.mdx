@@ -10,21 +10,20 @@ sidebar_label: tailwindcss
 ```js
 const tailwind = {
   content: [
-    './config/html/**/*.html',
-    './config/html/**/*.ejs',
-    './config/html/**/*.hbs',
-    './src/**/*.js',
-    './src/**/*.jsx',
-    './src/**/*.ts',
-    './src/**/*.tsx',
+    './src/**/*.{js,jsx,ts,tsx}',
+    './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
-  // 使用 source.designSystem 配置作为 Tailwind CSS Theme 配置
-  theme: source.designSystem,
 };
 ```
 
-对应 [TailwindCSS](https://tailwindcss.com/docs/configuration) 的配置。
+用于修改 [Tailwind CSS](https://tailwindcss.com/docs/configuration) 的配置项。
+
+### 启用 Tailwind CSS
+
+在使用 `tools.tailwindcss` 之前，你需要启用 Modern.js 的 Tailwind CSS 插件。
+
+请阅读[「使用 Tailwind CSS」](/guides/basic-features/css.html#使用-tailwind-css) 章节来了解开启方式。
 
 ### Function 类型
 
@@ -58,8 +57,42 @@ export default {
 };
 ```
 
-### 限制
+### 注意事项
 
-注意，该配置中不允许使用 `theme` 配置项，否则会构建失败。在 Modern.js 中，请使用 [source.designSystem](/configure/app/source/design-system) 作为 `Tailwind CSS Theme` 配置。
+注意：
 
-其他配置的使用方式和 Tailwind CSS 一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。
+- 如果你同时使用了 `tailwind.config.{ts,js}` 文件和 `tools.tailwindcss` 选项，那么 `tools.tailwindcss` 定义的配置会优先生效，并覆盖 `tailwind.config.{ts,js}` 中定义的内容。
+- 如果你同时使用了 `source.designSystem` 配置项，那么 Tailwind CSS 的 `theme` 配置将会被 `source.designSystem` 的值所覆盖。
+
+其他配置的使用方式与 Tailwind CSS 官方用法一致，请参考 [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration)。
+
+### 关于 source.designSystem
+
+`source.designSystem` 是 Modern.js 中废弃的配置项。
+
+从 Modern.js vMAJOR_VERSION.33.0 版本开始，你可以使用 Tailwind CSS 的 `theme` 配置项来代替 `source.designSystem`，不再需要将 `theme` 配置拆分并设置到 `designSystem` 上。
+
+- 旧版本用法：
+
+```ts title="modern.config.ts"
+const { theme, ...rest } = tailwindConfig;
+
+export default {
+  tools: {
+    tailwindcss: rest,
+  },
+  source: {
+    designSystem: theme,
+  },
+};
+```
+
+- 当前版本用法：
+
+```ts title="modern.config.ts"
+export default {
+  tools: {
+    tailwindcss: tailwindConfig,
+  },
+};
+```

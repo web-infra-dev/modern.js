@@ -23,10 +23,10 @@ export interface ServerTiming {
   addServeTiming: (name: string, dur: number, decs?: string) => this;
 }
 
-export type Reporter = {
+export type Reporter<C = any> = {
   sessionId?: string;
   userId?: string;
-  client?: any;
+  client?: C;
 
   init: (payload: { match: any }) => void | Promise<void>;
 

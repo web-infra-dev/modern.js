@@ -1,5 +1,78 @@
 # @modern-js/plugin-testing
 
+## 2.33.1
+
+### Patch Changes
+
+- @modern-js/runtime@2.33.1
+- @modern-js/babel-preset-app@2.33.1
+- @modern-js/prod-server@2.33.1
+- @modern-js/babel-compiler@2.33.1
+- @modern-js/plugin@2.33.1
+- @modern-js/types@2.33.1
+- @modern-js/utils@2.33.1
+
+## 2.33.0
+
+### Patch Changes
+
+- Updated dependencies [6ea89ab]
+- Updated dependencies [ae35c65]
+- Updated dependencies [2bcff4f]
+- Updated dependencies [fd82137]
+- Updated dependencies [1042583]
+- Updated dependencies [bc1f8da]
+- Updated dependencies [3ba1682]
+- Updated dependencies [44da57b]
+  - @modern-js/runtime@2.33.0
+  - @modern-js/utils@2.33.0
+  - @modern-js/prod-server@2.33.0
+  - @modern-js/babel-preset-app@2.33.0
+  - @modern-js/babel-compiler@2.33.0
+  - @modern-js/plugin@2.33.0
+  - @modern-js/types@2.33.0
+
+## 2.32.1
+
+### Patch Changes
+
+- Updated dependencies [90e053a]
+  - @modern-js/runtime@2.32.1
+  - @modern-js/types@2.32.1
+  - @modern-js/prod-server@2.32.1
+  - @modern-js/utils@2.32.1
+  - @modern-js/babel-preset-app@2.32.1
+  - @modern-js/babel-compiler@2.32.1
+  - @modern-js/plugin@2.32.1
+
+## 2.32.0
+
+### Patch Changes
+
+- 6076166: fix: packaging errors found by publint
+
+  fix: 修复 publint 检测到的 packaging 问题
+
+- Updated dependencies [e6c7d33]
+- Updated dependencies [e5a3fb4]
+- Updated dependencies [6076166]
+- Updated dependencies [5f7c714]
+- Updated dependencies [a030aff]
+- Updated dependencies [6d73519]
+- Updated dependencies [79658a0]
+- Updated dependencies [92591c6]
+- Updated dependencies [4323e68]
+- Updated dependencies [3c91100]
+- Updated dependencies [2447d64]
+- Updated dependencies [5255eba]
+  - @modern-js/prod-server@2.32.0
+  - @modern-js/runtime@2.32.0
+  - @modern-js/utils@2.32.0
+  - @modern-js/plugin@2.32.0
+  - @modern-js/types@2.32.0
+  - @modern-js/babel-preset-app@2.32.0
+  - @modern-js/babel-compiler@2.32.0
+
 ## 2.31.2
 
 ### Patch Changes

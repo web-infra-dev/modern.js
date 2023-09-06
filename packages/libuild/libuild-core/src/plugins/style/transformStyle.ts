@@ -10,25 +10,26 @@ import { sassRender } from './sassRender';
 const cssLangs = `\\.(css|less|sass|scss)($|\\?)`;
 const cssLangRE = new RegExp(cssLangs);
 
-const cssRender: PreprocessRender = async function (this: ILibuilder, content: string) {
+const cssRender: PreprocessRender = async function (
+  this: ILibuilder,
+  content: string,
+) {
   return {
     css: content,
   };
 };
-export interface PreprocessRender {
-  (
-    content: string,
-    stdinPath: string,
-    stdinDir: string,
-    preprocessOptions: any,
-    resolvePathMap: Map<string, string>
-  ): Promise<{
-    css: Buffer | String;
-    errors?: PartialMessage[];
-    warnings?: PartialMessage[];
-    map?: Buffer | string;
-  }>;
-}
+export type PreprocessRender = (
+  content: string,
+  stdinPath: string,
+  stdinDir: string,
+  preprocessOptions: any,
+  resolvePathMap: Map<string, string>,
+) => Promise<{
+  css: Buffer | string;
+  errors?: PartialMessage[];
+  warnings?: PartialMessage[];
+  map?: Buffer | string;
+}>;
 
 const renderMap: Record<string, Function> = {
   less: lessRender,
@@ -39,12 +40,17 @@ const renderMap: Record<string, Function> = {
 export async function transformStyle(this: ILibuilder, source: Source) {
   const lang = source.path.match(cssLangRE)?.[1];
   if (!lang) {
-    throw new LibuildError('UNSUPPORTED_CSS_LANG', `not supported css lang${lang}`);
+    throw new LibuildError(
+      'UNSUPPORTED_CSS_LANG',
+      `not supported css lang${lang}`,
+    );
   }
   const { less, sass } = this.config.style;
   const options = lang === 'less' ? less?.lessOptions : sass?.sassOptions;
-  const additionalData = lang === 'less' ? less?.additionalData : sass?.additionalData;
-  const implementation = lang === 'less' ? less?.implementation : sass?.implementation;
+  const additionalData =
+    lang === 'less' ? less?.additionalData : sass?.additionalData;
+  const implementation =
+    lang === 'less' ? less?.implementation : sass?.implementation;
   const preprocessRender = renderMap[lang];
   const { originalFilePath } = resolvePathAndQuery(source.path);
   const stdinDir = path.dirname(originalFilePath);
@@ -67,7 +73,11 @@ export async function transformStyle(this: ILibuilder, source: Source) {
     implementation,
   ]);
   const css = renderResult.css.toString();
-  const { code, loader } = await postcssTransformer(css ?? '', originalFilePath, this);
+  const { code, loader } = await postcssTransformer(
+    css ?? '',
+    originalFilePath,
+    this,
+  );
   return {
     code,
     loader,

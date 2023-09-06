@@ -24,22 +24,26 @@ export type Tailwindcss =
 
 export interface SharedToolsConfig extends BuilderSharedToolsConfig {
   /**
+   * Used to custom Tailwind CSS configurations.
+   * @requires `tailwindcss` plugin.
    * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `tailwindcss` plugin
    */
   tailwindcss?: Tailwindcss;
 
   /**
+   * Used to custom Jest configurations.
+   * @requires `test` plugin.
    * The configuration of `tools.jest` is provided by `test` plugin.
    * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `test` plugin
    */
   jest?: JestConfig | ((jestConfig: JestConfig) => JestConfig);
 
   /**
+   * Used to custom SWC configurations.
+   * @requires `swc` plugin.
    * The configuration of `swc` is provided by `swc` plugin.
-   * @requires `swc` plugin
+   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
    */
   swc?: PluginSwcOptions<'outer'>;
 }

@@ -1,11 +1,16 @@
+import { promisify } from 'util';
 import type { LoaderContext } from 'webpack';
+import { logger } from '@modern-js/utils/logger';
 import { generateClient } from './generateClient';
 
+type Context = {
+  mapFile: string;
+  loaderId?: string;
+  clientData?: boolean;
+};
+
 export default async function loader(
-  this: LoaderContext<{
-    mapFile: string;
-    loaderId?: string;
-  }>,
+  this: LoaderContext<Context>,
   source: string,
 ) {
   this.cacheable();
@@ -16,8 +21,8 @@ export default async function loader(
   if (target === 'webworker') {
     return source;
   }
-  const { resourceQuery } = this;
 
+  const { resourceQuery } = this;
   // parse options from resouceQuery
   const options = resourceQuery
     .slice(1)
@@ -32,11 +37,29 @@ export default async function loader(
       }
       pre[key] = value;
       return pre;
-    }, {} as Record<string, any>) as { mapFile: string; loaderId?: string };
+    }, {} as Record<string, any>) as Context;
 
   // if we can not parse mapFile from resourceQuery, it means the with no need for data-loader handle.
   if (!options.mapFile) {
     return source;
+  }
+
+  if (options.clientData) {
+    const readFile = promisify(this.fs.readFile);
+    try {
+      const clientDataPath = this.resourcePath.includes('.loader.')
+        ? this.resourcePath.replace('.loader.', '.data.client.')
+        : this.resourcePath.replace('.data.', '.data.client.');
+
+      const clientDataContent = await readFile(clientDataPath);
+      return clientDataContent;
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        logger.error(
+          `Failed to read the clientData file ${options.clientData}`,
+        );
+      }
+    }
   }
 
   const code = generateClient({

@@ -15,6 +15,8 @@ export const getPlugins = (runningCmd: string) => {
     case 'change':
     case 'release':
     case 'bump':
+    case 'pre':
+    case 'gen-release-note':
       plugins = [changesetPlugin()];
       break;
     default:

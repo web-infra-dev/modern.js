@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.31.2",
+  "version": "2.33.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -50,10 +50,6 @@
       "default": "./compiled/webpack-bundle-analyzer/index.js"
     },
     "./babel-loader": "./compiled/babel-loader/index.js",
-    "./webpack-5-chain": {
-      "types": "./compiled/webpack-5-chain/types/index.d.ts",
-      "default": "./compiled/webpack-5-chain/index.js"
-    },
     "./pug": {
       "types": "./compiled/pug/index.d.ts",
       "default": "./compiled/pug/index.js"
@@ -77,6 +73,26 @@
       "jsnext:source": "./src/loaders/ignore-css-loader.ts",
       "types": "./dist/loaders/ignore-css-loader.d.ts",
       "default": "./dist/loaders/ignore-css-loader.js"
+    },
+    "./icss-utils": {
+      "types": "./compiled/icss-utils/index.d.ts",
+      "default": "./compiled/icss-utils/index.js"
+    },
+    "./postcss-modules-extract-imports": {
+      "types": "./compiled/postcss-modules-extract-imports/index.d.ts",
+      "default": "./compiled/postcss-modules-extract-imports/index.js"
+    },
+    "./postcss-modules-local-by-default": {
+      "types": "./compiled/postcss-modules-local-by-default/index.d.ts",
+      "default": "./compiled/postcss-modules-local-by-default/index.js"
+    },
+    "./postcss-modules-scope": {
+      "types": "./compiled/postcss-modules-scope/index.d.ts",
+      "default": "./compiled/postcss-modules-scope/index.js"
+    },
+    "./postcss-modules-values": {
+      "types": "./compiled/postcss-modules-values/index.d.ts",
+      "default": "./compiled/postcss-modules-values/index.js"
     }
   },
   "typesVersions": {
@@ -89,9 +105,6 @@
       ],
       "webpack-bundle-analyzer": [
         "./compiled/webpack-bundle-analyzer/index.d.ts"
-      ],
-      "webpack-5-chain": [
-        "./compiled/webpack-5-chain/types/index.d.ts"
       ],
       "test-stub": [
         "./dist/test-stub/index.d.ts",
@@ -111,13 +124,28 @@
       "ignore-css-loader": [
         "./dist/loaders/ignore-css-loader.d.ts",
         "./src/loaders/ignore-css-loader.ts"
+      ],
+      "icss-utils": [
+        "./compiled/icss-utils/index.d.ts"
+      ],
+      "postcss-modules-extract-imports": [
+        "./compiled/postcss-modules-extract-imports/index.d.ts"
+      ],
+      "postcss-modules-local-by-default": [
+        "./compiled/postcss-modules-local-by-default/index.d.ts"
+      ],
+      "postcss-modules-scope": [
+        "./compiled/postcss-modules-scope/index.d.ts"
+      ],
+      "postcss-modules-values": [
+        "./compiled/postcss-modules-values/index.d.ts"
       ]
     }
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/types": "^7.21.5",
-    "@babel/parser": "^7.21.8",
+    "@babel/core": "^7.22.15",
+    "@babel/types": "^7.22.15",
+    "@babel/parser": "^7.22.15",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -137,14 +165,15 @@
     "zod-validation-error": "1.2.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-typescript": "^7.21.5",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
     "@types/caniuse-lite": "^1.0.1",
     "@types/node": "^14",
     "html-webpack-plugin": "5.5.3",
     "terser": "5.19.2",
+    "terser-webpack-plugin": "5.3.9",
     "typescript": "^5"
   },
   "publishConfig": {
@@ -157,13 +186,17 @@
       "./open": "./compiled/open/index.js",
       "./babel-loader": "./compiled/babel-loader/index.js",
       "./webpack-bundle-analyzer": "./compiled/webpack-bundle-analyzer/index.js",
-      "./webpack-5-chain": "./compiled/webpack-5-chain/index.js",
       "./test-stub": "./dist/test-stub/index.js",
       "./zod": "./dist/exports/zod.js",
       "./fork-ts-checker-webpack-plugin": "./dist/exports/fork-ts-checker-webpack-plugin.js",
       "./pug": "./compiled/pug/index.js",
       "./css-modules-typescript-loader": "./dist/loaders/css-modules-typescript-loader.js",
-      "./ignore-css-loader": "./dist/loaders/ignore-css-loader.js"
+      "./ignore-css-loader": "./dist/loaders/ignore-css-loader.js",
+      "./icss-utils": "./compiled/icss-utils/index.js",
+      "./postcss-modules-extract-imports": "./compiled/postcss-modules-extract-imports/index.js",
+      "./postcss-modules-local-by-default": "./compiled/postcss-modules-local-by-default/index.js",
+      "./postcss-modules-scope": "./compiled/postcss-modules-scope/index.js",
+      "./postcss-modules-values": "./compiled/postcss-modules-values/index.js"
     }
   }
 }

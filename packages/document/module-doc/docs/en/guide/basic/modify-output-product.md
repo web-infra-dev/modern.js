@@ -23,7 +23,7 @@ export default defineConfig({
 
 **The default output files has the following characteristics**.
 
-- will generate [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) and [ESM](https://nodejs.org/api/esm.html#modules- ecmascript-modules).
+- will generate [CommonJS](https://nodejs.org/api/modules.html#modules-commonjs-modules) and [ESM](https://nodejs.org/api/esm.html#modules-ecmascript-modules).
 - The code syntax is supported up to `ES6` , and more advanced syntax will be converted.
 - All code is bundled into one file, i.e. **bundle** processing is performed.
 - The output root directory is the `dist` directory under the project, and the type file output directory is `dist/types`.
@@ -37,62 +37,18 @@ Then the next step is to first explain `buildPreset`.
 
 ## buildPreset
 
-The `buildPreset` represents one or more sets of build-related configurations prepared in advance. By using the corresponding preset values of the `buildPreset`, you can eliminate the troublesome and complicated configuration work and get the expected product.
+The `buildPreset` represents a prepared set or sets of build-related configurations that can be used to eliminate the trouble and complexity of configuration by using the default values corresponding to the build Preset, resulting in the expected product.
 
-### String form of build preset
+Module Tools mainly comes with two built-in build presets, including:
 
-The value of a **build preset can be in the form of a string**, so a build preset of this form is called a preset string.
+- npm-component: Used to build component libraries.
+- npm-library: Used to package projects of other library types, such as tool libraries.
 
-The Module Tools provides generic build preset strings and corresponding variants, depending on the generic scenario in which the npm package is used. All currently supported preset strings can be viewed via the [BuildPreset API](/api/config/build-preset). Here is an explanation about the relationship between **generic preset strings and variants**.
+It also provides some variations, such as `npm-library-with-umd` and `npm-library-es5`, which, as their names suggest, correspond to library presets with umd output and support for es5 syntax, respectively. For more detailed configuration, you can refer to its [API](/api/config/build-preset).
 
-Among the generic preset strings, `"npm-library"` can be used in the scenario of developing npm packages of the library type, which is suitable for most common module type projects. When `"npm-library"` is set, the output files of the project will have the following characteristics.
+In addition, we can also fully customize the build configuration:
 
-- In the `dist/lib` directory you will get code formatted as `cjs`, syntax supported up to `es6` and bundled.
-- In the `dist/es` directory, you get code in the format `esm`, with syntax support up to `es6` and after bundling.
-- In the `dist/types` directory, you get the type files. If it is not a TypeScript project, there is no such directory.
-
-The default string `"npm-library"` is a variant of the original product with a modified **code syntax support** feature and a string naming change to `"npm-library-[es5 | es2016.... . es2020 | esnext]"`.
-
-For example, if the output file is based on the preset string `"npm-library"` and the syntax supported by the output code is changed to `es5`, then simply changing `"npm-library"` to `"npm-library-es5"` would be sufficient.
-
-### Build pre-defined function forms
-
-**In addition to the string form, the value of a build preset can also be in the form of a function, where the specific configuration corresponding to a preset value can be printed or modified**.
-
-For example, to achieve the same effect as the preset string ``npm-library-es5"` using the form of a preset function, you can do the following.
-
-```ts title="modern.config.ts"
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  plugins: [moduleTools()],
-  buildPreset({ preset }) {
-    return preset.NPM_LIBRARY.map(config => {
-      return { ... .config, target: 'es5' }
-    });
-  },
-});
-```
-
-In the above code implementation, `preset.NPM_LIBRARY` corresponds to the preset string `"npm-library"`, representing multiple build-related configurations equivalent to `"npm-library"`.
-
-We use the `map` method to iterate over the `NPM_LIBRARY` array, which contains multiple `buildConfig` objects. We perform a shallow copy of the original `buildConfig` object and modify the value of the `target` property in the shallow copy to be `es5`.
-
-If you want to know the specific contents included in `preset.NPM_LIBRARY`, you can refer to the [BuildPreset API](/api/config/build-preset).
-
-In addition, under the `preset` object, it not only includes `NPM_LIBRARY`, but also other similar constants.
-
-> NPM_LIBRARY`, you can check it with [BuildPreset API](/api/config/build-preset). The`preset`object contains not only`NPM_LIBRARY`, but also other similar constants.
-
-:::tip
-We can not only use `preset.NPM_LIBRARY`to get the build configuration corresponding to`"npm-library"`, but also `preset['npm-library']` in this way.
-:::
-
-So what is the `buildConfig` object here? What is the basis for the build artifacts feature mentioned before?
-
-Let's explain next.
-
-## Build configuration (object)
+## buildConfig
 
 **`buildConfig` is a configuration option that describes how to compile and generate build artifacts**. What was mentioned at the beginning about "_features of build products_" are actually properties supported by `buildConfig`. The currently supported properties cover the needs of most module type projects when building products. `buildConfig` not only contains some properties that artifacts have, but also contains some features needed to build products. The following is a brief list from a classification point of view.
 
@@ -129,36 +85,54 @@ Let's explain next.
 
 In addition to the above categories, frequently asked questions and best practices about these APIs can be found at the following links
 
-- [What are `bundle` and `bundleless`?](/guide/advance/in-depth-about-build#bundle- and-bundleless)
-- [Relationship of `input` to `sourceDir`](/guide/advance/in-depth-about-build#input- to -sourcedir-)
-- [Multiple ways to generate type files in product](/guide/advance/in-depth-about-build#type-files).
-- [`buildConfig.define` Different ways to use it for different scenarios.](/guide/advance/in-depth-about-build#buildconfigdefine - How to use it for different scenarios)
+- [About `bundle` and `bundleless`?](/guide/advance/in-depth-about-build#bundle--bundleless)
+- [About `input` and `sourceDir`](/guide/advance/in-depth-about-build#input--sourcedir)
+- [About d.ts](/guide/advance/in-depth-about-build#dts).
+- [How to use define](/guide/advance/in-depth-about-build#define)
 - [How to handle third-party dependencies?](/guide/advance/external-dependency)
 - [How to use copy?](/guide/advance/copy)
-- How do I build umd artifacts? (/guide/advance/build-umd# sets the global variable name of the project)
-- [The capabilities currently supported by static resources.](/guide/advance/asset)
+- [How to use umd](/guide/advance/build-umd)
+- [How to use asset](/guide/advance/asset)
 
-## When to use `buildConfig`
+## Combining Configuration and Presets
 
-`buildConfig` is one of the methods used to modify the product, **only `buildConfig` will take effect when configured in conjunction with `buildPreset`**. So if configured as follows.
+Once we understand `buildPreset` and `buildConfig`, we can use them together.
+
+In a real project, we can use `buildPreset` to quickly get a set of default build configurations. If you need to customise it, you can use `buildConfig` to override and extend it.
+
+The extension logic is as follows.
+
+- When `buildConfig` is an array, new configuration items are added to the original preset.
 
 ```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  buildConfig: {
-    format: 'umd',
-  },
+  plugins: [moduleTools()],
   buildPreset: 'npm-library',
+  buildConfig: [
+    {
+      format: 'iife',
+      target: 'es2020',
+      outDir: '. /dist/global'
+    }
+  ]
 });
 ```
 
-Then at this point you will see the following prompt.
+This will generate an additional IIFE-formatted product that supports up to ES2020 syntax on top of the original preset, in the `dist/global` directory under the project.
 
-```bash
-Since both 'buildConfig' and 'buildPreset' are present, only the 'buildConfig' configuration will take effect
+- When `buildConfig` is an object, the configuration items in the object are overwritten in the preset.
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildPreset: 'npm-library',
+  buildConfig: {
+    sourceMap: true,
+  },
+}).
 ```
 
-The set or sets of build-related configurations represented by `buildPreset` are composed of `buildConfig`, **which can be used to customize output products** when the current project needs cannot be met using `buildPreset`.
-
-The process of using `buildConfig` is the process of thinking about **what kind of build artifacts to get**.
+This will cause a sourceMap file to be generated for each build task.

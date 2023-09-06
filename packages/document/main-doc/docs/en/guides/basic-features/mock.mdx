@@ -1,8 +1,8 @@
 ---
-title: Mock
-sidebar_position: 6
+sidebar_position: 5
 ---
-# Mock
+
+# Data Mocking
 
 Modern.js allows you to easily generate mock data so that the front-end can develop independently without depending on the back-end API.
 
@@ -52,7 +52,7 @@ const Mock = require('mockjs');
 module.exports = {
   '/api/getInfo': Mock.mock({
     'data|1-10': [{ name: '@cname' }],
-  }) /* => {data: [{name: "董霞"}, {name: "魏敏"},  {name: "石磊"}} */,
+  }) /* => {data: [{name: "Jack"}, {name: "Jim"},  {name: "Mary"}} */,
 };
 ```
 

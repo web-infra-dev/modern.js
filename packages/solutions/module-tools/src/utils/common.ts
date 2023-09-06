@@ -11,3 +11,12 @@ export const transformUndefineObject = (
     };
   }, {});
 };
+
+export function mapValue<T = any, U = any>(
+  obj: Record<string, T>,
+  mapper: (x: T) => U,
+): Record<string, U> {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [key, mapper(value)]),
+  );
+}

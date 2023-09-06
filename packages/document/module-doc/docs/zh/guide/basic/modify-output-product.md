@@ -8,7 +8,7 @@ sidebar_position: 3
 
 当你在初始化的项目里使用 `modern build` 命令的时候，Module Tools 会根据当前配置内容，生成相应的构建产物。
 
-默认的配置内容如下：
+模板创建的默认配置内容如下：
 
 ```ts title="modern.config.ts"
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
@@ -39,58 +39,17 @@ export default defineConfig({
 
 `buildPreset` 代表着提前准备好的一组或者多组构建相关的配置，只需要使用 `buildPreset` 对应的预设值，就可以省去麻烦且复杂的配置工作，得到符合预期的产物。
 
-### 构建预设的字符串形式
+Module Tools 主要内置了两套构建预设,包括:
 
-**构建预设的值可以是字符串形式**，因此这样形式的构建预设叫做预设字符串。
+- `npm-component`: 用于构建组件库。
+- `npm-library`: 用于打包其他库类型的项目,如工具库。
 
-模块工程解决方案根据 npm 包使用的通用场景，提供了通用的构建预设字符串以及相应的变体。目前支持的所有预设字符串可以通过 [BuildPreset API](/api/config/build-preset) 查看。这里讲解一下关于**通用的预设字符串与变体之间的关系**。
+同时，还提供一些变体，例如 `npm-library-with-umd` 和 `npm-library-es5`，顾名思义，分别对应带有 umd 产物和支持到 es5 语法的库预设。
+详细配置可以查看其[API](/api/config/build-preset)。
 
-在通用的预设字符串中，`"npm-library"` 可以用于在开发库类型的 npm 包的场景下使用，它适合大多数普通的模块类型项目。当设置 `"npm-library"` 的时候，项目的输出产物会有以下特点：
+除此之外,我们也可以完全自定义构建配置:
 
-- 在 `dist/lib` 目录下会得到代码格式为 `cjs`、语法支持到 `es6` 且经过打包处理后的产物。
-- 在 `dist/es` 目录下会得到代码格式为 `esm`、语法支持为 `es6` 且经过打包处理后的产物。
-- 在 `dist/types` 目录下会得到类型文件。如果不是 TypeScript 项目，则没有该目录。
-
-而预设字符串 `"npm-library"` 对应的变体则是在原本产物的基础上修改了**代码语法支持**这一特点，同时在字符串命名上也变为了 `"npm-library-[es5 | es2016...es2020 | esnext]"` 这样的形式。
-
-例如，如果在预设字符串 `"npm-library"` 对应的输出产物基础上，让产物代码支持的语法变为 `es5` 的话，那么只需要将 `"npm-library"` 改变为 `"npm-library-es5"` 就可以了。
-
-### 构建预设的函数形式
-
-**除了字符串形式以外，构建预设的值也可以是函数形式，在函数中可以打印或者修改某个预设值对应的具体配置**。
-
-例如，如果使用预设函数的形式达到预设字符串 `"npm-library-es5"` 同样的效果，可以按照如下的方式：
-
-```ts title="modern.config.ts"
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-
-export default defineConfig({
-  plugins: [moduleTools()],
-  buildPreset({ preset }) {
-    return preset.NPM_LIBRARY.map(config => {
-      return { ...config, target: 'es5' };
-    });
-  },
-});
-```
-
-在上面的代码实现中，`preset.NPM_LIBRARY` 与预设字符串 `"npm-library"` 是相对应的，它代表与 `"npm-library"` 等价的多个构建相关的配置。
-
-我们通过 `map` 方法遍历了 `NPM_LIBRARY` 这个数组，在这个数组中包含了多个 `buildConfig` 对象。我们将原本的 `buildConfig` 对象进行了浅拷贝，并修改了浅拷贝后 `target` 的值，将它指定为 `es5`。
-
-如果你想了解 `preset.NPM_LIBRARY` 具体包含的内容，可以通过 [BuildPreset API](/api/config/build-preset) 查看。
-
-此外，在 `preset` 对象下，不仅包含了 `NPM_LIBRARY`，也包含了其他类似的常量。
-
-:::tip
-我们不仅可以使用 `preset.NPM_LIBRARY` 来获取 `"npm-library"` 对应的构建配置，也可以使用 `preset['npm-library']` 这样的方式。
-:::
-
-那么这里的 `buildConfig` 对象是什么呢？之前提到的构建产物特点又是根据什么呢？
-
-接下来我们解释一下。
-
-## 构建配置（对象）
+## 构建配置
 
 **`buildConfig` 是一个用来描述如何编译、生成构建产物的配置项**。在最开始提到的关于“_构建产物的特点_”，其实都是 `buildConfig` 所支持的属性。目前所支持的属性覆盖了大部分模块类型项目在构建产物时的需求，`buildConfig` 不仅包含一些产物所具备的属性，也包含了构建产物所需要的一些特性功能。接下来从分类的角度简单罗列一下：
 
@@ -127,36 +86,54 @@ export default defineConfig({
 
 除了以上分类以外，关于这些 API 的常见问题和最佳实践可以通过下面的链接来了解：
 
-- [什么是 `bundle` 和 `bundleless`?](/guide/advance/in-depth-about-build#bundle-和-bundleless)
-- [`input` 与 `sourceDir` 的关系](/guide/advance/in-depth-about-build#input-与-sourcedir-的关系)。
-- [产物中类型文件的多种生成方式](/guide/advance/in-depth-about-build#类型文件)。
-- [`buildConfig.define` 不同场景的使用方式。](/guide/advance/in-depth-about-build#buildconfigdefine-不同场景的使用方式)
-- [如何处理第三方依赖？](/guide/advance/external-dependency)
-- [如何使用拷贝？](/guide/advance/copy)
-- [如何构建 umd 产物？](/guide/advance/build-umd#设置项目的全局变量名称)
-- [静态资源目前所支持的能力。](/guide/advance/asset)
+- [关于 `bundle` 和 `bundleless`](/guide/advance/in-depth-about-build#bundle--bundleless)
+- [关于 `input` 和 `sourceDir`](/guide/advance/in-depth-about-build#input--sourcedir)。
+- [关于类型描述文件](/guide/advance/in-depth-about-build#dts)。
+- [如何使用 define](/guide/advance/in-depth-about-build#define)
+- [如何处理第三方依赖](/guide/advance/external-dependency)
+- [如何使用拷贝](/guide/advance/copy)
+- [如何构建 umd 产物](/guide/advance/build-umd)
+- [如何使用静态资源](/guide/advance/asset)
 
-## 什么时候使用 `buildConfig`
+## 结合配置与预设
 
-`buildConfig` 是用于修改产物的方式之一，**当与 `buildPreset` 配置同时存在的时候，只有 `buildConfig` 才会生效**。因此如果按照如下方式配置：
+了解 `buildPreset` 和 `buildConfig` 之后，我们可以将二者进行结合使用。
+
+在实际项目中,我们可以先使用 `buildPreset` 来快速获取一套默认构建配置。如果需要自定义,可以使用 `buildConfig` 进行覆盖和扩展。
+
+扩展的逻辑如下:
+
+- 当 `buildConfig` 是数组时，会在原来的预设基础上添加新的配置项。
 
 ```ts title="modern.config.ts"
-import { defineConfig } from '@modern-js/module-tools';
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  buildConfig: {
-    format: 'umd',
-  },
+  plugins: [moduleTools()],
   buildPreset: 'npm-library',
+  buildConfig: [
+    {
+      format: 'iife',
+      target: 'es2020',
+      outDir: './dist/global'
+    }
+  ]
 });
 ```
 
-那么此时就会看到如下提示：
+这会在原本预设的基础上，额外生成一份 IIFE 格式、支持到 ES2020 语法的产物，输出目录为项目下的 `dist/global` 目录。
 
-```bash
-因为同时出现 'buildConfig' 和 'buildPreset' 配置，因此仅 'buildConfig' 配置生效
+- 当 `buildConfig` 是对象时,会将对象中的配置项覆盖到预设中。
+
+```ts title="modern.config.ts"
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildPreset: 'npm-library',
+  buildConfig: {
+    sourceMap: true,
+  }
+});
 ```
 
-`buildPreset` 代表的一组或者多组构建相关的配置都是由 `buildConfig` 组成，**当使用 `buildPreset` 无法满足当前项目需求的时候，就可以使用 `buildConfig` 来自定义输出产物**。
-
-在使用 `buildConfig` 的过程，就是对**获得怎样的构建产物**的思考过程。
+这会使得每一项构建任务都会生成 sourceMap 文件。

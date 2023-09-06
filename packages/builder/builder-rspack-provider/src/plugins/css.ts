@@ -16,6 +16,7 @@ import {
   type StyleLoaderOptions,
   type ModifyBundlerChainUtils,
 } from '@modern-js/builder-shared';
+import path from 'path';
 import type {
   BuilderPlugin,
   NormalizedConfig,
@@ -82,8 +83,6 @@ export async function applyBaseCSSRule({
         .options(styleLoaderOptions)
         .end();
 
-      // todo: use plugin instead (can be worked in rspack native css)
-      // https://github.com/webpack/webpack/issues/14893#issuecomment-1589561543
       // use css-modules-typescript-loader
       if (enableCSSModuleTS && cssLoaderOptions.modules) {
         rule
@@ -117,6 +116,32 @@ export async function applyBaseCSSRule({
       .options(cssLoaderOptions)
       .end();
   } else {
+    // can not get experiment.css result, so we fake a css-modules-typescript-pre-loader
+    if (!isServer && !isWebWorker && enableCSSModuleTS) {
+      const { cssModules, disableCssModuleExtension } = config.output;
+
+      const cssModulesAuto = getCssModulesAutoRule(
+        cssModules,
+        disableCssModuleExtension,
+      );
+
+      rule
+        .use(CHAIN_ID.USE.CSS_MODULES_TS)
+        .loader(
+          path.resolve(
+            __dirname,
+            '../rspackLoader/css-modules-typescript-pre-loader',
+          ),
+        )
+        .options({
+          modules: {
+            exportLocalsConvention: cssModules.exportLocalsConvention,
+            auto: cssModulesAuto,
+          },
+        })
+        .end();
+    }
+
     rule.type('css');
   }
 
@@ -249,7 +274,7 @@ export const builderPluginCss = (): BuilderPlugin => {
 
           // need use type: "css/module" rule instead of modules.auto config
           setConfig(rspackConfig, 'builtins.css.modules', {
-            localsConvention: 'camelCase',
+            localsConvention: config.output.cssModules.exportLocalsConvention,
             localIdentName,
             exportsOnly: isServer || isWebWorker,
           });

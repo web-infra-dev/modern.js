@@ -21,7 +21,7 @@ describe('fixture:plugin:svgr', function () {
     const bundler = await getLibuilderTest({
       root: __dirname,
       bundle: false,
-      input: ['src'],
+      input: ['src/index.ts', 'src/svg/logo.svg'],
       format: 'esm',
       plugins: [svgrPlugin()],
       external: [new RegExp(`^react($|\\/|\\\\)`)],

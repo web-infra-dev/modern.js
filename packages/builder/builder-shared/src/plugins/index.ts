@@ -5,7 +5,10 @@ export { HtmlCrossOriginPlugin } from './HtmlCrossOriginPlugin';
 export { HtmlNoncePlugin } from './HtmlNoncePlugin';
 export { HtmlAppIconPlugin } from './HtmlAppIconPlugin';
 export { HtmlFaviconUrlPlugin, type FaviconUrls } from './HtmlFaviconUrlPlugin';
-export { InlineChunkHtmlPlugin } from './InlineChunkHtmlPlugin';
+export {
+  InlineChunkHtmlPlugin,
+  type InlineChunkTest,
+} from './InlineChunkHtmlPlugin';
 export { AssetsRetryPlugin } from './AssetsRetryPlugin';
 export { CheckSyntaxPlugin } from './CheckSyntaxPlugin';
 export { HtmlNetworkPerformancePlugin } from './HtmlNetworkPerformancePlugin';

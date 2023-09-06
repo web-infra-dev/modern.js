@@ -18,20 +18,18 @@ The microgenerator can be started via [`modern new`](/guide/basic/command-previe
 
 When we want to test some modules, we can enable the test feature. When this feature is enabled, **a `tests` directory and related files will be created in the project directory, and a new `"@modern-js/plugin-testing"` dependency will be added to package.json**.
 
-
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { testingPlugin } from '@modern-js/plugin-testing';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    testingPlugin(),
-  ],
+  plugins: [moduleTools(), testingPlugin()],
 });
 ```
+
 :::
 
 ## Storybook
@@ -40,17 +38,16 @@ The **Storybook feature** can be enabled when we want to debug a component or a 
 
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { storybookPlugin } from '@modern-js/plugin-storybook';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    storybookPlugin(),
-  ],
+  plugins: [moduleTools(), storybookPlugin()],
 });
 ```
+
 :::
 
 For more information on how to start Storybook and how to use it, check out the following link.
@@ -58,34 +55,13 @@ For more information on how to start Storybook and how to use it, check out the 
 - [`modern dev`](/en/guide/basic/command-preview#modern-dev)
 - [`using Storybook`](/en/guide/basic/using-storybook)
 
-## Tailwind CSS support
+## Tailwind CSS Support
 
-This can be enabled when we want to add [Tailwind CSS](https://v2.tailwindcss.com/) support to our project. Tailwind CSS is a CSS library that provides out-of-the-box styling.
+[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
 
-For more information on how to use Tailwind CSS in your module projects, check out.
-
-<!-- 链接待补充 -->
-
-- Using Tailwind CSS
-
-:::tip
-After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
-
-export default defineConfig({
-  plugins: [
-    moduleTools(),
-    tailwindPlugin(),
-  ],
-});
-```
-:::
+If you want to use Tailwind CSS for a project, you can refer to ["Using Tailwind CSS"](https://modernjs.dev/module-tools/guide/best-practices/components.html#tailwind-css).
 
 ## Modern.js Runtime API
-
-<!-- 链接待补充 -->
 
 **Modern.js provides Runtime API capabilities that can only be used in the Modern.js application project environment**. If you need to develop a component for use in a Modern.js application environment, then you can turn on this feature and the microgenerator will add the `"@modern-js/runtime"` dependency.
 
@@ -93,15 +69,14 @@ Also, the Storybook debugging tool will determine if the project needs to use th
 
 :::tip
 After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import runtime from '@modern-js/runtime/cli';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    runtime(),
-  ],
+  plugins: [moduleTools(), runtime()],
 });
 ```
+
 :::

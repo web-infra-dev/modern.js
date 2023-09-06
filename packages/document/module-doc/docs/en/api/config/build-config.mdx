@@ -7,7 +7,6 @@ sidebar_position: 1
 `buildConfig` is a configuration option that describes how to compile and generate build artifacts. It contains all the configurations related to the build process.
 
 - **Type**: `object | object[]`
-- **Default**: `undefined`
 
 :::tip
 Before start using `buildConfig`, please read the following documentation to understand its purpose:
@@ -523,7 +522,7 @@ Used to set the output format of JavaScript files. The options `iife` and `umd` 
 - **Type**: `'esm' | 'cjs' | 'iife' | 'umd'`
 - **Default**: `cjs`
 
-### format: 'esm'
+### format: esm
 
 `esm` stands for "ECMAScript module" and requires the runtime environment to support import and export syntax.
 
@@ -537,7 +536,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'cjs'
+### format: cjs
 
 `cjs` stands for "CommonJS" and requires the runtime environment to support exports, require, and module syntax. This format is commonly used in Node.js environments.
 
@@ -551,7 +550,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'iife'
+### format: iife
 
 `iife` stands for "immediately-invoked function expression" and wraps the code in a function expression to ensure that any variables in the code do not accidentally conflict with variables in the global scope. This format is commonly used in browser environments.
 
@@ -597,13 +596,40 @@ type Input =
 
 **Array usage:**
 
+In `bundle` mode, the following configurations will be built using `src/index.ts` and `src/index2.ts` as entry points. The `bundle` mode does not support configuring `input` as a directory.
+
 ```js title="modern.config.ts"
 export default {
   buildConfig: {
+    buildType: 'bundle',
     input: ['src/index.ts', 'src/index2.ts'],
   },
 };
 ```
+
+In `bundleless` mode, the following configuration compiles both files in the `src/a` directory and `src/index.ts` file.
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src/a', 'src/index.ts'],
+  },
+});
+```
+
+In `bundleless` mode, **Array usage** also supports the usage of `!` to filter partial files:
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/*.spec.ts'],
+  },
+});
+```
+
+The above configuration will build the files in the `src` directory, and will also filter files with the `spec.ts` suffix.This is useful in cases where the test files are in the same root directory as the source files.
 
 **Object usage:**
 
@@ -1036,6 +1062,8 @@ After enabling `inject`, you need to pay attention to the following points:
 
 You can resolve this by configuring [sideEffects](#sideeffects).
 
+:::
+
 ## style.autoModules
 
 Enable CSS Modules automatically based on the filename.
@@ -1084,38 +1112,43 @@ For detailed configuration see [postcss-modules](https://github.com/madyankin/po
 
 ## style.tailwindcss
 
-tailwindcss related configuration
+Used to modify the configuration of [Tailwind CSS](https://tailwindcss.com/docs/configuration).
 
 - **Type**: `object | Function`
-- **Default**: `see configuration details below`
-
-<details>
-  <summary>Tailwind CSS configuration details</summary>
+- **Default**:
 
 ```js title="modern.config.ts"
 const tailwind = {
   content: [
-    './config/html/**/*.html',
-    './config/html/**/*.ejs',
-    './config/html/**/*.hbs',
-    './src/**/*.js',
-    './src/**/*.jsx',
-    './src/**/*.ts',
-    './src/**/*.tsx',
+    './src/**/*.{js,jsx,ts,tsx}',
+    './config/html/**/*.{html,ejs,hbs}',
     './storybook/**/*',
   ],
 };
 ```
 
-</details>
+### Enabling Tailwind CSS
+
+Before using `style.tailwindcss`, you need to enable the Tailwind CSS plugin for Module Tools.
+
+Please refer to the section [Using Tailwind CSS](/guide/best-practices/use-tailwindcss.html) for instructions on how to enable it.
+
+### Type
 
 When the value is of type `object`, it is merged with the default configuration via `Object.assign`.
 
 When the value is of type `Function`, the object returned by the function is merged with the default configuration via `Object.assign`.
 
-The `theme` property is not allowed, otherwise the build will fail, using [`designSystem`](/api/config/design-system) as the `Tailwind CSS Theme` configuration.
-
 The rest of the usage is the same as Tailwind CSS: [Quick Portal](https://tailwindcss.com/docs/configuration).
+
+### Notes
+
+Please note that:
+
+- If you are using both the `tailwind.config.{ts,js}` file and `tools.tailwindcss` option, the configuration defined in `tools.tailwindcss` will take precedence and override the content defined in `tailwind.config.{ts,js}`.
+- If you are using the `designSystem` configuration option simultaneously, the `theme` configuration of Tailwind CSS will be overridden by the value of `designSystem`.
+
+The usage of other configurations follows the same approach as the official usage of Tailwind CSS. Please refer to [tailwindcss - Configuration](https://tailwindcss.com/docs/configuration) for more details.
 
 ## target
 
@@ -1175,9 +1208,50 @@ export default defineConfig({
 });
 ```
 
-### Notes
-
 Reference the [Import Plugin - Notes](plugins/official-list/plugin-import.html#Notes)
+
+## transformLodash
+
+Specifies whether to modularize the import of [lodash](https://www.npmjs.com/package/lodash) and remove unused lodash modules to reduce the code size of lodash.
+
+This optimization is implemented using [babel-plugin-lodash](https://www.npmjs.com/package/babel-plugin-lodash) and [swc-plugin-lodash](https://github.com/web-infra-dev/swc-plugins/tree/main/crates/plugin_lodash) under the hood.
+
+- **Type**: `boolean`
+- **Default**: `true`
+
+This option is enabled by default, and Module Tools will automatically redirects the code references of `lodash` to sub-paths.
+
+For example:
+
+```ts title="input.js"
+import _ from 'lodash';
+import { add } from 'lodash/fp';
+
+const addOne = add(1);
+_.map([1, 2, 3], addOne);
+```
+
+The transformed code will be:
+
+```ts title="output.js"
+import _add from 'lodash/fp/add';
+import _map from 'lodash/map';
+
+const addOne = _add(1);
+_map([1, 2, 3], addOne);
+```
+
+### Disabling the Transformation
+
+In some cases, the import transformation of `lodash` may generate unexpected code. In such cases, you can manually disable this optimization:
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    transformLodash: false,
+  },
+});
+```
 
 ## umdGlobals
 
@@ -1221,8 +1295,7 @@ At this point the umd artifact will go to mount on `global.myLib`
 
 - The module name of the umd artifact must not conflict with the global variable name.
 - Module names will be converted to camelCase, e.g. `my-lib` will be converted to `myLib`, refer to [toIdentifier](https://github.com/babel/babel/blob/main/packages/babel-types/src/converters/toIdentifier.ts).
-
-:::
+  :::
 
 Also the function form can take one parameter, which is the output path of the current package file
 

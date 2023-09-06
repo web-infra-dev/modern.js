@@ -2,59 +2,64 @@ import { formatProxyOptions } from '../src/libs/proxy';
 
 describe('test format', () => {
   it('should format correctly use simply options', async () => {
-    const proxy = {
+    const options = formatProxyOptions({
       '/simple': `http://localhost`,
-    };
-
-    const options = formatProxyOptions(proxy);
+    });
     expect(options).toEqual([
       {
         context: '/simple',
         changeOrigin: true,
         logLevel: 'warn',
         target: 'http://localhost',
+        onError: expect.any(Function),
       },
     ]);
   });
 
   it('should format correctly use simply options', async () => {
-    const proxy = {
+    const options = formatProxyOptions({
       '/simple-obj': {
         target: `http://localhost`,
       },
-    };
-    const options = formatProxyOptions(proxy);
+    });
     expect(options).toEqual([
       {
         context: '/simple-obj',
         changeOrigin: true,
         logLevel: 'warn',
         target: 'http://localhost',
+        onError: expect.any(Function),
       },
     ]);
   });
 
   it('should format correctly use simply options', async () => {
-    const proxy = {
+    const options = formatProxyOptions({
       context: '/context',
       target: `http://localhost`,
-    };
-    const options = formatProxyOptions(proxy);
+    });
     expect(options).toEqual([
-      { context: '/context', target: 'http://localhost' },
+      {
+        context: '/context',
+        target: 'http://localhost',
+        onError: expect.any(Function),
+      },
     ]);
   });
 
   it('should format correctly use simply options', async () => {
-    const proxy = [
+    const options = formatProxyOptions([
       {
         context: '/array',
         target: `http://localhost`,
       },
-    ];
-    const options = formatProxyOptions(proxy);
+    ]);
     expect(options).toEqual([
-      { context: '/array', target: 'http://localhost' },
+      {
+        context: '/array',
+        target: 'http://localhost',
+        onError: expect.any(Function),
+      },
     ]);
   });
 });

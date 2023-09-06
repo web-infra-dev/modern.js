@@ -7,7 +7,11 @@ export class LibuildFailure extends Error {
 
   readonly logLevel: string;
 
-  constructor(errors: LibuildErrorInstance[], warnings: LibuildErrorInstance[], logLevel: string) {
+  constructor(
+    errors: LibuildErrorInstance[],
+    warnings: LibuildErrorInstance[],
+    logLevel: string,
+  ) {
     super();
     this.errors = errors;
     this.warnings = warnings;
@@ -22,21 +26,33 @@ export class LibuildFailure extends Error {
       return '';
     }
 
-    if ((onlyError && errors.length === 0) || (!onlyError && errors.length === 0 && warnings.length === 0)) {
+    if (
+      (onlyError && errors.length === 0) ||
+      (!onlyError && errors.length === 0 && warnings.length === 0)
+    ) {
       return '';
     }
 
     const msgs: string[] = [];
 
     if (onlyError) {
-      msgs.push(`Build failed with ${errors.length} error:`, ...errors.map((item) => item.toString()), '');
+      msgs.push(
+        `Build failed with ${errors.length} error:`,
+        ...errors.map(item => item.toString()),
+        '',
+      );
     } else {
       const title =
         errors.length === 0
           ? `Build succuss with ${warnings.length} warning:`
           : `Build failed with ${errors.length} error, ${warnings.length} warning:`;
 
-      msgs.push(title, ...errors.map((item) => item.toString()), ...warnings.map((item) => item.toString()), '');
+      msgs.push(
+        title,
+        ...errors.map(item => item.toString()),
+        ...warnings.map(item => item.toString()),
+        '',
+      );
     }
     return msgs.join('\n\n');
   }

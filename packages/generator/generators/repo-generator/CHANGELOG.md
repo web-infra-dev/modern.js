@@ -1,5 +1,25 @@
 # @modern-js/repo-generator
 
+## 3.1.39
+
+## 3.1.38
+
+### Patch Changes
+
+- 6727586: chore: remove doc-generator and related code
+
+  chore: 移除 doc-generator 和相关代码
+
+## 3.1.37
+
+## 3.1.36
+
+### Patch Changes
+
+- f1de744: chore(generators): adjust build target to es2019
+
+  chore(generators): 调整构建的 target 为 es2019
+
 ## 3.1.35
 
 ## 3.1.34

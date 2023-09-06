@@ -6,7 +6,8 @@
     "rootDir": ".",
     "module": "CommonJS",
     "types": ["mocha", "node"],
-    "declaration": true
+    "declaration": true,
+    "target": "ES2019"
   },
   "include": ["src", "test"]
 }

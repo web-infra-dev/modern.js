@@ -91,15 +91,7 @@ test('should use define for class', async () => {
     runServer: true,
   });
 
-  const files = await builder.unwrapOutputJSON(true);
-  const file =
-    files[
-      Reflect.ownKeys(files).find(
-        fileName =>
-          (fileName as string).includes('index') &&
-          (fileName as string).endsWith('.js'),
-      ) as string
-    ];
+  const { content: file } = await builder.getIndexFile();
 
   // this is because setting useDefineForClassFields to false
   expect(file.includes('this.bar = 1')).toBe(true);
@@ -108,6 +100,56 @@ test('should use define for class', async () => {
   expect(
     file.includes('_define_property(_assert_this_initialized(_this), "id", 1)'),
   ).toBe(true);
+
+  await builder.close();
+});
+
+test('core-js-entry', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/core-js-entry.ts'),
+    },
+    plugins: [
+      builderPluginSwc({
+        env: {
+          targets: 'ie 9',
+          mode: 'entry',
+        },
+      }),
+    ],
+    builderConfig: {
+      output: {
+        disableMinimize: true,
+      },
+    },
+    runServer: true,
+  });
+
+  await builder.close();
+});
+
+test('core-js-usage', async () => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/core-js-usage.ts'),
+    },
+    plugins: [
+      builderPluginSwc({
+        env: {
+          targets: 'ie 9',
+          mode: 'usage',
+        },
+      }),
+    ],
+    builderConfig: {
+      output: {
+        disableMinimize: true,
+      },
+    },
+    runServer: true,
+  });
 
   await builder.close();
 });

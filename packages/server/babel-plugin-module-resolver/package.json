@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.31.2",
+  "version": "2.33.1",
   "jsnext:source": "./src/index.js",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -45,10 +45,10 @@
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.15",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-modules-commonjs": "^7.20.11",
-    "@babel/preset-env": "^7.21.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.22.15",
+    "@babel/preset-env": "^7.22.15",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "common-tags": "^1.8.2",

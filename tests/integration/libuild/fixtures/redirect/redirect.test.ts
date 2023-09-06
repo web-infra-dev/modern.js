@@ -10,7 +10,7 @@ describe('fixture:redirect', () => {
         },
       },
       bundle: false,
-      input: ['./src'],
+      input: ['src/style.ts', 'src/style.module.less'],
     });
     await bundler.build();
     const jsOutput = bundler.getJSOutput();

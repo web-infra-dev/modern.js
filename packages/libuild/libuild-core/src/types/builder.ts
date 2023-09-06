@@ -1,10 +1,23 @@
-import type { Metafile, OnResolveArgs, OnLoadArgs, OnResolveResult, OnLoadResult, BuildOptions, Loader } from 'esbuild';
-import { AsyncSeriesBailHook, AsyncSeriesHook, AsyncSeriesWaterfallHook, SyncHook } from 'tapable';
+import type {
+  Metafile,
+  OnResolveArgs,
+  OnLoadArgs,
+  OnResolveResult,
+  OnLoadResult,
+  BuildOptions,
+  Loader,
+} from 'esbuild';
+import {
+  AsyncSeriesBailHook,
+  AsyncSeriesHook,
+  AsyncSeriesWaterfallHook,
+  SyncHook,
+} from 'tapable';
 import { ImportKind } from 'esbuild';
+import { LibuildFailure } from '../error';
 import { CLIConfig, BuildConfig } from './config';
 import { Callback } from './callback';
 import { LibuildErrorInstance, LibuildErrorParams } from './error';
-import { LibuildFailure } from '../error';
 
 export interface ILibuilderHooks {
   /**
@@ -80,9 +93,9 @@ type LoadSvgrResult = {
 };
 
 export interface IBuilderBase {
-  build(): Promise<void>;
-  reBuild(type: 'link' | 'change'): Promise<void>;
-  close(callack?: Callback): void;
+  build: () => Promise<void>;
+  reBuild: (type: 'link' | 'change') => Promise<void>;
+  close: (callack?: Callback) => void;
 }
 
 export interface ILibuilder {
@@ -96,29 +109,32 @@ export interface ILibuilder {
   plugins: LibuildPlugin[];
   outputChunk: Map<string, Chunk>;
   virtualModule: Map<string, string>;
-  init(config: CLIConfig): Promise<void>;
-  build(): Promise<void>;
-  close(callBack?: Callback): Promise<void>;
-  emitAsset(name: string, chunk: AssetChunk): void;
-  emitAsset(name: string, chunk: JsChunk): void;
-  emitAsset(name: string, chunk: string): void;
+  init: (config: CLIConfig) => Promise<void>;
+  build: () => Promise<void>;
+  close: (callBack?: Callback) => Promise<void>;
+  emitAsset: ((name: string, chunk: AssetChunk) => void) &
+    ((name: string, chunk: JsChunk) => void) &
+    ((name: string, chunk: string) => void);
   watchedFiles: Set<string>;
-  addWatchFile(id: string): void;
-  resolve(source: string, options?: BuilderResolveOptions): Promise<BuilderResolveResult>;
-  loadSvgr(path: string): Promise<LoadSvgrResult | void>;
-  getTransformContext(path: string): ITransformContext;
-  getSourcemapContext(path: string): ISourcemapContext;
-  report(error: any): void;
-  throw(message: string, option: LibuildErrorParams): void;
-  printErrors(): void;
-  getErrors(): LibuildFailure;
-  clearErrors(): void;
-  removeError(...errors: LibuildErrorInstance[]): void;
+  addWatchFile: (id: string) => void;
+  resolve: (
+    source: string,
+    options?: BuilderResolveOptions,
+  ) => Promise<BuilderResolveResult>;
+  loadSvgr: (path: string) => Promise<LoadSvgrResult | void>;
+  getTransformContext: (path: string) => ITransformContext;
+  getSourcemapContext: (path: string) => ISourcemapContext;
+  report: (error: any) => void;
+  throw: (message: string, option: LibuildErrorParams) => void;
+  printErrors: () => void;
+  getErrors: () => LibuildFailure;
+  clearErrors: () => void;
+  removeError: (...errors: LibuildErrorInstance[]) => void;
 }
 
 export interface ITransformContext extends ISourcemapContext {
-  addTransformResult(pluginId: number, result: CacheValue): void;
-  getValidCache(pluginId: number, code: string): undefined | CacheValue;
+  addTransformResult: (pluginId: number, result: CacheValue) => void;
+  getValidCache: (pluginId: number, code: string) => undefined | CacheValue;
 }
 
 export interface CacheValue extends Source {
@@ -126,11 +142,11 @@ export interface CacheValue extends Source {
 }
 
 export interface ISourcemapContext {
-  addSourceMap(pluginId: number, map?: SourceMap): void;
-  getInlineSourceMap(): string;
-  getSourceMap(): SourceMap | undefined;
-  getSourceMapChain(): SourceMap[];
-  genPluginId(id: string): number;
+  addSourceMap: (pluginId: number, map?: SourceMap) => void;
+  getInlineSourceMap: () => string;
+  getSourceMap: () => SourceMap | undefined;
+  getSourceMapChain: () => SourceMap[];
+  genPluginId: (id: string) => number;
 }
 
 export interface SourceMap {
@@ -152,19 +168,30 @@ export type SafeMerge<T, U> = T & {
 
 export interface LibuildPlugin<T extends ExtraContext = ExtraContext> {
   name: string;
-  apply(compiler: SafeMerge<ILibuilder, T>): void;
+  apply: (compiler: SafeMerge<ILibuilder, T>) => void;
 }
 
-export type ResolveArgs = Pick<OnResolveArgs, 'importer' | 'path' | 'resolveDir' | 'kind'>;
-export type ResolveResult = Pick<OnResolveResult, 'path' | 'external' | 'namespace' | 'sideEffects' | 'suffix'>;
+export type ResolveArgs = Pick<
+  OnResolveArgs,
+  'importer' | 'path' | 'resolveDir' | 'kind'
+>;
+export type ResolveResult = Pick<
+  OnResolveResult,
+  'path' | 'external' | 'namespace' | 'sideEffects' | 'suffix'
+>;
 
-export type LoadArgs = Pick<OnLoadArgs, 'path'> & Pick<OnResolveResult, 'pluginData'>;
-export type LoadResult = Pick<OnLoadResult, 'contents' | 'loader' | 'resolveDir'> & {
+export type LoadArgs = Pick<OnLoadArgs, 'path'> &
+  Pick<OnResolveResult, 'pluginData'>;
+export type LoadResult = Pick<
+  OnLoadResult,
+  'contents' | 'loader' | 'resolveDir'
+> & {
   map?: SourceMap;
 };
 
 export type AssetChunk = {
   type: 'asset';
+  // eslint-disable-next-line node/prefer-global/buffer
   contents: string | Buffer;
   /**
    * absolute file path

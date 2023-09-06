@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   extends: ['@modern-js'],
+  ignorePatterns: ['rspress.config.ts'],
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],

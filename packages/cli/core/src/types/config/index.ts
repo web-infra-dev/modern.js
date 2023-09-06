@@ -16,7 +16,7 @@ export type UserConfig<
   // eslint-disable-next-line @typescript-eslint/ban-types
   ExtendNormalizedConfig extends Record<string, any> = {},
 > = {
-  plugins?: PluginConfig<any>;
+  plugins?: PluginConfig;
 
   /**
    * auto load plugin that exist in the package.json
@@ -42,7 +42,7 @@ export type NormalizedConfig<
     // eslint-disable-next-line @typescript-eslint/ban-types
   } = {},
 > = {
-  plugins: PluginConfig<any>;
+  plugins: PluginConfig;
 
   /**
    * Auto load plugin that exist in the package.json

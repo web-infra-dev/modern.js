@@ -11,7 +11,7 @@ import {
 
 const fixtureDir = path.resolve(__dirname, '../fixtures');
 
-jest.setTimeout(1000 * 60 * 2);
+jest.setTimeout(1000 * 60 * 3);
 
 describe('ssg', () => {
   let app: any;

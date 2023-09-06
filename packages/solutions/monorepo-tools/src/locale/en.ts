@@ -3,6 +3,7 @@ export const EN_LOCALE = {
     shared: {
       config:
         'specify the configuration file, which can be a relative or absolute path',
+      noNeedInstall: 'not run install command',
     },
     new: {
       describe: 'generator runner for monorepo project',

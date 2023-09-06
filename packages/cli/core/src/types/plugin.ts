@@ -32,19 +32,10 @@ export type PluginItem = string | [string, any];
  */
 export type OldPluginConfig = Array<PluginItem>;
 
-export type NewPluginConfig<
-  PluginTypes extends {
-    hooks?: Record<string, any>;
-    userConfig?: Record<string, any>;
-    normalizedConfig?: Record<string, any>;
-  },
-> = CliPlugin<PluginTypes>[];
+/**
+ * The type of PluginOptions is looser than the actual type,
+ * this avoids potential type mismatch issues when using different version plugins.
+ */
+export type NewPluginConfig = PluginOptions<any, (...args: any[]) => void>[];
 
-export type PluginConfig<
-  PluginTypes extends {
-    hooks?: Record<string, any>;
-    userConfig?: Record<string, any>;
-    normalizedConfig?: Record<string, any>;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-  } = {},
-> = OldPluginConfig | NewPluginConfig<PluginTypes>;
+export type PluginConfig = OldPluginConfig | NewPluginConfig;

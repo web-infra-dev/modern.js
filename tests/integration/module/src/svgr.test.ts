@@ -8,7 +8,7 @@ const configDir = path.join(__dirname, './fixtures/svgr');
 
 describe('svgr usage', () => {
   const fixtureDir = configDir;
-  it('default', async () => {
+  it('default and bundle', async () => {
     const configFile = path.join(configDir, './default.config.ts');
     const { success } = await runCli({
       argv: ['build'],
@@ -19,6 +19,17 @@ describe('svgr usage', () => {
     const distFilePath = path.join(fixtureDir, './dist/default/index.js');
     const content = await fs.readFile(distFilePath, 'utf-8');
     expect(content.includes(`jsx("svg"`)).toBeTruthy();
+  });
+  it('default and bundleless', async () => {
+    const configFile = path.join(configDir, './bundleless.config.ts');
+    const { success } = await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    expect(success).toBeTruthy();
+    const distFilePath = path.join(fixtureDir, './dist/bundleless/logo.js');
+    expect(fs.existsSync(distFilePath)).toBeTruthy();
   });
   it('options with exclude', async () => {
     const configFile = path.join(configDir, './exclude.config.ts');

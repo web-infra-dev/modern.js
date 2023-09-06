@@ -58,7 +58,7 @@ npx @modern-js/create@latest plugin --plugin @modern-js/generator-plugin-plugin
 ? Please select the base type of the plugin: Web App
 ```
 
-### 自定义
+### Custom
 
 ```bash
 npx @modern-js/create@latest plugin --plugin @modern-js/generator-plugin-plugin

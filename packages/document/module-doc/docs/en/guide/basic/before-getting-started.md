@@ -90,7 +90,7 @@ In addition to the `"main"` attribute, the `"module"` attribute is usually set. 
 
 > To learn more about how webpack does this, check out this [link](https://webpack.js.org/configuration/resolve/#resolvemainfields).
 
-### `"scripts"`
+### `scripts`
 
 The `"scripts"` attribute of the `package.json` file supports a number of built-in scripts and npm-preset lifecycle events, as well as arbitrary scripts.
 

@@ -165,15 +165,12 @@ export function validatePackagePath(
     isMwa?: boolean;
     isPublic?: boolean;
     isTest?: boolean;
-    isDoc?: boolean;
   },
 ) {
-  const { isMwa, isPublic, isTest, isDoc } = options || {};
+  const { isMwa, isPublic, isTest } = options || {};
   let dir = 'apps';
   if (isMwa && isTest) {
     dir = 'examples';
-  } else if (isDoc) {
-    dir = 'website';
   } else {
     dir = isPublic ? 'packages' : 'features';
   }
@@ -210,16 +207,6 @@ export function getMWAProjectPath(
 ) {
   if (isMonorepoSubProject && packagePath) {
     return `${isTest ? 'examples' : 'apps'}/${packagePath}/`;
-  }
-  return '';
-}
-
-export function getDocProjectPath(
-  packagePath: string,
-  isMonorepoSubProject: boolean,
-) {
-  if (isMonorepoSubProject && packagePath) {
-    return `website/${packagePath}/`;
   }
   return '';
 }
