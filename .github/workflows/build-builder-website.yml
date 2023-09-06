@@ -25,9 +25,6 @@ jobs:
           node-version: 18
           cache: 'pnpm'
 
-      - name: Install Dependencies
-        run: pnpm install
-
       - name: Turbo Cache
         id: turbo-cache
         uses: actions/cache@v3
@@ -37,6 +34,9 @@ jobs:
           restore-keys: |
             turbo-${{ github.ref_name }}-
             turbo-
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Build Website
         run: pnpm --filter @modern-js/builder-doc run build:doc
