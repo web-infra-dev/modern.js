@@ -1,6 +1,6 @@
 import { SSRPreload } from '@modern-js/server-core';
 import { Link } from './parseLinks';
-import { transformToRegExp } from './flushServerHeader';
+import { transformToRegExp } from './shouldFlushServerHeader';
 
 export function transformLinks2String(
   links: Link[],
@@ -62,7 +62,7 @@ function addInclude(links: Link[], include?: SSRPreload['include']) {
         })();
         return { uri: item, as: type };
       }
-      return { uri: item.url, as: item.type, rel: item.rel };
+      return { uri: item.url, as: item.as, rel: item.rel };
     }) || [];
 
   return links.concat(includes);
