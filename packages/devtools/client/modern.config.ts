@@ -21,7 +21,10 @@ export default defineConfig<'rspack'>({
     },
   },
   source: {
-    preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
+    preEntry: [
+      './src/preludes/gh-page-loader.js',
+      require.resolve('modern-normalize/modern-normalize.css'),
+    ],
     globalVars: {
       'process.env.PKG_VERSION': require('./package.json').version,
     },
@@ -30,6 +33,9 @@ export default defineConfig<'rspack'>({
     enableCssModuleTSDeclaration: true,
   },
   tools: {
+    htmlPlugin: {
+      filename: 'index.html',
+    },
     devServer: {
       client: {
         host: 'localhost',
