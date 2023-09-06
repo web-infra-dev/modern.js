@@ -1,8 +1,9 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
 
 # skip husky in CI
 # https://typicode.github.io/husky/guide.html#with-env-variables
 [ -n "$CI" ] && exit 0
+
+. "$(dirname -- "$0")/_/husky.sh"
 
 npx --no-install commitlint --edit $1
