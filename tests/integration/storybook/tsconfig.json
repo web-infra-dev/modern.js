@@ -1,0 +1,13 @@
+{
+  "extends": "@modern-js/tsconfig/base",
+  "compilerOptions": {
+    "target": "es2016",
+    "jsx": "react-jsx",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}

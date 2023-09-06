@@ -17,3 +17,5 @@ export type FrameworkOptions = {
 export type BuilderConfig = AllBuilderConfig & {
   builderPlugins?: BuilderPlugin[];
 };
+
+export { defineConfig } from '@modern-js/builder/cli';

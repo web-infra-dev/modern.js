@@ -18,10 +18,15 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./preset": "./dist/preset.js",
+    "./types": {
+      "jsnext:source": "./src/types.ts",
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.js"
+    },
     "./templates/preview.ejs": "./templates/preview.ejs",
     "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
     "./package.json": "./package.json"
