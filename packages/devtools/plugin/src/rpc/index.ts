@@ -1,5 +1,4 @@
 import { URL } from 'url';
-import path from 'path';
 import _ from '@modern-js/utils/lodash';
 import type {
   BuilderConfig,
@@ -101,17 +100,17 @@ export const setupClientConnection = async (
     },
     async getDependencies() {
       const ctx = await deferred.builder.context.promise;
-      const accepted = ['react', '@modern-js/app-tools'];
       const ret: Record<string, string> = {};
-      for (const dep of accepted) {
-        const filename = path.resolve(
-          ctx.rootPath,
-          'node_modules',
-          dep,
-          'package.json',
-        );
-        ret[dep] = require(filename).version;
-      }
+
+      const reactMeta = requireModule([ctx.rootPath, 'react/package.json']);
+      ret.react = reactMeta.version;
+
+      const appToolsMeta = requireModule([
+        ctx.rootPath,
+        '@modern-js/app-tools',
+      ]);
+      ret['@modern-js/app-tools'] = appToolsMeta.version;
+
       const webpackMeta = requireModule([
         ctx.rootPath,
         '@modern-js/app-tools',
@@ -119,6 +118,7 @@ export const setupClientConnection = async (
         'webpack/package.json',
       ]);
       ret.webpack = webpackMeta.version;
+
       try {
         const rspackMeta = requireModule([
           ctx.rootPath,
