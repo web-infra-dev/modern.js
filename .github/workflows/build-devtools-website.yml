@@ -1,16 +1,16 @@
-name: Build Builder Website
+name: Build DevTools Website
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev/modernjs-devtools]
     paths:
-      - 'packages/document/builder-doc/**'
+      - 'packages/devtools/client/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  build-builder-website:
+  build-devtools-website:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -39,13 +39,13 @@ jobs:
             turbo-
 
       - name: Build Website
-        run: pnpm --filter @modern-js/builder-doc run build:doc
+        run: pnpm --filter @modern-js/devtools-client run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
           repository-name: web-infra-dev/web-infra-dev.github.io
           branch: main
-          folder: packages/document/builder-doc/doc_build
-          target-folder: builder
+          folder: packages/devtools/client/dist
+          target-folder: devtools/${{ github.sha }}
           clean: true

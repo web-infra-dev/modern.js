@@ -48,7 +48,8 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          branch: gh-pages
+          repository-name: web-infra-dev/web-infra-dev.github.io
+          branch: main
           folder: packages/document/main-doc/doc_build
           clean: true
           clean-exclude: |
@@ -60,3 +61,5 @@ jobs:
             doc-tools/**/*
             module-tools/*
             module-tools/**/*
+            devtools/*
+            devtools/**/*
