@@ -46,6 +46,9 @@ export const pluginStorybook: (
 ) => BuilderPlugin<WebpackAPI | RspackAPI> = (cwd, options) => {
   return {
     name: 'builder-plugin-storybook',
+
+    remove: ['builder-plugin-inline'],
+
     async setup(api) {
       api.modifyBuilderConfig(async builderConfig => {
         await applyDefines(builderConfig, options);
@@ -63,7 +66,6 @@ export const pluginStorybook: (
           ...(config.resolve.conditionNames || []),
         ];
         config.resolve.fullySpecified = false;
-
         await applyMdxLoader(config, options);
         await applyCsfPlugin(config, options);
       };

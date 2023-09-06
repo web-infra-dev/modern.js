@@ -1,5 +1,6 @@
 import path from 'path';
 import type { Options } from '@storybook/types';
+import type { BuilderConfig } from '@modern-js/storybook-builder/types';
 
 export const frameworkOptions = async (_: never, options: Options) => {
   const config = await options.presets.apply('framework');
@@ -25,10 +26,17 @@ export const frameworkOptions = async (_: never, options: Options) => {
   };
 };
 
-export const modern = async (_options: Options) => {
+export const modern = (
+  config: BuilderConfig,
+  _options: Options,
+): BuilderConfig => {
+  // @ts-expect-error
   return {
+    ...config,
     source: {
+      ...config.source,
       alias: {
+        ...config.source?.alias,
         '@storybook/react': absPath('@storybook/react'),
       },
     },

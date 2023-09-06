@@ -15,15 +15,16 @@ export async function getCompiler(
 
   const { presets } = options;
   const entries = await presets.apply<string[]>('entries', []);
-  const otherBuilderConfig =
-    (await presets.apply<BuilderConfig | void>('modern')) || {};
 
   const res = await runWithErrorMsg(
     () => loadConfig(cwd, frameworkConfig.configPath || 'modern.config.ts'),
     'Failed to load config',
   );
-
   const loadedConfig = (res ? res.config : {}) as BuilderConfig;
+
+  const otherBuilderConfig =
+    (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) || {};
+
   const builderConfig = mergeBuilderConfig(otherBuilderConfig, loadedConfig);
 
   const provider = await getProvider(bundler, builderConfig);

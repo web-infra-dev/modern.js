@@ -2,6 +2,7 @@ import { join, resolve } from 'path';
 import type { Options } from '@storybook/types';
 import { getConfig } from './build';
 import { STORYBOOK_CONFIG_ENTRY } from './utils';
+import { BuilderConfig } from './types';
 
 export const previewMainTemplate = () => {
   return require.resolve('@modern-js/storybook-builder/templates/preview.ejs');
@@ -34,6 +35,25 @@ export const entries = async (_: unknown, options: Options) => {
   result.push(getStoriesConfigPath(process.cwd()));
 
   return result;
+};
+
+export const modern = (
+  builderConfig: BuilderConfig,
+  options: Options,
+): BuilderConfig => {
+  // @ts-expect-error
+  return {
+    ...builderConfig,
+
+    output: {
+      ...builderConfig.output,
+      disableInlineRuntimeChunk: true,
+      distPath: {
+        ...builderConfig.output?.distPath,
+        root: options.outputDir,
+      },
+    },
+  };
 };
 
 export { decorators } from './addons/preset/preview';
