@@ -11,11 +11,9 @@ import {
   checkIsExcludeSource,
   CheckSyntaxExclude,
 } from './helpers';
+import { JS_REGEX, HTML_REGEX } from '../../constants';
 import { EcmaVersion, CheckSyntaxOptions } from '../../types';
 import type { Compiler, Compilation } from 'webpack';
-
-const HTML_REGEX = /\.html$/;
-const JS_REGEX = /\.js$/;
 
 export class CheckSyntaxPlugin {
   errors: SyntaxError[] = [];
@@ -24,14 +22,19 @@ export class CheckSyntaxPlugin {
 
   targets: string[];
 
+  rootPath: string;
+
   exclude: CheckSyntaxExclude | undefined;
 
   constructor(
     options: CheckSyntaxOptions &
-      Required<Pick<CheckSyntaxOptions, 'targets' | 'exclude'>>,
+      Required<Pick<CheckSyntaxOptions, 'targets' | 'exclude'>> & {
+        rootPath: string;
+      },
   ) {
     this.targets = options.targets;
     this.exclude = options.exclude;
+    this.rootPath = options.rootPath;
     this.ecmaVersion = options.ecmaVersion || getEcmaVersion(this.targets);
   }
 
@@ -90,6 +93,7 @@ export class CheckSyntaxPlugin {
         code,
         filepath,
         exclude: this.exclude,
+        rootPath: this.rootPath,
       });
 
       if (error) {

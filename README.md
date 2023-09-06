@@ -18,7 +18,7 @@ English | [简体中文](./README.zh-CN.md)
 
 ## Introduction
 
-Modern.js is a web engineering system, including multiple solutions:
+Modern.js is an open source web engineering system from ByteDance, including multiple solutions:
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
@@ -43,6 +43,10 @@ The following solutions and libraries are available within the Modern.js ecosyst
 ## Benchmark
 
 We use [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+
+## Examples
+
+Modern.js provides a collection of ready-to-use examples that you can find and use in the [modern-js-examples](https://github.com/web-infra-dev/modern-js-examples) repository.
 
 ## Contributing
 

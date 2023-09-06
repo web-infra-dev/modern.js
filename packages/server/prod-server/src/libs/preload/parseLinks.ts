@@ -11,7 +11,13 @@ import { matchEntry } from '@modern-js/utils/runtime-node';
 
 export interface Link {
   uri: string;
+
+  rel?: string;
+
   as?: 'script' | 'style' | 'image' | 'video' | 'font' | string;
+
+  /** rest str(like attributes) that need add to link */
+  rest?: string;
 }
 
 export interface ParseLinksOptions {

@@ -16,7 +16,7 @@ export interface TransformOption {
 }
 
 function mapPathString(
-  nodePath: NodePath<t.StringLiteral>,
+  nodePath: NodePath<any>,
   { filename, baseUrl, paths }: TransformOption,
 ) {
   if (!t.isStringLiteral(nodePath)) {

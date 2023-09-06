@@ -73,7 +73,7 @@ test.skip('default & hmr (default true)', async ({ page }) => {
   await builder.server.close();
 });
 
-test.skip('dev.port & output.distPath', async ({ page }) => {
+test('dev.port & output.distPath', async ({ page }) => {
   const builder = await dev({
     cwd: join(fixtures, 'basic'),
     entry: {

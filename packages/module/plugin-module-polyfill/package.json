@@ -39,9 +39,9 @@
     "core-js-pure": "^3.25.0"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/plugin-syntax-typescript": "7.21.4",
-    "@babel/plugin-syntax-jsx": "7.21.4",
+    "@babel/core": "^7.22.15",
+    "@babel/plugin-syntax-typescript": "^7.22.5",
+    "@babel/plugin-syntax-jsx": "^7.22.5",
     "@modern-js/libuild-plugin-babel": "workspace:*",
     "babel-plugin-polyfill-corejs3": "0.5.2"
   },

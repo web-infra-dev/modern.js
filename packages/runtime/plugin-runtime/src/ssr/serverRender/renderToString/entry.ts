@@ -166,7 +166,7 @@ export default class Entry {
     const end = time();
 
     try {
-      prefetchData = await prefetch(this.App, context);
+      prefetchData = await prefetch(this.App, context, this.pluginConfig);
       this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
       const prefetchCost = end();
 

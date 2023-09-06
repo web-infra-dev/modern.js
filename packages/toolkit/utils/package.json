@@ -307,8 +307,8 @@
     "caniuse-lite": "^1.0.30001520",
     "lodash": "^4.17.21",
     "serialize-javascript": "^6.0.0",
-    "react-router-dom": "6.11.1",
-    "@remix-run/router": "1.6.1",
+    "react-router-dom": "6.15.0",
+    "@remix-run/router": "1.8.0",
     "@swc/helpers": "0.5.1"
   },
   "peerDependencies": {

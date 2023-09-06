@@ -202,6 +202,10 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
           )?.output?.chunkLoadingGlobal;
           const config = api.useResolvedConfigContext();
           const { crossorigin, scriptLoading } = config.html;
+          const disablePrerender =
+            typeof config.server?.ssr === 'object'
+              ? Boolean(config.server.ssr.disablePrerender)
+              : false;
 
           plugins.push({
             name: PLUGIN_IDENTIFIER,
@@ -210,6 +214,7 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
               crossorigin,
               scriptLoading,
               chunkLoadingGlobal,
+              disablePrerender,
             }),
           });
         }

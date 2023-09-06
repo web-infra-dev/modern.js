@@ -1,0 +1,51 @@
+name: Build DevTools Website
+
+on:
+  push:
+    branches: [main, dev/modernjs-devtools]
+    paths:
+      - 'packages/devtools/client/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-devtools-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Pnpm
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+            turbo-
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build Website
+        run: pnpm --filter @modern-js/devtools-client run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          repository-name: web-infra-dev/web-infra-dev.github.io
+          branch: main
+          folder: packages/devtools/client/dist
+          target-folder: devtools/${{ github.sha }}
+          clean: true

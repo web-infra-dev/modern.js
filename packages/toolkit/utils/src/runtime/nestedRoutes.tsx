@@ -47,7 +47,7 @@ export const renderNestedRoute = (
   const Component = component as unknown as React.ComponentType<any>;
   const { parent, DeferredDataComponent, props = {}, reporter } = options;
 
-  const routeProps: Omit<RouteProps, 'children'> = {
+  const routeProps: Omit<RouteProps, 'children' | 'lazy'> = {
     caseSensitive: nestedRoute.caseSensitive,
     path: nestedRoute.path,
     id: nestedRoute.id,
@@ -124,9 +124,9 @@ export const renderNestedRoute = (
   });
 
   const routeElement = index ? (
-    <Route key={id} {...routeProps} index={true} />
+    <Route key={id} {...routeProps} index={true as const} />
   ) : (
-    <Route key={id} {...routeProps} index={false}>
+    <Route key={id} {...routeProps} index={false as const}>
       {childElements}
     </Route>
   );

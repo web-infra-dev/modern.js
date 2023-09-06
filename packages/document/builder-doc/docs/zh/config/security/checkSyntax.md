@@ -35,12 +35,23 @@ export default {
 ```bash
 error   [Syntax Checker] Find some syntax errors after production build:
 
-  ERROR#1:
-  source - /node_modules/foo/index.js:1:0
-  output - /Project/dist/static/js/main.3f7a4d7e.js:2:39400
-  reason - The keyword 'const' is reserved (2:39400)
-  code   - const foo = 'bar';
+  Error 1
+  source:  /node_modules/foo/index.js:1:0
+  output:  /dist/static/js/main.3f7a4d7e.js:2:39400
+  reason:  Unexpected token (1:178)
+  code:
+     9 |
+    10 | var b = 2;
+    11 |
+  > 12 | console.log(() => {
+    13 |   return a + b;
+    14 | });
+    15 |
 ```
+
+:::tip
+目前语法检测是基于 AST parser 来实现的，每次检测时，只能找出文件中的第一个不兼容语法。如果一个文件中存在多个不兼容语法，你需要修复已发现的语法，并重新执行检测。
+:::
 
 ### 解决方法
 
