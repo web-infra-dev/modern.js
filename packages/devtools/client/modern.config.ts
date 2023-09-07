@@ -1,23 +1,31 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { proxyPlugin } from '@modern-js/plugin-proxy';
+import { parseURL, resolveURL, stringifyParsedURL } from 'ufo';
 
-const ONLINE_DOMAIN = 'modernjs.dev';
-const ONLINE_BASENAME = '/devtools';
-const ONLINE_URL = ONLINE_DOMAIN + ONLINE_BASENAME;
+const isProduction = process.env.NODE_ENV === 'production';
+const url = parseURL(process.env.ASSET_PREFIX ?? '/devtools');
+url.protocol ||= 'https:';
+url.host ||= 'modernjs.dev';
+const ASSET_PREFIX = stringifyParsedURL(url);
+console.log('ASSET_PREFIX: ', ASSET_PREFIX);
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
     router: {
-      basename: ONLINE_BASENAME,
+      basename: url.pathname,
     },
   },
   dev: {
     port: 8780,
-    assetPrefix: ONLINE_BASENAME,
+    assetPrefix: ASSET_PREFIX,
     proxy: {
-      [`$${ONLINE_URL}`]: 'http://localhost:8780',
-      [`^${ONLINE_URL}/**`]: 'http://localhost:8780/devtools/$1',
+      [`${ASSET_PREFIX}/static`]: resolveURL(
+        'http://localhost:8780',
+        url.pathname,
+        'static',
+      ),
+      [ASSET_PREFIX]: 'http://localhost:8780',
     },
   },
   source: {
@@ -30,12 +38,16 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
-    assetPrefix: process.env.ASSET_PREFIX,
+    assetPrefix: ASSET_PREFIX,
     enableCssModuleTSDeclaration: true,
   },
   tools: {
-    htmlPlugin: {
-      filename: 'index.html',
+    htmlPlugin(opts) {
+      if (isProduction) {
+        return { ...opts, filename: 'index.html' };
+      } else {
+        return opts;
+      }
     },
     devServer: {
       client: {
