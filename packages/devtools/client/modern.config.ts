@@ -63,6 +63,7 @@ export default defineConfig<'rspack'>({
           'if (serializedRedirect) {',
           '  const redirect = JSON.parse(serializedRedirect);',
           '  if (redirect.final === window.location.pathname) {',
+          '    sessionStorage.removeItem("github-page-route-redirect");',
           '    window.history.replaceState({}, "", redirect.final + redirect.rest);',
           '  }',
           '};',
