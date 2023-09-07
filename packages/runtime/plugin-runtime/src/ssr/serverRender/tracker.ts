@@ -12,6 +12,8 @@ export enum SSRTimings {
 export enum SSRErrors {
   PREFETCH,
   RENDER_HTML,
+  RENDER_STREAM,
+  RENDER_SHELL,
 }
 
 const errors: Record<
@@ -31,6 +33,14 @@ const errors: Record<
     reporter: 'SSR Error - App Render To HTML',
     logger: 'App Render To HTML',
     metrics: 'app.render.html.error',
+  },
+  [SSRErrors.RENDER_STREAM]: {
+    reporter: 'SSR Error - App Render To Streaming',
+    logger: 'An error occurs during streaming SSR',
+    metrics: 'app.render.streaming.error',
+  },
+  [SSRErrors.RENDER_SHELL]: {
+    metrics: 'app.render.streaming.shell.error',
   },
 };
 
