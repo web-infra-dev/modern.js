@@ -256,7 +256,9 @@ export default {
 };
 ```
 
-### 以下场景 `assetsRetry` 可能无法生效：
+### 使用限制
+
+以下场景 `assetsRetry` 可能无法生效：
 
 #### 微前端应用
 
