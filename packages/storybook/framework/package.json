@@ -18,13 +18,13 @@
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./preset": {
-      "default": "./dist/preset.js",
       "jsnext:source": "./src/preset.ts",
-      "types": "./dist/preset.d.ts"
+      "types": "./dist/preset.d.ts",
+      "default": "./dist/preset.js"
     },
     "./package.json": "./package.json"
   },

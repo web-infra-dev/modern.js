@@ -63,17 +63,6 @@ export const start: StorybookBuilder['start'] = async ({
   router,
   startTime,
 }) => {
-  const config = await getConfig(options);
-
-  const compiler = await getCompiler(process.cwd(), config, options);
-
-  const middleware = webpackDevMiddleware(compiler, {
-    writeToDisk:
-      // @ts-expect-error
-      config.builderConfig?.tools?.devServer?.devMiddleware?.writeToDisk ||
-      true,
-  });
-
   const previewResolvedDir = dirname(
     require.resolve('@storybook/preview/package.json'),
   );
@@ -84,13 +73,25 @@ export const start: StorybookBuilder['start'] = async ({
     express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }),
   );
 
-  router.use(webpackHotMiddleware(compiler, { log: false }));
+  const config = await getConfig(options);
+
+  const compiler = await getCompiler(process.cwd(), config, options);
+
+  const middleware = webpackDevMiddleware(compiler, {
+    writeToDisk:
+      // @ts-expect-error
+      config.builderConfig?.tools?.devServer?.devMiddleware?.writeToDisk ||
+      true,
+    stats: 'errors-warnings',
+  });
 
   router.use(middleware);
+  router.use(webpackHotMiddleware(compiler, { log: false }));
 
   const stats: Stats = await new Promise(resolve => {
-    // @ts-expect-error
-    middleware.waitUntilValid(resolve);
+    middleware.waitUntilValid(stats => {
+      resolve(stats as Stats);
+    });
   });
 
   if (!stats) {

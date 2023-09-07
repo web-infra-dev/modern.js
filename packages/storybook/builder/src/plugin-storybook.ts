@@ -124,11 +124,13 @@ async function applyAlias(
   const globalPath = maybeGetAbsolutePath(`@storybook/global`);
   const routerPath = maybeGetAbsolutePath(`@storybook/router`);
   const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
+  const channelPath = maybeGetAbsolutePath(`@storybook/channels`);
+  const previewApiPath = maybeGetAbsolutePath(`@storybook/preview-api`);
 
   const storybookPaths: Record<string, string> = {
     ...(managerAPIPath
       ? {
-          // deprecated, remove in 8.0
+          // TODO: deprecated, remove in 8.0
           [`@storybook/api`]: managerAPIPath,
           [`@storybook/manager-api`]: managerAPIPath,
         }
@@ -141,6 +143,8 @@ async function applyAlias(
     ...(globalPath ? { [`@storybook/global`]: globalPath } : {}),
     ...(routerPath ? { [`@storybook/router`]: routerPath } : {}),
     ...(themingPath ? { [`@storybook/theming`]: themingPath } : {}),
+    ...(channelPath ? { [`@storybook/channels`]: channelPath } : {}),
+    ...(previewApiPath ? { [`@storybook/preview-api`]: previewApiPath } : {}),
   };
 
   builderConfig.source ??= {};

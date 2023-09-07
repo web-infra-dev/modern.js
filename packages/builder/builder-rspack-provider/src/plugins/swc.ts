@@ -20,7 +20,7 @@ import { Builtins } from '@rspack/core';
  * Provide some swc configs of rspack
  */
 export const builderPluginSwc = (): BuilderPlugin => ({
-  name: 'builder-plugin-swc',
+  name: 'builder-plugin-swc-rspack',
 
   setup(api) {
     api.modifyBundlerChain(async (chain, { isServer, isServiceWorker }) => {

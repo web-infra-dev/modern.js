@@ -4,7 +4,7 @@ import { FrameworkOptions } from '.';
 export {
   defineConfig,
   type FrameworkOptions,
-} from '@modern-js/storybook-builder/types';
+} from '@modern-js/storybook-builder';
 
 export type FrameworkName = '@modern-js/storybook' | string;
 
@@ -15,7 +15,7 @@ export interface StorybookConfig extends StorybookConfigBase {
         name: FrameworkName;
         options: FrameworkOptions;
       };
-  typescript: {
+  typescript?: {
     reactDocgen?: 'react-docgen' | false;
   } & StorybookConfigBase['typescript'];
 }
