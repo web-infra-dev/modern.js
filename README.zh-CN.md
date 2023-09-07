@@ -18,7 +18,7 @@
 
 ## 介绍
 
-Modern.js 是一个 Web 工程体系，包含以下解决方案：
+Modern.js 是字节跳动 Web 工程体系的开源版本，包含以下解决方案：
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/)：基于 React 的渐进式 Web 开发框架。
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools)：简单、高性能的 npm 包开发方案。
@@ -43,6 +43,10 @@ Modern.js 生态提供了以下解决方案和底层库：
 ## Benchmark
 
 我们通过 [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) 来观测核心指标的变化情况，比如 bundle size、compile speed 和 install size。
+
+## 示例
+
+Modern.js 提供了一系列开箱即用的示例项目，你可以在 [modern-js-examples](https://github.com/web-infra-dev/modern-js-examples) 仓库中找到并使用它们。
 
 ## 参与贡献
 

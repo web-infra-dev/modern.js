@@ -1,0 +1,19 @@
+{
+  "$schema": "https://codesandbox.io/schemas/tasks.json",
+  "setupTasks": [
+    {
+      "name": "Installing Dependencies",
+      "command": "pnpm install"
+    }
+  ],
+  "tasks": {
+    "start": {
+      "name": "Application",
+      "command": "pnpm run start",
+      "runAtStart": true,
+      "restartOn": {
+        "files": ["pnpm-lock.yaml"]
+      }
+    }
+  }
+}

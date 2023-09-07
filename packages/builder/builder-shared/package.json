@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.33.1",
+  "version": "2.34.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -143,9 +143,9 @@
     }
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/types": "^7.21.5",
-    "@babel/parser": "^7.21.8",
+    "@babel/core": "^7.22.15",
+    "@babel/types": "^7.22.15",
+    "@babel/parser": "^7.22.15",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -166,8 +166,8 @@
     "zod-validation-error": "1.2.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-typescript": "^7.21.5",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
     "@types/caniuse-lite": "^1.0.1",

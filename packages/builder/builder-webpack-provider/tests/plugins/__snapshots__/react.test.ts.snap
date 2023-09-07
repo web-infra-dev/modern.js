@@ -46,7 +46,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [
@@ -161,7 +161,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "helpers": false,
                     "regenerator": true,
                     "useESModules": true,
-                    "version": "7.21.5",
+                    "version": "7.22.15",
                   },
                 ],
                 [

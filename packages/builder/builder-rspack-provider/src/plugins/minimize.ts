@@ -38,8 +38,7 @@ export async function applyJSMinimizer(
       break;
   }
 
-  // TODO: need fix
-  // options.asciiOnly = config.output.charset === 'ascii';
+  options.asciiOnly = config.output.charset === 'ascii';
 
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.JS)

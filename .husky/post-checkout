@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
+
+# skip husky in CI
+# https://typicode.github.io/husky/guide.html#with-env-variables
+[ -n "$CI" ] && exit 0
+
 . "$(dirname -- "$0")/_/husky.sh"
 
 # avoid conflicts in pnpm lock

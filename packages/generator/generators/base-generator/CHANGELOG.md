@@ -1,5 +1,19 @@
 # @modern-js/base-generator
 
+## 3.2.0
+
+### Minor Changes
+
+- f0c6df5: feat: adjust ts template, handle dependencies through handlebars
+
+  feat: 调整生成器 ts 模板，使用 handlebars 处理依赖
+
+### Patch Changes
+
+- 6db103a: fix(generator): remove the default .idea config files
+
+  fix(generator): 移除默认的 .idea 配置文件
+
 ## 3.1.39
 
 ## 3.1.38

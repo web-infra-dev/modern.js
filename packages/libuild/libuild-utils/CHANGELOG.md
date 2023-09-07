@@ -1,5 +1,7 @@
 # @modern-js/libuild-utils
 
+## 2.34.0
+
 ## 2.33.1
 
 ## 2.33.0

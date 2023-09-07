@@ -1,5 +1,19 @@
 # @modern-js/server
 
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [f851fa9]
+- Updated dependencies [7d70738]
+- Updated dependencies [5240e5d]
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/prod-server@2.34.0
+  - @modern-js/utils@2.34.0
+  - @modern-js/server-utils@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

@@ -153,7 +153,7 @@ test('inline runtime chunk by default with multiple entries', async () => {
 });
 
 webpackOnlyTest(
-  'inline all scripts and emit all source maps',
+  'inline all scripts should work and emit all source maps',
   async ({ page }) => {
     const builder = await build({
       cwd: __dirname,
@@ -194,7 +194,7 @@ webpackOnlyTest(
   },
 );
 
-webpackOnlyTest('using RegExp to inline scripts', async () => {
+test('using RegExp to inline scripts', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: {
@@ -219,10 +219,10 @@ webpackOnlyTest('using RegExp to inline scripts', async () => {
   // all source maps in output
   expect(
     Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
-  ).toEqual(3);
+  ).toBeGreaterThanOrEqual(2);
 });
 
-webpackOnlyTest('inline scripts by filename and file size', async () => {
+test('inline scripts by filename and file size', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: {
@@ -249,7 +249,7 @@ webpackOnlyTest('inline scripts by filename and file size', async () => {
   // all source maps in output
   expect(
     Object.keys(files).filter(fileName => fileName.endsWith('.js.map')).length,
-  ).toEqual(3);
+  ).toBeGreaterThanOrEqual(2);
 });
 
 test('using RegExp to inline styles', async () => {

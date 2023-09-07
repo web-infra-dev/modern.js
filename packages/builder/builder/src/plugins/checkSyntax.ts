@@ -36,6 +36,7 @@ export function builderPluginCheckSyntax(): DefaultBuilderPlugin {
         chain.plugin(CheckSyntaxPlugin.name).use(CheckSyntaxPlugin, [
           {
             targets,
+            rootPath: api.context.rootPath,
             ...(typeof checkSyntax === 'object' ? checkSyntax : {}),
           },
         ]);

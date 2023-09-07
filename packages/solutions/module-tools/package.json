@@ -15,7 +15,7 @@
     "module-tools",
     "lib-tools"
   ],
-  "version": "2.33.1",
+  "version": "2.34.0",
   "bin": {
     "modern": "./bin/modern.js",
     "modern-module": "./bin/modern.js"
@@ -56,10 +56,10 @@
     "new": "modern-lib new"
   },
   "dependencies": {
-    "@babel/parser": "^7.21.8",
-    "@babel/generator": "^7.21.5",
-    "@babel/types": "^7.21.5",
-    "@babel/traverse": "^7.21.5",
+    "@babel/parser": "^7.22.15",
+    "@babel/generator": "^7.22.15",
+    "@babel/types": "^7.22.15",
+    "@babel/traverse": "^7.22.15",
     "@modern-js/core": "workspace:*",
     "@modern-js/libuild": "workspace:*",
     "@modern-js/libuild-plugin-svgr": "workspace:*",

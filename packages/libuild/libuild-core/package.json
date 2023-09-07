@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/libuild",
-  "version": "2.33.1",
+  "version": "2.34.0",
   "description": "A tool for building modern JavaScript libraries",
   "keywords": [
     "modern",
@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@ampproject/remapping": "1.0.2",
-    "@babel/code-frame": "7.16.7",
+    "@babel/code-frame": "^7.22.13",
     "@microsoft/api-extractor": "7.36.4",
     "@modern-js/libuild-utils": "workspace:*",
     "@rollup/pluginutils": "4.1.1",
