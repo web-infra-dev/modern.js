@@ -89,7 +89,8 @@ export class AssetsRetryPlugin implements WebpackPluginInstance {
     }
 
     compiler.hooks.compilation.tap(this.name, compilation => {
-      this.HtmlPlugin.getHooks(compilation).afterTemplateExecution.tapPromise(
+      // the behavior of inject/modify tags in afterTemplateExecution hook will not take effect when inject option is false
+      this.HtmlPlugin.getHooks(compilation).alterAssetTagGroups.tapPromise(
         this.name,
         async data => {
           const scriptTag = generateScriptTag();
