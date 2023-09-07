@@ -1,6 +1,6 @@
 import ModernSandpack, { ModernSandpackProps } from '@modern-js/sandpack-react';
 import React, { PropsWithChildren } from 'react';
-import { useDark } from 'rspress/runtime';
+import { useDark, NoSSR } from 'rspress/runtime';
 
 import './index.css';
 
@@ -18,11 +18,13 @@ const Sandpack = (props: PropsWithChildren<ModernSandpackProps>) => {
     }
   });
   return (
-    <ModernSandpack
-      files={files}
-      theme={dark ? 'dark' : 'light'}
-      {...otherProps}
-    />
+    <NoSSR>
+      <ModernSandpack
+        files={files}
+        theme={dark ? 'dark' : 'light'}
+        {...otherProps}
+      />
+    </NoSSR>
   );
 };
 export default Sandpack;

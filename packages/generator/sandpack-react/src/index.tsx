@@ -55,11 +55,15 @@ export default function ModernSandpack(props: ModernSandpackProps) {
       files={files}
       options={{
         activeFile: 'src/routes/page.tsx',
+        visibleFiles: Object.keys(customFiles).filter(
+          file => !removeFiles.includes(file),
+        ),
         ...options,
       }}
     >
       <SandpackLayout>
         <SandpackFileExplorer
+          autoHiddenFiles
           initialCollapsedFolder={[
             '/.husky/',
             '/.vscode/',
@@ -67,7 +71,12 @@ export default function ModernSandpack(props: ModernSandpackProps) {
             ...initialCollapsedFolder,
           ]}
         />
-        <SandpackCodeEditor showLineNumbers showInlineErrors showTabs={false} />
+        <SandpackCodeEditor
+          showLineNumbers
+          showInlineErrors
+          readOnly={true}
+          showTabs={false}
+        />
         <div style={{ position: 'absolute', right: '5px', bottom: '5px' }}>
           <OpenInCodeSandboxButton />
         </div>
