@@ -30,6 +30,7 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
+    assetPrefix: process.env.ASSET_PREFIX,
     enableCssModuleTSDeclaration: true,
   },
   tools: {
