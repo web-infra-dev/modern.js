@@ -5,6 +5,7 @@ import type {
 } from 'react-dom/server';
 import { RenderLevel, RuntimeContext } from '../types';
 import { ESCAPED_SHELL_STREAM_END_MARK } from '../../../common';
+import { SSRErrors } from '../tracker';
 import { getTemplates } from './template';
 
 export type Pipe<T extends Writable> = (output: T) => Promise<T | string>;
@@ -39,11 +40,6 @@ function renderToPipe(
           ...options,
           nonce: ssrContext?.nonce,
           onError(error: unknown) {
-            ssrContext?.logger.error(
-              'An error occurs during streaming SSR',
-              error as Error,
-            );
-            ssrContext?.metrics.emitCounter('app.render.streaming.error', 1);
             options?.onError?.(error);
           },
         });
@@ -87,7 +83,7 @@ function renderToPipe(
       return injectableStream;
     } catch (err) {
       // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
-      ssrContext?.metrics.emitCounter('app.render.streaming.shell.error', 1);
+      ssrContext?.tracker.trackError(SSRErrors.RENDER_SHELL, err as Error);
       const { shellAfter, shellBefore } = getTemplates(
         context,
         RenderLevel.CLIENT_RENDER,
