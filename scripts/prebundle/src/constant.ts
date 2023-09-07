@@ -89,6 +89,13 @@ export const TASKS: TaskConfig[] = [
         },
         packageJsonField: ['options'],
       },
+      {
+        name: 'gradient-string',
+        ignoreDts: true,
+        externals: {
+          chalk: '../chalk',
+        },
+      },
       'execa',
       'fs-extra',
       'browserslist',

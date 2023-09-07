@@ -5709,6 +5709,9 @@ importers:
       globby:
         specifier: 11.1.0
         version: 11.1.0
+      gradient-string:
+        specifier: 2.0.2
+        version: 2.0.2
       gzip-size:
         specifier: 6.0.0
         version: 6.0.0
