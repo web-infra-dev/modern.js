@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.34.0
+
+### Minor Changes
+
+- dcdeea5: feat: support disable pre-render
+  feat: 支持禁用 pre-render
+
+### Patch Changes
+
+- eca24a2: fix: runtimeContext.request.query should merge query got in client and got in server
+  fix: runtimeContext 中的 query 对象应该合并从客户端和服务端获取的数据
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+  - @modern-js/plugin@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

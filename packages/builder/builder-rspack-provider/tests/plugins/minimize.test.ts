@@ -35,6 +35,7 @@ describe('plugins/minimize', () => {
 
     expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
       {
+        "asciiOnly": true,
         "extractComments": true,
       }
     `);
@@ -81,6 +82,7 @@ describe('plugins/minimize', () => {
 
     expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
       {
+        "asciiOnly": true,
         "dropConsole": true,
         "extractComments": true,
       }
@@ -107,6 +109,7 @@ describe('plugins/minimize', () => {
 
     expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
       {
+        "asciiOnly": true,
         "extractComments": true,
         "pureFuncs": [
           "console.log",

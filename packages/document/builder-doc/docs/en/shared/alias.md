@@ -1,13 +1,11 @@
-# Path Aliases
-
 Path aliases allow developers to define aliases for modules, making it easier to reference them in code. This can be useful when you want to use a short, easy-to-remember name for a module instead of a long, complex path.
 
 For example, if you frequently reference the `src/common/request.ts` module in your project, you can define an alias for it as `@request` and then use `import request from '@request'` in your code instead of writing the full relative path every time. This also allows you to move the module to a different location without needing to update all the import statements in your code.
 
-In Builder, there are two ways to set up path aliases:
+In Modern.js Builder, there are two ways to set up path aliases:
 
 - Through the `paths` configuration in `tsconfig.json`.
-- Through the [source.alias](/api/config-source.html#sourcealias) configuration.
+- Through the [source.alias](https://modernjs.dev/builder/en/api/config-source.html#sourcealias) configuration.
 
 ## Using `tsconfig.json`'s `paths` Configuration
 
@@ -33,7 +31,7 @@ You can refer to the [TypeScript - paths](https://www.typescriptlang.org/tsconfi
 
 ## Use `source.alias` Configuration
 
-Builder provides the [source.alias](/api/config-source.html#sourcealias) configuration option, which corresponds to the webpack/Rspack native [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) configuration. You can configure this option using an object or a function.
+Modern.js Builder provides the [source.alias](https://modernjs.dev/builder/en/api/config-source.html#sourcealias) configuration option, which corresponds to the webpack/Rspack native [resolve.alias](https://webpack.js.org/configuration/resolve/#resolvealias) configuration. You can configure this option using an object or a function.
 
 ### Use Cases
 
@@ -43,7 +41,7 @@ The `source.alias` configuration can address this limitation by allowing you to 
 
 ### Object Usage
 
-You can configure `source.alias` using an object, where the relative paths will be automatically resolved to absolute paths by Builder.
+You can configure `source.alias` using an object, where the relative paths will be automatically resolved to absolute paths.
 
 For example:
 
@@ -80,4 +78,4 @@ export default {
 
 The `paths` configuration in `tsconfig.json` takes precedence over the `source.alias` configuration. When a path matches the rules defined in both `paths` and `source.alias`, the value defined in `paths` will be used.
 
-You can adjust the priority of these two options using [source.aliasStrategy](/api/config-source.html#sourcealiasstrategy).
+You can adjust the priority of these two options using [source.aliasStrategy](https://modernjs.dev/builder/en/api/config-source.html#sourcealiasstrategy).
