@@ -60,12 +60,13 @@ export default defineConfig<'rspack'>({
         i = Math.max(i, 0);
         const children = [
           'const serializedRedirect = sessionStorage.getItem("github-page-route-redirect");',
+          'const withoutTailSlash = url => url.replace(/\\/$/, "");',
           'if (serializedRedirect) {',
           '  const redirect = JSON.parse(serializedRedirect);',
-          '  if (redirect.final === window.location.pathname) {',
-          '    sessionStorage.removeItem("github-page-route-redirect");',
-          '    window.history.replaceState({}, "", redirect.final + redirect.rest);',
+          '  if (withoutTailSlash(redirect.final) === withoutTailSlash(window.location.pathname)) {',
+          '    window.history.replaceState({}, {}, redirect.final + redirect.rest);',
           '  }',
+          '  sessionStorage.removeItem("github-page-route-redirect");',
           '};',
         ].join('\n');
         tags.splice(i, 0, {
