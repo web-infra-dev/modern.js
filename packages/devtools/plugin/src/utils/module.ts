@@ -28,7 +28,6 @@ export const resolveModule = (id: string[] | string) => {
         `Failed to resolve "${id}" from "${resolved}": ${stackText}`,
       );
       err.cause = e;
-      console.error(err);
       throw err;
     }
   }
