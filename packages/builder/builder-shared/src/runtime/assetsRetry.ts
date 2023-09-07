@@ -109,7 +109,12 @@ function createElement(
   }
   if (origin instanceof HTMLLinkElement) {
     const link = document.createElement('link');
-    link.rel = 'stylesheet';
+    link.rel = origin.rel || 'stylesheet';
+
+    if (origin.as) {
+      link.as = origin.as;
+    }
+
     link.href = attributes.url;
     if (crossOrigin) {
       link.crossOrigin = crossOrigin;
@@ -119,7 +124,11 @@ function createElement(
     }
     return {
       element: link,
-      str: `<link rel="stylesheet" href="${attributes.url}" ${crossOriginAttr} ${retryTimesAttr}></link>`,
+      str: `<link rel="${link.rel}" href="${
+        attributes.url
+      }" ${crossOriginAttr} ${retryTimesAttr} ${
+        link.as ? `as="${link.as}"` : ''
+      }></link>`,
     };
   }
 }
