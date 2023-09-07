@@ -255,6 +255,9 @@ importers:
       caniuse-lite:
         specifier: ^1.0.30001520
         version: 1.0.30001520
+      css-minimizer-webpack-plugin:
+        specifier: 5.0.1
+        version: 5.0.1(esbuild@0.17.19)(webpack@5.88.1)
       cssnano:
         specifier: 6.0.1
         version: 6.0.1(postcss@8.4.27)
@@ -355,9 +358,6 @@ importers:
       caniuse-lite:
         specifier: ^1.0.30001520
         version: 1.0.30001520
-      css-minimizer-webpack-plugin:
-        specifier: 5.0.1
-        version: 5.0.1(esbuild@0.17.19)(webpack@5.88.1)
       html-webpack-plugin:
         specifier: 5.5.3
         version: 5.5.3(webpack@5.88.1)
@@ -28225,7 +28225,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
       yaml: 1.10.2
 
   /postcss-load-config@3.1.4(postcss@8.4.27)(ts-node@10.9.1):
@@ -33636,6 +33636,7 @@ packages:
       typescript: 5.0.4
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    dev: true
 
   /ts-node@10.9.1(@types/node@18.11.17)(typescript@5.0.4):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}

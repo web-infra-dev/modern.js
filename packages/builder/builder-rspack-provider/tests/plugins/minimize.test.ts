@@ -38,7 +38,7 @@ describe('plugins/minimize', () => {
       [
         Plugin {
           "_options": {
-            "asciiOnly": false,
+            "asciiOnly": true,
             "comments": "false",
             "dropConsole": false,
             "exclude": undefined,
@@ -118,7 +118,7 @@ describe('plugins/minimize', () => {
       [
         Plugin {
           "_options": {
-            "asciiOnly": false,
+            "asciiOnly": true,
             "comments": "false",
             "dropConsole": true,
             "exclude": undefined,
@@ -177,7 +177,7 @@ describe('plugins/minimize', () => {
       [
         Plugin {
           "_options": {
-            "asciiOnly": false,
+            "asciiOnly": true,
             "comments": "false",
             "dropConsole": false,
             "exclude": undefined,

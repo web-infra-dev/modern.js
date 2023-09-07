@@ -1393,7 +1393,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "minimizer": [
       Plugin {
         "_options": {
-          "asciiOnly": false,
+          "asciiOnly": true,
           "comments": "false",
           "dropConsole": false,
           "exclude": undefined,
