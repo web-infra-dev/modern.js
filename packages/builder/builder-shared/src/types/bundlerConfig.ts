@@ -164,7 +164,16 @@ export interface BundlerChain
   toConfig: () => BundlerConfig;
   optimization: PickAndModifyThis<
     WebpackChain['optimization'],
-    'splitChunks' | 'runtimeChunk' | 'minimize' | 'minimizer'
+    | 'splitChunks'
+    | 'runtimeChunk'
+    | 'minimize'
+    | 'minimizer'
+    | 'chunkIds'
+    | 'moduleIds'
+    | 'sideEffects'
+    | 'realContentHash'
+    | 'removeEmptyChunks'
+    | 'removeAvailableModules'
   >;
   externals: (value: Externals) => BundlerChain;
   resolve: PickAndModifyThis<
