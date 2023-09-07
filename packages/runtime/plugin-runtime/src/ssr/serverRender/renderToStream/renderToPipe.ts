@@ -76,11 +76,6 @@ function renderToPipe(
           resolve(pipe(injectableTransform).pipe(stream));
         },
         onShellError(error: unknown) {
-          // Don't log error in `onShellError` callback, since it has been logged in `onError` callback
-          ssrContext!.metrics.emitCounter(
-            'app.render.streaming.shell.error',
-            1,
-          );
           const { shellAfter, shellBefore } = getTemplates(
             context,
             RenderLevel.CLIENT_RENDER,
@@ -88,14 +83,6 @@ function renderToPipe(
           const fallbackHtml = `${shellBefore}${shellAfter}`;
           resolve(fallbackHtml);
           options?.onShellError?.(error);
-        },
-        onError(error: unknown) {
-          ssrContext!.logger.error(
-            'An error occurs during streaming SSR',
-            error as Error,
-          );
-          ssrContext!.metrics.emitCounter('app.render.streaming.error', 1);
-          options?.onError?.(error);
         },
       });
     });
