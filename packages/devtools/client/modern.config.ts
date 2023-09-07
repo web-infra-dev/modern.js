@@ -29,10 +29,7 @@ export default defineConfig<'rspack'>({
     },
   },
   source: {
-    preEntry: [
-      './src/preludes/gh-page-loader.js',
-      require.resolve('modern-normalize/modern-normalize.css'),
-    ],
+    preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
     globalVars: {
       'process.env.PKG_VERSION': require('./package.json').version,
     },
@@ -55,6 +52,28 @@ export default defineConfig<'rspack'>({
         protocol: 'ws',
       },
     },
+  },
+  html: {
+    tags: [
+      tags => {
+        let i = tags.findIndex(({ tag }) => tag === 'script');
+        i = Math.max(i, 0);
+        const children = [
+          'const serializedRedirect = sessionStorage.getItem("github-page-route-redirect");',
+          'if (serializedRedirect) {',
+          '  const redirect = JSON.parse(serializedRedirect);',
+          '  if (redirect.final === window.location.pathname) {',
+          '    window.history.replaceState({}, "", redirect.final + redirect.rest);',
+          '  }',
+          '};',
+        ].join('\n');
+        tags.splice(i, 0, {
+          tag: 'script',
+          children,
+          attrs: { 'data-github-page': true },
+        });
+      },
+    ],
   },
   plugins: [
     appTools({
