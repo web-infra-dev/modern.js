@@ -1,5 +1,13 @@
 # @modern-js/module-tools-docs
 
+## 2.34.0
+
+### Patch Changes
+
+- 57b861d: docs(module-doc): update content about `input` config
+  docs(module-doc): 更新关于 input 配置的内容
+  - @modern-js/doc-plugin-auto-sidebar@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

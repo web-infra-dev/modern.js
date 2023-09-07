@@ -1,5 +1,21 @@
 # @modern-js/builder-cli
 
+## 2.34.0
+
+### Patch Changes
+
+- 5ffb74a: feat(builder): allow to custom CLI
+
+  feat(builder): 支持自定义 CLI
+
+- Updated dependencies [e3d08fb]
+- Updated dependencies [5ffb74a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+  - @modern-js/builder@2.34.0
+  - @modern-js/builder-rspack-provider@2.34.0
+  - @modern-js/builder-webpack-provider@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes
