@@ -256,7 +256,9 @@ export default {
 };
 ```
 
-### `assetsRetry` may not work in the following scenarios:
+### Limitation
+
+`assetsRetry` may not work in the following scenarios:
 
 #### Micro-frontend application
 
