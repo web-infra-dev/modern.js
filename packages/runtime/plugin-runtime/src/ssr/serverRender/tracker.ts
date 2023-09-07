@@ -1,4 +1,4 @@
-import { SSRServerContext } from './types';
+import type { BaseSSRServerContext } from '@modern-js/types';
 
 export type SSRTracker = ReturnType<typeof createSSRTracker>;
 
@@ -6,6 +6,7 @@ export enum SSRTimings {
   SSR_RENDER_TOTAL,
   SSR_PREFETCH,
   SSR_RENDER_HTML,
+  SSR_RENDER_SHELL,
 }
 
 export enum SSRErrors {
@@ -60,6 +61,9 @@ const timings: Record<
     metrics: 'app.render.cost',
     logger: 'App Render Total cost = %d ms',
   },
+  [SSRTimings.SSR_RENDER_SHELL]: {
+    reporter: 'ssr-render-shell',
+  },
 };
 
 export function createSSRTracker({
@@ -67,7 +71,7 @@ export function createSSRTracker({
   serverTiming,
   metrics,
   logger,
-}: SSRServerContext) {
+}: BaseSSRServerContext) {
   const tracker = {
     get sessionId() {
       return reporter.sessionId;
