@@ -1,32 +1,31 @@
 import { applyBuilderResolvePlugin } from '@modern-js/builder-shared';
 import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 import type { BuilderPlugin, WebpackChain } from '../types';
+import path from 'path';
 
 async function applyTsConfigPathsPlugin({
   chain,
   CHAIN_ID,
   cwd,
   extensions,
-  sourceBuild,
-}: {
+}: // sourceBuild,
+{
   chain: WebpackChain;
   CHAIN_ID: ChainIdentifier;
   cwd: string;
   extensions: string[];
   sourceBuild: boolean;
 }) {
-  const { TsConfigPathsPlugin } = await import(
-    '../webpackPlugins/TsConfigPathsPlugin'
-  );
+  const { TsconfigPathsPlugin } = await import('tsconfig-paths-webpack-plugin');
 
   chain.resolve
     .plugin(CHAIN_ID.RESOLVE_PLUGIN.TS_CONFIG_PATHS)
-    .use(TsConfigPathsPlugin, [
+    .use(TsconfigPathsPlugin, [
       {
-        cwd,
+        configFile: path.resolve(cwd, 'tsconfig.json'),
         extensions,
         // Enable source code build mode for monorepo
-        loadClosestTsConfig: sourceBuild,
+        // loadClosestTsConfig: sourceBuild,
       },
     ]);
 }
