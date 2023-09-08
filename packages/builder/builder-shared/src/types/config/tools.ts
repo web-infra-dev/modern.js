@@ -14,6 +14,7 @@ import type {
   PostCSSPlugin,
   CSSLoaderOptions,
   StyleLoaderOptions,
+  CssMinimizerPluginOptions,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
 import { ModifyChainUtils } from '../hooks';
@@ -57,6 +58,8 @@ export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
 
 export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
 
+export type ToolsMinifyCssConfig = ChainedConfig<CssMinimizerPluginOptions>;
+
 export interface SharedToolsConfig {
   /**
    * Configure bundler config base on [webpack-chain](https://github.com/neutrinojs/webpack-chain)
@@ -87,6 +90,11 @@ export interface SharedToolsConfig {
    * Modify the options of [css-loader](https://github.com/webpack-contrib/css-loader).
    */
   cssLoader?: ToolsCSSLoaderConfig;
+
+  /**
+   * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
+   */
+  minifyCss?: ToolsMinifyCssConfig;
 
   /**
    * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).

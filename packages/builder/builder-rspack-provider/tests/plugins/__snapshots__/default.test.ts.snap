@@ -767,10 +767,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"production\\"",
     },
-    "minifyOptions": {
-      "asciiOnly": true,
-      "extractComments": true,
-    },
     "pluginImport": [
       {
         "libraryDirectory": "es",
@@ -1394,6 +1390,41 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "name": "Client",
   "optimization": {
     "minimize": true,
+    "minimizer": [
+      Plugin {
+        "_options": {
+          "asciiOnly": true,
+          "comments": "false",
+          "dropConsole": false,
+          "exclude": undefined,
+          "extractComments": "true",
+          "include": undefined,
+          "passes": 1,
+          "pureFuncs": [],
+          "test": undefined,
+        },
+      },
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
+              ],
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
     "runtimeChunk": {
       "name": "builder-runtime",
     },

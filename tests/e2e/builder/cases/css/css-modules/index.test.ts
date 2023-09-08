@@ -19,7 +19,7 @@ test('should compile CSS modules correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.the-a-class{color:red}.the-b-class-_6773e{color:blue}.the-c-class-c855fd{color:yellow}.the-d-class{color:green}',
+      '.the-a-class{color:red}.the-b-class-_6773e{color:blue}.the-c-class-c855fd{color:#ff0}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(
@@ -46,7 +46,7 @@ test('should treat normal CSS as CSS modules when disableCssModuleExtension is t
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.the-a-class-_932a3{color:red}.the-b-class-_6773e{color:blue}.the-c-class-c855fd{color:yellow}.the-d-class{color:green}',
+      '.the-a-class-_932a3{color:red}.the-b-class-_6773e{color:blue}.the-c-class-c855fd{color:#ff0}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(
@@ -77,7 +77,7 @@ test('should compile CSS modules follow by output.cssModules', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.the-a-class{color:red}.the-b-class-_6773e{color:blue}.the-c-class{color:yellow}.the-d-class{color:green}',
+      '.the-a-class{color:red}.the-b-class-_6773e{color:blue}.the-c-class{color:#ff0}.the-d-class{color:green}',
     );
   } else {
     expect(content).toEqual(
