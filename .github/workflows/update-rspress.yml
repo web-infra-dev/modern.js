@@ -30,7 +30,7 @@ jobs:
         run: pnpm run update-rspress
 
       - name: Install Dependencies
-        run: pnpm install --ignore-scripts
+        run: pnpm install --ignore-scripts --no-frozen-lockfile
 
       - name: Create commits
         run: |
