@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { FC, ReactElement, createContext, useContext } from 'react';
+import { FC, ReactElement, createContext, useContext, useMemo } from 'react';
+import { useAsync } from 'react-use';
 import createDeferPromise from 'p-defer';
 import { getQuery } from 'ufo';
 import {
@@ -20,43 +21,48 @@ import { getDefaultTabs } from '@/constants';
 
 const StoreContext = createContext<unknown>(null);
 
+const getDataSource = () => {
+  const src =
+    getQuery(location.href).src ||
+    sessionStorage.getItem('devtools-data-source');
+  if (!_.isString(src)) {
+    throw new TypeError(`Can't connection to data source: ${src || '<EMPTY>'}`);
+  }
+  sessionStorage.setItem('devtools-data-source', src);
+  return src;
+};
+
+const createDeferredTasks = () => ({
+  framework: {
+    context: createDeferPromise<AppContext>(),
+    config: {
+      resolved: createDeferPromise<FrameworkConfig>(),
+      transformed: createDeferPromise<TransformedFrameworkConfig>(),
+    },
+  },
+  builder: {
+    context: createDeferPromise<BuilderContext>(),
+    config: {
+      resolved: createDeferPromise<BuilderConfig>(),
+      transformed: createDeferPromise<NormalizedBuilderConfig>(),
+    },
+  },
+  bundler: {
+    config: {
+      resolved: createDeferPromise<BundlerConfig[]>(),
+      transformed: createDeferPromise<BundlerConfig[]>(),
+    },
+  },
+  dependencies: createDeferPromise<Record<string, string>>(),
+  compileTimeCost: createDeferPromise<number>(),
+});
+
 export const StoreContextProvider: FC<{ children: ReactElement }> = ({
   children,
 }) => {
-  const dataSource =
-    getQuery(location.href).src ||
-    sessionStorage.getItem('devtools-data-source');
-  if (!_.isString(dataSource)) {
-    throw new TypeError(
-      `Can't connection to data source: ${dataSource || '<EMPTY>'}`,
-    );
-  }
-  sessionStorage.setItem('devtools-data-source', dataSource);
+  const dataSource = useMemo(getDataSource, []);
+  const deferred = useMemo(createDeferredTasks, []);
 
-  const deferred = {
-    framework: {
-      context: createDeferPromise<AppContext>(),
-      config: {
-        resolved: createDeferPromise<FrameworkConfig>(),
-        transformed: createDeferPromise<TransformedFrameworkConfig>(),
-      },
-    },
-    builder: {
-      context: createDeferPromise<BuilderContext>(),
-      config: {
-        resolved: createDeferPromise<BuilderConfig>(),
-        transformed: createDeferPromise<NormalizedBuilderConfig>(),
-      },
-    },
-    bundler: {
-      config: {
-        resolved: createDeferPromise<BundlerConfig[]>(),
-        transformed: createDeferPromise<BundlerConfig[]>(),
-      },
-    },
-    dependencies: createDeferPromise<Record<string, string>>(),
-    compileTimeCost: createDeferPromise<number>(),
-  };
   const $store = useProxyFrom<StoreContextValue>(() => ({
     dataSource,
     location: '/',
@@ -89,9 +95,9 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     compileTimeCost: deferred.compileTimeCost.promise,
   }));
 
-  const setupTask = setupServerConnection({ url: dataSource, $store });
+  useAsync(async () => {
+    const { server } = await setupServerConnection({ url: dataSource, $store });
 
-  setupTask.then(async ({ server }) => {
     deferred.framework.context.resolve(server.getAppContext());
     deferred.framework.config.resolved.resolve(server.getFrameworkConfig());
     deferred.framework.config.transformed.resolve(
@@ -113,7 +119,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       $store.framework.fileSystemRoutes[entryName] =
         server.getFileSystemRoutes(entryName);
     }
-  });
+  }, [dataSource, deferred]);
 
   return (
     <StoreContext.Provider value={$store}>{children}</StoreContext.Provider>
