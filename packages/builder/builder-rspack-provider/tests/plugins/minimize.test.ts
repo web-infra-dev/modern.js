@@ -15,7 +15,7 @@ describe('plugins/minimize', () => {
     } = await builder.inspectConfig();
 
     expect(bundlerConfigs[0].optimization?.minimize).toEqual(false);
-    expect(bundlerConfigs[0].builtins?.minifyOptions).toBeUndefined();
+    expect(bundlerConfigs[0].optimization?.minimizer).toBeUndefined();
 
     process.env.NODE_ENV = 'test';
   });
@@ -33,12 +33,45 @@ describe('plugins/minimize', () => {
 
     expect(bundlerConfigs[0].optimization?.minimize).toEqual(true);
 
-    expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
-      {
-        "asciiOnly": true,
-        "extractComments": true,
-      }
-    `);
+    expect(bundlerConfigs[0].optimization?.minimizer).toMatchInlineSnapshot(
+      `
+      [
+        Plugin {
+          "_options": {
+            "asciiOnly": true,
+            "comments": "false",
+            "dropConsole": false,
+            "exclude": undefined,
+            "extractComments": "true",
+            "include": undefined,
+            "passes": 1,
+            "pureFuncs": [],
+            "test": undefined,
+          },
+        },
+        CssMinimizerPlugin {
+          "options": {
+            "exclude": undefined,
+            "include": undefined,
+            "minimizer": {
+              "implementation": [Function],
+              "options": {
+                "preset": [
+                  "default",
+                  {
+                    "mergeLonghand": false,
+                  },
+                ],
+              },
+            },
+            "parallel": true,
+            "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+            "warningsFilter": [Function],
+          },
+        },
+      ]
+    `,
+    );
 
     process.env.NODE_ENV = 'test';
   });
@@ -80,13 +113,45 @@ describe('plugins/minimize', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
-      {
-        "asciiOnly": true,
-        "dropConsole": true,
-        "extractComments": true,
-      }
-    `);
+    expect(bundlerConfigs[0].optimization?.minimizer).toMatchInlineSnapshot(
+      `
+      [
+        Plugin {
+          "_options": {
+            "asciiOnly": true,
+            "comments": "false",
+            "dropConsole": true,
+            "exclude": undefined,
+            "extractComments": "true",
+            "include": undefined,
+            "passes": 1,
+            "pureFuncs": [],
+            "test": undefined,
+          },
+        },
+        CssMinimizerPlugin {
+          "options": {
+            "exclude": undefined,
+            "include": undefined,
+            "minimizer": {
+              "implementation": [Function],
+              "options": {
+                "preset": [
+                  "default",
+                  {
+                    "mergeLonghand": false,
+                  },
+                ],
+              },
+            },
+            "parallel": true,
+            "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+            "warningsFilter": [Function],
+          },
+        },
+      ]
+    `,
+    );
 
     process.env.NODE_ENV = 'test';
   });
@@ -107,16 +172,48 @@ describe('plugins/minimize', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(bundlerConfigs[0].builtins?.minifyOptions).toMatchInlineSnapshot(`
-      {
-        "asciiOnly": true,
-        "extractComments": true,
-        "pureFuncs": [
-          "console.log",
-          "console.warn",
-        ],
-      }
-    `);
+    expect(bundlerConfigs[0].optimization?.minimizer).toMatchInlineSnapshot(
+      `
+      [
+        Plugin {
+          "_options": {
+            "asciiOnly": true,
+            "comments": "false",
+            "dropConsole": false,
+            "exclude": undefined,
+            "extractComments": "true",
+            "include": undefined,
+            "passes": 1,
+            "pureFuncs": [
+              "console.log",
+              "console.warn",
+            ],
+            "test": undefined,
+          },
+        },
+        CssMinimizerPlugin {
+          "options": {
+            "exclude": undefined,
+            "include": undefined,
+            "minimizer": {
+              "implementation": [Function],
+              "options": {
+                "preset": [
+                  "default",
+                  {
+                    "mergeLonghand": false,
+                  },
+                ],
+              },
+            },
+            "parallel": true,
+            "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+            "warningsFilter": [Function],
+          },
+        },
+      ]
+    `,
+    );
 
     process.env.NODE_ENV = 'test';
   });
@@ -137,7 +234,45 @@ describe('plugins/minimize', () => {
       origin: { bundlerConfigs },
     } = await builder.inspectConfig();
 
-    expect(bundlerConfigs[0].builtins?.minifyOptions!.asciiOnly).toBeFalsy();
+    expect(bundlerConfigs[0].optimization?.minimizer).toMatchInlineSnapshot(
+      `
+      [
+        Plugin {
+          "_options": {
+            "asciiOnly": false,
+            "comments": "false",
+            "dropConsole": false,
+            "exclude": undefined,
+            "extractComments": "true",
+            "include": undefined,
+            "passes": 1,
+            "pureFuncs": [],
+            "test": undefined,
+          },
+        },
+        CssMinimizerPlugin {
+          "options": {
+            "exclude": undefined,
+            "include": undefined,
+            "minimizer": {
+              "implementation": [Function],
+              "options": {
+                "preset": [
+                  "default",
+                  {
+                    "mergeLonghand": false,
+                  },
+                ],
+              },
+            },
+            "parallel": true,
+            "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+            "warningsFilter": [Function],
+          },
+        },
+      ]
+    `,
+    );
 
     process.env.NODE_ENV = 'test';
   });

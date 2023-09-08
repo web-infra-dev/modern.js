@@ -8,9 +8,33 @@ import { Transform } from 'stream';
 import App from '../../fixtures/streaming-ssr/App';
 import ShellError from '../../fixtures/streaming-ssr/ShellError';
 import { render } from '../../../../src/ssr/serverRender/renderToStream';
+import { createSSRTracker } from '../../../../src/ssr/serverRender/tracker';
 
 const emitCounter = jest.fn();
 const errorLogger = jest.fn();
+const reportError = jest.fn();
+
+const ssrServerContext = {
+  logger: {
+    ...console,
+    error: errorLogger,
+  },
+  metrics: {
+    emitCounter,
+    emitTimer: jest.fn(),
+  },
+  reporter: {
+    reportError,
+    reportTiming() {
+      // no Impl
+    },
+  },
+  serverTiming: {
+    addServeTiming() {
+      // no impl
+    },
+  },
+};
 
 const context: any = {
   ssrContext: {
@@ -22,14 +46,7 @@ const context: any = {
         path.resolve(__dirname, '../../fixtures/streaming-ssr/template.html'),
       )
       .toString(),
-    logger: {
-      ...console,
-      error: errorLogger,
-    },
-    metrics: {
-      emitCounter,
-      emitTimer: jest.fn(),
-    },
+    tracker: createSSRTracker(ssrServerContext as any),
     redirection: {},
   },
   loaderManager: {
@@ -95,5 +112,6 @@ describe('renderToStream', () => {
     expect(htmlForStream).toMatch(/<div id="root"><\/div>/);
     expect(htmlForStream).toMatch(/"renderLevel":0/);
     expect(errorLogger).toHaveBeenCalledTimes(1);
+    expect(reportError).toHaveBeenCalledTimes(1);
   });
 });

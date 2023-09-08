@@ -39,6 +39,7 @@
     "update:lockfile": "pnpm install --lockfile-only",
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
+    "update-rspress": "cd ./scripts/update-rspress && pnpm start",
     "update-turbo-cache": "turbo run build --force --filter {packages/**}"
   },
   "engines": {

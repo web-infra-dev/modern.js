@@ -17,13 +17,7 @@ test('should compile nested npm import correctly', async () => {
   const files = await builder.unwrapOutputJSON();
   const cssFiles = Object.keys(files).find(file => file.endsWith('.css'))!;
 
-  if (builder.providerType === 'rspack') {
-    expect(files[cssFiles]).toEqual(
-      '#b{color:yellow}#c{color:green}#a{font-size:10px}html{font-size:18px}',
-    );
-  } else {
-    expect(files[cssFiles]).toEqual(
-      '#b{color:#ff0}#c{color:green}#a{font-size:10px}html{font-size:18px}',
-    );
-  }
+  expect(files[cssFiles]).toEqual(
+    '#b{color:#ff0}#c{color:green}#a{font-size:10px}html{font-size:18px}',
+  );
 });
