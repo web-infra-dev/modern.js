@@ -79,6 +79,7 @@ export const MODULE_PATH_REGEX =
   /[\\/]node_modules[\\/](\.pnpm[\\/])?(?:(@[^[\\/]+)(?:[\\/]))?([^\\/]+)/;
 
 export const RUNTIME_CHUNK_NAME = 'builder-runtime';
+export const TS_CONFIG_FILE = 'tsconfig.json';
 
 export const TARGET_ID_MAP: Record<BuilderTarget, string> = {
   web: 'Client',
