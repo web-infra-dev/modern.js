@@ -130,8 +130,6 @@ export function builderPluginSourceBuild(
 
                 return options.map(option => ({
                   ...option,
-                  logLevel: 'INFO',
-                  mainFields: ['browser', 'module', 'main'],
                   references,
                 }));
               });
