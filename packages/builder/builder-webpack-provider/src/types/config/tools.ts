@@ -14,7 +14,6 @@ import type {
 } from '../hooks';
 import type {
   CSSExtractOptions,
-  CssMinimizerPluginOptions,
   HTMLPluginOptions,
   InspectorPluginOptions,
   TSLoaderOptions,
@@ -24,8 +23,6 @@ import type {
 import type { NormalizedCSSExtractOptions } from '../thirdParty/css';
 
 export type ToolsTerserConfig = ChainedConfig<TerserPluginOptions>;
-
-export type ToolsMinifyCssConfig = ChainedConfig<CssMinimizerPluginOptions>;
 
 export type ToolsTSLoaderConfig = ChainedConfig<
   TSLoaderOptions,
@@ -76,10 +73,6 @@ export interface ToolsConfig extends SharedToolsConfig {
    * When `tools.tsLoader` is not undefined, builder will use ts-loader instead of babel-loader to compile TypeScript code.
    */
   tsLoader?: ToolsTSLoaderConfig;
-  /**
-   * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
-   */
-  minifyCss?: ToolsMinifyCssConfig;
   /**
    * Modify the options of [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
    */

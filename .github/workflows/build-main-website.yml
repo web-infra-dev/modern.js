@@ -26,9 +26,6 @@ jobs:
           node-version: 18
           cache: 'pnpm'
 
-      - name: Install Dependencies
-        run: pnpm install
-
       - name: Turbo Cache
         id: turbo-cache
         uses: actions/cache@v3
@@ -39,6 +36,9 @@ jobs:
             turbo-${{ github.ref_name }}-
             turbo-
 
+      - name: Install Dependencies
+        run: pnpm install
+
       - name: Build Main Doc
         run: cd packages/document/main-doc && npm run build && cd ../../../
 
@@ -48,8 +48,13 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          branch: gh-pages
+          repository-name: web-infra-dev/web-infra-dev.github.io
+          branch: main
           folder: packages/document/main-doc/doc_build
+          token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
+          target-folder: modern-js
+          git-config-name: gh-pages-bot
+          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
           clean: true
           clean-exclude: |
             v1/*

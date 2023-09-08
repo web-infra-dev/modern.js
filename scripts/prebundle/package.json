@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.33.1",
+  "version": "2.34.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -79,6 +79,7 @@
     "fs-extra": "10.0.1",
     "glob": "7.2.0",
     "globby": "11.1.0",
+    "gradient-string": "2.0.2",
     "gzip-size": "6.0.0",
     "import-lazy": "4.0.0",
     "inquirer": "8.2.2",

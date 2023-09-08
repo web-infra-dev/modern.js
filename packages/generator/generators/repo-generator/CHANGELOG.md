@@ -1,5 +1,7 @@
 # @modern-js/repo-generator
 
+## 3.2.0
+
 ## 3.1.39
 
 ## 3.1.38

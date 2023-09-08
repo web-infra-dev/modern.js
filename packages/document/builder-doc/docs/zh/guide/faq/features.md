@@ -112,3 +112,23 @@ Inspect config succeed, open following files to view the content:
   - Builder Config: /root/my-project/dist/builder.config.js
   - Rspack Config (web): /root/my-project/dist/rspack.config.web.js
 ```
+
+---
+
+### 如何忽略特定 warning 日志？
+
+默认情况下，Builder 会打印构建过程产生的所有 error 和 warning 日志。
+
+如果遇到由于三方包产生大量 warning 日志，暂时又无法处理，希望忽略的情况。可通过 webpack / Rspack 提供的构建配置忽略特定 warning 日志。
+
+```ts
+export default {
+  tools: {
+    bundlerChain: chain => {
+      chain.ignoreWarnings([/Using \/ for division outside of calc()/]);
+    },
+  },
+};
+```
+
+详细信息可参考: [ignoreWarnings](https://webpack.js.org/configuration/other-options/#ignorewarnings)。

@@ -7,7 +7,9 @@ export default defineConfig({
     router: true,
   },
   server: {
-    ssr: true,
+    ssr: {
+      disablePrerender: true,
+    },
   },
   tools: {
     webpack(config) {

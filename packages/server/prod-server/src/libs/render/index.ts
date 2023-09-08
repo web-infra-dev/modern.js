@@ -5,7 +5,7 @@ import { ServerOptions } from '@modern-js/server-core';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
 import { ERROR_DIGEST } from '../../constants';
-import { flushServerHeader, shouldFlushServerHeader } from '../preload';
+import { shouldFlushServerHeader } from '../preload/shouldFlushServerHeader';
 import { handleDirectory } from './static';
 import { readFile } from './reader';
 import * as ssr from './ssr';
@@ -84,7 +84,9 @@ export const createRenderHandler: CreateRenderHandler = ({
         const disablePreload = Boolean(
           ctx.headers[`x-${cutNameByHyphen(metaName)}-disable-preload`],
         );
+
         if (shouldFlushServerHeader(conf.server, userAgent, disablePreload)) {
+          const { flushServerHeader } = await import('../preload');
           flushServerHeader({
             serverConf: conf.server,
             ctx,

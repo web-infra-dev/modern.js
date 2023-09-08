@@ -21,6 +21,7 @@ async function basicUsage(page: Page, appPort: number) {
   );
 
   expect(body).toMatch(/<div hidden id="S:0">[\s\S]*<div>About content<\/div>/);
+  expect(body).toMatch('reporter');
 }
 
 async function deferredData(page: Page, appPort: number) {

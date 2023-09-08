@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.33.1",
+  "version": "2.34.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -155,6 +155,7 @@
     "acorn": "^8.10.0",
     "caniuse-lite": "^1.0.30001520",
     "cssnano": "6.0.1",
+    "css-minimizer-webpack-plugin": "5.0.1",
     "htmlparser2": "9.0.0",
     "line-diff": "2.1.1",
     "postcss": "8.4.27",
