@@ -18,6 +18,7 @@ export type ModernSandpackProps = {
   options?: Record<string, any>;
   initialCollapsedFolder?: string[];
   theme?: SandpackThemeProp;
+  activeFile?: string;
 };
 
 function fileterFiles(files: SandpackFiles, removeFiles: string[]) {
@@ -41,6 +42,7 @@ export default function ModernSandpack(props: ModernSandpackProps) {
     removeFiles = [],
     options = {},
     initialCollapsedFolder = [],
+    activeFile = 'src/routes/page.tsx',
     theme = 'light',
   } = props;
   const initFiles = ModernTemplates[template];
@@ -54,7 +56,7 @@ export default function ModernSandpack(props: ModernSandpackProps) {
       customSetup={{ environment: 'node', ...customSetup }}
       files={files}
       options={{
-        activeFile: 'src/routes/page.tsx',
+        activeFile,
         visibleFiles: Object.keys(customFiles).filter(
           file => !removeFiles.includes(file),
         ),
