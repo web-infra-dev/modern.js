@@ -1,6 +1,8 @@
 import {
+  isWebTarget,
   TS_CONFIG_FILE,
   applyBuilderResolvePlugin,
+  type BuilderTarget,
 } from '@modern-js/builder-shared';
 import type { ChainIdentifier } from '@modern-js/utils/chain-id';
 import type { BuilderPlugin, WebpackChain } from '../types';
@@ -10,11 +12,13 @@ async function applyTsConfigPathsPlugin({
   chain,
   CHAIN_ID,
   cwd,
+  mainFields,
   extensions,
 }: {
   chain: WebpackChain;
   CHAIN_ID: ChainIdentifier;
   cwd: string;
+  mainFields: (string | string[])[];
   extensions: string[];
 }) {
   const { TsconfigPathsPlugin } = await import('tsconfig-paths-webpack-plugin');
@@ -25,9 +29,25 @@ async function applyTsConfigPathsPlugin({
       {
         configFile: path.resolve(cwd, TS_CONFIG_FILE),
         extensions,
+        // https://github.com/dividab/tsconfig-paths-webpack-plugin/pull/106
+        mainFields: mainFields as string[],
       },
     ]);
 }
+
+const getMainFields = (chain: WebpackChain, target: BuilderTarget) => {
+  const mainFields = chain.resolve.mainFields.values();
+
+  if (mainFields.length) {
+    return mainFields;
+  }
+
+  if (isWebTarget(target)) {
+    return ['browser', 'module', 'main'];
+  }
+
+  return ['module', 'main'];
+};
 
 export const builderPluginResolve = (): BuilderPlugin => ({
   name: 'builder-plugin-resolve',
@@ -35,7 +55,7 @@ export const builderPluginResolve = (): BuilderPlugin => ({
   setup(api) {
     applyBuilderResolvePlugin(api);
 
-    api.modifyWebpackChain(async (chain, { CHAIN_ID }) => {
+    api.modifyWebpackChain(async (chain, { CHAIN_ID, target }) => {
       const config = api.getNormalizedConfig();
       const isTsProject = Boolean(api.context.tsconfigPath);
 
@@ -50,6 +70,7 @@ export const builderPluginResolve = (): BuilderPlugin => ({
           chain,
           CHAIN_ID,
           cwd: api.context.rootPath,
+          mainFields: getMainFields(chain, target),
           extensions: chain.resolve.extensions.values(),
         });
       }

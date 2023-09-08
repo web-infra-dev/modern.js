@@ -903,18 +903,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -923,8 +914,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },
@@ -1887,18 +1886,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -1907,8 +1897,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },
@@ -2699,18 +2697,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -2719,8 +2708,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },
@@ -3501,18 +3498,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -3521,8 +3509,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },
