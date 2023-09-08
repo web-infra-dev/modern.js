@@ -160,6 +160,7 @@ export interface BundlerChain
     | 'get'
     | 'experiments'
     | 'profile'
+    | 'ignoreWarnings'
   > {
   toConfig: () => BundlerConfig;
   optimization: PickAndModifyThis<
