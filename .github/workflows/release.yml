@@ -122,3 +122,12 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           REPOSITORY: ${{ github.repository }}
           REF: ${{ github.ref }}
+
+      - name: Trigger Rspress Release Pull Request
+        if: ${{github.event.inputs.version == 'latest'}}
+        run: |
+          curl -X POST \
+          -H 'Content-Type: application/json' \
+          -H 'Authorization: Bearer ${{ secrets.REPO_SCOPED_TOKEN }}' \
+          -d '{"ref": "main", "inputs": {"version": "latest"}}' \
+          https://api.github.com/repos/caohuilin/rspress/actions/workflows/release-pull-request-with-modernjs.yml/dispatches
