@@ -1,32 +1,23 @@
+import { URL } from 'url';
+import { logger } from '@modern-js/builder-shared';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { proxyPlugin } from '@modern-js/plugin-proxy';
-import { parseURL, resolveURL, stringifyParsedURL } from 'ufo';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const url = parseURL(process.env.ASSET_PREFIX ?? '/devtools');
-url.protocol ||= 'https:';
-url.host ||= 'modernjs.dev';
-const ASSET_PREFIX = stringifyParsedURL(url);
-console.log('ASSET_PREFIX: ', ASSET_PREFIX);
+const { DEPLOY_HOST = 'https://modernjs.dev' } = process.env;
+const assetPrefix = new URL('/devtools', DEPLOY_HOST).href;
+logger.info(`Use asset prefix:`, assetPrefix);
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
     router: {
-      basename: url.pathname,
+      basename: '/devtools',
     },
   },
   dev: {
     port: 8780,
-    assetPrefix: ASSET_PREFIX,
-    proxy: {
-      [`${ASSET_PREFIX}/static`]: resolveURL(
-        'http://localhost:8780',
-        url.pathname,
-        'static',
-      ),
-      [ASSET_PREFIX]: 'http://localhost:8780',
-    },
+    assetPrefix,
+    proxy: { [assetPrefix]: 'http://localhost:8780/devtools' },
   },
   source: {
     preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
@@ -35,17 +26,10 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
-    assetPrefix: ASSET_PREFIX,
+    assetPrefix,
     enableCssModuleTSDeclaration: true,
   },
   tools: {
-    htmlPlugin(opts) {
-      if (isProduction) {
-        return { ...opts, filename: 'index.html' };
-      } else {
-        return opts;
-      }
-    },
     devServer: {
       client: {
         host: 'localhost',
@@ -53,30 +37,7 @@ export default defineConfig<'rspack'>({
       },
     },
   },
-  html: {
-    tags: [
-      tags => {
-        let i = tags.findIndex(({ tag }) => tag === 'script');
-        i = Math.max(i, 0);
-        const children = [
-          'const serializedRedirect = sessionStorage.getItem("github-page-route-redirect");',
-          'const withoutTailSlash = url => url.replace(/\\/$/, "");',
-          'if (serializedRedirect) {',
-          '  const redirect = JSON.parse(serializedRedirect);',
-          '  if (withoutTailSlash(redirect.final) === withoutTailSlash(window.location.pathname)) {',
-          '    window.history.replaceState({}, {}, redirect.final + redirect.rest);',
-          '  }',
-          '  sessionStorage.removeItem("github-page-route-redirect");',
-          '};',
-        ].join('\n');
-        tags.splice(i, 0, {
-          tag: 'script',
-          children,
-          attrs: { 'data-github-page': true },
-        });
-      },
-    ],
-  },
+  html: {},
   plugins: [
     appTools({
       bundler: 'experimental-rspack',

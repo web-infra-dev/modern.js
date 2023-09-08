@@ -6,6 +6,7 @@
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
+    "deploy": "pnpm build && node scripts/build-redirects.js",
     "start": "modern start",
     "serve": "modern serve",
     "new": "modern new",
@@ -42,6 +43,7 @@
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/plugin-proxy": "workspace:*",

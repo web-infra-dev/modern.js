@@ -1609,6 +1609,9 @@ importers:
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
         version: link:../../builder/builder-rspack-provider
+      '@modern-js/builder-shared':
+        specifier: workspace:*
+        version: link:../../builder/builder-shared
       '@modern-js/eslint-config':
         specifier: workspace:*
         version: link:../../review/eslint-config
