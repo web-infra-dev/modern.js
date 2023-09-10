@@ -16,7 +16,7 @@ export default defineConfig<'rspack'>({
   },
   dev: {
     port: 8780,
-    assetPrefix,
+    assetPrefix: '/devtools',
     proxy: { [assetPrefix]: 'http://localhost:8780/devtools' },
   },
   source: {
