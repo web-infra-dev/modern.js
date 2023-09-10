@@ -1,0 +1,1 @@
+{"version":3,"file":"postcssUrlPlugin.d.ts","sourceRoot":"","sources":["../../../src/plugins/style/postcssUrlPlugin.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,MAAM,EAAE,MAAM,SAAS,CAAC;AACjC,OAAO,EAAE,UAAU,EAAE,MAAM,aAAa,CAAC;AASzC,eAAO,MAAM,gBAAgB,YAAa;IACxC,SAAS,EAAE,MAAM,CAAC;IAClB,WAAW,EAAE,UAAU,CAAC;CACzB,WAsCA,CAAC"}

@@ -47,13 +47,10 @@ export async function getProvider(
 
 // use this instead of virtualModuleWebpackPlugin for rspack compatibility
 export async function virtualModule(
+  tempDir: string,
   cwd: string,
   virtualModuleMap: Record<string, string>,
-): Promise<{
-  alias: Record<string, string>;
-  writeVirtualModule: (p: string, content: string) => void;
-}> {
-  const tempDir = path.join(cwd, 'node_modules', VIRTUAL_MODULE_BASE);
+): Promise<[Record<string, string>, (p: string, content: string) => void]> {
   fs.ensureDirSync(tempDir);
   const alias: Record<string, string> = {};
 
@@ -67,14 +64,14 @@ export async function virtualModule(
     }),
   );
 
-  return {
-    writeVirtualModule(virtualPath: string, content: string) {
+  return [
+    alias,
+    (virtualPath: string, content: string) => {
       const relativePath = path.relative(cwd, virtualPath);
       const realPath = path.join(tempDir, relativePath);
       fs.writeFileSync(realPath, content);
     },
-    alias,
-  };
+  ];
 }
 
 export async function toImportFn(cwd: string, stories: string[]) {

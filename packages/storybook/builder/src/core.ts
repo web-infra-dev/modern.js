@@ -1,7 +1,7 @@
 import { createBuilder, mergeBuilderConfig } from '@modern-js/builder';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
-import type { Compiler } from 'webpack-dev-middleware';
+import type { Compiler } from '@modern-js/utils/webpack-dev-middleware';
 import type { BuilderConfig, FrameworkOptions } from './types';
 import { getProvider, runWithErrorMsg } from './utils';
 import { pluginStorybook } from './plugin-storybook';

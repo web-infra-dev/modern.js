@@ -1,11 +1,12 @@
 import { dirname, join, parse } from 'path';
-import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import express from 'express';
 import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
 import { fs } from '@modern-js/utils';
 import type { FrameworkOptions } from './types';
 import { getCompiler } from './core';
+import { finalize } from './plugin-storybook';
 
 export type StorybookBuilder = RawStorybookBuilder<FrameworkOptions, Stats>;
 
@@ -111,5 +112,6 @@ export const start: StorybookBuilder['start'] = async ({
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-export const bail = async () => {};
+export const bail = async () => {
+  await finalize();
+};

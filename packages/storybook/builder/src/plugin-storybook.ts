@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { isAbsolute, join, resolve } from 'path';
-import { slash } from '@modern-js/utils';
+import { slash, watch } from '@modern-js/utils';
 import {
   BuilderPlugin,
   SharedBuilderConfig,
@@ -21,7 +21,7 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
-import globals from '@storybook/preview/globals';
+import { globals } from '@storybook/preview/globals';
 import { promise as glob } from 'glob-promise';
 
 import type {
@@ -33,12 +33,22 @@ import type {
   RspackConfig,
 } from '@modern-js/builder-rspack-provider';
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
+import minimatch from 'minimatch';
 import { AllBuilderConfig, FrameworkOptions } from './types';
 import { toImportFn, virtualModule, maybeGetAbsolutePath } from './utils';
 import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
 
 const STORIES_FILENAME = 'storybook-stories.js';
 const STORYBOOK_CONFIG_ENTRY = 'storybook-config-entry.js';
+
+const closeFn: (() => void | Promise<void>)[] = [];
+const onClose = (f: () => void | Promise<void>) => {
+  closeFn.push(f);
+};
+
+export async function finalize() {
+  await Promise.all([closeFn.map(close => close())]);
+}
 
 export const pluginStorybook: (
   cwd: string,
@@ -50,11 +60,45 @@ export const pluginStorybook: (
     remove: ['builder-plugin-inline'],
 
     async setup(api) {
+      const matchers: StoriesEntry[] = await options.presets.apply(
+        'stories',
+        [],
+        options,
+      );
+
+      const storyPatterns = normalizeStories(matchers, {
+        configDir: options.configDir,
+        workingDir: options.configDir,
+      }).map(({ directory, files }) => {
+        const pattern = join(directory, files);
+        const absolutePattern = isAbsolute(pattern)
+          ? pattern
+          : join(options.configDir, pattern);
+
+        return absolutePattern;
+      });
+
       api.modifyBuilderConfig(async builderConfig => {
+        // storybook needs a virtual entry,
+        // when new stories get created, the
+        // entry needs to be recauculated
+        await prepareStorybookModules(
+          api.context.cachePath,
+          cwd,
+          options,
+          builderConfig,
+          storyPatterns,
+        );
+
+        // storybook predefined process.env
         await applyDefines(builderConfig, options);
+
+        // render storybook entry template
         await applyHTML(builderConfig, options);
-        await applyAlias(cwd, options, builderConfig);
+
+        // storybook dom shim
         await applyReact(builderConfig, options);
+
         applyExternals(builderConfig);
       });
 
@@ -112,20 +156,19 @@ async function applyCsfPlugin(
   );
 }
 
-async function applyAlias(
+async function prepareStorybookModules(
+  tempDir: string,
   cwd: string,
   options: Options,
   builderConfig: SharedBuilderConfig,
+  storyPatterns: string[],
 ) {
-  const { alias } = await createStorybookModules(cwd, options);
+  const mappings = await createStorybookModules(cwd, options, storyPatterns);
 
   const managerAPIPath = maybeGetAbsolutePath(`@storybook/manager-api`);
   const componentsPath = maybeGetAbsolutePath(`@storybook/components`);
-  const globalPath = maybeGetAbsolutePath(`@storybook/global`);
   const routerPath = maybeGetAbsolutePath(`@storybook/router`);
   const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
-  const channelPath = maybeGetAbsolutePath(`@storybook/channels`);
-  const previewApiPath = maybeGetAbsolutePath(`@storybook/preview-api`);
 
   const storybookPaths: Record<string, string> = {
     ...(managerAPIPath
@@ -140,19 +183,23 @@ async function applyAlias(
           [`@storybook/components`]: componentsPath,
         }
       : {}),
-    ...(globalPath ? { [`@storybook/global`]: globalPath } : {}),
     ...(routerPath ? { [`@storybook/router`]: routerPath } : {}),
     ...(themingPath ? { [`@storybook/theming`]: themingPath } : {}),
-    ...(channelPath ? { [`@storybook/channels`]: channelPath } : {}),
-    ...(previewApiPath ? { [`@storybook/preview-api`]: previewApiPath } : {}),
   };
+
+  const [mappingsAlias, write] = await virtualModule(tempDir, cwd, mappings);
 
   builderConfig.source ??= {};
   builderConfig.source.alias = {
     ...builderConfig.source.alias,
     ...storybookPaths,
-    ...alias,
+    ...mappingsAlias,
   };
+
+  const watcher = await watchStories(storyPatterns, cwd, write);
+  onClose(async () => {
+    await watcher.close();
+  });
 }
 
 async function applyDefines(builderConfig: AllBuilderConfig, options: Options) {
@@ -280,11 +327,19 @@ async function applyMdxLoader(
 }
 
 function applyExternals(builderConfig: AllBuilderConfig) {
-  const config = mergeBuilderConfig(builderConfig, {
-    output: {
-      externals: globals,
+  const config = mergeBuilderConfig(
+    {
+      output: {
+        externals: builderConfig.output?.externals,
+      },
     },
-  });
+    {
+      output: {
+        externals: globals,
+      },
+    },
+  );
+
   builderConfig.output = config.output;
 }
 
@@ -296,11 +351,15 @@ function getStoriesConfigPath(cwd: string) {
   return resolve(join(cwd, STORYBOOK_CONFIG_ENTRY));
 }
 
-async function createStorybookModules(cwd: string, options: Options) {
+async function createStorybookModules(
+  cwd: string,
+  options: Options,
+  storyPatterns: string[],
+) {
   const virtualModuleMappings: Record<string, string> = {};
 
   const { presets } = options;
-  const storiesEntry = await createStoriesEntry(cwd, options);
+  const storiesEntry = await createStoriesEntry(cwd, storyPatterns);
   virtualModuleMappings[getStoriesEntryPath(cwd)] = storiesEntry;
 
   const configEntryPath = getStoriesConfigPath(cwd);
@@ -335,27 +394,14 @@ async function createStorybookModules(cwd: string, options: Options) {
     },
   ).replace(/\\/g, '\\\\');
 
-  return virtualModule(cwd, virtualModuleMappings);
+  return virtualModuleMappings;
 }
 
-async function createStoriesEntry(cwd: string, options: Options) {
-  const matchers: StoriesEntry[] = await options.presets.apply(
-    'stories',
-    [],
-    options,
-  );
+async function createStoriesEntry(cwd: string, storyPatterns: string[]) {
   const stories = (
     await Promise.all(
-      normalizeStories(matchers, {
-        configDir: options.configDir,
-        workingDir: options.configDir,
-      }).map(({ directory, files }) => {
-        const pattern = join(directory, files);
-        const absolutePattern = isAbsolute(pattern)
-          ? pattern
-          : join(options.configDir, pattern);
-
-        return glob(slash(absolutePattern), { follow: true });
+      storyPatterns.map(pattern => {
+        return glob(slash(pattern), { follow: true });
       }),
     )
   ).reduce((carry, stories) => carry.concat(stories), []);
@@ -384,4 +430,44 @@ async function applyReact(config: AllBuilderConfig, options: Options) {
     config.source.alias['@storybook/react-dom-shim'] =
       '@storybook/react-dom-shim/dist/react-18';
   }
+}
+
+/**
+ * Storybook scans all stories in the folder and place them in one module.
+ * We need to detect new stories ourself, and regenerate new entry for that
+ * story.
+ *
+ * When `require.context` is usable, we can use that instead.
+ */
+async function watchStories(
+  patterns: string[],
+  cwd: string,
+  writeModule: (p: string, content: string) => void,
+) {
+  const watcher = watch(
+    cwd,
+    async ({ changeType, changedFilePath }) => {
+      if (changeType !== 'add' && changeType !== 'unlink') {
+        return;
+      }
+
+      if (
+        patterns.some(entry => minimatch(join(cwd, changedFilePath), entry))
+      ) {
+        // recauculate stories
+        const stories = (
+          await Promise.all(
+            patterns.map(pattern => {
+              return glob(slash(pattern), { follow: true });
+            }),
+          )
+        ).reduce((carry, stories) => carry.concat(stories), []);
+
+        const newStories = await toImportFn(cwd, stories);
+        writeModule(getStoriesEntryPath(cwd), newStories);
+      }
+    },
+    ['node_modules'],
+  );
+  return watcher;
 }

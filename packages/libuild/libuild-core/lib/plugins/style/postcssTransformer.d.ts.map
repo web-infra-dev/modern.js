@@ -1,0 +1,1 @@
+{"version":3,"file":"postcssTransformer.d.ts","sourceRoot":"","sources":["../../../src/plugins/style/postcssTransformer.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,UAAU,EAAyB,MAAM,aAAa,CAAC;AAqChE,eAAO,MAAM,WAAW,aACZ,MAAM,eACH,OAAO,GAAG,MAAM,YAK9B,CAAC;AAEF,eAAO,MAAM,kBAAkB,QACxB,MAAM,aACA,MAAM,eACJ,UAAU;UAEjB,MAAM;YACJ,IAAI,GAAG,KAAK;EA8DrB,CAAC"}

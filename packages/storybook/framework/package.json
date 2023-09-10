@@ -9,6 +9,10 @@
   },
   "jsnext:source": "./src/index.ts",
   "main": "./dist/index.js",
+  "bin": {
+    "storybook": "./bin.js",
+    "sb": "./bin.js"
+  },
   "types": "./src/index.ts",
   "scripts": {
     "build": "tsc",
@@ -38,7 +42,8 @@
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/storybook-builder": "workspace:*",
     "@modern-js/utils": "workspace:*",
-    "@storybook/react": "^7.4.0"
+    "@storybook/react": "^7.4.0",
+    "storybook": "^7.4.0"
   },
   "devDependencies": {
     "@storybook/types": "^7.4.0",
