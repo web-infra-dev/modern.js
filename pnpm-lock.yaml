@@ -379,6 +379,9 @@ importers:
       ts-loader:
         specifier: 9.4.4
         version: 9.4.4(typescript@5.0.4)(webpack@5.88.1)
+      tsconfig-paths-webpack-plugin:
+        specifier: 4.1.0
+        version: 4.1.0
       webpack:
         specifier: ^5.88.1
         version: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
@@ -1375,8 +1378,8 @@ importers:
         specifier: 1.0.5
         version: 1.0.5(typescript@5.0.4)(webpack@5.88.1)
       tsconfig-paths-webpack-plugin:
-        specifier: 4.0.0
-        version: 4.0.0
+        specifier: 4.1.0
+        version: 4.1.0
     devDependencies:
       '@babel/core':
         specifier: ^7.22.15
@@ -3066,8 +3069,8 @@ importers:
         specifier: 4.1.1
         version: 4.1.1
       tsconfig-paths-webpack-plugin:
-        specifier: 4.0.0
-        version: 4.0.0
+        specifier: 4.1.0
+        version: 4.1.0
       tsd:
         specifier: 0.19.1
         version: 0.19.1
@@ -33874,8 +33877,8 @@ packages:
       typescript: 5.0.4
     dev: false
 
-  /tsconfig-paths-webpack-plugin@4.0.0:
-    resolution: {integrity: sha512-fw/7265mIWukrSHd0i+wSwx64kYUSAKPfxRDksjKIYTxSAp9W9/xcZVBF4Kl0eqQd5eBpAQ/oQrc5RyM/0c1GQ==}
+  /tsconfig-paths-webpack-plugin@4.1.0:
+    resolution: {integrity: sha512-xWFISjviPydmtmgeUAuXp4N1fky+VCtfhOkDUFIv5ea7p4wuTomI4QTrXvFBX2S4jZsmyTSrStQl+E+4w+RzxA==}
     engines: {node: '>=10.13.0'}
     dependencies:
       chalk: 4.1.2

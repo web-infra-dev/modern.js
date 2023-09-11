@@ -78,7 +78,7 @@
     "strip-ansi": "7.0.1",
     "tapable": "2.2.1",
     "tsconfig-paths": "4.1.1",
-    "tsconfig-paths-webpack-plugin": "4.0.0",
+    "tsconfig-paths-webpack-plugin": "4.1.0",
     "tsd": "0.19.1",
     "tsm": "2.3.0",
     "typescript": "^5",

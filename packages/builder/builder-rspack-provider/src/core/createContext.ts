@@ -1,6 +1,7 @@
 import { join } from 'path';
 import {
   isFileExists,
+  TS_CONFIG_FILE,
   createContextByConfig,
   type CreateBuilderOptions,
   NormalizedSharedOutputConfig,
@@ -28,7 +29,7 @@ export async function createContext(
 
   await validateBuilderConfig(builderConfig);
 
-  const tsconfigPath = join(context.rootPath, 'tsconfig.json');
+  const tsconfigPath = join(context.rootPath, TS_CONFIG_FILE);
 
   return {
     ...context,
