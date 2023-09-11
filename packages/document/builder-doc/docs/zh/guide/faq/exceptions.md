@@ -84,7 +84,7 @@ npm ls postcss
 
 如果编译正常，但是打开页面后出现 `exports is not defined` 报错，通常是因为在项目中使用 Babel 编译了一个 CommonJS 模块，导致 Babel 出现异常。
 
-在正常情况下，Builder 是不会使用 Babel 来编译 CommonJS 模块的。如果项目中使用了 [source.include]() 配置项，或使用了 [tools.babel](/api/config-tools.html#toolsbabel) 的 `addIncludes` 方法，则可能会把一些 CommonJS 模块加入到 Babel 编译中。
+在正常情况下，Builder 是不会使用 Babel 来编译 CommonJS 模块的。如果项目中使用了 [source.include](/api/config-source.html#sourceinclude) 配置项，或使用了 [tools.babel](/api/config-tools.html#toolsbabel) 的 `addIncludes` 方法，则可能会把一些 CommonJS 模块加入到 Babel 编译中。
 
 该问题有两种解决方法：
 

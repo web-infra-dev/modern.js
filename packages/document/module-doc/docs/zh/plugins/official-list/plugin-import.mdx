@@ -3,7 +3,7 @@
 提供与 [babel-plugin-import](https://github.com/umijs/babel-plugin-import) 等价的能力和配置，基于 [SWC](https://swc.rs/) 实现。
 
 :::tip
-从 `@modern-js/module-tools` v2.16.0 版本开始，该插件功能内置在 Module Tools 中，由 [`transformImport`](api/config/build-config.html#transformimport)
+从 `@modern-js/module-tools` v2.16.0 版本开始，该插件功能内置在 Modern.js Module 中，由 [`transformImport`](api/config/build-config.html#transformimport)
 配置提供。
 :::
 
@@ -24,7 +24,7 @@ pnpm add @modern-js/plugin-module-import -D
 
 ### 注册插件
 
-在 Module Tools 中，你可以按照如下方式注册插件：
+在 Modern.js Module 中，你可以按照如下方式注册插件：
 
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
@@ -45,7 +45,7 @@ export default defineConfig({
 });
 ```
 
-这样我们就可以在 Module Tools 中使用自动导入的能力了。
+这样我们就可以在 Modern.js Module 中使用自动导入的能力了。
 
 ## 配置
 

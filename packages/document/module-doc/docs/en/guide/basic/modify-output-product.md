@@ -6,7 +6,7 @@ sidebar_position: 3
 
 ## Default output products
 
-When you use the `modern build` command in an initialized project, Module Tools will generate corresponding build artifacts based on the current configuration.
+When you use the `modern build` command in an initialized project, Modern.js Module will generate corresponding build artifacts based on the current configuration.
 
 The default configuration is as follows:
 
@@ -14,7 +14,7 @@ The default configuration is as follows:
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  // Register the CLI tool of Module Tools
+  // Register the CLI tool of Modern.js Module
   plugins: [moduleTools()],
   // Specify the build preset configuration
   buildPreset: 'npm-library',
@@ -39,7 +39,7 @@ Then the next step is to first explain `buildPreset`.
 
 The `buildPreset` represents a prepared set or sets of build-related configurations that can be used to eliminate the trouble and complexity of configuration by using the default values corresponding to the build Preset, resulting in the expected product.
 
-Module Tools mainly comes with two built-in build presets, including:
+Modern.js Module mainly comes with two built-in build presets, including:
 
 - npm-component: Used to build component libraries.
 - npm-library: Used to package projects of other library types, such as tool libraries.

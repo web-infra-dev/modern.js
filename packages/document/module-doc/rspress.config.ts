@@ -52,7 +52,7 @@ export default defineConfig({
   root: path.join(__dirname, 'docs'),
   lang: 'zh',
   base: '/module-tools/',
-  title: 'Module Tools',
+  title: 'Modern.js Module',
   icon: 'https://lf3-static.bytednsdoc.com/obj/eden-cn/zq-uylkvT/ljhwZthlaukjlkulzlp/logo-1x-0104.png',
   // The plugins for doc tools.
   plugins: [
@@ -87,7 +87,7 @@ export default defineConfig({
         lang: 'zh',
         label: '简体中文',
         nav: getNavbar('zh'),
-        title: 'Module Tools',
+        title: 'Modern.js Module',
         outlineTitle: '目录',
         prevPageText: '上一页',
         nextPageText: '下一页',
@@ -97,7 +97,7 @@ export default defineConfig({
         lang: 'en',
         label: 'English',
         nav: getNavbar('en'),
-        title: 'Module Tools',
+        title: 'Modern.js Module',
         description: 'Module Engineering Solutions',
       },
     ],

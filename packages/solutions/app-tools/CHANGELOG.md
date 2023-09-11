@@ -2088,7 +2088,7 @@
 
 ### Patch Changes
 
-- 39988b2: feat: advance the timing of static resource loading
+- 39988b2: feat: advance the timing of static assets loading
   feat: 将嵌套路由下静态资源加载时机提前
 - Updated dependencies [39988b2]
   - @modern-js/types@2.0.2

@@ -17,7 +17,7 @@ features:
     details: Easily switch to Rspack bundler with faster build speed.
     icon: 🚀
   - title: Deep optimization
-    details: Automatically optimize static resources, ensure the performance of production app.
+    details: Automatically optimize static assets, ensure the performance of production app.
     icon: 🍭
   - title: Out of the box
     details: Base on the best practice at ByteDance, various capabilities are out-of-the-box.

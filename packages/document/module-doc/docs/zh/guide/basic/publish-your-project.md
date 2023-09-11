@@ -7,7 +7,7 @@ sidebar_position: 7
 一个 npm 类型的模块项目发布流程包含了两个阶段：
 
 - 第一阶段是在开发期间，开发者需要提供变更文件，该文件记录了在发布期间需要的变更内容；
-- 第二阶段是在发布期间，Module Tools 会收集所有的变更文件来更新版本、更新发布日志，并发布新的包到 [npm Registry](https://www.npmjs.com/) 上。
+- 第二阶段是在发布期间，Modern.js Module 会收集所有的变更文件来更新版本、更新发布日志，并发布新的包到 [npm Registry](https://www.npmjs.com/) 上。
 
 ## 跟踪变更
 

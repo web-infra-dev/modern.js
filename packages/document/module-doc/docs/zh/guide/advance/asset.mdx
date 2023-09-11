@@ -4,17 +4,17 @@ sidebar_position: 7
 
 # 处理静态资源
 
-模块工程会对代码中使用的静态资源进行处理。如果需要配置，则可以使用 [`buildConfig.asset`](/api/config/build-config#asset) API。
+Modern.js Module 会对代码中使用的静态资源进行处理。如果需要配置，则可以使用 [`buildConfig.asset`](/api/config/build-config#asset) API。
 
 ## 默认行为
 
-默认情况下，模块工程对于以下静态资源会进行处理：
+默认情况下，Modern.js Module 会处理以下静态资源：
 
 - `'.svg'`、`'.png'`、`'.jpg'`、`'.jpeg'`、`'.gif'`、`'.webp'`
 - `'.ttf'`、`'.otf'`、`'.woff'`、`'.woff2'`、`'.eot'`
 - `'.mp3'`、`'.mp4'`、`'.webm'`、`'.ogg'`、`'.wav'`、`'.flac'`、`'.aac'`、`'.mov'`
 
-对于静态文件的处理，模块工程目前默认支持的功能有：
+对于静态文件的处理，Modern.js Module 目前默认支持的功能有：
 
 - 输出静态资源至 `./assets`。
 - 对于不超过 **10kb** 的文件会内联到代码中。

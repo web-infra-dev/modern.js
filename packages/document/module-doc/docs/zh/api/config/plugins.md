@@ -4,14 +4,14 @@ sidebar_position: 4
 
 # plugins
 
-本章介绍注册 Module Tools 插件的配置。
+本章介绍注册 Modern.js Module 插件的配置。
 
 - 类型：`ModuleToolsPlugin[]`
 - 默认值：`undefined`
 
 ## 插件执行顺序
 
-默认情况下，自定义插件会按照 `plugins` 数组的顺序依次执行，Module Tools 内置插件的执行时机早于自定义插件。
+默认情况下，自定义插件会按照 `plugins` 数组的顺序依次执行，Modern.js Module 内置插件的执行时机早于自定义插件。
 
 当插件内部使用了控制顺序的相关字段，比如 `pre`、`post` 时，会基于声明的字段对执行顺序进行调整，详见 [插件之间的关系](https://modernjs.dev/guides/topic-detail/framework-plugin/relationship)。
 

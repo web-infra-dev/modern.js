@@ -24,7 +24,7 @@ pnpm add @modern-js/plugin-module-polyfill -D
 
 ### Register
 
-In Module Tools, you can register plugins in the following way:
+In Modern.js Module, you can register plugins in the following way:
 
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';

@@ -46,7 +46,7 @@ export default () => <Logo />;
 
 ## Import SVG in CSS file
 
-When import an SVG in a CSS file, the SVG is treated as a normal static resource and you will get a URL:
+When import an SVG in a CSS file, the SVG is treated as a normal static asset and you will get a URL:
 
 ```css
 .logo {
@@ -56,7 +56,7 @@ When import an SVG in a CSS file, the SVG is treated as a normal static resource
 
 ## Assets Processing
 
-When SVG is imported not as a React component but as a normal static resource, it is processed exactly the same as other static assets, and it is also affected by rules such as assets inlining and URL prefixing.
+When SVG is imported not as a React component but as a normal static asset, it is processed exactly the same as other static assets, and it is also affected by rules such as assets inlining and URL prefixing.
 
 Please read the [Import Static Assets](/guide/basic/static-assets.html) section to understand the processing rules for static assets.
 

@@ -1,4 +1,4 @@
-name: Build Module Tools Website
+name: Build Modern.js Module Website
 
 on:
   push:
