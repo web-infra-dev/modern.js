@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-import",
-  "description": "The import plugin of Modern.js Module Tools.",
+  "description": "The import plugin of Modern.js Module.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/modern-js-dev/modern.js/issues",
   "repository": {

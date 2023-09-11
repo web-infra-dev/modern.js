@@ -234,7 +234,7 @@
 
 ### Patch Changes
 
-- 39988b2: feat: advance the timing of static resource loading
+- 39988b2: feat: advance the timing of static assets loading
   feat: 将嵌套路由下静态资源加载时机提前
 
 ## 2.0.1

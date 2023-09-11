@@ -1,6 +1,6 @@
 # Plugin Hooks
 
-本章介绍关于 Module Tools 支持的生命周期钩子。
+本章介绍关于 Modern.js Module 支持的生命周期钩子。
 
 目前主要包含两类生命周期钩子：
 
@@ -58,7 +58,7 @@ type Return = BuildConfig;
 
 ### `beforeBuildTask`
 
-根据构建配置，Module Tools 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
+根据构建配置，Modern.js Module 会将整体构建分成多个子构建任务。该 Hook 将会在每一个构建子任务之前触发。
 
 ```ts
 export const myPlugin = (): CliPlugin<ModuleTools> => ({

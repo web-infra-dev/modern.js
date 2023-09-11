@@ -6,11 +6,11 @@ sidebar_position: 2
 
 [Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
 
-Module Tools supports developing component styles using Tailwind CSS.
+Modern.js Module supports developing component styles using Tailwind CSS.
 
 ## Enabling Tailwind CSS
 
-By default, Module Tools does not have this feature enabled. You can enable it by following the steps below.
+By default, Modern.js Module does not have this feature enabled. You can enable it by following the steps below.
 
 1. Execute the `new` command in the project root directory to enable Tailwind CSS.
 
@@ -44,7 +44,7 @@ export default defineConfig({
 
 ## Configuring Tailwind CSS
 
-In Module Tools, you have two ways to configure Tailwind CSS:
+In Modern.js Module, you have two ways to configure Tailwind CSS:
 
 1. Using the `tailwind.config.{ts,js}` file, which follows the official usage of Tailwind CSS. Please refer to ["Tailwind CSS - Configuration"](https://tailwindcss.com/docs/configuration) for more details.
 
@@ -261,9 +261,9 @@ export { src_default as default };
 
 ### About `designSystem` config
 
-`designSystem` is a deprecated configuration option in Module Tools.
+`designSystem` is a deprecated configuration option in Modern.js Module.
 
-Starting from Module Tools vMAJOR_VERSION.33.0, you can use the `theme` configuration option of Tailwind CSS as a replacement for `designSystem`. It is no longer necessary to split the `theme` configuration and set it on `designSystem`.
+Starting from Modern.js Module vMAJOR_VERSION.33.0, you can use the `theme` configuration option of Tailwind CSS as a replacement for `designSystem`. It is no longer necessary to split the `theme` configuration and set it on `designSystem`.
 
 - Previous usage:
 

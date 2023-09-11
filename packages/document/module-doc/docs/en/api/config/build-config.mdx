@@ -22,7 +22,7 @@ Before start using `buildConfig`, please read the following documentation to und
 - **Default**: `{'@': 'src',}`
 
 :::tip
-For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Module Tools will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
+For TypeScript projects, you only need to configure [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths) in `tsconfig.json`, Modern.js Module will automatically recognize the alias in `tsconfig.json`, so there is no need to configure the `alias` field additionally.
 :::
 
 ```js title="modern.config.ts"
@@ -78,7 +78,7 @@ Static resource output path, will be based on [outDir](/api/config/build-config#
 
 Used to set the threshold for static assets to be automatically inlined as base64.
 
-By default, Module Tools will inline assets such as images, fonts and media smaller than 10KB during bundling. They are Base64 encoded and inlined in the bundles, eliminating the need for separate HTTP requests.
+By default, Modern.js Module will inline assets such as images, fonts and media smaller than 10KB during bundling. They are Base64 encoded and inlined in the bundles, eliminating the need for separate HTTP requests.
 
 You can adjust this threshold by modifying the `limit` config.
 
@@ -99,7 +99,7 @@ export default defineConfig({
 
 ## asset.publicPath
 
-The CDN prefix given to unlinked resources when packaging
+The CDN prefix given to unlinked assets when bundling.
 
 - **Type**: `string`
 - **Default**: `undefined`
@@ -114,7 +114,7 @@ export default {
 };
 ```
 
-At this point, all static resources will be prefixed with `https://xxx/`
+At this point, all static assets will be prefixed with `https://xxx/`.
 
 ## asset.svgr
 
@@ -757,7 +757,7 @@ export default {
     redirect: {
       alias: false, // Turn off modifying alias paths
       style: false, // Turn off modifying the path to the style file
-      asset: false, // Turn off modifying the path to the resource file
+      asset: false, // Turn off modifying the path to the asset
     },
   },
 };
@@ -1129,7 +1129,7 @@ const tailwind = {
 
 ### Enabling Tailwind CSS
 
-Before using `style.tailwindcss`, you need to enable the Tailwind CSS plugin for Module Tools.
+Before using `style.tailwindcss`, you need to enable the Tailwind CSS plugin for Modern.js Module.
 
 Please refer to the section [Using Tailwind CSS](/guide/best-practices/use-tailwindcss.html) for instructions on how to enable it.
 
@@ -1152,7 +1152,7 @@ The usage of other configurations follows the same approach as the official usag
 
 ## target
 
-`target` is used to set the target environment for the generated JavaScript code. It enables Module Tools to transform JavaScript syntax that is not recognized by the target environment into older versions of JavaScript syntax that are compatible with these environments.
+`target` is used to set the target environment for the generated JavaScript code. It enables Modern.js Module to transform JavaScript syntax that is not recognized by the target environment into older versions of JavaScript syntax that are compatible with these environments.
 
 - **Type**:
 
@@ -1219,7 +1219,7 @@ This optimization is implemented using [babel-plugin-lodash](https://www.npmjs.c
 - **Type**: `boolean`
 - **Default**: `true`
 
-This option is enabled by default, and Module Tools will automatically redirects the code references of `lodash` to sub-paths.
+This option is enabled by default, and Modern.js Module will automatically redirects the code references of `lodash` to sub-paths.
 
 For example:
 
