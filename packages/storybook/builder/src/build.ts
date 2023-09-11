@@ -83,7 +83,9 @@ export const start: StorybookBuilder['start'] = async ({
       // @ts-expect-error
       config.builderConfig?.tools?.devServer?.devMiddleware?.writeToDisk ||
       true,
-    stats: 'errors-warnings',
+
+    // builder can log errors, so not using dev-middleware logs
+    stats: false,
   });
 
   router.use(middleware);

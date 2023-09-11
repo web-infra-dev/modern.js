@@ -32,7 +32,7 @@ import type {
   RspackConfig,
 } from '@modern-js/builder-rspack-provider';
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
-import minimatch from 'minimatch';
+import { minimatch } from 'minimatch';
 import { AllBuilderConfig, FrameworkOptions } from './types';
 import { toImportFn, virtualModule, maybeGetAbsolutePath } from './utils';
 import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
@@ -442,10 +442,8 @@ async function watchStories(
         return;
       }
 
-      if (
-        patterns.some(entry => minimatch(join(cwd, changedFilePath), entry))
-      ) {
-        // recauculate stories
+      if (patterns.some(entry => minimatch(changedFilePath, entry))) {
+        // recalculate stories
         const stories = (
           await Promise.all(
             patterns.map(pattern => {
@@ -458,7 +456,7 @@ async function watchStories(
         writeModule(getStoriesEntryPath(cwd), newStories);
       }
     },
-    ['node_modules'],
+    [/node_modules/],
   );
   return watcher;
 }

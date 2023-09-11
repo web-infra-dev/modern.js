@@ -12,10 +12,6 @@
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.4.0",
-    "@storybook/addon-interactions": "^7.4.0",
-    "@storybook/addon-links": "^7.4.0",
-    "@storybook/blocks": "^7.4.0",
-    "@storybook/testing-library": "^0.2.0",
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
     "@modern-js/storybook": "workspace:*",
