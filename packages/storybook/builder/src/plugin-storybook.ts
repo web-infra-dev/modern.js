@@ -164,19 +164,11 @@ async function prepareStorybookModules(
 ) {
   const mappings = await createStorybookModules(cwd, options, storyPatterns);
 
-  const managerAPIPath = maybeGetAbsolutePath(`@storybook/manager-api`);
   const componentsPath = maybeGetAbsolutePath(`@storybook/components`);
   const routerPath = maybeGetAbsolutePath(`@storybook/router`);
   const themingPath = maybeGetAbsolutePath(`@storybook/theming`);
 
   const storybookPaths: Record<string, string> = {
-    ...(managerAPIPath
-      ? {
-          // TODO: deprecated, remove in 8.0
-          [`@storybook/api`]: managerAPIPath,
-          [`@storybook/manager-api`]: managerAPIPath,
-        }
-      : {}),
     ...(componentsPath
       ? {
           [`@storybook/components`]: componentsPath,

@@ -39,9 +39,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@modern-js/builder-shared": "workspace:*",
     "@modern-js/storybook-builder": "workspace:*",
-    "@modern-js/utils": "workspace:*",
     "@storybook/react": "^7.4.0",
     "storybook": "^7.4.0"
   },
