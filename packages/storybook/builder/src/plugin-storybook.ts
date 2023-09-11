@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { isAbsolute, join, resolve } from 'path';
-import { slash, watch } from '@modern-js/utils';
+import { slash, watch, globby } from '@modern-js/utils';
 import {
   BuilderPlugin,
   SharedBuilderConfig,
@@ -22,7 +22,6 @@ import {
   loadPreviewOrConfigFile,
 } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
-import { promise as glob } from 'glob-promise';
 
 import type {
   BuilderPluginAPI as WebpackAPI,
@@ -401,7 +400,7 @@ async function createStoriesEntry(cwd: string, storyPatterns: string[]) {
   const stories = (
     await Promise.all(
       storyPatterns.map(pattern => {
-        return glob(slash(pattern), { follow: true });
+        return globby(slash(pattern), { followSymbolicLinks: true });
       }),
     )
   ).reduce((carry, stories) => carry.concat(stories), []);
@@ -458,7 +457,7 @@ async function watchStories(
         const stories = (
           await Promise.all(
             patterns.map(pattern => {
-              return glob(slash(pattern), { follow: true });
+              return globby(slash(pattern), { followSymbolicLinks: true });
             }),
           )
         ).reduce((carry, stories) => carry.concat(stories), []);
