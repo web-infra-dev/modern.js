@@ -1,6 +1,5 @@
-import './page.css';
 import React from 'react';
-import { Box, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Card, Flex, Text } from '@radix-ui/themes';
 import {
   ArchiveIcon,
   CubeIcon,
@@ -10,6 +9,7 @@ import {
 import { useSnapshot } from 'valtio';
 import styled from '@emotion/styled';
 import srcLogo from './logo.svg';
+import srcHeading from './heading.svg';
 import { useStore } from '@/stores';
 
 const BUNDLER_PACKAGE_NAMES = {
@@ -36,9 +36,7 @@ const Page: React.FC = () => {
     <Flex direction="column" align="center">
       <Flex gap="2">
         <img src={srcLogo} />
-        <Heading as="h1" my="4" size="8" weight="medium" color="sky">
-          <LogoText>DevTools</LogoText>
-        </Heading>
+        <LogoHeading src={srcHeading} />
       </Flex>
       <Description>
         {store.name.formalName} DevTools v{store.version}
@@ -115,13 +113,11 @@ const Indicator: React.FC<IndicatorProps> = ({ title, icon, children }) => {
   );
 };
 
-const LogoText = styled(Text)({
-  fontFamily: 'Open Sans, cursive',
-  fontWeight: 800,
-  color: 'hsl(220, 7.0%, 85.0%)',
-});
-
 const Description = styled(Text)({
   fontSize: 'var(--font-size-1)',
   color: 'var(--gray-7)',
+});
+
+const LogoHeading = styled.img({
+  width: '10rem',
 });
