@@ -792,7 +792,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -1775,7 +1775,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
