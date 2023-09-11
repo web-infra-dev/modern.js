@@ -1,0 +1,59 @@
+name: Release Nightly
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 00:00 AM Beijing Time.
+    - cron: "0 16 * * *"
+
+permissions:
+  id-token: write
+
+jobs:
+  release:
+    name: Release Nightly
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+        # This makes Actions fetch only one branch to release
+          fetch-depth: 1
+
+      - name: Install Pnpm
+        run: corepack enable
+
+      - name: Setup Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: 'pnpm'
+
+      - name: Install npm v9
+        run: npm install -g npm@9
+
+      - name: Turbo Cache
+        id: turbo-cache
+        uses: actions/cache@v3
+        with:
+          path: .turbo
+          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ github.ref_name }}-
+            turbo-
+
+      - name: Install Dependencies && Build
+        run: pnpm install
+
+      - name: Release
+        uses: web-infra-dev/actions@v2
+        with:
+          version: nightly
+          branch: main
+          type: 'release'
+          tools: 'modern'
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}
