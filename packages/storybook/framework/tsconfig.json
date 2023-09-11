@@ -12,6 +12,5 @@
     "module": "NodeNext",
     "esModuleInterop": true
   },
-  "include": ["./src"],
-  "exclude": ["./tests/fixtures"]
+  "include": ["./src"]
 }
