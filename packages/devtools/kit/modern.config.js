@@ -6,9 +6,6 @@ module.exports = {
     target: 'es2019',
     outDir: './dist',
     externalHelpers: true,
-    dts: process.env.SKIP_DTS !== 'true',
-    asset: {
-      limit: 5_000_000_000,
-    },
+    dts: process.env.SKIP_DTS !== 'true' ? {} : false,
   },
 };

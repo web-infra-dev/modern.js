@@ -1657,6 +1657,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      ufo:
+        specifier: ^1.2.0
+        version: 1.3.0
       ws:
         specifier: 8.13.0
         version: 8.13.0

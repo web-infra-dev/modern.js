@@ -1,28 +1,33 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import _ from '@modern-js/utils/lodash';
-import { ClientDefinition, SetupClientOptions } from '@modern-js/devtools-kit';
-import { PartialDeep, RequiredDeep } from 'type-fest';
+import { ClientDefinition } from '@modern-js/devtools-kit';
+import { Options as MountOptions } from '@modern-js/devtools-mount';
+import { PartialDeep } from 'type-fest';
 import { setupClientConnection } from './rpc';
 
-export interface Options extends Partial<SetupClientOptions> {
+export interface Options extends MountOptions {
   rpcPath?: string;
   def?: PartialDeep<ClientDefinition>;
 }
 
-const getDefaultOptions = (): RequiredDeep<Options> => ({
+const getDefaultOptions = (): Options => ({
   rpcPath: '/_modern_js/devtools/rpc',
   def: new ClientDefinition(),
-  ...new SetupClientOptions(),
 });
 
 export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
-    const opts: RequiredDeep<Options> = _.defaultsDeep(
-      options,
+    const opts: Options = _.defaultsDeep(
+      _.cloneDeep(options),
       getDefaultOptions(),
     );
+    const mountOpts: MountOptions = _.pick(opts, [
+      'endpoint',
+      'version',
+      'dataSource',
+    ]);
     // setup socket server.
     const { hooks, builderPlugin, url } = await setupClientConnection({
       api,
@@ -45,11 +50,14 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
           builderPlugins: [builderPlugin],
           source: {
             preEntry: [require.resolve('@modern-js/plugin-devtools/runtime')],
+            globalVars: {
+              'process.env.__MODERN_DEVTOOLS_MOUNT_OPTIONS': mountOpts as any,
+            },
           },
           tools: {
             devServer: {
               proxy: {
-                [opts.rpcPath]: {
+                [opts.rpcPath!]: {
                   target: url.href,
                   autoRewrite: true,
                   ws: true,

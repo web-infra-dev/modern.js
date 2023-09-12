@@ -1,16 +1,14 @@
+import _ from '@modern-js/utils/lodash';
+import { parseURL, stringifyParsedURL } from 'ufo';
+
 export interface MountPointFunctions {
   getLocation: () => string;
 }
 
-export class SetupClientOptions {
-  endpoint: string = 'https://modernjs.dev/devtools';
+export interface SetupClientOptions {
+  endpoint?: string;
 
-  version: string;
+  version?: string | boolean;
 
-  dataSource: string = '/_modern_js/devtools/rpc';
-
-  constructor() {
-    const pkgVersion = require('@modern-js/devtools-kit/package.json').version;
-    this.version = pkgVersion;
-  }
+  dataSource?: string;
 }

@@ -1,15 +1,11 @@
 import { createRoot } from 'react-dom/client';
-import { SetupClientOptions } from '@modern-js/devtools-kit';
 import DevtoolsAction from './components/Devtools/Action';
 import type { MountDevTools, Options } from '@/types';
 
 export { Options };
 
-export const mountDevTools: MountDevTools = options => {
-  const props: Options = {
-    ...new SetupClientOptions(),
-    ...options,
-  };
+export const mountDevTools: MountDevTools = (options = {}) => {
+  const props: Options = options;
 
   const container = document.createElement('div');
   container.className = '_modern_js_devtools_container';

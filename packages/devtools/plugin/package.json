@@ -23,16 +23,17 @@
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "require": "./dist/cjs/index.js"
+        "require": "./dist/index.js"
       },
-      "default": "./dist/cjs/index.js"
+      "default": "./dist/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
-      "default": "./dist/cjs/cli.js"
+      "default": "./dist/cli.js"
     },
     "./runtime": {
-      "default": "./runtime.mjs"
+      "jsnext:source": "./src/runtime.ts",
+      "default": "./dist/runtime.js"
     }
   },
   "scripts": {
