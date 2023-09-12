@@ -12,5 +12,6 @@
     "module": "NodeNext",
     "esModuleInterop": true
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["./src/addons/**/*"]
 }

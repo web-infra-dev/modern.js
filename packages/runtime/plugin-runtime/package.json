@@ -27,7 +27,6 @@
     ".": {
       "types": "./dist/types/index.d.ts",
       "jsnext:source": "./src/index.ts",
-      "require": "./dist/cjs/index.js",
       "default": "./dist/esm/index.js"
     },
     "./types": "./types/index.d.ts",
@@ -37,19 +36,16 @@
     "./loadable": {
       "types": "./dist/types/exports/loadable.d.ts",
       "jsnext:source": "./src/exports/loadable.ts",
-      "require": "./dist/cjs/exports/loadable.js",
       "default": "./dist/esm/exports/loadable.js"
     },
     "./head": {
       "types": "./dist/types/exports/head.d.ts",
       "jsnext:source": "./src/exports/head.ts",
-      "require": "./dist/cjs/exports/head.js",
       "default": "./dist/esm/exports/head.js"
     },
     "./styled": {
       "types": "./dist/types/exports/styled.d.ts",
       "jsnext:source": "./src/exports/styled.ts",
-      "require": "./dist/cjs/exports/styled.js",
       "default": "./dist/esm/exports/styled.js"
     },
     "./server": {
@@ -80,7 +76,6 @@
     "./model": {
       "types": "./types/model.d.ts",
       "jsnext:source": "./src/state/index.ts",
-      "require": "./dist/cjs/state/index.js",
       "default": "./dist/esm/state/index.js"
     },
     "./cli": {
@@ -91,13 +86,11 @@
     "./router": {
       "types": "./dist/types/router/index.d.ts",
       "jsnext:source": "./src/router/index.ts",
-      "require": "./dist/esm/router/index.js",
       "default": "./dist/esm/router/index.js"
     },
     "./router/server": {
       "types": "./dist/types/router/runtime/server.d.ts",
       "jsnext:source": "./src/router/runtime/server.ts",
-      "require": "./dist/cjs/router/runtime/server.js",
       "default": "./dist/esm/router/runtime/server.js"
     },
     "./loadable-bundler-plugin": {
@@ -167,12 +160,12 @@
     "@loadable/component": "5.15.3",
     "@loadable/server": "5.15.3",
     "@loadable/webpack-plugin": "5.15.2",
-    "@modern-js-reduck/plugin-auto-actions": "^1.1.11",
-    "@modern-js-reduck/plugin-devtools": "^1.1.11",
-    "@modern-js-reduck/plugin-effects": "^1.1.11",
-    "@modern-js-reduck/plugin-immutable": "^1.1.11",
-    "@modern-js-reduck/react": "^1.1.11",
-    "@modern-js-reduck/store": "^1.1.11",
+    "@modern-js-reduck/plugin-auto-actions": "^1.1.10",
+    "@modern-js-reduck/plugin-devtools": "^1.1.10",
+    "@modern-js-reduck/plugin-effects": "^1.1.10",
+    "@modern-js-reduck/plugin-immutable": "^1.1.10",
+    "@modern-js-reduck/react": "^1.1.10",
+    "@modern-js-reduck/store": "^1.1.10",
     "@modern-js/plugin": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",

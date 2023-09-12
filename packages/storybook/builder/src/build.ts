@@ -1,7 +1,7 @@
 import { dirname, join, parse } from 'path';
 import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import express from 'express';
+import serveStatic from 'serve-static';
 import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
 import { fs } from '@modern-js/utils';
 import type { FrameworkOptions } from './types';
@@ -71,7 +71,7 @@ export const start: StorybookBuilder['start'] = async ({
 
   router.use(
     `/sb-preview`,
-    express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }),
+    serveStatic(previewDirOrigin, { immutable: true, maxAge: '5m' }),
   );
 
   const config = await getConfig(options);
