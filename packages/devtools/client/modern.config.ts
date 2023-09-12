@@ -4,53 +4,51 @@ import { execSync } from 'child_process';
 import { logger } from '@modern-js/builder-shared';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { proxyPlugin } from '@modern-js/plugin-proxy';
-import { withQuery } from 'ufo';
+import { version } from './package.json';
 
-let version = '';
-if (process.env.BASENAME === 'version' || !process.env.BASENAME) {
-  ({ version } = require('./package.json'));
-} else if (process.env.BASENAME === 'commit') {
-  version = execSync('git rev-parse --short HEAD').toString().trim();
-  if (!version.match(/^\w{11}$/)) {
-    throw new Error("Can't resolve git commit hash.");
-  }
-} else if (process.env.BASENAME === 'false') {
-  version = '';
-} else {
-  version = process.env.BASENAME;
+const commitShort = execSync('git rev-parse --short HEAD').toString().trim();
+if (!commitShort.match(/^\w{11}$/)) {
+  throw new Error("Can't resolve git commit hash.");
 }
 
-const { DEPLOY_HOST = 'https://modernjs.dev' } = process.env;
-const assetPrefix = path.resolve('/devtools', version);
-const basename = new URL(assetPrefix, DEPLOY_HOST).href;
-logger.info(`Use application basename:`, basename);
+const basename = new URL(process.env.DEPLOY_HOST || 'https://modernjs.dev');
+if (process.env.BASENAME === 'version' || !process.env.BASENAME) {
+  basename.pathname = `/devtools/${version}`;
+} else if (process.env.BASENAME === 'commit') {
+  basename.pathname = `/devtools/${commitShort}`;
+} else if (process.env.BASENAME === 'false') {
+  basename.pathname = '/devtools';
+} else {
+  basename.pathname = path.resolve('/devtools', process.env.BASENAME);
+}
+
 logger.info(
-  `Access with local RPC:`,
-  withQuery(basename, { src: 'ws://localhost:8080/_modern_js/devtools/rpc' }),
+  `Access client:`,
+  `${basename.href}?src=ws://localhost:8080/_modern_js/devtools/rpc`,
 );
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
     router: {
-      basename: assetPrefix,
+      basename: basename.pathname,
     },
   },
   dev: {
     port: 8780,
-    assetPrefix,
+    assetPrefix: basename.pathname,
     proxy: {
-      [basename]: new URL(assetPrefix, 'http://localhost:8780').href,
+      [basename.href]: new URL(basename.pathname, 'http://localhost:8780').href,
     },
   },
   source: {
     preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
     globalVars: {
-      'process.env.PKG_VERSION': version,
+      'process.env.PKG_VERSION': `${version}-${commitShort}`,
     },
   },
   output: {
-    assetPrefix: basename,
+    assetPrefix: basename.href,
     enableCssModuleTSDeclaration: true,
   },
   tools: {
