@@ -1,11 +1,24 @@
 import { URL } from 'url';
 import path from 'path/posix';
+import { execSync } from 'child_process';
 import { logger } from '@modern-js/builder-shared';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { proxyPlugin } from '@modern-js/plugin-proxy';
 import { withQuery } from 'ufo';
 
-const { version } = require('./package.json');
+let version = '';
+if (process.env.BASENAME === 'version') {
+  ({ version } = require('./package.json'));
+} else if (process.env.BASENAME === 'commit' || !process.env.BASENAME) {
+  version = execSync('git rev-parse --short HEAD').toString().trim();
+  if (!version.match(/^\w{11}$/)) {
+    throw new Error("Can't resolve git commit hash.");
+  }
+} else if (process.env.BASENAME === 'false') {
+  version = '';
+} else {
+  version = process.env.BASENAME;
+}
 
 const { DEPLOY_HOST = 'https://modernjs.dev' } = process.env;
 const assetPrefix = path.resolve('/devtools', version);
