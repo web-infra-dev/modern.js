@@ -1,12 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import DevtoolsAction from './components/Devtools/Action';
-import type { MountDevTools, Options } from '@/types';
-
-export { Options };
+import type { MountDevTools } from '@/types';
 
 export const mountDevTools: MountDevTools = (options = {}) => {
-  const props: Options = options;
-
   const container = document.createElement('div');
   container.className = '_modern_js_devtools_container';
   container.id = process.env.DEVTOOLS_MARK!;
@@ -37,5 +33,5 @@ export const mountDevTools: MountDevTools = (options = {}) => {
 
   const root = createRoot(app);
 
-  root.render(<DevtoolsAction {...props} />);
+  root.render(<DevtoolsAction {...options} />);
 };

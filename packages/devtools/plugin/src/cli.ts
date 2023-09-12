@@ -1,11 +1,10 @@
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import _ from '@modern-js/utils/lodash';
-import { ClientDefinition } from '@modern-js/devtools-kit';
-import { Options as MountOptions } from '@modern-js/devtools-mount';
+import { ClientDefinition, SetupClientOptions } from '@modern-js/devtools-kit';
 import { PartialDeep } from 'type-fest';
 import { setupClientConnection } from './rpc';
 
-export interface Options extends MountOptions {
+export interface Options extends SetupClientOptions {
   rpcPath?: string;
   def?: PartialDeep<ClientDefinition>;
 }
@@ -23,7 +22,7 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
       _.cloneDeep(options),
       getDefaultOptions(),
     );
-    const mountOpts: MountOptions = _.pick(opts, [
+    const mountOpts: SetupClientOptions = _.pick(opts, [
       'endpoint',
       'version',
       'dataSource',
