@@ -16,6 +16,6 @@ export interface StorybookConfig extends StorybookConfigBase {
         options: FrameworkOptions;
       };
   typescript?: {
-    reactDocgen?: 'react-docgen' | false;
+    reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;
   } & StorybookConfigBase['typescript'];
 }

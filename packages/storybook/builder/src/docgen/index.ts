@@ -33,45 +33,37 @@ export async function applyDocgenWebpack(
         savePropValueAsString: true,
       },
     ]);
+  } else if (reactDocgen === 'react-docgen') {
+    // use babel react-docgen, its faster
+    const loader = require.resolve('./loader');
+    const resolveOptions = chain.toConfig().resolve;
+
+    chain.module
+      .rule(CHAIN_ID.RULE.JS)
+      .use(CHAIN_ID.USE.REACT_DOCGEN)
+      .loader(loader)
+      .options({
+        resolveOptions,
+      })
+      .after(CHAIN_ID.USE.BABEL)
+      .after(CHAIN_ID.USE.ESBUILD)
+      .after(CHAIN_ID.USE.SWC)
+      .end();
+
+    const tsRuls = chain.module.rule(CHAIN_ID.RULE.TS);
+    if (tsRuls.uses.values().length !== 0) {
+      tsRuls
+        .use(CHAIN_ID.USE.REACT_DOCGEN)
+        .loader(loader)
+        .options({
+          resolveOptions,
+        })
+        .after(CHAIN_ID.USE.TS)
+        .after(CHAIN_ID.USE.ESBUILD)
+        .after(CHAIN_ID.USE.SWC)
+        .end();
+    }
   }
-
-  const babelUse = chain.module.rule(CHAIN_ID.RULE.JS).use(CHAIN_ID.USE.BABEL);
-  const babelOptions = babelUse.get('options');
-
-  // uses babel
-  if (babelOptions) {
-    babelUse.set('options', {
-      ...babelOptions,
-      overrides: [
-        ...(babelOptions.overrides || []),
-        {
-          test:
-            reactDocgen === 'react-docgen'
-              ? /\.(cjs|mjs|tsx?|jsx?)$/
-              : /\.(cjs|mjs|jsx?)$/,
-          plugins: [[require.resolve('babel-plugin-react-docgen')]],
-        },
-      ],
-    });
-    return;
-  }
-
-  // uses SWC or other transpilers
-  chain.module
-    .rule(CHAIN_ID.RULE.JS)
-    .use('docgen')
-    .loader(require.resolve('./loader'))
-    .options({
-      resolveOptions: chain.toConfig().resolve,
-    });
-
-  chain.module
-    .rule(CHAIN_ID.RULE.TS)
-    .use('docgen')
-    .loader(require.resolve('./loader'))
-    .options({
-      resolveOptions: chain.toConfig().resolve,
-    });
 }
 
 export async function applyDocgenRspack(

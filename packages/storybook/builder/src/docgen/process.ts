@@ -1,5 +1,5 @@
 import { importers, resolver, handlers, parse } from 'react-docgen';
-import { DocumentationObject } from 'react-docgen/dist/Documentation';
+import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import actualNameHandler from './actualNameHandler';
 
 const defaultHandlers = Object.values(handlers).map(handler => handler);

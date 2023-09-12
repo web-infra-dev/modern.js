@@ -3,9 +3,7 @@ import type { StorybookConfig } from '@modern-js/storybook';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-essentials',
-  ],
+  addons: ['@storybook/addon-essentials'],
   framework: {
     name: getAbs('@modern-js/storybook'),
     options: {
@@ -13,7 +11,6 @@ const config: StorybookConfig = {
     },
   },
   typescript: {
-    // can use both in webpack and rspack
     reactDocgen: 'react-docgen',
   },
   docs: {

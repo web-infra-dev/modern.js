@@ -1,11 +1,20 @@
+// @ts-expect-error
+import type { Tinypool } from 'tinypool';
+
+let tinyPoolPromise: Promise<Tinypool> | null = null;
+
 async function docLoader(this: any, source: string, map: string, data: any) {
   const callback = this.async();
 
-  const { Tinypool } = await import('tinypool');
+  if (!tinyPoolPromise) {
+    tinyPoolPromise = import('tinypool').then(({ Tinypool }) => {
+      return new Tinypool({
+        filename: require.resolve('./process'),
+      });
+    });
+  }
 
-  const tinyPool = new Tinypool({
-    filename: require.resolve('./process'),
-  });
+  const tinyPool = await tinyPoolPromise;
 
   const result: [string, string] | null = await tinyPool.run({
     source,
