@@ -5,7 +5,7 @@ import type {
   NormalizedConfig,
   RspackBuiltinsConfig,
 } from '../types';
-import { SwcJsMinimizerPlugin } from '@rspack/core';
+import { SwcJsMinimizerRspackPlugin } from '@rspack/core';
 
 export async function applyJSMinimizer(
   chain: BundlerChain,
@@ -42,7 +42,7 @@ export async function applyJSMinimizer(
 
   chain.optimization
     .minimizer(CHAIN_ID.MINIMIZER.JS)
-    .use(SwcJsMinimizerPlugin, [options])
+    .use(SwcJsMinimizerRspackPlugin, [options])
     .end();
 }
 

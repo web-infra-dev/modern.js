@@ -1399,10 +1399,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "exclude": undefined,
           "extractComments": "true",
           "include": undefined,
+          "keepClassNames": false,
+          "keepFnNames": false,
           "passes": 1,
           "pureFuncs": [],
           "test": undefined,
         },
+        "name": "SwcJsMinimizerRspackPlugin",
       },
       CssMinimizerPlugin {
         "options": {

@@ -44,10 +44,13 @@ describe('plugins/minimize', () => {
             "exclude": undefined,
             "extractComments": "true",
             "include": undefined,
+            "keepClassNames": false,
+            "keepFnNames": false,
             "passes": 1,
             "pureFuncs": [],
             "test": undefined,
           },
+          "name": "SwcJsMinimizerRspackPlugin",
         },
         CssMinimizerPlugin {
           "options": {
@@ -124,10 +127,13 @@ describe('plugins/minimize', () => {
             "exclude": undefined,
             "extractComments": "true",
             "include": undefined,
+            "keepClassNames": false,
+            "keepFnNames": false,
             "passes": 1,
             "pureFuncs": [],
             "test": undefined,
           },
+          "name": "SwcJsMinimizerRspackPlugin",
         },
         CssMinimizerPlugin {
           "options": {
@@ -183,6 +189,8 @@ describe('plugins/minimize', () => {
             "exclude": undefined,
             "extractComments": "true",
             "include": undefined,
+            "keepClassNames": false,
+            "keepFnNames": false,
             "passes": 1,
             "pureFuncs": [
               "console.log",
@@ -190,6 +198,7 @@ describe('plugins/minimize', () => {
             ],
             "test": undefined,
           },
+          "name": "SwcJsMinimizerRspackPlugin",
         },
         CssMinimizerPlugin {
           "options": {
@@ -245,10 +254,13 @@ describe('plugins/minimize', () => {
             "exclude": undefined,
             "extractComments": "true",
             "include": undefined,
+            "keepClassNames": false,
+            "keepFnNames": false,
             "passes": 1,
             "pureFuncs": [],
             "test": undefined,
           },
+          "name": "SwcJsMinimizerRspackPlugin",
         },
         CssMinimizerPlugin {
           "options": {
