@@ -16,6 +16,7 @@ exports[`plugins/bundleAnalyze > should add bundle analyze plugin 1`] = `
         "analyzerHost": "127.0.0.1",
         "analyzerMode": "static",
         "analyzerPort": 8888,
+        "analyzerUrl": [Function],
         "defaultSizes": "parsed",
         "excludeAssets": null,
         "generateStatsFile": false,
