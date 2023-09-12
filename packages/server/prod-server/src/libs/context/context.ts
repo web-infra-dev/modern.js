@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
-import qs from 'querystring';
+import qs, { ParsedUrlQuery } from 'querystring';
 import { Buffer } from 'buffer';
 import type {
   ModernServerContext as ModernServerContextInterface,
@@ -55,6 +55,12 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   private options: ContextOptions = {};
 
+  #url?: URL;
+
+  #host?: string;
+
+  #query?: ParsedUrlQuery;
+
   constructor(
     req: IncomingMessage,
     res: ServerResponse,
@@ -72,8 +78,14 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   private get parsedURL() {
     try {
-      // only for parse url, use mock
-      return new URL(this.req.url!, MOCK_URL_BASE);
+      if (this.#url) {
+        return this.#url;
+      } else {
+        // only for parse url, use mock
+        const url = new URL(this.req.url!, MOCK_URL_BASE);
+        this.#url = url;
+        return url;
+      }
     } catch (e) {
       this.logger.error(
         'Parse URL error',
@@ -176,14 +188,20 @@ export class ModernServerContext implements ModernServerContextInterface {
   }
 
   public get host() {
+    if (this.#host) {
+      return this.#host;
+    }
     let host = this.getReqHeader('X-Forwarded-Host');
     if (!host) {
       host = this.getReqHeader('Host');
     }
+
+    host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
+    this.#host = host;
     // the host = '',if we can't cat Host or X-Forwarded-Host header
     // but the this.href would assign a invalid value:`http[s]://${pathname}`
     // so we need assign host a no-empty value.
-    return (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
+    return host;
   }
 
   public get protocol() {
@@ -228,8 +246,14 @@ export class ModernServerContext implements ModernServerContextInterface {
   }
 
   public get query() {
+    if (this.#query) {
+      return this.#query;
+    }
     const str = this.querystring;
-    return qs.parse(str);
+    const query = qs.parse(str);
+    this.#query = query;
+
+    return query;
   }
 
   /* response property */
