@@ -55,6 +55,11 @@ The advantages of this approach are:
 - There is no need to execute the build process for the sub-projects in advance.
 - HMR is more efficient during local development.
 
+The disadvantages are:
+
+- The current project needs to support syntax features used by sub-projects and follow the same syntax specifications, such as using a consistent version of decorator syntax. If the current project and sub-projects require different build configurations, building from source code may not be suitable.
+- The current project requires compiling more code, which may result in longer build times.
+
 ## Building from Source Code
 
 ### Enabling Configuration
