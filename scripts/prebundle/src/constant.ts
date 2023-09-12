@@ -234,7 +234,8 @@ export const TASKS: TaskConfig[] = [
       {
         name: 'webpack-bundle-analyzer',
         externals: {
-          chalk: '@modern-js/utils/chalk',
+          acorn: 'acorn',
+          commander: '@modern-js/utils/commander',
           'gzip-size': '@modern-js/utils/gzip-size',
         },
       },
