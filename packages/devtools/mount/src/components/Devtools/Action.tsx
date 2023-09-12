@@ -10,7 +10,6 @@ const getDefaultRPC = () => {
   const url = new URL('ws://localhost/_modern_js/devtools/rpc');
   url.protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
   url.host = location.host;
-  console.log('url.href: ', url.href);
   return url.href;
 };
 
