@@ -4,20 +4,19 @@ The source-code build mode allows developers to use dependent subproject source 
 
 ## Enable source-code build
 
-You can enable this feature by setting [`experiments.sourceBuild`](/api/config-experiments.html#experimentssourcebuild) to `true`.
+You can enable this feature by setting [experiments.sourceBuild](/api/config-experiments.html#experimentssourcebuild) to `true`.
 
 ```ts
 export default {
-    experiments: {
-        sourceBuild: true,
-    },
+  experiments: {
+    sourceBuild: true,
+  },
 };
 ```
 
 ## Specify the sub-projects that need to read the source code
 
 When you need to read the source code of a subproject, you need to make sure that the package.json of the subproject contains a `source` field, and that the path to the file corresponding to that field is the path to the source code file.
-
 
 ```json title="package.json"
 {
