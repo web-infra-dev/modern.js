@@ -24,16 +24,16 @@ export async function getProvider(
 ) {
   try {
     if (bundler === 'webpack') {
-      const {
-        default: { builderWebpackProvider },
-      } = await import('@modern-js/builder-webpack-provider');
+      const { builderWebpackProvider } = await import(
+        '@modern-js/builder-webpack-provider'
+      );
       return builderWebpackProvider({
         builderConfig: builderConfig as WebpackBuilderConfig,
       });
     } else {
-      const {
-        default: { builderRspackProvider },
-      } = await import('@modern-js/builder-rspack-provider');
+      const { builderRspackProvider } = await import(
+        '@modern-js/builder-rspack-provider'
+      );
       return builderRspackProvider({
         builderConfig: builderConfig as RspackBuilderConfig,
       });

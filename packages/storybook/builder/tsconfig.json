@@ -13,5 +13,4 @@
     "esModuleInterop": true
   },
   "include": ["./src"],
-  "exclude": ["./src/addons/**/*"]
 }

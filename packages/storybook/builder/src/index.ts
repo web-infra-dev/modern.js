@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-export { start, build, bail } from './build';
+export { start, build, bail, getConfig } from './build';
 
 export * from './types';
 

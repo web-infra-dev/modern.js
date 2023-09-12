@@ -8,26 +8,24 @@
     "directory": "packages/storybook/builder"
   },
   "jsnext:source": "./src/index.ts",
-  "main": "./dist/index.js",
+  "main": "./index.js",
   "types": "./src/index.ts",
   "scripts": {
-    "build": "tsc && npm run build:addon",
-    "build:addon": "tsc -p tsconfig.addons.json",
-    "dev": "tsc --watch --incremental & npm run dev:addon",
-    "dev:addon": "tsc -p tsconfig.addons.json --watch --incremental",
+    "build": "modern-lib build",
+    "dev": "modern-lib build --watch",
     "test": "vitest run"
   },
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/types/index.d.ts",
+      "default": "./index.js"
     },
-    "./preset": "./dist/preset.js",
+    "./preset": "./dist/esm/preset.js",
     "./types": {
       "jsnext:source": "./src/types.ts",
-      "types": "./dist/types.d.ts",
-      "default": "./dist/types.js"
+      "types": "./dist/types/types.d.ts",
+      "default": "./dist/cjs/types.js"
     },
     "./templates/preview.ejs": "./templates/preview.ejs",
     "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
@@ -64,11 +62,14 @@
     "remark-slug": "^7.0.1",
     "serve-static": "^1.14.1",
     "tinypool": "^0.8.0",
+    "@swc/helpers": "0.5.1",
     "webpack-hot-middleware": "^2.25.4"
   },
   "devDependencies": {
     "@modern-js/builder-rspack-provider": "workspace:*",
     "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@scripts/build": "workspace:*",
     "@storybook/types": "^7.4.0",
     "@types/babel__core": "^7.20.1",
     "@types/serve-static": "^1.13.10",
