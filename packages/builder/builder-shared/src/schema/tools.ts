@@ -16,11 +16,12 @@ const sharedDevServerConfigSchema = z.partialObj({
     port: z.string(),
     host: z.string(),
   }),
-  devMiddleware: z.object({
+  devMiddleware: z.partialObj({
     writeToDisk: z.union([
       z.boolean(),
       z.function().args(z.string()).returns(z.boolean()),
     ]),
+    outputFileSystem: z.record(z.any()),
   }),
   historyApiFallback: z.union([z.boolean(), z.record(z.unknown())]),
   compress: z.boolean(),

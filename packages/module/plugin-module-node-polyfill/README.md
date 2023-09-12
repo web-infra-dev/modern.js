@@ -1,6 +1,6 @@
 # @modern-js/plugin-module-node-polyfill
 
-The node polyfill plugin of Modern.js Module Tools.
+The node polyfill plugin of Modern.js Module.
 
 ## Usage
 

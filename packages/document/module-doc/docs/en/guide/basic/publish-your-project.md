@@ -7,7 +7,7 @@ sidebar_position: 7
 An npm-type module project release process consists of two phases.
 
 - The first phase is during development, where the developer needs to provide a change file to record changes that need to be released.
-- The second phase is during release, where Module Tools can collect all the change files to update the version, update the release log, and release new packages to the [npm Registry](https://www.npmjs.com/).
+- The second phase is during release, where Modern.js Module can collect all the change files to update the version, update the release log, and release new packages to the [npm Registry](https://www.npmjs.com/).
 
 ## Tracking changes
 

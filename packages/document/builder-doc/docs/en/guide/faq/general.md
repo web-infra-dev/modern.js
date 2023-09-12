@@ -12,7 +12,7 @@ When developing Modern.js, we designed Builder as an independent module, and cle
 
 Builder focuses on solving web application building scenarios. We do not recommend that you use Builder to build libraries or UI components.
 
-If you need to build a library or UI components, it is recommended to use the [Modern.js Module Tools](https://modernjs.dev/module-tools/en).
+If you need to build a library or UI components, it is recommended to use the [Modern.js Module](https://modernjs.dev/module-tools/en).
 
 ---
 

@@ -4,10 +4,10 @@ sidebar_position: 2
 
 # 插件对象
 
-Module-tools 插件是一个对象，对象包含以下属性：
+Modern.js Module 的插件是一个对象，对象包含以下属性：
 
 - `name`：插件的名称，唯一标识符。
-- `setup`：插件初始化函数，只会执行一次。setup 函数可以返回一个 [Hooks 对象]()，module-tools 会在特定的时机执行 Hooks 对象上定义的 Hook 对应的函数。
+- `setup`：插件初始化函数，只会执行一次。setup 函数可以返回一个 Hooks 对象，Modern.js Module 会在特定的时机执行 Hooks 对象上定义的 Hook 对应的函数。
 
 例如在下面的插件代码示例中，在项目开始执行构建任务之前会触发 `beforeBuild` 函数的执行，并打印 `build start` 的 log 内容。
 

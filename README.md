@@ -72,7 +72,7 @@ Some implementations of Modern.js are modified from existing projects, such as [
 
 - `@modern-js/bundle-require`: is modified from [bundle-require](https://github.com/egoist/bundle-require).
 - `@modern-js/plugin`: the hooks API is referenced from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
-- `@modern-js/builder`: the moduleScope and fileSize plugins are referenced from [create-react-app](https://github.com/facebook/create-react-app), the TsConfigPathsPlugin is referenced from [tsconfig-paths-webpack-plugin](https://github.com/dividab/tsconfig-paths-webpack-plugin), the generateMetaTags function is referenced from [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
+- `@modern-js/builder`: the moduleScope and fileSize plugins are referenced from [create-react-app](https://github.com/facebook/create-react-app), the generateMetaTags function is referenced from [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
 - `@modern-js/plugin-testing`: the jest runner is referenced from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
 - `@modern-js/plugin-data-loader`: some code is referenced from [remix](https://github.com/remix-run/remix)。
 - `@modern-js/babel-plugin-module-resolver`: is modified from [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)

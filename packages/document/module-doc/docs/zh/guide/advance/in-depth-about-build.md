@@ -82,7 +82,7 @@ export default defineConfig({
 
 在 `buildType: 'bundleless'` 的时候，类型文件的生成是使用项目的 `tsc` 命令来完成生产。
 
-**模块工程解决方案同时还支持对类型文件进行打包**，不过使用该功能的时候需要注意：
+**Modern.js Module 同时还支持对类型文件进行打包**，不过使用该功能的时候需要注意：
 
 - 一些第三方依赖存在错误的语法会导致打包过程失败。因此对于这种情况，需要手动通过 [`buildConfig.externals`](/api/config/build-config#externals) 将这类第三方包排除。
 - 对于第三方依赖的类型文件指向的是一个 `.ts` 文件的情况，目前无法处理。比如第三方依赖的 `package.json` 中存在这样的内容： `{"types": "./src/index.ts"}`。
@@ -95,7 +95,7 @@ export default defineConfig({
 import utils from '@common/utils';
 ```
 
-正常来说，使用 `tsc` 生成的产物类型文件也会包含这些别名。不过 Module Tools 会对 `tsc` 生成的类型文件里的别名进行转换处理：
+正常来说，使用 `tsc` 生成的产物类型文件也会包含这些别名。不过 Modern.js Module 会对 `tsc` 生成的类型文件里的别名进行转换处理：
 
 - 对于类似 `import '@common/utils'` 或者 `import utils from '@common/utils'` 这样形式的代码可以进行别名转换。
 - 对于类似 `export { utils } from '@common/utils'` 这样形式的代码可以进行别名转换。

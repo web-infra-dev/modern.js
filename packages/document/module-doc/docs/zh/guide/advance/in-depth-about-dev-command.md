@@ -4,11 +4,11 @@ sidebar_position: 2
 
 # 深入理解 dev 命令
 
-模块工程提供的 `dev` 命令主要用于代码的调试。
+Modern.js Module 提供的 `dev` 命令主要用于代码的调试。
 
 ## 命令运行的整体流程
 
-1. 当执行 `dev` 命令的时候，Module Tools 开始寻找是否存在可以执行的调试工具或者任务。调试工具或者任务就是类似 Storybook 这样的 Module Tools 调试工具插件。
+1. 当执行 `dev` 命令的时候，Modern.js Module 开始寻找是否存在可以执行的调试工具或者任务。调试工具或者任务就是类似 Storybook 这样的 Modern.js Module 调试工具插件。
 2. 当发现存在一个调试工具的时候，则会立即执行它。
 3. 当发现多个调试工具的时候，则显示调试工具列表菜单。可以通过选择某个调试工具对应的名称选项启动它。
 4. 当没有发现调试工具的时候，则告诉用户没有可用的调试工具。
@@ -17,7 +17,7 @@ sidebar_position: 2
 
 ## 扩展 dev 命令
 
-如果需要扩展 dev 命令或者说提供自己的 Module Tools 调试工具插件，那么你需要先了解以下内容：
+如果需要扩展 dev 命令或者说提供自己的 Modern.js Module 调试工具插件，那么你需要先了解以下内容：
 
 * [开发插件](plugins/guide/getting-started)
 * [调试工具插件 API](/api/plugin-api/plugin-hooks#调试钩子)

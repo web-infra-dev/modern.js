@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # CLI 命令
 
-Module Tools 项目可以使用的 CLI 命令如下：
+Modern.js Module 项目可以使用的 CLI 命令如下：
 
 ## `modern build`
 
@@ -30,7 +30,7 @@ Options:
 - 当需要关闭项目的 DTS 类型文件生成和类型检查行为时，可以使用 `--no-dts` 选项。**注意：类型文件的生成依赖类型检查的结果。如果关闭了类型检查，那么类型文件也不会生成**。
 - 当需要关闭自动清除产物输出目录的行为时，可以使用 `--no-clear` 选项。
 
-除了以上，模块工程还支持 `platform` 构建模式，可以用于执行其他工具的构建任务。例如，目前官方支持在安装了 `@modern-js/plugin-storybook` 插件后，可以通过执行 `modern build --platform` 或者 `modern build --platform storybook` 命令启动 Storybook 构建任务生成 Storybook 产物。
+除了以上方式，Modern.js Module 还支持 `platform` 构建模式，可以用于执行其他工具的构建任务。例如，目前官方支持在安装了 `@modern-js/plugin-storybook` 插件后，可以通过执行 `modern build --platform` 或者 `modern build --platform storybook` 命令启动 Storybook 构建任务生成 Storybook 产物。
 
 :::tip
 在执行 Storybook 构建的时候，如果需要读取项目的构建产物。那么**在执行 `modern build --platform` 命令启动 Storybook 构建之前，不要忘记先执行 `modern build` 命令确保项目构建产物的存在**。
@@ -76,7 +76,7 @@ Commands:
 [dev-tools-subCommand]
 ```
 
-模块工程解决方案提供了使用调试工具的能力，可以通过 `modern dev` 命令来启动。不过要注意的是，默认情况下是没有提供调试相关的插件，因此此时执行 `modern dev` 会提示： _"No dev tools found available"_。
+Modern.js Module 提供了使用调试工具的能力，可以通过 `modern dev` 命令来启动。不过要注意的是，默认情况下是没有提供调试相关的插件，因此此时执行 `modern dev` 会提示： _"No dev tools found available"_。
 
 目前官方支持的调试工具有 [Storybook](https://storybook.js.org/)，因此在你执行 `modern new` 命令开启它后，就可以执行 `modern dev` 或者 `modern dev storybook` 执行它。
 

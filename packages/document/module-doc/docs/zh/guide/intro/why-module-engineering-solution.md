@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# 为什么需要模块工程解决方案
+# 为什么需要 Modern.js Module
 
 大家可能都经历过：从零开始开发一个组件库或者工具库的过程中，我们不仅要考虑项目本身的代码逻辑如何编写，还要考虑项目的构建、调试、测试、代码格式化等等和代码逻辑无关的事情。
 
@@ -18,4 +18,4 @@ sidebar_position: 2
 
 ![没有使用工程方案对比使用工程方案](https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/module-tools/why-module-solution.png)
 
-Modern.js 为了让开发模块类型的项目更简单，为了解决上述提到的问题提供了模块工程解决方案，并且使用 Module Tools 提供了主要的功能。**Module-tools 可以理解为是一个专门用于模块类型项目开发的工具**。
+Modern.js 为了让开发模块类型的项目更简单、解决上述提到的问题，提供了模块工程解决方案，并且通过 Modern.js Module 提供了主要的功能。**Modern.js Module 可以理解为是一个专门用于模块类型项目开发的工具**。

@@ -2,7 +2,7 @@
   <a href="https://modernjs.dev" target="blank"><img src="https://lf3-static.bytednsdoc.com/obj/eden-cn/ylaelkeh7nuhfnuhf/modernjs-cover.png" width="300" alt="Modern.js Logo" /></a>
 </p>
 
-<h1 align="center">Modern.js Module Tools</h1>
+<h1 align="center">Modern.js Module</h1>
 
 <p align="center">
   Simple, powerful, high-performance modern npm package development solution.
@@ -10,7 +10,7 @@
 
 ## Getting Started
 
-Please follow [Quick Start](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) to get started with Modern.js Module Tools.
+Please follow [Quick Start](https://modernjs.dev/module-tools/en/guide/intro/getting-started.html) to get started with Modern.js Module.
 
 ## Documentation
 
