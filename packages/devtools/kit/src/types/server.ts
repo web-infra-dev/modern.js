@@ -18,6 +18,7 @@ import {
   NestedRouteForCli,
   PageRoute,
 } from '@modern-js/types/cli';
+import type { ClientDefinition } from './client';
 
 export type { BuilderContext };
 
@@ -63,5 +64,6 @@ export interface ServerFunctions {
   getBuilderContext: () => Promise<BuilderContext>;
   getDependencies: () => Promise<Record<string, string>>;
   getCompileTimeCost: () => Promise<number>;
+  getClientDefinition: () => Promise<ClientDefinition>;
   echo: (content: string) => string;
 }

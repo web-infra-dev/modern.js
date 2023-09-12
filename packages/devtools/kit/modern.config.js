@@ -1,5 +1,14 @@
-const { universalBuildConfig } = require('@scripts/build');
-
+/** @type {import('@modern-js/module-tools').ModuleConfigParams} */
 module.exports = {
-  buildConfig: universalBuildConfig,
+  buildConfig: {
+    buildType: 'bundleless',
+    format: 'cjs',
+    target: 'es2019',
+    outDir: './dist',
+    externalHelpers: true,
+    dts: process.env.SKIP_DTS !== 'true',
+    asset: {
+      limit: 5_000_000_000,
+    },
+  },
 };

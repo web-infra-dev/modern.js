@@ -8,7 +8,6 @@ import {
 } from '@radix-ui/react-icons';
 import { useSnapshot } from 'valtio';
 import styled from '@emotion/styled';
-import srcLogo from './logo.svg';
 import srcHeading from './heading.svg';
 import { useStore } from '@/stores';
 
@@ -24,7 +23,7 @@ const Page: React.FC = () => {
   if (toolsType !== 'app-tools') {
     throw Error();
   }
-  const toolsPackage = `@modern-js/app-tools`;
+  const toolsPackage = store.packages.appTools;
   const toolsPackageVer = store.dependencies[toolsPackage]!;
 
   const { bundlerType } = store.builder.context;
@@ -35,7 +34,7 @@ const Page: React.FC = () => {
   return (
     <Flex direction="column" align="center">
       <Flex gap="2">
-        <img src={srcLogo} />
+        <img src={store.assets.logo} />
         <LogoHeading src={srcHeading} />
       </Flex>
       <Description>

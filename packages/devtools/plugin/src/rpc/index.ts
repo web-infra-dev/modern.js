@@ -1,14 +1,18 @@
 import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
-import type {
-  BuilderConfig,
-  BundlerConfig,
-  ClientFunctions,
-  FileSystemRoutes,
-  NormalizedBuilderConfig,
-  ServerFunctions,
+import {
+  NameDefinition,
+  type BuilderConfig,
+  type BundlerConfig,
+  type ClientDefinition,
+  type ClientFunctions,
+  type FileSystemRoutes,
+  type NormalizedBuilderConfig,
+  type ServerFunctions,
+  PackageDefinition,
+  AssetDefinition,
 } from '@modern-js/devtools-kit';
-import type { JsonValue } from 'type-fest';
+import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
 import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
@@ -20,12 +24,13 @@ import { requireModule } from '../utils/module';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
+  def?: PartialDeep<ClientDefinition>;
 }
 
 export const setupClientConnection = async (
   options: SetupClientConnectionOptions,
 ) => {
-  const { api } = options;
+  const { api, def = {} } = options;
 
   // generate url.
   const port = await getPort(8782);
@@ -102,35 +107,46 @@ export const setupClientConnection = async (
       const ctx = await deferred.builder.context.promise;
       const ret: Record<string, string> = {};
 
-      const reactMeta = requireModule([ctx.rootPath, 'react/package.json']);
-      ret.react = reactMeta.version;
-
-      const appToolsMeta = requireModule([
-        ctx.rootPath,
-        '@modern-js/app-tools',
-      ]);
-      ret['@modern-js/app-tools'] = appToolsMeta.version;
-
-      const webpackMeta = requireModule([
-        ctx.rootPath,
-        '@modern-js/app-tools',
-        '@modern-js/builder-webpack-provider',
-        'webpack/package.json',
-      ]);
-      ret.webpack = webpackMeta.version;
-
-      try {
-        const rspackMeta = requireModule([
+      const resolveExprs = {
+        react: [ctx.rootPath, 'react/package.json'],
+        '@modern-js/app-tools': [
+          ctx.rootPath,
+          '@modern-js/app-tools/package.json',
+        ],
+        '@edenx/app-tools': [ctx.rootPath, '@edenx/app-tools/package.json'],
+        webpack: [
+          ctx.rootPath,
+          '@modern-js/app-tools',
+          '@modern-js/builder-webpack-provider',
+          'webpack/package.json',
+        ],
+        '@rspack/core': [
           ctx.rootPath,
           '@modern-js/builder-rspack-provider',
           '@rspack/core/package.json',
-        ]);
-        ret['@rspack/core'] = rspackMeta.version;
-      } catch {}
+        ],
+      };
+
+      for (const [name, expr] of Object.entries(resolveExprs)) {
+        try {
+          ret[name] = requireModule(expr).version;
+        } catch {}
+      }
       return ret;
     },
     async getCompileTimeCost() {
       return deferred.compileTimeCost.promise;
+    },
+    async getClientDefinition() {
+      const ret: ClientDefinition = {
+        name: new NameDefinition(),
+        packages: new PackageDefinition(),
+        assets: new AssetDefinition(),
+      };
+      Object.assign(ret.name, def.name);
+      Object.assign(ret.packages, def.packages);
+      Object.assign(ret.assets, def.assets);
+      return ret;
     },
     echo(content) {
       return content;

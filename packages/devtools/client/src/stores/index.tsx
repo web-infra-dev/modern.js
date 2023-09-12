@@ -10,8 +10,8 @@ import {
   FrameworkConfig,
   BuilderConfig,
   NormalizedBuilderConfig,
-  NameDefinition,
   BundlerConfig,
+  ClientDefinition,
 } from '@modern-js/devtools-kit';
 import { ref, useSnapshot } from 'valtio';
 import { setupServerConnection } from '@/rpc';
@@ -55,6 +55,7 @@ const createDeferredTasks = () => ({
   },
   dependencies: createDeferPromise<Record<string, string>>(),
   compileTimeCost: createDeferPromise<number>(),
+  clientDefinition: createDeferPromise<ClientDefinition>(),
 });
 
 export const StoreContextProvider: FC<{ children: ReactElement }> = ({
@@ -88,11 +89,12 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
       },
     },
     tabs: getDefaultTabs().map(tab => ref(tab)),
-    name: new NameDefinition(),
-    aliases: [],
     version: process.env.PKG_VERSION!,
     dependencies: deferred.dependencies.promise,
     compileTimeCost: deferred.compileTimeCost.promise,
+    name: deferred.clientDefinition.promise.then(def => def.name),
+    packages: deferred.clientDefinition.promise.then(def => def.packages),
+    assets: deferred.clientDefinition.promise.then(def => def.assets),
   }));
 
   useAsync(async () => {
@@ -114,6 +116,8 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     );
     deferred.dependencies.resolve(server.getDependencies());
     deferred.compileTimeCost.resolve(server.getCompileTimeCost());
+    deferred.clientDefinition.resolve(server.getClientDefinition());
+
     const ctx = await $store.framework.context;
     for (const { entryName } of ctx.entrypoints) {
       $store.framework.fileSystemRoutes[entryName] =

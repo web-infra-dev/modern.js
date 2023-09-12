@@ -5,16 +5,13 @@ import styled from '@emotion/styled';
 import _ from 'lodash';
 import { withoutTrailingSlash } from 'ufo';
 import { useHoverDirty } from 'react-use';
-import { applyShortenAliases } from '@modern-js/devtools-kit';
 import { MatchRemixRouteContext } from '../MatchRemixRouteContext';
-import { useStoreSnapshot } from '@/stores';
 
 export interface RemixRouteProps {
   route: RouteObject | RouteObject[];
 }
 
 export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
-  const store = useStoreSnapshot();
   const routes = _.castArray(route);
   const curr = _.last(routes)!;
   const componentFile =
@@ -49,11 +46,7 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
             </EndpointTag>
           )}
         </EndpointContainer>
-        {hovered && componentFile && (
-          <ShyLink>
-            {applyShortenAliases(componentFile, store.aliases as any)}
-          </ShyLink>
-        )}
+        {hovered && componentFile && <ShyLink>{componentFile}</ShyLink>}
       </Flex>
       <Flex direction="column" gap="1">
         {curr.children?.map(route => (

@@ -1,4 +1,6 @@
+/* eslint-disable max-classes-per-file */
 import { Entrypoint } from '@modern-js/types/cli';
+import logo from './logo';
 import { FileSystemRoutes } from './server';
 
 export interface ClientFunctions {
@@ -20,4 +22,20 @@ export class NameDefinition {
 export interface ShortenAlias {
   replace: string | RegExp;
   to: string;
+}
+
+export class PackageDefinition {
+  appTools: string = '@modern-js/app-tools';
+}
+
+export class AssetDefinition {
+  logo: string = logo;
+}
+
+export class ClientDefinition {
+  name: NameDefinition = new NameDefinition();
+
+  packages: PackageDefinition = new PackageDefinition();
+
+  assets: AssetDefinition = new AssetDefinition();
 }

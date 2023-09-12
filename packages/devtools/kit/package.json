@@ -18,12 +18,11 @@
   "version": "2.29.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
-      "default": "./dist/cjs/index.js"
+      "default": "./dist/index.js"
     },
     "./package.json": {
       "default": "./package.json"
@@ -32,7 +31,7 @@
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch",
+    "dev": "SKIP_DTS=true modern-lib build --watch",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },

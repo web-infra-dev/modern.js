@@ -1,5 +1,6 @@
 import type {
   AppContext,
+  AssetDefinition,
   BuilderConfig,
   BuilderContext,
   BundlerConfig,
@@ -7,7 +8,7 @@ import type {
   FileSystemRoutes,
   NameDefinition,
   NormalizedBuilderConfig,
-  ShortenAlias,
+  PackageDefinition,
   TransformedFrameworkConfig,
 } from '@modern-js/devtools-kit';
 import { FrameworkConfig } from '@modern-js/devtools-kit';
@@ -38,11 +39,12 @@ export interface StoreContextValue {
     };
   };
   tabs: InternalTab[];
-  name: NameDefinition;
-  aliases: ShortenAlias[];
   version: string;
   dependencies: Promise<Record<string, string>>;
   compileTimeCost: Promise<number>;
+  name: Promise<NameDefinition>;
+  packages: Promise<PackageDefinition>;
+  assets: Promise<AssetDefinition>;
 }
 
 export interface BuiltinTabView {
