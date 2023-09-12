@@ -7,9 +7,9 @@ import { proxyPlugin } from '@modern-js/plugin-proxy';
 import { withQuery } from 'ufo';
 
 let version = '';
-if (process.env.BASENAME === 'version') {
+if (process.env.BASENAME === 'version' || !process.env.BASENAME) {
   ({ version } = require('./package.json'));
-} else if (process.env.BASENAME === 'commit' || !process.env.BASENAME) {
+} else if (process.env.BASENAME === 'commit') {
   version = execSync('git rev-parse --short HEAD').toString().trim();
   if (!version.match(/^\w{11}$/)) {
     throw new Error("Can't resolve git commit hash.");
