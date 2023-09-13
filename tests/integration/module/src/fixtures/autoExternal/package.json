@@ -5,7 +5,7 @@
     "path-browserify": "^1"
   },
   "devDependencies": {
-    "react": "^17"
+    "react": "^18"
   },
   "peerDependencies": {
     "postcss": "8.4.27"
