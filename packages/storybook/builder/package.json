@@ -22,7 +22,7 @@
       "default": "./dist/cjs/index.js"
     },
     "./preset": "./dist/esm/preset.js",
-    "./addons": "./dist/esm/preset.js",
+    "./addons": "./dist/esm/addons/preset/preview.js",
     "./types": {
       "jsnext:source": "./src/types.ts",
       "types": "./dist/types/types.d.ts",

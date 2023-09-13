@@ -55,5 +55,3 @@ export const modern = (
     },
   };
 };
-
-export { decorators } from './addons/preset/preview';
