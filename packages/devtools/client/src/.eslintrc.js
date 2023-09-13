@@ -1,3 +1,4 @@
+/** @type {import('eslint').Linter.Config} */
 // eslint-disable-next-line import/no-commonjs
 module.exports = {
   root: true,
@@ -5,5 +6,8 @@ module.exports = {
   parserOptions: {
     tsconfigRootDir: __dirname,
     project: ['../tsconfig.json'],
+  },
+  rules: {
+    curly: 'off',
   },
 };

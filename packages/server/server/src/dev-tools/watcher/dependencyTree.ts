@@ -1,7 +1,6 @@
 import minimatch from 'minimatch';
 
 export const defaultIgnores = [
-  '**/bower_components/**',
   '**/coverage/**',
   '**/node_modules/**',
   '**/.*/**',

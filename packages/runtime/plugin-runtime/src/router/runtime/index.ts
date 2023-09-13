@@ -3,6 +3,7 @@ import { routerPlugin } from './plugin';
 import type { SingleRouteConfig, RouterConfig } from './types';
 
 export type { SingleRouteConfig, RouterConfig };
+export { renderRoutes } from './utils';
 
 export default routerPlugin;
 

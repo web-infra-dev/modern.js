@@ -62,7 +62,7 @@ Please read the [Import Static Assets](/guide/basic/static-assets.html) section 
 
 ## Disable SVGR Processing
 
-By default, when an SVG resource is referenced in a JS file, Builder will call SVGR to convert the SVG into a React component. If you are sure that all SVG resources in your project are not being used as React components, you can turn off this conversion by setting [`disableSvgr`](/api/config-output.html#outputdisablesvgr) to true to improve build performance.
+By default, when an SVG resource is referenced in a JS file, Builder will call SVGR to convert the SVG into a React component. If you are sure that all SVG resources in your project are not being used as React components, you can turn off this conversion by setting [disableSvgr](/api/config-output.html#outputdisablesvgr) to true to improve build performance.
 
 ```js
 export default {

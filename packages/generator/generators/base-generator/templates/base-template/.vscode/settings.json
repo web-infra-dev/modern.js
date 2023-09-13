@@ -1,14 +1,10 @@
 {
   "files.associations": {
     ".code-workspace": "jsonc",
-    ".babelrc": "json",
     ".eslintrc": "jsonc",
     ".eslintrc*.json": "jsonc",
     ".stylelintrc": "jsonc",
     "stylelintrc": "jsonc",
-    ".htmlhintrc": "jsonc",
-    "htmlhintrc": "jsonc",
-    "Procfile*": "shellscript",
     "README": "markdown"
   },
   "search.useIgnoreFiles": true,
@@ -17,8 +13,7 @@
     "**/*.log": true,
     "**/*.pid": true,
     "**/.git": true,
-    "**/node_modules": true,
-    "**/bower_components": true
+    "**/node_modules": true
   },
   //
   "editor.rulers": [80, 120],
@@ -27,7 +22,6 @@
   "files.insertFinalNewline": true,
   //
   "cSpell.diagnosticLevel": "Hint",
-  "eslint.alwaysShowStatus": true,
   "eslint.run": "onType",
   "eslint.probe": [
     "javascript",

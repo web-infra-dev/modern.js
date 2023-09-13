@@ -47,3 +47,6 @@ website/**/.temp
 .wireit/
 .turbo/
 playground/
+
+# Local Netlify folder
+.netlify

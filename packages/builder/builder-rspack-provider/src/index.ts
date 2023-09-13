@@ -15,4 +15,5 @@ export type {
 
   // Rspack
   Rspack,
+  RspackConfig,
 } from './types';
