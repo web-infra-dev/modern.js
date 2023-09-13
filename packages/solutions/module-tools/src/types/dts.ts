@@ -44,4 +44,5 @@ export interface ITsconfig {
   include?: string[];
   exclude?: string[];
   extends?: string;
+  references?: { path?: string }[];
 }
