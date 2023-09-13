@@ -1,0 +1,20 @@
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  & > :global(*) {
+    pointer-events: auto;
+  }
+}
+
+.fab {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+}
