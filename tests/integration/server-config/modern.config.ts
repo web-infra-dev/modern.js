@@ -1,6 +1,6 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 import { cliPlugin1 } from './plugins/cliPlugin';
 
-export default defineConfig({
-  plugins: [cliPlugin1(), appTools()],
+export default applyBaseConfig({
+  plugins: [cliPlugin1()],
 });

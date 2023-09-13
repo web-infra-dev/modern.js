@@ -4,5 +4,8 @@ export default defineLegacyConfig({
   tools: {
     esbuild: {},
   },
+  output: {
+    disableTsChecker: true,
+  },
   plugins: [appTools()],
 });

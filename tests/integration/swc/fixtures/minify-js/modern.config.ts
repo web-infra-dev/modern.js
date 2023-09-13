@@ -5,5 +5,8 @@ export default defineConfig({
   tools: {
     swc: {},
   },
+  output: {
+    disableTsChecker: true,
+  },
   plugins: [appTools(), swcPlugin()],
 });

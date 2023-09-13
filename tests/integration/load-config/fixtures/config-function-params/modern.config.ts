@@ -25,6 +25,9 @@ export default defineConfig(params => {
   };
 
   return {
+    output: {
+      disableTsChecker: true,
+    },
     plugins: [appTools(), testPlugin],
   };
 });

@@ -1,6 +1,6 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   server: {
     ssr: {
       preload: {
@@ -16,6 +16,4 @@ export default defineConfig({
   runtime: {
     router: true,
   },
-
-  plugins: [appTools()],
 });
