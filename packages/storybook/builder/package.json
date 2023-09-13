@@ -22,6 +22,7 @@
       "default": "./dist/cjs/index.js"
     },
     "./preset": "./dist/esm/preset.js",
+    "./addons": "./dist/esm/preset.js",
     "./types": {
       "jsnext:source": "./src/types.ts",
       "types": "./dist/types/types.d.ts",
@@ -55,7 +56,6 @@
     "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.0c3f3b7.0",
     "@storybook/router": "^7.4.0",
     "@storybook/theming": "^7.4.0",
-    "@swc/helpers": "0.5.1",
     "ast-types": "^0.14.2",
     "minimatch": "^9.0.3",
     "react-docgen": "6.0.0-alpha.3",
