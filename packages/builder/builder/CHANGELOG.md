@@ -1,5 +1,27 @@
 # @modern-js/builder
 
+## 2.35.0
+
+### Patch Changes
+
+- 8ed713c: feat: split package `scheduler` into chunk `lib-react.js`
+  feat: 修改拆包规则添加 `scheduler` 到 `lib-react.js` 中
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/monorepo-utils@2.35.0
+  - @modern-js/node-bundle-require@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

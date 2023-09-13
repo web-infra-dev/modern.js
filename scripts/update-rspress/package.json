@@ -1,6 +1,6 @@
 {
   "name": "@scripts/update-rspress",
-  "version": "2.34.0",
+  "version": "2.35.0",
   "private": true,
   "scripts": {
     "dev": "tsc --watch",

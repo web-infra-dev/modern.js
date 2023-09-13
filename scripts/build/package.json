@@ -1,7 +1,7 @@
 {
   "name": "@scripts/build",
   "private": true,
-  "version": "2.34.0",
+  "version": "2.35.0",
   "main": "./src/index.js",
   "types": "index.d.ts",
   "bin": {
