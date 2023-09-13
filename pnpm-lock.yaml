@@ -127,6 +127,9 @@ importers:
       '@modern-js/builder-webpack-provider':
         specifier: workspace:^2.34.0
         version: link:../builder-webpack-provider
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../../toolkit/utils
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
