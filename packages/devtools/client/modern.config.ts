@@ -7,6 +7,7 @@ import { proxyPlugin } from '@modern-js/plugin-proxy';
 import { version } from './package.json';
 
 const commitShort = execSync('git rev-parse --short HEAD').toString().trim();
+console.log('commitShort: ', commitShort);
 if (!commitShort.match(/^\w{11}$/)) {
   throw new Error("Can't resolve git commit hash.");
 }
