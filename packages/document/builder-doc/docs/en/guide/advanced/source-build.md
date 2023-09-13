@@ -1,23 +1,84 @@
-# Source-code Build Mode
+# Source Code Build Mode
 
-The source-code build mode allows developers to use dependent subproject source code in Monorepo. This allows HMR (Hot Module Replacement) to be performed without starting a subproject build task.
+The source code build mode is used in the monorepo development scenario, allowing developers to directly reference the source code of other sub-projects within the monorepo for development.
 
-## Enable source-code build
+## Use Cases
 
-You can enable this feature by setting [`experiments.sourceBuild`](/api/config-experiments.html#experimentssourcebuild) to `true`.
+In a monorepo, there are two main ways for projects to reference each other: artifact referencing and source code referencing. Let's use a simple monorepo as an example to illustrate the use case of source code referencing.
+
+For example, the monorepo contains an app application and a lib:
+
+```ts
+monorepo
+├── app
+└── lib
+    └── src
+        └── index.ts
+```
+
+The app is built using Modern.js Builder and relies on some methods from the lib:
+
+```json
+{
+  "name": "app",
+  "dependencies": {
+    "lib": "workspace:*"
+  }
+}
+```
+
+### Artifact Referencing
+
+**When using artifact referencing, the current project references the artifacts built from other sub-projects.**
+
+In the example above, the lib is written in TypeScript. Typically, we need to build the lib's code in advance to generate JavaScript artifacts so that the app can reference it correctly. When the lib's code is updated, we need to rebuild it (or use `tsc --watch`) to ensure that the app can use the latest code.
+
+The advantages of this approach are:
+
+- The build processes of each sub-project are completely independent and can have different build configurations.
+- Build caching can be applied to individual sub-projects.
+
+The disadvantages are:
+
+- The HMR chain becomes longer during local development.
+- The process becomes cumbersome when a project contains multiple lib packages.
+
+### Source Code Referencing
+
+**When using source code referencing, the current project references the source code of other sub-projects for building.**
+
+In the example mentioned earlier, when you enable the source code build mode, Modern.js Builder will automatically reference the `src/index.ts` source code of the lib. This means that you don't need to build the lib's code in advance, and when the source code of the lib is updated, it can trigger automatic hot updates for the app.
+
+The advantages of this approach are:
+
+- The sub-project does not rely on a build tool and does not require build configurations. The code of the sub-project will be compiled by the build tool of the current project.
+- There is no need to execute the build process for the sub-projects in advance.
+- HMR is more efficient during local development.
+
+The disadvantages are:
+
+- The current project needs to support syntax features used by sub-projects and follow the same syntax specifications, such as using a consistent version of decorator syntax. If the current project and sub-projects require different build configurations, building from source code may not be suitable.
+- The current project requires compiling more code, which may result in longer build times.
+
+## Building from Source Code
+
+### Enabling Configuration
+
+You can enable source code build mode by setting [experiments.sourceBuild](/api/config-experiments.html#experimentssourcebuild) to `true`.
 
 ```ts
 export default {
-    experiments: {
-        sourceBuild: true,
-    },
+  experiments: {
+    sourceBuild: true,
+  },
 };
 ```
 
-## Specify the sub-projects that need to read the source code
+### Configuring Sub-projects
 
-When you need to read the source code of a subproject, you need to make sure that the package.json of the subproject contains a `source` field, and that the path to the file corresponding to that field is the path to the source code file.
+When the source code build mode is enabled, the Modern.js Builder will prioritize reading the file specified in the `source` field of the sub-project during the build process. Therefore, you need to configure the `source` field in the package.json file of the sub-project and point it to the source code file.
 
+For example, in the following example, when the lib package is referenced, the `./src/index.ts` file will be read for building:
 
 ```json title="package.json"
 {
@@ -27,13 +88,11 @@ When you need to read the source code of a subproject, you need to make sure tha
 }
 ```
 
-If the [`exports`](https://nodejs.org/api/packages.html#package-entry-points) configuration exists for the subproject, then you need to add the `source` field to exports at the same time.
+If the sub-project uses [exports](https://nodejs.org/api/packages.html#package-entry-points) field, you also need to add the `source` field in the `exports` field.
 
 ```json title="package.json"
 {
   "name": "lib",
-  "main": "./dist/index.js",
-  "source": "./src/index.ts",
   "exports": {
     ".": {
       "source": "./src/index.ts",
@@ -49,8 +108,8 @@ If the [`exports`](https://nodejs.org/api/packages.html#package-entry-points) co
 
 ## Caveat
 
-There are a few things to keep in mind when using the source-code build mode:
+When using source code build mode, there are a few things to keep in mind:
 
-1. Ensure that all configurations or features used by sub-projects need to be set in the Builder's configuration file.
-2. Ensure that the current project uses the same code syntax as the subprojects, such as the syntax of the decorators.
-3. There may be some limitations in the source build. When you encounter problems, you can remove the `source` field in the package.json of the subproject and use the build product of the subproject for debugging.
+1. Ensure that the current project can compile the syntax or features used in the sub-project. For example, if the sub-project uses Stylus to write CSS, the current app needs to support Stylus compilation.
+2. Ensure that the current project has the same code syntax and features as the sub-project, such as consistent syntax versions for decorators.
+3. Source code building may have some limitations. When encountering issues, you can remove the `source` field from the sub-project's package.json and debug using the built artifacts of the sub-project.
