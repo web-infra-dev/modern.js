@@ -8,7 +8,7 @@
     "directory": "packages/storybook/builder"
   },
   "jsnext:source": "./src/index.ts",
-  "main": "./index.js",
+  "main": "./dist/cjs/index.js",
   "types": "./src/index.ts",
   "scripts": {
     "build": "modern-lib build",
@@ -19,7 +19,7 @@
     ".": {
       "jsnext:source": "./src/index.ts",
       "types": "./dist/types/index.d.ts",
-      "default": "./index.js"
+      "default": "./dist/cjs/index.js"
     },
     "./preset": "./dist/esm/preset.js",
     "./types": {
