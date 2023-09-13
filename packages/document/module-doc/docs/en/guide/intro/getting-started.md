@@ -6,12 +6,11 @@ sidebar_position: 3
 
 ## 3 minute demo
 
-Want to experience Module Tools in action? The only prerequisite you need is [Node.js LTS](https://github.com/nodejs/Release) and make sure your Node version is **>= 14.18.0**.We recommend using the LTS version of Node.js 18.
+Want to experience Modern.js Module in action? The only prerequisite you need is [Node.js LTS](https://github.com/nodejs/Release) and make sure your Node version is **>= 14.18.0**.We recommend using the LTS version of Node.js 18.
 
 ### Create new project
 
-
-**If you want to create a complete module project, you can execute the following command:**
+**If you want to create a complete Modern.js Module, you can execute the following command:**
 
 ```bash
 npx @modern-js/create your-project-dir-name
@@ -71,11 +70,11 @@ Finally, add the command `"build": "modern build"` to the project's `package.jso
 }
 ```
 
-If your project has a `src/index.(js|jsx)` file or both `src/index.(ts|tsx)` and `tsconfig.json` files, then congratulations you can run the `npm run build` command directly to build your project with Module Tools.
+If your project has a `src/index.(js|jsx)` file or both `src/index.(ts|tsx)` and `tsconfig.json` files, then congratulations you can run the `npm run build` command directly to build your project with Modern.js Module.
 
 ### Core npm Package
 
-`@modern-js/module-tools` is the core npm package of Module Tools, providing the following capabilities:
+`@modern-js/module-tools` is the core npm package of Modern.js Module, providing the following capabilities:
 
 - It offers commonly used CLI commands such as `modern dev`, `modern build`, and more.
 - It integrates Modern.js Core, providing capabilities for configuration parsing, plugin loading, and more.
@@ -94,7 +93,7 @@ export default defineConfig({
 
 ### View official example
 
-**If you want to see the complete project using the modular engineering scheme, you can execute the following command**.
+**If you want to see the complete project using the Modern.js Module, you can execute the following command**.
 
 ```bash
 git clone https://github.com/web-infra-dev/module-tools-examples
@@ -117,6 +116,6 @@ pnpm test
 
 Choose your tutorial scenario...
 
-- I'm a beginner and need to learn [basic usage](/en/guide/basic/before-getting-started) of Module Tools.
-- I have learned the basic usage of Module Tools and can learn [advanced usage](/en/guide/advance/in-depth-about-build) of Module Tools.
-- I need to expand my project capabilities and need to learn how to develop [plugins](/en/plugins/guide/getting-started) for Module Tools.
+- I'm a beginner and need to learn [basic usage](/en/guide/basic/before-getting-started) of Modern.js Module.
+- I have learned the basic usage of Modern.js Module and can learn [advanced usage](/en/guide/advance/in-depth-about-build) of Modern.js Module.
+- I need to expand my project capabilities and need to learn how to develop [plugins](/en/plugins/guide/getting-started) for Modern.js Module.

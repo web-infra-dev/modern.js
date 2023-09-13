@@ -480,9 +480,9 @@ In conventional routing, Modern.js automatically splits routes into chunks based
 
 However, this also brings a problem: if the chunk corresponding to the route has not finished loading when the user visits the route, a white screen will appear.
 
-In this case, you can define a `Loading` component to display a custom `Loading` component before the static resources are loaded.
+In this case, you can define a `Loading` component to display a custom `Loading` component before the static assets are loaded.
 
-To further improve the user experience and reduce loading time, Modern.js supports defining the `prefetch` attribute on the Link component to preload static resources and data.
+To further improve the user experience and reduce loading time, Modern.js supports defining the `prefetch` attribute on the Link component to preload static assets and data.
 
 ```tsx
 <Link prefetch="intent" to="page">
@@ -502,10 +502,10 @@ The `prefetch` attribute has three optional values:
 
 #### FAQ
 
-1. What is the difference between using `render` and not splitting static resources based on the route?
+1. What is the difference between using `render` and not splitting static assets based on the route?
 
 - By using `render`, you can specify which routes to load during the initial screen, and you can control the rendering so that only when the `Link` component enters the visible area, the `Link` component will be rendered.
-- By using `render`, static resources will only be loaded when the system is idle, and will not compete with the static resources of the initial screen for network resources.
+- By using `render`, static assets will only be loaded when the system is idle, and will not compete with the static assets of the initial screen for network assets.
 - In the SSR scenario, data will also be pre-fetched.
 
 import Motivation from '@site-docs-en/components/convention-routing-motivation'

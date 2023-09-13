@@ -6,7 +6,7 @@ sidebar_position: 3
 
 ## 默认输出产物
 
-当你在初始化的项目里使用 `modern build` 命令的时候，Module Tools 会根据当前配置内容，生成相应的构建产物。
+当你在初始化的项目里使用 `modern build` 命令的时候，Modern.js Module 会根据当前配置内容，生成相应的构建产物。
 
 模板创建的默认配置内容如下：
 
@@ -14,7 +14,7 @@ sidebar_position: 3
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-  // 注册 Module Tools 的 CLI 工具
+  // 注册 Modern.js Module 的 CLI 工具
   plugins: [moduleTools()],
   // 指定构建预设配置
   buildPreset: 'npm-library',
@@ -39,7 +39,7 @@ export default defineConfig({
 
 `buildPreset` 代表着提前准备好的一组或者多组构建相关的配置，只需要使用 `buildPreset` 对应的预设值，就可以省去麻烦且复杂的配置工作，得到符合预期的产物。
 
-Module Tools 主要内置了两套构建预设,包括:
+Modern.js Module 主要内置了两套构建预设,包括:
 
 - `npm-component`: 用于构建组件库。
 - `npm-library`: 用于打包其他库类型的项目,如工具库。

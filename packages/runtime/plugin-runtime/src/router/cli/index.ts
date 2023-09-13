@@ -82,7 +82,7 @@ export const routerPlugin = (): CliPlugin<AppTools> => ({
           imports,
         };
       },
-      modifyEntryRuntimePlugins({ entrypoint, plugins }: any) {
+      modifyEntryRuntimePlugins({ entrypoint, plugins }) {
         const { entryName, fileSystemRoutes } = entrypoint;
         const { serverRoutes } = api.useAppContext();
         const userConfig = api.useResolvedConfigContext();

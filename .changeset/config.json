@@ -10,7 +10,7 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "snapshot": {
-    "prereleaseTemplate": "{tag}-{timestamp}"
+    "prereleaseTemplate": "{tag}-{datetime}"
   },
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
     "onlyUpdatePeerDependentsWhenOutOfRange": true

@@ -112,7 +112,7 @@ The config of HMR client, which are usually used to set the WebSocket URL of HMR
 - **Type:** `boolean`
 - **Default:** `true`
 
-Whether to enable gzip compression for served static resources.
+Whether to enable gzip compression for served static assets.
 
 If you want to disable the gzip compression, you can set `compress` to `false`:
 

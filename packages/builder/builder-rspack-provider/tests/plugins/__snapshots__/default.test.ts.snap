@@ -679,7 +679,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -1464,7 +1464,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -2730,7 +2730,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",

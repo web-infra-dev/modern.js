@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-target",
-  "description": "The target plugin of Modern.js Module Tools.",
+  "description": "The target plugin of Modern.js Module.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {

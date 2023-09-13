@@ -24,7 +24,7 @@ pnpm add @modern-js/plugin-module-polyfill -D
 
 ### 注册插件
 
-在 Module Tools 中，你可以按照如下方式注册插件：
+在 Modern.js Module 中，你可以按照如下方式注册插件：
 
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';

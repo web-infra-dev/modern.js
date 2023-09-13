@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-babel",
-  "description": "The babel plugin of Modern.js Module Tools.",
+  "description": "The babel plugin of Modern.js Module ols.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {

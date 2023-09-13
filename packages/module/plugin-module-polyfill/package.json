@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-polyfill",
-  "description": "The polyfill plugin of Modern.js Module Tools.",
+  "description": "The polyfill plugin of Modern.js Module.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {

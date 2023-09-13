@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # 使用微生成器
 
-模块工程解决方案提供了微生成器工具，它可以为当前项目：
+Modern.js Module 提供了微生成器工具，它可以为当前项目：
 
 - 新增目录和文件
 - 修改 `package.json`
@@ -12,7 +12,7 @@ sidebar_position: 4
 
 因此通过这些能力，**微生成器可以为项目开启额外的特性功能**。
 
-可以通过 [`modern new`](/guide/basic/command-preview) 启动微生成器。目前模块工程方案支持的微生成器功能有：
+可以通过 [`modern new`](/guide/basic/command-preview) 启动微生成器。目前 Modern.js Module 支持的微生成器功能有：
 
 ## Test 测试
 

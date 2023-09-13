@@ -178,13 +178,13 @@ export interface SharedOutputConfig {
   assetsRetry?: AssetsRetryOptions;
   /**
    * When using CDN in the production environment,
-   * you can use this option to set the URL prefix of static resources,
+   * you can use this option to set the URL prefix of static assets,
    * similar to the output.publicPath config of webpack.
    */
   assetPrefix?: string;
   /**
-   * Set the size threshold to inline static resources such as images and fonts.
-   * By default, static resources will be Base64 encoded and inline into the page if the size is less than 10KB.
+   * Set the size threshold to inline static assets such as images and fonts.
+   * By default, static assets will be Base64 encoded and inline into the page if the size is less than 10KB.
    */
   dataUriLimit?: number | DataUriLimit;
   /**

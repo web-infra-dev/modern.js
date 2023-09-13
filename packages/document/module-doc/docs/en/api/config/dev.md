@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # dev
 
-This section describes all configuration of Module Tools related to debugging tools.
+This section describes all configuration of Modern.js Module related to debugging tools.
 
 ```ts
 export default {
