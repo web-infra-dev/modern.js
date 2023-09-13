@@ -54,6 +54,7 @@ type RspackOutput = {
   cssFilename?: string;
   cssChunkFilename?: string;
   library?: string;
+  chunkLoadingGlobal?: string;
   crossOriginLoading?: false | 'anonymous' | 'use-credentials';
 };
 

@@ -13,6 +13,11 @@ export default applyBaseConfig({
       },
     },
   },
+  performance: {
+    chunkSplit: {
+      strategy: 'all-in-one',
+    },
+  },
   runtime: {
     router: true,
   },

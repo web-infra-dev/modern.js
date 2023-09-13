@@ -50,7 +50,7 @@ async function errorThrownInLoader(page: Page, appPort: number) {
   expect(body).toMatch(/Something went wrong!.*error occurs/);
 }
 
-describe('Streaming SSR with webpack', () => {
+describe('Streaming SSR', () => {
   let app: any;
   let appPort: number;
   let page: Page;
@@ -59,59 +59,7 @@ describe('Streaming SSR with webpack', () => {
   beforeAll(async () => {
     const appDir = join(fixtureDir, 'streaming');
     appPort = await getPort();
-    app = await launchApp(appDir, appPort);
-
-    browser = await puppeteer.launch(launchOptions as any);
-    page = await browser.newPage();
-  });
-
-  afterAll(async () => {
-    if (browser) {
-      browser.close();
-    }
-    if (app) {
-      await killApp(app);
-    }
-  });
-
-  test(`basic usage`, async () => {
-    await basicUsage(page, appPort);
-  });
-
-  test(`deferred data`, async () => {
-    await deferredData(page, appPort);
-  });
-
-  test(`deferred data in client navigation`, async () => {
-    await deferredDataInNavigation(page, appPort);
-  });
-
-  test('error thrown in loader', async () => {
-    await errorThrownInLoader(page, appPort);
-  });
-
-  // TODO: wait for the next version of react-router to support this case
-  test.skip('redirect in loader', async () => {
-    const res = await page.goto(`http://localhost:${appPort}/redirect`, {
-      waitUntil: ['networkidle0'],
-    });
-
-    const body = await res!.text();
-    expect(body).toMatch(/Root layout/);
-    expect(body).not.toMatch(/Redirect page/);
-  });
-});
-
-describe('Streaming SSR with rspack', () => {
-  let app: any;
-  let appPort: number;
-  let page: Page;
-  let browser: Browser;
-
-  beforeAll(async () => {
-    const appDir = join(fixtureDir, 'streaming');
-    appPort = await getPort();
-    app = await launchApp(appDir, appPort, {}, { BUNDLER: 'rspack' });
+    app = await launchApp(appDir, appPort, {});
 
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();

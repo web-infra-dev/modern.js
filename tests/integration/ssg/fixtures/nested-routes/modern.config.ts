@@ -7,6 +7,8 @@ export default defineConfig({
   },
   output: {
     ssg: true,
+    polyfill: 'off',
+    disableTsChecker: true,
   },
   performance: {
     chunkSplit: {
