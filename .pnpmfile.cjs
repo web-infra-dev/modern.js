@@ -22,6 +22,22 @@ function readPackage(pkg, _context) {
     pkg.dependencies.esbuild = '0.17.19';
   }
 
+  // Fix peer dependencies warnings of legacy react libs
+  if (
+    pkg.name === 'flux' ||
+    pkg.name === 'react-inspector' ||
+    pkg.name === 'react-json-view' ||
+    pkg.name === '@mdx-js/react' ||
+    pkg.name === 'react-element-to-jsx-string'
+  ) {
+    if (pkg.peerDependencies.react) {
+      pkg.peerDependencies.react = '>= 17';
+    }
+    if (pkg.peerDependencies['react-dom']) {
+      pkg.peerDependencies['react-dom'] = '>= 17';
+    }
+  }
+
   const outsideModernPkgList = ['@modern-js/mdx-rs-binding'];
 
   if (
