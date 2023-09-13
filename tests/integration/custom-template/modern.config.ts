@@ -1,6 +1,6 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   html: {
     template: './src/index.html',
   },
@@ -9,5 +9,4 @@ export default defineConfig({
     disableInlineRuntimeChunk: true,
   },
   performance: { chunkSplit: { strategy: 'all-in-one' } },
-  plugins: [appTools()],
 });

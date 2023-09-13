@@ -1,11 +1,10 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   runtime: {
     router: true,
   },
   output: {
-    disableTsChecker: true,
     disableSourceMap: true,
     disableFilenameHash: true,
   },
@@ -14,12 +13,4 @@ export default defineConfig({
       ecmaVersion: 5,
     },
   },
-  plugins: [
-    appTools({
-      bundler:
-        process.env.PROVIDE_TYPE === 'rspack'
-          ? 'experimental-rspack'
-          : 'webpack',
-    }),
-  ],
 });

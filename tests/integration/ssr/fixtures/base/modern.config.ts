@@ -1,8 +1,6 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
-const bundler = process.env.BUNDLER;
-
-export default defineConfig({
+export default applyBaseConfig({
   runtime: {
     router: true,
   },
@@ -12,13 +10,8 @@ export default defineConfig({
     },
   },
   tools: {
-    webpack(config) {
-      config.output!.chunkLoadingGlobal = 'hello xxx';
+    bundlerChain(chain) {
+      chain.output.chunkLoadingGlobal('hello xxx');
     },
   },
-  plugins: [
-    appTools({
-      bundler: bundler === 'rspack' ? 'experimental-rspack' : 'webpack',
-    }),
-  ],
 });

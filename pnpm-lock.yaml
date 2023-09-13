@@ -6808,6 +6808,40 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  tests/integration/basic-app:
+    dependencies:
+      '@modern-js/runtime':
+        specifier: workspace:*
+        version: link:../../../packages/runtime/plugin-runtime
+      react:
+        specifier: ^18
+        version: 18.2.0
+      react-dom:
+        specifier: ^18
+        version: 18.2.0(react@18.2.0)
+    devDependencies:
+      '@modern-js/app-tools':
+        specifier: workspace:*
+        version: link:../../../packages/solutions/app-tools
+      '@modern-js/plugin-swc':
+        specifier: workspace:*
+        version: link:../../../packages/cli/plugin-swc
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/react':
+        specifier: ^18
+        version: 18.0.21
+      '@types/react-dom':
+        specifier: ^18
+        version: 18.0.6
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   tests/integration/bff-express:
     dependencies:
       '@modern-js/plugin-bff':
@@ -6930,37 +6964,6 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
-
-  tests/integration/builder-rspack:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18
-        version: 18.0.21
-      '@types/react-dom':
-        specifier: ^18
-        version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.0.4
 
   tests/integration/clean-dist-path:
     dependencies:
@@ -7215,22 +7218,6 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
-
-  tests/integration/esbuild/fixtures/legacy-minify-js:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../../../packages/solutions/app-tools
 
   tests/integration/esbuild/fixtures/transform-and-minify:
     dependencies:
@@ -7626,40 +7613,6 @@ importers:
   tests/integration/module/src/fixtures/utils/builder: {}
 
   tests/integration/module/src/fixtures/watch: {}
-
-  tests/integration/mwa-app:
-    dependencies:
-      '@modern-js/runtime':
-        specifier: workspace:*
-        version: link:../../../packages/runtime/plugin-runtime
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-    devDependencies:
-      '@modern-js/app-tools':
-        specifier: workspace:*
-        version: link:../../../packages/solutions/app-tools
-      '@modern-js/plugin-swc':
-        specifier: workspace:*
-        version: link:../../../packages/cli/plugin-swc
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      '@types/react':
-        specifier: ^18
-        version: 18.0.21
-      '@types/react-dom':
-        specifier: ^18
-        version: 18.0.6
-      typescript:
-        specifier: ^5
-        version: 5.0.4
 
   tests/integration/nonce:
     dependencies:
@@ -29352,7 +29305,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 

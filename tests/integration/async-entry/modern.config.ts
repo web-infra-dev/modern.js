@@ -1,11 +1,10 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   runtime: {
     state: true,
   },
   source: {
     enableAsyncEntry: true,
   },
-  plugins: [appTools()],
 });

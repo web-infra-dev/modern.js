@@ -1,7 +1,7 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
 import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   source: {
     designSystem: {
       colors: {
@@ -9,5 +9,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [appTools(), tailwindcssPlugin()],
+  plugins: [tailwindcssPlugin()],
 });
