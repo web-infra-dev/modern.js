@@ -1,8 +1,8 @@
 /* eslint-disable node/prefer-global/url */
 // Todo move this file to `runtime/` dir
 import { compile } from 'path-to-regexp';
-import { redirect } from '@modern-js/utils/runtime/router';
-import { type UNSAFE_DeferredData as DeferredData } from '@modern-js/utils/runtime/remix-router';
+import { redirect } from '@modern-js/runtime-utils/router';
+import { type UNSAFE_DeferredData as DeferredData } from '@modern-js/runtime-utils/remix-router';
 import {
   LOADER_ID_PARAM,
   DIRECT_PARAM,

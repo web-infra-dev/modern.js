@@ -1,8 +1,7 @@
 /* eslint-disable max-lines */
 import path from 'path';
 import puppeteer, { Browser } from 'puppeteer';
-import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
-import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+import { fs, ROUTE_MANIFEST_FILE, ROUTE_MANIFEST } from '@modern-js/utils';
 import type {
   // Browser,
   Page,

@@ -11,8 +11,8 @@ import {
   Route,
   RouteProps,
 } from 'react-router-dom';
-import { LOADER_REPORTER_NAME } from '../universal/constants';
-import { time } from '../universal/time';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils';
+import { time } from '../time';
 
 export const transformNestedRoutes = (
   routes: NestedRoute[],

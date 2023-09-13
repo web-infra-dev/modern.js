@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, isRouteErrorResponse } from '@modern-js/utils/runtime/router';
+import { Route, isRouteErrorResponse } from '@modern-js/runtime-utils/router';
 import type {
   Reporter,
   NestedRoute,
@@ -10,8 +10,8 @@ import {
   ErrorResponse,
   type StaticHandlerContext,
   type Router,
-} from '@modern-js/utils/runtime/remix-router';
-import { renderNestedRoute } from '@modern-js/utils/runtime/nested-routes';
+} from '@modern-js/runtime-utils/remix-router';
+import { renderNestedRoute } from '@modern-js/runtime-utils/browser';
 import { RouterConfig } from './types';
 import { DefaultNotFound } from './DefaultNotFound';
 import DeferredDataScripts from './DeferredDataScripts';

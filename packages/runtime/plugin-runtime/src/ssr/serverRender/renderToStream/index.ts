@@ -1,6 +1,6 @@
 import { createElement } from 'react';
-import { run } from '@modern-js/utils/runtime-node';
-import { time } from '@modern-js/utils/universal/time';
+import { run } from '@modern-js/runtime-utils/node';
+import { time } from '@modern-js/runtime-utils/time';
 import { PreRender } from '../../react/prerender';
 import { ServerRenderOptions } from '../types';
 import { SSRErrors, SSRTimings } from '../tracker';

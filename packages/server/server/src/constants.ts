@@ -1,4 +1,4 @@
-import { HMR_SOCK_PATH } from '@modern-js/utils/universal/constants';
+import { HMR_SOCK_PATH } from '@modern-js/utils';
 import { DevServerOptions } from './types';
 
 export const getDefaultDevOptions = (): DevServerOptions => {

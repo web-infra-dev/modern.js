@@ -52,6 +52,7 @@
     "@modern-js/server-utils": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@swc/helpers": "0.5.1",
     "connect-history-api-fallback": "^2.0.0",
     "http-compression": "1.0.6",

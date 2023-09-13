@@ -1,4 +1,4 @@
-import { parsedJSONFromElement } from '../../src/runtime-browser';
+import { parsedJSONFromElement } from '../../src/browser';
 
 describe('parsed utils', () => {
   it('should return null if no alias config', () => {
