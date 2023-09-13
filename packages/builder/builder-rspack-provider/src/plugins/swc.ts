@@ -60,11 +60,13 @@ async function applyDefaultConfig(
   api: BuilderPluginAPI,
   target: BuilderTarget,
 ) {
+  const legacy = !builderConfig.output.enableLatestDecorators;
   /**
    * Swc only enable latestDecorator for JS module, not TS module.
    */
   setConfig(rspackConfig, 'builtins.decorator', {
-    legacy: !builderConfig.output.enableLatestDecorators,
+    legacy,
+    emitMetadata: legacy,
   });
 
   rspackConfig.builtins ??= {};
