@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Why module project solution
+# Why you need Modern.js Module
 
 You've probably all experienced it: when developing a component library or tool library from scratch, we have to consider not only how to write the code logic of the project itself, but also how to build, debug, test, format the code, and other things that have nothing to do with the code logic.
 
@@ -18,4 +18,4 @@ If you have to go through all this work every time you develop a module type pro
 
 ![Not using engineering solution vs. using engineering solution](https://lf3-static.bytednsdoc.com/obj/eden-cn/uhbfnupenuhf/module-tools/why-module-solution.png)
 
-Modern.js, in order to make developing module type projects easier, provides a module engineering solution in order to solve the above mentioned problems and provides the main features using Module Tools. **Module-tools can be understood as a tool dedicated to the development of module type projects**.
+Modern.js, in order to make developing module type projects easier, provides a module engineering solution in order to solve the above mentioned problems and provides the main features using Modern.js Module. **Modern.js Module can be understood as a tool dedicated to the development of module type projects**.

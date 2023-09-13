@@ -1,6 +1,6 @@
 # @modern-js/plugin-module-import
 
-The polyfill plugin of Modern.js Module Tools.
+The polyfill plugin of Modern.js Module.
 
 A Library author don't want to "pollute" the global scope with the polyfills you are loading. This plugin injects imports to polyfills for unsupported features which are used in your code, without attaching the polyfills to the global scope but importing them as normal functions.
 

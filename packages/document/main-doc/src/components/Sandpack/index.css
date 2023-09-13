@@ -5,3 +5,6 @@
 .dark {
   --sp-layout-height: 500px !important;
 }
+.sp-read-only {
+  display: none;
+}

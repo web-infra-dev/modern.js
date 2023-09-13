@@ -1,5 +1,15 @@
 # @modern-js/utils
 
+## 2.34.0
+
+### Patch Changes
+
+- a77b82a: fix: upgrade react-router-dom to avoid issues
+  fix: 升级 react-router-dom 的版本，避免问题
+- c8b448b: feat(builder): support inline assets by file size
+
+  feat(builder): 支持基于文件体积来内联资源
+
 ## 2.33.1
 
 ## 2.33.0

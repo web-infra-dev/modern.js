@@ -256,6 +256,38 @@ export default {
 };
 ```
 
-Additionally, if your project is a micro-frontend application (such as a Garfish sub-application), the assets retry may not work because micro-frontend sub-applications are typically not loaded directly based on the `<script>` tag.
+### Limitation
+
+`assetsRetry` may not work in the following scenarios:
+
+#### Micro-frontend application
+
+If your project is a micro-frontend application (such as a Garfish sub-application), the assets retry may not work because micro-frontend sub-applications are typically not loaded directly based on the `<script>` tag.
 
 If you need to retry assets in micro-frontend scenarios, please contact the developers of the micro-frontend framework to find a solution.
+
+#### Dynamic import resources
+
+Currently, `assetsRetry` cannot work on dynamically imported resources. This feature is being supported.
+
+#### Resources in custom templates
+
+`assetsRetry` listens to the page error event to know whether the current resource fails to load and needs to be retried. Therefore, if the resource in the custom template is executed earlier than `assetsRetry`, then `assetsRetry` cannot listen to the event that the resource fails to load, so it cannot retry.
+
+If you want `assetsRetry` to work on resources in custom templates, you can refer to [Custom Insertion Example](https://github.com/jantimon/html-webpack-plugin/tree/main/examples/custom-insertion-position) to modify [html.inject](https://modernjs.dev/builder/en/api/config-html.html) configuration and custom template.
+
+```diff
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>custom template</title>
++   <%= htmlWebpackPlugin.tags.headTags %>
+    <script src="//example.com/assets/a.js"></script>
+  </head>
+  <body>
+    <div id="root" />
++    <%= htmlWebpackPlugin.tags.bodyTags %>
+  </body>
+</html>
+```

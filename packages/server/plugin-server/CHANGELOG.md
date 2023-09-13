@@ -1,5 +1,18 @@
 # @modern-js/plugin-server
 
+## 2.34.0
+
+### Patch Changes
+
+- 974d856: feat: export loadMiddleware and loadServerMod function from plugin-server
+
+  feat: 导出 loadMiddleware 和 loadServerMod 函数
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+  - @modern-js/server-utils@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

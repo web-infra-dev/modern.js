@@ -3,10 +3,10 @@ import type { ServerOptions } from '@modern-js/server-core';
 import { fs } from '@modern-js/utils';
 import {
   flushServerHeader,
-  shouldFlushServerHeader,
-  parseLinks,
   FlushServerHeaderOptions,
+  parseLinks,
 } from '../src/libs/preload';
+import { shouldFlushServerHeader } from '../src/libs/preload/shouldFlushServerHeader';
 
 describe('test preload', () => {
   const distDir = path.join(__dirname, 'fixtures', 'preload');
@@ -121,8 +121,8 @@ describe('test preload', () => {
         ssr: {
           preload: {
             include: [
-              { url: 'http://example.com', type: 'script' },
-              { url: 'http://example.com', type: 'script' },
+              { url: 'http://example.com', as: 'script' },
+              { url: 'http://example.com', as: 'script' },
               {
                 url: 'http://example3.com',
                 rel: 'dns-prefetch',

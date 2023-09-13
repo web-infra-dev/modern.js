@@ -1,13 +1,14 @@
-import { setConfig } from '@modern-js/builder-shared';
+import { CHAIN_ID } from '@modern-js/utils/chain-id';
+import { applyCSSMinimizer, BundlerChain } from '@modern-js/builder-shared';
 import type {
   BuilderPlugin,
   NormalizedConfig,
-  RspackConfig,
   RspackBuiltinsConfig,
 } from '../types';
+import { SwcJsMinimizerRspackPlugin } from '@rspack/core';
 
 export async function applyJSMinimizer(
-  rspackConfig: RspackConfig,
+  chain: BundlerChain,
   config: NormalizedConfig,
 ) {
   const options: RspackBuiltinsConfig['minifyOptions'] = {};
@@ -37,25 +38,28 @@ export async function applyJSMinimizer(
       break;
   }
 
-  // TODO: need fix
-  // options.asciiOnly = config.output.charset === 'ascii';
+  options.asciiOnly = config.output.charset === 'ascii';
 
-  setConfig(rspackConfig, 'builtins.minifyOptions', options);
+  chain.optimization
+    .minimizer(CHAIN_ID.MINIMIZER.JS)
+    .use(SwcJsMinimizerRspackPlugin, [options])
+    .end();
 }
 
 export const builderPluginMinimize = (): BuilderPlugin => ({
   name: 'builder-plugin-minimize',
 
   setup(api) {
-    api.modifyRspackConfig(async (rspackConfig, { isProd }) => {
+    api.modifyBundlerChain(async (chain, { isProd }) => {
       const config = api.getNormalizedConfig();
       const isMinimize = isProd && !config.output.disableMinimize;
 
       // set minimize to allow users to disable minimize
-      setConfig(rspackConfig, 'optimization.minimize', isMinimize);
+      chain.optimization.minimize(isMinimize);
 
       if (isMinimize) {
-        await applyJSMinimizer(rspackConfig, config);
+        await applyJSMinimizer(chain, config);
+        await applyCSSMinimizer(chain, config);
       }
     });
   },

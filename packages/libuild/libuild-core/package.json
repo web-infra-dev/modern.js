@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/libuild",
-  "version": "2.33.1",
+  "version": "2.34.0",
   "description": "A tool for building modern JavaScript libraries",
   "keywords": [
     "modern",
@@ -78,7 +78,7 @@
     "strip-ansi": "7.0.1",
     "tapable": "2.2.1",
     "tsconfig-paths": "4.1.1",
-    "tsconfig-paths-webpack-plugin": "4.0.0",
+    "tsconfig-paths-webpack-plugin": "4.1.0",
     "tsd": "0.19.1",
     "tsm": "2.3.0",
     "typescript": "^5",

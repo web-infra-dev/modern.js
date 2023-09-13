@@ -10,6 +10,7 @@ import {
   RuntimeContext,
   ModernSSRReactComponent,
   SSRPluginConfig,
+  SSRServerContext,
 } from '../types';
 import prefetch from '../../prefetch';
 import {
@@ -17,13 +18,7 @@ import {
   SSR_DATA_JSON_ID,
   attributesToString,
 } from '../utils';
-import {
-  SSRErrors,
-  SSRTimings,
-  SSRTracker,
-  createSSRTracker,
-} from '../tracker';
-import { SSRServerContext, RenderResult } from './type';
+import { SSRErrors, SSRTimings, SSRTracker } from '../tracker';
 import { createLoadableCollector } from './loadable';
 import { createRender } from './render';
 import { createStyledCollector } from './styledComponent';
@@ -34,6 +29,7 @@ import {
   createReplaceHtml,
   createReplaceSSRDataScript,
 } from './buildHtml';
+import { RenderResult } from './type';
 
 type EntryOptions = {
   ctx: SSRServerContext;
@@ -99,7 +95,7 @@ export default class Entry {
     this.App = options.App;
     this.pluginConfig = config;
 
-    this.tracker = createSSRTracker(ctx);
+    this.tracker = ctx.tracker;
     this.metrics = ctx.metrics;
     this.htmlModifiers = ctx.htmlModifiers;
     this.nonce = nonce;
@@ -166,7 +162,7 @@ export default class Entry {
     const end = time();
 
     try {
-      prefetchData = await prefetch(this.App, context);
+      prefetchData = await prefetch(this.App, context, this.pluginConfig);
       this.result.renderLevel = RenderLevel.SERVER_PREFETCH;
       const prefetchCost = end();
 

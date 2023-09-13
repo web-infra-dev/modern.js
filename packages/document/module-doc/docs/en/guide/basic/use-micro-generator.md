@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # Using the Microgenerator
 
-The Module Engineering solution provides the Microgenerator tool, which allows for the current project to.
+Modern.js Module provides the Microgenerator tool, which allows for the current project to.
 
 - add new directories and files
 - Modify the contents of the `package.json` file
@@ -12,7 +12,7 @@ The Module Engineering solution provides the Microgenerator tool, which allows f
 
 Thus with these capabilities, **Microgenerator can enable additional feature functionality for the project**.
 
-The microgenerator can be started via [`modern new`](/guide/basic/command-preview). The current Microgenerator features supported by the Module Engineering program are:
+The microgenerator can be started via [`modern new`](/guide/basic/command-preview). The current Microgenerator features supported by the Modern.js Module are:
 
 ## Test
 

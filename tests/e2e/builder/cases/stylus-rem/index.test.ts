@@ -22,7 +22,7 @@ test('should compile stylus and rem correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      'body{color:#f00;font:.28rem Arial,sans-serif}.title-class-_7352f{font-size:.28rem}',
+      'body{color:red;font:.28rem Arial,sans-serif}.title-class-_7352f{font-size:.28rem}',
     );
   } else {
     expect(content).toEqual(

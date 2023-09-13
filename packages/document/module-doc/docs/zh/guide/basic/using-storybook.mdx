@@ -19,7 +19,7 @@ sidebar_position: 5
 
 因此 Storybook 是一个复杂且功能强大的工具。
 
-Module Tools 集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下。
+Modern.js Module 集成了 Storybook，因此你几乎可以按照 Storybook 官方文档的内容进行使用。不过依然有一些地方需要注意，接下来讲解一下。
 
 ## 调试代码
 
@@ -135,15 +135,15 @@ export default {
 ```
 
 :::tip 为什么不推荐使用源码的方式?
-不仅仅是因为使用组件源码无法验证组件产物是否正确，**同时模块工程对于构建产物支持的一些配置无法完全转换为 Storybook
+不仅仅是因为使用组件源码无法验证组件产物是否正确，**同时 Modern.js Module 对于构建产物支持的一些配置无法完全转换为 Storybook
 内部的配置**。如果某些配置无法进行相互转换的话，就会在 Storybook 调试过程中出现不符合预期的结果。
 
-Module Tools 是基于 esbuild 实现的，而 Storybook 是基于 Webpack 实现的。esbuild 的配置无法与 Webpack 完全兼容。
+Modern.js Module 是基于 esbuild 实现的，而 Storybook 是基于 Webpack 实现的。esbuild 的配置无法与 Webpack 完全兼容。
 :::
 
 ## 配置 Storybook
 
-Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配置，其中包含各种配置文件。**在模块工程方案中，可以在项目的 `config/storybook` 目录下增加 Storybook 配置文件。**
+Storybook 官方通过一个名为 `.storybook` 的文件夹来进行项目配置，其中包含各种配置文件。**在 Modern.js Module 中，可以在项目的 `config/storybook` 目录下增加 Storybook 配置文件。**
 
 关于 Storybook 各种配置文件的使用方式，可以查看下面的链接：
 

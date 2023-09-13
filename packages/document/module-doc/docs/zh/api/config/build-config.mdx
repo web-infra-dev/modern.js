@@ -22,7 +22,7 @@ sidebar_position: 1
 - 默认值：`{'@': 'src',}`
 
 :::tip
-对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module Tools 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
+对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Modern.js Module 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 
 ```js title="modern.config.ts"
@@ -78,7 +78,7 @@ export default defineConfig({
 
 用于设置静态资源被自动内联为 base64 的体积阈值。
 
-Module Tools 在进行打包时，默认会内联体积小于 10KB 的图片、字体、媒体等资源，将它们通过 Base64 编码，并内联到产物中，不再会发送独立的 HTTP 请求。
+Modern.js Module 在进行打包时，默认会内联体积小于 10KB 的图片、字体、媒体等资源，将它们通过 Base64 编码，并内联到产物中，不再会发送独立的 HTTP 请求。
 
 你可以通过修改 `limit` 参数来调整这个阈值。
 
@@ -594,13 +594,41 @@ type Input =
 
 **数组用法：**
 
+在 `bundle` 模式下，下面的配置会以 `src/index.ts` 和 `src/index2.ts` 为入口分别进行构建。`bundle` 模式不支持配置 `input` 为目录。
+
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
+    buildType: 'bundle',
     input: ['src/index.ts', 'src/index2.ts'],
   },
 });
 ```
+
+在 `bundleless` 模式下，下面的配置会同时处理 `src/a` 目录下的文件和 `src/index.ts` 文件。
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src/a', 'src/index.ts'],
+  },
+});
+```
+
+在 `bundleless` 模式下，数组模式还支持使用 `!` 来过滤部分文件：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/*.spec.ts'],
+  },
+});
+```
+
+上面的配置将打包 `src` 目录下的文件，同时会过滤以 `spec.ts` 为后缀的文件。这在测试文件与源码文件在同一个根目录下的情况会很有用。
+
 
 **对象用法：**
 
@@ -1102,7 +1130,7 @@ const tailwind = {
 
 ### 启用 Tailwind CSS
 
-在使用 `style.tailwindcss` 之前，你需要启用 Module Tools 的 Tailwind CSS 插件。
+在使用 `style.tailwindcss` 之前，你需要启用 Modern.js Module 的 Tailwind CSS 插件。
 
 请阅读[「使用 Tailwind CSS」](/guide/best-practices/use-tailwindcss.html) 章节来了解开启方式。
 
@@ -1125,7 +1153,7 @@ const tailwind = {
 
 ## target
 
-`target` 用于为生成的 JavaScript 代码设置目标环境。它让 Module Tools 将目标环境无法识别的 JavaScript 语法转换为在这些环境中可用的低版本 JavaScript 语法。
+`target` 用于为生成的 JavaScript 代码设置目标环境。它让 Modern.js Module 将目标环境无法识别的 JavaScript 语法转换为在这些环境中可用的低版本 JavaScript 语法。
 
 - 类型：
 
@@ -1190,7 +1218,7 @@ export default defineConfig({
 - 类型：`boolean`
 - 默认值：`true`
 
-该选项默认开启，Module Tools 会自动将 lodash 的代码引用指向子路径。
+该选项默认开启，Modern.js Module 会自动将 lodash 的代码引用指向子路径。
 
 比如：
 

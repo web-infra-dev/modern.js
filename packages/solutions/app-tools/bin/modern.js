@@ -11,5 +11,5 @@ require('@modern-js/core/runBin').run({
     server: INTERNAL_SERVER_PLUGINS,
     autoLoad: INTERNAL_APP_TOOLS_RUNTIME_PLUGINS,
   },
-  initialLog: `@modern-js/app-tools v${require('../package.json').version}`,
+  initialLog: `Modern.js Framework v${require('../package.json').version}`,
 });

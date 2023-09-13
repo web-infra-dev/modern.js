@@ -679,7 +679,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -766,9 +766,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     "define": {
       "process.env.ASSET_PREFIX": "\\"\\"",
       "process.env.NODE_ENV": "\\"production\\"",
-    },
-    "minifyOptions": {
-      "extractComments": true,
     },
     "pluginImport": [
       {
@@ -1393,6 +1390,44 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   "name": "Client",
   "optimization": {
     "minimize": true,
+    "minimizer": [
+      Plugin {
+        "_options": {
+          "asciiOnly": true,
+          "comments": "false",
+          "dropConsole": false,
+          "exclude": undefined,
+          "extractComments": "true",
+          "include": undefined,
+          "keepClassNames": false,
+          "keepFnNames": false,
+          "passes": 1,
+          "pureFuncs": [],
+          "test": undefined,
+        },
+        "name": "SwcJsMinimizerRspackPlugin",
+      },
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
+              ],
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
     "runtimeChunk": {
       "name": "builder-runtime",
     },
@@ -1432,7 +1467,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -2698,7 +2733,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",

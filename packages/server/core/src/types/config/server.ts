@@ -11,9 +11,8 @@ type Route =
     };
 export type Routes = Record<string, Route>;
 
-type PreloadInclude = Array<
-  string | { url: string; type?: string; rel?: string }
->;
+type PreloadLink = { url: string; as?: string; rel?: string };
+type PreloadInclude = Array<string | PreloadLink>;
 interface PreloadAttributes {
   script?: Record<string, boolean | string>;
   style?: Record<string, boolean | string>;
@@ -41,6 +40,7 @@ export type SSR =
       mode?: SSRMode;
       preload?: boolean | SSRPreload;
       inlineScript?: boolean;
+      disablePrerender?: boolean;
     };
 
 export type SSRByEntries = Record<string, SSR>;

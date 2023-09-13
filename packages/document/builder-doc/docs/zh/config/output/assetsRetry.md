@@ -256,6 +256,38 @@ export default {
 };
 ```
 
-此外，如果你的工程是微前端应用（比如 Garfish 子应用），那么 `assetsRetry` 可能无法生效，因为微前端子应用通常不是基于 `<script>` 标签直接加载的。
+### 使用限制
+
+以下场景 `assetsRetry` 可能无法生效：
+
+#### 微前端应用
+
+如果你的工程是微前端应用（比如 Garfish 子应用），那么 `assetsRetry` 可能无法生效，因为微前端子应用通常不是基于 `<script>` 标签直接加载的。
 
 如果你需要对微前端场景的资源加载进行重试，请联系微前端框架的开发者，以寻找相应的解决方案。
+
+#### 动态 import 资源
+
+目前 `assetsRetry` 无法对动态 import 资源生效，该功能正在支持中。
+
+#### 自定义模版中的资源
+
+`assetsRetry` 通过监听页面 error 事件来获悉当前资源是否加载失败需要重试。因此，如果自定义模版中的资源执行早于 `assetsRetry`，那 `assetsRetry` 无法监听到该资源加载失败的事件，故无法 retry。
+
+如果想要 `assetsRetry` 对自定义模版中的资源生效，可参考 [自定义插入示例](https://github.com/jantimon/html-webpack-plugin/tree/main/examples/custom-insertion-position) 来修改 [html.inject](https://modernjs.dev/builder/api/config-html.html#htmlinject) 配置和自定义模版。
+
+```diff
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>custom template</title>
++   <%= htmlWebpackPlugin.tags.headTags %>
+    <script src="//example.com/assets/a.js"></script>
+  </head>
+  <body>
+    <div id="root" />
++    <%= htmlWebpackPlugin.tags.bodyTags %>
+  </body>
+</html>
+```

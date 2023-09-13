@@ -21,7 +21,7 @@ test('should compile CSS with alias correctly', async () => {
 
   if (builder.providerType === 'rspack') {
     expect(content).toEqual(
-      '.the-a-class{color:red;background-image:url(/static/image/icon.c6be40ea.png)}.the-b-class{color:blue;background-image:url(/static/image/icon.c6be40ea.png)}.the-c-class{color:yellow;background-image:url(/static/image/icon.c6be40ea.png)}',
+      '.the-a-class{color:red}.the-a-class,.the-b-class{background-image:url(/static/image/icon.c6be40ea.png)}.the-b-class{color:blue}.the-c-class{background-image:url(/static/image/icon.c6be40ea.png);color:#ff0}',
     );
   } else {
     expect(content).toEqual(

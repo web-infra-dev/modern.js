@@ -46,6 +46,20 @@ export default {
 };
 ```
 
+### Modifying Less Version
+
+In some scenarios, if you need to use a specific version of Less instead of the built-in Less v4 in Builder, you can install the desired Less version in your project and set it up using the `implementation` option of the `less-loader`.
+
+```js
+export default {
+  tools: {
+    less: {
+      implementation: require('less'),
+    },
+  },
+};
+```
+
 ### Util Function
 
 #### addExcludes

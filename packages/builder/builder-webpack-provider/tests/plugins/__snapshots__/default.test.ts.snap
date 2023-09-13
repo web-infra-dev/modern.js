@@ -792,7 +792,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -807,6 +807,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
   },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
+    "devtoolModuleFilenameTemplate": [Function],
     "filename": "static/js/[name].js",
     "hashFunction": "xxhash64",
     "path": "<ROOT>/dist",
@@ -903,18 +904,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -923,8 +915,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },
@@ -1775,7 +1775,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -1887,18 +1887,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -1907,8 +1898,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },
@@ -2699,18 +2698,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -2719,8 +2709,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },
@@ -3501,18 +3499,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       ".json",
     ],
     "plugins": [
-      TsConfigPathsPlugin {
+      TsconfigPathsPlugin {
         "absoluteBaseUrl": "<ROOT>",
-        "compilerOptions": {
-          "baseUrl": "./",
-          "declaration": true,
-          "isolatedModules": true,
-          "jsx": "preserve",
-          "outDir": "dist",
-          "paths": {},
-          "target": "ES2019",
-        },
-        "cwd": "<ROOT>",
+        "baseUrl": "./",
         "extensions": [
           ".ts",
           ".tsx",
@@ -3521,8 +3510,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           ".mjs",
           ".json",
         ],
+        "log": {
+          "log": [Function],
+          "logError": [Function],
+          "logInfo": [Function],
+          "logWarning": [Function],
+        },
         "matchPath": [Function],
-        "resolvedCache": Map {},
+        "referenceMatchMap": {},
+        "source": "described-resolve",
+        "target": "resolve",
       },
     ],
   },

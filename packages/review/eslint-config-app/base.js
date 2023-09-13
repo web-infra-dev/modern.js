@@ -44,8 +44,6 @@ module.exports = {
     'promise',
     // https://www.npmjs.com/package/eslint-plugin-node
     'node',
-    // https: //github.com/eslint/eslint-plugin-markdown
-    'markdown',
   ],
   // https://eslint.org/docs/user-guide/configuring#extending-configuration-files
   extends: [
@@ -1276,10 +1274,6 @@ module.exports = {
     {
       files: ['*.stories.[tj]sx', '*.stories.[tj]s'],
       rules: { 'import/no-anonymous-default-export': 'off' },
-    },
-    {
-      files: ['**/*.md'],
-      processor: 'markdown/markdown',
     },
     // ignore auto-generated css module declarations
     {

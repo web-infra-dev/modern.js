@@ -17,7 +17,6 @@ doc_build/
 !**/compiled/**/dist
 coverage/
 release/
-examples/
 
 # git ignore for local test projects
 local-test-project/*/
@@ -48,3 +47,6 @@ website/**/.temp
 .wireit/
 .turbo/
 playground/
+
+# Local Netlify folder
+.netlify

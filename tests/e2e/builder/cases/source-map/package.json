@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "@e2e/webpack-builder-source-map",
+  "version": "2.9.0",
+  "dependencies": {
+    "source-map": "0.7.4",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}

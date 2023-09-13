@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools-docs",
-  "description": "Shared documentation of Modern.js Module Tools",
+  "description": "Shared documentation of Modern.js Module",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {
@@ -9,18 +9,18 @@
     "directory": "packages/document/module-doc"
   },
   "license": "MIT",
-  "version": "2.33.1",
+  "version": "2.34.0",
   "main": "index.js",
   "scripts": {
     "dev": "rspress dev",
     "build:doc": "rspress build",
     "preview": "rspress preview"
   },
-  "dependencies": {
+  "devDependencies": {
     "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rspress": "0.0.6",
+    "rspress": "0.0.10",
     "@rspress/shared": "0.0.6"
   }
 }

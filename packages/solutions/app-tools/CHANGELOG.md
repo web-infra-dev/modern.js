@@ -1,5 +1,40 @@
 # @modern-js/app-tools
 
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [f851fa9]
+- Updated dependencies [e3d08fb]
+- Updated dependencies [7d70738]
+- Updated dependencies [5240e5d]
+- Updated dependencies [a77b82a]
+- Updated dependencies [dcdeea5]
+- Updated dependencies [5ffb74a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/prod-server@2.34.0
+  - @modern-js/server-core@2.34.0
+  - @modern-js/builder@2.34.0
+  - @modern-js/utils@2.34.0
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/core@2.34.0
+  - @modern-js/server@2.34.0
+  - @modern-js/plugin-data-loader@2.34.0
+  - @modern-js/builder-plugin-esbuild@2.34.0
+  - @modern-js/builder-plugin-node-polyfill@2.34.0
+  - @modern-js/builder-rspack-provider@2.34.0
+  - @modern-js/builder-webpack-provider@2.34.0
+  - @modern-js/plugin-i18n@2.34.0
+  - @modern-js/plugin-lint@2.34.0
+  - @modern-js/new-action@2.34.0
+  - @modern-js/node-bundle-require@2.34.0
+  - @modern-js/plugin@2.34.0
+  - @modern-js/upgrade@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes
@@ -2053,7 +2088,7 @@
 
 ### Patch Changes
 
-- 39988b2: feat: advance the timing of static resource loading
+- 39988b2: feat: advance the timing of static assets loading
   feat: 将嵌套路由下静态资源加载时机提前
 - Updated dependencies [39988b2]
   - @modern-js/types@2.0.2

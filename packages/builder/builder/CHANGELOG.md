@@ -1,5 +1,35 @@
 # @modern-js/builder
 
+## 2.34.0
+
+### Patch Changes
+
+- e3d08fb: feat(builder): support buildCache.cacheDigest configuration
+
+  feat(builder): 支持 buildCache.cacheDigest 配置项
+
+- 5ffb74a: feat(builder): allow to custom CLI
+
+  feat(builder): 支持自定义 CLI
+
+- c8b448b: feat(builder): support inline assets by file size
+
+  feat(builder): 支持基于文件体积来内联资源
+
+- c9626e7: feat(builder): improve the logs of checkSyntax, add code frame
+
+  feat(builder): 优化 checkSyntax 的日志, 增加 code frame
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/utils@2.34.0
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/monorepo-utils@2.34.0
+  - @modern-js/node-bundle-require@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

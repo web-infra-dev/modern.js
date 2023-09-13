@@ -36,13 +36,13 @@ const myPlugin = {
 
 ### 插件类型
 
-Modern-js 支持多种工程开发，如应用工程(app-tools), 模块工程(module-tools)等。
+Modern.js 支持多种工程开发，如应用开发（Modern.js Framework）, 模块开发（Modern.js Module）等。
 
-为了兼顾不同工程开发的差异和通性，Modern-js 将插件如下图进行组织:
+为了兼顾不同工程开发的差异和通性，Modern.js 将插件如下图进行组织:
 
 ![plugin-relationship](https://lf3-static.bytednsdoc.com/obj/eden-cn/eeeh7uhbepxlpe/modern-website/plugin-relationship.jpg)
 
-从图可以看出，Modern-js 将插件大致分为两类:
+从图可以看出，Modern.js 将插件大致分为两类:
 
 1. 通用插件: 插件只会包含一些基础的 Hooks
 
@@ -210,9 +210,9 @@ export default defineConfig({
 
 ### 在 npm 上发布插件
 
-如果需要将 Modern.js 插件发布到 npm，推荐使用 Modern.js 中的模块工程方案来管理和构建。
+如果你需要将 Modern.js 插件发布到 npm，推荐使用 [Modern.js Module](https://modernjs.dev/module-tools) 来管理和构建。
 
-首先创建一个空的模块工程方案项目，调整 npm 包名称：
+首先创建一个空的 Modern.js Module 项目，调整 npm 包名称：
 
 ```json
 {

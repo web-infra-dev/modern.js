@@ -5,5 +5,5 @@ require('@modern-js/core/runBin').run({
   internalPlugins: {
     cli: INTERNAL_MODULE_TOOLS_PLUGINS,
   },
-  initialLog: `@modern-js/module-tools v${require('../package.json').version}`,
+  initialLog: `Modern.js Module v${require('../package.json').version}`,
 });

@@ -2,7 +2,7 @@
 pageType: home
 
 hero:
-  name: Module Tools
+  name: Modern.js Module
   text: Module engineering solutions
   tagline: simple, powerful, high-performance modern npm package development solution
   actions:
@@ -24,7 +24,7 @@ features:
     details: Develop your npm packages without too much configuration, with built-in presets covering a wide range of scenarios.
     icon: 🛠️
   - title: 'Extensible: Provides a powerful plugin mechanism'
-    details: With its plugin extension mechanism, you can easily extend the capabilities of Module Tools.
+    details: With its plugin extension mechanism, you can easily extend the capabilities of Modern.js Module.
     icon: 🎨
   - title: 'Storybook: The community popular UI development tool'
     details: Integrated with Storybook, you can use it to debug UI.

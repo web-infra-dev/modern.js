@@ -26,7 +26,7 @@ export default function (context: IPluginContext) {
 
 ## 自定义 Input
 
-Modern.js Web 应用和 Npm 模块工程方案都存在一些默认的 Input 交互，使用这里的 API 可以对这些 Input 进行添加、修改、隐藏、提供默认值等操作。
+Modern.js Framework 和 Modern.js Module 都存在一些默认的 Input 交互，使用这里的 API 可以对这些 Input 进行添加、修改、隐藏、提供默认值等操作。
 
 例如：
 
