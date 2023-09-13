@@ -33,7 +33,7 @@ import type {
 } from '@modern-js/builder-rspack-provider';
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
-import { AllBuilderConfig, FrameworkOptions } from './types';
+import { AllBuilderConfig, BuilderOptions } from './types';
 import { toImportFn, virtualModule, maybeGetAbsolutePath } from './utils';
 import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
 
@@ -139,7 +139,7 @@ async function applyCsfPlugin(
     options: { bundler },
   } = await presets.apply<{
     name: string;
-    options: FrameworkOptions;
+    options: BuilderOptions;
   }>('frameworkOptions');
 
   const docsOptions =
@@ -321,6 +321,7 @@ function applyExternals(builderConfig: AllBuilderConfig) {
   const config = mergeBuilderConfig(
     {
       output: {
+        ...builderConfig.output,
         externals: builderConfig.output?.externals,
       },
     },

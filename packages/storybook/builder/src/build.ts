@@ -4,18 +4,18 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import serveStatic from 'serve-static';
 import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
 import { fs } from '@modern-js/utils';
-import type { FrameworkOptions } from './types';
+import type { BuilderOptions } from './types';
 import { getCompiler } from './core';
 import { finalize } from './plugin-storybook';
 
-export type StorybookBuilder = RawStorybookBuilder<FrameworkOptions, Stats>;
+export type StorybookBuilder = RawStorybookBuilder<BuilderOptions, Stats>;
 
 export const getConfig: StorybookBuilder['getConfig'] = async options => {
   const { presets } = options;
 
   const frameworkOptions: {
     name: string;
-    options: FrameworkOptions;
+    options: BuilderOptions;
   } = await presets.apply('frameworkOptions');
 
   return frameworkOptions?.options || {};

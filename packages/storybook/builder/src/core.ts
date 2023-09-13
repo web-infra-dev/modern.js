@@ -2,22 +2,22 @@ import { createBuilder, mergeBuilderConfig } from '@modern-js/builder';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
 import type { Compiler } from '@modern-js/utils/webpack-dev-middleware';
-import type { BuilderConfig, FrameworkOptions } from './types';
-import { getProvider, runWithErrorMsg } from './utils';
+import type { BuilderConfig, BuilderOptions } from './types';
+import { getConfigFileName, getProvider, runWithErrorMsg } from './utils';
 import { pluginStorybook } from './plugin-storybook';
 
 export async function getCompiler(
   cwd: string,
-  frameworkConfig: FrameworkOptions,
+  builderOptions: BuilderOptions,
   options: Options,
 ): Promise<Compiler> {
-  const bundler = frameworkConfig.bundler || 'webpack';
+  const bundler = builderOptions.bundler || 'webpack';
 
   const { presets } = options;
   const entries = await presets.apply<string[]>('entries', []);
 
   const res = await runWithErrorMsg(
-    () => loadConfig(cwd, frameworkConfig.configPath || 'modern.config.ts'),
+    () => loadConfig(cwd, builderOptions.configPath || getConfigFileName()),
     'Failed to load config',
   );
   const loadedConfig = (res ? res.config : {}) as BuilderConfig;

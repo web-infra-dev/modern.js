@@ -1,9 +1,9 @@
 import type { StorybookConfig as StorybookConfigBase } from '@storybook/types';
-import { FrameworkOptions } from '.';
+import type { BuilderOptions } from '@modern-js/storybook-builder';
 
 export {
   defineConfig,
-  type FrameworkOptions,
+  type BuilderOptions,
 } from '@modern-js/storybook-builder';
 
 export type FrameworkName = '@modern-js/storybook' | string;
@@ -13,7 +13,7 @@ export interface StorybookConfig extends StorybookConfigBase {
     | FrameworkName
     | {
         name: FrameworkName;
-        options: FrameworkOptions;
+        options: BuilderOptions;
       };
   typescript?: {
     reactDocgen?: 'react-docgen' | 'react-docgen-typescript' | false;

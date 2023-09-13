@@ -8,7 +8,7 @@ export type { WebpackBuilderConfig, RspackBuilderConfig };
 
 export type AllBuilderConfig = WebpackBuilderConfig | RspackBuilderConfig;
 
-export type FrameworkOptions = {
+export type BuilderOptions = {
   bundler?: BundlerType;
   builderConfig?: AllBuilderConfig;
   configPath?: string;

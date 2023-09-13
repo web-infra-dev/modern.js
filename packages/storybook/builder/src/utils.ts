@@ -129,3 +129,7 @@ export async function runWithErrorMsg<T>(
 export function isDev() {
   return process.env.NODE_ENV === 'development';
 }
+
+export function getConfigFileName() {
+  return process.env.MODERN_STORYBOOK_CONFIG_FILENAME || 'modern.config.ts';
+}
