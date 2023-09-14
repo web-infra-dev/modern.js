@@ -1,0 +1,15 @@
+@import './nest/nest.less';
+@import '~/alias.css';
+
+@url: './assets/normal.ttf';
+
+.url-variable {
+  font-family: url(@url);
+}
+
+@border-dark: rgba(@base-color, 0.88);
+
+.alert {
+  border: 1px solid @border-dark;
+  margin: 10px / 2;
+}

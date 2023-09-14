@@ -1,0 +1,8 @@
+@import 'https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.css';
+@import url('https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.css');
+@import url('lib1.css');
+@import 'lib2.css';
+
+.import {
+  background-image: url('https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.css')
+}
