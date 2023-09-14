@@ -8,6 +8,52 @@ describe('plugins/babel', () => {
       plugins: [builderPluginBabel()],
       builderConfig: {
         tools: {
+          babel(config: any) {
+            // 添加一个插件，比如配置某个组件库的按需引入
+            config.plugins.push([
+              'babel-plugin-import',
+              {
+                libraryName: 'xxx-components',
+                libraryDirectory: 'es',
+                style: true,
+              },
+            ]);
+          },
+        },
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should not set babel-loader when babel config is return null', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginBabel()],
+      builderConfig: {
+        tools: {
+          babel: () => {
+            // do nothing
+          },
+        } as any,
+      },
+    });
+
+    const {
+      origin: { bundlerConfigs },
+    } = await builder.inspectConfig();
+
+    expect(bundlerConfigs[0]).toMatchSnapshot();
+  });
+
+  it('should not set babel-loader when babel config is null', async () => {
+    const builder = await createBuilder({
+      plugins: [builderPluginBabel()],
+      builderConfig: {
+        tools: {
           babel: {},
         } as any,
       },
