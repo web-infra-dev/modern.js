@@ -108,7 +108,7 @@ For example to disable Source Map:
 ```js
 export default {
   tools: {
-    webpackChain(chain, { env }) {
+    bundlerChain(chain, { env }) {
       if (env === 'development') {
         chain.devtool(false);
       }
@@ -122,7 +122,7 @@ Or set the source map format of the development environment to the cheapest `eva
 ```js
 export default {
   tools: {
-    webpackChain(chain, { env }) {
+    bundlerChain(chain, { env }) {
       if (env === 'development') {
         chain.devtool('eval');
       }
