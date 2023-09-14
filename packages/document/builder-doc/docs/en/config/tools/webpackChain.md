@@ -169,27 +169,34 @@ export default {
 
 Some common Chain IDs are predefined in the Builder, and you can use these IDs to locate the built-in Rule or Plugin.
 
-##### CHAIN_ID.RULE
+:::tip
+Please note that some of the rules or plugins listed below are not available by default. They will only be included in the webpack configuration when you enable specific options or register certain plugins.
 
-| ID           | Description      |
-| ------------ | ---------------- |
-| `RULE.MJS`   | Rule for `mjs`   |
-| `RULE.JS`    | Rule for `js`    |
-| `RULE.TS`    | Rule for `ts`    |
-| `RULE.CSS`   | Rule for `css`   |
-| `RULE.LESS`  | Rule for `less`  |
-| `RULE.SASS`  | Rule for `sass`  |
-| `RULE.PUG`   | Rule for `pug`   |
-| `RULE.VUE`   | Rule for `vue`   |
-| `RULE.TOML`  | Rule for `toml`  |
-| `RULE.YAML`  | Rule for `yaml`  |
-| `RULE.WASM`  | Rule for `WASM`  |
-| `RULE.NODE`  | Rule for `node`  |
-| `RULE.FONT`  | Rule for `font`  |
-| `RULE.IMAGE` | Rule for `image` |
-| `RULE.MEDIA` | Rule for `media` |
+For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is registered.
+:::
 
-### CHAIN_ID.ONE_OF
+#### CHAIN_ID.RULE
+
+| ID            | Description       |
+| ------------- | ----------------- |
+| `RULE.MJS`    | Rule for `mjs`    |
+| `RULE.JS`     | Rule for `js`     |
+| `RULE.TS`     | Rule for `ts`     |
+| `RULE.CSS`    | Rule for `css`    |
+| `RULE.LESS`   | Rule for `less`   |
+| `RULE.SASS`   | Rule for `sass`   |
+| `RULE.STYLUS` | Rule for `stylus` |
+| `RULE.PUG`    | Rule for `pug`    |
+| `RULE.VUE`    | Rule for `vue`    |
+| `RULE.TOML`   | Rule for `toml`   |
+| `RULE.YAML`   | Rule for `yaml`   |
+| `RULE.WASM`   | Rule for `WASM`   |
+| `RULE.NODE`   | Rule for `node`   |
+| `RULE.FONT`   | Rule for `font`   |
+| `RULE.IMAGE`  | Rule for `image`  |
+| `RULE.MEDIA`  | Rule for `media`  |
+
+#### CHAIN_ID.ONE_OF
 
 `ONE_OF.XXX` can match a certain type of rule in the rule array.
 
@@ -200,7 +207,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `ONE_OF.SVG_INLINE` | Rules for SVG, inlined into bundles as data URIs                   |
 | `ONE_OF.SVG_ASSETS` | Rules for SVG, automatic choice between data URI and separate file |
 
-### CHAIN_ID.USE
+#### CHAIN_ID.USE
 
 `USE.XXX` can match a certain loader.
 
@@ -210,6 +217,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `USE.CSS`                         | correspond to `css-loader`                     |
 | `USE.LESS`                        | correspond to `less-loader`                    |
 | `USE.SASS`                        | correspond to `sass-loader`                    |
+| `USE.STYLUS`                      | correspond to `stylus-loader`                  |
 | `USE.PUG`                         | correspond to `pug-loader`                     |
 | `USE.VUE`                         | correspond to `vue-loader`                     |
 | `USE.TOML`                        | correspond to `toml-loader`                    |
@@ -221,12 +229,11 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `USE.BABEL`                       | correspond to `babel-loader`                   |
 | `USE.STYLE`                       | correspond to `style-loader`                   |
 | `USE.POSTCSS`                     | correspond to `postcss-loader`                 |
-| `USE.MARKDOWN`                    | correspond to `markdown-loader`                |
 | `USE.CSS_MODULES_TS`              | correspond to `css-modules-typescript-loader`  |
 | `USE.MINI_CSS_EXTRACT`            | correspond to `mini-css-extract-plugin.loader` |
 | `USE.RESOLVE_URL_LOADER_FOR_SASS` | correspond to `resolve-url-loader`             |
 
-### CHAIN_ID.PLUGIN
+#### CHAIN_ID.PLUGIN
 
 `PLUGIN.XXX` can match a certain webpack plugin.
 
@@ -255,7 +262,7 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `PLUGIN.ASSETS_RETRY`          | correspond to webpack static asset retry plugin in Builder                                                     |
 | `PLUGIN.AUTO_SET_ROOT_SIZE`    | correspond to automatically set root font size plugin in Builder                                               |
 
-### CHAIN_ID.MINIMIZER
+#### CHAIN_ID.MINIMIZER
 
 `MINIMIZER.XXX` can match a certain minimizer.
 
@@ -268,61 +275,4 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 
 ### Examples
 
-The following are some common configuration examples, see the full webpack-chain API [webpack-chain documentation](https://github.com/neutrinojs/webpack-chain).
-
-#### Add/Modify/Delete loader
-
-```js
-export default {
-  tools: {
-    webpackChain: (chain, { CHAIN_ID }) => {
-      // Add loader
-      chain.module
-        .rule('md')
-        .test(/\.md$/)
-        .use('md-loader')
-        .loader('md-loader');
-
-      // Modify loader
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .use(CHAIN_ID.USE.BABEL)
-        .tap(options => {
-          options.plugins.push('babel-plugin-xxx');
-          return options;
-        });
-
-      // Delete loader
-      chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
-    },
-  },
-};
-```
-
-#### Add/Modify/Delete plugin
-
-```js
-export default {
-  tools: {
-    webpackChain: (chain, { webpack, CHAIN_ID }) => {
-      // Add plugin
-      chain.plugin('custom-define').use(webpack.DefinePlugin, [
-        {
-          'process.env': {
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-          },
-        },
-      ]);
-
-      // Modify plugin
-      chain.plugin(CHAIN_ID.PLUGIN.HMR).tap(options => {
-        options[0].fullBuildTimeout = 200;
-        return options;
-      });
-
-      // Delete plugin
-      chain.plugins.delete(CHAIN_ID.PLUGIN.HMR);
-    },
-  },
-};
-```
+For usage examples, please refer to: [WebpackChain usage examples](https://modernjs.dev/builder/en/guide/advanced/custom-webpack-config.html#webpack-chain-basics).

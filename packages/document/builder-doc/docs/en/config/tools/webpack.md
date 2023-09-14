@@ -4,7 +4,7 @@
 
 `tools.webpack` is used to configure [webpack](https://webpack.js.org/).
 
-> `tools.webpackChain` is also used to modify the webpack configuration, and the function is more powerful. It is recommended to use `tools.webpackChain` first.
+> `tools.bundlerChain` is also used to modify the webpack configuration, and the function is more powerful. It is recommended to use `tools.bundlerChain` first.
 
 ### Object Type
 
@@ -170,7 +170,7 @@ The HtmlWebpackPlugin instance:
 ```js
 export default {
   tools: {
-    webpackChain: (chain, { HtmlWebpackPlugin }) => {
+    webpack: (chain, { HtmlWebpackPlugin }) => {
       console.log(HtmlWebpackPlugin);
     },
   },
