@@ -1,5 +1,13 @@
 # @modern-js/monorepo-generator
 
+## 3.2.1
+
+### Patch Changes
+
+- c570731: chore(generator): remove outdated vscode configs
+
+  chore(generator): 移除过时的 vscode 配置
+
 ## 3.2.0
 
 ### Patch Changes

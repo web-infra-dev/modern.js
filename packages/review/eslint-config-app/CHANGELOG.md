@@ -1,5 +1,15 @@
 # @modern-js-app/eslint-config
 
+## 2.35.0
+
+### Patch Changes
+
+- bfad67b: fix(eslint-config): remove the markdown plugin
+
+  fix(eslint-config): 移除 markdown 插件
+
+  - @modern-js/babel-preset-app@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

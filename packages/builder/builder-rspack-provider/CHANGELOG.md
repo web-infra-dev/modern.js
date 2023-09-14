@@ -1,5 +1,37 @@
 # @modern-js/builder-rspack-provider
 
+## 2.35.0
+
+### Patch Changes
+
+- 3b25410: fix(builder): support enableLatestDecorators in rspack mode
+
+  fix(builder): 修复在使用 rspack 构建时 enableLatestDecorators 报错问题
+
+- e2def6e: feat(builder): update rspack to 0.3.4 and support output.charset ascii
+
+  feat(builder): 更新 rspack 到 0.3.4，并支持 output.charset ascii 配置
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

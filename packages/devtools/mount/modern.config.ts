@@ -37,7 +37,7 @@ export default defineConfig<'rspack'>({
       insert: function insert(element) {
         const key = `__DEVTOOLS_STYLE_${process.env.DEVTOOLS_MARK}`;
         // @ts-expect-error
-        window[key] ||= [];
+        window[key] = window[key] || [];
         // @ts-expect-error
         window[key].push(element);
       },
