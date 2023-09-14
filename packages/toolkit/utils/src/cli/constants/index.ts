@@ -81,26 +81,6 @@ export const LOADER_ROUTES_DIR = `loader-routes`;
 export const DEFAULT_DEV_HOST = '0.0.0.0';
 
 /**
- * Property mounted on window that describes route manifest
- */
-export const ROUTE_MANIFEST = `_MODERNJS_ROUTE_MANIFEST`;
-
-/**
- * hmr socket connect path
- */
-export const HMR_SOCK_PATH = '/webpack-hmr';
-
-/**
- * html placeholder
- */
-export const HTML_CHUNKSMAP_SEPARATOR = '<!--<?- chunksMap.js ?>-->';
-
-/**
- * reporter name for server loader
- */
-export const LOADER_REPORTER_NAME = `server-loader`;
-
-/**
  * Internal app-tools plugins that work as soon as they are installed.
  */
 

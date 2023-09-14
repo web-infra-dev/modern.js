@@ -11,7 +11,7 @@ import {
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
-import { LOADER_REPORTER_NAME } from '@modern-js/utils';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { RuntimeReactContext } from '../../core';
 import type { Plugin } from '../../core';
 import { SSRServerContext } from '../../ssr/serverRender/types';

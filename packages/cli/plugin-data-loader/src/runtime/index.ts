@@ -20,7 +20,7 @@ import {
   reporterCtx,
 } from '@modern-js/runtime-utils/node';
 import { time } from '@modern-js/runtime-utils/time';
-import { LOADER_REPORTER_NAME } from '@modern-js/utils';
+import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';
 

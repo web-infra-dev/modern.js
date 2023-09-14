@@ -1,4 +1,4 @@
-import { HTML_CHUNKSMAP_SEPARATOR } from '@modern-js/utils';
+import { HTML_CHUNKSMAP_SEPARATOR } from '@modern-js/utils/universal/constants';
 
 export const DOC_EXT = ['jsx', 'tsx', 'ts', 'js'];
 export const DOCUMENT_META_PLACEHOLDER = encodeURIComponent('<%= meta %>');
