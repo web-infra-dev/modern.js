@@ -30,6 +30,12 @@
       "types": "./dist/preset.d.ts",
       "default": "./dist/preset.js"
     },
+    "./types": {
+      "jsnext:source": "./src/types.ts",
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.ks"
+    },
+    "./bin": "./bin.js",
     "./package.json": "./package.json"
   },
   "engines": {
