@@ -44,7 +44,7 @@ const LOG_TYPES = {
   },
   success: {
     color: 'green',
-    label: 'Success',
+    label: 'success',
     level: 'info',
   },
   warn: {
