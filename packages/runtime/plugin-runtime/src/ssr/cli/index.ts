@@ -105,9 +105,9 @@ export const ssrPlugin = (): CliPlugin<AppTools> => ({
         return {
           source: {
             alias: {
-              // ensure that all packages use the same storage in @modern-js/utils/runtime-node
-              '@modern-js/utils/runtime-node$': require.resolve(
-                '@modern-js/utils/runtime-node',
+              // ensure that all packages use the same storage in @modern-js/runtime-utils/node
+              '@modern-js/runtime-utils/node$': require.resolve(
+                '@modern-js/runtime-utils/node',
               ),
               '@modern-js/runtime/plugins': pluginsExportsUtils.getPath(),
             },

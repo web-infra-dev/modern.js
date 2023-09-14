@@ -1084,6 +1084,9 @@ importers:
       '@babel/core':
         specifier: ^7.22.15
         version: 7.22.15
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -3872,6 +3875,9 @@ importers:
       '@modern-js/runtime':
         specifier: workspace:*
         version: link:../plugin-runtime
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -3947,6 +3953,9 @@ importers:
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -4352,6 +4361,9 @@ importers:
 
   packages/server/create-request:
     dependencies:
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -4709,6 +4721,9 @@ importers:
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/server-core':
         specifier: workspace:*
         version: link:../core
@@ -4818,6 +4833,9 @@ importers:
       '@modern-js/prod-server':
         specifier: workspace:*
         version: link:../prod-server
+      '@modern-js/runtime-utils':
+        specifier: workspace:*
+        version: link:../../toolkit/runtime-utils
       '@modern-js/server-utils':
         specifier: workspace:*
         version: link:../utils
@@ -5453,6 +5471,55 @@ importers:
         specifier: ^5
         version: 5.0.4
 
+  packages/toolkit/runtime-utils:
+    dependencies:
+      '@modern-js/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@remix-run/router':
+        specifier: 1.8.0
+        version: 1.8.0
+      '@swc/helpers':
+        specifier: 0.5.1
+        version: 0.5.1
+      react-router-dom:
+        specifier: 6.15.0
+        version: 6.15.0(react-dom@18.2.0)(react@18.2.0)
+      serialize-javascript:
+        specifier: ^6.0.0
+        version: 6.0.1
+    devDependencies:
+      '@modern-js/types':
+        specifier: workspace:*
+        version: link:../types
+      '@scripts/build':
+        specifier: workspace:*
+        version: link:../../../scripts/build
+      '@scripts/jest-config':
+        specifier: workspace:*
+        version: link:../../../scripts/jest-config
+      '@types/jest':
+        specifier: ^29
+        version: 29.2.6
+      '@types/node':
+        specifier: ^14
+        version: 14.18.35
+      '@types/serialize-javascript':
+        specifier: ^5.0.1
+        version: 5.0.2
+      jest:
+        specifier: ^29
+        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
+      react:
+        specifier: ^18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.2.0(react@18.2.0)
+      typescript:
+        specifier: ^5
+        version: 5.0.4
+
   packages/toolkit/types:
     devDependencies:
       '@scripts/build':
@@ -5522,9 +5589,6 @@ importers:
 
   packages/toolkit/utils:
     dependencies:
-      '@remix-run/router':
-        specifier: 1.8.0
-        version: 1.8.0
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -5534,12 +5598,6 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
-      react-router-dom:
-        specifier: 6.15.0
-        version: 6.15.0(react-dom@18.2.0)(react@18.2.0)
-      serialize-javascript:
-        specifier: ^6.0.0
-        version: 6.0.1
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -5556,18 +5614,9 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
-      '@types/serialize-javascript':
-        specifier: ^5.0.1
-        version: 5.0.2
       jest:
         specifier: ^29
         version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: ^18.2.0
-        version: 18.2.0(react@18.2.0)
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -29268,7 +29317,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 

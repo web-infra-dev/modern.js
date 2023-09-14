@@ -1,8 +1,8 @@
 import React from 'react';
-import { serializeJson } from '@modern-js/utils/runtime-node';
+import { serializeJson } from '@modern-js/runtime-utils/node';
 import ReactHelmet, { HelmetData } from 'react-helmet';
 // Todo: This import will introduce router code, like remix, even if router config is false
-import { time } from '@modern-js/utils/universal/time';
+import { time } from '@modern-js/runtime-utils/time';
 import { serializeErrors } from '../../../router/runtime/utils';
 import helmetReplace from '../helmet';
 import {

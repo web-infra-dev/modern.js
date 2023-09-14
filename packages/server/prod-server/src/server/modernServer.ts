@@ -16,7 +16,7 @@ import {
   LoaderHandler,
 } from '@modern-js/server-core';
 import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
-import { time } from '@modern-js/utils/universal/time';
+import { time } from '@modern-js/runtime-utils/time';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
