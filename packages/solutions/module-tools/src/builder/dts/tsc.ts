@@ -1,9 +1,8 @@
 import type { ChildProcess } from 'child_process';
-import { execa, fs, json5, logger } from '@modern-js/utils';
+import { execa, logger } from '@modern-js/utils';
 import { addDtsFiles } from '../../utils/print';
 import type {
   BundlelessGeneratorDtsConfig,
-  ITsconfig,
   PluginAPI,
   ModuleTools,
 } from '../../types';
@@ -19,16 +18,6 @@ import {
   SectionTitleStatus,
 } from '../../constants/log';
 import { watchDoneText } from '../../constants/dts';
-
-export const getProjectTsconfig = async (
-  tsconfigPath: string,
-): Promise<ITsconfig> => {
-  if (!fs.existsSync(tsconfigPath)) {
-    return {};
-  }
-
-  return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
-};
 
 const resolveLog = async (
   childProgress: ChildProcess,
@@ -68,14 +57,11 @@ const generatorDts = async (
   api: PluginAPI<ModuleTools>,
   config: BundlelessGeneratorDtsConfig,
 ) => {
-  const {
-    tsconfigPath,
-    appDirectory,
-    watch = false,
-    abortOnError = true,
-  } = config;
-  const userTsconfig = await getProjectTsconfig(tsconfigPath);
-  const result = await generatorTsConfig(config);
+  const { appDirectory, watch = false, abortOnError = true } = config;
+
+  const { userTsconfig, generatedTsconfig: result } = await generatorTsConfig(
+    config,
+  );
 
   const tscBinFile = await getTscBinPath(appDirectory);
 

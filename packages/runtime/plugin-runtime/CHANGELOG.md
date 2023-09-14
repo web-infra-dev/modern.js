@@ -1,5 +1,19 @@
 # @modern-js/runtime
 
+## 2.35.0
+
+### Minor Changes
+
+- d87a426: feat: reporter adapter streaming ssr
+  feat: reporter 适配 streaming ssr
+
+### Patch Changes
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/plugin@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Minor Changes

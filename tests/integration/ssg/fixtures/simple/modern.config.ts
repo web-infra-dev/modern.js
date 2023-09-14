@@ -1,9 +1,9 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
 import { ssgPlugin } from '@modern-js/plugin-ssg';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   output: {
     ssg: true,
   },
-  plugins: [appTools(), ssgPlugin()],
+  plugins: [ssgPlugin()],
 });

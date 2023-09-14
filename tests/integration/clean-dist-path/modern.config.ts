@@ -1,8 +1,7 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig<'rspack'>({
+export default applyBaseConfig({
   output: {
     cleanDistPath: false,
   },
-  plugins: [appTools({ bundler: 'experimental-rspack' })],
 });

@@ -125,18 +125,25 @@ export default {
 
 Some common Chain IDs are predefined in the Builder, and you can use these IDs to locate the built-in Rule or Plugin.
 
+:::tip
+Please note that some of the rules or plugins listed below are not available by default. They will only be included in the Rspack or webpack configuration when you enable specific options or register certain plugins.
+
+For example, the `RULE.STYLUS` rule exists only when the Stylus plugin is registered.
+:::
+
 ##### CHAIN_ID.RULE
 
-| ID          | Description     |
-| ----------- | --------------- |
-| `RULE.MJS`  | Rule for `mjs`  |
-| `RULE.CSS`  | Rule for `css`  |
-| `RULE.LESS` | Rule for `less` |
-| `RULE.SASS` | Rule for `sass` |
-| `RULE.TOML` | Rule for `toml` |
-| `RULE.YAML` | Rule for `yaml` |
-| `RULE.WASM` | Rule for `WASM` |
-| `RULE.NODE` | Rule for `node` |
+| ID            | Description       |
+| ------------- | ----------------- |
+| `RULE.MJS`    | Rule for `mjs`    |
+| `RULE.CSS`    | Rule for `css`    |
+| `RULE.LESS`   | Rule for `less`   |
+| `RULE.SASS`   | Rule for `sass`   |
+| `RULE.STYLUS` | Rule for `stylus` |
+| `RULE.TOML`   | Rule for `toml`   |
+| `RULE.YAML`   | Rule for `yaml`   |
+| `RULE.WASM`   | Rule for `WASM`   |
+| `RULE.NODE`   | Rule for `node`   |
 
 ### CHAIN_ID.ONE_OF
 
@@ -157,6 +164,8 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | --------------------------------- | ---------------------------------- |
 | `USE.LESS`                        | correspond to `less-loader`        |
 | `USE.SASS`                        | correspond to `sass-loader`        |
+| `USE.STYLUS`                      | correspond to `stylus-loader`      |
+| `USE.VUE`                         | correspond to `vue-loader`         |
 | `USE.TOML`                        | correspond to `toml-loader`        |
 | `USE.YAML`                        | correspond to `yaml-loader`        |
 | `USE.NODE`                        | correspond to `node-loader`        |
@@ -175,8 +184,18 @@ Some common Chain IDs are predefined in the Builder, and you can use these IDs t
 | `PLUGIN.INLINE_HTML`        | correspond to `InlineChunkHtmlPlugin`                                                                   |
 | `PLUGIN.BUNDLE_ANALYZER`    | correspond to `WebpackBundleAnalyzer`                                                                   |
 | `PLUGIN.BOTTOM_TEMPLATE`    | correspond to `BottomTemplatePlugin`                                                                    |
+| `PLUGIN.VUE_LOADER_PLUGIN`  | correspond to `VueLoaderPlugin`                                                                         |
 | `PLUGIN.AUTO_SET_ROOT_SIZE` | correspond to automatically set root font size plugin in Builder                                        |
+
+### CHAIN_ID.MINIMIZER
+
+`MINIMIZER.XXX` can match a certain minimizer.
+
+| ID              | Description                                                         |
+| --------------- | ------------------------------------------------------------------- |
+| `MINIMIZER.JS`  | correspond to `TerserWebpackPlugin` or `SwcJsMinimizerRspackPlugin` |
+| `MINIMIZER.CSS` | correspond to `CssMinimizerWebpackPlugin`                           |
 
 ### Examples
 
-The usage of BundlerChain can reference: [WebpackChain Examples](https://modernjs.dev/builder/en/guide/advanced/custom-webpack-config.html#webpack-chain-basics).
+For usage examples, please refer to: [WebpackChain usage examples](https://modernjs.dev/builder/en/guide/advanced/custom-webpack-config.html#webpack-chain-basics).

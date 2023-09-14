@@ -4,10 +4,6 @@ exports[`SSR preload should add Links to response headers 1`] = `
 [
   "</static/css/async/page.css>; rel=preload; as=style",
   "</static/js/async/page.js>; rel=preload; as=script",
-  "</static/js/builder-runtime.js>; rel=preload; as=script",
-  "</static/js/lib-polyfill.js>; rel=preload; as=script",
-  "</static/js/lib-react.js>; rel=preload; as=script",
-  "</static/js/lib-router.js>; rel=preload; as=script",
   "</static/js/main.js>; rel=preload; as=script",
   "<https://lf3-static.bytednsdoc.com/obj/eden-cn/nuvshpqnulg/eden-x-logo.png>; rel=preload; as=image",
 ]

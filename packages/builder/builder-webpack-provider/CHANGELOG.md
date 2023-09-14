@@ -1,5 +1,35 @@
 # @modern-js/builder-webpack-provider
 
+## 2.35.0
+
+### Patch Changes
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- 9f13314: fix(builder): VS Code break points not work in monorepo
+
+  fix(builder): 修复 VS Code 断点在 monorepo 中不生效
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/babel-preset-app@2.35.0
+  - @modern-js/babel-preset-base@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

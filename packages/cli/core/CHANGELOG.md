@@ -1,5 +1,18 @@
 # @modern-js/core
 
+## 2.35.0
+
+### Patch Changes
+
+- 15b834f: feat(CLI): print gradient text for initial log
+
+  feat(CLI): 输出 initial log 时使用渐变色文字
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/node-bundle-require@2.35.0
+  - @modern-js/plugin@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

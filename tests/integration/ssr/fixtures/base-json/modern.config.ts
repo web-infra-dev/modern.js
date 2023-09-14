@@ -1,8 +1,6 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
-const bundler = process.env.BUNDLER;
-
-export default defineConfig({
+export default applyBaseConfig({
   runtime: {
     router: true,
   },
@@ -11,9 +9,4 @@ export default defineConfig({
       inlineScript: false,
     },
   },
-  plugins: [
-    appTools({
-      bundler: bundler === 'rspack' ? 'experimental-rspack' : 'webpack',
-    }),
-  ],
 });

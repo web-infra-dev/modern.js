@@ -31,7 +31,7 @@ import ESLintPlugin from 'eslint-webpack-plugin';
 
 export default {
   tools: {
-    webpackChain(chain) {
+    bundlerChain(chain) {
       chain.plugin('eslint-plugin').use(ESLintPlugin, [
         {
           extensions: ['.js', '.ts', '.jsx', 'tsx', '.mjs'],

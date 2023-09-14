@@ -32,10 +32,8 @@ export default {
 ```js
 export default {
   tools: {
-    webpack: {
-      optimization: {
-        runtimeChunk: false,
-      },
+    bundlerChain(chain) {
+      chain.optimization.runtimeChunk(false);
     },
   },
 };

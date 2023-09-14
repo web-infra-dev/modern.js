@@ -4,5 +4,8 @@ export default defineConfig({
   tools: {
     esbuild: {},
   },
+  output: {
+    disableTsChecker: true,
+  },
   plugins: [appTools()],
 });

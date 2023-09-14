@@ -1,7 +1,7 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
 import { routerPlugin } from '@modern-js/plugin-router-v5';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   runtime: {
     router: {
       mode: 'react-router-5',
@@ -28,5 +28,5 @@ export default defineConfig({
   performance: {
     buildCache: false,
   },
-  plugins: [appTools(), routerPlugin()],
+  plugins: [routerPlugin()],
 });

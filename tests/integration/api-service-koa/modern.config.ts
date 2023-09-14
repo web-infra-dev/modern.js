@@ -1,11 +1,11 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
 import { bffPlugin } from '@modern-js/plugin-bff';
 import { testingPlugin } from '@modern-js/plugin-testing';
 import { koaPlugin } from '@modern-js/plugin-koa';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   bff: {
     prefix: '/api',
   },
-  plugins: [appTools(), bffPlugin(), testingPlugin(), koaPlugin()],
+  plugins: [bffPlugin(), testingPlugin(), koaPlugin()],
 });

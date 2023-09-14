@@ -171,7 +171,7 @@ export const buildLib = async (
     matchSwcTransformCondition,
   } = await import('../utils/builder');
 
-  const { getProjectTsconfig } = await import('./dts/tsc');
+  const { getProjectTsconfig } = await import('../utils/dts');
   const tsconfigPath = dts
     ? dts.tsconfigPath
     : resolve(appDirectory, 'tsconfig.json');

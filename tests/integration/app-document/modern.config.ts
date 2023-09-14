@@ -1,10 +1,6 @@
-import {
-  AppTools,
-  appTools,
-  CliPlugin,
-  defineConfig,
-} from '@modern-js/app-tools';
+import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import { routerPlugin } from '@modern-js/plugin-router-v5';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 export const tmpTest = (): CliPlugin<AppTools> => ({
   name: 'tmpTest',
@@ -23,7 +19,7 @@ export const tmpTest = (): CliPlugin<AppTools> => ({
   },
 });
 
-export default defineConfig({
+export default applyBaseConfig({
   runtime: {
     router: {
       mode: 'react-router-5',
@@ -44,6 +40,5 @@ export default defineConfig({
   html: {
     favicon: './static/a.icon',
   },
-  output: {},
-  plugins: [appTools(), routerPlugin(), tmpTest()],
+  plugins: [routerPlugin(), tmpTest()],
 });

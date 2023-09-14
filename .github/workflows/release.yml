@@ -130,4 +130,4 @@ jobs:
           -H 'Content-Type: application/json' \
           -H 'Authorization: Bearer ${{ secrets.REPO_SCOPED_TOKEN }}' \
           -d '{"ref": "main", "inputs": {"version": "latest"}}' \
-          https://api.github.com/repos/caohuilin/rspress/actions/workflows/release-pull-request-with-modernjs.yml/dispatches
+          https://api.github.com/repos/web-infra-dev/rspress/actions/workflows/release-pull-request-with-modernjs.yml/dispatches
