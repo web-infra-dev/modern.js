@@ -9,7 +9,6 @@ describe('plugins/babel', () => {
       builderConfig: {
         tools: {
           babel(config: any) {
-            // 添加一个插件，比如配置某个组件库的按需引入
             config.plugins.push([
               'babel-plugin-import',
               {
