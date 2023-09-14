@@ -1,5 +1,23 @@
 # @modern-js/monorepo-tools
 
+## 2.35.0
+
+### Patch Changes
+
+- 15b834f: feat(CLI): print gradient text for initial log
+
+  feat(CLI): 输出 initial log 时使用渐变色文字
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/core@2.35.0
+  - @modern-js/plugin-changeset@2.35.0
+  - @modern-js/plugin-i18n@2.35.0
+  - @modern-js/plugin-lint@2.35.0
+  - @modern-js/new-action@2.35.0
+  - @modern-js/plugin@2.35.0
+  - @modern-js/upgrade@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

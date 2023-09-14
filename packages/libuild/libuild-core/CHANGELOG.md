@@ -1,5 +1,13 @@
 # @modern-js/libuild
 
+## 2.35.0
+
+### Patch Changes
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
 ## 2.34.0
 
 ## 2.33.1
