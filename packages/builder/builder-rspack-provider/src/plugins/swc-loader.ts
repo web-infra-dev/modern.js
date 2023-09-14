@@ -8,6 +8,7 @@ import {
   setConfig,
   isWebTarget,
   BundlerChain,
+  addCoreJsEntry,
 } from '@modern-js/builder-shared';
 import * as path from 'path';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
@@ -47,72 +48,64 @@ export const builderPluginSwcLoader = (): BuilderPlugin => ({
   name: 'builder-plugin-swc-loader',
 
   setup(api) {
-    api.modifyBundlerChain(async (chain, { CHAIN_ID, target }) => {
-      const config = api.getNormalizedConfig();
-      const polyfillEntryFileName = 'rspack-polyfill.js';
+    api.modifyBundlerChain(
+      async (chain, { CHAIN_ID, target, isServer, isServiceWorker }) => {
+        const config = api.getNormalizedConfig();
 
-      const mode = config?.output?.polyfill ?? 'entry';
-      const { entry } = api.context;
-      if (['modern-web', 'web'].includes(target) && mode === 'entry') {
-        Object.keys(entry).forEach(entryName => {
-          chain.entry(entryName).prepend(polyfillEntryFileName);
-        });
-
-        const { default: RspackVirtualModulePlugin } = await import(
-          'rspack-plugin-virtual-module'
-        );
-
-        chain.plugin('rspack-core-js-entry').use(RspackVirtualModulePlugin, [
-          {
-            [polyfillEntryFileName]: `import 'core-js'`,
-          },
-        ]);
-      }
-
-      // todo: handle babel
-      let rule: any;
-
-      if (!chain.module.rules.has(CHAIN_ID.RULE.JS)) {
-        rule = chain.module
-          .rule(CHAIN_ID.RULE.JS)
-          .test(mergeRegex(JS_REGEX, TS_REGEX))
-          .type('javascript/auto');
-        // todo: apply source.include
-        applyScriptCondition({
-          rule,
+        addCoreJsEntry({
+          chain,
           config,
-          context: api.context,
-          includes: [],
-          excludes: [],
+          isServer,
+          isServiceWorker,
         });
-      }
 
-      rule = chain.module.rule(CHAIN_ID.RULE.JS);
+        // todo: handle babel
+        let rule: any;
 
-      const swcConfig = getDefaultSwcConfig();
-
-      await setBrowserslist(api.context.rootPath, config, target, swcConfig);
-
-      applyTransformImport(swcConfig, config.source.transformImport);
-
-      if (isWebTarget(target)) {
-        const polyfillMode = config.output.polyfill;
-
-        if (polyfillMode === 'off' || polyfillMode === 'ua') {
-          swcConfig.env.mode = undefined;
-        } else {
-          swcConfig.env.mode = polyfillMode;
-          /* Apply core-js version and path alias and exclude core-js */
-          await applyCoreJs(swcConfig, chain, rule);
+        if (!chain.module.rules.has(CHAIN_ID.RULE.JS)) {
+          rule = chain.module
+            .rule(CHAIN_ID.RULE.JS)
+            .test(mergeRegex(JS_REGEX, TS_REGEX))
+            .type('javascript/auto');
+          // todo: apply source.include
+          applyScriptCondition({
+            rule,
+            config,
+            context: api.context,
+            includes: [],
+            excludes: [],
+          });
         }
-      }
 
-      // topLevelAwait: true,
-      rule
-        .use(CHAIN_ID.USE.SWC)
-        .loader('builtin:swc-loader')
-        .options(swcConfig);
-    });
+        rule = chain.module.rule(CHAIN_ID.RULE.JS);
+
+        const swcConfig = getDefaultSwcConfig();
+
+        await setBrowserslist(api.context.rootPath, config, target, swcConfig);
+
+        applyTransformImport(swcConfig, config.source.transformImport);
+
+        applyDecorator(swcConfig, config.output.enableLatestDecorators);
+
+        if (isWebTarget(target)) {
+          const polyfillMode = config.output.polyfill;
+
+          if (polyfillMode === 'off' || polyfillMode === 'ua') {
+            swcConfig.env.mode = undefined;
+          } else {
+            swcConfig.env.mode = polyfillMode;
+            /* Apply core-js version and path alias and exclude core-js */
+            await applyCoreJs(swcConfig, chain, rule);
+          }
+        }
+
+        // topLevelAwait: true,
+        rule
+          .use(CHAIN_ID.USE.SWC)
+          .loader('builtin:swc-loader')
+          .options(swcConfig);
+      },
+    );
 
     api.modifyRspackConfig(async config => {
       setConfig(
@@ -162,4 +155,10 @@ function applyTransformImport(swcConfig: any, pluginImport?: any) {
     swcConfig.rspackExperiments.import ??= [];
     swcConfig.rspackExperiments.import.push(...pluginImport);
   }
+}
+
+function applyDecorator(swcConfig: any, enableLatestDecorators: boolean) {
+  swcConfig.jsc.transform ??= {};
+  swcConfig.jsc.transform.legacyDecorator = !enableLatestDecorators;
+  swcConfig.jsc.transform.decoratorMetadata = !enableLatestDecorators;
 }

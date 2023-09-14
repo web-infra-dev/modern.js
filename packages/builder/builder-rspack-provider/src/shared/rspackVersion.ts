@@ -14,7 +14,8 @@ export const getRspackVersion = async (): Promise<string> => {
 };
 
 // depend on rspack builtin plugins
-export const supportedRspackMinimumVersion = '0.3.3';
+// export const supportedRspackMinimumVersion = '0.3.3';
+export const supportedRspackMinimumVersion = '0.3.2';
 
 export const isSatisfyRspackMinimumVersion = async (customVersion?: string) => {
   let version = customVersion || (await getRspackVersion());
