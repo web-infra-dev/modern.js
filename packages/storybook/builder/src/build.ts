@@ -81,7 +81,7 @@ export const start: StorybookBuilder['start'] = async ({
   const middleware = webpackDevMiddleware(compiler, {
     writeToDisk:
       // @ts-expect-error
-      config.builderConfig?.tools?.devServer?.devMiddleware?.writeToDisk ||
+      config.builderConfig?.tools?.devServer?.devMiddleware?.writeToDisk ??
       true,
 
     // builder can log errors, so not using dev-middleware logs
