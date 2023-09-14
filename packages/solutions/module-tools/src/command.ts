@@ -3,7 +3,13 @@ import type { PluginAPI } from '@modern-js/core';
 import type { ModuleTools } from './types';
 import type { DevCommandOptions, BuildCommandOptions } from './types/command';
 import { i18n, localeKeys } from './locale';
-import { initModuleContext } from './utils/context';
+
+const initModuleContext = async (api: PluginAPI<ModuleTools>) => {
+  const { isTypescript } = await import('@modern-js/utils');
+  const { appDirectory, srcDirectory } = api.useAppContext();
+  const isTsProject = isTypescript(appDirectory);
+  return { isTsProject, appDirectory, srcDirectory };
+};
 
 export const buildCommand = async (
   program: Command,
@@ -13,7 +19,7 @@ export const buildCommand = async (
     .command('build')
     .usage('[options]')
     .description(i18n.t(localeKeys.command.build.describe))
-    .option('-w, --watch', i18n.t(localeKeys.command.build.watch))
+    .option('-w, --watch', i18n.t(localeKeys.command.build.watch), false)
     .option('--tsconfig [tsconfig]', i18n.t(localeKeys.command.build.tsconfig))
     .option(
       '-p, --platform [platform...]',
@@ -57,21 +63,8 @@ export const devCommand = async (
     for (const subCmd of meta.subCommands) {
       devProgram.command(subCmd).action(async (options: DevCommandOptions) => {
         const context = await initModuleContext(api);
-
-        // TODO: watch build
-        // const { ensureFirstBuild, watchBuild } = await import('./dev');
-        // await ensureFirstBuild(api, context, options, {
-        //   disableRunBuild: meta.disableRunBuild ?? false,
-        //   appDirectory: context.appDirectory,
-        // });
-
         await runner.beforeDevTask(meta);
         await meta.action(options, { isTsProject: context.isTsProject });
-        // TODO: watch build
-        // await watchBuild(api, context, options, {
-        //   disableRunBuild: meta.disableRunBuild ?? false,
-        //   appDirectory: context.appDirectory,
-        // });
       });
     }
   }

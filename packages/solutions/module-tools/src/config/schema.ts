@@ -33,6 +33,9 @@ const buildConfigProperties = {
   alias: {
     typeof: ['object', 'function'],
   },
+  hooks: {
+    type: 'array',
+  },
   asset: {
     type: 'object',
   },
@@ -84,7 +87,6 @@ const buildConfigProperties = {
     then: {
       properties: {
         distPath: { type: 'string' },
-        tsconfigPath: { type: 'string' },
         abortOnError: { type: 'boolean' },
         respectExternal: {
           type: 'boolean',
@@ -113,7 +115,7 @@ const buildConfigProperties = {
     type: ['array', 'object'],
   },
   jsx: {
-    enum: ['automatic', 'transform'],
+    enum: ['automatic', 'transform', 'preserve'],
   },
   minify: {
     if: {

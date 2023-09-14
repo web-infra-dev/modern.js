@@ -1,5 +1,4 @@
 import { relative, resolve } from 'path';
-import type { ILibuilder } from '@modern-js/libuild';
 import { chalk, logger, fastGlob, slash } from '@modern-js/utils';
 import type {
   RollupOutput,
@@ -10,6 +9,7 @@ import {
   reportFile1LineText,
   reportFile2LineText,
 } from '../constants/log';
+import { Chunk } from '../types';
 
 type Files = {
   name: string;
@@ -21,7 +21,7 @@ export const bundleFiles: Files[] = [];
 export const bundlelessFiles: Files[] = [];
 
 export const addOutputChunk = (
-  outputChunk: ILibuilder['outputChunk'],
+  outputChunk: Map<string, Chunk>,
   appDirectory: string,
   isBundle: boolean,
 ) => {

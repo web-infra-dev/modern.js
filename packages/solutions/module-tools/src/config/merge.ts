@@ -7,8 +7,7 @@ import type {
   ModuleLegacyUserConfig,
   BuildCommandOptions,
 } from '../types';
-import { getAllDeps } from '../utils/builder';
-import { normalizeInput } from '../utils/input';
+import { normalizeInput, getAllDeps } from '../utils';
 import { getDefaultBuildConfig } from '../constants/build';
 
 export const mergeDefaultBaseConfig = async (
@@ -20,8 +19,7 @@ export const mergeDefaultBaseConfig = async (
   const { applyOptionsChain, ensureAbsolutePath, slash } = await import(
     '@modern-js/utils'
   );
-  const { getDefaultIndexEntry } = await import('../utils/input');
-  const { getStyleConfig } = await import('../utils/style');
+  const { getDefaultIndexEntry, getStyleConfig } = await import('../utils');
   const defaultAlias = {
     '@': context.srcDirectory,
   };
@@ -83,11 +81,8 @@ export const mergeDefaultBaseConfig = async (
         ...pConfig.dts,
       } as DTSOptions);
 
-  if (dts) {
-    if (cmdTsconfigPath) {
-      dts.tsconfigPath = cmdTsconfigPath;
-    }
-  }
+  const tsconfig =
+    cmdTsconfigPath ?? pConfig.tsconfig ?? defaultConfig.tsconfig;
   let externals = pConfig.externals ?? defaultConfig.externals;
 
   const autoExternal = pConfig.autoExternal ?? defaultConfig.autoExternal;
@@ -107,9 +102,20 @@ export const mergeDefaultBaseConfig = async (
       ...(externals || []),
     ];
   }
+  const platform = pConfig.platform ?? defaultConfig.platform;
+  const defaultMainFields =
+    platform === 'node' ? ['module', 'main'] : ['module', 'browser', 'main'];
+  const resolve = {
+    mainFields: pConfig.resolve?.mainFields ?? defaultMainFields,
+    jsExtensions:
+      pConfig.resolve?.jsExtensions ?? defaultConfig.resolve.jsExtensions,
+  };
 
   const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
   return {
+    resolve,
+    tsconfig,
+    hooks: pConfig.hooks ?? defaultConfig.hooks,
     asset,
     buildType,
     format: pConfig.format ?? defaultConfig.format,
@@ -120,7 +126,7 @@ export const mergeDefaultBaseConfig = async (
     dts,
     jsx: pConfig.jsx ?? defaultConfig.jsx,
     input,
-    platform: pConfig.platform ?? defaultConfig.platform,
+    platform,
     splitting: pConfig.splitting ?? defaultConfig.splitting,
     minify: pConfig.minify ?? defaultConfig.minify,
     autoExternal,

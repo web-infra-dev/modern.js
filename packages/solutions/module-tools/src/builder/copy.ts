@@ -10,6 +10,7 @@ import {
 import type { CopyOptions, CopyPattern } from '../types/config/copy';
 import type { BaseBuildConfig } from '../types/config';
 import pMap from '../../compiled/p-map';
+import { debug } from '../debug';
 
 const watchMap = new Map<string, string>();
 
@@ -215,7 +216,7 @@ export const copyTask = async (
   if (!copyConfig.patterns || copyConfig.patterns.length === 0) {
     return;
   }
-
+  debug('run copy task');
   const concurrency = copyConfig?.options?.concurrency || 100;
   try {
     await pMap(
@@ -235,6 +236,8 @@ export const copyTask = async (
       logger.error(`copy error: ${e.message}`);
     }
   }
+  debug('run copy task done');
+
   if (options.watch) {
     await watchCopyFiles(options, copyConfig);
   }

@@ -1,4 +1,4 @@
-import type { UserConfig as LibuildUserConfig } from '@modern-js/libuild';
+import { Externals, Minify, Platform } from '../config';
 
 export type LegacyBuildPreset =
   | 'npm-library'
@@ -23,10 +23,10 @@ export type LegacySourceMap = boolean | 'inline' | 'external';
 
 export type LegacyBundleOptions = {
   entry?: Record<string, string>;
-  platform?: LibuildUserConfig['platform'];
+  platform?: Platform;
   splitting?: boolean;
-  minify?: LibuildUserConfig['minify'];
-  externals?: LibuildUserConfig['external'];
+  minify?: Minify;
+  externals?: Externals;
   skipDeps?: boolean;
   getModuleId?: (moduleName: string) => string | undefined;
 };

@@ -15,7 +15,7 @@ import type {
 } from '../../types';
 import jsonPlugin from '../../../compiled/@rollup/plugin-json';
 import dtsPlugin from '../../../compiled/rollup-plugin-dts';
-import { mapValue, transformUndefineObject } from '../../utils/common';
+import { mapValue, transformUndefineObject } from '../../utils';
 
 export type { RollupWatcher };
 
@@ -120,7 +120,7 @@ export const runRollup = async (
   };
   if (watch) {
     const { watch } = await import('../../../compiled/rollup');
-    const { watchSectionTitle } = await import('../../utils/log');
+    const { watchSectionTitle } = await import('../../utils');
     const { SectionTitleStatus, BundleDtsLogPrefix } = await import(
       '../../constants/log'
     );
@@ -150,13 +150,13 @@ export const runRollup = async (
   } else {
     try {
       const { rollup } = await import('../../../compiled/rollup');
-      const { addRollupChunk } = await import('../../utils/print');
+      const { addRollupChunk } = await import('../../utils');
       const bundle = await rollup(inputConfig);
       const rollupOutput = await bundle.write(outputConfig);
       addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {
-      const { printOrThrowDtsErrors } = await import('../../utils/dts');
+      const { printOrThrowDtsErrors } = await import('../../utils');
       await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundle' });
       return null;
     }

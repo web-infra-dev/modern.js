@@ -119,7 +119,7 @@ export const resolveAlias = async (
   watchFilenames: string[] = [],
 ) => {
   const { userTsconfig, tempDistAbsSrcPath, tempDistAbsRootPath } = options;
-  const { transformDtsAlias } = await import('./tspathsTransform');
+  const { transformDtsAlias } = await import('./tspath');
   const { distAbsPath } = config;
   const dtsDistPath = `${tempDistAbsSrcPath}/**/*.d.ts`;
   const dtsFilenames =
@@ -139,52 +139,6 @@ export const resolveAlias = async (
   await fs.ensureDir(distAbsPath);
   await fs.copy(tempDistAbsSrcPath, distAbsPath);
 };
-
-// export const matchesPattern = (calleePath: NodePath, pattern: string) => {
-//   const { node } = calleePath;
-
-//   if (t.isMemberExpression(node)) {
-//     return calleePath.matchesPattern(pattern);
-//   }
-
-//   if (!t.isIdentifier(node) || pattern.includes('.')) {
-//     return false;
-//   }
-
-//   const name = pattern.split('.')[0];
-
-//   return node.name === name;
-// };
-
-// export const isImportCall = (calleePath: NodePath<tt.CallExpression>) => {
-//   return t.isImport(calleePath.node.callee);
-// };
-
-// export const verifyTsConfigPaths = async (
-//   tsconfigAbsPath: string,
-//   userAliases?: AliasOption,
-// ) => {
-//   const { readTsConfigByFile, chalk } = await import('@modern-js/utils');
-//   if (!userAliases) {
-//     return;
-//   }
-
-//   const paths = Object.keys(
-//     readTsConfigByFile(tsconfigAbsPath).compilerOptions?.paths || {},
-//   ).map(key => key.replace(/\/\*$/, ''));
-
-//   Object.keys(userAliases).forEach(name => {
-//     if (paths.includes(name)) {
-//       throw new Error(
-//         chalk.red(
-//           `It looks like you have configured the alias ${chalk.bold(
-//             name,
-//           )} in both the modern.config file and tsconfig.json.\n Please remove the configuration in modern.config file and just keep the configuration in tsconfig.json.`,
-//         ),
-//       );
-//     }
-//   });
-// };
 
 export const printOrThrowDtsErrors = async (
   error: unknown,

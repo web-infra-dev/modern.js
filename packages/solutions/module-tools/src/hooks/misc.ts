@@ -1,7 +1,5 @@
-import { createAsyncPipeline, createAsyncWaterfall } from '@modern-js/plugin';
-import type { CLIConfig } from '@modern-js/libuild';
+import { createAsyncWaterfall } from '@modern-js/plugin';
 
 export const miscHooks = {
   addRuntimeExports: createAsyncWaterfall(),
-  modifyLibuild: createAsyncPipeline<CLIConfig, CLIConfig>(),
 };

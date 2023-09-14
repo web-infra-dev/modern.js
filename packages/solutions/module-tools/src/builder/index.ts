@@ -8,6 +8,7 @@ import type {
   ModuleTools,
 } from '../types';
 import pMap from '../../compiled/p-map';
+import { debug } from '../debug';
 import { runBuildTask } from './build';
 import { clearBuildConfigPaths, clearDtsTemp } from './clear';
 
@@ -28,10 +29,11 @@ export const run = async (
   if (resolvedBuildConfig.length !== 0) {
     totalDuration = Date.now();
 
-    await clearBuildConfigPaths(resolvedBuildConfig, {
-      noClear: !clear,
-      projectAbsRootPath: context.appDirectory,
-    });
+    if (clear) {
+      debug('clear output paths');
+      await clearBuildConfigPaths(resolvedBuildConfig, context.appDirectory);
+      debug('clear output paths done');
+    }
     await clearDtsTemp();
 
     if (watch) {
@@ -43,7 +45,6 @@ export const run = async (
         resolvedBuildConfig,
         async config => {
           const buildConfig = await runner.beforeBuildTask(config);
-
           await runBuildTask(
             {
               buildConfig,
@@ -77,6 +78,7 @@ export const run = async (
       ),
     );
   }
+  debug('run afterBuild hooks');
 
   await runner.afterBuild({
     status: 'success',
@@ -84,4 +86,5 @@ export const run = async (
     commandOptions: cmdOptions,
     totalDuration,
   });
+  debug('run afterBuild hooks done');
 };

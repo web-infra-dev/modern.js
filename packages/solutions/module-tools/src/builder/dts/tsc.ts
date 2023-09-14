@@ -1,6 +1,5 @@
 import type { ChildProcess } from 'child_process';
 import { execa, logger } from '@modern-js/utils';
-import { addDtsFiles } from '../../utils/print';
 import type {
   BundlelessGeneratorDtsConfig,
   PluginAPI,
@@ -11,8 +10,9 @@ import {
   getTscBinPath,
   printOrThrowDtsErrors,
   resolveAlias,
-} from '../../utils/dts';
-import { watchSectionTitle } from '../../utils/log';
+  watchSectionTitle,
+  addDtsFiles,
+} from '../../utils';
 import {
   BundlelessDtsLogPrefix,
   SectionTitleStatus,

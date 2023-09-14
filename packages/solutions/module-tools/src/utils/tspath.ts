@@ -6,8 +6,6 @@ import generator from '@babel/generator';
 import * as t from '@babel/types';
 import traverse, { NodePath } from '@babel/traverse';
 import { dtsAliasExts } from '../constants/file';
-// import { defaultTransformedFunctions } from '../constants/dts';
-// import { matchesPattern, isImportCall } from './dts';
 
 export interface TransformOption {
   filename: string;
@@ -55,20 +53,6 @@ function mapPathString(
     nodePath.replaceWith(t.stringLiteral(replaceString));
   }
 }
-
-// const transformCall =
-//   (option: TransformOption) => (nodePath: NodePath<t.CallExpression>) => {
-//     const calleePath = nodePath.get('callee') as NodePath;
-//     const isNormalCall = defaultTransformedFunctions.some(pattern =>
-//       matchesPattern(calleePath, pattern),
-//     );
-//     if (isNormalCall || isImportCall(nodePath)) {
-//       mapPathString(
-//         nodePath.get('arguments.0') as NodePath<t.StringLiteral>,
-//         option,
-//       );
-//     }
-//   };
 
 const transformImport =
   (option: TransformOption) => (nodePath: NodePath<t.ImportDeclaration>) => {

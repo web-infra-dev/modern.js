@@ -1,26 +1,29 @@
-import type {
-  UserConfig as LibuildUserConfig,
-  Asset as LibuildAsset,
-  Style as LibuildStyle,
-} from '@modern-js/libuild';
-import type { Options } from '@modern-js/libuild-plugin-svgr';
-import type { ImportItem } from '@modern-js/libuild-plugin-swc';
-import type { ToolsConfig as WebpackBuilderToolsConfig } from '@modern-js/builder-webpack-provider';
+import type { BuildOptions } from 'esbuild';
+import type { ImportItem } from '@modern-js/swc-plugins';
+import type { Config } from '@svgr/core';
+import type { CreateFilter } from 'rollup-pluginutils';
+import type { MinifyOptions as TerserMinifyOptions } from 'terser';
 import type { TestConfig } from '@modern-js/types';
 import { internalPreset, presetList } from '../../constants/preset';
+import { ICompiler } from '../esbuild';
 import type { CopyConfig } from './copy';
-import type {
-  LessConfig,
-  SassConfig,
-  PostCSSConfig,
-  TailwindCSSConfig,
-} from './style';
+import type { Dev } from './dev';
+import type { Style, StyleConfig } from './style';
 
 export * from './style';
 
-export type BuildType = 'bundleless' | 'bundle';
+export * from './dev';
 
-export type Format = 'esm' | 'cjs' | 'umd' | 'iife';
+export * from './copy';
+
+export type HookList = {
+  name: string;
+  hooks: (compiler: ICompiler) => void;
+}[];
+
+export type EsbuildOptions = (options: BuildOptions) => BuildOptions;
+
+export type BuildType = 'bundleless' | 'bundle';
 
 export type Target =
   | 'es5'
@@ -36,12 +39,41 @@ export type Target =
   // The default target is esnext which means that by default, assume all of the latest JavaScript and CSS features are supported.
   | 'esnext';
 
-export type Input = Required<LibuildUserConfig>['input'];
+export type Minify = 'esbuild' | 'terser' | false | TerserMinifyOptions;
+
+export type Format = 'esm' | 'cjs' | 'umd' | 'iife';
+
+export type Input =
+  | {
+      [name: string]: string;
+    }
+  | string[];
+
+export type Globals = Record<any, any>;
+
+export type Define = Record<string, string>;
+
+export type Externals = (string | RegExp)[];
+
+export type Platform = 'node' | 'browser';
+
+export type SideEffects =
+  | RegExp[]
+  | boolean
+  | ((id: string, external: boolean) => boolean);
+
+/**
+ * @experimental
+ */
+export type Redirect = {
+  alias?: boolean;
+  style?: boolean;
+  asset?: boolean;
+};
 
 export type DTSOptions = {
   abortOnError: boolean;
   distPath: string;
-  tsconfigPath: string;
   only: boolean;
   /**
    * Only for rollup-plugin-dts, see more in https://github.com/Swatinem/rollup-plugin-dts#what-to-expect.
@@ -53,67 +85,83 @@ export type DTSOptions = {
    */
   respectExternal: boolean;
 };
+
 export type DTS = false | Partial<DTSOptions>;
 
-export interface Asset {
-  path?: LibuildAsset['outdir'];
-  limit?: LibuildAsset['limit'];
-  publicPath?: LibuildAsset['publicPath'];
-  svgr?: boolean | Options;
+export interface SvgrOptions extends Config {
+  include?: Parameters<CreateFilter>[0];
+  exclude?: Parameters<CreateFilter>[1];
 }
-export type SourceMap = Required<LibuildUserConfig>['sourceMap'];
+
+export interface Asset {
+  path?: string;
+  limit?: number;
+  publicPath?: string | ((filePath: string) => string);
+  svgr?: boolean | SvgrOptions;
+}
+
 export type AutoExternal =
   | boolean
   | {
       dependencies?: boolean;
       peerDependencies?: boolean;
     };
-export type JSX = 'automatic' | 'transform';
+
+export type JSX = 'automatic' | 'transform' | 'preserve';
+
 export type ExternalHelpers = boolean;
 
 export type AliasOption =
   | Record<string, string>
   | ((aliases: Record<string, string>) => Record<string, string> | void);
 
+export type Resolve = {
+  mainFields?: string[];
+  jsExtensions?: string[];
+};
+
 export type BaseBuildConfig = Omit<
   Required<PartialBaseBuildConfig>,
-  'dts' | 'style' | 'alias' | 'sideEffects'
+  'dts' | 'style' | 'alias' | 'sideEffects' | 'asset' | 'resolve'
 > & {
-  sideEffects: LibuildUserConfig['sideEffects'];
+  sideEffects?: SideEffects;
   dts: false | DTSOptions;
-  style: Omit<Required<LibuildStyle>, 'cleanCss'> & {
-    tailwindcss: TailwindCSSConfig;
-  };
+  style: Style;
   alias: Record<string, string>;
+  asset: Required<Asset>;
+  resolve: Required<Resolve>;
 };
 
 export type PartialBaseBuildConfig = {
+  resolve?: Resolve;
   sourceType?: 'commonjs' | 'module';
   buildType?: 'bundleless' | 'bundle';
   format?: Format;
   target?: Target;
   dts?: DTS;
-  sourceMap?: SourceMap;
+  sourceMap?: boolean | 'inline' | 'external';
   sourceDir?: string;
   copy?: CopyConfig;
   asset?: Asset;
   jsx?: JSX;
   outDir?: string;
   alias?: AliasOption;
+  hooks?: HookList;
   input?: Input;
+  tsconfig?: string;
   metafile?: boolean;
-  platform?: LibuildUserConfig['platform'];
-  splitting?: LibuildUserConfig['splitting'];
-  minify?: LibuildUserConfig['minify'];
-  externals?: LibuildUserConfig['external'];
+  platform?: Platform;
+  splitting?: boolean;
+  minify?: Minify;
+  externals?: Externals;
   autoExternal?: AutoExternal;
-  umdGlobals?: LibuildUserConfig['globals'];
+  umdGlobals?: Globals;
   umdModuleName?: ((chunkName: string) => string) | string | undefined;
-  define?: LibuildUserConfig['define'];
+  define?: Define;
   style?: StyleConfig;
-  redirect?: LibuildUserConfig['redirect'];
-  sideEffects?: LibuildUserConfig['sideEffects'];
-  esbuildOptions?: LibuildUserConfig['esbuildOptions'];
+  redirect?: Redirect;
+  sideEffects?: SideEffects;
+  esbuildOptions?: EsbuildOptions;
   // Related to swc-transform
   externalHelpers?: ExternalHelpers;
   transformImport?: ImportItem[];
@@ -138,29 +186,6 @@ export type BuildPreset =
         extendBuildConfig: PartialBaseBuildConfig,
       ) => PartialBaseBuildConfig[];
     }) => PartialBaseBuildConfig[] | Promise<PartialBaseBuildConfig[]>);
-
-export interface StyleConfig {
-  less?: LessConfig;
-  sass?: SassConfig;
-  postcss?: PostCSSConfig;
-  autoModules?: LibuildStyle['autoModules'];
-  modules?: LibuildStyle['modules'];
-  inject?: LibuildStyle['inject'];
-  /**
-   * The configuration of `tools.tailwindcss` is provided by `tailwindcss` plugin.
-   * Please use `yarn new` or `pnpm new` to enable the corresponding capability.
-   * @requires `tailwindcss` plugin
-   */
-  tailwindcss?: TailwindCSSConfig;
-}
-
-export interface StorybookBuildConfig {
-  webpack?: WebpackBuilderToolsConfig['webpack'];
-  webpackChain?: WebpackBuilderToolsConfig['webpackChain'];
-}
-export interface Dev {
-  storybook?: StorybookBuildConfig;
-}
 
 export interface RuntimeUserConfig {
   [name: string]: any;
