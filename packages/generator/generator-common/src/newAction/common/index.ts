@@ -19,6 +19,7 @@ export enum ActionFunction {
   Test = 'test',
   E2ETest = 'e2e_test',
   Storybook = 'storybook',
+  StorybookV7 = 'storybookV7',
   RuntimeApi = 'runtimeApi',
   SSG = 'ssg',
   Polyfill = 'polyfill',
