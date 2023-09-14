@@ -292,14 +292,6 @@ export default defineConfig({
 
 :::
 
-{/* ## disableSwcTransform
-
-从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 esbuild Transform。
-
-使用 SWC Transform 可以减小辅助函数对构建产物体积的影响。
-
-* 类型：`boolean`
-* 默认值：`false` */}
 
 ## dts
 
@@ -313,7 +305,6 @@ export default defineConfig({
   abortOnError: true,
   distPath: './',
   only: false,
-  tsconfigPath: './tsconfig.json',
 }
 ```
 
@@ -390,23 +381,6 @@ export default defineConfig({
   buildConfig: {
     dts: {
       respectExternal: false,
-    },
-  },
-});
-```
-
-## dts.tsconfigPath
-
-TypeScript 配置文件的路径。
-
-- 类型： `string`
-- 默认值： `./tsconfig.json`
-
-```js title="modern.config.ts"
-export default defineConfig({
-  buildConfig: {
-    dts: {
-      tsconfigPath: './other-tsconfig.json',
     },
   },
 });
@@ -628,7 +602,6 @@ export default defineConfig({
 ```
 
 上面的配置将打包 `src` 目录下的文件，同时会过滤以 `spec.ts` 为后缀的文件。这在测试文件与源码文件在同一个根目录下的情况会很有用。
-
 
 **对象用法：**
 
@@ -1216,9 +1189,9 @@ export default defineConfig({
 是否模块化 [lodash](https://www.npmjs.com/package/lodash) 的导入，删除未使用的 lodash 模块，从而减少 lodash 代码体积。这项优化基于 [babel-plugin-lodash](https://www.npmjs.com/package/babel-plugin-lodash) 和 [swc-plugin-lodash](https://github.com/web-infra-dev/swc-plugins/tree/main/crates/plugin_lodash) 实现。
 
 - 类型：`boolean`
-- 默认值：`true`
+- 默认值：`false`
 
-该选项默认开启，Modern.js Module 会自动将 lodash 的代码引用指向子路径。
+当开启此选项时，Module Tools 会自动将 lodash 的代码引用指向子路径。
 
 比如：
 
@@ -1240,12 +1213,17 @@ const addOne = _add(1);
 _map([1, 2, 3], addOne);
 ```
 
-然而有时候 lodash 的 import 转换可能会生成不符合预期的代码，此时你可以手动关闭这项优化：
+## tsconfig
+
+TypeScript 配置文件的路径。
+
+- 类型： `string`
+- 默认值： `tsconfig.json`
 
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
-    transformLodash: false,
+    tsconfig: 'tsconfig.build.json',
   },
 });
 ```

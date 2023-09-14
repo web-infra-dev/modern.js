@@ -1,13 +1,12 @@
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import { babelPlugin } from '@modern-js/libuild-plugin-babel';
+import { getBabelHook } from '@modern-js/plugin-module-babel';
 
-// deprecated named export
-export const ModulePolyfillPlugin = (options?: {
+export const modulePluginPolyfill = (options?: {
   targets?: Record<string, string> | string;
 }): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-polyfill',
   setup: () => ({
-    modifyLibuild(config) {
+    beforeBuildTask(config) {
       const plugins = [
         [require('@babel/plugin-syntax-typescript'), { isTSX: true }],
         [require('@babel/plugin-syntax-jsx')],
@@ -19,8 +18,8 @@ export const ModulePolyfillPlugin = (options?: {
           },
         ],
       ];
-      config.plugins?.push(
-        babelPlugin({
+      config.hooks.push(
+        getBabelHook({
           plugins,
         }),
       );
@@ -29,5 +28,8 @@ export const ModulePolyfillPlugin = (options?: {
   }),
 });
 
-// right named export
-export { ModulePolyfillPlugin as modulePluginPolyfill };
+/**
+ * deprecated named export
+ * @deprecated
+ */
+export const ModulePolyfillPlugin = modulePluginPolyfill;

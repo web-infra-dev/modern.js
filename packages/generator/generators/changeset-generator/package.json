@@ -32,6 +32,7 @@
     "@modern-js/codesmith": "2.2.5",
     "@modern-js/codesmith-api-app": "2.2.5",
     "@modern-js/generator-common": "workspace:*",
+    "@modern-js/utils": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",

@@ -6,7 +6,7 @@ export const modulePluginBanner = (options: {
 }): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-banner',
   setup: () => ({
-    modifyLibuild(config, next) {
+    beforeBuildTask(config) {
       const lastEsbuildOptions = config.esbuildOptions;
       config.esbuildOptions = c => {
         let lastEsbuildConfig = {};
@@ -20,7 +20,7 @@ export const modulePluginBanner = (options: {
           banner: options.banner,
         };
       };
-      return next(config);
+      return config;
     },
   }),
 });

@@ -292,15 +292,6 @@ To prevent excessive global replacement substitution, it is recommended that the
 
 :::
 
-{/* ## disableSwcTransform
-
-Starting with version 2.16.0, SWC Transform is enabled by default for code transformation. If you want to disable this feature, you can use this configuration. Only esbuild Transform is used in this case.
-
-The use of SWC Transform can reduce the impact of auxiliary functions on the volume of the constructed product.
-
-* **Type**: `boolean`
-* **Default**: `false` */}
-
 ## dts
 
 The dts file generates the relevant configuration, by default it generates.
@@ -313,7 +304,6 @@ The dts file generates the relevant configuration, by default it generates.
   abortOnError: true,
   distPath: './',
   only: false,
-  tsconfigPath: './tsconfig.json',
 }
 ```
 
@@ -391,23 +381,6 @@ export default defineConfig({
   buildConfig: {
     dts: {
       respectExternal: false,
-    },
-  },
-});
-```
-
-## dts.tsconfigPath
-
-Path to the tsconfig file
-
-- **Type**: `string`
-- **Default**: `. /tsconfig.json`
-
-```js title="modern.config.ts"
-export default defineConfig({
-  buildConfig: {
-    dts: {
-      tsconfigPath: './other-tsconfig.json',
     },
   },
 });
@@ -564,7 +537,7 @@ export default defineConfig({
 });
 ```
 
-### format: 'umd'
+### format: umd
 
 `umd` stands for "Universal Module Definition" and is used to run modules in different environments such as browsers and Node.js. Modules in UMD format can be used in various environments, either as global variables or loaded as modules using module loaders like RequireJS.
 
@@ -1219,7 +1192,7 @@ This optimization is implemented using [babel-plugin-lodash](https://www.npmjs.c
 - **Type**: `boolean`
 - **Default**: `true`
 
-This option is enabled by default, and Modern.js Module will automatically redirects the code references of `lodash` to sub-paths.
+When you enable this, Module Tools will automatically redirects the code references of `lodash` to sub-paths.
 
 For example:
 
@@ -1241,14 +1214,17 @@ const addOne = _add(1);
 _map([1, 2, 3], addOne);
 ```
 
-### Disabling the Transformation
+## tsconfig
 
-In some cases, the import transformation of `lodash` may generate unexpected code. In such cases, you can manually disable this optimization:
+Path to the tsconfig file
+
+- **Type**: `string`
+- **Default**: `tsconfig.json`
 
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
-    transformLodash: false,
+    tsconfig: 'tsconfig.build.json',
   },
 });
 ```

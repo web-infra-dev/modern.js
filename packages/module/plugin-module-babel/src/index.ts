@@ -1,22 +1,57 @@
-import { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import { babelPlugin } from '@modern-js/libuild-plugin-babel';
+import type { TransformOptions as BabelTransformOptions } from '@babel/core';
+import {
+  CliPlugin,
+  ICompiler,
+  ModuleTools,
+  isJsExt,
+  isJsLoader,
+} from '@modern-js/module-tools';
 
-export type Options = typeof babelPlugin extends (arg1: infer P) => void
-  ? P
-  : never;
+const name = 'babel';
 
-// deprecated named export
-export const ModulePluginBabel = (
-  options?: Options,
+export const getBabelHook = (options?: BabelTransformOptions) => ({
+  name,
+  hooks(compiler: ICompiler) {
+    compiler.hooks.transform.tapPromise({ name }, async args => {
+      if (isJsExt(args.path) || isJsLoader(args.loader)) {
+        const result = await require('@babel/core').transformAsync(args.code, {
+          filename: args.path,
+          sourceFileName: args.path,
+          sourceMaps: Boolean(compiler.config.sourceMap),
+          sourceType: 'unambiguous',
+          inputSourceMap: false,
+          babelrc: false,
+          configFile: false,
+          compact: false,
+          exclude: [/\bcore-js\b/],
+          ...options,
+        });
+        return {
+          ...args,
+          code: result?.code,
+          map: result?.map,
+        };
+      }
+      return args;
+    });
+  },
+});
+
+export const modulePluginBabel = (
+  options?: BabelTransformOptions,
 ): CliPlugin<ModuleTools> => ({
   name: 'babel-plugin',
   setup: () => ({
-    modifyLibuild(config) {
-      config.plugins?.unshift(babelPlugin(options ?? {}));
+    beforeBuildTask(config) {
+      const hook = getBabelHook(options);
+      config.hooks.push(hook);
       return config;
     },
   }),
 });
 
-// right named export
-export { ModulePluginBabel as modulePluginBabel };
+/**
+ * deprecated named export, use modulePluginBabel instead.
+ * @deprecated
+ */
+export const ModulePluginBabel = modulePluginBabel;
