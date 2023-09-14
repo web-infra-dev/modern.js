@@ -99,6 +99,10 @@ export const createCli = () => {
           hooksRunner.beforeExit();
           if (err instanceof Error) {
             logger.error(err.stack);
+          } else {
+            // We should not pass it, if err is not instanceof Error.
+            // We can use `console.trace` to follow it call stack,
+            console.trace('Unknown Error', err);
           }
           process.nextTick(() => {
             // eslint-disable-next-line no-process-exit
