@@ -145,7 +145,6 @@
     "@types/node": "^14",
     "jest": "^29",
     "typescript": "^5",
-    "webpack": "^5.88.1",
     "@types/serialize-javascript": "^5.0.1"
   },
   "sideEffects": false
