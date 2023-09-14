@@ -50,6 +50,12 @@ const defaultDistPath = {
 - `server`: 表示服务端产物的输出目录，仅在 target 为 `node` 时有效。
 - `worker`: 表示 worker 产物的输出目录，仅在 target 为 `service-worker` 时有效。
 
+### 根目录
+
+`root` 是构建产物的根目录，可以为相对路径或绝对路径。如果 `root` 的值为相对路径，则会基于当前项目的根目录拼接为绝对路径。
+
+其他目录只能为相对路径，并且会相对于 `root` 进行输出。
+
 ### 示例
 
 以 JavaScript 文件为例，会输出到 `distPath.root` + `distPath.js` 目录，即为 `dist/static/js`。

@@ -11,6 +11,7 @@ import {
   dotenv,
   dotenvExpand,
   INTERNAL_SERVER_PLUGINS,
+  ensureAbsolutePath,
 } from '@modern-js/utils';
 import {
   serverManager,
@@ -164,10 +165,9 @@ export class Server {
 
     const finalServerConfig = this.runConfigHook(runner, serverConfig);
 
-    const resolvedConfigPath = path.join(
+    const resolvedConfigPath = ensureAbsolutePath(
       pwd,
-      config.output.path || 'dist',
-      OUTPUT_CONFIG_FILE,
+      path.join(config.output.path || 'dist', OUTPUT_CONFIG_FILE),
     );
 
     options.config = loadConfig({
