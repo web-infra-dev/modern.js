@@ -50,6 +50,12 @@ Detail:
 - `server`: The output directory of server bundles when target is `node`.
 - `worker`: The output directory of worker bundles when target is `service-worker`.
 
+### Root Directory
+
+The `root` is the root directory of the build artifacts and can be specified as a relative or absolute path. If the value of `root` is a relative path, it will be appended to the project's root directory to form an absolute path.
+
+Other directories can only be specified as relative paths and will be output relative to the `root` directory.
+
 ### Example
 
 The JavaScript files will be output to the `distPath.root` + `distPath.js` directory, which is `dist/static/js`.

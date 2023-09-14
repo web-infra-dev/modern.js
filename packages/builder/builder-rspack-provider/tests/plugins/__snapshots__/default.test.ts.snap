@@ -11,6 +11,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -679,7 +680,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -727,7 +728,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
-    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {
@@ -761,6 +761,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -1399,10 +1400,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "exclude": undefined,
           "extractComments": "true",
           "include": undefined,
+          "keepClassNames": false,
+          "keepFnNames": false,
           "passes": 1,
           "pureFuncs": [],
           "test": undefined,
         },
+        "name": "SwcJsMinimizerRspackPlugin",
       },
       CssMinimizerPlugin {
         "options": {
@@ -1464,7 +1468,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -1516,7 +1520,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "htmlPlugin": [Function],
       "name": "RemoveCssSourcemapPlugin",
     },
-    RspackVirtualModulePlugin {},
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -1563,6 +1566,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -2054,6 +2058,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
     },
     "define": {
@@ -2730,7 +2735,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -2781,7 +2786,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
-    RspackVirtualModulePlugin {},
   ],
   "resolve": {
     "alias": {

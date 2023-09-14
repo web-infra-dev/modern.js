@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-main-fields",
-  "description": "The main fields plugin of Modern.js Module Tools.",
+  "description": "The main fields plugin of Modern.js Module.",
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {
@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.34.0",
+  "version": "2.35.0",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "@modern-js/module-tools": "workspace:*"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.34.0"
+    "@modern-js/module-tools": "workspace:^2.35.0"
   },
   "sideEffects": false,
   "publishConfig": {

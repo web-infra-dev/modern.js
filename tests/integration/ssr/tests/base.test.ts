@@ -55,7 +55,7 @@ async function checkIsPassChunkLoadingGlobal() {
   expect(content).toMatch(/chunkLoadingGlobal/);
 }
 
-describe('Traditional SSR with webpack', () => {
+describe('Traditional SSR', () => {
   let app: any;
   let appPort: number;
   let page: Page;
@@ -85,55 +85,6 @@ describe('Traditional SSR with webpack', () => {
 
   test(`should pass chunkLoadingGlobal`, async () => {
     await checkIsPassChunkLoadingGlobal();
-  });
-
-  test.skip(`client navigation works`, async () => {
-    await page.goto(`http://localhost:${appPort}`, {
-      waitUntil: ['networkidle0'],
-    });
-    await page.click('#user-btn');
-    await (expect(page) as any).toMatchTextContent('user1-18');
-  });
-
-  test('error thrown in loader', async () => {
-    await errorThrown(page, appPort);
-  });
-
-  test('error thrown in client navigation', async () => {
-    await errorThrownInClientNavigation(page, appPort);
-  });
-
-  test('redirect in loader', async () => {
-    await redirectInLoader(page, appPort);
-  });
-});
-
-describe('Traditional SSR with rspack', () => {
-  let app: any;
-  let appPort: number;
-  let page: Page;
-  let browser: Browser;
-
-  beforeAll(async () => {
-    const appDir = join(fixtureDir, 'base');
-    appPort = await getPort();
-    app = await launchApp(appDir, appPort, {}, { BUNDLER: 'rspack' });
-
-    browser = await puppeteer.launch(launchOptions as any);
-    page = await browser.newPage();
-  });
-
-  afterAll(async () => {
-    if (browser) {
-      browser.close();
-    }
-    if (app) {
-      await killApp(app);
-    }
-  });
-
-  test(`basic usage`, async () => {
-    await basicUsage(page, appPort);
   });
 
   test.skip(`client navigation works`, async () => {

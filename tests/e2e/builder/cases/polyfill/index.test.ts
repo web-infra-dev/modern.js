@@ -19,7 +19,9 @@ const getPolyfillContent = (files: Record<string, string>) => {
   return content;
 };
 
-test('should add polyfill when set polyfill entry (default)', async () => {
+test('should add polyfill when set polyfill entry (default)', async ({
+  page,
+}) => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },
@@ -28,7 +30,15 @@ test('should add polyfill when set polyfill entry (default)', async () => {
         polyfill: 'entry',
       },
     },
+    runServer: true,
   });
+
+  await page.goto(getHrefByEntryName('index', builder.port));
+
+  expect(await page.evaluate('window.a')).toEqual([1, 2, 3, 4, 5, 6, [7, 8]]);
+
+  builder.close();
+
   const files = await builder.unwrapOutputJSON(false);
 
   const content = getPolyfillContent(files);
@@ -52,6 +62,8 @@ test('should add polyfill when set polyfill usage', async ({ page }) => {
   await page.goto(getHrefByEntryName('index', builder.port));
 
   expect(await page.evaluate('window.a')).toEqual([1, 2, 3, 4, 5, 6, [7, 8]]);
+
+  builder.close();
 
   const files = await builder.unwrapOutputJSON(false);
 

@@ -37,9 +37,9 @@ test('should generator ts declaration correctly for css modules auto true', asyn
   });
 
   expect(content).toMatch(/'the-b-class': string;/);
-  expect(content).toMatch(/'theBClass': string;/);
-  expect(content).toMatch(/'primary': string;/);
-  expect(content).toMatch(/'btn': string;/);
+  expect(content).toMatch(/theBClass: string;/);
+  expect(content).toMatch(/primary: string;/);
+  expect(content).toMatch(/btn: string;/);
 
   await clear();
 });

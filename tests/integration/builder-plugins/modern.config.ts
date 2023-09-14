@@ -1,10 +1,10 @@
 import { join } from 'path';
-import { appTools, defineConfig } from '@modern-js/app-tools';
 import { fs } from '@modern-js/utils';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 const logs: string[] = [];
 
-export default defineConfig({
+export default applyBaseConfig({
   builderPlugins: [
     {
       name: 'plugin-foo',
@@ -44,5 +44,4 @@ export default defineConfig({
       },
     },
   ],
-  plugins: [appTools()],
 });

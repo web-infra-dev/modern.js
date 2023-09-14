@@ -1,0 +1,41 @@
+.container {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  position: relative;
+  width: 40rem;
+  height: 30rem;
+  background-color: white;
+  border: 1px solid #082577;
+}
+
+.frame {
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+
+.backdrop {
+  background-color: #090909;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  stroke: #555;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

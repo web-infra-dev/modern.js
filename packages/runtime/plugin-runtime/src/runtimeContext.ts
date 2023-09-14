@@ -3,7 +3,7 @@ import {
   type StaticHandlerContext,
   type Router,
   type RouterState,
-} from '@modern-js/utils/runtime/remix-router';
+} from '@modern-js/runtime-utils/remix-router';
 import { createContext } from 'react';
 import { createLoaderManager } from './core/loader/loaderManager';
 import { runtime } from './core/plugin';

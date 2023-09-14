@@ -1,0 +1,151 @@
+{
+  "name": "@modern-js/runtime-utils",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/toolkit/utils"
+  },
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.34.0",
+  "_comment": "Provide ESM and CJS exports, ESM is used by runtime package, for treeshaking",
+  "exports": {
+    "./router": {
+      "jsnext:source": "./src/router.ts",
+      "require": "./dist/cjs/router.js",
+      "default": "./dist/esm/router.js"
+    },
+    "./remix-router": {
+      "jsnext:source": "./src/remixRouter.ts",
+      "require": "./dist/cjs/remixRouter.js",
+      "default": "./dist/esm/remixRouter.js"
+    },
+    "./browser": {
+      "jsnext:source": "./src/browser/index.ts",
+      "require": "./dist/cjs/browser/index.js",
+      "default": "./dist/esm/browser/index.js"
+    },
+    "./node": {
+      "jsnext:source": "./src/node/index.ts",
+      "require": "./dist/cjs/node/index.js",
+      "default": "./dist/esm/node/index.js"
+    },
+    "./node/router": {
+      "jsnext:source": "./src/node/router.ts",
+      "require": "./dist/cjs/node/router.js",
+      "default": "./dist/esm/node/router.js"
+    },
+    "./time": {
+      "jsnext:source": "./src/time.ts",
+      "require": "./dist/cjs/time.js",
+      "default": "./dist/esm/time.js"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/types/index.d.ts",
+    "exports": {
+      "./router": {
+        "types": "./dist/types/router.d.ts",
+        "require": "./dist/cjs/router.js",
+        "default": "./dist/esm/router.js"
+      },
+      "./remix-router": {
+        "types": "./dist/types/remixRouter.d.ts",
+        "require": "./dist/cjs/remixRouter.js",
+        "default": "./dist/esm/remixRouter.js"
+      },
+      "./browser": {
+        "jsnext:source": "./src/browser/index.d.ts",
+        "require": "./dist/cjs/browser/index.js",
+        "default": "./dist/esm/browser/index.js"
+      },
+      "./node": {
+        "types": "./dist/types/node/index.d.ts",
+        "require": "./dist/cjs/node/index.js",
+        "default": "./dist/esm/node/index.js"
+      },
+      "./node/router": {
+        "types": "./dist/types/node/router.d.ts",
+        "require": "./dist/cjs/node/router.js",
+        "default": "./dist/esm/node/router.js"
+      },
+      "./time": {
+        "types": "./dist/types/time.d.ts",
+        "require": "./dist/cjs/time.js",
+        "default": "./dist/esm/time.js"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "router": [
+        "./dist/types/router.d.ts"
+      ],
+      "remix-router": [
+        "./dist/types/remixRouter.d.ts"
+      ],
+      "browser": [
+        "./dist/types/browser/index.d.ts"
+      ],
+      "node": [
+        "./dist/types/node/index.d.ts"
+      ],
+      "node/router": [
+        "./dist/types/node/router.d.ts"
+      ],
+      "time": [
+        "./dist/types/time.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern-lib new",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@modern-js/utils": "workspace:*",
+    "serialize-javascript": "^6.0.0",
+    "react-router-dom": "6.15.0",
+    "@remix-run/router": "1.8.0",
+    "@swc/helpers": "0.5.1"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@modern-js/types": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@types/jest": "^29",
+    "@types/node": "^14",
+    "jest": "^29",
+    "typescript": "^5",
+    "@types/serialize-javascript": "^5.0.1"
+  },
+  "sideEffects": false
+}

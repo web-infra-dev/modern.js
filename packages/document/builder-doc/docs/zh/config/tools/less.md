@@ -46,6 +46,20 @@ export default {
 };
 ```
 
+### 修改 Less 版本
+
+在某些场景下，如果你需要使用特定的 Less 版本，而不是使用 Builder 内置的 Less v4，可以在项目中安装需要使用的 Less 版本，并通过 `less-loader` 的 `implementation` 选项设置。
+
+```js
+export default {
+  tools: {
+    less: {
+      implementation: require('less'),
+    },
+  },
+};
+```
+
 ### 工具函数
 
 #### addExcludes

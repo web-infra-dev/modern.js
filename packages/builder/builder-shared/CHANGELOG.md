@@ -1,5 +1,39 @@
 # @modern-js/builder-shared
 
+## 2.35.0
+
+### Patch Changes
+
+- 225f065: fix(builder): assetsRetry should work when htmlPlugin.inject false
+
+  fix(builder): 在设置 htmlPlugin.inject false 时，assetsRetry 可生效
+
+- 0300daf: feat(builder): allow to use more optimization options in bundlerChain
+
+  feat(builder): 支持在 bundlerChain 中使用更多 optimization 选项
+
+- f509548: fix(builder): incorrect devMiddleware schema
+
+  fix(builder): 修复 devMiddleware 的 schema 错误
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- 3d93e81: chore(builder): bump webpack-bundle-analyzer to v4.9.1
+
+  chore(builder): 升级 webpack-bundle-analyzer 至 v4.9.1
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/prod-server@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

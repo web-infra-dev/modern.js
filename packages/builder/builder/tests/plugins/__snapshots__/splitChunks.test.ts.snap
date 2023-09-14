@@ -137,7 +137,7 @@ exports[`plugins/splitChunks > 'should set split-by-experience config correctly 
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -195,7 +195,7 @@ exports[`plugins/splitChunks > 'should set split-by-experience config' 1`] = `
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",

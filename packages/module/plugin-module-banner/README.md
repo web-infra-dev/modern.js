@@ -1,6 +1,6 @@
 # @modern-js/plugin-module-banner
 
-The banner plugin of Modern.js Module Tools.
+The banner plugin of Modern.js Module.
 
 ## Usage
 

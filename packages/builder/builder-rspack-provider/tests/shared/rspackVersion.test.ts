@@ -25,13 +25,7 @@ describe('rspack version', () => {
 
     expect(
       await isSatisfyRspackMinimumVersion(
-        '0.2.8-canary-efa0dc6-20230817005622',
-      ),
-    ).toBeTruthy();
-
-    expect(
-      await isSatisfyRspackMinimumVersion(
-        '0.2.9-canary-efa0dc6-20230817005622',
+        `${supportedRspackMinimumVersion}-canary-efa0dc6-20230817005622`,
       ),
     ).toBeTruthy();
   });

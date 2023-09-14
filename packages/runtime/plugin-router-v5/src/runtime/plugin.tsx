@@ -16,7 +16,7 @@ import {
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { RuntimeReactContext, isBrowser } from '@modern-js/runtime';
 import type { Plugin } from '@modern-js/runtime';
-import { parsedJSONFromElement } from '@modern-js/utils/runtime-browser';
+import { parsedJSONFromElement } from '@modern-js/runtime-utils/browser';
 import { renderRoutes, getLocation, urlJoin } from './utils';
 import { modifyRoutesHook } from './hooks';
 

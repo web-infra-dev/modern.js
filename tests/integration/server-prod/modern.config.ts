@@ -1,6 +1,6 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   runtime: {
     router: false,
     state: false,
@@ -8,5 +8,4 @@ export default defineConfig({
   output: {
     copy: [{ from: './src/assets', to: '' }],
   },
-  plugins: [appTools()],
 });

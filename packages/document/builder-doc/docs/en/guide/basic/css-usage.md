@@ -71,7 +71,7 @@ Please read the [Using CSS Modules](/guide/basic/css-modules.html) chapter for a
 
 ## CSS Minify
 
-Usually, in production environments we compress static resources such as CSS, JS, etc. to achieve better transfer efficiency.
+Usually, in production environments we compress static assets such as CSS, JS, etc. to achieve better transfer efficiency.
 
 Builder automatically compresses CSS code at production build time with [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) (The compression tool used at the bottom is [cssnano](https://cssnano.co/)).
 

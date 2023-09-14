@@ -1,15 +1,7 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 
-const bundler = process.env.BUNDLER;
-
-export default defineConfig({
-  runtime: {},
+export default applyBaseConfig({
   server: {
     ssr: true,
   },
-  plugins: [
-    appTools({
-      bundler: bundler === 'rspack' ? 'experimental-rspack' : 'webpack',
-    }),
-  ],
 });

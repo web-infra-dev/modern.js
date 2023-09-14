@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.34.0",
+  "version": "2.35.0",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -169,6 +169,7 @@
     "@modern-js/plugin": "workspace:*",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@remix-run/node": "^1.12.0",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.2",

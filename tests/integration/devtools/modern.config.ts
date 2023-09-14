@@ -1,10 +1,12 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
 import { devtoolsPlugin } from '@modern-js/plugin-devtools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
-  runtime: {},
+export default applyBaseConfig({
+  runtime: {
+    router: true,
+  },
   performance: {
     buildCache: false,
   },
-  plugins: [appTools(), devtoolsPlugin()],
+  plugins: [devtoolsPlugin()],
 });

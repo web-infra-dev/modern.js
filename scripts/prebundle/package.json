@@ -1,7 +1,7 @@
 {
   "name": "@scripts/prebundle",
   "private": true,
-  "version": "2.34.0",
+  "version": "2.35.0",
   "main": "./dist/index.js",
   "scripts": {
     "dev": "tsc --watch",
@@ -47,7 +47,7 @@
     "@types/signal-exit": "3.0.1",
     "@types/signale": "1.4.4",
     "@types/url-join": "4.0.1",
-    "@types/webpack-bundle-analyzer": "4.4.1",
+    "@types/webpack-bundle-analyzer": "4.6.0",
     "address": "1.1.2",
     "ajv": "8.11.0",
     "ajv-keywords": "5.1.0",
@@ -139,7 +139,7 @@
     "url-loader": "4.1.1",
     "v8-compile-cache": "2.3.0",
     "webpack-chain": "npm:webpack-5-chain@8.0.1",
-    "webpack-bundle-analyzer": "4.5.0",
+    "webpack-bundle-analyzer": "4.9.1",
     "webpack-dev-middleware": "6.0.1",
     "webpack-manifest-plugin": "5.0.0",
     "webpack-merge": "5.8.0",

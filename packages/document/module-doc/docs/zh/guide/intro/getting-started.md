@@ -6,11 +6,11 @@ sidebar_position: 3
 
 ## 三分钟快速上手
 
-想要实际体验 Module Tools？首先需要安装 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。我们推荐使用 Node.js 18 的 LTS 版本。
+想要实际体验 Modern.js Module？首先你需要安装 [Node.js LTS](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。我们推荐使用 Node.js 18 的 LTS 版本。
 
 ### 创建新项目
 
-**如果你想要创建一个完整的模块工程项目，可以执行以下命令：**
+**如果你想要创建一个完整的 Modern.js Module 项目，可以执行以下命令：**
 
 ```bash
 npx @modern-js/create your-project-dir-name
@@ -31,7 +31,7 @@ npx @modern-js/create your-project-dir-name
 
 > 项目名称为 `package.json` 中的 `"name"` 字段值。
 
-接着就会开始初始化项目的流程。在项目目录和文件生成以及依赖安装完毕后，此时就创建了一个完整的模块工程项目。
+接着就会开始初始化项目的流程。在项目目录和文件生成以及依赖安装完毕后，此时就创建了一个完整的 Modern.js Module 项目。
 
 我们可以直接执行 `pnpm build` 命令启动项目的构建，执行 `pnpm build --watch` 命令开启构建的观察模式。
 
@@ -68,11 +68,11 @@ export default defineConfig({
 }
 ```
 
-如果你的项目存在 `src/index.(js|jsx)` 文件或者同时存在 `src/index.(ts|tsx)` 和 `tsconfig.json` 文件，那么恭喜你可以运行直接运行 `npm run build` 来使用 Module Tools 构建你的项目了。
+如果你的项目存在 `src/index.(js|jsx)` 文件或者同时存在 `src/index.(ts|tsx)` 和 `tsconfig.json` 文件，那么恭喜你可以运行直接运行 `npm run build` 来使用 Modern.js Module 构建你的项目了。
 
 ### 核心 npm 包
 
-`@modern-js/module-tools` 是 Module Tools 的核心 npm 包，主要提供以下能力：
+`@modern-js/module-tools` 是 Modern.js Module 的核心 npm 包，主要提供以下能力：
 
 - 提供 `modern dev`, `modern build` 等常用的 CLI 命令。
 - 集成 Modern.js Core，提供配置解析、插件加载等能力。
@@ -91,7 +91,7 @@ export default defineConfig({
 
 ### 查看官方示例
 
-**如果你想要看看使用了模块工程方案的完整项目，可以执行以下命令**：
+**如果你想要看看使用了 Modern.js Module 的完整项目，可以执行以下命令**：
 
 ```bash
 git clone https://github.com/web-infra-dev/module-tools-examples
@@ -114,6 +114,6 @@ pnpm test
 
 选择适合你的教程：
 
-- 我是初学者，需要学习 Module Tools 的[基础使用](/guide/basic/before-getting-started)。
-- 我已经初步掌握了 Module Tools 的使用，可以学习 Module Tools 的[进阶指南](/guide/advance/in-depth-about-build)。
-- 我需要扩展项目能力，需要学习如何开发 Module Tools 的[插件](/plugins/guide/getting-started)。
+- 我是初学者，需要学习 Modern.js Module 的[基础使用](/guide/basic/before-getting-started)。
+- 我已经初步掌握了 Modern.js Module 的使用，可以学习 Modern.js Module 的[进阶指南](/guide/advance/in-depth-about-build)。
+- 我需要扩展项目能力，需要学习如何开发 Modern.js Module 的[插件](/plugins/guide/getting-started)。

@@ -15,22 +15,25 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.34.0",
+  "version": "2.35.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "require": "./dist/cjs/index.js"
+        "require": "./dist/index.js"
       },
-      "default": "./dist/cjs/index.js"
+      "default": "./dist/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
-      "default": "./dist/cjs/cli.js"
+      "default": "./dist/cli.js"
+    },
+    "./runtime": {
+      "jsnext:source": "./src/runtime.ts",
+      "default": "./dist/runtime.js"
     }
   },
   "scripts": {
@@ -41,24 +44,32 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/devtools-client": "workspace:*",
+    "birpc": "0.2.13",
+    "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/devtools-mount": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/utils": "workspace:*",
+    "p-defer": "^3.0.0",
+    "ws": "8.13.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@scripts/build": "workspace:*",
     "@swc/helpers": "0.5.1",
     "@types/node": "^14",
+    "@types/ws": "^8.5.5",
     "type-fest": "^4.1.0",
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.34.0"
+    "@modern-js/runtime": "workspace:^2.35.0"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {

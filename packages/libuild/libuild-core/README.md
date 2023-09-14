@@ -1,5 +1,5 @@
 # Libuild
 
-A Builder for Modern.js Module Tools.
+A Builder for Modern.js Module.
 
 [MIT](./LICENSE.md)

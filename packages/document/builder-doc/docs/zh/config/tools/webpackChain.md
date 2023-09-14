@@ -172,27 +172,34 @@ export default {
 
 Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID 来定位到内置的 Rule 或 Plugin。
 
-##### CHAIN_ID.RULE
+:::tip
+请留意，下列的一部分 Rule 或 Plugin 并不是默认存在的，当你开启特定配置项、或是注册某些插件后，它们才会被包含在 webpack 配置中。
 
-| ID           | 描述               |
-| ------------ | ------------------ |
-| `RULE.MJS`   | 处理 `mjs` 的规则  |
-| `RULE.JS`    | 处理 `js` 的规则   |
-| `RULE.TS`    | 处理 `ts` 的规则   |
-| `RULE.CSS`   | 处理 `css` 的规则  |
-| `RULE.LESS`  | 处理 `less` 的规则 |
-| `RULE.SASS`  | 处理 `sass` 的规则 |
-| `RULE.PUG`   | 处理 `pug` 的规则  |
-| `RULE.VUE`   | 处理 `vue` 的规则  |
-| `RULE.TOML`  | 处理 `toml` 的规则 |
-| `RULE.YAML`  | 处理 `yaml` 的规则 |
-| `RULE.WASM`  | 处理 `wasm` 的规则 |
-| `RULE.NODE`  | 处理 `node` 的规则 |
-| `RULE.FONT`  | 处理字体的规则     |
-| `RULE.IMAGE` | 处理图片的规则     |
-| `RULE.MEDIA` | 处理媒体资源的规则 |
+比如，`RULE.STYLUS` 仅在注册了 Stylus 插件后才会存在。
+:::
 
-### CHAIN_ID.ONE_OF
+#### CHAIN_ID.RULE
+
+| ID            | 描述                 |
+| ------------- | -------------------- |
+| `RULE.MJS`    | 处理 `mjs` 的规则    |
+| `RULE.JS`     | 处理 `js` 的规则     |
+| `RULE.TS`     | 处理 `ts` 的规则     |
+| `RULE.CSS`    | 处理 `css` 的规则    |
+| `RULE.LESS`   | 处理 `less` 的规则   |
+| `RULE.SASS`   | 处理 `sass` 的规则   |
+| `RULE.STYLUS` | 处理 `stylus` 的规则 |
+| `RULE.PUG`    | 处理 `pug` 的规则    |
+| `RULE.VUE`    | 处理 `vue` 的规则    |
+| `RULE.TOML`   | 处理 `toml` 的规则   |
+| `RULE.YAML`   | 处理 `yaml` 的规则   |
+| `RULE.WASM`   | 处理 `wasm` 的规则   |
+| `RULE.NODE`   | 处理 `node` 的规则   |
+| `RULE.FONT`   | 处理字体的规则       |
+| `RULE.IMAGE`  | 处理图片的规则       |
+| `RULE.MEDIA`  | 处理媒体资源的规则   |
+
+#### CHAIN_ID.ONE_OF
 
 通过 `ONE_OF.XXX` 可以匹配到规则数组中的某一类规则。
 
@@ -203,7 +210,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `ONE_OF.SVG_INLINE` | 处理 SVG 的规则，作为 data URI 内联到 bundle 中     |
 | `ONE_OF.SVG_ASSETS` | 处理 SVG 的规则，在 data URI 和单独文件之间自动选择 |
 
-### CHAIN_ID.USE
+#### CHAIN_ID.USE
 
 通过 `USE.XXX` 可以匹配到对应的 loader。
 
@@ -213,6 +220,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `USE.CSS`                         | 对应 `css-loader`                     |
 | `USE.LESS`                        | 对应 `less-loader`                    |
 | `USE.SASS`                        | 对应 `sass-loader`                    |
+| `USE.STYLUS`                      | 对应 `stylus-loader`                  |
 | `USE.PUG`                         | 对应 `pug-loader`                     |
 | `USE.VUE`                         | 对应 `vue-loader`                     |
 | `USE.TOML`                        | 对应 `toml-loader`                    |
@@ -224,12 +232,11 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `USE.BABEL`                       | 对应 `babel-loader`                   |
 | `USE.STYLE`                       | 对应 `style-loader`                   |
 | `USE.POSTCSS`                     | 对应 `postcss-loader`                 |
-| `USE.MARKDOWN`                    | 对应 `markdown-loader`                |
 | `USE.CSS_MODULES_TS`              | 对应 `css-modules-typescript-loader`  |
 | `USE.MINI_CSS_EXTRACT`            | 对应 `mini-css-extract-plugin.loader` |
 | `USE.RESOLVE_URL_LOADER_FOR_SASS` | 对应 `resolve-url-loader`             |
 
-### CHAIN_ID.PLUGIN
+#### CHAIN_ID.PLUGIN
 
 通过 `PLUGIN.XXX` 可以匹配到对应的 plugin。
 
@@ -258,7 +265,7 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `PLUGIN.ASSETS_RETRY`          | 对应 Builder 中的 webpack 静态资源重试插件 `WebpackAssetsRetryPlugin`              |
 | `PLUGIN.AUTO_SET_ROOT_SIZE`    | 对应 Builder 中的自动设置根字体大小插件 `AutoSetRootSizePlugin`                    |
 
-### CHAIN_ID.MINIMIZER
+#### CHAIN_ID.MINIMIZER
 
 通过 `MINIMIZER.XXX` 可以匹配到对应的压缩工具。
 
@@ -269,63 +276,6 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `MINIMIZER.ESBUILD` | 对应 `ESBuildPlugin`             |
 | `MINIMIZER.SWC`     | 对应 `SwcWebpackPlugin`          |
 
-### 常用 WebpackChain 使用示例
+### 使用示例
 
-以下是一些常见的配置示例，完整的 webpack-chain API 请见 [webpack-chain 文档](https://github.com/neutrinojs/webpack-chain)。
-
-#### 新增/修改/删除 loader
-
-```js
-export default {
-  tools: {
-    webpackChain: (chain, { CHAIN_ID }) => {
-      // 新增 loader
-      chain.module
-        .rule('md')
-        .test(/\.md$/)
-        .use('md-loader')
-        .loader('md-loader');
-
-      // 修改 loader
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .use(CHAIN_ID.USE.BABEL)
-        .tap(options => {
-          options.plugins.push('babel-plugin-xxx');
-          return options;
-        });
-
-      // 删除 loader
-      chain.module.rule(CHAIN_ID.RULE.JS).uses.delete(CHAIN_ID.USE.BABEL);
-    },
-  },
-};
-```
-
-#### 新增/修改/删除 plugin
-
-```js
-export default {
-  tools: {
-    webpackChain: (chain, { webpack, CHAIN_ID }) => {
-      // 新增插件
-      chain.plugin('custom-define').use(webpack.DefinePlugin, [
-        {
-          'process.env': {
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-          },
-        },
-      ]);
-
-      // 修改插件
-      chain.plugin(CHAIN_ID.PLUGIN.HMR).tap(options => {
-        options[0].fullBuildTimeout = 200;
-        return options;
-      });
-
-      // 删除插件
-      chain.plugins.delete(CHAIN_ID.PLUGIN.HMR);
-    },
-  },
-};
-```
+使用示例可参考：[WebpackChain 使用示例](https://modernjs.dev/builder/guide/advanced/custom-webpack-config.html#%E4%BD%BF%E7%94%A8-webpack-chain)。

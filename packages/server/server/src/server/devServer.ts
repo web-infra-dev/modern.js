@@ -376,7 +376,7 @@ export class ModernDevServer extends ModernServer {
   }
 
   protected setupStaticMiddleware(_: string) {
-    // dev-server-middleware hosting all resource files in the development env
+    // dev-server-middleware hosting all assets in the development env
     return async (context: ModernServerContext, next: NextFunction) => {
       return next();
     };

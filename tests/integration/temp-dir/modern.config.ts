@@ -1,11 +1,8 @@
 import path from 'path';
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
-  runtime: {},
+export default applyBaseConfig({
   output: {
-    disableTsChecker: true,
     tempDir: path.join('node_modules', '.temp-dir'),
   },
-  plugins: [appTools({})],
 });

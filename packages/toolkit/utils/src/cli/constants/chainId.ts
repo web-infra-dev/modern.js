@@ -89,8 +89,6 @@ export const CHAIN_ID = {
     STYLE: 'style-loader',
     /** postcss-loader */
     POSTCSS: 'postcss',
-    /** markdown-loader */
-    MARKDOWN: 'markdown',
     /** ignore-css-loader */
     IGNORE_CSS: 'ignore-css',
     /** css-modules-typescript-loader */

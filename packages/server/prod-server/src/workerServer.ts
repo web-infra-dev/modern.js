@@ -7,13 +7,13 @@ import {
   Reporter,
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
+import { Logger, LoggerInterface } from '@modern-js/utils/logger';
 import {
   WorkerServerContext,
   createAfterMatchContext,
   createAfterRenderContext,
   createMiddlewareContext,
 } from './libs/hook-api/index.worker';
-import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
 import { defaultReporter } from './libs/reporter';

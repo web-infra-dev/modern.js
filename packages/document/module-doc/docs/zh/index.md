@@ -2,7 +2,7 @@
 pageType: home
 
 hero:
-  name: Module Tools
+  name: Modern.js Module
   text: 模块工程解决方案
   tagline: 简单、强大、高性能的现代化 npm 包开发方案
   actions:
@@ -24,7 +24,7 @@ features:
     details: 无需过多配置即可开发你的 npm 包，内置预设覆盖多种场景。
     icon: 🛠️
   - title: '扩展性强: 提供强大的插件机制'
-    details: 通过其插件扩展机制，你可以轻松的扩展 Module tools 的各项能力。
+    details: 通过其插件扩展机制，你可以轻松的扩展 Modern.js Module 的各项能力。
     icon: 🎨
   - title: 'Storybook: 社区流行的 UI 开发工具'
     details: 集成了 Storybook，你可以使用它调试 UI。

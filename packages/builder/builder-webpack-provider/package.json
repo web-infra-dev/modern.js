@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.34.0",
+  "version": "2.35.0",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -106,6 +106,7 @@
     "react-refresh": "0.14.0",
     "style-loader": "3.3.3",
     "terser-webpack-plugin": "5.3.9",
+    "tsconfig-paths-webpack-plugin": "4.1.0",
     "ts-loader": "9.4.4",
     "webpack": "^5.88.1",
     "webpack-subresource-integrity": "5.1.0"

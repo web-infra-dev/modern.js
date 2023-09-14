@@ -1,5 +1,44 @@
 # @modern-js/app-tools
 
+## 2.35.0
+
+### Patch Changes
+
+- 15b834f: feat(CLI): print gradient text for initial log
+
+  feat(CLI): 输出 initial log 时使用渐变色文字
+
+- Updated dependencies [3b25410]
+- Updated dependencies [e2def6e]
+- Updated dependencies [8ed713c]
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [9f13314]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-rspack-provider@2.35.0
+  - @modern-js/builder@2.35.0
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/core@2.35.0
+  - @modern-js/builder-webpack-provider@2.35.0
+  - @modern-js/builder-plugin-node-polyfill@2.35.0
+  - @modern-js/builder-plugin-esbuild@2.35.0
+  - @modern-js/plugin-data-loader@2.35.0
+  - @modern-js/plugin-i18n@2.35.0
+  - @modern-js/plugin-lint@2.35.0
+  - @modern-js/new-action@2.35.0
+  - @modern-js/server-core@2.35.0
+  - @modern-js/prod-server@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/node-bundle-require@2.35.0
+  - @modern-js/plugin@2.35.0
+  - @modern-js/upgrade@2.35.0
+  - @modern-js/types@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes
@@ -2088,7 +2127,7 @@
 
 ### Patch Changes
 
-- 39988b2: feat: advance the timing of static resource loading
+- 39988b2: feat: advance the timing of static assets loading
   feat: 将嵌套路由下静态资源加载时机提前
 - Updated dependencies [39988b2]
   - @modern-js/types@2.0.2

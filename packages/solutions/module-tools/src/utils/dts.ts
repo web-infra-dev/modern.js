@@ -1,5 +1,5 @@
-import path from 'path';
-import { chalk, fs, globby, logger, nanoid } from '@modern-js/utils';
+import { join, dirname, isAbsolute, relative, resolve, basename } from 'path';
+import { chalk, fs, globby, json5, logger, nanoid } from '@modern-js/utils';
 import type {
   ITsconfig,
   BundlelessGeneratorDtsConfig,
@@ -7,31 +7,53 @@ import type {
   TsTarget,
 } from '../types';
 
+export const getProjectTsconfig = async (
+  tsconfigPath: string,
+): Promise<ITsconfig> => {
+  if (!fs.existsSync(tsconfigPath)) {
+    return {};
+  }
+
+  return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+};
+
 export const generatorTsConfig = async (
   config: BundlelessGeneratorDtsConfig,
 ) => {
+  const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
+
+  const userTsconfig = await getProjectTsconfig(tsconfigPath);
   const { dtsTempDirectory } = await import('../constants/dts');
 
-  const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
-  const tempDistAbsRootPath = path.join(
+  const tempDistAbsRootPath = join(
     appDirectory,
     `${dtsTempDirectory}/${nanoid()}`,
   );
-  const tempDistAbsOurDir = path.join(
+  const tempDistAbsOurDir = join(
     tempDistAbsRootPath,
-    path.relative(appDirectory, absSourceDir),
+    relative(appDirectory, absSourceDir),
   );
 
-  const tempTsconfigPath = path.join(
-    tempDistAbsRootPath,
-    path.basename(tsconfigPath),
-  );
+  const tempTsconfigPath = join(tempDistAbsRootPath, basename(tsconfigPath));
   fs.ensureFileSync(tempTsconfigPath);
 
-  const extendsPath = path.join(
-    path.relative(path.dirname(tempTsconfigPath), path.dirname(tsconfigPath)),
-    path.basename(tempTsconfigPath),
+  const extendsPath = join(
+    relative(dirname(tempTsconfigPath), dirname(tsconfigPath)),
+    basename(tempTsconfigPath),
   );
+  const references = userTsconfig?.references?.map(reference => {
+    const { path } = reference;
+    if (path) {
+      const userTsconfigDir = dirname(tsconfigPath);
+      const generatedTsconfigDir = dirname(tempTsconfigPath);
+      return {
+        path: isAbsolute(path)
+          ? path
+          : relative(generatedTsconfigDir, resolve(userTsconfigDir, path)),
+      };
+    }
+    return reference;
+  });
 
   const resetConfig: ITsconfig = {
     extends: extendsPath,
@@ -46,14 +68,18 @@ export const generatorTsConfig = async (
       // we only want to emit declarations
       declarationDir: tempDistAbsOurDir,
     },
+    references,
   };
 
   fs.writeJSONSync(tempTsconfigPath, resetConfig);
 
   return {
-    tempTsconfigPath,
-    tempDistAbsRootPath,
-    tempDistAbsSrcPath: tempDistAbsOurDir,
+    userTsconfig,
+    generatedTsconfig: {
+      tempTsconfigPath,
+      tempDistAbsRootPath,
+      tempDistAbsSrcPath: tempDistAbsOurDir,
+    },
   };
 };
 
@@ -63,7 +89,7 @@ export const getTscBinPath = async (appDirectory: string) => {
   );
   const tscBinFile = await findUp(
     async (directory: string) => {
-      const targetFilePath = path.join(directory, './node_modules/.bin/tsc');
+      const targetFilePath = join(directory, './node_modules/.bin/tsc');
       const hasTscBinFile = await pathExists(targetFilePath);
       if (hasTscBinFile) {
         return targetFilePath;

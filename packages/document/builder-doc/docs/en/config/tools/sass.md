@@ -43,6 +43,20 @@ export default {
 };
 ```
 
+### Modifying Sass Version
+
+In some scenarios, if you need to use a specific version of Sass instead of the built-in Dart Sass v1 in Builder, you can install the desired Sass version in your project and set it up using the `implementation` option of the `sass-loader`.
+
+```js
+export default {
+  tools: {
+    sass: {
+      implementation: require('sass'),
+    },
+  },
+};
+```
+
 ### Utility Function
 
 #### addExcludes

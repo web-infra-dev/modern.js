@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.34.0",
+  "version": "2.35.0",
   "jsnext:source": "./src/node.ts",
   "types": "./src/node.ts",
   "main": "./dist/cjs/node.js",
@@ -68,6 +68,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "node-fetch": "^2.6.1",
     "path-to-regexp": "^6.2.0",
     "query-string": "^7.1.1",

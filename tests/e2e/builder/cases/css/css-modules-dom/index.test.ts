@@ -30,7 +30,7 @@ test('enableCssModuleTSDeclaration', async () => {
       .readFileSync(join(fixtures, 'src/App.module.less.d.ts'), {
         encoding: 'utf-8',
       })
-      .includes(`'title': string;`),
+      .includes(`title: string;`),
   ).toBeTruthy();
 
   expect(
@@ -42,7 +42,7 @@ test('enableCssModuleTSDeclaration', async () => {
       .readFileSync(join(fixtures, 'src/App.module.scss.d.ts'), {
         encoding: 'utf-8',
       })
-      .includes(`'header': string;`),
+      .includes(`header: string;`),
   ).toBeTruthy();
 });
 

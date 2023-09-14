@@ -33,7 +33,7 @@ In addition, plugins allow configuration of the execution order with other plugi
 
 ### Plugin Types
 
-Modern.js supports various types of project development, such as application development (`app-tools`), module development (`module-tools`), etc.
+Modern.js supports various types of project development, such as application development (Modern.js Framework), module development (Modern.js Module), etc.
 
 To balance the differences and commonalities between various types of project development, Modern.js organizes plugins as shown in the following figure:
 
@@ -203,9 +203,9 @@ export default defineConfig({
 
 ### Publishing a Plugin on npm
 
-If you want to publish your Modern.js plugin on npm, it's recommended to use the module project solution provided by Modern.js to manage and build the plugin.
+If you want to publish your Modern.js plugin on npm, it's recommended to use the [Modern.js Module](https://modernjs.dev/module-tools) to manage and build the plugin.
 
-First, create an empty module project solution and adjust the package name:
+First, create an empty Modern.js Module project and adjust the package name:
 
 ```json
 {
@@ -214,7 +214,7 @@ First, create an empty module project solution and adjust the package name:
 }
 ```
 
-create plugin main file:
+Create plugin main file:
 
 ```ts title=src/index.ts
 import type { CliPlugin } from '@modern-js/core';

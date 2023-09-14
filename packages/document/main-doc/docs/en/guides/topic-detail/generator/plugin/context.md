@@ -25,7 +25,7 @@ Only some APIs are briefly explained below. For the complete API, please refer t
 
 ## Customize Input
 
-Both Modern.js Web App and Npm Module schemes have default input interactions. These APIs can be used to add, modify, hide, and provide default values for these inputs.
+Both Modern.js Framework and Modern.js Module have default input interactions. These APIs can be used to add, modify, hide, and provide default values for these inputs.
 
 For example:
 
