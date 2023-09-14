@@ -191,9 +191,6 @@ importers:
       rspack-manifest-plugin:
         specifier: 5.0.0-alpha0
         version: 5.0.0-alpha0(webpack@5.88.1)
-      rspack-plugin-virtual-module:
-        specifier: 0.1.7
-        version: 0.1.7
       style-loader:
         specifier: 3.3.3
         version: 3.3.3(webpack@5.88.1)
@@ -5036,9 +5033,6 @@ importers:
       esbuild:
         specifier: 0.17.19
         version: 0.17.19
-      rspack-plugin-virtual-module:
-        specifier: 0.1.7
-        version: 0.1.7
     devDependencies:
       '@modern-js/builder-plugin-swc':
         specifier: workspace:*
@@ -23398,6 +23392,7 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
+    dev: true
 
   /fs-extra@7.0.1:
     resolution: {integrity: sha512-YJDaCJZEnBmcbw13fvdAM9AwNOJwOzrE4pqMqBq5nFiEqXUqHwlK4B+3pUw6JNvfSPtX05xFHtYy/1ni01eGCw==}
@@ -29273,7 +29268,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 
@@ -32276,12 +32271,6 @@ packages:
     dependencies:
       fs-extra: 11.1.1
     dev: true
-
-  /rspack-plugin-virtual-module@0.1.7:
-    resolution: {integrity: sha512-8LFxQ+YI0KeveA5Vl7SWMB9LRq8pBnrtmzF6klOU3pNfWFWsaRf+D8OnDRHHlrYUq6l+1Q8yTlZB/HgqksRD9Q==}
-    dependencies:
-      fs-extra: 11.1.1
-    dev: false
 
   /rspress@0.0.13(react@18.2.0)(ts-node@10.9.1)(webpack@5.88.1):
     resolution: {integrity: sha512-nqwZXyW/spA2IcySXA3OAvD71FvXYspN25ABYdvnkIRlzY5YfO+OWYnRPPw4/xKLrVpuEXzZjWcCVltpUB0OBw==}
