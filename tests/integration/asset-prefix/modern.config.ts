@@ -1,11 +1,12 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
-export default defineConfig({
+export default applyBaseConfig({
   dev: {
     assetPrefix: true,
   },
-  output: {
-    polyfill: 'off',
+  performance: {
+    chunkSplit: {
+      strategy: 'all-in-one',
+    },
   },
-  plugins: [appTools()],
 });

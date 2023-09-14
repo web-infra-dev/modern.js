@@ -34,7 +34,6 @@ export const builderPluginAdapterHtml = <B extends Bundler>(
           });
 
           await injectAssetPrefix({
-            api,
             chain,
           });
         }
@@ -43,35 +42,15 @@ export const builderPluginAdapterHtml = <B extends Bundler>(
   },
 });
 
-async function injectAssetPrefix({
-  api,
-  chain,
-}: {
-  api: BuilderPluginAPI;
-  chain: BundlerChain;
-}) {
+async function injectAssetPrefix({ chain }: { chain: BundlerChain }) {
   const entries = chain.entryPoints.entries() || {};
   const entryNames = Object.keys(entries);
   const assetPrefix = removeTailSlash(chain.output.get('publicPath') || '');
   const code = `window.__assetPrefix__ = '${assetPrefix}';`;
-  const isRspack = api.context.bundlerType === 'rspack';
 
-  if (isRspack) {
-    const fileName = 'rspack-asset-prefix';
-    const { default: RspackVirtualModulePlugin } = await import(
-      'rspack-plugin-virtual-module'
-    );
-    entryNames.forEach(entryName => {
-      entries[entryName].prepend(fileName);
-      chain
-        .plugin('rspack-asset-prefix')
-        .use(RspackVirtualModulePlugin, [{ [fileName]: code }]);
-    });
-  } else {
-    entryNames.forEach(entryName => {
-      entries[entryName].prepend(createVirtualModule(code));
-    });
-  }
+  entryNames.forEach(entryName => {
+    entries[entryName].prepend(createVirtualModule(code));
+  });
 }
 
 /** inject bottom template */

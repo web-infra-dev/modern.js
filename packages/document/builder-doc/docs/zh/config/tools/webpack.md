@@ -4,7 +4,7 @@
 
 `tools.webpack` 选项用于配置原生的 [webpack](https://webpack.js.org/)。
 
-> `tools.webpackChain` 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.webpackChain`。
+> `tools.bundlerChain` 同样可以修改 webpack 配置，并且功能更加强大，建议优先使用 `tools.bundlerChain`。
 
 ### Object 类型
 
@@ -170,7 +170,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpackChain: (chain, { HtmlWebpackPlugin }) => {
+    webpack: (chain, { HtmlWebpackPlugin }) => {
       console.log(HtmlWebpackPlugin);
     },
   },

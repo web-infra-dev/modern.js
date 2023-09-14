@@ -1,4 +1,4 @@
-import { appTools, defineConfig } from '@modern-js/app-tools';
+import { applyBaseConfig } from '../../utils/applyBaseConfig';
 
 const plugin = () => {
   return {
@@ -25,8 +25,8 @@ const plugin = () => {
   };
 };
 
-export default defineConfig({
-  plugins: [appTools(), plugin()],
+export default applyBaseConfig({
+  plugins: [plugin()],
   tools: {
     devServer: {
       before: [

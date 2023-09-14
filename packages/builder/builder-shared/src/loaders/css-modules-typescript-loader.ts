@@ -47,10 +47,20 @@ const getTypeMismatchError = ({
   );
 };
 
+export function wrapQuotes(key: string) {
+  // Check if key is a valid identifier
+  const isValidIdentifier = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key);
+  if (isValidIdentifier) {
+    return key;
+  }
+
+  return `'${key}'`;
+}
+
 const cssModuleToInterface = (cssModuleKeys: string[]) => {
   const interfaceFields = cssModuleKeys
     .sort()
-    .map(key => `  '${key}': string;`)
+    .map(key => `  ${wrapQuotes(key)}: string;`)
     .join('\n');
 
   return `interface CssExports {\n${interfaceFields}\n}`;

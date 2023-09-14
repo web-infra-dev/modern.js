@@ -7,6 +7,9 @@ export default defineConfig({
       cssMinify: true,
     },
   },
+  output: {
+    disableTsChecker: true,
+  },
   source: {
     entries: {
       index: './src/index.js',

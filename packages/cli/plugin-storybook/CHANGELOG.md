@@ -1,5 +1,31 @@
 # @modern-js/plugin-storybook
 
+## 2.35.0
+
+### Patch Changes
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- Updated dependencies [8ed713c]
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [d87a426]
+- Updated dependencies [4027a6a]
+- Updated dependencies [9f13314]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder@2.35.0
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/builder-webpack-provider@2.35.0
+  - @modern-js/runtime@2.35.0
+  - @modern-js/builder-plugin-node-polyfill@2.35.0
+  - @modern-js/plugin-router-v5@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes

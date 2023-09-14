@@ -108,7 +108,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpackChain(chain, { env }) {
+    bundlerChain(chain, { env }) {
       if (env === 'development') {
         chain.devtool(false);
       }
@@ -122,7 +122,7 @@ export default {
 ```js
 export default {
   tools: {
-    webpackChain(chain, { env }) {
+    bundlerChain(chain, { env }) {
       if (env === 'development') {
         chain.devtool('eval');
       }

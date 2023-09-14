@@ -1,5 +1,25 @@
 # @modern-js/builder-cli
 
+## 2.35.0
+
+### Patch Changes
+
+- e76d1a9: feat(builder-cli): add welcome log
+
+  feat(builder-cli): 增加欢迎日志
+
+- Updated dependencies [3b25410]
+- Updated dependencies [e2def6e]
+- Updated dependencies [8ed713c]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [9f13314]
+  - @modern-js/builder-rspack-provider@2.35.0
+  - @modern-js/builder@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/builder-webpack-provider@2.35.0
+
 ## 2.34.0
 
 ### Patch Changes
