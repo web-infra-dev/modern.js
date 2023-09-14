@@ -79,11 +79,7 @@ export const start: StorybookBuilder['start'] = async ({
   const compiler = await getCompiler(process.cwd(), config, options);
 
   const middleware = webpackDevMiddleware(compiler, {
-    writeToDisk:
-      // @ts-expect-error
-      config.builderConfig?.tools?.devServer?.devMiddleware?.writeToDisk ??
-      true,
-
+    writeToDisk: false,
     // builder can log errors, so not using dev-middleware logs
     stats: false,
   });
