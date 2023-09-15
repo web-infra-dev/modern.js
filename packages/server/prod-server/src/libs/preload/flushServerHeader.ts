@@ -37,4 +37,5 @@ export async function flushServerHeader({
   }
 
   res.flushHeaders();
+  res.flushedHeaders = true;
 }
