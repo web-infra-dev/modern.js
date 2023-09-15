@@ -1,25 +1,31 @@
 import React from 'react';
 import { useToggle } from 'react-use';
-import { joinURL, withQuery } from 'ufo';
-import { SetupClientOptions } from '@modern-js/devtools-kit';
+import { joinURL, withQuery, stringifyParsedURL, parseURL } from 'ufo';
+import {
+  RPC_SERVER_PATHNAME,
+  SetupClientOptions,
+} from '@modern-js/devtools-kit';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
 import FrameBox from './FrameBox';
 
-const getDefaultRPC = () => {
-  const url = new URL('ws://localhost/_modern_js/devtools/rpc');
-  url.protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-  url.host = location.host;
-  return url.href;
+const parseDataSource = (url: string) => {
+  const newSrc = parseURL(url);
+  return stringifyParsedURL({
+    protocol: location.protocol === 'https:' ? 'wss:' : 'ws:',
+    host: location.host,
+    ...newSrc,
+    pathname: newSrc.pathname || RPC_SERVER_PATHNAME,
+  });
 };
 
 const DevtoolsAction: React.FC<SetupClientOptions> = props => {
   const version = process.env.VERSION!;
   const opts: Required<SetupClientOptions> = {
     version,
-    dataSource: getDefaultRPC(),
     endpoint: 'https://modernjs.dev/devtools',
     ...props,
+    dataSource: parseDataSource(props.dataSource ?? ''),
   };
   const [showDevtools, toggleDevtools] = useToggle(false);
 

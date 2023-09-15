@@ -24,13 +24,16 @@ import { requireModule } from '../utils/module';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
-  def?: PartialDeep<ClientDefinition>;
 }
 
 export const setupClientConnection = async (
   options: SetupClientConnectionOptions,
 ) => {
-  const { api, def = {} } = options;
+  const { api } = options;
+  let def: PartialDeep<ClientDefinition> = {};
+  const setDefinition = (definition: PartialDeep<ClientDefinition>) => {
+    def = definition;
+  };
 
   // generate url.
   const port = await getPort(8782);
@@ -226,5 +229,5 @@ export const setupClientConnection = async (
     },
   };
 
-  return { client: clientConn, hooks, builderPlugin, url };
+  return { client: clientConn, hooks, builderPlugin, url, setDefinition };
 };
