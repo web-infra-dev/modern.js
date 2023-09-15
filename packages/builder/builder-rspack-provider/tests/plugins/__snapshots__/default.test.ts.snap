@@ -1390,6 +1390,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   },
   "name": "Client",
   "optimization": {
+    "chunkIds": "deterministic",
     "minimize": true,
     "minimizer": [
       Plugin {
