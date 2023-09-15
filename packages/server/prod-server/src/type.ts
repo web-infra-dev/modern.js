@@ -21,7 +21,7 @@ declare module 'http' {
 
   interface OutgoingMessage {
     set: (key: string, value: any) => this;
-    flushedHeaders?: boolean;
+    modernFlushedHeaders?: boolean;
   }
 }
 

@@ -635,7 +635,7 @@ export class ModernServer implements ModernServerInterface {
 
   private isSend(res: ServerResponse) {
     /// Is true after response.end() has been called.
-    if (res.flushedHeaders) {
+    if (res.modernFlushedHeaders) {
       if (res.writableFinished) {
         return true;
       }
