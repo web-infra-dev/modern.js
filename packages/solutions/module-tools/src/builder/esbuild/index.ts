@@ -158,7 +158,7 @@ export class EsbuildCompiler implements ICompiler {
       platform,
       tsconfig: fs.existsSync(tsconfig) ? tsconfig : undefined,
       write: false,
-      logLevel: 'error',
+      logLevel: 'silent',
       outdir: outDir,
       outbase: sourceDir,
       entryNames,

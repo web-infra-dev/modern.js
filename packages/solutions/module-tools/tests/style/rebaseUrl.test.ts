@@ -12,7 +12,7 @@ describe('rebase', () => {
         return path.resolve(dir, id);
       },
     );
-    expect(result.contents?.replace(/\\\\/g, '/')).toContain('less/a.png');
+    expect(result.contents).toContain(`less${path.sep}a.png`);
   });
   it('rebaseUrl original', async () => {
     const rootFile = path.resolve(__dirname, 'index.less');
@@ -36,7 +36,7 @@ describe('rebase', () => {
         return path.resolve(dir, id);
       },
     );
-    expect(result.contents?.replace(/\\\\/g, '/')).toContain('/a.png');
+    expect(result.contents).toContain(`/a.png`);
   });
   it('do not replace variable', async () => {
     const rootFile = path.resolve(__dirname, 'index.less');

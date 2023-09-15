@@ -1,7 +1,7 @@
 import { basename, join, extname, relative, dirname, resolve } from 'path';
 import fs from 'fs';
 import type { Loader } from 'esbuild';
-import { createFilter } from 'rollup-pluginutils';
+import { createFilter } from '@rollup/pluginutils';
 import { transform } from '@svgr/core';
 import svgo from '@svgr/plugin-svgo';
 import jsx from '@svgr/plugin-jsx';

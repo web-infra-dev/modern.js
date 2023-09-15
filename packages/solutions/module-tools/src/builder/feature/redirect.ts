@@ -98,7 +98,6 @@ async function redirectImport(
             extname(originalFilePath),
           ).replace('.', '_');
           const base = `${replacedName}.css`;
-          debugger;
           const contents = compiler.virtualModule.get(originalFilePath)!;
           const fileName = join(outputDir, base);
           compiler.emitAsset(fileName, {

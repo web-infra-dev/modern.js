@@ -4834,9 +4834,6 @@ importers:
       postcss:
         specifier: 8.4.27
         version: 8.4.27
-      rollup-pluginutils:
-        specifier: 2.8.2
-        version: 2.8.2
       source-map:
         specifier: 0.7.4
         version: 0.7.4
@@ -4883,9 +4880,6 @@ importers:
       '@types/convert-source-map':
         specifier: 1.5.2
         version: 1.5.2
-      '@types/deep-eql':
-        specifier: 4.0.0
-        version: 4.0.0
       '@types/mime-types':
         specifier: 2.1.1
         version: 2.1.1
@@ -4910,33 +4904,18 @@ importers:
       convert-source-map:
         specifier: 1.8.0
         version: 1.8.0
-      deep-eql:
-        specifier: 4.1.0
-        version: 4.1.0
       enhanced-resolve:
         specifier: 5.8.3
         version: 5.8.3
-      error-stack:
-        specifier: 1.0.3
-        version: 1.0.3
       magic-string:
         specifier: 0.26.4
         version: 0.26.4
       mime-types:
         specifier: 2.1.33
         version: 2.1.33
-      path-browserify:
-        specifier: 1.0.1
-        version: 1.0.1
       picomatch:
         specifier: 2.3.0
         version: 2.3.0
-      postcss-alias:
-        specifier: 2.0.0
-        version: 2.0.0
-      postcss-load-config:
-        specifier: 3.1.4
-        version: 3.1.4(postcss@8.4.27)(ts-node@10.9.1)
       postcss-modules:
         specifier: 4.3.0
         version: 4.3.0(postcss@8.4.27)
@@ -16489,10 +16468,6 @@ packages:
     dependencies:
       '@types/ms': 0.7.31
 
-  /@types/deep-eql@4.0.0:
-    resolution: {integrity: sha512-UkfTYLA64vGUyR4ez8ybIC01wtilS/ydOqKL1fSHOvnX1sVm1sI5btr7Q+bqpdaPGD+QNhOgBXq1HGjO+99e1A==}
-    dev: true
-
   /@types/ejs@3.1.2:
     resolution: {integrity: sha512-ZmiaE3wglXVWBM9fyVC17aGPkLo/UgaOjEiI2FXQfyczrCefORPxIe+2dVmnmk3zkVIbizjrlQzmPGhSYGXG5g==}
     dev: true
@@ -21129,13 +21104,6 @@ packages:
     resolution: {integrity: sha512-yVn6RZmHiGnxRKR9sJb3iVV2XTF1Ghh2DiWRZ3dMnGc43yUdWWF/kX6lQyk3+P84iprfWKU/8zFTrlkvtFm1ug==}
     dev: false
 
-  /deep-eql@4.1.0:
-    resolution: {integrity: sha512-4YM7QHOMBoVWqGPnp3OPPK7+WCIhUR2OTpahlNQFiyTH3QEeiu9MtBiTAJBkfny4PNhpFbV/jm3lv0iCfb40MA==}
-    engines: {node: '>=6'}
-    dependencies:
-      type-detect: 4.0.8
-    dev: true
-
   /deep-eql@4.1.3:
     resolution: {integrity: sha512-WaEtAOpRA1MQ0eohqZjpGD8zdI0Ovsm8mmFhaDN8dvDZzyoUMcYDnf5Y6iu7HTXxf8JDS23qWa4a+hKCDyOPzw==}
     engines: {node: '>=6'}
@@ -21671,11 +21639,6 @@ packages:
     resolution: {integrity: sha512-Sk5V6wVazPhq5MhpO+AUxJn5x7XSXGl1R93Vn7i+zS15KDVxQijejNCrz8340/2bgLBjR9GtEG8ZVKONDjcqGQ==}
     dependencies:
       stackframe: 1.3.4
-
-  /error-stack@1.0.3:
-    resolution: {integrity: sha512-CAg6e1byUPxzNKO3c/OfXCdo0dbC8i4hHO09CcpUoPeBz6xdmdMhUTxRmSIm6RQZrbTefr4WianavHDXDmzfpA==}
-    engines: {node: '>= 6'}
-    dev: true
 
   /errorhandler@1.5.1:
     resolution: {integrity: sha512-rcOwbfvP1WTViVoUjcfZicVzjhjTuhSMntHh6mW3IrEiyE6mJyXvsToJUJGlGlw/2xU9P5whlWNGlIDVeCiT4A==}
@@ -22299,10 +22262,6 @@ packages:
       '@types/estree-jsx': 1.0.0
       '@types/unist': 2.0.6
     dev: true
-
-  /estree-walker@0.6.1:
-    resolution: {integrity: sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==}
-    dev: false
 
   /estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
@@ -28781,12 +28740,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /postcss-alias@2.0.0:
-    resolution: {integrity: sha512-SzsjZdGaqVRql33315QLrhnNpNvvH2skp0hXpjzz+nYmaSwXSUjk4JADJRi7zUkwYyCXj41fy1go5MR3S9TDyg==}
-    dependencies:
-      postcss: 6.0.23
-    dev: true
-
   /postcss-calc@9.0.1(postcss@8.4.27):
     resolution: {integrity: sha512-TipgjGyzP5QzEhsOZUaIkeO5mKeMFpebWzRogWG/ysonUlnHcq5aJe0jOjpfzUU8PeSaBQnrE8ehR0QA5vs8PQ==}
     engines: {node: ^14 || ^16 || >=18.0}
@@ -28985,6 +28938,7 @@ packages:
       postcss: 8.4.27
       ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
       yaml: 1.10.2
+    dev: false
 
   /postcss-load-config@4.0.1(postcss@8.4.27)(ts-node@10.9.1):
     resolution: {integrity: sha512-vEJIc8RdiBRu3oRAI0ymerOn+7rPuMvRXslTvZUKZonDHFIczxztIyJ1urxM1x9JXEikvpWWTUUqal5j/8QgvA==}
@@ -29406,15 +29360,6 @@ packages:
 
   /postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
-
-  /postcss@6.0.23:
-    resolution: {integrity: sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==}
-    engines: {node: '>=4.0.0'}
-    dependencies:
-      chalk: 2.4.2
-      source-map: 0.6.1
-      supports-color: 5.5.0
-    dev: true
 
   /postcss@7.0.39:
     resolution: {integrity: sha512-yioayjNbHn6z1/Bywyb2Y4s3yvDAeXGOyxqD+LnVOinq6Mdmd++SW2wUNVzavyyHxd6+DxzWGIuosg6P1Rj8uA==}
@@ -31913,12 +31858,6 @@ packages:
     optionalDependencies:
       '@babel/code-frame': 7.22.13
     dev: true
-
-  /rollup-pluginutils@2.8.2:
-    resolution: {integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==}
-    dependencies:
-      estree-walker: 0.6.1
-    dev: false
 
   /rollup@3.23.0:
     resolution: {integrity: sha512-h31UlwEi7FHihLe1zbk+3Q7z1k/84rb9BSwmBSr/XjOCEaBJ2YyedQDuM0t/kfOS0IxM+vk1/zI9XxYj9V+NJQ==}

@@ -8,18 +8,18 @@ export const validPartialBuildConfig = (
 ) => {
   if (Array.isArray(config)) {
     for (const c of config) {
-      validBuildTypeAndFormat(c, appDirectory);
+      validBuildConfig(c, appDirectory);
     }
   } else {
-    validBuildTypeAndFormat(config, appDirectory);
+    validBuildConfig(config, appDirectory);
   }
 };
 
-export const validBuildTypeAndFormat = (
+export const validBuildConfig = (
   config: PartialBaseBuildConfig,
   appDirectory: string,
 ) => {
-  // TODO add more case
+  // valid format
   if (
     config.buildType === 'bundleless' &&
     ['iife', 'umd'].includes(config.format ?? '')
@@ -29,6 +29,7 @@ export const validBuildTypeAndFormat = (
     );
   }
 
+  // valid tsconfigPath
   if (
     config.tsconfig &&
     !fs.existsSync(path.resolve(appDirectory, config.tsconfig))

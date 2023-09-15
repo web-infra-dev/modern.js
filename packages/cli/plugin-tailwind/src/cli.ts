@@ -142,6 +142,8 @@ export const tailwindcssPlugin = (
           config.style.postcss.plugins = [tailwindPlugin];
         }
 
+        config.transformCache = false;
+
         return config;
       },
     };

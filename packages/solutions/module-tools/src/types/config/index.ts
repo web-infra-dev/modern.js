@@ -1,7 +1,7 @@
 import type { BuildOptions } from 'esbuild';
 import type { ImportItem } from '@modern-js/swc-plugins';
 import type { Config } from '@svgr/core';
-import type { CreateFilter } from 'rollup-pluginutils';
+import type { CreateFilter } from '@rollup/pluginutils';
 import type { MinifyOptions as TerserMinifyOptions } from 'terser';
 import type { TestConfig } from '@modern-js/types';
 import { internalPreset, presetList } from '../../constants/preset';
@@ -164,10 +164,16 @@ export type PartialBaseBuildConfig = {
   esbuildOptions?: EsbuildOptions;
   // Related to swc-transform
   externalHelpers?: ExternalHelpers;
+  /**
+   * @internal
+   * cache transform result or not
+   */
+  transformCache?: boolean;
   transformImport?: ImportItem[];
   transformLodash?: boolean;
   /**
-   * internal configuration
+   * @deprecated
+   * @internal
    */
   disableSwcTransform?: boolean;
 };

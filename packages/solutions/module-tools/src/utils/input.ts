@@ -48,6 +48,9 @@ export const normalizeInput = async (
   }
 
   if (isArray(input)) {
+    if (input.length === 0) {
+      return input;
+    }
     const normalizedInput = await globby(input.map(slash), {
       expandDirectories: {
         extensions,
@@ -55,6 +58,9 @@ export const normalizeInput = async (
       ignore: ['**/*.d.ts'],
       cwd: appDirectory,
     });
+    if (normalizedInput.length === 0) {
+      throw new Error(`Can not find ${input}`);
+    }
     return normalizedInput;
   } else {
     return input;

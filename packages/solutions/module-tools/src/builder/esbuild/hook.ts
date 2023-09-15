@@ -5,6 +5,10 @@ import { Source, Chunk, ICompiler } from '../../types';
 export function createTransformHook(compiler: ICompiler) {
   const hook = new tapable.AsyncSeriesWaterfallHook<Source>(['args']);
 
+  if (!compiler.config.transformCache) {
+    return hook;
+  }
+
   const originTapPromise = hook.tapPromise;
 
   let hook_fn_id = 1;

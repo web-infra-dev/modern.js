@@ -113,6 +113,7 @@ export interface CacheValue extends Source {
 export type AssetChunk = {
   type: 'asset';
   contents: string | Buffer;
+  entryPoint?: string;
   /**
    * absolute file path
    */
@@ -123,13 +124,14 @@ export type AssetChunk = {
 export type JsChunk = {
   type: 'chunk';
   contents: string;
+  entryPoint?: string;
   /**
    * absolute file path
    */
   fileName: string;
-  originalFileName?: string;
   map?: SourceMap;
   modules?: Record<string, any>;
+  originalFileName?: string;
 };
 
 export type Chunk = AssetChunk | JsChunk;

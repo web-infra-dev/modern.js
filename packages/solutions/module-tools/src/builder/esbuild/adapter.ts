@@ -276,7 +276,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         }
         const { outputs } = result.metafile!;
         const needSourceMap = Boolean(config.sourceMap);
-        for (const key of Object.keys(outputs)) {
+        for (const [key, value] of Object.entries(outputs)) {
           if (key.endsWith('.map')) {
             continue;
           }
@@ -288,7 +288,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
               x.path.replace(/\.map$/, '') === absPath,
           );
           if (!item) {
-            throw new Error(`no contents for ${absPath}`);
+            continue;
           }
           if (absPath.endsWith('.js')) {
             compiler.emitAsset(absPath, {
@@ -296,12 +296,14 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
               contents: item.text,
               map: normalizeSourceMap(mapping?.text, { needSourceMap }),
               fileName: absPath,
+              entryPoint: value?.entryPoint,
             });
           } else {
             compiler.emitAsset(absPath, {
               type: 'asset',
               contents: Buffer.from(item.contents),
               fileName: absPath,
+              entryPoint: value?.entryPoint,
             });
           }
         }

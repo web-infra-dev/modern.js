@@ -56,6 +56,7 @@ export const getDefaultBuildConfig = () => {
       tailwindcss: {},
     },
     target: 'es6',
+    transformCache: true,
     transformImport: [],
     transformLodash: false,
     tsconfig: 'tsconfig.json',
