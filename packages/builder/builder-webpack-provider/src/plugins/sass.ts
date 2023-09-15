@@ -45,6 +45,10 @@ export function builderPluginSass(): BuilderPlugin {
           .loader(utils.getCompiledPath('resolve-url-loader'))
           .options({
             join: await getResolveUrlJoinFn(),
+            // 'resolve-url-loader' relies on 'adjust-sourcemap-loader',
+            // it has performance regression issues in some scenarios,
+            // so we need to disable the sourceMap option.
+            sourceMap: false,
           })
           .end()
           .use(utils.CHAIN_ID.USE.SASS)
