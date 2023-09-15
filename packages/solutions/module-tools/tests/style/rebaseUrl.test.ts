@@ -1,5 +1,4 @@
 import path from 'path';
-import assert from 'assert';
 import { rebaseUrls } from '../../src/builder/feature/style/utils';
 
 describe('rebase', () => {
@@ -13,7 +12,7 @@ describe('rebase', () => {
         return path.resolve(dir, id);
       },
     );
-    assert(result.contents?.includes?.('less/a.png'), 'rewrite url');
+    expect(result.contents?.replace(/\\\\/g, '/')).toContain('less/a.png');
   });
   it('rebaseUrl original', async () => {
     const rootFile = path.resolve(__dirname, 'index.less');
@@ -25,8 +24,7 @@ describe('rebase', () => {
         return path.resolve(dir, id);
       },
     );
-
-    assert(result.contents == null, 'rewrite url');
+    expect(result.contents).toBeFalsy();
   });
   it('rebase with absolute url', async () => {
     const rootFile = path.resolve(__dirname, 'index.less');
@@ -38,10 +36,7 @@ describe('rebase', () => {
         return path.resolve(dir, id);
       },
     );
-    assert(
-      result.contents?.includes?.('/a.png'),
-      'rewrite url with absolute url',
-    );
+    expect(result.contents?.replace(/\\\\/g, '/')).toContain('/a.png');
   });
   it('do not replace variable', async () => {
     const rootFile = path.resolve(__dirname, 'index.less');
@@ -55,6 +50,6 @@ describe('rebase', () => {
         return path.resolve(dir, id);
       },
     );
-    assert(!replace);
+    expect(replace).toBeFalsy();
   });
 });

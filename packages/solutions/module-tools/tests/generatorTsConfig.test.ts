@@ -19,7 +19,6 @@ describe('utils', () => {
       alias: {},
     });
     const content = await fs.readFile(tempTsconfigPath, 'utf8');
-    console.log(content);
     expect(content.includes('references')).toBeTruthy();
     await fs.remove(tempTsconfigPath);
   });
