@@ -4,6 +4,7 @@ import {
   JS_REGEX,
   TS_REGEX,
 } from '@modern-js/builder-shared';
+import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports
@@ -44,23 +45,33 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             },
           };
 
+          const baseConfig = {
+            plugins: [],
+            presets: [
+              [
+                require.resolve('@babel/preset-typescript'),
+                DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
+              ],
+            ],
+          };
+
+          const userBabelConfig = applyUserBabelConfig(
+            cloneDeep(baseConfig),
+            config.tools.babel,
+            babelUtils,
+          );
+
+          const notModify = isEqual(baseConfig, userBabelConfig);
+
+          if (notModify) {
+            return {};
+          }
+
           const babelOptions: BabelOptions = {
             babelrc: false,
             configFile: false,
             compact: isProd,
-            ...applyUserBabelConfig(
-              {
-                plugins: [],
-                presets: [
-                  [
-                    require.resolve('@babel/preset-typescript'),
-                    DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
-                  ],
-                ],
-              },
-              config.tools.babel,
-              babelUtils,
-            ),
+            ...userBabelConfig,
           };
 
           return {
@@ -70,7 +81,15 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           };
         };
 
-        const { babelOptions, includes, excludes } = getBabelOptions(config);
+        const {
+          babelOptions,
+          includes = [],
+          excludes = [],
+        } = getBabelOptions(config);
+
+        if (!babelOptions) {
+          return;
+        }
 
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
