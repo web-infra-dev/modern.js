@@ -1,12 +1,17 @@
 import { devtoolsPlugin } from '@modern-js/plugin-devtools';
-import { applyBaseConfig } from '../../utils/applyBaseConfig';
+import { defineConfig, appTools } from '@modern-js/app-tools';
 
-export default applyBaseConfig({
+export default defineConfig({
   runtime: {
     router: true,
+  },
+  output: {
+    // disable polyfill and ts checker to make test faster
+    polyfill: 'off',
+    disableTsChecker: true,
   },
   performance: {
     buildCache: false,
   },
-  plugins: [devtoolsPlugin()],
+  plugins: [appTools(), devtoolsPlugin()],
 });
