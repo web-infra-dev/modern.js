@@ -2,15 +2,7 @@
  * This plugin is used to redirectImport only in unbundle mode
  * Taking from https://github.com/ice-lab/icepkg/blob/main/packages/pkg/src/plugins/transform/alias.ts
  */
-import {
-  isAbsolute,
-  resolve,
-  relative,
-  join,
-  dirname,
-  basename,
-  extname,
-} from 'path';
+import { isAbsolute, resolve, relative, join, dirname, extname } from 'path';
 import { js } from '@ast-grep/napi';
 import MagicString from 'magic-string';
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths';
@@ -93,12 +85,8 @@ async function redirectImport(
 
         if (query.css_virtual) {
           // css module
-          const replacedName = basename(
-            originalFilePath,
-            extname(originalFilePath),
-          ).replace('.', '_');
-          const base = `${replacedName}.css`;
           const contents = compiler.virtualModule.get(originalFilePath)!;
+          const base = query.basename as string;
           const fileName = join(outputDir, base);
           compiler.emitAsset(fileName, {
             type: 'asset',

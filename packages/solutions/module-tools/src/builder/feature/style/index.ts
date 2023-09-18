@@ -9,14 +9,14 @@ export const css = {
   name,
   hooks(compiler: ICompiler) {
     compiler.hooks.load.tapPromise({ name }, async args => {
+      if (args.pluginData?.css_virtual) {
+        const contents = compiler.virtualModule.get(args.path)!;
+        return {
+          contents,
+          loader: 'css',
+        };
+      }
       if (isStyleExt(args.path)) {
-        if (args.pluginData?.css_virtual) {
-          const contents = compiler.virtualModule.get(args.path)!;
-          return {
-            contents,
-            loader: 'css',
-          };
-        }
         return {
           contents: readFileSync(args.path),
           loader: 'css',

@@ -7304,7 +7304,11 @@ importers:
 
   tests/integration/module/fixtures/build/style/others: {}
 
-  tests/integration/module/fixtures/build/style/postcss: {}
+  tests/integration/module/fixtures/build/style/postcss:
+    devDependencies:
+      postcss-alias:
+        specifier: 2.0.0
+        version: 2.0.0
 
   tests/integration/module/fixtures/build/style/sass: {}
 
@@ -28740,6 +28744,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /postcss-alias@2.0.0:
+    resolution: {integrity: sha512-SzsjZdGaqVRql33315QLrhnNpNvvH2skp0hXpjzz+nYmaSwXSUjk4JADJRi7zUkwYyCXj41fy1go5MR3S9TDyg==}
+    dependencies:
+      postcss: 6.0.23
+    dev: true
+
   /postcss-calc@9.0.1(postcss@8.4.27):
     resolution: {integrity: sha512-TipgjGyzP5QzEhsOZUaIkeO5mKeMFpebWzRogWG/ysonUlnHcq5aJe0jOjpfzUU8PeSaBQnrE8ehR0QA5vs8PQ==}
     engines: {node: ^14 || ^16 || >=18.0}
@@ -29360,6 +29370,15 @@ packages:
 
   /postcss-value-parser@4.2.0:
     resolution: {integrity: sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==}
+
+  /postcss@6.0.23:
+    resolution: {integrity: sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      chalk: 2.4.2
+      source-map: 0.6.1
+      supports-color: 5.5.0
+    dev: true
 
   /postcss@7.0.39:
     resolution: {integrity: sha512-yioayjNbHn6z1/Bywyb2Y4s3yvDAeXGOyxqD+LnVOinq6Mdmd++SW2wUNVzavyyHxd6+DxzWGIuosg6P1Rj8uA==}

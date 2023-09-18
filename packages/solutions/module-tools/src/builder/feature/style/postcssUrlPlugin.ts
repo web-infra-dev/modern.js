@@ -12,9 +12,9 @@ const HASH_PATTERNS = /#[^#]+$/;
 export const postcssUrlPlugin = (options: {
   entryPath: string;
   compilation: ICompiler;
-}) => {
+}): Plugin => {
   return {
-    postcssPlugin: 'libuild-postcss-url',
+    postcssPlugin: 'postcss-url',
     async Declaration(decl) {
       const isProcessed = (decl as any)[Processed];
 
@@ -48,5 +48,5 @@ export const postcssUrlPlugin = (options: {
         },
       );
     },
-  } as Plugin;
+  };
 };

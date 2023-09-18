@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { normalizeSlashes } from '../../../utils';
 
 const cache: Record<string, any> = {};
 /**
@@ -106,7 +107,7 @@ export function rewriteCssUrls(
       return matched;
     }
 
-    return `url(${wrap}${await replacer(rawUrl)}${wrap})`;
+    return `url(${wrap}${normalizeSlashes(await replacer(rawUrl))}${wrap})`;
   });
 }
 
