@@ -53,7 +53,7 @@ export const build = async (
     configFile: serverConfigFile,
   });
 
-  logger.info('Create a production build...\n');
+  logger.info('Starting production build...');
   if (!appContext.builder) {
     throw new Error(
       'Expect the Builder to have been initialized, But the appContext.builder received `undefined`',

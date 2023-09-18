@@ -43,7 +43,7 @@ export async function createCompiler({
             ? context.target[index]
             : context.target;
           const name = TARGET_ID_MAP[target || 'web'];
-          logger.log(color(`✔ ${name}  succeed in`, time));
+          logger.log(color(`✔ ${name}  compiled in`, time));
         }
       });
     }

@@ -12,7 +12,7 @@ const defaultOption: Props = {
   width: 25,
   buildIcon: '◯',
   finishIcon: '✔',
-  finishInfo: 'succeed',
+  finishInfo: 'compiled',
   errorIcon: '✖',
   errorInfo: 'compile failed',
   message: '',
