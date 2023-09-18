@@ -6,7 +6,6 @@ import {
   getProgressColor,
 } from '@modern-js/builder-shared';
 import type { Context, RspackConfig } from '../types';
-import prettyTime from '../../compiled/pretty-time';
 import chalk from '@modern-js/utils/chalk';
 
 export async function createCompiler({
@@ -35,6 +34,8 @@ export async function createCompiler({
     });
 
     if (!stats.hasErrors()) {
+      const prettyTime = await import('@modern-js/builder-shared/pretty-time');
+
       obj.children?.forEach((c, index) => {
         if (c.time) {
           const color = chalk[getProgressColor(index)];
