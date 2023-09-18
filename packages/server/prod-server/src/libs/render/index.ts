@@ -87,7 +87,7 @@ export const createRenderHandler: CreateRenderHandler = ({
 
         if (shouldFlushServerHeader(conf.server, userAgent, disablePreload)) {
           const { flushServerHeader } = await import('../preload');
-          flushServerHeader({
+          await flushServerHeader({
             serverConf: conf.server,
             ctx,
             distDir,
