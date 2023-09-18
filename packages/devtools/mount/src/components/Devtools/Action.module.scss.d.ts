@@ -3,6 +3,7 @@
 interface CssExports {
   container: string;
   fab: string;
+  logo: string;
 }
 export const cssExports: CssExports;
 export default cssExports;

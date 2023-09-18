@@ -2,6 +2,7 @@ import type { AppTools, CliPlugin } from '@modern-js/app-tools';
 import {
   SetupClientOptions,
   RPC_SERVER_PATHNAME,
+  ClientDefinition,
 } from '@modern-js/devtools-kit';
 import { withQuery } from 'ufo';
 import { Options, resolveOptions } from './config';
@@ -44,6 +45,10 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
           builderPlugins: [rpc.builderPlugin],
           source: {
             preEntry: [runtimeEntry],
+            globalVars: {
+              'process.env._MODERN_DEVTOOLS_LOGO_SRC': new ClientDefinition()
+                .assets.logo,
+            },
           },
           tools: {
             devServer: {
