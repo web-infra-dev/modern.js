@@ -93,7 +93,7 @@ export const prettyInstructions = (appContext: any, config: any) => {
     ? serverRoutes.filter(route => route.entryName)
     : serverRoutes;
 
-  let message = 'App running at:\n\n';
+  let message = '\n';
 
   if (isSingleEntry(entrypoints, config.source?.mainEntryName) || apiOnly) {
     message += urls

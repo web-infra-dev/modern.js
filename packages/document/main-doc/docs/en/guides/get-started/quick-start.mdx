@@ -91,23 +91,15 @@ $ pnpm run build
 
 > modern build
 
-info    Create a production build...
-
-info    File sizes after production build:
+info    Staring production build...
+ready   Client compiled in 50ms
+info    Production file sizes:
 
   File                                      Size         Gzipped
-  dist/static/js/lib-corejs.ffeb7fb8.js     214.96 kB    67.23 kB
-  dist/static/js/lib-react.09721b5c.js      152.61 kB    49.02 kB
-  dist/static/js/218.102e2f39.js            85.45 kB     28.5 kB
-  dist/static/js/lib-babel.a7bba875.js      11.93 kB     3.95 kB
-  dist/html/main/index.html                 5.84 kB      2.57 kB
-  dist/static/js/main.3568a38e.js           3.57 kB      1.44 kB
-  dist/static/css/async/304.c3c481a5.css    2.62 kB      874 B
-  dist/asset-manifest.json                  1.48 kB      349 B
-  dist/static/js/async/304.c45706bc.js      1.4 kB       575 B
-  dist/static/js/async/509.fcb06e14.js      283 B        230 B
-
- Client ✔ done in 3.57s
+  dist/static/js/lib-react.09721b5c.js      152.6 kB     49.0 kB
+  dist/html/main/index.html                 5.8 kB       2.5 kB
+  dist/static/js/main.3568a38e.js           3.5 kB       1.4 kB
+  dist/static/css/main.03221f72.css         1.4 kB       741 B
 ```
 
 By default, the build artifacts are generated in `dist/`, with the following directory structure:
@@ -135,8 +127,7 @@ $ pnpm run serve
 
 > modern serve
 
-Starting the modern server...
-info    App running at:
+info    Starting production server...
 
   > Local:    http://localhost:8080/
   > Network:  http://192.168.0.1:8080/
