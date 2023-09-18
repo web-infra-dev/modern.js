@@ -42,7 +42,7 @@ In multi-page (MPA) projects, the `--entry` option can be added to specify one o
 
 For example, execute `modern dev --entry`, the entry selector will be displayed in the command line interface:
 
-```bash
+```text
 $ modern dev --entry
 
 ? Please select the entry that needs to be built
@@ -86,7 +86,7 @@ Options:
 
 execute `npx modern build --analyze` command, can produce an HTML file that analyzes the volume of the bundle while packaging the production code:
 
-```
+```text
 Bundle Analyzer saved report to /example/dist/report.html
 File sizes after production build:
 
@@ -125,7 +125,7 @@ Options:
 
 In the project, execute the `new` command to add entries as follows:
 
-```bash
+```text
 $ npx modern new
 ? Please select the operation you want: Create Element
 ? Please select the type of element to create: New "entry"
@@ -136,7 +136,7 @@ $ npx modern new
 
 In the project, execute the `new` command to enable features as follows:
 
-```bash
+```text
 $ npx modern new
 ? Please select the operation you want: Enable Features
 ? Please select the feature name: (Use arrow keys)
@@ -156,7 +156,7 @@ pnpm does not support the use of JSON strings as parameter values currently. Use
 
 ## modern serve
 
-Usually use the `modern serve` command to enable project run in the production environment, and you need to execute the [`build'](/apis/app/commands#modern-build) command in advance to build the outputs.
+The `modern serve` command is used to start a Modern.js project in the production environment. It can also be used to preview the artifacts built for the production environment locally. Please note that you need to execute the [`build`](/apis/app/commands#modern-build) command beforehand to generate the corresponding artifacts.
 
 ```bash
 Usage: modern serve [options]

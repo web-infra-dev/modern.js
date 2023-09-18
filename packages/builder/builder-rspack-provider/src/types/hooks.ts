@@ -10,7 +10,7 @@ export type ModifyRspackConfigUtils = ModifyChainUtils & {
     plugins: RspackPluginInstance | RspackPluginInstance[],
   ) => void;
   removePlugin: (pluginName: string) => void;
-  mergeConfig: typeof import('../../compiled/webpack-merge').merge;
+  mergeConfig: typeof import('@modern-js/builder-shared/webpack-merge').merge;
 };
 
 export type ModifyRspackConfigFn = (

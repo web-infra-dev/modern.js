@@ -8,13 +8,13 @@ const defaultOption: Props = {
   current: 0,
   color: 'green',
   bgColor: 'gray',
-  char: '■',
+  char: '━',
   width: 25,
   buildIcon: '◯',
   finishIcon: '✔',
-  finishInfo: 'Succeed',
+  finishInfo: 'compiled',
   errorIcon: '✖',
-  errorInfo: 'Compile Failed',
+  errorInfo: 'compile failed',
   message: '',
   done: false,
   spaceWidth: 1,
@@ -85,7 +85,7 @@ export const renderBar = (option: Partial<Props>) => {
     );
 
     if (terminalWidth >= MIDDLE_WIDTH) {
-      return [id, doneColor(`${icon}${space}${message}`)].join('');
+      return [idColor(icon), id, doneColor(`${space}${message}`)].join('');
     }
     return [id, doneColor(`${message}`)].join('');
   }
@@ -104,8 +104,8 @@ export const renderBar = (option: Partial<Props>) => {
 
   if (terminalWidth >= FULL_WIDTH) {
     return [
+      idColor(buildIcon),
       id,
-      barColor(buildIcon),
       space,
       barStr,
       space,
@@ -116,8 +116,8 @@ export const renderBar = (option: Partial<Props>) => {
   }
 
   if (terminalWidth >= MIDDLE_WIDTH) {
-    return [id, barColor(buildIcon), space, barStr, space, percentStr].join('');
+    return [idColor(buildIcon), id, space, barStr, space, percentStr].join('');
   }
 
-  return [id, barColor(buildIcon), space, percentStr].join('');
+  return [idColor(buildIcon), id, space, percentStr].join('');
 };

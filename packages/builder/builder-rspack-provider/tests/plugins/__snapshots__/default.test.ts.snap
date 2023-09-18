@@ -547,6 +547,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -604,6 +605,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1297,6 +1299,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1354,6 +1357,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1390,6 +1394,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   },
   "name": "Client",
   "optimization": {
+    "chunkIds": "deterministic",
     "minimize": true,
     "minimizer": [
       Plugin {
@@ -1930,6 +1935,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1952,6 +1958,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -2602,6 +2609,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -2659,6 +2667,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {

@@ -61,16 +61,31 @@ If you need to use other CSS-in-JS libraries such as [styled-jsx](https://www.np
 
 ## Using Tailwind CSS
 
-[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles. To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, simply run `pnpm run new` in the project root directory and enable it.
+[Tailwind CSS](https://tailwindcss.com/) is a CSS framework and design system based on Utility Class, which can quickly add common styles to components, and support flexible extension of theme styles.
 
-Follow the steps below to make a selection:
+To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js, you can follow the steps below:
+
+1. Run `pnpm run new` in the root directory of your project and make the following selections:
 
 ```text
 ? Please select the operation you want: Enable features
 ? Please select the feature name: Enable Tailwind CSS
 ```
 
-Register the Tailwind plugin in `modern.config.ts`:
+After successful initialization, you will see the following additions to the `package.json` file:
+
+```json title="./package.json"
+{
+  "dependencies": {
+    "tailwindcss": "^3.0.0"
+  },
+  "devDependencies": {
+    "@modern-js/plugin-tailwindcss": "^2.0.0"
+  }
+}
+```
+
+2. Register the Tailwind plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
 import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
@@ -80,28 +95,33 @@ export default defineConfig({
 });
 ```
 
-To use, add the following code to the root component (such as `src/App.jsx`) of the entry:
+3. Create a `index.css` file and add the following code:
 
-```js
-import 'tailwindcss/base.css';
-import 'tailwindcss/components.css';
-import 'tailwindcss/utilities.css';
+```css title="index.css"
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 ```
 
-Then you can use the Utility Class provided by Tailwind CSS in each component:
+:::info
+Depending on your needs, you can selectively import the CSS styles provided by Tailwind CSS. Please refer to the [`@tailwind` documentation](https://tailwindcss.com/docs/functions-and-directives#tailwind) for detailed usage of the `@tailwind` directive.
+:::
+
+4. Import the `index.css` file, for example, add the following code in the root component `src/App.jsx`:
+
+```js
+import './index.css';
+```
+
+5. Now you can use the Utility Classes provided by Tailwind CSS in your components:
 
 ```tsx
-const App = () => (
+const Hello = () => (
   <div className="h-12 w-48">
     <p className="text-xl font-medium text-black">hello world</p>
   </div>
 );
 ```
-
-:::info Additional Information
-Depending on your needs, you can selectively import the CSS files provided by Tailwind CSS. Since using `@tailwind` is equivalent to directly importing CSS files, you can refer to the comments in the [`@tailwind` usage](https://tailwindcss.com/docs/functions-and-directives#tailwind) documentation for the purpose of the CSS files provided by Tailwind CSS.
-
-:::
 
 ### Configuring Tailwind CSS
 

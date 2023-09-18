@@ -40,7 +40,7 @@ async function getConfigUtils(
   config: RspackConfig,
   chainUtils: ModifyChainUtils,
 ): Promise<ModifyRspackConfigUtils> {
-  const { merge } = await import('../../compiled/webpack-merge');
+  const { merge } = await import('@modern-js/builder-shared/webpack-merge');
 
   return {
     ...chainUtils,

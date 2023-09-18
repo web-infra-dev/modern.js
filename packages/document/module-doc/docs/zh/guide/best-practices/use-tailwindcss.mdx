@@ -10,36 +10,65 @@ Modern.js Module 支持使用 Tailwind CSS 开发组件样式。
 
 ## 启用 Tailwind CSS
 
-默认情况下，Modern.js Module 没有开启该功能，需要按照下面的方式开启它。
+在 Modern.js Module 中使用 [Tailwind CSS](https://tailwindcss.com/)，你只需要按照以下步骤操作：
 
-1. 在项目根目录下执行 `new` 命令，可以开启 Tailwind CSS 功能。
+1. 在项目根目录下执行 `pnpm run new`，按照如下进行选择：
 
-```text title="终端"
-pnpm run new
-
-? 请选择你想要的操作：启用可选功能
-? 请选择功能名称：启用 「Tailwind CSS」 支持
+```text
+? 请选择你想要的操作 启用可选功能
+? 请选择功能名称 启用 「Tailwind CSS」 支持
 ```
 
-2. 成功开启后，会看到 `package.json` 中新增了依赖。
+成功开启后，会看到 `package.json` 中新增了依赖：
 
 ```json title="./package.json"
 {
+  "dependencies": {
+    "tailwindcss": "^3.0.0"
+  },
   "devDependencies": {
-    "@modern-js/plugin-tailwindcss": "x.y.z"
+    "@modern-js/plugin-tailwindcss": "^2.0.0"
   }
 }
 ```
 
-3. 最后，需要手动在配置文件中注册 `tailwindcssPlugin`:
+2. 在 `modern.config.ts` 中注册 Tailwind 插件:
 
 ```ts title="modern.config.ts"
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
-  plugins: [moduleTools(), tailwindPlugin()],
+  plugins: [..., tailwindcssPlugin()],
 });
+```
+
+3. 创建 `index.css` 文件，添加以下代码：
+
+```css title="index.css"
+/* base 和 components 是可选的，请酌情添加 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+:::info
+根据需求不同，你可以选择性地导入 Tailwind CSS 提供的 CSS 样式。请参考 [`@tailwind` 文档](https://tailwindcss.com/docs/functions-and-directives#tailwind) 来了解 `@tailwind` 指令的详细用法。
+:::
+
+4. 引用 `index.css` 文件，比如在入口的 `src/index.jsx` 文件添加如下代码：
+
+```js
+import './index.css';
+```
+
+5. 然后即可在各个组件中使用 Tailwind CSS 提供的 Utility Class 了：
+
+```tsx
+const Hello = () => (
+  <div className="h-12 w-48">
+    <p className="text-xl font-medium text-black">hello world</p>
+  </div>
+);
 ```
 
 ## 配置 Tailwind CSS
@@ -83,36 +112,128 @@ Tailwind CSS 官方提供了 [Tailwind CSS IntelliSense](https://github.com/tail
 1. 在 VS Code 中安装 [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) 插件。
 2. 如果项目的根目录没有 `tailwind.config.{ts,js}` 文件，那么你需要创建该文件，并写入当前项目的 Tailwind CSS 配置，否则 IDE 插件将无法正确生效。
 
+## 构建模式
+
+在使用 Tailwind CSS 时，请注意构建产物在 bundle 和 bundleless 两种模式下会有很大区别。
+
+:::tip
+关于 bundle 和 bundleless 的定义，可以查看 [「深入理解构建」](/guide/advance/in-depth-about-build)
+:::
+
+### Bundle 模式
+
+在 Bundle 模式下，会生成一份单独的产物 CSS 文件，并且 JS 产物不会自动引用产物 CSS 文件。
+
+- 源代码：
+
+```tsx title="./src/index.tsx"
+import './index.css';
+
+export default () => {
+  return <div className="bg-black">hello world</div>;
+};
+```
+
+- 产物代码：
+
+```js title="./dist/es/index.js"
+// src/index.tsx
+import { jsx } from 'react/jsx-runtime';
+var src_default = () => {
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black',
+    children: 'hello world',
+  });
+};
+export { src_default as default };
+```
+
+```css title="./dist/es/index.css"
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+/** some more... */
+```
+
+如果你需要将样式注入 JS 产物中，可以开启 [style.inject](/api/config/build-config#styleinject) 选项。
+
+如果你没有开启 `style.inject`，那么也可以让用户手动引用产物 CSS 文件：
+
+```js
+import 'your-package/dist/es/index.css';
+```
+
+### Bundleless 模式
+
+在 Bundleless 模式下，默认会引用产物 CSS 文件，无须进行额外处理。
+
+- 产物代码：
+
+```js title="./dist/es/index.js"
+import { jsx as _jsx } from 'react/jsx-runtime';
+import './index.css';
+export default () =>
+  /* @__PURE__ */ _jsx('div', {
+    className: 'bg-black',
+    children: 'hello world',
+  });
+```
+
+## 类名前缀
+
+你可以通过 Tailwind CSS 提供的 [prefix](https://tailwindcss.com/docs/configuration#prefix) 选项来添加类名前缀，这样可以避免潜在的类名冲突问题（比如 App 和 Module 使用了不同版本的 Tailwind CSS）。
+
+例如，通过 `prefix` 选项添加 `foo-` 前缀：
+
+```js title="tailwind.config.js"
+module.exports = {
+  prefix: 'foo-',
+};
+```
+
+- 源代码：
+
+```tsx title="./src/index.tsx"
+import './index.css';
+
+export default () => {
+  return <div className="foo-bg-black">hello world</div>;
+};
+```
+
+- 产物代码：
+
+```css title="./dist/es/index.css"
+.foo-bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+/** some more... */
+```
+
 ## 用法介绍
 
-Tailwind CSS 提供了两种使用方式：
+下面是一些 Tailwind CSS 的用法示例。
 
 ### HTML 类名
 
-Tailwind CSS 支持在 HTML 标签上使用类名的方式增加样式。**当使用 HTML 类名的时候，一定要注意导入 Tailwind CSS 相应的 css 文件。**
+Tailwind CSS 支持在 HTML 标签上通过类名的方式增加样式。**当使用 HTML 类名的时候，请注意必须要提前导入 Tailwind CSS 相应的 CSS 样式。**
 
 ```tsx title="./src/index.tsx"
-import 'tailwindcss/utilities.css';
+import './index.css';
 
 export default () => {
-  return <div className="bg-black text-white">hello world</div>;
+  return <div className="bg-black">hello world</div>;
 };
 ```
 
 样式产物（此时是 bundle 构建）：
 
 ```css title="./dist/es/index.css"
-/* node_modules/tailwindcss/utilities.css */
-.table {
-  display: table;
-}
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
-}
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 /** some more... */
 ```
@@ -191,75 +312,7 @@ Tailwind CSS 提供了 [`@apply`](https://v2.tailwindcss.com/docs/functions-and-
 }
 ```
 
-### 推荐方式
-
-**推荐使用 `@apply` 指定的方式开发样式，这样在样式产物中仅包含通过指令内联的样式。**
-
-当使用 HTML 类名的方式添加样式的时候，默认情况下 Tailwind 不仅会将本身类名对应的样式加入产物中，同时还会有额外的样式代码存在，虽然这些代码可能不会对本身的样式产生影响。
-
-### bundle 和 bundleless 构建产物区别
-
-对于以下代码，在 bundle 和 bundleless 两种模式下，构建产物会有很大区别。
-
-> 所谓 bundle 和 bundleless 可以查看 [「Bundle 和 Bundleless」](/guide/advance/in-depth-about-build#bundle-和-bundleless)
-
-```tsx title="./src/index.tsx"
-import 'tailwindcss/utilities.css';
-
-export default () => {
-  return <div className="bg-black text-white">hello world11</div>;
-};
-```
-
-Bundle 模式下，会将第三方依赖打包进来。
-
-对于样式则会生成一份单独的产物文件，并且在 JS 产物文件中并不会存在导入样式的相关代码。
-
-如果需要将样式注入 JS 产物中，可以开启 [`style.inject`](/api/config/build-config#styleinject) 选项。
-
-```css title="./dist/es/index.css"
-/* node_modules/tailwindcss/utilities.css */
-.table {
-  display: table;
-}
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
-}
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
-}
-/** some more... */
-```
-
-```js title="./dist/es/index.js"
-// src/index.tsx
-import { jsx } from 'react/jsx-runtime';
-var src_default = () => {
-  return /* @__PURE__ */ jsx('div', {
-    className: 'bg-black text-white',
-    children: 'hello world11',
-  });
-};
-export { src_default as default };
-```
-
-Bundleless 模式下，并不会将第三方依赖打包进来，此时不会有样式产物生成。
-
-```js title="./dist/es/index.js"
-import { jsx } from 'react/jsx-runtime';
-import 'tailwindcss/utilities.css';
-var src_default = () => {
-  return /* @__PURE__ */ jsx('div', {
-    className: 'bg-black text-white',
-    children: 'hello world11',
-  });
-};
-export { src_default as default };
-```
-
-### 关于 `designSystem` 配置
+## 关于 `designSystem` 配置
 
 `designSystem` 是 Modern.js Module 中废弃的配置项。
 

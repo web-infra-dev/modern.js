@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/plugin-module-polyfill",
-  "version": "2.33.0",
+  "version": "2.35.0",
   "description": "The polyfill plugin of Modern.js Module",
   "keywords": [
     "react",
