@@ -2,13 +2,14 @@
 sidebar_position: 3
 title: Develop Main App
 ---
+
 # Develop Main App
 
 In the previous [Experience micro frontend](/guides/topic-detail/micro-frontend/c02-development), an example was used to demonstrate how to create and configure micro frontend sub-applications. Through this chapter, you can further understand how to develop the main application, and its common configuration.
 
-After creating an application project through the `@modern-js/create` command, you can execute `pnpm run new` in the project (the `modern new` command is actually executed). After selecting the 「micro frontend」 mode, the micro frontend will be installed. Dependencies, just register the plugin manually.
+After creating an Modern.js project through the `@modern-js/create` command, you can execute `pnpm run new` in the project (the `modern new` command is actually executed). After selecting the 「micro frontend」 mode, the micro frontend will be installed. Dependencies, just register the plugin manually.
 
-import EnableMicroFrontend from "@site-docs-en/components/enable-micro-frontend";
+import EnableMicroFrontend from '@site-docs-en/components/enable-micro-frontend';
 
 <EnableMicroFrontend />
 
@@ -26,7 +27,7 @@ It can be configured at runtime via the API [defineConfig](/apis/app/runtime/app
 When the parameter is a function, it cannot be serialized to the output code, so please configure it through defineConfig when it comes to configuration such as functions
 :::
 
-import MicroRuntimeConfig from "@site-docs-en/components/micro-runtime-config";
+import MicroRuntimeConfig from '@site-docs-en/components/micro-runtime-config';
 
 <MicroRuntimeConfig />
 
@@ -40,15 +41,18 @@ defineConfig(App, {
     manifest: {
       getAppList: async () => {
         // get from remote api
-        return [{
-          name: 'Table',
-          entry: 'http://localhost:8001',
-          // activeWhen: '/table'
-        }, {
-          name: 'Dashboard',
-          entry: 'http://localhost:8002'
-          // activeWhen: '/dashboard'
-        }];
+        return [
+          {
+            name: 'Table',
+            entry: 'http://localhost:8001',
+            // activeWhen: '/table'
+          },
+          {
+            name: 'Dashboard',
+            entry: 'http://localhost:8002',
+            // activeWhen: '/dashboard'
+          },
+        ];
       },
     },
   },
@@ -77,16 +81,30 @@ Suppose our subapp list is configured as follows:
 ```js title="App.tsx"
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
-import { RouterProvider, Route, createBrowserRouter, createRoutesFromElements, BrowserRouter, Link, Outlet } from '@modern-js/runtime/router';
+import {
+  RouterProvider,
+  Route,
+  createBrowserRouter,
+  createRoutesFromElements,
+  BrowserRouter,
+  Link,
+  Outlet,
+} from '@modern-js/runtime/router';
 
 const AppLayout = () => (
   <>
-    <div><Link to={'/table'}>load file-based sub-app</Link></div>
-    <div><Link to={'/dashboard'}>load self-controlled sub-app</Link></div>
-    <div><Link to={'/'}>unmount sub-app</Link></div>
+    <div>
+      <Link to={'/table'}>load file-based sub-app</Link>
+    </div>
+    <div>
+      <Link to={'/dashboard'}>load self-controlled sub-app</Link>
+    </div>
+    <div>
+      <Link to={'/'}>unmount sub-app</Link>
+    </div>
     <Outlet />
   </>
-)
+);
 
 export default () => {
   const { apps, MApp } = useModuleApps();
@@ -103,25 +121,25 @@ export default () => {
               key={app.name}
               path={`${app.name.toLowerCase()}/*`}
               element={
-              <Component
-                loadable={{
-                  loading: ({ pastDelay, error }: any) => {
-                    if (error) {
-                      return <div>error: {error?.message}</div>;
-                    } else if (pastDelay) {
-                      return <div>loading</div>;
-                    } else {
-                      return null;
-                    }
-                  },
-                }}
-              />
+                <Component
+                  loadable={{
+                    loading: ({ pastDelay, error }: any) => {
+                      if (error) {
+                        return <div>error: {error?.message}</div>;
+                      } else if (pastDelay) {
+                        return <div>loading</div>;
+                      } else {
+                        return null;
+                      }
+                    },
+                  }}
+                />
               }
             />
-          )
+          );
         })}
-      </Route>
-    )
+      </Route>,
+    ),
   );
 
   return (
@@ -164,12 +182,9 @@ function App() {
 
 After starting the application in this way, accessing the '/table' route will render the'Table 'sub-application, and accessing the'/dashboard 'route will render the'Dashboard' sub-application.
 
-
 ### Mix Mode
 
-
 Of course, **sub-application components** and **centralized routing** can be mixed.
-
 
 - One molecular application is activated as a **sub-application component**, and the other part is activated as a **centralized routing**.
 - A molecular application can be activated either as a **centralized routing** or as a **sub-application component**.
@@ -177,7 +192,6 @@ Of course, **sub-application components** and **centralized routing** can be mix
 ### Loading
 
 By configuring the `loadable` configuration, loading components can be added for 「centralized routing」 and 「sub-applicati」, and errors, timeouts, flashes, etc. can be considered, so as to provide users with a better user experience. The design and implementation of this function refer to [react-loadable](https://github.com/jamiebuilds/react-loadable), and the basic functions are similar.
-
 
 ```tsx
 function Loading() {

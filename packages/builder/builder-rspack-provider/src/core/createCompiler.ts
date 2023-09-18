@@ -6,8 +6,8 @@ import {
   getProgressColor,
 } from '@modern-js/builder-shared';
 import type { Context, RspackConfig } from '../types';
-import prettyTime from '../../compiled/pretty-time';
 import chalk from '@modern-js/utils/chalk';
+import prettyTime from '@modern-js/builder-shared/pretty-time';
 
 export async function createCompiler({
   context,

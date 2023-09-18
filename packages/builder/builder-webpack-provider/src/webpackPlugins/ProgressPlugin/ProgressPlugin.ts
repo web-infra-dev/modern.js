@@ -1,8 +1,8 @@
 import webpack from 'webpack';
 import { logger } from '@modern-js/utils/logger';
+import prettyTime from '@modern-js/builder-shared/pretty-time';
 import ForkTsCheckerWebpackPlugin from '@modern-js/builder-shared/fork-ts-checker-webpack-plugin';
 import { bus, createFriendlyPercentage } from './helpers';
-import prettyTime from '../../../compiled/pretty-time';
 import { createNonTTYLogger } from './helpers/nonTty';
 import type { Props } from './helpers/type';
 

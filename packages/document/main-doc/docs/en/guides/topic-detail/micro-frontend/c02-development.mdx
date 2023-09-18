@@ -13,13 +13,13 @@ Through this chapter you can learn:
 ## Create an app
 
 Currently supports two routing modes
+
 - Self-controlled routing
 - Conventional routing
 
 First, clarify the routing mode of the main application [create a file-based routing main App](#file-based-routing-main-app) or [create a self-controlled main App](#self-controlled-main-app)
 
 In this experience we will create two sub-applications Table and Dashboard for the main application (Table is reduced routing, Dashboard is self-controlled routing)
-
 
 ### File-based Routing Main App
 
@@ -39,11 +39,12 @@ After the project is created, we can enable the `micro frontend` through `pnpm r
 
 Next, let's register the micro frontend plugin and add the main micro frontend app and add the list of sub-apps:
 
-import EnableMicroFrontend from "@site-docs-en/components/enable-micro-frontend";
+import EnableMicroFrontend from '@site-docs-en/components/enable-micro-frontend';
 
 <EnableMicroFrontend />
 
 Then we create two new directories in the routes folder
+
 - table (for loading conventional routing sub-applications)
 - dashboard (for loading self-controlled routing sub-applications)
 
@@ -61,8 +62,8 @@ const Index = () => {
     <div>
       <Table />
     </div>
-  )
-}
+  );
+};
 
 export default Index;
 ```
@@ -79,11 +80,12 @@ const Index = () => {
     <div>
       <Dashboard />
     </div>
-  )
-}
+  );
+};
 
 export default Index;
 ```
+
 #### route link
 
 At this time, the main application configuration has been completed, and the sub-application can be loaded through the route, and the `layout.tsx` of the main application can be modified to jump to the route:
@@ -93,9 +95,15 @@ import { Outlet, Link } from '@modern-js/runtime/router';
 
 const Layout = () => (
   <div>
-    <div><Link to={'/table'}>Load file-base routing sub-app</Link></div>
-    <div><Link to={'/dashboard'}>Load self-controlled routing sub-app</Link></div>
-    <div><Link to={'/'}>unmount sub-app</Link></div>
+    <div>
+      <Link to={'/table'}>Load file-base routing sub-app</Link>
+    </div>
+    <div>
+      <Link to={'/dashboard'}>Load self-controlled routing sub-app</Link>
+    </div>
+    <div>
+      <Link to={'/'}>unmount sub-app</Link>
+    </div>
     <Outlet />
   </div>
 );
@@ -127,7 +135,7 @@ Since it is a self-controlled route, we delete the `routes/` folder and add the 
 
 #### Load sub-app
 
-import CustomRouterMicroFrontend from "@site-docs-en/components/custom-router-micro-frontend";
+import CustomRouterMicroFrontend from '@site-docs-en/components/custom-router-micro-frontend';
 
 <CustomRouterMicroFrontend />
 
@@ -155,7 +163,7 @@ import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {
-    port: 8081
+    port: 8081,
   },
   runtime: {
     router: true,
@@ -172,10 +180,8 @@ add `src/routes/page.tsx`:
 
 ```js title="src/routes/page.tsx"
 const Index = () => {
-  return (
-    <div className="container-box">subApp</div>
-  )
-}
+  return <div className="container-box">subApp</div>;
+};
 
 export default Index;
 ```
@@ -204,7 +210,7 @@ import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {
-    port: 8082
+    port: 8082,
   },
   runtime: {
     router: true,
@@ -224,7 +230,7 @@ And add code in `src/App.tsx`, note that you need to parse from `props` and pass
 ```js title="src/App.tsx"
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-export default (props: {basename: string}) => {
+export default (props: { basename: string }) => {
   const { basename } = props;
 
   return (
@@ -241,6 +247,7 @@ export default (props: {basename: string}) => {
 ## Debug
 
 Start the application by executing the `pnpm run dev` command in the directory in sequence:
+
 - masterApp `http://localhost:8080`
 - table subapplication (conventional routing) `http://localhost:8081`
 - dashboard subapplication (self-controlled routing) `http://localhost:8082`
