@@ -35,6 +35,8 @@ const generateContentHash = (content: string) => {
 };
 
 export class RouterPlugin {
+  readonly name: string = 'RouterPlugin';
+
   private HtmlBundlerPlugin: typeof HtmlWebpackPlugin;
 
   private enableInlineRouteManifests: boolean;

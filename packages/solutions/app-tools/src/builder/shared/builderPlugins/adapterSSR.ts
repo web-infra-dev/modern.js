@@ -44,7 +44,12 @@ export const builderPluginAdapterSSR = <B extends Bundler>(
         const builderConfig = api.getNormalizedConfig();
         const { normalizedConfig } = options;
 
-        applyRouterPlugin(chain, options, HtmlBundlerPlugin);
+        applyRouterPlugin(
+          chain,
+          CHAIN_ID.PLUGIN.ROUTER_MANIFEST,
+          options,
+          HtmlBundlerPlugin,
+        );
         if (isSSR(normalizedConfig)) {
           await applySSRLoaderEntry(chain, options, isServer);
           applySSRDataLoader(chain, options);
@@ -114,6 +119,7 @@ function applyAsyncChunkHtmlPlugin({
 
 function applyRouterPlugin<B extends Bundler>(
   chain: BundlerChain,
+  pluginName: string,
   options: Readonly<BuilderOptions<B>>,
   HtmlBundlerPlugin: typeof HtmlWebpackPlugin,
 ) {
@@ -128,7 +134,7 @@ function applyRouterPlugin<B extends Bundler>(
   const workerSSR = Boolean(normalizedConfig.deploy.worker?.ssr);
 
   if (existNestedRoutes || routerManifest || workerSSR) {
-    chain.plugin('route-plugin').use(RouterPlugin, [
+    chain.plugin(pluginName).use(RouterPlugin, [
       {
         HtmlBundlerPlugin,
         enableInlineRouteManifests:
