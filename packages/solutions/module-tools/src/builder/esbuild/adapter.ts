@@ -101,6 +101,17 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           };
         }
 
+        const { originalFilePath, query } = resolvePathAndQuery(args.path);
+
+        // external css virtual module
+        if (query.css_virtual) {
+          return {
+            path: originalFilePath,
+            pluginData: query,
+            external: true,
+          };
+        }
+
         const { externals, sideEffects: userSideEffects } = config;
         const regExternal = externals.filter(
           (item): item is RegExp => !isString(item),
@@ -191,7 +202,6 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
             : compiler.node_resolve(id, dir, kind);
         };
 
-        const { originalFilePath, query } = resolvePathAndQuery(args.path);
         const isExternal = getIsExternal(originalFilePath);
         const dir =
           args.resolveDir ?? (args.importer ? dirname(args.importer) : root);

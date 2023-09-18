@@ -12,7 +12,7 @@ describe('rebase', () => {
         return path.resolve(dir, id);
       },
     );
-    expect(result.contents).toContain(`less${path.sep}a.png`);
+    expect(result.contents).toContain(`less/a.png`);
   });
   it('rebaseUrl original', async () => {
     const rootFile = path.resolve(__dirname, 'index.less');
