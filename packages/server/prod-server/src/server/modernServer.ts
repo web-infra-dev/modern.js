@@ -63,6 +63,7 @@ import {
   createAfterRenderContext,
   createMiddlewareContext,
 } from '../libs/hook-api';
+import { warmupRouteBundle } from '../libs/preload/shouldFlushServerHeader';
 
 type ModernServerAsyncHandler = (
   context: ModernServerContext,
@@ -172,6 +173,7 @@ export class ModernServer implements ModernServerInterface {
 
     // warmup ssr bundle in production env
     this.warmupSSRBundle();
+    warmupRouteBundle(this.conf.server, this.distDir);
 
     await this.prepareFrameHandler();
     await this.prepareLoaderHandler(usageRoutes, distDir);

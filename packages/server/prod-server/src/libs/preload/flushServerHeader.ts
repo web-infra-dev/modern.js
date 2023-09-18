@@ -37,4 +37,8 @@ export async function flushServerHeader({
   }
 
   res.flushHeaders();
+
+  // Some deploy platforms not support flushHeaders firstly.
+  // So we pipe a whitespace for flush headers.
+  res.write(' ');
 }
