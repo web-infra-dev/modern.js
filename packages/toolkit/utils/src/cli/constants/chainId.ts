@@ -171,7 +171,7 @@ export const CHAIN_ID = {
     /** SWC_POLYFILL_CHECKER */
     SWC_POLYFILL_CHECKER: 'swc-polyfill-checker-plugin',
     /** RouterPlugin */
-    ROUTER_MANIFEST: 'router-manifest',
+    ROUTER_MANIFEST: 'route-plugin',
   },
   /** Predefined minimizers */
   MINIMIZER: {
