@@ -51,6 +51,10 @@ export default defineConfig({
 @tailwind utilities;
 ```
 
+:::info
+根据需求不同，你可以选择性地导入 Tailwind CSS 提供的 CSS 样式。请参考 [`@tailwind` 文档](https://tailwindcss.com/docs/functions-and-directives#tailwind) 来了解 `@tailwind` 指令的详细用法。
+:::
+
 4. 引用 `index.css` 文件，比如在入口的 `src/index.jsx` 文件添加如下代码：
 
 ```js
@@ -66,10 +70,6 @@ const Hello = () => (
   </div>
 );
 ```
-
-:::info
-根据需求不同，你可以选择性地导入 Tailwind CSS 提供的 CSS 文件。请参考 [`@tailwind` 文档](https://tailwindcss.com/docs/functions-and-directives#tailwind) 来了解 `@tailwind` 指令的详细用法。
-:::
 
 ## 配置 Tailwind CSS
 
