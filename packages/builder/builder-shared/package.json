@@ -211,7 +211,9 @@
       "./postcss-modules-extract-imports": "./compiled/postcss-modules-extract-imports/index.js",
       "./postcss-modules-local-by-default": "./compiled/postcss-modules-local-by-default/index.js",
       "./postcss-modules-scope": "./compiled/postcss-modules-scope/index.js",
-      "./postcss-modules-values": "./compiled/postcss-modules-values/index.js"
+      "./postcss-modules-values": "./compiled/postcss-modules-values/index.js",
+      "./pretty-time": "./compiled/pretty-time/index.js",
+      "./webpack-merge": "./compiled/webpack-merge/index.js"
     }
   }
 }
