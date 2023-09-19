@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # 路由方案
@@ -151,13 +151,13 @@ export default () => {
 
 #### Config
 
-每个 `Layout` 或 `Page` 文件都可以定义一个自己的 `config` 文件，如 `page.config.ts`，该文件中我们约定了一个具名导出 `handle`，
+每个 `Layout`, `$` 或 `Page` 文件都可以定义一个自己的 `config` 文件，如 `page.config.ts`，该文件中我们约定了一个具名导出 `handle`，
 这个字段中你可以定义任意属性：
 
 ```ts title="routes/page.config.ts"
 export const handle = {
-  breadcrumbName: 'profile'
-}
+  breadcrumbName: 'profile',
+};
 ```
 
 定义的这些属性可以通过 [`useMatches`](https://reactrouter.com/en/main/hooks/use-matches) hook 获取：
@@ -165,14 +165,12 @@ export const handle = {
 ```ts title="routes/layout.ts"
 export default () => {
   const matches = useMatches;
-  const breadcrumbs = matches.map(matchedRoute => matchedRoute?.handle?.breadcrumbName);
-  return (
-    <Breadcrumb names={breadcrumbs}>
-    </Breadcrumb>
-  )
-}
+  const breadcrumbs = matches.map(
+    matchedRoute => matchedRoute?.handle?.breadcrumbName,
+  );
+  return <Breadcrumb names={breadcrumbs}></Breadcrumb>;
+};
 ```
-
 
 ### 动态路由
 
@@ -233,6 +231,7 @@ export default () => {
 ```
 
 当访问任何匹配不到的路径时(如 `/blog/a`)，都会渲染 `routes/$.tsx` 组件，因为这里有 `layout.tsx`，渲染的 UI 如下：
+
 ```tsx
 <RootLayout>
   <BlogLayout>
@@ -253,7 +252,6 @@ params['*']; // => 'aaa/bbb'
 ```
 
 `$.tsx` 可以加入到 `routes` 目录下的任意目录中，一个常见的使用示例是添加 `routes/$.tsx` 文件去定制任意层级的 404 内容。
-
 
 ### 无路径布局
 
@@ -365,6 +363,17 @@ export default () => {
     return redirect('/login');
   }
   return null;
+};
+```
+
+在组件内做重定向，则可以通过 `useNavigate` hook，示例如下：
+
+```ts title="routes/user/page.ts"
+import { useNavigate } from '@modern-js/runtime/router';
+
+export default () => {
+  const navigate = useNavigate();
+  navigate('/login');
 };
 ```
 
@@ -493,6 +502,7 @@ export const init = (context: RuntimeContext) => {
 ```
 
 :::info
+
 - 该功能目前仅在 Webpack 项目中支持，Rspack 项目暂不支持。
 - 对数据的预加载目前只会预加载 SSR 项目中 [Data Loader](/guides/basic-features/data-fetch) 中返回的数据。
 
@@ -512,14 +522,13 @@ export const init = (context: RuntimeContext) => {
 - 使用 `render`，仅在空闲时对静态资源进行加载，不会与首屏静态资源抢占网络。
 - 在 SSR 场景下，也会对数据进行预取。
 
-import Motivation from '@site-docs/components/convention-routing-motivation'
+import Motivation from '@site-docs/components/convention-routing-motivation';
 
-<Motivation/>
+<Motivation />
 
-import Practice from '@site-docs/components/routes-practice'
+import Practice from '@site-docs/components/routes-practice';
 
-<Practice/>
-
+<Practice />
 
 ## 自控式路由
 
@@ -569,5 +578,3 @@ export default defineConfig({
 ```
 
 如上述配置， 如果关闭了 [`runtime.router`](/configure/app/runtime/router) 配置，并直接使用 `react-router-dom` 进行项目路由管理时，还需要根据 React Router 文档自行包裹 `Provider`。
-
-
