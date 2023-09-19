@@ -21,7 +21,7 @@
     "@modern-js/libuild-utils": "workspace:*"
   },
   "dependencies": {
-    "@modern-js/swc-plugins": "0.6.0",
+    "@modern-js/swc-plugins": "0.6.3",
     "chalk": "4.1.0"
   },
   "files": [
