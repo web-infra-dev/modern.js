@@ -65,7 +65,7 @@ export default defineConfig({
 
 ## 使用 swc
 
-在部分场景下，Esbuild 不足以满足我们的需求，此时我们会使用 SWC 来做代码转换，主要有以下几个场景:
+在部分场景下，esbuild 不足以满足我们的需求，此时我们会使用 swc 来做代码转换，主要有以下几个场景:
 
 - [transformImport](/api/config/build-config#transformimport)
 - [transformLodash](/api/config/build-config#transformlodash)

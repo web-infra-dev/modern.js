@@ -26,7 +26,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.5",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {

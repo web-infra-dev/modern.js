@@ -3131,7 +3131,7 @@ importers:
   packages/module/plugin-module-babel:
     dependencies:
       '@babel/core':
-        specifier: ^7.21.8
+        specifier: ^7.22.5
         version: 7.22.15
       '@swc/helpers':
         specifier: 0.5.1
@@ -3315,14 +3315,14 @@ importers:
   packages/module/plugin-module-polyfill:
     dependencies:
       '@babel/core':
-        specifier: ^7.21.8
+        specifier: ^7.22.5
         version: 7.22.15
       '@babel/plugin-syntax-jsx':
-        specifier: 7.21.4
-        version: 7.21.4(@babel/core@7.22.15)
+        specifier: 7.22.5
+        version: 7.22.5(@babel/core@7.22.15)
       '@babel/plugin-syntax-typescript':
-        specifier: 7.21.4
-        version: 7.21.4(@babel/core@7.22.15)
+        specifier: 7.22.5
+        version: 7.22.5(@babel/core@7.22.15)
       '@modern-js/plugin-module-babel':
         specifier: workspace:*
         version: link:../plugin-module-babel
@@ -7328,6 +7328,8 @@ importers:
         specifier: ^4
         version: 4.17.21
 
+  tests/integration/module/fixtures/build/tsconfig: {}
+
   tests/integration/module/fixtures/build/umdGlobals: {}
 
   tests/integration/module/fixtures/build/umdModuleName: {}
@@ -9238,15 +9240,6 @@ packages:
       '@babel/helper-plugin-utils': 7.22.5
     dev: false
 
-  /@babel/plugin-syntax-jsx@7.21.4(@babel/core@7.22.15):
-    resolution: {integrity: sha512-5hewiLct5OKyh6PLKEYaFclcqtIgCb6bmELouxjF6up5q3Sov7rOayW4RwhbaBL0dit8rA80GNfY+UuDp2mBbQ==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.22.15
-      '@babel/helper-plugin-utils': 7.22.5
-
   /@babel/plugin-syntax-jsx@7.22.5(@babel/core@7.22.15):
     resolution: {integrity: sha512-gvyP4hZrgrs/wWMaocvxZ44Hw0b3W8Pe+cMxc8V1ULQ07oh8VNbIRaoD1LRZVTvD+0nieDKjfgKg89sD7rrKrg==}
     engines: {node: '>=6.9.0'}
@@ -9344,15 +9337,6 @@ packages:
 
   /@babel/plugin-syntax-top-level-await@7.14.5(@babel/core@7.22.15):
     resolution: {integrity: sha512-hx++upLv5U1rgYfwe1xBQUhRmU41NEvpUvrp8jkrSCdvGSnM5/qdRMtylJ6PG5OFkBaHkbTAKTnd3/YyESRHFw==}
-    engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-    dependencies:
-      '@babel/core': 7.22.15
-      '@babel/helper-plugin-utils': 7.22.5
-
-  /@babel/plugin-syntax-typescript@7.21.4(@babel/core@7.22.15):
-    resolution: {integrity: sha512-xz0D39NvhQn4t4RNsHmDnnsaQizIlUkdtYvLs8La1BlfjQ6JEwxkJGeqJMW2tAXx+q6H+WFuUTXNdYVpEya0YA==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
@@ -17414,7 +17398,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.15
       '@babel/helper-module-imports': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
       '@vue/babel-helper-vue-jsx-merge-props': 1.4.0
       html-tags: 2.0.0
       lodash.kebabcase: 4.1.1
@@ -17447,7 +17431,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
     dev: false
 
   /@vue/babel-sugar-composition-api-render-instance@1.4.0(@babel/core@7.22.15):
@@ -17456,7 +17440,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
     dev: false
 
   /@vue/babel-sugar-functional-vue@1.4.0(@babel/core@7.22.15):
@@ -17465,7 +17449,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
     dev: false
 
   /@vue/babel-sugar-inject-h@1.4.0(@babel/core@7.22.15):
@@ -17474,7 +17458,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
     dev: false
 
   /@vue/babel-sugar-v-model@1.4.0(@babel/core@7.22.15):
@@ -17483,7 +17467,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
       '@vue/babel-helper-vue-jsx-merge-props': 1.4.0
       '@vue/babel-plugin-transform-vue-jsx': 1.4.0(@babel/core@7.22.15)
       camelcase: 5.3.1
@@ -17497,7 +17481,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
       '@vue/babel-plugin-transform-vue-jsx': 1.4.0(@babel/core@7.22.15)
       camelcase: 5.3.1
     dev: false
@@ -25618,8 +25602,8 @@ packages:
     dependencies:
       '@babel/core': 7.22.15
       '@babel/generator': 7.22.15
-      '@babel/plugin-syntax-jsx': 7.21.4(@babel/core@7.22.15)
-      '@babel/plugin-syntax-typescript': 7.21.4(@babel/core@7.22.15)
+      '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
+      '@babel/plugin-syntax-typescript': 7.22.5(@babel/core@7.22.15)
       '@babel/traverse': 7.22.15(supports-color@5.5.0)
       '@babel/types': 7.22.15
       '@jest/expect-utils': 29.5.0
