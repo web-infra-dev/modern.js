@@ -8,7 +8,7 @@ export async function createBuilderGenerator(bundler: 'webpack' | 'rspack') {
         '@modern-js/builder-rspack-provider'
       );
       const version = await getRspackVersion();
-      logger.info(`Using Rspack v${version} 🦀`);
+      logger.info(`Using Rspack v${version}`);
       return createRspackBuilderForModern;
     } catch (_) {
       throw new Error(
