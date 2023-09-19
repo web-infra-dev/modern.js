@@ -39,7 +39,6 @@ async function redirectImport(
   aliasRecord: Record<string, string>,
   filePath: string,
   outputDir: string,
-  pluginData: any,
   matchPath?: MatchPath,
 ): Promise<MagicString> {
   const str: MagicString = new MagicString(code);
@@ -177,7 +176,7 @@ export const redirect = {
       if (!isJsExt(args.path) && !isJsLoader(args.loader)) {
         return args;
       }
-      const { code, path: id, pluginData } = args;
+      const { code, path: id } = args;
       const { format, alias, sourceDir, outDir } = compiler.config;
 
       if (!code || format === 'iife' || format === 'umd') {
@@ -246,7 +245,6 @@ export const redirect = {
         absoluteAlias,
         id,
         dirname(outputPath),
-        pluginData,
         matchPath,
       );
       return {

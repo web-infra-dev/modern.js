@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs';
 import { identifier } from 'safe-identifier';
-import { isStyleExt } from '../../../utils';
+import { isStyleExt, resolvePathAndQuery } from '../../../utils';
 import { Source, ICompiler } from '../../../types';
 import { transformStyle } from './transformStyle';
 
@@ -10,8 +10,10 @@ export const css = {
   hooks(compiler: ICompiler) {
     compiler.hooks.load.tapPromise({ name }, async args => {
       if (isStyleExt(args.path)) {
-        if (args.pluginData?.css_virtual) {
-          const key = args.pluginData.hash as string;
+        const { query } = resolvePathAndQuery(args.path);
+
+        if (query?.css_virtual) {
+          const key = query.hash as string;
           const contents = compiler.virtualModule.get(key)!;
           return {
             contents,
@@ -29,7 +31,8 @@ export const css = {
       async (source): Promise<Source> => {
         if (isStyleExt(source.path)) {
           let { code, loader = 'css' } = source;
-          if (!source.pluginData?.css_virtual) {
+          const { query } = resolvePathAndQuery(source.path);
+          if (!query?.css_virtual) {
             ({ code, loader } = await transformStyle.apply(compiler, [source]));
           }
           const { style, buildType } = compiler.config;

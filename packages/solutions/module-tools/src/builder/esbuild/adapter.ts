@@ -28,11 +28,6 @@ import { initWatcher } from './watch';
  */
 const globalNamespace = 'globals';
 
-/**
- * some path have query string, we transform it to pluginData
- */
-const queryNamespace = 'query';
-
 const HTTP_PATTERNS = /^(https?:)?\/\//;
 const DATAURL_PATTERNS = /^data:/;
 const HASH_PATTERNS = /#[^#]+$/;
@@ -191,21 +186,20 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
             : compiler.node_resolve(id, dir, kind);
         };
 
-        const { originalFilePath, query } = resolvePathAndQuery(args.path);
+        const { originalFilePath, rawQuery } = resolvePathAndQuery(args.path);
+        const suffix = (rawQuery ?? '').length > 0 ? `?${rawQuery}` : '';
         const isExternal = getIsExternal(originalFilePath);
         const dir =
           args.resolveDir ?? (args.importer ? dirname(args.importer) : root);
         const sideEffects = await getSideEffects(originalFilePath, isExternal);
-        const namespace =
-          Object.keys(query).length > 0 ? queryNamespace : 'file';
         return {
           path: isExternal
             ? args.path
             : getResultPath(originalFilePath, dir, args.kind),
           external: isExternal,
-          namespace: isExternal ? undefined : namespace,
+          namespace: isExternal ? undefined : 'file',
           sideEffects,
-          pluginData: query,
+          suffix,
         };
       });
       build.onLoad({ filter: /.*/ }, async args => {
@@ -224,7 +218,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           args.path += args.suffix;
         }
 
-        if (args.namespace !== 'file' && args.namespace !== queryNamespace) {
+        if (args.namespace !== 'file') {
           return;
         }
 
@@ -253,7 +247,6 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           code: result.contents.toString(),
           path: args.path,
           loader: result.loader,
-          pluginData: args.pluginData,
         });
 
         const ext = extname(args.path);

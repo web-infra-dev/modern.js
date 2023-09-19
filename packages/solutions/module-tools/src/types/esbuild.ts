@@ -21,7 +21,7 @@ export interface SourceMap {
 
 export type LoadResult = Pick<
   OnLoadResult,
-  'contents' | 'loader' | 'resolveDir' | 'pluginData'
+  'contents' | 'loader' | 'resolveDir'
 > & {
   map?: SourceMap;
 };
@@ -103,7 +103,6 @@ export type Source = {
   map?: SourceMap;
   path: string;
   loader?: string;
-  pluginData: any;
 };
 
 export interface CacheValue extends Source {

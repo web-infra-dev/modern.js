@@ -8,6 +8,7 @@ type Query = Record<string, string | boolean>;
 type ResolveResult = {
   originalFilePath: string;
   query: Query;
+  rawQuery?: string;
 };
 export const getAllDeps = async <T>(
   appDirectory: string,
@@ -88,5 +89,6 @@ export const resolvePathAndQuery = (originalPath: string): ResolveResult => {
   return {
     query,
     originalFilePath: filePath,
+    rawQuery: queryStr,
   };
 };
