@@ -1,8 +1,4 @@
-import type {
-  TransformConfig,
-  JscTarget,
-  ModuleConfig,
-} from '@modern-js/swc-plugins';
+import type { TransformConfig, JscTarget } from '@modern-js/swc-plugins';
 import { Compiler } from '@modern-js/swc-plugins';
 import type { ICompiler, Source, TsTarget, ITsconfig } from '../../types';
 import {
@@ -42,23 +38,6 @@ const getSwcTarget = (target: string): JscTarget => {
 
   return 'es2022';
 };
-const getModuleConfig = (
-  format: 'esm' | 'cjs' | 'iife' | 'umd',
-): ModuleConfig | undefined => {
-  if (format === 'cjs') {
-    return {
-      type: 'commonjs',
-      // Although swc can output `0 && module.exports = xxx` code, esbuild will remove it
-      // importInterop: 'node',
-    };
-  }
-
-  if (format === 'esm') {
-    return { type: 'es6' };
-  }
-
-  return undefined;
-};
 
 export const swcTransform = (userTsconfig: ITsconfig) => ({
   name,
@@ -96,8 +75,7 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
           /\.tsx$|\.jsx$/i.test(path);
 
         if (isJsExt(path) || isJsLoader(source.loader)) {
-          const { target, format, jsx } = compiler.config;
-          const module = getModuleConfig(format);
+          const { target, jsx } = compiler.config;
 
           const swcCompilerOptions: TransformConfig = {
             filename: path,
@@ -129,7 +107,6 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
               target: getSwcTarget(target),
             },
             isModule: 'unknown',
-            module,
             extensions: {
               pluginImport: transformImport,
               lodash: transformLodash

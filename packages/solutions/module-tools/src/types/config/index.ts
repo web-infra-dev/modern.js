@@ -139,7 +139,6 @@ export type BaseBuildConfig = Omit<
 
 export type PartialBaseBuildConfig = {
   resolve?: Resolve;
-  sourceType?: 'commonjs' | 'module';
   buildType?: 'bundleless' | 'bundle';
   format?: Format;
   target?: Target;
@@ -167,13 +166,13 @@ export type PartialBaseBuildConfig = {
   redirect?: Redirect;
   sideEffects?: SideEffects;
   esbuildOptions?: EsbuildOptions;
-  // Related to swc-transform
-  externalHelpers?: ExternalHelpers;
   /**
    * @internal
    * cache transform result or not
    */
   transformCache?: boolean;
+  // Related to swc-transform
+  externalHelpers?: ExternalHelpers;
   transformImport?: ImportItem[];
   transformLodash?: boolean;
   /**
@@ -181,6 +180,10 @@ export type PartialBaseBuildConfig = {
    * @internal
    */
   disableSwcTransform?: boolean;
+  /**
+   * @deprecated
+   */
+  sourceType?: 'commonjs' | 'module';
 };
 
 export type BuildConfig = BaseBuildConfig | BaseBuildConfig[];
