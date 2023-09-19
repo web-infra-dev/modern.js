@@ -24,16 +24,16 @@ export function createNonTTYLogger() {
 
       prevPercentage = 100;
       if (hasErrors) {
-        logger.error(`[${id}] compile failed in ${compileTime}`);
+        logger.error(`${id} compile failed in ${compileTime}`);
       } else {
-        logger.success(`[${id}] compile succeed in ${compileTime}`);
+        logger.ready(`${id} compiled in ${compileTime}`);
       }
     }
     // print progress when percentage increased by more than 10%
     // because we don't want to spam the console
     else if (current - prevPercentage > 10) {
       prevPercentage = current;
-      logger.info(`[${id}] compile progress: ${current.toFixed(0)}%`);
+      logger.info(`${id} compile progress: ${current.toFixed(0)}%`);
     }
   };
 
