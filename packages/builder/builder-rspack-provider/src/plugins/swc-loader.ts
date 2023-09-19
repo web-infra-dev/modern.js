@@ -9,9 +9,12 @@ import {
   isWebTarget,
   BundlerChain,
   addCoreJsEntry,
+  BundlerChainRule,
 } from '@modern-js/builder-shared';
 import * as path from 'path';
 import type { BuilderPlugin, NormalizedConfig } from '../types';
+
+type BuiltinSwcLoaderConfig = any;
 
 export function getDefaultSwcConfig() {
   const cwd = process.cwd();
@@ -39,7 +42,7 @@ export function getDefaultSwcConfig() {
     inlineSourcesContent: true,
   };
 }
-// todo: test decorators / babel / vue
+// todo: test decorators / vue
 
 /**
  * Provide some swc configs of rspack
@@ -59,25 +62,21 @@ export const builderPluginSwcLoader = (): BuilderPlugin => ({
           isServiceWorker,
         });
 
-        // todo: handle babel
-        let rule: any;
+        const rule = chain.module
+          .rule(CHAIN_ID.RULE.JS)
+          .test(mergeRegex(JS_REGEX, TS_REGEX))
+          .type('javascript/auto');
 
-        if (!chain.module.rules.has(CHAIN_ID.RULE.JS)) {
-          rule = chain.module
-            .rule(CHAIN_ID.RULE.JS)
-            .test(mergeRegex(JS_REGEX, TS_REGEX))
-            .type('javascript/auto');
-          // todo: apply source.include
-          applyScriptCondition({
-            rule,
-            config,
-            context: api.context,
-            includes: [],
-            excludes: [],
-          });
-        }
+        applyScriptCondition({
+          rule,
+          config,
+          context: api.context,
+          includes: [],
+          excludes: [],
+        });
 
-        rule = chain.module.rule(CHAIN_ID.RULE.JS);
+        // todo: apply source.include
+        rule.include.clear();
 
         const swcConfig = getDefaultSwcConfig();
 
@@ -108,6 +107,7 @@ export const builderPluginSwcLoader = (): BuilderPlugin => ({
     );
 
     api.modifyRspackConfig(async config => {
+      // will default in rspack 0.4.0 / 0.5.0
       setConfig(
         config,
         'experiments.rspackFuture.disableTransformByDefault',
@@ -117,7 +117,11 @@ export const builderPluginSwcLoader = (): BuilderPlugin => ({
   },
 });
 
-async function applyCoreJs(swcConfig: any, chain: BundlerChain, rule: any) {
+async function applyCoreJs(
+  swcConfig: BuiltinSwcLoaderConfig,
+  chain: BundlerChain,
+  rule: BundlerChainRule,
+) {
   const { getCoreJsVersion } = await import('@modern-js/utils');
   const coreJsPath = require.resolve('core-js/package.json');
   const version = getCoreJsVersion(coreJsPath);
@@ -135,7 +139,7 @@ async function setBrowserslist(
   rootPath: string,
   builderConfig: NormalizedConfig,
   target: BuilderTarget,
-  swcConfig: any,
+  swcConfig: BuiltinSwcLoaderConfig,
 ) {
   const browserslist = await getBrowserslistWithDefault(
     rootPath,
@@ -148,7 +152,10 @@ async function setBrowserslist(
   }
 }
 
-function applyTransformImport(swcConfig: any, pluginImport?: any) {
+function applyTransformImport(
+  swcConfig: BuiltinSwcLoaderConfig,
+  pluginImport?: any,
+) {
   if (pluginImport !== false && pluginImport) {
     // ensureNoJsFunction(pluginImport);
     swcConfig.rspackExperiments ??= {};
@@ -157,7 +164,10 @@ function applyTransformImport(swcConfig: any, pluginImport?: any) {
   }
 }
 
-function applyDecorator(swcConfig: any, enableLatestDecorators: boolean) {
+function applyDecorator(
+  swcConfig: BuiltinSwcLoaderConfig,
+  enableLatestDecorators: boolean,
+) {
   swcConfig.jsc.transform ??= {};
   swcConfig.jsc.transform.legacyDecorator = !enableLatestDecorators;
   swcConfig.jsc.transform.decoratorMetadata = !enableLatestDecorators;

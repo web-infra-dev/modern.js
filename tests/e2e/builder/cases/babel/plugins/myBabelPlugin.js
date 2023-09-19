@@ -7,6 +7,10 @@ module.exports = function () {
         if (node?.name === 'a') {
           node.name = 'b';
         }
+
+        if (node?.name === 'aa') {
+          node.name = 'bb';
+        }
       },
     },
   };

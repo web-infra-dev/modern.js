@@ -1,9 +1,4 @@
-import {
-  mergeRegex,
-  applyScriptCondition,
-  JS_REGEX,
-  TS_REGEX,
-} from '@modern-js/builder-shared';
+import { mergeRegex, JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
 import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
@@ -12,6 +7,9 @@ import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
+
+  pre: ['builder-plugin-swc-loader'],
+
   setup(api) {
     api.modifyBundlerChain(
       async (chain, { CHAIN_ID, isProd, getCompiledPath }) => {
@@ -91,21 +89,25 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           return;
         }
 
+        // already set source.include / exclude in swc-loader
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-        applyScriptCondition({
-          rule,
-          config,
-          context: api.context,
-          includes,
-          excludes,
-        });
+        const { rootPath } = api.context;
 
         rule
           .test(mergeRegex(JS_REGEX, TS_REGEX))
           .use(CHAIN_ID.USE.BABEL)
+          .before(CHAIN_ID.USE.SWC)
           .loader(getCompiledPath('babel-loader'))
-          .options(babelOptions);
+          .options({
+            ...babelOptions,
+            include: [
+              (pathName: string) =>
+                pathName.includes(rootPath) && !/node_modules/.test(pathName),
+              ...includes,
+            ],
+            exclude: excludes,
+          });
       },
     );
   },

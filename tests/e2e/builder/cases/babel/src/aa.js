@@ -1,4 +1,2 @@
-import('./aa');
-
 // eslint-disable-next-line no-undef
-window.a = 10;
+window.aa = 10;
