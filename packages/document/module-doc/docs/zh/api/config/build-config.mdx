@@ -422,6 +422,22 @@ export default defineConfig({
 });
 ```
 
+## dts.tsconfigPath
+
+**废弃**，使用 [tsconfig](#tsconfig) 配置替代。
+
+指定用于生成类型文件的 tsconfig 文件路径。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      tsconfigPath: './other-tsconfig.json',
+    },
+  },
+});
+```
+
 ## esbuildOptions
 
 用于修改底层的 [esbuild 配置](https://esbuild.github.io/api/)。

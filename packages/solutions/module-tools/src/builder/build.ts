@@ -34,6 +34,7 @@ export const runBuildTask = async (
       await task(buildConfig, api, { watch, dts });
     });
   } else {
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (dts && dts.only) {
       return;
     }
@@ -51,16 +52,13 @@ export const generatorDts = async (
 ) => {
   const { runRollup, runTsc } = await import('./dts');
   const { watch, dts } = options;
-  const {
-    buildType,
-    input,
-    sourceDir,
-    alias,
-    externals,
-    tsconfig: tsconfigPath,
-  } = config;
+  const { buildType, input, sourceDir, alias, externals, tsconfig } = config;
   const { appDirectory } = api.useAppContext();
   const { distPath, abortOnError, respectExternal } = dts;
+
+  // remove this line after remove dts.tsconfigPath
+  const tsconfigPath = dts.tsconfigPath ?? tsconfig;
+
   if (buildType === 'bundle') {
     await runRollup(api, {
       distDir: distPath,

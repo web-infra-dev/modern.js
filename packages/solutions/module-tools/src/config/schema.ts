@@ -87,6 +87,7 @@ const buildConfigProperties = {
     then: {
       properties: {
         distPath: { type: 'string' },
+        tsconfigPath: { type: 'string' },
         abortOnError: { type: 'boolean' },
         respectExternal: {
           type: 'boolean',
@@ -180,6 +181,9 @@ const buildConfigProperties = {
   },
   externalHelpers: {
     type: 'boolean',
+  },
+  tsconfig: {
+    type: 'string',
   },
   transformImport: {
     type: 'array',

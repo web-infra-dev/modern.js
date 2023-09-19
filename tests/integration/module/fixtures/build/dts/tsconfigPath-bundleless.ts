@@ -7,7 +7,7 @@ export default defineConfig({
     },
     buildType: 'bundleless',
     sourceDir: './src2',
-    tsconfig: './tsconfig-bundleless.json',
+    dts: { tsconfigPath: './tsconfig-bundleless.json' },
     outDir: './dist/tsconfig-path/bundleless',
   },
 });

@@ -17,7 +17,7 @@ export const getDefaultBuildConfig = () => {
     dts: Object.freeze({
       only: false,
       distPath: './',
-      tsconfigPath: './tsconfig.json',
+      tsconfigPath: undefined,
       abortOnError: true,
       respectExternal: true,
     }),

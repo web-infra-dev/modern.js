@@ -401,6 +401,22 @@ export default defineConfig({
 });
 ```
 
+## dts.tsconfigPath
+
+**deprecated**，use [tsconfig](#tsconfig) instead.
+
+Specifies the path to the tsconfig file used to generate the type file.
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    dts: {
+      tsconfigPath: './other-tsconfig.json',
+    },
+  },
+});
+```
+
 ## dts.respectExternal
 
 When set to `false`, the type of third-party packages will be excluded from the bundle, when set to `true`, it will determine whether third-party types need to be bundled based on [externals](#externals).

@@ -7,7 +7,9 @@ export default defineConfig({
     },
     buildType: 'bundle',
     input: ['./src1/index.ts'],
-    tsconfig: './tsconfig-bundle.json',
+    dts: {
+      tsconfigPath: './tsconfig-bundle.json',
+    },
     outDir: './dist/tsconfig-path/bundle',
   },
 });

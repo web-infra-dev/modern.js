@@ -76,6 +76,11 @@ export type DTSOptions = {
   distPath: string;
   only: boolean;
   /**
+   * @deprecated
+   * use buildConfig.tsconfig instead.
+   */
+  tsconfigPath?: string;
+  /**
    * Only for rollup-plugin-dts, see more in https://github.com/Swatinem/rollup-plugin-dts#what-to-expect.
    * We hope you use external to prevent them(like @types) which come from node_modules from be bundled.
    * However, some types from outside that we don't re-export are also checked by plugin.
