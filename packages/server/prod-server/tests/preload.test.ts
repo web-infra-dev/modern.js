@@ -100,6 +100,7 @@ describe('test preload', () => {
   it('test flushServerHeader', async () => {
     const headers: any[] = [];
     let flushed = false;
+    let responseData = '';
     const optinos: FlushServerHeaderOptions = {
       ctx: {
         res: {
@@ -111,6 +112,9 @@ describe('test preload', () => {
           },
           flushHeaders() {
             flushed = true;
+          },
+          write(chunk: unknown) {
+            responseData += chunk;
           },
         },
         path: '/three/user/page',
@@ -151,5 +155,6 @@ describe('test preload', () => {
     expect(
       headers.map(({ key, value }) => ({ key, value: value.split(', ') })),
     ).toMatchSnapshot();
+    expect(responseData).toEqual(' ');
   });
 });
