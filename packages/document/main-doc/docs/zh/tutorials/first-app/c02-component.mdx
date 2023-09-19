@@ -1,6 +1,7 @@
 ---
 title: 编写 UI 组件
 ---
+
 # 编写 UI 组件
 
 上一章节中，我们学习了如何初始化项目，并使用配置修改 Modern.js 的默认行为。
@@ -9,9 +10,9 @@ title: 编写 UI 组件
 
 为了做更好的 UI 展示和交互，我们引入组件库 [Antd](https://ant.design/index-cn) 来开发，使用 `<List>` 组件来代替原始的列表。先添加依赖：
 
-```bash
-pnpm add antd
-```
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add antd" />
 
 修改 `src/routes/page.tsx`，在顶部导入组件：
 
