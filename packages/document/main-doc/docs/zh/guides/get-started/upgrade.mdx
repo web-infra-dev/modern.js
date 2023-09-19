@@ -8,11 +8,13 @@ sidebar_position: 3
 
 Modern.js 提供了 `upgrade` 命令支持项目升级到最新的 Modern.js 版本。
 
-在项目中执行 `pnpm run upgrade`：
+在项目中执行 `upgrade` 命令：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="run upgrade" />
 
 ```bash
-$ pnpm run upgrade
-
 > modern upgrade
 
 [INFO] [项目类型]: Web 应用
@@ -22,11 +24,15 @@ $ pnpm run upgrade
 
 可以看到项目 `package.json` 中的依赖已经更改到最新。
 
+:::tip
+如果项目的 package.json 中没有声明 upgrade 命令，你可以执行 `npx modern upgrade`，效果是等价的。
+:::
+
 ## 指定版本升级
 
 Modern.js 所有的官方包目前都使用**统一版本号**进行发布。
 
-import ReleaseNote from "@site-docs/components/release-note"
+import ReleaseNote from '@site-docs/components/release-note';
 
 <ReleaseNote />
 

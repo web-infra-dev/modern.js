@@ -6,16 +6,9 @@
 
 ### 安装
 
-```bash
-# npm
-npm install @modern-js/plugin-module-banner -D
+import { PackageManagerTabs } from '@theme';
 
-# yarn
-yarn add @modern-js/plugin-module-banner -D
-
-# pnpm
-pnpm add @modern-js/plugin-module-banner -D
-```
+<PackageManagerTabs command="add @modern-js/plugin-module-banner -D" />
 
 ### 注册插件
 
@@ -74,7 +67,7 @@ export default defineConfig({
 
 ## 配置
 
-* **类型：**
+- **类型：**
 
 ```ts
 type BannerOptions = {
@@ -93,12 +86,12 @@ type BannerOptions = {
 
 在顶部增加内容。
 
-* `banner.js`：在 JS 文件顶部增加内容。
-* `banner.css`：在 CSS 文件顶部增加内容。
+- `banner.js`：在 JS 文件顶部增加内容。
+- `banner.css`：在 CSS 文件顶部增加内容。
 
 ### footer
 
 在底部增加内容。
 
-* `footer.js`：在 JS 文件底部增加内容。
-* `footer.css`：在 CSS 文件底部增加内容。
+- `footer.js`：在 JS 文件底部增加内容。
+- `footer.css`：在 CSS 文件底部增加内容。

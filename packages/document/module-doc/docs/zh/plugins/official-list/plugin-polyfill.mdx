@@ -11,16 +11,9 @@
 
 ### 安装
 
-```bash
-# npm
-npm install @modern-js/plugin-module-polyfill -D
+import { PackageManagerTabs } from '@theme';
 
-# yarn
-yarn add @modern-js/plugin-module-polyfill -D
-
-# pnpm
-pnpm add @modern-js/plugin-module-polyfill -D
-```
+<PackageManagerTabs command="add @modern-js/plugin-module-polyfill -D" />
 
 ### 注册插件
 
@@ -31,21 +24,18 @@ import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginPolyfill } from '@modern-js/plugin-module-polyfill';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    modulePluginPolyfill(),
-  ],
+  plugins: [moduleTools(), modulePluginPolyfill()],
 });
 ```
 
 ## 配置
 
-* **类型：**
+- **类型：**
 
 ```ts
 type options = {
   targets?: Record<string, string> | string;
-}
+};
 ```
 
 ### targets
@@ -62,7 +52,7 @@ export default defineConfig({
   plugins: [
     moduleTools(),
     modulePluginPolyfill({
-      targets: "> 0.25%, not dead"
+      targets: '> 0.25%, not dead',
     }),
   ],
 });

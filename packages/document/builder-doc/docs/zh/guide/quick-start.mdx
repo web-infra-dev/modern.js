@@ -37,15 +37,13 @@ Modern.js Builder 提供了一个轻量的 CLI 工具，包含 dev、build 等�
 你需要安装两个包，其中：
 
 - `@modern-js/builder` 为 Builder 的核心包，导出了 Builder 的核心 API。
-- `@modern-js/builder-webpack-provider` 或 `@modern-js/builder-rspack-provider`，它们是 Builder 的 Provider，提供基于 webpack 或 Rspack 的构建能力。
+- `@modern-js/builder-rspack-provider`，它提供基于 Rspack 的构建能力。
 
-```bash
-# 使用 webpack 打包
-pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
+import { PackageManagerTabs } from '@theme';
 
-# 使用 Rspack 打包
-pnpm add @modern-js/builder @modern-js/builder-rspack-provider -D
-```
+<PackageManagerTabs command="add @modern-js/builder @modern-js/builder-rspack-provider -D" />
+
+如果你想使用 webpack 而不是 Rspack，可以将 `@modern-js/builder-rspack-provider` 替换为 `@modern-js/builder-webpack-provider`：
 
 > 在进行版本升级时，请确保你安装的 builder 和 provider 为同一个版本。
 

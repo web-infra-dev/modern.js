@@ -6,16 +6,9 @@ Provide the ability to inject content at the top and bottom of each JS and CSS f
 
 ### Install
 
-```bash
-# npm
-npm install @modern-js/plugin-module-banner -D
+import { PackageManagerTabs } from '@theme';
 
-# yarn
-yarn add @modern-js/plugin-module-banner -D
-
-# pnpm
-pnpm add @modern-js/plugin-module-banner -D
-```
+<PackageManagerTabs command="add @modern-js/plugin-module-banner -D" />
 
 ### Register
 
@@ -50,7 +43,6 @@ Note: CSS comments do not support the `//comment` syntax. Refer to ["CSS Comment
 import { modulePluginBanner } from '@modern-js/plugin-module-banner';
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
-
 const copyRight = `/*
  © Copyright 2020 xxx.com or one of its affiliates.
  * Some Sample Copyright Text Line
@@ -75,7 +67,7 @@ export default defineConfig({
 
 ## Configuration
 
-* **Type**
+- **Type**
 
 ```ts
 type BannerOptions = {
@@ -94,12 +86,12 @@ type BannerOptions = {
 
 Add content at the top.
 
-* `banner.js`: Add content at the top of a JS file.
-* `banner.css`: Add content at the top of a CSS file.
+- `banner.js`: Add content at the top of a JS file.
+- `banner.css`: Add content at the top of a CSS file.
 
 ### footer
 
 Add content at the bottom.
 
-* `footer.js`: Add content at the bottom of a JS file.
-* `footer.css`: Add content at the bottom of a CSS file.
+- `footer.js`: Add content at the bottom of a JS file.
+- `footer.css`: Add content at the bottom of a CSS file.
