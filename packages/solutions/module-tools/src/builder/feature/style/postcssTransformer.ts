@@ -1,7 +1,6 @@
-import { basename, extname } from 'path';
 import postcss from 'postcss';
 import { ICompiler } from '../../../types';
-import { getHash } from '../../../utils';
+import { getHash, normalizeSlashes } from '../../../utils';
 import { postcssUrlPlugin } from './postcssUrlPlugin';
 
 const cssLangs = `\\.(css|less|sass|scss)($|\\?)`;
@@ -67,15 +66,11 @@ export const postcssTransformer = async (
     ...processOptions,
   });
   if (Object.values(modules).length) {
-    // use hash to to set virtual module key
-    const hash = getHash(code, 'utf-8').substring(0, 8);
-    const replacedName = basename(entryPath, extname(entryPath)).replace(
-      '.',
-      '_',
-    );
-    const base = `${replacedName}.css`;
-    compilation.virtualModule.set(hash, code);
-    code = `import "${hash}?css_virtual&basename=${base}";export default ${JSON.stringify(
+    // add hash query for same path, let esbuild cache invalid
+    const normalizedPath = normalizeSlashes(entryPath);
+    const key = getHash(code, 'utf-8').slice(0, 5);
+    compilation.virtualModule.set(key, code);
+    code = `import "${normalizedPath}?css_virtual&hash=${key}";export default ${JSON.stringify(
       modules,
     )}`;
     loader = 'js';
