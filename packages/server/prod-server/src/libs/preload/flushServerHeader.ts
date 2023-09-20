@@ -39,6 +39,9 @@ export async function flushServerHeader({
   res.flushHeaders();
 
   // Some deploy platforms not support flushHeaders firstly.
-  // So we pipe a whitespace for flush headers.
-  res.write(' ');
+  // So we pipe a some string for flush headers.
+  // For deploy platforms we need enough string to fill it.
+  const mockHtml = '<script></script>';
+  const s = new Array(mockHtml.length).fill(' ').join('');
+  res.write(s);
 }
