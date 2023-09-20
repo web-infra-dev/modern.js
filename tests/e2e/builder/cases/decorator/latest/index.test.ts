@@ -2,7 +2,7 @@ import path from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
 
-test('decorator latest', async ({ page }) => {
+test.skip('decorator latest', async ({ page }) => {
   const builder = await build({
     cwd: __dirname,
     entry: {

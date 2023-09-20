@@ -12,7 +12,11 @@ import {
   BundlerChainRule,
 } from '@modern-js/builder-shared';
 import * as path from 'path';
-import type { BuilderPlugin, NormalizedConfig } from '../types';
+import type {
+  BuilderPlugin,
+  NormalizedConfig,
+  NormalizedSourceConfig,
+} from '../types';
 
 type BuiltinSwcLoaderConfig = any;
 
@@ -98,7 +102,6 @@ export const builderPluginSwc = (): BuilderPlugin => ({
           }
         }
 
-        // topLevelAwait: true,
         rule
           .use(CHAIN_ID.USE.SWC)
           .loader('builtin:swc-loader')
@@ -155,10 +158,9 @@ async function setBrowserslist(
 
 function applyTransformImport(
   swcConfig: BuiltinSwcLoaderConfig,
-  pluginImport?: any,
+  pluginImport?: NormalizedSourceConfig['transformImport'],
 ) {
   if (pluginImport !== false && pluginImport) {
-    // ensureNoJsFunction(pluginImport);
     swcConfig.rspackExperiments ??= {};
     swcConfig.rspackExperiments.import ??= [];
     swcConfig.rspackExperiments.import.push(...pluginImport);
