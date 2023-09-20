@@ -155,6 +155,8 @@ describe('test preload', () => {
     expect(
       headers.map(({ key, value }) => ({ key, value: value.split(', ') })),
     ).toMatchSnapshot();
-    expect(responseData).toEqual(' ');
+    const mockDom = '<script></script>';
+
+    expect(responseData).toEqual(new Array(mockDom.length).fill(' ').join(''));
   });
 });
