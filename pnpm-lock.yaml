@@ -617,8 +617,8 @@ importers:
         specifier: workspace:*
         version: link:../builder-shared
       '@modern-js/swc-plugins':
-        specifier: 0.6.3
-        version: 0.6.3(@swc/helpers@0.5.1)
+        specifier: 0.6.4
+        version: 0.6.4(@swc/helpers@0.5.1)
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -3405,8 +3405,8 @@ importers:
   packages/libuild/libuild-plugin-swc:
     dependencies:
       '@modern-js/swc-plugins':
-        specifier: 0.6.3
-        version: 0.6.3(@swc/helpers@0.5.1)
+        specifier: 0.6.4
+        version: 0.6.4(@swc/helpers@0.5.1)
       chalk:
         specifier: 4.1.0
         version: 4.1.0
@@ -12595,8 +12595,8 @@ packages:
       - supports-color
     dev: false
 
-  /@modern-js/swc-plugins-darwin-arm64@0.6.3:
-    resolution: {integrity: sha512-LzBNgNl9CBeBK0BpyBCybXzpH4Jj95Kad/QjJkVy8gzdFISI6uTpTC/OG3+sGYquvITLjTA9HYNpR1QPS+YTyg==}
+  /@modern-js/swc-plugins-darwin-arm64@0.6.4:
+    resolution: {integrity: sha512-JunAQouAx1/d1I6omWFh9iSs5SdefDlrhGmiqg4OdNC5rXJe6b4BGu30a/g4Ijkg9FPj+F0Pysn9wPAJz13Bfg==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [darwin]
@@ -12604,8 +12604,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-darwin-x64@0.6.3:
-    resolution: {integrity: sha512-k1l3eIuuKFKsepC+yQEFtNS7SKs+0Y5O6Xl489+ifZnMFQ6EAgKx2mx0x9Fb6icFFdDfOv6fNspYuGIZ+5Phzg==}
+  /@modern-js/swc-plugins-darwin-x64@0.6.4:
+    resolution: {integrity: sha512-z7I03iIdCsQBBfOlOyXT6/zMM1oDEgWY5d7/DR2u82MBaqYPd4jmhjypJLvyo2xRwLA50ipMaCOrZ236yUVg3w==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [darwin]
@@ -12613,8 +12613,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-gnu@0.6.3:
-    resolution: {integrity: sha512-ds0NqYwYysayELzNE1b2uCPE6ZuhhGDEoQHt2czjKKtQ4yt7hLqEmkuSlYGjYuTm39yLl4/IKEMk7bI3TcuOGg==}
+  /@modern-js/swc-plugins-linux-arm64-gnu@0.6.4:
+    resolution: {integrity: sha512-s+duNlG891PFLsootfm+DqFG8Qev8ynGqSJoJNDZqQbFRkrVg/v4heaKdUrEKfJRyV6zY/NPp46s6iNiI2KSpQ==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -12622,8 +12622,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-arm64-musl@0.6.3:
-    resolution: {integrity: sha512-YC/RMox7uGz+ZEHO4xfeDJHCpnwcBkOS2tNqLFkm/D+OotjEjvA9lLCSfaPF9D68XdmQCQCH6rJcqhdTidVa1g==}
+  /@modern-js/swc-plugins-linux-arm64-musl@0.6.4:
+    resolution: {integrity: sha512-kDIg8Ei0sTn5kSBS/jPakdViTnsb6uBw+fDnBGCUT33fawZaVz0tiAd0UK+NyrlT7MZrbatqPEEERfvULOunnw==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [linux]
@@ -12631,8 +12631,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-gnu@0.6.3:
-    resolution: {integrity: sha512-YJ9Xt6E0TbEckGCtj6+T1Ek4S3ljoOrdav9qp++X5FuaUzoT+DUf/pHIdnuWbxye1/6i4aF9z2kRIaOrZ6wpVA==}
+  /@modern-js/swc-plugins-linux-x64-gnu@0.6.4:
+    resolution: {integrity: sha512-3MrgfHJhZPVbRwdbbsMwUfG8cvZ6oEWdNUj8NAMxVRwFgV+QWp1vTzljqi+ZgSjwygvADdZBIFKJ6k2OVgAM7w==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -12640,8 +12640,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-linux-x64-musl@0.6.3:
-    resolution: {integrity: sha512-8MNk8trv48hSKpW6E8Xl3dZfG3L84k56GqfPv47EpkCTfR/gBJAdhyBnMwv5r6lXdvNTbd9qmvIQnMfQAwFG2g==}
+  /@modern-js/swc-plugins-linux-x64-musl@0.6.4:
+    resolution: {integrity: sha512-UHEIzOb/JImyeyr8FCX8ffLXU8sIQAZuvxHX4AU4ntlxLe/7lVHKiSMKJ6D3XeQ3lf3qj0wTMSBzNuN9tYN3cg==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [linux]
@@ -12649,8 +12649,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-arm64-msvc@0.6.3:
-    resolution: {integrity: sha512-E8V6ZNp4tgZlzFFdIESdMRxPqYtTO5PEYm1ALunBcOp7lydUTSF58pC8dGnFMNpJ6HfH2jy1ORLlhpAwQ8zyKg==}
+  /@modern-js/swc-plugins-win32-arm64-msvc@0.6.4:
+    resolution: {integrity: sha512-QEvLEgVnPgS46iQKiDOgcB5v0nGyt6io2IQfCCx00fid+3O2flHegW2NhPf6qCM1nXszv3r/stw35vAIIGAnHQ==}
     engines: {node: '>=14.12'}
     cpu: [arm64]
     os: [win32]
@@ -12658,8 +12658,8 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins-win32-x64-msvc@0.6.3:
-    resolution: {integrity: sha512-7mKljY6MyidBHDlGmp0kEcSSvfhr9s+tOluVfSHn3U31QwIfVS4p9ByODnuJuAgffd3bZ02rblGzfQfY6mSWFw==}
+  /@modern-js/swc-plugins-win32-x64-msvc@0.6.4:
+    resolution: {integrity: sha512-JP9VvQ9yK/wiOQ8PCcym0oWPLpwoW/d0b1l5RxjangEtIwagIMKr1cHDchR70rcN2J2enZxqc0RFabunyOd8PA==}
     engines: {node: '>=14.12'}
     cpu: [x64]
     os: [win32]
@@ -12667,22 +12667,22 @@ packages:
     dev: false
     optional: true
 
-  /@modern-js/swc-plugins@0.6.3(@swc/helpers@0.5.1):
-    resolution: {integrity: sha512-BXUBfoGV+0Mzf7t1z2SsFuKcBUjHrp7Jn2C7Ax9pDVzC0+kcK55kHZJ20tgiIRoD3gTO5uHFbIaLK3snDc2NNg==}
+  /@modern-js/swc-plugins@0.6.4(@swc/helpers@0.5.1):
+    resolution: {integrity: sha512-0p0iEzUxl9N5BL5JXwBVMdNXr2ClI7OV7CAhD6licUA4cRS0RLkruyddI90EZ2/zuTQ5XCFdwK3JjDeY3HiGdg==}
     engines: {node: '>=14.17.6'}
     peerDependencies:
       '@swc/helpers': 0.5.1
     dependencies:
       '@swc/helpers': 0.5.1
     optionalDependencies:
-      '@modern-js/swc-plugins-darwin-arm64': 0.6.3
-      '@modern-js/swc-plugins-darwin-x64': 0.6.3
-      '@modern-js/swc-plugins-linux-arm64-gnu': 0.6.3
-      '@modern-js/swc-plugins-linux-arm64-musl': 0.6.3
-      '@modern-js/swc-plugins-linux-x64-gnu': 0.6.3
-      '@modern-js/swc-plugins-linux-x64-musl': 0.6.3
-      '@modern-js/swc-plugins-win32-arm64-msvc': 0.6.3
-      '@modern-js/swc-plugins-win32-x64-msvc': 0.6.3
+      '@modern-js/swc-plugins-darwin-arm64': 0.6.4
+      '@modern-js/swc-plugins-darwin-x64': 0.6.4
+      '@modern-js/swc-plugins-linux-arm64-gnu': 0.6.4
+      '@modern-js/swc-plugins-linux-arm64-musl': 0.6.4
+      '@modern-js/swc-plugins-linux-x64-gnu': 0.6.4
+      '@modern-js/swc-plugins-linux-x64-musl': 0.6.4
+      '@modern-js/swc-plugins-win32-arm64-msvc': 0.6.4
+      '@modern-js/swc-plugins-win32-x64-msvc': 0.6.4
     dev: false
 
   /@modern-js/utils@2.18.0(react-dom@18.2.0)(react@18.2.0):
