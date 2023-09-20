@@ -1,6 +1,5 @@
 import http from 'http';
 import path from 'path';
-import assert from 'assert';
 import { ProxyDetail } from '@modern-js/types';
 import { getPort } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
@@ -58,13 +57,11 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
       },
       config() {
         const opts = resolveOptions(api, options);
-        assert(opts.prefix !== 'target');
         opts.def && rpc.setDefinition(opts.def);
 
         const mountOpts = {
-          dataSource: `${opts.prefix}/rpc`,
-          endpoint: opts.prefix,
-          version: false,
+          dataSource: `/_modern_js/devtools/rpc`,
+          endpoint: `/_modern_js/devtools`,
           __keep: true,
         } as SetupClientOptions;
         let runtimeEntry = require.resolve(
@@ -84,10 +81,10 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
           tools: {
             devServer: {
               proxy: {
-                [opts.prefix]: {
+                '/_modern_js/devtools': {
                   target: `http://localhost:${port}`,
                   pathRewrite: {
-                    [`^${opts.prefix}`]: '',
+                    '^/_modern_js/devtools': '',
                   },
                   ws: true,
                 },

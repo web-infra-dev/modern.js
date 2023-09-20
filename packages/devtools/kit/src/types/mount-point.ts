@@ -6,6 +6,5 @@ export interface MountPointFunctions {
 
 export interface SetupClientOptions extends Record<string, any> {
   endpoint?: string;
-  version?: string | boolean;
   dataSource?: string;
 }

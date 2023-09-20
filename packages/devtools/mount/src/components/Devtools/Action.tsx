@@ -1,6 +1,6 @@
 import React from 'react';
 import { useGetSet, useToggle } from 'react-use';
-import { joinURL, withQuery, stringifyParsedURL, parseURL } from 'ufo';
+import { withQuery, stringifyParsedURL, parseURL } from 'ufo';
 import { SetupClientOptions } from '@modern-js/devtools-kit';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
@@ -69,19 +69,15 @@ const useStickyDraggable = () => {
 };
 
 const DevtoolsAction: React.FC<SetupClientOptions> = props => {
-  const version = process.env.VERSION!;
   const logoSrc = process.env._MODERN_DEVTOOLS_LOGO_SRC!;
   const opts: Required<SetupClientOptions> = {
-    version,
     endpoint: 'https://modernjs.dev/devtools',
     ...props,
     dataSource: parseDataSource(props.dataSource ?? ''),
   };
   const [showDevtools, toggleDevtools] = useToggle(false);
 
-  const ver = opts.version === true ? version : opts.version;
   let src = opts.endpoint;
-  ver && (src = joinURL(src, ver));
   src = withQuery(src, { src: opts.dataSource });
 
   const { isDragging, onMouseDown } = useStickyDraggable();

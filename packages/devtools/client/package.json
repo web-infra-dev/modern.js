@@ -6,7 +6,6 @@
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
     "build": "modern build",
-    "deploy": "pnpm build && node scripts/build-redirects.js",
     "start": "modern start",
     "serve": "modern serve",
     "new": "modern new",
@@ -16,7 +15,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {
+  "devDependencies": {
     "birpc": "0.2.13",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -38,9 +37,7 @@
     "react-use": "^17.4.0",
     "suspend-react": "^0.1.3",
     "ufo": "^1.2.0",
-    "valtio": "^1.11.1"
-  },
-  "devDependencies": {
+    "valtio": "^1.11.1",
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/builder-shared": "workspace:*",
