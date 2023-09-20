@@ -59,7 +59,33 @@ describe('async manager', () => {
     expect(result0).toBe(1);
   });
 
-  it('support support dynamicly register', async () => {
+  it('should run async setup function in the correct order', async () => {
+    const manager = createAsyncManager();
+
+    const countContext = createContext(0);
+    const useCount = () => countContext.use().value;
+
+    const plugin1 = manager.createPlugin(async () => {
+      await sleep(0);
+      countContext.set(1);
+      expect(useCount()).toBe(1);
+    });
+    const plugin2 = manager.createPlugin(async () => {
+      countContext.set(2);
+      expect(useCount()).toBe(2);
+    });
+
+    manager.usePlugin(plugin1);
+    manager.usePlugin(plugin2);
+
+    await manager.init();
+
+    const result0 = countContext.get();
+
+    expect(result0).toBe(2);
+  });
+
+  it('support support dynamically register', async () => {
     const manager = main.clone().usePlugin(dFoo).usePlugin(dBar);
 
     expect(getNumber()).toBe(0);
@@ -282,7 +308,7 @@ describe('async manager', () => {
 
       manager.usePlugin(plugin0, plugin1);
 
-      expect(manager.init).toThrowError();
+      await expect(manager.init()).rejects.toThrowError();
     });
 
     it('should not throw error without attaching rival plugin', async () => {
@@ -324,7 +350,7 @@ describe('async manager', () => {
 
       manager.usePlugin(plugin0);
 
-      expect(manager.init).toThrowError();
+      await expect(manager.init()).rejects.toThrowError();
     });
 
     it('should not throw error without attaching rival plugin', async () => {
