@@ -36,6 +36,8 @@ export function builderPluginVue(
               __VUE_OPTIONS_API__: true,
               __VUE_PROD_DEVTOOLS__: false,
             },
+            // todo: rspack disableTransformByDefault
+            exclude: [/vue-loader/],
           },
           tools: {
             babel(_, { addPlugins }) {

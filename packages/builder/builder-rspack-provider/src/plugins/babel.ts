@@ -46,6 +46,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           const baseConfig = {
             plugins: [],
             presets: [
+              // todo: only apply preset-typescript for ts file (isTSX & allExtensions false)
               [
                 require.resolve('@babel/preset-typescript'),
                 DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
@@ -97,7 +98,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
         rule
           .test(mergeRegex(JS_REGEX, TS_REGEX))
           .use(CHAIN_ID.USE.BABEL)
-          .before(CHAIN_ID.USE.SWC)
+          .after(CHAIN_ID.USE.SWC)
           .loader(getCompiledPath('babel-loader'))
           .options({
             ...babelOptions,

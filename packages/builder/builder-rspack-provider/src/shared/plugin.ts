@@ -36,7 +36,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.rem(),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
-    import('../plugins/swc-loader').then(m => m.builderPluginSwcLoader()),
+    import('../plugins/swc').then(m => m.builderPluginSwc()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
     import('../plugins/react').then(m => m.builderPluginReact()),
     // import('../plugins/swc').then(m => m.builderPluginSwc()),
