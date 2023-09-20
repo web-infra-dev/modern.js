@@ -4,7 +4,6 @@ import { execSync } from 'child_process';
 import { logger } from '@modern-js/builder-shared';
 import { appTools, defineConfig } from '@modern-js/app-tools';
 import { proxyPlugin } from '@modern-js/plugin-proxy';
-import { RPC_SERVER_PATHNAME } from '@modern-js/devtools-kit';
 import { version } from './package.json';
 
 const commitShort = execSync('git rev-parse --short=10 HEAD').toString().trim();
@@ -25,7 +24,7 @@ if (process.env.BASENAME === 'version' || !process.env.BASENAME) {
 
 logger.info(
   `Access client:`,
-  `${basename.href}?src=ws://localhost:8080${RPC_SERVER_PATHNAME}`,
+  `${basename.href}?src=ws://localhost:8080/_modern_js/devtools/rpc`,
 );
 
 // https://modernjs.dev/en/configure/app/usage
