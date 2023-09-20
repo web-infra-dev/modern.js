@@ -5061,6 +5061,9 @@ importers:
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
         version: link:../../builder/builder-rspack-provider
+      '@modern-js/plugin-devtools':
+        specifier: workspace:*
+        version: link:../../devtools/plugin
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build

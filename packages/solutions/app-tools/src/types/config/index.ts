@@ -1,5 +1,6 @@
 import type { ServerUserConfig, BffUserConfig } from '@modern-js/server-core';
 import type { BuilderPlugin } from '@modern-js/builder-webpack-provider';
+import type { Options as PluginDevtoolsConfig } from '@modern-js/plugin-devtools';
 import type {
   OutputUserConfig,
   RsOutputUserConfig,
@@ -64,6 +65,7 @@ export interface SharedUserConfig {
   testing?: TestingUserConfig;
   builderPlugins?: BuilderPlugin[];
   performance?: SharedPerformanceConfig;
+  devtools?: false | PluginDevtoolsConfig;
 }
 
 export interface AppToolsUserConfig extends SharedUserConfig {
