@@ -34,7 +34,12 @@ import type {
 import { unplugin as csfPlugin } from '@storybook/csf-plugin';
 import { minimatch } from 'minimatch';
 import { AllBuilderConfig, BuilderOptions } from './types';
-import { toImportFn, virtualModule, maybeGetAbsolutePath } from './utils';
+import {
+  toImportFn,
+  virtualModule,
+  maybeGetAbsolutePath,
+  isDev,
+} from './utils';
 import { applyDocgenRspack, applyDocgenWebpack } from './docgen';
 
 const STORIES_FILENAME = 'storybook-stories.js';
@@ -187,10 +192,12 @@ async function prepareStorybookModules(
     ...mappingsAlias,
   };
 
-  const watcher = await watchStories(storyPatterns, cwd, write);
-  onClose(async () => {
-    await watcher.close();
-  });
+  if (isDev()) {
+    const watcher = await watchStories(storyPatterns, cwd, write);
+    onClose(async () => {
+      await watcher.close();
+    });
+  }
 }
 
 async function applyDefines(builderConfig: AllBuilderConfig, options: Options) {
