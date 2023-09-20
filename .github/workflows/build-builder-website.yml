@@ -51,4 +51,6 @@ jobs:
           target-folder: modern-js/builder
           git-config-name: gh-pages-bot
           git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
+          # enable single-commit to reduce the repo size
+          single-commit: true
           clean: true
