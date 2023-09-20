@@ -8,6 +8,8 @@ import { withQuery } from 'ufo';
 import { Options, resolveOptions } from './config';
 import { setupClientConnection } from './rpc';
 
+export type { Options };
+
 export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
