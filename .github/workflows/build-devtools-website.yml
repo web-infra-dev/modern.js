@@ -37,7 +37,7 @@ jobs:
 
       - name: Set outputs
         id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: echo "sha_short=$(git rev-parse --short=10 HEAD)" >> $GITHUB_OUTPUT
 
       - name: Install Dependencies
         run: pnpm install
@@ -45,7 +45,7 @@ jobs:
       - name: Build Website
         run: pnpm --filter @modern-js/devtools-client run build
         env:
-          ASSET_PREFIX: https://web-infra-dev.github.io/devtools/${{ steps.vars.outputs.sha_short }}
+          BASENAME: /${{ steps.vars.outputs.sha_short }}
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.1
