@@ -29,8 +29,6 @@ describe('swc use new decorator', () => {
     await modernBuild(appDir);
 
     const jsFiles = getJsFiles(appDir);
-    expect(
-      jsFiles.every(item => !item.includes('@swc/helpers/esm/_decorate.js')),
-    ).toBeTruthy();
+    expect(jsFiles.some(item => item.includes('_ts_decorate'))).toBeTruthy();
   });
 });

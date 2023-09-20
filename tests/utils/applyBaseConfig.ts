@@ -15,7 +15,14 @@ export const applyBaseConfig = (
         polyfill: 'off',
         disableTsChecker: true,
       },
-      plugins: [appTools({ bundler: 'experimental-rspack' })],
+      plugins: [
+        appTools({
+          bundler:
+            process.env.BUNDLER === 'webpack'
+              ? 'webpack'
+              : 'experimental-rspack',
+        }),
+      ],
     },
     config,
   ]);
