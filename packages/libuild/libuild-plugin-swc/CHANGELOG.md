@@ -1,5 +1,13 @@
 # @modern-js/libuild-plugin-swc
 
+## 2.35.1
+
+### Patch Changes
+
+- a45cc5b: fix(swc): update binding to reduce package size
+- 14b0906: fix(swc): fix transform core-js-pure incorrectly, allow using new decorator for js
+  fix(swc): 修复误转换 core-js-pure，对 js 允许使用新 decorator
+
 ## 2.35.0
 
 ## 2.34.0

@@ -1,5 +1,50 @@
 # @modern-js/builder-rspack-provider
 
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- bc1413d: fix(builder): resolve-url-loader performance regression issue
+
+  fix(builder): 修复 resolve-url-loader 导致的性能下降问题
+
+- 0988b12: chore(builder): move duplicated prebundle packages to shared
+
+  chore(builder): 合并重复的预打包 packages 到 shared
+
+- dc93952: fix(builder): should not apply babel in rspack mode when tools.babel not modify config
+
+  fix(builder): 在使用 rspack 构建时，如果 tools.babel 未实际修改配置时，则不使用 babel
+
+- 6b03be8: chore(builder): apply chunkIds deterministic in Rspack mode production
+
+  chore(builder): 在 Rspack 模式下，生产环境开启 chunkIds 'deterministic'
+
+- 578f94f: chore(rspack): use DataURI module instead of rspack-plugin-virtual-module
+
+  chore(rspack): 使用 DataURI module 替代 rspack-plugin-virtual-module
+
+- fe8caeb: feat(builder): unify progress bar style in webpack / Rspack mode
+
+  feat(builder): 对齐 webpack / Rspack 模式下的进度条样式
+
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/utils@2.35.1
+  - @modern-js/server@2.35.1
+  - @modern-js/types@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

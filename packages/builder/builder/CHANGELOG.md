@@ -1,5 +1,26 @@
 # @modern-js/builder
 
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/utils@2.35.1
+  - @modern-js/monorepo-utils@2.35.1
+  - @modern-js/node-bundle-require@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes
