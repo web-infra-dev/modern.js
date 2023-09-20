@@ -59,6 +59,7 @@ exports[`nested routes walk 1`] = `
           {
             "_component": "@_modern_js_src/user/$.tsx",
             "clientData": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.client.ts",
+            "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.config.ts",
             "data": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.ts",
             "id": "user/$",
             "path": "*",

@@ -1,10 +1,11 @@
 ---
-sidebar_position: 4
+title: Data Fetching
+sidebar_position: 3
 ---
 
 # Data Fetching
 
-Modern.js provides out-of-the-box data fetching capabilities, allowing developers to develop in an isomorphic way in both client-side and server-side code.
+Modern.js provides out-of-the-box data fetching capabilities,developers can fetch data in the project through these APIs.
 
 It should be noted that these APIs do not help applications initiate requests, but rather help developers better manage data and improve project performance.
 
@@ -13,7 +14,7 @@ It should be noted that these APIs do not help applications initiate requests, b
 Modern.js recommends using [conventional routing](/guides/basic-features/routes) for routing management. Through Modern.js's [conventional (nested) routing](/guides/basic-features/routes#conventional-routing), each routing component (`layout.ts` or `page.ts`) can have a same-named `loader` file. The `loader` file needs to export a function that will be executed before the component is rendered to provide data for the routing component.
 
 :::info
-Modern.js v1 supports fetching data via [useLoader](/guides/basic-features/data-fetch.html#useloader-(old-version)), which is no longer the recommended usage. We do not recommend mixing the two except during the migration process.
+Modern.js v1 supports fetching data via [useLoader](</guides/basic-features/data-fetch.html#useloader-(old-version)>), which is no longer the recommended usage. We do not recommend mixing the two except during the migration process.
 
 :::
 
@@ -216,25 +217,24 @@ If you want to get the data returned by the `loader` in `entry1/routes/layout.ts
 
 :::info
 This feature is currently experimental and the API may change in the future.
-Currently only supports CSR, please look forward to Streaming SSR.
 :::
 
 Create `user/layout.loader.ts` and add the following code:
 
 ```ts title="routes/user/layout.loader.ts"
-import { defer } from "@modern-js/runtime/router"
+import { defer } from '@modern-js/runtime/router';
 
 const loader = () =>
-defer({
-  userInfo: new Promise((resolve) => {
+  defer({
+    userInfo: new Promise(resolve => {
       setTimeout(() => {
         resolve({
           age: 1,
-          name: 'user layout'
-        })
-      }, 1000)
-    })
-  })
+          name: 'user layout',
+        });
+      }, 1000);
+    }),
+  });
 
 export default loader;
 ```
