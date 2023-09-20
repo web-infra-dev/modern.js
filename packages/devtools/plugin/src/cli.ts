@@ -1,12 +1,15 @@
+import http from 'http';
+import path from 'path';
+import assert from 'assert';
+import { ProxyDetail } from '@modern-js/types';
+import { getPort } from '@modern-js/utils';
+import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import {
-  SetupClientOptions,
-  RPC_SERVER_PATHNAME,
-  ClientDefinition,
-} from '@modern-js/devtools-kit';
+import { SetupClientOptions, ClientDefinition } from '@modern-js/devtools-kit';
 import { withQuery } from 'ufo';
 import { Options, resolveOptions } from './config';
 import { setupClientConnection } from './rpc';
+import { SocketServer } from './utils/socket';
 
 export type { Options };
 
@@ -14,8 +17,28 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
-    // setup socket server.
-    const rpc = await setupClientConnection({ api });
+    const port = await getPort(8782, { slient: true });
+    const clientServeDir = path.resolve(
+      require.resolve('@modern-js/devtools-client/package.json'),
+      '../dist',
+    );
+    const serveMiddleware = createServeMiddleware(clientServeDir);
+    const httpServer = http.createServer((req, res) => {
+      const usePageNotFound = () => {
+        res.write('404');
+        res.statusCode = 404;
+        res.end();
+      };
+      const useMainRoute = () => {
+        req.url = '/html/main/index.html';
+        serveMiddleware(req, res, usePageNotFound);
+      };
+      serveMiddleware(req, res, useMainRoute);
+    });
+    httpServer.listen(port);
+
+    const socketServer = new SocketServer({ server: httpServer, path: '/rpc' });
+    const rpc = await setupClientConnection({ api, server: socketServer });
 
     return {
       prepare: rpc.hooks.prepare,
@@ -28,14 +51,20 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
           },
         ];
       },
+      beforeRestart() {
+        return new Promise((resolve, reject) =>
+          httpServer.close(err => (err ? reject(err) : resolve())),
+        );
+      },
       config() {
         const opts = resolveOptions(api, options);
+        assert(opts.prefix !== 'target');
         opts.def && rpc.setDefinition(opts.def);
 
         const mountOpts = {
-          endpoint: opts.endpoint,
-          version: opts.version,
-          dataSource: opts.dataSource,
+          dataSource: `${opts.prefix}/rpc`,
+          endpoint: opts.prefix,
+          version: false,
           __keep: true,
         } as SetupClientOptions;
         let runtimeEntry = require.resolve(
@@ -55,12 +84,14 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
           tools: {
             devServer: {
               proxy: {
-                [opts.rpcPath ?? RPC_SERVER_PATHNAME]: {
-                  target: rpc.url.href,
-                  autoRewrite: true,
+                [opts.prefix]: {
+                  target: `http://localhost:${port}`,
+                  pathRewrite: {
+                    [`^${opts.prefix}`]: '',
+                  },
                   ws: true,
                 },
-              },
+              } as Record<string, ProxyDetail>,
             },
           },
         };

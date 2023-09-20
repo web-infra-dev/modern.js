@@ -1787,6 +1787,9 @@ importers:
 
   packages/devtools/plugin:
     dependencies:
+      '@modern-js/devtools-client':
+        specifier: workspace:*
+        version: link:../client
       '@modern-js/devtools-kit':
         specifier: workspace:*
         version: link:../kit
@@ -1802,6 +1805,9 @@ importers:
       p-defer:
         specifier: ^3.0.0
         version: 3.0.0
+      serve-static:
+        specifier: ^1.14.1
+        version: 1.15.0
       ufo:
         specifier: ^1.3.0
         version: 1.3.0
@@ -1845,6 +1851,9 @@ importers:
       '@types/node':
         specifier: ^14
         version: 14.18.35
+      '@types/serve-static':
+        specifier: ^1.13.10
+        version: 1.13.10
       '@types/ws':
         specifier: ^8.5.5
         version: 8.5.5

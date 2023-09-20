@@ -13,5 +13,8 @@ export default defineConfig({
   performance: {
     buildCache: false,
   },
+  tools: {
+    devServer: {},
+  },
   plugins: [appTools(), devtoolsPlugin()],
 });
