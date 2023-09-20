@@ -1,7 +1,7 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-// import { JsonAPI } from '@modern-js/codesmith-api-json';
+import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   isTsProject,
   getPackageManager,
@@ -131,6 +131,22 @@ const handleTemplateFile = async (
         }
       : {}),
   };
+
+  const jsonAPI = new JsonAPI(generator);
+  await jsonAPI.update(
+    context.materials.default.get(path.join(appDir, './package.json')),
+    {
+      query: {},
+      update: {
+        $set: {
+          scripts: {
+            'build-storybook': 'storybook build',
+            storybook: 'storybook dev -p 6006',
+          },
+        },
+      },
+    },
+  );
 
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),
