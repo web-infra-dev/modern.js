@@ -45,11 +45,14 @@ export default defineConfig<'rspack'>({
   source: {
     preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
     globalVars: {
-      'process.env.PKG_VERSION': `${version}-${commitShort}`,
+      'process.env.PKG_VERSION':
+        process.env.HASH_SUFFIXED_VERSION === 'true'
+          ? `${version}-${commitShort}`
+          : version,
     },
   },
   output: {
-    assetPrefix: basename.href,
+    assetPrefix: basename.pathname,
     enableCssModuleTSDeclaration: true,
   },
   tools: {
