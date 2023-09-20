@@ -25,7 +25,7 @@ function addResolveFallback(object: Record<string, string | null>, overrides: Re
   const newObject: Record<string, string> = {};
   for (const key of keys) {
     if (object[key] === null) {
-      newObject[key] = path.join(__dirname, `../mock/${key}.js`);
+      newObject[key] = path.join(__dirname, `./mock/${key}.js`);
     } else {
       newObject[key] = object[key] as string;
     }
