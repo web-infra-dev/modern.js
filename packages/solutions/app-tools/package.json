@@ -101,7 +101,6 @@
   "devDependencies": {
     "@modern-js/builder-plugin-swc": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",
-    "@modern-js/plugin-devtools": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/babel__traverse": "^7.14.2",

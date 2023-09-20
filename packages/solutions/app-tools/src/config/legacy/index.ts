@@ -41,7 +41,7 @@ export function transformNormalizedConfig(
     server,
     cliOptions,
     testing,
-    devtools: false,
+    devtools: {},
     builderPlugins: [],
     plugins: plugins as any,
     security: {},
