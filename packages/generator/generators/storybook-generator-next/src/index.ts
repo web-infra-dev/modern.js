@@ -8,6 +8,7 @@ import {
   getPackageManagerText,
   fs,
   isReact18,
+  getPackageVersion,
 } from '@modern-js/generator-utils';
 import {
   DependenceGenerator,
@@ -15,6 +16,9 @@ import {
   Language,
 } from '@modern-js/generator-common';
 import { i18n, localeKeys } from './locale';
+import { getMajorVersion } from './utils';
+
+const ADDON_ESSENTIAL = '@storybook/addon-essentials';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -28,7 +32,7 @@ const getGeneratorPath = (generator: string, distTag: string) => {
 const handleTemplateFile = async (
   context: GeneratorContext,
   appApi: AppAPI,
-  _generator: GeneratorCore,
+  generator: GeneratorCore,
 ) => {
   const appDir = context.materials.default.basePath;
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
@@ -94,42 +98,39 @@ const handleTemplateFile = async (
 
   const { modernVersion } = context.config;
 
-  const isExitAddons = pkg.devDependencies?.['@storybook/addon-essentials'];
+  const exitAddonsVersion = pkg.devDependencies?.[ADDON_ESSENTIAL];
   const isExitStorybook = pkg.devDependencies?.['@modern-js/storybook'];
 
+  const latestVersion = await getPackageVersion(ADDON_ESSENTIAL);
+  let availableVersion = latestVersion;
+
+  try {
+    if (exitAddonsVersion) {
+      const majorVersion = getMajorVersion(exitAddonsVersion);
+      generator.logger.info(
+        `Detected installed ${ADDON_ESSENTIAL}, version ${exitAddonsVersion}`,
+      );
+
+      // User specify addons with major version 7, so using users
+      if (majorVersion === 7) {
+        availableVersion = exitAddonsVersion;
+      }
+    } else {
+      const majorVersion = getMajorVersion(latestVersion);
+      if (majorVersion > 7) {
+        availableVersion = '^7';
+      }
+    }
+  } catch (_) {}
+
   const addStorybookDependence = {
-    ...(!isExitAddons
-      ? {
-          '@storybook/addon-essentials': 'latest',
-        }
-      : {}),
+    [ADDON_ESSENTIAL]: availableVersion,
     ...(!isExitStorybook
       ? {
           '@modern-js/storybook': modernVersion,
         }
       : {}),
   };
-
-  // // modify stories/tsconfig.json
-  // if (language === Language.TS) {
-  //   const jsonAPI = new JsonAPI(generator);
-  //   await jsonAPI.update(
-  //     context.materials.default.get(
-  //       path.join(appDir, './stories/tsconfig.json'),
-  //     ),
-  //     {
-  //       query: {},
-  //       update: {
-  //         $set: {
-  //           'compilerOptions.paths': {
-  //             [`${pkg.name}`]: ['.'],
-  //             [`${pkg.name}/*`]: ['./*'],
-  //           },
-  //         },
-  //       },
-  //     },
-  //   );
-  // }
 
   await appApi.runSubGenerator(
     getGeneratorPath(DependenceGenerator, context.config.distTag),

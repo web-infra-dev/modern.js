@@ -28,6 +28,7 @@ export const EN_LOCALE = {
       test: 'Enable Unit Test / Integration Test',
       e2e_test: 'Enable E2E Test',
       storybook: 'Enable Storybook',
+      storybookV7: 'Enable Storybook V7',
       runtime_api: 'Enable Runtime API',
       mwa_storybook: 'Enable Visual Testing (Storybook)',
       ssg: 'Enable SSG',
