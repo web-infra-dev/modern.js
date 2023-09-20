@@ -90,7 +90,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           return;
         }
 
-        // already set source.include / exclude in swc-loader
+        // already set source.include / exclude in plugin-swc
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
         const { rootPath } = api.context;

@@ -39,7 +39,6 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     import('../plugins/swc').then(m => m.builderPluginSwc()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
     import('../plugins/react').then(m => m.builderPluginReact()),
-    // import('../plugins/swc').then(m => m.builderPluginSwc()),
     plugins.externals(),
     plugins.toml(),
     plugins.yaml(),
