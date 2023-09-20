@@ -30,7 +30,6 @@ After running `modern dev`, Modern.js will watch source file changes and apply h
 $ modern dev
 
 info    Starting dev server...
-info    App running at:
 
   > Local:    http://localhost:8080/
   > Network:  http://192.168.0.1:8080/
@@ -42,7 +41,7 @@ In multi-page (MPA) projects, the `--entry` option can be added to specify one o
 
 For example, execute `modern dev --entry`, the entry selector will be displayed in the command line interface:
 
-```bash
+```text
 $ modern dev --entry
 
 ? Please select the entry that needs to be built
@@ -86,14 +85,16 @@ Options:
 
 execute `npx modern build --analyze` command, can produce an HTML file that analyzes the volume of the bundle while packaging the production code:
 
-```
+```text
 Bundle Analyzer saved report to /example/dist/report.html
-File sizes after production build:
 
-  122.35 KB  dist/static/js/885.1d4fbe5a.js
-  2.3 KB     dist/static/js/main.4b8e8d64.js
-  761 B      dist/static/js/runtime-main.edb7cf35.js
-  645 B      dist/static/css/main.0dd3ecc1.css
+info    Production file sizes:
+
+  File                                      Size         Gzipped
+  dist/static/js/lib-react.09721b5c.js      152.6 kB     49.0 kB
+  dist/html/main/index.html                 5.8 kB       2.5 kB
+  dist/static/js/main.3568a38e.js           3.5 kB       1.4 kB
+  dist/static/css/main.03221f72.css         1.4 kB       741 B
 ```
 
 Open the above HTML file in the browser, you can see the tile diagram of the bundled files, and perform package volume analysis and optimization:
@@ -125,7 +126,7 @@ Options:
 
 In the project, execute the `new` command to add entries as follows:
 
-```bash
+```text
 $ npx modern new
 ? Please select the operation you want: Create Element
 ? Please select the type of element to create: New "entry"
@@ -136,7 +137,7 @@ $ npx modern new
 
 In the project, execute the `new` command to enable features as follows:
 
-```bash
+```text
 $ npx modern new
 ? Please select the operation you want: Enable Features
 ? Please select the feature name: (Use arrow keys)
@@ -156,7 +157,7 @@ pnpm does not support the use of JSON strings as parameter values currently. Use
 
 ## modern serve
 
-Usually use the `modern serve` command to enable project run in the production environment, and you need to execute the [`build'](/apis/app/commands#modern-build) command in advance to build the outputs.
+The `modern serve` command is used to start a Modern.js project in the production environment. It can also be used to preview the artifacts built for the production environment locally. Please note that you need to execute the [`build`](/apis/app/commands#modern-build) command beforehand to generate the corresponding artifacts.
 
 ```bash
 Usage: modern serve [options]

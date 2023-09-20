@@ -368,6 +368,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -870,10 +871,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Client",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -882,7 +883,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
     ReactRefreshPlugin {
       "options": {
@@ -1303,6 +1303,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -1862,10 +1863,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Client",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -1874,7 +1875,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
   ],
   "resolve": {
@@ -2229,6 +2229,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -2673,10 +2674,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Server",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -2685,7 +2686,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
   ],
   "resolve": {
@@ -3027,6 +3027,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -3474,10 +3475,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Web Worker",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -3486,7 +3487,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
   ],
   "resolve": {

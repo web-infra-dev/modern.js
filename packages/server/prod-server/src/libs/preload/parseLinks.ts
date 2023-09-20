@@ -6,8 +6,8 @@ import {
   fs,
 } from '@modern-js/utils';
 import { parse as htmlParse } from 'node-html-parser';
-import { matchRoutes } from '@modern-js/utils/runtime/remix-router';
-import { matchEntry } from '@modern-js/utils/runtime-node';
+import { matchRoutes } from '@modern-js/runtime-utils/remix-router';
+import { matchEntry } from '@modern-js/runtime-utils/node';
 
 export interface Link {
   uri: string;

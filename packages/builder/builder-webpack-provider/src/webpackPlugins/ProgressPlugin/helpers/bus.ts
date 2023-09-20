@@ -6,20 +6,7 @@ import type { Props } from './type';
 import { FULL_WIDTH, renderBar } from './bar';
 import { create } from './log';
 import type { LogUpdate } from './log';
-import type { ForegroundColor as Color } from '@modern-js/utils/compiled/chalk';
-
-const colorList: Array<typeof Color> = [
-  'green',
-  'cyan',
-  'yellow',
-  'blue',
-  'greenBright',
-  'cyanBright',
-  'yellowBright',
-  'blueBright',
-  'redBright',
-  'magentaBright',
-];
+import { getProgressColor } from '@modern-js/builder-shared';
 
 class Bus {
   states: Partial<Props>[] = [];
@@ -72,7 +59,7 @@ class Bus {
         cliTruncate(
           renderBar({
             maxIdLen,
-            color: i.color ?? colorList[k % colorList.length],
+            color: i.color ?? getProgressColor(k),
             ...i,
           }),
           columns,

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Routing
@@ -140,6 +140,7 @@ To simplify the introduction of the relationship between `<Layout>` and `<Outlet
   </UserLayout>
 </Layout>
 ```
+
 In summary, if there is a `layout.tsx` file under the sub-route's file directory, the `<Outlet>` in the parent `layout.tsx` will represent the `layout.tsx` in the sub-route file directory. Otherwise, it will represent the `page.tsx` in the sub-route file directory.
 
 #### Page
@@ -148,12 +149,12 @@ All routes should end with the `<Page>` component. If the developer introduces t
 
 #### Config
 
-Each `Layout` or `Page` file can define its own `config` file, such as `page.config.ts`. In this file, we have an conventinal on a named export called `handle`, which you can define any properties:
+Each `Layout`,`$` or `Page` file can define its own `config` file, such as `page.config.ts`. In this file, we have an conventinal on a named export called `handle`, which you can define any properties:
 
 ```ts title="routes/blog/page.config.ts"
 export const handle = {
-  breadcrumbName: 'profile'
-}
+  breadcrumbName: 'profile',
+};
 ```
 
 These properties as defined are available via the [`useMatches`](https://reactrouter.com/en/main/hooks/use-matches) hook:
@@ -161,12 +162,11 @@ These properties as defined are available via the [`useMatches`](https://reactro
 ```ts title="routes/layout.ts"
 export default () => {
   const matches = useMatches;
-  const breadcrumbs = matches.map(matchedRoute => matchedRoute?.handle?.breadcrumbName);
-  return (
-    <Breadcrumb names={breadcrumbs}>
-    </Breadcrumb>
-  )
-}
+  const breadcrumbs = matches.map(
+    matchedRoute => matchedRoute?.handle?.breadcrumbName,
+  );
+  return <Breadcrumb names={breadcrumbs}></Breadcrumb>;
+};
 ```
 
 ### Dynamic Routing
@@ -227,6 +227,7 @@ For example, the following directory structure:
 ```
 
 When accessing any path that does not match(For example `/blog/a`), the `routes/$.tsx` component will be rendered, because there is `layout.tsx` here, the rendered UI is as follows.
+
 ```tsx
 <RootLayout>
   <BlogLayout>
@@ -364,6 +365,17 @@ export default () => {
 };
 ```
 
+If you want to redirect in a component,you can navigate by `useNavigate` hook, for example:
+
+```ts title="routes/user/page.ts"
+import { useNavigate } from '@modern-js/runtime/router';
+
+export default () => {
+  const navigate = useNavigate();
+  navigate('/login');
+};
+```
+
 ### ErrorBoundary
 
 In each directory under `routes/`, developers can also define an `error.tsx` file that exports an `<ErrorBoundary>` component by default.
@@ -390,7 +402,6 @@ export const ErrorBoundary = () => {
 ### Runtime Configuration
 
 In each root `Layout` component (`routes/layout.ts`), you can dynamically define runtime configuration:
-
 
 ```tsx title="src/routes/layout.tsx"
 // Define runtime config
@@ -489,6 +500,7 @@ To further improve the user experience and reduce loading time, Modern.js suppor
 ```
 
 :::info
+
 - This feature is currently only supported in Webpack projects and not yet supported in Rspack projects.
 - Preloading data currently only preloads the data returned by the [Data Loader](/guides/basic-features/data-fetch) in SSR projects.
 
@@ -508,13 +520,13 @@ The `prefetch` attribute has three optional values:
 - By using `render`, static assets will only be loaded when the system is idle, and will not compete with the static assets of the initial screen for network assets.
 - In the SSR scenario, data will also be pre-fetched.
 
-import Motivation from '@site-docs-en/components/convention-routing-motivation'
+import Motivation from '@site-docs-en/components/convention-routing-motivation';
 
-<Motivation/>
+<Motivation />
 
-import Practice from '@site-docs-en/components/routes-practice'
+import Practice from '@site-docs-en/components/routes-practice';
 
-<Practice/>
+<Practice />
 
 ## Self-controlled Routing
 

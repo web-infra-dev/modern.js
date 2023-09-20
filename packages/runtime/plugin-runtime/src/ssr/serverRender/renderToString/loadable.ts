@@ -52,7 +52,10 @@ class LoadableCollector implements Collector {
     chunksMap.js = (chunksMap.js || '') + getLoadableScripts(extractor);
 
     for (const v of chunks) {
-      const fileType = extname(v.url!).slice(1);
+      if (!v.url) {
+        continue;
+      }
+      const fileType = extname(v.url).slice(1);
       const attributes: Record<string, any> = {};
       const { crossorigin, scriptLoading = 'defer' } = config;
       if (crossorigin) {
@@ -60,17 +63,17 @@ class LoadableCollector implements Collector {
           crossorigin === true ? 'anonymous' : crossorigin;
       }
 
-      switch (scriptLoading) {
-        case 'defer':
-          attributes.defer = true;
-          break;
-        case 'module':
-          attributes.type = 'module';
-          break;
-        default:
-      }
-
       if (fileType === 'js') {
+        // scriptLoading just apply for script tag.
+        switch (scriptLoading) {
+          case 'defer':
+            attributes.defer = true;
+            break;
+          case 'module':
+            attributes.type = 'module';
+            break;
+          default:
+        }
         const jsChunkReg = new RegExp(`<script .*src="${v.url}".*>`);
         // we should't repeatly registe the script, if template already has it.
         if (!jsChunkReg.test(template)) {

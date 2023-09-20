@@ -170,6 +170,8 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
+Note that the setup function of the next plugin is not executed until the async setup function of the current plugin has finished. Therefore, you should avoid performing time-consuming asynchronous operations in the setup function to avoid slowing down the startup performance of the CLI.
+
 ## Adding Plugins
 
 Custom plugins can be used by following the instructions in the [plugins](/configure/app/plugins) section of the documentation. Below is the recommended way to implement plugins in Modern.js.

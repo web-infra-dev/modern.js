@@ -182,7 +182,7 @@ export const createAsyncManager = <
       plugins = [];
     };
 
-    const init: AsyncManager<Hooks, API>['init'] = () => {
+    const init: AsyncManager<Hooks, API>['init'] = async () => {
       const sortedPlugins = sortPlugins(plugins);
       const mergedPluginAPI = {
         ...pluginAPI,
@@ -191,12 +191,13 @@ export const createAsyncManager = <
 
       checkPlugins(sortedPlugins);
 
-      return Promise.all(
-        sortedPlugins.map(plugin => plugin.setup(mergedPluginAPI)),
-      ).then(hooksList => {
-        runners = generateRunner<Hooks>(hooksList, currentHooks);
-        return runners;
-      });
+      const hooksList: (void | Partial<ToThreads<Hooks>>)[] = [];
+      for (const plugin of sortedPlugins) {
+        hooksList.push(await plugin.setup(mergedPluginAPI));
+      }
+
+      runners = generateRunner<Hooks>(hooksList, currentHooks);
+      return runners;
     };
 
     const run: AsyncManager<Hooks, API>['run'] = cb => cb();

@@ -10,16 +10,16 @@ import {
   ErrorResponse,
   UNSAFE_DEFERRED_SYMBOL as DEFERRED_SYMBOL,
   type UNSAFE_DeferredData as DeferredData,
-} from '@modern-js/utils/runtime/remix-router';
-import { transformNestedRoutes } from '@modern-js/utils/runtime/nested-routes';
+} from '@modern-js/runtime-utils/remix-router';
+import { transformNestedRoutes } from '@modern-js/runtime-utils/browser';
 import { isPlainObject } from '@modern-js/utils/lodash';
 import {
   matchEntry,
   ServerContext,
   createRequestContext,
   reporterCtx,
-} from '@modern-js/utils/runtime-node';
-import { time } from '@modern-js/utils/universal/time';
+} from '@modern-js/runtime-utils/node';
+import { time } from '@modern-js/runtime-utils/time';
 import { LOADER_REPORTER_NAME } from '@modern-js/utils/universal/constants';
 import { CONTENT_TYPE_DEFERRED, LOADER_ID_PARAM } from '../common/constants';
 import { createDeferredReadableStream } from './response';

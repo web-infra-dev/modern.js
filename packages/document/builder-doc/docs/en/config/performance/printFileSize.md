@@ -4,14 +4,13 @@
 Whether to print the file sizes after production build.
 
 ```bash
-info    File sizes after production build:
+info    Production file sizes:
 
-  File                                     Size         Gzipped
-  dist/static/js/lib-corejs.1c836fe7.js    212.89 kB    66.57 kB
-  dist/static/js/lib-react.fcafbc5c.js     134.65 kB    43.45 kB
-  dist/static/js/main.6ff06f70.js          8.93 kB      3.73 kB
-  dist/static/css/main.9f48031b.css        2.64 kB      927 B
-  dist/html/main/index.html                1.64 kB      874 B
+  File                                      Size         Gzipped
+  dist/static/js/lib-react.09721b5c.js      152.6 kB     49.0 kB
+  dist/html/main/index.html                 5.8 kB       2.5 kB
+  dist/static/js/main.3568a38e.js           3.5 kB       1.4 kB
+  dist/static/css/main.03221f72.css         1.4 kB       741 B
 ```
 
 ### Example

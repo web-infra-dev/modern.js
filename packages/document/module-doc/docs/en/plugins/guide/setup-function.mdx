@@ -103,6 +103,8 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 });
 ```
 
+Note that the setup function of the next plugin is not executed until the async setup function of the current plugin has finished. Therefore, you should avoid performing time-consuming asynchronous operations in the setup function to avoid slowing down the startup performance of the CLI.
+
 ## Life cycle hooks
 
 We know that the `setup` function returns a Hooks object, which can also be understood as an object with Modern.js Module lifecycle hooks.

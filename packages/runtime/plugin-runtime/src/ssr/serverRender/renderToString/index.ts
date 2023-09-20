@@ -1,5 +1,5 @@
-import { run } from '@modern-js/utils/runtime-node';
-import { time } from '@modern-js/utils/universal/time';
+import { run } from '@modern-js/runtime-utils/node';
+import { time } from '@modern-js/runtime-utils/time';
 import { ServerRenderOptions } from '../types';
 import { PreRender } from '../../react/prerender';
 import { SSRTimings } from '../tracker';

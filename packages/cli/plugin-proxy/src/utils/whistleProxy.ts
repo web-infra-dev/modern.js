@@ -50,13 +50,13 @@ export default class WhistleProxy {
   }
 
   async start() {
-    logger.info(`Starting the proxy server.....`);
+    logger.info(`Starting proxy server.....`);
     execSync(`${this.bin} start --certDir=${this.certDir} --port=${this.port}`);
     execSync(`${this.bin} use ${this.rule} --force`);
     await this.installRootCA();
 
     enableGlobalProxy('localhost', this.port);
-    logger.info(`Proxy Server start on localhost:${this.port}\n`);
+    logger.info(`Proxy server start on localhost:${this.port}\n`);
   }
 
   close() {

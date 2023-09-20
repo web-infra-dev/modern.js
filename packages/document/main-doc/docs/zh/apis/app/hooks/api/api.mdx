@@ -2,6 +2,7 @@
 title: '**/*.[tj]s'
 sidebar_position: 1
 ---
+
 # **/*.[tj]s
 
 在 [BFF 函数写法](/guides/advanced-features/bff/type.html#函数写法)下，声明 API 路由的文件。除了[某些约定文件](/apis/app/hooks/api/api#白名单)外，`api` 目录下的文件会被注册为接口的路由。
@@ -66,7 +67,7 @@ export const get = async () => {
 
 这样导出函数，则会得到一个 `GET` 接口。
 
-应用工程中支持了 9 个 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
+Modern.js 工程中支持了 9 个 Method 定义，即：`GET`、`POST`、`PUT`、`DELETE`、`CONNECT`、`TRACE`、`PATCH`、`OPTION`、`HEAD`，即可以用这些 Method 作为函数导出的名字。
 
 名字是大小不敏感的，就是说，如果是 `GET`，写成 `get`、`Get`、`GEt`、`GET`，都可以准确识别。而默认导出，即 `export default xxx` 则会被映射为 `Get`。
 

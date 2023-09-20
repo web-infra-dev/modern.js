@@ -197,7 +197,12 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/builder-shared',
     dependencies: [
       'open',
+      'webpack-merge',
       'serialize-javascript',
+      {
+        name: 'pretty-time',
+        ignoreDts: true,
+      },
       {
         name: 'postcss-modules-local-by-default',
         ignoreDts: true,
@@ -413,14 +418,9 @@ export const TASKS: TaskConfig[] = [
     packageName: '@modern-js/builder-webpack-provider',
     dependencies: [
       'tapable',
-      'webpack-merge',
       'ansi-escapes',
       'patch-console',
       'cli-truncate',
-      {
-        name: 'pretty-time',
-        ignoreDts: true,
-      },
       {
         name: 'webpack-sources',
         ignoreDts: true,
@@ -477,17 +477,6 @@ export const TASKS: TaskConfig[] = [
             return JSON.stringify(json);
           });
         },
-      },
-    ],
-  },
-  {
-    packageDir: 'builder/builder-rspack-provider',
-    packageName: '@modern-js/builder-rspack-provider',
-    dependencies: [
-      'webpack-merge',
-      {
-        name: 'pretty-time',
-        ignoreDts: true,
       },
     ],
   },

@@ -16,7 +16,7 @@ import {
   LoaderHandler,
 } from '@modern-js/server-core';
 import { type ModernServerContext, type ServerRoute } from '@modern-js/types';
-import { time } from '@modern-js/utils/universal/time';
+import { time } from '@modern-js/runtime-utils/time';
 import type { ContextOptions } from '../libs/context';
 import {
   ModernServerOptions,
@@ -535,23 +535,21 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    if (route.entryName) {
+    if (route.entryName && this.runMode === RUN_MODE.FULL) {
       const afterMatchContext = createAfterMatchContext(
         context,
         route.entryName,
       );
-
       // only full mode run server hook
-      if (this.runMode === RUN_MODE.FULL) {
-        const end = time();
-        await this.runner.afterMatch(afterMatchContext, { onLast: noop });
-        const cost = end();
-        cost &&
-          reporter.reportTiming(
-            ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
-            cost,
-          );
-      }
+      const end = time();
+
+      await this.runner.afterMatch(afterMatchContext, { onLast: noop });
+      const cost = end();
+      cost &&
+        reporter.reportTiming(
+          ServerReportTimings.SERVER_HOOK_AFTER_MATCH,
+          cost,
+        );
 
       if (this.isSend(res)) {
         return;
@@ -607,7 +605,7 @@ export class ModernServer implements ModernServerInterface {
       return;
     }
 
-    if (route.entryName) {
+    if (route.entryName && this.runMode === RUN_MODE.FULL) {
       const afterRenderContext = createAfterRenderContext(
         context,
         response.toString(),
@@ -615,17 +613,15 @@ export class ModernServer implements ModernServerInterface {
 
       // only full mode run server hook
       // FIXME: how to run server hook in streaming
-      if (this.runMode === RUN_MODE.FULL) {
-        const end = time();
-        await this.runner.afterRender(afterRenderContext, { onLast: noop });
-        const cost = end();
-        // we shouldn't reporter unable run after-render.
-        cost &&
-          reporter.reportTiming(
-            ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
-            cost,
-          );
-      }
+      const end = time();
+      await this.runner.afterRender(afterRenderContext, { onLast: noop });
+      const cost = end();
+      // we shouldn't reporter unable run after-render.
+      cost &&
+        reporter.reportTiming(
+          ServerReportTimings.SERVER_HOOK_AFTER_RENDER,
+          cost,
+        );
 
       if (this.isSend(res)) {
         return;
@@ -639,7 +635,11 @@ export class ModernServer implements ModernServerInterface {
 
   private isSend(res: ServerResponse) {
     /// Is true after response.end() has been called.
-    if (res.writableEnded) {
+    if (res.modernFlushedHeaders) {
+      if (res.writableFinished) {
+        return true;
+      }
+    } else if (res.headersSent) {
       return true;
     }
 

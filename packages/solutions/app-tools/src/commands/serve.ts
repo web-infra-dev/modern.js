@@ -1,4 +1,4 @@
-import { logger, chalk, isApiOnly, getTargetDir } from '@modern-js/utils';
+import { logger, isApiOnly, getTargetDir } from '@modern-js/utils';
 import type { PluginAPI } from '@modern-js/core';
 import server from '@modern-js/prod-server';
 import { printInstructions } from '../utils/printInstructions';
@@ -13,7 +13,7 @@ export const start = async (api: PluginAPI<AppTools<'shared'>>) => {
 
   const { appDirectory, port, serverConfigFile, metaName } = appContext;
 
-  logger.log(chalk.cyan(`Starting the modern server...`));
+  logger.info(`Starting production server...`);
   const apiOnly = await isApiOnly(
     appContext.appDirectory,
     userConfig?.source?.entriesDir,

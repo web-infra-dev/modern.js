@@ -5,7 +5,7 @@ import {
   useLocation,
   useNavigate,
   useParams,
-} from '@modern-js/utils/runtime/router';
+} from '@modern-js/runtime-utils/router';
 
 export interface WithRouterProps {
   location: ReturnType<typeof useLocation>;

@@ -89,8 +89,8 @@ function runModernCommandDev(argv, stdOut, options = {}) {
     function handleStdout(data) {
       const message = data.toString();
       const bootupMarkers = {
-        dev: /(App|Dev server|Preview server) running at/i,
-        serve: /(App|Dev server|Preview server) running at/i,
+        dev: /> Local:/i,
+        serve: /> Local:/i,
       };
       if (bootupMarkers[options.modernServe ? 'serve' : 'dev'].test(message)) {
         if (!didResolve) {

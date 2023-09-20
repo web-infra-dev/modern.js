@@ -1,10 +1,11 @@
 ---
-sidebar_position: 4
+title: 数据获取
+sidebar_position: 3
 ---
 
 # 数据获取
 
-Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过这些 API，在 CSR 和 SSR 环境同构的进行开发。
+Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过这些 API，在项目中获取数据。
 
 需要注意的是，这些 API 并不帮助应用发起请求，而是帮助开发者更好地管理数据，提升项目的性能。
 
@@ -216,26 +217,25 @@ export default function UserLayout() {
 
 :::info
 此功能目前是实验性质，后续 API 可能有调整。
-目前仅支持 CSR，敬请期待 Streaming SSR。
 
 :::
 
 创建 `user/layout.loader.ts`，并添加以下代码：
 
 ```ts title="routes/user/layout.loader.ts"
-import { defer } from "@modern-js/runtime/router"
+import { defer } from '@modern-js/runtime/router';
 
 const loader = () =>
-defer({
-  userInfo: new Promise((resolve) => {
+  defer({
+    userInfo: new Promise(resolve => {
       setTimeout(() => {
         resolve({
           age: 1,
-          name: 'user layout'
-        })
-      }, 1000)
-    })
-  })
+          name: 'user layout',
+        });
+      }, 1000);
+    }),
+  });
 
 export default loader;
 ```
@@ -345,7 +345,6 @@ export default async (): Promise<ProfileData> => {
 在 CSR 项目中，`loader` 在客户端执行，在 `loader` 可以直接调用 BFF 函数进行接口请求。
 
 在 SSR 项目中，每个 `loader` 也是一个服务端接口，我们推荐使用 `loader` 替代 http method 为 `get` 的 BFF 函数，作为接口层，避免多一层转发和执行。
-
 
 ## useLoader（旧版）
 

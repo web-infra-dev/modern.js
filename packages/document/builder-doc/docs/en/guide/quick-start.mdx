@@ -37,15 +37,13 @@ If you are developing a front-end framework, you can use Builder by following th
 You need to install two packages:
 
 - `@modern-js/builder`: This is the core package of Builder, which exports the core API of Builder.
-- `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`: These are the Providers for Builder, which provide the building capabilities based on webpack or Rspack.
+- `@modern-js/builder-rspack-provider`: To provide the building capabilities based on Rspack.
 
-```bash
-# Using webpack for bundling
-pnpm add @modern-js/builder @modern-js/builder-webpack-provider -D
+import { PackageManagerTabs } from '@theme';
 
-# Using Rspack for bundling
-pnpm add @modern-js/builder @modern-js/builder-rspack-provider -D
-```
+<PackageManagerTabs command="add @modern-js/builder @modern-js/builder-rspack-provider -D" />
+
+if you want to use webpack instead of Rspack, you can replace the `@modern-js/builder-rspack-provider` with `@modern-js/builder-webpack-provider`:
 
 > When performing a version upgrade, please ensure that the Builder and Provider packages you install are of the same version.
 
@@ -107,7 +105,6 @@ After successfully starting Dev Server, you can see the following logs:
 
 ```bash
 info    Starting dev server...
-info    Dev server running at:
 
   > Local:    http://localhost:8081
   > Network:  http://192.168.0.1:8081
