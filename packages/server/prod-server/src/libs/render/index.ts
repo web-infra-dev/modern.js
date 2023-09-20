@@ -27,6 +27,9 @@ type CreateRenderHandler = (ctx: {
   metaName?: string;
 }) => RenderHandler;
 
+const calcFallback = (metaName: string) =>
+  `x-${cutNameByHyphen(metaName)}-ssr-fallback`;
+
 export const createRenderHandler: CreateRenderHandler = ({
   distDir,
   staticGenerate,
@@ -73,9 +76,7 @@ export const createRenderHandler: CreateRenderHandler = ({
 
     // handles ssr first
     const useCSR =
-      forceCSR &&
-      (ctx.query.csr ||
-        ctx.headers[`x-${cutNameByHyphen(metaName)}-ssr-fallback`]);
+      forceCSR && (ctx.query.csr || ctx.headers[calcFallback(metaName)]);
     if (route.isSSR && !useCSR) {
       try {
         const userAgent = ctx.getReqHeader('User-Agent') as string | undefined;
@@ -129,7 +130,7 @@ export const createRenderHandler: CreateRenderHandler = ({
           ERROR_DIGEST.ERENDER,
           (err as Error).stack || (err as Error).message,
         );
-        ctx.res.set('x-modern-ssr-fallback', '1');
+        ctx.res.set(calcFallback(metaName), '1');
       }
     }
 
