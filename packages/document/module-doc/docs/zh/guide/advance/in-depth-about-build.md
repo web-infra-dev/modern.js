@@ -65,7 +65,9 @@ export default defineConfig({
 
 ## 使用 swc
 
-在部分场景下，esbuild 不足以满足我们的需求，此时我们会使用 swc 来做代码转换，主要有以下几个场景:
+在部分场景下，esbuild 不足以满足我们的需求，此时我们会使用 swc 来做代码转换。
+
+从 **2.36.0** 版本开始，涉及到以下功能时，Modern.js Module 默认会使用 swc ，但不这意味着不使用 esbuild 了，其余功能还是使用 esbuild:
 
 - [transformImport](/api/config/build-config#transformimport)
 - [transformLodash](/api/config/build-config#transformlodash)
@@ -73,6 +75,9 @@ export default defineConfig({
 - [format: umd](api/config/build-config#format-umd)
 - [target: es5](api/config/build-config#target)
 - [emitDecoratorMetadata: true](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
+
+事实上，我们在 **2.16.0** 开始全量使用 swc 进行代码转换。不过 swc 同样也存在一些限制，为此我们添加了 [sourceType](/api/config/build-config#sourcetype) 配置，当源码格式为 'commonjs' 时关闭 swc， 但这种方式并不符合用户直觉，另外，swc 格式化输出的 cjs 模式没有给每个导出名称添加注释，这在 node 中使用可能会带来一些问题。
+因为我们废弃了此行为，回到了最初的设计 - 只在需要的场景下使用 swc 作为补充。
 
 ## 类型文件生成
 
@@ -202,3 +207,42 @@ bundle DTS failed:
 - 报错的 `format`
 - 报错的 `target`
 - 其他具体报错信息
+
+## 调试模式
+
+从 **2.36.0** 版本开始，为了便于排查问题，Modern.js Module 提供了调试模式，你可以在执行构建时添加 DEBUG=module 环境变量来开启调试模式。
+
+```bash
+DEBUG=module modern build
+```
+
+调试模式下，你会看到 Shell 中输出更详细的构建日志，这主要以流程日志为主：
+
+```bash
+module run beforeBuildTask hooks +6ms
+module run beforeBuildTask hooks done +0ms
+module [DTS] Build Start +139ms
+module [CJS] Build Start +1ms
+```
+
+另外，Module 还提供了调试内部工作流程的能力。你可以通过设置环境变量 `DEBUG=module:*` 来开启更详细的调试日志:
+
+目前只支持了 `DEBUG=module:resolve`，可以查看 Module 内部模块解析的详细日志:
+
+```bash
+  module:resolve onResolve args: {
+  path: './src/hooks/misc.ts',
+  importer: '',
+  namespace: 'file',
+  resolveDir: '/Users/bytedance/modern.js/packages/solutions/module-tools',
+  kind: 'entry-point',
+  pluginData: undefined
+} +0ms
+  module:resolve onResolve result: {
+  path: '/Users/bytedance/modern.js/packages/solutions/module-tools/src/hooks/misc.ts',
+  external: false,
+  namespace: 'file',
+  sideEffects: undefined,
+  suffix: ''
+} +0ms
+```

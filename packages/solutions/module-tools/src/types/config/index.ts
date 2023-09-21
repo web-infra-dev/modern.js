@@ -18,7 +18,7 @@ export * from './copy';
 
 export type HookList = {
   name: string;
-  hooks: (compiler: ICompiler) => void;
+  apply: (compiler: ICompiler) => void;
 }[];
 
 export type EsbuildOptions = (options: BuildOptions) => BuildOptions;
@@ -116,6 +116,12 @@ export type JSX = 'automatic' | 'transform' | 'preserve';
 
 export type ExternalHelpers = boolean;
 
+export type BannerAndFooter = {
+  js?: string;
+  css?: string;
+  dts?: string;
+};
+
 export type AliasOption =
   | Record<string, string>
   | ((aliases: Record<string, string>) => Record<string, string> | void);
@@ -139,6 +145,8 @@ export type BaseBuildConfig = Omit<
 
 export type PartialBaseBuildConfig = {
   resolve?: Resolve;
+  footer?: BannerAndFooter;
+  banner?: BannerAndFooter;
   buildType?: 'bundleless' | 'bundle';
   format?: Format;
   target?: Target;
@@ -171,7 +179,7 @@ export type PartialBaseBuildConfig = {
    * cache transform result or not
    */
   transformCache?: boolean;
-  // Related to swc-transform
+  // The following is related to swc-transform
   externalHelpers?: ExternalHelpers;
   transformImport?: ImportItem[];
   transformLodash?: boolean;

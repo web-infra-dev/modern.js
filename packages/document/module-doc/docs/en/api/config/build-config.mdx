@@ -211,6 +211,47 @@ Whether to require peerDep dependencies for external projects
 - **Type**: `boolean`
 - **Default**: `true`
 
+
+## banner
+
+Provides the ability to inject content into the top and bottom of each JS , CSS and DTS file.
+
+```ts
+interface BannerAndFooter {
+  js?: string;
+  css?: string;
+  dts?: string;
+}
+```
+
+- **Type**: `BannerAndFooter`
+- **Default**: `{}`
+- **Version**: `v2.36.0`
+
+Let's say you want to add copyright information to JS and CSS files.
+
+```ts
+import { moduleTools, defineConfig } from '@edenx/module-tools';
+
+const copyRight = `/*
+ © Copyright 2020 xxx.com or one of its affiliates.
+ * Some Sample Copyright Text Line
+ * Some Sample Copyright Text Line
+*/`;
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+  ],
+  buildConfig: {
+    banner: {
+      js: copyRight,
+      css: copyRight,
+    }
+  }
+});
+```
+
 ## buildType
 
 The build type, `bundle` will package your code, `bundleless` will only do the code conversion
@@ -539,6 +580,10 @@ export default defineConfig({
 });
 ```
 
+## footer
+
+Same as the [banner](#banner) configuration for adding a comment at the end of the output file.
+
 ## format
 
 Used to set the output format of JavaScript files. The options `iife` and `umd` only take effect when `buildType` is `bundle`.
@@ -786,6 +831,59 @@ export default {
     },
   },
 };
+```
+
+## resolve
+
+Custom module resolution options
+
+### resolve.mainFields
+
+A list of fields in package.json to try when parsing the package entry point.
+
+- **Type**: `string[]`
+- **Default**: depends on [platform](#platform)
+  - node: ['module', 'main']
+  - browser: ['module', 'browser', 'main']
+- **Version**: `v2.36.0`
+
+For example, we want to load the `js:source` field first:
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    resolve: {
+      mainFields: ['js:source', 'module', 'main'],
+    }
+  },
+});
+```
+
+:::warning
+`resolve.mainFields` has a lower priority than the exports field in package.json, and if an entry point is successfully resolved from exports, `resolve.mainFields` will be ignored.
+:::
+
+### resolve.jsExtentions
+
+Support for implicit file extensions
+
+- **Type**: `string[]`
+- **Default**: `['.jsx', '.tsx', '.js', '.ts', '.json']`
+- **Version**: `v2.36.0`
+
+
+Do not use implicit file extensions for css files, currently Module only supports ['.less', '.css', '.sass', '.scss'] suffixes.
+
+Node's parsing algorithm does not consider `.mjs` and `cjs` as implicit file extensions, so they are not included here by default, but can be included by changing this configuration:
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    resolve: {
+      jsExtentions: ['.mts', 'ts']
+    }
+  },
+});
 ```
 
 ## sideEffects
@@ -1275,6 +1373,7 @@ Path to the tsconfig file
 
 - **Type**: `string`
 - **Default**: `tsconfig.json`
+- **Version**: `v2.36.0`
 
 ```js title="modern.config.ts"
 export default defineConfig({

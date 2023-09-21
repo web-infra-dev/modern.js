@@ -41,7 +41,7 @@ const getSwcTarget = (target: string): JscTarget => {
 
 export const swcTransform = (userTsconfig: ITsconfig) => ({
   name,
-  hooks(compiler: ICompiler) {
+  apply(compiler: ICompiler) {
     const tsUseDefineForClassFields =
       userTsconfig?.compilerOptions?.useDefineForClassFields;
     const emitDecoratorMetadata =
@@ -137,7 +137,7 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
 
 export const swcRenderChunk = {
   name: 'swc:renderChunk',
-  hooks(compiler: ICompiler) {
+  apply(compiler: ICompiler) {
     compiler.hooks.renderChunk.tapPromise(
       { name: 'swc:renderChunk' },
       async chunk => {

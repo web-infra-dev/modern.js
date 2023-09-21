@@ -34,7 +34,16 @@ const buildConfigProperties = {
     typeof: ['object', 'function'],
   },
   hooks: {
+    // TODO: improve it
     type: 'array',
+  },
+  resolve: {
+    // TODO: add properties
+    type: 'object',
+  },
+  banner: {
+    // TODO: add properties
+    type: 'object',
   },
   asset: {
     type: 'object',

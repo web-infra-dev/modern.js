@@ -1,22 +1,26 @@
 import { resolve } from 'path';
 import { fs } from '@modern-js/utils';
-import { generatorTsConfig } from '../src/utils/dts';
+import { generateDtsInfo } from '../src/utils/dts';
 
 describe('utils', () => {
-  it('generatorTsConfig', async () => {
+  it('generateDtsInfo', async () => {
     const appDirectory = resolve(__dirname, 'fixtures/example');
     const tsconfigPath = resolve(appDirectory, 'tsconfig.json');
     const sourceDir = resolve(appDirectory, 'src');
-    const distAbsPath = resolve(appDirectory, 'dist');
-    const {
-      generatedTsconfig: { tempTsconfigPath },
-    } = await generatorTsConfig({
+    const distPath = resolve(appDirectory, 'dist');
+    const { tempTsconfigPath } = await generateDtsInfo({
       appDirectory,
-      distAbsPath,
+      distPath,
       tsconfigPath,
       watch: false,
       sourceDir,
       alias: {},
+      // not influence the result
+      footer: '',
+      banner: '',
+      externals: [],
+      input: [],
+      respectExternal: true,
     });
     const content = await fs.readFile(tempTsconfigPath, 'utf8');
     expect(content.includes('references')).toBeTruthy();

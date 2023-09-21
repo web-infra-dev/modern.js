@@ -7,7 +7,7 @@ import { transformStyle } from './transformStyle';
 const name = 'css';
 export const css = {
   name,
-  hooks(compiler: ICompiler) {
+  apply(compiler: ICompiler) {
     compiler.hooks.load.tapPromise({ name }, async args => {
       if (isStyleExt(args.path)) {
         const { query } = resolvePathAndQuery(args.path);

@@ -3,53 +3,15 @@ import type {
   CliPlugin,
   ModuleTools,
   EsbuildOptions,
+  ICompiler,
 } from '@modern-js/module-tools';
+import { excludeObjectKeys, addResolveFallback } from './utils';
 
 export interface NodePolyfillPluginOptions {
   // like https://github.com/Richienb/node-polyfill-webpack-plugin#excludealiases
   excludes?: string[];
   // override built-in node polyfill config, such as `fs`.
   overrides?: Partial<Record<keyof typeof modules, string>>;
-}
-
-function filterObject(
-  object: Record<string, string>,
-  filter: (id: string) => boolean,
-) {
-  const filtered: Record<string, string> = {};
-  Object.keys(object).forEach(key => {
-    if (filter(key)) {
-      filtered[key] = object[key];
-    }
-  });
-  return filtered;
-}
-function excludeObjectKeys(object: Record<string, string>, keys: string[]) {
-  return filterObject(object, key => !keys.includes(key));
-}
-
-function addResolveFallback(
-  object: Record<string, string | null>,
-  overrides: Record<string, string> = {},
-) {
-  const keys = Object.keys(object);
-  const newObject: Record<string, string> = {};
-  for (const key of keys) {
-    if (object[key] === null) {
-      newObject[key] = path.join(__dirname, `../mock/${key}.js`);
-    } else {
-      newObject[key] = object[key] as string;
-    }
-  }
-
-  const overridesKeys = Object.keys(overrides);
-  for (const key of overridesKeys) {
-    if (overrides[key]) {
-      newObject[key] = overrides[key];
-    }
-  }
-
-  return newObject;
 }
 
 export const modules = {
@@ -95,48 +57,56 @@ export const modules = {
   zlib: require.resolve('browserify-zlib'),
 };
 
+export const getNodePolyfillHook = (
+  polyfillOption: NodePolyfillPluginOptions = {},
+) => {
+  const polyfillModules = {
+    ...excludeObjectKeys(
+      addResolveFallback(modules, polyfillOption.overrides),
+      polyfillOption.excludes ?? [],
+    ),
+  };
+  const polyfillModulesKeys = Object.keys(polyfillModules);
+  return {
+    name: 'node-polyfill',
+    apply(compiler: ICompiler) {
+      const plugins: NonNullable<ReturnType<EsbuildOptions>['plugins']> = [
+        {
+          name: 'example',
+          setup(build) {
+            build.onResolve({ filter: /.*/ }, args => {
+              if (polyfillModulesKeys.includes(args.path)) {
+                return {
+                  path: polyfillModules[args.path],
+                };
+              }
+              return undefined;
+            });
+          },
+        },
+      ];
+      const lastBuildOptions = compiler.buildOptions;
+      compiler.buildOptions = {
+        ...lastBuildOptions,
+        inject: [
+          ...(lastBuildOptions.inject ?? []),
+          path.join(__dirname, 'globals.js'),
+        ],
+        plugins: [plugins[0], ...(lastBuildOptions.plugins ?? [])],
+      };
+    },
+  };
+};
+
 export const modulePluginNodePolyfill = (
   polyfillOption: NodePolyfillPluginOptions = {},
 ): CliPlugin<ModuleTools> => ({
-  name: 'polyfill-plugin',
+  name: '@modern-js/plugin-module-node-polyfill',
   setup() {
-    const polyfillModules = {
-      ...excludeObjectKeys(
-        addResolveFallback(modules, polyfillOption.overrides),
-        polyfillOption.excludes ?? [],
-      ),
-    };
-    const polyfillModulesKeys = Object.keys(polyfillModules);
-
     return {
       beforeBuildTask(config) {
-        const lastEsbuildOptions = config.esbuildOptions;
-        const plugins: NonNullable<ReturnType<EsbuildOptions>['plugins']> = [
-          {
-            name: 'example',
-            setup(build) {
-              build.onResolve({ filter: /.*/ }, args => {
-                if (polyfillModulesKeys.includes(args.path)) {
-                  return {
-                    path: polyfillModules[args.path],
-                  };
-                }
-                return undefined;
-              });
-            },
-          },
-        ];
-        config.esbuildOptions = c => {
-          const lastEsbuildConfig = lastEsbuildOptions(c);
-          return {
-            ...lastEsbuildConfig,
-            inject: [
-              ...(lastEsbuildConfig.inject ?? []),
-              path.join(__dirname, 'globals.js'),
-            ],
-            plugins: [plugins[0], ...(lastEsbuildConfig.plugins ?? [])],
-          };
-        };
+        const hook = getNodePolyfillHook(polyfillOption);
+        config.hooks.push(hook);
         return config;
       },
     };

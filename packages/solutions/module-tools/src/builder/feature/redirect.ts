@@ -14,7 +14,7 @@ import {
 import { js } from '@ast-grep/napi';
 import MagicString from 'magic-string';
 import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths';
-import { fs } from '@modern-js/utils';
+import { fs, logger } from '@modern-js/utils';
 import { ICompiler } from '../../types';
 import { assetExt } from '../../constants/file';
 import {
@@ -157,7 +157,7 @@ async function redirectImport(
 const name = 'redirect';
 export const redirect = {
   name,
-  hooks(compiler: ICompiler) {
+  apply(compiler: ICompiler) {
     // get matchPath func to support tsconfig paths
     let matchPath: MatchPath | undefined;
     if (fs.existsSync(compiler.config.tsconfig)) {
@@ -232,7 +232,7 @@ export const redirect = {
           });
         matchModule = [...funcMatchModule, ...staticMatchModule];
       } catch (e) {
-        console.error('[parse error]', e);
+        logger.error('[parse error]', e);
       }
       if (!matchModule.length) {
         return args;

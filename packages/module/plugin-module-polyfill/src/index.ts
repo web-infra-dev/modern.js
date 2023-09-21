@@ -1,28 +1,34 @@
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 import { getBabelHook } from '@modern-js/plugin-module-babel';
 
-export const modulePluginPolyfill = (options?: {
+export type Options = {
   targets?: Record<string, string> | string;
-}): CliPlugin<ModuleTools> => ({
+};
+
+export const getPolyfillHook = (options?: Options) => {
+  const plugins = [
+    [require('@babel/plugin-syntax-typescript'), { isTSX: true }],
+    [require('@babel/plugin-syntax-jsx')],
+    [
+      require('babel-plugin-polyfill-corejs3'),
+      {
+        method: 'usage-pure',
+        targets: options?.targets,
+      },
+    ],
+  ];
+  return getBabelHook({
+    plugins,
+  });
+};
+
+export const modulePluginPolyfill = (
+  options?: Options,
+): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-polyfill',
   setup: () => ({
     beforeBuildTask(config) {
-      const plugins = [
-        [require('@babel/plugin-syntax-typescript'), { isTSX: true }],
-        [require('@babel/plugin-syntax-jsx')],
-        [
-          require('babel-plugin-polyfill-corejs3'),
-          {
-            method: 'usage-pure',
-            targets: options?.targets,
-          },
-        ],
-      ];
-      config.hooks.push(
-        getBabelHook({
-          plugins,
-        }),
-      );
+      config.hooks.push(getPolyfillHook(options));
       return config;
     },
   }),

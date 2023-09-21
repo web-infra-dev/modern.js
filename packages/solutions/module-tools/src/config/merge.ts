@@ -113,6 +113,8 @@ export const mergeDefaultBaseConfig = async (
 
   const esbuildOptions = pConfig.esbuildOptions ?? defaultConfig.esbuildOptions;
   return {
+    footer: pConfig.footer ?? defaultConfig.footer,
+    banner: pConfig.banner ?? defaultConfig.banner,
     resolve,
     tsconfig,
     hooks: pConfig.hooks ?? defaultConfig.hooks,

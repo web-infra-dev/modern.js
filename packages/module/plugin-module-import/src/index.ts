@@ -5,7 +5,7 @@ import type {
 } from '@modern-js/module-tools';
 
 /**
- * deprecated named export, use config 'transformImport'.
+ * use config 'transformImport' instead.
  * @deprecated
  */
 export const modulePluginImport = (options: {

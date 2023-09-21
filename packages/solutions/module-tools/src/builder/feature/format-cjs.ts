@@ -2,7 +2,7 @@ import { transform } from 'sucrase';
 import { ICompiler } from '../../types';
 
 const name = 'format-cjs';
-const hooks = (compiler: ICompiler) => {
+const apply = (compiler: ICompiler) => {
   compiler.hooks.renderChunk.tapPromise({ name }, async chunk => {
     if (chunk.fileName.endsWith('.js') && chunk.type === 'chunk') {
       const code = chunk.contents.toString();
@@ -21,5 +21,5 @@ const hooks = (compiler: ICompiler) => {
 
 export const formatCjs = {
   name,
-  hooks,
+  apply,
 };

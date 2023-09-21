@@ -1,5 +1,9 @@
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
+/**
+ * @deprecated
+ * use config 'banner' instead.
+ */
 export const modulePluginBanner = (options: {
   banner: { js?: string; css?: string };
   footer?: { js?: string; css?: string };

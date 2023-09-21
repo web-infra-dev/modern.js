@@ -8,7 +8,7 @@ const isJsonExt = (path: string) => {
 const name = 'json';
 export const json = {
   name,
-  hooks(compiler: ICompiler) {
+  apply(compiler: ICompiler) {
     compiler.hooks.load.tapPromise({ name }, async args => {
       if (isJsonExt(args.path)) {
         return {

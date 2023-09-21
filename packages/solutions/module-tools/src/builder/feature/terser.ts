@@ -7,7 +7,7 @@ import { ChunkType, ICompiler } from '../../types';
 import { normalizeSourceMap } from '../../utils';
 
 const name = 'terser';
-const hooks = (compiler: ICompiler) => {
+const apply = (compiler: ICompiler) => {
   compiler.hooks.renderChunk.tapPromise({ name }, async chunk => {
     const { sourceMap, minify } = compiler.config;
     if (chunk.type === ChunkType.chunk) {
@@ -35,7 +35,7 @@ const hooks = (compiler: ICompiler) => {
 
 export const minify = {
   name,
-  hooks,
+  apply,
 };
 
 function resolveTerserOptions(

@@ -1,12 +1,5 @@
 import path from 'path';
-import {
-  watch,
-  fs,
-  logger,
-  createDebugger,
-  globby,
-  fastGlob,
-} from '@modern-js/utils';
+import { watch, fs, logger, globby, fastGlob } from '@modern-js/utils';
 import type { CopyOptions, CopyPattern } from '../types/config/copy';
 import type { BaseBuildConfig } from '../types/config';
 import pMap from '../../compiled/p-map';
@@ -156,8 +149,6 @@ export const watchCopyFiles = async (
   },
   copyConfig: CopyOptions,
 ) => {
-  const debug = createDebugger('module-tools:copy-watch');
-
   debug('watchMap', watchMap);
 
   const { SectionTitleStatus, CopyLogPrefix } = await import(

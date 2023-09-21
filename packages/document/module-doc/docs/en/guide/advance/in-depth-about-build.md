@@ -65,7 +65,9 @@ export default defineConfig({
 
 ## use swc
 
-In some scenarios, esbuild is not enough to meet our needs, then we will use swc to do the code transformation, mainly in the following scenarios.
+In some scenarios, esbuild is not enough to meet our needs, and we will use swc to do the code conversion.
+
+Starting from version **2.36.0**, the Modern.js Module will use swc by default when it comes to the following functionality, but that doesn't mean we don't use esbuild any more, the rest of the functionality will still use esbuild.
 
 - [transformImport](/api/config/build-config#transformimport)
 - [transformLodash](/api/config/build-config#transformlodash)
@@ -73,6 +75,9 @@ In some scenarios, esbuild is not enough to meet our needs, then we will use swc
 - [format: umd](api/config/build-config#format-umd)
 - [target: es5](api/config/build-config#target)
 - [emitDecoratorMetadata: true](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
+
+In fact, we've been using swc for full code conversion since **2.16.0**. However, swc also has some limitations, so we added [sourceType](/api/config/build-config#sourcetype) to turn off swc when the source is formatted as 'commonjs', which isn't really user-intuitive, and the cjs mode of the swc formatted outputs don't have annotate each export name, which can cause problems in node.
+So we deprecated this behaviour and went back to the original design - using swc as a supplement only in situations where it was needed.
 
 ## dts
 
@@ -206,3 +211,42 @@ For `js/ts` build errors, we can tell from the error message.
 - What is the `format` of the build process
 - What is the `target` of the build process
 - The specific error message
+
+## Debug mode
+
+From **2.36.0**, For troubleshooting purposes, the Modern.js Module provides a debug mode, which you can enable by adding the DEBUG=module environment variable when executing a build.
+
+```bash
+DEBUG=module modern build
+```
+
+In debug mode, you'll see more detailed build logs output in Shell, which are mainly process logs:
+
+```bash
+module run beforeBuildTask hooks +6ms
+module run beforeBuildTask hooks done +0ms
+module [DTS] Build Start +139ms
+module [CJS] Build Start +1ms
+```
+
+In addition, Module provides the ability to debug internal workflows. You can enable more detailed debugging logging by setting the `DEBUG=module:*` environment variable.
+
+Currently, only `DEBUG=module:resolve` is supported, which allows you to see a detailed log of module resolution within the Module.
+
+```bash
+  module:resolve onResolve args: {
+  path: './src/hooks/misc.ts',
+  importer: '',
+  namespace: 'file',
+  resolveDir: '/Users/bytedance/modern.js/packages/solutions/module-tools',
+  kind: 'entry-point',
+  pluginData: undefined
+} +0ms
+  module:resolve onResolve result: {
+  path: '/Users/bytedance/modern.js/packages/solutions/module-tools/src/hooks/misc.ts',
+  external: false,
+  namespace: 'file',
+  sideEffects: undefined,
+  suffix: ''
+} +0ms
+```

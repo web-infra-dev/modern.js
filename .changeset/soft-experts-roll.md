@@ -17,6 +17,7 @@ swc conversion was introduced in version 2.16.0, but the implementation still ha
 7. fix some css module bugs.
 8. support buildConfig.jsx: preserve .
 9. support glob input in js and dts generator.
+10. support banner and footer.
 
 refactor(module-tools):
 
@@ -33,3 +34,4 @@ swc 转换是在 2.16.0 版本引入，但实现仍存在一些问题，例如 f
 7. 修复一些 css module 问题。
 8. 支持 buildConfig.jsx: preserve 选项。
 9. 支持 glob 模式输入在 js 和 dts 生成器中。
+10. 支持 banner 和 footer 配置。

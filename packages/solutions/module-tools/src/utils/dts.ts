@@ -1,8 +1,9 @@
 import { join, dirname, isAbsolute, relative, resolve, basename } from 'path';
 import { chalk, fs, globby, json5, logger, nanoid } from '@modern-js/utils';
+import MagicString from 'magic-string';
 import type {
   ITsconfig,
-  BundlelessGeneratorDtsConfig,
+  GeneratorDtsConfig,
   BuildType,
   TsTarget,
 } from '../types';
@@ -17,9 +18,7 @@ export const getProjectTsconfig = async (
   return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
 };
 
-export const generatorTsConfig = async (
-  config: BundlelessGeneratorDtsConfig,
-) => {
+export const generateDtsInfo = async (config: GeneratorDtsConfig) => {
   const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
 
   const userTsconfig = await getProjectTsconfig(tsconfigPath);
@@ -75,11 +74,9 @@ export const generatorTsConfig = async (
 
   return {
     userTsconfig,
-    generatedTsconfig: {
-      tempTsconfigPath,
-      tempDistAbsRootPath,
-      tempDistAbsSrcPath: tempDistAbsOurDir,
-    },
+    tempTsconfigPath,
+    tempDistAbsRootPath,
+    tempDistAbsSrcPath: tempDistAbsOurDir,
   };
 };
 
@@ -109,7 +106,7 @@ export const getTscBinPath = async (appDirectory: string) => {
 };
 
 export const resolveAlias = async (
-  config: BundlelessGeneratorDtsConfig,
+  config: GeneratorDtsConfig,
   options: {
     userTsconfig: ITsconfig;
     tempTsconfigPath: string;
@@ -120,7 +117,6 @@ export const resolveAlias = async (
 ) => {
   const { userTsconfig, tempDistAbsSrcPath, tempDistAbsRootPath } = options;
   const { transformDtsAlias } = await import('./tspath');
-  const { distAbsPath } = config;
   const dtsDistPath = `${tempDistAbsSrcPath}/**/*.d.ts`;
   const dtsFilenames =
     watchFilenames.length > 0
@@ -131,13 +127,45 @@ export const resolveAlias = async (
     baseUrl: tempDistAbsRootPath,
     paths: userTsconfig.compilerOptions?.paths ?? {},
   });
+  return result;
+};
+
+export const writeDtsFiles = async (
+  config: GeneratorDtsConfig,
+  options: {
+    userTsconfig: ITsconfig;
+    tempTsconfigPath: string;
+    tempDistAbsRootPath: string;
+    tempDistAbsSrcPath: string;
+  },
+  result: { path: string; content: string }[],
+) => {
+  const { distPath } = config;
+  const { tempDistAbsSrcPath } = options;
+
   for (const r of result) {
     fs.writeFileSync(r.path, r.content);
   }
 
   // why use `ensureDir` before copy? look this: https://github.com/jprichardson/node-fs-extra/issues/957
-  await fs.ensureDir(distAbsPath);
-  await fs.copy(tempDistAbsSrcPath, distAbsPath);
+  await fs.ensureDir(distPath);
+  await fs.copy(tempDistAbsSrcPath, distPath);
+};
+
+export const addBannerAndFooter = (
+  result: { path: string; content: string }[],
+  banner?: string,
+  footer?: string,
+) => {
+  return result.map(({ path, content }) => {
+    const ms = new MagicString(content);
+    banner && ms.prepend(`${banner}\n`);
+    footer && ms.append(`\n${footer}\n`);
+    return {
+      path,
+      content: ms.toString(),
+    };
+  });
 };
 
 export const printOrThrowDtsErrors = async (

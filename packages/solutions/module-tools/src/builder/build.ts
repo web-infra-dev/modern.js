@@ -8,6 +8,7 @@ import type {
   ModuleContext,
 } from '../types';
 import pMap from '../../compiled/p-map';
+import { debug, label } from '../debug';
 import { copyTask } from './copy';
 import { createCompiler } from './esbuild';
 
@@ -52,35 +53,44 @@ export const generatorDts = async (
 ) => {
   const { runRollup, runTsc } = await import('./dts');
   const { watch, dts } = options;
-  const { buildType, input, sourceDir, alias, externals, tsconfig } = config;
+  const {
+    buildType,
+    input,
+    sourceDir,
+    alias,
+    externals,
+    tsconfig,
+    footer: { dts: footer },
+    banner: { dts: banner },
+  } = config;
   const { appDirectory } = api.useAppContext();
   const { distPath, abortOnError, respectExternal } = dts;
 
   // remove this line after remove dts.tsconfigPath
   const tsconfigPath = dts.tsconfigPath ?? tsconfig;
 
+  const generatorDtsConfig = {
+    distPath,
+    watch,
+    externals,
+    input,
+    tsconfigPath,
+    abortOnError,
+    respectExternal,
+    appDirectory,
+    footer,
+    banner,
+    alias,
+    sourceDir,
+  };
+  const prevTime = Date.now();
+  debug(`${label('dts')} Build Start`);
   if (buildType === 'bundle') {
-    await runRollup(api, {
-      distDir: distPath,
-      watch,
-      externals,
-      input,
-      tsconfigPath,
-      abortOnError,
-      respectExternal,
-      appDirectory,
-    });
+    await runRollup(api, generatorDtsConfig);
   } else {
-    await runTsc(api, {
-      appDirectory,
-      alias,
-      distAbsPath: distPath,
-      watch,
-      tsconfigPath,
-      sourceDir,
-      abortOnError,
-    });
+    await runTsc(api, generatorDtsConfig);
   }
+  debug(`${label('dts')} Build success in ${Date.now() - prevTime}ms`);
 };
 
 export const buildLib = async (
@@ -99,6 +109,8 @@ export const buildLib = async (
   await checkSwcHelpers({ appDirectory, externalHelpers });
 
   try {
+    const prevTime = Date.now();
+    debug(`${label(config.format)} Build Start`);
     const compiler = await createCompiler({
       config,
       watch,
@@ -106,6 +118,9 @@ export const buildLib = async (
       api,
     });
     await compiler.build();
+    debug(
+      `${label(config.format)} Build success in ${Date.now() - prevTime}ms`,
+    );
 
     const { addOutputChunk } = await import('../utils/print');
     addOutputChunk(compiler.outputChunk, root, buildType === 'bundle');

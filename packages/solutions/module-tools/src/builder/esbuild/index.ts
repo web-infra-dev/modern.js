@@ -10,7 +10,7 @@ import {
   Format,
 } from 'esbuild';
 import * as tapable from 'tapable';
-import { FSWatcher, chalk, logger, fs } from '@modern-js/utils';
+import { FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
 import {
   BaseBuildConfig,
   BuilderHooks,
@@ -104,7 +104,7 @@ export class EsbuildCompiler implements ICompiler {
     const internal = await getInternalList(this.context);
     const user = this.config.hooks;
     this.hookList = [...user, ...internal];
-    await Promise.all(this.hookList.map(item => item.hooks(this)));
+    await Promise.all(this.hookList.map(item => item.apply(this)));
   }
 
   addWatchFile(id: string): void {
@@ -131,6 +131,8 @@ export class EsbuildCompiler implements ICompiler {
       format,
       asset,
       tsconfig,
+      banner,
+      footer,
     } = config;
 
     const bundle = buildType === 'bundle';
@@ -142,7 +144,10 @@ export class EsbuildCompiler implements ICompiler {
     }
     const esbuildTarget = target === 'es5' ? undefined : target;
     const jsExtensions = ['.jsx', '.tsx', '.js', '.ts', '.json'];
+
     const buildOptions: BuildOptions = {
+      banner: lodash.pick(banner, ['js', 'css']),
+      footer: lodash.pick(footer, ['js', 'css']),
       entryPoints: input,
       metafile: true,
       define,

@@ -44,7 +44,9 @@ export const run = async (
       await pMap(
         resolvedBuildConfig,
         async config => {
+          debug('run beforeBuildTask hooks');
           const buildConfig = await runner.beforeBuildTask(config);
+          debug('run beforeBuildTask hooks done');
           await runBuildTask(
             {
               buildConfig,
@@ -53,7 +55,9 @@ export const run = async (
             },
             api,
           );
+          debug('run afterBuildTask hooks');
           await runner.afterBuildTask({ status: 'success', config });
+          debug('run afterBuildTask hooks done');
         },
         { concurrency: os.cpus().length },
       );

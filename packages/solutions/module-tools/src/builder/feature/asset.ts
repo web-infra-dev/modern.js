@@ -14,7 +14,7 @@ const SVG_REGEXP = /\.svg$/;
 
 export const asset = {
   name,
-  hooks(compiler: ICompiler) {
+  apply(compiler: ICompiler) {
     compiler.hooks.load.tapPromise({ name }, async args => {
       if (assetExt.find(ext => ext === extname(args.path))) {
         const { buildType, outDir, sourceDir, asset } = compiler.config;

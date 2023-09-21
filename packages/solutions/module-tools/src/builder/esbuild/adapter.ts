@@ -6,7 +6,7 @@ import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
 import { normalizeSourceMap, resolvePathAndQuery } from '../../utils';
 import { loaderMap } from '../../constants/loader';
-import { debug } from '../../debug';
+import { debugResolve } from '../../debug';
 import type { SideEffects, ICompiler } from '../../types';
 import { writeFile } from './write-file';
 import { initWatcher } from './watch';
@@ -45,8 +45,6 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
       });
 
       build.onResolve({ filter: /.*/ }, async args => {
-        debug('onResolve', args.path);
-
         if (args.kind === 'url-token') {
           return {
             path: args.path,
@@ -57,6 +55,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         for (const [key] of Object.entries(config.umdGlobals)) {
           const isMatch = pm(key);
           if (isMatch(args.path)) {
+            debugResolve('resolve umdGlobals:', key);
             return {
               path: args.path,
               namespace: globalNamespace,
@@ -192,7 +191,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         const dir =
           args.resolveDir ?? (args.importer ? dirname(args.importer) : root);
         const sideEffects = await getSideEffects(originalFilePath, isExternal);
-        return {
+        const result = {
           path: isExternal
             ? args.path
             : getResultPath(originalFilePath, dir, args.kind),
@@ -201,10 +200,11 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           sideEffects,
           suffix,
         };
+        debugResolve('onResolve args:', args);
+        debugResolve('onResolve result:', result);
+        return result;
       });
       build.onLoad({ filter: /.*/ }, async args => {
-        debug('onLoad', args.path);
-
         if (args.namespace === globalNamespace) {
           const value = config.umdGlobals[args.path];
           return {
@@ -263,7 +263,6 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
       });
 
       build.onEnd(async result => {
-        debug('onEnd');
         if (result.errors.length) {
           return;
         }

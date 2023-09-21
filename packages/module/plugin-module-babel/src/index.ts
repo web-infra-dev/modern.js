@@ -11,7 +11,7 @@ const name = 'babel';
 
 export const getBabelHook = (options?: BabelTransformOptions) => ({
   name,
-  hooks(compiler: ICompiler) {
+  apply(compiler: ICompiler) {
     compiler.hooks.transform.tapPromise({ name }, async args => {
       if (isJsExt(args.path) || isJsLoader(args.loader)) {
         const result = await require('@babel/core').transformAsync(args.code, {
