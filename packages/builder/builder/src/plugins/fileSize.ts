@@ -135,9 +135,11 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
 
   const totalSizeLabel = `${chalk.bold.blue('Total size:')}  ${filesize(
     totalSize,
+    { round: 1 },
   )}`;
   const gzippedSizeLabel = `${chalk.bold.blue('Gzipped size:')}  ${filesize(
     totalGzipSize,
+    { round: 1 },
   )}`;
   logger.log(`\n  ${totalSizeLabel}\n  ${gzippedSizeLabel}\n`);
 }
