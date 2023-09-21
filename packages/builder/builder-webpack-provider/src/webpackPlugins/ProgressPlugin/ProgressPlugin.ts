@@ -1,6 +1,6 @@
 import webpack from 'webpack';
 import { logger } from '@modern-js/utils/logger';
-import prettyTime from '@modern-js/builder-shared/pretty-time';
+import { prettyTime } from '@modern-js/builder-shared';
 import { bus, createFriendlyPercentage } from './helpers';
 import { createNonTTYLogger } from './helpers/nonTty';
 import type { Props } from './helpers/type';
