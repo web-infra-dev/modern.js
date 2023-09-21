@@ -1,6 +1,7 @@
 import type { SetupClientOptions } from '@modern-js/devtools-kit';
 import { mountDevTools } from '@modern-js/devtools-mount';
+import { parseQuery } from 'ufo';
 
-const opts = process.env.__MODERN_DEVTOOLS_MOUNT_OPTIONS;
+const opts = parseQuery(__resourceQuery);
 
-mountDevTools(opts as unknown as SetupClientOptions);
+mountDevTools(opts as SetupClientOptions);
