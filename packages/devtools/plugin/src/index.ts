@@ -1,4 +1,2 @@
-import { devtoolsPlugin } from './cli';
-
-export { devtoolsPlugin };
-export default devtoolsPlugin;
+export { devtoolsPlugin, default } from './cli';
+export type { Options } from './cli';

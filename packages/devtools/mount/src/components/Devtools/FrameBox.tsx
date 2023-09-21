@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { LoaderIcon } from '../LoadingIcon';
 import styles from './FrameBox.module.scss';
 
-export interface FrameBoxProps {
+export interface FrameBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   src?: string;
 }
 
-const FrameBox: React.FC<FrameBoxProps> = ({ src }) => {
+const FrameBox: React.FC<FrameBoxProps> = ({ src, ...props }) => {
   const [showFrame, setShowFrame] = useState(false);
 
   const handleFrameMount = (el: HTMLIFrameElement | null) => {
@@ -15,7 +15,7 @@ const FrameBox: React.FC<FrameBoxProps> = ({ src }) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} {...props}>
       <div
         className={styles.backdrop}
         style={{ display: showFrame ? 'none' : undefined }}

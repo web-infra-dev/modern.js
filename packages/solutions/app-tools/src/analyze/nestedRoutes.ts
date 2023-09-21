@@ -157,6 +157,7 @@ export const walk = async (
   let splatData = '';
   let splatRoute: NestedRouteForCli | null = null;
   let pageConfigFile = '';
+  let splatConfigFile = '';
 
   const items = await fs.readdir(dirname);
 
@@ -257,6 +258,12 @@ export const walk = async (
       splatClientData = itemPath;
     }
 
+    if (itemWithoutExt === NESTED_ROUTE.SPLATE_CONFIG_FILE) {
+      if (!route.config) {
+        splatConfigFile = itemPath;
+      }
+    }
+
     if (itemWithoutExt === NESTED_ROUTE.SPLATE_DATA_FILE) {
       splatData = itemPath;
     }
@@ -281,6 +288,9 @@ export const walk = async (
       }
       if (splatData) {
         splatRoute.data = splatData;
+      }
+      if (splatConfigFile) {
+        splatRoute.config = splatConfigFile;
       }
       route.children?.push(splatRoute);
     }

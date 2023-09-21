@@ -11,10 +11,6 @@ const defaultOption: Props = {
   char: '━',
   width: 25,
   buildIcon: '◯',
-  finishIcon: '✔',
-  finishInfo: 'compiled',
-  errorIcon: '✖',
-  errorInfo: 'compile failed',
   message: '',
   done: false,
   spaceWidth: 1,
@@ -23,7 +19,6 @@ const defaultOption: Props = {
   id: '',
   maxIdLen: 16,
   hasErrors: false,
-  compileTime: null,
 };
 
 const padding = (id: string, maxLen: number) => {
@@ -45,10 +40,6 @@ export const renderBar = (option: Partial<Props>) => {
     total,
     done,
     buildIcon,
-    errorIcon,
-    errorInfo,
-    finishIcon,
-    finishInfo,
     width,
     current,
     color,
@@ -60,7 +51,6 @@ export const renderBar = (option: Partial<Props>) => {
     messageColor,
     maxIdLen,
     hasErrors,
-    compileTime,
   } = mergedOptions;
 
   const space = ' '.repeat(spaceWidth);
@@ -78,16 +68,7 @@ export const renderBar = (option: Partial<Props>) => {
   const { columns: terminalWidth = FULL_WIDTH } = process.stdout;
 
   if (done) {
-    const info = hasErrors ? errorInfo : finishInfo;
-    const icon = hasErrors ? errorIcon : finishIcon;
-    const message = doneColor(
-      compileTime && !hasErrors ? `${info} in ${compileTime}` : info,
-    );
-
-    if (terminalWidth >= MIDDLE_WIDTH) {
-      return [idColor(icon), id, doneColor(`${space}${message}`)].join('');
-    }
-    return [id, doneColor(`${message}`)].join('');
+    return '';
   }
 
   const msgStr = Reflect.get(

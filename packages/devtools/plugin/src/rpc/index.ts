@@ -1,4 +1,3 @@
-import { URL } from 'url';
 import _ from '@modern-js/utils/lodash';
 import {
   NameDefinition,
@@ -16,7 +15,6 @@ import type { JsonValue, PartialDeep } from 'type-fest';
 import { createBirpc, BirpcOptions } from 'birpc';
 import createDeferPromise from 'p-defer';
 import { RawData } from 'ws';
-import { getPort } from '@modern-js/utils';
 import type { BuilderContext, BuilderPlugin } from '@modern-js/builder-shared';
 import { CliPluginAPI, BuilderPluginAPI, InjectedHooks } from '../types';
 import { SocketServer } from '../utils/socket';
@@ -24,18 +22,18 @@ import { requireModule } from '../utils/module';
 
 export interface SetupClientConnectionOptions {
   api: CliPluginAPI;
-  def?: PartialDeep<ClientDefinition>;
+  server: SocketServer;
 }
 
 export const setupClientConnection = async (
   options: SetupClientConnectionOptions,
 ) => {
-  const { api, def = {} } = options;
+  const { api, server } = options;
+  let def: PartialDeep<ClientDefinition> = {};
+  const setDefinition = (definition: PartialDeep<ClientDefinition>) => {
+    def = definition;
+  };
 
-  // generate url.
-  const port = await getPort(8782);
-  const server = new SocketServer({ port });
-  const url = new URL(`ws://localhost:${port}`);
   const _fileSystemRoutesMap: Record<string, FileSystemRoutes> = {};
 
   // register events.
@@ -226,5 +224,5 @@ export const setupClientConnection = async (
     },
   };
 
-  return { client: clientConn, hooks, builderPlugin, url };
+  return { client: clientConn, hooks, builderPlugin, setDefinition };
 };

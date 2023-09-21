@@ -15,6 +15,9 @@ export type AsyncWorkflow<I, O> = {
   [ASYNC_WORKFLOW_SYMBOL]: true;
 };
 
+const isPromise = (obj: any): obj is Promise<any> =>
+  obj && typeof obj.then === 'function';
+
 export const isAsyncWorkflow = (input: any): input is AsyncWorkflow<any, any> =>
   Boolean(input?.[ASYNC_WORKFLOW_SYMBOL]);
 
@@ -53,7 +56,3 @@ const mapAsyncWorkerToAsyncMiddleware =
     Promise.resolve(worker(input)).then(result =>
       Promise.resolve(next(input)).then(nextResult => [result, ...nextResult]),
     );
-
-function isPromise(obj: any): obj is Promise<any> {
-  return obj && typeof obj.then === 'function';
-}

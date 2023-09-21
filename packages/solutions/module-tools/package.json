@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/module-tools",
-  "version": "2.35.0",
+  "version": "2.35.1",
   "description": "Simple, powerful, high-performance modern npm package development solution.",
   "keywords": [
     "modern",
@@ -51,8 +51,8 @@
     "new": "modern-lib new",
     "prepublishOnly": "only-allow-pnpm",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest dev --no-coverage"
   },
   "dependencies": {
     "@ast-grep/napi": "0.12.0",

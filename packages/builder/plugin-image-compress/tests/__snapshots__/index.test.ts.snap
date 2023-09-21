@@ -10,13 +10,8 @@ exports[`plugin/image-compress > should generate correct options 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,

@@ -1,5 +1,37 @@
 # @modern-js/builder-shared
 
+## 2.35.1
+
+### Patch Changes
+
+- ce24aad: feat: bump postcss-nesting v12 to support latest CSS nesting syntax
+
+  feat: 升级 postcss-nesting v12，支持最新的 CSS nesting 语法
+
+- de9cdee: fix(builder): remove extra quote from generated CSS module types
+
+  fix(builder): 移除生成的 CSS module 类型中多余的引号
+
+- 0988b12: chore(builder): move duplicated prebundle packages to shared
+
+  chore(builder): 合并重复的预打包 packages 到 shared
+
+- fe8caeb: feat(builder): unify progress bar style in webpack / Rspack mode
+
+  feat(builder): 对齐 webpack / Rspack 模式下的进度条样式
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [bb97082]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0db5680]
+- Updated dependencies [411cea2]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/prod-server@2.35.1
+  - @modern-js/server@2.35.1
+  - @modern-js/types@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

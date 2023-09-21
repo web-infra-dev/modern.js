@@ -7,15 +7,15 @@ import { logger } from '@modern-js/utils';
 webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
   process.stdout.isTTY = false;
 
-  const { info, success } = logger;
+  const { info, ready } = logger;
   const infoMsgs: any[] = [];
-  const successMsgs: any[] = [];
+  const readyMsgs: any[] = [];
 
   logger.info = message => {
     infoMsgs.push(message);
   };
-  logger.success = message => {
-    successMsgs.push(message);
+  logger.ready = message => {
+    readyMsgs.push(message);
   };
 
   await build({
@@ -29,13 +29,13 @@ webpackOnlyTest('should emit progress log in non-TTY environment', async () => {
   });
 
   expect(
-    infoMsgs.some(message => message.includes('[Client] compile progress')),
+    infoMsgs.some(message => message.includes('Client compile progress')),
   ).toBeTruthy();
   expect(
-    successMsgs.some(message => message.includes('[Client] compile succeed')),
+    readyMsgs.some(message => message.includes('Client compiled')),
   ).toBeTruthy();
 
   process.stdout.isTTY = true;
   logger.info = info;
-  logger.success = success;
+  logger.ready = ready;
 });

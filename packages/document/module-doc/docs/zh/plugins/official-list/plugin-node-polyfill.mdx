@@ -10,16 +10,9 @@
 
 ### 安装
 
-```bash
-# npm
-npm install @modern-js/plugin-module-node-polyfill -D
+import { PackageManagerTabs } from '@theme';
 
-# yarn
-yarn add @modern-js/plugin-module-node-polyfill -D
-
-# pnpm
-pnpm add @modern-js/plugin-module-node-polyfill -D
-```
+<PackageManagerTabs command="add @modern-js/plugin-module-node-polyfill -D" />
 
 ### 注册插件
 
@@ -30,22 +23,19 @@ import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { modulePluginNodePolyfill } from '@modern-js/plugin-module-node-polyfill';
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-    modulePluginNodePolyfill(),
-  ],
+  plugins: [moduleTools(), modulePluginNodePolyfill()],
 });
 ```
 
 ## 配置
 
-* **类型：**
+- **类型：**
 
 ```ts
 type NodePolyfillOptions = {
   exclude?: string[];
   overrides?: Record<NodePolyfillKey, string>;
-}
+};
 ```
 
 ### exclude
@@ -80,7 +70,7 @@ export default defineConfig({
     modulePluginNodePolyfill({
       overrides: {
         fs: path.join(__dirname, './custom-fs.js'),
-      }
+      },
     }),
   ],
 });
@@ -90,9 +80,9 @@ export default defineConfig({
 
 ### Globals
 
-* `Buffer`
-* `process`
-* `console`
+- `Buffer`
+- `process`
+- `console`
 
 当你在代码中使用以上全局变量时，对应 polyfill 会被自动注入。
 
@@ -102,34 +92,34 @@ const bufferData = Buffer.from('xxxx');
 
 ### Modules
 
-* `assert`
-* `buffer`
-* `console`
-* `constants`
-* `crypto`
-* `domain`
-* `events`
-* `http`
-* `https`
-* `os`
-* `path`
-* `punycode`
-* `process`
-* `querystring`
-* `stream`
-* `_stream_duplex`
-* `_stream_passthrough`
-* `_stream_readable`
-* `_stream_transform`
-* `_stream_writable`
-* `string_decoder`
-* `sys`
-* `timers`
-* `tty`
-* `url`
-* `util`
-* `vm`
-* `zlib`
+- `assert`
+- `buffer`
+- `console`
+- `constants`
+- `crypto`
+- `domain`
+- `events`
+- `http`
+- `https`
+- `os`
+- `path`
+- `punycode`
+- `process`
+- `querystring`
+- `stream`
+- `_stream_duplex`
+- `_stream_passthrough`
+- `_stream_readable`
+- `_stream_transform`
+- `_stream_writable`
+- `string_decoder`
+- `sys`
+- `timers`
+- `tty`
+- `url`
+- `util`
+- `vm`
+- `zlib`
 
 当你通过 `require` 或 `import` 等语法在代码中引用以上模块时，对应 polyfill 会被注入。
 
@@ -141,16 +131,16 @@ const bufferData = Buffer.from('xxxx');
 
 ### Fallbacks
 
-* `child_process`
-* `cluster`
-* `dgram`
-* `dns`
-* `fs`
-* `module`
-* `net`
-* `readline`
-* `repl`
-* `tls`
+- `child_process`
+- `cluster`
+- `dgram`
+- `dns`
+- `fs`
+- `module`
+- `net`
+- `readline`
+- `repl`
+- `tls`
 
 目前浏览器端没有以上模块的 polyfill，因此当你引用以上模块时，会自动 fallback 为一个空对象。
 

@@ -39,8 +39,8 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   source: {
     entries: {
-      // Specify a new entry named entry_customize
-      entry_customize: './src/home/test/index.ts',
+      // Specify a new entry named 'my-entry'
+      'my-entry': './src/home/test/index.ts',
     },
     disableDefaultEntries: true,
   },
@@ -90,9 +90,10 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   source: {
     entries: {
-      entry_customize: {
+      'my-entry': {
         // entry file path
-        entry: './src/home/test/App.tsx',
+        entry: './src/my-page/index.tsx',
+        disableMount: true,
       },
     },
     // Disable default entry scanning
@@ -111,8 +112,8 @@ If you want to disable the logic of Modern.js automatically generating entry fil
 export default defineConfig({
   source: {
     entries: {
-      entry_customize: {
-        entry: './src/home/test/index.tsx',
+      'my-entry': {
+        entry: './src/my-page/index.tsx',
         disableMount: true,
       },
     },

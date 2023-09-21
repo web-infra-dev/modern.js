@@ -1,5 +1,33 @@
 # @modern-js/prod-server
 
+## 2.35.1
+
+### Patch Changes
+
+- bb97082: fix(prod-server): error header key in other metaName
+  fix(prod-server): 错误的 header key 在不同的 metaName
+- 0db5680: fix(app-tools): failed to emit modern.config.json when distPath.root is absolute path
+
+  fix(app-tools): 修复 distPath.root 为绝对路径时无法输出 modern.config.json 的问题
+
+- 411cea2: fix(prod-server): the server need use headersSent without use flushHeader
+  fix(prod-server): 没有 flushHeader 时 server 应该使用 headersSent
+- 4980480: chore(prod-server): remove duplicated logger module
+
+  chore(prod-server): 移除重复的 logger 模块
+
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/runtime-utils@2.35.1
+  - @modern-js/server-core@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

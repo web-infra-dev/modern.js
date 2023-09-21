@@ -9,16 +9,14 @@ Modern.js Builder provides a lightweight CLI tool that includes basic commands s
 
 You need to install two packages:
 
-- `@modern-js/builder-cli` is the CLI tool for Builder, providing basic CLI commands and automatically loading the installed Provider in the current project.
-- `@modern-js/builder-webpack-provider` or `@modern-js/builder-rspack-provider`, they are Providers for Builder, offering build capabilities based on webpack or Rspack.
+- `@modern-js/builder-cli`: the CLI tool for Builder, providing basic CLI commands and automatically loading the installed Provider in the current project.
+- `@modern-js/builder-rspack-provider`: To provide the building capabilities based on Rspack.
 
-```bash
-# Using webpack for bundling
-pnpm add @modern-js/builder-cli @modern-js/builder-webpack-provider -D
+import { PackageManagerTabs } from '@theme';
 
-# Using Rspack for bundling
-pnpm add @modern-js/builder-cli @modern-js/builder-rspack-provider -D
-```
+<PackageManagerTabs command="add @modern-js/builder-cli @modern-js/builder-rspack-provider -D" />
+
+if you want to use webpack instead of Rspack, you can replace the `@modern-js/builder-rspack-provider` with `@modern-js/builder-webpack-provider`:
 
 ## Commands
 

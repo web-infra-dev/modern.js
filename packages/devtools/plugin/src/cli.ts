@@ -1,67 +1,94 @@
+import http from 'http';
+import path from 'path';
+import { ProxyDetail } from '@modern-js/types';
+import { getPort } from '@modern-js/utils';
+import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import _ from '@modern-js/utils/lodash';
-import { ClientDefinition, SetupClientOptions } from '@modern-js/devtools-kit';
-import { PartialDeep } from 'type-fest';
+import { SetupClientOptions, ClientDefinition } from '@modern-js/devtools-kit';
+import { withQuery } from 'ufo';
+import { Options, resolveOptions } from './config';
 import { setupClientConnection } from './rpc';
+import { SocketServer } from './utils/socket';
 
-export interface Options extends SetupClientOptions {
-  rpcPath?: string;
-  def?: PartialDeep<ClientDefinition>;
-}
-
-const getDefaultOptions = (): Options => ({
-  rpcPath: '/_modern_js/devtools/rpc',
-  def: new ClientDefinition(),
-});
+export type { Options };
 
 export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
   name: '@modern-js/plugin-devtools',
   usePlugins: [],
   setup: async api => {
-    const opts: Options = _.defaultsDeep(
-      _.cloneDeep(options),
-      getDefaultOptions(),
+    const port = await getPort(8782, { slient: true });
+    const clientServeDir = path.resolve(
+      require.resolve('@modern-js/devtools-client/package.json'),
+      '../dist',
     );
-    const mountOpts: SetupClientOptions = _.pick(opts, [
-      'endpoint',
-      'version',
-      'dataSource',
-    ]);
-    // setup socket server.
-    const { hooks, builderPlugin, url } = await setupClientConnection({
-      api,
-      def: opts.def,
+    const serveMiddleware = createServeMiddleware(clientServeDir);
+    const httpServer = http.createServer((req, res) => {
+      const usePageNotFound = () => {
+        res.write('404');
+        res.statusCode = 404;
+        res.end();
+      };
+      const useMainRoute = () => {
+        req.url = '/html/main/index.html';
+        serveMiddleware(req, res, usePageNotFound);
+      };
+      serveMiddleware(req, res, useMainRoute);
     });
+    httpServer.listen(port);
+
+    const socketServer = new SocketServer({ server: httpServer, path: '/rpc' });
+    const rpc = await setupClientConnection({ api, server: socketServer });
 
     return {
-      prepare: hooks.prepare,
-      modifyFileSystemRoutes: hooks.modifyFileSystemRoutes,
+      prepare: rpc.hooks.prepare,
+      modifyFileSystemRoutes: rpc.hooks.modifyFileSystemRoutes,
       validateSchema() {
         return [
           {
-            target: 'tools.devtools',
-            schema: { typeof: ['boolean'] },
+            target: 'devtools',
+            schema: { typeof: ['boolean', 'object'] },
           },
         ];
       },
+      beforeRestart() {
+        return new Promise((resolve, reject) =>
+          httpServer.close(err => (err ? reject(err) : resolve())),
+        );
+      },
       config() {
+        const opts = resolveOptions(api, options);
+        opts.def && rpc.setDefinition(opts.def);
+
+        const mountOpts = {
+          dataSource: `/_modern_js/devtools/rpc`,
+          endpoint: `/_modern_js/devtools`,
+          __keep: true,
+        } as SetupClientOptions;
+        let runtimeEntry = require.resolve(
+          '@modern-js/plugin-devtools/runtime',
+        );
+        runtimeEntry = withQuery(runtimeEntry, mountOpts);
+
         return {
-          builderPlugins: [builderPlugin],
+          builderPlugins: [rpc.builderPlugin],
           source: {
-            preEntry: [require.resolve('@modern-js/plugin-devtools/runtime')],
+            preEntry: [runtimeEntry],
             globalVars: {
-              'process.env.__MODERN_DEVTOOLS_MOUNT_OPTIONS': mountOpts as any,
+              'process.env._MODERN_DEVTOOLS_LOGO_SRC': new ClientDefinition()
+                .assets.logo,
             },
           },
           tools: {
             devServer: {
               proxy: {
-                [opts.rpcPath!]: {
-                  target: url.href,
-                  autoRewrite: true,
+                '/_modern_js/devtools': {
+                  target: `http://localhost:${port}`,
+                  pathRewrite: {
+                    '^/_modern_js/devtools': '',
+                  },
                   ws: true,
                 },
-              },
+              } as Record<string, ProxyDetail>,
             },
           },
         };

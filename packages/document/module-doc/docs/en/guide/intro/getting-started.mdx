@@ -22,7 +22,7 @@ Execute `npx @modern-js/create -h` for more command line arguments
 
 Next, in the issue interaction, follow the options below.
 
-```bash
+```text
 ? Please select the type of project you want to create: Npm Module
 ? Please fill in the project name: library
 ? Please select the programming language: TS
@@ -44,9 +44,9 @@ From your shell, install the following dependencies in your project.
 
 > If it's a TypeScript project, add the `"typescript"` dependency.
 
-```bash
-npm install -D @modern-js/module-tools typescript
-```
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add @modern-js/module-tools typescript -D" />
 
 > For projects that use pnpm or the Yarn package manager, just replace npm. **pnpm is recommended**.
 
@@ -56,8 +56,8 @@ Next, create the `modern.config.(t|j)s` file in the root of the project.
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
-    plugins: [moduleTools()],
-})
+  plugins: [moduleTools()],
+});
 ```
 
 Finally, add the command `"build": "modern build"` to the project's `package.json` file.

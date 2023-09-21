@@ -34,7 +34,7 @@ const Page: React.FC = () => {
   return (
     <Flex direction="column" align="center">
       <Flex gap="2">
-        <img src={store.assets.logo} />
+        <LogoImage src={store.assets.logo} />
         <LogoHeading src={srcHeading} />
       </Flex>
       <Description>
@@ -119,4 +119,10 @@ const Description = styled(Text)({
 
 const LogoHeading = styled.img({
   width: '10rem',
+});
+
+const LogoImage = styled.img({
+  width: '2rem',
+  height: '2rem',
+  objectFit: 'contain',
 });

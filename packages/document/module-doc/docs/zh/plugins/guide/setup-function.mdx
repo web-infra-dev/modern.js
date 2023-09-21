@@ -103,6 +103,8 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 });
 ```
 
+注意，只有当前插件的 setup 异步函数执行完毕，才会继续执行下一个插件的 setup 函数。因此，你需要避免在 setup 函数中进行耗时过长的异步操作，防止影响 CLI 启动性能。
+
 ## 生命周期钩子
 
 我们知道 `setup` 函数会返回一个 Hooks 对象，所谓 Hooks 对象也可以理解是具有 Modern.js Module 生命周期钩子的对象。

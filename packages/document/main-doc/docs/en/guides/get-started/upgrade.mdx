@@ -8,11 +8,13 @@ sidebar_position: 3
 
 Modern.js provides the `upgrade` command to support upgrading the project to the latest version of Modern.js.
 
-Run `pnpm run upgrade` in the project:
+Run the `upgrade` script in the project:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="run upgrade" />
 
 ```bash
-$ pnpm run upgrade
-
 > modern upgrade
 
 [INFO] [Project Type]: Web App
@@ -22,11 +24,15 @@ $ pnpm run upgrade
 
 You can see that the dependencies in the project's `package.json` have been updated to the latest version.
 
+:::tip
+If the `upgrade` command is not declared in the project's `package.json`, you can execute `npx modern upgrade` as an equivalent alternative.
+:::
+
 ## Upgrade to a specified version
 
 All packages of Modern.js are currently released with a **uniform version number**.
 
-import ReleaseNote from "@site-docs-en/components/release-note"
+import ReleaseNote from '@site-docs-en/components/release-note';
 
 <ReleaseNote />
 

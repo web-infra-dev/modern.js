@@ -6,9 +6,9 @@ sidebar_position: 1
 
 通过本章节，你可以了解到 Modern.js 中的入口约定，以及如何自定义入口。
 
-## 什么是入口（Entry）
+## 什么是入口
 
-**入口指的是一个页面的起始模块。**
+**入口（Entry）指的是一个页面的起始模块。**
 
 在 Modern.js 项目中，每一个入口对应一个独立的页面，也对应一条服务端路由。默认情况下，Modern.js 会基于目录约定来自动确定页面的入口，同时也支持通过配置项来自定义入口。
 
@@ -56,7 +56,7 @@ Modern.js 初始化的项目是单入口的（SPA），项目结构如下：
 
 原本的入口代码被移动到了和 `package.json` 中 `name` 同名的目录下，并创建了 `new-entry` 入口目录。
 
-执行 `pnpm run dev` 后，可以看到新增了一条名为 `/new-entry` 的路由，并且被迁移的代码路由并未发生变化。
+你可以执行 `pnpm run dev` 启动开发服务，此时可以看到新增了一条名为 `/new-entry` 的路由，并且原有页面的路由并未发生变化。
 
 :::tip
 Modern.js 会将与 `package.json` 文件中 `name` 字段同名的入口作为主入口，主入口的路由为 `/`，其他入口的路由为 `/{entryName}`。
@@ -76,7 +76,8 @@ import EntryMode from '@site-docs/components/entry-mode.mdx';
 默认情况下，Modern.js 启动项目前会对 `src/` 下的文件进行扫描，识别入口，并生成对应的服务端路由。
 
 :::tip
-可以通过 [source.entriesDir](/configure/app/source/entries-dir) 修改页面的入口识别目录。
+- 你可以通过 [source.entriesDir](/configure/app/source/entries-dir) 修改页面入口的识别目录。
+- 如果你需要自定义入口，请参考 [自定义入口](#自定义入口)。
 
 :::
 
@@ -98,7 +99,7 @@ import EntryMode from '@site-docs/components/entry-mode.mdx';
 
 ### 框架模式入口
 
-框架模式指需要使用 Modern.js 框架能力，例如 Router、SSR、一体化调用等。这类入口约定下，开发者定义的入口并不是真正的 webpack 编译入口。Modern.js 在启动时会生成一个封装过的入口，可以在 `node_modules/.modern/{entryName}/index.js` 找到真正的入口。
+框架模式指的是需要使用 Modern.js 的框架能力，例如嵌套路由、SSR、一体化调用等。这类入口约定下，开发者定义的入口并不是真正的编译入口。Modern.js 在启动时会生成一个封装过的入口，可以在 `node_modules/.modern/[entryName]/index.js` 找到真正的入口。
 
 #### 约定式路由
 
@@ -146,7 +147,7 @@ export default (App: React.ComponentType, bootstrap: () => void) => {
   // do something before bootstrap...
   initSomething().then(() => {
     bootstrap();
-  })
+  });
 };
 ```
 
@@ -170,7 +171,9 @@ function render() {
     // runtime 的插件参数...
   })(App);
   if (IS_BROWSER) {
-    customBootstrap(AppWrapper, () => bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM));
+    customBootstrap(AppWrapper, () =>
+      bootstrap(AppWrapper, MOUNT_ID, root, ReactDOM),
+    );
   }
   return AppWrapper;
 }
@@ -182,9 +185,11 @@ export default AppWrapper;
 
 ### 构建模式入口
 
-构建模式是指不使用任何 Modern.js 运行时的能力，完全由开发者自己定义项目 webpack 的入口。
+构建模式指的是不使用 Modern.js 自动生成的入口，而是完全由开发者自行定义页面的入口。
 
-如果入口中存在 `index.[jt]sx` ，并且没有默认导出函数时，这时候该文件就是真正的 webpack 入口文件。这里和 [Create React App](https://github.com/facebook/create-react-app) 类似，需要自己将组件挂载到 DOM 节点、添加热更新代码等。例如:
+当入口目录中存在 `index.[jt]sx`，并且没有通过 `export default` 导出函数时，这类文件就会被识别为 webpack 或 Rspack 的 entry 模块。
+
+此时 Modern.js 不会自动生成入口代码，因此需要你自行将组件挂载到 DOM 节点上，例如:
 
 ```js title=src/index.jsx
 import React from 'react';
@@ -194,42 +199,39 @@ import App from './App';
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
-Modern.js **不推荐**新项目使用这种方式，这种方式丧失了框架的一些能力，如 **`modern.config.js` 文件中的 `runtime` 配置将不会再生效**。但是在项目从其他框架迁移到 Modern.js，例如 CRA，或是自己手动搭建的 webpack 时，这种方式会非常有用。
+这种方式等价于开启 Modern.js 的 [source.entries.disableMount](/configure/app/source/entries) 选项。当你使用这种方式时，**将无法使用 Modern.js 框架的运行时能力**，比如 modern.config.js 文件中的 `runtime` 配置将不会再生效。
 
-## 使用配置指定入口
+## 自定义入口
 
-大部分存量项目并不是按照 Modern.js 的目录结构来搭建的。如果要改成 Modern.js 约定的目录结构，会存在一定的迁移成本。
+在某些情况下，你可能需要自定义入口配置，而不是使用 Modern.js 提供的入口约定。
 
-在这种情况下，除了使用文件约定生成入口外，你可以在 `modern.config.[jt]s` 中手动配置入口。
+比如你需要将一个非 Modern.js 项目迁移到 Modern.js，它并不是按照 Modern.js 的目录结构来搭建的。如果你要将它改成 Modern.js 约定的目录结构，可能会存在一定的迁移成本。这种情况下，你就可以使用自定义入口。
+
+Modern.js 提供了以下配置项，你可以在 [modern.config.ts](/configure/app/usage) 中配置它们：
+
+- [source.entries](/configure/app/source/entries)：用于设置自定义的入口对象。
+- [source.disableDefaultEntries](/configure/app/source/disable-default-entries)：用于关闭 Modern.js 默认的入口扫描行为。当你使用自定义入口时，项目的部分结构可能会恰巧命中 Modern.js 约定的目录结构，但你可能不希望 Modern.js 为你自动生成入口配置，开启该选项可以避免这个问题。
+
+### 示例
+
+下面是一个自定义入口的例子，你也可以查看相关配置项的文档来了解更多用法。
 
 ```ts title="modern.config.ts"
 export default defineConfig({
   source: {
     entries: {
-      // 指定一个名称为 entry_customize 的新入口
-      entry_customize: './src/home/test/index.ts',
+      // 指定一个名为 'my-entry' 的入口
+      'my-entry': {
+        // 入口模块的路径
+        entry: './src/my-page/index.tsx',
+        // 关闭 Modern.js 自动生成入口代码的行为
+        disableMount: true,
+      },
     },
-    // 禁用默认入口扫描
+    // 禁用入口扫描行为
     disableDefaultEntries: true,
   },
 });
 ```
 
-### 禁用默认入口扫描
-
-当使用自定义入口时，项目的部分结构可能恰巧命中了 Modern.js 的目录约定，但实际上这部分目录并不是真实的入口。
-
-Modern.js 提供了 `disableDefaultEntries` 配置，来禁用默认的入口扫描规则。当你需要自定义入口时，一般需要将 `disableDefaultEntries` 与 `entries` 结合使用。这样，一些存量项目可以在不修改目录结构的情况下，快速地进行迁移。
-
-```ts title="modern.config.ts"
-export default defineConfig({
-  source: {
-    disableDefaultEntries: true,
-  },
-});
-```
-
-:::tip
-详细用法请查看 [source.entries](/configure/app/source/entries) 和 [source.disableDefaultEntries](/configure/app/source/disable-default-entries)。
-
-:::
+注意，当你开启 `disableMount` 时，**将无法使用 Modern.js 框架的运行时能力**，比如 modern.config.ts 文件中的 `runtime` 配置将不会再生效。

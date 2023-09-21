@@ -67,9 +67,7 @@ export const getPort = async (
       );
     } else if (!slient) {
       logger.info(
-        `Something is already running on port ${original}. ${chalk.yellow(
-          `Use port ${port} instead.`,
-        )}`,
+        `Port ${original} is in use. ${chalk.yellow(`using port ${port}.`)}`,
       );
     }
   }
