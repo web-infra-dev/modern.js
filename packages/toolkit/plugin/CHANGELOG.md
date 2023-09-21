@@ -1,5 +1,19 @@
 # @modern-js/plugin
 
+## 2.35.1
+
+### Patch Changes
+
+- 14f95cf: fix(plugin): run async setup function in the correct order
+
+  fix(plugin): 以正确的顺序执行异步的 setup 函数
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

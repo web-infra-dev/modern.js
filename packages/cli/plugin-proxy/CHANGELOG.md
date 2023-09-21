@@ -1,5 +1,19 @@
 # @modern-js/plugin-proxy
 
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

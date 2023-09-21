@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.35.0",
+  "version": "2.35.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -94,10 +94,6 @@
       "types": "./compiled/postcss-modules-values/index.d.ts",
       "default": "./compiled/postcss-modules-values/index.js"
     },
-    "./pretty-time": {
-      "types": "./compiled/pretty-time/index.d.ts",
-      "default": "./compiled/pretty-time/index.js"
-    },
     "./webpack-merge": {
       "types": "./compiled/webpack-merge/index.d.ts",
       "default": "./compiled/webpack-merge/index.js"
@@ -147,9 +143,6 @@
       ],
       "postcss-modules-values": [
         "./compiled/postcss-modules-values/index.d.ts"
-      ],
-      "pretty-time": [
-        "./compiled/pretty-time/index.d.ts"
       ],
       "webpack-merge": [
         "./compiled/webpack-merge/types/index.d.ts"
@@ -212,7 +205,6 @@
       "./postcss-modules-local-by-default": "./compiled/postcss-modules-local-by-default/index.js",
       "./postcss-modules-scope": "./compiled/postcss-modules-scope/index.js",
       "./postcss-modules-values": "./compiled/postcss-modules-values/index.js",
-      "./pretty-time": "./compiled/pretty-time/index.js",
       "./webpack-merge": "./compiled/webpack-merge/index.js"
     }
   }

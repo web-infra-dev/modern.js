@@ -4,6 +4,6 @@
 '@modern-js/builder-shared': patch
 ---
 
-feat(builder): unify progress bar style in webpack / Rspack mode
+feat(builder): improve time logs format
 
-feat(builder): 对齐 webpack / Rspack 模式下的进度条样式
+feat(builder): 优化时间日志的格式

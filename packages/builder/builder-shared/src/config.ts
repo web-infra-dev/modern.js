@@ -360,17 +360,12 @@ export const chainStaticAssetRule = ({
   // forceNoInline: "foo.png?__inline=false" or "foo.png?url",
   rule
     .oneOf(`${assetType}-asset-url`)
-    .type('asset')
+    .type('asset/resource')
     .resourceQuery(/(__inline=false|url)/)
     .set('generator', {
       filename,
     })
-    .set('issuer', issuer)
-    .parser({
-      dataUrlCondition: {
-        maxSize: 0,
-      },
-    });
+    .set('issuer', issuer);
 
   // forceInline: "foo.png?inline" or "foo.png?__inline",
   rule

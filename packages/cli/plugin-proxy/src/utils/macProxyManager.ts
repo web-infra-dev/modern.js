@@ -2,6 +2,8 @@ import execSync from './execSync';
 
 const networkTypes = ['Ethernet', 'Thunderbolt Ethernet', 'Wi-Fi'];
 
+const isMacOS = () => process.platform === 'darwin';
+
 const getNetworkType = () => {
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < networkTypes.length; i++) {
@@ -17,6 +19,11 @@ const getNetworkType = () => {
 };
 
 export const enableGlobalProxy = (ip: string, port: string) => {
+  // The `networksetup` command only exists under macOS
+  if (!isMacOS()) {
+    return;
+  }
+
   const networkType = getNetworkType();
 
   // && networksetup -setproxybypassdomains ${networkType} localhost localhost
@@ -25,6 +32,10 @@ export const enableGlobalProxy = (ip: string, port: string) => {
 };
 
 export const disableGlobalProxy = () => {
+  if (!isMacOS()) {
+    return;
+  }
+
   const networkType = getNetworkType();
   execSync(`networksetup -setwebproxystate ${networkType} off`);
   execSync(`networksetup -setsecurewebproxystate ${networkType} off`);

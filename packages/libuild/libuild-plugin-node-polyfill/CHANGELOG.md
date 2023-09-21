@@ -1,5 +1,12 @@
 # @modern-js/libuild-plugin-node-polyfill
 
+## 2.35.1
+
+### Patch Changes
+
+- 6893765: fix(libuild-plugin-node-polyfill): fix error resolve path
+  fix(libuild-plugin-node-polyfill): 修复错误的解析路径
+
 ## 2.35.0
 
 ## 2.34.0
