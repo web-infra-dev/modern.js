@@ -10,13 +10,8 @@ exports[`plugins/asset(image) > 'should add image rules correctly' 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -51,13 +46,8 @@ exports[`plugins/asset(image) > 'should allow to use distPath.image to be empty 
             "generator": {
               "filename": "[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -92,13 +82,8 @@ exports[`plugins/asset(image) > 'should allow to use distPath.image to modify di
             "generator": {
               "filename": "foo/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -133,13 +118,8 @@ exports[`plugins/asset(image) > 'should allow to use filename.image to modify fi
             "generator": {
               "filename": "static/image/foo[ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
