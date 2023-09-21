@@ -44,7 +44,7 @@ export interface RuntimeByEntriesUserConfig {
   [name: string]: RuntimeUserConfig;
 }
 
-export type SharedUserConfig = {
+export interface SharedUserConfig {
   server?: ServerUserConfig;
   source?: SharedSourceConfig;
   output?: SharedOutputConfig;
@@ -64,7 +64,8 @@ export type SharedUserConfig = {
   testing?: TestingUserConfig;
   builderPlugins?: BuilderPlugin[];
   performance?: SharedPerformanceConfig;
-};
+  devtools?: any;
+}
 
 export interface AppToolsUserConfig extends SharedUserConfig {
   source?: SourceUserConfig;

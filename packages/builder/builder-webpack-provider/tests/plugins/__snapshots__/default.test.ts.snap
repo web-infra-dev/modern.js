@@ -49,13 +49,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -86,29 +81,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -150,13 +130,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -182,13 +157,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -214,13 +184,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -368,6 +333,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -870,10 +836,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Client",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -882,7 +848,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
     ReactRefreshPlugin {
       "options": {
@@ -984,13 +949,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -1021,29 +981,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -1085,13 +1030,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -1117,13 +1057,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -1149,13 +1084,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -1303,6 +1233,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -1862,10 +1793,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Client",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -1874,7 +1805,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
   ],
   "resolve": {
@@ -1967,13 +1897,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -2004,29 +1929,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -2068,13 +1978,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2100,13 +2005,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2132,13 +2032,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2229,6 +2124,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -2673,10 +2569,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Server",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -2685,7 +2581,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
   ],
   "resolve": {
@@ -2776,13 +2671,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -2813,29 +2703,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -2877,13 +2752,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2909,13 +2779,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2941,13 +2806,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -3027,6 +2887,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
             "options": {
               "join": [Function],
+              "sourceMap": false,
             },
           },
           {
@@ -3474,10 +3335,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     ProgressPlugin {
       "compileTime": null,
       "dependenciesCount": 10000,
-      "disableTsChecker": false,
+      "disableTsChecker": undefined,
       "handler": [Function],
       "hasCompileErrors": false,
-      "hasTypeErrors": false,
+      "id": "Web Worker",
       "modulesCount": 5000,
       "name": "ProgressPlugin",
       "percentBy": null,
@@ -3486,7 +3347,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
       "showDependencies": true,
       "showEntries": true,
       "showModules": true,
-      "showRecompileLog": true,
     },
   ],
   "resolve": {

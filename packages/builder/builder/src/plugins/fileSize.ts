@@ -59,8 +59,10 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
       folder: path.join(path.basename(distPath), path.dirname(asset.name)),
       name: path.basename(asset.name),
       gzippedSize,
-      sizeLabel: filesize(size),
-      gzipSizeLabel: getAssetColor(gzippedSize)(filesize(gzippedSize)),
+      sizeLabel: filesize(size, { round: 1 }),
+      gzipSizeLabel: getAssetColor(gzippedSize)(
+        filesize(gzippedSize, { round: 1 }),
+      ),
     };
   };
 
@@ -99,7 +101,7 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
     ...assets.map(a => stripAnsi(a.folder + path.sep + a.name).length),
   );
 
-  logger.info(`File sizes after production build:\n`);
+  logger.info(`Production file sizes:\n`);
 
   printHeader(longestFileLength, longestLabelLength);
 
@@ -133,9 +135,11 @@ async function printFileSizes(stats: Stats | MultiStats, distPath: string) {
 
   const totalSizeLabel = `${chalk.bold.blue('Total size:')}  ${filesize(
     totalSize,
+    { round: 1 },
   )}`;
   const gzippedSizeLabel = `${chalk.bold.blue('Gzipped size:')}  ${filesize(
     totalGzipSize,
+    { round: 1 },
   )}`;
   logger.log(`\n  ${totalSizeLabel}\n  ${gzippedSizeLabel}\n`);
 }

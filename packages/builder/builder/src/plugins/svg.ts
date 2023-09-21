@@ -52,24 +52,15 @@ export const builderPluginSvg = (): DefaultBuilderPlugin => {
 
         rule
           .oneOf(CHAIN_ID.ONE_OF.SVG_INLINE)
-          .type('javascript/auto')
-          .resourceQuery(/inline/)
-          .use(CHAIN_ID.USE.URL)
-          .loader(getSharedPkgCompiledPath('url-loader'))
-          .options({
-            limit: Infinity,
-            name: outputName,
-          });
+          .type('asset/inline')
+          .resourceQuery(/inline/);
 
         rule
           .oneOf(CHAIN_ID.ONE_OF.SVG_URL)
-          .type('javascript/auto')
+          .type('asset/resource')
           .resourceQuery(/url/)
-          .use(CHAIN_ID.USE.URL)
-          .loader(getSharedPkgCompiledPath('url-loader'))
-          .options({
-            limit: false,
-            name: outputName,
+          .set('generator', {
+            filename: outputName,
           });
 
         rule

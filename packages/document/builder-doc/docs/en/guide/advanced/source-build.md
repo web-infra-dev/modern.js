@@ -106,6 +106,43 @@ If the sub-project uses [exports](https://nodejs.org/api/packages.html#package-e
 }
 ```
 
+## Configure Project Reference
+
+In a TypeScript project, you need to use the capability provided by TypeScript called [Project Reference](https://www.typescriptlang.org/docs/handbook/project-references.html). It helps you develop source code more effectively.
+
+### Introduction
+
+Project reference provides the following capabilities:
+
+- It allows TypeScript to correctly recognize the types of other sub-projects without the need to build them.
+- When you navigate the code in VS Code, it automatically takes you to the corresponding source code file of the module.
+- Modern.js Builder reads the project reference configuration and automatically recognizes the `tsconfig.compilerOptions.path` configuration of the sub-project, so that the use of aliases in the sub-project works correctly.
+
+### Example
+
+In the example mentioned earlier, since the app project references the lib sub-project, we need to configure the `composite` and `references` options in the app project's `tsconfig.json` file and point them to the corresponding relative directory of lib:
+
+```json title="app/tsconfig.json"
+{
+  "compilerOptions": {
+    "composite": true
+  },
+  "references": [
+    {
+      "path": "../lib"
+    }
+  ]
+}
+```
+
+After adding these two options, the project reference is already configured. You can restart VS Code to see the effects of the configuration.
+
+Note that the above example is a simplified one. In real monorepo projects, there may be more complex dependency relationships. You need to add a complete `references` configuration for the functionality to work correctly.
+
+:::tip
+If you want to learn more about project reference, please refer to the official documentation on [TypeScript - Project References](https://www.typescriptlang.org/docs/handbook/project-references.html).
+:::
+
 ## Caveat
 
 When using source code build mode, there are a few things to keep in mind:
@@ -113,3 +150,8 @@ When using source code build mode, there are a few things to keep in mind:
 1. Ensure that the current project can compile the syntax or features used in the sub-project. For example, if the sub-project uses Stylus to write CSS, the current app needs to support Stylus compilation.
 2. Ensure that the current project has the same code syntax and features as the sub-project, such as consistent syntax versions for decorators.
 3. Source code building may have some limitations. When encountering issues, you can remove the `source` field from the sub-project's package.json and debug using the built artifacts of the sub-project.
+4. When `composite: true` is enabled, TypeScript will generate `*.tsbuildinfo` temporary files. You need to add these temporary files to the `.gitignore` file.
+
+```text title=".gitignore"
+*.tsbuildinfo
+```

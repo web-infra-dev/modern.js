@@ -5,16 +5,18 @@
 const defaultOptions = {
   postcssOptions: {
     plugins: [
+      // 以下插件默认启用
+      require('postcss-nesting'),
+      require('postcss-media-minmax'),
       require('postcss-flexbugs-fixes'),
+      require('autoprefixer')({
+        flexbox: 'no-2009',
+      }),
+      // 以下插件仅在需要兼容低版本浏览器时启用
       require('postcss-custom-properties'),
       require('postcss-initial'),
       require('postcss-page-break'),
       require('postcss-font-variant'),
-      require('postcss-media-minmax'),
-      require('postcss-nesting'),
-      require('autoprefixer')({
-        flexbox: 'no-2009',
-      }),
     ],
     // 默认在开发环境下启用 CSS 的 Source Map
     sourceMap: isDev,

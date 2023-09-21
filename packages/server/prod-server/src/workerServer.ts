@@ -193,7 +193,7 @@ export const createHandler = (manifest: Manifest) => {
         const params = pageMatch.parseURLParams(url.pathname) || {};
 
         const { urlPath: baseUrl } = pageMatch;
-        const serverRenderContext: BaseSSRServerContext = {
+        const serverRenderContext: BaseSSRServerContext<'worker'> = {
           request: createServerRequest(url, baseUrl, request, params),
           response: responseLike,
           loadableStats,
@@ -204,15 +204,14 @@ export const createHandler = (manifest: Manifest) => {
           logger,
           reporter: defaultReporter,
           metrics,
-          // FIXME: pass correctly req & res
-          req: request as any,
+          req: request,
+          res: responseLike,
           serverTiming: {
             addServeTiming() {
               // noImpl
               return this;
             },
           },
-          res: responseLike as any,
         };
 
         const body = await page.serverRender(serverRenderContext);

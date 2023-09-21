@@ -11,9 +11,6 @@ export const builderPluginProgress = (): BuilderPlugin => ({
         return;
       }
 
-      const isFirstTarget =
-        !Array.isArray(api.context.target) || target === api.context.target[0];
-
       const { ProgressPlugin } = await import(
         '../webpackPlugins/ProgressPlugin/ProgressPlugin'
       );
@@ -21,9 +18,6 @@ export const builderPluginProgress = (): BuilderPlugin => ({
         {
           id: TARGET_ID_MAP[target],
           ...(options === true ? {} : options),
-          // If there is multiple target, show recompile log only once
-          showRecompileLog: isFirstTarget,
-          disableTsChecker: config.output.disableTsChecker,
         },
       ]);
     });

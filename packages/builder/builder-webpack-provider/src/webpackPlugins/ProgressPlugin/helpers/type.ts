@@ -8,10 +8,6 @@ export type Props = {
   char: string;
   width: number;
   buildIcon: string;
-  errorIcon: string;
-  errorInfo: string;
-  finishIcon: string;
-  finishInfo: string;
   message: string;
   done: boolean;
   messageWidth: number;
@@ -19,7 +15,6 @@ export type Props = {
   messageColor: typeof Color;
   id: string;
   maxIdLen: number;
-  compileTime: string | null;
   hasErrors: boolean;
 };
 

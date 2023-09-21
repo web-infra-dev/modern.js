@@ -1,4 +1,10 @@
-import { logger, debug, formatStats } from '@modern-js/builder-shared';
+import {
+  debug,
+  logger,
+  prettyTime,
+  formatStats,
+  TARGET_ID_MAP,
+} from '@modern-js/builder-shared';
 import type { Context, RspackConfig } from '../types';
 
 export async function createCompiler({
@@ -27,9 +33,15 @@ export async function createCompiler({
     });
 
     if (!stats.hasErrors()) {
-      obj.children?.forEach(c => {
-        c.time &&
-          logger.success(`${c.name} compiled successfully in`, c.time, 'ms');
+      obj.children?.forEach((c, index) => {
+        if (c.time) {
+          const time = prettyTime([0, c.time * 10 ** 6]);
+          const target = Array.isArray(context.target)
+            ? context.target[index]
+            : context.target;
+          const name = TARGET_ID_MAP[target || 'web'];
+          logger.ready(`${name} compiled in ${time}`);
+        }
       });
     }
 

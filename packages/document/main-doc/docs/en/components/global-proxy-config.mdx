@@ -7,16 +7,9 @@ This option is used to configure a global proxy based on [whistle](https://wprox
 
 Before using this option, you need to install and register the `@modern-js/plugin-proxy` plugin:
 
-```bash
-# npm
-npm add @modern-js/plugin-proxy -D
+import { PackageManagerTabs } from '@theme';
 
-# yarn
-yarn add @modern-js/plugin-proxy -D
-
-# pnpm
-pnpm add @modern-js/plugin-proxy -D
-```
+<PackageManagerTabs command="add @modern-js/plugin-proxy -D" />
 
 After the installation, please register the plugin in the `modern.config.ts` file:
 
@@ -75,13 +68,11 @@ module.exports = {
 Execute `dev`, when the prompt is as follows, the proxy server starts successfully:
 
 ```bash
-  App running at:
-
   Local:    http://localhost:8080/
   Network:  http://192.168.0.1:8080/
 
-ℹ  info      Starting the proxy server.....
-✔  success   Proxy Server start on localhost:8899
+info      Starting proxy server.....
+success   Proxy server start on localhost:8899
 ```
 
 Access the `localhost:8899` to view the Network and configure proxy rules on the UI interface:

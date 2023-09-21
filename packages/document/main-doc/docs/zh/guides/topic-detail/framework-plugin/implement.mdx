@@ -177,6 +177,8 @@ export const myPlugin = (): CliPlugin => ({
 });
 ```
 
+注意，只有当前插件的 setup 异步函数执行完毕，才会继续执行下一个插件的 setup 函数。因此，你需要避免在 setup 函数中进行耗时过长的异步操作，防止影响 CLI 启动性能。
+
 ## 添加插件
 
 自定义插件的使用方式可以查看：[plugins (框架插件)](/configure/app/plugins)。下面会介绍 Modern.js 中推荐的插件实现方法。

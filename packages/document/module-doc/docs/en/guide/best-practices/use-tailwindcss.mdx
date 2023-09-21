@@ -10,36 +10,65 @@ Modern.js Module supports developing component styles using Tailwind CSS.
 
 ## Enabling Tailwind CSS
 
-By default, Modern.js Module does not have this feature enabled. You can enable it by following the steps below.
+To use [Tailwind CSS](https://tailwindcss.com/) in Modern.js Module, you can follow the steps below:
 
-1. Execute the `new` command in the project root directory to enable Tailwind CSS.
+1. Run `pnpm run new` in the root directory of your project and make the following selections:
 
-```text title="Terminal"
-pnpm run new
-
+```text
 ? Please select the operation you want: Enable features
 ? Please select the feature name: Enable Tailwind CSS
 ```
 
-2. After successful enabling, you will see a new dependency added to `package.json`.
+After successful initialization, you will see the following additions to the `package.json` file:
 
 ```json title="./package.json"
 {
+  "dependencies": {
+    "tailwindcss": "^3.0.0"
+  },
   "devDependencies": {
-    "@modern-js/plugin-tailwindcss": "x.y.z"
+    "@modern-js/plugin-tailwindcss": "^2.0.0"
   }
 }
 ```
 
-3. Finally, you need to manually register the `tailwindcssPlugin` in the configuration file:
+2. Register the Tailwind plugin in `modern.config.ts`:
 
 ```ts title="modern.config.ts"
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { tailwindcssPlugin } from '@modern-js/plugin-tailwindcss';
 
 export default defineConfig({
-  plugins: [moduleTools(), tailwindPlugin()],
+  plugins: [..., tailwindcssPlugin()],
 });
+```
+
+3. Create a `index.css` file and add the following code:
+
+```css title="index.css"
+/* base and components are optional, please add as appropriate */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+:::info
+Depending on your needs, you can selectively import the CSS styles provided by Tailwind CSS. Please refer to the [`@tailwind` documentation](https://tailwindcss.com/docs/functions-and-directives#tailwind) for detailed usage of the `@tailwind` directive.
+:::
+
+4. Import the `index.css` file, for example, add the following code in the root component `src/index.jsx`:
+
+```js
+import './index.css';
+```
+
+5. Now you can use the Utility Classes provided by Tailwind CSS in your components:
+
+```tsx
+const Hello = () => (
+  <div className="h-12 w-48">
+    <p className="text-xl font-medium text-black">hello world</p>
+  </div>
+);
 ```
 
 ## Configuring Tailwind CSS
@@ -83,36 +112,128 @@ You can follow the steps below to enable the autocomplete feature:
 1. Install the [Tailwind CSS IntelliSense](https://github.com/tailwindlabs/tailwindcss-intellisense) extension in VS Code.
 2. If the root directory of your project does not have a `tailwind.config.{ts,js}` file, you need to create one and write the Tailwind CSS configuration for your current project. Otherwise, the IDE plugin will not work correctly.
 
-## Usage Introduction
+## Build Modes
 
-Tailwind CSS provides two ways of usage:
+When using Tailwind CSS, please note that there are significant differences between the bundle and bundleless modes in terms of the build artifacts.
+
+:::tip
+For definitions of bundle and bundleless, please refer to the ["In-depth understanding of build"](/guide/advance/in-depth-about-build).
+:::
+
+### Bundle Mode
+
+In Bundle mode, a separate CSS file is generated, and the JS output does not automatically reference the CSS output file.
+
+- Source code:
+
+```tsx title="./src/index.tsx"
+import './index.css';
+
+export default () => {
+  return <div className="bg-black">hello world</div>;
+};
+```
+
+- Output code:
+
+```js title="./dist/es/index.js"
+// src/index.tsx
+import { jsx } from 'react/jsx-runtime';
+var src_default = () => {
+  return /* @__PURE__ */ jsx('div', {
+    className: 'bg-black',
+    children: 'hello world',
+  });
+};
+export { src_default as default };
+```
+
+```css title="./dist/es/index.css"
+.bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+/** some more... */
+```
+
+If you need to inject styles into the JS artifact, you can enable the [style.inject](/api/config/build-config#styleinject) option.
+
+If you haven't enabled `style.inject`, you can also let users manually import the CSS file:
+
+```js
+import 'your-package/dist/es/index.css';
+```
+
+### Bundleless Mode
+
+In bundleless mode, the CSS file is automatically imported in the artifact code without the need for additional processing.
+
+- Output code:
+
+```js title="./dist/es/index.js"
+import { jsx as _jsx } from 'react/jsx-runtime';
+import './index.css';
+export default () =>
+  /* @__PURE__ */ _jsx('div', {
+    className: 'bg-black',
+    children: 'hello world',
+  });
+```
+
+## Class Name Prefix
+
+You can add a class name prefix using the [prefix](https://tailwindcss.com/docs/configuration#prefix) option provided by Tailwind CSS. This helps avoid potential class name conflicts, such as when different versions of Tailwind CSS are used in different parts of an application or module.
+
+For example, you can add the `foo-` prefix using the `prefix` option in `tailwind.config.js`:
+
+```js title="tailwind.config.js"
+module.exports = {
+  prefix: 'foo-',
+};
+```
+
+- Source Code:
+
+```tsx title="./src/index.tsx"
+import './index.css';
+
+export default () => {
+  return <div className="foo-bg-black">hello world</div>;
+};
+```
+
+- Output Code:
+
+```css title="./dist/es/index.css"
+.foo-bg-black {
+  --tw-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+/** some more... */
+```
+
+## Usage Guide
+
+Here are some usage examples of Tailwind CSS.
 
 ### HTML Class Names
 
-Tailwind CSS supports adding styles by using class names on HTML tags. **When using HTML class names, make sure to import the corresponding CSS file of Tailwind CSS.**
+Tailwind CSS supports adding styles to HTML tags through class names. **When using HTML class names, please note that the corresponding CSS styles of Tailwind CSS must be imported in advance.**
 
 ```tsx title="./src/index.tsx"
-import 'tailwindcss/utilities.css';
+import './index.css';
 
 export default () => {
-  return <div className="bg-black text-white">hello world</div>;
+  return <div className="bg-black">hello world</div>;
 };
 ```
 
 Generated styles (after bundling):
 
 ```css title="./dist/es/index.css"
-/* node_modules/tailwindcss/utilities.css */
-.table {
-  display: table;
-}
 .bg-black {
   --tw-bg-opacity: 1;
   background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
-}
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 /** some more... */
 ```
@@ -191,75 +312,7 @@ When using Tailwind with Less, you cannot nest Tailwind's `@screen` directive.
 }
 ```
 
-### Recommended Approach
-
-**It is recommended to develop styles using the `@apply` directive so that the resulting styles only include the inline styles specified by the directive.**
-
-When adding styles using HTML class names, by default, Tailwind includes not only the styles corresponding to the class names but also additional style code. Although these additional code may not affect the styles themselves.
-
-### Difference between Bundle and Bundleless Builds
-
-For the following code, there is a significant difference in the build output between bundle and bundleless modes.
-
-> For more information about bundle and bundleless, refer to [Bundle and Bundleless](/guide/advance/in-depth-about-build#bundle--bundleless)
-
-```tsx title="./src/index.tsx"
-import 'tailwindcss/utilities.css';
-
-export default () => {
-  return <div className="bg-black text-white">hello world11</div>;
-};
-```
-
-In the Bundle mode, third-party dependencies are bundled together.
-
-For styles, a separate output file is generated, and there is no import code related to styles in the JS output file.
-
-To inject styles into the JS output, you can enable the [`style.inject`](/api/config/build-config#styleinject) option.
-
-```css title="./dist/es/index.css"
-/* node_modules/tailwindcss/utilities.css */
-.table {
-  display: table;
-}
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
-}
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
-}
-/** some more... */
-```
-
-```js title="./dist/es/index.js"
-// src/index.tsx
-import { jsx } from 'react/jsx-runtime';
-var src_default = () => {
-  return /* @__PURE__ */ jsx('div', {
-    className: 'bg-black text-white',
-    children: 'hello world11',
-  });
-};
-export { src_default as default };
-```
-
-In Bundleless mode, third-party dependencies are not bundled together, and no style artifacts will be generated.
-
-```js title="./dist/es/index.js"
-import { jsx } from 'react/jsx-runtime';
-import 'tailwindcss/utilities.css';
-var src_default = () => {
-  return /* @__PURE__ */ jsx('div', {
-    className: 'bg-black text-white',
-    children: 'hello world11',
-  });
-};
-export { src_default as default };
-```
-
-### About `designSystem` config
+## About `designSystem` config
 
 `designSystem` is a deprecated configuration option in Modern.js Module.
 

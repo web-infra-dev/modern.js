@@ -103,7 +103,7 @@ async function getConfigUtils(
   config: WebpackConfig,
   chainUtils: ModifyWebpackChainUtils,
 ): Promise<ModifyWebpackConfigUtils> {
-  const { merge } = await import('../../compiled/webpack-merge');
+  const { merge } = await import('@modern-js/builder-shared/webpack-merge');
 
   return {
     ...chainUtils,

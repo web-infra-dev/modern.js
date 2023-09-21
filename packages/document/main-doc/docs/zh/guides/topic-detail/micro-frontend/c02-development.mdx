@@ -2,6 +2,7 @@
 sidebar_position: 2
 title: 体验微前端
 ---
+
 # 体验微前端
 
 通过本章你可以了解到：
@@ -10,7 +11,9 @@ title: 体验微前端
 - 微前端项目开发的基本流程。
 
 ## 创建应用
+
 目前支持两种路由模式
+
 - 自控式路由
 - 约定式路由
 
@@ -27,7 +30,7 @@ mkdir masterApp && cd masterApp
 npx @modern-js/create@latest
 ```
 
-import DefaultMWAGenerate from "@site-docs/components/default-mwa-generate";
+import DefaultMWAGenerate from '@site-docs/components/default-mwa-generate';
 
 <DefaultMWAGenerate />
 
@@ -40,17 +43,19 @@ import DefaultMWAGenerate from "@site-docs/components/default-mwa-generate";
 
 接下来，让我们注册微前端插件并添加开启微前端主应用，并增加子应用列表：
 
-import EnableMicroFrontend from "@site-docs/components/enable-micro-frontend";
+import EnableMicroFrontend from '@site-docs/components/enable-micro-frontend';
 
 <EnableMicroFrontend />
 
 然后我们在 routes 文件夹下新建两个目录
+
 - table (用于加载约定式路由子应用)
 - dashboard (用于加载自控式路由子应用)
 
 在这两个目录下我们需要新建一个 `$.tsx` 文件作为主应用约定式路由的入口($ 代表模糊匹配，即 `/table` 和 `/table/test` 都会匹配到这个 `$.tsx` 作为该路由的入口文件，这会保证在微前端场景下正确加载子应用路由)
 
 #### 加载约定式路由子应用
+
 ```js title="src/routes/table/$.tsx"
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
@@ -61,13 +66,14 @@ const Index = () => {
     <div>
       <Table />
     </div>
-  )
-}
+  );
+};
 
 export default Index;
 ```
 
 #### 加载自控式路由子应用
+
 ```js title="src/routes/dashboard/$.tsx"
 import { useModuleApps } from '@modern-js/plugin-garfish/runtime';
 
@@ -78,21 +84,30 @@ const Index = () => {
     <div>
       <Dashboard />
     </div>
-  )
-}
+  );
+};
 
 export default Index;
 ```
+
 #### 路由跳转
+
 此时主应用配置已经完成，通过路由即可加载子应用，修改主应用的 `layout.tsx` 来跳转路由
+
 ```js title="src/route/layout.tsx"
 import { Outlet, Link } from '@modern-js/runtime/router';
 
 const Layout = () => (
   <div>
-    <div><Link to={'/table'}>加载约定式路由子应用</Link></div>
-    <div><Link to={'/dashboard'}>加载自控式路由子应用</Link></div>
-    <div><Link to={'/'}>卸载子应用</Link></div>
+    <div>
+      <Link to={'/table'}>加载约定式路由子应用</Link>
+    </div>
+    <div>
+      <Link to={'/dashboard'}>加载自控式路由子应用</Link>
+    </div>
+    <div>
+      <Link to={'/'}>卸载子应用</Link>
+    </div>
     <Outlet />
   </div>
 );
@@ -123,8 +138,10 @@ npx @modern-js/create@latest
 <EnableMicroFrontend />
 
 由于是自控式路由，我们删除掉 `routes` 文件夹并在 `src` 目录下增加 `App.tsx` 文件，此处如果使用的 `非 MApp` 组件，需要通过 `React Router v6` 的 `createBrowserRouter` API 来创建路由
+
 #### 加载子应用
-import CustomRouterMicroFrontend from "@site-docs/components/custom-router-micro-frontend";
+
+import CustomRouterMicroFrontend from '@site-docs/components/custom-router-micro-frontend';
 
 <CustomRouterMicroFrontend />
 
@@ -139,7 +156,7 @@ npx @modern-js/create@latest
 
 按照如下选择，生成项目：
 
-<DefaultMWAGenerate/>
+<DefaultMWAGenerate />
 
 我们执行 `pnpm run new` 来开启 `微前端` 功能：
 
@@ -156,7 +173,7 @@ import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {
-    port: 8081
+    port: 8081,
   },
   runtime: {
     router: true,
@@ -170,12 +187,13 @@ export default defineConfig({
 ```
 
 添加 `src/routes/page.tsx` 代码
+
 ```js title="src/routes/page.tsx"
 const Index = () => {
   return (
     <div className="container-box">subApp: 约定式路由的子应用的根路由</div>
-  )
-}
+  );
+};
 
 export default Index;
 ```
@@ -191,7 +209,7 @@ npx @modern-js/create@latest
 
 按照如下选择，生成项目：
 
-<DefaultMWAGenerate/>
+<DefaultMWAGenerate />
 
 我们执行 `pnpm run new` 来开启 `微前端`：
 
@@ -208,7 +226,7 @@ import { garfishPlugin } from '@modern-js/plugin-garfish';
 
 export default defineConfig({
   dev: {
-    port: 8082
+    port: 8082,
   },
   runtime: {
     router: true,
@@ -220,6 +238,7 @@ export default defineConfig({
   plugins: [appTools(), garfishPlugin()],
 });
 ```
+
 自控式路由需要删除掉 `routes` 文件夹并在 `src` 目录下新建 `App.tsx`
 
 并在 `src/App.tsx` 添加代码，注意需要从 `props` 中解析并传递 `basename` 给 `BrowserRouter`
@@ -227,7 +246,7 @@ export default defineConfig({
 ```js title="src/App.tsx"
 import { BrowserRouter, Route, Routes } from '@modern-js/runtime/router';
 
-export default (props: {basename: string}) => {
+export default (props: { basename: string }) => {
   const { basename } = props;
 
   return (
@@ -242,7 +261,9 @@ export default (props: {basename: string}) => {
 ```
 
 ## 调试
+
 按顺序在目录执行 `pnpm run dev` 命令启动应用：
+
 - masterApp 主应用 `http://localhost:8080`
 - table 子应用(约定式路由) `http://localhost:8081`
 - dashboard 子应用(自控式路由) `http://localhost:8082`
@@ -254,6 +275,7 @@ export default (props: {basename: string}) => {
 ## Modern.js 微前端和直接使用 Garfish 的区别
 
 使用纯 `Garfish` API 开发微前端应用时
+
 - 主应用：
   - 安装 Garfish 依赖并使用 `Garfish.run` 注册子应用 [参考](https://www.garfishjs.org/api/run)
   - 提供一个常驻的 `DOM` 节点供子应用挂载 [参考](https://www.garfishjs.org/api/registerApp#domgetter)
@@ -264,6 +286,7 @@ export default (props: {basename: string}) => {
 区别于直接使用 `Garfish` 运行时 API 开发微前端项目，`Modern.js` 的微前端方案更加开箱即用。
 使用 `pnpm new` 启用微前端模式后会自动在 `Modern.js` 应用中集成 `Garfish` 插件，在 `Garfish`
 插件的加持下，你只需要
+
 - 主应用：
   - 配置 `runtime.masterApp.apps` 参数注册子应用
   - 使用 `useModuleApps` API 获取子应用实例并在组件中完成渲染
@@ -271,10 +294,11 @@ export default (props: {basename: string}) => {
   - 配置 `deploy.microFrontend`
 
 所以插件中为你做了如下事情
-  - 帮助你通过 `Garfish` 运行时 API 自动注册子应用（主应用）
-  - `useModulesApps` 函数的返回值提供了一个常驻的 `DOM` 节点供子应用挂载（主应用）
-  - 帮助你正确导出了 `provider`（子应用）
-  - 帮助你正确设置了 `basename` 给 `Modern.js` 运行时提供 `Router` 实例，如果是`自控式路由`或`手动引入的 react-router-dom` 那么需要从 `App.tsx` 的 `props` 中获取 `basename` 手动传递给引入的 `Router 实例`（子应用）
+
+- 帮助你通过 `Garfish` 运行时 API 自动注册子应用（主应用）
+- `useModulesApps` 函数的返回值提供了一个常驻的 `DOM` 节点供子应用挂载（主应用）
+- 帮助你正确导出了 `provider`（子应用）
+- 帮助你正确设置了 `basename` 给 `Modern.js` 运行时提供 `Router` 实例，如果是`自控式路由`或`手动引入的 react-router-dom` 那么需要从 `App.tsx` 的 `props` 中获取 `basename` 手动传递给引入的 `Router 实例`（子应用）
 
 ## 常见问题
 

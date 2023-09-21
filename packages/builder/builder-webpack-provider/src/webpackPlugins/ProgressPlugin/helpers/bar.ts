@@ -8,13 +8,9 @@ const defaultOption: Props = {
   current: 0,
   color: 'green',
   bgColor: 'gray',
-  char: '■',
+  char: '━',
   width: 25,
   buildIcon: '◯',
-  finishIcon: '✔',
-  finishInfo: 'Succeed',
-  errorIcon: '✖',
-  errorInfo: 'Compile Failed',
   message: '',
   done: false,
   spaceWidth: 1,
@@ -23,7 +19,6 @@ const defaultOption: Props = {
   id: '',
   maxIdLen: 16,
   hasErrors: false,
-  compileTime: null,
 };
 
 const padding = (id: string, maxLen: number) => {
@@ -45,10 +40,6 @@ export const renderBar = (option: Partial<Props>) => {
     total,
     done,
     buildIcon,
-    errorIcon,
-    errorInfo,
-    finishIcon,
-    finishInfo,
     width,
     current,
     color,
@@ -60,7 +51,6 @@ export const renderBar = (option: Partial<Props>) => {
     messageColor,
     maxIdLen,
     hasErrors,
-    compileTime,
   } = mergedOptions;
 
   const space = ' '.repeat(spaceWidth);
@@ -78,16 +68,7 @@ export const renderBar = (option: Partial<Props>) => {
   const { columns: terminalWidth = FULL_WIDTH } = process.stdout;
 
   if (done) {
-    const info = hasErrors ? errorInfo : finishInfo;
-    const icon = hasErrors ? errorIcon : finishIcon;
-    const message = doneColor(
-      compileTime && !hasErrors ? `${info} in ${compileTime}` : info,
-    );
-
-    if (terminalWidth >= MIDDLE_WIDTH) {
-      return [id, doneColor(`${icon}${space}${message}`)].join('');
-    }
-    return [id, doneColor(`${message}`)].join('');
+    return '';
   }
 
   const msgStr = Reflect.get(
@@ -104,8 +85,8 @@ export const renderBar = (option: Partial<Props>) => {
 
   if (terminalWidth >= FULL_WIDTH) {
     return [
+      idColor(buildIcon),
       id,
-      barColor(buildIcon),
       space,
       barStr,
       space,
@@ -116,8 +97,8 @@ export const renderBar = (option: Partial<Props>) => {
   }
 
   if (terminalWidth >= MIDDLE_WIDTH) {
-    return [id, barColor(buildIcon), space, barStr, space, percentStr].join('');
+    return [idColor(buildIcon), id, space, barStr, space, percentStr].join('');
   }
 
-  return [id, barColor(buildIcon), space, percentStr].join('');
+  return [idColor(buildIcon), id, space, percentStr].join('');
 };

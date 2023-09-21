@@ -39,8 +39,8 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   source: {
     entries: {
-      // 指定一个名称为 entry_customize 的新入口
-      entry_customize: './src/home/test/index.ts',
+      // 指定一个名称为 'my-entry' 的新入口
+      'my-entry': './src/home/test/index.ts',
     },
     // 禁用默认入口扫描
     disableDefaultEntries: true,
@@ -92,9 +92,10 @@ import { defineConfig } from '@modern-js/app-tools';
 export default defineConfig({
   source: {
     entries: {
-      entry_customize: {
+      'my-entry': {
         // 入口文件路径
-        entry: './src/home/test/index.tsx',
+        entry: './src/my-page/index.tsx',
+        disableMount: true,
       },
     },
     // 禁用默认入口扫描
@@ -113,8 +114,8 @@ export default defineConfig({
 export default defineConfig({
   source: {
     entries: {
-      entry_customize: {
-        entry: './src/home/test/index.tsx',
+      'my-entry': {
+        entry: './src/my-page/index.tsx',
         disableMount: true,
       },
     },

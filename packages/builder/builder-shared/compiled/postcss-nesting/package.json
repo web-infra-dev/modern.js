@@ -1,1 +1,1 @@
-{"name":"postcss-nesting","author":"Jonathan Neal <jonathantneal@hotmail.com>","version":"10.1.4","funding":{"type":"opencollective","url":"https://opencollective.com/csstools"},"license":"CC0-1.0","types":"index.d.ts"}
+{"name":"postcss-nesting","version":"12.0.1","funding":[{"type":"github","url":"https://github.com/sponsors/csstools"},{"type":"opencollective","url":"https://opencollective.com/csstools"}],"license":"MIT-0","types":"index.d.ts"}

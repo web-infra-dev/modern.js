@@ -2,9 +2,9 @@ import { Suspense } from 'react';
 import styled from '@emotion/styled';
 import { useSnapshot } from 'valtio';
 import { Outlet, useNavigate, useLocation } from '@modern-js/runtime/router';
-import { Box, Text, Button } from '@radix-ui/themes';
+import { Box } from '@radix-ui/themes';
 import _ from 'lodash';
-import { GearIcon, HomeIcon } from '@radix-ui/react-icons';
+import { HomeIcon } from '@radix-ui/react-icons';
 import { useStore } from '@/stores';
 import { InternalTab } from '@/types';
 import Breadcrumbs from '@/components/Breadcrumbs';
@@ -48,10 +48,6 @@ export const RootTabs: React.FC = () => {
           ))}
         </TabList>
         <Box grow="1" />
-        <SettingButton>
-          <GearIcon />
-          <Text>Settings</Text>
-        </SettingButton>
       </TabNavigator>
       <TabContent>
         <Box grow="0">
@@ -71,11 +67,6 @@ export const RootTabs: React.FC = () => {
     </TabRoot>
   );
 };
-
-const SettingButton = styled(Button)({
-  '--accent-9': 'var(--gray-5)',
-  '--accent-10': 'var(--gray-6)',
-});
 
 const IconBox = styled(Box)({
   width: '2rem',
