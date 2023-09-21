@@ -1,5 +1,24 @@
 # @modern-js/core
 
+## 2.35.1
+
+### Patch Changes
+
+- 4b8cdd3: fix(core): should not print extra logs when press Ctrl+C
+
+  fix(core): 修复按下 press Ctrl+C 时会打印多余日志的问题
+
+- 843cb2c: fix(core): we should not pass it, if err is not instanceof Error.
+  fix(core): 如果 err 不属于错误，我们不应该直接丢弃它
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/node-bundle-require@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

@@ -1,5 +1,23 @@
 # @modern-js/builder-plugin-swc
 
+## 2.35.1
+
+### Patch Changes
+
+- a45cc5b: fix(swc): update binding to reduce package size
+- 14b0906: fix(swc): fix transform core-js-pure incorrectly, allow using new decorator for js
+  fix(swc): 修复误转换 core-js-pure，对 js 允许使用新 decorator
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/utils@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes
