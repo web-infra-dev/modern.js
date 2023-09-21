@@ -4,13 +4,11 @@ import { PartialDeep } from 'type-fest';
 import { CliPluginAPI } from './types';
 
 export interface Options {
-  // prefix?: string;
   def?: PartialDeep<ClientDefinition>;
 }
 
 export const getDefaultOptions = () =>
   ({
-    // prefix: '/_modern_js/devtools',
     def: new ClientDefinition(),
   } satisfies Options);
 

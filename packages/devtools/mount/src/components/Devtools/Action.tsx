@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGetSet, useToggle } from 'react-use';
 import { withQuery, stringifyParsedURL, parseURL } from 'ufo';
-import { SetupClientOptions } from '@modern-js/devtools-kit';
+import { ROUTE_BASENAME, SetupClientOptions } from '@modern-js/devtools-kit';
 import Visible from '../Visible';
 import styles from './Action.module.scss';
 import FrameBox from './FrameBox';
@@ -12,7 +12,7 @@ const parseDataSource = (url: string) => {
     protocol: location.protocol === 'https:' ? 'wss:' : 'ws:',
     host: location.host,
     ...newSrc,
-    pathname: newSrc.pathname || '/_modern_js/devtools/rpc',
+    pathname: newSrc.pathname || `${ROUTE_BASENAME}/rpc`,
   });
 };
 

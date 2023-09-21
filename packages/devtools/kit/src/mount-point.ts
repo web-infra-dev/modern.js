@@ -1,5 +1,3 @@
-import _ from '@modern-js/utils/lodash';
-
 export interface MountPointFunctions {
   getLocation: () => string;
 }
