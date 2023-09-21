@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- 9dd3151: chore(app-tools): add RouterPlugin name
+  chore(app-tools): 增加 RouterPlugin 名称
+- 4980480: chore(prod-server): remove duplicated logger module
+
+  chore(prod-server): 移除重复的 logger 模块
+
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+
 ## 2.35.0
 
 ### Patch Changes

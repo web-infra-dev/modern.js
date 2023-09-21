@@ -1,5 +1,7 @@
 # @modern-js/libuild
 
+## 2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

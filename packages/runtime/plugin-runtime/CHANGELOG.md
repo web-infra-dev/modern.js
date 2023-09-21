@@ -1,5 +1,25 @@
 # @modern-js/runtime
 
+## 2.35.1
+
+### Patch Changes
+
+- 85f877b: fix: ssr style link should not add scriptLoading attrributes
+  fix: ssr style link 标签 不应该添加 scriptLoading 属性
+- 7bc7e9c: fix: ssr loadable-component inject repeat css link tag
+  fix: ssr loadable-component 注入重复的 css link 标签
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/runtime-utils@2.35.1
+  - @modern-js/types@2.35.1
+
 ## 2.35.0
 
 ### Minor Changes

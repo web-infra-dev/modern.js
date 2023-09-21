@@ -1,5 +1,13 @@
 # @modern-js/builder-doc
 
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
 ## 2.35.0
 
 ## 2.34.0

@@ -1,5 +1,16 @@
 # @modern-js/devtools-client
 
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [85f877b]
+- Updated dependencies [7bc7e9c]
+- Updated dependencies [6a1d46e]
+  - @modern-js/runtime@2.35.1
+  - @modern-js/devtools-kit@2.35.1
+  - @modern-js/types@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes
