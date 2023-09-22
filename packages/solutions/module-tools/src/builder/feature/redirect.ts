@@ -13,7 +13,11 @@ import {
 } from 'path';
 import { js } from '@ast-grep/napi';
 import MagicString from 'magic-string';
-import { createMatchPath, loadConfig, MatchPath } from 'tsconfig-paths';
+import {
+  createMatchPath,
+  loadConfig,
+  MatchPath,
+} from '@modern-js/utils/tsconfig-paths';
 import { fs, logger } from '@modern-js/utils';
 import { ICompiler } from '../../types';
 import { assetExt } from '../../constants/file';
