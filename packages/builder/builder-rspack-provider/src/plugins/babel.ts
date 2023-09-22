@@ -8,7 +8,7 @@ import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
 
-  pre: ['builder-plugin-swc-loader'],
+  pre: ['builder-plugin-swc'],
 
   setup(api) {
     api.modifyBundlerChain(
@@ -102,12 +102,12 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           .loader(getCompiledPath('babel-loader'))
           .options({
             ...babelOptions,
-            include: [
+            only: [
               (pathName: string) =>
                 pathName.includes(rootPath) && !/node_modules/.test(pathName),
               ...includes,
             ],
-            exclude: excludes,
+            ignore: excludes,
           });
       },
     );

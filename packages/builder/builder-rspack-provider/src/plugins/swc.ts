@@ -10,6 +10,7 @@ import {
   BundlerChain,
   addCoreJsEntry,
   BundlerChainRule,
+  logger,
 } from '@modern-js/builder-shared';
 import * as path from 'path';
 import type {
@@ -171,7 +172,14 @@ function applyDecorator(
   swcConfig: BuiltinSwcLoaderConfig,
   enableLatestDecorators: boolean,
 ) {
+  /**
+   * SWC can't use latestDecorator in TypeScript file for now
+   */
+  if (enableLatestDecorators) {
+    logger.warn('Cannot use latestDecorator in Rspack mode.');
+  }
+
   swcConfig.jsc.transform ??= {};
-  swcConfig.jsc.transform.legacyDecorator = !enableLatestDecorators;
-  swcConfig.jsc.transform.decoratorMetadata = !enableLatestDecorators;
+  swcConfig.jsc.transform.legacyDecorator = true;
+  swcConfig.jsc.transform.decoratorMetadata = true;
 }
