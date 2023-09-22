@@ -1,5 +1,13 @@
 import { join, dirname, isAbsolute, relative, resolve, basename } from 'path';
-import { chalk, fs, globby, json5, logger, nanoid } from '@modern-js/utils';
+import {
+  chalk,
+  fs,
+  globby,
+  json5,
+  logger,
+  nanoid,
+  slash,
+} from '@modern-js/utils';
 import MagicString from 'magic-string';
 import type {
   ITsconfig,
@@ -117,7 +125,7 @@ export const resolveAlias = async (
 ) => {
   const { userTsconfig, tempDistAbsSrcPath, tempDistAbsRootPath } = options;
   const { transformDtsAlias } = await import('./tspath');
-  const dtsDistPath = `${tempDistAbsSrcPath}/**/*.d.ts`;
+  const dtsDistPath = `${slash(tempDistAbsSrcPath)}/**/*.d.ts`;
   const dtsFilenames =
     watchFilenames.length > 0
       ? watchFilenames
