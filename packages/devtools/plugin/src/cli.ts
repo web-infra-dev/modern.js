@@ -65,7 +65,7 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
 
         const mountOpts = {
           dataSource: `${ROUTE_BASENAME}/rpc`,
-          endpoint: `${ROUTE_BASENAME}/devtools`,
+          endpoint: ROUTE_BASENAME,
           __keep: true,
         } as SetupClientOptions;
         let runtimeEntry = require.resolve(
