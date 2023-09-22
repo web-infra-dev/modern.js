@@ -17,11 +17,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "progress": {
       "prefix": "Client",
     },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
-      ],
-    },
   },
   "context": "<ROOT>",
   "devServer": {
@@ -586,6 +581,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": true,
+                    "runtime": "automatic",
+                  },
                 },
               },
               "minify": false,
@@ -608,11 +608,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "react": {
-                  "development": true,
-                  "refresh": true,
-                  "runtime": "automatic",
-                },
               },
               "sourceMaps": true,
             },
@@ -729,6 +724,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
+    ReactRefreshRspackPlugin {},
   ],
   "resolve": {
     "alias": {
@@ -767,11 +763,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
     },
     "progress": {
       "prefix": "Client",
-    },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
-      ],
     },
   },
   "context": "<ROOT>",
@@ -1337,6 +1328,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
                 },
               },
               "minify": false,
@@ -1359,11 +1355,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "react": {
-                  "development": false,
-                  "refresh": false,
-                  "runtime": "automatic",
-                },
               },
               "sourceMaps": true,
             },
@@ -1574,11 +1565,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
     },
     "progress": {
       "prefix": "Server",
-    },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
-      ],
     },
   },
   "context": "<ROOT>",
@@ -1935,6 +1921,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
                 },
               },
               "minify": false,
@@ -1957,11 +1948,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "react": {
-                  "development": true,
-                  "refresh": false,
-                  "runtime": "automatic",
-                },
               },
               "sourceMaps": true,
             },
@@ -2065,11 +2051,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
     },
     "progress": {
       "prefix": "Client",
-    },
-    "provide": {
-      "$ReactRefreshRuntime$": [
-        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
-      ],
     },
   },
   "context": "<ROOT>",
@@ -2643,6 +2624,11 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": true,
+                    "runtime": "automatic",
+                  },
                 },
               },
               "minify": false,
@@ -2665,11 +2651,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
                     "libraryName": "@arco-design/web-react/icon",
                   },
                 ],
-                "react": {
-                  "development": true,
-                  "refresh": true,
-                  "runtime": "automatic",
-                },
               },
               "sourceMaps": true,
             },
@@ -2789,6 +2770,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
+    ReactRefreshRspackPlugin {},
   ],
   "resolve": {
     "alias": {
