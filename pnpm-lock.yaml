@@ -4782,6 +4782,9 @@ importers:
 
   packages/solutions/module-tools:
     dependencies:
+      '@ampproject/remapping':
+        specifier: 1.0.2
+        version: 1.0.2
       '@ast-grep/napi':
         specifier: 0.12.0
         version: 0.12.0
@@ -4827,6 +4830,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rollup/pluginutils':
+        specifier: 4.1.1
+        version: 4.1.1
       '@svgr/core':
         specifier: 8.0.0
         version: 8.0.0
@@ -4839,12 +4845,33 @@ importers:
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
+      chokidar:
+        specifier: 3.5.2
+        version: 3.5.2
+      convert-source-map:
+        specifier: 1.8.0
+        version: 1.8.0
+      enhanced-resolve:
+        specifier: 5.8.3
+        version: 5.8.3
       esbuild:
         specifier: 0.19.2
         version: 0.19.2
+      magic-string:
+        specifier: 0.26.4
+        version: 0.26.4
+      picomatch:
+        specifier: 2.3.0
+        version: 2.3.0
       postcss:
         specifier: 8.4.27
         version: 8.4.27
+      postcss-modules:
+        specifier: 4.3.0
+        version: 4.3.0(postcss@8.4.27)
+      safe-identifier:
+        specifier: 0.4.2
+        version: 0.4.2
       source-map:
         specifier: 0.7.4
         version: 0.7.4
@@ -4857,25 +4884,22 @@ importers:
       sucrase:
         specifier: 3.29.0
         version: 3.29.0
+      tapable:
+        specifier: 2.2.1
+        version: 2.2.1
       terser:
         specifier: 5.15.0
         version: 5.15.0
+      tsconfig-paths-webpack-plugin:
+        specifier: 4.0.0
+        version: 4.0.0
     devDependencies:
-      '@ampproject/remapping':
-        specifier: 1.0.2
-        version: 1.0.2
-      '@babel/code-frame':
-        specifier: 7.16.7
-        version: 7.16.7
       '@modern-js/builder-webpack-provider':
         specifier: workspace:*
         version: link:../../builder/builder-webpack-provider
       '@modern-js/self':
         specifier: workspace:@modern-js/module-tools@*
         version: 'link:'
-      '@rollup/pluginutils':
-        specifier: 4.1.1
-        version: 4.1.1
       '@scripts/build':
         specifier: workspace:*
         version: link:../../../scripts/build
@@ -4891,9 +4915,6 @@ importers:
       '@types/convert-source-map':
         specifier: 1.5.2
         version: 1.5.2
-      '@types/mime-types':
-        specifier: 2.1.1
-        version: 2.1.1
       '@types/mocha':
         specifier: 9.0.0
         version: 9.0.0
@@ -4909,42 +4930,6 @@ importers:
       '@types/stack-trace':
         specifier: 0.0.30
         version: 0.0.30
-      chokidar:
-        specifier: 3.5.2
-        version: 3.5.2
-      convert-source-map:
-        specifier: 1.8.0
-        version: 1.8.0
-      enhanced-resolve:
-        specifier: 5.8.3
-        version: 5.8.3
-      magic-string:
-        specifier: 0.26.4
-        version: 0.26.4
-      mime-types:
-        specifier: 2.1.33
-        version: 2.1.33
-      picomatch:
-        specifier: 2.3.0
-        version: 2.3.0
-      postcss-modules:
-        specifier: 4.3.0
-        version: 4.3.0(postcss@8.4.27)
-      rimraf:
-        specifier: 3.0.2
-        version: 3.0.2
-      safe-identifier:
-        specifier: 0.4.2
-        version: 0.4.2
-      tapable:
-        specifier: 2.2.1
-        version: 2.2.1
-      tsconfig-paths:
-        specifier: 4.1.1
-        version: 4.1.1
-      tsconfig-paths-webpack-plugin:
-        specifier: 4.0.0
-        version: 4.0.0
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -8441,7 +8426,7 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 1.0.0
       sourcemap-codec: 1.4.8
-    dev: true
+    dev: false
 
   /@ampproject/remapping@2.2.1:
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
@@ -11836,7 +11821,7 @@ packages:
   /@jridgewell/resolve-uri@1.0.0:
     resolution: {integrity: sha512-9oLAnygRMi8Q5QkYEU4XWK04B+nuoXoxjRvRxgjuChkLZFBja0YPSgdZ7dZtwhncLBcQe/I/E+fLuk5qxcYVJA==}
     engines: {node: '>=6.0.0'}
-    dev: true
+    dev: false
 
   /@jridgewell/resolve-uri@3.1.0:
     resolution: {integrity: sha512-F2msla3tad+Mfht5cJq7LSXcdudKTWCVYUgw6pLFOOHSTtZlj6SWNYAp+AhuqLmWdBO2X5hPrLcu8cVP8fy28w==}
@@ -14268,7 +14253,7 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.3.0
-    dev: true
+    dev: false
 
   /@rollup/pluginutils@5.0.2(rollup@3.23.0):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
@@ -19733,7 +19718,7 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-    dev: true
+    dev: false
 
   /chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -19833,7 +19818,7 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
+    dev: false
 
   /chokidar@3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
@@ -21774,7 +21759,7 @@ packages:
     dependencies:
       graceful-fs: 4.2.10
       tapable: 2.2.1
-    dev: true
+    dev: false
 
   /enquirer@2.3.6:
     resolution: {integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==}
@@ -23502,7 +23487,7 @@ packages:
     resolution: {integrity: sha512-ySFolZQfw9FoDb3ed9d80Cm9f0+r7qj+HJkWjeD9RBfpxEVTlVhol+gvaQB/78WbwYfbnNh8nWHHBSlg072y6A==}
     dependencies:
       loader-utils: 3.2.1
-    dev: true
+    dev: false
 
   /gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -24463,7 +24448,7 @@ packages:
 
   /icss-replace-symbols@1.1.0:
     resolution: {integrity: sha512-chIaY3Vh2mh2Q3RGXttaDIzeiPvaVXJ+C4DAh/w3c37SKZ/U6PGMmuicR2EQQp9bKG8zLMCl7I+PtIoOOPp8Gg==}
-    dev: true
+    dev: false
 
   /icss-utils@4.1.1:
     resolution: {integrity: sha512-4aFq7wvWyMHKgxsH8QQtGpvbASCf+eM3wPRLI6R+MgAnTCZ6STYsRvttLvRWK0Nfif5piF394St3HeJDaljGPA==}
@@ -26457,7 +26442,7 @@ packages:
   /loader-utils@3.2.1:
     resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
     engines: {node: '>= 12.13.0'}
-    dev: true
+    dev: false
 
   /local-pkg@0.4.3:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
@@ -26693,7 +26678,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       sourcemap-codec: 1.4.8
-    dev: true
+    dev: false
 
   /magic-string@0.29.0:
     resolution: {integrity: sha512-WcfidHrDjMY+eLjlU+8OvwREqHwpgCeKVBUpQ3OhYYuvfaYCUgcbuBzappNzZvg/v8onU3oQj+BYpkOJe9Iw4Q==}
@@ -27510,21 +27495,9 @@ packages:
       brorand: 1.1.0
     dev: false
 
-  /mime-db@1.50.0:
-    resolution: {integrity: sha512-9tMZCDlYHqeERXEHO9f/hKfNXhre5dK2eE/krIvUjZbS2KPcqGDfNShIWS1uW9XOTKQKqK6qbeOci18rbfW77A==}
-    engines: {node: '>= 0.6'}
-    dev: true
-
   /mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
-
-  /mime-types@2.1.33:
-    resolution: {integrity: sha512-plLElXp7pRDd0bNZHw+nMd52vRYjLwQjygaNg7ddJ2uJtTlmnTCjWuPKxVu6//AdaRuME84SvLW91sIkBqGT0g==}
-    engines: {node: '>= 0.6'}
-    dependencies:
-      mime-db: 1.50.0
-    dev: true
 
   /mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
@@ -29107,7 +29080,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 
@@ -29336,7 +29309,7 @@ packages:
       postcss-modules-scope: 3.0.0(postcss@8.4.27)
       postcss-modules-values: 4.0.0(postcss@8.4.27)
       string-hash: 1.1.3
-    dev: true
+    dev: false
 
   /postcss-nested@5.0.6(postcss@8.4.27):
     resolution: {integrity: sha512-rKqm2Fk0KbA8Vt3AdGN0FB9OBOMDVajMG6ZCf/GoHgdxUJ4sBFp0A/uMIRm+MJUdo33YXEtjqIz8u7DAp8B7DA==}
@@ -32166,7 +32139,7 @@ packages:
 
   /safe-identifier@0.4.2:
     resolution: {integrity: sha512-6pNbSMW6OhAi9j+N8V+U715yBQsaWJ7eyEUaOrawX+isg5ZxhUlV1NipNtgaKHmFGiABwt+ZF04Ii+3Xjkg+8w==}
-    dev: true
+    dev: false
 
   /safe-regex-test@1.0.0:
     resolution: {integrity: sha512-JBUUzyOgEwXQY1NuPtvcj/qcBDbDmEvWufhlnXZIm75DEHp+afM1r1ujJpJsV/gSM4t59tpDyPi1sd6ZaPFfsA==}
@@ -32714,7 +32687,6 @@ packages:
   /sourcemap-codec@1.4.8:
     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
     deprecated: Please use @jridgewell/sourcemap-codec instead
-    dev: true
 
   /space-separated-tokens@1.1.5:
     resolution: {integrity: sha512-q/JSVd1Lptzhf5bkYm4ob4iWPjx0KiRe3sRFBNrVqbJkFaBm5vbbowy1mymoPNLRa52+oadOhJ+K49wsSeSjTA==}
@@ -32975,7 +32947,7 @@ packages:
 
   /string-hash@1.1.3:
     resolution: {integrity: sha512-kJUvRUFK49aub+a7T1nNE66EJbZBMnBgoC1UbCZ5n6bsZKBRga4KgBRTMn/pFkeCZSYtNeSyMxPDM0AXWELk2A==}
-    dev: true
+    dev: false
 
   /string-length@4.0.2:
     resolution: {integrity: sha512-+l6rNN5fYHNhZZy41RXsYptCjA2Igmq4EG7kZAYFQI1E1VTXarr6ZPXBg6eq7Y6eK4FEhY6AJlyuFIb/v/S0VQ==}
@@ -34137,7 +34109,7 @@ packages:
       chalk: 4.1.0
       enhanced-resolve: 5.8.3
       tsconfig-paths: 4.1.2
-    dev: true
+    dev: false
 
   /tsconfig-paths-webpack-plugin@4.1.0:
     resolution: {integrity: sha512-xWFISjviPydmtmgeUAuXp4N1fky+VCtfhOkDUFIv5ea7p4wuTomI4QTrXvFBX2S4jZsmyTSrStQl+E+4w+RzxA==}

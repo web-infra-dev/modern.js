@@ -98,7 +98,9 @@ export async function getAssetContents(
   if (buildType === 'bundle') {
     // inline base64
     if (fileContent.length <= limit) {
-      const mimetype = (await import('mime-types')).default.lookup(assetPath);
+      const mimetype = (
+        await import('@modern-js/utils/mime-types')
+      ).default.lookup(assetPath);
       const isSVG = mimetype === 'image/svg+xml';
       const data = isSVG
         ? encodeSVG(fileContent)
