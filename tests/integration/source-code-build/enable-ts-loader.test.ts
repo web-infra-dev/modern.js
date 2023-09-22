@@ -22,7 +22,7 @@ describe('source build', () => {
     original: string;
   };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     port = await getPort();
     app = await launchApp(appDir, port, {});
     browser = await puppeteer.launch(launchOptions as any);
@@ -54,7 +54,7 @@ describe('source build', () => {
     expect(targetText).toMatch('2.0.0');
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     browser.close();
     await killApp(app);
     await fs.writeFile(common.codeDir, common.original);
