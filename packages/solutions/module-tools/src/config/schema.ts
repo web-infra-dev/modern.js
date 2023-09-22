@@ -33,6 +33,18 @@ const buildConfigProperties = {
   alias: {
     typeof: ['object', 'function'],
   },
+  hooks: {
+    // TODO: improve it
+    type: 'array',
+  },
+  resolve: {
+    // TODO: add properties
+    type: 'object',
+  },
+  banner: {
+    // TODO: add properties
+    type: 'object',
+  },
   asset: {
     type: 'object',
   },
@@ -113,7 +125,7 @@ const buildConfigProperties = {
     type: ['array', 'object'],
   },
   jsx: {
-    enum: ['automatic', 'transform'],
+    enum: ['automatic', 'transform', 'preserve'],
   },
   minify: {
     if: {
@@ -178,6 +190,9 @@ const buildConfigProperties = {
   },
   externalHelpers: {
     type: 'boolean',
+  },
+  tsconfig: {
+    type: 'string',
   },
   transformImport: {
     type: 'array',

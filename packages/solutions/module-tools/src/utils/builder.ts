@@ -1,12 +1,15 @@
 import path from 'path';
+import qs from 'querystring';
 import { logger, fs } from '@modern-js/utils';
-import type {
-  ExternalHelpers,
-  BuildType,
-  Format,
-  Target,
-} from '../types/config';
+import type { ExternalHelpers } from '../types/config';
 
+type Query = Record<string, string | boolean>;
+
+type ResolveResult = {
+  originalFilePath: string;
+  query: Query;
+  rawQuery?: string;
+};
 export const getAllDeps = async <T>(
   appDirectory: string,
   options: {
@@ -69,72 +72,23 @@ export const checkSwcHelpers = async (options: {
   }
 };
 
-export const matchSwcTransformCondition = (condtionOptions: {
-  sourceType: 'commonjs' | 'module';
-  buildType: BuildType;
-  format: Format;
-  disableSwcTransform?: boolean;
-}) => {
-  const { sourceType, buildType, format, disableSwcTransform } =
-    condtionOptions;
-
-  if (disableSwcTransform) {
-    return false;
-  }
-
-  // 1. source code is esm
-  // 2. bundleless
-  // 3. bundle and format is esm
-
-  if (sourceType === 'commonjs') {
-    return false;
-  }
-
-  if (buildType === 'bundleless') {
-    return true;
-  }
-
-  if (format === 'esm' || format === 'iife') {
-    // when format is iife, swc-transform only transform syntax, esbuild transform js format.
-    return true;
-  }
-
-  // bundle only use esbuild-transform in cjs format, because have some limitations
-  // eg: treeshaking
-
-  return false;
+export const normalizeSlashes = (file: string) => {
+  return file.split(path.win32.sep).join('/');
 };
 
-export const matchEs5PluginCondition = (condtionOptions: {
-  sourceType: 'commonjs' | 'module';
-  buildType: BuildType;
-  format: Format;
-  target: Target;
-  disableSwcTransform?: boolean;
-}) => {
-  const { sourceType, buildType, format, target, disableSwcTransform } =
-    condtionOptions;
+export const resolvePathAndQuery = (originalPath: string): ResolveResult => {
+  const [filePath, queryStr] = originalPath.split('?');
+  const query = qs.parse(queryStr ?? '') as Query;
 
-  // dist is es5
-  if (target !== 'es5') {
-    return false;
+  for (const key of Object.keys(query)) {
+    if (query[key] === '') {
+      query[key] = true;
+    }
   }
 
-  // when use disbaleSwcTransform option, we must be use es5Plugin when target is es5
-  if (disableSwcTransform) {
-    return true;
-  }
-
-  // only use esbuild-transform, so need es5Plugin
-  if (sourceType === 'commonjs') {
-    return true;
-  }
-
-  // when source code is esm and dist is bundle + cjs, we can`t use swc-transform.
-  // so we only use esbuild-transform and es5Plugin
-  if (buildType === 'bundle' && format === 'cjs') {
-    return true;
-  }
-
-  return false;
+  return {
+    query,
+    originalFilePath: filePath,
+    rawQuery: queryStr,
+  };
 };

@@ -1,13 +1,25 @@
-import type { AliasOption } from './config';
+import type { AliasOption, BaseBuildConfig, Input } from './config';
 
-export interface BundlelessGeneratorDtsConfig {
+export interface GeneratorDtsConfig {
   appDirectory: string;
-  distAbsPath: string;
   tsconfigPath: string;
   watch: boolean;
   sourceDir: string;
   alias: AliasOption;
   abortOnError?: boolean;
+  footer?: string;
+  banner?: string;
+  distPath: string;
+  externals: BaseBuildConfig['externals'];
+  input: Input;
+  respectExternal: boolean;
+}
+
+export interface GeneratedDtsInfo {
+  userTsconfig: ITsconfig;
+  tempTsconfigPath: string;
+  tempDistAbsRootPath: string;
+  tempDistAbsSrcPath: string;
 }
 
 export type TsTarget =

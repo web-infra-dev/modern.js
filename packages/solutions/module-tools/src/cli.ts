@@ -9,9 +9,8 @@ import {
   newCommand,
   upgradeCommand,
 } from './command';
-import { initLocalLanguage } from './utils/language';
-import { addExitListener } from './utils/onExit';
 import { isLegacyUserConfig } from './config/merge';
+import { addExitListener } from './utils/onExit';
 import { legacySchema } from './config/legacySchema';
 import { schema } from './config/schema';
 
@@ -30,7 +29,12 @@ const setup: CliPlugin<ModuleTools>['setup'] = async api => {
   });
 
   const prepare = async () => {
-    await initLocalLanguage();
+    const local = await import('./locale');
+    const { getLocaleLanguage } = await import(
+      '@modern-js/plugin-i18n/language-detector'
+    );
+    const locale = getLocaleLanguage();
+    local.i18n.changeLanguage({ locale });
 
     const appContext = api.useAppContext();
     dotenv.config();

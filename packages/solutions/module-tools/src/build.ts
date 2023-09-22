@@ -1,8 +1,6 @@
 import type { PluginAPI } from '@modern-js/core';
-import { createDebugger } from '@modern-js/utils';
+import { debug } from './debug';
 import type { ModuleTools, ModuleContext, BuildCommandOptions } from './types';
-
-const debug = createDebugger('module-tools');
 
 export const build = async (
   api: PluginAPI<ModuleTools>,
@@ -17,15 +15,24 @@ export const build = async (
 
   const runner = api.useHookRunners();
 
+  debug('normalize build config');
+
   const { normalizeBuildConfig } = await import('./config/normalize');
   const resolvedBuildConfig = await normalizeBuildConfig(api, context, options);
 
-  debug('resolvedBuildConfig', resolvedBuildConfig);
+  debug('normalize build config done');
+
+  debug('normalizedBuildConfig', resolvedBuildConfig);
+
+  debug('run beforeBuild hooks');
 
   await runner.beforeBuild({
     config: resolvedBuildConfig,
     cliOptions: options,
   });
+
+  debug('run beforeBuild hooks done');
+
   const builder = await import('./builder');
   await builder.run({ cmdOptions: options, resolvedBuildConfig, context }, api);
 };

@@ -12,9 +12,7 @@ If you are not familiar with `buildConfig`, please read [modify-output-product](
 
 In this chapter we'll dive into the use of certain build configurations and understand what happens when the `modern build` command is executed.
 
-## buildConfig
-
-### `bundle` / `bundleless`
+## `bundle` / `bundleless`
 
 So first let's understand bundle and bundleless.
 
@@ -33,55 +31,59 @@ bundleless is a single file compilation mode, so for type references and exports
 
 In `buildConfig` you can specify whether the current build task is bundle or bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).
 
-### `input` / `sourceDir`
+## `input` / `sourceDir`
 
-[`buildConfig.input`](/en/api/config/build-config#input) is used to specify the file path or directory path where the source code is read, and its default value differs between bundle and bundleless builds.
+[`buildConfig.input`](/api/config/build-config#input) is used to specify the path to a file or directory from which to read the source code, the default value of which varies between bundle and bundleless builds:
 
-- When `buildType: 'bundle'`, `input` defaults to `src/index.(j|t)sx?`
-- When `buildType: 'bundleless'`, `input` defaults to `['src']`
+- When `buildType: 'bundle'`, `input` defaults to `src/index.(j|t)sx?`.
+- When `buildType: 'bundleless'`, `input` defaults to `['src']`.
 
-:::warning
-It is recommended that you do not specify multiple source file directories during a bundleless build, as unintended results may occur. bundleless builds with multiple source directories are currently in an unstable stage.
-:::
+From the default value, we know that **building in bundle mode usually specifies one or more files as the entry point for the build, while building in bundleless mode specifies a directory and uses all the files in that directory as the entry point**.
 
-We know from the defaults: **bundle builds can generally specify a file path as the entry point to the build, while bundleless builds are more expected to use directory paths to find source files**.
+[`sourceDir`](/api/config/build-config#sourcedir) is used to specify the source directory, which is **only** related to **the following two elements:
 
-#### Object type of `input`
+- Type file generation
+- [`outbase`](https://esbuild.github.io/api/#outbase) for specifying the build process
 
-In addition to setting `input` to an array, you can also set it to an object during the bundle build process. **By using the object form, we can modify the name of the file that the build artifacts outputs**. So for the following example, `. /src/index.ts` corresponds to the path of the build artifacts file as `. /dist/main.js`.
+So we can get its best practices:
+
+- **Only specify `input` during the bundle build.**
+- **In general, bundleless only needs to specify `sourceDir` (where `input` will be aligned with `sourceDir`).** ** If we want to use the `input` in bundleless, we only need to specify `sourceDir`.
+
+If you want to convert only some of the files in bundleless, e.g. only the files in the `src/runtime` directory, you need to configure `input`:
 
 ```js title="modern.config.ts"
 import { defineConfig } from '@modern-js/module-tools';
 
 export default defineConfig({
   buildConfig: {
-    input: {
-      main: ['./src/index.ts'],
-    },
-    outDir: './dist',
+    input: ['src/runtime'],
+    sourceDir: 'src',
   },
 });
 ```
 
-The bundleless build process also supports such use, but it is not recommended.
+## use swc
 
-#### `sourceDir`
+In some scenarios, esbuild is not enough to meet our needs, and we will use swc to do the code conversion.
 
-[`sourceDir`](/en/api/config/build-config#sourcedir) is used to specify the source code directory, which is related to both.
+Starting from version **2.36.0**, the Modern.js Module will use swc by default when it comes to the following functionality, but that doesn't mean we don't use esbuild any more, the rest of the functionality will still use esbuild.
 
-- type file generation
-- [`outbase`](https://esbuild.github.io/api/#outbase) for specifying the build process
+- [transformImport](/api/config/build-config#transformimport)
+- [transformLodash](/api/config/build-config#transformlodash)
+- [externalHelpers](/api/config/build-config#externalhelpers)
+- [format: umd](api/config/build-config#format-umd)
+- [target: es5](api/config/build-config#target)
+- [emitDecoratorMetadata: true](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
 
-In general:
+In fact, we've been using swc for full code conversion since **2.16.0**. However, swc also has some limitations, so we added [sourceType](/api/config/build-config#sourcetype) to turn off swc when the source is formatted as 'commonjs', which isn't really user-intuitive, and the cjs mode of the swc formatted outputs don't have annotate each export name, which can cause problems in node.
+So we deprecated this behaviour and went back to the original design - using swc as a supplement only in situations where it was needed.
 
-- **During the bundleless build process, the values of `sourceDir` and `input` should be the same, and their default values are both `src`**.
-- It is rarely necessary to use `sourceDir` during the bundle build process.
-
-### dts
+## dts
 
 The [`buildConfig.dts`](/en/api/config/build-config#dts) configuration is mainly used for type file generation.
 
-#### Turn off type generation
+### Turn off type generation
 
 Type generation is turned on by default, if you need to turn it off, you can configure it as follows:
 
@@ -99,7 +101,7 @@ export default defineConfig({
 The build speed is generally improved by closing the type file.
 :::
 
-#### Build type files
+### Build type files
 
 With `buildType: 'bundleless'`, type files are generated using the project's `tsc` command to complete production.
 
@@ -108,7 +110,7 @@ The **Modern.js Module also supports bundling of type files**, although care nee
 - Some third-party dependencies have incorrect syntax that can cause the bundling process to fail. So in this case, you need to exclude such third-party packages manually with [`buildConfig.externals`](/en/api/config/build-config#externals).
 - It is not possible to handle the case where the type file of a third-party dependency points to a `.ts` file. For example, the `package.json` of a third-party dependency contains something like this: `{"types": ". /src/index.ts"}`.
 
-#### Alias Conversion
+### Alias Conversion
 
 During the bundleless build process, if an alias appears in the source code, e.g.
 
@@ -124,7 +126,7 @@ Normally, the type files generated with `tsc` will also contain these aliases. H
 However, there are some cases that cannot be handled at this time.Output types of the form `Promise<import('@common/utils')>` cannot be converted at this time.
 You can discuss it [here](https://github.com/web-infra-dev/modern.js/discussions/4511)
 
-#### Some examples of the use of `dts`
+### Some examples of the use of `dts`
 
 General usage:
 
@@ -168,72 +170,6 @@ export default defineConfig({
 });
 ```
 
-### `buildConfig.define` Usage for different scenarios
-
-[`buildConfig.define`](/en/api/config/build-config#define) functions somewhat similar to [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/). A few usage scenarios are described here.
-
-#### Environment variable replacement
-
-```js
-import { defineConfig } from '@modern-js/module-tools';
-export default defineConfig({
-  buildConfig: {
-    define: {
-      'process.env.VERSION': JSON.stringify(process.env.VERSION || '0.0.0'),
-    },
-  },
-});
-```
-
-With the above configuration, we can put the following code.
-
-```js
-// pre-compiler code
-console.log(process.env.VERSION);
-```
-
-When executing `VERSION=1.0.0 modern build`, the conversion is:
-
-```js
-// compiled code
-console.log('1.0.0');
-```
-
-#### Global variable replacement
-
-```js
-import { defineConfig } from '@modern-js/module-tools';
-export default defineConfig({
-  buildConfig: {
-    define: {
-      VERSION: JSON.stringify(require('. /package.json').version || '0.0.0'),
-    },
-  },
-});
-```
-
-With the above configuration, we can put the following code.
-
-```js
-// pre-compile code
-console.log(VERSION);
-```
-
-Convert to:
-
-```js
-// post-compile code
-console.log('1.0.0');
-```
-
-Note, however: If the project is a TypeScript project, then you may need to add the following to the `.d.ts` file in the project source directory.
-
-> If the `.d.ts` file does not exist, then you can create it manually.
-
-```ts title="env.d.ts"
-declare const YOUR_ADD_GLOBAL_VAR;
-```
-
 ## Build process
 
 When the `modern build` command is executed, the
@@ -275,3 +211,42 @@ For `js/ts` build errors, we can tell from the error message.
 - What is the `format` of the build process
 - What is the `target` of the build process
 - The specific error message
+
+## Debug mode
+
+From **2.36.0**, For troubleshooting purposes, the Modern.js Module provides a debug mode, which you can enable by adding the DEBUG=module environment variable when executing a build.
+
+```bash
+DEBUG=module modern build
+```
+
+In debug mode, you'll see more detailed build logs output in Shell, which are mainly process logs:
+
+```bash
+module run beforeBuildTask hooks +6ms
+module run beforeBuildTask hooks done +0ms
+module [DTS] Build Start +139ms
+module [CJS] Build Start +1ms
+```
+
+In addition, Module provides the ability to debug internal workflows. You can enable more detailed debugging logging by setting the `DEBUG=module:*` environment variable.
+
+Currently, only `DEBUG=module:resolve` is supported, which allows you to see a detailed log of module resolution within the Module.
+
+```bash
+  module:resolve onResolve args: {
+  path: './src/hooks/misc.ts',
+  importer: '',
+  namespace: 'file',
+  resolveDir: '/Users/bytedance/modern.js/packages/solutions/module-tools',
+  kind: 'entry-point',
+  pluginData: undefined
+} +0ms
+  module:resolve onResolve result: {
+  path: '/Users/bytedance/modern.js/packages/solutions/module-tools/src/hooks/misc.ts',
+  external: false,
+  namespace: 'file',
+  sideEffects: undefined,
+  suffix: ''
+} +0ms
+```

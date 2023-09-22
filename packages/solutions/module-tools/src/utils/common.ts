@@ -1,5 +1,5 @@
 /**
- * transform ['a', 'b'] to {a: undefined, b: undefined}
+ * transform ['a', 'b'] to { a: undefined, b: undefined }
  */
 export const transformUndefineObject = (
   arr: string[],

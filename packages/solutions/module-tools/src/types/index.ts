@@ -12,6 +12,8 @@ export * from './config';
 export * from './legacyConfig';
 export * from './dts';
 export * from './context';
+export * from './esbuild';
+
 export type { CliPlugin, IAppContext, PluginAPI } from '@modern-js/core';
 
 export type ModuleTools = {
