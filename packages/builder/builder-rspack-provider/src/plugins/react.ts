@@ -31,7 +31,13 @@ export const builderPluginReact = (): BuilderPlugin => ({
         return;
       }
 
-      chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).use(ReactRefreshPlugin);
+      chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).use(ReactRefreshPlugin, [
+        {
+          // todo: Consistent with swc-loader rules
+          include: [],
+          exclude: [],
+        },
+      ]);
     });
   },
 });

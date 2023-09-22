@@ -21,6 +21,7 @@ import type {
 
 type BuiltinSwcLoaderConfig = any;
 
+// TODO: need builtin:swc-loader options type
 export function getDefaultSwcConfig() {
   const cwd = process.cwd();
   return {
@@ -47,7 +48,6 @@ export function getDefaultSwcConfig() {
     inlineSourcesContent: true,
   };
 }
-// todo: test decorators
 
 /**
  * Provide some swc configs of rspack
@@ -80,7 +80,7 @@ export const builderPluginSwc = (): BuilderPlugin => ({
           excludes: [],
         });
 
-        // todo: apply source.include
+        // TODO: apply source.include
         rule.include.clear();
 
         const swcConfig = getDefaultSwcConfig();
@@ -91,6 +91,7 @@ export const builderPluginSwc = (): BuilderPlugin => ({
 
         applyDecorator(swcConfig, config.output.enableLatestDecorators);
 
+        // apply polyfill
         if (isWebTarget(target)) {
           const polyfillMode = config.output.polyfill;
 
