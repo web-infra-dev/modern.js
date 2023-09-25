@@ -61,7 +61,10 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             babelUtils,
           );
 
-          const notModify = isEqual(baseConfig, userBabelConfig);
+          const notModify =
+            isEqual(baseConfig, userBabelConfig) &&
+            !includes?.length &&
+            !excludes?.length;
 
           if (notModify) {
             return {};

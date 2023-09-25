@@ -117,6 +117,7 @@ async function splitByExperience(
   }
   if (polyfill === 'entry' || polyfill === 'usage') {
     packageRegExps.polyfill = createDependenciesRegExp(
+      'tslib',
       'core-js',
       '@babel/runtime',
       '@swc/helpers',

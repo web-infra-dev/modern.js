@@ -1,11 +1,11 @@
 {
-  "private": true,
   "name": "integration-module-tools",
   "version": "0.1.0",
-  "jsnext:source": "./src/index.ts",
-  "types": "./dist/types/index.d.ts",
+  "private": true,
+  "sideEffects": [],
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",
+  "types": "./dist/types/index.d.ts",
   "eslintIgnore": [
     "node_modules/",
     "dist/"
@@ -14,6 +14,9 @@
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/eslint-config": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
+    "@modern-js/plugin-module-babel": "workspace:*",
+    "@modern-js/plugin-module-node-polyfill": "workspace:*",
+    "@modern-js/plugin-module-polyfill": "workspace:*",
     "@modern-js/tsconfig": "workspace:*",
     "@scripts/jest-config": "workspace:*",
     "@types/jest": "^29",
@@ -21,12 +24,12 @@
     "@types/react": "~18.0.26",
     "husky": "~8.0.1",
     "lint-staged": "~13.1.0",
+    "path-browserify": "1.0.1",
     "prettier": "~2.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "~3.0.2",
-    "typescript": "^5",
-    "path-browserify": "1.0.1"
+    "typescript": "^5"
   },
-  "sideEffects": []
+  "jsnext:source": "./src/index.ts"
 }

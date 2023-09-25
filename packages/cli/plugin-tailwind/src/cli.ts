@@ -142,12 +142,9 @@ export const tailwindcssPlugin = (
           config.style.postcss.plugins = [tailwindPlugin];
         }
 
-        return config;
-      },
-
-      modifyLibuild(config, next) {
         config.transformCache = false;
-        return next(config);
+
+        return config;
       },
     };
   },

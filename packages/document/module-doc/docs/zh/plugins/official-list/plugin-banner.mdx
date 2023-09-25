@@ -2,6 +2,11 @@
 
 提供为每个 JS 和 CSS 文件的顶部和底部注入内容的能力。
 
+:::tip
+从 `@modern-js/module-tools` v2.36.0 版本开始，该插件功能内置在 Modern.js Module 中，由 [`banner`](/api/config/build-config#banner) 和 [`footer`](/api/config/build-config#footer)
+配置提供。
+:::
+
 ## 快速开始
 
 ### 安装

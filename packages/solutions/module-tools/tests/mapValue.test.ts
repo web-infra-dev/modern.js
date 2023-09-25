@@ -1,4 +1,4 @@
-import { mapValue } from '../src/utils/common';
+import { mapValue } from '../src/utils';
 
 describe('mapValue', () => {
   it('should work when `args[0]` is object', () => {

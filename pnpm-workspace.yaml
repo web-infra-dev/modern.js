@@ -10,7 +10,6 @@ packages:
  - 'packages/review/*'
  - 'packages/server/*'
  - 'packages/builder/*'
- - 'packages/libuild/*'
  - 'packages/module/*'
  - 'packages/solutions/*'
  - 'packages/toolkit/*'

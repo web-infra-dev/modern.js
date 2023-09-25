@@ -26,7 +26,7 @@ describe('source build', () => {
     original: string;
   };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     port = await getPort();
     app = await launchApp(appDir, port, {});
     browser = await puppeteer.launch(launchOptions as any);
@@ -80,7 +80,7 @@ describe('source build', () => {
     expect(targetText).toMatch('this is utils');
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     browser.close();
     await killApp(app);
     await fs.writeFile(card.codeDir, card.original);

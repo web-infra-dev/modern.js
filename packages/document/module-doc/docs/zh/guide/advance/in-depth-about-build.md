@@ -12,9 +12,7 @@ sidebar_position: 1
 
 而在本章里我们将要深入理解某些构建配置的作用以及了解执行 `modern build` 命令的时候发生了什么。
 
-## buildConfig
-
-### `bundle` / `bundleless`
+## `bundle` / `bundleless`
 
 那么首先我们来了解一下 bundle 和 bundleless。
 
@@ -33,34 +31,59 @@ bundleless 是单文件编译模式，因此对于类型的引用和导出你需
 
 在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 bundle 还是 bundleless。
 
-### `input` / `sourceDir`
+## `input` / `sourceDir`
 
 [`buildConfig.input`](/api/config/build-config#input) 用于指定读取源码的文件路径或者目录路径，其默认值在 bundle 和 bundleless 构建过程中有所不同：
 
 - 当 `buildType: 'bundle'` 的时候，`input` 默认值为 `src/index.(j|t)sx?`
 - 当 `buildType: 'bundleless'` 的时候，`input` 默认值为 `['src']`
 
-:::warning
-建议不要在 bundleless 构建过程中指定多个源码文件目录，这可能会导致产物里的相对路径不正确。
-:::
+从默认值上我们可以知道：**使用 bundle 模式构建时一般指定一个或多个文件作为构建的入口，而使用 bundleless 构建则是指定一个目录，将目录下所有文件作为入口**。
 
-从默认值上我们可以知道：**bundle 构建一般可以指定文件路径作为构建的入口，而 bundleless 构建则更期望使用目录路径寻找源文件**。
-
-[`sourceDir`](/api/config/build-config#sourcedir) 用于指定源码目录，它主要与以下两个内容有关系：
+[`sourceDir`](/api/config/build-config#sourcedir) 用于指定源码目录，它**只与**以下两个内容有关系：
 
 - 类型文件生成
 - 指定构建过程中的 [`outbase`](https://esbuild.github.io/api/#outbase)
 
-一般来说：
+因此我们可以得到其最佳实践：
 
-- **在 bundleless 构建过程中，`sourceDir` 与 `input` 的值要保持一致，它们的默认值都是 `src`**。
-- 在 bundle 构建过程中，无需使用 `sourceDir`。
+- **在 bundle 构建过程中，只能指定 `input` 。**
+- **一般情况下，bundleless 只需要指定 `sourceDir`（此时 `input` 会与 `sourceDir` 保持一致）。**
 
-### dts
+如果我们想要在 bundleless 里只对一部分文件进行转换，例如只需要转换 `src/runtime` 目录的文件，此时需要配置 `input`:
+
+```js title="modern.config.ts"
+import { defineConfig } from '@modern-js/module-tools';
+
+export default defineConfig({
+  buildConfig: {
+    input: ['src/runtime'],
+    sourceDir: 'src',
+  },
+});
+```
+
+## 使用 swc
+
+在部分场景下，esbuild 不足以满足我们的需求，此时我们会使用 swc 来做代码转换。
+
+从 **2.36.0** 版本开始，涉及到以下功能时，Modern.js Module 默认会使用 swc ，但不这意味着不使用 esbuild 了，其余功能还是使用 esbuild:
+
+- [transformImport](/api/config/build-config#transformimport)
+- [transformLodash](/api/config/build-config#transformlodash)
+- [externalHelpers](/api/config/build-config#externalhelpers)
+- [format: umd](api/config/build-config#format-umd)
+- [target: es5](api/config/build-config#target)
+- [emitDecoratorMetadata: true](https://www.typescriptlang.org/tsconfig#emitDecoratorMetadata)
+
+事实上，我们在 **2.16.0** 开始全量使用 swc 进行代码转换。不过 swc 同样也存在一些限制，为此我们添加了 [sourceType](/api/config/build-config#sourcetype) 配置，当源码格式为 'commonjs' 时关闭 swc， 但这种方式并不符合用户直觉，另外，swc 格式化输出的 cjs 模式没有给每个导出名称添加注释，这在 node 中使用可能会带来一些问题。
+因为我们废弃了此行为，回到了最初的设计 - 只在需要的场景下使用 swc 作为补充。
+
+## 类型文件生成
 
 [`buildConfig.dts`](/api/config/build-config#dts) 配置主要用于类型文件的生成。
 
-#### 关闭类型生成
+### 关闭类型生成
 
 默认情况下类型生成功能是开启的，如果需要关闭的话，可以按照如下配置：
 
@@ -78,7 +101,7 @@ export default defineConfig({
 关闭类型文件后，一般来说构建速度会有所提升。
 :::
 
-#### 打包类型文件
+### 打包类型文件
 
 在 `buildType: 'bundleless'` 的时候，类型文件的生成是使用项目的 `tsc` 命令来完成生产。
 
@@ -87,7 +110,7 @@ export default defineConfig({
 - 一些第三方依赖存在错误的语法会导致打包过程失败。因此对于这种情况，需要手动通过 [`buildConfig.externals`](/api/config/build-config#externals) 将这类第三方包排除。
 - 对于第三方依赖的类型文件指向的是一个 `.ts` 文件的情况，目前无法处理。比如第三方依赖的 `package.json` 中存在这样的内容： `{"types": "./src/index.ts"}`。
 
-#### 别名转换
+### 别名转换
 
 在 bundleless 构建过程中，如果源代码中出现了别名，例如：
 
@@ -103,7 +126,7 @@ import utils from '@common/utils';
 然而也存在一些情况，目前还无法处理，例如 `Promise<import('@common/utils')>` 这样形式的输出类型目前无法进行转换。
 对于这种情况的解决办法，可以参与[讨论](https://github.com/web-infra-dev/modern.js/discussions/4511)。
 
-#### 一些示例
+### 一些示例
 
 ```js
 import { defineConfig } from '@modern-js/module-tools';
@@ -141,72 +164,6 @@ export default defineConfig({
     },
   ],
 });
-```
-
-### `define`
-
-[`buildConfig.define`](/api/config/build-config#define) 功能有些类似 [`webpack.DefinePlugin`](https://webpack.js.org/plugins/define-plugin/)。这里介绍几个使用场景：
-
-#### 环境变量替换
-
-```js
-import { defineConfig } from '@modern-js/module-tools';
-export default defineConfig({
-  buildConfig: {
-    define: {
-      'process.env.VERSION': JSON.stringify(process.env.VERSION || '0.0.0'),
-    },
-  },
-});
-```
-
-通过上面的配置，我们就可以将下面这段代码：
-
-```js
-// 编译前代码
-console.log(process.env.VERSION);
-```
-
-在执行 `VERSION=1.0.0 modern build` 的时候，转换为：
-
-```js
-// 编译后代码
-console.log('1.0.0');
-```
-
-#### 全局变量替换
-
-```js
-import { defineConfig } from '@modern-js/module-tools';
-export default defineConfig({
-  buildConfig: {
-    define: {
-      VERSION: JSON.stringify(require('./package.json').version || '0.0.0'),
-    },
-  },
-});
-```
-
-通过上面的配置，我们就可以将下面这段代码：
-
-```js
-// 编译前代码
-console.log(VERSION);
-```
-
-转换为：
-
-```js
-// 编译后代码
-console.log('1.0.0');
-```
-
-不过要注意：如果项目是一个 TypeScript 项目，那么你可能需要在项目源代码目录下的 `.d.ts` 文件里增加以下内容：
-
-> 如果不存在 `d.ts` 文件，则可以手动创建。
-
-```ts title="env.d.ts"
-declare const YOUR_ADD_GLOBAL_VAR;
 ```
 
 ## 构建过程
@@ -250,3 +207,42 @@ bundle DTS failed:
 - 报错的 `format`
 - 报错的 `target`
 - 其他具体报错信息
+
+## 调试模式
+
+从 **2.36.0** 版本开始，为了便于排查问题，Modern.js Module 提供了调试模式，你可以在执行构建时添加 DEBUG=module 环境变量来开启调试模式。
+
+```bash
+DEBUG=module modern build
+```
+
+调试模式下，你会看到 Shell 中输出更详细的构建日志，这主要以流程日志为主：
+
+```bash
+module run beforeBuildTask hooks +6ms
+module run beforeBuildTask hooks done +0ms
+module [DTS] Build Start +139ms
+module [CJS] Build Start +1ms
+```
+
+另外，Module 还提供了调试内部工作流程的能力。你可以通过设置环境变量 `DEBUG=module:*` 来开启更详细的调试日志:
+
+目前只支持了 `DEBUG=module:resolve`，可以查看 Module 内部模块解析的详细日志:
+
+```bash
+  module:resolve onResolve args: {
+  path: './src/hooks/misc.ts',
+  importer: '',
+  namespace: 'file',
+  resolveDir: '/Users/bytedance/modern.js/packages/solutions/module-tools',
+  kind: 'entry-point',
+  pluginData: undefined
+} +0ms
+  module:resolve onResolve result: {
+  path: '/Users/bytedance/modern.js/packages/solutions/module-tools/src/hooks/misc.ts',
+  external: false,
+  namespace: 'file',
+  sideEffects: undefined,
+  suffix: ''
+} +0ms
+```

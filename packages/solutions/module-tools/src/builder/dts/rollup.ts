@@ -1,5 +1,5 @@
 import path from 'path';
-import { logger } from '@modern-js/utils/logger';
+import { logger } from '@modern-js/utils';
 import ts from 'typescript';
 import type {
   InputOptions,
@@ -8,32 +8,21 @@ import type {
   RollupWatcher,
 } from '../../../compiled/rollup';
 import type {
-  BaseBuildConfig,
+  GeneratorDtsConfig,
   Input,
   PluginAPI,
   ModuleTools,
 } from '../../types';
 import jsonPlugin from '../../../compiled/@rollup/plugin-json';
 import dtsPlugin from '../../../compiled/rollup-plugin-dts';
-import { mapValue, transformUndefineObject } from '../../utils/common';
+import { mapValue, transformUndefineObject } from '../../utils';
 
 export type { RollupWatcher };
-
-type Config = {
-  distDir: string;
-  tsconfigPath: string;
-  externals: BaseBuildConfig['externals'];
-  input: Input;
-  watch: boolean;
-  abortOnError: boolean;
-  respectExternal: boolean;
-  appDirectory: string;
-};
 
 export const runRollup = async (
   api: PluginAPI<ModuleTools>,
   {
-    distDir,
+    distPath,
     tsconfigPath,
     externals,
     input,
@@ -41,7 +30,9 @@ export const runRollup = async (
     abortOnError,
     respectExternal,
     appDirectory,
-  }: Config,
+    footer,
+    banner,
+  }: GeneratorDtsConfig,
 ) => {
   const ignoreFiles: Plugin = {
     name: 'ignore-files',
@@ -114,13 +105,15 @@ export const runRollup = async (
     ].filter(Boolean),
   };
   const outputConfig: OutputOptions = {
-    dir: distDir,
+    dir: distPath,
     format: 'esm',
     exports: 'named',
+    footer,
+    banner,
   };
   if (watch) {
     const { watch } = await import('../../../compiled/rollup');
-    const { watchSectionTitle } = await import('../../utils/log');
+    const { watchSectionTitle } = await import('../../utils');
     const { SectionTitleStatus, BundleDtsLogPrefix } = await import(
       '../../constants/log'
     );
@@ -150,13 +143,13 @@ export const runRollup = async (
   } else {
     try {
       const { rollup } = await import('../../../compiled/rollup');
-      const { addRollupChunk } = await import('../../utils/print');
+      const { addRollupChunk } = await import('../../utils');
       const bundle = await rollup(inputConfig);
       const rollupOutput = await bundle.write(outputConfig);
       addRollupChunk(rollupOutput, appDirectory, outputConfig.dir!);
       return bundle;
     } catch (e) {
-      const { printOrThrowDtsErrors } = await import('../../utils/dts');
+      const { printOrThrowDtsErrors } = await import('../../utils');
       await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundle' });
       return null;
     }
