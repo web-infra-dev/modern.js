@@ -5,6 +5,9 @@ export default defineConfig({
   runtime: {
     router: true,
   },
+  source: {
+    mainEntryName: 'main',
+  },
   output: {
     // disable polyfill and ts checker to make test faster
     polyfill: 'off',

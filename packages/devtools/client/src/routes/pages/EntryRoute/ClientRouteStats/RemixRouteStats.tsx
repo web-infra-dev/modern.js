@@ -6,6 +6,7 @@ import {
 import type { ServerRoute } from '@modern-js/types';
 import { Flex } from '@radix-ui/themes';
 import React, { useContext, useMemo } from 'react';
+import { resolveURL } from 'ufo';
 import { MatchUrlContext } from '../../MatchUrl';
 import { MatchRemixRouteContext } from '../MatchRemixRouteContext';
 import { RemixRoute } from './RemixRoute';
@@ -35,7 +36,7 @@ export const RemixRouteStats: React.FC<RemixRouteStatsProps> = ({
         {remixRoutes.map(r => (
           <RemixRoute
             key={r.id}
-            route={{ ...r, path: route.urlPath + (r.path ?? '') }}
+            route={{ ...r, path: resolveURL(route.urlPath, r.path ?? '') }}
           />
         ))}
       </Flex>

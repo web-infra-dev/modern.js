@@ -3,7 +3,7 @@ import { RouteObject } from '@modern-js/runtime/router';
 import { Box, Flex, Link, Code } from '@radix-ui/themes';
 import styled from '@emotion/styled';
 import _ from 'lodash';
-import { withoutTrailingSlash } from 'ufo';
+import { resolveURL } from 'ufo';
 import { useHoverDirty } from 'react-use';
 import { MatchRemixRouteContext } from '../MatchRemixRouteContext';
 
@@ -18,10 +18,8 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
     '_component' in curr && _.isString(curr._component)
       ? curr._component
       : null;
-  const displayPath = routes
-    .map(r => r.path && withoutTrailingSlash(r.path))
-    .filter(_.isString)
-    .join('/');
+  const displayPath =
+    resolveURL('/', ...routes.map(r => r.path).filter(_.isString)) || '/';
   const isIndex = curr.index ?? false;
   const isRoot = displayPath === '/';
   const matched = useContext(MatchRemixRouteContext);
@@ -35,7 +33,7 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
     <Box ref={ref}>
       <Flex gap="2" align="center" mb={curr.children && '1'}>
         <EndpointContainer data-miss-matched={isMatching && !isMatched}>
-          {!isRoot && (
+          {(isIndex && isRoot) || (
             <EndpointTag data-compose={isIndex && 'head'}>
               {displayPath}
             </EndpointTag>
