@@ -195,9 +195,23 @@ Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构
 
 ### 5. SWC 配置支持
 
-Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，可参考 [Builtins](https://www.rspack.dev/zh/config/builtins.html)。
+Builder 使用 Rspack [builtin:swc-loader](https://www.rspack.dev/guide/loader.html#builtinswc-loader) 进行代码转译，如果对 builtin:swc-loader 有自定义配置的需求，可参考以下代码：
 
-暂不支持在 Rspack 中添加 swc 插件和更多自定义配置，相关需求可追踪对应 [issue 进度](https://github.com/web-infra-dev/rspack/issues/3067)。
+```ts
+export default {
+  tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.JS)
+        .use(CHAIN_ID.USE.SWC)
+        .tap(options => {
+          options.xxx = '';
+          return options;
+        });
+    },
+  }
+};
+```
 
 ### 6. Webpack Plugin 插件迁移
 

@@ -615,6 +615,74 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         ],
       },
       {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "coreJs": "3.32",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "exclude": [],
+              "inlineSourcesContent": true,
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": true,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "minify": false,
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+              "sourceMaps": true,
+            },
+          },
+        ],
+      },
+      {
         "test": /\\\\\\.toml\\$/,
         "type": "javascript/auto",
         "use": [
@@ -724,7 +792,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
-    ReactRefreshRspackPlugin {},
+    ReactRefreshRspackPlugin {
+      "options": {
+        "exclude": null,
+        "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
+      },
+    },
   ],
   "resolve": {
     "alias": {
@@ -1362,6 +1435,74 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         ],
       },
       {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "coreJs": "3.32",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "exclude": [],
+              "inlineSourcesContent": true,
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": false,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "minify": false,
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+              "sourceMaps": true,
+            },
+          },
+        ],
+      },
+      {
         "test": /\\\\\\.toml\\$/,
         "type": "javascript/auto",
         "use": [
@@ -1896,6 +2037,71 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       {
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "mode": undefined,
+                "targets": [
+                  "node >= 14",
+                ],
+              },
+              "exclude": [],
+              "inlineSourcesContent": true,
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": false,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "minify": false,
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "lib",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "lib",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon-cjs",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+              "sourceMaps": true,
+            },
+          },
+        ],
+      },
+      {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
         "use": [
           {
             "loader": "builtin:swc-loader",
@@ -2658,6 +2864,74 @@ exports[`tools.rspack > should match snapshot 1`] = `
         ],
       },
       {
+        "mimetype": {
+          "or": [
+            "text/javascript",
+            "application/javascript",
+          ],
+        },
+        "use": [
+          {
+            "loader": "builtin:swc-loader",
+            "options": {
+              "cwd": "<ROOT>",
+              "env": {
+                "coreJs": "3.32",
+                "mode": "entry",
+                "targets": [
+                  "> 0.01%",
+                  "not dead",
+                  "not op_mini all",
+                ],
+              },
+              "exclude": [],
+              "inlineSourcesContent": true,
+              "isModule": "unknown",
+              "jsc": {
+                "externalHelpers": true,
+                "parser": {
+                  "decorators": true,
+                  "syntax": "typescript",
+                  "tsx": true,
+                },
+                "preserveAllComments": true,
+                "transform": {
+                  "decoratorMetadata": true,
+                  "legacyDecorator": true,
+                  "react": {
+                    "development": true,
+                    "refresh": true,
+                    "runtime": "automatic",
+                  },
+                },
+              },
+              "minify": false,
+              "rspackExperiments": {
+                "import": [
+                  {
+                    "libraryDirectory": "es",
+                    "libraryName": "antd",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "es",
+                    "libraryName": "@arco-design/web-react",
+                    "style": true,
+                  },
+                  {
+                    "camelToDashComponentName": false,
+                    "libraryDirectory": "react-icon",
+                    "libraryName": "@arco-design/web-react/icon",
+                  },
+                ],
+              },
+              "sourceMaps": true,
+            },
+          },
+        ],
+      },
+      {
         "test": /\\\\\\.toml\\$/,
         "type": "javascript/auto",
         "use": [
@@ -2770,7 +3044,12 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
-    ReactRefreshRspackPlugin {},
+    ReactRefreshRspackPlugin {
+      "options": {
+        "exclude": null,
+        "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
+      },
+    },
   ],
   "resolve": {
     "alias": {

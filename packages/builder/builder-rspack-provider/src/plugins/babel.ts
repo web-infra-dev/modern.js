@@ -102,12 +102,15 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           .loader(getCompiledPath('babel-loader'))
           .options({
             ...babelOptions,
+            // TODO: should only apply babel include / exclude when apply source.include in rule
             only: [
               (pathName: string) =>
-                pathName.includes(rootPath) && !/node_modules/.test(pathName),
+                pathName.includes(rootPath) &&
+                !/\/node_modules\//.test(pathName),
               ...includes,
+              ...(config.source.include || []),
             ],
-            ignore: excludes,
+            ignore: [...excludes, ...(config.source.exclude || [])],
           });
       },
     );

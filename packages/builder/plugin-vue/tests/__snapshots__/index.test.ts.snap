@@ -50,9 +50,6 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
         ],
       },
       {
-        "exclude": [
-          /vue-loader/,
-        ],
         "include": [
           {
             "and": [
@@ -333,9 +330,6 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
         ],
       },
       {
-        "exclude": [
-          /vue-loader/,
-        ],
         "include": [
           {
             "and": [

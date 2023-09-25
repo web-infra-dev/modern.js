@@ -1,7 +1,7 @@
 import type { BuilderPlugin } from '../types';
 import { isUsingHMR } from '@modern-js/builder-shared';
 // @ts-expect-error
-import ReactRefreshPlugin from '@rspack/plugin-react-refresh';
+import ReactRefreshRspackPlugin from '@rspack/plugin-react-refresh';
 
 export const builderPluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',
@@ -15,29 +15,55 @@ export const builderPluginReact = (): BuilderPlugin => ({
       const { isBeyondReact17 } = await import('@modern-js/utils');
       const isNewJsx = isBeyondReact17(api.context.rootPath);
 
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .use(CHAIN_ID.USE.SWC)
-        .tap(options => {
-          options.jsc.transform.react = {
-            development: !isProd,
-            refresh: usingHMR,
-            runtime: isNewJsx ? 'automatic' : 'classic',
-          };
-          return options;
-        });
+      const rule = chain.module.rule(CHAIN_ID.RULE.JS);
+
+      const reactOptions = {
+        development: !isProd,
+        refresh: usingHMR,
+        runtime: isNewJsx ? 'automatic' : 'classic',
+      };
+
+      // runtimePaths.forEach((condition: string) => {
+      //   rule.exclude.add(condition);
+      // });
+
+      rule.use(CHAIN_ID.USE.SWC).tap(options => {
+        options.jsc.transform.react = {
+          ...reactOptions,
+        };
+        return options;
+      });
+
+      if (chain.module.rules.has(CHAIN_ID.RULE.JS_DATA_URI)) {
+        chain.module
+          .rule(CHAIN_ID.RULE.JS_DATA_URI)
+          .use(CHAIN_ID.USE.SWC)
+          .tap(options => {
+            options.jsc.transform.react = {
+              ...reactOptions,
+            };
+            return options;
+          });
+      }
 
       if (!usingHMR) {
         return;
       }
 
-      chain.plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH).use(ReactRefreshPlugin, [
-        {
-          // todo: Consistent with swc-loader rules
-          include: [],
-          exclude: [],
-        },
-      ]);
+      chain
+        .plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH)
+        .use(ReactRefreshRspackPlugin, [
+          {
+            // consistent with swc-loader rules
+            // include: [
+            //   {
+            //     and: [api.context.rootPath, { not: /\/node_modules\// }],
+            //   },
+            //   ...(config.source.include || []),
+            // ],
+            exclude: config.source.exclude || null,
+          },
+        ]);
     });
   },
 });

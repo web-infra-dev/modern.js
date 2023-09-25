@@ -36,8 +36,6 @@ export function builderPluginVue(
               __VUE_OPTIONS_API__: true,
               __VUE_PROD_DEVTOOLS__: false,
             },
-            // TODO: should remove when apply source.include in rspack-provider
-            exclude: [/vue-loader/],
           },
           tools: {
             babel(_, { addPlugins }) {

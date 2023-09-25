@@ -165,17 +165,17 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rspack/core':
-        specifier: 0.3.4-canary-250f34b-20230922010620
-        version: 0.3.4-canary-250f34b-20230922010620
+        specifier: 0.3.4-canary-56f4c06-20230925050805
+        version: 0.3.4-canary-56f4c06-20230925050805
       '@rspack/dev-client':
-        specifier: 0.3.4-canary-250f34b-20230922010620
-        version: 0.3.4-canary-250f34b-20230922010620(react-refresh@0.14.0)(webpack@5.88.1)
+        specifier: 0.3.4-canary-56f4c06-20230925050805
+        version: 0.3.4-canary-56f4c06-20230925050805(react-refresh@0.14.0)(webpack@5.88.1)
       '@rspack/plugin-html':
-        specifier: 0.3.4-canary-250f34b-20230922010620
-        version: 0.3.4-canary-250f34b-20230922010620(@rspack/core@0.3.4-canary-250f34b-20230922010620)
+        specifier: 0.3.4-canary-56f4c06-20230925050805
+        version: 0.3.4-canary-56f4c06-20230925050805(@rspack/core@0.3.4-canary-56f4c06-20230925050805)
       '@rspack/plugin-react-refresh':
-        specifier: 0.3.4-canary-250f34b-20230922010620
-        version: 0.3.4-canary-250f34b-20230922010620(react-refresh@0.14.0)(webpack@5.88.1)
+        specifier: 0.3.4-canary-56f4c06-20230925050805
+        version: 0.3.4-canary-56f4c06-20230925050805(react-refresh@0.14.0)(webpack@5.88.1)
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -14389,96 +14389,42 @@ packages:
       rollup: 3.23.0
     dev: true
 
-  /@rspack/binding-darwin-arm64@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-jgRh0XzDKyrGzGUDKbvyZBEF8crBkfValQbJZVUUw86xb0vMnEBR7mos/z99uu+nIxQ0U8klyPd0Grp1CFrmqw==}
+  /@rspack/binding-darwin-arm64@0.3.4-canary-56f4c06-20230925050805:
+    resolution: {integrity: sha512-vbP/sms93MDpViXoJRrhoJ20P+156clIpBpzBpi4G28tSDOpYeFHXXeK73Y5PI2OPNadatk11HsOFX6PXQqf5A==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-darwin-x64@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-3INW2K9U95mZyM8O0gJkwN0XtlL5DWoShXytGKKTogoj3qlLwNG02phKzb4CsV2/5ls+D0BJLOQyIL1qH8VjxA==}
+  /@rspack/binding-darwin-x64@0.3.4-canary-56f4c06-20230925050805:
+    resolution: {integrity: sha512-9bjXgtKAPiIEdyO6VOL4ZwPJrwuqRMAliNxizxFWr99nO2jeKwjtAt0esBPDPjJRSJZhHm3jRJPOxPm8pBJTCw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-arm64-gnu@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-M+oVNlweqHJT742rbLGd2jpsg3VS7EghwTYoNPm2w4vdXTxBUg+o1eQOi7LtLGbZ2ll+6ZxroCt/EpqEhHgEfw==}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-linux-arm64-musl@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-Sm6YdR8g8kh6PrI+Gt4MVtZyITu/HH++B3KlugXj4il0bwWGZ2SO1JVNinKGC2B+UH9xH/dQrORPB2ZycPKffg==}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-linux-x64-gnu@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-5qlJM0yB3lIJ2sGiScD5+LeW6I3RogHsGukkGUK7tKIWfF2magTH5L/TJBWrLirhtU8EUcRwXCDStgCdM4tlaw==}
+  /@rspack/binding-linux-x64-gnu@0.3.4-canary-56f4c06-20230925050805:
+    resolution: {integrity: sha512-LtiO5CUO3E3WRh4i0CV5anvOVKRNi4F2N0utB8cGwDqI14e0fAofZQUfVRAVHFgrGwBC6YaEMpvJS5mfLylh9w==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rspack/binding-linux-x64-musl@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-j2kZ3b7pey+oaSdWxtuhbAOWJYTSNGPGeNEbDI/NpyHZswmi1DqWvL1KdTJyRsYz/i677IMgg0zosoajqOYvFw==}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-win32-arm64-msvc@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-llfx6VreXMhp8IIvcZXxLrhdFNjAM51QnmxcU48ad8u8IH1BzxmN8oxk3dVaWnmbaisjtXTg+Wf1Cdk/oPlkWA==}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-win32-ia32-msvc@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-vMZBku0ZCqrk0LFM/Ea41f9UQ6WRRw5p96gy8LA1Ee/5Tst97DiUkeiFXlZlahrPEuhD71DJS0pTyK4McaOIqA==}
-    cpu: [ia32]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding-win32-x64-msvc@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-17GnHBOPxmv1Wj+BWC4IUMpedVHJH4JFg8Fe0+RZZuoEBmBMhUL9Z/1ft/ebRF6uKUXXhHDc7WA7JkRRCp2BIQ==}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: false
-    optional: true
-
-  /@rspack/binding@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-fML2q5sTOKu3WHzzyfMhtKHIjRkmwXRVm0TmzJtEMZt5aqtDB+0bnl6Uic6bVtJS0Bv5MdExE0+T/dkb++ULrg==}
+  /@rspack/binding@0.3.4-canary-56f4c06-20230925050805:
+    resolution: {integrity: sha512-40GeVD4+P27tE/RgLYa0a3cxFwFeghpjIbPX9lxKrUtWN4TfivYY+ZUrOAnokd+rQNdXVFK9+gFlw508A2/O8g==}
     optionalDependencies:
-      '@rspack/binding-darwin-arm64': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-darwin-x64': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-linux-arm64-gnu': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-linux-arm64-musl': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-linux-x64-gnu': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-linux-x64-musl': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-win32-arm64-msvc': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-win32-ia32-msvc': 0.3.4-canary-250f34b-20230922010620
-      '@rspack/binding-win32-x64-msvc': 0.3.4-canary-250f34b-20230922010620
+      '@rspack/binding-darwin-arm64': 0.3.4-canary-56f4c06-20230925050805
+      '@rspack/binding-darwin-x64': 0.3.4-canary-56f4c06-20230925050805
+      '@rspack/binding-linux-x64-gnu': 0.3.4-canary-56f4c06-20230925050805
     dev: false
 
-  /@rspack/core@0.3.4-canary-250f34b-20230922010620:
-    resolution: {integrity: sha512-04mLF1FEbgPste6vrx8X1RRUlK/y9NyMg820vRqnC+jzDo9+5/rt8xRkCs/0vNPaMG/TGEUPYCU9v3c1wj84mg==}
+  /@rspack/core@0.3.4-canary-56f4c06-20230925050805:
+    resolution: {integrity: sha512-Q5tLz9Yq/1LU2GxMJMFw2LGeYiCDjbxVX07ee3R3Ii0RCpQdmco2R28lOdL8yc4gzLSzKivwGB1ieNTRnDOEWg==}
     dependencies:
-      '@rspack/binding': 0.3.4-canary-250f34b-20230922010620
+      '@rspack/binding': 0.3.4-canary-56f4c06-20230925050805
       '@swc/helpers': 0.5.1
       browserslist: 4.21.10
       compare-versions: 6.0.0-rc.1
@@ -14496,15 +14442,15 @@ packages:
       zod-validation-error: 1.2.0(zod@3.21.4)
     dev: false
 
-  /@rspack/dev-client@0.3.4-canary-250f34b-20230922010620(react-refresh@0.14.0)(webpack@5.88.1):
-    resolution: {integrity: sha512-hNKHojjG9Cg54cNe4/aSTvE1oapkGpyVmJ3WcTRyvZcbSIUXqPHC6+/gyn4gWlpRRMCxrNbXKquH6kiHf9llpg==}
+  /@rspack/dev-client@0.3.4-canary-56f4c06-20230925050805(react-refresh@0.14.0)(webpack@5.88.1):
+    resolution: {integrity: sha512-ABUrvTcdAFyapzUUzf3AqXBBm+nIfj2mVyHq0cHODCLMSoUtXKdeVnUIEXeNS+f5Wcm6j58i1QYXDF+K+89nWQ==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
       react-refresh:
         optional: true
     dependencies:
-      '@rspack/plugin-react-refresh': 0.3.4-canary-250f34b-20230922010620(react-refresh@0.14.0)(webpack@5.88.1)
+      '@rspack/plugin-react-refresh': 0.3.4-canary-56f4c06-20230925050805(react-refresh@0.14.0)(webpack@5.88.1)
       react-refresh: 0.14.0
     transitivePeerDependencies:
       - '@types/webpack'
@@ -14516,15 +14462,15 @@ packages:
       - webpack-plugin-serve
     dev: false
 
-  /@rspack/plugin-html@0.3.4-canary-250f34b-20230922010620(@rspack/core@0.3.4-canary-250f34b-20230922010620):
-    resolution: {integrity: sha512-dBVVjjMycpCuWi//j70rDUgj36M4zGlhTKGktUZDGL74axwhqM/bYgHBuFbTxFTb342qc62nK4kzr14Lt44vkA==}
+  /@rspack/plugin-html@0.3.4-canary-56f4c06-20230925050805(@rspack/core@0.3.4-canary-56f4c06-20230925050805):
+    resolution: {integrity: sha512-sGubkIw59cqCIYJeB8mYJdxIUsEB7icx0zrCzIMqVcJ+PQI60OI6/1fkEw1xH/uZij/wj9ryvi8h4jiYi3Uyag==}
     peerDependencies:
-      '@rspack/core': 0.3.4-canary-250f34b-20230922010620
+      '@rspack/core': 0.3.4-canary-56f4c06-20230925050805
     peerDependenciesMeta:
       '@rspack/core':
         optional: true
     dependencies:
-      '@rspack/core': 0.3.4-canary-250f34b-20230922010620
+      '@rspack/core': 0.3.4-canary-56f4c06-20230925050805
       '@types/html-minifier-terser': 7.0.0
       html-minifier-terser: 7.0.0
       lodash.template: 4.5.0
@@ -14532,8 +14478,8 @@ packages:
       tapable: 2.2.1
     dev: false
 
-  /@rspack/plugin-react-refresh@0.3.4-canary-250f34b-20230922010620(react-refresh@0.14.0)(webpack@5.88.1):
-    resolution: {integrity: sha512-GnEmcOjAnIaFkFaBCzSjx4zYC/eVRQZzRbtrzlHBdVRy3FQFD2guiDgFcWDINFzVCGBsNMGICQ1KBZdbJNbR1w==}
+  /@rspack/plugin-react-refresh@0.3.4-canary-56f4c06-20230925050805(react-refresh@0.14.0)(webpack@5.88.1):
+    resolution: {integrity: sha512-uEcx/6B4bCF+Dx5evtCJsU5yfjzPtQyd4b3ZMXQ4Z2M3dXOHIQc34NcxMgpA3MhGcIvSs97MnA14ZETv/jgzcA==}
     peerDependencies:
       react-refresh: '>=0.10.0 <1.0.0'
     peerDependenciesMeta:
@@ -14542,6 +14488,7 @@ packages:
     dependencies:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.10(react-refresh@0.14.0)(webpack@5.88.1)
       react-refresh: 0.14.0
+      schema-utils: 4.2.0
     transitivePeerDependencies:
       - '@types/webpack'
       - sockjs-client

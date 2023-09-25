@@ -12,6 +12,7 @@ import {
   BundlerChainRule,
   logger,
 } from '@modern-js/builder-shared';
+import { cloneDeep } from '@modern-js/utils/lodash';
 import * as path from 'path';
 import type {
   BuilderPlugin,
@@ -108,6 +109,24 @@ export const builderPluginSwc = (): BuilderPlugin => ({
           .use(CHAIN_ID.USE.SWC)
           .loader('builtin:swc-loader')
           .options(swcConfig);
+
+        /**
+         * If a script is imported with data URI, it can be compiled by babel too.
+         * This is used by some frameworks to create virtual entry.
+         * https://webpack.js.org/api/module-methods/#import
+         * @example: import x from 'data:text/javascript,export default 1;';
+         */
+        if (config.source.compileJsDataURI) {
+          chain.module
+            .rule(CHAIN_ID.RULE.JS_DATA_URI)
+            .mimetype({
+              or: ['text/javascript', 'application/javascript'],
+            })
+            .use(CHAIN_ID.USE.SWC)
+            .loader('builtin:swc-loader')
+            // Using cloned options to keep options separate from each other
+            .options(cloneDeep(swcConfig));
+        }
       },
     );
 
