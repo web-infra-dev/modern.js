@@ -4,14 +4,15 @@ import {
 } from '@modern-js/plugin';
 import type { RegisterBuildPlatformResult } from '@modern-js/core';
 import { BuildCommandOptions } from '../types';
-import type { BuildConfig, BaseBuildConfig } from '../types/config';
 import type {
   BuildTaskResult,
   BuildResult,
   BuildPlatformResult,
   WatchDtsHookContext,
   WatchJsHookContext,
-} from '../types/hooks';
+  BuildConfig,
+  BaseBuildConfig,
+} from '../types';
 
 export const buildHooks = {
   beforeBuild: createParallelWorkflow<

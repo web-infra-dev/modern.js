@@ -1,18 +1,21 @@
 import type { ChildProcess } from 'child_process';
 import { execa, logger } from '@modern-js/utils';
-import { addDtsFiles } from '../../utils/print';
 import type {
-  BundlelessGeneratorDtsConfig,
+  GeneratorDtsConfig,
   PluginAPI,
   ModuleTools,
+  GeneratedDtsInfo,
 } from '../../types';
 import {
-  generatorTsConfig,
+  generateDtsInfo,
   getTscBinPath,
   printOrThrowDtsErrors,
   resolveAlias,
-} from '../../utils/dts';
-import { watchSectionTitle } from '../../utils/log';
+  watchSectionTitle,
+  addDtsFiles,
+  writeDtsFiles,
+  addBannerAndFooter,
+} from '../../utils';
 import {
   BundlelessDtsLogPrefix,
   SectionTitleStatus,
@@ -53,15 +56,14 @@ const resolveLog = async (
   });
 };
 
-const generatorDts = async (
+const runTscBin = async (
   api: PluginAPI<ModuleTools>,
-  config: BundlelessGeneratorDtsConfig,
+  config: GeneratorDtsConfig,
+  info: GeneratedDtsInfo,
 ) => {
   const { appDirectory, watch = false, abortOnError = true } = config;
 
-  const { userTsconfig, generatedTsconfig: result } = await generatorTsConfig(
-    config,
-  );
+  const { tempTsconfigPath } = info;
 
   const tscBinFile = await getTscBinPath(appDirectory);
 
@@ -70,7 +72,7 @@ const generatorDts = async (
     tscBinFile,
     [
       '-p',
-      result.tempTsconfigPath,
+      tempTsconfigPath,
       /* Required parameter, use it stdout have color */
       '--pretty',
       // https://github.com/microsoft/TypeScript/issues/21824
@@ -87,7 +89,9 @@ const generatorDts = async (
   resolveLog(childProgress, {
     watch,
     watchFn: async () => {
-      await resolveAlias(config, { ...result, userTsconfig });
+      const result = await resolveAlias(config, info);
+      const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
+      await writeDtsFiles(config, info, dtsFiles);
       runner.buildWatchDts({ buildType: 'bundleless' });
     },
   });
@@ -97,15 +101,16 @@ const generatorDts = async (
   } catch (e) {
     await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundleless' });
   }
-
-  return { ...result, userTsconfig };
 };
 
 export const runTsc = async (
   api: PluginAPI<ModuleTools>,
-  config: BundlelessGeneratorDtsConfig,
+  config: GeneratorDtsConfig,
 ) => {
-  const result = await generatorDts(api, config);
-  await resolveAlias(config, result);
-  await addDtsFiles(config.distAbsPath, config.appDirectory);
+  const generatedDtsInfo = await generateDtsInfo(config);
+  await runTscBin(api, config, generatedDtsInfo);
+  const result = await resolveAlias(config, generatedDtsInfo);
+  const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
+  await writeDtsFiles(config, generatedDtsInfo, dtsFiles);
+  await addDtsFiles(config.distPath, config.appDirectory);
 };

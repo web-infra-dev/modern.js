@@ -1,5 +1,5 @@
 import path from 'path';
-import { checkSwcHelpers } from '../src/utils/builder';
+import { checkSwcHelpers } from '../src/utils';
 
 describe('utils: builder', () => {
   it('checkSwcHelpers', async () => {

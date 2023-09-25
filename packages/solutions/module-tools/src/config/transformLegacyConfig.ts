@@ -177,10 +177,7 @@ export const createConfigByBuildConfig = async (
       };
     }
     if (config.tsconfig) {
-      newConfig.dts = {
-        ...(typeof newConfig.dts === 'object' ? newConfig.dts : {}),
-        tsconfigPath: config.tsconfig,
-      };
+      newConfig.tsconfig = config.tsconfig;
     }
     // check enableDts must be last
     if (!config.enableDts) {

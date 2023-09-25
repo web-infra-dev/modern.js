@@ -1,3 +1,4 @@
+import { NODE_MODULES_REGEX } from '../constants';
 import type {
   WebpackChainRule,
   BundlerChainRule,
@@ -20,7 +21,7 @@ export function applyScriptCondition({
 }) {
   // compile all folders in app directory, exclude node_modules
   rule.include.add({
-    and: [context.rootPath, { not: /node_modules/ }],
+    and: [context.rootPath, { not: NODE_MODULES_REGEX }],
   });
 
   [...includes, ...(config.source.include || [])].forEach(condition => {

@@ -4,10 +4,10 @@ export interface DevCommandOptions {
 }
 
 export interface BuildCommandOptions {
+  clear: boolean;
+  dts: boolean;
+  watch: boolean;
   config?: string;
-  clear?: boolean;
-  dts?: boolean;
   platform?: boolean | string[];
   tsconfig?: string;
-  watch?: boolean;
 }

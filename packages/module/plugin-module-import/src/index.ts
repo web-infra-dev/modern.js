@@ -1,47 +1,23 @@
-import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
-import type { ImportItem } from '@modern-js/libuild-plugin-swc';
-import { swcTransformPluginName } from '@modern-js/libuild-plugin-swc';
+import type {
+  CliPlugin,
+  ModuleTools,
+  BaseBuildConfig,
+} from '@modern-js/module-tools';
 
+/**
+ * use config 'transformImport' instead.
+ * @deprecated
+ */
 export const modulePluginImport = (options: {
-  pluginImport?: ImportItem[];
+  pluginImport?: BaseBuildConfig['transformImport'];
 }): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-import',
   setup: () => ({
     beforeBuildTask(config) {
-      config.transformImport = options.pluginImport ?? [];
+      config.transformImport = options.pluginImport ?? config.transformImport;
       return config;
-    },
-    async modifyLibuild(config, next) {
-      // when libuild:swc-transform found
-      if (config.plugins?.find(p => p.name === swcTransformPluginName)) {
-        return next(config);
-      }
-
-      if (!options.pluginImport || options.pluginImport.length === 0) {
-        return next(config);
-      }
-
-      const { transformPlugin } = await import('@modern-js/libuild-plugin-swc');
-      config.plugins?.push(
-        transformPlugin({
-          jsc: {
-            // swc transform jsx to `React.createElement` in default mode.
-            transform: {
-              react: {
-                runtime: config.jsx === 'transform' ? 'classic' : 'automatic',
-              },
-            },
-          },
-          extensions: {
-            pluginImport: options.pluginImport ?? [],
-          },
-        }),
-      );
-
-      return next(config);
     },
   }),
 });
 
-// deprecated default export
 export default modulePluginImport;

@@ -1,5 +1,65 @@
 # @modern-js/app-tools
 
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- 9dd3151: chore(app-tools): add RouterPlugin name
+  chore(app-tools): 增加 RouterPlugin 名称
+- 0db5680: fix(app-tools): failed to emit modern.config.json when distPath.root is absolute path
+
+  fix(app-tools): 修复 distPath.root 为绝对路径时无法输出 modern.config.json 的问题
+
+- 24482a5: feat: support splat route config file
+  feat: 支持通配路由配置文件
+- 578f94f: chore(rspack): use DataURI module instead of rspack-plugin-virtual-module
+
+  chore(rspack): 使用 DataURI module 替代 rspack-plugin-virtual-module
+
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [14f95cf]
+- Updated dependencies [4b8cdd3]
+- Updated dependencies [bb97082]
+- Updated dependencies [9dd3151]
+- Updated dependencies [bc1413d]
+- Updated dependencies [0db5680]
+- Updated dependencies [411cea2]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [dc93952]
+- Updated dependencies [843cb2c]
+- Updated dependencies [6b03be8]
+- Updated dependencies [578f94f]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/builder-webpack-provider@2.35.1
+  - @modern-js/builder-rspack-provider@2.35.1
+  - @modern-js/builder@2.35.1
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/core@2.35.1
+  - @modern-js/prod-server@2.35.1
+  - @modern-js/plugin-data-loader@2.35.1
+  - @modern-js/server@2.35.1
+  - @modern-js/builder-plugin-esbuild@2.35.1
+  - @modern-js/builder-plugin-node-polyfill@2.35.1
+  - @modern-js/plugin-i18n@2.35.1
+  - @modern-js/plugin-lint@2.35.1
+  - @modern-js/new-action@2.35.1
+  - @modern-js/server-core@2.35.1
+  - @modern-js/node-bundle-require@2.35.1
+  - @modern-js/upgrade@2.35.1
+  - @modern-js/types@2.35.1
+
 ## 2.35.0
 
 ### Patch Changes

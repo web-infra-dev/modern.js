@@ -617,9 +617,7 @@ describe('dev', () => {
 
   describe('client data', () => {
     test('support client data', async () => {
-      const page1 = await browser.newPage();
-      await supportClientLoader(page1, errors, appPort);
-      await page1.close();
+      await supportClientLoader(page, errors, appPort);
     });
   });
 
@@ -844,9 +842,7 @@ describe('dev with rspack', () => {
 
   describe('client data', () => {
     test('support client data', async () => {
-      const page1 = await browser.newPage();
-      await supportClientLoader(page1, errors, appPort);
-      await page1.close();
+      await supportClientLoader(page, errors, appPort);
     });
   });
 

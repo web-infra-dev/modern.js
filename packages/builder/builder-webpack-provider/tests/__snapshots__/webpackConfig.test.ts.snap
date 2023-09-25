@@ -161,7 +161,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
         "and": [
           "<ROOT>",
           {
-            "not": /node_modules/,
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
         ],
       },
@@ -371,7 +371,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
         "and": [
           "<ROOT>",
           {
-            "not": /node_modules/,
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
         ],
       },
@@ -622,7 +622,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
         "and": [
           "<ROOT>",
           {
-            "not": /node_modules/,
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
         ],
       },

@@ -53,7 +53,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -331,7 +331,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },

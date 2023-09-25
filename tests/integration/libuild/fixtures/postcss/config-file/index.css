@@ -1,6 +1,0 @@
-.foo:after {
-  content: 'kzt';
-}
-.bar:after {
-  content: 'normal text';
-}
