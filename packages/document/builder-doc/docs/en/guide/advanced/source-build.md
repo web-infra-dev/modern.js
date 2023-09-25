@@ -47,7 +47,7 @@ The disadvantages are:
 
 **When using source code referencing, the current project references the source code of other sub-projects for building.**
 
-In the example mentioned earlier, when you enable the source code build mode, Modern.js Builder will automatically reference the `src/index.ts` source code of the lib. This means that you don't need to build the lib's code in advance, and when the source code of the lib is updated, it can trigger automatic hot updates for the app.
+In the example mentioned earlier, when you enable the source code build mode and add the relevant configuration in the `lib` directory, Modern.js Builder will automatically reference the `src/index.ts` source code of the lib. This means that you don't need to build the lib's code in advance, and when the source code of the lib is updated, it can trigger automatic hot updates for the app.
 
 The advantages of this approach are:
 
