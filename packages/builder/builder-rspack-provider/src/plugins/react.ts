@@ -1,7 +1,6 @@
 import type { BuilderPlugin } from '../types';
 import { isUsingHMR } from '@modern-js/builder-shared';
-// @ts-expect-error
-import ReactRefreshRspackPlugin from '@rspack/plugin-react-refresh';
+import path from 'path';
 
 export const builderPluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',
@@ -22,10 +21,6 @@ export const builderPluginReact = (): BuilderPlugin => ({
         refresh: usingHMR,
         runtime: isNewJsx ? 'automatic' : 'classic',
       };
-
-      // runtimePaths.forEach((condition: string) => {
-      //   rule.exclude.add(condition);
-      // });
 
       rule.use(CHAIN_ID.USE.SWC).tap(options => {
         options.jsc.transform.react = {
@@ -50,6 +45,37 @@ export const builderPluginReact = (): BuilderPlugin => ({
         return;
       }
 
+      const { default: ReactRefreshRspackPlugin } = await import(
+        // @ts-expect-error
+        '@rspack/plugin-react-refresh'
+      );
+
+      const reactRefreshPath = path.dirname(
+        require.resolve('@rspack/plugin-react-refresh/react-refresh'),
+      );
+
+      const refreshUtilsPath = require.resolve(
+        '@pmmmwh/react-refresh-webpack-plugin/lib/runtime/RefreshUtils',
+        {
+          paths: [reactRefreshPath],
+        },
+      );
+      const refreshRuntimeDirPath = path.dirname(
+        require.resolve('react-refresh', {
+          paths: [reactRefreshPath],
+        }),
+      );
+      const runtimePaths = [
+        reactRefreshPath,
+        refreshUtilsPath,
+        refreshRuntimeDirPath,
+      ];
+
+      // TODO: not used when rspack react-refresh align with community
+      runtimePaths.forEach((condition: string) => {
+        rule.exclude.add(condition);
+      });
+
       chain
         .plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH)
         .use(ReactRefreshRspackPlugin, [
@@ -57,7 +83,7 @@ export const builderPluginReact = (): BuilderPlugin => ({
             // consistent with swc-loader rules
             // include: [
             //   {
-            //     and: [api.context.rootPath, { not: /\/node_modules\// }],
+            //     and: [api.context.rootPath, { not: NODE_MODULES_REGEX }],
             //   },
             //   ...(config.source.include || []),
             // ],

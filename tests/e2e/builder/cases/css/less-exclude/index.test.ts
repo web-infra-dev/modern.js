@@ -1,10 +1,11 @@
 import path from 'path';
-import { expect, test } from '@modern-js/e2e/playwright';
+import { expect } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
+import { webpackOnlyTest } from '@scripts/helper';
 
 // 'error[javascript]: JavaScript parsing error' in rspack
 // The rspack default rule type seems to be inconsistent with webpack. Not sure if that will fix when disableTransformByDefault supported.
-test('should exclude specified less file', async () => {
+webpackOnlyTest('should exclude specified less file', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },

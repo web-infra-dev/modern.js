@@ -550,6 +550,9 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "exclude": [
           "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/plugin-react-refresh/client",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@pmmmwh/react-refresh-webpack-plugin/lib/runtime/RefreshUtils.js",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "type": "javascript/auto",
@@ -2799,6 +2802,9 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "exclude": [
           "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/plugin-react-refresh/client",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/@pmmmwh/react-refresh-webpack-plugin/lib/runtime/RefreshUtils.js",
+          "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "type": "javascript/auto",

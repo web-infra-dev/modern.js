@@ -1,4 +1,9 @@
-import { mergeRegex, JS_REGEX, TS_REGEX } from '@modern-js/builder-shared';
+import {
+  mergeRegex,
+  JS_REGEX,
+  TS_REGEX,
+  NODE_MODULES_REGEX,
+} from '@modern-js/builder-shared';
 import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
@@ -106,7 +111,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             only: [
               (pathName: string) =>
                 pathName.includes(rootPath) &&
-                !/\/node_modules\//.test(pathName),
+                !NODE_MODULES_REGEX.test(pathName),
               ...includes,
               ...(config.source.include || []),
             ],
