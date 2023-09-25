@@ -13,7 +13,7 @@ exports[`plugins/swc > should apply source.include and source.exclude correctly 
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -568,7 +568,7 @@ exports[`plugins/swc > should set multiple swc-loader 1`] = `
         "and": [
           "<ROOT>",
           {
-            "not": /node_modules/,
+            "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
           },
         ],
       },
@@ -781,7 +781,7 @@ exports[`plugins/swc > should set swc-loader 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },

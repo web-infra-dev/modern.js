@@ -1,3 +1,4 @@
+import { NODE_MODULES_REGEX } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
 
 /**
@@ -16,7 +17,7 @@ export const builderPluginInspector = (): BuilderPlugin => ({
       const inspectorOptions = applyOptionsChain(
         {
           port: 3333,
-          ignorePattern: /node_modules/,
+          ignorePattern: NODE_MODULES_REGEX,
         },
         config.tools.inspector,
       );

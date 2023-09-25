@@ -16,7 +16,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
