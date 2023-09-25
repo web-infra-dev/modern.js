@@ -1,16 +1,16 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { proxyPlugin } from '@modern-js/plugin-proxy';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
 import { version } from './package.json';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
     router: {
-      basename: '/_modern_js/devtools',
+      basename: ROUTE_BASENAME,
     },
   },
   dev: {
-    assetPrefix: '/_modern_js/devtools',
+    assetPrefix: ROUTE_BASENAME,
     port: 8780,
   },
   source: {
@@ -20,10 +20,8 @@ export default defineConfig<'rspack'>({
     },
   },
   output: {
-    assetPrefix: '/_modern_js/devtools',
+    assetPrefix: ROUTE_BASENAME,
     enableCssModuleTSDeclaration: true,
   },
-  tools: {},
-  html: {},
-  plugins: [appTools({ bundler: 'experimental-rspack' }), proxyPlugin()],
+  plugins: [appTools({ bundler: 'experimental-rspack' })],
 });

@@ -32,11 +32,13 @@ const Page: React.FC = () => {
           </TextField.Root>
         </Box>
         <Box height="2" />
-        <RoutesContainer>
-          {serverRoutes.map(route => (
-            <ServerRoute key={route.entryPath} route={route} />
-          ))}
-        </RoutesContainer>
+        <Box style={{ overflow: 'hidden scroll' }}>
+          <RoutesContainer>
+            {serverRoutes.map(route => (
+              <ServerRoute key={route.entryPath} route={route} />
+            ))}
+          </RoutesContainer>
+        </Box>
       </Container>
     </MatchUrlContext.Provider>
   );
@@ -44,11 +46,17 @@ const Page: React.FC = () => {
 
 export default Page;
 
-const Container = styled(Box)({});
+const Container = styled(Box)({
+  display: 'flex',
+  flexDirection: 'column',
+  height: '100%',
+});
 
 const RoutesContainer = styled(Box)({
   display: 'flex',
+  flex: '0',
   flexDirection: 'column',
+  alignItems: 'stretch',
   gap: 'var(--space-2)',
   justifyContent: 'space-between',
 });
