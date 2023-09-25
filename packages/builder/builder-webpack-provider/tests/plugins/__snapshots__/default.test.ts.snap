@@ -575,7 +575,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -1481,7 +1481,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -2336,7 +2336,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -3101,7 +3101,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },

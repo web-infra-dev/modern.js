@@ -13,7 +13,7 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -67,7 +67,7 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },

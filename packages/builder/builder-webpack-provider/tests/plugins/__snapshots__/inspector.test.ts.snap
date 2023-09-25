@@ -4,7 +4,7 @@ exports[`plugins/inspector > should add inspector plugin when tools.inspector is
 {
   "plugins": [
     {
-      "ignorePattern": /node_modules/,
+      "ignorePattern": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
       "port": 3333,
     },
   ],
