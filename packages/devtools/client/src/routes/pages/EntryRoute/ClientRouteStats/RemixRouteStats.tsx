@@ -6,7 +6,7 @@ import {
 import type { ServerRoute } from '@modern-js/types';
 import { Flex } from '@radix-ui/themes';
 import React, { useContext, useMemo } from 'react';
-import { resolveURL } from 'ufo';
+import { resolveURL, cleanDoubleSlashes } from 'ufo';
 import { MatchUrlContext } from '../../MatchUrl';
 import { MatchRemixRouteContext } from '../MatchRemixRouteContext';
 import { RemixRoute } from './RemixRoute';
@@ -23,7 +23,7 @@ export const RemixRouteStats: React.FC<RemixRouteStatsProps> = ({
   const testingUrl = useContext(MatchUrlContext);
   const matchedRoutes = useMemo(() => {
     if (!testingUrl || !remixRoutes) return [];
-    const location = testingUrl.replace(route.urlPath, '');
+    const location = cleanDoubleSlashes(testingUrl.replace(route.urlPath, '/'));
     const matched = matchRemixRoutes(remixRoutes, location) ?? [];
     return matched as RouteMatch<string, RouteObject>[];
   }, [remixRoutes, testingUrl]);
