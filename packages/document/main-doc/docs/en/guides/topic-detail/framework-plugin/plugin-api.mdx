@@ -1,5 +1,4 @@
 ---
-title: Plugin API
 sidebar_position: 6
 ---
 
@@ -79,25 +78,42 @@ Used to retrieve the runtime context of the application.
 const useAppContext: () => IAppContext;
 
 interface IAppContext {
+  /** Root directory of the current project */
   appDirectory: string;
-  configFile: string | false;
-  ip?: string;
-  port?: number;
-  distDirectory: string;
-  packageName: string;
+  /** Source code directory */
   srcDirectory: string;
+  /** Directory for output files */
+  distDirectory: string;
+  /** Directory for shared modules */
   sharedDirectory: string;
-  nodeModulesDirectory: string;
+  /** Directory for framework temp files */
   internalDirectory: string;
-  plugins: {
-    cli?: any;
-    server?: any;
-  }[];
+  /** node_modules directory */
+  nodeModulesDirectory: string;
+  /** Path to the configuration file */
+  configFile: string | false;
+  /** IPv4 address of the current machine */
+  ip?: string;
+  /** Port number of the development server */
+  port?: number;
+  /** Name of the current project's package.json */
+  packageName: string;
+  /** Currently registered plugins */
+  plugins: any[];
+  /** Information for entry points */
   entrypoints: Entrypoint[];
+  /** Information for server routes */
   serverRoutes: ServerRoute[];
-  htmlTemplates: HtmlTemplates;
+  /** Tools type of the current project */
+  toolsType?: 'app-tools' | 'module-tools' | 'monorepo-tools';
+  /** Type of the bundler being used */
+  bundlerType?: 'webpack' | 'rspack' | 'esbuild';
 }
 ```
+
+:::tip
+Some fields in the AppContext are dynamically set and will change as the program runs. Therefore, when plugins read these fields at different times, they may get different values.
+:::
 
 ### useHookRunners
 
@@ -116,3 +132,7 @@ export const myPlugin = (): CliPlugin => ({
   },
 });
 ```
+
+:::tip
+Please avoid executing the built-in hooks, as it may break the internal execution logic of the framework.
+:::
