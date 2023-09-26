@@ -11,16 +11,17 @@ export const builderPluginAdpaterCopy = (
   name: 'builder-plugin-adapter-rspack-copy',
   setup(api) {
     let publicPath: string | undefined;
-    api.modifyRspackConfig(config => {
-      config.builtins = {
-        ...(config.builtins || {}),
-        copy: {
+    api.modifyBundlerChain((chain, { CHAIN_ID }) => {
+      chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(args => [
+        {
           patterns: [
-            ...(config.builtins?.copy?.patterns || []),
+            ...(args[0]?.patterns || []),
             ...createConfigBuiltinCopy(options),
           ],
         },
-      };
+      ]);
+    });
+    api.modifyRspackConfig(config => {
       publicPath = config.output?.publicPath;
     });
     api.onDevCompileDone(async () => {
