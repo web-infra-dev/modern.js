@@ -51,7 +51,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           const baseConfig = {
             plugins: [],
             presets: [
-              // todo: only apply preset-typescript for ts file (isTSX & allExtensions false)
+              // TODO: only apply preset-typescript for ts file (isTSX & allExtensions false)
               [
                 require.resolve('@babel/preset-typescript'),
                 DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,

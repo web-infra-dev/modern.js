@@ -18,15 +18,11 @@ import type {
   BuilderPlugin,
   NormalizedConfig,
   NormalizedSourceConfig,
+  BuiltinSwcLoaderOptions,
 } from '../types';
 
-type BuiltinSwcLoaderConfig = any;
-
-// TODO: need builtin:swc-loader options type
-export function getDefaultSwcConfig() {
-  const cwd = process.cwd();
+export function getDefaultSwcConfig(): BuiltinSwcLoaderOptions {
   return {
-    cwd,
     jsc: {
       externalHelpers: true,
       parser: {
@@ -42,7 +38,6 @@ export function getDefaultSwcConfig() {
     minify: false, // for loader, we don't need to minify, we do minification using plugin
     sourceMaps: true,
     env: {
-      mode: undefined as string | undefined,
       targets: '> 0.01%, not dead, not op_mini all',
     },
     exclude: [],
@@ -97,9 +92,9 @@ export const builderPluginSwc = (): BuilderPlugin => ({
           const polyfillMode = config.output.polyfill;
 
           if (polyfillMode === 'off' || polyfillMode === 'ua') {
-            swcConfig.env.mode = undefined;
+            swcConfig.env!.mode = undefined;
           } else {
-            swcConfig.env.mode = polyfillMode;
+            swcConfig.env!.mode = polyfillMode;
             /* Apply core-js version and path alias and exclude core-js */
             await applyCoreJs(swcConfig, chain, rule);
           }
@@ -142,7 +137,7 @@ export const builderPluginSwc = (): BuilderPlugin => ({
 });
 
 async function applyCoreJs(
-  swcConfig: BuiltinSwcLoaderConfig,
+  swcConfig: BuiltinSwcLoaderOptions,
   chain: BundlerChain,
   rule: BundlerChainRule,
 ) {
@@ -164,7 +159,7 @@ async function setBrowserslist(
   rootPath: string,
   builderConfig: NormalizedConfig,
   target: BuilderTarget,
-  swcConfig: BuiltinSwcLoaderConfig,
+  swcConfig: BuiltinSwcLoaderOptions,
 ) {
   const browserslist = await getBrowserslistWithDefault(
     rootPath,
@@ -178,7 +173,7 @@ async function setBrowserslist(
 }
 
 function applyTransformImport(
-  swcConfig: BuiltinSwcLoaderConfig,
+  swcConfig: BuiltinSwcLoaderOptions,
   pluginImport?: NormalizedSourceConfig['transformImport'],
 ) {
   if (pluginImport !== false && pluginImport) {
@@ -189,7 +184,7 @@ function applyTransformImport(
 }
 
 function applyDecorator(
-  swcConfig: BuiltinSwcLoaderConfig,
+  swcConfig: BuiltinSwcLoaderOptions,
   enableLatestDecorators: boolean,
 ) {
   /**
@@ -199,7 +194,7 @@ function applyDecorator(
     logger.warn('Cannot use latestDecorator in Rspack mode.');
   }
 
-  swcConfig.jsc.transform ??= {};
-  swcConfig.jsc.transform.legacyDecorator = true;
-  swcConfig.jsc.transform.decoratorMetadata = true;
+  swcConfig.jsc!.transform ??= {};
+  swcConfig.jsc!.transform.legacyDecorator = true;
+  swcConfig.jsc!.transform.decoratorMetadata = true;
 }
