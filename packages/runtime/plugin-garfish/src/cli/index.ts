@@ -177,8 +177,17 @@ export const garfishPlugin = ({
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
-                if (
+
+                const DEFAULT_ASSET_PREFIX = '/';
+
+                // Only override assetPrefix when using the default asset prefix,
+                // this allows user or other plugins to set asset prefix.
+                const isUsingDefaultAssetPrefix =
                   !useConfig.dev?.assetPrefix &&
+                  resolveOptions.dev?.assetPrefix === DEFAULT_ASSET_PREFIX;
+
+                if (
+                  isUsingDefaultAssetPrefix &&
                   resolveOptions?.server?.port &&
                   env === 'development'
                 ) {
