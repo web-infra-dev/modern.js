@@ -36,7 +36,6 @@ const resolveLog = async (
    */
   childProgress.stdout?.on('data', async data => {
     if (watch) {
-      console.log((data.toString() as string).split('\n'));
       const lines = (data.toString() as string)
         .split('\n')
         // remove empty lines
