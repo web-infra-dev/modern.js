@@ -18,6 +18,8 @@ import {
 } from '../../utils';
 import { watchDoneText } from '../../constants/dts';
 
+export const removeTscLogTime = (log: string) => log.replace(/\[.*\]\s/, '');
+
 const resolveLog = async (
   childProgress: ChildProcess,
   options: {
@@ -34,12 +36,13 @@ const resolveLog = async (
    */
   childProgress.stdout?.on('data', async data => {
     if (watch) {
+      console.log((data.toString() as string).split('\n'));
       const lines = (data.toString() as string)
         .split('\n')
         // remove empty lines
         .filter(line => line.trim() !== '')
         // add tsc prefix, remove time prefix
-        .map(line => withLogTitle('tsc', line.replace(/\[.*\]\s/, '')));
+        .map(line => withLogTitle('tsc', removeTscLogTime(line)));
       logger.info(lines.join('\n'));
 
       if (data.toString().includes(watchDoneText)) {
