@@ -1,6 +1,5 @@
 import { posix } from 'path';
 import {
-  setConfig,
   getDistPath,
   getFilename,
   applyBuilderOutputPlugin,
@@ -12,6 +11,18 @@ export const builderPluginOutput = (): BuilderPlugin => ({
 
   setup(api) {
     applyBuilderOutputPlugin(api);
+
+    api.modifyBundlerChain(async (chain, { CHAIN_ID }) => {
+      const config = api.getNormalizedConfig();
+
+      if (config.output.copy) {
+        const { CopyRspackPlugin } = await import('@rspack/core');
+        const { copy } = config.output;
+        const options = Array.isArray(copy) ? { patterns: copy } : copy;
+
+        chain.plugin(CHAIN_ID.PLUGIN.COPY).use(CopyRspackPlugin, [options]);
+      }
+    });
 
     api.modifyRspackConfig(async (rspackConfig, { isProd }) => {
       const config = api.getNormalizedConfig();
@@ -25,19 +36,6 @@ export const builderPluginOutput = (): BuilderPlugin => ({
         cssPath,
         `async/${cssFilename}`,
       );
-
-      if (config.output.copy) {
-        const { copy } = config.output;
-        const options = Array.isArray(copy) ? { patterns: copy } : copy;
-
-        setConfig(rspackConfig, 'builtins.copy', {
-          ...options,
-          patterns: [
-            ...(rspackConfig?.builtins?.copy?.patterns || []),
-            ...options.patterns,
-          ],
-        });
-      }
     });
   },
 });

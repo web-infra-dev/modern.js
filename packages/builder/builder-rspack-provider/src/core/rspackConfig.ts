@@ -121,7 +121,15 @@ export async function generateRspackConfig({
   context: Context;
 }) {
   const chainUtils = await getChainUtils(target);
-  const chain = await modifyBundlerChain(context, chainUtils);
+  const { BannerPlugin, DefinePlugin } = await import('@rspack/core');
+
+  const chain = await modifyBundlerChain(context, {
+    ...chainUtils,
+    bundler: {
+      BannerPlugin: BannerPlugin as any,
+      DefinePlugin: DefinePlugin as any,
+    },
+  });
 
   let rspackConfig = convertToRspackConfig(chain.toConfig());
 
