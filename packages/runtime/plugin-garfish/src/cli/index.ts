@@ -182,9 +182,11 @@ export const garfishPlugin = ({
 
                 // Only override assetPrefix when using the default asset prefix,
                 // this allows user or other plugins to set asset prefix.
+                const resolvedAssetPrefix = resolveOptions.dev?.assetPrefix;
                 const isUsingDefaultAssetPrefix =
                   !useConfig.dev?.assetPrefix &&
-                  resolveOptions.dev?.assetPrefix === DEFAULT_ASSET_PREFIX;
+                  (!resolvedAssetPrefix ||
+                    resolvedAssetPrefix === DEFAULT_ASSET_PREFIX);
 
                 if (
                   isUsingDefaultAssetPrefix &&
