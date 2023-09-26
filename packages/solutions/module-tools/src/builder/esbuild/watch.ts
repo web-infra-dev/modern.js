@@ -46,11 +46,11 @@ export const initWatcher = (compiler: ICompiler) => {
         needReRun = true;
       } else {
         running = true;
-        await compiler.reBuild('link');
+        await compiler.reBuild('link', config);
         running = false;
         if (needReRun) {
           needReRun = false;
-          await compiler.reBuild('link');
+          await compiler.reBuild('link', config);
         }
       }
     }
@@ -68,18 +68,10 @@ export const initWatcher = (compiler: ICompiler) => {
       watchedFiles,
     } = compiler;
     if (watchedFiles.has(path.resolve(root, filePath))) {
-      logger.info(`${chalk.underline(filePath)} changed`);
-      const { watchSectionTitle } = await import('../../utils');
-      const { SectionTitleStatus } = await import('../../constants/log');
-      const titleText = `[${
-        config.buildType === 'bundle' ? 'Bundle' : 'Bundleless'
-      }:${config.format}_${config.target}]`;
-
-      logger.info(await watchSectionTitle(titleText, SectionTitleStatus.Log));
-
+      logger.info(`File changed: ${chalk.dim(filePath)}`);
       const runner = api.useHookRunners();
       runner.buildWatchJs({ buildConfig: config });
-      await compiler.reBuild('change');
+      await compiler.reBuild('change', config);
     }
   };
   watch.on('ready', () => {

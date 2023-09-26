@@ -1,16 +1,4 @@
-import { SectionTitleStatus } from '../constants/log';
+import chalk from '@modern-js/utils/chalk';
 
-export const watchSectionTitle = async (
-  str: string,
-  status: SectionTitleStatus,
-  detailLog?: string,
-) => {
-  const { chalk } = await import('@modern-js/utils');
-  if (status === SectionTitleStatus.Success) {
-    return `${chalk.gray(str)} ${chalk.green('Successful')}`;
-  } else if (status === SectionTitleStatus.Fail) {
-    return `${chalk.gray(str)} ${chalk.red('Build Failed')}`;
-  }
-
-  return `${chalk.gray(str)} ${detailLog ? detailLog : 'Log:'}`;
-};
+export const withLogTitle = (titleText: string, message: string) =>
+  `${message} ${chalk.gray(`[${titleText}]`)}`;
