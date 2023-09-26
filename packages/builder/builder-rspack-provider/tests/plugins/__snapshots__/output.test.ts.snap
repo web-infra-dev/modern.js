@@ -64,13 +64,6 @@ exports[`plugins/output > should allow to use copy plugin 1`] = `
 
 exports[`plugins/output > should allow to use copy plugin with multiply config 1`] = `
 {
-  "builtins": {
-    "copy": {
-      "patterns": [
-        "tests/",
-      ],
-    },
-  },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -95,6 +88,13 @@ exports[`plugins/output > should allow to use copy plugin with multiply config 1
           {
             "force": false,
             "from": "src/assets/",
+            "globOptions": {},
+            "noErrorOnMissing": false,
+            "priority": 0,
+          },
+          {
+            "force": false,
+            "from": "tests/",
             "globOptions": {},
             "noErrorOnMissing": false,
             "priority": 0,

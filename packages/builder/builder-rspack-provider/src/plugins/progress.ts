@@ -1,6 +1,5 @@
 import { TARGET_ID_MAP } from '@modern-js/builder-shared';
 import type { BuilderPlugin } from '../types';
-import { ProgressPlugin } from '@rspack/core';
 
 export const builderPluginProgress = (): BuilderPlugin => ({
   name: 'builder-plugin-progress',
@@ -12,6 +11,8 @@ export const builderPluginProgress = (): BuilderPlugin => ({
       if (!options) {
         return;
       }
+
+      const { ProgressPlugin } = await import('@rspack/core');
 
       chain.plugin(CHAIN_ID.PLUGIN.PROGRESS).use(ProgressPlugin, [
         {

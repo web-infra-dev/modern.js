@@ -48,6 +48,13 @@ exports[`plugin-garfish cli webpack config close external and use js entry 1`] =
     "publicPath": "//localhost:8080/",
     "uniqueName": undefined,
   },
+  "plugins": [
+    BannerPlugin {
+      "params": {
+        "banner": "Micro front-end",
+      },
+    },
+  ],
 }
 `;
 
@@ -60,6 +67,11 @@ exports[`plugin-garfish cli webpack config default micro config 1`] = `
   },
   "plugins": [
     HTMLWebpackPlugin {},
+    BannerPlugin {
+      "params": {
+        "banner": "Micro front-end",
+      },
+    },
   ],
 }
 `;
