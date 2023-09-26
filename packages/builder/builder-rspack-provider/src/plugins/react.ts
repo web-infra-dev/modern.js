@@ -11,15 +11,12 @@ export const builderPluginReact = (): BuilderPlugin => ({
     api.modifyBundlerChain(async (chain, { CHAIN_ID, isProd, target }) => {
       const config = api.getNormalizedConfig();
       const usingHMR = isUsingHMR(config, { isProd, target });
-      const { isBeyondReact17 } = await import('@modern-js/utils');
-      const isNewJsx = isBeyondReact17(api.context.rootPath);
-
       const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
       const reactOptions = {
         development: !isProd,
         refresh: usingHMR,
-        runtime: isNewJsx ? 'automatic' : 'classic',
+        runtime: 'automatic',
       };
 
       rule.use(CHAIN_ID.USE.SWC).tap(options => {
