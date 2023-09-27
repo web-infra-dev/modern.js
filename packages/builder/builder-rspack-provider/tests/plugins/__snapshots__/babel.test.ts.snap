@@ -11,6 +11,16 @@ exports[`plugins/babel > should set babel-loader 1`] = `
   "module": {
     "rules": [
       {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
           {
@@ -19,10 +29,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "babelrc": false,
               "compact": false,
               "configFile": false,
-              "ignore": [],
-              "only": [
-                [Function],
-              ],
               "plugins": [
                 [
                   "babel-plugin-import",

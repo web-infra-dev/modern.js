@@ -27,6 +27,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.nodeAddons(),
     // pug plugin should after html plugin
     import('../plugins/pug').then(m => m.builderPluginPug()),
+    import('../plugins/babel').then(m => m.builderPluginBabel()),
     plugins.define(),
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/less').then(m => m.builderPluginLess()),
@@ -36,9 +37,8 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.rem(),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
-    import('../plugins/swc').then(m => m.builderPluginSwc()),
-    import('../plugins/babel').then(m => m.builderPluginBabel()),
     import('../plugins/react').then(m => m.builderPluginReact()),
+    import('../plugins/swc').then(m => m.builderPluginSwc()),
     plugins.externals(),
     plugins.toml(),
     plugins.yaml(),

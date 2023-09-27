@@ -19,7 +19,7 @@ export default {
 ```
 
 :::tip
-When using Rspack as the bundler, **all files** will be compiled by default.
+When using Rspack as the bundler, **all files** will be compiled by default, and at the same time, exclusion through `source.exclude` is not supported.
 :::
 
 ### Compile Npm Packages
