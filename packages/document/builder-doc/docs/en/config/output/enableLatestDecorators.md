@@ -1,5 +1,6 @@
 - **Type:** `boolean`
 - **Default:** `false`
+- **Bundler:** `only support webpack`
 
 Whether to use the new decorator proposal.
 

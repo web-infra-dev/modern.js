@@ -57,7 +57,6 @@ Currently, most of configuration options in Builder have been adapted for Rspack
 Unsupported configurations and capabilities include:
 
 - [source.include](/api/config-source.html#sourceinclude) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
-- [source.exclude](/api/config-source.html#sourceexclude) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([track issue](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
@@ -87,7 +86,7 @@ All configurations and capabilities under dev are available within rspack.
 Unsupported configurations and capabilities include:
 
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
-- [output.polyfill.usage](/api/config-output.html#usage) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
+- [output.enableLatestDecorators](/api/config-output.html#outputenablelatestdecorators)
 
 #### Experiments Config
 
@@ -196,9 +195,23 @@ When using Rspack for building, you can still configure Babel plugins through [t
 
 ### 5. SWC Configuration Support
 
-Rspack has built-in support for some swc configurations, such as builtins.react, which can be referred to in [Builtins](https://www.rspack.dev/config/builtins.html).
+Builder uses Rspack [builtin:swc-loader](https://www.rspack.dev/guide/loader.html#builtinswc-loader) for code translation. If you have custom configuration requirements for builtin:swc-loader, you can refer to the following code:
 
-Adding swc plugins and more custom configurations is not currently supported in Rspack. Relevant requirements can be tracked through the corresponding [issue](https://github.com/web-infra-dev/rspack/issues/3067).
+```ts
+export default {
+  tools: {
+    bundlerChain: (chain, { CHAIN_ID }) => {
+      chain.module
+        .rule(CHAIN_ID.RULE.JS)
+        .use(CHAIN_ID.USE.SWC)
+        .tap(options => {
+          options.xxx = '';
+          return options;
+        });
+    },
+  }
+};
+```
 
 ### 6. Webpack Plugin Migration
 

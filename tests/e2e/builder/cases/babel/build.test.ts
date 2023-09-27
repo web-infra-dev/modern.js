@@ -20,6 +20,31 @@ test('babel', async ({ page }) => {
 
   await page.goto(getHrefByEntryName('index', builder.port));
   expect(await page.evaluate('window.b')).toBe(10);
+  expect(await page.evaluate('window.bb')).toBe(10);
+
+  builder.close();
+});
+
+test('babel exclude', async ({ page }) => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/index.js'),
+    },
+    runServer: true,
+    builderConfig: {
+      tools: {
+        babel(_, { addPlugins, addExcludes }) {
+          addPlugins([require('./plugins/myBabelPlugin')]);
+          addExcludes(/aa/);
+        },
+      },
+    },
+  });
+
+  await page.goto(getHrefByEntryName('index', builder.port));
+  expect(await page.evaluate('window.b')).toBe(10);
+  expect(await page.evaluate('window.bb')).toBeUndefined();
 
   builder.close();
 });
