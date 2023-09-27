@@ -214,8 +214,7 @@ const supportNoLayoutDir = async (
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('root layout')).toBeTruthy();
   expect(text?.includes('user layout')).toBeTruthy();
-  expect(text?.includes('item page')).toBeFalsy();
-  expect(text?.includes('profile page, param is 1234')).toBeTruthy();
+  expect(text?.includes('item page, param is 1234')).toBeTruthy();
   expect(errors.length).toEqual(0);
 };
 
@@ -371,7 +370,6 @@ const supportLoaderForSSRAndCSR = async (
   errors: string[],
   appPort: number,
 ) => {
-  // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
@@ -520,6 +518,38 @@ const hasHashCorrectly = async (appDir: string) => {
   expect(threeHtml.includes(hash)).toBe(true);
 };
 
+const supportActionInCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/four/user/profile`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  await page.click('.action-btn');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('param is profile')).toBeTruthy();
+  expect(text?.includes('modern_four_action')).toBeTruthy();
+};
+
+const supportActionInSSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  expect(errors.length).toBe(0);
+  await page.goto(`http://localhost:${appPort}/three/user/1234/profile`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  await page.click('.action-btn');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('modern_three_action')).toBeTruthy();
+};
+
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -579,7 +609,7 @@ describe('dev', () => {
       supportHandleConfig(page, appPort));
 
     // FIXME: skip the test
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -593,7 +623,7 @@ describe('dev', () => {
 
   describe('loader', () => {
     test('support loader', async () => supportLoader(page, errors, appPort));
-    test.skip('support loader for ssr and csr', async () =>
+    test('support loader for ssr and csr', async () =>
       supportLoaderForSSRAndCSR(page, errors, appPort));
 
     test('support loader for csr', () =>
@@ -618,6 +648,16 @@ describe('dev', () => {
   describe('client data', () => {
     test('support client data', async () => {
       await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
+
+    test('support action in SSR', async () => {
+      await supportActionInSSR(page, errors, appPort);
     });
   });
 
@@ -688,7 +728,7 @@ describe('build', () => {
       supportPathWithoutLayout(page, errors, appPort));
 
     // FIXME: skip the test
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -729,6 +769,15 @@ describe('build', () => {
   describe('client data', () => {
     test('support client data', async () => {
       await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
+    test('support action in SSR', async () => {
+      await supportActionInSSR(page, errors, appPort);
     });
   });
 
@@ -804,7 +853,7 @@ describe('dev with rspack', () => {
       supportHandleConfig(page, appPort));
 
     // FIXME: skip the test
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -818,7 +867,7 @@ describe('dev with rspack', () => {
 
   describe('loader', () => {
     test('support loader', async () => supportLoader(page, errors, appPort));
-    test.skip('support loader for ssr and csr', async () =>
+    test('support loader for ssr and csr', async () =>
       supportLoaderForSSRAndCSR(page, errors, appPort));
 
     test('support loader for csr', () =>
@@ -843,6 +892,15 @@ describe('dev with rspack', () => {
   describe('client data', () => {
     test('support client data', async () => {
       await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
+    test('support action in SSR', async () => {
+      await supportActionInSSR(page, errors, appPort);
     });
   });
 
