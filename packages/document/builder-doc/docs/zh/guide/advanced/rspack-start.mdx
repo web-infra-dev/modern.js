@@ -57,6 +57,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 不支持的配置项及能力包括：
 
 - [source.include](/api/config-source.html#sourceinclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
+- [source.exclude](/api/config-source.html#sourceexclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
@@ -86,7 +87,7 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 不支持的配置项及能力包括：
 
 - [output.enableInlineScripts](/api/config-output.html#outputenableinlinescripts)
-- [output.enableLatestDecorators](/api/config-output.html#outputenablelatestdecorators)
+- [output.polyfill.usage](/api/config-output.html#usage) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 
 #### Experiments Config
 
@@ -195,23 +196,9 @@ Rspack 默认会使用 SWC 进行转译和压缩，因此，在启用 Rspack 构
 
 ### 5. SWC 配置支持
 
-Builder 使用 Rspack [builtin:swc-loader](https://www.rspack.dev/guide/loader.html#builtinswc-loader) 进行代码转译，如果对 builtin:swc-loader 有自定义配置的需求，可参考以下代码：
+Rspack 中已内置了一部分的 swc 配置支持，如 builtins.react 等，可参考 [Builtins](https://www.rspack.dev/zh/config/builtins.html)。
 
-```ts
-export default {
-  tools: {
-    bundlerChain: (chain, { CHAIN_ID }) => {
-      chain.module
-        .rule(CHAIN_ID.RULE.JS)
-        .use(CHAIN_ID.USE.SWC)
-        .tap(options => {
-          options.xxx = '';
-          return options;
-        });
-    },
-  }
-};
-```
+暂不支持在 Rspack 中添加 swc 插件和更多自定义配置，相关需求可追踪对应 [issue 进度](https://github.com/web-infra-dev/rspack/issues/3067)。
 
 ### 6. Webpack Plugin 插件迁移
 

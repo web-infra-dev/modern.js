@@ -23,7 +23,8 @@ describe('plugins/swc', () => {
     });
   });
 
-  it('should enable usage mode preset_env', async () => {
+  // TODO: wait for Rspack usage mode polyfill
+  it.skip('should enable usage mode preset_env', async () => {
     await matchConfigSnapshot('web', {
       output: {
         polyfill: 'usage',

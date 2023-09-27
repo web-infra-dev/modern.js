@@ -1,9 +1,8 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
-webpackOnlyTest('decorator latest', async ({ page }) => {
+test('decorator latest', async ({ page }) => {
   const builder = await build({
     cwd: __dirname,
     entry: {

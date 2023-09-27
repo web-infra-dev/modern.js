@@ -1,8 +1,8 @@
 import {
   mergeRegex,
+  applyScriptCondition,
   JS_REGEX,
   TS_REGEX,
-  NODE_MODULES_REGEX,
 } from '@modern-js/builder-shared';
 import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
@@ -12,9 +12,6 @@ import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
-
-  pre: ['builder-plugin-swc'],
-
   setup(api) {
     api.modifyBundlerChain(
       async (chain, { CHAIN_ID, isProd, getCompiledPath }) => {
@@ -51,7 +48,6 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           const baseConfig = {
             plugins: [],
             presets: [
-              // TODO: only apply preset-typescript for ts file (isTSX & allExtensions false)
               [
                 require.resolve('@babel/preset-typescript'),
                 DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
@@ -98,28 +94,21 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           return;
         }
 
-        // already set source.include / exclude in plugin-swc
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-        const { rootPath } = api.context;
+        applyScriptCondition({
+          rule,
+          config,
+          context: api.context,
+          includes,
+          excludes,
+        });
 
         rule
           .test(mergeRegex(JS_REGEX, TS_REGEX))
           .use(CHAIN_ID.USE.BABEL)
-          .after(CHAIN_ID.USE.SWC)
           .loader(getCompiledPath('babel-loader'))
-          .options({
-            ...babelOptions,
-            // TODO: should only apply babel include / exclude when apply source.include in rule
-            only: [
-              (pathName: string) =>
-                pathName.includes(rootPath) &&
-                !NODE_MODULES_REGEX.test(pathName),
-              ...includes,
-              ...(config.source.include || []),
-            ],
-            ignore: [...excludes, ...(config.source.exclude || [])],
-          });
+          .options(babelOptions);
       },
     );
   },
