@@ -30,6 +30,7 @@ import { TransformContext } from './transform';
 import { SourcemapContext } from './sourcemap';
 import { createRenderChunkHook, createTransformHook } from './hook';
 import { createResolver } from './resolve';
+import { initWatcher } from './watch';
 
 export class EsbuildCompiler implements ICompiler {
   instance?: BuildContext;
@@ -102,6 +103,9 @@ export class EsbuildCompiler implements ICompiler {
   }
 
   async init() {
+    if (this.context.watch) {
+      initWatcher(this);
+    }
     const internal = await getInternalList(this.context);
     const user = this.config.hooks;
     this.hookList = [...user, ...internal];
