@@ -52,7 +52,7 @@ export interface BuildCommandOptions {
 type Return = BuildConfig;
 ```
 
-> `BuildConfig` type reference [API configuration](en/api/index)
+> `BuildConfig` type reference [API configuration](en/api/)
 
 ### `beforeBuildTask`
 
@@ -74,7 +74,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 Parameters and return value types.
 
-`BaseBuildConfig` type reference [API configuration](en/api/index)
+`BaseBuildConfig` type reference [API configuration](en/api/)
 
 ### `afterBuildTask`
 

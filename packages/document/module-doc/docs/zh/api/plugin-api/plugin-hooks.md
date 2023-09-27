@@ -54,7 +54,7 @@ export interface BuildCommandOptions {
 type Return = BuildConfig;
 ```
 
-> `BuildConfig` 类型参考 [API 配置](/api/index)
+> `BuildConfig` 类型参考 [API 配置](/api/)
 
 ### `beforeBuildTask`
 
@@ -76,7 +76,7 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 
 参数和返回值类型：
 
-`BaseBuildConfig` 类型参考 [API 配置](/api/index)。
+`BaseBuildConfig` 类型参考 [API 配置](/api/)。
 
 ### `afterBuildTask`
 
