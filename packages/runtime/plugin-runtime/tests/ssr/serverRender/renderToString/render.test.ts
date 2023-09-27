@@ -4,7 +4,7 @@ import { createStyledCollector } from '../../../../src/ssr/serverRender/renderTo
 import App from '../../fixtures/string-ssr/App';
 
 describe('test render', () => {
-  it('should render styledComponent correctly', () => {
+  it('should render styledComponent correctly', async () => {
     const result = {
       chunksMap: {
         js: '',
@@ -13,7 +13,7 @@ describe('test render', () => {
       renderLevel: 2,
     };
     const Apps = createElement(App);
-    const html = createRender(Apps)
+    const html = await createRender(Apps)
       .addCollector(createStyledCollector(result))
       .finish();
 
