@@ -173,6 +173,9 @@ importers:
       '@rspack/plugin-html':
         specifier: 0.3.5
         version: 0.3.5(@rspack/core@0.3.5)
+      '@rspack/plugin-react-refresh':
+        specifier: 0.3.5
+        version: 0.3.5(react-refresh@0.14.0)(webpack@5.88.1)
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -28841,7 +28844,7 @@ packages:
     dependencies:
       lilconfig: 2.1.0
       postcss: 8.4.21
-      ts-node: 10.9.1(@types/node@16.11.68)(typescript@5.0.4)
+      ts-node: 10.9.1(@types/node@18.11.17)(typescript@5.0.4)
       yaml: 1.10.2
     dev: true
 
