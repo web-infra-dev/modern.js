@@ -81,7 +81,7 @@ This hook only supports modifying the configuration of the non-differentiated pa
 - **Type**
 
 ```ts
-type ModifyBunlderChainUtils = {
+type ModifyBundlerChainUtils = {
   env: NodeEnv;
   isProd: boolean;
   target: BuilderTarget;
@@ -89,12 +89,17 @@ type ModifyBunlderChainUtils = {
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
   HtmlPlugin: typeof import('html-webpack-plugin');
+  bundler: {
+    // Depends on bundler type
+    BannerPlugin: typeof webpack.BannerPlugin | typeof rspack.BannerPlugin;
+    DefinePlugin: typeof webpack.DefinePlugin | typeof rspack.DefinePlugin;
+  }
 };
 
 function ModifyBundlerChain(
   callback: (
     chain: BundlerChain,
-    utils: ModifyBunlderChainUtils,
+    utils: ModifyBundlerChainUtils,
   ) => Promise<void> | void,
 ): void;
 ```
@@ -223,6 +228,7 @@ type ModifyRspackConfigUtils = {
   isServer: boolean;
   isWebWorker: boolean;
   getCompiledPath: (name: string) => string;
+  rspack: typeof import('@rspack/core');
 };
 
 function ModifyRspackConfig(

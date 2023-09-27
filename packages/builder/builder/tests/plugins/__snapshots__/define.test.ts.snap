@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugins/define > 'globalVars & define' 1`] = `
+{
+  "plugins": [
+    DefinePlugin {
+      "params": {
+        "NAME": "\\"Jack\\"",
+        "import.meta.bar": "{\\"a\\":\\"bar\\",\\"b\\":false,\\"c\\":{\\"d\\":42}}",
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"test\\"",
+        "process.env.foo": "\\"foo\\"",
+        "window.baz": "[null,\\"baz\\"]",
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugins/define > 'globalVars function' 1`] = `
+{
+  "plugins": [
+    DefinePlugin {
+      "params": {
+        "ENV": "\\"development\\"",
+        "TARGET": "\\"web\\"",
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"test\\"",
+      },
+    },
+  ],
+}
+`;

@@ -143,14 +143,6 @@ export const garfishPlugin = ({
                 'Access-Control-Allow-Origin': '*',
               },
             },
-            webpackChain: (chain, { webpack, CHAIN_ID }) => {
-              // add comments avoid sourcemap abnormal
-              if (webpack.BannerPlugin) {
-                chain
-                  .plugin(CHAIN_ID.PLUGIN.BANNER)
-                  .use(webpack.BannerPlugin, [{ banner: 'Micro front-end' }]);
-              }
-            },
             rspack: (config: any) => {
               config.builtins ??= {};
 
@@ -162,23 +154,31 @@ export const garfishPlugin = ({
               ) {
                 config.externalsType = 'commonjs';
               }
-
-              // todo: so ugly...
-              const banner = config.builtins.banner || [];
-              config.builtins.banner = [
-                ...(Array.isArray(banner) ? banner : [banner]),
-                {
-                  banner: 'Micro front-end',
-                },
-              ];
             },
-            bundlerChain: (chain, { env, CHAIN_ID }) => {
+            bundlerChain: (chain, { env, CHAIN_ID, bundler }) => {
+              // add comments avoid sourcemap abnormal
+              if (bundler.BannerPlugin) {
+                chain
+                  .plugin(CHAIN_ID.PLUGIN.BANNER)
+                  .use(bundler.BannerPlugin, [{ banner: 'Micro front-end' }]);
+              }
               // eslint-disable-next-line react-hooks/rules-of-hooks
               const resolveOptions = useResolvedConfigContext();
               if (resolveOptions?.deploy?.microFrontend) {
                 chain.output.libraryTarget('umd');
-                if (
+
+                const DEFAULT_ASSET_PREFIX = '/';
+
+                // Only override assetPrefix when using the default asset prefix,
+                // this allows user or other plugins to set asset prefix.
+                const resolvedAssetPrefix = resolveOptions.dev?.assetPrefix;
+                const isUsingDefaultAssetPrefix =
                   !useConfig.dev?.assetPrefix &&
+                  (!resolvedAssetPrefix ||
+                    resolvedAssetPrefix === DEFAULT_ASSET_PREFIX);
+
+                if (
+                  isUsingDefaultAssetPrefix &&
                   resolveOptions?.server?.port &&
                   env === 'development'
                 ) {

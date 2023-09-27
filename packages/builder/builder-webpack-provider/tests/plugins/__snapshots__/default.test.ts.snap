@@ -786,6 +786,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     "maxEntrypointSize": 3000000,
   },
   "plugins": [
+    DefinePlugin {
+      "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -826,12 +832,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     },
     HotModuleReplacementPlugin {
       "options": {},
-    },
-    DefinePlugin {
-      "definitions": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"development\\"",
-      },
     },
     ProgressPlugin {
       "compileTime": null,
@@ -1733,6 +1733,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
     "maxEntrypointSize": 3000000,
   },
   "plugins": [
+    DefinePlugin {
+      "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -1782,12 +1788,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
         "attributes": undefined,
         "insert": undefined,
         "linkType": "text/css",
-      },
-    },
-    DefinePlugin {
-      "definitions": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
       },
     },
     ProgressPlugin {
@@ -2537,6 +2537,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "maxEntrypointSize": 30000000,
   },
   "plugins": [
+    DefinePlugin {
+      "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -2558,12 +2564,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           "memoryLimit": 8192,
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
-      },
-    },
-    DefinePlugin {
-      "definitions": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
       },
     },
     ProgressPlugin {
@@ -3303,6 +3303,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
     "maxEntrypointSize": 30000000,
   },
   "plugins": [
+    DefinePlugin {
+      "definitions": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+    },
     ForkTsCheckerWebpackPlugin {
       "options": {
         "issue": {
@@ -3324,12 +3330,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
           "memoryLimit": 8192,
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
-      },
-    },
-    DefinePlugin {
-      "definitions": {
-        "process.env.ASSET_PREFIX": "\\"\\"",
-        "process.env.NODE_ENV": "\\"production\\"",
       },
     },
     ProgressPlugin {

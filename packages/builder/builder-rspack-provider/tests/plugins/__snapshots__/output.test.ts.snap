@@ -33,15 +33,6 @@ exports[`plugins/output > should allow to set distPath.js and distPath.css to em
 
 exports[`plugins/output > should allow to use copy plugin 1`] = `
 {
-  "builtins": {
-    "copy": {
-      "patterns": [
-        {
-          "from": "test",
-        },
-      ],
-    },
-  },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -52,22 +43,27 @@ exports[`plugins/output > should allow to use copy plugin 1`] = `
     "pathinfo": false,
     "publicPath": "/",
   },
+  "plugins": [
+    Plugin {
+      "_options": {
+        "patterns": [
+          {
+            "force": false,
+            "from": "test",
+            "globOptions": {},
+            "noErrorOnMissing": false,
+            "priority": 0,
+          },
+        ],
+      },
+      "name": "CopyRspackPlugin",
+    },
+  ],
 }
 `;
 
 exports[`plugins/output > should allow to use copy plugin with multiply config 1`] = `
 {
-  "builtins": {
-    "copy": {
-      "patterns": [
-        {
-          "from": "test",
-        },
-        "src/assets/",
-        "tests/",
-      ],
-    },
-  },
   "output": {
     "chunkFilename": "static/js/async/[name].js",
     "cssChunkFilename": "static/css/async/[name].css",
@@ -78,6 +74,36 @@ exports[`plugins/output > should allow to use copy plugin with multiply config 1
     "pathinfo": false,
     "publicPath": "/",
   },
+  "plugins": [
+    Plugin {
+      "_options": {
+        "patterns": [
+          {
+            "force": false,
+            "from": "test",
+            "globOptions": {},
+            "noErrorOnMissing": false,
+            "priority": 0,
+          },
+          {
+            "force": false,
+            "from": "src/assets/",
+            "globOptions": {},
+            "noErrorOnMissing": false,
+            "priority": 0,
+          },
+          {
+            "force": false,
+            "from": "tests/",
+            "globOptions": {},
+            "noErrorOnMissing": false,
+            "priority": 0,
+          },
+        ],
+      },
+      "name": "CopyRspackPlugin",
+    },
+  ],
 }
 `;
 

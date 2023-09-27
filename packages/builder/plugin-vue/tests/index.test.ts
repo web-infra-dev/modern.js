@@ -1,7 +1,7 @@
 import { expect, describe, it } from 'vitest';
 import { createStubBuilder } from '@modern-js/builder-webpack-provider/stub';
 import { builderPluginBabel } from '@modern-js/builder-webpack-provider/plugins/babel';
-import { builderPluginDefine } from '@modern-js/builder-webpack-provider/plugins/define';
+import { builderPluginDefine } from '@modern-js/builder/plugins/define';
 import { builderPluginVue } from '../src';
 
 describe('plugins/vue', () => {

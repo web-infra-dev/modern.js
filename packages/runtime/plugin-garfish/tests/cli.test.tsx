@@ -133,12 +133,15 @@ describe('plugin-garfish cli', () => {
       webpack: jest.fn(),
       env: 'development',
       CHAIN_ID,
-    });
+      bundler: {
+        BannerPlugin: class {
+          params: any;
 
-    config[0].tools.webpackChain(webpackConfig, {
-      webpack: jest.fn(),
-      env: 'development',
-      CHAIN_ID,
+          constructor(params: any) {
+            this.params = params;
+          }
+        },
+      }
     });
 
     const generateConfig = webpackConfig.toConfig();
@@ -180,11 +183,16 @@ describe('plugin-garfish cli', () => {
     config[0].tools.bundlerChain(webpackConfig, {
       webpack: jest.fn(),
       env: 'development',
-    });
+      CHAIN_ID,
+      bundler: {
+        BannerPlugin: class {
+          params: any;
 
-    config[0].tools.webpackChain(webpackConfig, {
-      webpack: jest.fn(),
-      env: 'development',
+          constructor(params: any) {
+            this.params = params;
+          }
+        },
+      }
     });
 
     const generateConfig = webpackConfig.toConfig();

@@ -1,5 +1,4 @@
 ---
-title: 插件 API
 sidebar_position: 6
 ---
 
@@ -79,25 +78,42 @@ interface NormalizedConfig {
 const useAppContext: () => IAppContext;
 
 interface IAppContext {
+  /** 当前项目的根目录 */
   appDirectory: string;
-  configFile: string | false;
-  ip?: string;
-  port?: number;
-  distDirectory: string;
-  packageName: string;
+  /** 源代码目录 */
   srcDirectory: string;
+  /** 构建产出输出目录 */
+  distDirectory: string;
+  /** 公共模块目录 */
   sharedDirectory: string;
-  nodeModulesDirectory: string;
+  /** 框架临时文件输出目录 */
   internalDirectory: string;
-  plugins: {
-    cli?: any;
-    server?: any;
-  }[];
+  /** node_modules 目录 */
+  nodeModulesDirectory: string;
+  /** 配置文件路径 */
+  configFile: string | false;
+  /** 当前机器的 IPv4 地址 */
+  ip?: string;
+  /** 开发服务器的端口号 */
+  port?: number;
+  /** 当前项目 package.json 的 name */
+  packageName: string;
+  /** 当前注册的插件 */
+  plugins: any[];
+  /** 页面入口信息 */
   entrypoints: Entrypoint[];
+  /** 服务端路由信息 */
   serverRoutes: ServerRoute[];
-  htmlTemplates: HtmlTemplates;
+  /** 当前项目类型 */
+  toolsType?: 'app-tools' | 'module-tools' | 'monorepo-tools';
+  /** 当前使用的打包工具类型 */
+  bundlerType?: 'webpack' | 'rspack' | 'esbuild';
 }
 ```
+
+:::tip
+AppContext 中的部分字段是动态设置的，会随着程序的运行而变化。因此，当插件在不同的时机读取字段时，可能会获取到不同的值。
+:::
 
 ### useHookRunners
 
@@ -116,3 +132,7 @@ export const myPlugin = (): CliPlugin => ({
   },
 });
 ```
+
+:::tip
+请尽量避免执行框架内置的 hooks，否则可能会导致框架内部的运行逻辑出错。
+:::

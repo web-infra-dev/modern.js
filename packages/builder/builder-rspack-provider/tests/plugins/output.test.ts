@@ -106,12 +106,12 @@ describe('plugins/output', () => {
           ],
         },
         tools: {
-          rspack: {
-            builtins: {
-              copy: {
-                patterns: ['tests/'],
+          bundlerChain: (chain, { CHAIN_ID }) => {
+            chain.plugin(CHAIN_ID.PLUGIN.COPY).tap(args => [
+              {
+                patterns: [...(args[0]?.patterns || []), 'tests/'],
               },
-            },
+            ]);
           },
         },
       },
