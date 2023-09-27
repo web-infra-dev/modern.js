@@ -14,10 +14,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       "emitMetadata": true,
       "legacy": true,
     },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"development\\"",
-    },
     "pluginImport": [
       {
         "libraryDirectory": "es",
@@ -44,9 +40,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "not dead",
         "not op_mini all",
       ],
-    },
-    "progress": {
-      "prefix": "Client",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -695,6 +688,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
+    },
   ],
   "resolve": {
     "alias": {
@@ -731,10 +737,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "emitMetadata": true,
       "legacy": true,
     },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"production\\"",
-    },
     "pluginImport": [
       {
         "libraryDirectory": "es",
@@ -761,9 +763,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "not dead",
         "not op_mini all",
       ],
-    },
-    "progress": {
-      "prefix": "Client",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -1451,9 +1450,22 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+      "name": "DefinePlugin",
+    },
     RemoveCssSourcemapPlugin {
       "htmlPlugin": [Function],
       "name": "RemoveCssSourcemapPlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
     },
     InlineChunkHtmlPlugin {
       "distPath": {
@@ -1504,10 +1516,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       "emitMetadata": true,
       "legacy": true,
     },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"test\\"",
-    },
     "pluginImport": [
       {
         "libraryDirectory": "lib",
@@ -1530,9 +1538,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       "targets": [
         "node >= 14",
       ],
-    },
-    "progress": {
-      "prefix": "Server",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -1929,6 +1934,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"test\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Server",
+      },
+      "name": "ProgressPlugin",
+    },
   ],
   "resolve": {
     "conditionNames": [
@@ -1963,10 +1981,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
       "emitMetadata": true,
       "legacy": true,
     },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"development\\"",
-    },
     "pluginImport": [
       {
         "libraryDirectory": "es",
@@ -1993,9 +2007,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "not dead",
         "not op_mini all",
       ],
-    },
-    "progress": {
-      "prefix": "Client",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -2654,6 +2665,19 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
+    },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
     },
   ],
   "resolve": {

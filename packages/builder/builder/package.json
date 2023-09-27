@@ -33,12 +33,20 @@
       "types": "./dist/cli/index.d.ts",
       "jsnext:source": "./src/cli/index.ts",
       "default": "./dist/cli/index.js"
+    },
+    "./plugins/*": {
+      "types": "./dist/plugins/*.d.ts",
+      "jsnext:source": "./src/plugins/*.ts",
+      "default": "./dist/plugins/*.js"
     }
   },
   "typesVersions": {
     "*": {
       "cli": [
         "./dist/cli/index.d.ts"
+      ],
+      "plugins/*": [
+        "./dist/plugins/*.d.ts"
       ]
     }
   },

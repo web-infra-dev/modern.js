@@ -4,6 +4,7 @@ import { NodeEnv, PromiseOrNot } from './utils';
 import { BuilderTarget } from './builder';
 import { BundlerChain } from './bundlerConfig';
 import { mergeBuilderConfig } from '../mergeBuilderConfig';
+import type { WebpackPluginInstance } from 'webpack';
 
 export type OnBeforeBuildFn<BundlerConfig = unknown> = (params: {
   bundlerConfigs?: BundlerConfig[];
@@ -60,7 +61,12 @@ export type ModifyChainUtils = {
   webpack: typeof import('webpack');
 };
 
-export type ModifyBundlerChainUtils = ModifyChainUtils;
+export type ModifyBundlerChainUtils = ModifyChainUtils & {
+  bundler: {
+    BannerPlugin: WebpackPluginInstance;
+    DefinePlugin: WebpackPluginInstance;
+  };
+};
 
 /** The intersection of webpack-chain and rspack-chain */
 export type ModifyBundlerChainFn = (
