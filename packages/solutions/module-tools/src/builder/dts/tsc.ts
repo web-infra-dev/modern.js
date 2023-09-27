@@ -11,16 +11,14 @@ import {
   getTscBinPath,
   printOrThrowDtsErrors,
   resolveAlias,
-  watchSectionTitle,
   addDtsFiles,
   writeDtsFiles,
   addBannerAndFooter,
+  withLogTitle,
 } from '../../utils';
-import {
-  BundlelessDtsLogPrefix,
-  SectionTitleStatus,
-} from '../../constants/log';
 import { watchDoneText } from '../../constants/dts';
+
+export const removeTscLogTime = (log: string) => log.replace(/\[.*\]\s/, '');
 
 const resolveLog = async (
   childProgress: ChildProcess,
@@ -38,10 +36,14 @@ const resolveLog = async (
    */
   childProgress.stdout?.on('data', async data => {
     if (watch) {
-      logger.info(
-        await watchSectionTitle(BundlelessDtsLogPrefix, SectionTitleStatus.Log),
-      );
-      logger.info(data.toString());
+      const lines = (data.toString() as string)
+        .split('\n')
+        // remove empty lines
+        .filter(line => line.trim() !== '')
+        // add tsc prefix, remove time prefix
+        .map(line => withLogTitle('tsc', removeTscLogTime(line)));
+      logger.info(lines.join('\n'));
+
       if (data.toString().includes(watchDoneText)) {
         await watchFn();
       }

@@ -49,7 +49,7 @@ export type Context = {
 };
 
 export interface ICompiler {
-  reBuild: (type: 'link' | 'change') => Promise<void>;
+  reBuild: (type: 'link' | 'change', config: BaseBuildConfig) => Promise<void>;
   css_resolve: (id: string, dir: string) => string;
   node_resolve: (id: string, dir: string, kind: ImportKind) => string;
   init: () => Promise<void>;

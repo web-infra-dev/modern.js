@@ -15,7 +15,7 @@ import type {
 } from '../../types';
 import jsonPlugin from '../../../compiled/@rollup/plugin-json';
 import dtsPlugin from '../../../compiled/rollup-plugin-dts';
-import { mapValue, transformUndefineObject } from '../../utils';
+import { mapValue, transformUndefineObject, withLogTitle } from '../../utils';
 
 export type { RollupWatcher };
 
@@ -113,10 +113,6 @@ export const runRollup = async (
   };
   if (watch) {
     const { watch } = await import('../../../compiled/rollup');
-    const { watchSectionTitle } = await import('../../utils');
-    const { SectionTitleStatus, BundleDtsLogPrefix } = await import(
-      '../../constants/log'
-    );
     const runner = api.useHookRunners();
     const watcher = watch({
       ...inputConfig,
@@ -124,16 +120,9 @@ export const runRollup = async (
       output: outputConfig,
     }).on('event', async event => {
       if (event.code === 'START') {
-        logger.info(
-          await watchSectionTitle(BundleDtsLogPrefix, SectionTitleStatus.Log),
-        );
+        logger.info(withLogTitle('bundle', 'Start build types...'));
       } else if (event.code === 'BUNDLE_END') {
-        logger.info(
-          await watchSectionTitle(
-            BundleDtsLogPrefix,
-            SectionTitleStatus.Success,
-          ),
-        );
+        logger.success(withLogTitle('bundle', 'Build types'));
         runner.buildWatchDts({ buildType: 'bundle' });
       } else if (event.code === 'ERROR') {
         // this is dts rollup plugin bug, error not complete message
