@@ -108,10 +108,10 @@ export interface RspackConfig extends RspackOptions {
   /** multi type is useless in builder and make get value difficult */
   entry?: Record<string, string | string[]>;
   /**
-   * `builtins.react / pluginImport / decorator / presetEnv / emotion / relay` not support in rspack-provider,
+   * `builtins.react / pluginImport / decorator / presetEnv / emotion / relay` are no longer supported by Rspack,
    * please migrate to [builtin:swc-loader options](https://modernjs.dev/builder/en/guide/advanced/rspack-start.html#5-swc-configuration-support)
    *
-   * `builtins.html` not support in rspack-provider, please use [tools.htmlPlugin](https://modernjs.dev/builder/en/api/config-tools.html#toolshtmlplugin) instead.
+   * `builtins.html` are no longer supported by Rspack, please use [tools.htmlPlugin](https://modernjs.dev/builder/en/api/config-tools.html#toolshtmlplugin) instead.
    */
   builtins?: RspackBuiltinsConfig;
   /** rspack-dev-server is not used in modern.js */

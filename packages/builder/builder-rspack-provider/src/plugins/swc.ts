@@ -11,6 +11,7 @@ import {
   addCoreJsEntry,
   BundlerChainRule,
   logger,
+  isUseJsSourceMap,
 } from '@modern-js/builder-shared';
 import { cloneDeep } from '@modern-js/utils/lodash';
 import * as path from 'path';
@@ -21,7 +22,11 @@ import type {
   BuiltinSwcLoaderOptions,
 } from '../types';
 
-export function getDefaultSwcConfig(): BuiltinSwcLoaderOptions {
+export async function getDefaultSwcConfig(
+  config: NormalizedConfig,
+  rootPath: string,
+  target: BuilderTarget,
+): Promise<BuiltinSwcLoaderOptions> {
   return {
     jsc: {
       externalHelpers: true,
@@ -36,10 +41,10 @@ export function getDefaultSwcConfig(): BuiltinSwcLoaderOptions {
     },
     isModule: 'unknown',
     minify: false, // for loader, we don't need to minify, we do minification using plugin
-    sourceMaps: true,
     env: {
-      targets: '> 0.01%, not dead, not op_mini all',
+      targets: await getBrowserslistWithDefault(rootPath, config, target),
     },
+    sourceMaps: isUseJsSourceMap(config),
     exclude: [],
     inlineSourcesContent: true,
   };
@@ -79,9 +84,11 @@ export const builderPluginSwc = (): BuilderPlugin => ({
         // TODO: apply source.include
         rule.include.clear();
 
-        const swcConfig = getDefaultSwcConfig();
-
-        await setBrowserslist(api.context.rootPath, config, target, swcConfig);
+        const swcConfig = await getDefaultSwcConfig(
+          config,
+          api.context.rootPath,
+          target,
+        );
 
         applyTransformImport(swcConfig, config.source.transformImport);
 
@@ -153,23 +160,6 @@ async function applyCoreJs(
   });
 
   rule.exclude.add(coreJsDir);
-}
-
-async function setBrowserslist(
-  rootPath: string,
-  builderConfig: NormalizedConfig,
-  target: BuilderTarget,
-  swcConfig: BuiltinSwcLoaderOptions,
-) {
-  const browserslist = await getBrowserslistWithDefault(
-    rootPath,
-    builderConfig,
-    target,
-  );
-
-  if (browserslist) {
-    swcConfig.env!.targets = browserslist;
-  }
 }
 
 function applyTransformImport(

@@ -13,8 +13,8 @@ export const getRspackVersion = async (): Promise<string> => {
   }
 };
 
-// depend on rspack builtin plugins
-export const supportedRspackMinimumVersion = '0.3.4';
+// apply builtin:swc-loader
+export const supportedRspackMinimumVersion = '0.3.5';
 
 export const isSatisfyRspackMinimumVersion = async (customVersion?: string) => {
   let version = customVersion || (await getRspackVersion());
