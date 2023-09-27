@@ -5,6 +5,10 @@ export default defineConfig({
   runtime: {
     router: true,
   },
+  source: {
+    mainEntryName: 'main',
+    preEntry: ['./src/prelude.css'],
+  },
   output: {
     // disable polyfill and ts checker to make test faster
     polyfill: 'off',

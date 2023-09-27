@@ -41,9 +41,12 @@ async function getConfigUtils(
   chainUtils: ModifyChainUtils,
 ): Promise<ModifyRspackConfigUtils> {
   const { merge } = await import('@modern-js/builder-shared/webpack-merge');
+  const { default: rspack } = await import('@rspack/core');
 
   return {
     ...chainUtils,
+
+    rspack,
 
     mergeConfig: merge,
 
@@ -121,7 +124,15 @@ export async function generateRspackConfig({
   context: Context;
 }) {
   const chainUtils = await getChainUtils(target);
-  const chain = await modifyBundlerChain(context, chainUtils);
+  const { BannerPlugin, DefinePlugin } = await import('@rspack/core');
+
+  const chain = await modifyBundlerChain(context, {
+    ...chainUtils,
+    bundler: {
+      BannerPlugin,
+      DefinePlugin,
+    },
+  });
 
   let rspackConfig = convertToRspackConfig(chain.toConfig());
 

@@ -17,7 +17,7 @@ import type {
   CssMinimizerPluginOptions,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
-import { ModifyChainUtils } from '../hooks';
+import { ModifyBundlerChainUtils } from '../hooks';
 
 /** html-rspack-plugin is compatible with html-webpack-plugin */
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
@@ -37,7 +37,7 @@ export type ToolsLessConfig = ChainedConfig<
 >;
 
 export type ToolsBundlerChainConfig = ArrayOrNot<
-  (chain: BundlerChain, utils: ModifyChainUtils) => void
+  (chain: BundlerChain, utils: ModifyBundlerChainUtils) => void
 >;
 
 export type ToolsBabelConfig = ChainedConfig<

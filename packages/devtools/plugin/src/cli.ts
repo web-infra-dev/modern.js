@@ -4,7 +4,11 @@ import { ProxyDetail } from '@modern-js/types';
 import { getPort } from '@modern-js/utils';
 import createServeMiddleware from 'serve-static';
 import type { AppTools, CliPlugin } from '@modern-js/app-tools';
-import { SetupClientOptions, ClientDefinition } from '@modern-js/devtools-kit';
+import {
+  SetupClientOptions,
+  ClientDefinition,
+  ROUTE_BASENAME,
+} from '@modern-js/devtools-kit';
 import { withQuery } from 'ufo';
 import { Options, resolveOptions } from './config';
 import { setupClientConnection } from './rpc';
@@ -60,8 +64,8 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
         opts.def && rpc.setDefinition(opts.def);
 
         const mountOpts = {
-          dataSource: `/_modern_js/devtools/rpc`,
-          endpoint: `/_modern_js/devtools`,
+          dataSource: `${ROUTE_BASENAME}/rpc`,
+          endpoint: ROUTE_BASENAME,
           __keep: true,
         } as SetupClientOptions;
         let runtimeEntry = require.resolve(
@@ -81,10 +85,10 @@ export const devtoolsPlugin = (options?: Options): CliPlugin<AppTools> => ({
           tools: {
             devServer: {
               proxy: {
-                '/_modern_js/devtools': {
+                [ROUTE_BASENAME]: {
                   target: `http://localhost:${port}`,
                   pathRewrite: {
-                    '^/_modern_js/devtools': '',
+                    [`^${ROUTE_BASENAME}`]: '',
                   },
                   ws: true,
                 },

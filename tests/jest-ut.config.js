@@ -47,8 +47,6 @@ module.exports = {
   modulePathIgnorePatterns: [
     '<rootDir>/packages/builder/',
     '<rootDir>/packages/toolkit/e2e/',
-    '<rootDir>/packages/cli/doc-core/',
-    '<rootDir>/packages/toolkit/remark-container',
     '<rootDir>/packages/solutions/module-tools/compiled/',
     '<rootDir>/packages/toolkit/utils/compiled/',
   ],

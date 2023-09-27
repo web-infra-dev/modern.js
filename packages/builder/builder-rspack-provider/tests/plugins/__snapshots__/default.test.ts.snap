@@ -10,13 +10,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "localsConvention": "camelCase",
       },
     },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"development\\"",
-    },
-    "progress": {
-      "prefix": "Client",
-    },
   },
   "context": "<ROOT>",
   "devServer": {
@@ -793,6 +786,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
+    },
     ReactRefreshRspackPlugin {
       "options": {
         "exclude": null,
@@ -830,13 +836,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "localIdentName": "[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
-    },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"production\\"",
-    },
-    "progress": {
-      "prefix": "Client",
     },
   },
   "context": "<ROOT>",
@@ -1650,9 +1649,22 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+      "name": "DefinePlugin",
+    },
     RemoveCssSourcemapPlugin {
       "htmlPlugin": [Function],
       "name": "RemoveCssSourcemapPlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
     },
     InlineChunkHtmlPlugin {
       "distPath": {
@@ -1698,13 +1710,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "localIdentName": "[path][name]__[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
-    },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"test\\"",
-    },
-    "progress": {
-      "prefix": "Server",
     },
   },
   "context": "<ROOT>",
@@ -2216,6 +2221,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"test\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Server",
+      },
+      "name": "ProgressPlugin",
+    },
   ],
   "resolve": {
     "conditionNames": [
@@ -2245,13 +2263,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "localIdentName": "[path][name]__[local]-[hash:6]",
         "localsConvention": "camelCase",
       },
-    },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"development\\"",
-    },
-    "progress": {
-      "prefix": "Client",
     },
   },
   "context": "<ROOT>",
@@ -3039,6 +3050,19 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
         },
       },
+    },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
     },
     ReactRefreshRspackPlugin {
       "options": {

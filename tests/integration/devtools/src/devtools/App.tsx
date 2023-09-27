@@ -1,5 +1,5 @@
 function App() {
-  return <div>Hello Modern.js!</div>;
+  return <div>Hello, Modern.js DevTools!</div>;
 }
 
 export default App;
