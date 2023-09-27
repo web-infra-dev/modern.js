@@ -88,7 +88,9 @@
   "pnpm": {
     "overrides": {
       "@types/react": "^18",
-      "@types/react-dom": "^18"
+      "@types/react-dom": "^18",
+      "rspress": "0.0.0-next-20230927072732",
+      "@rspress/shared": "0.0.0-next-20230927072732"
     },
     "allowedDeprecatedVersions": {
       "@babel/plugin-proposal-class-properties": "7.18.6",
