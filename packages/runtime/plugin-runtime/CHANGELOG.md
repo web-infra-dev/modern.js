@@ -1,5 +1,18 @@
 # @modern-js/runtime
 
+## 2.36.0
+
+### Patch Changes
+
+- 4e3310b: chore(runtime): remove unused redux-logger dependencies
+
+  chore(runtime): 移除未使用的 redux-logger 依赖
+
+  - @modern-js/plugin@2.36.0
+  - @modern-js/runtime-utils@2.36.0
+  - @modern-js/types@2.36.0
+  - @modern-js/utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

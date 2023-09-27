@@ -1,5 +1,29 @@
 # @modern-js/builder
 
+## 2.36.0
+
+### Patch Changes
+
+- 3448e82: chore(builder): simplify assets rule
+
+  chore(builder): 简化 assets 规则
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 5b4bf21: feat(builder): include tslib in lib-polyfill.js
+
+  feat(builder): 拆分 tslib 到 lib-polyfill.js 中
+
+- Updated dependencies [bc25bcb]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/monorepo-utils@2.36.0
+  - @modern-js/node-bundle-require@2.36.0
+  - @modern-js/utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

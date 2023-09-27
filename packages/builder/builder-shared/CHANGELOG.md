@@ -1,5 +1,27 @@
 # @modern-js/builder-shared
 
+## 2.36.0
+
+### Patch Changes
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 2675812: feat(builder): improve time logs format
+
+  feat(builder): 优化时间日志的格式
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- Updated dependencies [3dcad90]
+  - @modern-js/server@2.36.0
+  - @modern-js/prod-server@2.36.0
+  - @modern-js/types@2.36.0
+  - @modern-js/utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

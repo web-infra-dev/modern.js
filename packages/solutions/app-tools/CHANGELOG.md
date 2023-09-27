@@ -1,5 +1,41 @@
 # @modern-js/app-tools
 
+## 2.36.0
+
+### Patch Changes
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- Updated dependencies [4fbc386]
+- Updated dependencies [3448e82]
+- Updated dependencies [3921cd4]
+- Updated dependencies [3dcad90]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [5b4bf21]
+  - @modern-js/core@2.36.0
+  - @modern-js/builder@2.36.0
+  - @modern-js/builder-rspack-provider@2.36.0
+  - @modern-js/server@2.36.0
+  - @modern-js/builder-webpack-provider@2.36.0
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/builder-plugin-esbuild@2.36.0
+  - @modern-js/plugin-data-loader@2.36.0
+  - @modern-js/plugin-lint@2.36.0
+  - @modern-js/builder-plugin-node-polyfill@2.36.0
+  - @modern-js/plugin-i18n@2.36.0
+  - @modern-js/new-action@2.36.0
+  - @modern-js/server-core@2.36.0
+  - @modern-js/prod-server@2.36.0
+  - @modern-js/node-bundle-require@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/types@2.36.0
+  - @modern-js/upgrade@2.36.0
+  - @modern-js/utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

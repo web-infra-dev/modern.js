@@ -1,5 +1,17 @@
 # @modern-js/main-doc
 
+## 2.36.0
+
+### Patch Changes
+
+- 4fbc386: docs: add descriptions for AppContext properties
+
+  docs: 增加 AppContext 属性的描述
+
+- 00420f8: fix(main-doc): fixed wrong ports in MFE docs
+  - @modern-js/builder-doc@2.36.0
+  - @modern-js/sandpack-react@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

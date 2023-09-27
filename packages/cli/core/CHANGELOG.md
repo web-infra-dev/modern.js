@@ -1,5 +1,17 @@
 # @modern-js/core
 
+## 2.36.0
+
+### Patch Changes
+
+- 4fbc386: docs: add descriptions for AppContext properties
+
+  docs: 增加 AppContext 属性的描述
+
+  - @modern-js/node-bundle-require@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes
