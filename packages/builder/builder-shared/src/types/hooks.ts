@@ -4,7 +4,7 @@ import { NodeEnv, PromiseOrNot } from './utils';
 import { BuilderTarget } from './builder';
 import { BundlerChain } from './bundlerConfig';
 import { mergeBuilderConfig } from '../mergeBuilderConfig';
-import type { BannerPlugin, DefinePlugin } from 'webpack';
+import type { WebpackPluginInstance } from 'webpack';
 
 export type OnBeforeBuildFn<BundlerConfig = unknown> = (params: {
   bundlerConfigs?: BundlerConfig[];
@@ -63,9 +63,8 @@ export type ModifyChainUtils = {
 
 export type ModifyBundlerChainUtils = ModifyChainUtils & {
   bundler: {
-    // rspack plugin type is similar with webpack
-    BannerPlugin: typeof BannerPlugin;
-    DefinePlugin: typeof DefinePlugin;
+    BannerPlugin: WebpackPluginInstance;
+    DefinePlugin: WebpackPluginInstance;
   };
 };
 
