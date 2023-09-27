@@ -22,6 +22,8 @@ import type {
   BuiltinSwcLoaderOptions,
 } from '../types';
 
+const builtinSwcLoaderName = 'builtin:swc-loader';
+
 export async function getDefaultSwcConfig(
   config: NormalizedConfig,
   rootPath: string,
@@ -109,7 +111,7 @@ export const builderPluginSwc = (): BuilderPlugin => ({
 
         rule
           .use(CHAIN_ID.USE.SWC)
-          .loader('builtin:swc-loader')
+          .loader(builtinSwcLoaderName)
           .options(swcConfig);
 
         /**
@@ -125,7 +127,7 @@ export const builderPluginSwc = (): BuilderPlugin => ({
               or: ['text/javascript', 'application/javascript'],
             })
             .use(CHAIN_ID.USE.SWC)
-            .loader('builtin:swc-loader')
+            .loader(builtinSwcLoaderName)
             // Using cloned options to keep options separate from each other
             .options(cloneDeep(swcConfig));
         }
