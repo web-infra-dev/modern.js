@@ -163,17 +163,10 @@ export function validatePackagePath(
   projectDir: string,
   options?: {
     isMwa?: boolean;
-    isPublic?: boolean;
-    isTest?: boolean;
   },
 ) {
-  const { isMwa, isPublic, isTest } = options || {};
-  let dir = 'apps';
-  if (isMwa && isTest) {
-    dir = 'examples';
-  } else {
-    dir = isPublic ? 'packages' : 'features';
-  }
+  const { isMwa } = options || {};
+  const dir = isMwa ? 'apps' : 'packages';
   const packageDir = path.resolve(projectDir || '', dir, value);
   if (fs.existsSync(packageDir)) {
     return {
@@ -187,14 +180,13 @@ export function validatePackagePath(
 export function getModuleProjectPath(
   packagePath: string,
   isMonorepoSubProject: boolean,
-  isPublic: boolean,
   isLocalPackages: boolean,
 ) {
   if (isLocalPackages && packagePath) {
     return `${packagePath}/`;
   }
   if (isMonorepoSubProject && packagePath) {
-    return `${isPublic ? 'packages' : 'features'}/${packagePath}/`;
+    return `packages/${packagePath}/`;
   }
 
   return '';
@@ -203,10 +195,9 @@ export function getModuleProjectPath(
 export function getMWAProjectPath(
   packagePath: string,
   isMonorepoSubProject: boolean,
-  isTest = false,
 ) {
   if (isMonorepoSubProject && packagePath) {
-    return `${isTest ? 'examples' : 'apps'}/${packagePath}/`;
+    return `apps/${packagePath}/`;
   }
   return '';
 }

@@ -543,9 +543,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       {
         "exclude": [
           "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/plugin-react-refresh/client",
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/@pmmmwh/react-refresh-webpack-plugin/lib/runtime/RefreshUtils.js",
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
+        ],
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "type": "javascript/auto",
@@ -801,7 +808,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
     },
     ReactRefreshRspackPlugin {
       "options": {
-        "exclude": null,
+        "exclude": /node_modules/i,
         "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
       },
     },
@@ -1371,6 +1378,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "exclude": [
           "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
         ],
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -1678,6 +1695,729 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
       "styleTests": [],
+    },
+  ],
+  "resolve": {
+    "alias": {
+      "core-js": "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
+    },
+    "extensions": [
+      ".ts",
+      ".tsx",
+      ".js",
+      ".jsx",
+      ".mjs",
+      ".json",
+    ],
+    "tsConfigPath": "<ROOT>/tsconfig.json",
+  },
+  "target": [
+    "web",
+    "es5",
+  ],
+}
+`;
+
+exports[`applyDefaultPlugins > should apply default plugins correctly when use rspack transform legacy 1`] = `
+{
+  "builtins": {
+    "css": {
+      "modules": {
+        "exportsOnly": false,
+        "localIdentName": "[path][name]__[local]-[hash:6]",
+        "localsConvention": "camelCase",
+      },
+    },
+    "decorator": {
+      "emitMetadata": true,
+      "legacy": true,
+    },
+    "pluginImport": [
+      {
+        "libraryDirectory": "es",
+        "libraryName": "antd",
+        "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "es",
+        "libraryName": "@arco-design/web-react",
+        "style": true,
+      },
+      {
+        "camelToDashComponentName": false,
+        "libraryDirectory": "react-icon",
+        "libraryName": "@arco-design/web-react/icon",
+      },
+    ],
+    "presetEnv": {
+      "coreJs": "3.32",
+      "mode": "entry",
+      "targets": [
+        "> 0.01%",
+        "not dead",
+        "not op_mini all",
+      ],
+    },
+    "provide": {
+      "$ReactRefreshRuntime$": [
+        "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/dev-client/src/reactRefresh.js",
+      ],
+    },
+    "react": {
+      "development": true,
+      "refresh": true,
+      "runtime": "automatic",
+    },
+  },
+  "context": "<ROOT>",
+  "devServer": {
+    "hot": true,
+  },
+  "devtool": "cheap-module-source-map",
+  "experiments": {
+    "asyncWebAssembly": true,
+  },
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "rules": [
+      {
+        "resolve": {
+          "fullySpecified": false,
+        },
+        "test": /\\\\\\.m\\?js/,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/font/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(woff\\|woff2\\|eot\\|ttf\\|otf\\|ttc\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/image/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(png\\|jpg\\|jpeg\\|gif\\|bmp\\|webp\\|ico\\|apng\\|avif\\|tiff\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/media/[name].[contenthash:8][ext]",
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+        ],
+        "test": /\\\\\\.\\(mp4\\|webm\\|ogg\\|mp3\\|wav\\|flac\\|aac\\|mov\\)\\$/i,
+      },
+      {
+        "oneOf": [
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /\\(__inline=false\\|url\\)/,
+            "type": "asset/resource",
+          },
+          {
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "issuer": {
+              "not": [
+                /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$/,
+                /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
+              ],
+            },
+            "parser": {
+              "dataUrlCondition": {
+                "maxSize": 10000,
+              },
+            },
+            "type": "asset",
+          },
+          {
+            "resourceQuery": /inline/,
+            "type": "asset/inline",
+          },
+          {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
+            "resourceQuery": /url/,
+            "type": "asset/resource",
+          },
+          {
+            "type": "javascript/auto",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/node_modules/<PNPM_INNER>/@svgr/webpack/dist/index.js",
+                "options": {
+                  "svgo": true,
+                  "svgoConfig": {
+                    "plugins": [
+                      {
+                        "name": "preset-default",
+                        "params": {
+                          "overrides": {
+                            "removeViewBox": false,
+                          },
+                        },
+                      },
+                      "prefixIds",
+                    ],
+                  },
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
+                "options": {
+                  "limit": 10000,
+                  "name": "static/svg/[name].[contenthash:8].svg",
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.svg\\$/,
+      },
+      {
+        "dependency": "url",
+        "generator": {
+          "filename": "static/wasm/[hash].module.wasm",
+        },
+        "test": /\\\\\\.wasm\\$/,
+        "type": "asset/resource",
+      },
+      {
+        "oneOf": [
+          {
+            "resolve": {
+              "preferRelative": true,
+            },
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "resolve": {
+              "preferRelative": true,
+            },
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.css\\$/,
+      },
+      {
+        "oneOf": [
+          {
+            "resolve": {
+              "preferRelative": true,
+            },
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
+                "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "resolve": {
+              "preferRelative": true,
+            },
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/less-loader",
+                "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/less",
+                  "lessOptions": {
+                    "javascriptEnabled": true,
+                  },
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.less\\$/,
+      },
+      {
+        "oneOf": [
+          {
+            "resolve": {
+              "preferRelative": true,
+            },
+            "sideEffects": true,
+            "test": /\\\\\\.module\\\\\\.\\\\w\\+\\$/i,
+            "type": "css/module",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                  "sourceMap": false,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
+                "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+          {
+            "resolve": {
+              "preferRelative": true,
+            },
+            "sideEffects": true,
+            "type": "css",
+            "use": [
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/postcss-loader",
+                "options": {
+                  "postcssOptions": {
+                    "plugins": [
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      [Function],
+                      {
+                        "browsers": [
+                          "> 0.01%",
+                          "not dead",
+                          "not op_mini all",
+                        ],
+                        "info": [Function],
+                        "options": {
+                          "flexbox": "no-2009",
+                          "overrideBrowserslist": [
+                            "> 0.01%",
+                            "not dead",
+                            "not op_mini all",
+                          ],
+                        },
+                        "postcssPlugin": "autoprefixer",
+                        "prepare": [Function],
+                      },
+                    ],
+                  },
+                  "sourceMap": true,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
+                "options": {
+                  "join": [Function],
+                  "sourceMap": false,
+                },
+              },
+              {
+                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass-loader",
+                "options": {
+                  "implementation": "<WORKSPACE>/packages/builder/builder-shared/compiled/sass",
+                  "sourceMap": true,
+                },
+              },
+            ],
+          },
+        ],
+        "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
+      },
+      {
+        "test": /\\\\\\.toml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/toml-loader",
+          },
+        ],
+      },
+      {
+        "test": /\\\\\\.ya\\?ml\\$/,
+        "type": "javascript/auto",
+        "use": [
+          {
+            "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/yaml-loader",
+          },
+        ],
+      },
+    ],
+  },
+  "name": "Client",
+  "optimization": {
+    "minimize": false,
+    "runtimeChunk": {
+      "name": "builder-runtime",
+    },
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-antd": {
+          "name": "lib-antd",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(antd\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-arco": {
+          "name": "lib-arco",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(@\\?arco-design\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(axios\\|axios-\\.\\+\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-lodash": {
+          "name": "lib-lodash",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(lodash\\|lodash-es\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-react": {
+          "name": "lib-react",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
+        },
+        "lib-router": {
+          "name": "lib-router",
+          "priority": 0,
+          "reuseExistingChunk": true,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react-router\\|react-router-dom\\|@remix-run\\\\/router\\|history\\)\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "enforceSizeThreshold": 50000,
+    },
+  },
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "cssChunkFilename": "static/css/async/[name].css",
+    "cssFilename": "static/css/[name].css",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+    "webassemblyModuleFilename": "static/wasm/[hash].module.wasm",
+  },
+  "plugins": [
+    ForkTsCheckerWebpackPlugin {
+      "options": {
+        "issue": {
+          "exclude": [
+            {
+              "file": "**/*.(spec|test).ts",
+            },
+            {
+              "file": "**/node_modules/**/*",
+            },
+          ],
+        },
+        "logger": {
+          "error": [Function],
+          "log": [Function],
+        },
+        "typescript": {
+          "configFile": "<ROOT>/tsconfig.json",
+          "memoryLimit": 8192,
+          "typescriptPath": "<WORKSPACE>/node_modules/<PNPM_INNER>/typescript/lib/typescript.js",
+        },
+      },
+    },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
     },
   ],
   "resolve": {
@@ -2039,6 +2779,16 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         "test": /\\\\\\.s\\(a\\|c\\)ss\\$/,
       },
       {
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
+        ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "type": "javascript/auto",
         "use": [
@@ -2805,9 +3555,16 @@ exports[`tools.rspack > should match snapshot 1`] = `
       {
         "exclude": [
           "<WORKSPACE>/node_modules/<PNPM_INNER>/core-js",
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/@rspack/plugin-react-refresh/client",
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/@pmmmwh/react-refresh-webpack-plugin/lib/runtime/RefreshUtils.js",
-          "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh",
+        ],
+        "include": [
+          {
+            "and": [
+              "<ROOT>",
+              {
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+              },
+            ],
+          },
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "type": "javascript/auto",
@@ -3066,7 +3823,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
     },
     ReactRefreshRspackPlugin {
       "options": {
-        "exclude": null,
+        "exclude": /node_modules/i,
         "include": /\\\\\\.\\(\\[cm\\]js\\|\\[jt\\]sx\\?\\|flow\\)\\$/i,
       },
     },

@@ -1,6 +1,9 @@
 import { BuilderPlugin } from '../types';
 import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
 
+const useLegacyTransform = () =>
+  Boolean(process.env.INTERNAL_USE_RSPACK_TRANSFORM_LEGACY);
+
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([
     import('../plugins/transition').then(m => m.builderPluginTransition()),
@@ -36,9 +39,13 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     plugins.rem(),
     import('../plugins/hmr').then(m => m.builderPluginHMR()),
     import('../plugins/progress').then(m => m.builderPluginProgress()),
-    import('../plugins/swc').then(m => m.builderPluginSwc()),
+    useLegacyTransform()
+      ? import('../plugins/swc-old').then(m => m.builderPluginSwc())
+      : import('../plugins/swc').then(m => m.builderPluginSwc()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
-    import('../plugins/react').then(m => m.builderPluginReact()),
+    useLegacyTransform()
+      ? import('../plugins/react-old').then(m => m.builderPluginReact())
+      : import('../plugins/react').then(m => m.builderPluginReact()),
     plugins.externals(),
     plugins.toml(),
     plugins.yaml(),

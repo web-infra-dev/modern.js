@@ -1,6 +1,5 @@
 import type { BuilderPlugin } from '../types';
 import { isUsingHMR } from '@modern-js/builder-shared';
-import path from 'path';
 
 export const builderPluginReact = (): BuilderPlugin => ({
   name: 'builder-plugin-react',
@@ -47,46 +46,9 @@ export const builderPluginReact = (): BuilderPlugin => ({
         '@rspack/plugin-react-refresh'
       );
 
-      const reactRefreshPath = path.dirname(
-        require.resolve('@rspack/plugin-react-refresh/react-refresh'),
-      );
-
-      const refreshUtilsPath = require.resolve(
-        '@pmmmwh/react-refresh-webpack-plugin/lib/runtime/RefreshUtils',
-        {
-          paths: [reactRefreshPath],
-        },
-      );
-      const refreshRuntimeDirPath = path.dirname(
-        require.resolve('react-refresh', {
-          paths: [reactRefreshPath],
-        }),
-      );
-      const runtimePaths = [
-        reactRefreshPath,
-        refreshUtilsPath,
-        refreshRuntimeDirPath,
-      ];
-
-      // TODO: not used when rspack react-refresh align with community
-      runtimePaths.forEach((condition: string) => {
-        rule.exclude.add(condition);
-      });
-
       chain
         .plugin(CHAIN_ID.PLUGIN.REACT_FAST_REFRESH)
-        .use(ReactRefreshRspackPlugin, [
-          {
-            // consistent with swc-loader rules
-            // include: [
-            //   {
-            //     and: [api.context.rootPath, { not: NODE_MODULES_REGEX }],
-            //   },
-            //   ...(config.source.include || []),
-            // ],
-            exclude: config.source.exclude || null,
-          },
-        ]);
+        .use(ReactRefreshRspackPlugin);
     });
   },
 });

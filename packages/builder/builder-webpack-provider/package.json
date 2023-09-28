@@ -102,7 +102,7 @@
     "caniuse-lite": "^1.0.30001520",
     "html-webpack-plugin": "5.5.3",
     "mini-css-extract-plugin": "2.7.6",
-    "postcss": "8.4.27",
+    "postcss": "8.4.31",
     "react-refresh": "0.14.0",
     "style-loader": "3.3.3",
     "terser-webpack-plugin": "5.3.9",

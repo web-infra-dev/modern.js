@@ -13,9 +13,7 @@ export const EN_LOCALE = {
   sub_solution: {
     self: 'Please select the type of project you want to create:',
     mwa: 'Web App',
-    mwa_test: 'Web App (Test)',
     module: 'Npm Module',
-    inner_module: 'Npm Module (Inner)',
     monorepo: 'Monorepo',
   },
   action: {

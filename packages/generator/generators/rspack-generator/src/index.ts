@@ -100,7 +100,12 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
 export default defineConfig${chalk.yellow.bold("<'rspack'>")}({
   ...,
   plugins: [appTools(${chalk.yellow.bold(
-    `{ bundler: 'experimental-rspack' }`,
+    `{
+      bundler: 'experimental-rspack',
+      rspackFuture: {
+        disableTransformByDefault: true,
+      }
+    }`,
   )}), ...],
 });
 `);
@@ -109,7 +114,12 @@ export default defineConfig${chalk.yellow.bold("<'rspack'>")}({
 module.exports = {
   ...,
   plugins: [appTools(${chalk.yellow.bold(
-    `{ bundler: 'experimental-rspack' }`,
+    `{
+      bundler: 'experimental-rspack',
+      rspackFuture: {
+        disableTransformByDefault: true,
+      }
+    }`,
   )}), ...],
 };
 `);

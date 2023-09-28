@@ -22,8 +22,8 @@ export default defineConfig({
 
 Modern.js provides a Data Loader that simplifies data fetching for developers working with SSR and CSR. Each routing module, such as `layout.tsx` and `page.tsx`, can define its own Data Loader:
 
-```ts title="src/routes/page.loader.ts"
-export default () => {
+```ts title="src/routes/page.data.ts"
+export const loader = () => {
   return {
     message: 'Hello World',
   };
@@ -49,7 +49,7 @@ Developers should still be mindful of data fallback, including `null` values or 
 
 1. When requesting a page through client-side routing, Modern.js sends an HTTP request. The server receives the request and executes the corresponding Data Loader function for the page, then returns the execution result as a response to the browser.
 
-2. When using Data Loader, data is fetched before rendering. Modern.js also supports obtaining data during component rendering. For more related content, please refer to [Data Fetch](/guides/basic-features/data-fetch).
+2. When using Data Loader, data is fetched before rendering. Modern.js also supports obtaining data during component rendering. For more related content, please refer to [Data Fetch](/guides/basic-features/data/data-fetch).
 
 :::
 
@@ -158,10 +158,10 @@ Using SPR in Modern.js is very simple. Just add the PreRender component to your 
 
 Here is a simulated component that uses the useLoaderData API. The request in the Data Loader takes 2 seconds to consume.
 
-```tsx title="page.loader.ts"
+```tsx title="page.data.ts"
 import { useLoaderData } from '@modern-js/runtime/router';
 
-export default async () => {
+export const loader = async () => {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(null);
@@ -307,9 +307,9 @@ export const loader = () => {
 
 The two methods mentioned above will both bring some mental burden to developers. In real business scenarios, we found that most of the mixed Node/Web code appears in data requests.
 
-Therefore, Modern.js has designed a [Data Fetch](/guides/basic-features/data-fetch) to separate CSR and SSR code based on [Nested Routing](/guides/basic-features/routes).
+Therefore, Modern.js has designed a [Data Fetch](/guides/basic-features/data/data-fetch) to separate CSR and SSR code based on [Nested Routing](/guides/basic-features/routes).
 
-We can separate **data requests from component code** by using independent files. Write the component logic in `routes/page.tsx` and write the data request logic in `routes/page.loader.ts`.
+We can separate **data requests from component code** by using independent files. Write the component logic in `routes/page.tsx` and write the data request logic in `routes/page.data.ts`.
 
 ```ts title="routes/page.tsx"
 export default Page = () => {
@@ -317,9 +317,9 @@ export default Page = () => {
 }
 ```
 
-```ts title="routes/page.loader.tsx"
+```ts title="routes/page.data.tsx"
 import fse from 'fs-extra';
-export default () => {
+export const loader = () => {
   const file = fse.readFileSync('./myfile');
   return {
     ...
@@ -329,7 +329,7 @@ export default () => {
 
 ## Remote Request
 
-When initiating interface requests in SSR, developers sometimes encapsulate isomorphic request tools themselves. For some interfaces that require passing user cookies, developers can use the ['useRuntimeContext'](/guides/basic-features/data-fetch#route-loader) API to get the request header for implementation.
+When initiating interface requests in SSR, developers sometimes encapsulate isomorphic request tools themselves. For some interfaces that require passing user cookies, developers can use the ['useRuntimeContext'](/guides/basic-features/data/data-fetch#route-loader) API to get the request header for implementation.
 
 It should be noted that the obtained request header is for HTML requests, which may not be suitable for API requests. Therefore, ** don't passed through all request headers **.
 
@@ -361,7 +361,7 @@ The streaming SSR of Modern.js is implemented based on React Router, and the mai
 
 ### Return async data
 
-```ts title="page.loader.ts"
+```ts title="page.data.ts"
 import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 interface User {
@@ -373,7 +373,7 @@ export interface Data {
   data: User;
 }
 
-export default ({ params }: LoaderFunctionArgs) => {
+export const loader = ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
   const user = new Promise<User>(resolve => {
@@ -393,7 +393,7 @@ export default ({ params }: LoaderFunctionArgs) => {
 
 `defer` can receive both asynchronous and synchronous data at the same time. For example:
 
-```ts title="page.loader.ts"
+```ts title="page.data.ts"
 // skip some codes
 
 export default ({ params }: LoaderFunctionArgs) => {
@@ -430,7 +430,7 @@ With the `<Await>` component, you can retrieve the data asynchronously returned 
 ```tsx title="page.tsx"
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
-import type { Data } from './page.loader';
+import type { Data } from './page.data';
 
 const Page = () => {
   const data = useLoaderData() as Data;
@@ -461,7 +461,7 @@ export default Page;
 :::warning Warning
 When importing types from a Data Loader file, it is necessary to use the `import type` syntax to ensure that only type information is imported. This can avoid packaging Data Loader code into the bundle file of the front-end product.
 
-Therefore, the import method here is: `import type { Data } from './page.loader'`;
+Therefore, the import method here is: `import type { Data } from './page.data'`;
 :::
 
 You can also retrieve asynchronous data returned by the Data Loader using `useAsyncValue`. For example:
@@ -504,10 +504,10 @@ export default Page;
 The `errorElement` property of the `<Await>` component can be used to handle errors thrown when the Data Loader executes or when a child component renders.
 For example, we intentionally throw an error in the Data Loader function:
 
-```ts title="page.loader.ts"
+```ts title="page.data.ts"
 import { defer } from '@modern-js/runtime/router';
 
-export default () => {
+export const loader = () => {
   const data = new Promise((resolve, reject) => {
     setTimeout(() => {
       reject(new Error('error occurs'));

@@ -83,9 +83,6 @@ export const builderPluginSwc = (): BuilderPlugin => ({
           excludes: [],
         });
 
-        // TODO: apply source.include
-        rule.include.clear();
-
         const swcConfig = await getDefaultSwcConfig(
           config,
           api.context.rootPath,

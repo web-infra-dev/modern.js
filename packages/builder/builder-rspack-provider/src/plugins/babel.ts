@@ -110,7 +110,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           .loader(getCompiledPath('babel-loader'))
           .options({
             ...babelOptions,
-            // TODO: should only apply babel include / exclude when apply source.include in rule
+            // TODO: should only apply babel include / exclude when abandoned legacyTransform
             only: [
               (pathName: string) =>
                 pathName.includes(rootPath) &&

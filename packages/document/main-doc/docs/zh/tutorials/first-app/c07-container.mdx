@@ -15,7 +15,7 @@ import { Tabs, Tab as TabItem } from "@theme";
 
 Modern.js 支持在 `layout.tsx` 通过 Data Loader 获取数据，我们先数据获取这部分代码移动到 `src/routes/layout.tsx` 中：
 
-```ts title="src/routes/layout.loader.ts"
+```ts title="src/routes/layout.data.ts"
 export type LoaderData = {
   code: number;
   data: {
@@ -25,7 +25,7 @@ export type LoaderData = {
   }[];
 };
 
-export default async (): Promise<LoaderData> => {
+export const loader = async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {
@@ -58,7 +58,7 @@ import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 import '../styles/utils.css';
-import type { LoaderData } from './layout.loader';
+import type { LoaderData } from './layout.data';
 
 export default function Layout() {
   const { data } = useLoaderData() as LoaderData;

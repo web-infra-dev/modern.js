@@ -8,6 +8,9 @@ module.exports = {
   plugins: [
     appTools({
       bundler: 'experimental-rspack',
+      rspackFuture: {
+        disableTransformByDefault: true,
+      }
     }),
   ],
 };

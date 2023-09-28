@@ -22,8 +22,8 @@ export default defineConfig({
 
 Modern.js 中提供了 Data Loader，方便开发者在 SSR、CSR 下同构的获取数据。每个路由模块，如 `layout.tsx` 和 `page.tsx` 都可以定义自己的 Data Loader：
 
-```ts title="src/routes/page.loader.ts"
-export default () => {
+```ts title="src/routes/page.data.ts"
+export const loader = () => {
   return {
     message: 'Hello World',
   };
@@ -48,7 +48,7 @@ Modern.js 打破传统的 SSR 开发模式，提供了用户无感的 SSR 开发
 
 1. 当以客户端路由的方式请求页面时，Modern.js 会发送一个 HTTP 请求，服务端接收到请求后执行页面对应的 Data Loader 函数，然后将执行结果作为请求的响应返回浏览器。
 
-2. 使用 Data Loader 时，数据获取发生在渲染前，Modern.js 也仍然支持在组件渲染时获取数据。更多相关内容可以查看[数据获取](/guides/basic-features/data-fetch)。
+2. 使用 Data Loader 时，数据获取发生在渲染前，Modern.js 也仍然支持在组件渲染时获取数据。更多相关内容可以查看[数据获取](/guides/basic-features/data/data-fetch)。
 
 :::
 
@@ -147,8 +147,8 @@ SPR 利用预渲染与缓存技术，为 SSR 页面提供静态 Web 的响应性
 
 这里模拟一个使用 `useLoaderData` API 的组件，Data Loader 中的请求需要消耗 2s 时间。
 
-```tsx title="page.loader.ts"
-export default async () => {
+```tsx title="page.data.ts"
+export const loader = async () => {
   await new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(null);
@@ -297,9 +297,9 @@ export const loader = () => {
 
 上述两种方式，都会为开发者带来一些心智负担。在真实的业务中，我们发现大多数的 Node / Web 代码混用都出现在数据请求中。
 
-因此，Modern.js 基于[嵌套路由](/guides/basic-features/routes)开发设计了[更简单的方案](/guides/basic-features/data-fetch)来分离 CSR 和 SSR 的代码。
+因此，Modern.js 基于[嵌套路由](/guides/basic-features/routes)开发设计了[更简单的方案](/guides/basic-features/data/data-fetch)来分离 CSR 和 SSR 的代码。
 
-我们可以通过独立文件来分离**数据请求**与**组件代码**。在 `routes/page.tsx` 中编写组件逻辑，在 `routes/page.loader.ts` 中编写数据请求逻辑。
+我们可以通过独立文件来分离**数据请求**与**组件代码**。在 `routes/page.tsx` 中编写组件逻辑，在 `routes/page.data.ts` 中编写数据请求逻辑。
 
 ```ts title="routes/page.tsx"
 export default Page = () => {
@@ -307,9 +307,9 @@ export default Page = () => {
 }
 ```
 
-```ts title="routes/page.loader.tsx"
+```ts title="routes/page.data.tsx"
 import fse from 'fs-extra';
-export default () => {
+export const loader = () => {
   const file = fse.readFileSync('./myfile');
   return {
     ...
@@ -319,7 +319,7 @@ export default () => {
 
 ## 接口请求
 
-在 SSR 中发起接口请求时，开发者有时自己封装了同构的请求工具。部分接口需要传递用户 Cookie，开发者可以通过 [`useRuntimeContext`](/guides/basic-features/data-fetch#route-loader) API 获取到请求头来实现。
+在 SSR 中发起接口请求时，开发者有时自己封装了同构的请求工具。部分接口需要传递用户 Cookie，开发者可以通过 [`useRuntimeContext`](/guides/basic-features/data/data-fetch#route-loader) API 获取到请求头来实现。
 
 需要注意的是，此时获取到的是 HTML 请求的请求头，不一定适用于接口请求，因此**千万不能**透传所有请求头。并且，一些后端接口，或是通用网关，会根据请求头中的信息做校验，全量透传容易出现各种难以排查的问题，推荐**按需透传**。
 
@@ -349,7 +349,7 @@ Modern.js 的流式渲染基于 React Router 实现，主要涉及 API 有：
 
 ### 异步获取数据
 
-```ts title="page.loader.ts"
+```ts title="page.data.ts"
 import { defer, type LoaderFunctionArgs } from '@modern-js/runtime/router';
 
 interface User {
@@ -361,7 +361,7 @@ export interface Data {
   data: User;
 }
 
-export default ({ params }: LoaderFunctionArgs) => {
+export const loader = ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
   const user = new Promise<User>(resolve => {
@@ -382,10 +382,10 @@ export default ({ params }: LoaderFunctionArgs) => {
 
 `defer` 还可以同时接收异步数据和同步数据。例如：
 
-```ts title="page.loader.ts"
+```ts title="page.data.ts"
 // 省略部分代码
 
-export default ({ params }: LoaderFunctionArgs) => {
+export const loader = ({ params }: LoaderFunctionArgs) => {
   const userId = params.id;
 
   const user = new Promise<User>(resolve => {
@@ -419,7 +419,7 @@ export default ({ params }: LoaderFunctionArgs) => {
 ```tsx title="page.tsx"
 import { Await, useLoaderData } from '@modern-js/runtime/router';
 import { Suspense } from 'react';
-import type { Data } from './page.loader';
+import type { Data } from './page.data';
 
 const Page = () => {
   const data = useLoaderData() as Data;
@@ -452,7 +452,7 @@ export default Page;
 :::warning 注意
 从 Data Loader 文件导入类型时，需要使用 import type 语法，保证只导入类型信息，这样可以避免 Data Loader 的代码打包到前端产物的 bundle 文件中。
 
-所以，这里的导入方式为：`import type { Data } from './page.loader'`;
+所以，这里的导入方式为：`import type { Data } from './page.data'`;
 
 :::
 

@@ -1,8 +1,7 @@
 - **Type:** `Array<string | RegExp>`
 - **Default:** `[]`
-- **Bundler:** `only support webpack`
 
-In order to maintain faster compilation speed, Builder will not compile JavaScript/TypeScript files under node_modules through `babel-loader` or `ts-loader` by default, as will as the JavaScript/TypeScript files outside the current project directory.
+In order to maintain faster compilation speed, Builder will not compile JavaScript/TypeScript files under node_modules through `babel-loader` / `ts-loader` / `swc-loader` by default, as will as the JavaScript/TypeScript files outside the current project directory.
 
 Through the `source.include` config, you can specify directories or modules that need to be compiled by Builder. The usage of `source.include` is consistent with [Rule.include](https://webpack.js.org/configuration/module/#ruleinclude) in webpack, which supports passing in strings or regular expressions to match the module path.
 
@@ -17,10 +16,6 @@ export default {
   },
 };
 ```
-
-:::tip
-When using Rspack as the bundler, **all files** will be compiled by default.
-:::
 
 ### Compile Npm Packages
 

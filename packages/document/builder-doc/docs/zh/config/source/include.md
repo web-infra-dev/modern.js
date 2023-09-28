@@ -1,6 +1,5 @@
 - **类型：** `Array<string | RegExp>`
 - **默认值：** `[]`
-- **打包工具：** `仅支持 webpack`
 
 出于编译性能的考虑，默认情况下，Builder 不会编译 node_modules 下的 JavaScript/TypeScript 文件，也不会编译当前工程目录外部的 JavaScript/TypeScript 文件。
 
@@ -17,10 +16,6 @@ export default {
   },
 };
 ```
-
-:::tip
-在使用 Rspack 作为打包工具时，默认**所有文件**都会经过编译。
-:::
 
 ### 编译 npm 包
 

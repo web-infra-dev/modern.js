@@ -56,7 +56,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 
 不支持的配置项及能力包括：
 
-- [source.include](/api/config-source.html#sourceinclude) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([issue 追踪](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
@@ -212,6 +211,29 @@ export default {
   }
 };
 ```
+
+:::tip
+Builder 新版本已经从 Rspack 内置的全量编译切换到 `builtin:swc-loader` 编译。
+
+在 Modern.js 中仍使用 Rspack 内置的编译能力，默认所有文件都会经过编译，不支持 [source.exclude](/api/config-source.html#sourceexclude)、[output.polyfill.usage](/api/config-output.html#usage) 配置项。
+
+如果希望切换到 `builtin:swc-loader` 编译，可参考以下修改：
+
+```diff title=modern.config.ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
++     rspackFuture: {
++       disableTransformByDefault: true,
++     }
+    }),
+  ],
+});
+```
+:::
 
 ### 6. Webpack Plugin 插件迁移
 

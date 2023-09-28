@@ -5,7 +5,7 @@ import { webpackOnlyTest } from '@scripts/helper';
 
 const fixtures = __dirname;
 
-// TODO: needs builtin:swc-loader
+// TODO: needs builtin:swc-loader wasm plugin
 webpackOnlyTest('should remove prop-types by default', async ({ page }) => {
   const builder = await build({
     cwd: fixtures,

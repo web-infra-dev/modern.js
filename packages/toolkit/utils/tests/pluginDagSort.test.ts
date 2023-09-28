@@ -35,6 +35,6 @@ describe('sort plugins', () => {
     ];
     expect(() => {
       pluginDagSort(cases);
-    }).toThrow(/plugins dependences has loop: 2,3,5/);
+    }).toThrow(/plugins dependencies has loop: 2,3,5/);
   });
 });

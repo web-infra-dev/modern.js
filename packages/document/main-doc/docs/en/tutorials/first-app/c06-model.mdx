@@ -195,9 +195,9 @@ const Item = ({
 export default Item;
 ```
 
-Next, we add `src/routes.page.loader` and modify `src/routes/page.tsx` to pass more parameters to the `<Item>` component:
+Next, we add `src/routes.page.data` and modify `src/routes/page.tsx` to pass more parameters to the `<Item>` component:
 
-```tsx title="src/routes/page.loader.ts"
+```tsx title="src/routes/page.data.ts"
 export type LoaderData = {
   code: number;
   data: {
@@ -207,7 +207,7 @@ export type LoaderData = {
   }[];
 };
 
-export default async (): Promise<LoaderData> => {
+export const loader = async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {
@@ -233,7 +233,7 @@ import { List } from 'antd';
 import { name, internet } from 'faker';
 import Item from '../components/Item';
 import contacts from '../models/contacts';
-import type { LoaderData } from './page.loader';
+import type { LoaderData } from './page.data';
 
 function Index() {
   const { data } = useLoaderData() as LoaderData;

@@ -24,14 +24,12 @@ Run test cases:
 {{packageManager}} test
 ```
 
-{{#if isPublic}}
 Build the module for production:
 
 ```bash
 {{packageManager}} build
 ```
 
-{{/if}}
 Enable optional features:
 
 ```bash
@@ -43,11 +41,9 @@ Other commands:
 
 ```bash
 {{packageManager}} lint         # Lint and fix source files
-{{#if isPublic}}
 {{packageManager}} change       # Add a new changeset
 {{packageManager}} bump         # Update version and changelog via changeset
 {{packageManager}} release      # Release the package
-{{/if}}
 ```
 {{/unless}}
 

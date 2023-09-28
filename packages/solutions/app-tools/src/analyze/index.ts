@@ -17,6 +17,7 @@ import { getSelectedEntries } from '../utils/getSelectedEntries';
 import { AppTools, webpack } from '../types';
 import { initialNormalizedConfig } from '../config';
 import { createBuilderGenerator } from '../builder';
+import type { RspackFuture } from '../builder/builder-rspack';
 import {
   checkIsBuildCommands,
   isPageComponentFile,
@@ -34,8 +35,10 @@ const debug = createDebugger('plugin-analyze');
 
 export default ({
   bundler,
+  rspackFuture = {},
 }: {
   bundler: 'webpack' | 'rspack';
+  rspackFuture?: RspackFuture;
 }): CliPlugin<AppTools<'shared'>> => ({
   name: '@modern-js/plugin-analyze',
 
@@ -168,10 +171,13 @@ export default ({
         if (checkIsBuildCommands()) {
           const normalizedConfig = api.useResolvedConfigContext();
           const createBuilderForModern = await createBuilderGenerator(bundler);
-          const builder = await createBuilderForModern({
-            normalizedConfig: normalizedConfig as any,
-            appContext,
-          });
+          const builder = await createBuilderForModern(
+            {
+              normalizedConfig: normalizedConfig as any,
+              appContext,
+            },
+            rspackFuture,
+          );
 
           builder.onBeforeBuild(async ({ bundlerConfigs }) => {
             const hookRunners = api.useHookRunners();

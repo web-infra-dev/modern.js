@@ -56,7 +56,6 @@ Currently, most of configuration options in Builder have been adapted for Rspack
 
 Unsupported configurations and capabilities include:
 
-- [source.include](/api/config-source.html#sourceinclude) ([track issue](https://github.com/web-infra-dev/rspack/issues/3067))
 - [source.moduleScopes](/api/config-source.html#sourcemodulescopes) ([track issue](https://github.com/web-infra-dev/rspack/issues/3548))
 
 #### Html Config
@@ -212,6 +211,29 @@ export default {
   }
 };
 ```
+
+:::tip
+The new version of Builder has switched from Rspack's built-in full compilation to `builtin:swc-loader` compilation.
+
+The built-in compilation capability of Rspack is still used in Modern.js. All files will be compiled by default, [source.exclude](/api/config-source.html#sourceexclude) and [output.polyfill.usage](/api/config-output.html#usage) configuration are not supported.
+
+If you want to switch to `builtin:swc-loader` compilation, you can refer to the following modifications:
+
+```diff title=modern.config.ts
+import { appTools, defineConfig } from '@modern-js/app-tools';
+
+export default defineConfig<'rspack'>({
+  plugins: [
+    appTools({
+      bundler: 'experimental-rspack',
++     rspackFuture: {
++       disableTransformByDefault: true,
++     }
+    }),
+  ],
+});
+```
+:::
 
 ### 6. Webpack Plugin Migration
 
