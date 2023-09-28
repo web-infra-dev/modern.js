@@ -178,7 +178,7 @@ Such as `FormData`：
 let formData = new FormData();
 formData.append("cheese", "gouda");
 submit(formData);
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 Or the value of type `URLSearchParams`：
@@ -186,7 +186,7 @@ Or the value of type `URLSearchParams`：
 let searchParams = new URLSearchParams();
 searchParams.append("cheese", "gouda");
 submit(searchParams);
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 Or any acceptable value of the `URLSearchParams` constructor：
@@ -196,7 +196,7 @@ submit([
   ["cheese", "gouda"],
   ["toasted", "yes"],
 ]);
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 By default, if the first parameter in the `submit` function is an object, the corresponding data will be encoded as `formData`：
@@ -210,7 +210,7 @@ submit(
   }
 );
 
-// In the action, you can get the data through request.formData
+// In the action, you can get the data by request.formData
 ```
 
 it can also be specified as json encoding：
@@ -226,13 +226,13 @@ submit('{"key":"value"}', {
   encType: "application/json",
 });
 
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 or submit plain text：
 ```ts
 submit("value", { method: "post", encType: "text/plain" });
-// In the action, you can get the data through request.text
+// In the action, you can get the data by request.text
 ```
 
 

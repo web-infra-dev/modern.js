@@ -83,7 +83,7 @@ Modern.js 中提供 Data Action 主要是为了使 UI 和服务器的状态能�
 
 ![state manage](https://lf3-static.bytednsdoc.com/obj/eden-cn/ulkl/ljhwZthlaukjlkulzlp/action-state-manage1.png)
 
-如果项目中组件共享的数据主要服务端的状态，则无需在项目引入客户端状态管理库，通过 Data Loader 请求数据，通过 [`useRouteLoaderData`](/guides/basic-features/data/data-fetch.md) 在子组件中共享数据，
+如果项目中组件共享的数据主要服务端的状态，则无需在项目引入客户端状态管理库，使用 Data Loader 请求数据，通过 [`useRouteLoaderData`](/guides/basic-features/data/data-fetch.md) 在子组件中共享数据，
 通过 Data Actino 修改和同步服务端的状态。
 
 
@@ -138,7 +138,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 ### 区别
 
 你可以通过 [`useSubmit`](https://reactrouter.com/en/main/hooks/use-submit) 或 [`useFetcher`](https://reactrouter.com/en/main/hooks/use-fetcher) 调用 action，它们的区别是通过
-`useSubmit` 调用 action，会触发浏览器的导航，通过 `useFetcher` 则不会触发浏览器的导航，
+`useSubmit` 调用 action，会触发浏览器的导航，通过 `useFetcher` 则不会触发浏览器的导航。
 
 useSubmit:
 
@@ -173,7 +173,7 @@ submit(null, { method: "post", action: "/logout" });
 let formData = new FormData();
 formData.append("cheese", "gouda");
 submit(formData);
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 或 `URLSearchParams` 类型的值：
@@ -181,7 +181,7 @@ submit(formData);
 let searchParams = new URLSearchParams();
 searchParams.append("cheese", "gouda");
 submit(searchParams);
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 或任意 `URLSearchParams` 构造函数可接受的值
@@ -191,7 +191,7 @@ submit([
   ["cheese", "gouda"],
   ["toasted", "yes"],
 ]);
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 默认情况下，如果 `submit` 函数中的第一个入参是一个对象，对应的数据会被 encode 为 `formData`：
@@ -205,7 +205,7 @@ submit(
   }
 );
 
-// In the action, you can get the data through request.formData
+// In the action, you can get the data by request.formData
 ```
 
 也可以指定为 json 编码：
@@ -221,13 +221,13 @@ submit('{"key":"value"}', {
   encType: "application/json",
 });
 
-// In the action, you can get the data through request.json
+// In the action, you can get the data by request.json
 ```
 
 或提交纯文本：
 ```ts
 submit("value", { method: "post", encType: "text/plain" });
-// In the action, you can get the data through request.text
+// In the action, you can get the data by request.text
 ```
 
 
