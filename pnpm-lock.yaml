@@ -5819,8 +5819,8 @@ importers:
         specifier: npm:webpack-5-chain@8.0.1
         version: /webpack-5-chain@8.0.1
       webpack-dev-middleware:
-        specifier: 6.0.1
-        version: 6.0.1(webpack@5.88.1)
+        specifier: 6.1.1
+        version: 6.1.1(webpack@5.88.1)
       webpack-manifest-plugin:
         specifier: 5.0.0
         version: 5.0.0(webpack@5.88.1)
@@ -35218,11 +35218,14 @@ packages:
       webpack: 5.88.1(esbuild@0.17.19)(webpack-cli@5.1.4)
     dev: false
 
-  /webpack-dev-middleware@6.0.1(webpack@5.88.1):
-    resolution: {integrity: sha512-PZPZ6jFinmqVPJZbisfggDiC+2EeGZ1ZByyMP5sOFJcPPWSexalISz+cvm+j+oYPT7FIJyxT76esjnw9DhE5sw==}
+  /webpack-dev-middleware@6.1.1(webpack@5.88.1):
+    resolution: {integrity: sha512-y51HrHaFeeWir0YO4f0g+9GwZawuigzcAdRNon6jErXy/SqV/+O6eaVAzDqE6t3e3NpGeR5CS+cCDaTC+V3yEQ==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       webpack: ^5.0.0
+    peerDependenciesMeta:
+      webpack:
+        optional: true
     dependencies:
       colorette: 2.0.19
       memfs: 3.5.1

@@ -69,8 +69,7 @@
     "./webpack-chain": "./compiled/webpack-chain/index.js",
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
     "./gradient-string": "./compiled/gradient-string/index.js",
-    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
-    "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js"
+    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -125,8 +124,7 @@
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
       "./gradient-string": "./dist/compiled/gradient-string/index.js",
-      "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js",
-      "./webpack-dev-middleware": "./dist/compiled/webpack-dev-middleware/index.js"
+      "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js"
     }
   },
   "typesVersions": {
@@ -205,9 +203,6 @@
       ],
       "better-ajv-errors": [
         "./dist/compiled/better-ajv-errors/index.d.ts"
-      ],
-      "webpack-dev-middleware": [
-        "./dist/compiled/webpack-dev-middleware/types/index.d.ts"
       ],
       "commander": [
         "./dist/compiled/commander/typings/index.d.ts"
