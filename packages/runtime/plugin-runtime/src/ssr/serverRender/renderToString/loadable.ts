@@ -1,7 +1,7 @@
-import { ChunkAsset, ChunkExtractor } from '@loadable/server';
+import { type ChunkAsset, ChunkExtractor } from '@loadable/server';
 import { fs } from '@modern-js/utils';
 import { ReactElement } from 'react';
-import { attributesToString, getLoadableScripts } from '../utils';
+import { attributesToString } from '../utils';
 import { SSRPluginConfig } from '../types';
 import { RenderResult } from './type';
 import type { Collector } from './render';
@@ -62,18 +62,40 @@ class LoadableCollector implements Collector {
     if (!this.extractor) {
       return;
     }
-    const {
-      result: { chunksMap },
-    } = this.options;
     const { extractor } = this;
 
     const chunks = extractor.getChunkAssets(extractor.chunks);
-    chunksMap.js = (chunksMap.js || '') + getLoadableScripts(extractor);
+
     const scriptChunks = generateChunks(chunks, 'js');
     const styleChunks = generateChunks(chunks, 'css');
 
+    this.emitLoadableScripts(extractor);
     await this.emitScriptAssets(scriptChunks);
     await this.emitStyleAssets(styleChunks);
+  }
+
+  private emitLoadableScripts(extractor: ChunkExtractor) {
+    const check = (scripts: string) =>
+      (scripts || '').includes('__LOADABLE_REQUIRED_CHUNKS___ext');
+
+    const scripts = extractor.getScriptTags();
+
+    if (!check(scripts)) {
+      return;
+    }
+
+    const {
+      result: { chunksMap },
+    } = this.options;
+
+    const s = scripts
+      .split('</script>')
+      // The first two scripts are essential for Loadable.
+      .slice(0, 2)
+      .map(i => `${i}</script>`)
+      .join('');
+
+    chunksMap.js += s;
   }
 
   private async emitScriptAssets(chunks: ChunkAsset[]) {
