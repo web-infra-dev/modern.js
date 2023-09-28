@@ -10,17 +10,14 @@ const Page = () => {
   }>();
   const data = useLoaderData() as string;
   const { submit } = useFetcher();
-  // const submit = useSubmit();
   const handleClick = () => {
-    const formData = new FormData();
-    formData.append('name', 'modern_three_action');
-    return submit(formData, {
+    const user = {
+      name: 'modern_three_action',
+    };
+    return submit(user, {
       method: 'post',
+      encType: 'application/json',
     });
-    // return submit(
-    //   { name: 'modern_three_action' },
-    //   { method: 'post', encType: 'application/x-www-form-urlencoded' },
-    // );
   };
 
   return (

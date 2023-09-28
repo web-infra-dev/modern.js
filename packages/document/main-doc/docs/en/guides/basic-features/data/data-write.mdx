@@ -1,0 +1,241 @@
+---
+title: Data writing
+sidebar_position: 4
+---
+
+# Data writing
+
+In the Data Loader chapter, the way Modern.js fetch data is introduced. You may encounter two problems.：
+1. How to update the data in Data Loader？
+2. How to write new data to the server?
+
+EdenX's solution for this is DataAction.
+
+## Basic Example
+
+Data Action, like Data Loader, is also based on convention routing. Through Modern.js's [nested routing](/guides/basic-features/routes#routing-file-convention), each routing component (`layout.ts`, `page.ts` or `$.tsx`) can have a `data` file with the same name, and a function named `action` can be exported in the `data` file.
+```bash
+.
+└── routes
+    └── user
+        ├── layout.tsx
+        └── layout.data.ts
+```
+Define the following code in the file:
+```ts title="routes/user/layout.data.ts"
+import type { ActionFunction } from '@modern-js/runtime/router';
+
+export const action: ActionFunction = ({ request }) => {
+    const newUser = await request.json();
+    const name = newUser.name;
+    return updateUserProfile(name);
+}
+```
+
+```tsx title="routes/user/layout.tsx"
+import {
+  useFetcher,
+  useLoaderData,
+  useParams,
+  Outlet
+} from '@modern-js/runtime/router';
+
+export default () => {
+  const userInfo = useLoaderData();
+  const { submit } = useFetcher();
+  const editUser = () => {
+    const newUser = {
+      name: 'Modern.js'
+    }
+    return submit(newUser, {
+      method: 'post',
+      encType: 'application/json',
+    })
+  }
+  return (
+    <div>
+      <button onClick={editUser}>edit user</button>
+      <div className="user-profile">
+        {userInfo}
+      </div>
+      <Outlet context={userInfo}></Outlet>
+    </div>
+  )
+}
+```
+
+Here, when the submit is executed, the defined action function will be triggered; in the action function, the submitted data can be obtained through request (request.json, request.formData, etc.), and the data can be obtained, and then the data can be sent to the server.
+
+After the action function is executed, the loader function code will be executed and the corresponding data and views will be updated.
+
+![action flow](https://lf3-static.bytednsdoc.com/obj/eden-cn/ulkl/ljhwZthlaukjlkulzlp/action-flow.png)
+
+
+
+## Why provide Data Action?
+
+Data Action is mainly provided in Modern.js to keep the state of the UI and the server in sync, which can reduce the burden of state management.
+
+The traditional state management method will hold the state on the client side and remotely respectively:：
+
+![traditional state manage](https://lf3-static.bytednsdoc.com/obj/eden-cn/ulkl/ljhwZthlaukjlkulzlp/action-state-manage.png)
+
+In Modern.js, we hope to help developers automatically synchronize the state of the client and server through Loader and Action:：
+
+![state manage](https://lf3-static.bytednsdoc.com/obj/eden-cn/ulkl/ljhwZthlaukjlkulzlp/action-state-manage1.png)
+
+If the data shared by the components in the project are the state of the main server, there is no need to introduce a client state management library in the project, request data through Data Loader, through [`useRouteLoaderData`](/guides/basic-fe Atures/data/data-fetch.md) shares data in subcomponents,
+
+Modify and synchronize the state of the server through Data Action.
+
+
+
+## `action` function
+
+Like the `loader` function, the `action` function has two parameters, `params` and `request`:
+
+### `params`
+
+When the routing file passes through `[]`, it will be used as [dynamic routing](/guides/basic-features/routes#dynamic routing), and the dynamic routing fragment will be passed into the `action` function as a parameter:：
+
+```tsx
+// routes/user/[id]/page.data.ts
+import { ActionFunctionArgs } from '@modern-js/runtime/router';
+
+export const action = async ({ params }: LoaderFunctionArgs) => {
+  const { id } = params;
+  const res = await fetch(`https://api/user/${id}`);
+  return res.json();
+};
+```
+
+When accessing `/user/123`, the parameter of the `action` function is `{ params: { id: '123' } }`.
+
+
+### `request`
+
+Through `request`, you can fetch data submitted by the client in the action function, such as `request.json()`, `request.formData()`, `request.json()`, etc.
+
+For the specific API, please refer to [data type] (#data-type).
+
+```tsx
+// routes/user/[id]/page.data.ts
+import { ActionFunctionArgs } from '@modern-js/runtime/router';
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const newUser = await request.json();
+  return updateUser(newUser);
+};
+```
+
+### Return Value
+
+The return value of the `action` function can be any serializable value or a [Fetch Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) instance,
+
+The data in the response can be accessed through [`useActionData`](https://reactrouter.com/en/main/hooks/use-action-data).
+
+
+## useSubmit 和 useFetcher
+
+### Differences
+
+You can use [`useSubmit`](https://reactrouter.com/en/main/hooks/use-submit) or [`useFetcher`](https://reactrouter.com/en/main/hooks/use-fetcher) calls action, and the difference between them is through
+
+`useSubmit` calls action, which will trigger the browser's navigation, and `useFetcher` will not trigger the browser's navigation.
+
+useSubmit:
+
+```ts
+const submit = useSubmit();
+submit(null, { method: "post", action: "/logout" });
+```
+
+useFetcher:
+```ts
+const { submit } = useFetcher();
+submit(null, { method: "post", action: "/logout" });
+```
+
+The `submit` function has two input parameters, `method` and `action`. `method` is equivalent to `method` at the time of form submission. In most scenarios where data is written,the `method` can be passed into `post`.
+
+`action` is used to specify which routing component `action` is triggered. If the `action` parameter is not passed in, the action of the current routing component will be triggered by default, that is,
+the execution of submit in the `user/page.tsx` component or subcomponent will trigger the action defined in `user/page.data.ts`.
+
+
+:::info
+For more information about these two APIs, please refer to the relevant documents：
+- [`useSubmit`](https://reactrouter.com/en/main/hooks/use-submit)
+- [`useFetcher`](https://reactrouter.com/en/main/hooks/use-fetcher)
+
+:::
+
+
+### Type of data
+
+The first parameter of the `submit` function can accept different types of values.
+Such as `FormData`：
+```ts
+let formData = new FormData();
+formData.append("cheese", "gouda");
+submit(formData);
+// In the action, you can get the data through request.json
+```
+
+Or the value of type `URLSearchParams`：
+```ts
+let searchParams = new URLSearchParams();
+searchParams.append("cheese", "gouda");
+submit(searchParams);
+// In the action, you can get the data through request.json
+```
+
+Or any acceptable value of the `URLSearchParams` constructor：
+```ts
+submit("cheese=gouda&toasted=yes");
+submit([
+  ["cheese", "gouda"],
+  ["toasted", "yes"],
+]);
+// In the action, you can get the data through request.json
+```
+
+By default, if the first parameter in the `submit` function is an object, the corresponding data will be encoded as `formData`：
+
+```ts
+submit(
+  { key: "value" },
+  {
+    method: "post",
+    encType: "application/x-www-form-urlencoded",
+  }
+);
+
+// In the action, you can get the data through request.formData
+```
+
+it can also be specified as json encoding：
+
+```tsx
+submit(
+  { key: "value" },
+  { method: "post", encType: "application/json" }
+);
+
+submit('{"key":"value"}', {
+  method: "post",
+  encType: "application/json",
+});
+
+// In the action, you can get the data through request.json
+```
+
+or submit plain text：
+```ts
+submit("value", { method: "post", encType: "text/plain" });
+// In the action, you can get the data through request.text
+```
+
+
+## CSR 和 SSR
+
+Like Data Loader, in the SSR project, Data Action is executed on the server (the framework will automatically send a request to trigger Data Action), while in the CSR project, Data Action is executed on the client.
