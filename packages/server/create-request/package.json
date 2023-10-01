@@ -17,7 +17,7 @@
   ],
   "version": "2.35.1",
   "jsnext:source": "./src/node.ts",
-  "types": "./src/node.ts",
+  "types": "./src/browser.ts",
   "main": "./dist/cjs/node.js",
   "module": "./dist/esm/node.js",
   "browser": "./dist/esm/browser.js",
@@ -27,7 +27,7 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/types/node.d.ts",
+      "types": "./dist/types/browser.d.ts",
       "node": "./dist/esm/node.js",
       "default": "./dist/esm/browser.js"
     },
