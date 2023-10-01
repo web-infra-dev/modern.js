@@ -1,0 +1,118 @@
+---
+sidebar_position: 5
+title: 自定义请求 SDK
+---
+
+Modern.js 的 BFF 在 CSR 和 SSR 是同构的。在浏览器端依赖了[Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)，在服务端依赖了 [node-fetch](https://www.npmjs.com/package/node-fetch)。但在很多业务场景下我们需要对请求或响应做一些额外的处理，例如：
+
+- 在请求头中写入鉴权信息
+- 对响应的数据或错误进行统一的处理
+- 特定平台无法使用浏览器的原生 fetch 函数，需要使用其他方式发送请求
+
+针对上述的场景，Modern.js 提供了 `configure` 函数，自定义能力从低到高，可以用它配置 ssr 透传请求头，拦截器，请求 SDK。
+
+:::caution 注意
+`configure` 函数的调用需要在所有 BFF 请求发送前调用，以确保覆盖默认的请求配置。
+
+:::
+
+
+```ts title="App.tsx"
+import { configure } from '@modern-js/runtime/bff';
+
+configure({
+  request: customRequest
+})
+```
+
+## 配置 ssr 透传请求头
+
+在同时使用 Modernjs SSR 和 BFF 的场景下，常常需要将 SSR 页面请求上的一些请求头信息，透传给 BFF 服务。
+
+例如项目有页面地址是 `https://website.com`，该页面是 SSR 的，在组件中会调用 API 接口 `https://website.com/api/info`，该接口需要用户的 cookie 信息做鉴权。页面在请求该 API 接口时，需要将 SSR 页面请求的 `cookie` 传给 BFF。
+
+目前以下请求头在 Modernjs 中是自动透传的：
+
+- cookie
+- x-tt-logid
+- user-agent
+- x-tt-stress
+
+可以通过 `configure` 配置请求头。例如以下例子，Modern.js 会自动将 SSR 页面请求的 cookie 信息透传给 BFF 服务：
+
+```tsx title="App.tsx"
+import { configure } from '@modern-js/runtime/bff';
+
+configure({
+  allowedHeaders: ['x-uid']
+})
+```
+
+## 配置拦截器
+
+在有些业务场景下需要对请求和响应进行一些统一的处理，这种场景下可以配置拦截器满足需求：
+
+```tsx title="App.tsx"
+configure({
+  // 这里的 request 是一体化默认的请求工具，interceptor 函数需返回一个新的 request。
+  // 新 request 的出参必须是 parse body 之后的结果
+  interceptor(request){
+    return async(url, params) => {
+      const res = await request(url, params);
+      return res.json();
+    };
+  }
+});
+```
+
+## 配置自定义请求 SDK
+
+如果仅仅通过配置拦截器无法满足需求，需要对请求的 SDK 做进一步的自定义，可以通过 `configure` 函数配置自定义请求 SDK：
+
+:::caution 注意
+在 SSR 和一体化调用的场景下，在 SSR 向 BFF 服务发送请求时，Modern.js 会通过**服务发现**找到 BFF 服务内网 IP，并通过 IP 发送请求，以提高性能。如果使用自定义请求 SDK 会**失去这种优化**。
+
+:::
+
+```tsx title="App.tsx"
+import nodeFetch from 'node-fetch';
+
+const customFetch = (input: RequestInfo | URL, init: RequestInit) => {
+  const curFetch = process.env.MODERN_TARGET !== 'node' ? fetch : nodeFetch as unknown as typeof fetch;
+  return curFetch(input, init).then(async res => {
+    const data = await res.json();
+    data.hello = 'hello custom sdk';
+    return data;
+  });
+};
+
+configure({
+  request: customFetch,
+});
+```
+
+配置自定义请求 SDK 有以下约定：
+
+- 通过 `configure` 函数可以配置一个 `request` 函数，这个函数的入参与浏览器中的 Fetch 或 node-fetch 对齐，所有的一体化 BFF 函数会通过该函数发送请求。
+- `request` 函数出参必须是接口实际返回的数据，不能是 Promise，否则会导致一体化 BFF 函数无法正常返回数据。
+- 如果是 SSR 项目，`request` 必须要同时支持浏览器端和服务器端发送请求。
+
+使用 axios 定制自定义请求 SDK 的示例：
+
+```tsx title="App.tsx"
+import { configure } from '@modern-js/runtime/bff';
+import type { Method, AxiosRequestHeaders as Headers } from 'axios';
+
+configure({
+  async request(...config: Parameters<typeof fetch>) {
+    const [url, params] = config;
+    const res = await axios({
+      url: url as string,  // 这里因为 fetch 和 axios 类型有些不兼容，需要使用 as
+      method: params?.method as Method,
+      data: params?.body,
+      headers: params?.headers as Headers,
+    });
+    return res.data;
+  },
+});
+```
