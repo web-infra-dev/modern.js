@@ -7,7 +7,7 @@ import {
   Reporter,
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
-import { Logger, LoggerInterface } from '@modern-js/utils/logger';
+import { createLogger } from '@modern-js/utils/logger';
 import {
   WorkerServerContext,
   createAfterMatchContext,
@@ -139,9 +139,7 @@ export const createHandler = (manifest: Manifest) => {
 
     const entryName = pageMatch.spec.urlPath;
     const page = pages[entryName];
-    const logger = new Logger({
-      level: 'warn',
-    }) as Logger & LoggerInterface;
+    const logger = createLogger({ level: 'warn' });
     const metrics = defaultMetrics as any;
     const reporter = defaultReporter;
 
