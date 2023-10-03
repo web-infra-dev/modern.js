@@ -5325,6 +5325,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      rslog:
+        specifier: ^1.0.0
+        version: 1.0.0
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -5635,9 +5638,6 @@ importers:
       globby:
         specifier: 11.1.0
         version: 11.1.0
-      gradient-string:
-        specifier: 2.0.2
-        version: 2.0.2
       gzip-size:
         specifier: 6.0.0
         version: 6.0.0
@@ -31806,6 +31806,11 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /rslog@1.0.0:
+    resolution: {integrity: sha512-yTulfJJIYHBftErlZZXHdZuFA8275spDcTrCs8JIXIh+wRIRgi6RGoT8MAnB8H6NIEvJbMUP14Mo1t7hCw4k1g==}
+    engines: {node: '>=14.17.6'}
+    dev: false
 
   /rspack-manifest-plugin@5.0.0-alpha0(webpack@5.88.1):
     resolution: {integrity: sha512-a84H6P/lK0x3kb0I8Qdiwxrnjt1oNW0j+7kwPMWcODJu8eYFBrTXa1t+14n18Jvg9RKIR6llCH16mYxf2d0s8A==}

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { minimist, lodash, logger } from '@modern-js/utils';
-import gradient from '@modern-js/utils/gradient-string';
 import { cli, CoreOptions } from '.';
 
 export const run = async (
@@ -12,7 +11,7 @@ export const run = async (
   } = {},
 ) => {
   if (otherCoreOptions.initialLog) {
-    logger.log(`  ${gradient.cristal(otherCoreOptions.initialLog)}\n`);
+    logger.greet(`  ${otherCoreOptions.initialLog}\n`);
   }
 
   const command = process.argv[2];

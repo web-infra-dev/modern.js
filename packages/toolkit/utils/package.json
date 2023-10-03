@@ -68,7 +68,6 @@
     "./browserslist": "./compiled/browserslist/index.js",
     "./webpack-chain": "./compiled/webpack-chain/index.js",
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-    "./gradient-string": "./compiled/gradient-string/index.js",
     "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
   },
   "publishConfig": {
@@ -123,7 +122,6 @@
       "./browserslist": "./dist/compiled/browserslist/index.js",
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
-      "./gradient-string": "./dist/compiled/gradient-string/index.js",
       "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js"
     }
   },
@@ -198,9 +196,6 @@
       "tsconfig-paths": [
         "./dist/compiled/tsconfig-paths/lib/index.d.ts"
       ],
-      "gradient-string": [
-        "./dist/compiled/gradient-string/index.d.ts"
-      ],
       "better-ajv-errors": [
         "./dist/compiled/better-ajv-errors/index.d.ts"
       ],
@@ -222,6 +217,7 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30001520",
     "lodash": "^4.17.21",
+    "rslog": "^1.0.0",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
