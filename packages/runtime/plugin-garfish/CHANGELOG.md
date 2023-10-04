@@ -1,5 +1,23 @@
 # @modern-js/plugin-garfish
 
+## 2.36.0
+
+### Patch Changes
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- b05b24b: fix(plugin-garfish): only override assetPrefix default value
+
+  fix(plugin-garfish): 只对 assetPrefix 的默认值进行覆盖
+
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+- Updated dependencies [4e3310b]
+  - @modern-js/utils@2.36.0
+  - @modern-js/runtime@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

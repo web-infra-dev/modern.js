@@ -1,5 +1,19 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.36.0
+
+### Patch Changes
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- Updated dependencies [bc25bcb]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/builder-shared@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

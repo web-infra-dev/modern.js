@@ -1,5 +1,17 @@
 # @modern-js/utils
 
+## 2.36.0
+
+### Patch Changes
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
 ## 2.35.1
 
 ### Patch Changes
