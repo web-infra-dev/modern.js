@@ -283,11 +283,11 @@ importers:
         specifier: ^3.2.3
         version: 3.2.3
       zod:
-        specifier: ^3.20.2
-        version: 3.21.4
+        specifier: ^3.22.3
+        version: 3.22.3
       zod-validation-error:
         specifier: 1.2.0
-        version: 1.2.0(zod@3.21.4)
+        version: 1.2.0(zod@3.22.3)
     devDependencies:
       '@babel/preset-env':
         specifier: ^7.22.15
@@ -3967,8 +3967,8 @@ importers:
         specifier: ^5
         version: 5.0.4
       zod:
-        specifier: ^3.17.3
-        version: 3.21.4
+        specifier: ^3.22.3
+        version: 3.22.3
 
   packages/server/bff-runtime:
     dependencies:
@@ -4187,8 +4187,8 @@ importers:
         specifier: ^5
         version: 5.0.4
       zod:
-        specifier: ^3.17.3
-        version: 3.21.4
+        specifier: ^3.22.3
+        version: 3.22.3
 
   packages/server/plugin-koa:
     dependencies:
@@ -4263,8 +4263,8 @@ importers:
         specifier: ^5
         version: 5.0.4
       zod:
-        specifier: ^3.17.3
-        version: 3.21.4
+        specifier: ^3.22.3
+        version: 3.22.3
 
   packages/server/plugin-polyfill:
     dependencies:
@@ -6633,8 +6633,8 @@ importers:
         specifier: 3.14.1
         version: 3.14.1
       zod:
-        specifier: ^3.17.3
-        version: 3.21.4
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -6685,8 +6685,8 @@ importers:
         specifier: 3.14.1
         version: 3.14.1
       zod:
-        specifier: ^3.17.3
-        version: 3.21.4
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@modern-js/app-tools':
         specifier: workspace:*
@@ -14176,8 +14176,8 @@ packages:
       util: 0.12.5
       watchpack: 2.4.0
       webpack-sources: 3.2.3
-      zod: 3.21.4
-      zod-validation-error: 1.2.0(zod@3.21.4)
+      zod: 3.22.3
+      zod-validation-error: 1.2.0(zod@3.22.3)
     dev: false
 
   /@rspack/dev-client@0.3.5(react-refresh@0.14.0)(webpack@5.88.1):
@@ -35951,17 +35951,17 @@ packages:
       commander: 2.20.3
     dev: false
 
-  /zod-validation-error@1.2.0(zod@3.21.4):
+  /zod-validation-error@1.2.0(zod@3.22.3):
     resolution: {integrity: sha512-laJkD/ugwEh8CpuH+xXv5L9Z+RLz3lH8alNxolfaHZJck611OJj97R4Rb+ZqA7WNly2kNtTo4QwjdjXw9scpiw==}
     engines: {node: ^14.17 || >=16.0.0}
     peerDependencies:
       zod: ^3.18.0
     dependencies:
-      zod: 3.21.4
+      zod: 3.22.3
     dev: false
 
-  /zod@3.21.4:
-    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+  /zod@3.22.3:
+    resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
 
   /zwitch@1.0.5:
     resolution: {integrity: sha512-V50KMwwzqJV0NpZIZFwfOD5/lyny3WlSzRiXgA0G7VUnRlqttta1L6UQIHzd6EuBY/cHGfwTIck7w1yH6Q5zUw==}
