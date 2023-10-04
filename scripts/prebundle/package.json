@@ -15,7 +15,7 @@
     "@types/node": "^14",
     "@vercel/ncc": "0.33.3",
     "dts-packer": "0.0.3",
-    "postcss": "8.4.27",
+    "postcss": "8.4.31",
     "typescript": "^5",
     "webpack": "^5.88.1"
   },

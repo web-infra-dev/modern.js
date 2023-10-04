@@ -175,7 +175,7 @@
     "css-minimizer-webpack-plugin": "5.0.1",
     "htmlparser2": "9.0.0",
     "line-diff": "2.1.1",
-    "postcss": "8.4.27",
+    "postcss": "8.4.31",
     "source-map": "^0.7.4",
     "webpack": "^5.88.1",
     "webpack-sources": "^3.2.3",
