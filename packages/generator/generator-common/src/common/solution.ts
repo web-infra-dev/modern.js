@@ -11,7 +11,6 @@ export enum SubSolution {
   MWA = 'mwa',
   MWATest = 'mwa_test',
   Module = 'module',
-  InnerModule = 'inner_module',
 }
 
 export const SolutionText: Record<Solution, () => string> = {
@@ -24,7 +23,6 @@ export const SubSolutionText: Record<SubSolution, () => string> = {
   [SubSolution.MWA]: () => i18n.t(localeKeys.sub_solution.mwa),
   [SubSolution.MWATest]: () => i18n.t(localeKeys.sub_solution.mwa_test),
   [SubSolution.Module]: () => i18n.t(localeKeys.sub_solution.module),
-  [SubSolution.InnerModule]: () => i18n.t(localeKeys.sub_solution.inner_module),
 };
 
 export const SolutionToolsMap: Record<Solution, string> = {
@@ -36,9 +34,6 @@ export const SolutionToolsMap: Record<Solution, string> = {
 export function getSolutionNameFromSubSolution(solution: SubSolution) {
   if (solution === SubSolution.MWATest) {
     return Solution.MWA;
-  }
-  if (solution === SubSolution.InnerModule) {
-    return Solution.Module;
   }
   return solution;
 }
@@ -148,7 +143,6 @@ export const SubSolutionGenerator: Record<SubSolution, string> = {
   [SubSolution.MWA]: '@modern-js/mwa-generator',
   [SubSolution.MWATest]: '@modern-js/mwa-generator',
   [SubSolution.Module]: '@modern-js/module-generator',
-  [SubSolution.InnerModule]: '@modern-js/module-generator',
 };
 
 export const ChangesetGenerator = '@modern-js/changeset-generator';

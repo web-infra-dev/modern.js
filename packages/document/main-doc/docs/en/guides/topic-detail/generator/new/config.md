@@ -134,8 +134,6 @@ Options:
 
 - Npm Module -- module
 
-- Npm Module (Inner) -- inner_module
-
 ### packageName
 
 Question: Please fill in the project name

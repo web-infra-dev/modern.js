@@ -134,8 +134,6 @@ sidebar_position: 3
 
 - Npm 模块 -- module
 
-- Npm 模块（内部）-- inner_module
-
 ### packageName
 
 问题：请填写子项目名称

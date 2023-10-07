@@ -184,17 +184,5 @@ exports[`test generator cases test getMonorepoNewCases 1`] = `
     "packagePath": "js",
     "solution": "module",
   },
-  {
-    "language": "ts",
-    "packageName": "ts",
-    "packagePath": "ts",
-    "solution": "inner_module",
-  },
-  {
-    "language": "js",
-    "packageName": "js",
-    "packagePath": "js",
-    "solution": "inner_module",
-  },
 ]
 `;

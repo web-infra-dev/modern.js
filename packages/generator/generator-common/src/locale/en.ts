@@ -15,7 +15,6 @@ export const EN_LOCALE = {
     mwa: 'Web App',
     mwa_test: 'Web App (Test)',
     module: 'Npm Module',
-    inner_module: 'Npm Module (Inner)',
     monorepo: 'Monorepo',
   },
   action: {
