@@ -240,18 +240,15 @@ const copyRight = `/*
 */`;
 
 export default defineConfig({
-  plugins: [
-    moduleTools(),
-  ],
+  plugins: [moduleTools()],
   buildConfig: {
     banner: {
       js: copyRight,
       css: copyRight,
-    }
-  }
+    },
+  },
 });
 ```
-
 
 ## buildType
 
@@ -360,7 +357,6 @@ console.log(process.env.VERSION);
 console.log('1.0.0');
 ```
 
-
 :::tip
 为了防止全局替换替换过度，建议使用时遵循以下两个原则：
 
@@ -368,7 +364,6 @@ console.log('1.0.0');
 - 自定义全局常量前缀后缀，确保独一无二
 
 :::
-
 
 ## dts
 
@@ -647,6 +642,46 @@ export default defineConfig({
 });
 ```
 
+## hooks
+
+构建生命周期钩子,允许在构建流程的特定阶段注入自定义逻辑。
+
+- 类型：
+
+```ts
+type HookList = {
+  name: string;
+  apply: (compiler: ICompiler) => void;
+};
+```
+
+- 默认值：`[]`
+
+我们可以在 apply 方法里拿到 compiler 实例，修改其属性，以及在不同阶段执行自定义逻辑，对于 Hook 的详细介绍，
+参考[使用 Hook 介入构建流程](/guide/advance/in-depth-about-build.html#使用-hook-介入构建流程)。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundle',
+    hooks: [
+      {
+        name: 'renderChunk',
+        apply: compiler => {
+          // any logic for compiler
+          compiler.hooks.renderChunk.tapPromise(
+            { name: 'renderChunk' },
+            async chunk => {
+              return chunk;
+            },
+          );
+        },
+      },
+    ],
+  },
+});
+```
+
 ## input
 
 指定构建的入口文件，数组形式可以指定目录。
@@ -855,7 +890,7 @@ export default defineConfig({
   buildConfig: {
     resolve: {
       mainFields: ['js:source', 'module', 'main'],
-    }
+    },
   },
 });
 ```
@@ -872,7 +907,6 @@ export default defineConfig({
 - 默认值： `['.jsx', '.tsx', '.js', '.ts', '.json']`
 - 版本：`v2.36.0`
 
-
 对于 css 文件，请不要使用隐式文件扩展名，目前 Module 仅支持 ['.less', '.css', '.sass', '.scss'] 后缀。
 
 Node 的解析算法不会将 `.mjs` 和 `cjs` 视为隐式文件扩展名，因此这里默认也不会，但是可以通过更改此配置来包含：
@@ -881,12 +915,11 @@ Node 的解析算法不会将 `.mjs` 和 `cjs` 视为隐式文件扩展名，因
 export default defineConfig({
   buildConfig: {
     resolve: {
-      jsExtentions: ['.mts', 'ts']
-    }
+      jsExtentions: ['.mts', 'ts'],
+    },
   },
 });
 ```
-
 
 ## sideEffects
 
