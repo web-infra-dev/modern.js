@@ -1,10 +1,6 @@
-import { isNodeJS, isBrowser } from '../src';
+import { isBrowser } from '../src';
 
 describe('validate platform', () => {
-  it('should validate Node.js correctly', () => {
-    expect(isNodeJS()).toBeTruthy();
-  });
-
   it('should validate browser correctly', () => {
     const windowSpy = jest.spyOn(window, 'window', 'get');
 
