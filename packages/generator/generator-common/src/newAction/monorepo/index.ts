@@ -16,7 +16,6 @@ export const MonorepoNewActionConfig: Record<
   SubSolution,
   Record<string, unknown>
 > = {
-  [SubSolution.MWA]: { isMonorepoSubProject: true, isTest: false },
-  [SubSolution.MWATest]: { isMonorepoSubProject: true, isTest: true },
-  [SubSolution.Module]: { isMonorepoSubProject: true, isPublic: true },
+  [SubSolution.MWA]: { isMonorepoSubProject: true },
+  [SubSolution.Module]: { isMonorepoSubProject: true },
 };

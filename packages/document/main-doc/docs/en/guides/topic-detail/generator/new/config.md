@@ -129,9 +129,6 @@ Question: Please select the type of project you want to create.
 Options:
 
 - Web App -- mwa
-
-- Web App (Test)-- mwa_test
-
 - Npm Module -- module
 
 ### packageName

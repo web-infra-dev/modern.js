@@ -13,7 +13,6 @@ export const ZH_LOCALE = {
   sub_solution: {
     self: '请选择你想创建的工程类型',
     mwa: 'Web 应用',
-    mwa_test: 'Web 应用（测试）',
     module: 'Npm 模块',
   },
   action: {

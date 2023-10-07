@@ -151,7 +151,7 @@ export const ModuleSubProjectValueMap: Record<string, string[]> = {
   language: LanguageValues,
 };
 
-const getMWASubProjectCases = (isTest: boolean, length?: number) => {
+const getMWASubProjectCases = (length?: number) => {
   const cases = make(MWASubProjectValueMap, {
     length: length || Object.keys(MWASubProjectValueMap).length,
   });
@@ -159,7 +159,7 @@ const getMWASubProjectCases = (isTest: boolean, length?: number) => {
     ...item,
     packageName: Object.values(item).join('-'),
     packagePath: Object.values(item).join('-'),
-    solution: isTest ? SubSolution.MWATest : SubSolution.MWA,
+    solution: SubSolution.MWA,
   }));
 };
 
@@ -177,8 +177,7 @@ const getModuleSubProjectCases = (length?: number) => {
 
 export const getMonorepoNewCases = (length?: number) => {
   const cases: Array<Record<string, string>> = [
-    ...getMWASubProjectCases(false, length),
-    ...getMWASubProjectCases(true, length),
+    ...getMWASubProjectCases(length),
     ...getModuleSubProjectCases(length),
   ];
   return cases;

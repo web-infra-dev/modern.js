@@ -38,7 +38,6 @@ const handleTemplateFile = async (
 
   const {
     isMonorepoSubProject,
-    isPublic,
     isLocalPackages,
     projectDir = '',
   } = context.config;
@@ -65,7 +64,6 @@ const handleTemplateFile = async (
           validatePackagePath(
             input as string,
             path.join(process.cwd(), projectDir),
-            { isPublic },
           ),
       },
       {
@@ -90,7 +88,6 @@ const handleTemplateFile = async (
   const moduleProjectPath = getModuleProjectPath(
     packagePath as string,
     isMonorepoSubProject,
-    isPublic,
     isLocalPackages,
   );
 

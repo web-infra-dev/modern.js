@@ -120,7 +120,6 @@ async function handleModuleTemplate() {
       isMonorepoSubProject: false,
       modernVersion,
       isTs: true,
-      isPublic: true,
       language: 'ts',
       packageManager: 'pnpm',
     })),

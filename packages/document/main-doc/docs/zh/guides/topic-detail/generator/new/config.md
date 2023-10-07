@@ -129,9 +129,6 @@ sidebar_position: 3
 选项：
 
 - Web 应用 -- mwa
-
-- Web 应用（测试）-- mwa_test
-
 - Npm 模块 -- module
 
 ### packageName
