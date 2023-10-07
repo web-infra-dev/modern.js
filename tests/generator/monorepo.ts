@@ -58,9 +58,7 @@ async function runNewInMonorepoProject(
     const subProjectPath = path.join(
       tmpDir,
       project,
-      config.solution === 'mwa' || config.solution === 'mwa_test'
-        ? 'apps'
-        : 'packages',
+      config.solution === 'mwa' ? 'apps' : 'packages',
       config.packageName,
     );
     if (fs.existsSync(subProjectPath)) {

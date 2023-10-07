@@ -1,10 +1,5 @@
-import path, { dirname, isAbsolute, posix, sep } from 'path';
-import {
-  findExists,
-  findMonorepoRoot,
-  globby,
-  isModernjsMonorepo,
-} from '@modern-js/utils';
+import path, { isAbsolute } from 'path';
+import { findExists } from '@modern-js/utils';
 import { AppNormalizedConfig, IAppContext } from '../../types';
 
 export function initHtmlConfig(
@@ -81,22 +76,6 @@ export function initSourceConfig(
         return include;
       })
       .concat(defaultInclude); // concat default Include
-
-    const root = findMonorepoRoot(appContext.appDirectory);
-    if (!root) {
-      return transformInclude;
-    }
-
-    const modernjsMonorepo = isModernjsMonorepo(root);
-    if (modernjsMonorepo) {
-      const paths = globby
-        .sync(posix.join(root, 'features', '**', 'package.json'), {
-          ignore: ['**/node_modules/**/*'],
-        })
-        .map(pathname => dirname(pathname) + sep);
-
-      return [...paths, ...transformInclude];
-    }
 
     return transformInclude;
   }

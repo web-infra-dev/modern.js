@@ -164,18 +164,6 @@ exports[`test generator cases test getMonorepoNewCases 1`] = `
     "language": "ts",
     "packageName": "ts",
     "packagePath": "ts",
-    "solution": "mwa_test",
-  },
-  {
-    "language": "js",
-    "packageName": "js",
-    "packagePath": "js",
-    "solution": "mwa_test",
-  },
-  {
-    "language": "ts",
-    "packageName": "ts",
-    "packagePath": "ts",
     "solution": "module",
   },
   {
@@ -183,18 +171,6 @@ exports[`test generator cases test getMonorepoNewCases 1`] = `
     "packageName": "js",
     "packagePath": "js",
     "solution": "module",
-  },
-  {
-    "language": "ts",
-    "packageName": "ts",
-    "packagePath": "ts",
-    "solution": "inner_module",
-  },
-  {
-    "language": "js",
-    "packageName": "js",
-    "packagePath": "js",
-    "solution": "inner_module",
   },
 ]
 `;

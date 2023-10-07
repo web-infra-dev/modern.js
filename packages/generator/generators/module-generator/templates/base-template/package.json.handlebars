@@ -1,29 +1,20 @@
 {
   "name": "{{ name }}",
   "version": "0.1.0",
-  {{#unless isPublic}}
-  "main": "./src/index.{{ language }}",
-  {{/unless}}
-  {{#if isPublic}}
   {{#if isTs}}
   "types": "./dist/types/index.d.ts",
   {{/if}}
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",
-  {{/if}}
   "scripts": {
-    {{#if isPublic}}
     {{#if isMonorepoSubProject}}
     "prepare": "modern build",
     {{else}}
     "prepare": "modern build && husky install",
     {{/if}}
-    {{/if}}
     "dev": "modern dev",
-    {{#if isPublic}}
     "build": "modern build",
     "build:watch": "modern build -w",
-    {{/if}}
     {{#unless isMonorepoSubProject}}
     "reset": "rimraf ./**/node_modules",
     "lint": "modern lint",

@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { chalk } from '../compiled';
 import { readTsConfigByFile } from './get';
 import { applyOptionsChain } from './applyOptionsChain';
 
@@ -20,32 +19,6 @@ interface IAliasConfig {
   isTsPath?: boolean;
   isTsProject?: boolean;
 }
-
-export const validAlias = <T extends NormalizedConfig>(
-  modernConfig: T,
-  { tsconfigPath }: { tsconfigPath: string },
-) => {
-  const {
-    source: { alias },
-  } = modernConfig;
-  if (!alias) {
-    return null;
-  }
-
-  const isTsProject = fs.existsSync(tsconfigPath);
-  if (!isTsProject) {
-    return null;
-  }
-
-  const userAlias = getUserAlias(alias as Record<string, string>);
-  if (Object.keys(userAlias).length > 0) {
-    return chalk.red(
-      'Note: Please use `compilerOptions.paths` in "tsconfig.json" file replace `source.alias` config in "modern.config.js/ts" when project is typescript',
-    );
-  }
-
-  return null;
-};
 
 export const mergeAlias = (alias: NormalizedConfig['source']['alias']): Alias =>
   applyOptionsChain({}, alias);
