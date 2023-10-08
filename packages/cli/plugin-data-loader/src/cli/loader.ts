@@ -5,8 +5,11 @@ import { generateClient } from './generateClient';
 
 type Context = {
   mapFile: string;
-  loaderId?: string;
+  loaderId: string;
   clientData?: boolean;
+  action: boolean;
+  inline: boolean;
+  routeId: string;
 };
 
 export default async function loader(
@@ -27,20 +30,16 @@ export default async function loader(
   const options = resourceQuery
     .slice(1)
     .split('&')
-    .map(item => {
-      return item.split('=');
-    })
     .reduce((pre, cur) => {
-      const [key, value] = cur;
-      if (!key || !value) {
-        return pre;
+      const [key, value] = cur.split('=');
+      if (key && value) {
+        // eslint-disable-next-line no-nested-ternary
+        pre[key] = value === 'true' ? true : value === 'false' ? false : value;
       }
-      pre[key] = value;
       return pre;
-    }, {} as Record<string, any>) as Context;
+    }, {} as Record<string, any>);
 
-  // if we can not parse mapFile from resourceQuery, it means the with no need for data-loader handle.
-  if (!options.mapFile) {
+  if (!options.loaderId) {
     return source;
   }
 
@@ -63,8 +62,10 @@ export default async function loader(
   }
 
   const code = generateClient({
-    mapFile: options.mapFile,
-    loaderId: options.loaderId,
+    inline: options.inline,
+    action: options.action,
+    routeId: options.routeId,
   });
+
   return code;
 }

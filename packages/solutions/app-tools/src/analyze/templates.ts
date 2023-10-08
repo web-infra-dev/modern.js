@@ -123,23 +123,51 @@ export const routesForServer = ({
   routes: (NestedRouteForCli | PageRoute)[];
 }) => {
   const loaders: string[] = [];
+  const actions: string[] = [];
+  const loadersMap: Record<
+    string,
+    {
+      routeId: string;
+      loaderId: number;
+      filePath: string;
+      clientData?: boolean;
+      inline: boolean;
+      route: NestedRouteForCli;
+    }
+  > = {};
   const traverseRouteTree = (route: NestedRouteForCli | PageRoute): Route => {
     let children: Route['children'];
     if ('children' in route && route.children) {
       children = route?.children?.map(traverseRouteTree);
     }
     let loader: string | undefined;
+    let action: string | undefined;
 
     if (route.type === 'nested') {
-      if (route.loader) {
+      if (route.loader || route.data) {
         loaders.push(route.loader);
-        loader = `loader_${loaders.length - 1}`;
+        const loaderId = loaders.length - 1;
+        loader = `loader_${loaderId}`;
+        const inline = Boolean(route.data);
+        loadersMap[loader] = {
+          loaderId,
+          routeId: route.id!,
+          filePath: route.data || route.loader,
+          clientData: Boolean(route.clientData),
+          route,
+          inline,
+        };
+        if (route.action) {
+          actions.push(route.action);
+          action = `action_${loaders.length - 1}`;
+        }
       }
     }
 
     const finalRoute = {
       ...route,
       loader,
+      action,
       children,
     };
     return finalRoute;
@@ -150,23 +178,36 @@ export const routesForServer = ({
   `;
   for (const route of routes) {
     if ('type' in route) {
+      const keywords = ['loader', 'action'];
+      const regs = keywords.map(createMatchReg);
       const newRoute = traverseRouteTree(route);
-      routesCode += `${JSON.stringify(newRoute, null, 2).replace(
-        /"(loader_[^"]+)"/g,
-        '$1',
-      )},`;
+      const routeStr = JSON.stringify(newRoute, null, 2);
+      routesCode += regs
+        .reduce((acc, reg) => acc.replace(reg, '$1$2'), routeStr)
+        .replace(/\\"/g, '"');
     } else {
       routesCode += `${JSON.stringify(route, null, 2)}`;
     }
   }
   routesCode += `\n];`;
   let importLoadersCode = '';
-  if (loaders.length > 0) {
-    importLoadersCode = loaders
-      .map((loader, index) => {
-        return `import loader_${index} from "${slash(loader)}"`;
-      })
-      .join('\n');
+  for (const [key, loaderInfo] of Object.entries(loadersMap)) {
+    if (loaderInfo.inline) {
+      const { route } = loaderInfo;
+      if (route.action) {
+        importLoadersCode += `import { loader as ${key}, action as action_${
+          loaderInfo.loaderId
+        } } from "${slash(loaderInfo.filePath)}";\n`;
+      } else {
+        importLoadersCode += `import { loader as ${key} } from "${slash(
+          loaderInfo.filePath,
+        )}";\n`;
+      }
+    } else {
+      importLoadersCode += `import ${key} from "${slash(
+        loaderInfo.filePath,
+      )}";\n`;
+    }
   }
 
   return `
@@ -201,9 +242,11 @@ export const fileSystemRoutes = async ({
     string,
     {
       routeId: string;
+      loaderId: number;
       filePath: string;
       clientData?: boolean;
       inline: boolean;
+      route: NestedRouteForCli;
     }
   > = {};
   const configs: string[] = [];
@@ -222,17 +265,26 @@ export const fileSystemRoutes = async ({
   `;
 
   let rootLayoutCode = ``;
-  const getDataLoaderPath = (loaderId: string, clientData?: boolean) => {
+  const getDataLoaderPath = ({
+    loaderId,
+    clientData,
+    action,
+    inline,
+    routeId,
+  }: {
+    loaderId: string;
+    clientData?: boolean;
+    action: boolean;
+    inline: boolean;
+    routeId: string;
+  }) => {
     if (!ssrMode) {
       return '';
     }
 
     const clientDataStr = clientData ? `&clientData=${clientData}` : '';
-
     if (nestedRoutesEntry) {
-      return `?mapFile=${slash(
-        loadersMapFile,
-      )}&loaderId=${loaderId}${clientDataStr}`;
+      return `?loaderId=${loaderId}${clientDataStr}&action=${action}&inline=${inline}&routeId=${routeId}`;
     }
     return '';
   };
@@ -245,6 +297,7 @@ export const fileSystemRoutes = async ({
     let loading: string | undefined;
     let error: string | undefined;
     let loader: string | undefined;
+    let action: string | undefined;
     let config: string | undefined;
     let component = '';
     let lazyImport = null;
@@ -262,13 +315,19 @@ export const fileSystemRoutes = async ({
         loaders.push(route.loader);
         const loaderId = loaders.length - 1;
         loader = `loader_${loaderId}`;
+        const inline = Boolean(route.data);
         loadersMap[loader] = {
+          loaderId,
           routeId: route.id!,
           filePath: route.data || route.loader,
           clientData: Boolean(route.clientData),
-          inline: Boolean(route.data),
+          route,
+          inline,
         };
         loader = `loader_${loaderId}`;
+        if (route.action) {
+          action = `action_${loaderId}`;
+        }
       }
       if (typeof route.config === 'string') {
         configs.push(route.config);
@@ -310,6 +369,7 @@ export const fileSystemRoutes = async ({
       lazyImport,
       loading,
       loader,
+      action,
       config,
       error,
       children,
@@ -331,6 +391,7 @@ export const fileSystemRoutes = async ({
         'component',
         'lazyImport',
         'loader',
+        'action',
         'loading',
         'error',
         'config',
@@ -380,13 +441,38 @@ export const fileSystemRoutes = async ({
 
   for (const [key, loaderInfo] of Object.entries(loadersMap)) {
     if (loaderInfo.inline) {
-      importLoadersCode += `import { loader as ${key} } from "${slash(
-        loaderInfo.filePath,
-      )}${getDataLoaderPath(key, loaderInfo.clientData)}";\n`;
+      const { route } = loaderInfo;
+      if (route.action) {
+        importLoadersCode += `import { loader as ${key}, action as action_${
+          loaderInfo.loaderId
+        } } from "${slash(loaderInfo.filePath)}${getDataLoaderPath({
+          loaderId: key,
+          clientData: loaderInfo.clientData,
+          action: route.action,
+          inline: loaderInfo.inline,
+          routeId: loaderInfo.routeId,
+        })}";\n`;
+      } else {
+        importLoadersCode += `import { loader as ${key} } from "${slash(
+          loaderInfo.filePath,
+        )}${getDataLoaderPath({
+          loaderId: key,
+          clientData: loaderInfo.clientData,
+          action: false,
+          inline: loaderInfo.inline,
+          routeId: route.id!,
+        })}";\n`;
+      }
     } else {
       importLoadersCode += `import ${key} from "${slash(
         loaderInfo.filePath,
-      )}${getDataLoaderPath(key, loaderInfo.clientData)}";\n`;
+      )}${getDataLoaderPath({
+        loaderId: key,
+        clientData: loaderInfo.clientData,
+        action: false,
+        inline: loaderInfo.inline,
+        routeId: loaderInfo.routeId,
+      })}";\n`;
     }
   }
 

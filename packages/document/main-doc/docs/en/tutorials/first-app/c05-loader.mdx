@@ -18,7 +18,7 @@ pnpm add faker@5
 pnpm add @types/faker@5 -D
 ```
 
-Create `src/routes/page.loader.ts`:
+Create `src/routes/page.data.ts`:
 
 ```tsx
 import { name, internet } from 'faker';
@@ -32,7 +32,7 @@ type LoaderData = {
   }[];
 };
 
-export default async (): Promise<LoaderData> => {
+export const loader = async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {

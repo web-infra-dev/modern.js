@@ -11,16 +11,22 @@ Modern.js 中提供了开箱即用的数据获取能力，开发者可以通过�
 
 ## Data Loader(推荐)
 
-Modern.js 推荐使用约定式路由做路由的管理，通过 Modern.js 的[约定式（嵌套）路由](/guides/basic-features/routes#约定式路由)，每个路由组件(`layout.ts` 或 `page.ts`)可以有一个同名的 `loader` 文件，该 `loader` 文件需要导出一个函数，函数会在组件渲染之前执行，为路由组件提供数据。
+Modern.js 推荐使用约定式路由做路由的管理，通过 Modern.js 的[约定式（嵌套）路由](/guides/basic-features/routes#约定式路由)，每个路由组件(`layout.ts` 或 `page.ts`)可以有一个同名的 `data` 文件，该 `data` 文件可以导出一个 `loader` 函数，函数会在组件渲染之前执行，为路由组件提供数据。
 
 :::info
 Modern.js v1 支持通过 [useLoader](#useloader（旧版）) 获取数据，这已经不是我们推荐的用法，除迁移过程外，不推荐两者混用。
 
 :::
 
+:::warning
+- 在之前的版本中，Modern.js Data Loader 是定义在 `loader` 文件中的，在之后的版本中，我们推荐定义在 `data` 文件中，同时我们会保持对 `loader` 文件的兼容。
+- 在 `data` 文件中，对应的 `loader` 需要具名导出。
+
+:::
+
 ### 基础示例
 
-路由组件如 `layout.ts` 或 `page.ts`，可以定义同名的 `loader` 文件，`loader` 文件中导出一个函数，该函数提供组件所需的数据，然后在路由组件中通过 `useLoaderData` 函数获取数据，如下面示例：
+路由组件如 `layout.ts` 或 `page.ts`，可以定义同名的 `data` 文件，`data` 文件中导出一个 `loader` 函数，该函数提供组件所需的数据，然后在路由组件中通过 `useLoaderData` 函数获取数据，如下面示例：
 
 ```bash
 .
@@ -28,16 +34,16 @@ Modern.js v1 支持通过 [useLoader](#useloader（旧版）) 获取数据，这
     ├── layout.tsx
     └── user
         ├── layout.tsx
-        ├── layout.loader.ts
+        ├── layout.data.ts
         ├── page.tsx
-        └── page.loader.ts
+        └── page.data.ts
 ```
 
 在文件中定义以下代码：
 
 ```ts title="routes/user/page.tsx"
 import { useLoaderData } from '@modern-js/runtime/router';
-import type { ProfileData } from './page.loader.ts';
+import type { ProfileData } from './page.data.ts';
 
 export default function UserPage() {
   const profileData = useLoaderData() as ProfileData;
@@ -45,19 +51,19 @@ export default function UserPage() {
 }
 ```
 
-```ts title="routes/user/page.loader.ts"
+```ts title="routes/user/page.data.ts"
 export type ProfileData = {
   /*  some types */
 };
 
-export default async (): Promise<ProfileData> => {
+export const loader = async (): Promise<ProfileData> => {
   const res = await fetch('https://api/user/profile');
   return await res.json();
 };
 ```
 
 :::caution
-这里路由组件和 `loader` 文件共享类型，要使用 `import type` 语法。
+这里路由组件和 `data` 文件共享类型，要使用 `import type` 语法。
 
 :::
 
@@ -81,10 +87,10 @@ export default async (): Promise<ProfileData> => {
 当路由文件通过 `[]` 时，会作为[动态路由](/guides/basic-features/routes#动态路由)，动态路由片段会作为参数传入 `loader` 函数：
 
 ```tsx
-// routes/user/[id]/page.loader.ts
+// routes/user/[id]/page.data.ts
 import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
-export default async ({ params }: LoaderFunctionArgs) => {
+export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { id } = params;
   const res = await fetch(`https://api/user/${id}`);
   return res.json();
@@ -100,10 +106,10 @@ export default async ({ params }: LoaderFunctionArgs) => {
 一个常见的使用场景是通过 `request` 获取查询参数：
 
 ```tsx
-// routes/user/[id]/page.loader.ts
+// routes/user/[id]/page.data.ts
 import { LoaderFunctionArgs } from '@modern-js/runtime/router';
 
-export default async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const userId = url.searchParams.get('id');
   return queryUser(userId);
@@ -142,7 +148,7 @@ const loader = async (): Promise<ProfileData> => {
 Modern.js 对 `fetch` API 做了 polyfill, 用于发起请求，该 API 与浏览器的 `fetch` API 一致，但是在服务端也能使用该 API 发起请求，这意味着不管是 CSR 还是 SSR，都可以使用统一的 `fetch` API 进行数据获取：
 
 ```tsx
-async function loader() {
+export async function loader() {
   const res = await fetch('https://api/user/profile');
 }
 ```
@@ -152,8 +158,8 @@ async function loader() {
 在 `loader` 函数中，可以通过 `throw error` 或者 `throw response` 的方式处理错误，当 `loader` 函数中有错误被抛出时，Modern.js 会停止执行当前 `loader` 中的代码，并将前端 UI 切换到定义的 [`ErrorBoundary`](/guides/basic-features/routes#错误处理) 组件：
 
 ```tsx
-// routes/user/profile/page.loader.ts
-export default async function loader() {
+// routes/user/profile/page.data.ts
+export async function loader() {
   const res = await fetch('https://api/user/profile');
   if (!res.ok) {
     throw res;
@@ -184,8 +190,8 @@ export default ErrorBoundary;
 // routes/user/profile/page.tsx
 import { useRouteLoaderData } from '@modern-js/runtime/router';
 
-export default function UserLayout() {
-  // 获取 routes/user/layout.loader.ts 中 `loader` 返回的数据
+export function UserLayout() {
+  // 获取 routes/user/layout.data.ts 中 `loader` 返回的数据
   const data = useRouteLoaderData('user/layout');
   return (
     <div>
@@ -220,12 +226,12 @@ export default function UserLayout() {
 
 :::
 
-创建 `user/layout.loader.ts`，并添加以下代码：
+创建 `user/layout.data.ts`，并添加以下代码：
 
-```ts title="routes/user/layout.loader.ts"
+```ts title="routes/user/layout.data.ts"
 import { defer } from '@modern-js/runtime/router';
 
-const loader = () =>
+export const loader = () =>
   defer({
     userInfo: new Promise(resolve => {
       setTimeout(() => {
@@ -236,8 +242,6 @@ const loader = () =>
       }, 1000);
     }),
   });
-
-export default loader;
 ```
 
 在 `user/layout.tsx` 中添加以下代码：
@@ -298,12 +302,12 @@ export default () => {
 
 ```ts
 // This won't work!
-export default async () => {
+export const loader = async () => {
   const res = fetch('https://api/user/profile');
   return res.json();
 };
 
-import loader from './page.loader.ts';
+import { loader } from './page.data.ts';
 export default function RouteComp() {
   const data = loader();
 }
@@ -315,7 +319,7 @@ export default function RouteComp() {
 // Not allowed
 // routes/layout.tsx
 import { useLoaderData } from '@modern-js/runtime/router';
-import { ProfileData } from './page.loader.ts'; // should use "import type" instead
+import { ProfileData } from './page.data.ts'; // should use "import type" instead
 
 export const fetch = wrapFetch(fetch);
 
@@ -324,13 +328,13 @@ export default function UserPage() {
   return <div>{profileData}</div>;
 }
 
-// routes/layout.loader.ts
+// routes/layout.data.ts
 import { fetch } from './layout.tsx'; // should not be imported from the routing component
 export type ProfileData = {
   /*  some types */
 };
 
-export default async (): Promise<ProfileData> => {
+export const loader = async (): Promise<ProfileData> => {
   const res = await fetch('https://api/user/profile');
   return await res.json();
 };

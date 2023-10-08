@@ -192,9 +192,9 @@ const Item = ({
 export default Item;
 ```
 
-接下来，我们修改 `src/routes/page.tsx` 和 `src/routes/page.loader.ts`，为 `<Item>` 组件传递更多参数：
+接下来，我们修改 `src/routes/page.tsx` 和 `src/routes/page.data.ts`，为 `<Item>` 组件传递更多参数：
 
-```ts title="src/routes/page.loader.ts"
+```ts title="src/routes/page.data.ts"
 export type LoaderData = {
   code: number;
   data: {
@@ -204,7 +204,7 @@ export type LoaderData = {
   }[];
 };
 
-export default async (): Promise<LoaderData> => {
+export const loader async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {

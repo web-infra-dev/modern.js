@@ -1,19 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`data loader basic usage 1`] = `
+"async function loader() {
+  return 'request profile page';
+}
+async function loader2() {
+  return 'request profile layout';
+}
+const loader3 = async () => {
+  return {
+    message: 'hello user',
+  };
+};
+
+// src/routes/layout.tsx
+const loader4 = async () => {
+  return {
+    message: 'from  server',
+  };
+};
+export {
+  loader as loader_0,
+  loader2 as loader_1,
+  loader3 as loader_2,
+  loader4 as loader_3,
+};
 "
-    
-    import { createRequest } from '/packages/cli/plugin-data-loader/src/cli/createRequest';
-  
-    
-      const loader_0 = createRequest('main_user/profile/page');
-    
-      const loader_1 = createRequest('main_user/profile/layout');
-    
-      const loader_2 = createRequest('main_user/layout');
-    
-      const loader_3 = createRequest('main_layout');
-    
-    export {loader_0,loader_1,loader_2,loader_3,}
-  "
 `;
