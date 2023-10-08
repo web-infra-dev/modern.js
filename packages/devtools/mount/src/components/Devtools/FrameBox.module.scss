@@ -2,13 +2,6 @@
   position: relative;
   width: 40rem;
   height: 30rem;
-  /*
-  border-radius: 0.75rem;
-  overflow: hidden;
-  background-color: white;
-  border: 1px solid #082577;
-  box-shadow: 0 0 5px #082577;
-  */
 }
 
 .frame {
@@ -20,6 +13,8 @@
 .backdrop {
   background-color: #090909;
   position: absolute;
+  border-radius: 1rem;
+  border: solid 1px #333;
   top: 0;
   bottom: 0;
   left: 0;
