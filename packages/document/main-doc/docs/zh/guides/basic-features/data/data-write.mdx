@@ -100,7 +100,7 @@ Modern.js 中提供 Data Action 主要是为了使 UI 和服务器的状态能�
 // routes/user/[id]/page.data.ts
 import { ActionFunctionArgs } from '@modern-js/runtime/router';
 
-export const action = async ({ params }: LoaderFunctionArgs) => {
+export const action = async ({ params }: ActionFunctionArgs) => {
   const { id } = params;
   const res = await fetch(`https://api/user/${id}`);
   return res.json();

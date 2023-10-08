@@ -608,7 +608,6 @@ describe('dev', () => {
     test('support handle config', async () =>
       supportHandleConfig(page, appPort));
 
-    // FIXME: skip the test
     test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
@@ -727,7 +726,6 @@ describe('build', () => {
     test('path without layout', async () =>
       supportPathWithoutLayout(page, errors, appPort));
 
-    // FIXME: skip the test
     test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });

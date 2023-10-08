@@ -102,7 +102,7 @@ When the routing file passes through `[]`, it will be used as [dynamic routing](
 // routes/user/[id]/page.data.ts
 import { ActionFunctionArgs } from '@modern-js/runtime/router';
 
-export const action = async ({ params }: LoaderFunctionArgs) => {
+export const action = async ({ params }: ActionFunctionArgs) => {
   const { id } = params;
   const res = await fetch(`https://api/user/${id}`);
   return res.json();
