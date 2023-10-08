@@ -1,7 +1,7 @@
 import '@radix-ui/themes/styles.css';
 import './layout.css';
 import styled from '@emotion/styled';
-import { Box, ThemePanel } from '@radix-ui/themes';
+import { Card, ThemePanel } from '@radix-ui/themes';
 import { RootTabs } from './RootTabs';
 import { StoreContextProvider } from '@/stores';
 import { Theme } from '@/components/Theme';
@@ -21,9 +21,10 @@ export default function Layout() {
   );
 }
 
-const AppContainer = styled(Box)({
+const AppContainer = styled(Card)({
   width: '100vw',
   height: '100vh',
-  overflow: 'hidden',
+  '--card-border-radius': 'var(--radius-6)',
+  // overflow: 'hidden',
   backgroundColor: '#090909',
 });

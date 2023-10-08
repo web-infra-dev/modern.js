@@ -86,7 +86,6 @@ const TabRoot = styled(Box)({
   '--block-gap': '0.5rem',
   '--block-color': '#121212',
   display: 'flex',
-  padding: 'var(--block-gap)',
   gap: 'var(--block-gap)',
   alignItems: 'stretch',
   height: '100%',
