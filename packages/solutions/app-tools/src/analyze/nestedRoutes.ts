@@ -375,6 +375,12 @@ export const walk = async (
     }
   }
 
+  if (isRoot && !finalRoute._component) {
+    throw new Error(
+      'The root layout component is required, make sure the routes/layout.tsx file exists.',
+    );
+  }
+
   if (isRoot && !oldVersion) {
     const optimizedRoutes = optimizeRoute(finalRoute);
     return optimizedRoutes;
