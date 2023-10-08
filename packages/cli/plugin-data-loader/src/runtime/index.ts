@@ -94,7 +94,7 @@ const createRequest = (context: ServerContext) => {
     signal: controller.signal,
   };
 
-  if (context.method.toUpperCase() !== 'GET' && context.method !== 'HEAD') {
+  if (!['GET', 'HEAD'].includes(context.method.toUpperCase())) {
     init.body = context.req;
   }
 
