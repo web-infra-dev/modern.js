@@ -1,0 +1,23 @@
+@import '@/styles/theme.scss';
+
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.navigator {
+  border-right: solid 1px var(--gray-5);
+  padding: var(--space-1) 0;
+}
+
+.tab-button {
+  display: flex;
+  width: var(--space-8);
+  padding: var(--space-2) var(--space-3);
+  gap: var(--space-1);
+  color: var(--gray-8);
+  align-items: center;
+  &:global(.active) {
+    color: var(--gray-11);
+  }
+}

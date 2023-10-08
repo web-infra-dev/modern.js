@@ -1,10 +1,44 @@
-import '@radix-ui/themes/styles.css';
 import './layout.css';
-import styled from '@emotion/styled';
-import { Card, ThemePanel } from '@radix-ui/themes';
-import { RootTabs } from './RootTabs';
-import { StoreContextProvider } from '@/stores';
+import React from 'react';
+import { NavLink, Outlet } from '@modern-js/runtime/router';
+import { Box, Flex, ThemePanel, Tooltip } from '@radix-ui/themes';
+import styles from './layout.module.scss';
+import { StoreContextProvider, useStoreSnapshot } from '@/stores';
 import { Theme } from '@/components/Theme';
+import { InternalTab } from '@/types';
+
+const NavigateButton: React.FC<{ tab: InternalTab }> = ({ tab }) => {
+  let to = '';
+  if (tab.view.type === 'builtin') {
+    to = tab.view.url;
+  } else if (tab.view.type === 'iframe') {
+    to = `/external/${tab.view.src}`;
+  } else {
+    throw new Error(`Invalid tab view of "${tab.name}".`);
+  }
+
+  return (
+    <Tooltip content={tab.title} side="right">
+      <NavLink to={to} className={styles.tabButton}>
+        <Box width="5" height="5" asChild>
+          {tab.icon}
+        </Box>
+      </NavLink>
+    </Tooltip>
+  );
+};
+
+const Navigator: React.FC = () => {
+  const { tabs } = useStoreSnapshot();
+
+  return (
+    <Flex direction="column" className={styles.navigator}>
+      {tabs.map(tab => (
+        <NavigateButton key={tab.name} tab={tab as any} />
+      ))}
+    </Flex>
+  );
+};
 
 export default function Layout() {
   return (
@@ -13,18 +47,13 @@ export default function Layout() {
         {process.env.NODE_ENV === 'development' && (
           <ThemePanel defaultOpen={false} />
         )}
-        <AppContainer>
-          <RootTabs />
-        </AppContainer>
+        <Flex className={styles.container}>
+          <Navigator />
+          <Box grow="1">
+            <Outlet />
+          </Box>
+        </Flex>
       </Theme>
     </StoreContextProvider>
   );
 }
-
-const AppContainer = styled(Card)({
-  width: '100vw',
-  height: '100vh',
-  '--card-border-radius': 'var(--radius-6)',
-  // overflow: 'hidden',
-  backgroundColor: '#090909',
-});
