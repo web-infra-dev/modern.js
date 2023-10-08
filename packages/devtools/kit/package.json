@@ -17,21 +17,34 @@
   ],
   "version": "2.35.1",
   "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
+  "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "exports": {
     ".": {
       "jsnext:source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "types": "./dist/runtime/index.d.ts",
+      "default": "./dist/runtime/index.js"
     },
     "./package.json": {
       "default": "./package.json"
     }
   },
+  "typesVersions": {
+    "*": {
+      "runtime": [
+        "./dist/runtime/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "SKIP_DTS=true modern-lib build --watch",
+    "dev": "modern-lib build --watch",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
@@ -39,6 +52,7 @@
     "@geist-ui/core": "^2.3.8",
     "@modern-js/types": "workspace:*",
     "@modern-js/utils": "workspace:*",
+    "@radix-ui/themes": "^2.0.0",
     "ufo": "^1.2.0",
     "ws": "8.13.0"
   },
