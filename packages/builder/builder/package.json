@@ -62,10 +62,10 @@
   "dependencies": {
     "@modern-js/builder-shared": "workspace:*",
     "@modern-js/monorepo-utils": "workspace:*",
-    "@modern-js/node-bundle-require": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@svgr/webpack": "8.0.1",
-    "@swc/helpers": "0.5.1"
+    "@swc/helpers": "0.5.1",
+    "jiti": "^1.20.0"
   },
   "devDependencies": {
     "@modern-js/builder-webpack-provider": "workspace:*",

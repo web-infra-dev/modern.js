@@ -81,9 +81,6 @@ importers:
       '@modern-js/monorepo-utils':
         specifier: workspace:*
         version: link:../../toolkit/monorepo-utils
-      '@modern-js/node-bundle-require':
-        specifier: workspace:*
-        version: link:../../toolkit/node-bundle-require
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
@@ -93,6 +90,9 @@ importers:
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
+      jiti:
+        specifier: ^1.20.0
+        version: 1.20.0
     devDependencies:
       '@modern-js/builder-rspack-provider':
         specifier: workspace:*
@@ -25677,8 +25677,8 @@ packages:
       - ts-node
     dev: true
 
-  /jiti@1.19.3:
-    resolution: {integrity: sha512-5eEbBDQT/jF1xg6l36P+mWGGoH9Spuy0PCdSr2dtWRDGC6ph/w9ZCL4lmESW8f8F7MwT3XKescfP0wnZWAKL9w==}
+  /jiti@1.20.0:
+    resolution: {integrity: sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==}
     hasBin: true
 
   /jju@1.4.0:
@@ -33262,7 +33262,7 @@ packages:
       fast-glob: 3.3.0
       glob-parent: 6.0.2
       is-glob: 4.0.3
-      jiti: 1.19.3
+      jiti: 1.20.0
       lilconfig: 2.1.0
       micromatch: 4.0.5
       normalize-path: 3.0.0
