@@ -274,7 +274,7 @@ export const fileSystemRoutes = async ({
   }: {
     loaderId: string;
     clientData?: boolean;
-    action: boolean;
+    action: false | string;
     inline: boolean;
     routeId: string;
   }) => {
@@ -284,7 +284,9 @@ export const fileSystemRoutes = async ({
 
     const clientDataStr = clientData ? `&clientData=${clientData}` : '';
     if (nestedRoutesEntry) {
-      return `?loaderId=${loaderId}${clientDataStr}&action=${action}&inline=${inline}&routeId=${routeId}`;
+      return `?loaderId=${loaderId}${clientDataStr}&action=${
+        action ? slash(action) : action
+      }&inline=${inline}&routeId=${routeId}`;
     }
     return '';
   };
