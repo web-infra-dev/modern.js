@@ -161,7 +161,7 @@ These properties as defined are available via the [`useMatches`](https://reactro
 
 ```ts title="routes/layout.ts"
 export default () => {
-  const matches = useMatches;
+  const matches = useMatches();
   const breadcrumbs = matches.map(
     matchedRoute => matchedRoute?.handle?.breadcrumbName,
   );
