@@ -1,4 +1,3 @@
-import { join } from 'path';
 import { BuilderPlugin } from '@modern-js/builder-shared';
 import type { BuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import { BuilderOptions } from '../shared';
@@ -16,11 +15,6 @@ export const builderPluginAdapterModern = (
     const { normalizedConfig: modernConfig, appContext } = options;
 
     api.modifyWebpackChain((chain, { CHAIN_ID }) => {
-      // compat modern-js v1
-      chain.resolve.modules
-        .add('node_modules')
-        .add(join(api.context.rootPath, 'node_modules'));
-
       // apply copy plugin
       if (chain.plugins.has(CHAIN_ID.PLUGIN.COPY)) {
         const defaultCopyPattern = createPublicPattern(
