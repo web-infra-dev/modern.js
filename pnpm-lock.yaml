@@ -78,12 +78,12 @@ importers:
       '@modern-js/builder-shared':
         specifier: workspace:*
         version: link:../builder-shared
-      '@modern-js/monorepo-utils':
-        specifier: workspace:*
-        version: link:../../toolkit/monorepo-utils
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/monorepo-utils':
+        specifier: 0.0.2
+        version: 0.0.2
       '@svgr/webpack':
         specifier: 8.0.1
         version: 8.0.1
@@ -5067,37 +5067,6 @@ importers:
       got:
         specifier: ^11.8.3
         version: 11.8.5
-      typescript:
-        specifier: ^5
-        version: 5.0.4
-
-  packages/toolkit/monorepo-utils:
-    dependencies:
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../utils
-      '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
-      p-map:
-        specifier: ^4.0.0
-        version: 4.0.0
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -12084,7 +12053,7 @@ packages:
       '@modern-js/codesmith': 2.2.5(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/codesmith-api-ejs': 2.2.5(@modern-js/codesmith@2.2.5)
       '@modern-js/codesmith-api-fs': 2.2.5(@modern-js/codesmith@2.2.5)
-      '@modern-js/codesmith-api-git': 2.2.5(@modern-js/codesmith@2.2.5)(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/codesmith-api-git': 2.2.5(@modern-js/codesmith@2.2.5)
       '@modern-js/codesmith-api-handlebars': 2.2.5(@modern-js/codesmith@2.2.5)
       '@modern-js/codesmith-api-npm': 2.2.5(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/codesmith-formily': 2.2.5(@modern-js/codesmith@2.2.5)(react-dom@18.2.0)(react@18.2.0)(typescript@5.0.4)
@@ -12120,6 +12089,16 @@ packages:
       '@modern-js/codesmith': 2.2.5(react-dom@18.2.0)(react@18.2.0)
     dev: true
 
+  /@modern-js/codesmith-api-git@2.2.5(@modern-js/codesmith@2.2.5):
+    resolution: {integrity: sha512-XZab49Z7K6WGjsXoowGs3//nA1D6WCbwI9haRJ2qJ2p/DvqtpVq0cS/FZGuu/7tMK2HckZsHi3aMH08XGEDFIA==}
+    peerDependencies:
+      '@modern-js/codesmith': ^2.2.5
+    dependencies:
+      '@babel/runtime': 7.22.15
+      '@modern-js/codesmith': 2.2.5(react-dom@18.2.0)(react@18.2.0)
+      '@modern-js/utils': 2.35.1
+    dev: true
+
   /@modern-js/codesmith-api-git@2.2.5(@modern-js/codesmith@2.2.5)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-XZab49Z7K6WGjsXoowGs3//nA1D6WCbwI9haRJ2qJ2p/DvqtpVq0cS/FZGuu/7tMK2HckZsHi3aMH08XGEDFIA==}
     peerDependencies:
@@ -12131,6 +12110,7 @@ packages:
     transitivePeerDependencies:
       - react
       - react-dom
+    dev: false
 
   /@modern-js/codesmith-api-handlebars@2.2.5(@modern-js/codesmith@2.2.5):
     resolution: {integrity: sha512-CXAMdRSaCVujIbKT7yP6DJ5qgiv/Eobwfbtm6nTkbmI0Qux5xqf/J69RVunNw+db/gL3CBWBiShS2GVLWh61/g==}
@@ -12391,6 +12371,13 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-router-dom: 6.11.1(react-dom@18.2.0)(react@18.2.0)
       serialize-javascript: 6.0.1
+
+  /@modern-js/utils@2.35.1:
+    resolution: {integrity: sha512-DrHXjU/74bVfwEhTXzjd8MO6B2v80kBe7qZTMVQKMTzEeLAJsJbxsl9OMy747fDyI8+Wv9NNngknazJIE9NlZw==}
+    dependencies:
+      '@swc/helpers': 0.5.1
+      caniuse-lite: 1.0.30001520
+      lodash: 4.17.21
 
   /@mrmlnc/readdir-enhanced@2.2.1:
     resolution: {integrity: sha512-bPHp6Ji8b41szTOcaP63VlnbbO5Ny6dwAATtY6JTjh5N2OLrb5Qk/Th5cRkRQhkWCt+EJsYrNB0MiL+Gpn6e3g==}
@@ -14035,6 +14022,14 @@ packages:
       picomatch: 2.3.1
       rollup: 3.23.0
     dev: true
+
+  /@rsbuild/monorepo-utils@0.0.2:
+    resolution: {integrity: sha512-2cbUV9x1mYuuTwchnhV39hZRdVIf0/mm0CLlGCBRyTrxEd0cdrT6wtLoRI6fneLGnDLbVEMqTPMGK07H1AYQxw==}
+    dependencies:
+      '@modern-js/utils': 2.35.1
+      '@swc/helpers': 0.5.1
+      p-map: 4.0.0
+    dev: false
 
   /@rspack/binding-darwin-arm64@0.3.5:
     resolution: {integrity: sha512-NtMFIFPCOG1Q4TVcn72CQL2DP1VpX4aj355Lu7AxDUUZo1u5AJhcKc83dSvNv7qavy3uWR8m4iitpOXHevlzAw==}
