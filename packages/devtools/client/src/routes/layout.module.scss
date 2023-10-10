@@ -3,6 +3,8 @@
 .container {
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
 .navigator {
@@ -20,4 +22,13 @@
   &:global(.active) {
     color: var(--gray-11);
   }
+}
+
+.fading-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--color-background), transparent);
 }

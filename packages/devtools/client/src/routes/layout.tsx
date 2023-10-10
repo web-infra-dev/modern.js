@@ -48,11 +48,14 @@ export default function Layout() {
         {process.env.NODE_ENV === 'development' && (
           <ThemePanel defaultOpen={false} />
         )}
-        <Flex className={styles.container}>
+        <Flex align="stretch" className={styles.container}>
           <Navigator />
           <Box grow="1">
             <Breadcrumbs />
-            <Outlet />
+            <Box position="relative" height="100%">
+              <Outlet />
+              <Box height="6" className={styles.fadingMask} />
+            </Box>
           </Box>
         </Flex>
       </Theme>
