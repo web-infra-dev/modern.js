@@ -1,5 +1,5 @@
 import { dirname, join, parse } from 'path';
-import webpackDevMiddleware from '@modern-js/utils/webpack-dev-middleware';
+import webpackDevMiddleware from '@modern-js/builder-shared/webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import serveStatic from 'serve-static';
 import type { Builder as RawStorybookBuilder, Stats } from '@storybook/types';
