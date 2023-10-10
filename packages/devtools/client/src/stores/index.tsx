@@ -95,6 +95,7 @@ export const StoreContextProvider: FC<{ children: ReactElement }> = ({
     name: deferred.clientDefinition.promise.then(def => def.name),
     packages: deferred.clientDefinition.promise.then(def => def.packages),
     assets: deferred.clientDefinition.promise.then(def => def.assets),
+    breadcrumb: [],
   }));
 
   useAsync(async () => {

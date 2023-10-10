@@ -6,6 +6,7 @@ import styles from './layout.module.scss';
 import { StoreContextProvider, useStoreSnapshot } from '@/stores';
 import { Theme } from '@/components/Theme';
 import { InternalTab } from '@/types';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 const NavigateButton: React.FC<{ tab: InternalTab }> = ({ tab }) => {
   let to = '';
@@ -50,6 +51,7 @@ export default function Layout() {
         <Flex className={styles.container}>
           <Navigator />
           <Box grow="1">
+            <Breadcrumbs />
             <Outlet />
           </Box>
         </Flex>

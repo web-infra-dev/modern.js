@@ -12,8 +12,13 @@ import type {
   TransformedFrameworkConfig,
 } from '@modern-js/devtools-kit';
 import { FrameworkConfig } from '@modern-js/devtools-kit';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { Promisable } from 'type-fest';
+
+export interface BreadcrumbItem {
+  title: ReactNode;
+  to: string;
+}
 
 export interface StoreContextValue {
   dataSource: string;
@@ -45,6 +50,7 @@ export interface StoreContextValue {
   name: Promise<NameDefinition>;
   packages: Promise<PackageDefinition>;
   assets: Promise<AssetDefinition>;
+  breadcrumb: BreadcrumbItem[];
 }
 
 export interface BuiltinTabView {
