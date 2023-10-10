@@ -28,10 +28,10 @@
   },
   "devDependencies": {
     "@modern-js/tsconfig": "workspace:*",
-    "rspress": "1.0.0-beta.0",
+    "rspress": "1.0.0-beta.3",
     "@types/node": "^14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@rspress/shared": "1.0.0-beta.0"
+    "@rspress/shared": "1.0.0-beta.3"
   }
 }
