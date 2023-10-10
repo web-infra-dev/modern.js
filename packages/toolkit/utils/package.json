@@ -127,16 +127,11 @@
       "./browserslist": "./dist/compiled/browserslist/index.js",
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
-<<<<<<< HEAD
-      "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js"
-=======
-      "./gradient-string": "./dist/compiled/gradient-string/index.js",
       "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js",
       "./webpack-dev-middleware": {
         "types": "./dist/compiled/webpack-dev-middleware/types/index.d.ts",
         "default": "./dist/compiled/webpack-dev-middleware/index.js"
       }
->>>>>>> eadccdd973b (refactor: remove extra storybook package)
     }
   },
   "typesVersions": {
