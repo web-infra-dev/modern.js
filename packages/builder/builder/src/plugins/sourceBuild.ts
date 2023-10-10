@@ -6,7 +6,7 @@ import {
   filterByField,
   type Project,
   type ExtraMonorepoStrategies,
-} from '@modern-js/monorepo-utils';
+} from '@rsbuild/monorepo-utils';
 import { debug, fs } from '@modern-js/utils';
 import path from 'path';
 
