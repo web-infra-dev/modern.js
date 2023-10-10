@@ -196,12 +196,10 @@ export default ({
 
           builder.onDevCompileDone(async ({ isFirstCompile }) => {
             const hookRunners = api.useHookRunners();
-            if (process.stdout.isTTY || isFirstCompile) {
-              hookRunners.afterDev({ isFirstCompile });
+            hookRunners.afterDev({ isFirstCompile });
 
-              if (isFirstCompile) {
-                printInstructions(hookRunners, appContext, normalizedConfig);
-              }
+            if (isFirstCompile) {
+              printInstructions(hookRunners, appContext, normalizedConfig);
             }
           });
 
