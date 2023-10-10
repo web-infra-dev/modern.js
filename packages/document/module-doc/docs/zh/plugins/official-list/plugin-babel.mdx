@@ -25,6 +25,30 @@ export default defineConfig({
 });
 ```
 
+你也可以通过 hooks 配置注册，例如你同时需要打包 A，B 两个文件，并只需要在打包 A 时使用 babel：
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { getBabelHook } from '@modern-js/plugin-module-babel';
+
+const babelHook = getBabelHook({
+  // babel options
+});
+
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildConfig: [
+    {
+      hooks: [babelHook],
+      input: ['src/a.ts'],
+    },
+    {
+      input: ['src/b.ts'],
+    },
+  ],
+});
+```
+
 ## 配置
 
 See [Babel options](https://babeljs.io/docs/options)
