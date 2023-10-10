@@ -31,6 +31,7 @@ export default defineConfig({
 :::tip
 You can also configure registration via hooks, for example,
 if you have multiple build configurations at the same time and only need to inject the polyfill when bundle:
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { getPolyfillHook } from '@modern-js/plugin-module-polyfill';
@@ -39,14 +40,18 @@ const polyfillHook = getPolyfillHook();
 
 export default defineConfig({
   plugins: [moduleTools()],
-  buildConfig: [{
-    buildType: 'bundle',
-    hooks: [polyfillHook],
-  }, {
-    buildType: 'bundleless',
-  }]
+  buildConfig: [
+    {
+      buildType: 'bundle',
+      hooks: [polyfillHook],
+    },
+    {
+      buildType: 'bundleless',
+    },
+  ],
 });
 ```
+
 :::
 
 ## Config

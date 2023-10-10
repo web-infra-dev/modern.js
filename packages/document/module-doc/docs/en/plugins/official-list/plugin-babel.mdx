@@ -28,6 +28,7 @@ export default defineConfig({
 :::tip
 You can also configure the registration via hooks, for example,
 if you need to bundle two files A and B at the same time and only need to use babel when bundle A:
+
 ```ts
 import { moduleTools, defineConfig } from '@modern-js/module-tools';
 import { getBabelHook } from '@modern-js/plugin-module-babel';
@@ -38,14 +39,18 @@ const babelHook = getBabelHook({
 
 export default defineConfig({
   plugins: [moduleTools()],
-  buildConfig: [{
-    hooks: [babelHook],
-    input: ['src/a.ts']
-  }, {
-    input: ['src/b.ts']
-  }],
+  buildConfig: [
+    {
+      hooks: [babelHook],
+      input: ['src/a.ts'],
+    },
+    {
+      input: ['src/b.ts'],
+    },
+  ],
 });
 ```
+
 :::
 
 ## Config
