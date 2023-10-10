@@ -28,6 +28,28 @@ export default defineConfig({
 });
 ```
 
+你也可以通过 hooks 配置注册，例如你同时具有多份构建配置，并只需要在 bundle 构建时注入 polyfill：
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { getPolyfillHook } from '@modern-js/plugin-module-polyfill';
+
+const polyfillHook = getPolyfillHook();
+
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildConfig: [
+    {
+      buildType: 'bundle',
+      hooks: [polyfillHook],
+    },
+    {
+      buildType: 'bundleless',
+    },
+  ],
+});
+```
+
 ## 配置
 
 - **类型：**
