@@ -38,6 +38,7 @@ type RspackResolve = {
   conditionNames?: string[];
   alias?: Record<string, false | string | string[]>;
   tsConfigPath?: string;
+  modules?: string[];
   fallback?: Record<string, false | string>;
 };
 

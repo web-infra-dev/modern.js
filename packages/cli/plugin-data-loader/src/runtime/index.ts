@@ -79,20 +79,28 @@ const createLoaderHeaders = (
   return headers;
 };
 
-const createLoaderRequest = (context: ServerContext) => {
+const createRequest = (context: ServerContext) => {
   const origin = `${context.protocol}://${context.host}`;
   // eslint-disable-next-line node/prefer-global/url
   const url = new URL(context.url, origin);
 
   const controller = new AbortController();
 
-  const init = {
+  const init: {
+    [key: string]: unknown;
+  } = {
     method: context.method,
     headers: createLoaderHeaders(context.headers),
     signal: controller.signal,
   };
 
-  return new Request(url.href, init);
+  if (!['GET', 'HEAD'].includes(context.method.toUpperCase())) {
+    init.body = context.req;
+  }
+
+  const request = new Request(url.href, init);
+
+  return request;
 };
 
 const sendLoaderResponse = async (
@@ -122,17 +130,13 @@ export const handleRequest = async ({
   serverRoutes: ServerRoute[];
   routes: NestedRoute[];
 }) => {
-  const { method, query } = context;
+  const { query } = context;
   const routeId = query[LOADER_ID_PARAM] as string;
   const entry = matchEntry(context.path, serverRoutes);
 
   // LOADER_ID_PARAM is the indicator for CSR data loader request.
   if (!routeId || !entry) {
     return;
-  }
-
-  if (method.toLowerCase() !== 'get') {
-    throw new Error('CSR data loader request only support http GET method');
   }
 
   const basename = entry.urlPath;
@@ -142,7 +146,8 @@ export const handleRequest = async ({
   const { queryRoute } = createStaticHandler(routes, {
     basename,
   });
-  const request = createLoaderRequest(context);
+
+  const request = createRequest(context);
   const requestContext = createRequestContext();
   // initial requestContext
   // 1. inject reporter
@@ -187,7 +192,12 @@ export const handleRequest = async ({
     }
   } catch (error) {
     const message = error instanceof ErrorResponse ? error.data : String(error);
-    logger?.error(message);
+    if (error instanceof Error) {
+      logger?.error(error);
+    } else {
+      logger?.error(message);
+    }
+
     response = new NodeResponse(message, {
       status: 500,
       headers: {
@@ -198,6 +208,5 @@ export const handleRequest = async ({
 
   const cost = end();
   reporter.reportTiming(`${LOADER_REPORTER_NAME}-navigation`, cost);
-
   await sendLoaderResponse(res, response);
 };

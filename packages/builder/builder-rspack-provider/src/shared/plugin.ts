@@ -28,7 +28,7 @@ export const applyDefaultPlugins = (plugins: Plugins) =>
     // pug plugin should after html plugin
     import('../plugins/pug').then(m => m.builderPluginPug()),
     import('../plugins/babel').then(m => m.builderPluginBabel()),
-    import('../plugins/define').then(m => m.builderPluginDefine()),
+    plugins.define(),
     import('../plugins/css').then(m => m.builderPluginCss()),
     import('../plugins/less').then(m => m.builderPluginLess()),
     import('../plugins/sass').then(m => m.builderPluginSass()),

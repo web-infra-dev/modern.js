@@ -12,6 +12,7 @@ import { transform } from 'esbuild';
 import { parse } from 'es-module-lexer';
 import type { ImportStatement } from '../types';
 import {
+  ACTION_EXPORT_NAME,
   FILE_SYSTEM_ROUTES_FILE_NAME,
   JS_EXTENSIONS,
   LOADER_EXPORT_NAME,
@@ -145,13 +146,34 @@ export const parseModule = async ({
   return await parse(content);
 };
 
-export const hasLoader = async (filename: string) => {
-  const source = await fse.readFile(filename);
-  const [, moduleExports] = await parseModule({
-    source: source.toString(),
-    filename,
-  });
-  return moduleExports.some(e => e.n === LOADER_EXPORT_NAME);
+export const hasLoader = async (filename: string, source?: string) => {
+  let content = source;
+  if (!source) {
+    content = (await fse.readFile(filename, 'utf-8')).toString();
+  }
+  if (content) {
+    const [, moduleExports] = await parseModule({
+      source: content.toString(),
+      filename,
+    });
+    return moduleExports.some(e => e.n === LOADER_EXPORT_NAME);
+  }
+  return false;
+};
+
+export const hasAction = async (filename: string, source?: string) => {
+  let content = source;
+  if (!source) {
+    content = (await fse.readFile(filename, 'utf-8')).toString();
+  }
+  if (content) {
+    const [, moduleExports] = await parseModule({
+      source: content.toString(),
+      filename,
+    });
+    return moduleExports.some(e => e.n === ACTION_EXPORT_NAME);
+  }
+  return false;
 };
 
 export const getServerLoadersFile = (

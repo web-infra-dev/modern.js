@@ -31,7 +31,9 @@ export type BuilderPlugin<API = any> = {
   remove?: string[];
 };
 
-type PluginsFn = () => Promise<BuilderPlugin>;
+type PluginsFn<T = void> = T extends void
+  ? () => Promise<BuilderPlugin>
+  : (arg: T) => Promise<BuilderPlugin>;
 
 export type Plugins = {
   cleanOutput: PluginsFn;
@@ -65,6 +67,7 @@ export type Plugins = {
   networkPerformance: PluginsFn;
   preloadOrPrefetch: PluginsFn;
   performance: PluginsFn;
+  define: PluginsFn;
 };
 
 /**

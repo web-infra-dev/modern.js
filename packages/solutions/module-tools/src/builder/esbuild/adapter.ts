@@ -9,7 +9,6 @@ import { loaderMap } from '../../constants/loader';
 import { debugResolve } from '../../debug';
 import type { SideEffects, ICompiler } from '../../types';
 import { writeFile } from './write-file';
-import { initWatcher } from './watch';
 
 /**
  * esbuld's external will keep import statement as import|require statement, which
@@ -40,10 +39,6 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
   return {
     name: 'esbuild:adapter',
     setup(build) {
-      build.onStart(() => {
-        context.watch && initWatcher(compiler);
-      });
-
       build.onResolve({ filter: /.*/ }, async args => {
         if (args.kind === 'url-token') {
           return {

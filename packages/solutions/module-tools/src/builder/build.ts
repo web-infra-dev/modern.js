@@ -1,4 +1,5 @@
 import { slash, logger, fs } from '@modern-js/utils';
+import { withLogTitle } from '../utils';
 import type {
   BuildCommandOptions,
   BaseBuildConfig,
@@ -126,14 +127,8 @@ export const buildLib = async (
     addOutputChunk(compiler.outputChunk, root, buildType === 'bundle');
 
     if (watch) {
-      const { watchSectionTitle } = await import('../utils/log');
-      const { SectionTitleStatus } = await import('../constants/log');
-      const titleText = `[${
-        buildType === 'bundle' ? 'Bundle' : 'Bundleless'
-      }: ${format}_${target}]`;
-
-      logger.info(
-        await watchSectionTitle(titleText, SectionTitleStatus.Success),
+      logger.success(
+        withLogTitle(buildType, `Build ${format},${target} files`),
       );
     }
   } catch (e: any) {

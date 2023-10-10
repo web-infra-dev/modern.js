@@ -161,7 +161,7 @@ These properties as defined are available via the [`useMatches`](https://reactro
 
 ```ts title="routes/layout.ts"
 export default () => {
-  const matches = useMatches;
+  const matches = useMatches();
   const breadcrumbs = matches.map(
     matchedRoute => matchedRoute?.handle?.breadcrumbName,
   );
@@ -186,7 +186,7 @@ The `routes/[id]/page.tsx` file will be converted to the `/:id` route. Except fo
 
 In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to get the corresponding named parameter.
 
-In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
+In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
 
 ### Dynamic Optional Routing
 
@@ -206,7 +206,7 @@ The `routes/user/[id$]/page.tsx` file will be converted to the `/user/:id?` rout
 
 In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to get the corresponding named parameter.
 
-In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
+In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
 
 ### Catch-all Routing
 
@@ -351,12 +351,12 @@ Similarly, when the route jumps from `/` or `/blog` to `/blog/123`, if the JS Ch
 
 ### Redirect
 
-You can use a [Data Loader](/guides/basic-features/data-fetch) file to redirect a route. For example, if you have a `routes/user/page.tsx` file and want to redirect the corresponding route, you can create a `routes/user/page.loader.ts` file:
+You can use a [Data Loader](/guides/basic-features/data/data-fetch) file to redirect a route. For example, if you have a `routes/user/page.tsx` file and want to redirect the corresponding route, you can create a `routes/user/page.data.ts` file:
 
-```ts title="routes/user/page.loader.ts"
+```ts title="routes/user/page.data.ts"
 import { redirect } from '@modern-js/runtime/router';
 
-export default () => {
+export const loader = () => {
   const user = await getUser();
   if (!user) {
     return redirect('/login');
@@ -502,7 +502,7 @@ To further improve the user experience and reduce loading time, Modern.js suppor
 :::info
 
 - This feature is currently only supported in Webpack projects and not yet supported in Rspack projects.
-- Preloading data currently only preloads the data returned by the [Data Loader](/guides/basic-features/data-fetch) in SSR projects.
+- Preloading data currently only preloads the data returned by the [Data Loader](/guides/basic-features/data/data-fetch) in SSR projects.
 
 :::
 

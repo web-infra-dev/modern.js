@@ -11,6 +11,7 @@ import {
 } from 'esbuild';
 import * as tapable from 'tapable';
 import { FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
+import { withLogTitle } from '../../utils';
 import {
   BaseBuildConfig,
   BuilderHooks,
@@ -29,6 +30,7 @@ import { TransformContext } from './transform';
 import { SourcemapContext } from './sourcemap';
 import { createRenderChunkHook, createTransformHook } from './hook';
 import { createResolver } from './resolve';
+import { initWatcher } from './watch';
 
 export class EsbuildCompiler implements ICompiler {
   instance?: BuildContext;
@@ -101,6 +103,9 @@ export class EsbuildCompiler implements ICompiler {
   }
 
   async init() {
+    if (this.context.watch) {
+      initWatcher(this);
+    }
     const internal = await getInternalList(this.context);
     const user = this.config.hooks;
     this.hookList = [...user, ...internal];
@@ -269,7 +274,7 @@ export class EsbuildCompiler implements ICompiler {
     }
   }
 
-  async reBuild(type: 'link' | 'change') {
+  async reBuild(type: 'link' | 'change', config: BaseBuildConfig) {
     const { instance } = this;
     try {
       const start = Date.now();
@@ -278,9 +283,13 @@ export class EsbuildCompiler implements ICompiler {
       } else {
         this.result = await instance?.rebuild();
       }
-      logger.info(
-        chalk.green`Rebuild Successfully in ${Date.now() - start}ms`,
-        chalk.yellow`Rebuild Count: ${++this.reBuildCount}`,
+
+      const time = chalk.gray(`(${Date.now() - start}ms)`);
+      logger.success(
+        withLogTitle(
+          config.buildType,
+          `Build ${config.format},${config.target} files ${time}`,
+        ),
       );
     } catch (error: any) {
       logger.error(error);

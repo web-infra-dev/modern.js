@@ -1,5 +1,5 @@
 import path from 'path';
-import { watch, fs, logger, globby, fastGlob } from '@modern-js/utils';
+import { watch, fs, chalk, logger, globby, fastGlob } from '@modern-js/utils';
 import type { CopyOptions, CopyPattern } from '../types/config/copy';
 import type { BaseBuildConfig } from '../types/config';
 import pMap from '../../compiled/p-map';
@@ -151,10 +151,6 @@ export const watchCopyFiles = async (
 ) => {
   debug('watchMap', watchMap);
 
-  const { SectionTitleStatus, CopyLogPrefix } = await import(
-    '../constants/log'
-  );
-  const { watchSectionTitle } = await import('../utils/log');
   const watchList = Array.from(watchMap.keys());
 
   debug('watchList', watchList);
@@ -169,13 +165,7 @@ export const watchCopyFiles = async (
 
     if (changeType === 'unlink') {
       fs.remove(result);
-      logger.log(
-        await watchSectionTitle(
-          CopyLogPrefix,
-          SectionTitleStatus.Log,
-          `${formatFilePath} removed`,
-        ),
-      );
+      logger.info(`Copied file removed: ${chalk.dim(formatFilePath)}`);
       return;
     }
 
@@ -185,13 +175,7 @@ export const watchCopyFiles = async (
       await fs.copy(changedFilePath, result);
     }
 
-    logger.log(
-      await watchSectionTitle(
-        CopyLogPrefix,
-        SectionTitleStatus.Log,
-        `${formatFilePath} changed`,
-      ),
-    );
+    logger.info(`Copy file: ${chalk.dim(formatFilePath)}`);
   });
 };
 

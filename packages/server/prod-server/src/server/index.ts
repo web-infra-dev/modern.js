@@ -4,10 +4,9 @@ import type { ListenOptions } from 'net';
 import path from 'path';
 import {
   fs,
-  Logger,
+  createLogger,
   SHARED_DIR,
   OUTPUT_CONFIG_FILE,
-  LoggerInterface,
   dotenv,
   dotenvExpand,
   INTERNAL_SERVER_PLUGINS,
@@ -50,11 +49,7 @@ export class Server {
   private serverConfig: ServerConfig;
 
   constructor(options: ModernServerOptions) {
-    options.logger =
-      options.logger ||
-      (new Logger({
-        level: 'warn',
-      }) as Logger & LoggerInterface);
+    options.logger = options.logger || createLogger({ level: 'warn' });
     options.metrics = options.metrics || defaultMetrics;
 
     this.options = options;

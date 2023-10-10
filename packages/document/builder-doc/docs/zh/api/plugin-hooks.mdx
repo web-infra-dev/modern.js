@@ -84,7 +84,7 @@ import BundlerChain from '@zh/shared/bundlerChain.md';
 - **类型**
 
 ```ts
-type ModifyBunlderChainUtils = {
+type ModifyBundlerChainUtils = {
   env: NodeEnv;
   isProd: boolean;
   target: BuilderTarget;
@@ -92,12 +92,17 @@ type ModifyBunlderChainUtils = {
   isWebWorker: boolean;
   CHAIN_ID: ChainIdentifier;
   HtmlPlugin: typeof import('html-webpack-plugin');
+  bundler: {
+    // 取决于 bundler 类型
+    BannerPlugin: typeof webpack.BannerPlugin | typeof rspack.BannerPlugin;
+    DefinePlugin: typeof webpack.DefinePlugin | typeof rspack.DefinePlugin;
+  }
 };
 
 function ModifyBundlerChain(
   callback: (
     chain: BundlerChain,
-    utils: ModifyBunlderChainUtils,
+    utils: ModifyBundlerChainUtils,
   ) => Promise<void> | void,
 ): void;
 ```
@@ -226,6 +231,7 @@ type ModifyRspackConfigUtils = {
   isServer: boolean;
   isWebWorker: boolean;
   getCompiledPath: (name: string) => string;
+  rspack: typeof import('@rspack/core');
 };
 
 function ModifyRspackConfig(

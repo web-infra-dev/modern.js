@@ -58,6 +58,7 @@ exports[`nested routes walk 1`] = `
         "children": [
           {
             "_component": "@_modern_js_src/user/$.tsx",
+            "action": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.ts",
             "clientData": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.client.ts",
             "config": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.config.ts",
             "data": "<ROOT>/tests/analyze/fixtures/nested-routes/user/$.data.ts",
@@ -70,6 +71,7 @@ exports[`nested routes walk 1`] = `
               {
                 "_component": "@_modern_js_src/user/[id]/page.tsx",
                 "children": undefined,
+                "data": "<ROOT>/tests/analyze/fixtures/nested-routes/user/[id]/page.data.ts",
                 "id": "user/(id)/page",
                 "index": true,
                 "type": "nested",

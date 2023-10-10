@@ -37,7 +37,7 @@ export const run = async (
     await clearDtsTemp();
 
     if (watch) {
-      logger.info('Start build in watch mode...\n');
+      logger.info('Start build in watch mode...');
     }
 
     try {

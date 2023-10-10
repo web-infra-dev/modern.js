@@ -4,6 +4,7 @@
  */
 
 const externalHelpers = true;
+const transformLodash = true;
 const skipDts = process.env.SKIP_DTS === 'true';
 const dtsConfig = skipDts ? false : {};
 
@@ -18,6 +19,7 @@ const nodeBuildConfig = [
     dts: false,
     outDir: './dist/cjs',
     externalHelpers,
+    transformLodash,
   },
   {
     buildType: 'bundleless',
@@ -62,6 +64,7 @@ const universalBuildConfig = [
     dts: false,
     outDir: './dist/cjs',
     externalHelpers,
+    transformLodash,
   },
   {
     buildType: 'bundleless',
@@ -70,6 +73,7 @@ const universalBuildConfig = [
     dts: false,
     outDir: './dist/esm',
     externalHelpers,
+    transformLodash,
   },
   {
     buildType: 'bundleless',
@@ -78,6 +82,7 @@ const universalBuildConfig = [
     dts: false,
     outDir: './dist/esm-node',
     externalHelpers,
+    transformLodash,
   },
   skipDts
     ? null
@@ -101,6 +106,7 @@ const universalBuildConfigWithBundle = [
     dts: false,
     outDir: './dist/cjs',
     externalHelpers,
+    transformLodash,
   },
   {
     buildType: 'bundle',
@@ -109,6 +115,7 @@ const universalBuildConfigWithBundle = [
     dts: false,
     outDir: './dist/esm',
     externalHelpers,
+    transformLodash,
   },
   {
     buildType: 'bundleless',
@@ -117,6 +124,7 @@ const universalBuildConfigWithBundle = [
     dts: false,
     outDir: './dist/esm-node',
     externalHelpers,
+    transformLodash,
   },
   skipDts
     ? null
@@ -126,7 +134,6 @@ const universalBuildConfigWithBundle = [
           only: true,
         },
         outDir: './dist/types',
-        externalHelpers,
       },
 ].filter(Boolean);
 
@@ -151,6 +158,7 @@ const tscLikeBuildConfig = [
     target: 'es2019',
     outDir: './dist',
     externalHelpers,
+    transformLodash,
     dts: dtsConfig,
   },
 ];
