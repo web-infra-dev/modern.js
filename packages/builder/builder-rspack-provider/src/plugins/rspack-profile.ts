@@ -26,6 +26,8 @@ export const stopProfiler = (
   });
 };
 
+// Reference rspack-cli
+// https://github.com/modern-js-dev/rspack/blob/509abcfc523bc20125459f5d428dc1645751700c/packages/rspack-cli/src/utils/profile.ts
 export const builderPluginRspackProfile = (): BuilderPlugin => ({
   name: 'builder-plugin-rspack-profile',
 
@@ -34,7 +36,7 @@ export const builderPluginRspackProfile = (): BuilderPlugin => ({
      * RSPACK_PROFILE=ALL
      * RSPACK_PROFILE=TRACE|CPU|LOGGING
      */
-    const RSPACK_PROFILE = process.env.RSPACK_PROFILE?.toLowerCase();
+    const RSPACK_PROFILE = process.env.RSPACK_PROFILE?.toUpperCase();
 
     if (!RSPACK_PROFILE) {
       return;
@@ -49,13 +51,13 @@ export const builderPluginRspackProfile = (): BuilderPlugin => ({
     let profileSession: inspector.Session | undefined;
 
     const enableProfileTrace =
-      RSPACK_PROFILE === 'all' || RSPACK_PROFILE.includes('trace');
+      RSPACK_PROFILE === 'ALL' || RSPACK_PROFILE.includes('TRACE');
 
     const enableCPUProfile =
-      RSPACK_PROFILE === 'all' || RSPACK_PROFILE.includes('cpu');
+      RSPACK_PROFILE === 'ALL' || RSPACK_PROFILE.includes('CPU');
 
     const enableLogging =
-      RSPACK_PROFILE === 'all' || RSPACK_PROFILE.includes('logging');
+      RSPACK_PROFILE === 'ALL' || RSPACK_PROFILE.includes('LOGGING');
 
     const traceFilePath = path.join(profileDir, 'trace.json');
     const cpuProfilePath = path.join(profileDir, 'jscpuprofile.json');
