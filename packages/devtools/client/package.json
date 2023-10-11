@@ -53,9 +53,9 @@
     "type-fest": "^4.1.0",
     "typescript": "~5.0.4",
     "ufo": "^1.2.0",
-    "valtio": "^1.11.1"
-  },
-  "dependencies": {
+    "valtio": "^1.11.1",
+    "clsx": "^1.2.1",
     "react-icons": "^4.11.0"
-  }
+  },
+  "dependencies": {}
 }

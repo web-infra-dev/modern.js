@@ -33,7 +33,7 @@ const Navigator: React.FC = () => {
   const { tabs } = useStoreSnapshot();
 
   return (
-    <Flex direction="column" className={styles.navigator}>
+    <Flex direction="column" shrink="0" className={styles.navigator}>
       {tabs.map(tab => (
         <NavigateButton key={tab.name} tab={tab as any} />
       ))}
@@ -44,19 +44,23 @@ const Navigator: React.FC = () => {
 export default function Layout() {
   return (
     <StoreContextProvider>
-      <Theme panelBackground="solid">
+      <Theme accentColor="blue" panelBackground="solid">
         {process.env.NODE_ENV === 'development' && (
           <ThemePanel defaultOpen={false} />
         )}
         <Flex align="stretch" className={styles.container}>
           <Navigator />
-          <Box grow="1">
-            <Breadcrumbs />
-            <Box position="relative" height="100%">
-              <Outlet />
-              <Box height="6" className={styles.fadingMask} />
+          <Flex direction="column" grow="1" shrink="1">
+            <Box grow="0" shrink="0">
+              <Breadcrumbs />
             </Box>
-          </Box>
+            <Box style={{ minHeight: 0 }} position="relative">
+              <Box width="100%" height="100%">
+                <Outlet />
+              </Box>
+              {/* <Box height="6" className={styles.fadingMask} /> */}
+            </Box>
+          </Flex>
         </Flex>
       </Theme>
     </StoreContextProvider>
