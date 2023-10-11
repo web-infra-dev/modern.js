@@ -19,6 +19,7 @@ describe('bff express in dev', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
+  const CUSTOM_PAGE = 'custom-sdk';
   const host = `http://localhost`;
   const prefix = '/bff-api';
   let app: any;
@@ -61,6 +62,13 @@ describe('bff express in dev', () => {
     expect(text).toBe('foo');
   });
 
+  test('support custom sdk', async () => {
+    await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const text = await page.$eval('.hello', el => el?.textContent);
+    expect(text).toBe('Hello Custom SDK');
+  });
+
   afterAll(async () => {
     await killApp(app);
     await page.close();
@@ -72,6 +80,7 @@ describe('bff express in prod', () => {
   let port = 8080;
   const SSR_PAGE = 'ssr';
   const BASE_PAGE = 'base';
+  const CUSTOM_PAGE = 'custom-sdk';
   const host = `http://localhost`;
   const prefix = '/bff-api';
   let app: any;
@@ -119,6 +128,13 @@ describe('bff express in prod', () => {
     const res = await fetch(`${host}:${port}${prefix}/foo`);
     const text = await res.text();
     expect(text).toBe('foo');
+  });
+
+  test('support custom sdk', async () => {
+    await page.goto(`${host}:${port}/${CUSTOM_PAGE}`);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const text = await page.$eval('.hello', el => el?.textContent);
+    expect(text).toBe('Hello Custom SDK');
   });
 
   afterAll(async () => {
