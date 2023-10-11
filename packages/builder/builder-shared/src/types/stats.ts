@@ -10,6 +10,8 @@ interface StatsOptionsObj {
   errors?: boolean;
   errorsCount?: boolean;
   colors?: boolean;
+  logging?: boolean | 'none' | 'error' | 'warn' | 'info' | 'log' | 'verbose';
+  loggingTrace?: boolean;
 
   /** Rspack not support below opts */
   cachedAssets?: boolean;
