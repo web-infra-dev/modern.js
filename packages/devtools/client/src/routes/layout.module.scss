@@ -1,15 +1,43 @@
 @import '@/styles/theme.scss';
 
-.container {
+.wrapper {
+  --navigator-width: var(--space-8);
+  --breadcrumb-height: var(--space-7);
+}
+
+.inner {
   width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+  min-height: 100vh;
+  padding-left: var(--navigator-width);
+}
+
+.inner-right {
+  padding-top: var(--breadcrumb-height);
+  background-color: var(--gray-2);
+}
+
+.container {
+  min-height: calc(100vh - var(--breadcrumb-height));
 }
 
 .navigator {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--navigator-width);
   border-right: solid 1px var(--gray-5);
   padding: var(--space-1) 0;
+}
+
+.breadcrumbs {
+  position: fixed;
+  top: 0;
+  left: var(--navigator-width);
+  right: 0;
+  width: auto;
+  height: var(--breadcrumb-height);
+  background-image: linear-gradient(to bottom, var(--color-panel-solid), 85%, transparent);
 }
 
 .tab-button {

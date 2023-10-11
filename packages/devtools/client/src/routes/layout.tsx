@@ -44,24 +44,23 @@ const Navigator: React.FC = () => {
 export default function Layout() {
   return (
     <StoreContextProvider>
-      <Theme accentColor="blue" panelBackground="solid">
+      <Theme
+        className={styles.wrapper}
+        accentColor="blue"
+        panelBackground="solid"
+      >
+        <Box className={styles.inner}>
+          <Box className={styles.innerRight}>
+            <Box className={styles.container}>
+              <Outlet />
+            </Box>
+          </Box>
+        </Box>
         {process.env.NODE_ENV === 'development' && (
           <ThemePanel defaultOpen={false} />
         )}
-        <Flex align="stretch" className={styles.container}>
-          <Navigator />
-          <Flex direction="column" grow="1" shrink="1">
-            <Box grow="0" shrink="0">
-              <Breadcrumbs />
-            </Box>
-            <Box style={{ minHeight: 0 }} position="relative">
-              <Box width="100%" height="100%">
-                <Outlet />
-              </Box>
-              {/* <Box height="6" className={styles.fadingMask} /> */}
-            </Box>
-          </Flex>
-        </Flex>
+        <Navigator />
+        <Breadcrumbs className={styles.breadcrumbs} />
       </Theme>
     </StoreContextProvider>
   );
