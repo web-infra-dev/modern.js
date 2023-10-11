@@ -1,19 +1,7 @@
 import postcss from 'postcss';
 import { ICompiler } from '../../../types';
-import { getHash, normalizeSlashes } from '../../../utils';
+import { getHash, normalizeSlashes, isCssModule } from '../../../utils';
 import { postcssUrlPlugin } from './postcssUrlPlugin';
-
-const cssLangs = `\\.(css|less|sass|scss)($|\\?)`;
-const cssModuleRE = new RegExp(`\\.module${cssLangs}`);
-
-export const isCssModule = (
-  filePath: string,
-  autoModules: boolean | RegExp,
-) => {
-  return typeof autoModules === 'boolean'
-    ? autoModules && cssModuleRE.test(filePath)
-    : autoModules.test(filePath);
-};
 
 export const postcssTransformer = async (
   css: string,
