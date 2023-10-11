@@ -239,6 +239,20 @@ export default {
 };
 ```
 
+## Rspack 性能分析
+
+Builder 支持使用 `RSPACK_PROFILE` 环境变量来进行构建性能分析。
+
+```bash
+$ RSPACK_PROFILE=ALL pnpm build
+```
+
+执行该命令后会在当前产物目录下生成一个 `rspack-profile-${timestamp}` 文件夹，该文件夹下会包含 `logging.json`、`trace.json` 和 `jscpuprofile.json` 三个文件
+
+- `trace.json`：使用 tracing 细粒度地记录了 Rust 侧各个阶段的耗时，可以使用 [ui.perfetto.dev](https://ui.perfetto.dev/) 进行查看
+- `jscpuprofile.json`：使用 [Node.js inspector](https://nodejs.org/dist/latest-v18.x/docs/api/inspector.html) 细粒度地记录了 JavaScript 侧的各个阶段的耗时，可以使用 [speedscope.app](https://www.speedscope.app/) 进行查看
+- `logging.json`：包含一些日志信息，粗粒度地记录了构建的各个阶段耗时
+
 ## 对比 Rspack CLI
 
 Builder Rspack 构建模式对比 [Rspack CLI](https://www.rspack.dev/zh/guide/quick-start.html#%E4%BD%BF%E7%94%A8-rspack-cli) 添加了很多开箱即用的能力，同时，这些能力的封装会带来一定程度上的性能开销和行为表现上的差异:
