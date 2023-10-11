@@ -39,6 +39,9 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
   return {
     name: 'esbuild:adapter',
     setup(build) {
+      build.onStart(async () => {
+        compiler.outputChunk = new Map();
+      });
       build.onResolve({ filter: /.*/ }, async args => {
         if (args.kind === 'url-token') {
           return {
