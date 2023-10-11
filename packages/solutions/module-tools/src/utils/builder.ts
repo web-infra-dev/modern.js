@@ -92,3 +92,15 @@ export const resolvePathAndQuery = (originalPath: string): ResolveResult => {
     rawQuery: queryStr,
   };
 };
+
+const cssLangs = `\\.(css|less|sass|scss)($|\\?)`;
+const cssModuleRE = new RegExp(`\\.module${cssLangs}`);
+
+export const isCssModule = (
+  filePath: string,
+  autoModules: boolean | RegExp,
+) => {
+  return typeof autoModules === 'boolean'
+    ? autoModules && cssModuleRE.test(filePath)
+    : autoModules.test(filePath);
+};

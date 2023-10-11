@@ -25,10 +25,10 @@ import {
   normalizeSlashes,
   isJsExt,
   isJsLoader,
+  isCssModule,
   resolvePathAndQuery,
 } from '../../utils';
 import { getAssetContents, loadSvgr } from './asset';
-import { isCssModule } from './style/postcssTransformer';
 
 type MatchModule = {
   name?: string;
@@ -126,8 +126,10 @@ async function redirectImport(
         ) {
           // less sass
           if (isCssModule(name, compiler.config.style.autoModules ?? true)) {
-            str.overwrite(start, end, `${name.slice(0, -ext.length)}`);
+            // ./index.module.css -> ./index_module_css
+            str.overwrite(start, end, name.replace(/\.(?!\/)/g, '_'));
           } else {
+            // ./index.less -> ./index.css
             str.overwrite(start, end, `${name.slice(0, -ext.length)}.css`);
           }
           return;

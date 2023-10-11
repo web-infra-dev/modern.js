@@ -1,10 +1,14 @@
-import { dirname, resolve, extname } from 'path';
+import { dirname, resolve, extname, basename } from 'path';
 import module from 'module';
 import pm from 'picomatch';
 import { ImportKind, Loader, Plugin } from 'esbuild';
 import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
-import { normalizeSourceMap, resolvePathAndQuery } from '../../utils';
+import {
+  normalizeSourceMap,
+  resolvePathAndQuery,
+  isCssModule,
+} from '../../utils';
 import { loaderMap } from '../../constants/loader';
 import { debugResolve } from '../../debug';
 import type { SideEffects, ICompiler } from '../../types';
@@ -270,7 +274,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           if (key.endsWith('.map')) {
             continue;
           }
-          const absPath = resolve(root, key);
+          let absPath = resolve(root, key);
           const item = result.outputFiles?.find(x => x.path === absPath);
           const mapping = result.outputFiles?.find(
             x =>
@@ -281,6 +285,18 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
             continue;
           }
           if (absPath.endsWith('.js')) {
+            // when emit css module file in bundleless, we need change filename, eg.
+            // index.module.css -> index_module_css.js
+            if (
+              config.buildType === 'bundleless' &&
+              value.entryPoint &&
+              isCssModule(value.entryPoint, config.style.autoModules)
+            ) {
+              absPath = resolve(
+                dirname(absPath),
+                `${basename(value.entryPoint).replace(/\./g, '_')}.js`,
+              );
+            }
             compiler.emitAsset(absPath, {
               type: 'chunk',
               contents: item.text,
