@@ -15,10 +15,9 @@ export const SelectLink: React.FC<SelectLinkProps> = ({ items }) => {
   const navigate = useNavigate();
   const loc = useLocation();
   const active = items.find(item => matchPath(item.to, loc.pathname));
-  console.log('active: ', active);
 
   return (
-    <Select.Root size="2" value={active?.to} onValueChange={navigate}>
+    <Select.Root size="1" value={active?.to} onValueChange={navigate}>
       <Select.Trigger />
       <Select.Content position="popper">
         {items.map(({ title, to }) => (

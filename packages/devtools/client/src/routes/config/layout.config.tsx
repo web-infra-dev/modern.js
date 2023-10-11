@@ -59,7 +59,7 @@ const SelectToolkit: React.FC = () => {
   };
 
   return (
-    <Select.Root size="2" value={toolkit} onValueChange={handleValueChange}>
+    <Select.Root size="1" value={toolkit} onValueChange={handleValueChange}>
       <Select.Trigger>{toolkit}</Select.Trigger>
       <Select.Content>
         {TOOLKIT_LIST.map(({ name, describe }) => (
@@ -97,7 +97,7 @@ const SelectType: React.FC = () => {
   };
 
   return (
-    <Select.Root size="2" value={type} onValueChange={handleValueChange}>
+    <Select.Root size="1" value={type} onValueChange={handleValueChange}>
       <Select.Trigger>{type}</Select.Trigger>
       <Select.Content>
         {CONFIG_TYPE.map(({ name, describe }) => (
