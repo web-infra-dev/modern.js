@@ -49,8 +49,6 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
               const prefix = bff?.prefix || DEFAULT_API_PREFIX;
               const httpMethodDecider = bff?.httpMethodDecider;
 
-              chain.resolve.alias.set('@api', apiDirectory);
-
               const apiRouter = new ApiRouter({
                 apiDir: apiDirectory,
                 appDir: appDirectory,
@@ -86,6 +84,14 @@ export const bffPlugin = (): CliPlugin<AppTools> => ({
                   requestCreator: (bff as any)?.requestCreator,
                   httpMethodDecider,
                 });
+
+              chain.resolve.alias.set('@api', apiDirectory);
+              chain.resolve.alias.set(
+                '@modern-js/runtime/bff',
+                isServer
+                  ? require.resolve('@modern-js/create-request/server')
+                  : require.resolve('@modern-js/create-request/client'),
+              );
             },
           },
           source: {
