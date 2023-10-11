@@ -2,15 +2,14 @@ import React, { ReactNode } from 'react';
 import _ from 'lodash';
 import { Flex } from '@radix-ui/themes';
 import { ChevronRightIcon } from '@radix-ui/react-icons';
-import type { ButtonProps } from '@radix-ui/themes/dist/cjs/components/button';
+import type { FlexProps } from '@radix-ui/themes/dist/cjs/components/flex';
 import { useMatches } from '@modern-js/runtime/router';
 import styles from './Breadcrumbs.module.scss';
 import { Link } from './Link';
 
-export type BreadcrumbButtonProps = ButtonProps &
-  React.RefAttributes<HTMLButtonElement>;
+export type BreadcrumbProps = FlexProps & React.RefAttributes<HTMLDivElement>;
 
-export const Breadcrumbs: React.FC = () => {
+export const Breadcrumbs: React.FC<BreadcrumbProps> = props => {
   const elements: React.ReactElement[] = [];
   const items: { pathname: string; title: ReactNode; id: string }[] = [];
 
@@ -50,7 +49,7 @@ export const Breadcrumbs: React.FC = () => {
     }
   }
   return (
-    <Flex align="center" height="8" gap="1" mx="4">
+    <Flex align="center" height="8" gap="1" px="4" {...props}>
       {elements}
     </Flex>
   );
