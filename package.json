@@ -44,9 +44,9 @@
   },
   "engines": {
     "node": ">=14.17.6",
-    "pnpm": ">=8.0.0 <=8.6.1"
+    "pnpm": ">=8.7.0 <9"
   },
-  "packageManager": "pnpm@8.6.1",
+  "packageManager": "pnpm@8.9.0",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
