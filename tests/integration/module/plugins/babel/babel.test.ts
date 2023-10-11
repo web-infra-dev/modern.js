@@ -15,6 +15,11 @@ describe('plugin-babel', () => {
       path.resolve(__dirname, 'dist/index.js'),
       'utf8',
     );
+    const map = fs.readFileSync(
+      path.resolve(__dirname, 'dist/index.js.map'),
+      'utf8',
+    );
     expect(outFile).toContain('_regeneratorRuntime');
+    expect(JSON.parse(map).sources[0]).toBe('../src/index.js');
   });
 });

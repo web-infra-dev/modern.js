@@ -1,3 +1,4 @@
+import { basename } from 'path';
 import type { TransformConfig, JscTarget } from '@modern-js/swc-plugins';
 import { Compiler } from '@modern-js/swc-plugins';
 import type { ICompiler, Source, TsTarget, ITsconfig } from '../../types';
@@ -78,7 +79,6 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
           const { target, jsx } = compiler.config;
 
           const swcCompilerOptions: TransformConfig = {
-            filename: path,
             sourceMaps: Boolean(compiler.config.sourceMap),
             inputSourceMap: false,
             swcrc: false,
@@ -119,7 +119,10 @@ export const swcTransform = (userTsconfig: ITsconfig) => ({
           };
 
           const swcCompiler = new Compiler(swcCompilerOptions);
-          const result = await swcCompiler.transform(path, source.code);
+          const result = await swcCompiler.transform(
+            basename(path),
+            source.code,
+          );
           return {
             ...source,
             code: result.code,
@@ -148,7 +151,6 @@ export const swcRenderChunk = {
               ? umdModuleName(chunk.fileName)
               : umdModuleName;
           const swcCompiler = new Compiler({
-            filename: name,
             sourceMaps: Boolean(compiler.config.sourceMap),
             inputSourceMap: false,
             swcrc: false,
