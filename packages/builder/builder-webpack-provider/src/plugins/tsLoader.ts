@@ -1,9 +1,10 @@
 import {
   TS_REGEX,
-  resolvePackage,
   applyScriptCondition,
+  getBrowserslistWithDefault,
 } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
+import { getBabelPresetForWeb } from '@rsbuild/babel-preset/web';
 import { BuilderPlugin } from '../types';
 import { getUseBuiltIns } from './babel';
 
@@ -11,74 +12,83 @@ export const builderPluginTsLoader = (): BuilderPlugin => {
   return {
     name: 'builder-plugin-ts-loader',
     setup(api) {
-      api.modifyWebpackChain(async (chain, { CHAIN_ID, getCompiledPath }) => {
-        const config = api.getNormalizedConfig();
-        if (!config.tools.tsLoader) {
-          return;
-        }
+      api.modifyWebpackChain(
+        async (chain, { target, CHAIN_ID, getCompiledPath }) => {
+          const config = api.getNormalizedConfig();
+          if (!config.tools.tsLoader) {
+            return;
+          }
+          const { getBabelUtils, applyOptionsChain } = await import(
+            '@modern-js/utils'
+          );
 
-        const { rootPath } = api.context;
-        const babelLoaderOptions = {
-          presets: [
-            [
-              resolvePackage('@modern-js/babel-preset-app', __dirname),
-              {
-                appDirectory: rootPath,
-                target: 'client',
-                useTsLoader: true,
-                useBuiltIns: getUseBuiltIns(config),
-                userBabelConfig: config.tools.babel,
-                disableReactPreset: true,
-              },
-            ],
-          ],
-        };
+          const { rootPath } = api.context;
+          const browserslist = await getBrowserslistWithDefault(
+            rootPath,
+            config,
+            target,
+          );
 
-        const includes: Array<string | RegExp> = [];
-        const excludes: Array<string | RegExp> = [];
-
-        const tsLoaderUtils = {
-          addIncludes(items: string | RegExp | (string | RegExp)[]) {
-            includes.push(..._.castArray(items));
-          },
-          addExcludes(items: string | RegExp | (string | RegExp)[]) {
-            excludes.push(..._.castArray(items));
-          },
-        };
-        const { applyOptionsChain } = await import('@modern-js/utils');
-        // @ts-expect-error ts-loader has incorrect types for compilerOptions
-        const tsLoaderOptions = applyOptionsChain(
-          {
-            compilerOptions: {
-              target: 'esnext',
-              module: 'esnext',
+          const baseBabelConfig = getBabelPresetForWeb({
+            presetEnv: {
+              targets: browserslist,
+              useBuiltIns: getUseBuiltIns(config),
             },
-            transpileOnly: true,
-            allowTsInNodeModules: true,
-          },
-          config.tools.tsLoader,
-          tsLoaderUtils,
-        );
-        const rule = chain.module.rule(CHAIN_ID.RULE.TS);
+          });
 
-        applyScriptCondition({
-          rule,
-          config,
-          context: api.context,
-          includes,
-          excludes,
-        });
+          const babelUtils = getBabelUtils(baseBabelConfig);
 
-        rule
-          .test(TS_REGEX)
-          .use(CHAIN_ID.USE.BABEL)
-          .loader(getCompiledPath('babel-loader'))
-          .options(babelLoaderOptions)
-          .end()
-          .use(CHAIN_ID.USE.TS)
-          .loader(require.resolve('ts-loader'))
-          .options(tsLoaderOptions);
-      });
+          const babelLoaderOptions = applyOptionsChain(
+            baseBabelConfig,
+            config.tools.babel,
+            babelUtils,
+          );
+
+          const includes: Array<string | RegExp> = [];
+          const excludes: Array<string | RegExp> = [];
+
+          const tsLoaderUtils = {
+            addIncludes(items: string | RegExp | (string | RegExp)[]) {
+              includes.push(..._.castArray(items));
+            },
+            addExcludes(items: string | RegExp | (string | RegExp)[]) {
+              excludes.push(..._.castArray(items));
+            },
+          };
+          // @ts-expect-error ts-loader has incorrect types for compilerOptions
+          const tsLoaderOptions = applyOptionsChain(
+            {
+              compilerOptions: {
+                target: 'esnext',
+                module: 'esnext',
+              },
+              transpileOnly: true,
+              allowTsInNodeModules: true,
+            },
+            config.tools.tsLoader,
+            tsLoaderUtils,
+          );
+          const rule = chain.module.rule(CHAIN_ID.RULE.TS);
+
+          applyScriptCondition({
+            rule,
+            config,
+            context: api.context,
+            includes,
+            excludes,
+          });
+
+          rule
+            .test(TS_REGEX)
+            .use(CHAIN_ID.USE.BABEL)
+            .loader(getCompiledPath('babel-loader'))
+            .options(babelLoaderOptions)
+            .end()
+            .use(CHAIN_ID.USE.TS)
+            .loader(require.resolve('ts-loader'))
+            .options(tsLoaderOptions);
+        },
+      );
     },
   };
 };
