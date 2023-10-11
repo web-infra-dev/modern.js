@@ -1,4 +1,3 @@
-import type { IStyledComponentOptions } from '@modern-js/babel-preset-app';
 import type {
   ArrayOrNot,
   ChainedConfig,
@@ -29,7 +28,19 @@ export type ToolsTSLoaderConfig = ChainedConfig<
   { addIncludes: FileFilterUtil; addExcludes: FileFilterUtil }
 >;
 
-export type ToolsStyledComponentConfig = ChainedConfig<IStyledComponentOptions>;
+export interface StyledComponentOptions {
+  pure?: boolean;
+  displayName?: boolean;
+  ssr?: boolean;
+  fileName?: boolean;
+  meaninglessFileNames?: string[];
+  minify?: boolean;
+  transpileTemplateLiterals?: boolean;
+  namespace?: string;
+  topLevelImportPaths?: string[];
+}
+
+export type ToolsStyledComponentConfig = ChainedConfig<StyledComponentOptions>;
 
 export type ToolsCssExtractConfig =
   | CSSExtractOptions
