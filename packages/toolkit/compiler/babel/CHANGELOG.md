@@ -1,5 +1,14 @@
 # @modern-js/babel-compiler
 
+## 2.36.0
+
+### Patch Changes
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes
