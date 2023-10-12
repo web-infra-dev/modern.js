@@ -207,6 +207,8 @@ export const redirect = {
         const staticPattern = [
           `import $$VAR from '$MATCH'`,
           `import $$VAR from "$MATCH"`,
+          `export {$$VAR} from '$MATCH'`,
+          `export {$$VAR} from "$MATCH"`,
           `import '$MATCH'`,
           `import "$MATCH"`,
         ];

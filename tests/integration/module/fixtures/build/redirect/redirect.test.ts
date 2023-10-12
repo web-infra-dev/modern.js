@@ -31,6 +31,7 @@ describe('redirect', () => {
     const jsContent = await fs.readFile(distJsFilePath, 'utf-8');
     // redirect alias
     expect(jsContent.includes(`import alias from "./alias"`)).toBeTruthy();
+    expect(jsContent.includes(`@/alias`)).toBeFalsy();
     // redirect style
     expect(
       jsContent.includes(`import css from "./index.module";`),
