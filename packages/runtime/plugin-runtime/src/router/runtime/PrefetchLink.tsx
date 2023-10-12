@@ -14,6 +14,7 @@ import {
   useMatches,
   NavLink as RouterNavLink,
   NavLinkProps as RouterNavLinkProps,
+  Path,
 } from '@modern-js/runtime-utils/router';
 import { RuntimeReactContext } from '../../core';
 import { RouteAssets, RouteManifest } from './types';
@@ -186,7 +187,8 @@ const getDataHref = (
   return createDataHref(url.toString());
 };
 
-const PrefetchPageLinks: React.FC<{ pathname: string }> = ({ pathname }) => {
+const PrefetchPageLinks: React.FC<{ path: Path }> = ({ path }) => {
+  const { pathname } = path;
   const context = useContext(RuntimeReactContext);
   const { routeManifest, routes } = context;
   const { routeAssets } = routeManifest || {};
@@ -202,7 +204,7 @@ const PrefetchPageLinks: React.FC<{ pathname: string }> = ({ pathname }) => {
   return (
     <PrefetchDataLinks
       matches={matches}
-      pathname={pathname}
+      path={path}
       routeManifest={routeManifest}
     />
   );
@@ -210,9 +212,10 @@ const PrefetchPageLinks: React.FC<{ pathname: string }> = ({ pathname }) => {
 
 const PrefetchDataLinks: React.FC<{
   matches: ReturnType<typeof matchRoutes>;
-  pathname: string;
+  path: Path;
   routeManifest: RouteManifest;
-}> = ({ matches, pathname, routeManifest }) => {
+}> = ({ matches, path, routeManifest }) => {
+  const { pathname, search, hash } = path;
   const currentMatches = useMatches();
   const basename = useHref('/');
   const dataHrefs = useMemo(() => {
@@ -226,7 +229,25 @@ const PrefetchDataLinks: React.FC<{
           return false;
         }
 
-        // TODO: rewrite with shouldRevalidate
+        if (match.route.shouldRevalidate) {
+          const currentUrl = new URL(
+            location.pathname + location.search + location.hash,
+            window.origin,
+          );
+          const nextUrl = new URL(pathname + search + hash, window.origin);
+          const shouldLoad = match.route.shouldRevalidate({
+            currentUrl,
+            currentParams: currentMatches[0]?.params || {},
+            nextUrl,
+            nextParams: match.params,
+            defaultShouldRevalidate: true,
+          });
+
+          if (typeof shouldLoad === 'boolean') {
+            return shouldLoad;
+          }
+        }
+
         const currentMatch = currentMatches[index];
         if (!currentMatch || currentMatch.id !== match.route.id) {
           return true;
@@ -266,7 +287,6 @@ const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
       );
 
       const resolvedPath = useResolvedPath(to);
-      const { pathname } = resolvedPath;
       return (
         <>
           <Link
@@ -276,7 +296,7 @@ const createPrefetchLink = <T extends typeof RouterLink | typeof RouterNavLink>(
             {...prefetchHandlers}
           />
           {shouldPrefetch && __webpack_chunk_load__ && !isAbsolute ? (
-            <PrefetchPageLinks pathname={pathname} />
+            <PrefetchPageLinks path={resolvedPath} />
           ) : null}
         </>
       );

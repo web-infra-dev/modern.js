@@ -219,6 +219,7 @@ export function UserLayout() {
 
 如果想获取 `entry1/routes/layout.tsx` 中 `loader` 返回的数据，`routeId` 的值就是 `entry1_layout`。
 
+
 ### (WIP)Loading UI
 
 :::info
@@ -277,7 +278,49 @@ defer 的具体用法请查看 [defer](https://reactrouter.com/en/main/guides/de
 
 :::
 
-{/* TODO 缓存相关 */}
+### 数据缓存
+
+在路由导航时，Modern.js 只会加载路由变化的部分的数据，如当前路由是 `a/b`，`a` 路径对应的 Data Loader 已经执行过，当从 `/a/b` 跳转到 `/a/c`时，`a` 路径对应的 Data Loader 不会重新执行，`c` 路径对应的 Data Loader 会执行，并获取了数据。
+
+即 Modern.js 在数据加载时，只会加载路由变化部分的数据，这种默认的优化策略避免了无效重复数据的请求。
+
+你可能会问，如何更新 `a` 路径对应 Data Loader 的数据？
+
+在 Modern.js 中，以下几种情况，Modern.js 会重新加载对应路由路径的数据：
+
+1. 在 [Data Action](/guides/basic-features/data/data-write.md) 触发后
+2. url 上搜索参数发生了变化
+3. 用户点击的链接与当前页面的  相同
+
+:::info
+如果你在路由上定义了 [`shouldRevalidate`](#/shouldrevalidate) 函数，会先检查该函数，判断是否需要重新加载数据。
+:::
+
+### `shouldRevalidate`
+
+在每个路由组件(`layout.tsx`，`page.tsx`, `$.tsx`)中，我们可以导出一个 `shouldRevalidate` 函数，这个函数可以控制要重新加载哪些路由中的数据，当这个函数返回 true， 对应路由的数据就会重新加载。
+
+```ts title="routes/user/layout.tsx"
+import type { ShouldRevalidateFunction } from '@modern-js/runtime/router';
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  actionResult,
+  currentParams,
+  currentUrl,
+  defaultShouldRevalidate,
+  formAction,
+  formData,
+  formEncType,
+  formMethod,
+  nextParams,
+  nextUrl,
+}) => {
+  return true;
+};
+```
+
+:::info
+`shouldRevalidate` 函数的更多信息可以参考 [react-router](https://reactrouter.com/en/main/route/should-revalidate)
+:::
 
 ### 错误用法
 

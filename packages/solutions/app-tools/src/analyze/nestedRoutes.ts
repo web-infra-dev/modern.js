@@ -353,7 +353,12 @@ export const walk = async (
     childRoute => childRoute,
   ));
 
-  if (childRoutes && childRoutes.length === 0 && !finalRoute.index) {
+  if (
+    childRoutes &&
+    childRoutes.length === 0 &&
+    !finalRoute.index &&
+    !finalRoute._component
+  ) {
     return null;
   }
 

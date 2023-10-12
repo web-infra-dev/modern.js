@@ -9,6 +9,7 @@ import type {
   SSRMode,
 } from '@modern-js/types';
 import { fs, getEntryOptions, isSSGEntry, slash } from '@modern-js/utils';
+import { ROUTE_MODULES } from '@modern-js/utils/universal/constants';
 import type { AppNormalizedConfig, IAppContext, RuntimePlugin } from '../types';
 import { APP_CONFIG_NAME, TEMP_LOADERS_DIR } from './constants';
 import { getServerLoadersFile } from './utils';
@@ -274,7 +275,7 @@ export const fileSystemRoutes = async ({
   }: {
     loaderId: string;
     clientData?: boolean;
-    action: false | string;
+    action: string | false;
     inline: boolean;
     routeId: string;
   }) => {
@@ -341,19 +342,24 @@ export const fileSystemRoutes = async ({
       if (route._component) {
         if (splitRouteChunks) {
           if (route.isRoot) {
+            lazyImport = `async function(){const routeModule = await import('${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
             rootLayoutCode = `import RootLayout from '${route._component}'`;
             component = `RootLayout`;
           } else if (ssrMode === 'string') {
-            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
+            lazyImport = `async function(){const routeModule = await import(/* webpackChunkName: "${route.id}" */  '${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
             component = `loadable(${lazyImport})`;
           } else {
             // csr and streaming
-            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}')`;
+            lazyImport = `async function(){const routeModule = await import(/* webpackChunkName: "${route.id}" */  '${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
             component = `lazy(${lazyImport})`;
           }
         } else {
-          components.push(route._component);
-          component = `component_${components.length - 1}`;
+          lazyImport = `async function(){const routeModule = await import(/* webpackMode: "eager" */ '${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
+          if (ssrMode === 'string') {
+            component = `loadable(${lazyImport})`;
+          } else {
+            component = `lazy(${lazyImport})`;
+          }
         }
       }
     } else if (route._component) {
@@ -379,6 +385,18 @@ export const fileSystemRoutes = async ({
     if (route._component) {
       finalRoute.component = component;
     }
+    /**
+     * All routing components with loader will add shouldRevalidate
+     * but when routeModule does not have a corresponding shouldRevalidate
+     * the default shouldRevalidate will be used.
+     */
+    if (
+      route.type === 'nested' &&
+      route._component &&
+      (route.loader || route.data)
+    ) {
+      finalRoute.shouldRevalidate = `createShouldRevalidate("${route.id}")`;
+    }
     return finalRoute;
   };
 
@@ -392,6 +410,7 @@ export const fileSystemRoutes = async ({
       const keywords = [
         'component',
         'lazyImport',
+        'shouldRevalidate',
         'loader',
         'action',
         'loading',
@@ -487,14 +506,25 @@ export const fileSystemRoutes = async ({
   await fs.ensureFile(loadersMapFile);
   await fs.writeJSON(loadersMapFile, loadersMap);
 
+  const importRuntimeRouterCode = `
+    import { createShouldRevalidate } from '@modern-js/runtime/router';
+  `;
+  const routeModulesCode = `
+    if(typeof document !== 'undefined'){
+      window.${ROUTE_MODULES} = {}
+    }
+  `;
+
   return `
     ${importLazyCode}
     ${importComponentsCode}
+    ${importRuntimeRouterCode}
     ${rootLayoutCode}
     ${importLoadingCode}
     ${importErrorComponentsCode}
     ${importLoadersCode}
     ${importConfigsCode}
+    ${routeModulesCode}
     ${routeComponentsCode}
   `;
 };

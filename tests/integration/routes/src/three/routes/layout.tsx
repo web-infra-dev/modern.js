@@ -8,10 +8,13 @@ export default function Layout() {
   return (
     <div>
       {data?.message}
+      <Link to="/" className="root-btn" prefetch="intent">
+        /user
+      </Link>
       <Link to="user" className="user-btn" prefetch="intent">
         /user
       </Link>
-      <Link to="user/profile" prefetch="intent">
+      <Link to="user/profile" className="user-profile" prefetch="intent">
         /user/profile
       </Link>
       <Link to="error/loader" className="loader-error-btn" prefetch="intent">
@@ -22,6 +25,17 @@ export default function Layout() {
       </Link>
       <Link to="client-loader" className="client-loader-btn" prefetch="intent">
         /client-loader
+      </Link>
+      <Link to="user/revalidate">/user/revalidate</Link>
+      <Link className="should-revalidate" to="user/111">
+        /user/111
+      </Link>
+      <Link
+        className="should-not-revalidate"
+        to="user/222?revalidate=false"
+        prefetch="intent"
+      >
+        /user/222
       </Link>
       <Outlet />
     </div>
