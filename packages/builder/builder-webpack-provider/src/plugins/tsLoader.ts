@@ -4,7 +4,7 @@ import {
   getBrowserslistWithDefault,
 } from '@modern-js/builder-shared';
 import _ from '@modern-js/utils/lodash';
-import { getBabelPresetForWeb } from '@rsbuild/babel-preset/web';
+import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
 import { BuilderPlugin } from '../types';
 import { getUseBuiltIns } from './babel';
 
@@ -29,7 +29,7 @@ export const builderPluginTsLoader = (): BuilderPlugin => {
             target,
           );
 
-          const baseBabelConfig = getBabelPresetForWeb({
+          const baseBabelConfig = getBabelConfigForWeb({
             presetEnv: {
               targets: browserslist,
               useBuiltIns: getUseBuiltIns(config),

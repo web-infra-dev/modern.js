@@ -1,6 +1,6 @@
-import { getBabelPresetForWeb } from '@rsbuild/babel-preset/web';
-import { getBabelPresetForNode } from '@rsbuild/babel-preset/node';
-import type { BabelOptions } from '@rsbuild/babel-preset';
+import { getBabelConfigForWeb } from '@rsbuild/babel-preset/web';
+import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
+import type { BabelConfig } from '@rsbuild/babel-preset';
 import {
   JS_REGEX,
   TS_REGEX,
@@ -77,8 +77,8 @@ export const builderPluginBabel = (): BuilderPlugin => ({
 
           const baseBabelConfig =
             isServer || isServiceWorker
-              ? getBabelPresetForNode()
-              : getBabelPresetForWeb({
+              ? getBabelConfigForNode()
+              : getBabelConfigForWeb({
                   presetEnv: {
                     targets: browserslist,
                     useBuiltIns: getUseBuiltIns(config),
@@ -107,7 +107,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           );
 
           // 3. Compute final babel config by @modern-js/babel-preset-app
-          const babelOptions: BabelOptions = {
+          const finalOptions: BabelConfig = {
             babelrc: false,
             configFile: false,
             compact: isProd,
@@ -115,13 +115,13 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           };
 
           if (config.output.charset === 'utf8') {
-            babelOptions.generatorOpts = {
+            finalOptions.generatorOpts = {
               jsescOption: { minimal: true },
             };
           }
 
           return {
-            babelOptions,
+            babelOptions: finalOptions,
             includes,
             excludes,
           };
@@ -169,14 +169,14 @@ export const builderPluginBabel = (): BuilderPlugin => ({
   },
 });
 
-function applyPluginLodash(config: BabelOptions, transformLodash?: boolean) {
+function applyPluginLodash(config: BabelConfig, transformLodash?: boolean) {
   if (transformLodash) {
     config.plugins?.push([getCompiledPath('babel-plugin-lodash'), {}]);
   }
 }
 
 async function applyPluginStyledComponents(
-  babelConfig: BabelOptions,
+  babelConfig: BabelConfig,
   builderConfig: NormalizedConfig,
   isProd: boolean,
 ) {
@@ -204,7 +204,7 @@ async function applyPluginStyledComponents(
 }
 
 function applyPluginImport(
-  config: BabelOptions,
+  config: BabelConfig,
   pluginImport?: false | TransformImport[],
 ) {
   if (pluginImport !== false && pluginImport) {

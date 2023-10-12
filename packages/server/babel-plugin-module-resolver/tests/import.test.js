@@ -81,8 +81,7 @@ describe('import and export statement', () => {
           value: true
         });
         exports.something = void 0;
-        let something;
-        exports.something = something;
+        let something = exports.something = void 0;
       `);
     });
   }
