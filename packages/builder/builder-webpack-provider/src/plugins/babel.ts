@@ -106,7 +106,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             },
           );
 
-          // 3. Compute final babel config by @modern-js/babel-preset-app
+          // 3. Compute final babel config
           const finalOptions: BabelConfig = {
             babelrc: false,
             configFile: false,
