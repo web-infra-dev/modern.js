@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import { Box, Text, TextField } from '@radix-ui/themes';
 import React, { useState } from 'react';
 import { useSnapshot } from 'valtio';
-import { MatchUrlContext } from './MatchUrl';
-import { ServerRoute } from './ServerRoute';
+
 import { useStore } from '@/stores';
+import { MatchUrlContext } from '@/components/ServerRoute/Context';
+import { ServerRoute } from '@/components/ServerRoute/Route';
 
 const Page: React.FC = () => {
   const $store = useStore();

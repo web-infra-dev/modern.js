@@ -1,0 +1,38 @@
+.container {
+  background-color: var(--gray-1);
+}
+
+.trigger {
+  all: unset;
+  width: 100%;
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.content {
+  padding-top: var(--space-2);
+}
+
+.url-text {
+  color: var(--gray-12);
+  font-size: var(--font-size-2);
+  transition: color 200ms;
+  &[data-miss-matched="true"] {
+    color: var(--gray-10);
+  }
+}
+
+.mark {
+  height: var(--font-size-5);
+  width: var(--font-size-5);
+  border-radius: var(--radius-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 100ms;
+  background-color: transparent;
+  &[data-open="true"] {
+    background-color: var(--gray-4);
+  }
+}

@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { useSnapshot } from 'valtio';
 import type { ServerRoute } from '@modern-js/types';
 import { Box, Card, Flex, Strong, Text } from '@radix-ui/themes';
-import styled from '@emotion/styled';
+import styles from './Stats.module.scss';
 import { useStore } from '@/stores';
 
 export interface EntryStatsProps {
@@ -24,7 +24,7 @@ export const EntryStats: React.FC<EntryStatsProps> = ({ route }) => {
   }
 
   return (
-    <Stats>
+    <Card className={styles.stats}>
       <Box>
         <Flex gap="1">
           <Strong>Directory: </Strong>
@@ -35,10 +35,6 @@ export const EntryStats: React.FC<EntryStatsProps> = ({ route }) => {
           <Text>{entrypoint.entry}</Text>
         </Flex>
       </Box>
-    </Stats>
+    </Card>
   );
 };
-
-const Stats = styled(Card)({
-  fontSize: 'var(--font-size-1)',
-});

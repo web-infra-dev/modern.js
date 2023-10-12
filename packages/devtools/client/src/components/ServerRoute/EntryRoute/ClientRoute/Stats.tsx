@@ -3,8 +3,8 @@ import type { RouteLegacy, ServerRoute } from '@modern-js/types';
 import _ from 'lodash';
 import React from 'react';
 import { useSnapshot } from 'valtio';
-import { LegacyRouteStats } from './LegacyRouteStats';
-import { RemixRouteStats } from './RemixRouteStats';
+import { LegacyRouteStats } from './LegacyRoute/Stats';
+import { RemixRouteStats } from './RemixRoute/Stats';
 import { useStore } from '@/stores';
 
 export interface ClientRouteStatsProps {

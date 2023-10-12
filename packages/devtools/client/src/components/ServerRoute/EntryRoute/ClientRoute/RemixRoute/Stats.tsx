@@ -7,9 +7,9 @@ import type { ServerRoute } from '@modern-js/types';
 import { Flex } from '@radix-ui/themes';
 import React, { useContext, useMemo } from 'react';
 import { resolveURL, cleanDoubleSlashes } from 'ufo';
-import { MatchUrlContext } from '../../MatchUrl';
-import { MatchRemixRouteContext } from '../MatchRemixRouteContext';
-import { RemixRoute } from './RemixRoute';
+import { MatchUrlContext } from '../../../Context';
+import { MatchRemixRouteContext } from './Context';
+import { RemixRoute } from './Route';
 
 export interface RemixRouteStatsProps {
   remixRoutes: RouteObject[];
