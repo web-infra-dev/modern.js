@@ -23,8 +23,10 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
   const isIndex = curr.index ?? false;
   const isRoot = displayPath === '/';
   const matched = useContext(MatchRemixRouteContext);
-  const isMatching = matched.length > 0;
-  const isMatched = Boolean(_.find(matched, { route: { id: curr.id } }));
+  const isMatching = matched === false || matched.length > 0;
+  const isMatched = matched
+    ? Boolean(_.find(matched, { route: { id: curr.id } }))
+    : false;
 
   const ref = useRef<HTMLDivElement>(null);
   const hovered = useHoverDirty(ref);
@@ -34,7 +36,7 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
       <Flex gap="2" align="center" mb={curr.children && '1'}>
         <Box
           className={styles.endpointContainer}
-          data-miss-matched={isMatching && !isMatched}
+          data-matched={!isMatching || isMatched}
         >
           {(isIndex && isRoot) || (
             <Code

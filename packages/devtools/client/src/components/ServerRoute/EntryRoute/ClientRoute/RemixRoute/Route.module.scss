@@ -20,7 +20,7 @@
 .endpoint-container {
   display: flex;
   transition: opacity 200ms;
-  &[data-miss-matched='true'] {
+  &[data-matched='false'] {
     opacity: 0.5;
   }
 }

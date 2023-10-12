@@ -31,14 +31,15 @@ export const BaseRoute: React.FC<BaseRouteProps> = ({
 
   return (
     <Box p="3" className={styles.container}>
-      <Collapsible.Root
-        open={isOpen}
-        onOpenChange={onOpenChange ?? _setOpen}
-        style={{ opacity: isMatching && !isMatched ? 0.5 : 1 }}
-      >
+      <Collapsible.Root open={isOpen} onOpenChange={onOpenChange ?? _setOpen}>
         <Collapsible.Trigger className={styles.trigger}>
           {badge}
-          <Text className={styles.urlText}>{title}</Text>
+          <Text
+            className={styles.urlText}
+            style={{ opacity: isMatching && !isMatched ? 0.5 : 1 }}
+          >
+            {title}
+          </Text>
           <Box grow="1" />
           <Box className={styles.mark} data-open={isOpen}>
             <CaretSortIcon />

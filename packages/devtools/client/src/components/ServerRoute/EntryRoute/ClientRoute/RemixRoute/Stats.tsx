@@ -22,11 +22,16 @@ export const RemixRouteStats: React.FC<RemixRouteStatsProps> = ({
 }) => {
   const { matched: matchedServerRoute, url } = useContext(MatchUrlContext);
   const matchedRoutes = useMemo(() => {
-    if (matchedServerRoute !== route) return [];
-    if (!remixRoutes) return [];
-    const location = cleanDoubleSlashes(url.replace(route.urlPath, '/'));
-    const matched = matchRemixRoutes(remixRoutes, location) ?? [];
-    return matched as RouteMatch<string, RouteObject>[];
+    if (matchedServerRoute === route) {
+      if (!remixRoutes) return [];
+      const location = cleanDoubleSlashes(url.replace(route.urlPath, '/'));
+      const matched = matchRemixRoutes(remixRoutes, location) ?? [];
+      return matched.length
+        ? (matched as RouteMatch<string, RouteObject>[])
+        : false;
+    } else {
+      return matchedServerRoute ? false : [];
+    }
   }, [remixRoutes, matchedServerRoute, url]);
 
   if (!remixRoutes.length) return null;
