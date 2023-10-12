@@ -16,8 +16,6 @@
     "node": ">=14.0.0"
   },
   "devDependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/builder-rspack-provider": "workspace:*",

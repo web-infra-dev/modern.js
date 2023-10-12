@@ -1,11 +1,11 @@
 import React, { useContext, useRef } from 'react';
 import { RouteObject } from '@modern-js/runtime/router';
 import { Box, Flex, Link, Code } from '@radix-ui/themes';
-import styled from '@emotion/styled';
 import _ from 'lodash';
 import { resolveURL } from 'ufo';
 import { useHoverDirty } from 'react-use';
 import { MatchRemixRouteContext } from './Context';
+import styles from './Route.module.scss';
 
 export interface RemixRouteProps {
   route: RouteObject | RouteObject[];
@@ -32,19 +32,31 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
   return (
     <Box ref={ref}>
       <Flex gap="2" align="center" mb={curr.children && '1'}>
-        <EndpointContainer data-miss-matched={isMatching && !isMatched}>
+        <Box
+          className={styles.endpointContainer}
+          data-miss-matched={isMatching && !isMatched}
+        >
           {(isIndex && isRoot) || (
-            <EndpointTag data-compose={isIndex && 'head'}>
+            <Code
+              className={styles.endpointTag}
+              data-compose={isIndex && 'head'}
+            >
               {displayPath}
-            </EndpointTag>
+            </Code>
           )}
           {isIndex && (
-            <EndpointTag color="purple" data-compose={!isRoot && 'tail'}>
+            <Code
+              className={styles.endpointTag}
+              color="purple"
+              data-compose={!isRoot && 'tail'}
+            >
               /(index)
-            </EndpointTag>
+            </Code>
           )}
-        </EndpointContainer>
-        {hovered && componentFile && <ShyLink>{componentFile}</ShyLink>}
+        </Box>
+        {hovered && componentFile && (
+          <Link className={styles.shyLink}>{componentFile}</Link>
+        )}
       </Flex>
       <Flex direction="column" gap="1">
         {curr.children?.map(route => (
@@ -54,30 +66,3 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
     </Box>
   );
 };
-
-const EndpointTag = styled(Code)({
-  fontSize: 'var(--font-size-2)',
-  '&[data-compose="head"]': {
-    paddingRight: '0',
-    borderTopRightRadius: '0',
-    borderBottomRightRadius: '0',
-  },
-  '&[data-compose="tail"]': {
-    paddingLeft: '0',
-    borderTopLeftRadius: '0',
-    borderBottomLeftRadius: '0',
-  },
-});
-
-const ShyLink = styled(Link)({
-  color: 'var(--gray-9)',
-  fontSize: 'var(--font-size-1)',
-});
-
-const EndpointContainer = styled(Box)({
-  display: 'flex',
-  transition: 'opacity 200ms',
-  '&[data-miss-matched="true"]': {
-    opacity: '0.5',
-  },
-});
