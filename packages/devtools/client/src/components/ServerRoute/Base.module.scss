@@ -14,6 +14,31 @@
 
 .content {
   padding-top: var(--space-2);
+  overflow: hidden;
+  &[data-state='open'] {
+    animation: slideDown 150ms ease-out;
+  }
+  &[data-state='closed'] {
+    animation: slideUp 150ms ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-collapsible-content-height);
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      height: var(--radix-collapsible-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 }
 
 .url-text {

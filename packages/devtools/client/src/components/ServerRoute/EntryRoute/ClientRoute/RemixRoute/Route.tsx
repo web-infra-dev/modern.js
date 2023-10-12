@@ -54,8 +54,13 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
             </Code>
           )}
         </Box>
-        {hovered && componentFile && (
-          <Link className={styles.shyLink}>{componentFile}</Link>
+        {componentFile && (
+          <Link
+            className={styles.shyLink}
+            style={{ visibility: hovered ? 'visible' : 'hidden' }}
+          >
+            {componentFile}
+          </Link>
         )}
       </Flex>
       <Flex direction="column" gap="1">
