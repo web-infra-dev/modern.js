@@ -298,10 +298,15 @@ In Modern.js, Modern.js will reload the data of the corresponding routing path i
 1. After [Data Action](/guides/basic-features/data/data-write.md) is triggered
 2. The search params on the url have changed.
 3. The link clicked by the user is the same as the URL of the current page.
+4. The [`shouldRevalidate`](#/shouldrevalidate) function is defined in the routing component, which returns true
+
+:::info
+If you define the [`shouldRevalidate`](#/shouldrevalidate) function on the route, the function will be checked first to determine whether the data needs to be reloaded.
+:::
 
 ### `shouldRevalidate`
 
-In each routing component (`layout.tsx`, `page.tsx`, `$.tsx`), we can export a `shouldRevalidate` function that controls which routes are reloaded, and when this function returns true, the data for the corresponding route is reloaded.
+In each routing component (`layout.tsx`, `page.tsx`, `$.tsx`), we can export a `shouldRevalidate` function, which is triggered each time a route changes in the project. This function controls which routes' data are reloaded, and when it returns true, the data for the corresponding route is reloaded. data of the corresponding route will be reloaded.
 
 ```ts title="routes/user/layout.tsx"
 import type { ShouldRevalidateFunction } from '@modern-js/runtime/router';

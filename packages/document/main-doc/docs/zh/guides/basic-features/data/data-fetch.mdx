@@ -289,8 +289,9 @@ defer 的具体用法请查看 [defer](https://reactrouter.com/en/main/guides/de
 在 Modern.js 中，以下几种情况，Modern.js 会重新加载对应路由路径的数据：
 
 1. 在 [Data Action](/guides/basic-features/data/data-write.md) 触发后
-2. url 上搜索参数发生了变化
-3. 用户点击的链接与当前页面的  相同
+2. URL 上搜索参数发生了变化
+3. 用户点击的链接与当前页面的 URL 相同
+4. 在路由组件中定义了 [`shouldRevalidate`](#/shouldrevalidate) 函数，该函数返回 true
 
 :::info
 如果你在路由上定义了 [`shouldRevalidate`](#/shouldrevalidate) 函数，会先检查该函数，判断是否需要重新加载数据。
@@ -298,7 +299,7 @@ defer 的具体用法请查看 [defer](https://reactrouter.com/en/main/guides/de
 
 ### `shouldRevalidate`
 
-在每个路由组件(`layout.tsx`，`page.tsx`, `$.tsx`)中，我们可以导出一个 `shouldRevalidate` 函数，这个函数可以控制要重新加载哪些路由中的数据，当这个函数返回 true， 对应路由的数据就会重新加载。
+在每个路由组件(`layout.tsx`，`page.tsx`, `$.tsx`)中，我们可以导出一个 `shouldRevalidate` 函数，在每次项目中的路由变化时，这个函数会触发，该函数可以控制要重新加载哪些路由中的数据，当这个函数返回 true， 对应路由的数据就会重新加载。
 
 ```ts title="routes/user/layout.tsx"
 import type { ShouldRevalidateFunction } from '@modern-js/runtime/router';

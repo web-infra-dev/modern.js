@@ -1,7 +1,8 @@
 ---
-'@modern-js/runtime': patch
-'@modern-js/app-tools': patch
-'@modern-js/utils': patch
+'@modern-js/runtime': minor
+'@modern-js/app-tools': minor
+'@modern-js/utils': minor
 ---
 
 feat: support shouldRevalidate
+feat: 支持 shouldRevalidate
