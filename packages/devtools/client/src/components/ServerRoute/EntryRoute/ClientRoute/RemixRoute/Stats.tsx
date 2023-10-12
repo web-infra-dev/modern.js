@@ -6,7 +6,7 @@ import {
 import type { ServerRoute } from '@modern-js/types';
 import { Flex } from '@radix-ui/themes';
 import React, { useContext, useMemo } from 'react';
-import { resolveURL, cleanDoubleSlashes } from 'ufo';
+import { cleanDoubleSlashes } from 'ufo';
 import { MatchUrlContext } from '../../../Context';
 import { MatchRemixRouteContext } from './Context';
 import { RemixRoute } from './Route';
@@ -20,13 +20,14 @@ export const RemixRouteStats: React.FC<RemixRouteStatsProps> = ({
   remixRoutes,
   route,
 }) => {
-  const testingUrl = useContext(MatchUrlContext);
+  const { matched: matchedServerRoute, url } = useContext(MatchUrlContext);
   const matchedRoutes = useMemo(() => {
-    if (!testingUrl || !remixRoutes) return [];
-    const location = cleanDoubleSlashes(testingUrl.replace(route.urlPath, '/'));
+    if (matchedServerRoute !== route) return [];
+    if (!remixRoutes) return [];
+    const location = cleanDoubleSlashes(url.replace(route.urlPath, '/'));
     const matched = matchRemixRoutes(remixRoutes, location) ?? [];
     return matched as RouteMatch<string, RouteObject>[];
-  }, [remixRoutes, testingUrl]);
+  }, [remixRoutes, matchedServerRoute, url]);
 
   if (!remixRoutes.length) return null;
 
@@ -34,10 +35,7 @@ export const RemixRouteStats: React.FC<RemixRouteStatsProps> = ({
     <MatchRemixRouteContext.Provider value={matchedRoutes}>
       <Flex gap="2" direction="column">
         {remixRoutes.map(r => (
-          <RemixRoute
-            key={r.id}
-            route={{ ...r, path: resolveURL(route.urlPath, r.path ?? '') }}
-          />
+          <RemixRoute key={r.id} route={r} />
         ))}
       </Flex>
     </MatchRemixRouteContext.Provider>

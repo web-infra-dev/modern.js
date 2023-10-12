@@ -45,9 +45,6 @@
   color: var(--gray-12);
   font-size: var(--font-size-2);
   transition: color 200ms;
-  &[data-miss-matched='true'] {
-    color: var(--gray-10);
-  }
 }
 
 .mark {

@@ -24,7 +24,7 @@ export const RemixRoute: React.FC<RemixRouteProps> = ({ route }) => {
   const isRoot = displayPath === '/';
   const matched = useContext(MatchRemixRouteContext);
   const isMatching = matched.length > 0;
-  const isMatched = _.find(matched, { route: { id: curr.id } });
+  const isMatched = Boolean(_.find(matched, { route: { id: curr.id } }));
 
   const ref = useRef<HTMLDivElement>(null);
   const hovered = useHoverDirty(ref);
