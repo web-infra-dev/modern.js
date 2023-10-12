@@ -451,19 +451,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -472,6 +464,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -571,19 +571,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -592,6 +584,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -1322,19 +1322,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -1343,6 +1335,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -1448,19 +1448,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -1469,6 +1461,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when produ
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2149,14 +2149,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -2262,14 +2254,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "compact": true,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -2862,19 +2846,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -2883,6 +2859,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {
@@ -2988,19 +2972,11 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -3009,6 +2985,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
                   {

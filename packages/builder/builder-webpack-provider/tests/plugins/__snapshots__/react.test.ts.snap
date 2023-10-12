@@ -25,19 +25,11 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -46,6 +38,14 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -78,7 +78,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -127,19 +127,11 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -148,6 +140,14 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -165,7 +165,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -235,14 +235,6 @@ exports[`plugins/react > should work with ts-loader 1`] = `
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -251,6 +243,14 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
                   {
@@ -270,7 +270,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",

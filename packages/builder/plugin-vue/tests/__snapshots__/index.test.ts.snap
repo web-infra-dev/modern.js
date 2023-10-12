@@ -70,19 +70,11 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -91,6 +83,14 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
                   {},
@@ -123,7 +123,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -163,19 +163,11 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -184,6 +176,14 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
                   {},
@@ -207,7 +207,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -315,19 +315,11 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -336,6 +328,14 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
                   {},
@@ -366,7 +366,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -406,19 +406,11 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -427,6 +419,14 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
                   {},
@@ -448,7 +448,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
