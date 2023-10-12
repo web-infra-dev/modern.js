@@ -1,5 +1,54 @@
 # @modern-js/builder-rspack-provider
 
+## 2.36.0
+
+### Patch Changes
+
+- 3921cd4: chore(builder): update rspack to 0.3.5
+
+  chore(builder): 升级 rspack 到 0.3.5
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 73dcace: chore(builder): support the use of the RSPACK_PROFILE environment variable for Rspack build performance profile
+
+  chore(builder)：支持使用 RSPACK_PROFILE 环境变量来进行 Rspack 构建性能分析
+
+- 2675812: feat(builder): improve time logs format
+
+  feat(builder): 优化时间日志的格式
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- 4289ffd: chore(builder): update rspack to 0.3.6
+
+  chore(builder): 升级 rspack 到 0.3.6
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
+- 5b4bf21: feat(builder): include tslib in lib-polyfill.js
+
+  feat(builder): 拆分 tslib 到 lib-polyfill.js 中
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [3dcad90]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/server@2.36.0
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/types@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

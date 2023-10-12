@@ -33,14 +33,14 @@ describe('redirect', () => {
     expect(jsContent.includes(`import alias from "./alias"`)).toBeTruthy();
     // redirect style
     expect(
-      jsContent.includes(`import css from "./index_module_css";`),
+      jsContent.includes(`import css from "./index.module";`),
     ).toBeTruthy();
     // redirect asset
     expect(jsContent.includes(`import svg from "./assets/logo`)).toBeTruthy();
 
     const distJsonFilePath = path.join(
       fixtureDir,
-      './dist/redirect/index_module_css.js',
+      './dist/redirect/index.module.js',
     );
     const distCssFilePath = path.join(
       fixtureDir,

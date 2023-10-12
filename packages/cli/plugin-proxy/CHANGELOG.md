@@ -1,5 +1,18 @@
 # @modern-js/plugin-proxy
 
+## 2.36.0
+
+### Patch Changes
+
+- 6cefc25: fix(plugin-proxy): failed to run networksetup command in Windows
+
+  fix(plugin-proxy): 修复 Windows 下运行 networksetup 失败的问题
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes
