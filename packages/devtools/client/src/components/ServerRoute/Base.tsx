@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import type { ServerRoute as IServerRoute } from '@modern-js/types';
 import * as Collapsible from '@radix-ui/react-collapsible';
-import { Box, Card, Text } from '@radix-ui/themes';
+import { Box, Text } from '@radix-ui/themes';
 import { CaretSortIcon } from '@radix-ui/react-icons';
 import { parseURL } from 'ufo';
 import styles from './Base.module.scss';
@@ -32,7 +32,7 @@ export const BaseRoute: React.FC<BaseRouteProps> = ({
   const isOpen = isMatched || (open ?? _open);
 
   return (
-    <Card className={styles.container}>
+    <Box p="3" className={styles.container}>
       <Collapsible.Root open={isOpen} onOpenChange={onOpenChange ?? _setOpen}>
         <Collapsible.Trigger className={styles.trigger}>
           {badge}
@@ -51,6 +51,6 @@ export const BaseRoute: React.FC<BaseRouteProps> = ({
           {children}
         </Collapsible.Content>
       </Collapsible.Root>
-    </Card>
+    </Box>
   );
 };

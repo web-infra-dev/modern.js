@@ -1,5 +1,5 @@
 import React from 'react';
-import { Badge, Flex, Box } from '@radix-ui/themes';
+import { Badge, Flex, ScrollArea } from '@radix-ui/themes';
 import { ServerRoute } from '@modern-js/types';
 import { BaseRoute } from '../Base';
 import { EntryStats } from './Stats';
@@ -13,10 +13,12 @@ export const EntryRoute: React.FC<EntryRouteProps> = ({ route }) => {
   return (
     <BaseRoute badge={badge} route={route} title={route.urlPath}>
       <Flex direction="column" gap="2">
-        <EntryStats route={route} />
-        <Box style={{ overflow: 'scroll hidden' }}>
+        <ScrollArea scrollbars="horizontal">
+          <EntryStats route={route} />
+        </ScrollArea>
+        <ScrollArea scrollbars="horizontal">
           <ClientRouteStats route={route} />
-        </Box>
+        </ScrollArea>
       </Flex>
     </BaseRoute>
   );

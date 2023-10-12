@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { useSnapshot } from 'valtio';
 import type { ServerRoute } from '@modern-js/types';
-import { Box, Card, Flex, Strong, Text } from '@radix-ui/themes';
+import { Box, Flex, Strong, Text } from '@radix-ui/themes';
 import styles from './Stats.module.scss';
 import { useStore } from '@/stores';
 
@@ -24,17 +24,15 @@ export const EntryStats: React.FC<EntryStatsProps> = ({ route }) => {
   }
 
   return (
-    <Card className={styles.stats}>
-      <Box>
-        <Flex gap="1">
-          <Strong>Directory: </Strong>
-          <Text>{entrypoint.absoluteEntryDir}</Text>
-        </Flex>
-        <Flex gap="1">
-          <Strong>Entry:</Strong>
-          <Text>{entrypoint.entry}</Text>
-        </Flex>
-      </Box>
-    </Card>
+    <Box className={styles.stats}>
+      <Flex gap="1">
+        <Strong>Directory: </Strong>
+        <Text>{entrypoint.absoluteEntryDir}</Text>
+      </Flex>
+      <Flex gap="1">
+        <Strong>Entry:</Strong>
+        <Text>{entrypoint.entry}</Text>
+      </Flex>
+    </Box>
   );
 };
