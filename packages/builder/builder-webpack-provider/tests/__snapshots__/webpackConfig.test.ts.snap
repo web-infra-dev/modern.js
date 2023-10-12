@@ -176,58 +176,46 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<ROOT>/compiled/babel-plugin-lodash",
-              {},
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
-              {
-                "legacy": true,
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
-                "helpers": false,
-                "regenerator": true,
                 "useESModules": true,
-                "version": "7.22.15",
+                "version": "7.23.2",
               },
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+              {
+                "version": "legacy",
+              },
             ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
               {
                 "proposal": "minimal",
               },
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
               {
                 "displayName": true,
                 "pure": false,
                 "ssr": false,
                 "transpileTemplateLiterals": true,
               },
-              "styled-components",
             ],
           ],
           "presets": [
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
               {
-                "bugfixes": false,
+                "bugfixes": true,
                 "corejs": {
                   "proposals": true,
                   "version": "3.32",
@@ -236,7 +224,6 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                   "transform-typeof-symbol",
                 ],
                 "modules": false,
-                "shippedProposals": false,
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -276,58 +263,37 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<ROOT>/compiled/babel-plugin-lodash",
-              {},
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
-              {
-                "legacy": true,
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
               {
-                "helpers": false,
-                "regenerator": true,
                 "useESModules": true,
-                "version": "7.22.15",
+                "version": "7.23.2",
               },
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+              {
+                "version": "legacy",
+              },
             ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
               {
                 "proposal": "minimal",
               },
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
-              {
-                "displayName": true,
-                "pure": false,
-                "ssr": false,
-                "transpileTemplateLiterals": true,
-              },
-              "styled-components",
+              "<ROOT>/compiled/babel-plugin-lodash",
+              {},
             ],
           ],
           "presets": [
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
               {
-                "bugfixes": false,
+                "bugfixes": true,
                 "corejs": {
                   "proposals": true,
                   "version": "3.32",
@@ -336,7 +302,6 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                   "transform-typeof-symbol",
                 ],
                 "modules": false,
-                "shippedProposals": false,
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -386,7 +351,29 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+              {
+                "version": "legacy",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+              {
+                "proposal": "minimal",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "libraryDirectory": "es",
                 "libraryName": "antd",
@@ -399,54 +386,20 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
               {},
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
-              {
-                "legacy": true,
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "helpers": false,
-                "regenerator": true,
-                "useESModules": true,
-                "version": "7.22.15",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
-              {
-                "proposal": "minimal",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
               {
                 "displayName": true,
                 "pure": false,
                 "ssr": false,
                 "transpileTemplateLiterals": true,
               },
-              "styled-components",
             ],
           ],
           "presets": [
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
               {
-                "bugfixes": false,
+                "bugfixes": true,
                 "corejs": {
                   "proposals": true,
                   "version": "3.32",
@@ -455,7 +408,6 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                   "transform-typeof-symbol",
                 ],
                 "modules": false,
-                "shippedProposals": false,
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -495,7 +447,29 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+              {
+                "version": "legacy",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+              {
+                "proposal": "minimal",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "libraryDirectory": "es",
                 "libraryName": "antd",
@@ -507,55 +481,12 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
               "<ROOT>/compiled/babel-plugin-lodash",
               {},
             ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
-              {
-                "legacy": true,
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "helpers": false,
-                "regenerator": true,
-                "useESModules": true,
-                "version": "7.22.15",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
-              {
-                "proposal": "minimal",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
-              {
-                "displayName": true,
-                "pure": false,
-                "ssr": false,
-                "transpileTemplateLiterals": true,
-              },
-              "styled-components",
-            ],
           ],
           "presets": [
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
               {
-                "bugfixes": false,
+                "bugfixes": true,
                 "corejs": {
                   "proposals": true,
                   "version": "3.32",
@@ -564,7 +495,6 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                   "transform-typeof-symbol",
                 ],
                 "modules": false,
-                "shippedProposals": false,
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -637,7 +567,29 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+              {
+                "version": "legacy",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+              {
+                "proposal": "minimal",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": true,
                 "libraryName": "foo",
@@ -649,54 +601,20 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               {},
             ],
             [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
-              {
-                "legacy": true,
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "helpers": false,
-                "regenerator": true,
-                "useESModules": true,
-                "version": "7.22.15",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
-              {
-                "proposal": "minimal",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
               {
                 "displayName": true,
                 "pure": false,
                 "ssr": false,
                 "transpileTemplateLiterals": true,
               },
-              "styled-components",
             ],
           ],
           "presets": [
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
               {
-                "bugfixes": false,
+                "bugfixes": true,
                 "corejs": {
                   "proposals": true,
                   "version": "3.32",
@@ -705,7 +623,6 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                   "transform-typeof-symbol",
                 ],
                 "modules": false,
-                "shippedProposals": false,
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -745,7 +662,29 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-import/index.js",
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+              {
+                "version": "legacy",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+              {
+                "proposal": "minimal",
+              },
+            ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
                 "camel2DashComponentName": true,
                 "libraryName": "foo",
@@ -756,55 +695,12 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
               "<ROOT>/compiled/babel-plugin-lodash",
               {},
             ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
-              {
-                "legacy": true,
-              },
-            ],
-            [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "helpers": false,
-                "regenerator": true,
-                "useESModules": true,
-                "version": "7.22.15",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
-              {
-                "proposal": "minimal",
-              },
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-            ],
-            [
-              "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
-              {
-                "displayName": true,
-                "pure": false,
-                "ssr": false,
-                "transpileTemplateLiterals": true,
-              },
-              "styled-components",
-            ],
           ],
           "presets": [
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
               {
-                "bugfixes": false,
+                "bugfixes": true,
                 "corejs": {
                   "proposals": true,
                   "version": "3.32",
@@ -813,7 +709,6 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                   "transform-typeof-symbol",
                 ],
                 "modules": false,
-                "shippedProposals": false,
                 "targets": [
                   "> 0.01%",
                   "not dead",
