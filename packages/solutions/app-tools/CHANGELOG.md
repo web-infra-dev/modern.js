@@ -1,5 +1,59 @@
 # @modern-js/app-tools
 
+## 2.36.0
+
+### Patch Changes
+
+- 3473bee: chore: remove legacy monorepo include and unused utils
+
+  chore: 移除旧版的 monorepo include 逻辑和未使用的 utils
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 41b1734: chore(app-tools): remove afterDev hook tty judgment to ensure development and testing environments are consistent
+  chore(app-tools): 移除 afterDev hook tty 判断来确保开发、测试环境行为一致
+- c1b0d18: fix(app-tools): align resolve.modules config in rspack mode
+
+  fix(app-tools): 对齐 rspack 模式下的 resolve.modules 配置
+
+- Updated dependencies [4fbc386]
+- Updated dependencies [3448e82]
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [3921cd4]
+- Updated dependencies [3dcad90]
+- Updated dependencies [d90d83a]
+- Updated dependencies [5c89910]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [73dcace]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [4289ffd]
+- Updated dependencies [eb602d2]
+- Updated dependencies [5b4bf21]
+  - @modern-js/core@2.36.0
+  - @modern-js/builder@2.36.0
+  - @modern-js/utils@2.36.0
+  - @modern-js/prod-server@2.36.0
+  - @modern-js/builder-rspack-provider@2.36.0
+  - @modern-js/server@2.36.0
+  - @modern-js/builder-webpack-provider@2.36.0
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/builder-plugin-esbuild@2.36.0
+  - @modern-js/plugin-data-loader@2.36.0
+  - @modern-js/plugin-lint@2.36.0
+  - @modern-js/builder-plugin-node-polyfill@2.36.0
+  - @modern-js/plugin-i18n@2.36.0
+  - @modern-js/new-action@2.36.0
+  - @modern-js/server-core@2.36.0
+  - @modern-js/node-bundle-require@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/upgrade@2.36.0
+  - @modern-js/types@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

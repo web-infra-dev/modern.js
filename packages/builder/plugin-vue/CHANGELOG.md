@@ -1,5 +1,26 @@
 # @modern-js/builder-plugin-vue
 
+## 2.36.0
+
+### Patch Changes
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- Updated dependencies [3921cd4]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [73dcace]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [4289ffd]
+- Updated dependencies [eb602d2]
+- Updated dependencies [5b4bf21]
+  - @modern-js/builder-rspack-provider@2.36.0
+  - @modern-js/builder-webpack-provider@2.36.0
+  - @modern-js/builder-shared@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

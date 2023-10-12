@@ -1,5 +1,24 @@
 # @modern-js/core
 
+## 2.36.0
+
+### Patch Changes
+
+- 4fbc386: docs: add descriptions for AppContext properties
+
+  docs: 增加 AppContext 属性的描述
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/node-bundle-require@2.36.0
+  - @modern-js/plugin@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

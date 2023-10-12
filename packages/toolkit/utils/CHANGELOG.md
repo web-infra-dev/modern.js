@@ -1,5 +1,21 @@
 # @modern-js/utils
 
+## 2.36.0
+
+### Patch Changes
+
+- 3473bee: chore: remove legacy monorepo include and unused utils
+
+  chore: 移除旧版的 monorepo include 逻辑和未使用的 utils
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
 ## 2.35.1
 
 ### Patch Changes
