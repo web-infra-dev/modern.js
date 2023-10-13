@@ -1,10 +1,3 @@
-import type { IStyledComponentOptions } from '@modern-js/babel-preset-base';
-
-export interface ISyntaxOption {
-  syntax: 'es5' | 'es6+';
-  type: 'module' | 'commonjs';
-}
-
 export interface AliasOption {
   absoluteBaseUrl: string;
   paths?: Record<string, string | string[]>;
@@ -14,11 +7,7 @@ export interface AliasOption {
 
 export interface ILibPresetOption {
   appDirectory: string;
-  enableTypescriptPreset?: boolean;
-  enableReactPreset?: boolean;
   alias?: AliasOption;
-  jsxTransformRuntime?: JsxTransformRuntimeType;
-  styledComponentsOptions?: IStyledComponentOptions;
 }
 
 export type JsxTransformRuntimeType = 'automatic' | 'classic';
