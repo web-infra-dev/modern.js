@@ -5218,8 +5218,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       rslog:
-        specifier: ^1.0.0
-        version: 1.0.0
+        specifier: ^1.1.0
+        version: 1.1.0
     devDependencies:
       '@modern-js/types':
         specifier: workspace:*
@@ -14459,7 +14459,7 @@ packages:
       '@modern-js/builder': link:packages/builder/builder
       '@modern-js/builder-rspack-provider': link:packages/builder/builder-rspack-provider
       chalk: 4.1.2
-      rslog: 1.0.0
+      rslog: 1.1.0
       unified: 10.1.2
     dev: true
 
@@ -31748,8 +31748,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /rslog@1.0.0:
-    resolution: {integrity: sha512-yTulfJJIYHBftErlZZXHdZuFA8275spDcTrCs8JIXIh+wRIRgi6RGoT8MAnB8H6NIEvJbMUP14Mo1t7hCw4k1g==}
+  /rslog@1.1.0:
+    resolution: {integrity: sha512-wtTijPuwUhyVG7YvnIVzlefhlto4qJ9vm42ewwJtqrOBP/vKdZCIyfiYm0odVCR3ajR1CIUqaloIzbqhlbyaZA==}
     engines: {node: '>=14.17.6'}
 
   /rspack-manifest-plugin@5.0.0-alpha0(webpack@5.88.1):
