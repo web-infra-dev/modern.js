@@ -30,7 +30,13 @@ describe('redirect', () => {
     const distJsFilePath = path.join(fixtureDir, './dist/redirect/index.js');
     const jsContent = await fs.readFile(distJsFilePath, 'utf-8');
     // redirect alias
-    expect(jsContent.includes(`import alias from "./alias"`)).toBeTruthy();
+    // 1. Named Import 2. Wildcard Import 3. Re-Export
+    expect(
+      jsContent.includes(`import namedImport from "./alias"`),
+    ).toBeTruthy();
+    expect(
+      jsContent.includes(`import * as wildcardImport from "./alias"`),
+    ).toBeTruthy();
     expect(jsContent.includes(`@/alias`)).toBeFalsy();
     // redirect style
     expect(
