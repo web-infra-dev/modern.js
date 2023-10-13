@@ -176,19 +176,11 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "useESModules": true,
-                "version": "7.23.2",
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
               {
                 "version": "legacy",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
@@ -197,6 +189,14 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "proposal": "minimal",
               },
             ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             [
               "<ROOT>/compiled/babel-plugin-lodash",
               {},
@@ -223,7 +223,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
-                "modules": false,
+                "modules": "commonjs",
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -263,19 +263,11 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "useESModules": true,
-                "version": "7.23.2",
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
               {
                 "version": "legacy",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
@@ -284,6 +276,14 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "proposal": "minimal",
               },
             ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             [
               "<ROOT>/compiled/babel-plugin-lodash",
               {},
@@ -301,7 +301,7 @@ exports[`webpackConfig > should not have any pluginImport in Babel 1`] = `
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
-                "modules": false,
+                "modules": "commonjs",
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -351,19 +351,11 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "useESModules": true,
-                "version": "7.23.2",
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
               {
                 "version": "legacy",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
@@ -372,6 +364,14 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "proposal": "minimal",
               },
             ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -407,7 +407,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
-                "modules": false,
+                "modules": "commonjs",
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -447,19 +447,11 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "useESModules": true,
-                "version": "7.23.2",
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
               {
                 "version": "legacy",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
@@ -468,6 +460,14 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "proposal": "minimal",
               },
             ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -494,7 +494,7 @@ exports[`webpackConfig > should not set default pluginImport for Babel 1`] = `
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
-                "modules": false,
+                "modules": "commonjs",
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -567,19 +567,11 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "useESModules": true,
-                "version": "7.23.2",
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
               {
                 "version": "legacy",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
@@ -588,6 +580,14 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "proposal": "minimal",
               },
             ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -622,7 +622,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
-                "modules": false,
+                "modules": "commonjs",
                 "targets": [
                   "> 0.01%",
                   "not dead",
@@ -662,19 +662,11 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
           "configFile": false,
           "plugins": [
             [
-              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-              {
-                "useESModules": true,
-                "version": "7.23.2",
-              },
-            ],
-            [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
               {
                 "version": "legacy",
               },
             ],
-            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
             "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
             [
@@ -683,6 +675,14 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "proposal": "minimal",
               },
             ],
+            [
+              "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+              {
+                "useESModules": true,
+                "version": "7.23.2",
+              },
+            ],
+            "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
             [
               "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-import/lib/index.js",
               {
@@ -708,7 +708,7 @@ exports[`webpackConfig > should set proper pluginImport option in Babel 1`] = `
                 "exclude": [
                   "transform-typeof-symbol",
                 ],
-                "modules": false,
+                "modules": "commonjs",
                 "targets": [
                   "> 0.01%",
                   "not dead",
