@@ -217,7 +217,7 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30001520",
     "lodash": "^4.17.21",
-    "rslog": "^1.0.0",
+    "rslog": "^1.1.0",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
