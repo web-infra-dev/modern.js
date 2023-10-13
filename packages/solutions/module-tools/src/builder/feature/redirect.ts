@@ -204,11 +204,15 @@ export const redirect = {
       try {
         const sgNode = js.parse(code).root();
         const funcPattern = [`require($MATCH)`, `import($MATCH)`];
+        // `export $$$VAR from` is invalid, so we need {$$VAR} and *
+        // But `import $$VAR from` is valid.
         const staticPattern = [
           `import $$VAR from '$MATCH'`,
           `import $$VAR from "$MATCH"`,
           `export {$$VAR} from '$MATCH'`,
           `export {$$VAR} from "$MATCH"`,
+          `export * from '$MATCH'`,
+          `export * from "$MATCH"`,
           `import '$MATCH'`,
           `import "$MATCH"`,
         ];
