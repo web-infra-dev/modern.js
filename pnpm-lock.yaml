@@ -82,8 +82,8 @@ importers:
         specifier: workspace:*
         version: link:../../toolkit/utils
       '@rsbuild/monorepo-utils':
-        specifier: 0.0.6
-        version: 0.0.6
+        specifier: 0.0.7
+        version: 0.0.7
       '@svgr/webpack':
         specifier: 8.0.1
         version: 8.0.1
@@ -347,8 +347,8 @@ importers:
         specifier: 0.5.10
         version: 0.5.10(react-refresh@0.14.0)(webpack@5.88.1)
       '@rsbuild/babel-preset':
-        specifier: 0.0.6
-        version: 0.0.6
+        specifier: 0.0.7
+        version: 0.0.7
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -720,49 +720,6 @@ importers:
       webpack:
         specifier: ^5.88.1
         version: 5.88.1(esbuild@0.17.19)
-
-  packages/cli/babel-preset-app:
-    dependencies:
-      '@babel/core':
-        specifier: ^7.22.15
-        version: 7.23.0
-      '@babel/runtime':
-        specifier: ^7.22.15
-        version: 7.23.2
-      '@babel/types':
-        specifier: ^7.22.15
-        version: 7.23.0
-      '@modern-js/babel-preset-base':
-        specifier: workspace:*
-        version: link:../babel-preset-base
-      '@modern-js/utils':
-        specifier: workspace:*
-        version: link:../../toolkit/utils
-      '@swc/helpers':
-        specifier: 0.5.1
-        version: 0.5.1
-      core-js:
-        specifier: ~3.32.1
-        version: 3.32.2
-    devDependencies:
-      '@scripts/build':
-        specifier: workspace:*
-        version: link:../../../scripts/build
-      '@scripts/jest-config':
-        specifier: workspace:*
-        version: link:../../../scripts/jest-config
-      '@types/jest':
-        specifier: ^29
-        version: 29.2.6
-      '@types/node':
-        specifier: ^14
-        version: 14.18.35
-      jest:
-        specifier: ^29
-        version: 29.5.0(@types/node@14.18.35)(ts-node@10.9.1)
-      typescript:
-        specifier: ^5
-        version: 5.0.4
 
   packages/cli/babel-preset-base:
     dependencies:
@@ -3359,9 +3316,9 @@ importers:
       '@babel/eslint-plugin':
         specifier: ^7.22.10
         version: 7.22.10(@babel/eslint-parser@7.22.15)(eslint@8.28.0)
-      '@modern-js/babel-preset-app':
-        specifier: workspace:*
-        version: link:../../cli/babel-preset-app
+      '@rsbuild/babel-preset':
+        specifier: 0.0.7
+        version: 0.0.7
       '@typescript-eslint/eslint-plugin':
         specifier: ^5.59.0
         version: 5.59.6(@typescript-eslint/parser@5.59.6)(eslint@8.28.0)(typescript@5.0.4)
@@ -3731,6 +3688,9 @@ importers:
       '@babel/preset-env':
         specifier: ^7.22.15
         version: 7.22.15(@babel/core@7.23.0)
+      '@babel/preset-react':
+        specifier: ^7.22.15
+        version: 7.22.15(@babel/core@7.23.0)
       '@jest/types':
         specifier: ^29.5.0
         version: 29.5.0
@@ -3749,9 +3709,6 @@ importers:
       '@modern-js/babel-compiler':
         specifier: workspace:*
         version: link:../../toolkit/compiler/babel
-      '@modern-js/babel-preset-app':
-        specifier: workspace:*
-        version: link:../../cli/babel-preset-app
       '@modern-js/plugin':
         specifier: workspace:*
         version: link:../../toolkit/plugin
@@ -3764,6 +3721,9 @@ importers:
       '@modern-js/utils':
         specifier: workspace:*
         version: link:../../toolkit/utils
+      '@rsbuild/babel-preset':
+        specifier: 0.0.7
+        version: 0.0.7
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
@@ -3985,9 +3945,6 @@ importers:
         specifier: 0.5.1
         version: 0.5.1
     devDependencies:
-      '@modern-js/babel-preset-app':
-        specifier: workspace:*
-        version: link:../../cli/babel-preset-app
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -14082,8 +14039,8 @@ packages:
       rollup: 3.23.0
     dev: true
 
-  /@rsbuild/babel-preset@0.0.6:
-    resolution: {integrity: sha512-HzZU2QKK+uQm61s5dVUG8knbg5QgurFXgrN/XLqKzRx85EwUqwaFM/LfomQj7lPO5VRLIwwY38CJ62OBO+Fl0A==}
+  /@rsbuild/babel-preset@0.0.7:
+    resolution: {integrity: sha512-U8XzLq+FBAryfBiDzTGrWrZyEcqwVnpg5q/Af1jYBBI7o6/xaBHJcgvCmvyk1JvbciQCUGrwWthWau5qc1CJPA==}
     dependencies:
       '@babel/core': 7.23.0
       '@babel/plugin-proposal-decorators': 7.23.0(@babel/core@7.23.0)
@@ -14095,7 +14052,7 @@ packages:
       '@babel/preset-typescript': 7.23.0(@babel/core@7.23.0)
       '@babel/runtime': 7.23.2
       '@babel/types': 7.23.0
-      '@rsbuild/shared': 0.0.6
+      '@rsbuild/shared': 0.0.7
       '@types/babel__core': 7.20.2
       babel-plugin-dynamic-import-node: 2.3.3
       core-js: 3.32.2
@@ -14103,10 +14060,10 @@ packages:
       - supports-color
     dev: false
 
-  /@rsbuild/monorepo-utils@0.0.6:
-    resolution: {integrity: sha512-kT+WiUDTc+ec3O6fei0sstSMTKfOe3Gjx6Q6jJ5BQr3oN6jmfq/kGELhwxXoS1bLeo7wP01pwa5uJj8IilcWZg==}
+  /@rsbuild/monorepo-utils@0.0.7:
+    resolution: {integrity: sha512-Sm/QdCm3QfvzylyxKBy+u7N6OWpuhtEFJRy9btXkiI6W/jSRAzfLpT4akrtx+o3cGP98jeR2frwxwHUbHIe8NQ==}
     dependencies:
-      '@rsbuild/shared': 0.0.6
+      '@rsbuild/shared': 0.0.7
       '@types/js-yaml': 4.0.6
       fast-glob: 3.3.1
       js-yaml: 4.1.0
@@ -14114,8 +14071,8 @@ packages:
       p-map: 4.0.0
     dev: false
 
-  /@rsbuild/shared@0.0.6:
-    resolution: {integrity: sha512-9dgY/NYCOtBwHZYIl/CXYm1424HwZErh9ZLiljeqA/mmmwSOXxw5yOeVzShkcOXkIathbECy81GR3rhkOD+Qxg==}
+  /@rsbuild/shared@0.0.7:
+    resolution: {integrity: sha512-r5vmIpYPM2FCcxXvjskQ7JIIRA+jY0cUplyW3/R/eL/6p/3NIKhFQEc/UBgx8FmZxNd1eRb1/Xh325vgaLHDvA==}
     dependencies:
       '@types/fs-extra': 11.0.2
       chalk: 4.1.2

@@ -34,19 +34,11 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -55,6 +47,14 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -81,7 +81,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -121,19 +121,11 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -142,6 +134,14 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -159,7 +159,7 @@ exports[`plugins/babel > should add rule to compile Data URI when enable source.
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -212,14 +212,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
               "compact": false,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -250,7 +242,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "node >= 14",
                     ],
@@ -286,14 +278,6 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
               "compact": false,
               "configFile": false,
               "plugins": [
-                [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -315,7 +299,7 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "node >= 14",
                     ],
@@ -369,19 +353,11 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -390,6 +366,14 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -416,7 +400,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -456,19 +440,11 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -477,6 +453,14 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -494,7 +478,7 @@ exports[`plugins/babel > should apply exclude condition when using source.exclud
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -556,19 +540,11 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -577,6 +553,14 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -603,7 +587,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "Chrome 80",
                     ],
@@ -641,19 +625,11 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -662,6 +638,14 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -679,7 +663,7 @@ exports[`plugins/babel > should override targets of babel-preset-env when using 
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "Chrome 80",
                     ],
@@ -731,19 +715,11 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -752,6 +728,14 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -778,7 +762,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -818,19 +802,11 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -839,6 +815,14 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -856,7 +840,7 @@ exports[`plugins/babel > should set babel-loader 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -910,19 +894,11 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -931,6 +907,14 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -957,7 +941,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -997,19 +981,11 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "useESModules": true,
-                    "version": "7.23.2",
-                  },
-                ],
-                [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
                     "version": "legacy",
                   },
                 ],
-                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -1018,6 +994,14 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "proposal": "minimal",
                   },
                 ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<ROOT>/compiled/babel-plugin-lodash",
                   {},
@@ -1035,7 +1019,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
