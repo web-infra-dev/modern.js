@@ -27,7 +27,7 @@ exports[`babel resolveBabelConfig 1`] = `
     ],
     "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-dynamic-import-node/lib/index.js",
     [
-      "@modern-js/babel-plugin-module-resolver",
+      "<WORKSPACE>/packages/server/babel-plugin-module-resolver/src/index.js",
       {
         "alias": {
           "@/*": [
