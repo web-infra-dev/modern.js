@@ -1,28 +1,25 @@
 import {
-  useFetcher,
+  ShouldRevalidateFunction,
   useLoaderData,
-  useParams,
 } from '@modern-js/runtime/router';
 
-const Page = () => {
-  const params = useParams<{
-    id: string;
-  }>();
-  const data = useLoaderData() as string;
-  const { submit } = useFetcher();
-  const handleClick = () => {
-    return submit({ name: 'modern_four_action' }, { method: 'post' });
-  };
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  nextUrl,
+  defaultShouldRevalidate,
+}) => {
+  const revalidate = nextUrl.searchParams.get('revalidate');
+  const flag = revalidate !== 'false';
+  if (revalidate) {
+    return flag;
+  }
+  return defaultShouldRevalidate;
+};
 
-  return (
-    <div>
-      <span>item page, param is {params.id}</span>
-      <span className="modern-test-name">{data}</span>
-      <div className="action-btn" onClick={handleClick}>
-        action-button
-      </div>
-    </div>
-  );
+const Page = () => {
+  const params = useLoaderData() as {
+    id: string;
+  };
+  return <div>item page, param is {params.id}</div>;
 };
 
 export default Page;

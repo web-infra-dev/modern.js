@@ -37,6 +37,10 @@ export default function Layout() {
       <Link to="/user/profile" prefetch="intent">
         /user/profile
       </Link>
+      <Link to="user/111">/user/111</Link>
+      <Link className="should-not-revalidate" to="user/222?revalidate=false">
+        /user/222
+      </Link>
       <Outlet />
     </div>
   );
