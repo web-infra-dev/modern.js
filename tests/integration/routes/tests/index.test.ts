@@ -598,7 +598,9 @@ const supportPrefetchInIntentMode = async (
   let isRequestProfileLayoutData = false;
   let isRequestProfilePageData = false;
   page.on('request', interceptedRequest => {
-    if (interceptedRequest.url().includes('three_user/profile/layout.js')) {
+    if (
+      /three_user\/profile\/layout\.([^.]*\.)?js/.test(interceptedRequest.url())
+    ) {
       isRequestJS = true;
     }
 
@@ -618,7 +620,7 @@ const supportPrefetchInIntentMode = async (
       isRequestProfilePageData = true;
     }
   });
-  await page.hover('.user-profile');
+  await page.hover('.user-profile-btn');
   await new Promise(resolve => setTimeout(resolve, 200));
   expect(isRequestJS).toBe(true);
   expect(isRequestProfileLayoutData).toBe(true);
