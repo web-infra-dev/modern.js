@@ -71,7 +71,7 @@ const Page: React.FC = () => {
                 weight="bold"
                 style={{ color: 'var(--gray-11)' }}
               >
-                6.25s
+                {(store.compileTimeCost / 1000).toFixed(2)}s
               </Text>
             </Flex>
             <Text as="p" size="1" color="gray">
