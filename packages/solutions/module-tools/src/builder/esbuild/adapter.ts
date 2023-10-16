@@ -1,6 +1,5 @@
 import { dirname, resolve, extname } from 'path';
 import module from 'module';
-import pm from 'picomatch';
 import { ImportKind, Loader, Plugin } from 'esbuild';
 import { fs, isString } from '@modern-js/utils';
 import { createFilter } from '@rollup/pluginutils';
@@ -51,8 +50,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         }
 
         for (const [key] of Object.entries(config.umdGlobals)) {
-          const isMatch = pm(key);
-          if (isMatch(args.path)) {
+          if (args.path === key) {
             debugResolve('resolve umdGlobals:', key);
             return {
               path: args.path,
