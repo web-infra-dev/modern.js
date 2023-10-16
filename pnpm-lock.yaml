@@ -4707,9 +4707,6 @@ importers:
       magic-string:
         specifier: 0.26.4
         version: 0.26.4
-      picomatch:
-        specifier: 2.3.0
-        version: 2.3.0
       postcss:
         specifier: 8.4.31
         version: 8.4.31
@@ -4759,15 +4756,9 @@ importers:
       '@types/convert-source-map':
         specifier: 1.5.2
         version: 1.5.2
-      '@types/mocha':
-        specifier: 9.0.0
-        version: 9.0.0
       '@types/node':
         specifier: ^14
         version: 14.18.35
-      '@types/picomatch':
-        specifier: 2.3.0
-        version: 2.3.0
       typescript:
         specifier: ^5
         version: 5.0.4
@@ -16694,10 +16685,6 @@ packages:
       '@types/node': 18.11.17
     dev: false
 
-  /@types/mocha@9.0.0:
-    resolution: {integrity: sha512-scN0hAWyLVAvLR9AyW7HoFF5sJZglyBsbPuHO4fv7JRvfmPBMfp1ozWqOf/e4wwPNxezBZXRfWzMb6iFLgEVRA==}
-    dev: true
-
   /@types/ms@0.7.31:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
 
@@ -16754,10 +16741,6 @@ packages:
 
   /@types/parse5@6.0.3:
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
-    dev: true
-
-  /@types/picomatch@2.3.0:
-    resolution: {integrity: sha512-O397rnSS9iQI4OirieAtsDqvCj4+3eY1J+EPdNTKuHuRWIfUoGyzX294o8C4KJYaLqgSrd2o60c5EqCU8Zv02g==}
     dev: true
 
   /@types/polka@0.5.4:
