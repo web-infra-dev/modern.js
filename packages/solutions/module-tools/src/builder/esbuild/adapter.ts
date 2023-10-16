@@ -186,11 +186,19 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         const isExternal = getIsExternal(originalFilePath);
         const dir =
           args.resolveDir ?? (args.importer ? dirname(args.importer) : root);
+        const resultPath = isExternal
+          ? args.path
+          : getResultPath(originalFilePath, dir, args.kind);
+        if (resultPath === false) {
+          debugResolve('empty resolve:', args);
+          return {
+            path: '/empty-stub',
+            sideEffects: false,
+          };
+        }
         const sideEffects = await getSideEffects(originalFilePath, isExternal);
         const result = {
-          path: isExternal
-            ? args.path
-            : getResultPath(originalFilePath, dir, args.kind),
+          path: resultPath,
           external: isExternal,
           namespace: isExternal ? undefined : 'file',
           sideEffects,
@@ -216,6 +224,12 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
 
         if (args.namespace !== 'file') {
           return;
+        }
+
+        if (args.path === '/empty-stub') {
+          return {
+            contents: 'module.exports = {}',
+          };
         }
 
         compiler.addWatchFile(args.path);
