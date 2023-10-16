@@ -110,6 +110,12 @@ jobs:
       - name: Install Dependencies && Build
         run: pnpm install
 
+      - name: Update Rsbuild Nightly Version
+        run: pnpm run update-rsbuild
+
+      - name: Install Dependencies && Build
+        run: pnpm install
+
       - name: Release
         uses: web-infra-dev/actions@v2
         with:

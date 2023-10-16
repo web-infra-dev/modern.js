@@ -3,8 +3,8 @@ name: Release Nightly
 on:
   workflow_dispatch:
   schedule:
-    # 00:00 AM Beijing Time.
-    - cron: "0 16 * * *"
+    # 01:00 AM Beijing Time.
+    - cron: "0 17 * * *"
 
 permissions:
   id-token: write
@@ -41,6 +41,12 @@ jobs:
           restore-keys: |
             turbo-${{ github.ref_name }}-
             turbo-
+
+      - name: Install Dependencies && Build
+        run: pnpm install
+
+      - name: Update Rsbuild Nightly Version
+        run: RSBUILD_VERSION=nightly pnpm run update-rsbuild
 
       - name: Install Dependencies && Build
         run: pnpm install
