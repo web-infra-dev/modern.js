@@ -39,17 +39,17 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Turbo Cache
-        id: turbo-cache
+      - name: Nx Cache
+        id: nx-cache
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         uses: actions/cache@v3
         with:
-          path: .turbo
-          key: turbo-${{ github.base_ref }}-${{ github.ref_name }}-${{ github.sha }}
+          path: .nx-cache
+          key: nx-${{ github.base_ref }}-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.base_ref }}-${{ github.ref_name }}-
-            turbo-${{ github.base_ref }}-
-            turbo-
+            nx-${{ github.base_ref }}-${{ github.ref_name }}-
+            nx-${{ github.base_ref }}-
+            nx-
 
       - name: Install Dependencies
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
