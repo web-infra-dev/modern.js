@@ -5,7 +5,6 @@ import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   isTsProject,
   getPackageManager,
-  getPackageManagerText,
   fs,
   isReact18,
   getPackageVersion,
@@ -15,10 +14,11 @@ import {
   i18n as commonI18n,
   Language,
 } from '@modern-js/generator-common';
-import { i18n, localeKeys } from './locale';
+import { i18n } from './locale';
 import { getMajorVersion } from './utils';
 
 const ADDON_ESSENTIAL = '@storybook/addon-essentials';
+const MODERN_STORYBOOK = '@modern-js/storybook';
 
 const getGeneratorPath = (generator: string, distTag: string) => {
   if (process.env.CODESMITH_ENV === 'development') {
@@ -36,44 +36,23 @@ const handleTemplateFile = async (
 ) => {
   const appDir = context.materials.default.basePath;
   const language = isTsProject(appDir) ? Language.TS : Language.JS;
-  await appApi.forgeTemplate(
-    '../templates/stories/**/*',
-    undefined,
-    resourceKey =>
-      resourceKey
-        .replace('templates/', '')
-        .replace('.handlebars', `.${language}x`),
-  );
 
   await appApi.forgeTemplate(
-    `../templates/storybook-${language}/**/*`,
+    `templates/storybook-${language}/**/*`,
     undefined,
-    resourceKey =>
-      resourceKey
-        .replace('templates/', '')
-        .replace(`storybook-${language}`, '.storybook')
-        .replace('.handlebars', `.${language}`),
+    resourceKey => {
+      const key = resourceKey
+        .replace(`templates/storybook-${language}/`, '.storybook/')
+        .replace('.handlebars', `.${language}`);
+      return key;
+    },
   );
 
-  if (language === Language.TS) {
-    await appApi.forgeTemplate(
-      '../templates/ts-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/ts-template/', `stories/`)
-          .replace('.handlebars', ``),
-    );
-  } else {
-    appApi.forgeTemplate(
-      '../templates/js-template/**/*',
-      undefined,
-      resourceKey =>
-        resourceKey
-          .replace('templates/js-template/', `stories/`)
-          .replace('.handlebars', ``),
-    );
-  }
+  await appApi.forgeTemplate('templates/stories/**/*', undefined, resourceKey =>
+    resourceKey
+      .replace('templates/', '')
+      .replace('.handlebars', `.${language}x`),
+  );
 
   // adjust react-dom dependence
   const pkg = await fs.readJSON(
@@ -98,8 +77,12 @@ const handleTemplateFile = async (
 
   const { modernVersion } = context.config;
 
-  const exitAddonsVersion = pkg.devDependencies?.[ADDON_ESSENTIAL];
-  const isExitStorybook = pkg.devDependencies?.['@modern-js/storybook'];
+  const exitAddonsVersion =
+    pkg.devDependencies?.[ADDON_ESSENTIAL] ||
+    pkg.dependencies?.[ADDON_ESSENTIAL];
+  const isExitStorybook =
+    pkg.devDependencies?.[MODERN_STORYBOOK] ||
+    pkg.dependencies?.[MODERN_STORYBOOK];
 
   const latestVersion = await getPackageVersion(ADDON_ESSENTIAL);
   let availableVersion = latestVersion;
@@ -127,7 +110,7 @@ const handleTemplateFile = async (
     [ADDON_ESSENTIAL]: availableVersion,
     ...(!isExitStorybook
       ? {
-          '@modern-js/storybook': modernVersion,
+          [MODERN_STORYBOOK]: modernVersion,
         }
       : {}),
   };
@@ -142,6 +125,7 @@ const handleTemplateFile = async (
           scripts: {
             'build-storybook': 'storybook build',
             storybook: 'storybook dev -p 6006',
+            ...(pkg.scripts || {}),
           },
         },
       },
@@ -176,28 +160,11 @@ export default async (context: GeneratorContext, generator: GeneratorCore) => {
   i18n.changeLanguage({ locale });
   appApi.i18n.changeLanguage({ locale });
 
-  if (!(await appApi.checkEnvironment())) {
-    // eslint-disable-next-line no-process-exit
-    process.exit(1);
-  }
-
   generator.logger.debug(`start run @modern-js/storybook-generator-next`);
   generator.logger.debug(`context=${JSON.stringify(context)}`);
   generator.logger.debug(`context.data=${JSON.stringify(context.data)}`);
 
-  const { packageManager } = await handleTemplateFile(
-    context,
-    appApi,
-    generator,
-  );
-
-  if (context.config.isSubGenerator) {
-    appApi.showSuccessInfo(
-      i18n.t(localeKeys.success, {
-        packageManager: getPackageManagerText(packageManager),
-      }),
-    );
-  }
+  await handleTemplateFile(context, appApi, generator);
 
   generator.logger.debug(`forge @modern-js/storybook-generator-next succeed `);
 };

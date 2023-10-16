@@ -27,7 +27,7 @@ Storybook 可以用非常多的工具进行构建，webpack，Vite 等。
 ```bash
 $ npx modern new
 ? 请选择你想要的操作 启用可选功能
-? 请选择功能名称 启用 StorybookV7 模式
+? 请选择功能名称 启用「Storybook」V7
 ```
 
 该命令会创建好 Storybook 常用的模版，包括

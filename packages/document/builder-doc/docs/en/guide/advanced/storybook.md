@@ -27,7 +27,7 @@ If your current project is already a Modern.js project and you haven't used any 
 ```bash
 $ npx modern new
 ? Please select the operation you want: Enable features
-? Please select the feature name: Enable Visual Testing (Storybook)
+? Please select the feature name: Enable「Storybook」V7
 ```
 
 This command will create a template for Storybook, including:

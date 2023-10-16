@@ -207,7 +207,6 @@ export const MWANewActionPluginName: Record<
     [ActionFunction.MicroFrontend]: 'garfishPlugin',
     [ActionFunction.Test]: 'testPlugin',
     [ActionFunction.Storybook]: 'storybookPlugin',
-    [ActionFunction.StorybookV7]: 'storybookFramework',
     [ActionFunction.SSG]: 'ssgPlugin',
     [ActionFunction.Polyfill]: 'polyfillPlugin',
     [ActionFunction.Proxy]: 'proxyPlugin',
