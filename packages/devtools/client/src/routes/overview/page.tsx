@@ -80,7 +80,7 @@ const Page: React.FC = () => {
           </Flex>
         </IndicateCard>
         <IndicateCard grow="1" style={{ minWidth: '15rem' }}>
-          <Heading as="h2" size="5">
+          <Heading as="h2" size="3">
             Load & Render
           </Heading>
           <Text
@@ -103,7 +103,7 @@ const Page: React.FC = () => {
           grow={{ initial: '1', sm: '0' }}
           style={{ minWidth: '15rem' }}
         >
-          <Heading as="h2" size="5" mb="3">
+          <Heading as="h2" size="3" mb="3">
             Announcements
           </Heading>
           <Flex direction="column" width="100%" gap="1">
