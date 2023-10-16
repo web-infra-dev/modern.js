@@ -1,1 +1,0 @@
-{"version":3,"file":"lessAliasPlugin.d.ts","sourceRoot":"","sources":["../../../src/plugins/style/lessAliasPlugin.ts"],"names":[],"mappings":"AAGA,UAAU,OAAO;IACf,MAAM,EAAE,GAAG,CAAC;IACZ,QAAQ,EAAE,MAAM,CAAC;CAClB;AAED,MAAM,CAAC,OAAO,OAAO,iBAAiB;IACpC,MAAM,EAAE,GAAG,CAAC;IAEZ,QAAQ,EAAE,MAAM,CAAC;gBAEL,OAAO,EAAE,OAAO;IAK5B,OAAO,CAAC,IAAI,EAAE,GAAG,EAAE,aAAa,EAAE,GAAG;CAqCtC"}

@@ -31,6 +31,7 @@ $ npx modern new
 ```
 
 该命令会创建好 Storybook 常用的模版，包括
+
 - 创建配置文件夹 `.storybook`，以及默认配置文件 `.storybook/main.ts`
 - 创建 stories 组件示例
 - 更新 package.json，新增依赖 @storybook/addon-essential 和 @modern-js/storybook，以及创建 storybook 相关脚本。
@@ -173,7 +174,7 @@ export default config;
 
 #### 配置文件
 
-配置文件夹中除了 Modern.js builder 配置还包含一个额外的字段，builderPlugins，方便使用 builder 插件，例如启用 SWC 编译。
+配置文件中除了 Modern.js builder 配置还包含一个额外的字段，builderPlugins，方便使用 builder 插件，例如启用 SWC 编译。
 
 ```typescript filename='modern.config.ts'
 import { defineConfig } from '@modern-js/storybook';

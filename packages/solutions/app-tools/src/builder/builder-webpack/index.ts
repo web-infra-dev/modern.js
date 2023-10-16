@@ -23,5 +23,6 @@ export async function createWebpackBuilderForModern(
   }
 
   builder.addPlugins([builderPluginAdapterModern(options)]);
+
   return builder;
 }
