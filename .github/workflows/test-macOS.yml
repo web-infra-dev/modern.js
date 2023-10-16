@@ -56,12 +56,3 @@ jobs:
       - name: Test
         if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
         run: pnpm run test:jest
-
-      - name: Collect coverage
-        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
-        uses: codecov/codecov-action@v3.1.1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage
-          fail_ci_if_error: true
-          override_branch: main
