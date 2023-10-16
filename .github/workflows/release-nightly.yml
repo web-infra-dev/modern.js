@@ -49,7 +49,7 @@ jobs:
         run: RSBUILD_VERSION=nightly pnpm run update-rsbuild
 
       - name: Install Dependencies && Build
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
 
       - name: Release
         uses: web-infra-dev/actions@v2
