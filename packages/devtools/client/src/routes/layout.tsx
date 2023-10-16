@@ -21,9 +21,16 @@ const NavigateButton: React.FC<{ tab: InternalTab }> = ({ tab }) => {
   return (
     <Tooltip content={tab.title} side="right">
       <NavLink to={to} className={styles.tabButton}>
-        <Box width="5" height="5" asChild>
-          {tab.icon}
-        </Box>
+        <Flex
+          justify="center"
+          align="center"
+          p="1"
+          className={styles.tabButtonInner}
+        >
+          <Box height="5" width="5" asChild>
+            {tab.icon}
+          </Box>
+        </Flex>
       </NavLink>
     </Tooltip>
   );
