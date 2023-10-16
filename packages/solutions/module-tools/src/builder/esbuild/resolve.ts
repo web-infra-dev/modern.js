@@ -19,7 +19,6 @@ function createEnhancedResolve(options: ResolverOptions): {
   if (fs.existsSync(tsconfig)) {
     plugins.push(
       new TsconfigPathsPlugin({
-        baseUrl: options.root,
         configFile: tsconfig,
       }),
     );
