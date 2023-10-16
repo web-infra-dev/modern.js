@@ -14,7 +14,7 @@ export default function Layout() {
       <Link to="user" className="user-btn" prefetch="intent">
         /user
       </Link>
-      <Link to="user/profile" className="user-profile" prefetch="intent">
+      <Link to="user/profile" className="user-profile-btn" prefetch="intent">
         /user/profile
       </Link>
       <Link to="error/loader" className="loader-error-btn" prefetch="intent">
