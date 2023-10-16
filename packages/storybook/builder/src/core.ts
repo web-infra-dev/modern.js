@@ -1,4 +1,4 @@
-import { createBuilder, mergeBuilderConfig } from '@modern-js/builder';
+import { createBuilder } from '@modern-js/builder';
 import { loadConfig } from '@modern-js/core';
 import type { Options } from '@storybook/types';
 import type { Compiler } from '@modern-js/builder-shared/webpack-dev-middleware';
@@ -22,12 +22,11 @@ export async function getCompiler(
   );
   const loadedConfig = (res ? res.config : {}) as BuilderConfig;
 
-  const otherBuilderConfig =
-    (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) || {};
+  const finalConfig =
+    (await presets.apply<BuilderConfig | void>('modern', loadedConfig)) ||
+    loadedConfig;
 
-  const builderConfig = mergeBuilderConfig(otherBuilderConfig, loadedConfig);
-
-  const provider = await getProvider(bundler, builderConfig);
+  const provider = await getProvider(bundler, finalConfig);
 
   if (!provider) {
     throw new Error(`@modern-js/builder-${bundler}-provider not found `);
@@ -44,7 +43,7 @@ export async function getCompiler(
 
   builder.addPlugins([
     pluginStorybook(cwd, options),
-    ...(loadedConfig.builderPlugins || []),
+    ...(finalConfig.builderPlugins || []),
   ]);
 
   return builder.createCompiler() as Promise<Compiler>;
