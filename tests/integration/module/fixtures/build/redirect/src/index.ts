@@ -1,5 +1,15 @@
+// css module
 import css from './index.module.css';
-import svg from './logo.svg';
-import alias from '@/alias';
 
-console.log(css, svg, alias);
+// asset
+import svg from './logo.svg';
+
+// alias
+import namedImport, { a, b } from '@/alias';
+import * as wildcardImport from '@/alias';
+
+export { a, b } from '@/alias';
+export * from '@/alias';
+export * as c from '@/alias';
+
+console.log(css, svg, a, b, namedImport, wildcardImport);
