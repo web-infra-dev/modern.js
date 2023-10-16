@@ -40,6 +40,7 @@
     "check-changeset": "cd ./scripts/check-changeset && pnpm start",
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "cd ./scripts/update-rspress && pnpm start",
+    "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start",
     "update-turbo-cache": "turbo run build --force --filter {packages/**}"
   },
   "engines": {
