@@ -4,7 +4,7 @@ import styles from './layout.module.scss';
 
 export default function Layout() {
   return (
-    <Box px="4" mx="auto" className={styles.container}>
+    <Box px="4" mx="auto" pb="4" className={styles.container}>
       <Outlet />
     </Box>
   );

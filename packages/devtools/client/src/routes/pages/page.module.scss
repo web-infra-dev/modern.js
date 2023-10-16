@@ -1,0 +1,14 @@
+.input {
+  position: fixed;
+  padding: var(--space-4);
+  padding-top: var(--breadcrumb-height);
+  top: 0;
+  left: var(--navigator-width);
+  right: 0;
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-background),
+    90%,
+    transparent
+  );
+}

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { parseURL, withTrailingSlash } from 'ufo';
 import { HiOutlineArrowsRightLeft } from 'react-icons/hi2';
+import styles from './page.module.scss';
 import { useStore } from '@/stores';
 import {
   MatchServerRouteValue,
@@ -30,25 +31,32 @@ const Page: React.FC = () => {
 
   return (
     <MatchUrlContext.Provider value={matchContext}>
-      <Box mb="2">
-        <TextField.Root>
-          <TextField.Slot>
-            <HiOutlineArrowsRightLeft />
-          </TextField.Slot>
-          <TextField.Input
-            placeholder="/foo?bar#baz"
-            onChange={e => handleUrlInput(e.target.value)}
-            type="search"
-            autoComplete="false"
-            autoCapitalize="false"
-            autoCorrect="false"
-          />
-        </TextField.Root>
-      </Box>
-      <Flex direction="column" gap="2" align="stretch" justify="between">
+      <Flex
+        position="relative"
+        direction="column"
+        gap="2"
+        align="stretch"
+        justify="between"
+        pt="7"
+      >
         {serverRoutes.map(route => (
           <ServerRoute key={route.entryPath} route={route} />
         ))}
+        <Box mb="2" className={styles.input}>
+          <TextField.Root>
+            <TextField.Slot>
+              <HiOutlineArrowsRightLeft />
+            </TextField.Slot>
+            <TextField.Input
+              placeholder="/foo?bar#baz"
+              onChange={e => handleUrlInput(e.target.value)}
+              type="url"
+              autoComplete="false"
+              autoCapitalize="false"
+              autoCorrect="false"
+            />
+          </TextField.Root>
+        </Box>
       </Flex>
     </MatchUrlContext.Provider>
   );
