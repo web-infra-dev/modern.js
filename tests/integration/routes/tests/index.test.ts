@@ -599,7 +599,7 @@ const supportPrefetchInIntentMode = async (
   let isRequestProfilePageData = false;
   page.on('request', interceptedRequest => {
     if (
-      /three_user\/profile\/layout\.([^.]\.)?js/.test(interceptedRequest.url())
+      /three_user\/profile\/layout\.([^.]*\.)?js/.test(interceptedRequest.url())
     ) {
       isRequestJS = true;
     }
