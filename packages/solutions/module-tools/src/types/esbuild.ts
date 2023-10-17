@@ -51,7 +51,7 @@ export type Context = {
 export interface ICompiler {
   reBuild: (type: 'link' | 'change', config: BaseBuildConfig) => Promise<void>;
   css_resolve: (id: string, dir: string) => string;
-  node_resolve: (id: string, dir: string, kind: ImportKind) => string;
+  node_resolve: (id: string, dir: string, kind: ImportKind) => string | false;
   init: () => Promise<void>;
 
   watcher?: FSWatcher;

@@ -29,7 +29,7 @@ import { adapterPlugin } from './adapter';
 import { TransformContext } from './transform';
 import { SourcemapContext } from './sourcemap';
 import { createRenderChunkHook, createTransformHook } from './hook';
-import { createResolver } from './resolve';
+import { createJsResolver, createCssResolver } from './resolve';
 import { initWatcher } from './watch';
 
 export class EsbuildCompiler implements ICompiler {
@@ -57,7 +57,7 @@ export class EsbuildCompiler implements ICompiler {
 
   css_resolve: (id: string, dir: string) => string;
 
-  node_resolve: (id: string, dir: string, kind: ImportKind) => string;
+  node_resolve: (id: string, dir: string, kind: ImportKind) => string | false;
 
   watcher?: FSWatcher;
 
@@ -89,13 +89,13 @@ export class EsbuildCompiler implements ICompiler {
       tsconfig: config.tsconfig,
       mainFields: config.resolve.mainFields,
     };
-    this.css_resolve = createResolver({
+    this.css_resolve = createCssResolver({
       ...resolveOptions,
       resolveType: 'css',
       extensions: cssExtensions,
       preferRelative: true,
     });
-    this.node_resolve = createResolver({
+    this.node_resolve = createJsResolver({
       ...resolveOptions,
       resolveType: 'js',
       extensions: config.resolve.jsExtensions,

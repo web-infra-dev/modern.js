@@ -1,0 +1,7 @@
+{
+  "name": "resolve-false",
+  "version": "1.0.0",
+  "devDependencies": {
+    "object-inspect": "1.13.0"
+  }
+}
