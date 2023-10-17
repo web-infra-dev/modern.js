@@ -1,5 +1,4 @@
 import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
-import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 
 export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
@@ -31,6 +30,9 @@ export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
         );
         const { logger, CHAIN_ID, applyOptionsChain } = await import(
           '@modern-js/utils'
+        );
+        const { mergeBuilderConfig } = await import(
+          '@modern-js/builder-shared'
         );
 
         // use typescript of user project
@@ -86,7 +88,7 @@ export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
           },
           config.tools.tsChecker,
           undefined,
-          deepMerge,
+          mergeBuilderConfig,
         );
 
         if (
