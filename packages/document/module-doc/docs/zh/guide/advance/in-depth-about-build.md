@@ -26,7 +26,7 @@ sidebar_position: 1
 - bundleless 则是可以保持原有的文件结构，更有利于调试和 tree shaking。
 
 :::warning
-bundleless 是单文件编译模式，因此对于类型的引用和导出你需要加上 `type` 字段， 例如 `import type { A } from './types`
+bundleless 是单文件编译模式，因此对于类型的引用和导出你需要加上 `type` 字段， 例如 `import type { A } from './types`，背景参考 [esbuild 文档](https://esbuild.github.io/content-types/#isolated-modules)。
 :::
 
 在 `buildConfig` 中可以通过 [`buildConfig.buildType`](/api/config/build-config#buildtype) 来指定当前构建任务是 bundle 还是 bundleless。
