@@ -81,7 +81,7 @@ describe('plugins/tsChecker', () => {
     expect(configs).toMatchSnapshot();
   });
 
-  it('should exclude be make sense', async () => {
+  it('should tschecker.issue.exclude final config merge correctly', async () => {
     const builder = await createStubBuilder({
       plugins: [builderPluginTsChecker()],
       context,
