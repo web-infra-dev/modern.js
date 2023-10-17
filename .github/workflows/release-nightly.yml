@@ -32,15 +32,15 @@ jobs:
       - name: Install npm v9
         run: npm install -g npm@9
 
-      - name: Turbo Cache
-        id: turbo-cache
+      - name: Nx Cache
+        id: nx-cache
         uses: actions/cache@v3
         with:
-          path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          path: .nx-cache
+          key: nx-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
-            turbo-
+            nx-${{ github.ref_name }}-
+            nx-
 
       - name: Install Dependencies && Build
         run: pnpm install
