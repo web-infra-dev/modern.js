@@ -1,6 +1,6 @@
 import { DefaultBuilderPlugin } from '@modern-js/builder-shared';
-import { merge as deepMerge } from '@modern-js/utils/lodash';
 import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
+import deepmerge from 'deepmerge';
 
 export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
   return {
@@ -86,7 +86,7 @@ export const builderPluginTsChecker = (): DefaultBuilderPlugin => {
           },
           config.tools.tsChecker,
           undefined,
-          deepMerge,
+          deepmerge,
         );
 
         if (

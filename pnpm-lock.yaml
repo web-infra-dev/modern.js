@@ -93,6 +93,9 @@ importers:
       '@swc/helpers':
         specifier: 0.5.1
         version: 0.5.1
+      deepmerge:
+        specifier: ^4.3.1
+        version: 4.3.1
       jiti:
         specifier: ^1.20.0
         version: 1.20.0

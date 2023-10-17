@@ -80,4 +80,22 @@ describe('plugins/tsChecker', () => {
     const configs = await builder.unwrapWebpackConfigs();
     expect(configs).toMatchSnapshot();
   });
+
+  it('should tschecker.issue.exclude final config merge correctly', async () => {
+    const builder = await createStubBuilder({
+      plugins: [builderPluginTsChecker()],
+      context,
+      builderConfig: {
+        tools: {
+          tsChecker: {
+            issue: {
+              exclude: [{ file: './src/**/*.ts' }],
+            },
+          },
+        },
+      },
+    });
+    const config = await builder.unwrapWebpackConfig();
+    expect(config).toMatchSnapshot();
+  });
 });
