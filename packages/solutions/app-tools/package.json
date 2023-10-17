@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@babel/parser": "^7.22.15",
-    "@babel/traverse": "^7.22.15",
+    "@babel/traverse": "^7.23.2",
     "@babel/types": "^7.22.15",
     "@modern-js/builder": "workspace:*",
     "@modern-js/builder-plugin-esbuild": "workspace:*",
