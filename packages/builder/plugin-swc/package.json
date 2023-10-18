@@ -14,7 +14,7 @@
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage",
+    "test:watch": "vitest dev",
     "test:update": "SNAPSHOT_UPDATE=1 vitest watch",
     "prepublishOnly": "only-allow-pnpm"
   },

@@ -46,8 +46,7 @@
   "modernConfig": {
     "tools": {
       "jest": {
-        "collectCoverage": true,
-        "coverageDirectory": "coverage",
+        "collectCoverage": false,
         "preset": "jest-puppeteer",
         "setupFilesAfterEnv": [
           "./utils/jest.setup.js"
