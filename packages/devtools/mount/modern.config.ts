@@ -13,6 +13,10 @@ export default defineConfig<'rspack'>({
         disableMount: true,
       },
     },
+    preEntry: [
+      require.resolve('modern-normalize/modern-normalize.css'),
+      require.resolve('@radix-ui/themes/styles.css'),
+    ],
     globalVars: {
       'process.env.VERSION': packageMeta.version,
       'process.env.DEVTOOLS_MARK': DEVTOOLS_MARK,
@@ -23,7 +27,6 @@ export default defineConfig<'rspack'>({
     legalComments: 'linked',
     disableCssExtract: true,
     disableFilenameHash: true,
-    enableCssModuleTSDeclaration: true,
     distPath: {
       js: './',
     },

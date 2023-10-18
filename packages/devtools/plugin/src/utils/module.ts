@@ -10,7 +10,6 @@ export const getRequire = (): NodeRequire => {
   const issuer = new Error().stack
     ?.split('\n')[2]
     .match(/\s*at .+? \((.*)\)$/)?.[1];
-  console.log('issuer: ', issuer);
   if (issuer && path.isAbsolute(issuer)) {
     // eslint-disable-next-line node/no-unsupported-features/node-builtins
     return module.createRequire(issuer);
