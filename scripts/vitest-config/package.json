@@ -8,7 +8,7 @@
     "dev": "tsc --watch",
     "build": "tsc",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage"
+    "test:watch": "vitest dev"
   },
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",

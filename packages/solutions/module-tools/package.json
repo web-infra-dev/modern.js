@@ -52,7 +52,7 @@
     "prepublishOnly": "only-allow-pnpm",
     "test": "vitest run",
     "test:ui": "vitest --ui",
-    "test:watch": "vitest dev --no-coverage"
+    "test:watch": "vitest dev"
   },
   "dependencies": {
     "@ampproject/remapping": "1.0.2",

@@ -1,7 +1,5 @@
 module.exports = {
   collectCoverage: false,
-  coverageDirectory: 'coverage',
-  coverageProvider: 'v8',
   preset: 'jest-puppeteer',
   rootDir: __dirname,
   setupFilesAfterEnv: ['./utils/jest.setup.js'],
