@@ -1,7 +1,6 @@
 {
   "name": "@modern-js/devtools-client",
   "version": "2.36.0",
-  "main": "./index.js",
   "scripts": {
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
@@ -15,6 +14,9 @@
   "engines": {
     "node": ">=14.0.0"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@modern-js-app/eslint-config": "workspace:*",
     "@modern-js/app-tools": "workspace:*",
@@ -56,6 +58,5 @@
     "valtio": "^1.11.1"
   },
   "dependencies": {
-    "thumbhash": "^0.1.1"
   }
 }
