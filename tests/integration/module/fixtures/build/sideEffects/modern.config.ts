@@ -1,12 +1,20 @@
 import { defineConfig } from '@modern-js/module-tools/defineConfig';
 
 export default defineConfig({
-  buildConfig: {
-    buildType: 'bundle',
-    sideEffects: false,
-    style: {
-      inject: true,
+  buildConfig: [
+    {
+      buildType: 'bundle',
+      sideEffects: false,
+      style: {
+        inject: true,
+      },
+      input: ['index.ts'],
     },
-    input: ['index.ts'],
-  },
+    {
+      style: {
+        inject: true,
+      },
+      input: ['lib.ts'],
+    },
+  ],
 });
