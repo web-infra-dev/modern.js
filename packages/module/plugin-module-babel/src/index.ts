@@ -16,7 +16,6 @@ export const getBabelHook = (options?: BabelTransformOptions) => ({
       if (isJsExt(args.path) || isJsLoader(args.loader)) {
         const result = await require('@babel/core').transformAsync(args.code, {
           filename: args.path,
-          sourceFileName: args.path,
           sourceMaps: Boolean(compiler.config.sourceMap),
           sourceType: 'unambiguous',
           inputSourceMap: false,

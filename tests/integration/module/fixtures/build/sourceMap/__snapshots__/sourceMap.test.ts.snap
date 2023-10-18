@@ -39,3 +39,28 @@ export const debug = str => addPrefix('DEBUG:', str);
   "version": 3,
 }
 `;
+
+exports[`sourcemap usage sourcemap with swc 1`] = `
+{
+  "mappings": ";;;;;;;;;;;;;;;;;;;AAAA;;;;;;;ACAO,IAAMA,YAAY,CAACC,QAAQC,QAAQ,GAAGD,UAAUC;;;ADEhD,IAAMC,QAAQD,SAAOF,UAAU,UAAUE;",
+  "names": [
+    "addPrefix",
+    "prefix",
+    "str",
+    "debug",
+  ],
+  "sources": [
+    "../../src/index.js",
+    "../../src/utils.js",
+  ],
+  "sourcesContent": [
+    "import { addPrefix } from './utils';
+
+export const debug = str => addPrefix('DEBUG:', str);
+",
+    "export const addPrefix = (prefix, str) => \`\${prefix}:\${str}\`;
+",
+  ],
+  "version": 3,
+}
+`;

@@ -35,6 +35,7 @@ Modern.js 是字节跳动 Web 工程体系的开源版本，包含以下解决�
 Modern.js 生态提供了以下解决方案和底层库：
 
 - 🦀 [Rspack](https://github.com/web-infra-dev/rspack)：基于 Rust 的高性能模块打包工具。
+- 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild)：基于 Rspack 的 Web 构建工具，由 Modern.js Builder 演变而来。
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress)：基于 Rspack 的静态站点生成器。
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish)：一站式微前端解决方案。
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck)：基于 Redux 的状态管理库。

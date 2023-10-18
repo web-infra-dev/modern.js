@@ -1,5 +1,15 @@
 import { useEffect, useState } from 'react';
 import hello, { postHello } from '@api/index';
+import { configure } from '@modern-js/runtime/bff';
+
+configure({
+  interceptor(request) {
+    return async (url, params) => {
+      const res = await request(url, params);
+      return res.json();
+    };
+  },
+});
 
 const App = () => {
   const [message, setMessage] = useState('bff-express');

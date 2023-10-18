@@ -1,5 +1,24 @@
 # @modern-js/plugin-module-babel
 
+## 2.36.0
+
+### Minor Changes
+
+- 602d1fb: refactor(plugin-module): use buildConfig.hooks to realize afresh
+  refactor(plugin-module): 使用 buildConfig.hooks 重新实现各插件功能
+
+### Patch Changes
+
+- 2d8b2df: fix: sourcemap
+  fix: 修复 sourcemap
+- Updated dependencies [2d8b2df]
+- Updated dependencies [bbc65b8]
+- Updated dependencies [d11870b]
+- Updated dependencies [71a23a6]
+- Updated dependencies [a1536f0]
+- Updated dependencies [602d1fb]
+  - @modern-js/module-tools@2.36.0
+
 ## 2.35.1
 
 ### Patch Changes

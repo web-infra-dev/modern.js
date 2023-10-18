@@ -24,16 +24,53 @@ exports[`plugins/tsLoader > should set include/exclude 1`] = `
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
+              "plugins": [
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+              ],
               "presets": [
                 [
-                  "@modern-js/babel-preset-app",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "appDirectory": "<ROOT>",
-                    "disableReactPreset": true,
-                    "target": "client",
+                    "bugfixes": true,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.32",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": "commonjs",
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
                     "useBuiltIns": "entry",
-                    "useTsLoader": true,
-                    "userBabelConfig": undefined,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
                   },
                 ],
               ],
@@ -77,16 +114,53 @@ exports[`plugins/tsLoader > should set ts-loader 1`] = `
           {
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
+              "plugins": [
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+              ],
               "presets": [
                 [
-                  "@modern-js/babel-preset-app",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "appDirectory": "<ROOT>",
-                    "disableReactPreset": true,
-                    "target": "client",
+                    "bugfixes": true,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.32",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": "commonjs",
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
                     "useBuiltIns": "entry",
-                    "useTsLoader": true,
-                    "userBabelConfig": undefined,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
                   },
                 ],
               ],

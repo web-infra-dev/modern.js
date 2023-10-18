@@ -11,7 +11,7 @@ module.exports = {
     },
     sourceType: 'module',
     babelOptions: {
-      configFile: require.resolve('@modern-js/babel-preset-app'),
+      configFile: require.resolve('@rsbuild/babel-preset/node'),
     },
   },
   // https://www.npmjs.com/package/@babel/eslint-parser

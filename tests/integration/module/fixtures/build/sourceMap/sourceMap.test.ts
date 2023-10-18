@@ -22,6 +22,24 @@ describe('sourcemap usage', () => {
     expect(JSON.parse(content)).toMatchSnapshot();
   });
 
+  it('sourcemap with swc', async () => {
+    const configFile = path.join(fixtureDir, './swc.ts');
+    await runCli({
+      argv: ['build'],
+      configFile,
+      appDirectory: fixtureDir,
+    });
+    const distSourceMapFilePath = path.join(
+      fixtureDir,
+      './dist/swc/index.js.map',
+    );
+    expect(await fs.pathExists(distSourceMapFilePath)).toBe(true);
+    const content = fs.readFileSync(distSourceMapFilePath, 'utf-8');
+    const map = JSON.parse(content);
+    expect(map).toMatchSnapshot();
+    expect(map.sources[0]).toBe('../../src/index.js');
+  });
+
   it('sourcemap is false', async () => {
     const configFile = path.join(fixtureDir, './false.ts');
     await runCli({
