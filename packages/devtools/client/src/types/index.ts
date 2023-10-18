@@ -51,6 +51,10 @@ export interface StoreContextValue {
   packages: Promise<PackageDefinition>;
   assets: Promise<AssetDefinition>;
   breadcrumb: BreadcrumbItem[];
+  announcement: Promise<{
+    src: string;
+    fallback: string;
+  }>;
 }
 
 export interface BuiltinTabView {

@@ -53,6 +53,7 @@
   color: var(--gray-8);
   transition: color 100ms;
   align-items: center;
+  cursor: pointer;
   &:global(.active), &:hover {
     color: var(--gray-11);
   }

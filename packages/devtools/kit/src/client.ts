@@ -32,12 +32,21 @@ export class AssetDefinition {
   logo: string = logo;
 }
 
+export class AnnouncementDefinition {
+  src: string =
+    'https://raw.githubusercontent.com/web-infra-dev/modern.js/main/ANNOUNCEMENT.md';
+
+  fallback: string = 'https://modernjs.dev/';
+}
+
 export class ClientDefinition {
   name: NameDefinition = new NameDefinition();
 
   packages: PackageDefinition = new PackageDefinition();
 
   assets: AssetDefinition = new AssetDefinition();
+
+  announcement: AnnouncementDefinition = new AnnouncementDefinition();
 }
 
 export interface IframeTabView {

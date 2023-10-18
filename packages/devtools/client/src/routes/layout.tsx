@@ -1,7 +1,15 @@
 import './layout.css';
 import React from 'react';
 import { NavLink, Outlet } from '@modern-js/runtime/router';
-import { Box, Flex, ThemePanel, Tooltip } from '@radix-ui/themes';
+import {
+  Box,
+  Flex,
+  ThemePanel,
+  Tooltip,
+  useThemeContext,
+  updateThemeAppearanceClass,
+} from '@radix-ui/themes';
+import { HiOutlineMoon, HiOutlineSun } from 'react-icons/hi2';
 import styles from './layout.module.scss';
 import { StoreContextProvider, useStoreSnapshot } from '@/stores';
 import { Theme } from '@/components/Theme';
@@ -36,6 +44,31 @@ const NavigateButton: React.FC<{ tab: InternalTab }> = ({ tab }) => {
   );
 };
 
+const AppearanceButton = () => {
+  const { appearance } = useThemeContext();
+
+  const handleClick = () => {
+    updateThemeAppearanceClass(appearance === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <Tooltip content="Appearance" side="right">
+      <Box className={styles.tabButton} onClick={handleClick}>
+        <Flex
+          justify="center"
+          align="center"
+          p="1"
+          className={styles.tabButtonInner}
+        >
+          <Box height="5" width="5" asChild>
+            {appearance === 'dark' ? <HiOutlineMoon /> : <HiOutlineSun />}
+          </Box>
+        </Flex>
+      </Box>
+    </Tooltip>
+  );
+};
+
 const Navigator: React.FC = () => {
   const { tabs } = useStoreSnapshot();
 
@@ -44,6 +77,8 @@ const Navigator: React.FC = () => {
       {tabs.map(tab => (
         <NavigateButton key={tab.name} tab={tab as any} />
       ))}
+      <Box grow="1" />
+      <AppearanceButton />
     </Flex>
   );
 };

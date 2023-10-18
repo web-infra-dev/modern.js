@@ -12,8 +12,7 @@ const ThemeGuard: React.FC<React.PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('__modern_js_devtools_appearance', appearance);
     if (appearance !== 'inherit') {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.remove('light');
+      document.documentElement.classList.remove('dark', 'light');
       document.documentElement.classList.add(appearance);
     }
   }, [appearance]);

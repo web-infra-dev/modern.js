@@ -37,12 +37,14 @@
     "@types/react": "~18.0.26",
     "@types/react-dom": "~18.0.10",
     "birpc": "0.2.13",
+    "clsx": "^1.2.1",
     "lodash": "^4.17.21",
     "p-defer": "3.0.0",
     "postcss-custom-media": "^10.0.1",
     "react": "~18.2.0",
     "react-base16-styling": "^0.9.1",
     "react-dom": "~18.2.0",
+    "react-icons": "^4.11.0",
     "react-json-tree": "^0.18.0",
     "react-json-view": "^1.21.3",
     "react-use": "^17.4.0",
@@ -51,9 +53,9 @@
     "type-fest": "^4.1.0",
     "typescript": "~5.0.4",
     "ufo": "^1.2.0",
-    "valtio": "^1.11.1",
-    "clsx": "^1.2.1",
-    "react-icons": "^4.11.0"
+    "valtio": "^1.11.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "thumbhash": "^0.1.1"
+  }
 }

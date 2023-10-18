@@ -37,25 +37,33 @@ const Page: React.FC = () => {
         gap="2"
         align="stretch"
         justify="between"
-        pt="7"
+        pt="8"
       >
         {serverRoutes.map(route => (
           <ServerRoute key={route.entryPath} route={route} />
         ))}
         <Box mb="2" className={styles.input}>
-          <TextField.Root>
-            <TextField.Slot>
-              <HiOutlineArrowsRightLeft />
-            </TextField.Slot>
-            <TextField.Input
-              placeholder="/foo?bar#baz"
-              onChange={e => handleUrlInput(e.target.value)}
-              type="url"
-              autoComplete="false"
-              autoCapitalize="false"
-              autoCorrect="false"
-            />
-          </TextField.Root>
+          <Box
+            style={{
+              maxWidth: '40rem',
+              margin: '0 auto',
+              padding: '0 var(--space-4)',
+            }}
+          >
+            <TextField.Root>
+              <TextField.Slot>
+                <HiOutlineArrowsRightLeft />
+              </TextField.Slot>
+              <TextField.Input
+                placeholder="/foo?bar#baz"
+                onChange={e => handleUrlInput(e.target.value)}
+                type="url"
+                autoComplete="false"
+                autoCapitalize="false"
+                autoCorrect="false"
+              />
+            </TextField.Root>
+          </Box>
         </Box>
       </Flex>
     </MatchUrlContext.Provider>

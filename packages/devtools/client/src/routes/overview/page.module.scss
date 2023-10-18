@@ -2,6 +2,14 @@
   max-width: 40rem;
 }
 
+.bottom-tip {
+  opacity: 0.3;
+  transition: opacity 300ms;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .indicate-card {
   border-radius: var(--radius-6);
   box-shadow: var(--shadow-4);
@@ -12,6 +20,8 @@
 }
 
 .primary-card {
+  flex: 4;
+  min-width: max-content;
   background-color: var(--blue-9);
   :global(.dark) & {
     background-color: var(--blue-10);
@@ -31,11 +41,25 @@
   }
 }
 
+.compile-time-card {
+  flex: 2;
+}
+
+.plugin-card {
+  flex: 2;
+  min-width: 15rem;
+}
+
+.info-card {
+  flex: 2;
+  min-width: 15rem;
+}
+
 .indicate-bar {
   font-size: var(--font-size-1);
   color: var(--gray-9);
   min-width: var(--space-1);
-  white-space:nowrap;
+  white-space: nowrap;
   flex: 1;
 
   &::before {
