@@ -66,7 +66,7 @@ const Page: React.FC = () => {
             >
               <img src={srcHeading} style={{ width: '8rem' }} />
               <Flex gap="2">
-                <button type="button">v2.35.1</button>
+                <button type="button">v{store.version}</button>
               </Flex>
               <Text as="p" size="1">
                 Powered by {toolsPackage}@{toolsPackageVer}
@@ -75,7 +75,7 @@ const Page: React.FC = () => {
           </Theme>
         </IndicateCard>
         <IndicateCard className={styles.infoCard}>
-          <Flex justify="between" align="center" height="100%">
+          <Flex justify="between" gap="3" align="center" height="100%">
             <Box>
               <Text color="gray">Visit our website</Text>
               <Flex align="center" asChild>
