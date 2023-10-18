@@ -265,7 +265,7 @@ export default function UserLayout() {
           <div>
             <span>{userInfo.name}</span>
             <span>{userInfo.age}</span>
-            <Outlet>
+            <Outlet/>
           </div>
         )}>
         </Await>
@@ -279,6 +279,55 @@ export default function UserLayout() {
 For details on how to use the Await component, please refer to [Await](https://reactrouter.com/en/main/components/await).
 
 For details on how to use defer, please refer to [defer](https://reactrouter.com/en/main/guides/deferred).
+:::
+
+### Data Cache
+
+In routing navigation, Modern.js will only load the data of the changed part of the route.
+For example, the current route is `a/b`, and the Data Loader corresponding to the `a` path has been executed.
+When jumping from `/a/b` to `/a/c`, the Data Loader corresponding to `a` path will not be re-executed,
+and the Data Loader corresponding to `c` path will execute and fetch the data.
+
+It is mean that Modern.js will only load the data for the routing change portion of the data load,
+and this default optimization strategy avoids invalid duplicate data requests.
+
+You may ask, how to update the data of the `a` path corresponding to the Data Loader?
+
+In Modern.js, Modern.js will reload the data of the corresponding routing path in the following cases:
+
+1. After [Data Action](/guides/basic-features/data/data-write.md) is triggered
+2. The search params on the url have changed.
+3. The link clicked by the user is the same as the URL of the current page.
+4. The [`shouldRevalidate`](#/shouldrevalidate) function is defined in the routing component, which returns true
+
+:::info
+If you define the [`shouldRevalidate`](#/shouldrevalidate) function on the route, the function will be checked first to determine whether the data needs to be reloaded.
+:::
+
+### `shouldRevalidate`
+
+In each routing component (`layout.tsx`, `page.tsx`, `$.tsx`), we can export a `shouldRevalidate` function, which is triggered each time a route changes in the project. This function controls which routes' data are reloaded, and when it returns true, the data for the corresponding route is reloaded. data of the corresponding route will be reloaded.
+
+```ts title="routes/user/layout.tsx"
+import type { ShouldRevalidateFunction } from '@modern-js/runtime/router';
+export const shouldRevalidate: ShouldRevalidateFunction = ({
+  actionResult,
+  currentParams,
+  currentUrl,
+  defaultShouldRevalidate,
+  formAction,
+  formData,
+  formEncType,
+  formMethod,
+  nextParams,
+  nextUrl,
+}) => {
+  return true;
+};
+```
+
+:::info
+For more details about the `shouldRevalidate` function, please refer to [react-router](https://reactrouter.com/en/main/route/should-revalidate)
 :::
 
 ### Incorrect usage

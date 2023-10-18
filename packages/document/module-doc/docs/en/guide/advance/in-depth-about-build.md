@@ -26,7 +26,7 @@ They have their own benefits.
 - bundleless maintains the original file structure and is more conducive to debugging and tree shaking.
 
 :::warning
-bundleless is a single file compilation mode, so for type references and exports you need to add the `type` field, e.g. `import type { A } from '. /types`
+bundleless is a single-file compilation mode, so for referencing and exporting types, you need to add the `type` keyword. For example, `import type { A } from './types'`. Please refer to the [esbuild documentation](https://esbuild.github.io/content-types/#isolated-modules) for more information.
 :::
 
 In `buildConfig` you can specify whether the current build task is bundle or bundleless by using [`buildConfig.buildType`](/en/api/config/build-config#buildtype).

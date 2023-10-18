@@ -76,7 +76,7 @@ export const aliasPlugin = (alias: AliasOption): [string, PluginOptions] => {
   };
   const typescriptExts = ['.ts', '.tsx', '.js', '.jsx', '.es', '.es6', '.mjs'];
   return [
-    '@modern-js/babel-plugin-module-resolver',
+    require.resolve('@modern-js/babel-plugin-module-resolver'),
     {
       root: absoluteBaseUrl,
       alias: mergedPaths,

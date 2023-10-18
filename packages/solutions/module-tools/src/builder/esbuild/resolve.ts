@@ -19,7 +19,6 @@ function createEnhancedResolve(options: ResolverOptions): {
   if (fs.existsSync(tsconfig)) {
     plugins.push(
       new TsconfigPathsPlugin({
-        baseUrl: options.root,
         configFile: tsconfig,
       }),
     );
@@ -56,29 +55,46 @@ function createEnhancedResolve(options: ResolverOptions): {
   };
 }
 
-export const createResolver = (options: ResolverOptions) => {
+export const createJsResolver = (options: ResolverOptions) => {
   const resolveCache = new Map<string, string>();
   const { resolveSync, esmResolveSync } = createEnhancedResolve(options);
   const resolver = (id: string, dir: string, kind?: ImportKind) => {
     const cacheKey = id + dir + (kind || '');
     const cacheResult = resolveCache.get(cacheKey);
-
     if (cacheResult) {
       return cacheResult;
     }
+
     let result: string | false;
-    if (options.resolveType === 'js') {
-      if (kind === 'import-statement' || kind === 'dynamic-import') {
-        result = esmResolveSync(dir, id);
-      } else {
-        result = resolveSync(dir, id);
-      }
+    if (kind === 'import-statement' || kind === 'dynamic-import') {
+      result = esmResolveSync(dir, id);
     } else {
-      try {
-        result = resolveSync(dir, id);
-      } catch (err) {
-        result = resolveSync(dir, id.replace(/^~/, ''));
-      }
+      result = resolveSync(dir, id);
+    }
+
+    if (result) {
+      resolveCache.set(cacheKey, result);
+    }
+    return result;
+  };
+  return resolver;
+};
+
+export const createCssResolver = (options: ResolverOptions) => {
+  const resolveCache = new Map<string, string>();
+  const { resolveSync } = createEnhancedResolve(options);
+  const resolver = (id: string, dir: string, kind?: ImportKind) => {
+    const cacheKey = id + dir + (kind || '');
+    const cacheResult = resolveCache.get(cacheKey);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
+    let result: string | false;
+    try {
+      result = resolveSync(dir, id);
+    } catch (err) {
+      result = resolveSync(dir, id.replace(/^~/, ''));
     }
     if (!result) {
       throw new Error(`can not resolve ${id} from ${dir}`);

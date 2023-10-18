@@ -15,8 +15,6 @@ describe('babel', () => {
       './fixtures/api/tsconfig.json',
     );
     const config = resolveBabelConfig(pwd, defaults as any, {
-      type: 'commonjs',
-      syntax: 'es6+',
       tsconfigPath,
     });
 

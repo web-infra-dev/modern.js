@@ -1,13 +1,27 @@
 import { RSPACK_PROVIDER, WEBPACK_PROVIDER } from '@modern-js/builder-shared';
-import { isPackageInstalled } from '@modern-js/utils';
+import { fs, isPackageInstalled } from '@modern-js/utils';
+import path from 'path';
 
 export function getProviderType() {
   const root = process.cwd();
+  const pkgJsonPath = path.join(root, 'package.json');
+  const pkgJson = fs.readJSONSync(pkgJsonPath);
+  const deps = {
+    ...pkgJson.dependencies,
+    ...pkgJson.devDependencies,
+  };
+
+  // Judging based on package.json, this is more accurate
+  if (deps[RSPACK_PROVIDER]) {
+    return 'rspack';
+  }
+  if (deps[WEBPACK_PROVIDER]) {
+    return 'webpack';
+  }
 
   if (isPackageInstalled(RSPACK_PROVIDER, root)) {
     return 'rspack';
   }
-
   if (isPackageInstalled(WEBPACK_PROVIDER, root)) {
     return 'webpack';
   }

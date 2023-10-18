@@ -7,8 +7,19 @@ import {
 import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
+
+/**
+ * The `@babel/preset-typescript` default options.
+ */
+export const DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS = {
+  allowNamespaces: true,
+  allExtensions: true,
+  allowDeclareFields: true,
+  // aligns Babel's behavior with TypeScript's default behavior.
+  // https://babeljs.io/docs/en/babel-preset-typescript#optimizeconstenums
+  optimizeConstEnums: true,
+  isTSX: true,
+};
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',

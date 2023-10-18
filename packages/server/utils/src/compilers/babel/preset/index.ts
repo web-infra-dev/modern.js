@@ -1,47 +1,34 @@
-import { getBaseBabelChain } from '@modern-js/babel-preset-base';
-import { ISyntaxOption, ILibPresetOption } from './types';
+import { getBabelConfigForNode } from '@rsbuild/babel-preset/node';
+import { ILibPresetOption } from './types';
 import { aliasPlugin } from './alias';
 
-export const getBabelChain = (
-  libPresetOption: ILibPresetOption,
-  syntaxOption: ISyntaxOption,
-) => {
-  const {
-    appDirectory,
-    jsxTransformRuntime,
-    enableReactPreset,
-    enableTypescriptPreset,
-    styledComponentsOptions,
-  } = libPresetOption;
-  const { syntax, type } = syntaxOption;
-  const chain = getBaseBabelChain({
-    appDirectory,
-    type,
-    syntax,
-    presets: {
-      envOptions: true,
-      reactOptions: enableReactPreset,
-      typescriptOptions: enableTypescriptPreset
-        ? { allowDeclareFields: true, allExtensions: true }
-        : false,
+export const getBabelConfig = (libPresetOption: ILibPresetOption) => {
+  const config = getBabelConfigForNode({
+    presetEnv: {
+      loose: true,
+      modules: 'commonjs',
     },
-    plugins: {
-      transformRuntime: {
-        corejs: false, // 关闭 corejs
-        // for es5 code need helper functions
-        helpers: syntaxOption.syntax === 'es5',
-      },
-      styledComponentsOptions,
+    pluginDecorators: {
+      version: 'legacy',
     },
-    jsxTransformRuntime,
   });
 
+  config.presets?.push([
+    require.resolve('@babel/preset-react'),
+    {
+      runtime: 'automatic',
+    },
+  ]);
+
   if (libPresetOption.alias) {
-    const [name, opt] = aliasPlugin(libPresetOption.alias);
-    chain.plugin(name).use(require.resolve(name), [opt]);
+    config.plugins?.push(aliasPlugin(libPresetOption.alias));
   }
 
-  return chain;
+  config.plugins?.push(
+    require.resolve('babel-plugin-transform-typescript-metadata'),
+  );
+
+  return config;
 };
 
 export * from './types';

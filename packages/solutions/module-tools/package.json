@@ -59,7 +59,7 @@
     "@ast-grep/napi": "0.12.0",
     "@babel/generator": "^7.22.15",
     "@babel/parser": "^7.22.15",
-    "@babel/traverse": "7.22.15",
+    "@babel/traverse": "7.23.2",
     "@babel/types": "^7.22.15",
     "@modern-js/core": "workspace:*",
     "@modern-js/new-action": "workspace:*",
@@ -80,7 +80,6 @@
     "enhanced-resolve": "5.8.3",
     "esbuild": "0.19.2",
     "magic-string": "0.26.4",
-    "picomatch": "2.3.0",
     "postcss": "8.4.31",
     "postcss-modules": "4.3.0",
     "safe-identifier": "0.4.2",
@@ -99,9 +98,7 @@
     "@types/babel__generator": "7.6.4",
     "@types/babel__traverse": "7.18.5",
     "@types/convert-source-map": "1.5.2",
-    "@types/mocha": "9.0.0",
     "@types/node": "^14",
-    "@types/picomatch": "2.3.0",
     "typescript": "^5"
   },
   "peerDependencies": {
