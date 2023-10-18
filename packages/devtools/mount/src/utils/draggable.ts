@@ -77,7 +77,8 @@ export const useStickyDraggable = (options?: StickyDraggableOptions) => {
     });
   };
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = (raw: MouseEvent | TouchEvent) => {
+    const e = 'touches' in raw ? raw.touches[0] : raw;
     if (!state?.moveable) {
       return;
     }
@@ -117,15 +118,24 @@ export const useStickyDraggable = (options?: StickyDraggableOptions) => {
 
   useEvent('blur', handleRelease);
   useEvent('mouseup', handleRelease);
+  useEvent('touchend', handleRelease);
   useEvent('mousemove', handleMouseMove);
+  useEvent('touchmove', handleMouseMove);
 
-  const onMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+  const onMouseDown = (
+    raw: React.MouseEvent<HTMLElement> | React.TouchEvent<HTMLElement>,
+  ) => {
+    const e = 'touches' in raw ? raw.touches[0] : raw;
+    const el = raw.currentTarget;
+    const rect = el.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left;
+    const offsetY = e.clientY - rect.top;
     setState({
-      el: e.currentTarget,
+      el,
       clickable: true,
       moveable: true,
-      offsetX: e.nativeEvent.offsetX,
-      offsetY: e.nativeEvent.offsetY,
+      offsetX,
+      offsetY,
       startX: e.clientX,
       startY: e.clientY,
     });
@@ -139,6 +149,7 @@ export const useStickyDraggable = (options?: StickyDraggableOptions) => {
     isDragging: Boolean(state),
     props: {
       onMouseDown,
+      onTouchStart: onMouseDown,
       onClickCapture,
     },
   };

@@ -14,14 +14,21 @@ export default defineConfig<'rspack'>({
     port: 8780,
   },
   source: {
-    preEntry: [require.resolve('modern-normalize/modern-normalize.css')],
+    preEntry: [
+      require.resolve('modern-normalize/modern-normalize.css'),
+      './src/styles/theme.scss',
+    ],
     globalVars: {
       'process.env.PKG_VERSION': version,
     },
   },
   output: {
     assetPrefix: ROUTE_BASENAME,
-    enableCssModuleTSDeclaration: true,
+  },
+  tools: {
+    postcss: (config, { addPlugins }) => {
+      addPlugins(require('postcss-custom-media'));
+    },
   },
   plugins: [appTools({ bundler: 'experimental-rspack' })],
 });

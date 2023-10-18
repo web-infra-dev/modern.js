@@ -19,16 +19,13 @@
   right: 10px;
   width: max-content;
   height: max-content;
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
   display: flex;
-  gap: 0.25rem;
-  border: 1px solid #011c64;
-  background: linear-gradient(to bottom, #212121, #1e1e1e, #212121);
-  box-shadow: 0 0 3px #011c64;
-  color: #b8b9bb;
+  border: none;
+  background-color: var(--gray-2);
+  box-shadow: var(--shadow-5);
   border-radius: 999px;
-  align-items: center;
+  cursor: pointer;
+  touch-action: none;
 }
 
 .fab :global(*) {
@@ -40,4 +37,11 @@
   width: 1.5rem;
   height: 1.5rem;
   object-fit: contain;
+}
+
+.heading {
+  width: 3.25rem;
+  height: 1rem;
+  color: var(--gray-a10);
+  margin: 0 var(--space-2);
 }

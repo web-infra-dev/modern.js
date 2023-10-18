@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
 import { Box } from '@radix-ui/themes';
 import type { Theme } from 'react-base16-styling';
 import { JSONTree } from 'react-json-tree';
+import styles from './ObjectInspector.module.scss';
 
 const theme: Theme = {
   scheme: 'tomorrow',
@@ -24,14 +24,10 @@ const theme: Theme = {
   base0F: '#a3685a',
 };
 
-const Container = styled(Box)({
-  fontSize: 'var(--font-size-2)',
-});
-
 export const ObjectInspector: typeof JSONTree = props => {
   return (
-    <Container>
+    <Box className={styles.container}>
       <JSONTree theme={theme} {...props} />
-    </Container>
+    </Box>
   );
 };
