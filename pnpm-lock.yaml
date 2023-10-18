@@ -1397,10 +1397,6 @@ importers:
         version: 5.0.4
 
   packages/devtools/client:
-    dependencies:
-      thumbhash:
-        specifier: ^0.1.1
-        version: 0.1.1
     devDependencies:
       '@modern-js-app/eslint-config':
         specifier: workspace:*
@@ -1519,9 +1515,6 @@ importers:
 
   packages/devtools/kit:
     dependencies:
-      '@geist-ui/core':
-        specifier: ^2.3.8
-        version: 2.3.8(react-dom@18.2.0)(react@18.2.0)
       '@modern-js/types':
         specifier: workspace:*
         version: link:../../toolkit/types
@@ -11352,17 +11345,6 @@ packages:
       debug: 4.3.4(supports-color@9.3.1)
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@geist-ui/core@2.3.8(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-OKwGgTA4+fBM41eQbqDoUj4XBycZbYH7Ynrn6LPO5yKX7zeWPu/R7HN3vB4/oHt34VTDQI5sDNb1SirHvNyB5w==}
-    peerDependencies:
-      react: '>=16.9.0'
-      react-dom: '>=16.9.0'
-    dependencies:
-      '@babel/runtime': 7.23.2
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@hapi/hoek@9.3.0:
@@ -33575,10 +33557,6 @@ packages:
 
   /through@2.3.8:
     resolution: {integrity: sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg==}
-
-  /thumbhash@0.1.1:
-    resolution: {integrity: sha512-kH5pKeIIBPQXAOni2AiY/Cu/NKdkFREdpH+TLdM0g6WA7RriCv0kPLgP731ady67MhTAqrVG/4mnEeibVuCJcg==}
-    dev: false
 
   /timers-browserify@2.0.12:
     resolution: {integrity: sha512-9phl76Cqm6FhSX9Xe1ZUAMLtm1BLkKj2Qd5ApyWkXzsMRaA7dgr81kf4wJmQf/hAvg8EEyJxDo3du/0KlhPiKQ==}
