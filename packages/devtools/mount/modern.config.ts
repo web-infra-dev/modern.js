@@ -5,7 +5,7 @@ import packageMeta from './package.json';
 const DEVTOOLS_MARK = nanoid();
 
 // https://modernjs.dev/en/configure/app/usage
-export default defineConfig<'rspack'>({
+export default defineConfig({
   source: {
     entries: {
       main: {
@@ -60,9 +60,5 @@ export default defineConfig<'rspack'>({
       strategy: 'all-in-one',
     },
   },
-  plugins: [
-    appTools({
-      bundler: 'experimental-rspack',
-    }),
-  ],
+  plugins: [appTools()],
 });

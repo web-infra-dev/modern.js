@@ -3,7 +3,7 @@ import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
 import { version } from './package.json';
 
 // https://modernjs.dev/en/configure/app/usage
-export default defineConfig<'rspack'>({
+export default defineConfig({
   runtime: {
     router: {
       basename: ROUTE_BASENAME,
@@ -30,5 +30,5 @@ export default defineConfig<'rspack'>({
       addPlugins(require('postcss-custom-media'));
     },
   },
-  plugins: [appTools({ bundler: 'experimental-rspack' })],
+  plugins: [appTools()],
 });
