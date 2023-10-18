@@ -196,7 +196,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
             sideEffects: false,
           };
         }
-        const sideEffects = await getSideEffects(originalFilePath, isExternal);
+        const sideEffects = await getSideEffects(resultPath, isExternal);
         const result = {
           path: resultPath,
           external: isExternal,
