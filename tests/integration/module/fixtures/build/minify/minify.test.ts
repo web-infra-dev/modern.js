@@ -42,4 +42,16 @@ describe('minify usage', () => {
     expect((await esbuildMinifyStat).size).toBeLessThan((await stat).size);
     expect((await terserMinifyStat).size).toBeLessThan((await stat).size);
   });
+
+  it('umd + terser', async () => {
+    await runCli({
+      argv: ['build'],
+      appDirectory: fixtureDir,
+    });
+    const content = await fs.readFile(
+      path.join(fixtureDir, './dist/umd/index.js'),
+      'utf-8',
+    );
+    expect(content).toMatchSnapshot();
+  });
 });
