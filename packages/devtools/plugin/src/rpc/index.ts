@@ -137,6 +137,7 @@ export const setupClientConnection = async (
       Object.assign(ret.name, def.name);
       Object.assign(ret.packages, def.packages);
       Object.assign(ret.assets, def.assets);
+      Object.assign(ret.announcement, def.announcement);
       return ret;
     },
     echo(content) {
