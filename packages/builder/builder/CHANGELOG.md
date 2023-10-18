@@ -1,5 +1,23 @@
 # @modern-js/builder
 
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- 2527cbf: fix(builder-cli): load provider based on package.json
+
+  fix(builder-cli): 优先基于 package.json 加载 provider
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+
 ## 2.36.0
 
 ### Patch Changes

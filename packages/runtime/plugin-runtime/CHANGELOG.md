@@ -1,5 +1,22 @@
 # @modern-js/runtime
 
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/runtime-utils@2.37.0
+  - @modern-js/types@2.37.0
+
 ## 2.36.0
 
 ### Patch Changes

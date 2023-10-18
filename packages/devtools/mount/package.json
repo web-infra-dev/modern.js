@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-mount",
-  "version": "2.36.0",
+  "version": "2.37.0",
   "main": "dist/main.js",
   "types": "dist/types.d.ts",
   "scripts": {
@@ -19,8 +19,7 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "modern-normalize": "^2.0.0",
     "@modern-js-app/eslint-config": "workspace:*",
