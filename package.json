@@ -25,7 +25,7 @@
     "test:e2e": "cd tests && npm run test",
     "fast-lint": "sh -x ./scripts/fast-lint.sh",
     "lint:package-json": "cd ./scripts/lint-package-json && pnpm start",
-    "prepare-build": "NX_DAEMON=false nx run-many -t build -p @modern-js/* --maxParallel=100",
+    "prepare-build": "cross-env NX_DAEMON=false nx run-many -t build -p @modern-js/* --maxParallel=100",
     "prepare": "npm run prepare-build && husky install",
     "lint": "npm run fast-lint",
     "change": "modern change",
