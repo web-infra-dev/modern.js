@@ -1,5 +1,25 @@
 # @modern-js/builder-webpack-provider
 
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- b4725c8: fix(builder): deep-merge lose array items under tools.tschecker
+
+  fix(builder): 修复 deep-merge 在 tools.tschecker 中会丢失数组子元素的问题
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/server@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+  - @modern-js/types@2.37.0
+
 ## 2.36.0
 
 ### Patch Changes

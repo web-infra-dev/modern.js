@@ -1,5 +1,20 @@
 # @modern-js/server-utils
 
+## 2.37.0
+
+### Patch Changes
+
+- 383b636: chore: replace babel-preset-base with rsbuild babel-preset
+
+  chore: 替换 babel-preset-base 为 rsbuild babel-preset
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/babel-compiler@2.37.0
+  - @modern-js/babel-plugin-module-resolver@2.37.0
+
 ## 2.36.0
 
 ### Patch Changes
