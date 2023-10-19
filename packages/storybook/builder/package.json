@@ -76,18 +76,6 @@
     "@types/webpack-hot-middleware": "^2.25.6",
     "typescript": "^5.2.2"
   },
-  "peerDependencies": {
-    "@modern-js/builder-rspack-provider": "workspace:^2.34.0",
-    "@modern-js/builder-webpack-provider": "workspace:^2.34.0"
-  },
-  "peerDependenciesMeta": {
-    "@modern-js/builder-rspack-provider": {
-      "optional": true
-    },
-    "@modern-js/builder-webpack-provider": {
-      "optional": true
-    }
-  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public",

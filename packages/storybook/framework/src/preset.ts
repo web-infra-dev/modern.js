@@ -1,6 +1,7 @@
 import path from 'path';
 import type { Options } from '@storybook/types';
 import type { BuilderConfig } from '@modern-js/storybook-builder/types';
+import { applyOptionsChain } from '@modern-js/utils';
 
 export const frameworkOptions = async (_: never, options: Options) => {
   const config = await options.presets.apply('framework');
@@ -35,10 +36,12 @@ export const modern = (
     ...config,
     source: {
       ...config.source,
-      alias: {
-        ...config.source?.alias,
-        '@storybook/react': absPath('@storybook/react'),
-      },
+      alias: applyOptionsChain(
+        {
+          '@storybook/react': absPath('@storybook/react'),
+        },
+        config.source?.alias,
+      ),
     },
   };
 };

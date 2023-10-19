@@ -47,6 +47,7 @@
   "dependencies": {
     "@modern-js/storybook-builder": "workspace:*",
     "@storybook/react": "^7.4.6",
+    "@modern-js/utils": "workspace:*",
     "storybook": "^7.4.6"
   },
   "devDependencies": {

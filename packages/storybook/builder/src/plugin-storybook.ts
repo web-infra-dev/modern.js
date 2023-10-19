@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { isAbsolute, join, resolve } from 'path';
-import { slash, watch, globby } from '@modern-js/utils';
+import { slash, watch, globby, applyOptionsChain } from '@modern-js/utils';
 import {
   BuilderPlugin,
   SharedBuilderConfig,
@@ -186,11 +186,13 @@ async function prepareStorybookModules(
   const [mappingsAlias, write] = await virtualModule(tempDir, cwd, mappings);
 
   builderConfig.source ??= {};
-  builderConfig.source.alias = {
-    ...builderConfig.source.alias,
-    ...storybookPaths,
-    ...mappingsAlias,
-  };
+  builderConfig.source.alias = applyOptionsChain(
+    {
+      ...storybookPaths,
+      ...mappingsAlias,
+    },
+    builderConfig.source.alias,
+  );
 
   if (isDev()) {
     const watcher = await watchStories(storyPatterns, cwd, write);
@@ -424,10 +426,12 @@ async function applyReact(config: AllBuilderConfig, options: Options) {
   const useReact17 = legacyRootApi ?? !isReact18;
   if (!useReact17) {
     config.source ??= {};
-    config.source.alias ??= {};
-    // @ts-expect-error
-    config.source.alias['@storybook/react-dom-shim'] =
-      '@storybook/react-dom-shim/dist/react-18';
+    config.source.alias = applyOptionsChain(
+      {
+        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
+      },
+      config.source.alias,
+    );
   }
 }
 

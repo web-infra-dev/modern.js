@@ -37,7 +37,6 @@ export const resolvePlugins = (runtime: IConfig['modernConfigRuntime']) => {
           plugins.push(state(runtime.state));
         }
       } else if (api === allowedRuntimeAPI.router) {
-        // TODO: React Router v6 is not supported yet
         plugins.push(
           router({
             ...{ serverBase: ['/'] },
