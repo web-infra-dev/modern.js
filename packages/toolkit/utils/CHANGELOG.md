@@ -1,5 +1,22 @@
 # @modern-js/utils
 
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- 383b636: chore: replace babel-preset-base with rsbuild babel-preset
+
+  chore: 替换 babel-preset-base 为 rsbuild babel-preset
+
+- 708f248: fix(utils): bump rslog@1.1.0 to fix color support detection
+
+  fix(utils): 升级 rslog@1.1.0 并修复 color 支持检测
+
 ## 2.36.0
 
 ### Patch Changes

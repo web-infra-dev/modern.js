@@ -1,5 +1,19 @@
 # @modern-js/server-plugin
 
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/plugin@2.37.0
+
 ## 2.36.0
 
 ### Patch Changes

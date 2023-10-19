@@ -1,5 +1,40 @@
 # @modern-js/app-tools
 
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- Updated dependencies [7dc1512]
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+- Updated dependencies [2527cbf]
+- Updated dependencies [b4725c8]
+  - @modern-js/builder-webpack-provider@2.37.0
+  - @modern-js/builder@2.37.0
+  - @modern-js/server-core@2.37.0
+  - @modern-js/builder-rspack-provider@2.37.0
+  - @modern-js/server@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-plugin-esbuild@2.37.0
+  - @modern-js/builder-plugin-node-polyfill@2.37.0
+  - @modern-js/plugin-data-loader@2.37.0
+  - @modern-js/prod-server@2.37.0
+  - @modern-js/builder-shared@2.37.0
+  - @modern-js/core@2.37.0
+  - @modern-js/plugin-i18n@2.37.0
+  - @modern-js/plugin-lint@2.37.0
+  - @modern-js/new-action@2.37.0
+  - @modern-js/node-bundle-require@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/upgrade@2.37.0
+  - @modern-js/types@2.37.0
+
 ## 2.36.0
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/devtools-client",
-  "version": "2.36.0",
+  "version": "2.37.0",
   "scripts": {
     "reset": "npx rimraf ./**/node_modules",
     "dev": "modern dev",
@@ -57,6 +57,5 @@
     "ufo": "^1.2.0",
     "valtio": "^1.11.1"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }

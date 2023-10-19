@@ -1,5 +1,20 @@
 # @modern-js/builder-cli
 
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [7dc1512]
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+- Updated dependencies [2527cbf]
+- Updated dependencies [b4725c8]
+  - @modern-js/builder-webpack-provider@2.37.0
+  - @modern-js/builder@2.37.0
+  - @modern-js/builder-rspack-provider@2.37.0
+  - @modern-js/utils@2.37.0
+
 ## 2.36.0
 
 ### Patch Changes

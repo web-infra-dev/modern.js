@@ -1,5 +1,34 @@
 # @modern-js/module-tools
 
+## 2.37.0
+
+### Patch Changes
+
+- 194c9a5: fix(module-tools): load empty object instead throw error when js resolve result is false
+  fix(module-tools): 当 js resolve 结果为 false 时，加载空对象替代抛出错误
+- 0488090: fix(module-tools): catch rebaseUrl error which break the build
+  fix(module-tools): 捕获会破坏整个构建的 rebaseUrl 错误
+- 822c75e: fix(module-tools): remove baseUrl in tsconfig path plugin, respect custom tsconfig
+  fix(module-tools): 移除 tsconfig path 插件里的 baseUrl 配置，尊重自定义 tsconfig 里的配置
+- 907dcc8: chore: remove picomatch dep
+  chore: 移除 picomatch 依赖
+- 70fbaae: fix(module-tools): put terser at the end of renderChunk to ensure minify
+  fix(module-tools): 把 terser 放在 renderChunk 的最后阶段来确保全部代码压缩
+- 94671a1: fix: alias not working on re-export
+  fix: 别名在重导出不生效
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/core@2.37.0
+  - @modern-js/plugin-changeset@2.37.0
+  - @modern-js/plugin-i18n@2.37.0
+  - @modern-js/plugin-lint@2.37.0
+  - @modern-js/new-action@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/upgrade@2.37.0
+  - @modern-js/types@2.37.0
+
 ## 2.36.0
 
 ### Minor Changes
