@@ -98,9 +98,13 @@ export default function Layout() {
             </Box>
           </Box>
         </Box>
-        {process.env.NODE_ENV === 'development' && (
-          <ThemePanel defaultOpen={false} />
-        )}
+        <ThemePanel
+          defaultOpen={false}
+          style={{
+            display:
+              process.env.NODE_ENV === 'development' ? undefined : 'none',
+          }}
+        />
         <Navigator />
         <Breadcrumbs className={styles.breadcrumbs} />
       </Theme>
