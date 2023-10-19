@@ -14,7 +14,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
-        os: [ubuntu-latest]
+        os: ${{ fromJSON(vars.LINUX_RUNNER_LABELS) }}
 
     steps:
       - name: Checkout
