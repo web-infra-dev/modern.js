@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # dev
 
-本章节描述了 Module Tools 关于调试工具相关的所有配置。
+本章节描述了 Modern.js Module 关于调试工具相关的所有配置。
 
 ```ts
 export default {

@@ -19,7 +19,7 @@ In addition to `"dependencies"`, [`"peerDependencies"`](/en/guide/basic/before-g
 
 ## Default handling of third-party dependencies
 
-By default, third-party dependencies under `"dependencies"` and `"peerDependencies"` are not bundled in the module project\*\*.
+By default, **third-party dependencies under `"dependencies"` and `"peerDependencies"` are not bundled by Modern.js Module**.
 
 This is because when the npm package is installed, its `"dependencies"` will also be installed. By not packaging `"dependencies"`, you can reduce the size of the package product.
 

@@ -1,5 +1,29 @@
 # @modern-js/module-generator
 
+## 3.2.5
+
+## 3.2.4
+
+## 3.2.3
+
+## 3.2.2
+
+## 3.2.1
+
+## 3.2.0
+
+### Minor Changes
+
+- f0c6df5: feat: adjust ts template, handle dependencies through handlebars
+
+  feat: 调整生成器 ts 模板，使用 handlebars 处理依赖
+
+### Patch Changes
+
+- acb82ef: chore(generator): simplify the default lint-staged config
+
+  chore(generator): 简化默认的 lint-staged 配置
+
 ## 3.1.39
 
 ### Patch Changes

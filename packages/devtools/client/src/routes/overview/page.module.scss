@@ -1,0 +1,79 @@
+.container {
+  max-width: 40rem;
+}
+
+.bottom-tip {
+  opacity: 0.3;
+  transition: opacity 300ms;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.indicate-card {
+  border-radius: var(--radius-6);
+  box-shadow: var(--shadow-4);
+  padding: var(--space-5);
+  :global(.dark) & {
+    background-color: var(--gray-1);
+  }
+}
+
+.primary-card {
+  flex: 4;
+  min-width: max-content;
+  background-color: var(--blue-9);
+  :global(.dark) & {
+    background-color: var(--blue-10);
+  }
+  button {
+    border: none;
+    border-radius: var(--radius-thumb);
+    font-size: var(--font-size-1);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-1) var(--space-2);
+    overflow: hidden;
+    background-color: var(--black-a2);
+    &:hover,
+    &:active {
+      background-color: var(--black-a1);
+    }
+  }
+}
+
+.compile-time-card {
+  flex: 2;
+}
+
+.plugin-card {
+  flex: 2;
+  min-width: 15rem;
+}
+
+.info-card {
+  flex: 2;
+  min-width: max-content;
+}
+
+.indicate-bar {
+  font-size: var(--font-size-1);
+  color: var(--gray-9);
+  min-width: var(--space-1);
+  white-space: nowrap;
+  flex: 1;
+
+  &::before {
+    content: '';
+    display: block;
+    height: var(--space-1);
+    width: 100%;
+    border-radius: var(--radius-thumb);
+    text-align: center;
+  }
+  &:nth-child(odd)::before {
+    background-color: var(--blue-9);
+  }
+  &:nth-child(even)::before {
+    background-color: var(--red-9);
+  }
+}

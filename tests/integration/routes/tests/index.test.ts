@@ -3,6 +3,7 @@ import path from 'path';
 import puppeteer, { Browser } from 'puppeteer';
 import { fs, ROUTE_MANIFEST_FILE } from '@modern-js/utils';
 import { ROUTE_MANIFEST } from '@modern-js/utils/universal/constants';
+
 import type {
   // Browser,
   Page,
@@ -213,8 +214,7 @@ const supportNoLayoutDir = async (
   const text = await page.evaluate(el => el?.textContent, rootElm);
   expect(text?.includes('root layout')).toBeTruthy();
   expect(text?.includes('user layout')).toBeTruthy();
-  expect(text?.includes('item page')).toBeFalsy();
-  expect(text?.includes('profile page, param is 1234')).toBeTruthy();
+  expect(text?.includes('item page, param is 1234')).toBeTruthy();
   expect(errors.length).toEqual(0);
 };
 
@@ -317,7 +317,6 @@ const supportHandleLoaderError = async (
   errors: string[],
   appPort: number,
 ) => {
-  // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
@@ -370,7 +369,6 @@ const supportLoaderForSSRAndCSR = async (
   errors: string[],
   appPort: number,
 ) => {
-  // const page = await browser.newPage();
   await page.goto(`http://localhost:${appPort}/three`, {
     waitUntil: ['domcontentloaded'],
   });
@@ -519,6 +517,149 @@ const hasHashCorrectly = async (appDir: string) => {
   expect(threeHtml.includes(hash)).toBe(true);
 };
 
+const supportActionInCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  await page.goto(`http://localhost:${appPort}/four/user/profile`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  await page.click('.action-btn');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('profile page')).toBeTruthy();
+  expect(text?.includes('modern_four_action')).toBeTruthy();
+};
+
+const supportActionInSSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  expect(errors.length).toBe(0);
+  await page.goto(`http://localhost:${appPort}/three/user/1234/profile`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  await page.click('.action-btn');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('modern_three_action')).toBeTruthy();
+};
+
+const supportShouldRevalidateInSSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  expect(errors.length).toBe(0);
+  await page.goto(`http://localhost:${appPort}/three/user/111`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('param is 111')).toBeTruthy();
+  await page.click('.should-not-revalidate');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  const text1 = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text1?.includes('param is 111')).toBeTruthy();
+};
+
+const supportShouldRevalidateInCSR = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  expect(errors.length).toBe(0);
+  await page.goto(`http://localhost:${appPort}/four/user/111`, {
+    waitUntil: ['networkidle0'],
+  });
+  const rootElm = await page.$('#root');
+  const text = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text?.includes('param is 111')).toBeTruthy();
+  await page.click('.should-not-revalidate');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  const text1 = await page.evaluate(el => el?.textContent, rootElm);
+  expect(text1?.includes('param is 111')).toBeTruthy();
+};
+
+const supportPrefetchInIntentMode = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  expect(errors.length).toBe(0);
+  await page.goto(`http://localhost:${appPort}/three`, {
+    waitUntil: ['networkidle0'],
+  });
+  let isRequestJS = false;
+  let isRequestProfileLayoutData = false;
+  let isRequestProfilePageData = false;
+  page.on('request', interceptedRequest => {
+    if (
+      /three_user\/profile\/layout\.([^.]*\.)?js/.test(interceptedRequest.url())
+    ) {
+      isRequestJS = true;
+    }
+
+    if (
+      interceptedRequest
+        .url()
+        .includes('user/profile?__loader=three_user%2Fprofile%2Flayout')
+    ) {
+      isRequestProfileLayoutData = true;
+    }
+
+    if (
+      interceptedRequest
+        .url()
+        .includes('user/profile?__loader=three_user%2Fprofile%2Fpage')
+    ) {
+      isRequestProfilePageData = true;
+    }
+  });
+  await page.hover('.user-profile-btn');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  expect(isRequestJS).toBe(true);
+  expect(isRequestProfileLayoutData).toBe(true);
+  expect(isRequestProfilePageData).toBe(true);
+};
+
+const supportPrefetchWithShouldRevalidate = async (
+  page: Page,
+  errors: string[],
+  appPort: number,
+) => {
+  expect(errors.length).toBe(0);
+  await page.goto(`http://localhost:${appPort}/three/user/222`, {
+    waitUntil: ['networkidle0'],
+  });
+  // make sure assets have been loaded
+  await new Promise(resolve => setTimeout(resolve, 800));
+  await page.click('.root-btn');
+  await new Promise(resolve => setTimeout(resolve, 200));
+
+  let isRequestLayoutData = false;
+  let isRequestPageData = false;
+  page.on('request', interceptedRequest => {
+    if (interceptedRequest.url().includes('__loader=three_user%2Flayout')) {
+      isRequestLayoutData = true;
+    }
+
+    if (
+      interceptedRequest.url().includes('__loader=three_user%2F%28id%29%2Fpage')
+    ) {
+      isRequestPageData = true;
+    }
+  });
+  await page.hover('.should-not-revalidate');
+  await new Promise(resolve => setTimeout(resolve, 200));
+  expect(isRequestLayoutData).toBe(true);
+  expect(isRequestPageData).toBe(false);
+};
+
 describe('dev', () => {
   let app: unknown;
   let appPort: number;
@@ -530,6 +671,10 @@ describe('dev', () => {
     app = await launchApp(appDir, appPort, {}, {});
     browser = await puppeteer.launch(launchOptions as any);
     page = await browser.newPage();
+    await page.setRequestInterception(true);
+    page.on('request', interceptedRequest => {
+      interceptedRequest.continue();
+    });
     page.on('pageerror', error => {
       console.log(error.message);
       errors.push(error.message);
@@ -577,8 +722,7 @@ describe('dev', () => {
     test('support handle config', async () =>
       supportHandleConfig(page, appPort));
 
-    // FIXME: skip the test
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -592,7 +736,7 @@ describe('dev', () => {
 
   describe('loader', () => {
     test('support loader', async () => supportLoader(page, errors, appPort));
-    test.skip('support loader for ssr and csr', async () =>
+    test('support loader for ssr and csr', async () =>
       supportLoaderForSSRAndCSR(page, errors, appPort));
 
     test('support loader for csr', () =>
@@ -616,9 +760,35 @@ describe('dev', () => {
 
   describe('client data', () => {
     test('support client data', async () => {
-      const page1 = await browser.newPage();
-      await supportClientLoader(page1, errors, appPort);
-      await page1.close();
+      await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
+
+    test('support action in SSR', async () => {
+      await supportActionInSSR(page, errors, appPort);
+    });
+  });
+
+  describe('prefetch', () => {
+    test('suppport prefetch', async () => {
+      await supportPrefetchInIntentMode(page, errors, appPort);
+    });
+    test('support prefetch with shouldRevalidate', async () => {
+      await supportPrefetchWithShouldRevalidate(page, errors, appPort);
+    });
+  });
+
+  describe('support shouldRevalidate', () => {
+    test('support shouldRevalidate in ssr', async () => {
+      await supportShouldRevalidateInSSR(page, errors, appPort);
+    });
+    test('support shouldRevalidate in csr', async () => {
+      await supportShouldRevalidateInCSR(page, errors, appPort);
     });
   });
 
@@ -688,8 +858,7 @@ describe('build', () => {
     test('path without layout', async () =>
       supportPathWithoutLayout(page, errors, appPort));
 
-    // FIXME: skip the test
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -730,6 +899,33 @@ describe('build', () => {
   describe('client data', () => {
     test('support client data', async () => {
       await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
+    test('support action in SSR', async () => {
+      await supportActionInSSR(page, errors, appPort);
+    });
+  });
+
+  describe('prefetch', () => {
+    test('suppport prefetch', async () => {
+      await supportPrefetchInIntentMode(page, errors, appPort);
+    });
+    test('support prefetch with shouldRevalidate', async () => {
+      await supportPrefetchWithShouldRevalidate(page, errors, appPort);
+    });
+  });
+
+  describe('support shouldRevalidate', () => {
+    test('support shouldRevalidate in ssr', async () => {
+      await supportShouldRevalidateInSSR(page, errors, appPort);
+    });
+    test('support shouldRevalidate in csr', async () => {
+      await supportShouldRevalidateInCSR(page, errors, appPort);
     });
   });
 
@@ -805,7 +1001,7 @@ describe('dev with rspack', () => {
       supportHandleConfig(page, appPort));
 
     // FIXME: skip the test
-    test.skip('support handle loader error', async () =>
+    test('support handle loader error', async () =>
       supportHandleLoaderError(page, errors, appPort));
   });
 
@@ -819,7 +1015,7 @@ describe('dev with rspack', () => {
 
   describe('loader', () => {
     test('support loader', async () => supportLoader(page, errors, appPort));
-    test.skip('support loader for ssr and csr', async () =>
+    test('support loader for ssr and csr', async () =>
       supportLoaderForSSRAndCSR(page, errors, appPort));
 
     test('support loader for csr', () =>
@@ -843,9 +1039,34 @@ describe('dev with rspack', () => {
 
   describe('client data', () => {
     test('support client data', async () => {
-      const page1 = await browser.newPage();
-      await supportClientLoader(page1, errors, appPort);
-      await page1.close();
+      await supportClientLoader(page, errors, appPort);
+    });
+  });
+
+  describe('support action', () => {
+    test('support action in CSR', async () => {
+      await supportActionInCSR(page, errors, appPort);
+    });
+    test('support action in SSR', async () => {
+      await supportActionInSSR(page, errors, appPort);
+    });
+  });
+
+  describe('prefetch', () => {
+    test('suppport prefetch', async () => {
+      await supportPrefetchInIntentMode(page, errors, appPort);
+    });
+    test('support prefetch with shouldRevalidate', async () => {
+      await supportPrefetchWithShouldRevalidate(page, errors, appPort);
+    });
+  });
+
+  describe('support shouldRevalidate', () => {
+    test('support shouldRevalidate in ssr', async () => {
+      await supportShouldRevalidateInSSR(page, errors, appPort);
+    });
+    test('support shouldRevalidate in csr', async () => {
+      await supportShouldRevalidateInCSR(page, errors, appPort);
     });
   });
 

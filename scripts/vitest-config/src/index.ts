@@ -6,8 +6,7 @@ import { applyMatcherReplacement } from './pathSerializer';
 export const testPreset = defineConfig({
   test: {
     coverage: {
-      enabled: true,
-      include: ['src/**/*.[jt]s?(x)'],
+      enabled: false,
     },
     environment: 'happy-dom',
     testTimeout: 30000,

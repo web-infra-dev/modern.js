@@ -1,7 +1,7 @@
 import path from 'path';
 import type { PluginAPI } from '@modern-js/core';
 import _ from '@modern-js/utils/lodash';
-import { ensureArray, slash } from '@modern-js/utils';
+import { ensureArray } from '@modern-js/utils';
 import type {
   ModuleUserConfig,
   ModuleLegacyUserConfig,
@@ -86,7 +86,7 @@ export const normalizeBuildConfig = async (
 
   const mergedConfig = mergeConfig(configFromPreset, buildConfig ?? {});
 
-  validPartialBuildConfig(mergedConfig);
+  validPartialBuildConfig(mergedConfig, context.appDirectory);
 
   const normalizedConfig = await Promise.all(
     mergedConfig.map(async config => {
@@ -114,9 +114,12 @@ export const transformToAbsPath = async (
 
   newConfig.outDir = path.resolve(context.appDirectory, newConfig.outDir);
 
-  newConfig.sourceDir = slash(
-    path.resolve(context.appDirectory, baseConfig.sourceDir),
+  newConfig.sourceDir = path.resolve(
+    context.appDirectory,
+    baseConfig.sourceDir,
   );
+
+  newConfig.tsconfig = path.resolve(context.appDirectory, newConfig.tsconfig);
 
   // dts path
   if (newConfig.dts) {
@@ -124,10 +127,12 @@ export const transformToAbsPath = async (
       newConfig.outDir,
       newConfig.dts.distPath,
     );
-    newConfig.dts.tsconfigPath = path.resolve(
-      context.appDirectory,
-      newConfig.dts.tsconfigPath,
-    );
+    if (newConfig.dts.tsconfigPath) {
+      newConfig.dts.tsconfigPath = path.resolve(
+        context.appDirectory,
+        newConfig.dts.tsconfigPath,
+      );
+    }
   }
 
   return newConfig;

@@ -1,5 +1,253 @@
 # @modern-js/app-tools
 
+## 2.37.1
+
+### Patch Changes
+
+- Updated dependencies [9eb817f]
+  - @modern-js/builder@2.37.1
+  - @modern-js/builder-plugin-esbuild@2.37.1
+  - @modern-js/builder-plugin-node-polyfill@2.37.1
+  - @modern-js/builder-rspack-provider@2.37.1
+  - @modern-js/builder-shared@2.37.1
+  - @modern-js/builder-webpack-provider@2.37.1
+  - @modern-js/core@2.37.1
+  - @modern-js/plugin-data-loader@2.37.1
+  - @modern-js/plugin-i18n@2.37.1
+  - @modern-js/plugin-lint@2.37.1
+  - @modern-js/new-action@2.37.1
+  - @modern-js/server-core@2.37.1
+  - @modern-js/prod-server@2.37.1
+  - @modern-js/server@2.37.1
+  - @modern-js/node-bundle-require@2.37.1
+  - @modern-js/plugin@2.37.1
+  - @modern-js/types@2.37.1
+  - @modern-js/upgrade@2.37.1
+  - @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- Updated dependencies [7dc1512]
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+- Updated dependencies [2527cbf]
+- Updated dependencies [b4725c8]
+  - @modern-js/builder-webpack-provider@2.37.0
+  - @modern-js/builder@2.37.0
+  - @modern-js/server-core@2.37.0
+  - @modern-js/builder-rspack-provider@2.37.0
+  - @modern-js/server@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-plugin-esbuild@2.37.0
+  - @modern-js/builder-plugin-node-polyfill@2.37.0
+  - @modern-js/plugin-data-loader@2.37.0
+  - @modern-js/prod-server@2.37.0
+  - @modern-js/builder-shared@2.37.0
+  - @modern-js/core@2.37.0
+  - @modern-js/plugin-i18n@2.37.0
+  - @modern-js/plugin-lint@2.37.0
+  - @modern-js/new-action@2.37.0
+  - @modern-js/node-bundle-require@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/upgrade@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 3473bee: chore: remove legacy monorepo include and unused utils
+
+  chore: 移除旧版的 monorepo include 逻辑和未使用的 utils
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 41b1734: chore(app-tools): remove afterDev hook tty judgment to ensure development and testing environments are consistent
+  chore(app-tools): 移除 afterDev hook tty 判断来确保开发、测试环境行为一致
+- c1b0d18: fix(app-tools): align resolve.modules config in rspack mode
+
+  fix(app-tools): 对齐 rspack 模式下的 resolve.modules 配置
+
+- Updated dependencies [4fbc386]
+- Updated dependencies [3448e82]
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [3921cd4]
+- Updated dependencies [3dcad90]
+- Updated dependencies [d90d83a]
+- Updated dependencies [5c89910]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [73dcace]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [4289ffd]
+- Updated dependencies [eb602d2]
+- Updated dependencies [5b4bf21]
+  - @modern-js/core@2.36.0
+  - @modern-js/builder@2.36.0
+  - @modern-js/utils@2.36.0
+  - @modern-js/prod-server@2.36.0
+  - @modern-js/builder-rspack-provider@2.36.0
+  - @modern-js/server@2.36.0
+  - @modern-js/builder-webpack-provider@2.36.0
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/builder-plugin-esbuild@2.36.0
+  - @modern-js/plugin-data-loader@2.36.0
+  - @modern-js/plugin-lint@2.36.0
+  - @modern-js/builder-plugin-node-polyfill@2.36.0
+  - @modern-js/plugin-i18n@2.36.0
+  - @modern-js/new-action@2.36.0
+  - @modern-js/server-core@2.36.0
+  - @modern-js/node-bundle-require@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/upgrade@2.36.0
+  - @modern-js/types@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- 9dd3151: chore(app-tools): add RouterPlugin name
+  chore(app-tools): 增加 RouterPlugin 名称
+- 0db5680: fix(app-tools): failed to emit modern.config.json when distPath.root is absolute path
+
+  fix(app-tools): 修复 distPath.root 为绝对路径时无法输出 modern.config.json 的问题
+
+- 24482a5: feat: support splat route config file
+  feat: 支持通配路由配置文件
+- 578f94f: chore(rspack): use DataURI module instead of rspack-plugin-virtual-module
+
+  chore(rspack): 使用 DataURI module 替代 rspack-plugin-virtual-module
+
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [14f95cf]
+- Updated dependencies [4b8cdd3]
+- Updated dependencies [bb97082]
+- Updated dependencies [9dd3151]
+- Updated dependencies [bc1413d]
+- Updated dependencies [0db5680]
+- Updated dependencies [411cea2]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [dc93952]
+- Updated dependencies [843cb2c]
+- Updated dependencies [6b03be8]
+- Updated dependencies [578f94f]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/builder-webpack-provider@2.35.1
+  - @modern-js/builder-rspack-provider@2.35.1
+  - @modern-js/builder@2.35.1
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/core@2.35.1
+  - @modern-js/prod-server@2.35.1
+  - @modern-js/plugin-data-loader@2.35.1
+  - @modern-js/server@2.35.1
+  - @modern-js/builder-plugin-esbuild@2.35.1
+  - @modern-js/builder-plugin-node-polyfill@2.35.1
+  - @modern-js/plugin-i18n@2.35.1
+  - @modern-js/plugin-lint@2.35.1
+  - @modern-js/new-action@2.35.1
+  - @modern-js/server-core@2.35.1
+  - @modern-js/node-bundle-require@2.35.1
+  - @modern-js/upgrade@2.35.1
+  - @modern-js/types@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- 15b834f: feat(CLI): print gradient text for initial log
+
+  feat(CLI): 输出 initial log 时使用渐变色文字
+
+- Updated dependencies [3b25410]
+- Updated dependencies [e2def6e]
+- Updated dependencies [8ed713c]
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [9f13314]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-rspack-provider@2.35.0
+  - @modern-js/builder@2.35.0
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/core@2.35.0
+  - @modern-js/builder-webpack-provider@2.35.0
+  - @modern-js/builder-plugin-node-polyfill@2.35.0
+  - @modern-js/builder-plugin-esbuild@2.35.0
+  - @modern-js/plugin-data-loader@2.35.0
+  - @modern-js/plugin-i18n@2.35.0
+  - @modern-js/plugin-lint@2.35.0
+  - @modern-js/new-action@2.35.0
+  - @modern-js/server-core@2.35.0
+  - @modern-js/prod-server@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/node-bundle-require@2.35.0
+  - @modern-js/plugin@2.35.0
+  - @modern-js/upgrade@2.35.0
+  - @modern-js/types@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [f851fa9]
+- Updated dependencies [e3d08fb]
+- Updated dependencies [7d70738]
+- Updated dependencies [5240e5d]
+- Updated dependencies [a77b82a]
+- Updated dependencies [dcdeea5]
+- Updated dependencies [5ffb74a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/prod-server@2.34.0
+  - @modern-js/server-core@2.34.0
+  - @modern-js/builder@2.34.0
+  - @modern-js/utils@2.34.0
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/core@2.34.0
+  - @modern-js/server@2.34.0
+  - @modern-js/plugin-data-loader@2.34.0
+  - @modern-js/builder-plugin-esbuild@2.34.0
+  - @modern-js/builder-plugin-node-polyfill@2.34.0
+  - @modern-js/builder-rspack-provider@2.34.0
+  - @modern-js/builder-webpack-provider@2.34.0
+  - @modern-js/plugin-i18n@2.34.0
+  - @modern-js/plugin-lint@2.34.0
+  - @modern-js/new-action@2.34.0
+  - @modern-js/node-bundle-require@2.34.0
+  - @modern-js/plugin@2.34.0
+  - @modern-js/upgrade@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes
@@ -2053,7 +2301,7 @@
 
 ### Patch Changes
 
-- 39988b2: feat: advance the timing of static resource loading
+- 39988b2: feat: advance the timing of static assets loading
   feat: 将嵌套路由下静态资源加载时机提前
 - Updated dependencies [39988b2]
   - @modern-js/types@2.0.2

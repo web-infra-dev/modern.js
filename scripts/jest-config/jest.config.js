@@ -1,10 +1,6 @@
-const path = require('path');
-
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
-  collectCoverage: true,
-  collectCoverageFrom: ['<rootDir>/src/**/*.[jt]s?(x)'],
-  coveragePathIgnorePatterns: ['/node_modules/', '/fixtures/'],
+  collectCoverage: false,
   transform: {
     '\\.[jt]sx?$': [
       require.resolve('@swc/jest'),
@@ -14,14 +10,22 @@ module.exports = {
             syntax: 'typescript',
             decorators: true,
           },
+          transform: {
+            react: {
+              runtime: 'automatic',
+            },
+          },
         },
       },
     ],
   },
+  transformIgnorePatterns: [
+    '/node_modules/.pnpm/(?!(@modern-js-reduck|@babel))',
+  ],
   moduleNameMapper: {},
   globals: {},
-  testEnvironment: 'jsdom',
-  resolver: path.join(__dirname, 'jest.resolver.js'),
+  testEnvironment: require.resolve('../../tests/jest.env.js'),
+  resolver: require.resolve('../../tests/jest.resolver.js'),
   rootDir: __dirname,
   testTimeout: 30000,
   testMatch: [

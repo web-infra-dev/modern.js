@@ -1,5 +1,62 @@
 # @modern-js/plugin-proxy
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 6cefc25: fix(plugin-proxy): failed to run networksetup command in Windows
+
+  fix(plugin-proxy): 修复 Windows 下运行 networksetup 失败的问题
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

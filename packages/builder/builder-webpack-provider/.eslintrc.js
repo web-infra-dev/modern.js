@@ -17,7 +17,6 @@ const restrictedImportInSource = {
     'lodash',
     'ts-loader',
     'typescript',
-    '@modern-js/utils',
     ...devDependencyPaths,
   ].map(withAllowTypeImports('name')),
   patterns: [

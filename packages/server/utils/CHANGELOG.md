@@ -1,5 +1,74 @@
 # @modern-js/server-utils
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/babel-plugin-module-resolver@2.37.1
+- @modern-js/babel-compiler@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 383b636: chore: replace babel-preset-base with rsbuild babel-preset
+
+  chore: 替换 babel-preset-base 为 rsbuild babel-preset
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/babel-compiler@2.37.0
+  - @modern-js/babel-plugin-module-resolver@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/babel-preset-base@2.36.0
+  - @modern-js/babel-compiler@2.36.0
+  - @modern-js/babel-plugin-module-resolver@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/babel-preset-base@2.35.1
+  - @modern-js/babel-compiler@2.35.1
+  - @modern-js/babel-plugin-module-resolver@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/babel-preset-base@2.35.0
+  - @modern-js/babel-compiler@2.35.0
+  - @modern-js/babel-plugin-module-resolver@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+  - @modern-js/babel-preset-base@2.34.0
+  - @modern-js/babel-compiler@2.34.0
+  - @modern-js/babel-plugin-module-resolver@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

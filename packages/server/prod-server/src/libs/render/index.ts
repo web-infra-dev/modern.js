@@ -5,7 +5,7 @@ import { ServerOptions } from '@modern-js/server-core';
 import { RenderResult, ServerHookRunner } from '../../type';
 import { ModernRoute } from '../route';
 import { ERROR_DIGEST } from '../../constants';
-import { flushServerHeader, shouldFlushServerHeader } from '../preload';
+import { shouldFlushServerHeader } from '../preload/shouldFlushServerHeader';
 import { handleDirectory } from './static';
 import { readFile } from './reader';
 import * as ssr from './ssr';
@@ -26,6 +26,9 @@ type CreateRenderHandler = (ctx: {
   nonce?: string;
   metaName?: string;
 }) => RenderHandler;
+
+const calcFallback = (metaName: string) =>
+  `x-${cutNameByHyphen(metaName)}-ssr-fallback`;
 
 export const createRenderHandler: CreateRenderHandler = ({
   distDir,
@@ -73,9 +76,7 @@ export const createRenderHandler: CreateRenderHandler = ({
 
     // handles ssr first
     const useCSR =
-      forceCSR &&
-      (ctx.query.csr ||
-        ctx.headers[`x-${cutNameByHyphen(metaName)}-ssr-fallback`]);
+      forceCSR && (ctx.query.csr || ctx.headers[calcFallback(metaName)]);
     if (route.isSSR && !useCSR) {
       try {
         const userAgent = ctx.getReqHeader('User-Agent') as string | undefined;
@@ -84,7 +85,9 @@ export const createRenderHandler: CreateRenderHandler = ({
         const disablePreload = Boolean(
           ctx.headers[`x-${cutNameByHyphen(metaName)}-disable-preload`],
         );
+
         if (shouldFlushServerHeader(conf.server, userAgent, disablePreload)) {
+          const { flushServerHeader } = await import('../preload');
           flushServerHeader({
             serverConf: conf.server,
             ctx,
@@ -127,7 +130,7 @@ export const createRenderHandler: CreateRenderHandler = ({
           ERROR_DIGEST.ERENDER,
           (err as Error).stack || (err as Error).message,
         );
-        ctx.res.set('x-modern-ssr-fallback', '1');
+        ctx.res.set(calcFallback(metaName), '1');
       }
     }
 

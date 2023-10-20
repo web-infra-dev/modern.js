@@ -1,5 +1,154 @@
 # @modern-js/builder-webpack-provider
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.37.1
+- @modern-js/server@2.37.1
+- @modern-js/types@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- b4725c8: fix(builder): deep-merge lose array items under tools.tschecker
+
+  fix(builder): 修复 deep-merge 在 tools.tschecker 中会丢失数组子元素的问题
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/server@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 2675812: feat(builder): improve time logs format
+
+  feat(builder): 优化时间日志的格式
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
+- 5b4bf21: feat(builder): include tslib in lib-polyfill.js
+
+  feat(builder): 拆分 tslib 到 lib-polyfill.js 中
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [3dcad90]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/server@2.36.0
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/babel-preset-app@2.36.0
+  - @modern-js/babel-preset-base@2.36.0
+  - @modern-js/types@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- bc1413d: fix(builder): resolve-url-loader performance regression issue
+
+  fix(builder): 修复 resolve-url-loader 导致的性能下降问题
+
+- 0988b12: chore(builder): move duplicated prebundle packages to shared
+
+  chore(builder): 合并重复的预打包 packages 到 shared
+
+- fe8caeb: feat(builder): unify progress bar style in webpack / Rspack mode
+
+  feat(builder): 对齐 webpack / Rspack 模式下的进度条样式
+
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/utils@2.35.1
+  - @modern-js/server@2.35.1
+  - @modern-js/babel-preset-app@2.35.1
+  - @modern-js/babel-preset-base@2.35.1
+  - @modern-js/types@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- 9f13314: fix(builder): VS Code break points not work in monorepo
+
+  fix(builder): 修复 VS Code 断点在 monorepo 中不生效
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/babel-preset-app@2.35.0
+  - @modern-js/babel-preset-base@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/utils@2.34.0
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/server@2.34.0
+  - @modern-js/babel-preset-app@2.34.0
+  - @modern-js/babel-preset-base@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Routing
@@ -140,6 +140,7 @@ To simplify the introduction of the relationship between `<Layout>` and `<Outlet
   </UserLayout>
 </Layout>
 ```
+
 In summary, if there is a `layout.tsx` file under the sub-route's file directory, the `<Outlet>` in the parent `layout.tsx` will represent the `layout.tsx` in the sub-route file directory. Otherwise, it will represent the `page.tsx` in the sub-route file directory.
 
 #### Page
@@ -148,25 +149,24 @@ All routes should end with the `<Page>` component. If the developer introduces t
 
 #### Config
 
-Each `Layout` or `Page` file can define its own `config` file, such as `page.config.ts`. In this file, we have an conventinal on a named export called `handle`, which you can define any properties:
+Each `Layout`,`$` or `Page` file can define its own `config` file, such as `page.config.ts`. In this file, we have an conventinal on a named export called `handle`, which you can define any properties:
 
 ```ts title="routes/blog/page.config.ts"
 export const handle = {
-  breadcrumbName: 'profile'
-}
+  breadcrumbName: 'profile',
+};
 ```
 
 These properties as defined are available via the [`useMatches`](https://reactrouter.com/en/main/hooks/use-matches) hook:
 
 ```ts title="routes/layout.ts"
 export default () => {
-  const matches = useMatches;
-  const breadcrumbs = matches.map(matchedRoute => matchedRoute?.handle?.breadcrumbName);
-  return (
-    <Breadcrumb names={breadcrumbs}>
-    </Breadcrumb>
-  )
-}
+  const matches = useMatches();
+  const breadcrumbs = matches.map(
+    matchedRoute => matchedRoute?.handle?.breadcrumbName,
+  );
+  return <Breadcrumb names={breadcrumbs}></Breadcrumb>;
+};
 ```
 
 ### Dynamic Routing
@@ -186,7 +186,7 @@ The `routes/[id]/page.tsx` file will be converted to the `/:id` route. Except fo
 
 In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to get the corresponding named parameter.
 
-In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
+In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
 
 ### Dynamic Optional Routing
 
@@ -206,7 +206,7 @@ The `routes/user/[id$]/page.tsx` file will be converted to the `/user/:id?` rout
 
 In the component, you can use [useParams](/apis/app/runtime/router/router#useparams) to get the corresponding named parameter.
 
-In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
+In the loader, params will be passed as the input parameter of the [loader function](/guides/basic-features/data/data-fetch#loader-function), and you can get the parameter value through `params.xxx`.
 
 ### Catch-all Routing
 
@@ -227,6 +227,7 @@ For example, the following directory structure:
 ```
 
 When accessing any path that does not match(For example `/blog/a`), the `routes/$.tsx` component will be rendered, because there is `layout.tsx` here, the rendered UI is as follows.
+
 ```tsx
 <RootLayout>
   <BlogLayout>
@@ -350,17 +351,28 @@ Similarly, when the route jumps from `/` or `/blog` to `/blog/123`, if the JS Ch
 
 ### Redirect
 
-You can use a [Data Loader](/guides/basic-features/data-fetch) file to redirect a route. For example, if you have a `routes/user/page.tsx` file and want to redirect the corresponding route, you can create a `routes/user/page.loader.ts` file:
+You can use a [Data Loader](/guides/basic-features/data/data-fetch) file to redirect a route. For example, if you have a `routes/user/page.tsx` file and want to redirect the corresponding route, you can create a `routes/user/page.data.ts` file:
 
-```ts title="routes/user/page.loader.ts"
+```ts title="routes/user/page.data.ts"
 import { redirect } from '@modern-js/runtime/router';
 
-export default () => {
+export const loader = () => {
   const user = await getUser();
   if (!user) {
     return redirect('/login');
   }
   return null;
+};
+```
+
+If you want to redirect in a component,you can navigate by `useNavigate` hook, for example:
+
+```ts title="routes/user/page.ts"
+import { useNavigate } from '@modern-js/runtime/router';
+
+export default () => {
+  const navigate = useNavigate();
+  navigate('/login');
 };
 ```
 
@@ -390,7 +402,6 @@ export const ErrorBoundary = () => {
 ### Runtime Configuration
 
 In each root `Layout` component (`routes/layout.ts`), you can dynamically define runtime configuration:
-
 
 ```tsx title="src/routes/layout.tsx"
 // Define runtime config
@@ -480,17 +491,18 @@ In conventional routing, Modern.js automatically splits routes into chunks based
 
 However, this also brings a problem: if the chunk corresponding to the route has not finished loading when the user visits the route, a white screen will appear.
 
-In this case, you can define a `Loading` component to display a custom `Loading` component before the static resources are loaded.
+In this case, you can define a `Loading` component to display a custom `Loading` component before the static assets are loaded.
 
-To further improve the user experience and reduce loading time, Modern.js supports defining the `prefetch` attribute on the Link component to preload static resources and data.
+To further improve the user experience and reduce loading time, Modern.js supports defining the `prefetch` attribute on the Link component to preload static assets and data.
 
 ```tsx
 <Link prefetch="intent" to="page">
 ```
 
 :::info
+
 - This feature is currently only supported in Webpack projects and not yet supported in Rspack projects.
-- Preloading data currently only preloads the data returned by the [Data Loader](/guides/basic-features/data-fetch) in SSR projects.
+- Preloading data currently only preloads the data returned by the [Data Loader](/guides/basic-features/data/data-fetch) in SSR projects.
 
 :::
 
@@ -502,19 +514,19 @@ The `prefetch` attribute has three optional values:
 
 #### FAQ
 
-1. What is the difference between using `render` and not splitting static resources based on the route?
+1. What is the difference between using `render` and not splitting static assets based on the route?
 
 - By using `render`, you can specify which routes to load during the initial screen, and you can control the rendering so that only when the `Link` component enters the visible area, the `Link` component will be rendered.
-- By using `render`, static resources will only be loaded when the system is idle, and will not compete with the static resources of the initial screen for network resources.
+- By using `render`, static assets will only be loaded when the system is idle, and will not compete with the static assets of the initial screen for network assets.
 - In the SSR scenario, data will also be pre-fetched.
 
-import Motivation from '@site-docs-en/components/convention-routing-motivation'
+import Motivation from '@site-docs-en/components/convention-routing-motivation';
 
-<Motivation/>
+<Motivation />
 
-import Practice from '@site-docs-en/components/routes-practice'
+import Practice from '@site-docs-en/components/routes-practice';
 
-<Practice/>
+<Practice />
 
 ## Self-controlled Routing
 

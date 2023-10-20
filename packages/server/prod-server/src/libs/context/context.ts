@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { URL } from 'url';
-import qs from 'querystring';
+import qs, { ParsedUrlQuery } from 'querystring';
 import { Buffer } from 'buffer';
 import type {
   ModernServerContext as ModernServerContextInterface,
@@ -55,6 +55,10 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   private options: ContextOptions = {};
 
+  #urls: Map<string, URL>;
+
+  #queries: Map<string, ParsedUrlQuery>;
+
   constructor(
     req: IncomingMessage,
     res: ServerResponse,
@@ -64,6 +68,8 @@ export class ModernServerContext implements ModernServerContextInterface {
     this.res = res;
     this.options = options || {};
     this.bind();
+    this.#urls = new Map();
+    this.#queries = new Map();
     this.serverTiming = new ServerTiming(
       this.res,
       cutNameByHyphen(options?.metaName || 'modern-js'),
@@ -72,8 +78,13 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   private get parsedURL() {
     try {
-      // only for parse url, use mock
-      return new URL(this.req.url!, MOCK_URL_BASE);
+      let url = this.#urls.get(this.req.url!);
+      if (!url) {
+        // only for parse url, use mock
+        url = new URL(this.req.url!, MOCK_URL_BASE);
+        this.#urls.set(this.req.url!, url);
+      }
+      return url;
     } catch (e) {
       this.logger.error(
         'Parse URL error',
@@ -180,10 +191,12 @@ export class ModernServerContext implements ModernServerContextInterface {
     if (!host) {
       host = this.getReqHeader('Host');
     }
+
+    host = (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
     // the host = '',if we can't cat Host or X-Forwarded-Host header
     // but the this.href would assign a invalid value:`http[s]://${pathname}`
     // so we need assign host a no-empty value.
-    return (host as string).split(/\s*,\s*/, 1)[0] || 'undefined';
+    return host;
   }
 
   public get protocol() {
@@ -229,7 +242,12 @@ export class ModernServerContext implements ModernServerContextInterface {
 
   public get query() {
     const str = this.querystring;
-    return qs.parse(str);
+    let query = this.#queries.get(str);
+    if (!query) {
+      query = qs.parse(str);
+      this.#queries.set(str, query);
+    }
+    return query;
   }
 
   /* response property */

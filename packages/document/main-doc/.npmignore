@@ -24,6 +24,6 @@ jest.config.js
 tsconfig.json
 CHANGELOG.md
 
-.turbo/
+.nx-cache/
 scripts/
 doc_build

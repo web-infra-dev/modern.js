@@ -89,8 +89,6 @@ export const CHAIN_ID = {
     STYLE: 'style-loader',
     /** postcss-loader */
     POSTCSS: 'postcss',
-    /** markdown-loader */
-    MARKDOWN: 'markdown',
     /** ignore-css-loader */
     IGNORE_CSS: 'ignore-css',
     /** css-modules-typescript-loader */
@@ -172,6 +170,8 @@ export const CHAIN_ID = {
     HTML_ASYNC_CHUNK: 'html-async-chunk',
     /** SWC_POLYFILL_CHECKER */
     SWC_POLYFILL_CHECKER: 'swc-polyfill-checker-plugin',
+    /** RouterPlugin */
+    ROUTER_MANIFEST: 'route-plugin',
   },
   /** Predefined minimizers */
   MINIMIZER: {

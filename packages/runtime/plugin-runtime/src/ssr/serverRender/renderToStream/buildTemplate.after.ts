@@ -1,4 +1,4 @@
-import { serializeJson } from '@modern-js/utils/runtime-node';
+import { serializeJson } from '@modern-js/runtime-utils/node';
 import { RenderLevel, RuntimeContext } from '../types';
 import { attributesToString } from '../utils';
 import { BuildTemplateCb, buildTemplate } from './buildTemplate.share';
@@ -23,7 +23,7 @@ export function buildShellAfterTemplate(
         context: { ssrContext, initialData, __i18nData__ },
         renderLevel,
       } = options;
-      const { request, enableUnsafeCtx, nonce } = ssrContext!;
+      const { request, enableUnsafeCtx, nonce, tracker } = ssrContext!;
       const unsafeContext = {
         headers: request.headers,
       };
@@ -33,6 +33,9 @@ export function buildShellAfterTemplate(
           i18nData: __i18nData__,
         },
         context: {
+          reporter: {
+            sessionId: tracker.sessionId,
+          },
           request: {
             params: request.params,
             query: request.query,

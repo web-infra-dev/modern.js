@@ -1,5 +1,84 @@
 # @modern-js/builder-plugin-swc
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/builder-shared@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- a45cc5b: fix(swc): update binding to reduce package size
+- 14b0906: fix(swc): fix transform core-js-pure incorrectly, allow using new decorator for js
+  fix(swc): 修复误转换 core-js-pure，对 js 允许使用新 decorator
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/utils@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/utils@2.34.0
+  - @modern-js/builder-shared@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

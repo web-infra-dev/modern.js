@@ -1,5 +1,104 @@
 # @modern-js/monorepo-tools
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/core@2.37.1
+- @modern-js/plugin-changeset@2.37.1
+- @modern-js/plugin-i18n@2.37.1
+- @modern-js/plugin-lint@2.37.1
+- @modern-js/new-action@2.37.1
+- @modern-js/plugin@2.37.1
+- @modern-js/upgrade@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/core@2.37.0
+  - @modern-js/plugin-changeset@2.37.0
+  - @modern-js/plugin-i18n@2.37.0
+  - @modern-js/plugin-lint@2.37.0
+  - @modern-js/new-action@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/upgrade@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- Updated dependencies [4fbc386]
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/core@2.36.0
+  - @modern-js/utils@2.36.0
+  - @modern-js/plugin-changeset@2.36.0
+  - @modern-js/plugin-lint@2.36.0
+  - @modern-js/plugin-i18n@2.36.0
+  - @modern-js/new-action@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/upgrade@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [4b8cdd3]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [843cb2c]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/core@2.35.1
+  - @modern-js/plugin-changeset@2.35.1
+  - @modern-js/plugin-i18n@2.35.1
+  - @modern-js/plugin-lint@2.35.1
+  - @modern-js/new-action@2.35.1
+  - @modern-js/upgrade@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- 15b834f: feat(CLI): print gradient text for initial log
+
+  feat(CLI): 输出 initial log 时使用渐变色文字
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/core@2.35.0
+  - @modern-js/plugin-changeset@2.35.0
+  - @modern-js/plugin-i18n@2.35.0
+  - @modern-js/plugin-lint@2.35.0
+  - @modern-js/new-action@2.35.0
+  - @modern-js/plugin@2.35.0
+  - @modern-js/upgrade@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+  - @modern-js/core@2.34.0
+  - @modern-js/plugin-changeset@2.34.0
+  - @modern-js/plugin-i18n@2.34.0
+  - @modern-js/plugin-lint@2.34.0
+  - @modern-js/new-action@2.34.0
+  - @modern-js/plugin@2.34.0
+  - @modern-js/upgrade@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

@@ -63,6 +63,8 @@ export const MEDIA_EXTENSIONS = [
 export const DEFAULT_ASSET_PREFIX = '/';
 
 // RegExp
+export const HTML_REGEX = /\.html$/;
+export const JSON_REGEX = /\.json$/;
 export const JS_REGEX = /\.(js|mjs|cjs|jsx)$/;
 export const TS_REGEX = /\.(ts|mts|cts|tsx)$/;
 export const SVG_REGEX = /\.svg$/;
@@ -77,6 +79,7 @@ export const MODULE_PATH_REGEX =
   /[\\/]node_modules[\\/](\.pnpm[\\/])?(?:(@[^[\\/]+)(?:[\\/]))?([^\\/]+)/;
 
 export const RUNTIME_CHUNK_NAME = 'builder-runtime';
+export const TS_CONFIG_FILE = 'tsconfig.json';
 
 export const TARGET_ID_MAP: Record<BuilderTarget, string> = {
   web: 'Client',

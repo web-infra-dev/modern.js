@@ -1,7 +1,5 @@
 module.exports = {
   collectCoverage: false,
-  coverageDirectory: 'coverage',
-  coverageProvider: 'v8',
   preset: 'jest-puppeteer',
   rootDir: __dirname,
   setupFilesAfterEnv: ['./utils/jest.setup.js'],
@@ -11,7 +9,6 @@ module.exports = {
     '/api-service-koa/api/',
     '/api-service-koa/dist',
     '/api/tests',
-    '/libuild/',
   ],
   transform: {
     '^.+.tsx?$': 'ts-jest',

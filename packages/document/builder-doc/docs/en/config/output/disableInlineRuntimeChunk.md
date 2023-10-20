@@ -32,10 +32,8 @@ If you don't want to generate a separate runtimeChunk file, but want the runtime
 ```js
 export default {
   tools: {
-    webpack: {
-      optimization: {
-        runtimeChunk: false,
-      },
+    bundlerChain(chain) {
+      chain.optimization.runtimeChunk(false);
     },
   },
 };

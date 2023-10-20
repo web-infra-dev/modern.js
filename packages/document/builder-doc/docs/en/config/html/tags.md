@@ -62,7 +62,7 @@ It will add a `script` tag to the end of the `head` of the HTML:
 
 The final insertion position of the tag is determined by the `head` and `append` options, and two elements with the same configuration will be inserted into the same area and hold their relative positions to each other.
 
-Fields in the tag that indicate the path to the external resource file are affected by the `publicPath` and `hash` options.
+Fields in the tag that indicate the path to the external assets are affected by the `publicPath` and `hash` options.
 These fields include `src` for the `script` tag and `href` for the `link` tag.
 
 Enabling `publicPath` will splice the `output.assetPrefix` field before the attribute representing the path in the tag.
@@ -179,7 +179,7 @@ The tag object here will be directly added to the HTML product after simple proc
 
 Reasonable use cases include:
 
-* Injecting static resources with **determined paths** on CDN.
+* Injecting static assets with **determined paths** on CDN.
 * Injecting inline scripts that need to be loaded on the first screen.
 
 For example, the usage of the following example:

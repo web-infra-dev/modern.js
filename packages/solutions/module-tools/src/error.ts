@@ -91,8 +91,12 @@ export class InternalBuildError extends Error {
       endLine,
       chalk.blue.bold.underline(`\nDetailed Information: `),
     );
-    msgs.push(e.toString());
-    msgs.push(e.stack || '');
+
+    if (e.stack) {
+      msgs.push(e.stack);
+    } else {
+      msgs.push(e.message);
+    }
 
     return msgs;
   }

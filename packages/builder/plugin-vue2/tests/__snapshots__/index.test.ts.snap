@@ -53,7 +53,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -68,58 +68,46 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
-                  {},
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
-                    "legacy": true,
+                    "version": "legacy",
                   },
                 ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "helpers": false,
-                    "regenerator": true,
-                    "useESModules": true,
-                    "version": "7.21.5",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                [
+                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
                   {
                     "displayName": true,
                     "pure": false,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
                   },
-                  "styled-components",
                 ],
               ],
               "presets": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": false,
+                    "bugfixes": true,
                     "corejs": {
                       "proposals": true,
                       "version": "3.32",
@@ -127,8 +115,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
-                    "shippedProposals": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -174,58 +161,37 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
-                  {},
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
-                    "legacy": true,
+                    "version": "legacy",
                   },
                 ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "helpers": false,
-                    "regenerator": true,
-                    "useESModules": true,
-                    "version": "7.21.5",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
+                    "useESModules": true,
+                    "version": "7.23.2",
                   },
-                  "styled-components",
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                [
+                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
+                  {},
                 ],
               ],
               "presets": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": false,
+                    "bugfixes": true,
                     "corejs": {
                       "proposals": true,
                       "version": "3.32",
@@ -233,8 +199,7 @@ exports[`plugins/vue > should allow to configure jsx babel plugin options 1`] = 
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
-                    "shippedProposals": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -331,7 +296,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -346,58 +311,46 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
-                  {},
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
-                    "legacy": true,
+                    "version": "legacy",
                   },
                 ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "helpers": false,
-                    "regenerator": true,
-                    "useESModules": true,
-                    "version": "7.21.5",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                [
+                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
                   {
                     "displayName": true,
                     "pure": false,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
                   },
-                  "styled-components",
                 ],
               ],
               "presets": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": false,
+                    "bugfixes": true,
                     "corejs": {
                       "proposals": true,
                       "version": "3.32",
@@ -405,8 +358,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
-                    "shippedProposals": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -452,58 +404,37 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
-                  {},
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
-                    "legacy": true,
+                    "version": "legacy",
                   },
                 ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "helpers": false,
-                    "regenerator": true,
-                    "useESModules": true,
-                    "version": "7.21.5",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
+                    "useESModules": true,
+                    "version": "7.23.2",
                   },
-                  "styled-components",
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                [
+                  "<WORKSPACE>/packages/builder/builder-webpack-provider/compiled/babel-plugin-lodash",
+                  {},
                 ],
               ],
               "presets": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": false,
+                    "bugfixes": true,
                     "corejs": {
                       "proposals": true,
                       "version": "3.32",
@@ -511,8 +442,7 @@ exports[`plugins/vue > should apply jsx babel plugin correctly 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
-                    "shippedProposals": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",

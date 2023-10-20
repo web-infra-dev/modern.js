@@ -1,5 +1,28 @@
 # @modern-js/builder-doc
 
+## 2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 21c0976: fix: correct content about disableHtmlFolder API
+  fix: 更正 disableHtmlFolder API 的内容
+
+## 2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+## 2.35.0
+
+## 2.34.0
+
 ## 2.33.1
 
 ## 2.33.0

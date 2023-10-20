@@ -29,6 +29,7 @@ export const validateBuilderConfig = async (
     // some errorCode's error message is clear enough, no need to print detail
     const clearlyErrorCodes = [
       ZodIssueCode.invalid_enum_value,
+      ZodIssueCode.invalid_union,
       ZodIssueCode.invalid_type,
       ZodIssueCode.custom,
     ] as string[];

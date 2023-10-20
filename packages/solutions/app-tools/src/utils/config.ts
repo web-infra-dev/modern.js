@@ -1,10 +1,11 @@
 import * as path from 'path';
 import { bundle } from '@modern-js/node-bundle-require';
 import {
-  CONFIG_FILE_EXTENSIONS,
   fs,
   getServerConfig,
+  ensureAbsolutePath,
   OUTPUT_CONFIG_FILE,
+  CONFIG_FILE_EXTENSIONS,
 } from '@modern-js/utils';
 import type { ServerConfig } from '@modern-js/server-core';
 import type { AppNormalizedConfig } from '../types';
@@ -95,11 +96,14 @@ export const emitResolvedConfig = async (
   appDirectory: string,
   resolvedConfig: AppNormalizedConfig<'shared'>,
 ) => {
-  const outputPath = path.join(
+  const outputPath = ensureAbsolutePath(
     appDirectory,
-    resolvedConfig.output.distPath?.root || './dist',
-    OUTPUT_CONFIG_FILE,
+    path.join(
+      resolvedConfig.output.distPath?.root || './dist',
+      OUTPUT_CONFIG_FILE,
+    ),
   );
+
   await fs.writeJSON(outputPath, resolvedConfig, {
     spaces: 2,
     replacer: safeReplacer(),

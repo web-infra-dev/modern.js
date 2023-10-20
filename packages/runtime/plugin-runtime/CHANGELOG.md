@@ -1,5 +1,98 @@
 # @modern-js/runtime
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.37.1
+- @modern-js/runtime-utils@2.37.1
+- @modern-js/types@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/runtime-utils@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 4e3310b: chore(runtime): remove unused redux-logger dependencies
+
+  chore(runtime): 移除未使用的 redux-logger 依赖
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/runtime-utils@2.36.0
+  - @modern-js/types@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- 85f877b: fix: ssr style link should not add scriptLoading attrributes
+  fix: ssr style link 标签 不应该添加 scriptLoading 属性
+- 7bc7e9c: fix: ssr loadable-component inject repeat css link tag
+  fix: ssr loadable-component 注入重复的 css link 标签
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/runtime-utils@2.35.1
+  - @modern-js/types@2.35.1
+
+## 2.35.0
+
+### Minor Changes
+
+- d87a426: feat: reporter adapter streaming ssr
+  feat: reporter 适配 streaming ssr
+
+### Patch Changes
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/plugin@2.35.0
+  - @modern-js/types@2.35.0
+
+## 2.34.0
+
+### Minor Changes
+
+- dcdeea5: feat: support disable pre-render
+  feat: 支持禁用 pre-render
+
+### Patch Changes
+
+- eca24a2: fix: runtimeContext.request.query should merge query got in client and got in server
+  fix: runtimeContext 中的 query 对象应该合并从客户端和服务端获取的数据
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+  - @modern-js/plugin@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes
@@ -838,7 +931,7 @@
 
 ### Patch Changes
 
-- 39988b2: feat: advance the timing of static resource loading
+- 39988b2: feat: advance the timing of static assets loading
   feat: 将嵌套路由下静态资源加载时机提前
 - Updated dependencies [39988b2]
   - @modern-js/types@2.0.2

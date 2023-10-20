@@ -11,11 +11,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
-    },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"development\\"",
     },
     "pluginImport": [
       {
@@ -43,9 +40,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         "not dead",
         "not op_mini all",
       ],
-    },
-    "progress": {
-      "prefix": "Client",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -84,13 +78,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -116,13 +105,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -148,13 +132,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -186,13 +165,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -223,29 +197,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -546,6 +505,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -603,6 +563,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -673,13 +634,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
           "name": "lib-polyfill",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -727,7 +688,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
         },
       },
     },
-    RspackVirtualModulePlugin {},
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
+    },
   ],
   "resolve": {
     "alias": {
@@ -761,14 +734,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
-    },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"production\\"",
-    },
-    "minifyOptions": {
-      "extractComments": true,
     },
     "pluginImport": [
       {
@@ -796,9 +763,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         "not dead",
         "not op_mini all",
       ],
-    },
-    "progress": {
-      "prefix": "Client",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -837,13 +801,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -869,13 +828,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -901,13 +855,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -939,13 +888,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -976,29 +920,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -1299,6 +1228,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1356,6 +1286,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1392,7 +1323,46 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
   },
   "name": "Client",
   "optimization": {
+    "chunkIds": "deterministic",
     "minimize": true,
+    "minimizer": [
+      Plugin {
+        "_options": {
+          "asciiOnly": true,
+          "comments": "false",
+          "dropConsole": false,
+          "exclude": undefined,
+          "extractComments": "true",
+          "include": undefined,
+          "keepClassNames": false,
+          "keepFnNames": false,
+          "passes": 1,
+          "pureFuncs": [],
+          "test": undefined,
+        },
+        "name": "SwcJsMinimizerRspackPlugin",
+      },
+      CssMinimizerPlugin {
+        "options": {
+          "exclude": undefined,
+          "include": undefined,
+          "minimizer": {
+            "implementation": [Function],
+            "options": {
+              "preset": [
+                "default",
+                {
+                  "mergeLonghand": false,
+                },
+              ],
+            },
+          },
+          "parallel": true,
+          "test": /\\\\\\.css\\(\\\\\\?\\.\\*\\)\\?\\$/i,
+          "warningsFilter": [Function],
+        },
+      },
+    ],
     "runtimeChunk": {
       "name": "builder-runtime",
     },
@@ -1426,13 +1396,13 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
           "name": "lib-polyfill",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -1480,11 +1450,23 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"production\\"",
+      },
+      "name": "DefinePlugin",
+    },
     RemoveCssSourcemapPlugin {
       "htmlPlugin": [Function],
       "name": "RemoveCssSourcemapPlugin",
     },
-    RspackVirtualModulePlugin {},
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
+    },
     InlineChunkHtmlPlugin {
       "distPath": {
         "css": "static/css",
@@ -1493,9 +1475,10 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
       "htmlPlugin": [Function],
       "inlinedAssets": Set {},
       "name": "InlineChunkHtmlPlugin",
-      "tests": [
+      "scriptTests": [
         /builder-runtime\\(\\[\\.\\]\\.\\+\\)\\?\\\\\\.js\\$/,
       ],
+      "styleTests": [],
     },
   ],
   "resolve": {
@@ -1530,11 +1513,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
-    },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"test\\"",
     },
     "pluginImport": [
       {
@@ -1558,9 +1538,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
       "targets": [
         "node >= 14",
       ],
-    },
-    "progress": {
-      "prefix": "Server",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -1599,13 +1576,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -1631,13 +1603,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -1663,13 +1630,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -1701,13 +1663,8 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -1738,29 +1695,14 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -1893,6 +1835,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1915,6 +1858,7 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -1990,6 +1934,19 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
         },
       },
     },
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"test\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Server",
+      },
+      "name": "ProgressPlugin",
+    },
   ],
   "resolve": {
     "conditionNames": [
@@ -2021,11 +1978,8 @@ exports[`tools.rspack > should match snapshot 1`] = `
       },
     },
     "decorator": {
+      "emitMetadata": true,
       "legacy": true,
-    },
-    "define": {
-      "process.env.ASSET_PREFIX": "\\"\\"",
-      "process.env.NODE_ENV": "\\"development\\"",
     },
     "pluginImport": [
       {
@@ -2053,9 +2007,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
         "not dead",
         "not op_mini all",
       ],
-    },
-    "progress": {
-      "prefix": "Client",
     },
     "provide": {
       "$ReactRefreshRuntime$": [
@@ -2102,13 +2053,8 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "generator": {
               "filename": "static/font/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2134,13 +2080,8 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "generator": {
               "filename": "static/image/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2166,13 +2107,8 @@ exports[`tools.rspack > should match snapshot 1`] = `
             "generator": {
               "filename": "static/media/[name].[contenthash:8][ext]",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -2204,13 +2140,8 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -2241,29 +2172,14 @@ exports[`tools.rspack > should match snapshot 1`] = `
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -2564,6 +2480,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -2621,6 +2538,7 @@ exports[`tools.rspack > should match snapshot 1`] = `
                 "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/resolve-url-loader",
                 "options": {
                   "join": [Function],
+                  "sourceMap": false,
                 },
               },
               {
@@ -2691,13 +2609,13 @@ exports[`tools.rspack > should match snapshot 1`] = `
           "name": "lib-polyfill",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(tslib\\|core-js\\|@babel\\\\/runtime\\|@swc\\\\/helpers\\)\\[\\\\\\\\/\\]/,
         },
         "lib-react": {
           "name": "lib-react",
           "priority": 0,
           "reuseExistingChunk": true,
-          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\)\\[\\\\\\\\/\\]/,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]\\(react\\|react-dom\\|scheduler\\)\\[\\\\\\\\/\\]/,
         },
         "lib-router": {
           "name": "lib-router",
@@ -2748,7 +2666,19 @@ exports[`tools.rspack > should match snapshot 1`] = `
         },
       },
     },
-    RspackVirtualModulePlugin {},
+    Plugin {
+      "_options": {
+        "process.env.ASSET_PREFIX": "\\"\\"",
+        "process.env.NODE_ENV": "\\"development\\"",
+      },
+      "name": "DefinePlugin",
+    },
+    Plugin {
+      "_options": {
+        "prefix": "Client",
+      },
+      "name": "ProgressPlugin",
+    },
   ],
   "resolve": {
     "alias": {

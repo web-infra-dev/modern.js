@@ -7,13 +7,13 @@ import {
   Reporter,
 } from '@modern-js/types';
 import { createAsyncPipeline } from '@modern-js/plugin';
+import { createLogger } from '@modern-js/utils/logger';
 import {
   WorkerServerContext,
   createAfterMatchContext,
   createAfterRenderContext,
   createMiddlewareContext,
 } from './libs/hook-api/index.worker';
-import { Logger, LoggerInterface } from './libs/logger';
 import { ModernRouteInterface, RouteMatchManager } from './libs/route';
 import { metrics as defaultMetrics } from './libs/metrics';
 import { defaultReporter } from './libs/reporter';
@@ -139,9 +139,7 @@ export const createHandler = (manifest: Manifest) => {
 
     const entryName = pageMatch.spec.urlPath;
     const page = pages[entryName];
-    const logger = new Logger({
-      level: 'warn',
-    }) as Logger & LoggerInterface;
+    const logger = createLogger({ level: 'warn' });
     const metrics = defaultMetrics as any;
     const reporter = defaultReporter;
 
@@ -193,7 +191,7 @@ export const createHandler = (manifest: Manifest) => {
         const params = pageMatch.parseURLParams(url.pathname) || {};
 
         const { urlPath: baseUrl } = pageMatch;
-        const serverRenderContext: BaseSSRServerContext = {
+        const serverRenderContext: BaseSSRServerContext<'worker'> = {
           request: createServerRequest(url, baseUrl, request, params),
           response: responseLike,
           loadableStats,
@@ -204,15 +202,14 @@ export const createHandler = (manifest: Manifest) => {
           logger,
           reporter: defaultReporter,
           metrics,
-          // FIXME: pass correctly req & res
-          req: request as any,
+          req: request,
+          res: responseLike,
           serverTiming: {
             addServeTiming() {
               // noImpl
               return this;
             },
           },
-          res: responseLike as any,
         };
 
         const body = await page.serverRender(serverRenderContext);

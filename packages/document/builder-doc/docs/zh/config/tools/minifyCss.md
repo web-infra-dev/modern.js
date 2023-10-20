@@ -14,8 +14,6 @@ const defaultOptions = {
 };
 ```
 
-- **打包工具：** `仅支持 webpack`
-
 在生产环境构建时，Builder 会通过 [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) 对 CSS 代码进行压缩优化。可以通过 `tools.minifyCss` 修改 [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin) 的配置。
 
 ### Object 类型

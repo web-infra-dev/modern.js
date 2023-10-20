@@ -1,12 +1,16 @@
 import type { CliPlugin, ModuleTools } from '@modern-js/module-tools';
 
+/**
+ * @deprecated
+ * use config 'banner' instead.
+ */
 export const modulePluginBanner = (options: {
   banner: { js?: string; css?: string };
   footer?: { js?: string; css?: string };
 }): CliPlugin<ModuleTools> => ({
   name: '@modern-js/plugin-module-banner',
   setup: () => ({
-    modifyLibuild(config, next) {
+    beforeBuildTask(config) {
       const lastEsbuildOptions = config.esbuildOptions;
       config.esbuildOptions = c => {
         let lastEsbuildConfig = {};
@@ -20,7 +24,7 @@ export const modulePluginBanner = (options: {
           banner: options.banner,
         };
       };
-      return next(config);
+      return config;
     },
   }),
 });

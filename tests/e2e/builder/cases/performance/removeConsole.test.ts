@@ -1,8 +1,6 @@
 import { join } from 'path';
 import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
-import { builderPluginSwc } from '@modern-js/builder-plugin-swc';
 
 const cwd = join(__dirname, 'removeConsole');
 
@@ -62,53 +60,3 @@ test('should remove all console correctly', async () => {
     error: false,
   });
 });
-
-webpackOnlyTest(
-  'should remove specified console correctly when using SWC plugin',
-  async () => {
-    const builder = await build({
-      cwd,
-      entry: {
-        main: join(cwd, 'src/index.js'),
-      },
-      plugins: [builderPluginSwc()],
-      builderConfig: {
-        performance: {
-          removeConsole: ['log', 'warn'],
-        },
-      },
-    });
-
-    await expectConsoleType(builder, {
-      log: false,
-      warn: false,
-      debug: true,
-      error: true,
-    });
-  },
-);
-
-webpackOnlyTest(
-  'should remove all console correctly when using SWC plugin',
-  async () => {
-    const builder = await build({
-      cwd,
-      entry: {
-        main: join(cwd, 'src/index.js'),
-      },
-      plugins: [builderPluginSwc()],
-      builderConfig: {
-        performance: {
-          removeConsole: true,
-        },
-      },
-    });
-
-    await expectConsoleType(builder, {
-      log: false,
-      warn: false,
-      debug: false,
-      error: false,
-    });
-  },
-);

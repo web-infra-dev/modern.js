@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.33.1",
+  "version": "2.37.1",
   "engines": {
     "node": ">=14.17.6"
   },
@@ -61,8 +61,9 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
+    "@babel/core": "^7.22.15",
     "@modern-js/utils": "workspace:*",
+    "@modern-js/runtime-utils": "workspace:*",
     "@remix-run/node": "^1.12.0",
     "path-to-regexp": "^6.2.0",
     "@swc/helpers": "0.5.1"

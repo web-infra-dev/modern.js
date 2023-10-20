@@ -1,0 +1,70 @@
+# Babel 插件
+
+:::tip
+通常情况下，我们无需使用 Babel 转换我们的代码，此插件仅作为一种降级方式。
+:::
+
+## 快速开始
+
+### 安装
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add @modern-js/plugin-module-babel -D" />
+
+### 注册插件
+
+在 Modern.js Module 中，你可以按照如下方式注册插件：
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginBabel } from '@modern-js/plugin-module-babel';
+
+export default defineConfig({
+  plugins: [moduleTools(), modulePluginBabel()],
+});
+```
+
+你也可以通过 hooks 配置注册，例如你同时需要打包 A，B 两个文件，并只需要在打包 A 时使用 babel：
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { getBabelHook } from '@modern-js/plugin-module-babel';
+
+const babelHook = getBabelHook({
+  // babel options
+});
+
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildConfig: [
+    {
+      hooks: [babelHook],
+      input: ['src/a.ts'],
+    },
+    {
+      input: ['src/b.ts'],
+    },
+  ],
+});
+```
+
+## 配置
+
+See [Babel options](https://babeljs.io/docs/options)
+
+下面是一个配置了`@babel/preset-env`的例子：
+
+```ts
+import { moduleTools, defineConfig } from '@modern-js/module-tools';
+import { modulePluginBabel } from '@modern-js/plugin-module-babel';
+
+export default defineConfig({
+  plugins: [
+    moduleTools(),
+    modulePluginBabel({
+      presets: [['@babel/preset-env']],
+    }),
+  ],
+});
+```

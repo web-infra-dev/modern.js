@@ -15,50 +15,68 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.33.1",
+  "version": "2.37.1",
   "jsnext:source": "./src/index.ts",
-  "types": "./src/index.ts",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "node": {
         "jsnext:source": "./src/index.ts",
-        "require": "./dist/cjs/index.js"
+        "require": "./dist/index.js"
       },
-      "default": "./dist/cjs/index.js"
+      "default": "./dist/index.js"
     },
     "./cli": {
       "jsnext:source": "./src/cli.ts",
-      "default": "./dist/cjs/cli.js"
+      "default": "./dist/cli.js"
+    },
+    "./runtime": {
+      "jsnext:source": "./src/runtime.ts",
+      "default": "./dist/runtime.js"
     }
   },
   "scripts": {
     "prepublishOnly": "only-allow-pnpm",
     "new": "modern-lib new",
-    "dev": "modern-lib build --watch --no-dts",
+    "dev": "modern-lib build --watch",
     "build": "modern-lib build",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/devtools-client": "workspace:*",
+    "birpc": "0.2.13",
+    "@modern-js/devtools-kit": "workspace:*",
     "@modern-js/devtools-mount": "workspace:*",
-    "@modern-js/utils": "workspace:*"
+    "@modern-js/devtools-client": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "serve-static": "^1.14.1",
+    "p-defer": "^3.0.0",
+    "ws": "8.13.0",
+    "ufo": "^1.3.0"
   },
   "devDependencies": {
     "@modern-js/app-tools": "workspace:*",
     "@modern-js/core": "workspace:*",
     "@modern-js/module-tools": "workspace:*",
     "@modern-js/runtime": "workspace:*",
+    "@modern-js/server-core": "workspace:*",
     "@modern-js/types": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
     "@scripts/build": "workspace:*",
+    "@types/serve-static": "^1.13.10",
     "@swc/helpers": "0.5.1",
     "@types/node": "^14",
+    "@types/ws": "^8.5.5",
     "type-fest": "^4.1.0",
     "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/runtime": "workspace:^2.33.1"
+    "@modern-js/runtime": "workspace:^2.37.1"
   },
   "peerDependenciesMeta": {
     "@modern-js/runtime": {
@@ -70,6 +88,6 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true,
-    "types": "./dist/types/index.d.ts"
+    "types": "./dist/index.d.ts"
   }
 }

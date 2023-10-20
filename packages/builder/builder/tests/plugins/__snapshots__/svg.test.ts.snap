@@ -10,13 +10,8 @@ exports[`plugins/svg > 'disableSvgr' 1`] = `
             "generator": {
               "filename": "static/svg/[name].[contenthash:8].svg",
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "resourceQuery": /inline/,
@@ -57,13 +52,8 @@ exports[`plugins/svg > 'export default Component' 1`] = `
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -94,29 +84,14 @@ exports[`plugins/svg > 'export default Component' 1`] = `
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -166,13 +141,8 @@ exports[`plugins/svg > 'export default url' 1`] = `
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -203,29 +173,14 @@ exports[`plugins/svg > 'export default url' 1`] = `
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -282,13 +237,8 @@ exports[`plugins/svg > 'should allow to use distPath.svg to modify dist path' 1`
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -319,29 +269,14 @@ exports[`plugins/svg > 'should allow to use distPath.svg to modify dist path' 1`
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "foo/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "foo/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "foo/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -398,13 +333,8 @@ exports[`plugins/svg > 'should allow to use filename.svg to modify filename' 1`]
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -435,29 +365,14 @@ exports[`plugins/svg > 'should allow to use filename.svg to modify filename' 1`]
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/foo.svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/foo.svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/foo.svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",
@@ -514,13 +429,8 @@ exports[`plugins/svg > 'should allow using output.dataUriLimit.svg to custom dat
                 /\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
               ],
             },
-            "parser": {
-              "dataUrlCondition": {
-                "maxSize": 0,
-              },
-            },
             "resourceQuery": /\\(__inline=false\\|url\\)/,
-            "type": "asset",
+            "type": "asset/resource",
           },
           {
             "issuer": {
@@ -551,29 +461,14 @@ exports[`plugins/svg > 'should allow using output.dataUriLimit.svg to custom dat
           },
           {
             "resourceQuery": /inline/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": Infinity,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/inline",
           },
           {
+            "generator": {
+              "filename": "static/svg/[name].[contenthash:8].svg",
+            },
             "resourceQuery": /url/,
-            "type": "javascript/auto",
-            "use": [
-              {
-                "loader": "<ROOT>-shared/compiled/url-loader",
-                "options": {
-                  "limit": false,
-                  "name": "static/svg/[name].[contenthash:8].svg",
-                },
-              },
-            ],
+            "type": "asset/resource",
           },
           {
             "type": "javascript/auto",

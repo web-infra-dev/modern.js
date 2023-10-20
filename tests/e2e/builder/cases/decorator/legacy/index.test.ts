@@ -1,0 +1,25 @@
+import path from 'path';
+import { expect, test } from '@modern-js/e2e/playwright';
+import { build, getHrefByEntryName } from '@scripts/shared';
+
+test('decorator legacy(default)', async ({ page }) => {
+  const builder = await build({
+    cwd: __dirname,
+    entry: {
+      index: path.resolve(__dirname, './src/index.js'),
+    },
+    runServer: true,
+    builderConfig: {},
+  });
+
+  await page.goto(getHrefByEntryName('index', builder.port));
+  expect(await page.evaluate('window.aaa')).toBe('hello world');
+
+  if (builder.providerType !== 'rspack') {
+    expect(await page.evaluate('window.ccc')).toContain(
+      "Cannot assign to read only property 'message' of object",
+    );
+  }
+
+  builder.close();
+});

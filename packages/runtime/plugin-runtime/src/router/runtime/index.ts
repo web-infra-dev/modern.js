@@ -1,8 +1,9 @@
-import { useRouteLoaderData as useRouteData } from '@modern-js/utils/runtime/router';
+import { useRouteLoaderData as useRouteData } from '@modern-js/runtime-utils/router';
 import { routerPlugin } from './plugin';
 import type { SingleRouteConfig, RouterConfig } from './types';
 
 export type { SingleRouteConfig, RouterConfig };
+export { renderRoutes } from './utils';
 
 export default routerPlugin;
 
@@ -17,6 +18,8 @@ export const useRouteLoaderData: typeof useRouteData = (routeId: string) => {
   const realRouteId = routeId.replace(/\[(.*?)\]/g, '($1)');
   return useRouteData(realRouteId);
 };
+
+export { createShouldRevalidate } from './shouldRevalidate';
 
 export type { LoaderFunction, LoaderFunctionArgs } from './types';
 
@@ -78,7 +81,7 @@ export type {
   Search,
   ShouldRevalidateFunction,
   To,
-} from '@modern-js/utils/runtime/router';
+} from '@modern-js/runtime-utils/router';
 
 // Note: Keep in sync with react-router-dom exports!
 export {
@@ -147,4 +150,4 @@ export {
   defer,
   json,
   redirect,
-} from '@modern-js/utils/runtime/router';
+} from '@modern-js/runtime-utils/router';

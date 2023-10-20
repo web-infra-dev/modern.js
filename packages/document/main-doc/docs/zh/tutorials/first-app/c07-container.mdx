@@ -15,7 +15,7 @@ import { Tabs, Tab as TabItem } from "@theme";
 
 Modern.js 支持在 `layout.tsx` 通过 Data Loader 获取数据，我们先数据获取这部分代码移动到 `src/routes/layout.tsx` 中：
 
-```ts title="src/routes/layout.loader.ts"
+```ts title="src/routes/layout.data.ts"
 export type LoaderData = {
   code: number;
   data: {
@@ -25,7 +25,7 @@ export type LoaderData = {
   }[];
 };
 
-export default async (): Promise<LoaderData> => {
+export const loader = async (): Promise<LoaderData> => {
   const data = new Array(20).fill(0).map(() => {
     const firstName = name.firstName();
     return {
@@ -58,7 +58,7 @@ import 'tailwindcss/base.css';
 import 'tailwindcss/components.css';
 import 'tailwindcss/utilities.css';
 import '../styles/utils.css';
-import type { LoaderData } from './layout.loader';
+import type { LoaderData } from './layout.data';
 
 export default function Layout() {
   const { data } = useLoaderData() as LoaderData;
@@ -182,10 +182,6 @@ ni src/containers/Contacts.tsx
 我们将原本两个 `page.tsx` 中公共的部分抽离出来，`src/containers/Contacts.tsx` 的代码如下：
 
 ```tsx
-import { Helmet } from '@modern-js/runtime/head';
-import { useModel } from '@modern-js/runtime/model';
-import { List } from 'antd';
-import Item from '../components/Item';
 import { Helmet } from '@modern-js/runtime/head';
 import { useModel } from '@modern-js/runtime/model';
 import { List } from 'antd';

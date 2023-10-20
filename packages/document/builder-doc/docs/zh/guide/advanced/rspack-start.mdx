@@ -116,7 +116,6 @@ Builder 旨在消除不同打包工具之间的主要差异，帮助用户以较
 - [tools.cssExtract](/api/config-tools.html#toolscssextract)
 - [tools.cssLoader](/api/config-tools.html#toolscssloader) (仅在 [disableCssExtract](/api/config-output.html#outputdisablecssextract) 时支持)
 - [tools.inspector](/api/config-tools.html#toolsinspector)
-- [tools.minifyCss](/api/config-tools.html#toolsminifycss)
 - [tools.styledComponents](/api/config-tools.html#toolsstyledcomponents)
 - [tools.tsLoader](/api/config-tools.html#toolstsloader)
 - [tools.webpack](/api/config-tools.html#toolswebpack)：使用 [tools.rspack](/api/config-tools#toolsrspack) 代替。
@@ -239,6 +238,20 @@ export default {
 -  }
 };
 ```
+
+## Rspack 性能分析
+
+Builder 支持使用 `RSPACK_PROFILE` 环境变量来进行构建性能分析。
+
+```bash
+$ RSPACK_PROFILE=ALL pnpm build
+```
+
+执行该命令后会在当前产物目录下生成一个 `rspack-profile-${timestamp}` 文件夹，该文件夹下会包含 `logging.json`、`trace.json` 和 `jscpuprofile.json` 三个文件
+
+- `trace.json`：使用 tracing 细粒度地记录了 Rust 侧各个阶段的耗时，可以使用 [ui.perfetto.dev](https://ui.perfetto.dev/) 进行查看
+- `jscpuprofile.json`：使用 [Node.js inspector](https://nodejs.org/dist/latest-v18.x/docs/api/inspector.html) 细粒度地记录了 JavaScript 侧的各个阶段的耗时，可以使用 [speedscope.app](https://www.speedscope.app/) 进行查看
+- `logging.json`：包含一些日志信息，粗粒度地记录了构建的各个阶段耗时
 
 ## 对比 Rspack CLI
 

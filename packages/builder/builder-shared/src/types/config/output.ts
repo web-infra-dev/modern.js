@@ -1,3 +1,4 @@
+import type { InlineChunkTest } from '../../plugins/InlineChunkHtmlPlugin';
 import type { BuilderTarget } from '../builder';
 import type { CrossOrigin } from './html';
 import type { Externals } from 'webpack';
@@ -177,13 +178,13 @@ export interface SharedOutputConfig {
   assetsRetry?: AssetsRetryOptions;
   /**
    * When using CDN in the production environment,
-   * you can use this option to set the URL prefix of static resources,
+   * you can use this option to set the URL prefix of static assets,
    * similar to the output.publicPath config of webpack.
    */
   assetPrefix?: string;
   /**
-   * Set the size threshold to inline static resources such as images and fonts.
-   * By default, static resources will be Base64 encoded and inline into the page if the size is less than 10KB.
+   * Set the size threshold to inline static assets such as images and fonts.
+   * By default, static assets will be Base64 encoded and inline into the page if the size is less than 10KB.
    */
   dataUriLimit?: number | DataUriLimit;
   /**
@@ -261,11 +262,11 @@ export interface SharedOutputConfig {
   /**
    * Whether to inline output scripts files (.js files) into HTML with `<script>` tags.
    */
-  enableInlineScripts?: boolean | RegExp;
+  enableInlineScripts?: boolean | InlineChunkTest;
   /**
    * Whether to inline output style files (.css files) into html with `<style>` tags.
    */
-  enableInlineStyles?: boolean | RegExp;
+  enableInlineStyles?: boolean | InlineChunkTest;
   /**
    * Specifies the range of target browsers that the project is compatible with.
    * This value will be used by [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) and
@@ -300,8 +301,8 @@ export interface NormalizedSharedOutputConfig extends SharedOutputConfig {
   enableAssetFallback: boolean;
   enableLatestDecorators: boolean;
   enableCssModuleTSDeclaration: boolean;
-  enableInlineScripts: boolean | RegExp;
-  enableInlineStyles: boolean | RegExp;
+  enableInlineScripts: boolean | InlineChunkTest;
+  enableInlineStyles: boolean | InlineChunkTest;
   svgDefaultExport: SvgDefaultExport;
   cssModules: {
     exportLocalsConvention: CssModuleLocalsConvention;

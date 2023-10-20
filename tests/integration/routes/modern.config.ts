@@ -17,6 +17,10 @@ export default defineConfig({
       router: false,
     },
   },
+  output: {
+    polyfill: 'off',
+    disableTsChecker: true,
+  },
   server: {
     ssr: {
       mode: 'stream',

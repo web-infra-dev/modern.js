@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/doc-plugin-auto-sidebar",
-  "version": "2.33.1",
+  "version": "2.37.1",
   "description": "The Documentation Framework of Modern.js.",
   "homepage": "https://modernjs.dev/",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
@@ -37,7 +37,6 @@
     "dist/"
   ],
   "peerDependencies": {
-    "@modern-js/doc-tools": "2.32.1",
     "react": ">=17"
   },
   "devDependencies": {

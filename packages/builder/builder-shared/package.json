@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.33.1",
+  "version": "2.37.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -29,7 +29,7 @@
     "build": "modern-lib build && node scripts/postCompile.js",
     "dev": "modern-lib build --watch",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage",
+    "test:watch": "vitest dev",
     "test:ui": "vitest --ui"
   },
   "exports": {
@@ -45,11 +45,18 @@
       "types": "./compiled/open/index.d.ts",
       "default": "./compiled/open/index.js"
     },
+    "./webpack-dev-middleware": {
+      "types": "./compiled/webpack-dev-middleware/types/index.d.ts",
+      "default": "./compiled/webpack-dev-middleware/index.js"
+    },
     "./webpack-bundle-analyzer": {
       "types": "./compiled/webpack-bundle-analyzer/index.d.ts",
       "default": "./compiled/webpack-bundle-analyzer/index.js"
     },
-    "./babel-loader": "./compiled/babel-loader/index.js",
+    "./babel-loader": {
+      "types": "./compiled/babel-loader/index.d.ts",
+      "default": "./compiled/babel-loader/index.js"
+    },
     "./pug": {
       "types": "./compiled/pug/index.d.ts",
       "default": "./compiled/pug/index.js"
@@ -93,6 +100,10 @@
     "./postcss-modules-values": {
       "types": "./compiled/postcss-modules-values/index.d.ts",
       "default": "./compiled/postcss-modules-values/index.js"
+    },
+    "./webpack-merge": {
+      "types": "./compiled/webpack-merge/index.d.ts",
+      "default": "./compiled/webpack-merge/index.js"
     }
   },
   "typesVersions": {
@@ -105,6 +116,9 @@
       ],
       "webpack-bundle-analyzer": [
         "./compiled/webpack-bundle-analyzer/index.d.ts"
+      ],
+      "webpack-dev-middleware": [
+        "./compiled/webpack-dev-middleware/types/index.d.ts"
       ],
       "test-stub": [
         "./dist/test-stub/index.d.ts",
@@ -139,13 +153,16 @@
       ],
       "postcss-modules-values": [
         "./compiled/postcss-modules-values/index.d.ts"
+      ],
+      "webpack-merge": [
+        "./compiled/webpack-merge/types/index.d.ts"
       ]
     }
   },
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/types": "^7.21.5",
-    "@babel/parser": "^7.21.8",
+    "@babel/core": "^7.22.15",
+    "@babel/types": "^7.22.15",
+    "@babel/parser": "^7.22.15",
     "@modern-js/prod-server": "workspace:*",
     "@modern-js/server": "workspace:*",
     "@modern-js/types": "workspace:*",
@@ -155,18 +172,19 @@
     "acorn": "^8.10.0",
     "caniuse-lite": "^1.0.30001520",
     "cssnano": "6.0.1",
+    "css-minimizer-webpack-plugin": "5.0.1",
     "htmlparser2": "9.0.0",
     "line-diff": "2.1.1",
-    "postcss": "8.4.27",
+    "postcss": "8.4.31",
     "source-map": "^0.7.4",
     "webpack": "^5.88.1",
     "webpack-sources": "^3.2.3",
-    "zod": "^3.20.2",
+    "zod": "^3.22.3",
     "zod-validation-error": "1.2.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-typescript": "^7.21.5",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
     "@scripts/vitest-config": "workspace:*",
     "@types/babel__core": "^7.20.0",
     "@types/caniuse-lite": "^1.0.1",
@@ -185,6 +203,7 @@
       ".": "./dist/index.js",
       "./open": "./compiled/open/index.js",
       "./babel-loader": "./compiled/babel-loader/index.js",
+      "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js",
       "./webpack-bundle-analyzer": "./compiled/webpack-bundle-analyzer/index.js",
       "./test-stub": "./dist/test-stub/index.js",
       "./zod": "./dist/exports/zod.js",
@@ -196,7 +215,8 @@
       "./postcss-modules-extract-imports": "./compiled/postcss-modules-extract-imports/index.js",
       "./postcss-modules-local-by-default": "./compiled/postcss-modules-local-by-default/index.js",
       "./postcss-modules-scope": "./compiled/postcss-modules-scope/index.js",
-      "./postcss-modules-values": "./compiled/postcss-modules-values/index.js"
+      "./postcss-modules-values": "./compiled/postcss-modules-values/index.js",
+      "./webpack-merge": "./compiled/webpack-merge/index.js"
     }
   }
 }

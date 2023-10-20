@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
 
       - name: Install Pnpm
         run: corepack enable
@@ -25,18 +27,18 @@ jobs:
           node-version: 18
           cache: 'pnpm'
 
-      - name: Install Dependencies
-        run: pnpm install
-
-      - name: Turbo Cache
-        id: turbo-cache
+      - name: Nx Cache
+        id: nx-cache
         uses: actions/cache@v3
         with:
-          path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          path: .nx-cache
+          key: nx-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
-            turbo-
+            nx-${{ github.ref_name }}-
+            nx-
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Build Website
         run: pnpm --filter @modern-js/builder-doc run build:doc
@@ -44,7 +46,13 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.4.1
         with:
-          branch: gh-pages
+          repository-name: web-infra-dev/web-infra-dev.github.io
+          branch: main
           folder: packages/document/builder-doc/doc_build
-          target-folder: builder
+          token: ${{ secrets.MODERN_DEPLOY_TOKEN }}
+          target-folder: modern-js/builder
+          git-config-name: gh-pages-bot
+          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
+          # enable single-commit to reduce the repo size
+          single-commit: true
           clean: true

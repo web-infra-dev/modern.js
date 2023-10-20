@@ -1,6 +1,6 @@
 {
   "name": "@modern-js/builder-plugin-swc",
-  "version": "2.33.1",
+  "version": "2.37.1",
   "description": "SWC plugin for builder in Modern.js",
   "repository": {
     "type": "git",
@@ -14,7 +14,7 @@
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage",
+    "test:watch": "vitest dev",
     "test:update": "SNAPSHOT_UPDATE=1 vitest watch",
     "prepublishOnly": "only-allow-pnpm"
   },
@@ -59,12 +59,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.21.5",
+    "@babel/core": "^7.22.15",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-react": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
     "@modern-js/builder-shared": "workspace:*",
-    "@modern-js/swc-plugins": "0.6.0",
+    "@modern-js/swc-plugins": "0.6.4",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.1",
     "core-js": "~3.32.1"

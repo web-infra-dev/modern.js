@@ -1,5 +1,56 @@
 # @modern-js/main-doc
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/builder-doc@2.37.1
+- @modern-js/sandpack-react@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [21c0976]
+  - @modern-js/builder-doc@2.37.0
+  - @modern-js/sandpack-react@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 4fbc386: docs: add descriptions for AppContext properties
+
+  docs: 增加 AppContext 属性的描述
+
+- 00420f8: fix(main-doc): fixed wrong ports in MFE docs
+  - @modern-js/sandpack-react@2.36.0
+  - @modern-js/builder-doc@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [ea3fe18]
+  - @modern-js/builder-doc@2.35.1
+  - @modern-js/sandpack-react@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [b7b24e7]
+  - @modern-js/sandpack-react@2.35.0
+  - @modern-js/builder-doc@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [f0c6df5]
+  - @modern-js/sandpack-react@2.34.0
+  - @modern-js/builder-doc@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

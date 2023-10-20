@@ -1,5 +1,75 @@
 # @modern-js/utils
 
+## 2.37.1
+
+## 2.37.0
+
+### Minor Changes
+
+- ce0a14e: feat: support shouldRevalidate
+  feat: 支持 shouldRevalidate
+
+### Patch Changes
+
+- 383b636: chore: replace babel-preset-base with rsbuild babel-preset
+
+  chore: 替换 babel-preset-base 为 rsbuild babel-preset
+
+- 708f248: fix(utils): bump rslog@1.1.0 to fix color support detection
+
+  fix(utils): 升级 rslog@1.1.0 并修复 color 支持检测
+
+## 2.36.0
+
+### Patch Changes
+
+- 3473bee: chore: remove legacy monorepo include and unused utils
+
+  chore: 移除旧版的 monorepo include 逻辑和未使用的 utils
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- 9dd3151: chore(app-tools): add RouterPlugin name
+  chore(app-tools): 增加 RouterPlugin 名称
+- 4980480: chore(prod-server): remove duplicated logger module
+
+  chore(prod-server): 移除重复的 logger 模块
+
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+
+## 2.35.0
+
+### Patch Changes
+
+- 15b834f: feat(CLI): print gradient text for initial log
+
+  feat(CLI): 输出 initial log 时使用渐变色文字
+
+## 2.34.0
+
+### Patch Changes
+
+- a77b82a: fix: upgrade react-router-dom to avoid issues
+  fix: 升级 react-router-dom 的版本，避免问题
+- c8b448b: feat(builder): support inline assets by file size
+
+  feat(builder): 支持基于文件体积来内联资源
+
 ## 2.33.1
 
 ## 2.33.0

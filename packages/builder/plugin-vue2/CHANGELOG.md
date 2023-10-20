@@ -1,5 +1,95 @@
 # @modern-js/builder-plugin-vue2
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/builder-rspack-provider@2.37.1
+- @modern-js/builder-shared@2.37.1
+- @modern-js/builder-webpack-provider@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- Updated dependencies [7dc1512]
+- Updated dependencies [383b636]
+- Updated dependencies [b4725c8]
+  - @modern-js/builder-webpack-provider@2.37.0
+  - @modern-js/builder-rspack-provider@2.37.0
+  - @modern-js/builder-shared@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- Updated dependencies [3921cd4]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [73dcace]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [4289ffd]
+- Updated dependencies [eb602d2]
+- Updated dependencies [5b4bf21]
+  - @modern-js/builder-rspack-provider@2.36.0
+  - @modern-js/builder-webpack-provider@2.36.0
+  - @modern-js/builder-shared@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [bc1413d]
+- Updated dependencies [0988b12]
+- Updated dependencies [dc93952]
+- Updated dependencies [6b03be8]
+- Updated dependencies [578f94f]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/builder-webpack-provider@2.35.1
+  - @modern-js/builder-rspack-provider@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [3b25410]
+- Updated dependencies [e2def6e]
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [9f13314]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-rspack-provider@2.35.0
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/builder-webpack-provider@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/builder-rspack-provider@2.34.0
+  - @modern-js/builder-webpack-provider@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

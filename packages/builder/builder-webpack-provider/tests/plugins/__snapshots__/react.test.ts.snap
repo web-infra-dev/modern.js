@@ -10,7 +10,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -25,51 +25,39 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<ROOT>/compiled/babel-plugin-lodash",
-                  {},
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
-                    "legacy": true,
+                    "version": "legacy",
                   },
                 ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "helpers": false,
-                    "regenerator": true,
-                    "useESModules": true,
-                    "version": "7.21.5",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                [
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-styled-components/lib/index.js",
                   {
                     "displayName": true,
                     "pure": false,
                     "ssr": false,
                     "transpileTemplateLiterals": true,
                   },
-                  "styled-components",
                 ],
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
@@ -82,7 +70,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": false,
+                    "bugfixes": true,
                     "corejs": {
                       "proposals": true,
                       "version": "3.32",
@@ -90,8 +78,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
-                    "shippedProposals": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -140,58 +127,37 @@ exports[`plugins/react > should work with babel-loader 1`] = `
               "configFile": false,
               "plugins": [
                 [
-                  "<ROOT>/compiled/babel-plugin-lodash",
-                  {},
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-app/src/babelPluginLockCorejsVersion",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-dynamic-import-node/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-decorators/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
                   {
-                    "legacy": true,
+                    "version": "legacy",
                   },
                 ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
-                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-                  {
-                    "helpers": false,
-                    "regenerator": true,
-                    "useESModules": true,
-                    "version": "7.21.5",
-                  },
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
                   {
                     "proposal": "minimal",
                   },
                 ],
                 [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-                ],
-                [
-                  "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
                   {
-                    "displayName": true,
-                    "pure": false,
-                    "ssr": false,
-                    "transpileTemplateLiterals": true,
+                    "useESModules": true,
+                    "version": "7.23.2",
                   },
-                  "styled-components",
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
+                [
+                  "<ROOT>/compiled/babel-plugin-lodash",
+                  {},
                 ],
               ],
               "presets": [
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "bugfixes": false,
+                    "bugfixes": true,
                     "corejs": {
                       "proposals": true,
                       "version": "3.32",
@@ -199,8 +165,7 @@ exports[`plugins/react > should work with babel-loader 1`] = `
                     "exclude": [
                       "transform-typeof-symbol",
                     ],
-                    "modules": false,
-                    "shippedProposals": false,
+                    "modules": "commonjs",
                     "targets": [
                       "> 0.01%",
                       "not dead",
@@ -259,7 +224,7 @@ exports[`plugins/react > should work with ts-loader 1`] = `
             "and": [
               "<ROOT>",
               {
-                "not": /node_modules/,
+                "not": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
               },
             ],
           },
@@ -270,6 +235,22 @@ exports[`plugins/react > should work with ts-loader 1`] = `
             "loader": "<WORKSPACE>/packages/builder/builder-shared/compiled/babel-loader",
             "options": {
               "plugins": [
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
+                  {
+                    "proposal": "minimal",
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
+                  {
+                    "useESModules": true,
+                    "version": "7.23.2",
+                  },
+                ],
+                "<WORKSPACE>/node_modules/<PNPM_INNER>/@rsbuild/babel-preset/dist/pluginLockCorejsVersion",
                 [
                   "<WORKSPACE>/node_modules/<PNPM_INNER>/react-refresh/babel.js",
                   {
@@ -279,14 +260,42 @@ exports[`plugins/react > should work with ts-loader 1`] = `
               ],
               "presets": [
                 [
-                  "@modern-js/babel-preset-app",
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
                   {
-                    "appDirectory": "<ROOT>",
-                    "disableReactPreset": true,
-                    "target": "client",
+                    "bugfixes": true,
+                    "corejs": {
+                      "proposals": true,
+                      "version": "3.32",
+                    },
+                    "exclude": [
+                      "transform-typeof-symbol",
+                    ],
+                    "modules": "commonjs",
+                    "targets": [
+                      "> 0.01%",
+                      "not dead",
+                      "not op_mini all",
+                    ],
                     "useBuiltIns": "entry",
-                    "useTsLoader": true,
-                    "userBabelConfig": [Function],
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-typescript/lib/index.js",
+                  {
+                    "allExtensions": true,
+                    "allowDeclareFields": true,
+                    "allowNamespaces": true,
+                    "isTSX": true,
+                    "optimizeConstEnums": true,
+                  },
+                ],
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+                  {
+                    "development": true,
+                    "runtime": "automatic",
+                    "useBuiltIns": true,
+                    "useSpread": false,
                   },
                 ],
               ],

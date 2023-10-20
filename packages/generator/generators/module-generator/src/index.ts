@@ -1,7 +1,6 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   i18n as commonI18n,
   BaseGenerator,
@@ -37,11 +36,8 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const jsonAPI = new JsonAPI(generator);
-
   const {
     isMonorepoSubProject,
-    isPublic = true,
     isLocalPackages,
     projectDir = '',
   } = context.config;
@@ -82,7 +78,6 @@ export const handleTemplateFile = async (
           validatePackagePath(
             input as string,
             path.join(process.cwd(), projectDir),
-            { isPublic },
           ),
       },
       {
@@ -105,7 +100,6 @@ export const handleTemplateFile = async (
           validatePackagePath(
             input as string,
             path.join(process.cwd(), projectDir),
-            { isPublic },
           ),
       },
       {
@@ -129,7 +123,6 @@ export const handleTemplateFile = async (
   const moduleProjectPath = getModuleProjectPath(
     packagePath as string,
     isMonorepoSubProject,
-    isPublic,
     isLocalPackages,
   );
   const projectPath = projectDir
@@ -158,27 +151,11 @@ export const handleTemplateFile = async (
       isTs: language === Language.TS,
       packageManager: getPackageManagerText(packageManager as PackageManager),
       isMonorepoSubProject,
-      isPublic,
       modernVersion,
     },
   );
 
   if (language === Language.TS) {
-    const updateInfo: Record<string, string> = {
-      'devDependencies.typescript': '~5.0.4',
-      'devDependencies.@types/jest': '~29.2.4',
-      'devDependencies.@types/node': '~16.11.7',
-      'devDependencies.@types/react': '~18.0.26',
-    };
-
-    await jsonAPI.update(
-      context.materials.default.get(path.join(projectPath, 'package.json')),
-      {
-        query: {},
-        update: { $set: updateInfo },
-      },
-    );
-
     await appApi.forgeTemplate(
       'templates/ts-template/**/*',
       undefined,

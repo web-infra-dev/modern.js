@@ -1,13 +1,18 @@
+import path from 'path';
 import type { AcceptedPlugin } from 'postcss';
-import type { PostcssOptions } from '@modern-js/libuild';
 import { applyOptionsChain } from '@modern-js/utils';
 import type {
   PartialBaseBuildConfig,
   PostCSSConfigUtils,
+  PostcssOptions,
   LessOptions,
   SassOptions,
 } from '../types';
-import { getCompiledPath } from './path';
+
+const getCompiledPath = async (packageName: string) => {
+  const { slash } = await import('@modern-js/utils');
+  return slash(path.join(__dirname, '../../compiled', packageName));
+};
 
 export const getLessConfig = async (config: PartialBaseBuildConfig) => {
   const mergedOptions = applyOptionsChain<LessOptions, never>(

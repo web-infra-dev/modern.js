@@ -8,11 +8,7 @@ on:
 
 jobs:
   e2e-test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node-version: [18.x]
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -20,23 +16,23 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Turbo Cache
-        id: turbo-cache
-        uses: actions/cache@v2
+      - name: Nx Cache
+        id: nx-cache
+        uses: actions/cache@v3
         with:
-          path: .turbo
-          key: turbo-${{ github.ref_name }}-${{ github.sha }}
+          path: .nx-cache
+          key: nx-${{ github.ref_name }}-${{ github.sha }}
           restore-keys: |
-            turbo-${{ github.ref_name }}-
-            turbo-
+            nx-${{ github.ref_name }}-
+            nx-
 
       - name: Install Pnpm
         run: corepack enable
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "18"
           cache: 'pnpm'
 
       - name: Install Dependencies

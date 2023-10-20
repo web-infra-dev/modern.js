@@ -1,5 +1,23 @@
 # @modern-js/devtools-mount
 
+## 2.37.1
+
+## 2.37.0
+
+## 2.36.0
+
+## 2.35.1
+
+## 2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [dcdeea5]
+- Updated dependencies [eca24a2]
+  - @modern-js/runtime@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

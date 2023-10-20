@@ -4,10 +4,22 @@ import {
   JS_REGEX,
   TS_REGEX,
 } from '@modern-js/builder-shared';
+import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
-import { DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS } from '@modern-js/utils';
+
+/**
+ * The `@babel/preset-typescript` default options.
+ */
+export const DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS = {
+  allowNamespaces: true,
+  allExtensions: true,
+  allowDeclareFields: true,
+  // aligns Babel's behavior with TypeScript's default behavior.
+  // https://babeljs.io/docs/en/babel-preset-typescript#optimizeconstenums
+  optimizeConstEnums: true,
+  isTSX: true,
+};
 
 export const builderPluginBabel = (): BuilderPlugin => ({
   name: 'builder-plugin-babel',
@@ -44,23 +56,36 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             },
           };
 
+          const baseConfig = {
+            plugins: [],
+            presets: [
+              [
+                require.resolve('@babel/preset-typescript'),
+                DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
+              ],
+            ],
+          };
+
+          const userBabelConfig = applyUserBabelConfig(
+            cloneDeep(baseConfig),
+            config.tools.babel,
+            babelUtils,
+          );
+
+          const notModify =
+            isEqual(baseConfig, userBabelConfig) &&
+            !includes?.length &&
+            !excludes?.length;
+
+          if (notModify) {
+            return {};
+          }
+
           const babelOptions: BabelOptions = {
             babelrc: false,
             configFile: false,
             compact: isProd,
-            ...applyUserBabelConfig(
-              {
-                plugins: [],
-                presets: [
-                  [
-                    require.resolve('@babel/preset-typescript'),
-                    DEFAULT_BABEL_PRESET_TYPESCRIPT_OPTIONS,
-                  ],
-                ],
-              },
-              config.tools.babel,
-              babelUtils,
-            ),
+            ...userBabelConfig,
           };
 
           return {
@@ -70,7 +95,15 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           };
         };
 
-        const { babelOptions, includes, excludes } = getBabelOptions(config);
+        const {
+          babelOptions,
+          includes = [],
+          excludes = [],
+        } = getBabelOptions(config);
+
+        if (!babelOptions) {
+          return;
+        }
 
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 

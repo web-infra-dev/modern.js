@@ -1,5 +1,89 @@
 # @modern-js/core
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/node-bundle-require@2.37.1
+- @modern-js/plugin@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/node-bundle-require@2.37.0
+  - @modern-js/plugin@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 4fbc386: docs: add descriptions for AppContext properties
+
+  docs: 增加 AppContext 属性的描述
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/node-bundle-require@2.36.0
+  - @modern-js/plugin@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- 4b8cdd3: fix(core): should not print extra logs when press Ctrl+C
+
+  fix(core): 修复按下 press Ctrl+C 时会打印多余日志的问题
+
+- 843cb2c: fix(core): we should not pass it, if err is not instanceof Error.
+  fix(core): 如果 err 不属于错误，我们不应该直接丢弃它
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/node-bundle-require@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- 15b834f: feat(CLI): print gradient text for initial log
+
+  feat(CLI): 输出 initial log 时使用渐变色文字
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/node-bundle-require@2.35.0
+  - @modern-js/plugin@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- c8b448b: feat(builder): support inline assets by file size
+
+  feat(builder): 支持基于文件体积来内联资源
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+  - @modern-js/node-bundle-require@2.34.0
+  - @modern-js/plugin@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

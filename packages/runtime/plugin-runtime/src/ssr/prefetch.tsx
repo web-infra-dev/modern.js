@@ -1,25 +1,32 @@
 import { renderToStaticMarkup } from 'react-dom/server';
-import { run } from '@modern-js/utils/runtime-node';
+import { run } from '@modern-js/runtime-utils/node';
 import { ChunkExtractor } from '@loadable/server';
 import { RuntimeContext } from '../core';
+import { SSRPluginConfig } from './serverRender/types';
 
 // todo: SSRContext
 const prefetch = async (
   App: React.ComponentType<any>,
   context: RuntimeContext,
+  config: SSRPluginConfig,
 ) =>
   run(context.ssrContext!.request.headers, async () => {
     const { ssrContext } = context;
     const { loadableStats } = ssrContext!;
 
-    if (loadableStats) {
-      const extractor = new ChunkExtractor({
-        stats: loadableStats,
-        entrypoints: [ssrContext!.entryName].filter(Boolean),
-      });
-      renderToStaticMarkup(extractor.collectChunks(<App context={context} />));
-    } else {
-      renderToStaticMarkup(<App context={context} />);
+    if (!config.disablePrerender) {
+      // disable renderToStaticMarkup when user configures disablePrerender
+      if (loadableStats) {
+        const extractor = new ChunkExtractor({
+          stats: loadableStats,
+          entrypoints: [ssrContext!.entryName].filter(Boolean),
+        });
+        renderToStaticMarkup(
+          extractor.collectChunks(<App context={context} />),
+        );
+      } else {
+        renderToStaticMarkup(<App context={context} />);
+      }
     }
 
     if (!context.loaderManager.hasPendingLoaders()) {

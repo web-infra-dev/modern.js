@@ -1,3 +1,4 @@
+import path from 'path';
 import type { BuilderPlugin } from '../types';
 import { applyBuilderBasicPlugin } from '@modern-js/builder-shared';
 
@@ -10,7 +11,7 @@ export const builderPluginBasic = (): BuilderPlugin => ({
   setup(api) {
     applyBuilderBasicPlugin(api);
 
-    api.modifyWebpackChain(async (chain, { isServer, isWebWorker }) => {
+    api.modifyWebpackChain(async (chain, { env, isServer, isWebWorker }) => {
       /**
        * If the chunk size exceeds 3MB, we will throw a warning.
        * If the target is server or web-worker, we will increase
@@ -27,6 +28,15 @@ export const builderPluginBasic = (): BuilderPlugin => ({
           exportsPresence: 'error',
         },
       });
+
+      if (env === 'development') {
+        // Set correct path for source map
+        // this helps VS Code break points working correctly in monorepo
+        chain.output.devtoolModuleFilenameTemplate(
+          (info: { absoluteResourcePath: string }) =>
+            path.resolve(info.absoluteResourcePath).replace(/\\/g, '/'),
+        );
+      }
     });
   },
 });

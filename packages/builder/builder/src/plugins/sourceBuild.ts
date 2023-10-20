@@ -1,35 +1,24 @@
-import type { BuilderPlugin } from '@modern-js/builder-shared';
+import { TS_CONFIG_FILE, type BuilderPlugin } from '@modern-js/builder-shared';
 import type { BuilderPluginAPI as WebpackBuilderPluginAPI } from '@modern-js/builder-webpack-provider';
 import type { BuilderPluginAPI as RspackBuilderPluginAPI } from '@modern-js/builder-rspack-provider';
 import {
-  type ExtraMonorepoStrategies,
   getDependentProjects,
   filterByField,
-} from '@modern-js/monorepo-utils';
-import { debug } from '@modern-js/utils';
+  type Project,
+  type ExtraMonorepoStrategies,
+} from '@rsbuild/monorepo-utils';
+import { debug, fs } from '@modern-js/utils';
+import path from 'path';
 
 const log = debug('BUILDER_PLUGIN_SOURCE_BUILD');
 
 export const pluginName = 'builder-plugin-source-build';
 
 export const getSourceInclude = async (options: {
-  projectNameOrRootPath: string;
-  findMonorepoStartPath: string;
+  projects: Project[];
   sourceField: string;
-  extraMonorepoStrategies?: ExtraMonorepoStrategies;
 }) => {
-  const {
-    projectNameOrRootPath,
-    sourceField,
-    extraMonorepoStrategies,
-    findMonorepoStartPath,
-  } = options;
-  const projects = await getDependentProjects(projectNameOrRootPath, {
-    cwd: findMonorepoStartPath,
-    recursive: true,
-    filter: filterByField(sourceField),
-    extraMonorepoStrategies,
-  });
+  const { projects, sourceField } = options;
 
   const includes = [];
   for (const project of projects) {
@@ -71,19 +60,32 @@ export function builderPluginSourceBuild(
       //     ]);
       //   });
       // }
+
+      let projects: Project[] = [];
+
       if (api.context.bundlerType === 'webpack') {
         (api as WebpackBuilderPluginAPI).modifyBuilderConfig(async config => {
-          const { sourceBuild = true } = config.experiments ?? {};
+          const { sourceBuild } = config.experiments ?? {};
 
           if (!sourceBuild) {
             return;
           }
+
+          projects = await getDependentProjects(
+            projectName || projectRootPath,
+            {
+              cwd: projectRootPath,
+              recursive: true,
+              filter: filterByField(sourceField),
+              extraMonorepoStrategies,
+            },
+          );
+
           const includes = await getSourceInclude({
-            projectNameOrRootPath: projectName || projectRootPath,
+            projects,
             sourceField,
-            findMonorepoStartPath: projectRootPath,
-            extraMonorepoStrategies,
           });
+
           config.source = config.source ?? {};
           config.source.include = [
             ...(config.source.include ?? []),
@@ -91,29 +93,49 @@ export function builderPluginSourceBuild(
           ];
         });
 
-        api.modifyBundlerChain((chain, { CHAIN_ID }) => {
-          const {
-            experiments: { sourceBuild },
-            tools: { tsLoader },
-          } = (api as WebpackBuilderPluginAPI).getNormalizedConfig();
+        (api as WebpackBuilderPluginAPI).modifyWebpackChain(
+          (chain, { CHAIN_ID }) => {
+            const {
+              experiments: { sourceBuild },
+              tools: { tsLoader },
+            } = (api as WebpackBuilderPluginAPI).getNormalizedConfig();
 
-          if (!sourceBuild) {
-            return;
-          }
+            if (!sourceBuild) {
+              return;
+            }
 
-          const useTsLoader = Boolean(tsLoader);
-          // webpack.js.org/configuration/module/#ruleresolve
-          chain.module
-            .rule(useTsLoader ? CHAIN_ID.RULE.TS : CHAIN_ID.RULE.JS)
-            .resolve.mainFields.merge(['...', sourceField]);
+            const useTsLoader = Boolean(tsLoader);
+            // webpack.js.org/configuration/module/#ruleresolve
+            chain.module
+              .rule(useTsLoader ? CHAIN_ID.RULE.TS : CHAIN_ID.RULE.JS)
+              .resolve.mainFields.merge(['...', sourceField]);
 
-          // webpack chain not support resolve.conditionNames
-          chain.module
-            .rule(useTsLoader ? CHAIN_ID.RULE.TS : CHAIN_ID.RULE.JS)
-            .resolve.merge({
-              conditionNames: ['...', sourceField],
-            });
-        });
+            // webpack chain not support resolve.conditionNames
+            chain.module
+              .rule(useTsLoader ? CHAIN_ID.RULE.TS : CHAIN_ID.RULE.JS)
+              .resolve.merge({
+                conditionNames: ['...', sourceField],
+              });
+
+            const { TS_CONFIG_PATHS } = CHAIN_ID.RESOLVE_PLUGIN;
+
+            // set references config
+            // https://github.com/dividab/tsconfig-paths-webpack-plugin#options
+            if (chain.resolve.plugins.has(TS_CONFIG_PATHS)) {
+              chain.resolve.plugin(TS_CONFIG_PATHS).tap(options => {
+                const references = projects
+                  .map(project => path.join(project.dir, TS_CONFIG_FILE))
+                  .filter(filePath => fs.existsSync(filePath))
+                  .map(filePath => path.relative(projectRootPath, filePath));
+
+                return options.map(option => ({
+                  ...option,
+                  references,
+                }));
+              });
+            }
+          },
+        );
       }
     },
   };

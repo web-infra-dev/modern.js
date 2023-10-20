@@ -46,7 +46,7 @@ interface IAppContext {
 ```
 
 :::info
-We can see through the actual type file that there are other fields, but the only ones that make sense for the module project at the moment are the above. api object other methods are the same.
+Through the actual type file, we can see that there are some additional fields. However, for Modern.js Module, the fields mentioned above are the only ones that are meaningful. The same applies to other methods of the `api` object.
 :::
 
 ### `api.useResolvedConfigContext`
@@ -54,7 +54,7 @@ We can see through the actual type file that there are other fields, but the onl
 Used to get the final configuration after parsing.
 
 :::info
-If you need to get the build-related final configuration, you need to use the [`beforeBuild`]() Hook.
+If you need to get the build-related final configuration, you need to use the `beforeBuild` Hook.
 :::
 
 ```ts
@@ -103,9 +103,11 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 });
 ```
 
+Note that the setup function of the next plugin is not executed until the async setup function of the current plugin has finished. Therefore, you should avoid performing time-consuming asynchronous operations in the setup function to avoid slowing down the startup performance of the CLI.
+
 ## Life cycle hooks
 
-We know that the `setup` function returns a Hooks object, which can also be understood as an object with Module Tools lifecycle hooks.
+We know that the `setup` function returns a Hooks object, which can also be understood as an object with Modern.js Module lifecycle hooks.
 
 Currently there are two main types of hooks.
 

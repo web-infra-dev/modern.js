@@ -9,17 +9,8 @@ export const clearDtsTemp = async () => {
 
 export const clearBuildConfigPaths = async (
   configs: BaseBuildConfig[],
-  options?: {
-    noClear?: boolean;
-    projectAbsRootPath?: string;
-  },
+  projectAbsRootPath: string,
 ) => {
-  const { noClear = false, projectAbsRootPath = process.cwd() } = options ?? {};
-
-  if (noClear) {
-    return;
-  }
-
   for (const config of configs) {
     if (projectAbsRootPath === config.outDir) {
       logger.warn(chalk.bgYellowBright(i18n.t(localeKeys.warns.clearRootPath)));

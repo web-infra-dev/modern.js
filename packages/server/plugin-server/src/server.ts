@@ -1,33 +1,15 @@
-import path from 'path';
 import type { ServerPlugin } from '@modern-js/server-core';
-import type {
-  HookContext,
-  MiddlewareContext,
-  NextFunction,
-} from '@modern-js/types';
-import {
-  isProd,
-  logger,
-  requireExistModule,
-  SERVER_DIR,
-} from '@modern-js/utils';
+import type { MiddlewareContext, NextFunction } from '@modern-js/types';
+import { isProd, logger } from '@modern-js/utils';
+import { Hook, Middleware, loadMiddleware, loadServerMod } from './utils';
 
-const WEB_APP_NAME = 'index';
+export { loadMiddleware, loadServerMod };
+export type { Hook, Middleware };
 
 enum HOOKS {
   AFTER_MATCH = 'afterMatch',
   AFTER_RENDER = 'afterRender',
 }
-
-type Hook = (ctx: HookContext, next: NextFunction) => void;
-type Middleware = (ctx: MiddlewareContext, next: NextFunction) => void;
-
-type ServerMod = {
-  default: (args: any) => void;
-  middleware: Middleware | Middleware[];
-  afterMatch: Hook;
-  afterRender: Hook;
-};
 
 class Storage {
   public middlewares: Middleware[] = [];
@@ -58,7 +40,7 @@ const createTransformAPI = (storage: Storage) =>
     },
   );
 
-const compose = (middlewares: Middleware[]) => {
+export const compose = (middlewares: Middleware[]) => {
   return (
     ctx: MiddlewareContext,
     resolve: (value: void | PromiseLike<void>) => void,
@@ -85,37 +67,27 @@ export default (): ServerPlugin => ({
     const storage = new Storage();
     const transformAPI = createTransformAPI(storage);
     const pwd = isProd() ? distDirectory : appDirectory;
-    const webAppPath = path.resolve(pwd, SERVER_DIR, WEB_APP_NAME);
-    const middlewarePath = path.resolve(pwd, SERVER_DIR, '_middleware');
 
     const loadMod = () => {
-      const mod: ServerMod = requireExistModule(webAppPath, {
-        interop: false,
-      });
-
-      const middlewareMode = requireExistModule(middlewarePath, {
-        interop: false,
-      });
-
-      const { default: defaultExports, middleware, ...hooks } = mod || {};
-      const { middleware: unstableMiddleware = [] } = middlewareMode || {};
-
+      const { middleware: unstableMiddleware } = loadMiddleware(pwd);
+      const { defaultExports, hooks, middleware } = loadServerMod(pwd);
       if (defaultExports) {
         defaultExports(transformAPI);
       }
 
-      // named export hooks will overrides hooks in default export function
-      Object.values(HOOKS).forEach(key => {
-        const fn = hooks[key];
-        if (fn) {
-          storage.hooks[key] = fn;
-        }
-      });
+      if (hooks) {
+        // named export hooks will overrides hooks in default export function
+        Object.values(HOOKS).forEach(key => {
+          const fn = hooks[key];
+          if (fn) {
+            storage.hooks[key] = fn;
+          }
+        });
+      }
 
       if (middleware) {
         storage.middlewares = ([] as Middleware[]).concat(middleware);
       }
-
       storage.middlewares = storage.middlewares.concat(unstableMiddleware);
     };
 

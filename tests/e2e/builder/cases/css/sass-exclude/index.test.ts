@@ -1,9 +1,8 @@
 import path from 'path';
-import { expect } from '@modern-js/e2e/playwright';
+import { expect, test } from '@modern-js/e2e/playwright';
 import { build } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 
-webpackOnlyTest('should exclude specified scss file', async () => {
+test('should exclude specified scss file', async () => {
   const builder = await build({
     cwd: __dirname,
     entry: { index: path.resolve(__dirname, './src/index.js') },

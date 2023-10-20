@@ -1,5 +1,70 @@
 # @modern-js/plugin-module-import
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/module-tools@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [194c9a5]
+- Updated dependencies [0488090]
+- Updated dependencies [822c75e]
+- Updated dependencies [907dcc8]
+- Updated dependencies [70fbaae]
+- Updated dependencies [94671a1]
+  - @modern-js/module-tools@2.37.0
+
+## 2.36.0
+
+### Minor Changes
+
+- 602d1fb: refactor(plugin-module): use buildConfig.hooks to realize afresh
+  refactor(plugin-module): 使用 buildConfig.hooks 重新实现各插件功能
+
+### Patch Changes
+
+- 71a23a6: chore(module-tools): bump swc-plugins 0.6.4, remove unused deps
+
+  chore(module-tools): 升级 swc-plugins 0.6.4, 移除无用依赖
+
+- Updated dependencies [2d8b2df]
+- Updated dependencies [bbc65b8]
+- Updated dependencies [d11870b]
+- Updated dependencies [71a23a6]
+- Updated dependencies [a1536f0]
+- Updated dependencies [602d1fb]
+  - @modern-js/module-tools@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [ce24aad]
+- Updated dependencies [a45cc5b]
+- Updated dependencies [14b0906]
+  - @modern-js/module-tools@2.35.1
+  - @modern-js/libuild-plugin-swc@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [15b834f]
+  - @modern-js/module-tools@2.35.0
+  - @modern-js/libuild-plugin-swc@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [76af015]
+  - @modern-js/module-tools@2.34.0
+  - @modern-js/libuild-plugin-swc@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

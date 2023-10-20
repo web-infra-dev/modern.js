@@ -1,7 +1,7 @@
 {
   "name": "@scripts/build",
   "private": true,
-  "version": "2.33.1",
+  "version": "2.37.1",
   "main": "./src/index.js",
   "types": "index.d.ts",
   "bin": {
@@ -13,8 +13,6 @@
     "@types/jest": "^29",
     "@types/node": "^14",
     "tsm": "2.3.0",
-    "@modern-js/libuild": "workspace:*",
-    "@modern-js/libuild-plugin-swc": "workspace:*",
     "typescript": "^5"
   }
 }

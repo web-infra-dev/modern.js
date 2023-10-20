@@ -36,11 +36,15 @@ When this happens, you can specify directories or modules that need to be compil
 
 ### Failed import other modules in Monorepo?
 
-For the sake of compilation performance, by default, Builder will not compile files under `node_modules` through `babel-loader` or `ts-loader`, nor will it compile files outside the current project directory.
+Due to considerations of compilation performance, by default, the Builder does not compile files under `node_modules` or files outside the current project directory.
 
-Through the `source.include` configuration option, you can specify directories or modules that require additional compilation.
+Therefore, when you reference the source code of other sub-projects, you may encounter an error similar to `You may need an additional loader to handle the result of these loaders.`
 
-For details, see [source.include usage introduction](/en/api/config-source.html#sourceinclude).
+There are several solutions to this problem:
+
+1. You can enable the source code build mode to compile other sub-projects within the monorepo. Please refer to [Source Code Build Mode](/guide/advanced/source-build.html) for more information.
+2. You can add the `source.include` configuration option to specify the directories or modules that need to be additionally compiled. Please refer to [Usage of source.include](/api/config-source.html#sourceinclude) for more information.
+3. You can pre-build the sub-projects that need to be referenced, generate the corresponding build artifacts, and then reference the build artifacts in the current project instead of referencing the source code.
 
 ---
 

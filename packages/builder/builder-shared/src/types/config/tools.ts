@@ -14,9 +14,10 @@ import type {
   PostCSSPlugin,
   CSSLoaderOptions,
   StyleLoaderOptions,
+  CssMinimizerPluginOptions,
 } from '../thirdParty';
 import { BundlerChain } from '../bundlerConfig';
-import { ModifyChainUtils } from '../hooks';
+import { ModifyBundlerChainUtils } from '../hooks';
 
 /** html-rspack-plugin is compatible with html-webpack-plugin */
 export type { Options as HTMLPluginOptions } from 'html-webpack-plugin';
@@ -36,7 +37,7 @@ export type ToolsLessConfig = ChainedConfig<
 >;
 
 export type ToolsBundlerChainConfig = ArrayOrNot<
-  (chain: BundlerChain, utils: ModifyChainUtils) => void
+  (chain: BundlerChain, utils: ModifyBundlerChainUtils) => void
 >;
 
 export type ToolsBabelConfig = ChainedConfig<
@@ -56,6 +57,8 @@ export type ToolsPostCSSLoaderConfig = ChainedConfig<
 export type ToolsCSSLoaderConfig = ChainedConfig<CSSLoaderOptions>;
 
 export type ToolsStyleLoaderConfig = ChainedConfig<StyleLoaderOptions>;
+
+export type ToolsMinifyCssConfig = ChainedConfig<CssMinimizerPluginOptions>;
 
 export interface SharedToolsConfig {
   /**
@@ -87,6 +90,11 @@ export interface SharedToolsConfig {
    * Modify the options of [css-loader](https://github.com/webpack-contrib/css-loader).
    */
   cssLoader?: ToolsCSSLoaderConfig;
+
+  /**
+   * Modify the options of [css-minimizer-webpack-plugin](https://github.com/webpack-contrib/css-minimizer-webpack-plugin).
+   */
+  minifyCss?: ToolsMinifyCssConfig;
 
   /**
    * Modify the options of [postcss-loader](https://github.com/webpack-contrib/postcss-loader).

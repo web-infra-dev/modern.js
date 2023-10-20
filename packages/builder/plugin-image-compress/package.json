@@ -18,7 +18,7 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "version": "2.33.1",
+  "version": "2.37.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/index.js",
@@ -28,7 +28,7 @@
     "build": "modern-lib build",
     "dev": "modern-lib build --watch",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage"
+    "test:watch": "vitest dev"
   },
   "exports": {
     ".": {
@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@modern-js/utils": "workspace:*",
-    "@napi-rs/image": "^1.3.0",
+    "@napi-rs/image": "^1.7.0",
     "@swc/helpers": "0.5.1",
     "svgo": "^3.0.2"
   },

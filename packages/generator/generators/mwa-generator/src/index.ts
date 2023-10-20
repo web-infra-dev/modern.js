@@ -1,7 +1,6 @@
 import path from 'path';
 import { GeneratorContext, GeneratorCore } from '@modern-js/codesmith';
 import { AppAPI } from '@modern-js/codesmith-api-app';
-import { JsonAPI } from '@modern-js/codesmith-api-json';
 import {
   i18n as commonI18n,
   BaseGenerator,
@@ -38,9 +37,7 @@ export const handleTemplateFile = async (
   generator: GeneratorCore,
   appApi: AppAPI,
 ) => {
-  const jsonAPI = new JsonAPI(generator);
-
-  const { isMonorepoSubProject, isTest, projectDir = '' } = context.config;
+  const { isMonorepoSubProject, projectDir = '' } = context.config;
 
   const { outputPath } = generator;
 
@@ -86,7 +83,6 @@ export const handleTemplateFile = async (
             input as string,
             path.join(process.cwd(), projectDir),
             {
-              isTest,
               isMwa: true,
             },
           ),
@@ -106,7 +102,7 @@ export const handleTemplateFile = async (
           validatePackagePath(
             input as string,
             path.join(process.cwd(), projectDir),
-            { isTest, isMwa: true },
+            { isMwa: true },
           ),
       },
     );
@@ -125,7 +121,6 @@ export const handleTemplateFile = async (
   const projectPath = getMWAProjectPath(
     packagePath as string,
     isMonorepoSubProject,
-    isTest,
   );
 
   const dirname = path.basename(generator.outputPath);
@@ -148,26 +143,11 @@ export const handleTemplateFile = async (
       isMonorepoSubProject,
       modernVersion,
       packageManager,
+      isTs: language === Language.TS,
     },
   );
 
   if (language === Language.TS) {
-    await jsonAPI.update(
-      context.materials.default.get(path.join(projectPath, 'package.json')),
-      {
-        query: {},
-        update: {
-          $set: {
-            'devDependencies.typescript': '~5.0.4',
-            'devDependencies.@types/jest': '~29.2.4',
-            'devDependencies.@types/node': '~16.11.7',
-            'devDependencies.@types/react': '~18.0.26',
-            'devDependencies.@types/react-dom': '~18.0.10',
-          },
-        },
-      },
-    );
-
     await appApi.forgeTemplate(
       'templates/ts-template/**/*',
       undefined,

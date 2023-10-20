@@ -46,7 +46,7 @@ interface IAppContext {
 ```
 
 :::info
-通过实际的类型文件我们可以看到还存在着其他的字段，不过目前对于模块工程有意义的字段只有以上内容。api 对象其他的方法也是如此。
+通过实际的类型文件，我们可以看到还存在一些其他字段，不过目前对于 Modern.js Module 有意义的字段只有以上内容，api 对象其他的方法也是如此。
 :::
 
 ### `api.useResolvedConfigContext`
@@ -54,7 +54,7 @@ interface IAppContext {
 用于获取解析之后的最终配置。
 
 :::info
-如果需要获取构建相关的最终配置，需要使用 [`beforeBuild`]() Hook。
+如果需要获取构建相关的最终配置，需要使用 `beforeBuild` Hook。
 :::
 
 ```ts
@@ -103,9 +103,11 @@ export const myPlugin = (): CliPlugin<ModuleTools> => ({
 });
 ```
 
+注意，只有当前插件的 setup 异步函数执行完毕，才会继续执行下一个插件的 setup 函数。因此，你需要避免在 setup 函数中进行耗时过长的异步操作，防止影响 CLI 启动性能。
+
 ## 生命周期钩子
 
-我们知道 `setup` 函数会返回一个 Hooks 对象，所谓 Hooks 对象也可以理解是具有 Module Tools 生命周期钩子的对象。
+我们知道 `setup` 函数会返回一个 Hooks 对象，所谓 Hooks 对象也可以理解是具有 Modern.js Module 生命周期钩子的对象。
 
 目前主要包含两类钩子：
 

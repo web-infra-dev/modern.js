@@ -1,5 +1,130 @@
 # @modern-js/plugin-storybook
 
+## 2.37.1
+
+### Patch Changes
+
+- Updated dependencies [9eb817f]
+  - @modern-js/builder@2.37.1
+  - @modern-js/builder-plugin-node-polyfill@2.37.1
+  - @modern-js/plugin-router-v5@2.37.1
+  - @modern-js/runtime@2.37.1
+  - @modern-js/builder-shared@2.37.1
+  - @modern-js/builder-webpack-provider@2.37.1
+  - @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [7dc1512]
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+- Updated dependencies [2527cbf]
+- Updated dependencies [b4725c8]
+  - @modern-js/builder-webpack-provider@2.37.0
+  - @modern-js/builder@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/runtime@2.37.0
+  - @modern-js/builder-plugin-node-polyfill@2.37.0
+  - @modern-js/builder-shared@2.37.0
+  - @modern-js/plugin-router-v5@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- Updated dependencies [3448e82]
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [d90d83a]
+- Updated dependencies [5c89910]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+- Updated dependencies [4e3310b]
+- Updated dependencies [5b4bf21]
+  - @modern-js/builder@2.36.0
+  - @modern-js/utils@2.36.0
+  - @modern-js/builder-webpack-provider@2.36.0
+  - @modern-js/builder-shared@2.36.0
+  - @modern-js/runtime@2.36.0
+  - @modern-js/plugin-router-v5@2.36.0
+  - @modern-js/builder-plugin-node-polyfill@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [9dd3151]
+- Updated dependencies [bc1413d]
+- Updated dependencies [0988b12]
+- Updated dependencies [85f877b]
+- Updated dependencies [4980480]
+- Updated dependencies [7bc7e9c]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/builder-webpack-provider@2.35.1
+  - @modern-js/builder@2.35.1
+  - @modern-js/utils@2.35.1
+  - @modern-js/runtime@2.35.1
+  - @modern-js/plugin-router-v5@2.35.1
+  - @modern-js/builder-plugin-node-polyfill@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- Updated dependencies [8ed713c]
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [d87a426]
+- Updated dependencies [4027a6a]
+- Updated dependencies [9f13314]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder@2.35.0
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/builder-webpack-provider@2.35.0
+  - @modern-js/runtime@2.35.0
+  - @modern-js/builder-plugin-node-polyfill@2.35.0
+  - @modern-js/plugin-router-v5@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- Updated dependencies [e3d08fb]
+- Updated dependencies [a77b82a]
+- Updated dependencies [dcdeea5]
+- Updated dependencies [eca24a2]
+- Updated dependencies [5ffb74a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/builder@2.34.0
+  - @modern-js/utils@2.34.0
+  - @modern-js/runtime@2.34.0
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/builder-plugin-node-polyfill@2.34.0
+  - @modern-js/builder-webpack-provider@2.34.0
+  - @modern-js/plugin-router-v5@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

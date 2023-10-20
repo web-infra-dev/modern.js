@@ -6,12 +6,18 @@ import {
   fs,
 } from '@modern-js/utils';
 import { parse as htmlParse } from 'node-html-parser';
-import { matchRoutes } from '@modern-js/utils/runtime/remix-router';
-import { matchEntry } from '@modern-js/utils/runtime-node';
+import { matchRoutes } from '@modern-js/runtime-utils/remix-router';
+import { matchEntry } from '@modern-js/runtime-utils/node';
 
 export interface Link {
   uri: string;
+
+  rel?: string;
+
   as?: 'script' | 'style' | 'image' | 'video' | 'font' | string;
+
+  /** rest str(like attributes) that need add to link */
+  rest?: string;
 }
 
 export interface ParseLinksOptions {

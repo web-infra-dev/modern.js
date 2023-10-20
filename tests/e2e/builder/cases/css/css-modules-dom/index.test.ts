@@ -1,12 +1,11 @@
 import { join, resolve } from 'path';
 import { fs } from '@modern-js/utils';
 import { build, getHrefByEntryName } from '@scripts/shared';
-import { webpackOnlyTest } from '@scripts/helper';
 import { expect, test } from '@modern-js/e2e/playwright';
 
 const fixtures = resolve(__dirname);
 
-webpackOnlyTest('enableCssModuleTSDeclaration', async () => {
+test('enableCssModuleTSDeclaration', async () => {
   fs.removeSync(join(fixtures, 'src/App.module.less.d.ts'));
   fs.removeSync(join(fixtures, 'src/App.module.scss.d.ts'));
 
@@ -31,7 +30,7 @@ webpackOnlyTest('enableCssModuleTSDeclaration', async () => {
       .readFileSync(join(fixtures, 'src/App.module.less.d.ts'), {
         encoding: 'utf-8',
       })
-      .includes(`'title': string;`),
+      .includes(`title: string;`),
   ).toBeTruthy();
 
   expect(
@@ -43,7 +42,7 @@ webpackOnlyTest('enableCssModuleTSDeclaration', async () => {
       .readFileSync(join(fixtures, 'src/App.module.scss.d.ts'), {
         encoding: 'utf-8',
       })
-      .includes(`'header': string;`),
+      .includes(`header: string;`),
   ).toBeTruthy();
 });
 

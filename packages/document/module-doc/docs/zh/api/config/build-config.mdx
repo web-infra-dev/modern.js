@@ -22,7 +22,7 @@ sidebar_position: 1
 - 默认值：`{'@': 'src',}`
 
 :::tip
-对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Module Tools 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
+对于 TypeScript 项目，只需要在 `tsconfig.json` 中配置 [compilerOptions.paths](https://www.typescriptlang.org/tsconfig#paths), Modern.js Module 会自动识别 `tsconfig.json` 里的别名，因此不需要额外配置 `alias` 字段。
 :::
 
 ```js title="modern.config.ts"
@@ -78,7 +78,7 @@ export default defineConfig({
 
 用于设置静态资源被自动内联为 base64 的体积阈值。
 
-Module Tools 在进行打包时，默认会内联体积小于 10KB 的图片、字体、媒体等资源，将它们通过 Base64 编码，并内联到产物中，不再会发送独立的 HTTP 请求。
+Modern.js Module 在进行打包时，默认会内联体积小于 10KB 的图片、字体、媒体等资源，将它们通过 Base64 编码，并内联到产物中，不再会发送独立的 HTTP 请求。
 
 你可以通过修改 `limit` 参数来调整这个阈值。
 
@@ -212,6 +212,44 @@ export default defineConfig({
 - 类型： `boolean`
 - 默认值： `true`
 
+## banner
+
+提供为每个 JS , CSS 和 DTS 文件的顶部和底部注入内容的能力。
+
+```ts
+interface BannerAndFooter {
+  js?: string;
+  css?: string;
+  dts?: string;
+}
+```
+
+- 类型： `BannerAndFooter`
+- 默认值: `{}`
+- 版本： `v2.36.0`
+
+例如你想为 JS 和 CSS 文件添加版权信息:
+
+```ts
+import { moduleTools, defineConfig } from '@edenx/module-tools';
+
+const copyRight = `/*
+ © Copyright 2020 xxx.com or one of its affiliates.
+ * Some Sample Copyright Text Line
+ * Some Sample Copyright Text Line
+*/`;
+
+export default defineConfig({
+  plugins: [moduleTools()],
+  buildConfig: {
+    banner: {
+      js: copyRight,
+      css: copyRight,
+    },
+  },
+});
+```
+
 ## buildType
 
 构建类型，`bundle` 会打包你的代码，`bundleless` 只做代码的转换。
@@ -267,7 +305,7 @@ type Options = {
 
 ## define
 
-定义全局变量，会被注入到代码中
+定义全局变量，注入到代码中
 
 - 类型： `Record<string, string>`
 - 默认值： `{}`
@@ -278,10 +316,45 @@ type Options = {
 export default defineConfig({
   buildConfig: {
     define: {
-      VERSION: JSON.stringify('1.0'),
+      VERSION: JSON.stringify(require('./package.json').version || '0.0.0'),
     },
   },
 });
+```
+
+不过要注意：如果项目是一个 TypeScript 项目，那么你可能需要在项目源代码目录下的 `.d.ts` 文件里增加以下内容：
+
+> 如果不存在 `d.ts` 文件，则可以手动创建。
+
+```ts title="env.d.ts"
+declare const YOUR_ADD_GLOBAL_VAR;
+```
+
+我们也可以进行环境变量替换：
+
+```js
+import { defineConfig } from '@modern-js/module-tools';
+export default defineConfig({
+  buildConfig: {
+    define: {
+      'process.env.VERSION': JSON.stringify(process.env.VERSION || '0.0.0'),
+    },
+  },
+});
+```
+
+通过上面的配置，我们就可以将下面这段代码：
+
+```js
+// 编译前代码
+console.log(process.env.VERSION);
+```
+
+在执行 `VERSION=1.0.0 modern build` 的时候，转换为：
+
+```js
+// 编译后代码
+console.log('1.0.0');
 ```
 
 :::tip
@@ -291,15 +364,6 @@ export default defineConfig({
 - 自定义全局常量前缀后缀，确保独一无二
 
 :::
-
-{/* ## disableSwcTransform
-
-从 2.16.0 版本开始，默认开启 SWC Transform 进行代码转换。如果想要关闭该功能，可以使用该配置。此时仅使用 esbuild Transform。
-
-使用 SWC Transform 可以减小辅助函数对构建产物体积的影响。
-
-* 类型：`boolean`
-* 默认值：`false` */}
 
 ## dts
 
@@ -313,7 +377,6 @@ export default defineConfig({
   abortOnError: true,
   distPath: './',
   only: false,
-  tsconfigPath: './tsconfig.json',
 }
 ```
 
@@ -397,12 +460,11 @@ export default defineConfig({
 
 ## dts.tsconfigPath
 
-TypeScript 配置文件的路径。
+**废弃**，使用 [tsconfig](#tsconfig) 配置替代。
 
-- 类型： `string`
-- 默认值： `./tsconfig.json`
+指定用于生成类型文件的 tsconfig 文件路径。
 
-```js title="modern.config.ts"
+```ts title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
     dts: {
@@ -450,7 +512,7 @@ import RegisterEsbuildPlugin from '@site-docs/components/register-esbuild-plugin
 
 默认情况下，输出的 JS 代码可能会依赖一些辅助函数来支持目标环境或者输出格式，这些辅助函数会被内联在需要它的文件中。
 
-当在使用 SWC Transform 进行代码转换的时候，可以启动 `externalHelpers` 配置，将内联的辅助函数转换为从外部模块 `@swc/helpers` 导入这些辅助函数。
+使用此配置，将会使用 SWC 对代码进行转换，将内联的辅助函数转换为从外部模块 `@swc/helpers` 导入这些辅助函数。
 
 - 类型：`boolean`
 - 默认值：`false`
@@ -512,6 +574,10 @@ export default defineConfig({
   },
 });
 ```
+
+## footer
+
+同 [banner](#banner) 配置，用于在输出文件末尾添加注释。
 
 ## format
 
@@ -576,6 +642,46 @@ export default defineConfig({
 });
 ```
 
+## hooks
+
+构建生命周期钩子,允许在构建流程的特定阶段注入自定义逻辑。
+
+- 类型：
+
+```ts
+type HookList = {
+  name: string;
+  apply: (compiler: ICompiler) => void;
+};
+```
+
+- 默认值：`[]`
+
+我们可以在 apply 方法里拿到 compiler 实例，修改其属性，以及在不同阶段执行自定义逻辑，对于 Hook 的详细介绍，
+参考[使用 Hook 介入构建流程](/guide/advance/in-depth-about-build.html#使用-hook-介入构建流程)。
+
+```ts title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundle',
+    hooks: [
+      {
+        name: 'renderChunk',
+        apply: compiler => {
+          // any logic for compiler
+          compiler.hooks.renderChunk.tapPromise(
+            { name: 'renderChunk' },
+            async chunk => {
+              return chunk;
+            },
+          );
+        },
+      },
+    ],
+  },
+});
+```
+
 ## input
 
 指定构建的入口文件，数组形式可以指定目录。
@@ -594,13 +700,40 @@ type Input =
 
 **数组用法：**
 
+在 `bundle` 模式下，下面的配置会以 `src/index.ts` 和 `src/index2.ts` 为入口分别进行构建。`bundle` 模式不支持配置 `input` 为目录。
+
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
+    buildType: 'bundle',
     input: ['src/index.ts', 'src/index2.ts'],
   },
 });
 ```
+
+在 `bundleless` 模式下，下面的配置会同时处理 `src/a` 目录下的文件和 `src/index.ts` 文件。
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src/a', 'src/index.ts'],
+  },
+});
+```
+
+在 `bundleless` 模式下，数组模式还支持使用 `!` 来过滤部分文件：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    buildType: 'bundleless',
+    input: ['src', '!src/*.spec.ts'],
+  },
+});
+```
+
+上面的配置将打包 `src` 目录下的文件，同时会过滤以 `spec.ts` 为后缀的文件。这在测试文件与源码文件在同一个根目录下的情况会很有用。
 
 **对象用法：**
 
@@ -623,7 +756,7 @@ export default defineConfig({
 
 指定 JSX 的编译方式，默认支持 React 17 及更高版本，自动注入 JSX 运行时代码。
 
-- 类型： `automatic | transform`
+- 类型： `automatic | transform | preserve`
 - 默认值： `automatic`
 
 如果你需要支持 React 16，则可以设置 `jsx` 为 `transform`：
@@ -637,6 +770,7 @@ export default defineConfig({
 ```
 
 :::tip
+如果你不需要转换 JSX ,可以设置 `jsx` 为 `preserve`, 但此时请不要[使用 swc](/guide/advance/in-depth-about-build#使用-swc) 做代码转换。
 关于 JSX Transform 的更多说明，可以参考以下链接：
 
 - [React Blog - Introducing the New JSX Transform](https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html).
@@ -735,6 +869,58 @@ export default {
 };
 ```
 
+## resolve
+
+自定义模块解析选项
+
+### resolve.mainFields
+
+package.json 中，在解析包的入口点时尝试的字段列表。
+
+- 类型：`string[]`
+- 默认值：取决于[platform](#platform)
+  - node: ['module', 'main']
+  - browser: ['module', 'browser', 'main']
+- 版本：`v2.36.0`
+
+例如，我们想要先加载 `js:source` 字段：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    resolve: {
+      mainFields: ['js:source', 'module', 'main'],
+    },
+  },
+});
+```
+
+:::warning
+`resolve.mainFields` 比 package.json 中 exports 字段的优先级低，如果一个入口点从 exports 成功解析，`resolve.mainFields` 将被忽略。
+:::
+
+### resolve.jsExtentions
+
+支持隐式文件扩展名
+
+- 类型： `string[]`
+- 默认值： `['.jsx', '.tsx', '.js', '.ts', '.json']`
+- 版本：`v2.36.0`
+
+对于 css 文件，请不要使用隐式文件扩展名，目前 Module 仅支持 ['.less', '.css', '.sass', '.scss'] 后缀。
+
+Node 的解析算法不会将 `.mjs` 和 `cjs` 视为隐式文件扩展名，因此这里默认也不会，但是可以通过更改此配置来包含：
+
+```js title="modern.config.ts"
+export default defineConfig({
+  buildConfig: {
+    resolve: {
+      jsExtentions: ['.mts', 'ts'],
+    },
+  },
+});
+```
+
 ## sideEffects
 
 配置模块的副作用
@@ -794,6 +980,10 @@ export default defineConfig({
 - 默认值： `false`
 
 ## sourceType
+
+:::warning
+已废弃，此配置不会产生任何影响。
+:::
 
 设置源码的格式。默认情况下，会将源码作为 EsModule 进行处理。当源码使用的是 CommonJS 的时候，需要设置 `commonjs`。
 
@@ -1102,7 +1292,7 @@ const tailwind = {
 
 ### 启用 Tailwind CSS
 
-在使用 `style.tailwindcss` 之前，你需要启用 Module Tools 的 Tailwind CSS 插件。
+在使用 `style.tailwindcss` 之前，你需要启用 Modern.js Module 的 Tailwind CSS 插件。
 
 请阅读[「使用 Tailwind CSS」](/guide/best-practices/use-tailwindcss.html) 章节来了解开启方式。
 
@@ -1125,7 +1315,7 @@ const tailwind = {
 
 ## target
 
-`target` 用于为生成的 JavaScript 代码设置目标环境。它让 Module Tools 将目标环境无法识别的 JavaScript 语法转换为在这些环境中可用的低版本 JavaScript 语法。
+`target` 用于为生成的 JavaScript 代码设置目标环境。它让 Modern.js Module 将目标环境无法识别的 JavaScript 语法转换为在这些环境中可用的低版本 JavaScript 语法。
 
 - 类型：
 
@@ -1158,7 +1348,7 @@ export default defineConfig({
 
 ## transformImport
 
-提供与 babel-plugin-import 等价的能力和配置，基于 SWC 实现。
+提供与 babel-plugin-import 等价的能力和配置，基于 SWC 实现，使用此配置，将会使用 SWC 对代码进行转换。
 
 - 类型：`object[]`
 - 默认值：`[]`
@@ -1186,11 +1376,12 @@ export default defineConfig({
 ## transformLodash
 
 是否模块化 [lodash](https://www.npmjs.com/package/lodash) 的导入，删除未使用的 lodash 模块，从而减少 lodash 代码体积。这项优化基于 [babel-plugin-lodash](https://www.npmjs.com/package/babel-plugin-lodash) 和 [swc-plugin-lodash](https://github.com/web-infra-dev/swc-plugins/tree/main/crates/plugin_lodash) 实现。
+使用此配置，将会使用 SWC 对代码进行转换。
 
 - 类型：`boolean`
-- 默认值：`true`
+- 默认值：`false`
 
-该选项默认开启，Module Tools 会自动将 lodash 的代码引用指向子路径。
+当开启此选项时，Modern.js Module 会自动将 lodash 的代码引用指向子路径。
 
 比如：
 
@@ -1212,12 +1403,18 @@ const addOne = _add(1);
 _map([1, 2, 3], addOne);
 ```
 
-然而有时候 lodash 的 import 转换可能会生成不符合预期的代码，此时你可以手动关闭这项优化：
+## tsconfig
+
+TypeScript 配置文件的路径。
+
+- 类型： `string`
+- 默认值： `tsconfig.json`
+- 版本： `v2.36.0`
 
 ```js title="modern.config.ts"
 export default defineConfig({
   buildConfig: {
-    transformLodash: false,
+    tsconfig: 'tsconfig.build.json',
   },
 });
 ```

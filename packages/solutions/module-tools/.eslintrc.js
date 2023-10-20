@@ -8,7 +8,9 @@ module.exports = {
   },
   rules: {
     // https://eslint.org/docs/rules/complexity
-    complexity: ['warn', { max: 40 }],
+    complexity: ['warn', { max: 60 }],
+    'consistent-return': [0],
+    'node/prefer-global/buffer': [0],
   },
   ignorePatterns: ['types.d.ts', 'compiled/'],
 };

@@ -18,7 +18,7 @@ English | [简体中文](./README.zh-CN.md)
 
 ## Introduction
 
-Modern.js is a web engineering system, including multiple solutions:
+Modern.js is an open source web engineering system from ByteDance, including multiple solutions:
 
 - 🦄 [Modern.js Framework](https://modernjs.dev/en/): A progressive React framework for web development.
 - 🐧 [Modern.js Module](https://modernjs.dev/module-tools/en/): A powerful solution for npm package development.
@@ -35,6 +35,7 @@ Modern.js is a web engineering system, including multiple solutions:
 The following solutions and libraries are available within the Modern.js ecosystem:
 
 - 🦀 [Rspack](https://github.com/web-infra-dev/rspack): A fast Rust-based web bundler.
+- 🐬 [Rsbuild](https://github.com/web-infra-dev/rsbuild)：An Rspack-based build tool for the web, rebranded from Modern.js Builder.
 - 🐹 [Rspress](https://github.com/web-infra-dev/rspress): A fast Rspack-based static site generator.
 - 🐟 [Garfish](https://github.com/web-infra-dev/garfish): A powerful micro front-end framework.
 - 🦆 [Reduck](https://github.com/web-infra-dev/reduck): A redux-based state management library.
@@ -43,6 +44,14 @@ The following solutions and libraries are available within the Modern.js ecosyst
 ## Benchmark
 
 We use [Modern.js Benchmark](https://web-infra-dev.github.io/modern-js-benchmark/) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+
+## Roadmap
+
+Please refer to the [Modern.js Roadmap](https://github.com/web-infra-dev/modern.js/issues/4741). We will update the Roadmap content every quarter. Please stay tuned.
+
+## Examples
+
+Modern.js provides a collection of ready-to-use examples that you can find and use in the [modern-js-examples](https://github.com/web-infra-dev/modern-js-examples) repository.
 
 ## Contributing
 
@@ -68,10 +77,10 @@ Some implementations of Modern.js are modified from existing projects, such as [
 
 - `@modern-js/bundle-require`: is modified from [bundle-require](https://github.com/egoist/bundle-require).
 - `@modern-js/plugin`: the hooks API is referenced from [farrow-pipeline](https://github.com/farrow-js/farrow/tree/master/packages/farrow-pipeline).
-- `@modern-js/builder`: the moduleScope and fileSize plugins are referenced from [create-react-app](https://github.com/facebook/create-react-app), the TsConfigPathsPlugin is referenced from [tsconfig-paths-webpack-plugin](https://github.com/dividab/tsconfig-paths-webpack-plugin), the generateMetaTags function is referenced from [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
+- `@modern-js/builder`: the moduleScope and fileSize plugins are referenced from [create-react-app](https://github.com/facebook/create-react-app), the generateMetaTags function is referenced from [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
 - `@modern-js/plugin-testing`: the jest runner is referenced from [jest-cli](https://github.com/facebook/jest/blob/fdc74af37235354e077edeeee8aa2d1a4a863032/packages/jest-cli/src/cli/index.ts#L21).
-- `@modern-js/plugin-data-loader`: some code is referenced from [remix](https://github.com/remix-run/remix)。
-- `@modern-js/babel-plugin-module-resolver`: is modified from [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver)
+- `@modern-js/plugin-data-loader`: some code is referenced from [remix](https://github.com/remix-run/remix).
+- `@modern-js/babel-plugin-module-resolver`: is modified from [babel-plugin-module-resolver](https://github.com/tleunen/babel-plugin-module-resolver).
 
 ## License
 

@@ -1,5 +1,4 @@
 import { relative, resolve } from 'path';
-import type { ILibuilder } from '@modern-js/libuild';
 import { chalk, logger, fastGlob, slash } from '@modern-js/utils';
 import type {
   RollupOutput,
@@ -10,6 +9,7 @@ import {
   reportFile1LineText,
   reportFile2LineText,
 } from '../constants/log';
+import { Chunk } from '../types';
 
 type Files = {
   name: string;
@@ -21,7 +21,7 @@ export const bundleFiles: Files[] = [];
 export const bundlelessFiles: Files[] = [];
 
 export const addOutputChunk = (
-  outputChunk: ILibuilder['outputChunk'],
+  outputChunk: Map<string, Chunk>,
   appDirectory: string,
   isBundle: boolean,
 ) => {
@@ -76,7 +76,7 @@ export const printFileSize = () => {
 };
 
 export const printSucceed = (totalDuration: number) => {
-  const time = chalk.cyan(`${totalDuration / 1000}s`);
+  const time = chalk.cyan(`${(totalDuration / 1000).toFixed(1)}s`);
   logger.info(`${buildSuccessText} in ${time}`);
 };
 
@@ -86,7 +86,7 @@ const prettyBytes = (bytes: number) => {
   }
   const unit = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
   const exp = Math.floor(Math.log(bytes) / Math.log(1024));
-  return `${(bytes / Math.pow(1024, exp)).toFixed(2)} ${unit[exp]}`;
+  return `${(bytes / Math.pow(1024, exp)).toFixed(1)} ${unit[exp]}`;
 };
 
 const printBundleFiles = () => {

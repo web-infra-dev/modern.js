@@ -51,41 +51,57 @@ class LoadableCollector implements Collector {
 
     chunksMap.js = (chunksMap.js || '') + getLoadableScripts(extractor);
 
-    for (const v of chunks) {
-      const fileType = extname(v.url!).slice(1);
-      const attributes: Record<string, any> = {};
-      const { crossorigin, scriptLoading = 'defer' } = config;
-      if (crossorigin) {
-        attributes.crossorigin =
-          crossorigin === true ? 'anonymous' : crossorigin;
-      }
+    const attributes = this.generateAttributes();
 
-      switch (scriptLoading) {
-        case 'defer':
-          attributes.defer = true;
-          break;
-        case 'module':
-          attributes.type = 'module';
-          break;
-        default:
+    for (const v of chunks) {
+      if (!v.url) {
+        continue;
       }
+      const fileType = extname(v.url).slice(1);
 
       if (fileType === 'js') {
         const jsChunkReg = new RegExp(`<script .*src="${v.url}".*>`);
-        // we should't repeatly registe the script, if template already has it.
         if (!jsChunkReg.test(template)) {
+          // scriptLoading just apply for script tag.
+          const { scriptLoading = 'defer' } = config;
+          switch (scriptLoading) {
+            case 'defer':
+              attributes.defer = true;
+              break;
+            case 'module':
+              attributes.type = 'module';
+              break;
+            default:
+          }
+          // we should't repeatly registe the script, if template already has it.
           // `nonce` attrs just for script tag
           attributes.nonce = nonce;
           const attrsStr = attributesToString(attributes);
           chunksMap[fileType] += `<script${attrsStr} src="${v.url}"></script>`;
         }
       } else if (fileType === 'css') {
-        const attrsStr = attributesToString(attributes);
-        chunksMap[
-          fileType
-        ] += `<link${attrsStr} href="${v.url}" rel="stylesheet" />`;
+        const cssChunkReg = new RegExp(`<link .*href="${v.url}".*>`);
+        if (!cssChunkReg.test(template)) {
+          const attrsStr = attributesToString(attributes);
+          chunksMap[
+            fileType
+          ] += `<link${attrsStr} href="${v.url}" rel="stylesheet" />`;
+        }
       }
     }
+  }
+
+  private generateAttributes(): Record<string, any> {
+    const { config } = this.options;
+    const { crossorigin } = config;
+
+    const attributes: Record<string, any> = {};
+
+    if (crossorigin) {
+      attributes.crossorigin = crossorigin === true ? 'anonymous' : crossorigin;
+    }
+
+    return attributes;
   }
 }
 export interface LoadableCollectorOptions {

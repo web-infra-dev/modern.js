@@ -1,6 +1,13 @@
 {
   "name": "@modern-js/plugin-module-babel",
-  "description": "The babel plugin of Modern.js Module Tools.",
+  "version": "2.37.1",
+  "description": "The babel plugin of Modern.js Module",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
   "homepage": "https://modernjs.dev/module-tools",
   "bugs": "https://github.com/web-infra-dev/modern.js/issues",
   "repository": {
@@ -9,42 +16,36 @@
     "directory": "packages/module/plugin-module-babel"
   },
   "license": "MIT",
-  "keywords": [
-    "react",
-    "framework",
-    "modern",
-    "modern.js"
-  ],
-  "version": "2.33.1",
-  "types": "./src/index.ts",
+  "sideEffects": false,
   "main": "./dist/index.js",
+  "types": "./src/index.ts",
   "scripts": {
-    "prepublishOnly": "only-allow-pnpm",
-    "dev": "mdn build --watch",
     "build": "mdn build",
+    "dev": "mdn build --watch",
+    "prepublishOnly": "only-allow-pnpm",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/libuild-plugin-babel": "workspace:*",
+    "@babel/core": "^7.22.5",
     "@swc/helpers": "0.5.1"
   },
   "devDependencies": {
+    "@modern-js/module-tools": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@scripts/jest-config": "workspace:*",
+    "@types/babel__core": "7.1.16",
     "@types/jest": "^29",
     "@types/node": "^14",
-    "typescript": "^5",
-    "@scripts/build": "workspace:*",
     "jest": "^29",
-    "@scripts/jest-config": "workspace:*",
-    "@modern-js/module-tools": "workspace:*"
+    "typescript": "^5"
   },
   "peerDependencies": {
-    "@modern-js/module-tools": "workspace:^2.33.1"
+    "@modern-js/module-tools": "workspace:^2.37.1"
   },
-  "sideEffects": false,
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
     "access": "public",
     "provenance": true,
+    "registry": "https://registry.npmjs.org/",
     "types": "./dist/index.d.ts"
   }
 }

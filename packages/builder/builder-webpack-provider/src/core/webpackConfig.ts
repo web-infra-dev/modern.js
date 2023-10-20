@@ -103,7 +103,7 @@ async function getConfigUtils(
   config: WebpackConfig,
   chainUtils: ModifyWebpackChainUtils,
 ): Promise<ModifyWebpackConfigUtils> {
-  const { merge } = await import('../../compiled/webpack-merge');
+  const { merge } = await import('@modern-js/builder-shared/webpack-merge');
 
   return {
     ...chainUtils,
@@ -155,8 +155,15 @@ export async function generateWebpackConfig({
   context: Context;
 }) {
   const chainUtils = await getChainUtils(target);
+  const { BannerPlugin, DefinePlugin } = await import('webpack');
 
-  const bundlerChain = await modifyBundlerChain(context, chainUtils);
+  const bundlerChain = await modifyBundlerChain(context, {
+    ...chainUtils,
+    bundler: {
+      BannerPlugin,
+      DefinePlugin,
+    },
+  });
 
   const chain = await modifyWebpackChain(
     context,

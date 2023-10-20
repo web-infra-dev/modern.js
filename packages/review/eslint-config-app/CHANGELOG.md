@@ -1,5 +1,43 @@
 # @modern-js-app/eslint-config
 
+## 2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+## 2.36.0
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- bfad67b: fix(eslint-config): remove the markdown plugin
+
+  fix(eslint-config): 移除 markdown 插件
+
+  - @modern-js/babel-preset-app@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- @modern-js/babel-preset-app@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

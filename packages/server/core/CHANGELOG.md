@@ -1,5 +1,76 @@
 # @modern-js/server-plugin
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/plugin@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/plugin@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/plugin@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/plugin@2.35.0
+
+## 2.34.0
+
+### Minor Changes
+
+- 5240e5d: feat: ssr-preload.include support specify rel
+  feat: ssr-preload.include 支持指定 rel 属性
+- dcdeea5: feat: support disable pre-render
+  feat: 支持禁用 pre-render
+
+### Patch Changes
+
+- f851fa9: fix: lazy import preload, then update include.type to include.as
+  fix: 动态加载 preload 功能, 对齐规范将 include.type 属性更新为 include.as
+- 7d70738: fix: some link shouldn't have as attributes
+  fix: 一些 link 头不应该添加 as 属性
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/utils@2.34.0
+  - @modern-js/plugin@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

@@ -15,7 +15,7 @@
     "modern",
     "modern.js"
   ],
-  "version": "2.33.1",
+  "version": "2.37.1",
   "jsnext:source": "./src/index.ts",
   "types": "./src/index.ts",
   "main": "./dist/cjs/index.js",
@@ -34,32 +34,6 @@
       "jsnext:source": "./src/cli/constants/chainId.ts",
       "default": "./dist/cjs/cli/constants/chainId.js"
     },
-    "./runtime/router": {
-      "jsnext:source": "./src/runtime/router.ts",
-      "default": "./dist/esm/runtime/router.js"
-    },
-    "./runtime/remix-router": {
-      "jsnext:source": "./src/runtime/remixRouter.ts",
-      "require": "./dist/cjs/runtime/remixRouter.js",
-      "default": "./dist/esm/runtime/remixRouter.js"
-    },
-    "./runtime/nested-routes": {
-      "jsnext:source": "./src/runtime/nestedRoutes.tsx",
-      "default": "./dist/esm/runtime/nestedRoutes.js"
-    },
-    "./runtime-browser": {
-      "jsnext:source": "./src/runtime-browser/index.ts",
-      "default": "./dist/esm/runtime-browser/index.js"
-    },
-    "./runtime-node": {
-      "jsnext:source": "./src/runtime-node/index.ts",
-      "require": "./dist/cjs/runtime-node/index.js",
-      "default": "./dist/esm/runtime-node/index.js"
-    },
-    "./runtime-node/router": {
-      "jsnext:source": "./src/runtime-node/router.ts",
-      "default": "./dist/esm/runtime-node/router.js"
-    },
     "./universal/constants": {
       "jsnext:source": "./src/universal/constants.ts",
       "import": "./dist/esm/universal/constants.js",
@@ -74,11 +48,6 @@
       "jsnext:source": "./src/universal/pluginDagSort.ts",
       "import": "./dist/esm/universal/pluginDagSort.js",
       "default": "./dist/cjs/universal/pluginDagSort.js"
-    },
-    "./universal/time": {
-      "jsnext:source": "./src/universal/time.ts",
-      "import": "./dist/esm/universal/time.js",
-      "default": "./dist/cjs/universal/time.js"
     },
     "./ajv": "./compiled/ajv/index.js",
     "./commander": "./compiled/commander/index.js",
@@ -99,8 +68,7 @@
     "./browserslist": "./compiled/browserslist/index.js",
     "./webpack-chain": "./compiled/webpack-chain/index.js",
     "./tsconfig-paths": "./compiled/tsconfig-paths/index.js",
-    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js",
-    "./webpack-dev-middleware": "./compiled/webpack-dev-middleware/index.js"
+    "./better-ajv-errors": "./compiled/better-ajv-errors/index.js"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
@@ -120,33 +88,6 @@
         "types": "./dist/types/cli/constants/chainId.d.ts",
         "default": "./dist/cjs/cli/constants/chainId.js"
       },
-      "./runtime/router": {
-        "types": "./dist/types/runtime/router.d.ts",
-        "default": "./dist/esm/runtime/router.js"
-      },
-      "./runtime/remix-router": {
-        "types": "./dist/types/runtime/remixRouter.d.ts",
-        "require": "./dist/cjs/runtime/remixRouter.js",
-        "default": "./dist/esm/runtime/remixRouter.js"
-      },
-      "./runtime/nested-routes": {
-        "types": "./dist/types/runtime/nestedRoutes.d.ts",
-        "default": "./dist/esm/runtime/nestedRoutes.js"
-      },
-      "./runtime-browser": {
-        "jsnext:source": "./src/runtime-browser/index.d.ts",
-        "default": "./dist/esm/runtime-browser/index.js"
-      },
-      "./runtime-node": {
-        "types": "./dist/types/runtime-node/index.d.ts",
-        "require": "./dist/cjs/runtime-node/index.js",
-        "default": "./dist/esm/runtime-node/index.js"
-      },
-      "./runtime-node/router": {
-        "types": "./dist/types/runtime-node/router.d.ts",
-        "require": "./dist/cjs/runtime-node/router.js",
-        "default": "./dist/esm/runtime-node/router.js"
-      },
       "./universal/constants": {
         "types": "./dist/types/universal/constants.d.ts",
         "import": "./dist/esm/universal/constants.js",
@@ -161,11 +102,6 @@
         "types": "./dist/types/universal/pluginDagSort.d.ts",
         "import": "./dist/esm/universal/pluginDagSort.js",
         "default": "./dist/cjs/universal/pluginDagSort.js"
-      },
-      "./universal/time": {
-        "types": "./dist/types/universal/time.d.ts",
-        "import": "./dist/esm/universal/time.js",
-        "default": "./dist/cjs/universal/time.js"
       },
       "./ajv": "./dist/compiled/ajv/index.js",
       "./commander": "./dist/compiled/commander/index.js",
@@ -186,8 +122,7 @@
       "./browserslist": "./dist/compiled/browserslist/index.js",
       "./webpack-chain": "./dist/compiled/webpack-chain/index.js",
       "./tsconfig-paths": "./dist/compiled/tsconfig-paths/index.js",
-      "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js",
-      "./webpack-dev-middleware": "./dist/compiled/webpack-dev-middleware/index.js"
+      "./better-ajv-errors": "./dist/compiled/better-ajv-errors/index.js"
     }
   },
   "typesVersions": {
@@ -198,24 +133,6 @@
       "chain-id": [
         "./dist/types/cli/constants/chainId.d.ts"
       ],
-      "runtime/router": [
-        "./dist/types/runtime/router.d.ts"
-      ],
-      "runtime/remix-router": [
-        "./dist/types/runtime/remixRouter.d.ts"
-      ],
-      "runtime/nested-routes": [
-        "./dist/types/runtime/nestedRoutes.d.ts"
-      ],
-      "runtime-browser": [
-        "./dist/types/runtime-browser/index.d.ts"
-      ],
-      "runtime-node": [
-        "./dist/types/runtime-node/index.d.ts"
-      ],
-      "runtime-node/router": [
-        "./dist/types/runtime-node/router.d.ts"
-      ],
       "universal/constants": [
         "./dist/types/universal/constants.d.ts"
       ],
@@ -224,9 +141,6 @@
       ],
       "universal/plugin-dag-sort": [
         "./dist/types/universal/pluginDagSort.d.ts"
-      ],
-      "universal/time": [
-        "./dist/types/universal/time.d.ts"
       ],
       "ajv": [
         "./dist/compiled/ajv/types/ajv.d.ts"
@@ -285,9 +199,6 @@
       "better-ajv-errors": [
         "./dist/compiled/better-ajv-errors/index.d.ts"
       ],
-      "webpack-dev-middleware": [
-        "./dist/compiled/webpack-dev-middleware/types/index.d.ts"
-      ],
       "commander": [
         "./dist/compiled/commander/typings/index.d.ts"
       ],
@@ -306,26 +217,10 @@
   "dependencies": {
     "caniuse-lite": "^1.0.30001520",
     "lodash": "^4.17.21",
-    "serialize-javascript": "^6.0.0",
-    "react-router-dom": "6.11.1",
-    "@remix-run/router": "1.6.1",
+    "rslog": "^1.1.0",
     "@swc/helpers": "0.5.1"
   },
-  "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
-  },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "@modern-js/types": "workspace:*",
     "@scripts/build": "workspace:*",
     "@scripts/jest-config": "workspace:*",
@@ -333,8 +228,7 @@
     "@types/node": "^14",
     "jest": "^29",
     "typescript": "^5",
-    "webpack": "^5.88.1",
-    "@types/serialize-javascript": "^5.0.1"
+    "webpack": "^5.88.1"
   },
   "sideEffects": false
 }

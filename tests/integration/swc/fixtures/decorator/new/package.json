@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "name": "swc-test-decorator",
+  "version": "2.9.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/plugin-swc": "workspace:*"
+  }
+}

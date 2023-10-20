@@ -128,18 +128,25 @@ export default {
 
 Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID 来定位到内置的 Rule 或 Plugin。
 
+:::tip
+请留意，下列的一部分 Rule 或 Plugin 并不是默认存在的，当你开启特定配置项、或是注册某些插件后，它们才会被包含在 Rspack 或 webpack 配置中。
+
+比如，`RULE.STYLUS` 仅在注册了 Stylus 插件后才会存在。
+:::
+
 ##### CHAIN_ID.RULE
 
-| ID          | 描述               |
-| ----------- | ------------------ |
-| `RULE.MJS`  | 处理 `mjs` 的规则  |
-| `RULE.CSS`  | 处理 `css` 的规则  |
-| `RULE.LESS` | 处理 `less` 的规则 |
-| `RULE.SASS` | 处理 `sass` 的规则 |
-| `RULE.TOML` | 处理 `toml` 的规则 |
-| `RULE.YAML` | 处理 `yaml` 的规则 |
-| `RULE.WASM` | 处理 `wasm` 的规则 |
-| `RULE.NODE` | 处理 `node` 的规则 |
+| ID            | 描述                 |
+| ------------- | -------------------- |
+| `RULE.MJS`    | 处理 `mjs` 的规则    |
+| `RULE.CSS`    | 处理 `css` 的规则    |
+| `RULE.LESS`   | 处理 `less` 的规则   |
+| `RULE.SASS`   | 处理 `sass` 的规则   |
+| `RULE.STYLUS` | 处理 `stylus` 的规则 |
+| `RULE.TOML`   | 处理 `toml` 的规则   |
+| `RULE.YAML`   | 处理 `yaml` 的规则   |
+| `RULE.WASM`   | 处理 `wasm` 的规则   |
+| `RULE.NODE`   | 处理 `node` 的规则   |
 
 ### CHAIN_ID.ONE_OF
 
@@ -160,6 +167,8 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | --------------------------------- | ------------------------- |
 | `USE.LESS`                        | 对应 `less-loader`        |
 | `USE.SASS`                        | 对应 `sass-loader`        |
+| `USE.STYLUS`                      | 对应 `stylus-loader`      |
+| `USE.VUE`                         | 对应 `vue-loader`         |
 | `USE.TOML`                        | 对应 `toml-loader`        |
 | `USE.YAML`                        | 对应 `yaml-loader`        |
 | `USE.NODE`                        | 对应 `node-loader`        |
@@ -179,8 +188,18 @@ Builder 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `PLUGIN.BUNDLE_ANALYZER`    | 对应 `WebpackBundleAnalyzer`                                                |
 | `PLUGIN.BOTTOM_TEMPLATE`    | 对应 `BottomTemplatePlugin`                                                 |
 | `PLUGIN.ASSETS_RETRY`       | 对应 Builder 中的 webpack 静态资源重试插件 `WebpackAssetsRetryPlugin`       |
+| `PLUGIN.VUE_LOADER_PLUGIN`  | 对应 `VueLoaderPlugin`                                                      |
 | `PLUGIN.AUTO_SET_ROOT_SIZE` | 对应 Builder 中的自动设置根字体大小插件 `AutoSetRootSizePlugin`             |
 
-### 常用 BundlerChain 使用示例
+### CHAIN_ID.MINIMIZER
 
-BundlerChain 的使用可参考：[常用 WebpackChain 使用示例](https://modernjs.dev/builder/guide/advanced/custom-webpack-config.html#%E4%BD%BF%E7%94%A8-webpack-chain)。
+通过 `MINIMIZER.XXX` 可以匹配到对应的压缩工具。
+
+| ID              | 描述                                                       |
+| --------------- | ---------------------------------------------------------- |
+| `MINIMIZER.JS`  | 对应 `TerserWebpackPlugin` 或 `SwcJsMinimizerRspackPlugin` |
+| `MINIMIZER.CSS` | 对应 `CssMinimizerWebpackPlugin`                           |
+
+### 使用示例
+
+使用示例可参考：[WebpackChain 使用示例](https://modernjs.dev/builder/guide/advanced/custom-webpack-config.html#%E4%BD%BF%E7%94%A8-webpack-chain)。

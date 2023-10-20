@@ -1,0 +1,87 @@
+{
+  "name": "@modern-js/devtools-kit",
+  "description": "A Progressive React Framework for modern web development.",
+  "homepage": "https://modernjs.dev",
+  "bugs": "https://github.com/web-infra-dev/modern.js/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/web-infra-dev/modern.js",
+    "directory": "packages/cli/plugin-tailwind"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "framework",
+    "modern",
+    "modern.js"
+  ],
+  "version": "2.37.1",
+  "jsnext:source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "jsnext:source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./runtime": {
+      "jsnext:source": "./src/runtime/index.ts",
+      "types": "./dist/runtime/index.d.ts",
+      "default": "./dist/runtime/index.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "runtime": [
+        "./dist/runtime/index.d.ts"
+      ]
+    }
+  },
+  "scripts": {
+    "prepublishOnly": "only-allow-pnpm",
+    "new": "modern-lib new",
+    "dev": "modern-lib build --watch",
+    "build": "modern-lib build",
+    "test": "jest --passWithNoTests"
+  },
+  "dependencies": {
+    "@modern-js/types": "workspace:*",
+    "@modern-js/utils": "workspace:*",
+    "@radix-ui/themes": "^2.0.0",
+    "ufo": "^1.2.0",
+    "ws": "8.13.0"
+  },
+  "devDependencies": {
+    "@modern-js/app-tools": "workspace:*",
+    "@modern-js/builder-rspack-provider": "workspace:*",
+    "@modern-js/builder-shared": "workspace:*",
+    "@modern-js/builder-webpack-provider": "workspace:*",
+    "@modern-js/core": "workspace:*",
+    "@modern-js/module-tools": "workspace:*",
+    "@modern-js/types": "workspace:*",
+    "@scripts/build": "workspace:*",
+    "@swc/helpers": "0.5.1",
+    "@types/node": "^14",
+    "@types/ws": "^8.5.5",
+    "react": "~18.2.0",
+    "type-fest": "^4.1.0",
+    "typescript": "^5"
+  },
+  "peerDependencies": {
+    "react": "~18.2.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public",
+    "provenance": true,
+    "types": "./dist/types/index.d.ts"
+  }
+}

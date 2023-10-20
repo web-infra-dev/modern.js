@@ -1,29 +1,20 @@
 {
   "name": "{{ name }}",
   "version": "0.1.0",
-  {{#unless isPublic}}
-  "main": "./src/index.{{ language }}",
-  {{/unless}}
-  {{#if isPublic}}
   {{#if isTs}}
   "types": "./dist/types/index.d.ts",
   {{/if}}
   "main": "./dist/lib/index.js",
   "module": "./dist/es/index.js",
-  {{/if}}
   "scripts": {
-    {{#if isPublic}}
     {{#if isMonorepoSubProject}}
     "prepare": "modern build",
     {{else}}
     "prepare": "modern build && husky install",
     {{/if}}
-    {{/if}}
     "dev": "modern dev",
-    {{#if isPublic}}
     "build": "modern build",
     "build:watch": "modern build -w",
-    {{/if}}
     {{#unless isMonorepoSubProject}}
     "reset": "rimraf ./**/node_modules",
     "lint": "modern lint",
@@ -39,10 +30,7 @@
   },
   {{#unless isMonorepoSubProject}}
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ],
-    "*.{js,jsx,mjs,mjsx,cjs,cjsx}": [
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
       "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
     ]
   },
@@ -58,6 +46,12 @@
     "@modern-js/eslint-config": "{{modernVersion}}",
     "@modern-js/tsconfig":"{{modernVersion}}",
     "@modern-js-app/eslint-config": "{{modernVersion}}",
+    {{#if isTs}}
+    "typescript": "~5.0.4",
+    "@types/jest": "~29.2.4",
+    "@types/node": "~16.11.7",
+    "@types/react": "~18.0.26",
+    {{/if}}
     "rimraf": "~3.0.2",
     "lint-staged": "~13.1.0",
     "prettier": "~2.8.1",

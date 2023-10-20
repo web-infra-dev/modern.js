@@ -1,4 +1,9 @@
-import { IncomingMessage, ServerResponse, IncomingHttpHeaders } from 'http';
+import {
+  IncomingMessage,
+  ServerResponse,
+  IncomingHttpHeaders,
+  Server as HttpServer,
+} from 'http';
 import qs from 'querystring';
 import type { SSRMode } from 'common';
 import { Metrics, Logger, Reporter, ServerTiming } from './utils';
@@ -53,7 +58,13 @@ export interface ModernServerContext {
   setServerData: (key: string, value: any) => void;
 }
 
-export type BaseSSRServerContext = {
+export interface BaseResponseLike {
+  setHeader: (key: string, value: string) => void;
+  status: (code: number) => void;
+  locals: Record<string, any>;
+}
+
+export type BaseSSRServerContext<T extends 'node' | 'worker' = 'node'> = {
   request: {
     params: Record<string, string>;
     pathname: string;
@@ -62,11 +73,7 @@ export type BaseSSRServerContext = {
     host: string;
     [propsName: string]: any;
   };
-  response: {
-    setHeader: (key: string, value: string) => void;
-    status: (code: number) => void;
-    locals: Record<string, any>;
-  };
+  response: BaseResponseLike;
   redirection: { url?: string; status?: number };
   loadableStats: Record<string, any>;
   routeManifest?: Record<string, any>;
@@ -97,15 +104,15 @@ export type BaseSSRServerContext = {
 
   nonce?: string;
 
-  req: ModernServerContext['req'];
+  req: T extends 'worker' ? Request : ModernServerContext['req'];
 
-  res: ModernServerContext['res'];
+  res: T extends 'worker' ? BaseResponseLike : ModernServerContext['res'];
 
   mode?: SSRMode; // ssr type
 };
 
 export interface ServerInitHookContext {
-  app?: httpServer;
+  app?: HttpServer;
   server: ModernServerInterface;
 }
 

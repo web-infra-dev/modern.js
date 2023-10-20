@@ -1,0 +1,55 @@
+.container {
+  overflow: hidden;
+  box-shadow: var(--shadow-5);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  @media (min-width: 520px) {
+    position: relative;
+    height: 35rem;
+    width: 50rem;
+    border-radius: 0.75rem;
+  }
+}
+
+.close-button {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: var(--gray-8);
+  cursor: pointer;
+}
+
+.frame {
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+
+.backdrop {
+  background-color: var(--gray-2);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  stroke: #555;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

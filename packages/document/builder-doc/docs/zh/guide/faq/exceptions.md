@@ -36,11 +36,15 @@ webpack 版本问题有以下几种情况：
 
 ### 在 Monorepo 中引用其他模块，代码没有被正确编译？
 
-出于编译性能的考虑，默认情况下，Builder 不会通过 `babel-loader` 或 `ts-loader` 来编译 `node_modules` 下的文件，也不会编译当前工程目录外部的文件。
+出于编译性能的考虑，默认情况下，Builder 不会编译 `node_modules` 下的文件，也不会编译当前工程目录外部的文件。
 
-通过 `source.include` 配置项，可以指定需要额外进行编译的目录或模块。
+因此，当你引用其他子项目的源代码时，可能会遇到类似 `You may need an additional loader to handle the result of these loaders.` 的报错。
 
-详见 [source.include 用法介绍](/api/config-source.html#sourceinclude)。
+这个问题有以下解决方法：
+
+1. 你可以开启源码构建模式来编译 monorepo 中的其他子项目，参考[「源码构建模式」](/guide/advanced/source-build.html)。
+2. 你可以添加 `source.include` 配置项，指定需要额外进行编译的目录或模块，参考 [source.include 用法介绍](/api/config-source.html#sourceinclude)。
+3. 你可以预先构建需要引用的子项目，生成对应的构建产物，并在当前项目引用构建产物，而不是引用源代码。
 
 ---
 
@@ -84,7 +88,7 @@ npm ls postcss
 
 如果编译正常，但是打开页面后出现 `exports is not defined` 报错，通常是因为在项目中使用 Babel 编译了一个 CommonJS 模块，导致 Babel 出现异常。
 
-在正常情况下，Builder 是不会使用 Babel 来编译 CommonJS 模块的。如果项目中使用了 [source.include]() 配置项，或使用了 [tools.babel](/api/config-tools.html#toolsbabel) 的 `addIncludes` 方法，则可能会把一些 CommonJS 模块加入到 Babel 编译中。
+在正常情况下，Builder 是不会使用 Babel 来编译 CommonJS 模块的。如果项目中使用了 [source.include](/api/config-source.html#sourceinclude) 配置项，或使用了 [tools.babel](/api/config-tools.html#toolsbabel) 的 `addIncludes` 方法，则可能会把一些 CommonJS 模块加入到 Babel 编译中。
 
 该问题有两种解决方法：
 

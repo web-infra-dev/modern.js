@@ -38,6 +38,7 @@ type RspackResolve = {
   conditionNames?: string[];
   alias?: Record<string, false | string | string[]>;
   tsConfigPath?: string;
+  modules?: string[];
   fallback?: Record<string, false | string>;
 };
 
@@ -54,6 +55,7 @@ type RspackOutput = {
   cssFilename?: string;
   cssChunkFilename?: string;
   library?: string;
+  chunkLoadingGlobal?: string;
   crossOriginLoading?: false | 'anonymous' | 'use-credentials';
 };
 
@@ -160,11 +162,21 @@ export interface BundlerChain
     | 'get'
     | 'experiments'
     | 'profile'
+    | 'ignoreWarnings'
   > {
   toConfig: () => BundlerConfig;
   optimization: PickAndModifyThis<
     WebpackChain['optimization'],
-    'splitChunks' | 'runtimeChunk' | 'minimize' | 'minimizer'
+    | 'splitChunks'
+    | 'runtimeChunk'
+    | 'minimize'
+    | 'minimizer'
+    | 'chunkIds'
+    | 'moduleIds'
+    | 'sideEffects'
+    | 'realContentHash'
+    | 'removeEmptyChunks'
+    | 'removeAvailableModules'
   >;
   externals: (value: Externals) => BundlerChain;
   resolve: PickAndModifyThis<

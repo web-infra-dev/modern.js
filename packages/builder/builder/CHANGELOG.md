@@ -1,5 +1,138 @@
 # @modern-js/builder
 
+## 2.37.1
+
+### Patch Changes
+
+- 9eb817f: chore: bump rspress
+  - @modern-js/builder-shared@2.37.1
+  - @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- 7dc1512: refactor: replace babel-preset-app with rsbuild babel-preset
+
+  refactor: 将 babel-preset-app 替换为 rsbuild babel-preset
+
+- 2527cbf: fix(builder-cli): load provider based on package.json
+
+  fix(builder-cli): 优先基于 package.json 加载 provider
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/utils@2.37.0
+  - @modern-js/builder-shared@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- 3448e82: chore(builder): simplify assets rule
+
+  chore(builder): 简化 assets 规则
+
+- d90d83a: feat(builder): use jiti to load config
+
+  feat(builder): 使用 jiti 来加载配置
+
+- 5c89910: chore(builder): migrate monorepo-utils to rsbuild repo
+
+  chore(builder): 迁移 monorepo-utils 到 rsbuild 仓库
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- 5b4bf21: feat(builder): include tslib in lib-polyfill.js
+
+  feat(builder): 拆分 tslib 到 lib-polyfill.js 中
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [bc25bcb]
+- Updated dependencies [c1b0d18]
+- Updated dependencies [2675812]
+- Updated dependencies [9d37401]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/builder-shared@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- ea3fe18: feat(app-tools): make logs easier to read
+
+  feat(app-tools): 让日志更容易阅读
+
+- Updated dependencies [ce24aad]
+- Updated dependencies [ea3fe18]
+- Updated dependencies [de9cdee]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0988b12]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+- Updated dependencies [fe8caeb]
+  - @modern-js/builder-shared@2.35.1
+  - @modern-js/utils@2.35.1
+  - @modern-js/monorepo-utils@2.35.1
+  - @modern-js/node-bundle-require@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- 8ed713c: feat: split package `scheduler` into chunk `lib-react.js`
+  feat: 修改拆包规则添加 `scheduler` 到 `lib-react.js` 中
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- Updated dependencies [225f065]
+- Updated dependencies [0300daf]
+- Updated dependencies [f509548]
+- Updated dependencies [15b834f]
+- Updated dependencies [28128ca]
+- Updated dependencies [4027a6a]
+- Updated dependencies [3d93e81]
+  - @modern-js/builder-shared@2.35.0
+  - @modern-js/utils@2.35.0
+  - @modern-js/monorepo-utils@2.35.0
+  - @modern-js/node-bundle-require@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- e3d08fb: feat(builder): support buildCache.cacheDigest configuration
+
+  feat(builder): 支持 buildCache.cacheDigest 配置项
+
+- 5ffb74a: feat(builder): allow to custom CLI
+
+  feat(builder): 支持自定义 CLI
+
+- c8b448b: feat(builder): support inline assets by file size
+
+  feat(builder): 支持基于文件体积来内联资源
+
+- c9626e7: feat(builder): improve the logs of checkSyntax, add code frame
+
+  feat(builder): 优化 checkSyntax 的日志, 增加 code frame
+
+- Updated dependencies [a77b82a]
+- Updated dependencies [09b176a]
+- Updated dependencies [c8b448b]
+- Updated dependencies [c9626e7]
+- Updated dependencies [e538169]
+  - @modern-js/utils@2.34.0
+  - @modern-js/builder-shared@2.34.0
+  - @modern-js/monorepo-utils@2.34.0
+  - @modern-js/node-bundle-require@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

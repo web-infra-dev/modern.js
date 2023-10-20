@@ -1,30 +1,34 @@
 import { appTools, defineConfig } from '@modern-js/app-tools';
-import { proxyPlugin } from '@modern-js/plugin-proxy';
+import { ROUTE_BASENAME } from '@modern-js/devtools-kit';
+import { version } from './package.json';
 
 // https://modernjs.dev/en/configure/app/usage
 export default defineConfig<'rspack'>({
   runtime: {
-    router: true,
+    router: {
+      basename: ROUTE_BASENAME,
+    },
   },
   dev: {
+    assetPrefix: ROUTE_BASENAME,
     port: 8780,
-    assetPrefix: '/devtools',
-    proxy: {
-      'https://modernjs.dev/devtools': 'http://localhost:8780/devtools',
+  },
+  source: {
+    preEntry: [
+      require.resolve('modern-normalize/modern-normalize.css'),
+      './src/styles/theme.scss',
+    ],
+    globalVars: {
+      'process.env.PKG_VERSION': version,
     },
+  },
+  output: {
+    assetPrefix: ROUTE_BASENAME,
   },
   tools: {
-    devServer: {
-      client: {
-        host: 'localhost',
-        protocol: 'ws',
-      },
+    postcss: (config, { addPlugins }) => {
+      addPlugins(require('postcss-custom-media'));
     },
   },
-  plugins: [
-    appTools({
-      bundler: 'experimental-rspack',
-    }),
-    proxyPlugin(),
-  ],
+  plugins: [appTools({ bundler: 'experimental-rspack' })],
 });

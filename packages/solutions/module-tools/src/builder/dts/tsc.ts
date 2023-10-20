@@ -1,34 +1,24 @@
 import type { ChildProcess } from 'child_process';
-import { execa, fs, json5, logger } from '@modern-js/utils';
-import { addDtsFiles } from '../../utils/print';
+import { execa, logger } from '@modern-js/utils';
 import type {
-  BundlelessGeneratorDtsConfig,
-  ITsconfig,
+  GeneratorDtsConfig,
   PluginAPI,
   ModuleTools,
+  GeneratedDtsInfo,
 } from '../../types';
 import {
-  generatorTsConfig,
+  generateDtsInfo,
   getTscBinPath,
   printOrThrowDtsErrors,
   resolveAlias,
-} from '../../utils/dts';
-import { watchSectionTitle } from '../../utils/log';
-import {
-  BundlelessDtsLogPrefix,
-  SectionTitleStatus,
-} from '../../constants/log';
+  addDtsFiles,
+  writeDtsFiles,
+  addBannerAndFooter,
+  withLogTitle,
+} from '../../utils';
 import { watchDoneText } from '../../constants/dts';
 
-export const getProjectTsconfig = async (
-  tsconfigPath: string,
-): Promise<ITsconfig> => {
-  if (!fs.existsSync(tsconfigPath)) {
-    return {};
-  }
-
-  return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
-};
+export const removeTscLogTime = (log: string) => log.replace(/\[.*\]\s/, '');
 
 const resolveLog = async (
   childProgress: ChildProcess,
@@ -46,10 +36,14 @@ const resolveLog = async (
    */
   childProgress.stdout?.on('data', async data => {
     if (watch) {
-      logger.info(
-        await watchSectionTitle(BundlelessDtsLogPrefix, SectionTitleStatus.Log),
-      );
-      logger.info(data.toString());
+      const lines = (data.toString() as string)
+        .split('\n')
+        // remove empty lines
+        .filter(line => line.trim() !== '')
+        // add tsc prefix, remove time prefix
+        .map(line => withLogTitle('tsc', removeTscLogTime(line)));
+      logger.info(lines.join('\n'));
+
       if (data.toString().includes(watchDoneText)) {
         await watchFn();
       }
@@ -64,18 +58,14 @@ const resolveLog = async (
   });
 };
 
-const generatorDts = async (
+const runTscBin = async (
   api: PluginAPI<ModuleTools>,
-  config: BundlelessGeneratorDtsConfig,
+  config: GeneratorDtsConfig,
+  info: GeneratedDtsInfo,
 ) => {
-  const {
-    tsconfigPath,
-    appDirectory,
-    watch = false,
-    abortOnError = true,
-  } = config;
-  const userTsconfig = await getProjectTsconfig(tsconfigPath);
-  const result = await generatorTsConfig(config);
+  const { appDirectory, watch = false, abortOnError = true } = config;
+
+  const { tempTsconfigPath } = info;
 
   const tscBinFile = await getTscBinPath(appDirectory);
 
@@ -84,7 +74,7 @@ const generatorDts = async (
     tscBinFile,
     [
       '-p',
-      result.tempTsconfigPath,
+      tempTsconfigPath,
       /* Required parameter, use it stdout have color */
       '--pretty',
       // https://github.com/microsoft/TypeScript/issues/21824
@@ -101,7 +91,9 @@ const generatorDts = async (
   resolveLog(childProgress, {
     watch,
     watchFn: async () => {
-      await resolveAlias(config, { ...result, userTsconfig });
+      const result = await resolveAlias(config, info);
+      const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
+      await writeDtsFiles(config, info, dtsFiles);
       runner.buildWatchDts({ buildType: 'bundleless' });
     },
   });
@@ -111,15 +103,16 @@ const generatorDts = async (
   } catch (e) {
     await printOrThrowDtsErrors(e, { abortOnError, buildType: 'bundleless' });
   }
-
-  return { ...result, userTsconfig };
 };
 
 export const runTsc = async (
   api: PluginAPI<ModuleTools>,
-  config: BundlelessGeneratorDtsConfig,
+  config: GeneratorDtsConfig,
 ) => {
-  const result = await generatorDts(api, config);
-  await resolveAlias(config, result);
-  await addDtsFiles(config.distAbsPath, config.appDirectory);
+  const generatedDtsInfo = await generateDtsInfo(config);
+  await runTscBin(api, config, generatedDtsInfo);
+  const result = await resolveAlias(config, generatedDtsInfo);
+  const dtsFiles = addBannerAndFooter(result, config.banner, config.footer);
+  await writeDtsFiles(config, generatedDtsInfo, dtsFiles);
+  await addDtsFiles(config.distPath, config.appDirectory);
 };

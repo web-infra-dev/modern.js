@@ -1,5 +1,103 @@
 # @modern-js/prod-server
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/server-core@2.37.1
+- @modern-js/plugin@2.37.1
+- @modern-js/runtime-utils@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [7dc1512]
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/server-core@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/plugin@2.37.0
+  - @modern-js/runtime-utils@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- b98f8aa: feat: using rslog as logger
+
+  feat: 使用 rslog 作为 logger
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/server-core@2.36.0
+  - @modern-js/plugin@2.36.0
+  - @modern-js/runtime-utils@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- bb97082: fix(prod-server): error header key in other metaName
+  fix(prod-server): 错误的 header key 在不同的 metaName
+- 0db5680: fix(app-tools): failed to emit modern.config.json when distPath.root is absolute path
+
+  fix(app-tools): 修复 distPath.root 为绝对路径时无法输出 modern.config.json 的问题
+
+- 411cea2: fix(prod-server): the server need use headersSent without use flushHeader
+  fix(prod-server): 没有 flushHeader 时 server 应该使用 headersSent
+- 4980480: chore(prod-server): remove duplicated logger module
+
+  chore(prod-server): 移除重复的 logger 模块
+
+- 6a1d46e: refactor: split runtime utils into a seperate package
+  refactor: runtime utils 单独拆分成一个包
+- Updated dependencies [ea3fe18]
+- Updated dependencies [14f95cf]
+- Updated dependencies [9dd3151]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/plugin@2.35.1
+  - @modern-js/runtime-utils@2.35.1
+  - @modern-js/server-core@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/server-core@2.35.0
+  - @modern-js/plugin@2.35.0
+
+## 2.34.0
+
+### Minor Changes
+
+- 5240e5d: feat: ssr-preload.include support specify rel
+  feat: ssr-preload.include 支持指定 rel 属性
+
+### Patch Changes
+
+- f851fa9: fix: lazy import preload, then update include.type to include.as
+  fix: 动态加载 preload 功能, 对齐规范将 include.type 属性更新为 include.as
+- 7d70738: fix: some link shouldn't have as attributes
+  fix: 一些 link 头不应该添加 as 属性
+- Updated dependencies [f851fa9]
+- Updated dependencies [7d70738]
+- Updated dependencies [5240e5d]
+- Updated dependencies [a77b82a]
+- Updated dependencies [dcdeea5]
+- Updated dependencies [c8b448b]
+  - @modern-js/server-core@2.34.0
+  - @modern-js/utils@2.34.0
+  - @modern-js/plugin@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

@@ -1,0 +1,14 @@
+@import 'foundation/code', 'foundation/lists';
+@import '~lib1/index.css';
+@import './foundation/index.scss';
+
+$url: './foundation/logo.svg';
+$border-dark: rgba($base-color, 0.88);
+
+.url-variable {
+  background: url($url);
+}
+
+.alert {
+  border: 1px solid $border-dark;
+}

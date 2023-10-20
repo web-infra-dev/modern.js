@@ -17,6 +17,7 @@ export async function runCreteCommand(
   const debug =
     process.env.DEBUG === 'true' || process.env.CUSTOM_DEBUG === 'true';
   const packages = process.env.PACKAGES;
+  const distTag = process.env.CUSTOM_DIST_TAG || 'next';
   const packageManager = getPackageManager(projectName);
   if (isLocal) {
     return execaWithStreamLog(
@@ -31,7 +32,7 @@ export async function runCreteCommand(
           packageManager,
         }),
         '--dist-tag',
-        'next',
+        distTag,
         debug ? '--debug' : '',
         platform ? '--platform' : '',
         plugin ? '--plugin' : '',
@@ -54,7 +55,7 @@ export async function runCreteCommand(
       '@modern-js/create@next',
       projectName,
       '--dist-tag',
-      'next',
+      distTag,
       '--config',
       JSON.stringify({
         packageName: projectName,

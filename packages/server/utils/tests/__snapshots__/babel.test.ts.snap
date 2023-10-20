@@ -14,36 +14,18 @@ exports[`babel resolveBabelConfig 1`] = `
     [
       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
       {
-        "legacy": true,
+        "version": "legacy",
       },
     ],
+    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
+    "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
     [
-      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-transform-runtime/lib/index.js",
-      {
-        "corejs": false,
-        "helpers": false,
-        "regenerator": true,
-        "useESModules": false,
-        "version": "7.21.5",
-      },
-    ],
-    [
-      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-export-default-from/index.js",
-    ],
-    [
-      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-pipeline-operator/index.js",
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-pipeline-operator/lib/index.js",
       {
         "proposal": "minimal",
       },
     ],
-    [
-      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/@babel/plugin-proposal-partial-application/index.js",
-    ],
-    [
-      "<WORKSPACE>/packages/cli/babel-preset-base/compiled/babel-plugin-styled-components/index.js",
-      {},
-      "styled-components",
-    ],
+    "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-dynamic-import-node/lib/index.js",
     [
       "<WORKSPACE>/packages/server/babel-plugin-module-resolver/src/index.js",
       {
@@ -65,37 +47,20 @@ exports[`babel resolveBabelConfig 1`] = `
         "root": "<ROOT>/tests/fixtures/",
       },
     ],
-    [
-      "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-typescript-metadata/lib/plugin.js",
-    ],
-    [
-      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-class-properties/lib/index.js",
-      {
-        "loose": true,
-      },
-    ],
+    "<WORKSPACE>/node_modules/<PNPM_INNER>/babel-plugin-transform-typescript-metadata/lib/plugin.js",
   ],
   "presets": [
     [
       "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-env/lib/index.js",
       {
-        "bugfixes": true,
+        "exclude": [
+          "transform-typeof-symbol",
+        ],
         "loose": true,
         "modules": "commonjs",
-        "shippedProposals": false,
         "targets": [
-          "chrome >= 61",
-          "edge >= 16",
-          "firefox >= 60",
-          "safari >= 11",
-          "ios_saf >= 11",
+          "node >= 14",
         ],
-      },
-    ],
-    [
-      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
-      {
-        "runtime": "automatic",
       },
     ],
     [
@@ -106,6 +71,12 @@ exports[`babel resolveBabelConfig 1`] = `
         "allowNamespaces": true,
         "isTSX": true,
         "optimizeConstEnums": true,
+      },
+    ],
+    [
+      "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/preset-react/lib/index.js",
+      {
+        "runtime": "automatic",
       },
     ],
   ],

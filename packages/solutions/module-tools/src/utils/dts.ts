@@ -1,37 +1,66 @@
-import path from 'path';
-import { chalk, fs, globby, logger, nanoid } from '@modern-js/utils';
+import { join, dirname, isAbsolute, relative, resolve, basename } from 'path';
+import {
+  chalk,
+  fs,
+  globby,
+  json5,
+  logger,
+  nanoid,
+  slash,
+} from '@modern-js/utils';
+import MagicString from 'magic-string';
 import type {
   ITsconfig,
-  BundlelessGeneratorDtsConfig,
+  GeneratorDtsConfig,
   BuildType,
   TsTarget,
 } from '../types';
 
-export const generatorTsConfig = async (
-  config: BundlelessGeneratorDtsConfig,
-) => {
+export const getProjectTsconfig = async (
+  tsconfigPath: string,
+): Promise<ITsconfig> => {
+  if (!fs.existsSync(tsconfigPath)) {
+    return {};
+  }
+
+  return json5.parse(fs.readFileSync(tsconfigPath, 'utf-8'));
+};
+
+export const generateDtsInfo = async (config: GeneratorDtsConfig) => {
+  const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
+
+  const userTsconfig = await getProjectTsconfig(tsconfigPath);
   const { dtsTempDirectory } = await import('../constants/dts');
 
-  const { appDirectory, sourceDir: absSourceDir, tsconfigPath } = config;
-  const tempDistAbsRootPath = path.join(
+  const tempDistAbsRootPath = join(
     appDirectory,
     `${dtsTempDirectory}/${nanoid()}`,
   );
-  const tempDistAbsOurDir = path.join(
+  const tempDistAbsOurDir = join(
     tempDistAbsRootPath,
-    path.relative(appDirectory, absSourceDir),
+    relative(appDirectory, absSourceDir),
   );
 
-  const tempTsconfigPath = path.join(
-    tempDistAbsRootPath,
-    path.basename(tsconfigPath),
-  );
+  const tempTsconfigPath = join(tempDistAbsRootPath, basename(tsconfigPath));
   fs.ensureFileSync(tempTsconfigPath);
 
-  const extendsPath = path.join(
-    path.relative(path.dirname(tempTsconfigPath), path.dirname(tsconfigPath)),
-    path.basename(tempTsconfigPath),
+  const extendsPath = join(
+    relative(dirname(tempTsconfigPath), dirname(tsconfigPath)),
+    basename(tempTsconfigPath),
   );
+  const references = userTsconfig?.references?.map(reference => {
+    const { path } = reference;
+    if (path) {
+      const userTsconfigDir = dirname(tsconfigPath);
+      const generatedTsconfigDir = dirname(tempTsconfigPath);
+      return {
+        path: isAbsolute(path)
+          ? path
+          : relative(generatedTsconfigDir, resolve(userTsconfigDir, path)),
+      };
+    }
+    return reference;
+  });
 
   const resetConfig: ITsconfig = {
     extends: extendsPath,
@@ -46,11 +75,13 @@ export const generatorTsConfig = async (
       // we only want to emit declarations
       declarationDir: tempDistAbsOurDir,
     },
+    references,
   };
 
   fs.writeJSONSync(tempTsconfigPath, resetConfig);
 
   return {
+    userTsconfig,
     tempTsconfigPath,
     tempDistAbsRootPath,
     tempDistAbsSrcPath: tempDistAbsOurDir,
@@ -63,7 +94,7 @@ export const getTscBinPath = async (appDirectory: string) => {
   );
   const tscBinFile = await findUp(
     async (directory: string) => {
-      const targetFilePath = path.join(directory, './node_modules/.bin/tsc');
+      const targetFilePath = join(directory, './node_modules/.bin/tsc');
       const hasTscBinFile = await pathExists(targetFilePath);
       if (hasTscBinFile) {
         return targetFilePath;
@@ -83,7 +114,7 @@ export const getTscBinPath = async (appDirectory: string) => {
 };
 
 export const resolveAlias = async (
-  config: BundlelessGeneratorDtsConfig,
+  config: GeneratorDtsConfig,
   options: {
     userTsconfig: ITsconfig;
     tempTsconfigPath: string;
@@ -93,9 +124,8 @@ export const resolveAlias = async (
   watchFilenames: string[] = [],
 ) => {
   const { userTsconfig, tempDistAbsSrcPath, tempDistAbsRootPath } = options;
-  const { transformDtsAlias } = await import('./tspathsTransform');
-  const { distAbsPath } = config;
-  const dtsDistPath = `${tempDistAbsSrcPath}/**/*.d.ts`;
+  const { transformDtsAlias } = await import('./tspath');
+  const dtsDistPath = `${slash(tempDistAbsSrcPath)}/**/*.d.ts`;
   const dtsFilenames =
     watchFilenames.length > 0
       ? watchFilenames
@@ -105,60 +135,46 @@ export const resolveAlias = async (
     baseUrl: tempDistAbsRootPath,
     paths: userTsconfig.compilerOptions?.paths ?? {},
   });
+  return result;
+};
+
+export const writeDtsFiles = async (
+  config: GeneratorDtsConfig,
+  options: {
+    userTsconfig: ITsconfig;
+    tempTsconfigPath: string;
+    tempDistAbsRootPath: string;
+    tempDistAbsSrcPath: string;
+  },
+  result: { path: string; content: string }[],
+) => {
+  const { distPath } = config;
+  const { tempDistAbsSrcPath } = options;
+
   for (const r of result) {
     fs.writeFileSync(r.path, r.content);
   }
 
   // why use `ensureDir` before copy? look this: https://github.com/jprichardson/node-fs-extra/issues/957
-  await fs.ensureDir(distAbsPath);
-  await fs.copy(tempDistAbsSrcPath, distAbsPath);
+  await fs.ensureDir(distPath);
+  await fs.copy(tempDistAbsSrcPath, distPath);
 };
 
-// export const matchesPattern = (calleePath: NodePath, pattern: string) => {
-//   const { node } = calleePath;
-
-//   if (t.isMemberExpression(node)) {
-//     return calleePath.matchesPattern(pattern);
-//   }
-
-//   if (!t.isIdentifier(node) || pattern.includes('.')) {
-//     return false;
-//   }
-
-//   const name = pattern.split('.')[0];
-
-//   return node.name === name;
-// };
-
-// export const isImportCall = (calleePath: NodePath<tt.CallExpression>) => {
-//   return t.isImport(calleePath.node.callee);
-// };
-
-// export const verifyTsConfigPaths = async (
-//   tsconfigAbsPath: string,
-//   userAliases?: AliasOption,
-// ) => {
-//   const { readTsConfigByFile, chalk } = await import('@modern-js/utils');
-//   if (!userAliases) {
-//     return;
-//   }
-
-//   const paths = Object.keys(
-//     readTsConfigByFile(tsconfigAbsPath).compilerOptions?.paths || {},
-//   ).map(key => key.replace(/\/\*$/, ''));
-
-//   Object.keys(userAliases).forEach(name => {
-//     if (paths.includes(name)) {
-//       throw new Error(
-//         chalk.red(
-//           `It looks like you have configured the alias ${chalk.bold(
-//             name,
-//           )} in both the modern.config file and tsconfig.json.\n Please remove the configuration in modern.config file and just keep the configuration in tsconfig.json.`,
-//         ),
-//       );
-//     }
-//   });
-// };
+export const addBannerAndFooter = (
+  result: { path: string; content: string }[],
+  banner?: string,
+  footer?: string,
+) => {
+  return result.map(({ path, content }) => {
+    const ms = new MagicString(content);
+    banner && ms.prepend(`${banner}\n`);
+    footer && ms.append(`\n${footer}\n`);
+    return {
+      path,
+      content: ms.toString(),
+    };
+  });
+};
 
 export const printOrThrowDtsErrors = async (
   error: unknown,

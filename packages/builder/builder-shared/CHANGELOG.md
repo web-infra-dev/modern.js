@@ -1,5 +1,155 @@
 # @modern-js/builder-shared
 
+## 2.37.1
+
+### Patch Changes
+
+- @modern-js/prod-server@2.37.1
+- @modern-js/server@2.37.1
+- @modern-js/types@2.37.1
+- @modern-js/utils@2.37.1
+
+## 2.37.0
+
+### Patch Changes
+
+- Updated dependencies [383b636]
+- Updated dependencies [ce0a14e]
+- Updated dependencies [708f248]
+  - @modern-js/server@2.37.0
+  - @modern-js/utils@2.37.0
+  - @modern-js/prod-server@2.37.0
+  - @modern-js/types@2.37.0
+
+## 2.36.0
+
+### Patch Changes
+
+- bc25bcb: chore(builder): use rspack.xxxPlugin instead of builtins configuration
+
+  chore(builder): 使用 rspack.xxxPlugin 代替 builtins configuration
+
+- c1b0d18: fix(app-tools): align resolve.modules config in rspack mode
+
+  fix(app-tools): 对齐 rspack 模式下的 resolve.modules 配置
+
+- 2675812: feat(builder): improve time logs format
+
+  feat(builder): 优化时间日志的格式
+
+- 9d37401: fix(builder): mismatched directory name containing node_modules
+
+  fix(builder): 错误匹配了包含 node_modules 的目录
+
+- eb602d2: chore(builder): bump webpack-dev-middleware v6.1.1 and move to builder-shared
+
+  chore(builder): 升级 webpack-dev-middleware v6.1.1 并移动到 builder-shared
+
+- Updated dependencies [3473bee]
+- Updated dependencies [b98f8aa]
+- Updated dependencies [3dcad90]
+- Updated dependencies [eb602d2]
+  - @modern-js/utils@2.36.0
+  - @modern-js/prod-server@2.36.0
+  - @modern-js/server@2.36.0
+  - @modern-js/types@2.36.0
+
+## 2.35.1
+
+### Patch Changes
+
+- ce24aad: feat: bump postcss-nesting v12 to support latest CSS nesting syntax
+
+  feat: 升级 postcss-nesting v12，支持最新的 CSS nesting 语法
+
+- de9cdee: fix(builder): remove extra quote from generated CSS module types
+
+  fix(builder): 移除生成的 CSS module 类型中多余的引号
+
+- 0988b12: chore(builder): move duplicated prebundle packages to shared
+
+  chore(builder): 合并重复的预打包 packages 到 shared
+
+- fe8caeb: feat(builder): unify progress bar style in webpack / Rspack mode
+
+  feat(builder): 对齐 webpack / Rspack 模式下的进度条样式
+
+- Updated dependencies [ea3fe18]
+- Updated dependencies [bb97082]
+- Updated dependencies [9dd3151]
+- Updated dependencies [0db5680]
+- Updated dependencies [411cea2]
+- Updated dependencies [4980480]
+- Updated dependencies [6a1d46e]
+  - @modern-js/utils@2.35.1
+  - @modern-js/prod-server@2.35.1
+  - @modern-js/server@2.35.1
+  - @modern-js/types@2.35.1
+
+## 2.35.0
+
+### Patch Changes
+
+- 225f065: fix(builder): assetsRetry should work when htmlPlugin.inject false
+
+  fix(builder): 在设置 htmlPlugin.inject false 时，assetsRetry 可生效
+
+- 0300daf: feat(builder): allow to use more optimization options in bundlerChain
+
+  feat(builder): 支持在 bundlerChain 中使用更多 optimization 选项
+
+- f509548: fix(builder): incorrect devMiddleware schema
+
+  fix(builder): 修复 devMiddleware 的 schema 错误
+
+- 28128ca: refactor(builder): migrate to tsconfig-paths-webpack-plugin
+
+  refactor(builder): 迁移至 tsconfig-paths-webpack-plugin
+
+- 4027a6a: feat(builder): apply css-minimizer-webpack-plugin when use rspack
+
+  feat(builder): 在 Rspack 构建时，使用 css-minimizer-webpack-plugin 进行 css 压缩
+
+- 3d93e81: chore(builder): bump webpack-bundle-analyzer to v4.9.1
+
+  chore(builder): 升级 webpack-bundle-analyzer 至 v4.9.1
+
+- Updated dependencies [15b834f]
+  - @modern-js/utils@2.35.0
+  - @modern-js/prod-server@2.35.0
+  - @modern-js/server@2.35.0
+  - @modern-js/types@2.35.0
+
+## 2.34.0
+
+### Patch Changes
+
+- 09b176a: hotfix(builder): revert postcss-modules-local-by-default version to avoid 'Missed semicolon' bug
+
+  hotfix(builder): 将 postcss-modules-local-by-default 版本降级回 4.0.0 来避免 'Missed semicolon' 问题
+
+- c8b448b: feat(builder): support inline assets by file size
+
+  feat(builder): 支持基于文件体积来内联资源
+
+- c9626e7: feat(builder): improve the logs of checkSyntax, add code frame
+
+  feat(builder): 优化 checkSyntax 的日志, 增加 code frame
+
+- e538169: feat(builder): add code pointer for check syntax results
+
+  feat(builder): 增加 check syntax 结果的指针提示
+
+- Updated dependencies [f851fa9]
+- Updated dependencies [7d70738]
+- Updated dependencies [5240e5d]
+- Updated dependencies [a77b82a]
+- Updated dependencies [c8b448b]
+  - @modern-js/prod-server@2.34.0
+  - @modern-js/utils@2.34.0
+  - @modern-js/server@2.34.0
+  - @modern-js/types@2.34.0
+
 ## 2.33.1
 
 ### Patch Changes

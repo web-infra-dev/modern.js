@@ -4,14 +4,14 @@ sidebar_position: 4
 
 # plugins
 
-This chapter describes the configuration of the registered Module Tools plugin.
+This chapter describes the configuration of the registered Modern.js Module plugin.
 
 - **Type**: `ModuleToolsPlugin[]`
 - **Default**: `undefined`
 
 ## Plugin Execution Order
 
-By default, custom plugins are executed in the order specified in the `plugins` array. The execution of built-in plugins provided by Module Tools happens before the execution of custom plugins.
+By default, custom plugins are executed in the order specified in the `plugins` array. The execution of built-in plugins provided by Modern.js Module happens before the execution of custom plugins.
 
 When plugins use fields that control the execution order, such as `pre` and `post`, the execution order is adjusted based on the declared fields. For more information, please refer to the [Relationship Between Plugins](https://modernjs.dev/en/guides/topic-detail/framework-plugin/relationship) guide.
 

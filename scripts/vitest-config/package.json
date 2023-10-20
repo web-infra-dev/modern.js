@@ -1,14 +1,14 @@
 {
   "name": "@scripts/vitest-config",
   "private": true,
-  "version": "2.33.1",
+  "version": "2.37.1",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
     "test": "vitest run",
-    "test:watch": "vitest dev --no-coverage"
+    "test:watch": "vitest dev"
   },
   "dependencies": {
     "@modern-js/tsconfig": "workspace:*",

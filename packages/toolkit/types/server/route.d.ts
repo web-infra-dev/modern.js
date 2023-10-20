@@ -3,7 +3,7 @@ export interface ServerRoute {
   entryName?: string;
   // the url path for request match
   urlPath: string;
-  // the default resource file to response to route
+  // the default asset to response to route
   entryPath: string;
   // if route is spa page
   isSPA?: boolean;

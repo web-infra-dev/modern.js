@@ -91,7 +91,7 @@ async function splitByExperience(
   const experienceCacheGroup: CacheGroup = {};
 
   const packageRegExps: Record<string, RegExp> = {
-    react: createDependenciesRegExp('react', 'react-dom'),
+    react: createDependenciesRegExp('react', 'react-dom', 'scheduler'),
     router: createDependenciesRegExp(
       'react-router',
       'react-router-dom',
@@ -117,6 +117,7 @@ async function splitByExperience(
   }
   if (polyfill === 'entry' || polyfill === 'usage') {
     packageRegExps.polyfill = createDependenciesRegExp(
+      'tslib',
       'core-js',
       '@babel/runtime',
       '@swc/helpers',

@@ -1,5 +1,29 @@
 # @modern-js/monorepo-generator
 
+## 3.2.5
+
+## 3.2.4
+
+## 3.2.3
+
+## 3.2.2
+
+## 3.2.1
+
+### Patch Changes
+
+- c570731: chore(generator): remove outdated vscode configs
+
+  chore(generator): 移除过时的 vscode 配置
+
+## 3.2.0
+
+### Patch Changes
+
+- acb82ef: chore(generator): simplify the default lint-staged config
+
+  chore(generator): 简化默认的 lint-staged 配置
+
 ## 3.1.39
 
 ## 3.1.38

@@ -12,6 +12,8 @@ export const FILE_SYSTEM_ROUTES_FILE_NAME = 'routes.js';
 
 export const LOADER_EXPORT_NAME = 'loader';
 
+export const ACTION_EXPORT_NAME = 'action';
+
 export const TEMP_LOADERS_DIR = '__loaders__';
 
 export const ENTRY_POINT_FILE_NAME = 'index.jsx';
@@ -47,6 +49,7 @@ export const NESTED_ROUTE = {
   PAGE_DATA_FILE: 'page.data',
   PAGE_CLIENT_LOADER: 'page.data.client',
   SPLATE_FILE: '$',
+  SPLATE_CONFIG_FILE: '$.config',
   SPLATE_LOADER_FILE: '$.loader',
   SPLATE_DATA_FILE: '$.data',
   SPLATE_CLIENT_DATA: '$.data.client',

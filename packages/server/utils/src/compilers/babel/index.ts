@@ -2,7 +2,7 @@ import * as path from 'path';
 import { fs, json5, getAliasConfig } from '@modern-js/utils';
 import { compiler } from '@modern-js/babel-compiler';
 import { CompileFunc, FILE_EXTENSIONS } from '../../common';
-import { getBabelChain, applyUserBabelConfig } from './preset';
+import { getBabelConfig, applyUserBabelConfig } from './preset';
 
 export * from '@babel/core';
 
@@ -41,8 +41,6 @@ export const existTsConfigFile = (tsconfigAbsolutePath: string) => {
 };
 
 export interface IPackageModeValue {
-  type: 'module' | 'commonjs';
-  syntax: 'es5' | 'es6+';
   tsconfigPath: string;
 }
 
@@ -59,53 +57,12 @@ export const resolveBabelConfig = (
   });
 
   // babel config
-  const babelChain = getBabelChain(
-    {
-      appDirectory,
-      enableReactPreset: true,
-      enableTypescriptPreset: true,
-      alias: aliasConfig,
-    },
-    {
-      type: option.type,
-      syntax: option.syntax,
-    },
-  );
+  const defaultBabelConfig = getBabelConfig({
+    appDirectory,
+    alias: aliasConfig,
+  });
 
-  const envOptions = babelChain.preset('@babel/preset-env').options();
-  babelChain
-    .preset('@babel/preset-env')
-    .use(require.resolve('@babel/preset-env'), [
-      {
-        ...envOptions[0],
-        loose: true,
-      },
-    ]);
-
-  babelChain.plugin('babel-plugin-transform-typescript-metadata').use(
-    require.resolve('babel-plugin-transform-typescript-metadata'),
-
-    [],
-  );
-
-  babelChain
-    .plugin('@babel/plugin-proposal-decorators')
-    .use(require.resolve('@babel/plugin-proposal-decorators'), [
-      { legacy: true },
-    ]);
-
-  // resolve "Definitely assigned fields cannot be initialized here, but only in the constructor."
-  babelChain
-    .plugin('@babel/plugin-proposal-class-properties')
-    .use(require.resolve('@babel/plugin-proposal-class-properties'), [
-      {
-        loose: true,
-      },
-    ]);
-
-  const internalBabelConfig = { ...babelChain.toJSON() };
-
-  return applyUserBabelConfig(internalBabelConfig, babelConfig);
+  return applyUserBabelConfig(defaultBabelConfig, babelConfig);
 };
 
 export const compileByBabel: CompileFunc = async (
@@ -118,8 +75,6 @@ export const compileByBabel: CompileFunc = async (
     sourceDirs.map(async sourceDir => {
       const babelConfig = resolveBabelConfig(appDirectory, config, {
         tsconfigPath: tsconfigPath ? tsconfigPath : '',
-        syntax: 'es6+',
-        type: 'commonjs',
       });
       if (await fs.pathExists(sourceDir)) {
         const basename = path.basename(sourceDir);

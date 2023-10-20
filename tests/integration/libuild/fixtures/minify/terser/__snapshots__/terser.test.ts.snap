@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`fixture:minify when \`minify\` is \`terser\` 1`] = `"console.log((()=>{}));"`;

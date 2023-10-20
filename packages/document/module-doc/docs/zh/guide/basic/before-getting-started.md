@@ -6,7 +6,7 @@ sidebar_position: 1
 
 ## 环境准备
 
-为了使用 Modern.js 模块工程解决方案，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac / Linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
+为了使用 Modern.js Module，首先需要 [NodeJS](https://nodejs.org/zh/)，我们推荐最新的[长期维护版本](https://github.com/nodejs/Release)，并确保 Node 版本大于等于 **14.18.0**。因为非稳定的 NodeJS 时常有一些 Bug，你可以使用 [nvm-windows](https://github.com/coreybutler/nvm-windows) 和 [nvm](https://github.com/nvm-sh/nvm)（Mac / Linux）安装，这样你就可以方便地切换到不同的 NodeJS 版本，这些版本可能会用于不同的项目。
 
 ## 初识 npm
 
@@ -160,9 +160,9 @@ npm Registry 是一个 [npm 包存储的地方](https://docs.npmjs.com/about-the
 npm install -g pnpm
 ```
 
-## Module Tools 配置文件
+## Modern.js Module 配置文件
 
-通过`@modern-js/create`创建的模块工程项目目录下提供了 Module Tools 的配置文件 —— `modern.config.(j|t)s`。但 `modern.config` 配置文件不是必须存在的。
+通过 `@modern-js/create` 创建的项目目录下提供了 Modern.js Module 的配置文件 —— `modern.config.(j|t)s`。但 `modern.config` 配置文件不是必须存在的。
 
 默认情况下，生成的配置文件的内容如下：
 
