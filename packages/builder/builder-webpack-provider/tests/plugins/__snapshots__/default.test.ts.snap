@@ -2149,6 +2149,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "compact": true,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                  {
+                    "version": "legacy",
+                  },
+                ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -2254,6 +2260,12 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when targe
               "compact": true,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                  {
+                    "version": "legacy",
+                  },
+                ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [

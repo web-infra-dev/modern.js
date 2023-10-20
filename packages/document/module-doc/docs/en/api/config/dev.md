@@ -18,6 +18,10 @@ export default {
 
 ## storybook
 
+:::warning
+Deprecated: This configuration is deprecated and only applicable to Storybook V6. For configuring the new Storybook, please refer to [Using Storybook](https://modernjs.dev/builder/guide/advanced/storybook.html).
+:::
+
 **Requirements**:
 
 - Turn on Storybook debugging or install the `@modern-js/plugin-storybook` plugin.

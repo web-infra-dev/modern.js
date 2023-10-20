@@ -30,10 +30,11 @@ When you want to start a project build, you can execute the `modern build` comma
 - The `-no-dts` option can be used when the DTS type file generation and type checking behavior of the project needs to be turned off. **Note: The generation of type files depends on the results of type checking. If type checking is turned off, then type files will not be generated either**.
 - The `--no-clear` option can be used when the automatic clearing of the output directory needs to be turned off.
 
-In addition to the above, Modern.js Module also support `platform` build mode, which can be used to perform build tasks for other tools. For example, it is currently officially supported to start a Storybook build task to generate Storybook artifacts by executing the `modern build --platform` or `modern build --platform storybook` commands after installing the `@modern-js/plugin-storybook` plugin.
+In addition to the above, Modern.js Module also support `platform` build mode, which can be used to perform build tasks for other tools. For example if you are using legacy storybook plugin, it is currently officially supported to start a Storybook build task to generate Storybook artifacts by executing the `modern build --platform` or `modern build --platform storybook` commands after installing the `@modern-js/plugin-storybook` plugin.
 
 :::tip
 When executing a Storybook build, if you need to read the build artifacts of the project. Then **don't forget to execute the `modern build` command to ensure the existence of the project's build artifacts before executing the `modern build --platform` command to start the Storybook build**.
+If you are using new storybook ability, it should be built by `storybook build`.
 :::
 
 ## `modern new`

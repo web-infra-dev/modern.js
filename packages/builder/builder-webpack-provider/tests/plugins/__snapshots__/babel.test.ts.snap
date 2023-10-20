@@ -212,6 +212,12 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
               "compact": false,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                  {
+                    "version": "legacy",
+                  },
+                ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [
@@ -278,6 +284,12 @@ exports[`plugins/babel > should adjust browserslist when target is node 1`] = `
               "compact": false,
               "configFile": false,
               "plugins": [
+                [
+                  "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-decorators/lib/index.js",
+                  {
+                    "version": "legacy",
+                  },
+                ],
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-export-default-from/lib/index.js",
                 "<WORKSPACE>/node_modules/<PNPM_INNER>/@babel/plugin-proposal-partial-application/lib/index.js",
                 [

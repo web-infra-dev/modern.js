@@ -75,19 +75,23 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             },
           };
 
+          const decoratorConfig = {
+            version: config.output.enableLatestDecorators
+              ? '2018-09'
+              : 'legacy',
+          } as const;
+
           const baseBabelConfig =
             isServer || isServiceWorker
-              ? getBabelConfigForNode()
+              ? getBabelConfigForNode({
+                  pluginDecorators: decoratorConfig,
+                })
               : getBabelConfigForWeb({
                   presetEnv: {
                     targets: browserslist,
                     useBuiltIns: getUseBuiltIns(config),
                   },
-                  pluginDecorators: {
-                    version: config.output.enableLatestDecorators
-                      ? '2018-09'
-                      : 'legacy',
-                  },
+                  pluginDecorators: decoratorConfig,
                 });
 
           applyPluginImport(baseBabelConfig, config.source.transformImport);

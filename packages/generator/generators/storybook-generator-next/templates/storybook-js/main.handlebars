@@ -1,0 +1,14 @@
+import path from 'path';
+
+const config = {
+  stories: ['../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-essentials'],
+  framework: {
+    name: '@modern-js/storybook',
+    options: {
+      bundler: 'webpack',
+    },
+  },
+};
+
+export default config;

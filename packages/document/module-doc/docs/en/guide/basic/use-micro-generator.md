@@ -34,26 +34,11 @@ export default defineConfig({
 
 ## Storybook
 
-The **Storybook feature** can be enabled when we want to debug a component or a common module. When this feature is enabled, **the `stories` directory and related files are created in the project directory, and a new `"@modern-js/plugin-storybook"` dependency is added to package.json**.
-
-:::tip
-After successfully enabling it, you will be prompted to manually add a code similar to the one below to the configuration.
-
-```ts
-import { moduleTools, defineConfig } from '@modern-js/module-tools';
-import { storybookPlugin } from '@modern-js/plugin-storybook';
-
-export default defineConfig({
-  plugins: [moduleTools(), storybookPlugin()],
-});
-```
-
-:::
+The **Storybook feature** can be enabled when we want to debug a component or a common module. When this feature is enabled, **the `stories` directory and related files are created in the project directory, and a new `"@modern-js/storybook"` dependency is added to package.json**.
 
 For more information on how to start Storybook and how to use it, check out the following link.
 
-- [`modern dev`](/en/guide/basic/command-preview#modern-dev)
-- [`using Storybook`](/en/guide/basic/using-storybook)
+- [`using Storybook`](https://modernjs.dev/builder/guide/advanced/storybook.html)
 
 ## Tailwind CSS Support
 

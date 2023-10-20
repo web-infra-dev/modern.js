@@ -103,6 +103,8 @@ export const CHAIN_ID = {
     SVGO: 'svgo',
     /** builder-plugin-imagex */
     IMAGEX: 'imagex',
+    /** storybook-react-docgen */
+    REACT_DOCGEN: 'react-docgen',
   },
   /** Predefined plugins */
   PLUGIN: {

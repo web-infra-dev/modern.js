@@ -39,7 +39,7 @@
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
-    "@modern-js/codesmith": "2.2.5",
+    "@modern-js/codesmith": "2.3.0",
     "@modern-js/plugin-i18n": "workspace:*",
     "@modern-js/utils": "workspace:*",
     "@swc/helpers": "0.5.1"

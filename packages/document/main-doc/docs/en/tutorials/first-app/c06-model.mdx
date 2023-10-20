@@ -212,7 +212,7 @@ export const loader = async (): Promise<LoaderData> => {
     const firstName = name.firstName();
     return {
       name: firstName,
-      avatar: `https://avatars.dicebear.com/api/identicon/${firstName}.svg`,
+      avatar: `https://api.dicebear.com/7.x/pixel-art/svg?seed=${firstName}`,
       email: internet.email(),
       archived: false,
     };

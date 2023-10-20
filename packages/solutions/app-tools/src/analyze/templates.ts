@@ -342,19 +342,19 @@ export const fileSystemRoutes = async ({
       if (route._component) {
         if (splitRouteChunks) {
           if (route.isRoot) {
-            lazyImport = `async function(){const routeModule = await import('${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
+            lazyImport = `() => import('${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
             rootLayoutCode = `import RootLayout from '${route._component}'`;
             component = `RootLayout`;
           } else if (ssrMode === 'string') {
-            lazyImport = `async function(){const routeModule = await import(/* webpackChunkName: "${route.id}" */  '${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
+            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
             component = `loadable(${lazyImport})`;
           } else {
             // csr and streaming
-            lazyImport = `async function(){const routeModule = await import(/* webpackChunkName: "${route.id}" */  '${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
+            lazyImport = `() => import(/* webpackChunkName: "${route.id}" */  '${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
             component = `lazy(${lazyImport})`;
           }
         } else {
-          lazyImport = `async function(){const routeModule = await import(/* webpackMode: "eager" */ '${route._component}'); if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule;return routeModule;}`;
+          lazyImport = `() => import(/* webpackMode: "eager" */  '${route._component}').then(routeModule => {if(typeof document !== "undefined") window.${ROUTE_MODULES}["${route.id}"] = routeModule; return routeModule; }) `;
           if (ssrMode === 'string') {
             component = `loadable(${lazyImport})`;
           } else {

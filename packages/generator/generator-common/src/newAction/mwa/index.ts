@@ -30,6 +30,7 @@ export const MWAActionFunctions = [
   ActionFunction.Polyfill,
   ActionFunction.Proxy,
   ActionFunction.Storybook,
+  ActionFunction.StorybookV7,
 ];
 
 export const MWAActionElements = [ActionElement.Entry, ActionElement.Server];
@@ -132,6 +133,7 @@ export const MWAActionFunctionsDevDependencies: Partial<
   [ActionFunction.SSG]: '@modern-js/plugin-ssg',
   [ActionFunction.Test]: '@modern-js/plugin-testing',
   [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+  [ActionFunction.StorybookV7]: '@modern-js/storybook',
   [ActionFunction.Proxy]: '@modern-js/plugin-proxy',
   [ActionFunction.TailwindCSS]: 'tailwindcss',
   [ActionFunction.SWC]: '@modern-js/plugin-swc',
@@ -180,6 +182,7 @@ export const MWANewActionGenerators: Record<
     [ActionFunction.MicroFrontend]: '@modern-js/dependence-generator',
     [ActionFunction.Test]: '@modern-js/test-generator',
     [ActionFunction.Storybook]: '@modern-js/dependence-generator',
+    [ActionFunction.StorybookV7]: '@modern-js/storybook-generator-next',
     [ActionFunction.SSG]: '@modern-js/ssg-generator',
     [ActionFunction.Polyfill]: '@modern-js/dependence-generator',
     [ActionFunction.Proxy]: '@modern-js/dependence-generator',
@@ -227,6 +230,7 @@ export const MWANewActionPluginDependence: Record<
     [ActionFunction.MicroFrontend]: '@modern-js/plugin-garfish',
     [ActionFunction.Test]: '@modern-js/plugin-testing',
     [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+    [ActionFunction.StorybookV7]: '@modern-js/storybook',
     [ActionFunction.SSG]: '@modern-js/plugin-ssg',
     [ActionFunction.Polyfill]: '@modern-js/plugin-polyfill',
     [ActionFunction.Proxy]: '@modern-js/plugin-proxy',

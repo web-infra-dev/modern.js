@@ -20,7 +20,7 @@
     "@modern-js/doc-plugin-auto-sidebar": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rspress": "1.0.2",
-    "@rspress/shared": "1.0.2"
+    "rspress": "1.1.3",
+    "@rspress/shared": "1.1.3"
   }
 }

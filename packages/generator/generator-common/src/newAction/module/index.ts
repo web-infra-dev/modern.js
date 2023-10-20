@@ -91,6 +91,7 @@ export const ModuleNewActionGenerators: Partial<
     [ActionFunction.Test]: '@modern-js/module-test-generator',
     [ActionFunction.TailwindCSS]: '@modern-js/tailwindcss-generator',
     [ActionFunction.Storybook]: '@modern-js/storybook-generator',
+    [ActionFunction.StorybookV7]: '@modern-js/storybook-generator-next',
     [ActionFunction.RuntimeApi]: '@modern-js/dependence-generator',
   },
 };
@@ -101,6 +102,7 @@ export const ModuleNewActionPluginName: Partial<
   [ActionType.Function]: {
     [ActionFunction.TailwindCSS]: 'tailwindcssPlugin',
     [ActionFunction.Storybook]: 'storybookPlugin',
+    [ActionFunction.StorybookV7]: 'storybookFramework',
     [ActionFunction.Test]: 'testPlugin',
   },
 };
@@ -112,5 +114,6 @@ export const ModuleNewActionPluginDependence: Partial<
     [ActionFunction.Test]: '@modern-js/plugin-testing',
     [ActionFunction.TailwindCSS]: '@modern-js/plugin-tailwindcss',
     [ActionFunction.Storybook]: '@modern-js/plugin-storybook',
+    [ActionFunction.StorybookV7]: '@modern-js/storybook',
   },
 };

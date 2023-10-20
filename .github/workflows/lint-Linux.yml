@@ -19,24 +19,23 @@ on:
 jobs:
   lint-linux:
     # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node-version: [18.x]
-        os: [ubuntu-latest] # ubuntu-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          # This makes Actions fetch only one branch to release
+            fetch-depth: 1
 
       - name: Install Pnpm
         run: corepack enable
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "18"
           cache: 'pnpm'
 
       - name: Install Dependencies
@@ -47,3 +46,6 @@ jobs:
 
       - name: Lint
         run: pnpm run fast-lint
+
+      - name: Check Changeset
+        run: pnpm run check-changeset

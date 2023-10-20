@@ -25,7 +25,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@master
         with:
-        # This makes Actions fetch only one branch to release
+          # This makes Actions fetch 100 commits to gen release note
           fetch-depth: 100
 
       - name: Install Pnpm

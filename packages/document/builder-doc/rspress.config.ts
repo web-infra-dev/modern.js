@@ -78,6 +78,7 @@ function getSidebar(lang: 'zh' | 'en'): Sidebar {
           getLink('/guide/advanced/browser-compatibility'),
           getLink('/guide/advanced/custom-webpack-config'),
           getLink('/guide/advanced/source-build'),
+          getLink('/guide/advanced/storybook'),
         ],
       },
       {

@@ -190,7 +190,9 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
           ? args.path
           : getResultPath(originalFilePath, dir, args.kind);
         if (resultPath === false) {
-          debugResolve('empty resolve:', args);
+          // https://github.com/defunctzombie/package-browser-field-spec
+          // we may get false when resolve browser field, in this case, we set it a empty object
+          debugResolve('resolve false:', args);
           return {
             path: '/empty-stub',
             sideEffects: false,
@@ -212,7 +214,7 @@ export const adapterPlugin = (compiler: ICompiler): Plugin => {
         if (args.namespace === globalNamespace) {
           const value = config.umdGlobals[args.path];
           return {
-            contents: `module.exports = (typeof globalThis !== "undefined" ? globalThis : Function('return this')() || global || self)[${JSON.stringify(
+            contents: `module.exports = (typeof globalThis !== "undefined" ? globalThis : (typeof global !== "undefined" ? global : self || Function('return this')()))[${JSON.stringify(
               value,
             )}]`,
           };

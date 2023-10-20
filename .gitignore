@@ -31,8 +31,6 @@ local-test-project/*
 **/*/typings/auto-generated
 .pnpm-store/
 
-.storybook/
-
 **/*/tsconfig.temp.json
 
 .changeset/pre.json

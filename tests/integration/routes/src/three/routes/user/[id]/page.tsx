@@ -9,7 +9,7 @@ export const shouldRevalidate: ShouldRevalidateFunction = ({
 }) => {
   const revalidate = nextUrl.searchParams.get('revalidate');
   const flag = revalidate !== 'false';
-  if (revalidate) {
+  if (typeof revalidate === 'string') {
     return flag;
   }
   return defaultShouldRevalidate;

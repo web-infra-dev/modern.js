@@ -38,7 +38,7 @@ import DebugApp from "@site-docs/components/debug-app"
 const getAvatar = (users: Array<{ name: string; email: string }>) =>
   users.map(user => ({
     ...user,
-    avatar: `https://avatars.dicebear.com/v2/identicon/${user.name}.svg`,
+    avatar: `https://api.dicebear.com/7.x/pixel-art/svg?seed=${user.name}`,
   }));
 
 const mockData = getAvatar([
