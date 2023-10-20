@@ -13,18 +13,14 @@ on:
 jobs:
   integration-test-linux:
     # The type of runner that the job will run on
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node-version: [18.x]
-        os: [ubuntu-latest] # ubuntu-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 25
+          fetch-depth: 1
 
       - name: Install Pnpm
         run: corepack enable
@@ -36,11 +32,10 @@ jobs:
       - name: Log skip CI result
         run: echo "${{steps.skip-ci.outputs.RESULT}}"
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        if: ${{steps.skip-ci.outputs.RESULT != 'true'}}
+      - name: Setup Node.js 18.x
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.x
           cache: 'pnpm'
 
       - name: Nx Cache
