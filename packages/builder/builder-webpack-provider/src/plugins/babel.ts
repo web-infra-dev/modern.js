@@ -102,7 +102,7 @@ export const builderPluginBabel = (): BuilderPlugin => ({
             config.tools.babel,
             {
               ...getBabelUtils(baseBabelConfig),
-              babelUtils,
+              ...babelUtils,
             },
           );
 
