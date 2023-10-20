@@ -42,7 +42,7 @@
     "update-codesmith": "cd ./scripts/update-codesmith && pnpm start",
     "update-rspress": "cd ./scripts/update-rspress && pnpm start",
     "update-rsbuild": "cd ./scripts/update-rsbuild && pnpm start",
-    "update-nx-cache": "NX_DAEMON=false nx reset && npm run prepare-build"
+    "update-nx-cache": "cross-env NX_DAEMON=false nx reset && npm run prepare-build"
   },
   "engines": {
     "node": ">=14.17.6",
