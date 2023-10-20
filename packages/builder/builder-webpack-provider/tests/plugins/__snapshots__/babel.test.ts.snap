@@ -874,6 +874,9 @@ exports[`plugins/babel > should set include/exclude 1`] = `
   "module": {
     "rules": [
       {
+        "exclude": [
+          "src/**/*.js",
+        ],
         "include": [
           {
             "and": [
@@ -883,6 +886,7 @@ exports[`plugins/babel > should set include/exclude 1`] = `
               },
             ],
           },
+          "src/**/*.ts",
         ],
         "test": /\\\\\\.\\(js\\|mjs\\|cjs\\|jsx\\)\\$\\|\\\\\\.\\(ts\\|mts\\|cts\\|tsx\\)\\$/,
         "use": [
