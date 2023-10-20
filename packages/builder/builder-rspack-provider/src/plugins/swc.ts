@@ -37,9 +37,10 @@ export async function getDefaultSwcConfig(
         syntax: 'typescript',
         decorators: true,
       },
+      // TODO: Enabling it will cause performance degradation
       // Avoid the webpack magic comment to be removed
       // https://github.com/swc-project/swc/issues/6403
-      preserveAllComments: true,
+      // preserveAllComments: true,
     },
     isModule: 'unknown',
     minify: false, // for loader, we don't need to minify, we do minification using plugin

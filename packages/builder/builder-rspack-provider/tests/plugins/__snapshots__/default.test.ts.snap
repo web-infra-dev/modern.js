@@ -579,7 +579,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -646,7 +645,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly 1`] = `
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -1413,7 +1411,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -1480,7 +1477,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctly when prod 
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -2810,7 +2806,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -2873,7 +2868,6 @@ exports[`applyDefaultPlugins > should apply default plugins correctyly when targ
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -3591,7 +3585,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
@@ -3658,7 +3651,6 @@ exports[`tools.rspack > should match snapshot 1`] = `
                   "syntax": "typescript",
                   "tsx": true,
                 },
-                "preserveAllComments": true,
                 "transform": {
                   "decoratorMetadata": true,
                   "legacyDecorator": true,
