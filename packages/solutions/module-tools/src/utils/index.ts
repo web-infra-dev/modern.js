@@ -9,3 +9,4 @@ export * from './map';
 export * from './print';
 export * from './style';
 export * from './tspath';
+export * from './outExtension';

@@ -1,3 +1,4 @@
+import path from 'path';
 import {
   BuildResult,
   BuildOptions,
@@ -11,7 +12,7 @@ import {
 } from 'esbuild';
 import * as tapable from 'tapable';
 import { FSWatcher, chalk, logger, fs, lodash } from '@modern-js/utils';
-import { withLogTitle } from '../../utils';
+import { withLogTitle, getDefaultOutExtension } from '../../utils';
 import {
   BaseBuildConfig,
   BuilderHooks,
@@ -138,24 +139,50 @@ export class EsbuildCompiler implements ICompiler {
       tsconfig,
       banner,
       footer,
+      shims,
+      autoExtension,
     } = config;
 
     const bundle = buildType === 'bundle';
     const entryNames = bundle ? '[name]' : '[dir]/[name]';
-    const absWorkingDir = this.context.root;
     let esbuildFormat: Format = format === 'umd' ? 'esm' : format;
     if (bundle && format === 'cjs' && splitting) {
       esbuildFormat = 'esm';
     }
     const esbuildTarget = target === 'es5' ? undefined : target;
     const jsExtensions = ['.jsx', '.tsx', '.js', '.ts', '.json'];
+    const { jsExtension } = getDefaultOutExtension({
+      format,
+      root: this.context.root,
+      autoExtension,
+    });
 
     const buildOptions: BuildOptions = {
+      inject: [
+        format === 'cjs' && shims
+          ? path.join(__dirname, '../../../shims/cjs.js')
+          : '',
+        format === 'esm' && shims && platform === 'node'
+          ? path.join(__dirname, '../../../shims/esm.js')
+          : '',
+      ].filter(Boolean),
+      outExtension: autoExtension
+        ? {
+            '.js': jsExtension,
+          }
+        : undefined,
       banner: lodash.pick(banner, ['js', 'css']),
       footer: lodash.pick(footer, ['js', 'css']),
       entryPoints: input,
       metafile: true,
-      define,
+      define: {
+        ...(format === 'cjs' && shims
+          ? {
+              'import.meta.url': 'importMetaUrl',
+            }
+          : {}),
+        ...define,
+      },
       bundle: buildType === 'bundle',
       format: esbuildFormat,
       target: esbuildTarget,
@@ -164,7 +191,7 @@ export class EsbuildCompiler implements ICompiler {
       splitting,
       charset: 'utf8',
       logLimit: 5,
-      absWorkingDir,
+      absWorkingDir: this.context.root,
       platform,
       tsconfig: fs.existsSync(tsconfig) ? tsconfig : undefined,
       write: false,
