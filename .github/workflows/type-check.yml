@@ -10,9 +10,13 @@ on:
 
 jobs:
   type-check:
-    runs-on: ubuntu-latest
+    runs-on: ${{ fromJSON(vars.SELF_LINUX_LABELS || '"ubuntu-latest"') }}
 
     steps:
+      - name: Print runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
       - name: Checkout
         uses: actions/checkout@v3
         with:
