@@ -1,5 +1,13 @@
 # @modern-js/builder
 
+## 2.37.1
+
+### Patch Changes
+
+- 9eb817f: chore: bump rspress
+  - @modern-js/builder-shared@2.37.1
+  - @modern-js/utils@2.37.1
+
 ## 2.37.0
 
 ### Patch Changes
