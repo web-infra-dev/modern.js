@@ -8,11 +8,7 @@ on:
 
 jobs:
   e2e-test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node-version: [18.x]
-        os: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -33,10 +29,10 @@ jobs:
       - name: Install Pnpm
         run: corepack enable
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Setup Node.js 18
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: "18"
           cache: 'pnpm'
 
       - name: Install Dependencies
