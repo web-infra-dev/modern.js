@@ -5,6 +5,8 @@ on:
   # Triggers the workflow on pull request events but only for the main branch
   push:
     branches: [main, update-rspack-**]
+  pull_request:
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -13,7 +15,7 @@ on:
 jobs:
   integration-test-windows:
     # The type of runner that the job will run on
-    runs-on: windows-latest
+    runs-on: ${{ vars.WINDOWS_RUNNER_LABELS || '"windows-latest"' }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
