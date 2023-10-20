@@ -10,12 +10,11 @@ import { TemplateAPI } from './template';
 import { BaseRequest, BaseResponse } from './base';
 
 export const base = (context: ModernServerContext): HookContext => {
-  const { res, reporter } = context;
+  const { res } = context;
 
   return {
     response: new BaseResponse(res),
     request: new BaseRequest(context),
-    reporter,
     logger: context.logger,
     metrics: context.metrics,
   };
@@ -51,6 +50,7 @@ export const createMiddlewareContext = (
   return {
     ...baseContext,
     response: baseContext.response as any,
+    reporter: context.reporter,
     source: {
       req: context.req,
       res: context.res,
