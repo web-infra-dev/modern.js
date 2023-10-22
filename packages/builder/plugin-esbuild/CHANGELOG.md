@@ -1,5 +1,11 @@
 # @modern-js/builder-plugin-esbuild
 
+## 2.37.2
+
+### Patch Changes
+
+- @modern-js/builder-shared@2.37.2
+
 ## 2.37.1
 
 ### Patch Changes
