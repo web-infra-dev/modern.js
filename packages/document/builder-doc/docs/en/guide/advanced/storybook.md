@@ -8,10 +8,6 @@
 - Share how the UI actually works
 - Automate UI workflows
 
-Storybook can use multiple build tools like webpack or Vite.
-
-Now Storybook project can be build by Modern.js builder.
-
 Before when using Storybook, there are various problems related to configurations, Babel, Webpack, less or sass, but those are already included in Modern.js builder, using Modern.js builder can make your configurations a log easier.
 
 You can switch between Webpack and Rspack smoothly in Modern.js builder, for those who already use Modern.js builder or Modern.js framework, you can start using Storybook with the same configurations.

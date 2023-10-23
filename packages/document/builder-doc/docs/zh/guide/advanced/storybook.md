@@ -8,10 +8,6 @@
 - 可分享能力
 - 工作流程自动化
 
-Storybook 可以用非常多的工具进行构建，webpack，Vite 等。
-
-现在 Storybook 项目可以使用 Modern.js builder 进行开发。
-
 在使用 Storybook 时，难免会遇到各种配置问题，需要手动配置 Babel 插件，手动配置 Webpack 去支持 less，sass 等。而 Modern.js builder 包含了许多强大的功能，使用 Modern.js builder 开发 Storybook 项目会极大的简化配置成本。
 
 使用 Modern.js builder 还可以一键在 Webpack 和 Rspack 之间进行切换。对于使用 Modern.js builder 开发应用的用户，也可以很方便的直接使用现有的 Modern.js 配置用 Storybook 进行组件的测试。
