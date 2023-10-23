@@ -1,6 +1,6 @@
 import { garfishPlugin } from '@modern-js/plugin-garfish';
 import { swcPlugin } from '@modern-js/plugin-swc';
-import { applyBaseConfig } from '../../utils/applyBaseConfig';
+import { applyBaseConfig } from '../../../../utils/applyBaseConfig';
 import { getPort } from '../../testUtils';
 
 module.exports = applyBaseConfig({

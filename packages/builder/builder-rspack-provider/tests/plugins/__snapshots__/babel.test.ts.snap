@@ -19,10 +19,6 @@ exports[`plugins/babel > should set babel-loader 1`] = `
               "babelrc": false,
               "compact": false,
               "configFile": false,
-              "ignore": [],
-              "only": [
-                [Function],
-              ],
               "plugins": [
                 [
                   "babel-plugin-import",

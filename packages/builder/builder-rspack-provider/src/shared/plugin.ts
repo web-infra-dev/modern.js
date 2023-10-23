@@ -1,8 +1,6 @@
 import { BuilderPlugin } from '../types';
 import { awaitableGetter, Plugins } from '@modern-js/builder-shared';
-
-const useLegacyTransform = () =>
-  Boolean(process.env.INTERNAL_USE_RSPACK_TRANSFORM_LEGACY);
+import { useLegacyTransform } from './constants';
 
 export const applyDefaultPlugins = (plugins: Plugins) =>
   awaitableGetter<BuilderPlugin>([

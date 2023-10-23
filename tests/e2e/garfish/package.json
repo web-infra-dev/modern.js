@@ -4,9 +4,9 @@
   "version": "2.9.0",
   "scripts": {
     "test": "pnpm run test:webpack && pnpm run test:rspack && pnpm run test:rspack:legacy",
-    "test:webpack": "playwright test --workers 1",
-    "test:rspack": "PROVIDE_TYPE=rspack playwright test --workers 1",
-    "test:rspack:legacy": "PROVIDE_TYPE=rspack USE_RSPACK_LEGACY=true playwright test --workers 1"
+    "test:webpack": "BUNDLER=webpack playwright test --workers 1",
+    "test:rspack": "BUNDLER=rspack playwright test --workers 1",
+    "test:rspack:legacy": "BUNDLER=rspack USE_RSPACK_LEGACY=true playwright test --workers 1"
   },
   "dependencies": {
     "react": "^18",

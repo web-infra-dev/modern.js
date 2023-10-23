@@ -2,11 +2,12 @@ import {
   mergeRegex,
   JS_REGEX,
   TS_REGEX,
-  NODE_MODULES_REGEX,
+  applyScriptCondition,
 } from '@modern-js/builder-shared';
 import { cloneDeep, isEqual } from '@modern-js/utils/lodash';
 import { BuilderPlugin, NormalizedConfig } from '../types';
 import type { BabelOptions } from '@modern-js/types';
+import { useLegacyTransform } from '../shared';
 
 /**
  * The `@babel/preset-typescript` default options.
@@ -109,28 +110,33 @@ export const builderPluginBabel = (): BuilderPlugin => ({
           return;
         }
 
-        // already set source.include / exclude in plugin-swc
         const rule = chain.module.rule(CHAIN_ID.RULE.JS);
 
-        const { rootPath } = api.context;
+        if (useLegacyTransform()) {
+          applyScriptCondition({
+            rule,
+            config,
+            context: api.context,
+            includes,
+            excludes,
+          });
+        } else {
+          // already set source.include / exclude in plugin-swc
+          includes.forEach(condition => {
+            rule.include.add(condition);
+          });
+
+          excludes.forEach(condition => {
+            rule.exclude.add(condition);
+          });
+        }
 
         rule
           .test(mergeRegex(JS_REGEX, TS_REGEX))
           .use(CHAIN_ID.USE.BABEL)
           .after(CHAIN_ID.USE.SWC)
           .loader(getCompiledPath('babel-loader'))
-          .options({
-            ...babelOptions,
-            // TODO: should only apply babel include / exclude when abandoned legacyTransform
-            only: [
-              (pathName: string) =>
-                pathName.includes(rootPath) &&
-                !NODE_MODULES_REGEX.test(pathName),
-              ...includes,
-              ...(config.source.include || []),
-            ],
-            ignore: [...excludes, ...(config.source.exclude || [])],
-          });
+          .options(babelOptions);
       },
     );
   },
